@@ -28,42 +28,56 @@ MetaTubeConverter< NDimensions >
 ::MetaTubeConverter()
 {}
 
+template< unsigned int NDimensions >
+typename MetaTubeConverter< NDimensions >::MetaObjectType *
+MetaTubeConverter< NDimensions>
+::CreateMetaObject()
+{
+  return dynamic_cast<MetaObjectType *>(new TubeMetaObjectType);
+}
+
 /** Convert a metaTube into an Tube SpatialObject  */
 template< unsigned int NDimensions >
 typename MetaTubeConverter< NDimensions >::SpatialObjectPointer
 MetaTubeConverter< NDimensions >
-::MetaTubeToTubeSpatialObject(MetaTube *tube)
+::MetaObjectToSpatialObject(const MetaObjectType *mo)
 {
-  typedef itk::TubeSpatialObject< NDimensions > TubeSpatialObjectType;
-  typename TubeSpatialObjectType::Pointer tub = TubeSpatialObjectType::New();
-  double spacing[NDimensions];
-
-  unsigned int ndims = tube->NDims();
-  for ( unsigned int i = 0; i < ndims; i++ )
+  const TubeMetaObjectType *tubeMO =
+    dynamic_cast<const TubeMetaObjectType *>(mo);
+  if(tubeMO == 0)
     {
-    spacing[i] = tube->ElementSpacing()[i];
+    itkExceptionMacro(<< "Can't convert MetaObject to MetaTube" );
     }
 
-  tub->GetIndexToObjectTransform()->SetScaleComponent(spacing);
-  tub->GetProperty()->SetName( tube->Name() );
-  tub->SetParentPoint( tube->ParentPoint() );
-  tub->SetId( tube->ID() );
-  tub->SetParentId( tube->ParentID() );
-  tub->GetProperty()->SetRed(tube->Color()[0]);
-  tub->GetProperty()->SetGreen(tube->Color()[1]);
-  tub->GetProperty()->SetBlue(tube->Color()[2]);
-  tub->GetProperty()->SetAlpha(tube->Color()[3]);
+  typename TubeSpatialObjectType::Pointer tubeSO = TubeSpatialObjectType::New();
+  double spacing[NDimensions];
+
+  unsigned int ndims = tubeMO->NDims();
+  for ( unsigned int i = 0; i < ndims; i++ )
+    {
+    spacing[i] = tubeMO->ElementSpacing()[i];
+    }
+
+  tubeSO->GetIndexToObjectTransform()->SetScaleComponent(spacing);
+  tubeSO->GetProperty()->SetName( tubeMO->Name() );
+  tubeSO->SetParentPoint( tubeMO->ParentPoint() );
+  tubeSO->SetId( tubeMO->ID() );
+  tubeSO->SetParentId( tubeMO->ParentID() );
+  tubeSO->GetProperty()->SetRed(tubeMO->Color()[0]);
+  tubeSO->GetProperty()->SetGreen(tubeMO->Color()[1]);
+  tubeSO->GetProperty()->SetBlue(tubeMO->Color()[2]);
+  tubeSO->GetProperty()->SetAlpha(tubeMO->Color()[3]);
 
   typedef itk::TubeSpatialObjectPoint< NDimensions > TubePointType;
   typedef TubePointType *                            TubePointPointer;
 
   typedef MetaTube::PointListType ListType;
-  ListType::iterator it2 = tube->GetPoints().begin();
+  ListType::const_iterator it2 = tubeMO->GetPoints().begin();
 
   itk::CovariantVector< double, NDimensions > v;
   itk::Vector< double, NDimensions >          t;
 
-  for ( unsigned int identifier = 0; identifier < tube->GetPoints().size(); identifier++ )
+  for ( unsigned int identifier = 0; identifier < tubeMO->GetPoints().size(); identifier++ )
     {
     TubePointType pnt;
 
@@ -103,26 +117,33 @@ MetaTubeConverter< NDimensions >
 
     pnt.SetID( ( *it2 )->m_ID );
 
-    tub->GetPoints().push_back(pnt);
+    tubeSO->GetPoints().push_back(pnt);
 
     it2++;
     }
 
-  return tub;
+  return tubeSO.GetPointer();
 }
 
 /** Convert an Tube SpatialObject into a metaTube */
 template< unsigned int NDimensions >
-MetaTube *
+typename MetaTubeConverter< NDimensions >::MetaObjectType *
 MetaTubeConverter< NDimensions >
-::TubeSpatialObjectToMetaTube(SpatialObjectType *spatialObject)
+::SpatialObjectToMetaObject(const SpatialObjectType *spatialObject)
 {
-  MetaTube *tube = new MetaTube(NDimensions);
+  TubeSpatialObjectConstPointer tubeSO =
+    dynamic_cast<const TubeSpatialObjectType *>(spatialObject);
+  if(tubeSO.IsNull())
+    {
+    itkExceptionMacro(<< "Can't downcast SpatialObject to TubeSpatialObject");
+    }
+
+  MetaTube *tubeMO = new MetaTube(NDimensions);
 
   // fill in the tube information
-  typename SpatialObjectType::PointListType::const_iterator it;
-  for ( it = dynamic_cast< SpatialObjectType * >( spatialObject )->GetPoints().begin();
-        it != dynamic_cast< SpatialObjectType * >( spatialObject )->GetPoints().end();
+  typename TubeSpatialObjectType::PointListType::const_iterator it;
+  for ( it = tubeSO->GetPoints().begin();
+        it != tubeSO->GetPoints().end();
         it++ )
     {
     TubePnt *pnt = new TubePnt(NDimensions);
@@ -155,69 +176,42 @@ MetaTubeConverter< NDimensions >
     pnt->m_Color[2] = ( *it ).GetBlue();
     pnt->m_Color[3] = ( *it ).GetAlpha();
 
-    tube->GetPoints().push_back(pnt);
+    tubeMO->GetPoints().push_back(pnt);
     }
 
   if ( NDimensions == 2 )
     {
-    tube->PointDim("x y r v1x v1y tx ty red green blue alpha id");
+    tubeMO->PointDim("x y r v1x v1y tx ty red green blue alpha id");
     }
   else
     {
-    tube->PointDim("x y z r v1x v1y v1z v2x v2y v2z tx ty tz red green blue alpha id");
+    tubeMO->PointDim("x y z r v1x v1y v1z v2x v2y v2z tx ty tz red green blue alpha id");
     }
 
   float color[4];
   for ( unsigned int i = 0; i < 4; i++ )
     {
-    color[i] = spatialObject->GetProperty()->GetColor()[i];
+    color[i] = tubeSO->GetProperty()->GetColor()[i];
     }
 
-  tube->Color(color);
-  tube->ID( spatialObject->GetId() );
+  tubeMO->Color(color);
+  tubeMO->ID( tubeSO->GetId() );
 
-  if ( spatialObject->GetParent() )
+  if ( tubeSO->GetParent() )
     {
-    tube->ParentID( spatialObject->GetParent()->GetId() );
+    tubeMO->ParentID( tubeSO->GetParent()->GetId() );
     }
-  tube->ParentPoint( spatialObject->GetParentPoint() );
-  tube->NPoints( tube->GetPoints().size() );
+  tubeMO->ParentPoint( tubeSO->GetParentPoint() );
+  tubeMO->NPoints( tubeMO->GetPoints().size() );
 
   for ( unsigned int i = 0; i < NDimensions; i++ )
     {
-    tube->ElementSpacing(i, spatialObject->GetIndexToObjectTransform()
+    tubeMO->ElementSpacing(i, tubeSO->GetIndexToObjectTransform()
                          ->GetScaleComponent()[i]);
     }
-  return tube;
+  return tubeMO;
 }
 
-/** Read a meta file give the type */
-template< unsigned int NDimensions >
-typename MetaTubeConverter< NDimensions >::SpatialObjectPointer
-MetaTubeConverter< NDimensions >
-::ReadMeta(const char *name)
-{
-  SpatialObjectPointer spatialObject;
-  MetaTube *           Tube = new MetaTube();
-
-  Tube->Read(name);
-  spatialObject = MetaTubeToTubeSpatialObject(Tube);
-  delete Tube;
-  return spatialObject;
-}
-
-/** Write a meta Tube file */
-template< unsigned int NDimensions >
-bool
-MetaTubeConverter< NDimensions >
-::WriteMeta(SpatialObjectType *spatialObject, const char *name)
-{
-  MetaTube *Tube = TubeSpatialObjectToMetaTube(spatialObject);
-
-  Tube->Write(name);
-  delete Tube;
-  return true;
-}
 } // end namespace itk
 
 #endif

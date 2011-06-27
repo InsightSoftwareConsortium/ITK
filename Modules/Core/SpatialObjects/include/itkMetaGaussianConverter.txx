@@ -28,66 +28,62 @@ MetaGaussianConverter< NDimensions >
 ::MetaGaussianConverter()
 {}
 
+template< unsigned int NDimensions >
+typename MetaGaussianConverter< NDimensions >::MetaObjectType *
+MetaGaussianConverter< NDimensions>
+::CreateMetaObject()
+{
+  return dynamic_cast<MetaObjectType *>(new GaussianMetaObjectType);
+}
+
 /** Convert a metaGaussian into a gaussian SpatialObject  */
 template< unsigned int NDimensions >
 typename MetaGaussianConverter< NDimensions >::SpatialObjectPointer
 MetaGaussianConverter< NDimensions >
-::MetaGaussianToGaussianSpatialObject(MetaGaussian *gaussian)
+::MetaObjectToSpatialObject(const MetaObjectType *mo)
 {
-  SpatialObjectPointer spatialObject = SpatialObjectType::New();
+  const GaussianMetaObjectType *gaussian =
+    dynamic_cast<const GaussianMetaObjectType *>(mo);
+  if(gaussian == 0)
+    {
+    itkExceptionMacro(<< "Can't convert MetaObject to MetaGaussian" );
+    }
 
-  spatialObject->SetMaximum( gaussian->Maximum() );
-  spatialObject->SetRadius( gaussian->Radius() );
-  spatialObject->GetProperty()->SetName( gaussian->Name() );
-  spatialObject->SetId( gaussian->ID() );
-  spatialObject->SetParentId( gaussian->ParentID() );
-  return spatialObject;
+  GaussianSpatialObjectPointer gaussianSO = GaussianSpatialObjectType::New();
+
+  gaussianSO->SetMaximum( gaussian->Maximum() );
+  gaussianSO->SetRadius( gaussian->Radius() );
+  gaussianSO->GetProperty()->SetName( gaussian->Name() );
+  gaussianSO->SetId( gaussian->ID() );
+  gaussianSO->SetParentId( gaussian->ParentID() );
+  return gaussianSO.GetPointer();
 }
 
 /** Convert a gaussian SpatialObject into a metaGaussian */
 template< unsigned int NDimensions >
-MetaGaussian *
+typename MetaGaussianConverter< NDimensions >::MetaObjectType *
 MetaGaussianConverter< NDimensions >
-::GaussianSpatialObjectToMetaGaussian(SpatialObjectType *spatialObject)
+::SpatialObjectToMetaObject(const SpatialObjectType *so)
 {
-  MetaGaussian *gaussian = new MetaGaussian(NDimensions);
-
-  if ( spatialObject->GetParent() )
+  GaussianSpatialObjectConstPointer gaussianSO =
+    dynamic_cast<const GaussianSpatialObjectType *>(so);
+  GaussianMetaObjectType *gaussian = new GaussianMetaObjectType;
+  if(gaussianSO.IsNull())
     {
-    gaussian->ParentID( spatialObject->GetParent()->GetId() );
+    itkExceptionMacro(<< "Can't downcast SpatialObject to GaussianSpatialObject");
     }
-  gaussian->Maximum( spatialObject->GetMaximum() );
-  gaussian->Radius( spatialObject->GetRadius() );
-  gaussian->ID( spatialObject->GetId() );
+
+  if ( gaussianSO->GetParent() )
+    {
+    gaussian->ParentID( gaussianSO->GetParent()->GetId() );
+    }
+  gaussian->Maximum( gaussianSO->GetMaximum() );
+  gaussian->Radius( gaussianSO->GetRadius() );
+  gaussian->ID( gaussianSO->GetId() );
+  gaussian->BinaryData(true);
   return gaussian;
 }
 
-/** Read a meta file give the type */
-template< unsigned int NDimensions >
-typename MetaGaussianConverter< NDimensions >::SpatialObjectPointer
-MetaGaussianConverter< NDimensions >
-::ReadMeta(const char *name)
-{
-  SpatialObjectPointer spatialObject;
-  MetaGaussian *       gaussian = new MetaGaussian();
-
-  gaussian->Read(name);
-  spatialObject = MetaGaussianToGaussianSpatialObject(gaussian);
-
-  return spatialObject;
-}
-
-/** Write a meta gaussian file */
-template< unsigned int NDimensions >
-bool
-MetaGaussianConverter< NDimensions >
-::WriteMeta(SpatialObjectType *spatialObject, const char *name)
-{
-  MetaGaussian *gaussian = GaussianSpatialObjectToMetaGaussian(spatialObject);
-
-  gaussian->Write(name);
-  return true;
-}
 } // end namespace itk
 
 #endif

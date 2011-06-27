@@ -20,36 +20,61 @@
 
 #include "metaLandmark.h"
 #include "itkLandmarkSpatialObject.h"
-#include "itkSpatialObject.h"
+#include "itkMetaConverterBase.h"
 
 namespace itk
 {
+/** \class MetaLandmarkConverter
+ *  \brief converts between MetaObject<->SpatialObject
+ *  \sa MetaConverterBase
+ *  \ingroup ITK-SpatialObjects
+ */
 template< unsigned int NDimensions = 3 >
-class ITK_EXPORT MetaLandmarkConverter
+class ITK_EXPORT MetaLandmarkConverter :
+    public MetaConverterBase< NDimensions >
 {
 public:
+  /** Standard class typedefs */
+  typedef MetaLandmarkConverter            Self;
+  typedef MetaConverterBase< NDimensions > Superclass;
+  typedef SmartPointer< Self >             Pointer;
+  typedef SmartPointer< const Self >       ConstPointer;
+
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(MetaLandmarkConverter, MetaConverterBase);
+
+  typedef typename Superclass::SpatialObjectType SpatialObjectType;
+  typedef typename SpatialObjectType::Pointer    SpatialObjectPointer;
+  typedef typename Superclass::MetaObjectType    MetaObjectType;
+
+  /** Specific class types for conversion */
+  typedef LandmarkSpatialObject<NDimensions>               LandmarkSpatialObjectType;
+  typedef typename LandmarkSpatialObjectType::Pointer      LandmarkSpatialObjectPointer;
+  typedef typename LandmarkSpatialObjectType::ConstPointer LandmarkSpatialObjectConstPointer;
+  typedef MetaLandmark                                     LandmarkMetaObjectType;
+
+  /** Convert the MetaObject to Spatial Object */
+  virtual SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo);
+
+  /** Convert the SpatialObject to MetaObject */
+  virtual MetaObjectType *SpatialObjectToMetaObject(const SpatialObjectType *spatialObject);
+
+protected:
+  /** Create the specific MetaObject for this class */
+  virtual MetaObjectType *CreateMetaObject();
 
   MetaLandmarkConverter();
   ~MetaLandmarkConverter() {}
 
-  typedef itk::LandmarkSpatialObject< NDimensions > SpatialObjectType;
+private:
+  MetaLandmarkConverter(const Self &);   //purposely not implemented
+  void operator=(const Self &);       //purposely not implemented
 
-  typedef typename SpatialObjectType::TransformType TransformType;
-
-  typedef typename SpatialObjectType::Pointer SpatialObjectPointer;
-
-  //typedef typename itk::NDimensionalSpatialObject NDimSpatialObject;
-
-  SpatialObjectPointer ReadMeta(const char *name);
-
-  bool WriteMeta(SpatialObjectType *spatialObject, const char *name);
-
-  SpatialObjectPointer MetaLandmarkToLandmarkSpatialObject(
-    MetaLandmark *landmark);
-
-  MetaLandmark * LandmarkSpatialObjectToMetaLandmark(
-    SpatialObjectType *spatialObject);
 };
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

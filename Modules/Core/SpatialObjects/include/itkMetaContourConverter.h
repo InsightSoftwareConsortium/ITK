@@ -24,26 +24,55 @@
 
 namespace itk
 {
+/** \class MetaContourConverter
+ *  \brief converts between MetaObject<->SpatialObject
+ *  \sa MetaConverterBase
+ *  \ingroup ITK-SpatialObjects
+ */
 template< unsigned int NDimensions = 3 >
-class ITK_EXPORT MetaContourConverter
+class ITK_EXPORT MetaContourConverter :
+    public MetaConverterBase< NDimensions >
 {
 public:
+  /** Standard class typedefs */
+  typedef MetaContourConverter             Self;
+  typedef MetaConverterBase< NDimensions > Superclass;
+  typedef SmartPointer< Self >             Pointer;
+  typedef SmartPointer< const Self >       ConstPointer;
+
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(MetaContourConverter, MetaConverterBase);
+
+  typedef typename Superclass::SpatialObjectType SpatialObjectType;
+  typedef typename SpatialObjectType::Pointer    SpatialObjectPointer;
+  typedef typename Superclass::MetaObjectType    MetaObjectType;
+
+  /** Specific class types for conversion */
+  typedef ContourSpatialObject<NDimensions>               ContourSpatialObjectType;
+  typedef typename ContourSpatialObjectType::Pointer      ContourSpatialObjectPointer;
+  typedef typename ContourSpatialObjectType::ConstPointer ContourSpatialObjectConstPointer;
+  typedef MetaContour                                     ContourMetaObjectType;
+
+  /** Convert the MetaObject to Spatial Object */
+  virtual SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo);
+
+  /** Convert the SpatialObject to MetaObject */
+  virtual MetaObjectType *SpatialObjectToMetaObject(const SpatialObjectType *spatialObject);
+
+protected:
+  /** Create the specific MetaObject for this class */
+  virtual MetaObjectType *CreateMetaObject();
 
   MetaContourConverter();
   ~MetaContourConverter() {}
 
-  typedef itk::ContourSpatialObject< NDimensions >  SpatialObjectType;
-  typedef typename SpatialObjectType::TransformType TransformType;
-  typedef typename SpatialObjectType::Pointer       SpatialObjectPointer;
+private:
+  MetaContourConverter(const Self &);   //purposely not implemented
+  void operator=(const Self &);       //purposely not implemented
 
-  SpatialObjectPointer ReadMeta(const char *name);
-
-  bool WriteMeta(SpatialObjectType *spatialObject, const char *name);
-
-  SpatialObjectPointer MetaContourToContourSpatialObject(MetaContour *Contour);
-
-  MetaContour * ContourSpatialObjectToMetaContour(
-    SpatialObjectType *spatialObject);
 };
 } // end namespace itk
 

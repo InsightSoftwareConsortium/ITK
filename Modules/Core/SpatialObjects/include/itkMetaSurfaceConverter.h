@@ -20,35 +20,61 @@
 
 #include "metaSurface.h"
 #include "itkSurfaceSpatialObject.h"
-#include "itkSpatialObject.h"
+#include "itkMetaConverterBase.h"
 
 namespace itk
 {
+/** \class MetaSurfaceConverter
+ *  \brief converts between MetaObject<->SpatialObject
+ *  \sa MetaConverterBase
+ *  \ingroup ITK-SpatialObjects
+ */
 template< unsigned int NDimensions = 3 >
-class ITK_EXPORT MetaSurfaceConverter
+class ITK_EXPORT MetaSurfaceConverter :
+    public MetaConverterBase< NDimensions >
 {
 public:
+  /** Standard class typedefs */
+  typedef MetaSurfaceConverter             Self;
+  typedef MetaConverterBase< NDimensions > Superclass;
+  typedef SmartPointer< Self >             Pointer;
+  typedef SmartPointer< const Self >       ConstPointer;
+
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(MetaSurfaceConverter, MetaConverterBase);
+
+  typedef typename Superclass::SpatialObjectType SpatialObjectType;
+  typedef typename SpatialObjectType::Pointer    SpatialObjectPointer;
+  typedef typename Superclass::MetaObjectType    MetaObjectType;
+
+  /** Specific class types for conversion */
+  typedef SurfaceSpatialObject<NDimensions>               SurfaceSpatialObjectType;
+  typedef typename SurfaceSpatialObjectType::Pointer      SurfaceSpatialObjectPointer;
+  typedef typename SurfaceSpatialObjectType::ConstPointer SurfaceSpatialObjectConstPointer;
+  typedef MetaSurface                                     SurfaceMetaObjectType;
+
+  /** Convert the MetaObject to Spatial Object */
+  virtual SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo);
+
+  /** Convert the SpatialObject to MetaObject */
+  virtual MetaObjectType *SpatialObjectToMetaObject(const SpatialObjectType *spatialObject);
+
+protected:
+  /** Create the specific MetaObject for this class */
+  virtual MetaObjectType *CreateMetaObject();
 
   MetaSurfaceConverter();
   ~MetaSurfaceConverter() {}
 
-  typedef itk::SurfaceSpatialObject< NDimensions > SpatialObjectType;
+private:
+  MetaSurfaceConverter(const Self &);   //purposely not implemented
+  void operator=(const Self &);       //purposely not implemented
 
-  typedef typename SpatialObjectType::TransformType TransformType;
-
-  typedef typename SpatialObjectType::Pointer SpatialObjectPointer;
-
-  //typedef typename itk::NDimensionalSpatialObject NDimSpatialObject;
-
-  SpatialObjectPointer ReadMeta(const char *name);
-
-  bool WriteMeta(SpatialObjectType *spatialObject, const char *name);
-
-  SpatialObjectPointer MetaSurfaceToSurfaceSpatialObject(MetaSurface *Surface);
-
-  MetaSurface * SurfaceSpatialObjectToMetaSurface(
-    SpatialObjectType *spatialObject);
 };
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -55,6 +55,14 @@ SurfaceSpatialObject< TDimension >
   itkDebugMacro("Getting SurfacePoint list");
   return m_Points;
 }
+template< unsigned int TDimension >
+const typename SurfaceSpatialObject< TDimension >::PointListType &
+SurfaceSpatialObject< TDimension >
+::GetPoints() const
+{
+  itkDebugMacro("Getting SurfacePoint list");
+  return m_Points;
+}
 
 /** Set the list of points composing the surface */
 template< unsigned int TDimension >

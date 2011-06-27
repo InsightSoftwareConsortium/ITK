@@ -28,41 +28,51 @@ MetaSurfaceConverter< NDimensions >
 ::MetaSurfaceConverter()
 {}
 
+template< unsigned int NDimensions >
+typename MetaSurfaceConverter< NDimensions >::MetaObjectType *
+MetaSurfaceConverter< NDimensions>
+::CreateMetaObject()
+{
+  return dynamic_cast<MetaObjectType *>(new SurfaceMetaObjectType);
+}
+
 /** Convert a metaSurface into an Surface SpatialObject */
 template< unsigned int NDimensions >
 typename MetaSurfaceConverter< NDimensions >::SpatialObjectPointer
 MetaSurfaceConverter< NDimensions >
-::MetaSurfaceToSurfaceSpatialObject(MetaSurface *Surface)
+::MetaObjectToSpatialObject(const MetaObjectType *mo)
 {
-  typedef itk::SurfaceSpatialObject< NDimensions > SurfaceSpatialObjectType;
-  typename SurfaceSpatialObjectType::Pointer
-  surface = SurfaceSpatialObjectType::New();
+  const SurfaceMetaObjectType *surfaceMO = dynamic_cast<const SurfaceMetaObjectType *>(mo);
+  if(surfaceMO == 0)
+    {
+    itkExceptionMacro(<< "Can't convert MetaObject to MetaSurface");
+    }
+  typename SurfaceSpatialObjectType::Pointer  surfaceSO = SurfaceSpatialObjectType::New();
 
   double spacing[NDimensions];
 
-  unsigned int ndims = Surface->NDims();
+  unsigned int ndims = surfaceMO->NDims();
   for ( unsigned int ii = 0; ii < ndims; ii++ )
     {
-    spacing[ii] = Surface->ElementSpacing()[ii];
+    spacing[ii] = surfaceMO->ElementSpacing()[ii];
     }
-  surface->GetIndexToObjectTransform()->SetScaleComponent(spacing);
-  surface->GetProperty()->SetName( Surface->Name() );
-  surface->SetId( Surface->ID() );
-  surface->SetParentId( Surface->ParentID() );
-  surface->GetProperty()->SetRed(Surface->Color()[0]);
-  surface->GetProperty()->SetGreen(Surface->Color()[1]);
-  surface->GetProperty()->SetBlue(Surface->Color()[2]);
-  surface->GetProperty()->SetAlpha(Surface->Color()[3]);
+  surfaceSO->GetIndexToObjectTransform()->SetScaleComponent(spacing);
+  surfaceSO->GetProperty()->SetName( surfaceMO->Name() );
+  surfaceSO->SetId( surfaceMO->ID() );
+  surfaceSO->SetParentId( surfaceMO->ParentID() );
+  surfaceSO->GetProperty()->SetRed(surfaceMO->Color()[0]);
+  surfaceSO->GetProperty()->SetGreen(surfaceMO->Color()[1]);
+  surfaceSO->GetProperty()->SetBlue(surfaceMO->Color()[2]);
+  surfaceSO->GetProperty()->SetAlpha(surfaceMO->Color()[3]);
 
   typedef typename SurfaceSpatialObjectType::SurfacePointType SurfacePointType;
   typedef SurfacePointType *                                  SurfacePointPointer;
 
-  typedef MetaSurface::PointListType ListType;
-  ListType::iterator it2 = Surface->GetPoints().begin();
+  typedef SurfaceMetaObjectType::PointListType ListType;
 
-  vnl_vector< double > v(ndims);
+  ListType::const_iterator it2 = surfaceMO->GetPoints().begin();
 
-  for ( unsigned int identifier = 0; identifier < Surface->GetPoints().size(); identifier++ )
+  for ( unsigned int identifier = 0; identifier < surfaceMO->GetPoints().size(); identifier++ )
     {
     SurfacePointType pnt;
 
@@ -89,106 +99,86 @@ MetaSurfaceConverter< NDimensions >
     pnt.SetPosition(point);
     pnt.SetNormal(normal);
 
-    surface->GetPoints().push_back(pnt);
+    surfaceSO->GetPoints().push_back(pnt);
     it2++;
     }
 
-  return surface;
+  return surfaceSO.GetPointer();
 }
 
 /** Convert an Surface SpatialObject into a metaSurface */
 template< unsigned int NDimensions >
-MetaSurface *
+typename MetaSurfaceConverter< NDimensions >::MetaObjectType *
 MetaSurfaceConverter< NDimensions >
-::SurfaceSpatialObjectToMetaSurface(SpatialObjectType *spatialObject)
+::SpatialObjectToMetaObject(const SpatialObjectType *so)
 {
-  MetaSurface *Surface = new MetaSurface(NDimensions);
+  SurfaceSpatialObjectConstPointer surfaceSO =
+    dynamic_cast<const SurfaceSpatialObjectType *>(so);
+
+  if(surfaceSO.IsNull())
+    {
+    itkExceptionMacro(<< "Can't downcast SpatialObject to SurfaceSpatialObject");
+    }
+  MetaSurface *surfaceMO = new MetaSurface(NDimensions);
 
   // fill in the Surface information
 
-  typename SpatialObjectType::PointListType::const_iterator i;
-  for ( i = dynamic_cast< SpatialObjectType * >( spatialObject )->GetPoints().begin();
-        i != dynamic_cast< SpatialObjectType * >( spatialObject )->GetPoints().end();
-        i++ )
+  typename SurfaceSpatialObjectType::PointListType::const_iterator it;
+  for ( it = surfaceSO->GetPoints().begin();
+        it != surfaceSO->GetPoints().end();
+        ++it )
     {
     SurfacePnt *pnt = new SurfacePnt(NDimensions);
 
     for ( unsigned int d = 0; d < NDimensions; d++ )
       {
-      pnt->m_X[d] = ( *i ).GetPosition()[d];
+      pnt->m_X[d] = ( *it ).GetPosition()[d];
       }
 
     for ( unsigned int d = 0; d < NDimensions; d++ )
       {
-      pnt->m_V[d] = ( *i ).GetNormal()[d];
+      pnt->m_V[d] = ( *it ).GetNormal()[d];
       }
 
-    pnt->m_Color[0] = ( *i ).GetRed();
-    pnt->m_Color[1] = ( *i ).GetGreen();
-    pnt->m_Color[2] = ( *i ).GetBlue();
-    pnt->m_Color[3] = ( *i ).GetAlpha();
+    pnt->m_Color[0] = ( *it ).GetRed();
+    pnt->m_Color[1] = ( *it ).GetGreen();
+    pnt->m_Color[2] = ( *it ).GetBlue();
+    pnt->m_Color[3] = ( *it ).GetAlpha();
 
-    Surface->GetPoints().push_back(pnt);
+    surfaceMO->GetPoints().push_back(pnt);
     }
 
   if ( NDimensions == 2 )
     {
-    Surface->PointDim("x y v1 v2 red green blue alpha");
+    surfaceMO->PointDim("x y v1 v2 red green blue alpha");
     }
   else if ( NDimensions == 3 )
     {
-    Surface->PointDim("x y z v1 v2 v3 red green blue alpha");
+    surfaceMO->PointDim("x y z v1 v2 v3 red green blue alpha");
     }
 
   float color[4];
   for ( unsigned int ii = 0; ii < 4; ii++ )
     {
-    color[ii] = spatialObject->GetProperty()->GetColor()[ii];
+    color[ii] = surfaceSO->GetProperty()->GetColor()[ii];
     }
 
-  Surface->Color(color);
-  Surface->ID( spatialObject->GetId() );
-  if ( spatialObject->GetParent() )
+  surfaceMO->Color(color);
+  surfaceMO->ID( surfaceSO->GetId() );
+  if ( surfaceSO->GetParent() )
     {
-    Surface->ParentID( spatialObject->GetParent()->GetId() );
+    surfaceMO->ParentID( surfaceSO->GetParent()->GetId() );
     }
-  Surface->NPoints( Surface->GetPoints().size() );
+  surfaceMO->NPoints( surfaceMO->GetPoints().size() );
 
   for ( unsigned int ii = 0; ii < NDimensions; ii++ )
     {
-    Surface->ElementSpacing(ii, spatialObject->GetIndexToObjectTransform()
-                            ->GetScaleComponent()[ii]);
+    surfaceMO->ElementSpacing(ii, surfaceSO->GetIndexToObjectTransform()->GetScaleComponent()[ii]);
     }
 
-  return Surface;
+  return surfaceMO;
 }
 
-/** Read a meta file give the type */
-template< unsigned int NDimensions >
-typename MetaSurfaceConverter< NDimensions >::SpatialObjectPointer
-MetaSurfaceConverter< NDimensions >
-::ReadMeta(const char *name)
-{
-  SpatialObjectPointer spatialObject;
-  MetaSurface *        Surface = new MetaSurface();
-
-  Surface->Read(name);
-  spatialObject = MetaSurfaceToSurfaceSpatialObject(Surface);
-
-  return spatialObject;
-}
-
-/** Write a meta Surface file */
-template< unsigned int NDimensions >
-bool
-MetaSurfaceConverter< NDimensions >
-::WriteMeta(SpatialObjectType *spatialObject, const char *name)
-{
-  MetaSurface *Surface = SurfaceSpatialObjectToMetaSurface(spatialObject);
-
-  Surface->Write(name);
-  return true;
-}
 } // end namespace itk
 
 #endif

@@ -18,33 +18,61 @@
 #ifndef __itkMetaGaussianConverter_h
 #define __itkMetaGaussianConverter_h
 
+#include "itkMetaConverterBase.h"
 #include "itkGaussianSpatialObject.h"
 #include "metaGaussian.h"
 
 namespace itk
 {
+/** \class MetaGaussianConverter
+ *  \brief converts between MetaObject<->SpatialObject
+ *  \sa MetaConverterBase
+ *  \ingroup ITK-SpatialObjects
+ */
 template< unsigned int NDimensions = 3 >
-class ITK_EXPORT MetaGaussianConverter
+class ITK_EXPORT MetaGaussianConverter :
+    public MetaConverterBase< NDimensions >
 {
 public:
+  /** Standard class typedefs */
+  typedef MetaGaussianConverter            Self;
+  typedef MetaConverterBase< NDimensions > Superclass;
+  typedef SmartPointer< Self >             Pointer;
+  typedef SmartPointer< const Self >       ConstPointer;
+
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(MetaGaussianConverter, MetaConverterBase);
+
+  typedef typename Superclass::SpatialObjectType SpatialObjectType;
+  typedef typename SpatialObjectType::Pointer    SpatialObjectPointer;
+  typedef typename Superclass::MetaObjectType    MetaObjectType;
+
+  /** Specific class types for conversion */
+  typedef GaussianSpatialObject<NDimensions>               GaussianSpatialObjectType;
+  typedef typename GaussianSpatialObjectType::Pointer      GaussianSpatialObjectPointer;
+  typedef typename GaussianSpatialObjectType::ConstPointer GaussianSpatialObjectConstPointer;
+  typedef MetaGaussian                                     GaussianMetaObjectType;
+
+  /** Convert the MetaObject to Spatial Object */
+  virtual SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo);
+
+  /** Convert the SpatialObject to MetaObject */
+  virtual MetaObjectType *SpatialObjectToMetaObject(const SpatialObjectType *spatialObject);
+
+protected:
+  /** Create the specific MetaObject for this class */
+  virtual MetaObjectType *CreateMetaObject();
 
   MetaGaussianConverter();
   ~MetaGaussianConverter() {}
 
-  typedef itk::GaussianSpatialObject< NDimensions > SpatialObjectType;
-  typedef typename SpatialObjectType::TransformType TransformType;
+private:
+  MetaGaussianConverter(const Self &);   //purposely not implemented
+  void operator=(const Self &);       //purposely not implemented
 
-  typedef typename SpatialObjectType::Pointer SpatialObjectPointer;
-
-  SpatialObjectPointer ReadMeta(const char *name);
-
-  bool WriteMeta(SpatialObjectType *spatialObject, const char *name);
-
-  SpatialObjectPointer MetaGaussianToGaussianSpatialObject(
-    MetaGaussian *gaussian);
-
-  MetaGaussian * GaussianSpatialObjectToMetaGaussian(
-    SpatialObjectType *spatialObject);
 };
 } // end namespace itk
 

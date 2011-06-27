@@ -29,6 +29,7 @@ itkMeshSpatialObjectTest.cxx
 itkArrowSpatialObjectTest.cxx
 itkLineSpatialObjectTest.cxx
 itkSpatialObjectTreeContainerIteratorTest.cxx
+itkNewMetaObjectTypeTest.cxx
 )
 
 CreateTestDriver(ITK-SpatialObjects  "${ITK-SpatialObjects-Test_LIBRARIES}" "${ITK-SpatialObjectsTests}")
@@ -95,3 +96,6 @@ itk_add_test(NAME itkLineSpatialObjectTest
       COMMAND ITK-SpatialObjectsTestDriver itkLineSpatialObjectTest)
 itk_add_test(NAME itkSpatialObjectTreeContainerIteratorTest
       COMMAND ITK-SpatialObjectsTestDriver itkSpatialObjectTreeContainerIteratorTest)
+itk_add_test(NAME itkNewMetaObjectTypeTest
+      COMMAND ITK-SpatialObjectsTestDriver itkNewMetaObjectTypeTest
+      ${ITK_TEST_OUTPUT_DIR}/NewMetaObjectType.meta)

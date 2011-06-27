@@ -28,50 +28,64 @@ MetaVesselTubeConverter< NDimensions >
 ::MetaVesselTubeConverter()
 {}
 
+template< unsigned int NDimensions >
+typename MetaVesselTubeConverter< NDimensions >::MetaObjectType *
+MetaVesselTubeConverter< NDimensions>
+::CreateMetaObject()
+{
+  return dynamic_cast<MetaObjectType *>(new VesselTubeMetaObjectType);
+}
+
 /** Convert a MetaVesselTube into an Tube SpatialObject  */
 template< unsigned int NDimensions >
 typename MetaVesselTubeConverter< NDimensions >::SpatialObjectPointer
 MetaVesselTubeConverter< NDimensions >
-::MetaVesselTubeToVesselTubeSpatialObject(MetaVesselTube *tube)
+::MetaObjectToSpatialObject(const MetaObjectType *mo)
 {
-  typedef itk::VesselTubeSpatialObject< NDimensions > VesselTubeSpatialObjectType;
-  typename VesselTubeSpatialObjectType::Pointer
-  tub = VesselTubeSpatialObjectType::New();
-  double spacing[NDimensions];
-
-  unsigned int ndims = tube->NDims();
-  for ( unsigned int ii = 0; ii < ndims; ii++ )
+  const VesselTubeMetaObjectType *vesselTubeMO =
+    dynamic_cast<const VesselTubeMetaObjectType *>(mo);
+  if(vesselTubeMO == 0)
     {
-    spacing[ii] = tube->ElementSpacing()[ii];
+    itkExceptionMacro(<< "Can't convert MetaObject to MetaVesselTube" );
     }
 
-  tub->GetIndexToObjectTransform()->SetScaleComponent(spacing);
-  tub->GetProperty()->SetName( tube->Name() );
-  tub->SetParentPoint( tube->ParentPoint() );
-  tub->SetId( tube->ID() );
-  tub->SetRoot( tube->Root() );
-  tub->SetArtery( tube->Artery() );
-  tub->SetParentId( tube->ParentID() );
-  tub->GetProperty()->SetRed(tube->Color()[0]);
-  tub->GetProperty()->SetGreen(tube->Color()[1]);
-  tub->GetProperty()->SetBlue(tube->Color()[2]);
-  tub->GetProperty()->SetAlpha(tube->Color()[3]);
+  VesselTubeSpatialObjectPointer
+    vesselTubeSO = VesselTubeSpatialObjectType::New();
+  double spacing[NDimensions];
 
-  typedef itk::VesselTubeSpatialObjectPoint< NDimensions > TubePointType;
-  typedef TubePointType *                                  TubePointPointer;
+  unsigned int ndims = vesselTubeMO->NDims();
+  for ( unsigned int ii = 0; ii < ndims; ii++ )
+    {
+    spacing[ii] = vesselTubeMO->ElementSpacing()[ii];
+    }
 
-  typedef MetaVesselTube::PointListType ListType;
-  ListType::iterator it2 = tube->GetPoints().begin();
+  vesselTubeSO->GetIndexToObjectTransform()->SetScaleComponent(spacing);
+  vesselTubeSO->GetProperty()->SetName( vesselTubeMO->Name() );
+  vesselTubeSO->SetParentPoint( vesselTubeMO->ParentPoint() );
+  vesselTubeSO->SetId( vesselTubeMO->ID() );
+  vesselTubeSO->SetRoot( vesselTubeMO->Root() );
+  vesselTubeSO->SetArtery( vesselTubeMO->Artery() );
+  vesselTubeSO->SetParentId( vesselTubeMO->ParentID() );
+  vesselTubeSO->GetProperty()->SetRed(vesselTubeMO->Color()[0]);
+  vesselTubeSO->GetProperty()->SetGreen(vesselTubeMO->Color()[1]);
+  vesselTubeSO->GetProperty()->SetBlue(vesselTubeMO->Color()[2]);
+  vesselTubeSO->GetProperty()->SetAlpha(vesselTubeMO->Color()[3]);
+
+  typedef itk::VesselTubeSpatialObjectPoint< NDimensions > VesselTubePointType;
+  typedef VesselTubePointType *                            TubePointPointer;
+
+  typedef VesselTubeMetaObjectType::PointListType ListType;
+  ListType::const_iterator it2 = vesselTubeMO->GetPoints().begin();
 
   itk::CovariantVector< double, NDimensions > v;
   itk::Vector< double, NDimensions >          t;
 
-  for ( unsigned int identifier = 0; identifier < tube->GetPoints().size(); identifier++ )
+  for ( unsigned int identifier = 0; identifier < vesselTubeMO->GetPoints().size(); identifier++ )
     {
-    TubePointType pnt;
+    VesselTubePointType pnt;
 
-    typedef typename VesselTubeSpatialObjectType::PointType PointType;
-    PointType point;
+    typedef typename VesselTubeSpatialObjectType::PointType SOPointType;
+    SOPointType point;
 
     for ( unsigned int ii = 0; ii < ndims; ii++ )
       {
@@ -114,27 +128,34 @@ MetaVesselTubeConverter< NDimensions >
 
     pnt.SetID( ( *it2 )->m_ID );
 
-    tub->GetPoints().push_back(pnt);
+    vesselTubeSO->GetPoints().push_back(pnt);
 
     it2++;
     }
 
-  return tub;
+  return vesselTubeSO.GetPointer();
 }
 
 /** Convert an Tube SpatialObject into a MetaVesselTube */
 template< unsigned int NDimensions >
-MetaVesselTube *
+typename MetaVesselTubeConverter< NDimensions >::MetaObjectType *
 MetaVesselTubeConverter< NDimensions >
-::VesselTubeSpatialObjectToMetaVesselTube(SpatialObjectType *spatialObject)
+::SpatialObjectToMetaObject(const SpatialObjectType *so)
 {
-  MetaVesselTube *tube = new MetaVesselTube(NDimensions);
+  const VesselTubeSpatialObjectConstPointer vesselTubeSO =
+    dynamic_cast<const VesselTubeSpatialObjectType *>(so);
+
+  if(vesselTubeSO.IsNull())
+    {
+    itkExceptionMacro(<< "Can't downcast SpatialObject to VesselTubeSpatialObject");
+    }
+  MetaVesselTube *vesselTubeMO = new MetaVesselTube(NDimensions);
 
   // fill in the tube information
 
-  typename SpatialObjectType::PointListType::const_iterator i;
-  for ( i = dynamic_cast< SpatialObjectType * >( spatialObject )->GetPoints().begin();
-        i != dynamic_cast< SpatialObjectType * >( spatialObject )->GetPoints().end();
+  typename VesselTubeSpatialObjectType::PointListType::const_iterator i;
+  for ( i = vesselTubeSO->GetPoints().begin();
+        i != vesselTubeSO->GetPoints().end();
         i++ )
     {
     VesselTubePnt *pnt = new VesselTubePnt(NDimensions);
@@ -174,71 +195,44 @@ MetaVesselTubeConverter< NDimensions >
     pnt->m_Color[2] = ( *i ).GetBlue();
     pnt->m_Color[3] = ( *i ).GetAlpha();
 
-    tube->GetPoints().push_back(pnt);
+    vesselTubeMO->GetPoints().push_back(pnt);
     }
 
   if ( NDimensions == 2 )
     {
-    tube->PointDim("x y r rn mn bn mk v1x v1y tx ty a1 a2 red green blue alpha id");
+    vesselTubeMO->PointDim("x y r rn mn bn mk v1x v1y tx ty a1 a2 red green blue alpha id");
     }
   else
     {
-    tube->PointDim("x y z r rn mn bn mk v1x v1y v1z v2x v2y v2z tx ty tz a1 a2 a3 red green blue alpha id");
+    vesselTubeMO->PointDim("x y z r rn mn bn mk v1x v1y v1z v2x v2y v2z tx ty tz a1 a2 a3 red green blue alpha id");
     }
 
   float color[4];
   for ( unsigned int ii = 0; ii < 4; ii++ )
     {
-    color[ii] = spatialObject->GetProperty()->GetColor()[ii];
+    color[ii] = vesselTubeSO->GetProperty()->GetColor()[ii];
     }
 
-  tube->Color(color);
-  tube->ID( spatialObject->GetId() );
-  tube->Root( spatialObject->GetRoot() );
-  tube->Artery( spatialObject->GetArtery() );
+  vesselTubeMO->Color(color);
+  vesselTubeMO->ID( vesselTubeSO->GetId() );
+  vesselTubeMO->Root( vesselTubeSO->GetRoot() );
+  vesselTubeMO->Artery( vesselTubeSO->GetArtery() );
 
-  if ( spatialObject->GetParent() )
+  if ( vesselTubeSO->GetParent() )
     {
-    tube->ParentID( spatialObject->GetParent()->GetId() );
+    vesselTubeMO->ParentID( vesselTubeSO->GetParent()->GetId() );
     }
-  tube->ParentPoint( spatialObject->GetParentPoint() );
-  tube->NPoints( tube->GetPoints().size() );
+  vesselTubeMO->ParentPoint( vesselTubeSO->GetParentPoint() );
+  vesselTubeMO->NPoints( vesselTubeMO->GetPoints().size() );
 
   for ( unsigned int ii = 0; ii < NDimensions; ii++ )
     {
-    tube->ElementSpacing(ii, spatialObject->GetIndexToObjectTransform()
+    vesselTubeMO->ElementSpacing(ii, vesselTubeSO->GetIndexToObjectTransform()
                          ->GetScaleComponent()[ii]);
     }
-  return tube;
+  return vesselTubeMO;
 }
 
-/** Read a meta file give the type */
-template< unsigned int NDimensions >
-typename MetaVesselTubeConverter< NDimensions >::SpatialObjectPointer
-MetaVesselTubeConverter< NDimensions >
-::ReadMeta(const char *name)
-{
-  SpatialObjectPointer spatialObject;
-  MetaVesselTube *     Tube = new MetaVesselTube();
-
-  Tube->Read(name);
-  spatialObject = MetaVesselTubeToVesselTubeSpatialObject(Tube);
-  delete Tube;
-  return spatialObject;
-}
-
-/** Write a meta Tube file */
-template< unsigned int NDimensions >
-bool
-MetaVesselTubeConverter< NDimensions >
-::WriteMeta(SpatialObjectType *spatialObject, const char *name)
-{
-  MetaVesselTube *Tube = VesselTubeSpatialObjectToMetaVesselTube(spatialObject);
-
-  Tube->Write(name);
-  delete Tube;
-  return true;
-}
 } // end namespace itk
 
 #endif

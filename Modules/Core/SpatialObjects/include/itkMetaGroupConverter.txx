@@ -28,13 +28,28 @@ MetaGroupConverter< NDimensions >
 ::MetaGroupConverter()
 {}
 
+template< unsigned int NDimensions >
+typename MetaGroupConverter< NDimensions >::MetaObjectType *
+MetaGroupConverter< NDimensions>
+::CreateMetaObject()
+{
+  return dynamic_cast<MetaObjectType *>(new GroupMetaObjectType);
+}
+
 /** Convert a metaGroup into an group SpatialObject  */
 template< unsigned int NDimensions >
 typename MetaGroupConverter< NDimensions >::SpatialObjectPointer
 MetaGroupConverter< NDimensions >
-::MetaGroupToGroupSpatialObject(MetaGroup *group)
+::MetaObjectToSpatialObject(const MetaObjectType *mo)
 {
-  SpatialObjectPointer spatialObject = SpatialObjectType::New();
+  const GroupMetaObjectType *group = dynamic_cast<const GroupMetaObjectType *>(mo);
+  if(group == 0)
+    {
+    itkExceptionMacro(<< "Can't convert MetaObject to MetaGroup" );
+    }
+
+  GroupSpatialObjectPointer groupSO = GroupSpatialObjectType::New();
+
   double               spacing[NDimensions];
   unsigned int         i;
 
@@ -42,74 +57,55 @@ MetaGroupConverter< NDimensions >
     {
     spacing[i] = group->ElementSpacing()[i];
     }
-  spatialObject->GetIndexToObjectTransform()->SetScaleComponent(spacing);
-  spatialObject->GetProperty()->SetName( group->Name() );
-  spatialObject->GetProperty()->SetRed(group->Color()[0]);
-  spatialObject->GetProperty()->SetGreen(group->Color()[1]);
-  spatialObject->GetProperty()->SetBlue(group->Color()[2]);
-  spatialObject->GetProperty()->SetAlpha(group->Color()[3]);
-  spatialObject->SetId( group->ID() );
-  spatialObject->SetParentId( group->ParentID() );
-  return spatialObject;
+  groupSO->GetIndexToObjectTransform()->SetScaleComponent(spacing);
+  groupSO->GetProperty()->SetName( group->Name() );
+  groupSO->GetProperty()->SetRed(group->Color()[0]);
+  groupSO->GetProperty()->SetGreen(group->Color()[1]);
+  groupSO->GetProperty()->SetBlue(group->Color()[2]);
+  groupSO->GetProperty()->SetAlpha(group->Color()[3]);
+  groupSO->SetId( group->ID() );
+  groupSO->SetParentId( group->ParentID() );
+  return groupSO.GetPointer();
 }
 
 /** Convert an group SpatialObject into a metaGroup */
 template< unsigned int NDimensions >
-MetaGroup *
+typename MetaGroupConverter< NDimensions >::MetaObjectType *
 MetaGroupConverter< NDimensions >
-::GroupSpatialObjectToMetaGroup(SpatialObjectType *spatialObject)
+::SpatialObjectToMetaObject(const SpatialObjectType *so)
 {
-  MetaGroup *group = new MetaGroup(NDimensions);
+  GroupSpatialObjectConstPointer groupSO =
+    dynamic_cast<const GroupSpatialObjectType *>(so);
+  if(groupSO.IsNull())
+    {
+    itkExceptionMacro(<< "Can't downcast SpatialObject to GroupSpatialObject");
+    }
+
+  GroupMetaObjectType *group = new GroupMetaObjectType(NDimensions);
 
   float color[4];
 
   for ( unsigned int i = 0; i < 4; i++ )
     {
-    color[i] = spatialObject->GetProperty()->GetColor()[i];
+    color[i] = groupSO->GetProperty()->GetColor()[i];
     }
   group->Color(color);
 
   for ( unsigned int i = 0; i < NDimensions; i++ )
     {
-    group->ElementSpacing(i, spatialObject->GetIndexToObjectTransform()
+    group->ElementSpacing(i, groupSO->GetIndexToObjectTransform()
                           ->GetScaleComponent()[i]);
     }
 
-  if ( spatialObject->GetParent() )
+  if ( groupSO->GetParent() )
     {
-    group->ParentID( spatialObject->GetParent()->GetId() );
+    group->ParentID( groupSO->GetParent()->GetId() );
     }
-  group->ID( spatialObject->GetId() );
+  group->ID( groupSO->GetId() );
 
   return group;
 }
 
-/** Read a meta file give the type */
-template< unsigned int NDimensions >
-typename MetaGroupConverter< NDimensions >::SpatialObjectPointer
-MetaGroupConverter< NDimensions >
-::ReadMeta(const char *name)
-{
-  SpatialObjectPointer spatialObject;
-  MetaGroup *          group = new MetaGroup();
-
-  group->Read(name);
-  spatialObject = this->MetaGroupToGroupSpatialObject(group);
-
-  return spatialObject;
-}
-
-/** Write a meta group file */
-template< unsigned int NDimensions >
-bool
-MetaGroupConverter< NDimensions >
-::WriteMeta(SpatialObjectType *spatialObject, const char *name)
-{
-  MetaGroup *group = this->GroupSpatialObjectToMetaGroup(spatialObject);
-
-  group->Write(name);
-  return true;
-}
 } // end namespace itk
 
 #endif

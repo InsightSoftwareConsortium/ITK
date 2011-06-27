@@ -28,40 +28,52 @@ MetaLineConverter< NDimensions >
 ::MetaLineConverter()
 {}
 
+template< unsigned int NDimensions >
+typename MetaLineConverter< NDimensions >::MetaObjectType *
+MetaLineConverter< NDimensions>
+::CreateMetaObject()
+{
+  return dynamic_cast<MetaObjectType *>(new LineMetaObjectType);
+}
+
 /** Convert a metaLine into an Line SpatialObject  */
 template< unsigned int NDimensions >
 typename MetaLineConverter< NDimensions >::SpatialObjectPointer
 MetaLineConverter< NDimensions >
-::MetaLineToLineSpatialObject(MetaLine *Line)
+::MetaObjectToSpatialObject(const MetaObjectType *mo)
 {
-  typedef itk::LineSpatialObject< NDimensions > LineSpatialObjectType;
-  typename LineSpatialObjectType::Pointer line = LineSpatialObjectType::New();
+  const LineMetaObjectType *lineMO =
+    dynamic_cast<const LineMetaObjectType *>(mo);
+  if(lineMO == 0)
+    {
+    itkExceptionMacro(<< "Can't convert MetaObject to MetaLine" );
+    }
+
+  LineSpatialObjectPointer lineSO = LineSpatialObjectType::New();
 
   double spacing[NDimensions];
 
-  unsigned int ndims = Line->NDims();
+  unsigned int ndims = lineMO->NDims();
   for ( unsigned int ii = 0; ii < ndims; ii++ )
     {
-    spacing[ii] = Line->ElementSpacing()[ii];
+    spacing[ii] = lineMO->ElementSpacing()[ii];
     }
-  line->GetIndexToObjectTransform()->SetScaleComponent(spacing);
-  line->GetProperty()->SetName( Line->Name() );
-  line->SetId( Line->ID() );
-  line->SetParentId( Line->ParentID() );
-  line->GetProperty()->SetRed(Line->Color()[0]);
-  line->GetProperty()->SetGreen(Line->Color()[1]);
-  line->GetProperty()->SetBlue(Line->Color()[2]);
-  line->GetProperty()->SetAlpha(Line->Color()[3]);
+  lineSO->GetIndexToObjectTransform()->SetScaleComponent(spacing);
+  lineSO->GetProperty()->SetName( lineMO->Name() );
+  lineSO->SetId( lineMO->ID() );
+  lineSO->SetParentId( lineMO->ParentID() );
+  lineSO->GetProperty()->SetRed(lineMO->Color()[0]);
+  lineSO->GetProperty()->SetGreen(lineMO->Color()[1]);
+  lineSO->GetProperty()->SetBlue(lineMO->Color()[2]);
+  lineSO->GetProperty()->SetAlpha(lineMO->Color()[3]);
 
   typedef itk::LineSpatialObjectPoint< NDimensions > LinePointType;
   typedef LinePointType *                            LinePointPointer;
 
   typedef MetaLine::PointListType ListType;
-  ListType::iterator it2 = Line->GetPoints().begin();
+  ListType::const_iterator it2 = lineMO->GetPoints().begin();
 
-  vnl_vector< double > v(ndims);
-
-  for ( unsigned int identifier = 0; identifier < Line->GetPoints().size(); identifier++ )
+  for ( unsigned int identifier = 0; identifier < lineMO->GetPoints().size(); identifier++ )
     {
     LinePointType pnt;
 
@@ -91,102 +103,87 @@ MetaLineConverter< NDimensions >
     pnt.SetBlue( ( *it2 )->m_Color[2] );
     pnt.SetAlpha( ( *it2 )->m_Color[3] );
 
-    line->GetPoints().push_back(pnt);
+    lineSO->GetPoints().push_back(pnt);
     it2++;
     }
-  return line;
+  return lineSO.GetPointer();
 }
 
 /** Convert an Line SpatialObject into a metaLine */
 template< unsigned int NDimensions >
-MetaLine *
+typename MetaLineConverter< NDimensions >::MetaObjectType *
 MetaLineConverter< NDimensions >
-::LineSpatialObjectToMetaLine(SpatialObjectType *spatialObject)
+::SpatialObjectToMetaObject(const SpatialObjectType *spatialObject)
 {
-  MetaLine *Line = new MetaLine(NDimensions);
+  LineSpatialObjectConstPointer lineSO =
+    dynamic_cast<const LineSpatialObjectType *>(spatialObject);
+  if(lineSO.IsNull())
+    {
+    itkExceptionMacro(<< "Can't downcast SpatialObject to LineSpatialObject");
+    }
+
+  MetaLine *lineMO = new MetaLine(NDimensions);
+
+  // due to a Visual Studio stupidity, can't seem to define
+  // a const method to return the points list.
+  const typename LineSpatialObjectType::PointListType &linePoints =
+    lineSO->GetPoints();
 
   // fill in the Line information
-
-  typename SpatialObjectType::PointListType::const_iterator i;
-  for ( i = dynamic_cast< SpatialObjectType * >( spatialObject )->GetPoints().begin();
-        i != dynamic_cast< SpatialObjectType * >( spatialObject )->GetPoints().end();
-        i++ )
+  typename LineSpatialObjectType::PointListType::const_iterator it;
+  for ( it = linePoints.begin();
+        it != linePoints.end();
+        ++it )
     {
     LinePnt *pnt = new LinePnt(NDimensions);
 
     for ( unsigned int d = 0; d < NDimensions; d++ )
       {
-      pnt->m_X[d] = ( *i ).GetPosition()[d];
+      pnt->m_X[d] = ( *it ).GetPosition()[d];
       }
 
     for ( unsigned int n = 0; n < NDimensions - 1; n++ )
       {
       for ( unsigned int d = 0; d < NDimensions; d++ )
         {
-        pnt->m_V[n][d] = ( ( *i ).GetNormal(n) )[d];
+        pnt->m_V[n][d] = ( ( *it ).GetNormal(n) )[d];
         }
       }
 
-    pnt->m_Color[0] = ( *i ).GetRed();
-    pnt->m_Color[1] = ( *i ).GetGreen();
-    pnt->m_Color[2] = ( *i ).GetBlue();
-    pnt->m_Color[3] = ( *i ).GetAlpha();
+    pnt->m_Color[0] = ( *it ).GetRed();
+    pnt->m_Color[1] = ( *it ).GetGreen();
+    pnt->m_Color[2] = ( *it ).GetBlue();
+    pnt->m_Color[3] = ( *it ).GetAlpha();
 
-    Line->GetPoints().push_back(pnt);
+    lineMO->GetPoints().push_back(pnt);
     }
 
   if ( NDimensions == 2 )
     {
-    Line->PointDim("x y v1x v1y v2x v2y red green blue alpha");
+    lineMO->PointDim("x y v1x v1y v2x v2y red green blue alpha");
     }
   else if ( NDimensions == 3 )
     {
-    Line->PointDim("x y z v1x v1y v1z v2x v2y v2z red green blue alpha");
+    lineMO->PointDim("x y z v1x v1y v1z v2x v2y v2z red green blue alpha");
     }
 
   float color[4];
   for ( unsigned int ii = 0; ii < 4; ii++ )
     {
-    color[ii] = spatialObject->GetProperty()->GetColor()[ii];
+    color[ii] = lineSO->GetProperty()->GetColor()[ii];
     }
 
-  Line->Color(color);
-  Line->ID( spatialObject->GetId() );
-  if ( spatialObject->GetParent() )
+  lineMO->Color(color);
+  lineMO->ID( lineSO->GetId() );
+  if ( lineSO->GetParent() )
     {
-    Line->ParentID( spatialObject->GetParent()->GetId() );
+    lineMO->ParentID( lineSO->GetParent()->GetId() );
     }
-  Line->NPoints( Line->GetPoints().size() );
-
-  return Line;
+  lineMO->NPoints( linePoints.size() );
+  lineMO->BinaryData(true);
+  return lineMO;
 }
 
-/** Read a meta file give the type */
-template< unsigned int NDimensions >
-typename MetaLineConverter< NDimensions >::SpatialObjectPointer
-MetaLineConverter< NDimensions >
-::ReadMeta(const char *name)
-{
-  SpatialObjectPointer spatialObject;
-  MetaLine *           Line = new MetaLine();
-
-  Line->Read(name);
-  spatialObject = MetaLineToLineSpatialObject(Line);
-
-  return spatialObject;
-}
-
-/** Write a meta Line file */
-template< unsigned int NDimensions >
-bool
-MetaLineConverter< NDimensions >
-::WriteMeta(SpatialObjectType *spatialObject, const char *name)
-{
-  MetaLine *Line = LineSpatialObjectToMetaLine(spatialObject);
-
-  Line->Write(name);
-  return true;
-}
 } // end namespace itk
 
 #endif

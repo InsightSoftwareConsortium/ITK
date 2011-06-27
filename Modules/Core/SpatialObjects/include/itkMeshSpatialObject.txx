@@ -206,6 +206,14 @@ MeshSpatialObject< TMesh >
   return m_Mesh.GetPointer();
 }
 
+template< class TMesh >
+const typename MeshSpatialObject< TMesh >::MeshType *
+MeshSpatialObject< TMesh >
+::GetMesh(void) const
+{
+  return m_Mesh.GetPointer();
+}
+
 /** Print the object */
 template< class TMesh >
 void

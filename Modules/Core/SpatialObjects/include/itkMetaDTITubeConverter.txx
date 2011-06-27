@@ -28,15 +28,28 @@ MetaDTITubeConverter< NDimensions >
 ::MetaDTITubeConverter()
 {}
 
+template< unsigned int NDimensions >
+typename MetaDTITubeConverter< NDimensions >::MetaObjectType *
+MetaDTITubeConverter< NDimensions>
+::CreateMetaObject()
+{
+  return dynamic_cast<MetaObjectType *>(new DTITubeMetaObjectType);
+}
+
 /** Convert a MetaDTITube into an Tube SpatialObject  */
 template< unsigned int NDimensions >
 typename MetaDTITubeConverter< NDimensions >::SpatialObjectPointer
 MetaDTITubeConverter< NDimensions >
-::MetaDTITubeToDTITubeSpatialObject(MetaDTITube *tube)
+::MetaObjectToSpatialObject(const MetaObjectType *mo)
 {
-  typedef itk::DTITubeSpatialObject< NDimensions > DTITubeSpatialObjectType;
-  typename DTITubeSpatialObjectType::Pointer tub =
+  const MetaDTITube *tube = dynamic_cast<const MetaDTITube *>(mo);
+  if(tube == 0)
+    {
+    itkExceptionMacro(<< "Can't downcast MetaObject to MetaDTITube");
+    }
+  DTITubeSpatialObjectPointer tubeSO =
     DTITubeSpatialObjectType::New();
+
   double spacing[NDimensions];
 
   unsigned int ndims = tube->NDims();
@@ -45,21 +58,20 @@ MetaDTITubeConverter< NDimensions >
     spacing[ii] = tube->ElementSpacing()[ii];
     }
 
-  tub->GetIndexToObjectTransform()->SetScaleComponent(spacing);
-  tub->GetProperty()->SetName( tube->Name() );
-  tub->SetParentPoint( tube->ParentPoint() );
-  tub->SetId( tube->ID() );
-  tub->SetParentId( tube->ParentID() );
-  tub->GetProperty()->SetRed(tube->Color()[0]);
-  tub->GetProperty()->SetGreen(tube->Color()[1]);
-  tub->GetProperty()->SetBlue(tube->Color()[2]);
-  tub->GetProperty()->SetAlpha(tube->Color()[3]);
+  tubeSO->GetIndexToObjectTransform()->SetScaleComponent(spacing);
+  tubeSO->GetProperty()->SetName( tube->Name() );
+  tubeSO->SetParentPoint( tube->ParentPoint() );
+  tubeSO->SetId( tube->ID() );
+  tubeSO->SetParentId( tube->ParentID() );
+  tubeSO->GetProperty()->SetRed(tube->Color()[0]);
+  tubeSO->GetProperty()->SetGreen(tube->Color()[1]);
+  tubeSO->GetProperty()->SetBlue(tube->Color()[2]);
+  tubeSO->GetProperty()->SetAlpha(tube->Color()[3]);
 
   typedef itk::DTITubeSpatialObjectPoint< NDimensions > TubePointType;
   typedef TubePointType *                               TubePointPointer;
 
-  typedef MetaDTITube::PointListType ListType;
-  ListType::iterator it2 = tube->GetPoints().begin();
+  MetaDTITube::PointListType::const_iterator it2 = tube->GetPoints().begin();
 
   itk::CovariantVector< double, NDimensions > v;
   v.Fill(0.0);
@@ -182,20 +194,27 @@ MetaDTITubeConverter< NDimensions >
       pnt.SetID( (int)( ( *it2 )->GetField("id") ) );
       }
 
-    tub->GetPoints().push_back(pnt);
+    tubeSO->GetPoints().push_back(pnt);
 
     it2++;
     }
-  return tub;
+  return tubeSO.GetPointer();
 }
 
 /** Convert an Tube SpatialObject into a MetaDTITube */
 template< unsigned int NDimensions >
-MetaDTITube *
+typename MetaDTITubeConverter<NDimensions>::MetaObjectType *
 MetaDTITubeConverter< NDimensions >
-::DTITubeSpatialObjectToMetaDTITube(SpatialObjectType *spatialObject)
+::SpatialObjectToMetaObject(const SpatialObjectType *spatialObject)
 {
-  MetaDTITube *tube = new MetaDTITube(NDimensions);
+  DTITubeSpatialObjectConstPointer DTITubeSO =
+    dynamic_cast<const DTITubeSpatialObjectType *>(spatialObject);
+  if(DTITubeSO.IsNull())
+    {
+    itkExceptionMacro(<< "Can't downcast SpatialObject to DTITubeSpatialObject");
+    }
+
+  DTITubeMetaObjectType *tube = new MetaDTITube(NDimensions);
 
   // Check what are the fields to be written
   bool writeNormal1 = false;
@@ -206,18 +225,16 @@ MetaDTITubeConverter< NDimensions >
   bool writeAlpha = false;
   bool writeID = false;
 
-  typename SpatialObjectType::PointListType::const_iterator i;
-  for ( i = dynamic_cast< SpatialObjectType * >( spatialObject )->GetPoints().begin();
-        i != dynamic_cast< SpatialObjectType * >( spatialObject )->GetPoints().end();
-        i++ )
+  typename DTITubeSpatialObjectType::PointListType::const_iterator it;
+  for ( it = DTITubeSO->GetPoints().begin(); it != DTITubeSO->GetPoints().end(); ++it )
     {
     // Optional fields (written only if not default values)
-    if ( ( *i ).GetID() != -1 )
+    if ( ( *it ).GetID() != -1 )
       {
       writeID = true;
       }
 
-    if ( ( *i ).GetRadius() != 0 )
+    if ( ( *it ).GetRadius() != 0 )
       {
       writeRadius = true;
       }
@@ -225,48 +242,46 @@ MetaDTITubeConverter< NDimensions >
     unsigned int d;
     for ( d = 0; d < NDimensions; d++ )
       {
-      if ( ( *i ).GetNormal1()[d] != 0 )
+      if ( ( *it ).GetNormal1()[d] != 0 )
         {
         writeNormal1 = true;
         }
-      if ( ( *i ).GetNormal2()[d] != 0 )
+      if ( ( *it ).GetNormal2()[d] != 0 )
         {
         writeNormal2 = true;
         }
-      if ( ( *i ).GetTangent()[d] != 0 )
+      if ( ( *it ).GetTangent()[d] != 0 )
         {
         writeTangent = true;
         }
       }
 
     // write the color if changed
-    if ( ( ( *i ).GetRed() != 1.0 )
-         || ( ( *i ).GetGreen() != 0.0 )
-         || ( ( *i ).GetBlue() != 0.0 )
+    if ( ( ( *it ).GetRed() != 1.0 )
+         || ( ( *it ).GetGreen() != 0.0 )
+         || ( ( *it ).GetBlue() != 0.0 )
           )
       {
       writeColor = true;
       }
 
-    if ( ( *i ).GetAlpha() != 1.0 )
+    if ( ( *it ).GetAlpha() != 1.0 )
       {
       writeAlpha = true;
       }
     }
 
   // fill in the tube information
-  for ( i = dynamic_cast< SpatialObjectType * >( spatialObject )->GetPoints().begin();
-        i != dynamic_cast< SpatialObjectType * >( spatialObject )->GetPoints().end();
-        i++ )
+  for ( it = DTITubeSO->GetPoints().begin(); it != DTITubeSO->GetPoints().end(); ++it )
     {
     DTITubePnt *pnt = new DTITubePnt(NDimensions);
 
     for ( unsigned int d = 0; d < NDimensions; d++ )
       {
-      pnt->m_X[d] = ( *i ).GetPosition()[d];
+      pnt->m_X[d] = ( *it ).GetPosition()[d];
       }
 
-    const DTITubePnt::FieldListType &         metaFields = ( *i ).GetFields();
+    const DTITubePnt::FieldListType &         metaFields = ( *it ).GetFields();
     DTITubePnt::FieldListType::const_iterator extraIt = metaFields.begin();
     while ( extraIt != metaFields.end() )
       {
@@ -276,61 +291,61 @@ MetaDTITubeConverter< NDimensions >
 
     for ( unsigned int d = 0; d < 6; d++ )
       {
-      pnt->m_TensorMatrix[d] = ( *i ).GetTensorMatrix()[d];
+      pnt->m_TensorMatrix[d] = ( *it ).GetTensorMatrix()[d];
       }
 
     // Optional fields (written only if not default values)
     if ( writeID )
       {
-      pnt->AddField( "id", ( *i ).GetID() );
+      pnt->AddField( "id", ( *it ).GetID() );
       }
 
     if ( writeRadius )
       {
-      pnt->AddField( "r", ( *i ).GetRadius() );
+      pnt->AddField( "r", ( *it ).GetRadius() );
       }
 
     if ( writeNormal1 )
       {
-      pnt->AddField("v1x", ( *i ).GetNormal1()[0]);
-      pnt->AddField("v1y", ( *i ).GetNormal1()[1]);
+      pnt->AddField("v1x", ( *it ).GetNormal1()[0]);
+      pnt->AddField("v1y", ( *it ).GetNormal1()[1]);
       if ( NDimensions == 3 )
         {
-        pnt->AddField("v1z", ( *i ).GetNormal1()[2]);
+        pnt->AddField("v1z", ( *it ).GetNormal1()[2]);
         }
       }
 
     if ( writeNormal2 )
       {
-      pnt->AddField("v2x", ( *i ).GetNormal2()[0]);
-      pnt->AddField("v2y", ( *i ).GetNormal2()[1]);
+      pnt->AddField("v2x", ( *it ).GetNormal2()[0]);
+      pnt->AddField("v2y", ( *it ).GetNormal2()[1]);
       if ( NDimensions == 3 )
         {
-        pnt->AddField("v2z", ( *i ).GetNormal2()[2]);
+        pnt->AddField("v2z", ( *it ).GetNormal2()[2]);
         }
       }
 
     if ( writeTangent )
       {
-      pnt->AddField("tx", ( *i ).GetTangent()[0]);
-      pnt->AddField("ty", ( *i ).GetTangent()[1]);
+      pnt->AddField("tx", ( *it ).GetTangent()[0]);
+      pnt->AddField("ty", ( *it ).GetTangent()[1]);
       if ( NDimensions == 3 )
         {
-        pnt->AddField("tz", ( *i ).GetTangent()[2]);
+        pnt->AddField("tz", ( *it ).GetTangent()[2]);
         }
       }
 
     // write the color if changed
     if ( writeColor )
       {
-      pnt->AddField( "red", ( *i ).GetRed() );
-      pnt->AddField( "green", ( *i ).GetGreen() );
-      pnt->AddField( "blue", ( *i ).GetBlue() );
+      pnt->AddField( "red", ( *it ).GetRed() );
+      pnt->AddField( "green", ( *it ).GetGreen() );
+      pnt->AddField( "blue", ( *it ).GetBlue() );
       }
 
     if ( writeAlpha )
       {
-      pnt->AddField( "alpha", ( *i ).GetAlpha() );
+      pnt->AddField( "alpha", ( *it ).GetAlpha() );
       }
 
     tube->GetPoints().push_back(pnt);
@@ -341,54 +356,27 @@ MetaDTITubeConverter< NDimensions >
   float color[4];
   for ( unsigned int ii = 0; ii < 4; ii++ )
     {
-    color[ii] = spatialObject->GetProperty()->GetColor()[ii];
+    color[ii] = DTITubeSO->GetProperty()->GetColor()[ii];
     }
 
   tube->Color(color);
-  tube->ID( spatialObject->GetId() );
+  tube->ID( DTITubeSO->GetId() );
 
-  if ( spatialObject->GetParent() )
+  if ( DTITubeSO->GetParent() )
     {
-    tube->ParentID( spatialObject->GetParent()->GetId() );
+    tube->ParentID( DTITubeSO->GetParent()->GetId() );
     }
-  tube->ParentPoint( spatialObject->GetParentPoint() );
+  tube->ParentPoint( DTITubeSO->GetParentPoint() );
   tube->NPoints( tube->GetPoints().size() );
 
   for ( unsigned int ii = 0; ii < NDimensions; ii++ )
     {
-    tube->ElementSpacing(ii, spatialObject->GetIndexToObjectTransform()
+    tube->ElementSpacing(ii, DTITubeSO->GetIndexToObjectTransform()
                          ->GetScaleComponent()[ii]);
     }
   return tube;
 }
 
-/** Read a meta file give the type */
-template< unsigned int NDimensions >
-typename MetaDTITubeConverter< NDimensions >::SpatialObjectPointer
-MetaDTITubeConverter< NDimensions >
-::ReadMeta(const char *name)
-{
-  SpatialObjectPointer spatialObject;
-  MetaDTITube *        Tube = new MetaDTITube();
-
-  Tube->Read(name);
-  spatialObject = MetaDTITubeToDTITubeSpatialObject(Tube);
-  delete Tube;
-  return spatialObject;
-}
-
-/** Write a meta Tube file */
-template< unsigned int NDimensions >
-bool
-MetaDTITubeConverter< NDimensions >
-::WriteMeta(SpatialObjectType *spatialObject, const char *name)
-{
-  MetaDTITube *Tube = DTITubeSpatialObjectToMetaDTITube(spatialObject);
-
-  Tube->Write(name);
-  delete Tube;
-  return true;
-}
 } // end namespace itk
 
 #endif

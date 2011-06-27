@@ -19,6 +19,7 @@
 #define __itkSpatialObjectReader_h
 
 #include "itkMetaSceneConverter.h"
+#include "itkMetaConverterBase.h"
 #include "itkGroupSpatialObject.h"
 #include "itkProcessObject.h"
 
@@ -49,6 +50,11 @@ public:
   typedef SceneSpatialObject< NDimensions > SceneType;
   typedef typename SceneType::Pointer       ScenePointer;
 
+  /** base type for MetaConverters -- bidirections conversion btw
+   *  SpatialObject & MetaObject
+   */
+  typedef MetaConverterBase< NDimensions >  MetaConverterBaseType;
+
   /** Method for creation through the object factory */
   itkNewMacro(Self);
 
@@ -72,6 +78,12 @@ public:
   /** Set/GetEvent */
   const MetaEvent * GetEvent() { return m_MetaToSpatialConverter.GetEvent(); }
   void SetEvent(MetaEvent *event) { m_MetaToSpatialConverter.SetEvent(event); }
+
+  /** Add a converter for a new MetaObject/SpatialObject type */
+  void RegisterMetaConverter(const char *metaTypeName,
+                             const char *spatialObjectTypeName,
+                             MetaConverterBaseType *converter);
+
 protected:
   SpatialObjectReader(const Self &); //purposely not implemented
   void operator=(const Self &);      //purposely not implemented

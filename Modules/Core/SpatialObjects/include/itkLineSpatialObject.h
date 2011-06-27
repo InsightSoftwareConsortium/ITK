@@ -52,6 +52,7 @@ public:
   typedef double                                       ScalarType;
   typedef LineSpatialObjectPoint< TDimension >         LinePointType;
   typedef std::vector< LinePointType >                 PointListType;
+  typedef const PointListType                          ConstPointListType;
   typedef typename Superclass::SpatialObjectPointType  SpatialObjectPointType;
   typedef typename Superclass::PointType               PointType;
   typedef typename Superclass::TransformType           TransformType;
@@ -66,7 +67,8 @@ public:
   itkTypeMacro(LineSpatialObject, PointBasedSpatialObject);
 
   /** Returns a reference to the list of the Line points. */
-  PointListType & GetPoints(void);
+  PointListType & GetPoints(void) { return m_Points; }
+  ConstPointListType & GetPoints(void) const { return m_Points; }
 
   /** Set the list of line points. */
   void SetPoints(PointListType & newPoints);

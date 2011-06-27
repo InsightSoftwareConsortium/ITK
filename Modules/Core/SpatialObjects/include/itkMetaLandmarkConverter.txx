@@ -28,42 +28,54 @@ MetaLandmarkConverter< NDimensions >
 ::MetaLandmarkConverter()
 {}
 
+template< unsigned int NDimensions >
+typename MetaLandmarkConverter< NDimensions >::MetaObjectType *
+MetaLandmarkConverter< NDimensions>
+::CreateMetaObject()
+{
+  return dynamic_cast<MetaObjectType *>(new LandmarkMetaObjectType);
+}
+
 /** Convert a metaLandmark into an Landmark SpatialObject  */
 template< unsigned int NDimensions >
 typename MetaLandmarkConverter< NDimensions >::SpatialObjectPointer
 MetaLandmarkConverter< NDimensions >
-::MetaLandmarkToLandmarkSpatialObject(MetaLandmark *Landmark)
+::MetaObjectToSpatialObject(const MetaObjectType *mo)
 {
-  typedef itk::LandmarkSpatialObject< NDimensions > LandmarkSpatialObjectType;
-  typename LandmarkSpatialObjectType::Pointer landmark =
+  const LandmarkMetaObjectType *landmarkMO =
+    dynamic_cast<const LandmarkMetaObjectType *>(mo);
+  if(landmarkMO == 0)
+    {
+    itkExceptionMacro(<< "Can't convert MetaObject to MetaLandmark");
+    }
+
+  LandmarkSpatialObjectPointer landmarkSO =
     LandmarkSpatialObjectType::New();
 
   //typedef LandmarkSpatialObjectType::VectorType VectorType;
   typedef vnl_vector< double > VectorType;
 
-  unsigned int ndims = Landmark->NDims();
+  unsigned int ndims = landmarkMO->NDims();
   double       spacing[NDimensions];
   for ( unsigned int ii = 0; ii < ndims; ii++ )
     {
-    spacing[ii] = Landmark->ElementSpacing()[ii];
+    spacing[ii] = landmarkMO->ElementSpacing()[ii];
     }
-  landmark->GetIndexToObjectTransform()->SetScaleComponent(spacing);
-  landmark->GetProperty()->SetName( Landmark->Name() );
-  landmark->SetId( Landmark->ID() );
-  landmark->SetParentId( Landmark->ParentID() );
-  landmark->GetProperty()->SetRed(Landmark->Color()[0]);
-  landmark->GetProperty()->SetGreen(Landmark->Color()[1]);
-  landmark->GetProperty()->SetBlue(Landmark->Color()[2]);
-  landmark->GetProperty()->SetAlpha(Landmark->Color()[3]);
+  landmarkSO->GetIndexToObjectTransform()->SetScaleComponent(spacing);
+  landmarkSO->GetProperty()->SetName( landmarkMO->Name() );
+  landmarkSO->SetId( landmarkMO->ID() );
+  landmarkSO->SetParentId( landmarkMO->ParentID() );
+  landmarkSO->GetProperty()->SetRed(landmarkMO->Color()[0]);
+  landmarkSO->GetProperty()->SetGreen(landmarkMO->Color()[1]);
+  landmarkSO->GetProperty()->SetBlue(landmarkMO->Color()[2]);
+  landmarkSO->GetProperty()->SetAlpha(landmarkMO->Color()[3]);
 
   typedef itk::SpatialObjectPoint< NDimensions > LandmarkPointType;
 
-  typedef MetaLandmark::PointListType ListType;
-  ListType::iterator it2 = Landmark->GetPoints().begin();
+  typename LandmarkMetaObjectType::PointListType::const_iterator it2
+    = landmarkMO->GetPoints().begin();
 
-  vnl_vector< double > v(ndims);
-
-  for ( unsigned int identifier = 0; identifier < Landmark->GetPoints().size(); identifier++ )
+  for ( unsigned int identifier = 0; identifier < landmarkMO->GetPoints().size(); identifier++ )
     {
     LandmarkPointType pnt;
 
@@ -82,95 +94,75 @@ MetaLandmarkConverter< NDimensions >
     pnt.SetBlue( ( *it2 )->m_Color[2] );
     pnt.SetAlpha( ( *it2 )->m_Color[3] );
 
-    landmark->GetPoints().push_back(pnt);
+    landmarkSO->GetPoints().push_back(pnt);
     it2++;
     }
 
-  return landmark;
+  return landmarkSO.GetPointer();
 }
 
 /** Convert an Landmark SpatialObject into a metaLandmark */
 template< unsigned int NDimensions >
-MetaLandmark *
+typename MetaLandmarkConverter< NDimensions >::MetaObjectType *
 MetaLandmarkConverter< NDimensions >
-::LandmarkSpatialObjectToMetaLandmark(SpatialObjectType *spatialObject)
+::SpatialObjectToMetaObject(const SpatialObjectType *so)
 {
-  MetaLandmark *Landmark = new MetaLandmark(NDimensions);
+  const LandmarkSpatialObjectConstPointer landmarkSO =
+    dynamic_cast<const LandmarkSpatialObjectType *>(so);
+
+  if(landmarkSO.IsNull())
+    {
+    itkExceptionMacro(<< "Can't downcast SpatialObject to LandmarkSpatialObject");
+    }
+
+  MetaLandmark *landmarkMO = new MetaLandmark(NDimensions);
 
   // fill in the Landmark information
 
-  typename SpatialObjectType::PointListType::const_iterator i;
-  for ( i = dynamic_cast< SpatialObjectType * >( spatialObject )->GetPoints().begin();
-        i != dynamic_cast< SpatialObjectType * >( spatialObject )->GetPoints().end();
-        i++ )
+  typename LandmarkSpatialObjectType::PointListType::const_iterator it;
+  for ( it = landmarkSO->GetPoints().begin(); it != landmarkSO->GetPoints().end(); ++it )
     {
     LandmarkPnt *pnt = new LandmarkPnt(NDimensions);
 
     for ( unsigned int d = 0; d < NDimensions; d++ )
       {
-      pnt->m_X[d] = ( *i ).GetPosition()[d];
+      pnt->m_X[d] = ( *it ).GetPosition()[d];
       }
 
-    pnt->m_Color[0] = ( *i ).GetRed();
-    pnt->m_Color[1] = ( *i ).GetGreen();
-    pnt->m_Color[2] = ( *i ).GetBlue();
-    pnt->m_Color[3] = ( *i ).GetAlpha();
-    Landmark->GetPoints().push_back(pnt);
+    pnt->m_Color[0] = ( *it ).GetRed();
+    pnt->m_Color[1] = ( *it ).GetGreen();
+    pnt->m_Color[2] = ( *it ).GetBlue();
+    pnt->m_Color[3] = ( *it ).GetAlpha();
+    landmarkMO->GetPoints().push_back(pnt);
     }
 
   if ( NDimensions == 2 )
     {
-    Landmark->PointDim("x y red green blue alpha");
+    landmarkMO->PointDim("x y red green blue alpha");
     }
   else
     {
-    Landmark->PointDim("x y z red green blue alpha");
+    landmarkMO->PointDim("x y z red green blue alpha");
     }
 
   float color[4];
   for ( unsigned int ii = 0; ii < 4; ii++ )
     {
-    color[ii] = spatialObject->GetProperty()->GetColor()[ii];
+    color[ii] = landmarkSO->GetProperty()->GetColor()[ii];
     }
 
-  Landmark->Color(color);
-  Landmark->ID( spatialObject->GetId() );
-  if ( spatialObject->GetParent() )
+  landmarkMO->Color(color);
+  landmarkMO->ID( landmarkSO->GetId() );
+  if ( landmarkSO->GetParent() )
     {
-    Landmark->ParentID( spatialObject->GetParent()->GetId() );
+    landmarkMO->ParentID( landmarkSO->GetParent()->GetId() );
     }
-  Landmark->NPoints( Landmark->GetPoints().size() );
+  landmarkMO->NPoints( landmarkMO->GetPoints().size() );
+  landmarkMO->BinaryData(true);
 
-  return Landmark;
+  return landmarkMO;
 }
 
-/** Read a meta file give the type */
-template< unsigned int NDimensions >
-typename MetaLandmarkConverter< NDimensions >::SpatialObjectPointer
-MetaLandmarkConverter< NDimensions >
-::ReadMeta(const char *name)
-{
-  SpatialObjectPointer spatialObject;
-  MetaLandmark *       Landmark = new MetaLandmark();
-
-  Landmark->Read(name);
-  spatialObject = MetaLandmarkToLandmarkSpatialObject(Landmark);
-
-  return spatialObject;
-}
-
-/** Write a meta Landmark file */
-template< unsigned int NDimensions >
-bool
-MetaLandmarkConverter< NDimensions >
-::WriteMeta(SpatialObjectType *spatialObject, const char *name)
-{
-  MetaLandmark *Landmark = LandmarkSpatialObjectToMetaLandmark(spatialObject);
-
-  Landmark->BinaryData(true);
-  Landmark->Write(name);
-  return true;
-}
 } // end namespace itk
 
 #endif

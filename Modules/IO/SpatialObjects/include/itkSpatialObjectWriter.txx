@@ -85,6 +85,20 @@ SpatialObjectWriter< NDimensions, PixelType, TMeshTraits >
       }
     }
 }
+
+/** Add a converter for a new MetaObject/SpatialObject type */
+template< unsigned int NDimensions, typename PixelType, typename TMeshTraits >
+void
+SpatialObjectWriter< NDimensions, PixelType, TMeshTraits >
+::RegisterMetaConverter(const char *metaTypeName,
+                      const char *spatialObjectTypeName,
+                      MetaConverterBaseType *converter)
+{
+  this->m_MetaToSpatialConverter.RegisterMetaConverter(metaTypeName,
+                                                     spatialObjectTypeName,
+                                                     converter);
+}
+
 } // namespace itk
 
 #endif

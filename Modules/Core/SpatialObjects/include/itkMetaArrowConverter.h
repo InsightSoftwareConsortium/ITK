@@ -18,39 +18,54 @@
 #ifndef __itkMetaArrowConverter_h
 #define __itkMetaArrowConverter_h
 
+#include "itkMetaConverterBase.h"
 #include "itkArrowSpatialObject.h"
 #include "metaArrow.h"
 
 namespace itk
 {
+/** \class MetaArrowConverter
+ *  \brief converts between MetaObject<->SpatialObject
+ *  \sa MetaConverterBase
+ *  \ingroup ITK-SpatialObjects
+ */
 template< unsigned int NDimensions = 3 >
-class ITK_EXPORT MetaArrowConverter : public Object
+class ITK_EXPORT MetaArrowConverter :
+    public MetaConverterBase< NDimensions >
 {
 public:
- /** Standard class typedefs */
-  typedef MetaArrowConverter           Self;
-  typedef Object                       Superclass;
-  typedef SmartPointer< Self >         Pointer;
-  typedef SmartPointer< const Self >   ConstPointer;
+  /** Standard class typedefs */
+  typedef MetaArrowConverter               Self;
+  typedef MetaConverterBase< NDimensions > Superclass;
+  typedef SmartPointer< Self >             Pointer;
+  typedef SmartPointer< const Self >       ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MetaArrowConverter, Object);
+  itkTypeMacro(MetaArrowConverter, MetaConverterBase);
 
-  typedef ArrowSpatialObject< NDimensions >     SpatialObjectType;
-  typedef typename SpatialObjectType::Pointer   SpatialObjectPointer;
+  typedef typename Superclass::SpatialObjectType SpatialObjectType;
+  typedef typename SpatialObjectType::Pointer    SpatialObjectPointer;
+  typedef typename Superclass::MetaObjectType    MetaObjectType;
 
-  static SpatialObjectPointer ReadMeta(const char *name);
+  /** Specific class types for conversion */
+  typedef ArrowSpatialObject<NDimensions>               ArrowSpatialObjectType;
+  typedef typename ArrowSpatialObjectType::Pointer      ArrowSpatialObjectPointer;
+  typedef typename ArrowSpatialObjectType::ConstPointer ArrowSpatialObjectConstPointer;
+  typedef MetaArrow                                     ArrowMetaObjectType;
 
-  static bool WriteMeta(const SpatialObjectType *spatialObject, const char *name);
+  /** Convert the MetaObject to Spatial Object */
+  virtual SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo);
 
-  static SpatialObjectPointer MetaArrowToArrowSpatialObject( const MetaArrow *arrow );
-
-  static MetaArrow * ArrowSpatialObjectToMetaArrow(const SpatialObjectType *spatialObject);
+  /** Convert the SpatialObject to MetaObject */
+  virtual MetaObjectType *SpatialObjectToMetaObject(const SpatialObjectType *spatialObject);
 
 protected:
+  /** Create the specific MetaObject for this class */
+  virtual MetaObjectType *CreateMetaObject();
+
   MetaArrowConverter();
   ~MetaArrowConverter() {}
 
@@ -59,6 +74,7 @@ private:
   void operator=(const Self &);       //purposely not implemented
 
 };
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

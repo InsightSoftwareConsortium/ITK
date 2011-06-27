@@ -1,4 +1,5 @@
 itk_module_test()
+
 set(ITK-IO-SpatialObjectsTests
 itkPolygonGroupSpatialObjectXMLFileTest.cxx
 itkIOSpatialobjectsHeaderTest.cxx
