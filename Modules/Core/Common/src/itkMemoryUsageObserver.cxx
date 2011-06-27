@@ -24,14 +24,6 @@
   #endif
 #endif // defined(WIN32) || defined(_WIN32)
 
-#ifdef linux
-  #include "itkSmapsFileParser.h"
-#endif // linux
-
-#if defined( __APPLE__ ) && MAC_OS_X_VERSION >= MAC_OS_X_VERSION_10_2
-  #include "itkSmapsFileParser.h"
-#endif // Mac OS X
-
 #if defined( __SUNPRO_CC ) || defined ( __sun__ )
   #include <unistd.h>
   #include <stdio.h>
@@ -49,6 +41,18 @@
 
 #if defined( __OpenBSD__ )
 #include <stdlib.h>
+#endif
+
+#ifdef linux
+#include <fstream>
+#include <unistd.h>
+#endif
+
+#ifdef __APPLE__
+#include <sys/sysctl.h>
+#include <mach/mach.h>
+#include <stdint.h>
+#include <unistd.h>
 #endif
 
 namespace itk
@@ -274,17 +278,41 @@ WindowsMemoryUsageObserver::GetMemoryUsage()
 LinuxMemoryUsageObserver::~LinuxMemoryUsageObserver()
 {}
 
+/** Get Memory Usage - Linux version.
+ *  Reference for method used:
+ *  http://stackoverflow.com/questions/669438/how-to-get-memory-usage-at-run-time-in-c
+ */
 MemoryUsageObserverBase::MemoryLoadType
 LinuxMemoryUsageObserver::GetMemoryUsage()
 {
-  SmapsFileParser< SmapsData_2_6 > m_ParseSmaps;
-  m_ParseSmaps.ReadFile();
-  return m_ParseSmaps.GetHeapUsage() + m_ParseSmaps.GetStackUsage();
+  std::ifstream procstats("/proc/self/stat",std::ios_base::in);
+  // dummy vars for leading entries in stat that we don't care about
+  //
+  std::string pid, comm, state, ppid, pgrp, session, tty_nr;
+  std::string tpgid, flags, minflt, cminflt, majflt, cmajflt;
+  std::string utime, stime, cutime, cstime, priority, nice;
+  std::string O, itrealvalue, starttime;
+
+  // the two fields we want
+  //
+  unsigned long vsize;
+  long rss;
+
+  procstats >> pid >> comm >> state >> ppid >> pgrp >> session >> tty_nr
+              >> tpgid >> flags >> minflt >> cminflt >> majflt >> cmajflt
+              >> utime >> stime >> cutime >> cstime >> priority >> nice
+              >> O >> itrealvalue >> starttime >> vsize >> rss; // don't care about the rest
+
+  procstats.close();
+
+  long page_size_kb = sysconf(_SC_PAGE_SIZE) / 1024; // in case x86-64 is configured to use 2MB pages
+  //  vm_usage     = vsize / 1024.0;
+  return rss * page_size_kb;
 }
 
 #endif // linux
 
-#if defined( __APPLE__ ) && MAC_OS_X_VERSION >= MAC_OS_X_VERSION_10_2
+#if defined(__APPLE__)
 
 /**         ----         Mac OS X Memory Usage Observer       ----       */
 
@@ -294,9 +322,23 @@ MacOSXMemoryUsageObserver::~MacOSXMemoryUsageObserver()
 MemoryUsageObserverBase::MemoryLoadType
 MacOSXMemoryUsageObserver::GetMemoryUsage()
 {
-  VMMapFileParser< VMMapData_10_2 > m_ParseVMMmap;
-  m_ParseVMMmap.ReadFile();
-  return m_ParseVMMmap.GetHeapUsage() + m_ParseVMMmap.GetStackUsage();
+  //
+  // this method comes from
+  // http://stackoverflow.com/questions/5839626/how-is-top-able-to-see-memory-usage
+  task_t targetTask = mach_task_self();
+  struct task_basic_info ti;
+  mach_msg_type_number_t count = TASK_BASIC_INFO_64_COUNT;
+  kern_return_t kr =
+    task_info(targetTask, TASK_BASIC_INFO_64,
+              (task_info_t) &ti, &count);
+  if (kr != KERN_SUCCESS)
+    {
+    return 0;
+    }
+
+  // On Mac OS X, the resident_size is in bytes, not pages!
+  // (This differs from the GNU Mach kernel)
+  return ti.resident_size / 1024;
 }
 
 #endif // Mac OS X

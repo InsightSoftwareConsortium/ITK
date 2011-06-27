@@ -89,7 +89,7 @@ public:
 };
 #endif // linux
 
-#if defined( __APPLE__ ) && MAC_OS_X_VERSION >= MAC_OS_X_VERSION_10_2
+#if defined( __APPLE__ )
 class ITKCommon_EXPORT MacOSXMemoryUsageObserver:public MemoryUsageObserverBase
 {
 public:
@@ -147,9 +147,9 @@ class ITKCommon_EXPORT MemoryUsageObserver:
   public LinuxMemoryUsageObserver
 #elif defined( __SUNPRO_CC ) || defined ( __sun__ )
   public SunSolarisMemoryUsageObserver
-#elif defined( __APPLE__ ) && MAC_OS_X_VERSION >= MAC_OS_X_VERSION_10_2
+#elif defined( __APPLE__ )
   public MacOSXMemoryUsageObserver
-#elif defined( __APPLE__ ) || defined( __FreeBSD__ ) || defined( __OpenBSD__ )
+#elif defined( __FreeBSD__ ) || defined( __OpenBSD__ )
   public SysResourceMemoryUsageObserver
 #else
   public MallinfoMemoryUsageObserver
