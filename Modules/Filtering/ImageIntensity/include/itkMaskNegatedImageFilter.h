@@ -128,6 +128,9 @@ public:
   itkTypeMacro(MaskNegatedImageFilter,
                BinaryFunctorImageFilter);
 
+  /** Typedefs **/
+  typedef TMaskImage MaskImageType;
+
   /** Method to explicitly set the outside value of the mask. Defaults to 0 */
   void SetOutsideValue(const typename TOutputImage::PixelType & outsideValue)
   {
@@ -141,6 +144,21 @@ public:
   const typename TOutputImage::PixelType & GetOutsideValue() const
   {
     return this->GetFunctor().GetOutsideValue();
+  }
+
+  /** Set/Get the mask image. Pixels set to zero in the mask image will retain
+   *  the original value of the input image while non-zero pixels in
+   *  the mask will be set to the "OutsideValue".
+   */
+  void SetMaskImage(const MaskImageType *maskImage)
+  {
+    // Process object is not const-correct so the const casting is required.
+    this->SetNthInput( 1, const_cast< MaskImageType * >( maskImage ) );
+  }
+
+  const MaskImageType * GetMaskImage()
+  {
+    return static_cast<const MaskImageType*>(this->ProcessObject::GetInput(1));
   }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
