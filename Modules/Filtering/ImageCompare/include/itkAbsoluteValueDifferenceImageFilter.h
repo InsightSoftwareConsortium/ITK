@@ -34,15 +34,15 @@ namespace itk
  * The filter will walk over all the pixels in the two input images, and for
  * each one of them it will do the following:
  *
- * - cast the input 1 pixel value to \c double
- * - cast the input 2 pixel value to \c double
- * - compute the difference of the two pixel values
- * - compute the absolute value of the difference
- * - cast the \c double value resulting from \c the absolute value to the pixel type of the output image
- * - store the casted value into the output image.
+ * \li Cast the input 1 pixel value to \c double.
+ * \li Cast the input 2 pixel value to \c double.
+ * \li Compute the difference of the two pixel values.
+ * \li Compute the absolute value of the difference.
+ * \li Cast the \c double value resulting from the absolute value to the pixel type of the output image.
+ * \li Store the casted value into the output image.
  *
- * The filter expect all images to have the same dimension
- * (e.g. all 2D, or all 3D, or all ND)
+ * The filter expects all images to have the same dimension
+ * (e.g. all 2D, or all 3D, or all ND).
  *
  * \ingroup IntensityImageFilters Multithreaded
  * \ingroup ITK-ImageCompare
