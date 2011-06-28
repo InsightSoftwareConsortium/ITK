@@ -28,37 +28,36 @@ namespace itk
  *  of a binary image in linear time for arbitrary dimensions.
  *
  *  \par Inputs and Outputs
- *  This is an image-to-image filter.  The dimensionality is arbitrary.  The
+ *  This is an image-to-image filter. The dimensionality is arbitrary. The
  *  only dimensionality constraint is that the input and output images be of
- *  the same dimensions and size.  To maintain integer arithmetic within the
- *  filter, the default output is the signed squared distance.  This implies
+ *  the same dimensions and size. To maintain integer arithmetic within the
+ *  filter, the default output is the signed squared distance. This implies
  *  that the input image should be of type "unsigned int" or "int" whereas the
  *  output image is of type "int".  Obviously, if the user wishes to utilize
  *  the image spacing or to have a filter with the Euclidean distance (as
  *  opposed to the squared distance), output image types of float or double
  *  should be used.
  *
- *  The inside is considered as having negative distances. Outside is treated
- *  as having positive distances. To change the convention, use the
+ *  The inside is considered as having negative distances. Outside is
+ *  treated as having positive distances. To change the convention, use the
  *  InsideIsPositive(bool) function.
  *
  *  \par Parameters
- *  Set/GetBackgroundValue specifies the background of the value of the input
- *  binary image.  Normally this is zero and, as such, zero is the default
- *  value.  Other than that, the usage is completely analagous to the
- *  itkDanielssonDistanceImageFilterClass except is does not return the Voronoi
- *  map.
+ *  Set/GetBackgroundValue specifies the background of the value of the
+ *  input binary image. Normally this is zero and, as such, zero is the
+ *  default value.  Other than that, the usage is completely analagous to
+ *  the itk::DanielssonDistanceImageFilter class except it does not return
+ *  the Voronoi map.
  *
- *  Ref: C. R. Maurer, Jr., R. Qi, and V. Raghavan, "A Linear Time Algorithm
+ *  Reference:
+ *  C. R. Maurer, Jr., R. Qi, and V. Raghavan, "A Linear Time Algorithm
  *  for Computing Exact Euclidean Distance Transforms of Binary Images in
- *  Arbitrary Dimensions", IEEE - Transactions on Pattern Analysis and Machine
- *  Intelligence, 25(2): 265-270, 2003.
+ *  Arbitrary Dimensions", IEEE - Transactions on Pattern Analysis and
+ *  Machine Intelligence, 25(2): 265-270, 2003.
  *
  * \ingroup ImageFeatureExtraction
- *
  * \ingroup ITK-DistanceMap
  */
-
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT SignedMaurerDistanceMapImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
@@ -74,17 +73,20 @@ public:
                       TOutputImage::ImageDimension);
 
   /** Convenient typedefs for simplifying declarations. */
-  typedef TInputImage  InputImageType;
-  typedef TOutputImage OutputImageType;
+  typedef TInputImage                           InputImageType;
+  typedef typename InputImageType::ConstPointer InputImageConstPointer;
+
+  typedef TOutputImage                          OutputImageType;
+  typedef typename OutputImageType::Pointer     OutputImagePointer;
 
   /** Standard class typedefs. */
-  typedef SignedMaurerDistanceMapImageFilter Self;
+  typedef SignedMaurerDistanceMapImageFilter  Self;
   typedef ImageToImageFilter<
     InputImageType,
-    OutputImageType >        Superclass;
+    OutputImageType >                         Superclass;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  typedef SmartPointer< Self >                Pointer;
+  typedef SmartPointer< const Self >          ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -93,15 +95,22 @@ public:
   itkTypeMacro(SignedMaurerDistanceMapImageFilter,
                ImageToImageFilter);
 
+  typedef typename InputImageType::RegionType   InputRegionType;
+  typedef typename OutputImageType::RegionType  OutputRegionType;
+
   /** Image typedef support. */
   typedef typename InputImageType::PixelType  InputPixelType;
   typedef typename OutputImageType::PixelType OutputPixelType;
 
-  typedef typename InputImageType::SizeType  InputSizeType;
-  typedef typename OutputImageType::SizeType OutputSizeType;
+  typedef typename InputImageType::SizeType       InputSizeType;
+  typedef typename InputImageType::SizeValueType  InputSizeValueType;
+  typedef typename OutputImageType::SizeType      OutputSizeType;
+  typedef typename OutputImageType::SizeValueType OutputSizeValueType;
 
-  typedef typename InputImageType::IndexType  InputIndexType;
-  typedef typename OutputImageType::IndexType OutputIndexType;
+  typedef typename InputImageType::IndexType        InputIndexType;
+  typedef typename InputImageType::IndexValueType   InputIndexValueType;
+  typedef typename OutputImageType::IndexType       OutputIndexType;
+  typedef typename OutputImageType::IndexValueType  OutputIndexValueType;
 
   typedef typename InputImageType::SpacingType  InputSpacingType;
   typedef typename OutputImageType::SpacingType OutputSpacingType;
@@ -117,11 +126,11 @@ public:
   itkBooleanMacro(SquaredDistance);
 
   /** Set if the inside represents positive values in the signed distance
-   *  map. By convention ON pixels are treated as inside pixels.           */
+   *  map. By convention ON pixels are treated as inside pixels.*/
   itkSetMacro(InsideIsPositive, bool);
 
-  /** Get if the inside represents positive values in the signed distance map.
-   *  See GetInsideIsPositive()  */
+  /** Get if the inside represents positive values in the signed distance
+   * map. \see GetInsideIsPositive()  */
   itkGetConstReferenceMacro(InsideIsPositive, bool);
 
   /** Set if the inside represents positive values in the signed distance
@@ -154,27 +163,29 @@ protected:
 
   void GenerateData();
 
-  unsigned int SplitRequestedRegion(unsigned int i, unsigned int num, OutputImageRegionType & splitRegion);
+  unsigned int SplitRequestedRegion(unsigned int i, unsigned int num,
+    OutputImageRegionType & splitRegion);
 
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId);
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
+                            ThreadIdType threadId);
 
 private:
 
   SignedMaurerDistanceMapImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                     //purposely not implemented
 
-  void Voronoi(unsigned int, OutputIndexType);
+  void Voronoi(unsigned int, OutputIndexType );
   bool Remove(OutputPixelType, OutputPixelType, OutputPixelType,
               OutputPixelType, OutputPixelType, OutputPixelType);
 
   InputPixelType   m_BackgroundValue;
   InputSpacingType m_Spacing;
 
+  unsigned int m_CurrentDimension;
+
   bool m_InsideIsPositive;
   bool m_UseImageSpacing;
   bool m_SquaredDistance;
-
-  unsigned int m_CurrentDimension;
 };
 } // end namespace itk
 
