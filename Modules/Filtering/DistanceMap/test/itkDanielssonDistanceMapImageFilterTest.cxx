@@ -64,10 +64,10 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
 
   // Set the image to 0
   while( !it2D1.IsAtEnd() )
-  {
+    {
     it2D1.Set( 0 );
     ++it2D1;
-  }
+    }
 
   index2D[0] = 4;
   index2D[1] = 4;
@@ -91,7 +91,6 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
   myFilterType2D::VectorImageType::Pointer
                     outputComponents = filter2D->GetVectorDistanceMap();
 
-  filter2D->SetInputIsBinary(true);
   filter2D->Update();
 
   /* Show Distance map */
@@ -104,20 +103,20 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
   it2D2.SetSecondDirection( 1 );
 
   while( !it2D2.IsAtEnd() )
-  {
-    while( !it2D2.IsAtEndOfSlice() )
     {
-      while( !it2D2.IsAtEndOfLine() )
+    while( !it2D2.IsAtEndOfSlice() )
       {
+      while( !it2D2.IsAtEndOfLine() )
+        {
         std::cout.width(5);
         std::cout << it2D2.Get() << "\t";
         ++it2D2;
-      }
+        }
       std::cout << std::endl;
       it2D2.NextLine();
-    }
+      }
     it2D2.NextSlice();
-  }
+    }
 
   /* Show Closest Points map */
   std::cout << std::endl << std::endl;
@@ -131,20 +130,20 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
   it2D3.SetSecondDirection( 1 );
 
   while( !it2D3.IsAtEnd() )
-  {
-    while( !it2D3.IsAtEndOfSlice() )
     {
-      while( !it2D3.IsAtEndOfLine() )
+    while( !it2D3.IsAtEndOfSlice() )
       {
+      while( !it2D3.IsAtEndOfLine() )
+        {
         std::cout.width(5);
         std::cout << it2D3.Get() << "\t";
         ++it2D3;
-      }
+        }
       std::cout << std::endl;
       it2D3.NextLine();
-    }
+      }
     it2D3.NextSlice();
-  }
+    }
 
   /* Show VectorsComponents Points map */
   std::cout << std::endl << std::endl;
@@ -158,30 +157,30 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
   it2D4.SetSecondDirection( 1 );
 
   while( !it2D4.IsAtEnd() )
-  {
-    while( !it2D4.IsAtEndOfSlice() )
     {
-      while( !it2D4.IsAtEndOfLine() )
+    while( !it2D4.IsAtEndOfSlice() )
       {
+      while( !it2D4.IsAtEndOfLine() )
+        {
         std::cout << "[";
         for (unsigned int i=0;i<2;i++)
-        {
+          {
           std::cout << it2D4.Get()[i];
           if(i==0)
-          {
+            {
             std::cout << ",";
+            }
           }
-        }
         std::cout << "]";
         std::cout << "\t";
         ++it2D4;
 
-      }
+        }
       std::cout << std::endl;
       it2D4.NextLine();
-    }
+      }
     it2D4.NextSlice();
-  }
+    }
 
 
   /* Test Squared Distance functionality */
@@ -189,6 +188,14 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
   index[0] = 0;
   index[1] = 0;
   const double distance1 = outputDistance2D->GetPixel( index );
+
+  filter2D->SquaredDistanceOn();
+
+  if( filter2D->GetSquaredDistance() != true )
+    {
+    std::cerr << "filter2D->GetSquaredDistance() != true" <<std::endl;
+    return EXIT_FAILURE;
+    }
 
   filter2D->SetSquaredDistance( true );
   filter2D->Update();
@@ -210,20 +217,20 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
   it2D2.SetSecondDirection( 1 );
 
   while( !it2D2.IsAtEnd() )
-  {
-    while( !it2D2.IsAtEndOfSlice() )
     {
-      while( !it2D2.IsAtEndOfLine() )
+    while( !it2D2.IsAtEndOfSlice() )
       {
+      while( !it2D2.IsAtEndOfLine() )
+        {
         std::cout.width(5);
         std::cout << it2D2.Get() << "\t";
         ++it2D2;
-      }
+        }
       std::cout << std::endl;
       it2D2.NextLine();
-    }
+      }
     it2D2.NextSlice();
-  }
+    }
 
 
   /* Test for images with anisotropic spacing */
@@ -242,6 +249,22 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
 
   filter2D->SetInput( inputImage2D );
   filter2D->SetInputIsBinary(true);
+
+  if( filter2D->GetInputIsBinary() != true )
+    {
+    std::cerr << "filter2D->GetInputIsBinary() != true" <<std::endl;
+    return EXIT_FAILURE;
+    }
+
+
+  filter2D->UseImageSpacingOn();
+
+  if( filter2D->GetUseImageSpacing() != true )
+    {
+    std::cerr << "filter2D->GetUseImageSpacing() != true" << std::endl;
+    return EXIT_FAILURE;
+    }
+
   filter2D->SetUseImageSpacing(true);
   filter2D->Update();
 
@@ -263,21 +286,20 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
   it2D2.SetSecondDirection( 1 );
 
   while( !it2D2.IsAtEnd() )
-  {
-    while( !it2D2.IsAtEndOfSlice() )
     {
-      while( !it2D2.IsAtEndOfLine() )
+    while( !it2D2.IsAtEndOfSlice() )
       {
+      while( !it2D2.IsAtEndOfLine() )
+        {
         std::cout.width(5);
         std::cout << it2D2.Get() << "\t";
         ++it2D2;
-      }
+        }
       std::cout << std::endl;
       it2D2.NextLine();
-    }
+      }
     it2D2.NextSlice();
-  }
+    }
 
   return EXIT_SUCCESS;
-
 }
