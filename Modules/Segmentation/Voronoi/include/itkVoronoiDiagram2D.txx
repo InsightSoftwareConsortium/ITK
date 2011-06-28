@@ -79,8 +79,7 @@ template< typename TCoordRepType >
 void
 VoronoiDiagram2D< TCoordRepType >::GetPoint(int pId, PointType *answer)
 {
-  ( *answer )[0] = m_VertexList[pId][0];
-  ( *answer )[1] = m_VertexList[pId][1];
+  *answer = this->m_PointsContainer->ElementAt(pId);
 }
 
 template< typename TCoordRepType >
@@ -133,14 +132,14 @@ template< typename TCoordRepType >
 typename VoronoiDiagram2D< TCoordRepType >::VertexIterator
 VoronoiDiagram2D< TCoordRepType >::VertexBegin(void)
 {
-  return m_VertexList.begin();
+  return this->m_PointsContainer->Begin();
 }
 
 template< typename TCoordRepType >
 typename VoronoiDiagram2D< TCoordRepType >::VertexIterator
 VoronoiDiagram2D< TCoordRepType >::VertexEnd(void)
 {
-  return m_VertexList.end();
+  return this->m_PointsContainer->End();
 }
 
 template< typename TCoordRepType >
@@ -164,7 +163,7 @@ VoronoiDiagram2D< TCoordRepType >::Reset(void)
 
   for ( unsigned int i = 0; i < m_NumberOfSeeds; i++ )
     {
-    m_VoronoiRegions[i] = new CellType;
+    m_VoronoiRegions[i] = new PolygonCellType;
     m_CellNeighborsID[i].clear();
     }
 }

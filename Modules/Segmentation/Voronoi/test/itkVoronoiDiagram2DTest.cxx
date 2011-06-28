@@ -20,10 +20,18 @@
 #endif
 
 #include "itkVoronoiDiagram2DGenerator.h"
+#include "itkVTKPolyDataWriter.h"
 #include <stdio.h>
 
 
-int itkVoronoiDiagram2DTest(int, char* [] ){
+int itkVoronoiDiagram2DTest(int argc, char* argv[] ){
+
+  if( argc != 2 )
+    {
+    std::cerr << "Usage: itkVoronoiDiagram2DTest outputFileName" << std::endl;
+    return EXIT_FAILURE;
+    }
+
   const double HEI=400;
   const double WID=400;
   const int NUMSEEDS=20;
@@ -77,8 +85,14 @@ int itkVoronoiDiagram2DTest(int, char* [] ){
   {
     std::cout<<"Vertices No."<<j;
     j++;
-    std::cout<<": At ("<<(*allVerts)[0]<<","<<(*allVerts)[1]<<")"<<std::endl;
+    std::cout<<": At ("<<(allVerts.Value())[0]<<","<<(allVerts.Value())[1]<<")"<<std::endl;
   }
+
+  typedef itk::VTKPolyDataWriter<Vor> WriterType;
+  WriterType::Pointer writer = WriterType::New();
+  writer->SetInput(testVor);
+  writer->SetFileName(argv[1]);
+  writer->Update();
 
   return EXIT_SUCCESS;
 }

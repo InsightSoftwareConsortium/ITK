@@ -16,7 +16,7 @@ itk_add_test(NAME itkVoronoiSegmentationImageFilterTest
 itk_add_test(NAME itkVoronoiSegmentationRGBImageFilterTest
       COMMAND ITK-VoronoiTestDriver itkVoronoiSegmentationRGBImageFilterTest)
 itk_add_test(NAME itkVoronoiDiagram2DTest
-      COMMAND ITK-VoronoiTestDriver itkVoronoiDiagram2DTest)
+      COMMAND ITK-VoronoiTestDriver itkVoronoiDiagram2DTest ${ITK_TEST_OUTPUT_DIR}/VoronoiDiagram2DTest.vtk)
 itk_add_test(NAME itkVoronoiPartitioningImageFilterTest1
       COMMAND ITK-VoronoiTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Algorithms/VoronoiPartioningImageFilterTest1.png
