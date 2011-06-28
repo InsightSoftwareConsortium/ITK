@@ -18,6 +18,7 @@
 #ifndef __itkUnaryCorrespondenceMatrix_h
 #define __itkUnaryCorrespondenceMatrix_h
 
+#include "itkObjectFactory.h"
 #include "itkDataObject.h"
 #include "vnl/vnl_matrix.h"
 

@@ -66,6 +66,12 @@ macro(verify_itk_module_is_set)
   endif()
 endmacro()
 
+
+#-----------------------------------------------------------------------------
+# Enable runinng cppcheck for each module on its source and test directories.
+option(ITK_CPPCHECK_TEST "Run cppcheck for static code analysis" OFF)
+mark_as_advanced(ITK_CPPCHECK_TEST)
+
 #-----------------------------------------------------------------------------
 # Default values for CMake options may vary based on whether it's a
 # dashboard build or not:
@@ -125,6 +131,8 @@ set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ${ITK_REQUIRED_LINK_
 set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} ${ITK_REQUIRED_LINK_FLAGS}")
 
 include(CTest)
+
+include( CppcheckTargets )
 
 # Setup build locations.
 if(NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
