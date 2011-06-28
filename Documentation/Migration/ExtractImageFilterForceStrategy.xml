@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<!DOCTYPE Change SYSTEM "http://ij.itk.org/itkfaq/ITKMigration.dtd">
 <Change>
+  <Title>
+  Extract Image Filter ForceStrategy
+  </Title>
   <!--
   ** English language description of what was changed and why
   **-->
@@ -13,19 +16,30 @@
   ** Sample code to illustrate the fix process
   **-->
   <SampleCode>
-    <OldCode>
+    <Old>
+    <![CDATA[
     itk::ExtractImageFilter<ImageType>::Pointer myfilter=itk::ExtractImageFilter<ImageType>::New();
-    </OldCode>
+    ]]>
+    </Old>
 
-    <NewCode>
+    <New>
+    <![CDATA[
     itk::ExtractImageFilter<ImageType>::Pointer myfilter=itk::ExtractImageFilter<ImageType>::New();
 #if  ITK_VERSION_MAJOR >=4
   myfilter->DirectionCollapseToSubmatrix(); //When collapsing from a list of properly defined phsycial spaces (i.e. collapsing on time in a 3D+time image)
   myfilter->DirectionCollapseGuess(); //ITKv3 compatible, but not recommended
   myfilter->DirectionCollapseToIdentity(); //If you don't care about resulting image dimension
 #endif
-    </NewCode>
+    ]]>
+    </New>
   </SampleCode>
+
+  <!--
+  ** The asociated Gerrit entry for this API change
+  **-->
+  <Gerrit-ChangeId>
+  I5e5f1cfc3efbc235ade2cd824f2f23ec40a4546c
+  </Gerrit-ChangeId>
 
   <!--
   ** List of all files that were changed (might be automatically populated by
@@ -52,25 +66,19 @@
     Testing/Code/IO/itkImageFileWriterStreamingPastingCompressingTest1.cxx
   </FileList>
 
-  <!--
-  ** The asociated Gerrit entry for this API change
-  **-->
-  <Gerrit-ChangeId>
-  I5e5f1cfc3efbc235ade2cd824f2f23ec40a4546c
-  </Gerrit-ChangeId>
 
 
   <!--
   ** Migration guide rules
   **-->
-  <MigrationFix-Manual type="MethodRefactor">
+  <MigrationFix-Manual>
     <Old>
     ExtractImageFilter
     </Old>
-    <!--
+    <New>
     Based on desired behavior, select the
     desired strategy for collapsing.
-    -->
+    </New>
   </MigrationFix-Manual>
 
 </Change>

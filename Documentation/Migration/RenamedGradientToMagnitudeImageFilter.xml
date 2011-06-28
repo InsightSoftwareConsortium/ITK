@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<!DOCTYPE Change SYSTEM "http://ij.itk.org/itkfaq/ITKMigration.dtd">
 <!--**
 **
 ** RenamedGradientToMagnitudeImageFilter.xml
@@ -49,15 +49,19 @@
     **-->
     <SampleCode>
       <Old>
+      <![CDATA[
 	#include "itkGradientToMagnitudeImageFilter.h"
 	typedef itk::GradientToMagnitudeImageFilter<VectorImageType,FloatImageType> FilterType;
         FilterType::Pointer filter = FilterType::New();
+      ]]>
       </Old>
 
       <New>
+      <![CDATA[
 	#include "itkVectorMagnitudeImageFilter.h"
 	typedef itk::VectorMagnitudeImageFilter<VectorImageType,FloatImageType> FilterType;
         FilterType::Pointer filter = FilterType::New();
+      ]]>
       </New>
 
     </SampleCode>

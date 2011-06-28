@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<!DOCTYPE Change SYSTEM "http://ij.itk.org/itkfaq/ITKMigration.dtd">
 <!--**
 **
 ** OrientationAdapterBaseRename.xml
@@ -51,7 +51,7 @@
       Code/Common/itkQuaternionOrientationAdapter.h
       Code/Common/itkSpatialOrientationAdapter.h
     </FileList>
-</Change>
+
 
 <MigrationFix-Automatic>
   <Old>
@@ -61,3 +61,5 @@
   "itkOrientationAdapterBase.h"
   </New>
 </MigrationFix-Automatic>
+
+</Change>

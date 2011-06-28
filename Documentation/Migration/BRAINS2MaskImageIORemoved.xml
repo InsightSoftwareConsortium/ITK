@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<!DOCTYPE Change SYSTEM "http://ij.itk.org/itkfaq/ITKMigration.dtd">
 <!--**
 **
 ** BRAINS2MaskImageIORemoval.xml
@@ -31,9 +31,11 @@
     **-->
     <SampleCode>
       <Old>
+        <![CDATA[
         #include "itkBrains2MaskImageIO.h"
         include "itkBrains2MaskImageIOFactory.h"
         itk::ObjectFactoryBase::RegisterFactory(itk::Brains2MaskImageIOFactory::New() );
+        ]]>
       </Old>
       <New>
         // Don't include headers or register factory
@@ -68,19 +70,24 @@
       Testing/Code/IO/itkBrains2MaskImageIOTest.cxx
       Testing/Code/IO/itkIOHeaderTest.cxx
     </FileList>
-</Change>
 
 <MigrationFix-Manual>
   <Old>
+    <![CDATA[
     #include "itkBrains2MaskImageIO.h"
     #include "itkBrains2MaskImageIOFactory.h"
     itk::ObjectFactoryBase::RegisterFactory(itk::Brains2MaskImageIOFactory::New() );
+    ]]>
   </Old>
   <New>
+    <![CDATA[
     Remove #include statemets for BRAINS2Mask classes.
     Remove c++ statement that registered the BRAINS2Mask factory.
     In the unlikely event you need to convert BRAINS2 masks, there is a program included in
     the BRAINS3 project on nitrc.org, called ConvertMaskToBinaryImage, that can be used to do this.
     See http://www.
+    ]]>
   </New>
 </MigrationFix-Manual>
+
+</Change>

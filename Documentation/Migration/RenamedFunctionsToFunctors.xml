@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<!DOCTYPE Change SYSTEM "http://ij.itk.org/itkfaq/ITKMigration.dtd">
 <!--**
 **
 ** RenamedFunctionsToFunctors.xml
@@ -46,13 +46,17 @@
     **-->
     <SampleCode>
       <Old>
+      <![CDATA[
 	namespace Function
 	Function::Compose2DCovariantVector< ITK_TYPENAME TInputImage::PixelType > > Superclass;
+      ]]>
       </Old>
 
       <New>
+      <![CDATA[
 	namespace Functor
 	Functor::Compose2DCovariantVector< ITK_TYPENAME TInputImage::PixelType > > Superclass;
+      ]]>
       </New>
 
     </SampleCode>
@@ -112,238 +116,272 @@
        <New>
          Functor::Compose2DCovariantVector
        </New>
-
+    </MigrationFix-Automatic>
+    <MigrationFix-Automatic>
        <Old>
          Function::Compose2DVector
        </Old>
        <New>
          Functor::Compose2DVector
        </New>
-
+    </MigrationFix-Automatic>
+    <MigrationFix-Automatic>
        <Old>
          Function::Compose3DCovariantVector
        </Old>
        <New>
          Functor::Compose3DCovariantVector
        </New>
-
+    </MigrationFix-Automatic>
+    <MigrationFix-Automatic>
        <Old>
          Function::Compose3DVector
        </Old>
        <New>
          Functor::Compose3DVector
        </New>
-
+    </MigrationFix-Automatic>
+    <MigrationFix-Automatic>
        <Old>
          Function::ComposeRGB
        </Old>
        <New>
          Functor::ComposeRGB
        </New>
-
+    </MigrationFix-Automatic>
+    <MigrationFix-Automatic>
        <Old>
          Function::Abs
        </Old>
        <New>
          Functor::Abs
        </New>
-
+    </MigrationFix-Automatic>
+    <MigrationFix-Automatic>
        <Old>
          Function::ComplexToImaginary
        </Old>
        <New>
          Functor::ComplexToImaginary
        </New>
-
+    </MigrationFix-Automatic>
+    <MigrationFix-Automatic>
        <Old>
          Function::ComplexToModulus
        </Old>
        <New>
          Functor::ComplexToModulus
        </New>
-
+    </MigrationFix-Automatic>
+    <MigrationFix-Automatic>
        <Old>
          Function::ComplexToPhase
        </Old>
        <New>
          Functor::ComplexToPhase
        </New>
-
+    </MigrationFix-Automatic>
+    <MigrationFix-Automatic>
        <Old>
          Function::ComplexToReal
        </Old>
        <New>
          Functor::ComplexToReal
        </New>
-
+    </MigrationFix-Automatic>
+    <MigrationFix-Automatic>
        <Old>
          Function::Div
        </Old>
        <New>
          Functor::Div
        </New>
-
+    </MigrationFix-Automatic>
+    <MigrationFix-Automatic>
        <Old>
          Function::Exp
        </Old>
        <New>
          Functor::Exp
        </New>
-
+    </MigrationFix-Automatic>
+    <MigrationFix-Automatic>
        <Old>
          Function::ExpNegative
        </Old>
        <New>
          Functor::ExpNegative
        </New>
-
+    </MigrationFix-Automatic>
+    <MigrationFix-Automatic>
        <Old>
          Function::Log10
        </Old>
        <New>
          Functor::Log10
        </New>
-
+    </MigrationFix-Automatic>
+    <MigrationFix-Automatic>
        <Old>
          Function::Log
        </Old>
        <New>
          Functor::Log
        </New>
-
+    </MigrationFix-Automatic>
+    <MigrationFix-Automatic>
        <Old>
          Function::Maximum
        </Old>
        <New>
          Functor::Maximum
        </New>
-
+    </MigrationFix-Automatic>
+    <MigrationFix-Automatic>
        <Old>
          Function::Minimum
        </Old>
        <New>
          Functor::Minimum
        </New>
-
+    </MigrationFix-Automatic>
+    <MigrationFix-Automatic>
        <Old>
          Function::Mult
        </Old>
        <New>
          Functor::Mult
        </New>
-
+    </MigrationFix-Automatic>
+    <MigrationFix-Automatic>
        <Old>
          Function::RGBToLuminance
        </Old>
        <New>
          Functor::RGBToLuminance
        </New>
-
+    </MigrationFix-Automatic>
+    <MigrationFix-Automatic>
        <Old>
          Function::Sigmoid
        </Old>
        <New>
          Functor::Sigmoid
        </New>
-
+    </MigrationFix-Automatic>
+    <MigrationFix-Automatic>
        <Old>
          Function::Sin
        </Old>
        <New>
          Functor::Sin
        </New>
-
+    </MigrationFix-Automatic>
+    <MigrationFix-Automatic>
        <Old>
          Function::Sqrt
        </Old>
        <New>
          Functor::Sqrt
        </New>
-
+    </MigrationFix-Automatic>
+    <MigrationFix-Automatic>
        <Old>
          Function::Square
        </Old>
        <New>
          Functor::Square
        </New>
-
+    </MigrationFix-Automatic>
+    <MigrationFix-Automatic>
        <Old>
          Function::Sub2
        </Old>
        <New>
          Functor::Sub2
        </New>
-
+    </MigrationFix-Automatic>
+    <MigrationFix-Automatic>
        <Old>
          Function::Tan
        </Old>
        <New>
          Functor::Tan
        </New>
-
+    </MigrationFix-Automatic>
+    <MigrationFix-Automatic>
        <Old>
          Function::Add3
        </Old>
        <New>
          Functor::Add3
        </New>
-
+    </MigrationFix-Automatic>
+    <MigrationFix-Automatic>
        <Old>
          Function::Modulus3
        </Old>
        <New>
          Functor::Modulus3
        </New>
-
+    </MigrationFix-Automatic>
+    <MigrationFix-Automatic>
        <Old>
          Function::ModulusSquare3
        </Old>
        <New>
          Functor::ModulusSquare3
        </New>
-
+    </MigrationFix-Automatic>
+    <MigrationFix-Automatic>
        <Old>
          Function::BinaryAccumulator
        </Old>
        <New>
          Functor::BinaryAccumulator
        </New>
-
+    </MigrationFix-Automatic>
+    <MigrationFix-Automatic>
        <Old>
          Function::MaximumAccumulator
        </Old>
        <New>
          Functor::MaximumAccumulator
        </New>
-
+    </MigrationFix-Automatic>
+    <MigrationFix-Automatic>
        <Old>
          Function::MeanAccumulator
        </Old>
        <New>
          Functor::MeanAccumulator
        </New>
-
+    </MigrationFix-Automatic>
+    <MigrationFix-Automatic>
        <Old>
          Function::MedianAccumulator
        </Old>
        <New>
          Functor::MedianAccumulator
        </New>
-
+    </MigrationFix-Automatic>
+    <MigrationFix-Automatic>
        <Old>
          Function::MinimumAccumulator
        </Old>
        <New>
          Functor::MinimumAccumulator
        </New>
-
+    </MigrationFix-Automatic>
+    <MigrationFix-Automatic>
        <Old>
          Function::StandardDeviationAccumulator
        </Old>
        <New>
          Functor::StandardDeviationAccumulator
        </New>
-
+    </MigrationFix-Automatic>
+    <MigrationFix-Automatic>
        <Old>
          Function::SumAccumulator
        </Old>

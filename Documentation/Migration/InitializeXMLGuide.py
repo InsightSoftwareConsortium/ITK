@@ -116,7 +116,6 @@ if __name__ == '__main__':
   # get directory info
   migrationDir = sys.path[0]
   baseDir = stripSuffix(migrationDir, "/Documentation/Migration")
-
   # get XMLFileName (loop until name is unique)
   uniqueName = False
   XMLFileName = ""
@@ -180,8 +179,8 @@ if __name__ == '__main__':
   descriptionText = "---- REMOVE THIS LINE -- This element should contain an English description of what changes were made along with rational for making them. ----\n"
   descriptionText += "---- REMOVE THIS LINE -- The commit log should help you to fill this field. ----\n"
   changeIdText = ""
-  sampleCodeOldText = ""
-  sampleCodeNewText = ""
+  sampleCodeOldList = []
+  sampleCodeNewList = []
   changedFileList = []
   exampleAndTestChangedFileList = []
 
@@ -221,8 +220,8 @@ if __name__ == '__main__':
   for filename in exampleAndTestChangedFileList:
 
     # Add filename
-    sampleCodeOldText = sampleCodeOldText + "---- REMOVE THIS LINE -- Code from " + filename + " ----\n"
-    sampleCodeNewText = sampleCodeNewText + "---- REMOVE THIS LINE -- Code from " + filename + " ----\n"
+    sampleCodeOldText = "---- REMOVE THIS LINE -- Code from " + filename + " ----\n"
+    sampleCodeNewText = "---- REMOVE THIS LINE -- Code from " + filename + " ----\n"
 
     # get the log for the commit
     fullPath = baseDir + "/" + filename
@@ -235,18 +234,19 @@ if __name__ == '__main__':
 
       # old line
       if (not startsWith(line, "--")) and startsWith(line, "-"):
-        sampleCodeOldText = sampleCodeOldText + line.lstrip("-").strip() + "\n"
+	sampleCodeOldText = sampleCodeOldText + line.lstrip("-").strip() + "\n"
 
       # new line
       elif (not startsWith(line, "++")) and startsWith(line, "+"):
         sampleCodeNewText = sampleCodeNewText + line.lstrip("+").strip() + "\n"
 
-
+    sampleCodeOldList.append(sampleCodeOldText)
+    sampleCodeNewList.append(sampleCodeNewText)
   #
   # Create XMl file text
   #
 
-  xmlString = '<?xml version="1.0" encoding="UTF-8"?>\n\n'
+  xmlString = '<?xml version="1.0" encoding="UTF-8"?>\n<!DOCTYPE Change SYSTEM "http://ij.itk.org/itkfaq/ITKMigration.dtd">\n\n'
   changeElementBody = ""
 
   # <Title> element
@@ -267,18 +267,40 @@ if __name__ == '__main__':
   descriptionComment = "Plain text description of the change\nExtracted from git commit messages"
   changeElementBody = \
     addXMLElement(changeElementBody, "Description",\
-    prepXMLString(descriptionText), True, descriptionComment)
+    "<![CDATA[\n" + prepXMLString(descriptionText) + "]]>\n", True, descriptionComment)
 
   # <SampleCode> element
+  if len(sampleCodeOldList) == 0:
+    sampleCodeOldText = ""
+    sampleCodeNewText = ""
+  else:
+    sampleCodeOldText = sampleCodeOldList[0]
+    sampleCodeNewText = sampleCodeNewList[0]
+
   sampleCodeComment = "Sample code snippets\nExtracted from git diff of changed files in Examples and Testing"
   sampleCodeElementBody = "---- REMOVE THIS LINE -- This element should contain some code snippet that illustrates how to update the API from the old version to the new version. ----\n"
   sampleCodeElementBody += "---- REMOVE THIS LINE -- The changes extracted from the Examples and Testing directory should help you to fill this field. ----\n"
+  sampleCodeElementBody += "---- REMOVE THIS LINE -- You can set multiple SampleCode tags. ----\n"
   sampleCodeElementBody = \
-    addXMLElement(sampleCodeElementBody, "Old", prepXMLString(sampleCodeOldText))
+    addXMLElement(sampleCodeElementBody, "Old", "<![CDATA[\n" + prepXMLString(sampleCodeOldText) + "]]>\n")
   sampleCodeElementBody = \
-    addXMLElement(sampleCodeElementBody, "New", prepXMLString(sampleCodeNewText))
+    addXMLElement(sampleCodeElementBody, "New", "<![CDATA[\n" + prepXMLString(sampleCodeNewText) + "]]>\n")
   changeElementBody = addXMLElement(changeElementBody, "SampleCode",\
+                                  sampleCodeElementBody, True, sampleCodeComment)
+
+  i = 1
+  while i<len(sampleCodeOldList):
+    sampleCodeOldText = sampleCodeOldList[i]
+    sampleCodeNewText = sampleCodeNewList[i]
+    sampleCodeComment = ""
+    sampleCodeElementBody = ""
+    sampleCodeElementBody = \
+      addXMLElement(sampleCodeElementBody, "Old", "<![CDATA[\n" + prepXMLString(sampleCodeOldText) + "]]>\n")
+    sampleCodeElementBody = \
+      addXMLElement(sampleCodeElementBody, "New", "<![CDATA[\n" + prepXMLString(sampleCodeNewText) + "]]>\n")
+    changeElementBody = addXMLElement(changeElementBody, "SampleCode",\
                                     sampleCodeElementBody, True, sampleCodeComment)
+    i += 1
 
   # <Gerrit-ChangeId> element
   changeIdComment = "The change-ids for all commits in the topic branch"
@@ -296,7 +318,7 @@ if __name__ == '__main__':
     fileListText, True, fileListComment)
 
   # <MigrationFix-Automatic> comment
-  autoFixComment = "If the migration can be accomplished by a simple string\nsubstitution, then use the following construct to define\nthe substitution rule.\n\n<MigrationFix-Automatic>\n  <Old>\n    MipsleledName\n  </Old>\n  <New>\n    MisspelledName\n  </New>\n</MigrationFix-Automatic>"
+  autoFixComment = "If the migration can be accomplished by a simple string\nsubstitution, then use the following construct to define\nthe substitution rule.\n\n<MigrationFix-Automatic>\n  <Old>\n    <![CDATA[MipsleledName]]>\n  </Old>\n  <New>\n    <![CDATA[MisspelledName]]>\n  </New>\n</MigrationFix-Automatic>"
   changeElementBody = addXMLComment(changeElementBody, autoFixComment, True) +"\n"
 
   # <MigrationFix-Manual> comment
@@ -304,7 +326,7 @@ if __name__ == '__main__':
   changeElementBody = addXMLComment(changeElementBody, manFixComment, True) + "\n"
 
   # <Change> element
-  changeComment = "\n" + XMLFileName + "\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>\nTHIS FILE HAS BEEN AUTOMATICALLY GENERATED. EDIT IT BEFORE COMMITING\n<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n"
+  changeComment = "\n" + XMLFileName + "\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>\nTHIS FILE HAS BEEN AUTOMATICALLY GENERATED. EDIT IT BEFORE COMMITING\n<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\nPlease, make sure this file validates the following w3c test before committing it: http://validator.w3.org"
   xmlString = addXMLElement(xmlString, "Change", changeElementBody, False, changeComment)
 
   # drop the blanks at the end of the lines to please git's hooks

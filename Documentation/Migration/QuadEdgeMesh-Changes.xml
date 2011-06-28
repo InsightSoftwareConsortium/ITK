@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<!DOCTYPE Change SYSTEM "http://ij.itk.org/itkfaq/ITKMigration.dtd">
 <!--**
 **
 ** QuadEdgeMesh-Changes.xml
@@ -151,24 +151,24 @@
     Testing/Code/Algorithms/itkSquaredEdgeLengthDecimationQuadEdgeMeshFilterTest.cxx
     renamed from Testing/Code/Algorithms/itkQuadEdgeMeshSquaredEdgeLengthDecimationTest.cxx
   </FileList>
-</Change>
 
-</MigrationFix-Automatic>
+
+
 <MigrationFix-Automatic>
   <Old>QuadEdgeMeshBorderTransform</Old>
   <New>BorderQuadEdgeMeshFilter</New>
 </MigrationFix-Automatic>
 <MigrationFix-Automatic>
   <Old>QuadEdgeMeshCleanFilter</Old>
-  <New>CleanQuadEdgeMeshFilter</new>
+  <New>CleanQuadEdgeMeshFilter</New>
 </MigrationFix-Automatic>
 <MigrationFix-Automatic>
   <Old>QuadEdgeMeshDecimationFilter</Old>
-  <New>DecimationQuadEdgeMeshFilter</new>
+  <New>DecimationQuadEdgeMeshFilter</New>
 </MigrationFix-Automatic>
 <MigrationFix-Automatic>
   <Old>QuadEdgeMeshDelaunayConformingFilter</Old>
-  <New>DelaunayConformingQuadEdgeMeshFilter</new>
+  <New>DelaunayConformingQuadEdgeMeshFilter</New>
 </MigrationFix-Automatic>
 <MigrationFix-Automatic>
   <Old>QuadEdgeMeshDiscreteCurvatureEstimator</Old>
@@ -184,7 +184,7 @@
 </MigrationFix-Automatic>
 <MigrationFix-Automatic>
   <Old>QuadEdgeMeshDiscreteMaxCurvatureEstimator</Old>
-  <New>DiscreteMaximumCurvatureQuadEdgeMeshFilter</new>
+  <New>DiscreteMaximumCurvatureQuadEdgeMeshFilter</New>
 </MigrationFix-Automatic>
 <MigrationFix-Automatic>
   <Old>QuadEdgeMeshDiscreteMeanCurvatureEstimator</Old>
@@ -192,7 +192,7 @@
 </MigrationFix-Automatic>
 <MigrationFix-Automatic>
   <Old>QuadEdgeMeshDiscreteMinCurvatureEstimator</Old>
-  <New>DiscreteMinimumCurvatureQuadEdgeMeshFilter</new>
+  <New>DiscreteMinimumCurvatureQuadEdgeMeshFilter</New>
 </MigrationFix-Automatic>
 <MigrationFix-Automatic>
   <Old>QuadEdgeMeshDiscretePrincipalCurvaturesEstimator</Old>
@@ -204,21 +204,23 @@
 </MigrationFix-Automatic>
 <MigrationFix-Automatic>
   <Old>QuadEdgeMeshNormalFilter</Old>
-  <New>NormalQuadEdgeMeshFilter</new>
+  <New>NormalQuadEdgeMeshFilter</New>
 </MigrationFix-Automatic>
 <MigrationFix-Automatic>
   <Old>QuadEdgeMeshParam</Old>
-  <New>ParameterizationQuadEdgeMeshFilter</new>
+  <New>ParameterizationQuadEdgeMeshFilter</New>
 </MigrationFix-Automatic>
 <MigrationFix-Automatic>
   <Old>QuadEdgeMeshQuadricDecimation</Old>
-  <New>QuadricDecimationQuadEdgeMeshFilter</new>
+  <New>QuadricDecimationQuadEdgeMeshFilter</New>
 </MigrationFix-Automatic>
 <MigrationFix-Automatic>
   <Old>QuadEdgeMeshSmoothing</Old>
-  <New>SmoothingQuadEdgeMeshFilter</new>
+  <New>SmoothingQuadEdgeMeshFilter</New>
 </MigrationFix-Automatic>
 <MigrationFix-Automatic>
   <Old>QuadEdgeMeshSquaredEdgeLengthDecimation</Old>
-  <New>SquaredEdgeLengthDecimationQuadEdgeMeshFilter</new>
+  <New>SquaredEdgeLengthDecimationQuadEdgeMeshFilter</New>
 </MigrationFix-Automatic>
+
+</Change>

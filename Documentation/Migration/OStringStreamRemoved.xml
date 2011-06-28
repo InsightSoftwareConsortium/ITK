@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<!DOCTYPE Change SYSTEM "http://ij.itk.org/itkfaq/ITKMigration.dtd">
 <!--**
 **
 ** OStringStreamRemoval.xml
@@ -21,12 +21,14 @@
       ** Plain text description of the change
       **-->
   <Description>
+    <![CDATA[
     itk::OStringStream has been removed. Early in the development of
     ITK, some compilers did not support std::stringstream. ITK
     provided a wrapper to hide differences between std::stringstream
     and the old ostrstream (which has been deprecated by the C++
     standard). Modern C++98 compilers implement std::ostringstream
     correctly and a wrapper is no longer needed.
+    ]]>
   </Description>
 
   <!--**
@@ -40,6 +42,12 @@
       std::ostringstream msg;
     </New>
   </SampleCode>
+
+    <!--**
+    ** The change-ids for all commits in the topic branch
+    **-->
+    <Gerrit-ChangeId>
+    </Gerrit-ChangeId>
 
   <!--**
       ** List of all changed files from the topic branch
@@ -91,7 +99,7 @@
     Code/SpatialObject/itkSpatialObject.txx
     Testing/Code/BasicFilters/itkTwoOutputExampleImageFilterTest.cxx
     Testing/Code/IO/itkImageFileWriterStreamingPastingCompressingTest1.cxx
-</Change>
+  </FileList>
 
 <MigrationFix-Automatic>
   <Old>
@@ -101,3 +109,4 @@
     std::ostringstream
   </New>
 </MigrationFix-Automatic>
+</Change>
