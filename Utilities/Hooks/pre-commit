@@ -99,3 +99,44 @@ while read src_mode dst_mode src_obj dst_obj status file; do
     ExternalData_non_content_link
   fi
 done || exit 1
+
+
+#-----------------------------------------------------------------------------
+
+validate_migration_xml_with_xmllint() {
+  dtd='Documentation/Migration/ITKMigration.dtd' &&
+  changes=$(git diff-files -- "$1" "$dtd") &&
+  if test -n "$changes"; then
+    die "Cannot validate '$1' against '$dtd' with work tree changes."
+  fi &&
+  if ! out=$("$xmllint" --dtdvalid "$dtd" --noout "$1" 2>&1); then
+    die "$out"
+  fi
+}
+
+# Validate migration guide xml files.
+files=$(git diff-index --cached HEAD --diff-filter=AM -- Documentation/Migration) &&
+if test -n "$files"; then
+  validate=$(git config --get --bool hooks.ValidateMigrationXML || echo true) &&
+  if test "$validate" = "true"; then
+    xmllint=$(git config hooks.xmllint.path || type -p xmllint || true) &&
+    if test -z "$xmllint"; then
+      die 'Cannot validate Documentation/Migration files without xmllint.
+Install xmllint in the PATH or configure its location:
+
+  git config hooks.xmllint.path "/path/to/xmllint"
+
+Alternatively, disable this check:
+
+  git config hooks.ValidateMigrationXML false
+
+and manually validate the xml files at "http://validator.w3.org/".'
+    fi &&
+    echo "$files" |
+    while read src_mode dst_mode src_obj dst_obj status file; do
+      if echo "$file" | egrep-q '\.xml$'; then
+        validate_migration_xml_with_xmllint "$file"
+      fi
+    done
+  fi
+fi || exit
