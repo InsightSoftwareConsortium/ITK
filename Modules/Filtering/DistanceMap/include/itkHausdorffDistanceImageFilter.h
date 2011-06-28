@@ -41,17 +41,17 @@ namespace itk
  * compute the two directed distances and then select the largest of the two.
  *
  * The Hausdorff distance measures the degree of mismatch between two sets and
- * behaves like a metric over the set of all closedm bounded sets -
+ * behaves like a metric over the set of all closed bounded sets -
  * with properties of identity, symmetry and triangle inequality.
  *
  * This filter requires the largest possible region of the first image
  * and the same corresponding region in the second image.
- * It behaves as filter with
- * two input and one output. Thus it can be inserted in a pipeline with
- * other filters. The filter passes the first input through unmodified.
+ * It behaves as filter with two inputs and one output. Thus it can be
+ * inserted in a pipeline with other filters. The filter passes the first
+ * input through unmodified.
  *
- * This filter is templated over the two input image type. It assume
- * both image have the same number of dimensions.
+ * This filter is templated over the two input image types. It assume
+ * both images have the same number of dimensions.
  *
  * \sa DirectedHausdorffDistanceImageFilter
  *
@@ -98,15 +98,13 @@ public:
   typedef typename NumericTraits< InputImage1PixelType >::RealType RealType;
 
   /** Set the first input. */
-  void SetInput1(const InputImage1Type *image)
-  { this->SetInput(image); }
+  void SetInput1(const InputImage1Type *image);
 
   /** Set the second input. */
   void SetInput2(const InputImage2Type *image);
 
   /** Get the first input. */
-  const InputImage1Type * GetInput1(void)
-  { return this->GetInput(); }
+  const InputImage1Type * GetInput1(void);
 
   /** Get the second input. */
   const InputImage2Type * GetInput2(void);
