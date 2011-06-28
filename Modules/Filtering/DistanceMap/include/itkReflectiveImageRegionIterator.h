@@ -38,8 +38,6 @@ namespace itk
  * \sa ReflectiveImageRegionConstIterator
  *
  * \ingroup ImageIterators
- *
- *
  * \ingroup ITK-DistanceMap
  */
 template< typename TImage >
