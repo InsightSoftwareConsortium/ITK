@@ -853,7 +853,8 @@ void PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter *pPar)
               echoNumber = tempInfo1.echo;
               }
             // Get the trigger times
-            if ( cardiacPhase != tempInfo1.cardiac )
+            if ( (cardiacIndex < (pPar->cardiac_phases-1)) &&
+              (cardiacPhase != tempInfo1.cardiac) )
               {
               ++cardiacIndex;
               pPar->trigger_times[cardiacIndex] = tempInfo1.trigger_time;
@@ -918,7 +919,8 @@ void PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter *pPar)
                 echoNumber = tempInfo1.echo;
                 }
               // Get the trigger times
-              if ( cardiacPhase != tempInfo1.cardiac )
+              if ( (cardiacIndex < (pPar->cardiac_phases-1)) &&
+                (cardiacPhase != tempInfo1.cardiac) )
                 {
                 ++cardiacIndex;
                 pPar->trigger_times[cardiacIndex] = tempInfo1.trigger_time;
@@ -947,7 +949,8 @@ void PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter *pPar)
                     echoNumber = tempInfo1.echo;
                     }
                   // Get the trigger times
-                  if ( cardiacPhase != tempInfo1.cardiac )
+                  if ( (cardiacIndex < (pPar->cardiac_phases-1)) &&
+                    (cardiacPhase != tempInfo1.cardiac) )
                     {
                     ++cardiacIndex;
                     pPar->trigger_times[cardiacIndex] = tempInfo1.trigger_time;
@@ -1056,7 +1059,8 @@ void PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter *pPar)
               echoNumber = tempInfo1.echo;
               }
             // Get the trigger times
-            if ( cardiacPhase != tempInfo1.cardiac )
+            if ( (cardiacIndex < (pPar->cardiac_phases-1)) &&
+              (cardiacPhase != tempInfo1.cardiac) )
               {
               ++cardiacIndex;
               pPar->trigger_times[cardiacIndex] = tempInfo1.trigger_time;
@@ -1397,7 +1401,8 @@ void PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter *pPar)
               echoNumber = tempInfo1.echo;
               }
             // Get the trigger times
-            if ( cardiacPhase != tempInfo1.cardiac )
+            if ( (cardiacIndex < (pPar->cardiac_phases-1)) &&
+              (cardiacPhase != tempInfo1.cardiac) )
               {
               ++cardiacIndex;
               pPar->trigger_times[cardiacIndex] = tempInfo1.trigger_time;
@@ -1466,7 +1471,8 @@ void PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter *pPar)
                 echoNumber = tempInfo1.echo;
                 }
               // Get the trigger times
-              if ( cardiacPhase != tempInfo1.cardiac )
+              if ( (cardiacIndex < (pPar->cardiac_phases-1)) &&
+                (cardiacPhase != tempInfo1.cardiac) )
                 {
                 ++cardiacIndex;
                 pPar->trigger_times[cardiacIndex] = tempInfo1.trigger_time;
@@ -1509,7 +1515,8 @@ void PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter *pPar)
                     echoNumber = tempInfo1.echo;
                     }
                   // Get the trigger times
-                  if ( cardiacPhase != tempInfo1.cardiac )
+                  if ( (cardiacIndex < (pPar->cardiac_phases-1)) &&
+                    (cardiacPhase != tempInfo1.cardiac) )
                     {
                     ++cardiacIndex;
                     pPar->trigger_times[cardiacIndex] = tempInfo1.trigger_time;
@@ -1629,7 +1636,8 @@ void PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter *pPar)
               echoNumber = tempInfo1.echo;
               }
             // Get the trigger times
-            if ( cardiacPhase != tempInfo1.cardiac )
+            if ( (cardiacIndex < (pPar->cardiac_phases-1)) &&
+              (cardiacPhase != tempInfo1.cardiac) )
               {
               ++cardiacIndex;
               pPar->trigger_times[cardiacIndex] = tempInfo1.trigger_time;

@@ -251,8 +251,8 @@ void PhilipsRECImageIOSetupSliceIndex(
                               ITK_LOCATION);
     throw exception;
     }
-  if ( imageTypesScanSequenceIndex.size() !=
-       (PhilipsRECImageIO::SliceIndexType::size_type)parParam.num_slice_repetitions )
+  if ( !parParam.slicessorted && (imageTypesScanSequenceIndex.size() !=
+       (PhilipsRECImageIO::SliceIndexType::size_type)parParam.num_slice_repetitions) )
     {
     std::ostringstream message;
     message << "imageTypesScanSequenceIndex.size(): "
