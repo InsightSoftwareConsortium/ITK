@@ -4,7 +4,6 @@ itk_module(ITK-Review
     ITK-AntiAlias
     ITK-BiasCorrection
     ITK-BioCell
-    ITK-Blox
     ITK-Classifiers
     ITK-Common
     ITK-ConnectedComponents

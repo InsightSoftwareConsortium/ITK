@@ -28,8 +28,6 @@
 #include "itkAzimuthElevationToCartesianTransform.h"
 #include "itkBSplineDeformableTransform.h"
 #include "itkBSplineDerivativeKernelFunction.h"
-#include "itkBloxBoundaryProfileImage.h"
-#include "itkBloxBoundaryPointToCoreAtomImageFilter.h"
 #include "itkBoundingBox.h"
 #include "itkCellInterfaceVisitor.h"
 #include "itkCenteredAffineTransform.h"
@@ -38,7 +36,6 @@
 #include "itkCentralDifferenceImageFunction.h"
 #include "itkColorTable.h"
 #include "itkConicShellInteriorExteriorSpatialFunction.h"
-#include "itkCoreAtomImageToDistanceMatrixProcess.h"
 #include "itkCosImageAdaptor.h"
 #include "itkCreateObjectFunction.h"
 #include "itkDifferenceImageFilter.h"
@@ -66,6 +63,7 @@
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkLog10ImageAdaptor.h"
 #include "itkLogImageAdaptor.h"
+#include "itkMatrixResizeableDataObject.h"
 #include "itkMaximumDecisionRule.h"
 #include "itkMaximumRatioDecisionRule.h"
 #include "itkMeanImageFunction.h"
@@ -140,14 +138,9 @@ int itkCommonPrintTest(int , char* [])
   // Used for CenteredTransformInitializer
   typedef itk::CenteredRigid2DTransform<float> TransformType;
 
-  // Used for BloxImage
-  typedef itk::BloxPixel<PointType> BloxPixelType;
 
   // Used for ImageAdaptor
   typedef itk::RedPixelAccessor<float> RedAccessorType;
-
-  // Used for CoreAtomImageToDistanceMatrixProcess
-  typedef itk::BloxBoundaryPointToCoreAtomImageFilter<3>::TOutputImage BloxCAImageType;
 
   itk::AcosImageAdaptor<InputType,InputType>::Pointer AcosImageAdaptorObj =
     itk::AcosImageAdaptor<InputType,InputType>::New();
@@ -193,22 +186,6 @@ int itkCommonPrintTest(int , char* [])
     itk::BinaryThresholdImageFunction<InputType>::New();
   std::cout << "------------BinaryThresholdImageFunction" << BinaryThresholdImageFunctionObj;
 
-  itk::BloxBoundaryPointImage<3>::Pointer BloxBoundaryPointImageObj =
-    itk::BloxBoundaryPointImage<3>::New();
-  std::cout << "------------BloxBoundaryPointImage" << BloxBoundaryPointImageObj;
-
-  itk::BloxBoundaryProfileImage<3>::Pointer BloxBoundaryProfileImageObj =
-    itk::BloxBoundaryProfileImage<3>::New();
-  std::cout << "------------BloxBoundaryProfileImage" << BloxBoundaryProfileImageObj;
-
-  itk::BloxCoreAtomImage<3>::Pointer BloxCoreAtomImageObj =
-    itk::BloxCoreAtomImage<3>::New();
-  std::cout << "------------BloxCoreAtomImage" << BloxCoreAtomImageObj;
-
-  itk::BloxImage<BloxPixelType,3>::Pointer BloxImageObj =
-    itk::BloxImage<BloxPixelType,3>::New();
-  std::cout << "------------BloxImage" << BloxImageObj;
-
   itk::BoundingBox<unsigned long>::Pointer BoundingBoxObj =
     itk::BoundingBox<unsigned long>::New();
   std::cout << "------------BoundingBox" << BoundingBoxObj;
@@ -236,10 +213,6 @@ int itkCommonPrintTest(int , char* [])
   itk::ConicShellInteriorExteriorSpatialFunction<3>::Pointer ConicShellInteriorExteriorSpatialFunctionObj =
     itk::ConicShellInteriorExteriorSpatialFunction<3>::New();
   std::cout << "------------ConicShellInteriorExteriorSpatialFunction" << ConicShellInteriorExteriorSpatialFunctionObj;
-
-  itk::CoreAtomImageToDistanceMatrixProcess<BloxCAImageType>::Pointer CoreAtomImageToDistanceMatrixProcessObj =
-    itk::CoreAtomImageToDistanceMatrixProcess<BloxCAImageType>::New();
-  std::cout << "------------CoreAtomImageToDistanceMatrixProcess" << CoreAtomImageToDistanceMatrixProcessObj;
 
   itk::CosImageAdaptor<InputType,InputType>::Pointer CosImageAdaptorObj =
     itk::CosImageAdaptor<InputType,InputType>::New();
