@@ -216,7 +216,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
 
     // moments computation
 // ****************************************************************
-// that commented code is the basic implementation. The next peace of code
+// that commented code is the basic implementation. The next piece of code
 // give the same result in a much efficient way, by using expended formulae
 // allowed by the binary case instead of loops.
 // ****************************************************************

@@ -71,24 +71,88 @@ public:
   typedef typename Superclass::LineContainerType LineContainerType;
 
   typedef typename Superclass::AttributeType AttributeType;
+
+  /** The number of pixels. */
   itkStaticConstMacro(NUMBER_OF_PIXELS, AttributeType, 100);
+
+  /** PhysicalSize is the size of the object in physical units.
+    * It is equal to the NumberOfPixels multiplied by the
+    * physical pixel size. Its type is double. */
   itkStaticConstMacro(PHYSICAL_SIZE, AttributeType, 101);
+
+  /** RegionElongation is the ratio of the longest physical size
+    * of the region on one dimension and its smallest physical size.
+    * This descriptor is not robust, and in particular is sensitive
+    * to rotation. Its type is double.*/
   itkStaticConstMacro(REGION_ELONGATION, AttributeType, 102);
+
+  /** SizeRegionRatio is the ratio of the size of the object region
+    * (the bounding box) and the real size of the object. Its type
+    * is double.*/
   itkStaticConstMacro(SIZE_REGION_RATIO, AttributeType, 103);
+
+  /** Centroid is the position of the center of the shape in
+    * physical coordinates. It is not constrained to be in the
+    * object, and thus can be outside if the object is not convex.*/
   itkStaticConstMacro(CENTROID, AttributeType, 104);
+
   itkStaticConstMacro(BOUNDING_BOX, AttributeType, 105);
+
+  /** NumberOfPixelsOnBorder is the number of pixels in the objects
+    * which are on the border of the image. A pixel on several borders
+    * (a pixel in a corner) is counted only one time, so the size on
+    * border can’t be greater than the size of the object. This attribute
+    * is particulary useful to remove the objects which are touching
+    * too much the border. Its type is unsigned long.*/
   itkStaticConstMacro(NUMBER_OF_PIXELS_ON_BORDER, AttributeType, 106);
+
+  /** PerimeterOnBorder is the physical size of the objects which are on
+    * the border of the image. In 2D, it is a distance, in 3D, a surface,
+    * etc. Contrary to the PhysicalSize attribute which is directly linked to
+    * the NumberOfPixels, this attribute is not directly linked to the
+    * NumberOfPixelsOnBorder attribute. This attribute is particulary useful
+    * to remove the objects which are touching too much the border.
+    * Its type is double.*/
   itkStaticConstMacro(PERIMETER_ON_BORDER, AttributeType, 107);
+
+  /** FeretDiameter is the diameter in physical units of the sphere which
+    * include all the object. The feret diameter is not computed by default,
+    * because of its high computation. Its type is double.*/
   itkStaticConstMacro(FERET_DIAMETER, AttributeType, 108);
+
+  /** PrincipalMoments contains the principal moments.*/
   itkStaticConstMacro(PRINCIPAL_MOMENTS, AttributeType, 109);
+
+  /** BinaryPrincipalAxes contains the principal axes of the object.*/
   itkStaticConstMacro(PRINCIPAL_AXES, AttributeType, 110);
+
+  /** Elongation is the  ratio of the largest principal moment to the
+    * smallest principal moment. Its value is greater or equal to 1.
+    * Its type is double.*/
   itkStaticConstMacro(ELONGATION, AttributeType, 111);
+
+  /** The perimeter of the object.*/
   itkStaticConstMacro(PERIMETER, AttributeType, 112);
+
   itkStaticConstMacro(ROUNDNESS, AttributeType, 113);
+
+  /** EquivalentRadius is the equivalent radius of the hypersphere of the
+    * same size than the label object. The value depends on the image spacing.
+    * Its type is double.*/
   itkStaticConstMacro(EQUIVALENT_SPHERICAL_RADIUS, AttributeType, 114);
+
+  /** EquivalentPerimeter is the equivalent perimeter of the hypersphere of
+    * the same size than the label object. The value depends on the image spacing.
+    * Its type is double.*/
   itkStaticConstMacro(EQUIVALENT_SPHERICAL_PERIMETER, AttributeType, 115);
+
+  /** EquivalentEllipsoidPerimeter is the size of the ellipsoid of the same size
+    * and the same ratio on all the axes than the label object. The value depends
+    * on the image spacing.*/
   itkStaticConstMacro(EQUIVALENT_ELLIPSOID_DIAMETER, AttributeType, 116);
+
   itkStaticConstMacro(FLATNESS, AttributeType, 117);
+
   itkStaticConstMacro(PERIMETER_ON_BORDER_RATIO, AttributeType, 118);
 
   static AttributeType GetAttributeFromName(const std::string & s)
