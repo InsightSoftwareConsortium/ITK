@@ -30,7 +30,7 @@ if(NOT ITK_NO_IO_FACTORY_REGISTER_MANAGER)
     endif()
   endforeach()
 
-  foreach (ImageFormat  Nifti Nrrd Gipl)
+  foreach (ImageFormat  Nifti Nrrd Gipl HDF5 )
     string(TOUPPER ${ImageFormat} ImageFormat_UPPER)
     if (ITK-IO-${ImageFormat_UPPER}_LOADED)
       set (LIST_OF_FACTORIES_REGISTRATION "${LIST_OF_FACTORIES_REGISTRATION}void ${ImageFormat}ImageIOFactoryRegister__Private(void);")
