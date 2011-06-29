@@ -30,6 +30,19 @@ namespace itk
  * A convenient class that converts a binary image to a label map and valuates the
  * shape attributes at once.
  *
+ * The GetOutput() function returns an itk::ShapeLabelMap.
+ * A typical use would be to iterate over the ShapeLabelObjects in the map,
+ * using something like this:
+ * \code
+ * for(unsigned int i = 0; i < filter->GetOutput()->GetNumberOfLabelObjects(); ++i)
+ *   {
+ *   FilterType::OutputImageType::LabelObjectType* shapeLabelObject =
+ *     filter->GetOutput()->GetLabelObject(i);
+ *   // Here you can get properties of the ShapeLabelObject
+ *   std::cout << "Bounding box: " << shapeLabelObject->GetBoundingBox();
+ *   }
+ * \endcode
+ *
  * This implementation was taken from the Insight Journal paper:
  * http://hdl.handle.net/1926/584  or
  * http://www.insight-journal.org/browse/publication/176

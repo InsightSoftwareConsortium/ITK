@@ -43,6 +43,15 @@ namespace itk
  * L is the number of lines in the image (imageSize[1] * imageSize[2] for a 3D
  * image).
  *
+ * To iterate over the LabelObjects in the map, use:
+ * \code
+ * for(unsigned int i = 0; i < filter->GetOutput()->GetNumberOfLabelObjects(); ++i)
+ *   {
+ *   FilterType::OutputImageType::LabelObjectType* labelObject =
+ *     filter->GetOutput()->GetNthLabelObject(i);
+ *   }
+ * \endcode
+ *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
  * This implementation was taken from the Insight Journal paper:
