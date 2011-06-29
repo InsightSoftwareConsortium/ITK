@@ -15,16 +15,34 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-// disable debug warnings in MS compiler
-#ifdef _MSC_VER
-#pragma warning(disable: 4786)
-#endif
 
 #include "itkFEMElement3DC0LinearHexahedronStrain.h"
 
-namespace itk {
-namespace fem {
+namespace itk
+{
+namespace fem
+{
+// Overload the CreateAnother() method
+::itk::LightObject::Pointer Element3DC0LinearHexahedronStrain::CreateAnother(void) const
+{
+  ::itk::LightObject::Pointer smartPtr;
+  Pointer copyPtr = Self::New().GetPointer();
 
+  copyPtr->SetNode(0, this->GetNode(0) );
+  copyPtr->SetNode(1, this->GetNode(1) );
+  copyPtr->SetNode(2, this->GetNode(2) );
+  copyPtr->SetNode(3, this->GetNode(3) );
+  copyPtr->SetNode(4, this->GetNode(4) );
+  copyPtr->SetNode(5, this->GetNode(5) );
+  copyPtr->SetNode(6, this->GetNode(6) );
+  copyPtr->SetNode(7, this->GetNode(7) );
+  copyPtr->SetMaterial( this->GetMaterial() );
+  copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
+
+  smartPtr = static_cast<Pointer>(copyPtr);
+
+  return smartPtr;
+}
 
 Element3DC0LinearHexahedronStrain
 ::Element3DC0LinearHexahedronStrain() : Superclass()
@@ -32,14 +50,12 @@ Element3DC0LinearHexahedronStrain
 }
 
 Element3DC0LinearHexahedronStrain
-::Element3DC0LinearHexahedronStrain(
-      NodeIDType ns_[],
-      Material::ConstPointer m_) : Superclass()
+::Element3DC0LinearHexahedronStrain(NodeIDType ns_[], Material::ConstPointer m_) : Superclass()
 {
   // Set the geometrical points
-  for (int k=0; k<8; k++)
+  for( int k = 0; k < 8; k++ )
     {
-    this->SetNode( k, ns_[k] );
+    this->SetNode(k, ns_[k]);
     }
 
   /*
@@ -47,12 +63,21 @@ Element3DC0LinearHexahedronStrain
    * we were given the pointer to the right class.
    * If the material class was incorrect an exception is thrown.
    */
-  if( (m_mat=dynamic_cast<const MaterialLinearElasticity*>(&*m_)) == 0 )
+  m_mat = dynamic_cast<const MaterialLinearElasticity *>( &*m_ );
+
+  if( !m_mat )
     {
-    throw FEMExceptionWrongClass(__FILE__,__LINE__,"Element3DC0LinearHexahedronStrain::Element3DC0LinearHexahedronStrain()");
+    throw FEMExceptionWrongClass(__FILE__,
+                                 __LINE__,
+                                 "Element3DC0LinearHexahedronStrain::Element3DC0LinearHexahedronStrain()");
     }
 }
 
-FEM_CLASS_REGISTER(Element3DC0LinearHexahedronStrain)
+void
+Element3DC0LinearHexahedronStrain::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+}
 
-}} // end namespace itk::fem
+}
+}  // end namespace itk::fem

@@ -15,10 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
-
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
@@ -39,7 +35,6 @@
 
 
 // Software Guide : BeginCodeSnippet
-#include "itkFEM.h"
 #include "itkFEMRegistrationFilter.h"
 
 // Software Guide : EndCodeSnippet
@@ -58,7 +53,7 @@
 
 
 //  Software Guide : BeginCodeSnippet
-typedef itk::Image<unsigned char, 2>                       fileImageType;
+typedef itk::Image<unsigned char, 2>                       DiskImageType;
 typedef itk::Image<float, 2>                               ImageType;
 typedef itk::fem::Element2DC0LinearQuadrilateralMembrane   ElementType;
 typedef itk::fem::Element2DC0LinearTriangularMembrane      ElementType2;
@@ -198,8 +193,8 @@ int main(int argc, char *argv[])
     }
 
   // Read the image files
-  typedef itk::ImageFileReader< fileImageType >      FileSourceType;
-  typedef fileImageType::PixelType PixType;
+  typedef itk::ImageFileReader< DiskImageType > FileSourceType;
+  typedef DiskImageType::PixelType              PixType;
 
   FileSourceType::Pointer movingfilter = FileSourceType::New();
   movingfilter->SetFileName( (registrationFilter->GetMovingFile()).c_str() );
@@ -232,7 +227,7 @@ int main(int argc, char *argv[])
 
 
   // Rescale the image intensities so that they fall between 0 and 255
-  typedef itk::RescaleIntensityImageFilter<fileImageType,ImageType> FilterType;
+  typedef itk::RescaleIntensityImageFilter<DiskImageType,ImageType> FilterType;
   FilterType::Pointer movingrescalefilter = FilterType::New();
   FilterType::Pointer fixedrescalefilter = FilterType::New();
 
@@ -296,9 +291,6 @@ int main(int argc, char *argv[])
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
-
-
-
 
 //  Software Guide : BeginLatex
 //
@@ -388,5 +380,3 @@ int main(int argc, char *argv[])
 
   return EXIT_SUCCESS;
 }
-
-

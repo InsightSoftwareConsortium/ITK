@@ -15,64 +15,105 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-// disable debug warnings in MS compiler
-#ifdef _MSC_VER
-#pragma warning(disable: 4786)
-#endif
 
 #include "itkFEMLoadGrav.h"
 
-namespace itk {
-namespace fem {
-
-/**
- * Read the LoadGravConst object from input stream
- */
-void LoadGravConst::Read( std::istream& f, void* info )
+namespace itk
 {
-  int n;
+namespace fem
+{
+// Overload the CreateAnother() method.
+::itk::LightObject::Pointer LoadGravConst::CreateAnother(void) const
+{
+  ::itk::LightObject::Pointer smartPtr;
+  Pointer copyPtr = Self::New().GetPointer();
 
-  /** first call the parent's read function */
-  LoadGrav::Read(f,info);
-
-  /**
-   * Read and set the force vector
-   */
-
-  /** first read and set the size of the vector */
-  this->SkipWhiteSpace(f); f>>n; if(!f) goto out;
-  Fg_value.set_size(n);
-  /** then the actual values */
-  this->SkipWhiteSpace(f); f>>Fg_value; if(!f) goto out;
-
-out:
-
-  if( !f )
+  // Copy Load Contents
+  copyPtr->m_GravityForce = this->m_GravityForce;
+  for( unsigned int i = 0; i < this->m_Element.size(); i++ )
     {
-    throw FEMExceptionIO(__FILE__,__LINE__,"LoadGravConst::Read()","Error reading FEM load!");
+    copyPtr->AddNextElement( this->m_Element[i] );
     }
+  copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
 
+  smartPtr = static_cast<Pointer>(copyPtr);
+
+  return smartPtr;
 }
 
-/**
- * Write the LoadGravConst to the output stream
- */
-void LoadGravConst::Write( std::ostream& f ) const
+void LoadGravConst::SetForce(const vnl_vector<itk::fem::Element::Float> force)
 {
-  /** first call the parent's write function */
-  LoadGrav::Write(f);
+  this->m_GravityForce = force;
+}
 
-  /** then write the actual data force vector */
-  f<<"\t"<<Fg_value.size()<<"\t% Size of the gravity force vector\n";
-  f<<"\t"<<Fg_value<<"\t% Gravity force vector\n";
+vnl_vector<itk::fem::Element::Float> & LoadGravConst::GetForce()
+{
+  return this->m_GravityForce;
+}
 
-  /** check for errors */
-  if (!f)
+const vnl_vector<itk::fem::Element::Float> & LoadGravConst::GetForce() const
+{
+  return this->m_GravityForce;
+}
+
+void LoadGravConst::ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe)
+{
+  // Order of integration
+  // FIXME: Allow changing the order of integration by setting a
+  //        static member within an element base class.
+  unsigned int order = 0;
+
+  const unsigned int Nip = element->GetNumberOfIntegrationPoints(order);
+  const unsigned int Ndofs = element->GetNumberOfDegreesOfFreedomPerNode();
+  const unsigned int Nnodes = element->GetNumberOfNodes();
+
+  Element::VectorType force(Ndofs, 0.0),
+  ip, gip, force_tmp, shapeF;
+
+  Fe.set_size( element->GetNumberOfDegreesOfFreedom() );
+  Fe.fill(0.0);
+
+  Element::Float w, detJ;
+  for( unsigned int i = 0; i < Nip; i++ )
     {
-    throw FEMExceptionIO(__FILE__,__LINE__,"LoadGravConst::Write()","Error writing FEM load!");
+    element->GetIntegrationPointAndWeight(i, ip, w, order);
+    gip = element->GetGlobalFromLocalCoordinates(ip);
+
+    shapeF = element->ShapeFunctions(ip);
+    detJ = element->JacobianDeterminant(ip);
+
+    // Adjust the size of a force vector returned from the load object so
+    // that it is equal to the number of DOFs per node. If
+    // GetGravitationalForceAtPoint returns a vector with less dimensions,
+    // we add zero elements. If the GetGravitationalForceAtPoint
+    // returned a vector with more dimensions, we remove the extra dimensions.
+    force.fill(0.0);
+    force_tmp = this->GetGravitationalForceAtPoint(gip);
+    unsigned int Nd = Ndofs;
+    if( force_tmp.size() < Nd )
+      {
+      Nd = force_tmp.size();
+      }
+    for( unsigned int d = 0; d < Nd; d++ )
+      {
+      force[d] = force_tmp[d];
+      }
+    // Claculate the equivalent nodal loads
+    for( unsigned int n = 0; n < Nnodes; n++ )
+      {
+      for( unsigned int d = 0; d < Ndofs; d++ )
+        {
+        Fe[n * Ndofs + d] += shapeF[n] * force[d] * w * detJ;
+        }
+      }
     }
 }
 
-FEM_CLASS_REGISTER(LoadGravConst)
+void LoadGravConst::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "Gravity Force: " << this->m_GravityForce << std::endl;
+}
 
-}} // end namespace itk::fem
+}
+}  // end namespace itk::fem

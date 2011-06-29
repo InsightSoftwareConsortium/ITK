@@ -15,50 +15,50 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-// disable debug warnings in MS compiler
-#ifdef _MSC_VER
-#pragma warning(disable: 4786)
-#endif
 
 #include "itkFEMElement3DC0LinearHexahedron.h"
 #include "vnl/vnl_math.h"
 
-namespace itk {
-namespace fem {
-
+namespace itk
+{
+namespace fem
+{
 void
 Element3DC0LinearHexahedron
-::GetIntegrationPointAndWeight(unsigned int i, VectorType& pt, Float& w, unsigned int order) const
+::GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, Float & w, unsigned int order) const
 {
-  // FIXME: range checking
-
-  // default integration order=2
-  if (order==0) { order=2; }
+  if( order == 0 || order > 9 )
+    {
+    order = 2;
+    }
 
   pt.set_size(3);
-  pt[0] = gaussPoint[order][i%order];
-  pt[1] = gaussPoint[order][(i/order)%order];
-  pt[2] = gaussPoint[order][(i/(order*order))];
+  pt[0] = gaussPoint[order][i % order];
+  pt[1] = gaussPoint[order][( i / order ) % order];
+  pt[2] = gaussPoint[order][( i / ( order * order ) )];
 
-  w=gaussWeight[order][i%order]*gaussWeight[order][(i/order)%order]*gaussWeight[order][(i/(order*order))];
-
+  w =
+    gaussWeight[order][i
+                       % order]
+    * gaussWeight[order][( i / order ) % order] * gaussWeight[order][( i / ( order * order ) )];
 }
 
 unsigned int
 Element3DC0LinearHexahedron
 ::GetNumberOfIntegrationPoints(unsigned int order) const
 {
-  // FIXME: range checking
-
   // default integration order=2
-  if (order==0) { order=2; }
+  if( order == 0 || order > 9 )
+    {
+    order = 2;
+    }
 
-  return order*order*order;
+  return order * order * order;
 }
 
 Element3DC0LinearHexahedron::VectorType
 Element3DC0LinearHexahedron
-::ShapeFunctions( const VectorType& pt ) const
+::ShapeFunctions(const VectorType & pt) const
 {
   /* Linear hexahedral element has eight shape functions  */
   VectorType shapeF(8);
@@ -71,240 +71,374 @@ Element3DC0LinearHexahedron
   /* given local point x=(r,s,t), where -1 <= r,s,t <= 1 and */
 
   /** N_1 = ((1-r) * (1-s) * (1-t)) / 8 */
-  shapeF[0] = (1 - pt[0]) * (1 - pt[1]) * (1 - pt[2]) * 0.125;
+  shapeF[0] = ( 1 - pt[0] ) * ( 1 - pt[1] ) * ( 1 - pt[2] ) * 0.125;
 
   /** N_2 = ((1+r) * (1-s) * (1-t)) / 8 */
-  shapeF[1] = (1 + pt[0]) * (1 - pt[1]) * (1 - pt[2]) * 0.125;
+  shapeF[1] = ( 1 + pt[0] ) * ( 1 - pt[1] ) * ( 1 - pt[2] ) * 0.125;
 
   /** N_3 = ((1+r) * (1+s) * (1-t)) / 8 */
-  shapeF[2] = (1 + pt[0]) * (1 + pt[1]) * (1 - pt[2]) * 0.125;
+  shapeF[2] = ( 1 + pt[0] ) * ( 1 + pt[1] ) * ( 1 - pt[2] ) * 0.125;
 
   /** N_4 = ((1-r) * (1+s) * (1-t)) / 8 */
-  shapeF[3] = (1 - pt[0]) * (1 + pt[1]) * (1 - pt[2]) * 0.125;
+  shapeF[3] = ( 1 - pt[0] ) * ( 1 + pt[1] ) * ( 1 - pt[2] ) * 0.125;
 
   /** N_5 = ((1-r) * (1-s) * (1+t)) / 8 */
-  shapeF[4] = (1 - pt[0]) * (1 - pt[1]) * (1 + pt[2]) * 0.125;
+  shapeF[4] = ( 1 - pt[0] ) * ( 1 - pt[1] ) * ( 1 + pt[2] ) * 0.125;
 
   /** N_6 = ((1+r) * (1-s) * (1+t)) / 8 */
-  shapeF[5] = (1 + pt[0]) * (1 - pt[1]) * (1 + pt[2]) * 0.125;
+  shapeF[5] = ( 1 + pt[0] ) * ( 1 - pt[1] ) * ( 1 + pt[2] ) * 0.125;
 
   /** N_7 = ((1+r) * (1+s) * (1+t)) / 8 */
-  shapeF[6] = (1 + pt[0]) * (1 + pt[1]) * (1 + pt[2]) * 0.125;
+  shapeF[6] = ( 1 + pt[0] ) * ( 1 + pt[1] ) * ( 1 + pt[2] ) * 0.125;
 
   /** N_8 = ((1-r) * (1+s) * (1+t)) / 8 */
-  shapeF[7] = (1 - pt[0]) * (1 + pt[1]) * (1 + pt[2]) * 0.125;
+  shapeF[7] = ( 1 - pt[0] ) * ( 1 + pt[1] ) * ( 1 + pt[2] ) * 0.125;
 
   return shapeF;
 }
 
 void
 Element3DC0LinearHexahedron
-::ShapeFunctionDerivatives( const VectorType& pt, MatrixType& shapeD ) const
+::ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const
 {
   /** functions at directions r and s.  */
-  shapeD.set_size(3,8);
+  shapeD.set_size(3, 8);
 
   // d(N_1) / d(r)
-  shapeD[0][0] = (-1) * (1 - pt[1]) * (1 - pt[2]) * 0.125;
+  shapeD[0][0] = ( -1 ) * ( 1 - pt[1] ) * ( 1 - pt[2] ) * 0.125;
 
   // d(N_1) / d(s)
-  shapeD[1][0] = (-1) * (1 - pt[0]) * (1 - pt[2]) * 0.125;
+  shapeD[1][0] = ( -1 ) * ( 1 - pt[0] ) * ( 1 - pt[2] ) * 0.125;
 
   // d(N_1) / d(t)
-  shapeD[2][0] = (-1) * (1 - pt[0]) * (1 - pt[1]) * 0.125;
+  shapeD[2][0] = ( -1 ) * ( 1 - pt[0] ) * ( 1 - pt[1] ) * 0.125;
 
   // d(N_2) / d(r)
-  shapeD[0][1] = (+1) * (1 - pt[1]) * (1 - pt[2]) * 0.125;
+  shapeD[0][1] = ( +1 ) * ( 1 - pt[1] ) * ( 1 - pt[2] ) * 0.125;
 
   // d(N_2) / d(s)
-  shapeD[1][1] = (-1) * (1 + pt[0]) * (1 - pt[2]) * 0.125;
+  shapeD[1][1] = ( -1 ) * ( 1 + pt[0] ) * ( 1 - pt[2] ) * 0.125;
 
   // d(N_2) / d(t)
-  shapeD[2][1] = (-1) * (1 + pt[0]) * (1 - pt[1]) * 0.125;
+  shapeD[2][1] = ( -1 ) * ( 1 + pt[0] ) * ( 1 - pt[1] ) * 0.125;
 
   // d(N_3) / d(r)
-  shapeD[0][2] = (+1) * (1 + pt[1]) * (1 - pt[2]) * 0.125;
+  shapeD[0][2] = ( +1 ) * ( 1 + pt[1] ) * ( 1 - pt[2] ) * 0.125;
 
   // d(N_3) / d(s)
-  shapeD[1][2] = (+1) * (1 + pt[0]) * (1 - pt[2]) * 0.125;
+  shapeD[1][2] = ( +1 ) * ( 1 + pt[0] ) * ( 1 - pt[2] ) * 0.125;
 
   // d(N_3) / d(t)
-  shapeD[2][2] = (-1) * (1 + pt[0]) * (1 + pt[1]) * 0.125;
+  shapeD[2][2] = ( -1 ) * ( 1 + pt[0] ) * ( 1 + pt[1] ) * 0.125;
 
   // d(N_4) / d(r)
-  shapeD[0][3] = (-1) * (1 + pt[1]) * (1 - pt[2]) * 0.125;
+  shapeD[0][3] = ( -1 ) * ( 1 + pt[1] ) * ( 1 - pt[2] ) * 0.125;
 
   // d(N_4) / d(s)
-  shapeD[1][3] = (+1) * (1 - pt[0]) * (1 - pt[2]) * 0.125;
+  shapeD[1][3] = ( +1 ) * ( 1 - pt[0] ) * ( 1 - pt[2] ) * 0.125;
 
   // d(N_4) / d(t)
-  shapeD[2][3] = (-1) * (1 - pt[0]) * (1 + pt[1]) * 0.125;
+  shapeD[2][3] = ( -1 ) * ( 1 - pt[0] ) * ( 1 + pt[1] ) * 0.125;
 
   // d(N_5) / d(r)
-  shapeD[0][4] = (-1) * (1 - pt[1]) * (1 + pt[2]) * 0.125;
+  shapeD[0][4] = ( -1 ) * ( 1 - pt[1] ) * ( 1 + pt[2] ) * 0.125;
 
   // d(N_5) / d(s)
-  shapeD[1][4] = (-1) * (1 - pt[0]) * (1 + pt[2]) * 0.125;
+  shapeD[1][4] = ( -1 ) * ( 1 - pt[0] ) * ( 1 + pt[2] ) * 0.125;
 
   // d(N_5) / d(t)
-  shapeD[2][4] = (+1) * (1 - pt[0]) * (1 - pt[1]) * 0.125;
+  shapeD[2][4] = ( +1 ) * ( 1 - pt[0] ) * ( 1 - pt[1] ) * 0.125;
 
   // d(N_6) / d(r)
-  shapeD[0][5] = (+1) * (1 - pt[1]) * (1 + pt[2]) * 0.125;
+  shapeD[0][5] = ( +1 ) * ( 1 - pt[1] ) * ( 1 + pt[2] ) * 0.125;
 
   // d(N_6) / d(s)
-  shapeD[1][5] = (-1) * (1 + pt[0]) * (1 + pt[2]) * 0.125;
+  shapeD[1][5] = ( -1 ) * ( 1 + pt[0] ) * ( 1 + pt[2] ) * 0.125;
 
   // d(N_6) / d(t)
-  shapeD[2][5] = (+1) * (1 + pt[0]) * (1 - pt[1]) * 0.125;
+  shapeD[2][5] = ( +1 ) * ( 1 + pt[0] ) * ( 1 - pt[1] ) * 0.125;
 
   // d(N_7) / d(r)
-  shapeD[0][6] = (+1) * (1 + pt[1]) * (1 + pt[2]) * 0.125;
+  shapeD[0][6] = ( +1 ) * ( 1 + pt[1] ) * ( 1 + pt[2] ) * 0.125;
 
   // d(N_7) / d(s)
-  shapeD[1][6] = (+1) * (1 + pt[0]) * (1 + pt[2]) * 0.125;
+  shapeD[1][6] = ( +1 ) * ( 1 + pt[0] ) * ( 1 + pt[2] ) * 0.125;
 
   // d(N_7) / d(t)
-  shapeD[2][6] = (+1) * (1 + pt[0]) * (1 + pt[1]) * 0.125;
+  shapeD[2][6] = ( +1 ) * ( 1 + pt[0] ) * ( 1 + pt[1] ) * 0.125;
 
   // d(N_8) / d(r)
-  shapeD[0][7] = (-1) * (1 + pt[1]) * (1 + pt[2]) * 0.125;
+  shapeD[0][7] = ( -1 ) * ( 1 + pt[1] ) * ( 1 + pt[2] ) * 0.125;
 
   // d(N_8) / d(s)
-  shapeD[1][7] = (+1) * (1 - pt[0]) * (1 + pt[2]) * 0.125;
+  shapeD[1][7] = ( +1 ) * ( 1 - pt[0] ) * ( 1 + pt[2] ) * 0.125;
 
   // d(N_8) / d(t)
-  shapeD[2][7] = (+1) * (1 - pt[0]) * (1 + pt[1]) * 0.125;
-
+  shapeD[2][7] = ( +1 ) * ( 1 - pt[0] ) * ( 1 + pt[1] ) * 0.125;
 }
-
 
 bool
 Element3DC0LinearHexahedron
-::GetLocalFromGlobalCoordinates( const VectorType& globalPt , VectorType& localPt ) const
+::GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const
 {
+  int   MAX_ITERATIONS = 10;
+  Float CONVERGED = 1.0e-03;
+  Float DIVERGED = 1.0e06;
 
-//  Float x1, x2, x3, x4, y1, y2, y3, y4, xce, yce, xb, yb, xcn, ycn,
-//        A, J1, J2, x0, y0, dx, dy, be, bn, ce, cn;
+  int        iteration, converged;
+  VectorType params(3);
+  VectorType fcol(3), rcol(3), scol(3), tcol(3), closestPoint(3);
+  int        i, j;
+  Float      d;
+  VectorType pt;
+  VectorType derivs(24);
+  VectorType weights(8);
 
-  localPt=globalPt;
-  localPt.set_size(3);
-  localPt.fill(0.0);
+  //  set initial position for Newton's method
+  localPt[0] = localPt[1] = localPt[2] = params[0] = params[1] = params[2] = 0.5;
+  //  enter iteration loop
+  for( iteration = converged = 0;
+       !converged && (iteration < MAX_ITERATIONS);  iteration++ )
+    {
+    //  calculate element interpolation functions and derivatives
+    this->InterpolationFunctions(localPt, weights);
+    this->InterpolationDerivs(localPt, derivs);
+    //  calculate newton functions
+    for( i = 0; i < 3; i++ )
+      {
+      fcol[i] = rcol[i] = scol[i] = tcol[i] = 0.0;
+      }
+    for( i = 0; i < 8; i++ )
+      {
+      pt = this->m_node[i]->GetCoordinates();
+      for( j = 0; j < 3; j++ )
+        {
+        fcol[j] += pt[j] * weights[i];
+        rcol[j] += pt[j] * derivs[i];
+        scol[j] += pt[j] * derivs[i + 8];
+        tcol[j] += pt[j] * derivs[i + 16];
+        }
+      }
+    for( i = 0; i < 3; i++ )
+      {
+      fcol[i] -= globalPt[i];
+      }
 
-  // FIXME!
+    //  compute determinants and generate improvements
+    d = this->Determinant3x3(rcol, scol, tcol);
+    if( fabs(d) < 1.e-20 )
+      {
+      return false;
+      }
 
-  //   x1 = this->m_node[0]->GetCoordinates()[0];   y1 = this->m_node[0]->GetCoordinates()[1];
-  //   x2 = this->m_node[1]->GetCoordinates()[0];   y2 = this->m_node[1]->GetCoordinates()[1];
-  //   x3 = this->m_node[2]->GetCoordinates()[0];   y3 = this->m_node[2]->GetCoordinates()[1];
-  //   x4 = this->m_node[3]->GetCoordinates()[0];   y4 = this->m_node[3]->GetCoordinates()[1];
+    localPt[0] = params[0] - this->Determinant3x3(fcol, scol, tcol) / d;
+    localPt[1] = params[1] - this->Determinant3x3(rcol, fcol, tcol) / d;
+    localPt[2] = params[2] - this->Determinant3x3(rcol, scol, fcol) / d;
 
-  //   xb = x1 - x2 + x3 - x4;
-  //   yb = y1 - y2 + y3 - y4;
+    //  check for convergence
+    if( ( (fabs(localPt[0] - params[0]) ) < CONVERGED) &&
+        ( (fabs(localPt[1] - params[1]) ) < CONVERGED) &&
+        ( (fabs(localPt[2] - params[2]) ) < CONVERGED) )
+      {
+      converged = 1;
+      }
 
-  //   xce = x1 + x2 - x3 - x4;
-  //   yce = y1 + y2 - y3 - y4;
+    // Test for bad divergence (S.Hirschberg 11.12.2001)
+    else if( (fabs(localPt[0]) > DIVERGED) ||
+             (fabs(localPt[1]) > DIVERGED) ||
+             (fabs(localPt[2]) > DIVERGED) )
+      {
+      return false;
+      }
 
-  //   xcn = x1 - x2 - x3 + x4;
-  //   ycn = y1 - y2 - y3 + y4;
+    //  if not converged, repeat
+    else
+      {
+      params[0] = localPt[0];
+      params[1] = localPt[1];
+      params[2] = localPt[2];
+      }
+    }
 
-  //   A  = 0.5 * (((x3 - x1) * (y4 - y2)) - ((x4 - x2) * (y3 - y1)));
-  //   J1 = ((x3 - x4) * (y1 - y2)) - ((x1 - x2) * (y3 - y4));
-  //   J2 = ((x2 - x3) * (y1 - y4)) - ((x1 - x4) * (y2 - y3));
+  //  if not converged, set the parametric coordinates to arbitrary values
+  //  outside of element
+  if( !converged )
+    {
+    return false;
+    }
 
-  //   x0 = 0.25 * (x1 + x2 + x3 + x4);
-  //   y0 = 0.25 * (y1 + y2 + y3 + y4);
+  this->InterpolationFunctions(localPt, weights);
 
-  //   dx = globalPt[0] - x0;
-  //   dy = globalPt[1] - y0;
-
-  //   be =  A - (dx * yb) + (dy * xb);
-  //   bn = -A - (dx * yb) + (dy * xb);
-  //   ce = (dx * yce) - (dy * xce);
-  //   cn = (dx * ycn) - (dy * xcn);
-
-  //   localPt[0] = (2 * ce) / (-sqrt((be * be) - (2 * J1 * ce)) - be);
-  //   localPt[1] = (2 * cn) / ( vcl_sqrt((bn * bn) + (2 * J2 * cn)) - bn);
-
-  // FIXME
-  bool IsInside=false;
-
-  return IsInside;
+  if( localPt[0] >= -0.001 && localPt[0] <= 1.001 &&
+      localPt[1] >= -0.001 && localPt[1] <= 1.001 &&
+      localPt[2] >= -0.001 && localPt[2] <= 1.001 )
+    {
+    closestPoint[0] = globalPt[0]; closestPoint[1] = globalPt[1]; closestPoint[2] = globalPt[2];
+    return true;
+    }
+  else
+    {
+    VectorType pc(3);
+    for( i = 0; i < 3; i++ ) // only approximate, not really true for warped hexa
+      {
+      if( localPt[i] < 0.0 )
+        {
+        pc[i] = 0.0;
+        }
+      else if( localPt[i] > 1.0 )
+        {
+        pc[i] = 1.0;
+        }
+      else
+        {
+        pc[i] = localPt[i];
+        }
+      }
+    return 0;
+    }
 }
 
-/**
- * Draw the element on device context pDC.
- */
-#ifdef FEM_BUILD_VISUALIZATION
+void Element3DC0LinearHexahedron::InterpolationFunctions(
+  const VectorType & pcoords, VectorType & sf) const
+{
+  Float rm, sm, tm;
+
+  rm = 1. - pcoords[0];
+  sm = 1. - pcoords[1];
+  tm = 1. - pcoords[2];
+
+  sf[0] = rm * sm * tm;
+  sf[1] = pcoords[0] * sm * tm;
+  sf[2] = pcoords[0] * pcoords[1] * tm;
+  sf[3] = rm * pcoords[1] * tm;
+  sf[4] = rm * sm * pcoords[2];
+  sf[5] = pcoords[0] * sm * pcoords[2];
+  sf[6] = pcoords[0] * pcoords[1] * pcoords[2];
+  sf[7] = rm * pcoords[1] * pcoords[2];
+}
+
+// ----------------------------------------------------------------------------
+void Element3DC0LinearHexahedron::InterpolationDerivs(
+  const VectorType & pcoords, VectorType & derivs) const
+{
+  Float rm, sm, tm;
+
+  rm = 1. - pcoords[0];
+  sm = 1. - pcoords[1];
+  tm = 1. - pcoords[2];
+
+  // r-derivatives
+  derivs[0] = -sm * tm;
+  derivs[1] = sm * tm;
+  derivs[2] = pcoords[1] * tm;
+  derivs[3] = -pcoords[1] * tm;
+  derivs[4] = -sm * pcoords[2];
+  derivs[5] = sm * pcoords[2];
+  derivs[6] = pcoords[1] * pcoords[2];
+  derivs[7] = -pcoords[1] * pcoords[2];
+
+  // s-derivatives
+  derivs[8] = -rm * tm;
+  derivs[9] = -pcoords[0] * tm;
+  derivs[10] = pcoords[0] * tm;
+  derivs[11] = rm * tm;
+  derivs[12] = -rm * pcoords[2];
+  derivs[13] = -pcoords[0] * pcoords[2];
+  derivs[14] = pcoords[0] * pcoords[2];
+  derivs[15] = rm * pcoords[2];
+
+  // t-derivatives
+  derivs[16] = -rm * sm;
+  derivs[17] = -pcoords[0] * sm;
+  derivs[18] = -pcoords[0] * pcoords[1];
+  derivs[19] = -rm * pcoords[1];
+  derivs[20] = rm * sm;
+  derivs[21] = pcoords[0] * sm;
+  derivs[22] = pcoords[0] * pcoords[1];
+  derivs[23] = rm * pcoords[1];
+}
+
+itk::fem::Element::Float Element3DC0LinearHexahedron::Determinant3x3(const VectorType & c1,
+                                                                     const VectorType & c2,
+                                                                     const VectorType & c3) const
+{
+  return c1[0] * c2[1] * c3[2] + c2[0] * c3[1] * c1[2] + c3[0] * c1[1] * c2[2]
+         - c1[0] * c3[1] * c2[2] - c2[0] * c1[1] * c3[2] - c3[0] * c2[1] * c1[2];
+}
+
+void Element3DC0LinearHexahedron::PopulateEdgeIds(void)
+{
+  this->m_EdgeIds.resize(0);
+
+  std::vector<int> edgePtIds;
+  edgePtIds.resize(2);
+
+  // edge 0
+  edgePtIds[0] = 0;
+  edgePtIds[1] = 1;
+  this->m_EdgeIds.push_back(edgePtIds);
+
+  // edge 1
+  edgePtIds[0] = 1;
+  edgePtIds[1] = 2;
+  this->m_EdgeIds.push_back(edgePtIds);
+
+  // edge 2
+  edgePtIds[0] = 3;
+  edgePtIds[1] = 2;
+  this->m_EdgeIds.push_back(edgePtIds);
+
+  // edge 3
+  edgePtIds[0] = 0;
+  edgePtIds[1] = 3;
+  this->m_EdgeIds.push_back(edgePtIds);
+
+  // edge 4
+  edgePtIds[0] = 4;
+  edgePtIds[1] = 5;
+  this->m_EdgeIds.push_back(edgePtIds);
+
+  // edge 5
+  edgePtIds[0] = 5;
+  edgePtIds[1] = 6;
+  this->m_EdgeIds.push_back(edgePtIds);
+
+  // edge 6
+  edgePtIds[0] = 6;
+  edgePtIds[1] = 7;
+  this->m_EdgeIds.push_back(edgePtIds);
+
+  // edge 7
+  edgePtIds[0] = 7;
+  edgePtIds[1] = 4;
+  this->m_EdgeIds.push_back(edgePtIds);
+
+  // edge 8
+  edgePtIds[0] = 0;
+  edgePtIds[1] = 4;
+  this->m_EdgeIds.push_back(edgePtIds);
+
+  // edge 9
+  edgePtIds[0] = 1;
+  edgePtIds[1] = 5;
+  this->m_EdgeIds.push_back(edgePtIds);
+
+  // edge 10
+  edgePtIds[0] = 2;
+  edgePtIds[1] = 6;
+  this->m_EdgeIds.push_back(edgePtIds);
+
+  // edge 11
+  edgePtIds[0] = 3;
+  edgePtIds[1] = 7;
+  this->m_EdgeIds.push_back(edgePtIds);
+}
+
 void
-Element3DC0LinearHexahedron
-::Draw(CDC* pDC, Solution::ConstPointer sol) const
+Element3DC0LinearHexahedron::PrintSelf(std::ostream& os, Indent indent) const
 {
-
-  int x1=m_node[0]->GetCoordinates()[0]*DC_Scale;
-  int y1=m_node[0]->GetCoordinates()[1]*DC_Scale;
-  int z1=m_node[0]->GetCoordinates()[2]*DC_Scale;
-
-  int x2=m_node[1]->GetCoordinates()[0]*DC_Scale;
-  int y2=m_node[1]->GetCoordinates()[1]*DC_Scale;
-  int z2=m_node[1]->GetCoordinates()[2]*DC_Scale;
-
-  int x3=m_node[2]->GetCoordinates()[0]*DC_Scale;
-  int y3=m_node[2]->GetCoordinates()[1]*DC_Scale;
-  int z3=m_node[2]->GetCoordinates()[2]*DC_Scale;
-
-  int x4=m_node[3]->GetCoordinates()[0]*DC_Scale;
-  int y4=m_node[3]->GetCoordinates()[1]*DC_Scale;
-  int z4=m_node[3]->GetCoordinates()[2]*DC_Scale;
-
-  int x5=m_node[4]->GetCoordinates()[0]*DC_Scale;
-  int y5=m_node[4]->GetCoordinates()[1]*DC_Scale;
-  int z5=m_node[4]->GetCoordinates()[2]*DC_Scale;
-
-  int x6=m_node[5]->GetCoordinates()[0]*DC_Scale;
-  int y6=m_node[5]->GetCoordinates()[1]*DC_Scale;
-  int z6=m_node[5]->GetCoordinates()[2]*DC_Scale;
-
-  int x7=m_node[6]->GetCoordinates()[0]*DC_Scale;
-  int y7=m_node[6]->GetCoordinates()[1]*DC_Scale;
-  int z7=m_node[6]->GetCoordinates()[2]*DC_Scale;
-
-  int x8=m_node[7]->GetCoordinates()[0]*DC_Scale;
-  int y8=m_node[7]->GetCoordinates()[1]*DC_Scale;
-  int z8=m_node[7]->GetCoordinates()[2]*DC_Scale;
-
-  x1 += sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(0))*DC_Scale;
-  y1 += sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(1))*DC_Scale;
-  z1 += sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(2))*DC_Scale;
-
-  x2 += sol->GetSolutionValue(this->m_node[1]->GetDegreeOfFreedom(0))*DC_Scale;
-  y2 += sol->GetSolutionValue(this->m_node[1]->GetDegreeOfFreedom(1))*DC_Scale;
-  z2 += sol->GetSolutionValue(this->m_node[1]->GetDegreeOfFreedom(2))*DC_Scale;
-
-  x3 += sol->GetSolutionValue(this->m_node[2]->GetDegreeOfFreedom(0))*DC_Scale;
-  y3 += sol->GetSolutionValue(this->m_node[2]->GetDegreeOfFreedom(1))*DC_Scale;
-  z3 += sol->GetSolutionValue(this->m_node[2]->GetDegreeOfFreedom(2))*DC_Scale;
-
-  x4 += sol->GetSolutionValue(this->m_node[3]->GetDegreeOfFreedom(0))*DC_Scale;
-  y4 += sol->GetSolutionValue(this->m_node[3]->GetDegreeOfFreedom(1))*DC_Scale;
-  z4 += sol->GetSolutionValue(this->m_node[3]->GetDegreeOfFreedom(2))*DC_Scale;
-
-  x5 += sol->GetSolutionValue(this->m_node[4]->GetDegreeOfFreedom(0))*DC_Scale;
-  y5 += sol->GetSolutionValue(this->m_node[4]->GetDegreeOfFreedom(1))*DC_Scale;
-  z5 += sol->GetSolutionValue(this->m_node[4]->GetDegreeOfFreedom(2))*DC_Scale;
-
-  x6 += sol->GetSolutionValue(this->m_node[5]->GetDegreeOfFreedom(0))*DC_Scale;
-  y6 += sol->GetSolutionValue(this->m_node[5]->GetDegreeOfFreedom(1))*DC_Scale;
-  z6 += sol->GetSolutionValue(this->m_node[5]->GetDegreeOfFreedom(2))*DC_Scale;
-
-  x7 += sol->GetSolutionValue(this->m_node[6]->GetDegreeOfFreedom(0))*DC_Scale;
-  y7 += sol->GetSolutionValue(this->m_node[6]->GetDegreeOfFreedom(1))*DC_Scale;
-  z7 += sol->GetSolutionValue(this->m_node[6]->GetDegreeOfFreedom(2))*DC_Scale;
-
-  x8 += sol->GetSolutionValue(this->m_node[7]->GetDegreeOfFreedom(0))*DC_Scale;
-  y8 += sol->GetSolutionValue(this->m_node[7]->GetDegreeOfFreedom(1))*DC_Scale;
-  z8 += sol->GetSolutionValue(this->m_node[7]->GetDegreeOfFreedom(2))*DC_Scale;
+  Superclass::PrintSelf(os, indent);
+}
 
 }
-#endif
-
-}} // end namespace itk::fem
+}  // end namespace itk::fem

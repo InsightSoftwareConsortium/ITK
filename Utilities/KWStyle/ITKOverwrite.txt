@@ -133,3 +133,5 @@ QuickView.h Namespace Disable
 QuickView.cxx Namespace Disable
 QuickViewTest.cxx Namespace Disable
 vtkCaptureScreen.h Namespace Disable
+DeformableRegistration1.cxx Namespace Disable
+DeformableRegistration11.cxx Namespace Disable

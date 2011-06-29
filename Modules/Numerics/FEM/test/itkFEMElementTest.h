@@ -15,12 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-// disable debug warnings in MS compiler
-#ifdef _MSC_VER
-#pragma warning(disable: 4786)
-#endif
-
-#include "itkFEM.h"
+#ifndef __itkFEMElementTest_h
+#define __itkFEMElementTest_h
 #include "itkFEMSolver.h"
 
 #include "itkFEMLinearSystemWrappers.h"
@@ -42,10 +38,15 @@
 #define IDL_OUTPUT          0
 #define DEBUG_FEM_TESTS     ( MATLAB_OUTPUT || IDL_OUTPUT )
 
+int itkFEMElementTest(int, char * [] );
 
-int itkFEMElementTest(int, char* [] );
-//void PrintResults(Solver&, int, char);
+// void PrintResults(Solver&, int, char);
 void PrintK( itk::fem::Solver &, int, char);
-void PrintF( itk::fem::Solver&, int, char);
-void PrintNodalCoordinates( itk::fem::Solver&, int, char);
-void PrintU( itk::fem::Solver&, int, char);
+
+void PrintF( itk::fem::Solver &, int, char);
+
+void PrintNodalCoordinates( itk::fem::Solver &, int, char);
+
+void PrintU( itk::fem::Solver &, int, char);
+
+#endif // __itkFEMElementTest_h

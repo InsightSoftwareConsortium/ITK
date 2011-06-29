@@ -15,14 +15,18 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-// disable debug warnings in MS compiler
-#ifdef _MSC_VER
-#pragma warning(disable: 4786)
-#endif
 
 #include "itkFEMMaterialBase.h"
 
-namespace itk {
-namespace fem {
+namespace itk
+{
+namespace fem
+{
 
-}} // end namespace itk::fem
+void Material::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+}
+
+}
+}  // end namespace itk::fem

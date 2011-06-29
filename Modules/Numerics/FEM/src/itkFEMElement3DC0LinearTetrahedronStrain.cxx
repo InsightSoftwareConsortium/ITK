@@ -15,17 +15,31 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-// disable debug warnings in MS compiler
-#ifdef _MSC_VER
-#pragma warning(disable: 4786)
-#endif
 
 #include "itkFEMElement3DC0LinearTetrahedronStrain.h"
 #include "vnl/vnl_math.h"
 
-namespace itk {
-namespace fem {
+namespace itk
+{
+namespace fem
+{
+// Overload the CreateAnother() method
+::itk::LightObject::Pointer Element3DC0LinearTetrahedronStrain::CreateAnother(void) const
+{
+  ::itk::LightObject::Pointer smartPtr;
+  Pointer copyPtr = Self::New().GetPointer();
 
+  copyPtr->SetNode(0, this->GetNode(0) );
+  copyPtr->SetNode(1, this->GetNode(1) );
+  copyPtr->SetNode(2, this->GetNode(2) );
+  copyPtr->SetNode(3, this->GetNode(3) );
+  copyPtr->SetMaterial( this->GetMaterial() );
+  copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
+
+  smartPtr = static_cast<Pointer>(copyPtr);
+
+  return smartPtr;
+}
 
 Element3DC0LinearTetrahedronStrain
 ::Element3DC0LinearTetrahedronStrain() : Superclass()
@@ -33,14 +47,12 @@ Element3DC0LinearTetrahedronStrain
 }
 
 Element3DC0LinearTetrahedronStrain
-::Element3DC0LinearTetrahedronStrain(
-      NodeIDType ns_[],
-      Material::ConstPointer m_) : Superclass()
+::Element3DC0LinearTetrahedronStrain(NodeIDType ns_[], Material::ConstPointer m_) : Superclass()
 {
   // Set the geometrical points
-  for (int k=0; k<4; k++)
+  for( int k = 0; k < 4; k++ )
     {
-    this->SetNode( k, ns_[k] );
+    this->SetNode(k, ns_[k]);
     }
 
   /*
@@ -48,12 +60,21 @@ Element3DC0LinearTetrahedronStrain
    * we were given the pointer to the right class.
    * If the material class was incorrect an exception is thrown.
    */
-  if( (m_mat=dynamic_cast<const MaterialLinearElasticity*>(&*m_)) == 0 )
+  m_mat = dynamic_cast<const MaterialLinearElasticity *>( &*m_ );
+
+  if( !m_mat )
     {
-    throw FEMExceptionWrongClass(__FILE__,__LINE__,"Element3DC0LinearTetrahedronStrain::Element3DC0LinearTetrahedronStrain()");
+    throw FEMExceptionWrongClass(__FILE__,
+                                 __LINE__,
+                                 "Element3DC0LinearTetrahedronStrain::Element3DC0LinearTetrahedronStrain()");
     }
 }
 
-FEM_CLASS_REGISTER(Element3DC0LinearTetrahedronStrain)
+void
+Element3DC0LinearTetrahedronStrain::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+}
 
-}} // end namespace itk::fem
+}
+}  // end namespace itk::fem

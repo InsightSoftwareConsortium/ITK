@@ -26,9 +26,7 @@
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkHistogramMatchingImageFilter.h"
 
-#include "itkFEM.h"
 #include "itkFEMRegistrationFilter.h"
-
 
 
 /* Example of FEM-base deformable registration in 3D */
@@ -60,9 +58,6 @@ typedef itk::fem::VisitorDispatcher<ElementType,ElementLoadType, LoadImpFP>
 typedef itk::fem::VisitorDispatcher<ElementType2,ElementLoadType2, LoadImpFP2>
                                                            DispatcherType2;
 
-
-
-
 typedef itk::fem::FEMRegistrationFilter<ImageType,ImageType> RegistrationType;
 
 
@@ -81,7 +76,6 @@ int main(int argc, char *argv[])
     }
 
 
-
   // Register the correct load implementation with the element-typed visitor
   // dispatcher.
   typedef itk::fem::ImageMetricLoadImplementation<
@@ -98,11 +92,7 @@ int main(int argc, char *argv[])
   }
 
 
-
   RegistrationType::Pointer registrationFilter = RegistrationType::New();
-
-
-
 
   // Attempt to read the parameter file, and exit if an error occurs
   registrationFilter->SetConfigFileName(paramname);
@@ -113,8 +103,8 @@ int main(int argc, char *argv[])
     }
 
   // Read the image files
-  typedef itk::ImageFileReader< FileImageType >      FileSourceType;
-  typedef FileImageType::PixelType PixType;
+  typedef itk::ImageFileReader< FileImageType > FileSourceType;
+  typedef FileImageType::PixelType              PixType;
 
   FileSourceType::Pointer movingfilter = FileSourceType::New();
   movingfilter->SetFileName( (registrationFilter->GetMovingFile()).c_str() );
@@ -199,7 +189,6 @@ int main(int argc, char *argv[])
   writer2->Write();
 
 
-
   // Create the material properties
   itk::fem::MaterialLinearElasticity::Pointer m;
   m = itk::fem::MaterialLinearElasticity::New();
@@ -237,5 +226,3 @@ int main(int argc, char *argv[])
 
   return EXIT_SUCCESS;
 }
-
-

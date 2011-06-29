@@ -19,10 +19,13 @@
 #define __itkFEMLoadBase_h
 
 #include "itkFEMElementBase.h"
+#include "itkFEMSolution.h"
+#include "itkFEMPArray.h"
 
-namespace itk {
-namespace fem {
-
+namespace itk
+{
+namespace fem
+{
 /**
  * \class Load
  * \brief General abstract load base class.
@@ -35,8 +38,15 @@ namespace fem {
  */
 class Load : public FEMLightObject
 {
-  FEM_ABSTRACT_CLASS(Load,FEMLightObject)
 public:
+  /** Standard class typedefs. */
+  typedef Load                     Self;
+  typedef FEMLightObject           Superclass;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Load, FEMLightObject);
 
   /** Array class that holds special pointers to the load objects */
   typedef FEMPArray<Self> ArrayType;
@@ -53,14 +63,16 @@ public:
    *
    * \param ptr Pointer to the object of Solution class.
    */
-  virtual void SetSolution(Solution::ConstPointer ptr)
-    { // this is to prevent a warning about an unused variable
-    (void) ptr;
-    }
-  virtual Solution::ConstPointer GetSolution( ) { return 0;}
+  virtual void SetSolution(Solution::ConstPointer) { }
+  virtual Solution::ConstPointer GetSolution()
+  {
+    return 0;
+  }
+protected:
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 };
-
-}} // end namespace itk::fem
+}
+}  // end namespace itk::fem
 
 #endif // #ifndef __itkFEMLoadBase_h

@@ -18,10 +18,10 @@
 #include "itkFEMItpackSparseMatrix.h"
 #include "itpack.h"
 
-namespace itk {
-namespace fem {
-
-
+namespace itk
+{
+namespace fem
+{
 ItpackSparseMatrix::ItpackSparseMatrix()
 {
   m_MatrixFinalized = 0;
@@ -56,7 +56,6 @@ ItpackSparseMatrix::ItpackSparseMatrix(integer order)
   m_A = 0;
 }
 
-
 ItpackSparseMatrix::ItpackSparseMatrix(integer order, integer maxNonZeroValues)
 {
   m_MatrixFinalized = 0;
@@ -72,65 +71,61 @@ ItpackSparseMatrix::ItpackSparseMatrix(integer order, integer maxNonZeroValues)
   m_JA = 0;
   m_IWORK = 0;
   m_A = 0;
-
 }
-
 
 void ItpackSparseMatrix::Initialize()
 {
-
   /* is matrix ready for initialization */
-  if ( (m_N <= 0) || (m_NZ <= 0) )
+  if( ( m_N <= 0 ) || ( m_NZ <= 0 ) )
     {
     /* FIX ME: error handling */
     throw FEMException(__FILE__, __LINE__, "ItpackSparseMatrix::Initialize");
     }
 
   /* initialize itpack variables */
-  if (m_IA != 0)
+  if( m_IA != 0 )
     {
-    delete [] m_IA;
+    delete[] m_IA;
     }
-  if (m_JA != 0)
+  if( m_JA != 0 )
     {
-    delete [] m_JA;
+    delete[] m_JA;
     }
-  if (m_IWORK != 0)
+  if( m_IWORK != 0 )
     {
-    delete [] m_IWORK;
+    delete[] m_IWORK;
     }
-  if (m_A != 0)
+  if( m_A != 0 )
     {
-    delete [] m_A;
+    delete[] m_A;
     }
-  m_IA =    new integer [ m_N + 1 ];
-  m_JA =    new integer [ m_NZ ];
-  m_IWORK = new integer [ m_NZ ];
-  m_A =     new doublereal [ m_NZ ];
+  m_IA =    new integer[m_N + 1];
+  m_JA =    new integer[m_NZ];
+  m_IWORK = new integer[m_NZ];
+  m_A =     new doublereal[m_NZ];
 
   int i;
-  for (i=0; i<m_NZ; i++)
+  for( i = 0; i < m_NZ; i++ )
     {
     m_JA[i] = 0;
     m_IWORK[i] = 0;
     m_A[i] = 0.0;
     }
-  for (i=0; i<=m_N; i++)
+  for( i = 0; i <= m_N; i++ )
     {
     m_IA[i] = 0;
     }
 
   /* initialize sparse matrix storage via itpack routine */
-  sbini_( &m_N, &m_NZ, m_IA, m_JA, m_A, m_IWORK );
+  sbini_(&m_N, &m_NZ, m_IA, m_JA, m_A, m_IWORK);
 
   /* set info flags */
   m_MatrixInitialized = 1;
   m_MatrixFinalized = 0;
-
   /* Do this to avoid itpack ignorance (unless it's somehow my ignorance) */
-  for (i=0; i<m_N; i++)
+  for( i = 0; i < m_N; i++ )
     {
-    this->Set(i,i,0.0);
+    this->Set(i, i, 0.0);
     }
 
   return;
@@ -138,23 +133,22 @@ void ItpackSparseMatrix::Initialize()
 
 void ItpackSparseMatrix::Clear()
 {
-
   /* free variables */
-  if (m_IA != 0)
+  if( m_IA != 0 )
     {
-    delete [] m_IA;
+    delete[] m_IA;
     }
-  if (m_JA != 0)
+  if( m_JA != 0 )
     {
-    delete [] m_JA;
+    delete[] m_JA;
     }
-  if (m_IWORK != 0)
+  if( m_IWORK != 0 )
     {
-    delete [] m_IWORK;
+    delete[] m_IWORK;
     }
-  if (m_A != 0)
+  if( m_A != 0 )
     {
-    delete [] m_A;
+    delete[] m_A;
     }
 
   m_MatrixFinalized = 0;
@@ -174,21 +168,20 @@ void ItpackSparseMatrix::Clear()
 
 void ItpackSparseMatrix::Finalize()
 {
-
   /* check */
-  if ( (m_MatrixFinalized != 0) || (m_MatrixInitialized == 0) )
+  if( ( m_MatrixFinalized != 0 ) || ( m_MatrixInitialized == 0 ) )
     {
     throw FEMException(__FILE__, __LINE__, "ItpackSparseMatrix::Finalize");
     }
 
-  //std::cout << "sbend_ ... " << std::endl;
-  //this->PrintCompressedRow();
+  // std::cout << "sbend_ ... " << std::endl;
+  // this->PrintCompressedRow();
 
   /* finalize */
-  sbend_( &m_N, &m_NZ, m_IA, m_JA, m_A, m_IWORK );
+  sbend_(&m_N, &m_NZ, m_IA, m_JA, m_A, m_IWORK);
 
-  //this->PrintCompressedRow();
-  //std::cout << "sbend_ " << m_IER << std::endl;
+  // this->PrintCompressedRow();
+  // std::cout << "sbend_ " << m_IER << std::endl;
 
   /* set info flag */
   m_MatrixFinalized = 1;
@@ -196,12 +189,10 @@ void ItpackSparseMatrix::Finalize()
   return;
 }
 
-
 void ItpackSparseMatrix::UnFinalize()
 {
-
   /* check if this op makes sense*/
-  if ( (m_MatrixFinalized == 0) || (m_MatrixInitialized == 0) )
+  if( ( m_MatrixFinalized == 0 ) || ( m_MatrixInitialized == 0 ) )
     {
     throw FEMException(__FILE__, __LINE__, "ItpackSparseMatrix::UnFinalize");
     }
@@ -210,7 +201,7 @@ void ItpackSparseMatrix::UnFinalize()
 
   sbagn_(&m_N, &m_NZ, m_IA, m_JA, m_A, m_IWORK, &m_LEVEL, &m_NOUT, &IER);
 
-  if (IER > 0)
+  if( IER > 0 )
     {
     throw FEMExceptionItpackSparseMatrixSbagn(__FILE__, __LINE__, "ItpackSparseMatrix::UnFinalize", IER);
     }
@@ -221,16 +212,13 @@ void ItpackSparseMatrix::UnFinalize()
   return;
 }
 
-
 void ItpackSparseMatrix::Set(integer i, integer j, doublereal value)
 {
-
   /* check for dynamic form */
-  if (m_MatrixInitialized == 0)
+  if( m_MatrixInitialized == 0 )
     {
-
     /* initialize if prepared */
-    if ( (m_N <= 0) || (m_NZ <= 0) )
+    if( ( m_N <= 0 ) || ( m_NZ <= 0 ) )
       {
       throw FEMException(__FILE__, __LINE__, "ItpackSparseMatrix::Set");
       }
@@ -240,7 +228,7 @@ void ItpackSparseMatrix::Set(integer i, integer j, doublereal value)
       }
     }
 
-  if (m_MatrixFinalized == 1)
+  if( m_MatrixFinalized == 1 )
     {
     this->UnFinalize();
     }
@@ -250,35 +238,31 @@ void ItpackSparseMatrix::Set(integer i, integer j, doublereal value)
 
   /* add entry (itpack expects 1-based indices */
   integer IER;
-  integer fortranI = i+1;
-  integer fortranJ = j+1;
+  integer fortranI = i + 1;
+  integer fortranJ = j + 1;
   sbsij_(&m_N, &m_NZ, m_IA, m_JA, m_A, m_IWORK, &fortranI, &fortranJ, &value, &m_MODE, &m_LEVEL, &m_NOUT, &IER);
 
-  if (IER > 700)
+  if( IER > 700 )
     {
     throw FEMExceptionItpackSparseMatrixSbsij(__FILE__, __LINE__, "ItpackSparseMatrix::Set", IER);
     }
 
-
   return;
 }
 
-
 void ItpackSparseMatrix::Add(integer i, integer j, doublereal value)
 {
-
   /* ignore add zero */
-  if (value == 0.0)
+  if( value == 0.0 )
     {
     return;
     }
 
   /* check for dynamic form */
-  if (m_MatrixInitialized == 0)
+  if( m_MatrixInitialized == 0 )
     {
-
     /* initialize if prepared */
-    if ( (m_N <= 0) || (m_NZ <= 0) )
+    if( ( m_N <= 0 ) || ( m_NZ <= 0 ) )
       {
       throw FEMException(__FILE__, __LINE__, "ItpackSparseMatrix::Add");
       }
@@ -287,7 +271,7 @@ void ItpackSparseMatrix::Add(integer i, integer j, doublereal value)
       this->Initialize();
       }
     }
-  if (m_MatrixFinalized != 0)
+  if( m_MatrixFinalized != 0 )
     {
     this->UnFinalize();
     }
@@ -297,11 +281,11 @@ void ItpackSparseMatrix::Add(integer i, integer j, doublereal value)
 
   /* add entry (itpack expects 1-based indices */
   integer IER;
-  integer fortranI = i+1;
-  integer fortranJ = j+1;
+  integer fortranI = i + 1;
+  integer fortranJ = j + 1;
   sbsij_(&m_N, &m_NZ, m_IA, m_JA, m_A, m_IWORK, &fortranI, &fortranJ, &value, &m_MODE, &m_LEVEL, &m_NOUT, &IER);
 
-  if (IER > 700)
+  if( IER > 700 )
     {
     throw FEMExceptionItpackSparseMatrixSbsij(__FILE__, __LINE__, "ItpackSparseMatrix::Set", IER);
     }
@@ -311,30 +295,27 @@ void ItpackSparseMatrix::Add(integer i, integer j, doublereal value)
 
 ItpackSparseMatrix::doublereal ItpackSparseMatrix::Get(integer i, integer j)
 {
-
   doublereal returnValue = 0.0; /* set to default return value */
-  integer fortranJ = j+1;
-  integer lower;
-  integer upper;
+  integer    fortranJ = j + 1;
+  integer    lower;
+  integer    upper;
 
   /* check for readiness */
-  if (m_MatrixInitialized != 0)
+  if( m_MatrixInitialized != 0 )
     {
-
     /* ensure matrix is in readable form */
-    if (m_MatrixFinalized == 0)
+    if( m_MatrixFinalized == 0 )
       {
       this->Finalize();
       }
 
     /* get search bounds in appropriate row */
-    lower = m_IA[i]-1;
-    upper = m_IA[i+1]-1;
-
+    lower = m_IA[i] - 1;
+    upper = m_IA[i + 1] - 1;
     /* Find value if it exists */
-    for (int k=lower; k<upper; k++)
+    for( int k = lower; k < upper; k++ )
       {
-      if (m_JA[k] == fortranJ)
+      if( m_JA[k] == fortranJ )
         {
         returnValue = m_A[k];
         }
@@ -344,39 +325,52 @@ ItpackSparseMatrix::doublereal ItpackSparseMatrix::Get(integer i, integer j)
   return returnValue;
 }
 
-
-ItpackSparseMatrix::doublereal* ItpackSparseMatrix::GetA()
+ItpackSparseMatrix::doublereal * ItpackSparseMatrix::GetA()
 {
-  if (m_MatrixInitialized == 0) return 0;
-  if (m_MatrixFinalized == 0) Finalize();
+  if( m_MatrixInitialized == 0 )
+    {
+    return 0;
+    }
+  if( m_MatrixFinalized == 0 )
+    {
+    Finalize();
+    }
 
   return m_A;
 }
 
-
-ItpackSparseMatrix::integer* ItpackSparseMatrix::GetIA()
+ItpackSparseMatrix::integer * ItpackSparseMatrix::GetIA()
 {
-  if (m_MatrixInitialized == 0) return 0;
-  if (m_MatrixFinalized == 0) Finalize();
+  if( m_MatrixInitialized == 0 )
+    {
+    return 0;
+    }
+  if( m_MatrixFinalized == 0 )
+    {
+    Finalize();
+    }
 
   return m_IA;
 }
 
-
-ItpackSparseMatrix::integer* ItpackSparseMatrix::GetJA()
+ItpackSparseMatrix::integer * ItpackSparseMatrix::GetJA()
 {
-  if (m_MatrixInitialized == 0) return 0;
-  if (m_MatrixFinalized == 0) Finalize();
+  if( m_MatrixInitialized == 0 )
+    {
+    return 0;
+    }
+  if( m_MatrixFinalized == 0 )
+    {
+    Finalize();
+    }
 
   return m_JA;
 }
 
-
-void ItpackSparseMatrix::mult(doublereal* vector, doublereal* result)
+void ItpackSparseMatrix::mult(doublereal *vector, doublereal *result)
 {
-
   /* finalize matrix */
-  if (m_MatrixFinalized == 0)
+  if( m_MatrixFinalized == 0 )
     {
     this->Finalize();
     }
@@ -386,86 +380,74 @@ void ItpackSparseMatrix::mult(doublereal* vector, doublereal* result)
   int upper;
   int i;
   int j;
-
   /* prepare result vector */
-  //delete [] result;
-  //result = new doublereal [ m_N ];
-  for (i=0; i<m_N; i++)
+  // delete [] result;
+  // result = new doublereal [ m_N ];
+  for( i = 0; i < m_N; i++ )
     {
     result[i] = 0.0;
     }
-
   /* perform the mult operation */
-  for (i=0; i<m_N; i++)
+  for( i = 0; i < m_N; i++ )
     {
-
-    lower = m_IA[i]-1;
-    upper = m_IA[i+1]-1;
-
-    for (j=lower; j<upper; j++)
+    lower = m_IA[i] - 1;
+    upper = m_IA[i + 1] - 1;
+    for( j = lower; j < upper; j++ )
       {
-      result[i] += m_A[j] * vector[ m_JA[j] - 1 ];
+      result[i] += m_A[j] * vector[m_JA[j] - 1];
       }
     }
 
   return;
 }
 
-
-void ItpackSparseMatrix::mult(ItpackSparseMatrix* rightMatrix, ItpackSparseMatrix* resultMatrix)
+void ItpackSparseMatrix::mult(ItpackSparseMatrix *rightMatrix, ItpackSparseMatrix *resultMatrix)
 {
-
   /* ensure appropriate matrix sizes */
-  if (m_N != rightMatrix->GetOrder())
+  if( m_N != rightMatrix->GetOrder() )
     {
     return;
     }
 
   /* finalize matrix */
-  if (m_MatrixFinalized == 0)
+  if( m_MatrixFinalized == 0 )
     {
     this->Finalize();
     }
 
-
   /* loop and temp variables */
-  int lower;          /* lower bounds for column indices vector */
-  int upper;          /* upper bounds for column indices vector */
-  int i;              /* loop over rows */
-  int j;              /* loop over columns */
-  int k;              /* iterate through row */
+  int        lower;   /* lower bounds for column indices vector */
+  int        upper;   /* upper bounds for column indices vector */
+  int        i;       /* loop over rows */
+  int        j;       /* loop over columns */
+  int        k;       /* iterate through row */
   doublereal summed;  /* temp holder for row.column */
-
   /* perform the mult operation */
-  for (i=0; i<m_N; i++)
+  for( i = 0; i < m_N; i++ )
     {
-    for (j=0; j<m_N; j++)
+    for( j = 0; j < m_N; j++ )
       {
-
       /* bounds of values located in current row */
-      lower = m_IA[i]-1;
-      upper = m_IA[i+1]-1;
+      lower = m_IA[i] - 1;
+      upper = m_IA[i + 1] - 1;
 
       // sum up row*column elements
       summed = 0.0;
-      for (k=lower; k<upper; k++)
+      for( k = lower; k < upper; k++ )
         {
-        summed += m_A[k] * rightMatrix->Get( m_JA[k]-1, j );
+        summed += m_A[k] * rightMatrix->Get(m_JA[k] - 1, j);
         }
 
       // insert sum to result matrix
-      if (summed != 0.0)
+      if( summed != 0.0 )
         {
-        resultMatrix->Set(i,j,summed);
+        resultMatrix->Set(i, j, summed);
         }
-
       }
     }
-
 }
 
-
-void ItpackSparseMatrix::SetCompressedRow(integer* ia, integer* ja, doublereal *a)
+void ItpackSparseMatrix::SetCompressedRow(integer *ia, integer *ja, doublereal *a)
 {
   m_IA = ia;
   m_JA = ja;
@@ -474,22 +456,22 @@ void ItpackSparseMatrix::SetCompressedRow(integer* ia, integer* ja, doublereal *
   m_MatrixInitialized = 1;
 }
 
-
 ItpackSparseMatrix::~ItpackSparseMatrix()
 {
-  delete [] m_IA;
-  delete [] m_JA;
-  delete [] m_A;
-  delete [] m_IWORK;
+  delete[] m_IA;
+  delete[] m_JA;
+  delete[] m_A;
+  delete[] m_IWORK;
 }
 
-
-FEMExceptionItpackSparseMatrixSbagn::FEMExceptionItpackSparseMatrixSbagn(const char *file, unsigned int lineNumber, std::string location, integer errorCode) :
-  FEMException(file,lineNumber)
+FEMExceptionItpackSparseMatrixSbagn::FEMExceptionItpackSparseMatrixSbagn(const char *file, unsigned int lineNumber,
+                                                                         std::string location,
+                                                                         integer errorCode) :
+  FEMException(file, lineNumber)
 {
   std::string solverError;
 
-  if (errorCode == 703)
+  if( errorCode == 703 )
     {
     solverError = "maximumNumberOfNonZeroValuesInMatrix is too small";
     }
@@ -501,35 +483,37 @@ FEMExceptionItpackSparseMatrixSbagn::FEMExceptionItpackSparseMatrixSbagn(const c
   std::ostringstream buf;
   buf << "Error: " << solverError;
 
-  SetDescription(buf.str().c_str());
+  SetDescription( buf.str().c_str() );
 
   SetLocation(location);
 }
 
-FEMExceptionItpackSparseMatrixSbsij::FEMExceptionItpackSparseMatrixSbsij(const char *file, unsigned int lineNumber, std::string location, integer errorCode) :
-  FEMException(file,lineNumber)
+FEMExceptionItpackSparseMatrixSbsij::FEMExceptionItpackSparseMatrixSbsij(const char *file, unsigned int lineNumber,
+                                                                         std::string location,
+                                                                         integer errorCode) :
+  FEMException(file, lineNumber)
 {
   std::string solverError;
 
-  switch (errorCode)
+  switch( errorCode )
     {
-    case 701 :
+    case 701:
       solverError = "Improper index of matrix";
       break;
-    case 702 :
+    case 702:
       solverError = "maximumNumberOfNonZeroValuesInMatrix is too small";
       break;
-    default :
+    default:
       solverError = "Unknown error code returned";
     }
 
   std::ostringstream buf;
   buf << "Error: " << solverError;
 
-  SetDescription(buf.str().c_str());
+  SetDescription( buf.str().c_str() );
 
   SetLocation(location);
 }
 
-
-}}  // end namespace itk::fem
+}
+}   // end namespace itk::fem
