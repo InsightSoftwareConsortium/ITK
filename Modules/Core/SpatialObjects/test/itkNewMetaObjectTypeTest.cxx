@@ -234,12 +234,14 @@ int itkNewMetaObjectTypeTest(int ac, char* av[])
   if(!myScene)
     {
     std::cout << "No Scene : [FAILED]" << std::endl;
+    delete metaScene;
     return EXIT_FAILURE;
     }
   if(myScene->GetNumberOfObjects(1) != 1)
     {
     std::cout << "found " << myScene->GetNumberOfObjects(1) << " instead of 1 [FAILED]"
               << std::endl;
+    delete metaScene;
     return EXIT_FAILURE;
     }
   SceneType::ObjectListType *mySceneChildren =
@@ -253,6 +255,7 @@ int itkNewMetaObjectTypeTest(int ac, char* av[])
       {
       std::cout << "Expected child type Dummy but found "
                 << childType << " [FAILED]" << std::endl;
+      delete metaScene;
       return EXIT_FAILURE;
       }
     DummyType::Pointer p = dynamic_cast<DummyType *>((*obj).GetPointer());
@@ -260,6 +263,7 @@ int itkNewMetaObjectTypeTest(int ac, char* av[])
       {
       std::cout << "Unable to downcast child SpatialObject to DummySpatialObject"
                 << "[FAILED]" << std::endl;
+      delete metaScene;
       return EXIT_FAILURE;
       }
     float value = p->GetValue();
@@ -267,8 +271,10 @@ int itkNewMetaObjectTypeTest(int ac, char* av[])
       {
       std::cout << "Expected value " << Pi
                 << "but found " << value << std::endl;
+      delete metaScene;
       return EXIT_FAILURE;
       }
     }
+  delete metaScene;
   return EXIT_SUCCESS;
 }

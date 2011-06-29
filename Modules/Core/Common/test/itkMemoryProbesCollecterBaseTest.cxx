@@ -44,8 +44,10 @@ int itkMemoryProbesCollecterBaseTest(int, char *[])
   if(total == 0)
     {
     std::cout << "Total memory usage should be greater than zero" << std::endl;
+    delete [] buf;
     return EXIT_FAILURE;
     }
   mcollecter.Report();
+  delete [] buf;
   return EXIT_SUCCESS;
 }
