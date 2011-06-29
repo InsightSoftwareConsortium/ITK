@@ -178,8 +178,6 @@ SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
 {
   vnl_vector< unsigned int > k(InputImageDimension - 1);
 
-  typedef typename InputImageType::RegionType InputRegionType;
-
   InputRegionType region = outputRegionForThread;
   InputSizeType   size   = region.GetSize();
   InputIndexType  startIndex = outputRegionForThread.GetIndex();
