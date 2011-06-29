@@ -204,7 +204,7 @@ private:
 
 }
 
-int itkNewMetaObjectTypeTest(int ac, char* av[])
+int itkNewMetaObjectTypeTest(int, char* [])
 {
   const float Pi(3.1415926);
 

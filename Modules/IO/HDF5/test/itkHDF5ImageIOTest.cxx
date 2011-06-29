@@ -170,7 +170,7 @@ int HDF5ReadWriteTest(const char *fileName)
     success = EXIT_FAILURE;
     }
 
-  char metaDataChar2;
+  char metaDataChar2 = 0;
   if(!itk::ExposeMetaData<char>(metaDict2,"TestChar",metaDataChar2) ||
      metaDataChar2 != metaDataChar)
     {
