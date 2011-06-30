@@ -90,14 +90,13 @@
 namespace itk
 {
 /** \class CellInterface
+ *  \brief An abstract interface for cells.
+ *
  * Define an abstract interface for cells.  Actual cell types derive from
  * this class.
  *
- * Template parameters for Cell:
- *
- * TPixelType = The type stored with an entity (cell, point, or boundary).
- *
- * TCellTraits = Type information for cell.
+ * \tparam TPixelType The type stored with an entity (cell, point, or boundary).
+ * \tparam TCellTraits Type information for cell.
  *
  * \ingroup MeshObjects
  * \ingroup ITK-Common

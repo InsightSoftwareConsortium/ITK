@@ -25,7 +25,7 @@
 namespace itk
 {
 /** \class TreeContainerBase
- *  \brief Base class for a TreeContainer.
+ *  \brief A base class for tree containers.
  *
  * \ingroup DataRepresentation
  * \ingroup ITK-Common

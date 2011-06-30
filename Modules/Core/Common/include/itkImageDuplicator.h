@@ -24,7 +24,7 @@
 namespace itk
 {
 /** \class ImageDuplicator
- * \brief This helper class create an image which is perfect copy of the input image.
+ * \brief A helper class which creates an image which is perfect copy of the input image.
  *
  * This class is NOT a filter. Although it has an API similar to a filter, this class
  * is not intended to be used in a pipeline. Instead, the typical use will be like

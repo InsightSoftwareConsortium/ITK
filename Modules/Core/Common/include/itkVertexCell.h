@@ -24,16 +24,12 @@
 namespace itk
 {
 /** \class VertexCell
- * VertexCell represents a single vertex for a Mesh.
+ *  \brief Represents a single vertex for a Mesh.
  *
- * Template parameters for VertexCell:
+ * \tparam TPixelType The type associated with a point, cell, or boundary
+ * for use in storing its data.
  *
- * TPixelType =
- *     The type associated with a point, cell, or boundary for use in storing
- *     its data.
- *
- * TCellTraits =
- *     Type information of mesh containing cell.
+ * \tparam TCellTraits Type information of mesh containing cell.
  *
  * \ingroup MeshObjects
  * \ingroup ITK-Common

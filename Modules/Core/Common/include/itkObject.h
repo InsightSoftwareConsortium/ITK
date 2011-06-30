@@ -38,7 +38,7 @@ class SubjectImplementation;
 class Command;
 
 /** \class Object
- * \brief Base class for most itk classes.
+ * \brief Base class for most ITK classes.
  *
  * Object is the second-highest level base class for most itk objects.
  * It extends the base object functionality of LightObject by

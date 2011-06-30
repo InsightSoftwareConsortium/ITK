@@ -26,7 +26,7 @@
 namespace itk
 {
 /** \class RealTimeClock
- * \brief The RealTimeClock provides a timestamp from a real-time clock.
+ * \brief Provides a timestamp from a real-time clock.
  *
  * This class represents a real-time clock object
  * and provides a timestamp in platform-independent format.

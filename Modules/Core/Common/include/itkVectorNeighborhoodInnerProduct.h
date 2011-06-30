@@ -26,6 +26,8 @@
 namespace itk
 {
 /** \class VectorNeighborhoodInnerProduct
+ *  \brief Defines the inner product operation between an itk::Neighborhood
+ *         and an itk::NeighborhoodOperator.
  *
  * This is an explicit implementation of what should really be a partial
  * template specialization of NeighborhoodInnerProduct for itkVector.

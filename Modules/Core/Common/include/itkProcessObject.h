@@ -36,7 +36,7 @@
 namespace itk
 {
 /** \class ProcessObject
- * \brief ProcessObject is the base class for all process objects (source,
+ * \brief The base class for all process objects (source,
  *        filters, mappers) in the Insight data processing pipeline.
  *
  * ProcessObject is an abstract object that specifies behavior and

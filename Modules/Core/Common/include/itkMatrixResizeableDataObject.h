@@ -26,8 +26,8 @@ namespace itk
 {
 /**
  * \class MatrixResizeableDataObject
- * \brief Allows for a vnl matrix to be a data
- * object with the flexibility of being resizable.
+ * \brief Allows a VNL matrix to be a DataObject with the flexibility of
+ *        being resizable.
  *
  * \ingroup DataProcessing
  * \ingroup ITK-Common

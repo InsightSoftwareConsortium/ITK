@@ -269,7 +269,9 @@ ITK_EXPORT std::istream & operator>>(std::istream & is,
                                      Point< T, NPointDimension > & v);
 
 /** \class BarycentricCombination
- * Class that computes the barycentric combination of an array of N points
+ *  \brief Computes the barycentric combination of an array of N points.
+ *
+ * This class computes the barycentric combination of an array of N points.
  *
  * An array of (N-1) values is expected to weight the contribution of the
  * first (N-1) points, the weight of the Nth point is computed to ensure that

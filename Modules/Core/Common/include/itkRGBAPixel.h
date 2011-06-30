@@ -30,17 +30,19 @@
 namespace itk
 {
 /** \class RGBAPixel
- * \brief Represent Red, Green, Blue and Alpha component for color images.
+ * \brief Represent Red, Green, Blue and Alpha components for color images.
  *
  * This class is templated over the representation used for each
  * component.
  *
  * The following syntax for assigning an index is allowed/suggested:
  *
+ * \code
  *    RGBAPixel<float> pixel; pixel = 1.0f, 0.0f, .5f, .8;
  *    RGBAPixel<char> pixelArray[2];
  *    pixelArray[0] = 255, 255, 255, 230;
  *    pixelArray[1] = 255, 255, 244, 255;
+ * \endcode
  *
  * Since RGBAPixel is a subclass of Array, you can access its components as:
  * pixel[0], pixel[1], pixel[2], pixel[3]

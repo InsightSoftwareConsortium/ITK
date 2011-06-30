@@ -26,7 +26,7 @@ namespace itk
  * \class SobelOperator
  *
  * \brief A NeighborhoodOperator for performing a directional Sobel
- * edge-detection operation * at a pixel location.
+ * edge-detection operation at a pixel location.
  *
  * SobelOperator is a directional NeighborhoodOperator that should be
  * applied a NeighborhoodIterator using the NeighborhoodInnerProduct

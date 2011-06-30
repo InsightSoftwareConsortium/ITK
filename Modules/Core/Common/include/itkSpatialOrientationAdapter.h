@@ -73,7 +73,7 @@ inline int Sign(double x)
 } // namespace Function
 
 /** \class SpatialOrientationAdapter
- *  \brief converts SpatialOrientation flags to/from direction cosines
+ *  \brief Converts SpatialOrientation flags to/from direction cosines.
  * \ingroup ITK-Common
  */
 class ITKCommon_EXPORT SpatialOrientationAdapter:

@@ -275,7 +275,8 @@ void ImageToImageFilterDefaultCopyRegion(const typename
 }
 
 /** \class ImageRegionCopier
- * \brief Function object used to dispatching to a routine to copy a region (start index and size).
+ * \brief A Function object used to dispatching to a routine to copy a region
+ *        (start index and size).
  *
  * Function object used for dispatching to various routines to copy
  * a region (start index and size).  Most filters use this function

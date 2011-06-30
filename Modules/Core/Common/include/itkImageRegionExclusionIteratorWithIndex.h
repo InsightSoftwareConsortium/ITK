@@ -24,8 +24,9 @@
 namespace itk
 {
 /** \class ImageRegionExclusionIteratorWithIndex
- *  \brief Multi-dimensional image iterator that walks an image region,
- *  excluding a second region contained within the first.
+ *  \brief A multi-dimensional image iterator that walks an image region,
+ *         excluding a second region contained within the first, with write
+ *         access to pixels.
  *
  * Most of the functionality of this iterator is inherited from the
  * ImageRegionExclusionConstIteratorWithIndex, which should be consulted for

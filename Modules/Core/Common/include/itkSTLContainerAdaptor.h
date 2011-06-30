@@ -21,15 +21,20 @@
 namespace itk
 {
 /** \class STLContainerAdaptor
- * \brief An adapter object that casts a itk::XxxContainer into std::xxx
- * and enables access to the underlying data structure. When the STLContainerAdaptor
+ *  \brief An adapter object that casts a itk::XxxContainer into std::xxx
+ *         and enables access to the underlying data structure.
+ *
+ * When the STLContainerAdaptor
  * is destroyed, it automatically calls XxxContainer::Modified().
  *
  * Here's a usage example of STLContainerAdaptor:
+ *
+ * \code
  *     itk::STLContainerAdaptor<itk::VectorContainer<size_t, ElementType>> vecAdaptor(aContainer);
  *     std::vector<ElementType> & vec = vecAdaptor.GetSTLContainerRef();
  *     // do things with vec ...
  *     // upon return from function, vecAdaptor is destroyed and aContainer is Modified()
+ * \endcode
  *
  * \ingroup ITK-Common
  */

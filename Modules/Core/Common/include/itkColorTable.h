@@ -27,7 +27,7 @@
 namespace itk
 {
 /** \class ColorTable
- *  \brief Define a Color table for image visualisation
+ *  \brief Define a color table for image visualisation.
  *
  * Generates color lookup tables of various types. The lookup table
  * value range differs for integral and continuous data types. Consult

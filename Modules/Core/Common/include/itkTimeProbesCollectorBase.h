@@ -25,7 +25,7 @@
 namespace itk
 {
 /** \class TimeProbesCollectorBase
- *  \brief Class for aggregating a set of time probes.
+ *  \brief Aggregates a set of time probes.
  *
  *  This class defines a set of TimeProbes and assign names to them.
  *  The user can start and stop each one of the probes by addressing them by name.

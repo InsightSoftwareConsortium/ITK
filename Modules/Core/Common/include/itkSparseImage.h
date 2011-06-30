@@ -27,7 +27,7 @@ namespace itk
 /**
  * \class SparseImage
  *
- * \brief This class implements a storage type for sparse image data.
+ * \brief A storage type for sparse image data.
  *
  * \par
  * This class is derived from the Image class. It uses the base class image

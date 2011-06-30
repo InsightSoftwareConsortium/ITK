@@ -24,7 +24,7 @@
 namespace itk
 {
 /** \class ImageRegionReverseIterator
- * \brief Multi-dimensional image iterator which only walks a region.
+ * \brief A multi-dimensional image iterator which only walks a region.
  *
  * ImageRegionReverseIterator is a templated class to represent a multi-dimensional
  * iterator. ImageRegionReverseIterator is templated over the image type

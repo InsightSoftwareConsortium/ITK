@@ -25,9 +25,11 @@
 namespace itk
 {
 /** \class NeighborhoodInnerProduct
+ *  \brief Defines the inner product operation between an
+ *         Neighborhood and a NeighborhoodOperator.
  *
  * This class defines the inner product operation between an
- * itk::Neighborhood and and itk::NeighborhoodOperator.  The
+ * itk::Neighborhood and an itk::NeighborhoodOperator.  The
  * operator() method is overloaded to support various types of
  * neighborhoods as well as inner products with slices of
  * neighborhoods.

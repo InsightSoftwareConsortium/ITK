@@ -26,6 +26,8 @@
 namespace itk
 {
 /** \class NodeOfPermutation
+ *  \brief A node to be used when computing permutations.
+ *
  * The itk::ImageRandomNonRepeatingIterator works by creating a random
  * permutation of the image pixels and then using that to control the
  * order in which it accesses them.  The classes NodeOfPermutation and
@@ -63,7 +65,7 @@ public:
 };
 
 /** \class RandomPermutation
- * \brief Random Permutation
+ * \brief Produce a random permutation of a collection.
  * \ingroup ITK-Common
  */
 class RandomPermutation

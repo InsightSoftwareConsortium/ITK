@@ -24,7 +24,7 @@ namespace itk
 {
 /**
  * \class ConstSliceIterator
- * \brief A flexible iterator for itk containers(i.e. itk::Neighborhood)
+ * \brief A flexible iterator for ITK containers(i.e. itk::Neighborhood)
  * that support pixel access through operator[].
  *
  * ConstSliceIterator allows const iteration along a std::slice through the

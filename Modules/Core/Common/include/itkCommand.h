@@ -24,12 +24,12 @@
 namespace itk
 {
 /** \class Command
- * \brief superclass for callback/observer methods
+ *  \brief Superclass for callback/observer methods.
  *
  * Command is an implementation of the command design pattern that is used
  * in callbacks (such as StartMethod(), ProgressMethod(), and EndMethod()) in
- * ITK. itkObject implements a Subject/Observer pattern. When a subject
- * needs to notify a observer, it does so using a itkCommand.  The Execute
+ * ITK. itk::Object implements a Subject/Observer pattern. When a subject
+ * needs to notify a observer, it does so using a itk::Command. The Execute
  * method is called to run the command.
  *
  * \ingroup ITKSystemObjects
@@ -72,7 +72,7 @@ private:
 // some implementations for several callback types
 
 /** \class MemberCommand
- *  \brief Command subclass that calls a pointer to a member function
+ *  \brief A Command subclass that calls a pointer to a member function.
  *
  *  MemberCommand calls a pointer to a member function with the same
  *  arguments as Execute on Command.
@@ -146,7 +146,7 @@ private:
 };
 
 /** \class ReceptorMemberCommand
- *  \brief Command subclass that calls a pointer to a member function
+ *  \brief A Command subclass that calls a pointer to a member function.
  *
  *  ReceptorMemberCommand calls a pointer to a member function with
  *  only and itk::EventObject as argument
@@ -209,7 +209,7 @@ private:
 };
 
 /** \class SimpleMemberCommand
- *  \brief Command subclass that calls a pointer to a member function
+ *  \brief A Command subclass that calls a pointer to a member function.
  *
  *  SimpleMemberCommand calls a pointer to a member function with no
  *  arguments.
@@ -270,7 +270,7 @@ private:
 };
 
 /** \class SimpleConstMemberCommand
- *  \brief Command subclass that calls a pointer to a member function
+ *  \brief A Command subclass that calls a pointer to a member function.
  *
  *  SimpleConstMemberCommand calls a pointer to a member function with no
  *  arguments.
@@ -331,7 +331,7 @@ private:
 };
 
 /** \class CStyleCommand
- *  \brief Command subclass that calls a pointer to a C function
+ *  \brief A Command subclass that calls a pointer to a C function.
  *
  *  CStyleCommand calls a pointer to a C function with the following
  *  arguments void func(Object *,void *clientdata)
