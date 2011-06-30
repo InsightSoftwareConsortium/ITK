@@ -7,6 +7,12 @@ mark_as_advanced(CLEAR BUILD_DOCUMENTATION)
 
 if (BUILD_DOCUMENTATION)
 
+  find_package( LATEX )
+
+  if( NOT LATEX_COMPILER )
+    message( "Warning: LaTeX not found. Formulas will not be generated in documentation." )
+  endif()
+
   if( ${DOXYGEN_DOT_FOUND} )
     set( ITK_HAVE_DOT "YES" )
   else()
