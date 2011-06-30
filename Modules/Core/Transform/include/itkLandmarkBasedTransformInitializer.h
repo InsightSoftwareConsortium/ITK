@@ -31,7 +31,7 @@ namespace itk
  * \brief LandmarkBasedTransformInitializer is a helper class intended to
  * The class computes the transform that aligns the fixed and moving images
  * given a set of landmarks. The class is templated over the Transform type.
- *    The transform computed gives the best fit transform that maps the fixed
+ * The transform computed gives the best fit transform that maps the fixed
  * and moving images in a least squares sense. The indices are taken to
  * correspond, so point 1 in the first set will get mapped close to point
  * 1 in the second set, etc. An equal number of fixed and moving landmarks
@@ -41,7 +41,7 @@ namespace itk
  *
  * Currently, the  following transforms are supported by the class:
  *    VersorRigid3DTransform
- *    Rigid2DTansform
+ *    Rigid2DTransform
  *
  * The class is based in part on Hybrid/vtkLandmarkTransform originally
  * implemented in python by David G. Gobbi.
