@@ -165,9 +165,6 @@
 @ITK_SOURCE_DIR@/Modules/Segmentation/BioCell/include/itk*.h
 @ITK_SOURCE_DIR@/Modules/Segmentation/BioCell/include/itk*.txx
 @ITK_SOURCE_DIR@/Modules/Segmentation/BioCell/src/itk*.cxx
-@ITK_SOURCE_DIR@/Modules/Segmentation/Blox/include/itk*.h
-@ITK_SOURCE_DIR@/Modules/Segmentation/Blox/include/itk*.txx
-@ITK_SOURCE_DIR@/Modules/Segmentation/Blox/src/itk*.cxx
 @ITK_SOURCE_DIR@/Modules/Segmentation/Classifiers/include/itk*.h
 @ITK_SOURCE_DIR@/Modules/Segmentation/Classifiers/include/itk*.txx
 @ITK_SOURCE_DIR@/Modules/Segmentation/ConnectedComponents/include/itk*.h

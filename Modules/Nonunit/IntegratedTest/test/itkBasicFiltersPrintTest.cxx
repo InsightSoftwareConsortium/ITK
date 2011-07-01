@@ -40,9 +40,6 @@
 #include "itkBinaryMedianImageFilter.h"
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkBinomialBlurImageFilter.h"
-#include "itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter.h"
-#include "itkBloxBoundaryPointToCoreAtomImageFilter.h"
-#include "itkBloxBoundaryProfileImageToBloxCoreAtomImageFilter.h"
 #include "itkCannyEdgeDetectionImageFilter.h"
 #include "itkChangeInformationImageFilter.h"
 #include "itkComposeImageFilter.h"
@@ -69,7 +66,6 @@
 #include "itkGaussianImageSource.h"
 #include "itkGradientAnisotropicDiffusionImageFilter.h"
 #include "itkGradientImageFilter.h"
-#include "itkGradientImageToBloxBoundaryPointImageFilter.h"
 #include "itkGradientMagnitudeImageFilter.h"
 #include "itkGradientMagnitudeRecursiveGaussianImageFilter.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"
@@ -128,13 +124,6 @@ int itkBasicFiltersPrintTest(int , char* [])
   // Used for SpatialFunctionImageEvaluator
   typedef itk::GaussianSpatialFunction<char,2> GaussianSpatialFunctionType;
 
-  // Used for GradientImageToBloxBoundaryPointImageFilter
-  typedef itk::DifferenceOfGaussiansGradientImageFilter<CharType3D,
-    double> DOGFilterType;
-
-  // Used for BloxBoundaryProfileImageToBloxCoreAtomImageFilter
-  typedef itk::BloxBoundaryProfileImage<3> BloxProfileImageType;
-  typedef itk::BloxCoreAtomImage<3>        CoreAtomImageType;
 
   itk::AcosImageFilter<InputType,OutputType>::Pointer AcosImageFilterObj =
     itk::AcosImageFilter<InputType,OutputType>::New();
@@ -207,18 +196,6 @@ int itkBasicFiltersPrintTest(int , char* [])
   itk::BinomialBlurImageFilter<InputType,OutputType>::Pointer BinomialBlurImageFilterObj =
     itk::BinomialBlurImageFilter<InputType,OutputType>::New();
   std::cout << "-------------BinomialBlurImageFilter" << BinomialBlurImageFilterObj;
-
-  itk::BloxBoundaryPointImageToBloxBoundaryProfileImageFilter<CharType3D>::Pointer BloxBoundaryPointImageToBloxBoundaryProfileImageFilterObj =
-    itk::BloxBoundaryPointImageToBloxBoundaryProfileImageFilter<CharType3D>::New();
-  std::cout << "-------------BloxBoundaryPointImageToBloxBoundaryProfileImageFilter" << BloxBoundaryPointImageToBloxBoundaryProfileImageFilterObj;
-
-  itk::BloxBoundaryPointToCoreAtomImageFilter<3>::Pointer BloxBoundaryPointToCoreAtomImageFilterObj =
-    itk::BloxBoundaryPointToCoreAtomImageFilter<3>::New();
-  std::cout << "-------------BloxBoundaryPointToCoreAtomImageFilter" << BloxBoundaryPointToCoreAtomImageFilterObj;
-
-  itk::BloxBoundaryProfileImageToBloxCoreAtomImageFilter<BloxProfileImageType, CoreAtomImageType, CharType3D>::Pointer BloxBoundaryProfileImageToBloxCoreAtomImageFilterObj =
-    itk::BloxBoundaryProfileImageToBloxCoreAtomImageFilter<BloxProfileImageType, CoreAtomImageType, CharType3D>::New();
-  std::cout << "-------------BloxBoundaryProfileImageToBloxCoreAtomImageFilter" << BloxBoundaryProfileImageToBloxCoreAtomImageFilterObj;
 
   itk::CannyEdgeDetectionImageFilter<InputType,OutputType>::Pointer CannyEdgeDetectionImageFilterObj =
     itk::CannyEdgeDetectionImageFilter<InputType,OutputType>::New();
@@ -343,10 +320,6 @@ int itkBasicFiltersPrintTest(int , char* [])
   itk::GradientImageFilter<InputType>::Pointer GradientImageFilterObj =
     itk::GradientImageFilter<InputType>::New();
   std::cout << "-------------GradientImageFilter" << GradientImageFilterObj;
-
-  itk::GradientImageToBloxBoundaryPointImageFilter<DOGFilterType::TOutputImage>::Pointer GradientImageToBloxBoundaryPointImageFilterObj =
-    itk::GradientImageToBloxBoundaryPointImageFilter<DOGFilterType::TOutputImage>::New();
-  std::cout << "-------------GradientImageToBloxBoundaryPointImageFilter" << GradientImageToBloxBoundaryPointImageFilterObj;
 
   itk::GradientMagnitudeImageFilter<InputType,OutputType>::Pointer GradientMagnitudeImageFilterObj =
     itk::GradientMagnitudeImageFilter<InputType,OutputType>::New();

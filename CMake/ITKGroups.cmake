@@ -78,7 +78,6 @@ ITK-RegistrationCommon
 
 set(Segmentation_module_list
 ITK-BioCell
-ITK-Blox
 ITK-Classifiers
 ITK-ConnectedComponents
 ITK-DeformableMesh

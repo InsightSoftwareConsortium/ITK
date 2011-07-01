@@ -319,10 +319,6 @@
 \ingroup Group-Segmentation
 */
 
-/** \defgroup ITK-Blox Module ITK-Blox
-\ingroup Group-Segmentation
-*/
-
 /** \defgroup ITK-Classifiers Module ITK-Classifiers
 \ingroup Group-Segmentation
 */

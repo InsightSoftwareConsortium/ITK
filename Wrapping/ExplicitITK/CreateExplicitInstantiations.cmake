@@ -224,9 +224,6 @@ macro(WRITE_EXPLICIT_INSTANTIATION_H_CXX module_name)
  if(${param_nospace} MATCHES "Item*")
         set(CONFIG_EXTRA_INCLUDES "${CONFIG_EXTRA_INCLUDES}#include \"Templates/itk${param_nospace}.h\"\n")
       endif(${param_nospace} MATCHES "Item*")
- if(${param_nospace} MATCHES "BloxBoundaryPoint*")
-        set(CONFIG_EXTRA_INCLUDES "${CONFIG_EXTRA_INCLUDES}#include \"Templates/itk${param_nospace}.h\"\n")
-      endif(${param_nospace} MATCHES "BloxBoundaryPoint*")
     endforeach(param ${template_params_list})
 
 
