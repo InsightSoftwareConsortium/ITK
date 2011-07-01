@@ -21,6 +21,7 @@
 #include "itkImageToImageFilter.h"
 
 #include "itkProgressAccumulator.h"
+#include "itkZeroFluxNeumannBoundaryCondition.h"
 
 namespace itk
 {
@@ -89,6 +90,16 @@ public:
   typedef typename InputImageType::RegionType  InputRegionType;
   typedef typename OutputImageType::RegionType OutputRegionType;
 
+  /** Typedef to describe the boundary condition. */
+  typedef ImageBoundaryCondition< TInputImage >           BoundaryConditionType;
+  typedef BoundaryConditionType *                         BoundaryConditionPointerType;
+  typedef ZeroFluxNeumannBoundaryCondition< TInputImage > DefaultBoundaryConditionType;
+
+  /** Set/get the boundary condition. */
+  itkSetMacro(BoundaryCondition, BoundaryConditionPointerType);
+  itkGetConstMacro(BoundaryCondition, BoundaryConditionPointerType);
+
+  /** Set/get the image kernel. */
   itkSetInputMacro(ImageKernel, InputImageType, 1);
   itkGetInputMacro(ImageKernel, InputImageType, 1);
 
@@ -129,6 +140,9 @@ private:
                            ProgressAccumulator *progress );
 
   bool m_Normalize;
+
+  DefaultBoundaryConditionType m_DefaultBoundaryCondition;
+  BoundaryConditionPointerType m_BoundaryCondition;
 };
 }
 
