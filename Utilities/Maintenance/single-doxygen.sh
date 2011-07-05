@@ -21,7 +21,7 @@
 #
 # 0) Use Linux or Mac
 #
-# 1) run cmake and turn ON BUILD_DOCUMENTATION (at least once)
+# 1) run cmake
 #
 # 2) cd into the ITK binary build directory
 #
