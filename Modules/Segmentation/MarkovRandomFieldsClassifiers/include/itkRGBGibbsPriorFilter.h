@@ -26,11 +26,10 @@
 namespace itk
 {
 /** \class RGBGibbsPriorFilter
- * \brief
+ * \brief The RGBGibbsPriorFilter applies Gibbs Prior model for the segmentation
+ * of MRF images.
  *
- * RGBGibbsPriorFilter applies Gibbs Prior model for the segmentation
- * of MRF images. The core of the method is based on the minimization of a
- * Gibbsian energy function.
+ * The core of the method is based on the minimization of a Gibbsian energy function.
  * This energy function f can be divided into three part:
  *   f = f_1 + f_2 + f_3;
  * f_1 is related to the object homogeneity,

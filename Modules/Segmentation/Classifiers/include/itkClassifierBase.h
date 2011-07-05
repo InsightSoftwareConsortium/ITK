@@ -27,10 +27,10 @@
 namespace itk
 {
 /** \class ClassifierBase
- * \brief Base class for classifier object
+ * \brief Base class for classifier objects.
  *
- * ClassifierBase is the base class for the classifier objects. It provides
- * the basic function definitions that are inherent to a classifier objects.
+ * ClassifierBase is the base class for classifier objects. It provides
+ * the basic function definitions that are inherent to classifier objects.
  *
  * This is the SuperClass for the classifier framework. This is an
  * abstract class defining an interface for all the classification objects
@@ -48,35 +48,34 @@ namespace itk
  * classification can be carried out via the use of
  * SampleClassifier.
  *
- * (2)The input is specifically an image and the pixels cannot be viewed as
+ * (2)The input is specifically an image and the pixels cannot be viewed
  * as a list of pixels since the spatial location of the pixel in needed
- * for various algorithmic implementation such as Markov Random Field based
- * approached. This type of data can be classified via the use of
+ * for various algorithmic implementations (such as the Markov Random Field based
+ * approached). This type of data can be classified via the use of
  * GeneralImageClassifierBase.
  *
- * User will call The Update() function to run the classification proces
+ * The user will call the Update() function to run the classification proces.
  *
  * The user must generate the membership function before asking for data to
  * be classified. One can automatically generate the membership function from
  * the training data via the use of itkImageModelEstimator class. The
- * membershio functions have to be populated by using the AddMembershipFunction
+ * membership functions have to be populated by using the AddMembershipFunction.
  * If membership functions are not set prior to calling for classification, an
  * exception in thrown.
  *
- * As the method name indicates, you can have more than one membership
- * function. One for each classes. The order you put the membership
- * calculator becomes the class label for the class that is represented
- * by the membership calculator.
+ * The user can have more than one membership function, and can have one
+ * for each class. The order of the membership calculator becomes the class
+ * label for the class that is represented by the membership calculator.
  *
  * The fourth argument is the type of decision rule. The main role of a
  * decision rule is comparing the return values of the membership
- * calculators. However,
- * decision rule can include some prior knowledge that can improve the
- * result. To plug in the decision rule, use SetDecisionRule method.
+ * calculators. However, decision rules can include some prior knowledge
+ * that can improve the result. To plug in the decision rule, use
+ * SetDecisionRule method.
  *
- * Before you call the Update method to start the classification process,
- * you should plug in all necessary parts ( one or more membership
- * functions, a decision rule, the unclassified data).
+ * Before the Update method is called to start the classification process,
+ * plug in all necessary parts (one or more membership functions,
+ * a decision rule, and the unclassified data).
  *
  * This class is templated over the container type.
  *
