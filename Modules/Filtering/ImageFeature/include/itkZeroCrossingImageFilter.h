@@ -22,12 +22,13 @@
 namespace itk
 {
 /** \class ZeroCrossingImageFilter
+ * \brief This filter finds the closest pixel to the zero-crossings
+ * (sign changes) in a signed itk::Image.
  *
- *  This filter finds the closest pixel to the zero-crossings (sign changes) in
- *  a signed itk::Image.  Pixels closest to zero-crossings are labeled with
- *  a foreground value.  All other pixels are marked with a background value.
- *  The algorithm works by detecting differences in sign among neighbors using
- *  city-block style connectivity (4-neighbors in 2d, 6-neighbors in 3d, etc.).
+ * Pixels closest to zero-crossings are labeled with a foreground value.
+ * All other pixels are marked with a background value. The algorithm works
+ * by detecting differences in sign among neighbors using city-block style
+ * connectivity (4-neighbors in 2d, 6-neighbors in 3d, etc.).
  *
  *  \par Inputs and Outputs
  *  The input to this filter is an itk::Image of arbitrary dimension.  The

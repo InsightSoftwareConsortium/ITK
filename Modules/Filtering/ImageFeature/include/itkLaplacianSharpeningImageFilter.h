@@ -25,11 +25,10 @@ namespace itk
 {
 /**
  * \class LaplacianSharpeningImageFilter
- *
- * This filter sharpens an image using a Laplacian. LaplacianSharpening
- * highlights regions of rapid intensity change and therefore
- * highlights or enhances the edges.  The result is an image that
- * appears more in focus.
+ * \brief This filter sharpens an image using a Laplacian.
+ * LaplacianSharpening highlights regions of rapid intensity change
+ * and therefore highlights or enhances the edges.  The result is an
+ * image that appears more in focus.
  *
  * \par The LaplacianSharpening at each pixel location is computed by
  * convolution with the itk::LaplacianOperator.
@@ -93,13 +92,11 @@ public:
 
   /** Use the image spacing information in calculations. Use this option if you
    *  want derivatives in physical space. Default is UseImageSpacingOn. */
-  void SetUseImageSpacingOn()
-  { this->SetUseImageSpacing(true); }
+  void SetUseImageSpacingOn() { this->SetUseImageSpacing(true); }
 
   /** Ignore the image spacing. Use this option if you want derivatives in
       isotropic pixel space.  Default is UseImageSpacingOn. */
-  void SetUseImageSpacingOff()
-  { this->SetUseImageSpacing(false); }
+  void SetUseImageSpacingOff() { this->SetUseImageSpacing(false); }
 
   /** Set/Get whether or not the filter will use the spacing of the input
       image in its calculations */

@@ -131,7 +131,9 @@ protected:
   void GenerateData();
 
   void PrintSelf(std::ostream & os, Indent indent) const
-  { Superclass::PrintSelf(os, indent); }
+  {
+    Superclass::PrintSelf(os, indent);
+  }
 private:
 };
 } // end namespace itk
