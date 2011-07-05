@@ -140,21 +140,20 @@ public:
                                           PointCellLinksContainerIterator;
 
   typedef CellFeatureIdentifier                       CellFeatureCount;
-  typedef CellInterface< PixelType, CellTraits >      CellInterfaceType;
-  typedef PolygonCell< CellInterfaceType >            CellType;
-  typedef typename CellType::CellAutoPointer          CellAutoPointer;
+  typedef typename Superclass::CellType               CellType;
+  typedef typename Superclass::CellAutoPointer        CellAutoPointer;
+  typedef PolygonCell< CellType >                     PolygonCellType;
   typedef Point< int, 2 >                             EdgeInfo;
   typedef std::deque< EdgeInfo >                      EdgeInfoDQ;
   typedef typename CellType::MultiVisitor             CellMultiVisitorType;
   typedef std::vector< PointType >                    SeedsType;
   typedef typename SeedsType::iterator                SeedsIterator;
-  typedef LineCell< CellInterfaceType >               Edge;
+  typedef LineCell< CellType >                        Edge;
   typedef typename Edge::SelfAutoPointer              EdgeAutoPointer;
   typedef std::list< PointType >                      PointList;
   typedef std::vector< int >                          INTvector;
   typedef typename INTvector::iterator                NeighborIdIterator;
-  typedef typename std::vector< PointType >::iterator VertexIterator;
-
+  typedef PointsContainerIterator                     VertexIterator;
   /** Get the number of Voronoi seeds. */
   itkGetConstMacro(NumberOfSeeds, unsigned int);
 
@@ -230,16 +229,25 @@ public:
 
   void LineListClear(){ m_LineList.clear(); }
   void EdgeListClear(){ m_EdgeList.clear(); }
-  void VertexListClear(){ m_VertexList.clear(); }
+  void VertexListClear()
+  {
+    if ( this->m_PointsContainer.IsNull() )
+      {
+      this->m_PointsContainer = PointsContainer::New();
+      }
+
+    this->m_PointsContainer->Initialize();
+  }
+
   int LineListSize(){ return static_cast< int >( m_LineList.size() ); }
   int EdgeListSize(){ return static_cast< int >( m_EdgeList.size() ); }
-  int VertexListSize(){ return static_cast< int >( m_VertexList.size() ); }
+  int VertexListSize(){ return static_cast< int >(this->m_PointsContainer->Size()); }
   void AddLine(EdgeInfo x){ m_LineList.push_back(x); }
   void AddEdge(VoronoiEdge x){ m_EdgeList.push_back(x); }
-  void AddVert(PointType x){ m_VertexList.push_back(x); }
+  void AddVert(PointType x){ this->m_PointsContainer->InsertElement(this->m_PointsContainer->Size(), x);}
   EdgeInfo GetLine(int id){ return m_LineList[id]; }
   VoronoiEdge GetEdge(int id){ return m_EdgeList[id]; }
-  PointType GetVertex(int id){ return m_VertexList[id]; }
+  PointType GetVertex(int id){ return this-> m_PointsContainer->ElementAt(id); }
   EdgeInfo GetEdgeEnd(int id)
   {
     EdgeInfo x;
@@ -261,13 +269,12 @@ private:
 
   SeedsType                         m_Seeds;
   unsigned int                      m_NumberOfSeeds;
-  std::vector< CellType * >         m_VoronoiRegions;
+  std::vector< PolygonCellType * >  m_VoronoiRegions;
   PointType                         m_VoronoiBoundary;
   PointType                         m_VoronoiBoundaryOrigin;
   std::vector< std::vector< int > > m_CellNeighborsID;
 
   std::vector< EdgeInfo >    m_LineList;
-  std::vector< PointType >   m_VertexList;
   std::vector< VoronoiEdge > m_EdgeList;
 }; // end class: VoronoiDiagram2D
 } // end namespace itk
