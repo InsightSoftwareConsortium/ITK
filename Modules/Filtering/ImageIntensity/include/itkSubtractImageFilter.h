@@ -25,11 +25,28 @@ namespace itk
 /** \class SubtractImageFilter
  * \brief Implements an operator for pixel-wise subtraction of two images.
  *
+ * The main functionality of this class is to subtract each pixel from image2
+ * from its corresponding pixel in image1:
+ *
  * Output = Input1 - Input2.
+ *
+ * This is done using
+ *
+ * SetInput1( image1 );
+ * SetInput2( image2 );
  *
  * This class is parametrized over the types of the two
  * input images and the type of the output image.
  * Numeric conversions (castings) are done by the C++ defaults.
+ *
+ * Additionally, a constant can be subtracted from every pixel in an image using:
+ *
+ * SetInput1( image1 );
+ * SetConstant2( constant );
+ *
+ * Note: The result of AddImageFilter with a negative constant is not
+ * necessarily the same as SubtractImageFilter. This would be the case when
+ * the PixelType defines an operator-() that is not the inverse of operator+()
  *
  * \ingroup IntensityImageFilters Multithreaded
  * \ingroup ITK-ImageIntensity
