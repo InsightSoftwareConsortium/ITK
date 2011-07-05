@@ -65,15 +65,11 @@ macro(WRAP_LIBRARY_SWIG_INTERFACE library_name)
   set(SWIG_INTERFACE_MDX_CONTENT )
   # store the content of the .i file for the module - a set of import of all the .i files generated for the module
   set(SWIG_INTERFACE_MODULE_CONTENT )
-  # store the content of the .includes files - a set of #includes for that module
-  set(SWIG_INTERFACE_INCLUDES )
   # the list of .idx files generated for the module
   set(SWIG_INTERFACE_IDX_FILES )
   # build a list of modules to create the ignerator custom command in
   # END_WRAP_LIBRARY_SWIG_INTERFACE
   set(SWIG_INTERFACE_MODULES )
-  # typedefs for swig
-  set(SWIG_INTERFACE_TYPEDEFS )
 endmacro(WRAP_LIBRARY_SWIG_INTERFACE)
 
 macro(END_WRAP_LIBRARY_SWIG_INTERFACE)
@@ -86,22 +82,6 @@ macro(END_WRAP_LIBRARY_SWIG_INTERFACE)
     WRAP_ITK_INSTALL("/Configuration/Typedefs" "${dest}")
 #    set(SWIG_INTERFACE_MODULE_CONTENT "${SWIG_INTERFACE_MODULE_CONTENT}%import ${basename}\n")
   endforeach(source)
-
-
-  set(SWIG_INTERFACE_INCLUDES_CONTENT )
-  foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
-    set(SWIG_INTERFACE_INCLUDES_CONTENT "${SWIG_INTERFACE_INCLUDES_CONTENT}#include \"${dep}.includes\"\n")
-  endforeach(dep)
-  if(SWIG_INTERFACE_INCLUDES)
-    list(REMOVE_DUPLICATES SWIG_INTERFACE_INCLUDES)
-    foreach(include_file ${SWIG_INTERFACE_INCLUDES})
-      if("${include_file}" MATCHES "<.*>")
-        set(SWIG_INTERFACE_INCLUDES_CONTENT "${SWIG_INTERFACE_INCLUDES_CONTENT}#include ${include_file}\n")
-      else()
-        set(SWIG_INTERFACE_INCLUDES_CONTENT "${SWIG_INTERFACE_INCLUDES_CONTENT}#include \"${include_file}\"\n")
-      endif()
-    endforeach()
-  endif()
 
   # the list of .i files generated for the module
   set(SWIG_INTERFACE_FILES )
@@ -130,13 +110,15 @@ macro(END_WRAP_LIBRARY_SWIG_INTERFACE)
     set(xml_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${module}.xml")
     set(idx_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${module}.idx")
     set(idx_files ${idx_files} ${idx_file})
-    set(includes_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.includes")
+#    set(includes_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.includes")
     set(module_interface_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.i")
+    set(typedef_in_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${module}SwigInterface.h.in")
+    set(typedef_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${module}SwigInterface.h")
     # prepare the options
     set(opts )
     foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
       set(opts ${opts} --mdx "${WRAP_ITK_TYPEDEFS_DIRECTORY}/${dep}.mdx")
-      set(opts ${opts} --include "${dep}.includes")
+#      set(opts ${opts} --include "${dep}.includes")
 #      set(opts ${opts} --import "${dep}.i")
     endforeach(dep)
     # import the interface files previously defined instead of importing all the files defined
@@ -160,21 +142,24 @@ macro(END_WRAP_LIBRARY_SWIG_INTERFACE)
     endif(WRAP_ITK_EXPLICIT)
 
     add_custom_command(
-      OUTPUT ${interface_file}
+      OUTPUT ${interface_file} ${typedef_file}
       COMMAND ${PYTHON_EXECUTABLE} ${IGENERATOR}
         ${opts}
         --swig-include itk.i
         ${swig_libs}
         --mdx ${mdx_file}
-        --include ${WRAPPER_LIBRARY_NAME}.includes
+#        --include ${WRAPPER_LIBRARY_NAME}.includes
 #        --import ${module_interface_file}
         --swig-include ${module}_ext.i
         -w1 -w3 -w51 -w52 -w53 -w54 #--warning-error
         -A protected -A private
+        --typedef-input ${typedef_in_file}
+        --typedef-output ${typedef_file}
+        --include ${module}SwigInterface.h
         # --verbose
         ${xml_file}
         ${interface_file}
-      DEPENDS ${DEPS} ${idx_files} ${includes_file} ${IGENERATOR} # ${SWIG_INTERFACE_IDX_FILES} ${SWIG_INTERFACE_FILES}
+      DEPENDS ${DEPS} ${idx_files} ${IGENERATOR} # ${SWIG_INTERFACE_IDX_FILES} ${SWIG_INTERFACE_FILES} ${typedef_in_file} # ${includes_file}
     )
   #   add_custom_target(${module}Swig DEPENDS ${interface_file})
   #   add_dependencies(${module}Swig ${WRAPPER_LIBRARY_NAME}Idx)
@@ -200,10 +185,10 @@ macro(END_WRAP_LIBRARY_SWIG_INTERFACE)
   set(deps_includes )
   foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
     set(deps_imports "${deps_imports}%import ${dep}.i\n")
-    set(deps_includes "${deps_includes}#include \"${dep}.includes\"\n")
+#    set(deps_includes "${deps_includes}#include \"${dep}.includes\"\n")
   endforeach(dep)
 
-  set(SWIG_INTERFACE_INCLUDES "${deps_includes}#include \"${WRAPPER_LIBRARY_NAME}.includes\"")
+#  set(SWIG_INTERFACE_INCLUDES "${deps_includes}#include \"${WRAPPER_LIBRARY_NAME}.includes\"")
   set(CONFIG_MODULE_INTERFACE_CONTENT ) #"${deps_imports}${SWIG_INTERFACE_MODULE_CONTENT}")
   configure_file("${WRAP_ITK_SWIGINTERFACE_SOURCE_DIR}/module.i.in" "${module_interface_file}"
     @ONLY IMMEDIATE )
@@ -215,13 +200,6 @@ macro(END_WRAP_LIBRARY_SWIG_INTERFACE)
 #  install(FILES "${module_interface_ext_file}"
 #    DESTINATION "${WRAP_ITK_INSTALL_PREFIX}/Configuration/Typedefs/"
 #  )
-
-  # create the file which store all the includes
-  set(includes_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.includes")
-  configure_file("${WRAP_ITK_SWIGINTERFACE_SOURCE_DIR}/module.includes.in"
-     ${includes_file}
-     @ONLY IMMEDIATE )
-  WRAP_ITK_INSTALL("/Configuration/Typedefs/" "${includes_file}")
 
   add_custom_target(${WRAPPER_LIBRARY_NAME}Idx DEPENDS ${SWIG_INTERFACE_IDX_FILES})
   add_dependencies(${WRAPPER_LIBRARY_NAME}Idx ${WRAPPER_LIBRARY_NAME}GccXML)
@@ -246,6 +224,10 @@ endmacro(WRAP_INCLUDE_SWIG_INTERFACE)
 
 
 macro(WRAP_MODULE_SWIG_INTERFACE module)
+  # store the content of the SwigInterface.h files - a set of #includes for that module
+  set(SWIG_INTERFACE_INCLUDES )
+  # typedefs for swig
+  set(SWIG_INTERFACE_TYPEDEFS )
 endmacro(WRAP_MODULE_SWIG_INTERFACE)
 
 macro(END_WRAP_MODULE_SWIG_INTERFACE module)
@@ -257,6 +239,27 @@ macro(END_WRAP_MODULE_SWIG_INTERFACE module)
   # WRAPPER_MASTER_INDEX_OUTPUT_DIR
   # MODULE_INCLUDES
 
+
+  set(SWIG_INTERFACE_INCLUDES_CONTENT )
+#  foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
+#    set(SWIG_INTERFACE_INCLUDES_CONTENT "${SWIG_INTERFACE_INCLUDES_CONTENT}#include \"${dep}.includes\"\n")
+#  endforeach(dep)
+  if(SWIG_INTERFACE_INCLUDES)
+    list(REMOVE_DUPLICATES SWIG_INTERFACE_INCLUDES)
+    foreach(include_file ${SWIG_INTERFACE_INCLUDES})
+      if("${include_file}" MATCHES "<.*>")
+        set(SWIG_INTERFACE_INCLUDES_CONTENT "${SWIG_INTERFACE_INCLUDES_CONTENT}#include ${include_file}\n")
+      else()
+        set(SWIG_INTERFACE_INCLUDES_CONTENT "${SWIG_INTERFACE_INCLUDES_CONTENT}#include \"${include_file}\"\n")
+      endif()
+    endforeach()
+  endif()
+  # create the file which store all the includes
+  set(includes_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${module}SwigInterface.h.in")
+  configure_file("${WRAP_ITK_SWIGINTERFACE_SOURCE_DIR}/module.includes.in"
+     ${includes_file}
+     @ONLY IMMEDIATE )
+  WRAP_ITK_INSTALL("/Configuration/Typedefs/" "${includes_file}")
 
   # the master idx file
   set(mdx_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.mdx")

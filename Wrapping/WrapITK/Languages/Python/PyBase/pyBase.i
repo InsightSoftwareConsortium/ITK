@@ -349,6 +349,9 @@
 
 
 %define DECL_PYTHON_IMAGEBASE_CLASS(swig_name, template_params)
+    %inline %{
+    #include "itkContinuousIndexSwigInterface.h"
+    %}
 
     %extend swig_name {
         itkIndex##template_params TransformPhysicalPointToIndex( itkPointD##template_params & point ) {
