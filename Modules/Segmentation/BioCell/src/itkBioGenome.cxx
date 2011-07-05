@@ -57,14 +57,14 @@ Genome
 }
 
 /**
- *    Inset a gene in the genome
+ *    Insert a gene in the genome
  */
 void
 Genome
 ::InsertGene(const GeneIdType & geneId)
 {
   // operator[] will create the geneId if
-  // it doesn't exist yet
+  // it doesn't exist yet.
   // By default the gene is inhibited
   m_Map[geneId] = 0.0;
 }

@@ -32,13 +32,14 @@ namespace itk
 namespace bio
 {
 /** \class Gene
- * \brief This class implement the abstraction of a biological gene.
+ * \brief This class implements the abstraction of a biological gene.
  *
- * The gene has a name and a specification of promoters and represor binding
- * sites.  Promoter and represors encode a boolean expression that allows to
- * control the expression of the gene. These boolean expression will result in
+ * The gene has a name and a specification of promoter and represor binding
+ * sites.  Promoters and represors encode a boolean expression that controls
+ * the expression of the gene. These boolean expressions will result in
  * a polynome in a finite different equation determining the rate at which
  * protein is syntethizied by this gene.
+ * 
  * \ingroup ITK-BioCell
  */
 class ITK_EXPORT Gene
@@ -71,7 +72,7 @@ public:
   /** Add a protein domain along with an affinity. The name of the domain
       here actually refers to the one for which this protein will have
       binding affinity.  For example, adding "SH2" with affinity 0.05 will
-      means that this gene will synthetize a proteing with a domain that has
+      mean that this gene will synthetize a proteing with a domain that has
       0.05 affinity for a standard SH2 domain. */
   void AddProteinDomain(const DomainType & domain, AffinityType affinity);
 

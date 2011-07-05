@@ -30,7 +30,7 @@ namespace itk
 namespace bio
 {
 /** \class GeneNetwork
- * \brief This class implement the abstraction of a biological gene network.
+ * \brief This class implements the abstraction of a biological gene network.
  *
  * This class is implemented to iteratively compute the state of the gene network
  * following update rules (typical Partial Differential Equations).
@@ -50,13 +50,13 @@ public:
 
 private:
 
-  // This array contains the concentrations each protein
+  // This array contains the concentrations of each protein
   // in the cell at a certain time.
   ProteomeType m_ProteinConcentration;
 
-  // This array contains the concentrations domain affinities
+  // This array contains the concentrations of domain affinities
   // in the cell at a certain time. Since each protein may
-  // have multiple domains and each domain have affinities
+  // have multiple domains and each domain has affinities
   // for standard domains in the regulatory section of genes,
   // this array is indexed by the domains in the regulatory
   // section. The final value on each entry indicates the

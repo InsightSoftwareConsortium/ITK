@@ -98,7 +98,7 @@ Cell< NSpaceDimension >
 
 /**
  *    Create a New Egg Cell
- *    this method behave like a factory, it is
+ *    This method behaves like a factory.  It is
  *    intended to be overloaded in any class
  *    deriving from Cell.
  */
@@ -238,7 +238,7 @@ Cell< NSpaceDimension >
   // genes in the gene network
   this->ComputeGeneNetwork();
 
-  // this methods produce the effects of gene
+  // this method produces the effects of gene
   // activation and protein synthesis. It is
   // mostly used for secreting proteins already
   // synthetized in the ComputeGeneNetwork method.
