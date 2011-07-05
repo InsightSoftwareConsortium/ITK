@@ -22,7 +22,7 @@ namespace itk
 {
 /** Set the priority level for the current logger. Only messages that have
  * priorities equal or greater than the one set here will be posted to the
- * current outputs */
+ * current outputs. */
 void ThreadLogger::SetPriorityLevel(PriorityLevelType level)
 {
   this->m_WaitMutex.Unlock();
@@ -35,7 +35,7 @@ void ThreadLogger::SetPriorityLevel(PriorityLevelType level)
 
 /** Get the priority level for the current logger. Only messages that have
  * priorities equal or greater than the one set here will be posted to the
- * current outputs */
+ * current outputs. */
 Logger::PriorityLevelType ThreadLogger::GetPriorityLevel() const
 {
   this->m_Mutex.Lock();
@@ -206,7 +206,7 @@ ITK_THREAD_RETURN_TYPE ThreadLogger::ThreadFunction(void *pInfoStruct)
   return ITK_THREAD_RETURN_VALUE;
 }
 
-/** Print contents of a ThreadLogger */
+/** Print contents of a ThreadLogger. */
 void ThreadLogger::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);

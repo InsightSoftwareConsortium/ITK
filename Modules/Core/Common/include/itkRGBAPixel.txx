@@ -34,7 +34,7 @@ RGBAPixel< T >
   return *this;
 }
 
-/*
+/**
  * Assigment from a plain array
  */
 template< class T >
@@ -145,7 +145,7 @@ RGBAPixel< T >
   return true;
 }
 
-/*
+/**
  * Compute luminance
  */
 template< class T >

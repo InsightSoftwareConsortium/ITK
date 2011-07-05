@@ -21,15 +21,18 @@
 namespace itk
 {
 /** \class STLConstContainerAdaptor
- * An adapter object that casts a [const itk::XxxContainer] into [const std::xxx]
+ * \brief An adapter object that casts a [const itk::XxxContainer] into [const std::xxx]
  * and enables access to the underlying data structure.
- * The class is provided for interface consistency with STLContainerAdaptor
+ *
+ * This class is provided for interface consistency with STLContainerAdaptor
  * plus the [const] modifier. Since everything is const, there is no need to call
  * AdapteeType::Modified() in the destructor.
- * Here's a usage example of STLContainerAdaptor
+ *
+ * Here's a usage example of STLContainerAdaptor:
  *     itk::STLConstContainerAdaptor<itk::VectorContainer<SizeValueType, ElementType>> vecAdaptor(aContainer);
  *     const std::vector<ElementType> & vec = vecAdaptor.GetSTLContainerRef();
  *     // do things with vec ...
+ *
  * \ingroup ITK-Common
  */
 

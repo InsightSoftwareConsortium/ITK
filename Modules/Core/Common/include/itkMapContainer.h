@@ -26,10 +26,10 @@
 namespace itk
 {
 /** \class MapContainer
- * Define a front-end to the STL "map" container that conforms to the
- * IndexedContainerInterface.  This is a full-fleged Object, so
- * there are events, modification time, debug, and reference count
- * information.
+ * \brief This class defines a front-end to the STL "map" container
+ * that conforms to the IndexedContainerInterface.  This is a
+ * full-fleged Object, so there is: event, modification time,
+ * debug, and reference count information.
  *
  * Template parameters for MapContainer:
  *
@@ -86,7 +86,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** This type is provided to Adapt this container as an STL container */
+  /** This type is provided to adapt this container as an STL container */
   typedef MapType STLContainerType;
 
   /** Cast the container to a STL container type */

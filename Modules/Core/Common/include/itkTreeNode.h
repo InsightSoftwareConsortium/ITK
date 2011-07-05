@@ -28,14 +28,10 @@
 namespace itk
 {
 /** \class TreeNode
- *  \brief TreeNode class
- *
- * This class derives from the Object class.
- *
- * The class is templated over the type of the elements.
+ *  \brief This class derives from the Object class, and is
+ * templated over the type of the elements.
  *
  * Template parameters for class TreeNode:
- *
  * - TValueType = Element type stored in the node
  *
  * \ingroup DataRepresentation

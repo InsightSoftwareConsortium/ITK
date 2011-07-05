@@ -29,7 +29,8 @@
 namespace itk
 {
 /** \class VariableSizeMatrix
- * \brief A templated class holding a M x N size Matrix
+ * \brief A templated class holding a M x N size Matrix.
+ *
  * This class contains a vnl_matrix in order
  * to make all the vnl mathematical methods available. This class is meant to be
  * used when the matrix length cannot be determined at compile time.
@@ -84,8 +85,7 @@ public:
   vnl_vector< T > operator *(const vnl_vector< T > & matrix) const;
 
   /** Matrix by scalar multiplication.  */
-  void operator*=(const T & value)
-  { m_Matrix *= value; }
+  void operator*=(const T & value) { m_Matrix *= value; }
 
   /** Matrix by scalar multiplication.  */
   Self operator*(const T & value)
@@ -97,10 +97,7 @@ public:
   }
 
   /** Matrix by scalar division.  */
-  void operator/=(const T & value)
-  {
-    m_Matrix /= value;
-  }
+  void operator/=(const T & value) { m_Matrix /= value; }
 
   /** Matrix by scalar division.  */
   Self operator/(const T & value)
@@ -209,8 +206,7 @@ public:
   inline unsigned int Cols() const { return m_Matrix.cols(); }
 
   /** Set the matrix size. Old data lost. Returns true if size changed. */
-  inline bool SetSize(unsigned int r, unsigned int c)
-  {  return m_Matrix.set_size(r, c);  }
+  inline bool SetSize(unsigned int r, unsigned int c) { return m_Matrix.set_size(r, c); }
 private:
   InternalMatrixType m_Matrix;
 };

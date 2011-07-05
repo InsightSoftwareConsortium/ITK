@@ -32,9 +32,7 @@
 
 namespace itk
 {
-/**
- *
- */
+
 template< class TPixel, unsigned int VImageDimension >
 SpecialCoordinatesImage< TPixel, VImageDimension >
 ::SpecialCoordinatesImage()
@@ -42,7 +40,6 @@ SpecialCoordinatesImage< TPixel, VImageDimension >
   m_Buffer = PixelContainer::New();
 }
 
-//----------------------------------------------------------------------------
 template< class TPixel, unsigned int VImageDimension >
 void
 SpecialCoordinatesImage< TPixel, VImageDimension >
@@ -101,9 +98,6 @@ SpecialCoordinatesImage< TPixel, VImageDimension >
     }
 }
 
-/**
- *
- */
 template< class TPixel, unsigned int VImageDimension >
 void
 SpecialCoordinatesImage< TPixel, VImageDimension >

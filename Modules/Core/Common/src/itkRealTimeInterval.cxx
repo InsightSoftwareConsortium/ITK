@@ -74,7 +74,7 @@ RealTimeInterval::~RealTimeInterval()
  */
 void RealTimeInterval::Set( SecondsDifferenceType seconds, MicroSecondsDifferenceType micro_seconds )
 {
-  // Ensure that microseconds are carry over
+  // Ensure that microseconds carry over
   // to seconds if there are more than a million.
   seconds += micro_seconds / 1000000L;
   micro_seconds = micro_seconds % 1000000L;
@@ -84,7 +84,6 @@ void RealTimeInterval::Set( SecondsDifferenceType seconds, MicroSecondsDifferenc
   this->m_Seconds = seconds;
   this->m_MicroSeconds = micro_seconds;
 }
-
 
 /**
  * Return time in microseconds.
@@ -99,7 +98,6 @@ RealTimeInterval::GetTimeInMicroSeconds() const
   return result;
 }
 
-
 /**
  * Return time in milliseconds.
  */
@@ -112,7 +110,6 @@ RealTimeInterval::GetTimeInMilliSeconds() const
 
   return result;
 }
-
 
 /**
  * Return time in seconds.
@@ -127,7 +124,6 @@ RealTimeInterval::GetTimeInSeconds() const
   return result;
 }
 
-
 /**
  * Return time in minutes.
  */
@@ -137,7 +133,6 @@ RealTimeInterval::GetTimeInMinutes() const
   const TimeRepresentationType result = this->GetTimeInSeconds() / 60.00;
   return result;
 }
-
 
 /**
  * Return time in hours.
@@ -149,7 +144,6 @@ RealTimeInterval::GetTimeInHours() const
   return result;
 }
 
-
 /**
  * Return time in days.
  */
@@ -160,8 +154,7 @@ RealTimeInterval::GetTimeInDays() const
   return result;
 }
 
-
-/*
+/**
  * Compute the time difference between two time intervals.
  */
 RealTimeInterval
@@ -180,8 +173,7 @@ RealTimeInterval::operator-( const RealTimeInterval & other ) const
   return result;
 }
 
-
-/*
+/**
  * Compute the addition between two time intervals.
  */
 RealTimeInterval
@@ -200,8 +192,7 @@ RealTimeInterval::operator+( const RealTimeInterval & other ) const
   return result;
 }
 
-
-/*
+/**
  * Add a time interval to this time stamp and update it.
  */
 const RealTimeInterval::Self &
@@ -218,7 +209,7 @@ RealTimeInterval::operator+=( const RealTimeInterval & other )
   return *this;
 }
 
-/*
+/**
  * Subtract a time interval from this time stamp and update it.
  */
 const RealTimeInterval::Self &
@@ -235,7 +226,7 @@ RealTimeInterval::operator-=( const RealTimeInterval & other )
   return *this;
 }
 
-/*
+/**
  * Compare two time Intervals.
  */
 bool
@@ -254,7 +245,7 @@ RealTimeInterval::operator>( const Self & other ) const
   return ( this->m_MicroSeconds > other.m_MicroSeconds );
 }
 
-/*
+/**
  * Compare two time Intervals.
  */
 bool
@@ -273,7 +264,7 @@ RealTimeInterval::operator<( const Self & other ) const
   return ( this->m_MicroSeconds < other.m_MicroSeconds );
 }
 
-/*
+/**
  * Compare two time Intervals.
  */
 bool
@@ -292,7 +283,7 @@ RealTimeInterval::operator>=( const Self & other ) const
   return ( this->m_MicroSeconds >= other.m_MicroSeconds );
 }
 
-/*
+/**
  * Compare two time Intervals.
  */
 bool
@@ -311,7 +302,7 @@ RealTimeInterval::operator<=( const Self & other ) const
   return ( this->m_MicroSeconds <= other.m_MicroSeconds );
 }
 
-/*
+/**
  * Compare two time Intervals.
  */
 bool
@@ -321,7 +312,7 @@ RealTimeInterval::operator==( const Self & other ) const
            ( this->m_Seconds == other.m_Seconds ) );
 }
 
-/*
+/**
  * Compare two time Intervals.
  */
 bool

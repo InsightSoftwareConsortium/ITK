@@ -30,7 +30,7 @@
 namespace itk
 {
 /** \class RGBAPixel
- * \brief Represent Red, Green, Blue cand Alpha component for color images
+ * \brief Represent Red, Green, Blue and Alpha component for color images.
  *
  * This class is templated over the representation used for each
  * component.
@@ -75,8 +75,7 @@ public:
 
   /** Default constructor has nothing to do. */
   RGBAPixel() { this->Fill(0); }
-  RGBAPixel (const ComponentType & r)
-  { this->Fill(r); }
+  RGBAPixel (const ComponentType & r) { this->Fill(r); }
 
   /** Pass-through constructor for the Array base class. */
   template< class TRGBAPixelValueType >
@@ -102,11 +101,10 @@ public:
   bool operator==(const Self & vec) const;
 
   /** Return the number of componentsxquery-rep. */
-  static unsigned int GetNumberOfComponents(){ return 4; }
+  static unsigned int GetNumberOfComponents() { return 4; }
 
   /** Return the value for the Nth component. */
-  ComponentType GetNthComponent(int c) const
-  { return this->operator[](c); }
+  ComponentType GetNthComponent(int c) const { return this->operator[](c); }
 
   /** Return the value for the Nth component. */
   ComponentType GetScalarValue() const
@@ -121,8 +119,7 @@ public:
   }
 
   /** Set the Nth component to v. */
-  void SetNthComponent(int c, const ComponentType & v)
-  {  this->operator[](c) = v; }
+  void SetNthComponent(int c, const ComponentType & v) {  this->operator[](c) = v; }
 
   /** Set the Red component. */
   void SetRed(ComponentType red) { this->operator[](0) = red; }
@@ -138,7 +135,12 @@ public:
 
   /** Set the four components. */
   void Set(ComponentType red, ComponentType green, ComponentType blue, ComponentType alpha)
-  { this->operator[](0) = red; this->operator[](1) = green; this->operator[](2) = blue; this->operator[](3) = alpha; }
+  {
+    this->operator[](0) = red;
+    this->operator[](1) = green;
+    this->operator[](2) = blue;
+    this->operator[](3) = alpha;
+  }
 
   /** Get the Red component. */
   const ComponentType & GetRed(void) const { return this->operator[](0); }

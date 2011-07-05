@@ -33,8 +33,8 @@ namespace itk
  * This class implements a 3D symmetric tensor as it is used for representing
  * diffusion of water molecules in Diffusion Tensor Images.
  *
- * This class derive from the SymmetricSecondRankTensor and from it inherit
- * most of the Tensor related behavior. At this level we add the methods that
+ * This class derives from the SymmetricSecondRankTensor, inheriting
+ * most of the Tensor-related behavior. At this level we add the methods that
  * are specific to 3D and that are closely related to the concept of diffusion.
  *
  *
@@ -117,7 +117,7 @@ public:
 
   Self & operator=(const ComponentArrayType r);
 
-  /** Templated Pass-through assignment  for the Array base class. */
+  /** Templated Pass-through assignment for the Array base class. */
   template< typename TCoordRepB >
   Self & operator=(const DiffusionTensor3D< TCoordRepB > & pa)
   {

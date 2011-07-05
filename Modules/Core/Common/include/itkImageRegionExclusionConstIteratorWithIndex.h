@@ -155,7 +155,7 @@ public:
     ImageConstIteratorWithIndex< TImage >(ptr, region) {}
 
   /** Constructor that can be used to cast from an ImageIterator to an
-   * ImageRegionExclusionConstIteratorWithIndex. Many routines return an ImageIterator but for a
+   * ImageRegionExclusionConstIteratorWithIndex. Many routines return an ImageIterator, but for a
    * particular task, you may want an ImageRegionExclusionConstIteratorWithIndex.  Rather than
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an

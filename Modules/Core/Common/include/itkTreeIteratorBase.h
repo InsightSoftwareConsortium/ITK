@@ -23,9 +23,7 @@
 namespace itk
 {
 /** \class TreeIteratorBase
- *  \brief TreeIteratorBase class
- *
- * This class provides the base implementation for tree iterators
+ *  \brief This class provides the base implementation for tree iterators.
  *
  * Events will notify interested observers about tree changes. These events all derive from TreeChangeEvent. They are:
  *
@@ -52,7 +50,8 @@ public:
   typedef typename TreeNodeType::ChildIdentifier ChildIdentifier;
 
   /** Enumerations */
-  typedef enum {
+  typedef enum
+    {
     UNDEFIND   = 0,
     PREORDER   = 1,
     INORDER    = 2,
@@ -61,7 +60,8 @@ public:
     CHILD   = 5,
     ROOT     = 6,
     LEAF     = 7
-    } NodeType;
+    }
+    NodeType;
 
   /** Add an element to the tree */
   virtual bool Add(ValueType element);
@@ -146,29 +146,17 @@ public:
   const TreeNodeType * GetParent() const;
 
   /** Move an iterator to the beginning of the tree */
-  void GoToBegin()
-  {
-    m_Position = m_Begin;
-  }
+  void GoToBegin() { m_Position = m_Begin; }
 
   /** Move an iterator to the end of the tree. */
-  void GoToEnd()
-  {
-    m_Position = m_End;
-  }
+  void GoToEnd() { m_Position = m_End; }
 
   /** Is the iterator at the beginning of the tree? */
-  bool IsAtBegin(void) const
-  {
-    return ( m_Position == m_Begin );
-  }
+  bool IsAtBegin(void) const { return ( m_Position == m_Begin ); }
 
   /** Is the iterator at the end of the tree?. The iterator is at the
    * end if it points to NULL */
-  bool IsAtEnd(void) const
-  {
-    return ( m_Position == m_End );
-  }
+  bool IsAtEnd(void) const { return ( m_Position == m_End ); }
 
   /** Clone the iterator */
   virtual TreeIteratorBase< TTreeType > * Clone() = 0;

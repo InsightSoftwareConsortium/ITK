@@ -24,19 +24,19 @@ namespace itk
 {
 /** \class SymmetricEigenAnalysis
  * \brief Find Eigen values of a real 2D symmetric matrix. It
- * serves as a thread safe alternative to the class:
+ * serves as a thread-safe alternative to the class:
  * vnl_symmetric_eigensystem, which uses netlib routines.
  *
- * The class is templated over the input matrix, (which is expected to provide
+ * The class is templated over the input matrix (which is expected to provide
  * access to its elements with the [][] operator), matrix to store eigen
- * values, (must provide write operations on its elements with the [] operator),
+ * values (must provide write operations on its elements with the [] operator), and
  * EigenMatrix to store eigen vectors (must provide write access to its elements
  * with the [][] operator).
  *
  * The SetOrderEigenValues() method can be used to order eigen values (and their
  * corresponding eigen vectors if computed) in ascending order. This is the
  * default ordering scheme. Eigen vectors and values can be obtained without
- * ordering by calling SetOrderEigenValues(false)
+ * ordering by calling SetOrderEigenValues(false).
  *
  * The SetOrderEigenMagnitudes() method can be used to order eigen values (and
  * their corresponding eigen vectors if computed) by magnitude in ascending order.
@@ -44,7 +44,7 @@ namespace itk
  * The user of this class is explicitly supposed to set the dimension of the
  * 2D matrix using the SetDimension() method.
  *
- * The class contains routines taken from netlib sources. (www.netlib.org).
+ * The class contains routines taken from netlib sources (www.netlib.org).
  * netlib/tql1.c
  * netlib/tql2.c
  * netlib/tred1.c
@@ -61,23 +61,23 @@ template< typename TMatrix, typename TVector, typename TEigenMatrix = TMatrix >
 class SymmetricEigenAnalysis
 {
 public:
-  typedef enum {
+  typedef enum
+  {
     OrderByValue = 1,
     OrderByMagnitude,
     DoNotOrder
-    } EigenValueOrderType;
+  }
+  EigenValueOrderType;
 
   SymmetricEigenAnalysis():
-    m_Dimension(0),
-    m_Order(0),
-    m_OrderEigenValues(OrderByValue)
-  {}
+  m_Dimension(0),
+  m_Order(0),
+  m_OrderEigenValues(OrderByValue) {}
 
   SymmetricEigenAnalysis(const unsigned int dimension):
-    m_Dimension(dimension),
-    m_Order(dimension),
-    m_OrderEigenValues(OrderByValue)
-  {}
+  m_Dimension(dimension),
+  m_Order(dimension),
+  m_OrderEigenValues(OrderByValue) {}
 
   ~SymmetricEigenAnalysis() {}
 
@@ -91,7 +91,7 @@ public:
    * matrix will be accessed. (Both itk::Matrix and vnl_matrix
    * overload [][] operator.)
    *
-   * 'EigenValues' is any type that overloads the []   operator and will contain
+   * 'EigenValues' is any type that overloads the [][] operator and will contain
    * the eigen values.
    *
    * No size checking is performed. A is expected to be a square matrix of size
@@ -108,7 +108,7 @@ public:
    * matrix will be accessed. (Both itk::Matrix and vnl_matrix
    * overload [][] operator.)
    *
-   * 'EigenValues' is any type that overloads the []   operator and will contain
+   * 'EigenValues' is any type that overloads the [][] operator and will contain
    * the eigen values.
    *
    * 'EigenVectors' is any type that provides access to its elements with the
@@ -192,7 +192,7 @@ private:
    *  mathematics and computer science div, argonne national laboratory
    *     this version dated august 1983.
    *
-   *  Function Adapted from netlib/tred1.c.
+   *  Function adapted from netlib/tred1.c.
    *  [Changed: remove static vars, enforce const correctness.
    *            Use vnl routines as necessary].
    *  Reference:
@@ -212,11 +212,11 @@ private:
    *  'transformMatrix' contains the orthogonal transformation matrix produced
    *  in the reduction.
    *
-   *  questions and comments should be directed to burton s. garbow.
-   *  mathematics and computer science div, argonne national laboratory
-   *     this version dated august 1983.
+   *  Questions and comments should be directed to Burton s. Garbow,
+   *  Mathematics and Computer Science Div., Argonne National Laboratory.
+   *  This version dated august 1983.
    *
-   *  Function Adapted from netlib/tred2.c.
+   *  Function adapted from netlib/tred2.c.
    *  [Changed: remove static vars, enforce const correctness.
    *            Use vnl routines as necessary].
    *  Reference:
@@ -226,7 +226,7 @@ private:
     double *inputMatrix, VectorType & diagonalElements,
     double *subDiagonalElements, double *transformMatrix) const;
 
-  /* Finds the eigenvalues of a symmetric tridiagonal matrix by the ql method.
+  /** Finds the eigenvalues of a symmetric tridiagonal matrix by the ql method.
    *
    * On input:
    * 'd' contains the diagonal elements of the input matrix.
@@ -243,14 +243,14 @@ private:
    *
    *
    * Reference
-   *     this subroutine is a translation of the algol procedure tql1,
-   *     num. math. 11, 293-306(1968) by bowdler, martin, reinsch, and
-   *     wilkinson.
-   *     handbook for auto. comp., vol.ii-linear algebra, 227-240(1971).
+   *  This subroutine is a translation of the algol procedure tql1,
+   *  num. math. 11, 293-306(1968) by bowdler, martin, reinsch, and
+   *  wilkinson.
+   *  handbook for auto. comp., vol.ii-linear algebra, 227-240(1971).
    *
-   *     Questions and comments should be directed to burton s. garbow,
-   *     mathematics and computer science div, argonne national laboratory
-   *     this version dated august 1983.
+   *  Questions and comments should be directed to Burton s. Garbow,
+   *  Mathematics and Computer Science Div., Argonne National Laboratory.
+   *  This version dated august 1983.
    *
    *  Function Adapted from netlib/tql1.c.
    *  [Changed: remove static vars, enforce const correctness.
@@ -258,7 +258,7 @@ private:
   unsigned int ComputeEigenValuesUsingQL(
     VectorType & d, double *e) const;
 
-  /* Finds the eigenvalues and eigenvectors of a symmetric tridiagonal matrix
+  /** Finds the eigenvalues and eigenvectors of a symmetric tridiagonal matrix
    * by the ql method.
    *
    * On input:
@@ -282,14 +282,14 @@ private:
    *                     determined after 1000 iterations.
    *
    * Reference
-   *     this subroutine is a translation of the algol procedure tql1,
-   *     num. math. 11, 293-306(1968) by bowdler, martin, reinsch, and
-   *     wilkinson.
-   *     handbook for auto. comp., vol.ii-linear algebra, 227-240(1971).
+   *  This subroutine is a translation of the algol procedure tql1,
+   *  num. math. 11, 293-306(1968) by bowdler, martin, reinsch, and
+   *  wilkinson.
+   *  handbook for auto. comp., vol.ii-linear algebra, 227-240(1971).
    *
-   *     Questions and comments should be directed to burton s. garbow,
-   *     mathematics and computer science div, argonne national laboratory
-   *     this version dated august 1983.
+   *  Questions and comments should be directed to Burton s. Garbow,
+   *  Mathematics and Computer Science Div., Argonne National Laboratory.
+   *  This version dated august 1983.
    *
    *  Function Adapted from netlib/tql2.c.
    *  [Changed: remove static vars, enforce const correctness.

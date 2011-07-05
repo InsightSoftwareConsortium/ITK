@@ -24,14 +24,10 @@
 namespace itk
 {
 /** \class TreeContainer
- *  \brief TreeContainer class
- *
- * This class derives from the TreeContainerBase class.
- *
- * The class is templated over the type of the elements.
+ *  \brief This class derives from the TreeContainerBase class and
+ * is templated over the type of the elements.
  *
  * Template parameters for class TreeContainer:
- *
  * - TValueType = Element type stored at each location in the Tree.
  *
  * \ingroup DataRepresentation

@@ -130,31 +130,45 @@ public:
 
   /** Return an element of the matrix. */
   inline const T & operator()(unsigned int row, unsigned int col) const
-  { return m_Matrix(row, col); }
+  {
+    return m_Matrix(row, col);
+  }
 
   /** Return a row of the matrix. */
   inline T * operator[](unsigned int i)
-  { return m_Matrix[i]; }
+  {
+    return m_Matrix[i];
+  }
 
   /** Return a row of the matrix. */
   inline const T * operator[](unsigned int i) const
-  { return m_Matrix[i]; }
+  {
+    return m_Matrix[i];
+  }
 
   /** Return the matrix. */
   inline InternalMatrixType & GetVnlMatrix(void)
-  { return m_Matrix; }
+  {
+    return m_Matrix;
+  }
 
   /** Return the matrix. */
   inline const InternalMatrixType & GetVnlMatrix(void) const
-  { return m_Matrix; }
+  {
+    return m_Matrix;
+  }
 
   /** Set the matrix to identity. */
   inline void SetIdentity(void)
-  { m_Matrix.set_identity(); }
+  {
+    m_Matrix.set_identity();
+  }
 
   /** Fill the matrix with a value. */
   inline void Fill(const T & value)
-  { m_Matrix.fill(value); }
+  {
+    m_Matrix.fill(value);
+  }
 
   /** Assignment operator. */
   inline const Self & operator=(const vnl_matrix< T > & matrix)

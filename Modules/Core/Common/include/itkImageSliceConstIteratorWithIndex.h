@@ -25,7 +25,7 @@ namespace itk
 /** \class ImageSliceConstIteratorWithIndex
  * \brief Multi-dimensional image iterator which only walks a region.
  *
- * \brief A multi-dimensional image iterator that extends the
+ * A multi-dimensional image iterator that extends the
  * ImageLinearConstIteratorWithIndex from iteration along lines in an image to
  * iteration along both lines and planes (slices) within an image.  A slice is
  * defined as a 2D plane spanned by two vectors pointing along orthogonal
@@ -144,7 +144,7 @@ public:
   }
 
   /** Constructor that can be used to cast from an ImageIterator to an
-   * ImageSliceConstIteratorWithIndex. Many routines return an ImageIterator but for a
+   * ImageSliceConstIteratorWithIndex. Many routines return an ImageIterator, but for a
    * particular task, you may want an ImageSliceConstIteratorWithIndex.  Rather than
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
