@@ -20,13 +20,6 @@
 
 #include "itkConditionVariable.h"
 
-#ifdef ITK_USE_FETCHOP_BARRIERS
-extern "C" {
-#include <sys/pmo.h>
-#include <fetchop.h>
-}
-#endif
-
 namespace itk
 {
 /**
@@ -43,16 +36,10 @@ namespace itk
  * To set up a barrier class, call Initialize(n) where n is the number of
  * waiting threads that will trigger a release of the barrier.
  *
- * \par NOTE FOR SGI USERS. You may optionally enable a fetchop library
- * implementation of barriers that will give significantly faster performance
- * over the sproc barrier class.  With the fetchop implementation, you are
- * limited to Barrier::m_MaxBarriers separate barrier instantiations, although
- * this limit can be safely raised if necessary.  To enable the fetchop
- * implementation, set ITK_USE_FETCHOP_BARRIERS and link applications against
- * -lfetchop.
  * \ingroup ITK-Common
  */
-class ITKCommon_EXPORT Barrier:public LightObject
+class ITKCommon_EXPORT Barrier
+  : public LightObject
 {
 public:
   /** Standard class typedefs. */
@@ -81,21 +68,9 @@ private:
   Barrier();
   ~Barrier();
 
-#if defined ITK_USE_FETCHOP_BARRIERS
-  static bool               m_ReservoirInitialized;
-  static atomic_reservoir_t m_Reservoir;
-  static int                m_MaxBarriers;
-  atomic_var_t *            m_Pvar;
-
-  char         pad1[128];      // Attempt to put
-  volatile int m_FetchopFlag;  // m_Fetchop on its
-  char         pad2[128];      // own cache line.
-#else
   ConditionVariable::Pointer m_ConditionVariable;
   unsigned int               m_NumberArrived;
   SimpleMutexLock            m_Mutex;
-
-#endif
 
   unsigned int m_NumberExpected;
 };
