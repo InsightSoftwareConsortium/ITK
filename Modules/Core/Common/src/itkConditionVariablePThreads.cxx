@@ -21,13 +21,11 @@ namespace itk
 {
 ConditionVariable::ConditionVariable()
 {
-  pthread_mutex_init(&m_ConditionVariable.m_Mutex, NULL);
   pthread_cond_init(&m_ConditionVariable.m_ConditionVariable, NULL);
 }
 
 ConditionVariable::~ConditionVariable()
 {
-  pthread_mutex_destroy(&m_ConditionVariable.m_Mutex);
   pthread_cond_destroy(&m_ConditionVariable.m_ConditionVariable);
 }
 
@@ -43,6 +41,6 @@ void ConditionVariable::Broadcast()
 
 void ConditionVariable::Wait(SimpleMutexLock *mutex)
 {
-  pthread_cond_wait( &m_ConditionVariable.m_ConditionVariable, &mutex->GetMutexLock() );
+  pthread_cond_wait( &m_ConditionVariable.m_ConditionVariable,  &mutex->GetMutexLock());
 }
 } //end of namespace itk

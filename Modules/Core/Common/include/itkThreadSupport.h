@@ -76,7 +76,6 @@ namespace itk
 #if defined(ITK_USE_PTHREADS)
   typedef struct {
   pthread_cond_t m_ConditionVariable;
-    MutexType      m_Mutex;
   } ConditionVariableType;
 #elif defined(ITK_USE_WIN32_THREADS)
   typedef struct {
