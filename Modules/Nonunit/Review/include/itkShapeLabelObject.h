@@ -101,7 +101,7 @@ public:
   /** NumberOfPixelsOnBorder is the number of pixels in the objects
     * which are on the border of the image. A pixel on several borders
     * (a pixel in a corner) is counted only one time, so the size on
-    * border can’t be greater than the size of the object. This attribute
+    * border can't be greater than the size of the object. This attribute
     * is particulary useful to remove the objects which are touching
     * too much the border. Its type is unsigned long.*/
   itkStaticConstMacro(NUMBER_OF_PIXELS_ON_BORDER, AttributeType, 106);
