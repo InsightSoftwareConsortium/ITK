@@ -19,4 +19,4 @@ WRAP_LIBRARY("BufferConversion" Python)
   WRAPPER_LIBRARY_CREATE_WRAP_FILES()
 END_WRAP_LIBRARY()
 
-WRAP_ITK_INSTALL("/Python/itkExtras/" "${CMAKE_CURRENT_SOURCE_DIR}/PyBufferExtras.py")
+WRAP_ITK_BINDINGS_INSTALL("/Python/itkExtras/" "${CMAKE_CURRENT_SOURCE_DIR}/PyBufferExtras.py")

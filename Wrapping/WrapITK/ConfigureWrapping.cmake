@@ -136,6 +136,14 @@ macro(WRAP_ITK_INSTALL path)
   install(FILES ${ARGN} DESTINATION "${WRAP_ITK_INSTALL_PREFIX}${path}")
 endmacro(WRAP_ITK_INSTALL)
 
+
+###############################################################################
+# Macro to install the language bindings
+###############################################################################
+macro(WRAP_ITK_BINDINGS_INSTALL path)
+  install(FILES ${ARGN} DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}${path}")
+endmacro(WRAP_ITK_BINDINGS_INSTALL)
+
 ###############################################################################
 # Include needed macros -- WRAP_ITK_CMAKE_DIR must be set correctly
 ###############################################################################

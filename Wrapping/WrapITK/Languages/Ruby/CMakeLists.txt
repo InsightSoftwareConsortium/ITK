@@ -137,7 +137,7 @@ macro(END_WRAP_LIBRARY_RUBY)
   endif(APPLE)
   target_link_libraries(${lib} ${WRAPPER_LIBRARY_LINK_LIBRARIES} ${RUBY_LIBRARY})
   add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Swig)
-  install(TARGETS "${lib}" DESTINATION "${WRAP_ITK_INSTALL_PREFIX}/lib")
+  install(TARGETS "${lib}" DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Ruby")
   if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     # don't depends on the targets from wrapitk in external projects
     foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
