@@ -19,7 +19,7 @@
 #define __itkRegionOfInterestImageFilter_txx
 
 #include "itkRegionOfInterestImageFilter.h"
-#include "itkImageRegionIterator.h"
+#include "itkImageAlgorithm.h"
 #include "itkObjectFactory.h"
 #include "itkProgressReporter.h"
 #include "itkImage.h"
@@ -146,11 +146,11 @@ RegionOfInterestImageFilter< TInputImage, TOutputImage >
   itkDebugMacro(<< "Actually executing");
 
   // Get the input and output pointers
-  typename Superclass::InputImageConstPointer inputPtr  = this->GetInput();
-  typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
+  const TInputImage *inputPtr  = this->GetInput();
+  TOutputImage      *outputPtr = this->GetOutput();
 
   // support progress methods/callbacks
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
+  ProgressReporter progress( this, threadId, 1 );
 
   // Define the portion of the input to walk for this thread
   InputImageRegionType inputRegionForThread;
@@ -166,22 +166,10 @@ RegionOfInterestImageFilter< TInputImage, TOutputImage >
 
   inputRegionForThread.SetIndex(start);
 
-  // Define the iterators.
-  typedef ImageRegionIterator< TOutputImage >     OutputIterator;
-  typedef ImageRegionConstIterator< TInputImage > InputIterator;
+  ImageAlgorithm::Copy( inputPtr, outputPtr, inputRegionForThread, outputRegionForThread );
 
-  OutputIterator outIt(outputPtr, outputRegionForThread);
-  InputIterator  inIt(inputPtr, inputRegionForThread);
+  progress.CompletedPixel();
 
-  // walk the output region, and sample the input image
-  while ( !outIt.IsAtEnd() )
-    {
-    // copy the input pixel to the output
-    outIt.Set( inIt.Get() );
-    ++outIt;
-    ++inIt;
-    progress.CompletedPixel();
-    }
 }
 } // end namespace itk
 

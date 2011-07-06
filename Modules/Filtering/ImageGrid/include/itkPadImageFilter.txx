@@ -19,8 +19,6 @@
 #define __itkPadImageFilter_txx
 
 #include "itkPadImageFilter.h"
-#include "itkImageRegionIterator.h"
-#include "itkObjectFactory.h"
 
 namespace itk
 {

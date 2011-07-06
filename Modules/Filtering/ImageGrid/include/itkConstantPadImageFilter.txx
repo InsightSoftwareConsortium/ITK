@@ -19,6 +19,7 @@
 #define __itkConstantPadImageFilter_txx
 
 #include "itkConstantPadImageFilter.h"
+#include "itkImageAlgorithm.h"
 #include "itkImageRegionIterator.h"
 #include "itkObjectFactory.h"
 #include "itkProgressReporter.h"
@@ -117,8 +118,8 @@ ConstantPadImageFilter< TInputImage, TOutputImage > // support progress
   itkDebugMacro(<< "Actually executing");
 
   // Get the input and output pointers
-  typename Superclass::InputImageConstPointer inputPtr = this->GetInput();
-  typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
+  const TInputImage *inputPtr = this->GetInput();
+  TOutputImage  *outputPtr = this->GetOutput();
 
   // Define a few indices that will be used to translate from an input pixel
   // to an output pixel
@@ -201,7 +202,8 @@ ConstantPadImageFilter< TInputImage, TOutputImage > // support progress
     sizes[2][dimCtr] = ( ( sizeTemp > 0 ) ? sizeTemp : 0 );
     }
 
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
+  // we report the number of regions copied not the number of pixels
+  ProgressReporter progress( this, threadId, numRegions );
 
   // Define/declare iterators that will walk the input and output regions
   // for this thread.
@@ -210,25 +212,16 @@ ConstantPadImageFilter< TInputImage, TOutputImage > // support progress
   inputRegion.SetSize(sizes[0]);
   inputRegion.SetIndex(indices[0]);
 
-  typedef ImageRegionIterator< TOutputImage >     OutputIterator;
-  typedef ImageRegionConstIterator< TInputImage > InputIterator;
 
   // Walk the first region which is defined as the between for everyone.
   if ( GenerateNextRegion(regIndices, regLimit, indices, sizes, outputRegion) )
     {
-    inputRegion.SetIndex( outputRegion.GetIndex() );
-    inputRegion.SetSize( outputRegion.GetSize() );
-    OutputIterator outIt = OutputIterator(outputPtr, outputRegion);
-    InputIterator  inIt  = InputIterator(inputPtr, inputRegion);
-
-    // walk the output region, and sample the input image
-    for ( ctr = 0; !outIt.IsAtEnd(); ++outIt, ++inIt, ctr++ )
-      {
-      // copy the input pixel to the output
-      outIt.Set( inIt.Get() );
-      progress.CompletedPixel();
-      }
+    ImageAlgorithm::Copy( inputPtr, outputPtr, inputRegion, outputRegion );
+    progress.CompletedPixel();
     }
+
+  typedef ImageRegionIterator< TOutputImage >     OutputIterator;
+  typedef ImageRegionConstIterator< TInputImage > InputIterator;
 
   // Now walk the remaining regions.
   for ( regCtr = 1; regCtr < numRegions; regCtr++ )
@@ -237,14 +230,16 @@ ConstantPadImageFilter< TInputImage, TOutputImage > // support progress
       {
       OutputIterator outIt = OutputIterator(outputPtr, outputRegion);
 
+      // Note: this is fill algorithm, and should be replaced in the future
       // walk the output region, and sample the input image
       for (; !outIt.IsAtEnd(); ++outIt, ctr++ )
         {
         // copy the input pixel to the output
         outIt.Set(m_Constant);
-        progress.CompletedPixel();
         }
+
       }
+    progress.CompletedPixel();
     }
 }
 } // end namespace itk

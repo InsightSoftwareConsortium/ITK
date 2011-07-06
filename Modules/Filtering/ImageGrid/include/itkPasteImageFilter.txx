@@ -19,9 +19,9 @@
 #define __itkPasteImageFilter_txx
 
 #include "itkPasteImageFilter.h"
-#include "itkImageRegionIterator.h"
 #include "itkObjectFactory.h"
 #include "itkProgressReporter.h"
+#include "itkImageAlgorithm.h"
 
 namespace itk
 {
@@ -141,12 +141,12 @@ PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
   itkDebugMacro(<< "Actually executing");
 
   // Get the input and output pointers
-  typename Superclass::InputImageConstPointer destPtr = this->GetInput();
-  SourceImageConstPointer sourcePtr = this->GetSourceImage();
-  typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
+  const InputImageType  *destPtr = this->GetInput();
+  const SourceImageType *sourcePtr = this->GetSourceImage();
+  OutputImageType       *outputPtr = this->GetOutput();
 
   // support progress methods/callbacks
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
+  ProgressReporter progress( this, threadId, 1 );
 
   // What is the region on the destination image would be overwritten by the
   // source?
@@ -208,10 +208,6 @@ PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
     sourceRegionInSourceImageCropped.SetSize( sourceRegionInDestinationImageCropped.GetSize() );
     }
 
-  // Define iterators types
-  typedef ImageRegionIterator< OutputImageType >      OutputIterator;
-  typedef ImageRegionConstIterator< InputImageType >  InputIterator;
-  typedef ImageRegionConstIterator< SourceImageType > SourceIterator;
 
   // There are three cases that we need to consider:
   //
@@ -229,36 +225,19 @@ PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
     {
     // paste region is outside this thread, so just copy the destination
     // input to the output
-    OutputIterator outIt(outputPtr, outputRegionForThread);
-    InputIterator  destIt(destPtr, outputRegionForThread);
+    ImageAlgorithm::Copy( destPtr, outputPtr, outputRegionForThread, outputRegionForThread );
 
-    // walk the output region, and sample the destination image
-    while ( !outIt.IsAtEnd() )
-      {
-      // copy the input pixel to the output
-      outIt.Set( static_cast< OutputImagePixelType >( destIt.Get() ) );
-      ++outIt;
-      ++destIt;
-      progress.CompletedPixel();
-      }
+    progress.CompletedPixel();
+
     }
   else if ( useOnlySource )
     {
     // paste region completely overlaps the output region
     // for this thread, so copy data from the second input
     // to the output
-    OutputIterator outIt(outputPtr, outputRegionForThread);
-    SourceIterator sourceIt(sourcePtr, sourceRegionInSourceImageCropped);
+    ImageAlgorithm::Copy(  sourcePtr, outputPtr, sourceRegionInSourceImageCropped, outputRegionForThread);
 
-    // walk the output region, and sample the source image
-    while ( !outIt.IsAtEnd() )
-      {
-      // copy the input pixel to the output
-      outIt.Set( static_cast< OutputImagePixelType >( sourceIt.Get() ) );
-      ++outIt;
-      ++sourceIt;
-      progress.CompletedPixel();
-      }
+    progress.CompletedPixel();
     }
   else
     {
@@ -273,41 +252,16 @@ PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
     // copy the destination to the output then overwrite the
     // appropriate output pixels with the source.
 
-    // Copy destination to output
-    //
-    OutputIterator outIt(outputPtr, outputRegionForThread);
-    InputIterator  destIt(destPtr, outputRegionForThread);
+     if ( !( this->GetInPlace() && this->CanRunInPlace() ) )
+       {
+       // Copy destination to output
+       ImageAlgorithm::Copy( destPtr, outputPtr, outputRegionForThread, outputRegionForThread );
+       }
 
-    // walk the output region, and sample the destination image
-    if ( !( this->GetInPlace() && this->CanRunInPlace() ) )
-      {
-      while ( !outIt.IsAtEnd() )
-        {
-        // copy the input pixel to the output
-        outIt.Set( static_cast< OutputImagePixelType >( destIt.Get() ) );
-        ++outIt;
-        ++destIt;
-        progress.CompletedPixel();
-        }
-      }
+     // copy the cropped source region to output
+     ImageAlgorithm::Copy( sourcePtr, outputPtr, sourceRegionInSourceImageCropped, sourceRegionInDestinationImageCropped );
 
-    // Copy source to output
-    //
-    SourceIterator sourceIt(sourcePtr, sourceRegionInSourceImageCropped);
-
-    // reset the output iterator to walk the section of the image covered
-    // by the source image
-    outIt = OutputIterator(outputPtr, sourceRegionInDestinationImageCropped);
-
-    // walk the output region, and sample the source image
-    while ( !outIt.IsAtEnd() )
-      {
-      // copy the input pixel to the output
-      outIt.Set( static_cast< OutputImagePixelType >( sourceIt.Get() ) );
-      ++outIt;
-      ++sourceIt;
-      progress.CompletedPixel();
-      }
+     progress.CompletedPixel();
     }
 }
 } // end namespace itk

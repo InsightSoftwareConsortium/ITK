@@ -21,6 +21,7 @@
 #include "itkImageSeriesReader.h"
 
 #include "itkImageRegionIterator.h"
+#include "itkImageAlgorithm.h"
 #include "itkArray.h"
 #include "vnl/vnl_math.h"
 #include "itkProgressReporter.h"
@@ -408,19 +409,12 @@ void ImageSeriesReader< TOutputImage >
 
         reader->Update();
 
-        ImageRegionIterator< TOutputImage > ot( output, requestedRegion );
-        // set the output iterator for this slice
-        ot.SetIndex(sliceStartIndex);
+        // output of buffer copy
+        ImageRegionType outRegion = requestedRegion;
+        outRegion.SetIndex( sliceStartIndex );
 
-        ImageRegionConstIterator< TOutputImage > it (readerOutput, sliceRegionToRequest);
+        ImageAlgorithm::Copy( readerOutput, output, sliceRegionToRequest, outRegion );
 
-        // for loop copy
-        while ( !it.IsAtEnd() )
-          {
-          ot.Set( it.Get() );
-          ++it;
-          ++ot;
-          }
         }
 
       // report progress for read slices
