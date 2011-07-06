@@ -26,32 +26,32 @@
 
 namespace itk {
 
-template<class TInputImage, class TFeatureImage, class TOutputImage>
-LabelMapOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
+template<class TLabelMap, class TFeatureImage, class TOutputImage>
+LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
 ::LabelMapOverlayImageFilter()
 {
   this->SetNumberOfRequiredInputs(2);
   m_Opacity = 0.5;
 }
 
-template<class TInputImage, class TFeatureImage, class TOutputImage>
+template<class TLabelMap, class TFeatureImage, class TOutputImage>
 void
-LabelMapOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
+LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
 ::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the input.
-  InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
+  LabelMapPointer input = const_cast<LabelMapType *>(this->GetInput());
   if ( !input )
     { return; }
   input->SetRequestedRegion( input->GetLargestPossibleRegion() );
 }
 
-template <class TInputImage, class TFeatureImage, class TOutputImage>
+template <class TLabelMap, class TFeatureImage, class TOutputImage>
 void
-LabelMapOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
+LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
 ::EnlargeOutputRequestedRegion(DataObject *)
 {
   this->GetOutput()
@@ -59,9 +59,9 @@ LabelMapOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
 }
 
 
-template<class TInputImage, class TFeatureImage, class TOutputImage>
+template<class TLabelMap, class TFeatureImage, class TOutputImage>
 void
-LabelMapOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
+LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
 ::BeforeThreadedGenerateData()
 {
   ThreadIdType nbOfThreads = this->GetNumberOfThreads();
@@ -83,13 +83,13 @@ LabelMapOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
 }
 
 
-template<class TInputImage, class TFeatureImage, class TOutputImage>
+template<class TLabelMap, class TFeatureImage, class TOutputImage>
 void
-LabelMapOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
+LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
 ::ThreadedGenerateData( const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId )
 {
   OutputImageType * output = this->GetOutput();
-  InputImageType * input = const_cast<InputImageType *>(this->GetInput());
+  LabelMapType * input = const_cast<LabelMapType *>(this->GetInput());
   const FeatureImageType * input2 = this->GetFeatureImage();
 
   FunctorType function;
@@ -114,13 +114,13 @@ LabelMapOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
 }
 
 
-template<class TInputImage, class TFeatureImage, class TOutputImage>
+template<class TLabelMap, class TFeatureImage, class TOutputImage>
 void
-LabelMapOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
+LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
 ::ThreadedProcessLabelObject( LabelObjectType * labelObject )
 {
   OutputImageType * output = this->GetOutput();
-  InputImageType * input = const_cast<InputImageType *>(this->GetInput());
+  LabelMapType * input = const_cast<LabelMapType *>(this->GetInput());
   const FeatureImageType * input2 = this->GetFeatureImage();
 
   FunctorType function;
@@ -130,8 +130,8 @@ LabelMapOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
   const typename LabelObjectType::LabelType & label = labelObject->GetLabel();
 
   // the user want the mask to be the background of the label collection image
-  typename InputImageType::LabelObjectType::LineContainerType::const_iterator lit;
-  typename InputImageType::LabelObjectType::LineContainerType & lineContainer = labelObject->GetLineContainer();
+  typename LabelMapType::LabelObjectType::LineContainerType::const_iterator lit;
+  typename LabelMapType::LabelObjectType::LineContainerType & lineContainer = labelObject->GetLineContainer();
 
   for( lit = lineContainer.begin(); lit != lineContainer.end(); lit++ )
     {
@@ -146,9 +146,9 @@ LabelMapOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
 
 }
 
-template<class TInputImage, class TFeatureImage, class TOutputImage>
+template<class TLabelMap, class TFeatureImage, class TOutputImage>
 void
-LabelMapOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
+LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
 ::GenerateOutputInformation()
 {
   // this methods is overloaded so that if the output image is a
@@ -167,9 +167,9 @@ LabelMapOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
     }
 }
 
-template<class TInputImage, class TFeatureImage, class TOutputImage>
+template<class TLabelMap, class TFeatureImage, class TOutputImage>
 void
-LabelMapOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
+LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
