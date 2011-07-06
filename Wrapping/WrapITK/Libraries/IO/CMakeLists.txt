@@ -2,6 +2,8 @@ WRAP_LIBRARY(IO)
 
 set(WRAPPER_LIBRARY_GROUPS
   ITKIOBase
+  itkIPLCommonImageIO
+  itkTIFFImageIO
 )
 
 set(WRAPPER_LIBRARY_DEPENDS VXLNumerics Base Transforms)

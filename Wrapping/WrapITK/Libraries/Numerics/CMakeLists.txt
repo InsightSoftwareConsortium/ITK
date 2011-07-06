@@ -2,6 +2,8 @@ WRAP_LIBRARY(Numerics)
 
 set(WRAPPER_LIBRARY_GROUPS
   ITKCostFunctions
+  itkShapePriorMAPCostFunctionBase
+  itkShapePriorMAPCostFunction
   itkSample
   itkHistogram
   itkListSample
