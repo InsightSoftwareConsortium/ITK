@@ -40,6 +40,11 @@
     <Description>
       <![CDATA[
       ENH: removed Blox module
+
+    The Blox module has been removed due to lack of known users using
+    it. Additionally, there is a lack of ITK developers familiar with or
+    who have used this set of classes to continue maintaining. Also, the
+    original author no longer uses these classes.
       ]]>
     </Description>
 
@@ -170,7 +175,14 @@
     </FileList>
 
     <MigrationFix-Manual>
+      <Old>
+        Your old Blox code.
+      </Old>
+      <New>
+        Your same Blox code.
+
       The Blox image representation will no longer be maintained with ITKv4. It is suggested to continue using ITK 3.20. Alternatively it can be extracted as a External module from the prior commit, and maintained by it's user community.
+      </New>
     </MigrationFix-Manual>
 
 
