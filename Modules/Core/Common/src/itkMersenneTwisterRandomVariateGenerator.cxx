@@ -23,13 +23,20 @@ namespace Statistics
 {
 MersenneTwisterRandomVariateGenerator::Pointer MersenneTwisterRandomVariateGenerator:: m_Instance = 0;
 
-/**
-     * This just calls GetInstance
-     */
 MersenneTwisterRandomVariateGenerator::Pointer
 MersenneTwisterRandomVariateGenerator::New()
 {
-  return GetInstance();
+  // Try the factory first
+  MersenneTwisterRandomVariateGenerator::Pointer obj  = ObjectFactory< Self >::Create();
+  // if the factory did not provide one, then create it here
+  if ( !obj )
+    {
+      obj = new MersenneTwisterRandomVariateGenerator;
+      // Remove extra reference from construction.
+      obj->UnRegister();
+      obj->SetSeed ( GetInstance()->GetSeed() );
+    }
+  return obj;
 }
 
 /**

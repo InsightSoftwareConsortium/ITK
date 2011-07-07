@@ -30,7 +30,7 @@ ImageRandomConstIteratorWithIndex< TImage >
   m_NumberOfPixelsInRegion    = 0L;
   m_NumberOfSamplesRequested  = 0L;
   m_NumberOfSamplesDone       = 0L;
-  m_Generator = Statistics::MersenneTwisterRandomVariateGenerator::New();
+  m_Generator = Statistics::MersenneTwisterRandomVariateGenerator::GetInstance();
 }
 
 /** Constructor establishes an iterator to walk a particular image and a
@@ -43,7 +43,7 @@ ImageRandomConstIteratorWithIndex< TImage >
   m_NumberOfPixelsInRegion   = region.GetNumberOfPixels();
   m_NumberOfSamplesRequested = 0L;
   m_NumberOfSamplesDone      = 0L;
-  m_Generator = Statistics::MersenneTwisterRandomVariateGenerator::New();
+  m_Generator = Statistics::MersenneTwisterRandomVariateGenerator::GetInstance();
 }
 
 /**  Set the number of samples to extract from the region */

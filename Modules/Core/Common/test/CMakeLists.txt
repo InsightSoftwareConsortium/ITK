@@ -96,6 +96,7 @@ itkHeavisideStepFunctionTest1.cxx
 itkSinRegularizedHeavisideStepFunctionTest1.cxx
 itkPixelAccessTest.cxx
 itkPointGeometryTest.cxx
+itkMersenneTwisterRandomVariateGeneratorTest.cxx
 )
 
 
@@ -209,6 +210,7 @@ itk_add_test(NAME itkImageTransformTest COMMAND ITK-Common2TestDriver itkImageTr
 itk_add_test(NAME itkMinimumMaximumImageCalculatorTest COMMAND ITK-Common2TestDriver itkMinimumMaximumImageCalculatorTest)
 itk_add_test(NAME itkFixedArrayTest2 COMMAND ITK-Common1TestDriver itkFixedArrayTest2)
 itk_add_test(NAME itkArrayTest COMMAND ITK-Common1TestDriver itkArrayTest)
+itk_add_test(NAME itkMersenneTwisterRandomVariateGeneratorTest COMMAND ITK-Common1TestDriver itkMersenneTwisterRandomVariateGeneratorTest)
 itk_add_test(NAME itkArray2DTest COMMAND ITK-Common1TestDriver itkArray2DTest)
 itk_add_test(NAME itkAutoPointerTest COMMAND ITK-Common2TestDriver itkAutoPointerTest)
 if(NOT MINGW)

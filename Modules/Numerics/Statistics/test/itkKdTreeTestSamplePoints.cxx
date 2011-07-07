@@ -20,7 +20,6 @@
 #endif
 
 #include "itkVector.h"
-#include "itkMersenneTwisterRandomVariateGenerator.h"
 #include "itkListSample.h"
 #include "itkKdTreeGenerator.h"
 #include "itkEuclideanDistanceMetric.h"

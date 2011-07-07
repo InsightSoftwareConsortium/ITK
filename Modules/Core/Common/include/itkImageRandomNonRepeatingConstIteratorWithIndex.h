@@ -78,7 +78,7 @@ public:
   {
     m_Size = sz;
     m_Permutation = new NodeOfPermutation[m_Size];
-    m_Generator = Statistics::MersenneTwisterRandomVariateGenerator::New();
+    m_Generator = Statistics::MersenneTwisterRandomVariateGenerator::GetInstance();
     this->Shuffle();
   }
 
