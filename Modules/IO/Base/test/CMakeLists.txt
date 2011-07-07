@@ -27,6 +27,7 @@ itkImageIODirection2DTest.cxx
 itkImageIODirection3DTest.cxx
 itkImageIOFileNameExtensionsTests.cxx
 itkImageSeriesReaderDimensionsTest.cxx
+itkImageSeriesReaderVectorTest.cxx
 itkImageSeriesWriterTest.cxx
 itkIOPluginTest.cxx
 itkNoiseImageFilterTest.cxx
@@ -237,6 +238,12 @@ itk_add_test(NAME itkImageSeriesReaderDimensionsTest1
 itk_add_test(NAME itkImageSeriesReaderDimensionsTest2
       COMMAND ITK-IO-BaseTestDriver itkImageSeriesReaderDimensionsTest
               ${ITK_DATA_ROOT}/Input/cthead1.tif ${ITK_DATA_ROOT}/Input/cthead1.tif ${ITK_DATA_ROOT}/Input/cthead1.tif)
+itk_add_test(NAME itkImageSeriesReaderVectorImageTest1
+   COMMAND ITK-IO-BaseTestDriver itkImageSeriesReaderVectorTest
+   ${ITK_DATA_ROOT}/Input/RGBTestImage.tif ${ITK_DATA_ROOT}/Input/RGBTestImage.tif ${ITK_DATA_ROOT}/Input/RGBTestImage.tif )
+itk_add_test(NAME itkImageSeriesReaderVectorImageTest2
+   COMMAND ITK-IO-BaseTestDriver itkImageSeriesReaderVectorTest
+   ${ITK_DATA_ROOT}/Input/48BitTestImage.tif ${ITK_DATA_ROOT}/Input/48BitTestImage.tif ${ITK_DATA_ROOT}/Input/48BitTestImage.tif )
 itk_add_test(NAME itkImageSeriesWriterTest
       COMMAND ITK-IO-BaseTestDriver itkImageSeriesWriterTest
               ${ITK_DATA_ROOT}/Input/DicomSeries ${ITK_TEST_OUTPUT_DIR} png)
