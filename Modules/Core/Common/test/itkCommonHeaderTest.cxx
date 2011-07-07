@@ -291,7 +291,6 @@
 #include "itkXMLFileOutputWindow.h"
 #include "itkXMLFilterWatcher.h"
 #include "itkZeroFluxNeumannBoundaryCondition.txx"
-#include "vcl_alloc.h"
 #include "VNLIterativeSparseSolverTraits.h"
 #include "itkAtanRegularizedHeavisideStepFunction.h"
 #include "itkAtanRegularizedHeavisideStepFunction.txx"
