@@ -110,7 +110,7 @@ SobelEdgeDetectionImageFilter< TInputImage, TOutputImage >
 
   // Create the sobel operator
   SobelOperator< OutputPixelType, ImageDimension > opers[ImageDimension];
-  ZeroFluxNeumannBoundaryCondition< TOutputImage > nbc;
+  ZeroFluxNeumannBoundaryCondition< TInputImage > nbc;
 
   // Setup mini-pipelines along each axis.
   typename OpFilter::Pointer opFilter[ImageDimension];
