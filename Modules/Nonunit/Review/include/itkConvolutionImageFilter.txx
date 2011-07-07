@@ -47,6 +47,7 @@ ConvolutionImageFilter< TInputImage, TOutputImage >
 {
   this->SetNumberOfRequiredInputs(2);
   m_Normalize = false;
+  m_BoundaryCondition = &m_DefaultBoundaryCondition;
 }
 
 template< class TInputImage, class TOutputImage >
@@ -142,6 +143,7 @@ ConvolutionImageFilter< TInputImage, TOutputImage >
     ConvolutionFilterType;
   typename ConvolutionFilterType::Pointer convolutionFilter = ConvolutionFilterType::New();
   convolutionFilter->SetOperator( kernelOperator );
+  convolutionFilter->OverrideBoundaryCondition( m_BoundaryCondition );
   convolutionFilter->SetInput( this->GetInput() );
   convolutionFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
   progress->RegisterInternalFilter( convolutionFilter, 0.8f );
