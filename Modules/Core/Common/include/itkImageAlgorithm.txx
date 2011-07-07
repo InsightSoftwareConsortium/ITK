@@ -41,4 +41,4 @@ void ImageAlgorithm::Copy( const InputImageType *inImage, OutputImageType *outIm
 
 } // end namespace itk
 
-#endif __itkImageAlgorithm_txx
+#endif
