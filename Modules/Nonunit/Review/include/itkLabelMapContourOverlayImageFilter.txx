@@ -35,8 +35,8 @@
 
 namespace itk {
 
-template<class TInputImage, class TFeatureImage, class TOutputImage>
-LabelMapContourOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
+template<class TLabelMap, class TFeatureImage, class TOutputImage>
+LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
 ::LabelMapContourOverlayImageFilter()
 {
   this->SetNumberOfRequiredInputs(2);
@@ -51,24 +51,24 @@ LabelMapContourOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
   m_SliceDimension = ImageDimension - 1;
 }
 
-template<class TInputImage, class TFeatureImage, class TOutputImage>
+template<class TLabelMap, class TFeatureImage, class TOutputImage>
 void
-LabelMapContourOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
+LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
 ::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the input.
-  InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
+  LabelMapPointer input = const_cast<LabelMapType *>(this->GetInput());
   if ( !input )
     { return; }
   input->SetRequestedRegion( input->GetLargestPossibleRegion() );
 }
 
-template <class TInputImage, class TFeatureImage, class TOutputImage>
+template <class TLabelMap, class TFeatureImage, class TOutputImage>
 void
-LabelMapContourOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
+LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
 ::EnlargeOutputRequestedRegion(DataObject *)
 {
   this->GetOutput()
@@ -76,12 +76,12 @@ LabelMapContourOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
 }
 
 
-template<class TInputImage, class TFeatureImage, class TOutputImage>
+template<class TLabelMap, class TFeatureImage, class TOutputImage>
 void
-LabelMapContourOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
+LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
 ::BeforeThreadedGenerateData()
 {
-  typedef ObjectByObjectLabelMapFilter< InputImageType, InputImageType > OBOType;
+  typedef ObjectByObjectLabelMapFilter< LabelMapType, LabelMapType > OBOType;
   typename OBOType::Pointer obo = OBOType::New();
   obo->SetInput( this->GetInput() );
   SizeType rad = m_DilationRadius;
@@ -179,7 +179,7 @@ LabelMapContourOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
     }
 
   // choose which labels will be on top of the oters
-  typedef LabelUniqueLabelMapFilter< InputImageType > UniqueType;
+  typedef LabelUniqueLabelMapFilter< LabelMapType > UniqueType;
   typename UniqueType::Pointer uniq = UniqueType::New();
   uniq->SetInput( obo->GetOutput() );
   uniq->SetReverseOrdering( m_Priority == LOW_LABEL_ON_TOP );
@@ -207,13 +207,13 @@ LabelMapContourOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
 }
 
 
-template<class TInputImage, class TFeatureImage, class TOutputImage>
+template<class TLabelMap, class TFeatureImage, class TOutputImage>
 void
-LabelMapContourOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
+LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
 ::ThreadedGenerateData( const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId )
 {
   OutputImageType * output = this->GetOutput();
-  InputImageType * input = const_cast<InputImageType *>(this->GetInput());
+  LabelMapType * input = const_cast<LabelMapType *>(this->GetInput());
   const FeatureImageType * input2 = this->GetFeatureImage();
 
   FunctorType function;
@@ -238,13 +238,13 @@ LabelMapContourOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
 }
 
 
-template<class TInputImage, class TFeatureImage, class TOutputImage>
+template<class TLabelMap, class TFeatureImage, class TOutputImage>
 void
-LabelMapContourOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
+LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
 ::ThreadedProcessLabelObject( LabelObjectType * labelObject )
 {
   OutputImageType * output = this->GetOutput();
-  InputImageType * input = const_cast<InputImageType *>(this->GetInput());
+  LabelMapType * input = const_cast<LabelMapType *>(this->GetInput());
   const FeatureImageType * input2 = this->GetFeatureImage();
 
   FunctorType function;
@@ -254,9 +254,9 @@ LabelMapContourOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
   const typename LabelObjectType::LabelType & label = labelObject->GetLabel();
 
   // the user want the mask to be the background of the label collection image
-  typename InputImageType::LabelObjectType::LineContainerType::const_iterator lit;
-  typename InputImageType::LabelObjectType::LineContainerType & lineContainer = labelObject->GetLineContainer();
-  typedef typename InputImageType::LabelObjectType::LengthType  LengthType;
+  typename LabelMapType::LabelObjectType::LineContainerType::const_iterator lit;
+  typename LabelMapType::LabelObjectType::LineContainerType & lineContainer = labelObject->GetLineContainer();
+  typedef typename LabelMapType::LabelObjectType::LengthType  LengthType;
 
   for( lit = lineContainer.begin(); lit != lineContainer.end(); lit++ )
     {
@@ -272,9 +272,9 @@ LabelMapContourOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
 }
 
 
-template<class TInputImage, class TFeatureImage, class TOutputImage>
+template<class TLabelMap, class TFeatureImage, class TOutputImage>
 void
-LabelMapContourOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
+LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);

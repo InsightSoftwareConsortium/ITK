@@ -26,10 +26,13 @@
 namespace itk {
 
 /** \class LabelMapOverlayImageFilter
-* \brief Apply a colormap to a label map and put it on top of the
- *  input image
+* \brief Apply a colormap to a label map and superimpose it on an image.
  *
- * Apply a colormap to a label map and put it on top of the input image.
+ * Apply a colormap to a label map and put it on top of the feature
+ * image. The feature image is typically the image from which the labeling was
+ * produced. Use the SetInput function to set the LabelMap, and the
+ * SetFeatureImage function to set the feature image.
+ *
  * The set of colors is a good selection of distinct colors. The opacity of
  * the label map can be defined by the user.
  * A background label produce a gray pixel with the same intensity
@@ -45,24 +48,24 @@ namespace itk {
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITK-Review
 */
-template<class TInputImage, class TFeatureImage, class TOutputImage=Image< RGBPixel< typename TFeatureImage::PixelType >, TFeatureImage::ImageDimension > >
+template<class TLabelMap, class TFeatureImage, class TOutputImage=Image< RGBPixel< typename TFeatureImage::PixelType >, TFeatureImage::ImageDimension > >
 class ITK_EXPORT LabelMapOverlayImageFilter :
-    public LabelMapFilter<TInputImage, TOutputImage>
+    public LabelMapFilter<TLabelMap, TOutputImage>
 {
 public:
   /** Standard class typedefs. */
   typedef LabelMapOverlayImageFilter                Self;
-  typedef LabelMapFilter<TInputImage, TOutputImage> Superclass;
+  typedef LabelMapFilter<TLabelMap, TOutputImage>   Superclass;
   typedef SmartPointer<Self>                        Pointer;
   typedef SmartPointer<const Self>                  ConstPointer;
 
   /** Some convenient typedefs. */
-  typedef TInputImage                              InputImageType;
-  typedef typename InputImageType::Pointer         InputImagePointer;
-  typedef typename InputImageType::ConstPointer    InputImageConstPointer;
-  typedef typename InputImageType::RegionType      InputImageRegionType;
-  typedef typename InputImageType::PixelType       InputImagePixelType;
-  typedef typename InputImageType::LabelObjectType LabelObjectType;
+  typedef TLabelMap                                LabelMapType;
+  typedef typename LabelMapType::Pointer           LabelMapPointer;
+  typedef typename LabelMapType::ConstPointer      LabelMapConstPointer;
+  typedef typename LabelMapType::RegionType        LabelMapRegionType;
+  typedef typename LabelMapType::PixelType         LabelMapPixelType;
+  typedef typename LabelMapType::LabelObjectType   LabelObjectType;
   typedef typename LabelObjectType::LabelType      LabelType;
   typedef typename LabelObjectType::LengthType     LengthType;
 
@@ -81,11 +84,11 @@ public:
   typedef typename OutputImageType::SizeType       SizeType;
   typedef typename OutputImageType::RegionType     RegionType;
 
-  typedef typename Functor::LabelOverlayFunctor<FeatureImagePixelType, InputImagePixelType, OutputImagePixelType> FunctorType;
+  typedef typename Functor::LabelOverlayFunctor<FeatureImagePixelType, LabelMapPixelType, OutputImagePixelType> FunctorType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+                      TLabelMap::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -112,7 +115,7 @@ public:
     }
 
    /** Set the input image */
-  void SetInput1(const TInputImage *input)
+  void SetInput1(const TLabelMap *input)
     {
     this->SetInput( input );
     }
