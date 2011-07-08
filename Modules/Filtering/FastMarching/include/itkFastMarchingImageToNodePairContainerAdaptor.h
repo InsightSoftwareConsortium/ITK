@@ -91,11 +91,13 @@ public:
   /** \brief Set one Forbidden Image.
     There are two possible behaviors here depending on
     m_IsForbiddenImageBinaryMask:
-    \if m_IsForbiddenImageBinaryMask is \c true, then the input image is a binary
-    mask; thus null values are considered as FastMarchingTraitsBase::Forbidden
-    points
-    \else (m_IsForbiddenImageBinaryMask is \c fasle) non null values represents
-    FastMarchingTraitsBase::Forbidden points*/
+
+    \li if m_IsForbiddenImageBinaryMask is \c true, then the input image
+    is a binary mask; thus null values are considered as
+    FastMarchingTraitsBase::Forbidden points
+
+    \li else (m_IsForbiddenImageBinaryMask is \c fasle) non null values
+    represents FastMarchingTraitsBase::Forbidden points*/
   void SetForbiddenImage( const ImageType* iImage );
 
   itkSetMacro( IsForbiddenImageBinaryMask, bool );
