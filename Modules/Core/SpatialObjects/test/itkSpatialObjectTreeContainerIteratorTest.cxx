@@ -26,7 +26,7 @@
 // fails if the offending header itkSpatialObjectTreecontainer.h
 // isn't fixed
 int
-itkSpatialObjectTreeContainerIteratorTest(int ac, char *av[])
+itkSpatialObjectTreeContainerIteratorTest(int, char* [])
 {
   typedef itk::SpatialObjectTreeContainer<3>     SOTreeType;
   typedef itk::PostOrderTreeIterator<SOTreeType> PostOrderItType;
