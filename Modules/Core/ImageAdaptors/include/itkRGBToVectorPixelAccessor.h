@@ -66,7 +66,6 @@ public:
   inline ExternalType Get(const InternalType & input) const
   {
     ExternalType v( input.GetDataPointer() );
-
     return v;
   }
 
