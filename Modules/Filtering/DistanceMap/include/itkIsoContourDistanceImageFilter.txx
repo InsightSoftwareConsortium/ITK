@@ -369,7 +369,7 @@ IsoContourDistanceImageFilter< TInputImage, TOutputImage >
         grad[ng] = ( grad0[ng] * alpha0 + grad1[ng] * alpha1 ) / ( 2. * m_Spacing[ng] );
         norm += grad[ng] * grad[ng];
         }
-      norm = vcl_sqrt( norm );
+      norm = vcl_sqrt( static_cast<double>(norm) );
 
       if ( norm > NumericTraits< PixelType >::min() )
         {
