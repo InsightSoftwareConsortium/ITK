@@ -19,8 +19,8 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itk_hash_set.h"
-#include "itk_hash_map.h"
+#include "itksys/hash_set.hxx"
+#include "itksys/hash_map.hxx"
 #include <iostream>
 
 /**
@@ -43,10 +43,10 @@ struct eqstr
   }
 };
 
-void lookup(const itk::hash_set<const char*, itk::hash<const char*>, eqstr>& Set,
+void lookup(const itksys::hash_set<const char*, itksys::hash<const char*>, eqstr>& Set,
             const char* word)
 {
-  itk::hash_set<const char*, itk::hash<const char*>, eqstr>::const_iterator it
+  itksys::hash_set<const char*, itksys::hash<const char*>, eqstr>::const_iterator it
     = Set.find(word);
   std::cout << word << ": "
        << (it != Set.end() ? "present" : "not present")
@@ -58,19 +58,19 @@ inline void println(const char *s)
 
 int itkHashTableTest(int, char* [] )
 {
-  println("Testing itk::hash");
-  itk::hash<const char*> H;
+  println("Testing itksys::hash");
+  itksys::hash<const char*> H;
   std::cout << "foo -> " << H("foo") << std::endl;
   std::cout << "bar -> " << H("bar") << std::endl;
-  itk::hash<int> H1;
+  itksys::hash<int> H1;
   std::cout << "1 -> " << H1(1) << std::endl;
   std::cout << "234 -> " << H1(234) << std::endl;
-  itk::hash<char> H2;
+  itksys::hash<char> H2;
   std::cout << "a -> " << H2('a') << std::endl;
   std::cout << "Z -> " << H2('Z') << std::endl;
 
-  println("Testing itk::hash_set");
-  typedef itk::hash_set<const char*, itk::hash<const char*>, eqstr> HashSetType;
+  println("Testing itksys::hash_set");
+  typedef itksys::hash_set<const char*, itksys::hash<const char*>, eqstr> HashSetType;
   HashSetType Set;
   Set.insert("kiwi");
   Set.insert("plum");
@@ -99,8 +99,8 @@ int itkHashTableTest(int, char* [] )
   HashSetType SetCopy;
   SetCopy = Set;
 
-  println("Testing itk::hash_map");
-  typedef itk::hash_map<const char*, int, itk::hash<const char*>, eqstr>
+  println("Testing itksys::hash_map");
+  typedef itksys::hash_map<const char*, int, itksys::hash<const char*>, eqstr>
     HashMapType;
 
   HashMapType months;

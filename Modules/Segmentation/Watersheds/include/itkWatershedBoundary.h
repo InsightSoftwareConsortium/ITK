@@ -26,7 +26,7 @@
 #include <vector>
 #include "itkImage.h"
 #include "itkProcessObject.h"
-#include "itk_hash_map.h"
+#include "itksys/hash_map.hxx"
 
 namespace itk
 {
@@ -117,8 +117,8 @@ public:
       types. */
   typedef Image< face_pixel_t, TDimension > face_t;
   /** A hash table holding flat region data structures.   */
-  typedef itk::hash_map< IdentifierType,             flat_region_t,
-                         itk::hash< IdentifierType > > flat_hash_t;
+  typedef itksys::hash_map< IdentifierType,             flat_region_t,
+                        itksys::hash< IdentifierType > > flat_hash_t;
   typedef typename flat_hash_t::value_type FlatHashValueType;
 
   /** Itk typedefs and macros defining smart pointer and type identification.

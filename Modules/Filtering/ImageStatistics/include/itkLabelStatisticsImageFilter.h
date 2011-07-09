@@ -21,7 +21,7 @@
 #include "itkImageToImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkSimpleDataObjectDecorator.h"
-#include "itk_hash_map.h"
+#include "itksys/hash_map.hxx"
 #include "itkHistogram.h"
 #include "itkFastMutexLock.h"
 #include <vector>
@@ -222,10 +222,10 @@ public:
   };
 
   /** Type of the map used to store data per label */
-  typedef itk::hash_map< LabelPixelType, LabelStatistics >                          MapType;
-  typedef typename itk::hash_map< LabelPixelType, LabelStatistics >::iterator       MapIterator;
-  typedef typename itk::hash_map< LabelPixelType, LabelStatistics >::const_iterator MapConstIterator;
-  typedef IdentifierType                                                            MapSizeType;
+  typedef itksys::hash_map< LabelPixelType, LabelStatistics >                          MapType;
+  typedef typename itksys::hash_map< LabelPixelType, LabelStatistics >::iterator       MapIterator;
+  typedef typename itksys::hash_map< LabelPixelType, LabelStatistics >::const_iterator MapConstIterator;
+  typedef IdentifierType                                                               MapSizeType;
 
   /** Type of the container used to store valid label values */
   typedef std::vector<LabelPixelType> ValidLabelValuesContainerType;

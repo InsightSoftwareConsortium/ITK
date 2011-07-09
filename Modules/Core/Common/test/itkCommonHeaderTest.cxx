@@ -21,10 +21,6 @@
 
 #include <iostream>
 
-#include "itk_alloc.h"
-#include "itk_hash_map.h"
-#include "itk_hash_set.h"
-#include "itk_hashtable.h"
 #include "itkAnnulusOperator.txx"
 #include "itkArray.txx"
 #include "itkArray2D.txx"

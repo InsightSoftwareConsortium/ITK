@@ -92,8 +92,8 @@ public:
   };
 
   /** Define the container type for the table */
-  typedef itk::hash_map< IdentifierType, segment_t, itk::hash< IdentifierType > >
-  HashMapType;
+  typedef itksys::hash_map< IdentifierType, segment_t,
+    itksys::hash< IdentifierType > >           HashMapType;
   typedef typename HashMapType::iterator       Iterator;
   typedef typename HashMapType::const_iterator ConstIterator;
   typedef typename HashMapType::value_type     ValueType;
