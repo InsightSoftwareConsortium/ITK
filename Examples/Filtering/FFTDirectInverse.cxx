@@ -102,7 +102,7 @@ int main( int argc, char * argv[] )
       {
       n++;
       }
-    worksize[i] = static_cast<IOImageType::SizeType> ( 1 << (n+1) );
+    worksize[i] = static_cast<IOImageType::SizeValueType> ( 1 << (n+1) );
 
     std::cout << "inputsize[" << i << "]=" << inputsize[i] << std::endl;
     std::cout << "worksize[" << i << "]=" << worksize[i] << std::endl;
