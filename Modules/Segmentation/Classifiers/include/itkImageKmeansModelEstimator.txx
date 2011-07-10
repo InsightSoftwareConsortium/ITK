@@ -169,7 +169,7 @@ ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
 
   //----------------------------------------------------------
   //Allocate scratch memory for the centroid, codebook histogram
-  //and the codebook distorsion
+  //and the codebook distortion
 
   m_Centroid.set_size(finalCodebookSize, m_VectorDimension);
   m_Centroid.fill(0);
@@ -182,7 +182,7 @@ ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
 } // end Allocate function
 
 //-----------------------------------------------------------------
-//Reallocate various memories and then make copy of the old data
+//Reallocate various memories and then make a copy of the old data
 //-----------------------------------------------------------------
 
 template< class TInputImage,
@@ -277,7 +277,7 @@ ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
 } // end EstimateModels
 
 //-----------------------------------------------------------------
-//Estimage K-means models (private function) for the core function
+//Estimate K-means models (private function) for the core function
 //-----------------------------------------------------------------
 template< class TInputImage,
           class TMembershipFunction >
@@ -410,7 +410,7 @@ ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
           }
 
         // put highest distortion centroid into nth codebook row,
-        // and erase the set the hightest centroid stats to 0 so
+        // and erase the set of hightest centroid stats to 0 so
         // it will not be used again.
 
         // find centroid, reinitialize
@@ -662,7 +662,7 @@ ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
 // set initial distortion
   m_OutputDistortion = m_DoubleMaximum;
 
-  // Apply the generalize Lloyd algorithm on all codebook sizes
+  // Apply the generalized Lloyd algorithm on all codebook sizes
   for ( tmp_ncodewords = 1; tmp_ncodewords < m_NumberOfCodewords; )
     {
     // run the GLA for codebook of size i

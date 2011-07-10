@@ -35,9 +35,6 @@
 
 namespace itk
 {
-/**
- *
- */
 template< class TInputImage, class TProbabilityPrecisionType >
 BayesianClassifierInitializationImageFilter< TInputImage, TProbabilityPrecisionType >
 ::BayesianClassifierInitializationImageFilter():
@@ -48,7 +45,7 @@ BayesianClassifierInitializationImageFilter< TInputImage, TProbabilityPrecisionT
 }
 
 // GenerateOutputInformation method. Here we force update on the entire input
-// image. It does not make sense having K-Means etc otherwise
+// image. It does not make sense having K-Means etc otherwise.
 template< class TInputImage, class TProbabilityPrecisionType >
 void
 BayesianClassifierInitializationImageFilter< TInputImage,
