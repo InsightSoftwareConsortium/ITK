@@ -48,10 +48,11 @@ fi
 echo "Pulling the hooks..."
 if GIT_DIR=.. git for-each-ref refs/remotes/origin/hooks 2>/dev/null | \
   egrep-q 'refs/remotes/origin/hooks$'; then
-  git pull .. remotes/origin/hooks
+  git fetch .. remotes/origin/hooks
 else
-  git pull http://public.kitware.com/ITK.git hooks || die "Downloading the hooks failed."
-fi
+  git fetch http://public.kitware.com/ITK.git hooks
+fi &&
+git reset --hard FETCH_HEAD || die "Failed to install hooks"
 cd ../..
 
 # Set up uncrustify hook.
