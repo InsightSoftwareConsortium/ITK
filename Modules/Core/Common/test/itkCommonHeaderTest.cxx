@@ -202,6 +202,7 @@
 #include "itkOffset.h"
 #include "itkOrientationAdapterBase.h"
 #include "itkOutputWindow.h"
+#include "itkParametricImageSource.txx"
 #include "itkPeriodicBoundaryCondition.txx"
 #include "itkPhasedArray3DSpecialCoordinatesImage.txx"
 #include "itkPixelTraits.h"
