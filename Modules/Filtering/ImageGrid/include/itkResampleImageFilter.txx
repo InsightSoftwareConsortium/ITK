@@ -55,6 +55,8 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
   m_Interpolator = dynamic_cast< InterpolatorType * >
                    ( LinearInterpolatorType::New().GetPointer() );
 
+  m_Extrapolator = NULL;
+
   m_DefaultPixelValue = 0;
 }
 
@@ -83,6 +85,7 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
   os << indent << "OutputDirection: " << m_OutputDirection << std::endl;
   os << indent << "Transform: " << m_Transform.GetPointer() << std::endl;
   os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
+  os << indent << "Extrapolator: " << m_Extrapolator.GetPointer() << std::endl;
   os << indent << "UseReferenceImage: " << ( m_UseReferenceImage ? "On" : "Off" )
      << std::endl;
   return;
@@ -158,6 +161,12 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
   // Connect input image to interpolator
   m_Interpolator->SetInputImage( this->GetInput() );
 
+  // Connect input image to extrapolator
+  if( !m_Extrapolator.IsNull() )
+    {
+    m_Extrapolator->SetInputImage( this->GetInput() );
+    }
+
   // Test for a BSpline interpolator
   BSplineInterpolatorType *testPtr =
     dynamic_cast< BSplineInterpolatorType * > ( m_Interpolator.GetPointer() );
@@ -185,6 +194,11 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
 {
   // Disconnect input image from the interpolator
   m_Interpolator->SetInputImage(NULL);
+  if( !m_Extrapolator.IsNull() )
+    {
+    // Disconnect input image from the extrapolator
+    m_Extrapolator->SetInputImage(NULL);
+    }
 }
 
 /**
@@ -283,11 +297,11 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
     inputPoint = this->m_Transform->TransformPoint(outputPoint);
     inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, inputIndex);
 
+    PixelType        pixval;
+    OutputType       value;
     // Evaluate input at right position and copy to the output
     if ( m_Interpolator->IsInsideBuffer(inputIndex) )
       {
-      PixelType        pixval;
-      OutputType       value;
       if ( m_InterpolatorIsBSpline )
         {
         value = m_BSplineInterpolator
@@ -314,7 +328,28 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
       }
     else
       {
-      outIt.Set(m_DefaultPixelValue); // default background value
+      if( m_Extrapolator.IsNull() )
+        {
+        outIt.Set( m_DefaultPixelValue ); // default background value
+        }
+      else
+        {
+        value = m_Extrapolator->EvaluateAtContinuousIndex( inputIndex );
+        // Check boundaries and assign
+        if ( value < minOutputValue )
+          {
+          pixval = minValue;
+          }
+        else if ( value > maxOutputValue )
+          {
+          pixval = maxValue;
+          }
+        else
+          {
+          pixval = static_cast< PixelType >( value );
+          }
+        outIt.Set(pixval);
+        }
       }
 
     progress.CompletedPixel();
@@ -429,11 +464,11 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
 
     while ( !outIt.IsAtEndOfLine() )
       {
+      PixelType  pixval;
+      OutputType value;
       // Evaluate input at right position and copy to the output
       if ( m_Interpolator->IsInsideBuffer(inputIndex) )
         {
-        PixelType  pixval;
-        OutputType value;
         if ( m_InterpolatorIsBSpline )
           {
           value = m_BSplineInterpolator->EvaluateAtContinuousIndex(
@@ -461,7 +496,28 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
         }
       else
         {
-        outIt.Set(defaultValue); // default background value
+        if( m_Extrapolator.IsNull() )
+          {
+          outIt.Set(defaultValue); // default background value
+          }
+        else
+          {
+          value = m_Extrapolator->EvaluateAtContinuousIndex( inputIndex );
+          // Check boundaries and assign
+          if ( value < minOutputValue )
+            {
+            pixval = minValue;
+            }
+          else if ( value > maxOutputValue )
+            {
+            pixval = maxValue;
+            }
+          else
+            {
+            pixval = static_cast< PixelType >( value );
+            }
+          outIt.Set(pixval);
+          }
         }
 
       progress.CompletedPixel();
