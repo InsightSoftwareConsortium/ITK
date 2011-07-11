@@ -1,5 +1,28 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project(ITK)
+
+if( WIN32 )
+
+  string( LENGTH "${CMAKE_CURRENT_SOURCE_DIR}" n )
+  if( n GREATER 50 )
+    message(
+      FATAL_ERROR
+      "Source tree directory of ITK is too deep (${n} > 50)."
+      "Please use a shorter root directory for the ITK source tree."
+      )
+  endif()
+
+  string( LENGTH "${CMAKE_CURRENT_BINARY_DIR}" n )
+  if( n GREATER 50 )
+    message(
+      FATAL_ERROR
+      "Binary tree directory of ITK is too deep (${n} > 50)."
+      "Please use a shorter root directory for the ITK binary tree."
+      )
+  endif()
+
+endif()
+
 set(CMAKE_MODULE_PATH ${ITK_SOURCE_DIR}/CMake ${CMAKE_MODULE_PATH})
 include(PreventInSourceBuilds)
 include(PreventInBuildInstalls)
