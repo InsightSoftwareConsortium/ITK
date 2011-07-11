@@ -32,6 +32,7 @@ RadialBasisFunctionBase<ScalarType>
 {
   m_Center=c;
 }
+
 template<class ScalarType>
 typename RadialBasisFunctionBase<ScalarType>::ArrayType
 RadialBasisFunctionBase<ScalarType>
@@ -39,6 +40,7 @@ RadialBasisFunctionBase<ScalarType>
 {
   return m_Center;
 }
+
 template<class ScalarType>
 void
 RadialBasisFunctionBase<ScalarType>
@@ -46,6 +48,7 @@ RadialBasisFunctionBase<ScalarType>
 {
   m_Radius=r;
 }
+
 template<class ScalarType>
 ScalarType
 RadialBasisFunctionBase<ScalarType>

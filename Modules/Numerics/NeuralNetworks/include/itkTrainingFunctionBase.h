@@ -27,6 +27,11 @@ namespace itk
 {
 namespace Statistics
 {
+/** \class TrainingFunctionBase
+ * \brief This is the itkTrainingFunctionBase class.
+ *
+ * \ingroup ITK-NeuralNetworks
+ */
 
 template<class TSample, class TTargetVector, class ScalarType>
 class TrainingFunctionBase : public LightProcessObject

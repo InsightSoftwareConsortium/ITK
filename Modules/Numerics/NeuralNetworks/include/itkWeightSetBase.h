@@ -30,6 +30,11 @@ namespace itk
 {
 namespace Statistics
 {
+/** \class WeightSetBase
+ * \brief This is the itkWeightSetBase class.
+ *
+ * \ingroup ITK-NeuralNetworks
+ */
 
 template<class TMeasurementVector, class TTargetVector>
 class WeightSetBase : public LightProcessObject

@@ -26,6 +26,11 @@ namespace itk
 {
 namespace Statistics
 {
+/** \class RBFBackPropagationLearningFunction
+ * \brief This is the itkRBFBackPropagationLearningFunction class.
+ *
+ * \ingroup ITK-NeuralNetworks
+ */
 
 template<class LayerType, class TTargetVector>
 class RBFBackPropagationLearningFunction : public LearningFunctionBase<LayerType, TTargetVector>

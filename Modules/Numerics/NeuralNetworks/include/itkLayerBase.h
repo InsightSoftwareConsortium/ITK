@@ -28,6 +28,11 @@ namespace itk
 {
 namespace Statistics
 {
+/** \class LayerBase
+ * \brief This is the itkLayerBase class.
+ *
+ * \ingroup ITK-NeuralNetworks
+ */
 
 template<class TMeasurementVector, class TTargetVector>
 class LayerBase : public LightProcessObject

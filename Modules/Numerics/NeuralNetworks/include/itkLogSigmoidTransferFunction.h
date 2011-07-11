@@ -24,6 +24,11 @@ namespace itk
 {
 namespace Statistics
 {
+/** \class LogSigmoidTransferFunction
+ * \brief This is the itkLogSigmoidTransferFunction class.
+ *
+ * \ingroup ITK-NeuralNetworks
+ */
 
 template<class ScalarType>
 class LogSigmoidTransferFunction : public TransferFunctionBase<ScalarType>

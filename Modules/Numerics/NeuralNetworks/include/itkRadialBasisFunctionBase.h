@@ -25,6 +25,11 @@ namespace itk
 {
 namespace Statistics
 {
+/** \class RadialBasisFunctionBase
+ * \brief This is the itkRadialBasisFunctionBase class.
+ *
+ * \ingroup ITK-NeuralNetworks
+ */
 
 template<class ScalarType>
 class RadialBasisFunctionBase : public FunctionBase<ScalarType,ScalarType>

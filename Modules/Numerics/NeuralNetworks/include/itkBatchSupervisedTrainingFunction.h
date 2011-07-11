@@ -24,6 +24,11 @@ namespace itk
 {
 namespace Statistics
 {
+/** \class BatchSupervisedTrainingFunction
+ * \brief This is the itkBatchSupervisedTrainingFunction class.
+ *
+ * \ingroup ITK-NeuralNetworks
+ */
 
 template<class TSample, class TTargetVector, class ScalarType>
 class BatchSupervisedTrainingFunction : public TrainingFunctionBase<TSample, TTargetVector, ScalarType>

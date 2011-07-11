@@ -24,6 +24,11 @@ namespace itk
 {
 namespace Statistics
 {
+/** \class TanHTransferFunction
+ * \brief This is the itkTanHTransferFunction class.
+ *
+ * \ingroup ITK-NeuralNetworks
+ */
 
 template<class ScalarType>
 class TanHTransferFunction : public TransferFunctionBase<ScalarType>
