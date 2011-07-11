@@ -28,15 +28,13 @@
 namespace itk
 {
 /** \class LoggerManager
- *  \brief Class LoggerManager is meant for centrally managing loggers.
- *
- *
+ *  \brief Used for centrally managing loggers.
  *
  * \author Hee-Su Kim, Compute Science Dept. Kyungpook National University,
  *                     ISIS Center, Georgetown University.
  *
  *
- *  \ingroup OSSystemObjects LoggingObjects
+ * \ingroup OSSystemObjects LoggingObjects
  *
  * \ingroup ITK-Common
  */

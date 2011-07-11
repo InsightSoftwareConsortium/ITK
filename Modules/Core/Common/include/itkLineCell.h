@@ -23,16 +23,16 @@
 namespace itk
 {
 /** \class LineCell
+ *  \brief Represents a line segment for a Mesh.
+ *
  * LineCell represents a line segment for a Mesh.
  *
  * Template parameters for LineCell:
  *
- * TPixelType =
- *     The type associated with a point, cell, or boundary for use in storing
- *     its data.
+ * \tparam TPixelType The type associated with a point, cell, or boundary
+ * for use in storing its data.
  *
- * TCellTraits =
- *     Type information of mesh containing cell.
+ * \tparam TCellTraits Type information of mesh containing cell.
  *
  * \ingroup MeshObjects
  * \ingroup ITK-Common

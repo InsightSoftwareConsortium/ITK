@@ -31,6 +31,9 @@ template<
 class CellInterface;
 
 /** \class CellInterfaceVisitor
+ *  \brief Abstract interface for a visitor class that can visit the
+ *         cells in a Mesh.
+ *
  * Define the abstract interface for a visitor class that can visit the
  * cells in a Mesh.  This follows the Visitor Design Pattern.   To make
  * this class easier to use, the CellInterfaceVisitorImplementation is
@@ -73,6 +76,8 @@ private:
 };
 
 /** \class CellInterfaceVisitorImplementation
+ *  \brief A template class used to implement a visitor object.
+ *
  * A template class used to implement a visitor object.
  *
  * The Visitor implementation does the down cast to

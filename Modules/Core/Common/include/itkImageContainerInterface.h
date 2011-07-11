@@ -23,6 +23,9 @@
 namespace itk
 {
 /** \class ImageContainerInterface
+ *  \brief Used for reference when writing containers conforming to
+ *         this interface.
+ *
  * This should only be used for reference when writing containers
  * conforming to this interface.  ITK uses generic programming to
  * allow container type substitution, so polymorphism is not needed to
@@ -38,14 +41,10 @@ namespace itk
  * Element type.  Also note that all non-const methods assume that the
  * container was modified, and update the modification time.
  *
- * Template parameters for ImageContainerInterface:
+ * \tparam TElementIdentifier A type that shall be used to index the
+ * container. It must have a < operator defined for ordering.
  *
- * TElementIdentifier =
- *    A type that shall be used to index the container.
- *    It must have a < operator defined for ordering.
- *
- * TElement =
- *    The element type stored in the container.
+ * \tparam TElement The element type stored in the container.
  *
  * \ingroup ImageObjects
  * \ingroup ITK-Common

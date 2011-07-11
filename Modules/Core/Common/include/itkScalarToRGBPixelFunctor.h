@@ -26,7 +26,7 @@ namespace Functor
 {
 /**
  * \class ScalarToRGBPixelFunctor
- * \brief Function object which maps a scalar value into an RGB pixel value.
+ * \brief A Function object which maps a scalar value into an RGB pixel value.
  *
  *  This class is useful for visualizing labeled images which cannot be mapped
  *  succefully into grayscale images.  Images of unsigned long integers, for

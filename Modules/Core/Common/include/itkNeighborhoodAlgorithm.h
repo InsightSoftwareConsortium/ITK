@@ -28,6 +28,8 @@ namespace itk
 namespace NeighborhoodAlgorithm
 {
 /** \class ImageBoundaryFacesCalculator
+*   \brief Splits an image into a main region and several "face" regions
+*          which are used to handle computations on the boundary of an image.
 *
 * Splitting the image into the necessary regions is an easy task when you use
 * the ImageBoundaryFacesCalculator.  The face
@@ -70,6 +72,7 @@ struct ITK_EXPORT ImageBoundaryFacesCalculator {
 };
 
 /** \class CalculateOutputWrapOffsetModifiers
+ *  \brief Sets up itkNeighborhoodIterator output buffers.
  *
  * Helper class for setting up itkNeighborhoodIterator output
  * buffers. Calculates the necessary modifiers to synchronize input and output

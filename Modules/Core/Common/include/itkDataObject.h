@@ -41,7 +41,7 @@ class DataObject;
 /*--------------------Data Object Exceptions---------------------------*/
 
 /** \class DataObjectError
- * \brief Exception object for DataObject exceptions
+ * \brief Exception object for DataObject exceptions.
  * \ingroup ITK-Common
  */
 class ITKCommon_EXPORT DataObjectError:public ExceptionObject
@@ -88,7 +88,9 @@ private:
 };
 
 /** \class InvalidRequestRegionError
- * Exception object for invalid requested region
+ *  \brief Exception object for invalid requested region.
+ *
+ * Exception object for invalid requested region.
  * \ingroup ITK-Common
  */
 class ITKCommon_EXPORT InvalidRequestedRegionError:public DataObjectError

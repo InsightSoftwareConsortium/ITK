@@ -23,8 +23,11 @@
 namespace itk
 {
 /** \class HexahedronCellTopology
+ *  \brief Holds data defining the topological connections of
+ *         the vertices and edges of a HexahedronCell.
+ *
  * HexahedronCellTopology holds data defining the topological
- * connections of the vertices and edges of an Hexahedron Cell.
+ * connections of the vertices and edges of a HexahedronCell.
  *
  * This class is used to localize static variables out of .txx
  * files. This prevents multiple definition of static variables.

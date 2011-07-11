@@ -26,6 +26,8 @@ namespace itk
 {
 /**
  * \class LevelOrderTreeIterator
+ * \brief Iterate over a tree in level order.
+ *
  * \ingroup ITK-Common
  */
 template< class TTreeType >

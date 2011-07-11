@@ -32,7 +32,7 @@ namespace itk
 /** \class MapRecord
  * \brief MapRecord class.
  *
- * FIXME: Add documentation
+ * \todo Add documentation
  * \ingroup ITK-Common
  */
 class ITKCommon_EXPORT MapRecord
@@ -56,7 +56,8 @@ public:
 };
 
 /** \class SmapsRecord
- * This struct contains an entry in a smaps file.
+ *  \brief An entry in a smaps file.
+ *
  *  It is filled by operator>>(istream&,SmapsRecord&).
  * \ingroup ITK-Common
  */
@@ -82,7 +83,8 @@ class ITKCommon_EXPORT SmapsRecord:public MapRecord
 };
 
 /** \class VMMapSummaryRecord
- *  This struct contains an entry in a smaps file.
+ *  \brief Contains an entry in a smaps file.
+ *
  *  It is filled by operator>>(istream&,VMMapRecord&).
  * \ingroup ITK-Common
  */
@@ -97,7 +99,8 @@ class ITKCommon_EXPORT VMMapSummaryRecord:public MapRecord
 };
 
 /** \class VMMapRecord
- *  This struct contains an entry in a smaps file.
+ *  \breif Contains an entry in a smaps file.
+ *
  *  It is filled by operator>>(istream&,SmapsRecord&).
  * \ingroup ITK-Common
  */
@@ -114,7 +117,8 @@ class ITKCommon_EXPORT VMMapRecord:public MapRecord
 /** MAP DATA **/
 
 /** \class MapData
- *  Base class for the ?map data container.
+ *  \brief Base class for map data containers.
+ *
  *  Inherited classes must implement their own
  * \ingroup ITK-Common
  */
@@ -179,6 +183,8 @@ protected:
 };
 
 /** \class VMMapData_10_2
+ *  \brief TODO
+ *
  *  Apparently the vmmap command exists since at least Mac OS X v10.2
  *  On Tiger, /usr/bin/vmmap used to be installed by the Essentials.pkg,
  *  On Panther, /usr/bin/vmmap used to be installed by the DevTools.pkg,
@@ -206,6 +212,7 @@ protected:
 };
 
 /** \class MapFileParser
+ *  \brief TODO
  *
  * FIXME: Add documentation
  *

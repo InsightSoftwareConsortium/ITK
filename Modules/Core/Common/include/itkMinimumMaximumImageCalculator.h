@@ -24,6 +24,9 @@
 namespace itk
 {
 /** \class MinimumMaximumImageCalculator
+ *  \brief Computes the minimum and the maximum intensity values of
+ *         an image.
+ *
  * This calculator computes the minimum and the maximum intensity values of
  * an image.  It is templated over input image type.  If only Maximum or
  * Minimum value is needed, just call ComputeMaximum() (ComputeMinimum())

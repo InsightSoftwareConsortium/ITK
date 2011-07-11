@@ -26,6 +26,8 @@ namespace itk
 {
 /**
  * \class ConstSparseFieldLayerIterator
+ * \brief Used to iterate through an itkSparseFieldLayer.
+ *
  *  This class is modeled on the STL Forward Iterator concept, and is used to
  *  iterate through an itkSparseFieldLayer.
  * \ingroup ITK-Common
@@ -79,7 +81,7 @@ protected:
 };
 
 /** \class SparseFieldLayerIterator
- *  The non-const version of the ConstSparseFieldLayerIterator.
+ *  \brief The non-const version of the ConstSparseFieldLayerIterator.
  * \ingroup ITK-Common
  */
 template< class TNodeType >
@@ -124,7 +126,8 @@ public:
 };
 
 /** \class SparseFieldLayer
- *
+ *  \brief A very simple linked list that is used to manage
+ *         nodes in a layer of a sparse field level-set solver.
  *  \par
  *  This class implements a *very* simple linked list that is used to manage
  *  nodes in a layer of a sparse field level-set solver.  For more information

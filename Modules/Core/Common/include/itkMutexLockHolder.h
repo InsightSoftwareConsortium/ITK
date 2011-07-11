@@ -33,6 +33,7 @@
 namespace itk
 {
 /** \class MutexLockHolder
+ *  \brief A container to store a Mutex.
  *
  * \ingroup ITK-Common
  */

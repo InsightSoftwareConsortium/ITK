@@ -25,17 +25,16 @@
 namespace itk
 {
 /** \class ImportImageContainer
+ *  \brief Defines an itk::Image front-end to a standard C-array.
+ *
  * Defines an itk::Image front-end to a standard C-array. This container
  * conforms to the ImageContainerInterface. This is a full-fleged Object,
  * so there is modification time, debug, and reference count information.
  *
- * Template parameters for ImportImageContainer:
+ * \tparam TElementIdentifier An INTEGRAL type for use in indexing the
+ * imported buffer.
  *
- * TElementIdentifier =
- *     An INTEGRAL type for use in indexing the imported buffer.
- *
- * TElement =
- *    The element type stored in the container.
+ * \tparam TElement The element type stored in the container.
  *
  * \ingroup ImageObjects
  * \ingroup IOFilters

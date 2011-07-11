@@ -23,7 +23,7 @@
 namespace itk
 {
 /** \class CreateObjectFunctionBase
- * \brief Define API for object creation callback functions.
+ *  \brief Define API for object creation callback functions.
  *
  * \ingroup ITKSystemObjects
  * \ingroup ITK-Common
@@ -50,8 +50,8 @@ private:
 };
 
 /** \class CreateObjectFunction
- * \brief CreateObjectFunction is used to create callback functions that
- * create ITK Objects for use with the itk::ObjectFactory.
+ * \brief Used to create callback functions that create ITK Objects for
+ *        use with the itk::ObjectFactory.
  *
  * \ingroup ITKSystemObjects
  * \ingroup ITK-Common

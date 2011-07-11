@@ -35,9 +35,8 @@
 namespace itk
 {
 /** \class MetaDataObjectBase
- * \brief
- * The MetaDataObjectBase class is designed as the
- * common interface for MetaDataObject's.
+ * \brief The common interface for MetaDataObject's.
+ *
  * This class is intended as the value part
  * of the (key,value) pair to be stored in
  * a MetaDataDictionary

@@ -25,7 +25,7 @@
 namespace itk
 {
 /** \class RealTimeInterval
- * \brief The RealTimeInterval is a data structure for representing the time
+ * \brief A data structure for representing the time
  * span between two RealTimeStamps, with similar high precision and a large
  * dynamic range to what the RealTimeStamps offer.
  *

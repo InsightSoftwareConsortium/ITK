@@ -22,6 +22,8 @@
 namespace itk
 {
 /** \class NeighborhoodAllocator
+ *  \brief A memory allocator for use as the default allocator type in
+ *         Neighborhood.
  *
  * This is a memory allocator for use as the default allocator type in
  * Neighborhood.  The API is designed to mimic that of vnl_vector so that

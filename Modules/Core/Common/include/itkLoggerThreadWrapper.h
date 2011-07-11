@@ -30,13 +30,12 @@
 namespace itk
 {
 /** \class LoggerThreadWrapper
- *  \brief Class LoggerThreadWrapper is meant for providing logging service
- *  as a separate thread.
+ *  \brief Used for providing logging service as a separate thread.
  *
  * \author Hee-Su Kim, Compute Science Dept. Kyungpook National University,
  *                     ISIS Center, Georgetown University.
  *
- *  \ingroup OSSystemObjects LoggingObjects
+ * \ingroup OSSystemObjects LoggingObjects
  * \ingroup ITK-Common
  */
 

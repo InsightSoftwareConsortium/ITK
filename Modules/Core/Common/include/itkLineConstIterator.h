@@ -25,7 +25,8 @@ namespace itk
 {
 /**
  * \class LineConstIterator
- * \brief Iterator that walks a Bresenham line through an ND image.
+ * \brief An iterator that walks a Bresenham line through an ND image
+ *        with read-only access to pixels.
  *
  * LineConstIterator is an iterator that walks a Bresenham line
  * through an image.  The iterator is constructed similar to other
@@ -42,8 +43,8 @@ namespace itk
  * }
  * \endcode
  *
- * This class was contributed by Benjamin King, Experimentelle
- * Radiologie, Medizinische Hochschule Hannover.
+ * \author Benjamin King, Experimentelle Radiologie, Medizinische
+ * Hochschule Hannover.
  *
  * \ingroup ITK-Common
  *

@@ -24,6 +24,7 @@ namespace itk
 {
 /**
  * \class LaplacianOperator
+ * \brief A NeighborhoodOperator for use in calculating the Laplacian at a pixel.
  *
  *  A NeighborhoodOperator for use in calculating the Laplacian at a pixel.
  *  The LaplacianOperator's coefficients are a tightest-fitting convolution

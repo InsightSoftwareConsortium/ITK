@@ -25,7 +25,7 @@
 namespace itk
 {
 /** \class MemoryProbesCollectorBase
- *  \brief Class for aggregating a set of memory probes.
+ *  \brief Aggregates a set of memory probes.
  *
  *  This class defines a set of MemoryProbes and assign names to them.
  *  The user can start and stop each one of the probes by addressing them by name.

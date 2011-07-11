@@ -36,17 +36,16 @@
 namespace itk
 {
 /** \class PolygonCell
+ *  \brief Represents a polygon in a Mesh.
+ *
  * PolygonCell represents a polygon for a Mesh.
  *  the points of the polygon can be dynamically changed.
  *
- * Template parameters for PolygonCell:
+ * \tparam TPixelType The type associated with a point, cell, or boundary
+ * for use in storing its data.
  *
- * TPixelType =
- *     The type associated with a point, cell, or boundary for use in storing
- *     its data.
+ * \tparam TCellTraits Type information of mesh containing cell.
  *
- * TCellTraits =
- *     Type information of mesh containing cell.
  * \ingroup MeshObjects
  * \ingroup ITK-Common
  */

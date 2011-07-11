@@ -24,7 +24,8 @@ namespace itk
 {
 /**
  * \class FloodFilledSpatialFunctionConditionalIterator
- * \brief Iterates over a flood-filled spatial function.
+ * \brief Iterates over a flood-filled spatial function with write access
+ *        to pixels.
  *
  * \ingroup ImageIterators
  *
