@@ -76,6 +76,8 @@ itkScalarImageToCooccurrenceListSampleFilterTest.cxx
 itkScalarImageToCooccurrenceMatrixFilterTest.cxx
 itkScalarImageToCooccurrenceMatrixFilterTest2.cxx
 itkScalarImageToTextureFeaturesFilterTest.cxx
+itkScalarImageToRunLengthMatrixFilterTest.cxx
+itkScalarImageToRunLengthFeaturesFilterTest.cxx
 itkSparseFrequencyContainer2Test.cxx
 itkStandardDeviationPerComponentSampleFilterTest.cxx
 itkStatisticsTypesTest.cxx
@@ -323,6 +325,10 @@ itk_add_test(NAME itkScalarImageToCooccurrenceMatrixFilterTest2
       COMMAND ITKStatisticsTestDriver itkScalarImageToCooccurrenceMatrixFilterTest2)
 itk_add_test(NAME itkScalarImageToTextureFeaturesFilterTest
       COMMAND ITKStatisticsTestDriver itkScalarImageToTextureFeaturesFilterTest)
+itk_add_test(NAME itkScalarImageToRunLengthMatrixFilterTest
+      COMMAND ITKStatisticsTestDriver itkScalarImageToRunLengthMatrixFilterTest)
+itk_add_test(NAME itkScalarImageToRunLengthFeaturesFilterTest
+      COMMAND ITKStatisticsTestDriver itkScalarImageToRunLengthFeaturesFilterTest)
 itk_add_test(NAME itkSparseFrequencyContainer2Test
       COMMAND ITKStatisticsTestDriver itkSparseFrequencyContainer2Test)
 itk_add_test(NAME itkStandardDeviationPerComponentSampleFilterTest
