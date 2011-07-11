@@ -147,6 +147,7 @@ itkVNLRoundProfileTest1.cxx
 itkZeroFluxBoundaryConditionTest.cxx
 itkMemoryProbesCollecterBaseTest.cxx
 itkImageAlgorithmCopyTest.cxx
+itkConstantBoundaryConditionTest.cxx
 )
 
 CreateTestDriver(ITK-Common1 "${ITK-Common_LIBRARIES}" "${ITK-Common1Tests}")
@@ -362,6 +363,7 @@ itk_add_test(NAME itkVariableSizeMatrixTest COMMAND ITK-Common2TestDriver itkVar
 #itk_add_test(NAME itkQuaternionOrientationAdapterTest COMMAND ITK-Common2TestDriver itkQuaternionOrientationAdapterTest)
 itk_add_test(NAME itkVectorGeometryTest COMMAND ITK-Common2TestDriver itkVectorGeometryTest)
 itk_add_test(NAME itkZeroFluxBoundaryConditionTest COMMAND ITK-Common2TestDriver itkZeroFluxBoundaryConditionTest)
+itk_add_test(NAME itkConstantBoundaryConditionTest COMMAND ITK-Common2TestDriver itkConstantBoundaryConditionTest)
  itk_add_test(NAME itkVNLRoundProfileTest1 COMMAND ITK-Common2TestDriver itkVNLRoundProfileTest1)
  itk_add_test(NAME itkMemoryProbesCollecterBaseTest COMMAND ITK-Common2TestDriver
    itkMemoryProbesCollecterBaseTest)

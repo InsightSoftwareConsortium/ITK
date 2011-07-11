@@ -182,6 +182,8 @@ ConstNeighborhoodIterator< TImage, TBoundaryCondition >
 
   m_IsInBounds = false;
   m_IsInBoundsValid = false;
+
+  m_BoundaryCondition = &m_InternalBoundaryCondition;
 }
 
 template< class TImage, class TBoundaryCondition >

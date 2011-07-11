@@ -127,6 +127,84 @@ PeriodicBoundaryCondition< TImage >
 
   return neighborhoodAccessorFunctor.Get(ptr);
 }
+
+
+template< class TImage >
+typename PeriodicBoundaryCondition< TImage >::RegionType
+PeriodicBoundaryCondition< TImage >
+::GetInputRequestedRegion( const RegionType & inputLargestPossibleRegion,
+                           const RegionType & outputRequestedRegion ) const
+{
+  IndexType  imageIndex = inputLargestPossibleRegion.GetIndex();
+  SizeType   imageSize  = inputLargestPossibleRegion.GetSize();
+
+  IndexType outputIndex = outputRequestedRegion.GetIndex();
+  SizeType  outputSize  = outputRequestedRegion.GetSize();
+
+  IndexType inputRequestedIndex;
+  SizeType  inputRequestedSize;
+
+  for ( unsigned int i = 0; i < ImageDimension; ++i )
+    {
+    // Check for image boundary overlap in the requested region
+    IndexValueType lowIndex =
+      ( ( outputIndex[i] - imageIndex[i] ) % static_cast< IndexValueType >( imageSize[i] ) );
+    if ( lowIndex < 0 )
+      {
+      lowIndex += static_cast< IndexValueType >( imageSize[i] );
+      }
+    IndexValueType highIndex = lowIndex + static_cast< IndexValueType >( outputSize[i] );
+
+    bool overlap = ( highIndex >= static_cast< IndexValueType >( imageSize[i] ) );
+
+    if ( overlap )
+      {
+      // Request the totality of the image in this dimension
+      inputRequestedIndex[i] = imageIndex[i];
+      inputRequestedSize[i]  = imageSize[i];
+      }
+    else
+      {
+      // Remap the requested portion in this dimension into the image region.
+      inputRequestedIndex[i] = lowIndex;
+      inputRequestedSize[i]  = outputSize[i];
+      }
+    }
+  RegionType inputRequestedRegion( inputRequestedIndex, inputRequestedSize );
+
+  return inputRequestedRegion;
+}
+
+
+template< class TImage >
+typename PeriodicBoundaryCondition< TImage >::PixelType
+PeriodicBoundaryCondition< TImage >
+::GetPixel( const IndexType & index, const TImage * image ) const
+{
+  RegionType imageRegion = image->GetLargestPossibleRegion();
+  IndexType  imageIndex  = imageRegion.GetIndex();
+  SizeType   imageSize   = imageRegion.GetSize();
+
+  typedef typename IndexType::IndexValueType IndexValueType;
+
+  IndexType lookupIndex;
+
+  for ( unsigned int i = 0; i < ImageDimension; ++i )
+    {
+    IndexValueType modIndex = ( ( index[i] - imageIndex[i] ) %
+                                static_cast< IndexValueType >( imageSize[i] ) );
+
+    if ( modIndex < 0 )
+      {
+      modIndex += static_cast< IndexValueType >( imageSize[i] );
+      }
+
+    lookupIndex[i] = modIndex + imageIndex[i];
+    }
+
+  return image->GetPixel( lookupIndex );
+}
+
 } // end namespace itk
 
 #endif
