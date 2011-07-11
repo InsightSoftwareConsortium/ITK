@@ -223,7 +223,7 @@ MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
   return meshSO.GetPointer();
 }
 
-/** Convert an Mesh SpatialObject into a metaMesh */
+/** Convert a Mesh SpatialObject into a metaMesh */
 template< unsigned int NDimensions, typename PixelType, typename TMeshTraits >
 typename MetaMeshConverter< NDimensions, PixelType, TMeshTraits >::MetaObjectType *
 MetaMeshConverter< NDimensions, PixelType, TMeshTraits >

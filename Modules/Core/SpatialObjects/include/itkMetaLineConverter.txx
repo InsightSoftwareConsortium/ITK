@@ -109,7 +109,7 @@ MetaLineConverter< NDimensions >
   return lineSO.GetPointer();
 }
 
-/** Convert an Line SpatialObject into a metaLine */
+/** Convert a Line SpatialObject into a metaLine */
 template< unsigned int NDimensions >
 typename MetaLineConverter< NDimensions >::MetaObjectType *
 MetaLineConverter< NDimensions >

@@ -136,7 +136,7 @@ MetaVesselTubeConverter< NDimensions >
   return vesselTubeSO.GetPointer();
 }
 
-/** Convert an Tube SpatialObject into a MetaVesselTube */
+/** Convert a Tube SpatialObject into a MetaVesselTube */
 template< unsigned int NDimensions >
 typename MetaVesselTubeConverter< NDimensions >::MetaObjectType *
 MetaVesselTubeConverter< NDimensions >

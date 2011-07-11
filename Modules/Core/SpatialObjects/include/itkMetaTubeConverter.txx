@@ -125,7 +125,7 @@ MetaTubeConverter< NDimensions >
   return tubeSO.GetPointer();
 }
 
-/** Convert an Tube SpatialObject into a metaTube */
+/** Convert a Tube SpatialObject into a metaTube */
 template< unsigned int NDimensions >
 typename MetaTubeConverter< NDimensions >::MetaObjectType *
 MetaTubeConverter< NDimensions >

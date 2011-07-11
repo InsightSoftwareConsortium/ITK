@@ -151,7 +151,7 @@ MetaContourConverter< NDimensions >
   return contourSO.GetPointer();
 }
 
-/** Convert an Contour SpatialObject into a metaContour */
+/** Convert a Contour SpatialObject into a metaContour */
 template< unsigned int NDimensions >
 typename MetaContourConverter< NDimensions>::MetaObjectType *
 MetaContourConverter< NDimensions >

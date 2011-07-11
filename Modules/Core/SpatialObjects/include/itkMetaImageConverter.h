@@ -18,9 +18,7 @@
 #ifndef __itkMetaImageConverter_h
 #define __itkMetaImageConverter_h
 
-//
 // to avoid an Internal Compiler Error in Visual Studio 6.0
-//
 #include "metaImage.h"
 #include "itkMetaConverterBase.h"
 #include "itkImageSpatialObject.h"
@@ -30,7 +28,8 @@ namespace itk
 {
 
 /** \class MetaImageConverter
- *  \brief converts between MetaObject<->SpatialObject
+ *  \brief converts between MetaObject<->SpatialObject.
+ *
  *  \sa MetaConverterBase
  *  \ingroup ITK-SpatialObjects
  */
