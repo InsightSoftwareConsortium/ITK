@@ -61,7 +61,7 @@ public:
 
   typedef typename NumericTraits< PixelType >::RealType RealType;
 
-  /** Define the image type for internal computations
+  /** Define the image type for internal computations.
       RealType is usually 'double' in NumericTraits.
       Here we prefer float in order to save memory.  */
   typedef float InternalRealType;
