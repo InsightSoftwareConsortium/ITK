@@ -19,6 +19,7 @@
 #include "itksys/SystemTools.hxx"
 #include "vnl/vnl_matlab_read.h"
 #include "vnl/vnl_matlab_write.h"
+#include "itkTransformFileReader.h"
 
 namespace itk
 {
@@ -70,6 +71,36 @@ TxtTransformIO::trim(std::string const & source, char const *delims)
     result.erase();
     }
   return result;
+}
+
+void
+TxtTransformIO::ReadComponentFile( std::string Value )
+{
+  /* Used for reading component files listed in a composite transform
+   * file, which should be read by CompositeTransformReader for assembly
+   * into a CompositeTransform.
+   * The component filenames are listed w/out paths, and are expected
+   * to be in the same path as the master file. */
+  std::string filePathUnix =
+    itksys::SystemTools::GetFilenamePath( this->GetFileName() ) + "/";
+  std::string filePath =
+    itksys::SystemTools::ConvertToOutputPath( filePathUnix.c_str() );
+
+  /* Use TransformFileReader to read each component file. */
+  TransformFileReader::Pointer reader = TransformFileReader::New();
+  std::string componentFullPath = filePath + Value;
+  reader->SetFileName( componentFullPath );
+  try
+    {
+    reader->Update();
+    }
+  catch (itk::ExceptionObject &ex)
+    {
+    itkExceptionMacro("Error reading component file: " << Value
+                      << std::endl << ex );
+    }
+  TransformPointer transform = reader->GetTransformList()->front().GetPointer();
+  this->GetReadTransformList().push_back (transform);
 }
 
 void
@@ -174,6 +205,11 @@ TxtTransformIO::Read()
       {
       this->CreateTransform(transform, Value);
       this->GetReadTransformList().push_back (transform);
+      }
+    else if ( Name == "ComponentTransformFile" )
+      {
+      /* Used by CompositeTransform file */
+      ReadComponentFile( Value );
       }
     else if ( Name == "Parameters" || Name == "FixedParameters" )
       {

@@ -50,6 +50,9 @@ public:
    * pointer to the beginning of the image data. */
   virtual void Write();
 
+  /* Helper function for Read method, used for CompositeTransform reading. */
+  void ReadComponentFile( std::string Value );
+
 protected:
   TxtTransformIO();
   virtual ~TxtTransformIO();

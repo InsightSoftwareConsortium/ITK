@@ -186,6 +186,9 @@ itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest.cxx
 itkVoxBoCUBImageIOTest.cxx
 itkWarpHarmonicEnergyCalculatorTest.cxx
 itkWarpJacobianDeterminantFilterTest.cxx
+itkCompositeTransformWriterTest.cxx
+itkCompositeTransformReaderTest.cxx
+itkCompositeTransformWriterAndReaderTest.cxx
 itkReviewHeaderTest.cxx
 )
 
@@ -1713,3 +1716,10 @@ itk_add_test(NAME itkHessianToObjectnessMeasureImageFilterTest2
   ${INPUTDATA}/DSA.png
   ${TEMP}/itkHessianToObjectnessMeasureImageFilterTestOutput2.mha
   0 0)
+itk_add_test(NAME itkCompositeTransformReaderTest
+      COMMAND ITK-ReviewTestDriver itkCompositeTransformReaderTest)
+itk_add_test(NAME itkCompositeTransformWriterTest
+      COMMAND ITK-ReviewTestDriver itkCompositeTransformWriterTest ${TEMP})
+itk_add_test(NAME itkCompositeTransformWriterAndReaderTest
+      COMMAND ITK-ReviewTestDriver
+      itkCompositeTransformWriterAndReaderTest ${TEMP})
