@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--**
+**
+** StatisticsFrameworkRefactorMembershipFunctions.xml
+**
+** >>>>>>>>>>>>>>>>>>>>>>>>>>>>
+** THIS FILE HAS BEEN AUTOMATICALLY GENERATED. EDIT IT BEFORE COMMITING
+** <<<<<<<<<<<<<<<<<<<<<<<<<<<
+**
+**-->
+<Change>
+    <!--**
+    ** Title for the online migration page
+    **-->
+    <Title>
+      Statistics Framework Refactor Membership Functions
+    </Title>
+
+    <!--**
+    ** The author of the change
+    **-->
+    <Author>
+      Jim Miller
+    </Author>
+
+    <!--**
+    ** Date of creation for the XML document
+    **-->
+    <Date>
+      2011-06-11
+    </Date>
+
+    <!--**
+    ** Plain text description of the change
+    ** Extracted from git commit messages
+    **-->
+    <Description>
+       Refactoring of the Statistics MembershipFunctions classes. Unified the Gaussian and Mahalanobis membership functions traits and API to use the same trait names and data types for the mean and covariance.
+       Major API change is affects the MahalanobisDistanceMembershipFunction. This function no longer uses vnl_vector and vnl_matrix for the mean and covariance types. Rather, for the MeanVectorType, it uses a vector type consistent with the MeasurementVectorType but with an element type that is real. So if the MeasurementVectorType is a Vector&lt;int,3&gt;, the MeanVectorType is a Vector&lt;double,3&gt;. The CovarianceMatrixType was changed from a vnl_matrix to a VariableSizedMatrix to be consistent with the GaussianMembershipFunction. This can affect how user code calls the MahalanobisDistanceMembershipFunction API.
+       Minor API change is the name of the traits used. MeanType was changed to MeanVectorType and CovarianceType was changed to CovarianceMatrixType to be consistent with the toolkit.
+       Finally, MahalanobisDistanceMembershipFunction::SetNumberOfSamples() and MahalanobisDistanceMembershipFunction::GetNumberOfSamples() were not used in any calculations. Methods have been removed. Similarly, the methods to set and get the InverseCovariance were removed to be consistent with the GaussianMembershipFunction.
+    </Description>
+
+    <!--**
+    ** Sample code snippets
+    ** Extracted from git diff of changed files in Examples and Testing
+    **-->
+    <SampleCode>
+      <Old>
+        DensityFunctionType::MeanType mean( 2 );
+        DensityFunctionType::CovarianceType cov;
+      </Old>
+
+      <New>
+        DensityFunctionType::MeanVectorType mean( 2 );
+        DensityFunctionType::CovarianceMatrixType cov;
+      </New>
+
+    </SampleCode>
+
+    <!--**
+    ** The change-ids for all commits in the topic branch
+    **-->
+    <Gerrit-ChangeId>
+      Ic51f5726ed7106e3799ad9e7f7846c796950fc1d
+    </Gerrit-ChangeId>
+
+    <!--**
+    ** List of all changed files from the topic branch
+    **-->
+    <FileList>
+      Examples/Statistics/GaussianMembershipFunction.cxx
+      Modules/Core/ImageFunction/include/itkMahalanobisDistanceThresholdImageFunction.h
+      Modules/Core/ImageFunction/include/itkMahalanobisDistanceThresholdImageFunction.txx
+      Modules/Core/ImageFunction/test/itkMahalanobisDistanceThresholdImageFunctionTest.cxx
+      Modules/Numerics/Statistics/include/itkDistanceToCentroidMembershipFunction.h
+      Modules/Numerics/Statistics/include/itkDistanceToCentroidMembershipFunction.txx
+      Modules/Numerics/Statistics/include/itkExpectationMaximizationMixtureModelEstimator.txx
+      Modules/Numerics/Statistics/include/itkGaussianMembershipFunction.h
+      Modules/Numerics/Statistics/include/itkGaussianMembershipFunction.txx
+      Modules/Numerics/Statistics/include/itkGaussianMixtureModelComponent.h
+      Modules/Numerics/Statistics/include/itkGaussianMixtureModelComponent.txx
+      Modules/Numerics/Statistics/include/itkMahalanobisDistanceMembershipFunction.h
+      Modules/Numerics/Statistics/include/itkMahalanobisDistanceMembershipFunction.txx
+      Modules/Numerics/Statistics/include/itkMembershipFunctionBase.h
+      Modules/Numerics/Statistics/test/itkDistanceToCentroidMembershipFunctionTest.cxx
+      Modules/Numerics/Statistics/test/itkGaussianMembershipFunctionTest.cxx
+      Modules/Numerics/Statistics/test/itkMembershipFunctionBaseTest.cxx
+      Modules/Numerics/Statistics/test/itkMembershipFunctionBaseTest2.cxx
+      Modules/Segmentation/Classifiers/include/itkBayesianClassifierInitializationImageFilter.txx
+      Modules/Segmentation/Classifiers/include/itkImageGaussianModelEstimator.h
+      Modules/Segmentation/Classifiers/include/itkImageGaussianModelEstimator.txx
+      Modules/Segmentation/Classifiers/test/itkSampleClassifierFilterTest2.cxx
+      Modules/Segmentation/Classifiers/test/itkSupervisedImageClassifierTest.cxx
+      Modules/Segmentation/LevelSets/include/itkVectorThresholdSegmentationLevelSetFunction.h
+    </FileList>
+
+    <!--**
+    ** If the migration can be accomplished by a simple string
+    ** substitution, then use the following construct to define
+    ** the substitution rule.
+    **
+    ** <MigrationFix-Automatic>
+    **   <Old>
+    **     MipsleledName
+    **   </Old>
+    **   <New>
+    **     MisspelledName
+    **   </New>
+    ** </MigrationFix-Automatic>
+    **-->
+
+    <!--**
+    ** If the migration can NOT be accomplished by a simple string
+    ** substitution, but potential problem spots can be identified,
+    ** use the following construct to define a migration flag rule.
+    **
+    ** <MigrationFix-Manual>
+    **   OldFunctionName
+    ** </MigrationFix-Manual>
+    **-->
+
+</Change>

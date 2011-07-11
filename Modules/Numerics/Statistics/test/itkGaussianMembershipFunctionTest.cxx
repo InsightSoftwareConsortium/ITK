@@ -64,8 +64,8 @@ int itkGaussianMembershipFunctionTest(int, char* [] )
 
 
   //Test if the membership function value computed is correct
-  MembershipFunctionType::MeanType mean;
-  ::itk::NumericTraits<MembershipFunctionType::MeanType>::SetLength( mean,
+  MembershipFunctionType::MeanVectorType mean;
+  ::itk::NumericTraits<MembershipFunctionType::MeanVectorType>::SetLength( mean,
     MeasurementVectorSize);
   mean[0] = 1.5;
   function->SetMean( mean );
@@ -78,7 +78,7 @@ int itkGaussianMembershipFunctionTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  MembershipFunctionType::CovarianceType covariance;
+  MembershipFunctionType::CovarianceMatrixType covariance;
   covariance.SetSize(MeasurementVectorSize,MeasurementVectorSize);
   covariance.SetIdentity();
   function->SetCovariance( covariance );
@@ -99,7 +99,7 @@ int itkGaussianMembershipFunctionTest(int, char* [] )
   if( vcl_fabs( distanceComputed - trueValue) > tolerance )
     {
     std::cerr << "Distance computed not correct: " << "truevalue= " << trueValue
-              << "ComputedValue=" << distanceComputed << std::endl;
+              << ", ComputedValue=" << distanceComputed << std::endl;
     return EXIT_FAILURE;
     }
 

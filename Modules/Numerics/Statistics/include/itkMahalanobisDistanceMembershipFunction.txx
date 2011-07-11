@@ -20,41 +20,27 @@
 
 #include "itkMahalanobisDistanceMembershipFunction.h"
 
+#include "vnl/vnl_vector.h"
+#include "vnl/vnl_matrix.h"
+#include "vnl/algo/vnl_matrix_inverse.h"
+
 namespace itk
 {
 namespace Statistics
 {
 template< class TVector >
 MahalanobisDistanceMembershipFunction< TVector >
-::MahalanobisDistanceMembershipFunction():
-  m_NumberOfSamples(0),
-  m_PreFactor(0),
-  m_Epsilon(1e-100),
-  m_DoubleMax(1e+20)
+::MahalanobisDistanceMembershipFunction()
 {
-  m_Mean.fill(0.0f);
-  m_Covariance.set_identity();
-  m_InverseCovariance.set_identity();
-  this->m_MeasurementVectorSize = 0;
-}
+  NumericTraits<MeanVectorType>::SetLength(m_Mean, this->GetMeasurementVectorSize());
+  m_Mean.Fill(0.0f);
 
-template< class TVector >
-void
-MahalanobisDistanceMembershipFunction< TVector >
-::SetMeasurementVectorSize(MeasurementVectorSizeType s)
-{
-  if ( s == this->m_MeasurementVectorSize )
-    {
-    return;
-    }
+  m_Covariance.SetSize(this->GetMeasurementVectorSize(), this->GetMeasurementVectorSize());
+  m_Covariance.SetIdentity();
 
-  if ( this->m_MeasurementVectorSize != 0 )
-    {
-    itkWarningMacro(<< "Destructively resizing paramters of the DistanceToCentroidMembershipFunction.");
-    }
-  this->m_MeasurementVectorSize = s;
-  m_Mean.set_size(s);
-  this->Modified();
+  m_InverseCovariance = m_Covariance;
+
+  m_DeterminantOK = true;
 }
 
 template< class TVector >
@@ -62,50 +48,23 @@ void
 MahalanobisDistanceMembershipFunction< TVector >
 ::SetMean(const MeanVectorType & mean)
 {
-  if ( this->m_MeasurementVectorSize != 0 )
+  if ( this->GetMeasurementVectorSize() )
     {
-    if ( mean.size() != this->m_MeasurementVectorSize )
-      {
-      itkExceptionMacro(<< "Size of the centroid must be same as the length of"
-                        << " each measurement vector.");
-      }
+    MeasurementVectorTraits::Assert(mean,
+                                    this->GetMeasurementVectorSize(),
+                                    "GaussianMembershipFunction::SetMean(): Size of mean vector specified does not match the size of a measurement vector.");
     }
   else
     {
-    this->m_MeasurementVectorSize = mean.size();
+    // not already set, cache the size
+    this->SetMeasurementVectorSize( mean.Size() );
     }
 
-  m_Mean = mean;
-}
-
-template< class TVector >
-void
-MahalanobisDistanceMembershipFunction< TVector >
-::SetMean(const Array< double > & mean)
-{
-  if ( this->m_MeasurementVectorSize != 0 )
+  if ( m_Mean != mean )
     {
-    if ( mean.Size() != this->m_MeasurementVectorSize )
-      {
-      itkExceptionMacro(<< "Size of the centroid must be same as the length of"
-                        << " each measurement vector.");
-      }
+    m_Mean = mean;
+    this->Modified();
     }
-  else
-    {
-    this->m_MeasurementVectorSize = mean.Size();
-    }
-
-  m_Mean = dynamic_cast< MeanVectorType & >( const_cast< Array< double > & >( mean ) );
-}
-
-template< class TVector >
-const typename
-MahalanobisDistanceMembershipFunction< TVector >::MeanVectorType &
-MahalanobisDistanceMembershipFunction< TVector >
-::GetMean() const
-{
-  return m_Mean;
 }
 
 template< class TVector >
@@ -113,112 +72,92 @@ void
 MahalanobisDistanceMembershipFunction< TVector >
 ::SetCovariance(const CovarianceMatrixType & cov)
 {
-  if ( this->m_MeasurementVectorSize != 0 )
+  // Sanity check
+  if ( cov.GetVnlMatrix().rows() != cov.GetVnlMatrix().cols() )
     {
-    if ( cov.rows() != this->m_MeasurementVectorSize
-         || cov.cols() != this->m_MeasurementVectorSize )
+    itkExceptionMacro(<< "Covariance matrix must be square");
+    }
+  if ( this->GetMeasurementVectorSize() )
+    {
+    if ( cov.GetVnlMatrix().rows() != this->GetMeasurementVectorSize() )
       {
-      itkExceptionMacro(<< "Size of the centroid must be same as the length of"
-                        << " each measurement vector.");
+      itkExceptionMacro(<< "Length of measurement vectors must be"
+                        << " the same as the size of the covariance.");
       }
     }
   else
     {
-    this->m_MeasurementVectorSize = cov.rows();
+    // not already set, cache the size
+    this->SetMeasurementVectorSize( cov.GetVnlMatrix().rows() );
+    }
+
+  if (m_Covariance == cov)
+    {
+    // no need to copy the matrix, compute the inverse, or the normalization
+    return;
     }
 
   m_Covariance = cov;
-  this->CalculateInverseCovariance();
+
+  // the inverse of the covariance matrix is first computed by SVD
+  vnl_matrix_inverse< double > inv_cov( m_Covariance.GetVnlMatrix() );
+
+  // the determinant is then costless this way
+  double det = inv_cov.determinant_magnitude();
+
+  if( det < 0.)
+    {
+    itkExceptionMacro( << "det( m_Covariance ) < 0" );
+    }
+
+  // 1e-6 is an arbitrary value!!!
+  double m_DeterminantOK = ( det > 1e-6 );
+
+  if( m_DeterminantOK )
+    {
+    // allocate the memory for m_InverseCovariance matrix
+    m_InverseCovariance.GetVnlMatrix() = inv_cov.inverse();
+    }
+
+  this->Modified();
 }
-
-template< class TVector >
-void
-MahalanobisDistanceMembershipFunction< TVector >
-::SetInverseCovariance(const CovarianceMatrixType & invcov)
-{
-  if ( this->m_MeasurementVectorSize != 0 )
-    {
-    if ( invcov.rows() != this->m_MeasurementVectorSize
-         || invcov.cols() != this->m_MeasurementVectorSize )
-      {
-      itkExceptionMacro(<< "Size of the centroid must be same as the length of"
-                        << " each measurement vector.");
-      }
-    }
-  else
-    {
-    this->m_MeasurementVectorSize = invcov.rows();
-    }
-
-  // use the inverse computation
-  m_Covariance = invcov;
-  this->CalculateInverseCovariance();
-  m_Covariance = m_InverseCovariance;
-  m_InverseCovariance = invcov;
-}
-
-template< class TVector >
-void
-MahalanobisDistanceMembershipFunction< TVector >
-::CalculateInverseCovariance()
-{
-  // pack the cov matrix from in_model to tmp_cov_mat
-  double cov_sum = 0;
-
-  for ( unsigned int band_x = 0; band_x < m_Covariance.cols(); band_x++ )
-    {
-    for ( unsigned int band_y = 0; band_y < m_Covariance.rows(); band_y++ )
-      {
-      cov_sum += vnl_math_abs(m_Covariance[band_x][band_y]);
-      }
-    }
-  // check if it is a zero covariance, if it is, we make its
-  // inverse as an identity matrix with diagonal elements as
-  // a very large number; otherwise, inverse it
-  if ( cov_sum < m_Epsilon )
-    {
-    m_InverseCovariance.set_size( m_Covariance.rows(), m_Covariance.cols() );
-    m_InverseCovariance.set_identity();
-    m_InverseCovariance *= m_DoubleMax;
-    }
-  else
-    {
-    // check if num_bands == 1, if it is, we just use 1 to divide it
-    if ( m_Covariance.rows() < 2 )
-      {
-      m_InverseCovariance.set_size(1, 1);
-      m_InverseCovariance[0][0] = 1.0 / m_Covariance[0][0];
-      }
-    else
-      {
-      m_InverseCovariance = vnl_matrix_inverse< double >(m_Covariance);
-      }
-    } // end inverse calculations
-}     // CalculateInverseCovariance()
 
 template< class TVector >
 double
 MahalanobisDistanceMembershipFunction< TVector >
 ::Evaluate(const MeasurementVectorType & measurement) const
 {
-  double temp;
+  const MeasurementVectorSizeType measurementVectorSize =
+    this->GetMeasurementVectorSize();
 
-  m_TempVec.set_size(1, this->m_MeasurementVectorSize);
-  m_TempMat.set_size(1, this->m_MeasurementVectorSize);
-
-  // Compute |y - mean |
-  for ( unsigned int i = 0; i < this->m_MeasurementVectorSize; i++ )
+  //if ( !m_IsCovarianceZero )
+  if( m_DeterminantOK )
     {
-    m_TempVec[0][i] = measurement[i] - m_Mean[i];
+    // Compute ( y - mean )
+    vnl_vector< double > tempVector( measurementVectorSize );
+
+    for ( MeasurementVectorSizeType i = 0; i < measurementVectorSize; ++i )
+      {
+      tempVector[i] = measurement[i] - m_Mean[i];
+      }
+
+    // temp = ( y - mean )^t * InverseCovariance * ( y - mean )
+    double temp = dot_product( tempVector,
+                               m_InverseCovariance.GetVnlMatrix() * tempVector );
+
+    return temp;
     }
-
-  // Compute |y - mean | * inverse(cov)
-  m_TempMat = m_TempVec * m_InverseCovariance;
-
-  // Compute |y - mean | * inverse(cov) * |y - mean|^T
-  temp = dot_product( m_TempMat.as_ref(), m_TempVec.as_ref() );
-
-  return temp;
+  else
+    {
+    for ( MeasurementVectorSizeType i = 0; i < measurementVectorSize; ++i )
+      {
+      if ( m_Mean[i] != static_cast< double >( measurement[i] ) )
+        {
+        return 0.;
+        }
+      }
+    return NumericTraits< double >::max();
+    }
 }
 
 template< class TVector >
@@ -226,31 +165,32 @@ void
 MahalanobisDistanceMembershipFunction< TVector >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
-  unsigned int i;
-
   Superclass::PrintSelf(os, indent);
 
-  if ( this->m_MeasurementVectorSize
-       && m_Mean.size() == this->m_MeasurementVectorSize )
-    {
-    os << indent << "Mean: [";
-    for ( i = 0; ( i + 1 ) < this->m_MeasurementVectorSize; i++ )
-      {
-      os << m_Mean[i] << ", ";
-      }
-    os << m_Mean[i] << "]" << std::endl;
-    }
-  else
-    {
-    os << indent << "Mean: not set or size does not match" << std::endl;
-    }
-
-  os << indent << "Number of Samples: " << m_NumberOfSamples << std::endl;
-  os << indent << "Covariance:        " << std::endl;
-  os << m_Covariance << std::endl;
-  os << indent << "Inverse covariance:        " << std::endl;
-  os << m_InverseCovariance << std::endl;
+  os << indent << "Mean: " << m_Mean << std::endl;
+  os << indent << "Covariance: " << std::endl;
+  os << m_Covariance.GetVnlMatrix();
+  os << indent << "InverseCovariance: " << std::endl;
+  os << indent << m_InverseCovariance.GetVnlMatrix();
+  os << indent << "Non-null covariance: " <<
+    (m_DeterminantOK ? "true" : "false") << std::endl;
 }
+
+template< class TVector >
+typename MahalanobisDistanceMembershipFunction< TVector >::MembershipFunctionPointer
+MahalanobisDistanceMembershipFunction< TVector >
+::Clone() const
+{
+  Pointer membershipFunction = MahalanobisDistanceMembershipFunction< TVector >::New();
+
+  membershipFunction->SetMeasurementVectorSize( this->GetMeasurementVectorSize() );
+  membershipFunction->SetMean( this->GetMean() );
+  membershipFunction->SetCovariance( this->GetCovariance() );
+
+  MembershipFunctionPointer sptr = membershipFunction.GetPointer();
+  return sptr;
+}
+
 } // end namespace Statistics
 } // end of namespace itk
 

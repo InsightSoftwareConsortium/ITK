@@ -78,10 +78,10 @@ public:
   typedef WeightedCovarianceSampleFilter< TSample > CovarianceEstimatorType;
 
   /** Type of the mean vector */
-  typedef typename MeanEstimatorType::OutputType MeanType;
+  typedef typename MeanEstimatorType::OutputType MeanVectorType;
 
   /** Type of the covariance matrix */
-  typedef typename CovarianceEstimatorType::OutputType CovarianceType;
+  typedef typename CovarianceEstimatorType::OutputType CovarianceMatrixType;
 
   /** Sets the input sample */
   void SetSample(const TSample *sample);

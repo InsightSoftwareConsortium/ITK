@@ -92,9 +92,9 @@ BayesianClassifierInitializationImageFilter< TInputImage,
   typedef Statistics::GaussianMembershipFunction<
     MeasurementVectorType >                        GaussianMembershipFunctionType;
   typedef VectorContainer< unsigned short, ITK_TYPENAME
-                           GaussianMembershipFunctionType::MeanType * >          MeanEstimatorsContainerType;
+                           GaussianMembershipFunctionType::MeanVectorType * >          MeanEstimatorsContainerType;
   typedef VectorContainer< unsigned short, ITK_TYPENAME
-                           GaussianMembershipFunctionType::CovarianceType * >    CovarianceEstimatorsContainerType;
+                           GaussianMembershipFunctionType::CovarianceMatrixType * >    CovarianceEstimatorsContainerType;
 
   // Run k means to get the means from the input image
   typename KMeansFilterType::Pointer kmeansFilter = KMeansFilterType::New();
@@ -200,14 +200,14 @@ BayesianClassifierInitializationImageFilter< TInputImage,
   for ( unsigned int i = 0; i < m_NumberOfClasses; ++i )
     {
     meanEstimatorsContainer->InsertElement( i,
-                                            new typename GaussianMembershipFunctionType::MeanType(1) );
+                                            new typename GaussianMembershipFunctionType::MeanVectorType(1) );
     covarianceEstimatorsContainer->
-    InsertElement( i, new typename GaussianMembershipFunctionType::CovarianceType() );
-    typename GaussianMembershipFunctionType::MeanType *       meanEstimators =
-      const_cast< ITK_TYPENAME GaussianMembershipFunctionType::MeanType * >
+    InsertElement( i, new typename GaussianMembershipFunctionType::CovarianceMatrixType() );
+    typename GaussianMembershipFunctionType::MeanVectorType *       meanEstimators =
+      const_cast< ITK_TYPENAME GaussianMembershipFunctionType::MeanVectorType * >
       ( meanEstimatorsContainer->GetElement(i) );
-    typename GaussianMembershipFunctionType::CovarianceType * covarianceEstimators =
-      const_cast< ITK_TYPENAME GaussianMembershipFunctionType::CovarianceType * >
+    typename GaussianMembershipFunctionType::CovarianceMatrixType * covarianceEstimators =
+      const_cast< ITK_TYPENAME GaussianMembershipFunctionType::CovarianceMatrixType * >
       ( covarianceEstimatorsContainer->GetElement(i) );
     covarianceEstimators->SetSize(1, 1);
 

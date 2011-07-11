@@ -74,9 +74,9 @@ GaussianMixtureModelComponent< TSample >
 
   m_Covariance.Fill(NumericTraits< double >::Zero);
 
-  typename NativeMembershipFunctionType::MeanType mean;
+  typename NativeMembershipFunctionType::MeanVectorType mean;
 
-  NumericTraits<typename NativeMembershipFunctionType::MeanType>::SetLength(mean,
+  NumericTraits<typename NativeMembershipFunctionType::MeanVectorType>::SetLength(mean,
     measurementVectorLength);
 
   for ( unsigned int i = 0; i < measurementVectorLength; ++i )
@@ -113,9 +113,9 @@ GaussianMixtureModelComponent< TSample >
     ++paramIndex;
     }
 
-  typename NativeMembershipFunctionType::MeanType mean;
+  typename NativeMembershipFunctionType::MeanVectorType mean;
 
-  NumericTraits<typename NativeMembershipFunctionType::MeanType>::SetLength(mean,
+  NumericTraits<typename NativeMembershipFunctionType::MeanVectorType>::SetLength(mean,
     measurementVectorSize);
 
   for ( i = 0; i < measurementVectorSize; ++i )
@@ -150,11 +150,11 @@ GaussianMixtureModelComponent< TSample >
 {
   unsigned int i, j;
 
-  typename MeanType::MeasurementVectorType meanEstimate =
+  typename MeanVectorType::MeasurementVectorType meanEstimate =
     m_MeanEstimator->GetMean();
 
-  CovarianceType covEstimateDecoratedObject = m_CovarianceEstimator->GetOutput();
-  typename CovarianceType::MeasurementVectorType covEstimate =  covEstimateDecoratedObject->et();
+  CovarianceMatrixType covEstimateDecoratedObject = m_CovarianceEstimator->GetOutput();
+  typename CovarianceMatrixType::MeasurementVectorType covEstimate =  covEstimateDecoratedObject->et();
 
   double                    temp;
   double                    changes = 0.0;
@@ -287,8 +287,8 @@ GaussianMixtureModelComponent< TSample >
     ++paramIndex;
     }
 
-  typename NativeMembershipFunctionType::MeanType mean;
-  NumericTraits<typename NativeMembershipFunctionType::MeanType>::SetLength(mean,
+  typename NativeMembershipFunctionType::MeanVectorType mean;
+  NumericTraits<typename NativeMembershipFunctionType::MeanVectorType>::SetLength(mean,
     measurementVectorSize);
 
   for ( i = 0; i < measurementVectorSize; ++i )

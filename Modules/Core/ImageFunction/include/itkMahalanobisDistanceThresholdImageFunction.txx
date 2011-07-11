@@ -36,7 +36,17 @@ void
 MahalanobisDistanceThresholdImageFunction< TInputImage, TCoordRep >
 ::SetMean(const MeanVectorType & mean)
 {
-  m_MahalanobisDistanceMembershipFunction->SetMean(mean);
+  // Cache the mean
+  m_Mean = mean;
+
+  // Set the mean on the membership function
+  typename MahalanobisDistanceFunctionType::MeanVectorType m;
+  NumericTraits<typename MahalanobisDistanceFunctionType::MeanVectorType>::SetLength(m, mean.size());
+  for (unsigned int i=0; i < mean.size(); ++i)
+    {
+    m[i] = mean[i];
+    }
+  m_MahalanobisDistanceMembershipFunction->SetMean(m);
 }
 
 template< class TInputImage, class TCoordRep >
@@ -44,7 +54,13 @@ void
 MahalanobisDistanceThresholdImageFunction< TInputImage, TCoordRep >
 ::SetCovariance(const CovarianceMatrixType & covariance)
 {
-  m_MahalanobisDistanceMembershipFunction->SetCovariance(covariance);
+  // Cache the covariance
+  m_Covariance = covariance;
+
+  // Set the covariance on the membership function
+  typename MahalanobisDistanceFunctionType::CovarianceMatrixType c;
+  c = covariance;
+  m_MahalanobisDistanceMembershipFunction->SetCovariance(c);
 }
 
 template< class TInputImage, class TCoordRep >
@@ -53,7 +69,9 @@ MahalanobisDistanceThresholdImageFunction< TInputImage, TCoordRep >::MeanVectorT
 MahalanobisDistanceThresholdImageFunction< TInputImage, TCoordRep >
 ::GetMean() const
 {
-  return m_MahalanobisDistanceMembershipFunction->GetMean();
+  // return the cache mean (mean set on the membership function
+  // matches by design)
+  return m_Mean;
 }
 
 template< class TInputImage, class TCoordRep >
@@ -62,7 +80,9 @@ MahalanobisDistanceThresholdImageFunction< TInputImage, TCoordRep >::CovarianceM
 MahalanobisDistanceThresholdImageFunction< TInputImage, TCoordRep >
 ::GetCovariance() const
 {
-  return m_MahalanobisDistanceMembershipFunction->GetCovariance();
+  // return the cache covariance (covariance set on the membership function
+  // matches by design)
+  return m_Covariance;
 }
 
 template< class TInputImage, class TCoordRep >
@@ -144,6 +164,8 @@ MahalanobisDistanceThresholdImageFunction< TInputImage, TCoordRep >
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Threshold: " << m_Threshold << std::endl;
+  os << indent << "Mean: " << m_Mean << std::endl;
+  os << indent << "Covariance: " << m_Covariance << std::endl;
   os << indent << "MahalanobisDistanceMembershipFunction: " << m_MahalanobisDistanceMembershipFunction << std::endl;
 }
 } // end namespace itk
