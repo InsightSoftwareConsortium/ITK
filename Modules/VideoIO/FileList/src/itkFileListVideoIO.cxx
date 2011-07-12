@@ -290,7 +290,7 @@ void FileListVideoIO::ReadImageInformation()
     this->SetNumberOfDimensions(m_ImageIO->GetNumberOfDimensions());
     for (unsigned int i = 0; i < m_ImageIO->GetNumberOfDimensions(); ++i)
       {
-      m_Dimensions.push_back(m_ImageIO->GetDimensions(i));
+      m_Dimensions[i] = m_ImageIO->GetDimensions(i);
       m_Origin.push_back(m_ImageIO->GetOrigin(i));
       }
 
