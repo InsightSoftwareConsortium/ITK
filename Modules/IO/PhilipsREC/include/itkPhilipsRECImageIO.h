@@ -45,11 +45,12 @@
 namespace itk
 {
 /** \class PhilipsRECImageIO
- * \ingroup IOFilters
  * \author Don C. Bigler
- * \brief Class that defines how to read Philips REC/PAR image files.
+ * \brief Reads Philips REC/PAR image files.
+ *
  *  This class supports reading only and not writing.
- * \ingroup ITK-Review
+ * \ingroup IOFilters
+ * \ingroup ITK-IO-PhilipsREC
  */
 
 class ITK_EXPORT PhilipsRECImageIO:public ImageIOBase

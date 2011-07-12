@@ -8,9 +8,6 @@ itkJPEG2000ImageIOFactory.cxx
 itkMRCHeaderObject.cxx
 itkMRCImageIO.cxx
 itkMRCImageIOFactory.cxx
-itkPhilipsPAR.cxx
-itkPhilipsRECImageIO.cxx
-itkPhilipsRECImageIOFactory.cxx
 itkVoxBoCUBImageIO.cxx
 itkVoxBoCUBImageIOFactory.cxx
 )

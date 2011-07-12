@@ -200,13 +200,13 @@ struct par_parameter  //par_parameter
 };
 
 /** \class PhilipsPAR
- * \brief Class for reading parameters from a Philips PAR file.
+ * \brief Read parameters from a Philips PAR file.
  *
  * \sa PhilipsRECImageIO
  *
  * \ingroup IOFilters
  *
- * \ingroup ITK-Review
+ * \ingroup ITK-IO-PhilipsREC
  */
 class ITK_EXPORT PhilipsPAR:public LightProcessObject
 {
