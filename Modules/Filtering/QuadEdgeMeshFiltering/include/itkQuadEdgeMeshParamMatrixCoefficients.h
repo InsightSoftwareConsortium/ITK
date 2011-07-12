@@ -193,7 +193,7 @@ public:
    * \param[in] iMesh
    * \param[in] iEdge
    * \return \f$ \frac{\cot \gamma_{ij} + \cot
-   \delta_{ij}}{\|\boldsymbol{p1} - \boldsymbol{p2} \|} \f$
+   \delta_{ij}}{\|\boldsymbol{p1} - \boldsymbol{p2} \|^2} \f$
    */
   InputCoordRepType operator()(const InputMeshType *iMesh, InputQEType *iEdge) const
   {
@@ -220,7 +220,7 @@ public:
       oValue += TriangleHelper< InputPointType >::Cotangent(pt1, pt2, ptB);
       }
 
-    return oValue / pt1.EuclideanDistanceTo(pt2);
+    return oValue / pt1.SquaredEuclideanDistanceTo(pt2);
   }
 };
 
