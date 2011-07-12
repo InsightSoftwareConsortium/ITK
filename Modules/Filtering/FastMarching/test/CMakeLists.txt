@@ -14,6 +14,7 @@ itkFastMarchingImageFilterRealTest2.cxx
 itkFastMarchingImageTopologicalTest.cxx
 itkFastMarchingQuadEdgeMeshFilterBaseTest2.cxx
 itkFastMarchingQuadEdgeMeshFilterBaseTest3.cxx
+itkFastMarchingQuadEdgeMeshFilterBaseTest4.cxx
 itkFastMarchingQuadEdgeMeshFilterBaseTest.cxx
 itkFastMarchingStoppingCriterionBaseTest.cxx
 itkFastMarchingThresholdStoppingCriterionTest.cxx
@@ -58,6 +59,9 @@ itk_add_test(NAME itkFastMarchingQuadEdgeMeshFilterBaseTest2
 
 itk_add_test(NAME itkFastMarchingQuadEdgeMeshFilterBaseTest3
       COMMAND ITK-FastMarchingTestDriver itkFastMarchingQuadEdgeMeshFilterBaseTest3 )
+
+itk_add_test(NAME itkFastMarchingQuadEdgeMeshFilterBaseTest4
+      COMMAND ITK-FastMarchingTestDriver itkFastMarchingQuadEdgeMeshFilterBaseTest4 )
 
 itk_add_test(NAME itkFastMarchingStoppingCriterionBaseTest
       COMMAND ITK-FastMarchingTestDriver itkFastMarchingStoppingCriterionBaseTest )

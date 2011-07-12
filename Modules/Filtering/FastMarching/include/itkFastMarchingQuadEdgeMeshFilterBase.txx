@@ -553,8 +553,8 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
     if( bIntersect11 && bIntersect12 )
       {
       qe = oMesh->FindEdge( id1, t_id );
-      qe->GetSym();
-
+      qe = qe->GetSym();
+      id2 = t_id;
       t_pt2 = t_pt;
       x2 = x;
       }
@@ -563,8 +563,8 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
       if( bIntersect21 && bIntersect22 )
         {
         qe = oMesh->FindEdge( id2, t_id );
-        qe->GetSym();
-
+        qe = qe->GetSym();
+        id1 = t_id;
         t_pt1 = t_pt;
         x1 = x;
         }
