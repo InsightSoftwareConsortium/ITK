@@ -37,6 +37,7 @@ enum GE_PANE_STRUCT {
   };
 
 struct GEImageHeader {
+  short int examNumber;
   short int seriesNumber;
   short int numberOfEchoes;
   short int echoNumber;
@@ -88,6 +89,7 @@ struct GEImageHeader {
   short int offset;
   char filename[itk::IOCommon::ITK_MAXPATHLEN + 1];
   char hospital[35];
+  char modality[4];
   short int imagesPerSlice;
   short int turboFactor; //This is only relevant for the geADW image format, but
                          // is put here for convenience

@@ -128,6 +128,8 @@ protected:
                        const int offset,
                        const int XDim,
                        const int YDim,
+                       const float XRes,
+                       const float YRes,
                        const int Key1,
                        const int Key2);
 
