@@ -55,6 +55,8 @@ namespace itk
  * based on its ".txt" extension.
  *
  * \sa CompositeTranform, CompositeTranformWriter
+ *
+ * \ingroup ITK-Review
  */
 template
 <class TScalar = double, unsigned int NDimensions = 3>
