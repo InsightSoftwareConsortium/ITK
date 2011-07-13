@@ -160,7 +160,7 @@ public:
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
-  ImageRegionReverseConstIterator(ImageType *ptr, const RegionType & region):
+  ImageRegionReverseConstIterator(const ImageType *ptr, const RegionType & region):
     Superclass(ptr, region)
   {
     m_SpanBeginOffset = this->m_BeginOffset;
