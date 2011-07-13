@@ -43,7 +43,7 @@ int itkKdTreeTest3( int argc , char * argv [] )
     NumberGeneratorType;
 
   NumberGeneratorType::Pointer randomNumberGenerator =
-    NumberGeneratorType::New();
+    NumberGeneratorType::GetInstance();
   randomNumberGenerator->Initialize();
 
   typedef itk::Array< double > MeasurementVectorType;

@@ -52,7 +52,7 @@ SPSAOptimizer
   m_A = m_MaximumNumberOfIterations / 10;
   m_Alpha = 0.602;
   m_Gamma = 0.101;
-  m_Generator = Statistics::MersenneTwisterRandomVariateGenerator::New();
+  m_Generator = Statistics::MersenneTwisterRandomVariateGenerator::GetInstance();
 } // end Constructor
 
 /**

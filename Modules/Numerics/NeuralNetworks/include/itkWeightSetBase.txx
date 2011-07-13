@@ -37,7 +37,7 @@ WeightSetBase<TMeasurementVector,TTargetVector>
   m_Bias = 1;
   m_NumberOfInputNodes = 0;
   m_NumberOfOutputNodes = 0;
-  m_RandomGenerator = RandomVariateGeneratorType::New();
+  m_RandomGenerator = RandomVariateGeneratorType::GetInstance();
   RandomVariateGeneratorType::IntegerType randomSeed = 14543;
   m_RandomGenerator->Initialize( randomSeed );
   m_InputLayerId = 0;
