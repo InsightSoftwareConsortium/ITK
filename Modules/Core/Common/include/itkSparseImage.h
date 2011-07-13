@@ -36,7 +36,21 @@ namespace itk
  * stored using the SparseFieldLayer and ObjectStore classes to allow
  * sequential list access to the nodes. This functionality is used in filter
  * classes that process the SparseImage class such as
- * FiniteDifferenceSparseImageFilter.
+ * FiniteDifferenceSparseImageFilter. The node type must also have members
+ * NodeType* Next and NodeType* Previous. A minimal node class which could
+ * be used to create the sparse equivalent of an itk::Image<unsigned char, 2>
+ * is shown below:
+ *
+ * \code
+ * struct NodeType
+ * {
+ * NodeType* Next;
+ * NodeType* Previous;
+ * ImageType::IndexType m_Index;
+ * unsigned char m_Data;
+ * };
+ * typedef itk::SparseImage<NodeType, 2> SparseImageType;
+ * \endcode
  *
  * \par
  * This class provides the method AddNode which allocates a node variable,
