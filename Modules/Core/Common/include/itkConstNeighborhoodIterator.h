@@ -403,8 +403,8 @@ public:
   { m_InternalBoundaryCondition = c; }
 
   /** */
-  const BoundaryConditionType * GetBoundaryCondition() const
-  { return dynamic_cast< BoundaryConditionType * >( m_BoundaryCondition ); }
+  const ImageBoundaryConditionPointerType GetBoundaryCondition() const
+  { return m_BoundaryCondition; }
 
   /** */
   void NeedToUseBoundaryConditionOn()

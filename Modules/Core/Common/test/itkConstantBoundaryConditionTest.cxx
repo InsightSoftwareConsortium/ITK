@@ -20,8 +20,9 @@
 #endif
 #include <iostream>
 
-#include "itkPeriodicBoundaryCondition.h"
+#include "itkConstantBoundaryCondition.h"
 #include "itkConstNeighborhoodIterator.h"
+#include "itkVectorImage.h"
 
 typedef itk::Image< int, 2 >                        ImageType;
 typedef ImageType::RegionType                       RegionType;
@@ -30,7 +31,10 @@ typedef ImageType::SizeType                         SizeType;
 typedef itk::ConstNeighborhoodIterator< ImageType > IteratorType;
 typedef IteratorType::RadiusType                    RadiusType;
 
-static bool TestPrintNeighborhood( IteratorType & p )
+typedef itk::VectorImage< int, 2 >                        VectorImageType;
+typedef itk::ConstNeighborhoodIterator< VectorImageType > VectorIteratorType;
+
+static bool TestPrintNeighborhood( IteratorType & p, VectorIteratorType & v )
 {
   bool success = true;
 
@@ -48,6 +52,21 @@ static bool TestPrintNeighborhood( IteratorType & p )
     }
 
   std::cout
+    << "Output from operator()(const OffsetType &, const OffsetType &, const NeighborhoodType *, "
+    << "const NeighborhoodAccessorFunctorType &) const"
+    << std::endl;
+
+  i = 0;
+  for (y = 0; y < v.GetSize()[1]; ++y)
+    {
+      for (x = 0; x < v.GetSize()[0]; ++x, ++i)
+        {
+          std::cout << v.GetPixel(i)[0] << " ";
+        }
+      std::cout << std::endl;
+    }
+
+  std::cout
     << "Ouptut from GetPixel( const IndexType & index, const TImage * image ) const"
     << std::endl;
 
@@ -60,15 +79,16 @@ static bool TestPrintNeighborhood( IteratorType & p )
       {
       index[0] = p.GetIndex()[0] - p.GetRadius()[0] + x;
 
-      // Access the pixel value through two different methods in the
+      // Access the pixel value through three different methods in the
       // boundary condition.
       int pixel1 = p.GetBoundaryCondition()->GetPixel( index, p.GetImagePointer() );
       int pixel2 = p.GetPixel( i );
+      int pixel3 = v.GetPixel( i )[0];
 
       std::cout << pixel1 << " ";
 
       // Check agreement of output from three three methods of accessing pixel values.
-      if ( pixel1 != pixel2 )
+      if ( pixel1 != pixel2 || pixel2 != pixel3 )
         {
         success = false;
         }
@@ -106,7 +126,7 @@ static bool CheckInputRequestedRegion( const RegionType & imageRegion,
   return true;
 }
 
-int itkPeriodicBoundaryConditionTest(int, char* [] )
+int itkConstantBoundaryConditionTest(int, char* [] )
 {
   // Test an image to cover one operator() method.
   ImageType::Pointer image = ImageType::New();
@@ -118,12 +138,21 @@ int itkPeriodicBoundaryConditionTest(int, char* [] )
   image->SetRegions( imageRegion );
   image->Allocate();
 
-  IndexType pos;
+  // Test a vector image to cover the other operator() method.
+  VectorImageType::Pointer vectorImage = VectorImageType::New();
+  vectorImage->SetRegions( imageRegion );
+  vectorImage->SetNumberOfComponentsPerPixel( 1 );
+  vectorImage->Allocate();
+
+  ImageType::IndexType pos;
   for ( pos[1] = 0; pos[1] < 5; ++pos[1] )
     {
     for ( pos[0] = 0; pos[0] < 5; ++pos[0] )
       {
       image->SetPixel( pos, pos[0] * 10 + pos[1] );
+      VectorImageType::PixelType vectorPixel( 1 );
+      vectorPixel[0] = image->GetPixel( pos );
+      vectorImage->SetPixel( pos, vectorPixel );
       std::cout << image->GetPixel(pos) << " ";
       }
       std::cout << std::endl;
@@ -133,18 +162,43 @@ int itkPeriodicBoundaryConditionTest(int, char* [] )
   RadiusType radiusTwo;
   radius[0] = radius[1] = 1;
   IteratorType it( radius, image, image->GetRequestedRegion() );
+  VectorIteratorType vit( radius, vectorImage, vectorImage->GetRequestedRegion() );
 
-  itk::PeriodicBoundaryCondition< ImageType > bc;
+  itk::ConstantBoundaryCondition< ImageType > bc;
+  itk::ConstantBoundaryCondition< VectorImageType > vbc;
+
+  ImageType::PixelType constant = 3;
+  bc.SetConstant( constant );
+
+  if ( bc.GetConstant() != constant )
+    {
+    std::cerr << "Got unexpected constant " << bc.GetConstant() << ", expected " << constant
+              << "." << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  VectorImageType::PixelType vectorConstant( 1 );
+  vectorConstant[0] = constant;
+  vbc.SetConstant( vectorConstant );
+
+  if ( vbc.GetConstant()[0] != constant )
+    {
+    std::cerr << "Got unexpected constant " << vbc.GetConstant() << ", expected "
+              << vectorConstant << "." << std::endl;
+    return EXIT_FAILURE;
+    }
 
   it.OverrideBoundaryCondition( &bc );
+  vit.OverrideBoundaryCondition( &vbc );
 
   pos[0] = pos[1] = 0;
   it.SetLocation( pos );
+  vit.SetLocation( pos );
 
-  for ( it.GoToBegin(); !it.IsAtEnd(); ++it )
+  for ( it.GoToBegin(), vit.GoToBegin(); !it.IsAtEnd(); ++it, ++vit )
     {
     std::cout << "Index: " << it.GetIndex() << std::endl;
-    bool success = TestPrintNeighborhood( it );
+    bool success = TestPrintNeighborhood( it, vit );
     if ( !success )
       {
       return EXIT_FAILURE;
@@ -153,16 +207,19 @@ int itkPeriodicBoundaryConditionTest(int, char* [] )
 
   radiusTwo[0] = radiusTwo[1] = 2;
   IteratorType it2( radiusTwo, image, image->GetRequestedRegion() );
+  VectorIteratorType vit2( radiusTwo, vectorImage, vectorImage->GetRequestedRegion() );
 
   it2.OverrideBoundaryCondition( &bc );
+  vit2.OverrideBoundaryCondition( &vbc );
 
   pos[0] = pos[1] = 0;
   it2.SetLocation( pos );
+  vit2.SetLocation( pos );
 
-  for ( it2.GoToBegin(); !it2.IsAtEnd(); ++it2 )
+  for ( it2.GoToBegin(), vit2.GoToBegin(); !it2.IsAtEnd(); ++it2, ++vit2 )
     {
     std::cout << "Index: " << it.GetIndex() << std::endl;
-    bool success = TestPrintNeighborhood( it2 );
+    bool success = TestPrintNeighborhood(it2, vit2);
     if ( !success )
       {
       return EXIT_FAILURE;
@@ -208,7 +265,7 @@ int itkPeriodicBoundaryConditionTest(int, char* [] )
 
   expectedIndex[0] = 0;
   expectedIndex[1] = 0;
-  expectedSize[0]  = 5;
+  expectedSize[0]  = 1;
   expectedSize[1]  = 2;
   expectedRegion.SetIndex( expectedIndex );
   expectedRegion.SetSize( expectedSize );
@@ -232,8 +289,8 @@ int itkPeriodicBoundaryConditionTest(int, char* [] )
 
   expectedIndex[0] = 0;
   expectedIndex[1] = 0;
-  expectedSize[0]  = 5;
-  expectedSize[1]  = 5;
+  expectedSize[0]  = 0;
+  expectedSize[1]  = 0;
   expectedRegion.SetIndex( expectedIndex );
   expectedRegion.SetSize( expectedSize );
 
@@ -246,15 +303,16 @@ int itkPeriodicBoundaryConditionTest(int, char* [] )
   std::cout << "[PASSED]" << std::endl;
 
   // Other boundary condition tests
-  if ( bc.RequiresCompleteNeighborhood() != true )
+  if ( bc.RequiresCompleteNeighborhood() != false )
     {
-    std::cerr << "RequiresCompleteNeighborhood() expected to return true, got false instead."
+    std::cerr << "RequiresCompleteNeighborhood() expected to return false, got true instead."
               << std::endl;
     return EXIT_FAILURE;
     }
 
-  // Print boundary condition
+  // Print boundary conditions
   bc.Print( std::cout );
+  vbc.Print( std::cout );
 
   return EXIT_SUCCESS;
 }

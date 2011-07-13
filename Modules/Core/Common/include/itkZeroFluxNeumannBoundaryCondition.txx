@@ -75,6 +75,112 @@ ZeroFluxNeumannBoundaryCondition< TImage >
 
   return neighborhoodAccessorFunctor.Get( data->operator[](linear_index) );
 }
+
+
+template< class TImage >
+typename ZeroFluxNeumannBoundaryCondition< TImage >::RegionType
+ZeroFluxNeumannBoundaryCondition< TImage >
+::GetInputRequestedRegion( const RegionType & inputLargestPossibleRegion,
+                           const RegionType & outputRequestedRegion ) const
+{
+  IndexType inputIndex = inputLargestPossibleRegion.GetIndex();
+  SizeType  inputSize  = inputLargestPossibleRegion.GetSize();
+
+  IndexType outputIndex = outputRequestedRegion.GetIndex();
+  SizeType  outputSize  = outputRequestedRegion.GetSize();
+
+  IndexType  requestIndex;
+  SizeType   requestSize;
+  RegionType requestRegion;
+
+  for ( unsigned int i = 0; i < ImageDimension; i++)
+    {
+    // Check if the output region is entirely below the low index of
+    // the image region.
+    if ( outputIndex[i] + static_cast< OffsetValueType >( outputSize[i] ) <= inputIndex[i] )
+      {
+      // Include an image layer one pixel thick closest to the outputRequestedRegion
+      requestIndex[i] = inputIndex[i];
+      requestSize[i]  = 1;
+      }
+    // Check if the output is entirely above the high index of the
+    // image region.
+    else if (  outputIndex[i] >= inputIndex[i] + static_cast< OffsetValueType >( inputSize[i] ) )
+      {
+      // Include an image layer one pixel thick closest to the outputRequestedRegion
+      requestIndex[i] = inputIndex[i] + static_cast< OffsetValueType >( inputSize[i] ) - 1;
+      requestSize[i]  = 1;
+      }
+    // The output region intersects the image region.
+    else
+      {
+      requestIndex[i] = inputIndex[i];
+      requestSize[i]  = inputSize[i];
+
+      // First check the start index
+      if ( requestIndex[i] < outputIndex[i] )
+        {
+        // How much do we need to adjust
+        OffsetValueType crop = outputIndex[i] - requestIndex[i];
+
+        // Adjust the start index and the size of the current region
+        requestIndex[i] += crop;
+        requestSize[i] -= static_cast< SizeValueType >( crop );
+        }
+      // Now check the final size
+      if ( requestIndex[i] + static_cast< OffsetValueType >( requestSize[i] ) >
+           outputIndex[i] + static_cast< OffsetValueType >( outputSize[i] ) )
+        {
+        // How much do we need to adjust
+        OffsetValueType crop = requestIndex[i] + static_cast< OffsetValueType >( requestSize[i] )
+          - outputIndex[i] - static_cast< OffsetValueType >( outputSize[i] );
+
+        // Adjust the size
+        requestSize[i] -= static_cast< SizeValueType >( crop );
+        }
+      }
+    }
+
+  RegionType inputRequestedRegion( requestIndex, requestSize );
+
+  return inputRequestedRegion;
+}
+
+
+template< class TImage >
+typename ZeroFluxNeumannBoundaryCondition< TImage >::PixelType
+ZeroFluxNeumannBoundaryCondition< TImage >
+::GetPixel( const IndexType & index, const TImage * image ) const
+{
+  RegionType imageRegion = image->GetLargestPossibleRegion();
+  IndexType  imageIndex  = imageRegion.GetIndex();
+  SizeType   imageSize   = imageRegion.GetSize();
+
+  IndexType lookupIndex;
+
+  typedef typename IndexType::IndexValueType IndexValueType;
+
+  for ( unsigned int i = 0; i < ImageDimension; ++i )
+    {
+    IndexValueType lowerIndex = imageIndex[i];
+    IndexValueType upperIndex = imageIndex[i] + static_cast< IndexValueType >( imageSize[i] ) - 1;
+    if ( index[i] < lowerIndex )
+      {
+      lookupIndex[i] = lowerIndex;
+      }
+    else if ( index[i] > upperIndex )
+      {
+      lookupIndex[i] = upperIndex;
+      }
+    else // in bounds
+      {
+      lookupIndex[i] = index[i];
+      }
+    }
+
+  return image->GetPixel( lookupIndex );
+}
+
 } // end namespace itk
 
 #endif
