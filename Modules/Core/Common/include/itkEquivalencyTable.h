@@ -23,7 +23,7 @@
 #endif
 
 #include "itkProcessObject.h"
-#include "itk_hash_map.h"
+#include "itksys/hash_map.hxx"
 
 namespace itk
 {
@@ -56,8 +56,8 @@ public:
   itkTypeMacro(EquivalencyTable, DataObject);
 
   /** Define the container type for the table. */
-  typedef itk::hash_map< unsigned long, unsigned long,
-                         itk::hash< unsigned long > > HashTableType;
+  typedef itksys::hash_map< unsigned long, unsigned long,
+    itksys::hash< unsigned long > > HashTableType;
 
   typedef HashTableType::iterator       Iterator;
   typedef HashTableType::const_iterator ConstIterator;

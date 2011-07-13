@@ -19,7 +19,7 @@
 #define __itkKdTreeBasedKmeansEstimator_h
 
 #include <vector>
-#include "itk_hash_map.h"
+#include "itksys/hash_map.hxx"
 
 #include "itkObject.h"
 #include "itkEuclideanDistanceMetric.h"
@@ -152,7 +152,7 @@ public:
    * of changes in centroid positions)  */
   void StartOptimization();
 
-  typedef itk::hash_map< InstanceIdentifier, unsigned int > ClusterLabelsType;
+  typedef itksys::hash_map< InstanceIdentifier, unsigned int > ClusterLabelsType;
 
   itkSetMacro(UseClusterLabels, bool);
   itkGetConstMacro(UseClusterLabels, bool);

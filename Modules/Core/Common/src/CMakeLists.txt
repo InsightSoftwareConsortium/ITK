@@ -34,7 +34,6 @@ itkDataObject.cxx
 itkThreadLogger.cxx
 itkNumericTraitsTensorPixel.cxx
 itkCommand.cxx
-itk_hashtable.cxx
 itkNumericTraitsPointPixel.cxx
 itkLightObject.cxx
 itkStdStreamLogOutput.cxx

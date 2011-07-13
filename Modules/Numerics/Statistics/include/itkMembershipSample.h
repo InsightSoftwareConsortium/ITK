@@ -18,7 +18,7 @@
 #ifndef __itkMembershipSample_h
 #define __itkMembershipSample_h
 
-#include "itk_hash_map.h"
+#include "itksys/hash_map.hxx"
 #include "itkSubsample.h"
 
 namespace itk
@@ -84,7 +84,7 @@ public:
 
   /** Typedef for the storage that holds a class label for each instance.
    * The relationship between instances and class label is one-to-one */
-  typedef itk::hash_map< InstanceIdentifier, ClassLabelType > ClassLabelHolderType;
+  typedef itksys::hash_map< InstanceIdentifier, ClassLabelType > ClassLabelHolderType;
 
   /** Typedef for each subsample that stores instance identifers of instances
    * that belong to a class */

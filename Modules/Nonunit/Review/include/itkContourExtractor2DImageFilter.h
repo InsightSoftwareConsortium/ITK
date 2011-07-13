@@ -21,7 +21,7 @@
 #include "itkImageToPathFilter.h"
 #include "itkPolyLineParametricPath.h"
 #include "itkConceptChecking.h"
-#include "itk_hash_map.h"
+#include "itksys/hash_map.hxx"
 #include "vcl_deque.h"
 #include "vcl_list.h"
 
@@ -270,9 +270,9 @@ public:
   // from our list when they have been merged into another. Thus, we store
   // an iterator pointing to the contour in the list.
 
-  typedef hash_map< VertexType, ContourRef, VertexHash > VertexToContourMap;
-  typedef typename VertexToContourMap::iterator          VertexMapIterator;
-  typedef typename VertexToContourMap::value_type        VertexContourRefPair;
+  typedef itksys::hash_map< VertexType, ContourRef, VertexHash > VertexToContourMap;
+  typedef typename VertexToContourMap::iterator                  VertexMapIterator;
+  typedef typename VertexToContourMap::value_type                VertexContourRefPair;
 
   // The contours we find in the image are stored here
   ContourContainer m_Contours;

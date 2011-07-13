@@ -245,7 +245,7 @@ protected:
   };
 
   /** Table for storing flat region information.  */
-  typedef itk::hash_map< IdentifierType, flat_region_t, itk::hash< IdentifierType > >
+  typedef itksys::hash_map< IdentifierType, flat_region_t, itksys::hash< IdentifierType > >
   flat_region_table_t;
 
   struct connectivity_t {
@@ -258,10 +258,10 @@ protected:
    * generating the segment table,  even though the edge tables
    * are stored as ordered lists.  An ``edge'' in this context
    * is synonymous with a segment ``adjacency''.   */
-  typedef itk::hash_map< IdentifierType, InputPixelType, itk::hash< IdentifierType >
-                         > edge_table_t;
+  typedef itksys::hash_map< IdentifierType, InputPixelType, itksys::hash< IdentifierType >
+                            > edge_table_t;
 
-  typedef itk::hash_map< IdentifierType, edge_table_t, itk::hash< IdentifierType >
+  typedef itksys::hash_map< IdentifierType, edge_table_t, itksys::hash< IdentifierType >
                          > edge_table_hash_t;
 
   Segmenter();

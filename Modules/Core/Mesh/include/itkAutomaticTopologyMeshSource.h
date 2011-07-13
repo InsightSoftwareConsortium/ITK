@@ -20,7 +20,7 @@
 
 #include "itkArray.h"
 #include "itkDefaultStaticMeshTraits.h"
-#include "itk_hash_map.h"
+#include "itksys/hash_map.hxx"
 #include "itkHexahedronCell.h"
 #include "itkIntTypes.h"
 #include "itkMesh.h"
@@ -143,7 +143,7 @@ public:
 
   /** hash_map typedefs. */
 
-  typedef itk::hash_map<
+  typedef itksys::hash_map<
     PointType,
     IdentifierType,
     StructHashFunction< PointHashType > >          PointHashMap;
@@ -389,7 +389,7 @@ private:
   AutomaticTopologyMeshSource(const Self &);  //purposely not implemented
   void operator=(const Self &);               //purposely not implemented
 
-  typedef itk::hash_map<
+  typedef itksys::hash_map<
     Array< IdentifierType >,
     IdentifierType,
     IdentifierArrayHashFunction,
