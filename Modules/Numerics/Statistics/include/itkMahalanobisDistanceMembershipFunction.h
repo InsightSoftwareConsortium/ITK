@@ -48,10 +48,12 @@ namespace Statistics
  * Note, as is the case in other packages (MATLAB, R), the value
  * returned by this membership function is the squared distance.
  *
- * If the covariance is the zero matrix, then the membership function
- * behaves as an impulse located at the mean. In this case, Evaluate()
- * will return 0 except when evaluating at the mean where it will
- * return the maximum value of a double.
+ * If the covariance is singular or nearly singular, the membership function
+ * behaves somewhat like (the opposite of) an impulse located at the
+ * mean. In this case, we specify the covariance to be a diagonal
+ * matrix with large values along the diagonal. This membership
+ * function, therefore, will return large but differentiable values
+ * everywhere and decay to zero sharply near the mean.
  *
  * \ingroup ITK-Statistics
  */
@@ -130,7 +132,8 @@ private:
   // when covariace matirx is set.
   CovarianceMatrixType m_InverseCovariance;
 
-  bool m_DeterminantOK;
+  /** Boolean to cache whether the covarinace is singular or nearly singular */
+  bool m_CovarianceNonsingular;
 };
 } // end of namespace Statistics
 } // end namespace itk

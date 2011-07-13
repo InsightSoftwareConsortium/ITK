@@ -136,7 +136,7 @@ public:
   ImageRegionIterator< TClassifiedImage >    ClassifiedImageIterator;
 
   /** Method to get the membership of a given pixel to the different classes */
-  const std::vector< double > &
+  std::vector< double >
   GetPixelMembershipValue(const InputImagePixelType inputImagePixel);
 
 protected:
@@ -158,7 +158,6 @@ private:
 
   InputImageConstPointer m_InputImage;
   ClassifiedImagePointer m_ClassifiedImage;
-  std::vector< double >  m_PixelMembershipValue;
 
   /** Define a virtual Classifier function to classify the whole image. */
   virtual void Classify();

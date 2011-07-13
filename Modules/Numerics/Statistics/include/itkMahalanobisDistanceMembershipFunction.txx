@@ -40,7 +40,7 @@ MahalanobisDistanceMembershipFunction< TVector >
 
   m_InverseCovariance = m_Covariance;
 
-  m_DeterminantOK = true;
+  m_CovarianceNonsingular = true;
 }
 
 template< class TVector >
@@ -111,12 +111,23 @@ MahalanobisDistanceMembershipFunction< TVector >
     }
 
   // 1e-6 is an arbitrary value!!!
-  double m_DeterminantOK = ( det > 1e-6 );
+  const double singularThreshold = 1.0e-6;
+  m_CovarianceNonsingular = ( det > singularThreshold );
 
-  if( m_DeterminantOK )
+  if( m_CovarianceNonsingular )
     {
     // allocate the memory for m_InverseCovariance matrix
     m_InverseCovariance.GetVnlMatrix() = inv_cov.inverse();
+    }
+  else
+    {
+    // define the inverse to be diagonal with large values along the
+    // diagonal. value chosen so (X-M)'inv(C)*(X-M) will usually stay
+    // below NumericTraits<double>::max()
+    const double aLargeDouble = vcl_pow(NumericTraits<double>::max(), 1.0/3.0)
+      / (double) this->GetMeasurementVectorSize();
+    m_InverseCovariance.SetIdentity();
+    m_InverseCovariance *= aLargeDouble;
     }
 
   this->Modified();
@@ -130,34 +141,22 @@ MahalanobisDistanceMembershipFunction< TVector >
   const MeasurementVectorSizeType measurementVectorSize =
     this->GetMeasurementVectorSize();
 
-  //if ( !m_IsCovarianceZero )
-  if( m_DeterminantOK )
+  // Our inverse covariance is always well formed. When the covariance
+  // is singular, we use a diagonal inverse covariance with a large diagnonal
+
+  // Compute ( y - mean )
+  vnl_vector< double > tempVector( measurementVectorSize );
+
+  for ( MeasurementVectorSizeType i = 0; i < measurementVectorSize; ++i )
     {
-    // Compute ( y - mean )
-    vnl_vector< double > tempVector( measurementVectorSize );
-
-    for ( MeasurementVectorSizeType i = 0; i < measurementVectorSize; ++i )
-      {
-      tempVector[i] = measurement[i] - m_Mean[i];
-      }
-
-    // temp = ( y - mean )^t * InverseCovariance * ( y - mean )
-    double temp = dot_product( tempVector,
-                               m_InverseCovariance.GetVnlMatrix() * tempVector );
-
-    return temp;
+    tempVector[i] = measurement[i] - m_Mean[i];
     }
-  else
-    {
-    for ( MeasurementVectorSizeType i = 0; i < measurementVectorSize; ++i )
-      {
-      if ( m_Mean[i] != static_cast< double >( measurement[i] ) )
-        {
-        return 0.;
-        }
-      }
-    return NumericTraits< double >::max();
-    }
+
+  // temp = ( y - mean )^t * InverseCovariance * ( y - mean )
+  double temp = dot_product( tempVector,
+                             m_InverseCovariance.GetVnlMatrix() * tempVector );
+
+  return temp;
 }
 
 template< class TVector >
@@ -172,8 +171,8 @@ MahalanobisDistanceMembershipFunction< TVector >
   os << m_Covariance.GetVnlMatrix();
   os << indent << "InverseCovariance: " << std::endl;
   os << indent << m_InverseCovariance.GetVnlMatrix();
-  os << indent << "Non-null covariance: " <<
-    (m_DeterminantOK ? "true" : "false") << std::endl;
+  os << indent << "Covariance nonsingular: " <<
+    (m_CovarianceNonsingular ? "true" : "false") << std::endl;
 }
 
 template< class TVector >

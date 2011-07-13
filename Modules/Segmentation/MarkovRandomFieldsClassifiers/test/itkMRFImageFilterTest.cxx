@@ -444,7 +444,7 @@ int itkMRFImageFilterTest(int, char* [] )
     }
   else
     {
-    std::cout<< "MRF labeller Test failed" << std::endl;
+    std::cout<< "MRF labeller Test failed. Label sum is " << sum << " and not 22." << std::endl;
     return EXIT_FAILURE;
     }
 

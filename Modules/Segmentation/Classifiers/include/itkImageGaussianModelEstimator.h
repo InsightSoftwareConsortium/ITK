@@ -45,16 +45,13 @@ namespace itk
  *
  * The user should ensure that both the input and training images
  * are of the same size. The input data consists of the raw data and the
- * training data has class labels associated with each pixel. However, only
- * a subset of the data needs to be labelled. Unlabelled data could be
- * represented by a non zero, non positive number. The training data are
- * analysed for identifying the classes. Any non zero, non negative value is
- * considered a valid label. It is important that the maximum value of the
- * training label be equal to N, where N is the number of classes represented
- * by the maximum label value in the training data set. The pixels
- * corresponding to each training label is parsed and the mean and covariance
- * is calculated for each class. The background is identified by the label zero
- * and is not parsed for further computation to improve efficiency.
+ * training data has class labels associated with each pixel.
+ *
+ * A zero label is used to identify the background. A model is not
+ * calcualted for the background (its mean and covariance will be
+ * zero). Positive labels are classes for which models will be
+ * estimated. Negative labels indicate unlabeled data where no models
+ * will be estimated.
  *
  * This object supports data handling of multiband images. The object
  * accepts the input image in vector format only, where each pixel is a

@@ -49,21 +49,6 @@ ImageClassifierBase< TInputImage, TClassifiedImage >
   os << m_ClassifiedImage.GetPointer() << std::endl;
   os << indent << "InputImage: ";
   os << m_InputImage.GetPointer() << std::endl;
-
-  signed int         i;
-  const unsigned int length = static_cast< unsigned int >( m_PixelMembershipValue.size() );
-  const signed int   last = static_cast< int >( length ) - 1;
-
-  os << indent << "Pixel membership: [";
-  for ( i = 0; i < last; i++ )
-    {
-    os << m_PixelMembershipValue[i] << ", ";
-    }
-  if ( length >= 1 )
-    {
-    os << m_PixelMembershipValue[last];
-    }
-  os << "]" << std::endl;
 } // end PrintSelf
 
 /**
@@ -192,25 +177,21 @@ ImageClassifierBase< TInputImage, TClassifiedImage >
 
 template< class TInputImage,
           class TClassifiedImage >
-const std::vector< double > &
+std::vector< double >
 ImageClassifierBase< TInputImage, TClassifiedImage >
 ::GetPixelMembershipValue(const InputImagePixelType inputImagePixel)
 {
   unsigned int numberOfClasses = this->GetNumberOfClasses();
-
-  if ( m_PixelMembershipValue.size() != numberOfClasses )
-    {
-    m_PixelMembershipValue.resize(numberOfClasses);
-    }
+  std::vector< double >  pixelMembershipValue(numberOfClasses);
 
   for ( unsigned int classIndex = 0; classIndex < numberOfClasses; classIndex++ )
     {
-    m_PixelMembershipValue[classIndex] =
+    pixelMembershipValue[classIndex] =
       ( this->GetMembershipFunction(classIndex) )->Evaluate(inputImagePixel);
     }
 
   //Return the membership value of the
-  return m_PixelMembershipValue;
+  return pixelMembershipValue;
 }
 } // namespace itk
 
