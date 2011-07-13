@@ -71,7 +71,7 @@ private:
  * the type used for representing the vector is that it must provide an
  * operator[].
  *
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup IntensityImageFilters  MultiThreaded
  * \ingroup ITK-ImageIntensity
  *
  * \wiki

@@ -193,7 +193,7 @@ struct MakeJoin {
  * the input data types. To determine the output type, use
  * JoinImageFilter<Image1, Image2>::OutputImageType
  *
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup IntensityImageFilters  MultiThreaded
  * \ingroup ITK-ImageCompose
  *
  * \wiki

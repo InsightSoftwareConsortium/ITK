@@ -41,7 +41,7 @@ namespace itk
  * coordinate axes.
  *
  * \ingroup GeometricTransforms
- * \ingroup Multithreaded
+ * \ingroup MultiThreaded
  * \ingroup Streamed
  * \ingroup ITK-ImageGrid
  *

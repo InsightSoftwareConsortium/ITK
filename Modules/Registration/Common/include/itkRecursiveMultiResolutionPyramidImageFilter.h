@@ -53,7 +53,7 @@ namespace itk
  *
  * \sa MultiResolutionPyramidImageFilter
  *
- * \ingroup PyramidImageFilter Multithreaded Streamed
+ * \ingroup PyramidImageFilter MultiThreaded Streamed
  * \ingroup ITK-RegistrationCommon
  */
 template<

@@ -80,7 +80,7 @@ private:
  *
  * \sa RescaleIntensityImageFilter
  *
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup IntensityImageFilters  MultiThreaded
  *
  * \ingroup ITK-ImageIntensity
  *

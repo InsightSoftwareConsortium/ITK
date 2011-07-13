@@ -48,7 +48,7 @@ namespace itk
  * necessarily the same as SubtractImageFilter. This would be the case when
  * the PixelType defines an operator-() that is not the inverse of operator+()
  *
- * \ingroup IntensityImageFilters Multithreaded
+ * \ingroup IntensityImageFilters MultiThreaded
  * \ingroup ITK-ImageIntensity
  *
  * \wiki

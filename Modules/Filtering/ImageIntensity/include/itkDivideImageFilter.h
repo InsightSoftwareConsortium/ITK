@@ -31,7 +31,7 @@ namespace itk
  * the division result is set to the maximum number that can be represneted  by default to
  * avoid exception. Numeric conversions (castings) are done by the C++ defaults.
  *
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup IntensityImageFilters  MultiThreaded
  * \ingroup ITK-ImageIntensity
  */
 

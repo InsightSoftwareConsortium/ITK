@@ -39,7 +39,7 @@ namespace itk
  * RealImageType.
  *
  * \ingroup IntensityImageFilters
- * \ingroup Singlethreaded
+ * \ingroup SingelThreaded
  * \ingroup ITK-Smoothing
  *
  * \wiki

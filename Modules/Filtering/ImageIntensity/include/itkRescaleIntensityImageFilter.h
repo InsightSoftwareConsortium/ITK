@@ -109,7 +109,7 @@ private:
  *
  * \sa IntensityWindowingImageFilter
  *
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup IntensityImageFilters  MultiThreaded
  *
  * \ingroup ITK-ImageIntensity
  *

@@ -116,7 +116,7 @@ namespace itk
  * \endverbatim
  *
  * \sa DiffusionTensor3D SymmetricSecondRankTensor
- * \ingroup Multithreaded TensorObjects
+ * \ingroup MultiThreaded TensorObjects
  * \ingroup ITK-DiffusionTensorImage
  */
 

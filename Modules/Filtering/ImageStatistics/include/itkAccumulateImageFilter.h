@@ -47,7 +47,7 @@ namespace itk
  *
  * \sa GetAverageSliceImageFilter
  *
- * \ingroup   IntensityImageFilters     Singlethreaded
+ * \ingroup   IntensityImageFilters     SingelThreaded
  * \ingroup ITK-ImageStatistics
  */
 template< class TInputImage, class TOutputImage >

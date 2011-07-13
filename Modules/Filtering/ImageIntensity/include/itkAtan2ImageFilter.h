@@ -34,7 +34,7 @@ namespace itk
  * used as parameters of \c vcl_atan2(). The resulting \c double value
  * is casted to the output pixel type.
  *
- * \ingroup IntensityImageFilters Multithreaded
+ * \ingroup IntensityImageFilters MultiThreaded
  * \ingroup ITK-ImageIntensity
  */
 namespace Functor

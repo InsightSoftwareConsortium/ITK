@@ -78,7 +78,7 @@ namespace itk
   * \sa BinaryMinMaxCurvatureFlowImageFilter
   *
   * \ingroup ImageEnhancement
-  * \ingroup Multithreaded
+  * \ingroup MultiThreaded
   * \ingroup Streamed
   *
   * Input/Output Restrictions:

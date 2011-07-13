@@ -36,7 +36,7 @@ namespace itk
  *
  * \sa OtsuThresholdImageCalculator
  * \sa BinaryThresholdImageFilter
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup IntensityImageFilters  MultiThreaded
  * \ingroup ITK-Thresholding
  *
  * \wiki

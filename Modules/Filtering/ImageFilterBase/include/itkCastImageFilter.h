@@ -51,7 +51,7 @@ namespace itk
  * If you need to perform a dimensionaly reduction, you may want
  * to use the ExtractImageFilter instead of the CastImageFilter.
  *
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup IntensityImageFilters  MultiThreaded
  * \sa UnaryFunctorImageFilter
  * \sa ExtractImageFilter
  * \ingroup ITK-ImageFilterBase

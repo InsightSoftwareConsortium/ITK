@@ -36,7 +36,7 @@ namespace itk
  * This filter is here for backwards compatibility. It has been renamed to
  * VectorMagnitudeImageFilter in the ImageIntensity module.
  *
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup IntensityImageFilters  MultiThreaded
  * \ingroup ITK-Deprecated
  */
 

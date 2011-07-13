@@ -33,7 +33,7 @@ namespace itk
  * their values with the pixel values in the neighborhood of the homologous
  * pixel in the other image.
  *
- * \ingroup IntensityImageFilters   Multithreaded
+ * \ingroup IntensityImageFilters   MultiThreaded
  * \ingroup ITK-TestKernel
  */
 template< class TInputImage, class TOutputImage >

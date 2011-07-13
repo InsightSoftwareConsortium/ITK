@@ -34,7 +34,7 @@ namespace itk
  *
  * All the input images are of the same type.
  *
- * \ingroup IntensityImageFilters   Multithreaded
+ * \ingroup IntensityImageFilters   MultiThreaded
  * \ingroup ITK-ImageIntensity
  */
 

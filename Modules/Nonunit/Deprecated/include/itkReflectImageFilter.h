@@ -28,7 +28,7 @@ namespace itk
  * This class is parameterized over the type of the input image and
  * the type of the output image.
  *
- * \ingroup   IntensityImageFilters     Singlethreaded
+ * \ingroup   IntensityImageFilters     SingelThreaded
  * \ingroup ITK-Deprecated
  */
 template< class TInputImage, class TOutputImage >

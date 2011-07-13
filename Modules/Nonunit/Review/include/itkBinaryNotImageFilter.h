@@ -44,7 +44,7 @@ namespace itk
  * http://hdl.handle.net/1926/584  or
  * http://www.insight-journal.org/browse/publication/176
  *
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup IntensityImageFilters  MultiThreaded
  * \ingroup ITK-Review
  *
  * \wiki

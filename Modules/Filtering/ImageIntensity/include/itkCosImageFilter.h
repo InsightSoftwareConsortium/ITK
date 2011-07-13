@@ -39,7 +39,7 @@ namespace itk
  *
  * The filter expect both images to have the same dimension (e.g. both 2D, or both 3D, or both ND)
  *
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup IntensityImageFilters  MultiThreaded
  * \ingroup ITK-ImageIntensity
  */
 namespace Functor

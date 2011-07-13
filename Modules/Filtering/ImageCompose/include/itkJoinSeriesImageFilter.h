@@ -36,7 +36,7 @@ namespace itk
  * Note that all the inputs should have the same information.
  *
  * \ingroup GeometricTransforms
- * \ingroup Multithreaded
+ * \ingroup MultiThreaded
  * \ingroup Streamed
  *
  * \author Hideaki Hiraki

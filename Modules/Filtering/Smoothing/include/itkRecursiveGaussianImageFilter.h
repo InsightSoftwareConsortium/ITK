@@ -50,7 +50,7 @@ namespace itk
  * itk::RecursiveGaussianImageFilter::SetSigma(), but
  * itk::DiscreteGaussianImageFilter::SetVariance().
  *
- * \ingroup ImageEnhancement Singlethreaded
+ * \ingroup ImageEnhancement SingelThreaded
  * \see DiscreteGaussianImageFilter
  * \ingroup ITK-Smoothing
  *

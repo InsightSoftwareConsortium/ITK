@@ -40,7 +40,7 @@ namespace itk
  *
  * Where "&" is the boolean AND operator in C++.
  *
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup IntensityImageFilters  MultiThreaded
  * \ingroup ITK-ImageIntensity
  *
  * \wiki

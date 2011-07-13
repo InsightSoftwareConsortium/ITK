@@ -38,7 +38,7 @@ namespace itk
  *
  * \sa UnaryFunctorImageFilter TernaryFunctorImageFilter
  *
- * \ingroup IntensityImageFilters   Multithreaded
+ * \ingroup IntensityImageFilters   MultiThreaded
  * \ingroup ITK-ImageFilterBase
  *
  * \wiki

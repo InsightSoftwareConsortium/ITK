@@ -35,7 +35,7 @@ namespace itk
  * Every output pixel is equal to f(x). Where x is the intensity of the
  * homologous input pixel, and alpha and beta are user-provided constants.
  *
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup IntensityImageFilters  MultiThreaded
  *
  * \ingroup ITK-ImageIntensity
  *

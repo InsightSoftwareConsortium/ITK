@@ -43,7 +43,7 @@ namespace itk
  * \sa ScalarImageToHistogramGenerator
  * \sa MaximumEntropyThresholdImageCalculator
  * \sa ThresholdLabelerImageFilter
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup IntensityImageFilters  MultiThreaded
  * \ingroup ITK-Review
  */
 

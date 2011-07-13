@@ -27,7 +27,7 @@ namespace itk
  * \brief Computes the vcl_exp(x) pixel-wise
  *
  *
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup IntensityImageFilters  MultiThreaded
  *
  * \ingroup ITK-ImageIntensity
  */

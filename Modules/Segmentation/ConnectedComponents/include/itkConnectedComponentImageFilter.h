@@ -43,7 +43,7 @@ namespace itk
  *
  * \sa ImageToImageFilter
  *
- * \ingroup Singlethreaded
+ * \ingroup SingelThreaded
  * \ingroup ITK-ConnectedComponents
  *
  * \wiki

@@ -101,7 +101,7 @@ private:
  * All computations are performed in the precison of the input pixel's
  * RealType. Before assigning the computed value to the output pixel.
  *
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup IntensityImageFilters  MultiThreaded
  *
  * \ingroup ITK-ImageIntensity
  *

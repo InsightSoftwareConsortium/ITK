@@ -116,7 +116,7 @@ private:
  * RGB vector. See itk::DataAccessor for performing simple cast
  * operations.
  *
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup IntensityImageFilters  MultiThreaded
  * \ingroup ITK-ImageIntensity
  */
 template< class TInputImage, class TOutputImage, class TAccessor >

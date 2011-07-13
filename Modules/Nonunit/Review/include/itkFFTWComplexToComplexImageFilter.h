@@ -39,7 +39,7 @@ namespace itk
  * http://www.insight-journal.org/browse/publication/128
  *
  *
- * \ingroup FourierTransform, Multithreaded
+ * \ingroup FourierTransform, MultiThreaded
  * \sa FFTWGlobalConfiguration
  *
  * \author Simon K. Warfield simon.warfield@childrens.harvard.edu

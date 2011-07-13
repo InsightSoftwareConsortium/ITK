@@ -39,7 +39,7 @@ namespace itk
  * is computed by permuting the corresponding input meta information.
  *
  * \ingroup GeometricTransforms
- * \ingroup Multithreaded
+ * \ingroup MultiThreaded
  * \ingroup Streamed
  * \ingroup ITK-ImageGrid
  *

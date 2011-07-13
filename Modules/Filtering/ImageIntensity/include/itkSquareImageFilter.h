@@ -25,7 +25,7 @@ namespace itk
 /** \class SquareImageFilter
  * \brief Computes the square of the intensity values pixel-wise
  *
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup IntensityImageFilters  MultiThreaded
  * \ingroup ITK-ImageIntensity
  *
  * \wiki

@@ -53,7 +53,7 @@ namespace itk
  * Therefore, generally only one of these needs to be set, depending
  * on whether the user wants to threshold above or below the desired threshold.
  *
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup IntensityImageFilters  MultiThreaded
  * \ingroup ITK-Thresholding
  *
  * \wiki

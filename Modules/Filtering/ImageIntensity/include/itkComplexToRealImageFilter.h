@@ -26,7 +26,7 @@ namespace itk
 /** \class ComplexToRealImageFilter
  * \brief Computes pixel-wise the real(x) part of a complex image.
  *
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup IntensityImageFilters  MultiThreaded
  * \ingroup ITK-ImageIntensity
  */
 namespace Functor

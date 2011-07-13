@@ -52,7 +52,7 @@ namespace itk
  * Biochemistry and Program in Biomedical Informatics at Stanford University
  * School of Medicine
  *
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup IntensityImageFilters  MultiThreaded
  * \ingroup ITK-ImageIntensity
  */
 

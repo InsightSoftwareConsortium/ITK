@@ -43,7 +43,7 @@ namespace itk
  *
  *
  * \sa ScalarToRGBPixelFunctor LabelToRGBImageFilter
- * \ingroup Multithreaded
+ * \ingroup MultiThreaded
  *
  * \ingroup ITK-Review
  */

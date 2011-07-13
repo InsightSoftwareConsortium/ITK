@@ -102,7 +102,7 @@ namespace itk
  * \sa DiscreteGaussianImageFilter
  * \sa ShrinkImageFilter
  *
- * \ingroup PyramidImageFilter Multithreaded Streamed
+ * \ingroup PyramidImageFilter MultiThreaded Streamed
  * \ingroup ITK-RegistrationCommon
  */
 template<

@@ -48,7 +48,7 @@ namespace itk
  * \warning Any pixel value other than 0 will not be masked out.
  *
  * \sa MaskNegatedImageFilter
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup IntensityImageFilters  MultiThreaded
  * \ingroup ITK-ImageIntensity
  *
  * \wiki

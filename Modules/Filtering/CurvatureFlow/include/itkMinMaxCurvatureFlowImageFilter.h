@@ -69,7 +69,7 @@ namespace itk
  * \sa BinaryMinMaxCurvatureFlowImageFilter
  *
  * \ingroup ImageEnhancement
- * \ingroup Multithreaded
+ * \ingroup MultiThreaded
  *
  * \ingroup ITK-CurvatureFlow
  */

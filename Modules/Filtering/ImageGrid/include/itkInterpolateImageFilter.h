@@ -37,7 +37,7 @@ namespace itk
  * The filter is templated over the input image type and output image type.
  * It assumes that the input and output have the same number of dimensions.
  *
- * \ingroup Multithreaded
+ * \ingroup MultiThreaded
  * \ingroup ITK-ImageGrid
  */
 template< class TInputImage, class TOutputImage >

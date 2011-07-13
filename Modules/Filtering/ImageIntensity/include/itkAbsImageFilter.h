@@ -26,7 +26,7 @@ namespace itk
 /** \class AbsImageFilter
  * \brief Computes the ABS(x) pixel-wise
  *
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup IntensityImageFilters  MultiThreaded
  * \ingroup ITK-ImageIntensity
  *
  * \wiki

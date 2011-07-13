@@ -62,7 +62,7 @@ public:
  * \sa TensorFractionalAnisotropyImageFilter
  * \sa DiffusionTensor3D
  *
- * \ingroup IntensityImageFilters  Multithreaded  TensorObjects
+ * \ingroup IntensityImageFilters  MultiThreaded  TensorObjects
  *
  * \ingroup ITK-DiffusionTensorImage
  */

@@ -41,7 +41,7 @@ namespace itk
  * \author Richard Beare. Department of Medicine, Monash University, Melbourne, Australia.
  *
  * \sa ScalarToRGBPixelFunctor LabelOverlayImageFilter
- * \ingroup Multithreaded
+ * \ingroup MultiThreaded
  *
  * \ingroup ITK-Review
  */

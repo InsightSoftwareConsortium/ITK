@@ -40,7 +40,7 @@ namespace itk
  *
  * Where "^" is the boolean XOR operator in C++.
  *
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup IntensityImageFilters  MultiThreaded
  * \ingroup ITK-ImageIntensity
  *
  * \wiki

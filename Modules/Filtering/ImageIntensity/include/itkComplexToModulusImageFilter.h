@@ -26,7 +26,7 @@ namespace itk
 /** \class ComplexToModulusImageFilter
  * \brief Computes pixel-wise the Modulus of a complex image.
  *
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup IntensityImageFilters  MultiThreaded
  * \ingroup ITK-ImageIntensity
  */
 namespace Functor

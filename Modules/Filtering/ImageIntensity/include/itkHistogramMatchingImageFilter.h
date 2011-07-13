@@ -53,7 +53,7 @@ namespace itk
  * type and that the input and output image type have the same number of
  * dimension and have scalar pixel types.
  *
- * \ingroup IntensityImageFilters Multithreaded
+ * \ingroup IntensityImageFilters MultiThreaded
  *
  * \ingroup ITK-ImageIntensity
  */

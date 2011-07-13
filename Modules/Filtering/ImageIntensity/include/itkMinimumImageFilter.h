@@ -32,7 +32,7 @@ namespace itk
  * input images and the type of the output image.
  * Numeric conversions (castings) are done by the C++ defaults.
  * + *
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup IntensityImageFilters  MultiThreaded
  * \ingroup ITK-ImageIntensity
  *
  * \wiki

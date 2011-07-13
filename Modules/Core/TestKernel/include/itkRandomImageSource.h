@@ -43,7 +43,7 @@ namespace itk
  * NOTE: To produce deterministic results, set the number of threads
  * to 1.
  *
- * \ingroup DataSources Multithreaded
+ * \ingroup DataSources MultiThreaded
  * \ingroup ITK-TestKernel
  *
  * \wiki

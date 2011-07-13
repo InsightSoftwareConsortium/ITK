@@ -29,7 +29,7 @@ namespace itk
  * Every output pixel is equal to vcl_exp(-K.x ). where x is the intensity of the
  * homologous input pixel, and K is a user-provided constant.
  *
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup IntensityImageFilters  MultiThreaded
  *
  * \ingroup ITK-ImageIntensity
  */

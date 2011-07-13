@@ -40,7 +40,7 @@ namespace itk
  * \sa ScalarImageToHistogramGenerator
  * \sa OtsuMultipleThresholdsCalculator
  * \sa ThresholdLabelerImageFilter
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup IntensityImageFilters  MultiThreaded
  * \ingroup ITK-Thresholding
  */
 

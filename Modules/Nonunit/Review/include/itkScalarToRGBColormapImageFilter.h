@@ -66,7 +66,7 @@ namespace itk
  *
  * \sa BinaryFunctionImageFilter TernaryFunctionImageFilter
  *
- * \ingroup   IntensityImageFilters     Multithreaded
+ * \ingroup   IntensityImageFilters     MultiThreaded
  * \ingroup ITK-Review
  *
  * \wiki

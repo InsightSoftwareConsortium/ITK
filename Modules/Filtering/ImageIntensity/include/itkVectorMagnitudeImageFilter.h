@@ -33,7 +33,7 @@ namespace itk
  * This filter assumes that the PixelType of the input image is a VectorType
  * that provides a GetNorm() method.
  *
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup IntensityImageFilters  MultiThreaded
  * \ingroup ITK-ImageIntensity
  *
  * \wiki

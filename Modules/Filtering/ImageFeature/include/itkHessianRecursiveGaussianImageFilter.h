@@ -35,7 +35,7 @@ namespace itk
  *
  *
  * \ingroup GradientFilters
- * \ingroup Singlethreaded
+ * \ingroup SingelThreaded
  * \ingroup ITK-ImageFeature
  */
 // NOTE that the ITK_TYPENAME macro has to be used here in lieu
