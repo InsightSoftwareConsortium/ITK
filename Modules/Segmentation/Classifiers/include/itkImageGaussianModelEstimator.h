@@ -112,7 +112,7 @@ public:
   typedef ImageRegionIterator< TTrainingImage > TrainingImageIterator;
 
   /** Type definitions for the membership function . */
-  typedef TMembershipFunction MembershipFunctionType;
+  typedef TMembershipFunction                   MembershipFunctionType;
   typedef typename TMembershipFunction::Pointer MembershipFunctionPointer;
 
   /** Set the training image. */
