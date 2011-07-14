@@ -56,7 +56,11 @@ int itkMersenneTwisterRandomVariateGeneratorTest (int, char* [] )
     }
 
   // Ensure we get the same series of numbers
-  Twister::IntegerType expected[5] = { 3294740812, 4175194053, 3041332341, 199851601, 3422518480 };
+  Twister::IntegerType expected[5] = { Twister::IntegerType(3294740812),
+                                       Twister::IntegerType(4175194053),
+                                       Twister::IntegerType(3041332341),
+                                       Twister::IntegerType(199851601),
+                                       Twister::IntegerType(3422518480) };
 
   bool sameSequence = true;
   for ( int i = 0; i < 5; i++ )
