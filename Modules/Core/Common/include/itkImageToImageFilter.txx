@@ -225,7 +225,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
       // tolerance for directions a fraction of the unit cube.
       const double coordinateTol
         = 1.0e-6 * inputPtr1->GetSpacing()[0]; // use first dimension spacing
-      const double directionTol = 1.0e-6 ;
+      const double directionTol = 1.0e-6;
 
       if ( !inputPtr1->GetOrigin().GetVnlVector().is_equal(inputPtrN->GetOrigin().GetVnlVector(), coordinateTol) ||
            !inputPtr1->GetSpacing().GetVnlVector().is_equal(inputPtrN->GetSpacing().GetVnlVector(), coordinateTol) ||
