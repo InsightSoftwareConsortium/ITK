@@ -29,9 +29,9 @@ endforeach()
 
 list( APPEND DOXYGEN_TEST_DIRS "\"${ITK_SOURCE_DIR}/Examples\" \n")
 
-string( REGEX REPLACE ";" "\$" DOXYGEN_TEST_DIRS ${DOXYGEN_TEST_DIRS} )
+string( REGEX REPLACE ";" "\$" DOXYGEN_TEST_DIRS "${DOXYGEN_TEST_DIRS}" )
 
-string( REGEX REPLACE ";" "\$" DOXYGEN_INCLUDE_DIRS ${DOXYGEN_INCLUDE_DIRS} )
+string( REGEX REPLACE ";" "\$" DOXYGEN_INCLUDE_DIRS "${DOXYGEN_INCLUDE_DIRS}" )
 
 #
 # Configure the script and the doxyfile, then add target
