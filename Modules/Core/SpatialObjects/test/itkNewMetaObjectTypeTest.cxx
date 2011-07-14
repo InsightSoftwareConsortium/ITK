@@ -275,6 +275,7 @@ int itkNewMetaObjectTypeTest(int, char* [])
       return EXIT_FAILURE;
       }
     }
+  delete mySceneChildren;
   delete metaScene;
   return EXIT_SUCCESS;
 }
