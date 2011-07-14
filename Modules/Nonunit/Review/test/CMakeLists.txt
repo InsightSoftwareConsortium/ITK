@@ -135,7 +135,6 @@ itkOptImageToImageMetricsTest2.cxx
 itkOptMattesMutualInformationImageToImageMetricThreadsTest1.cxx
 itkPadLabelMapFilterTest1.cxx
 itkPointsLocatorTest.cxx
-itkPhilipsRECImageIOTest.cxx
 itkRankImageFilterTest.cxx
 itkRegionalMaximaImageFilterTest.cxx
 itkRegionalMaximaImageFilterTest2.cxx
@@ -1245,9 +1244,6 @@ itk_add_test(NAME itkPadLabelMapFilterTest1
     itkPadLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/cthead1Label.png ${ITK_TEST_OUTPUT_DIR}/cthead1-label-pad.mha 40 50)
 itk_add_test(NAME itkPointsLocatorTest
       COMMAND ITK-ReviewTestDriver itkPointsLocatorTest)
-itk_add_test(NAME itkPhilipsRECImageIOTest1
-      COMMAND ITK-ReviewTestDriver itkPhilipsRECImageIOTest
-              ${ITK_DATA_ROOT}/Input/T1_MEASUREMENT_4_1.PAR ${ITK_TEST_OUTPUT_DIR}/itkPhilipsRECImageIOTest1.mha)
 itk_add_test(NAME itkRankImageFilterTest3
       COMMAND ITK-ReviewTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkRankImageFilter3.png

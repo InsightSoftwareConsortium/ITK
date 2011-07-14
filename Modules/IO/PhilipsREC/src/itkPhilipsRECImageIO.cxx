@@ -251,8 +251,8 @@ void PhilipsRECImageIOSetupSliceIndex(
                               ITK_LOCATION);
     throw exception;
     }
-  if ( imageTypesScanSequenceIndex.size() !=
-       (PhilipsRECImageIO::SliceIndexType::size_type)parParam.num_slice_repetitions )
+  if ( !parParam.slicessorted && (imageTypesScanSequenceIndex.size() !=
+       (PhilipsRECImageIO::SliceIndexType::size_type)parParam.num_slice_repetitions) )
     {
     std::ostringstream message;
     message << "imageTypesScanSequenceIndex.size(): "
@@ -478,13 +478,15 @@ void PhilipsRECImageIO::Read(void *buffer)
     }
 
   char *const p = static_cast< char * >( buffer );
-  //6 cases to handle
+  //8 cases to handle
   //1: given .PAR and image is .REC
-  //2: given .REC
-  //3: given .REC.gz
-  //4: given .par and image is .rec
-  //5: given .rec
-  //6: given .rec.gz
+  //2: given .PAR and image is .REC.gz
+  //3: given .REC
+  //4: given .REC.gz
+  //5: given .par and image is .rec
+  //6: given .par and image is .rec.gz
+  //7: given .rec
+  //8: given .rec.gz
 
   /* Returns proper name for cases 1,2,3,4,5,6 */
   std::string ImageFileName = GetImageFileName(this->m_FileName);
@@ -497,15 +499,20 @@ void PhilipsRECImageIO::Read(void *buffer)
   gzFile file_p = ::gzopen(ImageFileName.c_str(), "rb");
   if ( file_p == NULL )
     {
-    std::ostringstream message;
-    message << "Philips REC Data File can not be opened. "
-            << "The following files were attempted:" << std::endl
-            << GetImageFileName(this->m_FileName) << std::endl
-            << ImageFileName;
-    ExceptionObject exception(__FILE__, __LINE__,
+    ImageFileName += ".gz";
+    file_p = ::gzopen(ImageFileName.c_str(), "rb");
+    if ( file_p == NULL )
+      {
+      std::ostringstream message;
+      message << "Philips REC Data File can not be opened. "
+              << "The following files were attempted:" << std::endl
+              << GetImageFileName(this->m_FileName) << std::endl
+              << ImageFileName;
+      ExceptionObject exception(__FILE__, __LINE__,
                               message.str(),
                               ITK_LOCATION);
-    throw exception;
+      throw exception;
+      }
     }
 
   // read image a slice at a time (sorted).
