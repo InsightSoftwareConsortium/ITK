@@ -403,7 +403,7 @@ public:
   { m_InternalBoundaryCondition = c; }
 
   /** */
-  const ImageBoundaryConditionPointerType GetBoundaryCondition() const
+  ImageBoundaryConditionPointerType GetBoundaryCondition() const
   { return m_BoundaryCondition; }
 
   /** */
