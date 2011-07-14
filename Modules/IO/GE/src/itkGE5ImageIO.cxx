@@ -304,6 +304,8 @@ GE5ImageIO::ReadHeader(const char  *FileNameToRead)
     }
 
   // Now extract the exam information from the buffer.
+  curImage->examNumber = hdr2Short(buffer+8);
+
   strncpy(curImage->hospital,buffer+10,34);
   curImage->hospital[34] = '\0';
 
@@ -329,6 +331,15 @@ GE5ImageIO::ReadHeader(const char  *FileNameToRead)
 
   strncpy(curImage->name,buffer+VOff(97,101),25);
   curImage->name[24] = '\0';
+
+  // Need to know modality as well.
+  strncpy(curImage->modality,buffer+VOff(305,309),3);
+  curImage->modality[3] = '\0';
+  bool isCT = false;
+  if( strncmp(curImage->modality, "CT", 2) == 0)
+    {
+    isCT = true;
+    }
 
   // Done with exam, delete buffer.
   delete[] buffer;
@@ -472,29 +483,45 @@ GE5ImageIO::ReadHeader(const char  *FileNameToRead)
   curImage->brhcA = hdr2Float(buffer+VOff(182,188));
   curImage->brhcS = hdr2Float(buffer+VOff(186,192));
 
-  curImage->TR = hdr2Int(buffer+VOff(194,200));
-  curImage->TI = hdr2Int(buffer+VOff(198,204));
-  curImage->TE = hdr2Int(buffer+VOff(202,208));
-  curImage->TE2 = hdr2Int(buffer+VOff(206,212));
-
-  if((curImage->numberOfEchoes = hdr2Short(buffer+VOff(210,216))) == 0)
+  // These values are all MR specific
+  if(!isCT)
     {
-    curImage->numberOfEchoes = 1;
+    curImage->TR = hdr2Int(buffer+VOff(194,200));
+    curImage->TI = hdr2Int(buffer+VOff(198,204));
+    curImage->TE = hdr2Int(buffer+VOff(202,208));
+    curImage->TE2 = hdr2Int(buffer+VOff(206,212));
+
+    if((curImage->numberOfEchoes = hdr2Short(buffer+VOff(210,216))) == 0)
+      {
+      curImage->numberOfEchoes = 1;
+      }
+
+    curImage->echoNumber = hdr2Short(buffer+VOff(212,218));
+
+    curImage->NEX = hdr2Int(buffer+VOff(218,224));
+
+    curImage->flipAngle = hdr2Short(buffer+VOff(254,260));
+
+    strncpy(curImage->pulseSequence,
+      buffer+VOff(308,320),
+      34);
+    curImage->pulseSequence[33] = '\0';
+
+    curImage->numberOfSlices = hdr2Short(buffer+VOff(398,416));
     }
-
-  curImage->echoNumber = hdr2Short(buffer+VOff(212,218));
-
-  curImage->NEX = hdr2Int(buffer+VOff(218,224));
-
-  curImage->flipAngle = hdr2Short(buffer+VOff(254,260));
-
-  strncpy(curImage->pulseSequence,
-          buffer+VOff(308,320),
-          34);
-  curImage->pulseSequence[33] = '\0';
-
-  curImage->numberOfSlices = hdr2Short(buffer+VOff(398,416));
-
+  else
+    {
+    curImage->TR = 0;
+    curImage->TI = 0;
+    curImage->TE = 0;
+    curImage->TE2 = 0;
+    curImage->numberOfEchoes = 1;
+    curImage->echoNumber = 1;
+    curImage->NEX = 1;
+    curImage->flipAngle = 0;
+    curImage->pulseSequence[0] = '\0';
+    curImage->numberOfSlices = 1;
+    }
 
   // Delete the buffer and return the pointer to the header.
   // The function that receives the pointer must do memory
