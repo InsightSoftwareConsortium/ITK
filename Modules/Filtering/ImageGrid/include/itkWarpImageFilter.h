@@ -229,7 +229,8 @@ public:
 #endif
 protected:
   WarpImageFilter();
-  ~WarpImageFilter() {}
+  // ~WarpImageFilter() {} default implementation is ok
+
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** WarpImageFilter is implemented as a multi-threaded filter.
@@ -237,6 +238,9 @@ protected:
    * ThreadedGenerateData(). */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                             ThreadIdType threadId);
+
+  virtual void VerifyInputInformation();
+
 
 private:
   WarpImageFilter(const Self &); //purposely not implemented

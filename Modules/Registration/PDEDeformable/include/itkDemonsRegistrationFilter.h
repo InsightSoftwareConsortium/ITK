@@ -126,7 +126,7 @@ public:
 
 protected:
   DemonsRegistrationFilter();
-  ~DemonsRegistrationFilter() {}
+  // ~DemonsRegistrationFilter() {} default implementation ok
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Initialize the state of filter and equation before each iteration. */
@@ -134,6 +134,8 @@ protected:
 
   /** Apply update. */
   virtual void ApplyUpdate(const TimeStepType& dt);
+
+  virtual void VerifyInputInformation();
 
 private:
   DemonsRegistrationFilter(const Self &); //purposely not implemented

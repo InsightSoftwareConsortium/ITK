@@ -141,7 +141,9 @@ int itkGradientAnisotropicDiffusionImageFilterTest2(int ac, char* av[] )
     return EXIT_FAILURE;
     }
 
-  // the results with spacing should be about the same as without spacing
+  // the results with spacing should be about the same as without
+
+  normalImage->CopyInformation( filter->GetOutput() );
   if ( !SameImage( filter->GetOutput(), normalImage ) )
     {
     std::cout << "Results varied with spacing enabled!" << std::endl;
