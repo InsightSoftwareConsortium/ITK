@@ -1,3 +1,3 @@
-project(ITK-IO-Stimulate)
-set(ITK-IO-Stimulate_LIBRARIES ITK-IO-Stimulate)
+project(ITKIOStimulate)
+set(ITKIOStimulate_LIBRARIES ITKIOStimulate)
 itk_module_impl()

@@ -39,7 +39,7 @@ namespace Statistics
  * distance function evaluation have to be set directly on the
  * distance function itself.
  *
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  */
 template< class TVector >
 class ITK_EXPORT DistanceToCentroidMembershipFunction:
@@ -115,7 +115,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDistanceToCentroidMembershipFunction.txx"
+#include "itkDistanceToCentroidMembershipFunction.hxx"
 #endif
 
 #endif

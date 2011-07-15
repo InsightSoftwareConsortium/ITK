@@ -26,8 +26,8 @@ namespace itk
 /** \class TanImageFilter
  * \brief Computes the vcl_tan(x) pixel-wise
  *
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup IntensityImageFilters  MultiThreaded
+ * \ingroup ITKImageIntensity
  */
 namespace Functor
 {

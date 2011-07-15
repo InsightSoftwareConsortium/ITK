@@ -42,7 +42,7 @@ namespace itk
  *
  * CAUTION: THIS CLASS IS STILL UNDER DEVELOPMENT.
  *
- * \ingroup ITK-Deprecated
+ * \ingroup ITKDeprecated
  */
 
 template< unsigned int TDimension = 3 >
@@ -191,7 +191,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNonUniformBSpline.txx"
+#include "itkNonUniformBSpline.hxx"
 #endif
 
 #endif // __itkNonUniformBSpline_h

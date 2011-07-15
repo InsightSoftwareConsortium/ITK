@@ -47,7 +47,7 @@ namespace itk
  *
  * \ingroup ImageAdaptors
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 template< class TType >

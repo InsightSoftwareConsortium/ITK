@@ -1,3 +1,3 @@
-project(ITK-Mesh)
-set(ITK-Mesh_LIBRARIES ITK-Mesh)
+project(ITKMesh)
+set(ITKMesh_LIBRARIES ITKMesh)
 itk_module_impl()

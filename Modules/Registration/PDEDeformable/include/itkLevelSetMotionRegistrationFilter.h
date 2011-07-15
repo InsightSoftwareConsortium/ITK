@@ -85,7 +85,7 @@ namespace itk
  * \sa LevelSetMotionRegistrationFunction
  * \sa DemonsRegistrationFilter
  * \ingroup DeformableImageRegistration MultiThreaded
- * \ingroup ITK-PDEDeformableRegistration
+ * \ingroup ITKPDEDeformableRegistration
  */
 template< class TFixedImage, class TMovingImage, class TDeformationField >
 class ITK_EXPORT LevelSetMotionRegistrationFilter:
@@ -202,7 +202,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetMotionRegistrationFilter.txx"
+#include "itkLevelSetMotionRegistrationFilter.hxx"
 #endif
 
 #endif

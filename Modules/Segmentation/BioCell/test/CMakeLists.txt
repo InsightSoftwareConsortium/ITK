@@ -1,5 +1,5 @@
 itk_module_test()
-set(ITK-BioCellTests
+set(ITKBioCellTests
 itkBioCellTest.cxx
 itkBioGenomeTest.cxx
 itkBioCellularAggregateTest.cxx
@@ -8,17 +8,17 @@ itkBioCellHeaderTest.cxx
 itkBioGeneTest.cxx
 )
 
-CreateTestDriver(ITK-BioCell  "${ITK-BioCell-Test_LIBRARIES}" "${ITK-BioCellTests}")
+CreateTestDriver(ITKBioCell  "${ITKBioCell-Test_LIBRARIES}" "${ITKBioCellTests}")
 
 itk_add_test(NAME itkBioCellHeaderTest
-      COMMAND ITK-BioCellTestDriver itkBioCellHeaderTest)
+      COMMAND ITKBioCellTestDriver itkBioCellHeaderTest)
 itk_add_test(NAME itkBioCellTest
-      COMMAND ITK-BioCellTestDriver itkBioCellTest)
+      COMMAND ITKBioCellTestDriver itkBioCellTest)
 itk_add_test(NAME itkBioGenomeTest
-      COMMAND ITK-BioCellTestDriver itkBioGenomeTest)
+      COMMAND ITKBioCellTestDriver itkBioGenomeTest)
 itk_add_test(NAME itkBioCellularAggregateTest
-      COMMAND ITK-BioCellTestDriver itkBioCellularAggregateTest)
+      COMMAND ITKBioCellTestDriver itkBioCellularAggregateTest)
 itk_add_test(NAME itkBioGeneNetworkTest
-      COMMAND ITK-BioCellTestDriver itkBioGeneNetworkTest)
+      COMMAND ITKBioCellTestDriver itkBioGeneNetworkTest)
 itk_add_test(NAME itkBioGeneTest
-      COMMAND ITK-BioCellTestDriver itkBioGeneTest)
+      COMMAND ITKBioCellTestDriver itkBioGeneTest)

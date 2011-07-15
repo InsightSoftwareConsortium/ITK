@@ -1,2 +1,2 @@
-project(ITK-Thresholding)
+project(ITKThresholding)
 itk_module_impl()

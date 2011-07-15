@@ -74,7 +74,7 @@ namespace itk
  * for every vector.
  *
  * \ingroup RegionGrowingSegmentation
- * \ingroup ITK-KLMRegionGrowing
+ * \ingroup ITKKLMRegionGrowing
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT RegionGrowImageFilter:
@@ -138,7 +138,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRegionGrowImageFilter.txx"
+#include "itkRegionGrowImageFilter.hxx"
 #endif
 
 #endif

@@ -57,7 +57,7 @@ namespace itk
  * \warning  For efficiency reasons, the ObjectStore does not guard against the
  * same pointer being Returned() more than once. Doing this could result in
  * serious problems.
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TObjectType >
 class ITK_EXPORT ObjectStore:public Object
@@ -163,7 +163,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkObjectStore.txx"
+#include "itkObjectStore.hxx"
 #endif
 
 #endif

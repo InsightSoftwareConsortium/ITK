@@ -26,7 +26,15 @@
  *
  *=========================================================================*/
 #include "itkProcessObject.h"
-#include "itkSmartPointerForwardReference.txx"
+/** The inclusion of itkSmartPointerForwardReference.hxx is needed here
+ * because this is one of the very few cases where
+ * itkSmartPointerForwardReference.h does not include
+ * itkSmartPointerForwardReference.hxx
+ *
+ * Perhaps itkSmartPointerForwardReference.hxx should
+ * just be it's own cxx file?
+ */
+#include "itkSmartPointerForwardReference.hxx"
 #include "itkRealTimeClock.h"
 
 // Manual instantiation is necessary to prevent link errors

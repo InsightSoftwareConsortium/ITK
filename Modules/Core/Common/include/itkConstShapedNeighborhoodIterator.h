@@ -65,7 +65,7 @@ namespace itk
  * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator
  * \sa ShapedNeighborhoodIterator  \sa SliceIterator
  * \sa ImageConstIteratorWithIndex
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TImage,  class TBoundaryCondition =
             ZeroFluxNeumannBoundaryCondition< TImage > >
@@ -368,7 +368,7 @@ protected:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkConstShapedNeighborhoodIterator.txx"
+#include "itkConstShapedNeighborhoodIterator.hxx"
 #endif
 
 #endif

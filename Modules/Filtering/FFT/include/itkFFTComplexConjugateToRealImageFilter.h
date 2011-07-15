@@ -47,7 +47,7 @@ namespace itk
  * \ingroup FourierTransform
  *
  * \sa FFTRealToComplexConjugateImageFilter, FFTComplexConjugateToRealImageFilter
- * \ingroup ITK-FFT
+ * \ingroup ITKFFT
  */
 template< class TInputImage, class TOutputImage=Image< typename TInputImage::PixelType::value_type, TInputImage::ImageDimension> >
 class ITK_EXPORT FFTComplexConjugateToRealImageFilter:
@@ -129,10 +129,10 @@ private:
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #ifndef __itkVnlFFTComplexConjugateToRealImageFilter_h
-#ifndef __itkVnlFFTComplexConjugateToRealImageFilter_txx
+#ifndef __itkVnlFFTComplexConjugateToRealImageFilter_hxx
 #ifndef __itkFFTWComplexConjugateToRealImageFilter_h
-#ifndef __itkFFTWComplexConjugateToRealImageFilter_txx
-#include "itkFFTComplexConjugateToRealImageFilter.txx"
+#ifndef __itkFFTWComplexConjugateToRealImageFilter_hxx
+#include "itkFFTComplexConjugateToRealImageFilter.hxx"
 #endif
 #endif
 #endif

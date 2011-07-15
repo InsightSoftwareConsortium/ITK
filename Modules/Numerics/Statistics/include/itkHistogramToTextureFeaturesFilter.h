@@ -96,7 +96,7 @@ namespace Statistics
 * \sa ScalarImageTextureCalculator
 *
 * Author: Zachary Pincus
-* \ingroup ITK-Statistics
+* \ingroup ITKStatistics
 */
 
 template< class THistogram >
@@ -223,7 +223,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkHistogramToTextureFeaturesFilter.txx"
+#include "itkHistogramToTextureFeaturesFilter.hxx"
 #endif
 
 #endif

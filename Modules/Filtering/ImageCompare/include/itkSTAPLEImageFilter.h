@@ -115,7 +115,7 @@ namespace itk
  * halt after the current iteration and produce results just as if it had
  * converged. The algorithm makes no attempt to report its progress since the
  * number of iterations needed cannot be known in advance.
- * \ingroup ITK-ImageCompare
+ * \ingroup ITKImageCompare
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_EXPORT STAPLEImageFilter:
@@ -250,7 +250,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSTAPLEImageFilter.txx"
+#include "itkSTAPLEImageFilter.hxx"
 #endif
 
 #endif

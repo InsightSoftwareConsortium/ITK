@@ -86,7 +86,7 @@ namespace itk
  * \sa ShapedNeighborhoodIterator  \sa SliceIterator
  *
  * \ingroup ImageIterators
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< typename TImage >
 class ITK_EXPORT ImageConstIteratorWithIndex
@@ -327,7 +327,7 @@ protected: //made protected so other iterators can access
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkImageConstIteratorWithIndex.txx"
+#include "itkImageConstIteratorWithIndex.hxx"
 #endif
 
 #endif

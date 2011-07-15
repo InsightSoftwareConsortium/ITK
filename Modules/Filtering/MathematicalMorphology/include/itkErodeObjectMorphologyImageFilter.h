@@ -40,7 +40,7 @@ namespace itk
  * \sa ObjectMorphologyImageFilter, BinaryFunctionErodeImageFilter
  * \sa BinaryErodeImageFilter
  * \ingroup ImageEnhancement MathematicalMorphologyImageFilters
- * \ingroup ITK-MathematicalMorphology
+ * \ingroup ITKMathematicalMorphology
  */
 template< class TInputImage, class TOutputImage, class TKernel >
 class ITK_EXPORT ErodeObjectMorphologyImageFilter:
@@ -128,7 +128,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkErodeObjectMorphologyImageFilter.txx"
+#include "itkErodeObjectMorphologyImageFilter.hxx"
 #endif
 
 #endif

@@ -65,7 +65,7 @@ namespace itk
  * first.
  *
  * \ingroup ImageFilters
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{Developer/ImageFilter,Filter an image}
@@ -311,7 +311,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkImageToImageFilter.txx"
+#include "itkImageToImageFilter.hxx"
 #endif
 
 #endif

@@ -60,7 +60,7 @@ namespace fem
  * about the types of elements, materials, elements, or nodes. The
  * problem presently can only be 2D or 3D.
  *
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 
 template <unsigned int VDimension = 3>
@@ -316,7 +316,7 @@ private:
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFEMObject.txx"
+#include "itkFEMObject.hxx"
 #endif
 
 #endif // #ifndef __itkFEMObject_h

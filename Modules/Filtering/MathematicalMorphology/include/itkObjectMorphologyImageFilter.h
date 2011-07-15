@@ -67,7 +67,7 @@ namespace itk
  * \sa NeighborhoodIterator
  * \sa Neighborhood
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
- * \ingroup ITK-MathematicalMorphology
+ * \ingroup ITKMathematicalMorphology
  */
 template< class TInputImage, class TOutputImage, class TKernel >
 class ITK_EXPORT ObjectMorphologyImageFilter:
@@ -234,7 +234,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkObjectMorphologyImageFilter.txx"
+#include "itkObjectMorphologyImageFilter.hxx"
 #endif
 
 #endif

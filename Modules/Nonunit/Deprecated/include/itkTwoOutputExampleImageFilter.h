@@ -37,8 +37,8 @@ namespace itk
  *
  * The pixels must support the operators >= and <=.
  *
- * \ingroup IntensityImageFilters Multithreaded
- * \ingroup ITK-Deprecated
+ * \ingroup IntensityImageFilters MultiThreaded
+ * \ingroup ITKDeprecated
  */
 template< class TImage >
 class ITK_EXPORT TwoOutputExampleImageFilter:
@@ -129,7 +129,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTwoOutputExampleImageFilter.txx"
+#include "itkTwoOutputExampleImageFilter.hxx"
 #endif
 
 #endif

@@ -35,7 +35,7 @@ namespace itk
  * Silverman, B. W. (1986) Density Estimation. London: Chapman and Hall.
  *
  * \ingroup Functions
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 class ITKCommon_EXPORT KernelFunction:public FunctionBase< double, double >
 {

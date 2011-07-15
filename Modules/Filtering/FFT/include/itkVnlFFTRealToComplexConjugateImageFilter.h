@@ -32,7 +32,7 @@ namespace itk
  * \ingroup FourierTransform
  *
  * \sa FFTRealToComplexConjugateImageFilter
- * \ingroup ITK-FFT
+ * \ingroup ITKFFT
  *
  * \wiki
  * \wikiexample{SpectralAnalysis/VnlFFTRealToComplexConjugateImageFilter,Compute the FFT of an image}
@@ -83,7 +83,7 @@ private:
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVnlFFTRealToComplexConjugateImageFilter.txx"
+#include "itkVnlFFTRealToComplexConjugateImageFilter.hxx"
 #endif
 
 #endif

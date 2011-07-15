@@ -137,7 +137,7 @@ namespace itk
  *
  * \par
  *  See LevelSetFunction for more information.
- * \ingroup ITK-LevelSets
+ * \ingroup ITKLevelSets
  */
 template< class TInputImage,
           class TFeatureImage,
@@ -400,7 +400,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNarrowBandLevelSetImageFilter.txx"
+#include "itkNarrowBandLevelSetImageFilter.hxx"
 #endif
 
 #endif

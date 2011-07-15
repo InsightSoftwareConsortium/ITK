@@ -39,7 +39,7 @@ namespace itk {
  *
  * \sa GrayscaleFillholeImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template<class TInputImage>
 class ITK_EXPORT BinaryFillholeImageFilter :
@@ -134,7 +134,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryFillholeImageFilter.txx"
+#include "itkBinaryFillholeImageFilter.hxx"
 #endif
 
 #endif

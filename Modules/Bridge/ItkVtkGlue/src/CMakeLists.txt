@@ -1,13 +1,13 @@
-set(ITK-ItkVtkGlue_SRCS
+set(ITKItkVtkGlue_SRCS
 QuickView.cxx
 )
 
 ### generating libraries
-add_library( ITK-ItkVtkGlue ${ITK-ItkVtkGlue_SRCS})
-target_link_libraries(ITK-ItkVtkGlue
-    ${ITK-Common_LIBRARIES}
-    ${ITK-VTK_LIBRARIES}
+add_library( ITKItkVtkGlue ${ITKItkVtkGlue_SRCS})
+target_link_libraries(ITKItkVtkGlue
+    ${ITKCommon_LIBRARIES}
+    ${ITKVTK_LIBRARIES}
     ${VTK_LIBRARIES}
 )
 
-itk_module_target(ITK-ItkVtkGlue)
+itk_module_target(ITKItkVtkGlue)

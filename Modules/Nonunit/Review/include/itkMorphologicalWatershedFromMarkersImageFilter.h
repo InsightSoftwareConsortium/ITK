@@ -74,7 +74,7 @@ namespace itk
  *
  * \sa WatershedImageFilter, MorphologicalWatershedImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TInputImage, class TLabelImage >
 class ITK_EXPORT MorphologicalWatershedFromMarkersImageFilter:
@@ -186,7 +186,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMorphologicalWatershedFromMarkersImageFilter.txx"
+#include "itkMorphologicalWatershedFromMarkersImageFilter.hxx"
 #endif
 
 #endif

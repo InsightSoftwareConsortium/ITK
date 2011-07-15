@@ -40,7 +40,7 @@ namespace itk
  *
  * \sa ShapeLabelObject, RelabelComponentImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TInputImage >
 class ITK_EXPORT ShapeRelabelImageFilter:
@@ -155,7 +155,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShapeRelabelImageFilter.txx"
+#include "itkShapeRelabelImageFilter.hxx"
 #endif
 
 #endif

@@ -30,7 +30,7 @@ namespace itk
  *  the maximum size of the object's bounding box is used.
  *  The spacing of the image is given by the spacing of the input
  *  Spatial object.
- * \ingroup ITK-SpatialObjects
+ * \ingroup ITKSpatialObjects
  *
  * \wiki
  * \wikiexample{SpatialObjects/SpatialObjectToImageFilter,Convert a spatial object to an image}
@@ -177,7 +177,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSpatialObjectToImageFilter.txx"
+#include "itkSpatialObjectToImageFilter.hxx"
 #endif
 
 #endif

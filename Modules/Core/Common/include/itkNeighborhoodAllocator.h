@@ -34,7 +34,7 @@ namespace itk
  * the STL allocator API is not guaranteed stable at this time.
  *
  * \ingroup Operators
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TPixel >
 class NeighborhoodAllocator

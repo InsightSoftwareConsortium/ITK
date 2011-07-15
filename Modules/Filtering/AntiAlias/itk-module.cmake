@@ -4,12 +4,12 @@ segmentations, previous to extracting contours or surfaces from them. Note that
 you can also achieve effects similar to anti-aliasing by using a binary
 segmentation as input to a level set filter.")
 
-itk_module(ITK-AntiAlias
+itk_module(ITKAntiAlias
   DEPENDS
-    ITK-LevelSets
-    ITK-CurvatureFlow
+    ITKLevelSets
+    ITKCurvatureFlow
   TEST_DEPENDS
-    ITK-TestKernel
+    ITKTestKernel
   DESCRIPTION
     "${DOCUMENTATION}"
 )

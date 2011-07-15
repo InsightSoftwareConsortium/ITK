@@ -33,7 +33,7 @@ namespace Statistics
 /** \class WeightSetBase
  * \brief This is the itkWeightSetBase class.
  *
- * \ingroup ITK-NeuralNetworks
+ * \ingroup ITKNeuralNetworks
  */
 
 template<class TMeasurementVector, class TTargetVector>
@@ -182,7 +182,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkWeightSetBase.txx"
+#include "itkWeightSetBase.hxx"
 #endif
 
 

@@ -105,7 +105,7 @@ namespace itk
  * \sa ShapeSignedDistanceFunction
  *
  * \ingroup LevelSetSegmentation
- * \ingroup ITK-LevelSets
+ * \ingroup ITKLevelSets
  */
 template< class TInputImage,
           class TFeatureImage,
@@ -184,7 +184,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGeodesicActiveContourShapePriorLevelSetImageFilter.txx"
+#include "itkGeodesicActiveContourShapePriorLevelSetImageFilter.hxx"
 #endif
 
 #endif

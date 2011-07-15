@@ -47,7 +47,7 @@ namespace itk
  * \brief Class that defines how to read SiemensVision file format.
  *
  * \ingroup IOFilters
- * \ingroup ITK-IO-Siemens
+ * \ingroup ITKIOSiemens
  */
 class ITK_EXPORT SiemensVisionImageIO:public IPLCommonImageIO
 {

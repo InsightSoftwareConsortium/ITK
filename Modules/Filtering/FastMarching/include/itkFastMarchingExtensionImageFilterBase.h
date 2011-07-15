@@ -48,7 +48,7 @@ namespace itk
  * \sa AuxVarTypeDefault
  *
  * \ingroup LevelSetSegmentation
- * \ingroup ITK-FastMarching
+ * \ingroup ITKFastMarching
  */
 template< class TInput, class TOutput,
          typename TAuxValue,
@@ -147,5 +147,5 @@ private:
 };
 } // namespace itk
 
-#include "itkFastMarchingExtensionImageFilterBase.txx"
+#include "itkFastMarchingExtensionImageFilterBase.hxx"
 #endif

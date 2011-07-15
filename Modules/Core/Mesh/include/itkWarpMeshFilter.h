@@ -36,7 +36,7 @@ namespace itk
  *
  * \ingroup MeshFilters
  * \sa TransformMeshFilter
- * \ingroup ITK-Mesh
+ * \ingroup ITKMesh
  */
 template< class TInputMesh, class TOutputMesh, class TDeformationField >
 class ITK_EXPORT WarpMeshFilter:
@@ -90,7 +90,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkWarpMeshFilter.txx"
+#include "itkWarpMeshFilter.hxx"
 #endif
 
 #endif

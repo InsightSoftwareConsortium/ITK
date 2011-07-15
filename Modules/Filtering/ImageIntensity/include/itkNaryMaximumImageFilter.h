@@ -52,8 +52,8 @@ namespace itk
  * Biochemistry and Program in Biomedical Informatics at Stanford University
  * School of Medicine
  *
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup IntensityImageFilters  MultiThreaded
+ * \ingroup ITKImageIntensity
  */
 
 namespace Functor

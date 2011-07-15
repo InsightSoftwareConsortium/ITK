@@ -46,7 +46,7 @@ namespace itk
  * \author Benjamin King, Experimentelle Radiologie, Medizinische
  * Hochschule Hannover.
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{Iterators/LineConstIterator,Iterate over a line through an image without write access}
@@ -202,7 +202,7 @@ protected: //made protected so other iterators can access
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkLineConstIterator.txx"
+#include "itkLineConstIterator.hxx"
 #endif
 
 #endif

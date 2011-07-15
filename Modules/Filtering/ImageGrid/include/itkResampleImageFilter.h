@@ -72,7 +72,7 @@ namespace itk
  * user-designated coordinate transform must be threadsafe.
  *
  * \ingroup GeometricTransforms
- * \ingroup ITK-ImageGrid
+ * \ingroup ITKImageGrid
  *
  * \wiki
  * \wikiexample{SimpleOperations/TranslationTransform,Translate an image}
@@ -340,7 +340,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkResampleImageFilter.txx"
+#include "itkResampleImageFilter.hxx"
 #endif
 
 #endif

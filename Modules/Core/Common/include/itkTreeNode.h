@@ -37,7 +37,7 @@ namespace itk
  * \tparam TValueType = Element type stored in the node
  *
  * \ingroup DataRepresentation
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TValueType >
 class TreeNode:public Object
@@ -148,7 +148,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkTreeNode.txx"
+#include "itkTreeNode.hxx"
 #endif
 
 #endif

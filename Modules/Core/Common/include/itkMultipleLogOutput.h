@@ -34,7 +34,7 @@ namespace itk
  *                     ISIS Center, Georgetown University.
  *
  *  \ingroup OSSystemObjects LoggingObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 class ITKCommon_EXPORT MultipleLogOutput:public LogOutput

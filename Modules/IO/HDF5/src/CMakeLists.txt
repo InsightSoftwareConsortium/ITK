@@ -1,17 +1,17 @@
-set(ITK-IO-HDF5_SRC
+set(ITKIOHDF5_SRC
 itkHDF5ImageIOFactory.cxx
 itkHDF5ImageIO.cxx
 )
 
-add_library(ITK-IO-HDF5 ${ITK-IO-HDF5_SRC})
+add_library(ITKIOHDF5 ${ITKIOHDF5_SRC})
 
-target_link_libraries(ITK-IO-HDF5
-${ITK-HDF5_LIBRARIES}
-${ITK-IO-Base_LIBRARIES}
+target_link_libraries(ITKIOHDF5
+${ITKHDF5_LIBRARIES}
+${ITKIOBase_LIBRARIES}
 ${TEST_DEPENDS_LIBRARIES}
-${ITK-TestKernel_LIBRARIES}
+${ITKTestKernel_LIBRARIES}
 itkhdf5
 itkhdf5_cpp
 )
 
-itk_module_target(ITK-IO-HDF5)
+itk_module_target(ITKIOHDF5)

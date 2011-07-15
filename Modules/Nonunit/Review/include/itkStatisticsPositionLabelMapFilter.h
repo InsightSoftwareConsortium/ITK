@@ -36,7 +36,7 @@ namespace itk {
  *
  * \sa StatisticsLabelObject, BinaryStatisticsOpeningImageFilter, LabelStatisticsOpeningImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template<class TImage>
 class ITK_EXPORT StatisticsPositionLabelMapFilter :
@@ -96,7 +96,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkStatisticsPositionLabelMapFilter.txx"
+#include "itkStatisticsPositionLabelMapFilter.hxx"
 #endif
 
 #endif

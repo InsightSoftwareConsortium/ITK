@@ -29,7 +29,7 @@
 #include "itkPixelAccessor.h"
 #include "itkLog10ImageAdaptor.h"
 #include "itkRGBToLuminanceImageAdaptor.h"
-#include "itkImageAdaptor.txx"
+#include "itkImageAdaptor.h"
 #include "itkComplexToModulusImageAdaptor.h"
 #include "itkAbsImageAdaptor.h"
 #include "itkAsinImageAdaptor.h"

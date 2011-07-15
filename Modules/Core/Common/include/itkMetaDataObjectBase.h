@@ -42,7 +42,7 @@ namespace itk
  * a MetaDataDictionary
  *
  * \author Hans J. Johnson
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 class ITKCommon_EXPORT MetaDataObjectBase:public LightObject
 {

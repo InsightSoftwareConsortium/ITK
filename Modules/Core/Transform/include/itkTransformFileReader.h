@@ -25,7 +25,7 @@ namespace itk
 /** \class TransformFileReader
  *
  * \brief TODO
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  *
  * \wiki
  * \wikiexample{IO/TransformFileReader,Read a transform from a file}

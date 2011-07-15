@@ -3,11 +3,11 @@ finite differences image filters. They include both sparse and dense finite
 differences. Most of the classes in this module are abstract and therefore are
 not intended to be instantiated by themselves.")
 
-itk_module(ITK-FiniteDifference
+itk_module(ITKFiniteDifference
   DEPENDS
-    ITK-Common
+    ITKCommon
   TEST_DEPENDS
-    ITK-TestKernel
+    ITKTestKernel
   DESCRIPTION
     "${DOCUMENTATION}"
 )

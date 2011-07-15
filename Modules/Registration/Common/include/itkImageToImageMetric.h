@@ -48,7 +48,7 @@ namespace itk
  *
  * \ingroup RegistrationMetrics
  *
- * \ingroup ITK-RegistrationCommon
+ * \ingroup ITKRegistrationCommon
  */
 
 template< class TFixedImage,  class TMovingImage >
@@ -331,7 +331,7 @@ protected:
   /** \class FixedImageSamplePoint
    * A fixed image spatial sample consists of the fixed domain point
    * and the fixed image value at that point.
-   * \ingroup ITK-RegistrationCommon
+   * \ingroup ITKRegistrationCommon
    */
   class FixedImageSamplePoint
   {
@@ -586,7 +586,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageToImageMetric.txx"
+#include "itkImageToImageMetric.hxx"
 #endif
 
 #endif

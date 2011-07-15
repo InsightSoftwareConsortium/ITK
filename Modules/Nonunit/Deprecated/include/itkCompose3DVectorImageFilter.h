@@ -66,7 +66,7 @@ public:
  * input images.
  *
  * \ingroup Deprecated
- * \ingroup ITK-Deprecated
+ * \ingroup ITKDeprecated
  */
 
 template< typename TInputImage,

@@ -31,7 +31,7 @@ namespace itk
  * plug any kind of spatial object.
  *
  * \sa SpatialObject
- * \ingroup ITK-SpatialObjects
+ * \ingroup ITKSpatialObjects
  */
 
 template< unsigned int TSpaceDimension = 3 >
@@ -127,7 +127,7 @@ protected:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSceneSpatialObject.txx"
+#include "itkSceneSpatialObject.hxx"
 #endif
 
 #endif // __SceneSpatialObject_h

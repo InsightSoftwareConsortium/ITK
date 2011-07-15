@@ -31,7 +31,7 @@ namespace itk
  * This calculator computes the mean and the covariance matrice of a certain
  *  region of an image specified by a spatial object.
  * \ingroup Operators
- * \ingroup ITK-SpatialObjects
+ * \ingroup ITKSpatialObjects
  */
 template< class TInputImage, class TInputSpatialObject, unsigned int TSampleDimension = 1 >
 class ITK_EXPORT SpatialObjectToImageStatisticsCalculator:public Object
@@ -138,7 +138,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSpatialObjectToImageStatisticsCalculator.txx"
+#include "itkSpatialObjectToImageStatisticsCalculator.hxx"
 #endif
 
 #endif /* __itkSpatialObjectToImageStatisticsCalculator_h */

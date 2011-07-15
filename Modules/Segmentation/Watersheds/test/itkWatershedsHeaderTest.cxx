@@ -21,20 +21,20 @@
 
 #include <iostream>
 
-#include "itkWatershedRelabeler.txx"
-#include "itkWatershedSegmentTable.txx"
-#include "itkWatershedSegmentTree.txx"
-#include "itkWatershedBoundaryResolver.txx"
-#include "itkTobogganImageFilter.txx"
-#include "itkWatershedBoundary.txx"
+#include "itkWatershedRelabeler.hxx"
+#include "itkWatershedSegmentTable.hxx"
+#include "itkWatershedSegmentTree.hxx"
+#include "itkWatershedBoundaryResolver.hxx"
+#include "itkTobogganImageFilter.hxx"
+#include "itkWatershedBoundary.hxx"
 #include "itkOneWayEquivalencyTable.h"
-#include "itkIsolatedWatershedImageFilter.txx"
-#include "itkWatershedEquivalenceRelabeler.txx"
-#include "itkWatershedImageFilter.txx"
+#include "itkIsolatedWatershedImageFilter.hxx"
+#include "itkWatershedEquivalenceRelabeler.hxx"
+#include "itkWatershedImageFilter.hxx"
 #include "itkWatershedMiniPipelineProgressCommand.h"
-#include "itkWatershedSegmenter.txx"
+#include "itkWatershedSegmenter.hxx"
 #include "itkWatershedImageFilter.h"
-#include "itkWatershedSegmentTreeGenerator.txx"
+#include "itkWatershedSegmentTreeGenerator.hxx"
 
 
 

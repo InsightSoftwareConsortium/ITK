@@ -106,7 +106,7 @@ namespace itk
  * from code provided by
  * \author Tom Vercauteren, INRIA & Mauna Kea Technologies
  * \author Torsten Rohlfing, Neuroscience Program, SRI International.
- * \ingroup ITK-DeformationField
+ * \ingroup ITKDeformationField
  */
 template< typename TInputImage,
           typename TRealType = float,
@@ -259,7 +259,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDisplacementFieldJacobianDeterminantFilter.txx"
+#include "itkDisplacementFieldJacobianDeterminantFilter.hxx"
 #endif
 
 #endif

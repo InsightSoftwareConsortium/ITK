@@ -29,7 +29,7 @@ namespace itk
 /** \class ImageFileReaderException
  *
  * \brief Base exception class for IO conflicts.
- * \ingroup ITK-IO-Base
+ * \ingroup ITKIOBase
  */
 class ImageFileReaderException:public ExceptionObject
 {
@@ -83,7 +83,7 @@ public:
  *
  */
 /** \class ImageFileReader
- * \ingroup ITK-IO-Base
+ * \ingroup ITKIOBase
  *
  * \wiki
  * \wikiexample{IO/ReadVectorImage,Read an image file with an unknown number of components}
@@ -188,7 +188,7 @@ private:
 } //namespace ITK
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageFileReader.txx"
+#include "itkImageFileReader.hxx"
 #endif
 
 #ifdef ITK_IO_FACTORY_REGISTER_MANAGER

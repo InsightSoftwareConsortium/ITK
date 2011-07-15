@@ -37,7 +37,7 @@ namespace itk
  *
  * \ingroup ImageFunctions ImageInterpolators
  *
- * \ingroup ITK-ImageFunction
+ * \ingroup ITKImageFunction
  */
 template< class TInputImage, class TCoordRep = double >
 class ITK_EXPORT VectorLinearInterpolateImageFunction:
@@ -123,7 +123,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkVectorLinearInterpolateImageFunction.txx"
+#include "itkVectorLinearInterpolateImageFunction.hxx"
 #endif
 
 #endif

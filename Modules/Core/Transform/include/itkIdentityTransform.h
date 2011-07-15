@@ -46,7 +46,7 @@ namespace itk
  *
  * \ingroup Transforms
  *
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  */
 template< class TScalarType,
           unsigned int NDimensions = 3 >

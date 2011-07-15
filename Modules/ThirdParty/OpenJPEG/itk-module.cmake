@@ -1,1 +1,1 @@
-itk_module(ITK-OpenJPEG)
+itk_module(ITKOpenJPEG)

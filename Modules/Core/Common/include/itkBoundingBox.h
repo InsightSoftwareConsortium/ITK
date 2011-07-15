@@ -60,7 +60,7 @@ namespace itk
  *
  * \ingroup DataRepresentation
  * \ingroup ImageObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{Utilities/BoundingBox,Bounding box}
@@ -209,7 +209,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBoundingBox.txx"
+#include "itkBoundingBox.hxx"
 #endif
 
 #endif

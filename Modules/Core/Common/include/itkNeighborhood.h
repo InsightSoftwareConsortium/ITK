@@ -49,7 +49,7 @@ namespace itk
  *
  * \ingroup Operators
  * \ingroup ImageIterators
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 template< class TPixel, unsigned int VDimension = 2,
@@ -304,12 +304,12 @@ std::ostream & operator<<(std::ostream & os, const Neighborhood< TPixel, VDimens
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkNeighborhood.txx"
+#include "itkNeighborhood.hxx"
 #endif
 
 /*
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNeighborhood.txx"
+#include "itkNeighborhood.hxx"
 #endif
 */
 

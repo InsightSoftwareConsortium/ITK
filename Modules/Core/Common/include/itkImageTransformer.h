@@ -53,7 +53,7 @@ namespace itk
  * ProcessObject::ReleaseDataBeforeUpdateFlagOn().  A user may want to
  * set this flag to limit peak memory usage during a pipeline update.
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TInputImage >
 class ITK_EXPORT ImageTransformer:public ProcessObject
@@ -259,7 +259,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkImageTransformer.txx"
+#include "itkImageTransformer.hxx"
 #endif
 
 #endif

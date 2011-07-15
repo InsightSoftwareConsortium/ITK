@@ -36,7 +36,7 @@ namespace Statistics
  *
  * \sa CovarianceSampleFilter
  *
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  */
 
 template< class TSample >
@@ -110,7 +110,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkWeightedCovarianceSampleFilter.txx"
+#include "itkWeightedCovarianceSampleFilter.hxx"
 #endif
 
 #endif

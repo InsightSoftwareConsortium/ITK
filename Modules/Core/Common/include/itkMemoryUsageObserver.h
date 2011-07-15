@@ -40,7 +40,7 @@ namespace itk
  * This class represents a memory load analyser object
  * and provides a memory usage in platform-independent format.
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 class ITKCommon_EXPORT MemoryUsageObserverBase
@@ -121,7 +121,7 @@ public:
   && !defined( __OpenBSD__ )
 /** \class MallinfoMemoryUsageObserver
  * \brief The MallinfoMemoryUsageObserver
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 class ITKCommon_EXPORT MallinfoMemoryUsageObserver:public MemoryUsageObserverBase
 {

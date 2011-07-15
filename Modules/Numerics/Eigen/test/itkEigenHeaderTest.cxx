@@ -21,8 +21,8 @@
 
 #include <iostream>
 
-#include "itkEigenAnalysis2DImageFilter.txx"
-#include "itkSymmetricEigenSystem.txx"
+#include "itkEigenAnalysis2DImageFilter.hxx"
+#include "itkSymmetricEigenSystem.hxx"
 
 
 

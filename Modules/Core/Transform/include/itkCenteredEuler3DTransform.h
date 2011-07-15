@@ -32,7 +32,7 @@ namespace itk
  * centre of rotation followed by a translation.
  *
  * \ingroup Transforms
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  */
 template< class TScalarType = double >
 // Data type for scalars
@@ -149,7 +149,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkCenteredEuler3DTransform.txx"
+#include "itkCenteredEuler3DTransform.hxx"
 #endif
 
 #endif /* __itkCenteredEuler3DTransform_h */

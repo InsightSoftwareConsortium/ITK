@@ -19,7 +19,7 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkNeighborhoodIteratorTestCommon.txx"
+#include "itkNeighborhoodIteratorTestCommon.hxx"
 #include "itkConstShapedNeighborhoodIterator.h"
 
 //

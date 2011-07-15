@@ -32,7 +32,7 @@ namespace itk
  *
  * The output is a 4 connected labeled map of the image.
  * \ingroup Segmentation
- * \ingroup ITK-Watersheds
+ * \ingroup ITKWatersheds
  */
 
 template< class TInputImage >
@@ -117,7 +117,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTobogganImageFilter.txx"
+#include "itkTobogganImageFilter.hxx"
 #endif
 
 #endif

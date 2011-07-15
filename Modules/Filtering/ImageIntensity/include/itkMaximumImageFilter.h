@@ -32,8 +32,8 @@ namespace itk
  * input images and the type of the output image.
  * Numeric conversions (castings) are done by the C++ defaults.
  *
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup IntensityImageFilters  MultiThreaded
+ * \ingroup ITKImageIntensity
  *
  * \wiki
  * \wikiexample{ImageProcessing/MaximumImageFilter,Pixel wise compare two input images and set the output pixel to their max}

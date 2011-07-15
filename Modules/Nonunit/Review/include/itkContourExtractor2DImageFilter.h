@@ -86,7 +86,7 @@ namespace itk
  * \sa Path
  * \sa PolyLineParametricPath
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TInputImage >
 class ITK_EXPORT ContourExtractor2DImageFilter:
@@ -284,7 +284,7 @@ public:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkContourExtractor2DImageFilter.txx"
+#include "itkContourExtractor2DImageFilter.hxx"
 #endif
 
 #endif

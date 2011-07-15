@@ -31,7 +31,7 @@ namespace itk
  * Image Registration Metrics.
  *
  * \sa ImageSpatialObject SpatialObject CompositeSpatialObject
- * \ingroup ITK-SpatialObjects
+ * \ingroup ITKSpatialObjects
  */
 
 template< unsigned int TDimension = 3 >
@@ -96,7 +96,7 @@ protected:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageMaskSpatialObject.txx"
+#include "itkImageMaskSpatialObject.hxx"
 #endif
 
 #endif //__itkImageMaskSpatialObject_h

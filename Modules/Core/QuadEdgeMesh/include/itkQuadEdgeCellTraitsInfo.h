@@ -33,7 +33,7 @@ namespace itk
  * This implementation was contributed as a paper to the Insight Journal
  * http://hdl.handle.net/1926/306
  *
- * \ingroup ITK-QuadEdgeMesh
+ * \ingroup ITKQuadEdgeMesh
  */
 template< int VPointDimension,
           typename TCoordRep = float,

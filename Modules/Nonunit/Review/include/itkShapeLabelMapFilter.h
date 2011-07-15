@@ -45,7 +45,7 @@ namespace itk
  * http://www.insight-journal.org/browse/publication/176
  *
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 
 template< class TImage, class TLabelImage =
@@ -164,7 +164,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShapeLabelMapFilter.txx"
+#include "itkShapeLabelMapFilter.hxx"
 #endif
 
 #endif

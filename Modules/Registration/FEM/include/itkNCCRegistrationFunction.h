@@ -47,7 +47,7 @@ namespace itk
  *
  * \sa NCCRegistrationFilter
  * \ingroup FiniteDifferenceFunctions
- * \ingroup ITK-FEMRegistration
+ * \ingroup ITKFEMRegistration
  */
 template< class TFixedImage, class TMovingImage, class TDeformationField >
 class ITK_EXPORT NCCRegistrationFunction:
@@ -186,7 +186,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNCCRegistrationFunction.txx"
+#include "itkNCCRegistrationFunction.hxx"
 #endif
 
 #endif

@@ -43,8 +43,8 @@ namespace itk
  * \sa ScalarImageToHistogramGenerator
  * \sa MaximumEntropyThresholdImageCalculator
  * \sa ThresholdLabelerImageFilter
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-Review
+ * \ingroup IntensityImageFilters  MultiThreaded
+ * \ingroup ITKReview
  */
 
 template< class TInputImage,
@@ -177,7 +177,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkKappaSigmaThresholdImageFilter.txx"
+#include "itkKappaSigmaThresholdImageFilter.hxx"
 #endif
 
 #endif

@@ -40,7 +40,7 @@ namespace itk
  * \ingroup IntensityImageFilters
  * \sa ShiftScaleImageFilter
  * \sa InPlaceImageFilter
- * \ingroup ITK-Deprecated
+ * \ingroup ITKDeprecated
  */
 template< class TInputImage >
 class ITK_EXPORT ShiftScaleInPlaceImageFilter:
@@ -142,7 +142,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShiftScaleInPlaceImageFilter.txx"
+#include "itkShiftScaleInPlaceImageFilter.hxx"
 #endif
 
 #endif

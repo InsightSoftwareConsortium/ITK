@@ -315,5 +315,5 @@ protected:
 
 }
 
-#include "itkPriorityQueueContainer.txx"
+#include "itkPriorityQueueContainer.hxx"
 #endif

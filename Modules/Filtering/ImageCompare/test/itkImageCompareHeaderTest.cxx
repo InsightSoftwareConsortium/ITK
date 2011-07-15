@@ -21,12 +21,12 @@
 
 #include <iostream>
 
-#include "itkCheckerBoardImageFilter.txx"
+#include "itkCheckerBoardImageFilter.hxx"
 #include "itkDifferenceImageFilter.h"
-#include "itkSTAPLEImageFilter.txx"
+#include "itkSTAPLEImageFilter.hxx"
 #include "itkAbsoluteValueDifferenceImageFilter.h"
-#include "itkSimilarityIndexImageFilter.txx"
-#include "itkDifferenceImageFilter.txx"
+#include "itkSimilarityIndexImageFilter.hxx"
+#include "itkDifferenceImageFilter.hxx"
 #include "itkSquaredDifferenceImageFilter.h"
 
 

@@ -47,7 +47,7 @@ namespace itk
  * \sa BinaryDilateImageFilter
  * \sa BinaryThinningImageFilter
  * \ingroup ImageEnhancement MathematicalMorphologyImageFilters
- * \ingroup ITK-MathematicalMorphology
+ * \ingroup ITKMathematicalMorphology
  */
 
 template< class TInputImage, class TOutputImage >
@@ -144,7 +144,7 @@ private:
 } //end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryPruningImageFilter.txx"
+#include "itkBinaryPruningImageFilter.hxx"
 #endif
 
 #endif

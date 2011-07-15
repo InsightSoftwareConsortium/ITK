@@ -53,7 +53,7 @@ class MetaDataDictionary;
  * \brief Class that defines how to read HDF5 file format.
  * HDF5 IMAGE FILE FORMAT - As much information as I can determine from sourceforge.net/projects/HDF5lib
  *
- * \ingroup ITK-IO-HDF5
+ * \ingroup ITKIOHDF5
  *
  * HDF5 paths for elements in file
  * \li N is dimension of image

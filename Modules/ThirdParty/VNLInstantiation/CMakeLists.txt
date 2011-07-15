@@ -1,2 +1,2 @@
-project(ITK-VNLInstantiation)
+project(ITKVNLInstantiation)
 itk_module_impl()

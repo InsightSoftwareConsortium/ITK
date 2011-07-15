@@ -3,7 +3,7 @@
 
 /** \defgroup Group-Bridge Group Bridge */
 
-/** \defgroup ITK-VTK  Module ITK-VTK
+/** \defgroup ITKVTK  Module ITKVTK
 \ingroup Group-Bridge
 */
 
@@ -12,39 +12,39 @@
 
 /** \defgroup Group-Core Group Core */
 
-/** \defgroup ITK-Common Module ITK-Common
+/** \defgroup ITKCommon Module ITKCommon
 \ingroup Group-Core
 */
 
-/** \defgroup ITK-FiniteDifference Module ITK-FiniteDifference
+/** \defgroup ITKFiniteDifference Module ITKFiniteDifference
 \ingroup Group-Core
 */
 
-/** \defgroup ITK-ImageAdaptors Module ITK-ImageAdaptors
+/** \defgroup ITKImageAdaptors Module ITKImageAdaptors
 \ingroup Group-Core
 */
 
-/** \defgroup ITK-ImageFunction Module ITK-ImageFunction
+/** \defgroup ITKImageFunction Module ITKImageFunction
 \ingroup Group-Core
 */
 
-/** \defgroup ITK-Mesh Module ITK-Mesh
+/** \defgroup ITKMesh Module ITKMesh
 \ingroup Group-Core
 */
 
-/** \defgroup ITK-QuadEdgeMesh Module ITK-QuadEdgeMesh
+/** \defgroup ITKQuadEdgeMesh Module ITKQuadEdgeMesh
 \ingroup Group-Core
 */
 
-/** \defgroup ITK-SpatialObjects Module ITK-SpatialObjects
+/** \defgroup ITKSpatialObjects Module ITKSpatialObjects
 \ingroup Group-Core
 */
 
-/** \defgroup ITK-TestKernel Module ITK-TestKernel
+/** \defgroup ITKTestKernel Module ITKTestKernel
 \ingroup Group-Core
 */
 
-/** \defgroup ITK-Transform Module ITK-Transform
+/** \defgroup ITKTransform Module ITKTransform
 \ingroup Group-Core
 */
 
@@ -53,99 +53,99 @@
 
 /** \defgroup Group-Filtering Group Filtering */
 
-/** \defgroup ITK-AnisotropicSmoothing Module ITK-AnisotropicSmoothing
+/** \defgroup ITKAnisotropicSmoothing Module ITKAnisotropicSmoothing
 \ingroup Group-Filtering
 */
 
-/** \defgroup ITK-AntiAlias Module ITK-AntiAlias
+/** \defgroup ITKAntiAlias Module ITKAntiAlias
 \ingroup Group-Filtering
 */
 
-/** \defgroup ITK-BiasCorrection Module ITK-BiasCorrection
+/** \defgroup ITKBiasCorrection Module ITKBiasCorrection
 \ingroup Group-Filtering
 */
 
-/** \defgroup ITK-CurvatureFlow Module ITK-CurvatureFlow
+/** \defgroup ITKCurvatureFlow Module ITKCurvatureFlow
 \ingroup Group-Filtering
 */
 
-/** \defgroup ITK-DeformationField Module ITK-DeformationField
+/** \defgroup ITKDeformationField Module ITKDeformationField
 \ingroup Group-Filtering
 */
 
-/** \defgroup ITK-DiffusionTensorImage Module ITK-DiffusionTensorImage
+/** \defgroup ITKDiffusionTensorImage Module ITKDiffusionTensorImage
 \ingroup Group-Filtering
 */
 
-/** \defgroup ITK-DistanceMap Module ITK-DistanceMap
+/** \defgroup ITKDistanceMap Module ITKDistanceMap
 \ingroup Group-Filtering
 */
 
-/** \defgroup ITK-FastMarching Module ITK-FastMarching
+/** \defgroup ITKFastMarching Module ITKFastMarching
 \ingroup Group-Filtering
 */
 
-/** \defgroup ITK-FFT Module ITK-FFT
+/** \defgroup ITKFFT Module ITKFFT
 \ingroup Group-Filtering
 */
 
-/** \defgroup ITK-ImageCompare Module ITK-ImageCompare
+/** \defgroup ITKImageCompare Module ITKImageCompare
 \ingroup Group-Filtering
 */
 
-/** \defgroup ITK-ImageCompose Module ITK-ImageCompose
+/** \defgroup ITKImageCompose Module ITKImageCompose
 \ingroup Group-Filtering
 */
 
-/** \defgroup ITK-ImageFeature Module ITK-ImageFeature
+/** \defgroup ITKImageFeature Module ITKImageFeature
 \ingroup Group-Filtering
 */
 
-/** \defgroup ITK-ImageFilterBase Module ITK-ImageFilterBase
+/** \defgroup ITKImageFilterBase Module ITKImageFilterBase
 \ingroup Group-Filtering
 */
 
-/** \defgroup ITK-ImageGradient Module ITK-ImageGradient
+/** \defgroup ITKImageGradient Module ITKImageGradient
 \ingroup Group-Filtering
 */
 
-/** \defgroup ITK-ImageGrid Module ITK-ImageGrid
+/** \defgroup ITKImageGrid Module ITKImageGrid
 \ingroup Group-Filtering
 */
 
-/** \defgroup ITK-ImageIntensity Module ITK-ImageIntensity
+/** \defgroup ITKImageIntensity Module ITKImageIntensity
 \ingroup Group-Filtering
 */
 
-/** \defgroup ITK-ImageLabel Module ITK-ImageLabel
+/** \defgroup ITKImageLabel Module ITKImageLabel
 \ingroup Group-Filtering
 */
 
-/** \defgroup ITK-ImageStatistics Module ITK-ImageStatistics
+/** \defgroup ITKImageStatistics Module ITKImageStatistics
 \ingroup Group-Filtering
 */
 
-/** \defgroup ITK-MathematicalMorphology Module ITK-MathematicalMorphology
+/** \defgroup ITKMathematicalMorphology Module ITKMathematicalMorphology
 \ingroup Group-Filtering
 */
 
-/** \defgroup ITK-Path Module ITK-Path
+/** \defgroup ITKPath Module ITKPath
 \ingroup Group-Filtering
 */
 
-/** \defgroup ITK-QuadEdgeMeshFiltering Module ITK-QuadEdgeMeshFiltering
+/** \defgroup ITKQuadEdgeMeshFiltering Module ITKQuadEdgeMeshFiltering
 \ingroup Group-Filtering
 */
 
-/** \defgroup ITK-Smoothing Module ITK-Smoothing
+/** \defgroup ITKSmoothing Module ITKSmoothing
 \ingroup Group-Filtering
 */
 
-/** \defgroup ITK-SpatialFunction Module ITK-SpatialFunction
+/** \defgroup ITKSpatialFunction Module ITKSpatialFunction
 \ingroup Group-Filtering
 */
 
-/** \defgroup ITK-Thresholding Module ITK-Thresholding
+/** \defgroup ITKThresholding Module ITKThresholding
 \ingroup Group-Filtering
 */
 
@@ -154,7 +154,7 @@
 
 /** \defgroup Group-GPU Group GPU */
 
-/** \defgroup ITK-GPUCommon Module ITK-GPUCommon
+/** \defgroup ITKGPUCommon Module ITKGPUCommon
 \ingroup Group-GPU
 */
 
@@ -163,83 +163,83 @@
 
 /** \defgroup Group-IO Group IO */
 
-/** \defgroup ITK-IO-Base Module ITK-IO-Base
+/** \defgroup ITKIOBase Module ITKIOBase
 \ingroup Group-IO
 */
 
-/** \defgroup ITK-IO-BioRad Module ITK-IO-BioRad
+/** \defgroup ITKIOBioRad Module ITKIOBioRad
 \ingroup Group-IO
 */
 
-/** \defgroup ITK-IO-BMP Module ITK-IO-BMP
+/** \defgroup ITKIOBMP Module ITKIOBMP
 \ingroup Group-IO
 */
 
-/** \defgroup ITK-IO-GDCM Module ITK-IO-GDCM
+/** \defgroup ITKIOGDCM Module ITKIOGDCM
 \ingroup Group-IO
 */
 
-/** \defgroup ITK-IO-GE Module ITK-IO-GE
+/** \defgroup ITKIOGE Module ITKIOGE
 \ingroup Group-IO
 */
 
-/** \defgroup ITK-IO-GIPL Module ITK-IO-GIPL
+/** \defgroup ITKIOGIPL Module ITKIOGIPL
 \ingroup Group-IO
 */
 
-/** \defgroup ITK-IO-IPL Module ITK-IO-IPL
+/** \defgroup ITKIOIPL Module ITKIOIPL
 \ingroup Group-IO
 */
 
-/** \defgroup ITK-IO-JPEG Module ITK-IO-JPEG
+/** \defgroup ITKIOJPEG Module ITKIOJPEG
 \ingroup Group-IO
 */
 
-/** \defgroup ITK-IO-LSM Module ITK-IO-LSM
+/** \defgroup ITKIOLSM Module ITKIOLSM
 \ingroup Group-IO
 */
 
-/** \defgroup ITK-IO-Meta Module ITK-IO-Meta
+/** \defgroup ITKIOMeta Module ITKIOMeta
 \ingroup Group-IO
 */
 
-/** \defgroup ITK-IO-NIFTI Module ITK-IO-NIFTI
+/** \defgroup ITKIONIFTI Module ITKIONIFTI
 \ingroup Group-IO
 */
 
-/** \defgroup ITK-IO-NRRD Module ITK-IO-NRRD
+/** \defgroup ITKIONRRD Module ITKIONRRD
 \ingroup Group-IO
 */
 
-/** \defgroup ITK-IO-PNG Module ITK-IO-PNG
+/** \defgroup ITKIOPNG Module ITKIOPNG
 \ingroup Group-IO
 */
 
-/** \defgroup ITK-IO-RAW Module ITK-IO-RAW
+/** \defgroup ITKIORAW Module ITKIORAW
 \ingroup Group-IO
 */
 
-/** \defgroup ITK-IO-Siemens Module ITK-IO-Siemense
+/** \defgroup ITKIOSiemens Module ITKIOSiemense
 \ingroup Group-IO
 */
 
-/** \defgroup ITK-IO-SpatialObjects Module ITK-IO-SpatialObjects
+/** \defgroup ITKIOSpatialObjects Module ITKIOSpatialObjects
 \ingroup Group-IO
 */
 
-/** \defgroup ITK-IO-Stimulate Module ITK-IO-Stimulate
+/** \defgroup ITKIOStimulate Module ITKIOStimulate
 \ingroup Group-IO
 */
 
-/** \defgroup ITK-IO-TIFF Module ITK-IO-TIFF
+/** \defgroup ITKIOTIFF Module ITKIOTIFF
 \ingroup Group-IO
 */
 
-/** \defgroup ITK-IO-VTK Module ITK-IO-VTK
+/** \defgroup ITKIOVTK Module ITKIOVTK
 \ingroup Group-IO
 */
 
-/** \defgroup ITK-IO-XML Module ITK-IO-XML
+/** \defgroup ITKIOXML Module ITKIOXML
 \ingroup Group-IO
 */
 
@@ -248,15 +248,15 @@
 
 /** \defgroup Group-Nounit Group Nounit */
 
-/** \defgroup ITK-Deprecated Module ITK-Deprecated
+/** \defgroup ITKDeprecated Module ITKDeprecated
 \ingroup Group-Nounit
 */
 
-/** \defgroup ITK-IntegratedTest Module ITK-IntegratedTest
+/** \defgroup ITKIntegratedTest Module ITKIntegratedTest
 \ingroup Group-Nounit
 */
 
-/** \defgroup ITK-Review Module ITK-Review
+/** \defgroup ITKReview Module ITKReview
 \ingroup Group-Nounit
 */
 
@@ -265,31 +265,31 @@
 
 /** \defgroup Group-Numerics Group Numerics */
 
-/** \defgroup ITK-Eigen Module ITK-Eigen
+/** \defgroup ITKEigen Module ITKEigen
 \ingroup Group-Numerics
 */
 
-/** \defgroup ITK-FEM Module ITK-FEM
+/** \defgroup ITKFEM Module ITKFEM
 \ingroup Group-Numerics
 */
 
-/** \defgroup ITK-NarrowBand Module ITK-NarrowBand
+/** \defgroup ITKNarrowBand Module ITKNarrowBand
 \ingroup Group-Numerics
 */
 
-/** \defgroup ITK-NeuralNetworks Module ITK-NeuralNetworks
+/** \defgroup ITKNeuralNetworks Module ITKNeuralNetworks
 \ingroup Group-Numerics
 */
 
-/** \defgroup ITK-Optimizers Module ITK-Optimizers
+/** \defgroup ITKOptimizers Module ITKOptimizers
 \ingroup Group-Numerics
 */
 
-/** \defgroup ITK-Polynomials Module ITK-Polynomials
+/** \defgroup ITKPolynomials Module ITKPolynomials
 \ingroup Group-Numerics
 */
 
-/** \defgroup ITK-Statistics Module ITK-Statistics
+/** \defgroup ITKStatistics Module ITKStatistics
 \ingroup Group-Numerics
 */
 
@@ -298,15 +298,15 @@
 
 /** \defgroup Group-Registration Group Registration */
 
-/** \defgroup ITK-RegistrationCommon  Module ITK-RegistrationCommon
+/** \defgroup ITKRegistrationCommon  Module ITKRegistrationCommon
 \ingroup Group-Registration
 */
 
-/** \defgroup ITK-FEMRegistration Module ITK-FEMRegistration
+/** \defgroup ITKFEMRegistration Module ITKFEMRegistration
 \ingroup Group-Registration
 */
 
-/** \defgroup ITK-PDEDeformableRegistration Module ITK-PDEDeformableRegistration
+/** \defgroup ITKPDEDeformableRegistration Module ITKPDEDeformableRegistration
 \ingroup Group-Registration
 */
 
@@ -315,50 +315,50 @@
 
 /** \defgroup Group-Segmentation Group Segmentation */
 
-/** \defgroup ITK-BioCell Module ITK-BioCell
+/** \defgroup ITKBioCell Module ITKBioCell
 \ingroup Group-Segmentation
 */
 
-/** \defgroup ITK-Classifiers Module ITK-Classifiers
+/** \defgroup ITKClassifiers Module ITKClassifiers
 \ingroup Group-Segmentation
 */
 
-/** \defgroup ITK-ConnectedComponents Module ITK-ConnectedComponents
+/** \defgroup ITKConnectedComponents Module ITKConnectedComponents
 \ingroup Group-Segmentation
 */
 
-/** \defgroup ITK-DeformableMesh Module ITK-DeformableMesh
+/** \defgroup ITKDeformableMesh Module ITKDeformableMesh
 \ingroup Group-Segmentation
 */
 
-/** \defgroup ITK-KLMRegionGrowing Module ITK-KLMRegionGrowing
+/** \defgroup ITKKLMRegionGrowing Module ITKKLMRegionGrowing
 \ingroup Group-Segmentation
 */
 
-/** \defgroup ITK-LabelVoting Module ITK-LabelVoting
+/** \defgroup ITKLabelVoting Module ITKLabelVoting
 \ingroup Group-Segmentation
 */
 
-/** \defgroup ITK-LevelSets Module ITK-LevelSets
+/** \defgroup ITKLevelSets Module ITKLevelSets
 \ingroup Group-Segmentation
 */
 
-/** \defgroup ITK-MarkovRandomFieldsClassifiers Module ITK-MarkovRandomFieldsClassifiers
+/** \defgroup ITKMarkovRandomFieldsClassifiers Module ITKMarkovRandomFieldsClassifiers
 \ingroup Group-Segmentation
 */
 
-/** \defgroup ITK-RegionGrowing Module ITK-RegionGrowing
+/** \defgroup ITKRegionGrowing Module ITKRegionGrowing
 \ingroup Group-Segmentation
 */
 
-/** \defgroup ITK-SignedDistanceFunction Module ITK-SignedDistanceFunction
+/** \defgroup ITKSignedDistanceFunction Module ITKSignedDistanceFunction
 \ingroup Group-Segmentation
 */
 
-/** \defgroup ITK-Voronoi Module ITK-Voronoi
+/** \defgroup ITKVoronoi Module ITKVoronoi
 \ingroup Group-Segmentation
 */
 
-/** \defgroup ITK-Watersheds Module ITK-Watersheds
+/** \defgroup ITKWatersheds Module ITKWatersheds
 \ingroup Group-Segmentation
 */

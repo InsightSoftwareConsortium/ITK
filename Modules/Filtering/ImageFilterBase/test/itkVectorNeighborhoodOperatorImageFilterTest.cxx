@@ -22,7 +22,7 @@
 #include <iostream>
 #include "itkVectorNeighborhoodOperatorImageFilter.h"
 #include "itkDerivativeOperator.h"
-#include "itkNullImageToImageFilterDriver.txx"
+#include "itkNullImageToImageFilterDriver.hxx"
 
 int
 itkVectorNeighborhoodOperatorImageFilterTest(

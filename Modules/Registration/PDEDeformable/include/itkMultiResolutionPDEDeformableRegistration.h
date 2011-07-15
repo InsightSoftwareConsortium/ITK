@@ -75,7 +75,7 @@ namespace itk
  * The current implementation of this class does not support streaming.
  *
  * \ingroup DeformableImageRegistration
- * \ingroup ITK-PDEDeformableRegistration
+ * \ingroup ITKPDEDeformableRegistration
  */
 template< class TFixedImage, class TMovingImage, class TDeformationField, class TRealType = float >
 class ITK_EXPORT MultiResolutionPDEDeformableRegistration:
@@ -276,7 +276,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMultiResolutionPDEDeformableRegistration.txx"
+#include "itkMultiResolutionPDEDeformableRegistration.hxx"
 #endif
 
 #endif

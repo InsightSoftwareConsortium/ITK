@@ -45,7 +45,7 @@ namespace itk
  *
  * \sa MorphologyImageFilter, GrayscaleFunctionErodeImageFilter, BinaryErodeImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
- * \ingroup ITK-MathematicalMorphology
+ * \ingroup ITKMathematicalMorphology
  */
 
 template< class TInputImage, class TOutputImage, class TKernel >
@@ -165,7 +165,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGrayscaleMorphologicalClosingImageFilter.txx"
+#include "itkGrayscaleMorphologicalClosingImageFilter.hxx"
 #endif
 
 #endif

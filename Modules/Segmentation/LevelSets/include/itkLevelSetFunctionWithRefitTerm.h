@@ -46,7 +46,7 @@ namespace itk
  * \par IMPORTANT
  * Subclasses MUST NOT overwrite the PropagationSpeed method. Define
  * OtherPropagationSpeed instead.
- * \ingroup ITK-LevelSets
+ * \ingroup ITKLevelSets
  */
 template< class TImageType, class TSparseImageType >
 class ITK_EXPORT LevelSetFunctionWithRefitTerm:
@@ -165,7 +165,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetFunctionWithRefitTerm.txx"
+#include "itkLevelSetFunctionWithRefitTerm.hxx"
 #endif
 
 #endif

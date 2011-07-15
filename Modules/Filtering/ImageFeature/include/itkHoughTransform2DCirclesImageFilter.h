@@ -46,7 +46,7 @@ namespace itk
  *
  * \ingroup ImageFeatureExtraction
  *
- * \ingroup ITK-ImageFeature
+ * \ingroup ITKImageFeature
  *
  * \wiki
  * \wikiexample{Conversions/HoughTransform2DCirclesImageFilter,HoughTransform2DCirclesImageFilter}
@@ -202,7 +202,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkHoughTransform2DCirclesImageFilter.txx"
+#include "itkHoughTransform2DCirclesImageFilter.hxx"
 #endif
 
 #endif

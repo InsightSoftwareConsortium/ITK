@@ -39,7 +39,7 @@ namespace itk
  * http://hdl.handle.net/1926/510
  *
  * \ingroup Operators
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TInputImage >
 class ITK_EXPORT WarpHarmonicEnergyCalculator:public Object
@@ -160,7 +160,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkWarpHarmonicEnergyCalculator.txx"
+#include "itkWarpHarmonicEnergyCalculator.hxx"
 #endif
 
 #endif /* __itkWarpHarmonicEnergyCalculator_h */

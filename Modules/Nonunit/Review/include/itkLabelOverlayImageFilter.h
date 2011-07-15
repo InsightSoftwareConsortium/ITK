@@ -43,9 +43,9 @@ namespace itk
  *
  *
  * \sa ScalarToRGBPixelFunctor LabelToRGBImageFilter
- * \ingroup Multithreaded
+ * \ingroup MultiThreaded
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< typename  TInputImage, class TLabelImage, typename  TOutputImage >
 class ITK_EXPORT LabelOverlayImageFilter:
@@ -145,7 +145,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLabelOverlayImageFilter.txx"
+#include "itkLabelOverlayImageFilter.hxx"
 #endif
 
 #endif

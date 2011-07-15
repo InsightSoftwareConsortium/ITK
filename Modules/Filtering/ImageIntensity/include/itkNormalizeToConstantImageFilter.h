@@ -45,7 +45,7 @@ namespace itk {
  * \sa DivideImageFilter
  *
  * \ingroup MathematicalImageFilters
- * \ingroup ITK-ImageIntensity
+ * \ingroup ITKImageIntensity
  *
  */
 template<class TInputImage, class TOutputImage>
@@ -123,7 +123,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNormalizeToConstantImageFilter.txx"
+#include "itkNormalizeToConstantImageFilter.hxx"
 #endif
 
 #endif

@@ -68,7 +68,7 @@ namespace itk
  * \sa DiffusionTensor3D
  *
  * \ingroup ImageObjects   TensorObjects   Geometry
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 template< typename TComponent, unsigned int NDimension = 3 >
@@ -228,7 +228,7 @@ ITK_EXPORT InputStreamType & operator>>(InputStreamType & is,
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkSymmetricSecondRankTensor.txx"
+#include "itkSymmetricSecondRankTensor.hxx"
 #endif
 
 #endif

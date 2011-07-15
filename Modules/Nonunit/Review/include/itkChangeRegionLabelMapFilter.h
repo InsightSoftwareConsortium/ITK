@@ -50,7 +50,7 @@ namespace itk
  *
  * \sa LabelMapMaskImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TInputImage >
 class ITK_EXPORT ChangeRegionLabelMapFilter:public InPlaceLabelMapFilter< TInputImage >
@@ -123,7 +123,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkChangeRegionLabelMapFilter.txx"
+#include "itkChangeRegionLabelMapFilter.hxx"
 #endif
 
 #endif

@@ -27,7 +27,7 @@ namespace Statistics
 /** \class SigmoidTransferFunction
  * \brief This is the itkSigmoidTransferFunction class.
  *
- * \ingroup ITK-NeuralNetworks
+ * \ingroup ITKNeuralNetworks
  */
 
 template<class ScalarType>
@@ -84,7 +84,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-  #include "itkSigmoidTransferFunction.txx"
+  #include "itkSigmoidTransferFunction.hxx"
 #endif
 
 #endif

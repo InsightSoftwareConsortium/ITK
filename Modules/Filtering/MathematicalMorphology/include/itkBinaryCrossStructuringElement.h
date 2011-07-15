@@ -38,7 +38,7 @@ namespace itk
  *
  * \ingroup Operators
  * \ingroup ImageIterators
- * \ingroup ITK-MathematicalMorphology
+ * \ingroup ITKMathematicalMorphology
  */
 
 template< class TPixel, unsigned int VDimension = 2,
@@ -123,7 +123,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkBinaryCrossStructuringElement.txx"
+#include "itkBinaryCrossStructuringElement.hxx"
 #endif
 
 #endif

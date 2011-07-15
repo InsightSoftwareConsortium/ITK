@@ -44,7 +44,7 @@ namespace itk
 * \sa NeighborhoodIterator
 *
 * \ingroup IntensityImageFilters
-  * \ingroup ITK-ImageFeature
+  * \ingroup ITKImageFeature
 */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT SimpleContourExtractorImageFilter:
@@ -154,7 +154,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSimpleContourExtractorImageFilter.txx"
+#include "itkSimpleContourExtractorImageFilter.hxx"
 #endif
 
 #endif

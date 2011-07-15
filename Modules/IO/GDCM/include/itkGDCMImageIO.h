@@ -76,7 +76,7 @@ namespace itk
  *
  *  \ingroup IOFilters
  *
- * \ingroup ITK-IO-GDCM
+ * \ingroup ITKIOGDCM
  *
  * \wiki
  * \wikiexample{DICOM/ResampleDICOM,Resample a DICOM series}

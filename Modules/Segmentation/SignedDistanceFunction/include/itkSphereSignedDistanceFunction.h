@@ -38,7 +38,7 @@ namespace itk
  * \ingroup ImageFunctions
  *
  *
- * \ingroup ITK-SignedDistanceFunction
+ * \ingroup ITKSignedDistanceFunction
  */
 template< typename TCoordRep, unsigned int VSpaceDimension >
 class ITK_EXPORT SphereSignedDistanceFunction:
@@ -121,7 +121,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkSphereSignedDistanceFunction.txx"
+#include "itkSphereSignedDistanceFunction.hxx"
 #endif
 
 #endif

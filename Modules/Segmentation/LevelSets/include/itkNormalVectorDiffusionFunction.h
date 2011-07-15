@@ -54,7 +54,7 @@ namespace itk
  * please read the documentation for SparseImage. Also the documentation for
  * ImplicitManifoldNormalVectorField class will be helpful in understanding how
  * to use this class as a function object.
- * \ingroup ITK-LevelSets
+ * \ingroup ITKLevelSets
  */
 template< class TSparseImageType >
 class ITK_EXPORT NormalVectorDiffusionFunction:
@@ -163,7 +163,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNormalVectorDiffusionFunction.txx"
+#include "itkNormalVectorDiffusionFunction.hxx"
 #endif
 
 #endif

@@ -35,7 +35,7 @@ namespace itk
  * that some physical objects deform".
  *
  * \ingroup Transforms
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  */
 template< class TScalarType = double,   // Data type for scalars (float or
                                         // double)
@@ -136,7 +136,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkElasticBodySplineKernelTransform.txx"
+#include "itkElasticBodySplineKernelTransform.hxx"
 #endif
 
 #endif // __itkElasticBodySplineKernelTransform_h

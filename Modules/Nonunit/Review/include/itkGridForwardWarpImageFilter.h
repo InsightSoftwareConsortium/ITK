@@ -49,7 +49,7 @@ namespace itk
  * This implementation was taken from the Insight Journal paper:
  * http://hdl.handle.net/1926/510
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template<
   class TDeformationField,
@@ -135,7 +135,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGridForwardWarpImageFilter.txx"
+#include "itkGridForwardWarpImageFilter.hxx"
 #endif
 
 #endif

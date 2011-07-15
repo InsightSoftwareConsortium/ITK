@@ -34,7 +34,7 @@ namespace itk
  * Versor representing rotation.
  *
  * \ingroup Transforms
- * \ingroup ITK-RegistrationCommon
+ * \ingroup ITKRegistrationCommon
  */
 template< class TFixedImage,
           class TMovingImage >
@@ -124,7 +124,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkCenteredVersorTransformInitializer.txx"
+#include "itkCenteredVersorTransformInitializer.hxx"
 #endif
 
 #endif /* __itkCenteredVersorTransformInitializer_h */

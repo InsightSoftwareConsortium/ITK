@@ -119,7 +119,7 @@ namespace itk
  * \ingroup MRFFilters
  * \sa Neighborhood \sa ImageIterator \sa NeighborhoodIterator
  * \sa Classifier
- * \ingroup ITK-MarkovRandomFieldsClassifiers
+ * \ingroup ITKMarkovRandomFieldsClassifiers
  */
 template< class TInputImage, class TClassifiedImage >
 class ITK_EXPORT MRFImageFilter:
@@ -412,7 +412,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMRFImageFilter.txx"
+#include "itkMRFImageFilter.hxx"
 #endif
 
 #endif

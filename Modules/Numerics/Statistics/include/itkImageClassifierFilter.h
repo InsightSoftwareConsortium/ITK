@@ -41,7 +41,7 @@ namespace Statistics
  *  sample type.
  *
  * \sa SampleClassifierFilter
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  */
 
 template< class TSample, class TInputImage, class TOutputImage >
@@ -167,7 +167,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageClassifierFilter.txx"
+#include "itkImageClassifierFilter.hxx"
 #endif
 
 #endif

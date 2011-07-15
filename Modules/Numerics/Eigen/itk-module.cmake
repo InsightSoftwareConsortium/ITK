@@ -1,6 +1,6 @@
-itk_module(ITK-Eigen
+itk_module(ITKEigen
   DEPENDS
-    ITK-ImageFilterBase
+    ITKImageFilterBase
   TEST_DEPENDS
-    ITK-TestKernel
+    ITKTestKernel
 )

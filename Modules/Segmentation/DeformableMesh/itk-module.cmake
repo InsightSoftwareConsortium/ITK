@@ -1,10 +1,10 @@
-itk_module(ITK-DeformableMesh
+itk_module(ITKDeformableMesh
   DEPENDS
-    ITK-Mesh
-    ITK-ImageIntensity
-    ITK-Thresholding
-    ITK-ImageFeature
-    ITK-AnisotropicSmoothing
+    ITKMesh
+    ITKImageIntensity
+    ITKThresholding
+    ITKImageFeature
+    ITKAnisotropicSmoothing
   TEST_DEPENDS
-    ITK-TestKernel
+    ITKTestKernel
 )

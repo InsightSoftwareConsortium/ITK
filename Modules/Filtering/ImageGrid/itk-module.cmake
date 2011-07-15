@@ -3,15 +3,15 @@ related to manipulations of the underlying image grid. For example, flipping an
 image, permuting axis, padding, cropping, pasting, tiling, resampling,
 shrinking, and changing its origin or spacing or orientation.")
 
-itk_module(ITK-ImageGrid
+itk_module(ITKImageGrid
   DEPENDS
-    ITK-ImageFunction
-    ITK-ImageFilterBase
+    ITKImageFunction
+    ITKImageFilterBase
   TEST_DEPENDS
-    ITK-TestKernel
-    ITK-RegistrationCommon
+    ITKTestKernel
+    ITKRegistrationCommon
   DESCRIPTION
     "${DOCUMENTATION}"
 )
 
-# Extra test dependency on ITK-RegistrationCommon is introduced by itkShrinkImagePreserveObjectPhysicalLocations.
+# Extra test dependency on ITKRegistrationCommon is introduced by itkShrinkImagePreserveObjectPhysicalLocations.

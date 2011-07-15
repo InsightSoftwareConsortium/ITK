@@ -46,7 +46,7 @@ namespace itk
  * defined in a rather ad-hoc manner. PolygonGroupSpatialObjects define IsInside
  * to mean that the given point resides in space inside the surface of
  * the PolygonGroupSpatialObject.
- * \ingroup ITK-SpatialObjects
+ * \ingroup ITKSpatialObjects
  */
 
 template< unsigned int TDimension = 3 >
@@ -111,7 +111,7 @@ protected:
 };
 }
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPolygonGroupSpatialObject.txx"
+#include "itkPolygonGroupSpatialObject.hxx"
 #endif
 
 #endif

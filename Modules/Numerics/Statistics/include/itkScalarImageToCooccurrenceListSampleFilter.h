@@ -44,7 +44,7 @@ namespace Statistics
  * \author Glenn Pierce
  *
  * \ingroup Statistics
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  */
 
 template< class TImage >
@@ -120,7 +120,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkScalarImageToCooccurrenceListSampleFilter.txx"
+#include "itkScalarImageToCooccurrenceListSampleFilter.hxx"
 #endif
 
 #endif

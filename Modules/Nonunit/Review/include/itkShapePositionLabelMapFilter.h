@@ -32,7 +32,7 @@ namespace itk {
  *
  * \sa ShapeLabelObject, BinaryShapeOpeningImageFilter, LabelStatisticsOpeningImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template<class TImage>
 class ITK_EXPORT ShapePositionLabelMapFilter :
@@ -144,7 +144,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShapePositionLabelMapFilter.txx"
+#include "itkShapePositionLabelMapFilter.hxx"
 #endif
 
 #endif

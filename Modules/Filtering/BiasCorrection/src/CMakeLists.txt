@@ -1,8 +1,8 @@
-set(ITK-BiasCorrection_SRC
+set(ITKBiasCorrection_SRC
 itkCompositeValleyFunction.cxx
 itkCacheableScalarFunction.cxx
 )
 
-add_library(ITK-BiasCorrection ${ITK-BiasCorrection_SRC})
-target_link_libraries(ITK-BiasCorrection  ${ITK-ImageFilterBase_LIBRARIES} ${ITK-Polynomials_LIBRARIES} ${ITK-Statistics_LIBRARIES} ${ITK-Optimizers_LIBRARIES})
-itk_module_target(ITK-BiasCorrection)
+add_library(ITKBiasCorrection ${ITKBiasCorrection_SRC})
+target_link_libraries(ITKBiasCorrection  ${ITKImageFilterBase_LIBRARIES} ${ITKPolynomials_LIBRARIES} ${ITKStatistics_LIBRARIES} ${ITKOptimizers_LIBRARIES})
+itk_module_target(ITKBiasCorrection)

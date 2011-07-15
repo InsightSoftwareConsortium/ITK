@@ -26,8 +26,8 @@ namespace itk
 /** \class SqrtImageFilter
  * \brief Computes the vcl_sqrt(x) pixel-wise
  *
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup IntensityImageFilters  MultiThreaded
+ * \ingroup ITKImageIntensity
  */
 namespace Functor
 {

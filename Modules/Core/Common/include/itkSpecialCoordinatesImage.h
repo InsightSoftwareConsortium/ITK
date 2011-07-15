@@ -89,7 +89,7 @@ namespace itk
  * \sa Image
  *
  * \ingroup ImageObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TPixel, unsigned int VImageDimension = 2 >
 class ITK_EXPORT SpecialCoordinatesImage:public ImageBase< VImageDimension >
@@ -328,7 +328,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkSpecialCoordinatesImage.txx"
+#include "itkSpecialCoordinatesImage.hxx"
 #endif
 
 #endif

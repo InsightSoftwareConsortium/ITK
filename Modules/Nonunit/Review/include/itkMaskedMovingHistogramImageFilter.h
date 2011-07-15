@@ -36,7 +36,7 @@ namespace itk
  *
  * \author Richard Beare
  * \author Gaetan Lehmann
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 
 template< class TInputImage, class TMaskImage, class TOutputImage, class TKernel, class THistogram >
@@ -174,7 +174,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMaskedMovingHistogramImageFilter.txx"
+#include "itkMaskedMovingHistogramImageFilter.hxx"
 #endif
 
 #endif

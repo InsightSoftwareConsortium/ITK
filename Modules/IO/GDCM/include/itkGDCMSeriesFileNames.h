@@ -46,7 +46,7 @@ namespace itk
  *
  * \ingroup IOFilters
  *
- * \ingroup ITK-IO-GDCM
+ * \ingroup ITKIOGDCM
  */
 typedef std::vector< std::string > FilenamesContainer;
 typedef std::vector< std::string > SerieUIDContainer;

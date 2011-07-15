@@ -101,7 +101,7 @@ namespace itk
  * the space dimension and the spline order.
  *
  * \ingroup Transforms
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  *
  * \wiki
  * \wikiexample{Registration/ImageRegistrationMethodBSpline,A global registration of two images}
@@ -514,7 +514,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkBSplineDeformableTransform.txx"
+#include "itkBSplineDeformableTransform.hxx"
 #endif
 
 #endif /* __itkBSplineDeformableTransform_h */

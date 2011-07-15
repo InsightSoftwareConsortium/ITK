@@ -53,7 +53,7 @@ namespace itk
  *
  * \ingroup ImageEnhancement
  * \ingroup ImageFeatureExtraction
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 
 template< class TInputImage, class TOutputImage >
@@ -250,7 +250,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDiscreteGaussianDerivativeImageFilter.txx"
+#include "itkDiscreteGaussianDerivativeImageFilter.hxx"
 #endif
 
 #endif

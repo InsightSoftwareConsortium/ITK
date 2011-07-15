@@ -27,7 +27,7 @@ namespace Statistics
 /** \class InputFunctionBase
  * \brief This is the itkInputFunctionBase class.
  *
- * \ingroup ITK-NeuralNetworks
+ * \ingroup ITKNeuralNetworks
  */
 
 template<class TMeasurementVector, class TTargetVector>

@@ -30,7 +30,7 @@ namespace itk
  * types following C++ default casting rules.
  *
  * \ingroup ImageAdaptors
- * \ingroup ITK-ImageAdaptors
+ * \ingroup ITKImageAdaptors
  */
 template< class TImage >
 class ITK_EXPORT AddImageAdaptor:public

@@ -43,7 +43,7 @@ namespace itk
  * \ingroup WatershedSegmentation
  *
  * \sa EquivalencyTable
- * \ingroup ITK-Watersheds
+ * \ingroup ITKWatersheds
  */
 class ITK_EXPORT OneWayEquivalencyTable:public DataObject
 {

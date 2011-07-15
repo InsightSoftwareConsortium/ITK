@@ -1,4 +1,4 @@
-itk_module(ITK-HDF5
+itk_module(ITKHDF5
   DEPENDS
-    ITK-ZLIB
+    ITKZLIB
 )

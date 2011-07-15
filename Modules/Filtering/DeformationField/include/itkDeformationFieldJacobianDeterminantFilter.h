@@ -66,7 +66,7 @@ namespace itk
  *
  *
  * \author Torsten Rohlfing, Neuroscience Program, SRI International.
- * \ingroup ITK-DeformationField
+ * \ingroup ITKDeformationField
  */
 template< typename TInputImage,
           typename TRealType = float,
@@ -144,7 +144,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDeformationFieldJacobianDeterminantFilter.txx"
+#include "itkDeformationFieldJacobianDeterminantFilter.hxx"
 #endif
 
 #endif

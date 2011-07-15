@@ -65,7 +65,7 @@ namespace itk
  * the membership function objects and populates them.
  *
  * \ingroup ImageFeatureExtraction
- * \ingroup ITK-ImageStatistics
+ * \ingroup ITKImageStatistics
  */
 
 template< class TInputImage,
@@ -206,7 +206,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImagePCAShapeModelEstimator.txx"
+#include "itkImagePCAShapeModelEstimator.hxx"
 #endif
 
 #endif

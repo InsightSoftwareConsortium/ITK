@@ -29,8 +29,8 @@ namespace itk
  * input images and the type of the output image.
  * Numeric conversions (castings) are done by the C++ defaults.
  *
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup IntensityImageFilters  MultiThreaded
+ * \ingroup ITKImageIntensity
  *
  * \wiki
  * \wikiexample{ImageProcessing/MultiplyImageFilter,Multiply two images together}

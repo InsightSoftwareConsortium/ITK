@@ -51,7 +51,7 @@ namespace watershed
  * \sa WatershedSegmenter
  * \sa WatershedBoundaryResolver
  * \ingroup WatershedSegmentation
- * \ingroup ITK-Watersheds
+ * \ingroup ITKWatersheds
  */
 template< class TScalarType, unsigned int TDimension >
 class ITK_EXPORT Boundary:public DataObject
@@ -219,7 +219,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkWatershedBoundary.txx"
+#include "itkWatershedBoundary.hxx"
 #endif
 
 #endif

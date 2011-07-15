@@ -53,8 +53,8 @@ namespace itk
  * Therefore, generally only one of these needs to be set, depending
  * on whether the user wants to threshold above or below the desired threshold.
  *
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-Thresholding
+ * \ingroup IntensityImageFilters  MultiThreaded
+ * \ingroup ITKThresholding
  *
  * \wiki
  * \wikiexample{ImageProcessing/BinaryThresholdImageFilter,Threshold an image}
@@ -221,7 +221,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryThresholdImageFilter.txx"
+#include "itkBinaryThresholdImageFilter.hxx"
 #endif
 
 #endif

@@ -1,2 +1,2 @@
-project(ITK-ImageGrid)
+project(ITKImageGrid)
 itk_module_impl()

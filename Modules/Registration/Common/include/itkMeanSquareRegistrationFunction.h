@@ -47,7 +47,7 @@ namespace itk
  *
  * \sa MeanSquareRegistrationFilter
  * \ingroup FiniteDifferenceFunctions
- * \ingroup ITK-RegistrationCommon
+ * \ingroup ITKRegistrationCommon
  */
 template< class TFixedImage, class TMovingImage, class TDeformationField >
 class ITK_EXPORT MeanSquareRegistrationFunction:
@@ -182,7 +182,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMeanSquareRegistrationFunction.txx"
+#include "itkMeanSquareRegistrationFunction.hxx"
 #endif
 
 #endif

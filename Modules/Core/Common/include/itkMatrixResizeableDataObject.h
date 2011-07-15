@@ -30,7 +30,7 @@ namespace itk
  *        being resizable.
  *
  * \ingroup DataProcessing
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 template< typename TItemType >
@@ -76,7 +76,7 @@ protected:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkMatrixResizeableDataObject.txx"
+#include "itkMatrixResizeableDataObject.hxx"
 #endif
 
 #endif

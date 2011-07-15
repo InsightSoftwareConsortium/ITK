@@ -120,7 +120,7 @@ namespace itk
  * \sa ScalarImageKmeansImageFilter
  *
  * \ingroup ClassificationFilters
- * \ingroup ITK-Classifiers
+ * \ingroup ITKClassifiers
  */
 template< class TInputImage,
           class TMembershipFunction >
@@ -279,7 +279,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageKmeansModelEstimator.txx"
+#include "itkImageKmeansModelEstimator.hxx"
 #endif
 
 #endif

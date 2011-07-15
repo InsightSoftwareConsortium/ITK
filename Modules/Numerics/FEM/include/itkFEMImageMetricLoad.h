@@ -64,7 +64,7 @@ namespace fem
  * This region size may be set by the user by calling SetMetricRadius.
  * As the metric derivative computation evolves, performance should improve
  * and more functionality will be available (such as scale selection).
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 template <class TMoving, class TFixed>
 class ImageMetricLoad : public LoadElement
@@ -362,7 +362,7 @@ private:
 }  // end namespace fem/itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFEMImageMetricLoad.txx"
+#include "itkFEMImageMetricLoad.hxx"
 #endif
 
 #endif

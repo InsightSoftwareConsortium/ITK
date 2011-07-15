@@ -101,9 +101,9 @@ private:
  * All computations are performed in the precison of the input pixel's
  * RealType. Before assigning the computed value to the output pixel.
  *
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup IntensityImageFilters  MultiThreaded
  *
- * \ingroup ITK-ImageIntensity
+ * \ingroup ITKImageIntensity
  *
  * \wiki
  * \wikiexample{ImageProcessing/IntensityWindowingImageFilter,IntensityWindowingImageFilter}
@@ -202,7 +202,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkIntensityWindowingImageFilter.txx"
+#include "itkIntensityWindowingImageFilter.hxx"
 #endif
 
 #endif

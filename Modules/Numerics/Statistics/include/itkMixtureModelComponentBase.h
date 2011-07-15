@@ -49,7 +49,7 @@ namespace Statistics
  * to membership functions from different distributional model
  *
  * \sa ExpectationMaximizationMixtureModelEstimator
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  */
 
 template< class TSample >
@@ -161,7 +161,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMixtureModelComponentBase.txx"
+#include "itkMixtureModelComponentBase.hxx"
 #endif
 
 #endif

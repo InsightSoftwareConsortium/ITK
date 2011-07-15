@@ -49,7 +49,7 @@ namespace itk
  * \sa Object
  * \ingroup ITKSystemObjects
  * \ingroup DataRepresentation
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 class ITKCommon_EXPORT LightObject
 {

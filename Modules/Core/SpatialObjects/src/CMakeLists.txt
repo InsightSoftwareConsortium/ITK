@@ -1,8 +1,8 @@
-set(ITK-SpatialObjects_SRC
+set(ITKSpatialObjects_SRC
 itkCylinderSpatialObject.cxx
 itkSpatialObjectFactoryBase.cxx
 )
 
-add_library(ITK-SpatialObjects ${ITK-SpatialObjects_SRC})
-target_link_libraries(ITK-SpatialObjects  ${ITK-ImageFunction_LIBRARIES} ${ITK-Mesh_LIBRARIES} ${ITK-IO-Base_LIBRARIES})
-itk_module_target(ITK-SpatialObjects)
+add_library(ITKSpatialObjects ${ITKSpatialObjects_SRC})
+target_link_libraries(ITKSpatialObjects  ${ITKImageFunction_LIBRARIES} ${ITKMesh_LIBRARIES} ${ITKIOBase_LIBRARIES})
+itk_module_target(ITKSpatialObjects)

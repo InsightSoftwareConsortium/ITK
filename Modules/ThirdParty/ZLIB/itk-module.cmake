@@ -1,1 +1,1 @@
-itk_module(ITK-ZLIB)
+itk_module(ITKZLIB)

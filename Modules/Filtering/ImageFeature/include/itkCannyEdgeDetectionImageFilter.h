@@ -78,7 +78,7 @@ public:
  * \sa DiscreteGaussianImageFilter
  * \sa ZeroCrossingImageFilter
  * \sa ThresholdImageFilter
- * \ingroup ITK-ImageFeature
+ * \ingroup ITKImageFeature
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT CannyEdgeDetectionImageFilter:
@@ -355,7 +355,7 @@ private:
 } //end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCannyEdgeDetectionImageFilter.txx"
+#include "itkCannyEdgeDetectionImageFilter.hxx"
 #endif
 
 #endif

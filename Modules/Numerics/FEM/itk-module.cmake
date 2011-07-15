@@ -1,9 +1,9 @@
-itk_module(ITK-FEM
+itk_module(ITKFEM
   DEPENDS
-    ITK-ImageFunction
-    ITK-RegistrationCommon
-    ITK-SpatialObjects
+    ITKImageFunction
+    ITKRegistrationCommon
+    ITKSpatialObjects
   TEST_DEPENDS
-    ITK-TestKernel
-    ITK-IO-SpatialObjects
+    ITKTestKernel
+    ITKIOSpatialObjects
 )

@@ -56,7 +56,7 @@ namespace itk
  * timestamps a particular source release.
  *
  * \ingroup ITKSystemObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 class ITKCommon_EXPORT Version:public Object

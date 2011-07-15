@@ -34,7 +34,7 @@ namespace itk
  * a cross structuring element, and let create a structuring element
  * based on an image.
  *
- * \ingroup ITK-MathematicalMorphology
+ * \ingroup ITKMathematicalMorphology
  *
  * \wiki
  * \wikiexample{Morphology/FlatStructuringElement,Erode a binary image using a flat (box) structuring element}
@@ -167,7 +167,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFlatStructuringElement.txx"
+#include "itkFlatStructuringElement.hxx"
 #endif
 
 #endif

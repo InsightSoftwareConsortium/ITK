@@ -46,7 +46,7 @@ namespace itk
  * \sa HMinimaImageFilter
  *
  * \ingroup MathematicalMorphologyImageFilters
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  *
  * \wiki
  * \wikiexample{ImageProcessing/ValuedRegionalMaximaImageFilter,ValuedRegionalMaximaImageFilter}

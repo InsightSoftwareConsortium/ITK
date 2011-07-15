@@ -52,7 +52,7 @@ namespace itk
  *
  * \ingroup ITKSystemObjects
  * \ingroup DataProcessing
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 template< unsigned int VImageDimension >
@@ -131,7 +131,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkImageRegionMultidimensionalSplitter.txx"
+#include "itkImageRegionMultidimensionalSplitter.hxx"
 #endif
 
 #endif

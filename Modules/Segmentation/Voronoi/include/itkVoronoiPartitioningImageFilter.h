@@ -27,7 +27,7 @@ namespace itk
  * Perform a partitioning of 2D images (single channel) by Voronoi Diagram.
  *
  * \ingroup HybridSegmentation
- * \ingroup ITK-Voronoi
+ * \ingroup ITKVoronoi
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT VoronoiPartitioningImageFilter:
@@ -112,7 +112,7 @@ private:
 } //end namespace
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVoronoiPartitioningImageFilter.txx"
+#include "itkVoronoiPartitioningImageFilter.hxx"
 #endif
 
 #endif

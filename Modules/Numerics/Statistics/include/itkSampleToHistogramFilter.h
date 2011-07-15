@@ -44,7 +44,7 @@ namespace Statistics
  *
  * \sa Sample, Histogram
  *
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  *
  * \wiki
  * \wikiexample{Statistics/SampleToHistogramFilter,Create a histogram from a list of sample measurements}
@@ -178,7 +178,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSampleToHistogramFilter.txx"
+#include "itkSampleToHistogramFilter.hxx"
 #endif
 
 #endif

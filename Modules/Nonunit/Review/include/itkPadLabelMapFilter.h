@@ -49,7 +49,7 @@ namespace itk
  *
  * \sa CropLabelMapFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TInputImage >
 class ITK_EXPORT PadLabelMapFilter:public ChangeRegionLabelMapFilter< TInputImage >
@@ -128,7 +128,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPadLabelMapFilter.txx"
+#include "itkPadLabelMapFilter.hxx"
 #endif
 
 #endif

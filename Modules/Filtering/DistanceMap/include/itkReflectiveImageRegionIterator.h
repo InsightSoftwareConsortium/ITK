@@ -38,7 +38,7 @@ namespace itk
  * \sa ReflectiveImageRegionConstIterator
  *
  * \ingroup ImageIterators
- * \ingroup ITK-DistanceMap
+ * \ingroup ITKDistanceMap
  */
 template< typename TImage >
 class ITK_EXPORT ReflectiveImageRegionIterator:public ReflectiveImageRegionConstIterator< TImage >
@@ -96,7 +96,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkReflectiveImageRegionIterator.txx"
+#include "itkReflectiveImageRegionIterator.hxx"
 #endif
 
 #endif

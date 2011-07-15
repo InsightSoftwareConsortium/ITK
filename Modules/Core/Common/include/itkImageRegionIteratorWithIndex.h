@@ -61,7 +61,7 @@ namespace itk
  * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator
  * \sa ShapedNeighborhoodIterator  \sa SliceIterator
  * \sa ImageConstIteratorWithIndex
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{Iterators/ImageRegionIteratorWithIndex,Iterate over a region of an image with efficient access to the current index (with write access)}
@@ -135,7 +135,7 @@ protected:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkImageRegionIteratorWithIndex.txx"
+#include "itkImageRegionIteratorWithIndex.hxx"
 #endif
 
 #endif

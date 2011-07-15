@@ -66,7 +66,7 @@ namespace itk
  * This class was taken from the Insight Journal paper:
  * http://hdl.handle.net/1926/368
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 
 template< class TInputImage,
@@ -181,7 +181,7 @@ private:
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSliceBySliceImageFilter.txx"
+#include "itkSliceBySliceImageFilter.hxx"
 #endif
 
 #endif

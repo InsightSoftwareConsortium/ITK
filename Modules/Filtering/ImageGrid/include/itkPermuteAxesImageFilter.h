@@ -39,9 +39,9 @@ namespace itk
  * is computed by permuting the corresponding input meta information.
  *
  * \ingroup GeometricTransforms
- * \ingroup Multithreaded
+ * \ingroup MultiThreaded
  * \ingroup Streamed
- * \ingroup ITK-ImageGrid
+ * \ingroup ITKImageGrid
  *
  * \wiki
  * \wikiexample{ImageProcessing/PermuteAxesImageFilter,Switch the axes of an image}
@@ -130,7 +130,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPermuteAxesImageFilter.txx"
+#include "itkPermuteAxesImageFilter.hxx"
 #endif
 
 #endif

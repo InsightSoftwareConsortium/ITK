@@ -1,3 +1,3 @@
-project(ITK-IO-PhilipsREC)
-set(ITK-IO-PhilipsREC_LIBRARIES ITK-IO-PhilipsREC)
+project(ITKIOPhilipsREC)
+set(ITKIOPhilipsREC_LIBRARIES ITKIOPhilipsREC)
 itk_module_impl()

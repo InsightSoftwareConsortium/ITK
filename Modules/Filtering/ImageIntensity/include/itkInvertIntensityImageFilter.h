@@ -72,9 +72,9 @@ private:
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
  * \sa IntensityWindowingImageFilter ShiftScaleImageFilter
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup IntensityImageFilters  MultiThreaded
  *
- * \ingroup ITK-ImageIntensity
+ * \ingroup ITKImageIntensity
  *
  * \wiki
  * \wikiexample{ImageProcessing/InvertIntensityImageFilter,Invert an image}
@@ -136,7 +136,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkInvertIntensityImageFilter.txx"
+#include "itkInvertIntensityImageFilter.hxx"
 #endif
 
 #endif

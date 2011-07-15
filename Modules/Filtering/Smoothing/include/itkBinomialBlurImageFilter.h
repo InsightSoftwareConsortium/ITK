@@ -33,7 +33,7 @@ namespace itk
  * convultion with a gaussian.
  *
  * \ingroup ImageEnhancement
- * \ingroup ITK-Smoothing
+ * \ingroup ITKSmoothing
  *
  * \wiki
  * \wikiexample{Smoothing/BinomialBlurImageFilter,Blur an image}
@@ -118,7 +118,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinomialBlurImageFilter.txx"
+#include "itkBinomialBlurImageFilter.hxx"
 #endif
 
 #endif

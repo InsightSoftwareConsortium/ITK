@@ -24,7 +24,7 @@ configure_file(${ITKPNG_SOURCE_DIR}/pngDllConfig.h.in
                ${ITKPNG_BINARY_DIR}/pngDllConfig.h)
 
 add_library(itkpng ${PNG_SRCS})
-target_link_libraries(itkpng ${ITK-ZLIB_LIBRARIES})
+target_link_libraries(itkpng ${ITKZLIB_LIBRARIES})
 
 # Apply user-defined properties to the library target.
 if(ITK_LIBRARY_PROPERTIES)

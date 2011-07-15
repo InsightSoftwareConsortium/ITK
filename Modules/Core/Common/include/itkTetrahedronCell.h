@@ -31,7 +31,7 @@ namespace itk
  *
  * \tparam TCellTraits Type information of mesh containing cell.
  * \ingroup MeshObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< typename TCellInterface >
 class ITK_EXPORT TetrahedronCell:public TCellInterface, private TetrahedronCellTopology
@@ -130,7 +130,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTetrahedronCell.txx"
+#include "itkTetrahedronCell.hxx"
 #endif
 
 #endif

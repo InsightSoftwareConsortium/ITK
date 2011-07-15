@@ -140,7 +140,7 @@ namespace itk
  * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator
  * \sa ShapedNeighborhoodIterator  \sa SliceIterator
  * \sa ImageConstIteratorWithIndex
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{Iterators/ShapedNeighborhoodIterator_Manual,Iterate over a region of an image with a shaped neighborhood}
@@ -287,7 +287,7 @@ protected:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShapedNeighborhoodIterator.txx"
+#include "itkShapedNeighborhoodIterator.hxx"
 #endif
 
 #endif

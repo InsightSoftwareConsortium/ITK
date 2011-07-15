@@ -50,7 +50,7 @@ namespace itk
  *
  *  This class supports reading only and not writing.
  * \ingroup IOFilters
- * \ingroup ITK-IO-PhilipsREC
+ * \ingroup ITKIOPhilipsREC
  */
 
 class ITK_EXPORT PhilipsRECImageIO:public ImageIOBase

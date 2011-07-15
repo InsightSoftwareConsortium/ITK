@@ -35,7 +35,7 @@ namespace itk
  *
  * \sa StatisticsLabelObject, LabelStatisticsOpeningImageFilter, BinaryStatisticsOpeningImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TInputImage, class TFeatureImage, class TOutputImage =
             LabelMap< StatisticsLabelObject< SizeValueType, ::itk::GetImageDimension< TInputImage >::ImageDimension > > >
@@ -213,7 +213,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryImageToStatisticsLabelMapFilter.txx"
+#include "itkBinaryImageToStatisticsLabelMapFilter.hxx"
 #endif
 
 #endif

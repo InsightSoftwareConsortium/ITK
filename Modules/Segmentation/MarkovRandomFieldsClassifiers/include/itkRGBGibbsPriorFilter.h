@@ -39,7 +39,7 @@ namespace itk
  * method while f_2 is minized by the GibbsTotalEnergy method.
  *
  * \ingroup MRFFilters
- * \ingroup ITK-MarkovRandomFieldsClassifiers
+ * \ingroup ITKMarkovRandomFieldsClassifiers
  */
 template< class TInputImage, class TClassifiedImage >
 class ITK_EXPORT RGBGibbsPriorFilter:public MRFImageFilter< TInputImage,
@@ -249,6 +249,6 @@ private:
 };
 } // end namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRGBGibbsPriorFilter.txx"
+#include "itkRGBGibbsPriorFilter.hxx"
 #endif
 #endif

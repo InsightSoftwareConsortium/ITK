@@ -35,7 +35,7 @@ namespace itk
  * there is only one input image.
  *
  * \ingroup Deprecated
- * \ingroup ITK-Deprecated
+ * \ingroup ITKDeprecated
  */
 
 template< class TInputImage, class TOutputImage >
@@ -78,7 +78,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkScalarToArrayCastImageFilter.txx"
+#include "itkScalarToArrayCastImageFilter.hxx"
 #endif
 
 #endif

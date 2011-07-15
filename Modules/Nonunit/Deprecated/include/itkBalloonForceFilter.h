@@ -50,7 +50,7 @@ namespace itk
  *
  * \ingroup MeshFilters
  * \ingroup MeshSegmentation
- * \ingroup ITK-Deprecated
+ * \ingroup ITKDeprecated
  */
 template< class TInputMesh, class TOutputMesh >
 class ITK_EXPORT BalloonForceFilter:public MeshToMeshFilter< TInputMesh, TOutputMesh >
@@ -258,7 +258,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBalloonForceFilter.txx"
+#include "itkBalloonForceFilter.hxx"
 #endif
 
 #endif

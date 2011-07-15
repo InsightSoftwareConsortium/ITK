@@ -1,4 +1,4 @@
-itk_module(ITK-PNG
+itk_module(ITKPNG
   DEPENDS
-    ITK-ZLIB
+    ITKZLIB
 )

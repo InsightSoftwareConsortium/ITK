@@ -1,2 +1,2 @@
-project(ITK-QuadEdgeMeshFiltering)
+project(ITKQuadEdgeMeshFiltering)
 itk_module_impl()

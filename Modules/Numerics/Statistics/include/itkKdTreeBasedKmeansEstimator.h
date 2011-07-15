@@ -66,7 +66,7 @@ namespace Statistics
  *
  * \sa ImageKmeansModelEstimator
  * \sa WeightedCentroidKdTreeGenerator, KdTree
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  */
 
 template< class TKdTree >
@@ -166,7 +166,7 @@ protected:
 
   /** \class CandidateVector
    * \brief Candidate Vector
-   * \ingroup ITK-Statistics
+   * \ingroup ITKStatistics
    */
   class CandidateVector
   {
@@ -323,7 +323,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkKdTreeBasedKmeansEstimator.txx"
+#include "itkKdTreeBasedKmeansEstimator.hxx"
 #endif
 
 #endif

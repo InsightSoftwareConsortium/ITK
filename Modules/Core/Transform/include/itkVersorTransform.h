@@ -42,7 +42,7 @@ namespace itk
  *
  * \ingroup Transforms
  *
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  */
 template< class TScalarType = double >
 //Data type for scalars (float or double)
@@ -182,7 +182,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkVersorTransform.txx"
+#include "itkVersorTransform.hxx"
 #endif
 
 #endif /* __itkVersorTransform_h */

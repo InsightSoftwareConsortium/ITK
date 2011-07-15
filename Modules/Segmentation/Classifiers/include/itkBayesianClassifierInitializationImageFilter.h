@@ -70,7 +70,7 @@ namespace itk
  * \sa BayesianClassifierImageFilter
  * \sa VectorImage
  * \ingroup ClassificationFilters
- * \ingroup ITK-Classifiers
+ * \ingroup ITKClassifiers
  */
 template< class TInputImage, class TProbabilityPrecisionType = float >
 class ITK_EXPORT BayesianClassifierInitializationImageFilter:
@@ -189,7 +189,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBayesianClassifierInitializationImageFilter.txx"
+#include "itkBayesianClassifierInitializationImageFilter.hxx"
 #endif
 
 #endif

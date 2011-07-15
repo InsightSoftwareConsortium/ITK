@@ -80,9 +80,9 @@ private:
  *
  * \sa RescaleIntensityImageFilter
  *
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup IntensityImageFilters  MultiThreaded
  *
- * \ingroup ITK-ImageIntensity
+ * \ingroup ITKImageIntensity
  *
  * \wiki
  * \wikiexample{Images/VectorRescaleIntensityImageFilter,Apply a transformation to the magnitude of vector valued image pixels}
@@ -167,7 +167,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVectorRescaleIntensityImageFilter.txx"
+#include "itkVectorRescaleIntensityImageFilter.hxx"
 #endif
 
 #endif

@@ -31,7 +31,7 @@ namespace itk
  * The kernel used in this variant of TPS is \f$ R^2 log(R) \f$
  *
  * \ingroup Transforms
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  */
 template< class TScalarType,         // Data type for scalars (float or double)
           unsigned int NDimensions = 3 >
@@ -121,7 +121,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkThinPlateR2LogRSplineKernelTransform.txx"
+#include "itkThinPlateR2LogRSplineKernelTransform.hxx"
 #endif
 
 #endif // __itkThinPlateR2LogRSplineKernelTransform_h

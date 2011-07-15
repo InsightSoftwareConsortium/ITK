@@ -41,9 +41,9 @@ namespace itk
  * \author Richard Beare. Department of Medicine, Monash University, Melbourne, Australia.
  *
  * \sa ScalarToRGBPixelFunctor LabelOverlayImageFilter
- * \ingroup Multithreaded
+ * \ingroup MultiThreaded
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TLabelImage, typename  TOutputImage >
 class ITK_EXPORT LabelToRGBImageFilter:
@@ -117,7 +117,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLabelToRGBImageFilter.txx"
+#include "itkLabelToRGBImageFilter.hxx"
 #endif
 
 #endif

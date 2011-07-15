@@ -38,7 +38,7 @@ namespace itk
  * \sa FFTRealToComplexConjugateImageFilter, FFTComplexConjugateToRealImageFilter, Log10ImageFilter, RescaleIntensityImageFilter
  *
  * \ingroup FourierTransform
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT FFTShiftImageFilter:
@@ -109,7 +109,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFFTShiftImageFilter.txx"
+#include "itkFFTShiftImageFilter.hxx"
 #endif
 
 #endif

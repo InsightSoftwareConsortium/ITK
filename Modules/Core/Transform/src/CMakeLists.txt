@@ -1,4 +1,4 @@
-set(ITK-Transform_SRC
+set(ITKTransform_SRC
   itkHDF5TransformIO.cxx
   itkHDF5TransformIOFactory.cxx
   itkTxtTransformIO.cxx
@@ -12,6 +12,6 @@ set(ITK-Transform_SRC
   itkTransformIOFactory.cxx
   )
 
-add_library(ITK-Transform ${ITK-Transform_SRC})
-target_link_libraries(ITK-Transform  ${ITK-Statistics_LIBRARIES} itkhdf5 itkhdf5_cpp)
-itk_module_target(ITK-Transform)
+add_library(ITKTransform ${ITKTransform_SRC})
+target_link_libraries(ITKTransform  ${ITKStatistics_LIBRARIES} itkhdf5 itkhdf5_cpp)
+itk_module_target(ITKTransform)

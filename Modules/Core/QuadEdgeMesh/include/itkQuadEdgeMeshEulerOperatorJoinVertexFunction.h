@@ -53,7 +53,7 @@ namespace itk
  *    (and how it differs with feeding JoinVertex with the opposite edge).
  * \sa The operator \ref itkQE::EulerOperatorJoinVertexFunction can be
  *    seen as the inverse operator.
- * \ingroup ITK-QuadEdgeMesh
+ * \ingroup ITKQuadEdgeMesh
  */
 template< class TMesh, class TQEType >
 class ITK_EXPORT QuadEdgeMeshEulerOperatorJoinVertexFunction:
@@ -160,7 +160,7 @@ private:
 };
 } // namespace itk
 
-#include "itkQuadEdgeMeshEulerOperatorJoinVertexFunction.txx"
+#include "itkQuadEdgeMeshEulerOperatorJoinVertexFunction.hxx"
 
 #endif
 

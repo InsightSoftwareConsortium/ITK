@@ -28,7 +28,7 @@ namespace fem
 /**
  * \class Element2DC0LinearTriangular
  * \brief 3-noded, linear, C0 continuous finite element in 2D space.
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  *
  * The ordering of the nodes is counter clockwise. That is the nodes
  * should be defined in the following order:

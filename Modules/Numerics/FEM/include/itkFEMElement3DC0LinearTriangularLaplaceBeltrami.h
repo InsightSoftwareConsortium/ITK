@@ -36,7 +36,7 @@ namespace fem
  * and the physics of the problem defined in
  * \link Element3DMembrane1DOF
  *
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 class Element3DC0LinearTriangularLaplaceBeltrami : public Element3DMembrane1DOF<Element3DC0LinearTriangular>
 {

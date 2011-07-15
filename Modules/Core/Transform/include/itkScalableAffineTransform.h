@@ -189,7 +189,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkScalableAffineTransform.txx"
+#include "itkScalableAffineTransform.hxx"
 #endif
 
 #endif /* __itkScalableAffineTransform_h */

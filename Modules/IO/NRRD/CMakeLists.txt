@@ -1,3 +1,3 @@
-project(ITK-IO-NRRD)
-set(ITK-IO-NRRD_LIBRARIES ITK-IO-NRRD)
+project(ITKIONRRD)
+set(ITKIONRRD_LIBRARIES ITKIONRRD)
 itk_module_impl()

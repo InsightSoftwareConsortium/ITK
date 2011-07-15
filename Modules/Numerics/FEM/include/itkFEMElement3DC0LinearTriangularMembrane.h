@@ -35,7 +35,7 @@ namespace fem
  * A membrane element in three dimensional is an isotropic homogeneous
  * element through a small thickness. The elements have three translational
  * degrees of freedom at each node.
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 class Element3DC0LinearTriangularMembrane : public Element3DMembrane<Element3DC0LinearTriangular>
 {

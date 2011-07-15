@@ -26,7 +26,7 @@ namespace itk
 /**
  * \class DecimationQuadEdgeMeshFilter
  * \brief
- * \ingroup ITK-QuadEdgeMeshFiltering
+ * \ingroup ITKQuadEdgeMeshFiltering
  */
 template< class TInput, class TOutput, class TCriterion >
 class ITK_EXPORT DecimationQuadEdgeMeshFilter:

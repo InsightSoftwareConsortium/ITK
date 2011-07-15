@@ -64,7 +64,7 @@ namespace itk
  * ReleaseInputs() and AllocateOutputs() provided here.
  *
  * \ingroup ImageFilters
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TInputImage, class TOutputImage = TInputImage >
 class ITK_EXPORT InPlaceImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
@@ -188,7 +188,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkInPlaceImageFilter.txx"
+#include "itkInPlaceImageFilter.hxx"
 #endif
 
 #endif

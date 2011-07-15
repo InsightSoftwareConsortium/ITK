@@ -44,7 +44,7 @@ namespace fem
  *                be derived from the Element base class. This enables you
  *                to use this class at any level of element definition.
  *                If not specified, it defaults to the Element base class.
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 template <class TBaseClass = Element>
 class Element3DMembrane : public TBaseClass
@@ -126,7 +126,7 @@ protected:
 }  // end namespace itk::fem
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFEMElement3DMembrane.txx"
+#include "itkFEMElement3DMembrane.hxx"
 #endif
 
 #endif  // #ifndef __itkFEMElement3DMembrane_h

@@ -58,7 +58,7 @@ namespace itk
  * interpolate values from the Moving image.
  *
  * \ingroup RegistrationFilters
- * \ingroup ITK-RegistrationCommon
+ * \ingroup ITKRegistrationCommon
  */
 template< typename TFixedPointSet, typename TMovingImage >
 class ITK_EXPORT PointSetToImageRegistrationMethod:public ProcessObject
@@ -191,7 +191,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPointSetToImageRegistrationMethod.txx"
+#include "itkPointSetToImageRegistrationMethod.hxx"
 #endif
 
 #endif

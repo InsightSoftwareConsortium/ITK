@@ -32,7 +32,7 @@ namespace itk
  * This class is templated over the input image type.
  * \sa NeighborhoodOperator
  * \sa ImageFunction
- * \ingroup ITK-ImageFunction
+ * \ingroup ITKImageFunction
  */
 template< class TInputImage, class TOutput = double >
 class ITK_EXPORT GaussianBlurImageFunction:
@@ -215,7 +215,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkGaussianBlurImageFunction.txx"
+#include "itkGaussianBlurImageFunction.hxx"
 #endif
 
 #endif

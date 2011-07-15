@@ -48,7 +48,7 @@ namespace itk
  * the resulting vertices.
  *
  * \ingroup MeshObjects
- * \ingroup ITK-Voronoi
+ * \ingroup ITKVoronoi
  */
 template< typename TCoordType >
 class ITK_EXPORT VoronoiDiagram2D:
@@ -280,7 +280,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVoronoiDiagram2D.txx"
+#include "itkVoronoiDiagram2D.hxx"
 #endif
 
 #endif

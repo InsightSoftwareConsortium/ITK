@@ -54,7 +54,7 @@ namespace itk
  * \sa DemonsRegistrationFunction
  * \ingroup FiniteDifferenceFunctions
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TFixedImage, class TMovingImage, class TDeformationField >
 class ITK_EXPORT ESMDemonsRegistrationFunction:
@@ -280,7 +280,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkESMDemonsRegistrationFunction.txx"
+#include "itkESMDemonsRegistrationFunction.hxx"
 #endif
 
 #endif

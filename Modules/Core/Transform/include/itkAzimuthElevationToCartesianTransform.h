@@ -72,7 +72,7 @@ namespace itk
  * \todo  Derive this class from a yet undefined TransformBase class.
  *        Currently, this class derives from AffineTransform, although
  *        it is not an affine transform.
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  *
  * \wiki
  * \wikiexample{Utilities/AzimuthElevationToCartesianTransform,Cartesian to AzimuthElevation and vice-versa}
@@ -240,7 +240,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkAzimuthElevationToCartesianTransform.txx"
+#include "itkAzimuthElevationToCartesianTransform.hxx"
 #endif
 
 #endif /* __itkAzimuthElevationToCartesianTransform_h */

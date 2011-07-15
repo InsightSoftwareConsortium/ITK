@@ -59,8 +59,8 @@ namespace itk
  *
  * \warning No numeric overflow checking is performed in this filter.
  *
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup IntensityImageFilters  MultiThreaded
+ * \ingroup ITKImageIntensity
  *
  * \wiki
  * \wikiexample{ImageProcessing/AddImageFilter,Add two images together}

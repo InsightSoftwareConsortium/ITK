@@ -43,7 +43,7 @@ namespace itk
  *
  * \ingroup IOFilters
  *
- * \ingroup ITK-Deprecated
+ * \ingroup ITKDeprecated
  */
 
 class ITK_EXPORT DICOMSeriesFileNames:public Object

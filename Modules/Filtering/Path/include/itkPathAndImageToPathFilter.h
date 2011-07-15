@@ -32,7 +32,7 @@ namespace itk
  * paths as outputs, according to the underlying DataObject implementation.)
  *
  * \ingroup PathFilters
- * \ingroup ITK-Path
+ * \ingroup ITKPath
  */
 template< class TInputPath, class TInputImage, class TOutputPath >
 class ITK_EXPORT PathAndImageToPathFilter:
@@ -106,7 +106,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPathAndImageToPathFilter.txx"
+#include "itkPathAndImageToPathFilter.hxx"
 #endif
 
 #endif

@@ -65,7 +65,7 @@ namespace itk
  * \sa ImageFastMarchingTraits
  * \sa ImageFastMarchingTraits2
  *
- * \ingroup ITK-FastMarching
+ * \ingroup ITKFastMarching
 */
 template< class TInput, class TOutput >
 class FastMarchingImageFilterBase :
@@ -261,5 +261,5 @@ private:
   };
 }
 
-#include "itkFastMarchingImageFilterBase.txx"
+#include "itkFastMarchingImageFilterBase.hxx"
 #endif // __itkFastMarchingImageFilterBase_h

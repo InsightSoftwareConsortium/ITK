@@ -62,9 +62,9 @@ public:
  * \sa TensorFractionalAnisotropyImageFilter
  * \sa DiffusionTensor3D
  *
- * \ingroup IntensityImageFilters  Multithreaded  TensorObjects
+ * \ingroup IntensityImageFilters  MultiThreaded  TensorObjects
  *
- * \ingroup ITK-DiffusionTensorImage
+ * \ingroup ITKDiffusionTensorImage
  */
 template< typename  TInputImage, typename  TOutputImage = Image<
     typename NumericTraits< typename TInputImage::PixelType::ValueType >::RealType,

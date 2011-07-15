@@ -29,7 +29,7 @@ namespace itk
     \brief Stopping Criterion is verified when Current Value is equal to or
     greater than the provided threshold.
 
-    \ingroup ITK-FastMarching
+    \ingroup ITKFastMarching
     */
   template< class TInput, class TOutput >
   class FastMarchingThresholdStoppingCriterion :

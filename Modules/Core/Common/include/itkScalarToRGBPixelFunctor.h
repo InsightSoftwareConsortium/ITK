@@ -38,7 +38,7 @@ namespace Functor
  *  typically use sequential values, it is desirable that those values result
  *  in easily discernable colors.
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TScalar >
 class ITK_EXPORT ScalarToRGBPixelFunctor
@@ -71,7 +71,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkScalarToRGBPixelFunctor.txx"
+#include "itkScalarToRGBPixelFunctor.hxx"
 #endif
 
 #endif

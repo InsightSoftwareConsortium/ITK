@@ -53,7 +53,7 @@ namespace itk
  *
  *
  * \ingroup Transforms
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  */
 template< class TTransform,
           class TFixedImage,
@@ -150,7 +150,7 @@ private:
 }  // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLandmarkBasedTransformInitializer.txx"
+#include "itkLandmarkBasedTransformInitializer.hxx"
 #endif
 
 #endif /* __itkLandmarkBasedTransformInitializer_h */

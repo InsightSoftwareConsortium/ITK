@@ -36,7 +36,7 @@ namespace itk
  *     // upon return from function, vecAdaptor is destroyed and aContainer is Modified()
  * \endcode
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 template< typename TContainer >

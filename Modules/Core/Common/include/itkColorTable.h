@@ -33,7 +33,7 @@ namespace itk
  * value range differs for integral and continuous data types. Consult
  * the documentation for each lookup table generator.
  * \ingroup DataRepresentation
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 template< class TPixel >
@@ -139,7 +139,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkColorTable.txx"
+#include "itkColorTable.hxx"
 #endif
 
 #endif

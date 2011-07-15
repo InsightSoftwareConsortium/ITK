@@ -28,7 +28,7 @@ namespace itk
  * segment structures in an image based Laplacian edges.
  *
  * Assumes a strictly POSITIVE feature image
- * \ingroup ITK-LevelSets
+ * \ingroup ITKLevelSets
  */
 template< class TImageType, class TFeatureImageType = TImageType >
 class ITK_EXPORT LaplacianSegmentationLevelSetFunction:
@@ -103,7 +103,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLaplacianSegmentationLevelSetFunction.txx"
+#include "itkLaplacianSegmentationLevelSetFunction.hxx"
 #endif
 
 #endif

@@ -60,7 +60,7 @@ namespace itk
  *
  * \ingroup ImageObjects
  * \ingroup LabeledImageObject
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TLabelObject >
 class ITK_EXPORT LabelMap:public ImageBase< ::itk::GetImageDimension< TLabelObject >::ImageDimension >
@@ -303,7 +303,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLabelMap.txx"
+#include "itkLabelMap.hxx"
 #endif
 
 #endif

@@ -33,7 +33,7 @@ namespace fem
  *
  * The Displacements at each node are modeled with two translational,
  * and one rotational, degree of freedom.
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 class Element2DC1Beam : public ElementStd<2, 2>
 {

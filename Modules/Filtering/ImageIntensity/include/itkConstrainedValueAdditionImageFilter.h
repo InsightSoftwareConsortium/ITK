@@ -49,8 +49,8 @@ namespace itk
  * \author Lino Ramirez. Dept. of Electrical and Computer
  * Engineering. University of Alberta. Canada
  *
- * \ingroup IntensityImageFilters Multithreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup IntensityImageFilters MultiThreaded
+ * \ingroup ITKImageIntensity
  */
 namespace Functor
 {

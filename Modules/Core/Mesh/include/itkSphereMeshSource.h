@@ -35,7 +35,7 @@ namespace itk
  * in the shape of triangular.
  * More parameters are added to make the sphere mesh have global and local
  * deform ability.
- * \ingroup ITK-Mesh
+ * \ingroup ITKMesh
  */
 template< class TOutputMesh >
 class ITK_EXPORT SphereMeshSource:public MeshSource< TOutputMesh >
@@ -108,6 +108,6 @@ private:
 };
 } // end namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSphereMeshSource.txx"
+#include "itkSphereMeshSource.hxx"
 #endif
 #endif

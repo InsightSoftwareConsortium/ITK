@@ -29,7 +29,7 @@ namespace itk
  * \ingroup ImageEnhancement
  * \ingroup GradientFilters
  *
- * \ingroup ITK-ImageGradient
+ * \ingroup ITKImageGradient
  */
 template< typename TInputImage, typename TDataType >
 class ITK_EXPORT DifferenceOfGaussiansGradientImageFilter:
@@ -102,7 +102,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDifferenceOfGaussiansGradientImageFilter.txx"
+#include "itkDifferenceOfGaussiansGradientImageFilter.hxx"
 #endif
 
 #endif

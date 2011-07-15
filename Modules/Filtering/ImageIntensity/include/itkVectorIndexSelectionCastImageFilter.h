@@ -71,8 +71,8 @@ private:
  * the type used for representing the vector is that it must provide an
  * operator[].
  *
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup IntensityImageFilters  MultiThreaded
+ * \ingroup ITKImageIntensity
  *
  * \wiki
  * \wikiexample{VectorImages/VectorIndexSelectionCastImageFilter,Extract a component of an itkVectorImage}

@@ -44,7 +44,7 @@ namespace itk
  * that provides the input to the ImageDuplicator object. This is needed
  * because the ImageDuplicator is not a pipeline filter.
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{SimpleOperations/ImageDuplicator,Duplicate an image}
@@ -115,7 +115,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkImageDuplicator.txx"
+#include "itkImageDuplicator.hxx"
 #endif
 
 #endif /* __itkImageDuplicator_h */

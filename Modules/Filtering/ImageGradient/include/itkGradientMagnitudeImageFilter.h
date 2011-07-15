@@ -31,7 +31,7 @@ namespace itk
  * \sa Neighborhood
  * \sa NeighborhoodOperator
  * \sa NeighborhoodIterator
- * \ingroup ITK-ImageGradient
+ * \ingroup ITKImageGradient
  *
  * \wiki
  * \wikiexample{EdgesAndGradients/GradientMagnitudeImageFilter,Compute the gradient magnitude image}
@@ -138,7 +138,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGradientMagnitudeImageFilter.txx"
+#include "itkGradientMagnitudeImageFilter.hxx"
 #endif
 
 #endif

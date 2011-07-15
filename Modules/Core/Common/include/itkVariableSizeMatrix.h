@@ -36,7 +36,7 @@ namespace itk
  * used when the matrix length cannot be determined at compile time.
  *
  * \ingroup DataRepresentation
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 template< class T >
@@ -250,7 +250,7 @@ VariableSizeMatrix< T >
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVariableSizeMatrix.txx"
+#include "itkVariableSizeMatrix.hxx"
 #endif
 
 #endif

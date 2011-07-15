@@ -6,6 +6,7 @@ include(${_ITKModuleMacros_DIR}/ITKModuleAPI.cmake)
 include(${_ITKModuleMacros_DIR}/ITKModuleDoxygen.cmake)
 
 macro(itk_module _name)
+  itk_module_check_name(${_name})
   set(itk-module ${_name})
   set(itk-module-test ${_name}-Test)
   set(_doing "")
@@ -40,6 +41,12 @@ macro(itk_module _name)
   endforeach()
   list(SORT ITK_MODULE_${itk-module}_DEPENDS) # Deterministic order.
   list(SORT ITK_MODULE_${itk-module-test}_DEPENDS) # Deterministic order.
+endmacro()
+
+macro(itk_module_check_name _name)
+  if( NOT "${_name}" MATCHES "^[a-zA-Z][a-zA-Z0-9]*$")
+    message(FATAL_ERROR "Invalid module name: ${_name}")
+  endif()
 endmacro()
 
 macro(itk_module_impl)

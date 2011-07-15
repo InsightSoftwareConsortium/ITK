@@ -56,7 +56,7 @@ namespace itk
  * itk::BinaryBallStructuringElement.
  *
  * \sa ImageToImageFilter BinaryErodeImageFilter BinaryMorphologyImageFilter
- * \ingroup ITK-MathematicalMorphology
+ * \ingroup ITKMathematicalMorphology
  *
  * \wiki
  * \wikiexample{Morphology/BinaryDilateImageFilter,Dilate a binary image}
@@ -137,7 +137,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryDilateImageFilter.txx"
+#include "itkBinaryDilateImageFilter.hxx"
 #endif
 
 #endif

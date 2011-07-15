@@ -67,7 +67,7 @@ namespace itk
  *
  * \ingroup ITKSystemObjects
  * \ingroup DataProcessing
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 class ITKCommon_EXPORT LightProcessObject:public Object
 {

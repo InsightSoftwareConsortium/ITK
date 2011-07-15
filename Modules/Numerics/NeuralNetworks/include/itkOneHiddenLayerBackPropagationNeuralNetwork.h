@@ -38,7 +38,7 @@ namespace Statistics
 /** \class OneHiddenLayerBackPropagationNeuralNetwork
  * \brief This is the itkOneHiddenLayerBackPropagationNeuralNetwork class.
  *
- * \ingroup ITK-NeuralNetworks
+ * \ingroup ITKNeuralNetworks
  */
 
 template<class TMeasurementVector, class TTargetVector>
@@ -137,7 +137,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkOneHiddenLayerBackPropagationNeuralNetwork.txx"
+#include "itkOneHiddenLayerBackPropagationNeuralNetwork.hxx"
 #endif
 
 #endif

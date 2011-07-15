@@ -310,7 +310,7 @@ void ImageToImageFilterDefaultCopyRegion(const typename
  * the CallCopyOutputRegionToInputRegion() method or the
  * CallCopyInputRegionToOutputRegion() method and delegate to the
  * appropriate RegionCopier class.
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< unsigned int D1, unsigned int D2 >
 class ITK_EXPORT ImageRegionCopier
@@ -348,9 +348,5 @@ bool operator!=(const ImageRegionCopier< D1, D2 > & c1,
 }
 } // end of namespace ImageToImageFilterDetail
 } // end namespace itk
-
-//#ifndef ITK_MANUAL_INSTANTIATION
-//#include "itkImageToImageFilterDetail.txx"
-//#endif
 
 #endif

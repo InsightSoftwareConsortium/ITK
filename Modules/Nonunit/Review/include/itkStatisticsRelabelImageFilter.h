@@ -39,7 +39,7 @@ namespace itk
  *
  * \sa StatisticsLabelObject, RelabelComponentImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TInputImage, class TFeatureImage >
 class ITK_EXPORT StatisticsRelabelImageFilter:
@@ -182,7 +182,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkStatisticsRelabelImageFilter.txx"
+#include "itkStatisticsRelabelImageFilter.hxx"
 #endif
 
 #endif

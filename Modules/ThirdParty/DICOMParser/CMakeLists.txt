@@ -1,10 +1,10 @@
-project(ITK-DICOMParser)
-set(ITK-DICOMParser_THIRD_PARTY 1)
+project(ITKDICOMParser)
+set(ITKDICOMParser_THIRD_PARTY 1)
 
-set(ITK-DICOMParser_INCLUDE_DIRS
-  ${ITK-DICOMParser_BINARY_DIR}/src/DICOMParser
-  ${ITK-DICOMParser_SOURCE_DIR}/src/DICOMParser
+set(ITKDICOMParser_INCLUDE_DIRS
+  ${ITKDICOMParser_BINARY_DIR}/src/DICOMParser
+  ${ITKDICOMParser_SOURCE_DIR}/src/DICOMParser
   )
-set(ITK-DICOMParser_LIBRARIES ITKDICOMParser)
+set(ITKDICOMParser_LIBRARIES ITKDICOMParser)
 
 itk_module_impl()

@@ -97,7 +97,7 @@ namespace itk
  * superclass.
  *
  * \sa ImageToImageFilter BinaryErodeImageFilter BinaryDilateImageFilter
- * \ingroup ITK-MathematicalMorphology
+ * \ingroup ITKMathematicalMorphology
  */
 template< class TInputImage, class TOutputImage, class TKernel >
 class ITK_EXPORT BinaryMorphologyImageFilter:
@@ -251,7 +251,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryMorphologyImageFilter.txx"
+#include "itkBinaryMorphologyImageFilter.hxx"
 #endif
 
 #endif

@@ -30,7 +30,7 @@ namespace itk
 /** \class  SparseFieldLevelSetNode
  * A data structure used in the SparseFieldLevelSetImageFilter to construct
  * lists of indicies and other values.
- * \ingroup ITK-LevelSets
+ * \ingroup ITKLevelSets
  */
 template< class TValueType >
 class SparseFieldLevelSetNode
@@ -67,7 +67,7 @@ public:
  *
  * \endcode
  *
- * \ingroup ITK-LevelSets
+ * \ingroup ITKLevelSets
  */
 template< class TNeighborhoodType >
 class SparseFieldCityBlockNeighborList
@@ -223,7 +223,7 @@ private:
  * \par
  * Sethian, J.A. Level Set Methods. Cambridge University Press. 1996.
  *
- * \ingroup ITK-LevelSets
+ * \ingroup ITKLevelSets
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT SparseFieldLevelSetImageFilter:
@@ -500,7 +500,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSparseFieldLevelSetImageFilter.txx"
+#include "itkSparseFieldLevelSetImageFilter.hxx"
 #endif
 
 #endif

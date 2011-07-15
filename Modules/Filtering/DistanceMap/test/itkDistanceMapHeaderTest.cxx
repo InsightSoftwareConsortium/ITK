@@ -21,19 +21,19 @@
 
 #include <iostream>
 
-#include "itkReflectiveImageRegionConstIterator.txx"
-#include "itkReflectiveImageRegionIterator.txx"
-#include "itkApproximateSignedDistanceMapImageFilter.txx"
-#include "itkHausdorffDistanceImageFilter.txx"
-#include "itkSignedDanielssonDistanceMapImageFilter.txx"
-#include "itkDanielssonDistanceMapImageFilter.txx"
-#include "itkContourMeanDistanceImageFilter.txx"
-#include "itkDirectedHausdorffDistanceImageFilter.txx"
-#include "itkContourDirectedMeanDistanceImageFilter.txx"
-#include "itkIsoContourDistanceImageFilter.txx"
+#include "itkReflectiveImageRegionConstIterator.hxx"
+#include "itkReflectiveImageRegionIterator.hxx"
+#include "itkApproximateSignedDistanceMapImageFilter.hxx"
+#include "itkHausdorffDistanceImageFilter.hxx"
+#include "itkSignedDanielssonDistanceMapImageFilter.hxx"
+#include "itkDanielssonDistanceMapImageFilter.hxx"
+#include "itkContourMeanDistanceImageFilter.hxx"
+#include "itkDirectedHausdorffDistanceImageFilter.hxx"
+#include "itkContourDirectedMeanDistanceImageFilter.hxx"
+#include "itkIsoContourDistanceImageFilter.hxx"
 #include "itkFastChamferDistanceImageFilter.h"
-#include "itkSignedMaurerDistanceMapImageFilter.txx"
-#include "itkFastChamferDistanceImageFilter.txx"
+#include "itkSignedMaurerDistanceMapImageFilter.hxx"
+#include "itkFastChamferDistanceImageFilter.hxx"
 
 
 

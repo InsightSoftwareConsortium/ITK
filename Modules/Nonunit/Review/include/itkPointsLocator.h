@@ -36,7 +36,7 @@ namespace itk
  * This class accelerates the search for the closest point to a user-provided
  * point, by using constructing a Kd-Tree structure for the PointSetContainer.
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  *
  */
 template<typename TPointIdentifier = IdentifierType, int VPointDimension = 3,
@@ -131,7 +131,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPointsLocator.txx"
+#include "itkPointsLocator.hxx"
 #endif
 
 #endif

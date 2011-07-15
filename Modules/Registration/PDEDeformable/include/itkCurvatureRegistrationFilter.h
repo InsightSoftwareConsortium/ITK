@@ -92,7 +92,7 @@ namespace itk
  * \ingroup DeformableImageRegistration MultiThreaded
  *
  * \author Torsten Rohlfing, SRI International, Neuroscience Program
- * \ingroup ITK-PDEDeformableRegistration
+ * \ingroup ITKPDEDeformableRegistration
  */
 template< class TFixedImage, class TMovingImage, class TDeformationField,
           class TImageForceFunction =
@@ -203,7 +203,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCurvatureRegistrationFilter.txx"
+#include "itkCurvatureRegistrationFilter.hxx"
 #endif
 
 #endif //defined(USE_FFTWF) || defined(USE_FFTWD)

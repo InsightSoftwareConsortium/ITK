@@ -40,7 +40,7 @@ namespace Statistics
 /** \class RBFNetwork
  * \brief This is the itkRBFNetwork class.
  *
- * \ingroup ITK-NeuralNetworks
+ * \ingroup ITKNeuralNetworks
  */
 
 template<class TMeasurementVector, class TTargetVector>
@@ -155,7 +155,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRBFNetwork.txx"
+#include "itkRBFNetwork.hxx"
 #endif
 
 #endif

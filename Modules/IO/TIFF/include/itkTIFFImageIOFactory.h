@@ -29,7 +29,7 @@ namespace itk
 {
 /** \class TIFFImageIOFactory
  * \brief Create instances of TIFFImageIO objects using an object factory.
- * \ingroup ITK-IO-TIFF
+ * \ingroup ITKIOTIFF
  */
 class ITK_EXPORT TIFFImageIOFactory:public ObjectFactoryBase
 {

@@ -33,7 +33,7 @@ namespace itk
  *
  * \author Hee-Su Kim, Compute Science Dept. Kyungpook National University,
  *                     ISIS Center, Georgetown University.
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 class ITKCommon_EXPORT RealTimeClock:public Object

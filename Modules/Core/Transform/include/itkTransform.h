@@ -61,7 +61,7 @@ namespace itk
  *   const                     JacobianType & GetJacobian(const InputPointType  &) const
  * \ingroup Transforms
  *
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  */
 template< class TScalarType,
           unsigned int NInputDimensions = 3,
@@ -286,7 +286,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkTransform.txx"
+#include "itkTransform.hxx"
 #endif
 
 #endif

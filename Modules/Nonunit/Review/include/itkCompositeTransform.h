@@ -95,7 +95,7 @@ namespace itk
  *
  * \ingroup Transforms
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template
 <class TScalar = double, unsigned int NDimensions = 3>
@@ -383,7 +383,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkCompositeTransform.txx"
+# include "itkCompositeTransform.hxx"
 #endif
 
 #endif // __itkCompositeTransform_h

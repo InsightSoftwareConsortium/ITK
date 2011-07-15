@@ -42,7 +42,7 @@ namespace itk
  *
  * \ingroup MeshFilters
  * \sa TransformMeshFilter
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 
 template< class TInputMesh, class TOutputMesh >
@@ -141,7 +141,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkConformalFlatteningMeshFilter.txx"
+#include "itkConformalFlatteningMeshFilter.hxx"
 #endif
 
 #endif

@@ -36,7 +36,7 @@ namespace itk
  * http://www.insight-journal.org/browse/publication/176
  *
  * \ingroup LabeledImageObject
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< unsigned int VImageDimension >
 class LabelObjectLine
@@ -93,7 +93,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLabelObjectLine.txx"
+#include "itkLabelObjectLine.hxx"
 #endif
 
 #endif

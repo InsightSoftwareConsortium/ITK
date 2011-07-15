@@ -28,7 +28,7 @@ namespace fem
 {
 /**
  * \class Element2DC0LinearQuadrilateralStress
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  * \brief 4-noded finite element class in 2D space.
  *
  * The ordering of the nodes is counter clockwise. That is the nodes

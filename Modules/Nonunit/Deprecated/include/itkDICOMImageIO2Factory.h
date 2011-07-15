@@ -29,7 +29,7 @@ namespace itk
 {
 /** \class DICOMImageIO2Factory
  * \brief Create instances of DICOMImageIO2 objects using an object factory.
- * \ingroup ITK-Deprecated
+ * \ingroup ITKDeprecated
  */
 class ITK_EXPORT DICOMImageIO2Factory:public ObjectFactoryBase
 {

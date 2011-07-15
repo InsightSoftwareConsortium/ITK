@@ -31,7 +31,7 @@ namespace itk
  * This class returns a single valued.
  *
  * \ingroup Numerics Optimizers
- * \ingroup ITK-Optimizers
+ * \ingroup ITKOptimizers
  */
 class ITK_EXPORT MultipleValuedVnlCostFunctionAdaptor:
   public vnl_least_squares_function

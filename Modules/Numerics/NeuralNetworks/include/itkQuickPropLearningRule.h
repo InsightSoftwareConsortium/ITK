@@ -36,7 +36,7 @@ namespace Statistics
  * They take a LayerBase object as input and compute the input for the
  * layers input weightset.
  *
- * \ingroup ITK-NeuralNetworks
+ * \ingroup ITKNeuralNetworks
  */
 
 template<class LayerType, class TTargetVector>
@@ -85,7 +85,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-  #include "itkQuickPropLearningRule.txx"
+  #include "itkQuickPropLearningRule.hxx"
 #endif
 
 #endif

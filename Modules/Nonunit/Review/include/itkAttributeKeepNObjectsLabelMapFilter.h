@@ -36,7 +36,7 @@ namespace itk {
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template<class TImage, class TAttributeAccessor=
     typename Functor::AttributeLabelObjectAccessor< typename TImage::LabelObjectType > >
@@ -144,7 +144,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAttributeKeepNObjectsLabelMapFilter.txx"
+#include "itkAttributeKeepNObjectsLabelMapFilter.hxx"
 #endif
 
 #endif

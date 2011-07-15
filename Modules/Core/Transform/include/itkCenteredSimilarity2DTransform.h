@@ -51,7 +51,7 @@ namespace itk
  * \sa Similarity2DTransform
  *
  * \ingroup Transforms
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  */
 template< class TScalarType = double >
 // Data type for scalars
@@ -199,7 +199,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkCenteredSimilarity2DTransform.txx"
+#include "itkCenteredSimilarity2DTransform.hxx"
 #endif
 
 #endif /* __itkCenteredSimilarity2DTransform_h */

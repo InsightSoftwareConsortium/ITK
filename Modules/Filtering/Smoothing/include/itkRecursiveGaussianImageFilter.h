@@ -50,9 +50,9 @@ namespace itk
  * itk::RecursiveGaussianImageFilter::SetSigma(), but
  * itk::DiscreteGaussianImageFilter::SetVariance().
  *
- * \ingroup ImageEnhancement Singlethreaded
+ * \ingroup ImageEnhancement SingelThreaded
  * \see DiscreteGaussianImageFilter
- * \ingroup ITK-Smoothing
+ * \ingroup ITKSmoothing
  *
  * \wiki
  * \wikiexample{EdgesAndGradients/RecursiveGaussianImageFilter,Find higher derivatives of an image}
@@ -194,7 +194,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRecursiveGaussianImageFilter.txx"
+#include "itkRecursiveGaussianImageFilter.hxx"
 #endif
 
 #endif

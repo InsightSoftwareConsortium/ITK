@@ -66,7 +66,7 @@ namespace itk
  * \sa RGBPixel
  * \sa DiffusionTensor3D
  * \ingroup DataRepresentation
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{SimpleOperations/VariableLengthVector,Variable length vector}
@@ -485,7 +485,7 @@ std::ostream & operator<<(std::ostream & os, const VariableLengthVector< TValueT
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkVariableLengthVector.txx"
+#include "itkVariableLengthVector.hxx"
 #endif
 
 #endif

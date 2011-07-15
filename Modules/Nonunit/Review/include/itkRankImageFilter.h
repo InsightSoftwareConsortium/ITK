@@ -60,7 +60,7 @@ namespace itk
  *
  *
  * \author Richard Beare
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 
 template< class TInputImage, class TOutputImage, class TKernel =
@@ -136,7 +136,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRankImageFilter.txx"
+#include "itkRankImageFilter.hxx"
 #endif
 
 #endif

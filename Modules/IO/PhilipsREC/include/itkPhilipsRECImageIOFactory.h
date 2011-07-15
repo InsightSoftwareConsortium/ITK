@@ -32,7 +32,7 @@ namespace itk
  * This implementation was contributed as a paper to the Insight Journal
  * http://hdl.handle.net/1926/1381
  *
- * \ingroup ITK-IO-PhilipsREC
+ * \ingroup ITKIOPhilipsREC
  */
 class ITK_EXPORT PhilipsRECImageIOFactory:public ObjectFactoryBase
 {

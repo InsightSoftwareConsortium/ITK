@@ -38,7 +38,7 @@ namespace itk
  *
  * \ingroup ImageObjects
  * \ingroup IOFilters
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 template< typename TElementIdentifier, typename TElement >
@@ -192,7 +192,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkImportImageContainer.txx"
+#include "itkImportImageContainer.hxx"
 #endif
 
 #endif

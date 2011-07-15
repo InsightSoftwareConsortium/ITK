@@ -40,7 +40,7 @@ namespace itk
  * http://www.insight-journal.org/browse/publication/180
  *
  * \ingroup Transforms
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  */
 template< class TScalarType = double >
 // Data type for scalars:float or double
@@ -151,7 +151,7 @@ private:
 }  // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkScaleVersor3DTransform.txx"
+#include "itkScaleVersor3DTransform.hxx"
 #endif
 
 #endif /* __ScaleVersor3DTransform_h */

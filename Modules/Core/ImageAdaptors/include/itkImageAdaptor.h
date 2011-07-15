@@ -42,7 +42,7 @@ namespace itk
  *
  * \ingroup ImageAdaptors
  *
- * \ingroup ITK-ImageAdaptors
+ * \ingroup ITKImageAdaptors
  *
  * \wiki
  * \wikiexample{ImageProcessing/ImageAdaptorExtractVectorComponent,Present an image by first performing an operation}
@@ -392,7 +392,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageAdaptor.txx"
+#include "itkImageAdaptor.hxx"
 #endif
 
 #endif

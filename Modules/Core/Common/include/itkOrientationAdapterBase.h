@@ -38,7 +38,7 @@ namespace itk
  * member function signatures for any subclass that concretely defines the
  * conversion relation between a method of representing orientation, and the
  * direction cosines managed in itk::ImageBase.
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class OrientationType, unsigned int Dimension = 3 >
 class OrientationAdapterBase

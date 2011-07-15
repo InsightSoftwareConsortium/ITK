@@ -62,7 +62,7 @@ namespace itk
  * \par REFERENCES
  * Sethian, J.A. Level Set Methods. Cambridge University Press. 1996.
  *
- * \ingroup ITK-NarrowBand
+ * \ingroup ITKNarrowBand
  */
 template< class TInputImage, class TOutputImage >
 class NarrowBandImageFilterBase:
@@ -327,7 +327,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNarrowBandImageFilterBase.txx"
+#include "itkNarrowBandImageFilterBase.hxx"
 #endif
 
 #endif

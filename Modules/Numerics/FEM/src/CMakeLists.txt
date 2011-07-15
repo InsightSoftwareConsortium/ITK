@@ -1,4 +1,4 @@
-set(ITK-FEM_SRC
+set(ITKFEM_SRC
 itkFEMElement2DC0LinearLine.cxx
 itkFEMElement2DC0LinearLineStress.cxx
 itkFEMElement2DC0LinearQuadrilateral.cxx
@@ -46,6 +46,6 @@ itkFEMUtility.cxx
 dsrc2c.c
 )
 
-add_library(ITK-FEM ${ITK-FEM_SRC})
-target_link_libraries(ITK-FEM  ${ITK-MetaIO_LIBRARIES} ${ITK-ImageFunction_LIBRARIES} ${ITK-RegistrationCommon_LIBRARIES})
-itk_module_target(ITK-FEM)
+add_library(ITKFEM ${ITKFEM_SRC})
+target_link_libraries(ITKFEM  ${ITKMetaIO_LIBRARIES} ${ITKImageFunction_LIBRARIES} ${ITKRegistrationCommon_LIBRARIES})
+itk_module_target(ITKFEM)

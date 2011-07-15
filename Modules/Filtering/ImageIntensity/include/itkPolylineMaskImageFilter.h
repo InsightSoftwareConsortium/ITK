@@ -31,7 +31,7 @@ namespace itk
  * and output image.
  *
  * \ingroup ImageToImageFilter
- * \ingroup ITK-ImageIntensity
+ * \ingroup ITKImageIntensity
  */
 template< class TInputImage, class TPolyline, class TVector,
           class TOutputImage >
@@ -147,7 +147,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPolylineMaskImageFilter.txx"
+#include "itkPolylineMaskImageFilter.hxx"
 #endif
 
 #endif

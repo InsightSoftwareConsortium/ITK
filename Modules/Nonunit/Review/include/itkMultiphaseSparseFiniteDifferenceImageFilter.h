@@ -171,7 +171,7 @@ namespace itk
  *      http://www.insight-journal.org/browse/publication/323
  *      http://hdl.handle.net/1926/1533
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction,
           typename TIdCell = unsigned int >
@@ -541,7 +541,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMultiphaseSparseFiniteDifferenceImageFilter.txx"
+#include "itkMultiphaseSparseFiniteDifferenceImageFilter.hxx"
 #endif
 
 #endif

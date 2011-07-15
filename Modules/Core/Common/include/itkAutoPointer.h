@@ -40,7 +40,7 @@ namespace itk
  *
  * \ingroup ITKSystemObjects
  * \ingroup DataAccess
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TObjectType >
 class ITK_EXPORT AutoPointer

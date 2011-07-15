@@ -62,7 +62,7 @@ namespace itk
  * TInputMesh::MeshTraits == TOutputMesh::MeshTraits
  * (and of course it requires that the output have some itk::Vector for point
  * data and cell data.
- * \ingroup ITK-QuadEdgeMeshFiltering
+ * \ingroup ITKQuadEdgeMeshFiltering
  */
 template< class TInputMesh, class TOutputMesh >
 class ITK_EXPORT NormalQuadEdgeMeshFilter:
@@ -176,5 +176,5 @@ private:
 };
 }
 
-#include "itkNormalQuadEdgeMeshFilter.txx"
+#include "itkNormalQuadEdgeMeshFilter.hxx"
 #endif

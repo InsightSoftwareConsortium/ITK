@@ -46,7 +46,7 @@ namespace itk
  *
  * \ingroup DataRepresentation
  * \ingroup ImageObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TImageType >
 class ITK_EXPORT ImageBoundaryCondition

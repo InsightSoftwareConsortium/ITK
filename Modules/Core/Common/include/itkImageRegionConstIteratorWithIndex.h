@@ -118,7 +118,7 @@ namespace itk
  * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator
  * \sa ShapedNeighborhoodIterator  \sa SliceIterator
  * \sa ImageConstIteratorWithIndex
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \example itkImageIteratorTest.cxx
  *
@@ -204,7 +204,7 @@ public:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkImageRegionConstIteratorWithIndex.txx"
+#include "itkImageRegionConstIteratorWithIndex.hxx"
 #endif
 
 #endif

@@ -116,8 +116,8 @@ namespace itk
  * \endverbatim
  *
  * \sa DiffusionTensor3D SymmetricSecondRankTensor
- * \ingroup Multithreaded TensorObjects
- * \ingroup ITK-DiffusionTensorImage
+ * \ingroup MultiThreaded TensorObjects
+ * \ingroup ITKDiffusionTensorImage
  */
 
 template< class TReferenceImagePixelType,
@@ -322,7 +322,7 @@ private:
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDiffusionTensor3DReconstructionImageFilter.txx"
+#include "itkDiffusionTensor3DReconstructionImageFilter.hxx"
 #endif
 
 #endif

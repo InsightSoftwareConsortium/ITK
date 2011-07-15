@@ -40,7 +40,7 @@ namespace itk
  * \sa GrayscaleGeodesicDilateImageFilter
  * \sa MorphologyImageFilter, GrayscaleDilateImageFilter, GrayscaleFunctionDilateImageFilter, BinaryDilateImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
- * \ingroup ITK-MathematicalMorphology
+ * \ingroup ITKMathematicalMorphology
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT GrayscaleConnectedOpeningImageFilter:
@@ -135,7 +135,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGrayscaleConnectedOpeningImageFilter.txx"
+#include "itkGrayscaleConnectedOpeningImageFilter.hxx"
 #endif
 
 #endif

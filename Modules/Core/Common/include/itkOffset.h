@@ -50,7 +50,7 @@ class OffsetLexicographicCompare;
  *
  * \sa Index
  * \ingroup ImageAccess
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{SimpleOperations/Offset,Add an offset to a pixel index}
@@ -222,7 +222,7 @@ namespace Functor
  * This is a comparison functor suitable for storing Offset instances
  * in an STL container.  The ordering is total and unique but has
  * little geometric meaning.
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< unsigned int VOffsetDimension >
 class OffsetLexicographicCompare

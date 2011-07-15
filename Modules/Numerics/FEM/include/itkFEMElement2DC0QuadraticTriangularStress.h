@@ -53,7 +53,7 @@ namespace fem
  * \link Element2DStress
  *
  * \sa Element2DC0LinearTriangularStrain
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 class Element2DC0QuadraticTriangularStress : public Element2DStress<Element2DC0QuadraticTriangular>
 {

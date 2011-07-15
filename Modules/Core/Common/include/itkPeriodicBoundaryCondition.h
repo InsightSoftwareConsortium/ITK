@@ -32,7 +32,7 @@ namespace itk
  *
  * \ingroup DataRepresentation
  * \ingroup ImageObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TImage >
 class ITK_EXPORT PeriodicBoundaryCondition:
@@ -127,7 +127,7 @@ public:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkPeriodicBoundaryCondition.txx"
+#include "itkPeriodicBoundaryCondition.hxx"
 #endif
 
 #endif

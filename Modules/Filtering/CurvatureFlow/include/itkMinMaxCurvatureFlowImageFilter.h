@@ -69,9 +69,9 @@ namespace itk
  * \sa BinaryMinMaxCurvatureFlowImageFilter
  *
  * \ingroup ImageEnhancement
- * \ingroup Multithreaded
+ * \ingroup MultiThreaded
  *
- * \ingroup ITK-CurvatureFlow
+ * \ingroup ITKCurvatureFlow
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT MinMaxCurvatureFlowImageFilter:
@@ -150,7 +150,7 @@ private:
 } // end namspace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMinMaxCurvatureFlowImageFilter.txx"
+#include "itkMinMaxCurvatureFlowImageFilter.hxx"
 #endif
 
 #endif

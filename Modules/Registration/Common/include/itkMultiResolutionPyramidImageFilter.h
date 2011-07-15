@@ -102,8 +102,8 @@ namespace itk
  * \sa DiscreteGaussianImageFilter
  * \sa ShrinkImageFilter
  *
- * \ingroup PyramidImageFilter Multithreaded Streamed
- * \ingroup ITK-RegistrationCommon
+ * \ingroup PyramidImageFilter MultiThreaded Streamed
+ * \ingroup ITKRegistrationCommon
  */
 template<
   class TInputImage,
@@ -237,7 +237,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMultiResolutionPyramidImageFilter.txx"
+#include "itkMultiResolutionPyramidImageFilter.hxx"
 #endif
 
 #endif

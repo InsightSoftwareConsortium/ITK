@@ -56,7 +56,7 @@ namespace fem
  * \sa Element2DC0LinearTriangularStress
  *
  * This element is combined from Element2DC0LinearTriangular and Element2DMembrane.
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 class Element2DC0LinearTriangularMembrane : public Element2DMembrane<Element2DC0LinearTriangular>
 {

@@ -1,4 +1,4 @@
-set(ITK-Optimizers_SRC
+set(ITKOptimizers_SRC
 itkConjugateGradientOptimizer.cxx
 itkRegularStepGradientDescentOptimizer.cxx
 itkLBFGSOptimizer.cxx
@@ -27,6 +27,6 @@ itkRegularStepGradientDescentBaseOptimizer.cxx
 itkMultipleValuedVnlCostFunctionAdaptor.cxx
 )
 
-add_library(ITK-Optimizers ${ITK-Optimizers_SRC})
-target_link_libraries(ITK-Optimizers  ${ITK-Statistics_LIBRARIES} ${ITK-Transform_LIBRARIES})
-itk_module_target(ITK-Optimizers)
+add_library(ITKOptimizers ${ITKOptimizers_SRC})
+target_link_libraries(ITKOptimizers  ${ITKStatistics_LIBRARIES} ${ITKTransform_LIBRARIES})
+itk_module_target(ITKOptimizers)

@@ -33,7 +33,7 @@ namespace itk
  * use a matrix multiplication using a diagonal matrix.
  *
  * \ingroup Transforms
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  */
 template<
   class TScalarType = float, // Type for cordinate representation type (float or
@@ -288,7 +288,7 @@ ScaleTransform< ScalarType, NDimensions >::BackTransform(const OutputCovariantVe
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkScaleTransform.txx"
+#include "itkScaleTransform.hxx"
 #endif
 
 #endif /* __itkScaleTransform_h */

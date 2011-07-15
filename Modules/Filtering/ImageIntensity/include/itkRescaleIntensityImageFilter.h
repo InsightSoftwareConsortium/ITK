@@ -109,9 +109,9 @@ private:
  *
  * \sa IntensityWindowingImageFilter
  *
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup IntensityImageFilters  MultiThreaded
  *
- * \ingroup ITK-ImageIntensity
+ * \ingroup ITKImageIntensity
  *
  * \wiki
  * \wikiexample{ImageProcessing/RescaleIntensityImageFilter,Rescale the intensity values of an image to a specified range}
@@ -201,7 +201,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRescaleIntensityImageFilter.txx"
+#include "itkRescaleIntensityImageFilter.hxx"
 #endif
 
 #endif

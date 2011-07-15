@@ -48,7 +48,7 @@ namespace Statistics
  * will return small but differentiable values everywher and increase
  * sharply near the mean.
  *
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  */
 
 template< class TMeasurementVector >
@@ -136,7 +136,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGaussianMembershipFunction.txx"
+#include "itkGaussianMembershipFunction.hxx"
 #endif
 
 #endif

@@ -52,7 +52,7 @@ namespace itk
  *
  *
  * \ingroup GeometricTransforms
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TOutputImage,
           class TTransformPrecisionType = double >
@@ -213,7 +213,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTransformToDeformationFieldSource.txx"
+#include "itkTransformToDeformationFieldSource.hxx"
 #endif
 
 #endif // end #ifndef __itkTransformToDeformationFieldSource_h

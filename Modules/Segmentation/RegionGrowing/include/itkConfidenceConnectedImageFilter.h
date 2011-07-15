@@ -53,7 +53,7 @@ namespace itk
  * valid numeric limits of the input data pixel type. Also, the limits
  * may be adjusted to contain the seed point's intensity.
  * \ingroup RegionGrowingSegmentation
- * \ingroup ITK-RegionGrowing
+ * \ingroup ITKRegionGrowing
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT ConfidenceConnectedImageFilter:
@@ -167,7 +167,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkConfidenceConnectedImageFilter.txx"
+#include "itkConfidenceConnectedImageFilter.hxx"
 #endif
 
 #endif

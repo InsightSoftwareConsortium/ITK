@@ -84,7 +84,7 @@ namespace itk
  * \sa SpecialCoordinatesImage
  *
  * \ingroup ImageObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TPixel >
 class ITK_EXPORT PhasedArray3DSpecialCoordinatesImage:
@@ -372,7 +372,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkPhasedArray3DSpecialCoordinatesImage.txx"
+#include "itkPhasedArray3DSpecialCoordinatesImage.hxx"
 #endif
 
 #endif

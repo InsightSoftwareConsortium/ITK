@@ -53,7 +53,7 @@ namespace itk
  *      http://www.insight-journal.org/browse/publication/323
  *      http://hdl.handle.net/1926/1533
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  *
  * \wiki
  * \wikiexample{Segmentation/SinglephaseChanAndVeseDenseFieldLevelSetSegmentation,Single-phase Chan And Vese Dense Field Level Set Segmentation}
@@ -154,7 +154,7 @@ private:
 } //end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkScalarChanAndVeseDenseLevelSetImageFilter.txx"
+#include "itkScalarChanAndVeseDenseLevelSetImageFilter.hxx"
 #endif
 
 #endif

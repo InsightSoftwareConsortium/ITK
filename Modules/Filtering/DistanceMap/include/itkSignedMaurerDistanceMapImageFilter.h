@@ -56,7 +56,7 @@ namespace itk
  *  Machine Intelligence, 25(2): 265-270, 2003.
  *
  * \ingroup ImageFeatureExtraction
- * \ingroup ITK-DistanceMap
+ * \ingroup ITKDistanceMap
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT SignedMaurerDistanceMapImageFilter:
@@ -190,7 +190,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSignedMaurerDistanceMapImageFilter.txx"
+#include "itkSignedMaurerDistanceMapImageFilter.hxx"
 #endif
 
 #endif

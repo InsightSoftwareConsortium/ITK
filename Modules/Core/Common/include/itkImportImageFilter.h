@@ -33,7 +33,7 @@ namespace itk
  * the output image.
  *
  * \ingroup IOFilters
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{IO/ImportImageFilter,Convert a C-style array to an itkImage}
@@ -162,7 +162,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImportImageFilter.txx"
+#include "itkImportImageFilter.hxx"
 #endif
 
 #endif

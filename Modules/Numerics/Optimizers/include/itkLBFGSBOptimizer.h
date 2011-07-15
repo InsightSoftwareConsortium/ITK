@@ -28,7 +28,7 @@ namespace itk
  *
  * This class is used to translate iteration events, etc, from
  * vnl_lbfgsb into iteration events in ITK.
- * \ingroup ITK-Optimizers
+ * \ingroup ITKOptimizers
  */
 class ITK_EXPORT LBFGSBOptimizerHelper;
 
@@ -56,7 +56,7 @@ class ITK_EXPORT LBFGSBOptimizerHelper;
  * Vol 23, Num. 4, pp. 550 - 560.
  *
  * \ingroup Numerics Optimizers
- * \ingroup ITK-Optimizers
+ * \ingroup ITKOptimizers
  */
 class ITK_EXPORT LBFGSBOptimizer:
   public SingleValuedNonLinearVnlOptimizer

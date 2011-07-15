@@ -72,7 +72,7 @@ namespace itk
  * \sa DemonsRegistrationFilter
  * \sa DemonsRegistrationFunction
  * \ingroup DeformableImageRegistration MultiThreaded
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TFixedImage, class TMovingImage, class TDeformationField >
 class ITK_EXPORT DiffeomorphicDemonsRegistrationFilter:
@@ -214,7 +214,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDiffeomorphicDemonsRegistrationFilter.txx"
+#include "itkDiffeomorphicDemonsRegistrationFilter.hxx"
 #endif
 
 #endif

@@ -39,7 +39,7 @@ namespace itk
  * \sa VectorMeanImageFunction
  *
  * \ingroup ImageFunctions
- * \ingroup ITK-ImageFunction
+ * \ingroup ITKImageFunction
  */
 template< class TInputImage, class TCoordRep = float >
 class ITK_EXPORT CovarianceImageFunction:
@@ -144,7 +144,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkCovarianceImageFunction.txx"
+#include "itkCovarianceImageFunction.hxx"
 #endif
 
 #endif

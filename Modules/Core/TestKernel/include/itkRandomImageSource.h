@@ -43,8 +43,8 @@ namespace itk
  * NOTE: To produce deterministic results, set the number of threads
  * to 1.
  *
- * \ingroup DataSources Multithreaded
- * \ingroup ITK-TestKernel
+ * \ingroup DataSources MultiThreaded
+ * \ingroup ITKTestKernel
  *
  * \wiki
  * \wikiexample{SimpleOperations/RandomImageSource,Produce an image of noise}
@@ -149,7 +149,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRandomImageSource.txx"
+#include "itkRandomImageSource.hxx"
 #endif
 
 #endif

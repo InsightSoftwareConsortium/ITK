@@ -45,7 +45,7 @@ namespace Statistics
  * the method, you should first plug in a basic type sample using the
  * SetSample method
  *
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  *
  * \wiki
  * \wikiexample{Statistics/MembershipSample,Create a list of samples with associated class IDs}
@@ -305,7 +305,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMembershipSample.txx"
+#include "itkMembershipSample.hxx"
 #endif
 
 #endif

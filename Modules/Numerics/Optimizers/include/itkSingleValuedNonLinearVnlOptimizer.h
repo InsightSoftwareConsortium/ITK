@@ -31,7 +31,7 @@ namespace itk
  * It is an Adaptor class for optimizers provided by the vnl library
  *
  * \ingroup Numerics Optimizers
- * \ingroup ITK-Optimizers
+ * \ingroup ITKOptimizers
  */
 class ITK_EXPORT SingleValuedNonLinearVnlOptimizer:
   public SingleValuedNonLinearOptimizer
@@ -47,7 +47,7 @@ public:
   itkTypeMacro(SingleValuedNonLinearVnlOptimizer,
                SingleValueNonLinearOptimizer);
 
-  /** Command observer that will interact with the ITK-VNL cost-function
+  /** Command observer that will interact with the ITKVNL cost-function
    * adaptor in order to generate iteration events. This will allow to overcome
    * the limitation of VNL optimizers not offering callbacks for every
    * iteration */

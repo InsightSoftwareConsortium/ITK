@@ -52,7 +52,7 @@ namespace itk
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
  * \ingroup GeometricTransforms
- * \ingroup ITK-ImageGrid
+ * \ingroup ITKImageGrid
  * \sa WrapPadImageFilter, MirrorPadImageFilter, ConstantPadImageFilter, ZeroFluxNeumannBoundaryCondition
  */
 template< class TInputImage, class TOutputImage >
@@ -142,7 +142,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkZeroFluxNeumannPadImageFilter.txx"
+#include "itkZeroFluxNeumannPadImageFilter.hxx"
 #endif
 
 #endif

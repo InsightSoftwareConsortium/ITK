@@ -32,7 +32,7 @@ namespace Functor
    * allows an accessor to be used as functor in a UnaryFunctorImageFilter,
    * BinaryFunctorImageFilter, TernaryFunctorImageFilter, or
    * NaryFunctionImageFilter.
-   * \ingroup ITK-ImageIntensity
+   * \ingroup ITKImageIntensity
    */
 template< class TInput, class TAccessor >
 class AccessorFunctor
@@ -116,8 +116,8 @@ private:
  * RGB vector. See itk::DataAccessor for performing simple cast
  * operations.
  *
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup IntensityImageFilters  MultiThreaded
+ * \ingroup ITKImageIntensity
  */
 template< class TInputImage, class TOutputImage, class TAccessor >
 class ITK_EXPORT AdaptImageFilter:

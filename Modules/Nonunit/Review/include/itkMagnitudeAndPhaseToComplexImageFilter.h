@@ -32,7 +32,7 @@ namespace itk
  * The filter expect all images to have the same dimension
  * (e.g. all 2D, or all 3D, or all ND)
  *
- * \ingroup IntensityImageFilters Multithreaded
+ * \ingroup IntensityImageFilters MultiThreaded
  *
  * \weakgroup FourierTransform
  *
@@ -48,7 +48,7 @@ namespace itk
  * http://hdl.handle.net/1926/326
  *
  * \sa RealAndImaginaryToComplexImageFilter
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 namespace Functor
 {

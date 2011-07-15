@@ -31,7 +31,7 @@ namespace bio
  * \brief Non-templated Base class from which the templated Cell classes will be derived.
  * 
  * Derived classes are instantiated for a specific space dimension.
- * \ingroup ITK-BioCell
+ * \ingroup ITKBioCell
  */
 class ITK_EXPORT CellBase
 {

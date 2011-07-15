@@ -35,7 +35,7 @@ template< class TInputImage, class TOutputImage, class TKernel > class KernelIma
  * The SetBoundary facility isn't necessary for operation of the
  * anchor method but is included for compatability with other
  * morphology classes in itk.
- * \ingroup ITK-MathematicalMorphology
+ * \ingroup ITKMathematicalMorphology
  */
 template< class TImage, class TKernel, class TFunction1 >
 class ITK_EXPORT VanHerkGilWermanErodeDilateImageFilter:
@@ -100,7 +100,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVanHerkGilWermanErodeDilateImageFilter.txx"
+#include "itkVanHerkGilWermanErodeDilateImageFilter.hxx"
 #endif
 
 #endif

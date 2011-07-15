@@ -41,7 +41,7 @@ namespace itk
  *
  * \ingroup RegistrationMetrics
  *
- * \ingroup ITK-RegistrationCommon
+ * \ingroup ITKRegistrationCommon
  */
 
 template< class TFixedPointSet,  class TMovingImage >
@@ -195,7 +195,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPointSetToImageMetric.txx"
+#include "itkPointSetToImageMetric.hxx"
 #endif
 
 #endif

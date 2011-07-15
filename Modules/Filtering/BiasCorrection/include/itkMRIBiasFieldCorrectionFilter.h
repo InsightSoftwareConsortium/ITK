@@ -41,7 +41,7 @@ namespace itk
  * This class is templated over the type of the input image (TImage),
  * the image mask (which tells which pixels in the input image should be
  * included for energy value calculation), and the bias field (TBiasField).
- * \ingroup ITK-BiasCorrection
+ * \ingroup ITKBiasCorrection
  */
 template< class TImage, class TImageMask, class TBiasField >
 class MRIBiasEnergyFunction:public SingleValuedCostFunction
@@ -217,7 +217,7 @@ private:
  * "Evaluation of 2D/3D bias correction with 1+1ES-optimization"
  * Martin Styner, Prof. Dr. G. Gerig (IKT, BIWI, ETH Zuerich), TR-197
  * (http://www.cs.unc.edu/~styner/docs/StynerTR97.pdf)
- * \ingroup ITK-BiasCorrection
+ * \ingroup ITKBiasCorrection
  */
 template< class TInputImage, class TOutputImage, class TMaskImage >
 class ITK_EXPORT MRIBiasFieldCorrectionFilter:
@@ -601,7 +601,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMRIBiasFieldCorrectionFilter.txx"
+#include "itkMRIBiasFieldCorrectionFilter.hxx"
 #endif
 
 #endif

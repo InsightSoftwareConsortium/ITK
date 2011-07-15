@@ -53,7 +53,7 @@ namespace itk
  * \author Luca Antiga Ph.D.  Biomedical Technologies Laboratory,
  *                            Bioengineering Deparment, Mario Negri Institute, Italy.
  *
- * \ingroup ITK-FastMarching
+ * \ingroup ITKFastMarching
  */
 template<
   class TLevelSet,
@@ -224,7 +224,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFastMarchingUpwindGradientImageFilter.txx"
+#include "itkFastMarchingUpwindGradientImageFilter.hxx"
 #endif
 
 #endif

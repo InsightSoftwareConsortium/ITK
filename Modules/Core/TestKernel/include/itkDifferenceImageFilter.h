@@ -33,8 +33,8 @@ namespace itk
  * their values with the pixel values in the neighborhood of the homologous
  * pixel in the other image.
  *
- * \ingroup IntensityImageFilters   Multithreaded
- * \ingroup ITK-TestKernel
+ * \ingroup IntensityImageFilters   MultiThreaded
+ * \ingroup ITKTestKernel
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT DifferenceImageFilter:
@@ -149,7 +149,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkDifferenceImageFilter.txx"
+#include "itkDifferenceImageFilter.hxx"
 #endif
 
 #endif

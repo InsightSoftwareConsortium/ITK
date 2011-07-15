@@ -54,7 +54,7 @@ namespace itk
  * \ingroup ImageFeatureExtraction
  * \sa LineSpatialObject
  *
- * \ingroup ITK-ImageFeature
+ * \ingroup ITKImageFeature
  *
  * \wiki
  * \wikiexample{Conversions/HoughTransform2DLinesImageFilter,HoughTransform2DLinesImageFilter}
@@ -200,7 +200,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkHoughTransform2DLinesImageFilter.txx"
+#include "itkHoughTransform2DLinesImageFilter.hxx"
 #endif
 
 #endif

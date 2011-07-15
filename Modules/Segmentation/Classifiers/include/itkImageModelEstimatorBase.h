@@ -57,7 +57,7 @@ namespace itk
  * by the membership calculator.
  *
  * \ingroup ClassificationFilters
- * \ingroup ITK-Classifiers
+ * \ingroup ITKClassifiers
  */
 template< class TInputImage,
           class TMembershipFunction >
@@ -156,7 +156,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageModelEstimatorBase.txx"
+#include "itkImageModelEstimatorBase.hxx"
 #endif
 
 #endif

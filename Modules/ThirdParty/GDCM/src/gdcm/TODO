@@ -97,7 +97,7 @@ http://blogs.msdn.com/vcblog/archive/2007/10/12/how-to-redistribute-the-visual-c
 
 -----------------------------------------------------------------------
 TODO:
-/home/mmalaterre/Creatis/gdcmDataExtra/gdcmSampleData/images_of_interest/ITK-GDCM-1.2.2.saysExplicitVR-butIsImplicitVR.dcm
+/home/mmalaterre/Creatis/gdcmDataExtra/gdcmSampleData/images_of_interest/ITKGDCM-1.2.2.saysExplicitVR-butIsImplicitVR.dcm
 -----------------------------------------------------------------------
 ZSpacing for RTDoseStorage is not handled properly:
 bin/gdcmvtkGDCMTests TestvtkGDCMImageWriter BogugsItemAndSequenceLengthCorrected.dcm

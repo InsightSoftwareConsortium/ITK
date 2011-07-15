@@ -40,8 +40,8 @@ namespace itk
  *
  * Where "^" is the boolean XOR operator in C++.
  *
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup IntensityImageFilters  MultiThreaded
+ * \ingroup ITKImageIntensity
  *
  * \wiki
  * \wikiexample{ImageProcessing/XorImageFilter,Binary XOR (exclusive OR) two images}

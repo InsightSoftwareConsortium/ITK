@@ -1,5 +1,5 @@
 itk_module_test()
-set(ITK-ImageGridTests
+set(ITKImageGridTests
 itkBasicArchitectureTest.cxx
 itkChangeInformationImageFilterTest.cxx
 itkConstantPadImageTest.cxx
@@ -45,95 +45,95 @@ itkShrinkImageTest.cxx
 itkZeroFluxNeumannPadImageFilterTest.cxx
 )
 
-CreateTestDriver(ITK-ImageGrid  "${ITK-ImageGrid-Test_LIBRARIES}" "${ITK-ImageGridTests}")
+CreateTestDriver(ITKImageGrid  "${ITKImageGrid-Test_LIBRARIES}" "${ITKImageGridTests}")
 
 itk_add_test(NAME itkImageGridHeaderTest
-      COMMAND ITK-ImageGridTestDriver itkImageGridHeaderTest)
+      COMMAND ITKImageGridTestDriver itkImageGridHeaderTest)
 itk_add_test(NAME itkBasicArchitectureTest
-      COMMAND ITK-ImageGridTestDriver itkBasicArchitectureTest)
+      COMMAND ITKImageGridTestDriver itkBasicArchitectureTest)
 itk_add_test(NAME itkChangeInformationImageFilterTest
-      COMMAND ITK-ImageGridTestDriver itkChangeInformationImageFilterTest)
+      COMMAND ITKImageGridTestDriver itkChangeInformationImageFilterTest)
 itk_add_test(NAME itkConstantPadImageTest
-      COMMAND ITK-ImageGridTestDriver itkConstantPadImageTest)
+      COMMAND ITKImageGridTestDriver itkConstantPadImageTest)
 itk_add_test(NAME itkCyclicReferences
-      COMMAND ITK-ImageGridTestDriver itkCyclicReferences)
+      COMMAND ITKImageGridTestDriver itkCyclicReferences)
 itk_add_test(NAME itkInterpolateImagePointsFilterTest
-      COMMAND ITK-ImageGridTestDriver itkInterpolateImagePointsFilterTest)
+      COMMAND ITKImageGridTestDriver itkInterpolateImagePointsFilterTest)
 itk_add_test(NAME itkCropImageFilterTest
-      COMMAND ITK-ImageGridTestDriver itkCropImageFilterTest)
+      COMMAND ITKImageGridTestDriver itkCropImageFilterTest)
 itk_add_test(NAME itkCropImageFilter3DTest
-      COMMAND ITK-ImageGridTestDriver itkCropImageFilter3DTest)
+      COMMAND ITKImageGridTestDriver itkCropImageFilter3DTest)
 itk_add_test(NAME itkFlipImageFilterTest
-      COMMAND ITK-ImageGridTestDriver itkFlipImageFilterTest)
+      COMMAND ITKImageGridTestDriver itkFlipImageFilterTest)
 itk_add_test(NAME itkExpandImageFilterTest
-      COMMAND ITK-ImageGridTestDriver itkExpandImageFilterTest)
+      COMMAND ITKImageGridTestDriver itkExpandImageFilterTest)
 itk_add_test(NAME itkRegionOfInterestImageFilterTest
-      COMMAND ITK-ImageGridTestDriver itkRegionOfInterestImageFilterTest)
+      COMMAND ITKImageGridTestDriver itkRegionOfInterestImageFilterTest)
 itk_add_test(NAME itkBSplineUpsampleImageFilterTest
-      COMMAND ITK-ImageGridTestDriver itkBSplineUpsampleImageFilterTest
+      COMMAND ITKImageGridTestDriver itkBSplineUpsampleImageFilterTest
               ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd ${ITK_TEST_OUTPUT_DIR}/itkBSplineUpsampleImageFilterTest1.mha 3)
 itk_add_test(NAME itkBSplineResampleImageFilterTest
-      COMMAND ITK-ImageGridTestDriver itkBSplineResampleImageFilterTest)
+      COMMAND ITKImageGridTestDriver itkBSplineResampleImageFilterTest)
 itk_add_test(NAME itkBSplineResampleImageFunctionTest
-      COMMAND ITK-ImageGridTestDriver itkBSplineResampleImageFunctionTest)
+      COMMAND ITKImageGridTestDriver itkBSplineResampleImageFunctionTest)
 itk_add_test(NAME itkBSplineInterpolateImageFunctionTest
-      COMMAND ITK-ImageGridTestDriver itkBSplineInterpolateImageFunctionTest)
+      COMMAND ITKImageGridTestDriver itkBSplineInterpolateImageFunctionTest)
 itk_add_test(NAME itkWarpImageFilterTest2
-      COMMAND ITK-ImageGridTestDriver itkWarpImageFilterTest2)
+      COMMAND ITKImageGridTestDriver itkWarpImageFilterTest2)
 itk_add_test(NAME itkBSplineDecompositionImageFilterTest
-      COMMAND ITK-ImageGridTestDriver itkBSplineDecompositionImageFilterTest)
+      COMMAND ITKImageGridTestDriver itkBSplineDecompositionImageFilterTest)
 itk_add_test(NAME itkBSplineDownsampleImageFilterTest
-      COMMAND ITK-ImageGridTestDriver itkBSplineDownsampleImageFilterTest
+      COMMAND ITKImageGridTestDriver itkBSplineDownsampleImageFilterTest
               ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd ${ITK_TEST_OUTPUT_DIR}/itkBSplineDownsampleImageFilterTest1.mha 3)
 itk_add_test(NAME itkTileImageFilterTest
-      COMMAND ITK-ImageGridTestDriver
+      COMMAND ITKImageGridTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/TileImageFilterTest4.png
               ${ITK_TEST_OUTPUT_DIR}/TileImageFilterTest4.png
     itkTileImageFilterTest 1 2 0 ${ITK_DATA_ROOT}/Input/STAPLE1.png ${ITK_DATA_ROOT}/Input/STAPLE2.png ${ITK_DATA_ROOT}/Input/STAPLE3.png ${ITK_DATA_ROOT}/Input/STAPLE4.png ${ITK_DATA_ROOT}/Input/Shapes.png ${ITK_DATA_ROOT}/Input/Spots.png ${ITK_DATA_ROOT}/Input/SpotsInverted.png ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSliceInitialLevelSet.png ${ITK_DATA_ROOT}/Input/cake_easy.png ${ITK_DATA_ROOT}/Input/cake_hard.png ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Input/sf4.png ${ITK_DATA_ROOT}/Input/smooth_circle.png ${ITK_DATA_ROOT}/Input/smooth_square.png ${ITK_TEST_OUTPUT_DIR}/TileImageFilterTest%d.png)
 itk_add_test(NAME itkInterpolateImageFilterTest
-      COMMAND ITK-ImageGridTestDriver itkInterpolateImageFilterTest)
+      COMMAND ITKImageGridTestDriver itkInterpolateImageFilterTest)
 itk_add_test(NAME itkPasteImageFilterTest
-      COMMAND ITK-ImageGridTestDriver
+      COMMAND ITKImageGridTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/PasteImageFilterTest.png
               ${ITK_TEST_OUTPUT_DIR}/PasteImageFilterTest.png
     itkPasteImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Input/cake_easy.png ${ITK_TEST_OUTPUT_DIR}/PasteImageFilterTest.png)
 itk_add_test(NAME itkVectorResampleImageFilterTest
-      COMMAND ITK-ImageGridTestDriver
+      COMMAND ITKImageGridTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/VectorResampleImageFilterTest.png
               ${ITK_TEST_OUTPUT_DIR}/VectorResampleImageFilterTest.png
     itkVectorResampleImageFilterTest ${ITK_TEST_OUTPUT_DIR}/VectorResampleImageFilterTest.png)
 itk_add_test(NAME itkPermuteAxesImageFilterTest
-      COMMAND ITK-ImageGridTestDriver itkPermuteAxesImageFilterTest)
+      COMMAND ITKImageGridTestDriver itkPermuteAxesImageFilterTest)
 itk_add_test(NAME itkOrientedImage2DTest01
-      COMMAND ITK-ImageGridTestDriver itkOrientedImage2DTest
+      COMMAND ITKImageGridTestDriver itkOrientedImage2DTest
               ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20DirectionPlus30.mhd 0.000 0.000 191.392 110.500 -128.500 222.569 4.000 -8.000 7.4641 -4.9282)
 itk_add_test(NAME itkOrientedImage3DTest01
-      COMMAND ITK-ImageGridTestDriver itkOrientedImage3DTest
+      COMMAND ITKImageGridTestDriver itkOrientedImage3DTest
               ${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection.mhd 0.000 0.000 0.000 166.277 -96.000 0.000 124.000 214.774 0.000 0.000 0.000 168.000 0.125 -4.125 9.000 -1.95425 -3.63485 9.000)
 itk_add_test(NAME itkOrientedImageAdaptorTest
-      COMMAND ITK-ImageGridTestDriver itkOrientedImageAdaptorTest)
+      COMMAND ITKImageGridTestDriver itkOrientedImageAdaptorTest)
 itk_add_test(NAME itkOrientedImageProfileTest1
-      COMMAND ITK-ImageGridTestDriver itkOrientedImageProfileTest1)
+      COMMAND ITKImageGridTestDriver itkOrientedImageProfileTest1)
 itk_add_test(NAME itkOrientedImageProfileTest2
-      COMMAND ITK-ImageGridTestDriver itkOrientedImageProfileTest2)
+      COMMAND ITKImageGridTestDriver itkOrientedImageProfileTest2)
 itk_add_test(NAME itkOrientedImageProfileTest3
-      COMMAND ITK-ImageGridTestDriver itkOrientedImageProfileTest3)
+      COMMAND ITKImageGridTestDriver itkOrientedImageProfileTest3)
 itk_add_test(NAME itkOrientImageFilterTest
-      COMMAND ITK-ImageGridTestDriver itkOrientImageFilterTest)
+      COMMAND ITKImageGridTestDriver itkOrientImageFilterTest)
 itk_add_test(NAME itkOrientImageFilterTest2
-      COMMAND ITK-ImageGridTestDriver itkOrientImageFilterTest2)
+      COMMAND ITKImageGridTestDriver itkOrientImageFilterTest2)
 itk_add_test(NAME itkWarpImageFilterTest
-      COMMAND ITK-ImageGridTestDriver itkWarpImageFilterTest)
+      COMMAND ITKImageGridTestDriver itkWarpImageFilterTest)
 itk_add_test(NAME itkWarpVectorImageFilterTest
-      COMMAND ITK-ImageGridTestDriver itkWarpVectorImageFilterTest)
+      COMMAND ITKImageGridTestDriver itkWarpVectorImageFilterTest)
 itk_add_test(NAME itkWrapPadImageTest
-      COMMAND ITK-ImageGridTestDriver itkWrapPadImageTest)
+      COMMAND ITKImageGridTestDriver itkWrapPadImageTest)
 itk_add_test(NAME itkMirrorPadImageTest
-      COMMAND ITK-ImageGridTestDriver itkMirrorPadImageTest)
+      COMMAND ITKImageGridTestDriver itkMirrorPadImageTest)
 itk_add_test(NAME itkResampleImageTest
-      COMMAND ITK-ImageGridTestDriver itkResampleImageTest)
+      COMMAND ITKImageGridTestDriver itkResampleImageTest)
 itk_add_test(NAME itkResampleImageTest2
-      COMMAND ITK-ImageGridTestDriver
+      COMMAND ITKImageGridTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ResampleImageTest2.png
               ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2a.png
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ResampleImageTest2.png
@@ -149,17 +149,17 @@ itk_add_test(NAME itkResampleImageTest2
                           ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2c.png
                           ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2d.png)
 itk_add_test(NAME itkResamplePhasedArray3DSpecialCoordinatesImageTest
-      COMMAND ITK-ImageGridTestDriver itkResamplePhasedArray3DSpecialCoordinatesImageTest)
+      COMMAND ITKImageGridTestDriver itkResamplePhasedArray3DSpecialCoordinatesImageTest)
 itk_add_test(NAME itkPushPopTileImageFilterTest
-      COMMAND ITK-ImageGridTestDriver
+      COMMAND ITKImageGridTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/PushPopTileImageFilterTest.png
               ${ITK_TEST_OUTPUT_DIR}/PushPopTileImageFilterTest.png
     itkPushPopTileImageFilterTest ${ITK_DATA_ROOT}/Input/Shapes.png ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png ${ITK_DATA_ROOT}/Input/cake_easy.png ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/PushPopTileImageFilterTest.png)
 itk_add_test(NAME itkShrinkImagePreserveObjectPhysicalLocations
-      COMMAND ITK-ImageGridTestDriver itkShrinkImagePreserveObjectPhysicalLocations)
+      COMMAND ITKImageGridTestDriver itkShrinkImagePreserveObjectPhysicalLocations)
 itk_add_test(NAME itkShrinkImageStreamingTest
-      COMMAND ITK-ImageGridTestDriver itkShrinkImageStreamingTest)
+      COMMAND ITKImageGridTestDriver itkShrinkImageStreamingTest)
 itk_add_test(NAME itkShrinkImageTest
-      COMMAND ITK-ImageGridTestDriver itkShrinkImageTest)
+      COMMAND ITKImageGridTestDriver itkShrinkImageTest)
 itk_add_test(NAME itkZeroFluxNeumannPadImageFilterTest
-      COMMAND ITK-ImageGridTestDriver itkZeroFluxNeumannPadImageFilterTest)
+      COMMAND ITKImageGridTestDriver itkZeroFluxNeumannPadImageFilterTest)

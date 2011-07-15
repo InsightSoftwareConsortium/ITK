@@ -36,7 +36,7 @@ namespace itk
  * of the output data type (for instance, 255 for uchars).
  *
  * \ingroup SpatialFunctions
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< typename TOutput = double,
           unsigned int VImageDimension = 3,
@@ -130,7 +130,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkGaussianDerivativeSpatialFunction.txx"
+#include "itkGaussianDerivativeSpatialFunction.hxx"
 #endif
 
 #endif

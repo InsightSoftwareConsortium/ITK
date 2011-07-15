@@ -48,7 +48,7 @@ namespace itk
  * Ninth International Conference on Computer Aided Systems Theory , pages 48-51, Feb 2003.
  *
  * \ingroup ImageFeatureExtraction
- * \ingroup ITK-DistanceMap
+ * \ingroup ITKDistanceMap
  */
 
 template< class TInputImage, class TOutputImage >
@@ -174,7 +174,7 @@ private:
 } //end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFastChamferDistanceImageFilter.txx"
+#include "itkFastChamferDistanceImageFilter.hxx"
 #endif
 
 #endif

@@ -30,7 +30,7 @@ namespace itk
  * This implementation was contributed as a paper to the Insight Journal
  * http://hdl.handle.net/1926/306
  *
- * \ingroup ITK-QuadEdgeMesh
+ * \ingroup ITKQuadEdgeMesh
  */
 template< typename TInputMesh, typename TOutputMesh >
 class ITK_EXPORT QuadEdgeMeshToQuadEdgeMeshFilter:
@@ -290,7 +290,7 @@ void CopyMeshToMeshPoints(const TInputMesh *in, TOutputMesh *out)
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkQuadEdgeMeshToQuadEdgeMeshFilter.txx"
+#include "itkQuadEdgeMeshToQuadEdgeMeshFilter.hxx"
 #endif
 
 #endif

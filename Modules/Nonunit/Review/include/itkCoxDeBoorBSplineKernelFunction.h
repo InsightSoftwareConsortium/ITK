@@ -54,7 +54,7 @@ namespace itk
  * \sa KernelFunction
  *
  * \ingroup Functions
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< unsigned int VSplineOrder = 3 >
 class ITK_EXPORT CoxDeBoorBSplineKernelFunction:
@@ -198,7 +198,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCoxDeBoorBSplineKernelFunction.txx"
+#include "itkCoxDeBoorBSplineKernelFunction.hxx"
 #endif
 
 #endif

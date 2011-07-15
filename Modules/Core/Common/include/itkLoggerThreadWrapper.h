@@ -36,7 +36,7 @@ namespace itk
  *                     ISIS Center, Georgetown University.
  *
  * \ingroup OSSystemObjects LoggingObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 // MSVS6 can't do this type of nested template
@@ -131,7 +131,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLoggerThreadWrapper.txx"
+#include "itkLoggerThreadWrapper.hxx"
 #endif
 
 #endif

@@ -35,7 +35,7 @@ namespace itk
  * Transform.
  *
  * \ingroup RegistrationMetrics
- * \ingroup ITK-RegistrationCommon
+ * \ingroup ITKRegistrationCommon
  */
 template< class TFixedPointSet, class TMovingImage >
 class ITK_EXPORT MeanSquaresPointSetToImageMetric:
@@ -96,7 +96,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMeanSquaresPointSetToImageMetric.txx"
+#include "itkMeanSquaresPointSetToImageMetric.hxx"
 #endif
 
 #endif

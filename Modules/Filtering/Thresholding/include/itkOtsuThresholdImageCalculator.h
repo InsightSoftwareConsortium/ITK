@@ -38,7 +38,7 @@ namespace itk
  * types.
  *
  * \ingroup Operators
- * \ingroup ITK-Thresholding
+ * \ingroup ITKThresholding
  */
 template< class TInputImage >
 class ITK_EXPORT OtsuThresholdImageCalculator:public Object
@@ -106,7 +106,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkOtsuThresholdImageCalculator.txx"
+#include "itkOtsuThresholdImageCalculator.hxx"
 #endif
 
 #endif

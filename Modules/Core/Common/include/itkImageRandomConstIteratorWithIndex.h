@@ -106,7 +106,7 @@ namespace itk
  * \sa ShapedNeighborhoodIterator  \sa SliceIterator
  * \sa ImageConstIteratorWithIndex
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{Iterators/ImageRandomConstIteratorWithIndex,Randomly select pixels from a region of an image}
@@ -220,7 +220,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageRandomConstIteratorWithIndex.txx"
+#include "itkImageRandomConstIteratorWithIndex.hxx"
 #endif
 
 #endif

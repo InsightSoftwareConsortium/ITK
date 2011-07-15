@@ -1,7 +1,7 @@
-itk_module(ITK-IO-XML
+itk_module(ITKIOXML
   DEPENDS
-    ITK-Expat
-    ITK-IO-Base
+    ITKExpat
+    ITKIOBase
   TEST_DEPENDS
-    ITK-TestKernel
+    ITKTestKernel
 )

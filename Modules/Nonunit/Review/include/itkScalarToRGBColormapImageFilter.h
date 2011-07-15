@@ -66,8 +66,8 @@ namespace itk
  *
  * \sa BinaryFunctionImageFilter TernaryFunctionImageFilter
  *
- * \ingroup   IntensityImageFilters     Multithreaded
- * \ingroup ITK-Review
+ * \ingroup   IntensityImageFilters     MultiThreaded
+ * \ingroup ITKReview
  *
  * \wiki
  * \wikiexample{SimpleOperations/ScalarToRGBColormapImageFilter,Apply a color map to an image}
@@ -167,7 +167,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkScalarToRGBColormapImageFilter.txx"
+#include "itkScalarToRGBColormapImageFilter.hxx"
 #endif
 
 #endif

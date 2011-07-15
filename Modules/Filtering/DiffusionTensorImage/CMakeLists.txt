@@ -1,2 +1,2 @@
-project(ITK-DiffusionTensorImage)
+project(ITKDiffusionTensorImage)
 itk_module_impl()

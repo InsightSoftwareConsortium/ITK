@@ -60,7 +60,7 @@ namespace itk
  * \sa AutoPointerDataObjectDecorator
  * \ingroup ITKSystemObjects
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class T >
 class ITK_EXPORT SimpleDataObjectDecorator:public DataObject
@@ -119,7 +119,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkSimpleDataObjectDecorator.txx"
+#include "itkSimpleDataObjectDecorator.hxx"
 #endif
 
 #endif

@@ -21,7 +21,7 @@
 
 #include <iostream>
 
-#include "itkRawImageIO.txx"
+#include "itkRawImageIO.hxx"
 
 
 

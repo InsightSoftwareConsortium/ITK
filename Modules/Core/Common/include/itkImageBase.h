@@ -35,6 +35,8 @@
 #include "itkOffset.h"
 #include "itkFixedArray.h"
 #include "itkImageHelper.h"
+//HACK:  vnl/vnl_matrix_fixed.txx is needed here?
+//      to avoid undefined symbol vnl_matrix_fixed<double, 8u, 8u>::set_identity()", referenced from
 #include "vnl/vnl_matrix_fixed.txx"
 
 #include "itkImageRegion.h"
@@ -82,7 +84,7 @@ struct GetImageDimension {
  * \ingroup ImageObjects
  * \ingroup ITKSystemObjects
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< unsigned int VImageDimension = 2 >
 class ITK_EXPORT ImageBase:public DataObject
@@ -668,7 +670,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkImageBase.txx"
+#include "itkImageBase.hxx"
 #endif
 
 #endif

@@ -36,7 +36,7 @@ namespace fem
  * and hexahedral elements in 3D. The resulting meshes can be used with
  * specific elements for solving membrane or linear elasticity problems.
  *
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 
 template <class TInputImage>
@@ -164,7 +164,7 @@ private:
 }  // end namespace itk::fem
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageToRectilinearFEMObjectFilter.txx"
+#include "itkImageToRectilinearFEMObjectFilter.hxx"
 #endif
 
 #endif // #ifndef __itkImageToRectilinearFEMObjectFilter_h

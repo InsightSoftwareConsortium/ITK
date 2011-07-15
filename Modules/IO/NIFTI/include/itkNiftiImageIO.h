@@ -42,7 +42,7 @@ namespace itk
  * Nifti IMAGE FILE FORMAT - As much information as I can determine from sourceforge.net/projects/Niftilib
  *
  * \ingroup IOFilters
- * \ingroup ITK-IO-NIFTI
+ * \ingroup ITKIONIFTI
  */
 class ITK_EXPORT NiftiImageIO:public ImageIOBase
 {

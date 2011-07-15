@@ -72,7 +72,7 @@ namespace itk
  * \sa SymmetricSecondRankTensor
  *
  * \ingroup ImageObjects   TensorObjects    Geometry
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 template< typename TComponent >
@@ -157,7 +157,7 @@ public:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkDiffusionTensor3D.txx"
+#include "itkDiffusionTensor3D.hxx"
 #endif
 
 #endif

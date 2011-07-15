@@ -40,7 +40,7 @@ namespace itk {
  *
  * \sa ShapeLabelObject, RelabelComponentImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template<class TImage, class TAttributeAccessor=
     typename Functor::AttributeLabelObjectAccessor< typename TImage::LabelObjectType > >
@@ -150,7 +150,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAttributeUniqueLabelMapFilter.txx"
+#include "itkAttributeUniqueLabelMapFilter.hxx"
 #endif
 
 #endif

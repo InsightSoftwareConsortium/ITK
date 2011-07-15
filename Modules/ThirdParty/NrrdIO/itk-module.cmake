@@ -1,4 +1,4 @@
-itk_module(ITK-NrrdIO
+itk_module(ITKNrrdIO
   DEPENDS
-    ITK-ZLIB
+    ITKZLIB
 )

@@ -129,7 +129,7 @@ namespace itk
  * \sa Neighborhood
  * \sa NeighborhoodOperator
  * \sa NeighborhoodIterator
- * \ingroup ITK-ImageGradient
+ * \ingroup ITKImageGradient
  */
 template< typename TInputImage,
           typename TRealType = float,
@@ -483,7 +483,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVectorGradientMagnitudeImageFilter.txx"
+#include "itkVectorGradientMagnitudeImageFilter.hxx"
 #endif
 
 #endif

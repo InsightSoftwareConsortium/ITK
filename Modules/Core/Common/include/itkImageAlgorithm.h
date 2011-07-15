@@ -29,7 +29,7 @@ namespace itk
  * special optimization techniques to implement enhanced versions of
  * the method.
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 struct ImageAlgorithm
 {
@@ -59,7 +59,7 @@ struct ImageAlgorithm
 
 
 #if ITK_TEMPLATE_TXX
-#include "itkImageAlgorithm.txx"
+#include "itkImageAlgorithm.hxx"
 #endif
 
 

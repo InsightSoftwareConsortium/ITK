@@ -33,7 +33,7 @@ namespace itk
  * \ingroup SpatialFunctions
  *
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 template< unsigned int VDimension = 3, typename TInput = Point< double, 3 > >
@@ -115,7 +115,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkTorusInteriorExteriorSpatialFunction.txx"
+#include "itkTorusInteriorExteriorSpatialFunction.hxx"
 #endif
 
 #endif

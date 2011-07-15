@@ -51,7 +51,7 @@ namespace itk
  *
  * \sa ShapeLabelObject, LabelShapeOpeningImageFilter, BinaryStatisticsOpeningImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  *
  * \wiki
  * \wikiexample{ImageProcessing/BinaryImageToShapeLabelMapFilter,Label binary regions in an image and get their properties}
@@ -177,7 +177,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryImageToShapeLabelMapFilter.txx"
+#include "itkBinaryImageToShapeLabelMapFilter.hxx"
 #endif
 
 #endif

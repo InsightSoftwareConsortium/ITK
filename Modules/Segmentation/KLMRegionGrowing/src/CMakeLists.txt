@@ -1,10 +1,10 @@
-set(ITK-KLMRegionGrowing_SRC
+set(ITKKLMRegionGrowing_SRC
 itkSegmentationRegion.cxx
 itkKLMSegmentationRegion.cxx
 itkSegmentationBorder.cxx
 itkKLMSegmentationBorder.cxx
 )
 
-add_library(ITK-KLMRegionGrowing ${ITK-KLMRegionGrowing_SRC})
-target_link_libraries(ITK-KLMRegionGrowing  ${ITK-Common_LIBRARIES})
-itk_module_target(ITK-KLMRegionGrowing)
+add_library(ITKKLMRegionGrowing ${ITKKLMRegionGrowing_SRC})
+target_link_libraries(ITKKLMRegionGrowing  ${ITKCommon_LIBRARIES})
+itk_module_target(ITKKLMRegionGrowing)

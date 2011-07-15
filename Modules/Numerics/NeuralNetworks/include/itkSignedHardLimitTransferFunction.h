@@ -27,7 +27,7 @@ namespace Statistics
 /** \class SignedHardLimitTransferFunction
  * \brief This is the itkSignedHardLimitTransferFunction class.
  *
- * \ingroup ITK-NeuralNetworks
+ * \ingroup ITKNeuralNetworks
  */
 
 template<class ScalarType>
@@ -66,7 +66,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-  #include "itkSignedHardLimitTransferFunction.txx"
+  #include "itkSignedHardLimitTransferFunction.hxx"
 #endif
 
 

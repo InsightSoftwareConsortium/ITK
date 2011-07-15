@@ -58,7 +58,7 @@ namespace itk
  * \sa LabelMapFilter, AttributeLabelObject
  * \ingroup DataRepresentation
  * \ingroup LabeledImageObject
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TLabel, unsigned int VImageDimension >
 class ITK_EXPORT LabelObject:public LightObject
@@ -175,7 +175,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLabelObject.txx"
+#include "itkLabelObject.hxx"
 #endif
 
 #endif

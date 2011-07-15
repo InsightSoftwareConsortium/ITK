@@ -32,7 +32,7 @@ namespace itk
  * \ingroup SpatialFunctions
  *
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 template< unsigned int VImageDimension = 3, typename TInput = Point< double, 3 > >
@@ -144,7 +144,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkFrustumSpatialFunction.txx"
+#include "itkFrustumSpatialFunction.hxx"
 #endif
 
 #endif

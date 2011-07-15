@@ -41,7 +41,7 @@ namespace itk
  *
  * \sa MorphologyImageFilter, GrayscaleFunctionDilateImageFilter, BinaryDilateImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
- * \ingroup ITK-MathematicalMorphology
+ * \ingroup ITKMathematicalMorphology
  */
 
 template< class TInputImage, class TOutputImage, class TKernel >
@@ -127,7 +127,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBasicDilateImageFilter.txx"
+#include "itkBasicDilateImageFilter.hxx"
 #endif
 
 #endif

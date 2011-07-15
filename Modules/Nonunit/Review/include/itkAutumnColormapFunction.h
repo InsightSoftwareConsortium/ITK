@@ -37,7 +37,7 @@ namespace Function
  * http://www.insight-journal.org/browse/publication/285
  * http://hdl.handle.net/1926/1452
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TScalar, class TRGBPixel >
 class ITK_EXPORT AutumnColormapFunction:
@@ -70,7 +70,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAutumnColormapFunction.txx"
+#include "itkAutumnColormapFunction.hxx"
 #endif
 
 #endif

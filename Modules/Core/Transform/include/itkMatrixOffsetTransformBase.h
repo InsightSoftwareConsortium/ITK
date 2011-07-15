@@ -470,7 +470,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkMatrixOffsetTransformBase.txx"
+#include "itkMatrixOffsetTransformBase.hxx"
 #endif
 
 #endif /* __itkMatrixOffsetTransformBase_h */

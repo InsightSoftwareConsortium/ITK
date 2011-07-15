@@ -27,7 +27,7 @@ namespace itk
 /** \class SpatialObjectWriter
  *
  * \brief TODO
- * \ingroup ITK-IO-SpatialObjects
+ * \ingroup ITKIOSpatialObjects
  */
 template< unsigned int NDimensions = 3,
           typename PixelType = unsigned char,
@@ -109,7 +109,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSpatialObjectWriter.txx"
+#include "itkSpatialObjectWriter.hxx"
 #endif
 
 #endif // __itkSpatialObjectWriter_h

@@ -45,7 +45,7 @@ namespace itk
  * http://hdl.handle.net/1926/585
  *
  * \ingroup ImageFilters
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TInputImage, class TOutputImage=TInputImage >
 class ITK_EXPORT DirectFourierReconstructionImageToImageFilter:
@@ -186,7 +186,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDirectFourierReconstructionImageToImageFilter.txx"
+#include "itkDirectFourierReconstructionImageToImageFilter.hxx"
 #endif
 
 #endif /* __itkDirectFourierReconstructionImageToImageFilter_h */

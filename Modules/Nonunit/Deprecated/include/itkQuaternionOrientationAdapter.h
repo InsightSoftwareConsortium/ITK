@@ -35,7 +35,7 @@ namespace itk
 {
 /** \class QuaternionOrientationAdapter
  *  \brief converts QuaternionOrientation flags to/from direction cosines
- * \ingroup ITK-Deprecated
+ * \ingroup ITKDeprecated
  */
 namespace QuaternionOrientationAdapterClasses
 {

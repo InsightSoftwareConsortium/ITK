@@ -36,7 +36,7 @@ namespace itk
  * To set up a barrier class, call Initialize(n) where n is the number of
  * waiting threads that will trigger a release of the barrier.
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 class ITKCommon_EXPORT Barrier
   : public LightObject

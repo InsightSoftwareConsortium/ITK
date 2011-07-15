@@ -33,7 +33,7 @@ namespace itk
  *
  * \ingroup ImageIterators
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TImage, class TFunction >
 class ITK_EXPORT FloodFilledFunctionConditionalConstIterator:
@@ -271,7 +271,7 @@ protected: //made protected so other iterators can access
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkFloodFilledFunctionConditionalConstIterator.txx"
+#include "itkFloodFilledFunctionConditionalConstIterator.hxx"
 #endif
 
 #endif

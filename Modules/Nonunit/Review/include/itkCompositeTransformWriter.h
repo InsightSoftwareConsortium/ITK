@@ -83,7 +83,7 @@ namespace itk
  *
  * \sa CompositeTranform, CompositeTransformReader
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template
 <class TScalar = double, unsigned int NDimensions = 3>
@@ -209,7 +209,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCompositeTransformWriter.txx"
+#include "itkCompositeTransformWriter.hxx"
 #endif
 
 #endif // __itkCompositeTransformWriter_h

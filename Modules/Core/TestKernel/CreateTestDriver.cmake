@@ -16,7 +16,7 @@ macro(CreateTestDriver KIT KIT_LIBS KitTests)
     FUNCTION  ProcessArgumentsAndRegisterRequiredFactories
     )
   add_executable(${KIT}TestDriver ${KIT}TestDriver.cxx ${Tests})
-  target_link_libraries(${KIT}TestDriver ${KIT_LIBS} ${ITK-TestKernel_LIBRARIES})
+  target_link_libraries(${KIT}TestDriver ${KIT_LIBS} ${ITKTestKernel_LIBRARIES})
   itk_module_target_label(${KIT}TestDriver)
 endmacro(CreateTestDriver)
 
@@ -30,6 +30,6 @@ macro(CreateTestDriver_SupportBuildInIOFactories KIT KIT_LIBS KitTests)
      FUNCTION  ProcessArgumentsAndRegisterBuiltInFactories
      )
    add_executable(${KIT}TestDriver ${KIT}TestDriver.cxx ${Tests})
-   target_link_libraries(${KIT}TestDriver ${KIT_LIBS} ${ITK-TestKernel_LIBRARIES})
+   target_link_libraries(${KIT}TestDriver ${KIT_LIBS} ${ITKTestKernel_LIBRARIES})
    itk_module_target_label(${KIT}TestDriver)
 endmacro(CreateTestDriver_SupportBuildInIOFactories)

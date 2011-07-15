@@ -41,9 +41,9 @@ namespace itk
  * coordinate axes.
  *
  * \ingroup GeometricTransforms
- * \ingroup Multithreaded
+ * \ingroup MultiThreaded
  * \ingroup Streamed
- * \ingroup ITK-ImageGrid
+ * \ingroup ITKImageGrid
  *
  * \wiki
  * \wikiexample{Images/FlipImageFilter,Flip an image over specified axes}
@@ -138,7 +138,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFlipImageFilter.txx"
+#include "itkFlipImageFilter.hxx"
 #endif
 
 #endif

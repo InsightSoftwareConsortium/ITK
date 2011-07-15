@@ -1,10 +1,10 @@
-itk_module(ITK-IO-Meta
+itk_module(ITKIOMeta
   DEPENDS
-    ITK-MetaIO
-    ITK-IO-Base
+    ITKMetaIO
+    ITKIOBase
   TEST_DEPENDS
-    ITK-TestKernel
-    ITK-Smoothing
+    ITKTestKernel
+    ITKSmoothing
 )
 
-# Extra test dependency of ITK-Smoothing is caused by itkMetaStreamingIOTest.
+# Extra test dependency of ITKSmoothing is caused by itkMetaStreamingIOTest.

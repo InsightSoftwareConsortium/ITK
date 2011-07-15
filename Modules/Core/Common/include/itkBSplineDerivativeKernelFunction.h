@@ -36,7 +36,7 @@ namespace itk
  * \sa KernelFunction
  *
  * \ingroup Functions
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< unsigned int VSplineOrder = 3 >
 class ITK_EXPORT BSplineDerivativeKernelFunction:public KernelFunction

@@ -47,7 +47,7 @@ namespace itk
  * Since RGBPixel is a subclass of Array, you can access its components as:
  * pixel[0], pixel[1], pixel[2]
  * \ingroup ImageObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 template< typename TComponent = unsigned short >
@@ -186,13 +186,13 @@ ITK_EXPORT std::istream & operator>>(std::istream & is,
 // instantiations control of this class, in case the implicit instantiation
 // needs to be disabled.
 //
-// NumericTraits must be included before (optionally) including the .txx file,
-// in case the .txx requires to use NumericTraits.
+// NumericTraits must be included before (optionally) including the .hxx file,
+// in case the .hxx requires to use NumericTraits.
 //
 #include "itkNumericTraitsRGBPixel.h"
 
 #if ITK_TEMPLATE_TXX
-#include "itkRGBPixel.txx"
+#include "itkRGBPixel.hxx"
 #endif
 
 #endif

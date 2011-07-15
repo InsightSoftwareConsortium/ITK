@@ -29,7 +29,7 @@ namespace itk
  * of a sphere, 1 for points outside the sphere
  *
  * \ingroup SpatialFunctions
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< unsigned int VImageDimension = 3, typename TInput = Point< double, VImageDimension > >
 class ITK_EXPORT SphereSpatialFunction:
@@ -98,7 +98,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkSphereSpatialFunction.txx"
+#include "itkSphereSpatialFunction.hxx"
 #endif
 
 #endif

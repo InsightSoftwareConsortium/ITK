@@ -41,7 +41,7 @@ namespace itk
  * \sa ContinuousIndex
  *
  * \ingroup Functions ImageInterpolators
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template<
   class TCoordRep = float,
@@ -152,7 +152,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkBSplineInterpolationWeightFunction.txx"
+#include "itkBSplineInterpolationWeightFunction.hxx"
 #endif
 
 #endif

@@ -56,7 +56,7 @@ namespace itk
  *
  * \ingroup IntensityImageFilters TensorObjects
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_EXPORT HessianToObjectnessMeasureImageFilter:public
@@ -163,7 +163,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkHessianToObjectnessMeasureImageFilter.txx"
+#include "itkHessianToObjectnessMeasureImageFilter.hxx"
 #endif
 
 #endif

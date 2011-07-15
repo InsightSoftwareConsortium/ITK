@@ -123,7 +123,7 @@ namespace itk
  * \par REFERENCE
  * N.J. Tustison and J.C. Gee, "Generalized n-D C^k Scattered Data Approximation
  * with COnfidence Values", Proceedings of the MIAR conference, August 2006.
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 
 template< class TInputPointSet, class TOutputImage >
@@ -442,7 +442,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBSplineScatteredDataPointSetToImageFilter.txx"
+#include "itkBSplineScatteredDataPointSetToImageFilter.hxx"
 #endif
 
 #endif

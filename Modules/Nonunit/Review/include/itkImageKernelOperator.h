@@ -41,7 +41,7 @@ namespace itk
  * \sa Neighborhood
  *
  * \ingroup Operators
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TPixel, unsigned int VDimension = 2,
           class TAllocator = NeighborhoodAllocator< TPixel > >
@@ -106,7 +106,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageKernelOperator.txx"
+#include "itkImageKernelOperator.hxx"
 #endif
 
 #endif

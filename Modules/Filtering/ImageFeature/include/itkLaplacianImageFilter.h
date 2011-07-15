@@ -52,7 +52,7 @@ namespace itk
  * \sa LaplacianOperator
  *
  * \ingroup ImageFeatureExtraction
- * \ingroup ITK-ImageFeature
+ * \ingroup ITKImageFeature
  *
  * \wiki
  * \wikiexample{ImageProcessing/LaplacianImageFilter,Compute the Laplacian of an image}
@@ -153,7 +153,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLaplacianImageFilter.txx"
+#include "itkLaplacianImageFilter.hxx"
 #endif
 
 #endif

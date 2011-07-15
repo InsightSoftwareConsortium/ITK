@@ -28,7 +28,7 @@ namespace Statistics
  * \brief Defines common interfaces for random variate generators.
  *
  * \ingroup Common
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 class ITK_EXPORT RandomVariateGeneratorBase:public Object
 {

@@ -76,7 +76,7 @@ namespace itk
  * \class QuadEdgeMeshBaseIterator
  *
  * \brief Base iterator class for QuadEdgeMesh
- * \ingroup ITK-QuadEdgeMesh
+ * \ingroup ITKQuadEdgeMesh
  */
 template< typename TQuadEdge >
 class ITK_EXPORT QuadEdgeMeshBaseIterator
@@ -235,7 +235,7 @@ protected:
  * \class QuadEdgeMeshIterator
  *
  * \brief Non const iterator for QuadMesh
- * \ingroup ITK-QuadEdgeMesh
+ * \ingroup ITKQuadEdgeMesh
  */
 template< typename TQuadEdge >
 class ITK_EXPORT QuadEdgeMeshIterator:
@@ -263,7 +263,7 @@ public:
  * \class QuadEdgeMeshIteratorGeom
  *
  * \brief Non const geometrical iterator
- * \ingroup ITK-QuadEdgeMesh
+ * \ingroup ITKQuadEdgeMesh
  */
 template< typename TGeometricalQuadEdge >
 class ITK_EXPORT QuadEdgeMeshIteratorGeom:
@@ -288,7 +288,7 @@ public:
  * \class QuadEdgeMeshConstIterator
  *
  * \brief Const iterator for QuadEdgeMesh
- * \ingroup ITK-QuadEdgeMesh
+ * \ingroup ITKQuadEdgeMesh
  */
 template< typename TQuadEdge >
 class ITK_EXPORT QuadEdgeMeshConstIterator:
@@ -325,7 +325,7 @@ public:
  * \class QuadEdgeMeshConstIteratorGeom
  *
  * \brief Const geometrical iterator
- * \ingroup ITK-QuadEdgeMesh
+ * \ingroup ITKQuadEdgeMesh
  */
 template< typename TGeometricalQuadEdge >
 class ITK_EXPORT QuadEdgeMeshConstIteratorGeom:

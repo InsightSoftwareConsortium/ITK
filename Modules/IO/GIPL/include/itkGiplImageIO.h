@@ -36,7 +36,7 @@ class GiplImageIOInternals;
  *
  *  \ingroup IOFilters
  *
- * \ingroup ITK-IO-GIPL
+ * \ingroup ITKIOGIPL
  */
 class ITK_EXPORT GiplImageIO:public ImageIOBase
 {

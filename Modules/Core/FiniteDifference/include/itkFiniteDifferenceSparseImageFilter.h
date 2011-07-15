@@ -56,7 +56,7 @@ namespace itk
  * \par IMPORTANT
  * The output sparse image type must be templated with a node type that at
  * least has the following member variables: m_Index, m_Data and m_Update.
- * \ingroup ITK-FiniteDifference
+ * \ingroup ITKFiniteDifference
  */
 
 template< class TInputImageType, class TSparseOutputImageType >
@@ -198,7 +198,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFiniteDifferenceSparseImageFilter.txx"
+#include "itkFiniteDifferenceSparseImageFilter.hxx"
 #endif
 
 #endif

@@ -31,7 +31,7 @@ namespace itk
  *  It is not intended to be instantiated.
  *
  * \ingroup Numerics Optimizers
- * \ingroup ITK-Optimizers
+ * \ingroup ITKOptimizers
  */
 class ITK_EXPORT Optimizer:public Object
 {

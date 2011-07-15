@@ -69,7 +69,7 @@ namespace itk
  * \ingroup FiniteDifferenceFunctions
  * \ingroup ImageEnhancement
  * \todo References
- * \ingroup ITK-AnisotropicSmoothing
+ * \ingroup ITKAnisotropicSmoothing
  */
 template< class TImage >
 class ITK_EXPORT CurvatureNDAnisotropicDiffusionFunction:
@@ -149,7 +149,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCurvatureNDAnisotropicDiffusionFunction.txx"
+#include "itkCurvatureNDAnisotropicDiffusionFunction.hxx"
 #endif
 
 #endif

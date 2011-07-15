@@ -1,1 +1,1 @@
-itk_module(ITK-KWSys)
+itk_module(ITKKWSys)

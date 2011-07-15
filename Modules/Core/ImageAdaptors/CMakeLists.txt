@@ -1,2 +1,2 @@
-project(ITK-ImageAdaptors)
+project(ITKImageAdaptors)
 itk_module_impl()

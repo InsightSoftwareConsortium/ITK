@@ -37,7 +37,7 @@ namespace Statistics
  *  This filter takes as input a Sample and produces as output a
  *  classification in the form of a MembershipSample object.
  *
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  */
 
 template< class TSample >
@@ -154,7 +154,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSampleClassifierFilter.txx"
+#include "itkSampleClassifierFilter.hxx"
 #endif
 
 #endif

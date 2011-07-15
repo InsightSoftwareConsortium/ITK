@@ -32,7 +32,7 @@ namespace itk
  * \tparam TCellTraits Type information of mesh containing cell.
  *
  * \ingroup MeshObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 template< typename TCellInterface >
@@ -113,7 +113,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVertexCell.txx"
+#include "itkVertexCell.hxx"
 #endif
 
 #endif

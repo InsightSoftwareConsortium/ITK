@@ -38,7 +38,7 @@ namespace itk
  * \sa VectorLinearInterpolateImageFunction
  *
  * \ingroup ImageFunctions ImageInterpolators
- * \ingroup ITK-ImageFunction
+ * \ingroup ITKImageFunction
  *
  * \wiki
  * \wikiexample{ImageProcessing/LinearInterpolateImageFunction,Linearly interpolate a position in an image}
@@ -520,7 +520,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkLinearInterpolateImageFunction.txx"
+#include "itkLinearInterpolateImageFunction.hxx"
 #endif
 
 #endif

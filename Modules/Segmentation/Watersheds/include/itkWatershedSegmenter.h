@@ -85,7 +85,7 @@ namespace watershed
  *
  * \sa WatershedImageFilter
  * \ingroup WatershedSegmentation
- * \ingroup ITK-Watersheds
+ * \ingroup ITKWatersheds
  */
 template< class TInputImage >
 class ITK_EXPORT Segmenter:
@@ -379,7 +379,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkWatershedSegmenter.txx"
+#include "itkWatershedSegmenter.hxx"
 #endif
 
 #endif

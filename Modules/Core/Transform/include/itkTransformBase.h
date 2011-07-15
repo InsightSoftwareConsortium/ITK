@@ -34,7 +34,7 @@ namespace itk
  * This class is an abstract class to represent the transform
  * \ingroup Transforms
  *
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  */
 class ITK_EXPORT TransformBase:public Object
 {

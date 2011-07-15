@@ -42,7 +42,7 @@ namespace itk
  * \sa ContinuousIndex
  *
  * \ingroup PathObjects
- * \ingroup ITK-Path
+ * \ingroup ITKPath
  */
 template< class TInput, class TOutput, unsigned int VDimension >
 class ITK_EXPORT Path:public DataObject
@@ -136,7 +136,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkPath.txx"
+#include "itkPath.hxx"
 #endif
 
 #endif

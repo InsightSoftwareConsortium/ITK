@@ -28,7 +28,7 @@ namespace Statistics
 /** \class TransferFunctionBase
  * \brief This is the itkTransferFunctionBase class.
  *
- * \ingroup ITK-NeuralNetworks
+ * \ingroup ITKNeuralNetworks
  */
 
 template<class ScalarType>

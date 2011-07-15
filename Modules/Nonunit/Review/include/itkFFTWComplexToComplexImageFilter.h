@@ -39,7 +39,7 @@ namespace itk
  * http://www.insight-journal.org/browse/publication/128
  *
  *
- * \ingroup FourierTransform, Multithreaded
+ * \ingroup FourierTransform, MultiThreaded
  * \sa FFTWGlobalConfiguration
  *
  * \author Simon K. Warfield simon.warfield@childrens.harvard.edu
@@ -51,7 +51,7 @@ namespace itk
  * responsibility of the authors and do not necessarily represent the
  * official view of NCRR or NIH.
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TImage >
 class ITK_EXPORT FFTWComplexToComplexImageFilter:
@@ -150,7 +150,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFFTWComplexToComplexImageFilter.txx"
+#include "itkFFTWComplexToComplexImageFilter.hxx"
 #endif
 
 #endif //__itkFFTWComplexToComplexImageFilter_h

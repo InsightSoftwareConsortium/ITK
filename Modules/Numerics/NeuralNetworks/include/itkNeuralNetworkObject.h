@@ -29,7 +29,7 @@ namespace Statistics
 /** \class NeuralNetworkObject
  * \brief This is the itkNeuralNetworkObject class.
  *
- * \ingroup ITK-NeuralNetworks
+ * \ingroup ITKNeuralNetworks
  */
 
 template<class TMeasurementVector, class TTargetVector >
@@ -72,7 +72,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNeuralNetworkObject.txx"
+#include "itkNeuralNetworkObject.hxx"
 #endif
 
 #endif

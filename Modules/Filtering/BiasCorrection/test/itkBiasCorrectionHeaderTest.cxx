@@ -21,9 +21,9 @@
 
 #include <iostream>
 
-#include "itkMRIBiasFieldCorrectionFilter.txx"
+#include "itkMRIBiasFieldCorrectionFilter.hxx"
 #include "itkCacheableScalarFunction.h"
-#include "itkMRASlabIdentifier.txx"
+#include "itkMRASlabIdentifier.hxx"
 #include "itkCompositeValleyFunction.h"
 
 

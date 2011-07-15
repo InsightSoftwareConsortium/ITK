@@ -47,7 +47,7 @@ namespace itk
  *      http://hdl.handle.net/1926/1533
  *
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< typename TInput = float, typename TOutput = double >
 class RegularizedHeavisideStepFunction:
@@ -82,7 +82,7 @@ private:
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRegularizedHeavisideStepFunction.txx"
+#include "itkRegularizedHeavisideStepFunction.hxx"
 #endif
 
 #endif

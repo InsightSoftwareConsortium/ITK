@@ -28,7 +28,7 @@
 
 /** \class ImageInfo
  * \brief A container for an image and its descriptiom
- * \ingroup ITK-ItkVtkGlue
+ * \ingroup ITKItkVtkGlue
  */
 class ImageInfo
 {
@@ -47,7 +47,7 @@ public:
 
 /** \class RGBImageInfo
  * \brief A container for an rgb image and its descriptiom
- * \ingroup ITK-ItkVtkGlue
+ * \ingroup ITKItkVtkGlue
  */
 class RGBImageInfo
 {
@@ -100,7 +100,7 @@ public:
  *                     "text to display with the image");
  *  \endcode
  *
- * \ingroup ITK-ItkVtkGlue
+ * \ingroup ITKItkVtkGlue
  */
 class QuickView
 {

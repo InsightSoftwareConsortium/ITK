@@ -1,2 +1,2 @@
-project(ITK-CurvatureFlow)
+project(ITKCurvatureFlow)
 itk_module_impl()

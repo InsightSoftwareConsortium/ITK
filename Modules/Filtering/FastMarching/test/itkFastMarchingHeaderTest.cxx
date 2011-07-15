@@ -21,9 +21,9 @@
 
 #include <iostream>
 
-#include "itkFastMarchingExtensionImageFilter.txx"
-#include "itkFastMarchingUpwindGradientImageFilter.txx"
-#include "itkFastMarchingImageFilter.txx"
+#include "itkFastMarchingExtensionImageFilter.hxx"
+#include "itkFastMarchingUpwindGradientImageFilter.hxx"
+#include "itkFastMarchingImageFilter.hxx"
 
 #include "itkFastMarchingBase.h"
 #include "itkFastMarchingExtensionImageFilterBase.h"

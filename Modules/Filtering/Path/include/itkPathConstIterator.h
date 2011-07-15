@@ -68,7 +68,7 @@ namespace itk
  * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex
  * \sa NeighborhoodIterator \sa PathIterator \sa ShapedNeighborhoodIterator
  * \sa SliceIterator \sa ImageConstIteratorWithIndex
- * \ingroup ITK-Path
+ * \ingroup ITKPath
  */
 template< class TImage, class TPath >
 class ITK_EXPORT PathConstIterator
@@ -233,7 +233,7 @@ protected: //made protected so other iterators can access
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPathConstIterator.txx"
+#include "itkPathConstIterator.hxx"
 #endif
 
 #endif

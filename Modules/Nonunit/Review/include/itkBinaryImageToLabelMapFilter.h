@@ -48,7 +48,7 @@ namespace itk
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
  * \sa ConnectedComponentImageFilter, LabelImageToLabelMapFilter, LabelMap, LabelObject
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 
 template< class TInputImage,
@@ -251,7 +251,7 @@ private:
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #if !defined( CABLE_CONFIGURATION )
-#include "itkBinaryImageToLabelMapFilter.txx"
+#include "itkBinaryImageToLabelMapFilter.hxx"
 #endif
 #endif
 

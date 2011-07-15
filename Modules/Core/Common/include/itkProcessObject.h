@@ -89,7 +89,7 @@ namespace itk
  * \ingroup ITKSystemObjects
  * \ingroup DataProcessing
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 class ITKCommon_EXPORT ProcessObject:public Object
 {

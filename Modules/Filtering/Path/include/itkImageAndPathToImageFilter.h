@@ -33,7 +33,7 @@ namespace itk
  *
  * \ingroup ImageFilters
  * \ingroup PathFilters
- * \ingroup ITK-Path
+ * \ingroup ITKPath
  */
 template< class TInputImage, class TInputPath, class TOutputImage >
 class ITK_EXPORT ImageAndPathToImageFilter:
@@ -98,7 +98,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageAndPathToImageFilter.txx"
+#include "itkImageAndPathToImageFilter.hxx"
 #endif
 
 #endif

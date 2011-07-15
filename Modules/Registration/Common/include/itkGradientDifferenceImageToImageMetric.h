@@ -52,7 +52,7 @@ namespace itk
  * 22(11):1417-1426.
  *
  * \ingroup RegistrationMetrics
- * \ingroup ITK-RegistrationCommon
+ * \ingroup ITKRegistrationCommon
  */
 template< class TFixedImage, class TMovingImage >
 class ITK_EXPORT GradientDifferenceImageToImageMetric:
@@ -208,7 +208,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGradientDifferenceImageToImageMetric.txx"
+#include "itkGradientDifferenceImageToImageMetric.hxx"
 #endif
 
 #endif

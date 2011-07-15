@@ -35,7 +35,7 @@ namespace itk
  * This implementation was contributed as a paper to the Insight Journal
  * http://hdl.handle.net/1926/306
  *
- * \ingroup ITK-QuadEdgeMesh
+ * \ingroup ITKQuadEdgeMesh
  */
 template< class TMesh >
 class ITK_EXPORT QuadEdgeMeshTopologyChecker:public Object
@@ -95,7 +95,7 @@ private:
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkQuadEdgeMeshTopologyChecker.txx"
+#include "itkQuadEdgeMeshTopologyChecker.hxx"
 #endif
 
 #endif

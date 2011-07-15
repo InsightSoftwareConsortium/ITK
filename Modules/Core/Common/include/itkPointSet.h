@@ -83,7 +83,7 @@ struct GetPointSetDimension {
  *
  * \ingroup MeshObjects
  * \ingroup DataRepresentation
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{PointSet/CreatePointSet,Create a PointSet}
@@ -262,12 +262,12 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkPointSet.txx"
+#include "itkPointSet.hxx"
 #endif
 
 /*
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPointSet.txx"
+#include "itkPointSet.hxx"
 #endif
 */
 

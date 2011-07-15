@@ -32,7 +32,7 @@ namespace itk
  * The Line is basically defined by a set of points.
  *
  * \sa LineSpatialObjectPoint
- * \ingroup ITK-SpatialObjects
+ * \ingroup ITKSpatialObjects
  *
  * \wiki
  * \wikiexample{SpatialObjects/LineSpatialObject,Line spatial object}
@@ -124,7 +124,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLineSpatialObject.txx"
+#include "itkLineSpatialObject.hxx"
 #endif
 
 #endif // __itkLineSpatialObject_h

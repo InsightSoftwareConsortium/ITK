@@ -57,7 +57,7 @@ namespace itk
  * http://hdl.handle.net/1926/510
  *
  * \ingroup ImageToImageFilter
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT ExponentialDeformationFieldImageFilter:
@@ -186,7 +186,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkExponentialDeformationFieldImageFilter.txx"
+#include "itkExponentialDeformationFieldImageFilter.hxx"
 #endif
 
 #endif

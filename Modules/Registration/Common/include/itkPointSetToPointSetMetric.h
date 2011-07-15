@@ -38,7 +38,7 @@ namespace itk
  *
  * \ingroup RegistrationMetrics
  *
- * \ingroup ITK-RegistrationCommon
+ * \ingroup ITKRegistrationCommon
  */
 
 template< class TFixedPointSet,  class TMovingPointSet >
@@ -143,7 +143,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPointSetToPointSetMetric.txx"
+#include "itkPointSetToPointSetMetric.hxx"
 #endif
 
 #endif

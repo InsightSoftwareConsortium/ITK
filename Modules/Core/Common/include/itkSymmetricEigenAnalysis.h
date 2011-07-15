@@ -54,7 +54,7 @@ namespace itk
  *     num. math. 11, 293-306(1968) by bowdler, martin, reinsch, and
  *     wilkinson.
  *     handbook for auto. comp., vol.ii-linear algebra, 227-240(1971).
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 template< typename TMatrix, typename TVector, typename TEigenMatrix = TMatrix >
@@ -313,7 +313,7 @@ std::ostream & operator<<(std::ostream & os,
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSymmetricEigenAnalysis.txx"
+#include "itkSymmetricEigenAnalysis.hxx"
 #endif
 
 #endif

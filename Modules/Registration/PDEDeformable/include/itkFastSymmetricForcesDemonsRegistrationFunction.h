@@ -40,7 +40,7 @@ namespace itk
  * \ingroup FiniteDifferenceFunctions
  *
  * \author Torsten Rohlfing, Neuroscience Program, SRI International
- * \ingroup ITK-PDEDeformableRegistration
+ * \ingroup ITKPDEDeformableRegistration
  */
 template< class TFixedImage, class TMovingImage, class TDeformationField >
 class ITK_EXPORT FastSymmetricForcesDemonsRegistrationFunction:
@@ -235,7 +235,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFastSymmetricForcesDemonsRegistrationFunction.txx"
+#include "itkFastSymmetricForcesDemonsRegistrationFunction.hxx"
 #endif
 
 #endif

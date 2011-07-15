@@ -26,7 +26,7 @@ namespace itk
 /**
  * \class QuadEdgeMeshDecimationCriterion
  * \brief
- * \ingroup ITK-QuadEdgeMeshFiltering
+ * \ingroup ITKQuadEdgeMeshFiltering
  */
 template< class TMesh,
           typename TElement  = IdentifierType,
@@ -111,7 +111,7 @@ private:
 /**
  * \class NumberOfPointsCriterion
  * \brief
- * \ingroup ITK-QuadEdgeMeshFiltering
+ * \ingroup ITKQuadEdgeMeshFiltering
  */
 template< class TMesh,
           typename TElement = IdentifierType,
@@ -160,7 +160,7 @@ private:
 /**
  * \class NumberOfFacesCriterion
  * \brief
- * \ingroup ITK-QuadEdgeMeshFiltering
+ * \ingroup ITKQuadEdgeMeshFiltering
  */
 template< class TMesh,
           typename TElement = IdentifierType,
@@ -210,7 +210,7 @@ private:
 /**
  * \class MaxMeasureBoundCriterion
  * \brief
- * \ingroup ITK-QuadEdgeMeshFiltering
+ * \ingroup ITKQuadEdgeMeshFiltering
  */
 template< class TMesh,
           typename TElement = IdentifierType,
@@ -260,7 +260,7 @@ private:
 /**
  * \class MinMeasureBoundCriterion
  * \brief
- * \ingroup ITK-QuadEdgeMeshFiltering
+ * \ingroup ITKQuadEdgeMeshFiltering
  */
 template< class TMesh,
           typename TElement = IdentifierType,

@@ -45,7 +45,7 @@ namespace Statistics
  * Without the plugged in mean vector, this calculator will perform
  * the single pass mean and covariance calculation algorithm.
  *
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  */
 
 template< class TSample >
@@ -128,7 +128,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCovarianceSampleFilter.txx"
+#include "itkCovarianceSampleFilter.hxx"
 #endif
 
 #endif

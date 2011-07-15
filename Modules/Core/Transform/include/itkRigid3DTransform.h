@@ -43,7 +43,7 @@ namespace itk
  * the center of rotation in each dimension.
  *
  * \ingroup Transforms
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  */
 template< class TScalarType = double >
 // type for scalars (float or double)
@@ -227,7 +227,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkRigid3DTransform.txx"
+#include "itkRigid3DTransform.hxx"
 #endif
 
 #endif /* __itkRigid3DTransform_h */

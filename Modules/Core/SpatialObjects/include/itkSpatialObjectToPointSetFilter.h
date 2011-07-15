@@ -28,7 +28,7 @@ namespace itk
  * \brief Base class for filters that take a SpatialObject
  *        as input and produce a PointSet as output.
  *  The pointset created is in physical space.
- * \ingroup ITK-SpatialObjects
+ * \ingroup ITKSpatialObjects
  */
 template< class TInputSpatialObject, class TOutputPointSet >
 class ITK_EXPORT SpatialObjectToPointSetFilter:public MeshSource< TOutputPointSet >
@@ -105,7 +105,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSpatialObjectToPointSetFilter.txx"
+#include "itkSpatialObjectToPointSetFilter.hxx"
 #endif
 
 #endif

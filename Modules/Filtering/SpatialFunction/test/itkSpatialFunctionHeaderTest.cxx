@@ -21,7 +21,7 @@
 
 #include <iostream>
 
-#include "itkSpatialFunctionImageEvaluatorFilter.txx"
+#include "itkSpatialFunctionImageEvaluatorFilter.hxx"
 
 
 

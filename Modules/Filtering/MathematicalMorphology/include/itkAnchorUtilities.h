@@ -29,7 +29,7 @@ namespace itk
 * erosions/dilation
 *
 *
-* \ingroup ITK-MathematicalMorphology
+* \ingroup ITKMathematicalMorphology
 */
 template< class TImage, class TBres, class TLine >
 int ComputeStartEnd(const typename TImage::IndexType StartIndex,
@@ -55,7 +55,7 @@ void DoAnchorFace(const TImage * input,
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAnchorUtilities.txx"
+#include "itkAnchorUtilities.hxx"
 #endif
 
 #endif

@@ -39,7 +39,7 @@ namespace itk
  * \sa BackwardDifferenceOperator
  *
  * \ingroup Operators
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{Operators/DerivativeOperator,Create a derivative kernel}
@@ -126,7 +126,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkDerivativeOperator.txx"
+#include "itkDerivativeOperator.hxx"
 #endif
 
 #endif

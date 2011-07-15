@@ -43,7 +43,7 @@ namespace itk
  *
  *
  * \ingroup Transforms
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  */
 template< class TScalarType = double >
 // Data type for scalars (float or double)
@@ -168,7 +168,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkQuaternionRigidTransform.txx"
+#include "itkQuaternionRigidTransform.hxx"
 #endif
 
 #endif /* __itkQuaternionRigidTransform_h */

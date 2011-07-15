@@ -55,7 +55,7 @@ namespace itk
  * \tparam TCellPixelType
  *     The type associated with every cell.
  *
- * \ingroup ITK-QuadEdgeMesh
+ * \ingroup ITKQuadEdgeMesh
  */
 template<
   typename TPixelType = float,

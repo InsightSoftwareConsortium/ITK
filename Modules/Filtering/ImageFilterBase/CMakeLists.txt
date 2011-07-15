@@ -1,2 +1,2 @@
-project(ITK-ImageFilterBase)
+project(ITKImageFilterBase)
 itk_module_impl()

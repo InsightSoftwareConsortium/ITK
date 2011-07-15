@@ -42,7 +42,7 @@ namespace itk
  * for the PointDataType the PointType of the input mesh.
  *
  * \ingroup MeshFilters
- * \ingroup ITK-Mesh
+ * \ingroup ITKMesh
  */
 template< class TInputMesh, class TOutputMesh >
 class ITK_EXPORT ParametricSpaceToImageSpaceMeshFilter:
@@ -87,7 +87,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkParametricSpaceToImageSpaceMeshFilter.txx"
+#include "itkParametricSpaceToImageSpaceMeshFilter.hxx"
 #endif
 
 #endif

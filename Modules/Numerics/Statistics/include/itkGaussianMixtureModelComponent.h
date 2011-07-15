@@ -43,7 +43,7 @@ namespace Statistics
  * GetMeasurementVectorSize() to get the length.
  *
  * \sa MixtureModelComponentBase, ExpectationMaximizationMixtureModelEstimator
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  */
 
 template< class TSample >
@@ -116,7 +116,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGaussianMixtureModelComponent.txx"
+#include "itkGaussianMixtureModelComponent.hxx"
 #endif
 
 #endif

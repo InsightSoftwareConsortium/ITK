@@ -200,7 +200,7 @@ private:
 } //namespace ITK
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageSeriesReader.txx"
+#include "itkImageSeriesReader.hxx"
 #endif
 
 #endif // __itkImageSeriesReader_h

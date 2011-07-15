@@ -37,7 +37,7 @@ namespace itk
  *
  * \author Thomas Boettger. Division Medical and Biological Informatics, German Cancer Research Center, Heidelberg.
  *
- * \ingroup ITK-Mesh
+ * \ingroup ITKMesh
  */
 template< class TInputMesh, class TOutputMesh >
 class ITK_EXPORT SimplexMeshToTriangleMeshFilter:public MeshToMeshFilter< TInputMesh, TOutputMesh >
@@ -87,7 +87,7 @@ public:
    * This class provides methods for visiting
    * each simplex cell of a simplex mesh
    * It computes the center of each visited cell.
-   * \ingroup ITK-Mesh
+   * \ingroup ITKMesh
    */
   class SimplexCellVisitor
   {
@@ -177,7 +177,7 @@ protected:
 } //end of namespace
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSimplexMeshToTriangleMeshFilter.txx"
+#include "itkSimplexMeshToTriangleMeshFilter.hxx"
 #endif
 
 #endif //__SimplexMeshToTriangleMeshFilter_h

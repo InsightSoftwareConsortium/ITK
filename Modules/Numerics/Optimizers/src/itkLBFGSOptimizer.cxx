@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkLBFGSOptimizer_txx
-#define _itkLBFGSOptimizer_txx
+#ifndef _itkLBFGSOptimizer_hxx
+#define _itkLBFGSOptimizer_hxx
 
 #include "itkLBFGSOptimizer.h"
 

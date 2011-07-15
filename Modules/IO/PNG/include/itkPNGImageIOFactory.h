@@ -29,7 +29,7 @@ namespace itk
 {
 /** \class PNGImageIOFactory
  * \brief Create instances of PNGImageIO objects using an object factory.
- * \ingroup ITK-IO-PNG
+ * \ingroup ITKIOPNG
  */
 class ITK_EXPORT PNGImageIOFactory:public ObjectFactoryBase
 {

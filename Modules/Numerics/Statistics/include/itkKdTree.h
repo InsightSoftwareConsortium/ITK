@@ -57,7 +57,7 @@ namespace Statistics
  *
  * \sa KdTreeNonterminalNode, KdTreeWeightedCentroidNonterminalNode,
  * KdTreeTerminalNode
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  */
 template<class TSample>
 
@@ -131,7 +131,7 @@ struct KdTreeNode
  * the centroid related information, we can use the KdTreeGenerator.
  *
  * \sa KdTreeNode, KdTreeWeightedCentroidNonterminalNode, KdTreeGenerator
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  */
 template<class TSample>
 
@@ -238,7 +238,7 @@ private:
  * used to accelate the k-means estimation.
  *
  * \sa KdTreeNode, KdTreeNonterminalNode, WeightedCentroidKdTreeGenerator
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  */
 template<class TSample>
 struct KdTreeWeightedCentroidNonterminalNode:public KdTreeNode<TSample>
@@ -355,7 +355,7 @@ private:
  *
  * \sa KdTreeNode, KdTreeNonterminalNode,
  * KdTreeWeightedCentroidNonterminalNode
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  */
 template<class TSample>
 struct KdTreeTerminalNode:public KdTreeNode<TSample>
@@ -475,7 +475,7 @@ private:
  * \sa KdTreeNode, KdTreeNonterminalNode,
  * KdTreeWeightedCentroidNonterminalNode, KdTreeTerminalNode,
  * KdTreeGenerator, WeightedCentroidKdTreeNode
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  */
 
 template<class TSample>
@@ -528,7 +528,7 @@ public:
    * of k-nearest neighbors. We can also query the farthest neighbor's
    * distance from the query point using the GetLargestDistance
    * method.
-   * \ingroup ITK-Statistics
+   * \ingroup ITKStatistics
    */
   class NearestNeighbors
   {
@@ -758,7 +758,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkKdTree.txx"
+#include "itkKdTree.hxx"
 #endif
 
 #endif

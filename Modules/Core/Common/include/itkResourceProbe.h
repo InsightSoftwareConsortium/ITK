@@ -33,7 +33,7 @@ namespace itk
   *
   *   \sa TimeResourceProbe, MemoryResourceProbe
   *
-  * \ingroup ITK-Common
+  * \ingroup ITKCommon
   */
 template< class ValueType, class MeanType >
 class ITK_EXPORT ResourceProbe
@@ -96,7 +96,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkResourceProbe.txx"
+#include "itkResourceProbe.hxx"
 #endif
 
 #endif //__itkResourceProbe_h

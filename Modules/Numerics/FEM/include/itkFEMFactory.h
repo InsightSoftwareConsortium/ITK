@@ -27,7 +27,7 @@ namespace itk
 /** \class FEMFactory
  * \brief Create instances of FEM Objects
  * This includes Elements, Loads, and Materials
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 
 template <class T>

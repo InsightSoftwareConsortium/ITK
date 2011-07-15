@@ -1,5 +1,5 @@
 itk_module_test()
-set(ITK-PDEDeformableRegistrationTests
+set(ITKPDEDeformableRegistrationTests
 itkMultiResolutionPDEDeformableRegistrationTest.cxx
 itkPDEDeformableRegistrationHeaderTest.cxx
 itkDemonsRegistrationFilterTest.cxx
@@ -11,19 +11,19 @@ set(BASELINE ${ITK_DATA_ROOT}/Baseline/Algorithms)
 set(INPUTDATA ${ITK_DATA_ROOT}/Input)
 set(TEMP ${ITK_TEST_OUTPUT_DIR})
 
-CreateTestDriver(ITK-PDEDeformableRegistration  "${ITK-PDEDeformableRegistration-Test_LIBRARIES}" "${ITK-PDEDeformableRegistrationTests}")
+CreateTestDriver(ITKPDEDeformableRegistration  "${ITKPDEDeformableRegistration-Test_LIBRARIES}" "${ITKPDEDeformableRegistrationTests}")
 
 itk_add_test(NAME itkPDEDeformableRegistrationHeaderTest
-      COMMAND ITK-PDEDeformableRegistrationTestDriver itkPDEDeformableRegistrationHeaderTest)
+      COMMAND ITKPDEDeformableRegistrationTestDriver itkPDEDeformableRegistrationHeaderTest)
 itk_add_test(NAME itkDemonsRegistrationFilterTest
-      COMMAND ITK-PDEDeformableRegistrationTestDriver itkDemonsRegistrationFilterTest)
+      COMMAND ITKPDEDeformableRegistrationTestDriver itkDemonsRegistrationFilterTest)
 itk_add_test(NAME itkLevelSetMotionRegistrationFilterTest
-      COMMAND ITK-PDEDeformableRegistrationTestDriver itkLevelSetMotionRegistrationFilterTest
+      COMMAND ITKPDEDeformableRegistrationTestDriver itkLevelSetMotionRegistrationFilterTest
               ${ITK_TEST_OUTPUT_DIR}/itkLevelSetMotionRegistrationFilterTestFixedImage.mha ${ITK_TEST_OUTPUT_DIR}/itkLevelSetMotionRegistrationFilterTestMovingImage.mha ${ITK_TEST_OUTPUT_DIR}/itkLevelSetMotionRegistrationFilterTestResampledImage.mha)
 itk_add_test(NAME itkSymmetricForcesDemonsRegistrationFilterTest
-      COMMAND ITK-PDEDeformableRegistrationTestDriver itkSymmetricForcesDemonsRegistrationFilterTest)
+      COMMAND ITKPDEDeformableRegistrationTestDriver itkSymmetricForcesDemonsRegistrationFilterTest)
 itk_add_test(NAME itkMultiResolutionPDEDeformableRegistrationTestD ${TestDriver}
-      COMMAND ITK-PDEDeformableRegistrationTestDriver
+      COMMAND ITKPDEDeformableRegistrationTestDriver
             --compare ${BASELINE}/itkMultiResolutionPDEDeformableRegistrationTestPixelCentered.png
             ${TEMP}/itkMultiResolutionPDEDeformableRegistrationTestPixelCentered.png
   --compareNumberOfPixelsTolerance 20

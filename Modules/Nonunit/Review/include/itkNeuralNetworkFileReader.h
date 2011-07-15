@@ -51,7 +51,7 @@ namespace itk
  *
  * \sa NeuralNetworkFileWriter
  * \sa MultilayerNeuralNetworkBase
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TNetwork >
 class NeuralNetworkFileReader:public Object
@@ -147,7 +147,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNeuralNetworkFileReader.txx"
+#include "itkNeuralNetworkFileReader.hxx"
 #endif
 
 #endif

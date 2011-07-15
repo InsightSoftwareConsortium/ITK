@@ -34,7 +34,7 @@ namespace itk
  * maximized.
  *
  * \ingroup Calculators
- * \ingroup ITK-Thresholding
+ * \ingroup ITKThresholding
  */
 
 template< class TInputHistogram >
@@ -95,7 +95,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkOtsuMultipleThresholdsCalculator.txx"
+#include "itkOtsuMultipleThresholdsCalculator.hxx"
 #endif
 
 #endif

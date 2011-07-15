@@ -38,7 +38,7 @@ namespace itk
  * \sa NeighborhoodIterator
  *
  * \ingroup ImageFeatureExtraction
- * \ingroup ITK-ImageFeature
+ * \ingroup ITKImageFeature
  *
  * \wiki
  * \wikiexample{EdgesAndGradients/DerivativeImageFilter,Compute the derivative of an image in a particular direction}
@@ -149,7 +149,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDerivativeImageFilter.txx"
+#include "itkDerivativeImageFilter.hxx"
 #endif
 
 #endif

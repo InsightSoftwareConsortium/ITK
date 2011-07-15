@@ -33,7 +33,7 @@ namespace itk
  * at the NonpositiveMin and max of the pixel type.
  * \ingroup IntensityImageFilters
  *
- * \ingroup ITK-ImageIntensity
+ * \ingroup ITKImageIntensity
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT ShiftScaleImageFilter:
@@ -135,7 +135,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShiftScaleImageFilter.txx"
+#include "itkShiftScaleImageFilter.hxx"
 #endif
 
 #endif

@@ -56,7 +56,7 @@ namespace itk
  * \sa Neighborhood
  *
  * \ingroup Operators
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{Operators/GaussianOperator,Create a Gaussian kernel}
@@ -203,7 +203,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkGaussianOperator.txx"
+#include "itkGaussianOperator.hxx"
 #endif
 
 #endif

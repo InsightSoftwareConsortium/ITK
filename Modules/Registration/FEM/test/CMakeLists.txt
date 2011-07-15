@@ -1,15 +1,15 @@
 itk_module_test()
-set(ITK-FEMRegistrationTests
+set(ITKFEMRegistrationTests
 itkFEMRegistrationFilterTest.cxx
 itkMIRegistrationFunctionTest.cxx
 itkFEMRegistrationHeaderTest.cxx
 )
 
-CreateTestDriver(ITK-FEMRegistration  "${ITK-FEMRegistration-Test_LIBRARIES}" "${ITK-FEMRegistrationTests}")
+CreateTestDriver(ITKFEMRegistration  "${ITKFEMRegistration-Test_LIBRARIES}" "${ITKFEMRegistrationTests}")
 
 itk_add_test(NAME itkFEMRegistrationHeaderTest
-      COMMAND ITK-FEMRegistrationTestDriver itkFEMRegistrationHeaderTest)
+      COMMAND ITKFEMRegistrationTestDriver itkFEMRegistrationHeaderTest)
 itk_add_test(NAME itkFEMRegistrationFilterTest
-      COMMAND ITK-FEMRegistrationTestDriver itkFEMRegistrationFilterTest)
+      COMMAND ITKFEMRegistrationTestDriver itkFEMRegistrationFilterTest)
 itk_add_test(NAME itkMIRegistrationFunctionTest
-      COMMAND ITK-FEMRegistrationTestDriver itkMIRegistrationFunctionTest)
+      COMMAND ITKFEMRegistrationTestDriver itkMIRegistrationFunctionTest)

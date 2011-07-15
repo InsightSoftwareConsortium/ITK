@@ -53,7 +53,7 @@ namespace itk
  * \sa RelabelImageFilter
  *
  * \ingroup ClassificationFilters
- * \ingroup ITK-Classifiers
+ * \ingroup ITKClassifiers
  *
  * \wiki
  * \wikiexample{Statistics/ScalarImageKmeansImageFilter,Cluster the pixels in a greyscale image}
@@ -180,7 +180,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkScalarImageKmeansImageFilter.txx"
+#include "itkScalarImageKmeansImageFilter.hxx"
 #endif
 
 #endif

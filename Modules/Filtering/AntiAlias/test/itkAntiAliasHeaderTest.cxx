@@ -21,7 +21,7 @@
 
 #include <iostream>
 
-#include "itkAntiAliasBinaryImageFilter.txx"
+#include "itkAntiAliasBinaryImageFilter.hxx"
 
 
 

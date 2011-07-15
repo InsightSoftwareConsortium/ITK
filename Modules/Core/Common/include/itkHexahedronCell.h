@@ -37,7 +37,7 @@ namespace itk
  * parameters MUST be fixed.
  *
  * \ingroup MeshObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 template< typename TCellInterface >
@@ -141,7 +141,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkHexahedronCell.txx"
+#include "itkHexahedronCell.hxx"
 #endif
 
 #endif

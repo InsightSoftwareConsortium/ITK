@@ -44,7 +44,7 @@ namespace itk
  * \sa Point
  * \sa CovariantVector
  * \sa Matrix
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class T >
 class Versor
@@ -304,7 +304,7 @@ ITK_EXPORT std::istream & operator>>(std::istream & is,
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkVersor.txx"
+#include "itkVersor.hxx"
 #endif
 
 #endif

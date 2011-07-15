@@ -26,7 +26,7 @@ namespace itk
 /** \class itkTreeIteratorClone
  *  \brief itkTreeIteratorClone class
  *  \ingroup DataRepresentation
- *  \ingroup ITK-Common
+ *  \ingroup ITKCommon
  */
 template< class TObjectType >
 class ITK_EXPORT TreeIteratorClone

@@ -45,7 +45,7 @@ namespace itk
  * of data.
  *
  * \ingroup DataSources
- * \ingroup ITK-Mesh
+ * \ingroup ITKMesh
  */
 template< class TOutputMesh >
 class ITK_EXPORT MeshSource:public ProcessObject
@@ -153,7 +153,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMeshSource.txx"
+#include "itkMeshSource.hxx"
 #endif
 
 #endif

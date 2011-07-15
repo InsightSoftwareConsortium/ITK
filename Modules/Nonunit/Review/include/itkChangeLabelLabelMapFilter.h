@@ -38,7 +38,7 @@ namespace itk
  *
  * \sa ShapeLabelObject, RelabelComponentImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TImage >
 class ITK_EXPORT ChangeLabelLabelMapFilter:
@@ -108,7 +108,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkChangeLabelLabelMapFilter.txx"
+#include "itkChangeLabelLabelMapFilter.hxx"
 #endif
 
 #endif

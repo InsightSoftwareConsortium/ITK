@@ -59,7 +59,7 @@ namespace itk
  *
  * \ingroup IntensityImageFilters TensorObjects
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< typename TInputImage,
           typename THessianImage,
@@ -217,7 +217,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMultiScaleHessianBasedMeasureImageFilter.txx"
+#include "itkMultiScaleHessianBasedMeasureImageFilter.hxx"
 #endif
 
 #endif

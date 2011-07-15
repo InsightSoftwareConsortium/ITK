@@ -65,7 +65,7 @@ public:
  * \brief 3D Rasterization algorithm Courtesy of Dr David Gobbi of Atamai Inc.
 
  * \author Leila Baghdadi, MICe, Hospital for Sick Childern, Toronto, Canada,
- * \ingroup ITK-Mesh
+ * \ingroup ITKMesh
  */
 template< class TInputMesh, class TOutputImage >
 class ITK_EXPORT TriangleMeshToBinaryImageFilter:public ImageSource< TOutputImage >
@@ -241,7 +241,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTriangleMeshToBinaryImageFilter.txx"
+#include "itkTriangleMeshToBinaryImageFilter.hxx"
 #endif
 
 #endif

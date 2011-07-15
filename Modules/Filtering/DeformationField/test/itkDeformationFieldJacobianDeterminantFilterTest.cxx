@@ -21,7 +21,7 @@
 
 #include <iostream>
 #include "itkDeformationFieldJacobianDeterminantFilter.h"
-#include "itkNullImageToImageFilterDriver.txx"
+#include "itkNullImageToImageFilterDriver.hxx"
 #include "itkVector.h"
 
 static bool TestDeformationJacobianDeterminantValue(void)

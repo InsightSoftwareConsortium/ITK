@@ -31,7 +31,7 @@ namespace fem
  * \brief 3-noded finite element class in 2D space for linear elasticity problem.
  *
  * This element is combined from Element2DC0LinearTriangular and Element2DStrain.
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  * The ordering of the nodes is counter clockwise. That is the nodes
  * should be defined in the following order:
  *

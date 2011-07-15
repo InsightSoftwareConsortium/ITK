@@ -28,8 +28,8 @@ namespace itk
  * This class is parameterized over the type of the input image and
  * the type of the output image.
  *
- * \ingroup   IntensityImageFilters     Singlethreaded
- * \ingroup ITK-Deprecated
+ * \ingroup   IntensityImageFilters     SingelThreaded
+ * \ingroup ITKDeprecated
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT ReflectImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
@@ -96,7 +96,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkReflectImageFilter.txx"
+#include "itkReflectImageFilter.hxx"
 #endif
 
 #endif

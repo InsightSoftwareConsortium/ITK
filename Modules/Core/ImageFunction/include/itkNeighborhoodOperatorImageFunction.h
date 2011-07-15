@@ -31,7 +31,7 @@ namespace itk
  * This class is templated over the input image type.
  * \sa NeighborhoodOperator
  * \sa ImageFunction
- * \ingroup ITK-ImageFunction
+ * \ingroup ITKImageFunction
  */
 template< class TInputImage, class TOutput >
 class ITK_EXPORT NeighborhoodOperatorImageFunction:
@@ -138,12 +138,12 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkNeighborhoodOperatorImageFunction.txx"
+#include "itkNeighborhoodOperatorImageFunction.hxx"
 #endif
 
 /*
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNeighborhoodOperatorImageFunction.txx"
+#include "itkNeighborhoodOperatorImageFunction.hxx"
 #endif
 */
 

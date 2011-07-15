@@ -66,7 +66,7 @@ namespace itk
  * \sa ShapeDetectionLevelSetImageFilter
  *
  * \ingroup FiniteDifferenceFunctions
- * \ingroup ITK-LevelSets
+ * \ingroup ITKLevelSets
  */
 template< class TImageType, class TFeatureImageType = TImageType >
 class ITK_EXPORT ShapeDetectionLevelSetFunction:
@@ -131,7 +131,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShapeDetectionLevelSetFunction.txx"
+#include "itkShapeDetectionLevelSetFunction.hxx"
 #endif
 
 #endif

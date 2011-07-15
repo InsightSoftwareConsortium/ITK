@@ -30,7 +30,7 @@ namespace fem
  * \class LoadPoint
  * \brief This load is applied on a point in an element.
  *
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 class LoadPoint : public LoadElement
 {

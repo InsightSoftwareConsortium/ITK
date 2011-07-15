@@ -29,7 +29,7 @@ namespace itk
  * Optimizers Hierarchy. It is not intended to be instantiated.
  *
  * \ingroup Numerics Optimizers
- * \ingroup ITK-Optimizers
+ * \ingroup ITKOptimizers
  */
 class ITK_EXPORT NonLinearOptimizer:public Optimizer
 

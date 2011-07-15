@@ -32,8 +32,8 @@ namespace itk
  * This filter is implemented using the recursive gaussian filters.
  *
  * \ingroup GradientFilters
- * \ingroup Singlethreaded
- * \ingroup ITK-ImageFeature
+ * \ingroup SingelThreaded
+ * \ingroup ITKImageFeature
  *
  * \wiki
  * \wikiexample{EdgesAndGradients/LaplacianRecursiveGaussianImageFilter,Compute the Laplacian of Gaussian (LoG) of an image}
@@ -162,7 +162,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLaplacianRecursiveGaussianImageFilter.txx"
+#include "itkLaplacianRecursiveGaussianImageFilter.hxx"
 #endif
 
 #endif

@@ -74,7 +74,7 @@ namespace itk
  *
  * \sa CropImageFilter
  * \ingroup GeometricTransforms
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 template< class TInputImage, class TOutputImage >
@@ -269,7 +269,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkExtractImageFilter.txx"
+#include "itkExtractImageFilter.hxx"
 #endif
 
 #endif

@@ -30,7 +30,7 @@ namespace itk
  *  a CovariantVector, since it behaves differently under Affine
  *  Transformations.
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< typename TVector >
 class CrossHelper

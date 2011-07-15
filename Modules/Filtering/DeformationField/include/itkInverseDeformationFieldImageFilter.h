@@ -59,7 +59,7 @@ namespace itk
  * Vector.
  *
  * \ingroup ImageToImageFilter
- * \ingroup ITK-DeformationField
+ * \ingroup ITKDeformationField
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT InverseDeformationFieldImageFilter:
@@ -205,7 +205,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkInverseDeformationFieldImageFilter.txx"
+#include "itkInverseDeformationFieldImageFilter.hxx"
 #endif
 
 #endif

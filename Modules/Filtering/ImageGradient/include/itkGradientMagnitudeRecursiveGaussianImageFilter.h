@@ -35,8 +35,8 @@ namespace itk
  * filters
  *
  * \ingroup GradientFilters
- * \ingroup Singlethreaded
- * \ingroup ITK-ImageGradient
+ * \ingroup SingelThreaded
+ * \ingroup ITKImageGradient
  *
  * \wiki
  * \wikiexample{EdgesAndGradients/GradientMagnitudeRecursiveGaussianImageFilter,Find the gradient magnitude of the image first smoothed with a Gaussian kernel}
@@ -205,7 +205,7 @@ public:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGradientMagnitudeRecursiveGaussianImageFilter.txx"
+#include "itkGradientMagnitudeRecursiveGaussianImageFilter.hxx"
 #endif
 
 #endif

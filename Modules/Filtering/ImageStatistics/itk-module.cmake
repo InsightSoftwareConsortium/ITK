@@ -4,17 +4,17 @@ will find here: how to calculate image moments, minimum maximum values,
 projections, principal components analysis (PCA) for shape modeling,
 computation of label statistics and image accumulation.")
 
-itk_module(ITK-ImageStatistics
+itk_module(ITKImageStatistics
   DEPENDS
-    ITK-ImageFilterBase
-    ITK-Statistics
-    ITK-SpatialObjects
-    ITK-ImageCompose
+    ITKImageFilterBase
+    ITKStatistics
+    ITKSpatialObjects
+    ITKImageCompose
   TEST_DEPENDS
-    ITK-ImageIntensity
-    ITK-TestKernel
-    ITK-Thresholding
-    ITK-ImageLabel
+    ITKImageIntensity
+    ITKTestKernel
+    ITKThresholding
+    ITKImageLabel
   DESCRIPTION
     "${DOCUMENTATION}"
 )

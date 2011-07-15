@@ -27,7 +27,7 @@ namespace itk
 /** \class EllipseSpatialObject
  *
  * \brief TODO
- * \ingroup ITK-SpatialObjects
+ * \ingroup ITKSpatialObjects
  *
  * \wiki
  * \wikiexample{SpatialObjects/EllipseSpatialObject,Ellipse}
@@ -114,7 +114,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkEllipseSpatialObject.txx"
+#include "itkEllipseSpatialObject.hxx"
 #endif
 
 #endif // __itkEllipseSpatialObject_h

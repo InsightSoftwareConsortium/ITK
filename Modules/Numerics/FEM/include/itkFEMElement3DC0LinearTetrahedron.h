@@ -56,7 +56,7 @@ namespace fem
  * \sa Element3DC0LinearTetrahedronStrain
  *
  *
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 class Element3DC0LinearTetrahedron : public ElementStd<4, 3>
 {

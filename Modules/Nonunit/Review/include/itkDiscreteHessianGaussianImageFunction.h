@@ -40,7 +40,7 @@ namespace itk
  *
  * \sa NeighborhoodOperator
  * \sa ImageFunction
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TInputImage, class TOutput = double >
 class ITK_EXPORT DiscreteHessianGaussianImageFunction:
@@ -255,7 +255,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkDiscreteHessianGaussianImageFunction.txx"
+#include "itkDiscreteHessianGaussianImageFunction.hxx"
 #endif
 
 #endif

@@ -38,7 +38,7 @@ namespace itk
  * \sa GradientNDAnisotropicDiffusionFunction
  * \sa VectorCurvatureNDAnisotropicDiffusionFunction
  * \sa AnisotropicDiffusionFunction
- * \ingroup ITK-AnisotropicSmoothing
+ * \ingroup ITKAnisotropicSmoothing
  */
 template< class TImage >
 class ITK_EXPORT VectorGradientNDAnisotropicDiffusionFunction:
@@ -121,7 +121,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVectorGradientNDAnisotropicDiffusionFunction.txx"
+#include "itkVectorGradientNDAnisotropicDiffusionFunction.hxx"
 #endif
 
 #endif

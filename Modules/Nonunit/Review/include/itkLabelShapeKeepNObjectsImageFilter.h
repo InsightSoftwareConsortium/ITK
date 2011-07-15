@@ -41,7 +41,7 @@ namespace itk
  *
  * \sa ShapeLabelObject, BinaryShapeKeepNObjectsImageFilter, LabelStatisticsKeepNObjectsImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TInputImage >
 class ITK_EXPORT LabelShapeKeepNObjectsImageFilter:
@@ -165,7 +165,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLabelShapeKeepNObjectsImageFilter.txx"
+#include "itkLabelShapeKeepNObjectsImageFilter.hxx"
 #endif
 
 #endif

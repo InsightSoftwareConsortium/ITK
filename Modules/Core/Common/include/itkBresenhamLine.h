@@ -53,7 +53,7 @@ public:
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBresenhamLine.txx"
+#include "itkBresenhamLine.hxx"
 #endif
 
 #endif

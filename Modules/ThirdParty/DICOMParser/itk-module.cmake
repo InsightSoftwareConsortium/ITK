@@ -1,1 +1,1 @@
-itk_module(ITK-DICOMParser)
+itk_module(ITKDICOMParser)

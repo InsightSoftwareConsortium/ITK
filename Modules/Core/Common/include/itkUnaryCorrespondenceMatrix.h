@@ -28,7 +28,7 @@ namespace itk
  * \brief A matrix used to store the Unary Metric
  * for medial node comparisons between two images.
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 template< typename TItemType >
@@ -58,7 +58,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkUnaryCorrespondenceMatrix.txx"
+#include "itkUnaryCorrespondenceMatrix.hxx"
 #endif
 
 #endif

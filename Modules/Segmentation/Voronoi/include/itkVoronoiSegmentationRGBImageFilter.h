@@ -48,7 +48,7 @@ namespace itk
  *
  *
  * \ingroup HybridSegmentation
- * \ingroup ITK-Voronoi
+ * \ingroup ITKVoronoi
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT VoronoiSegmentationRGBImageFilter:
@@ -169,7 +169,7 @@ private:
 } //end namespace
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVoronoiSegmentationRGBImageFilter.txx"
+#include "itkVoronoiSegmentationRGBImageFilter.hxx"
 #endif
 
 #endif

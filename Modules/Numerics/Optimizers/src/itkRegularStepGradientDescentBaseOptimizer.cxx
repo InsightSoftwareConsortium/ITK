@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkRegularStepGradientDescentBaseOptimizer_txx
-#define _itkRegularStepGradientDescentBaseOptimizer_txx
+#ifndef _itkRegularStepGradientDescentBaseOptimizer_hxx
+#define _itkRegularStepGradientDescentBaseOptimizer_hxx
 
 #include "itkRegularStepGradientDescentBaseOptimizer.h"
 #include "itkCommand.h"

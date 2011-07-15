@@ -39,7 +39,7 @@ namespace itk
  * \sa NormalizeToConstantImageFilter
  *
  * \ingroup MathematicalImageFilters
- * \ingroup ITK-ImageIntensity
+ * \ingroup ITKImageIntensity
  *
  * \wiki
  * \wikiexample{ImageProcessing/NormalizeImageFilter,Normalize an image}
@@ -89,7 +89,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNormalizeImageFilter.txx"
+#include "itkNormalizeImageFilter.hxx"
 #endif
 
 #endif

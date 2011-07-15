@@ -1,3 +1,3 @@
-project(ITK-IO-GDCM)
-set(ITK-IO-GDCM_LIBRARIES ITK-IO-GDCM)
+project(ITKIOGDCM)
+set(ITKIOGDCM_LIBRARIES ITKIOGDCM)
 itk_module_impl()

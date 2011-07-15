@@ -32,7 +32,7 @@ namespace itk
  * but with a large difference in performace.
  *
  * \ingroup Transforms
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  *
  * \wiki
  * \wikiexample{SimpleOperations/TranslationTransform,Translate an image}
@@ -255,7 +255,7 @@ TranslationTransform< TScalarType, NDimensions >::BackTransform(const OutputCova
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkTranslationTransform.txx"
+#include "itkTranslationTransform.hxx"
 #endif
 
 #endif /* __itkTranslationTransform_h */

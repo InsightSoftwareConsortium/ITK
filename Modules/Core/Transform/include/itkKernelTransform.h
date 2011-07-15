@@ -56,7 +56,7 @@ namespace itk
  *
  * \ingroup Transforms
  *
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  */
 template< class TScalarType, // probably only float and double make sense here
           unsigned int NDimensions >
@@ -371,7 +371,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkKernelTransform.txx"
+#include "itkKernelTransform.hxx"
 #endif
 
 #endif // __itkKernelTransform_h

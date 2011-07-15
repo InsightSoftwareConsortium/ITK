@@ -10,9 +10,9 @@ and to convert a
 <a href=\"http://www.vtk.org/doc/nightly/html/classvtkImageData.html\">vtkImageData</a>
 into an itk::Image, all without having to duplicate their buffers.")
 
-itk_module(ITK-VTK
+itk_module(ITKVTK
   DEPENDS
-    ITK-Common
+    ITKCommon
   DESCRIPTION
     "${DOCUMENTATION}"
 )

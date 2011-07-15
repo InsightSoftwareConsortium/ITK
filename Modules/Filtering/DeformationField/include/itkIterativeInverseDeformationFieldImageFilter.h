@@ -45,7 +45,7 @@ namespace itk
  *
  * \author  Corinne Mattmann
  *
- * \ingroup ITK-DeformationField
+ * \ingroup ITKDeformationField
  */
 
 template< class TInputImage, class TOutputImage >
@@ -128,6 +128,6 @@ private:
 };
 } // end namespace itk
 
-#include "itkIterativeInverseDeformationFieldImageFilter.txx"
+#include "itkIterativeInverseDeformationFieldImageFilter.hxx"
 
 #endif

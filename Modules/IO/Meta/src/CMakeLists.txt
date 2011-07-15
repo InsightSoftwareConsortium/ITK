@@ -1,10 +1,10 @@
-set(ITK-IO-Meta_SRC
+set(ITKIOMeta_SRC
 itkMetaArrayWriter.cxx
 itkMetaImageIO.cxx
 itkMetaArrayReader.cxx
 itkMetaImageIOFactory.cxx
 )
 
-add_library(ITK-IO-Meta ${ITK-IO-Meta_SRC})
-target_link_libraries(ITK-IO-Meta  ${ITK-MetaIO_LIBRARIES} ${ITK-IO-Base_LIBRARIES})
-itk_module_target(ITK-IO-Meta)
+add_library(ITKIOMeta ${ITKIOMeta_SRC})
+target_link_libraries(ITKIOMeta  ${ITKMetaIO_LIBRARIES} ${ITKIOBase_LIBRARIES})
+itk_module_target(ITKIOMeta)

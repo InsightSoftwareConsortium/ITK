@@ -33,7 +33,7 @@ namespace itk
  *
  * \ingroup RegistrationMetrics
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 
 template< class TFixedObject,  class TMovingObject >
@@ -80,7 +80,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkObjectToObjectMetric.txx"
+#include "itkObjectToObjectMetric.hxx"
 #endif
 
 #endif

@@ -43,8 +43,8 @@ namespace itk
  *
  * \sa ImageToImageFilter
  *
- * \ingroup Singlethreaded
- * \ingroup ITK-ConnectedComponents
+ * \ingroup SingelThreaded
+ * \ingroup ITKConnectedComponents
  *
  * \wiki
  * \wikiexample{ImageProcessing/ConnectedComponentImageFilter,Label connected components in a binary image}
@@ -264,7 +264,7 @@ public:
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #if !defined( CABLE_CONFIGURATION )
-#include "itkConnectedComponentImageFilter.txx"
+#include "itkConnectedComponentImageFilter.hxx"
 #endif
 #endif
 

@@ -29,7 +29,7 @@ namespace itk
  * Vol. 16 No. 3 June 1997
  *
  * \ingroup Transforms
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  */
 template< class TScalarType, // Data type for scalars (float or
                              // double)
@@ -122,7 +122,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkVolumeSplineKernelTransform.txx"
+#include "itkVolumeSplineKernelTransform.hxx"
 #endif
 
 #endif // __itkVolumeSplineKernelTransform_h

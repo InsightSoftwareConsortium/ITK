@@ -97,7 +97,7 @@ namespace itk
  *
  * \sa LevelSetTypeDefault
  * \ingroup LevelSetSegmentation
- * \ingroup ITK-FastMarching
+ * \ingroup ITKFastMarching
  */
 template<
   class TLevelSet,
@@ -404,7 +404,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFastMarchingImageFilter.txx"
+#include "itkFastMarchingImageFilter.hxx"
 #endif
 
 #endif

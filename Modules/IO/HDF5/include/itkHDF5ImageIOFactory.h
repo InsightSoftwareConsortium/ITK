@@ -31,7 +31,7 @@ namespace itk
    * \author KEnt Williams
    * \brief Create instances of HDF5ImageIO objects using an object
    * factory.
-   * \ingroup ITK-IO-HDF5
+   * \ingroup ITKIOHDF5
    */
 class ITK_EXPORT HDF5ImageIOFactory:public ObjectFactoryBase
 {

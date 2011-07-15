@@ -60,7 +60,7 @@ namespace itk
  * any calls to AddNode. This would allow the user later to distinguish between
  * valid and non-valid pixels.
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 template< class TNode, unsigned int VImageDimension = 2 >
@@ -151,7 +151,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSparseImage.txx"
+#include "itkSparseImage.hxx"
 #endif
 
 #endif

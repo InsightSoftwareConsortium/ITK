@@ -68,7 +68,7 @@ namespace itk
  * a specialized Print() characteristics to produce results desirable for their application.
  * A set of very crude Macros {NATIVE_TYPE_METADATAPRINT, ITK_OBJECT_TYPE_METADATAPRINT_1COMMA, ITK_IMAGE_TYPE_METADATAPRINT  }
  * are provided to facilitate a very simple implementation, and as an example.
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class MetaDataObjectType >
 class ITK_EXPORT MetaDataObject:public MetaDataObjectBase
@@ -351,7 +351,7 @@ NATIVE_TYPE_METADATAPRINT_NOCONST(std::string)
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkMetaDataObject.txx"
+#include "itkMetaDataObject.hxx"
 #endif
 
 #endif //itkMetaDataObject_h

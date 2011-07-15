@@ -35,7 +35,7 @@ namespace itk
  * supported by this class.
  *
  * \sa SpatialObject CompositeSpatialObject FEMObject
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 
 template < unsigned int TDimension = 3>
@@ -91,7 +91,7 @@ protected:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFEMObjectSpatialObject.txx"
+#include "itkFEMObjectSpatialObject.hxx"
 #endif
 
 #endif //__itkFEMObjectSpatialObject_h

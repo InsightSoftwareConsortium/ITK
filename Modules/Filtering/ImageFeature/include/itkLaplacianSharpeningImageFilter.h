@@ -43,7 +43,7 @@ namespace itk
  * \sa LaplacianOperator
  *
  * \ingroup ImageFeatureExtraction
- * \ingroup ITK-ImageFeature
+ * \ingroup ITKImageFeature
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT LaplacianSharpeningImageFilter:
@@ -127,7 +127,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLaplacianSharpeningImageFilter.txx"
+#include "itkLaplacianSharpeningImageFilter.hxx"
 #endif
 
 #endif

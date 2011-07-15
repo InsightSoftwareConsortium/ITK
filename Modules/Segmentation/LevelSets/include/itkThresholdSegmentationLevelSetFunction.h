@@ -50,7 +50,7 @@ namespace itk
  *
  * \sa SegmentationLevelSetImageFunction
  *  \sa ThresholdSegmentationLevelSetImageFilter
- * \ingroup ITK-LevelSets
+ * \ingroup ITKLevelSets
  */
 template< class TImageType, class TFeatureImageType = TImageType >
 class ITK_EXPORT ThresholdSegmentationLevelSetFunction:
@@ -195,7 +195,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkThresholdSegmentationLevelSetFunction.txx"
+#include "itkThresholdSegmentationLevelSetFunction.hxx"
 #endif
 
 #endif

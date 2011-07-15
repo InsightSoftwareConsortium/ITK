@@ -29,7 +29,7 @@ namespace itk
  * can be explicitly selected.
  *
  * \ingroup Transforms
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  */
 template<
   class TScalarType = double,      // Data type for scalars
@@ -137,7 +137,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkCenteredAffineTransform.txx"
+#include "itkCenteredAffineTransform.hxx"
 #endif
 
 #endif /* __itkCenteredAffineTransform_h */

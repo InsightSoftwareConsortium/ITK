@@ -34,7 +34,7 @@ namespace Accessor
  * to the types defined as template parameters
  *
  * \ingroup ImageAdaptors
- * \ingroup ITK-ImageAdaptors
+ * \ingroup ITKImageAdaptors
  */
 
 template< class TInternalType, class TExternalType >
@@ -65,7 +65,7 @@ public:
  * types following C++ default casting rules.
  *
  * \ingroup ImageAdaptors
- * \ingroup ITK-ImageAdaptors
+ * \ingroup ITKImageAdaptors
  */
 template< class TImage, class TOutputPixelType >
 class ITK_EXPORT AcosImageAdaptor:public

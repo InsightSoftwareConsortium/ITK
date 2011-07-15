@@ -110,7 +110,7 @@ namespace fem
  *   \note TODO :  Keep the full field around (if using
  *   re-gridding). Introduce compensation for kinematic non-linearity
  *   in time (if using Eulerian frame).
- * \ingroup ITK-FEMRegistration
+ * \ingroup ITKFEMRegistration
  */
 
 template <class TMovingImage, class TFixedImage, class TFemObjectType>
@@ -704,7 +704,7 @@ private:
 }  // end namespace itk::fem
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFEMRegistrationFilter.txx"
+#include "itkFEMRegistrationFilter.hxx"
 #endif
 
 #endif

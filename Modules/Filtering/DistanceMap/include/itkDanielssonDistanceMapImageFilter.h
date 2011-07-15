@@ -53,7 +53,7 @@ namespace itk
  *
  * \ingroup ImageFeatureExtraction
  *
- * \ingroup ITK-DistanceMap
+ * \ingroup ITKDistanceMap
  */
 
 template< class TInputImage, class TOutputImage >
@@ -220,7 +220,7 @@ private:
 } //end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDanielssonDistanceMapImageFilter.txx"
+#include "itkDanielssonDistanceMapImageFilter.hxx"
 #endif
 
 #endif

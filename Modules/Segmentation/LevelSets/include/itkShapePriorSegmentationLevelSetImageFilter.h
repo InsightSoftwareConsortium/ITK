@@ -66,7 +66,7 @@ namespace itk
  * \par
  * [1] Leventon, M.E. et al. "Statistical Shape Influence in Geodesic Active Contours", CVPR 2000.
  *
- * \ingroup ITK-LevelSets
+ * \ingroup ITKLevelSets
  */
 template< class TInputImage,
           class TFeatureImage,
@@ -201,7 +201,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShapePriorSegmentationLevelSetImageFilter.txx"
+#include "itkShapePriorSegmentationLevelSetImageFilter.hxx"
 #endif
 
 #endif

@@ -41,7 +41,7 @@
 #       for example:
 #
 #          ~/src/ITK/Utilities/Maintenance/runValgrind.sh    \
-#                $HOME/bin/ITK/Debug/bin/ITK-IO-HDF5TestDriver \
+#                $HOME/bin/ITK/Debug/bin/ITKIOHDF5TestDriver \
 #                "itkHDF5ImageIOTest"   \
 #                "$HOME/bin/ITK/Debug/Testing/Temporary"
 #

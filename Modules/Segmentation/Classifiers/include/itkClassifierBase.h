@@ -80,7 +80,7 @@ namespace itk
  * This class is templated over the container type.
  *
  * \ingroup ClassificationFilters
- * \ingroup ITK-Classifiers
+ * \ingroup ITKClassifiers
  */
 template< class TDataContainer >
 class ITK_EXPORT ClassifierBase:public LightProcessObject
@@ -172,7 +172,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkClassifierBase.txx"
+#include "itkClassifierBase.hxx"
 #endif
 
 #endif

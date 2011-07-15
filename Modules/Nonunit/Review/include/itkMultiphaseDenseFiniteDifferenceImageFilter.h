@@ -95,7 +95,7 @@ namespace itk
  *
  * \ingroup ImageFilters
  * \sa FiniteDifferenceImageFilter
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction,
           typename TIdCell = unsigned int >
@@ -226,7 +226,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMultiphaseDenseFiniteDifferenceImageFilter.txx"
+#include "itkMultiphaseDenseFiniteDifferenceImageFilter.hxx"
 #endif
 
 #endif

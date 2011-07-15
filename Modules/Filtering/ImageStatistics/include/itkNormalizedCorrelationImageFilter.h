@@ -40,7 +40,7 @@ namespace itk
  * \sa Neighborhood
  * \sa NeighborhoodOperator
  * \sa NeighborhoodIterator
- * \ingroup ITK-ImageStatistics
+ * \ingroup ITKImageStatistics
  *
  * \wiki
  * \wikiexample{Images/NormalizedCorrelationImageFilter,Normalized correlation}
@@ -165,7 +165,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNormalizedCorrelationImageFilter.txx"
+#include "itkNormalizedCorrelationImageFilter.hxx"
 #endif
 
 #endif

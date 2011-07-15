@@ -47,7 +47,7 @@ namespace itk
  *
  * \sa PadLabelMapFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TInputImage >
 class ITK_EXPORT AutoCropLabelMapFilter:
@@ -127,7 +127,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAutoCropLabelMapFilter.txx"
+#include "itkAutoCropLabelMapFilter.hxx"
 #endif
 
 #endif

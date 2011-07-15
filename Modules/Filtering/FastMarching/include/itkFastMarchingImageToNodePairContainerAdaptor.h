@@ -44,7 +44,7 @@ namespace itk
  * \sa FastMarchingTraitsBase
  * \sa FastMarchingBase
  *
- * \ingroup ITK-FastMarching
+ * \ingroup ITKFastMarching
 */
 template< class TInput, class TOutput, class TImage >
 class FastMarchingImageToNodePairContainerAdaptor :
@@ -156,5 +156,5 @@ private:
   };
 }
 
-#include "itkFastMarchingImageToNodePairContainerAdaptor.txx"
+#include "itkFastMarchingImageToNodePairContainerAdaptor.hxx"
 #endif // __itkFastMarchingImageToNodePairContainerAdaptor_h

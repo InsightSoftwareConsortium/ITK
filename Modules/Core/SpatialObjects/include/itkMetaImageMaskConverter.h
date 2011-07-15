@@ -31,7 +31,7 @@ namespace itk
 /** \class MetaImageMaskConverter
  *  \brief converts between MetaObject<->SpatialObject
  *  \sa MetaConverterBase
- *  \ingroup ITK-SpatialObjects
+ *  \ingroup ITKSpatialObjects
  */
 template< unsigned int NDimensions = 3 >
 class ITK_EXPORT MetaImageMaskConverter :

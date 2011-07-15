@@ -39,7 +39,7 @@ namespace itk
  *             IEEE PAMI, Vol 14, No. 2, February 1992
  *
  * \ingroup RegistrationMetrics
- * \ingroup ITK-RegistrationCommon
+ * \ingroup ITKRegistrationCommon
  */
 template< class TFixedPointSet, class TMovingPointSet,
           class TDistanceMap =
@@ -121,7 +121,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkEuclideanDistancePointMetric.txx"
+#include "itkEuclideanDistancePointMetric.hxx"
 #endif
 
 #endif

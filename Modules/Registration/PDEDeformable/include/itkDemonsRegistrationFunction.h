@@ -47,7 +47,7 @@ namespace itk
  *
  * \sa DemonsRegistrationFilter
  * \ingroup FiniteDifferenceFunctions
- * \ingroup ITK-PDEDeformableRegistration
+ * \ingroup ITKPDEDeformableRegistration
  */
 template< class TFixedImage, class TMovingImage, class TDeformationField >
 class ITK_EXPORT DemonsRegistrationFunction:
@@ -242,7 +242,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDemonsRegistrationFunction.txx"
+#include "itkDemonsRegistrationFunction.hxx"
 #endif
 
 #endif

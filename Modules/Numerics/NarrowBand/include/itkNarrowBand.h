@@ -42,7 +42,7 @@ public:
 
 /** \class NarrowBand
  * \brief Narrow Band class
- * \ingroup ITK-NarrowBand
+ * \ingroup ITKNarrowBand
  */
 template< class NodeType >
 class ITK_EXPORT NarrowBand:public LightObject
@@ -171,7 +171,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNarrowBand.txx"
+#include "itkNarrowBand.hxx"
 #endif
 
 #endif

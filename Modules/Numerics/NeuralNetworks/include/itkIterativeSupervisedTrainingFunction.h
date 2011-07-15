@@ -27,7 +27,7 @@ namespace Statistics
 /** \class IterativeSupervisedTrainingFunction
  * \brief This is the itkIterativeSupervisedTrainingFunction class.
  *
- * \ingroup ITK-NeuralNetworks
+ * \ingroup ITKNeuralNetworks
  */
 
 template<class TSample, class TTargetVector, class ScalarType>
@@ -71,7 +71,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-  #include "itkIterativeSupervisedTrainingFunction.txx"
+  #include "itkIterativeSupervisedTrainingFunction.hxx"
 #endif
 
 #endif

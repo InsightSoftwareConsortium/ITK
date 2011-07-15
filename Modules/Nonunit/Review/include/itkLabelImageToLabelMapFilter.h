@@ -38,7 +38,7 @@ namespace itk
  *
  * \sa BinaryImageToLabelMapFilter, LabelMapToLabelImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TInputImage, class TOutputImage =
             LabelMap< LabelObject< typename TInputImage::PixelType,
@@ -118,7 +118,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLabelImageToLabelMapFilter.txx"
+#include "itkLabelImageToLabelMapFilter.hxx"
 #endif
 
 #endif

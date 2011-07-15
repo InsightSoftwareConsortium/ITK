@@ -1,7 +1,7 @@
-itk_module(ITK-IO-Base
+itk_module(ITKIOBase
   DEPENDS
-    ITK-Common
+    ITKCommon
   TEST_DEPENDS
-    ITK-TestKernel
-    ITK-ImageIntensity
+    ITKTestKernel
+    ITKImageIntensity
 )

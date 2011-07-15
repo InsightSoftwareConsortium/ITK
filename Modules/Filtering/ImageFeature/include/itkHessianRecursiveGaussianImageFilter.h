@@ -35,8 +35,8 @@ namespace itk
  *
  *
  * \ingroup GradientFilters
- * \ingroup Singlethreaded
- * \ingroup ITK-ImageFeature
+ * \ingroup SingelThreaded
+ * \ingroup ITKImageFeature
  */
 // NOTE that the ITK_TYPENAME macro has to be used here in lieu
 // of "typename" because VC++ doesn't like the typename keyword
@@ -179,7 +179,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkHessianRecursiveGaussianImageFilter.txx"
+#include "itkHessianRecursiveGaussianImageFilter.hxx"
 #endif
 
 #endif

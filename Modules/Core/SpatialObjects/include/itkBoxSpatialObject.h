@@ -30,7 +30,7 @@ namespace itk
  * The class may be used to represent N-dimensional boxes.
  * In two dimensions it is a rectangle, In three dimensions it is a cuboid...
  *
- * \ingroup ITK-SpatialObjects
+ * \ingroup ITKSpatialObjects
  */
 template< unsigned int TDimension = 3 >
 class ITK_EXPORT BoxSpatialObject:
@@ -99,7 +99,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBoxSpatialObject.txx"
+#include "itkBoxSpatialObject.hxx"
 #endif
 
 #endif // __itkBoxSpatialObject_h

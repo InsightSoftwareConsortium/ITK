@@ -30,7 +30,7 @@ namespace itk
  * and an itkMesh.
  *
  * \sa SpatialObject
- * \ingroup ITK-SpatialObjects
+ * \ingroup ITKSpatialObjects
  */
 
 template< class TMesh = Mesh< int > >
@@ -124,7 +124,7 @@ protected:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMeshSpatialObject.txx"
+#include "itkMeshSpatialObject.hxx"
 #endif
 
 #endif //__itkMeshSpatialObject_h

@@ -1,5 +1,5 @@
 itk_module_test()
-set(ITK-AnisotropicSmoothingTests
+set(ITKAnisotropicSmoothingTests
 itkGradientAnisotropicDiffusionImageFilterTest.cxx
 itkCurvatureAnisotropicDiffusionImageFilterTest.cxx
 itkMinMaxCurvatureFlowImageFilterTest.cxx
@@ -8,20 +8,20 @@ itkVectorAnisotropicDiffusionImageFilterTest.cxx
 itkGradientAnisotropicDiffusionImageFilterTest2.cxx
 )
 
-CreateTestDriver(ITK-AnisotropicSmoothing  "${ITK-AnisotropicSmoothing-Test_LIBRARIES}" "${ITK-AnisotropicSmoothingTests}")
+CreateTestDriver(ITKAnisotropicSmoothing  "${ITKAnisotropicSmoothing-Test_LIBRARIES}" "${ITKAnisotropicSmoothingTests}")
 
 itk_add_test(NAME itkAnisotropicSmoothingHeaderTest
-      COMMAND ITK-AnisotropicSmoothingTestDriver itkAnisotropicSmoothingHeaderTest)
+      COMMAND ITKAnisotropicSmoothingTestDriver itkAnisotropicSmoothingHeaderTest)
 itk_add_test(NAME itkGradientAnisotropicDiffusionImageFilterTest
-      COMMAND ITK-AnisotropicSmoothingTestDriver itkGradientAnisotropicDiffusionImageFilterTest)
+      COMMAND ITKAnisotropicSmoothingTestDriver itkGradientAnisotropicDiffusionImageFilterTest)
 itk_add_test(NAME itkCurvatureAnisotropicDiffusionImageFilterTest
-      COMMAND ITK-AnisotropicSmoothingTestDriver itkCurvatureAnisotropicDiffusionImageFilterTest)
+      COMMAND ITKAnisotropicSmoothingTestDriver itkCurvatureAnisotropicDiffusionImageFilterTest)
 itk_add_test(NAME itkMinMaxCurvatureFlowImageFilterTest
-      COMMAND ITK-AnisotropicSmoothingTestDriver itkMinMaxCurvatureFlowImageFilterTest)
+      COMMAND ITKAnisotropicSmoothingTestDriver itkMinMaxCurvatureFlowImageFilterTest)
 itk_add_test(NAME itkVectorAnisotropicDiffusionImageFilterTest
-      COMMAND ITK-AnisotropicSmoothingTestDriver itkVectorAnisotropicDiffusionImageFilterTest)
+      COMMAND ITKAnisotropicSmoothingTestDriver itkVectorAnisotropicDiffusionImageFilterTest)
 itk_add_test(NAME itkGradientAnisotropicDiffusionImageFilterTest2
-      COMMAND ITK-AnisotropicSmoothingTestDriver
+      COMMAND ITKAnisotropicSmoothingTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/GradientAnisotropicDiffusionImageFilterTest2.png
               ${ITK_TEST_OUTPUT_DIR}/GradientAnisotropicDiffusionImageFilterTest2.png
     itkGradientAnisotropicDiffusionImageFilterTest2 ${ITK_DATA_ROOT}/Input/cake_easy.png ${ITK_TEST_OUTPUT_DIR}/GradientAnisotropicDiffusionImageFilterTest2.png)

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkOptimizer_txx
-#define _itkOptimizer_txx
+#ifndef _itkOptimizer_hxx
+#define _itkOptimizer_hxx
 
 #include "itkOptimizer.h"
 

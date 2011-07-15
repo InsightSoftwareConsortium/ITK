@@ -37,7 +37,7 @@ namespace itk {
  *
  * \sa AttributeLabelObject
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template<class TImage, class TAttributeAccessor=
     typename Functor::AttributeLabelObjectAccessor< typename TImage::LabelObjectType >, bool VPhysicalPosition=true >
@@ -101,7 +101,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAttributePositionLabelMapFilter.txx"
+#include "itkAttributePositionLabelMapFilter.hxx"
 #endif
 
 #endif
