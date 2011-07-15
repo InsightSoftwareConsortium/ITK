@@ -400,7 +400,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNarrowBandLevelSetImageFilter.txx"
+#include "itkNarrowBandLevelSetImageFilter.hxx"
 #endif
 
 #endif

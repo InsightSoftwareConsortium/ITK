@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNormalizeToConstantImageFilter_txx
-#define __itkNormalizeToConstantImageFilter_txx
+#ifndef __itkNormalizeToConstantImageFilter_hxx
+#define __itkNormalizeToConstantImageFilter_hxx
 
 #include "itkNormalizeToConstantImageFilter.h"
 

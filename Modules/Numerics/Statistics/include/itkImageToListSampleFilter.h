@@ -138,7 +138,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageToListSampleFilter.txx"
+#include "itkImageToListSampleFilter.hxx"
 #endif
 
 #endif

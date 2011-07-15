@@ -144,7 +144,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkFrustumSpatialFunction.txx"
+#include "itkFrustumSpatialFunction.hxx"
 #endif
 
 #endif

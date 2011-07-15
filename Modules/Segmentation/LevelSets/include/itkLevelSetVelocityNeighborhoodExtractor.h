@@ -144,7 +144,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetVelocityNeighborhoodExtractor.txx"
+#include "itkLevelSetVelocityNeighborhoodExtractor.hxx"
 #endif
 
 #endif

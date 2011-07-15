@@ -148,7 +148,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkTreeNode.txx"
+#include "itkTreeNode.hxx"
 #endif
 
 #endif

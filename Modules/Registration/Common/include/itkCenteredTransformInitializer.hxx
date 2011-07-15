@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCenteredTransformInitializer_txx
-#define __itkCenteredTransformInitializer_txx
+#ifndef __itkCenteredTransformInitializer_hxx
+#define __itkCenteredTransformInitializer_hxx
 
 #include "itkCenteredTransformInitializer.h"
 
@@ -210,4 +210,4 @@ CenteredTransformInitializer< TTransform, TFixedImage, TMovingImage >
 }
 }  // namespace itk
 
-#endif /* __itkCenteredTransformInitializer_txx */
+#endif /* __itkCenteredTransformInitializer_hxx */

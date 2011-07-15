@@ -245,7 +245,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBilateralImageFilter.txx"
+#include "itkBilateralImageFilter.hxx"
 #endif
 
 #endif

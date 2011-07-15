@@ -202,7 +202,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMirrorPadImageFilter.txx"
+#include "itkMirrorPadImageFilter.hxx"
 #endif
 
 #endif

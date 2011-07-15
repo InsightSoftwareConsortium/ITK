@@ -91,7 +91,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVectorAnisotropicDiffusionFunction.txx"
+#include "itkVectorAnisotropicDiffusionFunction.hxx"
 #endif
 
 #endif

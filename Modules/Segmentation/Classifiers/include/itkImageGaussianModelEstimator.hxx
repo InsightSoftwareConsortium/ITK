@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageGaussianModelEstimator_txx
-#define __itkImageGaussianModelEstimator_txx
+#ifndef __itkImageGaussianModelEstimator_hxx
+#define __itkImageGaussianModelEstimator_hxx
 
 #include "itkImageGaussianModelEstimator.h"
 namespace itk

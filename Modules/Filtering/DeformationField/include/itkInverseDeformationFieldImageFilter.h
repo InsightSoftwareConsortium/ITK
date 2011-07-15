@@ -205,7 +205,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkInverseDeformationFieldImageFilter.txx"
+#include "itkInverseDeformationFieldImageFilter.hxx"
 #endif
 
 #endif

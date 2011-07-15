@@ -195,7 +195,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPointSetToImageMetric.txx"
+#include "itkPointSetToImageMetric.hxx"
 #endif
 
 #endif

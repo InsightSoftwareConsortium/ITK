@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFiniteCylinderSpatialFunction_txx
-#define __itkFiniteCylinderSpatialFunction_txx
+#ifndef __itkFiniteCylinderSpatialFunction_hxx
+#define __itkFiniteCylinderSpatialFunction_hxx
 
 #include "itkFiniteCylinderSpatialFunction.h"
 #include <math.h>

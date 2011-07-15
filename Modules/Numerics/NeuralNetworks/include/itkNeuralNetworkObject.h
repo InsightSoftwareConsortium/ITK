@@ -72,7 +72,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNeuralNetworkObject.txx"
+#include "itkNeuralNetworkObject.hxx"
 #endif
 
 #endif

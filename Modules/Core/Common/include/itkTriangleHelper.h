@@ -88,5 +88,5 @@ private:
 };
 }
 
-#include "itkTriangleHelper.txx"
+#include "itkTriangleHelper.hxx"
 #endif

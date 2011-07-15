@@ -153,7 +153,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageGaussianModelEstimator.txx"
+#include "itkImageGaussianModelEstimator.hxx"
 #endif
 
 #endif

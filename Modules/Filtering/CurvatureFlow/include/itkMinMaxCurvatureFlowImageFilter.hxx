@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMinMaxCurvatureFlowImageFilter_txx
-#define __itkMinMaxCurvatureFlowImageFilter_txx
+#ifndef __itkMinMaxCurvatureFlowImageFilter_hxx
+#define __itkMinMaxCurvatureFlowImageFilter_hxx
 
 #include "itkMinMaxCurvatureFlowImageFilter.h"
 

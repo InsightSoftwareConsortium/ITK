@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryMask3DMeshSource_txx
-#define __itkBinaryMask3DMeshSource_txx
+#ifndef __itkBinaryMask3DMeshSource_hxx
+#define __itkBinaryMask3DMeshSource_hxx
 
 #ifdef __INTEL_COMPILER
 #pragma warning(disable: 592)

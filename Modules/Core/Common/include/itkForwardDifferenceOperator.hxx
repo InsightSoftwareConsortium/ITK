@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkForwardDifferenceOperator_txx
-#define __itkForwardDifferenceOperator_txx
+#ifndef __itkForwardDifferenceOperator_hxx
+#define __itkForwardDifferenceOperator_hxx
 #include "itkForwardDifferenceOperator.h"
 
 #include "itkNumericTraits.h"

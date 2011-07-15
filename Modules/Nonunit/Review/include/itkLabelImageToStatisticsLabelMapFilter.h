@@ -195,7 +195,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLabelImageToStatisticsLabelMapFilter.txx"
+#include "itkLabelImageToStatisticsLabelMapFilter.hxx"
 #endif
 
 #endif

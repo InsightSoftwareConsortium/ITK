@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMElement3DStrain_txx
-#define __itkFEMElement3DStrain_txx
+#ifndef __itkFEMElement3DStrain_hxx
+#define __itkFEMElement3DStrain_hxx
 
 #include "itkFEMElement3DStrain.h"
 
@@ -141,4 +141,4 @@ Element3DStrain<TBaseClass>
 }
 }  // end namespace itk::fem
 
-#endif // #ifndef __itkFEMElement3DStrain_txx
+#endif // #ifndef __itkFEMElement3DStrain_hxx

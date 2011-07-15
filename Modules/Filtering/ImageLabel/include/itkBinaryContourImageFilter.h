@@ -208,7 +208,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryContourImageFilter.txx"
+#include "itkBinaryContourImageFilter.hxx"
 #endif
 
 #endif

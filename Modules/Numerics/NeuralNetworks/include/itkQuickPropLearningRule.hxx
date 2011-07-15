@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuickPropLearningRule_txx
-#define __itkQuickPropLearningRule_txx
+#ifndef __itkQuickPropLearningRule_hxx
+#define __itkQuickPropLearningRule_hxx
 
 #include "itkQuickPropLearningRule.h"
 

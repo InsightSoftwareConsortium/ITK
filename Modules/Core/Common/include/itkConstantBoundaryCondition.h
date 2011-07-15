@@ -154,7 +154,7 @@ private:
 } // end namespace itk
 
 #if ITK_TEMPLATE_TXX
-#include "itkConstantBoundaryCondition.txx"
+#include "itkConstantBoundaryCondition.hxx"
 #endif
 
 #endif

@@ -177,7 +177,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkReconstructionImageFilter.txx"
+#include "itkReconstructionImageFilter.hxx"
 #endif
 
 #endif

@@ -128,6 +128,6 @@ private:
 };
 } // end namespace itk
 
-#include "itkIterativeInverseDeformationFieldImageFilter.txx"
+#include "itkIterativeInverseDeformationFieldImageFilter.hxx"
 
 #endif

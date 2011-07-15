@@ -187,7 +187,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLabelVotingImageFilter.txx"
+#include "itkLabelVotingImageFilter.hxx"
 #endif
 
 #endif

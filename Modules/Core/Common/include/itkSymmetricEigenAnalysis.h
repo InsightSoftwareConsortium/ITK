@@ -313,7 +313,7 @@ std::ostream & operator<<(std::ostream & os,
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSymmetricEigenAnalysis.txx"
+#include "itkSymmetricEigenAnalysis.hxx"
 #endif
 
 #endif

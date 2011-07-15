@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkRescaleIntensityImageFilter_txx
-#define __itkRescaleIntensityImageFilter_txx
+#ifndef __itkRescaleIntensityImageFilter_hxx
+#define __itkRescaleIntensityImageFilter_hxx
 
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"

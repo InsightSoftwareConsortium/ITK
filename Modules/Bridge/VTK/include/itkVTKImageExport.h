@@ -125,7 +125,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVTKImageExport.txx"
+#include "itkVTKImageExport.hxx"
 #endif
 
 #endif

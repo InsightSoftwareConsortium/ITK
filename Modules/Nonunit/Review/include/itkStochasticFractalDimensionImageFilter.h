@@ -114,7 +114,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkStochasticFractalDimensionImageFilter.txx"
+#include "itkStochasticFractalDimensionImageFilter.hxx"
 #endif
 
 #endif

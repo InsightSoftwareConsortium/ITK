@@ -21,9 +21,9 @@
 
 #include <iostream>
 
-#include "itkDeformableSimplexMesh3DGradientConstraintForceFilter.txx"
-#include "itkDeformableSimplexMesh3DBalloonForceFilter.txx"
-#include "itkDeformableSimplexMesh3DFilter.txx"
+#include "itkDeformableSimplexMesh3DGradientConstraintForceFilter.hxx"
+#include "itkDeformableSimplexMesh3DBalloonForceFilter.hxx"
+#include "itkDeformableSimplexMesh3DFilter.hxx"
 
 
 

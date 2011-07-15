@@ -298,7 +298,7 @@ public:
 }  // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSmapsFileParser.txx"
+#include "itkSmapsFileParser.hxx"
 #endif
 
 #endif // __itkSmapsFileParser_h

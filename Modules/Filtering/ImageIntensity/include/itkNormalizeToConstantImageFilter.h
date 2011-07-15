@@ -123,7 +123,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNormalizeToConstantImageFilter.txx"
+#include "itkNormalizeToConstantImageFilter.hxx"
 #endif
 
 #endif

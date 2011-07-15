@@ -238,7 +238,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkSimilarity2DTransform.txx"
+#include "itkSimilarity2DTransform.hxx"
 #endif
 
 #endif /* __itkSimilarity2DTransform_h */

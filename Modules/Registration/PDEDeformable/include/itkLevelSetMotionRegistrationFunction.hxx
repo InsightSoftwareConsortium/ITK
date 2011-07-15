@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLevelSetMotionRegistrationFunction_txx
-#define __itkLevelSetMotionRegistrationFunction_txx
+#ifndef __itkLevelSetMotionRegistrationFunction_hxx
+#define __itkLevelSetMotionRegistrationFunction_hxx
 
 #include "itkLevelSetMotionRegistrationFunction.h"
 #include "itkMacro.h"

@@ -399,7 +399,7 @@ private:
 }  // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFEMSolver.txx"
+#include "itkFEMSolver.hxx"
 #endif
 
 #endif // #ifndef __itkFEMSolver_h

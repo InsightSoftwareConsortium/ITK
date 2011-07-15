@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMatrix_txx
-#define __itkMatrix_txx
+#ifndef __itkMatrix_hxx
+#define __itkMatrix_hxx
 
 #include "itkMatrix.h"
 #include "itkNumericTraits.h"

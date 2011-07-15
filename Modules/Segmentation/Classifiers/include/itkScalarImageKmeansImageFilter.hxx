@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkScalarImageKmeansImageFilter_txx
-#define __itkScalarImageKmeansImageFilter_txx
+#ifndef __itkScalarImageKmeansImageFilter_hxx
+#define __itkScalarImageKmeansImageFilter_hxx
 
 #include "itkScalarImageKmeansImageFilter.h"
 #include "itkImageRegionExclusionIteratorWithIndex.h"

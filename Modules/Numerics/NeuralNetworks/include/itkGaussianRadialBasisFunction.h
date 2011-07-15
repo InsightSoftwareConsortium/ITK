@@ -69,7 +69,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-  #include "itkGaussianRadialBasisFunction.txx"
+  #include "itkGaussianRadialBasisFunction.hxx"
 #endif
 
 #endif

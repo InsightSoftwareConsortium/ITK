@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkImageToImageFilter_txx
-#define __itkImageToImageFilter_txx
+#ifndef __itkImageToImageFilter_hxx
+#define __itkImageToImageFilter_hxx
 #include "itkImageToImageFilter.h"
 
 namespace itk

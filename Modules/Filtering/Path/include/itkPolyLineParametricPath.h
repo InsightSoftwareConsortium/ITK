@@ -144,7 +144,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkPolyLineParametricPath.txx"
+#include "itkPolyLineParametricPath.hxx"
 #endif
 
 #endif

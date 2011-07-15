@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNormalQuadEdgeMeshFilter_txx
-#define __itkNormalQuadEdgeMeshFilter_txx
+#ifndef __itkNormalQuadEdgeMeshFilter_hxx
+#define __itkNormalQuadEdgeMeshFilter_hxx
 
 #include "itkNormalQuadEdgeMeshFilter.h"
 

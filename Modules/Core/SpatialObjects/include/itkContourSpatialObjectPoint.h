@@ -87,7 +87,7 @@ protected:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkContourSpatialObjectPoint.txx"
+#include "itkContourSpatialObjectPoint.hxx"
 #endif
 
 #endif // __itkContourSpatialObjectPoint_h

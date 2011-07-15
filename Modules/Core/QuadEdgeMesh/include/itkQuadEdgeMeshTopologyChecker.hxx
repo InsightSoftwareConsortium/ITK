@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuadEdgeMeshTopologyChecker_txx
-#define __itkQuadEdgeMeshTopologyChecker_txx
+#ifndef __itkQuadEdgeMeshTopologyChecker_hxx
+#define __itkQuadEdgeMeshTopologyChecker_hxx
 
 #include "itkQuadEdgeMeshTopologyChecker.h"
 

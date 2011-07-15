@@ -227,7 +227,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkRigid3DTransform.txx"
+#include "itkRigid3DTransform.hxx"
 #endif
 
 #endif /* __itkRigid3DTransform_h */

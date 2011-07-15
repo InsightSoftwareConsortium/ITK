@@ -220,7 +220,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageRandomConstIteratorWithIndex.txx"
+#include "itkImageRandomConstIteratorWithIndex.hxx"
 #endif
 
 #endif

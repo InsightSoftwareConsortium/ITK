@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVoronoiDiagram2D_txx
-#define __itkVoronoiDiagram2D_txx
+#ifndef __itkVoronoiDiagram2D_hxx
+#define __itkVoronoiDiagram2D_hxx
 #include "itkVoronoiDiagram2D.h"
 
 #include <algorithm>

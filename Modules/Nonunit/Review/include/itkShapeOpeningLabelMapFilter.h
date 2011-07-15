@@ -172,7 +172,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShapeOpeningLabelMapFilter.txx"
+#include "itkShapeOpeningLabelMapFilter.hxx"
 #endif
 
 #endif

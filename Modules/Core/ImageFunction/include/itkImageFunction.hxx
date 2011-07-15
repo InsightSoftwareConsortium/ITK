@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageFunction_txx
-#define __itkImageFunction_txx
+#ifndef __itkImageFunction_hxx
+#define __itkImageFunction_hxx
 
 #include "itkImageFunction.h"
 

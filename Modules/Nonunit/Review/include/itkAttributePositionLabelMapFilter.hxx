@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAttributePositionLabelMapFilter_txx
-#define __itkAttributePositionLabelMapFilter_txx
+#ifndef __itkAttributePositionLabelMapFilter_hxx
+#define __itkAttributePositionLabelMapFilter_hxx
 
 #include "itkAttributePositionLabelMapFilter.h"
 #include "itkProgressReporter.h"

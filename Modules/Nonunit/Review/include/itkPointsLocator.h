@@ -131,7 +131,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPointsLocator.txx"
+#include "itkPointsLocator.hxx"
 #endif
 
 #endif

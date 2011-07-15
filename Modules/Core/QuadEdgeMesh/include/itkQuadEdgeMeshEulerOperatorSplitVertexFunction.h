@@ -82,7 +82,7 @@ private:
 };
 } // namespace itk
 
-#include "itkQuadEdgeMeshEulerOperatorSplitVertexFunction.txx"
+#include "itkQuadEdgeMeshEulerOperatorSplitVertexFunction.hxx"
 
 #endif
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkWatershedBoundary_txx
-#define __itkWatershedBoundary_txx
+#ifndef __itkWatershedBoundary_hxx
+#define __itkWatershedBoundary_hxx
 #include "itkWatershedBoundary.h"
 
 #if defined( _MSC_VER )

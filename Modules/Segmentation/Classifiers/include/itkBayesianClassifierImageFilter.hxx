@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkBayesianClassifierImageFilter_txx
-#define __itkBayesianClassifierImageFilter_txx
+#ifndef __itkBayesianClassifierImageFilter_hxx
+#define __itkBayesianClassifierImageFilter_hxx
 
 #include "itkBayesianClassifierImageFilter.h"
 #include "itkImageRegionConstIterator.h"

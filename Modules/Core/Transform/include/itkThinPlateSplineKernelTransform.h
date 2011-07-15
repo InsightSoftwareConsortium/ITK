@@ -117,7 +117,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkThinPlateSplineKernelTransform.txx"
+#include "itkThinPlateSplineKernelTransform.hxx"
 #endif
 
 #endif // __itkThinPlateSplineKernelTransform_h

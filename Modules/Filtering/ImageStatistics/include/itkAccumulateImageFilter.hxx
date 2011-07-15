@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAccumulateImageFilter_txx
-#define __itkAccumulateImageFilter_txx
+#ifndef __itkAccumulateImageFilter_hxx
+#define __itkAccumulateImageFilter_hxx
 
 #include "itkAccumulateImageFilter.h"
 #include "itkImageRegionIterator.h"

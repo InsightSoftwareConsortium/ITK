@@ -514,7 +514,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkBSplineDeformableTransform.txx"
+#include "itkBSplineDeformableTransform.hxx"
 #endif
 
 #endif /* __itkBSplineDeformableTransform_h */

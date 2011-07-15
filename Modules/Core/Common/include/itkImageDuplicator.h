@@ -115,7 +115,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkImageDuplicator.txx"
+#include "itkImageDuplicator.hxx"
 #endif
 
 #endif /* __itkImageDuplicator_h */

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSymmetricSecondRankTensor_txx
-#define __itkSymmetricSecondRankTensor_txx
+#ifndef __itkSymmetricSecondRankTensor_hxx
+#define __itkSymmetricSecondRankTensor_hxx
 
 #include "itkNumericTraitsTensorPixel.h"
 

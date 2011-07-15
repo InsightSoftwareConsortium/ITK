@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkIdentityTransferFunction_txx
-#define __itkIdentityTransferFunction_txx
+#ifndef __itkIdentityTransferFunction_hxx
+#define __itkIdentityTransferFunction_hxx
 
 #include "itkIdentityTransferFunction.h"
 

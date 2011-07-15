@@ -334,7 +334,7 @@ Rigid2DTransform< TScalarType >::BackTransform(const OutputCovariantVectorType &
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkRigid2DTransform.txx"
+#include "itkRigid2DTransform.hxx"
 #endif
 
 #endif /* __itkRigid2DTransform_h */

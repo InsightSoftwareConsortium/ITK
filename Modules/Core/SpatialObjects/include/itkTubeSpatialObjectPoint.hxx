@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkTubeSpatialObjectPoint_txx
-#define __itkTubeSpatialObjectPoint_txx
+#ifndef __itkTubeSpatialObjectPoint_hxx
+#define __itkTubeSpatialObjectPoint_hxx
 
 #include "itkTubeSpatialObjectPoint.h"
 

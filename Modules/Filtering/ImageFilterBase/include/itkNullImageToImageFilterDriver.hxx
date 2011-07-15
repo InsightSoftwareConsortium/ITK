@@ -20,8 +20,8 @@
  * type filter in or out of an itk pipeline for testing purposes.
  */
 
-#ifndef __itkNullImageToImageFilterDriver_txx
-#define __itkNullImageToImageFilterDriver_txx
+#ifndef __itkNullImageToImageFilterDriver_hxx
+#define __itkNullImageToImageFilterDriver_hxx
 
 #include "itkPixelTraits.h"
 #include "itkImage.h"

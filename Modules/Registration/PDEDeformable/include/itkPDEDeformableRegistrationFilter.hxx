@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPDEDeformableRegistrationFilter_txx
-#define __itkPDEDeformableRegistrationFilter_txx
+#ifndef __itkPDEDeformableRegistrationFilter_hxx
+#define __itkPDEDeformableRegistrationFilter_hxx
 
 #include "itkPDEDeformableRegistrationFilter.h"
 

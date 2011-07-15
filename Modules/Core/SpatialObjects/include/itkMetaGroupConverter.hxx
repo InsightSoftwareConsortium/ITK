@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMetaGroupConverter_txx
-#define __itkMetaGroupConverter_txx
+#ifndef __itkMetaGroupConverter_hxx
+#define __itkMetaGroupConverter_hxx
 
 #include "itkMetaGroupConverter.h"
 

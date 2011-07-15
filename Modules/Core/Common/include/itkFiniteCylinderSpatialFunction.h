@@ -120,7 +120,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkFiniteCylinderSpatialFunction.txx"
+#include "itkFiniteCylinderSpatialFunction.hxx"
 #endif
 
 #endif

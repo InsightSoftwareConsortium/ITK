@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVector_txx
-#define __itkVector_txx
+#ifndef __itkVector_hxx
+#define __itkVector_hxx
 
 #include "vnl/vnl_math.h"
 #include "vnl/vnl_vector.h"

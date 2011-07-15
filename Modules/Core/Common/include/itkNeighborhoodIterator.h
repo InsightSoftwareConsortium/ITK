@@ -329,7 +329,7 @@ public:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNeighborhoodIterator.txx"
+#include "itkNeighborhoodIterator.hxx"
 #endif
 
 #endif

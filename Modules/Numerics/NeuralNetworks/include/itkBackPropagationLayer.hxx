@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBackPropagationLayer_txx
-#define __itkBackPropagationLayer_txx
+#ifndef __itkBackPropagationLayer_hxx
+#define __itkBackPropagationLayer_hxx
 
 #include "itkBackPropagationLayer.h"
 

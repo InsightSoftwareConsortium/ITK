@@ -153,7 +153,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkParametricPath.txx"
+#include "itkParametricPath.hxx"
 #endif
 
 #endif

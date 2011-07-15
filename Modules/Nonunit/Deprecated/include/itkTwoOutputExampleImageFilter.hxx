@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTwoOutputExampleImageFilter_txx
-#define __itkTwoOutputExampleImageFilter_txx
+#ifndef __itkTwoOutputExampleImageFilter_hxx
+#define __itkTwoOutputExampleImageFilter_hxx
 
 #include "itkTwoOutputExampleImageFilter.h"
 #include "itkImageRegionIterator.h"

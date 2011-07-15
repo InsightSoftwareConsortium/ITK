@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuadraticTriangleCell_txx
-#define __itkQuadraticTriangleCell_txx
+#ifndef __itkQuadraticTriangleCell_hxx
+#define __itkQuadraticTriangleCell_hxx
 #include "itkQuadraticTriangleCell.h"
 
 namespace itk

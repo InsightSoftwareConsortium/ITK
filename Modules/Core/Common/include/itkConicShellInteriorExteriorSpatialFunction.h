@@ -151,7 +151,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkConicShellInteriorExteriorSpatialFunction.txx"
+#include "itkConicShellInteriorExteriorSpatialFunction.hxx"
 #endif
 
 #endif

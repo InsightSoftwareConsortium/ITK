@@ -177,7 +177,7 @@ protected:
 } //end of namespace
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSimplexMeshToTriangleMeshFilter.txx"
+#include "itkSimplexMeshToTriangleMeshFilter.hxx"
 #endif
 
 #endif //__SimplexMeshToTriangleMeshFilter_h

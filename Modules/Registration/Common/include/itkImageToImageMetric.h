@@ -586,7 +586,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageToImageMetric.txx"
+#include "itkImageToImageMetric.hxx"
 #endif
 
 #endif

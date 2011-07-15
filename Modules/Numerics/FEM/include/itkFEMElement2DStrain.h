@@ -126,7 +126,7 @@ protected:
 }  // end namespace itk::fem
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFEMElement2DStrain.txx"
+#include "itkFEMElement2DStrain.hxx"
 #endif
 
 #endif  // #ifndef __itkFEMElement2DStrain_h

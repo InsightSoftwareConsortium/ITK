@@ -139,7 +139,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMorphologicalWatershedImageFilter.txx"
+#include "itkMorphologicalWatershedImageFilter.hxx"
 #endif
 
 #endif

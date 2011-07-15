@@ -111,7 +111,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLineCell.txx"
+#include "itkLineCell.hxx"
 #endif
 
 #endif

@@ -64,7 +64,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkResourceProbesCollectorBase.txx"
+#include "itkResourceProbesCollectorBase.hxx"
 #endif
 
 #endif //__itkResourceProbesCollectorBase_h

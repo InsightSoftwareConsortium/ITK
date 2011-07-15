@@ -22,13 +22,13 @@
 #include <iostream>
 
 #include "itkBayesianClassifierInitializationImageFilter.h"
-#include "itkBayesianClassifierImageFilter.txx"
-#include "itkBayesianClassifierInitializationImageFilter.txx"
-#include "itkImageKmeansModelEstimator.txx"
+#include "itkBayesianClassifierImageFilter.hxx"
+#include "itkBayesianClassifierInitializationImageFilter.hxx"
+#include "itkImageKmeansModelEstimator.hxx"
 #include "itkScalarImageKmeansImageFilter.h"
-#include "itkImageGaussianModelEstimator.txx"
-#include "itkScalarImageKmeansImageFilter.txx"
-#include "itkImageModelEstimatorBase.txx"
+#include "itkImageGaussianModelEstimator.hxx"
+#include "itkScalarImageKmeansImageFilter.hxx"
+#include "itkImageModelEstimatorBase.hxx"
 
 
 

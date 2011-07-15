@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMixtureModelComponentBase_txx
-#define __itkMixtureModelComponentBase_txx
+#ifndef __itkMixtureModelComponentBase_hxx
+#define __itkMixtureModelComponentBase_hxx
 
 #include "itkMixtureModelComponentBase.h"
 

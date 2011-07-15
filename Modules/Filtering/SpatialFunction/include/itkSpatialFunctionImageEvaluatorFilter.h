@@ -101,7 +101,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSpatialFunctionImageEvaluatorFilter.txx"
+#include "itkSpatialFunctionImageEvaluatorFilter.hxx"
 #endif
 
 #endif

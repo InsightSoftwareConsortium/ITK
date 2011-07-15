@@ -168,7 +168,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNarrowBandCurvesLevelSetImageFilter.txx"
+#include "itkNarrowBandCurvesLevelSetImageFilter.hxx"
 #endif
 
 #endif

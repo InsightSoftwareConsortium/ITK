@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkAmoebaOptimizer_txx
-#define _itkAmoebaOptimizer_txx
+#ifndef _itkAmoebaOptimizer_hxx
+#define _itkAmoebaOptimizer_hxx
 
 #include "itkAmoebaOptimizer.h"
 

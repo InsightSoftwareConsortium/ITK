@@ -269,7 +269,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVectorContainerToListSampleAdaptor.txx"
+#include "itkVectorContainerToListSampleAdaptor.hxx"
 #endif
 
 #endif

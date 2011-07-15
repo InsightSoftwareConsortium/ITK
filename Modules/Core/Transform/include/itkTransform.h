@@ -286,7 +286,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkTransform.txx"
+#include "itkTransform.hxx"
 #endif
 
 #endif

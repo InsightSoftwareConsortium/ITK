@@ -102,7 +102,7 @@ private:
 } // End namespace itk.
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNormalizedMutualInformationHistogramImageToImageMetric.txx"
+#include "itkNormalizedMutualInformationHistogramImageToImageMetric.hxx"
 #endif
 
 #endif // __itkNormalizedMutualInformationHistogramImageToImageMetric_h

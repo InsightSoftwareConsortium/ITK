@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDisplacementFieldJacobianDeterminantFilter_txx
-#define __itkDisplacementFieldJacobianDeterminantFilter_txx
+#ifndef __itkDisplacementFieldJacobianDeterminantFilter_hxx
+#define __itkDisplacementFieldJacobianDeterminantFilter_hxx
 
 #include "itkDisplacementFieldJacobianDeterminantFilter.h"
 

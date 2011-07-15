@@ -132,7 +132,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkHardConnectedComponentImageFilter.txx"
+#include "itkHardConnectedComponentImageFilter.hxx"
 #endif
 
 #endif

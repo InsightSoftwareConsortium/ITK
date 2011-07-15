@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkEuclideanSquareDistanceMetric_txx
-#define __itkEuclideanSquareDistanceMetric_txx
+#ifndef __itkEuclideanSquareDistanceMetric_hxx
+#define __itkEuclideanSquareDistanceMetric_hxx
 
 #include "itkEuclideanSquareDistanceMetric.h"
 

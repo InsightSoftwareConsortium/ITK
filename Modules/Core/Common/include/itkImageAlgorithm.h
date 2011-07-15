@@ -59,7 +59,7 @@ struct ImageAlgorithm
 
 
 #if ITK_TEMPLATE_TXX
-#include "itkImageAlgorithm.txx"
+#include "itkImageAlgorithm.hxx"
 #endif
 
 

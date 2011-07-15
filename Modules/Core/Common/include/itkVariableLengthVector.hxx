@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVariableLengthVector_txx
-#define __itkVariableLengthVector_txx
+#ifndef __itkVariableLengthVector_hxx
+#define __itkVariableLengthVector_hxx
 
 #include "itkNumericTraitsVariableLengthVectorPixel.h"
 #include "vnl/vnl_math.h"

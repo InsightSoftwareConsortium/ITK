@@ -202,7 +202,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkHoughTransform2DCirclesImageFilter.txx"
+#include "itkHoughTransform2DCirclesImageFilter.hxx"
 #endif
 
 #endif

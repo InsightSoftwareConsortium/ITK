@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSimplexMeshToTriangleMeshFilter_txx
-#define __itkSimplexMeshToTriangleMeshFilter_txx
+#ifndef __itkSimplexMeshToTriangleMeshFilter_hxx
+#define __itkSimplexMeshToTriangleMeshFilter_hxx
 
 #include "itkSimplexMeshToTriangleMeshFilter.h"
 
@@ -132,4 +132,4 @@ SimplexMeshToTriangleMeshFilter< TInputMesh, TOutputMesh >
 }
 } // end of namspace itk
 
-#endif //__SimplexMeshToTriangleMeshFilter_txx
+#endif //__SimplexMeshToTriangleMeshFilter_hxx

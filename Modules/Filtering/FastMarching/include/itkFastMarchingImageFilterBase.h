@@ -261,5 +261,5 @@ private:
   };
 }
 
-#include "itkFastMarchingImageFilterBase.txx"
+#include "itkFastMarchingImageFilterBase.hxx"
 #endif // __itkFastMarchingImageFilterBase_h

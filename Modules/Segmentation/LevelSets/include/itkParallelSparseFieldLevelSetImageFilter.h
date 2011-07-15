@@ -785,7 +785,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkParallelSparseFieldLevelSetImageFilter.txx"
+#include "itkParallelSparseFieldLevelSetImageFilter.hxx"
 #endif
 
 #endif

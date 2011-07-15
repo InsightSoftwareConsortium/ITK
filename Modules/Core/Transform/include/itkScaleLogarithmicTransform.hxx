@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkScaleLogarithmicTransform_txx
-#define __itkScaleLogarithmicTransform_txx
+#ifndef __itkScaleLogarithmicTransform_hxx
+#define __itkScaleLogarithmicTransform_hxx
 
 #include "itkScaleLogarithmicTransform.h"
 

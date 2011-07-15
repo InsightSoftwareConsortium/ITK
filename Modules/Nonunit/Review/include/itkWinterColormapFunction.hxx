@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkWinterColormapFunction_txx
-#define __itkWinterColormapFunction_txx
+#ifndef __itkWinterColormapFunction_hxx
+#define __itkWinterColormapFunction_hxx
 
 #include "itkWinterColormapFunction.h"
 

@@ -498,7 +498,7 @@ bool CalculateOrientedImage(
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLabelGeometryImageFilter.txx"
+#include "itkLabelGeometryImageFilter.hxx"
 #endif
 
 #endif

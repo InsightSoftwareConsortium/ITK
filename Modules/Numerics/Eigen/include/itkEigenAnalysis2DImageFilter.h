@@ -124,7 +124,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkEigenAnalysis2DImageFilter.txx"
+#include "itkEigenAnalysis2DImageFilter.hxx"
 #endif
 
 #endif

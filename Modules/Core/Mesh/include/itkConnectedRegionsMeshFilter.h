@@ -254,7 +254,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkConnectedRegionsMeshFilter.txx"
+#include "itkConnectedRegionsMeshFilter.hxx"
 #endif
 
 #endif

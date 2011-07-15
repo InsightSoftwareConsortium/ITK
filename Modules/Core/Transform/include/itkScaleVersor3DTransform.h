@@ -151,7 +151,7 @@ private:
 }  // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkScaleVersor3DTransform.txx"
+#include "itkScaleVersor3DTransform.hxx"
 #endif
 
 #endif /* __ScaleVersor3DTransform_h */

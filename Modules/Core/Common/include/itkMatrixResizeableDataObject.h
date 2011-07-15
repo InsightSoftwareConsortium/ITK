@@ -76,7 +76,7 @@ protected:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkMatrixResizeableDataObject.txx"
+#include "itkMatrixResizeableDataObject.hxx"
 #endif
 
 #endif

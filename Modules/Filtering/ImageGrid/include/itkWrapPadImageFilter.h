@@ -192,7 +192,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkWrapPadImageFilter.txx"
+#include "itkWrapPadImageFilter.hxx"
 #endif
 
 #endif

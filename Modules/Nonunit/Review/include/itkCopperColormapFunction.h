@@ -70,7 +70,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCopperColormapFunction.txx"
+#include "itkCopperColormapFunction.hxx"
 #endif
 
 #endif

@@ -328,7 +328,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkSpecialCoordinatesImage.txx"
+#include "itkSpecialCoordinatesImage.hxx"
 #endif
 
 #endif

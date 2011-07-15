@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAffineTransform_txx
-#define __itkAffineTransform_txx
+#ifndef __itkAffineTransform_hxx
+#define __itkAffineTransform_hxx
 
 #include "itkNumericTraits.h"
 #include "itkAffineTransform.h"

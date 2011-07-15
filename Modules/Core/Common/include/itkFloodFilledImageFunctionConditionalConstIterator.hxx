@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFloodFilledImageFunctionConditionalConstIterator_txx
-#define __itkFloodFilledImageFunctionConditionalConstIterator_txx
+#ifndef __itkFloodFilledImageFunctionConditionalConstIterator_hxx
+#define __itkFloodFilledImageFunctionConditionalConstIterator_hxx
 
 #include "itkFloodFilledImageFunctionConditionalConstIterator.h"
 

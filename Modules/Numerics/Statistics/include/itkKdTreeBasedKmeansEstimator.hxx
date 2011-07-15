@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkKdTreeBasedKmeansEstimator_txx
-#define __itkKdTreeBasedKmeansEstimator_txx
+#ifndef __itkKdTreeBasedKmeansEstimator_hxx
+#define __itkKdTreeBasedKmeansEstimator_hxx
 
 #include "itkKdTreeBasedKmeansEstimator.h"
 #include "itkStatisticsAlgorithm.h"

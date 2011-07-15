@@ -123,7 +123,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSurfaceSpatialObject.txx"
+#include "itkSurfaceSpatialObject.hxx"
 #endif
 
 #endif // __itkSurfaceSpatialObject_h

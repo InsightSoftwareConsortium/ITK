@@ -56,7 +56,7 @@ void DoFace(typename TImage::ConstPointer input,
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVanHerkGilWermanUtilities.txx"
+#include "itkVanHerkGilWermanUtilities.hxx"
 #endif
 
 #endif

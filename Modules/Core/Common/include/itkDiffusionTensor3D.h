@@ -157,7 +157,7 @@ public:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkDiffusionTensor3D.txx"
+#include "itkDiffusionTensor3D.hxx"
 #endif
 
 #endif

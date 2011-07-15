@@ -160,7 +160,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSimilarityIndexImageFilter.txx"
+#include "itkSimilarityIndexImageFilter.hxx"
 #endif
 
 #endif

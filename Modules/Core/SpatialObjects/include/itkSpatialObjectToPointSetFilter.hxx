@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSpatialObjectToPointSetFilter_txx
-#define __itkSpatialObjectToPointSetFilter_txx
+#ifndef __itkSpatialObjectToPointSetFilter_hxx
+#define __itkSpatialObjectToPointSetFilter_hxx
 
 #include "itkSpatialObjectToPointSetFilter.h"
 

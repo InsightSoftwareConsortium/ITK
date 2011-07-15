@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMutualInformationImageToImageMetric_txx
-#define __itkMutualInformationImageToImageMetric_txx
+#ifndef __itkMutualInformationImageToImageMetric_hxx
+#define __itkMutualInformationImageToImageMetric_hxx
 
 #include "itkMutualInformationImageToImageMetric.h"
 #include "itkImageRandomConstIteratorWithIndex.h"

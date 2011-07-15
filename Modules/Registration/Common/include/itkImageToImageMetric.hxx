@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageToImageMetric_txx
-#define __itkImageToImageMetric_txx
+#ifndef __itkImageToImageMetric_hxx
+#define __itkImageToImageMetric_hxx
 
 #include "itkImageToImageMetric.h"
 #include "itkImageRandomConstIteratorWithIndex.h"

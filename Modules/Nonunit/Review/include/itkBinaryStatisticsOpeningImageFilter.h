@@ -208,7 +208,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryStatisticsOpeningImageFilter.txx"
+#include "itkBinaryStatisticsOpeningImageFilter.hxx"
 #endif
 
 #endif

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageSpatialObject_txx
-#define __itkImageSpatialObject_txx
+#ifndef __itkImageSpatialObject_hxx
+#define __itkImageSpatialObject_hxx
 
 #include "itkImageSpatialObject.h"
 #include "itkSize.h"
@@ -359,4 +359,4 @@ ImageSpatialObject< TDimension,  PixelType >
 }
 } // end namespace itk
 
-#endif //__ImageSpatialObject_txx
+#endif //__ImageSpatialObject_hxx

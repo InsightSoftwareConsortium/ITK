@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSinRegularizedHeavisideStepFunction_txx
-#define __itkSinRegularizedHeavisideStepFunction_txx
+#ifndef __itkSinRegularizedHeavisideStepFunction_hxx
+#define __itkSinRegularizedHeavisideStepFunction_hxx
 
 #include "itkSinRegularizedHeavisideStepFunction.h"
 #include "vnl/vnl_math.h"

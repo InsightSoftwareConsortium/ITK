@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkJoinSeriesImageFilter_txx
-#define __itkJoinSeriesImageFilter_txx
+#ifndef __itkJoinSeriesImageFilter_hxx
+#define __itkJoinSeriesImageFilter_hxx
 
 #include "itkJoinSeriesImageFilter.h"
 #include "itkProgressReporter.h"

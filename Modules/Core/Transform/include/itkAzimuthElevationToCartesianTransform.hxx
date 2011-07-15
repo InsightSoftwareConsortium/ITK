@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAzimuthElevationToCartesianTransform_txx
-#define __itkAzimuthElevationToCartesianTransform_txx
+#ifndef __itkAzimuthElevationToCartesianTransform_hxx
+#define __itkAzimuthElevationToCartesianTransform_hxx
 
 #include "itkAzimuthElevationToCartesianTransform.h"
 

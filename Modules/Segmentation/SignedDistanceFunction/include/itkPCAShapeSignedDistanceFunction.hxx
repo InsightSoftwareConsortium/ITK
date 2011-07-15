@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPCAShapeSignedDistanceFunction_txx
-#define __itkPCAShapeSignedDistanceFunction_txx
+#ifndef __itkPCAShapeSignedDistanceFunction_hxx
+#define __itkPCAShapeSignedDistanceFunction_hxx
 
 #include "itkPCAShapeSignedDistanceFunction.h"
 #include "itkTranslationTransform.h"

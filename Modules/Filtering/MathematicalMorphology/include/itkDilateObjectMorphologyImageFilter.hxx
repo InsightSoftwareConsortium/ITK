@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDilateObjectMorphologyImageFilter_txx
-#define __itkDilateObjectMorphologyImageFilter_txx
+#ifndef __itkDilateObjectMorphologyImageFilter_hxx
+#define __itkDilateObjectMorphologyImageFilter_hxx
 
 #include "itkDilateObjectMorphologyImageFilter.h"
 

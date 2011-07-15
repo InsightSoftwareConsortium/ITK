@@ -21,8 +21,8 @@
 
 #include <iostream>
 
-#include "itkNarrowBandImageFilterBase.txx"
-#include "itkNarrowBand.txx"
+#include "itkNarrowBandImageFilterBase.hxx"
+#include "itkNarrowBand.hxx"
 
 
 

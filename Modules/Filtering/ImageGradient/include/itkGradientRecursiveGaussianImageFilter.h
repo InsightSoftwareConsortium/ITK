@@ -190,7 +190,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGradientRecursiveGaussianImageFilter.txx"
+#include "itkGradientRecursiveGaussianImageFilter.hxx"
 #endif
 
 #endif

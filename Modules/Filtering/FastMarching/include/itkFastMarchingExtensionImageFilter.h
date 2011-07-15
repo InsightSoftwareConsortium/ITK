@@ -153,7 +153,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFastMarchingExtensionImageFilter.txx"
+#include "itkFastMarchingExtensionImageFilter.hxx"
 #endif
 
 #endif

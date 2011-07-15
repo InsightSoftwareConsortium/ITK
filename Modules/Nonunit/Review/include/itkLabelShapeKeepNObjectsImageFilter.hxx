@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLabelShapeKeepNObjectsImageFilter_txx
-#define __itkLabelShapeKeepNObjectsImageFilter_txx
+#ifndef __itkLabelShapeKeepNObjectsImageFilter_hxx
+#define __itkLabelShapeKeepNObjectsImageFilter_hxx
 
 #include "itkLabelShapeKeepNObjectsImageFilter.h"
 #include "itkProgressAccumulator.h"

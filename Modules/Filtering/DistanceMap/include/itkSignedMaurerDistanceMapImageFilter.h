@@ -190,7 +190,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSignedMaurerDistanceMapImageFilter.txx"
+#include "itkSignedMaurerDistanceMapImageFilter.hxx"
 #endif
 
 #endif

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDerivativeImageFilter_txx
-#define __itkDerivativeImageFilter_txx
+#ifndef __itkDerivativeImageFilter_hxx
+#define __itkDerivativeImageFilter_hxx
 #include "itkDerivativeImageFilter.h"
 
 #include "itkNumericTraits.h"

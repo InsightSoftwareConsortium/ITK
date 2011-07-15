@@ -234,7 +234,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkObjectMorphologyImageFilter.txx"
+#include "itkObjectMorphologyImageFilter.hxx"
 #endif
 
 #endif

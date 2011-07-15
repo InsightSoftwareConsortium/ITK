@@ -22,15 +22,15 @@
 #include <iostream>
 
 #if defined(USE_FFTWF) || defined(USE_FFTWD)
-#include "itkFFTComplexConjugateToRealImageFilter.txx"
-#include "itkFFTRealToComplexConjugateImageFilter.txx"
+#include "itkFFTComplexConjugateToRealImageFilter.hxx"
+#include "itkFFTRealToComplexConjugateImageFilter.hxx"
 #include "itkFFTWCommon.h"
-#include "itkFFTWComplexConjugateToRealImageFilter.txx"
+#include "itkFFTWComplexConjugateToRealImageFilter.hxx"
 #include "itkFFTWGlobalConfiguration.h"
-#include "itkFFTWRealToComplexConjugateImageFilter.txx"
+#include "itkFFTWRealToComplexConjugateImageFilter.hxx"
 #endif
-#include "itkVnlFFTComplexConjugateToRealImageFilter.txx"
-#include "itkVnlFFTRealToComplexConjugateImageFilter.txx"
+#include "itkVnlFFTComplexConjugateToRealImageFilter.hxx"
+#include "itkVnlFFTRealToComplexConjugateImageFilter.hxx"
 
 int itkFFTHeaderTest ( int , char * [] )
 {

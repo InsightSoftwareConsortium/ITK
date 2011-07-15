@@ -184,7 +184,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageToSpatialObjectMetric.txx"
+#include "itkImageToSpatialObjectMetric.hxx"
 #endif
 
 #endif

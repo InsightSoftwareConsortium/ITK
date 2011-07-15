@@ -96,7 +96,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBoxMeanImageFilter.txx"
+#include "itkBoxMeanImageFilter.hxx"
 #endif
 
 #endif

@@ -113,7 +113,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNormalizedCorrelationPointSetToImageMetric.txx"
+#include "itkNormalizedCorrelationPointSetToImageMetric.hxx"
 #endif
 
 #endif

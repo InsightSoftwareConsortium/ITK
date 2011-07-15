@@ -96,7 +96,7 @@ protected:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageMaskSpatialObject.txx"
+#include "itkImageMaskSpatialObject.hxx"
 #endif
 
 #endif //__itkImageMaskSpatialObject_h

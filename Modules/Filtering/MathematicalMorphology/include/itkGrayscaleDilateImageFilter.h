@@ -160,7 +160,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGrayscaleDilateImageFilter.txx"
+#include "itkGrayscaleDilateImageFilter.hxx"
 #endif
 
 #endif

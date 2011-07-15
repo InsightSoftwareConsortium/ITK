@@ -127,7 +127,7 @@ protected:
 }  // end namespace itk::fem
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFEMElement1DStress.txx"
+#include "itkFEMElement1DStress.hxx"
 #endif
 
 #endif  // #ifndef __itkFEMElement1DStress_h

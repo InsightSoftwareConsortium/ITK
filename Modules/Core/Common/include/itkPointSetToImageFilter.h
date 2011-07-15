@@ -162,7 +162,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPointSetToImageFilter.txx"
+#include "itkPointSetToImageFilter.hxx"
 #endif
 
 #endif

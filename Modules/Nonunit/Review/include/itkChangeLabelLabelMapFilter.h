@@ -108,7 +108,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkChangeLabelLabelMapFilter.txx"
+#include "itkChangeLabelLabelMapFilter.hxx"
 #endif
 
 #endif

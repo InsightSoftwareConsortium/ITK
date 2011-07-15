@@ -187,7 +187,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShapeKeepNObjectsLabelMapFilter.txx"
+#include "itkShapeKeepNObjectsLabelMapFilter.hxx"
 #endif
 
 #endif

@@ -91,7 +91,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBioCell.txx"
+#include "itkBioCell.hxx"
 #endif
 
 #endif

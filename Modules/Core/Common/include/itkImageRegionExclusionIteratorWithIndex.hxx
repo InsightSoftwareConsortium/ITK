@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageRegionExclusionIteratorWithIndex_txx
-#define __itkImageRegionExclusionIteratorWithIndex_txx
+#ifndef __itkImageRegionExclusionIteratorWithIndex_hxx
+#define __itkImageRegionExclusionIteratorWithIndex_hxx
 
 #include "itkImageRegionExclusionIteratorWithIndex.h"
 

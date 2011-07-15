@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTransformToDeformationFieldSource_txx
-#define __itkTransformToDeformationFieldSource_txx
+#ifndef __itkTransformToDeformationFieldSource_hxx
+#define __itkTransformToDeformationFieldSource_hxx
 
 #include "itkTransformToDeformationFieldSource.h"
 
@@ -379,4 +379,4 @@ TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
 } // end GetMTime()
 } // end namespace itk
 
-#endif // end #ifndef _itkTransformToDeformationFieldSource_txx
+#endif // end #ifndef _itkTransformToDeformationFieldSource_hxx

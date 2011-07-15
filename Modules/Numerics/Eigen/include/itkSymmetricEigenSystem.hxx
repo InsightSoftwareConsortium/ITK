@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSymmetricEigenSystem_txx
-#define __itkSymmetricEigenSystem_txx
+#ifndef __itkSymmetricEigenSystem_hxx
+#define __itkSymmetricEigenSystem_hxx
 
 #include "itkSymmetricEigenSystem.h"
 

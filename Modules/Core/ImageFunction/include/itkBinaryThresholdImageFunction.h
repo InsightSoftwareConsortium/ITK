@@ -169,7 +169,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkBinaryThresholdImageFunction.txx"
+#include "itkBinaryThresholdImageFunction.hxx"
 #endif
 
 #endif

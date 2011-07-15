@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuadEdgeMeshZipMeshFunction_txx
-#define __itkQuadEdgeMeshZipMeshFunction_txx
+#ifndef __itkQuadEdgeMeshZipMeshFunction_hxx
+#define __itkQuadEdgeMeshZipMeshFunction_hxx
 
 namespace itk
 {
@@ -210,4 +210,4 @@ QuadEdgeMeshZipMeshFunction< TMesh, TQEType >::Evaluate(QEType *e)
 
 #endif
 
-// eof - itkQuadEdgeMeshZipMeshFunction.txx
+// eof - itkQuadEdgeMeshZipMeshFunction.hxx

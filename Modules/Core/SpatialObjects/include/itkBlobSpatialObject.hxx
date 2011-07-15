@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBlobSpatialObject_txx
-#define __itkBlobSpatialObject_txx
+#ifndef __itkBlobSpatialObject_hxx
+#define __itkBlobSpatialObject_hxx
 
 #if defined( _MSC_VER )
 #pragma warning ( disable : 4786 )

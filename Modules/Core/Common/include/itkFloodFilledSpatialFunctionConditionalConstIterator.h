@@ -130,7 +130,7 @@ protected: //made protected so other iterators can access
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkFloodFilledSpatialFunctionConditionalConstIterator.txx"
+#include "itkFloodFilledSpatialFunctionConditionalConstIterator.hxx"
 #endif
 
 #endif

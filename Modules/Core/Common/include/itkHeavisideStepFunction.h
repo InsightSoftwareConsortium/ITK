@@ -89,7 +89,7 @@ private:
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkHeavisideStepFunction.txx"
+#include "itkHeavisideStepFunction.hxx"
 #endif
 
 #endif

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBSplineControlPointImageFunction_txx
-#define __itkBSplineControlPointImageFunction_txx
+#ifndef __itkBSplineControlPointImageFunction_hxx
+#define __itkBSplineControlPointImageFunction_hxx
 
 #include "itkBSplineControlPointImageFunction.h"
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSimilarityIndexImageFilter_txx
-#define __itkSimilarityIndexImageFilter_txx
+#ifndef __itkSimilarityIndexImageFilter_hxx
+#define __itkSimilarityIndexImageFilter_hxx
 #include "itkSimilarityIndexImageFilter.h"
 
 #include "itkImageRegionIterator.h"

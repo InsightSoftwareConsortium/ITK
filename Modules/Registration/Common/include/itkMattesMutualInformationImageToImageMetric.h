@@ -346,7 +346,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMattesMutualInformationImageToImageMetric.txx"
+#include "itkMattesMutualInformationImageToImageMetric.hxx"
 #endif
 
 #endif

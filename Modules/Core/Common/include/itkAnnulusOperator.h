@@ -241,7 +241,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkAnnulusOperator.txx"
+#include "itkAnnulusOperator.hxx"
 #endif
 
 #endif

@@ -140,7 +140,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkWatershedBoundaryResolver.txx"
+#include "itkWatershedBoundaryResolver.hxx"
 #endif
 
 #endif

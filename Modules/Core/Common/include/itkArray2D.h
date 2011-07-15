@@ -113,7 +113,7 @@ std::ostream & operator<<(std::ostream & os, const Array2D< TValueType > & arr)
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkArray2D.txx"
+#include "itkArray2D.hxx"
 #endif
 
 #endif

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCompositeTransformWriter_txx
-#define __itkCompositeTransformWriter_txx
+#ifndef __itkCompositeTransformWriter_hxx
+#define __itkCompositeTransformWriter_hxx
 
 #include "itkCompositeTransformWriter.h"
 #include "itkTransformFileWriter.h"

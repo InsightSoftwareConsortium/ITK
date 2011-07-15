@@ -155,7 +155,7 @@ private:
 }  // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCenteredTransformInitializer.txx"
+#include "itkCenteredTransformInitializer.hxx"
 #endif
 
 #endif /* __itkCenteredTransformInitializer_h */

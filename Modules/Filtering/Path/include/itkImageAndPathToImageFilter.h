@@ -98,7 +98,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageAndPathToImageFilter.txx"
+#include "itkImageAndPathToImageFilter.hxx"
 #endif
 
 #endif

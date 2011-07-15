@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCannySegmentationLevelSetFunction_txx
-#define __itkCannySegmentationLevelSetFunction_txx
+#ifndef __itkCannySegmentationLevelSetFunction_hxx
+#define __itkCannySegmentationLevelSetFunction_hxx
 
 #include "itkCannySegmentationLevelSetFunction.h"
 #include "itkGradientImageFilter.h"

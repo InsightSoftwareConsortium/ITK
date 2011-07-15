@@ -203,7 +203,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVectorExpandImageFilter.txx"
+#include "itkVectorExpandImageFilter.hxx"
 #endif
 
 #endif

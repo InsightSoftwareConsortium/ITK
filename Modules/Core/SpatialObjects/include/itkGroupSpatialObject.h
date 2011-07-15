@@ -70,7 +70,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGroupSpatialObject.txx"
+#include "itkGroupSpatialObject.hxx"
 #endif
 
 #endif // __itkGroupSpatialObject_h

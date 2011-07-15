@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGrayscaleFunctionDilateImageFilter_txx
-#define __itkGrayscaleFunctionDilateImageFilter_txx
+#ifndef __itkGrayscaleFunctionDilateImageFilter_hxx
+#define __itkGrayscaleFunctionDilateImageFilter_hxx
 
 #include "itkGrayscaleFunctionDilateImageFilter.h"
 

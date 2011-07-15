@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSphereSpatialFunction_txx
-#define __itkSphereSpatialFunction_txx
+#ifndef __itkSphereSpatialFunction_hxx
+#define __itkSphereSpatialFunction_hxx
 
 #include "itkSphereSpatialFunction.h"
 

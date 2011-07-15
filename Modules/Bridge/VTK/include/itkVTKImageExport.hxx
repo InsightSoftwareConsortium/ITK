@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVTKImageExport_txx
-#define __itkVTKImageExport_txx
+#ifndef __itkVTKImageExport_hxx
+#define __itkVTKImageExport_hxx
 
 #include "itkVTKImageExport.h"
 

@@ -303,5 +303,5 @@ private:
 };
 }
 
-#include "itkEdgeDecimationQuadEdgeMeshFilter.txx"
+#include "itkEdgeDecimationQuadEdgeMeshFilter.hxx"
 #endif

@@ -476,7 +476,7 @@ private:
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #ifndef CABLE_CONFIGURATION
-#include "itkMesh.txx"
+#include "itkMesh.hxx"
 #endif
 #endif
 

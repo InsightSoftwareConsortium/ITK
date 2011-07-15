@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCorrelationCoefficientHistogramImageToImageMetric_txx
-#define __itkCorrelationCoefficientHistogramImageToImageMetric_txx
+#ifndef __itkCorrelationCoefficientHistogramImageToImageMetric_hxx
+#define __itkCorrelationCoefficientHistogramImageToImageMetric_hxx
 
 #include "itkCorrelationCoefficientHistogramImageToImageMetric.h"
 
@@ -142,4 +142,4 @@ CorrelationCoefficientHistogramImageToImageMetric< TFixedImage, TMovingImage >
 }
 }
 
-#endif // itkCorrelationCoefficientHistogramImageToImageMetric_txx
+#endif // itkCorrelationCoefficientHistogramImageToImageMetric_hxx

@@ -96,7 +96,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCorrespondenceDataStructureIterator.txx"
+#include "itkCorrespondenceDataStructureIterator.hxx"
 #endif
 
 #endif

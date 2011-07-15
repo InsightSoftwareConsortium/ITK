@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkReflectImageFilter_txx
-#define __itkReflectImageFilter_txx
+#ifndef __itkReflectImageFilter_hxx
+#define __itkReflectImageFilter_hxx
 
 #include "itkReflectImageFilter.h"
 #include "itkImageLinearIteratorWithIndex.h"

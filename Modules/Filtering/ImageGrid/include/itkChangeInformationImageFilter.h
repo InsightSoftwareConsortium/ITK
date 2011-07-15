@@ -247,7 +247,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkChangeInformationImageFilter.txx"
+#include "itkChangeInformationImageFilter.hxx"
 #endif
 
 #endif

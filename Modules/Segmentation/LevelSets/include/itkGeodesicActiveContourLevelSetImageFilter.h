@@ -170,7 +170,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGeodesicActiveContourLevelSetImageFilter.txx"
+#include "itkGeodesicActiveContourLevelSetImageFilter.hxx"
 #endif
 
 #endif

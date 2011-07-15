@@ -136,7 +136,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkElasticBodySplineKernelTransform.txx"
+#include "itkElasticBodySplineKernelTransform.hxx"
 #endif
 
 #endif // __itkElasticBodySplineKernelTransform_h

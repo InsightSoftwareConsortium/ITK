@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkJointDomainImageToListSampleAdaptor_txx
-#define __itkJointDomainImageToListSampleAdaptor_txx
+#ifndef __itkJointDomainImageToListSampleAdaptor_hxx
+#define __itkJointDomainImageToListSampleAdaptor_hxx
 
 #include "itkJointDomainImageToListSampleAdaptor.h"
 

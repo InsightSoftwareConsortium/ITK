@@ -136,7 +136,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkMedianImageFunction.txx"
+#include "itkMedianImageFunction.hxx"
 #endif
 
 #endif

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRobustAutomaticThresholdCalculator_txx
-#define __itkRobustAutomaticThresholdCalculator_txx
+#ifndef __itkRobustAutomaticThresholdCalculator_hxx
+#define __itkRobustAutomaticThresholdCalculator_hxx
 #include "itkRobustAutomaticThresholdCalculator.h"
 
 #include "itkImageRegionConstIteratorWithIndex.h"

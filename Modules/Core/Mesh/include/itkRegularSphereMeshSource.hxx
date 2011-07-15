@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRegularSphereMeshSource_txx
-#define __itkRegularSphereMeshSource_txx
+#ifndef __itkRegularSphereMeshSource_hxx
+#define __itkRegularSphereMeshSource_hxx
 
 #include "itkRegularSphereMeshSource.h"
 

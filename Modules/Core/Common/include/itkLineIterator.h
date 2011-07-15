@@ -133,7 +133,7 @@ public:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkLineIterator.txx"
+#include "itkLineIterator.hxx"
 #endif
 
 #endif

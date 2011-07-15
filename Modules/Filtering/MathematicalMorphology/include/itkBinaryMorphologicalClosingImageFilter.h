@@ -116,7 +116,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryMorphologicalClosingImageFilter.txx"
+#include "itkBinaryMorphologicalClosingImageFilter.hxx"
 #endif
 
 #endif

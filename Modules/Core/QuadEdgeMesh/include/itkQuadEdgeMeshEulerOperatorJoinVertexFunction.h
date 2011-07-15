@@ -160,7 +160,7 @@ private:
 };
 } // namespace itk
 
-#include "itkQuadEdgeMeshEulerOperatorJoinVertexFunction.txx"
+#include "itkQuadEdgeMeshEulerOperatorJoinVertexFunction.hxx"
 
 #endif
 

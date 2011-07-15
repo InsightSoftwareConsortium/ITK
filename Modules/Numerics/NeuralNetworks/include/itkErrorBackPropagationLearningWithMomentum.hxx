@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkErrorBackPropagationLearningWithMomentum_txx
-#define __itkErrorBackPropagationLearningWithMomentum_txx
+#ifndef __itkErrorBackPropagationLearningWithMomentum_hxx
+#define __itkErrorBackPropagationLearningWithMomentum_hxx
 
 #include "itkErrorBackPropagationLearningWithMomentum.h"
 #include <fstream>

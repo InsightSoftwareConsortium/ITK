@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkDeformableSimplexMesh3DFilter_txx
-#define __itkDeformableSimplexMesh3DFilter_txx
+#ifndef __itkDeformableSimplexMesh3DFilter_hxx
+#define __itkDeformableSimplexMesh3DFilter_hxx
 
 #include "itkDeformableSimplexMesh3DFilter.h"
 #include "itkNumericTraits.h"

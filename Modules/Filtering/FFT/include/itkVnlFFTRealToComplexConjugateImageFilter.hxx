@@ -15,10 +15,10 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVnlFFTRealToComplexConjugateImageFilter_txx
-#define __itkVnlFFTRealToComplexConjugateImageFilter_txx
+#ifndef __itkVnlFFTRealToComplexConjugateImageFilter_hxx
+#define __itkVnlFFTRealToComplexConjugateImageFilter_hxx
 #include "itkVnlFFTRealToComplexConjugateImageFilter.h"
-#include "itkFFTRealToComplexConjugateImageFilter.txx"
+#include "itkFFTRealToComplexConjugateImageFilter.hxx"
 #include <iostream>
 #include "itkIndent.h"
 #include "itkMetaDataObject.h"

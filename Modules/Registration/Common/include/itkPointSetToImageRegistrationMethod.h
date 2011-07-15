@@ -191,7 +191,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPointSetToImageRegistrationMethod.txx"
+#include "itkPointSetToImageRegistrationMethod.hxx"
 #endif
 
 #endif

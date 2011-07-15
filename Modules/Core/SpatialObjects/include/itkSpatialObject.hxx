@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSpatialObject_txx
-#define __itkSpatialObject_txx
+#ifndef __itkSpatialObject_hxx
+#define __itkSpatialObject_hxx
 
 #include "itkSpatialObject.h"
 #include "itkNumericTraits.h"
@@ -1024,4 +1024,4 @@ void SpatialObject< TDimension >
 }
 } // end of namespace itk
 
-#endif // __SpatialObject_txx
+#endif // __SpatialObject_hxx

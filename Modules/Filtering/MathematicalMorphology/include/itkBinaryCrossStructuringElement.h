@@ -123,7 +123,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkBinaryCrossStructuringElement.txx"
+#include "itkBinaryCrossStructuringElement.hxx"
 #endif
 
 #endif

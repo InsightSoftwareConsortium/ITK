@@ -174,7 +174,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMaskedMovingHistogramImageFilter.txx"
+#include "itkMaskedMovingHistogramImageFilter.hxx"
 #endif
 
 #endif

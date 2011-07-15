@@ -154,7 +154,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSampleClassifierFilter.txx"
+#include "itkSampleClassifierFilter.hxx"
 #endif
 
 #endif

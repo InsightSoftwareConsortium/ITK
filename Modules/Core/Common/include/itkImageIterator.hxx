@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageIterator_txx
-#define __itkImageIterator_txx
+#ifndef __itkImageIterator_hxx
+#define __itkImageIterator_hxx
 
 #include "itkImageIterator.h"
 

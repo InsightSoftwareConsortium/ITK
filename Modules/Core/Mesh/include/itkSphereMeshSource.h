@@ -108,6 +108,6 @@ private:
 };
 } // end namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSphereMeshSource.txx"
+#include "itkSphereMeshSource.hxx"
 #endif
 #endif

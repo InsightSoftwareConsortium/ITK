@@ -206,7 +206,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageRegionExclusionConstIteratorWithIndex.txx"
+#include "itkImageRegionExclusionConstIteratorWithIndex.hxx"
 #endif
 
 #endif

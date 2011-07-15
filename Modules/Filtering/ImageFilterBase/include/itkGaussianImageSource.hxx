@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGaussianImageSource_txx
-#define __itkGaussianImageSource_txx
+#ifndef __itkGaussianImageSource_hxx
+#define __itkGaussianImageSource_hxx
 
 #include "itkGaussianImageSource.h"
 #include "itkGaussianSpatialFunction.h"

@@ -303,7 +303,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkMapContainer.txx"
+#include "itkMapContainer.hxx"
 #endif
 
 #endif

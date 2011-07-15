@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuadEdgeMeshEulerOperatorJoinFacetFunction_txx
-#define __itkQuadEdgeMeshEulerOperatorJoinFacetFunction_txx
+#ifndef __itkQuadEdgeMeshEulerOperatorJoinFacetFunction_hxx
+#define __itkQuadEdgeMeshEulerOperatorJoinFacetFunction_hxx
 
 #include "itkQuadEdgeMeshEulerOperatorJoinFacetFunction.h"
 
@@ -82,4 +82,4 @@ QuadEdgeMeshEulerOperatorJoinFacetFunction< TMesh, TQEType >::Evaluate(QEType *e
 
 #endif
 
-// eof - itkQuadEdgeMeshEulerOperatorJoinFacetFunction.txx
+// eof - itkQuadEdgeMeshEulerOperatorJoinFacetFunction.hxx

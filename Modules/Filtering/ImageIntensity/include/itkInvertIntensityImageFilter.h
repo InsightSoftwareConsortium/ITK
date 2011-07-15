@@ -136,7 +136,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkInvertIntensityImageFilter.txx"
+#include "itkInvertIntensityImageFilter.hxx"
 #endif
 
 #endif

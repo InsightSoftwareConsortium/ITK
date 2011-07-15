@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkExtractImageFilter_txx
-#define __itkExtractImageFilter_txx
+#ifndef __itkExtractImageFilter_hxx
+#define __itkExtractImageFilter_hxx
 
 #include "itkExtractImageFilter.h"
 #include "itkImageAlgorithm.h"

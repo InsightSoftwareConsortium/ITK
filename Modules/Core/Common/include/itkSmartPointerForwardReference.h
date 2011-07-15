@@ -36,9 +36,9 @@ namespace itk
  * This class is nearly identical to itkSmartPointer except that is used in
  * situations where forward references or cyclic include dependencies become
  * a problem. This class requires that the .h file is included in the .h file
- * of the class using it, and the .txx file is included in the .cxx/.txx file
- * of the class using it. (Make sure that SmartPointerForwardReference.txx is
- * included last in the .cxx/.txx list of includes.)
+ * of the class using it, and the .hxx file is included in the .cxx/.hxx file
+ * of the class using it. (Make sure that SmartPointerForwardReference.hxx is
+ * included last in the .cxx/.hxx list of includes.)
  *
  * \ingroup ITKSystemObjects
  * \ingroup DataAccess

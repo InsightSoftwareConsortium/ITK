@@ -148,7 +148,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageToHistogramFilter.txx"
+#include "itkImageToHistogramFilter.hxx"
 #endif
 
 #endif

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuadEdgeMeshEulerOperatorDeleteCenterVertexFunction_txx
-#define __itkQuadEdgeMeshEulerOperatorDeleteCenterVertexFunction_txx
+#ifndef __itkQuadEdgeMeshEulerOperatorDeleteCenterVertexFunction_hxx
+#define __itkQuadEdgeMeshEulerOperatorDeleteCenterVertexFunction_hxx
 
 #include "itkQuadEdgeMeshEulerOperatorDeleteCenterVertexFunction.h"
 
@@ -121,4 +121,4 @@ QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction< TMesh, TQEType >::Evaluate(
 
 #endif
 
-// eof - itkQuadEdgeMeshEulerOperatorDeleteCenterVertexFunction.txx
+// eof - itkQuadEdgeMeshEulerOperatorDeleteCenterVertexFunction.hxx

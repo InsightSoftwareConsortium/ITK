@@ -65,7 +65,7 @@ private:
 };
 } // namespace itk
 
-#include "itkQuadEdgeMeshZipMeshFunction.txx"
+#include "itkQuadEdgeMeshZipMeshFunction.hxx"
 
 #endif
 

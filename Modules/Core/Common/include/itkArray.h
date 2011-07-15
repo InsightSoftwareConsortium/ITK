@@ -184,7 +184,7 @@ std::ostream & operator<<(std::ostream & os, const Array< TValueType > & arr)
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkArray.txx"
+#include "itkArray.hxx"
 #endif
 
 #endif

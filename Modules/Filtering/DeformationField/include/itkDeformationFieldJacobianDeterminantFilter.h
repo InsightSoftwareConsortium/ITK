@@ -144,7 +144,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDeformationFieldJacobianDeterminantFilter.txx"
+#include "itkDeformationFieldJacobianDeterminantFilter.hxx"
 #endif
 
 #endif

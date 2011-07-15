@@ -75,7 +75,7 @@ unsigned int GetLinePixels(const TLine line);
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSharedMorphologyUtilities.txx"
+#include "itkSharedMorphologyUtilities.hxx"
 #endif
 
 #endif

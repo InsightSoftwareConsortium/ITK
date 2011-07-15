@@ -171,5 +171,5 @@ private:
 };
 }
 
-#include "itkFastMarchingQuadEdgeMeshFilterBase.txx"
+#include "itkFastMarchingQuadEdgeMeshFilterBase.hxx"
 #endif // __itkFastMarchingQuadEdgeMeshFilterBase_h

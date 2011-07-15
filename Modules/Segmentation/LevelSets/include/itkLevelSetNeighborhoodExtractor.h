@@ -181,7 +181,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetNeighborhoodExtractor.txx"
+#include "itkLevelSetNeighborhoodExtractor.hxx"
 #endif
 
 #endif

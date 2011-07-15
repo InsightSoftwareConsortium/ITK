@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkScaleTransform_txx
-#define __itkScaleTransform_txx
+#ifndef __itkScaleTransform_hxx
+#define __itkScaleTransform_hxx
 
 #include "itkScaleTransform.h"
 #include "itkMath.h"

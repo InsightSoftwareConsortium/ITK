@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBorderQuadEdgeMeshFilter_txx
-#define __itkBorderQuadEdgeMeshFilter_txx
+#ifndef __itkBorderQuadEdgeMeshFilter_hxx
+#define __itkBorderQuadEdgeMeshFilter_hxx
 
 #include "itkBorderQuadEdgeMeshFilter.h"
 

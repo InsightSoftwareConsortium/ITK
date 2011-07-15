@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLandmarkSpatialObject_txx
-#define __itkLandmarkSpatialObject_txx
+#ifndef __itkLandmarkSpatialObject_hxx
+#define __itkLandmarkSpatialObject_hxx
 
 #if defined( _MSC_VER )
 #pragma warning ( disable : 4786 )

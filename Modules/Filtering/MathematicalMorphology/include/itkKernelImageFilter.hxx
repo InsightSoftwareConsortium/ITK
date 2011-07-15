@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkKernelImageFilter_txx
-#define __itkKernelImageFilter_txx
+#ifndef __itkKernelImageFilter_hxx
+#define __itkKernelImageFilter_hxx
 
 #include "itkKernelImageFilter.h"
 #include "itkProgressAccumulator.h"

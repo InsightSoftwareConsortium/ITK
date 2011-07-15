@@ -144,7 +144,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkThresholdImageFilter.txx"
+#include "itkThresholdImageFilter.hxx"
 #endif
 
 #endif

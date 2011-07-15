@@ -181,7 +181,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShapeRelabelLabelMapFilter.txx"
+#include "itkShapeRelabelLabelMapFilter.hxx"
 #endif
 
 #endif

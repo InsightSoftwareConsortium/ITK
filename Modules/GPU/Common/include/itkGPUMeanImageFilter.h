@@ -155,7 +155,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkGPUMeanImageFilter.txx"
+#include "itkGPUMeanImageFilter.hxx"
 #endif
 
 #endif

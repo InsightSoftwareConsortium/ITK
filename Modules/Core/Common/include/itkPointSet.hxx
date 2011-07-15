@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkPointSet_txx
-#define __itkPointSet_txx
+#ifndef __itkPointSet_hxx
+#define __itkPointSet_hxx
 
 #include "itkPointSet.h"
 #include "itkProcessObject.h"

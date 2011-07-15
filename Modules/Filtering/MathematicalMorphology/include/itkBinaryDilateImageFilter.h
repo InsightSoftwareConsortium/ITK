@@ -137,7 +137,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryDilateImageFilter.txx"
+#include "itkBinaryDilateImageFilter.hxx"
 #endif
 
 #endif

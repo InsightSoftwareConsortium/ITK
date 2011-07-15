@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkBSplineL2ResampleImageFilterBase_txx
-#define __itkBSplineL2ResampleImageFilterBase_txx
+#ifndef __itkBSplineL2ResampleImageFilterBase_hxx
+#define __itkBSplineL2ResampleImageFilterBase_hxx
 #include "itkBSplineL2ResampleImageFilterBase.h"
 #include "itkImageLinearIteratorWithIndex.h"
 //#include "itkImageRegionConstIteratorWithIndex.h"

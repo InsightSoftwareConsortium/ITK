@@ -202,7 +202,7 @@ protected: //made protected so other iterators can access
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkLineConstIterator.txx"
+#include "itkLineConstIterator.hxx"
 #endif
 
 #endif

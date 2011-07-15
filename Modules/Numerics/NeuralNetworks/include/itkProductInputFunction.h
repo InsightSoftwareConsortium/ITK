@@ -65,7 +65,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-  #include "itkProductInputFunction.txx"
+  #include "itkProductInputFunction.hxx"
 #endif
 
 #endif

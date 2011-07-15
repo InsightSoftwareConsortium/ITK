@@ -140,7 +140,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVotingBinaryHoleFillingImageFilter.txx"
+#include "itkVotingBinaryHoleFillingImageFilter.hxx"
 #endif
 
 #endif

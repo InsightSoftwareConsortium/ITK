@@ -210,7 +210,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkQuadEdgeMeshLineCell.txx"
+#include "itkQuadEdgeMeshLineCell.hxx"
 #endif
 
 #endif

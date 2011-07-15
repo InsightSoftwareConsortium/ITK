@@ -97,7 +97,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkSpatialFunction.txx"
+#include "itkSpatialFunction.hxx"
 #endif
 
 #endif

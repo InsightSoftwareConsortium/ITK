@@ -104,7 +104,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkInteriorExteriorMeshFilter.txx"
+#include "itkInteriorExteriorMeshFilter.hxx"
 #endif
 
 #endif

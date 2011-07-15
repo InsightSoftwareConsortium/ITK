@@ -144,7 +144,7 @@ protected:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkImageRegionReverseIterator.txx"
+#include "itkImageRegionReverseIterator.hxx"
 #endif
 
 #endif

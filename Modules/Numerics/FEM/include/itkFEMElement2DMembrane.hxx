@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMElement2DMembrane_txx
-#define __itkFEMElement2DMembrane_txx
+#ifndef __itkFEMElement2DMembrane_hxx
+#define __itkFEMElement2DMembrane_hxx
 
 #include "itkFEMElement2DMembrane.h"
 
@@ -111,4 +111,4 @@ Element2DMembrane<TBaseClass>
 }
 }  // end namespace itk::fem
 
-#endif // #ifndef __itkFEMElement2DMembrane_txx
+#endif // #ifndef __itkFEMElement2DMembrane_hxx

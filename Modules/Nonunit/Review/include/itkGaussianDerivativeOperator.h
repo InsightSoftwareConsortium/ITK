@@ -223,7 +223,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkGaussianDerivativeOperator.txx"
+#include "itkGaussianDerivativeOperator.hxx"
 #endif
 
 #endif

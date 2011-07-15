@@ -61,7 +61,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCompletelyConnectedWeightSet.txx"
+#include "itkCompletelyConnectedWeightSet.hxx"
 #endif
 
 #endif

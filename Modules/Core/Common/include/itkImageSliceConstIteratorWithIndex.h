@@ -208,7 +208,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageSliceConstIteratorWithIndex.txx"
+#include "itkImageSliceConstIteratorWithIndex.hxx"
 #endif
 
 #endif

@@ -103,7 +103,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVTKPolyDataWriter.txx"
+#include "itkVTKPolyDataWriter.hxx"
 #endif
 
 #endif

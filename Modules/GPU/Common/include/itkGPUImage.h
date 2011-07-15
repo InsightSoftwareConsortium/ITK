@@ -268,7 +268,7 @@ public:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkGPUImage.txx"
+#include "itkGPUImage.hxx"
 #endif
 
 #endif

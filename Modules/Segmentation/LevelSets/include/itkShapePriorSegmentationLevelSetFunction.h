@@ -154,7 +154,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShapePriorSegmentationLevelSetFunction.txx"
+#include "itkShapePriorSegmentationLevelSetFunction.hxx"
 #endif
 
 #endif

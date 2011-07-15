@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFEMSolver_txx
-#define __itkFEMSolver_txx
+#ifndef __itkFEMSolver_hxx
+#define __itkFEMSolver_hxx
 
 #include "itkFEMSolver.h"
 
@@ -970,4 +970,4 @@ Solver<VDimension>
 
 }
 } // end namespace itk::fem
-#endif // __itkFEMSolver_txx
+#endif // __itkFEMSolver_hxx

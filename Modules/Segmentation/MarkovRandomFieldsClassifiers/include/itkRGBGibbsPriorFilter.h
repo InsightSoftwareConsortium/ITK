@@ -249,6 +249,6 @@ private:
 };
 } // end namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRGBGibbsPriorFilter.txx"
+#include "itkRGBGibbsPriorFilter.hxx"
 #endif
 #endif

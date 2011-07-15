@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCompositeTransformReader_txx
-#define __itkCompositeTransformReader_txx
+#ifndef __itkCompositeTransformReader_hxx
+#define __itkCompositeTransformReader_hxx
 
 #include "itkCompositeTransformReader.h"
 #include "itkTransformFactory.h"

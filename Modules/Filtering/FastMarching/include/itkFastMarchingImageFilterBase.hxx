@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFastMarchingImageFilterBase_txx
-#define __itkFastMarchingImageFilterBase_txx
+#ifndef __itkFastMarchingImageFilterBase_hxx
+#define __itkFastMarchingImageFilterBase_hxx
 
 #include "itkImageRegionIterator.h"
 #include "itkConnectedComponentImageFilter.h"
@@ -1144,4 +1144,4 @@ InitializeIndices3D()
 }
 // -----------------------------------------------------------------------------
 }
-#endif // __itkFastMarchingImageFilterBase_txx
+#endif // __itkFastMarchingImageFilterBase_hxx

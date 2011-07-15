@@ -141,7 +141,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkFourierSeriesPath.txx"
+#include "itkFourierSeriesPath.hxx"
 #endif
 
 #endif

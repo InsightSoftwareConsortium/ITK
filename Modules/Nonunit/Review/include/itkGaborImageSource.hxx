@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGaborImageSource_txx
-#define __itkGaborImageSource_txx
+#ifndef __itkGaborImageSource_hxx
+#define __itkGaborImageSource_hxx
 
 #include "itkGaborKernelFunction.h"
 #include "itkGaborImageSource.h"

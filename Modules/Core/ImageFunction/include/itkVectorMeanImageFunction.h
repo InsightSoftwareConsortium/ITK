@@ -147,7 +147,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkVectorMeanImageFunction.txx"
+#include "itkVectorMeanImageFunction.hxx"
 #endif
 
 #endif

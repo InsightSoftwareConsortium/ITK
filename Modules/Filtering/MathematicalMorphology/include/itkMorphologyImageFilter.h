@@ -160,7 +160,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMorphologyImageFilter.txx"
+#include "itkMorphologyImageFilter.hxx"
 #endif
 
 #endif

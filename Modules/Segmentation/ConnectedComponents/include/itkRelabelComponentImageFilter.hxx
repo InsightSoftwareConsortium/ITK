@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRelabelComponentImageFilter_txx
-#define __itkRelabelComponentImageFilter_txx
+#ifndef __itkRelabelComponentImageFilter_hxx
+#define __itkRelabelComponentImageFilter_hxx
 
 #include "itkRelabelComponentImageFilter.h"
 #include "itkImageRegionIterator.h"

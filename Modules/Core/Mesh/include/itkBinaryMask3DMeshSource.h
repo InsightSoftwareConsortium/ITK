@@ -235,7 +235,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryMask3DMeshSource.txx"
+#include "itkBinaryMask3DMeshSource.hxx"
 #endif
 
 #endif

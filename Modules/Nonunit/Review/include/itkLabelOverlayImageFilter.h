@@ -145,7 +145,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLabelOverlayImageFilter.txx"
+#include "itkLabelOverlayImageFilter.hxx"
 #endif
 
 #endif

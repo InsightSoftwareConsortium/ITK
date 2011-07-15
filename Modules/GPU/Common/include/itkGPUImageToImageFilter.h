@@ -88,7 +88,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkGPUImageToImageFilter.txx"
+#include "itkGPUImageToImageFilter.hxx"
 #endif
 
 #endif

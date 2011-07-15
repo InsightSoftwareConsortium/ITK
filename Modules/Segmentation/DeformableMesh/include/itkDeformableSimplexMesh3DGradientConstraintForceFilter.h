@@ -180,7 +180,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDeformableSimplexMesh3DGradientConstraintForceFilter.txx"
+#include "itkDeformableSimplexMesh3DGradientConstraintForceFilter.hxx"
 #endif
 
 #endif /* __DeformableSimplexMesh3DGradientConstraintForceFilter_h */

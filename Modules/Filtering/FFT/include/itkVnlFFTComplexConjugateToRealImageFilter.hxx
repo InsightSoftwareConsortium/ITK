@@ -15,11 +15,11 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVnlFFTComplexConjugateToRealImageFilter_txx
-#define __itkVnlFFTComplexConjugateToRealImageFilter_txx
+#ifndef __itkVnlFFTComplexConjugateToRealImageFilter_hxx
+#define __itkVnlFFTComplexConjugateToRealImageFilter_hxx
 
 #include "itkVnlFFTComplexConjugateToRealImageFilter.h"
-#include "itkFFTComplexConjugateToRealImageFilter.txx"
+#include "itkFFTComplexConjugateToRealImageFilter.hxx"
 #include <complex>
 #include "vnl/algo/vnl_fft_1d.h"
 #include "vnl/algo/vnl_fft_2d.h"

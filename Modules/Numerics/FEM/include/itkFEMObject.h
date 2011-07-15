@@ -316,7 +316,7 @@ private:
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFEMObject.txx"
+#include "itkFEMObject.hxx"
 #endif
 
 #endif // #ifndef __itkFEMObject_h

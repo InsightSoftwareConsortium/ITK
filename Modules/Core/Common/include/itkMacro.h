@@ -934,11 +934,11 @@ itkTypeMacro(newexcp, parentexcp);                                              
 #define ITK_TEMPLATE_9(x1, x2, x3, x4, x5, x6, x7, x8, x9) x1, x2, x3, x4, x5, x6, x7, x8, x9
 
 /* In order to support both implicit and explicit instantation a .h
-   file needs to know whether it should include its .txx file
+   file needs to know whether it should include its .hxx file
    containing the template definitions.  Define a macro to tell
    it.  Typical usage in itkFoo.h:
      #if ITK_TEMPLATE_TXX
-     #include "itkFoo.txx"
+     #include "itkFoo.hxx"
      #endif
 */
 #if defined( ITK_MANUAL_INSTANTIATION )
@@ -950,7 +950,7 @@ itkTypeMacro(newexcp, parentexcp);                                              
 /* All explicit instantiation source files define ITK_TEMPLATE_CXX.
    Define ITK_MANUAL_INSTANTIATION to tell .h files that have not been
    converted to this explicit instantiation scheme to not include
-   their .txx files.  Also disable warnings that commonly occur in
+   their .hxx files.  Also disable warnings that commonly occur in
    these files but are not useful.  */
 #if ITK_TEMPLATE_CXX
 #undef ITK_MANUAL_INSTANTIATION

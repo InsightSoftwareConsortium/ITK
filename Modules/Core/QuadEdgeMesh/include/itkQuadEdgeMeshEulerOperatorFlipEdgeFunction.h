@@ -92,7 +92,7 @@ private:
 };
 } // namespace itkQE
 
-#include "itkQuadEdgeMeshEulerOperatorFlipEdgeFunction.txx"
+#include "itkQuadEdgeMeshEulerOperatorFlipEdgeFunction.hxx"
 
 #endif
 

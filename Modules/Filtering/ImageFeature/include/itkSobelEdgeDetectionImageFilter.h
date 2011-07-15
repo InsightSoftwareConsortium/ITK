@@ -139,7 +139,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSobelEdgeDetectionImageFilter.txx"
+#include "itkSobelEdgeDetectionImageFilter.hxx"
 #endif
 
 #endif

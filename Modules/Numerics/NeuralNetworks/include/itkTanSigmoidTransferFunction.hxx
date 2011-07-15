@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTanSigmoidTransferFunction_txx
-#define __itkTanSigmoidTransferFunction_txx
+#ifndef __itkTanSigmoidTransferFunction_hxx
+#define __itkTanSigmoidTransferFunction_hxx
 
 namespace itk
 {

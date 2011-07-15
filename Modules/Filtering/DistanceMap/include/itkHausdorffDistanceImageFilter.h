@@ -147,7 +147,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkHausdorffDistanceImageFilter.txx"
+#include "itkHausdorffDistanceImageFilter.hxx"
 #endif
 
 #endif

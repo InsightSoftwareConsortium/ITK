@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHistogram_txx
-#define __itkHistogram_txx
+#ifndef __itkHistogram_hxx
+#define __itkHistogram_hxx
 
 #include "itkHistogram.h"
 #include "itkNumericTraits.h"

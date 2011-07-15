@@ -390,7 +390,7 @@ protected: //made protected so other iterators can access
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkImageConstIterator.txx"
+#include "itkImageConstIterator.hxx"
 #endif
 
 #endif

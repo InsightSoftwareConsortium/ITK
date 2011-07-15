@@ -367,7 +367,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSparseFieldFourthOrderLevelSetImageFilter.txx"
+#include "itkSparseFieldFourthOrderLevelSetImageFilter.hxx"
 #endif
 
 #endif

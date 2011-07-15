@@ -199,7 +199,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkCenteredSimilarity2DTransform.txx"
+#include "itkCenteredSimilarity2DTransform.hxx"
 #endif
 
 #endif /* __itkCenteredSimilarity2DTransform_h */

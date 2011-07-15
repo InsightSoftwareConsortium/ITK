@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFastMarchingImageToNodePairContainerAdaptor_txx
-#define __itkFastMarchingImageToNodePairContainerAdaptor_txx
+#ifndef __itkFastMarchingImageToNodePairContainerAdaptor_hxx
+#define __itkFastMarchingImageToNodePairContainerAdaptor_hxx
 
 #include "itkFastMarchingImageToNodePairContainerAdaptor.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
@@ -188,4 +188,4 @@ FastMarchingImageToNodePairContainerAdaptor< TInput, TOutput, TImage >
 
 }
 
-#endif // __itkFastMarchingImageToNodePairContainerAdaptor_txx
+#endif // __itkFastMarchingImageToNodePairContainerAdaptor_hxx

@@ -141,7 +141,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTestingComparisonImageFilter.txx"
+#include "itkTestingComparisonImageFilter.hxx"
 #endif
 
 

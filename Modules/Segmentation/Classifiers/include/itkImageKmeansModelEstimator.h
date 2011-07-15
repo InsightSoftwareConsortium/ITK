@@ -279,7 +279,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageKmeansModelEstimator.txx"
+#include "itkImageKmeansModelEstimator.hxx"
 #endif
 
 #endif

@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkSimplexMeshAdaptTopologyFilter_txx
-#define __itkSimplexMeshAdaptTopologyFilter_txx
+#ifndef __itkSimplexMeshAdaptTopologyFilter_hxx
+#define __itkSimplexMeshAdaptTopologyFilter_hxx
 
 #include "itkSimplexMeshAdaptTopologyFilter.h"
 
@@ -429,4 +429,4 @@ SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >
 }
 } // end of namspace itk
 
-#endif // __itkSimplexMeshAdaptTopologyFilter_txx
+#endif // __itkSimplexMeshAdaptTopologyFilter_hxx

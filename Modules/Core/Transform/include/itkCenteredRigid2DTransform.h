@@ -192,7 +192,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkCenteredRigid2DTransform.txx"
+#include "itkCenteredRigid2DTransform.hxx"
 #endif
 
 #endif /* __itkCenteredRigid2DTransform_h */

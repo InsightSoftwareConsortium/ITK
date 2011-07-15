@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkUnaryCorrespondenceMatrix_txx
-#define __itkUnaryCorrespondenceMatrix_txx
+#ifndef __itkUnaryCorrespondenceMatrix_hxx
+#define __itkUnaryCorrespondenceMatrix_hxx
 
 #include "itkUnaryCorrespondenceMatrix.h"
 

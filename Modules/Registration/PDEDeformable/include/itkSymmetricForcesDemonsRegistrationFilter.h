@@ -147,7 +147,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSymmetricForcesDemonsRegistrationFilter.txx"
+#include "itkSymmetricForcesDemonsRegistrationFilter.hxx"
 #endif
 
 #endif

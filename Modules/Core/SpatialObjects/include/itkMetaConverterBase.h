@@ -83,7 +83,7 @@ private:
 }
 
 #ifndef ITK_MANUAL_INSTATIATION
-  #include "itkMetaConverterBase.txx"
+  #include "itkMetaConverterBase.hxx"
 #endif
 
 #endif // __itkMetaConverterBase_h

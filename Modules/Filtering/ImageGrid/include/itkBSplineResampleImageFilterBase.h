@@ -188,7 +188,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBSplineResampleImageFilterBase.txx"
+#include "itkBSplineResampleImageFilterBase.hxx"
 #endif
 
 #endif

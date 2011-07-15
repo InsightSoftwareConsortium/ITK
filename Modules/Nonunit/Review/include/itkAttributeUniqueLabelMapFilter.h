@@ -150,7 +150,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAttributeUniqueLabelMapFilter.txx"
+#include "itkAttributeUniqueLabelMapFilter.hxx"
 #endif
 
 #endif

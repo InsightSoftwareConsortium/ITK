@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLoggerThreadWrapper_txx
-#define __itkLoggerThreadWrapper_txx
+#ifndef __itkLoggerThreadWrapper_hxx
+#define __itkLoggerThreadWrapper_hxx
 //NOTE: This class does not work gnu 2.95
 #if !( defined( __GNUC__ ) && ( __GNUC__ <= 2 ) )
 
@@ -243,4 +243,4 @@ void LoggerThreadWrapper< SimpleLoggerType >::PrintSelf(std::ostream & os, Inden
 } // namespace itk
 
 #endif
-#endif // __itkLoggerThreadWrapper_txx
+#endif // __itkLoggerThreadWrapper_hxx

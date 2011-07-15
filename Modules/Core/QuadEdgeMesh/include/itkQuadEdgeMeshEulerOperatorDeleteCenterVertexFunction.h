@@ -75,7 +75,7 @@ private:
 };
 } // namespace itk
 
-#include "itkQuadEdgeMeshEulerOperatorDeleteCenterVertexFunction.txx"
+#include "itkQuadEdgeMeshEulerOperatorDeleteCenterVertexFunction.hxx"
 
 #endif
 

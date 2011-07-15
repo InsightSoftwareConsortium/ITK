@@ -120,7 +120,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkScalarImageToCooccurrenceListSampleFilter.txx"
+#include "itkScalarImageToCooccurrenceListSampleFilter.hxx"
 #endif
 
 #endif

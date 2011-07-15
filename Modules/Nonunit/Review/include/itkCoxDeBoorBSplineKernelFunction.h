@@ -198,7 +198,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCoxDeBoorBSplineKernelFunction.txx"
+#include "itkCoxDeBoorBSplineKernelFunction.hxx"
 #endif
 
 #endif

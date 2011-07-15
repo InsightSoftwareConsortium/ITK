@@ -91,7 +91,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkChainCodeToFourierSeriesPathFilter.txx"
+#include "itkChainCodeToFourierSeriesPathFilter.hxx"
 #endif
 
 #endif

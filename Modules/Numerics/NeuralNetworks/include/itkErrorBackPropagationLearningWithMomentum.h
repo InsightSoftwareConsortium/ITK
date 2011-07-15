@@ -73,7 +73,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-  #include "itkErrorBackPropagationLearningWithMomentum.txx"
+  #include "itkErrorBackPropagationLearningWithMomentum.hxx"
 #endif
 
 #endif

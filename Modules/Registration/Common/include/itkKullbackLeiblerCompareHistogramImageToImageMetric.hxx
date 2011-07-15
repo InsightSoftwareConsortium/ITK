@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkKullbackLeiblerCompareHistogramImageToImageMetric_txx
-#define __itkKullbackLeiblerCompareHistogramImageToImageMetric_txx
+#ifndef __itkKullbackLeiblerCompareHistogramImageToImageMetric_hxx
+#define __itkKullbackLeiblerCompareHistogramImageToImageMetric_hxx
 
 #include "itkKullbackLeiblerCompareHistogramImageToImageMetric.h"
 #include "itkHistogram.h"
@@ -106,4 +106,4 @@ void KullbackLeiblerCompareHistogramImageToImageMetric< TFixedImage, TMovingImag
 }
 } // End namespace itk
 
-#endif // itkKullbackLeiblerCompareHistogramImageToImageMetric_txx
+#endif // itkKullbackLeiblerCompareHistogramImageToImageMetric_hxx

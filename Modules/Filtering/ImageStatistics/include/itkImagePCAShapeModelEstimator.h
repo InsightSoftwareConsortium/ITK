@@ -206,7 +206,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImagePCAShapeModelEstimator.txx"
+#include "itkImagePCAShapeModelEstimator.hxx"
 #endif
 
 #endif

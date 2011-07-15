@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAffineGeometryFrame_txx
-#define __itkAffineGeometryFrame_txx
+#ifndef __itkAffineGeometryFrame_hxx
+#define __itkAffineGeometryFrame_hxx
 
 #include "itkAffineGeometryFrame.h"
 

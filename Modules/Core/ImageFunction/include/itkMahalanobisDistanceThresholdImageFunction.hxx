@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMahalanobisDistanceThresholdImageFunction_txx
-#define __itkMahalanobisDistanceThresholdImageFunction_txx
+#ifndef __itkMahalanobisDistanceThresholdImageFunction_hxx
+#define __itkMahalanobisDistanceThresholdImageFunction_hxx
 
 #include "itkMahalanobisDistanceThresholdImageFunction.h"
 

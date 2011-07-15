@@ -144,7 +144,7 @@ void IntrospectiveSort(TSubsample *sample,
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkStatisticsAlgorithm.txx"
+#include "itkStatisticsAlgorithm.hxx"
 #endif
 
 #endif // #ifndef __itkStatisticsAlgorithm_h

@@ -392,7 +392,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageAdaptor.txx"
+#include "itkImageAdaptor.hxx"
 #endif
 
 #endif

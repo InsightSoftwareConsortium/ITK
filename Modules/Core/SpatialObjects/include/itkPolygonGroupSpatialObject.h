@@ -111,7 +111,7 @@ protected:
 };
 }
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPolygonGroupSpatialObject.txx"
+#include "itkPolygonGroupSpatialObject.hxx"
 #endif
 
 #endif

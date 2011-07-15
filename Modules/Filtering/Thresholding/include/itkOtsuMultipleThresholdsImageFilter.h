@@ -136,7 +136,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkOtsuMultipleThresholdsImageFilter.txx"
+#include "itkOtsuMultipleThresholdsImageFilter.hxx"
 #endif
 
 #endif

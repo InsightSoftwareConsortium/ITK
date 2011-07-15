@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMetaImageConverter_txx
-#define __itkMetaImageConverter_txx
+#ifndef __itkMetaImageConverter_hxx
+#define __itkMetaImageConverter_hxx
 
 #include "itkMetaImageConverter.h"
 #include "itkImageRegionIterator.h"

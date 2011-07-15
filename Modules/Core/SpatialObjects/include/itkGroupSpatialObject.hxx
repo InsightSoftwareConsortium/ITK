@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGroupSpatialObject_txx
-#define __itkGroupSpatialObject_txx
+#ifndef __itkGroupSpatialObject_hxx
+#define __itkGroupSpatialObject_hxx
 
 #if defined( _MSC_VER )
 #pragma warning ( disable : 4786 )
@@ -57,4 +57,4 @@ GroupSpatialObject< TDimension >
 }
 } // end namespace itk
 
-#endif // end __itkGroupSpatialObject_txx
+#endif // end __itkGroupSpatialObject_hxx

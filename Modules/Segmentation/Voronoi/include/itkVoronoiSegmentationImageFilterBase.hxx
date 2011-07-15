@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVoronoiSegmentationImageFilterBase_txx
-#define __itkVoronoiSegmentationImageFilterBase_txx
+#ifndef __itkVoronoiSegmentationImageFilterBase_hxx
+#define __itkVoronoiSegmentationImageFilterBase_hxx
 
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkVoronoiDiagram2DGenerator.h"

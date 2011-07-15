@@ -96,7 +96,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkResourceProbe.txx"
+#include "itkResourceProbe.hxx"
 #endif
 
 #endif //__itkResourceProbe_h

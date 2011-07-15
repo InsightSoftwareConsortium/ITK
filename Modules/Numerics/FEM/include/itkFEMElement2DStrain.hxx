@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMElement2DStrain_txx
-#define __itkFEMElement2DStrain_txx
+#ifndef __itkFEMElement2DStrain_hxx
+#define __itkFEMElement2DStrain_hxx
 
 #include "itkFEMElement2DStrain.h"
 
@@ -111,4 +111,4 @@ Element2DStrain<TBaseClass>
 }
 }  // end namespace itk::fem
 
-#endif // #ifndef __itkFEMElement2DStrain_txx
+#endif // #ifndef __itkFEMElement2DStrain_hxx

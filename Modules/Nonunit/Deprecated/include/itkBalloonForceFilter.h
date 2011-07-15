@@ -258,7 +258,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBalloonForceFilter.txx"
+#include "itkBalloonForceFilter.hxx"
 #endif
 
 #endif

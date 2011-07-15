@@ -121,7 +121,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVectorGradientNDAnisotropicDiffusionFunction.txx"
+#include "itkVectorGradientNDAnisotropicDiffusionFunction.hxx"
 #endif
 
 #endif

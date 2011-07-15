@@ -195,7 +195,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkSegmentationLevelSetFunction.txx"
+#include "itkSegmentationLevelSetFunction.hxx"
 #endif
 
 #endif

@@ -79,7 +79,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-  #include "itkMetaLineConverter.txx"
+  #include "itkMetaLineConverter.hxx"
 #endif
 
 #endif

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHardLimitTransferFunction_txx
-#define __itkHardLimitTransferFunction_txx
+#ifndef __itkHardLimitTransferFunction_hxx
+#define __itkHardLimitTransferFunction_hxx
 
 #include "itkHardLimitTransferFunction.h"
 

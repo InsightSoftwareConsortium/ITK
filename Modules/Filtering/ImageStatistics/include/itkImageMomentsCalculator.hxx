@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageMomentsCalculator_txx
-#define __itkImageMomentsCalculator_txx
+#ifndef __itkImageMomentsCalculator_hxx
+#define __itkImageMomentsCalculator_hxx
 #include "itkImageMomentsCalculator.h"
 
 #include "vnl/algo/vnl_real_eigensystem.h"

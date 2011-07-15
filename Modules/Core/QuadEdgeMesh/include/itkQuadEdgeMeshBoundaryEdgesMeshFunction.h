@@ -72,7 +72,7 @@ private:
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkQuadEdgeMeshBoundaryEdgesMeshFunction.txx"
+#include "itkQuadEdgeMeshBoundaryEdgesMeshFunction.hxx"
 #endif
 
 #endif

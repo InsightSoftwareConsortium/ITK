@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkKappaStatisticImageToImageMetric_txx
-#define __itkKappaStatisticImageToImageMetric_txx
+#ifndef __itkKappaStatisticImageToImageMetric_hxx
+#define __itkKappaStatisticImageToImageMetric_hxx
 
 #include "itkKappaStatisticImageToImageMetric.h"
 #include "itkImageRegionIteratorWithIndex.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkShapeDetectionLevelSetImageFilter_txx
-#define __itkShapeDetectionLevelSetImageFilter_txx
+#ifndef __itkShapeDetectionLevelSetImageFilter_hxx
+#define __itkShapeDetectionLevelSetImageFilter_hxx
 
 #include "itkShapeDetectionLevelSetImageFilter.h"
 

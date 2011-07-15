@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCurvatureRegistrationFilter_txx
-#define __itkCurvatureRegistrationFilter_txx
+#ifndef __itkCurvatureRegistrationFilter_hxx
+#define __itkCurvatureRegistrationFilter_hxx
 #if defined( USE_FFTWF ) || defined( USE_FFTWD )
 #include "itkCurvatureRegistrationFilter.h"
 

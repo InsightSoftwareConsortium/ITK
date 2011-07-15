@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLabelToRGBImageFilter_txx
-#define __itkLabelToRGBImageFilter_txx
+#ifndef __itkLabelToRGBImageFilter_hxx
+#define __itkLabelToRGBImageFilter_hxx
 
 #include "itkLabelToRGBImageFilter.h"
 

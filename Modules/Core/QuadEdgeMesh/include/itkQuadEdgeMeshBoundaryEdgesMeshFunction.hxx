@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuadEdgeMeshBoundaryEdgesMeshFunction_txx
-#define __itkQuadEdgeMeshBoundaryEdgesMeshFunction_txx
+#ifndef __itkQuadEdgeMeshBoundaryEdgesMeshFunction_hxx
+#define __itkQuadEdgeMeshBoundaryEdgesMeshFunction_hxx
 
 #include "itkQuadEdgeMeshBoundaryEdgesMeshFunction.h"
 #include "itkQuadEdgeMesh.h"  // Just to mark the dependance towards this class.

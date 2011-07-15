@@ -22,8 +22,8 @@
 #include <iostream>
 
 #include "itkPolygonGroupSpatialObjectXMLFile.h"
-#include "itkSpatialObjectWriter.txx"
-#include "itkSpatialObjectReader.txx"
+#include "itkSpatialObjectWriter.hxx"
+#include "itkSpatialObjectReader.hxx"
 
 
 

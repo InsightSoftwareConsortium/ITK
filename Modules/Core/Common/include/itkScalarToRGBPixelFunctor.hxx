@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkScalarToRGBPixelFunctor_txx
-#define __itkScalarToRGBPixelFunctor_txx
+#ifndef __itkScalarToRGBPixelFunctor_hxx
+#define __itkScalarToRGBPixelFunctor_hxx
 
 #include "itkScalarToRGBPixelFunctor.h"
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageKernelOperator_txx
-#define __itkImageKernelOperator_txx
+#ifndef __itkImageKernelOperator_hxx
+#define __itkImageKernelOperator_hxx
 
 #include "itkImageKernelOperator.h"
 

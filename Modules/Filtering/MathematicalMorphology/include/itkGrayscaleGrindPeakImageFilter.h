@@ -146,7 +146,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGrayscaleGrindPeakImageFilter.txx"
+#include "itkGrayscaleGrindPeakImageFilter.hxx"
 #endif
 
 #endif

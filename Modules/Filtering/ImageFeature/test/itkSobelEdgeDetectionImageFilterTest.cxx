@@ -21,7 +21,7 @@
 
 #include <iostream>
 #include "itkSobelEdgeDetectionImageFilter.h"
-#include "itkNullImageToImageFilterDriver.txx"
+#include "itkNullImageToImageFilterDriver.hxx"
 #include "itkVector.h"
 
 inline std::ostream& operator<<(std::ostream &o, const itk::Vector<float, 3> &v)

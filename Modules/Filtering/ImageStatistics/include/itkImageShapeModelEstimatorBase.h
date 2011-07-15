@@ -83,7 +83,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageShapeModelEstimatorBase.txx"
+#include "itkImageShapeModelEstimatorBase.hxx"
 #endif
 
 #endif

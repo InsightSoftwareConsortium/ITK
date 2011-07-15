@@ -164,7 +164,7 @@ private:
 }  // end namespace itk::fem
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageToRectilinearFEMObjectFilter.txx"
+#include "itkImageToRectilinearFEMObjectFilter.hxx"
 #endif
 
 #endif // #ifndef __itkImageToRectilinearFEMObjectFilter_h

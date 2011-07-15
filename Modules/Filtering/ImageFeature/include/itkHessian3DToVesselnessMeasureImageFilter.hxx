@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHessian3DToVesselnessMeasureImageFilter_txx
-#define __itkHessian3DToVesselnessMeasureImageFilter_txx
+#ifndef __itkHessian3DToVesselnessMeasureImageFilter_hxx
+#define __itkHessian3DToVesselnessMeasureImageFilter_hxx
 
 #include "itkHessian3DToVesselnessMeasureImageFilter.h"
 #include "itkImageRegionIterator.h"

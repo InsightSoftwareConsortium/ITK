@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkErrorBackPropagationLearningFunctionBase_txx
-#define __itkErrorBackPropagationLearningFunctionBase_txx
+#ifndef __itkErrorBackPropagationLearningFunctionBase_hxx
+#define __itkErrorBackPropagationLearningFunctionBase_hxx
 
 #include "itkErrorBackPropagationLearningFunctionBase.h"
 

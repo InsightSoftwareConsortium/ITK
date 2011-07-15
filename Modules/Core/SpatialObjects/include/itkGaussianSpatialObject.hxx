@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGaussianSpatialObject_txx
-#define __itkGaussianSpatialObject_txx
+#ifndef __itkGaussianSpatialObject_hxx
+#define __itkGaussianSpatialObject_hxx
 
 #include <math.h>
 #include "itkGaussianSpatialObject.h"

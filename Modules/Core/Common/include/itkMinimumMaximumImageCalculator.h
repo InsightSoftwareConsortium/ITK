@@ -123,7 +123,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMinimumMaximumImageCalculator.txx"
+#include "itkMinimumMaximumImageCalculator.hxx"
 #endif
 
 #endif /* __itkMinimumMaximumImageCalculator_h */

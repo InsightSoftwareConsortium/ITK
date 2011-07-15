@@ -103,7 +103,7 @@ private:
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageToVectorImageFilter.txx"
+#include "itkImageToVectorImageFilter.hxx"
 #endif
 
 #endif

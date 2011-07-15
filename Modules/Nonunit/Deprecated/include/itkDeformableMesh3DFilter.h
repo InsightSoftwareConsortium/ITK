@@ -223,7 +223,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDeformableMesh3DFilter.txx"
+#include "itkDeformableMesh3DFilter.hxx"
 #endif
 
 #endif

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGaussianOperator_txx
-#define __itkGaussianOperator_txx
+#ifndef __itkGaussianOperator_hxx
+#define __itkGaussianOperator_hxx
 #include "itkGaussianOperator.h"
 #include "itkOutputWindow.h"
 #include "itkMacro.h"

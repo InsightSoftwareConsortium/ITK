@@ -255,7 +255,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkDiscreteHessianGaussianImageFunction.txx"
+#include "itkDiscreteHessianGaussianImageFunction.hxx"
 #endif
 
 #endif

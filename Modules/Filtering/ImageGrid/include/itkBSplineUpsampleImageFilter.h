@@ -139,7 +139,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBSplineUpsampleImageFilter.txx"
+#include "itkBSplineUpsampleImageFilter.hxx"
 #endif
 
 #endif

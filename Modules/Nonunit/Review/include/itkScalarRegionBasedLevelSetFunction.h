@@ -151,7 +151,7 @@ private:
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkScalarRegionBasedLevelSetFunction.txx"
+#include "itkScalarRegionBasedLevelSetFunction.hxx"
 #endif
 
 #endif

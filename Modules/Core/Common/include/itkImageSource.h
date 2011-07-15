@@ -315,7 +315,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkImageSource.txx"
+#include "itkImageSource.hxx"
 #endif
 
 #endif

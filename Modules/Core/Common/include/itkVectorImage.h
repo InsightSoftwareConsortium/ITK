@@ -346,7 +346,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkVectorImage.txx"
+#include "itkVectorImage.hxx"
 #endif
 
 #endif

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageSliceConstIteratorWithIndex_txx
-#define __itkImageSliceConstIteratorWithIndex_txx
+#ifndef __itkImageSliceConstIteratorWithIndex_hxx
+#define __itkImageSliceConstIteratorWithIndex_hxx
 
 #include "itkImageSliceConstIteratorWithIndex.h"
 

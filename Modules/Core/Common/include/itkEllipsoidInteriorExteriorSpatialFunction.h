@@ -118,7 +118,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkEllipsoidInteriorExteriorSpatialFunction.txx"
+#include "itkEllipsoidInteriorExteriorSpatialFunction.hxx"
 #endif
 
 #endif

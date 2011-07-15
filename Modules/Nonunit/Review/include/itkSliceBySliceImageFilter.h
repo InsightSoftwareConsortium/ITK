@@ -181,7 +181,7 @@ private:
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSliceBySliceImageFilter.txx"
+#include "itkSliceBySliceImageFilter.hxx"
 #endif
 
 #endif

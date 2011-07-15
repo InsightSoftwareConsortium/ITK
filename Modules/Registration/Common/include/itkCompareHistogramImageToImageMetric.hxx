@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCompareHistogramImageToImageMetric_txx
-#define __itkCompareHistogramImageToImageMetric_txx
+#ifndef __itkCompareHistogramImageToImageMetric_hxx
+#define __itkCompareHistogramImageToImageMetric_hxx
 
 #include "itkCompareHistogramImageToImageMetric.h"
 #include "itkHistogram.h"
@@ -214,4 +214,4 @@ void CompareHistogramImageToImageMetric< TFixedImage, TMovingImage >::PrintSelf(
 }
 } // End namespace itk
 
-#endif // itkCompareHistogramImageToImageMetric_txx
+#endif // itkCompareHistogramImageToImageMetric_hxx

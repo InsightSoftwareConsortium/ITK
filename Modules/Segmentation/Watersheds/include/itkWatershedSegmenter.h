@@ -379,7 +379,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkWatershedSegmenter.txx"
+#include "itkWatershedSegmenter.hxx"
 #endif
 
 #endif

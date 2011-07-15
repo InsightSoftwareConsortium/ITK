@@ -145,7 +145,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMinimumMaximumImageFilter.txx"
+#include "itkMinimumMaximumImageFilter.hxx"
 #endif
 
 #endif

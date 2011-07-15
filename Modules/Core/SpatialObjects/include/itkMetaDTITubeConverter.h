@@ -78,7 +78,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-  #include "itkMetaDTITubeConverter.txx"
+  #include "itkMetaDTITubeConverter.hxx"
 #endif
 
 #endif

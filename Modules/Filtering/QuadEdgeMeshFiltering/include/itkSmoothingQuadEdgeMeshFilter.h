@@ -107,5 +107,5 @@ private:
 };
 }
 
-#include "itkSmoothingQuadEdgeMeshFilter.txx"
+#include "itkSmoothingQuadEdgeMeshFilter.hxx"
 #endif

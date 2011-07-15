@@ -704,7 +704,7 @@ private:
 }  // end namespace itk::fem
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFEMRegistrationFilter.txx"
+#include "itkFEMRegistrationFilter.hxx"
 #endif
 
 #endif

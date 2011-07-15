@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkESMDemonsRegistrationFunction_txx
-#define __itkESMDemonsRegistrationFunction_txx
+#ifndef __itkESMDemonsRegistrationFunction_hxx
+#define __itkESMDemonsRegistrationFunction_hxx
 
 #include "itkESMDemonsRegistrationFunction.h"
 #include "itkExceptionObject.h"

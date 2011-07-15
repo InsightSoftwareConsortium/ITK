@@ -106,7 +106,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAnchorErodeDilateLine.txx"
+#include "itkAnchorErodeDilateLine.hxx"
 #endif
 
 #endif

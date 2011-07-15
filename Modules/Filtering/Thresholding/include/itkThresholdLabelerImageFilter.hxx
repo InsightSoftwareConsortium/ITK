@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkThresholdLabelerImageFilter_txx
-#define __itkThresholdLabelerImageFilter_txx
+#ifndef __itkThresholdLabelerImageFilter_hxx
+#define __itkThresholdLabelerImageFilter_hxx
 
 #include "itkThresholdLabelerImageFilter.h"
 

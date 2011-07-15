@@ -64,7 +64,7 @@ private:
 };
 } // namespace itk
 
-#include "itkQuadEdgeMeshEulerOperatorJoinFacetFunction.txx"
+#include "itkQuadEdgeMeshEulerOperatorJoinFacetFunction.hxx"
 
 #endif
 

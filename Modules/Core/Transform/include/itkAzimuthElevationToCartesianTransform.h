@@ -240,7 +240,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkAzimuthElevationToCartesianTransform.txx"
+#include "itkAzimuthElevationToCartesianTransform.hxx"
 #endif
 
 #endif /* __itkAzimuthElevationToCartesianTransform_h */

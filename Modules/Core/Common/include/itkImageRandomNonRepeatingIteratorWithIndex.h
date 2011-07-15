@@ -123,7 +123,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageRandomNonRepeatingIteratorWithIndex.txx"
+#include "itkImageRandomNonRepeatingIteratorWithIndex.hxx"
 #endif
 
 #endif

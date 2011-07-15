@@ -608,7 +608,7 @@ private:
 
 #if !defined( CABLE_CONFIGURATION )
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSpatialObject.txx"
+#include "itkSpatialObject.hxx"
 #endif
 #endif
 

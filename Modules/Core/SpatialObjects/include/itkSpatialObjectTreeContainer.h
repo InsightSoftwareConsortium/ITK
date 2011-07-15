@@ -80,7 +80,7 @@ protected:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSpatialObjectTreeContainer.txx"
+#include "itkSpatialObjectTreeContainer.hxx"
 #endif
 
 #endif

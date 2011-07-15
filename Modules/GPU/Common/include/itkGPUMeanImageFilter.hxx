@@ -1,5 +1,5 @@
-#ifndef __itkGPUMeanImageFilter_txx
-#define __itkGPUMeanImageFilter_txx
+#ifndef __itkGPUMeanImageFilter_hxx
+#define __itkGPUMeanImageFilter_hxx
 
 #include "itkGPUMeanImageFilter.h"
 

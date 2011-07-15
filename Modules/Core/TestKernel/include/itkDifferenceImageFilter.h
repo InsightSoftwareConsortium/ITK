@@ -149,7 +149,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkDifferenceImageFilter.txx"
+#include "itkDifferenceImageFilter.hxx"
 #endif
 
 #endif

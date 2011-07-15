@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkWatershedSegmentTree_txx
-#define __itkWatershedSegmentTree_txx
+#ifndef __itkWatershedSegmentTree_hxx
+#define __itkWatershedSegmentTree_hxx
 
 #include "itkWatershedSegmentTree.h"
 

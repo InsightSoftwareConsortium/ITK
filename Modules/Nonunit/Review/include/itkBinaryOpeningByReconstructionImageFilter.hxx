@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryOpeningByReconstructionImageFilter_txx
-#define __itkBinaryOpeningByReconstructionImageFilter_txx
+#ifndef __itkBinaryOpeningByReconstructionImageFilter_hxx
+#define __itkBinaryOpeningByReconstructionImageFilter_hxx
 
 #include "itkBinaryOpeningByReconstructionImageFilter.h"
 #include "itkBinaryErodeImageFilter.h"

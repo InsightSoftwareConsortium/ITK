@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkImageRegion_txx
-#define __itkImageRegion_txx
+#ifndef __itkImageRegion_hxx
+#define __itkImageRegion_hxx
 
 #include "itkImageRegion.h"
 

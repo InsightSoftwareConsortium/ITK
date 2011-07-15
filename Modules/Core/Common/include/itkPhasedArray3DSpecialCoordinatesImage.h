@@ -372,7 +372,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkPhasedArray3DSpecialCoordinatesImage.txx"
+#include "itkPhasedArray3DSpecialCoordinatesImage.hxx"
 #endif
 
 #endif

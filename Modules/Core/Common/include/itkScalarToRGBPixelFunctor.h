@@ -71,7 +71,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkScalarToRGBPixelFunctor.txx"
+#include "itkScalarToRGBPixelFunctor.hxx"
 #endif
 
 #endif

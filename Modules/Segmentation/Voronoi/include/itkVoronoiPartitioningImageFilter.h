@@ -112,7 +112,7 @@ private:
 } //end namespace
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVoronoiPartitioningImageFilter.txx"
+#include "itkVoronoiPartitioningImageFilter.hxx"
 #endif
 
 #endif

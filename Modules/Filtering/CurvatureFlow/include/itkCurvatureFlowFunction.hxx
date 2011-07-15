@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCurvatureFlowFunction_txx
-#define __itkCurvatureFlowFunction_txx
+#ifndef __itkCurvatureFlowFunction_hxx
+#define __itkCurvatureFlowFunction_hxx
 #include "itkCurvatureFlowFunction.h"
 
 #include "vnl/vnl_math.h"

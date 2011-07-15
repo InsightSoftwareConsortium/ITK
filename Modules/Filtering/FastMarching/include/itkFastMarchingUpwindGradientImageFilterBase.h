@@ -171,7 +171,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFastMarchingUpwindGradientImageFilterBase.txx"
+#include "itkFastMarchingUpwindGradientImageFilterBase.hxx"
 #endif
 
 #endif

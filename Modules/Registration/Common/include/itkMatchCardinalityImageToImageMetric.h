@@ -179,7 +179,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMatchCardinalityImageToImageMetric.txx"
+#include "itkMatchCardinalityImageToImageMetric.hxx"
 #endif
 
 #endif

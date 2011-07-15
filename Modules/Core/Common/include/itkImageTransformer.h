@@ -259,7 +259,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkImageTransformer.txx"
+#include "itkImageTransformer.hxx"
 #endif
 
 #endif

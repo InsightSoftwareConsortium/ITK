@@ -131,7 +131,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkConstantPadImageFilter.txx"
+#include "itkConstantPadImageFilter.hxx"
 #endif
 
 #endif

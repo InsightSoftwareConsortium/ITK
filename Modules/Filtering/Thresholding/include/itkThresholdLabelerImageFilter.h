@@ -212,7 +212,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkThresholdLabelerImageFilter.txx"
+#include "itkThresholdLabelerImageFilter.hxx"
 #endif
 
 #endif

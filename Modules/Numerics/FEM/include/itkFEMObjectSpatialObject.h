@@ -91,7 +91,7 @@ protected:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFEMObjectSpatialObject.txx"
+#include "itkFEMObjectSpatialObject.hxx"
 #endif
 
 #endif //__itkFEMObjectSpatialObject_h

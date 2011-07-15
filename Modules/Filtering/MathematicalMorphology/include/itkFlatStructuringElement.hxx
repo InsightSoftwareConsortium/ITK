@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFlatStructuringElement_txx
-#define __itkFlatStructuringElement_txx
+#ifndef __itkFlatStructuringElement_hxx
+#define __itkFlatStructuringElement_hxx
 #include "vnl/vnl_math.h"
 #include "itkFlatStructuringElement.h"
 #include <math.h>

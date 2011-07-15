@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNarrowBandCurvesLevelSetImageFilter_txx
-#define __itkNarrowBandCurvesLevelSetImageFilter_txx
+#ifndef __itkNarrowBandCurvesLevelSetImageFilter_hxx
+#define __itkNarrowBandCurvesLevelSetImageFilter_hxx
 
 #include "itkNarrowBandCurvesLevelSetImageFilter.h"
 

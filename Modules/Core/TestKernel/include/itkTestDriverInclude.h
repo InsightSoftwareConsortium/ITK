@@ -584,6 +584,6 @@ std::map< std::string, int > RegressionTestBaselines(char *baselineFilename)
 }
 
 // Needed for explicit instantiation
-#include "itkTestingComparisonImageFilter.txx"
+#include "itkTestingComparisonImageFilter.hxx"
 
 #endif

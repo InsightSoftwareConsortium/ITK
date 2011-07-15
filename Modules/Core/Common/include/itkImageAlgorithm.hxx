@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageAlgorithm_txx
-#define __itkImageAlgorithm_txx
+#ifndef __itkImageAlgorithm_hxx
+#define __itkImageAlgorithm_hxx
 
 #include "itkImageRegionIterator.h"
 

@@ -192,7 +192,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkImportImageContainer.txx"
+#include "itkImportImageContainer.hxx"
 #endif
 
 #endif

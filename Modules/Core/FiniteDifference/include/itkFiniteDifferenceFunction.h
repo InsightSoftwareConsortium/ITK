@@ -209,7 +209,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkFiniteDifferenceFunction.txx"
+#include "itkFiniteDifferenceFunction.hxx"
 #endif
 
 #endif

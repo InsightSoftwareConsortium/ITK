@@ -135,7 +135,7 @@ protected:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkImageRegionIteratorWithIndex.txx"
+#include "itkImageRegionIteratorWithIndex.hxx"
 #endif
 
 #endif

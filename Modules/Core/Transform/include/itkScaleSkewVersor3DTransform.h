@@ -184,7 +184,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkScaleSkewVersor3DTransform.txx"
+#include "itkScaleSkewVersor3DTransform.hxx"
 #endif
 
 #endif /* __ScaleSkewVersor3DTransform_h */

@@ -182,7 +182,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkStatisticsRelabelImageFilter.txx"
+#include "itkStatisticsRelabelImageFilter.hxx"
 #endif
 
 #endif

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHessianRecursiveGaussianImageFilter_txx
-#define __itkHessianRecursiveGaussianImageFilter_txx
+#ifndef __itkHessianRecursiveGaussianImageFilter_hxx
+#define __itkHessianRecursiveGaussianImageFilter_hxx
 
 #include "itkHessianRecursiveGaussianImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"

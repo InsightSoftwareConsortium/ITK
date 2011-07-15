@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFastSymmetricForcesDemonsRegistrationFilter_txx
-#define __itkFastSymmetricForcesDemonsRegistrationFilter_txx
+#ifndef __itkFastSymmetricForcesDemonsRegistrationFilter_hxx
+#define __itkFastSymmetricForcesDemonsRegistrationFilter_hxx
 
 #include "itkFastSymmetricForcesDemonsRegistrationFilter.h"
 

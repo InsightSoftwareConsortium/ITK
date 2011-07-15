@@ -283,7 +283,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkListSample.txx"
+#include "itkListSample.hxx"
 #endif
 
 #endif

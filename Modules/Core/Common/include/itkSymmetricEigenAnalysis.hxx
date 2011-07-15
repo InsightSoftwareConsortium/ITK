@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSymmetricEigenAnalysis_txx
-#define __itkSymmetricEigenAnalysis_txx
+#ifndef __itkSymmetricEigenAnalysis_hxx
+#define __itkSymmetricEigenAnalysis_hxx
 
 #include "itkSymmetricEigenAnalysis.h"
 #include "vnl/vnl_math.h"

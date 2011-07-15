@@ -129,10 +129,10 @@ private:
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #ifndef __itkVnlFFTComplexConjugateToRealImageFilter_h
-#ifndef __itkVnlFFTComplexConjugateToRealImageFilter_txx
+#ifndef __itkVnlFFTComplexConjugateToRealImageFilter_hxx
 #ifndef __itkFFTWComplexConjugateToRealImageFilter_h
-#ifndef __itkFFTWComplexConjugateToRealImageFilter_txx
-#include "itkFFTComplexConjugateToRealImageFilter.txx"
+#ifndef __itkFFTWComplexConjugateToRealImageFilter_hxx
+#include "itkFFTComplexConjugateToRealImageFilter.hxx"
 #endif
 #endif
 #endif

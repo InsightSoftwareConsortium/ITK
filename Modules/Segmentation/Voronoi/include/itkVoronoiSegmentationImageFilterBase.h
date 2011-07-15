@@ -269,7 +269,7 @@ private:
 } //end namespace
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVoronoiSegmentationImageFilterBase.txx"
+#include "itkVoronoiSegmentationImageFilterBase.hxx"
 #endif
 
 #endif

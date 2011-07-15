@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMetaFEMObjectConverter_txx
-#define __itkMetaFEMObjectConverter_txx
+#ifndef __itkMetaFEMObjectConverter_hxx
+#define __itkMetaFEMObjectConverter_hxx
 
 #include "itkMetaFEMObjectConverter.h"
 

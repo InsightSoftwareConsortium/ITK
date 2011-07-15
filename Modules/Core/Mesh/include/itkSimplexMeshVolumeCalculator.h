@@ -220,7 +220,7 @@ private:
 } //end of namespace
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSimplexMeshVolumeCalculator.txx"
+#include "itkSimplexMeshVolumeCalculator.hxx"
 #endif
 
 #endif /* __SimplexMeshVolumeCalculator_h */

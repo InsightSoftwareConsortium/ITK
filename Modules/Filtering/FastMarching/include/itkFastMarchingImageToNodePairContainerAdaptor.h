@@ -156,5 +156,5 @@ private:
   };
 }
 
-#include "itkFastMarchingImageToNodePairContainerAdaptor.txx"
+#include "itkFastMarchingImageToNodePairContainerAdaptor.hxx"
 #endif // __itkFastMarchingImageToNodePairContainerAdaptor_h

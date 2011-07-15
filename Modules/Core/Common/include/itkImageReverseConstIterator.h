@@ -405,7 +405,7 @@ protected: //made protected so other iterators can access
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkImageReverseConstIterator.txx"
+#include "itkImageReverseConstIterator.hxx"
 #endif
 
 #endif

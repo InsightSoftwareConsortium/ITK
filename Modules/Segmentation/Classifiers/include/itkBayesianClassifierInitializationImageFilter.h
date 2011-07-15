@@ -189,7 +189,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBayesianClassifierInitializationImageFilter.txx"
+#include "itkBayesianClassifierInitializationImageFilter.hxx"
 #endif
 
 #endif

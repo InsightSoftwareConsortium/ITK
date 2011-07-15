@@ -179,7 +179,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVectorConfidenceConnectedImageFilter.txx"
+#include "itkVectorConfidenceConnectedImageFilter.hxx"
 #endif
 
 #endif

@@ -301,7 +301,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkWatershedImageFilter.txx"
+#include "itkWatershedImageFilter.hxx"
 #endif
 
 #endif

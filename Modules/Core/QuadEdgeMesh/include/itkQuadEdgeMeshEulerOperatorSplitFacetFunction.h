@@ -68,7 +68,7 @@ private:
 };
 } // namespace itk
 
-#include "itkQuadEdgeMeshEulerOperatorSplitFacetFunction.txx"
+#include "itkQuadEdgeMeshEulerOperatorSplitFacetFunction.hxx"
 
 #endif
 

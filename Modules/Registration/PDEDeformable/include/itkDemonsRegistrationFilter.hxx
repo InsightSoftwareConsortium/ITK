@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDemonsRegistrationFilter_txx
-#define __itkDemonsRegistrationFilter_txx
+#ifndef __itkDemonsRegistrationFilter_hxx
+#define __itkDemonsRegistrationFilter_hxx
 #include "itkDemonsRegistrationFilter.h"
 
 namespace itk

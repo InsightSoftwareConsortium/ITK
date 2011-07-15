@@ -110,7 +110,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVTKPolyDataReader.txx"
+#include "itkVTKPolyDataReader.hxx"
 #endif
 
 #endif //_itkVTKPolyDataReader_h

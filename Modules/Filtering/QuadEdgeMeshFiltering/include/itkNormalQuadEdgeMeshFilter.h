@@ -176,5 +176,5 @@ private:
 };
 }
 
-#include "itkNormalQuadEdgeMeshFilter.txx"
+#include "itkNormalQuadEdgeMeshFilter.hxx"
 #endif

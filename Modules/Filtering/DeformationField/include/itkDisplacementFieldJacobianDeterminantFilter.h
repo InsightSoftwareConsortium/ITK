@@ -259,7 +259,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDisplacementFieldJacobianDeterminantFilter.txx"
+#include "itkDisplacementFieldJacobianDeterminantFilter.hxx"
 #endif
 
 #endif

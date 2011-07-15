@@ -282,5 +282,5 @@ private:
   };
 }
 
-#include "itkFastMarchingBase.txx"
+#include "itkFastMarchingBase.hxx"
 #endif

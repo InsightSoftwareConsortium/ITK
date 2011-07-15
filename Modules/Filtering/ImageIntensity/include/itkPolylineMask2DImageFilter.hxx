@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPolylineMask2DImageFilter_txx
-#define __itkPolylineMask2DImageFilter_txx
+#ifndef __itkPolylineMask2DImageFilter_hxx
+#define __itkPolylineMask2DImageFilter_hxx
 
 #include "itkPolylineMask2DImageFilter.h"
 #include "itkLineIterator.h"

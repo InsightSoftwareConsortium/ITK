@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVectorConfidenceConnectedImageFilter_txx
-#define __itkVectorConfidenceConnectedImageFilter_txx
+#ifndef __itkVectorConfidenceConnectedImageFilter_hxx
+#define __itkVectorConfidenceConnectedImageFilter_hxx
 
 #include "itkVectorConfidenceConnectedImageFilter.h"
 #include "itkMacro.h"

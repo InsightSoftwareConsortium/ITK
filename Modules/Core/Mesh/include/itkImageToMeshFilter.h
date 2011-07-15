@@ -89,7 +89,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageToMeshFilter.txx"
+#include "itkImageToMeshFilter.hxx"
 #endif
 
 #endif

@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMElementStd_txx
-#define __itkFEMElementStd_txx
+#ifndef __itkFEMElementStd_hxx
+#define __itkFEMElementStd_hxx
 
 #include "itkFEMElementStd.h"
 
@@ -52,4 +52,4 @@ ElementStd<VNumberOfPoints, VNumberOfSpatialDimensions, TBaseClass>
 }
 }  // end namespace itk::fem
 
-#endif // #ifndef __itkFEMElementStd_txx
+#endif // #ifndef __itkFEMElementStd_hxx

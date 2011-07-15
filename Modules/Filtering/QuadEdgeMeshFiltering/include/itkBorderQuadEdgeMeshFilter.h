@@ -179,6 +179,6 @@ private:
   void operator=(const Self &);
 };
 }
-#include "itkBorderQuadEdgeMeshFilter.txx"
+#include "itkBorderQuadEdgeMeshFilter.hxx"
 
 #endif

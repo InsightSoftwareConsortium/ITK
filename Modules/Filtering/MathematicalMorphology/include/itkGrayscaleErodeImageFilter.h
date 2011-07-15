@@ -160,7 +160,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGrayscaleErodeImageFilter.txx"
+#include "itkGrayscaleErodeImageFilter.hxx"
 #endif
 
 #endif

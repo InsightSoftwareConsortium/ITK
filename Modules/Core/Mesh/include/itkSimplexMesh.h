@@ -287,7 +287,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSimplexMesh.txx"
+#include "itkSimplexMesh.hxx"
 #endif
 
 #endif

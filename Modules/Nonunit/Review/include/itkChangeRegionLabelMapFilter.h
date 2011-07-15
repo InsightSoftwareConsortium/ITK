@@ -123,7 +123,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkChangeRegionLabelMapFilter.txx"
+#include "itkChangeRegionLabelMapFilter.hxx"
 #endif
 
 #endif

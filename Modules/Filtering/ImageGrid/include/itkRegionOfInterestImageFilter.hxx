@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRegionOfInterestImageFilter_txx
-#define __itkRegionOfInterestImageFilter_txx
+#ifndef __itkRegionOfInterestImageFilter_hxx
+#define __itkRegionOfInterestImageFilter_hxx
 
 #include "itkRegionOfInterestImageFilter.h"
 #include "itkImageAlgorithm.h"

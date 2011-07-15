@@ -124,7 +124,7 @@ private:
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkKernelImageFilter.txx"
+#include "itkKernelImageFilter.hxx"
 #endif
 
 #endif

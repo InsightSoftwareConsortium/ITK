@@ -147,5 +147,5 @@ private:
 };
 } // namespace itk
 
-#include "itkFastMarchingExtensionImageFilterBase.txx"
+#include "itkFastMarchingExtensionImageFilterBase.hxx"
 #endif

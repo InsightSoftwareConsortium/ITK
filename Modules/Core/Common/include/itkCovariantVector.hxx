@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCovariantVector_txx
-#define __itkCovariantVector_txx
+#ifndef __itkCovariantVector_hxx
+#define __itkCovariantVector_hxx
 
 #include "itkCovariantVector.h"
 #include "vnl/vnl_math.h"

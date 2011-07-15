@@ -21,7 +21,7 @@
 
 #include <iostream>
 
-#include "itkDiffusionTensor3DReconstructionImageFilter.txx"
+#include "itkDiffusionTensor3DReconstructionImageFilter.hxx"
 #include "itkTensorFractionalAnisotropyImageFilter.h"
 #include "itkTensorRelativeAnisotropyImageFilter.h"
 

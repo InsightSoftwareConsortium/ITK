@@ -125,7 +125,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBasicErodeImageFilter.txx"
+#include "itkBasicErodeImageFilter.hxx"
 #endif
 
 #endif

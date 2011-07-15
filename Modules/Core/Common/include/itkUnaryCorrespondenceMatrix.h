@@ -58,7 +58,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkUnaryCorrespondenceMatrix.txx"
+#include "itkUnaryCorrespondenceMatrix.hxx"
 #endif
 
 #endif

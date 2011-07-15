@@ -188,7 +188,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryReconstructionByErosionImageFilter.txx"
+#include "itkBinaryReconstructionByErosionImageFilter.hxx"
 #endif
 
 #endif

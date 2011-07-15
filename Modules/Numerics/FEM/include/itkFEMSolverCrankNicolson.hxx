@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFEMSolverCrankNicolson_txx
-#define __itkFEMSolverCrankNicolson_txx
+#ifndef __itkFEMSolverCrankNicolson_hxx
+#define __itkFEMSolverCrankNicolson_hxx
 
 #include "itkFEMSolverCrankNicolson.h"
 
@@ -891,4 +891,4 @@ SolverCrankNicolson<VDimension>
 
 }
 }  // end namespace itk::fem
-#endif // __itkFEMSolverCrankNicolson_txx
+#endif // __itkFEMSolverCrankNicolson_hxx

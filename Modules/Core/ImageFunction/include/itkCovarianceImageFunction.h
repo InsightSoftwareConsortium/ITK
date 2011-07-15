@@ -144,7 +144,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkCovarianceImageFunction.txx"
+#include "itkCovarianceImageFunction.hxx"
 #endif
 
 #endif

@@ -131,7 +131,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSymmetricEigenSystem.txx"
+#include "itkSymmetricEigenSystem.hxx"
 #endif
 
 #endif

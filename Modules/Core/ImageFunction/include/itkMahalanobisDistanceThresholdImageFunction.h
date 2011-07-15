@@ -181,7 +181,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMahalanobisDistanceThresholdImageFunction.txx"
+#include "itkMahalanobisDistanceThresholdImageFunction.hxx"
 #endif
 
 #endif

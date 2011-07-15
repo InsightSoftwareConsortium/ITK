@@ -126,7 +126,7 @@ protected:
 }  // end namespace itk::fem
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFEMElement3DMembrane.txx"
+#include "itkFEMElement3DMembrane.hxx"
 #endif
 
 #endif  // #ifndef __itkFEMElement3DMembrane_h

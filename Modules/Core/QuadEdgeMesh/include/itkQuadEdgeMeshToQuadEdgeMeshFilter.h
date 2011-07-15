@@ -290,7 +290,7 @@ void CopyMeshToMeshPoints(const TInputMesh *in, TOutputMesh *out)
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkQuadEdgeMeshToQuadEdgeMeshFilter.txx"
+#include "itkQuadEdgeMeshToQuadEdgeMeshFilter.hxx"
 #endif
 
 #endif

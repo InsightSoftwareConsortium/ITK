@@ -96,7 +96,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkReflectiveImageRegionIterator.txx"
+#include "itkReflectiveImageRegionIterator.hxx"
 #endif
 
 #endif

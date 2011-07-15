@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageToSpatialObjectRegistrationMethod_txx
-#define __itkImageToSpatialObjectRegistrationMethod_txx
+#ifndef __itkImageToSpatialObjectRegistrationMethod_hxx
+#define __itkImageToSpatialObjectRegistrationMethod_hxx
 
 #include "itkImageToSpatialObjectRegistrationMethod.h"
 

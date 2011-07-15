@@ -174,7 +174,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGridImageSource.txx"
+#include "itkGridImageSource.hxx"
 #endif
 
 #endif

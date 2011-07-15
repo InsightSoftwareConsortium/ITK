@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkStatisticsRelabelImageFilter_txx
-#define __itkStatisticsRelabelImageFilter_txx
+#ifndef __itkStatisticsRelabelImageFilter_hxx
+#define __itkStatisticsRelabelImageFilter_hxx
 
 #include "itkStatisticsRelabelImageFilter.h"
 #include "itkProgressAccumulator.h"

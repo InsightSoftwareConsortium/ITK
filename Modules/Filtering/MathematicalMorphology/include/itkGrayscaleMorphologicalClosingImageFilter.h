@@ -165,7 +165,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGrayscaleMorphologicalClosingImageFilter.txx"
+#include "itkGrayscaleMorphologicalClosingImageFilter.hxx"
 #endif
 
 #endif

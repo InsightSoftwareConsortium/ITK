@@ -149,7 +149,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLabelMapToBinaryImageFilter.txx"
+#include "itkLabelMapToBinaryImageFilter.hxx"
 #endif
 
 #endif

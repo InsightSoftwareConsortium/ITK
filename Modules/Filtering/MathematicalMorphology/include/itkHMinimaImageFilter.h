@@ -142,7 +142,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkHMinimaImageFilter.txx"
+#include "itkHMinimaImageFilter.hxx"
 #endif
 
 #endif

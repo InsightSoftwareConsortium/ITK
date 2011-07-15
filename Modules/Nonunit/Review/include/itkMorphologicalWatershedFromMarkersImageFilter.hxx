@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMorphologicalWatershedFromMarkersImageFilter_txx
-#define __itkMorphologicalWatershedFromMarkersImageFilter_txx
+#ifndef __itkMorphologicalWatershedFromMarkersImageFilter_hxx
+#define __itkMorphologicalWatershedFromMarkersImageFilter_hxx
 
 #include <algorithm>
 #include <queue>

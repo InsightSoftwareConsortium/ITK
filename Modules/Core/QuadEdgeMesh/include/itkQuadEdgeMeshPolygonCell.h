@@ -270,7 +270,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkQuadEdgeMeshPolygonCell.txx"
+#include "itkQuadEdgeMeshPolygonCell.hxx"
 #endif
 
 #endif

@@ -111,7 +111,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBackPropagationLayer.txx"
+#include "itkBackPropagationLayer.hxx"
 #endif
 
 #endif

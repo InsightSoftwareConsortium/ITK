@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVectorGradientMagnitudeImageFilter_txx
-#define __itkVectorGradientMagnitudeImageFilter_txx
+#ifndef __itkVectorGradientMagnitudeImageFilter_hxx
+#define __itkVectorGradientMagnitudeImageFilter_hxx
 
 #include "itkVectorGradientMagnitudeImageFilter.h"
 

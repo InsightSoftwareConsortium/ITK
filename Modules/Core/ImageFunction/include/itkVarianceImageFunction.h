@@ -137,7 +137,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkVarianceImageFunction.txx"
+#include "itkVarianceImageFunction.hxx"
 #endif
 
 #endif

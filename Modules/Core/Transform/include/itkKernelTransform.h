@@ -371,7 +371,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkKernelTransform.txx"
+#include "itkKernelTransform.hxx"
 #endif
 
 #endif // __itkKernelTransform_h

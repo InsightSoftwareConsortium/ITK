@@ -138,7 +138,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSpatialObjectToImageStatisticsCalculator.txx"
+#include "itkSpatialObjectToImageStatisticsCalculator.hxx"
 #endif
 
 #endif /* __itkSpatialObjectToImageStatisticsCalculator_h */

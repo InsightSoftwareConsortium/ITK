@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAnchorOpenCloseLine_txx
-#define __itkAnchorOpenCloseLine_txx
+#ifndef __itkAnchorOpenCloseLine_hxx
+#define __itkAnchorOpenCloseLine_hxx
 
 #include "itkAnchorOpenCloseLine.h"
 

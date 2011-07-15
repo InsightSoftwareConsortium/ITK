@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkOrthogonalSwath2DPathFilter_txx
-#define __itkOrthogonalSwath2DPathFilter_txx
+#ifndef __itkOrthogonalSwath2DPathFilter_hxx
+#define __itkOrthogonalSwath2DPathFilter_hxx
 
 #include "itkOrthogonalSwath2DPathFilter.h"
 #include "vnl/vnl_math.h"

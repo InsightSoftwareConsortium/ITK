@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryContourImageFilter_txx
-#define __itkBinaryContourImageFilter_txx
+#ifndef __itkBinaryContourImageFilter_hxx
+#define __itkBinaryContourImageFilter_hxx
 
 #include "itkBinaryContourImageFilter.h"
 

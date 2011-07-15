@@ -73,7 +73,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-  #include "itkErrorBackPropagationLearningFunctionBase.txx"
+  #include "itkErrorBackPropagationLearningFunctionBase.hxx"
 #endif
 
 #endif

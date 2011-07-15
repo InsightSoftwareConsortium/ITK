@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVesselTubeSpatialObject_txx
-#define __itkVesselTubeSpatialObject_txx
+#ifndef __itkVesselTubeSpatialObject_hxx
+#define __itkVesselTubeSpatialObject_hxx
 
 #if defined( _MSC_VER )
 #pragma warning ( disable : 4786 )
@@ -53,4 +53,4 @@ VesselTubeSpatialObject< TDimension >
 }
 } // end namespace itk
 
-#endif // end __itkVesselTubeSpatialObject_txx
+#endif // end __itkVesselTubeSpatialObject_hxx

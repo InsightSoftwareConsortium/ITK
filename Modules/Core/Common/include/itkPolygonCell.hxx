@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkPolygonCell_txx
-#define __itkPolygonCell_txx
+#ifndef __itkPolygonCell_hxx
+#define __itkPolygonCell_hxx
 #include "itkPolygonCell.h"
 
 namespace itk

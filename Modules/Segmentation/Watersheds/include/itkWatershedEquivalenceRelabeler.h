@@ -133,7 +133,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkWatershedEquivalenceRelabeler.txx"
+#include "itkWatershedEquivalenceRelabeler.hxx"
 #endif
 
 #endif

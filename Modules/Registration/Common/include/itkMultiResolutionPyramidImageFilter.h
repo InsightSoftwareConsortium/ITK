@@ -237,7 +237,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMultiResolutionPyramidImageFilter.txx"
+#include "itkMultiResolutionPyramidImageFilter.hxx"
 #endif
 
 #endif

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkReinitializeLevelSetImageFilter_txx
-#define __itkReinitializeLevelSetImageFilter_txx
+#ifndef __itkReinitializeLevelSetImageFilter_hxx
+#define __itkReinitializeLevelSetImageFilter_hxx
 
 #include "itkReinitializeLevelSetImageFilter.h"
 #include "itkImageRegionIterator.h"

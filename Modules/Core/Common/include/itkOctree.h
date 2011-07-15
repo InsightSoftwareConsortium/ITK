@@ -178,7 +178,7 @@ private:
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkOctree.txx"
+#include "itkOctree.hxx"
 #endif
 
 #endif                          /* __itkOctree_h */

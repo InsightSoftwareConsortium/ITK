@@ -119,7 +119,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMinMaxCurvatureFlowFunction.txx"
+#include "itkMinMaxCurvatureFlowFunction.hxx"
 #endif
 
 #endif

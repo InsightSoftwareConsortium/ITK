@@ -224,7 +224,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFastMarchingUpwindGradientImageFilter.txx"
+#include "itkFastMarchingUpwindGradientImageFilter.hxx"
 #endif
 
 #endif

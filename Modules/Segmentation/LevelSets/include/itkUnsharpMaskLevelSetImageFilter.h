@@ -125,7 +125,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkUnsharpMaskLevelSetImageFilter.txx"
+#include "itkUnsharpMaskLevelSetImageFilter.hxx"
 #endif
 
 #endif

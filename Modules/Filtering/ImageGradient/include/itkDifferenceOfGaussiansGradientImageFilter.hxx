@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDifferenceOfGaussiansGradientImageFilter_txx
-#define __itkDifferenceOfGaussiansGradientImageFilter_txx
+#ifndef __itkDifferenceOfGaussiansGradientImageFilter_hxx
+#define __itkDifferenceOfGaussiansGradientImageFilter_hxx
 
 #include <math.h>
 #include "itkProgressReporter.h"

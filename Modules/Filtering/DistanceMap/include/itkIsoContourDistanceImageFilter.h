@@ -192,7 +192,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkIsoContourDistanceImageFilter.txx"
+#include "itkIsoContourDistanceImageFilter.hxx"
 #endif
 
 #endif

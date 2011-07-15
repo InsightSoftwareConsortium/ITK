@@ -95,7 +95,7 @@ private:
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkQuadEdgeMeshTopologyChecker.txx"
+#include "itkQuadEdgeMeshTopologyChecker.hxx"
 #endif
 
 #endif

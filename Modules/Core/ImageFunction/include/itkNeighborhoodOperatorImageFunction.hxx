@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNeighborhoodOperatorImageFunction_txx
-#define __itkNeighborhoodOperatorImageFunction_txx
+#ifndef __itkNeighborhoodOperatorImageFunction_hxx
+#define __itkNeighborhoodOperatorImageFunction_hxx
 
 #include "itkNeighborhoodOperatorImageFunction.h"
 #include "itkNeighborhoodInnerProduct.h"

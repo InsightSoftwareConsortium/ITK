@@ -163,7 +163,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkHessianToObjectnessMeasureImageFilter.txx"
+#include "itkHessianToObjectnessMeasureImageFilter.hxx"
 #endif
 
 #endif

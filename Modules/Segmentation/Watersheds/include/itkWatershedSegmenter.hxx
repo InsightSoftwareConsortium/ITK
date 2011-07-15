@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkWatershedSegmenter_txx
-#define __itkWatershedSegmenter_txx
+#ifndef __itkWatershedSegmenter_hxx
+#define __itkWatershedSegmenter_hxx
 
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkImageRegionIterator.h"

@@ -523,7 +523,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMultiphaseFiniteDifferenceImageFilter.txx"
+#include "itkMultiphaseFiniteDifferenceImageFilter.hxx"
 #endif
 
 #endif

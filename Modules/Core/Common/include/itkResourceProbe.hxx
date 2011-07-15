@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkResourceProbe_txx
-#define __itkResourceProbe_txx
+#ifndef __itkResourceProbe_hxx
+#define __itkResourceProbe_hxx
 
 #include "itkResourceProbe.h"
 #include "itkNumericTraits.h"

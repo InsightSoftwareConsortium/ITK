@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRegionBasedLevelSetFunction_txx
-#define __itkRegionBasedLevelSetFunction_txx
+#ifndef __itkRegionBasedLevelSetFunction_hxx
+#define __itkRegionBasedLevelSetFunction_hxx
 
 #include "itkRegionBasedLevelSetFunction.h"
 #include "itkImageRegionIteratorWithIndex.h"

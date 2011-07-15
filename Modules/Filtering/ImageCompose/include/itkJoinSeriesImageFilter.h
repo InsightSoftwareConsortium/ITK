@@ -128,7 +128,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkJoinSeriesImageFilter.txx"
+#include "itkJoinSeriesImageFilter.hxx"
 #endif
 
 #endif

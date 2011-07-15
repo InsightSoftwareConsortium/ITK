@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAnchorUtilities_txx
-#define __itkAnchorUtilities_txx
+#ifndef __itkAnchorUtilities_hxx
+#define __itkAnchorUtilities_hxx
 
 #include "itkAnchorUtilities.h"
 #include "itkImageRegionConstIteratorWithIndex.h"

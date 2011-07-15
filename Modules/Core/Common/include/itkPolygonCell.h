@@ -142,7 +142,7 @@ private:
 } //end namespace
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPolygonCell.txx"
+#include "itkPolygonCell.hxx"
 #endif
 
 #endif

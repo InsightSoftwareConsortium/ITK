@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRegionalMaximaImageFilter_txx
-#define __itkRegionalMaximaImageFilter_txx
+#ifndef __itkRegionalMaximaImageFilter_hxx
+#define __itkRegionalMaximaImageFilter_hxx
 
 #include "itkRegionalMaximaImageFilter.h"
 #include "itkValuedRegionalMaximaImageFilter.h"

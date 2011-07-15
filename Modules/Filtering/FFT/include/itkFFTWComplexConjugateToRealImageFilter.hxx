@@ -15,11 +15,11 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFFTWComplexConjugateToRealImageFilter_txx
-#define __itkFFTWComplexConjugateToRealImageFilter_txx
+#ifndef __itkFFTWComplexConjugateToRealImageFilter_hxx
+#define __itkFFTWComplexConjugateToRealImageFilter_hxx
 
 #include "itkFFTWComplexConjugateToRealImageFilter.h"
-#include "itkFFTComplexConjugateToRealImageFilter.txx"
+#include "itkFFTComplexConjugateToRealImageFilter.hxx"
 #include <iostream>
 #include "itkIndent.h"
 #include "itkMetaDataObject.h"
@@ -160,4 +160,4 @@ FFTWComplexConjugateToRealImageFilter< TInputImage, TOutputImage >
 }
 
 } // namespace itk
-#endif // _itkFFTWComplexConjugateToRealImageFilter_txx
+#endif // _itkFFTWComplexConjugateToRealImageFilter_hxx

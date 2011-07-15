@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDiffusionTensor3D_txx
-#define __itkDiffusionTensor3D_txx
+#ifndef __itkDiffusionTensor3D_hxx
+#define __itkDiffusionTensor3D_hxx
 
 #include "itkDiffusionTensor3D.h"
 #include "itkNumericTraits.h"

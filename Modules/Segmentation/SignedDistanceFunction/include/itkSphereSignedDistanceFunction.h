@@ -121,7 +121,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkSphereSignedDistanceFunction.txx"
+#include "itkSphereSignedDistanceFunction.hxx"
 #endif
 
 #endif

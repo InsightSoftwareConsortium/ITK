@@ -161,7 +161,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkEuler3DTransform.txx"
+#include "itkEuler3DTransform.hxx"
 #endif
 
 #endif /* __itkEuler3DTransform_h */

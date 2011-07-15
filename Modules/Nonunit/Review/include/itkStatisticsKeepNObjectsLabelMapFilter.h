@@ -99,7 +99,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkStatisticsKeepNObjectsLabelMapFilter.txx"
+#include "itkStatisticsKeepNObjectsLabelMapFilter.hxx"
 #endif
 
 #endif

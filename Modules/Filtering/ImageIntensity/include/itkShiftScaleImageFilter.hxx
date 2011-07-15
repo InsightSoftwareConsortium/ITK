@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkShiftScaleImageFilter_txx
-#define __itkShiftScaleImageFilter_txx
+#ifndef __itkShiftScaleImageFilter_hxx
+#define __itkShiftScaleImageFilter_hxx
 #include "itkShiftScaleImageFilter.h"
 
 #include "itkImageRegionIterator.h"

@@ -168,7 +168,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkQuaternionRigidTransform.txx"
+#include "itkQuaternionRigidTransform.hxx"
 #endif
 
 #endif /* __itkQuaternionRigidTransform_h */

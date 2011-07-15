@@ -95,7 +95,7 @@ private:
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkParametricImageSource.txx"
+#include "itkParametricImageSource.hxx"
 #endif
 
 #endif

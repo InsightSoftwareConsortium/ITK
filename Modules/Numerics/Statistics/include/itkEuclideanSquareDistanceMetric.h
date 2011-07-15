@@ -66,7 +66,7 @@ protected:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkEuclideanSquareDistanceMetric.txx"
+#include "itkEuclideanSquareDistanceMetric.hxx"
 #endif
 
 #endif

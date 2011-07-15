@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDeformableMesh3DFilter_txx
-#define __itkDeformableMesh3DFilter_txx
+#ifndef __itkDeformableMesh3DFilter_hxx
+#define __itkDeformableMesh3DFilter_hxx
 
 #ifdef _MSC_VER
 #pragma warning ( disable : 4786 )

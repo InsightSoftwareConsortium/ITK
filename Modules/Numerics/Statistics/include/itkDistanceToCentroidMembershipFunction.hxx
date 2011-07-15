@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDistanceToCentroidMembershipFunction_txx
-#define __itkDistanceToCentroidMembershipFunction_txx
+#ifndef __itkDistanceToCentroidMembershipFunction_hxx
+#define __itkDistanceToCentroidMembershipFunction_hxx
 
 #include "itkDistanceToCentroidMembershipFunction.h"
 #include "itkEuclideanDistanceMetric.h"

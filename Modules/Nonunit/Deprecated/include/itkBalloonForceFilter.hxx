@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBalloonForceFilter_txx
-#define __itkBalloonForceFilter_txx
+#ifndef __itkBalloonForceFilter_hxx
+#define __itkBalloonForceFilter_hxx
 
 #ifdef _MSC_VER
 #pragma warning ( disable : 4786 )

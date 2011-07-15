@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCovarianceImageFunction_txx
-#define __itkCovarianceImageFunction_txx
+#ifndef __itkCovarianceImageFunction_hxx
+#define __itkCovarianceImageFunction_hxx
 
 #include "itkCovarianceImageFunction.h"
 #include "itkMatrix.h"

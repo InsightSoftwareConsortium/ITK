@@ -165,7 +165,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLabelShapeOpeningImageFilter.txx"
+#include "itkLabelShapeOpeningImageFilter.hxx"
 #endif
 
 #endif

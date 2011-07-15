@@ -115,7 +115,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkTorusInteriorExteriorSpatialFunction.txx"
+#include "itkTorusInteriorExteriorSpatialFunction.hxx"
 #endif
 
 #endif

@@ -193,7 +193,7 @@ public:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMovingHistogramImageFilterBase.txx"
+#include "itkMovingHistogramImageFilterBase.hxx"
 #endif
 
 #endif

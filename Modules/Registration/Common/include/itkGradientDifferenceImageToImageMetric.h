@@ -208,7 +208,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGradientDifferenceImageToImageMetric.txx"
+#include "itkGradientDifferenceImageToImageMetric.hxx"
 #endif
 
 #endif

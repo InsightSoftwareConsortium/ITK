@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAnchorErodeDilateLine_txx
-#define __itkAnchorErodeDilateLine_txx
+#ifndef __itkAnchorErodeDilateLine_hxx
+#define __itkAnchorErodeDilateLine_hxx
 
 #include "itkAnchorErodeDilateLine.h"
 

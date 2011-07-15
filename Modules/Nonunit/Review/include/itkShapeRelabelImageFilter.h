@@ -155,7 +155,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShapeRelabelImageFilter.txx"
+#include "itkShapeRelabelImageFilter.hxx"
 #endif
 
 #endif

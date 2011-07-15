@@ -210,7 +210,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImplicitManifoldNormalVectorFilter.txx"
+#include "itkImplicitManifoldNormalVectorFilter.hxx"
 #endif
 
 #endif

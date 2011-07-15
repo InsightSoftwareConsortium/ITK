@@ -139,7 +139,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFFTWComplexConjugateToRealImageFilter.txx"
+#include "itkFFTWComplexConjugateToRealImageFilter.hxx"
 #endif
 
 #endif //__itkFFTWComplexConjugateToRealImageFilter_h

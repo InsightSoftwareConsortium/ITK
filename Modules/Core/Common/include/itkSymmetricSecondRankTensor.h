@@ -228,7 +228,7 @@ ITK_EXPORT InputStreamType & operator>>(InputStreamType & is,
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkSymmetricSecondRankTensor.txx"
+#include "itkSymmetricSecondRankTensor.hxx"
 #endif
 
 #endif

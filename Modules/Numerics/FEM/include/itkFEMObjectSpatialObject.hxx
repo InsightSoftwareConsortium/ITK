@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFEMObjectSpatialObject_txx
-#define __itkFEMObjectSpatialObject_txx
+#ifndef __itkFEMObjectSpatialObject_hxx
+#define __itkFEMObjectSpatialObject_hxx
 
 
 #include "itkFEMObjectSpatialObject.h"
@@ -84,4 +84,4 @@ FEMObjectSpatialObject< TDimension>
 
 } // end namespace itk
 
-#endif //__FEMObjectSpatialObject_txx
+#endif //__FEMObjectSpatialObject_hxx

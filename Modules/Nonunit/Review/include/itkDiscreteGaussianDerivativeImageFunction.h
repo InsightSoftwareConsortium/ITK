@@ -262,7 +262,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkDiscreteGaussianDerivativeImageFunction.txx"
+#include "itkDiscreteGaussianDerivativeImageFunction.hxx"
 #endif
 
 #endif

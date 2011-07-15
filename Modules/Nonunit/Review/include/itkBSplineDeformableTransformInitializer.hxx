@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBSplineDeformableTransformInitializer_txx
-#define __itkBSplineDeformableTransformInitializer_txx
+#ifndef __itkBSplineDeformableTransformInitializer_hxx
+#define __itkBSplineDeformableTransformInitializer_hxx
 
 #include "itkBSplineDeformableTransformInitializer.h"
 

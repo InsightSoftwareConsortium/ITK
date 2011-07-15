@@ -128,7 +128,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCropLabelMapFilter.txx"
+#include "itkCropLabelMapFilter.hxx"
 #endif
 
 #endif

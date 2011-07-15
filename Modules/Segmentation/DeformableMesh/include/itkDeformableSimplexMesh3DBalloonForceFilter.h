@@ -113,7 +113,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDeformableSimplexMesh3DBalloonForceFilter.txx"
+#include "itkDeformableSimplexMesh3DBalloonForceFilter.hxx"
 #endif
 
 #endif //__itkDeformableSimplexMesh3DBalloonForceFilter_H

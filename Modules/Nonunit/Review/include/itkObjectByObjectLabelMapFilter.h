@@ -236,7 +236,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkObjectByObjectLabelMapFilter.txx"
+#include "itkObjectByObjectLabelMapFilter.hxx"
 #endif
 
 #endif

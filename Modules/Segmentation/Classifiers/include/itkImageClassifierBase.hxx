@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageClassifierBase_txx
-#define __itkImageClassifierBase_txx
+#ifndef __itkImageClassifierBase_hxx
+#define __itkImageClassifierBase_hxx
 #include "itkImageClassifierBase.h"
 
 namespace itk

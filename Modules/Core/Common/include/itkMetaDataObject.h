@@ -351,7 +351,7 @@ NATIVE_TYPE_METADATAPRINT_NOCONST(std::string)
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkMetaDataObject.txx"
+#include "itkMetaDataObject.hxx"
 #endif
 
 #endif //itkMetaDataObject_h

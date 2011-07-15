@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBlackTopHatImageFilter_txx
-#define __itkBlackTopHatImageFilter_txx
+#ifndef __itkBlackTopHatImageFilter_hxx
+#define __itkBlackTopHatImageFilter_hxx
 
 #include "itkImageRegionIterator.h"
 #include "itkBlackTopHatImageFilter.h"

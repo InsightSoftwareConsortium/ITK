@@ -73,7 +73,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBackwardDifferenceOperator.txx"
+#include "itkBackwardDifferenceOperator.hxx"
 #endif
 
 #endif

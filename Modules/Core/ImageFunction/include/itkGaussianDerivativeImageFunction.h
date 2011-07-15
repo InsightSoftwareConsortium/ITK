@@ -179,7 +179,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkGaussianDerivativeImageFunction.txx"
+#include "itkGaussianDerivativeImageFunction.hxx"
 #endif
 
 #endif

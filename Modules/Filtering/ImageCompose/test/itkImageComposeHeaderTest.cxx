@@ -22,7 +22,7 @@
 #include <iostream>
 
 #include "itkComposeImageFilter.h"
-#include "itkJoinSeriesImageFilter.txx"
+#include "itkJoinSeriesImageFilter.hxx"
 #include "itkJoinImageFilter.h"
 
 

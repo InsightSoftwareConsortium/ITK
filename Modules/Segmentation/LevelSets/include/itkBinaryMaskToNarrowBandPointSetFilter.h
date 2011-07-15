@@ -150,7 +150,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryMaskToNarrowBandPointSetFilter.txx"
+#include "itkBinaryMaskToNarrowBandPointSetFilter.hxx"
 #endif
 
 #endif

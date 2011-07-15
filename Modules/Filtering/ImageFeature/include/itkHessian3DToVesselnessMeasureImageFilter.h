@@ -150,7 +150,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkHessian3DToVesselnessMeasureImageFilter.txx"
+#include "itkHessian3DToVesselnessMeasureImageFilter.hxx"
 #endif
 
 #endif

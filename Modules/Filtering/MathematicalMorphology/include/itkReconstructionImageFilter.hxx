@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkReconstructionImageFilter_txx
-#define __itkReconstructionImageFilter_txx
+#ifndef __itkReconstructionImageFilter_hxx
+#define __itkReconstructionImageFilter_hxx
 
 #include "itkReconstructionImageFilter.h"
 #include "itkConstantBoundaryCondition.h"

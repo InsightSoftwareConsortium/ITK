@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGaussianSpatialFunction_txx
-#define __itkGaussianSpatialFunction_txx
+#ifndef __itkGaussianSpatialFunction_hxx
+#define __itkGaussianSpatialFunction_hxx
 
 #include <math.h>
 #include "vnl/vnl_math.h"

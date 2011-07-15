@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGaussianBlurImageFunction_txx
-#define __itkGaussianBlurImageFunction_txx
+#ifndef __itkGaussianBlurImageFunction_hxx
+#define __itkGaussianBlurImageFunction_hxx
 
 #include "itkGaussianBlurImageFunction.h"
 #include "itkImageLinearIteratorWithIndex.h"

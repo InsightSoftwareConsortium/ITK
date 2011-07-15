@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFastMarchingQuadEdgeMeshFilterBase_txx
-#define __itkFastMarchingQuadEdgeMeshFilterBase_txx
+#ifndef __itkFastMarchingQuadEdgeMeshFilterBase_hxx
+#define __itkFastMarchingQuadEdgeMeshFilterBase_hxx
 
 #include "itkFastMarchingQuadEdgeMeshFilterBase.h"
 
@@ -735,4 +735,4 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
   }
 }
 
-#endif // __itkFastMarchingQuadEdgeMeshFilterBase_txx
+#endif // __itkFastMarchingQuadEdgeMeshFilterBase_hxx

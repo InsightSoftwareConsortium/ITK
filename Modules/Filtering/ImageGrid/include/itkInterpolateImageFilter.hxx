@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkInterpolateImageFilter_txx
-#define __itkInterpolateImageFilter_txx
+#ifndef __itkInterpolateImageFilter_hxx
+#define __itkInterpolateImageFilter_hxx
 
 #include "itkInterpolateImageFilter.h"
 

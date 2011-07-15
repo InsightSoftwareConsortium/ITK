@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBackwardDifferenceOperator_txx
-#define __itkBackwardDifferenceOperator_txx
+#ifndef __itkBackwardDifferenceOperator_hxx
+#define __itkBackwardDifferenceOperator_hxx
 
 #include "itkBackwardDifferenceOperator.h"
 

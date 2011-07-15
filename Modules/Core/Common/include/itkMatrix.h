@@ -277,7 +277,7 @@ ITK_EXPORT std::ostream & operator<<(std::ostream & os, const Matrix< T, NRows, 
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkMatrix.txx"
+#include "itkMatrix.hxx"
 #endif
 
 #endif

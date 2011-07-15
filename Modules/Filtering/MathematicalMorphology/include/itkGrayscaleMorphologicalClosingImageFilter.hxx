@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGrayscaleMorphologicalClosingImageFilter_txx
-#define __itkGrayscaleMorphologicalClosingImageFilter_txx
+#ifndef __itkGrayscaleMorphologicalClosingImageFilter_hxx
+#define __itkGrayscaleMorphologicalClosingImageFilter_hxx
 
 #include "itkGrayscaleMorphologicalClosingImageFilter.h"
 #include "itkNumericTraits.h"

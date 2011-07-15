@@ -203,7 +203,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkGaussianOperator.txx"
+#include "itkGaussianOperator.hxx"
 #endif
 
 #endif

@@ -130,7 +130,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkGaussianDerivativeSpatialFunction.txx"
+#include "itkGaussianDerivativeSpatialFunction.hxx"
 #endif
 
 #endif

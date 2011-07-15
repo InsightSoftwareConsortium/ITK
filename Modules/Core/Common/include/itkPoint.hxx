@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPoint_txx
-#define __itkPoint_txx
+#ifndef __itkPoint_hxx
+#define __itkPoint_hxx
 #include "itkPoint.h"
 #include "itkNumericTraitsPointPixel.h"
 #include "vnl/vnl_math.h"

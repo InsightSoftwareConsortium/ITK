@@ -269,7 +269,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkExtractImageFilter.txx"
+#include "itkExtractImageFilter.hxx"
 #endif
 
 #endif

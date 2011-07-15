@@ -235,7 +235,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFastSymmetricForcesDemonsRegistrationFunction.txx"
+#include "itkFastSymmetricForcesDemonsRegistrationFunction.hxx"
 #endif
 
 #endif

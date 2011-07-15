@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFiniteDifferenceSparseImageFunction_txx
-#define __itkFiniteDifferenceSparseImageFunction_txx
+#ifndef __itkFiniteDifferenceSparseImageFunction_hxx
+#define __itkFiniteDifferenceSparseImageFunction_hxx
 
 #include "itkFiniteDifferenceSparseImageFunction.h"
 

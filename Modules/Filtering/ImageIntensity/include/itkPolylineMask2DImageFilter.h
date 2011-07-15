@@ -113,7 +113,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPolylineMask2DImageFilter.txx"
+#include "itkPolylineMask2DImageFilter.hxx"
 #endif
 
 #endif

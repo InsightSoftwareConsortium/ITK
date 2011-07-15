@@ -114,7 +114,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkEllipseSpatialObject.txx"
+#include "itkEllipseSpatialObject.hxx"
 #endif
 
 #endif // __itkEllipseSpatialObject_h

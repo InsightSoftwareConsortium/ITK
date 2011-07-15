@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMultiResolutionImageRegistrationMethod_txx
-#define __itkMultiResolutionImageRegistrationMethod_txx
+#ifndef __itkMultiResolutionImageRegistrationMethod_hxx
+#define __itkMultiResolutionImageRegistrationMethod_hxx
 
 #include "itkMultiResolutionImageRegistrationMethod.h"
 #include "itkRecursiveMultiResolutionPyramidImageFilter.h"

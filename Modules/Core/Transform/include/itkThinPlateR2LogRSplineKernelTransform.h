@@ -121,7 +121,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkThinPlateR2LogRSplineKernelTransform.txx"
+#include "itkThinPlateR2LogRSplineKernelTransform.hxx"
 #endif
 
 #endif // __itkThinPlateR2LogRSplineKernelTransform_h

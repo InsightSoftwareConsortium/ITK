@@ -222,7 +222,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkHistogramImageToImageMetric.txx"
+#include "itkHistogramImageToImageMetric.hxx"
 #endif
 
 #endif // __itkHistogramImageToImageMetric_h

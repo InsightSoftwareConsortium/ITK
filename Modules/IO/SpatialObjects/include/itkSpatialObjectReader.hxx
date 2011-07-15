@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSpatialObjectReader_txx
-#define __itkSpatialObjectReader_txx
+#ifndef __itkSpatialObjectReader_hxx
+#define __itkSpatialObjectReader_hxx
 
 #include "itkSpatialObjectReader.h"
 

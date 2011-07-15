@@ -238,7 +238,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageRegistrationMethod.txx"
+#include "itkImageRegistrationMethod.hxx"
 #endif
 
 #endif

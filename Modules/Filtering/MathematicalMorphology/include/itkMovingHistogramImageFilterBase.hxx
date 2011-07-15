@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMovingHistogramImageFilterBase_txx
-#define __itkMovingHistogramImageFilterBase_txx
+#ifndef __itkMovingHistogramImageFilterBase_hxx
+#define __itkMovingHistogramImageFilterBase_hxx
 
 #include "itkMovingHistogramImageFilterBase.h"
 #include "itkImageRegionIteratorWithIndex.h"

@@ -206,7 +206,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkScalarImageToCooccurrenceMatrixFilter.txx"
+#include "itkScalarImageToCooccurrenceMatrixFilter.hxx"
 #endif
 
 #endif

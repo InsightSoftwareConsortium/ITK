@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkBSplineDownsampleImageFilter_txx
-#define __itkBSplineDownsampleImageFilter_txx
+#ifndef __itkBSplineDownsampleImageFilter_hxx
+#define __itkBSplineDownsampleImageFilter_hxx
 #include "itkBSplineDownsampleImageFilter.h"
 
 namespace itk

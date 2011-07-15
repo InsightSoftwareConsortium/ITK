@@ -144,7 +144,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShapePositionLabelMapFilter.txx"
+#include "itkShapePositionLabelMapFilter.hxx"
 #endif
 
 #endif

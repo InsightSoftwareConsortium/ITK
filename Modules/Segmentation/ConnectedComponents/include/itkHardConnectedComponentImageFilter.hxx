@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHardConnectedComponentImageFilter_txx
-#define __itkHardConnectedComponentImageFilter_txx
+#ifndef __itkHardConnectedComponentImageFilter_hxx
+#define __itkHardConnectedComponentImageFilter_hxx
 #include "itkHardConnectedComponentImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"

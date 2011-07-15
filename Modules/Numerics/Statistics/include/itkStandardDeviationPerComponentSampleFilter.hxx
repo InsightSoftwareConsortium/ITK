@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkStandardDeviationPerComponentSampleFilter_txx
-#define __itkStandardDeviationPerComponentSampleFilter_txx
+#ifndef __itkStandardDeviationPerComponentSampleFilter_hxx
+#define __itkStandardDeviationPerComponentSampleFilter_hxx
 
 #include "itkStandardDeviationPerComponentSampleFilter.h"
 #include "itkMeasurementVectorTraits.h"

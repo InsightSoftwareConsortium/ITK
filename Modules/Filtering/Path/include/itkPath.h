@@ -136,7 +136,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkPath.txx"
+#include "itkPath.hxx"
 #endif
 
 #endif

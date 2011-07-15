@@ -189,7 +189,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLabelMapMaskImageFilter.txx"
+#include "itkLabelMapMaskImageFilter.hxx"
 #endif
 
 #endif

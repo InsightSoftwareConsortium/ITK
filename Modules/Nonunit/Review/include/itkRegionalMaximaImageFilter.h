@@ -156,7 +156,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRegionalMaximaImageFilter.txx"
+#include "itkRegionalMaximaImageFilter.hxx"
 #endif
 
 #endif

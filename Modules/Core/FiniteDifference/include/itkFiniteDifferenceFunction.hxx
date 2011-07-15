@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFiniteDifferenceFunction_txx
-#define __itkFiniteDifferenceFunction_txx
+#ifndef __itkFiniteDifferenceFunction_hxx
+#define __itkFiniteDifferenceFunction_hxx
 
 #include "itkFiniteDifferenceFunction.h"
 

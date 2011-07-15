@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBSplineScatteredDataPointSetToImageFilter_txx
-#define __itkBSplineScatteredDataPointSetToImageFilter_txx
+#ifndef __itkBSplineScatteredDataPointSetToImageFilter_hxx
+#define __itkBSplineScatteredDataPointSetToImageFilter_hxx
 
 #include "itkBSplineScatteredDataPointSetToImageFilter.h"
 #include "itkImageRegionIterator.h"

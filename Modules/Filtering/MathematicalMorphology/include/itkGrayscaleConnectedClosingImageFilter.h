@@ -134,7 +134,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGrayscaleConnectedClosingImageFilter.txx"
+#include "itkGrayscaleConnectedClosingImageFilter.hxx"
 #endif
 
 #endif

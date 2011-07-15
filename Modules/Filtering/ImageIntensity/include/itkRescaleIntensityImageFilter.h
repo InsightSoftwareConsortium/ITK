@@ -201,7 +201,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRescaleIntensityImageFilter.txx"
+#include "itkRescaleIntensityImageFilter.hxx"
 #endif
 
 #endif

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPointBasedSpatialObject_txx
-#define __itkPointBasedSpatialObject_txx
+#ifndef __itkPointBasedSpatialObject_hxx
+#define __itkPointBasedSpatialObject_hxx
 
 #if defined( _MSC_VER )
 #pragma warning ( disable : 4786 )
@@ -52,4 +52,4 @@ PointBasedSpatialObject< TDimension >
 }
 } // end namespace itk
 
-#endif // end __itkPointBasedSpatialObject_txx
+#endif // end __itkPointBasedSpatialObject_hxx

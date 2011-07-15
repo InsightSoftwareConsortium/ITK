@@ -131,7 +131,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLoggerThreadWrapper.txx"
+#include "itkLoggerThreadWrapper.hxx"
 #endif
 
 #endif

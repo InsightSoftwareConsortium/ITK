@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkVectorRescaleIntensityImageFilter_txx
-#define __itkVectorRescaleIntensityImageFilter_txx
+#ifndef __itkVectorRescaleIntensityImageFilter_hxx
+#define __itkVectorRescaleIntensityImageFilter_hxx
 
 #include "itkVectorRescaleIntensityImageFilter.h"
 

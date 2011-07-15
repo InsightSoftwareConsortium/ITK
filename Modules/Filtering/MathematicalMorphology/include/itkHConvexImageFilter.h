@@ -132,7 +132,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkHConvexImageFilter.txx"
+#include "itkHConvexImageFilter.hxx"
 #endif
 
 #endif

@@ -322,7 +322,7 @@ private:
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDiffusionTensor3DReconstructionImageFilter.txx"
+#include "itkDiffusionTensor3DReconstructionImageFilter.hxx"
 #endif
 
 #endif

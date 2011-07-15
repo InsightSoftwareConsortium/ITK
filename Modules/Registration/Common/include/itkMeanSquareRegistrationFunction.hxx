@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMeanSquareRegistrationFunction_txx
-#define __itkMeanSquareRegistrationFunction_txx
+#ifndef __itkMeanSquareRegistrationFunction_hxx
+#define __itkMeanSquareRegistrationFunction_hxx
 
 #include "itkMeanSquareRegistrationFunction.h"
 #include "itkMacro.h"

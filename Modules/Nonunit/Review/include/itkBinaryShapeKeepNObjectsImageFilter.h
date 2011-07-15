@@ -185,7 +185,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryShapeKeepNObjectsImageFilter.txx"
+#include "itkBinaryShapeKeepNObjectsImageFilter.hxx"
 #endif
 
 #endif

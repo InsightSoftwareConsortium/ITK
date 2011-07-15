@@ -192,7 +192,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLabelStatisticsOpeningImageFilter.txx"
+#include "itkLabelStatisticsOpeningImageFilter.hxx"
 #endif
 
 #endif

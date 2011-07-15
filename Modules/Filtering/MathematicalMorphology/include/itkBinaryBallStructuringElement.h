@@ -132,7 +132,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkBinaryBallStructuringElement.txx"
+#include "itkBinaryBallStructuringElement.hxx"
 #endif
 
 #endif

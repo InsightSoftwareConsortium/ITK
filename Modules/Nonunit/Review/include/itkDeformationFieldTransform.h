@@ -189,7 +189,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkDeformationFieldTransform.txx"
+# include "itkDeformationFieldTransform.hxx"
 #endif
 
 #endif // __itkDeformationFieldTransform_h

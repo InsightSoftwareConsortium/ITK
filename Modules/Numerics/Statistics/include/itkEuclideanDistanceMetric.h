@@ -73,7 +73,7 @@ protected:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkEuclideanDistanceMetric.txx"
+#include "itkEuclideanDistanceMetric.hxx"
 #endif
 
 #endif

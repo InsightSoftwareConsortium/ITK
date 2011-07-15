@@ -267,7 +267,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetMotionRegistrationFunction.txx"
+#include "itkLevelSetMotionRegistrationFunction.hxx"
 #endif
 
 #endif

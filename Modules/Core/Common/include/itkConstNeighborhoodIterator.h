@@ -570,12 +570,12 @@ operator-(const ConstNeighborhoodIterator< TImage > & it,
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkConstNeighborhoodIterator.txx"
+#include "itkConstNeighborhoodIterator.hxx"
 #endif
 
 /*
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkConstNeighborhoodIterator.txx"
+#include "itkConstNeighborhoodIterator.hxx"
 #endif
 */
 #endif

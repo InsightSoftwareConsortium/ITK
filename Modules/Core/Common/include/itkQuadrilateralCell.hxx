@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuadrilateralCell_txx
-#define __itkQuadrilateralCell_txx
+#ifndef __itkQuadrilateralCell_hxx
+#define __itkQuadrilateralCell_hxx
 #include "itkQuadrilateralCell.h"
 
 namespace itk

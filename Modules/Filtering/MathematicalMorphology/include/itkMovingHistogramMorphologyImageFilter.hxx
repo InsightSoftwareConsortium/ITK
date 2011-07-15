@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMovingHistogramMorphologyImageFilter_txx
-#define __itkMovingHistogramMorphologyImageFilter_txx
+#ifndef __itkMovingHistogramMorphologyImageFilter_hxx
+#define __itkMovingHistogramMorphologyImageFilter_hxx
 
 #include "itkMovingHistogramMorphologyImageFilter.h"
 #include "itkNumericTraits.h"

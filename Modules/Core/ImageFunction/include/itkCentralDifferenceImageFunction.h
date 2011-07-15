@@ -162,7 +162,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkCentralDifferenceImageFunction.txx"
+#include "itkCentralDifferenceImageFunction.hxx"
 #endif
 
 #endif

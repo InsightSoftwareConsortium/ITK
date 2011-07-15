@@ -28,8 +28,8 @@
  * http://hdl.handle.net/1926/326
  *
  */
-#ifndef __itkFFTComplexToComplexImageFilter_txx
-#define __itkFFTComplexToComplexImageFilter_txx
+#ifndef __itkFFTComplexToComplexImageFilter_hxx
+#define __itkFFTComplexToComplexImageFilter_hxx
 
 #if defined( USE_FFTWD ) || defined( USE_FFTWF )
 #include "itkFFTWComplexToComplexImageFilter.h"

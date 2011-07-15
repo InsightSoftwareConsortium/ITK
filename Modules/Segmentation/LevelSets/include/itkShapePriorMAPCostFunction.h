@@ -158,7 +158,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShapePriorMAPCostFunction.txx"
+#include "itkShapePriorMAPCostFunction.hxx"
 #endif
 
 #endif

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuadEdgeMeshEulerOperatorSplitFacetFunction_txx
-#define __itkQuadEdgeMeshEulerOperatorSplitFacetFunction_txx
+#ifndef __itkQuadEdgeMeshEulerOperatorSplitFacetFunction_hxx
+#define __itkQuadEdgeMeshEulerOperatorSplitFacetFunction_hxx
 
 #include "itkQuadEdgeMeshEulerOperatorSplitFacetFunction.h"
 
@@ -107,4 +107,4 @@ QuadEdgeMeshEulerOperatorSplitFacetFunction< TMesh, TQEType >::Evaluate(QEType *
 
 #endif
 
-// eof - itkQuadEdgeMeshEulerOperatorSplitFacetFunction.txx
+// eof - itkQuadEdgeMeshEulerOperatorSplitFacetFunction.hxx

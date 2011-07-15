@@ -275,6 +275,6 @@ public:
 };
 }
 
-#include "itkQuadEdgeMeshFrontIterator.txx"
+#include "itkQuadEdgeMeshFrontIterator.hxx"
 
 #endif

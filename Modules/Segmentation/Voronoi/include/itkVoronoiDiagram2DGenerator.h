@@ -254,7 +254,7 @@ public:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVoronoiDiagram2DGenerator.txx"
+#include "itkVoronoiDiagram2DGenerator.hxx"
 #endif
 
 #endif

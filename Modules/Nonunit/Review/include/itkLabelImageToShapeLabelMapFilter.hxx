@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLabelImageToShapeLabelMapFilter_txx
-#define __itkLabelImageToShapeLabelMapFilter_txx
+#ifndef __itkLabelImageToShapeLabelMapFilter_hxx
+#define __itkLabelImageToShapeLabelMapFilter_hxx
 
 #include "itkLabelImageToShapeLabelMapFilter.h"
 #include "itkProgressAccumulator.h"

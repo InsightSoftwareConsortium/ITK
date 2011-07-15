@@ -122,7 +122,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkVolumeSplineKernelTransform.txx"
+#include "itkVolumeSplineKernelTransform.hxx"
 #endif
 
 #endif // __itkVolumeSplineKernelTransform_h

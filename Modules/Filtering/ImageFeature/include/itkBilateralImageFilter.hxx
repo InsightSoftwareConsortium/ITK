@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBilateralImageFilter_txx
-#define __itkBilateralImageFilter_txx
+#ifndef __itkBilateralImageFilter_hxx
+#define __itkBilateralImageFilter_hxx
 
 #include "itkBilateralImageFilter.h"
 #include "itkImageRegionIterator.h"

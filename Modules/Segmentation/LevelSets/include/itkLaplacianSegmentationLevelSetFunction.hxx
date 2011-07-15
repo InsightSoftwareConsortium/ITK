@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLaplacianSegmentationLevelSetFunction_txx
-#define __itkLaplacianSegmentationLevelSetFunction_txx
+#ifndef __itkLaplacianSegmentationLevelSetFunction_hxx
+#define __itkLaplacianSegmentationLevelSetFunction_hxx
 
 #include "itkLaplacianSegmentationLevelSetFunction.h"
 #include "itkLaplacianImageFilter.h"

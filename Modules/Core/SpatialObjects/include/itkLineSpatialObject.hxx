@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLineSpatialObject_txx
-#define __itkLineSpatialObject_txx
+#ifndef __itkLineSpatialObject_hxx
+#define __itkLineSpatialObject_hxx
 
 #if defined( _MSC_VER )
 #pragma warning ( disable : 4786 )

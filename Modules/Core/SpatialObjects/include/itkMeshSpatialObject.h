@@ -124,7 +124,7 @@ protected:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMeshSpatialObject.txx"
+#include "itkMeshSpatialObject.hxx"
 #endif
 
 #endif //__itkMeshSpatialObject_h

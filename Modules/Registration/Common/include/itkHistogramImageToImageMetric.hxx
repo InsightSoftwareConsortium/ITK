@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHistogramImageToImageMetric_txx
-#define __itkHistogramImageToImageMetric_txx
+#ifndef __itkHistogramImageToImageMetric_hxx
+#define __itkHistogramImageToImageMetric_hxx
 
 #include "itkArray.h"
 #include "itkHistogramImageToImageMetric.h"
@@ -394,4 +394,4 @@ HistogramImageToImageMetric< TFixedImage, TMovingImage >
 }
 } // end namespace itk
 
-#endif // itkHistogramImageToImageMetric_txx
+#endif // itkHistogramImageToImageMetric_hxx

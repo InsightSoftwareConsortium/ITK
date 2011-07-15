@@ -170,7 +170,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkChangeLabelImageFilter.txx"
+#include "itkChangeLabelImageFilter.hxx"
 #endif
 
 #endif

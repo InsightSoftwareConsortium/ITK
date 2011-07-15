@@ -121,7 +121,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRecursiveMultiResolutionPyramidImageFilter.txx"
+#include "itkRecursiveMultiResolutionPyramidImageFilter.hxx"
 #endif
 
 #endif

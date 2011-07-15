@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFFTComplexConjugateToRealImageFilter_txx
-#define __itkFFTComplexConjugateToRealImageFilter_txx
+#ifndef __itkFFTComplexConjugateToRealImageFilter_hxx
+#define __itkFFTComplexConjugateToRealImageFilter_hxx
 #include "itkMetaDataObject.h"
 
 #include "itkVnlFFTComplexConjugateToRealImageFilter.h"

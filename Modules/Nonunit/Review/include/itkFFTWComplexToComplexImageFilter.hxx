@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFFTWComplexToComplexImageFilter_txx
-#define __itkFFTWComplexToComplexImageFilter_txx
+#ifndef __itkFFTWComplexToComplexImageFilter_hxx
+#define __itkFFTWComplexToComplexImageFilter_hxx
 
 #include "itkFFTWComplexToComplexImageFilter.h"
 #include "itkFFTComplexToComplexImageFilter.h"
@@ -170,4 +170,4 @@ FFTWComplexToComplexImageFilter< TImage >
 }
 
 } // namespace itk
-#endif // _itkFFTWComplexToComplexImageFilter_txx
+#endif // _itkFFTWComplexToComplexImageFilter_hxx

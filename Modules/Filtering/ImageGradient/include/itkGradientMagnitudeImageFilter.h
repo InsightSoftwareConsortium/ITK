@@ -138,7 +138,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGradientMagnitudeImageFilter.txx"
+#include "itkGradientMagnitudeImageFilter.hxx"
 #endif
 
 #endif

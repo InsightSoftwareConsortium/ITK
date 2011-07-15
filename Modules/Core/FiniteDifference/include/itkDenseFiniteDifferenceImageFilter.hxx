@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDenseFiniteDifferenceImageFilter_txx
-#define __itkDenseFiniteDifferenceImageFilter_txx
+#ifndef __itkDenseFiniteDifferenceImageFilter_hxx
+#define __itkDenseFiniteDifferenceImageFilter_hxx
 #include "itkDenseFiniteDifferenceImageFilter.h"
 
 #include <list>

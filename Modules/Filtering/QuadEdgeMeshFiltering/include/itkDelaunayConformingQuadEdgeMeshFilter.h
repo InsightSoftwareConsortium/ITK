@@ -210,6 +210,6 @@ private:
 };                                                    //
 } // end namespace itk
 
-#include "itkDelaunayConformingQuadEdgeMeshFilter.txx"
+#include "itkDelaunayConformingQuadEdgeMeshFilter.hxx"
 
 #endif

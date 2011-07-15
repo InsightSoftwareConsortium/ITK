@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkScalarImageToHistogramGenerator_txx
-#define __itkScalarImageToHistogramGenerator_txx
+#ifndef __itkScalarImageToHistogramGenerator_hxx
+#define __itkScalarImageToHistogramGenerator_hxx
 
 #include "itkScalarImageToHistogramGenerator.h"
 

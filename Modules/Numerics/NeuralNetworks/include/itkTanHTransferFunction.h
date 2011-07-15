@@ -68,7 +68,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-  #include "itkTanHTransferFunction.txx"
+  #include "itkTanHTransferFunction.hxx"
 #endif
 
 #endif

@@ -381,7 +381,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkKLMRegionGrowImageFilter.txx"
+#include "itkKLMRegionGrowImageFilter.hxx"
 #endif
 
 #endif

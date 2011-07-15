@@ -90,7 +90,7 @@ private:
 } // End namespace itk.
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMeanSquaresHistogramImageToImageMetric.txx"
+#include "itkMeanSquaresHistogramImageToImageMetric.hxx"
 #endif
 
 #endif // __itkMeanSquaresHistogramImageToImageMetric_h

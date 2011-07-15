@@ -314,7 +314,7 @@ ImageLinearConstIteratorWithIndex< TImage >
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkImageLinearConstIteratorWithIndex.txx"
+#include "itkImageLinearConstIteratorWithIndex.hxx"
 #endif
 
 #endif

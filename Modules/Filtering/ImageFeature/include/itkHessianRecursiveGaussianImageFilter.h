@@ -179,7 +179,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkHessianRecursiveGaussianImageFilter.txx"
+#include "itkHessianRecursiveGaussianImageFilter.hxx"
 #endif
 
 #endif

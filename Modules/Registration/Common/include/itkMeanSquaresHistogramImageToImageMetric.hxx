@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMeanSquaresHistogramImageToImageMetric_txx
-#define __itkMeanSquaresHistogramImageToImageMetric_txx
+#ifndef __itkMeanSquaresHistogramImageToImageMetric_hxx
+#define __itkMeanSquaresHistogramImageToImageMetric_hxx
 
 #include "itkMeanSquaresHistogramImageToImageMetric.h"
 
@@ -52,4 +52,4 @@ MeanSquaresHistogramImageToImageMetric< TFixedImage, TMovingImage >
 }
 } // End namespace itk
 
-#endif // itkMeanSquaresHistogramImageToImageMetric_txx
+#endif // itkMeanSquaresHistogramImageToImageMetric_hxx

@@ -152,7 +152,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkBSplineInterpolationWeightFunction.txx"
+#include "itkBSplineInterpolationWeightFunction.hxx"
 #endif
 
 #endif

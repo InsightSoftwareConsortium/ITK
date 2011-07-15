@@ -279,7 +279,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPDEDeformableRegistrationFilter.txx"
+#include "itkPDEDeformableRegistrationFilter.hxx"
 #endif
 
 #endif

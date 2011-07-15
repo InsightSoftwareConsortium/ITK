@@ -226,7 +226,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMultiphaseDenseFiniteDifferenceImageFilter.txx"
+#include "itkMultiphaseDenseFiniteDifferenceImageFilter.hxx"
 #endif
 
 #endif

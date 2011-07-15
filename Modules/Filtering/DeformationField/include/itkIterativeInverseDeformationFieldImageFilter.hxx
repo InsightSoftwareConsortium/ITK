@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkIterativeInverseDeformationFieldImageFilter_txx
-#define __itkIterativeInverseDeformationFieldImageFilter_txx
+#ifndef __itkIterativeInverseDeformationFieldImageFilter_hxx
+#define __itkIterativeInverseDeformationFieldImageFilter_hxx
 
 #include "itkIterativeInverseDeformationFieldImageFilter.h"
 #include "itkProgressReporter.h"

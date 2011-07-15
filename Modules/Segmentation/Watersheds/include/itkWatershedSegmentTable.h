@@ -218,7 +218,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkWatershedSegmentTable.txx"
+#include "itkWatershedSegmentTable.hxx"
 #endif
 
 #endif

@@ -119,7 +119,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkSimpleDataObjectDecorator.txx"
+#include "itkSimpleDataObjectDecorator.hxx"
 #endif
 
 #endif

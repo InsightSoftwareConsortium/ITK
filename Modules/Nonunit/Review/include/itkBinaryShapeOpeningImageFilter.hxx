@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryShapeOpeningImageFilter_txx
-#define __itkBinaryShapeOpeningImageFilter_txx
+#ifndef __itkBinaryShapeOpeningImageFilter_hxx
+#define __itkBinaryShapeOpeningImageFilter_hxx
 
 #include "itkBinaryShapeOpeningImageFilter.h"
 #include "itkProgressAccumulator.h"

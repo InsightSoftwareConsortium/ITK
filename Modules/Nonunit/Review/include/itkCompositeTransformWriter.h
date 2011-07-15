@@ -209,7 +209,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCompositeTransformWriter.txx"
+#include "itkCompositeTransformWriter.hxx"
 #endif
 
 #endif // __itkCompositeTransformWriter_h

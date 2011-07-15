@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTwoHiddenLayerBackPropagationNeuralNetwork_txx
-#define __itkTwoHiddenLayerBackPropagationNeuralNetwork_txx
+#ifndef __itkTwoHiddenLayerBackPropagationNeuralNetwork_hxx
+#define __itkTwoHiddenLayerBackPropagationNeuralNetwork_hxx
 
 #include "itkTwoHiddenLayerBackPropagationNeuralNetwork.h"
 

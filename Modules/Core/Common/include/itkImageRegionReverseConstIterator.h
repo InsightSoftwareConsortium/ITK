@@ -388,7 +388,7 @@ protected:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkImageRegionReverseConstIterator.txx"
+#include "itkImageRegionReverseConstIterator.hxx"
 #endif
 
 #endif

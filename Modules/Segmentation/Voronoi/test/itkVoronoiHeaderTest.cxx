@@ -21,12 +21,12 @@
 
 #include <iostream>
 
-#include "itkVoronoiPartitioningImageFilter.txx"
-#include "itkVoronoiSegmentationRGBImageFilter.txx"
-#include "itkVoronoiDiagram2DGenerator.txx"
-#include "itkVoronoiSegmentationImageFilter.txx"
-#include "itkVoronoiSegmentationImageFilterBase.txx"
-#include "itkVoronoiDiagram2D.txx"
+#include "itkVoronoiPartitioningImageFilter.hxx"
+#include "itkVoronoiSegmentationRGBImageFilter.hxx"
+#include "itkVoronoiDiagram2DGenerator.hxx"
+#include "itkVoronoiSegmentationImageFilter.hxx"
+#include "itkVoronoiSegmentationImageFilterBase.hxx"
+#include "itkVoronoiDiagram2D.hxx"
 #include "itkVoronoiDiagram2DGenerator.h"
 
 

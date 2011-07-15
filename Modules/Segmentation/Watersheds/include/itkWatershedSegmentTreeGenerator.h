@@ -230,7 +230,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkWatershedSegmentTreeGenerator.txx"
+#include "itkWatershedSegmentTreeGenerator.hxx"
 #endif
 
 #endif

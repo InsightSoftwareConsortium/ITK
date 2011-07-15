@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAggregateLabelMapFilter_txx
-#define __itkAggregateLabelMapFilter_txx
+#ifndef __itkAggregateLabelMapFilter_hxx
+#define __itkAggregateLabelMapFilter_hxx
 
 #include "itkAggregateLabelMapFilter.h"
 #include "itkProgressReporter.h"

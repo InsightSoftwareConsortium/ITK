@@ -146,7 +146,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkEuler2DTransform.txx"
+#include "itkEuler2DTransform.hxx"
 #endif
 
 #endif /* __itkEuler2DTransform_h */

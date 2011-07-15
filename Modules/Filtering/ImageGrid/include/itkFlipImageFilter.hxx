@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFlipImageFilter_txx
-#define __itkFlipImageFilter_txx
+#ifndef __itkFlipImageFilter_hxx
+#define __itkFlipImageFilter_hxx
 
 #include "itkFlipImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSparseImage_txx
-#define __itkSparseImage_txx
+#ifndef __itkSparseImage_hxx
+#define __itkSparseImage_hxx
 
 #include "itkSparseImage.h"
 #include "itkDataObject.h"

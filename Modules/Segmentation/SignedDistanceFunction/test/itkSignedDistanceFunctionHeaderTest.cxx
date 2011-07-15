@@ -22,8 +22,8 @@
 #include <iostream>
 
 #include "itkShapeSignedDistanceFunction.h"
-#include "itkPCAShapeSignedDistanceFunction.txx"
-#include "itkSphereSignedDistanceFunction.txx"
+#include "itkPCAShapeSignedDistanceFunction.hxx"
+#include "itkSphereSignedDistanceFunction.hxx"
 
 
 

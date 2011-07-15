@@ -114,7 +114,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageReverseIterator.txx"
+#include "itkImageReverseIterator.hxx"
 #endif
 
 #endif

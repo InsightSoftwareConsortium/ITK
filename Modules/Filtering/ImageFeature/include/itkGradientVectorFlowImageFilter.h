@@ -149,7 +149,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGradientVectorFlowImageFilter.txx"
+#include "itkGradientVectorFlowImageFilter.hxx"
 #endif
 
 #endif

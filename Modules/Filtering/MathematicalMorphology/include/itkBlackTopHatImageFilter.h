@@ -118,7 +118,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBlackTopHatImageFilter.txx"
+#include "itkBlackTopHatImageFilter.hxx"
 #endif
 
 #endif

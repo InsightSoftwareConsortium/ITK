@@ -111,7 +111,7 @@ public:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShapedFloodFilledImageFunctionConditionalConstIterator.txx"
+#include "itkShapedFloodFilledImageFunctionConditionalConstIterator.hxx"
 #endif
 
 #endif

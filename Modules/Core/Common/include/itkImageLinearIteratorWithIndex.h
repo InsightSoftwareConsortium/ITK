@@ -132,7 +132,7 @@ protected:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkImageLinearIteratorWithIndex.txx"
+#include "itkImageLinearIteratorWithIndex.hxx"
 #endif
 
 #endif

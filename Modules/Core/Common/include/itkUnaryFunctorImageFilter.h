@@ -131,7 +131,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkUnaryFunctorImageFilter.txx"
+#include "itkUnaryFunctorImageFilter.hxx"
 #endif
 
 #endif

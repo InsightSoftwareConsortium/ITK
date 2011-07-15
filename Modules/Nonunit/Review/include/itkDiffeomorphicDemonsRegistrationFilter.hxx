@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDiffeomorphicDemonsRegistrationFilter_txx
-#define __itkDiffeomorphicDemonsRegistrationFilter_txx
+#ifndef __itkDiffeomorphicDemonsRegistrationFilter_hxx
+#define __itkDiffeomorphicDemonsRegistrationFilter_hxx
 
 #include "itkDiffeomorphicDemonsRegistrationFilter.h"
 #include "itkSmoothingRecursiveGaussianImageFilter.h"

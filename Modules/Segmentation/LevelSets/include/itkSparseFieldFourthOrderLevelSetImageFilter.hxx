@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSparseFieldFourthOrderLevelSetImageFilter_txx
-#define __itkSparseFieldFourthOrderLevelSetImageFilter_txx
+#ifndef __itkSparseFieldFourthOrderLevelSetImageFilter_hxx
+#define __itkSparseFieldFourthOrderLevelSetImageFilter_hxx
 
 #include "itkSparseFieldFourthOrderLevelSetImageFilter.h"
 #include "itkNeighborhoodIterator.h"

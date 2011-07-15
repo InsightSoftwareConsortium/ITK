@@ -102,7 +102,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPointBasedSpatialObject.txx"
+#include "itkPointBasedSpatialObject.hxx"
 #endif
 
 #endif // __itkPointBasedSpatialObject_h

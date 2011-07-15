@@ -123,7 +123,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkVectorLinearInterpolateImageFunction.txx"
+#include "itkVectorLinearInterpolateImageFunction.hxx"
 #endif
 
 #endif

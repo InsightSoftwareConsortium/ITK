@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkComposeImageFilter_txx
-#define __itkComposeImageFilter_txx
+#ifndef __itkComposeImageFilter_hxx
+#define __itkComposeImageFilter_hxx
 
 #include "itkComposeImageFilter.h"
 #include "itkImageRegionIterator.h"

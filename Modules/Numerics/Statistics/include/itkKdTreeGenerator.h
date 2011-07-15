@@ -193,7 +193,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkKdTreeGenerator.txx"
+#include "itkKdTreeGenerator.hxx"
 #endif
 
 #endif

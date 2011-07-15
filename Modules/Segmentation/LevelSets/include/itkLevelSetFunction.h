@@ -361,7 +361,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkLevelSetFunction.txx"
+#include "itkLevelSetFunction.hxx"
 #endif
 
 #endif

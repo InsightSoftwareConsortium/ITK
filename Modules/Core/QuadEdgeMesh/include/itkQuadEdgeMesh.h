@@ -516,7 +516,7 @@ protected:
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkQuadEdgeMesh.txx"
+#include "itkQuadEdgeMesh.hxx"
 #endif
 
 #endif

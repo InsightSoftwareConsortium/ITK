@@ -329,7 +329,7 @@ public:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAttributeMorphologyBaseImageFilter.txx"
+#include "itkAttributeMorphologyBaseImageFilter.hxx"
 #endif
 
 #endif

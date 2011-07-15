@@ -118,7 +118,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFiniteDifferenceSparseImageFunction.txx"
+#include "itkFiniteDifferenceSparseImageFunction.hxx"
 #endif
 
 #endif

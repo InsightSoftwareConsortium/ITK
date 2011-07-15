@@ -103,5 +103,5 @@ private:
 };
 }
 
-#include "itkSquaredEdgeLengthDecimationQuadEdgeMeshFilter.txx"
+#include "itkSquaredEdgeLengthDecimationQuadEdgeMeshFilter.hxx"
 #endif

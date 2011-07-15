@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMinimumMaximumImageCalculator_txx
-#define __itkMinimumMaximumImageCalculator_txx
+#ifndef __itkMinimumMaximumImageCalculator_hxx
+#define __itkMinimumMaximumImageCalculator_hxx
 
 #include "itkMinimumMaximumImageCalculator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"

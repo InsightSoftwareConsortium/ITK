@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunction_txx
-#define __itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunction_txx
+#ifndef __itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunction_hxx
+#define __itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunction_hxx
 
 #include "itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunction.h"
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHSVColormapFunction_txx
-#define __itkHSVColormapFunction_txx
+#ifndef __itkHSVColormapFunction_hxx
+#define __itkHSVColormapFunction_hxx
 
 #include "itkHSVColormapFunction.h"
 

@@ -170,7 +170,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVectorCentralDifferenceImageFunction.txx"
+#include "itkVectorCentralDifferenceImageFunction.hxx"
 #endif
 
 #endif

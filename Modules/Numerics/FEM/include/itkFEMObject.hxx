@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFEMObject_txx
-#define __itkFEMObject_txx
+#ifndef __itkFEMObject_hxx
+#define __itkFEMObject_hxx
 
 // disable debug warnings in MS compiler
 #ifdef _MSC_VER
@@ -655,4 +655,4 @@ FEMObject<VDimension>
 
 }
 } // end namespace itk::fem
-#endif // __itkFEMObject_txx
+#endif // __itkFEMObject_hxx

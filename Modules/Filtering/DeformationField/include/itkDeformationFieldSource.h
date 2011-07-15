@@ -178,7 +178,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDeformationFieldSource.txx"
+#include "itkDeformationFieldSource.hxx"
 #endif
 
 #endif

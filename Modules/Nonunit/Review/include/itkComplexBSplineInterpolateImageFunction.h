@@ -144,7 +144,7 @@ private:
 } // namespace
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkComplexBSplineInterpolateImageFunction.txx"
+#include "itkComplexBSplineInterpolateImageFunction.hxx"
 #endif
 
 #endif

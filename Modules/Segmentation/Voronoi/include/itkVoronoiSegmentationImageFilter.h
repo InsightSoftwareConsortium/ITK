@@ -143,7 +143,7 @@ private:
 } //end namespace
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVoronoiSegmentationImageFilter.txx"
+#include "itkVoronoiSegmentationImageFilter.hxx"
 #endif
 
 #endif

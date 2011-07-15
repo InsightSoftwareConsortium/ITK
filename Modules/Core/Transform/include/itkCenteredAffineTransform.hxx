@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCenteredAffineTransform_txx
-#define __itkCenteredAffineTransform_txx
+#ifndef __itkCenteredAffineTransform_hxx
+#define __itkCenteredAffineTransform_hxx
 
 #include "itkNumericTraits.h"
 #include "itkCenteredAffineTransform.h"

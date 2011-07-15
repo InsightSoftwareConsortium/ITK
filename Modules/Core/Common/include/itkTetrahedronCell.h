@@ -130,7 +130,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTetrahedronCell.txx"
+#include "itkTetrahedronCell.hxx"
 #endif
 
 #endif

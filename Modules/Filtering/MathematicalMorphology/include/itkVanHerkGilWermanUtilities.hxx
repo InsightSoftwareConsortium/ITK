@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVanHerkGilWermanUtilities_txx
-#define __itkVanHerkGilWermanUtilities_txx
+#ifndef __itkVanHerkGilWermanUtilities_hxx
+#define __itkVanHerkGilWermanUtilities_hxx
 
 #include "itkVanHerkGilWermanUtilities.h"
 #include "itkImageRegionConstIteratorWithIndex.h"

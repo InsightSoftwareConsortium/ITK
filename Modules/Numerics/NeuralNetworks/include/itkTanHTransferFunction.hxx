@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTanHTransferFunction_txx
-#define __itkTanHTransferFunction_txx
+#ifndef __itkTanHTransferFunction_hxx
+#define __itkTanHTransferFunction_hxx
 
 namespace itk
 {

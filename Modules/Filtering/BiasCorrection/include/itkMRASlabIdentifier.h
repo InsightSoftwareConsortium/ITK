@@ -145,7 +145,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMRASlabIdentifier.txx"
+#include "itkMRASlabIdentifier.hxx"
 #endif
 
 #endif /* __itkMRASlabIdentifier_h */

@@ -255,7 +255,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkImageFunction.txx"
+#include "itkImageFunction.hxx"
 #endif
 
 #endif

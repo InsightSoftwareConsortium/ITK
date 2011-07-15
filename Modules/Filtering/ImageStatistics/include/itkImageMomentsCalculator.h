@@ -223,7 +223,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageMomentsCalculator.txx"
+#include "itkImageMomentsCalculator.hxx"
 #endif
 
 #endif /* __itkImageMomentsCalculator_h */

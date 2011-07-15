@@ -262,12 +262,12 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkPointSet.txx"
+#include "itkPointSet.hxx"
 #endif
 
 /*
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPointSet.txx"
+#include "itkPointSet.hxx"
 #endif
 */
 

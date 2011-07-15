@@ -196,7 +196,7 @@ private:
 } // end namspace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCurvatureFlowImageFilter.txx"
+#include "itkCurvatureFlowImageFilter.hxx"
 #endif
 
 #endif

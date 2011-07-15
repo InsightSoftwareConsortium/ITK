@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCheckerBoardImageFilter_txx
-#define __itkCheckerBoardImageFilter_txx
+#ifndef __itkCheckerBoardImageFilter_hxx
+#define __itkCheckerBoardImageFilter_hxx
 
 #include "itkCheckerBoardImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"

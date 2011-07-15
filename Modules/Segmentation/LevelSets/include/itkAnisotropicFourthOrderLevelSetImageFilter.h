@@ -143,7 +143,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAnisotropicFourthOrderLevelSetImageFilter.txx"
+#include "itkAnisotropicFourthOrderLevelSetImageFilter.hxx"
 #endif
 
 #endif

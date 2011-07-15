@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMIRegistrationFunction_txx
-#define __itkMIRegistrationFunction_txx
+#ifndef __itkMIRegistrationFunction_hxx
+#define __itkMIRegistrationFunction_hxx
 
 #include "itkMIRegistrationFunction.h"
 #include "itkImageRandomIteratorWithIndex.h"
