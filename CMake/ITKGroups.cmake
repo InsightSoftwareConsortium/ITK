@@ -104,6 +104,7 @@ ITKStatistics
 
 
 set(Bridge_module_list
+ITKVtkGlue
 ITKVTK)
 
 set(Utilities_module_list
