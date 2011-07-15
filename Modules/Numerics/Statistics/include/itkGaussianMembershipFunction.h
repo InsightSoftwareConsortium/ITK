@@ -41,10 +41,12 @@ namespace Statistics
  * VariableLengthVector<double>. In contrast to this behavior, the
  * covariance is always a VariableSizeMatrix<double>.
  *
- * If the covariance is the zero matrix, then the membership function
- * behaves as an impulse located at the mean. In this case, Evaluate()
- * will return 0 except when evaluating at the mean where it will
- * return the maximum value of a double.
+ * If the covariance is singular or nearly singular, the membership function
+ * behaves somewhat like an impulse located at the mean. In this case,
+ * we specify the covariance to be a diagonal matrix with large values
+ * along the diagonal. This membership function, therefore,
+ * will return small but differentiable values everywher and increase
+ * sharply near the mean.
  *
  * \ingroup ITK-Statistics
  */
@@ -127,8 +129,8 @@ private:
   // when covariace matirx is set.
   double m_PreFactor;
 
-  /** Boolean to cache whether the covarinace is zero */
-  bool m_DeterminantOK;
+  /** Boolean to cache whether the covarinace is singular or nearly singular */
+  bool m_CovarianceNonsingular;
 };
 } // end of namespace Statistics
 } // end namespace itk
