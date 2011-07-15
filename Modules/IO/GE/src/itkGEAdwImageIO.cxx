@@ -126,6 +126,9 @@ GEImageHeader * GEAdwImageIO::ReadHeader(const char *FileNameToRead)
     strcat(hdr->patientId, ptr);
     }
 
+  this->GetStringAt(f, GE_ADW_EX_TYP, hdr->modality, GE_ADW_EX_TYP_LEN);
+  hdr->modality[GE_ADW_EX_TYP_LEN] = '\0';
+
   this->GetStringAt(f, GE_ADW_EX_PATNAME, hdr->name, GE_ADW_EX_PATNAME_LEN);
   hdr->name[GE_ADW_EX_PATNAME_LEN] = '\0';
 
