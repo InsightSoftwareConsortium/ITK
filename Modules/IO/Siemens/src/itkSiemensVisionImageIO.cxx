@@ -110,6 +110,9 @@ GEImageHeader * SiemensVisionImageIO::ReadHeader(const char *FileNameToRead)
 
   sprintf (hdr->scanner, "GE-ADW");
 
+  // Set modality to UNKNOWN
+  strcpy(hdr->modality, "UNK");
+
   strncpy(hdr->filename, FileNameToRead, itk::IOCommon::ITK_MAXPATHLEN);
 
   // Get VITAL Information from the header
