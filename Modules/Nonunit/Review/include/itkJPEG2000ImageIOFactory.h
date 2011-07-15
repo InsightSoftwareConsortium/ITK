@@ -37,7 +37,7 @@ namespace itk
  *  JPEG2000 offers a large collection of interesting features including:
  *  compression (lossless and lossy), streaming, multi-channel images.
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 class ITK_EXPORT JPEG2000ImageIOFactory:public ObjectFactoryBase
 {

@@ -55,7 +55,7 @@ namespace Statistics
  * function, therefore, will return large but differentiable values
  * everywhere and decay to zero sharply near the mean.
  *
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  */
 
 template< class TVector >

@@ -1,2 +1,2 @@
-project(ITK-ImageGradient)
+project(ITKImageGradient)
 itk_module_impl()

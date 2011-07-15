@@ -27,7 +27,7 @@ namespace Statistics
 /** \class NNetDistanceMetricBase
  * \brief This is the itkNNetDistanceMetricBase class.
  *
- * \ingroup ITK-NeuralNetworks
+ * \ingroup ITKNeuralNetworks
  */
 
 template<class TMeasurementVector>

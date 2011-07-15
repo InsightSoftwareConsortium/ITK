@@ -64,7 +64,7 @@ public:
  *
  * \ingroup IntensityImageFilters  MultiThreaded  TensorObjects
  *
- * \ingroup ITK-DiffusionTensorImage
+ * \ingroup ITKDiffusionTensorImage
  */
 template< typename  TInputImage,
   typename  TOutputImage = Image<

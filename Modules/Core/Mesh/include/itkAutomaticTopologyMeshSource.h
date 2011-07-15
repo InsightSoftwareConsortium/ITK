@@ -105,7 +105,7 @@ namespace itk
  * pipeline, but GetOutput() is always valid after every
  * Add[Something]() call, and Update() is a no-op.  It is <b>not
  * thread safe</b>.
- * \ingroup ITK-Mesh
+ * \ingroup ITKMesh
  */
 template< class TOutputMesh >
 class ITK_EXPORT AutomaticTopologyMeshSource:public MeshSource< TOutputMesh >

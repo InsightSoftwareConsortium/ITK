@@ -37,7 +37,7 @@ namespace itk
  * to read and write the FEMObject as a SpatialObject.
  *
  * \sa FEMObject FEMObjectSpatialObject
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 
 template< unsigned int NDimensions = 3 >

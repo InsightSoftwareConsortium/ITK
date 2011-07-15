@@ -96,7 +96,7 @@ namespace itk
  *  In the common case, the only parameter that will need to be set is the
  *  MaximumRMSChange parameter, which determines when the solver halts.
  *
- * \ingroup ITK-AntiAlias
+ * \ingroup ITKAntiAlias
  *
  * \wiki
  * \wikiexample{Smoothing/AntiAliasBinaryImageFilter,Anti alias a binary image}

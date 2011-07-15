@@ -1,2 +1,2 @@
-project(ITK-MathematicalMorphology)
+project(ITKMathematicalMorphology)
 itk_module_impl()

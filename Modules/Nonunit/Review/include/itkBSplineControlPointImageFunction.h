@@ -71,7 +71,7 @@ namespace itk
  * http://www.insight-journal.org/browse/publication/57
  *
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template<class TControlPointLattice>
 class ITK_EXPORT BSplineParametricDistanceCostFunction
@@ -216,7 +216,7 @@ private:
  *
  * \author Nicholas J. Tustison
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template <class TInputImage, class TCoordRep = double>
 class BSplineControlPointImageFunction

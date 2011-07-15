@@ -31,7 +31,7 @@ namespace itk
  * that can be used to build tubes.
  *
  * \sa DTITubeSpatialObject
- * \ingroup ITK-SpatialObjects
+ * \ingroup ITKSpatialObjects
  */
 template< unsigned int TPointDimension = 3 >
 class ITK_EXPORT DTITubeSpatialObjectPoint:

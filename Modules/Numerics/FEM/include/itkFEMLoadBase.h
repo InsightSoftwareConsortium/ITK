@@ -34,7 +34,7 @@ namespace fem
  * The load class defines an external load that acts on the system. For each specific subtype
  * of load, a separate load abstract class should be derived. For example we have LoadElement,
  * which defines the base for all loads that act on a specific element in a system.
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 class Load : public FEMLightObject
 {

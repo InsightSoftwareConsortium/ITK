@@ -43,7 +43,7 @@ namespace itk
  *  Agreement, Contract#W81XWH-05-2-0059.
  *
  * \ingroup IntensityImageFilters  MultiThreaded
- * \ingroup ITK-ImageLabel
+ * \ingroup ITKImageLabel
  */
 
 #include <map>

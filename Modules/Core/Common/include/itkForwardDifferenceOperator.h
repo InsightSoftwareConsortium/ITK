@@ -34,7 +34,7 @@ namespace itk
  * inner product.
  *
  * \ingroup Operators
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{Operators/ForwardDifferenceOperator,Create a forward difference kernel}

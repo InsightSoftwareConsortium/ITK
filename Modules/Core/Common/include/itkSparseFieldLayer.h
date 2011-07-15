@@ -30,7 +30,7 @@ namespace itk
  *
  *  This class is modeled on the STL Forward Iterator concept, and is used to
  *  iterate through an itkSparseFieldLayer.
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TNodeType >
 class ConstSparseFieldLayerIterator
@@ -82,7 +82,7 @@ protected:
 
 /** \class SparseFieldLayerIterator
  *  \brief The non-const version of the ConstSparseFieldLayerIterator.
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TNodeType >
 class SparseFieldLayerIterator:
@@ -145,7 +145,7 @@ public:
  *  contention among threads. Because no allocation/deallocation occurs, it is
  *  entirely up to the calling program to manage the allocating and freeing of
  *  the list nodes.
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TNodeType >
 class ITK_EXPORT SparseFieldLayer:

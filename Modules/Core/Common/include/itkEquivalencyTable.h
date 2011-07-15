@@ -42,7 +42,7 @@ namespace itk
  * identified among image segments and as the input to
  * itk::watershed::Relabeler.
  * \ingroup WatershedSegmentation
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 class ITKCommon_EXPORT EquivalencyTable:public DataObject
 {

@@ -1,6 +1,6 @@
-itk_module(ITK-BioCell
+itk_module(ITKBioCell
   DEPENDS
-    ITK-Mesh
+    ITKMesh
   TEST_DEPENDS
-    ITK-TestKernel
+    ITKTestKernel
 )

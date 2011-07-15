@@ -65,7 +65,7 @@ namespace itk
  * the membership function objects and populates them.
  *
  * \ingroup ImageFeatureExtraction
- * \ingroup ITK-ImageStatistics
+ * \ingroup ITKImageStatistics
  */
 
 template< class TInputImage,

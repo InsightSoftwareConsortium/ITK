@@ -48,7 +48,7 @@ namespace itk
  *
  * \sa LevelSetMotionRegistrationFilter
  * \ingroup FiniteDifferenceFunctions
- * \ingroup ITK-PDEDeformableRegistration
+ * \ingroup ITKPDEDeformableRegistration
  */
 template< class TFixedImage, class TMovingImage, class TDeformationField >
 class ITK_EXPORT LevelSetMotionRegistrationFunction:

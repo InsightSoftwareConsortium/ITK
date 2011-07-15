@@ -48,7 +48,7 @@ namespace Statistics
  * will return small but differentiable values everywher and increase
  * sharply near the mean.
  *
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  */
 
 template< class TMeasurementVector >

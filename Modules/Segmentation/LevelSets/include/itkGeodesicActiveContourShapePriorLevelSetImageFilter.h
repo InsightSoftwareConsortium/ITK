@@ -105,7 +105,7 @@ namespace itk
  * \sa ShapeSignedDistanceFunction
  *
  * \ingroup LevelSetSegmentation
- * \ingroup ITK-LevelSets
+ * \ingroup ITKLevelSets
  */
 template< class TInputImage,
           class TFeatureImage,

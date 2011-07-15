@@ -41,7 +41,7 @@ namespace itk
  * Where "!" is the unary NOT operator in C++.
  *
  * \ingroup IntensityImageFilters  MultiThreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup ITKImageIntensity
  */
 namespace Functor
 {

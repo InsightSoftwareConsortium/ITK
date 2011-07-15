@@ -124,7 +124,7 @@ namespace itk
  *   \sa SegmentationLevelSetImageFilter
  *   \sa CannySegmentationLevelSetFunction,
  *   \sa SparseFieldLevelSetImageFilter
- * \ingroup ITK-LevelSets
+ * \ingroup ITKLevelSets
  */
 template< class TInputImage,
           class TFeatureImage,

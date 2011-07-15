@@ -42,7 +42,7 @@ namespace itk
  * imposed by the spatial function.
  *
  * \ingroup MeshFilters
- * \ingroup ITK-Mesh
+ * \ingroup ITKMesh
  */
 template< class TInputMesh, class TOutputMesh, class TSpatialFunction >
 class ITK_EXPORT InteriorExteriorMeshFilter:

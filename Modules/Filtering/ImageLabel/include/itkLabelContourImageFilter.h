@@ -45,7 +45,7 @@ namespace itk
  *
  * \sa BinaryContourImageFilter
  *
- * \ingroup ITK-ImageLabel
+ * \ingroup ITKImageLabel
  */
 
 template< class TInputImage, class TOutputImage >

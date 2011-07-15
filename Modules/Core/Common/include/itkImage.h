@@ -76,7 +76,7 @@ namespace itk
  * \example VectorImage.cxx
  *
  * \ingroup ImageObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{SimpleOperations/SetPixels,Set specified pixels to specified values}

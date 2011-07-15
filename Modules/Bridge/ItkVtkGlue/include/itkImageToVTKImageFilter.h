@@ -35,7 +35,7 @@ namespace itk
  *  an itk::Image can be plugged as input and a vtkImage is produced as
  *  output.
  *
- * \ingroup   ITK-ItkVtkGlue
+ * \ingroup   ITKItkVtkGlue
  */
 template <class TInputImage >
 class ITK_EXPORT ImageToVTKImageFilter : public ProcessObject

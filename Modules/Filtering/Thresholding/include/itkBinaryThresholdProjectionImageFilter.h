@@ -43,7 +43,7 @@ namespace itk
  * \sa MinimumProjectionImageFilter
  * \sa StandardDeviationProjectionImageFilter
  * \sa SumProjectionImageFilter
- * \ingroup ITK-Thresholding
+ * \ingroup ITKThresholding
  */
 
 namespace Function

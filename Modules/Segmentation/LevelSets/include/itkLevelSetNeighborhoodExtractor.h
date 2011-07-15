@@ -51,7 +51,7 @@ namespace itk
  *
  * \ingroup LevelSetSegmentation
  *
- * \ingroup ITK-LevelSets
+ * \ingroup ITKLevelSets
  */
 template< class TLevelSet >
 class ITK_EXPORT LevelSetNeighborhoodExtractor:

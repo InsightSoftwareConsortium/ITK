@@ -1,3 +1,3 @@
-project(ITK-IO-LSM)
-set(ITK-IO-LSM_LIBRARIES ITK-IO-LSM)
+project(ITKIOLSM)
+set(ITKIOLSM_LIBRARIES ITKIOLSM)
 itk_module_impl()

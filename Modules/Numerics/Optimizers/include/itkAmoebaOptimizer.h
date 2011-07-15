@@ -45,7 +45,7 @@ namespace itk
  * AmoebaOptimizer can only minimize a function.
  *
  * \ingroup Numerics Optimizers
- * \ingroup ITK-Optimizers
+ * \ingroup ITKOptimizers
  */
 class ITK_EXPORT AmoebaOptimizer:
   public SingleValuedNonLinearVnlOptimizer

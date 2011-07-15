@@ -39,7 +39,7 @@ namespace itk
  * output image have a larger dimension than the input images. This
  * filter can be used to create a volume from a series of inputs by
  * specifying a layout of 1,1,0.
- * \ingroup ITK-ImageGrid
+ * \ingroup ITKImageGrid
  *
  * \wiki
  * \wikiexample{ImageProcessing/TileImageFilter,Tile multiple images into another image}
@@ -87,7 +87,7 @@ public:
                       TOutputImage::ImageDimension);
   /** \class TileInfo
    * Define a tile structure
-   * \ingroup ITK-ImageGrid
+   * \ingroup ITKImageGrid
    */
   class TileInfo
   {

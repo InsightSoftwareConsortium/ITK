@@ -1,8 +1,8 @@
-itk_module(ITK-IO-SpatialObjects
+itk_module(ITKIOSpatialObjects
   DEPENDS
-    ITK-SpatialObjects
-    ITK-IO-XML
-    ITK-IO-Base
+    ITKSpatialObjects
+    ITKIOXML
+    ITKIOBase
   TEST_DEPENDS
-    ITK-TestKernel
+    ITKTestKernel
 )

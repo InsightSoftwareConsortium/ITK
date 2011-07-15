@@ -36,7 +36,7 @@ namespace itk
  *
  * \ingroup GeometricTransforms
  * \sa WrapPadImageFilter, MirrorPadImageFilter
- * \ingroup ITK-ImageGrid
+ * \ingroup ITKImageGrid
  *
  * \wiki
  * \wikiexample{Images/ConstantPadImageFilter,Pad an image with a constant value}

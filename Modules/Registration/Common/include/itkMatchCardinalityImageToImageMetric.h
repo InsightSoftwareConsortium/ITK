@@ -61,7 +61,7 @@ namespace itk
  * buffers conditional on any assigned masks.
  *
  * \ingroup RegistrationMetrics
- * \ingroup ITK-RegistrationCommon
+ * \ingroup ITKRegistrationCommon
  */
 template< class TFixedImage, class TMovingImage >
 class ITK_EXPORT MatchCardinalityImageToImageMetric:

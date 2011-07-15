@@ -37,7 +37,7 @@ namespace itk
  * http://www.insight-journal.org/browse/publication/72
  *
  * \ingroup ImageFilters
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TInputImage, class TOutputPath >
 class ITK_EXPORT ImageToPathFilter:public PathSource< TOutputPath >

@@ -47,7 +47,7 @@ namespace itk
  * Since RGBPixel is a subclass of Array, you can access its components as:
  * pixel[0], pixel[1], pixel[2]
  * \ingroup ImageObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 template< typename TComponent = unsigned short >

@@ -27,7 +27,7 @@ namespace itk
 /** \class MatrixCoefficients
  * \brief Superclass for all the matrix coefficients computation classes.
  * \note  Belongs to the parameterisation package.
- * \ingroup ITK-QuadEdgeMeshFiltering
+ * \ingroup ITKQuadEdgeMeshFiltering
  */
 template< typename TInputMesh >
 class ITK_EXPORT MatrixCoefficients
@@ -49,7 +49,7 @@ public:
  *        by an edge.
  * \note  Belongs to the parameterisation package.
  * \note  See paper:
- * \ingroup ITK-QuadEdgeMeshFiltering
+ * \ingroup ITKQuadEdgeMeshFiltering
  */
 template< typename TInputMesh >
 class ITK_EXPORT OnesMatrixCoefficients:public MatrixCoefficients< TInputMesh >
@@ -78,7 +78,7 @@ public:
  *        wherever two vertices are connected by an edge.
  * \note  Belongs to the parameterisation package.
  * \note  See paper: ...
- * \ingroup ITK-QuadEdgeMeshFiltering
+ * \ingroup ITKQuadEdgeMeshFiltering
  */
 template< typename TInputMesh >
 class ITK_EXPORT InverseEuclideanDistanceMatrixCoefficients:
@@ -120,7 +120,7 @@ public:
  *        wherever two vertices are connected by an edge.
  * \note  Belongs to the parameterisation package.
  * \note  See paper ...
- * \ingroup ITK-QuadEdgeMeshFiltering
+ * \ingroup ITKQuadEdgeMeshFiltering
  */
 template< typename TInputMesh >
 class ITK_EXPORT ConformalMatrixCoefficients:public MatrixCoefficients< TInputMesh >
@@ -173,7 +173,7 @@ public:
  *        wherever two vertices are connected with an edge.
  * \note  Belongs to the Parameterisation package.
  * \note  See paper:
- * \ingroup ITK-QuadEdgeMeshFiltering
+ * \ingroup ITKQuadEdgeMeshFiltering
  */
 template< typename TInputMesh >
 class ITK_EXPORT AuthalicMatrixCoefficients:public MatrixCoefficients< TInputMesh >
@@ -229,7 +229,7 @@ public:
  *        wherever two vertices are connected by an edge.
  * \note  Belongs to the parameterization Package.
  * \note  See paper:
- * \ingroup ITK-QuadEdgeMeshFiltering
+ * \ingroup ITKQuadEdgeMeshFiltering
  */
 template< typename TInputMesh >
 class ITK_EXPORT IntrinsicMatrixCoefficients:public MatrixCoefficients< TInputMesh >
@@ -265,7 +265,7 @@ public:
  *        two vertices are connected by an edge.
  * \note  Belongs to the parameterization package.
  * \note  See paper:
- * \ingroup ITK-QuadEdgeMeshFiltering
+ * \ingroup ITKQuadEdgeMeshFiltering
  */
 template< typename TInputMesh >
 class ITK_EXPORT HarmonicMatrixCoefficients:public MatrixCoefficients< TInputMesh >

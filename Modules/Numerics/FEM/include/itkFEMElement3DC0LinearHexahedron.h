@@ -58,7 +58,7 @@ namespace fem
  * \sa Element3DC0LinearHexahedronMembrane
  * \sa Element3DC0LinearHexahedronStrain
  *
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 class Element3DC0LinearHexahedron : public ElementStd<8, 3>
 {

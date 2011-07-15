@@ -136,7 +136,7 @@ namespace itk
  *   return rval;
  * }
  * \endcode
- * \ingroup ITK-ImageGrid
+ * \ingroup ITKImageGrid
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT OrientImageFilter:

@@ -60,7 +60,7 @@ namespace itk
  *
  *
  * \author Richard Beare
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 
 template< class TInputImage, class TOutputImage, class TKernel =

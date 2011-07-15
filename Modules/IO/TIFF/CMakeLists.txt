@@ -1,3 +1,3 @@
-project(ITK-IO-TIFF)
-set(ITK-IO-TIFF_LIBRARIES ITK-IO-TIFF)
+project(ITKIOTIFF)
+set(ITKIOTIFF_LIBRARIES ITKIOTIFF)
 itk_module_impl()

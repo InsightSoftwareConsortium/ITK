@@ -46,7 +46,7 @@ namespace itk
  * Hochschule Hannover.
  *
  * \sa LineConstIterator
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{Iterators/LineIterator,Iterate over a line through an image}

@@ -32,7 +32,7 @@ namespace itk
  * (e.g. float or double).
  *
  * \ingroup ImageFunctions ImageInterpolators
- * \ingroup ITK-ImageFunction
+ * \ingroup ITKImageFunction
  */
 template< class TInputImage, class TCoordRep = double >
 class ITK_EXPORT NearestNeighborInterpolateImageFunction:

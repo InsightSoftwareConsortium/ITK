@@ -32,7 +32,7 @@ namespace Statistics
 /** \class RBFLayer
  * \brief This is the itkRBFLayer class.
  *
- * \ingroup ITK-NeuralNetworks
+ * \ingroup ITKNeuralNetworks
  */
 
 template<class TMeasurementVector, class TTargetVector>

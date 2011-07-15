@@ -53,7 +53,7 @@ namespace itk
  *
  * \ingroup ImageFeatureExtraction
  *
- * \ingroup ITK-DistanceMap
+ * \ingroup ITKDistanceMap
  */
 
 template< class TInputImage, class TOutputImage >

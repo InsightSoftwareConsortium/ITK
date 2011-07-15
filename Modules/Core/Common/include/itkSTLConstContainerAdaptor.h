@@ -39,7 +39,7 @@ namespace itk
  *     // do things with vec ...
  * \endcode
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 template< typename TContainer >

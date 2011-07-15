@@ -30,7 +30,7 @@ namespace Statistics
 /** \class TrainingFunctionBase
  * \brief This is the itkTrainingFunctionBase class.
  *
- * \ingroup ITK-NeuralNetworks
+ * \ingroup ITKNeuralNetworks
  */
 
 template<class TSample, class TTargetVector, class ScalarType>

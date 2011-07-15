@@ -59,7 +59,7 @@ namespace itk
  * \sa ShapedNeighborhoodIterator  \sa SliceIterator
  *
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< typename TImage >
 class ITK_EXPORT ImageIterator:public ImageConstIterator< TImage >

@@ -54,7 +54,7 @@ namespace itk
  * \sa Vector
  *
  * \ingroup PathObjects
- * \ingroup ITK-Path
+ * \ingroup ITKPath
  */
 template< unsigned int VDimension >
 class ITK_EXPORT ParametricPath:public

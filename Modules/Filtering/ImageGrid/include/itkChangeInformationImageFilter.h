@@ -43,7 +43,7 @@ namespace itk
  *
  * \ingroup GeometricTransforms
  *
- * \ingroup ITK-ImageGrid
+ * \ingroup ITKImageGrid
  */
 template< class TInputImage >
 class ITK_EXPORT ChangeInformationImageFilter:

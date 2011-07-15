@@ -66,7 +66,7 @@ namespace fem
  * \sa Element3DC0LinearTetrahedron
  * \sa Element3DC0LinearTriangular
  * \sa Element3DC0LinearTriangularLaplaceBeltrami
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 
 class Element : public FEMLightObject
@@ -141,7 +141,7 @@ public:
  * are the elements, the node class is defined within an element base class.
  *
  * \note Possibly move this class to its own file
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
   class Node : public FEMLightObject
   {

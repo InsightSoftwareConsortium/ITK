@@ -112,7 +112,7 @@ struct GetMeshDimension {
  * No reference information is available.
  *
  * \ingroup MeshObjects
- * \ingroup ITK-Mesh
+ * \ingroup ITKMesh
  */
 template<
   typename TPixelType,
@@ -213,7 +213,7 @@ public:
    *  This class provides a pair of these identifiers with appropriate
    *  comparison operators available for use of the Ids in sorted container
    *  classes.
-   * \ingroup ITK-Mesh
+   * \ingroup ITKMesh
    */
   class BoundaryAssignmentIdentifier
   {

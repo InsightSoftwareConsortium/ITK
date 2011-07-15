@@ -70,7 +70,7 @@ namespace itk
   *
   * \ingroup MeshFilters
   * \ingroup MeshSegmentation
-  * \ingroup ITK-DeformableMesh
+  * \ingroup ITKDeformableMesh
   */
 template< class TInputMesh, class TOutputMesh >
 class ITK_EXPORT DeformableSimplexMesh3DFilter:public MeshToMeshFilter< TInputMesh, TOutputMesh >

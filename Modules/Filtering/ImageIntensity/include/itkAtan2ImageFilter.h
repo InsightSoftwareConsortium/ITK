@@ -35,7 +35,7 @@ namespace itk
  * is casted to the output pixel type.
  *
  * \ingroup IntensityImageFilters MultiThreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup ITKImageIntensity
  */
 namespace Functor
 {

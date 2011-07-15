@@ -37,7 +37,7 @@ namespace itk
  * parameters MUST be fixed.
  *
  * \ingroup MeshObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 template< typename TCellInterface >

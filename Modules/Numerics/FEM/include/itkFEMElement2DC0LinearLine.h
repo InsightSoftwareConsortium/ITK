@@ -29,7 +29,7 @@ namespace fem
  * \class Element2DC0LinearLine
  * \brief 2-noded, linear, C0 continuous line element in 2D space.
  * \Takes loads only along the length of the axis
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 class Element2DC0LinearLine : public ElementStd<2, 2>
 {

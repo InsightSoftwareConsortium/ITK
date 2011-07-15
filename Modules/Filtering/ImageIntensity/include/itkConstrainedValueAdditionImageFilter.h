@@ -50,7 +50,7 @@ namespace itk
  * Engineering. University of Alberta. Canada
  *
  * \ingroup IntensityImageFilters MultiThreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup ITKImageIntensity
  */
 namespace Functor
 {

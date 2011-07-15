@@ -42,7 +42,7 @@ namespace itk
  * the center of rotation.
  *
  * \ingroup Transforms
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  */
 template< class TScalarType = double >
 // Data type for scalars (float or double)

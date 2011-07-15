@@ -1,5 +1,5 @@
 itk_module_test()
-set(ITK-ImageFunctionTests
+set(ITKImageFunctionTests
 itkGaussianBlurImageFunctionTest.cxx
 itkVectorInterpolateImageFunctionTest.cxx
 itkVarianceImageFunctionTest.cxx
@@ -24,50 +24,50 @@ itkNeighborhoodOperatorImageFunctionTest.cxx
 itkNearestNeighborInterpolateImageFunctionTest.cxx
 )
 
-CreateTestDriver(ITK-ImageFunction  "${ITK-ImageFunction-Test_LIBRARIES}" "${ITK-ImageFunctionTests}")
+CreateTestDriver(ITKImageFunction  "${ITKImageFunction-Test_LIBRARIES}" "${ITKImageFunctionTests}")
 
 itk_add_test(NAME itkImageFunctionHeaderTest
-      COMMAND ITK-ImageFunctionTestDriver itkImageFunctionHeaderTest)
+      COMMAND ITKImageFunctionTestDriver itkImageFunctionHeaderTest)
 itk_add_test(NAME itkGaussianBlurImageFunctionTest
-      COMMAND ITK-ImageFunctionTestDriver itkGaussianBlurImageFunctionTest)
+      COMMAND ITKImageFunctionTestDriver itkGaussianBlurImageFunctionTest)
 itk_add_test(NAME itkVectorInterpolateImageFunctionTest
-      COMMAND ITK-ImageFunctionTestDriver itkVectorInterpolateImageFunctionTest)
+      COMMAND ITKImageFunctionTestDriver itkVectorInterpolateImageFunctionTest)
 itk_add_test(NAME itkVarianceImageFunctionTest
-      COMMAND ITK-ImageFunctionTestDriver itkVarianceImageFunctionTest)
+      COMMAND ITKImageFunctionTestDriver itkVarianceImageFunctionTest)
 itk_add_test(NAME itkMedianImageFunctionTest
-      COMMAND ITK-ImageFunctionTestDriver itkMedianImageFunctionTest)
+      COMMAND ITKImageFunctionTestDriver itkMedianImageFunctionTest)
 itk_add_test(NAME itkBinaryThresholdImageFunctionTest
-      COMMAND ITK-ImageFunctionTestDriver itkBinaryThresholdImageFunctionTest)
+      COMMAND ITKImageFunctionTestDriver itkBinaryThresholdImageFunctionTest)
 itk_add_test(NAME itkScatterMatrixImageFunctionTest
-      COMMAND ITK-ImageFunctionTestDriver itkScatterMatrixImageFunctionTest)
+      COMMAND ITKImageFunctionTestDriver itkScatterMatrixImageFunctionTest)
 itk_add_test(NAME itkMeanImageFunctionTest
-      COMMAND ITK-ImageFunctionTestDriver itkMeanImageFunctionTest)
+      COMMAND ITKImageFunctionTestDriver itkMeanImageFunctionTest)
 itk_add_test(NAME itkGaussianDerivativeImageFunctionTest
-      COMMAND ITK-ImageFunctionTestDriver itkGaussianDerivativeImageFunctionTest)
+      COMMAND ITKImageFunctionTestDriver itkGaussianDerivativeImageFunctionTest)
 itk_add_test(NAME itkCentralDifferenceImageFunctionTest
-      COMMAND ITK-ImageFunctionTestDriver itkCentralDifferenceImageFunctionTest)
+      COMMAND ITKImageFunctionTestDriver itkCentralDifferenceImageFunctionTest)
 itk_add_test(NAME itkImageAdaptorInterpolateImageFunctionTest
-      COMMAND ITK-ImageFunctionTestDriver itkImageAdaptorInterpolateImageFunctionTest)
+      COMMAND ITKImageFunctionTestDriver itkImageAdaptorInterpolateImageFunctionTest)
 itk_add_test(NAME itkCovarianceImageFunctionTest
-      COMMAND ITK-ImageFunctionTestDriver itkCovarianceImageFunctionTest)
+      COMMAND ITKImageFunctionTestDriver itkCovarianceImageFunctionTest)
 itk_add_test(NAME itkRayCastInterpolateImageFunctionTest
-      COMMAND ITK-ImageFunctionTestDriver itkRayCastInterpolateImageFunctionTest)
+      COMMAND ITKImageFunctionTestDriver itkRayCastInterpolateImageFunctionTest)
 itk_add_test(NAME itkNearestNeighborExtrapolateImageFunctionTest
-      COMMAND ITK-ImageFunctionTestDriver itkNearestNeighborExtrapolateImageFunctionTest)
+      COMMAND ITKImageFunctionTestDriver itkNearestNeighborExtrapolateImageFunctionTest)
 itk_add_test(NAME itkVectorMeanImageFunctionTest
-      COMMAND ITK-ImageFunctionTestDriver itkVectorMeanImageFunctionTest)
+      COMMAND ITKImageFunctionTestDriver itkVectorMeanImageFunctionTest)
 itk_add_test(NAME itkMahalanobisDistanceThresholdImageFunctionTest
-      COMMAND ITK-ImageFunctionTestDriver itkMahalanobisDistanceThresholdImageFunctionTest)
+      COMMAND ITKImageFunctionTestDriver itkMahalanobisDistanceThresholdImageFunctionTest)
 itk_add_test(NAME itkInterpolateTest
-      COMMAND ITK-ImageFunctionTestDriver itkInterpolateTest)
+      COMMAND ITKImageFunctionTestDriver itkInterpolateTest)
 itk_add_test(NAME itkRGBInterpolateImageFunctionTest
-      COMMAND ITK-ImageFunctionTestDriver itkRGBInterpolateImageFunctionTest)
+      COMMAND ITKImageFunctionTestDriver itkRGBInterpolateImageFunctionTest)
 
 itk_add_test(NAME itkWindowedSincInterpolateImageFunctionTest
-      COMMAND ITK-ImageFunctionTestDriver itkWindowedSincInterpolateImageFunctionTest)
+      COMMAND ITKImageFunctionTestDriver itkWindowedSincInterpolateImageFunctionTest)
 itk_add_test(NAME itkLinearInterpolateImageFunctionTest
-      COMMAND ITK-ImageFunctionTestDriver itkLinearInterpolateImageFunctionTest)
+      COMMAND ITKImageFunctionTestDriver itkLinearInterpolateImageFunctionTest)
 itk_add_test(NAME itkNeighborhoodOperatorImageFunctionTest
-      COMMAND ITK-ImageFunctionTestDriver itkNeighborhoodOperatorImageFunctionTest)
+      COMMAND ITKImageFunctionTestDriver itkNeighborhoodOperatorImageFunctionTest)
 itk_add_test(NAME itkNearestNeighborInterpolateImageFunctionTest
-      COMMAND ITK-ImageFunctionTestDriver itkNearestNeighborInterpolateImageFunctionTest)
+      COMMAND ITKImageFunctionTestDriver itkNearestNeighborInterpolateImageFunctionTest)

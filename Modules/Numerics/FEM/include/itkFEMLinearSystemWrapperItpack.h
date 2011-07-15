@@ -45,7 +45,7 @@ namespace fem
  * \brief LinearSystemWrapper class that uses Itpack numeric library functions
  *        to define and solve a sparse linear system of equations
  * \sa LinearSystemWrapper
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 class LinearSystemWrapperItpack : public LinearSystemWrapper
 {
@@ -668,7 +668,7 @@ private:
  * \brief handles errors that occur in itpack solving routines
  * \sa LinearSystemWrapperItpack
  * \sa FEMException
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 class FEMExceptionItpackSolver : public FEMException
 {

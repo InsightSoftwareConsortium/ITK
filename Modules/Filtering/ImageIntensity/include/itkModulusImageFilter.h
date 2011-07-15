@@ -67,7 +67,7 @@ private:
  *
  * \ingroup IntensityImageFilters  MultiThreaded
  *
- * \ingroup ITK-ImageIntensity
+ * \ingroup ITKImageIntensity
  */
 template< typename  TInputImage, typename  TOutputImage = TInputImage >
 class ITK_EXPORT ModulusImageFilter:

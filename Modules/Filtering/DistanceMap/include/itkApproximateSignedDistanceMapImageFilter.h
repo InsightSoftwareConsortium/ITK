@@ -61,7 +61,7 @@ namespace itk
  * \sa FastChamferDistanceImageFilter, IsoContourDistanceImageFilter
  *
  * \author Zach Pincus
- * \ingroup ITK-DistanceMap
+ * \ingroup ITKDistanceMap
  */
 
 template< class TInputImage, class TOutputImage >

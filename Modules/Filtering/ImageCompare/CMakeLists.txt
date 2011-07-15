@@ -1,2 +1,2 @@
-project(ITK-ImageCompare)
+project(ITKImageCompare)
 itk_module_impl()

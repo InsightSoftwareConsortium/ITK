@@ -31,7 +31,7 @@ namespace itk
  *
  * \ingroup Transforms
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template
   <class TScalar, unsigned int NDimensions>

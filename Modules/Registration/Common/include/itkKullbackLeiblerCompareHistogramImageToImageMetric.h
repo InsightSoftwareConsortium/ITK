@@ -65,7 +65,7 @@ namespace itk
  *  Neuroimage Analysis Center (P41 RR13218).
  *
  *  \ingroup RegistrationMetrics
- * \ingroup ITK-RegistrationCommon
+ * \ingroup ITKRegistrationCommon
  */
 
 template< class TFixedImage, class TMovingImage >

@@ -35,7 +35,7 @@ namespace itk
  * there is only one input image.
  *
  * \ingroup Deprecated
- * \ingroup ITK-Deprecated
+ * \ingroup ITKDeprecated
  */
 
 template< class TInputImage, class TOutputImage >

@@ -1,2 +1,2 @@
-project(ITK-ImageLabel)
+project(ITKImageLabel)
 itk_module_impl()

@@ -84,7 +84,7 @@ struct GetImageDimension {
  * \ingroup ImageObjects
  * \ingroup ITKSystemObjects
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< unsigned int VImageDimension = 2 >
 class ITK_EXPORT ImageBase:public DataObject

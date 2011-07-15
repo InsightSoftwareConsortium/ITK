@@ -27,7 +27,7 @@ namespace Statistics
 /** \class GaussianTransferFunction
  * \brief This is the itkGaussianTransferFunction class.
  *
- * \ingroup ITK-NeuralNetworks
+ * \ingroup ITKNeuralNetworks
  */
 
 template<class ScalarType>

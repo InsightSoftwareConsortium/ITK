@@ -44,7 +44,7 @@ namespace itk
  *
  *
  * \ingroup Transforms
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TTransform, class TImage >
 class ITK_EXPORT BSplineDeformableTransformInitializer:public Object

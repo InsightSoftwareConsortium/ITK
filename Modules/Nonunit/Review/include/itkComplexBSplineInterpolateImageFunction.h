@@ -38,7 +38,7 @@ namespace itk
  * http://hdl.handle.net/1926/585
  *
  * \ingroup ImageInterpolators
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TImageType, class TCoordRep = double, class TCoefficientType = double >
 class ITK_EXPORT ComplexBSplineInterpolateImageFunction:

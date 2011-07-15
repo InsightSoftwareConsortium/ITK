@@ -29,7 +29,7 @@ namespace itk
  * contents of an XML file in a structured manner.  It's 'impure virtual'
  * in that some functions that are generic to opening and parsing a file
  * are implemented here.
- * \ingroup ITK-IO-XML
+ * \ingroup ITKIOXML
  */
 class ITK_EXPORT XMLReaderBase:public LightProcessObject
 {
@@ -86,7 +86,7 @@ private:
  * extracting the object resulting from reading the XML File.
  * Since it doesn't define any of the pure virtual methods in XMLReaderBase,
  * It can't be instantiated by itself
- * \ingroup ITK-IO-XML
+ * \ingroup ITKIOXML
  */
 template< class T >
 class ITK_EXPORT XMLReader: public XMLReaderBase
@@ -118,7 +118,7 @@ private:
  * a few utility functions for writing XML files. A derived
  * class needs to implement writing the file completely by
  * implementing WriteFile.
- * \ingroup ITK-IO-XML
+ * \ingroup ITKIOXML
  */
 template< class T >
 class ITK_EXPORT XMLWriterBase:public LightProcessObject

@@ -32,7 +32,7 @@ namespace itk
  * \tparam TCellTraits Type information of mesh containing cell.
  *
  * \ingroup MeshObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< typename TCellInterface >
 class QuadraticTriangleCell:public TCellInterface, private QuadraticTriangleCellTopology

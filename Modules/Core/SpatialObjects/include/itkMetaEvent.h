@@ -25,7 +25,7 @@ namespace itk
 {
 /** \class MetaEvent
  * \brief Event abstract class
- * \ingroup ITK-SpatialObjects
+ * \ingroup ITKSpatialObjects
  */
 class ITK_EXPORT MetaEvent : public :: MetaEvent
 {

@@ -49,7 +49,7 @@ namespace itk
  * the PixelType defines an operator-() that is not the inverse of operator+()
  *
  * \ingroup IntensityImageFilters MultiThreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup ITKImageIntensity
  *
  * \wiki
  * \wikiexample{ImageProcessing/SubtractImageFilter,Subtract two images}

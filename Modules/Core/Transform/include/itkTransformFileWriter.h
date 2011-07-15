@@ -27,7 +27,7 @@ namespace itk
 /** \class TransformFileWriter
  *
  * \brief TODO
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  *
  * \wiki
  * \wikiexample{IO/TransformFileWriter,Write a transform to a file}

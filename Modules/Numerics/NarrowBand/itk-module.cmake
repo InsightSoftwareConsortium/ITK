@@ -1,8 +1,8 @@
-itk_module(ITK-NarrowBand
+itk_module(ITKNarrowBand
   DEPENDS
-    ITK-ImageIntensity
-    ITK-FiniteDifference
-    ITK-CurvatureFlow
+    ITKImageIntensity
+    ITKFiniteDifference
+    ITKCurvatureFlow
   TEST_DEPENDS
-    ITK-TestKernel
+    ITKTestKernel
 )

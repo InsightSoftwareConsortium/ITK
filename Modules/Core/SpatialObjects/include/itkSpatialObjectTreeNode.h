@@ -28,7 +28,7 @@ class SpatialObject;
 
 /** \class SpatialObjectTreeNode
  * \brief TODO
- * \ingroup ITK-SpatialObjects
+ * \ingroup ITKSpatialObjects
  */
 template< unsigned int TDimension >
 class ITK_EXPORT SpatialObjectTreeNode:public TreeNode< SpatialObject< TDimension > * >

@@ -36,7 +36,7 @@ namespace itk
  *
  * \ingroup GradientFilters
  * \ingroup SingelThreaded
- * \ingroup ITK-ImageFeature
+ * \ingroup ITKImageFeature
  */
 // NOTE that the ITK_TYPENAME macro has to be used here in lieu
 // of "typename" because VC++ doesn't like the typename keyword

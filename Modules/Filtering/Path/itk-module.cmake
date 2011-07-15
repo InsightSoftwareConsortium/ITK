@@ -3,17 +3,17 @@ concept of a linear path in N-Dimensional space. They can be used to represent
 contours in 2D images, or curves in 3D space. These classes also include the
 concept of iterators, polylines, and smooth approximations to paths.")
 
-itk_module(ITK-Path
+itk_module(ITKPath
   DEPENDS
-    ITK-ImageFilterBase
-    ITK-ImageFunction
+    ITKImageFilterBase
+    ITKImageFunction
   TEST_DEPENDS
-    ITK-TestKernel
-    ITK-ImageIntensity
-    ITK-Smoothing
-    ITK-ImageFeature
+    ITKTestKernel
+    ITKImageIntensity
+    ITKSmoothing
+    ITKImageFeature
   DESCRIPTION
     "${DOCUMENTATION}"
 )
 
-# Extra test dependencies on ITK-ImageIntensity, ITK-Smoothing, and ITK-ImageFeature are introduced by itkOrthogonalSwath2DPathFilterTest.
+# Extra test dependencies on ITKImageIntensity, ITKSmoothing, and ITKImageFeature are introduced by itkOrthogonalSwath2DPathFilterTest.

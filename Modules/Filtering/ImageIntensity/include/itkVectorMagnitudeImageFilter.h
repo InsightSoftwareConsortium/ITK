@@ -34,7 +34,7 @@ namespace itk
  * that provides a GetNorm() method.
  *
  * \ingroup IntensityImageFilters  MultiThreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup ITKImageIntensity
  *
  * \wiki
  * \wikiexample{VectorImages/VectorMagnitudeImageFilter,Compute the magnitude of each pixel in a vector image to produce a magnitude image}

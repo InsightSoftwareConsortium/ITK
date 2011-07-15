@@ -54,7 +54,7 @@ namespace itk
  * \ingroup Operators
  *
  * \todo It's not yet clear how multi-echo images should be handled here.
- * \ingroup ITK-ImageStatistics
+ * \ingroup ITKImageStatistics
  */
 template< class TImage >
 class ITK_EXPORT ImageMomentsCalculator:public Object

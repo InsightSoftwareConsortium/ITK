@@ -51,7 +51,7 @@ namespace itk
  * responsibility of the authors and do not necessarily represent the
  * official view of NCRR or NIH.
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TImage >
 class ITK_EXPORT FFTWComplexToComplexImageFilter:

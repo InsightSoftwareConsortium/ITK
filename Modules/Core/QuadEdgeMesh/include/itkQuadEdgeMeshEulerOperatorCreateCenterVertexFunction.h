@@ -28,7 +28,7 @@ namespace itk
  *
  * \brief Create a vertex at the barycenter of the given face.
  *
- * \ingroup ITK-QuadEdgeMesh
+ * \ingroup ITKQuadEdgeMesh
  */
 template< class TMesh, class TQEType >
 class ITK_EXPORT QuadEdgeMeshEulerOperatorCreateCenterVertexFunction:

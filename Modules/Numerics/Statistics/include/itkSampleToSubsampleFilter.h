@@ -39,7 +39,7 @@ namespace Statistics
  *
  * \sa NeighborhoodSampler
  *
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  */
 
 template< class TSample >

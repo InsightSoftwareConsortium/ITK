@@ -40,7 +40,7 @@ namespace Statistics
  * the measurement exists in the list, 0 otherwise.
  *
  * \sa Sample, Histogram
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  *
  * \wiki
  * \wikiexample{Statistics/ListSample,Create a list of sample measurements}
@@ -122,7 +122,7 @@ public:
 
   /** \class ConstIterator
    * \brief Const Iterator
-   * \ingroup ITK-Statistics
+   * \ingroup ITKStatistics
    */
   class ConstIterator
   {
@@ -199,7 +199,7 @@ private:
 
   /** \class Iterator
    * \brief Iterator
-   * \ingroup ITK-Statistics
+   * \ingroup ITKStatistics
    */
   class Iterator:public ConstIterator
   {

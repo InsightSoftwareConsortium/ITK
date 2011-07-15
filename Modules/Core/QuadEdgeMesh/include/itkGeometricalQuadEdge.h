@@ -54,7 +54,7 @@ namespace itk
  * \sa QuadEdge
  *
  * \ingroup MeshObjects
- * \ingroup ITK-QuadEdgeMesh
+ * \ingroup ITKQuadEdgeMesh
  */
 template< typename TVRef,  typename TFRef,
           typename TPrimalData, typename TDualData,

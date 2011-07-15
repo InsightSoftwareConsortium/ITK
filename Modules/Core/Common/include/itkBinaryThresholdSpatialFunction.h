@@ -36,7 +36,7 @@ namespace itk
  * \sa SpatialFunction
  *
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< typename TFunction >
 class ITK_EXPORT BinaryThresholdSpatialFunction:

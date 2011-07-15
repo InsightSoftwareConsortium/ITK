@@ -33,7 +33,7 @@ namespace itk
  * orthogonal vectors. See
  * Examples/EllipsoidInteriorExteriorSpatialFunction/README for an
  * example of creating an Ellipsoid in an image.
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< unsigned int VDimension = 3,
           typename TInput = Point< double, VDimension > >

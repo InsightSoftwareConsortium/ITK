@@ -83,7 +83,7 @@ struct GetPointSetDimension {
  *
  * \ingroup MeshObjects
  * \ingroup DataRepresentation
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{PointSet/CreatePointSet,Create a PointSet}

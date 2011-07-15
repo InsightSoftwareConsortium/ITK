@@ -3,17 +3,17 @@ thresholding filters. In addition to the classical binary thresholding, you
 will find here the thresholding filters based on the Otsu criterion, both for
 single and multiple thresholds.")
 
-itk_module(ITK-Thresholding
+itk_module(ITKThresholding
   DEPENDS
-    ITK-ImageIntensity
-    ITK-ImageStatistics
+    ITKImageIntensity
+    ITKImageStatistics
   TEST_DEPENDS
-    ITK-TestKernel
-    ITK-SignedDistanceFunction
-    ITK-ImageLabel
+    ITKTestKernel
+    ITKSignedDistanceFunction
+    ITKImageLabel
   DESCRIPTION
     "${DOCUMENTATION}"
 )
 
-# Extra test dependency on ITK-SignedDistanceFunction  is introduced by itkBinaryThresholdSpatialFunctionTest.
-# Extra test dependency on ITK-Smoothing is introduced by itkBinaryThresholdProjectionImageFilterTest.
+# Extra test dependency on ITKSignedDistanceFunction  is introduced by itkBinaryThresholdSpatialFunctionTest.
+# Extra test dependency on ITKSmoothing is introduced by itkBinaryThresholdProjectionImageFilterTest.

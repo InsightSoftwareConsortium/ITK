@@ -1,7 +1,7 @@
-itk_module(ITK-Optimizers
+itk_module(ITKOptimizers
   DEPENDS
-    ITK-Statistics
-    ITK-Transform
+    ITKStatistics
+    ITKTransform
   TEST_DEPENDS
-    ITK-TestKernel
+    ITKTestKernel
 )

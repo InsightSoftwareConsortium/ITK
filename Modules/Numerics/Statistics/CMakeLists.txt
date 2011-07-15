@@ -1,3 +1,3 @@
-project(ITK-Statistics)
-set(ITK-Statistics_LIBRARIES ITK-Statistics)
+project(ITKStatistics)
+set(ITKStatistics_LIBRARIES ITKStatistics)
 itk_module_impl()

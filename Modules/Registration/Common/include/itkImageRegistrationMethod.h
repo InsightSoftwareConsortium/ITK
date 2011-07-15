@@ -58,7 +58,7 @@ namespace itk
  * interpolate values from the Moving image.
  *
  * \ingroup RegistrationFilters
- * \ingroup ITK-RegistrationCommon
+ * \ingroup ITKRegistrationCommon
  *
  * \wiki
  * \wikiexample{Registration/ImageRegistrationMethod,A basic global registration of two images}

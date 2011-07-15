@@ -32,7 +32,7 @@ namespace itk
  * This implementation was contributed as a paper to the Insight Journal
  * http://hdl.handle.net/1926/303
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 class ITK_EXPORT VoxBoCUBImageIOFactory:public ObjectFactoryBase
 {

@@ -47,7 +47,7 @@ namespace itk
  *
  * \author Nick Tustison
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TInputImage, class TMaskImage = Image< unsigned char,
                                                        ::itk::GetImageDimension< TInputImage >::ImageDimension >,

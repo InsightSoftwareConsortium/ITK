@@ -53,7 +53,7 @@ namespace itk
  *
  * \ingroup ImageEnhancement
  * \ingroup ImageFeatureExtraction
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 
 template< class TInputImage, class TOutputImage >

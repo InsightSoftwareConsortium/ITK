@@ -44,7 +44,7 @@ namespace Statistics
  * \author Glenn Pierce
  *
  * \ingroup Statistics
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  */
 
 template< class TImage >

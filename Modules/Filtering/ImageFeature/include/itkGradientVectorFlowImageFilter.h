@@ -37,7 +37,7 @@ namespace itk
  *
  * \ingroup ImageFilters
  * \ingroup ImageSegmentation
- * \ingroup ITK-ImageFeature
+ * \ingroup ITKImageFeature
  */
 template< class TInputImage, class TOutputImage, class TInternalPixel = double >
 class ITK_EXPORT GradientVectorFlowImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >

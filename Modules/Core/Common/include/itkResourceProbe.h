@@ -33,7 +33,7 @@ namespace itk
   *
   *   \sa TimeResourceProbe, MemoryResourceProbe
   *
-  * \ingroup ITK-Common
+  * \ingroup ITKCommon
   */
 template< class ValueType, class MeanType >
 class ITK_EXPORT ResourceProbe

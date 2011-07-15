@@ -27,7 +27,7 @@ namespace Statistics
 /** \class TanSigmoidTransferFunction
  * \brief This is the itkTanSigmoidTransferFunction class.
  *
- * \ingroup ITK-NeuralNetworks
+ * \ingroup ITKNeuralNetworks
  */
 
 template<class ScalarType>

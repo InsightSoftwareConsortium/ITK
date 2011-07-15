@@ -83,7 +83,7 @@ namespace itk
  *
  * \sa CompositeTranform, CompositeTransformReader
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template
 <class TScalar = double, unsigned int NDimensions = 3>

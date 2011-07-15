@@ -29,7 +29,7 @@ namespace itk
 {
 /** \class TxtTransformIOFactory
    * \brief Create instances of TxtTransformIO objects using an object factory.
-   * \ingroup ITK-Transform
+   * \ingroup ITKTransform
    */
 class ITK_EXPORT TxtTransformIOFactory:public ObjectFactoryBase
 {

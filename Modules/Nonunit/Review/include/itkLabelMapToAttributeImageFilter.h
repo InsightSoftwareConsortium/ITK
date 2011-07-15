@@ -37,7 +37,7 @@ namespace itk {
  *
  * \sa LabelMapToBinaryImageFilter, LabelMapMaskImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template<class TInputImage, class TOutputImage, class TAttributeAccessor=
     typename Functor::AttributeLabelObjectAccessor< typename TInputImage::LabelObjectType > >

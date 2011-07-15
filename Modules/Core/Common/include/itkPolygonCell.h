@@ -47,7 +47,7 @@ namespace itk
  * \tparam TCellTraits Type information of mesh containing cell.
  *
  * \ingroup MeshObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< typename TCellInterface >
 class ITK_EXPORT PolygonCell:public TCellInterface

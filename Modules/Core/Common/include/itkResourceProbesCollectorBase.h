@@ -32,7 +32,7 @@ namespace itk
  *
  *  \sa ResourceProbe
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TProbe >
 class ITK_EXPORT ResourceProbesCollectorBase

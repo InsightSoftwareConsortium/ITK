@@ -44,7 +44,7 @@ namespace itk
  * class, instantiate it and then call SetInstance(this).
  *
  * \ingroup OSSystemObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 class ITKCommon_EXPORT XMLFileOutputWindow:public FileOutputWindow
 {

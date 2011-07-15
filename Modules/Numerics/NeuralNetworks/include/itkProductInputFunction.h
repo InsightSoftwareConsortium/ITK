@@ -29,7 +29,7 @@ namespace Statistics
 /** \class ProductInputFunction
  * \brief This is the itkProductInputFunction class.
  *
- * \ingroup ITK-NeuralNetworks
+ * \ingroup ITKNeuralNetworks
  */
 
 template<class TMeasurementVector, class ScalarType>

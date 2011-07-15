@@ -28,7 +28,7 @@ namespace itk
 /** \class SpatialObjectReader
  *
  * \brief TODO
- * \ingroup ITK-IO-SpatialObjects
+ * \ingroup ITKIOSpatialObjects
  */
 template< unsigned int NDimensions = 3,
           typename PixelType = unsigned char,

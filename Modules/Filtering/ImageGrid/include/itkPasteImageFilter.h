@@ -38,7 +38,7 @@ namespace itk
  * The two inputs and output image will have the same pixel type.
  *
  * \ingroup GeometricTransforms
- * \ingroup ITK-ImageGrid
+ * \ingroup ITKImageGrid
  *
  * \wiki
  * \wikiexample{ImageProcessing/PasteImageFilter,Paste a part of one image into another image}

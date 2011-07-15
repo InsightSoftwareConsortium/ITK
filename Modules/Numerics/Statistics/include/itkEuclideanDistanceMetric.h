@@ -28,7 +28,7 @@ namespace Statistics
  * \brief Euclidean distance function.
  *
  *
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  */
 template< class TVector >
 class ITK_EXPORT EuclideanDistanceMetric:

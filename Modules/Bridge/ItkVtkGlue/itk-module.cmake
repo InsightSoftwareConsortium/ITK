@@ -1,17 +1,17 @@
 set(DOCUMENTATION "This module contains classes that provide an
 interface between ITK and VTK.")
 
-itk_module(ITK-ItkVtkGlue
+itk_module(ITKItkVtkGlue
   DEPENDS
-    ITK-Common
-    ITK-ImageIntensity
-    ITK-ImageAdaptors
-    ITK-ImageGrid
-    ITK-VTK
+    ITKCommon
+    ITKImageIntensity
+    ITKImageAdaptors
+    ITKImageGrid
+    ITKVTK
   TEST_DEPENDS
-    ITK-TestKernel
-    ITK-Smoothing
-    ITK-ImageCompose
+    ITKTestKernel
+    ITKSmoothing
+    ITKImageCompose
   EXCLUDE_FROM_ALL
   DESCRIPTION
     "${DOCUMENTATION}")

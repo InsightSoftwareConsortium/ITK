@@ -49,7 +49,7 @@ namespace Statistics
  * to membership functions from different distributional model
  *
  * \sa ExpectationMaximizationMixtureModelEstimator
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  */
 
 template< class TSample >

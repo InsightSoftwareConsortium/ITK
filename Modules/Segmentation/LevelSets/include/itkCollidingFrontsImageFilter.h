@@ -55,7 +55,7 @@ namespace itk
  * \author Luca Antiga Ph.D.  Biomedical Technologies Laboratory,
  *                            Bioengineering Deparment, Mario Negri Institute, Italy.
  *
- * \ingroup ITK-LevelSets
+ * \ingroup ITKLevelSets
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_EXPORT CollidingFrontsImageFilter:

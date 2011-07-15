@@ -45,7 +45,7 @@ namespace fem
  *  0      1
  *  (0,0)  (0,1)
  *
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 
 class Element3DC0LinearTriangular : public ElementStd<3, 3>

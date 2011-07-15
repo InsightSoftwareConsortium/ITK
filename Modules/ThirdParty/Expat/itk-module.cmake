@@ -1,1 +1,1 @@
-itk_module(ITK-Expat)
+itk_module(ITKExpat)

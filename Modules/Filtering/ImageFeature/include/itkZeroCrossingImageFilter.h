@@ -53,7 +53,7 @@ namespace itk
  *  \sa NeighborhoodOperator
  *  \sa NeighborhoodIterator
  *  \ingroup ImageFeatureExtraction
- * \ingroup ITK-ImageFeature
+ * \ingroup ITKImageFeature
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT ZeroCrossingImageFilter:

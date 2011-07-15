@@ -67,7 +67,7 @@ namespace itk
  * "Evaluation of 2D/3D bias correction with 1+1ES-optimization"
  * Martin Styner, Prof. Dr. G. Gerig (IKT, BIWI, ETH Zuerich), TR-197
  * (http://www.cs.unc.edu/~styner/docs/StynerTR97.pdf)
- * \ingroup ITK-BiasCorrection
+ * \ingroup ITKBiasCorrection
  */
 class TargetClass
 {

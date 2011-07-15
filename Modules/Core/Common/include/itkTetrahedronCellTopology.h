@@ -30,7 +30,7 @@ namespace itk
  * files. This prevents multiple definition of static variables.
  *
  * \ingroup MeshObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 class ITKCommon_EXPORT TetrahedronCellTopology

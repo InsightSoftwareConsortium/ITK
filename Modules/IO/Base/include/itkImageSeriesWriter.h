@@ -27,7 +27,7 @@ namespace itk
 {
 /** \class ImageSeriesWriterException
  *  \brief Base exception class for IO problems during writing.
- * \ingroup ITK-IO-Base
+ * \ingroup ITKIOBase
  */
 class ImageSeriesWriterException:public ExceptionObject
 {
@@ -72,7 +72,7 @@ public:
  * \sa ImageSeriesReader
  *
  * \ingroup IOFilters
- * \ingroup ITK-IO-Base
+ * \ingroup ITKIOBase
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT ImageSeriesWriter:public ProcessObject

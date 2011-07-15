@@ -1,2 +1,2 @@
-project(ITK-FiniteDifference)
+project(ITKFiniteDifference)
 itk_module_impl()

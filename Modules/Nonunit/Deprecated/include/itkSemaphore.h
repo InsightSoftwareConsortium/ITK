@@ -97,7 +97,7 @@ typedef int SemaphoreType;
  * This class supports 3 types of semaphores on Unix systems, POSIX semaphores,
  * and IPC semaphores.  On Windows systems, POSIX semaphores and WIN32 thread
  * library semaphores are supported.
- * \ingroup ITK-Deprecated
+ * \ingroup ITKDeprecated
  */
 class ITK_EXPORT Semaphore:public LightObject
 {

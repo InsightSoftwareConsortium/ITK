@@ -53,7 +53,7 @@ namespace itk
  * School of Medicine
  *
  * \ingroup IntensityImageFilters  MultiThreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup ITKImageIntensity
  */
 
 namespace Functor

@@ -44,7 +44,7 @@ namespace itk
   * \brief Class that defines how to read GE4 file format.
   *
   * \ingroup IOFilters
-  * \ingroup ITK-IO-IPL
+  * \ingroup ITKIOIPL
   */
 class ITK_EXPORT IPLCommonImageIO:public ImageIOBase
 {

@@ -29,7 +29,7 @@ namespace itk
 * erosions/dilation
 *
 *
-* \ingroup ITK-MathematicalMorphology
+* \ingroup ITKMathematicalMorphology
 */
 template< class TImage, class TBres, class TLine >
 int ComputeStartEnd(const typename TImage::IndexType StartIndex,

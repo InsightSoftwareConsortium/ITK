@@ -34,7 +34,7 @@ namespace fem
  * Array class that holds special pointers to objects. Every object must contain
  * a variable member of type int called GN (global number). You can search for
  * an object with specific GN within an array.
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 template <class T>
 class FEMPArray : public std::vector<FEMP<T> >

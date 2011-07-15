@@ -41,7 +41,7 @@ namespace itk
  *
  * \sa VectorImage
  * \ingroup Deprecated
- * \ingroup ITK-Deprecated
+ * \ingroup ITKDeprecated
  *
  * \wiki
  * \wikiexample{VectorImages/ImageToVectorImageFilter,Create a vector image from a collection of scalar images}

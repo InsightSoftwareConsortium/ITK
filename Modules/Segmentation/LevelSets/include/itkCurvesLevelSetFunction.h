@@ -56,7 +56,7 @@ namespace itk
  * \sa GeodesicActiveContourLevelSetImageFilter
  *
  * \ingroup FiniteDifferenceFunctions
- * \ingroup ITK-LevelSets
+ * \ingroup ITKLevelSets
  */
 template< class TImageType, class TFeatureImageType = TImageType >
 class ITK_EXPORT CurvesLevelSetFunction:

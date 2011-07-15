@@ -64,7 +64,7 @@ namespace fem
  * 1) We should also account for the contribution to the force from essential BCs.
  * Basically there are terms involving  \f$ M * (\dot g_b) \f$  and  \f$ K * g_b \f$
  * where\f$ g_b\f$ is the essential BC vector.
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 
 template <unsigned int TDimension = 3>

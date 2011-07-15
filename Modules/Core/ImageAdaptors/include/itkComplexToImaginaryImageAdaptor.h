@@ -38,7 +38,7 @@ namespace Accessor
  * \tparam TExternalType is the type used to represent the pixel externally.
  *
  * \ingroup ImageAdaptors
- * \ingroup ITK-ImageAdaptors
+ * \ingroup ITKImageAdaptors
  */
 template< class TInternalType, class TExternalType >
 class ITK_EXPORT ComplexToImaginaryPixelAccessor
@@ -68,7 +68,7 @@ public:
  * types following C++ default casting rules.
  *
  * \ingroup ImageAdaptors
- * \ingroup ITK-ImageAdaptors
+ * \ingroup ITKImageAdaptors
  */
 template< class TImage, class TOutputPixelType >
 class ITK_EXPORT ComplexToImaginaryImageAdaptor:public

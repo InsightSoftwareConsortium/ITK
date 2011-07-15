@@ -59,7 +59,7 @@ namespace itk
  *
  * \ingroup IOFilters
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 class ITK_EXPORT MINC2ImageIO:public ImageIOBase
 {

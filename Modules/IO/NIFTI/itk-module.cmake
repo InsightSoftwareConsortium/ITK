@@ -1,8 +1,8 @@
-itk_module(ITK-IO-NIFTI
+itk_module(ITKIONIFTI
   DEPENDS
-    ITK-NIFTI
-    ITK-IO-Base
+    ITKNIFTI
+    ITKIOBase
   TEST_DEPENDS
-    ITK-TestKernel
-    ITK-Transform
+    ITKTestKernel
+    ITKTransform
 )

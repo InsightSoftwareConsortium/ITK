@@ -41,7 +41,7 @@ class SpatialObject;
  * - TValueType = Element type stored at each location in the array.
  *
  * \ingroup DataRepresentation
- * \ingroup ITK-SpatialObjects
+ * \ingroup ITKSpatialObjects
  */
 template< unsigned int TDimension >
 class ITK_EXPORT SpatialObjectTreeContainer:

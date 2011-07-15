@@ -1,3 +1,3 @@
-project(ITK-IO-BioRad)
-set(ITK-IO-BioRad_LIBRARIES ITK-IO-BioRad)
+project(ITKIOBioRad)
+set(ITKIOBioRad_LIBRARIES ITKIOBioRad)
 itk_module_impl()

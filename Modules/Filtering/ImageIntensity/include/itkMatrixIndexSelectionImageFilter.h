@@ -74,7 +74,7 @@ private:
  * operator(i,j).
  *
  * \ingroup IntensityImageFilters  MultiThreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup ITKImageIntensity
  */
 
 template< class TInputImage, class TOutputImage >

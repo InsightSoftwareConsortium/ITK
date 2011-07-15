@@ -90,7 +90,7 @@ namespace itk
    *    - an object file ([basename].obj)
    *      A specially formated file with a mapping between object name and image code used to associate
    *      image voxel locations with a label.  This file is run length encoded to save disk storage.
-   * \ingroup ITK-Deprecated
+   * \ingroup ITKDeprecated
    */
 class ITK_EXPORT AnalyzeImageIO:public ImageIOBase
 {

@@ -34,7 +34,7 @@ namespace fem
  * edge of the element. In this case m_Edge defines the edge or surfance
  * of the element on which the BC exists and matrix m_Force holds the actual
  * prescribed values of the BC.
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 class LoadEdge : public LoadElement
 {

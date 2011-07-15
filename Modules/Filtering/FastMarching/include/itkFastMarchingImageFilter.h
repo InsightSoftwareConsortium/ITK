@@ -97,7 +97,7 @@ namespace itk
  *
  * \sa LevelSetTypeDefault
  * \ingroup LevelSetSegmentation
- * \ingroup ITK-FastMarching
+ * \ingroup ITKFastMarching
  */
 template<
   class TLevelSet,

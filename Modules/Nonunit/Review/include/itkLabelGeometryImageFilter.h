@@ -69,7 +69,7 @@ namespace itk
  *  http://www.insight-journal.org/browse/publication/301
  *  http://hdl.handle.net/1926/1493
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TLabelImage, class TIntensityImage = TLabelImage >
 class ITK_EXPORT LabelGeometryImageFilter:
@@ -150,7 +150,7 @@ public:
 
   /** \class LabelGeometry
    * \brief Geometry stored per label
-   * \ingroup ITK-Review
+   * \ingroup ITKReview
    */
   class LabelGeometry
   {

@@ -27,7 +27,7 @@ namespace itk
  *
  * \brief Read any SpatialObject file with conversion for FEM Objects
  *
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 template< unsigned int NDimensions = 3,
           typename PixelType = unsigned char,

@@ -27,7 +27,7 @@ namespace Statistics
 /** \class LogSigmoidTransferFunction
  * \brief This is the itkLogSigmoidTransferFunction class.
  *
- * \ingroup ITK-NeuralNetworks
+ * \ingroup ITKNeuralNetworks
  */
 
 template<class ScalarType>

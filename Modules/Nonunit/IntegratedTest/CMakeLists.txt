@@ -1,2 +1,2 @@
-project(ITK-IntegratedTest)
+project(ITKIntegratedTest)
 itk_module_impl()

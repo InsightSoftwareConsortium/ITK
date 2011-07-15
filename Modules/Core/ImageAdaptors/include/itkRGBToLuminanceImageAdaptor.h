@@ -35,7 +35,7 @@ namespace Accessor
  * This is the case of the RGBPixel class for example.
  *
  * \ingroup ImageAdaptors
- * \ingroup ITK-ImageAdaptors
+ * \ingroup ITKImageAdaptors
  */
 template< class TInternalType, class TExternalType >
 class ITK_EXPORT RGBToLuminancePixelAccessor
@@ -65,7 +65,7 @@ public:
  * provide a GetLuminance() method.
  *
  * \ingroup ImageAdaptors
- * \ingroup ITK-ImageAdaptors
+ * \ingroup ITKImageAdaptors
  */
 template< class TImage, class TOutputPixelType >
 class ITK_EXPORT RGBToLuminanceImageAdaptor:public

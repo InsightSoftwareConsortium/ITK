@@ -1,4 +1,4 @@
-itk_module(ITK-NIFTI
+itk_module(ITKNIFTI
   DEPENDS
-    ITK-ZLIB
+    ITKZLIB
 )

@@ -33,7 +33,7 @@ namespace itk
   moving image and pixels in the fixed image using a histogram.
 
   \ingroup RegistrationMetrics
- * \ingroup ITK-RegistrationCommon
+ * \ingroup ITKRegistrationCommon
  */
 template< class TFixedImage, class TMovingImage >
 class ITK_EXPORT HistogramImageToImageMetric:

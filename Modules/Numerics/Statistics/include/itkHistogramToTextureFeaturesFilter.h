@@ -96,7 +96,7 @@ namespace Statistics
 * \sa ScalarImageTextureCalculator
 *
 * Author: Zachary Pincus
-* \ingroup ITK-Statistics
+* \ingroup ITKStatistics
 */
 
 template< class THistogram >

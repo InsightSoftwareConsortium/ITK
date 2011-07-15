@@ -30,7 +30,7 @@ namespace itk
  * scales. This facilitates to linearize the expressions used for optimization.
  *
  * \ingroup Transforms
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  */
 template<
   class TScalarType = float, // Type for cordinate representation type (float or

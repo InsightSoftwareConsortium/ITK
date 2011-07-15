@@ -42,7 +42,7 @@ namespace itk
  * or both 3D, or both ND).
  *
  * \ingroup IntensityImageFilters  MultiThreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup ITKImageIntensity
  */
 namespace Functor
 {

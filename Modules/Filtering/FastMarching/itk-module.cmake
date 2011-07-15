@@ -2,15 +2,15 @@ set(DOCUMENTATION "This module contains implementations of generalized versions
 of the Fast Marching filter. These implementations cover the use of Fast
 Marching in both itk::Images and itk::QuadEdgeMeshes.")
 
-itk_module(ITK-FastMarching
+itk_module(ITKFastMarching
   DEPENDS
-    ITK-Common
-    ITK-QuadEdgeMesh
-    ITK-ConnectedComponents
+    ITKCommon
+    ITKQuadEdgeMesh
+    ITKConnectedComponents
   TEST_DEPENDS
-    ITK-IO-NIFTI
-    ITK-ImageLabel
-    ITK-TestKernel
+    ITKIONIFTI
+    ITKImageLabel
+    ITKTestKernel
   DESCRIPTION
     "${DOCUMENTATION}"
 )

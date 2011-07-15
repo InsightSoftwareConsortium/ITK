@@ -1,6 +1,6 @@
-itk_module(ITK-IO-IPL
+itk_module(ITKIOIPL
   DEPENDS
-    ITK-IO-Base
+    ITKIOBase
   TEST_DEPENDS
-    ITK-TestKernel
+    ITKTestKernel
 )

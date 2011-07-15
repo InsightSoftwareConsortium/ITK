@@ -49,7 +49,7 @@ namespace itk
  * This implementation was taken from the Insight Journal paper:
  * http://hdl.handle.net/1926/510
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template<
   class TDeformationField,

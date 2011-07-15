@@ -33,7 +33,7 @@ namespace itk
  * \sa BinaryFunctorImageFilter UnaryFunctorImageFilter
  *
  * \ingroup IntensityImageFilters MultiThreaded
- * \ingroup ITK-ImageFilterBase
+ * \ingroup ITKImageFilterBase
  */
 template< class TInputImage1, class TInputImage2,
           class TInputImage3, class TOutputImage, class TFunction    >

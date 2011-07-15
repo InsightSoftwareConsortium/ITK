@@ -57,7 +57,7 @@ namespace itk
  * interpolate values from the Moving PointSet.
  *
  * \ingroup RegistrationFilters
- * \ingroup ITK-RegistrationCommon
+ * \ingroup ITKRegistrationCommon
  */
 template< typename TFixedPointSet, typename TMovingPointSet >
 class ITK_EXPORT PointSetToPointSetRegistrationMethod:public ProcessObject

@@ -106,7 +106,7 @@ namespace itk
  *      IEEE Transactions in Image Processing, 9(12) December 2000.
  *
  * \ingroup RegistrationMetrics
- * \ingroup ITK-RegistrationCommon
+ * \ingroup ITKRegistrationCommon
  */
 template< class TFixedImage, class TMovingImage >
 class ITK_EXPORT MattesMutualInformationImageToImageMetric:

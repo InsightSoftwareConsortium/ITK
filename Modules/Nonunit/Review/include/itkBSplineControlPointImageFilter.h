@@ -54,7 +54,7 @@ namespace itk
  * http://www.insight-journal.org/browse/publication/57
  *
  * \author Nicholas J. Tustison
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 
 template <class TInputImage, class TOutputImage = TInputImage>

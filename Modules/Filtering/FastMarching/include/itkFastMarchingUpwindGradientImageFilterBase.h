@@ -44,7 +44,7 @@ namespace itk
  * \author Luca Antiga Ph.D.  Biomedical Technologies Laboratory,
  *                            Bioengineering Deparment, Mario Negri Institute, Italy.
  *
- * \ingroup ITK-FastMarching
+ * \ingroup ITKFastMarching
  */
 template< class TInput, class TOutput >
 class ITK_EXPORT FastMarchingUpwindGradientImageFilterBase:

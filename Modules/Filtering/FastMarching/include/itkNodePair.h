@@ -26,7 +26,7 @@ namespace itk
 \class NodePair
 \brief Represents a Node and its associated value (front value)
 
-\ingroup ITK-FastMarching
+\ingroup ITKFastMarching
 */
 template<class NodeType, class OutputPixelType>
 class NodePair : public std::pair< NodeType, OutputPixelType >

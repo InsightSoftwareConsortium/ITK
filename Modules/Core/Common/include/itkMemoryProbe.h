@@ -34,7 +34,7 @@ namespace itk
  *   GetProcessMemoryInfo() for Windows, the SMAPS file for Linux
  *   and getrusage() otherwise.
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 class ITKCommon_EXPORT MemoryProbe:
   public ResourceProbe< SizeValueType, double >

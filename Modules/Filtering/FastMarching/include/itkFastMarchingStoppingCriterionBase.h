@@ -29,7 +29,7 @@ namespace itk
  /** \class FastMarchingStoppingCriterionBase
    \brief Abstract Stopping Criterion dedicated for Fast Marching Methods
 
-  \ingroup ITK-FastMarching
+  \ingroup ITKFastMarching
   */
  template< class TInput, class TOutput >
  class FastMarchingStoppingCriterionBase : public StoppingCriterionBase

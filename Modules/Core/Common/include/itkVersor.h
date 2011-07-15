@@ -44,7 +44,7 @@ namespace itk
  * \sa Point
  * \sa CovariantVector
  * \sa Matrix
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class T >
 class Versor

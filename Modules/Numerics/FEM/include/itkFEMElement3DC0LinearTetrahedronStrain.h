@@ -36,7 +36,7 @@ namespace fem
  * \link Element3DStrain
  *
  * \sa Element3DC0LinearTetrahedronMembrane
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 class Element3DC0LinearTetrahedronStrain : public Element3DStrain<Element3DC0LinearTetrahedron>
 {

@@ -1,5 +1,5 @@
 itk_module_test()
-set(ITK-OptimizersTests
+set(ITKOptimizersTests
 itkFRPROptimizerTest.cxx
 itkPowellOptimizerTest.cxx
 itkGradientDescentOptimizerTest.cxx
@@ -18,37 +18,37 @@ itkVersorRigid3DTransformOptimizerTest.cxx
 itkAmoebaOptimizerTest.cxx
 )
 
-CreateTestDriver(ITK-Optimizers  "${ITK-Optimizers-Test_LIBRARIES}" "${ITK-OptimizersTests}")
+CreateTestDriver(ITKOptimizers  "${ITKOptimizers-Test_LIBRARIES}" "${ITKOptimizersTests}")
 
 itk_add_test(NAME itkOptimizersHeaderTest
-      COMMAND ITK-OptimizersTestDriver itkOptimizersHeaderTest)
+      COMMAND ITKOptimizersTestDriver itkOptimizersHeaderTest)
 itk_add_test(NAME itkOptimizersHierarchyTest
-      COMMAND ITK-OptimizersTestDriver itkOptimizersHierarchyTest)
+      COMMAND ITKOptimizersTestDriver itkOptimizersHierarchyTest)
 itk_add_test(NAME itkFRPROptimizerTest
-      COMMAND ITK-OptimizersTestDriver itkFRPROptimizerTest)
+      COMMAND ITKOptimizersTestDriver itkFRPROptimizerTest)
 itk_add_test(NAME itkPowellOptimizerTest
-      COMMAND ITK-OptimizersTestDriver itkPowellOptimizerTest)
+      COMMAND ITKOptimizersTestDriver itkPowellOptimizerTest)
 itk_add_test(NAME itkGradientDescentOptimizerTest
-      COMMAND ITK-OptimizersTestDriver itkGradientDescentOptimizerTest)
+      COMMAND ITKOptimizersTestDriver itkGradientDescentOptimizerTest)
 itk_add_test(NAME itkVersorTransformOptimizerTest
-      COMMAND ITK-OptimizersTestDriver itkVersorTransformOptimizerTest)
+      COMMAND ITKOptimizersTestDriver itkVersorTransformOptimizerTest)
 itk_add_test(NAME itkSPSAOptimizerTest
-      COMMAND ITK-OptimizersTestDriver itkSPSAOptimizerTest)
+      COMMAND ITKOptimizersTestDriver itkSPSAOptimizerTest)
 itk_add_test(NAME itkExhaustiveOptimizerTest
-      COMMAND ITK-OptimizersTestDriver itkExhaustiveOptimizerTest)
+      COMMAND ITKOptimizersTestDriver itkExhaustiveOptimizerTest)
 itk_add_test(NAME itkLBFGSBOptimizerTest
-      COMMAND ITK-OptimizersTestDriver itkLBFGSBOptimizerTest)
+      COMMAND ITKOptimizersTestDriver itkLBFGSBOptimizerTest)
 itk_add_test(NAME itkConjugateGradientOptimizerTest
-      COMMAND ITK-OptimizersTestDriver itkConjugateGradientOptimizerTest)
+      COMMAND ITKOptimizersTestDriver itkConjugateGradientOptimizerTest)
 itk_add_test(NAME itkLBFGSOptimizerTest
-      COMMAND ITK-OptimizersTestDriver itkLBFGSOptimizerTest)
+      COMMAND ITKOptimizersTestDriver itkLBFGSOptimizerTest)
 itk_add_test(NAME itkCumulativeGaussianOptimizerTest
-      COMMAND ITK-OptimizersTestDriver itkCumulativeGaussianOptimizerTest)
+      COMMAND ITKOptimizersTestDriver itkCumulativeGaussianOptimizerTest)
 itk_add_test(NAME itkRegularStepGradientDescentOptimizerTest
-      COMMAND ITK-OptimizersTestDriver itkRegularStepGradientDescentOptimizerTest)
+      COMMAND ITKOptimizersTestDriver itkRegularStepGradientDescentOptimizerTest)
 itk_add_test(NAME itkLevenbergMarquardtOptimizerTest
-      COMMAND ITK-OptimizersTestDriver itkLevenbergMarquardtOptimizerTest)
+      COMMAND ITKOptimizersTestDriver itkLevenbergMarquardtOptimizerTest)
 itk_add_test(NAME itkVersorRigid3DTransformOptimizerTest
-      COMMAND ITK-OptimizersTestDriver itkVersorRigid3DTransformOptimizerTest)
+      COMMAND ITKOptimizersTestDriver itkVersorRigid3DTransformOptimizerTest)
 itk_add_test(NAME itkAmoebaOptimizerTest
-      COMMAND ITK-OptimizersTestDriver itkAmoebaOptimizerTest)
+      COMMAND ITKOptimizersTestDriver itkAmoebaOptimizerTest)

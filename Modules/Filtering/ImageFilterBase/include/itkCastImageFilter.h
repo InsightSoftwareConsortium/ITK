@@ -54,7 +54,7 @@ namespace itk
  * \ingroup IntensityImageFilters  MultiThreaded
  * \sa UnaryFunctorImageFilter
  * \sa ExtractImageFilter
- * \ingroup ITK-ImageFilterBase
+ * \ingroup ITKImageFilterBase
  *
  * \wiki
  * \wikiexample{ImageProcessing/CastImageFilter,Cast an image from one type to another}

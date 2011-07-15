@@ -113,7 +113,7 @@ private:
  *
  * \ingroup IntensityImageFilters  MultiThreaded  TensorObjects
  *
- * \ingroup ITK-ImageIntensity
+ * \ingroup ITKImageIntensity
  */
 template< typename  TInputImage, typename  TOutputImage = TInputImage >
 class ITK_EXPORT SymmetricEigenAnalysisImageFilter:

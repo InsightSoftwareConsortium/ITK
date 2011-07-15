@@ -77,7 +77,7 @@ namespace itk
  * stepLength*(2*numberOfSteps[d]+1)*scaling[d].
  *
  * \ingroup Numerics Optimizers
- * \ingroup ITK-Optimizers
+ * \ingroup ITKOptimizers
  */
 class ITK_EXPORT ExhaustiveOptimizer:
   public SingleValuedNonLinearOptimizer

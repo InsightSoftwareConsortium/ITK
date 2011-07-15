@@ -29,7 +29,7 @@ namespace Statistics
 /** \class SquaredDifferenceErrorFunction
  * \brief This is the itkSquaredDifferenceErrorFunction class.
  *
- * \ingroup ITK-NeuralNetworks
+ * \ingroup ITKNeuralNetworks
  */
 
 template<class TMeasurementVector, class ScalarType>

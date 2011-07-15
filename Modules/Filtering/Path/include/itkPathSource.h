@@ -34,7 +34,7 @@ namespace itk
  *
  * \ingroup DataSources
  * \ingroup Paths
- * \ingroup ITK-Path
+ * \ingroup ITKPath
  */
 
 template< class TOutputPath >

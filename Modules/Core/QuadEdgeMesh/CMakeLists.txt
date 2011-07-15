@@ -1,3 +1,3 @@
-project(ITK-QuadEdgeMesh)
-set(ITK-QuadEdgeMesh_LIBRARIES ITK-QuadEdgeMesh)
+project(ITKQuadEdgeMesh)
+set(ITKQuadEdgeMesh_LIBRARIES ITKQuadEdgeMesh)
 itk_module_impl()

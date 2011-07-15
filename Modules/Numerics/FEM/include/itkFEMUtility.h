@@ -40,7 +40,7 @@ namespace fem
  *
  * Numerical integration (Gauss-Legendre formula).
  * Integrates function f(x) from x=a to x=b in n points.
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 class GaussIntegrate
 {

@@ -50,7 +50,7 @@ namespace itk
  *
  * \sa MorphologyImageFilter
  * \ingroup ImageEnhancement MathematicalMorphologyImageFilters
- * \ingroup ITK-MathematicalMorphology
+ * \ingroup ITKMathematicalMorphology
  */
 
 template< class TInputImage, class TOutputImage >

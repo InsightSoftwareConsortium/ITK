@@ -34,7 +34,7 @@ namespace itk
  * waterlevel, starting at UpperValueLimit. UpperValueLimit defaults
  * to the 1.0.
  * \ingroup WatershedSegmentation
- * \ingroup ITK-Watersheds
+ * \ingroup ITKWatersheds
  */
 
 template< class TInputImage, class TOutputImage >

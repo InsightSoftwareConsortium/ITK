@@ -52,7 +52,7 @@ namespace itk
  *  \sa SegmentationLevelSetImageFunction
  *  \sa ThresholdSegmentationLevelSetImageFilter
  *  \sa MahalanobisDistanceMembershipFunction
- * \ingroup ITK-LevelSets
+ * \ingroup ITKLevelSets
  */
 template< class TImageType, class TFeatureImageType >
 class ITK_EXPORT VectorThresholdSegmentationLevelSetFunction:

@@ -26,7 +26,7 @@ namespace itk
  * \brief Computes the square of the intensity values pixel-wise
  *
  * \ingroup IntensityImageFilters  MultiThreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup ITKImageIntensity
  *
  * \wiki
  * \wikiexample{ImageProcessing/SquareImageFilter,Square every pixel in an image}

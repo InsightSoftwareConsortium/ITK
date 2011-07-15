@@ -46,7 +46,7 @@ namespace itk
  *
  * \deprecated
  * \sa BinaryDilateImageFilter
- * \ingroup ITK-MathematicalMorphology
+ * \ingroup ITKMathematicalMorphology
  */
 template< class TInputImage, class TOutputImage, class TKernel >
 class ITK_EXPORT FastIncrementalBinaryDilateImageFilter:

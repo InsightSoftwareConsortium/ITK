@@ -1,8 +1,8 @@
-itk_module(ITK-ConnectedComponents
+itk_module(ITKConnectedComponents
   DEPENDS
-    ITK-ImageIntensity
-    ITK-Thresholding
-    ITK-ImageGrid
+    ITKImageIntensity
+    ITKThresholding
+    ITKImageGrid
   TEST_DEPENDS
-    ITK-TestKernel
+    ITKTestKernel
 )

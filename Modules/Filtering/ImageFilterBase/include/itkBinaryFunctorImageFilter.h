@@ -39,7 +39,7 @@ namespace itk
  * \sa UnaryFunctorImageFilter TernaryFunctorImageFilter
  *
  * \ingroup IntensityImageFilters   MultiThreaded
- * \ingroup ITK-ImageFilterBase
+ * \ingroup ITKImageFilterBase
  *
  * \wiki
  * \wikiexample{ImageProcessing/BinaryFunctorImageFilter,Apply a predefined operation to corresponding pixels in two images}

@@ -1,11 +1,11 @@
-itk_module(ITK-Statistics
+itk_module(ITKStatistics
   DEPENDS
-    ITK-Common
-    ITK-Netlib
+    ITKCommon
+    ITKNetlib
   TEST_DEPENDS
-    ITK-TestKernel
-    ITK-ImageIntensity
-    ITK-ImageCompose
+    ITKTestKernel
+    ITKImageIntensity
+    ITKImageCompose
 )
 
 # Extra test dependency of ImageIntensity is introduced by itkImageToListSampleAdaptorTest.cxx.

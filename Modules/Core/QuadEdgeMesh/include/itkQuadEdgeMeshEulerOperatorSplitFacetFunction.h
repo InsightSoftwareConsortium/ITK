@@ -30,7 +30,7 @@ namespace itk
  *        create a new edge joining h->Destination() to g->Destination(),
  *        thus splitting
  *        the original Left().
- * \ingroup ITK-QuadEdgeMesh
+ * \ingroup ITKQuadEdgeMesh
  */
 template< class TMesh, class TQEType >
 class ITK_EXPORT QuadEdgeMeshEulerOperatorSplitFacetFunction:

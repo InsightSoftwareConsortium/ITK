@@ -38,7 +38,7 @@ namespace itk
   "Fast Marching Methods on Triangulated Domains", Kimmel, R., and Sethian, J.A.,
   Proc. Nat. Acad. Sci., 95, pp. 8341-8435, 1998.
 
-  \ingroup ITK-FastMarching
+  \ingroup ITKFastMarching
 */
 template< class TInput, class TOutput >
 class FastMarchingQuadEdgeMeshFilterBase :

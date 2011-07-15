@@ -99,7 +99,7 @@ namespace itk
  * \tparam TCellTraits Type information for cell.
  *
  * \ingroup MeshObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template<
   typename TPixelType,
@@ -167,7 +167,7 @@ public:
    * type of cell that needs to be visited.
    *
    * \ingroup MeshAccess
-   * \ingroup ITK-Common
+   * \ingroup ITKCommon
    */
   class MultiVisitor:public LightObject
   {
@@ -463,7 +463,7 @@ private:
  * type structure definition.
  *
  * \ingroup MeshObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< int VPointDimension, typename TCoordRep,
           typename TInterpolationWeight, typename TPointIdentifier,

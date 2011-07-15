@@ -46,7 +46,7 @@ namespace itk
  *
  * \ingroup IOFilters
  *
- * \ingroup ITK-IO-VTK
+ * \ingroup ITKIOVTK
  */
 class ITK_EXPORT VTKImageIO:
   public StreamingImageIOBase

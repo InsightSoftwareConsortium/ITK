@@ -42,7 +42,7 @@ namespace bio
  * a name and a level of expression. This class is intended to be used
  * by artificial cells implementing cellular algorithms for image processing.
  *
- * \ingroup ITK-BioCell
+ * \ingroup ITKBioCell
  */
 class ITK_EXPORT Genome
 {

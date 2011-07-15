@@ -35,7 +35,7 @@ namespace itk
  *  MetaScene walks the scene and uses the converter on each
  *  object in the scene.
  *
- *  \ingroup ITK-SpatialObjects
+ *  \ingroup ITKSpatialObjects
  */
 template <unsigned VDimension = 3>
 class ITK_EXPORT MetaConverterBase : public Object

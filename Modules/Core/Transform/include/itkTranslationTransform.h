@@ -32,7 +32,7 @@ namespace itk
  * but with a large difference in performace.
  *
  * \ingroup Transforms
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  *
  * \wiki
  * \wikiexample{SimpleOperations/TranslationTransform,Translate an image}

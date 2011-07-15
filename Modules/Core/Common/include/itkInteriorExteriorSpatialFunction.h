@@ -42,7 +42,7 @@ namespace itk
  * itk::SpatialFunctionImageEvaluatorFilter or itk::FloodFilledSpatialFunctionConditionalIterator
  *
  * \ingroup SpatialFunctions
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 template< unsigned int VDimension = 3, typename TInput = Point< double, VDimension > >

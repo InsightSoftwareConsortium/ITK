@@ -37,7 +37,7 @@ namespace itk
  *
  * \ingroup GradientFilters
  * \ingroup SingelThreaded
- * \ingroup ITK-ImageGradient
+ * \ingroup ITKImageGradient
  *
  * \wiki
  * \wikiexample{EdgesAndGradients/GradientRecursiveGaussianImageFilter,Compute the gradient of an image by convolution with the first derivative of a Gaussian}

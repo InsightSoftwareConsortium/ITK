@@ -7,12 +7,12 @@ taking advantage of the ITK Factories, and have the advantage that the code of
 existing applications do not have to be modified in order to take advantage of
 this GPU support.")
 
-itk_module(ITK-GPUCommon
+itk_module(ITKGPUCommon
   DEPENDS
-    ITK-Common
+    ITKCommon
     OpenCL
   TEST_DEPENDS
-    ITK-TestKernel
+    ITKTestKernel
   DESCRIPTION
     "${DOCUMENTATION}"
 )

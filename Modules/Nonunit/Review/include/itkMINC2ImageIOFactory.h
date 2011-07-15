@@ -32,7 +32,7 @@ namespace itk
  * http://hdl.handle.net/1926/191
  * http://www.insight-journal.org/browse/publication/88
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 class ITK_EXPORT MINC2ImageIOFactory:public ObjectFactoryBase
 {

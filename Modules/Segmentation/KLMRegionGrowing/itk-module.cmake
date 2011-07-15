@@ -1,9 +1,9 @@
-itk_module(ITK-KLMRegionGrowing
+itk_module(ITKKLMRegionGrowing
   DEPENDS
-    ITK-Common
+    ITKCommon
   TEST_DEPENDS
-    ITK-TestKernel
-    ITK-Statistics
+    ITKTestKernel
+    ITKStatistics
 )
 
-# Extra test dependency on ITK-Statistics in introduced by itkRegionGrow2DTest.
+# Extra test dependency on ITKStatistics in introduced by itkRegionGrow2DTest.

@@ -47,7 +47,7 @@ namespace itk
  * Maxwell's Demons", Medical Image Analysis, 1998, Vol. 2, No. 3, pp 243-260.
  *
  * \ingroup RegistrationFilters
- * \ingroup ITK-RegistrationCommon
+ * \ingroup ITKRegistrationCommon
  */
 template< typename TFixedPointSet, typename TMovingSpatialObject >
 class ITK_EXPORT PointSetToSpatialObjectDemonsRegistration:public ProcessObject

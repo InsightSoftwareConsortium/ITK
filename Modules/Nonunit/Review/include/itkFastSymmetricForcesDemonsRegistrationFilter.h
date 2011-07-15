@@ -67,7 +67,7 @@ namespace itk
  * \sa DemonsRegistrationFilter
  * \sa DemonsRegistrationFunction
  * \ingroup DeformableImageRegistration MultiThreaded
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TFixedImage, class TMovingImage, class TDeformationField >
 class ITK_EXPORT FastSymmetricForcesDemonsRegistrationFilter:

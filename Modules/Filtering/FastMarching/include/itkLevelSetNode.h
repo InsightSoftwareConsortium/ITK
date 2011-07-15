@@ -39,7 +39,7 @@ namespace itk
  *
  * \ingroup LevelSetSegmentation
  *
- * \ingroup ITK-FastMarching
+ * \ingroup ITKFastMarching
  */
 template< class TPixel, unsigned int VSetDimension = 2 >
 class ITK_EXPORT LevelSetNode

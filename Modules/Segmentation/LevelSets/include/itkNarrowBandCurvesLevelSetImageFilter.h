@@ -95,7 +95,7 @@ namespace itk
  *   \sa CurvesLevelSetFunction
  *
  *   \ingroup LevelSetSegmentation
- * \ingroup ITK-LevelSets
+ * \ingroup ITKLevelSets
  */
 template< class TInputImage,
           class TFeatureImage,

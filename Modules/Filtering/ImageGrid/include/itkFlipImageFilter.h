@@ -43,7 +43,7 @@ namespace itk
  * \ingroup GeometricTransforms
  * \ingroup MultiThreaded
  * \ingroup Streamed
- * \ingroup ITK-ImageGrid
+ * \ingroup ITKImageGrid
  *
  * \wiki
  * \wikiexample{Images/FlipImageFilter,Flip an image over specified axes}

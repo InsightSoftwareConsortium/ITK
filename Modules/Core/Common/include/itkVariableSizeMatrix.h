@@ -36,7 +36,7 @@ namespace itk
  * used when the matrix length cannot be determined at compile time.
  *
  * \ingroup DataRepresentation
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 template< class T >

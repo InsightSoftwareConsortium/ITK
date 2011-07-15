@@ -36,7 +36,7 @@ namespace fem
  * and hexahedral elements in 3D. The resulting meshes can be used with
  * specific elements for solving membrane or linear elasticity problems.
  *
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 
 template <class TInputImage>

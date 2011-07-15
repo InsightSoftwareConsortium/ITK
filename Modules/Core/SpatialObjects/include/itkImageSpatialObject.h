@@ -31,7 +31,7 @@ namespace itk
  * and an image.
  *
  * \sa SpatialObject CompositeSpatialObject
- * \ingroup ITK-SpatialObjects
+ * \ingroup ITKSpatialObjects
  */
 
 template< unsigned int TDimension = 3,

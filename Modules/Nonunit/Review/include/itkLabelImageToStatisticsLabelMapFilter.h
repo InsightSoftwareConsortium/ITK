@@ -35,7 +35,7 @@ namespace itk
  *
  * \sa StatisticsLabelObject, LabelStatisticsOpeningImageFilter, LabelStatisticsOpeningImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TInputImage, class TFeatureImage, class TOutputImage =
             LabelMap< StatisticsLabelObject< ITK_TYPENAME TInputImage::PixelType,

@@ -36,7 +36,7 @@ namespace itk
  *  scenes and SpatialObject scenes
  *
  *  \sa MetaConverterBase
- *  \ingroup ITK-SpatialObjects
+ *  \ingroup ITKSpatialObjects
  */
 template< unsigned int NDimensions,
           typename PixelType = unsigned char,

@@ -31,7 +31,7 @@ namespace itk
  * the image size that aren't particularly anchor related, but use the
  * same data structures. Hopefully these sections occupy a very minor
  * proportion of the time.
- * \ingroup ITK-MathematicalMorphology
+ * \ingroup ITKMathematicalMorphology
  */
 template< class TInputPix, class TCompare >
 class ITK_EXPORT AnchorErodeDilateLine

@@ -60,7 +60,7 @@ namespace fem
  * about the types of elements, materials, elements, or nodes. The
  * problem presently can only be 2D or 3D.
  *
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 
 template <unsigned int VDimension = 3>

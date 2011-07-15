@@ -40,7 +40,7 @@ namespace itk
  * \ingroup GeometricTransforms
  * \sa WrapPadImageFilter, MirrorPadImageFilter, ConstantPadImageFilter
  *
- * \ingroup ITK-ImageGrid
+ * \ingroup ITKImageGrid
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT PadImageFilter:

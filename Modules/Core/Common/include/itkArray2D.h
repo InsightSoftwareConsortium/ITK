@@ -38,7 +38,7 @@ namespace itk
  * - TValueType = Element type stored at each location in the array.
  *
  * \ingroup DataRepresentation
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< typename TValueType >
 class Array2D:public vnl_matrix< TValueType >

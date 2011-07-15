@@ -40,7 +40,7 @@ namespace fem
  * that object. It is also required that the object can be written to and
  * read from a file (stream). This functionality is implemented inside
  * FEMLightObject class.
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 class FEMLightObject : public itk::LightObject
 {

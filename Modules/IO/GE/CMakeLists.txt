@@ -1,3 +1,3 @@
-project(ITK-IO-GE)
-set(ITK-IO-GE_LIBRARIES ITK-IO-GE)
+project(ITKIOGE)
+set(ITKIOGE_LIBRARIES ITKIOGE)
 itk_module_impl()

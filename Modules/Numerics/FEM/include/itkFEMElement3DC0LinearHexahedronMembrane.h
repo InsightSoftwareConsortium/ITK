@@ -39,7 +39,7 @@ namespace fem
  *
  * \sa Element3DC0LinearHexahedronStrain
  *
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 class Element3DC0LinearHexahedronMembrane : public Element3DMembrane<Element3DC0LinearHexahedron>
 {

@@ -27,7 +27,7 @@ namespace itk
  * \brief Computes pixel-wise the imaginary part of a complex image.
  *
  * \ingroup IntensityImageFilters  MultiThreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup ITKImageIntensity
  */
 namespace Functor
 {

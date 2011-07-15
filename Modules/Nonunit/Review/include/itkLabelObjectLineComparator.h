@@ -32,7 +32,7 @@ namespace itk
  *
  * \sa LabelObjectLine
  * \ingroup LabeledImageObject
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 namespace Functor
 {

@@ -1,14 +1,14 @@
-itk_module(ITK-LevelSets
+itk_module(ITKLevelSets
   DEPENDS
-    ITK-ImageFeature
-    ITK-FiniteDifference
-    ITK-DistanceMap
-    ITK-SignedDistanceFunction
-    ITK-AnisotropicSmoothing
-    ITK-Thresholding
-    ITK-Optimizers
-    ITK-ImageCompare
-    ITK-FastMarching
+    ITKImageFeature
+    ITKFiniteDifference
+    ITKDistanceMap
+    ITKSignedDistanceFunction
+    ITKAnisotropicSmoothing
+    ITKThresholding
+    ITKOptimizers
+    ITKImageCompare
+    ITKFastMarching
   TEST_DEPENDS
-    ITK-TestKernel
+    ITKTestKernel
 )

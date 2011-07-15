@@ -1,6 +1,6 @@
-itk_module(ITK-NeuralNetworks
+itk_module(ITKNeuralNetworks
   DEPENDS
-    ITK-Statistics
+    ITKStatistics
   TEST_DEPENDS
-    ITK-TestKernel
+    ITKTestKernel
 )

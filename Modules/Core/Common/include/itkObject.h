@@ -48,7 +48,7 @@ class Command;
  *
  * \ingroup ITKSystemObjects
  * \ingroup DataRepresentation
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{Utilities/CreateAnother,Copy a filter}

@@ -46,7 +46,7 @@ namespace itk
  *
  * \sa GradientDescentOptimizer
  * \ingroup Numerics Optimizers
- * \ingroup ITK-Optimizers
+ * \ingroup ITKOptimizers
  */
 class ITK_EXPORT QuaternionRigidTransformGradientDescentOptimizer:
   public GradientDescentOptimizer

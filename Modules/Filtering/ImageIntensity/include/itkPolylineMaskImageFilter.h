@@ -31,7 +31,7 @@ namespace itk
  * and output image.
  *
  * \ingroup ImageToImageFilter
- * \ingroup ITK-ImageIntensity
+ * \ingroup ITKImageIntensity
  */
 template< class TInputImage, class TPolyline, class TVector,
           class TOutputImage >

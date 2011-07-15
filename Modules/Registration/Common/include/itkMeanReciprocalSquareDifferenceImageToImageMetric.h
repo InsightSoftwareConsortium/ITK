@@ -40,7 +40,7 @@ namespace itk
  * using a user-selected Interpolator.
  *
  * \ingroup RegistrationMetrics
- * \ingroup ITK-RegistrationCommon
+ * \ingroup ITKRegistrationCommon
  */
 template< class TFixedImage, class TMovingImage >
 class ITK_EXPORT MeanReciprocalSquareDifferenceImageToImageMetric:

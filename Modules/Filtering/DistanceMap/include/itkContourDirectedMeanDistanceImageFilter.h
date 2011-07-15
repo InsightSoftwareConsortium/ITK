@@ -60,7 +60,7 @@ namespace itk
  *
  * \author Teo Popa, ISIS Center, Georgetown University
  *
- * \ingroup ITK-DistanceMap
+ * \ingroup ITKDistanceMap
  */
 template< class TInputImage1, class TInputImage2 >
 class ITK_EXPORT ContourDirectedMeanDistanceImageFilter:

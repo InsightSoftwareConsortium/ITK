@@ -37,7 +37,7 @@ namespace bio
  * 
  * This class represents an aggregation of bio::Cell objects.
  *
- * \ingroup ITK-BioCell
+ * \ingroup ITKBioCell
  */
 template< unsigned int NSpaceDimension = 3 >
 class ITK_EXPORT CellularAggregate:public CellularAggregateBase

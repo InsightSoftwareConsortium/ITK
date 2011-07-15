@@ -63,7 +63,7 @@ namespace itk
  * \sa Neighborhood
  *
  * \ingroup Operators
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TPixel, unsigned int TDimension = 2,
           class TAllocator = NeighborhoodAllocator< TPixel > >

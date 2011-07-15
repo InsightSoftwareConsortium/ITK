@@ -120,7 +120,7 @@ namespace itk
  * \sa ScalarImageKmeansImageFilter
  *
  * \ingroup ClassificationFilters
- * \ingroup ITK-Classifiers
+ * \ingroup ITKClassifiers
  */
 template< class TInputImage,
           class TMembershipFunction >

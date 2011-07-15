@@ -1,9 +1,9 @@
-itk_module(ITK-Watersheds
+itk_module(ITKWatersheds
   DEPENDS
-    ITK-ImageIntensity
-    ITK-Thresholding
-    ITK-ImageGradient
-    ITK-Smoothing
+    ITKImageIntensity
+    ITKThresholding
+    ITKImageGradient
+    ITKSmoothing
   TEST_DEPENDS
-    ITK-TestKernel
+    ITKTestKernel
 )

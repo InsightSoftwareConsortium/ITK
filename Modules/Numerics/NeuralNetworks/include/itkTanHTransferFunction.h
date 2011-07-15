@@ -27,7 +27,7 @@ namespace Statistics
 /** \class TanHTransferFunction
  * \brief This is the itkTanHTransferFunction class.
  *
- * \ingroup ITK-NeuralNetworks
+ * \ingroup ITKNeuralNetworks
  */
 
 template<class ScalarType>

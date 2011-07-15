@@ -1,4 +1,4 @@
-itk_module(ITK-MetaIO
+itk_module(ITKMetaIO
   DEPENDS
-    ITK-ZLIB
+    ITKZLIB
 )

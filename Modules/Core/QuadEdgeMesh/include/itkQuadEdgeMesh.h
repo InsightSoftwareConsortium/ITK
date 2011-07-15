@@ -106,7 +106,7 @@ namespace itk
  * This implementation was contributed as a paper to the Insight Journal
  * http://hdl.handle.net/1926/306
  *
- * \ingroup ITK-QuadEdgeMesh
+ * \ingroup ITKQuadEdgeMesh
  */
 template< typename TPixel, unsigned int VDimension,
           typename TTraits = QuadEdgeMeshTraits< TPixel, VDimension, bool, bool > >

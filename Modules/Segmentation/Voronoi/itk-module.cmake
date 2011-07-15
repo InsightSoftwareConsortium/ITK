@@ -1,10 +1,10 @@
-itk_module(ITK-Voronoi
+itk_module(ITKVoronoi
   DEPENDS
-    ITK-ImageFilterBase
-    ITK-Mesh
+    ITKImageFilterBase
+    ITKMesh
   TEST_DEPENDS
-    ITK-TestKernel
-    ITK-Smoothing
+    ITKTestKernel
+    ITKSmoothing
 )
 
 # Extra dependency on Smoothing is introduced by itkVoronoiPartitioningImageFilterTest.

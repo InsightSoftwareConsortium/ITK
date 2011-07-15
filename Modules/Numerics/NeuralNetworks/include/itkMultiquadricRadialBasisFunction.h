@@ -27,7 +27,7 @@ namespace Statistics
 /** \class MultiquadricRadialBasisFunction
  * \brief This is the itkMultiquadricRadialBasisFunction class.
  *
- * \ingroup ITK-NeuralNetworks
+ * \ingroup ITKNeuralNetworks
  */
 
 template<class ScalarType>

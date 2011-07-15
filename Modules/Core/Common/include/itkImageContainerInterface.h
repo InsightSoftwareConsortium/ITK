@@ -47,7 +47,7 @@ namespace itk
  * \tparam TElement The element type stored in the container.
  *
  * \ingroup ImageObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< typename TElementIdentifier, typename TElement >
 class ITK_EXPORT ImageContainerInterface:public Object

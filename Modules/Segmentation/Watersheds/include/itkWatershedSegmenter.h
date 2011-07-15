@@ -85,7 +85,7 @@ namespace watershed
  *
  * \sa WatershedImageFilter
  * \ingroup WatershedSegmentation
- * \ingroup ITK-Watersheds
+ * \ingroup ITKWatersheds
  */
 template< class TInputImage >
 class ITK_EXPORT Segmenter:

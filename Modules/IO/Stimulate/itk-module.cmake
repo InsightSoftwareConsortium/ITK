@@ -1,6 +1,6 @@
-itk_module(ITK-IO-Stimulate
+itk_module(ITKIOStimulate
   DEPENDS
-    ITK-IO-Base
+    ITKIOBase
   TEST_DEPENDS
-    ITK-TestKernel
+    ITKTestKernel
 )

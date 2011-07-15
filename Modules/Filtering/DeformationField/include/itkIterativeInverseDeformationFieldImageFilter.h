@@ -45,7 +45,7 @@ namespace itk
  *
  * \author  Corinne Mattmann
  *
- * \ingroup ITK-DeformationField
+ * \ingroup ITKDeformationField
  */
 
 template< class TInputImage, class TOutputImage >

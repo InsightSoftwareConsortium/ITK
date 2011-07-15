@@ -50,7 +50,7 @@ namespace Statistics
  * can then be passed to a DecisionRule in order to establish
  * class (or group) assignment.
  *
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  */
 
 template< class TVector >

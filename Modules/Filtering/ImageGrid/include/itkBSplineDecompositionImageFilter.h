@@ -68,7 +68,7 @@ namespace itk
  * \ingroup ImageFilters
  * \ingroup SingleThreaded
  * \ingroup CannotBeStreamed
- * \ingroup ITK-ImageGrid
+ * \ingroup ITKImageGrid
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT BSplineDecompositionImageFilter:

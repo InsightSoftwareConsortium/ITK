@@ -31,7 +31,7 @@ namespace itk
  * \ingroup FourierTransform
  *
  * \sa ConstantPadImageFilter
- * \ingroup ITK-FFT
+ * \ingroup ITKFFT
  *
  * \wiki
  * \wikiexample{SpectralAnalysis/CrossCorrelationInFourierDomain,Compute the cross-correlation of two images in the Fourier domain}

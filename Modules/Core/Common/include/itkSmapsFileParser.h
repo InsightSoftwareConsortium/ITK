@@ -33,7 +33,7 @@ namespace itk
  * \brief MapRecord class.
  *
  * \todo Add documentation
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 class ITKCommon_EXPORT MapRecord
 {
@@ -59,7 +59,7 @@ public:
  *  \brief An entry in a smaps file.
  *
  *  It is filled by operator>>(istream&,SmapsRecord&).
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 class ITKCommon_EXPORT SmapsRecord:public MapRecord
 {
@@ -86,7 +86,7 @@ class ITKCommon_EXPORT SmapsRecord:public MapRecord
  *  \brief Contains an entry in a smaps file.
  *
  *  It is filled by operator>>(istream&,VMMapRecord&).
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 class ITKCommon_EXPORT VMMapSummaryRecord:public MapRecord
 {
@@ -102,7 +102,7 @@ class ITKCommon_EXPORT VMMapSummaryRecord:public MapRecord
  *  \breif Contains an entry in a smaps file.
  *
  *  It is filled by operator>>(istream&,SmapsRecord&).
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 class ITKCommon_EXPORT VMMapRecord:public MapRecord
 {
@@ -120,7 +120,7 @@ class ITKCommon_EXPORT VMMapRecord:public MapRecord
  *  \brief Base class for map data containers.
  *
  *  Inherited classes must implement their own
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 class ITKCommon_EXPORT MapData
 {
@@ -159,7 +159,7 @@ protected:
 /** \class SmapsData_2_6
  *  \brief Read a smaps stream and return the memory usage information.
  *  Smaps files have been added since the linux kernel 2.6
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 class ITKCommon_EXPORT SmapsData_2_6:public MapData
 {
@@ -188,7 +188,7 @@ protected:
  *  Apparently the vmmap command exists since at least Mac OS X v10.2
  *  On Tiger, /usr/bin/vmmap used to be installed by the Essentials.pkg,
  *  On Panther, /usr/bin/vmmap used to be installed by the DevTools.pkg,
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 class ITKCommon_EXPORT VMMapData_10_2:public MapData
 {
@@ -216,7 +216,7 @@ protected:
  *
  * FIXME: Add documentation
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TMapData >
 class ITK_EXPORT MapFileParser
@@ -265,7 +265,7 @@ protected:
  *  \brief Read a smap file (typically located in /proc/PID/smaps) and extract the
  *  memory usage information. Any smaps data reader can be used in template as
  *  long as they implement a operator>>(istream&) and have GetXXXUsage() methods.
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TSmapsDataType >
 class ITK_EXPORT SmapsFileParser:public MapFileParser< TSmapsDataType >
@@ -283,7 +283,7 @@ public:
 /** \class VMMapFileParser
  *  \brief Read the output of a vmmap command and extract the
  *  memory usage information. Used for MAC OS X machines.
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TVMMapDataType >
 class ITK_EXPORT VMMapFileParser:public MapFileParser< TVMMapDataType >

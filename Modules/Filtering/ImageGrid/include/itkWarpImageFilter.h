@@ -74,7 +74,7 @@ namespace itk
  * and deformation field type all have the same number of dimensions.
  *
  * \ingroup GeometricTransforms MultiThreaded Streamed
- * \ingroup ITK-ImageGrid
+ * \ingroup ITKImageGrid
  */
 template<
   class TInputImage,

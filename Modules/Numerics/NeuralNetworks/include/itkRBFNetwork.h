@@ -40,7 +40,7 @@ namespace Statistics
 /** \class RBFNetwork
  * \brief This is the itkRBFNetwork class.
  *
- * \ingroup ITK-NeuralNetworks
+ * \ingroup ITKNeuralNetworks
  */
 
 template<class TMeasurementVector, class TTargetVector>

@@ -54,7 +54,7 @@ namespace itk
  * on whether the user wants to threshold above or below the desired threshold.
  *
  * \ingroup IntensityImageFilters  MultiThreaded
- * \ingroup ITK-Thresholding
+ * \ingroup ITKThresholding
  *
  * \wiki
  * \wikiexample{ImageProcessing/BinaryThresholdImageFilter,Threshold an image}

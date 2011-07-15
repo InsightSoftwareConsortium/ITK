@@ -56,7 +56,7 @@ class ImageBase;
  * \sa MeshRegion
  *
  * \ingroup ImageObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{Images/ImageRegion,An object which holds the index (start) and size of a region of an image}

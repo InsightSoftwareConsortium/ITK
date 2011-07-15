@@ -1,9 +1,9 @@
-set(ITK-IO-PhilipsREC_SRC
+set(ITKIOPhilipsREC_SRC
 itkPhilipsPAR.cxx
 itkPhilipsRECImageIO.cxx
 itkPhilipsRECImageIOFactory.cxx
 )
 
-add_library(ITK-IO-PhilipsREC ${ITK-IO-PhilipsREC_SRC})
-target_link_libraries(ITK-IO-PhilipsREC ${ITK-IO-Base_LIBRARIES} ${ITK-ZLIB_LIBRARIES})
-itk_module_target(ITK-IO-PhilipsREC)
+add_library(ITKIOPhilipsREC ${ITKIOPhilipsREC_SRC})
+target_link_libraries(ITKIOPhilipsREC ${ITKIOBase_LIBRARIES} ${ITKZLIB_LIBRARIES})
+itk_module_target(ITKIOPhilipsREC)

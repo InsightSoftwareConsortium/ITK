@@ -36,7 +36,7 @@ namespace fem
 /**
  * \class FEMException
  * \brief Base class for all exception's that can occur within FEM classes.
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 class FEMException : public itk::ExceptionObject
 {
@@ -66,7 +66,7 @@ public:
  * \brief Base class for all IO exception's that can occur within FEM classe.
  *
  * This class is normally used when reading or writing objects from/to stream.
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 class FEMExceptionIO : public FEMException
 {
@@ -104,7 +104,7 @@ public:
  * a failed dynamic_cast operator. It does, however catch the
  * std:exception. Update the bad_cast in ALL files to
  * accomodate this differences. Currently they are ignored.
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 class FEMExceptionWrongClass : public FEMException
 {
@@ -127,7 +127,7 @@ public:
  *
  * This exception occures, when a search for an object with given
  * global number was unsuccessful.
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 class FEMExceptionObjectNotFound : public FEMException
 {
@@ -157,7 +157,7 @@ public:
  *
  * This class is normally used when an error occurs while the problem is
  * already in memory and something went wrong while trying to solve it.
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 class FEMExceptionSolution : public FEMException
 {

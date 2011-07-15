@@ -1,1 +1,1 @@
-itk_module(ITK-VNL)
+itk_module(ITKVNL)

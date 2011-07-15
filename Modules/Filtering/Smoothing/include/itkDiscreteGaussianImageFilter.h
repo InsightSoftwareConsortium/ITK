@@ -51,7 +51,7 @@ namespace itk
  *
  * \ingroup ImageEnhancement
  * \ingroup ImageFeatureExtraction
- * \ingroup ITK-Smoothing
+ * \ingroup ITKSmoothing
  *
  * \wiki
  * \wikiexample{Smoothing/DiscreteGaussianImageFilter,Smooth an image with a discrete Gaussian filter}

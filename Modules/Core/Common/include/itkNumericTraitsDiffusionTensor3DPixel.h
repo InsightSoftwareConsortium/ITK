@@ -39,7 +39,7 @@ namespace itk
  *
  * \sa NumericTraits
  * \ingroup DataRepresentation
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< typename T >
 class NumericTraits< DiffusionTensor3D< T > >

@@ -27,7 +27,7 @@ namespace Statistics
 /** \class SymmetricSigmoidTransferFunction
  * \brief This is the itkSymmetricSigmoidTransferFunction class.
  *
- * \ingroup ITK-NeuralNetworks
+ * \ingroup ITKNeuralNetworks
  */
 
 template<class ScalarType>

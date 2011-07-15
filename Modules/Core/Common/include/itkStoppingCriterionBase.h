@@ -33,7 +33,7 @@ namespace itk
   * The main method is StoppingCriterionBase::IsSatisfied that must be
   * reimplemented in inheriting classes.
   *
-  * \ingroup ITK-Common
+  * \ingroup ITKCommon
 */
 class ITKCommon_EXPORT StoppingCriterionBase : public Object
 {

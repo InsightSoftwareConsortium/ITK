@@ -60,7 +60,7 @@ namespace itk
  *
  * \ingroup FiniteDifferenceFunctions
  * \ingroup Functions
- * \ingroup ITK-LevelSets
+ * \ingroup ITKLevelSets
   */
 template< class TImageType >
 class ITK_EXPORT LevelSetFunction:

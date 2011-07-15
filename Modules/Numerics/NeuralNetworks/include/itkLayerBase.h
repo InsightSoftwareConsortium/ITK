@@ -31,7 +31,7 @@ namespace Statistics
 /** \class LayerBase
  * \brief This is the itkLayerBase class.
  *
- * \ingroup ITK-NeuralNetworks
+ * \ingroup ITKNeuralNetworks
  */
 
 template<class TMeasurementVector, class TTargetVector>

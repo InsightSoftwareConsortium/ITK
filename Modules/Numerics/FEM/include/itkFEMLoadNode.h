@@ -35,7 +35,7 @@ namespace fem
  * You must provide a pointer to an element object and a number
  * of point on which on which the load acts. Force vector F should have
  * element->GetNumberOfDegreesOfFreedomPerNode() dimensions.
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 class LoadNode : public Load
 {

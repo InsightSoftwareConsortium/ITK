@@ -40,7 +40,7 @@ namespace bio
  * a polynome in a finite different equation determining the rate at which
  * protein is syntethizied by this gene.
  * 
- * \ingroup ITK-BioCell
+ * \ingroup ITKBioCell
  */
 class ITK_EXPORT Gene
 {

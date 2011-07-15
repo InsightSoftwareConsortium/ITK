@@ -38,7 +38,7 @@ namespace itk
  * It assumes that the input and output have the same number of dimensions.
  *
  * \ingroup MultiThreaded
- * \ingroup ITK-ImageGrid
+ * \ingroup ITKImageGrid
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT InterpolateImageFilter:

@@ -24,7 +24,7 @@ namespace itk
 /** \class PolygonSpatialObject
  *
  * \brief TODO
- * \ingroup ITK-SpatialObjects
+ * \ingroup ITKSpatialObjects
  */
 template< unsigned int TDimension = 3 >
 class ITK_EXPORT PolygonSpatialObject:

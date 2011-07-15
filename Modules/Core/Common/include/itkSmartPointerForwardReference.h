@@ -42,7 +42,7 @@ namespace itk
  *
  * \ingroup ITKSystemObjects
  * \ingroup DataAccess
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class T >
 class ITK_EXPORT SmartPointerForwardReference

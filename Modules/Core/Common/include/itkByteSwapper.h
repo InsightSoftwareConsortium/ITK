@@ -43,7 +43,7 @@ namespace itk
  *
  * \ingroup IOFilters
  * \ingroup OSSystemObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 template< class T >

@@ -1,7 +1,7 @@
-itk_module(ITK-PDEDeformableRegistration
+itk_module(ITKPDEDeformableRegistration
   DEPENDS
-    ITK-RegistrationCommon
-    ITK-FiniteDifference
+    ITKRegistrationCommon
+    ITKFiniteDifference
   TEST_DEPENDS
-    ITK-TestKernel
+    ITKTestKernel
 )

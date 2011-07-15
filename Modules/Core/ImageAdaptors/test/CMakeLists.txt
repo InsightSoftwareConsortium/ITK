@@ -1,19 +1,19 @@
 itk_module_test()
-set(ITK-ImageAdaptorsTests
+set(ITKImageAdaptorsTests
 itkImageAdaptorTest.cxx
 itkImageAdaptorsHeaderTest.cxx
 itkRGBToVectorImageAdaptorTest.cxx
 itkVectorImageTest.cxx
 )
 
-CreateTestDriver(ITK-ImageAdaptors  "${ITK-ImageAdaptors-Test_LIBRARIES}" "${ITK-ImageAdaptorsTests}")
+CreateTestDriver(ITKImageAdaptors  "${ITKImageAdaptors-Test_LIBRARIES}" "${ITKImageAdaptorsTests}")
 
 itk_add_test(NAME itkImageAdaptorsHeaderTest
-      COMMAND ITK-ImageAdaptorsTestDriver itkImageAdaptorsHeaderTest)
+      COMMAND ITKImageAdaptorsTestDriver itkImageAdaptorsHeaderTest)
 itk_add_test(NAME itkImageAdaptorTest
-      COMMAND ITK-ImageAdaptorsTestDriver itkImageAdaptorTest)
+      COMMAND ITKImageAdaptorsTestDriver itkImageAdaptorTest)
 itk_add_test(NAME itkRGBToVectorImageAdaptorTest
-      COMMAND ITK-ImageAdaptorsTestDriver itkRGBToVectorImageAdaptorTest)
+      COMMAND ITKImageAdaptorsTestDriver itkRGBToVectorImageAdaptorTest)
 itk_add_test(NAME itkVectorImageTest
-      COMMAND ITK-ImageAdaptorsTestDriver itkVectorImageTest
+      COMMAND ITKImageAdaptorsTestDriver itkVectorImageTest
               ${ITK_TEST_OUTPUT_DIR}/VectorImage.nrrd ${ITK_TEST_OUTPUT_DIR}/VectorImage.mhd)

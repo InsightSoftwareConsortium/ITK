@@ -41,7 +41,7 @@ namespace itk
  * Where "&" is the boolean AND operator in C++.
  *
  * \ingroup IntensityImageFilters  MultiThreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup ITKImageIntensity
  *
  * \wiki
  * \wikiexample{ImageProcessing/AndImageFilter,Binary AND two images}

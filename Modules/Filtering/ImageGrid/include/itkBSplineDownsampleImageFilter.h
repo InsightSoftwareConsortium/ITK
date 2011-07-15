@@ -80,7 +80,7 @@ namespace itk
  * \ingroup GeometricTransformationFilters
  * \ingroup SingleThreaded
  * \ingroup CannotBeStreamed
- * \ingroup ITK-ImageGrid
+ * \ingroup ITKImageGrid
  */
 
 //= ITK_TYPENAME BSplineResampleImageFilterBase<TInputImage, TOutputImage>

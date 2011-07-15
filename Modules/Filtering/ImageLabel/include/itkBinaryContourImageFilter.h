@@ -42,7 +42,7 @@ namespace itk
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
  * \sa LabelContourImageFilter BinaryErodeImageFilter SimpleContourExtractorImageFilter
- * \ingroup ITK-ImageLabel
+ * \ingroup ITKImageLabel
  *
  * \wiki
  * \wikiexample{EdgesAndGradients/BinaryContourImageFilter,Extract the boundaries of connected regions in a binary image}

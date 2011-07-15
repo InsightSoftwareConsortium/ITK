@@ -27,7 +27,7 @@ namespace itk
 /** \class TreeChangeEvent
  *  \brief Checks if the position of a node in the tree has been changed.
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TTreeType >
 class TreeChangeEvent:public ModifiedEvent
@@ -71,7 +71,7 @@ private:
 /**  \class TreeNodeChangeEvent
  *   \brief Signals that a node has been set to another value. The position of the
  *          changed node is provided.
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TTreeType >
 class TreeNodeChangeEvent:public TreeChangeEvent< TTreeType >
@@ -98,7 +98,7 @@ private:
 
 /** \class TreeAddEvent
  *  \brief Checks if a node has been added to the tree.
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TTreeType >
 class TreeAddEvent:public TreeChangeEvent< TTreeType >
@@ -132,7 +132,7 @@ private:
 
 /** \class TreeRemoveEvent
  *  \brief Checks if a node has been removed from the tree.
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TTreeType >
 class TreeRemoveEvent:public TreeChangeEvent< TTreeType >
@@ -167,7 +167,7 @@ private:
 /** \class TreePruneEvent
  *  \brief Signals that a node and all its childs will shortly be
  *         removed. The position of the top-level removed node is provided.
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TTreeType >
 class TreePruneEvent:public TreeRemoveEvent< TTreeType >

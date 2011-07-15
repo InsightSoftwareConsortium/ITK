@@ -70,7 +70,7 @@ namespace itk
  * \example itkVectorImageTest.cxx
  *
  * \ingroup ImageObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{IO/ReadVectorImage,Read an image file with an unknown number of components}

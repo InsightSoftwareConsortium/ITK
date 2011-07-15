@@ -52,7 +52,7 @@ namespace itk
  *
  * \ingroup ImageEnhancement SingelThreaded
  * \see DiscreteGaussianImageFilter
- * \ingroup ITK-Smoothing
+ * \ingroup ITKSmoothing
  *
  * \wiki
  * \wikiexample{EdgesAndGradients/RecursiveGaussianImageFilter,Find higher derivatives of an image}

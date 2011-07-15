@@ -39,7 +39,7 @@ namespace Statistics
  * \sa DistanceMetric
  * \sa EuclideanDistanceMetric
  * \sa EuclideanSquareDistanceMetric
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  */
 
 template< class TVector >

@@ -41,7 +41,7 @@ namespace itk
  * \ingroup GeometricTransforms
  * \ingroup MultiThreaded
  * \ingroup Streamed
- * \ingroup ITK-ImageGrid
+ * \ingroup ITKImageGrid
  *
  * \wiki
  * \wikiexample{ImageProcessing/PermuteAxesImageFilter,Switch the axes of an image}

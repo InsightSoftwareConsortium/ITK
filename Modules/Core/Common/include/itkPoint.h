@@ -40,7 +40,7 @@ namespace itk
  * \ingroup DataRepresentation
  *
  * \sa Image \sa Mesh \sa Vector \sa CovariantVector \sa Matrix
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{SimpleOperations/DistanceBetweenPoints,Distance between two points}
@@ -291,7 +291,7 @@ ITK_EXPORT std::istream & operator>>(std::istream & is,
  * having a operator[i].
  *
  * \ingroup Geometry
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TPointContainer, class TWeightContainer >
 ITK_EXPORT class BarycentricCombination

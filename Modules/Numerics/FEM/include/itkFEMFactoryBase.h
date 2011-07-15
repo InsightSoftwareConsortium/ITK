@@ -27,7 +27,7 @@ namespace itk
 /** \class FEMFactoryBase
  * \brief Create instances of FEM Objects.
  * This includes Elements, Loads, and Materials
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 
 class ITK_EXPORT FEMFactoryBase : public ObjectFactoryBase

@@ -36,7 +36,7 @@ namespace itk
  *
  * \ingroup IntensityImageFilters
  * \ingroup MultiThreaded
- * \ingroup ITK-ImageFilterBase
+ * \ingroup ITKImageFilterBase
  *
  * \sa UnaryFunctorImageFilter
  * \sa CastImageFilter

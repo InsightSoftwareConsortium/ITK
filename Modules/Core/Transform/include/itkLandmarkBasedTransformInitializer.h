@@ -53,7 +53,7 @@ namespace itk
  *
  *
  * \ingroup Transforms
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  */
 template< class TTransform,
           class TFixedImage,

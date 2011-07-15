@@ -45,7 +45,7 @@ namespace fem
  * \sa Element2DC0QuadraticTriangularStrain
  * \sa Element2DC0LinearTriangularStrain
  * \sa Element2DC0LinearQuadrilateralStrain
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 template <class TBaseClass = Element>
 class Element2DStrain : public TBaseClass

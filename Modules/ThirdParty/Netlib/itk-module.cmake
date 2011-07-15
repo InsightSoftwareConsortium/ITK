@@ -1,4 +1,4 @@
-itk_module(ITK-Netlib
+itk_module(ITKNetlib
   DEPENDS
-    ITK-VNL
+    ITKVNL
 )

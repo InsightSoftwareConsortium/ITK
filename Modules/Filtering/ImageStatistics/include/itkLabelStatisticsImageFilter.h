@@ -50,7 +50,7 @@ namespace itk
  * its AfterThreadedGenerate method.
  *
  * \ingroup MathematicalStatisticsImageFilters
- * \ingroup ITK-ImageStatistics
+ * \ingroup ITKImageStatistics
  */
 template< class TInputImage, class TLabelImage >
 class ITK_EXPORT LabelStatisticsImageFilter:
@@ -106,7 +106,7 @@ public:
 
   /** \class LabelStatistics
    * \brief Statistics stored per label
-   * \ingroup ITK-ImageStatistics
+   * \ingroup ITKImageStatistics
    */
   class LabelStatistics
   {

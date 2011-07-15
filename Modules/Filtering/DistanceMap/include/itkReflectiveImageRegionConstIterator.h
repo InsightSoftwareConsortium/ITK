@@ -46,7 +46,7 @@ namespace itk
  * \sa DanielssonDistanceMapImageFilter
  *
  * \ingroup Iterators
- * \ingroup ITK-DistanceMap
+ * \ingroup ITKDistanceMap
  */
 template< typename TImage >
 class ITK_EXPORT ReflectiveImageRegionConstIterator:public ImageConstIteratorWithIndex< TImage >

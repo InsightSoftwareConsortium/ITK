@@ -29,7 +29,7 @@ namespace Statistics
 /** \class MeanSquaredErrorFunction_
  * \brief This is the itkMeanSquaredErrorFunction_ class.
  *
- * \ingroup ITK-NeuralNetworks
+ * \ingroup ITKNeuralNetworks
  */
 
 template<class TMeasurementVector, class ScalarType>

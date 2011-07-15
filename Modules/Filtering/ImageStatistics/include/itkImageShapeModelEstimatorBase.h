@@ -41,7 +41,7 @@ namespace itk
  * class are required to implement the EstimateShapeModels function.
  *
  *  \ingroup ImageFeatureExtraction
- * \ingroup ITK-ImageStatistics
+ * \ingroup ITKImageStatistics
  */
 
 template< class TInputImage,

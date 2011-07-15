@@ -29,7 +29,7 @@ namespace Statistics
 /** \class NeuralNetworkObject
  * \brief This is the itkNeuralNetworkObject class.
  *
- * \ingroup ITK-NeuralNetworks
+ * \ingroup ITKNeuralNetworks
  */
 
 template<class TMeasurementVector, class TTargetVector >

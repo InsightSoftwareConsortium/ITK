@@ -66,7 +66,7 @@ public:
  * input images.
  *
  * \ingroup Deprecated
- * \ingroup ITK-Deprecated
+ * \ingroup ITKDeprecated
  *
  * \wiki
  * \wikiexample{ImageProcessing/Compose3DCovariantVectorImageFilter,Compose a vector image (with 3 components) from three scalar images}

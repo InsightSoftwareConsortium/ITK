@@ -52,7 +52,7 @@ namespace itk
  *
  *
  * \ingroup GeometricTransforms
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TOutputImage,
           class TTransformPrecisionType = double >

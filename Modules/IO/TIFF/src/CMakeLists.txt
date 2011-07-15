@@ -1,8 +1,8 @@
-set(ITK-IO-TIFF_SRC
+set(ITKIOTIFF_SRC
 itkTIFFImageIO.cxx
 itkTIFFImageIOFactory.cxx
 )
 
-add_library(ITK-IO-TIFF ${ITK-IO-TIFF_SRC})
-target_link_libraries(ITK-IO-TIFF  ${ITK-TIFF_LIBRARIES} ${ITK-IO-Base_LIBRARIES})
-itk_module_target(ITK-IO-TIFF)
+add_library(ITKIOTIFF ${ITKIOTIFF_SRC})
+target_link_libraries(ITKIOTIFF  ${ITKTIFF_LIBRARIES} ${ITKIOBase_LIBRARIES})
+itk_module_target(ITKIOTIFF)

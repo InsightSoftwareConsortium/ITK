@@ -33,7 +33,7 @@ namespace itk
  * that region is well defined for the provided radius.
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
- * \ingroup ITK-ImageFilterBase
+ * \ingroup ITKImageFilterBase
  */
 
 template< class TInputImage, class TOutputImage >

@@ -51,7 +51,7 @@ namespace itk
  *
  * \ingroup LevelSetSegmentation
  *
- * \ingroup ITK-DistanceMap
+ * \ingroup ITKDistanceMap
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT IsoContourDistanceImageFilter:

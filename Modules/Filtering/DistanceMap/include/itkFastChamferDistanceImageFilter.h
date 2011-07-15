@@ -48,7 +48,7 @@ namespace itk
  * Ninth International Conference on Computer Aided Systems Theory , pages 48-51, Feb 2003.
  *
  * \ingroup ImageFeatureExtraction
- * \ingroup ITK-DistanceMap
+ * \ingroup ITKDistanceMap
  */
 
 template< class TInputImage, class TOutputImage >

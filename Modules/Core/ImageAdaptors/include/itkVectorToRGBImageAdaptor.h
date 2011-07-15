@@ -29,7 +29,7 @@ namespace itk
  *
  * \ingroup ImageAdaptors
  *
- * \ingroup ITK-ImageAdaptors
+ * \ingroup ITKImageAdaptors
  */
 template< class TImage >
 class ITK_EXPORT VectorToRGBImageAdaptor:public

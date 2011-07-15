@@ -99,7 +99,7 @@ namespace Statistics
  * \sa HistogramToTextureFeaturesFilter
  *
  * Author: Zachary Pincus
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  */
 
 template< class TImageType,

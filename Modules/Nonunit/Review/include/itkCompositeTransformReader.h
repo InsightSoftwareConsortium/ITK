@@ -56,7 +56,7 @@ namespace itk
  *
  * \sa CompositeTranform, CompositeTranformWriter
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template
 <class TScalar = double, unsigned int NDimensions = 3>

@@ -66,7 +66,7 @@ namespace itk
  *
  * \sa ImageRegistrationMethod
  * \ingroup RegistrationFilters
- * \ingroup ITK-RegistrationCommon
+ * \ingroup ITKRegistrationCommon
  */
 template< typename TFixedImage, typename TMovingImage >
 class ITK_EXPORT MultiResolutionImageRegistrationMethod:public ProcessObject

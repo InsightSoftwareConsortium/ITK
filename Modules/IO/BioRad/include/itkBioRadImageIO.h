@@ -44,7 +44,7 @@ namespace itk
  *
  * \ingroup IOFilters
  *
- * \ingroup ITK-IO-BioRad
+ * \ingroup ITKIOBioRad
  */
 class ITK_EXPORT BioRadImageIO:public ImageIOBase
 {

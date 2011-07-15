@@ -50,7 +50,7 @@ namespace itk
  * \warning No numeric overflow checking is performed in this filter.
  *
  * \ingroup IntensityImageFilters  MultiThreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup ITKImageIntensity
  */
 
 namespace Functor

@@ -30,7 +30,7 @@ namespace itk
  * You plug in the target sample data using SetInputHistogram method. Then call
  * the GenerateData method to run the alogithm.
  *
- * \ingroup ITK-ImageStatistics
+ * \ingroup ITKImageStatistics
  */
 
 template< class TInputHistogram >

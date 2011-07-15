@@ -42,7 +42,7 @@ namespace itk
  *
  * \sa Index
  * \ingroup ImageObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{Images/Size,An object which holds the size of an image}

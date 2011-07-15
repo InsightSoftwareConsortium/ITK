@@ -29,7 +29,7 @@ namespace fem
 /**
  * \class Element2DC0LinearQuadrilateralStrain
  * \brief 4-noded finite element class in 2D space for linear elasticity problem
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  *
  * The ordering of the nodes is counter clockwise. That is the nodes
  * should be defined in the following order:

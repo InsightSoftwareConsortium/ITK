@@ -37,7 +37,7 @@ namespace Statistics
 /** \class TwoHiddenLayerBackPropagationNeuralNetwork
  * \brief This is the itkTwoHiddenLayerBackPropagationNeuralNetwork class.
  *
- * \ingroup ITK-NeuralNetworks
+ * \ingroup ITKNeuralNetworks
  */
 
 template<class TMeasurementVector, class TTargetVector>

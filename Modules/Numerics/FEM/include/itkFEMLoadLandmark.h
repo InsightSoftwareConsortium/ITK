@@ -33,7 +33,7 @@ namespace fem
  *
  * This load depends on the motion of a point from an undeformed
  * configuration to a deformed configuration.
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 class LoadLandmark : public LoadElement
 {

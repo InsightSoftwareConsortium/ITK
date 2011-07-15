@@ -27,7 +27,7 @@ namespace itk
  * \brief Computes the vcl_sin(x) pixel-wise
  *
  * \ingroup IntensityImageFilters  MultiThreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup ITKImageIntensity
  */
 namespace Functor
 {

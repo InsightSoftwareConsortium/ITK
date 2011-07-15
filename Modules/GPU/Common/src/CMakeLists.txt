@@ -1,10 +1,10 @@
-set(ITK-GPUCommon_SRC
+set(ITKGPUCommon_SRC
 itkGPUContextManager.cxx
 itkGPUDataManager.cxx
 itkGPUKernelManager.cxx
 itkOclUtil.cxx
 )
 
-add_library(ITK-GPUCommon ${ITK-GPUCommon_SRC})
-target_link_libraries(ITK-GPUCommon ${ITK-Common_LIBRARIES} ${OPENCL_LIBRARIES} )
-itk_module_target(ITK-GPUCommon)
+add_library(ITKGPUCommon ${ITKGPUCommon_SRC})
+target_link_libraries(ITKGPUCommon ${ITKCommon_LIBRARIES} ${OPENCL_LIBRARIES} )
+itk_module_target(ITKGPUCommon)

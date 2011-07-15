@@ -72,7 +72,7 @@ private:
  * operator[].
  *
  * \ingroup IntensityImageFilters  MultiThreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup ITKImageIntensity
  *
  * \wiki
  * \wikiexample{VectorImages/VectorIndexSelectionCastImageFilter,Extract a component of an itkVectorImage}

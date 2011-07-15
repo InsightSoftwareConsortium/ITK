@@ -38,7 +38,7 @@ namespace itk
  * for Medical Research, Grant U54 EB005149.
  *
  * \ingroup ImageAdaptors
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TImageType >
 class ITK_EXPORT DefaultVectorPixelAccessorFunctor

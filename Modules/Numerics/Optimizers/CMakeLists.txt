@@ -1,3 +1,3 @@
-project(ITK-Optimizers)
-set(ITK-Optimizers_LIBRARIES ITK-Optimizers)
+project(ITKOptimizers)
+set(ITKOptimizers_LIBRARIES ITKOptimizers)
 itk_module_impl()

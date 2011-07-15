@@ -47,7 +47,7 @@ class JPEG2000ImageIOInternal;
  *
  *
  *  \ingroup IOFilters
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 class ITK_EXPORT JPEG2000ImageIO:public StreamingImageIOBase
 {

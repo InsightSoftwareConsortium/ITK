@@ -35,7 +35,7 @@ namespace itk
  *
  *
  * \ingroup Operators
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TInputImage, class TGradientImage >
 class ITK_EXPORT RobustAutomaticThresholdCalculator:public Object

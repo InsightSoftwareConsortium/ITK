@@ -30,7 +30,7 @@ namespace Statistics
 /** \class BackPropagationLayer
  * \brief This is the itkBackPropagationLayer class.
  *
- * \ingroup ITK-NeuralNetworks
+ * \ingroup ITKNeuralNetworks
  */
 
 template<class TMeasurementVector, class TTargetVector>

@@ -66,7 +66,7 @@ namespace itk
  *
  *
  * \author Torsten Rohlfing, Neuroscience Program, SRI International.
- * \ingroup ITK-DeformationField
+ * \ingroup ITKDeformationField
  */
 template< typename TInputImage,
           typename TRealType = float,

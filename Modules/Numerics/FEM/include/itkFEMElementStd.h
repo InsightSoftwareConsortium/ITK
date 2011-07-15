@@ -50,7 +50,7 @@ namespace fem
  *                be derived from the Element base class. This enables you
  *                to use this class at any level of element definition.
  *                If not specified, it defaults to the Element class.
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 template <unsigned int VNumberOfNodes, unsigned int VNumberOfSpatialDimensions, class TBaseClass = Element>
 class ElementStd : public TBaseClass

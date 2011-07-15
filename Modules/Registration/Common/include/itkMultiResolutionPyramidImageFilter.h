@@ -103,7 +103,7 @@ namespace itk
  * \sa ShrinkImageFilter
  *
  * \ingroup PyramidImageFilter MultiThreaded Streamed
- * \ingroup ITK-RegistrationCommon
+ * \ingroup ITKRegistrationCommon
  */
 template<
   class TInputImage,

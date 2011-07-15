@@ -42,7 +42,7 @@ namespace itk
  * \sa MaximumProjectionImageFilter
  * \sa MinimumProjectionImageFilter
  * \sa BinaryProjectionImageFilter
- * \ingroup ITK-ImageStatistics
+ * \ingroup ITKImageStatistics
  */
 
 namespace Functor
