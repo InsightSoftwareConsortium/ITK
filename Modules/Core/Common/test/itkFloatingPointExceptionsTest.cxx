@@ -20,6 +20,11 @@
 #include <iostream>
 #include <float.h>
 
+/** Disable some common warnings in MS VC++ */
+#if defined( _MSC_VER )
+#pragma warning ( disable : 4756 )
+#endif
+
 int
 itkFloatingPointExceptionsTest(int argc, char *argv[] )
 {
