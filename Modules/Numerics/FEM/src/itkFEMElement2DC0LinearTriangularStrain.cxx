@@ -15,43 +15,63 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-// disable debug warnings in MS compiler
-#ifdef _MSC_VER
-#pragma warning(disable: 4786)
-#endif
 
 #include "itkFEMElement2DC0LinearTriangularStrain.h"
 
-namespace itk {
-namespace fem {
+namespace itk
+{
+namespace fem
+{
+// Overload the CreateAnother() method.
+::itk::LightObject::Pointer Element2DC0LinearTriangularStrain::CreateAnother(void) const
+{
+  ::itk::LightObject::Pointer smartPtr;
+  Pointer copyPtr = Self::New().GetPointer();
 
+  copyPtr->SetNode(0, this->GetNode(0) );
+  copyPtr->SetNode(1, this->GetNode(1) );
+  copyPtr->SetNode(2, this->GetNode(2) );
+  copyPtr->SetMaterial( this->GetMaterial() );
+  copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
+
+  smartPtr = static_cast<Pointer>(copyPtr);
+
+  return smartPtr;
+}
 
 Element2DC0LinearTriangularStrain
-::Element2DC0LinearTriangularStrain() : Superclass() {}
+::Element2DC0LinearTriangularStrain() : Superclass()
+{
+}
 
 Element2DC0LinearTriangularStrain
-::Element2DC0LinearTriangularStrain(
-      NodeIDType n1_,
-      NodeIDType n2_,
-      NodeIDType n3_,
-      Material::ConstPointer m_) : Superclass()
+::Element2DC0LinearTriangularStrain(NodeIDType n1_, NodeIDType n2_, NodeIDType n3_,
+                                    Material::ConstPointer m_) : Superclass()
 {
   // Set the geometrical points
-  this->SetNode( 0, n1_ );
-  this->SetNode( 1, n2_ );
-  this->SetNode( 2, n3_ );
+  this->SetNode(0, n1_);
+  this->SetNode(1, n2_);
+  this->SetNode(2, n3_);
 
   /*
    * Initialize the pointer to material object and check that
    * we were given the pointer to the right class.
    * If the material class was incorrect an exception is thrown.
    */
-  if( (m_mat=dynamic_cast<const MaterialLinearElasticity*>(&*m_)) == 0 )
+  m_mat = dynamic_cast<const MaterialLinearElasticity *>( &*m_ );
+
+  if( !m_mat )
     {
-    throw FEMExceptionWrongClass(__FILE__,__LINE__,"Element2DC0LinearTriangularStrain::Element2DC0LinearTriangularStrain()");
+    throw FEMExceptionWrongClass(__FILE__,
+                                 __LINE__,
+                                 "Element2DC0LinearTriangularStrain::Element2DC0LinearTriangularStrain()");
     }
 }
 
-FEM_CLASS_REGISTER(Element2DC0LinearTriangularStrain)
+void Element2DC0LinearTriangularStrain::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+}
 
-}} // end namespace itk::fem
+}
+}  // end namespace itk::fem

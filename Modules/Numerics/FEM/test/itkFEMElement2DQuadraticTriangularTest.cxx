@@ -15,80 +15,66 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-// disable debug warnings in MS compiler
-#ifdef _MSC_VER
-#pragma warning(disable: 4786)
-#endif
 
 #include "itkFEMElement2DC0QuadraticTriangularStrain.h"
 #include "itkFEMElementBase.h"
 
 #include <iostream>
 
-
 //
-int itkFEMElement2DQuadraticTriangularTest(int, char *[])
+int itkFEMElement2DQuadraticTriangularTest(int argc, char *argv[])
 {
-    typedef itk::fem::Node        NodeType;
-    typedef itk::fem::Element     ElementType;
 
-    NodeType::Pointer n0,n1,n2;
-    ElementType::VectorType pt(2);
+  typedef itk::fem::Element ElementType;
+  typedef ElementType::Node NodeType;
 
-    n0=NodeType::New();
-    pt[0]=0.;
-    pt[1]=0.;
-    n0->SetCoordinates(pt);
+  NodeType::Pointer       n0, n1, n2;
+  ElementType::VectorType pt(2);
 
-    n1=NodeType::New();
-    pt[0]=1.;
-    pt[1]=1.;
-    n1->SetCoordinates(pt);
+  n0 = NodeType::New();
+  pt[0] = 0.;
+  pt[1] = 0.;
+  n0->SetCoordinates(pt);
 
-    n2=NodeType::New();
-    pt[0]=0.;
-    pt[1]=2.;
-    n2->SetCoordinates(pt);
+  n1 = NodeType::New();
+  pt[0] = 1.;
+  pt[1] = 1.;
+  n1->SetCoordinates(pt);
 
-    typedef itk::fem::MaterialLinearElasticity   ElasticityType;
+  n2 = NodeType::New();
+  pt[0] = 0.;
+  pt[1] = 2.;
+  n2->SetCoordinates(pt);
 
-    ElasticityType::Pointer m = ElasticityType::New();
+  typedef itk::fem::MaterialLinearElasticity ElasticityType;
 
-    m->GN=0;
-    m->E=300.0;
-    m->A=0.02;
-    m->I=0.004;
+  ElasticityType::Pointer m = ElasticityType::New();
 
-    typedef itk::fem::Element2DC0QuadraticTriangularStrain StrainType;
-    StrainType::Pointer e0 = StrainType::New();
+  m->SetGlobalNumber(0);
+  m->SetYoungsModulus(300.0);
+  m->SetCrossSectionalArea(0.02);
+  m->SetMomentOfInertia(0.004);
 
-    e0->GN=0;
-    e0->SetNode(0, &*n0);
-    e0->SetNode(1, &*n1);
-    e0->SetNode(2, &*n2);
-    e0->m_mat=dynamic_cast< ElasticityType * >(&*m);
+  typedef itk::fem::Element2DC0QuadraticTriangularStrain StrainType;
+  StrainType::Pointer e0 = StrainType::New();
 
-    pt[0]=0.5;
-    pt[1]=0.5;
+  e0->SetGlobalNumber(0);
+  e0->SetNode(0, &*n0);
+  e0->SetNode(1, &*n1);
+  e0->SetNode(2, &*n2);
+//    e0->SetMaterial(dynamic_cast< ElasticityType * >(&*m));
+  e0->SetMaterial(&*m);
 
-    std::cout << "# integration points = " << e0->GetNumberOfIntegrationPoints(2) << std::endl;
-    std::cout << "shape fxns at " << pt << ":\n" << e0->ShapeFunctions(pt) << std::endl;
+  pt[0] = 0.5;
+  pt[1] = 0.5;
 
-    ElementType::MatrixType shapeD;
-    e0->ShapeFunctionDerivatives(pt, shapeD);
-    std::cout << "shape fxn derivatives:" << std::endl << shapeD << std::endl;
+  std::cout << "#integration points = " << e0->GetNumberOfIntegrationPoints(2) << std::endl;
+  std::cout << "shape fxns at " << pt << ":\n" << e0->ShapeFunctions(pt) << std::endl;
 
-#ifndef FEM_USE_SMART_POINTERS
-    delete e0;
-    delete m;
-    delete n0;
-    delete n1;
-    delete n2;
-#endif
+  ElementType::MatrixType shapeD;
+  e0->ShapeFunctionDerivatives(pt, shapeD);
+  std::cout << "shape fxn derivatives:" << std::endl << shapeD << std::endl;
 
-
-    std::cout << "Test PASSED!" << std::endl;
-    return EXIT_SUCCESS;
+  std::cout << "Test PASSED!" << std::endl;
+  return EXIT_SUCCESS;
 }
-
-

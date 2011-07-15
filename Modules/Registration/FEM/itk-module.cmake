@@ -4,6 +4,7 @@ itk_module(ITK-FEMRegistration
     ITK-ImageStatistics
     ITK-PDEDeformableRegistration
     ITK-ImageFeature
+    ITK-SpatialObjects
   TEST_DEPENDS
     ITK-TestKernel
 )

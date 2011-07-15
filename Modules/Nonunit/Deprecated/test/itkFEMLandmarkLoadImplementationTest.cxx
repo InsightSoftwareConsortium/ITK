@@ -23,8 +23,6 @@
 #include <iostream>
 #include "itkFEMLoadImplementationGenericLandmarkLoad.h"
 #include "itkFEMElement2DC0LinearQuadrilateralMembrane.h"
-#include "itkFEM.h"
-#include "itkFEMLinearSystemWrapperItpack.h"
 
 
 //
@@ -123,5 +121,3 @@ int itkFEMLandmarkLoadImplementationTest(int, char*[])
     std::cout << "Test PASSED!\n";
     return EXIT_SUCCESS;
 }
-
-

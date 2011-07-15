@@ -15,26 +15,29 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-// disable debug warnings in MS compiler
-#ifdef _MSC_VER
-#pragma warning(disable: 4786)
-#endif
 
 #include "itkFEMGenerateMesh.h"
 #include "itkFEMElement2DC0LinearQuadrilateralStrain.h"
 #include "itkFEMMaterialLinearElasticity.h"
-#include "itkMacro.h"
+#include "itkExceptionObject.h"
 #include "itkFEMElement3DC0LinearHexahedronStrain.h"
 
-
 //
-int itkFEMGenerateMeshTest(int, char*[])
+int itkFEMGenerateMeshTest(int, char *[])
 {
+  //Need to register default FEM object types,
+  //and setup SpatialReader to recognize FEM types
+  //which is all currently done as a HACK in
+  //the initializaiton of the itk::FEMFactoryBase::GetFactory()
+  itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
+
+  //
   // Generate2DRectilinearMesh(m_Element,mySolver,MeshOriginV,MeshSizeV,ElementsPerDim);
+  //
   // Generate3DRectilinearMesh(m_Element,mySolver,MeshOriginV,MeshSizeV,ElementsPerDim);
 
   // Set up the solver object
-  itk::fem::Solver S;
+  itk::fem::Solver                 S;
   itk::fem::LinearSystemWrapperVNL lsw;
 
   S.SetLinearSystemWrapper(&lsw);
@@ -47,38 +50,37 @@ int itkFEMGenerateMeshTest(int, char*[])
   MeshOriginV.set_size(2);
   MeshSizeV.set_size(2);
   ElementsPerDim.set_size(2);
-
-  for ( unsigned int j=0; j<2; j++ )
+  for( unsigned int j = 0; j < 2; j++ )
     {
-    MeshOriginV[j]=0.0;
-    MeshSizeV[j]=10;
-    ElementsPerDim[j]=5.0;
+    MeshOriginV[j] = 0.0;
+    MeshSizeV[j] = 10;
+    ElementsPerDim[j] = 5.0;
     }
 
-  typedef  itk::fem::MaterialLinearElasticity  ElasticityType;
+  typedef  itk::fem::MaterialLinearElasticity ElasticityType;
   // Create the material
   ElasticityType::Pointer m = ElasticityType::New();
 
-  m->GN = 0;
-  m->E = 1000.;
-  m->A = 1.0;
-  m->h = 1.0;
-  m->I = 1.0;
-  m->nu = 0.4;
-  m->RhoC = 1.0;
+  m->SetGlobalNumber(0);
+  m->SetYoungsModulus(1000.);
+  m->SetCrossSectionalArea(1.0);
+  m->SetThickness(1.0);
+  m->SetMomentOfInertia(1.0);
+  m->SetPoissonsRatio(0.4);
+  m->SetDensityHeatProduct(1.0);
 
   // Create the element type
-  typedef itk::fem::Element2DC0LinearQuadrilateralStrain  StrainType;
+  typedef itk::fem::Element2DC0LinearQuadrilateralStrain StrainType;
   StrainType::Pointer e1 = StrainType::New();
 
-  e1->m_mat = dynamic_cast< ElasticityType * >( m );
+  e1->SetMaterial( dynamic_cast<ElasticityType *>( m ) );
 
   try
     {
-    itk::fem::Generate2DRectilinearMesh(e1,S,MeshOriginV,MeshSizeV,ElementsPerDim);
+    itk::fem::Generate2DRectilinearMesh(e1, S, MeshOriginV, MeshSizeV, ElementsPerDim);
     std::cout << "Generated 2D rectilinear mesh" << std::endl;
     }
-  catch ( itk::ExceptionObject& )
+  catch( itk::ExceptionObject & )
     {
     std::cerr << "Could not generate 2D mesh - test FAILED" << std::endl;
     return EXIT_FAILURE;
@@ -87,27 +89,26 @@ int itkFEMGenerateMeshTest(int, char*[])
   MeshOriginV.set_size(3);
   MeshSizeV.set_size(3);
   ElementsPerDim.set_size(3);
-
-  for (unsigned int j=0;j<3;j++)
+  for( unsigned int j = 0; j < 3; j++ )
     {
-    MeshOriginV[j]=0.;
-    MeshSizeV[j]=10;
-    ElementsPerDim[j]=5.;
+    MeshOriginV[j] = 0.;
+    MeshSizeV[j] = 10;
+    ElementsPerDim[j] = 5.;
     }
 
-  itk::fem::Element3DC0LinearHexahedronStrain::Pointer e2=itk::fem::Element3DC0LinearHexahedronStrain::New();
-  e2->m_mat=dynamic_cast<itk::fem::MaterialLinearElasticity*>(m);
+  itk::fem::Element3DC0LinearHexahedronStrain::Pointer e2 = itk::fem::Element3DC0LinearHexahedronStrain::New();
+  e2->SetMaterial( dynamic_cast<itk::fem::MaterialLinearElasticity *>( m ) );
 
   try
     {
-    itk::fem::Generate3DRectilinearMesh(e2,S,MeshOriginV,MeshSizeV,ElementsPerDim);
+    itk::fem::Generate3DRectilinearMesh(e2, S, MeshOriginV, MeshSizeV, ElementsPerDim);
     std::cout << "Generated 3D rectilinear mesh" << std::endl;
     }
-  catch ( itk::ExceptionObject&)
+  catch( itk::ExceptionObject & )
     {
     std::cerr << "Could not create 3D mesh - test FAILED" << std::endl;
     return EXIT_FAILURE;
-  }
+    }
 
   delete e1;
   delete m;
@@ -115,5 +116,3 @@ int itkFEMGenerateMeshTest(int, char*[])
   std::cout << "Test PASSED!" << std::endl;
   return EXIT_SUCCESS;
 }
-
-

@@ -30,6 +30,7 @@ itkMeshSpatialObjectIOTest.cxx
 itkTriangleMeshToSimplexMeshFilter2Test.cxx
 )
 
+set(ITK-Mesh-Test_LIBRARIES ITK-SpatialObjects)
 CreateTestDriver(ITK-Mesh  "${ITK-Mesh-Test_LIBRARIES}" "${ITK-MeshTests}")
 
 itk_add_test(NAME itkMeshHeaderTest

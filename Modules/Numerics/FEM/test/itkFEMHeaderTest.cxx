@@ -29,7 +29,6 @@
 #include "itkFEMElement2DC0LinearQuadrilateralMembrane.h"
 #include "itkFEMSolver.h"
 #include "itkFEMLinearSystemWrapperItpack.h"
-#include "itkFEMMacro.h"
 #include "itkFEMElement3DMembrane.txx"
 #include "itkFEMElement2DC0LinearTriangularMembrane.h"
 #include "itkFEMLoads.h"
@@ -37,11 +36,9 @@
 #include "itkFEMLoadBase.h"
 #include "itkFEMLoadPoint.h"
 #include "itkFEMLoadEdge.h"
-#include "itkFEMInitialization.h"
 #include "itkFEMElement3DC0LinearTetrahedronStrain.h"
 #include "itkFEMLoadGrav.h"
 #include "itkFEMMaterialBase.h"
-#include "itkFEMSolverHyperbolic.h"
 #include "itkFEMElement3DC0LinearHexahedronMembrane.h"
 #include "itkFEMElement1DStress.txx"
 #include "itkFEMElement3DC0LinearHexahedron.h"
@@ -56,18 +53,13 @@
 #include "itkFEMSolverCrankNicolson.h"
 #include "itkFEMLightObject.h"
 #include "itkFEMElement2DC0LinearTriangular.h"
-#include "itkFEMLoadImplementationTest.h"
 #include "itkFEMLoadBCMFC.h"
 #include "itkFEMLinearSystemWrapperDenseVNL.h"
-#include "itkVisitorDispatcher.h"
 #include "itkFEMLoadBC.h"
-#include "itkFEMImageMetricLoadImplementation.h"
-#include "itkFEM.h"
+
 #include "itkFEMPArray.h"
 #include "itkFEMElement3DC0LinearTetrahedron.h"
 #include "itkFEMLoadLandmark.h"
-#include "itkFEMLoadImplementationGenericLandmarkLoad.h"
-#include "itkFEMLoadImplementationGenericBodyLoad.h"
 #include "itkFEMP.h"
 #include "itkFEMElement2DStrain.txx"
 #include "itpack.h"
@@ -79,7 +71,6 @@
 #include "itkFEMElement2DC0LinearTriangularStrain.h"
 #include "itkFEMElement2DC0LinearQuadrilateralStress.h"
 #include "itkFEMElement2DC0LinearTriangularStress.h"
-#include "itkFEMGenerateMesh.h"
 #include "itkFEMMaterialLinearElasticity.h"
 #include "itkFEMElement3DC0LinearTetrahedronMembrane.h"
 #include "itkFEMElement2DC0LinearLineStress.h"
@@ -90,11 +81,9 @@
 #include "itkFEMLoadElementBase.h"
 #include "itkFEMElementStd.txx"
 #include "itkFEMElement2DC0LinearLine.h"
-#include "itkFEMObjectFactory.h"
+#include "itkFEMFactory.h"
 
-
-
-int itkFEMHeaderTest ( int , char * [] )
+int itkFEMHeaderTest( int, char * [] )
 {
 
   return EXIT_SUCCESS;

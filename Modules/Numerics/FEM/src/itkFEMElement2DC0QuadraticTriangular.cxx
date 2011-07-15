@@ -15,20 +15,25 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #include "itkFEMElement2DC0QuadraticTriangular.h"
+
 #include "itkFEMElement2DC0LinearTriangular.h"
+#include "itkFEMElement2DC0LinearTriangularMembrane.h"
 
-namespace itk {
-namespace fem {
-
+namespace itk
+{
+namespace fem
+{
 void
 Element2DC0QuadraticTriangular
-::GetIntegrationPointAndWeight(unsigned int i, VectorType& pt, Float& w, unsigned int order) const
+::GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, Float & w, unsigned int order) const
 {
-  // FIXME: range checking
-
   // default integration order
-  if (order==0 || order>5) { order=DefaultIntegrationOrder; }
+  if( order == 0 || order > 5 )
+    {
+    order = DefaultIntegrationOrder;
+    }
 
   pt.set_size(3);
 
@@ -49,166 +54,205 @@ Element2DC0QuadraticTriangular
 
   // We scale the weight by 0.5, to take into account
   // the factor that must be applied when integrating.
-  w=0.5*Element2DC0LinearTriangular::trigGaussRuleInfo[order][i][3];
+  w = 0.5 * Element2DC0LinearTriangular::trigGaussRuleInfo[order][i][3];
 }
 
 unsigned int
 Element2DC0QuadraticTriangular
 ::GetNumberOfIntegrationPoints(unsigned int order) const
 {
-  // FIXME: range checking
-
   // default integration order
-  if (order==0) { order=DefaultIntegrationOrder; }
+  if( order == 0 || order > 5 )
+    {
+    order = DefaultIntegrationOrder;
+    }
 
   return Element2DC0LinearTriangular::Nip[order];
 }
 
 Element2DC0QuadraticTriangular::VectorType
 Element2DC0QuadraticTriangular
-::ShapeFunctions( const VectorType& pt ) const
+::ShapeFunctions(const VectorType & pt) const
 {
   // Quadratic triangular element has 6 shape functions
   VectorType shapeF(6);
 
   // Shape functions are equal to coordinates
   VectorType::element_type p2 = 1.0 - pt[0] - pt[1];
-  shapeF[0]=pt[0]*(2*pt[0]-1);
-  shapeF[1]=pt[1]*(2*pt[1]-1);
-  shapeF[2]=p2*(2*p2-1);
-  shapeF[3]=4*pt[0]*pt[1];
-  shapeF[4]=4*pt[1]*p2;
-  shapeF[5]=4*p2*pt[0];
+
+  shapeF[0] = pt[0] * ( 2 * pt[0] - 1 );
+  shapeF[1] = pt[1] * ( 2 * pt[1] - 1 );
+  shapeF[2] = p2 * ( 2 * p2 - 1 );
+  shapeF[3] = 4 * pt[0] * pt[1];
+  shapeF[4] = 4 * pt[1] * p2;
+  shapeF[5] = 4 * p2 * pt[0];
 
   return shapeF;
 }
 
 void
 Element2DC0QuadraticTriangular
-::ShapeFunctionDerivatives( const VectorType& pt, MatrixType& shapeD ) const
+::ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const
 {
   VectorType::element_type p2 = 1.0 - pt[0] - pt[1];
 
-  shapeD.set_size(3,6);
+  shapeD.set_size(3, 6);
   shapeD.fill(0.0);
 
-  shapeD[0][0]=4*pt[0]-1;
-  shapeD[0][3]=4*pt[1];
-  shapeD[0][5]=4*p2;
+  shapeD[0][0] = 4 * pt[0] - 1;
+  shapeD[0][3] = 4 * pt[1];
+  shapeD[0][5] = 4 * p2;
 
-  shapeD[1][1]=4*pt[1]-1;
-  shapeD[1][3]=4*pt[0];
-  shapeD[1][4]=4*p2;
+  shapeD[1][1] = 4 * pt[1] - 1;
+  shapeD[1][3] = 4 * pt[0];
+  shapeD[1][4] = 4 * p2;
 
-  shapeD[2][2]=4*p2-1;
-  shapeD[2][4]=4*pt[1];
-  shapeD[2][5]=4*pt[0];
-
+  shapeD[2][2] = 4 * p2 - 1;
+  shapeD[2][4] = 4 * pt[1];
+  shapeD[2][5] = 4 * pt[0];
 }
 
 Element2DC0QuadraticTriangular::Float
 Element2DC0QuadraticTriangular
-::JacobianDeterminant( const VectorType& pt, const MatrixType* pJ ) const
+::JacobianDeterminant(const VectorType & pt, const MatrixType *pJ) const
 {
-
 //  return Superclass::JacobianDeterminant( pt, pJ );
 
-  MatrixType* pJlocal=0;
+  MatrixType *pJlocal = 0;
 
   // If Jacobian was not provided, we
   // need to compute it here
-  if(pJ==0)
+  if( pJ == 0 )
     {
-    pJlocal=new MatrixType();
-    this->Jacobian( pt, *pJlocal );
-    pJ=pJlocal;
+    pJlocal = new MatrixType();
+    this->Jacobian(pt, *pJlocal);
+    pJ = pJlocal;
     }
 
-  Float det=(((*pJ)[1][0]-(*pJ)[0][0]) * ((*pJ)[2][1]-(*pJ)[0][1])) -
-            (((*pJ)[0][1]-(*pJ)[1][1]) * ((*pJ)[0][0]-(*pJ)[2][0]));
+  Float det = ( ( ( *pJ )[1][0] - ( *pJ )[0][0] ) * ( ( *pJ )[2][1] - ( *pJ )[0][1] ) )
+    - ( ( ( *pJ )[0][1] - ( *pJ )[1][1] ) * ( ( *pJ )[0][0] - ( *pJ )[2][0] ) );
 
   delete pJlocal;
 
   return det;
-
 }
 
 void
 Element2DC0QuadraticTriangular
-::JacobianInverse( const VectorType& pt, MatrixType& invJ, const MatrixType* pJ ) const
+::JacobianInverse(const VectorType & pt, MatrixType & invJ, const MatrixType *pJ) const
 {
-
-  MatrixType* pJlocal=0;
+  MatrixType *pJlocal = 0;
 
   // If Jacobian was not provided, we
   // need to compute it here
-  if(pJ==0)
+  if( pJ == 0 )
     {
-    pJlocal=new MatrixType();
-    this->Jacobian( pt, *pJlocal );
-    pJ=pJlocal;
+    pJlocal = new MatrixType();
+    this->Jacobian(pt, *pJlocal);
+    pJ = pJlocal;
     }
 
   // Note that inverse of Jacobian is not quadratic matrix
-  invJ.set_size(2,3);
+  invJ.set_size(2, 3);
 
-  Float idet=1.0/this->JacobianDeterminant( pt, pJ );
+  Float idet = 1.0 / this->JacobianDeterminant(pt, pJ);
 
-  invJ[0][0]=idet*((*pJ)[1][1]-(*pJ)[2][1]); invJ[0][1]=idet*((*pJ)[2][1]-(*pJ)[0][1]); invJ[0][2]=idet*((*pJ)[0][1]-(*pJ)[1][1]);
-  invJ[1][0]=idet*((*pJ)[2][0]-(*pJ)[1][0]); invJ[1][1]=idet*((*pJ)[0][0]-(*pJ)[2][0]); invJ[1][2]=idet*((*pJ)[1][0]-(*pJ)[0][0]);
+  invJ[0][0] = idet * ( ( *pJ )[1][1] - ( *pJ )[2][1] ); invJ[0][1] = idet * ( ( *pJ )[2][1] - ( *pJ )[0][1] );
+  invJ[0][2] = idet * ( ( *pJ )[0][1] - ( *pJ )[1][1] );
+  invJ[1][0] = idet * ( ( *pJ )[2][0] - ( *pJ )[1][0] ); invJ[1][1] = idet * ( ( *pJ )[0][0] - ( *pJ )[2][0] );
+  invJ[1][2] = idet * ( ( *pJ )[1][0] - ( *pJ )[0][0] );
 
   delete pJlocal;
 }
 
-/**
- * Draw the element on device context pDC.
- */
-#ifdef FEM_BUILD_VISUALIZATION
-void
-Element2DC0QuadraticTriangular
-::Draw(CDC* pDC, Solution::ConstPointer sol) const
+bool Element2DC0QuadraticTriangular::GetLocalFromGlobalCoordinates(
+  const VectorType & GlobalPt, VectorType & LocalPt) const
 {
+  // connectivity is based on how the nodes are stored
+  int LinearTris[4][3] = { {0, 3, 5}, {3, 1, 4}, {5, 4, 2}, {4, 5, 3} };
 
-  int x1=m_node[0]->GetCoordinates()[0]*DC_Scale;
-  int y1=m_node[0]->GetCoordinates()[1]*DC_Scale;
+  VectorType pc(3);
+  int        i, subId;
+  bool       returnStatus = false;
+  VectorType tempWeights(3);
+  VectorType closest(3);
 
-  int x2=m_node[1]->GetCoordinates()[0]*DC_Scale;
-  int y2=m_node[1]->GetCoordinates()[1]*DC_Scale;
+  itk::fem::Element2DC0LinearTriangularMembrane::Pointer e1;
 
-  int x3=m_node[2]->GetCoordinates()[0]*DC_Scale;
-  int y3=m_node[2]->GetCoordinates()[1]*DC_Scale;
+  e1 = itk::fem::Element2DC0LinearTriangularMembrane::New();
+  // four linear triangles are used
+  for( i = 0; i < 4; i++ )
+    {
+    e1->SetNode(0, &*this->GetNode(LinearTris[i][0]) );
+    e1->SetNode(1, &*this->GetNode(LinearTris[i][1]) );
+    e1->SetNode(2, &*this->GetNode(LinearTris[i][2]) );
 
-  int x4=m_node[3]->GetCoordinates()[0]*DC_Scale;
-  int y4=m_node[3]->GetCoordinates()[1]*DC_Scale;
+    returnStatus = e1->GetLocalFromGlobalCoordinates(GlobalPt, pc);
+    if( returnStatus )
+      {
+      subId = i;
+      LocalPt[0] = pc[0];
+      LocalPt[1] = pc[1];
+      break;
+      }
+    }
 
-  int x5=m_node[4]->GetCoordinates()[0]*DC_Scale;
-  int y5=m_node[4]->GetCoordinates()[1]*DC_Scale;
+  // adjust parametric coordinates
+  if( returnStatus )
+    {
+    if( subId == 0 )
+      {
+      LocalPt[0] /= 2.0;
+      LocalPt[1] /= 2.0;
+      }
+    else if( subId == 1 )
+      {
+      LocalPt[0] = 0.5 + (LocalPt[0] / 2.0);
+      LocalPt[1] /= 2.0;
+      }
+    else if( subId == 2 )
+      {
+      LocalPt[0] /= 2.0;
+      LocalPt[1] = 0.5 + (LocalPt[1] / 2.0);
+      }
+    else
+      {
+      LocalPt[0] = 0.5 - LocalPt[0] / 2.0;
+      LocalPt[1] = 0.5 - LocalPt[1] / 2.0;
+      }
+    LocalPt[2] = 1.0 - LocalPt[0] - LocalPt[1];
+    }
 
-  int x6=m_node[5]->GetCoordinates()[0]*DC_Scale;
-  int y6=m_node[5]->GetCoordinates()[1]*DC_Scale;
+  return returnStatus;
+}
 
-  x1 += sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(0))*DC_Scale;
-  y1 += sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(1))*DC_Scale;
-  x2 += sol->GetSolutionValue(this->m_node[1]->GetDegreeOfFreedom(0))*DC_Scale;
-  y2 += sol->GetSolutionValue(this->m_node[1]->GetDegreeOfFreedom(1))*DC_Scale;
-  x3 += sol->GetSolutionValue(this->m_node[2]->GetDegreeOfFreedom(0))*DC_Scale;
-  y3 += sol->GetSolutionValue(this->m_node[2]->GetDegreeOfFreedom(1))*DC_Scale;
-  x4 += sol->GetSolutionValue(this->m_node[3]->GetDegreeOfFreedom(0))*DC_Scale;
-  y4 += sol->GetSolutionValue(this->m_node[3]->GetDegreeOfFreedom(1))*DC_Scale;
-  x5 += sol->GetSolutionValue(this->m_node[4]->GetDegreeOfFreedom(0))*DC_Scale;
-  y5 += sol->GetSolutionValue(this->m_node[4]->GetDegreeOfFreedom(1))*DC_Scale;
-  x6 += sol->GetSolutionValue(this->m_node[5]->GetDegreeOfFreedom(0))*DC_Scale;
-  y6 += sol->GetSolutionValue(this->m_node[5]->GetDegreeOfFreedom(1))*DC_Scale;
+void Element2DC0QuadraticTriangular::PopulateEdgeIds(void)
+{
+  this->m_EdgeIds.resize(0);
 
-  pDC->MoveTo(x1,y1);
-  pDC->LineTo(x4,y4);
-  pDC->LineTo(x2,y2);
-  pDC->LineTo(x5,y5);
-  pDC->LineTo(x3,y3);
-  pDC->LineTo(x6,y6);
-  pDC->LineTo(x1,y1);
+  std::vector<int> edgePtIds;
+  edgePtIds.resize(2);
+
+  // edge 0
+  edgePtIds[0] = 0;
+  edgePtIds[1] = 1;
+  this->m_EdgeIds.push_back(edgePtIds);
+
+  // edge 1
+  edgePtIds[0] = 1;
+  edgePtIds[1] = 2;
+  this->m_EdgeIds.push_back(edgePtIds);
+
+  // edge 2
+  edgePtIds[0] = 0;
+  edgePtIds[1] = 2;
+  this->m_EdgeIds.push_back(edgePtIds);
+}
+
+void Element2DC0QuadraticTriangular::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+}
 
 }
-#endif
-
-}} // end namespace itk::fem
+}  // end namespace itk::fem

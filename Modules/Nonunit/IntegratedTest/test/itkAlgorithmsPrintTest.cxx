@@ -31,7 +31,7 @@
 #include "itkDeformableMesh3DFilter.h"
 #include "itkDemonsRegistrationFilter.h"
 #include "itkExtensionVelocitiesImageFilter.h"
-#include "itkFEMRegistrationFilter.h"
+//#include "itkFEMRegistrationFilter.h"
 #include "itkFastMarchingImageFilter.h"
 
 int main (int , char* [])
@@ -107,9 +107,9 @@ int main (int , char* [])
     itk::ExtensionVelocitiesImageFilter<InputType,float,1>::New();
   std:: cout << "-------------ExtensionVelocitiesImageFilter " << ExtensionVelocitiesImageFilterObj;
 
-  itk::fem::FEMRegistrationFilter<InputType,InputType>::Pointer FEMRegistrationFilterObj =
-    itk::fem::FEMRegistrationFilter<InputType,InputType>::New();
-  std:: cout << "-------------FEMRegistrationFilter " << FEMRegistrationFilterObj;
+//  itk::fem::FEMRegistrationFilter<InputType,InputType>::Pointer FEMRegistrationFilterObj =
+//    itk::fem::FEMRegistrationFilter<InputType,InputType>::New();
+//  std:: cout << "-------------FEMRegistrationFilter " << FEMRegistrationFilterObj;
 
   itk::FastMarchingExtensionImageFilter<InputType,float>::Pointer FastMarchingExtensionImageFilterObj =
     itk::FastMarchingExtensionImageFilter<InputType,float>::New();

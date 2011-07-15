@@ -15,65 +15,54 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-// disable debug warnings in MS compiler
-#ifdef _MSC_VER
-#pragma warning(disable: 4786)
-#endif
 
 #include "itkFEMLoadLandmark.h"
 
-namespace itk {
-namespace fem {
+namespace itk
+{
+namespace fem
+{
+
+// Overload the CreateAnother() method.
+::itk::LightObject::Pointer LoadLandmark::CreateAnother(void) const
+{
+  ::itk::LightObject::Pointer smartPtr;
+  Pointer copyPtr = Self::New().GetPointer();
+
+  // Copy Load Contents
+  copyPtr->m_Eta = this->m_Eta;
+  copyPtr->m_Point = this->m_Point;
+  copyPtr->m_Target = this->m_Target;
+  copyPtr->m_Source = this->m_Source;
+  copyPtr->m_Force = this->m_Force;
+  copyPtr->m_Solution = this->m_Solution;
+  for( unsigned int i = 0; i < this->m_Element.size(); i++ )
+    {
+    copyPtr->AddNextElement( this->m_Element[i] );
+    }
+  copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
+
+  smartPtr = static_cast<Pointer>(copyPtr);
+
+  return smartPtr;
+}
 
 /**
- * Read a LoadLandmark object from the input stream
+ * Find the Element to which the LoadLandmark belongs
  */
-void LoadLandmark::Read( std::istream& f, void*)
+Element::ConstPointer LoadLandmark::GetAssignedElement(Element::ArrayType1::Pointer elements)
 {
-  int n1, n2;
-  vnl_vector<Float> pu;
-  vnl_vector<Float> pd;
-
-  // first call the parent's read function
-  //Superclass::Read(f,info);
-
-  // read the dimensions of the undeformed point and set the size of the point accordingly
-  this->SkipWhiteSpace(f); f>>n1; if(!f) goto out;
-  pu.set_size(n1);
-  this->m_pt.set_size(n1);
-
-  // read the undeformed point in global coordinates
-  this->SkipWhiteSpace(f); f>>pu; if(!f) goto out;
-
-  // Read the dimensions of the deformed point and set the size of the point accordingly
-  this->SkipWhiteSpace(f); f>>n2; if(!f) goto out;
-  pd.set_size(n2);
-  m_force.set_size(n2);
-
-  // read the deformed point in global coordinates
-  this->SkipWhiteSpace(f); f>>pd; if(!f) goto out;
-
-  m_source = pd;
-  m_pt = pd;
-  m_target = pu;
-  m_force  = pu-pd;
-
-  //std::cout << m_source << std::endl << m_pt << std::endl << m_target << std::endl << m_force << std::endl;
-
-  // read the square root of the variance associated with this landmark
-  this->SkipWhiteSpace(f); f>>eta; if(!f) goto out;
-
-  // Verify that the undeformed and deformed points are of the same size.
-  if (n1 != n2) { goto out; }
-
-  this->el.resize(1);
-
-  out:
-
-  if( !f )
+  int numElements = elements->Size();
+  for( int n = 0; n < numElements; n++ )
     {
-    throw FEMExceptionIO(__FILE__,__LINE__,"LoadLandmark::Read()","Error reading landmark load!");
+    Element::Pointer nel = elements->GetElement(n);
+    if( (nel )->GetLocalFromGlobalCoordinates(m_Source, this->m_Point) )
+      {
+      return dynamic_cast<const Element *>(&*nel);
+      }
     }
+
+  return NULL;
 }
 
 /**
@@ -86,52 +75,124 @@ void LoadLandmark::AssignToElement(Element::ArrayType::Pointer elements)
 
   // Compute & store the local coordinates of the undeformed point and
   // the pointer to the element
-
-  for (Element::ArrayType::const_iterator n = elements->begin();
-       n != elements->end() && !isFound; n++)
+  for( Element::ArrayType::const_iterator n = elements->begin();
+       n != elements->end() && !isFound; n++ )
     {
-    if ( (*n)->GetLocalFromGlobalCoordinates(m_source, this->m_pt) )
+    if( ( *n )->GetLocalFromGlobalCoordinates(m_Source, this->m_Point) )
       {
       isFound = true;
-      std::cout << "Found: " << (&**n) << std::endl;
-      this->el[0] = *n;
+      std::cout << "Found: " << ( &**n ) << std::endl;
+      this->m_Element[0] = *n;
       }
     }
 
-  if (!isFound)
+  if( !isFound )
     {
-    throw FEMException(__FILE__,__LINE__,"LoadLandmark::Read() - could not find element containing landmark!");
+    throw FEMException(__FILE__, __LINE__, "LoadLandmark::Read() - could not find element containing landmark!");
     }
 }
 
-/**
- * Write the LoadLandmark object to the output stream
- */
-void LoadLandmark::Write( std::ostream& f ) const
+void LoadLandmark::AssignToElement(Element::ArrayType1::Pointer elements)
 {
+  bool isFound = false;
 
-  /** first call the parent's write function */
-  Superclass::Write(f);
+  // Compute & store the local coordinates of the undeformed point and
+  // the pointer of the element
 
-  /**
-   * Write the actual LoadLandmark data
-   */
-
-  /** Information */
-  f << "\t% Each vector below is preceded by its size" << std::endl;
-
-  /** Write the point coordinates in the undeformed state */
-  f<<"\t"<<m_pt.size()<<" "<<m_pt<<"\t%Point (local) coordinates, undeformed state"<<"\n";
-
-
-  /** check for errors */
-  if (!f)
+  int numElements = elements->Size();
+  for( int n = 0;
+       n < numElements && !isFound; n++ )
     {
-    throw FEMExceptionIO(__FILE__,__LINE__,"LoadBCMFC::Write()","Error writing FEM load!");
+    Element::Pointer nel = elements->GetElement(n);
+    if( (nel )->GetLocalFromGlobalCoordinates(m_Source, this->m_Point) )
+      {
+      isFound = true;
+      std::cout << "Found: " << ( &*nel ) << std::endl;
+      this->m_Element[0] = nel;
+      }
     }
 
+  if( !isFound )
+    {
+    throw FEMException(__FILE__, __LINE__, "LoadLandmark::Read() - could not find element containing landmark!");
+    }
 }
 
-FEM_CLASS_REGISTER(LoadLandmark)
+void LoadLandmark::SetEta(double e)
+{
+  this->m_Eta = e;
+}
 
-}} // end namespace itk::fem
+double LoadLandmark::GetEta() const
+{
+  return this->m_Eta;
+}
+
+void LoadLandmark::ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe)
+{
+  const unsigned int NnDOF = element->GetNumberOfDegreesOfFreedomPerNode();
+  const unsigned int Nnodes = element->GetNumberOfNodes();
+
+  Element::VectorType force(NnDOF, 0.0);
+  Element::VectorType disp(NnDOF, 0.0);
+  Element::VectorType new_source(NnDOF, 0.0);
+  Element::VectorType shapeF;
+
+  Fe.set_size( element->GetNumberOfDegreesOfFreedom() );
+  Fe.fill(0.0);
+
+  // Retrieve the local coordinate at which the force acts
+  Element::VectorType pt = this->GetPoint();
+
+  // Retrieve the stored solution
+  Solution::ConstPointer sol = this->GetSolution();
+
+  // Determine the displacement at point pt
+  const unsigned int TotalSolutionIndex = 1;
+  disp = element->InterpolateSolution(pt, ( *sol ), TotalSolutionIndex);
+
+  // Convert the source to global coordinates
+  new_source = this->GetSource() + disp;
+
+  // Calculate the new force
+  this->SetForce(disp);
+  force =  ( this->GetTarget() - new_source ) / this->GetEta();
+
+  //  std::cout << " disp " << disp <<  std::endl;
+  // force /= vcl_sqrt(fmag);
+  new_source = ( this->GetTarget() - new_source );
+  //  std::cout << " force = " << force <<  " distance  " <<
+  // new_source.magnitude() << std::endl;
+
+  Element::Float curdist = new_source.magnitude();
+  if( curdist < 1.0 )
+    {
+    force.fill(0.0);
+    }
+  std::cout <<  " LM distance  " << curdist << std::endl;
+
+  // "Integrate" at the location of the point load
+  shapeF = element->ShapeFunctions(pt);
+  // Calculate the equivalent nodal loads
+  for( unsigned int n = 0; n < Nnodes; n++ )
+    {
+    for( unsigned int d = 0; d < NnDOF; d++ )
+      {
+      Fe[n * NnDOF + d] += shapeF[n] * force[d];
+      }
+    }
+}
+
+void LoadLandmark::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "Eta: " << this->m_Eta << std::endl;
+  os << indent << "Source: " << this->m_Source << std::endl;
+  os << indent << "Target: " << this->m_Target << std::endl;
+  os << indent << "Point: " << this->m_Point << std::endl;
+  os << indent << "Force: " << this->m_Force << std::endl;
+  os << indent << "Solution: " << this->m_Solution << std::endl;
+}
+
+}
+}  // end namespace itk::fem

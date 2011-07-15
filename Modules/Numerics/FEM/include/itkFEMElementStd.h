@@ -15,14 +15,16 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #ifndef __itkFEMElementStd_h
 #define __itkFEMElementStd_h
 
 #include "itkFEMElementBase.h"
 
-namespace itk {
-namespace fem {
-
+namespace itk
+{
+namespace fem
+{
 /**
  * \class ElementStd
  * \brief Implements standard node management in the element classes.
@@ -35,7 +37,7 @@ namespace fem {
  * class to automatically create all the functions required for proper
  * node management.
  *
- * You must specify three or four template parameters:
+ * You must specify two or three template parameters:
  *
  *   VNumberOfNodes - Number of nodes that define the element
  *                    (e.g. four for quadrilateral)
@@ -50,15 +52,23 @@ namespace fem {
  *                If not specified, it defaults to the Element class.
  * \ingroup ITK-FEM
  */
-template<unsigned int VNumberOfNodes, unsigned int VNumberOfSpatialDimensions, class TBaseClass=Element>
+template <unsigned int VNumberOfNodes, unsigned int VNumberOfSpatialDimensions, class TBaseClass = Element>
 class ElementStd : public TBaseClass
 {
-FEM_ABSTRACT_CLASS(ElementStd,TBaseClass)
 public:
+  /** Standard class typedefs. */
+  typedef ElementStd               Self;
+  typedef TBaseClass               Superclass;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(ElementStd, TBaseClass);
 
 // FIXME: Add concept cheking for TBaseClass, and TPointClass
 
   // Repeat typedefs and enums from parent class
+
   typedef typename Superclass::Float                 Float;
   typedef typename Superclass::MatrixType            MatrixType;
   typedef typename Superclass::VectorType            VectorType;
@@ -67,91 +77,79 @@ public:
   typedef typename Superclass::NodeIDType            NodeIDType;
   typedef typename Superclass::DegreeOfFreedomIDType DegreeOfFreedomIDType;
   typedef typename Superclass::Node                  Node;
-  enum{ InvalidDegreeOfFreedomID = Superclass::InvalidDegreeOfFreedomID };
+  enum { InvalidDegreeOfFreedomID = Superclass::InvalidDegreeOfFreedomID };
 
   /**
    * Number of nodes that define the element.
    */
-  enum { NumberOfNodes=VNumberOfNodes };
+  enum { NumberOfNodes = VNumberOfNodes };
 
   /**
    * Number of dimensions of space in which element can exist.
    */
-  enum { NumberOfSpatialDimensions=VNumberOfSpatialDimensions };
+  enum { NumberOfSpatialDimensions = VNumberOfSpatialDimensions };
 
   /**
    * Default constructor just clears the ivars
    */
   ElementStd();
 
-  //////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////
   /**
    * Methods that define the geometry of an element
    */
-  virtual unsigned int GetNumberOfNodes( void ) const
-    { return NumberOfNodes; }
+  virtual unsigned int GetNumberOfNodes(void) const
+  {
+    return NumberOfNodes;
+  }
+
+  /**
+   * Get/Set the Nodes that define the element
+   */
 
   virtual NodeIDType GetNode(unsigned int n) const
-    {
-    if(n>=NumberOfNodes)
+  {
+    if( n >= NumberOfNodes )
       {
       return 0;
       }
     return this->m_node[n];
-    }
+  }
 
   virtual void SetNode(unsigned int n, NodeIDType node)
-    {
-    if(n>=NumberOfNodes)
+  {
+    if( n >= NumberOfNodes )
       {
       return;
       }
-    this->m_node[n]=node;
-    }
+    this->m_node[n] = node;
+  }
 
-  virtual const VectorType& GetNodeCoordinates( unsigned int n ) const
-    {
+  /** Get the nodal coordinates */
+  virtual const VectorType & GetNodeCoordinates(unsigned int n) const
+  {
     return m_node[n]->GetCoordinates();
-    }
+  }
 
+  /** Get the number of spatial dimensions */
   virtual unsigned int GetNumberOfSpatialDimensions() const
-    {
+  {
     return NumberOfSpatialDimensions;
-    }
+  }
 
-  //////////////////////////////////////////////////////////////////////////
-  /**
-   * Methods related to I/O
-   */
-
-  /**
-   * Read data for this class from input stream
-   */
-  virtual void Read( std::istream&, void* info );
-
-  /**
-   * Write data for this class to output stream
-   */
-  virtual void Write( std::ostream& f ) const;
-
+  // ////////////////////////////////////////////////////////////////////////
 protected:
+
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
    * Array of pointers to point objects that define the element
    */
   NodeIDType m_node[NumberOfNodes];
-
 };
 
-#ifdef _MSC_VER
-// Declare a static dummy function to prevent a MSVC 6.0 SP5 from crashing.
-// I have no idea why things don't work when this is not declared, but it
-// looks like this declaration makes compiler forget about some of the
-// troubles it has with templates.
-static void Dummy( void );
-#endif // #ifdef _MSC_VER
-
-}} // end namespace itk::fem
+}
+}  // end namespace itk::fem
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkFEMElementStd.txx"

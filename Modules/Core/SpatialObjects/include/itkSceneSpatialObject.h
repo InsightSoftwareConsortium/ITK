@@ -50,8 +50,7 @@ public:
   typedef SpatialObject< TSpaceDimension >    SpatialObjectType;
   typedef typename SpatialObjectType::Pointer SpatialObjectPointer;
 
-  typedef std::list< SpatialObjectPointer >
-  ObjectListType;
+  typedef std::list< SpatialObjectPointer >   ObjectListType;
 
   itkStaticConstMacro(MaximumDepth, unsigned int, 9999999);
 

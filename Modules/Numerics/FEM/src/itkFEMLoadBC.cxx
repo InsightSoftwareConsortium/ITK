@@ -15,84 +15,68 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-// disable debug warnings in MS compiler
-#ifdef _MSC_VER
-#pragma warning(disable: 4786)
-#endif
 
 #include "itkFEMLoadBC.h"
 
-namespace itk {
-namespace fem {
-
-/** Read the LoadBC object from input stream */
-void LoadBC::Read( std::istream& f, void* info )
+namespace itk
 {
-  unsigned int n;
-  /**
-   * Convert the info pointer to a usable objects
-   */
-  ReadInfoType::ElementArrayPointer elements=static_cast<ReadInfoType*>(info)->m_el;
+namespace fem
+{
 
+// Overload the CreateAnother() method.
+::itk::LightObject::Pointer LoadBC::CreateAnother(void) const
+{
+  ::itk::LightObject::Pointer smartPtr;
+  Pointer copyPtr = Self::New().GetPointer();
 
-  /* first call the parent's Read function */
-  Superclass::Read(f,info);
+  // Copy Load Contents
+  copyPtr->m_DegreeOfFreedom = this->m_DegreeOfFreedom;
+  copyPtr->m_Value = this->m_Value;
+  copyPtr->m_Element = this->m_Element;
+  copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
 
-  /* read and set pointer to element that we're applying the load to */
-  this->SkipWhiteSpace(f); f>>n; if(!f) goto out;
-  try
-    {
-    this->m_element=dynamic_cast<const Element*>( &*elements->Find(n) );
-    }
-  catch ( FEMExceptionObjectNotFound e )
-    {
-    throw FEMExceptionObjectNotFound(__FILE__,__LINE__,"LoadBC::Read()",e.m_baseClassName,e.m_GN);
-    }
+  smartPtr = static_cast<Pointer>(copyPtr);
 
-  /* read the local DOF number within that element */
-  this->SkipWhiteSpace(f); f>>this->m_dof; if(!f) goto out;
-
-  /* read the value to which the DOF is fixed */
-  this->SkipWhiteSpace(f); f>>n; if(!f) goto out;
-  this->m_value.set_size(n);
-  this->SkipWhiteSpace(f); f>>this->m_value; if(!f) goto out;
-
-  out:
-
-  if( !f )
-    {
-    throw FEMExceptionIO(__FILE__,__LINE__,"LoadBC::Read()","Error reading FEM load!");
-    }
-
+  return smartPtr;
 }
 
-
-/**
- * Write the LoadBC object to the output stream
- */
-void LoadBC::Write( std::ostream& f ) const
+void LoadBC::SetDegreeOfFreedom(int dof)
 {
-  /* first call the parent's write function */
-  Superclass::Write(f);
-
-  /*
-   * Write the actual Load data
-   */
-  f<<"\t"<<this->m_element->GN<<"\t% GN of element"<<"\n";
-  f<<"\t"<<this->m_dof<<"\t% DOF# in element"<<"\n";
-
-  /* write the value of dof */
-  f<<"\t"<<this->m_value.size();
-  f<<" "<<this->m_value<<"\t% value of the fixed DOF"<<"\n";
-
-  /* check for errors */
-  if (!f)
-    {
-    throw FEMExceptionIO(__FILE__,__LINE__,"LoadBC::Write()","Error writing FEM load!");
-    }
-
+  this->m_DegreeOfFreedom = dof;
 }
 
-FEM_CLASS_REGISTER(LoadBC)
+int LoadBC::GetDegreeOfFreedom() const
+{
+  return this->m_DegreeOfFreedom;
+}
 
-}} // end namespace itk::fem
+void LoadBC::SetValue(const vnl_vector<Element::Float> val)
+{
+  this->m_Value = val;
+}
+
+vnl_vector<Element::Float> LoadBC::GetValue() const
+{
+  return this->m_Value;
+}
+
+void LoadBC::SetElement(Element::ConstPointer element)
+{
+  this->m_Element = element;
+}
+
+Element::ConstPointer LoadBC::GetElement() const
+{
+  return this->m_Element;
+}
+
+void LoadBC::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "Element: " << this->m_Element << std::endl;
+  os << indent << "Value: " << this->m_Value << std::endl;
+  os << indent << "Degree Of Freedom: " << this->m_DegreeOfFreedom << std::endl;
+}
+
+}
+}  // end namespace itk::fem
