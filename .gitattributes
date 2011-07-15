@@ -34,6 +34,3 @@ zap.pl           crlf=input
 
 # ExternalData content links must have LF newlines
 *.md5            crlf=input
-
-# Third-party code need not pass our style checks.
-/Utilities/*    -hooks.style
