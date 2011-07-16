@@ -1,3 +1,6 @@
+set(DOCUMENTATION "This modules contains tests targeting the behavior of
+multiple modules of the toolkit when they act together.")
+
 itk_module(ITKIntegratedTest
   TEST_DEPENDS
     ITKAnisotropicSmoothing
@@ -76,4 +79,6 @@ itk_module(ITKIntegratedTest
     ITKVTK
     ITKWatersheds
     ITKTestKernel
+  DESCRIPTION
+    "${DOCUMENTATION}"
 )
