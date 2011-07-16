@@ -11,7 +11,7 @@
 rm -rf kwstyle
 mkdir kwstyle
 unalias -a
-set files=`ls -1 itk*.h itk*.txx itk*.cxx`
+set files=`ls -1 itk*.h itk*.hxx itk*.cxx`
 rm -f defects.txt
 foreach file ( $files )
 @KWSTYLE_EXECUTABLE@ -v -gcc -xml @ITK_BINARY_DIR@/Utilities/KWStyle/ITK.kws.xml -o @ITK_SOURCE_DIR@/Utilities/KWStyle/ITKOverwrite.txt $file >kwstyle/$file.txt

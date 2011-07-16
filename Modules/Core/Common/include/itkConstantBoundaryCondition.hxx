@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkConstantBoundaryCondition_txx
-#define __itkConstantBoundaryCondition_txx
+#ifndef __itkConstantBoundaryCondition_hxx
+#define __itkConstantBoundaryCondition_hxx
 
 #include "itkConstantBoundaryCondition.h"
 

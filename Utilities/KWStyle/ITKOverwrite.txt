@@ -19,7 +19,7 @@ vnl_fft_3d.h InternalVariables Disable
 vnl_fft_3d.h Namespace Disable
 vnl_fft_3d.h Typedefs Disable
 itkWeakPointer.h Template Disable
-itkBSplineInterpolationWeightFunction.txx Namespace Disable
+itkBSplineInterpolationWeightFunction.hxx Namespace Disable
 itkCannyEdgeDetectionImageFilter.h InternalVariables Disable
 itkParallelSparseFieldLevelSetImageFilter.h InternalVariables Disable
 itkSparseFieldFourthOrderLevelSetImageFilter.h InternalVariables Disable
@@ -35,13 +35,13 @@ VNLIterativeSparseSolverTraits.h Namespace Disable
 itkMeasurementVectorTraits.h InternalVariables Disable
 itk.*\Test.*\.cxx Namespace Disable
 itk.*\Test.*\.h Namespace Disable
-itkBilateralImageFilter.txx Namespace Disable
+itkBilateralImageFilter.hxx Namespace Disable
 itkConceptChecking.h Template Disable
 itkBioCellBase.h InternalVariables Disable
-itkRayCastInterpolateImageFunction.txx Namespace Disable
+itkRayCastInterpolateImageFunction.hxx Namespace Disable
 itkWatershedBoundary.h Typedefs Disable
 itkWatershedSegmenter.h Typedefs Disable
-itkWatershedSegmenter.txx Typedefs Disable
+itkWatershedSegmenter.hxx Typedefs Disable
 itkWatershedSegmentTable.h Typedefs Disable
 itkWatershedSegmenter.h InternalVariables Disable
 itkFEMElement1DStress.h InternalVariables Disable'
@@ -88,7 +88,7 @@ itkImageTransformHelper.h Template Disable
 itkKLMSegmentationRegion.h Indent Disable
 itkLaplacianOperator.h Indent Disable
 itkMacro.h Indent Disable
-itkMetaDataObject.txx Namespace Disable
+itkMetaDataObject.hxx Namespace Disable
 itkMersenneTwisterRandomVariateGenerator.h InternalVariables Disable
 itkNeighborhoodAllocator.h Typedefs Disable
 itkNodeList.h InternalVariables Disable
@@ -127,7 +127,7 @@ itkStatisticsTypesTest.cxx Typedefs Disable
 itkLabelStatisticsImageFilter.h Indent Disable
 itkIntTypes.h Typedefs Disable
 itkv3Rigid3DTransform.h Namespace Disable
-itkNeighborhoodIteratorTestCommon.txx Namespace Disable
+itkNeighborhoodIteratorTestCommon.hxx Namespace Disable
 itkSimpleMultiResolutionImageRegistrationUI.h Namespace Disable
 QuickView.h Namespace Disable
 QuickView.cxx Namespace Disable
