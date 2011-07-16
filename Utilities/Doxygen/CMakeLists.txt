@@ -55,6 +55,9 @@ set( ITK_DOXYGEN_DIAGRAMS NO )
 configure_file(${ITK_SOURCE_DIR}/Utilities/Doxygen/doxygen.config.in
                ${ITK_BINARY_DIR}/single-doxygen.config)
 
+configure_file(${ITK_SOURCE_DIR}/Utilities/Doxygen/itkdoxygen.pl.in
+               ${ITK_BINARY_DIR}/Utilities/Doxygen/itkdoxygen.pl)
+
 # -------------------------------------------------------------
 if (BUILD_DOCUMENTATION)
 
@@ -63,9 +66,6 @@ if (BUILD_DOCUMENTATION)
   if( NOT LATEX_COMPILER )
     message( "Warning: LaTeX not found. Formulas will not be generated in documentation." )
   endif()
-
-  configure_file(${ITK_SOURCE_DIR}/Utilities/Doxygen/itkdoxygen.pl.in
-                 ${ITK_BINARY_DIR}/Utilities/Doxygen/itkdoxygen.pl)
 
   add_custom_target(Documentation ALL
     COMMAND ${DOXYGEN_EXECUTABLE} ${ITK_BINARY_DIR}/Utilities/Doxygen/doxygen.config
