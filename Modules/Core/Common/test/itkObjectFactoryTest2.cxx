@@ -68,6 +68,25 @@ void MakeImage(const int count, T pixel)
   testImage->FillBuffer(pixel);
 }
 
+void ReallocateImage()
+{
+  typedef itk::Image<double, 2> ImageType;
+  typedef ImageType::SizeType   SizeType;
+
+  ImageType::Pointer testImage = ImageType::New();
+
+  SizeType size = {{5, 3}};
+
+  testImage->SetRegions( size );
+  testImage->Allocate();
+  testImage->FillBuffer( 0 );
+
+  SizeType size2 = {{100, 100}};
+  testImage->SetRegions( size2 );
+  testImage->Allocate();
+  testImage->FillBuffer( 0 );
+}
+
 int itkObjectFactoryTest2(int argc, char *argv[])
 {
   itk::ObjectFactoryBase::UnRegisterAllFactories();
@@ -142,6 +161,8 @@ int itkObjectFactoryTest2(int argc, char *argv[])
   itk::RGBPixel<unsigned short> rgbUS; rgbUS.Fill(0);
   MakeImage(10, rgbUC);
   MakeImage(10, rgbUS);
+
+  ReallocateImage();
 
   int status = EXIT_SUCCESS;
 
