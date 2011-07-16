@@ -82,11 +82,11 @@
 #define ITK_EXPORT
 
 #if ( defined( _WIN32 ) || defined( WIN32 ) ) && !defined( ITKSTATIC )
-#ifdef ITK_Common_EXPORTS
+#ifdef ITKCommon_EXPORTS
 #define ITKCommon_EXPORT __declspec(dllexport)
 #else
 #define ITKCommon_EXPORT __declspec(dllimport)
-#endif  /* ITK_Common_EXPORTS */
+#endif  /* ITKCommon_EXPORTS */
 
 #else
 /* unix needs nothing */
