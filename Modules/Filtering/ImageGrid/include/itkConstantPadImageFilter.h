@@ -34,7 +34,7 @@ namespace itk
  * This filter is implemented as a multithreaded filter.  It provides a
  * ThreadedGenerateData() method for its implementation.
  *
- * \ingroup GeometricTransforms
+ * \ingroup GeometricTransform
  * \sa WrapPadImageFilter, MirrorPadImageFilter
  * \ingroup ITKImageGrid
  *

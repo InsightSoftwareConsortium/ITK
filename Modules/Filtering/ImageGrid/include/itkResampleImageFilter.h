@@ -71,7 +71,7 @@ namespace itk
  * \warning For multithreading, the TransformPoint method of the
  * user-designated coordinate transform must be threadsafe.
  *
- * \ingroup GeometricTransforms
+ * \ingroup GeometricTransform
  * \ingroup ITKImageGrid
  *
  * \wiki

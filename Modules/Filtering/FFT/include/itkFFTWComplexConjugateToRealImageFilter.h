@@ -39,9 +39,11 @@ namespace itk
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
- * \ingroup FourierTransform, MultiThreaded
- * \sa FFTWGlobalConfiguration
+ * \ingroup FourierTransform
+ * \ingroup MultiThreaded
  * \ingroup ITKFFT
+ *
+ * \sa FFTWGlobalConfiguration
  */
 template< class TInputImage, class TOutputImage=Image< typename TInputImage::PixelType::value_type, TInputImage::ImageDimension> >
 class ITK_EXPORT FFTWComplexConjugateToRealImageFilter:

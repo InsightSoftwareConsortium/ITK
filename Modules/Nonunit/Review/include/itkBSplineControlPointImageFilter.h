@@ -221,7 +221,7 @@ protected:
   void PrintSelf( std::ostream& os, Indent indent ) const;
 
   /**
-   * Multithreaded function which generates the output sampled B-spline object.
+   * Multi-threaded function which generates the output sampled B-spline object.
    */
   void ThreadedGenerateData( const OutputImageRegionType &, ThreadIdType );
 

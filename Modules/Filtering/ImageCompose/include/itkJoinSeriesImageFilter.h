@@ -35,7 +35,7 @@ namespace itk
  * informations for the first N dimensions are taken from the first input.
  * Note that all the inputs should have the same information.
  *
- * \ingroup GeometricTransforms
+ * \ingroup GeometricTransform
  * \ingroup MultiThreaded
  * \ingroup Streamed
  *

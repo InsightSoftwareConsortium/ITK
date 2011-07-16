@@ -74,7 +74,7 @@ namespace Testing
  * ThreadedGenerateData() method for its implementation.
  *
  * \sa CropImageFilter
- * \ingroup GeometricTransforms
+ * \ingroup GeometricTransform
  * \ingroup ITKTestKernel
  */
 

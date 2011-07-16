@@ -24,6 +24,7 @@ namespace itk
 {
 /**
  * \class AntiAliasBinaryImageFilter
+ * \brief A method for estimation of a surface from a binary volume.
  *
  * \par
  * This filter implements a surface-fitting method for estimation of a

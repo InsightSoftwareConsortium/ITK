@@ -37,7 +37,7 @@ namespace itk
  *
  * The two inputs and output image will have the same pixel type.
  *
- * \ingroup GeometricTransforms
+ * \ingroup GeometricTransform
  * \ingroup ITKImageGrid
  *
  * \wiki

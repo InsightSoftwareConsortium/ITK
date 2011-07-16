@@ -167,7 +167,7 @@ protected:
    *  CalculateChange. This can be used to speed up certain update rules. */
   virtual void PrecalculateChange();
 
-  /** Multithreaded implementation of PrecalculateChange */
+  /** Multi-threaded implementation of PrecalculateChange */
   static ITK_THREAD_RETURN_TYPE PrecalculateChangeThreaderCallback(void *arg);
 
   virtual void ThreadedPrecalculateChange

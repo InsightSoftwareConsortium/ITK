@@ -81,7 +81,7 @@ namespace itk
  *
  * \author  Corinne Mattmann
  *
- * \ingroup GeometricTransforms MultiThreaded
+ * \ingroup GeometricTransform MultiThreaded
  * \ingroup ITKImageGrid
  */
 template<

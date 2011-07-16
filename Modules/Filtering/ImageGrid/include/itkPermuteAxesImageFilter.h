@@ -38,7 +38,7 @@ namespace itk
  * The output meta image information (LargestPossibleRegion, spacing, origin)
  * is computed by permuting the corresponding input meta information.
  *
- * \ingroup GeometricTransforms
+ * \ingroup GeometricTransform
  * \ingroup MultiThreaded
  * \ingroup Streamed
  * \ingroup ITKImageGrid

@@ -40,7 +40,7 @@ namespace itk
  * is such that the image is flipped with respect to the
  * coordinate axes.
  *
- * \ingroup GeometricTransforms
+ * \ingroup GeometricTransform
  * \ingroup MultiThreaded
  * \ingroup Streamed
  * \ingroup ITKImageGrid
