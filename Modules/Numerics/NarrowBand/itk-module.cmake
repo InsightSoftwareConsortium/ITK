@@ -1,3 +1,6 @@
+set(DOCUMENTATION "This module contains code for data types and calculation on a
+narrow band of space.")
+
 itk_module(ITKNarrowBand
   DEPENDS
     ITKImageIntensity
@@ -5,4 +8,6 @@ itk_module(ITKNarrowBand
     ITKCurvatureFlow
   TEST_DEPENDS
     ITKTestKernel
+  DESCRIPTION
+    "${DOCUMENTATION}"
 )
