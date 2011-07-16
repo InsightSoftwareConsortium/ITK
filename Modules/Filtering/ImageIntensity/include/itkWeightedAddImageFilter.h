@@ -28,6 +28,7 @@ namespace Functor
 /**
  * \class WeightedAdd2
  * \brief
+ * \ingroup ITKImageIntensity
  */
 template< class TInput1, class TInput2, class TOutput >
 class WeightedAdd2
@@ -104,8 +105,9 @@ private:
  *
  * \warning No numeric overflow checking is performed in this filter.
  *
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
+ * \ingroup ITKImageIntensity
  */
 template< class TInputImage1, class TInputImage2, class TOutputImage >
 class ITK_EXPORT WeightedAddImageFilter:

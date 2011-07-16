@@ -28,6 +28,7 @@ namespace Functor
 /**
  * \class Add2
  * \brief
+ * \ingroup ITKImageIntensity
  */
 template< class TInput1, class TInput2 = TInput1, class TOutput = TInput1 >
 class Add2

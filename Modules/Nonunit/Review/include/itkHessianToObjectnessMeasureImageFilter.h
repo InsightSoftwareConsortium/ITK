@@ -148,6 +148,7 @@ private:
   // |e1|<=|e2|<=...<=|eN|
   /** \class AbsLessEqualCompare
     * \brief Returns ( abs(a) <= abs(b) )
+    * \ingroup ITKReview
     */
   struct AbsLessEqualCompare {
     bool operator()(EigenValueType a, EigenValueType b)

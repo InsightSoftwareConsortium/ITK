@@ -28,6 +28,7 @@ namespace Functor
 /**
  * \class Exp
  * \brief
+ * \ingroup ITKImageIntensity
  */
 template< class TInput, class TOutput >
 class Exp
@@ -56,9 +57,10 @@ public:
  *
  * The computation is performed using vcl_exp(x).
  *
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
  *
- * \ingroup ITK-ImageIntensity
+ * \ingroup ITKImageIntensity
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT ExpImageFilter:

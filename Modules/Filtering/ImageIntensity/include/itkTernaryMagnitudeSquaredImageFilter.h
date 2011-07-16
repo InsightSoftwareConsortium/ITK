@@ -27,6 +27,7 @@ namespace Functor
 /**
  * \class ModulusSquare3
  * \brief
+ * \ingroup ITKImageIntensity
  */
 template< class TInput1, class TInput2, class TInput3, class TOutput >
 class ModulusSquare3
@@ -58,7 +59,7 @@ public:
  * Numeric conversions (castings) are done by the C++ defaults.
  *
  * \ingroup IntensityImageFilters
- * \ingroup ITK-ImageIntensity
+ * \ingroup ITKImageIntensity
  */
 template< class TInputImage1, class TInputImage2,
           class TInputImage3, class TOutputImage >

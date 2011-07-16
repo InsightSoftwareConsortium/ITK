@@ -28,6 +28,7 @@ namespace Functor
 /**
  * \class Atan2
  * \brief
+ * \ingroup ITKImageIntensity
  */
 template< class TInput1, class TInput2, class TOutput >
 class Atan2
@@ -71,8 +72,9 @@ public:
  * used as parameters of \c vcl_atan2(). The resulting \c double value
  * is cast to the output pixel type.
  *
- * \ingroup IntensityImageFilters Multithreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
+ * \ingroup ITKImageIntensity
  */
 template< class TInputImage1, class TInputImage2, class TOutputImage >
 class ITK_EXPORT Atan2ImageFilter:

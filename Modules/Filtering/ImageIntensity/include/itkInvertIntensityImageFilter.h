@@ -27,6 +27,7 @@ namespace Functor
 /**
  * \class InvertIntensityTransform
  * \brief
+ * \ingroup ITKImageIntensity
  */
 template< typename TInput, typename  TOutput >
 class InvertIntensityTransform

@@ -28,6 +28,7 @@ namespace Functor
 /**
  * \class Asin
  * \brief
+ * \ingroup ITKImageIntensity
  */
 template< class TInput, class TOutput >
 class Asin
@@ -73,8 +74,9 @@ public:
  * The filter expects both images to have the same dimension (e.g. both
  * 2D, or both 3D, or both ND)
  *
- * \ingroup IntensityImageFilters   Multithreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
+ * \ingroup ITKImageIntensity
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT AsinImageFilter:

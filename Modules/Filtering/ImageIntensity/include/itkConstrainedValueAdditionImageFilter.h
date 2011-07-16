@@ -28,6 +28,7 @@ namespace Functor
 /**
  * \class ConstrainedValueAddition
  * \brief
+ * \ingroup ITKImageIntensity
  */
 template< class TInput1, class TInput2, class TOutput >
 class ConstrainedValueAddition
@@ -86,8 +87,9 @@ public:
  * \author Lino Ramirez. Dept. of Electrical and Computer
  * Engineering. University of Alberta. Canada
  *
- * \ingroup IntensityImageFilters Multithreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
+ * \ingroup ITKImageIntensity
  */
 template< class TInputImage1, class TInputImage2, class TOutputImage >
 class ITK_EXPORT ConstrainedValueAdditionImageFilter:

@@ -50,8 +50,7 @@ namespace itk
  * This class was taken from the Insight Journal paper:
  * http://hdl.handle.net/1926/1387
  *
- *
- * \ingroup GeometricTransforms
+ * \ingroup GeometricTransform
  * \ingroup ITKReview
  */
 template< class TOutputImage,

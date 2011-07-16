@@ -28,6 +28,7 @@ namespace Functor
 /**
  * \class Maximum1
  * \brief
+ * \ingroup ITKImageIntensity
  */
 template< class TInput, class TOutput >
 class Maximum1
@@ -95,8 +96,9 @@ public:
  * Biochemistry and Program in Biomedical Informatics at Stanford University
  * School of Medicine
  *
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
+ * \ingroup ITKImageIntensity
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT NaryMaximumImageFilter:

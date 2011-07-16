@@ -27,6 +27,7 @@ namespace Functor
 /**
  * \class Modulus2
  * \brief
+ * \ingroup ITKImageIntensity
  */
 template< class TInput1, class TInput2, class TOutput >
 class Modulus2
@@ -75,8 +76,9 @@ public:
  * The filter expects all images to have the same dimension
  * (e.g. all 2D, or all 3D, or all ND)
  *
- * \ingroup IntensityImageFilters Multithreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
+ * \ingroup ITKImageIntensity
  */
 template< class TInputImage1, class TInputImage2, class TOutputImage >
 class ITK_EXPORT BinaryMagnitudeImageFilter:

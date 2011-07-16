@@ -28,6 +28,7 @@ namespace Functor
 /**
  * \class Add1
  * \brief
+ * \ingroup ITKImageIntensity
  */
 template< class TInput, class TOutput >
 class Add1
@@ -88,8 +89,9 @@ public:
  *
  * \warning No numeric overflow checking is performed in this filter.
  *
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
+ * \ingroup ITKImageIntensity
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT NaryAddImageFilter:

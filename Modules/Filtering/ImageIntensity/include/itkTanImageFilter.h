@@ -28,6 +28,7 @@ namespace Functor
 /**
  * \class Tan
  * \brief
+ * \ingroup ITKImageIntensity
  */
 template< class TInput, class TOutput >
 class Tan
@@ -54,8 +55,9 @@ public:
  *
  * The computations are performed using vcl_tan(x).
  *
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
+ * \ingroup ITKImageIntensity
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT TanImageFilter:

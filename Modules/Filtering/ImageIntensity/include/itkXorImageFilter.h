@@ -28,6 +28,7 @@ namespace Functor
 /**
  * \class XOR
  * \brief
+ * \ingroup ITKImageIntensity
  */
 template< class TInput1, class TInput2 = TInput1, class TOutput = TInput1 >
 class XOR
@@ -70,8 +71,9 @@ public:
  *
  * Where "^" is the boolean XOR operator in C++.
  *
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
+ * \ingroup ITKImageIntensity
  *
  * \wiki
  * \wikiexample{ImageProcessing/XorImageFilter,Binary XOR (exclusive OR) two images}

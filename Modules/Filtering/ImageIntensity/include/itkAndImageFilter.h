@@ -28,6 +28,7 @@ namespace Functor
 /**
  * \class AND
  * \brief
+ * \ingroup ITKImageIntensity
  */
 template< class TInput1, class TInput2 = TInput1, class TOutput = TInput1 >
 class AND
@@ -68,8 +69,9 @@ public:
  * \endcode
  * Where "&" is the boolean AND operator in C++.
  *
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
+ * \ingroup ITKImageIntensity
  *
  * \wiki
  * \wikiexample{ImageProcessing/AndImageFilter,Binary AND two images}

@@ -27,6 +27,7 @@ namespace Functor
 /**
  * \class Minimum
  * \brief
+ * \ingroup ITKImageIntensity
  */
 template< class TInput1, class TInput2 = TInput1, class TOutput = TInput1 >
 class Minimum
@@ -58,8 +59,9 @@ public:
  * input images and the type of the output image.
  * Numeric conversions (castings) are done by the C++ defaults.
  *
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
+ * \ingroup ITKImageIntensity
  *
  * \wiki
  * \wikiexample{ImageProcessing/MinimumImageFilter,Pixel wise compare two input images and set the output pixel to their min}

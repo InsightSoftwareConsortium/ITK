@@ -41,7 +41,7 @@ namespace itk
  * origin (using the selected output spacing) the align the center of the
  * image with the coordinate 0.
  *
- * \ingroup GeometricTransforms
+ * \ingroup GeometricTransform
  *
  * \ingroup ITKImageGrid
  */

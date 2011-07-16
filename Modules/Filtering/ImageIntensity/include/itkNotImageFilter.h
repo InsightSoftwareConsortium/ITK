@@ -28,6 +28,7 @@ namespace Functor
 /**
  * \class NOT
  * \brief
+ * \ingroup ITKImageIntensity
  */
 template< class TInput, class TOutput = TInput >
 class NOT
@@ -70,8 +71,9 @@ public:
  *
  * Where "!" is the unary NOT operator in C++.
  *
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
+ * \ingroup ITKImageIntensity
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT NotImageFilter:

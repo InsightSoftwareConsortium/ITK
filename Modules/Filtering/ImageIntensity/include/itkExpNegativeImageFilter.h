@@ -28,6 +28,7 @@ namespace Functor
 /**
  * \class ExpNegative
  * \brief
+ * \ingroup ITKImageIntensity
  */
 template< class TInput, class TOutput >
 class ExpNegative
@@ -77,9 +78,10 @@ private:
  * intensity of the homologous input pixel, and K is a user-provided
  * constant.
  *
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
  *
- * \ingroup ITK-ImageIntensity
+ * \ingroup ITKImageIntensity
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT ExpNegativeImageFilter:

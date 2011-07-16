@@ -42,7 +42,7 @@ namespace itk
  *
  * \sa ExtractImageFilter
  *
- * \ingroup GeometricTransforms
+ * \ingroup GeometricTransform
  * \ingroup ITKImageGrid
  *
  * \wiki

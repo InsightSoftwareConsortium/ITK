@@ -28,6 +28,7 @@ namespace Functor
 /**
  * \class Atan
  * \brief
+ * \ingroup ITKImageIntensity
  */
 template< class TInput, class TOutput >
 class Atan
@@ -66,8 +67,9 @@ public:
  * type of the output image,
  * \li store the cast value into the output image.
  *
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
+ * \ingroup ITKImageIntensity
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT AtanImageFilter:

@@ -28,6 +28,7 @@ namespace Functor
 /**
  * \class Div
  * \brief
+ * \ingroup ITKImageIntensity
  */
 template< class TInput1, class TInput2, class TOutput >
 class Div
@@ -67,8 +68,9 @@ public:
  * represented  by default to avoid exception. Numeric conversions
  * (castings) are done by the C++ defaults.
  *
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
+ * \ingroup ITKImageIntensity
  */
 template< class TInputImage1, class TInputImage2, class TOutputImage >
 class ITK_EXPORT DivideImageFilter:

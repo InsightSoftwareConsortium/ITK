@@ -28,6 +28,7 @@ namespace Functor
 /**
  * \class OR
  * \brief
+ * \ingroup ITKImageIntensity
  */
 template< class TInput1, class TInput2 = TInput1, class TOutput = TInput1 >
 class OR
@@ -70,8 +71,9 @@ public:
  *
  * Where "|" is the boolean OR operator in C++.
  *
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
+ * \ingroup ITKImageIntensity
  *
  * \wiki
  * \wikiexample{ImageProcessing/OrImageFilter,Binary OR two images}

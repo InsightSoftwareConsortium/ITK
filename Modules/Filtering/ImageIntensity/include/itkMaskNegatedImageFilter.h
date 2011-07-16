@@ -28,6 +28,7 @@ namespace Functor
 /**
  * \class MaskNegatedInput
  * \brief
+ * \ingroup ITKImageIntensity
  */
 template< class TInput, class TMask, class TOutput = TInput >
 class MaskNegatedInput
@@ -100,8 +101,9 @@ private:
  * \warning Any pixel value other than 0 will not be masked out.
  *
  * \sa MaskImageFilter
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
+ * \ingroup ITKImageIntensity
  */
 template< class TInputImage, class TMaskImage, class TOutputImage = TInputImage >
 class ITK_EXPORT MaskNegatedImageFilter:

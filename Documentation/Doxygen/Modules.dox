@@ -163,7 +163,7 @@ For a detailed description of iterators rationale see \ref ImageIteratorsPage
 
 
 /**
- \defgroup GeometricTransforms Geometric Transformation Filters
+ \defgroup GeometricTransform Geometric Transformation Filters
  \ingroup Filters
  Geometric transformation Filters transform the coordinates of an image in various ways.
  Examples of geometric transformation Filters available in ITK are: image shrinking, and
@@ -172,7 +172,7 @@ For a detailed description of iterators rationale see \ref ImageIteratorsPage
 
 /**
  \defgroup PyramidImageFilter Image Pyramid Filters
- \ingroup GeometricTransforms
+ \ingroup GeometricTransform
  Image pyramid filters generate a set of downsampled versions of an image according
  to a user defined multi-resolution schedule.
 */
@@ -505,14 +505,14 @@ These objects are the basic system objects used in building ITK.
 
 
 /**
-  \defgroup MultithreadingGroup   Support for Multithreading
+  \defgroup MultiThreadingGroup   Support for MultiThreading
   This category classifies filters according to their support
   for performing processing in multiple threadS
 */
 
 
 /**
-  \defgroup Multithreaded   Multithreaded Filters
+  \defgroup MultiThreaded   MultiThreaded Filters
   \ingroup MultiThreadingGroup
   Filters on this category divide processing across several threads.
 */

@@ -28,6 +28,7 @@ namespace Functor
 /**
  * \class Log10
  * \brief
+ * \ingroup ITKImageIntensity
  */
 template< class TInput, class TOutput >
 class Log10
@@ -56,8 +57,9 @@ public:
  *
  * The computation is performed using vcl_log10(x).
  *
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
+ * \ingroup ITKImageIntensity
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT Log10ImageFilter:

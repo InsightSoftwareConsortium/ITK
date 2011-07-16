@@ -28,6 +28,7 @@ namespace Functor
 /**
  * \class Sin
  * \brief
+ * \ingroup ITKImageIntensity
  */
 template< class TInput, class TOutput >
 class Sin
@@ -54,8 +55,9 @@ public:
  *
  * The computations are performed using vcl_sin(x).
  *
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
+ * \ingroup ITKImageIntensity
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT SinImageFilter:

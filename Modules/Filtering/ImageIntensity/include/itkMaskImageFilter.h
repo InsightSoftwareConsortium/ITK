@@ -29,6 +29,7 @@ namespace Functor
 /**
  * \class MaskInput
  * \brief
+ * \ingroup ITKImageIntensity
  */
 template< class TInput, class TMask, class TOutput = TInput >
 class MaskInput
@@ -119,8 +120,9 @@ private:
  * \warning Any pixel value other than 0 will not be masked out.
  *
  * \sa MaskNegatedImageFilter
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
+ * \ingroup ITKImageIntensity
  *
  * \wiki
  * \wikiexample{ImageProcessing/MaskImageFilter,Apply a mask to an image}
