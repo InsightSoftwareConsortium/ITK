@@ -23,9 +23,11 @@
 #
 # 1) run cmake
 #
-# 2) cd into the ITK binary build directory
+# 2) TURN ON BUILD_DOCUMENTATION
 #
-# 3) example:
+# 3) cd into the ITK binary build directory
+#
+# 4) example:
 #
 # * for a single file:
 #
