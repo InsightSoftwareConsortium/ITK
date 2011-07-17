@@ -24,7 +24,7 @@
 
 #include "itkRGBPixel.h"
 
-template<class T> void View(const char *name, T t,
+template<class T> void View(const char *name, T,
                             bool sharedCamera=false,
                             const std::string snapshotPath = "",
                             const std::string ext = "png")
@@ -65,17 +65,17 @@ template<class T> void View(const char *name, T t,
 }
 
 template<class T> void ViewRGB(const char *name,
-                               T t,
+                               T,
                                bool sharedCamera=false,
-                            const std::string snapshotPath = "",
-                            const std::string ext = "png")
+                               const std::string snapshotPath = "",
+                               const std::string ext = "png")
 {
   typedef itk::RGBPixel<T>                        ColorPixelType;
   typedef itk::Image<T, 2 >                       ScalarImageType;
   typedef itk::Image<ColorPixelType, 2 >          ColorImageType;
   typedef itk::RandomImageSource<ScalarImageType> SourceType;
   typedef itk::ComposeImageFilter<
-    ScalarImageType, ColorImageType >  ComposeFilterType;
+    ScalarImageType, ColorImageType >             ComposeFilterType;
 
   typename ScalarImageType::SizeType size;
   size.Fill(10);

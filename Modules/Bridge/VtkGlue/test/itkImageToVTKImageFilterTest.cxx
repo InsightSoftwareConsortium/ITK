@@ -21,7 +21,7 @@
 #include "itkImage.h"
 #include "itkRandomImageSource.h"
 
-int itkImageToVTKImageFilterTest(int argc, char * argv[])
+int itkImageToVTKImageFilterTest(int, char *[])
 {
   typedef itk::Image<float, 2 >                 ImageType;
   typedef itk::RandomImageSource<ImageType>     SourceType;
