@@ -99,12 +99,14 @@ if(NOT DEFINED CTEST_CONFIGURATION_TYPE)
 endif()
 
 # Choose CTest reporting mode.
-if(NOT "${CTEST_CMAKE_GENERATOR}" MATCHES "Make")
-  # Launchers work only with Makefile generators.
-  set(CTEST_USE_LAUNCHERS 0)
-elseif(NOT DEFINED CTEST_USE_LAUNCHERS)
-  # The setting is ignored by CTest < 2.8 so we need no version test.
-  set(CTEST_USE_LAUNCHERS 1)
+if(NOT DEFINED CTEST_USE_LAUNCHERS)
+  if(NOT "${CTEST_CMAKE_GENERATOR}" MATCHES "Make")
+    # Launchers work only with Makefile generators.
+    set(CTEST_USE_LAUNCHERS 0)
+  elseif(NOT DEFINED CTEST_USE_LAUNCHERS)
+    # The setting is ignored by CTest < 2.8 so we need no version test.
+    set(CTEST_USE_LAUNCHERS 1)
+  endif()
 endif()
 
 # Configure testing.
