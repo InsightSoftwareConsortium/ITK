@@ -21,8 +21,8 @@
  *
  */
 
-import org.itk.io.*;
-import org.itk.simplefilters.*;
+import org.itk.itkiobase.*;
+import org.itk.itkimagefilterbase.*;
 
 public class CastImageFilter
 {

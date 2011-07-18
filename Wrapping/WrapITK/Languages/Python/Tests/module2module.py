@@ -23,35 +23,15 @@
 
 import itk, sys
 
-import Base
-import Numerics
-import SpatialObject
-import Transforms
-import BinaryMorphology
-import Calculators
-import Compose
-import DeformableTransforms
-import Denoising
-import DistanceMap
-import EdgesAndContours
-# import FFT
-import Filtering
-import IntensityFilters
-import Interpolators
-import IO
-# import Iterators
-import LevelSet
-import Morphology
-# import Patented
-import PixelMath
-import Registration
-import Resize
-import SegmentationAndThreshold
-import SegmentationValidation
-import SimpleFilters
-import UnaryPixelMath
-import VXLNumerics
-
+import ITKCommon
+import ITKMathematicalMorphology
+import ITKImageStatistics
+import ITKSmoothing
+import ITKDistanceMap
+import ITKImageIntensity
+import ITKIOBase
+import ITKThresholding
+import ITKImageGrid
 
 PType = itk.UC
 dim = 2
@@ -63,56 +43,36 @@ kernel = itk.strel(2, 1)
 reader = itk.ImageFileReader[IType].New(FileName=sys.argv[1])
 
 sources = []
-image = Base.Image[PType, dim].New()
+image = ITKCommon.Image[PType, dim].New()
 r = itk.ImageRegion._2()
 r.SetSize((10, 10))
 image.SetRegions(r)
 image.Allocate()
 
+sources.append(("ITKCommon", image))
 
+sources.append(("ITKIOBase", reader.GetOutput()))
 
-# Numerics
-# SpatialObject
-# Transforms
-# Compose
-# DeformableTransforms
-# FFT
-# Interpolators
-# Iterators
-# LevelSet
-# Patented
-# PixelMath
-# Registration
-# SegmentationValidation
-# VXLNumerics
-# EdgesAndContours
-# Filtering
+otsu = ITKThresholding.OtsuThresholdImageFilter[IType, IType].New(reader)
+sources.append(("ITKThresholding", otsu.GetOutput()))
 
+flip = ITKImageGrid.FlipImageFilter[IType].New(reader)
+sources.append(("ITKImageGrid", flip.GetOutput()))
 
-sources.append(("Base", image))
+abs = ITKImageIntensity.AbsImageFilter[IType, IType].New(reader)
+sources.append(("ITKImageIntensity", abs.GetOutput()))
 
-sources.append(("IO", reader.GetOutput()))
+bdilate = ITKMathematicalMorphology.BinaryDilateImageFilter[IType, IType, kernel].New(reader, Kernel=kernel)
+sources.append(("ITKMathematicalMorphology", bdilate.GetOutput()))
 
-otsu = SegmentationAndThreshold.OtsuThresholdImageFilter[IType, IType].New(reader)
-sources.append(("SegmentationAndThreshold", otsu.GetOutput()))
+minmax = ITKImageStatistics.MinimumMaximumImageFilter[IType].New(reader)
+sources.append(("ITKImageStatistics", minmax.GetOutput()))
 
-flip = SimpleFilters.FlipImageFilter[IType].New(reader)
-sources.append(("SimpleFilters", flip.GetOutput()))
+median = ITKSmoothing.MedianImageFilter[IType, IType].New(reader)
+sources.append(("ITKSmoothing", median.GetOutput()))
 
-abs = UnaryPixelMath.AbsImageFilter[IType, IType].New(reader)
-sources.append(("UnaryPixelMath", abs.GetOutput()))
-
-bdilate = BinaryMorphology.BinaryDilateImageFilter[IType, IType, kernel].New(reader, Kernel=kernel)
-sources.append(("BinaryMorphology", bdilate.GetOutput()))
-
-minmax = Calculators.MinimumMaximumImageFilter[IType].New(reader)
-sources.append(("Calculators", minmax.GetOutput()))
-
-median = Denoising.MedianImageFilter[IType, IType].New(reader)
-sources.append(("Denoising", median.GetOutput()))
-
-distance = DistanceMap.DanielssonDistanceMapImageFilter[IType, IType].New(reader)
-sources.append(("DistanceMap", distance.GetOutput()))
+distance = ITKDistanceMap.DanielssonDistanceMapImageFilter[IType, IType].New(reader)
+sources.append(("ITKDistanceMap", distance.GetOutput()))
 
 # sobel = EdgesAndContours.SobelEdgeDetectionImageFilter[IType, IType].New(reader)
 # sources.append(("EdgesAndContours", sobel.GetOutput()))
@@ -120,14 +80,6 @@ sources.append(("DistanceMap", distance.GetOutput()))
 # laplacian = Filtering.LaplacianImageFilter[IType, IType].New(reader)
 # sources.append(("Filtering", laplacian.GetOutput()))
 
-invert = IntensityFilters.InvertIntensityImageFilter[IType, IType].New(reader)
-sources.append(("IntensityFilters", invert.GetOutput()))
-
-hmax = Morphology.HMaximaImageFilter[IType, IType].New(reader)
-sources.append(("Morphology", hmax.GetOutput()))
-
-crop = Resize.CropImageFilter[IType, IType].New(reader)
-sources.append(("Resize", crop.GetOutput()))
 
 
 
@@ -136,26 +88,26 @@ sources.append(("Resize", crop.GetOutput()))
 
 dests = []
 
-dotsu = SegmentationAndThreshold.OtsuThresholdImageFilter[IType, IType].New(reader)
-dests.append(("SegmentationAndThreshold", dotsu))
+dotsu = ITKThresholding.OtsuThresholdImageFilter[IType, IType].New(reader)
+dests.append(("ITKThresholding", dotsu))
 
-dflip = SimpleFilters.FlipImageFilter[IType].New()
-dests.append(("SimpleFilters", dflip))
+dflip = ITKImageGrid.FlipImageFilter[IType].New()
+dests.append(("ITKImageGrid", dflip))
 
-dabs = UnaryPixelMath.AbsImageFilter[IType, IType].New()
-dests.append(("UnaryPixelMath", dabs))
+dabs = ITKImageIntensity.AbsImageFilter[IType, IType].New()
+dests.append(("ITKImageIntensity", dabs))
 
-dbdilate = BinaryMorphology.BinaryDilateImageFilter[IType, IType, kernel].New(Kernel=kernel)
-dests.append(("BinaryMorphology", dbdilate))
+dbdilate = ITKMathematicalMorphology.BinaryDilateImageFilter[IType, IType, kernel].New(Kernel=kernel)
+dests.append(("ITKMathematicalMorphology", dbdilate))
 
-dminmax = Calculators.MinimumMaximumImageFilter[IType].New()
-dests.append(("Calculators", dminmax))
+dminmax = ITKImageStatistics.MinimumMaximumImageFilter[IType].New()
+dests.append(("ITKImageStatistics", dminmax))
 
-dmedian = Denoising.MedianImageFilter[IType, IType].New()
-dests.append(("Denoising", dmedian))
+dmedian = ITKSmoothing.MedianImageFilter[IType, IType].New()
+dests.append(("ITKSmoothing", dmedian))
 
-ddistance = DistanceMap.DanielssonDistanceMapImageFilter[IType, IType].New()
-dests.append(("DistanceMap", ddistance))
+ddistance = ITKDistanceMap.DanielssonDistanceMapImageFilter[IType, IType].New()
+dests.append(("ITKDistanceMap", ddistance))
 
 # dsobel = EdgesAndContours.SobelEdgeDetectionImageFilter[IType, IType].New()
 # dests.append(("EdgesAndContours", dsobel))
@@ -163,17 +115,8 @@ dests.append(("DistanceMap", ddistance))
 # dlaplacian = Filtering.LaplacianImageFilter[IType, IType].New()
 # dests.append(("Filtering", dlaplacian))
 
-dinvert = IntensityFilters.InvertIntensityImageFilter[IType, IType].New()
-dests.append(("IntensityFilters", dinvert))
-
-dhmax = Morphology.HMaximaImageFilter[IType, IType].New()
-dests.append(("Morphology", dhmax))
-
-dcrop = Resize.CropImageFilter[IType, IType].New()
-dests.append(("Resize", dcrop))
-
-writer = IO.ImageFileWriter[IType].New(FileName='out.png')
-dests.append(("IO", writer))
+writer = ITKIOBase.ImageFileWriter[IType].New(FileName='out.png')
+dests.append(("ITKIOBase", writer))
 
 
 nb = 0

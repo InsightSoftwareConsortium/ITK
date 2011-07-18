@@ -21,8 +21,8 @@
  *
  */
 
-import org.itk.io.*;
-import org.itk.segmentationandthreshold.*;
+import org.itk.itkiobase.*;
+import org.itk.itkthresholding.*;
 
 public class ThresholdImageFilter
 {

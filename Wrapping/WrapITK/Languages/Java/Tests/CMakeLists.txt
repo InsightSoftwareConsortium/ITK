@@ -115,7 +115,7 @@ foreach(d ${WRAP_ITK_DIMS})
                   "${CMAKE_CURRENT_BINARY_DIR}/${test_base_name}.java"
                   @ONLY IMMEDIATE)
 
-    build_java_test_bin(${test_base_name} class_path IO)
+    build_java_test_bin(${test_base_name} class_path ITKIOBase)
 
     add_java_test(JavaSimplePipeline${t}${d}
       ${class_path}
@@ -128,7 +128,7 @@ foreach(d ${WRAP_ITK_DIMS})
   endforeach(t)
 endforeach(d)
 
-build_java_test(MedianImageFilter class_path IO Denoising)
+build_java_test(MedianImageFilter class_path ITKIOBase ITKSmoothing)
 add_java_test(JavaMedianImageFilter
   ${class_path}
   MedianImageFilter
@@ -138,7 +138,7 @@ add_java_test(JavaMedianImageFilter
   MedianImageFilter.png ${WrapITK_SOURCE_DIR}/images/MedianImageFilter.png
 )
 
-build_java_test(MeanImageFilter class_path IO Denoising)
+build_java_test(MeanImageFilter class_path ITKIOBase ITKSmoothing)
 add_java_test(JavaMeanImageFilter
   ${class_path}
   MeanImageFilter
@@ -148,7 +148,7 @@ add_java_test(JavaMeanImageFilter
   MeanImageFilter.png ${WrapITK_SOURCE_DIR}/images/MeanImageFilter.png
 )
 
-build_java_test(BinaryDilateImageFilter class_path IO SimpleFilters BinaryMorphology)
+build_java_test(BinaryDilateImageFilter class_path ITKIOBase ITKImageFilterBase ITKMathematicalMorphology)
 add_java_test(JavaBinaryDilateImageFilter
   ${class_path}
   BinaryDilateImageFilter
@@ -157,7 +157,7 @@ add_java_test(JavaBinaryDilateImageFilter
   --compare BinaryDilateImageFilter.png ${WrapITK_SOURCE_DIR}/images/BinaryDilateImageFilter.png
 )
 
-build_java_test(BinaryErodeImageFilter class_path IO SimpleFilters BinaryMorphology)
+build_java_test(BinaryErodeImageFilter class_path ITKIOBase ITKImageFilterBase ITKMathematicalMorphology)
 add_java_test(JavaBinaryErodeImageFilter
   ${class_path}
   BinaryErodeImageFilter
@@ -166,7 +166,7 @@ add_java_test(JavaBinaryErodeImageFilter
   --compare BinaryErodeImageFilter.png ${WrapITK_SOURCE_DIR}/images/BinaryErodeImageFilter.png
 )
 
-build_java_test(BinaryThresholdImageFilter class_path IO BinaryMorphology)
+build_java_test(BinaryThresholdImageFilter class_path ITKIOBase ITKThresholding)
 add_java_test(JavaBinaryThresholdImageFilter
   ${class_path}
   BinaryThresholdImageFilter
@@ -177,7 +177,7 @@ add_java_test(JavaBinaryThresholdImageFilter
   --compare BinaryThresholdImageFilter.png ${WrapITK_SOURCE_DIR}/images/BinaryThresholdImageFilter.png
 )
 
-build_java_test(CastImageFilter class_path IO SimpleFilters)
+build_java_test(CastImageFilter class_path ITKIOBase ITKImageFilterBase)
 add_java_test(JavaCastImageFilter
   ${class_path}
   CastImageFilter
@@ -188,7 +188,7 @@ add_java_test(JavaCastImageFilter
   --compare CastImageFilter.png ${WrapITK_SOURCE_DIR}/images/cthead1.png
 )
 
-build_java_test(CurvatureAnisotropicDiffusionImageFilter class_path IO SimpleFilters Denoising IntensityFilters)
+build_java_test(CurvatureAnisotropicDiffusionImageFilter class_path ITKIOBase ITKAnisotropicSmoothing ITKImageIntensity)
 add_java_test(JavaCurvatureAnisotropicDiffusionImageFilter
   ${class_path}
   CurvatureAnisotropicDiffusionImageFilter
@@ -197,9 +197,9 @@ add_java_test(JavaCurvatureAnisotropicDiffusionImageFilter
   5 0.125 3
 )
 
-build_java_test(CurvatureFlowImageFilter class_path IO SimpleFilters Denoising IntensityFilters)
+build_java_test(CurvatureFlowImageFilter class_path ITKIOBase ITKCurvatureFlow ITKImageIntensity)
 
-build_java_test(GradientAnisotropicDiffusionImageFilter class_path IO SimpleFilters Denoising IntensityFilters)
+build_java_test(GradientAnisotropicDiffusionImageFilter class_path ITKIOBase ITKAnisotropicSmoothing ITKImageIntensity)
 add_java_test(JavaCurvatureFlowImageFilter
   ${class_path}
   CurvatureFlowImageFilter
@@ -208,13 +208,13 @@ add_java_test(JavaCurvatureFlowImageFilter
   5 0.125 1.0
 )
 
-build_java_test(MetaDataDictionary class_path IO)
+build_java_test(MetaDataDictionary class_path ITKIOBase)
 add_java_test(JavaMetaDataDictionary
   ${class_path}
   MetaDataDictionary
 )
 
-build_java_test(SigmoidImageFilter class_path IO  IntensityFilters)
+build_java_test(SigmoidImageFilter class_path ITKIOBase ITKImageIntensity)
 add_java_test(JavaSigmoidImageFilter
   ${class_path}
   SigmoidImageFilter
@@ -224,7 +224,7 @@ add_java_test(JavaSigmoidImageFilter
   --compare SigmoidImageFilter.png ${WrapITK_SOURCE_DIR}/images/SigmoidImageFilter.png
 )
 
-build_java_test(ThresholdImageFilter class_path IO SegmentationAndThreshold)
+build_java_test(ThresholdImageFilter class_path ITKIOBase ITKThresholding)
 add_java_test(JavaThresholdImageFilter
   ${class_path}
   ThresholdImageFilter

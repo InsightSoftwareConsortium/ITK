@@ -90,6 +90,7 @@ macro(END_WRAP_LIBRARY_SWIG_INTERFACE)
   set(DEPS )
   foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
     set(DEPS ${DEPS} ${${dep}IdxFiles} ${${dep}SwigFiles})
+    set(SWIG_INTERFACE_MDX_CONTENT "${dep}.mdx\n${SWIG_INTERFACE_MDX_CONTENT}")
   endforeach(dep)
 
   # add some libs required by this module

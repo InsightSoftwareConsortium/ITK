@@ -21,10 +21,10 @@
  *
  */
 
-import org.itk.io.*;
-import org.itk.intensityfilters.*;
-import org.itk.denoising.*;
-import org.itk.simplefilters.*;
+import org.itk.itkiobase.*;
+import org.itk.itkimagefilterbase.*;
+import org.itk.itkcurvatureflow.*;
+import org.itk.itkimageintensity.*;
 
 
 public class CurvatureFlowImageFilter

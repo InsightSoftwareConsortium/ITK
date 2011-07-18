@@ -19,7 +19,7 @@
  *  Example on the use of the MetaDataDictionary in Java
  *
  */
-import org.itk.base.*;
+import org.itk.itkcommon.*;
 public class MetaDataDictionary
 {
   public static void main( String argv[] )

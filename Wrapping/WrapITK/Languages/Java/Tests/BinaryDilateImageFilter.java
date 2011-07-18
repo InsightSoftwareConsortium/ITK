@@ -21,10 +21,9 @@
  *
  */
 
-import org.itk.base.*;
-import org.itk.io.*;
-import org.itk.binarymorphology.*;
-import org.itk.simplefilters.*;
+import org.itk.itkcommon.*;
+import org.itk.itkiobase.*;
+import org.itk.itkmathematicalmorphology.*;
 
 public class BinaryDilateImageFilter
 {

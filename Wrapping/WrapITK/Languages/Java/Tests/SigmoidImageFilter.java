@@ -21,8 +21,8 @@
  *
  */
 
-import org.itk.io.*;
-import org.itk.intensityfilters.*;
+import org.itk.itkiobase.*;
+import org.itk.itkimageintensity.*;
 
 public class SigmoidImageFilter
 {

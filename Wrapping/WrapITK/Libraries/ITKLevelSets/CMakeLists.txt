@@ -1,0 +1,16 @@
+WRAP_LIBRARY(ITKLevelSets)
+
+set(WRAPPER_LIBRARY_GROUPS
+  itkLevelSetFunction
+  itkSparseFieldLevelSetImageFilter
+  itkSparseFieldFourthOrderLevelSetImageFilter
+  itkSegmentationLevelSetImageFilter
+  itkShapePriorSegmentationLevelSetImageFilter
+)
+
+set(WRAPPER_LIBRARY_DEPENDS ITKImageFeature ITKFiniteDifference ITKDistanceMap ITKAnisotropicSmoothing ITKThresholding ITKImageCompare ITKFastMarching)
+
+set(WRAPPER_LIBRARY_LINK_LIBRARIES ${ITK_LIBRARIES})
+
+AUTO_INCLUDE_MODULES()
+END_WRAP_LIBRARY()

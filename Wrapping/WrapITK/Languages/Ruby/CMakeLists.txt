@@ -83,7 +83,7 @@ macro(END_WRAP_LIBRARY_RUBY)
 
 
   # set some var reused later
-  set(interface_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.i")
+  set(interface_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}Module.i")
   set(lib ${WRAPPER_LIBRARY_NAME}Ruby)
   set(cpp_file "${CMAKE_CURRENT_BINARY_DIR}/${WRAPPER_LIBRARY_NAME}Ruby.cpp")
 

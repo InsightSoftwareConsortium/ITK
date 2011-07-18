@@ -302,6 +302,24 @@ def load_idx(file_name):
     # print >> outputFile, "typedef %s %s;" % (full_name, alias)
   f.close()
 
+mdx_loaded = set()
+def load_mdx(file_name):
+  if file_name in mdx_loaded:
+    # already loaded - no need to do it again
+    return
+  mdx_loaded.add( file_name )
+  f = file( file_name )
+  ls = f.readlines()
+  f.close()
+  for l in ls :
+    if l.startswith( '%' ) or l.isspace():
+      # exclude the lines which are starting with % - that's not the idx files
+      pass
+    elif l.strip().endswith(".mdx"):
+      load_mdx(os.path.dirname(file_name)+os.sep+l.strip())
+    else:
+      load_idx(os.path.dirname(file_name)+os.sep+l.strip())
+
 
 def normalize(name):
   name = name.replace("short unsigned int", "unsigned short")
@@ -538,13 +556,8 @@ print >> headerFile, "%{"
 for f in options.idx:
   load_idx(f)
 # and the idx files in the mdx ones
-for file_name in options.mdx:
-  f = file( file_name )
-  for l in f :
-    # exclude the lines which are starting with % - that's not the idx files
-    if not l.startswith( '%' ) and not l.isspace():
-      load_idx(os.path.dirname(file_name)+os.sep+l.strip())
-  f.close()
+for f in options.mdx:
+  load_mdx(f)
 # iterate over all the typedefs in the _cable_::wrappers namespace
 # to fill the alias dict
 for typedef in wrappers_ns.typedefs(): #allow_empty=True):

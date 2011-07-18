@@ -21,10 +21,10 @@
  *
  */
 
-import org.itk.io.*;
-import org.itk.denoising.*;
-import org.itk.intensityfilters.*;
-import org.itk.simplefilters.*;
+import org.itk.itkiobase.*;
+import org.itk.itkanisotropicsmoothing.*;
+import org.itk.itkimagefilterbase.*;
+import org.itk.itkimageintensity.*;
 
 
 public class CurvatureAnisotropicDiffusionImageFilter

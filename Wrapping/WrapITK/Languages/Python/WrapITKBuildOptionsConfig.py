@@ -1,4 +1,4 @@
-depends = ('Base',)
+depends = ('ITKCommon',)
 templates = (
   ('DIMS', 'WRAP_ITK_DIMS', 'DIMS'),
   ('USIGN_INTS', 'WRAP_ITK_USIGN_INT', 'USIGN_INTS'),
