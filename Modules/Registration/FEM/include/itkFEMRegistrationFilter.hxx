@@ -349,7 +349,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::WarpImage( co
 template <class TMovingImage, class TFixedImage, class TFemObject>
 void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::CreateMesh(double PixelsPerElement,
                                                                               SolverType *mySolver,
-                                                                              ImageSizeType imagesize)
+                                                                              ImageSizeType)
 {
 
 /*  InterpolationGridPointType MeshOriginV;

@@ -44,6 +44,11 @@ void PrintK1(SolverType *S, int s);
 
 int itkFEMElement3DTest(int argc, char *argv[])
 {
+  if(argc < 1)
+    {
+    std::cerr << "Missing Spatial Object Filename" << std::endl;
+    return EXIT_FAILURE;
+    }
   //Need to register default FEM object types,
   //and setup SpatialReader to recognize FEM types
   //which is all currently done as a HACK in

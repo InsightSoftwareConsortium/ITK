@@ -72,7 +72,12 @@ vnl_matrix<itk::fem::Element::Float> & LoadEdge::GetForce()
 
 void LoadEdge::ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe)
 {
-  element->PopulateEdgeIds();
+  //
+  // Only some classes modify their state in PopulateEdges, but that
+  // means for it to be a virtual method in every class, it has to be non-const.
+  // But in general, the ApplyLoad method is correct in taking a const
+  // pointer to element.
+  const_cast<Element *>(element.GetPointer())->PopulateEdgeIds();
 
   const unsigned int NnDOF = element->GetNumberOfDegreesOfFreedomPerNode();
   const unsigned int EdgeNum = this->GetEdge();

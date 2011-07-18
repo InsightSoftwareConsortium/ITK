@@ -711,7 +711,7 @@ public:
   virtual unsigned int GetNumberOfDegreesOfFreedomPerNode(void) const = 0;
 
   /** Set the edge order and the points defining each edge */
-  virtual void PopulateEdgeIds(void) const {/*HACK:  This should never be called, perhaps thow an exception.*/} // = 0; //HACK:  Make this an abstract base class that require specialization
+  virtual void PopulateEdgeIds(void) = 0;
 
 protected:
 

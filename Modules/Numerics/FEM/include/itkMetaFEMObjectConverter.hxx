@@ -548,9 +548,9 @@ MetaFEMObjectConverter<NDimensions>
 
        Load->m_GN = SOLoadCast->GetGlobalNumber();
 
-       const int numElements  = SOLoadCast->GetElementArray().size();
-       Load->m_NumElements = numElements;
-       for (int i=0; i<numElements; i++)
+       const int numLoadElements  = SOLoadCast->GetElementArray().size();
+       Load->m_NumElements = numLoadElements;
+       for (int i=0; i<numLoadElements; i++)
          {
          const int elementGN = SOLoadCast->GetElementArray()[i]->GetGlobalNumber();
          Load->m_Elements.push_back(elementGN);
