@@ -1,3 +1,6 @@
+set(DOCUMENTATION "This is a collection of classes that are intended to be
+removed from the toolkit.")
+
 itk_module(ITKDeprecated
   DEPENDS
     ITKAnisotropicSmoothing
@@ -77,4 +80,6 @@ itk_module(ITKDeprecated
     ITKWatersheds
   TEST_DEPENDS
     ITKTestKernel
+  DESCRIPTION
+    "${DOCUMENTATION}"
 )
