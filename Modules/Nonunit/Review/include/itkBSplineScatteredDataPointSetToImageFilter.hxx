@@ -1181,10 +1181,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
 ::SetPhiLatticeParametricDomainParameters()
 {
   typename PointDataImageType::PointType origin;
-  origin.Fill( 0.0 );
-
   typename PointDataImageType::SpacingType spacing;
-  spacing.Fill( 0.0 );
 
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {
