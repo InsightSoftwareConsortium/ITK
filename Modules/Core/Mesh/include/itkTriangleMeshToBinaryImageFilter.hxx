@@ -308,7 +308,7 @@ TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
       {
       zmin = extent[4];
       }
-    if ( zmax > extent[5] )
+    if ( zmax >= extent[5] )
       {
       zmax = extent[5] + 1;
       }
@@ -502,6 +502,7 @@ TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
         }
       //get the first entry
       double lastx = xlist[0].m_X;
+      int lastSign = xlist[0].m_Sign;
       int    signproduct = 1;
 
       // if adjacent x values are within tolerance of each
@@ -522,22 +523,18 @@ TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
         //check absolute distance from lastx to x
         if ( ( ( x < lastx ) ? ( lastx - x ) : ( x - lastx ) ) > m_Tolerance )
           {
-          if ( signproduct > 0 )
+          signproduct = sign * lastSign;
+          if ( signproduct < 0 )
             {
             nlist.push_back(lastx);
             }
-          signproduct = 1;
-          }
-        else
-          {
-          signproduct *= sign;
           }
         lastx = x;
+        lastSign = sign;
         }
-      if ( signproduct > 0 )
-        {
+
         nlist.push_back(lastx);
-        }
+
       // if xlist length is not divisible by two, then
       // the polydata isn't a closed surface
       if ( (int)( nlist.size() ) % 2 != 0 && !alreadywarned )
