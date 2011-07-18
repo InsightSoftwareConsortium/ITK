@@ -17,6 +17,8 @@ optionParser.add_option("--include", action="append", dest="includes", default=[
 optionParser.add_option("--take-includes", action="append", dest="take_includes", default=[], metavar="FILE", help="File which contains the include to take, and include in the generated interface file.")
 optionParser.add_option("--swig-include", action="append", dest="swig_includes", default=[], metavar="FILE", help="File to be included by swig (%include) in the generated interface file.")
 optionParser.add_option("--import", action="append", dest="imports", default=[], metavar="FILE", help="File to be imported in the generated interface file.")
+optionParser.add_option("--typedef-input", action="store", type="string", dest="typedef_input")
+optionParser.add_option("--typedef-output", action="store", type="string", dest="typedef_output")
 optionParser.add_option("-w", "--disable-warning", action="append", dest="warnings", default=[], metavar="WARNING", help="Warning to be disabled.")
 optionParser.add_option("-A", "--disable-access-warning", action="append", dest="access_warnings", default=[], metavar="LEVEL", help="Access level where warnings are disabled (public, protected, private).")
 optionParser.add_option("-W", "--warning-error", action="store_true", dest="warningError", help="Treat warnings as errors.")
@@ -488,7 +490,7 @@ cable_ns = global_ns.namespace('_cable_')
 wrappers_ns = cable_ns.namespace('wrappers')
 # pygccxml.declarations.print_declarations( global_ns )
 
-
+moduleName = cable_ns.variable('group').value[len('(const char*)"'):-1]
 
 # and begin to write the output
 headerFile = cStringIO.StringIO()
@@ -502,7 +504,7 @@ print >> headerFile
 # [1:-1] is there to drop the quotes
 for lang in ["CHICKEN", "CSHARP", "GUILE", "JAVA", "LUA", "MODULA3", "MZSCHEME", "OCAML", "PERL", "PERL5", "PHP", "PHP4", "PHP5", "PIKE", "PYTHON", "R", "RUBY", "SEXP", "TCL", "XML"]:
   print >> headerFile, "#ifdef SWIG%s" % lang
-  print >> headerFile, "%%module %s%s" % ( cable_ns.variable('group').value[len('(const char*)"'):-1], lang.title() )
+  print >> headerFile, "%%module %s%s" % ( moduleName, lang.title() )
   print >> headerFile, "#endif"
 print >> headerFile
 
@@ -629,16 +631,33 @@ usedSources = set()
 for alias in usedTypes:
   if typedefSource.has_key( alias ):
     idxName = os.path.basename( typedefSource[ alias ] )
-    iName = idxName[:-len(".idx")] + ".i"
+    iName = idxName[:-len(".idx")]
     usedSources.add( iName )
 outputFileName = os.path.basename( args[1] )
 if outputFileName in usedSources:
   usedSources.remove( outputFileName )
 # print usedSources
 for src in usedSources:
-  print >> importFile, "%%import %s" % src
+  print >> importFile, "%%import %s.i" % src
 print >> importFile
 print >> importFile
+
+
+# create the typedef header
+if options.typedef_output:
+  typedefFile = cStringIO.StringIO()
+  print >> typedefFile, "#ifndef __%sSwigInterface_h" % moduleName
+  print >> typedefFile, "#define __%sSwigInterface_h" % moduleName
+  if options.typedef_input:
+    f = file(options.typedef_input)
+    print >> typedefFile, f.read()
+    f.close()
+  for src in usedSources:
+    print >> typedefFile, '#include "%sSwigInterface.h"' % src
+  print >> typedefFile, "#endif"
+  f = file(options.typedef_output, "w")
+  f.write( typedefFile.getvalue() )
+  f.close()
 
 
 # finally, really write the output

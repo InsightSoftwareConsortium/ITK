@@ -60,7 +60,7 @@
 #endif
 
 %{
-@SWIG_INTERFACE_INCLUDES@
+@CONFIG_MODULE_INTERFACE_INCLUDES@
 %}
 
 %include itk.i
