@@ -819,7 +819,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>
     }
   FieldIterator fieldIter( m_Field, m_FieldRegion );
   fieldIter.GoToBegin();
-  for( ; !fieldIter.IsAtEnd(); ++fieldIter )
+  for(; !fieldIter.IsAtEnd(); ++fieldIter )
     {
     fieldIter.Set(disp);
     }
@@ -862,7 +862,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::InterpolateVectorF
   if( ImageDimension == 2 )
     {
     Element::ConstPointer eltp;
-    for( ; !fieldIter.IsAtEnd(); ++fieldIter )
+    for(; !fieldIter.IsAtEnd(); ++fieldIter )
       {
       // get element pointer from the solver elt pointer image
       rindex = fieldIter.GetIndex();
@@ -1011,7 +1011,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ComputeJacobi
 
     ImageRegionIteratorWithIndex<FloatImageType> wimIter( m_FloatImage, m_FloatImage->GetLargestPossibleRegion()  );
     wimIter.GoToBegin();
-    for( ; !wimIter.IsAtEnd(); ++wimIter )
+    for(; !wimIter.IsAtEnd(); ++wimIter )
       {
       wimIter.Set(1.0);
       }
@@ -1229,7 +1229,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::EnforceDiffeo
         }
       FieldIterator fieldIter( m_TotalField, m_FieldRegion );
       fieldIter.GoToBegin();
-      for( ; !fieldIter.IsAtEnd(); ++fieldIter )
+      for(; !fieldIter.IsAtEnd(); ++fieldIter )
         {
         fieldIter.Set(disp);
         }
@@ -1702,7 +1702,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::MultiResSolve
     itkDebugMacro( << " to " <<  m_Field->GetLargestPossibleRegion().GetSize() << std::endl);
     FieldIterator fieldIter( m_TotalField, m_TotalField->GetLargestPossibleRegion() );
     fieldIter.GoToBegin();
-    for( ; !fieldIter.IsAtEnd(); ++fieldIter )
+    for(; !fieldIter.IsAtEnd(); ++fieldIter )
       {
       typename FixedImageType::IndexType index = fieldIter.GetIndex();
       m_TotalField->SetPixel(index, m_TotalField->GetPixel(index)
