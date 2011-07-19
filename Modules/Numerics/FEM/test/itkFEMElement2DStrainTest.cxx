@@ -65,11 +65,11 @@ int itkFEMElement2DStrainTest(int, char *[])
   StrainType::Pointer e0 = StrainType::New();
 
   e0->SetGlobalNumber(0);
-  e0->SetNode(0, &*n0);
-  e0->SetNode(1, &*n1);
-  e0->SetNode(2, &*n2);
-  e0->SetNode(3, &*n3);
-  e0->SetMaterial( dynamic_cast<ElasticityType *>( &*m ) );
+  e0->SetNode(0, n0);
+  e0->SetNode(1, n1);
+  e0->SetNode(2, n2);
+  e0->SetNode(3, n3);
+  e0->SetMaterial( dynamic_cast<ElasticityType *>( m.GetPointer() ) );
 
   ElementType::MatrixType D, Me;
 

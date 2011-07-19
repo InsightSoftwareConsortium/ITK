@@ -73,6 +73,8 @@ int itkFEMElement3DC0LinearHexahedronMembraneTest(int argc, char *argv[])
   FEMObjectSpatialObjectType::Pointer femSO =
     dynamic_cast<FEMObjectSpatialObjectType *>( (*(children->begin() ) ).GetPointer() );
 
+  delete children;
+
   femSO->GetFEMObject()->FinalizeMesh();
 
   solver->SetInput( femSO->GetFEMObject() );

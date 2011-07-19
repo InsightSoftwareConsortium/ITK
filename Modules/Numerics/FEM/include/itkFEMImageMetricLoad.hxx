@@ -31,7 +31,7 @@ ImageMetricLoad<TMoving, TFixed>
 ::CreateAnother(void) const
 {
   ::itk::LightObject::Pointer smartPtr;
-  Pointer copyPtr = Self::New().GetPointer();
+  Pointer copyPtr = Self::New();
 
   // Copy Load Contents
   copyPtr->m_MetricGradientImage = this->m_MetricGradientImage;
@@ -164,7 +164,7 @@ ImageMetricLoad<TMoving, TFixed>
     {
     for( unsigned int i = 0; i < m_NumberOfIntegrationPoints; i++ )
       {
-      dynamic_cast<Element *>( &*( *elt ) )->GetIntegrationPointAndWeight(i, ip, w, m_NumberOfIntegrationPoints);
+      dynamic_cast<Element *>( ( *elt ) )->GetIntegrationPointAndWeight(i, ip, w, m_NumberOfIntegrationPoints);
       // FIXME REMOVE WHEN ELEMENT NEW IS BASE CLASS
       shapef = ( *elt )->ShapeFunctions(ip);
 
@@ -234,7 +234,7 @@ ImageMetricLoad<TMoving, TFixed>
     {
     for( unsigned int i = 0; i < m_NumberOfIntegrationPoints; i++ )
       {
-      dynamic_cast<Element *>( &*( *elt ) )->GetIntegrationPointAndWeight(i, ip, w, m_NumberOfIntegrationPoints);
+      dynamic_cast<Element *>( ( *elt ) )->GetIntegrationPointAndWeight(i, ip, w, m_NumberOfIntegrationPoints);
       //FIXME REMOVE WHEN ELEMENT NEW IS BASE CLASS
       shapef = ( *elt )->ShapeFunctions(ip);
 

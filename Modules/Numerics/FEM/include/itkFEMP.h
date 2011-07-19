@@ -65,10 +65,10 @@ public:
     if( x.m_Data )
       {
 #ifdef USE_FEM_CLONE
-      m_Data = static_cast<T *>( &*x.m_Data->Clone() );
+      m_Data = static_cast<T *>( x.m_Data->Clone().GetPointer() );
 #else
       std::cout << "Create Another" << std::endl;
-      m_Data = static_cast<T *>( &*x.m_Data->CreateAnother() );
+      m_Data = static_cast<T *>( x.m_Data->CreateAnother().GetPointer() );
 #endif
       }
     else
@@ -152,9 +152,9 @@ const FEMP<T> & FEMP<T>::operator=(const FEMP<T> & rhs)
     if( rhs.m_Data )
       {
 #ifdef USE_FEM_CLONE
-      m_Data = static_cast<T *>( &*rhs.m_Data->Clone() );
+      m_Data = static_cast<T *>( rhs.m_Data->Clone().GetPointer() );
 #else
-      m_Data = static_cast<T *>( &*rhs.m_Data->CreateAnother() );
+      m_Data = static_cast<T *>( rhs.m_Data->CreateAnother().GetPointer() );
 #endif
 
       }

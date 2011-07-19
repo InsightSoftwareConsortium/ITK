@@ -183,9 +183,9 @@ bool Element2DC0QuadraticTriangular::GetLocalFromGlobalCoordinates(
   // four linear triangles are used
   for( i = 0; i < 4; i++ )
     {
-    e1->SetNode(0, &*this->GetNode(LinearTris[i][0]) );
-    e1->SetNode(1, &*this->GetNode(LinearTris[i][1]) );
-    e1->SetNode(2, &*this->GetNode(LinearTris[i][2]) );
+    e1->SetNode(0, this->GetNode(LinearTris[i][0]) );
+    e1->SetNode(1, this->GetNode(LinearTris[i][1]) );
+    e1->SetNode(2, this->GetNode(LinearTris[i][2]) );
 
     returnStatus = e1->GetLocalFromGlobalCoordinates(GlobalPt, pc);
     if( returnStatus )

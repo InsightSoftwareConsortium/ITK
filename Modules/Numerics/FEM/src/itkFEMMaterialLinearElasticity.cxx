@@ -26,7 +26,7 @@ namespace fem
 ::itk::LightObject::Pointer MaterialLinearElasticity::CreateAnother(void) const
 {
   ::itk::LightObject::Pointer smartPtr;
-  Pointer copyPtr = Self::New().GetPointer();
+  Pointer copyPtr = Self::New();
 
   copyPtr->SetYoungsModulus( this->GetYoungsModulus() );
   copyPtr->SetCrossSectionalArea( this->GetCrossSectionalArea() );

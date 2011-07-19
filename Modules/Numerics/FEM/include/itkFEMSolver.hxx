@@ -50,6 +50,13 @@ Solver<VDimension>
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, this->MakeOutput(0) );
 }
+template <unsigned int VDimension>
+Solver<VDimension>
+::~Solver()
+{
+  FEMObjectType *output = this->GetOutput();
+  output->Clear();
+}
 
 template <unsigned int VDimension>
 void
@@ -234,7 +241,7 @@ Solver<VDimension>
   int numLoads = m_FEMObject->GetLoadContainer()->Size();
   for( int l = 0; l < numLoads; l++ )
     {
-    if( LoadBCMFC::Pointer l1 = dynamic_cast<LoadBCMFC *>( &*m_FEMObject->GetLoad(l) ) )
+    if( LoadBCMFC::Pointer l1 = dynamic_cast<LoadBCMFC *>( m_FEMObject->GetLoad(l).GetPointer() ) )
       {
       // store the index of an LoadBCMFC object for later
       l1->SetIndex(NMFC);
@@ -262,7 +269,7 @@ Solver<VDimension>
     // Call the function that actually moves the element matrix
     // to the master matrix.
     Element::Pointer e = m_FEMObject->GetElement( i );
-    this->AssembleElementMatrix(&*e);
+    this->AssembleElementMatrix(e);
     }
 
   /**
@@ -272,7 +279,7 @@ Solver<VDimension>
   unsigned int numberOfLoads = m_FEMObject->GetNumberOfLoads();
   for( unsigned int i = 0; i < numberOfLoads; i++ )
     {
-    if( LoadLandmark::Pointer l3 = dynamic_cast<LoadLandmark *>( &*m_FEMObject->GetLoad(i) ) )
+    if( LoadLandmark::Pointer l3 = dynamic_cast<LoadLandmark *>( m_FEMObject->GetLoad(i).GetPointer() ) )
       {
       l3->AssignToElement(m_FEMObject->GetElementContainer() );
       // dynamic_cast< LoadLandmark * >( &( *( *l2 ) ) ) )
@@ -416,7 +423,7 @@ Solver<VDimension>
     /**
      * Here we only handle Nodal loads
      */
-    if( LoadNode::Pointer l1 = dynamic_cast<LoadNode *>( &*l0 ) )
+    if( LoadNode::Pointer l1 = dynamic_cast<LoadNode *>( l0.GetPointer() ) )
       {
       // yep, we have a nodal load
       // size of a force vector in load must match number of DOFs in node
@@ -455,7 +462,7 @@ Solver<VDimension>
     /**
      * Element loads...
      */
-    if( LoadElement::Pointer l1 = dynamic_cast<LoadElement *>( &*l0 ) )
+    if( LoadElement::Pointer l1 = dynamic_cast<LoadElement *>( l0.GetPointer() ) )
       {
       if( !( l1->GetElementArray().empty() ) )
         {
@@ -531,7 +538,7 @@ Solver<VDimension>
     /**
      * Handle boundary conditions in form of MFC loads are handled next.
      */
-    if( LoadBCMFC::Pointer l1 = dynamic_cast<LoadBCMFC *>( &*l0 ) )
+    if( LoadBCMFC::Pointer l1 = dynamic_cast<LoadBCMFC *>( l0.GetPointer() ) )
       {
       m_ls->SetVectorValue( m_NGFN + l1->GetIndex(), l1->GetRightHandSideTerm(dim) );
 
@@ -542,7 +549,7 @@ Solver<VDimension>
     /**
      * Handle essential boundary conditions.
      */
-    if( LoadBC::Pointer l1 = dynamic_cast<LoadBC *>( &*l0 ) )
+    if( LoadBC::Pointer l1 = dynamic_cast<LoadBC *>( l0.GetPointer() ) )
       {
       // Here we just store the values of fixed DOFs. We can't set it here,
       // because
@@ -710,7 +717,7 @@ void Solver<VDimension>
      * stiffness matrix using the lagrange multipliers. Basically we only
      * change the last couple of rows and columns in K.
      */
-    if( LoadBCMFC::Pointer c = dynamic_cast<LoadBCMFC *>( &*l0 ) )
+    if( LoadBCMFC::Pointer c = dynamic_cast<LoadBCMFC *>( l0.GetPointer() ) )
       {
       /* step over all DOFs in MFC */
       for( LoadBCMFC::LhsType::iterator q = c->GetLeftHandSideArray().begin();
@@ -745,7 +752,7 @@ void Solver<VDimension>
     /**
      * Apply essential boundary conditions
      */
-    if( LoadBC::Pointer c = dynamic_cast<LoadBC *>( &*l0 ) )
+    if( LoadBC::Pointer c = dynamic_cast<LoadBC *>( l0.GetPointer() ) )
       {
       Element::DegreeOfFreedomIDType fdof = c->GetElement()->GetDegreeOfFreedom( c->GetDegreeOfFreedom() );
       Float                          fixedvalue = c->GetValue()[dim];

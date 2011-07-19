@@ -52,28 +52,28 @@ int itkFEMLandmarkLoadImplementationTest(int, char *[])
   n1->SetGlobalNumber(0);
   n1->SetCoordinates(pt);
 
-  femObject->AddNextNode(&*n1);
+  femObject->AddNextNode(n1.GetPointer());
 
   n1 = itk::fem::Node::New();
   pt[0] = 1.;
   pt[1] = 1.;
   n1->SetGlobalNumber(1);
   n1->SetCoordinates(pt);
-  femObject->AddNextNode(&*n1);
+  femObject->AddNextNode(n1.GetPointer());
 
   n1 = itk::fem::Node::New();
   pt[0] = 3.;
   pt[1] = 2.;
   n1->SetGlobalNumber(2);
   n1->SetCoordinates(pt);
-  femObject->AddNextNode(&*n1);
+  femObject->AddNextNode(n1.GetPointer());
 
   n1 = itk::fem::Node::New();
   pt[0] = 0.;
   pt[1] = 3.;
   n1->SetGlobalNumber(3);
   n1->SetCoordinates(pt);
-  femObject->AddNextNode(&*n1);
+  femObject->AddNextNode(n1.GetPointer());
 
   femObject->RenumberNodeContainer();
 
@@ -85,7 +85,7 @@ int itkFEMLandmarkLoadImplementationTest(int, char *[])
   m->SetYoungsModulus(30000.0);
   m->SetCrossSectionalArea(0.02);
   m->SetMomentOfInertia(0.004);
-  femObject->AddNextMaterial(&*m);
+  femObject->AddNextMaterial(m.GetPointer());
 
   // std::cout << "Material\n";
 
@@ -93,22 +93,22 @@ int itkFEMLandmarkLoadImplementationTest(int, char *[])
     itk::fem::Element2DC0LinearQuadrilateralMembrane::New();
 
   e0->SetGlobalNumber(0);
-  e0->SetNode( 0, &*femObject->GetNode(0) );
-  e0->SetNode( 1, &*femObject->GetNode(1) );
-  e0->SetNode( 2, &*femObject->GetNode(2) );
-  e0->SetNode( 3, &*femObject->GetNode(3) );
-  e0->SetMaterial( &*femObject->GetMaterial(0) );
+  e0->SetNode( 0, femObject->GetNode(0).GetPointer() );
+  e0->SetNode( 1, femObject->GetNode(1).GetPOinter() );
+  e0->SetNode( 2, femObject->GetNode(2).GetPointer() );
+  e0->SetNode( 3, femObject->GetNode(3).GetPointer() );
+  e0->SetMaterial( femObject->GetMaterial(0).GetPointer() );
 
-  femObject->AddNextElement( &*e0);
+  femObject->AddNextElement( e0.GetPointer());
 
   // std::cout << "Element\n";
 
   itk::fem::LoadBC::Pointer l1 = itk::fem::LoadBC::New();
-  l1->SetElement(&*e0);
+  l1->SetElement(e0);
   l1->SetGlobalNumber(0);
   l1->SetDegreeOfFreedom(0);
   l1->SetValue( vnl_vector<double>(1, 0.0) );
-  femObject->AddNextLoad( &*l1);
+  femObject->AddNextLoad( l1 );
 
   // std::cout << "BC\n";
   itk::fem::LoadPoint::Pointer lm0 = itk::fem::LoadPoint::New();
@@ -119,8 +119,8 @@ int itkFEMLandmarkLoadImplementationTest(int, char *[])
   lm0->SetPoint( pt1 );
   pt1[0] = 0.0; pt1[1] = 1.0;
   lm0->SetForce( pt1 );
-  lm0->AddNextElement(&*e0);
-  femObject->AddNextLoad( &*lm0);
+  lm0->AddNextElement(e0.GetPointer());
+  femObject->AddNextLoad( lm0 );
 
   femObject->Solve();
 

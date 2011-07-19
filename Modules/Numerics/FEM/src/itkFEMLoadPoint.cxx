@@ -27,7 +27,7 @@ namespace fem
 ::itk::LightObject::Pointer LoadPoint::CreateAnother(void) const
 {
   ::itk::LightObject::Pointer smartPtr;
-  Pointer copyPtr = Self::New().GetPointer();
+  Pointer copyPtr = Self::New();
 
   copyPtr->m_Point = this->m_Point;
   copyPtr->m_ForcePoint = this->m_ForcePoint;

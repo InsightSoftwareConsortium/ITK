@@ -201,7 +201,7 @@ public:
 
 protected:
   Solver();
-  virtual ~Solver() { }
+  virtual ~Solver();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Method invoked by the pipeline in order to trigger the computation of

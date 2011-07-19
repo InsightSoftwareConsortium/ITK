@@ -45,25 +45,25 @@ int itkFEMElement2DC0LinearQuadrilateralStressTestFEMObject(int argc, char *argv
   pt[1] = 2.0;
   n1->SetCoordinates(pt);
 
-  femObject->AddNextNode(&*n1);
+  femObject->AddNextNode(n1.GetPointer());
 
   n1 = itk::fem::Node::New();
   pt[0] = 8.0;
   pt[1] = 3.0;
   n1->SetCoordinates(pt);
-  femObject->AddNextNode(&*n1);
+  femObject->AddNextNode(n1.GetPointer());
 
   n1 = itk::fem::Node::New();
   pt[0] = 8.0;
   pt[1] = 6.0;
   n1->SetCoordinates(pt);
-  femObject->AddNextNode(&*n1);
+  femObject->AddNextNode(n1.GetPointer());
 
   n1 = itk::fem::Node::New();
   pt[0] = 2.0;
   pt[1] = 9.0;
   n1->SetCoordinates(pt);
-  femObject->AddNextNode(&*n1);
+  femObject->AddNextNode(n1.GetPointer());
 
   femObject->RenumberNodeContainer();
 
@@ -74,56 +74,56 @@ int itkFEMElement2DC0LinearQuadrilateralStressTestFEMObject(int argc, char *argv
   m->SetPoissonsRatio(0.3);
   m->SetCrossSectionalArea(.0);   /* Crossection area */
   m->SetMomentOfInterita(1.0);    /* Momemt of inertia */
-  femObject->AddNextMaterial(&*m);
+  femObject->AddNextMaterial(m.GetPointer());
 
   itk::fem::Element2DC0LinearQuadrilateralStress::Pointer e1;
 
   e1 = itk::fem::Element2DC0LinearQuadrilateralStress::New();
 
   e1->SetGlobalNumber(0);
-  e1->SetNode( 0, &*femObject->GetNode(0) );
-  e1->SetNode( 1, &*femObject->GetNode(1) );
-  e1->SetNode( 2, &*femObject->GetNode(2) );
-  e1->SetNode( 3, &*femObject->GetNode(3) );
+  e1->SetNode( 0, femObject->GetNode(0).GetPointer() );
+  e1->SetNode( 1, femObject->GetNode(1).GetPointer() );
+  e1->SetNode( 2, femObject->GetNode(2).GetPointer() );
+  e1->SetNode( 3, femObject->GetNode(3).GetPointer() );
 
-  e1->SetMaterial( &*femObject->GetMaterial(0) );
-  femObject->AddNextElement( &*e1);
+  e1->SetMaterial( femObject->GetMaterial(0).GetPointer() );
+  femObject->AddNextElement( e1.GetPointer());
 
   itk::fem::LoadBC::Pointer l1;
   l1 = itk::fem::LoadBC::New();
-  l1->SetElement( &*femObject->GetElement(0) );
+  l1->SetElement( femObject->GetElement(0) )
   l1->SetDegreeOfFreedom(0);
   l1->SetValue( vnl_vector<double>(0, 0.0) );
-  femObject->AddNextLoad( &*l1);
+  femObject->AddNextLoad( l1 );
 
   l1 = itk::fem::LoadBC::New();
-  l1->SetElement( &*femObject->GetElement(0) );
+  l1->SetElement( femObject->GetElement(0) )
   l1->SetDegreeOfFreedom(1);
   l1->SetValue( vnl_vector<double>(1, 0.0) );
-  femObject->AddNextLoad( &*l1 );
+  femObject->AddNextLoad( l1 );
 
   l1 = itk::fem::LoadBC::New();
-  l1->SetElement( &*femObject->GetElement(0) );
+  l1->SetElement( femObject->GetElement(0) );
   l1->SetDegreeOfFreedom(6);
   l1->SetValue( vnl_vector<double>(1, 0.0) );
-  femObject->AddNextLoad( &*l1 );
+  femObject->AddNextLoad( l1 );
 
   l1 = itk::fem::LoadBC::New();
-  l1->SetElement( &*femObject->GetElement(0) );
+  l1->SetElement( femObject->GetElement(0) );
   l1->SetDegreeOfFreedom(7);
   l1->SetValue( vnl_vector<double>(1, 0.0) );
-  femObject->AddNextLoad( &*l1 );
+  femObject->AddNextLoad( l1 );
 
   itk::fem::LoadNode::Pointer l2;
 
   l2 = itk::fem::LoadNode::New();
-  l2->SetElement( &*femObject->GetElement(0) );
+  l2->SetElement( femObject->GetElement(0) );
   l2->SetNode(1);
   vnl_vector<double> F(2);
   F[0] = 5;
   F[1] = 0;
   l2->SetForce(F);
-  femObject->AddNextLoad( &*l2 );
+  femObject->AddNextLoad( l2 );
 
   l2 = itk::fem::LoadNode::New();
   l2->SetElement( femObject->GetElement(0) );
@@ -132,7 +132,7 @@ int itkFEMElement2DC0LinearQuadrilateralStressTestFEMObject(int argc, char *argv
   F1[0] = 10;
   F1[1] = 0;
   l2->SetForce(F1);
-  femObject->AddNextLoad( &*l2 );
+  femObject->AddNextLoad( l2 );
 
   femObject->Solve();
 

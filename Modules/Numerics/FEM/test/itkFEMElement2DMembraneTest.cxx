@@ -64,11 +64,11 @@ int itkFEMElement2DMembraneTest(int, char *[])
   MembraneElementType::Pointer e0 = MembraneElementType::New();
 
   e0->SetGlobalNumber(0);
-  e0->SetNode(0, &*n0);
-  e0->SetNode(1, &*n1);
-  e0->SetNode(2, &*n2);
-  e0->SetNode(3, &*n3);
-  e0->SetMaterial( dynamic_cast<ElasticityType *>( &*m ) );
+  e0->SetNode(0, n0);
+  e0->SetNode(1, n1);
+  e0->SetNode(2, n2);
+  e0->SetNode(3, n3);
+  e0->SetMaterial( dynamic_cast<ElasticityType *>( m.GetPointer() ) );
 
   ElementType::MatrixType D;
   ElementType::MatrixType Me;

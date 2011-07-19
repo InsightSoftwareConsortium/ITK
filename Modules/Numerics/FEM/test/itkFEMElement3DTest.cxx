@@ -98,6 +98,8 @@ int itkFEMElement3DTest(int argc, char *argv[])
   FEMObjectSpatialObjectType::Pointer femSO =
     dynamic_cast<FEMObjectSpatialObjectType *>( (*(children->begin() ) ).GetPointer() );
 
+  delete children;
+
   femSO->GetFEMObject()->FinalizeMesh();
 
   double *    expectedSolution = NULL;
@@ -259,7 +261,7 @@ int itkFEMElement3DTest(int argc, char *argv[])
     {
     std::cerr << "ITK exception detected: "  << err;
     std::cout << "Test FAILED" << std::endl;
-
+    myScene = 0;
     return EXIT_FAILURE;
     }
 
@@ -267,9 +269,10 @@ int itkFEMElement3DTest(int argc, char *argv[])
   if( foundError )
     {
     std::cout << "Overall Test : [FAILED]" << std::endl;
+    myScene = 0;
     return EXIT_FAILURE;
     }
-
+  myScene = 0;
   std::cout << "Overall Test : [PASSED]" << std::endl;
   return EXIT_SUCCESS;
 }

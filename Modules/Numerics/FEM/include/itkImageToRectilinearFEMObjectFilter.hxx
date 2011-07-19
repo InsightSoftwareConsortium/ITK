@@ -209,14 +209,14 @@ ImageToRectilinearFEMObjectFilter<TInputImage>
     {
     for( unsigned int i = 0; i < m_NumberOfElements[0]; i++ )
       {
-      e = dynamic_cast<Element2DC0LinearQuadrilateral *>( &*m_Element->CreateAnother() );
-      e->SetNode( 0, &*femObject->GetNode( (unsigned int)( i +  ( m_NumberOfElements[0] + 1 ) * j ) ) );
-      e->SetNode( 1, &*femObject->GetNode( (unsigned int)( i + 1 + ( m_NumberOfElements[0] + 1 ) * j ) ) );
-      e->SetNode( 2, &*femObject->GetNode( (unsigned int)( i + 1 + ( m_NumberOfElements[0] + 1 ) * ( j + 1 ) ) ) );
-      e->SetNode( 3, &*femObject->GetNode( (unsigned int)( i +  ( m_NumberOfElements[0] + 1 ) * ( j + 1 ) ) ) );
+      e = dynamic_cast<Element2DC0LinearQuadrilateral *>( m_Element->CreateAnother().GetPointer() );
+      e->SetNode( 0, femObject->GetNode( (unsigned int)( i +  ( m_NumberOfElements[0] + 1 ) * j ) ) );
+      e->SetNode( 1, femObject->GetNode( (unsigned int)( i + 1 + ( m_NumberOfElements[0] + 1 ) * j ) ) );
+      e->SetNode( 2, femObject->GetNode( (unsigned int)( i + 1 + ( m_NumberOfElements[0] + 1 ) * ( j + 1 ) ) ) );
+      e->SetNode( 3, femObject->GetNode( (unsigned int)( i +  ( m_NumberOfElements[0] + 1 ) * ( j + 1 ) ) ) );
       e->SetGlobalNumber(gn);
       gn++;
-      femObject->AddNextElement(&*e);
+      femObject->AddNextElement(e.GetPointer());
       }
     }
 }
@@ -274,42 +274,37 @@ ImageToRectilinearFEMObjectFilter<TInputImage>
       {
       for( unsigned int i = 0; i < m_NumberOfElements[0]; i++ )
         {
-        e = dynamic_cast<Element3DC0LinearHexahedron *>( &*m_Element->CreateAnother() );
+        e = dynamic_cast<Element3DC0LinearHexahedron *>( m_Element->CreateAnother().GetPointer() );
         e->SetNode( 0,
-                    &*femObject->GetNode( (unsigned int)( i
-                                                          +  ( m_NumberOfElements[0]
+                    femObject->GetNode( (unsigned int)( i +  ( m_NumberOfElements[0]
                                                                + 1 ) * ( j  + ( m_NumberOfElements[1] + 1 ) * k ) ) ) );
         e->SetNode( 1,
-                    &*femObject->GetNode( (unsigned int)( i + 1
-                                                          + ( m_NumberOfElements[0]
-                                                              + 1 ) * ( j  + ( m_NumberOfElements[1] + 1 ) * k ) ) ) );
+                    femObject->GetNode( (unsigned int)( i + 1 + ( m_NumberOfElements[0]
+                                                                  + 1 ) * ( j  + ( m_NumberOfElements[1] + 1 ) * k ) ) ) );
         e->SetNode( 2,
-                    &*femObject->GetNode( (unsigned int)( i + 1
-                                                          + ( m_NumberOfElements[0]
-                                                              + 1 ) * ( j + 1 + ( m_NumberOfElements[1] + 1 ) * k ) ) ) );
+                    femObject->GetNode( (unsigned int)( i + 1 + ( m_NumberOfElements[0]
+                                                                  + 1 ) * ( j + 1 + ( m_NumberOfElements[1] + 1 ) * k ) ) ) );
         e->SetNode( 3,
-                    &*femObject->GetNode( (unsigned int)( i
-                                                          + ( m_NumberOfElements[0]
+                    femObject->GetNode( (unsigned int)( i + ( m_NumberOfElements[0]
                                                               + 1 ) * ( j + 1 + ( m_NumberOfElements[1] + 1 ) * k ) ) ) );
         e->SetNode( 4,
-                    &*femObject->GetNode( (unsigned int)( i
-                                                          + ( m_NumberOfElements[0]
+                    femObject->GetNode( (unsigned int)( i + ( m_NumberOfElements[0]
                                                               + 1 ) * ( j  + ( m_NumberOfElements[1] + 1 ) * ( k + 1 ) ) ) ) );
         e->SetNode( 5,
-                    &*femObject->GetNode( (unsigned int)( i + 1
+                    femObject->GetNode( (unsigned int)( i + 1
                                                           + ( m_NumberOfElements[0]
                                                               + 1 ) * ( j  + ( m_NumberOfElements[1] + 1 ) * ( k + 1 ) ) ) ) );
         e->SetNode( 6,
-                    &*femObject->GetNode( (unsigned int)( i + 1
+                    femObject->GetNode( (unsigned int)( i + 1
                                                           + ( m_NumberOfElements[0]
                                                               + 1 ) * ( j + 1 + ( m_NumberOfElements[1] + 1 ) * ( k + 1 ) ) ) ) );
         e->SetNode( 7,
-                    &*femObject->GetNode( (unsigned int)( i
-                                                          + ( m_NumberOfElements[0]
-                                                              + 1 ) * ( j + 1 + ( m_NumberOfElements[1] + 1 ) * ( k + 1 ) ) ) ) );
+                    femObject->GetNode( (unsigned int)( i
+                                                        + ( m_NumberOfElements[0]
+                                                            + 1 ) * ( j + 1 + ( m_NumberOfElements[1] + 1 ) * ( k + 1 ) ) ) ) );
         e->SetGlobalNumber(gn);
         gn++;
-        femObject->AddNextElement(&*e);
+        femObject->AddNextElement(e.GetPointer());
         }
       }
     }
