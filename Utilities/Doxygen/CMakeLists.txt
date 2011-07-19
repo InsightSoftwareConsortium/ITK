@@ -88,9 +88,3 @@ if (BUILD_DOCUMENTATION)
          )
 
 endif (BUILD_DOCUMENTATION)
-
-find_package(PythonInterp)
-
-if(PYTHON_EXECUTABLE)
-  itk_add_test(NAME ModuleInDoxygenGroup COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/mcdoc.py massive-check ${ITK_SOURCE_DIR})
-endif()

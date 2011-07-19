@@ -3,6 +3,11 @@
 # ${_name}.dot file which defines the local dependency as graph
 # which will be then processed by dot
 
+# python is needed to verify the presence of the module name in the doxygen header
+# Don't require it to not force the developers to install python to be able to build
+# ITK. The tests will simply not be run if python is not available.
+find_package(PythonInterp)
+
 macro( itk_module_doxygen _name )
 
   # _content defines the content of the ${_name}.dox file
@@ -35,4 +40,9 @@ macro( itk_module_doxygen _name )
     @ONLY
     )
 
+  if(NOT ${_name}_THIRD_PARTY AND EXISTS ${${_name}_SOURCE_DIR}/include)
+    if(PYTHON_EXECUTABLE)
+      itk_add_test(NAME ${_name}InDoxygenGroup COMMAND ${PYTHON_EXECUTABLE} "${ITK_SOURCE_DIR}/Utilities/Doxygen/mcdoc.py" check ${_name} ${${_name}_SOURCE_DIR}/include)
+    endif()
+  endif()
 endmacro()

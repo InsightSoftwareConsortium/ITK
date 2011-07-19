@@ -126,8 +126,16 @@ def main():
     module = sys.argv[2]
     files = sys.argv[3:]
     ret = 0
+    count = 0
     for fname in files:
-      ret = max( ret, checkGroup(fname, module) )
+      if os.path.isdir(fname):
+        for fname2 in glob.glob(fname+"/*.h"):
+          count += 1
+          ret = max( ret, checkGroup(fname2, module) )
+      else:
+        count += 1
+        ret = max( ret, checkGroup(fname, module) )
+    print >> sys.stderr, count, "headers checked."
     return ret
 
   elif command == "massive-check":
