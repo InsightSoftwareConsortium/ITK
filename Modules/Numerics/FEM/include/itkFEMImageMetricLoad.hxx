@@ -805,7 +805,6 @@ ImageMetricLoad<TMoving, TFixed>
   const unsigned int Nnodes = element->GetNumberOfNodes();
 
   const unsigned int Ndofs = element->GetNumberOfDegreesOfFreedomPerNode();
-  const unsigned int &ImageDimension = Ndofs; //HACK:  warning: declaration of ‘ImageDimension’ shadows a member of 'this'
 
   Element::VectorType ip;
 
@@ -825,7 +824,7 @@ ImageMetricLoad<TMoving, TFixed>
   for( unsigned int i = 0; i < Nip; i++ )
     {
     element->GetIntegrationPointAndWeight(i, ip, w, order);
-    if( ImageDimension == 3 )
+    if( Ndofs == 3 )
       {
 #define FASTHEX
 #ifdef FASTHEX
@@ -843,12 +842,12 @@ ImageMetricLoad<TMoving, TFixed>
       shapef = element->ShapeFunctions(ip);
 #endif
       }
-    else if( ImageDimension == 2 )
+    else if( Ndofs == 2 )
       {
       shapef = element->ShapeFunctions(ip);
       }
     const Element::Float detJ = element->JacobianDeterminant(ip);
-    for( unsigned int f = 0; f < ImageDimension; f++ )
+    for( unsigned int f = 0; f < Ndofs; f++ )
       {
       float solval = 0.0;
       float posval = 0.0;

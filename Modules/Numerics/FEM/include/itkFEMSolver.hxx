@@ -48,7 +48,7 @@ Solver<VDimension>
   m_FEMObject = 0;
   this->ProcessObject::SetNumberOfRequiredInputs(1);
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
-  this->ProcessObject::SetNthOutput(0, this->MakeOutput() );
+  this->ProcessObject::SetNthOutput(0, this->MakeOutput(0) );
 }
 
 template <unsigned int VDimension>
@@ -116,7 +116,7 @@ Solver<VDimension>
 template <unsigned int VDimension>
 typename Solver<VDimension>::DataObjectPointer
 Solver<VDimension>
-::MakeOutput()
+::MakeOutput(unsigned int itkNotUsed(idx))
 {
   return static_cast<DataObject *>(FEMObjectType::New().GetPointer() );
 }

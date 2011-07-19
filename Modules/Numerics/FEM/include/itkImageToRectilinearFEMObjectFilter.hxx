@@ -40,7 +40,7 @@ ImageToRectilinearFEMObjectFilter<TInputImage>
   this->m_PixelsPerElement.fill( 1 );
   this->m_Material = NULL;
   this->m_Element = NULL;
-  this->ProcessObject::SetNthOutput(0, this->MakeOutput() );
+  this->ProcessObject::SetNthOutput(0, this->MakeOutput(0) );
 }
 
 template <class TInputImage>
@@ -101,7 +101,7 @@ ImageToRectilinearFEMObjectFilter<TInputImage>
 template <class TInputImage>
 typename ImageToRectilinearFEMObjectFilter<TInputImage>::DataObjectPointer
 ImageToRectilinearFEMObjectFilter<TInputImage>
-::MakeOutput()
+::MakeOutput(unsigned int itkNotUsed(idx))
 {
   return static_cast<DataObject *>(FEMObjectType::New().GetPointer() );
 }

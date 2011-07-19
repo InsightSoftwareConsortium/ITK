@@ -180,7 +180,7 @@ public:
 
   /** Make a DataObject of the correct type to be used as the specified
    * output. */
-  virtual DataObjectPointer MakeOutput();
+  virtual DataObjectPointer MakeOutput(unsigned int);
 
   /** Get the output data of this process object.  The output of this
    * function is not valid until an appropriate Update() method has
