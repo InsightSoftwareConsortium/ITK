@@ -22,6 +22,7 @@
 #include "itkObjectFactory.h"
 #include "itkVersorRigid3DTransform.h"
 #include "itkRigid2DTransform.h"
+#include "itkAffineTransform.h"
 #include <vector>
 #include <iostream>
 
@@ -86,8 +87,9 @@ public:
   itkSetObjectMacro(Transform,   TransformType);
 
   /** Image Types to use in the initialization of the transform */
-  typedef   TFixedImage  FixedImageType;
-  typedef   TMovingImage MovingImageType;
+  typedef TFixedImage  FixedImageType;
+  typedef TMovingImage MovingImageType;
+
 
   typedef   typename FixedImageType::ConstPointer  FixedImagePointer;
   typedef   typename MovingImageType::ConstPointer MovingImagePointer;
@@ -117,9 +119,9 @@ public:
   }
 
   /**  Supported Transform typedefs */
-  typedef VersorRigid3DTransform< ParameterValueType > VersorRigid3DTransformType;
-  typedef Rigid2DTransform< ParameterValueType >       Rigid2DTransformType;
-
+  typedef VersorRigid3DTransform< ParameterValueType >                          VersorRigid3DTransformType;
+  typedef Rigid2DTransform< ParameterValueType >                                Rigid2DTransformType;
+  typedef AffineTransform< ParameterValueType, FixedImageType::ImageDimension > AffineTransformType;
   /** Initialize the transform from the landmarks */
   virtual void InitializeTransform();
 
@@ -138,6 +140,17 @@ protected:
 private:
   LandmarkBasedTransformInitializer(const Self &); //purposely not implemented
   void operator=(const Self &);                    //purposely not implemented
+
+
+  /** fallback Initializer just sets transform to identity */
+  template <class TTransform2>
+    void InternalInitializeTransform(TTransform *);
+  /** Initializer for VersorRigid3D */
+  void InternalInitializeTransform(VersorRigid3DTransformType *);
+  /** Initializer for Rigid2DTransform */
+  void InternalInitializeTransform(Rigid2DTransformType *);
+  /** Initializer for AffineTransform */
+  void InternalInitializeTransform(AffineTransformType *);
 
   FixedImagePointer  m_FixedImage;
   MovingImagePointer m_MovingImage;
