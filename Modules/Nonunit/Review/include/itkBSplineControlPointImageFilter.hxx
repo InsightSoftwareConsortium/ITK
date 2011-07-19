@@ -597,6 +597,34 @@ BSplineControlPointImageFilter<TInputPointImage, TOutputImage>
     duplicator2->Update();
     psiLattice = duplicator2->GetOutput();
     }
+
+  // Specify the pose parameters of the control point lattice
+
+  typename PointDataImageType::PointType origin;
+  typename PointDataImageType::SpacingType spacing;
+
+  for( unsigned int i = 0; i < ImageDimension; i++ )
+    {
+    RealType domain = this->m_Spacing[i] * static_cast<RealType>(
+      this->m_Size[i] - 1 );
+
+    unsigned int totalNumberOfSpans =
+      psiLattice->GetLargestPossibleRegion().GetSize()[i];
+    if( !this->m_CloseDimension[i] )
+      {
+      totalNumberOfSpans -= this->m_SplineOrder[i];
+      }
+
+    spacing[i] = domain / static_cast<RealType>( totalNumberOfSpans );
+
+    origin[i] = -0.5 * spacing[i] * ( this->m_SplineOrder[i] - 1 );
+    }
+  origin = this->m_Direction * origin;
+
+  psiLattice->SetOrigin( origin );
+  psiLattice->SetSpacing( spacing );
+  psiLattice->SetDirection( this->m_Direction );
+
   return psiLattice;
 }
 
