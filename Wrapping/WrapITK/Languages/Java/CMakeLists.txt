@@ -138,7 +138,7 @@ macro(END_WRAP_LIBRARY_JAVA)
   WRAP_ITK_INSTALL(/Configuration/Typedefs/java
     "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/java/${WRAPPER_LIBRARY_NAME}_ext.i")
 
-  set(interface_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.i")
+  set(interface_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}Module.i")
 
   # create java wrapping binaries
   set(lib ${WRAPPER_LIBRARY_NAME}Java)
@@ -194,7 +194,7 @@ macro(END_WRAP_LIBRARY_JAVA)
     string(TOLOWER ${dep} ldep)
     set(dep_jar_file ${WRAP_ITK_LIB_DIRECTORY}/${WRAP_ITK_JAVA_CORE_PACKAGE_NAME}.${ldep}.jar)
     set(class_path "${class_path}${dep_jar_file}${sep}")
-    set(WRAP_ITK_JAVA_MANIFEST "${WRAP_ITK_JAVA_MANIFEST} ${WRAP_ITK_JAVA_CORE_PACKAGE_NAME}.${ldep}.jar")
+    set(WRAP_ITK_JAVA_MANIFEST "${WRAP_ITK_JAVA_MANIFEST} \n ${WRAP_ITK_JAVA_CORE_PACKAGE_NAME}.${ldep}.jar ")
   endforeach(dep)
   foreach(ucp ${WRAP_ITK_JAVA_USER_CLASS_PATH})
     set(class_path "${class_path}${ucp}${sep}")
@@ -232,7 +232,7 @@ macro(END_WRAP_LIBRARY_JAVA)
       COMMAND ${Java_JAR_EXECUTABLE}
       ARGS
       -cmf "${CMAKE_CURRENT_BINARY_DIR}/manifest" "${java_jar_file_path}"
-      "${WRAP_ITK_JAVA_CORE_PACKAGE_PATH}/${_java_package_name}/*"
+      "${WRAP_ITK_JAVA_CORE_PACKAGE_PATH}/${_java_package_name}/"
       WORKING_DIRECTORY ${WRAP_ITK_JAVA_BIN_DIR}
       COMMENT "Creating java archive: ${java_jar_file_name}"
       )
@@ -253,6 +253,15 @@ macro(END_WRAP_LIBRARY_JAVA)
     message("Warning: Unable to create java proxies for ${WRAPPER_LIBRARY_NAME}, nothing to get wrapped in this module.")
   endif(NOT "${WRAP_ITK_JAVA_CLASS_NAMES}" STREQUAL "")
 
+  # store the module dependencies to be able to reuse them easily - without recurssion
+  set(deps )
+  foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
+    set(deps ${deps} ${WRAP_ITK_JAVA_${dep}_DEPS} ${dep})
+  endforeach()
+  if(deps)
+    list(REMOVE_DUPLICATES deps)
+  endif()
+  set(WRAP_ITK_JAVA_${WRAPPER_LIBRARY_NAME}_DEPS ${deps} CACHE INTERNALL "java module dependencies" FORCE)
 endmacro(END_WRAP_LIBRARY_JAVA)
 
 ###############################################################################
@@ -290,6 +299,11 @@ macro(END_WRAP_MODULE_JAVA group_name)
     string(TOLOWER ${dep} java_import_package_name)
     set(java_import_package_name ${WRAP_ITK_JAVA_CORE_PACKAGE_NAME}.${java_import_package_name})
     set(WRAP_ITK_JAVA_TYPEMAP_JAVAIMPORTS ${WRAP_ITK_JAVA_TYPEMAP_JAVAIMPORTS} "import ${java_import_package_name}.*;")
+    foreach(ddep ${WRAP_ITK_JAVA_${dep}_DEPS})
+      string(TOLOWER ${ddep} java_import_package_name)
+      set(java_import_package_name ${WRAP_ITK_JAVA_CORE_PACKAGE_NAME}.${java_import_package_name})
+      set(WRAP_ITK_JAVA_TYPEMAP_JAVAIMPORTS ${WRAP_ITK_JAVA_TYPEMAP_JAVAIMPORTS} "import ${java_import_package_name}.*;")
+    endforeach()
   endforeach(dep)
 
   set(swig_command ${SWIG_EXECUTABLE})

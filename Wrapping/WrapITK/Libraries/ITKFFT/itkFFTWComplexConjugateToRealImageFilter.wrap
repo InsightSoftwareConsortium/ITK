@@ -1,0 +1,13 @@
+IF(USE_FFTWF OR USE_FFTWD)
+  WRAP_CLASS("itk::FFTWComplexConjugateToRealImageFilter" POINTER)
+    foreach(d ${WRAP_ITK_DIMS})
+      if(USE_FFTWF AND WRAP_complex_float AND WRAP_float)
+        WRAP_TEMPLATE("${ITKM_ICF}${d}${ITKM_IF}${d}" "${ITKT_ICF${d}}, ${ITKT_IF${d}}")
+      endif()
+
+      if(USE_FFTWD AND WRAP_complex_double AND WRAP_double)
+        WRAP_TEMPLATE("${ITKM_ICD}${d}${ITKM_ID}${d}" "${ITKT_ICD${d}}, ${ITKT_ID${d}}")
+      endif()
+    endforeach(d)
+  END_WRAP_CLASS()
+endif()
