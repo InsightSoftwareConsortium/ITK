@@ -101,6 +101,10 @@ public:
   VariableSizeMatrix of doubles. */
   itkGetConstReferenceMacro(Covariance, CovarianceMatrixType);
 
+  /* Get the inverse covariance matrix. Covariance matrix is a
+  VariableSizeMatrix of doubles. */
+  itkGetConstReferenceMacro(InverseCovariance, CovarianceMatrixType);
+
   /** Evaluate the probability density of a measurement vector. */
   double Evaluate(const MeasurementVectorType & measurement) const;
 
