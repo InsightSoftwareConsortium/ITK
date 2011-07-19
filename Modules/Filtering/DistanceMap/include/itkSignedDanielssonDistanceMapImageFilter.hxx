@@ -35,11 +35,17 @@ SignedDanielssonDistanceMapImageFilter< TInputImage, TOutputImage >
 {
   this->SetNumberOfRequiredOutputs(3);
 
-  OutputImagePointer voronoiMap = OutputImageType::New();
-  this->SetNthOutput( 1, voronoiMap.GetPointer() );
+  // distance map
+  this->SetNthOutput( 0,
+    static_cast< OutputImageType* >( this->MakeOutput( 0 ).GetPointer() ) );
 
-  VectorImagePointer distanceVectors = VectorImageType::New();
-  this->SetNthOutput( 2, distanceVectors.GetPointer() );
+  // voronoi map
+  this->SetNthOutput( 1,
+    static_cast< OutputImageType* >( this->MakeOutput( 1 ).GetPointer() ) );
+
+  // distance vectors
+  this->SetNthOutput( 2,
+    static_cast< VectorImageType* >( this->MakeOutput( 2 ).GetPointer() ) );
 
   //Default values
   this->m_SquaredDistance     = false;  //Should we remove this ?

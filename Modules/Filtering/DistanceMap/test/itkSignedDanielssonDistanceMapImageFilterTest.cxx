@@ -44,8 +44,8 @@ void test(int testIdx)
   const unsigned int Dimension = 2;
   typedef float      PixelType;
 
-  typedef itk::Image< PixelType, Dimension >  myImageType2D1;
-  typedef itk::Image< PixelType, Dimension >  myImageType2D2;
+  typedef itk::Image< unsigned char, Dimension >  myImageType2D1;
+  typedef itk::Image< PixelType, Dimension >      myImageType2D2;
 
   /* TEST 1: For a point image, SignedDaniessonDistanceMapImageFilter should
    * give the same output as DaniessonDistanceMapImageFilter  */
@@ -128,7 +128,7 @@ void test(int testIdx)
 
   filter2D->SetInput( inputImage2D );
   myImageType2D2::Pointer outputDistance2D = filter2D->GetOutput();
-  myImageType2D1::Pointer outputVoronoi2D  = filter2D->GetVoronoiMap();
+  myImageType2D2::Pointer outputVoronoi2D  = filter2D->GetVoronoiMap();
   myFilterType2D::VectorImageType::Pointer
                     outputComponents = filter2D->GetVectorDistanceMap();
 
@@ -203,17 +203,17 @@ void test(int testIdx)
       {
       while( !it2D4.IsAtEndOfLine() )
         {
-        std::cout << "[" ;
+        std::cout << "[";
         for (unsigned int i=0;i<2;i++)
           {
-          std::cout << it2D4.Get()[i] ;
+          std::cout << it2D4.Get()[i];
           if( i==0 )
             {
             std::cout << ",";
             }
           }
         std::cout << "]";
-        std::cout << "\t" ;
+        std::cout << "\t";
         ++it2D4;
 
         }

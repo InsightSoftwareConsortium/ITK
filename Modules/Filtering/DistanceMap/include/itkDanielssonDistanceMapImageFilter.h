@@ -67,6 +67,8 @@ public:
   typedef SmartPointer< Self >                            Pointer;
   typedef SmartPointer< const Self >                      ConstPointer;
 
+  typedef DataObject::Pointer                             DataObjectPointer;
+
   /** Method for creation through the object factory */
   itkNewMacro(Self);
 
@@ -174,6 +176,9 @@ public:
 
   /** Get vector field of distances. */
   VectorImageType * GetVectorDistanceMap(void);
+
+  /** Standard itk::ProcessObject subclass method. */
+  virtual DataObjectPointer MakeOutput( unsigned int idx );
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */

@@ -34,8 +34,8 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
   std::cout << "with a point at (1,6) (value=2)" << std::endl << std::endl;
 
 
-  typedef itk::Image<float, 2>  myImageType2D1;
-  typedef itk::Image<float, 2>  myImageType2D2;
+  typedef itk::Image<unsigned char, 2>  myImageType2D1;
+  typedef itk::Image<float, 2>          myImageType2D2;
 
   /* Allocate the 2D image */
   myImageType2D1::SizeType size2D = {{9,9}};
@@ -86,7 +86,7 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
   filter2D->SetInput( inputImage2D );
 
   myImageType2D2::Pointer outputDistance2D = filter2D->GetOutput();
-  myImageType2D1::Pointer outputVoronoi2D  = filter2D->GetVoronoiMap();
+  myImageType2D2::Pointer outputVoronoi2D  = filter2D->GetVoronoiMap();
 
   myFilterType2D::VectorImageType::Pointer
                     outputComponents = filter2D->GetVectorDistanceMap();
