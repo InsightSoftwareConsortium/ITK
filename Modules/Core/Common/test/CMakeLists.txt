@@ -32,7 +32,6 @@ itkLightObjectTest.cxx
 itkBoundingBoxTest.cxx
 itkBoundaryConditionTest.cxx
 itkByteSwapTest.cxx
-itkScalarToRGBPixelFunctorTest.cxx
 itkSparseImageTest.cxx
 itkSimpleFilterWatcherTest.cxx
 itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest.cxx
@@ -316,7 +315,6 @@ itk_add_test(NAME itkRealTimeStampTest COMMAND ITKCommon1TestDriver itkRealTimeS
 itk_add_test(NAME itkRealTimeIntervalTest COMMAND ITKCommon1TestDriver itkRealTimeIntervalTest)
 itk_add_test(NAME itkTriangleCellTest COMMAND ITKCommon1TestDriver itkTriangleCellTest)
 itk_add_test(NAME itkRGBPixelTest COMMAND ITKCommon1TestDriver itkRGBPixelTest)
-itk_add_test(NAME itkScalarToRGBPixelFunctorTest COMMAND ITKCommon1TestDriver itkScalarToRGBPixelFunctorTest)
 itk_add_test(NAME itkSparseImageTest COMMAND ITKCommon1TestDriver itkSparseImageTest)
 itk_add_test(NAME itkSimpleFilterWatcherTest COMMAND ITKCommon1TestDriver itkSimpleFilterWatcherTest)
 itk_add_test(NAME itkSizeTest COMMAND ITKCommon2TestDriver itkSizeTest)

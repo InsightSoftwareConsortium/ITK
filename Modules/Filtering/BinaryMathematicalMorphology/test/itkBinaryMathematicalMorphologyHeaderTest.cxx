@@ -21,11 +21,18 @@
 
 #include <iostream>
 
-#include "itkChangeLabelImageFilter.hxx"
-#include "itkLabelContourImageFilter.hxx"
-#include "itkBinaryContourImageFilter.hxx"
+#include "itkBinaryDilateImageFilter.hxx"
+#include "itkBinaryErodeImageFilter.hxx"
+#include "itkBinaryMorphologicalClosingImageFilter.hxx"
+#include "itkBinaryMorphologicalOpeningImageFilter.hxx"
+#include "itkBinaryMorphologyImageFilter.hxx"
+#include "itkBinaryPruningImageFilter.hxx"
+#include "itkBinaryThinningImageFilter.hxx"
+#include "itkDilateObjectMorphologyImageFilter.hxx"
+#include "itkErodeObjectMorphologyImageFilter.hxx"
+#include "itkObjectMorphologyImageFilter.hxx"
 
-int itkImageLabelHeaderTest ( int , char * [] )
+int itkBinaryMathematicalMorphologyHeaderTest ( int , char * [] )
 {
   return EXIT_SUCCESS;
 }

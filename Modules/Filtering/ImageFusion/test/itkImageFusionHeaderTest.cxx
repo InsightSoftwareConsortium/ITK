@@ -21,11 +21,14 @@
 
 #include <iostream>
 
-#include "itkChangeLabelImageFilter.hxx"
-#include "itkLabelContourImageFilter.hxx"
-#include "itkBinaryContourImageFilter.hxx"
+#include "itkScalarToRGBPixelFunctor.hxx"
+#include "itkLabelOverlayImageFilter.hxx"
+#include "itkLabelToRGBImageFilter.hxx"
+#include "itkLabelMapToRGBImageFilter.hxx"
+#include "itkLabelMapContourOverlayImageFilter.hxx"
+#include "itkLabelMapOverlayImageFilter.hxx"
 
-int itkImageLabelHeaderTest ( int , char * [] )
+int itkImageFusionHeaderTest ( int , char * [] )
 {
   return EXIT_SUCCESS;
 }
