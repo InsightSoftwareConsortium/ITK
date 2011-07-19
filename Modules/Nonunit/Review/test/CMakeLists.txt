@@ -1,30 +1,8 @@
 itk_module_test()
 set(ITKReviewTests
 itkAddConstantToImageFilterTest.cxx
-itkAggregateLabelMapFilterTest.cxx
 itkAreaClosingImageFilterTest.cxx
 itkAreaOpeningImageFilterTest.cxx
-itkAttributeKeepNObjectsLabelMapFilterTest1.cxx
-itkAttributeLabelObjectAccessorsTest1.cxx
-itkAttributeOpeningLabelMapFilterTest1.cxx
-itkAttributePositionLabelMapFilterTest1.cxx
-itkAttributeRelabelLabelMapFilterTest1.cxx
-itkAttributeUniqueLabelMapFilterTest1.cxx
-itkAutoCropLabelMapFilterTest1.cxx
-itkBinaryClosingByReconstructionImageFilterTest.cxx
-itkBinaryFillholeImageFilterTest1.cxx
-itkBinaryGrindPeakImageFilterTest1.cxx
-itkBinaryImageToLabelMapFilterTest.cxx
-itkBinaryImageToShapeLabelMapFilterTest1.cxx
-itkBinaryImageToStatisticsLabelMapFilterTest1.cxx
-itkBinaryOpeningByReconstructionImageFilterTest.cxx
-itkBinaryReconstructionByDilationImageFilterTest.cxx
-itkBinaryReconstructionByErosionImageFilterTest.cxx
-itkBinaryReconstructionLabelMapFilterTest.cxx
-itkBinaryShapeKeepNObjectsImageFilterTest1.cxx
-itkBinaryShapeOpeningImageFilterTest1.cxx
-itkBinaryStatisticsKeepNObjectsImageFilterTest1.cxx
-itkBinaryStatisticsOpeningImageFilterTest1.cxx
 itkBoxMeanImageFilterTest.cxx
 itkBoxSigmaImageFilterTest.cxx
 itkBruker2DSEQImageIOTest.cxx
@@ -35,19 +13,15 @@ itkBSplineDeformableTransformInitializerTest2.cxx
 itkBSplineScatteredDataPointSetToImageFilterTest.cxx
 itkBSplineScatteredDataPointSetToImageFilterTest2.cxx
 itkBSplineScatteredDataPointSetToImageFilterTest3.cxx
-itkChangeLabelLabelMapFilterTest.cxx
-itkChangeRegionLabelMapFilterTest1.cxx
 itkCompositeTransformTest.cxx
 itkConformalFlatteningMeshFilterTest.cxx
 itkConformalFlatteningQuadEdgeMeshFilterTest.cxx
 itkContourExtractor2DImageFilterTest.cxx
-itkConvertLabelMapFilterTest1.cxx
 itkConvolutionImageFilterTest.cxx
 itkConvolutionImageFilterTestInt.cxx
 itkConvolutionImageFilterDeltaFunctionTest.cxx
 itkCoxDeBoorBSplineKernelFunctionTest.cxx
 itkCoxDeBoorBSplineKernelFunctionTest2.cxx
-itkCropLabelMapFilterTest1.cxx
 itkDeformationFieldTransformTest.cxx
 itkDiffeomorphicDemonsRegistrationFilterTest.cxx
 itkDiffeomorphicDemonsRegistrationFilterTest2.cxx
@@ -82,31 +56,6 @@ itkJPEG2000ImageIOTest06.cxx
 itkKappaSigmaThresholdImageCalculatorTest.cxx
 itkKappaSigmaThresholdImageFilterTest.cxx
 itkLabelGeometryImageFilterTest.cxx
-itkLabelImageToLabelMapFilterTest.cxx
-itkLabelImageToShapeLabelMapFilterTest1.cxx
-itkLabelImageToStatisticsLabelMapFilterTest1.cxx
-itkLabelMapContourOverlayImageFilterTest1.cxx
-itkLabelMapFilterTest.cxx
-itkLabelMapMaskImageFilterTest.cxx
-itkLabelMapOverlayImageFilterTest1.cxx
-itkLabelMapOverlayImageFilterTest2.cxx
-itkLabelMapTest.cxx
-itkLabelMapToAttributeImageFilterTest1.cxx
-itkLabelMapToBinaryImageFilterTest.cxx
-itkLabelMapToLabelImageFilterTest.cxx
-itkLabelMapToRGBImageFilterTest1.cxx
-itkLabelMapToRGBImageFilterTest2.cxx
-itkLabelObjectLineComparatorTest.cxx
-itkLabelObjectLineTest.cxx
-itkLabelObjectTest.cxx
-itkLabelOverlayImageFilterTest.cxx
-itkLabelSelectionLabelMapFilterTest.cxx
-itkLabelShapeKeepNObjectsImageFilterTest1.cxx
-itkLabelShapeOpeningImageFilterTest1.cxx
-itkLabelStatisticsKeepNObjectsImageFilterTest1.cxx
-itkLabelStatisticsOpeningImageFilterTest1.cxx
-itkLabelToRGBImageFilterTest.cxx
-itkLabelUniqueLabelMapFilterTest1.cxx
 itkMapMaskedRankImageFilterTest.cxx
 itkMapOptGrayscaleDilateImageFilterTest.cxx
 itkMapOptGrayscaleErodeImageFilterTest.cxx
@@ -114,7 +63,6 @@ itkMapOptGrayscaleMorphologicalClosingImageFilterTest.cxx
 itkMapOptGrayscaleMorphologicalOpeningImageFilterTest.cxx
 itkMapRankImageFilterTest.cxx
 itkMaskedRankImageFilterTest.cxx
-itkMergeLabelMapFilterTest1.cxx
 itkMorphologicalWatershedFromMarkersImageFilterTest.cxx
 itkMorphologicalWatershedImageFilterTest.cxx
 itkMRCImageIOTest.cxx
@@ -125,7 +73,6 @@ itkMultiplyByConstantImageFilterTest.cxx
 itkMultiScaleHessianBasedMeasureImageFilterTest.cxx
 itkNeuralNetworkIOTest.cxx
 itkN4MRIBiasFieldCorrectionImageFilterTest
-itkObjectByObjectLabelMapFilterTest.cxx
 itkObjectToObjectMetricTest.cxx
 itkOptGrayscaleDilateImageFilterTest.cxx
 itkOptGrayscaleErodeImageFilterTest.cxx
@@ -134,7 +81,6 @@ itkOptGrayscaleMorphologicalOpeningImageFilterTest.cxx
 itkOptImageToImageMetricsTest.cxx
 itkOptImageToImageMetricsTest2.cxx
 itkOptMattesMutualInformationImageToImageMetricThreadsTest1.cxx
-itkPadLabelMapFilterTest1.cxx
 itkPointsLocatorTest.cxx
 itkRankImageFilterTest.cxx
 itkRegionalMaximaImageFilterTest.cxx
@@ -142,8 +88,6 @@ itkRegionalMaximaImageFilterTest2.cxx
 itkRegionalMinimaImageFilterTest.cxx
 itkRegionalMinimaImageFilterTest2.cxx
 itkRegionBasedLevelSetFunctionTest.cxx
-itkRegionFromReferenceLabelMapFilterTest1.cxx
-itkRelabelLabelMapFilterTest1.cxx
 itkRobustAutomaticThresholdImageFilterTest.cxx
 itkScalarChanAndVeseDenseLevelSetImageFilterTest1.cxx
 itkScalarChanAndVeseDenseLevelSetImageFilterTest2.cxx
@@ -158,22 +102,6 @@ itkScalarToRGBColormapImageFilterTest.cxx
 itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1.cxx
 itkShapedFloodFilledImageFunctionConditionalConstIteratorTest2.cxx
 itkShapedFloodFilledImageFunctionConditionalConstIteratorTest3.cxx
-itkShapeKeepNObjectsLabelMapFilterTest1.cxx
-itkShapeLabelObjectAccessorsTest1.cxx
-itkShapeOpeningLabelMapFilterTest1.cxx
-itkShapePositionLabelMapFilterTest1.cxx
-itkShapeRelabelImageFilterTest1.cxx
-itkShapeRelabelLabelMapFilterTest1.cxx
-itkShapeUniqueLabelMapFilterTest1.cxx
-itkShiftLabelObjectTest.cxx
-itkShiftScaleLabelMapFilterTest1.cxx
-itkSliceBySliceImageFilterTest.cxx
-itkStatisticsKeepNObjectsLabelMapFilterTest1.cxx
-itkStatisticsOpeningLabelMapFilterTest1.cxx
-itkStatisticsPositionLabelMapFilterTest1.cxx
-itkStatisticsRelabelImageFilterTest1.cxx
-itkStatisticsRelabelLabelMapFilterTest1.cxx
-itkStatisticsUniqueLabelMapFilterTest1.cxx
 itkStochasticFractalDimensionImageFilterTest.cxx
 itkSubtractConstantFromImageFilterTest.cxx
 itkTimeAndMemoryProbeTest.cxx
@@ -214,17 +142,10 @@ endif( USE_FFTWD OR USE_FFTWF )
 
 CreateTestDriver_SupportBuildInIOFactories(ITKReview  "${ITKReview-Test_LIBRARIES}" "${ITKReviewTests}")
 
-itk_add_test(NAME itkShiftLabelObjectTest
-      COMMAND ITKReviewTestDriver itkShiftLabelObjectTest)
 itk_add_test(NAME itkReviewHeaderTest
       COMMAND ITKReviewTestDriver itkReviewHeaderTest)
 itk_add_test(NAME itkAddConstantToImageFilterTest
       COMMAND ITKReviewTestDriver itkAddConstantToImageFilterTest)
-itk_add_test(NAME itkAggregateLabelMapFilterTest1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/cthead1-labelAggregate.mha
-              ${ITK_TEST_OUTPUT_DIR}/cthead1-labelAggregate.mha
-    itkAggregateLabelMapFilterTest ${ITK_DATA_ROOT}/Input/cthead1Label.png ${ITK_TEST_OUTPUT_DIR}/cthead1-labelAggregate.mha)
 itk_add_test(NAME itkAreaClosingImageFilterTest0
       COMMAND ITKReviewTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkAreaClosingImageFilterTest0.png
@@ -235,132 +156,6 @@ itk_add_test(NAME itkAreaOpeningImageFilterTest0
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkAreaOpeningImageFilterTest0.png
               ${ITK_TEST_OUTPUT_DIR}/itkAreaOpeningImageFilterTest0.png
     itkAreaOpeningImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkAreaOpeningImageFilterTest0.png 1000 0 1)
-itk_add_test(NAME itkAttributeKeepNObjectsLabelMapFilterTest0
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkAttributeKeepNObjectsLabelMapFilterTest0.png
-              ${ITK_TEST_OUTPUT_DIR}/itkAttributeKeepNObjectsLabelMapFilterTest0.png
-    itkAttributeKeepNObjectsLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/cthead1Label.png ${ITK_TEST_OUTPUT_DIR}/itkAttributeKeepNObjectsLabelMapFilterTest0.png 2 0)
-itk_add_test(NAME itkAttributeKeepNObjectsLabelMapFilterTest1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkAttributeKeepNObjectsLabelMapFilterTest1.png
-              ${ITK_TEST_OUTPUT_DIR}/itkAttributeKeepNObjectsLabelMapFilterTest1.png
-    itkAttributeKeepNObjectsLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/cthead1Label.png ${ITK_TEST_OUTPUT_DIR}/itkAttributeKeepNObjectsLabelMapFilterTest1.png 2 1)
-itk_add_test(NAME itkAttributeLabelObjectAccessorsTest1
-      COMMAND ITKReviewTestDriver itkAttributeLabelObjectAccessorsTest1
-              ${ITK_DATA_ROOT}/Input/cthead1Label.png ${ITK_DATA_ROOT}/Input/cthead1.png)
-itk_add_test(NAME itkAttributeOpeningLabelMapFilterTest0
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkAttributeOpeningLabelMapFilterTest0.png
-              ${ITK_TEST_OUTPUT_DIR}/itkAttributeOpeningLabelMapFilterTest0.png
-    itkAttributeOpeningLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/cthead1Label.png ${ITK_TEST_OUTPUT_DIR}/itkAttributeOpeningLabelMapFilterTest0.png 2 0)
-itk_add_test(NAME itkAttributeOpeningLabelMapFilterTest1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkAttributeOpeningLabelMapFilterTest1.png
-              ${ITK_TEST_OUTPUT_DIR}/itkAttributeOpeningLabelMapFilterTest1.png
-    itkAttributeOpeningLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/cthead1Label.png ${ITK_TEST_OUTPUT_DIR}/itkAttributeOpeningLabelMapFilterTest1.png 2 1)
-itk_add_test(NAME itkAttributePositionLabelMapFilterTest1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkAttributePositionLabelMapFilterTest1.png
-              ${ITK_TEST_OUTPUT_DIR}/itkAttributePositionLabelMapFilterTest1.png
-    itkAttributePositionLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/SpotsLabeled.png ${ITK_TEST_OUTPUT_DIR}/itkAttributePositionLabelMapFilterTest1.png)
-itk_add_test(NAME itkAttributeRelabelLabelMapFilterTest0
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkAttributeRelabelLabelMapFilterTest0.png
-              ${ITK_TEST_OUTPUT_DIR}/itkAttributeRelabelLabelMapFilterTest0.png
-    itkAttributeRelabelLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/cthead1Label.png ${ITK_TEST_OUTPUT_DIR}/itkAttributeRelabelLabelMapFilterTest0.png 0)
-itk_add_test(NAME itkAttributeRelabelLabelMapFilterTest1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkAttributeRelabelLabelMapFilterTest1.png
-              ${ITK_TEST_OUTPUT_DIR}/itkAttributeRelabelLabelMapFilterTest1.png
-    itkAttributeRelabelLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/cthead1Label.png ${ITK_TEST_OUTPUT_DIR}/itkAttributeRelabelLabelMapFilterTest1.png 1)
-itk_add_test(NAME itkAttributeUniqueLabelMapFilterTest0
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkAttributeUniqueLabelMapFilterTest0.png
-              ${ITK_TEST_OUTPUT_DIR}/itkAttributeUniqueLabelMapFilterTest0.png
-    itkAttributeUniqueLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/SpotsLabeled.png ${ITK_TEST_OUTPUT_DIR}/itkAttributeUniqueLabelMapFilterTest0.png 0)
-itk_add_test(NAME itkAttributeUniqueLabelMapFilterTest1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkAttributeUniqueLabelMapFilterTest1.png
-              ${ITK_TEST_OUTPUT_DIR}/itkAttributeUniqueLabelMapFilterTest1.png
-    itkAttributeUniqueLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/SpotsLabeled.png ${ITK_TEST_OUTPUT_DIR}/itkAttributeUniqueLabelMapFilterTest1.png 1)
-itk_add_test(NAME itkAutoCropLabelMapFilterTest1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/cthead1-label-autocrop.mha
-              ${ITK_TEST_OUTPUT_DIR}/cthead1-label-autocrop.mha
-    itkAutoCropLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/cthead1Label.png ${ITK_TEST_OUTPUT_DIR}/cthead1-label-autocrop.mha 176 4 4)
-itk_add_test(NAME itkBinaryClosingByReconstructionImageFilterTest
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkBinaryClosingByReconstructionImageFilterTest.png
-              ${ITK_TEST_OUTPUT_DIR}/itkBinaryClosingByReconstructionImageFilterTest.png
-    itkBinaryClosingByReconstructionImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1-bin.png ${ITK_TEST_OUTPUT_DIR}/itkBinaryClosingByReconstructionImageFilterTest.png 0 255 10)
-itk_add_test(NAME itkBinaryFillholeImageFilterTest1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkBinaryFillholeImageFilterTest1.png
-              ${ITK_TEST_OUTPUT_DIR}/itkBinaryFillholeImageFilterTest1.png
-    itkBinaryFillholeImageFilterTest1 ${ITK_DATA_ROOT}/Input/Spots.png ${ITK_TEST_OUTPUT_DIR}/itkBinaryFillholeImageFilterTest1.png 1 255)
-itk_add_test(NAME itkBinaryGrindPeakImageFilterTest1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkBinaryGrindPeakImageFilterTest1.png
-              ${ITK_TEST_OUTPUT_DIR}/itkBinaryGrindPeakImageFilterTest1.png
-    itkBinaryGrindPeakImageFilterTest1 ${ITK_DATA_ROOT}/Input/SpotsInverted.png ${ITK_TEST_OUTPUT_DIR}/itkBinaryGrindPeakImageFilterTest1.png 1 255)
-itk_add_test(NAME itkBinaryImageToLabelMapFilterTest1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/cthead1-labeled.mha
-              ${ITK_TEST_OUTPUT_DIR}/cthead1-labeled.mha
-    itkBinaryImageToLabelMapFilterTest ${ITK_DATA_ROOT}/Input/cthead1-mask.png ${ITK_TEST_OUTPUT_DIR}/cthead1-labeled.mha 1 255 0 0)
-itk_add_test(NAME itkBinaryImageToLabelMapFilterTest2
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/connected0lines-0.png
-              ${ITK_TEST_OUTPUT_DIR}/connected0lines-0.png
-    itkBinaryImageToLabelMapFilterTest ${ITK_DATA_ROOT}/Input/connected0lines.png ${ITK_TEST_OUTPUT_DIR}/connected0lines-0.png 0 255 0 0)
-itk_add_test(NAME itkBinaryImageToLabelMapFilterTest3
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/connected0lines-1.png
-              ${ITK_TEST_OUTPUT_DIR}/connected0lines-1.png
-    itkBinaryImageToLabelMapFilterTest ${ITK_DATA_ROOT}/Input/connected0lines.png ${ITK_TEST_OUTPUT_DIR}/connected0lines-1.png 1 255 0 0)
-itk_add_test(NAME itkBinaryImageToLabelMapFilterTest4
-      COMMAND ITKReviewTestDriver itkBinaryImageToLabelMapFilterTest
-              ${ITK_DATA_ROOT}/Input/289.png ${ITK_TEST_OUTPUT_DIR}/tooManyObjects.png 0 255 0 1)
-itk_add_test(NAME itkBinaryImageToLabelMapFilterTest5
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/nonConnected3DLines-0.tif
-              ${ITK_TEST_OUTPUT_DIR}/nonConnected3DLines-0.tif
-    itkBinaryImageToLabelMapFilterTest ${ITK_DATA_ROOT}/Input/nonConnected3DLines.tif ${ITK_TEST_OUTPUT_DIR}/nonConnected3DLines-0.tif 0 255 0 0)
-itk_add_test(NAME itkBinaryImageToShapeLabelMapFilterTest1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/Spots-binaryimage-to-shapelabel.mha
-              ${ITK_TEST_OUTPUT_DIR}/Spots-binaryimage-to-shapelabel.mha
-    itkBinaryImageToShapeLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/Spots.png ${ITK_TEST_OUTPUT_DIR}/Spots-binaryimage-to-shapelabel.mha 1 255 0 1 1)
-itk_add_test(NAME itkBinaryImageToStatisticsLabelMapFilterTest1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/Spots-binaryimage-to-statisticslabel.mha
-              ${ITK_TEST_OUTPUT_DIR}/Spots-binaryimage-to-statisticslabel.mha
-    itkBinaryImageToStatisticsLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/Spots.png ${ITK_DATA_ROOT}/Input/Spots.png ${ITK_TEST_OUTPUT_DIR}/Spots-binaryimage-to-statisticslabel.mha 1 0 0 1 1 1 128)
-itk_add_test(NAME itkBinaryOpeningByReconstructionImageFilterTest
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkBinaryOpeningByReconstructionImageFilterTest.png
-              ${ITK_TEST_OUTPUT_DIR}/itkBinaryOpeningByReconstructionImageFilterTest.png
-    itkBinaryOpeningByReconstructionImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1-bin.png ${ITK_TEST_OUTPUT_DIR}/itkBinaryOpeningByReconstructionImageFilterTest.png 0 255 10)
-itk_add_test(NAME itkBinaryReconstructionByDilationImageFilterTest
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkBinaryReconstructionByDilationImageFilterTest.png
-              ${ITK_TEST_OUTPUT_DIR}/itkBinaryReconstructionByDilationImageFilterTest.png
-    itkBinaryReconstructionByDilationImageFilterTest ${ITK_DATA_ROOT}/Input/SpotsInverted.png ${ITK_DATA_ROOT}/Input/Spots-markers.png ${ITK_TEST_OUTPUT_DIR}/itkBinaryReconstructionByDilationImageFilterTest.png 255 100)
-itk_add_test(NAME itkBinaryReconstructionByErosionImageFilterTest
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkBinaryReconstructionByErosionImageFilterTest.png
-              ${ITK_TEST_OUTPUT_DIR}/itkBinaryReconstructionByErosionImageFilterTest.png
-    itkBinaryReconstructionByErosionImageFilterTest ${ITK_DATA_ROOT}/Input/SpotsLabeled.png ${ITK_DATA_ROOT}/Input/Spots-markers.png ${ITK_TEST_OUTPUT_DIR}/itkBinaryReconstructionByErosionImageFilterTest.png 0 255)
-itk_add_test(NAME itkBinaryReconstructionLabelMapFilterTest
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkBinaryReconstructionLabelMapFilterTest.png
-              ${ITK_TEST_OUTPUT_DIR}/itkBinaryReconstructionLabelMapFilterTest.png
-    itkBinaryReconstructionLabelMapFilterTest ${ITK_DATA_ROOT}/Input/cthead1Label.png ${ITK_DATA_ROOT}/Input/cthead1-markers.png ${ITK_TEST_OUTPUT_DIR}/itkBinaryReconstructionLabelMapFilterTest.png 94)
-itk_add_test(NAME itkBinaryShapeOpeningImageFilterTest1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/cthead1-binary-shape-opening.mha
-              ${ITK_TEST_OUTPUT_DIR}/cthead1-binary-shape-opening.mha
-    itkBinaryShapeOpeningImageFilterTest1 ${ITK_DATA_ROOT}/Input/cthead1Label.png ${ITK_TEST_OUTPUT_DIR}/cthead1-binary-shape-opening.mha 255 0 140 1 1 100)
 itk_add_test(NAME itkBoxMeanImageFilterTest3
       COMMAND ITKReviewTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkBoxMeanImageFilter3.png
@@ -419,26 +214,6 @@ itk_add_test(NAME itkBSplineScatteredDataPointSetToImageFilterTest02
 itk_add_test(NAME itkBSplineScatteredDataPointSetToImageFilterTest03
       COMMAND ITKReviewTestDriver itkBSplineScatteredDataPointSetToImageFilterTest3
               ${ITK_DATA_ROOT}/Input/BSplineScatteredApproximationDataPointsInput.txt ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredApproximationDataPointsTestOutput3.txt)
-itk_add_test(NAME itkChangeLabelLabelMapFilterTest1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/cthead1-label-changed.mha
-              ${ITK_TEST_OUTPUT_DIR}/cthead1-label-changed.mha
-    itkChangeLabelLabelMapFilterTest ${ITK_DATA_ROOT}/Input/cthead1Label.png ${ITK_TEST_OUTPUT_DIR}/cthead1-label-changed.mha 94 150 92 163 176 176)
-itk_add_test(NAME itkChangeLabelLabelMapFilterTest2
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/cthead1-label-changed2.mha
-              ${ITK_TEST_OUTPUT_DIR}/cthead1-label-changed2.mha
-    itkChangeLabelLabelMapFilterTest ${ITK_DATA_ROOT}/Input/cthead1Label.png ${ITK_TEST_OUTPUT_DIR}/cthead1-label-changed2.mha 94 100 0 50 92 0)
-itk_add_test(NAME itkChangeLabelLabelMapFilterTest3
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/cthead1-label-changed3.png
-              ${ITK_TEST_OUTPUT_DIR}/cthead1-label-changed3.png
-    itkChangeLabelLabelMapFilterTest ${ITK_DATA_ROOT}/Input/cthead1Label.png ${ITK_TEST_OUTPUT_DIR}/cthead1-label-changed3.png 0 94)
-itk_add_test(NAME itkChangeRegionLabelMapFilterTest1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/cthead1-label-changeregion.mha
-              ${ITK_TEST_OUTPUT_DIR}/cthead1-label-changeregion.mha
-    itkChangeRegionLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/cthead1Label.png ${ITK_TEST_OUTPUT_DIR}/cthead1-label-changeregion.mha 50 100 120 150)
 itk_add_test(NAME itkCompositeTransformTest
       COMMAND ITKReviewTestDriver itkCompositeTransformTest)
 itk_add_test(NAME itkConformalFlatteningMeshFilterTest1
@@ -456,12 +231,6 @@ itk_add_test(NAME itkConformalFlatteningQuadEdgeMeshFilterTest2
 itk_add_test(NAME itkContourExtractor2DImageFilterTest
       COMMAND ITKReviewTestDriver itkContourExtractor2DImageFilterTest
               ${ITK_DATA_ROOT}/Input/ContourExtractor2DTest.tif)
-itk_add_test(NAME itkConvertLabelMapFilterTest1
-      COMMAND ITKReviewTestDriver
-  --compare ${INPUTDATA}/cthead1Label.png
-            ${TEMP}/cthead1-convert.png
-  itkConvertLabelMapFilterTest1 ${INPUTDATA}/cthead1Label.png ${TEMP}/cthead1-convert.png
-  )
 itk_add_test(NAME itkConvolutionImageFilterTestSobelX
       COMMAND ITKReviewTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkConvolutionImageFilterTestSobelX.nii.gz
@@ -496,11 +265,6 @@ itk_add_test(NAME itkCoxDeBoorBSplineKernelFunctionTest01
       COMMAND ITKReviewTestDriver itkCoxDeBoorBSplineKernelFunctionTest)
 itk_add_test(NAME itkCoxDeBoorBSplineKernelFunctionTest02
       COMMAND ITKReviewTestDriver itkCoxDeBoorBSplineKernelFunctionTest2)
-itk_add_test(NAME itkCropLabelMapFilterTest1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/cthead1-label-crop.mha
-              ${ITK_TEST_OUTPUT_DIR}/cthead1-label-crop.mha
-    itkCropLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/cthead1Label.png ${ITK_TEST_OUTPUT_DIR}/cthead1-label-crop.mha 40 50)
 itk_add_test(NAME itkDeformationFieldTransformTest
       COMMAND ITKReviewTestDriver itkDeformationFieldTransformTest)
 itk_add_test(NAME itkDiffeomorphicDemonsRegistrationFilterTest01
@@ -715,275 +479,6 @@ itk_add_test(NAME itkLabelGeometryImageFilterTest2
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelGeometryImageFilterTest2Image.png
               ${ITK_TEST_OUTPUT_DIR}/itkLabelGeometryImageFilterTest2Image.png
     itkLabelGeometryImageFilterTest ${ITK_DATA_ROOT}/Input/BinaryImageWithVariousShapes01.png ${ITK_TEST_OUTPUT_DIR}/itkLabelGeometryImageFilterTest2Image.png 2 ${ITK_DATA_ROOT}/Input/GrayscaleImageWithVariousShapes01.png ${ITK_TEST_OUTPUT_DIR})
-itk_add_test(NAME itkLabelImageToLabelMapFilterTest
-      COMMAND ITKReviewTestDriver itkLabelImageToLabelMapFilterTest)
-itk_add_test(NAME itkLabelImageToShapeLabelMapFilterTest1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/simple-label-to-shapelabelmap.mha
-              ${ITK_TEST_OUTPUT_DIR}/simple-label-to-shapelabelmap.mha
-    itkLabelImageToShapeLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/simple-label-b.png ${ITK_TEST_OUTPUT_DIR}/simple-label-to-shapelabelmap.mha 90 1 1)
-itk_add_test(NAME itkLabelImageToStatisticsLabelMapFilterTest1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Input/Spots.png
-              ${ITK_TEST_OUTPUT_DIR}/Spots-labelimage-to-statisticslabel.png
-    itkLabelImageToStatisticsLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/Spots.png ${ITK_DATA_ROOT}/Input/Spots.png ${ITK_TEST_OUTPUT_DIR}/Spots-labelimage-to-statisticslabel.png 0 1 1 1 128)
-itk_add_test(NAME itkLabelMapContourOverlayImageFilterTest0
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelMapContourOverlayImageFilterTest0.png
-              ${ITK_TEST_OUTPUT_DIR}/itkLabelMapContourOverlayImageFilterTest0.png
-    itkLabelMapContourOverlayImageFilterTest1 ${ITK_DATA_ROOT}/Input/SpotsLabeled.png ${ITK_DATA_ROOT}/Input/SpotsInverted.png ${ITK_TEST_OUTPUT_DIR}/itkLabelMapContourOverlayImageFilterTest0.png 0.6 0 0 10 1)
-itk_add_test(NAME itkLabelMapContourOverlayImageFilterTest1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelMapContourOverlayImageFilterTest1.png
-              ${ITK_TEST_OUTPUT_DIR}/itkLabelMapContourOverlayImageFilterTest1.png
-    itkLabelMapContourOverlayImageFilterTest1 ${ITK_DATA_ROOT}/Input/SpotsLabeled.png ${ITK_DATA_ROOT}/Input/SpotsInverted.png ${ITK_TEST_OUTPUT_DIR}/itkLabelMapContourOverlayImageFilterTest1.png 0.7 1 2 15 0)
-itk_add_test(NAME itkLabelMapContourOverlayImageFilterTest2
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelMapContourOverlayImageFilterTest2.png
-              ${ITK_TEST_OUTPUT_DIR}/itkLabelMapContourOverlayImageFilterTest2.png
-    itkLabelMapContourOverlayImageFilterTest1 ${ITK_DATA_ROOT}/Input/SpotsLabeled.png ${ITK_DATA_ROOT}/Input/SpotsInverted.png ${ITK_TEST_OUTPUT_DIR}/itkLabelMapContourOverlayImageFilterTest2.png 0.8 2 3 12 1)
-itk_add_test(NAME itkLabelMapFilterTest
-      COMMAND ITKReviewTestDriver itkLabelMapFilterTest)
-itk_add_test(NAME itkLabelMapMaskImageFilterTest-0-0-0
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelMapMaskImageFilterTest-0-0-0.png
-              ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTest-0-0-0.png
-    itkLabelMapMaskImageFilterTest ${ITK_DATA_ROOT}/Input/2th_cthead1.png ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTest-0-0-0.png 0 0 0 0 0)
-itk_add_test(NAME itkLabelMapMaskImageFilterTestCrop-0-0-0-0
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelMapMaskImageFilterTestCrop-0-0-0-0.png
-              ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-0-0-0-0.png
-    itkLabelMapMaskImageFilterTest ${ITK_DATA_ROOT}/Input/2th_cthead1.png ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-0-0-0-0.png 0 0 0 1 0)
-itk_add_test(NAME itkLabelMapMaskImageFilterTestCrop-0-0-0-10
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelMapMaskImageFilterTestCrop-0-0-0-10.png
-              ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-0-0-0-10.png
-    itkLabelMapMaskImageFilterTest ${ITK_DATA_ROOT}/Input/2th_cthead1.png ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-0-0-0-10.png 0 0 0 1 10)
-itk_add_test(NAME itkLabelMapMaskImageFilterTest-0-0-1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelMapMaskImageFilterTest-0-0-1.png
-              ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTest-0-0-1.png
-    itkLabelMapMaskImageFilterTest ${ITK_DATA_ROOT}/Input/2th_cthead1.png ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTest-0-0-1.png 0 0 1 0 0)
-itk_add_test(NAME itkLabelMapMaskImageFilterTestCrop-0-0-1-0
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelMapMaskImageFilterTestCrop-0-0-1-0.png
-              ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-0-0-1-0.png
-    itkLabelMapMaskImageFilterTest ${ITK_DATA_ROOT}/Input/2th_cthead1.png ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-0-0-1-0.png 0 0 1 1 0)
-itk_add_test(NAME itkLabelMapMaskImageFilterTestCrop-0-0-1-10
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelMapMaskImageFilterTestCrop-0-0-1-10.png
-              ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-0-0-1-10.png
-    itkLabelMapMaskImageFilterTest ${ITK_DATA_ROOT}/Input/2th_cthead1.png ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-0-0-1-10.png 0 0 1 1 10)
-itk_add_test(NAME itkLabelMapMaskImageFilterTest-0-1-0
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelMapMaskImageFilterTest-0-1-0.png
-              ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTest-0-1-0.png
-    itkLabelMapMaskImageFilterTest ${ITK_DATA_ROOT}/Input/2th_cthead1.png ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTest-0-1-0.png 0 1 0 0 0)
-itk_add_test(NAME itkLabelMapMaskImageFilterTestCrop-0-1-0-0
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelMapMaskImageFilterTestCrop-0-1-0-0.png
-              ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-0-1-0-0.png
-    itkLabelMapMaskImageFilterTest ${ITK_DATA_ROOT}/Input/2th_cthead1.png ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-0-1-0-0.png 0 1 0 1 0)
-itk_add_test(NAME itkLabelMapMaskImageFilterTestCrop-0-1-0-10
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelMapMaskImageFilterTestCrop-0-1-0-10.png
-              ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-0-1-0-10.png
-    itkLabelMapMaskImageFilterTest ${ITK_DATA_ROOT}/Input/2th_cthead1.png ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-0-1-0-10.png 0 1 0 1 10)
-itk_add_test(NAME itkLabelMapMaskImageFilterTest-0-1-1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelMapMaskImageFilterTest-0-1-1.png
-              ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTest-0-1-1.png
-    itkLabelMapMaskImageFilterTest ${ITK_DATA_ROOT}/Input/2th_cthead1.png ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTest-0-1-1.png 0 1 1 0 0)
-itk_add_test(NAME itkLabelMapMaskImageFilterTestCrop-0-1-1-0
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelMapMaskImageFilterTestCrop-0-1-1-0.png
-              ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-0-1-1-0.png
-    itkLabelMapMaskImageFilterTest ${ITK_DATA_ROOT}/Input/2th_cthead1.png ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-0-1-1-0.png 0 1 1 1 0)
-itk_add_test(NAME itkLabelMapMaskImageFilterTestCrop-0-1-1-10
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelMapMaskImageFilterTestCrop-0-1-1-10.png
-              ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-0-1-1-10.png
-    itkLabelMapMaskImageFilterTest ${ITK_DATA_ROOT}/Input/2th_cthead1.png ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-0-1-1-10.png 0 1 1 1 10)
-itk_add_test(NAME itkLabelMapMaskImageFilterTest-100-0-0
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelMapMaskImageFilterTest-100-0-0.png
-              ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTest-100-0-0.png
-    itkLabelMapMaskImageFilterTest ${ITK_DATA_ROOT}/Input/2th_cthead1.png ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTest-100-0-0.png 100 0 0 0 0)
-itk_add_test(NAME itkLabelMapMaskImageFilterTestCrop-100-0-0-0
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelMapMaskImageFilterTestCrop-100-0-0-0.png
-              ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-100-0-0-0.png
-    itkLabelMapMaskImageFilterTest ${ITK_DATA_ROOT}/Input/2th_cthead1.png ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-100-0-0-0.png 100 0 0 1 0)
-itk_add_test(NAME itkLabelMapMaskImageFilterTestCrop-100-0-0-10
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelMapMaskImageFilterTestCrop-100-0-0-10.png
-              ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-100-0-0-10.png
-    itkLabelMapMaskImageFilterTest ${ITK_DATA_ROOT}/Input/2th_cthead1.png ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-100-0-0-10.png 100 0 0 1 10)
-itk_add_test(NAME itkLabelMapMaskImageFilterTest-100-0-1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelMapMaskImageFilterTest-100-0-1.png
-              ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTest-100-0-1.png
-    itkLabelMapMaskImageFilterTest ${ITK_DATA_ROOT}/Input/2th_cthead1.png ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTest-100-0-1.png 100 0 1 0 0)
-itk_add_test(NAME itkLabelMapMaskImageFilterTestCrop-100-0-1-0
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelMapMaskImageFilterTestCrop-100-0-1-0.png
-              ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-100-0-1-0.png
-    itkLabelMapMaskImageFilterTest ${ITK_DATA_ROOT}/Input/2th_cthead1.png ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-100-0-1-0.png 100 0 1 1 0)
-itk_add_test(NAME itkLabelMapMaskImageFilterTestCrop-100-0-1-10
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelMapMaskImageFilterTestCrop-100-0-1-10.png
-              ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-100-0-1-10.png
-    itkLabelMapMaskImageFilterTest ${ITK_DATA_ROOT}/Input/2th_cthead1.png ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-100-0-1-10.png 100 0 1 1 10)
-itk_add_test(NAME itkLabelMapMaskImageFilterTest-100-1-0
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelMapMaskImageFilterTest-100-1-0.png
-              ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTest-100-1-0.png
-    itkLabelMapMaskImageFilterTest ${ITK_DATA_ROOT}/Input/2th_cthead1.png ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTest-100-1-0.png 100 1 0 0 0)
-itk_add_test(NAME itkLabelMapMaskImageFilterTestCrop-100-1-0-0
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelMapMaskImageFilterTestCrop-100-1-0-0.png
-              ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-100-1-0-0.png
-    itkLabelMapMaskImageFilterTest ${ITK_DATA_ROOT}/Input/2th_cthead1.png ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-100-1-0-0.png 100 1 0 1 0)
-itk_add_test(NAME itkLabelMapMaskImageFilterTestCrop-100-1-0-10
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelMapMaskImageFilterTestCrop-100-1-0-10.png
-              ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-100-1-0-10.png
-    itkLabelMapMaskImageFilterTest ${ITK_DATA_ROOT}/Input/2th_cthead1.png ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-100-1-0-10.png 100 1 0 1 10)
-itk_add_test(NAME itkLabelMapMaskImageFilterTest-100-1-1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelMapMaskImageFilterTest-100-1-1.png
-              ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTest-100-1-1.png
-    itkLabelMapMaskImageFilterTest ${ITK_DATA_ROOT}/Input/2th_cthead1.png ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTest-100-1-1.png 100 1 1 0 0)
-itk_add_test(NAME itkLabelMapMaskImageFilterTestCrop-100-1-1-0
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelMapMaskImageFilterTestCrop-100-1-1-0.png
-              ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-100-1-1-0.png
-    itkLabelMapMaskImageFilterTest ${ITK_DATA_ROOT}/Input/2th_cthead1.png ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-100-1-1-0.png 100 1 1 1 0)
-itk_add_test(NAME itkLabelMapMaskImageFilterTestCrop-100-1-1-10
-      COMMAND ITKReviewTestDriver
-    --compare  ${ITK_DATA_ROOT}/Baseline/Review/itkLabelMapMaskImageFilterTestCrop-100-1-1-10.png
-               ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-100-1-1-10.png
-    itkLabelMapMaskImageFilterTest ${ITK_DATA_ROOT}/Input/2th_cthead1.png ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-100-1-1-10.png 100 1 1 1 10)
-itk_add_test(NAME itkLabelMapOverlayImageFilterTest1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelMapOverlayImageFilterTest1.png
-              ${ITK_TEST_OUTPUT_DIR}/itkLabelMapOverlayImageFilterTest1.png
-    itkLabelMapOverlayImageFilterTest1 ${ITK_DATA_ROOT}/Input/cthead1Label.png ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkLabelMapOverlayImageFilterTest1.png 0.3)
-itk_add_test(NAME y$itkLabelMapOverlayImageFilterTest2
-      COMMAND ITKReviewTestDriver
-  --compare ${BASELINE}/itkLabelMapOverlayImageFilterTest1.png
-            ${TEMP}/itkLabelMapOverlayImageFilterTest2.png
-  itkLabelMapOverlayImageFilterTest2 ${INPUTDATA}/cthead1Label.png ${INPUTDATA}/cthead1.png ${TEMP}/itkLabelMapOverlayImageFilterTest2.png 0.3)
-itk_add_test(NAME itkLabelMapTest
-      COMMAND ITKReviewTestDriver itkLabelMapTest)
-itk_add_test(NAME itkLabelMapToAttributeImageFilterTest1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelMapToAttributeImageFilterTest1.png
-              ${ITK_TEST_OUTPUT_DIR}/itkLabelMapToAttributeImageFilterTest1.png
-    itkLabelMapToAttributeImageFilterTest1 ${ITK_DATA_ROOT}/Input/SpotsLabeled.png ${ITK_TEST_OUTPUT_DIR}/itkLabelMapToAttributeImageFilterTest1.png)
-itk_add_test(NAME itkLabelMapToBinaryImageFilterTest1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/cthead1-label-binary.mha
-              ${ITK_TEST_OUTPUT_DIR}/cthead1-label-binary.mha
-    itkLabelMapToBinaryImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1Label.png ${ITK_TEST_OUTPUT_DIR}/cthead1-label-binary.mha 255 0)
-itk_add_test(NAME itkLabelMapToLabelImageFilterTest
-      COMMAND ITKReviewTestDriver itkLabelMapToLabelImageFilterTest)
-itk_add_test(NAME itkLabelMapToRGBImageFilterTest1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelMapToRGBImageFilterTest1.png
-              ${ITK_TEST_OUTPUT_DIR}/itkLabelMapToRGBImageFilterTest1.png
-    itkLabelMapToRGBImageFilterTest1 ${ITK_DATA_ROOT}/Input/SpotsLabeled.png ${ITK_TEST_OUTPUT_DIR}/itkLabelMapToRGBImageFilterTest1.png)
-itk_add_test(NAME itkLabelMapToRGBImageFilterTest2
-      COMMAND ITKReviewTestDriver
-  --compare ${BASELINE}/itkLabelMapToRGBImageFilterTest1.png
-            ${TEMP}/itkLabelMapToRGBImageFilterTest2.png
-  itkLabelMapToRGBImageFilterTest2 ${INPUTDATA}/SpotsLabeled.png ${TEMP}/itkLabelMapToRGBImageFilterTest2.png)
-itk_add_test(NAME itkLabelObjectLineComparatorTest
-      COMMAND ITKReviewTestDriver itkLabelObjectLineComparatorTest)
-itk_add_test(NAME itkLabelObjectLineTest
-      COMMAND ITKReviewTestDriver itkLabelObjectLineTest)
-itk_add_test(NAME itkLabelObjectTest
-      COMMAND ITKReviewTestDriver itkLabelObjectTest)
-itk_add_test(NAME itkLabelOverlayImageFilterTest-Opacity-0_0
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/cthead1-0_0Overlay.png
-              ${ITK_TEST_OUTPUT_DIR}/cthead1-0_0Overlay.png
-    itkLabelOverlayImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Input/cthead1Label.png 0.0 ${ITK_TEST_OUTPUT_DIR}/cthead1-0_0Overlay.png)
-itk_add_test(NAME itkLabelOverlayImageFilterTest-Opacity-0_1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/cthead1-0_1Overlay.png
-              ${ITK_TEST_OUTPUT_DIR}/cthead1-0_1Overlay.png
-    itkLabelOverlayImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Input/cthead1Label.png 0.1 ${ITK_TEST_OUTPUT_DIR}/cthead1-0_1Overlay.png)
-itk_add_test(NAME itkLabelOverlayImageFilterTest-Opacity-0_2
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/cthead1-0_2Overlay.png
-              ${ITK_TEST_OUTPUT_DIR}/cthead1-0_2Overlay.png
-    itkLabelOverlayImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Input/cthead1Label.png 0.2 ${ITK_TEST_OUTPUT_DIR}/cthead1-0_2Overlay.png)
-itk_add_test(NAME itkLabelOverlayImageFilterTest-Opacity-0_3
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/cthead1-0_3Overlay.png
-              ${ITK_TEST_OUTPUT_DIR}/cthead1-0_3Overlay.png
-    itkLabelOverlayImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Input/cthead1Label.png 0.3 ${ITK_TEST_OUTPUT_DIR}/cthead1-0_3Overlay.png)
-itk_add_test(NAME itkLabelOverlayImageFilterTest-Opacity-0_4
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/cthead1-0_4Overlay.png
-              ${ITK_TEST_OUTPUT_DIR}/cthead1-0_4Overlay.png
-    itkLabelOverlayImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Input/cthead1Label.png 0.4 ${ITK_TEST_OUTPUT_DIR}/cthead1-0_4Overlay.png)
-itk_add_test(NAME itkLabelOverlayImageFilterTest-Opacity-0_5
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/cthead1-0_5Overlay.png
-              ${ITK_TEST_OUTPUT_DIR}/cthead1-0_5Overlay.png
-    itkLabelOverlayImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Input/cthead1Label.png 0.5 ${ITK_TEST_OUTPUT_DIR}/cthead1-0_5Overlay.png)
-itk_add_test(NAME itkLabelOverlayImageFilterTest-Opacity-0_6
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/cthead1-0_6Overlay.png
-              ${ITK_TEST_OUTPUT_DIR}/cthead1-0_6Overlay.png
-    itkLabelOverlayImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Input/cthead1Label.png 0.6 ${ITK_TEST_OUTPUT_DIR}/cthead1-0_6Overlay.png)
-itk_add_test(NAME itkLabelOverlayImageFilterTest-Opacity-0_7
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/cthead1-0_7Overlay.png
-              ${ITK_TEST_OUTPUT_DIR}/cthead1-0_7Overlay.png
-    itkLabelOverlayImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Input/cthead1Label.png 0.7 ${ITK_TEST_OUTPUT_DIR}/cthead1-0_7Overlay.png)
-itk_add_test(NAME itkLabelOverlayImageFilterTest-Opacity-0_8
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/cthead1-0_8Overlay.png
-              ${ITK_TEST_OUTPUT_DIR}/cthead1-0_8Overlay.png
-    itkLabelOverlayImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Input/cthead1Label.png 0.8 ${ITK_TEST_OUTPUT_DIR}/cthead1-0_8Overlay.png)
-itk_add_test(NAME itkLabelOverlayImageFilterTest-Opacity-0_9
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/cthead1-0_9Overlay.png
-              ${ITK_TEST_OUTPUT_DIR}/cthead1-0_9Overlay.png
-    itkLabelOverlayImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Input/cthead1Label.png 0.9 ${ITK_TEST_OUTPUT_DIR}/cthead1-0_9Overlay.png)
-itk_add_test(NAME itkLabelOverlayImageFilterTest-Opacity-1_0
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/cthead1-1_0Overlay.png
-              ${ITK_TEST_OUTPUT_DIR}/cthead1-1_0Overlay.png
-    itkLabelOverlayImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Input/cthead1Label.png 1.0 ${ITK_TEST_OUTPUT_DIR}/cthead1-1_0Overlay.png)
-itk_add_test(NAME itkLabelSelectionLabelMapFilterTest0
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelSelectionLabelMapFilterTest0.png
-              ${ITK_TEST_OUTPUT_DIR}/itkLabelSelectionLabelMapFilterTest0.png
-    itkLabelSelectionLabelMapFilterTest ${ITK_DATA_ROOT}/Input/cthead1Label.png ${ITK_TEST_OUTPUT_DIR}/itkLabelSelectionLabelMapFilterTest0.png 0 94)
-itk_add_test(NAME itkLabelSelectionLabelMapFilterTest1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelSelectionLabelMapFilterTest1.png
-              ${ITK_TEST_OUTPUT_DIR}/itkLabelSelectionLabelMapFilterTest1.png
-    itkLabelSelectionLabelMapFilterTest ${ITK_DATA_ROOT}/Input/cthead1Label.png ${ITK_TEST_OUTPUT_DIR}/itkLabelSelectionLabelMapFilterTest1.png 1 94)
-itk_add_test(NAME itkLabelToRGBImageFilterTest
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/cthead1Label-color.png
-              ${ITK_TEST_OUTPUT_DIR}/cthead1Label-color.png
-    itkLabelToRGBImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1Label.png ${ITK_TEST_OUTPUT_DIR}/cthead1Label-color.png)
-itk_add_test(NAME itkLabelUniqueLabelMapFilterTest0
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelUniqueLabelMapFilterTest0.png
-              ${ITK_TEST_OUTPUT_DIR}/itkLabelUniqueLabelMapFilterTest0.png
-    itkLabelUniqueLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/SpotsLabeled.png ${ITK_TEST_OUTPUT_DIR}/itkLabelUniqueLabelMapFilterTest0.png 0)
-itk_add_test(NAME itkLabelUniqueLabelMapFilterTest1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelUniqueLabelMapFilterTest1.png
-              ${ITK_TEST_OUTPUT_DIR}/itkLabelUniqueLabelMapFilterTest1.png
-    itkLabelUniqueLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/SpotsLabeled.png ${ITK_TEST_OUTPUT_DIR}/itkLabelUniqueLabelMapFilterTest1.png 1)
 itk_add_test(NAME itkMapMaskedRankImageFilterTest3
       COMMAND ITKReviewTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkMaskedRankImageFilter3.png
@@ -1014,32 +509,6 @@ itk_add_test(NAME itkMaskedRankImageFilterTest10
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkMaskedRankImageFilter10.png
               ${ITK_TEST_OUTPUT_DIR}/itkMaskedRankImageFilter10.png
     itkMaskedRankImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Input/cthead1-mask.png ${ITK_TEST_OUTPUT_DIR}/itkMaskedRankImageFilter10.png 10)
-itk_add_test(NAME itkMergeLabelMapFilterTest1a
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/simple-label-merge-keep.mha
-              ${ITK_TEST_OUTPUT_DIR}/simple-label-merge-keep.mha
-    itkMergeLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/simple-label-c.png ${ITK_DATA_ROOT}/Input/simple-label-d.png ${ITK_TEST_OUTPUT_DIR}/simple-label-merge-keep.mha 50 50 0 0)
-itk_add_test(NAME itkMergeLabelMapFilterTest1b
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/simple-label-merge-aggregate.mha
-              ${ITK_TEST_OUTPUT_DIR}/simple-label-merge-aggregate.mha
-    itkMergeLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/simple-label-c.png ${ITK_DATA_ROOT}/Input/simple-label-d.png ${ITK_TEST_OUTPUT_DIR}/simple-label-merge-aggregate.mha 50 50 1 0)
-itk_add_test(NAME itkMergeLabelMapFilterTest1c
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/simple-label-merge-pack.mha
-              ${ITK_TEST_OUTPUT_DIR}/simple-label-merge-pack.mha
-    itkMergeLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/simple-label-c.png ${ITK_DATA_ROOT}/Input/simple-label-d.png ${ITK_TEST_OUTPUT_DIR}/simple-label-merge-pack.mha 50 50 2 0)
-itk_add_test(NAME itkMergeLabelMapFilterTest1d
-      COMMAND ITKReviewTestDriver itkMergeLabelMapFilterTest1
-              ${ITK_DATA_ROOT}/Input/simple-label-c.png ${ITK_DATA_ROOT}/Input/simple-label-d.png ${ITK_TEST_OUTPUT_DIR}/thisFileShouldNotExist.mha 50 50 3 1)
-itk_add_test(NAME itkMergeLabelMapFilterTest1e
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/simple-label-merge-strict.mha
-              ${ITK_TEST_OUTPUT_DIR}/simple-label-merge-strict.mha
-    itkMergeLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/simple-label-e.png ${ITK_DATA_ROOT}/Input/simple-label-d.png ${ITK_TEST_OUTPUT_DIR}/simple-label-merge-strict.mha 50 50 3 0)
-itk_add_test(NAME itkMergeLabelMapFilterTest1f
-      COMMAND ITKReviewTestDriver itkMergeLabelMapFilterTest1
-              ${ITK_DATA_ROOT}/Input/simple-label-e.png ${ITK_DATA_ROOT}/Input/simple-label-d.png ${ITK_TEST_OUTPUT_DIR}/simple-label-merge-wrong.mha 50 50 10 1)
 itk_add_test(NAME itkMorphologicalWatershedFromMarkersImageFilterTestM0F0
       COMMAND ITKReviewTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkMorphologicalWatershedFromMarkersImageFilterTestM0F0.png
@@ -1212,16 +681,6 @@ itk_add_test(NAME itkN4MRIBiasFieldCorrectionImageFilterTest2
 itk_add_test(NAME itkNeuralNetworkIOTest
       COMMAND ITKReviewTestDriver itkNeuralNetworkIOTest
               ${ITK_DATA_ROOT}/Input/xornet.txt ${ITK_DATA_ROOT}/Input/xortest.txt ${ITK_TEST_OUTPUT_DIR})
-itk_add_test(NAME itkObjectByObjectLabelMapFilterTest0
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkObjectByObjectLabelMapFilterTest0.png
-              ${ITK_TEST_OUTPUT_DIR}/itkObjectByObjectLabelMapFilterTest0.png
-    itkObjectByObjectLabelMapFilterTest ${ITK_DATA_ROOT}/Input/SpotsLabeled.png ${ITK_TEST_OUTPUT_DIR}/itkObjectByObjectLabelMapFilterTest0.png 0)
-itk_add_test(NAME itkObjectByObjectLabelMapFilterTest1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkObjectByObjectLabelMapFilterTest1.png
-              ${ITK_TEST_OUTPUT_DIR}/itkObjectByObjectLabelMapFilterTest1.png
-    itkObjectByObjectLabelMapFilterTest ${ITK_DATA_ROOT}/Input/SpotsLabeled.png ${ITK_TEST_OUTPUT_DIR}/itkObjectByObjectLabelMapFilterTest1.png 1)
 itk_add_test(NAME itkObjectToObjectMetricTest
       COMMAND ITKReviewTestDriver itkObjectToObjectMetricTest)
 itk_add_test(NAME itkOptImageToImageMetricsTest01
@@ -1243,11 +702,6 @@ itk_add_test(NAME itkOptImageToImageMetricsTest04
 itk_add_test(NAME itkOptMattesImageToImageMetricsTest01
       COMMAND ITKReviewTestDriver itkOptMattesMutualInformationImageToImageMetricThreadsTest1
               ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png 0 100)
-itk_add_test(NAME itkPadLabelMapFilterTest1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/cthead1-label-pad.mha
-              ${ITK_TEST_OUTPUT_DIR}/cthead1-label-pad.mha
-    itkPadLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/cthead1Label.png ${ITK_TEST_OUTPUT_DIR}/cthead1-label-pad.mha 40 50)
 itk_add_test(NAME itkPointsLocatorTest
       COMMAND ITKReviewTestDriver itkPointsLocatorTest)
 itk_add_test(NAME itkRankImageFilterTest3
@@ -1282,16 +736,6 @@ itk_add_test(NAME itkRegionalMaximaImageFilterTest2_2
     itkRegionalMaximaImageFilterTest2 0 1 ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMaximal2_2.png ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMaximal-ref2_2.png)
 itk_add_test(NAME itkRegionBasedLevelSetFunctionTest
       COMMAND ITKReviewTestDriver itkRegionBasedLevelSetFunctionTest)
-itk_add_test(NAME itkRegionFromReferenceLabelMapFilterTest1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/cthead1-label-regionreference.mha
-              ${ITK_TEST_OUTPUT_DIR}/cthead1-label-regionreference.mha
-    itkRegionFromReferenceLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/cthead1Label.png ${ITK_DATA_ROOT}/Input/circle.png ${ITK_TEST_OUTPUT_DIR}/cthead1-label-regionreference.mha)
-itk_add_test(NAME itkRelabelLabelMapFilterTest1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/cthead1-label-relabeled.mha
-              ${ITK_TEST_OUTPUT_DIR}/cthead1-label-relabeled.mha
-    itkRelabelLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/cthead1Label.png ${ITK_TEST_OUTPUT_DIR}/cthead1-label-relabeled.mha)
 itk_add_test(NAME itkRobustAutomaticThresholdImageFilterTest
       COMMAND ITKReviewTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkRobustAutomaticThresholdImageFilterTest.png
@@ -1409,42 +853,6 @@ itk_add_test(NAME itkShapedFloodFilledImageFunctionConditionalConstIteratorTest2
       COMMAND ITKReviewTestDriver itkShapedFloodFilledImageFunctionConditionalConstIteratorTest2)
 itk_add_test(NAME itkShapedFloodFilledImageFunctionConditionalConstIteratorTest3
       COMMAND ITKReviewTestDriver itkShapedFloodFilledImageFunctionConditionalConstIteratorTest3)
-itk_add_test(NAME itkShapeKeepNObjectsLabelMapFilterTest1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/cthead1-keep-n-objects.mha
-              ${ITK_TEST_OUTPUT_DIR}/cthead1-shape-keep-n-objects.mha
-    itkShapeKeepNObjectsLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/cthead1Label.png ${ITK_TEST_OUTPUT_DIR}/cthead1-shape-keep-n-objects.mha 0 0 2)
-itk_add_test(NAME itkShapeLabelObjectAccessorsTest1
-      COMMAND ITKReviewTestDriver itkShapeLabelObjectAccessorsTest1
-              ${ITK_DATA_ROOT}/Input/cthead1Label.png)
-itk_add_test(NAME itkShapeOpeningLabelMapFilterTest1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/cthead1-shape-opening.mha
-              ${ITK_TEST_OUTPUT_DIR}/cthead1-shape-opening.mha
-    itkShapeOpeningLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/cthead1Label.png ${ITK_TEST_OUTPUT_DIR}/cthead1-shape-opening.mha 140 1 0)
-itk_add_test(NAME itkShapePositionLabelMapFilterTest1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkShapePositionLabelMapFilterTest1.png
-              ${ITK_TEST_OUTPUT_DIR}/itkShapePositionLabelMapFilterTest1.png
-    itkShapePositionLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/SpotsLabeled.png ${ITK_TEST_OUTPUT_DIR}/itkShapePositionLabelMapFilterTest1.png Centroid)
-itk_add_test(NAME itkShapeRelabelLabelMapFilterTest1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/cthead1-shape-relabel-labelmap.mha
-              ${ITK_TEST_OUTPUT_DIR}/cthead1-shape-relabel-labelmap.mha
-    itkShapeRelabelLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/cthead1Label.png ${ITK_TEST_OUTPUT_DIR}/cthead1-shape-relabel-labelmap.mha 1 0)
-itk_add_test(NAME itkShiftScaleLabelMapFilterTest1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/cthead1-label-shiftscaled.mha
-              ${ITK_TEST_OUTPUT_DIR}/cthead1-label-shiftscaled.mha
-    itkShiftScaleLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/cthead1Label.png ${ITK_TEST_OUTPUT_DIR}/cthead1-label-shiftscaled.mha 10 0.5 true)
-itk_add_test(NAME itkSliceBySliceImageFilterTest
-      COMMAND ITKReviewTestDriver itkSliceBySliceImageFilterTest
-              ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd ${ITK_TEST_OUTPUT_DIR}/itkSliceBySliceImageFilterTest.mha)
-itk_add_test(NAME itkStatisticsPositionLabelMapFilterTest1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkShapePositionLabelMapFilterTest1.png
-              ${ITK_TEST_OUTPUT_DIR}/itkStatisticsPositionLabelMapFilterTest1.png
-    itkStatisticsPositionLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/SpotsLabeled.png ${ITK_DATA_ROOT}/Input/SpotsLabeled.png ${ITK_TEST_OUTPUT_DIR}/itkStatisticsPositionLabelMapFilterTest1.png CenterOfGravity)
 itk_add_test(NAME itkStochasticFractalDimensionImageFilterTest1
       COMMAND ITKReviewTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkStochasticFractalDimensionImageFilterTest1.mha

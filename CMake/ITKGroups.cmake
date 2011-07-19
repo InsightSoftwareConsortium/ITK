@@ -69,6 +69,7 @@ ITKQuadEdgeMeshFiltering
 ITKSmoothing
 ITKSpatialFunction
 ITKThresholding
+ITKLabelMap
 )
 
 set(Registration_module_list

@@ -74,6 +74,7 @@ itk_module(ITKReview
     ITKVoronoi
     ITKVTK
     ITKWatersheds
+    ITKLabelMap
   TEST_DEPENDS
     ITKTestKernel
 )
