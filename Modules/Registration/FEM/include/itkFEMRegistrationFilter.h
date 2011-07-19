@@ -449,7 +449,7 @@ public:
   /**
    * Get/Set the number of iterations before regridding is employed.
    */
-  itkSetClampMacro(EmployRegridding, unsigned int, 0, NumericTraits<unsigned int>::max() );
+  itkSetMacro(EmployRegridding, unsigned int);
   itkGetMacro(EmployRegridding, unsigned int);
 
   /**
@@ -517,7 +517,7 @@ public:
   /**
    * Get/Set the maximum number of levels for multi resolution
    */
-  itkSetClampMacro(MaxLevel, unsigned int, 0, NumericTraits<unsigned int>::max() );
+  itkSetMacro(MaxLevel, unsigned int);
   itkGetMacro(MaxLevel, unsigned int);
 
   /**

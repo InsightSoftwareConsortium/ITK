@@ -29,6 +29,11 @@
 
 int itkFEMElement2DC0LinearQuadrilateralStressTest(int argc, char *argv[])
 {
+  if(argc < 1)
+    {
+    std::cerr << "Missing Spatial Object Filename" << std::endl;
+    return EXIT_FAILURE;
+    }
   itk::FEMFactoryBase::RegisterDefaultTypes();
 
   const unsigned int Dimension = 2;

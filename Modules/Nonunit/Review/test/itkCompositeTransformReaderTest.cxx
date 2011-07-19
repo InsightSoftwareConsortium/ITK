@@ -31,7 +31,7 @@
  * CompositeTransformWriterAndReaderTest for a test that checks
  * actual writing and then reading for errors. */
 
-int itkCompositeTransformReaderTest(int argc, char *argv[] )
+int itkCompositeTransformReaderTest(int , char *[] )
 {
   const unsigned int NDimensions = 2;
 

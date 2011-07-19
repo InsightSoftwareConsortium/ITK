@@ -22,7 +22,7 @@
 #include <iostream>
 
 //
-int itkFEMElement2DQuadraticTriangularTest(int argc, char *argv[])
+int itkFEMElement2DQuadraticTriangularTest(int , char *[])
 {
 
   typedef itk::fem::Element ElementType;

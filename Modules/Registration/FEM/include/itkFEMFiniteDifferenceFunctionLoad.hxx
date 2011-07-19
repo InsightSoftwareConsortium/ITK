@@ -159,7 +159,7 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::EvaluateMetricGivenSolution( Elem
 template <class TMoving, class TFixed>
 typename FiniteDifferenceFunctionLoad<TMoving, TFixed>::Float
 FiniteDifferenceFunctionLoad<TMoving, TFixed>::EvaluateMetricGivenSolution1(
-  ElementContainerType *el, Float step)
+  ElementContainerType *, Float)
 {
   return 10.0;  // FIXME
 }
