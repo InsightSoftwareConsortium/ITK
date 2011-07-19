@@ -170,7 +170,7 @@ int HDF5ReadWriteTest(const char *fileName)
     success = EXIT_FAILURE;
     }
 
-  char metaDataChar2 = 0;
+  char metaDataChar2(0);
   if(!itk::ExposeMetaData<char>(metaDict2,"TestChar",metaDataChar2) ||
      metaDataChar2 != metaDataChar)
     {
@@ -180,7 +180,7 @@ int HDF5ReadWriteTest(const char *fileName)
     success = EXIT_FAILURE;
     }
 
-  unsigned char metaDataUChar2;
+  unsigned char metaDataUChar2(0);
   if(!itk::ExposeMetaData<unsigned char>(metaDict2,"TestUChar",metaDataUChar2) ||
      metaDataUChar2 != metaDataUChar)
     {
@@ -190,7 +190,7 @@ int HDF5ReadWriteTest(const char *fileName)
     success = EXIT_FAILURE;
     }
 
-  short metaDataShort2;
+  short metaDataShort2(-1);
   if(!itk::ExposeMetaData<short>(metaDict2,"TestShort",metaDataShort2) ||
      metaDataShort2 != metaDataShort)
     {
@@ -200,7 +200,7 @@ int HDF5ReadWriteTest(const char *fileName)
     success = EXIT_FAILURE;
     }
 
-  unsigned short metaDataUShort2;
+  unsigned short metaDataUShort2(0);
   if(!itk::ExposeMetaData<unsigned short>(metaDict2,"TestUShort",metaDataUShort2) ||
      metaDataUShort2 != metaDataUShort)
     {
