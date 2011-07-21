@@ -422,7 +422,7 @@ protected:
 
   // Function is defined here because the templating confuses gcc 2.96 when
   // defined
-  // in .txx file.  jc 1/29/03
+  // in .hxx file.  jc 1/29/03
   TRealType EvaluateAtNeighborhood(const ConstNeighborhoodIteratorType & it) const
   {
     unsigned int i, j;

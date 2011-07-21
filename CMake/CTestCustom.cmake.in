@@ -69,7 +69,7 @@ SET(CTEST_CUSTOM_WARNING_EXCEPTION
   "Warning itk::Statistics::Histogram"
   "itkIOCommonTest.cxx:.*warning:.* is deprecated"
   "/usr/bin/ld: warning: libnetcdf.so.3, needed by.*may conflict with libnetcdf.so.4"
-  "itkQuadEdgeMeshEdgeMergeDecimationFilter.txx:.*warning: unused parameter.*iEdge.*"
+  "itkQuadEdgeMeshEdgeMergeDecimationFilter.hxx:.*warning: unused parameter.*iEdge.*"
   "vnl_diag_matrix.h"
   "WARNING non-zero return value in ctest"
   "Warning.*Anachronism.*"
