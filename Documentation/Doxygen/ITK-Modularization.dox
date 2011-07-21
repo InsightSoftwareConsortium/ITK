@@ -125,6 +125,10 @@
 \ingroup Group-Filtering
 */
 
+/** \defgroup ITKLabelMap Module ITKLabelMap
+\ingroup Group-Filtering
+*/
+
 /** \defgroup ITKMathematicalMorphology Module ITKMathematicalMorphology
 \ingroup Group-Filtering
 */
