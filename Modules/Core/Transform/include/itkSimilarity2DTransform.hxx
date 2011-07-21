@@ -167,8 +167,6 @@ Similarity2DTransform< TScalarType >::GetJacobian(const InputPointType & p) cons
   const double         cx = center[0];
   const double         cy = center[1];
 
-  const OutputVectorType translation = this->GetTranslation();
-
   // derivatives with respect to the scale
   this->m_Jacobian[0][0] =    ca * ( p[0] - cx ) - sa * ( p[1] - cy );
   this->m_Jacobian[1][0] =    sa * ( p[0] - cx ) + ca * ( p[1] - cy );

@@ -568,7 +568,6 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ApplyLoads(
       {
       m_LandmarkArray[lmind]->GetElementArray()[0] = NULL;
 
-      bool isFound = false;
       itkDebugMacro( << " Prescale Pt " <<  m_LandmarkArray[lmind]->GetTarget() );
       if( scaling )
         {
@@ -584,7 +583,6 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ApplyLoads(
         {
         if( m_FEMObject->GetElement(i)->GetLocalFromGlobalCoordinates(pu, pd ) )
           {
-          isFound = true;
           m_LandmarkArray[lmind]->SetPoint(pd);
           m_LandmarkArray[lmind]->GetElementArray()[0] =  m_FEMObject->GetElement(i);
           }

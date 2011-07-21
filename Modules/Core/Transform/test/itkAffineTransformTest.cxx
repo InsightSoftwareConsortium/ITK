@@ -498,7 +498,6 @@ int itkAffineTransformTest(int, char *[])
     /* Test output of GetJacobian */
     Affine3DType::Pointer jaff = Affine3DType::New();
     Affine3DType::MatrixType jaffMatrix = jaff->GetMatrix();
-    Affine3DType::OffsetType jaffVector = jaff->GetOffset();
 
     Affine3DType::InputPointType jpoint;
     jpoint[0] = 5.0;

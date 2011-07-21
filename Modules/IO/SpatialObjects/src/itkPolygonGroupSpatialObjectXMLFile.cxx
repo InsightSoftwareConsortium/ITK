@@ -129,29 +129,6 @@ PolygonGroupSpatialObjectXMLFileReader::EndElement(const char *name)
     int size = atoi( m_CurCharacterData.c_str() );
     itk::EncapsulateMetaData< int >(thisDic, ROI_NUM_SEGMENTS, size);
     }
-  else if ( itksys::SystemTools::Strucmp(name, "PLANE") == 0 )
-    {
-    //itk::IOCommon::ValidAnalyzeOrientationFlags temporient;
-    itk::SpatialOrientation::ValidCoordinateOrientationFlags coord_orient =
-      itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_INVALID;
-    if ( itksys::SystemTools::Strucmp(m_CurCharacterData.c_str(), "AXIAL") )
-      {
-      //temporient = IOCommon::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;
-      coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPS;
-      }
-    else if ( itksys::SystemTools::Strucmp(m_CurCharacterData.c_str(), "CORONAL") )
-      {
-      //temporient = IOCommon::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
-      coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP;
-      }
-    else if ( itksys::SystemTools::Strucmp(m_CurCharacterData.c_str(), "SAGITTAL") )
-      {
-      //temporient = IOCommon::ITK_ANALYZE_ORIENTATION_IRP_SAGITTAL;
-      coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIR;
-      }
-    //
-    // set direction cosines
-    }
   else if ( itksys::SystemTools::Strucmp(name, "POINT") == 0 )
     {
     double      pval[3];

@@ -171,7 +171,6 @@ int itkCenteredVersorTransformInitializerTest(int , char* [] )
 
   initializer->InitializeTransform();
 
-  TransformType::InputPointType   center2      = transform->GetCenter();
   TransformType::OutputVectorType translation2 = transform->GetTranslation();
   TransformType::OffsetType       offset2      = transform->GetOffset();
 
