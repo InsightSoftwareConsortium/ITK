@@ -389,7 +389,7 @@ HexahedronCell< TCellInterface >
     for ( unsigned int i = 0; i < 8; i++ )
       {
       pt = points->GetElement(m_PointIds[i]);
-      for ( unsigned int j = 0; j < 3; j++ )
+      for ( unsigned int j = 0; j < PointDimension; j++ )
         {
         fcol[j] += pt[j] * weights[i];
         rcol[j] += pt[j] * derivs[i];
@@ -616,7 +616,7 @@ HexahedronCell< TCellInterface >
     {
     pt = points->GetElement(m_PointIds[i]);
 
-    for ( unsigned int j = 0; j < 3; j++ )
+    for ( unsigned int j = 0; j < PointDimension; j++ )
       {
       x[j] += pt[j] * weights[i];
       }

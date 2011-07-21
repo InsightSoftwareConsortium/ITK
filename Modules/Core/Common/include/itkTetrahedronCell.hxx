@@ -212,9 +212,10 @@ TetrahedronCell< TCellInterface >
 
         if ( dist2 < *minDist2 )
           {
-          closestPoint[0] = closest[0];
-          closestPoint[1] = closest[1];
-          closestPoint[2] = closest[2];
+          for( unsigned int dim = 0; dim < PointDimension; dim++ )
+            {
+            closestPoint[dim] = closest[dim];
+            }
           *minDist2 = dist2;
           }
         }

@@ -630,9 +630,13 @@ TriangleCell< TCellInterface >
           *minDist2 = dist2Line2;
           closest = closestPoint2;
           }
-        for ( i = 0; i < 3; i++ )
+        for ( i = 0; i < PointDimension; i++ )
           {
           closestPoint[i] = closest[i];
+          }
+        for(; i < 3; i++ )
+          {
+          closestPoint[i] = 0.;
           }
         }
       else if ( b2 < 0.0 && b3 < 0.0 )
@@ -659,9 +663,13 @@ TriangleCell< TCellInterface >
           *minDist2 = dist2Line2;
           closest = closestPoint2;
           }
-        for ( i = 0; i < 3; i++ )
+        for ( i = 0; i < PointDimension; i++ )
           {
           closestPoint[i] = closest[i];
+          }
+        for(; i < 3; i++ )
+          {
+          closestPoint[i] = 0.;
           }
         }
       else if ( b1 < 0.0 && b3 < 0.0 )
@@ -688,9 +696,13 @@ TriangleCell< TCellInterface >
           *minDist2 = dist2Line2;
           closest = closestPoint2;
           }
-        for ( i = 0; i < 3; i++ )
+        for ( i = 0; i < PointDimension; i++ )
           {
           closestPoint[i] = closest[i];
+          }
+        for(; i < 3; i++ )
+          {
+          closestPoint[i] = 0.;
           }
         }
       else if ( b1 < 0.0 )
