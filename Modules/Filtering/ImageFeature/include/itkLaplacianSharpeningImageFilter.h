@@ -90,18 +90,16 @@ public:
   virtual void GenerateInputRequestedRegion()
   throw( InvalidRequestedRegionError );
 
-  /** Use the image spacing information in calculations. Use this option if you
-   *  want derivatives in physical space. Default is UseImageSpacingOn. */
-  void SetUseImageSpacingOn() { this->SetUseImageSpacing(true); }
-
-  /** Ignore the image spacing. Use this option if you want derivatives in
-      isotropic pixel space.  Default is UseImageSpacingOn. */
-  void SetUseImageSpacingOff() { this->SetUseImageSpacing(false); }
+  /** Enable/Disable using the image spacing information in
+   *  calculations. Use this option if you  want derivatives in
+   *  physical space. Default  is UseImageSpacingOn. */
+  itkBooleanMacro( UseImageSpacing );
 
   /** Set/Get whether or not the filter will use the spacing of the input
       image in its calculations */
   itkSetMacro(UseImageSpacing, bool);
   itkGetConstMacro(UseImageSpacing, bool);
+
 protected:
   LaplacianSharpeningImageFilter()
   {
