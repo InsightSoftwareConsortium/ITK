@@ -100,10 +100,9 @@ int main( int argc, char * argv[] )
 
   // Software Guide : BeginCodeSnippet
   typedef itk::DanielssonDistanceMapImageFilter<
-               InputImageType, OutputImageType >  FilterType;
+               InputImageType, OutputImageType, OutputImageType >  FilterType;
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
-
 
   typedef itk::RescaleIntensityImageFilter<
                    OutputImageType, OutputImageType > RescalerType;

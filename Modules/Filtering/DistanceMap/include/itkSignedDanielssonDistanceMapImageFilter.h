@@ -84,7 +84,9 @@ namespace itk
  * \ingroup ITKDistanceMap
  */
 
-template< class TInputImage, class TOutputImage >
+template< class TInputImage,
+          class TOutputImage,
+          class TVoronoiImage = TInputImage >
 class ITK_EXPORT SignedDanielssonDistanceMapImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
@@ -140,6 +142,10 @@ public:
   /** Pointer Type for the vector distance image. */
   typedef typename VectorImageType::Pointer VectorImagePointer;
 
+  typedef TVoronoiImage                         VoronoiImageType;
+  typedef typename VoronoiImageType::Pointer    VoronoiImagePointer;
+  typedef typename VoronoiImageType::PixelType  VoronoiPixelType;
+
   /** Pointer Type for data object */
   typedef typename Superclass::DataObjectPointer DataObjectPointer;
 
@@ -179,7 +185,7 @@ public:
    * Each object should be labeled by a number (larger than 0),
    * so the map has a value for each pixel corresponding to the label
    * of the closest object.  */
-  OutputImageType * GetVoronoiMap(void);
+  VoronoiImageType * GetVoronoiMap(void);
 
   /** Get Distance map image.  The distance map is shown as a gray
    * value image depending on the pixel type of the output image.
