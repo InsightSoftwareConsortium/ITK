@@ -150,7 +150,7 @@ public:
   /**
    * Compute the jacobian with respect to the parameters.  Since there are
    * no parameters for this transform, the Jacobian shouldn't be requested.
-   * Definition in txx file throws an exception.
+   * Definition in hxx file throws an exception.
    */
   virtual JacobianType & GetJacobian( const InputPointType & ) const;
 
