@@ -58,7 +58,7 @@ class ITK_EXPORT MaximumRatioDecisionRule : public DecisionRule
 {
 public:
   /** Standard class typedefs */
-  typedef MaximumRatioDecisionRule Self;
+  typedef MaximumRatioDecisionRule  Self;
   typedef DecisionRule              Superclass;
   typedef SmartPointer< Self >      Pointer;
 
@@ -69,7 +69,7 @@ public:
   itkNewMacro(Self);
 
   /** Types for discriminant values and vectors. */
-  typedef Superclass::MembershipValueType MembershipValueType;
+  typedef Superclass::MembershipValueType  MembershipValueType;
   typedef Superclass::MembershipVectorType MembershipVectorType;
 
   /** Types for class identifiers. */

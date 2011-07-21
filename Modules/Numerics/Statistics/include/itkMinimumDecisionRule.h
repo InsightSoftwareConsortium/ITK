@@ -38,7 +38,7 @@ class ITK_EXPORT MinimumDecisionRule:public DecisionRule
 {
 public:
   /** Standard class typedefs */
-  typedef MinimumDecisionRule       Self;
+  typedef MinimumDecisionRule        Self;
   typedef DecisionRule               Superclass;
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
@@ -50,7 +50,7 @@ public:
   itkNewMacro(Self);
 
   /** Types for discriminant values and vectors. */
-  typedef Superclass::MembershipValueType MembershipValueType;
+  typedef Superclass::MembershipValueType  MembershipValueType;
   typedef Superclass::MembershipVectorType MembershipVectorType;
 
   /** Types for class identifiers. */

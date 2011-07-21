@@ -57,7 +57,7 @@ public:
   itkTypeMacro(DecisionRule, Object);
 
   /** Types for discriminant values and vectors. */
-  typedef double MembershipValueType;
+  typedef double                             MembershipValueType;
   typedef std::vector< MembershipValueType > MembershipVectorType;
 
   /** Types for class identifiers. */
