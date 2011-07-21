@@ -19,7 +19,8 @@
 #define __itkPadImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkSize.h"
+
+#include "itkImageBoundaryCondition.h"
 
 namespace itk
 {
@@ -72,6 +73,10 @@ public:
   typedef typename TInputImage::SizeType      SizeType;
   typedef typename TInputImage::SizeValueType SizeValueType;
 
+  /** Typedef to describe the boundary condition. */
+  typedef ImageBoundaryCondition< TInputImage > BoundaryConditionType;
+  typedef BoundaryConditionType *               BoundaryConditionPointerType;
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(PadImageFilter, ImageToImageFilter);
 
@@ -94,6 +99,10 @@ public:
     this->SetPadUpperBound(bound);
   }
 
+  /** Set/get the boundary condition. */
+  itkSetMacro(BoundaryCondition, BoundaryConditionPointerType);
+  itkGetConstMacro(BoundaryCondition, BoundaryConditionPointerType);
+
   /** PadImageFilter produces an image which is a different resolution
    * than its input image.  As such, PadImageFilter needs to
    * provide an implementation for GenerateOutputInformation() in order
@@ -114,12 +123,21 @@ protected:
   ~PadImageFilter() {}
   void PrintSelf(std::ostream & os, Indent indent) const;
 
+  /** This class can be multithreaded. */
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
+                            ThreadIdType threadId);
+
+  /** Method for subclasses to set the boundary condition. */
+  void InternalSetBoundaryCondition( const BoundaryConditionPointerType boundaryCondition );
+
 private:
   PadImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &); //purposely not implemented
 
   SizeType m_PadLowerBound;
   SizeType m_PadUpperBound;
+
+  BoundaryConditionPointerType m_BoundaryCondition;
 };
 } // end namespace itk
 

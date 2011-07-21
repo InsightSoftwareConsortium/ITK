@@ -20,6 +20,12 @@
 
 #include "itkPadImageFilter.h"
 
+#include "itkImageAlgorithm.h"
+#include "itkImageRegionExclusionIteratorWithIndex.h"
+#include "itkImageRegionIteratorWithIndex.h"
+#include "itkObjectFactory.h"
+#include "itkProgressReporter.h"
+
 namespace itk
 {
 /**
@@ -68,6 +74,16 @@ PadImageFilter< TInputImage, TOutputImage >
     os << ", " << m_PadUpperBound[j];
     }
   os << "]" << std::endl;
+
+  os << indent << "Boundary Condition: ";
+  if ( m_BoundaryCondition )
+    {
+    m_BoundaryCondition->Print( os, indent );
+    }
+  else
+    {
+    os << "NULL" << std::endl;
+    }
 }
 
 /**
@@ -96,69 +112,17 @@ PadImageFilter< TInputImage, TOutputImage >
     return;
     }
 
-  // we need to compute the input requested region (size and start index)
-  unsigned int i;
-  const typename TOutputImage::SizeType & outputRequestedRegionSize =
-    outputPtr->GetRequestedRegion().GetSize();
-  const typename TOutputImage::IndexType & outputRequestedRegionStartIndex =
-    outputPtr->GetRequestedRegion().GetIndex();
-  const typename TInputImage::SizeType & inputWholeRegionSize =
-    inputPtr->GetLargestPossibleRegion().GetSize();
-  const typename TInputImage::IndexType & inputWholeRegionStartIndex =
-    inputPtr->GetLargestPossibleRegion().GetIndex();
+  const InputImageRegionType & inputLargestPossibleRegion =
+    inputPtr->GetLargestPossibleRegion();
+  const OutputImageRegionType & outputRequestedRegion =
+    outputPtr->GetRequestedRegion();
 
-  typename TInputImage::SizeType inputRequestedRegionSize;
-  typename TInputImage::IndexType inputRequestedRegionStartIndex;
+  // Ask the boundary condition for the input requested region.
+  InputImageRegionType inputRequestedRegion =
+    m_BoundaryCondition->GetInputRequestedRegion( inputLargestPossibleRegion,
+                                                  outputRequestedRegion );
 
-  OffsetValueType sizeTemp;
-
-  for ( i = 0; i < TInputImage::ImageDimension; i++ )
-    {
-    if ( outputRequestedRegionStartIndex[i] <= inputWholeRegionStartIndex[i] )
-      {
-      inputRequestedRegionStartIndex[i] = inputWholeRegionStartIndex[i];
-      }
-    else
-      {
-      inputRequestedRegionStartIndex[i] =
-        outputRequestedRegionStartIndex[i];
-      }
-
-    if ( ( inputWholeRegionStartIndex[i] + static_cast< OffsetValueType >( inputWholeRegionSize[i] ) ) <=
-         ( outputRequestedRegionStartIndex[i] + static_cast< OffsetValueType >( outputRequestedRegionSize[i] ) ) )
-      {
-      sizeTemp = static_cast< OffsetValueType >( inputWholeRegionSize[i] )
-                 + inputWholeRegionStartIndex[i] - inputRequestedRegionStartIndex[i];
-      }
-    else
-      {
-      sizeTemp = static_cast< OffsetValueType >( outputRequestedRegionSize[i] )
-                 + outputRequestedRegionStartIndex[i] - inputRequestedRegionStartIndex[i];
-      }
-
-    //
-    // The previous statements correctly handle overlapped regions where
-    // at least some of the pixels from the input image end up reflected
-    // in the output.  When there is no overlap, the size will be negative.
-    // In that case we arbitrarily pick the start of the input region
-    // as the start of the output region and zero for the size.
-    //
-    if ( sizeTemp < 0 )
-      {
-      inputRequestedRegionSize[i] = 0;
-      inputRequestedRegionStartIndex[i] = inputWholeRegionStartIndex[i];
-      }
-    else
-      {
-      inputRequestedRegionSize[i] = sizeTemp;
-      }
-    }
-
-  typename TInputImage::RegionType inputRequestedRegion;
-  inputRequestedRegion.SetSize(inputRequestedRegionSize);
-  inputRequestedRegion.SetIndex(inputRequestedRegionStartIndex);
-
-  inputPtr->SetRequestedRegion(inputRequestedRegion);
+  inputPtr->SetRequestedRegion( inputRequestedRegion );
 }
 
 /**
@@ -210,6 +174,68 @@ PadImageFilter< TInputImage, TOutputImage >
 
   outputPtr->SetLargestPossibleRegion(outputLargestPossibleRegion);
 }
+
+template< class TInputImage, class TOutputImage >
+void
+PadImageFilter< TInputImage, TOutputImage >
+::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
+                       ThreadIdType threadId)
+{
+  // Use the region copy method to copy the input image values to the
+  // output image.
+  OutputImageRegionType copyRegion( outputRegionForThread );
+  bool regionOverlaps = copyRegion.Crop( this->GetInput()->GetLargestPossibleRegion() );
+  if ( regionOverlaps )
+    {
+    // Do a block copy for the overlapping region.
+    ImageAlgorithm::Copy( this->GetInput(), this->GetOutput(), copyRegion, copyRegion );
+
+    // Use the boundary condition for pixels outside the input image region.
+    typename OutputImageSizeType::SizeValueType numberOfPixels =
+      outputRegionForThread.GetNumberOfPixels() - copyRegion.GetNumberOfPixels();
+    ProgressReporter progress( this, threadId, numberOfPixels );
+
+    ImageRegionExclusionIteratorWithIndex< TOutputImage > outIter( this->GetOutput(),
+                                                                   outputRegionForThread );
+    outIter.SetExclusionRegion( copyRegion );
+    outIter.GoToBegin();
+    while ( !outIter.IsAtEnd() )
+      {
+      OutputImagePixelType value = static_cast< OutputImagePixelType >
+        ( m_BoundaryCondition->GetPixel( outIter.GetIndex(), this->GetInput() ) );
+      outIter.Set( value );
+      ++outIter;
+      progress.CompletedPixel();
+      }
+    }
+  else
+    {
+    // There is no overlap. Appeal to the boundary condition for every pixel.
+    ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
+
+    ImageRegionIteratorWithIndex< TOutputImage > outIter( this->GetOutput(),
+                                                          outputRegionForThread );
+    outIter.GoToBegin();
+    while ( !outIter.IsAtEnd() )
+      {
+      OutputImagePixelType value = static_cast< OutputImagePixelType >
+        ( m_BoundaryCondition->GetPixel( outIter.GetIndex(), this->GetInput() ) );
+      outIter.Set( value );
+      ++outIter;
+      progress.CompletedPixel();
+      }
+    }
+}
+
+template< class TInputImage, class TOutputImage >
+void
+PadImageFilter< TInputImage, TOutputImage >
+::InternalSetBoundaryCondition( const BoundaryConditionPointerType boundaryCondition )
+{
+  m_BoundaryCondition = boundaryCondition;
+}
+
+
 } // end namespace itk
 
 #endif

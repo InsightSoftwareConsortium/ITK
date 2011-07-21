@@ -22,6 +22,7 @@
 #include <fstream>
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
+#include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkZeroFluxNeumannPadImageFilter.h"
 #include "itkFileOutputWindow.h"
 #include "itkMultiThreader.h"

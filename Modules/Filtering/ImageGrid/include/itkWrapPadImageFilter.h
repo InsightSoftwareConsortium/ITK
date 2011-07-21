@@ -19,7 +19,8 @@
 #define __itkWrapPadImageFilter_h
 
 #include "itkPadImageFilter.h"
-#include <vector>
+
+#include "itkPeriodicBoundaryCondition.h"
 
 namespace itk
 {
@@ -93,101 +94,14 @@ public:
   /** End concept checking */
 #endif
 protected:
-  WrapPadImageFilter() {}
+  WrapPadImageFilter();
   ~WrapPadImageFilter() {}
-
-  /** WrapPadImageFilter can be implemented as a multithreaded filter.
-   * Therefore, this implementation provides a ThreadedGenerateData()
-   * routine which is called for each processing thread. The output
-   * image data is allocated automatically by the superclass prior to
-   * calling ThreadedGenerateData().  ThreadedGenerateData can only
-   * write to the portion of the output image specified by the
-   * parameter "outputRegionForThread"
-   *
-   * \sa ImageToImageFilter::ThreadedGenerateData(),
-   *     ImageToImageFilter::GenerateData()  */
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId);
-
-  /** Given an n dimensional list of input region breakpoints in indices
-   * and size (where the current region and maximum region for each dimension
-   * is encoded in regIndices and regLimit), choose the next input region. */
-  int GenerateNextInputRegion(long *regIndices, long *regLimit,
-                              std::vector< long > *indices,
-                              std::vector< long > *sizes,
-                              InputImageRegionType & outputRegion);
-
-  /** Given an n dimensional list of output region breakpoints in indices
-   * and size (where the current region and maximum region for each dimension
-   * is encoded in regIndices and regLimit), choose the next output region. */
-  int GenerateNextOutputRegion(long *regIndices, long *regLimit,
-                               std::vector< long > *indices,
-                               std::vector< long > *sizes,
-                               OutputImageRegionType & outputRegion);
-
-  /** Given the start and end indices of a region, determine how many
-   * instances of size fit within the region.  The variable offset provides
-   * a way to adjust width of the area while forcing alignment to the
-   * start or end location. */
-  int FindRegionsInArea(long start, long end, long size, long offset);
-
-  /** Generate region 0 (inter-region) information.  Based on the indices
-   * of the input and the output for this dimension, decide what are the
-   * starting points and the lengths of the output region directly
-   * corresponding to the input region.  Padding will be on either
-   * side of this region.  The algorithmic complications are necessary
-   * to support the streaming interface and multithreading. */
-  int BuildInterRegions(std::vector< long > & inputRegionStart,
-                        std::vector< long > & outputRegionStart,
-                        std::vector< long > & inputRegionSizes,
-                        std::vector< long > & outputRegionSizes,
-                        long inputIndex, long outputIndex,
-                        long inputSize, long outputSize, int numRegs,
-                        int & regCtr);
-
-  /** Generate region 1 (pre-region) information.  Based on the indices
-   * of the input and the output for this dimension, decide what are the
-   * starting points and the lengths of the output region directly
-   * preceding the input region in this dimension.  This may require
-   * more than one region be defined if the padding is larger than the
-   * size of the input image in this dimension.  Other algorithmic
-   * complications are necessary to support the streaming interface
-   * and multithreading. */
-  int BuildPreRegions(std::vector< long > & inputRegionStart,
-                      std::vector< long > & outputRegionStart,
-                      std::vector< long > & inputRegionSizes,
-                      std::vector< long > & outputRegionSizes,
-                      long inputIndex, long outputIndex,
-                      long inputSize, long outputSize, int numRegs,
-                      int & regCtr);
-
-  /** Generate region 2 (post-region) information.  Based on the indices
-   * of the input and the output for this dimension, decide what are the
-   * starting points and the lengths of the output region directly
-   * succeeding the input region in this dimension.  This may require
-   * more than one region be defined if the padding is larger than the
-   * size of the input image in this dimension.  Other algorithmic
-   * complications are necessary to support the streaming interface
-   * and multithreading. */
-  int BuildPostRegions(std::vector< long > & inputRegionStart,
-                       std::vector< long > & outputRegionStart,
-                       std::vector< long > & inputRegionSizes,
-                       std::vector< long > & outputRegionSizes,
-                       long inputIndex, long outputIndex,
-                       long inputSize, long outputSize,
-                       int numRegs, int & regCtr);
-
-  /** WrapPadImageFilter needs a different input requested region than
-   * output requested region.  As such, WrapPadImageFilter needs to
-   * provide an implementation for GenerateInputRequestedRegion() in
-   * order to inform the pipeline execution model.
-   * \sa ProcessObject::GenerateInputRequestedRegion()
-   * \sa PadImageFilter::GenerateInputRequestedRegion()  */
-  virtual void GenerateInputRequestedRegion();
 
 private:
   WrapPadImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);     //purposely not implemented
+
+  PeriodicBoundaryCondition< TInputImage > m_InternalBoundaryCondition;
 };
 } // end namespace itk
 

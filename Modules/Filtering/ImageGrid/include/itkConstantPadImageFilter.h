@@ -20,6 +20,8 @@
 
 #include "itkPadImageFilter.h"
 
+#include "itkConstantBoundaryCondition.h"
+
 namespace itk
 {
 /** \class ConstantPadImageFilter
@@ -80,8 +82,14 @@ public:
                       TOutputImage::ImageDimension);
 
   /** Set/Get the pad value.  Default is Zero. */
-  itkSetMacro(Constant, OutputImagePixelType);
-  itkGetConstMacro(Constant, OutputImagePixelType);
+  void SetConstant( OutputImagePixelType constant )
+  {
+    m_InternalBoundaryCondition.SetConstant( constant );
+  }
+  OutputImagePixelType GetConstant() const
+  {
+    return m_InternalBoundaryCondition.GetConstant();
+  }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -100,33 +108,11 @@ protected:
   ~ConstantPadImageFilter() {}
   void PrintSelf(std::ostream & os, Indent indent) const;
 
-  /** PadImageFilter can be implemented as a multithreaded filter.  Therefore,
-   * this implementation provides a ThreadedGenerateData() routine which
-   * is called for each processing thread. The output image data is allocated
-   * automatically by the superclass prior to calling ThreadedGenerateData().
-   * ThreadedGenerateData can only write to the portion of the output image
-   * specified by the parameter "outputRegionForThread"
-   *
-   * \sa ImageToImageFilter::ThreadedGenerateData(),
-   *     ImageToImageFilter::GenerateData() */
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId);
-
-  /**
-   * Given an n dimensional list of output region breakpoints in indices
-   * and size (where the current region and maximum region for each dimension
-   * is encoded in regIndices and regLimit), choose the next output region.
-   */
-  int GenerateNextRegion(long *regIndices, long *regLimit,
-                         OutputImageIndexType *indices,
-                         OutputImageSizeType *sizes,
-                         OutputImageRegionType & outputRegion);
-
 private:
   ConstantPadImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);         //purposely not implemented
 
-  OutputImagePixelType m_Constant;
+  ConstantBoundaryCondition< TInputImage > m_InternalBoundaryCondition;
 };
 } // end namespace itk
 
