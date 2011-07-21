@@ -33,10 +33,18 @@ namespace itk
 */
 
 template< class TInputImage, class TOutputImage >
-void
-FFTWRealToComplexConjugateImageFilter< TInputImage, TOutputImage >::GenerateData()
+FFTWRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
+::FFTWRealToComplexConjugateImageFilter()
 {
-  // get pointers to the input and output
+  m_PlanRigor = FFTWGlobalConfiguration::GetPlanRigor();
+}
+
+template< class TInputImage, class TOutputImage >
+void
+FFTWRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
+::GenerateData()
+{
+  // Get pointers to the input and output.
   typename InputImageType::ConstPointer inputPtr  = this->GetInput();
   typename OutputImageType::Pointer outputPtr = this->GetOutput();
 
@@ -45,8 +53,8 @@ FFTWRealToComplexConjugateImageFilter< TInputImage, TOutputImage >::GenerateData
     return;
     }
 
-  // we don't have a nice progress to report, but at least this simple line
-  // reports the begining and the end of the process
+  // We don't have a nice progress to report, but at least this simple line
+  // reports the begining and the end of the process.
   ProgressReporter progress(this, 0, 1);
 
   // allocate output buffer memory
@@ -62,13 +70,13 @@ FFTWRealToComplexConjugateImageFilter< TInputImage, TOutputImage >::GenerateData
   // size of input and output aren't the same which is handled in the superclass,
   // sort of.
   // the input size and output size only differ in the fastest moving dimension
-  unsigned int total_inputSize = 1;
-  unsigned int total_outputSize = 1;
+  unsigned int totalInputSize = 1;
+  unsigned int totalOutputSize = 1;
 
   for ( unsigned i = 0; i < ImageDimension; i++ )
     {
-    total_inputSize *= inputSize[i];
-    total_outputSize *= outputSize[i];
+    totalInputSize *= inputSize[i];
+    totalOutputSize *= outputSize[i];
     }
 
   typename FFTWProxyType::PlanType plan;
@@ -100,17 +108,18 @@ FFTWRealToComplexConjugateImageFilter< TInputImage, TOutputImage >::GenerateData
 
 template< class TInputImage, class TOutputImage >
 bool
-FFTWRealToComplexConjugateImageFilter< TInputImage, TOutputImage >::FullMatrix()
+FFTWRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
+::FullMatrix()
 {
   return false;
 }
 
 template< class TInputImage, class TOutputImage >
 void
-FFTWRealToComplexConjugateImageFilter< TInputImage, TOutputImage >::
-UpdateOutputData(DataObject * output)
+FFTWRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
+::UpdateOutputData(DataObject * output)
 {
-  // we need to catch that information now, because it is changed later
+  // We need to catch that information now, because it is changed later
   // during the pipeline execution, and thus can't be grabbed in
   // GenerateData().
   m_CanUseDestructiveAlgorithm = this->GetInput()->GetReleaseDataFlag();

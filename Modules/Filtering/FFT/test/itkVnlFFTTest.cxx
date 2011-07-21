@@ -49,6 +49,7 @@ int itkVnlFFTTest(int, char *[])
 
   unsigned int SizeOfDimensions1[] = { 4,4,4 };
   unsigned int SizeOfDimensions2[] = { 3,5,4 };
+  unsigned int SizeOfDimensions3[] = { 7,6,4 }; // Should fail
   int rval = 0;
   std::cerr << "Vnl float,1 (4,4,4)" << std::endl;
   if((test_fft<float,1,
@@ -146,5 +147,86 @@ int itkVnlFFTTest(int, char *[])
     std::cerr << "--------------------- Failed!" << std::endl;
     rval++;
     }
+
+  // These tests should fail.
+
+  std::cerr << "Vnl float,1 (7,6,4)" << std::endl;
+  if((test_fft<float,1,
+      itk::VnlFFTRealToComplexConjugateImageFilter<ImageF1> ,
+      itk::VnlFFTComplexConjugateToRealImageFilter<ImageCF1> >(SizeOfDimensions3)) == 0)
+    {
+    std::cerr << "--------------------- Failed!" << std::endl;
+    rval++;
+    }
+  else
+    {
+    std::cerr << "Caught expected size error." << std::endl;
+    }
+
+  std::cerr << "Vnl float,2 (7,6,4)" << std::endl;
+  if((test_fft<float,2,
+      itk::VnlFFTRealToComplexConjugateImageFilter<ImageF2> ,
+      itk::VnlFFTComplexConjugateToRealImageFilter<ImageCF2> >(SizeOfDimensions3)) == 0)
+    {
+    std::cerr << "--------------------- Failed!" << std::endl;
+    rval++;
+    }
+  else
+    {
+    std::cerr << "Caught expected size error." << std::endl;
+    }
+
+  std::cerr << "Vnl float,3 (7,6,4)" << std::endl;
+  if((test_fft<float,3,
+      itk::VnlFFTRealToComplexConjugateImageFilter<ImageF3> ,
+      itk::VnlFFTComplexConjugateToRealImageFilter<ImageCF3> >(SizeOfDimensions3)) == 0)
+    {
+    std::cerr << "--------------------- Failed!" << std::endl;
+    rval++;
+    }
+  else
+    {
+    std::cerr << "Caught expected size error." << std::endl;
+    }
+
+  std::cerr << "Vnl double,1 (7,6,4)" << std::endl;
+  if((test_fft<double,1,
+      itk::VnlFFTRealToComplexConjugateImageFilter<ImageD1> ,
+      itk::VnlFFTComplexConjugateToRealImageFilter<ImageCD1> >(SizeOfDimensions3)) == 0)
+    {
+    std::cerr << "--------------------- Failed!" << std::endl;
+    rval++;
+    }
+  else
+    {
+    std::cerr << "Caught expected size error." << std::endl;
+    }
+
+  std::cerr << "Vnl double,2 (7,6,4)" << std::endl;
+  if((test_fft<double,2,
+      itk::VnlFFTRealToComplexConjugateImageFilter<ImageD2> ,
+      itk::VnlFFTComplexConjugateToRealImageFilter<ImageCD2> >(SizeOfDimensions3)) == 0)
+    {
+    std::cerr << "--------------------- Failed!" << std::endl;
+    rval++;
+    }
+  else
+    {
+    std::cerr << "Caught expected size error." << std::endl;
+    }
+
+  std::cerr << "Vnl double,3 (7,6,4)" << std::endl;
+  if((test_fft<double,3,
+      itk::VnlFFTRealToComplexConjugateImageFilter<ImageD3> ,
+      itk::VnlFFTComplexConjugateToRealImageFilter<ImageCD3> >(SizeOfDimensions3)) == 0)
+    {
+    std::cerr << "--------------------- Failed!" << std::endl;
+    rval++;
+    }
+  else
+    {
+    std::cerr << "Caught expected size error." << std::endl;
+    }
+
   return rval == 0 ? 0 : -1;
 }

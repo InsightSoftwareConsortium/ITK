@@ -19,8 +19,6 @@
 #define __itkFFTComplexConjugateToRealImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkImage.h"
-#include <complex>
 
 namespace itk
 {
@@ -28,13 +26,13 @@ namespace itk
  *
  * \brief Base class for "Inverse" Fast Fourier Transform.
  *
- * This is a base class for the "inverse" or "reverse" discrete Fourier
+ * This is a base class for the "inverse" or "reverse" Discrete Fourier
  * Transform.  This is an abstract base class: the actual implementation is
- * provided by the best child available on the the system when the object is
+ * provided by the best child available on the system when the object is
  * created via the object factory system.
  *
  * This class transforms a complex conjugate symmetric image into its real
- * spatial domain representation.  If the input in not complex conjugate symmetric, the
+ * spatial domain representation.  If the input is not complex conjugate symmetric, the
  * imaginary component is discarded.  The transform of a real input image has
  * complex conjugate symmetry.  That is, values in the second half of the
  * transform are the complex conjugates of values in the first half.  Some
@@ -75,21 +73,17 @@ public:
   /** Customized object creation methods that support configuration-based
   * selection of FFT implementation.
   *
-  * Default implementation is VnlFFT.
-  */
+  * Default implementation is VnlFFT. */
   static Pointer New(void);
-
-  typedef typename InputImageType::SizeType ImageSizeType;
 
   /** The output may be a different size from the input if complex conjugate
    * symmetry is implicit. */
-  virtual void GenerateOutputInformation(); // figure out allocation for output
-                                            // image
+  virtual void GenerateOutputInformation();
 
   /** This class requires the entire input. */
   virtual void GenerateInputRequestedRegion();
 
-  /** Returns true if the outputs size is the same size as the input, i.e.
+  /** Returns true if the output's size is the same size as the input, i.e.
    * we do not take advantage of complex conjugate symmetry. */
   virtual bool FullMatrix() = 0; // must be implemented in child
 
@@ -117,13 +111,15 @@ public:
 protected:
   FFTComplexConjugateToRealImageFilter():m_ActualXDimensionIsOdd(false) {}
   virtual ~FFTComplexConjugateToRealImageFilter(){}
+
+  /** Sets the output requested region to the largest possible output
+   * region. */
   void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) );
+
 private:
   bool m_ActualXDimensionIsOdd;
-  FFTComplexConjugateToRealImageFilter(const Self &); //purposely not
-                                                      // implemented
-  void operator=(const Self &);                       //purposely not
-                                                      // implemented
+  FFTComplexConjugateToRealImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                       //purposely not implemented
 };
 } // end namespace itk
 
