@@ -168,15 +168,6 @@ itk_module_target_label(itkSystemInformation)
 target_link_libraries(itkSystemInformation ${ITKCommon_LIBRARIES})
 itk_add_test(NAME SystemInformation COMMAND itkSystemInformation)
 
-
-if(ITK_OBJCXX_COMPILER_WORKS)
-  add_executable(itkCommonHeaderObjCxxTest itkCommonHeaderObjCxxTest.mm)
-  itk_module_target_label(itkCommonHeaderObjCxxTest)
-  target_link_libraries(itkCommonHeaderObjCxxTest ${ITKCommon_LIBRARIES})
-  itk_add_test(NAME itkCommonHeaderObjCxxTest COMMAND itkCommonHeaderObjCxxTest)
-endif(ITK_OBJCXX_COMPILER_WORKS)
-
-
 if(ITK_BUILD_SHARED_LIBS)
   ## Create a library to test ITK loadable factories
   set(FactoryTest_Source itkFactoryTestLib.cxx)
