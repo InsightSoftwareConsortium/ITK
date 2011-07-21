@@ -68,7 +68,7 @@ int Partition(TSubsample *sample,
               const typename TSubsample::MeasurementType partitionValue);
 
 /** QuickSelect is an algorithm for finding the k-th largest element of a list.
- * In this case, only of the components of the measurement vectors is
+ * In this case, only one of the components of the measurement vectors is
  * considered. This component is defined by the argument activeDimension. The
  * search is rectricted to the range between the index begin and end, also
  * passed as arguments. In this version, a guess value for the median index is
@@ -84,7 +84,7 @@ QuickSelect(TSubsample * sample,
             typename TSubsample::MeasurementType medianGuess);
 
 /** QuickSelect is an algorithm for finding the k-th largest element of a list.
- * In this case, only of the components of the measurement vectors is
+ * In this case, only one of the components of the measurement vectors is
  * considered. This component is defined by the argument activeDimension. The
  * search is rectricted to the range between the index begin and end, also
  * passed as arguments.
@@ -97,11 +97,11 @@ QuickSelect(TSubsample *sample,
             int kth);
 
 /** NthElement is an algorithm for finding the n-th largest element of a list.
- * In this case, only of the components of the measurement vectors is
+ * In this case, only one of the components of the measurement vectors is
  * considered. This component is defined by the argument activeDimension. The
- * search is rectricted to the range between the index begin and end, also
+ * search is restricted to the range between the index begin and end, also
  * passed as arguments. This algorithm was based on the procedure used in the STL
- * nth_element method.*/
+ * nth_element method. */
 template< class TSubsample >
 typename TSubsample::MeasurementType
 NthElement(TSubsample *sample,
