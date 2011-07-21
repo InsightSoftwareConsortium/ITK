@@ -19,49 +19,29 @@
 
 namespace itk
 {
-MinimumDecisionRule
-::MinimumDecisionRule()
-{}
-
-unsigned int
-MinimumDecisionRule
-::Evaluate(const VectorType & discriminantScores) const
+namespace Statistics
 {
-  double       minimumDistance      = discriminantScores[0];
-  unsigned int classifiedPixelIndex = 0;
-  unsigned int numberOfClasses      = static_cast< unsigned int >( discriminantScores.size() );
-
-  //Loop through the probabilities to get the best index
-  for ( unsigned int classIndex = 1; classIndex < numberOfClasses; classIndex++ )
-    {
-    if ( discriminantScores[classIndex] < minimumDistance )
-      {
-      minimumDistance      = discriminantScores[classIndex];
-      classifiedPixelIndex = classIndex;
-      }
-    } // end for
-
-  return classifiedPixelIndex;
-}
-
-unsigned int
+MinimumDecisionRule::ClassIdentifierType
 MinimumDecisionRule
-::Evaluate(const ArrayType & discriminantScores) const
+::Evaluate(const MembershipVectorType & discriminantScores) const
 {
-  double       minimumDistance      = discriminantScores[0];
-  unsigned int classifiedPixelIndex = 0;
-  unsigned int numberOfClasses      = static_cast< unsigned int >( discriminantScores.Size() );
+  ClassIdentifierType minIndex = 0;
 
-  //Loop through the probabilities to get the best index
-  for ( unsigned int classIndex = 1; classIndex < numberOfClasses; classIndex++ )
+  if (discriminantScores.size() > 0)
     {
-    if ( discriminantScores[classIndex] < minimumDistance )
-      {
-      minimumDistance      = discriminantScores[classIndex];
-      classifiedPixelIndex = classIndex;
-      }
-    } // end for
+    MembershipValueType  min = discriminantScores[0];
+    ClassIdentifierType i;
 
-  return classifiedPixelIndex;
+    for ( i = 1; i < discriminantScores.size(); i++ )
+      {
+      if ( discriminantScores[i] < min )
+        {
+        min = discriminantScores[i];
+        minIndex = i;
+        }
+      }
+    }
+  return minIndex;
 }
-} // namespace itk
+} // end of namespace Statistics
+} // end of namespace itk

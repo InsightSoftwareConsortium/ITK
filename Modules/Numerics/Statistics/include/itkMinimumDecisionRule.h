@@ -18,54 +18,56 @@
 #ifndef __itkMinimumDecisionRule_h
 #define __itkMinimumDecisionRule_h
 
-#include "itkWin32Header.h"
-
-#include <vector>
-#include "vnl/vnl_matrix.h"
-#include "itkDecisionRuleBase.h"
+#include "itkDecisionRule.h"
 
 namespace itk
 {
+namespace Statistics
+{
 /** \class MinimumDecisionRule
- *  \brief A Decision rule that choose the class that has minimum value
+ *  \brief A decision rule that returns the class label with the
+ *  smallest discriminant score.
+ *
+ * MinimumDecisionRule returns the class label with the smallest
+ * discriminant score.
+ *
  * \ingroup ITKStatistics
  */
 
-class ITK_EXPORT MinimumDecisionRule:
-  public DecisionRuleBase
+class ITK_EXPORT MinimumDecisionRule:public DecisionRule
 {
 public:
   /** Standard class typedefs */
-  typedef MinimumDecisionRule       Self;
-  typedef DecisionRuleBase          Superclass;
-  typedef itk::SmartPointer< Self > Pointer;
+  typedef MinimumDecisionRule        Self;
+  typedef DecisionRule               Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(MinimumDecisionRule, DecisionRuleBase);
+  itkTypeMacro(MinimumDecisionRule, DecisionRule);
 
   /** Standard New() method support */
   itkNewMacro(Self);
 
-  /** Types for the arguments that are acceptable in the Evaluate() method */
-  typedef Superclass::VectorType VectorType;
-  typedef Superclass::ArrayType  ArrayType;
+  /** Types for discriminant values and vectors. */
+  typedef Superclass::MembershipValueType  MembershipValueType;
+  typedef Superclass::MembershipVectorType MembershipVectorType;
 
-  /** The return value of this function is a class label.
-   * Basically, using its internal logic based on the discriminant
-   * scores, this function decides best class label and return it.
-   */
-  virtual unsigned int Evaluate(const VectorType & discriminantScores) const;
+  /** Types for class identifiers. */
+  typedef Superclass::ClassIdentifierType ClassIdentifierType;
 
-  /** The return value of this function is a class label.
-   * Basically, using its internal logic based on the discriminant
-   * scores, this function decides best class label and return it.
+  /**
+   * Evaluate the decision rule, returning the class label associated
+   * with the smallest discriminant score.
    */
-  virtual unsigned int Evaluate(const ArrayType & discriminantScores) const;
+  virtual ClassIdentifierType Evaluate(const MembershipVectorType & discriminantScores) const;
 
 protected:
-  MinimumDecisionRule();
+  MinimumDecisionRule() {}
   virtual ~MinimumDecisionRule() {}
-}; // end of class
-} // namespace itk
+
+};  // end of class
+} // end of namespace Statistics
+} // end of namespace itk
 
 #endif

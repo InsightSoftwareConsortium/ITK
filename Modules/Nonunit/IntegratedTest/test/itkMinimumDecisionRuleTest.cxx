@@ -19,12 +19,12 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkMinimumDecisionRule2.h"
+#include "itkMinimumDecisionRule.h"
 #include "itkObjectFactory.h"
 
 int itkMinimumDecisionRuleTest(int, char* [] )
 {
-  typedef itk::Statistics::MinimumDecisionRule2      MinimumDecisionRuleType;
+  typedef itk::Statistics::MinimumDecisionRule      MinimumDecisionRuleType;
 
   typedef MinimumDecisionRuleType::MembershipVectorType MembershipVectorType;
 

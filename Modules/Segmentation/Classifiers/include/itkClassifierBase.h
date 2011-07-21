@@ -20,7 +20,7 @@
 
 #include "itkLightProcessObject.h"
 #include "itkMembershipFunctionBase.h"
-#include "itkDecisionRuleBase.h"
+#include "itkDecisionRule.h"
 
 #include <vector>
 
@@ -110,7 +110,7 @@ public:
   MembershipFunctionPointerVector;
 
   /** Type alias for decision rule */
-  typedef DecisionRuleBase DecisionRuleType;
+  typedef Statistics::DecisionRule DecisionRuleType;
 
   /** Sets the pointer to the decision rule.
    * Stores the decision rule that makes the real decision using

@@ -22,7 +22,7 @@
 // Software Guide : BeginLatex
 // \index{itk::Statistics::Maximum\-Decision\-Rule}
 //
-// The \doxygen{MaximumDecisionRule2} returns the index of the largest
+// The \doxygen{MaximumDecisionRule} returns the index of the largest
 // discriminant score among the discriminant scores in the vector of
 // discriminant scores that is the input argument of the \code{Evaluate()}
 // method.
@@ -35,7 +35,7 @@
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-#include "itkMaximumDecisionRule2.h"
+#include "itkMaximumDecisionRule.h"
 #include <vector>
 // Software Guide : EndCodeSnippet
 
@@ -49,7 +49,7 @@ int main(int, char*[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::MaximumDecisionRule2 DecisionRuleType;
+  typedef itk::Statistics::MaximumDecisionRule DecisionRuleType;
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
   // Software Guide : EndCodeSnippet
 
@@ -63,7 +63,7 @@ int main(int, char*[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  std::vector< double > discriminantScores;
+  DecisionRuleType::MembershipVectorType discriminantScores;
   discriminantScores.push_back( 0.1 );
   discriminantScores.push_back( 0.3 );
   discriminantScores.push_back( 0.6 );

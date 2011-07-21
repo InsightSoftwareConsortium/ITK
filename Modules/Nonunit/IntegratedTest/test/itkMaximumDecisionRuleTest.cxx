@@ -19,12 +19,12 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkMaximumDecisionRule2.h"
+#include "itkMaximumDecisionRule.h"
 #include "itkObjectFactory.h"
 
 int itkMaximumDecisionRuleTest(int, char* [] )
 {
-  typedef itk::Statistics::MaximumDecisionRule2      MaximumDecisionRuleType;
+  typedef itk::Statistics::MaximumDecisionRule      MaximumDecisionRuleType;
 
   typedef MaximumDecisionRuleType::MembershipVectorType MembershipVectorType;
 

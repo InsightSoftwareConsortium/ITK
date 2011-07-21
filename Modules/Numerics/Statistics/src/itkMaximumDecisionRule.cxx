@@ -19,63 +19,29 @@
 
 namespace itk
 {
-void
-MaximumDecisionRule::PrintSelf(std::ostream & os, Indent indent) const
+namespace Statistics
 {
-  Superclass::PrintSelf(os, indent);
-}
-
-unsigned int
-MaximumDecisionRule::Evaluate(const VectorType & discriminantScores) const
+MaximumDecisionRule::ClassIdentifierType
+MaximumDecisionRule
+::Evaluate(const MembershipVectorType & discriminantScores) const
 {
-  double       max = discriminantScores[0];
-  unsigned int maxIndex = 0;
-  unsigned int i;
+  ClassIdentifierType maxIndex = 0;
 
-  for ( i = 1; i < discriminantScores.size(); i++ )
+  if (discriminantScores.size() > 0)
     {
-    if ( discriminantScores[i] > max )
+    MembershipValueType  max = discriminantScores[0];
+    ClassIdentifierType i;
+
+    for ( i = 1; i < discriminantScores.size(); i++ )
       {
-      max = discriminantScores[i];
-      maxIndex = i;
+      if ( discriminantScores[i] > max )
+        {
+        max = discriminantScores[i];
+        maxIndex = i;
+        }
       }
     }
   return maxIndex;
 }
-
-unsigned int
-MaximumDecisionRule::Evaluate(const ArrayType & discriminantScores) const
-{
-  double       max = discriminantScores[0];
-  unsigned int maxIndex = 0;
-  unsigned int i;
-
-  for ( i = 1; i < discriminantScores.Size(); i++ )
-    {
-    if ( discriminantScores[i] > max )
-      {
-      max = discriminantScores[i];
-      maxIndex = i;
-      }
-    }
-  return maxIndex;
-}
-
-unsigned int
-MaximumDecisionRule::Evaluate(const VariableLengthVectorType & discriminantScores) const
-{
-  double       max = discriminantScores[0];
-  unsigned int maxIndex = 0;
-  unsigned int i;
-
-  for ( i = 1; i < discriminantScores.Size(); i++ )
-    {
-    if ( discriminantScores[i] > max )
-      {
-      max = discriminantScores[i];
-      maxIndex = i;
-      }
-    }
-  return maxIndex;
-}
+} // end of namespace Statistics
 } // end of namespace itk

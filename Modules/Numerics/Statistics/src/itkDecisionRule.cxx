@@ -29,11 +29,5 @@ DecisionRule
 ::~DecisionRule()
 {}
 
-void
-DecisionRule
-::PrintSelf(std::ostream & os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-} // end PrintSelf
 } // end of namespace Statistics
 } // end of namespace itk

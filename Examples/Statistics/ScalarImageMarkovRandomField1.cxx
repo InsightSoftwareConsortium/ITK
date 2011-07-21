@@ -262,7 +262,7 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::MinimumDecisionRule DecisionRuleType;
+  typedef itk::Statistics::MinimumDecisionRule DecisionRuleType;
 
   DecisionRuleType::Pointer  classifierDecisionRule = DecisionRuleType::New();
 

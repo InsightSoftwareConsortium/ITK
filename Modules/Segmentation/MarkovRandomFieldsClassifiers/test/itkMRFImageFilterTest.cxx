@@ -281,9 +281,7 @@ int itkMRFImageFilterTest(int, char* [] )
   //----------------------------------------------------------------------
   //Set the decision rule
   //----------------------------------------------------------------------
-  typedef itk::DecisionRuleBase::Pointer DecisionRuleBasePointer;
-
-  typedef itk::MinimumDecisionRule DecisionRuleType;
+  typedef itk::Statistics::MinimumDecisionRule DecisionRuleType;
   DecisionRuleType::Pointer
     myDecisionRule = DecisionRuleType::New();
 
@@ -308,7 +306,7 @@ int itkMRFImageFilterTest(int, char* [] )
 
   // Set the decison rule
   myClassifier->
-    SetDecisionRule((DecisionRuleBasePointer) myDecisionRule );
+    SetDecisionRule((itk::Statistics::DecisionRule *) myDecisionRule );
 
   //Add the membership functions
   for( unsigned int ii=0; ii<NUM_CLASSES; ii++ )

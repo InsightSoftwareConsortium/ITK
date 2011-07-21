@@ -30,14 +30,21 @@ namespace itk
 namespace Statistics
 {
 /** \class DecisionRule
- *  \brief Base class that allows the setting of usage of different
- *  decision rules used in classification
- *  This class has the pure virtual function, Evaluate(). Therefore,
- *  any subclass should implement the function to be instantiated.
- * \ingroup ITKStatistics
+ *  \brief Base class for decision rules that return a class label
+ *  based on a set of discriminant scores.
+ *
+ *  DecisionRule is the base class for decision rules used in
+ *  classification. Subclasses of DecisionRule include
+ *  MaximumDecisionRule, MinimumDecisionRule, and
+ *  MaximumRationDecisionRule, This class has a pure virtual function,
+ *  Evaluate(), which implements the particular decision rule, given a
+ *  set of discriminant scores. Concrete subclasses of
+ *  DecisionRule must implement this method.
+ *
+ *  \ingroup ITKStatistics
  */
 
-class ITK_EXPORT DecisionRule:public Object
+class ITK_EXPORT DecisionRule : public Object
 {
 public:
   /** Standard class typedefs */
@@ -49,19 +56,23 @@ public:
   /** Run-time type information (and related methods) */
   itkTypeMacro(DecisionRule, Object);
 
-  /** Types for the arguments that are acceptable in the Evaluate() method */
-  typedef std::vector< double > MembershipVectorType;
+  /** Types for discriminant values and vectors. */
+  typedef double                             MembershipValueType;
+  typedef std::vector< MembershipValueType > MembershipVectorType;
 
-  /** The return value of this function is a class label.
-   * Basically, using its internal logic based on the discriminant
-   * scores, this function decides best class label and return it.
+  /** Types for class identifiers. */
+  typedef MembershipVectorType::size_type ClassIdentifierType;
+
+  /**
+   * Evaluate the decision rule. The return value of this function is
+   * a class label.  Functions returns the best label given the
+   * discriminant scores using its internal logic.
    */
-  virtual unsigned int Evaluate(const MembershipVectorType & discriminantScores) const = 0;
+  virtual ClassIdentifierType Evaluate(const MembershipVectorType & discriminantScores) const = 0;
 
 protected:
   DecisionRule();
   virtual ~DecisionRule();
-  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
   DecisionRule(const Self &);   //purposely not implemented

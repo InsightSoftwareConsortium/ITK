@@ -18,54 +18,58 @@
 #ifndef __itkMaximumDecisionRule_h
 #define __itkMaximumDecisionRule_h
 
-#include "itkWin32Header.h"
-
-#include "itkDecisionRuleBase.h"
+#include "itkDecisionRule.h"
 
 namespace itk
 {
+namespace Statistics
+{
 /** \class MaximumDecisionRule
- *  \brief A Decision rule that choose the class of which discriminant
- *  score is the largest.
+ *  \brief A decision rule that returns the class label with the
+ *  largest discriminant score.
+ *
+ * MaximumDecisionRule returns the class label with the largest
+ * discriminant score. If the discriminant scores are likelihood
+ * \f$p(x|i)\f$, then this decision rule is a maximum likelihood
+ * decision rule.
+ *
  * \ingroup ITKStatistics
  */
 
-class ITK_EXPORT MaximumDecisionRule:
-  public DecisionRuleBase
+class ITK_EXPORT MaximumDecisionRule:public DecisionRule
 {
 public:
   /** Standard class typedefs */
   typedef MaximumDecisionRule        Self;
-  typedef DecisionRuleBase           Superclass;
+  typedef DecisionRule               Superclass;
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(MaximumDecisionRule, DecisionRuleBase);
+  itkTypeMacro(MaximumDecisionRule, DecisionRule);
 
   /** Standard New() method support */
   itkNewMacro(Self);
 
-  /** Types for the arguments that are acceptable in the Evaluate() method */
-  typedef Superclass::VectorType               VectorType;
-  typedef Superclass::ArrayType                ArrayType;
-  typedef Superclass::VariableLengthVectorType VariableLengthVectorType;
+  /** Types for discriminant values and vectors. */
+  typedef Superclass::MembershipValueType  MembershipValueType;
+  typedef Superclass::MembershipVectorType MembershipVectorType;
 
-  /** The return value of this function is a class label.
-   * Basically, using its internal logic based on the discriminant
-   * scores, this function decides best class label and return it.
+  /** Types for class identifiers. */
+  typedef Superclass::ClassIdentifierType ClassIdentifierType;
+
+  /**
+   * Evaluate the decision rule, returning the class label associated
+   * with the largest discriminant score.
    */
-  virtual unsigned int Evaluate(const VectorType & discriminantScores) const;
-
-  virtual unsigned int Evaluate(const ArrayType & discriminantScores) const;
-
-  virtual unsigned int Evaluate(const VariableLengthVectorType & discriminantScores) const;
+  virtual ClassIdentifierType Evaluate(const MembershipVectorType & discriminantScores) const;
 
 protected:
   MaximumDecisionRule() {}
   virtual ~MaximumDecisionRule() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
-}; // end of class
+
+};  // end of class
+} // end of namespace Statistics
 } // end of namespace itk
 
 #endif

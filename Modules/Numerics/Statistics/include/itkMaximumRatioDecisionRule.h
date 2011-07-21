@@ -18,81 +18,98 @@
 #ifndef __itkMaximumRatioDecisionRule_h
 #define __itkMaximumRatioDecisionRule_h
 
-#include "itkWin32Header.h"
-
 #include <vector>
 #include "vnl/vnl_matrix.h"
 
 #include "itkNumericTraits.h"
-#include "itkDecisionRuleBase.h"
+#include "itkDecisionRule.h"
 
 namespace itk
 {
+namespace Statistics
+{
 /** \class MaximumRatioDecisionRule
- *  \brief This rule returns  \f$i\f$ if
- *   \f$\frac{f_{i}(\overrightarrow{x})}{f_{j}(\overrightarrow{x})} >
- *   \frac{K_{j}}{K_{i}}\f$ for all \f$j \not= i\f$,
- * where the \f$i\f$ is the index of a class which has
- * membership function \f$f_{i}\f$ and its prior value
- * (usually, the a priori probability or the size of a class) is
- * \f$K_{i}\f$
+ *  \brief A decision rule that operates as a frequentist's
+ *  approximation to Bayes rule.
  *
- * Users should set the a priori values before calling the Evaluate method.
+ * MaximumRatioDecisionRule returns the class label using a Bayesian
+ * style decision rule. The discriminant scores are evaluated in the
+ * context of class priors. If the discriminant scores are actual
+ * conditional probabilites (likelihoods) and the class priors are
+ * actual a priori class probabilities, then this decision rule operates
+ * as Bayes rule, returning the class \f$i\f$ if
+ * \f$p(x|i) p(i) > p(x|j) p(j)\f$ for all class \f$j\f$. The
+ * discriminant scores and priors are not required to be true
+ * probabilities.
+ *
+ * This class is named the MaximumRatioDecisionRule as it can be
+ * implemented as returning the class \f$i\f$ if
+ * \f$\frac{p(x|i)}{p(x|j)} > \frac{p(j)}{p(i)}\f$ for all class
+ * \f$j\f$.
+ *
+ * A priori values need to be set before calling the Evaluate
+ * method. If they are not set, a uniform prior is assumed.
  *
  * \sa MaximumDecisionRule, MinimumDecisionRule
  * \ingroup ITKStatistics
  */
 
-class ITK_EXPORT MaximumRatioDecisionRule:
-  public DecisionRuleBase
+class ITK_EXPORT MaximumRatioDecisionRule : public DecisionRule
 {
 public:
   /** Standard class typedefs */
-  typedef MaximumRatioDecisionRule Self;
-  typedef DecisionRuleBase         Superclass;
-  typedef SmartPointer< Self >     Pointer;
+  typedef MaximumRatioDecisionRule  Self;
+  typedef DecisionRule              Superclass;
+  typedef SmartPointer< Self >      Pointer;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(MaximumRatioDecisionRule, DecisionRuleBase);
+  itkTypeMacro(MaximumRatioDecisionRule, DecisionRule);
 
   /** Standard New() method support */
   itkNewMacro(Self);
 
-  typedef float                           APrioriValueType;
-  typedef std::vector< APrioriValueType > APrioriVectorType;
-  typedef APrioriVectorType::size_type    APrioriVectorSizeType;
+  /** Types for discriminant values and vectors. */
+  typedef Superclass::MembershipValueType  MembershipValueType;
+  typedef Superclass::MembershipVectorType MembershipVectorType;
 
-  /** Types for the arguments that are acceptable in the Evaluate() method */
-  typedef Superclass::VectorType VectorType;
-  typedef Superclass::ArrayType  ArrayType;
+  /** Types for class identifiers. */
+  typedef Superclass::ClassIdentifierType ClassIdentifierType;
 
-  /** The return value of this function is a class label.
-   * Basically, using its internal logic based on the discriminant
-   * scores, this function decides best class label and return it.
+  /** Types for priors and values */
+  typedef MembershipValueType                      PriorProbabilityValueType;
+  typedef std::vector< PriorProbabilityValueType > PriorProbabilityVectorType;
+  typedef PriorProbabilityVectorType::size_type    PriorProbabilityVectorSizeType;
+
+  /**
+   * Evaluate the decision rule \f$p(x|i) p(i) > p(x|j) p(j)\f$. Prior
+   * probabilities need to be set before calling Evaluate() using the
+   * SetPriorProbabilities() method (otherwise a uniform prior is
+   * assumed). Parameter to Evaluate() is the discriminant score in
+   * the form of a likelihood \f$p(x|i)\f$.
    */
-  virtual unsigned int Evaluate(const VectorType & discriminantScores) const;
+  virtual ClassIdentifierType Evaluate(const MembershipVectorType & discriminantScores) const;
 
-  /** The return value of this function is a class label.
-   * Basically, using its internal logic based on the discriminant
-   * scores, this function decides best class label and return it.
-   */
-  virtual unsigned int Evaluate(const ArrayType & discriminantScores) const;
+  /** Set the prior probabilities used in evaluating
+   * \f$p(x|i) p(i) > p(x|j) p(j)\f$. The likelihoods are set using
+   * the Evaluate() method. SetPriorProbabilities needs to be called before
+   * Evaluate(). If not set, assumes a uniform prior.  */
+  void SetPriorProbabilities(const PriorProbabilityVectorType& p);
 
-  /** Sets the a priori probabilities */
-  void SetAPriori(APrioriVectorType & values);
+  /** Get the prior probabilities. */
+  itkGetConstReferenceMacro(PriorProbabilities, PriorProbabilityVectorType);
 
 protected:
   MaximumRatioDecisionRule();
   virtual ~MaximumRatioDecisionRule() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
 private:
   MaximumRatioDecisionRule(const Self &); //purposely not implemented
-  void operator=(const Self &);           //purposely not implemented
+  void operator=(const Self &);            //purposely not implemented
 
-  /** Number of classes */
-  APrioriVectorSizeType m_NumberOfClasses;
+  PriorProbabilityVectorType m_PriorProbabilities;
 
-  /** a priori probability ratio matrix: internal use */
-  vnl_matrix< double > m_APrioriRatioMatrix;
-}; // end of class
-} // end of namespace
+};  // end of class
+} // end of Statistics namespace
+} // end of ITK namespace
 #endif

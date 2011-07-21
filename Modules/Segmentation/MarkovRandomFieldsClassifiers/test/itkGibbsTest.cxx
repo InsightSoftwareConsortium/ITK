@@ -245,9 +245,9 @@ int itkGibbsTest(int, char*[] )
   //----------------------------------------------------------------------
   //Set the decision rule
   //----------------------------------------------------------------------
-  typedef itk::DecisionRuleBase::Pointer DecisionRuleBasePointer;
+  typedef itk::Statistics::DecisionRule::Pointer DecisionRuleBasePointer;
 
-  typedef itk::MinimumDecisionRule DecisionRuleType;
+  typedef itk::Statistics::MinimumDecisionRule DecisionRuleType;
   DecisionRuleType::Pointer
     myDecisionRule = DecisionRuleType::New();
 

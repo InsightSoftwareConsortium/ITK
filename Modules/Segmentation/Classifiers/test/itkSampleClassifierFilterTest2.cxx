@@ -22,7 +22,7 @@
 #include "itkVariableLengthVector.h"
 #include "itkListSample.h"
 #include "itkSampleClassifierFilter.h"
-#include "itkMaximumDecisionRule2.h"
+#include "itkMaximumDecisionRule.h"
 #include "itkGaussianMembershipFunction.h"
 #include "itkNormalVariateGenerator.h"
 
@@ -115,7 +115,7 @@ int itkSampleClassifierFilterTest2( int, char * [] )
   classLabelVector.push_back( class2 );
 
   //Set a decision rule type
-  typedef itk::Statistics::MaximumDecisionRule2  DecisionRuleType;
+  typedef itk::Statistics::MaximumDecisionRule  DecisionRuleType;
 
   DecisionRuleType::Pointer    decisionRule = DecisionRuleType::New();
   filter->SetDecisionRule( decisionRule );

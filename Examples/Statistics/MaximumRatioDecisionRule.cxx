@@ -20,20 +20,35 @@
 #endif
 
 // Software Guide : BeginLatex
-// \index{itk::Statistics::MinimumDecisionRule2}
+// \index{itk::Statistics::Maximum\-Ratio\-Decision\-Rule}
 //
-// The \code{Evaluate()} method of the \doxygen{MinimumDecisionRule2}
-// returns the index of the smallest discriminant score among the
-// vector of discriminant scores that it receives as input.
+// MaximumRatioDecisionRule returns the class label using a Bayesian
+// style decision rule. The discriminant scores are evaluated in the
+// context of class priors. If the discriminant scores are actual
+// conditional probabilites (likelihoods) and the class priors are
+// actual a priori class probabilities, then this decision rule operates
+// as Bayes rule, returning the class $i$ if
+// \begin{equation}
+//     p(x|i) p(i) > p(x|j) p(j)
+// \end{equation}
+// for all class $j$. The discriminant scores and priors are not
+// required to be true probabilities.
 //
-// To begin this example, we include the class header file.  We also include
-// the header file for the \code{std::vector} class that will be the
-// container for the discriminant scores.
+// This class is named the MaximumRatioDecisionRule as it can be
+// implemented as returning the class $i$ if
+// \begin{equation}
+//     \frac{p(x|i)}{p(x|j)} > \frac{p(j)}{p(i)}
+// \end{equation}
+// for all class $j$.
+//
+// We include the header files for the class as well as the header file for
+// the \code{std::vector} class that will be the container for the
+// discriminant scores.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-#include "itkMinimumDecisionRule2.h"
+#include "itkMaximumRatioDecisionRule.h"
 #include <vector>
 // Software Guide : EndCodeSnippet
 
@@ -47,7 +62,7 @@ int main(int, char*[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::MinimumDecisionRule2 DecisionRuleType;
+  typedef itk::Statistics::MaximumRatioDecisionRule DecisionRuleType;
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
   // Software Guide : EndCodeSnippet
 
@@ -55,18 +70,25 @@ int main(int, char*[])
   // Software Guide : BeginLatex
   //
   // We create the discriminant score vector and fill it with three
-  // values. The call \code{Evaluate( discriminantScores )} will return 0
-  // because the first value is the smallest value.
+  // values. We also create a vector (\code{aPrioris}) for the \emph{a
+  // priori} values. The \code{Evaluate( discriminantScores )} will
+  // return 1.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  std::vector< double > discriminantScores;
+  DecisionRuleType::MembershipVectorType discriminantScores;
   discriminantScores.push_back( 0.1 );
   discriminantScores.push_back( 0.3 );
   discriminantScores.push_back( 0.6 );
 
-  std::cout << "MinimumDecisionRule2: The index of the chosen = "
+  DecisionRuleType::PriorProbabilityVectorType aPrioris;
+  aPrioris.push_back( 0.1 );
+  aPrioris.push_back( 0.8 );
+  aPrioris.push_back( 0.1 );
+
+  decisionRule->SetPriorProbabilities( aPrioris );
+  std::cout << "MaximumRatioDecisionRule: The index of the chosen = "
             << decisionRule->Evaluate( discriminantScores )
             << std::endl;
   // Software Guide : EndCodeSnippet
