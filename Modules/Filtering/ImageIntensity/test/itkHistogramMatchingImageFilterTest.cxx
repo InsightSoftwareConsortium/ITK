@@ -71,7 +71,7 @@ int itkHistogramMatchingImageFilterTest(int, char* [] )
   typedef float PixelType;
   enum {ImageDimension = 3};
   typedef itk::Image<PixelType,ImageDimension> ImageType;
-  typedef itk::ImageRegionIterator<ImageType> Iterator;
+  typedef itk::ImageRegionIterator<ImageType>  Iterator;
 
   ImageType::SizeType size;
   size[0] = 30;
@@ -87,6 +87,13 @@ int itkHistogramMatchingImageFilterTest(int, char* [] )
   reference->SetLargestPossibleRegion( region );
   reference->SetBufferedRegion( region );
   reference->Allocate();
+
+  // Change the origin of the reference image.
+  ImageType::PointType origin;
+  origin[0] = 1.0;
+  origin[1] = 10.0;
+  origin[2] = 100.0;
+  reference->SetOrigin(origin);
 
   source->SetLargestPossibleRegion( region );
   source->SetBufferedRegion( region );
