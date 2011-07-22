@@ -35,18 +35,31 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage >
 {
   this->SetNumberOfRequiredOutputs(3);
 
-  OutputImagePointer distanceMap = OutputImageType::New();
-  this->SetNthOutput( 0, distanceMap.GetPointer() );
+  // distance map
+  this->SetNthOutput( 0, this->MakeOutput( 0 ) );
 
-  OutputImagePointer voronoiMap = OutputImageType::New();
-  this->SetNthOutput( 1, voronoiMap.GetPointer() );
+  // voronoi map
+  this->SetNthOutput( 1, this->MakeOutput( 1 ) );
 
-  VectorImagePointer distanceVectors = VectorImageType::New();
-  this->SetNthOutput( 2, distanceVectors.GetPointer() );
+  // distance vectors
+  this->SetNthOutput( 2, this->MakeOutput( 2 ) );
 
   m_SquaredDistance     = false;
   m_InputIsBinary       = false;
   m_UseImageSpacing     = false;
+}
+
+template< class TInputImage, class TOutputImage >
+typename DanielssonDistanceMapImageFilter<
+  TInputImage, TOutputImage >::DataObjectPointer
+DanielssonDistanceMapImageFilter< TInputImage, TOutputImage >
+::MakeOutput(unsigned int idx)
+{
+  if( idx == 2 )
+    {
+    return static_cast< DataObject* >( VectorImageType::New().GetPointer() );
+    }
+  return Superclass::MakeOutput( idx );
 }
 
 /**
