@@ -36,8 +36,6 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >::CannyEdgeDetectionIm
   m_Variance.Fill(0.0);
   m_MaximumError.Fill(0.01);
 
-  m_OutsideValue = NumericTraits< OutputImagePixelType >::Zero;
-  m_Threshold = NumericTraits< OutputImagePixelType >::Zero;
   m_UpperThreshold = NumericTraits< OutputImagePixelType >::Zero;
   m_LowerThreshold = NumericTraits< OutputImagePixelType >::Zero;
 
@@ -636,17 +634,11 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 
   os << "Variance: " << m_Variance << std::endl;
   os << "MaximumError: " << m_MaximumError << std::endl;
-  os << indent << "Threshold: "
-     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_Threshold )
-     << std::endl;
   os << indent << "UpperThreshold: "
      << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_UpperThreshold )
      << std::endl;
   os << indent << "LowerThreshold: "
      << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_LowerThreshold )
-     << std::endl;
-  os << indent << "OutsideValue: "
-     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_OutsideValue )
      << std::endl;
   os << "Center: "
      << m_Center << std::endl;

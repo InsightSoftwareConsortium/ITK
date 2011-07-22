@@ -190,10 +190,6 @@ public:
   itkSetMacro(LowerThreshold, OutputImagePixelType);
   itkGetConstMacro(LowerThreshold, OutputImagePixelType);
 
-  /* Set the Thresholdvalue for detected edges. */
-  itkSetMacro(OutsideValue, OutputImagePixelType);
-  itkGetConstMacro(OutsideValue, OutputImagePixelType);
-
   OutputImageType * GetNonMaximumSuppressionImage()
   {
     return this->m_MultiplyImageFilter->GetOutput();
@@ -320,12 +316,6 @@ private:
 
   /** Lower threshold value for identifying edges. */
   OutputImagePixelType m_LowerThreshold; //should be float here?
-
-  /** Threshold value for identifying edges. */
-  OutputImagePixelType m_Threshold;
-
-  /** "Background" value for use in thresholding. */
-  OutputImagePixelType m_OutsideValue;
 
   /** Update buffers used during calculation of multiple steps */
   typename OutputImageType::Pointer m_UpdateBuffer1;
