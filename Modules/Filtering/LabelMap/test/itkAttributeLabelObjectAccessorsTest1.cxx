@@ -86,23 +86,13 @@ int itkAttributeLabelObjectAccessorsTest1(int argc, char * argv[])
     double mean = 0;
     unsigned long size = 0;
 
-    // the iterator for the lines
-    LabelObjectType::LineContainerType::const_iterator lit;
-    LabelObjectType::LineContainerType & lineContainer = labelObject->GetLineContainer();
-
-    // iterate over all the lines
-    for( lit = lineContainer.begin(); lit != lineContainer.end(); lit++ )
+    // the iterator for the indexes
+    LabelObjectType::ConstIndexIterator it( labelObject );
+    while( ! it.IsAtEnd() )
       {
-      const LabelMapType::IndexType & firstIdx = lit->GetIndex();
-      const unsigned long & length = lit->GetLength();
-
-      size += length;
-
-      long endIdx0 = firstIdx[0] + length;
-      for( LabelMapType::IndexType idx = firstIdx; idx[0]<endIdx0; idx[0]++)
-        {
-        mean += reader2->GetOutput()->GetPixel( idx );
-        }
+      mean += reader2->GetOutput()->GetPixel( it.GetIndex() );
+      size++;
+      ++it;
       }
 
     mean /= size;

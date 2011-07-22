@@ -69,8 +69,6 @@ public:
 
   typedef typename Superclass::LengthType LengthType;
 
-  typedef typename Superclass::LineContainerType LineContainerType;
-
   typedef Matrix< double, itkGetStaticConstMacro(ImageDimension), itkGetStaticConstMacro(ImageDimension) > MatrixType;
 
   typedef Vector< double, itkGetStaticConstMacro(ImageDimension) > VectorType;

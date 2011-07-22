@@ -98,9 +98,9 @@ void
 ChangeRegionLabelMapFilter< TInputImage >
 ::ThreadedProcessLabelObject(LabelObjectType *labelObject)
 {
-  typename InputImageType::LabelObjectType::LineContainerType::const_iterator lit;
-  typename InputImageType::LabelObjectType::LineContainerType lineContainer = labelObject->GetLineContainer();
-  labelObject->GetLineContainer().clear();
+  typename LabelObjectType::Pointer tmp = LabelObjectType::New();
+  tmp->CopyAllFrom( labelObject );
+  labelObject->Clear();
 
   const IndexType idxMin = m_Region.GetIndex();
   IndexType       idxMax;
@@ -109,10 +109,11 @@ ChangeRegionLabelMapFilter< TInputImage >
     idxMax[i] = idxMin[i] + m_Region.GetSize()[i] - 1;
     }
 
-  for ( lit = lineContainer.begin(); lit != lineContainer.end(); lit++ )
+  typename LabelObjectType::ConstLineIterator lit( tmp );
+  while( ! lit.IsAtEnd() )
     {
-    const IndexType      idx = lit->GetIndex();
-    const IndexValueType length = lit->GetLength();
+    const IndexType      idx = lit.GetLine().GetIndex();
+    const IndexValueType length = lit.GetLine().GetLength();
 
     bool outside = false;
     for ( unsigned int i = 1; i < ImageDimension; i++ )
@@ -143,10 +144,11 @@ ChangeRegionLabelMapFilter< TInputImage >
         labelObject->AddLine(newIdx, newLength);
         }
       }
+    ++lit;
     }
 
   // remove the object if it is empty
-  if ( labelObject->GetLineContainer().empty() )
+  if ( labelObject->Empty() )
     {
     this->m_LabelObjectContainerLock->Lock();
     this->GetOutput()->RemoveLabelObject(labelObject);

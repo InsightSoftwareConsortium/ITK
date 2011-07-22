@@ -61,18 +61,12 @@ LabelMapToRGBImageFilter<TInputImage, TOutputImage>
   FunctorType function;
   function.SetBackgroundValue( this->GetInput()->GetBackgroundValue() );
 
-  typename InputImageType::LabelObjectType::LineContainerType::const_iterator lit;
-  typename InputImageType::LabelObjectType::LineContainerType & lineContainer = labelObject->GetLineContainer();
-
-  for( lit = lineContainer.begin(); lit != lineContainer.end(); lit++ )
+  typename LabelObjectType::ConstIndexIterator it( labelObject );
+  while( ! it.IsAtEnd() )
     {
-    IndexType idx = lit->GetIndex();
-    LengthType length = lit->GetLength();
-    for( LengthType i=0; i<length; i++)
-      {
-      this->GetOutput()->SetPixel( idx, function( label ) );
-      idx[0]++;
-      }
+    const IndexType idx = it.GetIndex();
+    this->GetOutput()->SetPixel( idx, function( label ) );
+    ++it;
     }
 }
 

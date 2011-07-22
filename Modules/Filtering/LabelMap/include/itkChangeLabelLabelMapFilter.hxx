@@ -156,16 +156,11 @@ ChangeLabelLabelMapFilter< TImage >
         // Add the content of the label object to the one already there
         LabelObjectType *labelObjectDestination = output->GetLabelObject(newLabel);
 
-        typedef typename LabelObjectType::LineContainerType LineContainerType;
-
-        const LineContainerType & lineContainer = labelObjectSource->GetLineContainer();
-
-        typename LineContainerType::const_iterator lineItr = lineContainer.begin();
-
-        while ( lineItr != lineContainer.end() )
+        typename LabelObjectType::ConstLineIterator lit( labelObjectSource );
+        while ( ! lit.IsAtEnd() )
           {
-          labelObjectDestination->AddLine(*lineItr);
-          ++lineItr;
+          labelObjectDestination->AddLine( lit.GetLine() );
+          ++lit;
           }
 
         // be sure to have the lines well organized

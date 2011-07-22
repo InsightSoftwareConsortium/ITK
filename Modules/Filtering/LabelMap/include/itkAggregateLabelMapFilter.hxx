@@ -46,12 +46,11 @@ AggregateLabelMapFilter< TImage >
     while ( it != labelObjectContainer.end() )
       {
       LabelObjectType *lo = it->second;
-      typename LabelObjectType::LineContainerType::const_iterator lit;
-      typename LabelObjectType::LineContainerType & lineContainer = lo->GetLineContainer();
-
-      for ( lit = lineContainer.begin(); lit != lineContainer.end(); lit++ )
+      typename LabelObjectType::ConstLineIterator lit( lo );
+      while( ! lit.IsAtEnd() )
         {
-        mainLo->AddLine(*lit);
+        mainLo->AddLine( lit.GetLine() );
+        ++lit;
         }
       // be sure to have the lines well organized
       mainLo->Optimize();

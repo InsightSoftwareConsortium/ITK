@@ -109,16 +109,14 @@ ShapeLabelMapFilter< TImage, TLabelImage >
   MatrixType    centralMoments;
   centralMoments.Fill(0);
 
-  typename LabelObjectType::LineContainerType::const_iterator lit;
-  typename LabelObjectType::LineContainerType & lineContainer = labelObject->GetLineContainer();
-
   typedef typename LabelObjectType::LengthType  LengthType;
 
   // Iterate over all the lines
-  for ( lit = lineContainer.begin(); lit != lineContainer.end(); lit++ )
+  typename LabelObjectType::ConstLineIterator lit( labelObject );
+  while( ! lit.IsAtEnd() )
     {
-    const IndexType & idx = lit->GetIndex();
-    LengthType     length = lit->GetLength();
+    const IndexType & idx = lit.GetLine().GetIndex();
+    LengthType     length = lit.GetLine().GetLength();
 
     // Update the nbOfPixels
     nbOfPixels += length;
@@ -268,6 +266,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
       centralMoments[i][0] += cm;
       centralMoments[0][i] += cm;
       }
+    ++lit;
     }
 
   // final computation
@@ -406,10 +405,6 @@ ShapeLabelMapFilter< TImage, TLabelImage >
   typedef typename std::deque< IndexType > IndexListType;
   IndexListType idxList;
 
-  // the iterators
-  typename LabelObjectType::LineContainerType::const_iterator lit;
-  typename LabelObjectType::LineContainerType & lineContainer = labelObject->GetLineContainer();
-
   typedef typename LabelObjectType::LengthType LengthType;
 
   typedef typename itk::ConstNeighborhoodIterator< LabelImageType > NeighborIteratorType;
@@ -424,28 +419,23 @@ ShapeLabelMapFilter< TImage, TLabelImage >
 
   typedef typename NeighborIteratorType::NeighborIndexType   NeighborIndexType;
 
-  // Iterate over all the lines
-  for ( lit = lineContainer.begin(); lit != lineContainer.end(); lit++ )
+  // Iterate over all the indexes
+  typename LabelObjectType::ConstIndexIterator iit( labelObject );
+  while( ! iit.IsAtEnd() )
     {
-    const IndexType & firstIdx = lit->GetIndex();
-    LengthType     length = lit->GetLength();
+    // Move the iterator to the new location
+    it += iit.GetIndex() - it.GetIndex();
 
-    IndexValueType endIdx0 = firstIdx[0] + (OffsetValueType)length;
-    for ( IndexType idx = firstIdx; idx[0] < endIdx0; idx[0]++ )
+    // Push the pixel in the list if it is on the border of the object
+    for ( NeighborIndexType i = 0; i < it.Size(); i++ )
       {
-      // Move the iterator to the new location
-      it += idx - it.GetIndex();
-
-      // Push the pixel in the list if it is on the border of the object
-      for ( NeighborIndexType i = 0; i < it.Size(); i++ )
+      if ( it.GetPixel(i) != label )
         {
-        if ( it.GetPixel(i) != label )
-          {
-          idxList.push_back(idx);
-          break;
-          }
+        idxList.push_back( iit.GetIndex() );
+        break;
         }
       }
+    ++iit;
     }
 
   ImageType *output = this->GetOutput();
@@ -486,10 +476,6 @@ void
 ShapeLabelMapFilter< TImage, TLabelImage >
 ::ComputePerimeter(LabelObjectType *labelObject)
 {
-  // the iterators
-  typename LabelObjectType::LineContainerType::const_iterator lit;
-  typename LabelObjectType::LineContainerType & lineContainer = labelObject->GetLineContainer();
-
   // store the lines in a N-1D image of vectors
   typedef std::deque< typename LabelObjectType::LineType > VectorLineType;
   typedef itk::Image< VectorLineType, ImageDimension - 1 > LineImageType;
@@ -518,14 +504,16 @@ ShapeLabelMapFilter< TImage, TLabelImage >
   // std::cout << "lineContainer.size(): " << lineContainer.size() << std::endl;
 
   // Iterate over all the lines and fill the image of lines
-  for ( lit = lineContainer.begin(); lit != lineContainer.end(); lit++ )
+  typename LabelObjectType::ConstLineIterator lit( labelObject );
+  while( ! lit.IsAtEnd() )
     {
-    const IndexType & idx = lit->GetIndex();
+    const IndexType & idx = lit.GetLine().GetIndex();
     for( int i=0; i<ImageDimension-1; i++ )
       {
       lIdx[i] = idx[i+1];
       }
-    lineImage->GetPixel( lIdx ).push_back( *lit );
+    lineImage->GetPixel( lIdx ).push_back( lit.GetLine() );
+    ++lit;
     }
 
   // a data structure to store the number of intercepts on each direction

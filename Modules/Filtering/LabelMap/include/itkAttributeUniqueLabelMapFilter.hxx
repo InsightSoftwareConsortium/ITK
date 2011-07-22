@@ -60,16 +60,15 @@ AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>
     // may reduce the number of lines to proceed
     lo->Optimize();
 
-    typename LabelObjectType::LineContainerType::const_iterator lit;
-    typename LabelObjectType::LineContainerType & lineContainer = lo->GetLineContainer();
-
-    for ( lit = lineContainer.begin(); lit != lineContainer.end(); lit++ )
+    typename LabelObjectType::ConstLineIterator lit( lo );
+    while( ! lit.IsAtEnd() )
       {
-      pq.push( LineOfLabelObject(*lit, lo) );
+      pq.push( LineOfLabelObject(lit.GetLine(), lo) );
+      ++lit;
       }
 
     // clear the lines to readd them later
-    lineContainer.clear();
+    lo->Clear();
 
     // go to the next label
     // progress.CompletedPixel();

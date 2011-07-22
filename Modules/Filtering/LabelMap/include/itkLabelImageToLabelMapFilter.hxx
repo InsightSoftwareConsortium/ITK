@@ -146,10 +146,13 @@ LabelImageToLabelMapFilter< TInputImage, TOutputImage >
       if ( output->HasLabel( labelObject->GetLabel() ) )
         {
         // merge the lines in the output's object
-        typename LabelObjectType::LineContainerType & src = labelObject->GetLineContainer();
-        typename LabelObjectType::LineContainerType & dest =
-          output->GetLabelObject( labelObject->GetLabel() )->GetLineContainer();
-        dest.insert( dest.end(), src.begin(), src.end() );
+        LabelObjectType * lo = output->GetLabelObject( labelObject->GetLabel() );
+        typename LabelObjectType::ConstLineIterator lit( labelObject );
+        while( ! lit.IsAtEnd() )
+          {
+          lo->AddLine( lit.GetLine() );
+          ++lit;
+          }
         }
       else
         {
