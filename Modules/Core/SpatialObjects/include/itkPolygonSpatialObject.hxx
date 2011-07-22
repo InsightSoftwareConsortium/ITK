@@ -457,7 +457,6 @@ PolygonSpatialObject< TDimension >
   itend--;
 
   PointType first = ( *it ).GetPosition();
-  PointType last  = ( *itend ).GetPosition();
 
   // If last point same as first, don't bother with it.
   if ( this->IsClosed() )

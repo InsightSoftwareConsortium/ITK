@@ -193,37 +193,36 @@ private:
       const RealType val01 = this->GetInputImage()->GetPixel(basei);
       return ( static_cast< OutputType >( val00 + ( val01 - val00 ) * distance1 ) );
       }
-    else // interpolate across "xy"
+    // fall-through case:
+    // interpolate across "xy"
+    ++basei[0];
+    if ( basei[0] > this->m_EndIndex[0] ) // interpolate across "y"
       {
-      ++basei[0];
-      if ( basei[0] > this->m_EndIndex[0] ) // interpolate across "y"
-        {
-        --basei[0];
-        ++basei[1];
-        if ( basei[1] > this->m_EndIndex[1] )
-          {
-          return ( static_cast< OutputType >( val00 ) );
-          }
-        const RealType val01 = this->GetInputImage()->GetPixel(basei);
-        return ( static_cast< OutputType >( val00 + ( val01 - val00 ) * distance1 ) );
-        }
-      const RealType val10 = this->GetInputImage()->GetPixel(basei);
-
-      const RealType valx0 = val00 + ( val10 - val00 ) * distance0;
-
-      ++basei[1];
-      if ( basei[1] > this->m_EndIndex[1] ) // interpolate across "x"
-        {
-        return ( static_cast< OutputType >( valx0 ) );
-        }
-      const RealType val11 = this->GetInputImage()->GetPixel(basei);
       --basei[0];
+      ++basei[1];
+      if ( basei[1] > this->m_EndIndex[1] )
+        {
+        return ( static_cast< OutputType >( val00 ) );
+        }
       const RealType val01 = this->GetInputImage()->GetPixel(basei);
-
-      const RealType valx1 = val01 + ( val11 - val01 ) * distance0;
-
-      return ( static_cast< OutputType >( valx0 + ( valx1 - valx0 ) * distance1 ) );
+      return ( static_cast< OutputType >( val00 + ( val01 - val00 ) * distance1 ) );
       }
+    const RealType val10 = this->GetInputImage()->GetPixel(basei);
+
+    const RealType valx0 = val00 + ( val10 - val00 ) * distance0;
+
+    ++basei[1];
+    if ( basei[1] > this->m_EndIndex[1] ) // interpolate across "x"
+      {
+      return ( static_cast< OutputType >( valx0 ) );
+      }
+    const RealType val11 = this->GetInputImage()->GetPixel(basei);
+    --basei[0];
+    const RealType val01 = this->GetInputImage()->GetPixel(basei);
+
+    const RealType valx1 = val01 + ( val11 - val01 ) * distance0;
+
+    return ( static_cast< OutputType >( valx0 + ( valx1 - valx0 ) * distance1 ) );
   }
 
   inline OutputType EvaluateOptimized(const Dispatch< 3 > &,

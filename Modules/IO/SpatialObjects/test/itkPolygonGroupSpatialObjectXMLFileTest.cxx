@@ -121,6 +121,7 @@ int testPolygonGroupEquivalence(PolygonGroup3DPointer &p1,
     Polygon3DType::PointListType::iterator pointItEnd2
       = points2.end();
 
+
     while(pointIt1 != pointItEnd1)
       {
       if(pointIt2 == pointItEnd2)

@@ -350,33 +350,32 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::ApplyLoad
   //        static member within an element base class.
   unsigned int order = GetNumberOfIntegrationPoints();
 
-  const unsigned int Nip = element->GetNumberOfIntegrationPoints(order);
-  const unsigned int Ndofs = element->GetNumberOfDegreesOfFreedomPerNode();
-  const unsigned int Nnodes = element->GetNumberOfNodes();
-  unsigned int       ImageDimension = Ndofs;
+  const unsigned int NumIntegrationPoints = element->GetNumberOfIntegrationPoints(order);
+  const unsigned int NumDegreesOfFreedom = element->GetNumberOfDegreesOfFreedomPerNode();
+  const unsigned int NumNodes = element->GetNumberOfNodes();
 
-  Element::VectorType force(Ndofs, 0.0),
+  Element::VectorType force(NumDegreesOfFreedom, 0.0),
   ip, gip, gsol, force_tmp, shapef;
   Element::Float w, detJ;
 
   F.set_size(element->GetNumberOfDegreesOfFreedom() );
   F.fill(0.0);
-  shapef.set_size(Nnodes);
-  gsol.set_size(Ndofs);
-  gip.set_size(Ndofs);
-  for( unsigned int i = 0; i < Nip; i++ )
+  shapef.set_size(NumNodes);
+  gsol.set_size(NumDegreesOfFreedom);
+  gip.set_size(NumDegreesOfFreedom);
+  for( unsigned int i = 0; i < NumIntegrationPoints; i++ )
     {
     element->GetIntegrationPointAndWeight(i, ip, w, order);
-    if( ImageDimension == 3 )
+    if( NumDegreesOfFreedom == 3 )
       {
       shapef = element->ShapeFunctions(ip);
       float solval, posval;
       detJ = element->JacobianDeterminant(ip);
-      for( unsigned int f = 0; f < ImageDimension; f++ )
+      for( unsigned int f = 0; f < NumDegreesOfFreedom; f++ )
         {
         solval = 0.0;
         posval = 0.0;
-        for( unsigned int n = 0; n < Nnodes; n++ )
+        for( unsigned int n = 0; n < NumNodes; n++ )
           {
           posval += shapef[n] * ( (element->GetNodeCoordinates(n) )[f]);
           solval += shapef[n] * S->GetSolutionValue( element->GetNode(n)->GetDegreeOfFreedom(f), TotalSolutionIndex);
@@ -393,12 +392,12 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::ApplyLoad
 
       force = this->Fe(gip, gsol);
       // Calculate the equivalent nodal loads
-      for( unsigned int n = 0; n < Nnodes; n++ )
+      for( unsigned int n = 0; n < NumNodes; n++ )
         {
-        for( unsigned int d = 0; d < Ndofs; d++ )
+        for( unsigned int d = 0; d < NumDegreesOfFreedom; d++ )
           {
           itk::fem::Element::Float temp = shapef[n] * force[d] * w * detJ;
-          F[n * Ndofs + d] += temp;
+          F[n * NumDegreesOfFreedom + d] += temp;
           }
         }
 
