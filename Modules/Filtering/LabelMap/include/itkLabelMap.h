@@ -98,6 +98,9 @@ public:
 
   /** the LabelObject container type */
   typedef std::map< LabelType, LabelObjectPointerType > LabelObjectContainerType;
+  typedef typename LabelObjectContainerType::iterator   LabelObjectContainerIterator;
+  typedef typename LabelObjectContainerType::const_iterator
+                                                        LabelObjectContainerConstIterator;
 
   /** types used to expose labels only and label objects only */
   typedef std::vector< LabelType >              LabelVectorType;
@@ -185,21 +188,39 @@ public:
   const LabelObjectType * GetNthLabelObject(const SizeValueType & pos) const;
 
   /**
-   * Return the pixel value at a given index in the image. This method
+   * Return the pixel value at a given index in the image. If the given index
+   * is contained in several objects, only the smallest label of those objects
+   * is returned. This method
    * has a worst case complexity of O(L) where L is the number of lines in the
    * image - use it with care.
    */
   const LabelType & GetPixel(const IndexType & idx) const;
 
   /**
-   * Set the pixel value at a given index in the image.
-   * If no label object has this pixel value, a new label object is created. If
-   * a label object already exist, the index is added to it.
+   * \brief Set the pixel value at a given index in the image.
+   *
+   * As for itk::Image, this method ensure that the pixel at the position \c idx
+   * has a unique value.
+   *
+   * The complexity of this method is at best O(L) where L is the number of lines
+   * in the image - usit with care.
+   */
+  void SetPixel(const IndexType & idx, const LabelType & label);
+
+  /**
+   * Add index \c idx to the label object whose label is \c label. If no label object
+   * has the label \c label, the corresponding label object is created.
    * The worst case complexity of this method is O(L) where L is the number of
    * lines in the image. However, the execution time will be quite low if the
    * pixels are set in the image in raster mode.
    */
-  void SetPixel(const IndexType & idx, const LabelType & label);
+  void AddPixel(const IndexType & idx, const LabelType & label);
+
+  /**
+   * Remove index \c idx from the label object which has the label \c label.
+   * If the label object gets empty, it is being removed from the container.
+   */
+  void RemovePixel(const IndexType & idx, const LabelType & label);
 
   /**
    * Set a full line in the image. If no label object has this label in the image,
@@ -299,6 +320,14 @@ private:
 
   LabelObjectContainerType m_LabelObjectContainer;
   LabelType                m_BackgroundValue;
+
+  void AddPixel( const LabelObjectContainerIterator& it,
+                 const IndexType& idx,
+                 const LabelType& iLabel );
+
+  void RemovePixel( const LabelObjectContainerIterator& it,
+                    const IndexType& idx,
+                    bool iEmitModifiedEvent );
 };
 } // end namespace itk
 

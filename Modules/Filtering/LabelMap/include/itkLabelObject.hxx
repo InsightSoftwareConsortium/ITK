@@ -95,6 +95,58 @@ LabelObject< TLabel, VImageDimension >::HasIndex(const IndexType & idx) const
   return false;
 }
 
+
+template< class TLabel, unsigned int VImageDimension >
+bool
+LabelObject< TLabel, VImageDimension >::RemoveIndex(const IndexType & idx)
+{
+  typename LineContainerType::iterator it = m_LineContainer.begin();
+  typedef typename IndexType::IndexValueType IndexValueType;
+
+  while( it != m_LineContainer.end() )
+    {
+    if( it->HasIndex( idx ) )
+      {
+      IndexType orgLineIndex    = it->GetIndex();
+      LengthType orgLineLength  = it->GetLength();
+
+      if( orgLineLength == 1 )
+        {
+        // remove the line and exit
+        m_LineContainer.erase( it );
+        return true;
+        }
+
+      if( orgLineIndex == idx )
+        {
+        // shift the index to the right and decrease the length by one
+        ++orgLineIndex[0];
+        it->SetIndex( orgLineIndex );
+        it->SetLength( orgLineLength - 1 );
+        return true;
+        }
+      else if( orgLineIndex[0] + static_cast< IndexValueType >( orgLineLength ) - 1 == idx[0] )
+        {
+        // decrease the length by one
+        it->SetLength( orgLineLength - 1 );
+        return true;
+        }
+      else
+        {
+        // we have to split the line in two parts
+        it->SetLength( idx[0] - orgLineIndex[0] );
+        IndexType newIdx = idx;
+        ++newIdx[0];
+        LengthType newLength = orgLineLength - it->GetLength() - 1;
+        m_LineContainer.push_back( LineType( newIdx, newLength ) );
+        return true;
+        }
+      }
+    ++it;
+    }
+  return false;
+}
+
 /**
  * Add an index to the object. If the index is already in the object, the index can
  * be found several time in the object.
