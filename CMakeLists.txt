@@ -67,6 +67,20 @@ macro(verify_itk_module_is_set)
 endmacro()
 
 #-----------------------------------------------------------------------------
+# Default values for CMake options may vary based on whether it's a
+# dashboard build or not:
+#
+if("$ENV{DASHBOARD_TEST_FROM_CTEST}" STREQUAL "")
+  # developer build
+  set(ITK_BUILD_ALL_MODULES_DEFAULT ON)
+  set(BUILD_EXAMPLES_DEFAULT ON)
+else()
+  # dashboard build
+  set(ITK_BUILD_ALL_MODULES_DEFAULT ON)
+  set(BUILD_EXAMPLES_DEFAULT ON)
+endif()
+
+#-----------------------------------------------------------------------------
 # Enable the download and use of BrainWeb datasets.
 # When this data is available, additional 3D tests are enabled.
 option(ITK_USE_BRAINWEB_DATA "Download and use BrainWeb data for advanced testing" OFF)
@@ -148,7 +162,8 @@ INCLUDE(${ITK_SOURCE_DIR}/Utilities/KWStyle/KWStyle.cmake)
 
 #-----------------------------------------------------------------------------
 # ITK build the Examples that are illustrated in the Software Guide
-option(BUILD_EXAMPLES "Build the Examples directory." OFF)
+option(BUILD_EXAMPLES "Build the Examples directory."
+  ${BUILD_EXAMPLES_DEFAULT})
 
 #-----------------------------------------------------------------------------
 # Enable GPU support. Requires OpenCL to be installed
@@ -290,13 +305,6 @@ endforeach()
 #----------------------------------------------------------------------
 
 # Provide an option for all modules.
-if("$ENV{DASHBOARD_TEST_FROM_CTEST}" STREQUAL "")
-  # developer build
-  set(ITK_BUILD_ALL_MODULES_DEFAULT OFF)
-else()
-  # dashboard build
-  set(ITK_BUILD_ALL_MODULES_DEFAULT ON)
-endif()
 option(ITK_BUILD_ALL_MODULES "Request to build all modules"
   ${ITK_BUILD_ALL_MODULES_DEFAULT})
 
