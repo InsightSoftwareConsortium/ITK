@@ -5,7 +5,7 @@ well as other distance concepts such as Hausdorff and Chamfer distances.")
 itk_module(ITKDistanceMap
   DEPENDS
     ITKImageIntensity
-    ITKMathematicalMorphology
+    ITKBinaryMathematicalMorphology
     ITKNarrowBand
     ITKImageLabel
   TEST_DEPENDS

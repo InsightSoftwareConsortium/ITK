@@ -133,6 +133,10 @@
 \ingroup Group-Filtering
 */
 
+/** \defgroup ITKBinaryMathematicalMorphology Module ITKBinaryMathematicalMorphology
+\ingroup Group-Filtering
+*/
+
 /** \defgroup ITKPath Module ITKPath
 \ingroup Group-Filtering
 */
@@ -150,6 +154,10 @@
 */
 
 /** \defgroup ITKThresholding Module ITKThresholding
+\ingroup Group-Filtering
+*/
+
+/** \defgroup ITKImageFusion Module ITKImageFusion
 \ingroup Group-Filtering
 */
 

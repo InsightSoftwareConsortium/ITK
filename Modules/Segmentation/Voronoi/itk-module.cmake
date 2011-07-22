@@ -5,6 +5,7 @@ itk_module(ITKVoronoi
   TEST_DEPENDS
     ITKTestKernel
     ITKSmoothing
+    ITKImageFusion
 )
 
 # Extra dependency on Smoothing is introduced by itkVoronoiPartitioningImageFilterTest.

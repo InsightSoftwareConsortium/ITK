@@ -80,6 +80,8 @@ itk_module(ITKReview
     ITKVTK
     ITKWatersheds
     ITKLabelMap
+    ITKBinaryMathematicalMorphology
+    ITKImageFusion
   TEST_DEPENDS
     ITKTestKernel
   DESCRIPTION

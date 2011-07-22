@@ -226,7 +226,6 @@
 #include "itkRGBAPixel.hxx"
 #include "itkRGBPixel.hxx"
 #include "itkRootTreeIterator.h"
-#include "itkScalarToRGBPixelFunctor.hxx"
 #include "itkShapedNeighborhoodIterator.hxx"
 #include "itkSimpleDataObjectDecorator.hxx"
 #include "itkSimpleFastMutexLock.h"

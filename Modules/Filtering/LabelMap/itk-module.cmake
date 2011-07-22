@@ -13,6 +13,7 @@ itk_module(ITKLabelMap
     ITKStatistics
   TEST_DEPENDS
     ITKTestKernel
+    ITKBinaryMathematicalMorphology
   DESCRIPTION
     "${DOCUMENTATION}"
 )
