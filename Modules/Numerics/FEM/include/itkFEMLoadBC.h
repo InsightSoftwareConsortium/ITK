@@ -69,6 +69,7 @@ public:
 
   /** Set the element on which the boundary condition is being applied*/
   void SetElement(Element::ConstPointer ele);
+  void SetElement(Element::Pointer ele);
 
   /** Get the element on which the boundary condition is being applied*/
   Element::ConstPointer GetElement() const;

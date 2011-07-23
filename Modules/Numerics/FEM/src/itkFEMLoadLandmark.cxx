@@ -27,7 +27,7 @@ namespace fem
 ::itk::LightObject::Pointer LoadLandmark::CreateAnother(void) const
 {
   ::itk::LightObject::Pointer smartPtr;
-  Pointer copyPtr = Self::New().GetPointer();
+  Pointer copyPtr = Self::New();
 
   // Copy Load Contents
   copyPtr->m_Eta = this->m_Eta;
@@ -58,7 +58,7 @@ Element::ConstPointer LoadLandmark::GetAssignedElement(Element::ArrayType1::Poin
     Element::Pointer nel = elements->GetElement(n);
     if( (nel )->GetLocalFromGlobalCoordinates(m_Source, this->m_Point) )
       {
-      return dynamic_cast<const Element *>(&*nel);
+      return dynamic_cast<const Element *>(nel.GetPointer());
       }
     }
 
@@ -81,7 +81,7 @@ void LoadLandmark::AssignToElement(Element::ArrayType::Pointer elements)
     if( ( *n )->GetLocalFromGlobalCoordinates(m_Source, this->m_Point) )
       {
       isFound = true;
-      std::cout << "Found: " << ( &**n ) << std::endl;
+      std::cout << "Found: " << ( *n ) << std::endl;
       this->m_Element[0] = *n;
       }
     }
@@ -107,7 +107,7 @@ void LoadLandmark::AssignToElement(Element::ArrayType1::Pointer elements)
     if( (nel )->GetLocalFromGlobalCoordinates(m_Source, this->m_Point) )
       {
       isFound = true;
-      std::cout << "Found: " << ( &*nel ) << std::endl;
+      std::cout << "Found: " << nel << std::endl;
       this->m_Element[0] = nel;
       }
     }

@@ -27,7 +27,7 @@ namespace fem
 ::itk::LightObject::Pointer LoadEdge::CreateAnother(void) const
 {
   ::itk::LightObject::Pointer smartPtr;
-  Pointer copyPtr = Self::New().GetPointer();
+  Pointer copyPtr = Self::New();
 
   copyPtr->m_Edge = this->m_Edge;
 

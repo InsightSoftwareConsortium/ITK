@@ -42,25 +42,25 @@ int itkFEMPArrayTest(int, char *[])
   pt[0] = 0.;
   pt[1] = 0.;
   n1->SetCoordinates(pt);
-  array.push_back( FEMPointer(&*n1) );
+  array.push_back( FEMPointer(n1) );
 
   n1 = NodeType::New();
   pt[0] = 1.;
   pt[1] = 1.;
   n1->SetCoordinates(pt);
-  array.push_back( FEMPointer(&*n1) );
+  array.push_back( FEMPointer(n1) );
 
   n1 = NodeType::New();
   pt[0] = 3.;
   pt[1] = 2.;
   n1->SetCoordinates(pt);
-  array.push_back( FEMPointer(&*n1) );
+  array.push_back( FEMPointer(n1) );
 
   n1 = NodeType::New();
   pt[0] = 0.;
   pt[1] = 3.;
   n1->SetCoordinates(pt);
-  array.push_back( FEMPointer(&*n1) );
+  array.push_back( FEMPointer(n1) );
 
   array.Renumber();
 
@@ -91,7 +91,7 @@ int itkFEMPArrayTest(int, char *[])
 
   std::cout << "New Node " << n2->GetGlobalNumber() << std::endl;
   // changes made - kiran
-  array.push_back( FEMPointer(&*n2) );
+  array.push_back( FEMPointer(n2) );
   std::cout << "Node 0 " << array[0]->GetGlobalNumber() << std::endl;
   std::cout << "Node 1 " << array[1]->GetGlobalNumber() << std::endl;
   std::cout << "Node 2 " << array[2]->GetGlobalNumber() << std::endl;
@@ -101,7 +101,7 @@ int itkFEMPArrayTest(int, char *[])
 
   try
     {
-    node = &*array.Find(200);
+    node = array.Find(200);
     }
   catch( itk::ExceptionObject & e )
     {
@@ -112,7 +112,7 @@ int itkFEMPArrayTest(int, char *[])
   try
     {
     // Intentionally fail, by asking for a non-existing element
-    node = &*array.Find(1000);
+    node = array.Find(1000);
     std::cout << "Error: exception should have been thrown here... " << std::endl;
     return EXIT_FAILURE;
     }

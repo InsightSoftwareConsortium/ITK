@@ -26,7 +26,7 @@ namespace fem
 ::itk::LightObject::Pointer LoadBCMFC::CreateAnother(void) const
 {
   ::itk::LightObject::Pointer smartPtr;
-  Pointer copyPtr = Self::New().GetPointer();
+  Pointer copyPtr = Self::New();
 
   // Copy Load Contents
   copyPtr->m_Index = this->m_Index;

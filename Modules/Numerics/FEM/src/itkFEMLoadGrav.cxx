@@ -26,7 +26,7 @@ namespace fem
 ::itk::LightObject::Pointer LoadGravConst::CreateAnother(void) const
 {
   ::itk::LightObject::Pointer smartPtr;
-  Pointer copyPtr = Self::New().GetPointer();
+  Pointer copyPtr = Self::New();
 
   // Copy Load Contents
   copyPtr->m_GravityForce = this->m_GravityForce;

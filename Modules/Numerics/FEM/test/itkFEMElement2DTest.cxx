@@ -97,6 +97,8 @@ int itkFEMElement2DTest(int argc, char *argv[])
   FEMObjectSpatialObjectType::Pointer femSO =
     dynamic_cast<FEMObjectSpatialObjectType *>( (*(children->begin() ) ).GetPointer() );
 
+  delete children;
+
   femSO->GetFEMObject()->FinalizeMesh();
 
   double *    expectedSolution = NULL;

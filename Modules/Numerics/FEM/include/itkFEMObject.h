@@ -24,7 +24,14 @@
 #include "itkFEMLinearSystemWrapper.h"
 #include "itkFEMLinearSystemWrapperVNL.h"
 #include "itkFEMLoadBase.h"
+#include "itkFEMLoadNode.h"
+#include "itkFEMLoadBC.h"
+#include "itkFEMLoadBCMFC.h"
+#include "itkFEMLoadEdge.h"
+#include "itkFEMLoadGrav.h"
+#include "itkFEMLoadLandmark.h"
 #include "itkFEMMaterialBase.h"
+#include "itkFEMMaterialLinearElasticity.h"
 #include "itkVectorContainer.h"
 
 namespace itk
@@ -189,8 +196,14 @@ public:
   /**
    * Add next material data to the material array
    */
-  void AddNextMaterial(Material::Pointer mat);
-
+  void AddNextMaterial(Material::Pointer mat)
+  {
+    this->AddNextMaterialInternal(mat.GetPointer());
+  }
+  void AddNextMaterial(MaterialLinearElasticity::Pointer mat)
+  {
+    this->AddNextMaterialInternal(mat.GetPointer());
+  }
   /**
    * Insert material data at the specified index location
    */
@@ -199,8 +212,20 @@ public:
   /**
    * Add next load data to the load array
    */
-  void AddNextLoad(Load::Pointer ld);
-
+  void AddNextLoad(Load::Pointer ld)
+  { this->AddNextLoadInternal(ld.GetPointer()); }
+  void AddNextLoad(LoadNode::Pointer ld)
+  { this->AddNextLoadInternal(ld.GetPointer()); }
+  void AddNextLoad(LoadBCMFC::Pointer ld)
+  { this->AddNextLoadInternal(ld.GetPointer()); }
+  void AddNextLoad(LoadBC::Pointer ld)
+  { this->AddNextLoadInternal(ld.GetPointer()); }
+  void AddNextLoad(LoadEdge::Pointer ld)
+  { this->AddNextLoadInternal(ld.GetPointer()); }
+  void AddNextLoad(LoadGravConst::Pointer ld)
+  { this->AddNextLoadInternal(ld.GetPointer()); }
+  void AddNextLoad(LoadLandmark::Pointer ld)
+  { this->AddNextLoadInternal(ld.GetPointer()); }
   /**
    * Insert material data at the specified index location
    */
@@ -291,6 +316,7 @@ protected:
    */
   void GenerateMFC(void);
 
+  void AddNextMaterialInternal(Material *mat);
   /**
   * Number of global degrees of freedom in a system
   */
@@ -310,6 +336,7 @@ private:
   FEMObject(const Self &);      // purposely not implemented
   void operator=(const Self &); // purposely not implemented
 
+  void AddNextLoadInternal(Load *l);
 };  // End Class: FEMObject
 
 }

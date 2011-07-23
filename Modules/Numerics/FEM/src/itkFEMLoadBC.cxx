@@ -27,7 +27,7 @@ namespace fem
 ::itk::LightObject::Pointer LoadBC::CreateAnother(void) const
 {
   ::itk::LightObject::Pointer smartPtr;
-  Pointer copyPtr = Self::New().GetPointer();
+  Pointer copyPtr = Self::New();
 
   // Copy Load Contents
   copyPtr->m_DegreeOfFreedom = this->m_DegreeOfFreedom;
@@ -63,6 +63,10 @@ vnl_vector<Element::Float> LoadBC::GetValue() const
 void LoadBC::SetElement(Element::ConstPointer element)
 {
   this->m_Element = element;
+}
+void LoadBC::SetElement(Element::Pointer element)
+{
+  this->m_Element = element.GetPointer();
 }
 
 Element::ConstPointer LoadBC::GetElement() const

@@ -118,11 +118,11 @@ public:
 
   virtual void SetNode(unsigned int n, NodeIDType node)
   {
-    if( n >= NumberOfNodes )
-      {
-      return;
-      }
-    this->m_node[n] = node;
+    this->SetNodeInternal(n,node);
+  }
+  virtual void SetNode(unsigned int n, typename Superclass::Node::Pointer node)
+  {
+    this->SetNodeInternal(n,node);
   }
 
   /** Get the nodal coordinates */
@@ -142,6 +142,14 @@ protected:
 
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
+  virtual void SetNodeInternal(unsigned int n, const Node *node)
+  {
+    if( n >= NumberOfNodes )
+      {
+      return;
+      }
+    this->m_node[n] = node;
+  }
   /**
    * Array of pointers to point objects that define the element
    */

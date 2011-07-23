@@ -100,13 +100,13 @@ public:
    */
   virtual Material::ConstPointer GetMaterial(void) const
   {
-    return dynamic_cast<const Material *>(&*m_Mat);
+    return dynamic_cast<const Material *>(m_Mat.GetPointer());
   }
 
   virtual void SetMaterial(Material::ConstPointer mat_)
   {
     m_Mat =
-      dynamic_cast<const MaterialLinearElasticity *>( &*mat_ );
+      dynamic_cast<const MaterialLinearElasticity *>( mat_.GetPointer() );
   }
 
 protected:

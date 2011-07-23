@@ -111,7 +111,7 @@ SolverCrankNicolson<VDimension>
   int numLoads = this->m_FEMObject->GetLoadContainer()->Size();
   for( int l = 0; l < numLoads; l++ )
     {
-    if( LoadBCMFC::Pointer l1 = dynamic_cast<LoadBCMFC *>( &*this->m_FEMObject->GetLoad(l) ) )
+    if( LoadBCMFC::Pointer l1 = dynamic_cast<LoadBCMFC *>( this->m_FEMObject->GetLoad(l).GetPointer() ) )
       {
       // store the index of an LoadBCMFC object for later
       l1->SetIndex(this->m_NMFC);
@@ -184,9 +184,9 @@ SolverCrankNicolson<VDimension>
   // int numLoads = m_FEMObject->GetLoadContainer()->Size();
   for( int l2 = 0; l2 < numLoads; l2++ )
     {
-    if( LoadLandmark::Pointer l3 = dynamic_cast<LoadLandmark *>( &*this->m_FEMObject->GetLoad(l2) ) )
+    if( LoadLandmark::Pointer l3 = dynamic_cast<LoadLandmark *>( this->m_FEMObject->GetLoad(l2).GetPointer() ) )
       {
-      Element::ConstPointer ep = &*(l3->GetElementArray()[0]);
+      Element::ConstPointer ep = (l3->GetElementArray()[0]).GetPointer();
       Element::MatrixType   Le;
       ep->GetLandmarkContributionMatrix(l3->GetEta(), Le);
       int Ne = ep->GetNumberOfDegreesOfFreedom();
@@ -248,7 +248,7 @@ SolverCrankNicolson<VDimension>
   int numLoads = this->m_FEMObject->GetLoadContainer()->Size();
   for( int l2 = 0; l2 < numLoads; l2++ )
     {
-    if( LoadBC::Pointer l1 = dynamic_cast<LoadBC *>( &*this->m_FEMObject->GetLoad(l2)  ) )
+    if( LoadBC::Pointer l1 = dynamic_cast<LoadBC *>( this->m_FEMObject->GetLoad(l2).GetPointer()  ) )
       {
       bcterm[l1->GetElement()->GetDegreeOfFreedom( l1->GetDegreeOfFreedom() )] =
         l1->GetValue()[dim];

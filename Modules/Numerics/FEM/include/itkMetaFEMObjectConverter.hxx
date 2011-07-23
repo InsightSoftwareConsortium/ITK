@@ -78,7 +78,7 @@ MetaFEMObjectConverter<NDimensions>
 
     // create a new object of the correct class
     //a = FEMOF::Create(clID);
-    fem::Element::Node::Pointer o1 = dynamic_cast< fem::Element::Node * >( &*a );
+    fem::Element::Node::Pointer o1 = dynamic_cast< fem::Element::Node * >( a.GetPointer() );
     o1->SetGlobalNumber(node->m_GN);
     fem::Element::VectorType pt(node->m_Dim);
     for (unsigned int i=0; i<node->m_Dim; i++)
@@ -86,7 +86,7 @@ MetaFEMObjectConverter<NDimensions>
     pt[i] = node->m_X[i];
     }
     o1->SetCoordinates(pt);
-    myFEMObject->AddNextNode(&*o1);
+    myFEMObject->AddNextNode(o1);
     it_nodes++;
   }
 
@@ -105,7 +105,7 @@ MetaFEMObjectConverter<NDimensions>
     a = ObjectFactoryBase::CreateInstance ( "MaterialLinearElasticity" );
 
     fem::MaterialLinearElasticity::Pointer o1 =
-    dynamic_cast< fem::MaterialLinearElasticity * >( &*a );
+    dynamic_cast< fem::MaterialLinearElasticity * >( a.GetPointer() );
     o1->SetGlobalNumber(material->m_GN);
     o1->SetYoungsModulus(material->E); /* Young modulus */
     o1->SetPoissonsRatio(material->nu);
@@ -113,7 +113,7 @@ MetaFEMObjectConverter<NDimensions>
     o1->SetMomentOfInertia(material->I);    /* Moment of inertia */
     o1->SetThickness(material->h);
     o1->SetDensityHeatProduct(material->RhoC);
-    myFEMObject->AddNextMaterial(&*o1);
+    myFEMObject->AddNextMaterial(o1);
     it_material++;
   }
 
@@ -128,15 +128,15 @@ MetaFEMObjectConverter<NDimensions>
     FEMObjectElement *element = (*it_elements);
     a = ObjectFactoryBase::CreateInstance ( element->m_ElementName );
 
-    fem::Element::Pointer o1 = dynamic_cast< fem::Element * >( &*a );
+    fem::Element::Pointer o1 = dynamic_cast< fem::Element * >( a.GetPointer() );
       o1->SetGlobalNumber(element->m_GN);
     int numNodes = element->m_NumNodes;
     for (int i=0; i<numNodes; i++)
     {
-    o1->SetNode(i, &*myFEMObject->GetNodeWithGlobalNumber(element->m_NodesId[i]));
+    o1->SetNode(i, myFEMObject->GetNodeWithGlobalNumber(element->m_NodesId[i]));
     }
-    o1->SetMaterial( &*myFEMObject->GetMaterialWithGlobalNumber(element->m_MaterialGN) );
-    myFEMObject->AddNextElement( &*o1);
+    o1->SetMaterial( myFEMObject->GetMaterialWithGlobalNumber(element->m_MaterialGN).GetPointer() );
+    myFEMObject->AddNextElement( o1 );
       it_elements++;
   }
 
@@ -147,175 +147,165 @@ MetaFEMObjectConverter<NDimensions>
   typename LoadListType::const_iterator it_load = loadlist.begin();
 
    while(it_load != loadlist.end())
-   {
+     {
      FEMObjectLoad *load = (*it_load);
      a = ObjectFactoryBase::CreateInstance ( load->m_LoadName );
 
-    std::string loadname = std::string(load->m_LoadName);
-    if(loadname == "LoadNode")
-    {
-      fem::LoadNode::Pointer o1 =
-      dynamic_cast< fem::LoadNode * >( &*a );
-      o1->SetGlobalNumber(load->m_GN);
+     std::string loadname = std::string(load->m_LoadName);
+     if(loadname == "LoadNode")
+       {
+       fem::LoadNode::Pointer o1 =
+         dynamic_cast< fem::LoadNode * >( a.GetPointer() );
+       o1->SetGlobalNumber(load->m_GN);
 
-      o1->SetElement(&*myFEMObject->GetElementWithGlobalNumber(load->m_ElementGN));
+       o1->SetElement(myFEMObject->GetElementWithGlobalNumber(load->m_ElementGN));
 
-      o1->SetNode(load->m_NodeNumber);
+       o1->SetNode(load->m_NodeNumber);
 
-      int dim = load->m_Dim;
-      vnl_vector< double > F(dim);
-      for (int i=0; i<dim; i++)
-      {
-      F[i] = load->m_ForceVector[i];
-      }
-      o1->SetForce(F);
-        myFEMObject->AddNextLoad( &*o1);
-        goto out;
-    }
+       int dim = load->m_Dim;
+       vnl_vector< double > F(dim);
+       for (int i=0; i<dim; i++)
+         {
+         F[i] = load->m_ForceVector[i];
+         }
+       o1->SetForce(F);
+       myFEMObject->AddNextLoad( o1 );
+       }
+     else if(loadname == "LoadBC")
+       {
+       fem::LoadBC::Pointer o1 =
+         dynamic_cast< fem::LoadBC * >( a.GetPointer() );
+       o1->SetGlobalNumber(load->m_GN);
 
-    if(loadname == "LoadBC")
-    {
-      fem::LoadBC::Pointer o1 =
-      dynamic_cast< fem::LoadBC * >( &*a );
-      o1->SetGlobalNumber(load->m_GN);
+       o1->SetDegreeOfFreedom(load->m_DOF);
 
-      o1->SetDegreeOfFreedom(load->m_DOF);
+       o1->SetElement(myFEMObject->GetElementWithGlobalNumber(load->m_ElementGN));
 
-      o1->SetElement(&*myFEMObject->GetElementWithGlobalNumber(load->m_ElementGN));
+       int numRHS = load->m_NumRHS;
+       vnl_vector< double > F(numRHS);
+       for (int i=0; i<numRHS; i++)
+         {
+         F[i] = load->m_RHS[i];
+         }
+       o1->SetValue(F);
+       myFEMObject->AddNextLoad( o1 );
+       }
+     else if(loadname == "LoadBCMFC")
+       {
+       fem::LoadBCMFC::Pointer o1 =
+         dynamic_cast< fem::LoadBCMFC * >( a.GetPointer() );
+       o1->SetGlobalNumber(load->m_GN);
 
-      int numRHS = load->m_NumRHS;
-      vnl_vector< double > F(numRHS);
-      for (int i=0; i<numRHS; i++)
-      {
-      F[i] = load->m_RHS[i];
-      }
-      o1->SetValue(F);
-        myFEMObject->AddNextLoad( &*o1);
-        goto out;
-    }
+       int NumLHS;
+       int elementGN;
+       int DOF;
+       float Value;
+       NumLHS = load->m_NumLHS;
 
-    if(loadname == "LoadBCMFC")
-    {
-      fem::LoadBCMFC::Pointer o1 =
-      dynamic_cast< fem::LoadBCMFC * >( &*a );
-      o1->SetGlobalNumber(load->m_GN);
+       for ( int i = 0; i < NumLHS; i++ )
+         {
+         FEMObjectMFCTerm *mfcTerm =
+           dynamic_cast< FEMObjectMFCTerm * > (load->m_LHS[i]);
+         elementGN = mfcTerm->m_ElementGN;
 
-    int NumLHS;
-    int elementGN;
-    int DOF;
-    float Value;
-    NumLHS = load->m_NumLHS;
+         DOF = mfcTerm->m_DOF;
 
-  for ( int i = 0; i < NumLHS; i++ )
-    {
-    FEMObjectMFCTerm *mfcTerm =
-      dynamic_cast< FEMObjectMFCTerm * > (&*load->m_LHS[i]);
-    elementGN = mfcTerm->m_ElementGN;
+         Value = mfcTerm->m_Value;
+         o1->GetLeftHandSideArray().push_back(fem::LoadBCMFC::MFCTerm(myFEMObject->GetElementWithGlobalNumber(elementGN).GetPointer(), DOF, Value) );
+         }
 
-    DOF = mfcTerm->m_DOF;
+       int NumRHS = load->m_NumRHS;
 
-    Value = mfcTerm->m_Value;
-    o1->GetLeftHandSideArray().push_back(fem::LoadBCMFC::MFCTerm(&*myFEMObject->GetElementWithGlobalNumber(elementGN), DOF, Value) );
-    }
+       for (int i=0; i<NumRHS; i++)
+         {
+         o1->GetRightHandSideArray().set_size(o1->GetRightHandSideArray().size() + 1);
+         o1->GetRightHandSideArray().put(o1->GetRightHandSideArray().size() - 1, load->m_RHS[i]);
+         }
 
-  int NumRHS = load->m_NumRHS;
+       myFEMObject->AddNextLoad( o1 );
+       }
+     else if(loadname == "LoadEdge")
+       {
+       fem::LoadEdge::Pointer o1 =
+         dynamic_cast< fem::LoadEdge * >( a.GetPointer() );
+       o1->SetGlobalNumber(load->m_GN);
 
-    for (int i=0; i<NumRHS; i++)
-    {
-    o1->GetRightHandSideArray().set_size(o1->GetRightHandSideArray().size() + 1);
-    o1->GetRightHandSideArray().put(o1->GetRightHandSideArray().size() - 1, load->m_RHS[i]);
-    }
+       int numRows;
 
-        myFEMObject->AddNextLoad( &*o1);
-        goto out;
-    }
+       o1->AddNextElement(myFEMObject->GetElementWithGlobalNumber(load->m_ElementGN));
+       o1->SetGlobalNumber(load->m_GN);
+       o1->SetEdge(load->m_EdgeNumber);
 
-    if(loadname == "LoadEdge")
-    {
-    fem::LoadEdge::Pointer o1 =
-      dynamic_cast< fem::LoadEdge * >( &*a );
-      o1->SetGlobalNumber(load->m_GN);
+       METAIO_STL::vector< METAIO_STL::vector<float> > force = load->m_ForceMatrix;
 
-     int numRows;
+       numRows = force.size();
+       if(numRows)
+         {
+         METAIO_STL::vector<float> forcevector = force[0];
+         int numCols = forcevector.size();
+         o1->GetForce().set_size(numRows, numCols);
+         for ( int i = 0; i < numRows; i++ )
+           {
+           forcevector = force[i];
+           for ( int j = 0; j < numCols; j++ )
+             {
+             o1->GetForce()[i][j] = forcevector[j];
+             }
+           }
+         myFEMObject->AddNextLoad( o1 );
+         }
+       }
+     else if(loadname == "LoadGravConst")
+       {
+       fem::LoadGravConst::Pointer o1 =
+         dynamic_cast< fem::LoadGravConst * >( a.GetPointer() );
+       o1->SetGlobalNumber(load->m_GN);
 
-    o1->AddNextElement(&*myFEMObject->GetElementWithGlobalNumber(load->m_ElementGN));
-    o1->SetGlobalNumber(load->m_GN);
-    o1->SetEdge(load->m_EdgeNumber);
+       for (int i=0; i<load->m_NumElements; i++)
+         {
+         o1->GetElementArray().push_back(myFEMObject->GetElementWithGlobalNumber(load->m_Elements[i]).GetPointer());
+         }
 
-    METAIO_STL::vector< METAIO_STL::vector<float> > force = load->m_ForceMatrix;
+       o1->GetForce().set_size(load->m_Dim);
+       for(int i=0; i<load->m_Dim; i++)
+         {
+         o1->GetForce()[i] = load->m_ForceVector[i];
+         }
+       myFEMObject->AddNextLoad( o1 );
+       }
+     else if(loadname == "LoadLandmark")
+       {
+       fem::LoadLandmark::Pointer o1 =
+         dynamic_cast< fem::LoadLandmark * >( a.GetPointer() );
+       o1->SetGlobalNumber(load->m_GN);
+       o1->SetEta(load->m_Variance);
+       o1->GetElementArray().resize(1);
 
-    numRows = force.size();
-    if(numRows)
-    {
-      METAIO_STL::vector<float> forcevector = force[0];
-      int numCols = forcevector.size();
-      o1->GetForce().set_size(numRows, numCols);
-      for ( int i = 0; i < numRows; i++ )
-      {
-        forcevector = force[i];
-        for ( int j = 0; j < numCols; j++ )
-        {
-          o1->GetForce()[i][j] = forcevector[j];
-        }
-      }
-        myFEMObject->AddNextLoad( &*o1);
-    }
-    goto out;
-    }
+       int dim = load->m_Undeformed.size();
+       vnl_vector<double> source;
+       vnl_vector<double> target;
+       vnl_vector<double> point;
+       vnl_vector<double> force;
 
-    if(loadname == "LoadGravConst")
-    {
-    fem::LoadGravConst::Pointer o1 =
-      dynamic_cast< fem::LoadGravConst * >( &*a );
-      o1->SetGlobalNumber(load->m_GN);
+       source.set_size(dim);
+       target.set_size(dim);
+       point.set_size(dim);
+       force.set_size(dim);
+       for (int i=0; i<dim; i++)
+         {
+         source[i] = load->m_Deformed[i];
+         target[i] = load->m_Undeformed[i];
+         point[i]  = load->m_Deformed[i];
+         force[i] = load->m_Undeformed[i] - load->m_Deformed[i];
 
-    for (int i=0; i<load->m_NumElements; i++)
-    {
-      o1->GetElementArray().push_back(&*myFEMObject->GetElementWithGlobalNumber(load->m_Elements[i]));
-    }
+         }
+       //FIXME - Check Source and Target
+       o1->SetSource( source );
+       o1->SetTarget( target );
+       o1->SetPoint( point );
+       o1->SetForce( force );
 
-      o1->GetForce().set_size(load->m_Dim);
-    for(int i=0; i<load->m_Dim; i++)
-    {
-      o1->GetForce()[i] = load->m_ForceVector[i];
-    }
-        myFEMObject->AddNextLoad( &*o1);
-        goto out;
-    }
-
-  if(loadname == "LoadLandmark")
-    {
-    fem::LoadLandmark::Pointer o1 =
-      dynamic_cast< fem::LoadLandmark * >( &*a );
-      o1->SetGlobalNumber(load->m_GN);
-      o1->SetEta(load->m_Variance);
-      o1->GetElementArray().resize(1);
-
-      int dim = load->m_Undeformed.size();
-      vnl_vector<double> source;
-      vnl_vector<double> target;
-      vnl_vector<double> point;
-      vnl_vector<double> force;
-
-      source.set_size(dim);
-      target.set_size(dim);
-      point.set_size(dim);
-      force.set_size(dim);
-      for (int i=0; i<dim; i++)
-      {
-        source[i] = load->m_Deformed[i];
-        target[i] = load->m_Undeformed[i];
-        point[i]  = load->m_Deformed[i];
-        force[i] = load->m_Undeformed[i] - load->m_Deformed[i];
-
-      }
-      //FIXME - Check Source and Target
-      o1->SetSource( source );
-      o1->SetTarget( target );
-      o1->SetPoint( point );
-      o1->SetForce( force );
-
-      /*
+       /*
       o1->GetSource().set_size(dim);
       o1->GetPoint().set_size(dim);
       o1->GetTarget().set_size(dim);
@@ -329,11 +319,10 @@ MetaFEMObjectConverter<NDimensions>
       o1->GetForce()[i] = load->m_Undeformed[i] - load->m_Deformed[i];
       }
       */
-     myFEMObject->AddNextLoad( &*o1);
-    }
-    out:
-    it_load++;
-  }
+       myFEMObject->AddNextLoad( o1 );
+       }
+     it_load++;
+     }
 
   FEMSO->SetFEMObject(myFEMObject);
 
@@ -391,7 +380,7 @@ MetaFEMObjectConverter<NDimensions>
   {
       strcpy(Material->m_MaterialName, mat_name.c_str());
     fem::MaterialLinearElasticity::ConstPointer SOMaterialCast =
-    dynamic_cast<const fem::MaterialLinearElasticity * >( &*SOMaterial );
+      dynamic_cast<const fem::MaterialLinearElasticity * >( SOMaterial.GetPointer() );
 
     Material->m_GN = SOMaterialCast->GetGlobalNumber();
     Material->E = SOMaterialCast->GetYoungsModulus();
@@ -439,7 +428,7 @@ MetaFEMObjectConverter<NDimensions>
      if(load_name == "LoadNode")
        {
        fem::LoadNode::ConstPointer SOLoadCast =
-         dynamic_cast<const fem::LoadNode * >( &*SOLoad );
+         dynamic_cast<const fem::LoadNode * >( SOLoad.GetPointer() );
 
        Load->m_GN = SOLoadCast->GetGlobalNumber();
        Load->m_ElementGN = SOLoadCast->GetElement()->GetGlobalNumber();
@@ -454,11 +443,10 @@ MetaFEMObjectConverter<NDimensions>
          }
        FEMmo->GetLoadList().push_back(Load);
        }
-
-     if(load_name == "LoadBC")
+     else if(load_name == "LoadBC")
        {
        fem::LoadBC::ConstPointer SOLoadCast =
-         dynamic_cast<const fem::LoadBC * >( &*SOLoad );
+         dynamic_cast<const fem::LoadBC * >( SOLoad.GetPointer() );
 
        Load->m_GN = SOLoadCast->GetGlobalNumber();
        Load->m_DOF = SOLoadCast->GetDegreeOfFreedom();
@@ -473,15 +461,14 @@ MetaFEMObjectConverter<NDimensions>
          }
        FEMmo->GetLoadList().push_back(Load);
        }
-
-     if(load_name == "LoadBCMFC")
+     else if(load_name == "LoadBCMFC")
        {
        int elementGN;
        int DOF;
        float Value;
 
        fem::LoadBCMFC::ConstPointer SOLoadCast =
-         dynamic_cast<const fem::LoadBCMFC * >( &*SOLoad );
+         dynamic_cast<const fem::LoadBCMFC * >( SOLoad.GetPointer() );
 
        Load->m_GN = SOLoadCast->GetGlobalNumber();
 
@@ -512,11 +499,10 @@ MetaFEMObjectConverter<NDimensions>
          }
        FEMmo->GetLoadList().push_back(Load);
        }
-
-     if(load_name == "LoadEdge")
+     else if(load_name == "LoadEdge")
        {
        fem::LoadEdge::ConstPointer SOLoadCast =
-         dynamic_cast<const fem::LoadEdge * >( &*SOLoad );
+         dynamic_cast<const fem::LoadEdge * >( SOLoad.GetPointer() );
 
 
        Load->m_GN = SOLoadCast->GetGlobalNumber();
@@ -540,11 +526,10 @@ MetaFEMObjectConverter<NDimensions>
          }
        FEMmo->GetLoadList().push_back(Load);
        }
-
-     if(load_name == "LoadGravConst")
+     else if(load_name == "LoadGravConst")
        {
        fem::LoadGravConst::ConstPointer SOLoadCast =
-         dynamic_cast<const fem::LoadGravConst * >( &*SOLoad );
+         dynamic_cast<const fem::LoadGravConst * >( SOLoad.GetPointer() );
 
        Load->m_GN = SOLoadCast->GetGlobalNumber();
 
@@ -564,11 +549,10 @@ MetaFEMObjectConverter<NDimensions>
 
        FEMmo->GetLoadList().push_back(Load);
        }
-
-     if(load_name == "LoadLandmark")
+     else if(load_name == "LoadLandmark")
        {
        fem::LoadLandmark::ConstPointer SOLoadCast =
-         dynamic_cast<const fem::LoadLandmark * >( &*SOLoad );
+         dynamic_cast<const fem::LoadLandmark * >( SOLoad.GetPointer() );
 
        Load->m_GN = SOLoadCast->GetGlobalNumber();
 

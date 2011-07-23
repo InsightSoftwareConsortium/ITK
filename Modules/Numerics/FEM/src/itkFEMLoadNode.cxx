@@ -27,7 +27,7 @@ namespace fem
 ::itk::LightObject::Pointer LoadNode::CreateAnother(void) const
 {
   ::itk::LightObject::Pointer smartPtr;
-  Pointer copyPtr = Self::New().GetPointer();
+  Pointer copyPtr = Self::New();
 
   copyPtr->m_Element = this->m_Element;
   copyPtr->m_Point = this->m_Point;
@@ -67,6 +67,10 @@ Element::ConstPointer LoadNode::GetElement() const
 void LoadNode::SetElement(Element::ConstPointer el)
 {
   this->m_Element = el;
+}
+void LoadNode::SetElement(Element::Pointer el)
+{
+  this->m_Element = el.GetPointer();
 }
 
 void LoadNode::PrintSelf(std::ostream& os, Indent indent) const

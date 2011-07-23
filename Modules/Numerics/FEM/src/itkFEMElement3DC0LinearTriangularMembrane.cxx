@@ -28,7 +28,7 @@ namespace fem
 ::itk::LightObject::Pointer Element3DC0LinearTriangularMembrane::CreateAnother(void) const
 {
   ::itk::LightObject::Pointer smartPtr;
-  Pointer copyPtr = Self::New().GetPointer();
+  Pointer copyPtr = Self::New();
 
   copyPtr->SetNode(0, this->GetNode(0) );
   copyPtr->SetNode(1, this->GetNode(1) );
@@ -61,7 +61,7 @@ Element3DC0LinearTriangularMembrane
    * we were given the pointer to the right class.
    * If the material class was incorrect an exception is thrown.
    */
-  m_mat = dynamic_cast<const MaterialLinearElasticity *>( &*m_ );
+  m_mat = dynamic_cast<const MaterialLinearElasticity *>( m_.GetPointer() );
   if( !m_mat )
     {
     throw FEMExceptionWrongClass(__FILE__,

@@ -75,6 +75,8 @@ int itkFEMElement2DC0LinearQuadrilateralStressTestFEMObjectReader(int argc, char
   FEMObjectSpatialObjectType::Pointer femSO =
     dynamic_cast<FEMObjectSpatialObjectType *>( (*(children->begin() ) ).GetPointer() );
 
+  delete children;
+
   femSO->GetFEMObject()->Solve();
 
   float soln[8];

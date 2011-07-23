@@ -74,7 +74,14 @@ public:
   LoadElement() : m_Element(0)
   {
   }
-  void AddNextElement(Element::ConstPointer e);
+  void AddNextElement(Element::ConstPointer e)
+    {
+      this->AddNextElementInternal(e.GetPointer());
+    }
+  void AddNextElement(Element::Pointer e)
+    {
+      this->AddNextElementInternal(e.GetPointer());
+    }
 
   Element::ConstPointer GetElement(int i);
 
@@ -88,7 +95,7 @@ public:
 
 protected:
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
-
+  void AddNextElementInternal(const Element *e);
   ElementPointersVectorType m_Element;  /** pointers to element objects on which the
                                    load acts */
 };

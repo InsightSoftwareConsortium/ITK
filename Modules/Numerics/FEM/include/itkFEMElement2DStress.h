@@ -97,13 +97,16 @@ public:
    */
   virtual Material::ConstPointer GetMaterial(void) const
   {
-    return dynamic_cast<const Material *>(&*m_mat);
+    return dynamic_cast<const Material *>(m_mat.GetPointer());
   }
 
   virtual void SetMaterial(Material::ConstPointer mat_)
   {
-    m_mat =
-      dynamic_cast<const MaterialLinearElasticity *>( &*mat_ );
+    this->SetMaterialInternal(mat_.GetPointer());
+  }
+  virtual void SetMaterial(Material::Pointer mat_)
+  {
+    this->SetMaterialInternal(mat_.GetPointer());
   }
 
 protected:
@@ -114,6 +117,11 @@ protected:
    * Pointer to material properties of the element
    */
   MaterialLinearElasticity::ConstPointer m_mat;
+  virtual void SetMaterialInternal(const Material *mat_)
+    {
+      m_mat =
+        dynamic_cast<const MaterialLinearElasticity *>( mat_ );
+    }
 
 };  // class Element2DStress
 

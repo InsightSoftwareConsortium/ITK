@@ -440,7 +440,7 @@ else
     {
     for( unsigned int i = 0; i < m_LandmarkArray.size(); i++ )
       {
-      m_FEMObject->AddNextLoad( &*(m_LandmarkArray[i]) );
+      m_FEMObject->AddNextLoad( (m_LandmarkArray[i]) );
       }
     }
 
@@ -476,7 +476,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>
   m_Load->SetNumberOfIntegrationPoints(m_NumberOfIntegrationPoints[m_CurrentLevel]);
   m_Load->SetGlobalNumber(m_FEMObject->GetNumberOfLoads() + 1);
   m_Load->SetSign( (Float)m_DescentDirection);
-  m_FEMObject->AddNextLoad(&*m_Load);
+  m_FEMObject->AddNextLoad(m_Load.GetPointer());
   m_Load = dynamic_cast<typename FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ImageMetricLoadType *>
     (&*m_FEMObject->GetLoadWithGlobalNumber(m_FEMObject->GetNumberOfLoads() ) );
 }
@@ -590,7 +590,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ApplyLoads(
 
       m_LandmarkArray[lmind]->SetGlobalNumber(lmind);
       LoadLandmark::Pointer l5 = dynamic_cast<LoadLandmark *>( &*m_LandmarkArray[lmind]->CreateAnother() );
-      m_FEMObject->AddNextLoad(&*l5);
+      m_FEMObject->AddNextLoad(l5);
       }
     itkDebugMacro( << " landmarks done" );
     }
@@ -666,12 +666,12 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ApplyLoads(
               // now we get the element from the node -- we assume we need fix the dof only once
               // even if more than one element shares it.
 
-              l1->SetElement(*elt);
+              l1->SetElement(Element::ConstPointer(*elt));
               unsigned int localdof = whichnode * ndofpernode + jj;
               l1->SetDegreeOfFreedom(localdof);
               l1->SetValue(vnl_vector<double>(1, 0.0) );
 
-              m_FEMObject->AddNextLoad(&*l1);
+              m_FEMObject->AddNextLoad(l1);
               }
             EdgeCounter++;
             }
@@ -1197,7 +1197,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::EnforceDiffeo
           itkDebugMacro( << " New source: " << m_LandmarkArray[lmind]->GetSource() );
           itkDebugMacro( << " Target: " << m_LandmarkArray[lmind]->GetTarget() );
           LoadLandmark::Pointer l5 = dynamic_cast<LoadLandmark *>( &*m_LandmarkArray[lmind]->CreateAnother() );
-          mySolver->GetOutput()->AddNextLoad(&*l5);
+          mySolver->GetOutput()->AddNextLoad(l5);
           }
         itkDebugMacro( << " warping landmarks done " );
         }
