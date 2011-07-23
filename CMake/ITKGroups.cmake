@@ -47,6 +47,7 @@ ITKAnisotropicSmoothing
 ITKAntiAlias
 ITKBiasCorrection
 ITKConnectedComponents
+ITKConvolution
 ITKCurvatureFlow
 ITKDeformationField
 ITKDiffusionTensorImage

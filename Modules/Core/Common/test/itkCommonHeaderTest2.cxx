@@ -31,6 +31,7 @@
 #include "itkImageHelper.h"
 #include "itkImageIterator.hxx"
 #include "itkImageIteratorWithIndex.hxx"
+#include "itkImageKernelOperator.hxx"
 #include "itkImageLinearConstIteratorWithIndex.hxx"
 #include "itkImageLinearIteratorWithIndex.hxx"
 //BUG 11903
