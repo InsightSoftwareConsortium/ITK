@@ -88,22 +88,6 @@ void
 CSVFileReaderBase
 ::GetDataDimension(SizeValueType & rows, SizeValueType & cols)
 {
-  this->PrepareForParsing();
-
-  // Open the file for reading
-  if ( !this->m_InputStream.is_open() )
-    {
-    this->m_InputStream.open(this->m_FileName.c_str());
-
-    if ( this->m_InputStream.fail() )
-      {
-      itkExceptionMacro(
-        "The file " << this->m_FileName <<" cannot be opened for reading!"
-        << std::endl
-        << "Reason: "
-        << itksys::SystemTools::GetLastSystemError() );
-      }
-    }
 
   this->m_InputStream.seekg(0);
   rows = 0;
@@ -216,8 +200,8 @@ CSVFileReaderBase
     }
 
   cols = max_cols;
-
-  this->m_InputStream.close();
+  this->m_InputStream.clear();
+  this->m_InputStream.seekg(0);
 }
 
 /** Function to get the next entry from the file. */
@@ -225,21 +209,6 @@ void
 CSVFileReaderBase
 ::GetNextField(std::string & str)
 {
-  // Open the file if it is not currently open
-  if ( !this->m_InputStream.is_open() )
-    {
-    this->m_InputStream.open(this->m_FileName.c_str());
-    if ( this->m_InputStream.fail() )
-      {
-      itkExceptionMacro(
-        "The file " << this->m_FileName <<" cannot be opened for reading!"
-        << m_FileName
-        << std::endl
-        << "Reason: "
-        << itksys::SystemTools::GetLastSystemError() );
-      }
-    }
-
   /** The process below is as follows: we check if this->m_Line is empty. If it is
    * then we have to get a new line. If not, we have to get the fields that
    * this->m_Line contains. We check if the line we're on contains column headers.
@@ -255,8 +224,10 @@ CSVFileReaderBase
   bool OnANewLine = false;
   bool OnColumnHeadersLine = false;
   // Check that we are not at the end of the file
+  std::cout << "m_Line: " << m_Line << std::endl;
   if ( !this->m_InputStream.eof() )
     {
+    std::cout << "Not at eof" << std::endl;
     if ( this->m_Line.empty() )
       {
       std::getline(this->m_InputStream,this->m_Line);
