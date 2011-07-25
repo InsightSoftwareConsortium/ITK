@@ -94,6 +94,14 @@ protected:
   bool IsDimensionSizeLegal(InputSizeValueType n);
 
 private:
+  // compile time choice of fft solver instead of runtime
+  template <unsigned VDim> struct DimDiscriminator { };
+  typedef vnl_vector< vcl_complex< InputPixelType > > SignalVectorType;
+  /** call proper vnl_fft transform function */
+  void FFTND_transform(SignalVectorType &signal, const InputSizeType &inputSize, DimDiscriminator<1> *);
+  void FFTND_transform(SignalVectorType &signal, const InputSizeType &inputSize, DimDiscriminator<2> *);
+  void FFTND_transform(SignalVectorType &signal, const InputSizeType &inputSize, DimDiscriminator<3> *);
+
   VnlFFTRealToComplexConjugateImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                          //purposely not implemented
 };
