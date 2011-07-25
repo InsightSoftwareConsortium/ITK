@@ -91,13 +91,6 @@ void Element::GetStiffnessMatrix(MatrixType & Ke) const
     }
 }
 
-#if 0
-void Element::PopulateEdgeIds() const
-{
-//HACK:  Should this really be empty, or rather should itkFEMElementBase be an abstract class?
-}
-#endif
-
 Element::VectorType Element::GetStrainsAtPoint(const VectorType & pt, const Solution & sol, unsigned int index) const
 // NOTE: pt should be in local coordinates already
 {
