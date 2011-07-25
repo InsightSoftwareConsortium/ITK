@@ -140,3 +140,17 @@ and manually validate the xml files at "http://validator.w3.org/".'
     done
   fi
 fi || exit
+
+#-----------------------------------------------------------------------------
+# Do not allow adding of files with .txx extension.
+
+diffs_added=$(git diff-index --diff-filter=A --cached HEAD -- | grep '\.txx$')
+diffs_normal_added=$(echo "$diffs_added" | grep -v '^...... 160000')
+bad=$(
+test -n "$diffs_normal_added" && echo "$diffs_normal_added" |
+while read src_mode dst_mode src_obj dst_obj status file; do
+  echo "Attempted to add file $file."
+  echo "Files with the .txx extension are deprecated -- please use .hxx instead."
+done
+)
+test -z "$bad" || die "$bad"
