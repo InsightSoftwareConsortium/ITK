@@ -48,6 +48,7 @@ public:
   /** Standard class typedefs. */
   typedef TInputImage                            InputImageType;
   typedef typename InputImageType::PixelType     InputPixelType;
+  typedef typename InputImageType::SizeType      InputSizeType;
   typedef typename InputImageType::SizeValueType InputSizeValueType;
   typedef TOutputImage                           OutputImageType;
   typedef typename OutputImageType::PixelType    OutputPixelType;
@@ -97,6 +98,14 @@ protected:
   bool IsDimensionSizeLegal(InputSizeValueType n);
 
 private:
+  // compile time choice of fft solver instead of runtime
+  template <unsigned VDim> struct DimDiscriminator { };
+  typedef vnl_vector< InputPixelType  > SignalVectorType;
+  /** call proper vnl_fft transform function */
+  void FFTND_transform(SignalVectorType &signal, const OutputSizeType &inputSize, DimDiscriminator<1> *);
+  void FFTND_transform(SignalVectorType &signal, const OutputSizeType &inputSize, DimDiscriminator<2> *);
+  void FFTND_transform(SignalVectorType &signal, const OutputSizeType &inputSize, DimDiscriminator<3> *);
+
   VnlFFTComplexConjugateToRealImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                          //purposely not implemented
 };
