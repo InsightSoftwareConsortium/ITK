@@ -222,7 +222,12 @@ protected:
 
   void PrintSelf(std::ostream & os, Indent indent) const;
 
-  virtual void VerifyInputInformation();
+  /** Override VeriyInputInformation() since this filter's inputs do
+   * not need to occoupy the same physical space.
+   *
+   * \sa ProcessObject::VerifyInputInformation
+   */
+  virtual void VerifyInputInformation() {}
 
 private:
   ChangeInformationImageFilter(const Self &); //purposely not implemented

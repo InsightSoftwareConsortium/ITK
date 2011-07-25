@@ -239,8 +239,12 @@ protected:
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                             ThreadIdType threadId);
 
-  virtual void VerifyInputInformation();
-
+  /** Override VeriyInputInformation() since this filter's inputs do
+   * not need to occoupy the same physical space.
+   *
+   * \sa ProcessObject::VerifyInputInformation
+   */
+  virtual void VerifyInputInformation() {}
 
 private:
   WarpImageFilter(const Self &); //purposely not implemented

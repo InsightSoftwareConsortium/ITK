@@ -138,7 +138,12 @@ protected:
 
   void  GenerateData();
 
-  virtual void VerifyInputInformation();
+  /** Override VeriyInputInformation() since this filter's inputs do
+   * not need to occoupy the same physical space.
+   *
+   * \sa ProcessObject::VerifyInputInformation
+   */
+  virtual void VerifyInputInformation() {}
 
 private:
   TileImageFilter(const Self &); //purposely not implemented

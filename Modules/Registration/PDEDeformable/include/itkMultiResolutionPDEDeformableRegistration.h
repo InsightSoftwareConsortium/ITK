@@ -251,7 +251,12 @@ protected:
    * terminate at the current resolution level. */
   virtual bool Halt();
 
-  virtual void VerifyInputInformation();
+  /** Override VeriyInputInformation() since this filter's inputs do
+   * not need to occoupy the same physical space.
+   *
+   * \sa ProcessObject::VerifyInputInformation
+   */
+  virtual void VerifyInputInformation() {}
 
 private:
   MultiResolutionPDEDeformableRegistration(const Self &); //purposely not

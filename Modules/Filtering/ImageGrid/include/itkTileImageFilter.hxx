@@ -40,15 +40,6 @@ TileImageFilter< TInputImage, TOutputImage >
 template< class TInputImage, class TOutputImage >
 void
 TileImageFilter< TInputImage, TOutputImage >
-::VerifyInputInformation()
-{
-  // Default superclass implementation ensures that input images
-  // occupy same physical space. This is not needed for this filter.
-}
-
-template< class TInputImage, class TOutputImage >
-void
-TileImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
   typename TOutputImage::Pointer output = this->GetOutput();
