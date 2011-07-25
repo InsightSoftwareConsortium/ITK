@@ -146,15 +146,6 @@ WarpImageFilter< TInputImage, TOutputImage, TDeformationField >
          ( this->ProcessObject::GetInput(1) );
 }
 
-template< class TInputImage, class TOutputImage, class TDeformationField >
-void
-WarpImageFilter< TInputImage, TOutputImage, TDeformationField >
-::VerifyInputInformation()
-{
-  // Default superclass implementation ensures that input images
-  // occupy same physical space. This is not needed for this filter
-}
-
 /**
  * Setup state of filter before multi-threading.
  * InterpolatorType::SetInputImage is not thread-safe and hence

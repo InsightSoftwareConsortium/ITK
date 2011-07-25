@@ -135,7 +135,12 @@ protected:
   /** Apply update. */
   virtual void ApplyUpdate(const TimeStepType& dt);
 
-  virtual void VerifyInputInformation();
+  /** Override VeriyInputInformation() since this filter's inputs do
+   * not need to occoupy the same physical space.
+   *
+   * \sa ProcessObject::VerifyInputInformation
+   */
+  virtual void VerifyInputInformation() {}
 
 private:
   DemonsRegistrationFilter(const Self &); //purposely not implemented

@@ -63,24 +63,6 @@ InterpolateImagePointsFilter< TInputImage, TOutputImage, TCoordType, Interpolato
 template< class TInputImage, class TOutputImage, class TCoordType, class InterpolatorType >
 void
 InterpolateImagePointsFilter< TInputImage, TOutputImage, TCoordType, InterpolatorType >
-::VerifyInputInformation()
-{
-  // Default superclass implementation ensures that input images
-  // occupy same physical space. This is not needed for this filter.
-
-  // This filter does assume that all the input images are the same
-  // number of pixels, in each dimension. But that should be enforces
-  // by ImageToImageFilter::GenerateInputRequestedRegion
-
-  // NOTE: this filter does wacky stuff and it should be refactors,
-  // and the description of what the filter does should be better. At
-  // least the comments that indicate the author didn't know what they
-  // were doing should be removed.
-}
-
-template< class TInputImage, class TOutputImage, class TCoordType, class InterpolatorType >
-void
-InterpolateImagePointsFilter< TInputImage, TOutputImage, TCoordType, InterpolatorType >
 ::SetInputImage(const TInputImage *inputImage)
 {
   this->SetInput(0, inputImage); // This is a data filter input

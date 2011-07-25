@@ -51,15 +51,6 @@ ChangeInformationImageFilter< TInputImage >
 template< class TInputImage >
 void
 ChangeInformationImageFilter< TInputImage >
-::VerifyInputInformation()
-{
-  // Default superclass implementation ensures that input images
-  // occupy same physical space. This is not needed for this filter
-}
-
-template< class TInputImage >
-void
-ChangeInformationImageFilter< TInputImage >
 ::GenerateOutputInformation()
 {
   Superclass::GenerateOutputInformation();

@@ -193,18 +193,6 @@ MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDeformatio
   os << m_StopRegistrationFlag << std::endl;
 }
 
-template< class TFixedImage, class TMovingImage, class TDeformationField, class TRealType >
-void
-MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDeformationField, TRealType >
-::VerifyInputInformation()
-{
-  // Default superclass implementation ensures that input images
-  // occupy same physical space. This is not needed for this filter.
-
-  // the fixed image and moving image and deformation field all can
-  // be in different physical grids
-}
-
 /*
  * Perform a the deformable registration using a multiresolution scheme
  * using an internal mini-pipeline

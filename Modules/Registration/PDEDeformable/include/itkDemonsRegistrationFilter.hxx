@@ -37,21 +37,6 @@ DemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
   m_UseMovingImageGradient = false;
 }
 
-/*
- * VerifyInputInformation
- */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
-void
-DemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
-::VerifyInputInformation()
-{
-  // Default superclass implementation ensures that input images
-  // occupy same physical space. This is not needed for this filter.
-
-  // the fixed image and moving image and deformation field all can
-  // be in different physical grids
-}
-
 template< class TFixedImage, class TMovingImage, class TDeformationField >
 void
 DemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
