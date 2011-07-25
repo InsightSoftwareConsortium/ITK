@@ -105,6 +105,13 @@ itk_add_test(NAME  BinomialBlurImageFilterTest COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/BinomialBlurImageFilter.png
         5
 )
+itk_add_test(NAME  CompositeFilterExampleTest COMMAND ${ITK_TEST_DRIVER}
+  --compare DATA{Baseline/CompositeFilterExample.mha}
+            ${TEMP}/CompositeFilterExample.mha
+  $<TARGET_FILE:CompositeFilterExample>
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/CompositeFilterExample.mha
+)
 itk_add_test(NAME  CurvatureAnisotropicDiffusionImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/CurvatureAnisotropicDiffusionImageFilter.png
             ${TEMP}/CurvatureAnisotropicDiffusionImageFilter.png
