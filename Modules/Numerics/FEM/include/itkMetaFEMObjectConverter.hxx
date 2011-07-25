@@ -63,7 +63,6 @@ MetaFEMObjectConverter<NDimensions>
   typedef typename FEMObjectType::Pointer FEMObjectPointer;
 
   FEMObjectPointer myFEMObject = FEMObjectType::New();
-  itk::LightObject::Pointer a = 0;
 
   // copy all the node information
   typedef typename MetaFEMObject::NodeListType NodeListType;
@@ -74,11 +73,10 @@ MetaFEMObjectConverter<NDimensions>
   while(it_nodes != nodelist.end())
   {
     FEMObjectNode *node = (*it_nodes);
-    a = ObjectFactoryBase::CreateInstance ( "Node" );
 
     // create a new object of the correct class
     //a = FEMOF::Create(clID);
-    fem::Element::Node::Pointer o1 = dynamic_cast< fem::Element::Node * >( a.GetPointer() );
+    fem::Element::Node::Pointer o1 = fem::Element::Node::New();
     o1->SetGlobalNumber(node->m_GN);
     fem::Element::VectorType pt(node->m_Dim);
     for (unsigned int i=0; i<node->m_Dim; i++)
@@ -102,10 +100,9 @@ MetaFEMObjectConverter<NDimensions>
   while(it_material != materiallist.end())
   {
     FEMObjectMaterial *material = (*it_material);
-    a = ObjectFactoryBase::CreateInstance ( "MaterialLinearElasticity" );
 
     fem::MaterialLinearElasticity::Pointer o1 =
-    dynamic_cast< fem::MaterialLinearElasticity * >( a.GetPointer() );
+      fem::MaterialLinearElasticity::New();
     o1->SetGlobalNumber(material->m_GN);
     o1->SetYoungsModulus(material->E); /* Young modulus */
     o1->SetPoissonsRatio(material->nu);
@@ -126,10 +123,11 @@ MetaFEMObjectConverter<NDimensions>
   while(it_elements != elementlist.end())
   {
     FEMObjectElement *element = (*it_elements);
-    a = ObjectFactoryBase::CreateInstance ( element->m_ElementName );
+    itk::LightObject::Pointer a =
+      ObjectFactoryBase::CreateInstance ( element->m_ElementName );
+    fem::Element::Pointer o1 =  dynamic_cast<fem::Element *>(a.GetPointer());
 
-    fem::Element::Pointer o1 = dynamic_cast< fem::Element * >( a.GetPointer() );
-      o1->SetGlobalNumber(element->m_GN);
+    o1->SetGlobalNumber(element->m_GN);
     int numNodes = element->m_NumNodes;
     for (int i=0; i<numNodes; i++)
     {
@@ -149,13 +147,12 @@ MetaFEMObjectConverter<NDimensions>
    while(it_load != loadlist.end())
      {
      FEMObjectLoad *load = (*it_load);
-     a = ObjectFactoryBase::CreateInstance ( load->m_LoadName );
 
      std::string loadname = std::string(load->m_LoadName);
      if(loadname == "LoadNode")
        {
        fem::LoadNode::Pointer o1 =
-         dynamic_cast< fem::LoadNode * >( a.GetPointer() );
+         fem::LoadNode::New();
        o1->SetGlobalNumber(load->m_GN);
 
        o1->SetElement(myFEMObject->GetElementWithGlobalNumber(load->m_ElementGN));
@@ -174,7 +171,7 @@ MetaFEMObjectConverter<NDimensions>
      else if(loadname == "LoadBC")
        {
        fem::LoadBC::Pointer o1 =
-         dynamic_cast< fem::LoadBC * >( a.GetPointer() );
+         fem::LoadBC::New();
        o1->SetGlobalNumber(load->m_GN);
 
        o1->SetDegreeOfFreedom(load->m_DOF);
@@ -193,7 +190,7 @@ MetaFEMObjectConverter<NDimensions>
      else if(loadname == "LoadBCMFC")
        {
        fem::LoadBCMFC::Pointer o1 =
-         dynamic_cast< fem::LoadBCMFC * >( a.GetPointer() );
+         fem::LoadBCMFC::New();
        o1->SetGlobalNumber(load->m_GN);
 
        int NumLHS;
@@ -227,7 +224,7 @@ MetaFEMObjectConverter<NDimensions>
      else if(loadname == "LoadEdge")
        {
        fem::LoadEdge::Pointer o1 =
-         dynamic_cast< fem::LoadEdge * >( a.GetPointer() );
+         fem::LoadEdge::New();
        o1->SetGlobalNumber(load->m_GN);
 
        int numRows;
@@ -258,7 +255,7 @@ MetaFEMObjectConverter<NDimensions>
      else if(loadname == "LoadGravConst")
        {
        fem::LoadGravConst::Pointer o1 =
-         dynamic_cast< fem::LoadGravConst * >( a.GetPointer() );
+         fem::LoadGravConst::New();
        o1->SetGlobalNumber(load->m_GN);
 
        for (int i=0; i<load->m_NumElements; i++)
@@ -276,7 +273,7 @@ MetaFEMObjectConverter<NDimensions>
      else if(loadname == "LoadLandmark")
        {
        fem::LoadLandmark::Pointer o1 =
-         dynamic_cast< fem::LoadLandmark * >( a.GetPointer() );
+         fem::LoadLandmark::New();
        o1->SetGlobalNumber(load->m_GN);
        o1->SetEta(load->m_Variance);
        o1->GetElementArray().resize(1);
