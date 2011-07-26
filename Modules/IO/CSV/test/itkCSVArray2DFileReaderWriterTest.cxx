@@ -79,7 +79,12 @@ int itkCSVFileReaderWriterTest_Func(int argc, char *argv[], bool headers)
   typedef itk::CSVNumericObjectFileWriter<double, ARows, ACols> WriterType;
   WriterType::Pointer writer = WriterType::New();
 
-  std::string filename = argv[1];
+  if (argc < 2 )
+    {
+    std::cout << "Wrong number of arguments given." << std::endl;
+    return EXIT_FAILURE;
+    }
+  const std::string filename = argv[1];
   writer->SetFileName( filename );
   writer->SetInput( &matrix );
 

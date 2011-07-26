@@ -34,35 +34,34 @@ CSVArray2DDataObject<TData>
 }
 
 template <class TData>
-const typename CSVArray2DDataObject<TData>::StringVectorType
+typename CSVArray2DDataObject<TData>::StringVectorType
 CSVArray2DDataObject<TData>
-::GetColumnHeaders()
+ ::GetColumnHeaders() const
 {
   return this->m_ColumnHeaders;
 }
 
 template <class TData>
-const typename CSVArray2DDataObject<TData>::StringVectorType
+typename CSVArray2DDataObject<TData>::StringVectorType
 CSVArray2DDataObject<TData>
-::GetRowHeaders()
+ ::GetRowHeaders() const
 {
   return this->m_RowHeaders;
 }
 
 template <class TData>
-const unsigned int
+unsigned int
 CSVArray2DDataObject<TData>
-::GetRowIndexByName(const std::string & row_name)
+ ::GetRowIndexByName(const std::string & row_name) const
 {
   if ( !this->m_HasRowHeaders )
     {
     itkExceptionMacro( << "The dataset does not contain any row headers!");
     }
 
-  typename StringVectorType::iterator it;
-  unsigned int index = 0;
-  it = std::find(this->m_RowHeaders.begin(),this->m_RowHeaders.end(),row_name);
-  index = distance(this->m_RowHeaders.begin(), it);
+  const typename StringVectorType::const_iterator it =
+    std::find(this->m_RowHeaders.begin(),this->m_RowHeaders.end(),row_name);
+  const unsigned int index = distance(this->m_RowHeaders.begin(), it);
 
   if ( it == this->m_RowHeaders.end() )
     {
@@ -72,19 +71,18 @@ CSVArray2DDataObject<TData>
 }
 
 template <class TData>
-const unsigned int
+unsigned int
 CSVArray2DDataObject<TData>
-::GetColumnIndexByName(const std::string & column_name)
+ ::GetColumnIndexByName(const std::string & column_name) const
 {
   if ( !this->m_HasColumnHeaders )
     {
     itkExceptionMacro( << "The dataset does not contain any column headers!");
     }
 
-  typename StringVectorType::iterator it;
-  unsigned int index = 0;
-  it = std::find(this->m_ColumnHeaders.begin(),this->m_ColumnHeaders.end(),column_name);
-  index = distance(this->m_ColumnHeaders.begin(), it);
+  const typename StringVectorType::const_iterator it =
+    std::find(this->m_ColumnHeaders.begin(),this->m_ColumnHeaders.end(),column_name);
+  const unsigned int index = distance(this->m_ColumnHeaders.begin(), it);
 
   if ( it == this->m_ColumnHeaders.end() )
     {
@@ -94,9 +92,9 @@ CSVArray2DDataObject<TData>
 }
 
 template <class TData>
-const typename CSVArray2DDataObject<TData>::NumericVectorType
+typename CSVArray2DDataObject<TData>::NumericVectorType
 CSVArray2DDataObject <TData>
-::GetRow(const unsigned int & row_index)
+ ::GetRow(const unsigned int & row_index) const
 {
   NumericVectorType row;
   unsigned int max_rows = this->m_Matrix.rows() - 1;
@@ -114,9 +112,9 @@ CSVArray2DDataObject <TData>
 }
 
 template <class TData>
-const typename CSVArray2DDataObject<TData>::NumericVectorType
+typename CSVArray2DDataObject<TData>::NumericVectorType
 CSVArray2DDataObject<TData>
-::GetRow(const std::string & row_name)
+ ::GetRow(const std::string & row_name) const
 {
   NumericVectorType row;
   unsigned int index = this->GetRowIndexByName(row_name);
@@ -125,9 +123,9 @@ CSVArray2DDataObject<TData>
 }
 
 template <class TData>
-const typename CSVArray2DDataObject<TData>::NumericVectorType
+typename CSVArray2DDataObject<TData>::NumericVectorType
 CSVArray2DDataObject <TData>
-::GetColumn(const unsigned int & column_index)
+ ::GetColumn(const unsigned int & column_index) const
 {
   NumericVectorType column;
   unsigned int max_columns = this->m_Matrix.columns() - 1;
@@ -145,9 +143,9 @@ CSVArray2DDataObject <TData>
 }
 
 template <class TData>
-const typename CSVArray2DDataObject<TData>::NumericVectorType
+typename CSVArray2DDataObject<TData>::NumericVectorType
 CSVArray2DDataObject <TData>
-::GetColumn(const std::string & column_name)
+ ::GetColumn(const std::string & column_name) const
 {
   NumericVectorType column;
   unsigned int index = this->GetColumnIndexByName(column_name);
@@ -157,9 +155,9 @@ CSVArray2DDataObject <TData>
 
 
 template <class TData>
-const TData
+TData
 CSVArray2DDataObject <TData>
-::GetData(const unsigned int & row, const unsigned int & column)
+ ::GetData(const unsigned int & row, const unsigned int & column) const
 {
   if ( row > this->m_Matrix.rows() - 1)
     {
@@ -175,9 +173,9 @@ CSVArray2DDataObject <TData>
 }
 
 template <class TData>
-const TData
+TData
 CSVArray2DDataObject <TData>
-::GetData(const std::string & row_name, const std::string & column_name)
+ ::GetData(const std::string & row_name, const std::string & column_name) const
 {
   unsigned int row_index = this->GetRowIndexByName(row_name);
   unsigned int column_index = this->GetColumnIndexByName(column_name);
@@ -186,35 +184,35 @@ CSVArray2DDataObject <TData>
 
 
 template <class TData>
-const TData
+TData
 CSVArray2DDataObject <TData>
-::GetRowData(const std::string & row_name, const unsigned int & column_index)
+ ::GetRowData(const std::string & row_name, const unsigned int & column_index) const
 {
   unsigned int row_index = this->GetRowIndexByName(row_name);
   return this->GetData(row_index, column_index);
 }
 
 template <class TData>
-const TData
+TData
 CSVArray2DDataObject <TData>
-::GetColumnData(const std::string & column_name, const unsigned int & row_index)
+ ::GetColumnData(const std::string & column_name, const unsigned int & row_index) const
 {
   unsigned int column_index = this->GetColumnIndexByName(column_name);
   return this->GetData(row_index, column_index);
 }
 
 template<class TData>
-const TData
+TData
 CSVArray2DDataObject <TData>
-::operator()(const unsigned int & row_index, const unsigned int & column_index)
+::operator()(const unsigned int & row_index, const unsigned int & column_index) const
 {
   return this->GetData(row_index, column_index);
 }
 
 template<class TData>
-const TData
+TData
 CSVArray2DDataObject <TData>
-::operator()(const std::string & row_name, const std::string & column_name)
+::operator()(const std::string & row_name, const std::string & column_name) const
 {
   return this->GetData(row_name, column_name);
 }
