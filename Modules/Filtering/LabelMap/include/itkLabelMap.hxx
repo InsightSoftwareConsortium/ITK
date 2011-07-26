@@ -250,7 +250,6 @@ LabelMap< TLabelObject >
     // increment the iterator before removing the pixel because
     // RemovePixel() can remove the object and thus invalidate the
     // iterator
-      LabelType currentLabel = it->first;
       if( it->first != iLabel )
         {
         LabelObjectContainerIterator tempIt = it;
