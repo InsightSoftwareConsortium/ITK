@@ -626,7 +626,13 @@ bool
 HDF5ImageIO
 ::CanReadFile(const char *FileNameToRead)
 {
- // call standard method to determine HDF-ness
+  //HDF5 is overly verbose in complaining that
+  //     a file does not exist.
+  if ( !itksys::SystemTools::FileExists(FileNameToRead) )
+    {
+    return false;
+    }
+  // call standard method to determine HDF-ness
   bool rval;
   // HDF5 is so exception happy, we have to worry about
   // it throwing a wobbly here if the file doesn't exist
