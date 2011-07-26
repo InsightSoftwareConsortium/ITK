@@ -48,12 +48,14 @@ int main(int , char* [])
   typedef itk::Image<float,2> OutputType;
   typedef itk::Image<bool,2> BinaryImageType;
   typedef itk::Image<unsigned short,2> UShortImageType;
+  typedef itk::Image<unsigned short,3> UShortImageType3D;
   typedef itk::Image<unsigned char,2> CharType;
 
   typedef itk::Mesh<double>  MeshType;
 
   typedef itk::Vector<float,2> VectorType;
   typedef itk::Image<VectorType, 2> VectorImageType;
+  typedef itk::Image<VectorType, 3> VectorImageType3D;
 
   // Used for NormalizedCorrelationPointSetToImageMetric
   typedef itk::PointSet<float,2> PointSetType;
@@ -112,8 +114,9 @@ int main(int , char* [])
     itk::PDEDeformableRegistrationFilter<InputType,InputType,VectorImageType>::New();
   std:: cout << "-------------PDEDeformableRegistrationFilter " << PDEDeformableRegistrationFilterObj;
 
-  itk::RGBGibbsPriorFilter<VectorImageType,UShortImageType>::Pointer RGBGibbsPriorFilterObj =
-    itk::RGBGibbsPriorFilter<VectorImageType,UShortImageType>::New();
+  //NOTE:  RGBGibbsPriorFilter only works in 3D
+  itk::RGBGibbsPriorFilter<VectorImageType3D,UShortImageType3D>::Pointer RGBGibbsPriorFilterObj =
+    itk::RGBGibbsPriorFilter<VectorImageType3D,UShortImageType3D>::New();
   std:: cout << "-------------RGBGibbsPriorFilter " << RGBGibbsPriorFilterObj;
 
   itk::RecursiveMultiResolutionPyramidImageFilter<InputType,OutputType>::Pointer RecursiveMultiResolutionPyramidImageFilterObj =
