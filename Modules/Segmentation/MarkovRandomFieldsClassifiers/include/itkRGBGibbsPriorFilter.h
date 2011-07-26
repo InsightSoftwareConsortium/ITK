@@ -38,6 +38,8 @@ namespace itk
  * The two force components f_1 and f_3 are minimized by the GradientEnergy
  * method while f_2 is minized by the GibbsTotalEnergy method.
  *
+ * This filter only works with 3D images.
+ *
  * \ingroup MRFFilters
  * \ingroup ITKMarkovRandomFieldsClassifiers
  */
@@ -75,6 +77,7 @@ public:
   typedef typename TInputImage::PixelType InputPixelType;
 
   /** Type definitions for the training image. */
+  typedef TClassifiedImage                   ClassifiedImageType;
   typedef typename TClassifiedImage::Pointer TrainingImageType;
 
   /** Type definitions for the labelled image.
@@ -169,6 +172,17 @@ protected:
   virtual void ApplyGibbsLabeller();
 
   virtual void ApplyGPImageFilter();
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro( SameDimension,
+                   ( Concept::SameDimension< itkGetStaticConstMacro(InputImageType::ImageDimension),
+                                             itkGetStaticConstMacro(ClassifiedImageType::ImageDimension) > ) );
+  itkConceptMacro( DimensionShouldBe3,
+                   ( Concept::SameDimension< itkGetStaticConstMacro(InputImageType::ImageDimension), 3 > ) );
+  /** End concept checking */
+#endif
+
 
 private:
   RGBGibbsPriorFilter(const Self &);
