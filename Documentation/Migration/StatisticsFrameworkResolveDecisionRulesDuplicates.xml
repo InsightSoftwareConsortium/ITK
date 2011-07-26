@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<!DOCTYPE Change SYSTEM "http://ij.itk.org/itkfaq/ITKMigration.dtd">
 <!--**
 **
 ** StatisticsFrameworkResolveDecisionRulesDuplicates.xml
@@ -201,7 +201,7 @@ http://review.source.kitware.com/#change,1740
       <New>
         itk::Statistics::DecisionRule
       </New>
-    <MigrationFix-Automatic>
+    </MigrationFix-Automatic>
 
     <MigrationFix-Automatic>
       <Old>
@@ -210,7 +210,7 @@ http://review.source.kitware.com/#change,1740
       <New>
         itk::Statistics::MaximumDecisionRule
       </New>
-    <MigrationFix-Automatic>
+    </MigrationFix-Automatic>
 
     <MigrationFix-Automatic>
       <Old>
@@ -219,7 +219,7 @@ http://review.source.kitware.com/#change,1740
       <New>
         itk::Statistics::MinimumDecisionRule
       </New>
-    <MigrationFix-Automatic>
+    </MigrationFix-Automatic>
 
     <MigrationFix-Automatic>
       <Old>
@@ -228,7 +228,7 @@ http://review.source.kitware.com/#change,1740
       <New>
         itk::Statistics::MaximumRatioDecisionRule
       </New>
-    <MigrationFix-Automatic>
+    </MigrationFix-Automatic>
 
     <MigrationFix-Automatic>
       <Old>
@@ -237,7 +237,7 @@ http://review.source.kitware.com/#change,1740
       <New>
         #include "itkDecisionRule.h"
       </New>
-    <MigrationFix-Automatic>
+    </MigrationFix-Automatic>
 
     <MigrationFix-Automatic>
       <Old>
@@ -246,7 +246,7 @@ http://review.source.kitware.com/#change,1740
       <New>
         #include "itkMaximumDecisionRule.h"
       </New>
-    <MigrationFix-Automatic>
+    </MigrationFix-Automatic>
 
     <MigrationFix-Automatic>
       <Old>
@@ -255,7 +255,7 @@ http://review.source.kitware.com/#change,1740
       <New>
         #include "itkMinimumDecisionRule.h"
       </New>
-    <MigrationFix-Automatic>
+    </MigrationFix-Automatic>
 
     <MigrationFix-Automatic>
       <Old>
@@ -264,7 +264,7 @@ http://review.source.kitware.com/#change,1740
       <New>
         #include "itkMaximumRatioDecisionRule.h"
       </New>
-    <MigrationFix-Automatic>
+    </MigrationFix-Automatic>
 
     <MigrationFix-Automatic>
       <Old>
@@ -273,7 +273,7 @@ http://review.source.kitware.com/#change,1740
       <New>
         SetPriorProbabilities
       </New>
-    <MigrationFix-Automatic>
+    </MigrationFix-Automatic>
 
     <MigrationFix-Automatic>
       <Old>
@@ -282,7 +282,7 @@ http://review.source.kitware.com/#change,1740
       <New>
         ::PriorProbabilityVectorType
       </New>
-    <MigrationFix-Automatic>
+    </MigrationFix-Automatic>
 
     <!--**
     ** If the migration can NOT be accomplished by a simple string
