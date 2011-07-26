@@ -22,7 +22,45 @@
 
 namespace itk {
 
-  // this class is usefull for verifying streaming and requested regions
+/** \class PipelineMonitorImageSource
+ * \brief Enables monitoring, recording and debuging of the pipeline
+ * execution and information exchange.
+ *
+ * This filter is useful for testing, debuging, and understanding the
+ * pipeline. When DebugOn is enabled and compiled in Debug mode, many
+ * itkDebug messages are printed. This filter also features, several
+ * Verify methods which check the recorded information, for certain
+ * conditions, which should occour when well behaved filters are
+ * executed.
+ *
+ * There are two meta verify methods that should primarily be used
+ * depending on the expected capabilities of the pipeline:
+ * - \b VerifyAllInputCanStream
+ * - \b VerifyAllInputCanNotStream
+ *
+ * During the pipeline execution this filter records a variety of
+ * information to aid if verifying correct pipeline behavior:
+ * - \b NumberOfUpdate the number of times GenerateData was executed
+ * - \b OutputRequestedRegions an array of the output of this filter's
+ *      requested region
+ * - \b InputRequestedRegions an array of the input image's requested
+ *      region after PropagateRequestedRegion
+ * - \b UpdatedBufferedRegions an array of the input image's buffered
+ *      region after upstream GenerateData
+ * - \b UpdatedRequestedRegions an array of the input image's
+ *      requested region after upstream GenerateData
+ *
+ * The following are recorded from the input image after the input's
+ * output information is generated:
+ * - \b UpdatedOutputOrigin
+ * - \b UpdatedOutputDirection
+ * - \b UpdatedOutputSpacing
+ * - \b UpdatedOutputLargestPossibleRegion
+ *
+ * This filter always runs in-place so it has no per-pixel overhead.
+ *
+ * \ingroup ITKTestKernel
+ */
  template <class TImageType>
    class PipelineMonitorImageFilter :
     public InPlaceImageFilter< TImageType, TImageType>
@@ -49,151 +87,62 @@ namespace itk {
    itkTypeMacro(PipelineMonitorImageFilter,ImageToImageFilter);
 
    /** Enable/Disable clearing all saved pipeline information when
-   * GenerateOutputInformation is called.
-   *
-   * Defaults to On
-   */
+    * GenerateOutputInformation is called.
+    *
+    * The NumberOfClearPipelines is incremented, to aid in detection
+    * of certain pipeline errors caused but excessive execution of
+    * GenerateOutputInformation.
+    *
+    * Defaults to On
+    */
    itkSetMacro( ClearPipelineOnGenerateOutputInformation, bool );
    itkGetMacro( ClearPipelineOnGenerateOutputInformation, bool );
    itkBooleanMacro( ClearPipelineOnGenerateOutputInformation );
 
-   bool VerifyDownStreamFilterExecutedPropagation(void)
-   {
-     bool ret = true;
-     // we expect that the propagation is not going to be called
-     // extra times
-     if (m_OutputRequestedRegions.size() != this->GetNumberOfUpdates() ||
-         m_InputRequestedRegions.size() != this->GetNumberOfUpdates())
-       {
-       itkWarningMacro(<<"Down stream filter didn't execute PropagateRequestedRegion well");
-       ret = false;
-       }
-     return ret;
-   }
 
-   bool VerifyInputFilterExecutedStreaming(int expectedNumber)
-   {
-     if (expectedNumber == 0)
-       {
-       return true;
-       }
-     else if (expectedNumber < 0 && static_cast<unsigned int>(- expectedNumber) <=  this->GetNumberOfUpdates())
-       {
-       return true;
-       }
-     else if ( expectedNumber == static_cast<int>(this->GetNumberOfUpdates()) )
-       {
-       return true;
-       }
-     itkWarningMacro(<<"Streamed pipeline was executed " << this->GetNumberOfUpdates()
-                     << " times which was not the expected number "  << expectedNumber
-                     << " of times.");
-     return false;
-   }
-
-   bool VerifyInputFilterMatchedUpdateOutputInformation(void)
-   {
-     InputImageConstPointer input =  this->GetInput();
-     if (input->GetSpacing() != m_UpdatedOutputSpacing)
-       {
-       itkWarningMacro(<<"The input filter's Spacing does not match UpdateOutputInformation");
-       return false;
-       }
-     if (input->GetOrigin() != m_UpdatedOutputOrigin)
-       {
-       itkWarningMacro(<<"The input filter's Origin does not match UpdateOutputInformation");
-       return false;
-       }
-     if (input->GetDirection() != m_UpdatedOutputDirection)
-       {
-       itkWarningMacro(<<"The input filter's Direction does not match UpdateOutputInformation");
-       return false;
-       }
-     if(input->GetLargestPossibleRegion() != m_UpdatedOutputLargestPossibleRegion)
-       {
-       itkWarningMacro(<<"The input filter's LargestPossibleRegion does not match UpdateOutputInformation");
-       return false;
-       }
-     if(m_UpdatedBufferedRegions.size() && !m_UpdatedOutputLargestPossibleRegion.IsInside(m_UpdatedBufferedRegions.back()))
-       {
-       itkWarningMacro(<<"The input filter's BufferedRegion is not contained by LargestPossibleRegion");
-       return false;
-       }
-       return true;
-   }
+   /** This a meta verify method to check expected pipeline execution
+    * when the pipeline is capable of streaming. See
+    * VerifyInputFilterExecutedStreaming for information on the
+    * expectedNumber parameter.
+    */
+   bool VerifyAllInputCanStream(int expectedNumber);
 
 
-   bool VerifyInputFilterBufferedRequestedRegions(void)
-   {
-     // we expect that the input filter's output image's buffered
-     // region is going to match it's requested region
-     bool ret = true;
-     unsigned int i;
-     for (i = 0; i < m_UpdatedBufferedRegions.size(); ++i)
-       {
-       if (m_UpdatedBufferedRegions[i] != m_UpdatedRequestedRegions[i])
-         {
-         itkWarningMacro(<<"The input filter's updated buffered region was not the requested region");
-         ret =  false;
-         }
-       }
-     return ret;
-   }
+   /** Checks that the input filter didn't stream, and just updated
+    * the largest possible region along with other correct behaviors.
+    */
+   bool VerifyAllInputCanNotStream(void);
 
-   bool VerifyInputFilterMatchedRequestedRegions(void)
-   {
-     // we expect that the input filter's output image's buffered
-     // region is going to match it's requested region, which is going
-     // to match the requested region at the end of propagation
-     //
-     bool ret = true;
-     unsigned int i = m_UpdatedBufferedRegions.size();
-     unsigned int j = m_InputRequestedRegions.size();
+   /** This method verifies that propagation was executed yet no
+    * updating was needed.
+    */
+   bool VerifyAllNoUpdate(void);
 
-     while(i != 0 && j != 0)
-       {
-       if (m_UpdatedBufferedRegions[--i] != m_InputRequestedRegions[--j])
-         {
-         itkWarningMacro(<<"The input filter's updated buffer region was not the region we requested");
-         ret =  false;
-         }
-       }
+   bool VerifyDownStreamFilterExecutedPropagation(void);
 
-     return ret;
-   }
+   /** Verifies the the GenerateData executed the expected number of
+    * times.
+    *
+    * If expecetedNumber is positive then the number of updates must
+    * match. If expectedNumber is negative then the number of updates
+    * must at least be |expectedNumber|. If expectedNumber is zero,
+    * then this method always returns true, and no verification is
+    * performed.
+    */
+   bool VerifyInputFilterExecutedStreaming(int expectedNumber);
 
-   bool VerifyInputFilterRequestedLargestRegion(void)
-   {
-     if (m_InputRequestedRegions.back() != m_UpdatedOutputLargestPossibleRegion)
-       {
-       itkWarningMacro(<<"The input filter didn't set it's output request to the largest region");
-       return false;
-       }
-     return true;
-   }
+   /** Verifies that the output information didn't change between the
+    * GenerateOutputInformation and the UpdateData phases of the
+    * pipeline.
+    */
+   bool VerifyInputFilterMatchedUpdateOutputInformation(void);
 
-   bool VerifyAllInputCanStream(int expectedNumber)
-   {
-     return VerifyInputFilterExecutedStreaming(expectedNumber) &&
-       VerifyDownStreamFilterExecutedPropagation() &&
-       VerifyInputFilterMatchedRequestedRegions() &&
-       VerifyInputFilterBufferedRequestedRegions() &&
-       VerifyInputFilterMatchedUpdateOutputInformation();
-   }
+   /** Verifies that the input filter buffered the requested region */
+   bool VerifyInputFilterBufferedRequestedRegions(void);
 
-   bool VerifyAllInputCanNotStream(void)
-   {
-     return VerifyDownStreamFilterExecutedPropagation() &&
-       VerifyInputFilterRequestedLargestRegion() &&
-       VerifyInputFilterBufferedRequestedRegions() &&
-       VerifyInputFilterMatchedUpdateOutputInformation();
-   }
+   bool VerifyInputFilterMatchedRequestedRegions(void);
 
-   bool VerifyAllNoUpdate(void)
-   {
-     return VerifyDownStreamFilterExecutedPropagation() &&
-       m_NumberOfUpdates == 0;
-   }
+   bool VerifyInputFilterRequestedLargestRegion(void);
 
 
    unsigned int GetNumberOfUpdates(void) const { return m_NumberOfUpdates; }
@@ -203,135 +152,29 @@ namespace itk {
    RegionVectorType GetUpdatedRequestedRegions(void) const {return m_UpdatedRequestedRegions; }
 
 
-   void ClearPipelineSavedInformation(void)
-   {
-     m_NumberOfUpdates = 0;
-     m_OutputRequestedRegions.clear();
-     m_InputRequestedRegions.clear();
-     m_UpdatedBufferedRegions.clear();
-     m_UpdatedRequestedRegions.clear();
-
-     m_UpdatedOutputOrigin.Fill(-1);
-     m_UpdatedOutputDirection.Fill(-1);
-     m_UpdatedOutputSpacing.Fill(-1);
-
-     ++m_NumberOfClearPipeline;
-   }
-
-   virtual void GenerateOutputInformation(void)
-   {
-     if ( m_ClearPipelineOnGenerateOutputInformation )
-       {
-       this->ClearPipelineSavedInformation();
-       }
-
-     Superclass::GenerateOutputInformation();
-
-     InputImageConstPointer  input  = this->GetInput();
-     m_UpdatedOutputOrigin = input->GetOrigin();
-     m_UpdatedOutputDirection = input->GetDirection();
-     m_UpdatedOutputSpacing = input->GetSpacing();
-     m_UpdatedOutputLargestPossibleRegion = input->GetLargestPossibleRegion();
-     itkDebugMacro("GenerateOutputInformation called");
-   }
-
-   virtual void PropagateRequestedRegion(DataObject *output)
-   {
-     // call the superclass' implementation of this method
-     Superclass::PropagateRequestedRegion(output);
-
-     // record the regions after everything has executed
-     itkDebugMacro("After PropagateRequestedRegion: " << this->GetInput()->GetRequestedRegion());
-     this->m_InputRequestedRegions.push_back(this->GetInput()->GetRequestedRegion());
-     this->m_OutputRequestedRegions.push_back(this->GetOutput()->GetRequestedRegion());
-   }
-
-   virtual void EnlargeOutputRequestedRegion( DataObject *output)
-   {
-     // call the superclass' implementation of this method
-     Superclass::EnlargeOutputRequestedRegion(output);
-
-     itkDebugMacro("EnlargeOutputRequestRegion: " << this->GetOutput()->GetRequestedRegion());
-   }
-
-   virtual void GenerateInputRequestedRegion(void)
-   {
-     // call the superclass' implementation of this method
-     Superclass::GenerateInputRequestedRegion();
-
-     // this is not very interesting as it's always going to be the
-     // output requested region
-     itkDebugMacro("GenerateInputRequestRegion: " << this->GetInput()->GetRequestedRegion());
-   }
+   /** Clears all saved pipeline information, but increments
+    * NumberOfClearPipeline. */
+   void ClearPipelineSavedInformation(void);
 
 
-    virtual void GenerateData(void)
-    {
-      // Get pointers to the input and output
-      InputImagePointer output = this->GetOutput();
-      InputImagePointer input =
-        const_cast< TImageType * >( this->GetInput());
-
-      // because this is in place filter this will acutall copy the
-      // pixel containers
-      this->AllocateOutputs();
-
-      itkDebugMacro("GenerateData Buffered: " << this->GetInput()->GetBufferedRegion() << " Requested:" << this->GetInput()->GetRequestedRegion());
-
-      m_UpdatedBufferedRegions.push_back(this->GetInput()->GetBufferedRegion());
-      m_UpdatedRequestedRegions.push_back(this->GetInput()->GetRequestedRegion());
-
-      ++m_NumberOfUpdates;
-    }
+   /** Standard pipeline methods are overloaded to call superclass's
+    * implementation and record information.
+    */
+   virtual void GenerateOutputInformation(void);
+   virtual void PropagateRequestedRegion(DataObject *output);
+   virtual void EnlargeOutputRequestedRegion( DataObject *output);
+   virtual void GenerateInputRequestedRegion(void);
+   virtual void GenerateData(void);
 
  protected:
-   PipelineMonitorImageFilter(void)
-   {
-     m_NumberOfClearPipeline = 0;
-     m_ClearPipelineOnGenerateOutputInformation = true;
-     this->ClearPipelineSavedInformation();
-   }
 
-   ~PipelineMonitorImageFilter()
-   {
-   }
+   PipelineMonitorImageFilter(void);
 
-   void PrintSelf(std::ostream &os, Indent indent) const
-   {
-     Superclass::PrintSelf(os,indent);
-     os << indent << "m_NumberOfUpdates: " << m_NumberOfUpdates << std::endl;
+   // ~PipelineMonitorImageFilter() { } default implementation OK
 
-     os << indent << "m_NumberOfClearPipeline: " << m_NumberOfClearPipeline << std::endl;
-
-     os << indent << "m_ClearPipelineOnGenerateOutputInformation: " << m_ClearPipelineOnGenerateOutputInformation << std::endl;
-
-     os << indent << "m_OutputRequestedRegions:"<< std::endl;
-     for (typename RegionVectorType::const_iterator i = m_OutputRequestedRegions.begin(); i != m_OutputRequestedRegions.end(); ++i)
-       i->Print(os, indent.GetNextIndent());
-
-     os << indent << "m_InputRequestedRegions:"<< std::endl;
-     for (typename RegionVectorType::const_iterator i = m_InputRequestedRegions.begin(); i != m_InputRequestedRegions.end(); ++i)
-       i->Print(os, indent.GetNextIndent());
-
-     os << indent << "m_UpdatedBufferedRegions:"<< std::endl;
-     for (typename RegionVectorType::const_iterator i = m_UpdatedBufferedRegions.begin(); i != m_UpdatedBufferedRegions.end(); ++i)
-       i->Print(os, indent.GetNextIndent());
-
-     os << indent << "m_UpdatedRequestedRegions:"<< std::endl;
-     for (typename RegionVectorType::const_iterator i = m_UpdatedRequestedRegions.begin(); i != m_UpdatedRequestedRegions.end(); ++i)
-       i->Print(os, indent.GetNextIndent());
-
-     os << indent << "m_UpdatedOutputOrigin:" << std::endl;
-     os << indent.GetNextIndent() << m_UpdatedOutputOrigin << std::endl;
-     os << indent << "m_UpdatedOutputDirection:" << std::endl;
-     os << indent.GetNextIndent() << m_UpdatedOutputDirection << std::endl;
-     os << indent << "m_UpdatedOutputSpacing:" << std::endl;
-     os << indent.GetNextIndent() << m_UpdatedOutputSpacing << std::endl;
-     os << indent << "m_UpdatedOutputLargestPossibleRegion: " << std::endl;
-     m_UpdatedOutputLargestPossibleRegion.Print(os, indent.GetNextIndent());
-   }
-
+   void PrintSelf(std::ostream &os, Indent indent) const;
  private:
+
    PipelineMonitorImageFilter(const PipelineMonitorImageFilter &); // not implemented
    void operator=(const PipelineMonitorImageFilter &); // not implemented
 
@@ -352,6 +195,10 @@ namespace itk {
    ImageRegionType m_UpdatedOutputLargestPossibleRegion;
  };
 
-}
+} // end namespace itk
 
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkPipelineMonitorImageFilter.hxx"
 #endif
+
+#endif //__itkPipelineMonitorImageFilter_hxx
