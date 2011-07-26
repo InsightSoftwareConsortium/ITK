@@ -33,6 +33,7 @@ itkLabelMapFilterTest.cxx
 itkLabelMapHeaderTest.cxx
 itkLabelMapMaskImageFilterTest.cxx
 itkLabelMapTest.cxx
+itkLabelMapTest2.cxx
 itkLabelMapToAttributeImageFilterTest1.cxx
 itkLabelMapToBinaryImageFilterTest.cxx
 itkLabelMapToLabelImageFilterTest.cxx
@@ -372,6 +373,8 @@ itk_add_test(NAME itkLabelMapMaskImageFilterTestCrop-100-1-1-10
     itkLabelMapMaskImageFilterTest ${ITK_DATA_ROOT}/Input/2th_cthead1.png ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-100-1-1-10.png 100 1 1 1 10)
 itk_add_test(NAME itkLabelMapTest
       COMMAND ITKLabelMapTestDriver itkLabelMapTest)
+itk_add_test(NAME itkLabelMapTest2
+      COMMAND ITKLabelMapTestDriver itkLabelMapTest2)
 itk_add_test(NAME itkLabelMapToAttributeImageFilterTest1
       COMMAND ITKLabelMapTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelMapToAttributeImageFilterTest1.png

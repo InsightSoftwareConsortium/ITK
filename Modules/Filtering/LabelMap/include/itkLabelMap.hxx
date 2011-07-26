@@ -176,7 +176,7 @@ const typename LabelMap< TLabelObject >::LabelType &
 LabelMap< TLabelObject >
 ::GetPixel(const IndexType & idx) const
 {
-  for ( typename LabelObjectContainerType::const_iterator it = m_LabelObjectContainer.begin();
+  for ( LabelObjectContainerConstIterator it = m_LabelObjectContainer.begin();
         it != m_LabelObjectContainer.end();
         it++ )
     {
@@ -195,7 +195,7 @@ LabelMap< TLabelObject >
 {
   SizeValueType i = 0;
 
-  for ( typename LabelObjectContainerType::iterator it = m_LabelObjectContainer.begin();
+  for ( LabelObjectContainerIterator it = m_LabelObjectContainer.begin();
         it != m_LabelObjectContainer.end();
         it++ )
     {
@@ -219,7 +219,7 @@ LabelMap< TLabelObject >
 {
   SizeValueType i = 0;
 
-  for ( typename LabelObjectContainerType::const_iterator it = m_LabelObjectContainer.begin();
+  for ( LabelObjectContainerConstIterator it = m_LabelObjectContainer.begin();
         it != m_LabelObjectContainer.end();
         it++ )
     {
@@ -239,7 +239,42 @@ LabelMap< TLabelObject >
 template< class TLabelObject >
 void
 LabelMap< TLabelObject >
-::SetPixel(const IndexType & idx, const LabelType & label)
+::SetPixel(const IndexType & idx, const LabelType & iLabel )
+{
+  bool newLabel = true; // or can be initialized by ( iLabel == m_BackgroundValue )
+
+  LabelObjectContainerIterator it = m_LabelObjectContainer.begin();
+
+  while( it != m_LabelObjectContainer.end() )
+    {
+    // increment the iterator before removing the pixel because
+    // RemovePixel() can remove the object and thus invalidate the
+    // iterator
+      LabelType currentLabel = it->first;
+      if( it->first != iLabel )
+        {
+        LabelObjectContainerIterator tempIt = it;
+        ++it;
+        bool emitModifiedEvent = ( iLabel == m_BackgroundValue );
+        this->RemovePixel( tempIt, idx, emitModifiedEvent );
+        }
+      else
+        {
+        newLabel = false;
+        this->AddPixel( it, idx, iLabel );
+        ++it;
+        }
+    }
+  if( newLabel )
+    {
+    this->AddPixel( m_LabelObjectContainer.end(), idx, iLabel );
+    }
+}
+
+template< class TLabelObject >
+void
+LabelMap< TLabelObject >
+::AddPixel(const IndexType & idx, const LabelType & label)
 {
   if ( label == m_BackgroundValue )
     {
@@ -247,7 +282,23 @@ LabelMap< TLabelObject >
     return;
     }
 
-  typename LabelObjectContainerType::iterator it = m_LabelObjectContainer.find(label);
+  LabelObjectContainerIterator it = m_LabelObjectContainer.find(label);
+
+  this->AddPixel( it, idx, label );
+}
+
+template< class TLabelObject >
+void
+LabelMap< TLabelObject >
+::AddPixel(const LabelObjectContainerIterator & it,
+           const IndexType & idx,
+           const LabelType & label )
+{
+  if ( label == m_BackgroundValue )
+    {
+    // just do nothing
+    return;
+    }
 
   if ( it != m_LabelObjectContainer.end() )
     {
@@ -269,6 +320,47 @@ LabelMap< TLabelObject >
 template< class TLabelObject >
 void
 LabelMap< TLabelObject >
+::RemovePixel(const LabelObjectContainerIterator & it,
+              const IndexType & idx,
+              bool iEmitModifiedEvent )
+{
+  if ( it != m_LabelObjectContainer.end() )
+    {
+    // the label already exist - add the pixel to it
+    if( it->second->RemoveIndex(idx) )
+      {
+      if( it->second->Empty() )
+        {
+        this->RemoveLabelObject(it->second);
+        }
+      if( iEmitModifiedEvent )
+        {
+        this->Modified();
+        }
+      }
+    }
+}
+
+template< class TLabelObject >
+void
+LabelMap< TLabelObject >
+::RemovePixel(const IndexType & idx, const LabelType & label)
+{
+  if ( label == m_BackgroundValue )
+    {
+    // just do nothing
+    return;
+    }
+
+  LabelObjectContainerIterator it = m_LabelObjectContainer.find(label);
+
+  bool emitModifiedEvent = true;
+  RemovePixel( it, idx, emitModifiedEvent );
+}
+
+template< class TLabelObject >
+void
+LabelMap< TLabelObject >
 ::SetLine(const IndexType & idx, const LengthType & length, const LabelType & label)
 {
   if ( label == m_BackgroundValue )
@@ -277,7 +369,7 @@ LabelMap< TLabelObject >
     return;
     }
 
-  typename LabelObjectContainerType::iterator it = m_LabelObjectContainer.find(label);
+  LabelObjectContainerIterator it = m_LabelObjectContainer.find(label);
 
   if ( it != m_LabelObjectContainer.end() )
     {
@@ -301,7 +393,7 @@ typename LabelMap< TLabelObject >::LabelObjectType *
 LabelMap< TLabelObject >
 ::GetLabelObject(const IndexType & idx) const
 {
-  for ( typename LabelObjectContainerType::const_iterator it = m_LabelObjectContainer.begin();
+  for ( LabelObjectContainerConstIterator it = m_LabelObjectContainer.begin();
         it != m_LabelObjectContainer.end();
         it++ )
     {
@@ -364,7 +456,7 @@ LabelMap< TLabelObject >
       {
       // search for an unused label
       LabelType label = firstLabel;
-      typename LabelObjectContainerType::const_iterator it;
+      LabelObjectContainerConstIterator it;
       for ( it = m_LabelObjectContainer.begin();
             it != m_LabelObjectContainer.end();
             it++, label++ )
@@ -459,7 +551,7 @@ LabelMap< TLabelObject >
   LabelVectorType res;
 
   res.reserve( this->GetNumberOfLabelObjects() );
-  for ( typename LabelObjectContainerType::const_iterator it = m_LabelObjectContainer.begin();
+  for ( LabelObjectContainerConstIterator it = m_LabelObjectContainer.begin();
         it != m_LabelObjectContainer.end();
         it++ )
     {
@@ -476,7 +568,7 @@ LabelMap< TLabelObject >
   LabelObjectVectorType res;
 
   res.reserve( this->GetNumberOfLabelObjects() );
-  for ( typename LabelObjectContainerType::const_iterator it = m_LabelObjectContainer.begin();
+  for ( LabelObjectContainerConstIterator it = m_LabelObjectContainer.begin();
         it != m_LabelObjectContainer.end();
         it++ )
     {
@@ -490,7 +582,7 @@ void
 LabelMap< TLabelObject >
 ::PrintLabelObjects(std::ostream & os) const
 {
-  for ( typename LabelObjectContainerType::const_iterator it = m_LabelObjectContainer.begin();
+  for ( LabelObjectContainerConstIterator it = m_LabelObjectContainer.begin();
         it != m_LabelObjectContainer.end();
         it++ )
     {
@@ -505,7 +597,7 @@ void
 LabelMap< TLabelObject >
 ::Optimize()
 {
-  for ( typename LabelObjectContainerType::const_iterator it = m_LabelObjectContainer.begin();
+  for ( LabelObjectContainerConstIterator it = m_LabelObjectContainer.begin();
         it != m_LabelObjectContainer.end();
         it++ )
     {

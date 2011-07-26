@@ -115,6 +115,13 @@ public:
   void AddIndex(const IndexType & idx);
 
   /**
+   * Remove an index to the object. Depending on the configuration, it can either
+   * reduce the size of the corresponding line, add one more line, remove the line
+   * from the line container.
+   */
+  bool RemoveIndex(const IndexType & idx );
+
+  /**
    * Add a new line to the object, without any check.
    */
   void AddLine(const IndexType & idx, const LengthType & length);
