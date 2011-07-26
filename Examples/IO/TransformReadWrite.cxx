@@ -50,18 +50,14 @@ int main(int itkNotUsed(ac), char* itkNotUsed(av)[])
 
   typedef itk::BSplineDeformableTransform<double,3,5> BSplineTransformType;
   BSplineTransformType::Pointer bspline = BSplineTransformType::New();
-  BSplineTransformType::RegionType region;
 
-  BSplineTransformType::SizeType size;
-  size.Fill(10);
-  region.SetSize(size);
-  bspline->SetGridRegion( region );
   BSplineTransformType::OriginType origin;
-  origin.Fill ( 100 );
-  bspline->SetGridOrigin ( origin );
-  BSplineTransformType::SpacingType spacing;
-  spacing.Fill ( 1.5 );
-  bspline->SetGridSpacing ( spacing );
+  origin.Fill( 100 );
+  BSplineTransformType::PhysicalDimensionsType dimensions;
+  dimensions.Fill( 1.5 * 9.0 );
+
+  bspline->SetTransformDomainOrigin( origin );
+  bspline->SetTransformDomainPhysicalDimensions( dimensions );
 
   BSplineTransformType::ParametersType parameters( bspline->GetNumberOfParameters() );
   bspline->SetParameters( parameters );

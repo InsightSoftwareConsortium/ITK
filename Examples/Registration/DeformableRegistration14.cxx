@@ -161,48 +161,9 @@ int main( int argc, char *argv[] )
   TransformType::Pointer  transform = TransformType::New();
   registration->SetTransform( transform );
 
-  //
-  //   In general, you must first solve an Affine registration between
-  //   the images before attempting to solve a deformable registration.
-  //   If you have solve an affine transform, it can be loaded into the
-  //   BSplineDeformableTransform as a "bulk" transform that will be
-  //   pre-composed with the deformation computed by the BSpline.
-  //   The following code loads one of such initial transforms if they
-  //   are available.
-  //
   typedef itk::TransformFileReader        TransformReaderType;
-  typedef itk::AffineTransform<double, 3> AffineTransformType;
 
   TransformReaderType::Pointer transformReader = TransformReaderType::New();
-
-  if( argc > 11 )
-    {
-    std::cout << "Loading Transform: " << argv[11] << std::endl;
-    transformReader->SetFileName( argv[11] );
-    transformReader->Update();
-
-    typedef TransformReaderType::TransformListType * TransformListType;
-    TransformListType transforms = transformReader->GetTransformList();
-    TransformReaderType::TransformListType::const_iterator tit = transforms->begin();
-    if( !strcmp((*tit)->GetNameOfClass(),"AffineTransform") )
-      {
-      AffineTransformType::Pointer affine_read =
-                  static_cast<AffineTransformType*>((*tit).GetPointer());
-      AffineTransformType::Pointer affine_transform =
-                  dynamic_cast< AffineTransformType * >( affine_read.GetPointer() );
-
-      if( affine_transform )
-        {
-        transform->SetBulkTransform( affine_transform );
-        }
-      }
-    else
-      {
-      std::cerr << "Bulk transform wasn't an affine transform." << std::endl;
-      return EXIT_FAILURE;
-      }
-    }
-
 
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
   typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
@@ -226,48 +187,26 @@ int main( int argc, char *argv[] )
 
   unsigned int numberOfGridNodesInOneDimension = 5;
 
-  if( argc > 10 )
+  // Software Guide : BeginCodeSnippet
+
+  TransformType::PhysicalDimensionsType   fixedPhysicalDimensions;
+  TransformType::MeshSizeType             meshSize;
+  TransformType::OriginType               fixedOrigin;
+
+  for( unsigned int i=0; i< SpaceDimension; i++ )
     {
-    numberOfGridNodesInOneDimension = atoi( argv[10] );
+    fixedOrigin = fixedImage->GetOrigin()[i];
+    fixedPhysicalDimensions[i] = fixedImage->GetSpacing()[i] *
+      static_cast<double>(
+      fixedImage->GetLargestPossibleRegion().GetSize()[i] - 1 );
     }
+  meshSize.Fill( numberOfGridNodesInOneDimension - SplineOrder );
 
-
-  typedef TransformType::RegionType RegionType;
-  RegionType bsplineRegion;
-  RegionType::SizeType   gridSizeOnImage;
-  RegionType::SizeType   gridBorderSize;
-  RegionType::SizeType   totalGridSize;
-
-  gridSizeOnImage.Fill( numberOfGridNodesInOneDimension );
-  gridBorderSize.Fill( SplineOrder );    // Border for spline order = 3 ( 1 lower, 2 upper )
-  totalGridSize = gridSizeOnImage + gridBorderSize;
-
-  bsplineRegion.SetSize( totalGridSize );
-
-  typedef TransformType::SpacingType SpacingType;
-  SpacingType spacing = fixedImage->GetSpacing();
-
-  typedef TransformType::OriginType OriginType;
-  OriginType origin = fixedImage->GetOrigin();
-
-  FixedImageType::SizeType fixedImageSize = fixedRegion.GetSize();
-
-  for(unsigned int r=0; r<ImageDimension; r++)
-    {
-    spacing[r] *= static_cast<double>(fixedImageSize[r] - 1)  /
-                  static_cast<double>(gridSizeOnImage[r] - 1);
-    }
-
-  FixedImageType::DirectionType gridDirection = fixedImage->GetDirection();
-  SpacingType gridOriginOffset = gridDirection * spacing;
-
-  OriginType gridOrigin = origin - gridOriginOffset;
-
-  transform->SetGridSpacing( spacing );
-  transform->SetGridOrigin( gridOrigin );
-  transform->SetGridRegion( bsplineRegion );
-  transform->SetGridDirection( gridDirection );
-
+  transform->SetTransformDomainOrigin( fixedOrigin );
+  transform->SetTransformDomainPhysicalDimensions(
+    fixedPhysicalDimensions );
+  transform->SetTransformDomainMeshSize( meshSize );
+  transform->SetTransformDomainDirection( fixedImage->GetDirection() );
 
   typedef TransformType::ParametersType     ParametersType;
 
@@ -275,6 +214,13 @@ int main( int argc, char *argv[] )
                transform->GetNumberOfParameters();
 
   ParametersType parameters( numberOfParameters );
+
+  parameters.Fill( 0.0 );
+
+  transform->SetParameters( parameters );
+
+  registration->SetInitialTransformParameters( transform->GetParameters() );
+  // Software Guide : EndCodeSnippet
 
   parameters.Fill( 0.0 );
 

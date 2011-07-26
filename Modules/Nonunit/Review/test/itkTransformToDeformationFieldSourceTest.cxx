@@ -106,19 +106,23 @@ int itkTransformToDeformationFieldSourceTest( int argc, char * argv [] )
   else if ( transformName == "BSpline" )
     {
     /** Set the options. */
-    SizeType gridSize;
-    gridSize[ 0 ] = 7; gridSize[ 1 ] = 10;
-    //gridSize[ 0 ] = 2; gridSize[ 1 ] = 3;
-    IndexType gridIndex; gridIndex.Fill( 0 );
-    RegionType gridRegion;
-    gridRegion.SetSize( gridSize );
-    gridRegion.SetIndex( gridIndex );
-    SpacingType gridSpacing;
-    gridSpacing[ 0 ] = 5.4; gridSpacing[ 1 ] = 3.1;
-    OriginType gridOrigin; gridOrigin.Fill( -16.0 );
-    bSplineTransform->SetGridOrigin( gridOrigin );
-    bSplineTransform->SetGridSpacing( gridSpacing );
-    bSplineTransform->SetGridRegion( gridRegion );
+
+    BSplineDeformableTransformType::PhysicalDimensionsType dimensions;
+    for( unsigned int d = 0; d < Dimension; d++ )
+      {
+      dimensions[d] = spacing[d] * ( size[d] - 1.0 );
+      }
+    BSplineDeformableTransformType::MeshSizeType meshSize;
+    BSplineDeformableTransformType::DirectionType direction;
+    direction.SetIdentity();
+
+    meshSize[0] = 7 - SplineOrder;
+    meshSize[1] = 10 - SplineOrder;
+
+    bSplineTransform->SetTransformDomainOrigin( origin );
+    bSplineTransform->SetTransformDomainPhysicalDimensions( dimensions );
+    bSplineTransform->SetTransformDomainMeshSize( meshSize );
+    bSplineTransform->SetTransformDomainDirection( direction );
 
     /** Create and set parameters. */
     ParametersType parameters( bSplineTransform->GetNumberOfParameters() );

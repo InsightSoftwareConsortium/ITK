@@ -524,7 +524,7 @@ itk_add_test(NAME DeformableRegistration3Test COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME DeformableRegistration4Test COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/DeformableRegistration4TestPixelCentered.png
+  --compare DATA{Baseline/DeformableRegistration4TestPixelCentered.png}
             ${TEMP}/DeformableRegistration4TestPixelCentered.png
   $<TARGET_FILE:DeformableRegistration4>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
@@ -543,7 +543,7 @@ itk_add_test(NAME DeformableRegistration5Test COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME DeformableRegistration6Test COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/DeformableRegistration6TestPixelCentered.png
+  --compare DATA{Baseline/DeformableRegistration6TestPixelCentered.png}
             ${TEMP}/DeformableRegistration6TestPixelCentered.png
   $<TARGET_FILE:DeformableRegistration6>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
@@ -552,7 +552,7 @@ itk_add_test(NAME DeformableRegistration6Test COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME BSplineWarping1Test COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/BSplineWarping1Test.png
+  --compare DATA{Baseline/BSplineWarping1Test.png}
             ${TEMP}/BSplineWarping1Test.png
   $<TARGET_FILE:BSplineWarping1>
         ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements1.txt
@@ -564,12 +564,12 @@ itk_add_test(NAME BSplineWarping1Test COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME DeformableRegistration12Test1 COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/DeformableRegistration12Test.png
+  --compare DATA{Baseline/DeformableRegistration12Test.png}
             ${TEMP}/DeformableRegistration12Test1.png
   --compareNumberOfPixelsTolerance 400
   $<TARGET_FILE:DeformableRegistration12>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${BASELINE}/BSplineWarping1Test.png
+        DATA{Baseline/BSplineWarping1Test.png}
         ${TEMP}/DeformableRegistration12Test1.png
         ${TEMP}/DeformableRegistration12Test1DifferenceAfter.png
         ${TEMP}/DeformableRegistration12Test1DifferenceBefore.png
@@ -579,12 +579,12 @@ itk_add_test(NAME DeformableRegistration12Test1 COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME DeformableRegistration12Test2 COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/DeformableRegistration12Test.png
+  --compare DATA{Baseline/DeformableRegistration12Test.png}
             ${TEMP}/DeformableRegistration12Test2.png
   --compareNumberOfPixelsTolerance 400
   $<TARGET_FILE:DeformableRegistration12>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${BASELINE}/BSplineWarping1Test.png
+        DATA{Baseline/BSplineWarping1Test.png}
         ${TEMP}/DeformableRegistration12Test2.png
         ${TEMP}/DeformableRegistration12Test2DifferenceAfter.png
         ${TEMP}/DeformableRegistration12Test2DifferenceBefore.png
@@ -594,12 +594,12 @@ itk_add_test(NAME DeformableRegistration12Test2 COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME DeformableRegistration12Test3 COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/DeformableRegistration12Test.png
+  --compare DATA{Baseline/DeformableRegistration12Test.png}
             ${TEMP}/DeformableRegistration12Test3.png
   --compareNumberOfPixelsTolerance 400
   $<TARGET_FILE:DeformableRegistration12>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${BASELINE}/BSplineWarping1Test.png
+        DATA{Baseline/BSplineWarping1Test.png}
         ${TEMP}/DeformableRegistration12Test3.png
         ${TEMP}/DeformableRegistration12Test3DifferenceAfter.png
         ${TEMP}/DeformableRegistration12Test3DifferenceBefore.png
@@ -609,12 +609,12 @@ itk_add_test(NAME DeformableRegistration12Test3 COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME DeformableRegistration12Test4 COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/DeformableRegistration12Test.png
+  --compare DATA{Baseline/DeformableRegistration12Test.png}
             ${TEMP}/DeformableRegistration12Test4.png
   --compareNumberOfPixelsTolerance 400
   $<TARGET_FILE:DeformableRegistration12>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${BASELINE}/BSplineWarping1Test.png
+        DATA{Baseline/BSplineWarping1Test.png}
         ${TEMP}/DeformableRegistration12Test4.png
         ${TEMP}/DeformableRegistration12Test4DifferenceAfter.png
         ${TEMP}/DeformableRegistration12Test4DifferenceBefore.png
@@ -624,12 +624,12 @@ itk_add_test(NAME DeformableRegistration12Test4 COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME DeformableRegistration13Test1 COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/DeformableRegistration13Test.png
+  --compare DATA{Baseline/DeformableRegistration13Test.png}
             ${TEMP}/DeformableRegistration13Test1.png
   --compareNumberOfPixelsTolerance 400
   $<TARGET_FILE:DeformableRegistration13>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${BASELINE}/BSplineWarping1Test.png
+        DATA{Baseline/BSplineWarping1Test.png}
         ${TEMP}/DeformableRegistration13Test1.png
         ${TEMP}/DeformableRegistration13Test1DifferenceAfter.png
         ${TEMP}/DeformableRegistration13Test1DifferenceBefore.png
@@ -639,12 +639,12 @@ itk_add_test(NAME DeformableRegistration13Test1 COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME DeformableRegistration13Test2 COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/DeformableRegistration13Test.png
+  --compare DATA{Baseline/DeformableRegistration13Test.png}
             ${TEMP}/DeformableRegistration13Test2.png
   --compareNumberOfPixelsTolerance 400
   $<TARGET_FILE:DeformableRegistration13>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${BASELINE}/BSplineWarping1Test.png
+        DATA{Baseline/BSplineWarping1Test.png}
         ${TEMP}/DeformableRegistration13Test2.png
         ${TEMP}/DeformableRegistration13Test2DifferenceAfter.png
         ${TEMP}/DeformableRegistration13Test2DifferenceBefore.png
@@ -654,12 +654,12 @@ itk_add_test(NAME DeformableRegistration13Test2 COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME DeformableRegistration13Test3 COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/DeformableRegistration13Test.png
+  --compare DATA{Baseline/DeformableRegistration13Test.png}
             ${TEMP}/DeformableRegistration13Test3.png
   --compareNumberOfPixelsTolerance 400
   $<TARGET_FILE:DeformableRegistration13>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${BASELINE}/BSplineWarping1Test.png
+        DATA{Baseline/BSplineWarping1Test.png}
         ${TEMP}/DeformableRegistration13Test3.png
         ${TEMP}/DeformableRegistration13Test3DifferenceAfter.png
         ${TEMP}/DeformableRegistration13Test3DifferenceBefore.png
@@ -669,12 +669,12 @@ itk_add_test(NAME DeformableRegistration13Test3 COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME DeformableRegistration13Test4 COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/DeformableRegistration13Test.png
+  --compare DATA{Baseline/DeformableRegistration13Test.png}
             ${TEMP}/DeformableRegistration13Test4.png
   --compareNumberOfPixelsTolerance 400
   $<TARGET_FILE:DeformableRegistration13>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${BASELINE}/BSplineWarping1Test.png
+        DATA{Baseline/BSplineWarping1Test.png}
         ${TEMP}/DeformableRegistration13Test4.png
         ${TEMP}/DeformableRegistration13Test4DifferenceAfter.png
         ${TEMP}/DeformableRegistration13Test4DifferenceBefore.png
