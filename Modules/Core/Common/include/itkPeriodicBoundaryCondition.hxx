@@ -41,7 +41,10 @@ PeriodicBoundaryCondition< TImage >
     {
     linear_index += ( point_index[i] + boundary_offset[i] ) * data->GetStride(i);
     }
-  ptr = data->operator[](linear_index);
+  // (data->operator[](linear_index)) is guaranteed to be a pointer to
+  // TImage::PixelType except for VectorImage, in which case, it will be a
+  // pointer to TImage::InternalPixelType.
+  ptr = reinterpret_cast< PixelType * >( ( data->operator[](linear_index) ) );
 
   // Wrap the pointer around the image in the necessary dimensions.  If we have
   // reached this point, we can assume that we are on the edge of the BUFFERED
@@ -83,7 +86,7 @@ PeriodicBoundaryCondition< TImage >
   typedef typename OffsetType::OffsetValueType OffsetValueType;
   const ConstNeighborhoodIterator< TImage > *iterator =
     dynamic_cast< const ConstNeighborhoodIterator< TImage > * >( data );
-  typename TImage::PixelType * ptr;
+  typename TImage::InternalPixelType * ptr;
   int          linear_index = 0;
   unsigned int i;
 
