@@ -68,11 +68,13 @@ int main( int argc, char * argv[] )
 
   // Software Guide : BeginCodeSnippet
   typedef  unsigned char   InputPixelType;
-  typedef  float  OutputPixelType;
+  typedef  float           OutputPixelType;
+  typedef  unsigned short  VoronoiPixelType;
   const unsigned int Dimension = 2;
 
   typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
   typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;
+  typedef itk::Image< VoronoiPixelType, Dimension >  VoronoiImageType;
   // Software Guide : EndCodeSnippet
 
 
@@ -87,19 +89,17 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   typedef itk::SignedDanielssonDistanceMapImageFilter<
                                          InputImageType,
-                                         OutputImageType >  FilterType;
+                                         OutputImageType,
+                                         VoronoiImageType >  FilterType;
 
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
-
 
 
   typedef itk::RescaleIntensityImageFilter<
                    OutputImageType, OutputImageType > RescalerType;
 
   RescalerType::Pointer scaler = RescalerType::New();
-
-
 
   // Software Guide : BeginLatex
   //
@@ -113,6 +113,7 @@ int main( int argc, char * argv[] )
   //
   typedef itk::ImageFileReader< InputImageType  >  ReaderType;
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  typedef itk::ImageFileWriter< VoronoiImageType > VoronoiWriterType;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
@@ -150,12 +151,13 @@ int main( int argc, char * argv[] )
   //
   //  \index{itk::Danielsson\-Distance\-Map\-Image\-Filter!GetVoronoiMap()}
   //
-  scaler->SetInput( filter->GetVoronoiMap() );
-  writer->SetFileName( voronoiMapFileName );
+  VoronoiWriterType::Pointer voronoiWriter = VoronoiWriterType::New();
+  voronoiWriter->SetFileName( voronoiMapFileName );
+  voronoiWriter->SetInput( filter->GetVoronoiMap() );
 
   try
     {
-    writer->Update();
+    voronoiWriter->Update();
     }
   catch( itk::ExceptionObject exp )
     {
@@ -209,7 +211,5 @@ int main( int argc, char * argv[] )
   //
   //  Software Guide : EndLatex
 
-
   return EXIT_SUCCESS;
 }
-
