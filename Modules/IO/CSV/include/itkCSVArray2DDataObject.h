@@ -78,52 +78,52 @@ public:
   itkGetMacro(Matrix,MatrixType);
 
   /** Returns the Column Headers. */
-  const StringVectorType GetColumnHeaders();
+  StringVectorType GetColumnHeaders() const;
 
   /** Returns the Row Headers. */
-  const StringVectorType GetRowHeaders();
+  StringVectorType GetRowHeaders() const;
 
   /** Returns a Row index by name. */
-  const unsigned int GetRowIndexByName(const std::string &);
+  unsigned int GetRowIndexByName(const std::string &) const;
 
   /** Returns a Column index by name. */
-  const unsigned int GetColumnIndexByName(const std::string &);
+  unsigned int GetColumnIndexByName(const std::string &) const;
 
   /** Returns a row. Input to the method is a row header string. */
-  const NumericVectorType GetRow(const std::string &);
+  NumericVectorType GetRow(const std::string &) const;
 
   /** Returns a Row. Input to the method is a row index. */
-  const NumericVectorType GetRow(const unsigned int & );
+  NumericVectorType GetRow(const unsigned int & ) const;
 
   /** Returns a Column. Input to the method is a column header string. */
-  const NumericVectorType GetColumn(const std::string & );
+  NumericVectorType GetColumn(const std::string & ) const;
 
   /** Get Column method. Input to the method is a column index. */
-  const NumericVectorType GetColumn(const unsigned int &);
+  NumericVectorType GetColumn(const unsigned int &) const;
 
   /** Method to access a data field from the Array2D object. Inputs are row and
   *  column header strings in that order. */
-  const TData GetData(const std::string &, const std::string &);
+  TData GetData(const std::string &, const std::string &) const;
 
   /** Method to access a data field from the Array2D object. Inputs are row and
   *  column indices in that order. */
-  const TData GetData(const unsigned int &, const unsigned int &);
+  TData GetData(const unsigned int &, const unsigned int &) const;
 
   /** Method to access a data field from a particular column. Inputs are the
   *  column header string and the row index. */
-  const TData GetColumnData(const std::string &, const unsigned int &);
+  TData GetColumnData(const std::string &, const unsigned int &) const;
 
   /** Method to access a data field from a particular row. Inputs are the row
   *  header string and the column index. */
-  const TData GetRowData(const std::string &, const unsigned int &);
+  TData GetRowData(const std::string &, const unsigned int &) const;
 
   /** Method to access a data field from the Array2D object using the ()
   *  operator.Inputs are the row and column header strings in that order. */
-  const TData operator()(const std::string &, const std::string &);
+  TData operator()(const std::string &, const std::string &) const;
 
   /** Method to access a data field from the Array2D object using the ()
   *  operator. Inputs are the row and column indices in that order. */
-  const TData operator()(const unsigned int &, const unsigned int &);
+  TData operator()(const unsigned int &, const unsigned int &) const;
 
   /** Method to set the size of the Array2D object. */
   void SetMatrixSize(unsigned int, unsigned int);
