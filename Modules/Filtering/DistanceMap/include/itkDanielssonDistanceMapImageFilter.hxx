@@ -49,10 +49,10 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
   m_UseImageSpacing     = false;
 }
 
-template< class TInputImage, class TOutputImage >
+template< class TInputImage, class TOutputImage, class TVoronoiImage >
 typename DanielssonDistanceMapImageFilter<
-  TInputImage, TOutputImage >::DataObjectPointer
-DanielssonDistanceMapImageFilter< TInputImage, TOutputImage >
+  TInputImage, TOutputImage, TVoronoiImage >::DataObjectPointer
+DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
 ::MakeOutput(unsigned int idx)
 {
   if( idx == 1 )
