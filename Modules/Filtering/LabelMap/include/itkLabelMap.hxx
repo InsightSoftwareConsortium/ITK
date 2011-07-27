@@ -124,19 +124,21 @@ typename LabelMap< TLabelObject >::LabelObjectType *
 LabelMap< TLabelObject >
 ::GetLabelObject(const LabelType & label)
 {
-  if ( !this->HasLabel(label) )
-    {
-    itkExceptionMacro(<< "No label object with label "
-                      << static_cast< typename NumericTraits< LabelType >::PrintType >( label )
-                      << ".");
-    }
   if ( m_BackgroundValue == label )
     {
     itkExceptionMacro(<< "Label "
                       << static_cast< typename NumericTraits< LabelType >::PrintType >( label )
                       << " is the background label.");
     }
-  return m_LabelObjectContainer[label].GetPointer();
+  LabelObjectContainerIterator it = m_LabelObjectContainer.find( label );
+  if ( it == m_LabelObjectContainer.end() )
+    {
+    itkExceptionMacro(<< "No label object with label "
+                      << static_cast< typename NumericTraits< LabelType >::PrintType >( label )
+                      << ".");
+    }
+
+  return it->second;
 }
 
 template< class TLabelObject >
@@ -144,19 +146,21 @@ const typename LabelMap< TLabelObject >::LabelObjectType *
 LabelMap< TLabelObject >
 ::GetLabelObject(const LabelType & label) const
 {
-  if ( !this->HasLabel(label) )
-    {
-    itkExceptionMacro(<< "No label object with label "
-                      << static_cast< typename NumericTraits< LabelType >::PrintType >( label )
-                      << ".");
-    }
   if ( m_BackgroundValue == label )
     {
     itkExceptionMacro(<< "Label "
                       << static_cast< typename NumericTraits< LabelType >::PrintType >( label )
                       << " is the background label.");
     }
-  return m_LabelObjectContainer.find(label)->second.GetPointer();
+  LabelObjectContainerConstIterator it = m_LabelObjectContainer.find( label );
+  if ( it == m_LabelObjectContainer.end() )
+    {
+    itkExceptionMacro(<< "No label object with label "
+                      << static_cast< typename NumericTraits< LabelType >::PrintType >( label )
+                      << ".");
+    }
+
+  return it->second;
 }
 
 template< class TLabelObject >
