@@ -89,7 +89,8 @@ MergeLabelMapFilter< TImage >
       LabelObjectPointer     newLo = LabelObjectType::New();
       newLo->CopyAllFrom(lo);
 
-      if ( !output->HasLabel( newLo->GetLabel() ) )
+      if( ( output->GetBackgroundValue() != newLo->GetLabel() ) &&
+          ( !output->HasLabel( newLo->GetLabel() ) ) )
         {
         // we can keep the label
         output->AddLabelObject(newLo);
@@ -133,17 +134,27 @@ MergeLabelMapFilter< TImage >
       LabelObjectPointer     newLo = LabelObjectType::New();
       newLo->CopyAllFrom(lo);
 
-      if ( !output->HasLabel( newLo->GetLabel() ) )
+      if ( output->GetBackgroundValue() != newLo->GetLabel() )
         {
-        // we can keep the label
-        output->AddLabelObject(newLo);
+        if ( !output->HasLabel( newLo->GetLabel() ) )
+          {
+          // we can keep the label
+          output->AddLabelObject(newLo);
+          }
+        else
+          {
+          itkExceptionMacro(<< "Label "
+                            << static_cast< typename itk::NumericTraits< PixelType >::PrintType >( newLo->GetLabel() )
+                            << " from input " << i
+                            << " is already in use.");
+          }
         }
       else
         {
-        itkExceptionMacro(<< "Label "
-                          << static_cast< typename itk::NumericTraits< PixelType >::PrintType >( newLo->GetLabel() )
-                          << " from input " << i
-                          << " is already in use.");
+        itkGenericExceptionMacro(<<"Label "
+                            << static_cast< typename itk::NumericTraits< PixelType >::PrintType >( newLo->GetLabel() )
+                            << " from input " << i
+                            << " is output background value.");
         }
 
       // go to the next label
@@ -169,7 +180,8 @@ MergeLabelMapFilter< TImage >
       {
       const LabelObjectType *lo = it2.GetLabelObject();
 
-      if ( !output->HasLabel( lo->GetLabel() ) )
+      bool hasLabel = output->HasLabel( lo->GetLabel() );
+      if ( !hasLabel && ( lo->GetLabel() != output->GetBackgroundValue() ) )
         {
         // we can keep the label
         LabelObjectPointer newLo = LabelObjectType::New();
@@ -178,7 +190,7 @@ MergeLabelMapFilter< TImage >
         }
       else
         {
-        if ( lo->GetLabel() != output->GetBackgroundValue() )
+        if ( hasLabel )
           {
           // add the lines of that object to the one already in the output
           LabelObjectType *         mainLo = output->GetLabelObject( lo->GetLabel() );
