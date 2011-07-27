@@ -150,6 +150,7 @@ int main( int argc, char ** argv )
   // Software Guide : BeginCodeSnippet
   typedef itk::ExtractImageFilter< InputImageType, OutputImageType > FilterType;
   FilterType::Pointer filter = FilterType::New();
+  filter->InPlaceOn();
   filter->SetDirectionCollapseToSubmatrix();
   // Software Guide : EndCodeSnippet
 
@@ -164,14 +165,15 @@ int main( int argc, char ** argv )
   //  to $0$ in one dimension.  This will indicate to
   //  ExtractImageFilter that a dimensional reduction has been
   //  specified. Here we take the region from the largest possible region of
-  //  the input image. Note that Update() is being called first on the
-  //  reader, since otherwise the output would have invalid data.
+  //  the input image. Note that UpdateOutputInformation() is being
+  //  called first on the reader, this method updates the meta-data in
+  //  the outputImage without actually reading in the bulk-data.
   //
   //  Software Guide : EndLatex
 
 
   // Software Guide : BeginCodeSnippet
-  reader->Update();
+  reader->UpdateOutputInformation();
   InputImageType::RegionType inputRegion =
            reader->GetOutput()->GetLargestPossibleRegion();
   // Software Guide : EndCodeSnippet

@@ -24,6 +24,67 @@
 #include "itkFileOutputWindow.h"
 #include "itkStreamingImageFilter.h"
 #include "itkRandomImageSource.h"
+#include "itkCastImageFilter.h"
+#include "itkTestingMacros.h"
+
+namespace {
+bool ExtractImageInPlaceTest( void )
+{
+  // This is to test the InPlace option
+  typedef itk::Image< float, 3 > ImageType;
+
+  typedef itk::RandomImageSource< ImageType > SourceType;
+  SourceType::Pointer source = SourceType::New();
+  ImageType::SizeType   size = {{32, 32, 32}};
+  source->SetSize( size );
+
+  source->UpdateLargestPossibleRegion();
+
+
+  ImageType::IndexType  extractIndex = {{16, 16, 16}};
+  ImageType::SizeType   extractSize = {{8, 8, 8}};
+  ImageType::SizeType   zeroSize = {{0,0,0}};
+
+  typedef itk::ExtractImageFilter<ImageType, ImageType> ExtractFilterType;
+  ExtractFilterType::Pointer extract = ExtractFilterType::New();
+  extract->SetDirectionCollapseToSubmatrix();
+  extract->SetExtractionRegion( ImageType::RegionType( extractIndex, extractSize ) );
+  extract->InPlaceOn();
+  extract->SetInput( source->GetOutput() );
+  extract->UpdateLargestPossibleRegion();
+
+  // check that the it was not run in-place
+  TEST_EXPECT_TRUE( source->GetOutput()->GetBufferedRegion().GetSize() != zeroSize );
+
+  // add a filter between which will produce the requested region, and
+  // enable in-place operation
+  typedef itk::CastImageFilter<ImageType, ImageType> SomeStreamableFitlerType;
+  SomeStreamableFitlerType::Pointer filter = SomeStreamableFitlerType::New();
+  filter->SetInput( source->GetOutput() );
+  filter->InPlaceOff(); // ensure a copy is performed
+
+  extract->SetInput( filter->GetOutput() );
+  extract->UpdateLargestPossibleRegion();
+
+
+  // this buffer should still be ok
+  TEST_EXPECT_TRUE( source->GetOutput()->GetBufferedRegion().GetSize() != zeroSize );
+
+  // this should have been taken by the in-place;
+  TEST_EXPECT_TRUE( filter->GetOutput()->GetBufferedRegion().GetSize() == zeroSize );
+
+  // try with in-place disabled
+  extract->InPlaceOff();
+  extract->UpdateLargestPossibleRegion();
+
+
+  // these buffers should still be ok
+  TEST_EXPECT_TRUE( source->GetOutput()->GetBufferedRegion().GetSize() != zeroSize );
+  TEST_EXPECT_TRUE( filter->GetOutput()->GetBufferedRegion().GetSize() != zeroSize );
+
+  return EXIT_SUCCESS;
+}
+}
 
 int itkExtractImageTest(int, char* [] )
 {
@@ -284,5 +345,5 @@ int itkExtractImageTest(int, char* [] )
       return EXIT_FAILURE;
     }
 
-  return EXIT_SUCCESS;
+  return ExtractImageInPlaceTest();
 }

@@ -144,6 +144,7 @@ int main(int argc, char *argv[])
   // Note on direction cosines: Because our plane is in the xz-plane,
   // the default submatrix would be invalid, so we must use the identity
   extract->SetDirectionCollapseToIdentity();
+  extract->InPlaceOn();
   extract->SetInput( composeRGB->GetOutput() );
   extract->SetExtractionRegion(coronalSlice);
 

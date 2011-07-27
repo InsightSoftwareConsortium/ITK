@@ -18,7 +18,7 @@
 #ifndef __itkPipelineMonitorImageFilter_h
 #define __itkPipelineMonitorImageFilter_h
 
-#include "itkInPlaceImageFilter.h"
+#include "itkImageToImageFilter.h"
 
 namespace itk {
 
@@ -63,11 +63,12 @@ namespace itk {
  */
  template <class TImageType>
    class PipelineMonitorImageFilter :
-    public InPlaceImageFilter< TImageType, TImageType>
+    public ImageToImageFilter< TImageType, TImageType>
  {
  public:
+
    typedef PipelineMonitorImageFilter                  Self;
-   typedef InPlaceImageFilter<TImageType, TImageType>  Superclass;
+   typedef ImageToImageFilter<TImageType, TImageType>  Superclass;
    typedef SmartPointer<Self>                          Pointer;
    typedef SmartPointer<const Self>                    ConstPointer;
 
@@ -84,7 +85,7 @@ namespace itk {
    itkNewMacro(Self);
 
    /** Run-time type information (and related methods). */
-   itkTypeMacro(PipelineMonitorImageFilter,ImageToImageFilter);
+   itkTypeMacro(PipelineMonitorImageFilter,InPlaceImageFilter);
 
    /** Enable/Disable clearing all saved pipeline information when
     * GenerateOutputInformation is called.

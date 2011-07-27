@@ -36,7 +36,9 @@ ExtractImageFilter< TInputImage, TOutputImage >
 #else
   m_DirectionCollapseStrategy(DIRECTIONCOLLAPSETOUNKOWN)
 #endif
-{}
+{
+  Superclass::InPlaceOff();
+}
 
 /**
  *
@@ -259,6 +261,33 @@ ExtractImageFilter< TInputImage, TOutputImage >
     }
 }
 
+template< class TInputImage, class TOutputImage >
+void
+ExtractImageFilter< TInputImage, TOutputImage >
+::GenerateData()
+{
+
+  // InPlace::AllocateOutputs set the running in place ivar.
+  // This method will be called again, by GenerateData, but there is
+  // no harm done.
+  this->AllocateOutputs();
+
+  // The input matched the output, nothing to do.
+  if ( this->GetRunningInPlace() )
+    {
+    OutputImageType *outputPtr = this->GetOutput();
+
+    // the in-place grafting copies the meta data, this needs to be
+    // set back.
+    outputPtr->SetLargestPossibleRegion(m_OutputImageRegion);
+
+    this->SetProgress( 1.0 );
+    return;
+    }
+
+  this->Superclass::GenerateData();
+}
+
 /**
  * ExtractImageFilter can be implemented as a multithreaded filter.
  * Therefore, this implementation provides a ThreadedGenerateData()
@@ -277,7 +306,6 @@ ExtractImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                        ThreadIdType threadId)
 {
-
   itkDebugMacro(<< "Actually executing");
 
   // Get the input and output pointers
