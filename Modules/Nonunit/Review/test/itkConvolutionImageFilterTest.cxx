@@ -19,6 +19,7 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+#include "itkConstantBoundaryCondition.h"
 #include "itkConvolutionImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
@@ -123,6 +124,88 @@ int itkConvolutionImageFilterTest(int argc, char * argv[])
     {
     std::cerr << "Set/GetNormalize() error" << std::endl;
     return EXIT_FAILURE;
+    }
+
+  convoluter->SetOutputRegionMode( ConvolutionFilterType::SAME );
+  if ( convoluter->GetOutputRegionMode() != ConvolutionFilterType::SAME )
+    {
+    std::cerr << "SetOutputRegionMode() error when argument is SAME" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  convoluter->SetOutputRegionMode( ConvolutionFilterType::VALID );
+  if ( convoluter->GetOutputRegionMode() != ConvolutionFilterType::VALID )
+    {
+    std::cerr << "SetOutputRegionMode() error when argument is VALID" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  convoluter->SetOutputRegionModeToSame();
+  if ( convoluter->GetOutputRegionMode() != ConvolutionFilterType::SAME )
+    {
+    std::cerr << "SetOutputRegionModeToSame() error" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  convoluter->SetOutputRegionModeToValid();
+  if ( convoluter->GetOutputRegionMode() != ConvolutionFilterType::VALID )
+    {
+    std::cerr << "SetOutputRegionModeToValid() error" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  itk::ConstantBoundaryCondition< ImageType > constantBoundaryCondition;
+  convoluter->SetBoundaryCondition( &constantBoundaryCondition );
+  if ( convoluter->GetBoundaryCondition() != &constantBoundaryCondition )
+    {
+    std::cerr << "SetBoundaryCondition() error" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // Test VALID output region mode with kernel that is larger than
+  // the input image. Should result in a zero-size valid region.
+  ImageType::Pointer largeKernel = ImageType::New();
+  ImageType::RegionType kernelRegion( reader1->GetOutput()->GetLargestPossibleRegion().GetSize() );
+  kernelRegion.PadByRadius( 5 );
+
+  largeKernel->SetRegions( kernelRegion );
+  largeKernel->Allocate();
+  convoluter->SetOutputRegionModeToValid();
+  convoluter->SetInput( reader1->GetOutput() );
+  convoluter->SetImageKernelInput( largeKernel );
+  try
+    {
+    convoluter->Update();
+    std::cerr << "Failed to catch expected exception when kernel is larger than the input image."
+              << std::endl;
+    return EXIT_FAILURE;
+    }
+  catch ( itk::ExceptionObject e )
+    {
+    std::cout << "Caught expected exception when kernel is larger than the input image."
+              << std::endl;
+    std::cout << e << std::endl;
+    }
+
+  // Test for invalid request region.
+  ImageType::IndexType invalidIndex;
+  invalidIndex.Fill( 1000 );
+  ImageType::SizeType invalidSize;
+  invalidSize.Fill( 1000 );
+  ImageType::RegionType invalidRequestRegion( invalidIndex, invalidSize );
+  convoluter->GetOutput()->SetRequestedRegion( invalidRequestRegion );
+  try
+    {
+    convoluter->Update();
+    std::cerr << "Failed to catch expected exception when request region is outside the largest "
+              << "possible region." << std::endl;
+    return EXIT_FAILURE;
+    }
+  catch ( itk::ExceptionObject e )
+    {
+    std::cout << "Caught expected exception when request region is outside the largest "
+              << "possible region." << std::endl;
+    std::cout << e << std::endl;
     }
 
   return EXIT_SUCCESS;
