@@ -69,18 +69,13 @@ int itkAttributeLabelObjectAccessorsTest1(int argc, char * argv[])
   // having to code that by hand - that's an example.
 
   LabelMapType::Pointer labelMap = i2l->GetOutput();
-
-  // Lets begin by declaring the iterator for the objects in the image.
-  LabelMapType::LabelObjectContainerType::const_iterator it;
-  // And get the object container to reuse it later
-  const LabelMapType::LabelObjectContainerType & labelObjectContainer = labelMap->GetLabelObjectContainer();
-  for( it = labelObjectContainer.begin(); it != labelObjectContainer.end(); it++ )
+  for( LabelMapType::Iterator it(labelMap); !it.IsAtEnd(); ++it )
     {
     // the label is there if we need it, but it can also be found at labelObject->GetLabel().
     // const PType & label = it->first;
 
     // the label object
-    LabelObjectType * labelObject = it->second;
+    LabelObjectType * labelObject = it.GetLabelObject();
 
     // init the vars
     double mean = 0;

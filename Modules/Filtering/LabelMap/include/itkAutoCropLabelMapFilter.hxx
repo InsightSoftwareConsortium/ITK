@@ -82,12 +82,11 @@ AutoCropLabelMapFilter< TInputImage >
   const InputImageType *inputImage = this->GetInput();
 
   // iterate over all the lines
-  typename InputImageType::LabelObjectContainerType container = inputImage->GetLabelObjectContainer();
-  typename InputImageType::LabelObjectContainerType::const_iterator loit = container.begin();
+  typename InputImageType::ConstIterator loit( inputImage );
 
-  while ( loit != container.end() )
+  while ( ! loit.IsAtEnd() )
     {
-    const LabelObjectType *labelObject = loit->second;
+    const LabelObjectType *labelObject = loit.GetLabelObject();
     typename LabelObjectType::ConstLineIterator lit( labelObject );
     while ( ! lit.IsAtEnd() )
       {
@@ -113,7 +112,7 @@ AutoCropLabelMapFilter< TInputImage >
         }
       ++lit;
       }
-    loit++;
+    ++loit;
     }
 }
 

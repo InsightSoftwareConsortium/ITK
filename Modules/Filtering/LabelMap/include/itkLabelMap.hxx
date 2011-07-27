@@ -523,22 +523,6 @@ LabelMap< TLabelObject >
 }
 
 template< class TLabelObject >
-const typename LabelMap< TLabelObject >::LabelObjectContainerType &
-LabelMap< TLabelObject >
-::GetLabelObjectContainer() const
-{
-  return m_LabelObjectContainer;
-}
-
-template< class TLabelObject >
-typename LabelMap< TLabelObject >::LabelObjectContainerType &
-LabelMap< TLabelObject >
-::GetLabelObjectContainer()
-{
-  return m_LabelObjectContainer;
-}
-
-template< class TLabelObject >
 typename LabelMap< TLabelObject >::SizeValueType
 LabelMap< TLabelObject >
 ::GetNumberOfLabelObjects() const

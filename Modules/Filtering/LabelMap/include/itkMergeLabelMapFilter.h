@@ -110,11 +110,8 @@ protected:
 
   void PrintSelf(std::ostream & os, Indent indent) const;
 
-  typedef typename ImageType::LabelObjectContainerType LabelObjectContainerType;
-  typedef typename LabelObjectType::LineContainerType  LineContainerType;
-  typedef typename LineContainerType::const_iterator   LineContainerIterator;
-
   MethodChoice m_Method;
+
 private:
   MergeLabelMapFilter(const Self &); //purposely not implemented
   void operator=(const Self &);      //purposely not implemented

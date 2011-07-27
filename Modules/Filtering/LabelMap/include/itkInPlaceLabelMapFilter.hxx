@@ -121,22 +121,19 @@ InPlaceLabelMapFilter< TInputImage >
 
     output->SetBackgroundValue( input->GetBackgroundValue() );
 
-    const LabelObjectContainerType & labelObjectContainer = input->GetLabelObjectContainer();
-
-    LabelObjectContainerConstIterator it = labelObjectContainer.begin();
-
-    while ( it != labelObjectContainer.end() )
+    typename TInputImage::ConstIterator it( input );
+    while ( ! it.IsAtEnd() )
       {
-      const LabelObjectType *labeObject = it->second;
+      const LabelObjectType *labeObject = it.GetLabelObject();
 
       itkAssertInDebugAndIgnoreInReleaseMacro(labeObject != NULL);
-      itkAssertInDebugAndIgnoreInReleaseMacro(labeObject->GetLabel() == it->first);
+      itkAssertInDebugAndIgnoreInReleaseMacro(labeObject->GetLabel() == it.GetLabel());
 
       typename LabelObjectType::Pointer newLabelObject = LabelObjectType::New();
       newLabelObject->CopyAllFrom(labeObject);
 
       output->AddLabelObject(newLabelObject);
-      it++;
+      ++it;
       }
     }
 }

@@ -113,15 +113,14 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
         mins.Fill( NumericTraits< IndexValueType >::max() );
         IndexType maxs;
         maxs.Fill( NumericTraits< IndexValueType >::NonpositiveMin() );
-        typename InputImageType::LabelObjectContainerType container = this->GetInput()->GetLabelObjectContainer();
-        for( typename InputImageType::LabelObjectContainerType::const_iterator loit = container.begin();
-             loit != container.end();
-             loit++ )
+        for( typename InputImageType::ConstIterator loit( this->GetInput() );
+             ! loit.IsAtEnd();
+             ++loit )
           {
-          if( loit->first != m_Label )
+          if( loit.GetLabel() != m_Label )
             {
             // iterate over all the lines
-            typename LabelObjectType::ConstLineIterator lit( loit->second );
+            typename LabelObjectType::ConstLineIterator lit( loit.GetLabelObject() );
             while( ! lit.IsAtEnd() )
               {
               const IndexType & idx = lit.GetLine().GetIndex();

@@ -96,12 +96,6 @@ public:
   typedef typename LabelObjectType::LabelType LabelType;
   typedef LabelType                           PixelType;
 
-  /** the LabelObject container type */
-  typedef std::map< LabelType, LabelObjectPointerType > LabelObjectContainerType;
-  typedef typename LabelObjectContainerType::iterator   LabelObjectContainerIterator;
-  typedef typename LabelObjectContainerType::const_iterator
-                                                        LabelObjectContainerConstIterator;
-
   /** types used to expose labels only and label objects only */
   typedef std::vector< LabelType >              LabelVectorType;
   typedef std::vector< LabelObjectPointerType > LabelObjectVectorType;
@@ -167,7 +161,6 @@ public:
    * or if the label is the background one.
    */
   LabelObjectType * GetLabelObject(const LabelType & label);
-
   const LabelObjectType * GetLabelObject(const LabelType & label) const;
 
   /**
@@ -184,7 +177,6 @@ public:
    * This method thorws an exception if the index doesn't exist in this image.
    */
   LabelObjectType * GetNthLabelObject(const SizeValueType & pos);
-
   const LabelObjectType * GetNthLabelObject(const SizeValueType & pos) const;
 
   /**
@@ -266,13 +258,6 @@ public:
   void ClearLabels();
 
   /**
-   * Return the label object container
-   */
-  const LabelObjectContainerType & GetLabelObjectContainer() const;
-
-  LabelObjectContainerType & GetLabelObjectContainer();
-
-  /**
    * Return the numbner of label objects in the image
    */
   typename Self::SizeValueType GetNumberOfLabelObjects() const;
@@ -309,6 +294,172 @@ public:
    */
   void Optimize();
 
+  /** \class ConstIterator
+   * \brief A forward iterator over the LabelObjects of a LabelMap
+   * \ingroup ITKLabelMap
+   */
+  class ConstIterator
+  {
+  public:
+
+    ConstIterator() {}
+
+    ConstIterator(const Self *lm)
+    {
+      m_Begin = lm->m_LabelObjectContainer.begin();
+      m_End = lm->m_LabelObjectContainer.end();
+      m_Iterator = m_Begin;
+    }
+
+    ConstIterator(const ConstIterator & iter)
+    {
+      m_Iterator = iter.m_Iterator;
+      m_Begin = iter.m_Begin;
+      m_End = iter.m_End;
+    }
+
+    ConstIterator & operator=(const ConstIterator & iter)
+    {
+      m_Iterator = iter.m_Iterator;
+      m_Begin = iter.m_Begin;
+      m_End = iter.m_End;
+      return *this;
+    }
+
+    const LabelObjectType * GetLabelObject() const
+    {
+      return m_Iterator->second;
+    }
+
+    const LabelType & GetLabel() const
+    {
+      return m_Iterator->first;
+    }
+
+    ConstIterator operator++(int)
+    {
+      ConstIterator tmp = *this;
+      ++(*this);
+      return tmp;
+    }
+
+    ConstIterator & operator++()
+    {
+      ++m_Iterator;
+      return *this;
+    }
+
+  bool operator==(const ConstIterator & iter) const
+    {
+    return m_Iterator == iter.m_Iterator && m_Begin == iter.m_Begin && m_End == iter.m_End;
+    }
+
+  bool operator!=(const ConstIterator & iter) const
+    {
+    return !( *this == iter );
+    }
+
+  void GoToBegin()
+    {
+      m_Iterator = m_Begin;
+    }
+
+    bool IsAtEnd() const
+    {
+      return m_Iterator == m_End;
+    }
+
+  private:
+    typedef typename std::map< LabelType, LabelObjectPointerType >::const_iterator InternalIteratorType;
+    InternalIteratorType m_Iterator;
+    InternalIteratorType m_Begin;
+    InternalIteratorType m_End;
+  };
+
+  /** \class Iterator
+   * \brief A forward iterator over the LabelObjects of a LabelMap
+   * \ingroup ITKLabelMap
+   */
+  class Iterator
+  {
+  public:
+
+    Iterator() {}
+
+    Iterator(Self *lm)
+    {
+      m_Begin = lm->m_LabelObjectContainer.begin();
+      m_End = lm->m_LabelObjectContainer.end();
+      m_Iterator = m_Begin;
+    }
+
+    Iterator(const Iterator & iter)
+    {
+      m_Iterator = iter.m_Iterator;
+      m_Begin = iter.m_Begin;
+      m_End = iter.m_End;
+    }
+
+    Iterator & operator=(const Iterator & iter)
+    {
+      m_Iterator = iter.m_Iterator;
+      m_Begin = iter.m_Begin;
+      m_End = iter.m_End;
+      return *this;
+    }
+
+    LabelObjectType * GetLabelObject()
+    {
+      return m_Iterator->second;
+    }
+
+    const LabelType & GetLabel() const
+    {
+      return m_Iterator->first;
+    }
+
+    Iterator operator++(int)
+    {
+      Iterator tmp = *this;
+      ++(*this);
+      return tmp;
+    }
+
+    Iterator & operator++()
+    {
+      ++m_Iterator;
+      return *this;
+    }
+
+  bool operator==(const Iterator & iter) const
+    {
+    return m_Iterator == iter.m_Iterator && m_Begin == iter.m_Begin && m_End == iter.m_End;
+    }
+
+  bool operator!=(const Iterator & iter) const
+    {
+    return !( *this == iter );
+    }
+
+  void GoToBegin()
+    {
+      m_Iterator = m_Begin;
+    }
+
+    bool IsAtEnd() const
+    {
+      return m_Iterator == m_End;
+    }
+
+  private:
+    typedef typename std::map< LabelType, LabelObjectPointerType >::iterator InternalIteratorType;
+    InternalIteratorType m_Iterator;
+    InternalIteratorType m_Begin;
+    InternalIteratorType m_End;
+
+    friend class LabelMap;
+  };
+
 protected:
   LabelMap();
   virtual ~LabelMap() {}
@@ -317,6 +468,12 @@ protected:
 private:
   LabelMap(const Self &);       //purposely not implemented
   void operator=(const Self &); //purposely not implemented
+
+  /** the LabelObject container type */
+  typedef std::map< LabelType, LabelObjectPointerType > LabelObjectContainerType;
+  typedef typename LabelObjectContainerType::iterator   LabelObjectContainerIterator;
+  typedef typename LabelObjectContainerType::const_iterator
+                                                        LabelObjectContainerConstIterator;
 
   LabelObjectContainerType m_LabelObjectContainer;
   LabelType                m_BackgroundValue;

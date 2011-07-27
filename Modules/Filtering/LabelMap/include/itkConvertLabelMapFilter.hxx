@@ -37,16 +37,13 @@ ConvertLabelMapFilter< TInputImage, TOutputImage >
 
   outputImage->SetBackgroundValue( inputImage->GetBackgroundValue() );
 
-  typedef typename InputImageType::LabelObjectContainerType ContainerType;
-  const ContainerType & labelObjectContainer = inputImage->GetLabelObjectContainer();
+  ProgressReporter progress( this, 0, inputImage->GetNumberOfLabelObjects() );
 
-  ProgressReporter progress( this, 0, labelObjectContainer.size() );
-
-  for( typename ContainerType::const_iterator it = labelObjectContainer.begin();
-       it != labelObjectContainer.end();
-       it++)
+  for( typename TInputImage::ConstIterator it( inputImage );
+       ! it.IsAtEnd();
+       ++it)
     {
-    const LabelObjectType * labelObject = it->second;
+    const LabelObjectType * labelObject = it.GetLabelObject();
     typename OutputLabelObjectType::Pointer newLabelObject = OutputLabelObjectType::New();
     newLabelObject->CopyAllFrom(labelObject);
     outputImage->AddLabelObject(newLabelObject);

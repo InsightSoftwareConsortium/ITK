@@ -73,12 +73,12 @@ LabelMapToAttributeImageFilter<TInputImage, TOutputImage, TAttributeAccessor>
 
   output->FillBuffer( m_BackgroundValue );
 
-  typename InputImageType::LabelObjectContainerType::const_iterator it;
-  const typename InputImageType::LabelObjectContainerType & labelObjectContainer = input->GetLabelObjectContainer();
-  for( it = labelObjectContainer.begin(); it != labelObjectContainer.end(); it++ )
+  for( typename InputImageType::ConstIterator it( input );
+       ! it.IsAtEnd();
+       ++it )
     {
     typedef typename InputImageType::LabelObjectType  LabelObjectType;
-    const LabelObjectType * labelObject = it->second;
+    const LabelObjectType * labelObject = it.GetLabelObject();
     const AttributeValueType & attribute = accessor( labelObject );
 
     typename LabelObjectType::ConstIndexIterator it( labelObject );

@@ -82,12 +82,10 @@ MergeLabelMapFilter< TImage >
 
   for ( unsigned int i = 1; i < this->GetNumberOfInputs(); i++ )
     {
-    const LabelObjectContainerType & otherLabelObjects = this->GetInput(i)->GetLabelObjectContainer();
-    typename LabelObjectContainerType::const_iterator it2 = otherLabelObjects.begin();
-
-    while ( it2 != otherLabelObjects.end() )
+    typename ImageType::ConstIterator it2( this->GetInput(i) );
+    while ( ! it2.IsAtEnd() )
       {
-      const LabelObjectType *lo = it2->second;
+      const LabelObjectType *lo = it2.GetLabelObject();
       LabelObjectPointer     newLo = LabelObjectType::New();
       newLo->CopyAllFrom(lo);
 
@@ -104,7 +102,7 @@ MergeLabelMapFilter< TImage >
 
       // go to the next label
       progress.CompletedPixel();
-      it2++;
+      ++it2;
       }
 
     // add the other label objects, with a different label
@@ -112,7 +110,7 @@ MergeLabelMapFilter< TImage >
     while ( it != labelObjects.end() )
       {
       output->PushLabelObject(*it);
-      it++;
+      ++it;
       }
     }
 }
@@ -128,12 +126,10 @@ MergeLabelMapFilter< TImage >
 
   for ( unsigned int i = 1; i < this->GetNumberOfInputs(); i++ )
     {
-    const LabelObjectContainerType & otherLabelObjects = this->GetInput(i)->GetLabelObjectContainer();
-    typename LabelObjectContainerType::const_iterator it2 = otherLabelObjects.begin();
-
-    while ( it2 != otherLabelObjects.end() )
+    typename ImageType::ConstIterator it2( this->GetInput(i) );
+    while ( ! it2.IsAtEnd() )
       {
-      const LabelObjectType *lo = it2->second;
+      const LabelObjectType *lo = it2.GetLabelObject();
       LabelObjectPointer     newLo = LabelObjectType::New();
       newLo->CopyAllFrom(lo);
 
@@ -152,7 +148,7 @@ MergeLabelMapFilter< TImage >
 
       // go to the next label
       progress.CompletedPixel();
-      it2++;
+      ++it2;
       }
     }
 }
@@ -168,13 +164,10 @@ MergeLabelMapFilter< TImage >
 
   for ( unsigned int i = 1; i < this->GetNumberOfInputs(); i++ )
     {
-    const LabelObjectContainerType & otherLabelObjects = this->GetInput(i)->GetLabelObjectContainer();
-
-    typename LabelObjectContainerType::const_iterator it2 = otherLabelObjects.begin();
-
-    while ( it2 != otherLabelObjects.end() )
+    typename ImageType::ConstIterator it2( this->GetInput(i) );
+    while ( ! it2.IsAtEnd() )
       {
-      const LabelObjectType *lo = it2->second;
+      const LabelObjectType *lo = it2.GetLabelObject();
 
       if ( !output->HasLabel( lo->GetLabel() ) )
         {
@@ -203,7 +196,7 @@ MergeLabelMapFilter< TImage >
 
       // go to the next label
       progress.CompletedPixel();
-      it2++;
+      ++it2;
       }
     }
 }
@@ -218,16 +211,16 @@ MergeLabelMapFilter< TImage >
   ImageType *output = this->GetOutput();
 
   // get the label objects of the first input
-  LabelObjectContainerType labelObjects = output->GetLabelObjectContainer();
+  typename ImageType::LabelObjectVectorType labelObjects = output->GetLabelObjects();
 
   // and put back the objects in the map
   output->ClearLabels();
 
-  typename LabelObjectContainerType::iterator it = labelObjects.begin();
+  typename ImageType::LabelObjectVectorType::iterator it = labelObjects.begin();
 
   while ( it != labelObjects.end() )
     {
-    output->PushLabelObject(it->second);
+    output->PushLabelObject(*it);
 
     // go to the next label
     progress.CompletedPixel();
@@ -237,19 +230,17 @@ MergeLabelMapFilter< TImage >
   // now, the next images
   for ( unsigned int i = 1; i < this->GetNumberOfInputs(); i++ )
     {
-    const LabelObjectContainerType & otherLabelObjects = this->GetInput(i)->GetLabelObjectContainer();
-    typename LabelObjectContainerType::const_iterator it2 = otherLabelObjects.begin();
-
-    while ( it2 != otherLabelObjects.end() )
+    typename ImageType::ConstIterator it2( this->GetInput(i) );
+    while ( ! it2.IsAtEnd() )
       {
-      const LabelObjectType *lo = it2->second;
+      const LabelObjectType *lo = it2.GetLabelObject();
       LabelObjectPointer     newLo = LabelObjectType::New();
       newLo->CopyAllFrom(lo);
       output->PushLabelObject(newLo);
 
       // go to the next label
       progress.CompletedPixel();
-      it2++;
+      ++it2;
       }
     }
 }

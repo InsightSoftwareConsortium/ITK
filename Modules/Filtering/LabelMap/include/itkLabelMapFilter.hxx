@@ -80,7 +80,8 @@ LabelMapFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
 {
   // initialize the iterator
-  m_LabelObjectIterator = this->GetLabelMap()->GetLabelObjectContainer().begin();
+  m_LabelObjectIterator =  typename InputImageType::Iterator(this->GetLabelMap());
+//  m_LabelObjectIterator = typename InputImageType::Iterator(this->GetLabelMap());
 
   // and the mutex
   m_LabelObjectContainerLock = FastMutexLock::New();
@@ -114,7 +115,7 @@ LabelMapFilter< TInputImage, TOutputImage >
     // first lock the mutex
     m_LabelObjectContainerLock->Lock();
 
-    if ( m_LabelObjectIterator == this->GetLabelMap()->GetLabelObjectContainer().end() )
+    if ( m_LabelObjectIterator.IsAtEnd() )
       {
       // no more objects. Release the lock and return
       m_LabelObjectContainerLock->Unlock();
@@ -122,11 +123,11 @@ LabelMapFilter< TInputImage, TOutputImage >
       }
 
     // get the label object
-    LabelObjectType *labelObject = m_LabelObjectIterator->second;
+    LabelObjectType *labelObject = m_LabelObjectIterator.GetLabelObject();
 
     // increment the iterator now, so it will not be invalidated if the object
     // is destroyed
-    m_LabelObjectIterator++;
+    ++m_LabelObjectIterator;
 
     // pretend one more object is processed, even if it will be done later, to
     // simplify the lock management

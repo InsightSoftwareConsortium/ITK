@@ -64,14 +64,10 @@ int itkAttributeKeepNObjectsLabelMapFilterTest1(int argc, char * argv[])
   // in the label map
   LabelMapType::Pointer labelMap = i2l->GetOutput();
 
-  // Lets begin by declaring the iterator for the objects in the image.
-  LabelMapType::LabelObjectContainerType::const_iterator it;
-  // And get the object container to reuse it later
-  const LabelMapType::LabelObjectContainerType & labelObjectContainer = labelMap->GetLabelObjectContainer();
   int pos = 0;
-  for( it = labelObjectContainer.begin(); it != labelObjectContainer.end(); it++ )
+  for( LabelMapType::Iterator it(labelMap); !it.IsAtEnd(); ++it )
     {
-    LabelObjectType * labelObject = it->second;
+    LabelObjectType * labelObject = it.GetLabelObject();
     labelObject->SetAttribute( pos++ );
     }
 
