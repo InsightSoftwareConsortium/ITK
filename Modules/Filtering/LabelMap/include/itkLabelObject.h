@@ -144,8 +144,19 @@ public:
 
   LineType & GetLine(SizeValueType i);
 
+  /**
+   * Returns the number of pixels contained in the object.
+   *
+   * \warning To get an accurate result, you need to make sure
+   * there is no duplication in the line container. One way to
+   * ensure this (at a cost) is to call the Optimize method.
+   */
   SizeValueType Size() const;
 
+  /**
+   * Returns true if there no line in the container (and thus no pixel in
+   * the object.
+   */
   bool Empty() const;
 
   /**
