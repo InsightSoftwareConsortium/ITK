@@ -26,9 +26,9 @@
     <![CDATA[
     itk::ExtractImageFilter<ImageType>::Pointer myfilter=itk::ExtractImageFilter<ImageType>::New();
 #if  ITK_VERSION_MAJOR >=4
-  myfilter->DirectionCollapseToSubmatrix(); //When collapsing from a list of properly defined phsycial spaces (i.e. collapsing on time in a 3D+time image)
-  myfilter->DirectionCollapseGuess(); //ITKv3 compatible, but not recommended
-  myfilter->DirectionCollapseToIdentity(); //If you don't care about resulting image dimension
+  myfilter->SetDirectionCollapseToSubmatrix(); //When collapsing from a list of properly defined phsycial spaces (i.e. collapsing on time in a 3D+time image)
+  myfilter->SetDirectionCollapseToGuess(); //ITKv3 compatible, but not recommended
+  myfilter->SetDirectionCollapseToIdentity(); //If you don't care about resulting image dimension
 #endif
     ]]>
     </New>
