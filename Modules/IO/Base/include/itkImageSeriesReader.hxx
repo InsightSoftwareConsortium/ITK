@@ -321,6 +321,7 @@ void ImageSeriesReader< TOutputImage >
   typename  TOutputImage::InternalPixelType *outputBuffer = output->GetBufferPointer();
   IndexType                           sliceStartIndex = requestedRegion.GetIndex();
   const int                           numberOfFiles = static_cast< int >( m_FileNames.size() );
+
   for ( int i = 0; i != numberOfFiles; ++i )
     {
     if ( TOutputImage::ImageDimension != this->m_NumberOfDimensionsInImage )
@@ -412,6 +413,12 @@ void ImageSeriesReader< TOutputImage >
         // output of buffer copy
         ImageRegionType outRegion = requestedRegion;
         outRegion.SetIndex( sliceStartIndex );
+
+        // set the moving dimension to a size of 1
+        if ( TOutputImage::ImageDimension != this->m_NumberOfDimensionsInImage )
+          {
+          outRegion.SetSize(this->m_NumberOfDimensionsInImage, 1);
+          }
 
         ImageAlgorithm::Copy( readerOutput, output, sliceRegionToRequest, outRegion );
 
