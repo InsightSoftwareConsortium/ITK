@@ -101,6 +101,10 @@ macro(itk_module_impl)
     include_directories(${${itk-module}_SYSTEM_INCLUDE_DIRS})
   endif()
 
+  if(${itk-module}_SYSTEM_LIBRARY_DIRS)
+    link_directories(${${itk-module}_SYSTEM_LIBRARY_DIRS})
+  endif()
+
   if(${itk-module}_THIRD_PARTY)
     itk_module_warnings_disable(C CXX)
   else()
