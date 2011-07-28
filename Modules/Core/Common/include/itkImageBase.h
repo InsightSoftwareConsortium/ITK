@@ -31,6 +31,7 @@
 #include "itkDataObject.h"
 
 #include "itkImageRegion.h"
+#include "itkMatrix.h"
 #include "itkObjectFactory.h"
 #include "itkOffset.h"
 #include "itkFixedArray.h"
@@ -41,6 +42,10 @@
 
 #include "itkImageRegion.h"
 #include "itkImageTransformHelper.h"
+
+/* Forward declaration (ImageTransformHelper include's ImageBase) */
+template< unsigned int NImageDimension, unsigned int R, unsigned int C >
+class ImageTransformHelper;
 
 namespace itk
 {

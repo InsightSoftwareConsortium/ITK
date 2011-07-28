@@ -1,6 +1,5 @@
 itk_module_test()
 set(ITKIONIFTITests
-itkIONIFTIHeaderTest.cxx
 itkNiftiImageIOTest.cxx
 itkNiftiImageIOTest2.cxx
 itkNiftiImageIOTest3.cxx
@@ -15,6 +14,9 @@ itkNiftiImageIOTest11.cxx
 itkNiftiReadAnalyzeTest.cxx
 )
 
+# For itkNiftiImageIOTest.h.
+include_directories( ${ITKIONIFTI_SOURCE_DIR}/test )
+
 add_library(ITKIONIFTI-TestSupport  itkNiftiImageIOTestHelper.cxx)
 itk_module_target_label(ITKIONIFTI-TestSupport)
 target_link_libraries(ITKIONIFTI-TestSupport ${ITKIONIFTI_LIBRARIES})
@@ -23,8 +25,6 @@ list(APPEND ITKIONIFTI-Test_LIBRARIES ITKIONIFTI-TestSupport)
 
 CreateTestDriver(ITKIONIFTI  "${ITKIONIFTI-Test_LIBRARIES}" "${ITKIONIFTITests}")
 
-itk_add_test(NAME itkIONIFTIHeaderTest
-      COMMAND ITKIONIFTITestDriver itkIONIFTIHeaderTest)
 itk_add_test(NAME itkNiftiIOBigEndianCompressed.hdr
       COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest
               ${ITK_TEST_OUTPUT_DIR} itkNiftiIOBigEndianCompressed.hdr ${ITK_DATA_ROOT}/Input/BigEndianCompressed.hdr)

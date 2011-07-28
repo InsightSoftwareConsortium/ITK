@@ -4,14 +4,11 @@ itkBioCellTest.cxx
 itkBioGenomeTest.cxx
 itkBioCellularAggregateTest.cxx
 itkBioGeneNetworkTest.cxx
-itkBioCellHeaderTest.cxx
 itkBioGeneTest.cxx
 )
 
 CreateTestDriver(ITKBioCell  "${ITKBioCell-Test_LIBRARIES}" "${ITKBioCellTests}")
 
-itk_add_test(NAME itkBioCellHeaderTest
-      COMMAND ITKBioCellTestDriver itkBioCellHeaderTest)
 itk_add_test(NAME itkBioCellTest
       COMMAND ITKBioCellTestDriver itkBioCellTest)
 itk_add_test(NAME itkBioGenomeTest

@@ -9,7 +9,6 @@ itkQuadEdgeMeshFrontIteratorTest.cxx
 itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1.cxx
 itkQuadEdgeTest1.cxx
 itkGeometricalQuadEdgeTest1.cxx
-itkQuadEdgeMeshHeaderTest.cxx
 itkQuadEdgeMeshAddFaceTest1.cxx
 itkQuadEdgeMeshAddFaceTest2.cxx
 itkQuadEdgeMeshBasicLayerTest.cxx
@@ -34,8 +33,6 @@ itkDynamicQuadEdgeMeshTest.cxx
 
 CreateTestDriver(ITKQuadEdgeMesh  "${ITKQuadEdgeMesh-Test_LIBRARIES}" "${ITKQuadEdgeMeshTests}")
 
-itk_add_test(NAME itkQuadEdgeMeshHeaderTest
-      COMMAND ITKQuadEdgeMeshTestDriver itkQuadEdgeMeshHeaderTest)
 itk_add_test(NAME itkQuadEdgeMeshPointTest1
       COMMAND ITKQuadEdgeMeshTestDriver itkQuadEdgeMeshPointTest1)
 itk_add_test(NAME itkQuadEdgeMeshTest1

@@ -5,13 +5,10 @@ itkRawImageIOTest2.cxx
 itkRawImageIOTest3.cxx
 itkRawImageIOTest4.cxx
 itkRawImageIOTest5.cxx
-itkIORAWHeaderTest.cxx
 )
 
 CreateTestDriver(ITKIORAW  "${ITKIORAW-Test_LIBRARIES}" "${ITKIORAWTests}")
 
-itk_add_test(NAME itkIORAWHeaderTest
-      COMMAND ITKIORAWTestDriver itkIORAWHeaderTest)
 itk_add_test(NAME itkRawImageIOTest
       COMMAND ITKIORAWTestDriver itkRawImageIOTest
               ${ITK_TEST_OUTPUT_DIR}/raw1.raw ${ITK_TEST_OUTPUT_DIR}/raw2.raw)

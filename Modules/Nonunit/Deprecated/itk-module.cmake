@@ -73,6 +73,7 @@ itk_module(ITKDeprecated
     ITKSpatialFunction
     ITKSpatialObjects
     ITKStatistics
+    ITKTestKernel
     ITKThresholding
     ITKTransform
     ITKVoronoi

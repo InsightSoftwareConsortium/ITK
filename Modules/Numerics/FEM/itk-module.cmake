@@ -7,9 +7,12 @@ itk_module(ITKFEM
     ITKImageFunction
     ITKRegistrationCommon
     ITKSpatialObjects
+    ITKIOSpatialObjects
   TEST_DEPENDS
     ITKTestKernel
     ITKIOSpatialObjects
   DESCRIPTION
     "${DOCUMENTATION}"
 )
+
+# ITKIOSpatialObjects dependency added for itkFEMSpatialObjectWriter

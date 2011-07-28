@@ -29,6 +29,7 @@
 #define __itkDataObjectDecorator_h
 
 #include "itkDataObject.h"
+#include "itkObjectFactory.h"
 
 namespace itk
 {

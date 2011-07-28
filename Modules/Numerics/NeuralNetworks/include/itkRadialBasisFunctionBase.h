@@ -56,7 +56,7 @@ public:
                                                     char mode,int element_id=0) const=0;
 
   itkSetMacro(Radius,ScalarType);
-  itkGetConstMacro( Radius, ScalarType );
+  itkGetConstMacro(Radius, ScalarType );
 
   itkSetMacro(Center,ArrayType);
   itkGetConstMacro(Center, ArrayType );

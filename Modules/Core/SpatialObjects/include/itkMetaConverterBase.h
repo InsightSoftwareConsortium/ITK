@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 #ifndef __itkMetaConverterBase_h
-#define  __itkMetaConverterBase_h
+#define __itkMetaConverterBase_h
 
 #include "itkSpatialObject.h"
 #include "metaObject.h"

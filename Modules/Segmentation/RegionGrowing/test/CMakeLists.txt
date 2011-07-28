@@ -2,7 +2,6 @@ itk_module_test()
 set(ITKRegionGrowingTests
 itkNeighborhoodConnectedImageFilterTest.cxx
 itkIsolatedConnectedImageFilterTest.cxx
-itkRegionGrowingHeaderTest.cxx
 itkConfidenceConnectedImageFilterTest.cxx
 itkVectorConfidenceConnectedImageFilterTest.cxx
 itkConnectedThresholdImageFilterTest.cxx
@@ -10,8 +9,6 @@ itkConnectedThresholdImageFilterTest.cxx
 
 CreateTestDriver(ITKRegionGrowing  "${ITKRegionGrowing-Test_LIBRARIES}" "${ITKRegionGrowingTests}")
 
-itk_add_test(NAME itkRegionGrowingHeaderTest
-      COMMAND ITKRegionGrowingTestDriver itkRegionGrowingHeaderTest)
 itk_add_test(NAME itkNeighborhoodConnectedImageFilterTest
       COMMAND ITKRegionGrowingTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/NeighborhoodConnectedImageFilterTest.png

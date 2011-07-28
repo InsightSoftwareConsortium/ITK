@@ -1,6 +1,5 @@
 itk_module_test()
 set(ITKImageCompareTests
-itkImageCompareHeaderTest.cxx
 itkAbsoluteValueDifferenceImageFilterTest.cxx
 itkSquaredDifferenceImageFilterTest.cxx
 itkCheckerBoardImageFilterTest.cxx
@@ -12,8 +11,6 @@ itkTestingComparisonImageFilterTest.cxx
 
 CreateTestDriver(ITKImageCompare  "${ITKImageCompare-Test_LIBRARIES}" "${ITKImageCompareTests}")
 
-itk_add_test(NAME itkImageCompareHeaderTest
-      COMMAND ITKImageCompareTestDriver itkImageCompareHeaderTest)
 itk_add_test(NAME itkAbsoluteValueDifferenceImageFilterTest
       COMMAND ITKImageCompareTestDriver itkAbsoluteValueDifferenceImageFilterTest)
 itk_add_test(NAME itkSquaredDifferenceImageFilterTest

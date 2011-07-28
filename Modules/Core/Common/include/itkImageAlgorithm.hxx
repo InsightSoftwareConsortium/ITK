@@ -18,6 +18,8 @@
 #ifndef __itkImageAlgorithm_hxx
 #define __itkImageAlgorithm_hxx
 
+#include "itkImageAlgorithm.h"
+
 #include "itkImageRegionIterator.h"
 
 namespace itk

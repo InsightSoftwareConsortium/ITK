@@ -14,7 +14,6 @@ itkNarrowBandThresholdSegmentationLevelSetImageFilterTest.cxx
 itkNarrowBandCurvesLevelSetImageFilterTest.cxx
 itkCollidingFrontsImageFilterTest.cxx
 itkGeodesicActiveContourShapePriorLevelSetImageFilterTest.cxx
-itkLevelSetsHeaderTest.cxx
 itkLevelSetFunctionTest.cxx
 itkExtensionVelocitiesImageFilterTest.cxx
 itkCannySegmentationLevelSetImageFilterTest.cxx
@@ -32,8 +31,6 @@ itkCurvesLevelSetImageFilterZeroSigmaTest.cxx
 
 CreateTestDriver(ITKLevelSets  "${ITKLevelSets-Test_LIBRARIES}" "${ITKLevelSetsTests}")
 
-itk_add_test(NAME itkLevelSetsHeaderTest
-      COMMAND ITKLevelSetsTestDriver itkLevelSetsHeaderTest)
 itk_add_test(NAME itkThresholdSegmentationLevelSetImageFilterTest
       COMMAND ITKLevelSetsTestDriver itkThresholdSegmentationLevelSetImageFilterTest)
 itk_add_test(NAME itkVectorThresholdSegmentationLevelSetImageFilterTest

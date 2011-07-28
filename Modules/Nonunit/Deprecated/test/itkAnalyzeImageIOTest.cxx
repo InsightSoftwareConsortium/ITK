@@ -20,8 +20,8 @@
 #endif
 
 #include "itkAnalyzeImageIOTest.h"
+#include "itkNiftiImageIOFactory.h"
 
-//template int MakeImage<char>();
 int TestAnalyzeByteSwap(const std::string & AugmentName)
 {
   int rval;

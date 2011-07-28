@@ -17,7 +17,9 @@
  *=========================================================================*/
 #ifndef __itkShapeLabelObjectAccessors_h
 #define __itkShapeLabelObjectAccessors_h
+
 #include "itkLabelObjectAccessors.h"
+#include "itkIntTypes.h"
 
 /*
  *

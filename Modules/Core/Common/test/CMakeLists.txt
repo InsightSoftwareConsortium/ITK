@@ -84,11 +84,6 @@ itkMultipleLogOutputTest.cxx
 itkVectorTest.cxx
 itkImageTest.cxx
 itkConditionVariableTest.cxx
-itkCommonHeaderTest.cxx
-itkCommonHeaderTest2.cxx
-itkCommonHeaderTest3.cxx
-itkCommonHeaderTest4.cxx
-itkCommonHeaderTest5.cxx
 itkPointSetTest.cxx
 itkBresenhamLineTest.cxx
 itkSparseFieldLayerTest.cxx
@@ -179,12 +174,6 @@ if(ITK_BUILD_SHARED_LIBS)
   set_property(TARGET FactoryTestLib PROPERTY LIBRARY_OUTPUT_DIRECTORY ${ITK_TEST_OUTPUT_DIR})
   add_dependencies(ITKCommon2TestDriver FactoryTestLib)
 endif(ITK_BUILD_SHARED_LIBS)
-
-itk_add_test(NAME itkCommonHeaderTest COMMAND ITKCommon1TestDriver itkCommonHeaderTest)
-itk_add_test(NAME itkCommonHeaderTest2 COMMAND ITKCommon1TestDriver itkCommonHeaderTest2)
-itk_add_test(NAME itkCommonHeaderTest3 COMMAND ITKCommon1TestDriver itkCommonHeaderTest3)
-itk_add_test(NAME itkCommonHeaderTest4 COMMAND ITKCommon1TestDriver itkCommonHeaderTest4)
-itk_add_test(NAME itkCommonHeaderTest5 COMMAND ITKCommon1TestDriver itkCommonHeaderTest5)
 
 itk_add_test(NAME itkAdaptorComparisonTest COMMAND ITKCommon1TestDriver itkAdaptorComparisonTest)
 itk_add_test(NAME itkImageAdaptorPipeLineTest COMMAND ITKCommon1TestDriver itkImageAdaptorPipeLineTest)

@@ -16,7 +16,6 @@ itkAndImageFilterTest.cxx
 itkAdaptImageFilterTest2.cxx
 itkLogImageFilterAndAdaptorTest.cxx
 itkNotImageFilterTest.cxx
-itkImageIntensityHeaderTest.cxx
 itkImageAdaptorNthElementTest.cxx
 itkConstrainedValueAdditionImageFilterTest.cxx
 itkAtanImageFilterAndAdaptorTest.cxx
@@ -70,8 +69,6 @@ itkNormalizeToConstantImageFilterTest.cxx
 
 CreateTestDriver(ITKImageIntensity  "${ITKImageIntensity-Test_LIBRARIES}" "${ITKImageIntensityTests}")
 
-itk_add_test(NAME itkImageIntensityHeaderTest
-      COMMAND ITKImageIntensityTestDriver itkImageIntensityHeaderTest)
 itk_add_test(NAME itkCosImageFilterAndAdaptorTest
       COMMAND ITKImageIntensityTestDriver itkCosImageFilterAndAdaptorTest)
 itk_add_test(NAME itkVectorRescaleIntensityImageFilterTest

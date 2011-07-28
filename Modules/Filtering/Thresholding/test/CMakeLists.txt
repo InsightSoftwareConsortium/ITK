@@ -3,7 +3,6 @@ set(ITKThresholdingTests
 itkOtsuThresholdImageCalculatorTest.cxx
 itkOtsuMultipleThresholdsImageFilterTest.cxx
 itkOtsuThresholdImageFilterTest.cxx
-itkThresholdingHeaderTest.cxx
 itkThresholdLabelerImageFilterTest.cxx
 itkBinaryThresholdImageFilterTest.cxx
 itkThresholdImageFilterTest.cxx
@@ -15,8 +14,6 @@ itkBinaryThresholdSpatialFunctionTest.cxx
 
 CreateTestDriver(ITKThresholding  "${ITKThresholding-Test_LIBRARIES}" "${ITKThresholdingTests}")
 
-itk_add_test(NAME itkThresholdingHeaderTest
-      COMMAND ITKThresholdingTestDriver itkThresholdingHeaderTest)
 itk_add_test(NAME itkOtsuThresholdImageCalculatorTest
       COMMAND ITKThresholdingTestDriver itkOtsuThresholdImageCalculatorTest)
 itk_add_test(NAME itkOtsuMultipleThresholdsImageFilterTest

@@ -1,6 +1,5 @@
 itk_module_test()
 set(ITKClassifiersTests
-itkClassifiersHeaderTest.cxx
 itkScalarImageKmeansImageFilterTest.cxx
 itkSupervisedImageClassifierTest.cxx
 itkBayesianClassifierImageFilterTest.cxx
@@ -18,8 +17,6 @@ itkScalarImageKmeansImageFilter3DTest.cxx
 
 CreateTestDriver(ITKClassifiers  "${ITKClassifiers-Test_LIBRARIES}" "${ITKClassifiersTests}")
 
-itk_add_test(NAME itkClassifiersHeaderTest
-      COMMAND ITKClassifiersTestDriver itkClassifiersHeaderTest)
 itk_add_test(NAME itkBayesianClassifierImageFilterTest
       COMMAND ITKClassifiersTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Algorithms/itkBayesianClassifierImageFilterTestLabelMap.png

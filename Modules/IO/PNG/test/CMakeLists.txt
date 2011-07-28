@@ -1,13 +1,10 @@
 itk_module_test()
 set(ITKIOPNGTests
 itkPNGImageIOTest.cxx
-itkIOPNGHeaderTest.cxx
 )
 
 CreateTestDriver(ITKIOPNG  "${ITKIOPNG-Test_LIBRARIES}" "${ITKIOPNGTests}")
 
-itk_add_test(NAME itkIOPNGHeaderTest
-      COMMAND ITKIOPNGTestDriver itkIOPNGHeaderTest)
 itk_add_test(NAME itkPNGImageIOTest1
       COMMAND ITKIOPNGTestDriver itkPNGImageIOTest
               ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest1.png)

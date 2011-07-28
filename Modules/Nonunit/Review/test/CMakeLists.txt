@@ -103,7 +103,6 @@ itkWarpJacobianDeterminantFilterTest.cxx
 itkCompositeTransformWriterTest.cxx
 itkCompositeTransformReaderTest.cxx
 itkCompositeTransformWriterAndReaderTest.cxx
-itkReviewHeaderTest.cxx
 )
 
 set(BASELINE ${ITK_DATA_ROOT}/Baseline/Review)
@@ -128,8 +127,6 @@ endif( USE_FFTWD OR USE_FFTWF )
 
 CreateTestDriver_SupportBuildInIOFactories(ITKReview  "${ITKReview-Test_LIBRARIES}" "${ITKReviewTests}")
 
-itk_add_test(NAME itkReviewHeaderTest
-      COMMAND ITKReviewTestDriver itkReviewHeaderTest)
 itk_add_test(NAME itkAddConstantToImageFilterTest
       COMMAND ITKReviewTestDriver itkAddConstantToImageFilterTest)
 itk_add_test(NAME itkAreaClosingImageFilterTest0

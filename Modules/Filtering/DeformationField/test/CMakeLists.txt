@@ -1,7 +1,6 @@
 itk_module_test()
 set(ITKDeformationFieldTests
 itkDisplacementFieldJacobianDeterminantFilterTest.cxx
-itkDeformationFieldHeaderTest.cxx
 itkDeformationFieldJacobianDeterminantFilterTest.cxx
 itkIterativeInverseDeformationFieldImageFilterTest.cxx
 itkDeformationFieldSourceTest.cxx
@@ -10,8 +9,6 @@ itkInverseDeformationFieldImageFilterTest.cxx
 
 CreateTestDriver(ITKDeformationField  "${ITKDeformationField-Test_LIBRARIES}" "${ITKDeformationFieldTests}")
 
-itk_add_test(NAME itkDeformationFieldHeaderTest
-      COMMAND ITKDeformationFieldTestDriver itkDeformationFieldHeaderTest)
 itk_add_test(NAME itkDisplacementFieldJacobianDeterminantFilterTest
       COMMAND ITKDeformationFieldTestDriver itkDisplacementFieldJacobianDeterminantFilterTest)
 itk_add_test(NAME itkDeformationFieldJacobianDeterminantFilterTest

@@ -18,6 +18,7 @@
 #ifndef __itkQuadEdgeMeshExtendedTraits_h
 #define __itkQuadEdgeMeshExtendedTraits_h
 
+#include "itkCellInterface.h"
 #include "itkQuadEdgeCellTraitsInfo.h"
 #include <set>
 

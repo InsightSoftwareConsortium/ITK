@@ -1,6 +1,5 @@
 itk_module_test()
 set(ITKIOGDCMTests
-itkIOGDCMHeaderTest.cxx
 itkGDCMImageIOTest.cxx
 itkGDCMImageIOTest2.cxx
 itkGDCMSeriesReadImageWrite.cxx
@@ -9,8 +8,6 @@ itkGDCMSeriesStreamReadImageWrite.cxx
 
 CreateTestDriver(ITKIOGDCM  "${ITKIOGDCM-Test_LIBRARIES}" "${ITKIOGDCMTests}")
 
-itk_add_test(NAME itkIOGDCMHeaderTest
-      COMMAND ITKIOGDCMTestDriver itkIOGDCMHeaderTest)
 itk_add_test(NAME itkGDCMImageIOTest1
       COMMAND ITKIOGDCMTestDriver itkGDCMImageIOTest
               ${ITK_DATA_ROOT}/Input/dicom-sc_cs-1.dcm ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest.dcm ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest.png ${ITK_TEST_OUTPUT_DIR}/itkGDCMRescaleImageIOTest.dcm)

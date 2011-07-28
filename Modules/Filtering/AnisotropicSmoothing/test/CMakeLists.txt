@@ -3,15 +3,12 @@ set(ITKAnisotropicSmoothingTests
 itkGradientAnisotropicDiffusionImageFilterTest.cxx
 itkCurvatureAnisotropicDiffusionImageFilterTest.cxx
 itkMinMaxCurvatureFlowImageFilterTest.cxx
-itkAnisotropicSmoothingHeaderTest.cxx
 itkVectorAnisotropicDiffusionImageFilterTest.cxx
 itkGradientAnisotropicDiffusionImageFilterTest2.cxx
 )
 
 CreateTestDriver(ITKAnisotropicSmoothing  "${ITKAnisotropicSmoothing-Test_LIBRARIES}" "${ITKAnisotropicSmoothingTests}")
 
-itk_add_test(NAME itkAnisotropicSmoothingHeaderTest
-      COMMAND ITKAnisotropicSmoothingTestDriver itkAnisotropicSmoothingHeaderTest)
 itk_add_test(NAME itkGradientAnisotropicDiffusionImageFilterTest
       COMMAND ITKAnisotropicSmoothingTestDriver itkGradientAnisotropicDiffusionImageFilterTest)
 itk_add_test(NAME itkCurvatureAnisotropicDiffusionImageFilterTest

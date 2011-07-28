@@ -2,13 +2,10 @@ itk_module_test()
 set(ITKNarrowBandTests
 itkNarrowBandTest.cxx
 itkNarrowBandImageFilterBaseTest.cxx
-itkNarrowBandHeaderTest.cxx
 )
 
 CreateTestDriver(ITKNarrowBand  "${ITKNarrowBand-Test_LIBRARIES}" "${ITKNarrowBandTests}")
 
-itk_add_test(NAME itkNarrowBandHeaderTest
-      COMMAND ITKNarrowBandTestDriver itkNarrowBandHeaderTest)
 itk_add_test(NAME itkNarrowBandTest
       COMMAND ITKNarrowBandTestDriver itkNarrowBandTest)
 itk_add_test(NAME itkNarrowBandImageFilterBaseTest

@@ -4,7 +4,6 @@ itkConvertBufferTest.cxx
 itkConvertBufferTest2.cxx
 itkImageFileReaderTest1.cxx
 itkImageFileWriterTest.cxx
-itkIOBaseHeaderTest.cxx
 itkIOCommonTest.cxx
 itkNumericSeriesFileNamesTest.cxx
 itkRegularExpressionSeriesFileNamesTest.cxx
@@ -52,8 +51,6 @@ itk_add_test(NAME itkConvertBufferTest
       COMMAND ITKIOBaseTestDriver itkConvertBufferTest)
 itk_add_test(NAME itkConvertBufferTest2
       COMMAND ITKIOBaseTestDriver itkConvertBufferTest2)
-itk_add_test(NAME itkIOBaseHeaderTest
-      COMMAND ITKIOBaseTestDriver itkIOBaseHeaderTest)
 itk_add_test(NAME itkImageFileReaderTest1
       COMMAND ITKIOBaseTestDriver itkImageFileReaderTest1)
 itk_add_test(NAME itkImageFileWriterTest

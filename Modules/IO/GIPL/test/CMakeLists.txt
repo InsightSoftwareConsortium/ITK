@@ -1,13 +1,10 @@
 itk_module_test()
 set(ITKIOGIPLTests
-itkIOGIPLHeaderTest.cxx
 itkGiplImageIOTest.cxx
 )
 
 CreateTestDriver(ITKIOGIPL  "${ITKIOGIPL-Test_LIBRARIES}" "${ITKIOGIPLTests}")
 
-itk_add_test(NAME itkIOGIPLHeaderTest
-      COMMAND ITKIOGIPLTestDriver itkIOGIPLHeaderTest)
 itk_add_test(NAME itkGiplImageIOTest
       COMMAND ITKIOGIPLTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/IO/ramp.mhd

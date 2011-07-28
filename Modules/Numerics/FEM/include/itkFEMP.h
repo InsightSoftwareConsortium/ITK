@@ -18,6 +18,8 @@
 #ifndef __itkFEMP_h
 #define __itkFEMP_h
 
+#include <iostream>
+
 namespace itk
 {
 namespace fem

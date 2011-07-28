@@ -19,6 +19,7 @@
 #define __itkErrorFunctionBase_h
 
 #include "itkFunctionBase.h"
+#include "itkArray.h"
 
 namespace itk
 {

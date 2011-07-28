@@ -1,14 +1,11 @@
 itk_module_test()
 set(ITKIOStimulateTests
 itkStimulateImageIOTest.cxx
-itkIOStimulateHeaderTest.cxx
 itkStimulateImageIOTest2.cxx
 )
 
 CreateTestDriver(ITKIOStimulate  "${ITKIOStimulate-Test_LIBRARIES}" "${ITKIOStimulateTests}")
 
-itk_add_test(NAME itkIOStimulateHeaderTest
-      COMMAND ITKIOStimulateTestDriver itkIOStimulateHeaderTest)
 itk_add_test(NAME itkStimulateImageIOTest
       COMMAND ITKIOStimulateTestDriver itkStimulateImageIOTest
               ${ITK_TEST_OUTPUT_DIR}/test1.spr ${ITK_TEST_OUTPUT_DIR}/test2.spr)

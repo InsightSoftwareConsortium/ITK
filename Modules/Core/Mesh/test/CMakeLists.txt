@@ -19,7 +19,6 @@ itkVTKPolyDataReaderTest.cxx
 itkVTKPolyDataWriterTest01.cxx
 itkVTKPolyDataWriterTest02.cxx
 itkWarpMeshFilterTest.cxx
-itkMeshHeaderTest.cxx
 itkMeshTest.cxx
 itkBinaryMask3DMeshSourceTest.cxx
 itkDynamicMeshTest.cxx
@@ -33,8 +32,6 @@ itkTriangleMeshToSimplexMeshFilter2Test.cxx
 set(ITKMesh-Test_LIBRARIES ITKSpatialObjects)
 CreateTestDriver(ITKMesh  "${ITKMesh-Test_LIBRARIES}" "${ITKMeshTests}")
 
-itk_add_test(NAME itkMeshHeaderTest
-      COMMAND ITKMeshTestDriver itkMeshHeaderTest)
 itk_add_test(NAME itkMeshTest
       COMMAND ITKMeshTestDriver itkMeshTest)
 itk_add_test(NAME itkSimplexMeshTest

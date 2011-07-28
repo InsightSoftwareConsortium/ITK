@@ -31,6 +31,8 @@
 #ifndef __itkFFTComplexToComplexImageFilter_hxx
 #define __itkFFTComplexToComplexImageFilter_hxx
 
+#include "itkFFTComplexToComplexImageFilter.h"
+
 #if defined( USE_FFTWD ) || defined( USE_FFTWF )
 #include "itkFFTWComplexToComplexImageFilter.h"
 #endif

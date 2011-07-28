@@ -18,6 +18,8 @@
 #ifndef __itkWatershedSegmentTable_hxx
 #define __itkWatershedSegmentTable_hxx
 
+#include "itkWatershedSegmentTable.h"
+
 namespace itk
 {
 namespace watershed

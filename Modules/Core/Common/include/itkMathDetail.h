@@ -29,6 +29,7 @@
 #define __itkMathDetail_h
 
 #include "vnl/vnl_math.h"
+#include "itkIntTypes.h"
 #include "itkNumericTraits.h"
 
 #ifdef ITK_HAVE_FENV_H

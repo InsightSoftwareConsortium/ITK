@@ -1,7 +1,6 @@
 itk_module_test()
 set(ITKImageComposeTests
 itkCompose2DCovariantVectorImageFilterTest.cxx
-itkImageComposeHeaderTest.cxx
 itkCompose3DVectorImageFilterTest.cxx
 itkCompose3DCovariantVectorImageFilterTest.cxx
 itkCompose2DVectorImageFilterTest.cxx
@@ -16,8 +15,6 @@ itkJoinImageFilterTest.cxx
 
 CreateTestDriver(ITKImageCompose  "${ITKImageCompose-Test_LIBRARIES}" "${ITKImageComposeTests}")
 
-itk_add_test(NAME itkImageComposeHeaderTest
-      COMMAND ITKImageComposeTestDriver itkImageComposeHeaderTest)
 itk_add_test(NAME itkCompose2DCovariantVectorImageFilterTest
       COMMAND ITKImageComposeTestDriver itkCompose2DCovariantVectorImageFilterTest)
 itk_add_test(NAME itkCompose3DVectorImageFilterTest

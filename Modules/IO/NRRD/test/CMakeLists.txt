@@ -1,6 +1,5 @@
 itk_module_test()
 set(ITKIONRRDTests
-itkIONRRDHeaderTest.cxx
 itkNrrdImageIOTest.cxx
 itkNrrdComplexImageReadTest.cxx
 itkNrrdComplexImageReadWriteTest.cxx
@@ -16,10 +15,11 @@ itkNrrdVectorImageReadTest.cxx
 itkNrrdVectorImageReadWriteTest.cxx
 )
 
+# For itkNrrdImageIOTest.h.
+include_directories( ${ITKIONRRD_SOURCE_DIR} )
+
 CreateTestDriver(ITKIONRRD  "${ITKIONRRD-Test_LIBRARIES}" "${ITKIONRRDTests}")
 
-itk_add_test(NAME itkIONRRDHeaderTest
-      COMMAND ITKIONRRDTestDriver itkIONRRDHeaderTest)
 itk_add_test(NAME itkNrrdImageIOTest1
       COMMAND ITKIONRRDTestDriver itkNrrdImageIOTest
               ${ITK_TEST_OUTPUT_DIR}/testNrrd.nrrd)

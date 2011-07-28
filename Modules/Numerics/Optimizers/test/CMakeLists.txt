@@ -5,7 +5,6 @@ itkPowellOptimizerTest.cxx
 itkGradientDescentOptimizerTest.cxx
 itkVersorTransformOptimizerTest.cxx
 itkSPSAOptimizerTest.cxx
-itkOptimizersHeaderTest.cxx
 itkOptimizersHierarchyTest.cxx
 itkExhaustiveOptimizerTest.cxx
 itkLBFGSBOptimizerTest.cxx
@@ -20,8 +19,6 @@ itkAmoebaOptimizerTest.cxx
 
 CreateTestDriver(ITKOptimizers  "${ITKOptimizers-Test_LIBRARIES}" "${ITKOptimizersTests}")
 
-itk_add_test(NAME itkOptimizersHeaderTest
-      COMMAND ITKOptimizersTestDriver itkOptimizersHeaderTest)
 itk_add_test(NAME itkOptimizersHierarchyTest
       COMMAND ITKOptimizersTestDriver itkOptimizersHierarchyTest)
 itk_add_test(NAME itkFRPROptimizerTest

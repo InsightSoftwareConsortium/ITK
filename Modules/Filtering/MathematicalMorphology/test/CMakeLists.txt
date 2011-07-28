@@ -11,7 +11,6 @@ itkGrayscaleMorphologicalClosingImageFilterTest.cxx
 itkGrayscaleMorphologicalOpeningImageFilterTest.cxx
 itkGrayscaleGeodesicErodeDilateImageFilterTest.cxx
 itkHConvexConcaveImageFilterTest.cxx
-itkMathematicalMorphologyHeaderTest.cxx
 itkHMaximaMinimaImageFilterTest.cxx
 itkMorphologicalGradientImageFilterTest.cxx
 itkOpeningByReconstructionImageFilterTest.cxx
@@ -32,8 +31,6 @@ itkGrayscaleMorphologicalOpeningImageFilterTest2.cxx
 
 CreateTestDriver(ITKMathematicalMorphology  "${ITKMathematicalMorphology-Test_LIBRARIES}" "${ITKMathematicalMorphologyTests}")
 
-itk_add_test(NAME itkMathematicalMorphologyHeaderTest
-      COMMAND ITKMathematicalMorphologyTestDriver itkMathematicalMorphologyHeaderTest)
 itk_add_test(NAME itkClosingByReconstructionImageFilterTest
       COMMAND ITKMathematicalMorphologyTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ClosingByReconstructionImageFilterTest.png

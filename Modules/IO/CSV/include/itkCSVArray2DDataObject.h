@@ -19,6 +19,7 @@
 #ifndef __itkCSVArray2DDataObject_h
 #define __itkCSVArray2DDataObject_h
 
+#include "itkObjectFactory.h"
 #include "itkDataObject.h"
 #include "itkArray2D.h"
 #include "itkMacro.h"
@@ -159,7 +160,7 @@ private:
   bool                   m_HasColumnHeaders;
 
   CSVArray2DDataObject(const Self &); //purposely not implemented
-  void operator=(const Self &);    	  //purposely not implemented
+  void operator=(const Self &);       //purposely not implemented
 };
 
 } //end namespace itk

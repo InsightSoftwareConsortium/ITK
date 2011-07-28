@@ -27,6 +27,7 @@
  *=========================================================================*/
 #ifndef __itkWin32OutputWindow_h
 #define __itkWin32OutputWindow_h
+#ifdef  _MSC_VER // if on Windows
 
 #include "itkWin32Header.h"
 #include "itkOutputWindow.h"
@@ -88,4 +89,6 @@ private:
   static HWND m_OutputWindow;
 };
 } // end namespace itk
+
+#endif // _MSC_VER
 #endif  //  __itkWin32OutputWindow_h

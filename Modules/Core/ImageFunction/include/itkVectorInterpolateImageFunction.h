@@ -23,6 +23,7 @@
 
 namespace itk
 {
+#ifndef __itkVectorCentralDifferenceImageFunction_h
 /**
  * Due to a bug in MSVC, an enum value cannot be accessed out of a template
  * parameter until the template class opens.  In order for templated classes
@@ -33,6 +34,7 @@ template< typename T >
 struct GetDimension {
   itkStaticConstMacro(Dimension, int, T::Dimension);
 };
+#endif
 
 /** \class VectorInterpolateImageFunction
  * \brief Base class for all vector image interpolaters.

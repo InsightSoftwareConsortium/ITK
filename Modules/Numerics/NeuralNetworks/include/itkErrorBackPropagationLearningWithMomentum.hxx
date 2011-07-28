@@ -19,6 +19,7 @@
 #define __itkErrorBackPropagationLearningWithMomentum_hxx
 
 #include "itkErrorBackPropagationLearningWithMomentum.h"
+#include "vnl/vnl_matrix.h"
 #include <fstream>
 
 

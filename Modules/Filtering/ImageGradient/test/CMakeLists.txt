@@ -1,6 +1,5 @@
 itk_module_test()
 set(ITKImageGradientTests
-itkImageGradientHeaderTest.cxx
 itkGradientImageFilterTest.cxx
 itkVectorGradientMagnitudeImageFilterTest1.cxx
 itkVectorGradientMagnitudeImageFilterTest2.cxx
@@ -14,8 +13,6 @@ itkDifferenceOfGaussiansGradientTest.cxx
 
 CreateTestDriver(ITKImageGradient  "${ITKImageGradient-Test_LIBRARIES}" "${ITKImageGradientTests}")
 
-itk_add_test(NAME itkImageGradientHeaderTest
-      COMMAND ITKImageGradientTestDriver itkImageGradientHeaderTest)
 itk_add_test(NAME itkGradientImageFilterTest
       COMMAND ITKImageGradientTestDriver itkGradientImageFilterTest)
 itk_add_test(NAME itkVectorGradientMagnitudeImageFilterTest1a

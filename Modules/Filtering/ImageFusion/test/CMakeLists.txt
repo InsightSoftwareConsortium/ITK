@@ -8,13 +8,10 @@ itkLabelMapToRGBImageFilterTest2.cxx
 itkLabelMapContourOverlayImageFilterTest1.cxx
 itkLabelMapOverlayImageFilterTest1.cxx
 itkLabelMapOverlayImageFilterTest2.cxx
-itkImageFusionHeaderTest.cxx
 )
 
 CreateTestDriver(ITKImageFusion  "${ITKBinaryMathematicalMorphology-Test_LIBRARIES}" "${ITKImageFusionTests}")
 
-itk_add_test(NAME itkImageFusionHeaderTest
-      COMMAND ITKImageFusionTestDriver itkImageFusionHeaderTest)
 itk_add_test(NAME itkScalarToRGBPixelFunctorTest
       COMMAND ITKImageFusionTestDriver itkScalarToRGBPixelFunctorTest)
 itk_add_test(NAME itkLabelOverlayImageFilterTest-Opacity-0_0
