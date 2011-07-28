@@ -15,9 +15,6 @@ itkCompositeTransformTest.cxx
 itkConformalFlatteningMeshFilterTest.cxx
 itkConformalFlatteningQuadEdgeMeshFilterTest.cxx
 itkContourExtractor2DImageFilterTest.cxx
-itkConvolutionImageFilterTest.cxx
-itkConvolutionImageFilterTestInt.cxx
-itkConvolutionImageFilterDeltaFunctionTest.cxx
 itkCoxDeBoorBSplineKernelFunctionTest.cxx
 itkCoxDeBoorBSplineKernelFunctionTest2.cxx
 itkDeformationFieldTransformTest.cxx
@@ -215,51 +212,6 @@ itk_add_test(NAME itkConformalFlatteningQuadEdgeMeshFilterTest2
 itk_add_test(NAME itkContourExtractor2DImageFilterTest
       COMMAND ITKReviewTestDriver itkContourExtractor2DImageFilterTest
               ${ITK_DATA_ROOT}/Input/ContourExtractor2DTest.tif)
-itk_add_test(NAME itkConvolutionImageFilterTestSobelX
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkConvolutionImageFilterTestSobelX.nii.gz
-              ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTestSobelX.nii.gz
-    itkConvolutionImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Input/sobel_x.nii.gz ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTestSobelX.nii.gz)
-itk_add_test(NAME itkConvolutionImageFilterTestSobelY
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkConvolutionImageFilterTestSobelY.nii.gz
-              ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTestSobelY.nii.gz
-    itkConvolutionImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Input/sobel_y.nii.gz ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTestSobelY.nii.gz)
-itk_add_test(NAME itkConvolutionImageFilterTest4x4Mean
-      COMMAND ITKReviewTestDriver
-    --compare DATA{Baseline/itkConvolutionImageFilterTest4x4Mean.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTest4x4Mean.png
-    itkConvolutionImageFilterTestInt ${ITK_DATA_ROOT}/Input/cthead1.png DATA{Input/4x4-constant.png} ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTest4x4Mean.png 1 SAME)
-itk_add_test(NAME itkConvolutionImageFilterTest4x5Mean
-      COMMAND ITKReviewTestDriver
-    --compare DATA{Baseline/itkConvolutionImageFilterTest4x5Mean.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTest4x5Mean.png
-    itkConvolutionImageFilterTestInt ${ITK_DATA_ROOT}/Input/cthead1.png DATA{Input/4x5-constant.png} ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTest4x5Mean.png 1 SAME)
-itk_add_test(NAME itkConvolutionImageFilterTest5x5Mean
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkConvolutionImageFilterTest5x5Mean.png
-              ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTest5x5Mean.png
-    itkConvolutionImageFilterTestInt ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Input/5x5-constant.png ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTest5x5Mean.png 1 SAME)
-itk_add_test(NAME itkConvolutionImageFilterDeltaFunctionTest
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Input/level.png
-              ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterDeltaFunctionTest.png
-    itkConvolutionImageFilterDeltaFunctionTest ${ITK_DATA_ROOT}/Input/level.png ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterDeltaFunctionTest.png)
-itk_add_test(NAME itkConvolutionImageFilterTest4x4MeanValidRegion
-      COMMAND ITKReviewTestDriver
-    --compare DATA{Baseline/itkConvolutionImageFilterTest4x4MeanValidRegion.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTest4x4MeanValidRegion.png
-      itkConvolutionImageFilterTestInt ${ITK_DATA_ROOT}/Input/cthead1.png DATA{Input/4x4-constant.png} ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTest4x4MeanValidRegion.png 1 VALID)
-itk_add_test(NAME itkConvolutionImageFilterTest4x5MeanValidRegion
-      COMMAND ITKReviewTestDriver
-    --compare DATA{Baseline/itkConvolutionImageFilterTest4x5MeanValidRegion.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTest4x5MeanValidRegion.png
-      itkConvolutionImageFilterTestInt ${ITK_DATA_ROOT}/Input/cthead1.png DATA{Input/4x5-constant.png} ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTest4x5MeanValidRegion.png 1 VALID)
-itk_add_test(NAME itkConvolutionImageFilterTest5x5MeanValidRegion
-      COMMAND ITKReviewTestDriver
-    --compare DATA{Baseline/itkConvolutionImageFilterTest5x5MeanValidRegion.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTest5x5MeanValidRegion.png
-      itkConvolutionImageFilterTestInt ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Input/5x5-constant.png ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTest5x5MeanValidRegion.png 1 VALID)
 itk_add_test(NAME itkCoxDeBoorBSplineKernelFunctionTest01
       COMMAND ITKReviewTestDriver itkCoxDeBoorBSplineKernelFunctionTest)
 itk_add_test(NAME itkCoxDeBoorBSplineKernelFunctionTest02

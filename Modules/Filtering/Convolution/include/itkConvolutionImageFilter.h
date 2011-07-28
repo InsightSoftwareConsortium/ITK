@@ -55,7 +55,7 @@ namespace itk
  *
  * \author Nicholas J. Tustison
  * \author James C. Gee
- * \ingroup ITKReview
+ * \ingroup ITKConvolution
  *
  * \wiki
  * \wikiexample{ImageProcessing/ConvolutionImageFilter,Convolve an image with a kernel}
