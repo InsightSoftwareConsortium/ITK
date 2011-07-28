@@ -23,11 +23,10 @@
 namespace itk
 {
 /**
- * \ingroup QEMeshModifierFunctions
- * \class MeshFunctionBase
+ * \class QuadEdgeMeshZipMeshFunction
  * \brief Fuse the incoming edge and it's Onext() follower (like a zipper does).
- * @return The OriginRefType of the point that will be removed during the
- *         zipping process.
+ *
+ * \ingroup QEMeshModifierFunctions
  * \ingroup ITKQuadEdgeMesh
  */
 template< class TMesh, class TQEType >
@@ -53,7 +52,10 @@ public:
   typedef typename Superclass::MeshType   MeshType;
   typedef typename Superclass::OutputType OutputType;
 
-  /** Evaluate at the specified input position */
+  /**
+   * \return The OriginRefType of the point that will be removed during the
+   * zipping process.
+   */
   virtual OutputType Evaluate(QEType *e);
 
 protected:
