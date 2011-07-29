@@ -125,6 +125,11 @@ IF(APPLE)
   ENDIF(NOT ${VXL_APPLE_HAS_ISNAND})
 ENDIF(APPLE)
 
+# Check if Windows have wchar_t defined
+IF(WIN32)
+  PERFORM_CMAKE_TEST(vxl_platform_tests.cxx VXL_HAS_WIN_WCHAR_T)
+ENDIF(WIN32)
+
 #
 # Find header files
 #
@@ -339,6 +344,13 @@ ELSE(VCL_CXX_HAS_HEADER_LIMITS)
   SET(VCL_PROCESSOR_HAS_INFINITY 0)
 ENDIF(VCL_CXX_HAS_HEADER_LIMITS)
 
+#
+# Check the address model of the build, i.e. 32-bit (4-byte) or 64-bit (8-byte).
+# The type of size_t is directly related to address model on most machines and compilers.
+# Hence, we detect the size of size_t instead.
+#
+check_type_size(size_t  VXL_SIZEOF_SIZE_T)
+MATH(EXPR VXL_ADDRESS_BITS 8*${VXL_SIZEOF_SIZE_T} )
 
 #
 # configure files

@@ -1039,9 +1039,13 @@ double cast( THE_TYPE a )
 }
 #endif // INTEGRAL_TYPE
 
+// These declarations conflict unless the sizes match.
+extern int (*verify_size)[sizeof(THE_TYPE) * CHAR_BIT];
+extern int (*verify_size)[THE_SIZE];
+
 int main()
 {
-  return sizeof(THE_TYPE) * CHAR_BIT == THE_SIZE ? 0 : 1;
+  return 0;
 }
 
 #endif // VXL_HAS_TYPE_OF_SIZE
@@ -1123,6 +1127,24 @@ int main()
   return 0;
 }
 #endif // VXL_APPLE_HAS_INLINE_ISNAND
+
+//-------------------------------------
+#ifdef VXL_HAS_WIN_WCHAR_T
+
+#ifdef _WCHAR_T_DEFINED
+#include <wchar.h>
+int main()
+{
+  wchar_t buf [10];
+  buf[0] = L'1';
+  buf[1] = L'\0';
+  return 0;
+}
+#else
+  int main() { return 1; }
+#endif
+
+#endif
 
 //-------------------------------------
 
