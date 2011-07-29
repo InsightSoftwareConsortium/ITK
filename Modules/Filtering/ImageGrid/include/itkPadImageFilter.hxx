@@ -40,6 +40,8 @@ PadImageFilter< TInputImage, TOutputImage >
     m_PadLowerBound[j] = 0;
     m_PadUpperBound[j] = 0;
     }
+
+  m_BoundaryCondition = NULL;
 }
 
 /**
@@ -99,10 +101,7 @@ void
 PadImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
 {
-  // call the superclass' implementation of this method
-  // Superclass::GenerateInputRequestedRegion();
-
-  // get pointers to the input and output
+  // Get pointers to the input and output.
   typename Superclass::InputImagePointer inputPtr =
     const_cast< TInputImage * >( this->GetInput() );
   typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
@@ -118,6 +117,11 @@ PadImageFilter< TInputImage, TOutputImage >
     outputPtr->GetRequestedRegion();
 
   // Ask the boundary condition for the input requested region.
+  if ( !m_BoundaryCondition )
+    {
+    itkExceptionMacro( << "Boundary condition is NULL so no request region can be generated.");
+    }
+
   InputImageRegionType inputRequestedRegion =
     m_BoundaryCondition->GetInputRequestedRegion( inputLargestPossibleRegion,
                                                   outputRequestedRegion );

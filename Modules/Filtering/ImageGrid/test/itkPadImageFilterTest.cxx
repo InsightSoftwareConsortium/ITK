@@ -83,6 +83,12 @@ int itkPadImageFilterTest( int, char* [] )
     return EXIT_FAILURE;
     }
 
+  if ( padFilter->GetBoundaryCondition() != NULL )
+    {
+    std::cerr << "Default BoundaryCondition was not NULL." << std::endl;
+    return EXIT_FAILURE;
+    }
+
   itk::ConstantBoundaryCondition< ShortImage > bc;
   bc.SetConstant( 13 );
 
@@ -138,6 +144,27 @@ int itkPadImageFilterTest( int, char* [] )
         }
       }
     std::cout << std::endl;
+    }
+
+  // Set the boundary condition back to NULL and check that exception
+  // is thrown.
+  std::cout << "Testing that exception is thrown when boundary condition is NULL." << std::endl;
+  padFilter->SetBoundaryCondition( NULL );
+  try
+    {
+    padFilter->Update();
+    std::cerr << "Failed to catch expected exception when boundary condition is NULL." << std::endl;
+    return EXIT_FAILURE;
+    }
+  catch ( itk::ExceptionObject & e )
+    {
+    std::cout << "Caught expected exception when boundary condition is NULL." << std::endl;
+    std::cout << e << std::endl;
+    }
+  catch (...)
+    {
+    std::cerr << "Exception caught, but not the expected kind." << std::endl;
+    return EXIT_FAILURE;
     }
 
   return EXIT_SUCCESS;

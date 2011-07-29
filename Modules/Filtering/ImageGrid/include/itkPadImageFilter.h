@@ -103,6 +103,11 @@ public:
   itkSetMacro(BoundaryCondition, BoundaryConditionPointerType);
   itkGetConstMacro(BoundaryCondition, BoundaryConditionPointerType);
 
+protected:
+  PadImageFilter();
+  ~PadImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
   /** PadImageFilter produces an image which is a different resolution
    * than its input image.  As such, PadImageFilter needs to
    * provide an implementation for GenerateOutputInformation() in order
@@ -117,11 +122,6 @@ public:
    * order to inform the pipeline execution model.
    * \sa ProcessObject::GenerateInputRequestedRegion()  */
   virtual void GenerateInputRequestedRegion();
-
-protected:
-  PadImageFilter();
-  ~PadImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** This class can be multithreaded. */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
