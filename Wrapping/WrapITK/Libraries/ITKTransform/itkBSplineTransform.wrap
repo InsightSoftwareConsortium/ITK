@@ -1,4 +1,4 @@
-WRAP_CLASS("itk::BSplineDeformableTransform" POINTER)
+WRAP_CLASS("itk::BSplineTransform" POINTER)
   foreach(d ${WRAP_ITK_DIMS})
     WRAP_TEMPLATE("${ITKM_D}${d}${d}" "${ITKT_D},${d},${d}")
   endforeach(d)
