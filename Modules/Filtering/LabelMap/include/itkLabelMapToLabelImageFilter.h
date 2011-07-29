@@ -73,6 +73,11 @@ public:
 
   /** Runtime information support. */
   itkTypeMacro(LabelMapToLabelImageFilter, ImageToImageFilter);
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  itkConceptMacro( SameDimensionCheck,
+                   ( Concept::SameDimension< InputImageDimension, OutputImageDimension > ) );
+#endif
 protected:
   LabelMapToLabelImageFilter();
   ~LabelMapToLabelImageFilter() {}
