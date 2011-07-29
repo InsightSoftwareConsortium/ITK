@@ -45,6 +45,30 @@
 #include "itkNumericTraitsVectorPixel.h"
 
 
+template<class T> void CheckVariableLengthArrayTraits(T t)
+{
+  std::string name;
+#ifdef GCC_USEDEMANGLE
+  char const *mangledName = typeid( t ).name();
+  int         status;
+  char *      unmangled = abi::__cxa_demangle(mangledName, 0, 0, &status);
+  name = unmangled;
+  free(unmangled);
+#else
+  name = typeid( t ).name();
+#endif
+
+  // check std::numeric_limits members
+  std::cout << "itk::NumericTraits<" << name << ">" << std::endl;
+  std::cout << "\tmin(" << name << "): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::min(t)) << std::endl;
+  std::cout << "\tNonpositiveMin(" << name << "): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::NonpositiveMin(t)) << std::endl;
+  std::cout << "\tmax(" << name << "): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::max(t)) << std::endl;
+  std::cout << "\tZeroValue(" << name << "): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::ZeroValue(t)) << std::endl;
+  std::cout << "\tOneValue(" << name << "): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::OneValue(t)) << std::endl;
+  std::cout << "\tGetLength(" << name << "): " << itk::NumericTraits<T>::GetLength(t) << std::endl;
+}
+
+
 template<class T> void CheckFixedArrayTraits(T t)
 {
   std::string name;
@@ -72,29 +96,6 @@ template<class T> void CheckFixedArrayTraits(T t)
  CheckVariableLengthArrayTraits(t);
 }
 
-
-template<class T> void CheckVariableLengthArrayTraits(T t)
-{
-  std::string name;
-#ifdef GCC_USEDEMANGLE
-  char const *mangledName = typeid( t ).name();
-  int         status;
-  char *      unmangled = abi::__cxa_demangle(mangledName, 0, 0, &status);
-  name = unmangled;
-  free(unmangled);
-#else
-  name = typeid( t ).name();
-#endif
-
-  // check std::numeric_limits members
-  std::cout << "itk::NumericTraits<" << name << ">" << std::endl;
-  std::cout << "\tmin(" << name << "): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::min(t)) << std::endl;
-  std::cout << "\tNonpositiveMin(" << name << "): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::NonpositiveMin(t)) << std::endl;
-  std::cout << "\tmax(" << name << "): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::max(t)) << std::endl;
-  std::cout << "\tZeroValue(" << name << "): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::ZeroValue(t)) << std::endl;
-  std::cout << "\tOneValue(" << name << "): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::OneValue(t)) << std::endl;
-  std::cout << "\tGetLength(" << name << "): " << itk::NumericTraits<T>::GetLength(t) << std::endl;
-}
 
 
 template<class T> void CheckTraits(const char *name, T t)
