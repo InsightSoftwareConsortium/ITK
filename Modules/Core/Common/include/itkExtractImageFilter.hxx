@@ -32,9 +32,9 @@ template< class TInputImage, class TOutputImage >
 ExtractImageFilter< TInputImage, TOutputImage >
 ::ExtractImageFilter():
 #ifdef ITKV3_COMPATIBILITY
-  m_DirectionCollaspeStrategy(DIRECTIONCOLLAPSETOGUESS)
+  m_DirectionCollapseStrategy(DIRECTIONCOLLAPSETOGUESS)
 #else
-  m_DirectionCollaspeStrategy(DIRECTIONCOLLAPSETOUNKOWN)
+  m_DirectionCollapseStrategy(DIRECTIONCOLLAPSETOUNKOWN)
 #endif
 {}
 
@@ -50,7 +50,7 @@ ExtractImageFilter< TInputImage, TOutputImage >
 
   os << indent << "ExtractionRegion: " << m_ExtractionRegion << std::endl;
   os << indent << "OutputImageRegion: " << m_OutputImageRegion << std::endl;
-  os << indent << "DirectionCollaspeStrategy: " << m_DirectionCollaspeStrategy << std::endl;
+  os << indent << "DirectionCollapseStrategy: " << m_DirectionCollapseStrategy << std::endl;
 }
 
 template< class TInputImage, class TOutputImage >
@@ -209,7 +209,7 @@ ExtractImageFilter< TInputImage, TOutputImage >
     // if the filter changes from a higher to a lower dimension, or
     // if, after rebuilding the direction cosines, there's a zero
     // length cosine vector, reset the directions to identity.
-    switch(m_DirectionCollaspeStrategy)
+    switch(m_DirectionCollapseStrategy)
       {
     case DIRECTIONCOLLAPSETOIDENTITY:
         {
