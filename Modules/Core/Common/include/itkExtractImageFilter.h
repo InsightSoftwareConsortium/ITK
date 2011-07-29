@@ -66,7 +66,7 @@ namespace itk
  *            define their desired behavior.
  *    1)  DirectionCollapseToIdentity();
  *            Output has identity direction no matter what
- *    2)  DirectionCollaspeToSubmatrix();
+ *    2)  DirectionCollapseToSubmatrix();
  *            Output direction is the sub-matrix if it is positive definite, else throw an exception.
  *
  * This filter is implemented as a multithreaded filter.  It provides a
@@ -112,7 +112,7 @@ public:
   typedef typename TOutputImage::SizeType  OutputImageSizeType;
   typedef typename TInputImage::SizeType   InputImageSizeType;
 
-  typedef enum DirectionCollaspeStrategyEnum {
+  typedef enum DirectionCollapseStrategyEnum {
     DIRECTIONCOLLAPSETOUNKOWN=0,
     DIRECTIONCOLLAPSETOIDENTITY=1,
     DIRECTIONCOLLAPSETOSUBMATRIX=2,
@@ -157,7 +157,7 @@ public:
       itkExceptionMacro( << "Invalid Strategy Choosen for itk::ExtractImageFilter" );
       }
 
-    this->m_DirectionCollaspeStrategy=choosenStrategy;
+    this->m_DirectionCollapseStrategy=choosenStrategy;
     this->Modified();
     }
 
@@ -171,7 +171,7 @@ public:
    */
   DIRECTIONCOLLAPSESTRATEGY GetDirectionCollapseToStrategy() const
     {
-    return this->m_DirectionCollaspeStrategy;
+    return this->m_DirectionCollapseStrategy;
     }
 
   /** \sa SetDirectionCollapseToStrategy */
@@ -264,7 +264,7 @@ private:
   ExtractImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);     //purposely not implemented
 
-  DIRECTIONCOLLAPSESTRATEGY m_DirectionCollaspeStrategy;
+  DIRECTIONCOLLAPSESTRATEGY m_DirectionCollapseStrategy;
 };
 } // end namespace itk
 
