@@ -126,7 +126,7 @@ protected:
         }
       }
     // clear the label object
-    labelObject->GetLineContainer().clear();
+    labelObject->Clear();
     // and mark only the pixel we are interested in
     labelObject->AddIndex( idx );
   }

@@ -49,21 +49,11 @@ LabelMapToLabelImageFilter< TInputImage, TOutputImage >
 ::ThreadedProcessLabelObject(LabelObjectType *labelObject)
 {
   const typename LabelObjectType::LabelType & label = labelObject->GetLabel();
-
-  typedef typename LabelObjectType::LengthType        LengthType;
-
-  typename InputImageType::LabelObjectType::LineContainerType::const_iterator lit;
-  typename InputImageType::LabelObjectType::LineContainerType & lineContainer = labelObject->GetLineContainer();
-
-  for ( lit = lineContainer.begin(); lit != lineContainer.end(); lit++ )
+  typename LabelObjectType::ConstIndexIterator it( labelObject );
+  while( !it.IsAtEnd() )
     {
-    IndexType     idx = lit->GetIndex();
-    LengthType length = lit->GetLength();
-    for ( LengthType i = 0; i < length; i++ )
-      {
-      this->GetOutput()->SetPixel(idx, label);
-      idx[0]++;
-      }
+    this->GetOutput()->SetPixel( it.GetIndex(), label );
+    ++it;
     }
 }
 } // end namespace itk

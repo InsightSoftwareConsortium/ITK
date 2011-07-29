@@ -122,28 +122,24 @@ protected:
     ProgressReporter progress(this, 0, 1);
     // TODO: really report the progress
 
-    typedef typename ImageType::LabelObjectContainerType LabelObjectsType;
-
-    const LabelObjectsType & labelObjects = this->GetLabelMap()->GetLabelObjectContainer();
-    for ( typename LabelObjectsType::const_iterator it2 = labelObjects.begin();
-          it2 != labelObjects.end();
-          it2++ )
+    for ( typename ImageType::Iterator it2( this->GetLabelMap() );
+          ! it2.IsAtEnd();
+          ++it2 )
       {
-      LabelObjectType *lo = it2->second;
+      LabelObjectType *lo = it2.GetLabelObject();
 
       // may reduce the number of lines to proceed
       lo->Optimize();
 
-      typename LabelObjectType::LineContainerType::const_iterator lit;
-      typename LabelObjectType::LineContainerType & lineContainer = lo->GetLineContainer();
-
-      for ( lit = lineContainer.begin(); lit != lineContainer.end(); lit++ )
+      typename LabelObjectType::ConstLineIterator lit( lo );
+      while( ! lit.IsAtEnd() )
         {
-        pq.push( LineOfLabelObject(*lit, lo) );
+        pq.push( LineOfLabelObject(lit.GetLine(), lo) );
+        ++lit;
         }
 
       // clear the lines to readd them later
-      lineContainer.clear();
+      lo->Clear();
 
       // go to the next label
       // progress.CompletedPixel();
@@ -296,22 +292,22 @@ protected:
       }
 
     // remove objects without lines
-    typename LabelObjectsType::const_iterator it = labelObjects.begin();
-    while ( it != labelObjects.end() )
+    typename ImageType::Iterator it( this->GetLabelMap() );
+    while ( ! it.IsAtEnd() )
       {
-      typename LabelObjectType::LabelType label = it->first;
-      LabelObjectType *labelObject = it->second;
+      typename LabelObjectType::LabelType label = it.GetLabel();
+      LabelObjectType *labelObject = it.GetLabelObject();
 
       if ( labelObject->Empty() )
         {
         // must increment the iterator before removing the object to avoid
         // invalidating the iterator
-        it++;
+        ++it;
         this->GetLabelMap()->RemoveLabel(label);
         }
       else
         {
-        it++;
+        ++it;
         }
       }
   }

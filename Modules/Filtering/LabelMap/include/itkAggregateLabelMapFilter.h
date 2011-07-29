@@ -89,8 +89,6 @@ protected:
 private:
   AggregateLabelMapFilter(const Self &); //purposely not implemented
   void operator=(const Self &);          //purposely not implemented
-
-  typedef typename Superclass::LabelObjectContainerType LabelObjectContainerType;
 }; // end of class
 } // end namespace itk
 

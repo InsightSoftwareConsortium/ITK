@@ -42,19 +42,18 @@ AttributeRelabelLabelMapFilter<TImage, TAttributeAccessor>
 
   ImageType * output = this->GetOutput();
 
-  const LabelObjectContainerType & labelObjectContainer = output->GetLabelObjectContainer();
   typedef typename std::vector< typename LabelObjectType::Pointer > VectorType;
 
-  ProgressReporter progress( this, 0, 2 * labelObjectContainer.size() );
+  ProgressReporter progress( this, 0, 2 * output->GetNumberOfLabelObjects() );
 
   // get the label objects in a vector, so they can be sorted
   VectorType labelObjects;
-  labelObjects.reserve( labelObjectContainer.size() );
-  for( typename LabelObjectContainerType::const_iterator it = labelObjectContainer.begin();
-    it != labelObjectContainer.end();
-    it++ )
+  labelObjects.reserve( output->GetNumberOfLabelObjects() );
+  for( typename ImageType::Iterator it( output );
+    ! it.IsAtEnd();
+    ++it )
     {
-    labelObjects.push_back( it->second );
+    labelObjects.push_back( it.GetLabelObject() );
     progress.CompletedPixel();
     }
 

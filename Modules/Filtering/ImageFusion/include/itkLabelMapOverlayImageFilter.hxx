@@ -130,18 +130,12 @@ LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
   const typename LabelObjectType::LabelType & label = labelObject->GetLabel();
 
   // the user want the mask to be the background of the label collection image
-  typename LabelMapType::LabelObjectType::LineContainerType::const_iterator lit;
-  typename LabelMapType::LabelObjectType::LineContainerType & lineContainer = labelObject->GetLineContainer();
-
-  for( lit = lineContainer.begin(); lit != lineContainer.end(); lit++ )
+  typename LabelObjectType::ConstIndexIterator it( labelObject );
+  while( ! it.IsAtEnd() )
     {
-    IndexType idx = lit->GetIndex();
-    LengthType length = lit->GetLength();
-    for( LengthType i=0; i<length; i++)
-      {
-      output->SetPixel( idx, function( input2->GetPixel(idx), label ) );
-      idx[0]++;
-      }
+    const IndexType idx = it.GetIndex();
+    output->SetPixel( idx, function( input2->GetPixel(idx), label ) );
+    ++it;
     }
 
 }

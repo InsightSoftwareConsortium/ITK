@@ -50,24 +50,22 @@ AttributeKeepNObjectsLabelMapFilter<TImage, TAttributeAccessor>
   // set the background value for the second output - this is not done in the superclasses
   output2->SetBackgroundValue( output->GetBackgroundValue() );
 
-  const LabelObjectContainerType & labelObjectContainer = output->GetLabelObjectContainer();
-  typedef typename std::vector< typename LabelObjectType::Pointer > VectorType;
-
-  ProgressReporter progress( this, 0, 2 * labelObjectContainer.size() );
+  ProgressReporter progress( this, 0, 2 * output->GetNumberOfLabelObjects() );
 
   // get the label objects in a vector, so they can be sorted
+  typedef typename std::vector< typename LabelObjectType::Pointer > VectorType;
   VectorType labelObjects;
-  labelObjects.reserve( labelObjectContainer.size() );
-  for( typename LabelObjectContainerType::const_iterator it = labelObjectContainer.begin();
-    it != labelObjectContainer.end();
-    it++ )
+  labelObjects.reserve( output->GetNumberOfLabelObjects() );
+  for( typename ImageType::Iterator it( output );
+    ! it.IsAtEnd();
+    ++it )
     {
-    labelObjects.push_back( it->second );
+    labelObjects.push_back( it.GetLabelObject() );
     progress.CompletedPixel();
     }
 
   // instantiate the comparator and sort the vector
-  if( m_NumberOfObjects < labelObjectContainer.size() )
+  if( m_NumberOfObjects < output->GetNumberOfLabelObjects() )
     {
     typename VectorType::iterator end = labelObjects.begin() + m_NumberOfObjects;
     if( m_ReverseOrdering )

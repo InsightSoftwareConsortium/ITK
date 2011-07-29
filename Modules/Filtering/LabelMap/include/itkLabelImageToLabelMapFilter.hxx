@@ -135,21 +135,21 @@ LabelImageToLabelMapFilter< TInputImage, TOutputImage >
   // don't use the first image - that's the output image
   for ( ThreadIdType i = 1; i < this->GetNumberOfThreads(); i++ )
     {
-    typedef typename OutputImageType::LabelObjectContainerType LabelObjectContainerType;
-    const LabelObjectContainerType & labelObjectContainer = m_TemporaryImages[i]->GetLabelObjectContainer();
-
-    for ( typename LabelObjectContainerType::const_iterator it = labelObjectContainer.begin();
-          it != labelObjectContainer.end();
-          it++ )
+    for ( typename OutputImageType::Iterator it( m_TemporaryImages[i] );
+          ! it.IsAtEnd();
+          ++it )
       {
-      LabelObjectType *labelObject = it->second;
+      LabelObjectType *labelObject = it.GetLabelObject();
       if ( output->HasLabel( labelObject->GetLabel() ) )
         {
         // merge the lines in the output's object
-        typename LabelObjectType::LineContainerType & src = labelObject->GetLineContainer();
-        typename LabelObjectType::LineContainerType & dest =
-          output->GetLabelObject( labelObject->GetLabel() )->GetLineContainer();
-        dest.insert( dest.end(), src.begin(), src.end() );
+        LabelObjectType * lo = output->GetLabelObject( labelObject->GetLabel() );
+        typename LabelObjectType::ConstLineIterator lit( labelObject );
+        while( ! lit.IsAtEnd() )
+          {
+          lo->AddLine( lit.GetLine() );
+          ++lit;
+          }
         }
       else
         {

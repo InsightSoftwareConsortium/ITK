@@ -107,8 +107,6 @@ protected:
 
   void GenerateData();
 
-  typedef typename Superclass::LabelObjectContainerType LabelObjectContainerType;
-
   template< class TAttributeAccessor >
   void TemplatedGenerateData(const TAttributeAccessor &)
   {
@@ -117,20 +115,19 @@ protected:
 
     ImageType *output = this->GetOutput();
 
-    const LabelObjectContainerType & labelObjectContainer = output->GetLabelObjectContainer();
     typedef typename LabelObjectType::Pointer LabelObjectPointer;
     typedef std::vector< LabelObjectPointer > VectorType;
 
-    ProgressReporter progress( this, 0, 2 * labelObjectContainer.size() );
+    ProgressReporter progress( this, 0, 2 * output->GetNumberOfLabelObjects() );
 
     // Get the label objects in a vector, so they can be sorted
     VectorType labelObjects;
-    labelObjects.reserve( labelObjectContainer.size() );
-    for ( typename LabelObjectContainerType::const_iterator it = labelObjectContainer.begin();
-          it != labelObjectContainer.end();
-          it++ )
+    labelObjects.reserve( output->GetNumberOfLabelObjects() );
+    for ( typename ImageType::Iterator it( output );
+          ! it.IsAtEnd();
+          ++it )
       {
-      labelObjects.push_back(it->second);
+      labelObjects.push_back(it.GetLabelObject());
       progress.CompletedPixel();
       }
 
@@ -165,7 +162,7 @@ protected:
       label++;
       progress.CompletedPixel();
 
-      it2++;
+      ++it2;
       }
   }
 

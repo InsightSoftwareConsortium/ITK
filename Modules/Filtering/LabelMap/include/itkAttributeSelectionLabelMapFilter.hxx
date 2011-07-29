@@ -51,26 +51,24 @@ AttributeSelectionLabelMapFilter<TImage, TAttributeAccessor>
 
   AttributeAccessorType accessor;
 
-  const typename ImageType::LabelObjectContainerType & labelObjectContainer = output->GetLabelObjectContainer();
+  ProgressReporter progress( this, 0, output->GetNumberOfLabelObjects() );
 
-  ProgressReporter progress( this, 0, labelObjectContainer.size() );
-
-  typename ImageType::LabelObjectContainerType::const_iterator it = labelObjectContainer.begin();
-  while( it != labelObjectContainer.end() )
+  typename ImageType::Iterator it( output );
+  while( ! it.IsAtEnd() )
     {
-    typename LabelObjectType::LabelType label = it->first;
-    LabelObjectType * labelObject = it->second;
+    typename LabelObjectType::LabelType label = it.GetLabel();
+    LabelObjectType * labelObject = it.GetLabelObject();
     bool notInSet = m_AttributeSet.find( accessor( labelObject ) ) == m_AttributeSet.end();
     if( m_Exclude != notInSet )  // no xor in c++, use != instead
       {
       // must increment the iterator before removing the object to avoid invalidating the iterator
-      it++;
+      ++it;
       output2->AddLabelObject( labelObject );
       output->RemoveLabel( label );
       }
     else
       {
-      it++;
+      ++it;
       }
 
     progress.CompletedPixel();

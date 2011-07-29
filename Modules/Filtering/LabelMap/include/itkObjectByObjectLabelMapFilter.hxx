@@ -175,13 +175,11 @@ ObjectByObjectLabelMapFilter<TInputImage, TOutputImage, TInputFilter, TOutputFil
   ProgressReporter progress( this, 0, this->GetLabelMap()->GetNumberOfLabelObjects() );
 
   // initialize the iterator
-  const typename InputImageType::LabelObjectContainerType & container = this->GetInput()->GetLabelObjectContainer();
-  typename InputImageType::LabelObjectContainerType::const_iterator inIt = container.begin();
-
-  while( inIt != container.end() )
+  typename InputImageType::ConstIterator inIt( this->GetInput() );
+  while( ! inIt.IsAtEnd() )
     {
     // inform the user that we are begining a new object
-    m_Label = inIt->first;
+    m_Label = inIt.GetLabel();
     this->InvokeEvent( IterationEvent() );
     // select our object
     m_Select->SetLabel( m_Label );
@@ -193,7 +191,7 @@ ObjectByObjectLabelMapFilter<TInputImage, TOutputImage, TInputFilter, TOutputFil
     LabelMapType * labelMap;
 
     // to be reused later
-    LabelObjectType * inLo = inIt->second;
+    const LabelObjectType * inLo = inIt.GetLabelObject();
 
     // update the pipeline
     if( m_BinaryInternalOutput )
@@ -216,11 +214,10 @@ ObjectByObjectLabelMapFilter<TInputImage, TOutputImage, TInputFilter, TOutputFil
       // If more than one is produced, it is pushed in the label map without trying
       // to get a specific label. If a label is already there, it means that a previous
       // object has stolen the label, so the label of the thief must be changed.
-      typename LabelMapType::LabelObjectContainerType & outLabelObjectContainer = labelMap->GetLabelObjectContainer();
-      typename LabelMapType::LabelObjectContainerType::iterator outIt = outLabelObjectContainer.begin();
-      if( outIt != outLabelObjectContainer.end() )
+      typename LabelMapType::Iterator outIt( labelMap );
+      if( ! outIt.IsAtEnd() )
         {
-        LabelObjectType * outLo = outIt->second;
+        LabelObjectType * outLo = outIt.GetLabelObject();
         if( output->HasLabel( m_Label ) )
           {
           // the label has been stolen by a previously splitted object. Just move that object elsewhere
@@ -240,13 +237,13 @@ ObjectByObjectLabelMapFilter<TInputImage, TOutputImage, TInputFilter, TOutputFil
           }
 
         // then push the other objects
-        outIt++;
-        while( outIt != outLabelObjectContainer.end() )
+        ++outIt;
+        while( ! outIt.IsAtEnd() )
           {
-          outLo = outIt->second;
+          outLo = outIt.GetLabelObject();
           outLo->CopyAttributesFrom( inLo );
           output->PushLabelObject( outLo );
-          outIt++;
+          ++outIt;
           }
         }
       else
@@ -257,19 +254,18 @@ ObjectByObjectLabelMapFilter<TInputImage, TOutputImage, TInputFilter, TOutputFil
     else
       {
       // don't try to preserve the label - simply push the label objects as they come
-      typename LabelMapType::LabelObjectContainerType & outLabelObjectContainer = labelMap->GetLabelObjectContainer();
-      typename LabelMapType::LabelObjectContainerType::iterator outIt = outLabelObjectContainer.begin();
-      while( outIt != outLabelObjectContainer.end() )
+      typename LabelMapType::Iterator outIt( labelMap );
+      while( ! outIt.IsAtEnd() )
         {
-        LabelObjectType * outLo = outIt->second;
+        LabelObjectType * outLo = outIt.GetLabelObject();
         outLo->CopyAttributesFrom( inLo );
         output->PushLabelObject( outLo );
-        outIt++;
+        ++outIt;
         }
       }
 
     // and proceed the next object
-    inIt++;
+    ++inIt;
     progress.CompletedPixel();
 
     }

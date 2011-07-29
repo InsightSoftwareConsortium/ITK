@@ -96,8 +96,6 @@ public:
 
   typedef typename Superclass::LengthType LengthType;
 
-  typedef typename Superclass::LineContainerType LineContainerType;
-
   typedef TAttributeValue AttributeValueType;
 
   void SetAttribute( const AttributeValueType & v )

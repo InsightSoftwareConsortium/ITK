@@ -57,7 +57,6 @@ public:
   typedef typename ImageType::PixelType                 PixelType;
   typedef typename ImageType::IndexType                 IndexType;
   typedef typename ImageType::LabelObjectType           LabelObjectType;
-  typedef typename Superclass::LabelObjectContainerType LabelObjectContainerType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);

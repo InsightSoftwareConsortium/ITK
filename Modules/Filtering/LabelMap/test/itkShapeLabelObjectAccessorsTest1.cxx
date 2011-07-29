@@ -88,9 +88,7 @@ int itkShapeLabelObjectAccessorsTest1(int argc, char * argv[])
   i2l->SetComputePerimeter(true);
   i2l->Update();
 
-  typedef LabelMapType::LabelObjectContainerType LabelObjectContainerType;
   LabelMapType *labelMap = i2l->GetOutput();
-  LabelObjectContainerType container = labelMap->GetLabelObjectContainer();
   std::cout << "File " << argv[1] << " has " << labelMap->GetNumberOfLabelObjects() << " labels." << std::endl;
 
   // Retrieve all attributes

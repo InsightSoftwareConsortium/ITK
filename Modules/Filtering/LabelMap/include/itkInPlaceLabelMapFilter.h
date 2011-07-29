@@ -169,8 +169,6 @@ protected:
     return this->GetOutput();
   }
 
-  typedef typename Superclass::LabelObjectContainerType          LabelObjectContainerType;
-  typedef typename Superclass::LabelObjectContainerConstIterator LabelObjectContainerConstIterator;
 private:
   InPlaceLabelMapFilter(const Self &); //purposely not implemented
   void operator=(const Self &);        //purposely not implemented

@@ -112,28 +112,34 @@ int itkLabelObjectTest(int argc, char * argv[])
     return EXIT_FAILURE;
     }
 
-  typedef LabelObjectType::LineContainerType::const_iterator IteratorType;
+  typedef LabelObjectType::ConstLineIterator IteratorType;
 
-  IteratorType it2 = lo->GetLineContainer().begin();
-  IteratorType it1 = ref->GetLineContainer().begin();
-  IteratorType end = ref->GetLineContainer().end();
+  IteratorType it1;
+  it1 = IteratorType( ref );
+  IteratorType it2( lo );
 
   lo->Print(std::cerr);
 
-  while( it1 != end )
+  while( ! it1.IsAtEnd() )
     {
-    std::cout << it1->GetIndex() << "-" << it1->GetLength() << "    ";
-    std::cout << it2->GetIndex() << "-" << it2->GetLength();
+    std::cout << it1.GetLine().GetIndex() << "-" << it1.GetLine().GetLength() << "    ";
+    std::cout << it2.GetLine().GetIndex() << "-" << it2.GetLine().GetLength();
     std::cout << std::endl;
-    if( it1->GetIndex() != it2->GetIndex() || it1->GetLength() != it2->GetLength() )
+    if( it1.GetLine().GetIndex() != it2.GetLine().GetIndex() || it1.GetLine().GetLength() != it2.GetLine().GetLength() )
       {
       std::cerr << "Line mismatch." << std::endl;
       return EXIT_FAILURE;
       }
+    // test both versions of the iterator
     it1++;
-    it2++;
+    ++it2;
     }
 
+  if( ! it2.IsAtEnd() )
+    {
+    std::cerr << "it2 not at end" << std::endl;
+    return EXIT_FAILURE;
+    }
 
   // testing AddIndex(), GetIndex() and HasIndex()
 

@@ -82,21 +82,16 @@ AutoCropLabelMapFilter< TInputImage >
   const InputImageType *inputImage = this->GetInput();
 
   // iterate over all the lines
-  typename InputImageType::LabelObjectContainerType container = inputImage->GetLabelObjectContainer();
-  typename InputImageType::LabelObjectContainerType::const_iterator loit = container.begin();
+  typename InputImageType::ConstIterator loit( inputImage );
 
-  while ( loit != container.end() )
+  while ( ! loit.IsAtEnd() )
     {
-    const LabelObjectType *labelObject = loit->second;
-    typename LabelObjectType::LineContainerType::const_iterator lit;
-    const typename LabelObjectType::LineContainerType & lineContainer = labelObject->GetLineContainer();
-
-    lit = lineContainer.begin();
-
-    while ( lit != lineContainer.end() )
+    const LabelObjectType *labelObject = loit.GetLabelObject();
+    typename LabelObjectType::ConstLineIterator lit( labelObject );
+    while ( ! lit.IsAtEnd() )
       {
-      const IndexType & idx = lit->GetIndex();
-      const typename TInputImage::IndexValueType length = lit->GetLength();
+      const IndexType & idx = lit.GetLine().GetIndex();
+      const typename TInputImage::IndexValueType length = lit.GetLine().GetLength();
 
       // update the mins and maxs
       for ( unsigned int i = 0; i < ImageDimension; i++ )
@@ -115,9 +110,9 @@ AutoCropLabelMapFilter< TInputImage >
         {
         this->m_MaxIndex[0] = idx[0] + length - 1;
         }
-      lit++;
+      ++lit;
       }
-    loit++;
+    ++loit;
     }
 }
 

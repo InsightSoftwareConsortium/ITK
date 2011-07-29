@@ -113,20 +113,18 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
         mins.Fill( NumericTraits< IndexValueType >::max() );
         IndexType maxs;
         maxs.Fill( NumericTraits< IndexValueType >::NonpositiveMin() );
-        typename InputImageType::LabelObjectContainerType container = this->GetInput()->GetLabelObjectContainer();
-        for( typename InputImageType::LabelObjectContainerType::const_iterator loit = container.begin();
-             loit != container.end();
-             loit++ )
+        for( typename InputImageType::ConstIterator loit( this->GetInput() );
+             ! loit.IsAtEnd();
+             ++loit )
           {
-          if( loit->first != m_Label )
+          if( loit.GetLabel() != m_Label )
             {
-            typename LabelObjectType::LineContainerType::const_iterator lit;
-            typename LabelObjectType::LineContainerType & lineContainer = loit->second->GetLineContainer();
             // iterate over all the lines
-            for( lit = lineContainer.begin(); lit != lineContainer.end(); lit++ )
+            typename LabelObjectType::ConstLineIterator lit( loit.GetLabelObject() );
+            while( ! lit.IsAtEnd() )
               {
-              const IndexType & idx = lit->GetIndex();
-              LengthType length = lit->GetLength();
+              const IndexType & idx = lit.GetLine().GetIndex();
+              LengthType length = lit.GetLine().GetLength();
 
               // update the mins and maxs
               for( int i=0; i<ImageDimension; i++)
@@ -145,6 +143,7 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
                 {
                 maxs[0] = idx[0] + length - 1;
                 }
+              ++lit;
               }
             }
           }
@@ -177,17 +176,16 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
         // just find the bounding box of the object with that label
 
         const LabelObjectType * labelObject = input->GetLabelObject( m_Label );
-        typename LabelObjectType::LineContainerType::const_iterator lit;
-        const typename LabelObjectType::LineContainerType & lineContainer = labelObject->GetLineContainer();
         IndexType mins;
         mins.Fill( NumericTraits< IndexValueType >::max() );
         IndexType maxs;
         maxs.Fill( NumericTraits< IndexValueType >::NonpositiveMin() );
         // iterate over all the lines
-        for( lit = lineContainer.begin(); lit != lineContainer.end(); lit++ )
+        typename LabelObjectType::ConstLineIterator lit( labelObject );
+        while( ! lit.IsAtEnd() )
           {
-          const IndexType & idx = lit->GetIndex();
-          LengthType length = lit->GetLength();
+          const IndexType & idx = lit.GetLine().GetIndex();
+          LengthType length = lit.GetLine().GetLength();
 
           // update the mins and maxs
           for( int i=0; i<ImageDimension; i++)
@@ -206,6 +204,7 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
             {
             maxs[0] = idx[0] + length - 1;
             }
+          ++lit;
           }
           // final computation
           SizeType regionSize;
@@ -281,6 +280,7 @@ void
 LabelMapMaskImageFilter<TInputImage, TOutputImage>
 ::ThreadedGenerateData( const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId )
 {
+  ProgressReporter progress( this, 0, 1 );
   OutputImageType * output = this->GetOutput();
   InputImageType * input = const_cast<InputImageType *>(this->GetInput());
   const OutputImageType * input2 = this->GetFeatureImage();
@@ -320,23 +320,15 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
     if( threadId == 0 )
       {
       const LabelObjectType * labelObject = this->GetLabelMap()->GetLabelObject( m_Label );
-      ProgressReporter progress( this, 0, labelObject->GetLineContainer().size() );
 
       if( !m_Negated )
         {
-        typename InputImageType::LabelObjectType::LineContainerType::const_iterator lit;
-        const typename InputImageType::LabelObjectType::LineContainerType & lineContainer = labelObject->GetLineContainer();
-
-        for( lit = lineContainer.begin(); lit != lineContainer.end(); lit++ )
+        typename LabelObjectType::ConstIndexIterator it( labelObject );
+        while( ! it.IsAtEnd() )
           {
-          IndexType idx = lit->GetIndex();
-          LengthType length = lit->GetLength();
-          for( LengthType i=0; i<length; i++)
-            {
-            output->SetPixel( idx, input2->GetPixel( idx ) );
-            idx[0]++;
-            }
-          progress.CompletedPixel();
+          const IndexType & idx = it.GetIndex();
+          output->SetPixel( idx, input2->GetPixel( idx ) );
+          ++it;
           }
         }
       else
@@ -347,25 +339,17 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
         bool testIdxIsInside = m_Crop && ( input->GetBackgroundValue() == m_Label ) ^ m_Negated;
         RegionType outputRegion = output->GetLargestPossibleRegion();
 
-        typename InputImageType::LabelObjectType::LineContainerType::const_iterator lit;
-        const typename InputImageType::LabelObjectType::LineContainerType & lineContainer = labelObject->GetLineContainer();
-
-        for( lit = lineContainer.begin(); lit != lineContainer.end(); lit++ )
+        typename LabelObjectType::ConstIndexIterator it( labelObject );
+        while( ! it.IsAtEnd() )
           {
-          IndexType idx = lit->GetIndex();
-          LengthType length = lit->GetLength();
-          for( LengthType i=0; i<length; i++)
+          const IndexType & idx = it.GetIndex();
+          if( !testIdxIsInside || outputRegion.IsInside( idx ) )
             {
-            if( !testIdxIsInside || outputRegion.IsInside( idx ) )
-              {
-              output->SetPixel( idx, m_BackgroundValue );
-              }
-            idx[0]++;
+            output->SetPixel( idx, m_BackgroundValue );
             }
-          progress.CompletedPixel();
+          ++it;
           }
         }
-
       }
     }
 }
@@ -390,21 +374,15 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
     RegionType outputRegion = output->GetLargestPossibleRegion();
 
     // the user want the mask to be the background of the label collection image
-    typename InputImageType::LabelObjectType::LineContainerType::const_iterator lit;
-    typename InputImageType::LabelObjectType::LineContainerType & lineContainer = labelObject->GetLineContainer();
-
-    for( lit = lineContainer.begin(); lit != lineContainer.end(); lit++ )
+    typename LabelObjectType::ConstIndexIterator it( labelObject );
+    while( ! it.IsAtEnd() )
       {
-      IndexType idx = lit->GetIndex();
-      LengthType length = lit->GetLength();
-      for( LengthType i=0; i<length; i++)
+      const IndexType & idx = it.GetIndex();
+      if( !testIdxIsInside || outputRegion.IsInside( idx ) )
         {
-        if( !testIdxIsInside || outputRegion.IsInside( idx ) )
-          {
-          output->SetPixel( idx, m_BackgroundValue );
-          }
-        idx[0]++;
+        output->SetPixel( idx, m_BackgroundValue );
         }
+      ++it;
       }
     }
   else
@@ -414,18 +392,12 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
     // user are set to the background value
 
     // and copy the feature image where the label objects are
-    typename InputImageType::LabelObjectType::LineContainerType::const_iterator lit;
-    typename InputImageType::LabelObjectType::LineContainerType & lineContainer = labelObject->GetLineContainer();
-
-    for( lit = lineContainer.begin(); lit != lineContainer.end(); lit++ )
+    typename LabelObjectType::ConstIndexIterator it( labelObject );
+    while( ! it.IsAtEnd() )
       {
-      IndexType idx = lit->GetIndex();
-      LengthType length = lit->GetLength();
-      for( LengthType i=0; i<length; i++)
-        {
-        output->SetPixel( idx, input2->GetPixel( idx ) );
-        idx[0]++;
-        }
+      const IndexType & idx = it.GetIndex();
+      output->SetPixel( idx, input2->GetPixel( idx ) );
+      ++it;
       }
     }
 }

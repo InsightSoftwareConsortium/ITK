@@ -41,7 +41,6 @@ int itkLabelMapTest(int argc, char * argv[])
   typedef LabelMapType::SizeType                 SizeType;
   typedef LabelMapType::LabelObjectVectorType    LabelObjectVectorType;
   typedef LabelMapType::LabelVectorType          LabelVectorType;
-  typedef LabelMapType::LabelObjectContainerType LabelObjectContainerType;
 
   LabelMapType::Pointer map = LabelMapType::New();
 
@@ -163,8 +162,6 @@ int itkLabelMapTest(int argc, char * argv[])
   idx[2] = 32;
   itkAssertOrThrowMacro ( (map->GetPixel(idx) == 3), "SetPixel/SetLine/GetPixel failed");
 
-  LabelObjectContainerType container = map->GetLabelObjectContainer();
-  itkAssertOrThrowMacro ( (container.size() == 3), "GetLabelObjectContainer failed");
   itkAssertOrThrowMacro ( (map->GetNumberOfLabelObjects() == 3), "GetNumberOfLabelObjects failed");
   itkAssertOrThrowMacro ( map->HasLabel(1), "HasLabel failed");
 

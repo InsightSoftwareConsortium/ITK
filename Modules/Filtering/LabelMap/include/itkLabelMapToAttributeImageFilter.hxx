@@ -73,29 +73,21 @@ LabelMapToAttributeImageFilter<TInputImage, TOutputImage, TAttributeAccessor>
 
   output->FillBuffer( m_BackgroundValue );
 
-  typename InputImageType::LabelObjectContainerType::const_iterator it;
-  const typename InputImageType::LabelObjectContainerType & labelObjectContainer = input->GetLabelObjectContainer();
-  for( it = labelObjectContainer.begin(); it != labelObjectContainer.end(); it++ )
+  for( typename InputImageType::ConstIterator it( input );
+       ! it.IsAtEnd();
+       ++it )
     {
     typedef typename InputImageType::LabelObjectType  LabelObjectType;
-    const LabelObjectType * labeObject = it->second;
-    const AttributeValueType & attribute = accessor( labeObject );
+    const LabelObjectType * labelObject = it.GetLabelObject();
+    const AttributeValueType & attribute = accessor( labelObject );
 
-    typename LabelObjectType::LineContainerType::const_iterator lit;
-    const typename LabelObjectType::LineContainerType & lineContainer = labeObject->GetLineContainer();
-
-    typedef typename LabelObjectType::LengthType LengthType;
-
-    for( lit = lineContainer.begin(); lit != lineContainer.end(); lit++ )
+    typename LabelObjectType::ConstIndexIterator it( labelObject );
+    while( ! it.IsAtEnd() )
       {
-      IndexType idx = lit->GetIndex();
-      LengthType length = lit->GetLength();
-      for( LengthType i=0; i<length; i++)
-        {
-        output->SetPixel( idx, static_cast<OutputImagePixelType>( attribute ) );
-        idx[0]++;
-        progress.CompletedPixel();
-        }
+      const IndexType idx = it.GetIndex();
+      output->SetPixel( idx, static_cast<OutputImagePixelType>( attribute ) );
+      ++it;
+      progress.CompletedPixel();
       }
     }
 }

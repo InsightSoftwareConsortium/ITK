@@ -145,24 +145,11 @@ LabelMapToBinaryImageFilter< TInputImage, TOutputImage >
 ::ThreadedProcessLabelObject(LabelObjectType *labelObject)
 {
   OutputImageType *output = this->GetOutput();
-
-  typedef typename LabelObjectType::LineContainerType   LineContainerType;
-  typedef typename LabelObjectType::LengthType          LengthType;
-
-  typename LineContainerType::const_iterator lit;
-  LineContainerType & lineContainer = labelObject->GetLineContainer();
-
-  for ( lit = lineContainer.begin(); lit != lineContainer.end(); lit++ )
+  typename LabelObjectType::ConstIndexIterator it( labelObject );
+  while( ! it.IsAtEnd() )
     {
-    IndexType idx = lit->GetIndex();
-
-    LengthType length = lit->GetLength();
-
-    for ( LengthType i = 0; i < length; i++ )
-      {
-      output->SetPixel(idx, this->m_ForegroundValue);
-      idx[0]++;
-      }
+    output->SetPixel( it.GetIndex(), this->m_ForegroundValue );
+    ++it;
     }
 }
 

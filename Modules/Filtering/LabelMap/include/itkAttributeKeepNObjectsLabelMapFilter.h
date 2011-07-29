@@ -61,8 +61,6 @@ public:
   typedef TAttributeAccessor AttributeAccessorType;
   typedef typename AttributeAccessorType::AttributeValueType AttributeValueType;
 
-  typedef typename Superclass::LabelObjectContainerType LabelObjectContainerType;
-
   /** ImageDimension constants */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TImage::ImageDimension);

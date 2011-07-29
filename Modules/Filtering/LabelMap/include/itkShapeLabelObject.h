@@ -68,8 +68,6 @@ public:
 
   typedef typename Superclass::LengthType LengthType;
 
-  typedef typename Superclass::LineContainerType LineContainerType;
-
   typedef typename Superclass::AttributeType AttributeType;
 
   /** The number of pixels. */

@@ -43,7 +43,7 @@ ShiftScaleLabelMapFilter< TImage >
   ImageType *output = this->GetOutput();
 
   // get the label objects
-  LabelObjectContainerType labelObjects = output->GetLabelObjectContainer();
+  typename ImageType::LabelObjectVectorType labelObjects = output->GetLabelObjects();
 
   ProgressReporter progress( this, 0, labelObjects.size() );
 
@@ -56,17 +56,17 @@ ShiftScaleLabelMapFilter< TImage >
 
   // and put back the objects in the map
   output->ClearLabels();
-  typename LabelObjectContainerType::iterator it = labelObjects.begin();
+  typename ImageType::LabelObjectVectorType::iterator it = labelObjects.begin();
   while ( it != labelObjects.end() )
     {
-    LabelObjectType *lo = it->second;
+    LabelObjectType *lo = *it;
     PixelType        label = static_cast< PixelType >( m_Scale * lo->GetLabel() + m_Shift );
     lo->SetLabel(label);
     output->AddLabelObject(lo);
 
     // go to the next label
     progress.CompletedPixel();
-    it++;
+    ++it;
     }
 }
 

@@ -40,7 +40,6 @@ int itkLabelMapTest2(int argc, char * argv[])
   typedef LabelMapType::SizeType                 SizeType;
   typedef LabelMapType::LabelObjectVectorType    LabelObjectVectorType;
   typedef LabelMapType::LabelVectorType          LabelVectorType;
-  typedef LabelMapType::LabelObjectContainerType LabelObjectContainerType;
 
   LabelMapType::Pointer map = LabelMapType::New();
 

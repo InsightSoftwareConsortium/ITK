@@ -52,27 +52,25 @@ AttributeOpeningLabelMapFilter<TImage, TAttributeAccessor>
 
   AttributeAccessorType accessor;
 
-  const typename ImageType::LabelObjectContainerType & labelObjectContainer = output->GetLabelObjectContainer();
+  ProgressReporter progress( this, 0, output->GetNumberOfLabelObjects() );
 
-  ProgressReporter progress( this, 0, labelObjectContainer.size() );
-
-  typename ImageType::LabelObjectContainerType::const_iterator it = labelObjectContainer.begin();
-  while( it != labelObjectContainer.end() )
+  typename ImageType::Iterator it( output );
+  while( ! it.IsAtEnd() )
     {
-    typename LabelObjectType::LabelType label = it->first;
-    LabelObjectType * labelObject = it->second;
+    typename LabelObjectType::LabelType label = it.GetLabel();
+    LabelObjectType * labelObject = it.GetLabelObject();
 
     if( ( !m_ReverseOrdering && accessor( labelObject ) < m_Lambda )
       || ( m_ReverseOrdering && accessor( labelObject ) > m_Lambda ) )
       {
       // must increment the iterator before removing the object to avoid invalidating the iterator
-      it++;
+      ++it;
       output2->AddLabelObject( labelObject );
       output->RemoveLabel( label );
       }
     else
       {
-      it++;
+      ++it;
       }
 
     progress.CompletedPixel();

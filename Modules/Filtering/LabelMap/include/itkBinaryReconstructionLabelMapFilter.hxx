@@ -42,26 +42,18 @@ BinaryReconstructionLabelMapFilter<TImage, TMarkerImage, TAttributeAccessor>
 
   const MarkerImageType * maskImage = this->GetMarkerImage();
 
-  typename LabelObjectType::LineContainerType::const_iterator lit;
-  typename LabelObjectType::LineContainerType & lineContainer = labelObject->GetLineContainer();
-
-  // iterate over all the lines to find a pixel inside the object
-  for( lit = lineContainer.begin(); lit != lineContainer.end(); lit++ )
+  typename LabelObjectType::ConstIndexIterator it( labelObject );
+  while( ! it.IsAtEnd() )
     {
-    const IndexType & firstIdx = lit->GetIndex();
-    SizeValueType length = lit->GetLength();
-
-    IndexValueType endIdx0 = firstIdx[0] + length;
-    for( IndexType idx = firstIdx; idx[0]<endIdx0; idx[0]++ )
+    const IndexType & idx = it.GetIndex();
+    const MarkerImagePixelType & v = maskImage->GetPixel( idx );
+    if( v == m_ForegroundValue )
       {
-      const MarkerImagePixelType & v = maskImage->GetPixel( idx );
-      if( v == m_ForegroundValue )
-        {
-        // keep the object
-        accessor( labelObject, true );
-        return;
-        }
+      // keep the object
+      accessor( labelObject, true );
+      return;
       }
+    ++it;
     }
 
   // remove the object

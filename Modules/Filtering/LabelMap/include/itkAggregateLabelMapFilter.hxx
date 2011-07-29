@@ -33,31 +33,28 @@ AggregateLabelMapFilter< TImage >
 
   ImageType *output = this->GetOutput();
 
-  LabelObjectContainerType & labelObjectContainer = output->GetLabelObjectContainer();
+  ProgressReporter progress( this, 0, output->GetNumberOfLabelObjects() );
 
-  ProgressReporter progress( this, 0, labelObjectContainer.size() );
-
-  typename LabelObjectContainerType::iterator it = labelObjectContainer.begin();
-  if ( it != labelObjectContainer.end() )
+  typename TImage::Iterator it( output );
+  if ( ! it.IsAtEnd() )
     {
-    LabelObjectType *mainLo = it->second;
+    LabelObjectType *mainLo = it.GetLabelObject();
     progress.CompletedPixel();
-    it++;
-    while ( it != labelObjectContainer.end() )
+    ++it;
+    while ( ! it.IsAtEnd() )
       {
-      LabelObjectType *lo = it->second;
-      typename LabelObjectType::LineContainerType::const_iterator lit;
-      typename LabelObjectType::LineContainerType & lineContainer = lo->GetLineContainer();
-
-      for ( lit = lineContainer.begin(); lit != lineContainer.end(); lit++ )
+      LabelObjectType *lo = it.GetLabelObject();
+      typename LabelObjectType::ConstLineIterator lit( lo );
+      while( ! lit.IsAtEnd() )
         {
-        mainLo->AddLine(*lit);
+        mainLo->AddLine( lit.GetLine() );
+        ++lit;
         }
       // be sure to have the lines well organized
       mainLo->Optimize();
 
       progress.CompletedPixel();
-      it++;
+      ++it;
       // must increment the iterator before removing the object to avoid
       // invalidating the iterator
       output->RemoveLabelObject(lo);

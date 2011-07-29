@@ -84,9 +84,6 @@ StatisticsLabelMapFilter< TImage, TFeatureImage >
   histogram->SetClipBinsAtEnds(false);
   histogram->Initialize(histogramSize, featureImageMin, featureImageMax);
 
-  typename LabelObjectType::LineContainerType::const_iterator lit;
-  typename LabelObjectType::LineContainerType & lineContainer = labelObject->GetLineContainer();
-
   FeatureImagePixelType min = NumericTraits< FeatureImagePixelType >::max();
   FeatureImagePixelType max = NumericTraits< FeatureImagePixelType >::NonpositiveMin();
   double                sum = 0;
@@ -106,54 +103,50 @@ StatisticsLabelMapFilter< TImage, TFeatureImage >
   VectorType principalMoments;
   principalMoments.Fill(0);
 
-  // iterate over all the lines
-  for ( lit = lineContainer.begin(); lit != lineContainer.end(); lit++ )
+  typename HistogramType::MeasurementVectorType mv;
+  mv.SetSize(1);
+  // iterate over all the indexes
+  typename LabelObjectType::ConstIndexIterator it( labelObject );
+  while( ! it.IsAtEnd() )
     {
-    const IndexType & firstIdx = lit->GetIndex();
-    OffsetValueType     length = lit->GetLength();
+    const IndexType & idx = it.GetIndex();
+    const FeatureImagePixelType & v = featureImage->GetPixel(idx);
+    mv[0] = v;
+    histogram->IncreaseFrequencyOfMeasurement(mv, 1);
 
-    typename HistogramType::MeasurementVectorType mv;
-    mv.SetSize(1);
-    IndexValueType endIdx0 = firstIdx[0] + length;
-    for ( IndexType idx = firstIdx; idx[0] < endIdx0; idx[0]++ )
+    // update min and max
+    if ( v <= min )
       {
-      const FeatureImagePixelType & v = featureImage->GetPixel(idx);
-      mv[0] = v;
-      histogram->IncreaseFrequencyOfMeasurement(mv, 1);
+      min = v;
+      minIdx = idx;
+      }
+    if ( v >= max )
+      {
+      max = v;
+      maxIdx = idx;
+      }
 
-      // update min and max
-      if ( v <= min )
-        {
-        min = v;
-        minIdx = idx;
-        }
-      if ( v >= max )
-        {
-        max = v;
-        maxIdx = idx;
-        }
+    //increase the sums
+    sum += v;
+    sum2 += vcl_pow( (double)v, 2 );
+    sum3 += vcl_pow( (double)v, 3 );
+    sum4 += vcl_pow( (double)v, 4 );
 
-      //increase the sums
-      sum += v;
-      sum2 += vcl_pow( (double)v, 2 );
-      sum3 += vcl_pow( (double)v, 3 );
-      sum4 += vcl_pow( (double)v, 4 );
-
-      // moments
-      PointType physicalPosition;
-      output->TransformIndexToPhysicalPoint(idx, physicalPosition);
-      for ( unsigned int i = 0; i < ImageDimension; i++ )
+    // moments
+    PointType physicalPosition;
+    output->TransformIndexToPhysicalPoint(idx, physicalPosition);
+    for ( unsigned int i = 0; i < ImageDimension; i++ )
+      {
+      centerOfGravity[i] += physicalPosition[i] * v;
+      centralMoments[i][i] += v * physicalPosition[i] * physicalPosition[i];
+      for ( unsigned int j = i + 1; j < ImageDimension; j++ )
         {
-        centerOfGravity[i] += physicalPosition[i] * v;
-        centralMoments[i][i] += v * physicalPosition[i] * physicalPosition[i];
-        for ( unsigned int j = i + 1; j < ImageDimension; j++ )
-          {
-          double weight = v * physicalPosition[i] * physicalPosition[j];
-          centralMoments[i][j] += weight;
-          centralMoments[j][i] += weight;
-          }
+        double weight = v * physicalPosition[i] * physicalPosition[j];
+        centralMoments[i][j] += weight;
+        centralMoments[j][i] += weight;
         }
       }
+    ++it;
     }
 
   // final computations

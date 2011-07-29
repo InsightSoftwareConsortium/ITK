@@ -61,8 +61,6 @@ public:
 
   typedef typename LabelObjectType::AttributeType AttributeType;
 
-  typedef typename Superclass::LabelObjectContainerType LabelObjectContainerType;
-
   /** ImageDimension constants */
   itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
 
@@ -129,25 +127,24 @@ protected:
     // superclasses
     output2->SetBackgroundValue( output->GetBackgroundValue() );
 
-    const LabelObjectContainerType & labelObjectContainer = output->GetLabelObjectContainer();
     typedef typename LabelObjectType::Pointer LabelObjectPointer;
     typedef std::vector< LabelObjectPointer > VectorType;
 
-    ProgressReporter progress( this, 0, 2 * labelObjectContainer.size() );
+    ProgressReporter progress( this, 0, 2 * output->GetNumberOfLabelObjects() );
 
     // get the label objects in a vector, so they can be sorted
     VectorType labelObjects;
-    labelObjects.reserve( labelObjectContainer.size() );
-    typename LabelObjectContainerType::const_iterator it = labelObjectContainer.begin();
-    while ( it != labelObjectContainer.end() )
+    labelObjects.reserve( output->GetNumberOfLabelObjects() );
+    typename ImageType::Iterator it( output );
+    while ( ! it.IsAtEnd() )
       {
-      labelObjects.push_back(it->second);
+      labelObjects.push_back( it.GetLabelObject() );
       progress.CompletedPixel();
-      it++;
+      ++it;
       }
 
     // instantiate the comparator and sort the vector
-    if ( m_NumberOfObjects < labelObjectContainer.size() )
+    if ( m_NumberOfObjects < output->GetNumberOfLabelObjects() )
       {
       typename VectorType::iterator end = labelObjects.begin() + m_NumberOfObjects;
       if ( m_ReverseOrdering )
