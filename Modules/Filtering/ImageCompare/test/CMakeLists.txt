@@ -7,7 +7,7 @@ itkCheckerBoardImageFilterTest.cxx
 itkConstrainedValueDifferenceImageFilterTest.cxx
 itkSimilarityIndexImageFilterTest.cxx
 itkSTAPLEImageFilterTest.cxx
-itkDifferenceImageFilterTest.cxx
+itkTestingComparisonImageFilterTest.cxx
 )
 
 CreateTestDriver(ITKImageCompare  "${ITKImageCompare-Test_LIBRARIES}" "${ITKImageCompareTests}")
@@ -29,8 +29,8 @@ itk_add_test(NAME itkSTAPLEImageFilterTest
     --compare ${ITK_DATA_ROOT}/Baseline/Algorithms/STAPLEImageFilterTest.mha
               ${ITK_TEST_OUTPUT_DIR}/STAPLEImageFilterTest.mha
     itkSTAPLEImageFilterTest 2 ${ITK_TEST_OUTPUT_DIR}/STAPLEImageFilterTest.mha 255 0.5 ${ITK_DATA_ROOT}/Input/STAPLE1.png ${ITK_DATA_ROOT}/Input/STAPLE2.png ${ITK_DATA_ROOT}/Input/STAPLE3.png ${ITK_DATA_ROOT}/Input/STAPLE4.png)
-itk_add_test(NAME itkDifferenceImageFilterTest
+itk_add_test(NAME itkTestingComparisonImageFilterTest
       COMMAND ITKImageCompareTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Common/itkDifferenceImageFilterTest.png
-              ${ITK_TEST_OUTPUT_DIR}/itkDifferenceImageFilterTest.png
-    itkDifferenceImageFilterTest ${ITK_DATA_ROOT}/Input/cake_easy.png ${ITK_DATA_ROOT}/Input/cake_hard.png ${ITK_TEST_OUTPUT_DIR}/itkDifferenceImageFilterTest.png 10 1)
+      --compare DATA{Input//itkTestingComparisonImageFilterTest.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkTestingComparisonImageFilterTest.png
+    itkTestingComparisonImageFilterTest ${ITK_DATA_ROOT}/Input/cake_easy.png ${ITK_DATA_ROOT}/Input/cake_hard.png ${ITK_TEST_OUTPUT_DIR}/itkTestingComparisonImageFilterTest.png 10 1)

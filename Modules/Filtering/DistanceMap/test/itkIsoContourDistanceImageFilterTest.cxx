@@ -22,7 +22,6 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkShiftScaleImageFilter.h"
-#include "itkDifferenceImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"
 #include "itkMultiplyImageFilter.h"
 

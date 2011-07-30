@@ -21,7 +21,7 @@
 #include "itkExtensionVelocitiesImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkShiftScaleImageFilter.h"
-#include "itkDifferenceImageFilter.h"
+#include "itkTestingComparisonImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"
 
 #include "itkCommand.h"
@@ -212,7 +212,7 @@ int itkExtensionVelocitiesImageFilterTest(int, char* [] )
 */
 
   // Check the output
-  typedef itk::DifferenceImageFilter<ImageType,ImageType> DifferenceType;
+  typedef itk::Testing::ComparisonImageFilter<ImageType,ImageType> DifferenceType;
   DifferenceType::Pointer difference = DifferenceType::New();
   difference->SetTestInput( aux2 );
   difference->SetValidInput( reinitializer->GetOutputVelocityImage( 1 ) );

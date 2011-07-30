@@ -25,7 +25,7 @@
 #include "itkImageRandomIteratorWithIndex.h"
 #include "itkImageFileWriter.h"
 #include "itkImageFileReader.h"
-#include "itkDifferenceImageFilter.h"
+#include "itkTestingComparisonImageFilter.h"
 
 
 int itkImageRandomIteratorTest2( int argc, char * argv [] )
@@ -103,7 +103,7 @@ int itkImageRandomIteratorTest2( int argc, char * argv [] )
     typedef signed long    DifferencePixelType;
     typedef itk::Image< DifferencePixelType, ImageDimension > DifferenceImageType;
 
-    typedef itk::DifferenceImageFilter<
+    typedef itk::Testing::ComparisonImageFilter<
       ImageType, DifferenceImageType > DifferenceFilterType;
 
     DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
