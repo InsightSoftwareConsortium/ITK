@@ -53,7 +53,7 @@ BSplineDeformableTransformInitializer<TTransform, TImage>
     {
     this->m_SetTransformDomainMeshSizeViaInitializer = true;
     this->m_TransformDomainMeshSize = meshSize;
-    this->m_Modified();
+    this->Modified();
     }
 }
 

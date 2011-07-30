@@ -194,7 +194,7 @@ int main( int argc, char *argv[] )
 
   registration->SetFixedImageRegion( fixedRegion );
 
-  unsigned int numberOfGridNodesInOneDimension = 8;
+  unsigned int numberOfGridNodesInOneDimension = 7;
 
   // Software Guide : BeginCodeSnippet
 

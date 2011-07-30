@@ -52,8 +52,8 @@ int itkBSplineDeformableTransformTest1()
   const unsigned int SpaceDimension = 3;
   const unsigned int SplineOrder = 3;
   typedef double CoordinateRepType;
-  typedef itk::BSplineDeformableTransform<CoordinateRepType,SpaceDimension,SplineOrder>
-    TransformType;
+  typedef itk::BSplineDeformableTransform
+    <CoordinateRepType,SpaceDimension,SplineOrder> TransformType;
 
   typedef TransformType::ParametersType ParametersType;
 
@@ -152,7 +152,8 @@ int itkBSplineDeformableTransformTest1()
 
   if ( &outParametersRef != &parameters )
     {
-    std::cout << "outParametersRef should point to the same memory as parameters";
+    std::cout << "outParametersRef should point to the same memory as "
+      << "parameters";
     std::cout << std::endl;
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
@@ -171,7 +172,8 @@ int itkBSplineDeformableTransformTest1()
 
   if ( &outParametersCopy == &parameters )
     {
-    std::cout << "outParametersCopy should point to memory different to parameters";
+    std::cout << "outParametersCopy should point to memory different "
+      << "to parameters";
     std::cout << std::endl;
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
@@ -247,7 +249,8 @@ int itkBSplineDeformableTransformTest1()
   inputPoint.Fill( 8.3 );
   transform->TransformPoint( inputPoint, outputPoint, weights, indices, inside );
 
-  std::cout << "Number of Parameters: " << transform->GetNumberOfParameters() << std::endl;
+  std::cout << "Number of Parameters: "
+    << transform->GetNumberOfParameters() << std::endl;
   std::cout << "Number of Parameters per dimension: " <<
     transform->GetNumberOfParametersPerDimension() << std::endl;
   std::cout << "Input Point: " << inputPoint << std::endl;
@@ -259,8 +262,10 @@ int itkBSplineDeformableTransformTest1()
 
   // cycling through all the parameters and weights used in the previous
   // transformation
-  unsigned int numberOfCoefficientInSupportRegion = transform->GetNumberOfWeights();
-  unsigned int numberOfParametersPerDimension = transform->GetNumberOfParametersPerDimension();
+  unsigned int numberOfCoefficientInSupportRegion =
+    transform->GetNumberOfWeights();
+  unsigned int numberOfParametersPerDimension =
+    transform->GetNumberOfParametersPerDimension();
   unsigned int linearIndex;
   unsigned int baseIndex;
 
@@ -326,102 +331,97 @@ int itkBSplineDeformableTransformTest1()
    * transform and should throw exceptions
    */
   {
-    typedef TransformType::InputVectorType VectorType;
-    VectorType vector;
-    vector.Fill ( 1.0 );
+  typedef TransformType::InputVectorType VectorType;
+  VectorType vector;
+  vector.Fill ( 1.0 );
 
-    bool pass = false;
-    try
-      {
-      transform->TransformVector( vector );
-      }
-    catch( itk::ExceptionObject & err )
-      {
-      std::cout << "Caught expected exception." << std::endl;
-      std::cout << err << std::endl;
-      pass = true;
-      }
-    if ( !pass )
-      {
-      std::cout << "Did not catch expected exception." << std::endl;
-      std::cout << "Test failed. " << std::endl;
-      return EXIT_FAILURE;
-      }
-
+  bool pass = false;
+  try
+    {
+    transform->TransformVector( vector );
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cout << "Caught expected exception." << std::endl;
+    std::cout << err << std::endl;
+    pass = true;
+    }
+  if ( !pass )
+    {
+    std::cout << "Did not catch expected exception." << std::endl;
+    std::cout << "Test failed. " << std::endl;
+    return EXIT_FAILURE;
+    }
   }
 
   {
-    typedef TransformType::InputCovariantVectorType VectorType;
-    VectorType vector;
-    vector.Fill ( 1.0 );
+  typedef TransformType::InputCovariantVectorType VectorType;
+  VectorType vector;
+  vector.Fill ( 1.0 );
 
-    bool pass = false;
-    try
-      {
-      transform->TransformCovariantVector( vector );
-      }
-    catch( itk::ExceptionObject & err )
-      {
-      std::cout << "Caught expected exception." << std::endl;
-      std::cout << err << std::endl;
-      pass = true;
-      }
-    if ( !pass )
-      {
-      std::cout << "Did not catch expected exception." << std::endl;
-      std::cout << "Test failed. " << std::endl;
-      return EXIT_FAILURE;
-      }
-
+  bool pass = false;
+  try
+    {
+    transform->TransformCovariantVector( vector );
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cout << "Caught expected exception." << std::endl;
+    std::cout << err << std::endl;
+    pass = true;
+    }
+  if ( !pass )
+    {
+    std::cout << "Did not catch expected exception." << std::endl;
+    std::cout << "Test failed. " << std::endl;
+    return EXIT_FAILURE;
+    }
   }
 
   {
-    typedef TransformType::InputVnlVectorType VectorType;
-    VectorType vector;
-    vector.fill ( 1.0 );
+  typedef TransformType::InputVnlVectorType VectorType;
+  VectorType vector;
+  vector.fill ( 1.0 );
 
-    bool pass = false;
-    try
-      {
-      transform->TransformVector( vector );
-      }
-    catch( itk::ExceptionObject & err )
-      {
-      std::cout << "Caught expected exception." << std::endl;
-      std::cout << err << std::endl;
-      pass = true;
-      }
-    if ( !pass )
-      {
-      std::cout << "Did not catch expected exception." << std::endl;
-      std::cout << "Test failed. " << std::endl;
-      return EXIT_FAILURE;
-      }
-
+  bool pass = false;
+  try
+    {
+    transform->TransformVector( vector );
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cout << "Caught expected exception." << std::endl;
+    std::cout << err << std::endl;
+    pass = true;
+    }
+  if ( !pass )
+    {
+    std::cout << "Did not catch expected exception." << std::endl;
+    std::cout << "Test failed. " << std::endl;
+    return EXIT_FAILURE;
+    }
   }
 
   {
-
-    bool pass = false;
-    try
-      {
-      ParametersType temp( transform->GetNumberOfParameters() - 1 );
-      temp.Fill( 4.0 );
-      transform->SetParameters( temp );
-      }
-    catch( itk::ExceptionObject & err )
-      {
-      std::cout << "Caught expected exception." << std::endl;
-      std::cout << err << std::endl;
-      pass = true;
-      }
-    if ( !pass )
-      {
-      std::cout << "Did not catch expected exception." << std::endl;
-      std::cout << "Test failed. " << std::endl;
-      return EXIT_FAILURE;
-      }
-
+  bool pass = false;
+  try
+    {
+    ParametersType temp( transform->GetNumberOfParameters() - 1 );
+    temp.Fill( 4.0 );
+    transform->SetParameters( temp );
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cout << "Caught expected exception." << std::endl;
+    std::cout << err << std::endl;
+    pass = true;
+    }
+  if ( !pass )
+    {
+    std::cout << "Did not catch expected exception." << std::endl;
+    std::cout << "Test failed. " << std::endl;
+    return EXIT_FAILURE;
+    }
   }
 
   /**
@@ -434,7 +434,8 @@ int itkBSplineDeformableTransformTest1()
 
   typedef itk::BSplineDeformableTransform<CoordinateRepType,SpaceDimension,2>
     EvenOrderTransformType;
-  EvenOrderTransformType::Pointer evenOrderTransform = EvenOrderTransformType::New();
+  EvenOrderTransformType::Pointer evenOrderTransform =
+    EvenOrderTransformType::New();
 
   /**
    * Parameters should remain even when the transform has been destroyed
@@ -453,35 +454,33 @@ int itkBSplineDeformableTransformTest1()
    * Exercise the SetIdentity() Method
    */
   {
-    std::cout << "Exercising SetIdentity() " << std::endl;
-    TransformType::Pointer transform2 = TransformType::New();
-    transform2->SetTransformDomainOrigin( origin );
-    transform2->SetTransformDomainPhysicalDimensions( dimensions );
-    transform2->SetTransformDomainMeshSize( meshSize );
-    transform2->SetTransformDomainDirection( direction );
-    transform2->SetIdentity();
-    TransformType::ParametersType parameters2 = transform2->GetParameters();
-    const unsigned int numberOfParameters2 = transform2->GetNumberOfParameters();
-    std::cout << "numberOfParameters =  " << numberOfParameters2 << std::endl;
-    for(unsigned int i=0; i<numberOfParameters2; i++)
+  std::cout << "Exercising SetIdentity() " << std::endl;
+  TransformType::Pointer transform2 = TransformType::New();
+  transform2->SetTransformDomainOrigin( origin );
+  transform2->SetTransformDomainPhysicalDimensions( dimensions );
+  transform2->SetTransformDomainMeshSize( meshSize );
+  transform2->SetTransformDomainDirection( direction );
+  transform2->SetIdentity();
+  TransformType::ParametersType parameters2 = transform2->GetParameters();
+  const unsigned int numberOfParameters2 = transform2->GetNumberOfParameters();
+  std::cout << "numberOfParameters =  " << numberOfParameters2 << std::endl;
+  for(unsigned int i=0; i<numberOfParameters2; i++)
+    {
+    if( vcl_fabs( parameters2[i] ) > 1e-10 )
       {
-      if( vcl_fabs( parameters2[i] ) > 1e-10 )
-        {
-        std::cerr << "SetIdentity failed, parameters are not null after invoking SetIdentity() " << std::endl;
-        return EXIT_FAILURE;
-        }
+      std::cerr << "SetIdentity failed, parameters are not null "
+        << "after invoking SetIdentity() " << std::endl;
+      return EXIT_FAILURE;
       }
+    }
   } // end of SetIdentity() test
-
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
-
 }
 
 int itkBSplineDeformableTransformTest2()
 {
-
  /**
   * This function tests the Set/GetCoefficientImage interface
   */
@@ -496,6 +495,16 @@ int itkBSplineDeformableTransformTest2()
   typedef double PixelType;
 
   typedef itk::Image<PixelType,Dimension>  ImageType;
+
+  // Set up the transform
+  const unsigned int SplineOrder = 3;
+  typedef double CoordRep;
+  typedef itk::BSplineDeformableTransform<CoordRep,Dimension,SplineOrder>
+    TransformType;
+  TransformType::InputPointType inputPoint;
+  TransformType::OutputPointType outputPoint;
+
+  TransformType::Pointer transform = TransformType::New();
 
   // Set up field spacing, origin, region
   double spacing[Dimension];
@@ -514,7 +523,7 @@ int itkBSplineDeformableTransformTest2()
 
   region.SetSize( size );
 
-  ImageType::Pointer field[Dimension];
+  TransformType::CoefficientImageArray field;
   for ( j = 0; j < Dimension; j++ )
     {
     field[j] = ImageType::New();
@@ -533,15 +542,6 @@ int itkBSplineDeformableTransformTest2()
     {
     field[j]->FillBuffer( v[j] );
     }
-
-  // Set up the transform
-  const unsigned int SplineOrder = 3;
-  typedef double CoordRep;
-  typedef itk::BSplineDeformableTransform<CoordRep,Dimension,SplineOrder> TransformType;
-  TransformType::InputPointType inputPoint;
-  TransformType::OutputPointType outputPoint;
-
-  TransformType::Pointer transform = TransformType::New();
 
   // This should generate a warning about parameters not being set
   inputPoint.Fill( 0.0 );
@@ -598,8 +598,8 @@ int itkBSplineDeformableTransformTest2()
     return EXIT_FAILURE;
     }
 
- std::cout << "Test passed." << std::endl;
- return EXIT_SUCCESS;
+  std::cout << "Test passed." << std::endl;
+  return EXIT_SUCCESS;
 }
 
 int itkBSplineDeformableTransformTest3()
@@ -613,8 +613,8 @@ int itkBSplineDeformableTransformTest3()
   const unsigned int SpaceDimension = 3;
   const unsigned int SplineOrder = 3;
   typedef double CoordinateRepType;
-  typedef itk::BSplineDeformableTransform<CoordinateRepType,SpaceDimension,SplineOrder>
-    TransformType;
+  typedef itk::BSplineDeformableTransform
+    <CoordinateRepType,SpaceDimension,SplineOrder> TransformType;
 
   typedef TransformType::ParametersType ParametersType;
 
@@ -725,7 +725,8 @@ int itkBSplineDeformableTransformTest3()
 
   if ( &outParametersRef == &parameters )
     {
-    std::cout << "outParametersRef should not point to the same memory as parameters";
+    std::cout << "outParametersRef should not point to the same memory as "
+      << "parameters";
     std::cout << std::endl;
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
