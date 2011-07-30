@@ -935,6 +935,13 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
     }
 }
 
+template< class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder >
+unsigned int
+BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
+::GetNumberOfAffectedWeights() const
+{
+  return this->m_WeightsFunction->GetNumberOfWeights();
+}
 } // namespace
 
 #endif
