@@ -27,6 +27,7 @@ template< unsigned int VDimension, typename TInput >
 SymmetricEllipsoidInteriorExteriorSpatialFunction< VDimension, TInput >
 ::SymmetricEllipsoidInteriorExteriorSpatialFunction()
 {
+  m_Center.Fill(0.0);      // Origin of ellipsoid
   m_Orientation.Fill(1.0); // Orientation of unique axis
   m_UniqueAxis = 10;       // Length of unique axis
   m_SymmetricAxes = 5;     // Length of symmetric axes
@@ -52,7 +53,7 @@ SymmetricEllipsoidInteriorExteriorSpatialFunction< VDimension, TInput >
   // and determine whether position is inside ellipsoid.
   for ( unsigned int i = 0; i < VDimension; i++ )
     {
-    pointVector[i] = position[i] - this->m_Center[i];
+    pointVector[i] = position[i] - m_Center[i];
     }
 
   uniqueTerm = vcl_pow( static_cast< double >( ( ( pointVector * m_Orientation ) / ( .5 * m_UniqueAxis ) ) ),
@@ -75,6 +76,8 @@ void SymmetricEllipsoidInteriorExteriorSpatialFunction< VDimension, TInput >
 {
   Superclass::PrintSelf(os, indent);
 
+  os << indent << "Origin of Ellipsoid: ";
+  os << m_Center << std::endl;
   os << indent << "Unique Axis Orientation: ";
   os << m_Orientation << std::endl;
   os << indent << "Unique Axis Length: ";
