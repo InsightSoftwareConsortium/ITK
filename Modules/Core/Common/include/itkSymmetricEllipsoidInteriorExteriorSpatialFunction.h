@@ -22,10 +22,10 @@
 
 namespace itk
 {
-/** \class EllipsoidSpatialFunction
+/** \class SymmetricEllipsoidInteriorExteriorSpatialFunction
  * \brief Function implementation of an ellipsoid
  *
- * Similar to itkEllipsoidInteriorExteriorSpatialFunction in that it
+ * Similar to EllipsoidInteriorExteriorSpatialFunction in that it
  * implements a function that returns 1 for points inside or on the surface
  * of a ellipsoid and 0 for points outside the ellipsoid. However, this
  * ellipsoid is defined by a single orientation vector and deals

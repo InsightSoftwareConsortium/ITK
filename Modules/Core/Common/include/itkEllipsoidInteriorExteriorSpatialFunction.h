@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- * \class EllipsoidSpatialFunction
+ * \class EllipsoidInteriorExteriorSpatialFunction
  * \brief Function implementation of an ellipsoid
  *
  * Implements a function that returns 1 for points inside or on the
