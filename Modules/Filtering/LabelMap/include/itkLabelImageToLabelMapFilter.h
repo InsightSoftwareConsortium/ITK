@@ -88,6 +88,11 @@ public:
    */
   itkSetMacro(BackgroundValue, OutputImagePixelType);
   itkGetConstMacro(BackgroundValue, OutputImagePixelType);
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  itkConceptMacro( SameDimensionCheck,
+                   ( Concept::SameDimension< InputImageDimension, OutputImageDimension > ) );
+#endif
 protected:
   LabelImageToLabelMapFilter();
   ~LabelImageToLabelMapFilter() {}
