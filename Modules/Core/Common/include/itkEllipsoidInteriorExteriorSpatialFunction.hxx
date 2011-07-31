@@ -28,19 +28,21 @@ EllipsoidInteriorExteriorSpatialFunction< VDimension, TInput >
 ::EllipsoidInteriorExteriorSpatialFunction()
 {
   m_Orientations = NULL;
-  m_Axes.Fill(1.0f);   // Lengths of ellipsoid axes.
-  m_Center.Fill(0.0f); // Origin of ellipsoid
+
+  // Lengths of ellipsoid axes.
+  m_Axes.Fill( NumericTraits< InputCoordRepType >::One );
+
+  // Origin of ellipsoid
+  m_Center.Fill( NumericTraits< InputCoordRepType >::Zero );
 }
 
 template< unsigned int VDimension, typename TInput >
 EllipsoidInteriorExteriorSpatialFunction< VDimension, TInput >
 ::~EllipsoidInteriorExteriorSpatialFunction()
 {
-  unsigned int i;
-
   if ( m_Orientations )
     {
-    for ( i = 0; i < VDimension; i++ )
+    for ( unsigned int i = 0; i < VDimension; i++ )
       {
       delete[] m_Orientations[i];
       }
@@ -72,23 +74,23 @@ EllipsoidInteriorExteriorSpatialFunction< VDimension, TInput >
       {
       orientationVector[j] = m_Orientations[i][j];
       }
-    distanceSquared += vcl_pow( static_cast< double >( ( orientationVector * pointVector ) / ( .5 * m_Axes[i] ) ),
-                                static_cast< double >( 2 ) );
+    double temp = static_cast< double >( ( orientationVector * pointVector ) / ( .5 * m_Axes[i] ) );
+    distanceSquared += temp * temp;
     }
 
-  if ( distanceSquared <= 1 )
+  if ( distanceSquared <= 1. )
     {
-    return 1; // Inside the ellipsoid.
+    return NumericTraits< OutputType >::One; // Inside the ellipsoid.
     }
   //Default return value assumes outside the ellipsoid
-  return 0; // Outside the ellipsoid.
+  return NumericTraits< OutputType >::Zero; // Outside the ellipsoid.
 }
 
 template< unsigned int VDimension, typename TInput >
 void EllipsoidInteriorExteriorSpatialFunction< VDimension, TInput >
 ::SetOrientations(const OrientationType & orientations)
 {
-  unsigned int i, j;
+  unsigned int i;
 
   // Initialize orientation vectors.
   if ( m_Orientations )
@@ -103,24 +105,19 @@ void EllipsoidInteriorExteriorSpatialFunction< VDimension, TInput >
   for ( i = 0; i < VDimension; i++ )
     {
     m_Orientations[i] = new double[VDimension];
-    }
 
-  // Set orientation vectors (must be orthogonal).
-  for ( i = 0; i < VDimension; i++ )
-    {
-    for ( j = 0; j < VDimension; j++ )
+    // Set orientation vectors (must be orthogonal).
+    for ( unsigned int j = 0; j < VDimension; j++ )
       {
       m_Orientations[i][j] = orientations[i][j];
       }
-    }
+   }
 }
 
 template< unsigned int VDimension, typename TInput >
 void EllipsoidInteriorExteriorSpatialFunction< VDimension, TInput >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
-  unsigned int i, j;
-
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Lengths of Ellipsoid Axes: " << m_Axes << std::endl;
@@ -128,9 +125,9 @@ void EllipsoidInteriorExteriorSpatialFunction< VDimension, TInput >
   if ( m_Orientations )
     {
     os << indent << "Orientations: " << std::endl;
-    for ( i = 0; i < VDimension; i++ )
+    for ( unsigned int i = 0; i < VDimension; i++ )
       {
-      for ( j = 0; j < VDimension; j++ )
+      for ( unsigned int j = 0; j < VDimension; j++ )
         {
         os << indent << indent <<  m_Orientations[i][j] << " ";
         }

@@ -24,15 +24,19 @@
 namespace itk
 {
 /**
- * \class EllipsoidSpatialFunction
+ * \class EllipsoidInteriorExteriorSpatialFunction
  * \brief Function implementation of an ellipsoid
  *
  * Implements a function that returns 1 for points inside or on the
  * surface of a ellipsoid and 0 for points outside the ellipsoid. The
  * orientation of the  n-dimensional ellipsoid axes are defined by n
- * orthogonal vectors. See
- * Examples/EllipsoidInteriorExteriorSpatialFunction/README for an
+ * orthogonal vectors.
+ *
+ * See Examples/EllipsoidInteriorExteriorSpatialFunction/README for an
  * example of creating an Ellipsoid in an image.
+ *
+ * \todo Can't find this example. Anyone knows where is it now?
+ *
  * \ingroup ITKCommon
  */
 template< unsigned int VDimension = 3,
@@ -55,6 +59,8 @@ public:
 
   /** Input type for the function */
   typedef typename Superclass::InputType InputType;
+
+  typedef typename InputType::CoordRepType InputCoordRepType;
 
   /** Output type for the function */
   typedef typename Superclass::OutputType OutputType;
@@ -83,6 +89,9 @@ protected:
 
   void PrintSelf(std::ostream & os, Indent indent) const;
 
+  /** The center of the ellipsoid. */
+  InputType m_Center;
+
 private:
   EllipsoidInteriorExteriorSpatialFunction(const Self &); //purposely not
                                                           // implemented
@@ -90,8 +99,6 @@ private:
 
   // implemented
 
-  /** The center of the ellipsoid. */
-  InputType m_Center;
 
   /** The axes lenths of the ellipsoid. */
   InputType m_Axes;
