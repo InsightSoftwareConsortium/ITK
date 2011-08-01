@@ -23,11 +23,12 @@
 namespace itk
 {
 /**
- * \class EulerOperatorSplitEdgeFunction
- * \ingroup QEMeshModifierFunctions
+ * \class QuadEdgeMeshEulerOperatorSplitEdgeFunction
+ * \brief Given Edge is splitted into two and associated faces see their
+ * degree increased by one (a triangle is transformed into a quad for
+ * example).
  *
- * \brief Given Edge is splitted into two and associated faces see their degree
- *        increased by one (a triangle is transformed into a quad for example).
+ * \ingroup QEMeshModifierFunctions
  * \ingroup ITKQuadEdgeMesh
  */
 template< class TMesh, class TQEType >

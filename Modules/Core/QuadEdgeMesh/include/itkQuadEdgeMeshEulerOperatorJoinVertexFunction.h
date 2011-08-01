@@ -29,11 +29,10 @@ namespace itk
 // http://www.cgal.org/Manual/doc_html/cgal_manual/Polyhedron_ref/Class_Polyhedron_3.html
 /**
  * \class EulerOperatorJoinVertexFunction
- * \ingroup QEMeshModifierFunctions
  *
  * \brief Collapse a given edge by joining its dest and its org.
  *
- * Collapse the argument edge e of EulerOperatorJoinVertexFunction::Evaluate
+ * Collapse the argument edge e of Evaluate
  * by joining the two vertices incident to e (i.e. its endpoints).
  * The destination vertex of e is set aside (i.e. disconneted from its
  * edge entry and no edge has this vertex as endpoint). Note that the
@@ -41,18 +40,23 @@ namespace itk
  * loss of geometrical information). On success JoinVertex returns the Id
  * of the disconected vertex (i.e. the destination of e) and it is up to
  * the caller to "take care" of it.
+ *
  * Precondition: the edge should be adjacent at least to an other edge
  * (i.e. not be isolated at both endpoints).
+ *
  * \warning JoinVertex.Evaluate( h) and JoinVertex.Evaluate( h->GetSym() )
- *    are topologically identical. But their differ in their geometrical
- *    result, since JoinVertex removes the destination vertex of the
- *    incoming argument. A simple way to visualize this difference is to
- *    imagine a mesh constituted of squares layed out on a regular grid
- *    and for each such square an added diagonal. No imagine what happens
- *    when one operates JoinVertex on a diagonal edge of a corner square
- *    (and how it differs with feeding JoinVertex with the opposite edge).
+ * are topologically identical. But their differ in their geometrical
+ * result, since JoinVertex removes the destination vertex of the
+ * incoming argument. A simple way to visualize this difference is to
+ * imagine a mesh constituted of squares layed out on a regular grid
+ * and for each such square an added diagonal. No imagine what happens
+ * when one operates JoinVertex on a diagonal edge of a corner square
+ * (and how it differs with feeding JoinVertex with the opposite edge).
+ *
  * \sa The operator \ref itkQE::EulerOperatorJoinVertexFunction can be
  *    seen as the inverse operator.
+ *
+ * \ingroup QEMeshModifierFunctions
  * \ingroup ITKQuadEdgeMesh
  */
 template< class TMesh, class TQEType >

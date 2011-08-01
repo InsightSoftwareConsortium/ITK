@@ -23,9 +23,7 @@
 namespace itk
 {
 /**
- * \class EulerOperatorFlipEdgeFunction
- * \ingroup QEMeshModifierFunctions
- *
+ * \class QuadEdgeMeshEulerOperatorFlipEdgeFunction
  * \brief Flip an edge.
  *
  * The original FlipEdge operator required both faces of the input edge
@@ -33,7 +31,10 @@ namespace itk
  * Either or both faces can be polygonal, the org and dest of the edge
  * is then "rotated" around the big polygon that would exist if the two faces
  * of the edge e were joined.
+ *
  * \image html EulerOperatorFlipEdgeWidth600.png "Swapping the h edge"
+ *
+ * \ingroup QEMeshModifierFunctions
  * \ingroup ITKQuadEdgeMesh
  */
 template< class TMesh, class TQEType >
