@@ -17,6 +17,9 @@ ITKTestKernel
 ITKTransform
 )
 
+set(Core_documentation
+"Documentation for Group Core"
+)
 
 set(IO_module_list
 ITKIOBase
@@ -40,6 +43,10 @@ ITKIOStimulate
 ITKIOTIFF
 ITKIOVTK
 ITKIOXML
+)
+
+set(IO_documentation
+"Documentation for Group IO"
 )
 
 set(Filtering_module_list
@@ -75,10 +82,18 @@ ITKLabelMap
 ITKImageFusion
 )
 
+set(Filtering_documentation
+"Documentation for Group Filtering"
+)
+
 set(Registration_module_list
 ITKFEMRegistration
 ITKPDEDeformableRegistration
 ITKRegistrationCommon
+)
+
+set(Registration_documentation
+"Documentation for group Registration"
 )
 
 set(Segmentation_module_list
@@ -96,6 +111,10 @@ ITKVoronoi
 ITKWatersheds
 )
 
+set(Segmentation_documentation
+"Documentation for group Segmentation"
+)
+
 set(Numerics_module_list
 ITKEigen
 ITKFEM
@@ -106,10 +125,17 @@ ITKPolynomials
 ITKStatistics
 )
 
+set(Numerics_documentation
+"Documentation for group Numerics"
+)
 
 set(Bridge_module_list
 ITKVtkGlue
 ITKVTK)
+
+set(Bridge_documentation
+"Documentation for group Bridge"
+)
 
 set(Utilities_module_list
 ITKKWSys
@@ -127,10 +153,45 @@ ITKVNLInstantiation
 ITKTIFF
 )
 
+set(Utilities_documentation
+"Documentation for group Utilities"
+)
+
 set(Nonunit_module_list
 ITKIntegratedTest
 ITKReview
 )
+set(Nonunit_documentation
+"Documentation for group Nonunit"
+)
+
+#------------------------------------------------
+#------------------------------------------------
+set( group_list_dox )
+foreach(group ${group_list} )
+  set( group_list_dox
+"${group_list_dox}
+// -----------------------------------------------
+// Group ${group}
+/** \\defgroup Group-${group} Group ${group}
+${${group}_documentation} */\n"
+    )
+
+  foreach(mod ${${group}_module_list} )
+    set( group_list_dox
+"${group_list_dox}
+/** \\defgroup ${mod} Module ${mod}
+\\ingroup Group-${group} */\n"
+      )
+  endforeach()
+endforeach()
+
+set( _content ${group_list_dox} )
+configure_file(
+  "${ITK_SOURCE_DIR}/Utilities/Doxygen/Module.dox.in"
+  "${ITK_BINARY_DIR}/Utilities/Doxygen/Modules/ITK-AllGroups.dox"
+  )
+
 #------------------------------------------------
 # Turn on the ITK_BUILD option for each group
 if("$ENV{DASHBOARD_TEST_FROM_CTEST}" STREQUAL "")
