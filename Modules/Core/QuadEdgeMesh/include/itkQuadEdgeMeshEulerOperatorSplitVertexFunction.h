@@ -24,13 +24,15 @@ namespace itk
 {
 /**
  * \class EulerOperatorSplitVertexFunction
- * \ingroup QuadEdgeMeshModifierFunctions
+ * \brief Split a vertex into two new connected vertices.
  *
- * \brief For two given edges e and f sharing the same dest(), disconnect the
- * two rings, create a new point to be set at f->dest(), and create
+ * For two given edges e and f sharing the same dest(), disconnect
+ * the two rings, create a new point to be set at f->dest(), and create
  * a new edge between e->Destination() and f->Destination().
  *
- * \sa \ref itk::QuadEdgeMeshEulerOperatorJoinVertexFunction
+ * \sa QuadEdgeMeshEulerOperatorJoinVertexFunction
+ *
+ * \ingroup QuadEdgeMeshModifierFunctions
  * \ingroup ITKQuadEdgeMesh
  */
 template< class TMesh, class TQEType >

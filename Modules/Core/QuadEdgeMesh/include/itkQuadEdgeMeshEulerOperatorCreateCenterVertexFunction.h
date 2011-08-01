@@ -23,11 +23,10 @@
 namespace itk
 {
 /**
- * \class EulerOperatorCreateCenterVertexFunction
- * \ingroup QEMeshModifierFunctions
- *
+ * \class QuadEdgeMeshEulerOperatorCreateCenterVertexFunction
  * \brief Create a vertex at the barycenter of the given face.
  *
+ * \ingroup QEMeshModifierFunctions
  * \ingroup ITKQuadEdgeMesh
  */
 template< class TMesh, class TQEType >
@@ -84,5 +83,3 @@ private:
 #include "itkQuadEdgeMeshEulerOperatorCreateCenterVertexFunction.hxx"
 
 #endif // __ITKQUADEDGEMESH__ITKQEEULEROPERATORCREATECENTERVERTEXFUNCTION__H__
-
-// eof - itkQuadEdgeMeshEulerOperatorCreateCenterVertexFunction.h

@@ -23,13 +23,12 @@
 namespace itk
 {
 /**
- * \class EulerOperatorSplitFacetFunction
- * \ingroup QuadEdgeMeshModifierFunctions
+ * \class QuadEdgeMeshEulerOperatorSplitFacetFunction
+ * \brief Given two edges h and g sharing the same Left() face, create a
+ * new edge joining h->Destination() to g->Destination(), thus splitting
+ * the original Left().
  *
- * \brief Given two edges h and g sharing the same Left() face,
- *        create a new edge joining h->Destination() to g->Destination(),
- *        thus splitting
- *        the original Left().
+ * \ingroup QuadEdgeMeshModifierFunctions
  * \ingroup ITKQuadEdgeMesh
  */
 template< class TMesh, class TQEType >
