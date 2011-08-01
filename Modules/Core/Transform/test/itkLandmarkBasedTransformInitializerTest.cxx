@@ -379,10 +379,9 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
   typedef itk::LandmarkBasedTransformInitializer< TransformType,
                                                   ImageType, ImageType > TransformInitializerType;
   TransformInitializerType::Pointer initializer = TransformInitializerType::New();
-  TransformInitializerType::LandmarkPointContainer fixedLandmarks;
-  TransformInitializerType::LandmarkPointContainer movingLandmarks;
 
-  const unsigned int numLandmarks(6);
+
+  const unsigned int numLandmarks(8);
   double fixedLandMarkInit[numLandmarks][3] =
     {
       { -1.33671, -279.739, 176.001 },
@@ -390,7 +389,9 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
       { -1.36713, -257.43, 155.36 },
       { -33.0851, -347.026, 180.865 },
       { -0.16083, -268.529, 148.96 },
-      { -0.103873, -251.31, 122.973 }
+      { -0.103873, -251.31, 122.973 },
+      { 200, 200, 200 },   // dummy
+      { -300, 100, 1000 } // dummy
     };
   double movingLandmarkInit[numLandmarks][3] =
     {
@@ -399,11 +400,25 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
       {-1.55885       , -0.499696-0.04, 12.7584},
       {-33.0151+0.001 , -92.0973      , -8.66965},
       {-0.189769      , -7.3485       , 1.74263+0.008},
-      {0.1021         , 20.2155       , -12.8526-0.006}
+      {0.1021         , 20.2155       , -12.8526-0.006},
+      { 200, 200, 200 },   // dummy
+      { -300, 100, 1000 } // dummy
+
     };
-  for(unsigned i = 0; i < numLandmarks; i++)
+  double weights[numLandmarks] =
+    {
+      10,1,10,1,1,1,0.001,0.001
+    };
+  { //First Test with working Landmarks
+    // These landmark should match properly
+  const unsigned int numWorkingLandmark=6;
+  TransformInitializerType::LandmarkPointContainer fixedLandmarks;
+  TransformInitializerType::LandmarkPointContainer movingLandmarks;
+  TransformInitializerType::LandmarkWeightType landmarkWeights;
+  for(unsigned i = 0; i < numWorkingLandmark; i++)
     {
     TransformInitializerType::LandmarkPointType fixedPoint, movingPoint;
+
     for(unsigned j = 0; j < 3; j++)
       {
       fixedPoint[j] = fixedLandMarkInit[i][j];
@@ -411,10 +426,12 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
       }
     fixedLandmarks.push_back(fixedPoint);
     movingLandmarks.push_back(movingPoint);
+    landmarkWeights.push_back(weights[i]);
     }
 
   initializer->SetFixedLandmarks(fixedLandmarks);
   initializer->SetMovingLandmarks(movingLandmarks);
+  initializer->SetLandmarkWeight(landmarkWeights);
   initializer->SetTransform(transform);
   initializer->InitializeTransform();
 
@@ -462,6 +479,81 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
     {
     std::cout << "  Landmark alignment using Affine transform [PASSED]" << std::endl;
     }
+  }
+
+  { // Test with dummy points
+    // dummy points should not matched based on given weights
+  const unsigned int numDummyLandmark=8;
+  TransformInitializerType::LandmarkPointContainer fixedLandmarks;
+  TransformInitializerType::LandmarkPointContainer movingLandmarks;
+  TransformInitializerType::LandmarkWeightType landmarkWeights;
+
+  for(unsigned i = 0; i < numDummyLandmark; i++)
+    {
+    TransformInitializerType::LandmarkPointType fixedPoint, movingPoint;
+
+    for(unsigned j = 0; j < 3; j++)
+      {
+      fixedPoint[j] = fixedLandMarkInit[i][j];
+      movingPoint[j] = movingLandmarkInit[i][j];
+      }
+    fixedLandmarks.push_back(fixedPoint);
+    movingLandmarks.push_back(movingPoint);
+    landmarkWeights.push_back(weights[i]);
+    }
+
+  initializer->SetFixedLandmarks(fixedLandmarks);
+  initializer->SetMovingLandmarks(movingLandmarks);
+  initializer->SetLandmarkWeight(landmarkWeights);
+  initializer->SetTransform(transform);
+  initializer->InitializeTransform();
+
+  std::cerr << "Transform " << transform << std::endl;
+
+  TransformInitializerType::PointsContainerConstIterator
+    fitr = fixedLandmarks.begin();
+  TransformInitializerType::PointsContainerConstIterator
+    mitr = movingLandmarks.begin();
+
+  typedef TransformInitializerType::OutputVectorType  OutputVectorType;
+  OutputVectorType error;
+  OutputVectorType::RealValueType tolerance = 0.1;
+  unsigned int failed = 0;
+
+  while( mitr != movingLandmarks.end() )
+    {
+    TransformInitializerType::LandmarkPointType transformedPoint =
+      transform->TransformPoint( *fitr );
+    std::cout << "  Fixed Landmark: " << *fitr << " Moving landmark " << *mitr
+              << " Transformed fixed Landmark : "
+              << transformedPoint;
+
+    error = *mitr - transformedPoint;
+    std::cout << " error = " << error.GetNorm() << std::endl;
+    if( error.GetNorm() > tolerance )
+      {
+      failed++;
+      }
+
+    ++mitr;
+    ++fitr;
+    }
+
+  if( failed > 2)
+    {
+    // Hang heads in shame
+    std::cout << "  Fixed landmarks transformed by the transform did not match closely "
+              << " enough with the moving landmarks.  The transform computed was: ";
+    transform->Print(std::cout);
+    std::cout << "  [FAILED]" << std::endl;
+    return EXIT_FAILURE;
+    }
+  else
+    {
+    std::cout << "  Landmark alignment using Affine transform [PASSED]" << std::endl;
+
+    }
+  } // Second test with dummy
   }
   return EXIT_SUCCESS;
 }

@@ -69,7 +69,29 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
     {
     itkExceptionMacro( << " size mismatch between Fixed and Moving Landmarks" );
     }
-  unsigned int NumberOfLandMarks = m_MovingLandmarks.size();
+  const unsigned int NumberOfLandMarks = m_MovingLandmarks.size();
+
+
+  //[Set Landmark Weight]
+  //:: If no landmark weights are given, weight matrix is identity matrix
+  vnl_matrix<double> vnlWeight( NumberOfLandMarks,NumberOfLandMarks,0);
+  vnlWeight.set_identity();
+
+  if( !m_LandmarkWeight.empty() )
+  {
+    if( m_LandmarkWeight.size() != NumberOfLandMarks)
+    {
+      itkExceptionMacro( << " size mismatch between number of landmars pairs and weights" );
+    }
+    LandmarkWeightConstIterator weightIt = m_LandmarkWeight.begin();
+    for(int i = 0; weightIt != m_LandmarkWeight.end(); ++i, ++weightIt )
+    {
+      vnlWeight(i,i)=(*weightIt);
+    }
+  }
+  // Normalize weights
+  //
+  vnlWeight=vnlWeight/vnlWeight.fro_norm();
 
   //[Convert Point to Matrix for Matrix Muptiplication]
   //
@@ -86,6 +108,7 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
       }
     q(ImageDimension,i)=1.0F;
     }
+  q *= vnlWeight;
 
   // p
   // dim=3 * NumberOfLandMarks matrix
@@ -99,6 +122,7 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
       }
     }
 
+  p *= vnlWeight;
   // EX) 3 dimensional case
   //          | sum( q(1,i)*q(1,i) sum( q(1,i)*q(2,i) sum( q(1,i)*q(3,i) sum( q(1,i) ) |
   // Q[4x4] = | sum( q(2,i)*q(1,i) sum( q(2,i)*q(2,i) sum( q(2,i)*q(3,i) sum( q(2,i) ) |
@@ -166,8 +190,8 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
   //
   // Define Matrix Type
   //
-  itk::Matrix<double,ImageDimension> mA =
-    itk::Matrix<double,ImageDimension>(AffineRotation);
+  itk::Matrix<double,ImageDimension,ImageDimension> mA =
+    itk::Matrix<double,ImageDimension,ImageDimension>(AffineRotation);
   itk::Vector<double,ImageDimension> mT;
   for(unsigned int t=0;t<ImageDimension;t++)
     {
