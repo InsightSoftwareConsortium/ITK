@@ -52,7 +52,7 @@ int itkLabelImageToLabelMapFilterTest(int argc, char * argv[])
   sizeIn[1] = 11;
   image->SetRegions( sizeIn );
   image->Allocate();
-  image->FillBuffer( 0 );
+  image->FillBuffer( 255 );
 
   IndexType idxHorizontal;
   idxHorizontal[1] = 5;
@@ -67,12 +67,31 @@ int itkLabelImageToLabelMapFilterTest(int argc, char * argv[])
     image->SetPixel( idxVertical, 1 );
     }
 
+  idxHorizontal[1] = 7;
+  idxVertical[0] = 7;
+
+    for (int ctr=0; ctr<11; ctr++)
+    {
+    idxHorizontal[0] = ctr;
+    idxVertical[1] = ctr;
+    image->SetPixel( idxHorizontal, 5);
+    image->SetPixel( idxVertical, 2 );
+    }
+
+  idxHorizontal[0] = 7;
+  image->SetPixel( idxHorizontal, 3 );
+
   LabelImageToLabelMapFilterType::Pointer conversion = LabelImageToLabelMapFilterType::New();
   conversion->SetInput( image );
+  conversion->SetBackgroundValue( 255 );
   conversion->Update( );
+
+  itkAssertOrThrowMacro( ( conversion->GetBackgroundValue() == 255 ), "Error conversion background value." )
 
   LabelMapType::Pointer map;
   map = conversion->GetOutput();
+
+  itkAssertOrThrowMacro( ( map->GetBackgroundValue() == 255 ), "Error in Label Image (background)." );
 
   map->Print(std::cout);
 
@@ -87,13 +106,29 @@ int itkLabelImageToLabelMapFilterTest(int argc, char * argv[])
       unsigned long val;
       val = map->GetPixel(index);
       std::cout << "Pixel[" << ctrI << "," << ctrJ << "]: " << val << std::endl;
-      if ( (ctrI == 5) || (ctrJ==5) )
+      if ( ( (ctrI == 5) || (ctrJ==5) ) && ( ctrI != 7 ) && ( ctrJ != 7 ) )
         {
         itkAssertOrThrowMacro( (val == 1), "Error in Label Image (foreground).");
         }
       else
         {
-        itkAssertOrThrowMacro( (val == 0), "Error in Label Image (background).");
+        if( ( ctrI == 7 ) && ( ctrJ == 7 ) )
+          {
+          itkAssertOrThrowMacro( (val == 3), "Error in Label Image (foreground).");
+          continue;
+          }
+        else if( ctrJ == 7 )
+          {
+          itkAssertOrThrowMacro( (val == 5), "Error in Label Image (foreground).");
+          }
+        else if( ctrI == 7 )
+          {
+          itkAssertOrThrowMacro( (val == 2), "Error in Label Image (foreground).");
+          }
+        else
+          {
+          itkAssertOrThrowMacro( (val == 255), "Error in Label Image (background).");
+          }
         }
       }
     }
