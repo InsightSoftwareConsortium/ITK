@@ -21,18 +21,18 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates the use of the \doxygen{BSplineDeformableTransform}
+// This example illustrates the use of the \doxygen{BSplineTransform}
 // class in a manually controlled multi-resolution scheme. Here we define two
 // transforms at two different resolution levels. A first registration is
 // performed with the spline grid of low resolution, and the results are then
 // used for initializing a higher resolution grid. Since this example is quite
 // similar to the previous example on the use of the
-// \code{BSplineDeformableTransform} we omit here most of the details already
+// \code{BSplineTransform} we omit here most of the details already
 // discussed and will focus on the aspects related to the multi-resolution
 // approach.
 //
-// \index{itk::BSplineDeformableTransform}
-// \index{itk::BSplineDeformableTransform!DeformableRegistration}
+// \index{itk::BSplineTransform}
+// \index{itk::BSplineTransform!DeformableRegistration}
 // \index{itk::LBFGSOptimizer}
 //
 //
@@ -45,13 +45,13 @@
 //
 //  We include the header files for the transform and the optimizer.
 //
-//  \index{itk::BSplineDeformableTransform!header}
+//  \index{itk::BSplineTransform!header}
 //  \index{itk::LBFGSOptimizer!header}
 //
 //  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-#include "itkBSplineDeformableTransform.h"
+#include "itkBSplineTransform.h"
 #include "itkLBFGSOptimizer.h"
 // Software Guide : EndCodeSnippet
 
@@ -91,12 +91,12 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  We instantiate now the type of the \code{BSplineDeformableTransform} using
+  //  We instantiate now the type of the \code{BSplineTransform} using
   //  as template parameters the type for coordinates representation, the
   //  dimension of the space, and the order of the BSpline.
   //
-  //  \index{BSplineDeformableTransform!New}
-  //  \index{BSplineDeformableTransform!Instantiation}
+  //  \index{BSplineTransform!New}
+  //  \index{BSplineTransform!Instantiation}
   //
   //  Software Guide : EndLatex
 
@@ -105,7 +105,7 @@ int main( int argc, char *argv[] )
   const unsigned int SplineOrder = 3;
   typedef double CoordinateRepType;
 
-  typedef itk::BSplineDeformableTransform<
+  typedef itk::BSplineTransform<
                             CoordinateRepType,
                             SpaceDimension,
                             SplineOrder >     TransformType;
@@ -248,7 +248,7 @@ int main( int argc, char *argv[] )
   //
   //  Once the registration has finished with the low resolution grid, we
   //  proceed to instantiate a higher resolution
-  //  \code{BSplineDeformableTransform}.
+  //  \code{BSplineTransform}.
   //
   //  Software Guide : EndLatex
 

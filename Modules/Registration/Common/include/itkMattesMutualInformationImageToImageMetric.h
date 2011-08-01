@@ -209,7 +209,7 @@ public:
    * method an extra 2D array is used for storing the weights of each one of
    * the PDF bins. This is an array of doubles with size equals to (number of
    * histogram bins)^2. This method is well suited for Transforms with a large
-   * number of parameters, such as, BSplineDeformableTransforms. */
+   * number of parameters, such as, BSplineTransforms. */
   itkSetMacro(UseExplicitPDFDerivatives, bool);
   itkGetConstReferenceMacro(UseExplicitPDFDerivatives, bool);
   itkBooleanMacro(UseExplicitPDFDerivatives);

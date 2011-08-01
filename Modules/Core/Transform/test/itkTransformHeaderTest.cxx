@@ -23,7 +23,7 @@
 
 #include "itkAffineTransform.hxx"
 #include "itkAzimuthElevationToCartesianTransform.hxx"
-#include "itkBSplineDeformableTransform.hxx"
+#include "itkBSplineTransform.hxx"
 #include "itkCenteredAffineTransform.hxx"
 #include "itkCenteredEuler3DTransform.hxx"
 #include "itkCenteredRigid2DTransform.hxx"
@@ -70,6 +70,11 @@
 #include "itkVersorRigid3DTransform.hxx"
 #include "itkVersorTransform.hxx"
 #include "itkVolumeSplineKernelTransform.hxx"
+
+#ifdef ITKV3_COMPATIBILITY
+#include "itkBSplineDeformableTransform.h"
+#include "itkBSplineDeformableTransformInitializer.h"
+#endif // def ITKV3_COMPATIBILITY
 
 
 

@@ -25,8 +25,8 @@
 // in the context of a deformable registration problem. The code of this example is almost
 // identical to the one in Section~\ref{sec:DeformableRegistration8}.
 //
-// \index{itk::BSplineDeformableTransform}
-// \index{itk::BSplineDeformableTransform!DeformableRegistration}
+// \index{itk::BSplineTransform}
+// \index{itk::BSplineTransform!DeformableRegistration}
 // \index{itk::RegularStepGradientDescentOptimizer}
 //
 //
@@ -43,13 +43,13 @@
 //
 //  The following are the most relevant headers to this example.
 //
-//  \index{itk::BSplineDeformableTransform!header}
+//  \index{itk::BSplineTransform!header}
 //  \index{itk::RegularStepGradientDescentOptimizer!header}
 //
 //  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-#include "itkBSplineDeformableTransform.h"
+#include "itkBSplineTransform.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
 // Software Guide : EndCodeSnippet
 
@@ -127,7 +127,7 @@ int main( int argc, char *argv[] )
   const unsigned int SplineOrder = 3;
   typedef double CoordinateRepType;
 
-  typedef itk::BSplineDeformableTransform<
+  typedef itk::BSplineTransform<
                             CoordinateRepType,
                             SpaceDimension,
                             SplineOrder >     TransformType;
@@ -289,7 +289,7 @@ int main( int argc, char *argv[] )
     // each one of the samples used to compute the metric. Enabling caching will
     // make the algorithm run faster but it will have a cost on the amount of memory
     // that needs to be allocated. This option is only relevant when using the
-    // BSplineDeformableTransform.
+    // BSplineTransform.
     metric->SetUseCachingOfBSplineWeights( atoi( argv[8] ) );
     }
 

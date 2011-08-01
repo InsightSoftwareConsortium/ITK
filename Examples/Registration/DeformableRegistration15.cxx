@@ -27,7 +27,7 @@
 // initialization, then they are registered using a rigid transform, that in
 // turn, is used to initialize a registration with an affine transform. The
 // transform resulting from the affine registration is used as the bulk
-// transform of a BSplineDeformableTransform. The deformable registration is
+// transform of a BSplineTransform. The deformable registration is
 // computed, and finally the resulting transform is used to resample the moving
 // image.
 //
@@ -45,7 +45,7 @@
 //
 //  \index{itk::VersorRigid3DTransform!header}
 //  \index{itk::AffineTransform!header}
-//  \index{itk::BSplineDeformableTransform!header}
+//  \index{itk::BSplineTransform!header}
 //  \index{itk::RegularStepGradientDescentOptimizer!header}
 //
 //  Software Guide : EndLatex
@@ -54,7 +54,7 @@
 #include "itkCenteredTransformInitializer.h"
 #include "itkVersorRigid3DTransform.h"
 #include "itkAffineTransform.h"
-#include "itkBSplineDeformableTransform.h"
+#include "itkBSplineTransform.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
 // Software Guide : EndCodeSnippet
 
@@ -141,7 +141,7 @@ int main( int argc, char *argv[] )
 
   typedef itk::AffineTransform< double, SpaceDimension > AffineTransformType;
 
-  typedef itk::BSplineDeformableTransform<
+  typedef itk::BSplineTransform<
                             CoordinateRepType,
                             SpaceDimension,
                             SplineOrder >     DeformableTransformType;
@@ -246,7 +246,7 @@ int main( int argc, char *argv[] )
     // each one of the samples used to compute the metric. Enabling caching will
     // make the algorithm run faster but it will have a cost on the amount of memory
     // that needs to be allocated. This option is only relevant when using the
-    // BSplineDeformableTransform.
+    // BSplineTransform.
     metric->SetUseCachingOfBSplineWeights( atoi( argv[8] ) );
     }
 
@@ -537,7 +537,7 @@ int main( int argc, char *argv[] )
   //
   //  Once the registration has finished with the low resolution grid, we
   //  proceed to instantiate a higher resolution
-  //  \code{BSplineDeformableTransform}.
+  //  \code{BSplineTransform}.
   //
   //  Software Guide : EndLatex
 

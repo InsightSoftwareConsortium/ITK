@@ -5,11 +5,6 @@
 **
 ** BSplineRegistrationRefactoring.xml
 **
-** >>>>>>>>>>>>>>>>>>>>>>>>>>>>
-** THIS FILE HAS BEEN AUTOMATICALLY GENERATED. EDIT IT BEFORE COMMITING
-** <<<<<<<<<<<<<<<<<<<<<<<<<<<
-**
-** Please, make sure this file validates the following w3c test before committing it: http://validator.w3.org
 **-->
 <Change>
     <!--**
@@ -71,6 +66,9 @@
       4. We got rid of the bulk transform in the B-spline transform.
       We expect to handle global alignment via another mechanism
       outside a specific transform.
+
+      The ITKv3 api is available when ITKv4 configured with
+      ITKV3_COMPATIBILITY:BOOL=ON
     </Description>
 
     <!--**
@@ -122,14 +120,14 @@
         // initializer.
         //
 
-        typedef itk::BSplineDeformableTransform<
+        typedef itk::BSplineTransform<
                                   CoordinateRepType,
                                   SpaceDimension,
                                   SplineOrder >     TransformType;
 
         TransformType::Pointer bsplineTransform = TransformType::New();
 
-        typedef itk::BSplineDeformableTransformInitializer<
+        typedef itk::BSplineTransformInitializer<
                         TransformType,
                         FixedImageType >      InitializerType;
         InitializerType::Pointer transformInitializer = InitializerType::New();
@@ -243,19 +241,23 @@
       Examples/Registration/DeformableRegistration6.cxx
       Examples/Registration/DeformableRegistration7.cxx
       Examples/Registration/DeformableRegistration8.cxx
-      Modules/Core/Transform/include/itkBSplineDeformableTransform.h
-      Modules/Core/Transform/include/itkBSplineDeformableTransform.txx
+      Modules/Core/Transform/include/itkBSplineTransform.h
+      Modules/Core/Transform/include/itkBSplineTransform.txx
+      Modules/Nonunit/Review/test/itkBSplineTransformInitializerTest1.cxx
+      Modules/Nonunit/Review/test/itkBSplineTransformInitializerTest2.cxx
       Modules/Core/Transform/test/CMakeLists.txt
-      Modules/Core/Transform/test/itkBSplineDeformableTransformTest.cxx
-      Modules/Core/Transform/test/itkBSplineDeformableTransformTest2.cxx
-      Modules/Core/Transform/test/itkBSplineDeformableTransformTest3.cxx
-      Modules/Nonunit/Review/include/itkBSplineDeformableTransformInitializer.h
-      Modules/Nonunit/Review/include/itkBSplineDeformableTransformInitializer.txx
+      Modules/Core/Transform/test/itkBSplineTransformTest.cxx
+      Modules/Core/Transform/test/itkBSplineTransformTest2.cxx
+      Modules/Core/Transform/test/itkBSplineTransformTest3.cxx
+      Modules/Nonunit/Review/include/itkBSplineTransformInitializer.h
+      Modules/Nonunit/Review/include/itkBSplineTransformInitializer.txx
       Modules/Nonunit/Review/include/itkOptImageToImageMetricsTest2.h
-      Modules/Nonunit/Review/test/itkBSplineDeformableTransformInitializerTest1.cxx
-      Modules/Nonunit/Review/test/itkBSplineDeformableTransformInitializerTest2.cxx
       Modules/Nonunit/Review/test/itkTransformToDeformationFieldSourceTest.cxx
       Modules/Registration/Common/test/itkMattesMutualInformationImageToImageMetricTest.cxx
+      Modules/Core/Transform/include/itkBSplineDeformableTransform.h
+      Modules/Core/Transform/include/itkBSplineDeformableTransform.txx
+      Modules/Nonunit/Review/test/itkBSplineDeformableTransformInitializerTest1.cxx
+      Modules/Nonunit/Review/test/itkBSplineDeformableTransformInitializerTest2.cxx
     </FileList>
 
     <!--**

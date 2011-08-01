@@ -29,9 +29,6 @@ int itkTransformFactoryBaseTest (int, char*[])
   // Call register default transforms
   itk::TransformFactoryBase::RegisterDefaultTransforms();
 
-  // Print out the names of all the registered transforms
-  std::list<std::string> names = itk::TransformFactoryBase::GetFactory()->GetClassOverrideWithNames();
-
   // create the list of default transforms
   std::list<std::string> defaultTransforms;
   defaultTransforms.push_back("AffineTransform_double_2_2");
@@ -50,8 +47,12 @@ int itkTransformFactoryBaseTest (int, char*[])
   defaultTransforms.push_back("IdentityTransform_double_7_7");
   defaultTransforms.push_back("IdentityTransform_double_8_8");
   defaultTransforms.push_back("IdentityTransform_double_9_9");
+  defaultTransforms.push_back("BSplineTransform_double_2_2");
+  defaultTransforms.push_back("BSplineTransform_double_3_3");
+#ifdef ITKV3_COMPATIBILITY
   defaultTransforms.push_back("BSplineDeformableTransform_double_2_2");
   defaultTransforms.push_back("BSplineDeformableTransform_double_3_3");
+#endif
   defaultTransforms.push_back("CenteredAffineTransform_double_2_2");
   defaultTransforms.push_back("CenteredAffineTransform_double_3_3");
   defaultTransforms.push_back("CenteredEuler3DTransform_double_3_3");
@@ -92,8 +93,12 @@ int itkTransformFactoryBaseTest (int, char*[])
   defaultTransforms.push_back("IdentityTransform_float_7_7");
   defaultTransforms.push_back("IdentityTransform_float_8_8");
   defaultTransforms.push_back("IdentityTransform_float_9_9");
+  defaultTransforms.push_back("BSplineTransform_float_2_2");
+  defaultTransforms.push_back("BSplineTransform_float_3_3");
+#ifdef ITKV3_COMPATIBILITY
   defaultTransforms.push_back("BSplineDeformableTransform_float_2_2");
   defaultTransforms.push_back("BSplineDeformableTransform_float_3_3");
+#endif
   defaultTransforms.push_back("CenteredAffineTransform_float_2_2");
   defaultTransforms.push_back("CenteredAffineTransform_float_3_3");
   defaultTransforms.push_back("CenteredEuler3DTransform_float_3_3");
@@ -120,6 +125,8 @@ int itkTransformFactoryBaseTest (int, char*[])
 
   // check to make sure that all default transforms have been registered
   defaultTransforms.sort();
+  // Print out the names of all the registered transforms
+  std::list<std::string> names = itk::TransformFactoryBase::GetFactory()->GetClassOverrideWithNames();
   names.sort();
   std::list<std::string>::iterator namesIt;
   std::list<std::string>::iterator defaultsIt;

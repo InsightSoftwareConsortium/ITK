@@ -26,7 +26,7 @@
 #include "itkAsinImageAdaptor.h"
 #include "itkAtanImageAdaptor.h"
 #include "itkAzimuthElevationToCartesianTransform.h"
-#include "itkBSplineDeformableTransform.h"
+#include "itkBSplineTransform.h"
 #include "itkBSplineDerivativeKernelFunction.h"
 #include "itkBoundingBox.h"
 #include "itkCellInterfaceVisitor.h"
@@ -166,9 +166,9 @@ int itkCommonPrintTest(int , char* [])
     itk::AzimuthElevationToCartesianTransform<float,3>::New();
   std::cout << "------------AzimuthElevationToCartesianTransform" << AzimuthElevationToCartesianTransformObj;
 
-  itk::BSplineDeformableTransform<float,3,3>::Pointer BSplineDeformableTransformObj =
-    itk::BSplineDeformableTransform<float,3,3>::New();
-  std::cout << "------------BSplineDeformableTransform" << BSplineDeformableTransformObj;
+  itk::BSplineTransform<float,3,3>::Pointer BSplineTransformObj =
+    itk::BSplineTransform<float,3,3>::New();
+  std::cout << "------------BSplineTransform" << BSplineTransformObj;
 
   itk::BSplineDerivativeKernelFunction<3>::Pointer BSplineDerivativeKernelFunctionObj =
     itk::BSplineDerivativeKernelFunction<3>::New();

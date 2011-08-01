@@ -36,7 +36,7 @@
 // Software Guide : EndCodeSnippet
 
 #include "itkAffineTransform.h"
-#include "itkBSplineDeformableTransform.h"
+#include "itkBSplineTransform.h"
 #include "itkTransformFactory.h"
 #include "itkTransformFileWriter.h"
 
@@ -48,7 +48,7 @@ int main(int itkNotUsed(ac), char* itkNotUsed(av)[])
   cor.Fill(12);
   affine->SetCenter(cor);
 
-  typedef itk::BSplineDeformableTransform<double,3,5> BSplineTransformType;
+  typedef itk::BSplineTransform<double,3,5> BSplineTransformType;
   BSplineTransformType::Pointer bspline = BSplineTransformType::New();
 
   BSplineTransformType::OriginType origin;
@@ -185,7 +185,7 @@ int main(int itkNotUsed(ac), char* itkNotUsed(av)[])
 
   ++it;
 
-  if(!strcmp((*it)->GetNameOfClass(),"BSplineDeformableTransform"))
+  if(!strcmp((*it)->GetNameOfClass(),"BSplineTransform"))
     {
     BSplineTransformType::Pointer bspline_read = static_cast<BSplineTransformType*>((*it).GetPointer());
     bspline_read->Print(std::cout);

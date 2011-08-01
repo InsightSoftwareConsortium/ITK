@@ -26,7 +26,7 @@
 #include "itkAffineTransform.h"
 #include "itkTransformFactory.h"
 #include "itkSimilarity2DTransform.h"
-#include "itkBSplineDeformableTransform.h"
+#include "itkBSplineTransform.h"
 #include "itksys/SystemTools.hxx"
 
 static int oneTest(const char *goodname,const char *badname)

@@ -17,7 +17,7 @@
  *=========================================================================*/
 #include <fstream>
 #include "itkAffineTransform.h"
-#include "itkBSplineDeformableTransform.h"
+#include "itkBSplineTransform.h"
 #include "itkTransformToDeformationFieldSource.h"
 #include "itkImageFileWriter.h"
 
@@ -57,9 +57,9 @@ int itkTransformToDeformationFieldSourceTest( int argc, char * argv [] )
   typedef itk::AffineTransform<
     CoordRepresentationType, Dimension >  AffineTransformType;
 
-  typedef itk::BSplineDeformableTransform<
+  typedef itk::BSplineTransform<
     CoordRepresentationType, Dimension,
-    SplineOrder >                         BSplineDeformableTransformType;
+    SplineOrder >                         BSplineTransformType;
 
   typedef TransformType::ParametersType   ParametersType;
 
@@ -84,8 +84,8 @@ int itkTransformToDeformationFieldSourceTest( int argc, char * argv [] )
   /** Create transforms. */
   AffineTransformType::Pointer affineTransform
     = AffineTransformType::New();
-  BSplineDeformableTransformType::Pointer bSplineTransform
-    = BSplineDeformableTransformType::New();
+  BSplineTransformType::Pointer bSplineTransform
+    = BSplineTransformType::New();
   if ( transformName == "Affine" )
     {
     /** Set the options. */
@@ -107,13 +107,13 @@ int itkTransformToDeformationFieldSourceTest( int argc, char * argv [] )
     {
     /** Set the options. */
 
-    BSplineDeformableTransformType::PhysicalDimensionsType dimensions;
+    BSplineTransformType::PhysicalDimensionsType dimensions;
     for( unsigned int d = 0; d < Dimension; d++ )
       {
       dimensions[d] = spacing[d] * ( size[d] - 1.0 );
       }
-    BSplineDeformableTransformType::MeshSizeType meshSize;
-    BSplineDeformableTransformType::DirectionType direction;
+    BSplineTransformType::MeshSizeType meshSize;
+    BSplineTransformType::DirectionType direction;
     direction.SetIdentity();
 
     meshSize[0] = 7 - SplineOrder;

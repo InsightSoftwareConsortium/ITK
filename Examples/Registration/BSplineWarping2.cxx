@@ -24,7 +24,7 @@
 //
 //  This example illustrates how to deform a 3D image using a BSplineTransform.
 //
-//  \index{BSplineDeformableTransform}
+//  \index{BSplineTransform}
 //
 //  Software Guide : EndLatex
 
@@ -36,7 +36,7 @@
 
 #include "itkResampleImageFilter.h"
 
-#include "itkBSplineDeformableTransform.h"
+#include "itkBSplineTransform.h"
 #include "itkTransformFileWriter.h"
 
 //  Software Guide : EndCodeSnippet
@@ -161,12 +161,12 @@ int main( int argc, char * argv[] )
 
 //  Software Guide : BeginLatex
 //
-//  We instantiate now the type of the \code{BSplineDeformableTransform} using
+//  We instantiate now the type of the \code{BSplineTransform} using
 //  as template parameters the type for coordinates representation, the
 //  dimension of the space, and the order of the B-spline.
 //
-//  \index{BSplineDeformableTransform!New}
-//  \index{BSplineDeformableTransform!Instantiation}
+//  \index{BSplineTransform!New}
+//  \index{BSplineTransform!Instantiation}
 //
 //  Software Guide : EndLatex
 
@@ -177,7 +177,7 @@ int main( int argc, char * argv[] )
   const unsigned int SplineOrder = 3;
   typedef double CoordinateRepType;
 
-  typedef itk::BSplineDeformableTransform<
+  typedef itk::BSplineTransform<
                             CoordinateRepType,
                             SpaceDimension,
                             SplineOrder >     TransformType;
