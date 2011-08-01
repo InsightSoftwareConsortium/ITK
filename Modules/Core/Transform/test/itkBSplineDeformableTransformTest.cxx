@@ -96,6 +96,7 @@ int itkBSplineDeformableTransformTest1()
    */
   unsigned long numberOfParameters = transform->GetNumberOfParameters();
   ParametersType parameters( numberOfParameters );
+  parameters.Fill( itk::NumericTraits<ParametersType::ValueType>::Zero);
 
   /**
    * Define N * N-D grid of spline coefficients by wrapping the
@@ -657,6 +658,7 @@ int itkBSplineDeformableTransformTest3()
    */
   unsigned long numberOfParameters = transform->GetNumberOfParameters();
   ParametersType parameters( numberOfParameters );
+  parameters.Fill( itk::NumericTraits<ParametersType::ValueType>::Zero);
 
   /**
    * Define N * N-D grid of spline coefficients by wrapping the
