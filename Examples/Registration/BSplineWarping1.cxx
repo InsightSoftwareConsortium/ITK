@@ -14,11 +14,9 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *=========================================================================*/
-
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
-
 
 //  Software Guide : BeginLatex
 //
@@ -58,18 +56,18 @@ protected:
 public:
   void Execute(itk::Object *caller, const itk::EventObject & event)
     {
-      Execute( (const itk::Object *)caller, event);
+    Execute( (const itk::Object *)caller, event);
     }
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
-      const itk::ProcessObject * filter =
-        dynamic_cast< const itk::ProcessObject * >( object );
-      if( ! itk::ProgressEvent().CheckEvent( &event ) )
-        {
-        return;
-        }
-      std::cout << filter->GetProgress() << std::endl;
+    const itk::ProcessObject * filter =
+      dynamic_cast< const itk::ProcessObject * >( object );
+    if( ! itk::ProgressEvent().CheckEvent( &event ) )
+      {
+      return;
+      }
+    std::cout << filter->GetProgress() << std::endl;
     }
 };
 
@@ -187,7 +185,7 @@ int main( int argc, char * argv[] )
 
 // Software Guide : BeginCodeSnippet
 
-  const unsigned int numberOfGridNodes = 8;
+  const unsigned int numberOfGridNodes = 7;
 
   TransformType::PhysicalDimensionsType   fixedPhysicalDimensions;
   TransformType::MeshSizeType             meshSize;

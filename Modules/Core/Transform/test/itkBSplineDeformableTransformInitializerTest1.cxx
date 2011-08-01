@@ -127,16 +127,13 @@ int itkBSplineDeformableTransformInitializerTest1( int argc, char * argv[] )
                   FixedImageType >      InitializerType;
   InitializerType::Pointer transformInitializer = InitializerType::New();
 
+  TransformType::MeshSizeType meshSize;
+  meshSize.Fill( 4 );
 
   transformInitializer->SetTransform( bsplineTransform );
   transformInitializer->SetImage( fixedImage );
-
+  transformInitializer->SetTransformDomainMeshSize( meshSize );
   transformInitializer->InitializeTransform();
-
-  TransformType::MeshSizeType meshSize;
-  meshSize.Fill( 5 );
-
-  bsplineTransform->SetTransformDomainMeshSize( meshSize );
 
   typedef TransformType::ParametersType     ParametersType;
 

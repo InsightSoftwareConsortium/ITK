@@ -199,8 +199,9 @@ int main( int argc, char *argv[] )
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
   typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
 
-  FixedImageReaderType::Pointer  fixedImageReader  = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
+  MovingImageReaderType::Pointer movingImageReader =
+    MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(  argv[1] );
   movingImageReader->SetFileName( argv[2] );
@@ -218,7 +219,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
 
-  unsigned int numberOfGridNodesInOneDimension = 8;
+  unsigned int numberOfGridNodesInOneDimension = 7;
 
   TransformType::PhysicalDimensionsType   fixedPhysicalDimensions;
   TransformType::MeshSizeType             meshSize;
@@ -271,7 +272,8 @@ int main( int argc, char *argv[] )
 
 
   // Software Guide : BeginCodeSnippet
-  OptimizerType::BoundSelectionType boundSelect( transform->GetNumberOfParameters() );
+  OptimizerType::BoundSelectionType boundSelect(
+    transform->GetNumberOfParameters() );
   OptimizerType::BoundValueType upperBound( transform->GetNumberOfParameters() );
   OptimizerType::BoundValueType lowerBound( transform->GetNumberOfParameters() );
 
@@ -315,9 +317,9 @@ int main( int argc, char *argv[] )
     {
     // Define whether to cache the BSpline weights and indexes corresponding to
     // each one of the samples used to compute the metric. Enabling caching will
-    // make the algorithm run faster but it will have a cost on the amount of memory
-    // that needs to be allocated. This option is only relevant when using the
-    // BSplineDeformableTransform.
+    // make the algorithm run faster but it will have a cost on the amount of
+    // memory that needs to be allocated. This option is only relevant when
+    // using the BSplineDeformableTransform.
     metric->SetUseCachingOfBSplineWeights( atoi( argv[8] ) );
     }
 

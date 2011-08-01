@@ -82,12 +82,12 @@ int itkAttributeLabelObjectAccessorsTest1(int argc, char * argv[])
     unsigned long size = 0;
 
     // the iterator for the indexes
-    LabelObjectType::ConstIndexIterator it( labelObject );
-    while( ! it.IsAtEnd() )
+    LabelObjectType::ConstIndexIterator it2( labelObject );
+    while( ! it2.IsAtEnd() )
       {
-      mean += reader2->GetOutput()->GetPixel( it.GetIndex() );
+      mean += reader2->GetOutput()->GetPixel( it2.GetIndex() );
       size++;
-      ++it;
+      ++it2;
       }
 
     mean /= size;
