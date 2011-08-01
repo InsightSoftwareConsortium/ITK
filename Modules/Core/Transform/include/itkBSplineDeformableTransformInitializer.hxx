@@ -104,7 +104,6 @@ BSplineDeformableTransformInitializer<TTransform, TImage>
   // origin to determine these axes.  Thus bitwise operators are used
   // throughout the code so that the initializer is generalized to n-dimensions.
 
-  typedef typename ImageType::PointType              ImagePointType;
   typedef typename ImagePointType::CoordRepType      CoordRepType;
 
   typedef PointSet<CoordRepType, SpaceDimension>     PointSetType;
