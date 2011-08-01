@@ -18,6 +18,8 @@
 #ifndef __itkStructHashFunction_h
 #define __itkStructHashFunction_h
 
+#include "itkIntTypes.h"
+
 namespace itk
 {
 /** \class StructHashFunction
@@ -44,17 +46,17 @@ public:
   /** Input type */
   typedef TInput InputType;
 
-  unsigned int operator()(const InputType & key) const;
+  IdentifierType operator()(const InputType & key) const;
 };
 
 template< class TInput >
-inline unsigned int
+inline IdentifierType
 StructHashFunction< TInput >
 ::operator()(const InputType & key) const
 {
-  unsigned int len = static_cast< unsigned int >( sizeof( InputType ) );
+  IdentifierType len = static_cast< IdentifierType >( sizeof( InputType ) );
   const char * p = reinterpret_cast< const char * >( &key );
-  unsigned int hash = 0;
+  IdentifierType hash = 0;
   while ( len-- )
     {
     hash = hash * 65 + *p++;
