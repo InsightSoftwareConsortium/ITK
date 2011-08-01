@@ -23,7 +23,7 @@
 #include <fstream>
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkDifferenceImageFilter.h"
+#include "itkTestingComparisonImageFilter.h"
 #include "itkExtractImageFilter.h"
 #include "itkPipelineMonitorImageFilter.h"
 
@@ -41,7 +41,7 @@ bool SameImage(ImagePointer testImage, ImagePointer baselineImage)
   int radiusTolerance = 0;
   unsigned long numberOfPixelTolerance = 0;
 
-  typedef itk::DifferenceImageFilter<ImageType,ImageType> DiffType;
+  typedef itk::Testing::ComparisonImageFilter<ImageType,ImageType> DiffType;
   DiffType::Pointer diff = DiffType::New();
   diff->SetValidInput(baselineImage);
   diff->SetTestInput(testImage);
@@ -70,7 +70,7 @@ bool SameImage(std::string testImageFileName, ImagePointer baselineImage)
   ReaderType::Pointer readerTestImage = ReaderType::New();
   readerTestImage->SetFileName( testImageFileName );
 
-  typedef itk::DifferenceImageFilter<ImageType,ImageType> DiffType;
+  typedef itk::Testing::ComparisonImageFilter<ImageType,ImageType> DiffType;
   DiffType::Pointer diff = DiffType::New();
   diff->SetValidInput(baselineImage);
   diff->SetTestInput(readerTestImage->GetOutput());

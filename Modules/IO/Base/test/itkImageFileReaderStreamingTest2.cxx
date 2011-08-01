@@ -25,7 +25,7 @@
 #include "itkStreamingImageFilter.h"
 
 
-#include "itkDifferenceImageFilter.h"
+#include "itkTestingComparisonImageFilter.h"
 #include "itkExtractImageFilter.h"
 
 typedef unsigned char            PixelType;
@@ -50,7 +50,7 @@ bool SameRegionImage( ImageConstPointer test, ImageConstPointer baseline )
   extractor->SetInput( baseline );
 
 
-  typedef itk::DifferenceImageFilter<ImageType,ImageType> DiffType;
+  typedef itk::Testing::ComparisonImageFilter<ImageType,ImageType> DiffType;
   DiffType::Pointer diff = DiffType::New();
   diff->SetValidInput( extractor->GetOutput());
   diff->SetTestInput(test);

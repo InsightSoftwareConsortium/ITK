@@ -132,15 +132,25 @@ ComparisonImageFilter< TInputImage, TOutputImage >
   const InputImageType *testImage = this->GetInput(1);
   OutputImageType *     outputPtr = this->GetOutput();
 
+  if( validImage->GetBufferedRegion() != testImage->GetBufferedRegion() )
+    {
+    itkExceptionMacro( << "Input images have different Buffered Regions." )
+    }
+
   // Create a radius of pixels.
   RadiusType radius;
-  if ( m_ToleranceRadius > 0 )
+  const unsigned int minVoxelsNeeded = m_ToleranceRadius*2+1;
+  const typename TInputImage::SizeType imageSize = validImage->GetBufferedRegion().GetSize();
+  for( unsigned int d=0; d < TInputImage::ImageDimension; ++d )
     {
-    radius.Fill(m_ToleranceRadius);
-    }
-  else
-    {
-    radius.Fill(0);
+    if( minVoxelsNeeded < imageSize[d] )
+      {
+      radius[d] = m_ToleranceRadius;
+      }
+    else
+      {
+        radius[d] = ( (imageSize[d]-1)/2 );
+      }
     }
 
   // Find the data-set boundary faces.
