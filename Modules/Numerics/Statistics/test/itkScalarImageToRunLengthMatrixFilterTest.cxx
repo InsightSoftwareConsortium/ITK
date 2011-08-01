@@ -47,12 +47,14 @@ int itkScalarImageToRunLengthMatrixFilterTest(int, char* [] )
 
   InputImageType::SizeType inputImageSize = {{ IMGWIDTH, IMGHEIGHT }};
 
-  InputImageType::IndexType index;
-  index.Fill(0);
   InputImageType::RegionType region;
 
   region.SetSize( inputImageSize );
-  region.SetIndex( index );
+    {
+    InputImageType::IndexType index;
+    index.Fill(0);
+    region.SetIndex( index );
+    }
 
   //--------------------------------------------------------------------------
   // Set up the image first. It looks like:

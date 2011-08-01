@@ -502,10 +502,10 @@ int TestMattesMetricWithBSplineDeformableTransform(
     double, ImageDimension, 3 > TransformType;
   typedef typename TransformType::ParametersType ParametersType;
   typename TransformType::PhysicalDimensionsType dimensions;
-  for( unsigned int d = 0; d < ImageDimension; d++ )
+  for( unsigned int dim = 0; dim < ImageDimension; dim++ )
     {
-    dimensions[d] = imgFixed->GetSpacing()[d] *
-      ( imgFixed->GetLargestPossibleRegion().GetSize()[d] - 1 );
+    dimensions[dim] = imgFixed->GetSpacing()[dim] *
+      ( imgFixed->GetLargestPossibleRegion().GetSize()[dim] - 1 );
     }
   typename TransformType::MeshSizeType meshSize;
   meshSize.Fill( 4 );
