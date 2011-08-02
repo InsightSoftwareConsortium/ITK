@@ -23,7 +23,7 @@
 namespace itk
 {
 /**
- * \class EulerOperatorSplitVertexFunction
+ * \class QuadEdgeMeshEulerOperatorSplitVertexFunction
  * \brief Split a vertex into two new connected vertices.
  *
  * For two given edges e and f sharing the same dest(), disconnect
