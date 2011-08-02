@@ -28,7 +28,7 @@ namespace itk
 //
 // http://www.cgal.org/Manual/doc_html/cgal_manual/Polyhedron_ref/Class_Polyhedron_3.html
 /**
- * \class EulerOperatorJoinVertexFunction
+ * \class QuadEdgeMeshEulerOperatorJoinVertexFunction
  *
  * \brief Collapse a given edge by joining its dest and its org.
  *
