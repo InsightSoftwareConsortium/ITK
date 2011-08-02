@@ -18,38 +18,42 @@
 #ifndef __itkFFTShiftImageFilter_h
 #define __itkFFTShiftImageFilter_h
 
-#include "itkImageToImageFilter.h"
+#include "itkCyclicShiftImageFilter.h"
 
 namespace itk
 {
 /** \class FFTShiftImageFilter
- * \brief Shift the zero-frequency components to center of the image
+ * \brief Shift the zero-frequency components of a Fourier transfrom
+ * to the center of the image.
  *
- * The fourier transform produce an image where the zero frequency components are in the corner
- * of the image, making it difficult to understand. This filter shift the component to the center
- * of the image.
- * Note that with images with odd size, applying this filter twice will not produce the same image
- * than the original one without using SetInverse(true) on one (and only one) of the two filters.
+ * The Fourier transform produces an image where the zero frequency
+ * components are in the corner of the image, making it difficult to
+ * understand. This filter shifts the component to the center of the
+ * image.
+ *
+ * \note For images with an odd-sized dimension, applying this filter
+ * twice will not produce the same image as the original one without
+ * using SetInverse(true) on one (and only one) of the two filters.
  *
  * http://hdl.handle.net/1926/321
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
- * \sa FFTRealToComplexConjugateImageFilter, FFTComplexConjugateToRealImageFilter, Log10ImageFilter, RescaleIntensityImageFilter
+ * \sa FFTRealToComplexConjugateImageFilter, FFTComplexConjugateToRealImageFilter
  *
  * \ingroup FourierTransform
  * \ingroup ITKReview
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT FFTShiftImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+class ITK_EXPORT FFTShiftImageFilter :
+  public CyclicShiftImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef FFTShiftImageFilter                             Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  typedef FFTShiftImageFilter                                 Self;
+  typedef CyclicShiftImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                                Pointer;
+  typedef SmartPointer< const Self >                          ConstPointer;
 
   /** Some convenient typedefs. */
   typedef TInputImage                            InputImageType;
@@ -66,45 +70,37 @@ public:
   typedef typename OutputImageType::SizeType     SizeType;
 
   /** ImageDimension constants */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
 
   /** Standard New method. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(FFTShiftImageFilter,
-               ImageToImageFilter);
+  itkTypeMacro(FFTShiftImageFilter, CyclicShiftImageFilter);
 
-  /**
-   * Set/Get whether the filter must perform an inverse transform or not.
-   * This option has no effect if none of the size of the input image is odd,
-   * but is required to be able to restore the original image if at least one
-   * of the size is odd.
-   */
+  /** Set/Get whether the filter must invert the transform or not.
+   * This option has no effect if none of the size of the input image is even,
+   * but is required to restore the original image if at least one
+   * of the dimensions has an odd size. */
   itkSetMacro(Inverse, bool);
   itkGetConstReferenceMacro(Inverse, bool);
   itkBooleanMacro(Inverse);
+
 protected:
   FFTShiftImageFilter();
   ~FFTShiftImageFilter() {}
   void PrintSelf(std::ostream & os, Indent indent) const;
 
-  /** FFTShiftImageFilter needs the entire input be
-   * available. Thus, it needs to provide an implementation of
-   * GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion();
-
-  /** Multi-thread version GenerateData. */
-  void  ThreadedGenerateData(const OutputImageRegionType &
-                             outputRegionForThread,
-                             ThreadIdType threadId);
+  /** Override GenerateData method to set some parameters in the
+   * superclass. */
+  void  GenerateData();
 
 private:
   FFTShiftImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);      //purposely not implemented
 
   bool m_Inverse;
+
 }; // end of class
 } // end namespace itk
 

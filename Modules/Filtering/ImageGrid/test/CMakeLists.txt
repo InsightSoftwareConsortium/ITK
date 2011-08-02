@@ -4,6 +4,7 @@ itkBasicArchitectureTest.cxx
 itkChangeInformationImageFilterTest.cxx
 itkConstantPadImageTest.cxx
 itkCyclicReferences.cxx
+itkCyclicShiftImageFilterTest.cxx
 itkInterpolateImagePointsFilterTest.cxx
 itkCropImageFilterTest.cxx
 itkCropImageFilter3DTest.cxx
@@ -59,6 +60,27 @@ itk_add_test(NAME itkConstantPadImageTest
       COMMAND ITKImageGridTestDriver itkConstantPadImageTest)
 itk_add_test(NAME itkCyclicReferences
       COMMAND ITKImageGridTestDriver itkCyclicReferences)
+itk_add_test(NAME itkCyclicShiftImageFilterTest0
+      COMMAND ITKImageGridTestDriver
+      itkCyclicShiftImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png 0 0 )
+itk_add_test(NAME itkCyclicShiftImageFilterTest1
+      COMMAND ITKImageGridTestDriver
+      itkCyclicShiftImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png 256 256 )
+itk_add_test(NAME itkCyclicShiftImageFilterTest2
+      COMMAND ITKImageGridTestDriver
+      itkCyclicShiftImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png 40 0 )
+itk_add_test(NAME itkCyclicShiftImageFilterTest3
+      COMMAND ITKImageGridTestDriver
+      itkCyclicShiftImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png 0 40 )
+itk_add_test(NAME itkCyclicShiftImageFilterTest4
+      COMMAND ITKImageGridTestDriver
+      itkCyclicShiftImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png 40 40 )
+itk_add_test(NAME itkCyclicShiftImageFilterTest5
+      COMMAND ITKImageGridTestDriver
+      itkCyclicShiftImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png 128 128 )
+itk_add_test(NAME itkCyclicShiftImageFilterTest6
+      COMMAND ITKImageGridTestDriver
+      itkCyclicShiftImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png -51 40 )
 itk_add_test(NAME itkInterpolateImagePointsFilterTest
       COMMAND ITKImageGridTestDriver itkInterpolateImagePointsFilterTest)
 itk_add_test(NAME itkCropImageFilterTest
