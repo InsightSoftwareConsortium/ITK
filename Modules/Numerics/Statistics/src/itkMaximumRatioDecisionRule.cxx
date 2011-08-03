@@ -33,7 +33,6 @@ MaximumRatioDecisionRule
   Superclass::PrintSelf(os, indent);
 
   os << "Prior probabilities: ";
-  PriorProbabilityVectorType::const_iterator it = m_PriorProbabilities.begin();
   PriorProbabilityVectorType::size_type N = 10;
   if (m_PriorProbabilities.size() < N)
     {

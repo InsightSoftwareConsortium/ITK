@@ -268,8 +268,8 @@ int itkCommonPrintTest(int , char* [])
     itk::FileOutputWindow::New();
   std::cout << "------------FileOutputWindow" << FileOutputWindowObj;
 
-  itk::FiniteCylinderSpatialFunction<2,PointType>::Pointer FiniteCylinderSpatialFunctionObj =
-    itk::FiniteCylinderSpatialFunction<2,PointType>::New();
+  itk::FiniteCylinderSpatialFunction<3,PointType>::Pointer FiniteCylinderSpatialFunctionObj =
+    itk::FiniteCylinderSpatialFunction<3,PointType>::New();
   std::cout << "------------FiniteCylinderSpatialFunction" << FiniteCylinderSpatialFunctionObj;
 
   itk::FrustumSpatialFunction<2,PointType>::Pointer FrustumSpatialFunctionObj =

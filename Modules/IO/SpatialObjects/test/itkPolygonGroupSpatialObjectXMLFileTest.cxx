@@ -134,6 +134,13 @@ int testPolygonGroupEquivalence(PolygonGroup3DPointer &p1,
         (*pointIt1).GetPosition();
       Polygon3DType::PointType curpoint2 =
         (*pointIt2).GetPosition();
+      if(curpoint1 != curpoint2)
+        {
+        //Just a silly test to make sure that the positions returned are valid
+        std::cerr << "Error: both points should have the same value: " <<  curpoint1 << " and " << curpoint2 << std::endl;
+        //This should never happen in htis test.
+        return EXIT_FAILURE;
+        }
       pointIt1++;
       pointIt2++;
       }
