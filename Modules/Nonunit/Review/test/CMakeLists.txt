@@ -30,7 +30,6 @@ itkDivideByConstantImageFilterTest.cxx
 itkExponentialDeformationFieldImageFilterTest.cxx
 itkFastApproximateRankImageFilterTest.cxx
 itkFastSymmetricForcesDemonsRegistrationFilterTest.cxx
-itkFFTShiftImageFilterTest.cxx
 itkGaborImageSourceTest.cxx
 itkGaussianDerivativeOperatorTest.cxx
 itkGridForwardWarpImageFilterTest.cxx
@@ -329,26 +328,6 @@ itk_add_test(NAME itkFastApproximateRankImageFilterTest10
     itkFastApproximateRankImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkFastApproximateRankImageFilter10.png 10)
 itk_add_test(NAME itkFastSymmetricForcesDemonsRegistrationFilterTest
       COMMAND ITKReviewTestDriver itkFastSymmetricForcesDemonsRegistrationFilterTest)
-itk_add_test(NAME itkFFTShiftImageFilterTestOdd0
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkFFTShiftImageFilterTest0.png
-              ${ITK_TEST_OUTPUT_DIR}/itkFFTShiftImageFilterTest0.png
-    itkFFTShiftImageFilterTest ${ITK_DATA_ROOT}/Input/BrainSliceBinary.png ${ITK_TEST_OUTPUT_DIR}/itkFFTShiftImageFilterTest0.png 0)
-itk_add_test(NAME itkFFTShiftImageFilterTestOdd1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Input/BrainSliceBinary.png
-              ${ITK_TEST_OUTPUT_DIR}/itkFFTShiftImageFilterTest1.png
-    itkFFTShiftImageFilterTest ${ITK_DATA_ROOT}/Baseline/Review/itkFFTShiftImageFilterTest0.png ${ITK_TEST_OUTPUT_DIR}/itkFFTShiftImageFilterTest1.png 1)
-itk_add_test(NAME itkFFTShiftImageFilterTestEven0
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkFFTShiftImageFilterTestEven0.png
-              ${ITK_TEST_OUTPUT_DIR}/itkFFTShiftImageFilterTestEven0.png
-    itkFFTShiftImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkFFTShiftImageFilterTestEven0.png 0)
-itk_add_test(NAME itkFFTShiftImageFilterTestEven1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Input/cthead1.png
-              ${ITK_TEST_OUTPUT_DIR}/itkFFTShiftImageFilterTestEven1.png
-    itkFFTShiftImageFilterTest ${ITK_DATA_ROOT}/Baseline/Review/itkFFTShiftImageFilterTestEven0.png ${ITK_TEST_OUTPUT_DIR}/itkFFTShiftImageFilterTestEven1.png 1)
 itk_add_test(NAME itkGaborImageSourceTest0
       COMMAND ITKReviewTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Review/GaborImageSourceTest0.mha
