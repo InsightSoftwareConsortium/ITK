@@ -19,6 +19,7 @@
 #define __itkFiniteCylinderSpatialFunction_h
 
 #include "itkInteriorExteriorSpatialFunction.h"
+#include "itkConceptChecking.h"
 
 namespace itk
 {
@@ -28,6 +29,8 @@ namespace itk
  *
  * Implements a function that returns 1 for points inside or on the surface
  * of a cylinder and 0 for points outside the cylinder.
+ *
+ * This function only works in 3 Dimensions.
  *
  * \ingroup ITKCommon
  */
@@ -76,6 +79,13 @@ public:
 
   /** Evaluates the function at a given position. */
   OutputType Evaluate(const InputType & position) const;
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro( DimensionShouldBe3,
+                   ( Concept::SameDimension< VDimension, 3u > ) );
+  /** End concept checking */
+#endif
 
 protected:
 

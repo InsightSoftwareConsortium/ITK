@@ -256,8 +256,13 @@ int itkCenteredAffineTransformTest(int, char *[])
 
     /* Test output of GetJacobian */
     Affine3DType::Pointer jaff = Affine3DType::New();
-    Affine3DType::MatrixType jaffMatrix = jaff->GetMatrix();
-    Affine3DType::OffsetType jaffVector = jaff->GetOffset();
+    const Affine3DType::MatrixType jaffMatrix = jaff->GetMatrix();
+    std::cout << "GetMatrix:" << std::endl;
+    std::cout << jaffMatrix << std::endl;
+
+    const Affine3DType::OffsetType jaffVector = jaff->GetOffset();
+    std::cout << "GetOffset:" << std::endl;
+    std::cout << jaffVector << std::endl;
 
     Affine3DType::InputPointType jpoint;
     jpoint[0] = 5.0;

@@ -45,6 +45,7 @@ int itkPointSetToListSampleAdaptorTest( int, char * [] )
 
   PointSetToListSampleAdaptorType::Pointer  listSample = PointSetToListSampleAdaptorType::New();
 
+  bool exceptionsProperlyCaught=true;
   //Test if the methods throw exceptions if invoked before setting the pointset
   try
     {
@@ -52,6 +53,7 @@ int itkPointSetToListSampleAdaptorTest( int, char * [] )
     listSample->Size();
     std::cerr << "Exception should have been thrown since the input point set  \
                   is not set yet" << std::endl;
+    exceptionsProperlyCaught=false;
     }
   catch ( itk::ExceptionObject & excp )
     {
@@ -63,6 +65,7 @@ int itkPointSetToListSampleAdaptorTest( int, char * [] )
     listSample->GetTotalFrequency();
     std::cerr << "Exception should have been thrown since the input point set  \
                   is not set yet" << std::endl;
+    exceptionsProperlyCaught=false;
     }
   catch ( itk::ExceptionObject & excp )
     {
@@ -74,6 +77,8 @@ int itkPointSetToListSampleAdaptorTest( int, char * [] )
     PointSetToListSampleAdaptorType::MeasurementVectorType m = listSample->GetMeasurementVector( 0 );
     std::cerr << "Exception should have been thrown since the input point set  \
                   is not set yet" << std::endl;
+    std::cerr << "The invalid listSample->GetMeasurementVector is: " << m << std::endl;
+    exceptionsProperlyCaught=false;
     }
   catch ( itk::ExceptionObject & excp )
     {
@@ -86,6 +91,7 @@ int itkPointSetToListSampleAdaptorTest( int, char * [] )
     listSample->GetPointSet();
     std::cerr << "Exception should have been thrown since the input point set  \
                   is not set yet" << std::endl;
+    exceptionsProperlyCaught=false;
     }
   catch ( itk::ExceptionObject & excp )
     {
@@ -98,10 +104,17 @@ int itkPointSetToListSampleAdaptorTest( int, char * [] )
     listSample->GetFrequency(0 );
     std::cerr << "Exception should have been thrown since the input point set  \
                   is not set yet" << std::endl;
+    exceptionsProperlyCaught=false;
     }
   catch ( itk::ExceptionObject & excp )
     {
     std::cerr << "Caught expected exception: " << excp << std::endl;
+    }
+
+  if( ! exceptionsProperlyCaught )
+    {
+    std::cerr << "At least one exception that should have been caught was not." << std::endl;
+    return EXIT_FAILURE;
     }
 
 
