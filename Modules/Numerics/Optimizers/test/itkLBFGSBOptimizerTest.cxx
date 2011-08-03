@@ -19,12 +19,15 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+#include "itkCommand.h"
 #include "itkLBFGSBOptimizer.h"
 #include "itkTextOutput.h"
 #include "vnl/vnl_math.h"
 #include <iostream>
 
 /**
+ *  LBFGSBCostFunction
+ *
  *  The objective function is the quadratic form:
  *
  *  f(x) = 1/2 x^T A x - b^T x  subject to  -1 <= x <= 10
@@ -44,7 +47,7 @@ class LBFGSBCostFunction : public itk::SingleValuedCostFunction
 {
 public:
 
-  typedef LBFGSBCostFunction                    Self;
+  typedef LBFGSBCostFunction                Self;
   typedef itk::SingleValuedCostFunction     Superclass;
   typedef itk::SmartPointer<Self>           Pointer;
   typedef itk::SmartPointer<const Self>     ConstPointer;
@@ -59,7 +62,7 @@ public:
   typedef vnl_vector<double>                      VectorType;
   typedef vnl_matrix<double>                      MatrixType;
 
-  typedef double MeasureType ;
+  typedef double MeasureType;
 
   LBFGSBCostFunction()
   {
@@ -71,7 +74,7 @@ public:
     double x = position[0];
     double y = position[1];
 
-    std::cout << "GetValue ( " ;
+    std::cout << "GetValue ( ";
     std::cout << x << " , " << y;
     std::cout << ") = ";
 
@@ -89,14 +92,14 @@ public:
     double x = position[0];
     double y = position[1];
 
-    std::cout << "GetDerivative ( " ;
+    std::cout << "GetDerivative ( ";
     std::cout << x << " , " << y;
     std::cout << ") = ";
 
     derivative = DerivativeType(SpaceDimension);
     derivative[0] = 3*x + 2*y -2;
     derivative[1] = 2*x + 6*y +8;
-    std::cout << "(" ;
+    std::cout << "(";
     std::cout << derivative[0] <<" , ";
     std::cout << derivative[1] << ")" << std::endl;
 
@@ -107,12 +110,60 @@ public:
     {
     return SpaceDimension;
     }
-
-private:
-
-
 };
 
+/** To ensure the events get fired. */
+class EventChecker: public itk::Command
+{
+public:
+  typedef EventChecker            Self;
+  typedef itk::Command            Superclass;
+  typedef itk::SmartPointer<Self> Pointer;
+
+  itkNewMacro( Self );
+
+  bool GetHadStartEvent()
+    { return m_HadStartEvent; }
+  bool GetHadIterationEvent()
+    { return m_HadIterationEvent; }
+  bool GetHadEndEvent()
+    { return m_HadEndEvent; }
+
+  void Execute( itk::Object *caller, const itk::EventObject & event )
+    {
+    Execute( (const itk::Object *)caller, event);
+    }
+
+  void Execute( const itk::Object *object, const itk::EventObject & event)
+    {
+    if( itk::StartEvent().CheckEvent( &event ))
+      {
+      std::cout << "Received StartEvent." << std::endl;
+      m_HadStartEvent = true;
+      }
+    if( itk::IterationEvent().CheckEvent( &event ))
+      {
+      std::cout << "Received IterationEvent." << std::endl;
+      m_HadIterationEvent = true;
+      }
+    if( itk::EndEvent().CheckEvent( &event ))
+      {
+      std::cout << "Received EndEvent." << std::endl;
+      m_HadEndEvent = true;
+      }
+    }
+
+protected:
+  EventChecker(): m_HadStartEvent( false ),
+    m_HadIterationEvent( false ),
+    m_HadEndEvent( false )
+  {}
+
+private:
+  bool m_HadStartEvent;
+  bool m_HadIterationEvent;
+  bool m_HadEndEvent;
+};
 
 
 int itkLBFGSBOptimizerTest(int, char *[])
@@ -173,6 +224,11 @@ int itkLBFGSBOptimizerTest(int, char *[])
 
   itkOptimizer->Print( std::cout );
 
+  EventChecker::Pointer eventChecker = EventChecker::New();
+  itkOptimizer->AddObserver( itk::StartEvent(), eventChecker );
+  itkOptimizer->AddObserver( itk::IterationEvent(), eventChecker );
+  itkOptimizer->AddObserver( itk::EndEvent(), eventChecker );
+
   try
     {
 
@@ -210,6 +266,22 @@ int itkLBFGSBOptimizerTest(int, char *[])
     << itkOptimizer->GetMaximumNumberOfEvaluations() << std::endl;
   std::cout << "MaximumNumberOfCorrections   = "
     << itkOptimizer->GetMaximumNumberOfCorrections() << std::endl;
+
+  if( !eventChecker->GetHadStartEvent() )
+    {
+    std::cout << "Did not have StartEvent!" << std::endl;
+    return EXIT_FAILURE;
+    }
+  if( !eventChecker->GetHadIterationEvent() )
+    {
+    std::cout << "Did not have IterationEvent!" << std::endl;
+    return EXIT_FAILURE;
+    }
+  if( !eventChecker->GetHadEndEvent() )
+    {
+    std::cout << "Did not have EndEvent!" << std::endl;
+    return EXIT_FAILURE;
+    }
 
   //
   // check results to see if it is within range

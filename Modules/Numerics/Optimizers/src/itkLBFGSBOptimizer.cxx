@@ -420,6 +420,8 @@ LBFGSBOptimizer
   // Clear the description
   m_StopConditionDescription.str("");
 
+  this->InvokeEvent( StartEvent() );
+
   // vnl optimizers return the solution by reference
   // in the variable provided as initial position
   m_VnlOptimizer->minimize(parameters);
