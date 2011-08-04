@@ -32,7 +32,7 @@
 #include "itkBruker2DSEQImageIOFactory.h"
 #include "itkBSplineControlPointImageFilter.hxx"
 #include "itkBSplineControlPointImageFunction.hxx"
-#include "itkBSplineDeformableTransformInitializer.hxx"
+#include "itkBSplineTransformInitializer.hxx"
 #include "itkBSplineScatteredDataPointSetToImageFilter.hxx"
 #include "itkColormapFunction.h"
 #include "itkComplexBSplineInterpolateImageFunction.hxx"

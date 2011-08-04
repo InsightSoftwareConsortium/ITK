@@ -32,7 +32,7 @@
 #include "itkSimilarity3DTransform.h"
 #include "itkTranslationTransform.h"
 #include "itkAzimuthElevationToCartesianTransform.h"
-#include "itkBSplineDeformableTransform.h"
+#include "itkBSplineTransform.h"
 #include "itkElasticBodyReciprocalSplineKernelTransform.h"
 #include "itkElasticBodySplineKernelTransform.h"
 #include "itkThinPlateR2LogRSplineKernelTransform.h"
@@ -465,9 +465,9 @@ int itkTransformsSetParametersTest( int , char *[] )
     std::cout << "FAIL" << std::endl;
 
 
-  std::cout << "BSplineDeformableTransform->SetParameters() - Not Tested (manual check indicates PASS)"
+  std::cout << "BSplineTransform->SetParameters() - Not Tested (manual check indicates PASS)"
             << std::endl;
-//    typedef itk::BSplineDeformableTransform< double > BSplineDeformable;
+//    typedef itk::BSplineTransform< double > BSplineDeformable;
 //    BSplineDeformable::Pointer bSplineDeformable = BSplineDeformable::New();
 //    beginMTime = bSplineDeformable->GetMTime();
 //    bSplineDeformable->SetIdentity();

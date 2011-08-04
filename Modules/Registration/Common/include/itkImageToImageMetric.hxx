@@ -408,7 +408,7 @@ throw ( ExceptionObject )
     // CreateAnother() called from the transform itself.
     TransformType *transformCopy = static_cast< TransformType * >( anotherTransform.GetPointer() );
     /** Set the fixed parameters first. Some transforms have parameters which depend on
-        the values of the fixed parameters. For instance, the BSplineDeformableTransform
+        the values of the fixed parameters. For instance, the BSplineTransform
         checks the grid size (part of the fixed parameters) before setting the parameters. */
     transformCopy->SetFixedParameters( this->m_Transform->GetFixedParameters() );
     transformCopy->SetParameters( this->m_Transform->GetParameters() );
@@ -477,7 +477,7 @@ throw ( ExceptionObject )
     }
 
   //
-  //  Check if the transform is of type BSplineDeformableTransform.
+  //  Check if the transform is of type BSplineTransform.
   //
   //  If so, several speed up features are implemented.
   //  [1] Precomputing the results of bulk transform for each sample point.
@@ -867,7 +867,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 {
   // Note: This code is specific to the b-spline deformable transform.
 
-  // Unfortunately, the BSplineDeformableTransform stores a
+  // Unfortunately, the BSplineTransform stores a
   // pointer to parameters passed to SetParameters(). Since
   // we're creating a dummy set of parameters below on the
   // stack, this can cause a crash if the transform's
@@ -1612,7 +1612,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
   for ( ThreadIdType threadID = 0; threadID < m_NumberOfThreads - 1; threadID++ )
     {
     /** Set the fixed parameters first. Some transforms have parameters which depend on
-        the values of the fixed parameters. For instance, the BSplineDeformableTransform
+        the values of the fixed parameters. For instance, the BSplineTransform
         checks the grid size (part of the fixed parameters) before setting the parameters. */
     this->m_ThreaderTransform[threadID]->SetFixedParameters( this->m_Transform->GetFixedParameters() );
     this->m_ThreaderTransform[threadID]->SetParameters( this->m_Transform->GetParameters() );

@@ -18,7 +18,7 @@
 #ifndef __itkDifferenceImageFilter_h
 #define __itkDifferenceImageFilter_h
 
-
+#include "itkConfigure.h" //Needed to determine value of ITKV3_COMPATIBILITY
 #ifdef ITKV3_COMPATIBILITY
 
 #include "itkTestingComparisonImageFilter.h"

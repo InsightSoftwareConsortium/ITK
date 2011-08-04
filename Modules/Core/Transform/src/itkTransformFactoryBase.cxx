@@ -18,7 +18,6 @@
 #include "itkTransformFactory.h"
 #include "itkVersion.h"
 
-#include "itkBSplineDeformableTransform.h"
 #include "itkCenteredAffineTransform.h"
 #include "itkCenteredEuler3DTransform.h"
 #include "itkCenteredEuler3DTransform.h"
@@ -36,6 +35,11 @@
 #include "itkScaleSkewVersor3DTransform.h"
 #include "itkTranslationTransform.h"
 #include "itkVersorTransform.h"
+
+#include "itkBSplineTransform.h"
+#ifdef ITKV3_COMPATIBILITY
+#include "itkBSplineDeformableTransform.h"
+#endif
 
 namespace itk
 {
@@ -83,8 +87,6 @@ void TransformFactoryBase::RegisterDefaultTransforms()
     TransformFactory< ScaleTransform< double, 3 > >::RegisterTransform ();
     TransformFactory< ScaleTransform< double, 4 > >::RegisterTransform ();
 
-    TransformFactory< BSplineDeformableTransform< double, 2, 2 > >::RegisterTransform ();
-    TransformFactory< BSplineDeformableTransform< double, 3, 3 > >::RegisterTransform ();
     TransformFactory< CenteredAffineTransform< double, 2 > >::RegisterTransform ();
     TransformFactory< CenteredAffineTransform< double, 3 > >::RegisterTransform ();
     TransformFactory< CenteredEuler3DTransform< double > >::RegisterTransform ();
@@ -96,6 +98,13 @@ void TransformFactoryBase::RegisterDefaultTransforms()
     TransformFactory< FixedCenterOfRotationAffineTransform< double > >::RegisterTransform ();
     TransformFactory< QuaternionRigidTransform< double > >::RegisterTransform ();
     TransformFactory< Rigid2DTransform< double > >::RegisterTransform ();
+
+    TransformFactory< BSplineTransform< double, 2, 2 > >::RegisterTransform ();
+    TransformFactory< BSplineTransform< double, 3, 3 > >::RegisterTransform ();
+#ifdef ITKV3_COMPATIBILITY
+    TransformFactory< BSplineDeformableTransform< double, 2, 2 > >::RegisterTransform ();
+    TransformFactory< BSplineDeformableTransform< double, 3, 3 > >::RegisterTransform ();
+#endif
 
     // We cannot register both Rigid3DTransform and
     // itkv3::Rigid3DTransform because they both have the same name
@@ -131,8 +140,6 @@ void TransformFactoryBase::RegisterDefaultTransforms()
     TransformFactory< IdentityTransform< float, 8 > >::RegisterTransform ();
     TransformFactory< IdentityTransform< float, 9 > >::RegisterTransform ();
 
-    TransformFactory< BSplineDeformableTransform< float, 2, 2 > >::RegisterTransform ();
-    TransformFactory< BSplineDeformableTransform< float, 3, 3 > >::RegisterTransform ();
     TransformFactory< CenteredAffineTransform< float, 2 > >::RegisterTransform ();
     TransformFactory< CenteredAffineTransform< float, 3 > >::RegisterTransform ();
 
@@ -150,6 +157,12 @@ void TransformFactoryBase::RegisterDefaultTransforms()
     TransformFactory< QuaternionRigidTransform< float > >::RegisterTransform ();
     TransformFactory< Rigid2DTransform< float > >::RegisterTransform ();
 
+    TransformFactory< BSplineTransform< float, 2, 2 > >::RegisterTransform ();
+    TransformFactory< BSplineTransform< float, 3, 3 > >::RegisterTransform ();
+#ifdef ITKV3_COMPATIBILITY
+    TransformFactory< BSplineDeformableTransform< float, 2, 2 > >::RegisterTransform ();
+    TransformFactory< BSplineDeformableTransform< float, 3, 3 > >::RegisterTransform ();
+#endif
     // We cannot register both Rigid3DTransform and
     // itkv3::Rigid3DTransform because they both have the same name
 #ifdef ITKV3_COMPATIBILITY

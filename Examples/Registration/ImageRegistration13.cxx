@@ -158,7 +158,7 @@ int main( int argc, char *argv[] )
     // each one of the samples used to compute the metric. Enabling caching will
     // make the algorithm run faster but it will have a cost on the amount of memory
     // that needs to be allocated. This option is only relevant when using the
-    // BSplineDeformableTransform.
+    // BSplineTransform.
     metric->SetUseCachingOfBSplineWeights( atoi( argv[5] ) );
     }
 

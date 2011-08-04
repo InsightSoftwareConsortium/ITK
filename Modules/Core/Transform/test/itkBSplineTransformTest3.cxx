@@ -25,7 +25,7 @@
 
 #include "itkResampleImageFilter.h"
 
-#include "itkBSplineDeformableTransform.h"
+#include "itkBSplineTransform.h"
 #include "itkSimilarity2DTransform.h"
 
 #include <fstream>
@@ -62,7 +62,7 @@ public:
 
 
 template <unsigned int VSplineOrder>
-class BSplineDeformableTransformTest3Helper
+class BSplineTransformTest3Helper
 {
 public:
 static int RunTest(int argc, char * argv [] )
@@ -139,7 +139,7 @@ static int RunTest(int argc, char * argv [] )
   const unsigned int SpaceDimension = ImageDimension;
   typedef double CoordinateRepType;
 
-  typedef itk::BSplineDeformableTransform<
+  typedef itk::BSplineTransform<
                             CoordinateRepType,
                             SpaceDimension,
                             VSplineOrder >     TransformType;
@@ -283,7 +283,7 @@ static int RunTest(int argc, char * argv [] )
 };
 
 
-int itkBSplineDeformableTransformTest3( int argc, char * argv[] )
+int itkBSplineTransformTest3( int argc, char * argv[] )
 {
 
   if( argc < 7 )
@@ -304,7 +304,7 @@ int itkBSplineDeformableTransformTest3( int argc, char * argv[] )
    case 0:
      {
      //Don't invoke MultiThreader at all.
-     status |= BSplineDeformableTransformTest3Helper< 3 >::RunTest( argc, argv );
+     status |= BSplineTransformTest3Helper< 3 >::RunTest( argc, argv );
      break;
      }
    default:
@@ -312,7 +312,7 @@ int itkBSplineDeformableTransformTest3( int argc, char * argv[] )
      //Use MultiThreader with argv[6] threads
      itk::MultiThreader::SetGlobalDefaultNumberOfThreads(numberOfThreads);
      itk::MultiThreader::SetGlobalMaximumNumberOfThreads(numberOfThreads);
-     status |= BSplineDeformableTransformTest3Helper< 3 >::RunTest( argc, argv );
+     status |= BSplineTransformTest3Helper< 3 >::RunTest( argc, argv );
      break;
      }
    }

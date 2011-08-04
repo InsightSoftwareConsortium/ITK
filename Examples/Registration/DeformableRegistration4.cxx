@@ -21,7 +21,7 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates the use of the \doxygen{BSplineDeformableTransform}
+// This example illustrates the use of the \doxygen{BSplineTransform}
 // class for performing registration of two $2D$ images. The example code is
 // for the most part identical to the code presented in
 // Section~\ref{sec:RigidRegistrationIn2D}.  The major difference is that this
@@ -31,8 +31,8 @@
 // \doxygen{LBFGSOptimizer}.
 //
 //
-// \index{itk::BSplineDeformableTransform}
-// \index{itk::BSplineDeformableTransform!DeformableRegistration}
+// \index{itk::BSplineTransform}
+// \index{itk::BSplineTransform!DeformableRegistration}
 // \index{itk::LBFGSOptimizer}
 //
 //
@@ -48,25 +48,25 @@
 //
 //  The following are the most relevant headers to this example.
 //
-//  \index{itk::BSplineDeformableTransform!header}
+//  \index{itk::BSplineTransform!header}
 //  \index{itk::LBFGSOptimizer!header}
 //
 //  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-#include "itkBSplineDeformableTransform.h"
+#include "itkBSplineTransform.h"
 #include "itkLBFGSOptimizer.h"
 // Software Guide : EndCodeSnippet
 
 //  Software Guide : BeginLatex
 //
-//  The parameter space of the \code{BSplineDeformableTransform} is composed by
+//  The parameter space of the \code{BSplineTransform} is composed by
 //  the set of all the deformations associated with the nodes of the BSpline
 //  grid.  This large number of parameters makes possible to represent a wide
 //  variety of deformations, but it also has the price of requiring a
 //  significant amount of computation time.
 //
-//  \index{itk::BSplineDeformableTransform!header}
+//  \index{itk::BSplineTransform!header}
 //
 //  Software Guide : EndLatex
 
@@ -102,12 +102,12 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  We instantiate now the type of the \code{BSplineDeformableTransform} using
+  //  We instantiate now the type of the \code{BSplineTransform} using
   //  as template parameters the type for coordinates representation, the
   //  dimension of the space, and the order of the BSpline.
   //
-  //  \index{BSplineDeformableTransform!New}
-  //  \index{BSplineDeformableTransform!Instantiation}
+  //  \index{BSplineTransform!New}
+  //  \index{BSplineTransform!Instantiation}
   //
   //  Software Guide : EndLatex
 
@@ -116,7 +116,7 @@ int main( int argc, char *argv[] )
   const unsigned int SplineOrder = 3;
   typedef double CoordinateRepType;
 
-  typedef itk::BSplineDeformableTransform<
+  typedef itk::BSplineTransform<
                             CoordinateRepType,
                             SpaceDimension,
                             SplineOrder >     TransformType;

@@ -25,24 +25,47 @@
 
 #include "itkResampleImageFilter.h"
 
-#include "itkBSplineDeformableTransform.h"
-#include "itkBSplineDeformableTransformInitializer.h"
+#include "itkBSplineTransform.h"
 
 #include <fstream>
 
-int itkBSplineDeformableTransformInitializerTest1( int argc, char * argv[] )
+//  The following section of code implements a Command observer
+//  used to monitor the evolution of the registration process.
+//
+#include "itkCommand.h"
+class CommandProgressUpdate : public itk::Command
 {
-
-  if( argc < 5 )
+public:
+  typedef  CommandProgressUpdate      Self;
+  typedef  itk::Command               Superclass;
+  typedef itk::SmartPointer<Self>     Pointer;
+  itkNewMacro( Self );
+protected:
+  CommandProgressUpdate() {};
+public:
+  void Execute(itk::Object *caller, const itk::EventObject & event)
     {
-    std::cerr << "Missing Parameters " << std::endl;
-    std::cerr << "Usage: " << argv[0];
-    std::cerr << " coefficientsFile fixedImage ";
-    std::cerr << "movingImage deformedMovingImage" << std::endl;
-    std::cerr << "[deformationField]" << std::endl;
-    return EXIT_FAILURE;
+    Execute( (const itk::Object *)caller, event);
     }
 
+  void Execute(const itk::Object * object, const itk::EventObject & event)
+    {
+    const itk::ProcessObject * filter = dynamic_cast< const itk::ProcessObject * >( object );
+    if( ! itk::ProgressEvent().CheckEvent( &event ) )
+      {
+      return;
+      }
+    std::cout << filter->GetProgress() << std::endl;
+    }
+};
+
+
+template <unsigned int VSplineOrder>
+class BSplineTransformTest2Helper
+{
+public:
+static int RunTest(int argc, char * argv [] )
+{
   const     unsigned int   ImageDimension = 2;
 
   typedef   unsigned char                             PixelType;
@@ -55,7 +78,7 @@ int itkBSplineDeformableTransformInitializerTest1( int argc, char * argv[] )
   typedef   itk::ImageFileWriter< MovingImageType >   MovingWriterType;
 
 
-  FixedReaderType::Pointer fixedReader = FixedReaderType::New();
+  typename FixedReaderType::Pointer fixedReader = FixedReaderType::New();
   fixedReader->SetFileName( argv[2] );
 
   try
@@ -70,39 +93,39 @@ int itkBSplineDeformableTransformInitializerTest1( int argc, char * argv[] )
     }
 
 
-  MovingReaderType::Pointer movingReader = MovingReaderType::New();
-  MovingWriterType::Pointer movingWriter = MovingWriterType::New();
+  typename MovingReaderType::Pointer movingReader = MovingReaderType::New();
+  typename MovingWriterType::Pointer movingWriter = MovingWriterType::New();
 
   movingReader->SetFileName( argv[3] );
   movingWriter->SetFileName( argv[4] );
 
 
-  FixedImageType::ConstPointer fixedImage = fixedReader->GetOutput();
+  typename FixedImageType::ConstPointer fixedImage = fixedReader->GetOutput();
 
 
   typedef itk::ResampleImageFilter< MovingImageType,
                                     FixedImageType  >  FilterType;
 
-  FilterType::Pointer resampler = FilterType::New();
+  typename FilterType::Pointer resampler = FilterType::New();
 
   typedef itk::LinearInterpolateImageFunction<
                        MovingImageType, double >  InterpolatorType;
 
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  typename InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
   resampler->SetInterpolator( interpolator );
 
-  FixedImageType::SpacingType   fixedSpacing    = fixedImage->GetSpacing();
-  FixedImageType::PointType     fixedOrigin     = fixedImage->GetOrigin();
-  FixedImageType::DirectionType fixedDirection  = fixedImage->GetDirection();
+  typename FixedImageType::SpacingType   fixedSpacing    = fixedImage->GetSpacing();
+  typename FixedImageType::PointType     fixedOrigin     = fixedImage->GetOrigin();
+  typename FixedImageType::DirectionType fixedDirection  = fixedImage->GetDirection();
 
   resampler->SetOutputSpacing( fixedSpacing );
   resampler->SetOutputOrigin(  fixedOrigin  );
   resampler->SetOutputDirection(  fixedDirection  );
 
 
-  FixedImageType::RegionType fixedRegion = fixedImage->GetBufferedRegion();
-  FixedImageType::SizeType   fixedSize =  fixedRegion.GetSize();
+  typename FixedImageType::RegionType fixedRegion = fixedImage->GetBufferedRegion();
+  typename FixedImageType::SizeType   fixedSize =  fixedRegion.GetSize();
   resampler->SetSize( fixedSize );
   resampler->SetOutputStartIndex(  fixedRegion.GetIndex() );
 
@@ -111,51 +134,56 @@ int itkBSplineDeformableTransformInitializerTest1( int argc, char * argv[] )
 
   movingWriter->SetInput( resampler->GetOutput() );
 
+
   const unsigned int SpaceDimension = ImageDimension;
-  const unsigned int SplineOrder = 3;
   typedef double CoordinateRepType;
 
-  typedef itk::BSplineDeformableTransform<
+  typedef itk::BSplineTransform<
                             CoordinateRepType,
                             SpaceDimension,
-                            SplineOrder >     TransformType;
+                            VSplineOrder >     TransformType;
 
-  TransformType::Pointer bsplineTransform = TransformType::New();
+  typename TransformType::Pointer bsplineTransform = TransformType::New();
 
-  typedef itk::BSplineDeformableTransformInitializer<
-                  TransformType,
-                  FixedImageType >      InitializerType;
-  InitializerType::Pointer transformInitializer = InitializerType::New();
-
-  TransformType::MeshSizeType meshSize;
+  typedef typename TransformType::MeshSizeType MeshSizeType;
+  MeshSizeType meshSize;
   meshSize.Fill( 4 );
 
-  transformInitializer->SetTransform( bsplineTransform );
-  transformInitializer->SetImage( fixedImage );
-  transformInitializer->SetTransformDomainMeshSize( meshSize );
-  transformInitializer->InitializeTransform();
+  typedef typename TransformType::PhysicalDimensionsType PhysicalDimensionsType;
+  PhysicalDimensionsType fixedDimensions;
+  for( unsigned int d = 0; d < ImageDimension; d++ )
+    {
+    fixedDimensions[d] = fixedSpacing[d] * ( fixedSize[d] - 1.0 );
+    }
 
-  typedef TransformType::ParametersType     ParametersType;
+  bsplineTransform->SetTransformDomainOrigin( fixedOrigin );
+  bsplineTransform->SetTransformDomainDirection( fixedDirection );
+  bsplineTransform->SetTransformDomainPhysicalDimensions( fixedDimensions );
+  bsplineTransform->SetTransformDomainMeshSize( meshSize );
 
+  typedef typename TransformType::ParametersType ParametersType;
   const unsigned int numberOfParameters =
-               bsplineTransform->GetNumberOfParameters();
-
-  const unsigned int numberOfNodes = numberOfParameters / SpaceDimension;
-
+    bsplineTransform->GetNumberOfParameters();
   ParametersType parameters( numberOfParameters );
 
   std::ifstream infile;
 
   infile.open( argv[1] );
 
+  const unsigned int numberOfNodes = numberOfParameters / SpaceDimension;
   for( unsigned int n=0; n < numberOfNodes; n++ )
     {
     infile >>  parameters[n];
     infile >>  parameters[n+numberOfNodes];
     }
+
   infile.close();
 
   bsplineTransform->SetParameters( parameters );
+
+  typename CommandProgressUpdate::Pointer observer = CommandProgressUpdate::New();
+
+  resampler->AddObserver( itk::ProgressEvent(), observer );
 
   resampler->SetTransform( bsplineTransform );
 
@@ -170,15 +198,15 @@ int itkBSplineDeformableTransformInitializerTest1( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
+
   typedef itk::Point<  float, ImageDimension >        PointType;
   typedef itk::Vector< float, ImageDimension >        VectorType;
   typedef itk::Image< VectorType, ImageDimension >    DeformationFieldType;
 
-  DeformationFieldType::Pointer field = DeformationFieldType::New();
+  typename DeformationFieldType::Pointer field = DeformationFieldType::New();
   field->SetRegions( fixedRegion );
   field->SetOrigin( fixedOrigin );
   field->SetSpacing( fixedSpacing );
-  field->SetDirection( fixedDirection );
   field->Allocate();
 
   typedef itk::ImageRegionIterator< DeformationFieldType > FieldIterator;
@@ -186,10 +214,9 @@ int itkBSplineDeformableTransformInitializerTest1( int argc, char * argv[] )
 
   fi.GoToBegin();
 
-  TransformType::InputPointType  fixedPoint;
-  TransformType::OutputPointType movingPoint;
-  TransformType::JacobianType jacobian;
-  DeformationFieldType::IndexType index;
+  typename TransformType::InputPointType  fixedPoint;
+  typename TransformType::OutputPointType movingPoint;
+  typename DeformationFieldType::IndexType index;
 
   VectorType displacement;
 
@@ -198,14 +225,15 @@ int itkBSplineDeformableTransformInitializerTest1( int argc, char * argv[] )
     index = fi.GetIndex();
     field->TransformIndexToPhysicalPoint( index, fixedPoint );
     movingPoint = bsplineTransform->TransformPoint( fixedPoint );
-    jacobian = bsplineTransform->GetJacobian( fixedPoint );
-    displacement = movingPoint - fixedPoint;
+    displacement[0] = movingPoint[0] - fixedPoint[0];
+    displacement[1] = movingPoint[1] - fixedPoint[1];
     fi.Set( displacement );
     ++fi;
     }
 
+
   typedef itk::ImageFileWriter< DeformationFieldType >  FieldWriterType;
-  FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
+  typename FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
 
   fieldWriter->SetInput( field );
 
@@ -223,6 +251,56 @@ int itkBSplineDeformableTransformInitializerTest1( int argc, char * argv[] )
       return EXIT_FAILURE;
       }
     }
-
   return EXIT_SUCCESS;
+}
+};
+
+
+int itkBSplineTransformTest2( int argc, char * argv[] )
+{
+
+  if( argc < 5 )
+    {
+    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Usage: " << argv[0];
+    std::cerr << " coefficientsFile fixedImage ";
+    std::cerr << "movingImage deformedMovingImage" << std::endl;
+    std::cerr << "[deformationField][spline order 2,3]" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+   unsigned int splineOrder = 3;
+
+   if( argc > 6 )
+     {
+     splineOrder = atoi( argv[6] );
+     }
+
+   int status = 0;
+
+   switch( splineOrder )
+    {
+    case 1:
+      {
+      status |= BSplineTransformTest2Helper< 1 >::RunTest( argc, argv );
+      break;
+      }
+    case 2:
+      {
+      status |= BSplineTransformTest2Helper< 2 >::RunTest( argc, argv );
+      break;
+      }
+    case 3:
+      {
+      status |= BSplineTransformTest2Helper< 3 >::RunTest( argc, argv );
+      break;
+      }
+    }
+
+   if( status )
+    {
+    return EXIT_FAILURE;
+    }
+
+   return EXIT_SUCCESS;
 }

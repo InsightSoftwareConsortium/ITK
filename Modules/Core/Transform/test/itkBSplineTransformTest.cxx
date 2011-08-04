@@ -29,7 +29,7 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkBSplineDeformableTransform.h"
+#include "itkBSplineTransform.h"
 #include "itkBSplineInterpolateImageFunction.h"
 
 #include "itkVersorRigid3DTransform.h"
@@ -37,10 +37,10 @@
 #include "itkTextOutput.h"
 
 /**
- * This module test the functionality of the BSplineDeformableTransform class.
+ * This module test the functionality of the BSplineTransform class.
  *
  */
-int itkBSplineDeformableTransformTest1()
+int itkBSplineTransformTest1()
 {
 
   // Comment the following if you want to use the itk text output window
@@ -52,7 +52,7 @@ int itkBSplineDeformableTransformTest1()
   const unsigned int SpaceDimension = 3;
   const unsigned int SplineOrder = 3;
   typedef double CoordinateRepType;
-  typedef itk::BSplineDeformableTransform
+  typedef itk::BSplineTransform
     <CoordinateRepType,SpaceDimension,SplineOrder> TransformType;
 
   typedef TransformType::ParametersType ParametersType;
@@ -433,7 +433,7 @@ int itkBSplineDeformableTransformTest1()
   std::cout << transform->GetTransformDomainMeshSize() << std::endl;
   std::cout << transform->GetTransformDomainDirection() << std::endl;
 
-  typedef itk::BSplineDeformableTransform<CoordinateRepType,SpaceDimension,2>
+  typedef itk::BSplineTransform<CoordinateRepType,SpaceDimension,2>
     EvenOrderTransformType;
   EvenOrderTransformType::Pointer evenOrderTransform =
     EvenOrderTransformType::New();
@@ -480,7 +480,7 @@ int itkBSplineDeformableTransformTest1()
   return EXIT_SUCCESS;
 }
 
-int itkBSplineDeformableTransformTest2()
+int itkBSplineTransformTest2()
 {
  /**
   * This function tests the Set/GetCoefficientImage interface
@@ -500,7 +500,7 @@ int itkBSplineDeformableTransformTest2()
   // Set up the transform
   const unsigned int SplineOrder = 3;
   typedef double CoordRep;
-  typedef itk::BSplineDeformableTransform<CoordRep,Dimension,SplineOrder>
+  typedef itk::BSplineTransform<CoordRep,Dimension,SplineOrder>
     TransformType;
   TransformType::InputPointType inputPoint;
   TransformType::OutputPointType outputPoint;
@@ -603,7 +603,7 @@ int itkBSplineDeformableTransformTest2()
   return EXIT_SUCCESS;
 }
 
-int itkBSplineDeformableTransformTest3()
+int itkBSplineTransformTest3()
 {
 
   // This function tests the SetParametersByValue interface
@@ -614,7 +614,7 @@ int itkBSplineDeformableTransformTest3()
   const unsigned int SpaceDimension = 3;
   const unsigned int SplineOrder = 3;
   typedef double CoordinateRepType;
-  typedef itk::BSplineDeformableTransform
+  typedef itk::BSplineTransform
     <CoordinateRepType,SpaceDimension,SplineOrder> TransformType;
 
   typedef TransformType::ParametersType ParametersType;
@@ -752,17 +752,17 @@ int itkBSplineDeformableTransformTest3()
   return EXIT_SUCCESS;
 }
 
-int itkBSplineDeformableTransformTest(int, char * [] )
+int itkBSplineTransformTest(int, char * [] )
 {
   bool failed;
 
-  failed = itkBSplineDeformableTransformTest1();
+  failed = itkBSplineTransformTest1();
   if ( failed ) { return EXIT_FAILURE; }
 
-  failed = itkBSplineDeformableTransformTest2();
+  failed = itkBSplineTransformTest2();
   if ( failed ) { return EXIT_FAILURE; }
 
-  failed = itkBSplineDeformableTransformTest3();
+  failed = itkBSplineTransformTest3();
   if ( failed ) { return EXIT_FAILURE; }
 
   return EXIT_SUCCESS;

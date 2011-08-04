@@ -22,8 +22,8 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
-#include "itkBSplineDeformableTransform.h"
-#include "itkBSplineDeformableTransformInitializer.h"
+#include "itkBSplineTransform.h"
+#include "itkBSplineTransformInitializer.h"
 
 #include "itkPermuteAxesImageFilter.h"
 
@@ -41,7 +41,7 @@
 // even though the image and it's permuted counterpart are situated in physical
 // domain precisely the same way.
 
-int itkBSplineDeformableTransformInitializerTest2( int argc, char * argv[] )
+int itkBSplineTransformInitializerTest2( int argc, char * argv[] )
 {
 
   if( argc < 2 )
@@ -80,14 +80,14 @@ int itkBSplineDeformableTransformInitializerTest2( int argc, char * argv[] )
   const unsigned int SplineOrder = 3;
   typedef double CoordinateRepType;
 
-  typedef itk::BSplineDeformableTransform<
+  typedef itk::BSplineTransform<
                             CoordinateRepType,
                             SpaceDimension,
                             SplineOrder >     TransformType;
 
   TransformType::Pointer bsplineTransform = TransformType::New();
 
-  typedef itk::BSplineDeformableTransformInitializer<
+  typedef itk::BSplineTransformInitializer<
                   TransformType,
                   FixedImageType >      InitializerType;
 

@@ -26,7 +26,7 @@
 #include "itkAffineTransform.h"
 #include "itkTransformFactory.h"
 #include "itkScaleVersor3DTransform.h"
-#include "itkBSplineDeformableTransform.h"
+#include "itkBSplineTransform.h"
 
 int itkTransformFileReaderWriterTest( int argc, char *argv[] )
 {

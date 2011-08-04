@@ -648,8 +648,9 @@ itk_add_test(NAME itkOptImageToImageMetricsTest03
               itkOptImageToImageMetricsTest
               ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png)
 itk_add_test(NAME itkOptImageToImageMetricsTest04
-      COMMAND ITKReviewTestDriver itkOptImageToImageMetricsTest2
-              ${ITK_EXAMPLE_DATA_ROOT}/DiagonalLines.png ${ITK_DATA_ROOT}/Baseline/Common/itkBSplineDeformableTransformTest4.png)
+      COMMAND ITKReviewTestDriver
+      itkOptImageToImageMetricsTest2
+      ${ITK_EXAMPLE_DATA_ROOT}/DiagonalLines.png DATA{Baseline/itkBSplineTransformTest4.png})
 itk_add_test(NAME itkOptMattesImageToImageMetricsTest01
       COMMAND ITKReviewTestDriver itkOptMattesMutualInformationImageToImageMetricThreadsTest1
               ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png 0 100)
