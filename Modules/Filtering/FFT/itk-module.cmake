@@ -8,6 +8,7 @@ implementation you must comply with the GPL license.")
 itk_module(ITKFFT
   DEPENDS
     ITKCommon
+    ITKImageGrid
   TEST_DEPENDS
     ITKTestKernel
   DESCRIPTION

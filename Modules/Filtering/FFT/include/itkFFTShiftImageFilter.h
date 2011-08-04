@@ -42,7 +42,7 @@ namespace itk
  * \sa FFTRealToComplexConjugateImageFilter, FFTComplexConjugateToRealImageFilter
  *
  * \ingroup FourierTransform
- * \ingroup ITKReview
+ * \ingroup ITKFFT
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT FFTShiftImageFilter :
