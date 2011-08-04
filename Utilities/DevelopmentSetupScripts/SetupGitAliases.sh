@@ -43,4 +43,4 @@ ${GITCONFIG} alias.stage-merge "!bash -c \"${stage_cmd} merge ${git_branch}\""
 # Alias to push the current topic branch to Gerrit
 ${GITCONFIG} alias.gerrit-push '!Utilities/Git/git-gerrit-push'
 # Alias to push and merge the active topic to the stage
-${GITCONFIG} alias.gerrit-merge "!bash -c \"git stage-push && git stage-merge\""
+${GITCONFIG} alias.gerrit-merge "!Utilities/Git/git-gerrit-merge"
