@@ -74,6 +74,8 @@ int itkSimplexMeshToTriangleMeshFilterTest( int , char * [] )
   std::cout << "Back filtered Triangle Mesh: " << triangleMesh << std::endl;
 
   std::cout << "[TEST DONE]" << std::endl;
+  originalTriangleMesh = 0;
+  simplexFilter = 0;
   return EXIT_SUCCESS;
 
 }
