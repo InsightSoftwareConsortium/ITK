@@ -134,7 +134,7 @@ public:
     Execute( (const itk::Object *)caller, event);
     }
 
-  void Execute( const itk::Object *object, const itk::EventObject & event)
+  void Execute( const itk::Object *, const itk::EventObject & event)
     {
     if( itk::StartEvent().CheckEvent( &event ))
       {
