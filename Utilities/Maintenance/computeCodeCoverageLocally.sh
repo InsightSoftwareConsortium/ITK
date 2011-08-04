@@ -16,7 +16,7 @@
 #   limitations under the License.
 #
 #==========================================================================*/
-if [[ $1 == "--help" ]]
+if [[ $# == 0 || $1 == "--help" ]]
 then
 echo "      "
 echo "  How to use this script      "
