@@ -62,11 +62,11 @@ public:
   { return static_cast< ExternalType >( input + m_Value ); }
 
   /** Set the value to be added to pixels */
-  void SetValue(TPixel newvalue)
+  void SetValue(const TPixel & newvalue)
   { m_Value = newvalue; }
 
   /** Get the value to be added to pixels */
-  TPixel GetValue()
+  TPixel GetValue() const
   { return m_Value; }
 
   /** Assignment Operator */
