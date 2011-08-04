@@ -59,20 +59,6 @@ vnl_vector<itk::fem::Element::Float> LoadNode::GetForce() const
   return this->m_Force;
 }
 
-Element::ConstPointer LoadNode::GetElement() const
-{
-  return this->m_Element;
-}
-
-void LoadNode::SetElement(Element::ConstPointer el)
-{
-  this->m_Element = el;
-}
-void LoadNode::SetElement(Element::Pointer el)
-{
-  this->m_Element = el.GetPointer();
-}
-
 void LoadNode::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);

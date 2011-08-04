@@ -153,7 +153,7 @@ protected:
   /**
    * Array of pointers to point objects that define the element
    */
-  NodeIDType m_node[NumberOfNodes];
+  const Node *m_node[NumberOfNodes];
 };
 
 }

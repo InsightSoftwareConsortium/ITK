@@ -277,7 +277,7 @@ public:
      * List of pointers to elements that use this node. External code is
      * responsible for maintaining the list.
      */
-    typedef std::set<Element::Pointer> SetOfElements;
+    typedef std::set<Element *> SetOfElements;
     mutable SetOfElements m_elements;
   protected:
     virtual void PrintSelf(std::ostream& os, Indent indent) const

@@ -130,12 +130,12 @@ MetaFEMObjectConverter<NDimensions>
     o1->SetGlobalNumber(element->m_GN);
     int numNodes = element->m_NumNodes;
     for (int i=0; i<numNodes; i++)
-    {
-    o1->SetNode(i, myFEMObject->GetNodeWithGlobalNumber(element->m_NodesId[i]));
-    }
+      {
+      o1->SetNode(i, myFEMObject->GetNodeWithGlobalNumber(element->m_NodesId[i]));
+      }
     o1->SetMaterial( myFEMObject->GetMaterialWithGlobalNumber(element->m_MaterialGN).GetPointer() );
     myFEMObject->AddNextElement( o1 );
-      it_elements++;
+    it_elements++;
   }
 
     // copy all the load and boundary condition information

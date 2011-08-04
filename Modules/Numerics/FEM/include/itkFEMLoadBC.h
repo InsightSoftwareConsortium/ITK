@@ -51,7 +51,7 @@ public:
   virtual::itk::LightObject::Pointer CreateAnother(void) const;
 
   /** Default constructor */
-  LoadBC() : m_Element(0), m_DegreeOfFreedom(0), m_Value()
+  LoadBC() : m_DegreeOfFreedom(0), m_Value()
   {
   }
 
@@ -67,21 +67,8 @@ public:
   /** Get the boundary condition as vector representation*/
   vnl_vector<Element::Float> GetValue() const;
 
-  /** Set the element on which the boundary condition is being applied*/
-  void SetElement(Element::ConstPointer ele);
-  void SetElement(Element::Pointer ele);
-
-  /** Get the element on which the boundary condition is being applied*/
-  Element::ConstPointer GetElement() const;
-
 protected:
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
-
-  /**
-  * Pointer to an element, which holds the DOF that is affected
-  * by boundary condition.
-  */
-  Element::ConstPointer m_Element;
 
   /**
    * Local DOF number within the Element object.

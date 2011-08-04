@@ -186,7 +186,7 @@ SolverCrankNicolson<VDimension>
     {
     if( LoadLandmark::Pointer l3 = dynamic_cast<LoadLandmark *>( this->m_FEMObject->GetLoad(l2).GetPointer() ) )
       {
-      Element::ConstPointer ep = (l3->GetElementArray()[0]).GetPointer();
+      Element::ConstPointer ep = (l3->GetElementArray()[0]);
       Element::MatrixType   Le;
       ep->GetLandmarkContributionMatrix(l3->GetEta(), Le);
       int Ne = ep->GetNumberOfDegreesOfFreedom();

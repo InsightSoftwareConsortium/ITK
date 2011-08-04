@@ -65,18 +65,6 @@ public:
   vnl_vector<Float> GetForce() const;
 
   /**
-  * Get the element containing the degree of freedom
-  * on which the force is being applied.
-  */
-  Element::ConstPointer GetElement() const;
-
-  /**
-   * Get the element containing the degree of freedom
-   * on which the force is being applied.
-   */
-  void SetElement(Element::ConstPointer el);
-  void SetElement(Element::Pointer el);
-  /**
    * Set the node number on which the load is being applied.
    */
   void SetNode(int num);
@@ -87,13 +75,13 @@ public:
   int GetNode() const;
 
   LoadNode():
-    m_Element(0),
     m_Point(0)
   {
   }                             // default constructor
   LoadNode(Element::ConstPointer element_, unsigned int pt_, vnl_vector<Float> F_) :
-    m_Element(element_), m_Point(pt_), m_Force(F_)
+    m_Point(pt_), m_Force(F_)
   {
+    this->m_Element = element_;
   }
 
   /** CreateAnother method will clone the existing instance of this type,
@@ -103,12 +91,6 @@ public:
 protected:
 
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
-
-  /**
-   * Pointer to an element in a system that contains the DOF
-   * on which the external force is applied.
-   */
-  Element::ConstPointer m_Element;
 
   /**
    * Point within the element on which the force acts.

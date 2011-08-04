@@ -68,8 +68,36 @@ public:
   {
     return 0;
   }
+  /**
+  * Get the element containing the degree of freedom
+  * on which the force is being applied.
+  */
+  Element::ConstPointer GetElement() const
+    {
+      return m_Element;
+    }
+
+  /**
+   * Get the element containing the degree of freedom
+   * on which the force is being applied.
+   */
+  void SetElement(Element::ConstPointer el)
+    {
+      this->m_Element = el;
+    }
+  void SetElement(Element::Pointer el)
+    {
+      this->m_Element = el.GetPointer();
+    }
+
 protected:
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  /**
+   * Pointer to an element in a system that contains the DOF
+   * on which the external force is applied.
+   */
+  Element::ConstPointer m_Element;
+
 
 };
 }

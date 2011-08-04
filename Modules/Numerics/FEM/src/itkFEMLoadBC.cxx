@@ -60,20 +60,6 @@ vnl_vector<Element::Float> LoadBC::GetValue() const
   return this->m_Value;
 }
 
-void LoadBC::SetElement(Element::ConstPointer element)
-{
-  this->m_Element = element;
-}
-void LoadBC::SetElement(Element::Pointer element)
-{
-  this->m_Element = element.GetPointer();
-}
-
-Element::ConstPointer LoadBC::GetElement() const
-{
-  return this->m_Element;
-}
-
 void LoadBC::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
