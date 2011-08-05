@@ -68,7 +68,7 @@ public:
   /**
    * Type of array of pointers to element objects
    */
-  typedef std::vector<Element::ConstPointer> ElementPointersVectorType;
+  typedef std::vector<const Element *> ElementPointersVectorType;
 
   // FIXME: should clear vector, not zero it
   LoadElement() : m_Element(0)
@@ -87,8 +87,15 @@ public:
 
   unsigned int GetNumberOfElements(void);
 
-  const std::vector<Element::ConstPointer> & GetElementArray() const;
-  std::vector<Element::ConstPointer> & GetElementArray();
+  ElementPointersVectorType & GetElementArray()
+    {
+      return this->m_Element;
+    }
+
+  const ElementPointersVectorType & GetElementArray() const
+    {
+      return this->m_Element;
+    }
 
   /** Apply the load to the specified element */
   virtual void ApplyLoad(Element::ConstPointer , Element::VectorType & ) { /* HACK:  This should probably through an execption if it is not intended to be used. */ }
