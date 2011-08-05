@@ -18,9 +18,6 @@
 #ifndef __itkVoxBoCUBImageIO_h
 #define __itkVoxBoCUBImageIO_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <fstream>
 #include <string>

@@ -19,9 +19,6 @@
 #include <string>
 #include <math.h>
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkRGBGibbsPriorFilter.h"
 

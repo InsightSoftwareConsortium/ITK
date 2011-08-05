@@ -18,11 +18,6 @@
 #ifndef __itkFEMRegistrationFilter_hxx
 #define __itkFEMRegistrationFilter_hxx
 
-// disable debug warnings in MS compiler
-#ifdef _MSC_VER
-#pragma warning(disable: 4786)
-#endif
-
 #include "itkFEMRegistrationFilter.h"
 
 #include "itkFEMElements.h"

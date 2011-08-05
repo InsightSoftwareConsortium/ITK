@@ -18,9 +18,6 @@
 #ifndef __itkHoughTransform2DLinesImageFilter_h
 #define __itkHoughTransform2DLinesImageFilter_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkImageToImageFilter.h"
 #include "itkLineSpatialObject.h"

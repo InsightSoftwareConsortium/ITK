@@ -18,9 +18,6 @@
 #ifndef __itkNonUniformBSpline_hxx
 #define __itkNonUniformBSpline_hxx
 
-#if defined( _MSC_VER )
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkNonUniformBSpline.h"
 #include "itkIntTypes.h"

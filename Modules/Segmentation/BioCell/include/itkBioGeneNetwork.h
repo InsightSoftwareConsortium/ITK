@@ -18,9 +18,7 @@
 #ifndef __itkBioGeneNetwork_h
 #define __itkBioGeneNetwork_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
+
 #include "itkWin32Header.h"
 
 #include <vector>

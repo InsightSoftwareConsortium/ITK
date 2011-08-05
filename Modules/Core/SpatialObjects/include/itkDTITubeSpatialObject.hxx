@@ -18,9 +18,6 @@
 #ifndef __itkDTITubeSpatialObject_hxx
 #define __itkDTITubeSpatialObject_hxx
 
-#if defined( _MSC_VER )
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkDTITubeSpatialObject.h"
 

@@ -18,9 +18,6 @@
 #ifndef __itkWatershedBoundary_h
 #define __itkWatershedBoundary_h
 
-#if defined( _MSC_VER )
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <list>
 #include <vector>

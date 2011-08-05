@@ -25,9 +25,6 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#if defined( _MSC_VER )
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkObjectFactoryBase.h"
 #include "itkDynamicLoader.h"
@@ -52,7 +49,8 @@ public:
     itk::ObjectFactoryBase::UnRegisterAllFactories();
   }
 };
-static CleanUpObjectFactory CleanUpObjectFactoryGlobal;
+//NOTE:  KWStyle insists on m_ for m_CleanUpObjectFactoryGlobal
+static CleanUpObjectFactory m_CleanUpObjectFactoryGlobal;
 }
 
 namespace itk
@@ -201,7 +199,7 @@ void
 ObjectFactoryBase
 ::InitializeFactoryList()
 {
-  CleanUpObjectFactoryGlobal.Use();
+  m_CleanUpObjectFactoryGlobal.Use();
   /**
    * Don't do anything if we are already initialized
    */

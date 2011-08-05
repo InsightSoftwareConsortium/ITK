@@ -15,9 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
+
 #include "itkKappaStatisticImageToImageMetric.h"
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"

@@ -18,9 +18,6 @@
 #ifndef __itkIOCommon_h
 #define __itkIOCommon_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkIntTypes.h"
 #include "itkProcessObject.h"

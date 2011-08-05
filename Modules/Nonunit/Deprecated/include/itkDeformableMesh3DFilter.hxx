@@ -18,9 +18,6 @@
 #ifndef __itkDeformableMesh3DFilter_hxx
 #define __itkDeformableMesh3DFilter_hxx
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkDeformableMesh3DFilter.h"
 #include "itkNumericTraits.h"

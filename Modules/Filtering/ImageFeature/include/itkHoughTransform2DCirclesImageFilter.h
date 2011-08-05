@@ -18,9 +18,6 @@
 #ifndef __itkHoughTransform2DCirclesImageFilter_h
 #define __itkHoughTransform2DCirclesImageFilter_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkImageToImageFilter.h"
 #include "itkEllipseSpatialObject.h"

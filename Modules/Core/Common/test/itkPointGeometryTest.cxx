@@ -21,9 +21,6 @@
  *
  */
 
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkPoint.h"
 #include "itkVectorContainer.h"

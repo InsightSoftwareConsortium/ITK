@@ -18,9 +18,6 @@
 #ifndef __itkFileFreeImageIO_h
 #define __itkFileFreeImageIO_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkImageIOBase.h"
 #include <vector>

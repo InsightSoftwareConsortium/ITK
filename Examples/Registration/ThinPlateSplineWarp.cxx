@@ -15,12 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
-
-
-
 
 //  Command Line Arguments: Insight/Testing/Data/LandmarkWarping3Landmarks1.txt
 //                          inputImage  deformedImage deformationField

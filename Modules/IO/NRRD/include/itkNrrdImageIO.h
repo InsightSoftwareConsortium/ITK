@@ -18,9 +18,6 @@
 #ifndef __itkNrrdImageIO_h
 #define __itkNrrdImageIO_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkImageIOBase.h"
 #include <fstream>

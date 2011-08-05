@@ -17,9 +17,6 @@
  *=========================================================================*/
 // The example tests the class itk::Statistics::JointDomainImageToListSampleAdaptor.
 
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkJointDomainImageToListSampleAdaptor.h"
 #include "itkImageRegionIteratorWithIndex.h"

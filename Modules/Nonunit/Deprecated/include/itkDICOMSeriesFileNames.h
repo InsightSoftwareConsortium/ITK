@@ -18,9 +18,6 @@
 #ifndef __itkDICOMSeriesFileNames_h
 #define __itkDICOMSeriesFileNames_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"

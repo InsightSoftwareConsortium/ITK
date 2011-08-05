@@ -25,9 +25,6 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkBSplineTransform.h"
 #include "itkBSplineInterpolateImageFunction.h"

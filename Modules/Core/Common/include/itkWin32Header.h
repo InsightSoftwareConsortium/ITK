@@ -45,10 +45,6 @@
 // decorated name length exceeded, name was truncated
 #pragma warning ( disable : 4503 )
 
-// 'identifier' : identifier was truncated to 'number' characters in the
-// debug information
-#pragma warning ( disable : 4786 )
-
 // 'type' : forcing value to bool 'true' or 'false' (performance warning)
 #pragma warning ( disable : 4800 )
 

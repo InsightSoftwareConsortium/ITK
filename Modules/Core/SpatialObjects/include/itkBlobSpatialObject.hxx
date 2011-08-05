@@ -18,9 +18,6 @@
 #ifndef __itkBlobSpatialObject_hxx
 #define __itkBlobSpatialObject_hxx
 
-#if defined( _MSC_VER )
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkBlobSpatialObject.h"
 

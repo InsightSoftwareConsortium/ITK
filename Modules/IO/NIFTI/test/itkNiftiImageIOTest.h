@@ -18,9 +18,6 @@
 #ifndef __itkNiftiImageIOTest_h
 #define __itkNiftiImageIOTest_h
 
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkImageFileReader.h"
 #include "itkImage.h"

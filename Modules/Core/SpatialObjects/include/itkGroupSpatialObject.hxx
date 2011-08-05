@@ -18,9 +18,6 @@
 #ifndef __itkGroupSpatialObject_hxx
 #define __itkGroupSpatialObject_hxx
 
-#if defined( _MSC_VER )
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkGroupSpatialObject.h"
 

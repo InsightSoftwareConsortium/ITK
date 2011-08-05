@@ -18,9 +18,6 @@
 #ifndef __itkMatlabTransformIOFactory_h
 #define __itkMatlabTransformIOFactory_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkObjectFactoryBase.h"
 #include "itkTransformIOBase.h"

@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 //  Software Guide : BeginCommandLineArgs
 //  INPUTS: {BrainT1SliceBorder20.png}, {BrainProtonDensitySliceShifted13x17y.png}
@@ -101,9 +98,6 @@
 //   Software Guide : EndLatex
 
 
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkImageRegistrationMethod.h"
 #include "itkTranslationTransform.h"

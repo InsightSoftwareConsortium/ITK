@@ -15,10 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-// disable debug warnings in MS compiler
-#ifdef _MSC_VER
-#pragma warning(disable: 4786)
-#endif
 
 #include <iostream>
 #include "itkFEMLoadImplementationGenericLandmarkLoad.h"

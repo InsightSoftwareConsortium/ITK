@@ -18,9 +18,6 @@
 #ifndef __itkBioGene_h
 #define __itkBioGene_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <string>
 #include <vector>

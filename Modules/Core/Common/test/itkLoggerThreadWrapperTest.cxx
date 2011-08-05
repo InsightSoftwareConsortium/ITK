@@ -15,6 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #include "itkLoggerThreadWrapper.h"
 #include <iostream>
 #include <fstream>

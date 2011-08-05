@@ -18,9 +18,6 @@
 #ifndef _itkDICOMSeriesFileNames_h
 #define _itkDICOMSeriesFileNames_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "DICOMParser.h"
 #include "DICOMAppHelper.h"

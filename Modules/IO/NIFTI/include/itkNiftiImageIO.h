@@ -25,9 +25,6 @@
 #ifndef __itkNiftiImageIO_h
 #define __itkNiftiImageIO_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <fstream>
 #include "itkImageIOBase.h"

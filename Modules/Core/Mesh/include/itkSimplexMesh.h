@@ -18,9 +18,6 @@
 #ifndef __itkSimplexMesh_h
 #define __itkSimplexMesh_h
 
-#if defined( _MSC_VER )
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkMesh.h"
 #include "itkSimplexMeshGeometry.h"

@@ -19,9 +19,6 @@
 #define __itkGradientVectorFlowImageFilter_hxx
 #include "itkGradientVectorFlowImageFilter.h"
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 namespace itk
 {

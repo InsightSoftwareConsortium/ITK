@@ -19,9 +19,6 @@
 #define __itkSpatialObject_h
 
 // Disable warning for lengthy symbol names in this file only
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkAffineGeometryFrame.h"
 #include "itkCovariantVector.h"

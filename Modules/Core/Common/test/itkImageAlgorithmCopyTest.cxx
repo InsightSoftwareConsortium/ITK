@@ -20,9 +20,6 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageAlgorithm.h"
 
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 template <class TImage >
 static void AverageTestCopy( typename TImage::SizeType &size )
