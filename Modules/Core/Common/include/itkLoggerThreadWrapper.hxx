@@ -17,8 +17,6 @@
  *=========================================================================*/
 #ifndef __itkLoggerThreadWrapper_hxx
 #define __itkLoggerThreadWrapper_hxx
-//NOTE: This class does not work gnu 2.95
-#if !( defined( __GNUC__ ) && ( __GNUC__ <= 2 ) )
 
 #include <iostream>
 #include "itkLoggerThreadWrapper.h"
@@ -251,5 +249,4 @@ void LoggerThreadWrapper< SimpleLoggerType >::PrintSelf(std::ostream & os, Inden
 }
 } // namespace itk
 
-#endif
 #endif // __itkLoggerThreadWrapper_hxx

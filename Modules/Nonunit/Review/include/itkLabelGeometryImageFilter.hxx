@@ -30,15 +30,6 @@
 
 namespace itk
 {
-#if defined( __GNUC__ ) && ( __GNUC__ <= 2 ) //NOTE: This class needs a mutex
-                                             // for gnu 2.95
-/** Used for mutex locking */
-#define LOCK_HASHMAP this->m_Mutex.Lock()
-#define UNLOCK_HASHMAP this->m_Mutex.Unlock()
-#else
-#define LOCK_HASHMAP
-#define UNLOCK_HASHMAP
-#endif
 
 //
 // Helper functions
@@ -225,12 +216,9 @@ LabelGeometryImageFilter< TLabelImage, TIntensityImage >
       {
       typedef typename MapType::value_type MapValueType;
 
-      LOCK_HASHMAP;
       // map insert is defined as: pair<iterator, bool> insert(const value_type&
       // x)
       mapIt = m_LabelGeometryMapper.insert( MapValueType( label, LabelGeometry() ) ).first;
-
-      UNLOCK_HASHMAP;
       }
 
     // Update the geometry values.

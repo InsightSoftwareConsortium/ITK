@@ -21,11 +21,13 @@
 #endif
 #if ! defined(_MSC_VER) //NOTE: This class does not work under MSVS6
 
-#include "itkLoggerThreadWrapper.h"
 #include <iostream>
 #include <fstream>
+
+#include "itkThreadSupport.h"
 #include "itkStdStreamLogOutput.h"
 #include "itkLoggerBase.h"
+#include "itkLoggerThreadWrapper.h"
 
 /** \class SimpleLogger
  *  \brief Class SimpleLogger is meant to demonstrate how to change the formatting of the LoggerBase mechanism
@@ -44,9 +46,9 @@ typedef std::vector<ThreadDataStruct> ThreadDataVec;
 class SimpleLogger : public itk::LoggerBase
 {
 public:
-    typedef SimpleLogger  Self;
-    typedef itk::LoggerBase  Superclass;
-    typedef itk::SmartPointer<Self>  Pointer;
+    typedef SimpleLogger                   Self;
+    typedef itk::LoggerBase                Superclass;
+    typedef itk::SmartPointer<Self>        Pointer;
     typedef itk::SmartPointer<const Self>  ConstPointer;
 
     /** Run-time type information (and related methods). */
@@ -132,7 +134,7 @@ ITK_THREAD_RETURN_TYPE ThreadedGenerateLogMessages2(void* arg)
     return ITK_THREAD_RETURN_VALUE;
   }
   return ITK_THREAD_RETURN_VALUE;
-};
+}
 
 ThreadDataVec create_threaded_data2(int num_threads, itk::LoggerBase* logger)
 {
@@ -143,7 +145,7 @@ ThreadDataVec create_threaded_data2(int num_threads, itk::LoggerBase* logger)
     threadData[ii].logger = logger;
   }
   return threadData;
-};
+}
 
 int itkLoggerThreadWrapperTest( int argc, char * argv[] )
 {
@@ -232,5 +234,3 @@ int itkLoggerThreadWrapperTest( int argc, char * argv[] )
 #endif //! defined(_MSC_VER) //NOTE: This class does not work under MSVS6
   return EXIT_SUCCESS;
 }
-
-
