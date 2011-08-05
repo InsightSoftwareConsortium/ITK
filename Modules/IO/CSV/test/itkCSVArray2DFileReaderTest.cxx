@@ -368,7 +368,7 @@ int itkCSVArray2DFileReaderTest (int argc, char *argv[])
    }
  std::cout << "Data('Mar,April','US,Can') : " << test_item << std::endl;
 
- test_item = dfo->GetRowData("Feb",1.0);
+ test_item = dfo->GetRowData("Feb",1);
  actual_item = 0;
  if ( !testValue(test_item,actual_item) )
    {
@@ -377,7 +377,7 @@ int itkCSVArray2DFileReaderTest (int argc, char *argv[])
    }
  std::cout << "Data(Feb,1) : " << test_item << std::endl;
 
- test_item = dfo->GetColumnData("Asia",0.0);
+ test_item = dfo->GetColumnData("Asia",0);
  actual_item = 1e+09;
  if ( !testValue(test_item,actual_item) )
    {
