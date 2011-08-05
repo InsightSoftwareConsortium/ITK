@@ -36,7 +36,6 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-// MSVS6 can't do this type of nested template
 template< class SimpleLoggerType >
 class LoggerThreadWrapper:public SimpleLoggerType
 {
