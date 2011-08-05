@@ -35,6 +35,12 @@
  *  \ingroup OSSystemObjects LoggingObjects
  */
 
+struct ThreadDataStruct
+{
+  itk::LoggerBase* logger;
+};
+typedef std::vector<ThreadDataStruct> ThreadDataVec;
+
 class SimpleLogger : public itk::LoggerBase
 {
 public:
@@ -88,6 +94,56 @@ private:
 };
 #endif// ! defined(_MSC_VER) //NOTE: This class does not work under MSVS6
 
+ITK_THREAD_RETURN_TYPE ThreadedGenerateLogMessages2(void* arg)
+{
+  const itk::MultiThreader::ThreadInfoStruct* threadInfo =
+    static_cast<itk::MultiThreader::ThreadInfoStruct*>(arg);
+  if (threadInfo)
+  {
+    const unsigned int threadId = threadInfo->ThreadID;
+    std::string threadPrefix;
+    {
+      std::ostringstream msg;
+      msg << "<Thread " << threadId << "> ";
+      threadPrefix = msg.str();
+    }
+
+    const ThreadDataVec* dataVec = static_cast<ThreadDataVec*>(threadInfo->UserData);
+    if (dataVec)
+    {
+      const ThreadDataStruct threadData = (*dataVec)[threadId];
+      {
+        std::ostringstream msg;
+        msg << threadPrefix << "unpacked arg\n";
+        threadData.logger->Write(itk::LoggerBase::INFO, msg.str());
+        threadData.logger->Flush();
+        msg.str("");
+        msg << threadPrefix << "Done logging\n";
+        threadData.logger->Write(itk::LoggerBase::INFO, msg.str());
+        //std::cout << msg.str() << std::endl;
+      }
+      // do stuff
+    } else {
+      std::cerr << "ERROR: UserData was not of type ThreadDataVec*" << std::endl;
+      return ITK_THREAD_RETURN_VALUE;
+    }
+  } else {
+    std::cerr << "ERROR: arg was not of type itk::MultiThreader::ThreadInfoStruct*" << std::endl;
+    return ITK_THREAD_RETURN_VALUE;
+  }
+  return ITK_THREAD_RETURN_VALUE;
+};
+
+ThreadDataVec create_threaded_data2(int num_threads, itk::LoggerBase* logger)
+{
+  ThreadDataVec threadData;
+  for (int ii = 0; ii < num_threads; ++ii)
+  {
+    threadData.push_back(ThreadDataStruct());
+    threadData[ii].logger = logger;
+  }
+  return threadData;
+};
 
 int itkLoggerThreadWrapperTest( int argc, char * argv[] )
 {
@@ -96,9 +152,15 @@ int itkLoggerThreadWrapperTest( int argc, char * argv[] )
     {
     if (argc < 2)
       {
-      std::cout << "Usage: " << argv[0] << " logFilename" << std::endl;
+      std::cout << "Usage: " << argv[0] << " logFilename [num threads, default = 10]" << std::endl;
       return EXIT_FAILURE;
       }
+
+    int numthreads = 10;
+    if (argc > 2)
+    {
+      numthreads = atoi(argv[2]);
+    }
 
     // Create an ITK StdStreamLogOutputs
     itk::StdStreamLogOutput::Pointer coutput = itk::StdStreamLogOutput::New();
@@ -110,7 +172,7 @@ int itkLoggerThreadWrapperTest( int argc, char * argv[] )
     // Create an ITK ThreadLogger
     itk::LoggerThreadWrapper<SimpleLogger>::Pointer logger = itk::LoggerThreadWrapper<SimpleLogger>::New();
 
-    std::cout << "Testing itk::ThreadLogger" << std::endl;
+    std::cout << "Testing itk::LoggerThreadWrapper" << std::endl;
 
     // Setting the logger
     logger->SetName("org.itk.threadLogger");
@@ -148,6 +210,17 @@ int itkLoggerThreadWrapperTest( int argc, char * argv[] )
     std::cout << "  Message #3" << std::endl;
     logger->Flush();
     std::cout << "  Flushing by the ThreadLogger is synchronized." << std::endl;
+
+    std::cout << "Beginning multi-threaded portion of test." << std::endl;
+    ThreadDataVec threadData = create_threaded_data2(numthreads, logger);
+    itk::MultiThreader::Pointer threader = itk::MultiThreader::New();
+    threader->SetGlobalMaximumNumberOfThreads(numthreads + 10);
+    threader->SetNumberOfThreads(numthreads);
+    threader->SetSingleMethod(ThreadedGenerateLogMessages2, &threadData);
+    threader->SingleMethodExecute();
+    logger->Flush();
+    std::cout << "Ended multi-threaded portion of test." << std::endl;
+
     }
   catch(...)
     {

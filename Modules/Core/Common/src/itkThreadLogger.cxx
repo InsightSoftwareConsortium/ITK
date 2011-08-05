@@ -17,6 +17,7 @@
  *=========================================================================*/
 #include <iostream>
 #include "itkThreadLogger.h"
+#include "itksys/SystemTools.hxx"
 
 namespace itk
 {
@@ -25,12 +26,10 @@ namespace itk
  * current outputs. */
 void ThreadLogger::SetPriorityLevel(PriorityLevelType level)
 {
-  this->m_WaitMutex.Unlock();
   this->m_Mutex.Lock();
   this->m_OperationQ.push(SET_PRIORITY_LEVEL);
   this->m_LevelQ.push(level);
   this->m_Mutex.Unlock();
-  this->m_WaitMutex.Lock();
 }
 
 /** Get the priority level for the current logger. Only messages that have
@@ -46,13 +45,11 @@ Logger::PriorityLevelType ThreadLogger::GetPriorityLevel() const
 
 void ThreadLogger::SetLevelForFlushing(PriorityLevelType level)
 {
-  this->m_WaitMutex.Unlock();
   this->m_Mutex.Lock();
   this->m_LevelForFlushing = level;
   this->m_OperationQ.push(SET_LEVEL_FOR_FLUSHING);
   this->m_LevelQ.push(level);
   this->m_Mutex.Unlock();
-  this->m_WaitMutex.Lock();
 }
 
 Logger::PriorityLevelType ThreadLogger::GetLevelForFlushing() const
@@ -63,26 +60,41 @@ Logger::PriorityLevelType ThreadLogger::GetLevelForFlushing() const
   return level;
 }
 
+void ThreadLogger::SetDelay(DelayType delay)
+{
+  this->m_Mutex.Lock();
+  this->m_Delay = delay;
+  this->m_Mutex.Unlock();
+}
+
+ThreadLogger::DelayType ThreadLogger::GetDelay() const
+{
+  this->m_Mutex.Lock();
+  DelayType delay = this->m_Delay;
+  this->m_Mutex.Unlock();
+  return delay;
+}
+
 /** Adds an output stream to the MultipleLogOutput for writing. */
 void ThreadLogger::AddLogOutput(OutputType *output)
 {
-  this->m_WaitMutex.Unlock();
   this->m_Mutex.Lock();
   this->m_OperationQ.push(ADD_LOG_OUTPUT);
   this->m_OutputQ.push(output);
   this->m_Mutex.Unlock();
-  this->m_WaitMutex.Lock();
 }
 
 void ThreadLogger::Write(PriorityLevelType level, std::string const & content)
 {
-  this->m_WaitMutex.Unlock();
   this->m_Mutex.Lock();
   this->m_OperationQ.push(WRITE);
   this->m_MessageQ.push(content);
   this->m_LevelQ.push(level);
   this->m_Mutex.Unlock();
-  this->m_WaitMutex.Lock();
+  if ( this->m_LevelForFlushing >= level )
+    {
+    this->Flush();
+    }
 }
 
 void ThreadLogger::Flush()
@@ -126,7 +138,7 @@ void ThreadLogger::Flush()
 /** Constructor */
 ThreadLogger::ThreadLogger()
 {
-  this->m_WaitMutex.Lock();
+  this->m_Delay = 300; // ms
   this->m_Threader = MultiThreader::New();
   this->m_ThreadID = this->m_Threader->SpawnThread(ThreadFunction, this);
 }
@@ -134,8 +146,7 @@ ThreadLogger::ThreadLogger()
 /** Destructor */
 ThreadLogger::~ThreadLogger()
 {
-  this->m_WaitMutex.Unlock();
-  if ( this->m_Threader )
+  if( this->m_Threader )
     {
     this->m_Threader->TerminateThread(this->m_ThreadID);
     }
@@ -159,7 +170,7 @@ ITK_THREAD_RETURN_TYPE ThreadLogger::ThreadFunction(void *pInfoStruct)
 
   while ( 1 )
     {
-    pLogger->m_WaitMutex.Lock();
+
 
     pInfo->ActiveFlagLock->Lock();
     int activeFlag = *pInfo->ActiveFlag;
@@ -201,7 +212,7 @@ ITK_THREAD_RETURN_TYPE ThreadLogger::ThreadFunction(void *pInfoStruct)
       pLogger->m_OperationQ.pop();
       }
     pLogger->m_Mutex.Unlock();
-    pLogger->m_WaitMutex.Unlock();
+    itksys::SystemTools::Delay(pLogger->GetDelay());
     }
   return ITK_THREAD_RETURN_VALUE;
 }
@@ -212,6 +223,7 @@ void ThreadLogger::PrintSelf(std::ostream & os, Indent indent) const
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Thread ID: " << this->m_ThreadID << std::endl;
+  os << indent << "Low-priority Message Delay: " << this->m_Delay << std::endl;
   os << indent << "Operation Queue Size: " << this->m_OperationQ.size() << std::endl;
   os << indent << "Message Queue Size: " << this->m_MessageQ.size() << std::endl;
   os << indent << "Level Queue Size: " << this->m_LevelQ.size() << std::endl;
