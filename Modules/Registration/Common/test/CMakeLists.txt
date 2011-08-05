@@ -16,7 +16,6 @@ itkGradientDifferenceImageToImageMetricTest.cxx
 itkHistogramImageToImageMetricTest.cxx
 itkMutualInformationHistogramImageToImageMetricTest.cxx
 itkMeanReciprocalSquareDifferencePointSetToImageMetricTest.cxx
-itkRegistrationCommonHeaderTest.cxx
 itkMultiResolutionImageRegistrationMethodTest.cxx
 itkCompareHistogramImageToImageMetricTest.cxx
 itkMeanSquaresHistogramImageToImageMetricTest.cxx
@@ -51,8 +50,6 @@ itkSpatialObjectToImageRegistrationTest.cxx
 
 CreateTestDriver(ITKRegistrationCommon  "${ITKRegistrationCommon-Test_LIBRARIES}" "${ITKRegistrationCommonTests}")
 
-itk_add_test(NAME itkRegistrationCommonHeaderTest
-      COMMAND ITKRegistrationCommonTestDriver itkRegistrationCommonHeaderTest)
 itk_add_test(NAME itkCenteredTransformInitializerTest
       COMMAND ITKRegistrationCommonTestDriver itkCenteredTransformInitializerTest)
 itk_add_test(NAME itkCenteredVersorTransformInitializerTest

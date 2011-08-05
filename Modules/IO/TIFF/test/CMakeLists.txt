@@ -1,13 +1,10 @@
 itk_module_test()
 set(ITKIOTIFFTests
 itkTIFFImageIOTest.cxx
-itkIOTIFFHeaderTest.cxx
 )
 
 CreateTestDriver(ITKIOTIFF  "${ITKIOTIFF-Test_LIBRARIES}" "${ITKIOTIFFTests}")
 
-itk_add_test(NAME itkIOTIFFHeaderTest
-      COMMAND ITKIOTIFFTestDriver itkIOTIFFHeaderTest)
 itk_add_test(NAME itkTIFFImageIOTest
       COMMAND ITKIOTIFFTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/IO/cthead1.tif

@@ -14,6 +14,8 @@ itkMultiplyByConstantImageFilterTest.cxx
 itkSubtractConstantFromImageFilterTest.cxx
 )
 
+# For itkTestDriverIncludeDeprecatedIOFactories.h.
+include_directories( ${ITKDeprecated_SOURCE_DIR}/test )
 
 CreateTestDriver_SupportBuildInIOFactories(ITKDeprecated  "${ITKDeprecated-Test_LIBRARIES}" "${ITKDeprecatedTests}")
 

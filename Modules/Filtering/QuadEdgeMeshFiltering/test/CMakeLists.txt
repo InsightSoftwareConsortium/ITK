@@ -11,7 +11,6 @@ itkDiscreteMeanCurvatureQuadEdgeMeshFilterTest.cxx
 itkDiscreteMinimumCurvatureQuadEdgeMeshFilterTest.cxx
 itkNormalQuadEdgeMeshFilterTest.cxx
 itkParameterizationQuadEdgeMeshFilterTest.cxx
-itkQuadEdgeMeshFilteringHeaderTest.cxx
 itkQuadricDecimationQuadEdgeMeshFilterTest.cxx
 itkRegularSphereQuadEdgeMeshSourceTest.cxx
 itkSmoothingQuadEdgeMeshFilterTest.cxx
@@ -86,8 +85,6 @@ itk_add_test(NAME itkQuadEdgeMeshQuadricDecimationTetrahedronTest
       COMMAND ITKQuadEdgeMeshFilteringTestDriver
               itkQuadricDecimationQuadEdgeMeshFilterTest
               ${INPUTDATA}/tetrahedron.vtk 2 ${TEMP}/temp_QuadricDecimationTetrahedron.vtk)
-itk_add_test(NAME itkQuadEdgeMeshFilteringHeaderTest
-      COMMAND ITKQuadEdgeMeshFilteringTestDriver itkQuadEdgeMeshFilteringHeaderTest)
 itk_add_test(NAME itkAutomaticTopologyQuadEdgeMeshSourceTest
       COMMAND ITKQuadEdgeMeshFilteringTestDriver itkAutomaticTopologyQuadEdgeMeshSourceTest)
 itk_add_test(NAME itkBinaryMask3DQuadEdgeMeshSourceTest

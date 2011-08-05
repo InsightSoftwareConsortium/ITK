@@ -18,7 +18,6 @@
 #ifndef __itkOrientImageFilter_h
 #define __itkOrientImageFilter_h
 
-#include "itkIOCommon.h"
 #include "itkPermuteAxesImageFilter.h"
 #include "itkFlipImageFilter.h"
 #include "itkSpatialOrientationAdapter.h"
@@ -82,7 +81,6 @@ namespace itk
  * #include "itkMetaDataObject.h"
  * #include "itkImage.h"
  * #include "itkOrientImageFilter.h"
- * #include "itkIOCommon.h"
  * typedef itk::Image<unsigned char,3> ImageType;
  * typedef itk::ImageFileReader< TstImageType > ImageReaderType;
  * ImageType::Pointer ReadAnalyzeFile(const char *path)

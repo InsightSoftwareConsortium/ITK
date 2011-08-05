@@ -19,6 +19,7 @@
 #define __itkSharedMorphologyUtilities_h
 
 #include <list>
+#include <vector>
 
 namespace itk
 {

@@ -1,7 +1,6 @@
 itk_module_test()
 set(ITKPDEDeformableRegistrationTests
 itkMultiResolutionPDEDeformableRegistrationTest.cxx
-itkPDEDeformableRegistrationHeaderTest.cxx
 itkDemonsRegistrationFilterTest.cxx
 itkLevelSetMotionRegistrationFilterTest.cxx
 itkSymmetricForcesDemonsRegistrationFilterTest.cxx
@@ -13,8 +12,6 @@ set(TEMP ${ITK_TEST_OUTPUT_DIR})
 
 CreateTestDriver(ITKPDEDeformableRegistration  "${ITKPDEDeformableRegistration-Test_LIBRARIES}" "${ITKPDEDeformableRegistrationTests}")
 
-itk_add_test(NAME itkPDEDeformableRegistrationHeaderTest
-      COMMAND ITKPDEDeformableRegistrationTestDriver itkPDEDeformableRegistrationHeaderTest)
 itk_add_test(NAME itkDemonsRegistrationFilterTest
       COMMAND ITKPDEDeformableRegistrationTestDriver itkDemonsRegistrationFilterTest)
 itk_add_test(NAME itkLevelSetMotionRegistrationFilterTest

@@ -4,6 +4,7 @@ set(_ITKModuleMacros_DEFAULT_LABEL "ITKModular")
 
 include(${_ITKModuleMacros_DIR}/ITKModuleAPI.cmake)
 include(${_ITKModuleMacros_DIR}/ITKModuleDoxygen.cmake)
+include(${_ITKModuleMacros_DIR}/ITKModuleHeaderTest.cmake)
 
 if(ITK_CPPCHECK_TEST)
   include(${_ITKModuleMacros_DIR}/ITKModuleCPPCheckTest.cmake)
@@ -110,6 +111,9 @@ macro(itk_module_impl)
   else()
     if(ITK_CPPCHECK_TEST)
       itk_module_cppcheck_test( ${itk-module} )
+    endif()
+    if(EXISTS "${${itk-module}_SOURCE_DIR}/include" AND BUILD_TESTING)
+      itk_module_headertest( ${itk-module} )
     endif()
   endif()
 

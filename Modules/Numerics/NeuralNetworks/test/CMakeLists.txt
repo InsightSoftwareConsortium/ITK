@@ -1,6 +1,5 @@
 itk_module_test()
 set(ITKNeuralNetworksTests
-itkNeuralNetworksHeaderTest.cxx
 NNetClassifierTest1.cxx
 NNetClassifierTest2.cxx
 NNetClassifierTest3.cxx
@@ -13,8 +12,6 @@ XORTest2.cxx
 
 CreateTestDriver(ITKNeuralNetworks  "${ITKNeuralNetworks-Test_LIBRARIES}" "${ITKNeuralNetworksTests}")
 
-itk_add_test(NAME itkNeuralNetworksHeaderTest
-      COMMAND ITKNeuralNetworksTestDriver itkNeuralNetworksHeaderTest)
 itk_add_test(NAME NNetClassifierTest1
       COMMAND ITKNeuralNetworksTestDriver NNetClassifierTest1
               ${ITK_DATA_ROOT}/Input/NeuralNetworks/train.txt ${ITK_DATA_ROOT}/Input/NeuralNetworks/test.txt)

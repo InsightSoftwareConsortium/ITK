@@ -1,13 +1,10 @@
 itk_module_test()
 set(ITKIOJPEGTests
-itkIOJPEGHeaderTest.cxx
 itkJPEGImageIOTest.cxx
 )
 
 CreateTestDriver(ITKIOJPEG  "${ITKIOJPEG-Test_LIBRARIES}" "${ITKIOJPEGTests}")
 
-itk_add_test(NAME itkIOJPEGHeaderTest
-      COMMAND ITKIOJPEGTestDriver itkIOJPEGHeaderTest)
 itk_add_test(NAME itkJPEGImageIOTest
       COMMAND ITKIOJPEGTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/IO/cthead1.png

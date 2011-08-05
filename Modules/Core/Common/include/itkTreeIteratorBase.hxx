@@ -20,6 +20,21 @@
 
 #include "itkTreeChangeEvent.h"
 
+/** There are some weird circular #include dependencies between TreeChangeEvent
+ * and TreeIteratorBase that cause the HeaderTest to fail without these forward
+ * declarations. */
+template< class TTreeType >
+class TreeNodeChangeEvent;
+
+template< class TTreeType >
+class TreeAddEvent;
+
+template< class TTreeType >
+class TreePruneEvent;
+
+template< class TTreeType >
+class TreeRemoveEvent;
+
 namespace itk
 {
 /** Constructor */

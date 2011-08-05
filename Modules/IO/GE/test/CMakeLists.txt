@@ -1,13 +1,10 @@
 itk_module_test()
 set(ITKIOGETests
 itkGEImageIOTest.cxx
-itkIOGEHeaderTest.cxx
 )
 
 CreateTestDriver(ITKIOGE  "${ITKIOGE-Test_LIBRARIES}" "${ITKIOGETests}")
 
-itk_add_test(NAME itkIOGEHeaderTest
-      COMMAND ITKIOGETestDriver itkIOGEHeaderTest)
 itk_add_test(NAME itkGE4
       COMMAND ITKIOGETestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/IO/19771.002.001.mha

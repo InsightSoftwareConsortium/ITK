@@ -1,6 +1,5 @@
 itk_module_test()
 set(ITKVoronoiTests
-itkVoronoiHeaderTest.cxx
 itkVoronoiSegmentationImageFilterTest.cxx
 itkVoronoiSegmentationRGBImageFilterTest.cxx
 itkVoronoiDiagram2DTest.cxx
@@ -9,8 +8,6 @@ itkVoronoiPartitioningImageFilterTest.cxx
 
 CreateTestDriver(ITKVoronoi  "${ITKVoronoi-Test_LIBRARIES}" "${ITKVoronoiTests}")
 
-itk_add_test(NAME itkVoronoiHeaderTest
-      COMMAND ITKVoronoiTestDriver itkVoronoiHeaderTest)
 itk_add_test(NAME itkVoronoiSegmentationImageFilterTest
       COMMAND ITKVoronoiTestDriver itkVoronoiSegmentationImageFilterTest)
 itk_add_test(NAME itkVoronoiSegmentationRGBImageFilterTest

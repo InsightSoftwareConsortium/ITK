@@ -1,6 +1,5 @@
 itk_module_test()
 set(ITKLabelVotingTests
-itkLabelVotingHeaderTest.cxx
 itkVotingBinaryImageFilterTest.cxx
 itkLabelVotingImageFilterTest.cxx
 itkVotingBinaryIterativeHoleFillingImageFilterTest.cxx
@@ -10,8 +9,6 @@ itkVotingBinaryHoleFillingImageFilterTest.cxx
 
 CreateTestDriver(ITKLabelVoting  "${ITKLabelVoting-Test_LIBRARIES}" "${ITKLabelVotingTests}")
 
-itk_add_test(NAME itkLabelVotingHeaderTest
-      COMMAND ITKLabelVotingTestDriver itkLabelVotingHeaderTest)
 itk_add_test(NAME itkVotingBinaryImageFilterTest
       COMMAND ITKLabelVotingTestDriver itkVotingBinaryImageFilterTest)
 itk_add_test(NAME itkLabelVotingImageFilterTest

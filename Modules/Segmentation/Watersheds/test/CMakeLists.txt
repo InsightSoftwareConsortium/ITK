@@ -1,15 +1,12 @@
 itk_module_test()
 set(ITKWatershedsTests
 itkTobogganImageFilterTest.cxx
-itkWatershedsHeaderTest.cxx
 itkIsolatedWatershedImageFilterTest.cxx
 itkWatershedImageFilterTest.cxx
 )
 
 CreateTestDriver(ITKWatersheds  "${ITKWatersheds-Test_LIBRARIES}" "${ITKWatershedsTests}")
 
-itk_add_test(NAME itkWatershedsHeaderTest
-      COMMAND ITKWatershedsTestDriver itkWatershedsHeaderTest)
 itk_add_test(NAME itkTobogganImageFilterTest
       COMMAND ITKWatershedsTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/TobogganImageFilterTest.png

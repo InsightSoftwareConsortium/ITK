@@ -1,7 +1,6 @@
 itk_module_test()
 set(ITKPathTests
 itkPathIteratorTest.cxx
-itkPathHeaderTest.cxx
 itkChainCodePathTest.cxx
 itkChainCodePath2DTest.cxx
 itkOrthogonallyCorrected2DParametricPathTest.cxx
@@ -17,8 +16,6 @@ itkOrthogonalSwath2DPathFilterTest.cxx
 
 CreateTestDriver(ITKPath  "${ITKPath-Test_LIBRARIES}" "${ITKPathTests}")
 
-itk_add_test(NAME itkPathHeaderTest
-      COMMAND ITKPathTestDriver itkPathHeaderTest)
 itk_add_test(NAME itkPathIteratorTest
       COMMAND ITKPathTestDriver itkPathIteratorTest)
 itk_add_test(NAME itkChainCodePathTest

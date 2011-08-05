@@ -1,6 +1,5 @@
 itk_module_test()
 set(ITKImageFilterBaseTests
-itkImageFilterBaseHeaderTest.cxx
 itkNeighborhoodOperatorImageFilterTest.cxx
 itkImageToImageFilterTest.cxx
 itkVectorNeighborhoodOperatorImageFilterTest.cxx
@@ -26,8 +25,6 @@ endif()
 
 CreateTestDriver(ITKImageFilterBase  "${ITKImageFilterBase-Test_LIBRARIES}" "${ITKImageFilterBaseTests}")
 
-itk_add_test(NAME itkImageFilterBaseHeaderTest
-      COMMAND ITKImageFilterBaseTestDriver itkImageFilterBaseHeaderTest)
 itk_add_test(NAME itkNeighborhoodOperatorImageFilterTest
       COMMAND ITKImageFilterBaseTestDriver itkNeighborhoodOperatorImageFilterTest)
 itk_add_test(NAME itkImageToImageFilterTest

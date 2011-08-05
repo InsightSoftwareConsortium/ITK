@@ -22,7 +22,6 @@ itkScaleLogarithmicTransformTest.cxx
 itkQuaternionRigidTransformTest.cxx
 itkScaleTransformTest.cxx
 itkSimilarity3DTransformTest.cxx
-itkTransformHeaderTest.cxx
 itkAzimuthElevationToCartesianTransformTest.cxx
 itkCenteredEuler3DTransformTest.cxx
 itkTransformFileReaderWriterTest.cxx
@@ -40,8 +39,6 @@ itkSplineKernelTransformTest.cxx
 
 CreateTestDriver(ITKTransform  "${ITKTransform-Test_LIBRARIES}" "${ITKTransformTests}")
 
-itk_add_test(NAME itkTransformHeaderTest
-      COMMAND ITKTransformTestDriver itkTransformHeaderTest)
 itk_add_test(NAME itkFixedCenterOfRotationAffineTransformTest
       COMMAND ITKTransformTestDriver itkFixedCenterOfRotationAffineTransformTest)
 itk_add_test(NAME itkAffineTransformTest

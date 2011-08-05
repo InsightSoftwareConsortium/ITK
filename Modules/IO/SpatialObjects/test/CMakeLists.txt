@@ -2,14 +2,11 @@ itk_module_test()
 
 set(ITKIOSpatialObjectsTests
 itkPolygonGroupSpatialObjectXMLFileTest.cxx
-itkIOSpatialobjectsHeaderTest.cxx
 itkReadWriteSpatialObjectTest.cxx
 )
 
 CreateTestDriver(ITKIOSpatialObjects  "${ITKIOSpatialObjects-Test_LIBRARIES}" "${ITKIOSpatialObjectsTests}")
 
-itk_add_test(NAME itkIOSpatialobjectsHeaderTest
-      COMMAND ITKIOSpatialObjectsTestDriver itkIOSpatialobjectsHeaderTest)
 itk_add_test(NAME itkReadWriteSpatialObjectTest
       COMMAND ITKIOSpatialObjectsTestDriver itkReadWriteSpatialObjectTest
               ${ITK_TEST_OUTPUT_DIR}/Objects.meta)

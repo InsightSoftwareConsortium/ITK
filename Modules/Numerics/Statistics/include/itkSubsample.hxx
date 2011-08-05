@@ -18,6 +18,8 @@
 #ifndef __itkSubsample_hxx
 #define __itkSubsample_hxx
 
+#include "itkSubsample.h"
+
 #include "itkObject.h"
 
 namespace itk

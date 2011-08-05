@@ -13,7 +13,6 @@ itkBilateralImageFilterTest.cxx
 itkBilateralImageFilterTest2.cxx
 itkBilateralImageFilterTest3.cxx
 itkGradientVectorFlowImageFilterTest.cxx
-itkImageFeatureHeaderTest.cxx
 itkSimpleContourExtractorImageFilterTest.cxx
 itkZeroCrossingImageFilterTest.cxx
 itkCannyEdgeDetectionImageFilterTest2.cxx
@@ -23,8 +22,6 @@ itkLaplacianRecursiveGaussianImageFilterTest.cxx
 
 CreateTestDriver(ITKImageFeature  "${ITKImageFeature-Test_LIBRARIES}" "${ITKImageFeatureTests}")
 
-itk_add_test(NAME itkImageFeatureHeaderTest
-      COMMAND ITKImageFeatureTestDriver itkImageFeatureHeaderTest)
 itk_add_test(NAME itkZeroCrossingBasedEdgeDetectionImageFilterTest
       COMMAND ITKImageFeatureTestDriver itkZeroCrossingBasedEdgeDetectionImageFilterTest)
 itk_add_test(NAME itkLaplacianImageFilterTest

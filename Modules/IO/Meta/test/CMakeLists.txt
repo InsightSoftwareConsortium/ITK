@@ -1,7 +1,6 @@
 itk_module_test()
 set(ITKIOMetaTests
 itkMetaImageIOMetaDataTest.cxx
-itkIOMetaHeaderTest.cxx
 itkMetaImageIOGzTest.cxx
 itkMetaImageIOTest.cxx
 testMetaArray.cxx
@@ -23,8 +22,6 @@ itkMetaImageStreamingWriterIOTest.cxx
 
 CreateTestDriver(ITKIOMeta  "${ITKIOMeta-Test_LIBRARIES}" "${ITKIOMetaTests}")
 
-itk_add_test(NAME itkIOMetaHeaderTest
-      COMMAND ITKIOMetaTestDriver itkIOMetaHeaderTest)
 itk_add_test(NAME itkMetaImageIOMetaDataTest
       COMMAND ITKIOMetaTestDriver itkMetaImageIOMetaDataTest
               ${ITK_TEST_OUTPUT_DIR}/MetaImageIOMetaDataTest.mhd)

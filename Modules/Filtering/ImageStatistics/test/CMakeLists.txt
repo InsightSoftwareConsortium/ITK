@@ -4,7 +4,6 @@ itkStatisticsImageFilterTest.cxx
 itkLabelStatisticsImageFilterTest.cxx
 itkSumProjectionImageFilterTest.cxx
 itkStandardDeviationProjectionImageFilterTest.cxx
-itkImageStatisticsHeaderTest.cxx
 itkImageMomentsTest.cxx
 itkImageToHistogramFilterTest.cxx
 itkImageToHistogramFilterTest2.cxx
@@ -36,8 +35,6 @@ itkProjectionImageFilterTest.cxx
 
 CreateTestDriver(ITKImageStatistics  "${ITKImageStatistics-Test_LIBRARIES}" "${ITKImageStatisticsTests}")
 
-itk_add_test(NAME itkImageStatisticsHeaderTest
-      COMMAND ITKImageStatisticsTestDriver itkImageStatisticsHeaderTest)
 itk_add_test(NAME itkStatisticsImageFilterTest
       COMMAND ITKImageStatisticsTestDriver itkStatisticsImageFilterTest)
 itk_add_test(NAME itkLabelStatisticsImageFilterTest

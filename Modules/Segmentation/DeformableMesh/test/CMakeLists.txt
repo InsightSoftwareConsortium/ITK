@@ -1,7 +1,6 @@
 itk_module_test()
 set(ITKDeformableMeshTests
 itkDeformableSimplexMesh3DFilterTest.cxx
-itkDeformableMeshHeaderTest.cxx
 itkDeformableSimplexMesh3DBalloonForceFilterTest.cxx
 itkDeformableSimplexMesh3DGradientConstraintForceFilterTest.cxx
 itkSimplexMeshWithFloatCoordRepTest.cxx
@@ -9,8 +8,6 @@ itkSimplexMeshWithFloatCoordRepTest.cxx
 
 CreateTestDriver(ITKDeformableMesh  "${ITKDeformableMesh-Test_LIBRARIES}" "${ITKDeformableMeshTests}")
 
-itk_add_test(NAME itkDeformableMeshHeaderTest
-      COMMAND ITKDeformableMeshTestDriver itkDeformableMeshHeaderTest)
 itk_add_test(NAME itkDeformableSimplexMesh3DFilterTest
       COMMAND ITKDeformableMeshTestDriver itkDeformableSimplexMesh3DFilterTest)
 itk_add_test(NAME itkDeformableSimplexMesh3DBalloonForceFilterTest

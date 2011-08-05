@@ -18,6 +18,8 @@
 #ifndef __itkTanHTransferFunction_hxx
 #define __itkTanHTransferFunction_hxx
 
+#include "itkTanHTransferFunction.h"
+
 namespace itk
 {
 namespace Statistics

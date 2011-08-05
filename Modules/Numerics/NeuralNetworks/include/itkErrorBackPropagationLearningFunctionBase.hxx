@@ -20,6 +20,8 @@
 
 #include "itkErrorBackPropagationLearningFunctionBase.h"
 
+#include "vnl/vnl_matrix.h"
+
 namespace itk
 {
 namespace Statistics

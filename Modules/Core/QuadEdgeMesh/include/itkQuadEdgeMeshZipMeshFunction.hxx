@@ -18,6 +18,8 @@
 #ifndef __itkQuadEdgeMeshZipMeshFunction_hxx
 #define __itkQuadEdgeMeshZipMeshFunction_hxx
 
+#include "itkQuadEdgeMeshZipMeshFunction.h"
+
 namespace itk
 {
 template< class TMesh, class TQEType >

@@ -3,13 +3,10 @@ set(ITKImageLabelTests
 itkChangeLabelImageFilterTest.cxx
 itkLabelContourImageFilterTest.cxx
 itkBinaryContourImageFilterTest.cxx
-itkImageLabelHeaderTest.cxx
 )
 
 CreateTestDriver(ITKImageLabel  "${ITKImageLabel-Test_LIBRARIES}" "${ITKImageLabelTests}")
 
-itk_add_test(NAME itkImageLabelHeaderTest
-      COMMAND ITKImageLabelTestDriver itkImageLabelHeaderTest)
 itk_add_test(NAME itkChangeLabelImageFilterTest
       COMMAND ITKImageLabelTestDriver itkChangeLabelImageFilterTest)
 itk_add_test(NAME itkLabelContourImageFilterTest0

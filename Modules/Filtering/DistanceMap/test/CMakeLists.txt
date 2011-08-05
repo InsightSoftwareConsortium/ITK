@@ -2,7 +2,6 @@ itk_module_test()
 set(ITKDistanceMapTests
 itkDanielssonDistanceMapImageFilterTest.cxx
 itkContourMeanDistanceImageFilterTest.cxx
-itkDistanceMapHeaderTest.cxx
 itkContourDirectedMeanDistanceImageFilterTest.cxx
 itkFastChamferDistanceImageFilterTest.cxx
 itkHausdorffDistanceImageFilterTest.cxx
@@ -15,8 +14,6 @@ itkIsoContourDistanceImageFilterTest.cxx
 
 CreateTestDriver(ITKDistanceMap  "${ITKDistanceMap-Test_LIBRARIES}" "${ITKDistanceMapTests}")
 
-itk_add_test(NAME itkDistanceMapHeaderTest
-      COMMAND ITKDistanceMapTestDriver itkDistanceMapHeaderTest)
 itk_add_test(NAME itkDanielssonDistanceMapImageFilterTest
       COMMAND ITKDistanceMapTestDriver itkDanielssonDistanceMapImageFilterTest)
 itk_add_test(NAME itkContourMeanDistanceImageFilterTest

@@ -3,7 +3,6 @@ set(ITKConnectedComponentsTests
 itkRelabelComponentImageFilterTest.cxx
 itkHardConnectedComponentImageFilterTest.cxx
 itkConnectedComponentImageFilterTestRGB.cxx
-itkConnectedComponentsHeaderTest.cxx
 itkConnectedComponentImageFilterTest.cxx
 itkThresholdMaximumConnectedComponentsImageFilterTest.cxx
 itkScalarConnectedComponentImageFilterTest.cxx
@@ -14,8 +13,6 @@ itkMaskConnectedComponentImageFilterTest.cxx
 
 CreateTestDriver(ITKConnectedComponents  "${ITKConnectedComponents-Test_LIBRARIES}" "${ITKConnectedComponentsTests}")
 
-itk_add_test(NAME itkConnectedComponentsHeaderTest
-      COMMAND ITKConnectedComponentsTestDriver itkConnectedComponentsHeaderTest)
 itk_add_test(NAME itkRelabelComponentImageFilterTest
       COMMAND ITKConnectedComponentsTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/RelabelComponentImageFilterTest.png

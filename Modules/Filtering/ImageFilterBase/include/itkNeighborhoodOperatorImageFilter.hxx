@@ -18,6 +18,8 @@
 #ifndef __itkNeighborhoodOperatorImageFilter_hxx
 #define __itkNeighborhoodOperatorImageFilter_hxx
 
+#include "itkNeighborhoodOperatorImageFilter.h"
+
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkNeighborhoodInnerProduct.h"
 #include "itkImageRegionIterator.h"

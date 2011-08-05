@@ -2,15 +2,12 @@ itk_module_test()
 set(ITKIOVTKTests
 itkVTKImageIO2Test.cxx
 itkVTKImageIOTest.cxx
-itkIOVTKHeaderTest.cxx
 itkVTKImageIO2Test2.cxx
 itkVTKImageIOTest2.cxx
 )
 
 CreateTestDriver(ITKIOVTK  "${ITKIOVTK-Test_LIBRARIES}" "${ITKIOVTKTests}")
 
-itk_add_test(NAME itkIOVTKHeaderTest
-      COMMAND ITKIOVTKTestDriver itkIOVTKHeaderTest)
 itk_add_test(NAME itkVTKImageIO2Test
       COMMAND ITKIOVTKTestDriver itkVTKImageIO2Test
               ${ITK_TEST_OUTPUT_DIR})

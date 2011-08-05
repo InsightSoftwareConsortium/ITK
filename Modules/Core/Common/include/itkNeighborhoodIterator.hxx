@@ -17,6 +17,9 @@
  *=========================================================================*/
 #ifndef __itkNeighborhoodIterator_hxx
 #define __itkNeighborhoodIterator_hxx
+
+#include "itkNeighborhoodIterator.h"
+
 namespace itk
 {
 template< class TImage, class TBoundaryCondition >

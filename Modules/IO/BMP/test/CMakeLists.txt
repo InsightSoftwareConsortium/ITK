@@ -1,14 +1,11 @@
 itk_module_test()
 set(ITKIOBMPTests
 itkBMPImageIOTest2.cxx
-itkIOBMPHeaderTest.cxx
 itkBMPImageIOTest.cxx
 )
 
 CreateTestDriver(ITKIOBMP  "${ITKIOBMP-Test_LIBRARIES}" "${ITKIOBMPTests}")
 
-itk_add_test(NAME itkIOBMPHeaderTest
-      COMMAND ITKIOBMPTestDriver itkIOBMPHeaderTest)
 itk_add_test(NAME itkBMPImageIOTest5
       COMMAND ITKIOBMPTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/IO/smallRGBA.mha

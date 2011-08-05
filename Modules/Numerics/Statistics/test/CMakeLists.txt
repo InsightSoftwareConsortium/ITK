@@ -13,7 +13,6 @@ itkKdTreeTest1.cxx
 itkKdTreeTest2.cxx
 itkKdTreeTest3.cxx
 itkKdTreeTestSamplePoints.cxx
-itkStatisticsHeaderTest.cxx
 itkMaximumDecisionRuleTest.cxx
 itkMinimumDecisionRuleTest.cxx
 itkMaximumRatioDecisionRuleTest.cxx
@@ -91,8 +90,6 @@ itkStatisticsAlgorithmTest2.cxx
 
 CreateTestDriver(ITKStatistics  "${ITKStatistics-Test_LIBRARIES}" "${ITKStatisticsTests}")
 
-itk_add_test(NAME itkStatisticsHeaderTest
-      COMMAND ITKStatisticsTestDriver itkStatisticsHeaderTest)
 itk_add_test(NAME itkDecisionRuleTest
      COMMAND ITKStatisticsTestDriver itkDecisionRuleTest)
 itk_add_test(NAME itkDenseFrequencyContainer2Test

@@ -2,7 +2,6 @@ itk_module_test()
 set(ITKSpatialObjectsTests
 itkSpatialObjectToImageFilterTest.cxx
 itkLandmarkSpatialObjectTest.cxx
-itkSpatialObjectsHeaderTest.cxx
 itkPolygonGroupSpatialObjectTest.cxx
 itkImageSpatialObjectTest.cxx
 itkSpatialObjectToImageStatisticsCalculatorTest.cxx
@@ -34,8 +33,6 @@ itkNewMetaObjectTypeTest.cxx
 
 CreateTestDriver(ITKSpatialObjects  "${ITKSpatialObjects-Test_LIBRARIES}" "${ITKSpatialObjectsTests}")
 
-itk_add_test(NAME itkSpatialObjectsHeaderTest
-      COMMAND ITKSpatialObjectsTestDriver itkSpatialObjectsHeaderTest)
 itk_add_test(NAME itkSpatialObjectToImageFilterTest
       COMMAND ITKSpatialObjectsTestDriver itkSpatialObjectToImageFilterTest)
 itk_add_test(NAME itkLandmarkSpatialObjectTest

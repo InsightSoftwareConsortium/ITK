@@ -13,11 +13,6 @@ itkExpandImageFilterTest.cxx
 itkRegionOfInterestImageFilterTest.cxx
 itkBSplineUpsampleImageFilterTest.cxx
 itkBSplineResampleImageFilterTest.cxx
-itkBSplineResampleImageFunctionTest.cxx
-itkBSplineInterpolateImageFunctionTest.cxx
-itkImageGridHeaderTest.cxx
-itkWarpImageFilterTest2.cxx
-itkBSplineDecompositionImageFilterTest.cxx
 itkBSplineDownsampleImageFilterTest.cxx
 itkTileImageFilterTest.cxx
 itkInterpolateImageFilterTest.cxx
@@ -33,6 +28,7 @@ itkOrientedImageProfileTest3.cxx
 itkOrientImageFilterTest.cxx
 itkOrientImageFilterTest2.cxx
 itkWarpImageFilterTest.cxx
+itkWarpImageFilterTest2.cxx
 itkWarpVectorImageFilterTest.cxx
 itkWrapPadImageTest.cxx
 itkMirrorPadImageTest.cxx
@@ -50,8 +46,6 @@ itkPadImageFilterTest.cxx
 
 CreateTestDriver(ITKImageGrid  "${ITKImageGrid-Test_LIBRARIES}" "${ITKImageGridTests}")
 
-itk_add_test(NAME itkImageGridHeaderTest
-      COMMAND ITKImageGridTestDriver itkImageGridHeaderTest)
 itk_add_test(NAME itkBasicArchitectureTest
       COMMAND ITKImageGridTestDriver itkBasicArchitectureTest)
 itk_add_test(NAME itkChangeInformationImageFilterTest
@@ -98,14 +92,8 @@ itk_add_test(NAME itkBSplineUpsampleImageFilterTest
               ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd ${ITK_TEST_OUTPUT_DIR}/itkBSplineUpsampleImageFilterTest1.mha 3)
 itk_add_test(NAME itkBSplineResampleImageFilterTest
       COMMAND ITKImageGridTestDriver itkBSplineResampleImageFilterTest)
-itk_add_test(NAME itkBSplineResampleImageFunctionTest
-      COMMAND ITKImageGridTestDriver itkBSplineResampleImageFunctionTest)
-itk_add_test(NAME itkBSplineInterpolateImageFunctionTest
-      COMMAND ITKImageGridTestDriver itkBSplineInterpolateImageFunctionTest)
 itk_add_test(NAME itkWarpImageFilterTest2
       COMMAND ITKImageGridTestDriver itkWarpImageFilterTest2)
-itk_add_test(NAME itkBSplineDecompositionImageFilterTest
-      COMMAND ITKImageGridTestDriver itkBSplineDecompositionImageFilterTest)
 itk_add_test(NAME itkBSplineDownsampleImageFilterTest
       COMMAND ITKImageGridTestDriver itkBSplineDownsampleImageFilterTest
               ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd ${ITK_TEST_OUTPUT_DIR}/itkBSplineDownsampleImageFilterTest1.mha 3)

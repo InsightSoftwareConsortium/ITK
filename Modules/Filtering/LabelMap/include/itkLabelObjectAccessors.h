@@ -18,6 +18,8 @@
 #ifndef __itkLabelObjectAccessors_h
 #define __itkLabelObjectAccessors_h
 
+#include "itkMacro.h"
+
 /*
  *
  * This code was contributed in the Insight Journal paper:
