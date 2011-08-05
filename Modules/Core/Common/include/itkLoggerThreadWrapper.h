@@ -18,14 +18,11 @@
 #ifndef __itkLoggerThreadWrapper_h
 #define __itkLoggerThreadWrapper_h
 
-//NOTE: This class does not work gnu 2.95
-#if !( defined( __GNUC__ ) && ( __GNUC__ <= 2 ) )
+#include <string>
+#include <queue>
 
 #include "itkMultiThreader.h"
 #include "itkSimpleFastMutexLock.h"
-
-#include <string>
-#include <queue>
 
 namespace itk
 {
@@ -39,7 +36,6 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-// MSVS6 can't do this type of nested template
 template< class SimpleLoggerType >
 class LoggerThreadWrapper:public SimpleLoggerType
 {
@@ -146,5 +142,4 @@ private:
 #include "itkLoggerThreadWrapper.hxx"
 #endif
 
-#endif
 #endif  // __itkLoggerThreadWrapper_h

@@ -15,12 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-   //Warning about: identifier was truncated to '255' characters in the debug information (MVC6.0 Debug)
-#pragma warning( disable : 4786 )
-#endif
-#if ! defined(_MSC_VER) //NOTE: This class does not work under MSVS6
-
 #include "itkLoggerThreadWrapper.h"
 #include <iostream>
 #include <fstream>
@@ -44,27 +38,60 @@ typedef std::vector<ThreadDataStruct> ThreadDataVec;
 class SimpleLogger : public itk::LoggerBase
 {
 public:
-    typedef SimpleLogger  Self;
-    typedef itk::LoggerBase  Superclass;
-    typedef itk::SmartPointer<Self>  Pointer;
-    typedef itk::SmartPointer<const Self>  ConstPointer;
+  typedef SimpleLogger                  Self;
+  typedef itk::LoggerBase               Superclass;
+  typedef itk::SmartPointer<Self>       Pointer;
+  typedef itk::SmartPointer<const Self> ConstPointer;
 
-    /** Run-time type information (and related methods). */
-    itkTypeMacro( SimpleLogger, Object );
+  /** Run-time type information (and related methods). */
+  itkTypeMacro( SimpleLogger, Object );
 
-    /** New macro for creation of through a Smart Pointer */
-    itkNewMacro( Self );
+  /** New macro for creation of through a Smart Pointer */
+  itkNewMacro( Self );
 
-    virtual std::string BuildFormattedEntry(PriorityLevelType level, std::string const & content)
-        {
-        return std::string("<H1>") + content + std::string("</H1>");
-        }
+  virtual std::string BuildFormattedEntry(PriorityLevelType level, std::string const & content)
+    {
+    std::string HeaderLevelStart("");
+    std::string HeaderLevelStop("");
+    switch(level)
+      {
+    case MUSTFLUSH:
+      HeaderLevelStart=("<H1>");
+      HeaderLevelStop=("</H1>");
+      break;
+    case FATAL:
+      HeaderLevelStart=("<H2>");
+      HeaderLevelStop=("</H2>");
+      break;
+    case CRITICAL:
+      HeaderLevelStart=("<H3>");
+      HeaderLevelStop=("</H3>");
+      break;
+    case WARNING:
+      HeaderLevelStart=("<H4>");
+      HeaderLevelStop=("</H4>");
+      break;
+    case INFO:
+      HeaderLevelStart=("<H5>");
+      HeaderLevelStop=("</H5>");
+      break;
+    case DEBUG:
+      HeaderLevelStart=("<H6>");
+      HeaderLevelStop=("</H6>");
+      break;
+    case NOTSET:
+      HeaderLevelStart=("<H7>");
+      HeaderLevelStop=("</H7>");
+      break;
+      }
+    return HeaderLevelStart + content + HeaderLevelStop;
+    }
 
 protected:
-    /** Constructor */
-    SimpleLogger() {};
-    /** Destructor */
-    virtual ~SimpleLogger() {};
+  /** Constructor */
+  SimpleLogger() {};
+  /** Destructor */
+  virtual ~SimpleLogger() {};
 };  // class Logger
 
 class LogTester
@@ -81,38 +108,37 @@ public:
     itkLogMacro( MUSTFLUSH, "MUSTFLUSH message by itkLogMacro\n" );
   }
   static void logStatic(LogTester* tester)
-  {
+    {
     itkLogMacroStatic( tester, DEBUG, "DEBUG message by itkLogMacroStatic\n" );
     itkLogMacroStatic( tester, INFO, "INFO message by itkLogMacroStatic\n" );
     itkLogMacroStatic( tester, WARNING, "WARNING message by itkLogMacroStatic\n" );
     itkLogMacroStatic( tester, CRITICAL, "CRITICAL message by itkLogMacroStatic\n" );
     itkLogMacroStatic( tester, FATAL, "FATAL message by itkLogMacroStatic\n" );
     itkLogMacroStatic( tester, MUSTFLUSH, "MUSTFLUSH message by itkLogMacroStatic\n" );
-  }
+    }
 private:
   itk::LoggerBase* m_Logger;
 };
-#endif// ! defined(_MSC_VER) //NOTE: This class does not work under MSVS6
 
 ITK_THREAD_RETURN_TYPE ThreadedGenerateLogMessages2(void* arg)
 {
   const itk::MultiThreader::ThreadInfoStruct* threadInfo =
     static_cast<itk::MultiThreader::ThreadInfoStruct*>(arg);
   if (threadInfo)
-  {
+    {
     const unsigned int threadId = threadInfo->ThreadID;
     std::string threadPrefix;
-    {
+      {
       std::ostringstream msg;
       msg << "<Thread " << threadId << "> ";
       threadPrefix = msg.str();
-    }
+      }
 
     const ThreadDataVec* dataVec = static_cast<ThreadDataVec*>(threadInfo->UserData);
     if (dataVec)
-    {
-      const ThreadDataStruct threadData = (*dataVec)[threadId];
       {
+      const ThreadDataStruct threadData = (*dataVec)[threadId];
+        {
         std::ostringstream msg;
         msg << threadPrefix << "unpacked arg\n";
         threadData.logger->Write(itk::LoggerBase::INFO, msg.str());
@@ -121,33 +147,32 @@ ITK_THREAD_RETURN_TYPE ThreadedGenerateLogMessages2(void* arg)
         msg << threadPrefix << "Done logging\n";
         threadData.logger->Write(itk::LoggerBase::INFO, msg.str());
         //std::cout << msg.str() << std::endl;
-      }
+        }
       // do stuff
+      } else {
+        std::cerr << "ERROR: UserData was not of type ThreadDataVec*" << std::endl;
+        return ITK_THREAD_RETURN_VALUE;
+      }
     } else {
-      std::cerr << "ERROR: UserData was not of type ThreadDataVec*" << std::endl;
+      std::cerr << "ERROR: arg was not of type itk::MultiThreader::ThreadInfoStruct*" << std::endl;
       return ITK_THREAD_RETURN_VALUE;
     }
-  } else {
-    std::cerr << "ERROR: arg was not of type itk::MultiThreader::ThreadInfoStruct*" << std::endl;
-    return ITK_THREAD_RETURN_VALUE;
-  }
   return ITK_THREAD_RETURN_VALUE;
-};
+}
 
 ThreadDataVec create_threaded_data2(int num_threads, itk::LoggerBase* logger)
 {
   ThreadDataVec threadData;
   for (int ii = 0; ii < num_threads; ++ii)
-  {
+    {
     threadData.push_back(ThreadDataStruct());
     threadData[ii].logger = logger;
-  }
+    }
   return threadData;
-};
+}
 
 int itkLoggerThreadWrapperTest( int argc, char * argv[] )
 {
-#if ! defined(_MSC_VER) //NOTE: This class does not work under MSVS6
   try
     {
     if (argc < 2)
@@ -158,9 +183,9 @@ int itkLoggerThreadWrapperTest( int argc, char * argv[] )
 
     int numthreads = 10;
     if (argc > 2)
-    {
+      {
       numthreads = atoi(argv[2]);
-    }
+      }
 
     // Create an ITK StdStreamLogOutputs
     itk::StdStreamLogOutput::Pointer coutput = itk::StdStreamLogOutput::New();
@@ -229,8 +254,5 @@ int itkLoggerThreadWrapperTest( int argc, char * argv[] )
     }
 
   std::cout << "[PASSED]" << std::endl;
-#endif //! defined(_MSC_VER) //NOTE: This class does not work under MSVS6
   return EXIT_SUCCESS;
 }
-
-
