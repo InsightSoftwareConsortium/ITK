@@ -21,6 +21,7 @@
 #include "metaContour.h"
 #include "itkContourSpatialObject.h"
 #include "itkSpatialObject.h"
+#include "itkMetaConverterBase.h"
 
 namespace itk
 {

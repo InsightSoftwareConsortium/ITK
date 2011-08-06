@@ -19,6 +19,7 @@
 #define __itkLabelToRGBFunctor_h
 
 #include <vector>
+#include "itkNumericTraits.h"
 
 namespace itk
 {

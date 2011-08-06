@@ -22,6 +22,7 @@
 #include "itkPriorityQueueContainer.h"
 #include "itkQuadEdgeMeshToQuadEdgeMeshFilter.h"
 #include "itkQuadEdgeMeshEulerOperatorFlipEdgeFunction.h"
+#include "vcl_cmath.h"
 
 namespace itk
 {

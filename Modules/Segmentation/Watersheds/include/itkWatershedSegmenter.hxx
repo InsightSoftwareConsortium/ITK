@@ -18,6 +18,7 @@
 #ifndef __itkWatershedSegmenter_hxx
 #define __itkWatershedSegmenter_hxx
 
+#include "itkWatershedSegmenter.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkImageRegionIterator.h"
 #include <stack>

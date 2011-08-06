@@ -19,6 +19,7 @@
 #define __itkNormalQuadEdgeMeshFilter_hxx
 
 #include "itkNormalQuadEdgeMeshFilter.h"
+#include "vnl/vnl_math.h"
 
 namespace itk
 {

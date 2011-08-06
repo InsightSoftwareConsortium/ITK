@@ -20,6 +20,7 @@
 
 #include "itkMixtureModelComponentBase.h"
 #include "itkGaussianMembershipFunction.h"
+#include "itkSimpleDataObjectDecorator.h"
 
 namespace itk
 {
