@@ -1,5 +1,5 @@
 WRAP_LIBRARY("ITKFFT")
-set(WRAPPER_LIBRARY_DEPENDS ITKCommon)
+set(WRAPPER_LIBRARY_DEPENDS ITKCommon ITKImageGrid)
 
 if(WRAP_complex_float AND WRAP_float)
   if(FFTWF_LIB)

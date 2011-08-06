@@ -52,6 +52,8 @@ ITKRegistrationCommon
 ITKPDEDeformableRegistration
 ITKFFT
 ITKImageLabel
+ITKLabelMap
+ITKBinaryMathematicalMorphology
 ITKIOBioRad
 ITKIOBMP
 ITKIOGDCM
@@ -74,6 +76,7 @@ ITKRegionGrowing
 ITKVoronoi
 ITKWatersheds
 ITKIOHDF5
+ITKImageFusion
 ITKReview
 )
 
