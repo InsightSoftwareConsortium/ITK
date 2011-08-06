@@ -22,6 +22,7 @@
 #include "itkMinimumMaximumImageCalculator.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "vnl/vnl_vector_fixed.h"
+#include "itkTransform.h"
 
 namespace itk
 {

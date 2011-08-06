@@ -18,6 +18,8 @@
 #ifndef __itkTanSigmoidTransferFunction_hxx
 #define __itkTanSigmoidTransferFunction_hxx
 
+#include "itkTanSigmoidTransferFunction.h"
+
 namespace itk
 {
 namespace Statistics

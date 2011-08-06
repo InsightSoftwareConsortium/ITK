@@ -18,6 +18,8 @@
 #ifndef __itkDefaultVectorPixelAccessorFunctor_h
 #define __itkDefaultVectorPixelAccessorFunctor_h
 
+#include "itkMacro.h"
+
 namespace itk
 {
 /** \class DefaultVectorPixelAccessorFunctor

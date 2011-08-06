@@ -19,6 +19,7 @@
 #ifndef __itkNodePair_h
 #define __itkNodePair_h
 
+#include <utility>
 
 namespace itk
 {
