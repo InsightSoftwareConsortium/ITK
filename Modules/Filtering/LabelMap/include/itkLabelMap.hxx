@@ -168,10 +168,6 @@ bool
 LabelMap< TLabelObject >
 ::HasLabel(const LabelType label) const
 {
-  if ( label == m_BackgroundValue )
-    {
-    return true;
-    }
   return m_LabelObjectContainer.find(label) != m_LabelObjectContainer.end();
 }
 
