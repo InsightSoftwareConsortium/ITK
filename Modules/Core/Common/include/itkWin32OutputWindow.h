@@ -27,7 +27,7 @@
  *=========================================================================*/
 #ifndef __itkWin32OutputWindow_h
 #define __itkWin32OutputWindow_h
-#ifdef  _MSC_VER // if on Windows
+#if defined(_MSC_VER) || defined(__MINGW32__) // if on Windows
 
 #include "itkWin32Header.h"
 #include "itkOutputWindow.h"
