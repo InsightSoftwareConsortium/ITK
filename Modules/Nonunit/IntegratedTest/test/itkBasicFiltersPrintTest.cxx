@@ -18,7 +18,6 @@
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
-#define ITK_LEAN_AND_MEAN
 
 #include "itkPoint.h"
 #include "itkMesh.h"
