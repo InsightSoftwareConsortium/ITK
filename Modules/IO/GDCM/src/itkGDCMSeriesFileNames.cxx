@@ -20,6 +20,7 @@
 
 #include "itkGDCMSeriesFileNames.h"
 #include "itksys/SystemTools.hxx"
+#include "itkProgressReporter.h"
 
 #include "gdcmSerieHelper.h"
 #include "gdcmFile.h"
@@ -149,6 +150,7 @@ const FilenamesContainer & GDCMSeriesFileNames::GetFileNames(const std::string s
   gdcm::FileList::iterator it;
   if ( flist->size() )
     {
+    ProgressReporter progress(this, 0, flist->size(), 10);
     for ( it = flist->begin();
           it != flist->end(); ++it )
       {
@@ -167,9 +169,11 @@ const FilenamesContainer & GDCMSeriesFileNames::GetFileNames(const std::string s
         continue;
         }
       m_InputFileNames.push_back( header->GetFileName() );
+      progress.CompletedPixel();
 #else
       gdcm::FileWithName *header = *it;
       m_InputFileNames.push_back(header->filename);
+      progress.CompletedPixel();
 #endif
       }
     }
