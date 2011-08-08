@@ -948,6 +948,13 @@ void GDCMImageIO::Write(const void *buffer)
       de.SetVR( gdcm::Attribute< 0x0020, 0x000e >::GetVR() );
       header.Insert(de);
       }
+    const char *frameofreferenceuid = m_FrameOfReferenceInstanceUID.c_str();
+      {
+      gdcm::DataElement de( gdcm::Tag(0x0020, 0x0052) ); // Frame of Reference
+      de.SetByteValue( frameofreferenceuid, strlen(frameofreferenceuid) );
+      de.SetVR( gdcm::Attribute< 0x0020, 0x0052 >::GetVR() );
+      header.Insert(de);
+      }
     }
 
   if ( image.GetTransferSyntax() != gdcm::TransferSyntax::ImplicitVRLittleEndian )
