@@ -32,8 +32,6 @@ namespace itk
  * is then "rotated" around the big polygon that would exist if the two faces
  * of the edge e were joined.
  *
- * \image html EulerOperatorFlipEdgeWidth600.png "Swapping the h edge"
- *
  * \ingroup QEMeshModifierFunctions
  * \ingroup ITKQuadEdgeMesh
  */
