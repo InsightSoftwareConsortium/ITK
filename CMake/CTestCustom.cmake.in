@@ -26,6 +26,10 @@ SET(CTEST_CUSTOM_MEMCHECK_IGNORE
   ModuleInDoxygenGroup
   )
 
+SET(CTEST_MEMORYCHECK_SUPPRESSIONS_FILE
+  @ITK_SOURCE_DIR@/CMake/InsightValgrind.supp
+  )
+
 SET(CTEST_EXTRA_COVERAGE_GLOB
   Source/.*/*.h
   Source/.*/*.txx
