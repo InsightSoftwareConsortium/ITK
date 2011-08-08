@@ -240,7 +240,11 @@ void GDCMImageIO::Read(void *pointer)
     len *= 3;
     }
 
-  image.GetBuffer( (char *)pointer );
+  if ( !image.GetBuffer( (char*)pointer ) )
+    {
+    itkExceptionMacro(<< "Failed to get the buffer!");
+    return;
+    }
 
   const gdcm::PixelFormat & pixeltype = image.GetPixelFormat();
   itkAssertInDebugAndIgnoreInReleaseMacro( pixeltype_debug == pixeltype ); (void)pixeltype_debug;
