@@ -24,7 +24,7 @@
 
 namespace itk
 {
-/*
+/**
  * \class QuadEdgeMeshEulerOperatorJoinVertexFunction
  *
  * \brief Collapse a given edge by joining its dest and its org.
