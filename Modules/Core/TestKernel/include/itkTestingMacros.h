@@ -53,6 +53,29 @@
     return EXIT_FAILURE;  \
     }
 
+#define TEST_EXPECT_TRUE( command )                                     \
+  {                                                                     \
+  bool _TEST_EXPECT_TRUE_command(command);                              \
+  if( !(_TEST_EXPECT_TRUE_command) )                                    \
+    {                                                                   \
+    std::cerr << "Error in " << #command << std::endl;                  \
+    std::cerr << "Expected true" << std::endl;                          \
+    std::cerr << "but got  " <<  _TEST_EXPECT_TRUE_command << std::endl; \
+    return EXIT_FAILURE;                                                \
+    }                                                                   \
+  }
+
+#define TEST_EXPECT_EQUAL( lh, rh )                                     \
+  {                                                                     \
+    bool _TEST_EXPECT_EQUAL_result((lh) == (rh));                       \
+    if( !(_TEST_EXPECT_EQUAL_result) )                                  \
+    {                                                                   \
+    std::cerr << "Error in " << #lh << " == " << #rh << std::endl;      \
+    std::cerr << "Expression is not equal" << std::endl;               \
+    return EXIT_FAILURE;                                                \
+    }                                                                   \
+  }
+
 
 #define TEST_SET_GET( variable, command ) \
   if( variable.GetPointer() != command )   \

@@ -22,6 +22,7 @@ itkAtanImageFilterAndAdaptorTest.cxx
 itkMaskNegatedImageFilterTest.cxx
 itkAddImageFilterTest.cxx
 itkAddImageFilterFrameTest.cxx
+itkPowImageFilterTest.cxx
 itkMultiplyImageFilterTest.cxx
 itkWeightedAddImageFilterTest.cxx
 itkRescaleIntensityImageFilterTest.cxx
@@ -127,6 +128,8 @@ itk_add_test(NAME itkAddImageFilterTest
       COMMAND ITKImageIntensityTestDriver itkAddImageFilterTest)
 itk_add_test(NAME itkAddImageFilterFrameTest
       COMMAND ITKImageIntensityTestDriver itkAddImageFilterFrameTest)
+itk_add_test(NAME itkPowImageFilterTest
+      COMMAND ITKImageIntensityTestDriver itkPowImageFilterTest)
 itk_add_test(NAME itkMultiplyImageFilterTest
       COMMAND ITKImageIntensityTestDriver itkMultiplyImageFilterTest)
 itk_add_test(NAME itkWeightedAddImageFilterTest
