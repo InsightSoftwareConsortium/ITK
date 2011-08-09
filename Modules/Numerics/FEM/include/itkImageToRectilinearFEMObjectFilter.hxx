@@ -195,7 +195,10 @@ ImageToRectilinearFEMObjectFilter<TInputImage>
       {
       nodeIndex[0] = i * size[0] / m_PixelsPerElement[0];
       image->TransformIndexToPhysicalPoint(nodeIndex, nodePoint);
-      n = new Element::Node(nodePoint[0], nodePoint[1]);
+      Element::VectorType pt(2);
+      pt[0] = nodePoint[0]; pt[1] = nodePoint[1];
+      n =  Element::Node::New();
+      n->SetCoordinates(pt);
       n->SetGlobalNumber(gn);
       gn++;
       femObject->AddNextNode(n);
@@ -257,7 +260,10 @@ ImageToRectilinearFEMObjectFilter<TInputImage>
         {
         nodeIndex[0] = i * size[0] / m_PixelsPerElement[0];
         image->TransformIndexToPhysicalPoint(nodeIndex, nodePoint);
-        n = new Element::Node(nodePoint[0], nodePoint[1], nodePoint[2]);
+        Element::VectorType pt(3);
+        pt[0] = nodePoint[0]; pt[1] = nodePoint[1]; pt[2] = nodePoint[2];
+        n =  Element::Node::New();
+        n->SetCoordinates(pt);
         n->SetGlobalNumber(gn);
         gn++;
         femObject->AddNextNode(n);

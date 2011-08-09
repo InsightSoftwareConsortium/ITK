@@ -212,21 +212,6 @@ public:
       }
 
     /**
-     * Create 2D node.
-     */
-    Node(Float x, Float y) : m_coordinates( VectorType(2) )
-      {
-        m_coordinates[0] = x; m_coordinates[1] = y;
-      }
-
-    /**
-     * Create 3D node.
-     */
-    Node(Float x, Float y, Float z) : m_coordinates( VectorType(3) )
-      {
-        m_coordinates[0] = x; m_coordinates[1] = y; m_coordinates[2] = z;
-      }
-    /**
      * Return a reference to a vector that contains coordinates
      * of this node.
      */
