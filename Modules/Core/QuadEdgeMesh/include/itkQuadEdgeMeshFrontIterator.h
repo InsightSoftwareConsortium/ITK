@@ -18,6 +18,8 @@
 #ifndef __itkQuadEdgeMeshFrontIterator_h
 #define __itkQuadEdgeMeshFrontIterator_h
 
+#include "itkMapContainer.h"
+
 // -------------------------------------------------------------------------
 #define itkQEDefineFrontIteratorMethodsMacro(MeshTypeArg)                       \
   /* Dual definition placed before others because of .NET that cannot */        \
