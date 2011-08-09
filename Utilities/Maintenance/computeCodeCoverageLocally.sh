@@ -16,12 +16,14 @@
 #   limitations under the License.
 #
 #==========================================================================*/
-if [[ $# == 0 || $1 == "--help" ]]
+if [[ $1 == "--help" ]]
 then
 echo "      "
 echo "  How to use this script      "
 echo "      "
-echo "   0)  Use Linux or Mac      "
+echo "   0)  Use Linux or Mac, "
+echo "        - install lcov"
+echo "        - use the gcc compiler"
 echo "      "
 echo "   1)  Add the CMake flags:      "
 echo "      "
