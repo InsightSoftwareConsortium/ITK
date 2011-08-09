@@ -22,6 +22,7 @@
 
 #include "itkRGBAPixel.h"
 #include "itkLightObject.h"
+#include "itkObjectFactory.h"
 
 namespace itk
 {
