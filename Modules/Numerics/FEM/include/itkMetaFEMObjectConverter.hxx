@@ -125,6 +125,7 @@ MetaFEMObjectConverter<NDimensions>
     FEMObjectElement *element = (*it_elements);
     itk::LightObject::Pointer a =
       ObjectFactoryBase::CreateInstance ( element->m_ElementName );
+    a->UnRegister();
     fem::Element::Pointer o1 =  dynamic_cast<fem::Element *>(a.GetPointer());
 
     o1->SetGlobalNumber(element->m_GN);
