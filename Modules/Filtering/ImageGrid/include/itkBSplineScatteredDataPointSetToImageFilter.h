@@ -19,13 +19,12 @@
 #define __itkBSplineScatteredDataPointSetToImageFilter_h
 
 #include "itkPointSetToImageFilter.h"
+
 #include "itkBSplineKernelFunction.h"
 #include "itkCoxDeBoorBSplineKernelFunction.h"
-#include "itkVariableSizeMatrix.h"
 #include "itkVectorContainer.h"
 
 #include "vnl/vnl_matrix.h"
-#include "vnl/vnl_vector.h"
 
 namespace itk
 {
@@ -107,7 +106,6 @@ namespace itk
  *
  * \author Nicholas J. Tustison
  *
- *
  * This code was contributed in the Insight Journal paper:
  * "N-D C^k B-Spline Scattered Data Approximation"
  * by Nicholas J. Tustison, James C. Gee
@@ -122,8 +120,9 @@ namespace itk
  *
  * \par REFERENCE
  * N.J. Tustison and J.C. Gee, "Generalized n-D C^k Scattered Data Approximation
- * with COnfidence Values", Proceedings of the MIAR conference, August 2006.
- * \ingroup ITKReview
+ * with Confidence Values", Proceedings of the MIAR conference, August 2006.
+ *
+ * \ingroup ITKImageGrid
  */
 
 template< class TInputPointSet, class TOutputImage >
@@ -170,7 +169,7 @@ public:
   typedef typename RealImageType::Pointer           RealImagePointer;
   typedef typename PointDataImageType::Pointer      PointDataImagePointer;
   typedef FixedArray<unsigned,
-    itkGetStaticConstMacro(ImageDimension) >        ArrayType;
+    itkGetStaticConstMacro( ImageDimension )>       ArrayType;
 
   /**
    * Interpolation kernel type (default spline order = 3)
@@ -314,11 +313,6 @@ public:
   itkBooleanMacro( GenerateOutputImage );
 
   /**
-   * Set the control point lattice produced by a previous fitting process.
-   */
-  itkSetMacro( PhiLattice, PointDataImagePointer );
-
-  /**
    * Get the control point lattice produced by the fitting process.
    */
   itkGetConstMacro( PhiLattice, PointDataImagePointer );
@@ -385,6 +379,12 @@ private:
    */
   void SetPhiLatticeParametricDomainParameters();
 
+  /**
+   * Convert number to index given a size of image.  Used to index
+   * the local control point neighborhoods.
+   */
+  IndexType NumberToIndex( const unsigned int, const SizeType );
+
   bool                                         m_DoMultilevel;
   bool                                         m_GenerateOutputImage;
   bool                                         m_UsePointWeights;
@@ -418,26 +418,6 @@ private:
 
   RealType                                     m_BSplineEpsilon;
   bool                                         m_IsFittingComplete;
-
-  inline typename RealImageType::IndexType
-  NumberToIndex( unsigned int number, typename RealImageType::SizeType size )
-    {
-    typename RealImageType::IndexType k;
-    k[0] = 1;
-
-    for ( unsigned int i = 1; i < ImageDimension; i++ )
-      {
-      k[i] = size[ImageDimension - i - 1] * k[i - 1];
-      }
-    typename RealImageType::IndexType index;
-    for ( unsigned int i = 0; i < ImageDimension; i++ )
-      {
-      index[ImageDimension - i - 1] =
-        static_cast< unsigned int >( number / k[ImageDimension - i - 1] );
-      number %= k[ImageDimension - i - 1];
-      }
-    return index;
-    }
 };
 } // end namespace itk
 

@@ -452,7 +452,8 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
 template<class TInputPointSet, class TOutputImage>
 unsigned int
 BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
-::SplitRequestedRegion( unsigned int i, unsigned int num, RegionType &splitRegion )
+::SplitRequestedRegion( unsigned int i, unsigned int num,
+  RegionType &splitRegion )
 {
   // For fitting, the image regions are not used so we always return a valid
   // number.
@@ -1204,6 +1205,32 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
   this->m_PhiLattice->SetOrigin( origin );
   this->m_PhiLattice->SetSpacing( spacing );
   this->m_PhiLattice->SetDirection( this->m_Direction );
+}
+
+template<class TInputPointSet, class TOutputImage>
+typename BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
+::IndexType
+BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
+::NumberToIndex( const unsigned int number, const SizeType size )
+{
+  IndexType k;
+  k[0] = 1;
+
+  for ( unsigned int i = 1; i < ImageDimension; i++ )
+    {
+    k[i] = size[ImageDimension - i - 1] * k[i - 1];
+    }
+
+  unsigned int numberModulo = number;
+
+  IndexType index;
+  for ( unsigned int i = 0; i < ImageDimension; i++ )
+    {
+    index[ImageDimension - i - 1] =
+      static_cast<unsigned int>( numberModulo / k[ImageDimension - i - 1] );
+    numberModulo %= k[ImageDimension - i - 1];
+    }
+  return index;
 }
 
 /**

@@ -21,25 +21,24 @@
 #endif
 
 #include "itkImage.h"
-#include "itkImageFileReader.h"
-#include "itkImageFileWriter.h"
-#include "itkImageRegionIteratorWithIndex.h"
 #include "itkPointSet.h"
 
-#include "itkBSplineControlPointImageFunction.h"
 #include "itkBSplineScatteredDataPointSetToImageFilter.h"
 
+#include <fstream>
+
 /**
- * In this test, we approximate a sequence of 3D points with a parametric curve described by B-Splines
+ * In this test, we approximate a sequence of 3D points with a parametric
+ * curve described by B-Splines
  */
 int itkBSplineScatteredDataPointSetToImageFilterTest3( int argc, char * argv [] )
 {
 
-  if( argc < 3 )
+  if( argc < 2 )
     {
     std::cerr << "Missing arguments" << std::endl;
     std::cerr << "Usage:" << std::endl;
-    std::cerr << argv[0] << "inputPointsFile.txt outputPointsAndTangents.txt" << std::endl;
+    std::cerr << argv[0] << "inputPointsFile.txt" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -90,7 +89,8 @@ int itkBSplineScatteredDataPointSetToImageFilterTest3( int argc, char * argv [] 
   inputFile.close();
 
   // Instantiate the filter and set the parameters
-  typedef itk::BSplineScatteredDataPointSetToImageFilter<PointSetType, ImageType>  FilterType;
+  typedef itk::BSplineScatteredDataPointSetToImageFilter
+    <PointSetType, ImageType>  FilterType;
   FilterType::Pointer filter = FilterType::New();
 
   // Define the parametric domain
@@ -116,37 +116,6 @@ int itkBSplineScatteredDataPointSetToImageFilterTest3( int argc, char * argv [] 
   try
     {
     filter->Update();
-
-    typedef itk::BSplineControlPointImageFunction<ImageType> BSplinerType;
-    BSplinerType::Pointer bspliner = BSplinerType::New();
-    bspliner->SetSplineOrder( filter->GetSplineOrder() );
-    bspliner->SetSize( filter->GetSize() );
-    bspliner->SetSpacing( filter->GetSpacing() );
-    bspliner->SetOrigin( filter->GetOrigin() );
-    bspliner->SetInputImage( filter->GetPhiLattice() );
-
-    std::ofstream outputFile;
-
-    outputFile.open( argv[2] );
-
-    PointSetType::PointType parameterPosition2;
-    VectorType P2;
-    BSplinerType::GradientType G;
-
-    for ( RealType t2 = 0.0; t2 <= 1.0+1e-10; t2 += 0.01 )
-      {
-      parameterPosition2[0] = t2;
-
-      P2 = bspliner->Evaluate( parameterPosition2 );
-      G = bspliner->EvaluateGradient( parameterPosition2 );
-
-      outputFile << P2[0] << " " << P2[1] << " " << P2[2];
-      outputFile << " : ";
-      outputFile << G[0][0] << " " << G[1][0] << " " << G[2][0];
-      outputFile << std::endl;
-      }
-
-    outputFile.close();
     }
   catch ( itk::ExceptionObject & excp )
     {

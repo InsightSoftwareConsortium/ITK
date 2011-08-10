@@ -45,6 +45,11 @@ int itkCoxDeBoorBSplineKernelFunctionTest( int argc, char * argv [] )
     {
     return EXIT_FAILURE;
     }
+  std::cout << "Spline order = " << kernel->GetSplineOrder() << std::endl;
+  std::cout << "Shape functions = " << kernel->GetShapeFunctions() << std::endl;
+  std::cout << "Shape functions [0,1) = "
+    << kernel->GetShapeFunctionsInZeroToOneInterval() << std::endl;
+  kernel->Print( std::cout, 3 );
 
   /**
    * order 1
@@ -59,6 +64,11 @@ int itkCoxDeBoorBSplineKernelFunctionTest( int argc, char * argv [] )
     {
     return EXIT_FAILURE;
     }
+  std::cout << "Spline order = " << kernel->GetSplineOrder() << std::endl;
+  std::cout << "Shape functions = " << kernel->GetShapeFunctions() << std::endl;
+  std::cout << "Shape functions [0,1) = "
+    << kernel->GetShapeFunctionsInZeroToOneInterval() << std::endl;
+  kernel->Print( std::cout, 3 );
 
   /**
    * order 2
@@ -77,6 +87,11 @@ int itkCoxDeBoorBSplineKernelFunctionTest( int argc, char * argv [] )
     {
     return EXIT_FAILURE;
     }
+  std::cout << "Spline order = " << kernel->GetSplineOrder() << std::endl;
+  std::cout << "Shape functions = " << kernel->GetShapeFunctions() << std::endl;
+  std::cout << "Shape functions [0,1) = "
+    << kernel->GetShapeFunctionsInZeroToOneInterval() << std::endl;
+  kernel->Print( std::cout, 3 );
 
   /**
    * order 3
@@ -97,6 +112,11 @@ int itkCoxDeBoorBSplineKernelFunctionTest( int argc, char * argv [] )
     {
     return EXIT_FAILURE;
     }
+  std::cout << "Spline order = " << kernel->GetSplineOrder() << std::endl;
+  std::cout << "Shape functions = " << kernel->GetShapeFunctions() << std::endl;
+  std::cout << "Shape functions [0,1) = "
+    << kernel->GetShapeFunctionsInZeroToOneInterval() << std::endl;
+  kernel->Print( std::cout, 3 );
 
   return EXIT_SUCCESS;
 }
