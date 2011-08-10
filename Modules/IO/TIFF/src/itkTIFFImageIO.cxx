@@ -1690,7 +1690,8 @@ void TIFFImageIO::InternalWrite(const void *buffer)
     }
 
   int    scomponents = this->GetNumberOfComponents();
-  double resolution = -1;
+  float  resolution_x = static_cast< float >( m_Spacing[0] != 0.0 ? 25.4 / m_Spacing[0] : 0.0);
+  float  resolution_y = static_cast< float >( m_Spacing[1] != 0.0 ? 25.4 / m_Spacing[1] : 0.0);
   uint32 rowsperstrip = ( uint32 ) - 1;
   int    bps;
 
@@ -1821,12 +1822,13 @@ void TIFFImageIO::InternalWrite(const void *buffer)
     TIFFSetField( tif,
                   TIFFTAG_ROWSPERSTRIP,
                   TIFFDefaultStripSize(tif, rowsperstrip) );
-    if ( resolution > 0 )
-      {
-      TIFFSetField(tif, TIFFTAG_XRESOLUTION, resolution);
-      TIFFSetField(tif, TIFFTAG_YRESOLUTION, resolution);
-      TIFFSetField(tif, TIFFTAG_RESOLUTIONUNIT, RESUNIT_INCH);
-      }
+
+    if ( resolution_x > 0 && resolution_y > 0 )
+     {
+     TIFFSetField(tif, TIFFTAG_XRESOLUTION, resolution_x);
+     TIFFSetField(tif, TIFFTAG_YRESOLUTION, resolution_y);
+     TIFFSetField(tif, TIFFTAG_RESOLUTIONUNIT, RESUNIT_INCH);
+     }
 
     if ( m_NumberOfDimensions == 3 )
       {
