@@ -9,12 +9,22 @@ project(SimpleImageReconstruction)
 find_package(ITK REQUIRED)
 include(${ITK_USE_FILE})
 
+set(REQUIRED_ITK_VERSION "4.0.0")
+if("${ITK_VERSION}" VERSION_LESS "${REQUIRED_ITK_VERSION}")
+  message(FATAL_ERROR "ITK Version ${REQUIRED_ITK_VERSION} or greater is required.")
+endif()
+
 # if( NOT USE_FFTWD)
 #  message(FATAL_ERROR "ITK Must be configured with USE_FFTWD ON")
 # endif()
 
 find_package(VTK REQUIRED)
 include(${VTK_USE_FILE})
+
+set(REQUIRED_VTK_VERSION "5.8.0")
+if("${VTK_VERSION}" VERSION_LESS "${REQUIRED_VTK_VERSION}")
+  message(FATAL_ERROR "VTK Version ${REQUIRED_VTK_VERSION} or greater is required.")
+endif()
 
 include(CMake/PlatformSpecificChecks.cmake)
 
