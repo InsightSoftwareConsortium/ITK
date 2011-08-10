@@ -19,6 +19,7 @@
 #define __itkQuickPropLearningRule_hxx
 
 #include "itkQuickPropLearningRule.h"
+#include "vnl/vnl_matrix.h"
 
 namespace itk
 {
