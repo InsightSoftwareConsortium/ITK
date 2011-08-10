@@ -11,6 +11,7 @@ itk_module(ITKFastMarching
     ITKIONIFTI
     ITKImageLabel
     ITKTestKernel
+    ITKIOMesh
   DESCRIPTION
     "${DOCUMENTATION}"
 )

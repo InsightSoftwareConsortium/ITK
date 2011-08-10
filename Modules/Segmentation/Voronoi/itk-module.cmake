@@ -14,6 +14,7 @@ itk_module(ITKVoronoi
     ITKTestKernel
     ITKSmoothing
     ITKImageFusion
+    ITKIOMesh
   DESCRIPTION
     "${DOCUMENTATION}"
 )

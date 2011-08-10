@@ -17,7 +17,7 @@
  *=========================================================================*/
 #include "itkVector.h"
 #include "itkQuadEdgeMesh.h"
-#include "itkVTKPolyDataReader.h"
+#include "itkMeshFileReader.h"
 
 #include "itkQuadEdgeMeshExtendedTraits.h"
 #include "itkNormalQuadEdgeMeshFilter.h"
@@ -55,7 +55,7 @@ int itkNormalQuadEdgeMeshFilterTest( int argc, char* argv[] )
 
   typedef itk::QuadEdgeMesh < VectorType, Dimension, Traits > OutputMeshType;
 
-  typedef itk::VTKPolyDataReader< InputMeshType > ReaderType;
+  typedef itk::MeshFileReader< InputMeshType > ReaderType;
   typedef itk::NormalQuadEdgeMeshFilter< InputMeshType, OutputMeshType > NormalFilterType;
   NormalFilterType::WeightType weight_type;
 

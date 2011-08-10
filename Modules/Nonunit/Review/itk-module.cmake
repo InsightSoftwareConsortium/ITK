@@ -84,6 +84,7 @@ itk_module(ITKReview
     ITKImageFusion
   TEST_DEPENDS
     ITKTestKernel
+    ITKIOMesh
   DESCRIPTION
     "${DOCUMENTATION}"
 )
