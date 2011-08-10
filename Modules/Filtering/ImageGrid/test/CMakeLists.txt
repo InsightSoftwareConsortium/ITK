@@ -1,8 +1,13 @@
 itk_module_test()
 set(ITKImageGridTests
 itkBasicArchitectureTest.cxx
+itkBSplineScatteredDataPointSetToImageFilterTest.cxx
+itkBSplineScatteredDataPointSetToImageFilterTest2.cxx
+itkBSplineScatteredDataPointSetToImageFilterTest3.cxx
 itkChangeInformationImageFilterTest.cxx
 itkConstantPadImageTest.cxx
+itkCoxDeBoorBSplineKernelFunctionTest.cxx
+itkCoxDeBoorBSplineKernelFunctionTest2.cxx
 itkCyclicReferences.cxx
 itkCyclicShiftImageFilterTest.cxx
 itkInterpolateImagePointsFilterTest.cxx
@@ -48,10 +53,24 @@ CreateTestDriver(ITKImageGrid  "${ITKImageGrid-Test_LIBRARIES}" "${ITKImageGridT
 
 itk_add_test(NAME itkBasicArchitectureTest
       COMMAND ITKImageGridTestDriver itkBasicArchitectureTest)
+itk_add_test(NAME itkBSplineScatteredDataPointSetToImageFilterTest01
+      COMMAND ITKImageGridTestDriver
+    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkBSplineScatteredDataPointSetToImageFilterTest01.mha
+              ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest01.mha
+    itkBSplineScatteredDataPointSetToImageFilterTest ${ITK_DATA_ROOT}/Input/cake_easy.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest01.mha)
+itk_add_test(NAME itkBSplineScatteredDataPointSetToImageFilterTest02
+      COMMAND ITKImageGridTestDriver itkBSplineScatteredDataPointSetToImageFilterTest2)
+itk_add_test(NAME itkBSplineScatteredDataPointSetToImageFilterTest03
+      COMMAND ITKImageGridTestDriver itkBSplineScatteredDataPointSetToImageFilterTest3
+              ${ITK_DATA_ROOT}/Input/BSplineScatteredApproximationDataPointsInput.txt)
 itk_add_test(NAME itkChangeInformationImageFilterTest
       COMMAND ITKImageGridTestDriver itkChangeInformationImageFilterTest)
 itk_add_test(NAME itkConstantPadImageTest
       COMMAND ITKImageGridTestDriver itkConstantPadImageTest)
+itk_add_test(NAME itkCoxDeBoorBSplineKernelFunctionTest01
+      COMMAND ITKImageGridTestDriver itkCoxDeBoorBSplineKernelFunctionTest)
+itk_add_test(NAME itkCoxDeBoorBSplineKernelFunctionTest02
+      COMMAND ITKImageGridTestDriver itkCoxDeBoorBSplineKernelFunctionTest2)
 itk_add_test(NAME itkCyclicReferences
       COMMAND ITKImageGridTestDriver itkCyclicReferences)
 itk_add_test(NAME itkCyclicShiftImageFilterTest0

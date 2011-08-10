@@ -80,7 +80,6 @@ int itkBSplineScatteredDataPointSetToImageFilterTest( int argc, char * argv [] )
       }
     }
 
-
   // Instantiate the B-spline filter and set the desired parameters.
   typedef itk::BSplineScatteredDataPointSetToImageFilter
     <PointSetType, VectorImageType> FilterType;
@@ -90,11 +89,15 @@ int itkBSplineScatteredDataPointSetToImageFilterTest( int argc, char * argv [] )
   ncps.Fill( 4 );
   filter->SetNumberOfControlPoints( ncps );
   filter->SetNumberOfLevels( 3 );
+  FilterType::ArrayType close;
+  close.Fill( 0 );
+  filter->SetCloseDimension( close );
 
   // Define the parametric domain.
   filter->SetOrigin( reader->GetOutput()->GetOrigin() );
   filter->SetSpacing( reader->GetOutput()->GetSpacing() );
   filter->SetSize( reader->GetOutput()->GetLargestPossibleRegion().GetSize() );
+  filter->SetDirection( reader->GetOutput()->GetDirection() );
 
   filter->SetInput( pointSet );
 
@@ -108,6 +111,20 @@ int itkBSplineScatteredDataPointSetToImageFilterTest( int argc, char * argv [] )
               << std::endl;
     return EXIT_FAILURE;
     }
+  std::cout << "Origin: " << filter->GetOrigin() << std::endl;
+  std::cout << "Spacing: " << filter->GetSpacing() << std::endl;
+  std::cout << "Size: " << filter->GetSize() << std::endl;
+  std::cout << "Direction: " << filter->GetDirection() << std::endl;
+
+  std::cout << "Number of control points: " <<
+    filter->GetNumberOfControlPoints() << std::endl;
+  std::cout << "Current number of control points: " <<
+    filter->GetCurrentNumberOfControlPoints() << std::endl;
+  std::cout << "Number of levels: " <<
+    filter->GetNumberOfLevels() << std::endl;
+  std::cout << "Close dimension: " <<
+    filter->GetCloseDimension() << std::endl;
+  std::cout << "Spline order: " << filter->GetSplineOrder() << std::endl;
 
   // Write the output to an image.
   typedef itk::Image<RealType, ParametricDimension> RealImageType;
