@@ -18,6 +18,8 @@
 #ifndef __itkGenericUtilities_h
 #define __itkGenericUtilities_h
 
+#include <utility>
+
 /*
  *  This code was contributed in the Insight Journal paper:
  *  "A Streaming IO Base Class and Support for Streaming the MRC and VTK File Format"
