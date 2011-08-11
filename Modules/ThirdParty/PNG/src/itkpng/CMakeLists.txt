@@ -1,7 +1,7 @@
-project(ITKPNG)
+project(ITK3P_PNG)
 include_regular_expression("^(png|itk|z).*$")
 
-include_directories(${ITKPNG_SOURCE_DIR})
+include_directories(${ITK3P_PNG_SOURCE_DIR})
 
 # source files for png
 set(PNG_SRCS
@@ -20,8 +20,8 @@ if(WIN32)
   endif(BUILD_SHARED_LIBS)
 endif(WIN32)
 
-configure_file(${ITKPNG_SOURCE_DIR}/pngDllConfig.h.in
-               ${ITKPNG_BINARY_DIR}/pngDllConfig.h)
+configure_file(${ITK3P_PNG_SOURCE_DIR}/pngDllConfig.h.in
+               ${ITK3P_PNG_BINARY_DIR}/pngDllConfig.h)
 
 add_library(itkpng ${PNG_SRCS})
 target_link_libraries(itkpng ${ITKZLIB_LIBRARIES})
@@ -42,10 +42,10 @@ endif(NOT ITK_INSTALL_NO_LIBRARIES)
 
 if(NOT ITK_INSTALL_NO_DEVELOPMENT)
   install(FILES
-    ${ITKPNG_BINARY_DIR}/pngDllConfig.h
-    ${ITKPNG_SOURCE_DIR}/png.h
-    ${ITKPNG_SOURCE_DIR}/pngconf.h
-    ${ITKPNG_SOURCE_DIR}/itk_png_mangle.h
+    ${ITK3P_PNG_BINARY_DIR}/pngDllConfig.h
+    ${ITK3P_PNG_SOURCE_DIR}/png.h
+    ${ITK3P_PNG_SOURCE_DIR}/pngconf.h
+    ${ITK3P_PNG_SOURCE_DIR}/itk_png_mangle.h
     DESTINATION ${ITK3P_INSTALL_INCLUDE_DIR}/itkpng # itk_png.h #include "itkpng/png.h"
     COMPONENT Development)
 endif(NOT ITK_INSTALL_NO_DEVELOPMENT)

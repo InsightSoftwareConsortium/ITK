@@ -1,8 +1,8 @@
-project(ITKTIFF)
+project(ITK3P_TIFF)
 include_regular_expression("^(itk|tif|fax|port|uv|tconf|t4|mk|itkjpeg|jpeg|mangle|jconfig|jmorecfg).*$")
 
-include_directories(BEFORE ${ITKTIFF_SOURCE_DIR})
-include_directories(BEFORE ${ITKTIFF_BINARY_DIR})
+include_directories(BEFORE ${ITK3P_TIFF_SOURCE_DIR})
+include_directories(BEFORE ${ITK3P_TIFF_BINARY_DIR})
 
 # library object files common to compression and decompression
 set(common_SRCS
@@ -69,9 +69,9 @@ else(NOT UNIX)
   add_executable(itkmkg3states mkg3states.c)
   set_property(TARGET itkmkg3states PROPERTY RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
   add_custom_command(
-    OUTPUT ${ITKTIFF_BINARY_DIR}/tif_fax3sm.c
+    OUTPUT ${ITK3P_TIFF_BINARY_DIR}/tif_fax3sm.c
     COMMAND itkmkg3states
-    ARGS -c const ${ITKTIFF_BINARY_DIR}/tif_fax3sm.c
+    ARGS -c const ${ITK3P_TIFF_BINARY_DIR}/tif_fax3sm.c
     DEPENDS itkmkg3states
     )
 endif(NOT UNIX)
@@ -124,10 +124,10 @@ endif("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" LESS 2.0)
 CHECK_TYPE_SIZE("int" SIZEOF_INT)
 CHECK_TYPE_SIZE("long" SIZEOF_LONG)
 
-configure_file(${ITKTIFF_SOURCE_DIR}/tiffDllConfig.h.in
-  ${ITKTIFF_BINARY_DIR}/tiffDllConfig.h)
-configure_file(${ITKTIFF_SOURCE_DIR}/tif_config.h.in
-  ${ITKTIFF_BINARY_DIR}/tif_config.h)
+configure_file(${ITK3P_TIFF_SOURCE_DIR}/tiffDllConfig.h.in
+  ${ITK3P_TIFF_BINARY_DIR}/tiffDllConfig.h)
+configure_file(${ITK3P_TIFF_SOURCE_DIR}/tif_config.h.in
+  ${ITK3P_TIFF_BINARY_DIR}/tif_config.h)
 
 add_library(itktiff ${common_SRCS})
 target_link_libraries(itktiff ${ITKZLIB_LIBRARIES} ${ITKJPEG_LIBRARIES})
@@ -152,12 +152,12 @@ endif(NOT ITK_INSTALL_NO_LIBRARIES)
 
 if(NOT ITK_INSTALL_NO_DEVELOPMENT)
   install(FILES
-    ${ITKTIFF_BINARY_DIR}/tiffDllConfig.h
-    ${ITKTIFF_SOURCE_DIR}/tiffvers.h
-    ${ITKTIFF_SOURCE_DIR}/itk_tiff_mangle.h
-    ${ITKTIFF_SOURCE_DIR}/tiff.h
-    ${ITKTIFF_SOURCE_DIR}/tiffio.h
-    ${ITKTIFF_SOURCE_DIR}/tconf.h
+    ${ITK3P_TIFF_BINARY_DIR}/tiffDllConfig.h
+    ${ITK3P_TIFF_SOURCE_DIR}/tiffvers.h
+    ${ITK3P_TIFF_SOURCE_DIR}/itk_tiff_mangle.h
+    ${ITK3P_TIFF_SOURCE_DIR}/tiff.h
+    ${ITK3P_TIFF_SOURCE_DIR}/tiffio.h
+    ${ITK3P_TIFF_SOURCE_DIR}/tconf.h
     DESTINATION ${ITK3P_INSTALL_INCLUDE_DIR}/itktiff # itk_tiff.h #include "itktiff/tiff.h"
     COMPONENT Development)
 endif(NOT ITK_INSTALL_NO_DEVELOPMENT)
