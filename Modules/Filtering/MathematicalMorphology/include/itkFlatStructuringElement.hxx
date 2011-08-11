@@ -31,8 +31,11 @@
 #include "itkFloodFilledSpatialFunctionConditionalIterator.h"
 #include "itkEllipsoidInteriorExteriorSpatialFunction.h"
 
+namespace itk
+{
 template< class TImage, class TKernel >
 class ITK_EXPORT VanHerkGilWermanDilateImageFilter;
+}
 
 #include "itkVanHerkGilWermanDilateImageFilter.h"
 
