@@ -35,6 +35,7 @@ BANNED_HEADERS = set(('itkExceptionObject.h', # There is a pre-processor check s
     'itkFFTWComplexConjugateToRealImageFilter.h',
     'itkFFTWComplexToComplexImageFilter.h',
     'itkFFTWCommon.h',
+    'itkVanHerkGilWermanErodeDilateImageFilter.h', # circular include's
     'itkBSplineDeformableTransform.h',   # deprecated
     'itkBSplineDeformableTransformInitializer.h'))
 
