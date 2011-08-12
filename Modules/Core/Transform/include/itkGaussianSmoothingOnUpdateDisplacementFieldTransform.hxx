@@ -106,7 +106,6 @@ void GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
     }
 
   typedef typename DisplacementFieldType::PixelType   VectorType;
-  typedef typename VectorType::ValueType              ScalarType;
 
   typedef typename DisplacementFieldType::PixelContainerPointer
                                                         PixelContainerPointer;

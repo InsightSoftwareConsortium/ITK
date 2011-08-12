@@ -237,7 +237,7 @@ ScaleTransform< ScalarType, NDimensions >
 template< class ScalarType, unsigned int NDimensions >
 void
 ScaleTransform< ScalarType, NDimensions >
-::GetJacobianWithRespectToPosition(const InputPointType  &x,
+::GetJacobianWithRespectToPosition(const InputPointType &,
                                                   JacobianType &jac) const
 {
   jac.SetSize( NDimensions, NDimensions );

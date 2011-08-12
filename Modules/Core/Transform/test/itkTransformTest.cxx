@@ -71,12 +71,12 @@ public:
   virtual const JacobianType & GetJacobian(const InputPointType  & ) const
     { return this->m_Jacobian; }
 
-  virtual void GetJacobianWithRespectToParameters(const InputPointType  &p,
+  virtual void GetJacobianWithRespectToParameters(const InputPointType &,
                                                   JacobianType &j) const
     { j.SetSize(3,6); j.Fill(1); }
 
   inline virtual void GetJacobianWithRespectToPosition(
-                                                  const InputPointType & x,
+                                                  const InputPointType &,
                                                   JacobianType &j ) const
     { j.SetSize(NOutputDimensions, NInputDimensions); j.Fill(1); }
 
