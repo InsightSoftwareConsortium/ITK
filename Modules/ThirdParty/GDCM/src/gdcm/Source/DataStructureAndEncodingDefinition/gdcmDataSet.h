@@ -279,6 +279,8 @@ protected:
       gdcmWarningMacro( "DataElement: " << de << " was already found, skipping duplicate entry.\n"
         "Original entry kept is: " << *pr.first );
       }
+#else
+    DES.insert(de);
 #endif
     assert( de.IsEmpty() || de.GetVL() == de.GetValue().GetLength() );
     }

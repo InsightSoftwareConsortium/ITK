@@ -53,10 +53,9 @@ namespace itk
  *
  * \sa KernelFunction
  *
- * \ingroup Functions
- * \ingroup ITKReview
+ * \ingroup ITKImageGrid
  */
-template< unsigned int VSplineOrder = 3 >
+template<unsigned int VSplineOrder = 3>
 class ITK_EXPORT CoxDeBoorBSplineKernelFunction:
   public KernelFunction
 {
@@ -64,103 +63,41 @@ public:
   /** Standard class typedefs. */
   typedef CoxDeBoorBSplineKernelFunction Self;
   typedef KernelFunction                 Superclass;
-  typedef SmartPointer< Self >           Pointer;
-  typedef SmartPointer< const Self >     ConstPointer;
+  typedef SmartPointer<Self>             Pointer;
+  typedef SmartPointer<const Self>       ConstPointer;
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);
+  itkNewMacro( Self );
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(CoxDeBoorBSplineKernelFunction, KernelFunction);
+  itkTypeMacro( CoxDeBoorBSplineKernelFunction, KernelFunction );
 
-  typedef double                 RealType;
-  typedef vnl_vector< RealType > VectorType;
-  typedef vnl_real_polynomial    PolynomialType;
-  typedef vnl_matrix< RealType > MatrixType;
+  typedef double                   RealType;
+  typedef vnl_vector<RealType>     VectorType;
+  typedef vnl_real_polynomial      PolynomialType;
+  typedef vnl_matrix<RealType>     MatrixType;
 
-  /** Get/Sets the Spline Order */
-  void SetSplineOrder(unsigned int);
+  /** Set the spline order. */
+  void SetSplineOrder( const unsigned int );
 
-  itkGetConstMacro(SplineOrder, unsigned int);
+  /** Get the spline order. */
+  itkGetConstMacro( SplineOrder, unsigned int );
 
   /** Evaluate the function. */
-  inline RealType Evaluate(const RealType & u) const
-  {
-    RealType     absValue = vnl_math_abs(u);
-    unsigned int which;
-
-    if ( this->m_SplineOrder % 2 == 0 )
-      {
-      which = static_cast< unsigned int >( absValue + 0.5 );
-      }
-    else
-      {
-      which = static_cast< unsigned int >( absValue );
-      }
-    if ( which < this->m_BSplineShapeFunctions.rows() )
-      {
-      return PolynomialType(
-               this->m_BSplineShapeFunctions.get_row(which) ).evaluate(absValue);
-      }
-    else
-      {
-      return NumericTraits< RealType >::Zero;
-      }
-  }
+  RealType Evaluate( const RealType & u ) const;
 
   /** Evaluate the first derivative. */
-  inline RealType EvaluateDerivative(const double & u) const
-  {
-    return this->EvaluateNthDerivative(u, 1);
-  }
+  RealType EvaluateDerivative( const double & ) const;
 
   /** Evaluate the Nth derivative. */
-  inline RealType EvaluateNthDerivative(const double & u, unsigned int n) const
-  {
-    RealType     absValue = vnl_math_abs(u);
-    unsigned int which;
-
-    if ( this->m_SplineOrder % 2 == 0 )
-      {
-      which = static_cast< unsigned int >( absValue + 0.5 );
-      }
-    else
-      {
-      which = static_cast< unsigned int >( absValue );
-      }
-    if ( which < this->m_BSplineShapeFunctions.rows() )
-      {
-      PolynomialType polynomial(
-        this->m_BSplineShapeFunctions.get_row(which) );
-      for ( unsigned int i = 0; i < n; i++ )
-        {
-        polynomial = polynomial.derivative();
-        }
-      RealType der = polynomial.evaluate(absValue);
-      if ( u < NumericTraits< RealType >::Zero && n % 2 != 0 )
-        {
-        return -der;
-        }
-      else
-        {
-        return der;
-        }
-      }
-    else
-      {
-      return NumericTraits< RealType >::Zero;
-      }
-  }
+  RealType EvaluateNthDerivative( const double &, const unsigned int ) const;
 
   /**
    * For a specific order, return the ceil( 0.5*(m_SplineOrder+1) )
    * pieces of the single basis function centered at zero for positive
    * parametric values.
    */
-  MatrixType GetShapeFunctions()
-  {
-    return this->m_BSplineShapeFunctions;
-  }
+  MatrixType GetShapeFunctions();
 
   /**
    * For a specific order, generate and return the (this->m_SplineOrder+1)
@@ -171,17 +108,17 @@ public:
 protected:
   CoxDeBoorBSplineKernelFunction();
   ~CoxDeBoorBSplineKernelFunction();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf( std::ostream & os, Indent indent ) const;
 
 private:
-  CoxDeBoorBSplineKernelFunction(const Self &); //purposely not implemented
-  void operator=(const Self &);                 //purposely not implemented
+  CoxDeBoorBSplineKernelFunction( const Self & ); //purposely not implemented
+  void operator=( const Self & );                 //purposely not implemented
 
   /**
    * For a specific order, generate the (this->m_SplineOrder+1) pieces of
    * the single basis function centered at zero.
    */
-  void GenerateBSplineShapeFunctions(unsigned int);
+  void GenerateBSplineShapeFunctions( const unsigned int );
 
   /**
    * Use the CoxDeBoor recursion relation to generate the piecewise
@@ -189,11 +126,11 @@ private:
    * See, for example, L. Piegl, L. Tiller, "The NURBS Book,"
    * Springer 1997, p. 50.
    */
-  PolynomialType CoxDeBoor(unsigned short,
-                           VectorType, unsigned int, unsigned int);
+  PolynomialType CoxDeBoor( const unsigned short, const VectorType,
+    const unsigned int, const unsigned int );
 
-  MatrixType   m_BSplineShapeFunctions;
-  unsigned int m_SplineOrder;
+  MatrixType                       m_BSplineShapeFunctions;
+  unsigned int                     m_SplineOrder;
 };
 } // end namespace itk
 

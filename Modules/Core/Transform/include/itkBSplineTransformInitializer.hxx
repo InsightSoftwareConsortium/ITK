@@ -199,7 +199,8 @@ BSplineTransformInitializer<TTransform, TImage>
 
     for( unsigned int i = 0; i < SpaceDimension; i++ )
       {
-      PointIdentifier oppositeCornerId = ( 1 << i ) ^ transformDomainOriginId;
+      PointIdentifier oppositeCornerId = static_cast<PointIdentifier>(
+        vcl_pow( 2.0, static_cast<int>( i ) ) ) ^ transformDomainOriginId;
 
       PointType corner;
       corner.Fill( 0.0 );

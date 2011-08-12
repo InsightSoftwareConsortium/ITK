@@ -155,7 +155,7 @@ FEMObject<VDimension>
     fem::Element *elCopy = Copy->GetElement(i);
     // create a new object of the correct class
     a = ObjectFactoryBase::CreateInstance( elCopy->GetNameOfClass() );
-
+    a->UnRegister();
     fem::Element::Pointer o1 = dynamic_cast<fem::Element *>( a.GetPointer() );
     o1->SetGlobalNumber(elCopy->GetGlobalNumber() );
 
@@ -176,7 +176,6 @@ FEMObject<VDimension>
     {
     fem::Load *load = Copy->GetLoad(k);
     // create a new object of the correct class
-    a = ObjectFactoryBase::CreateInstance( load->GetNameOfClass() );
 
     std::string loadname = std::string(load->GetNameOfClass() );
     if( loadname == "LoadNode" )
