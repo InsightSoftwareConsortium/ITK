@@ -33,9 +33,9 @@ namespace fem
  *
  *
  * This class combines the geometry of the FE problem defined in
- * \link Element3DC0LinearHexahedron
+ * \link Element3DC0LinearHexahedron\endlink
  * and the physics of the problem defined in
- * \link Element3DMembrane
+ * \link Element3DMembrane\endlink
  *
  * \sa Element3DC0LinearHexahedronStrain
  *

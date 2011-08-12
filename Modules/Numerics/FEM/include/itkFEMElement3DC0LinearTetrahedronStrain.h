@@ -31,9 +31,9 @@ namespace fem
  * \brief 4-noded finite element class in 3D space for linear elasticity problem
  *
  * This class combines the geometry of the FE problem defined in
- * \link Element3DC0LinearTetrahedron
+ * \link Element3DC0LinearTetrahedron\endlink
  * and the physics of the problem defined in
- * \link Element3DStrain
+ * \link Element3DStrain\endlink
  *
  * \sa Element3DC0LinearTetrahedronMembrane
  * \ingroup ITKFEM

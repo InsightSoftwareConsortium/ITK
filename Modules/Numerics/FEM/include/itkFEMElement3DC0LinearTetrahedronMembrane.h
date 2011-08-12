@@ -32,9 +32,9 @@ namespace fem
  * The constitutive equation used is from membrane bending energy.
  *
  * This class combines the geometry of the FE problem defined in
- * \link Element3DC0LinearTetrahedron
+ * \link Element3DC0LinearTetrahedron\endlink
  * and the physics of the problem defined in
- * \link Element3DMembrane
+ * \link Element3DMembrane\endlink
  *
  * \sa Element3DC0LinearTetrahedronStrain
  *
