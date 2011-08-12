@@ -156,6 +156,11 @@ public:
   * \sa Transform::GetJacobian() */
   const JacobianType & GetJacobian(const InputPointType  & point) const;
 
+  /** Compute the Jacobian Matrix of the transformation at one point,
+   *  allowing for thread-safety. */
+  virtual void GetJacobianWithRespectToParameters( const InputPointType  &p,
+                                 JacobianType & jacobian) const;
+
   /** Set the transformation to an identity. */
   virtual void SetIdentity(void);
 

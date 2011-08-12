@@ -46,7 +46,7 @@ MatlabTransformIO::CanWriteFile(const char *fileName)
 // but handle single precision as well.
 static void
 ReadMat(vnl_matlab_readhdr & mathdr,
-        Array< double > & array)
+        MatlabTransformIO::TransformType::ParametersType & array)
 {
   if ( mathdr.is_single() )
     {
@@ -88,7 +88,7 @@ MatlabTransformIO::Read()
       itkExceptionMacro
         ("Only vector parameters supported");
       }
-    Array< double > TmpParameterArray( mathdr.rows() );
+    TransformType::ParametersType TmpParameterArray( mathdr.rows() );
     ReadMat(mathdr, TmpParameterArray);
     std::string classname( mathdr.name() );
     // create transform based on name of first vector
@@ -102,7 +102,7 @@ MatlabTransformIO::Read()
       itkExceptionMacro
         ("Only vector parameters supported");
       }
-    Array< double > TmpFixedParameterArray( mathdr2.rows() );
+    TransformType::ParametersType TmpFixedParameterArray( mathdr2.rows() );
     ReadMat(mathdr2, TmpFixedParameterArray);
     transform->SetFixedParameters(TmpFixedParameterArray);
     transform->SetParametersByValue(TmpParameterArray);
@@ -115,7 +115,7 @@ MatlabTransformIO::Write()
 {
   ConstTransformListType::iterator it = this->GetWriteTransformList().begin();
 
-  vnl_vector< double > TempArray;
+  MatlabTransformIO::TransformType::ParametersType TempArray;
   std::ofstream        out;
   this->OpenStream(out, true);
   while ( it != this->GetWriteTransformList().end() )

@@ -19,7 +19,7 @@
 #define __itkShapeSignedDistanceFunction_h
 
 #include "itkSpatialFunction.h"
-#include "itkArray.h"
+#include "itkTransformParameters.h"
 
 namespace itk
 {
@@ -80,7 +80,7 @@ public:
   typedef InputType PointType;
 
   /** Type of the shape parameters. */
-  typedef Array< double > ParametersType;
+  typedef TransformParameters< double > ParametersType;
 
   /** A shape is defined by a set of shape parameters. */
   virtual void SetParameters(const ParametersType &) = 0;

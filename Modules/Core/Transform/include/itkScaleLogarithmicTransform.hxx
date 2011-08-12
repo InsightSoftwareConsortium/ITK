@@ -49,7 +49,11 @@ ScaleLogarithmicTransform< ScalarType, NDimensions >
     {
     scales[i] = vcl_exp(parameters[i]);
     }
-  this->m_Parameters = parameters;
+  //Save parameters. Needed for proper operation of TransformUpdateParameters.
+  if( &parameters != &(this->m_Parameters) )
+    {
+    this->m_Parameters = parameters;
+    }
   this->SetScale(scales);
 
   // Modified is always called since we just have a pointer to the
@@ -92,16 +96,25 @@ const typename ScaleLogarithmicTransform< ScalarType, NDimensions >::JacobianTyp
 ScaleLogarithmicTransform< ScalarType, NDimensions >
 ::GetJacobian(const InputPointType & p) const
 {
+  GetJacobianWithRespectToParameters( p, this->m_Jacobian );
+  return this->m_Jacobian;
+}
+
+template< class ScalarType, unsigned int NDimensions >
+void
+ScaleLogarithmicTransform< ScalarType, NDimensions >
+::GetJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
+{
   const ScaleType & scales = this->GetScale();
 
-  this->m_Jacobian.Fill(0);
+  jacobian.SetSize( SpaceDimension, this->GetNumberOfLocalParameters() );
+  jacobian.Fill(0);
   for ( unsigned int dim = 0; dim < SpaceDimension; dim++ )
     {
     // the derivative with respect to Log(scale) = scale * derivative with
     // respect to scale.
-    this->m_Jacobian(dim, dim) = scales[dim] * p[dim];
+    jacobian(dim, dim) = scales[dim] * p[dim];
     }
-  return this->m_Jacobian;
 }
 } // namespace
 

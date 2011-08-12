@@ -8,11 +8,9 @@ itkBoxSigmaImageFilterTest.cxx
 itkBruker2DSEQImageIOTest.cxx
 itkBSplineControlPointImageFilterTest.cxx
 itkBSplineControlPointImageFunctionTest.cxx
-itkCompositeTransformTest.cxx
 itkConformalFlatteningMeshFilterTest.cxx
 itkConformalFlatteningQuadEdgeMeshFilterTest.cxx
 itkContourExtractor2DImageFilterTest.cxx
-itkDeformationFieldTransformTest.cxx
 itkDiffeomorphicDemonsRegistrationFilterTest.cxx
 itkDiffeomorphicDemonsRegistrationFilterTest2.cxx
 itkDirectFourierReconstructionImageToImageFilterTest.cxx
@@ -175,8 +173,6 @@ itk_add_test(NAME itkTransformToDeformationFieldSourceTest03
               ${TEMP}/warpedImage.nii
   --compareNumberOfPixelsTolerance 20
    itkTransformToDeformationFieldSourceTest1 ${TEMP}/transformedImage.nii ${TEMP}/warpedImage.nii)
-itk_add_test(NAME itkCompositeTransformTest
-      COMMAND ITKReviewTestDriver itkCompositeTransformTest)
 itk_add_test(NAME itkConformalFlatteningMeshFilterTest1
       COMMAND ITKReviewTestDriver itkConformalFlatteningMeshFilterTest
               ${ITK_DATA_ROOT}/Input/genusZeroSurface01.vtk ${ITK_TEST_OUTPUT_DIR}/genusZeroMesh01ConformalFlattenedToSphere.vtk 1)
@@ -192,8 +188,6 @@ itk_add_test(NAME itkConformalFlatteningQuadEdgeMeshFilterTest2
 itk_add_test(NAME itkContourExtractor2DImageFilterTest
       COMMAND ITKReviewTestDriver itkContourExtractor2DImageFilterTest
               ${ITK_DATA_ROOT}/Input/ContourExtractor2DTest.tif)
-itk_add_test(NAME itkDeformationFieldTransformTest
-      COMMAND ITKReviewTestDriver itkDeformationFieldTransformTest)
 itk_add_test(NAME itkDiffeomorphicDemonsRegistrationFilterTest01
       COMMAND ITKReviewTestDriver itkDiffeomorphicDemonsRegistrationFilterTest
               0 0 0.001 20.0 200 0.01 0.08 5 10)

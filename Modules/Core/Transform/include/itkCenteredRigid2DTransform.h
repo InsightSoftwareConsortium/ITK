@@ -136,6 +136,10 @@ public:
    * \sa Transform::GetJacobian() */
   const JacobianType & GetJacobian(const InputPointType  & point) const;
 
+  /** Compute the Jacobian Matrix of the transformation at one point */
+  virtual void GetJacobianWithRespectToParameters( const InputPointType  &p,
+                                 JacobianType & jacobian) const;
+
   /** Set the fixed parameters and update internal transformation.
    * This is a null function as there are no fixed parameters. */
   virtual void SetFixedParameters(const ParametersType &);

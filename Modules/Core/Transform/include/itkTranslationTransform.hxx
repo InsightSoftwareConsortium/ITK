@@ -54,6 +54,12 @@ void
 TranslationTransform< TScalarType, NDimensions >
 ::SetParameters(const ParametersType & parameters)
 {
+  //Save parameters. Needed for proper operation of TransformUpdateParameters.
+  if( &parameters != &(this->m_Parameters) )
+    {
+    this->m_Parameters = parameters;
+    }
+
   typedef typename ParametersType::ValueType ParameterValueType;
   bool modified = false;
   for ( unsigned int i = 0; i < SpaceDimension; i++ )
@@ -182,6 +188,35 @@ TranslationTransform< TScalarType, NDimensions >::GetJacobian(const InputPointTy
   // the Jacobian is constant for this transform, and it has already been
   // initialized in the constructor, so we just need to return it here.
   return this->m_Jacobian;
+}
+
+
+// Compute the Jacobian in one position
+template< class TScalarType, unsigned int NDimensions >
+void
+TranslationTransform< TScalarType, NDimensions >::GetJacobianWithRespectToParameters(
+        const InputPointType &,
+        JacobianType & j) const
+{
+  // the Jacobian is constant for this transform, and it has already been
+  // initialized in the constructor, so we just need to return it here.
+  j = this->m_Jacobian;
+  return;
+}
+
+// Compute jacobian with respect to position
+template< class TScalarType, unsigned int NDimensions >
+void
+TranslationTransform< TScalarType, NDimensions >
+::GetJacobianWithRespectToPosition(const InputPointType  &x,
+                                                  JacobianType &jac) const
+{
+  jac.SetSize( NDimensions, NDimensions );
+  jac.Fill(0.0);
+  for( unsigned int dim=0; dim < NDimensions; dim++ )
+    {
+    jac[dim][dim] = 1.0;
+    }
 }
 
 // Set the parameters for an Identity transform of this class

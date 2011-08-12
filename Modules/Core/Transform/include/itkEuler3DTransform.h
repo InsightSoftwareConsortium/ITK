@@ -108,6 +108,10 @@ public:
    * transform is invertible at this point. */
   const JacobianType & GetJacobian(const InputPointType  & point) const;
 
+  /** Compute the Jacobian Matrix of the transformation at one point */
+  virtual void GetJacobianWithRespectToParameters( const InputPointType  &p,
+                                 JacobianType & jacobian) const;
+
   /** Set/Get the order of the computation. Default ZXY */
   itkSetMacro(ComputeZYX, bool);
   itkGetConstMacro(ComputeZYX, bool);

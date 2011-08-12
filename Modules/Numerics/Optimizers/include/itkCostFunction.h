@@ -21,6 +21,7 @@
 #include "itkObject.h"
 #include "itkObjectFactory.h"
 #include "itkArray.h"
+#include "itkTransformParameters.h"
 
 namespace itk
 {
@@ -46,8 +47,8 @@ public:
 
   /**  ParametersType typedef.
    *  It defines a position in the optimization search space. */
-  typedef double                       ParametersValueType;
-  typedef Array< ParametersValueType > ParametersType;
+  typedef double                                     ParametersValueType;
+  typedef TransformParameters< ParametersValueType > ParametersType;
 
   /** Return the number of parameters required to compute
    *  this cost function.

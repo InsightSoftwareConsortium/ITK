@@ -99,6 +99,7 @@ VectorLinearInterpolateNearestNeighborExtrapolateImageFunction< TInputImage, TCo
    * of the neighbor pixel with respect to a pixel centered on point.
    */
   OutputType output;
+  NumericTraits<OutputType>::SetLength( output, this->GetInputImage()->GetNumberOfComponentsPerPixel() );
   output.Fill(0.0);
 
   RealType totalOverlap = 0.0;
@@ -129,7 +130,7 @@ VectorLinearInterpolateNearestNeighborExtrapolateImageFunction< TInputImage, TCo
     if ( overlap )
       {
       const PixelType input = this->GetInputImage()->GetPixel(neighIndex);
-      for ( unsigned int k = 0; k < Dimension; k++ )
+      for ( unsigned int k = 0; k < this->GetInputImage()->GetNumberOfComponentsPerPixel(); k++ )
         {
         output[k] += overlap * static_cast< RealType >( input[k] );
         }

@@ -50,7 +50,13 @@ ScaleTransform< ScalarType, NDimensions >
     {
     m_Scale[i] = parameters[i];
     }
-  this->m_Parameters = parameters;
+  //Save parameters. Needed for proper operation of TransformUpdateParameters.
+  if( &parameters != &(this->m_Parameters) )
+    {
+    this->m_Parameters = parameters;
+    }
+
+  this->ComputeMatrix();
 
   // Modified is always called since we just have a pointer to the
   // parameters and cannot know if the parameters have changed.
@@ -208,12 +214,38 @@ const typename ScaleTransform< ScalarType, NDimensions >::JacobianType &
 ScaleTransform< ScalarType, NDimensions >
 ::GetJacobian(const InputPointType & p) const
 {
-  this->m_Jacobian.Fill(0);
+  GetJacobianWithRespectToParameters( p, this->m_Jacobian );
+  return this->m_Jacobian;
+}
+
+// Compute the Jacobian of the transformation
+// It follows the same order of Parameters vector
+template< class ScalarType, unsigned int NDimensions >
+void
+ScaleTransform< ScalarType, NDimensions >
+::GetJacobianWithRespectToParameters(const InputPointType & p, JacobianType &j) const
+{
+  j.SetSize( SpaceDimension, this->GetNumberOfLocalParameters() );
+  j.Fill(0.0);
   for ( unsigned int dim = 0; dim < SpaceDimension; dim++ )
     {
-    this->m_Jacobian(dim, dim) = p[dim];
+    j(dim, dim) = p[dim] - m_Center[dim];
     }
-  return this->m_Jacobian;
+}
+
+// Compute the Jacobian of the transformation with respect to position
+template< class ScalarType, unsigned int NDimensions >
+void
+ScaleTransform< ScalarType, NDimensions >
+::GetJacobianWithRespectToPosition(const InputPointType  &x,
+                                                  JacobianType &jac) const
+{
+  jac.SetSize( NDimensions, NDimensions );
+  jac.Fill(0.0);
+  for( unsigned int dim=0; dim < NDimensions; dim++ )
+    {
+    jac[dim][dim] = m_Scale[dim];
+    }
 }
 
 template< class ScalarType, unsigned int NDimensions >
@@ -224,6 +256,23 @@ ScaleTransform< ScalarType, NDimensions >
     m_FixedParameters.SetSize(0);
     return m_FixedParameters;
   }
+
+template< class ScalarType, unsigned int NDimensions >
+void
+ScaleTransform< ScalarType, NDimensions >
+::ComputeMatrix(void)
+ {
+
+    MatrixType matrix;
+    matrix.SetIdentity();
+    for ( unsigned int dim = 0; dim < SpaceDimension; dim++ )
+    {
+        matrix[dim][dim] = m_Scale[dim];
+    }
+
+    this->SetVarMatrix(matrix);
+
+ }
 
 } // namespace
 

@@ -44,6 +44,12 @@ CenteredSimilarity2DTransform< TScalarType >
 {
   itkDebugMacro(<< "Setting parameters " << parameters);
 
+  //Save parameters. Needed for proper operation of TransformUpdateParameters.
+  if( &parameters != &(this->m_Parameters) )
+    {
+    this->m_Parameters = parameters;
+    }
+
   // Set scale
   const TScalarType scale = parameters[0];
   this->SetVarScale(scale);
@@ -112,43 +118,51 @@ template< class TScalarType >
 const typename CenteredSimilarity2DTransform< TScalarType >::JacobianType &
 CenteredSimilarity2DTransform< TScalarType >::GetJacobian(const InputPointType & p) const
 {
+  GetJacobianWithRespectToParameters( p, this->m_Jacobian );
+  return this->m_Jacobian;
+}
+
+template< class TScalarType >
+void
+CenteredSimilarity2DTransform< TScalarType >
+::GetJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
+{
   const double angle = this->GetAngle();
   const double ca = vcl_cos(angle);
   const double sa = vcl_sin(angle);
 
-  this->m_Jacobian.Fill(0.0);
+  jacobian.SetSize( 2, this->GetNumberOfLocalParameters() );
+  jacobian.Fill(0.0);
 
   const InputPointType center = this->GetCenter();
   const double         cx = center[0];
   const double         cy = center[1];
 
   // derivatives with respect to the scale
-  this->m_Jacobian[0][0] =    ca * ( p[0] - cx ) - sa * ( p[1] - cy );
-  this->m_Jacobian[1][0] =    sa * ( p[0] - cx ) + ca * ( p[1] - cy );
+  jacobian[0][0] =    ca * ( p[0] - cx ) - sa * ( p[1] - cy );
+  jacobian[1][0] =    sa * ( p[0] - cx ) + ca * ( p[1] - cy );
 
   // derivatives with respect to the angle
-  this->m_Jacobian[0][1] = ( -sa * ( p[0] - cx ) - ca * ( p[1] - cy ) )
+  jacobian[0][1] = ( -sa * ( p[0] - cx ) - ca * ( p[1] - cy ) )
                            * this->GetScale();
-  this->m_Jacobian[1][1] = ( ca * ( p[0] - cx ) - sa * ( p[1] - cy ) )
+  jacobian[1][1] = ( ca * ( p[0] - cx ) - sa * ( p[1] - cy ) )
                            * this->GetScale();
 
   // compute derivatives with respect to the center part
   // first with respect to cx
-  this->m_Jacobian[0][2] = 1.0 - ca * this->GetScale();
-  this->m_Jacobian[1][2] =     -sa * this->GetScale();
+  jacobian[0][2] = 1.0 - ca * this->GetScale();
+  jacobian[1][2] =     -sa * this->GetScale();
   // then with respect to cy
-  this->m_Jacobian[0][3] =       sa * this->GetScale();
-  this->m_Jacobian[1][3] = 1.0 - ca * this->GetScale();
+  jacobian[0][3] =       sa * this->GetScale();
+  jacobian[1][3] = 1.0 - ca * this->GetScale();
 
   // compute derivatives with respect to the translation part
   // first with respect to tx
-  this->m_Jacobian[0][4] = 1.0;
-  this->m_Jacobian[1][4] = 0.0;
+  jacobian[0][4] = 1.0;
+  jacobian[1][4] = 0.0;
   // first with respect to ty
-  this->m_Jacobian[0][5] = 0.0;
-  this->m_Jacobian[1][5] = 1.0;
-
-  return this->m_Jacobian;
+  jacobian[0][5] = 0.0;
+  jacobian[1][5] = 1.0;
 }
 
 template< class TScalarType >

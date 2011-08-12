@@ -111,6 +111,7 @@ int itkCompositeTransformWriterAndReaderTest(int argc, char *argv[] )
   //Set the filename with full path for the main transform file.
   std::string masterFileName( filePath + filePrefix + "Master1.txt" );
   writer->SetMasterFullPath( masterFileName );
+  std::cout << "Writing to filename: " << masterFileName << std::endl;
   /* Set the filenames and types for components by just setting their
    * extensions. Each component's number is appended to the master filename,
    * and used for the component's filename.
@@ -157,7 +158,11 @@ int itkCompositeTransformWriterAndReaderTest(int argc, char *argv[] )
   if ( readCompositeTransform->GetNumberOfTransforms() !=
         compositeTransform->GetNumberOfTransforms() )
     {
-    std::cout << "Number of transforms does not match." << std::endl;
+    std::cout << "Number of transforms does not match." << std::endl
+              << "readCompositeTransform: "
+              << readCompositeTransform->GetNumberOfTransforms() << std::endl
+              << "expected: "
+              << compositeTransform->GetNumberOfTransforms() << std::endl;
     return EXIT_FAILURE;
     }
   AffineType::ConstPointer origAffine, readAffine;

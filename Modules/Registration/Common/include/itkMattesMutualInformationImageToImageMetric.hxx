@@ -1280,8 +1280,9 @@ MattesMutualInformationImageToImageMetric< TFixedImage, TMovingImage >
       transform = this->m_Transform;
       }
 
-    const JacobianType & jacobian =
-      transform->GetJacobian(this->m_FixedImageSamples[sampleNumber].point);
+    JacobianType jacobian;
+    transform->GetJacobianWithRespectToParameters(
+      this->m_FixedImageSamples[sampleNumber].point, jacobian);
 
     for ( unsigned int mu = 0; mu < this->m_NumberOfParameters; mu++ )
       {

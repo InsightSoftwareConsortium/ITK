@@ -73,6 +73,12 @@ ScaleVersor3DTransform< TScalarType >
 {
   itkDebugMacro(<< "Setting parameters " << parameters);
 
+  //Save parameters. Needed for proper operation of TransformUpdateParameters.
+  if( &parameters != &(this->m_Parameters) )
+    {
+    this->m_Parameters = parameters;
+    }
+
   // Transfer the versor part
 
   AxisType axis;
@@ -236,6 +242,14 @@ template< class TScalarType >
 const typename ScaleVersor3DTransform< TScalarType >::JacobianType &
 ScaleVersor3DTransform< TScalarType >::GetJacobian(const InputPointType & p) const
 {
+  GetJacobianWithRespectToParameters( p, this->m_Jacobian );
+  return this->m_Jacobian;
+}
+template< class TScalarType >
+void
+ScaleVersor3DTransform< TScalarType >
+::GetJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
+{
   typedef typename VersorType::ValueType ValueType;
 
   // compute derivatives with respect to rotation
@@ -244,7 +258,8 @@ ScaleVersor3DTransform< TScalarType >::GetJacobian(const InputPointType & p) con
   const ValueType vz = this->GetVersor().GetZ();
   const ValueType vw = this->GetVersor().GetW();
 
-  this->m_Jacobian.Fill(0.0);
+  jacobian.SetSize( 3, this->GetNumberOfLocalParameters() );
+  jacobian.Fill(0.0);
 
   const double px = p[0] - this->GetCenter()[0];
   const double py = p[1] - this->GetCenter()[1];
@@ -265,38 +280,36 @@ ScaleVersor3DTransform< TScalarType >::GetJacobian(const InputPointType & p) con
   const double vzw = vz * vw;
 
   // compute Jacobian with respect to quaternion parameters
-  this->m_Jacobian[0][0] = 2.0 * ( ( vyw + vxz ) * py + ( vzw - vxy ) * pz )
+  jacobian[0][0] = 2.0 * ( ( vyw + vxz ) * py + ( vzw - vxy ) * pz )
                            / vw;
-  this->m_Jacobian[1][0] = 2.0 * ( ( vyw - vxz ) * px   - 2 * vxw   * py + ( vxx - vww ) * pz )
+  jacobian[1][0] = 2.0 * ( ( vyw - vxz ) * px   - 2 * vxw   * py + ( vxx - vww ) * pz )
                            / vw;
-  this->m_Jacobian[2][0] = 2.0 * ( ( vzw + vxy ) * px + ( vww - vxx ) * py   - 2 * vxw   * pz )
-                           / vw;
-
-  this->m_Jacobian[0][1] = 2.0 * ( -2 * vyw  * px + ( vxw + vyz ) * py + ( vww - vyy ) * pz )
-                           / vw;
-  this->m_Jacobian[1][1] = 2.0 * ( ( vxw - vyz ) * px                + ( vzw + vxy ) * pz )
-                           / vw;
-  this->m_Jacobian[2][1] = 2.0 * ( ( vyy - vww ) * px + ( vzw - vxy ) * py   - 2 * vyw   * pz )
+  jacobian[2][0] = 2.0 * ( ( vzw + vxy ) * px + ( vww - vxx ) * py   - 2 * vxw   * pz )
                            / vw;
 
-  this->m_Jacobian[0][2] = 2.0 * ( -2 * vzw  * px + ( vzz - vww ) * py + ( vxw - vyz ) * pz )
+  jacobian[0][1] = 2.0 * ( -2 * vyw  * px + ( vxw + vyz ) * py + ( vww - vyy ) * pz )
                            / vw;
-  this->m_Jacobian[1][2] = 2.0 * ( ( vww - vzz ) * px   - 2 * vzw   * py + ( vyw + vxz ) * pz )
+  jacobian[1][1] = 2.0 * ( ( vxw - vyz ) * px                + ( vzw + vxy ) * pz )
                            / vw;
-  this->m_Jacobian[2][2] = 2.0 * ( ( vxw + vyz ) * px + ( vyw - vxz ) * py )
+  jacobian[2][1] = 2.0 * ( ( vyy - vww ) * px + ( vzw - vxy ) * py   - 2 * vyw   * pz )
                            / vw;
 
-  this->m_Jacobian[0][3] = 1.0;
-  this->m_Jacobian[1][4] = 1.0;
-  this->m_Jacobian[2][5] = 1.0;
+  jacobian[0][2] = 2.0 * ( -2 * vzw  * px + ( vzz - vww ) * py + ( vxw - vyz ) * pz )
+                           / vw;
+  jacobian[1][2] = 2.0 * ( ( vww - vzz ) * px   - 2 * vzw   * py + ( vyw + vxz ) * pz )
+                           / vw;
+  jacobian[2][2] = 2.0 * ( ( vxw + vyz ) * px + ( vyw - vxz ) * py )
+                           / vw;
+
+  jacobian[0][3] = 1.0;
+  jacobian[1][4] = 1.0;
+  jacobian[2][5] = 1.0;
 
   // // THIS is different from VersorRigid3DTransform;
   // // it is copied from ScaleSkewVersor3DTransform:
-  this->m_Jacobian[0][6] = px;
-  this->m_Jacobian[1][7] = py;
-  this->m_Jacobian[2][8] = pz;
-
-  return this->m_Jacobian;
+  jacobian[0][6] = px;
+  jacobian[1][7] = py;
+  jacobian[2][8] = pz;
 }
 } // namespace
 

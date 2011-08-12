@@ -128,6 +128,12 @@ Similarity3DTransform< TScalarType >
 {
   itkDebugMacro(<< "Setting parameters " << parameters);
 
+  //Save parameters. Needed for proper operation of TransformUpdateParameters.
+  if( &parameters != &(this->m_Parameters) )
+    {
+    this->m_Parameters = parameters;
+    }
+
   // Transfer the versor part
 
   AxisType axis;
@@ -210,6 +216,15 @@ const typename Similarity3DTransform< TScalarType >::JacobianType &
 Similarity3DTransform< TScalarType >::
 GetJacobian(const InputPointType & p) const
 {
+  GetJacobianWithRespectToParameters( p, this->m_Jacobian );
+  return this->m_Jacobian;
+}
+
+template< class TScalarType >
+void
+Similarity3DTransform< TScalarType >::
+GetJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
+{
   typedef typename VersorType::ValueType ValueType;
 
   // compute derivatives with respect to rotation
@@ -218,7 +233,8 @@ GetJacobian(const InputPointType & p) const
   const ValueType vz = this->GetVersor().GetZ();
   const ValueType vw = this->GetVersor().GetW();
 
-  this->m_Jacobian.Fill(0.0);
+  jacobian.SetSize( 3, this->GetNumberOfLocalParameters() );
+  jacobian.Fill(0.0);
 
   const InputVectorType pp = p - this->GetCenter();
 
@@ -241,42 +257,40 @@ GetJacobian(const InputPointType & p) const
   const double vzw = vz * vw;
 
   // compute Jacobian with respect to quaternion parameters
-  this->m_Jacobian[0][0] = 2.0 * ( ( vyw + vxz ) * py + ( vzw - vxy ) * pz )
+  jacobian[0][0] = 2.0 * ( ( vyw + vxz ) * py + ( vzw - vxy ) * pz )
                            / vw;
-  this->m_Jacobian[1][0] = 2.0 * ( ( vyw - vxz ) * px   - 2 * vxw   * py + ( vxx - vww ) * pz )
+  jacobian[1][0] = 2.0 * ( ( vyw - vxz ) * px   - 2 * vxw   * py + ( vxx - vww ) * pz )
                            / vw;
-  this->m_Jacobian[2][0] = 2.0 * ( ( vzw + vxy ) * px + ( vww - vxx ) * py   - 2 * vxw   * pz )
-                           / vw;
-
-  this->m_Jacobian[0][1] = 2.0 * ( -2 * vyw  * px + ( vxw + vyz ) * py + ( vww - vyy ) * pz )
-                           / vw;
-  this->m_Jacobian[1][1] = 2.0 * ( ( vxw - vyz ) * px                + ( vzw + vxy ) * pz )
-                           / vw;
-  this->m_Jacobian[2][1] = 2.0 * ( ( vyy - vww ) * px + ( vzw - vxy ) * py   - 2 * vyw   * pz )
+  jacobian[2][0] = 2.0 * ( ( vzw + vxy ) * px + ( vww - vxx ) * py   - 2 * vxw   * pz )
                            / vw;
 
-  this->m_Jacobian[0][2] = 2.0 * ( -2 * vzw  * px + ( vzz - vww ) * py + ( vxw - vyz ) * pz )
+  jacobian[0][1] = 2.0 * ( -2 * vyw  * px + ( vxw + vyz ) * py + ( vww - vyy ) * pz )
                            / vw;
-  this->m_Jacobian[1][2] = 2.0 * ( ( vww - vzz ) * px   - 2 * vzw   * py + ( vyw + vxz ) * pz )
+  jacobian[1][1] = 2.0 * ( ( vxw - vyz ) * px                + ( vzw + vxy ) * pz )
                            / vw;
-  this->m_Jacobian[2][2] = 2.0 * ( ( vxw + vyz ) * px + ( vyw - vxz ) * py )
+  jacobian[2][1] = 2.0 * ( ( vyy - vww ) * px + ( vzw - vxy ) * py   - 2 * vyw   * pz )
+                           / vw;
+
+  jacobian[0][2] = 2.0 * ( -2 * vzw  * px + ( vzz - vww ) * py + ( vxw - vyz ) * pz )
+                           / vw;
+  jacobian[1][2] = 2.0 * ( ( vww - vzz ) * px   - 2 * vzw   * py + ( vyw + vxz ) * pz )
+                           / vw;
+  jacobian[2][2] = 2.0 * ( ( vxw + vyz ) * px + ( vyw - vxz ) * py )
                            / vw;
 
   // compute Jacobian with respect to the translation parameters
-  this->m_Jacobian[0][3] = 1.0;
-  this->m_Jacobian[1][4] = 1.0;
-  this->m_Jacobian[2][5] = 1.0;
+  jacobian[0][3] = 1.0;
+  jacobian[1][4] = 1.0;
+  jacobian[2][5] = 1.0;
 
   // compute Jacobian with respect to the scale parameter
   const MatrixType & matrix = this->GetMatrix();
 
   const InputVectorType mpp = matrix * pp;
 
-  this->m_Jacobian[0][6] = mpp[0] / m_Scale;
-  this->m_Jacobian[1][6] = mpp[1] / m_Scale;
-  this->m_Jacobian[2][6] = mpp[2] / m_Scale;
-
-  return this->m_Jacobian;
+  jacobian[0][6] = mpp[0] / m_Scale;
+  jacobian[1][6] = mpp[1] / m_Scale;
+  jacobian[2][6] = mpp[2] / m_Scale;
 }
 
 // Set the scale factor

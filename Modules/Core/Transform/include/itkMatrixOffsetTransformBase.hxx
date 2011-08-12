@@ -22,6 +22,7 @@
 #include "itkMatrixOffsetTransformBase.h"
 #include "vnl/algo/vnl_matrix_inverse.h"
 #include "itkMath.h"
+#include "itkCrossHelper.h"
 
 namespace itk
 {
@@ -210,6 +211,46 @@ MatrixOffsetTransformBase< TScalarType, NInputDimensions, NOutputDimensions >
   return m_Matrix * vect;
 }
 
+// Transform a variable length vector
+template< class TScalarType, unsigned int NInputDimensions,
+          unsigned int NOutputDimensions >
+typename MatrixOffsetTransformBase< TScalarType,
+                                    NInputDimensions,
+                                    NOutputDimensions >::OutputVectorPixelType
+MatrixOffsetTransformBase< TScalarType, NInputDimensions, NOutputDimensions >
+::TransformVector(const InputVectorPixelType & vect) const
+{
+  const unsigned int vectorDim = vect.Size();
+  vnl_vector< TScalarType > vnl_vect( vectorDim );
+  vnl_matrix< TScalarType > vnl_mat( vectorDim, vect.Size(), 0.0 );
+
+  for (unsigned int i=0; i<vectorDim; i++)
+    {
+    vnl_vect[i] = vect[i];
+    for (unsigned int j=0; j<vectorDim; j++)
+      {
+      if ( (i < NInputDimensions) && (j < NInputDimensions) )
+        {
+        vnl_mat(i,j) = m_Matrix(i,j);
+        }
+      else if (i == j)
+        {
+        vnl_mat(i,j) = 1.0;
+        }
+      }
+    }
+
+  vnl_vector< TScalarType > tvect = vnl_mat * vnl_vect;
+  OutputVectorPixelType outVect;
+  outVect.SetSize( vectorDim );
+  for (unsigned int i=0; i<vectorDim; i++)
+    {
+    outVect[i] = tvect(i);
+    }
+
+  return outVect;
+}
+
 // Transform a CovariantVector
 template< class TScalarType, unsigned int NInputDimensions,
           unsigned int NOutputDimensions >
@@ -232,6 +273,171 @@ MatrixOffsetTransformBase< TScalarType, NInputDimensions, NOutputDimensions >
     }
   return result;
 }
+
+// Transform a variable length vector
+template< class TScalarType, unsigned int NInputDimensions,
+          unsigned int NOutputDimensions >
+typename MatrixOffsetTransformBase< TScalarType,
+                                    NInputDimensions,
+                                    NOutputDimensions >::OutputVectorPixelType
+MatrixOffsetTransformBase< TScalarType, NInputDimensions, NOutputDimensions >
+::TransformCovariantVector(const InputVectorPixelType & vect) const
+{
+
+  const unsigned int vectorDim = vect.Size();
+  vnl_vector< TScalarType > vnl_vect( vectorDim );
+  vnl_matrix< TScalarType > vnl_mat( vectorDim, vect.Size(), 0.0 );
+
+  for (unsigned int i=0; i<vectorDim; i++)
+    {
+    vnl_vect[i] = vect[i];
+    for (unsigned int j=0; j<vectorDim; j++)
+      {
+      if ( (i < NInputDimensions) && (j < NInputDimensions) )
+        {
+        vnl_mat(i,j) = this->GetInverseMatrix()(j,i);
+        }
+      else if (i == j)
+        {
+        vnl_mat(i,j) = 1.0;
+        }
+      }
+    }
+
+  vnl_vector< TScalarType > tvect = vnl_mat * vnl_vect;
+  OutputVectorPixelType outVect;
+  outVect.SetSize( vectorDim );
+  for (unsigned int i=0; i<vectorDim; i++)
+    {
+    outVect[i] = tvect(i);
+    }
+
+  return outVect;
+}
+
+
+// Transform a Tensor
+template< class TScalarType, unsigned int NInputDimensions,
+          unsigned int NOutputDimensions >
+typename MatrixOffsetTransformBase< TScalarType,
+                                    NInputDimensions,
+                                    NOutputDimensions >::OutputDiffusionTensor3DType
+MatrixOffsetTransformBase< TScalarType, NInputDimensions, NOutputDimensions >
+::TransformDiffusionTensor(const InputDiffusionTensor3DType & tensor) const
+{
+  //Get Tensor-space version of local transform (i.e. always 3D)
+  typedef MatrixOffsetTransformBase<ScalarType, InputDiffusionTensor3DType::Dimension, InputDiffusionTensor3DType::Dimension> EigenVectorTransformType;
+  typename  EigenVectorTransformType::MatrixType matrix;
+  typename  EigenVectorTransformType::MatrixType dMatrix;
+  matrix.Fill(0.0);
+  dMatrix.Fill(0.0);
+  for (unsigned int i=0; i<InputDiffusionTensor3DType::Dimension; i++)
+    {
+    matrix(i,i) = 1.0;
+    dMatrix(i,i) = 1.0;
+    }
+
+  for (unsigned int i=0; i<NOutputDimensions; i++)
+    {
+    for (unsigned int j=0; j<NInputDimensions; j++)
+      {
+      if ( (i < InputDiffusionTensor3DType::Dimension) && (j < InputDiffusionTensor3DType::Dimension))
+        {
+        matrix(i,j) = this->GetVarInverseMatrix()(i,j);
+        dMatrix(i,j) = this->GetDirectionChangeMatrix()(i,j);
+        }
+      }
+    }
+
+  typename InputDiffusionTensor3DType::EigenValuesArrayType eigenValues;
+  typename InputDiffusionTensor3DType::EigenVectorsMatrixType eigenVectors;
+  tensor.ComputeEigenAnalysis( eigenValues, eigenVectors );
+
+  InputTensorEigenVectorType ev1;
+  InputTensorEigenVectorType ev2;
+  InputTensorEigenVectorType ev3;
+
+  for (unsigned int i=0; i<InputDiffusionTensor3DType::Dimension; i++)
+    {
+    ev1[i] = eigenVectors(2,i);
+    ev2[i] = eigenVectors(1,i);
+    }
+
+  // Account for image direction changes between moving and fixed spaces
+  ev1 = matrix * dMatrix * ev1;
+  ev1.Normalize();
+
+  // Get aspect of rotated e2 that is perpendicular to rotated e1
+  ev2 = matrix * dMatrix * ev2;
+  double dp = ev2 * ev1;
+  if ( dp < 0 )
+    {
+    ev2 = ev2*(-1.0);
+    dp = dp*(-1.0);
+    }
+  ev2 = ev2 - ev1*dp;
+  ev2.Normalize();
+
+  itk::CrossHelper<InputTensorEigenVectorType> vectorCross;
+  ev3 = vectorCross( ev1, ev2 );
+
+  // Outer product matrices
+  typename EigenVectorTransformType::MatrixType e1;
+  typename EigenVectorTransformType::MatrixType e2;
+  typename EigenVectorTransformType::MatrixType e3;
+  for (unsigned int i=0; i<InputDiffusionTensor3DType::Dimension; i++)
+    {
+    for (unsigned int j=0; j<InputDiffusionTensor3DType::Dimension; j++)
+      {
+      e1(i,j) = eigenValues[2] * ev1[i]*ev1[j];
+      e2(i,j) = eigenValues[1] * ev2[i]*ev2[j];
+      e3(i,j) = eigenValues[0] * ev3[i]*ev3[j];
+      }
+    }
+
+  typename EigenVectorTransformType::MatrixType rotated = e1 + e2 + e3;
+
+  OutputDiffusionTensor3DType result;     // Converted vector
+  result[0] = rotated(0,0);
+  result[1] = rotated(0,1);
+  result[2] = rotated(0,2);
+  result[3] = rotated(1,1);
+  result[4] = rotated(1,2);
+  result[5] = rotated(2,2);
+
+  return result;
+}
+
+
+// Transform a Tensor
+template< class TScalarType, unsigned int NInputDimensions,
+          unsigned int NOutputDimensions >
+typename MatrixOffsetTransformBase< TScalarType,
+                                    NInputDimensions,
+                                    NOutputDimensions >::OutputVectorPixelType
+MatrixOffsetTransformBase< TScalarType, NInputDimensions, NOutputDimensions >
+::TransformDiffusionTensor(const InputVectorPixelType & tensor) const
+{
+  OutputVectorPixelType result( InputDiffusionTensor3DType::InternalDimension );     // Converted tensor
+  result.Fill( 0.0 );
+
+  InputDiffusionTensor3DType dt(0.0);
+  const unsigned int tDim = tensor.Size();
+  for (unsigned int i=0; i<tDim; i++)
+    {
+    dt[i] = tensor[i];
+    }
+
+  OutputDiffusionTensor3DType outDT = this->TransformDiffusionTensor( dt );
+
+  for (unsigned int i=0; i<InputDiffusionTensor3DType::InternalDimension; i++)
+    {
+    result[i] = outDT[i];
+    }
+
+  return result;
+}
+
 
 // Recompute the inverse matrix (internal)
 template< class TScalarType, unsigned int NInputDimensions,
@@ -387,7 +593,11 @@ MatrixOffsetTransformBase< TScalarType, NInputDimensions, NOutputDimensions >
 
   unsigned int par = 0;
 
-  this->m_Parameters = parameters;
+  //Save parameters. Needed for proper operation of TransformUpdateParameters.
+  if( &parameters != &(this->m_Parameters) )
+    {
+    this->m_Parameters = parameters;
+    }
 
   for ( unsigned int row = 0; row < NOutputDimensions; row++ )
     {
@@ -427,8 +637,25 @@ MatrixOffsetTransformBase< TScalarType, NInputDimensions, NOutputDimensions >
   // subblocks of diagonal matrices, each one of them having
   // a constant value in the diagonal.
 
-  this->m_Jacobian.Fill(0.0);
+  GetJacobianWithRespectToParameters( p, this->m_Jacobian );
+  return this->m_Jacobian;
+}
 
+// Compute the Jacobian in one position, without setting values to m_Jacobian
+template< class TScalarType, unsigned int NInputDimensions,
+          unsigned int NOutputDimensions >
+void
+MatrixOffsetTransformBase< TScalarType, NInputDimensions, NOutputDimensions >
+::GetJacobianWithRespectToParameters(const InputPointType & p, JacobianType &j) const
+{
+  //This will not reallocate memory if the dimensions are equal
+  // to the matrix's current dimensions.
+  j.SetSize( NOutputDimensions, this->GetNumberOfLocalParameters() );
+  j.Fill(0.0);
+
+  // The Jacobian of the affine transform is composed of
+  // subblocks of diagonal matrices, each one of them having
+  // a constant value in the diagonal.
   const InputVectorType v = p - this->GetCenter();
 
   unsigned int blockOffset = 0;
@@ -437,7 +664,7 @@ MatrixOffsetTransformBase< TScalarType, NInputDimensions, NOutputDimensions >
     {
     for ( unsigned int dim = 0; dim < NOutputDimensions; dim++ )
       {
-      this->m_Jacobian(block, blockOffset + dim) = v[dim];
+      j(block, blockOffset + dim) = v[dim];
       }
 
     blockOffset += NInputDimensions;
@@ -445,10 +672,28 @@ MatrixOffsetTransformBase< TScalarType, NInputDimensions, NOutputDimensions >
 
   for ( unsigned int dim = 0; dim < NOutputDimensions; dim++ )
     {
-    this->m_Jacobian(dim, blockOffset + dim) = 1.0;
+    j(dim, blockOffset + dim) = 1.0;
     }
 
-  return this->m_Jacobian;
+  return;
+}
+
+//Return jacobian with respect to position.
+template< class TScalarType, unsigned int NInputDimensions,
+          unsigned int NOutputDimensions >
+void
+MatrixOffsetTransformBase< TScalarType, NInputDimensions, NOutputDimensions >
+::GetJacobianWithRespectToPosition(const InputPointType  &x,
+                                                  JacobianType &jac) const
+{
+  jac.SetSize( MatrixType::RowDimensions, MatrixType::ColumnDimensions );
+  for( unsigned int i=0; i < MatrixType::RowDimensions; i++ )
+    {
+    for( unsigned int j=0; j < MatrixType::ColumnDimensions; j++ )
+      {
+      jac[i][j] = this->GetMatrix()[i][j];
+      }
+    }
 }
 
 // Computes offset based on center, matrix, and translation variables

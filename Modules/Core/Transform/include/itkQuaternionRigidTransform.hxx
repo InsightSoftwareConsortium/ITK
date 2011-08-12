@@ -89,6 +89,12 @@ QuaternionRigidTransform< TScalarType >
 {
   OutputVectorType translation;
 
+  //Save parameters. Needed for proper operation of TransformUpdateParameters.
+  if( &parameters != &(this->m_Parameters) )
+    {
+    this->m_Parameters = parameters;
+    }
+
   // Transfer the quaternion part
   unsigned int par = 0;
 
@@ -147,41 +153,49 @@ template< class TScalarType >
 const typename QuaternionRigidTransform< TScalarType >::JacobianType &
 QuaternionRigidTransform< TScalarType >::GetJacobian(const InputPointType & p) const
 {
+  GetJacobianWithRespectToParameters( p, this->m_Jacobian );
+  return this->m_Jacobian;
+}
+
+template< class TScalarType >
+void
+QuaternionRigidTransform< TScalarType >
+::GetJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
+{
   // compute derivatives with respect to rotation
-  this->m_Jacobian.Fill(0.0);
+  jacobian.SetSize( 3, this->GetNumberOfLocalParameters() );
+  jacobian.Fill(0.0);
 
   const TScalarType x = p[0] - this->GetCenter()[0];
   const TScalarType y = p[1] - this->GetCenter()[1];
   const TScalarType z = p[2] - this->GetCenter()[2];
 
   // compute Jacobian with respect to quaternion parameters
-  this->m_Jacobian[0][0] =   2.0 * (  m_Rotation.x() * x + m_Rotation.y() * y
+  jacobian[0][0] =   2.0 * (  m_Rotation.x() * x + m_Rotation.y() * y
                                       + m_Rotation.z() * z );
-  this->m_Jacobian[0][1] =   2.0 * ( -m_Rotation.y() * x + m_Rotation.x() * y
+  jacobian[0][1] =   2.0 * ( -m_Rotation.y() * x + m_Rotation.x() * y
                                      + m_Rotation.r() * z );
-  this->m_Jacobian[0][2] =   2.0 * ( -m_Rotation.z() * x - m_Rotation.r() * y
+  jacobian[0][2] =   2.0 * ( -m_Rotation.z() * x - m_Rotation.r() * y
                                      + m_Rotation.x() * z );
-  this->m_Jacobian[0][3] = -2.0 * ( -m_Rotation.r() * x + m_Rotation.z() * y
+  jacobian[0][3] = -2.0 * ( -m_Rotation.r() * x + m_Rotation.z() * y
                                     - m_Rotation.y() * z );
 
-  this->m_Jacobian[1][0] = -this->m_Jacobian[0][1];
-  this->m_Jacobian[1][1] =   this->m_Jacobian[0][0];
-  this->m_Jacobian[1][2] =   this->m_Jacobian[0][3];
-  this->m_Jacobian[1][3] = -this->m_Jacobian[0][2];
+  jacobian[1][0] = -jacobian[0][1];
+  jacobian[1][1] =   jacobian[0][0];
+  jacobian[1][2] =   jacobian[0][3];
+  jacobian[1][3] = -jacobian[0][2];
 
-  this->m_Jacobian[2][0] = -this->m_Jacobian[0][2];
-  this->m_Jacobian[2][1] = -this->m_Jacobian[0][3];
-  this->m_Jacobian[2][2] =   this->m_Jacobian[0][0];
-  this->m_Jacobian[2][3] =   this->m_Jacobian[0][1];
+  jacobian[2][0] = -jacobian[0][2];
+  jacobian[2][1] = -jacobian[0][3];
+  jacobian[2][2] =   jacobian[0][0];
+  jacobian[2][3] =   jacobian[0][1];
 
   // compute derivatives for the translation part
   unsigned int blockOffset = 4;
   for ( unsigned int dim = 0; dim < SpaceDimension; dim++ )
     {
-    this->m_Jacobian[dim][blockOffset + dim] = 1.0;
+    jacobian[dim][blockOffset + dim] = 1.0;
     }
-
-  return this->m_Jacobian;
 }
 
 template< class TScalarType >

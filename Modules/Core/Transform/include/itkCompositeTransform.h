@@ -95,7 +95,7 @@ namespace itk
  *
  * \ingroup Transforms
  *
- * \ingroup ITKReview
+ * \ingroup ITKTransform
  */
 template
 <class TScalar = double, unsigned int NDimensions = 3>
@@ -131,30 +131,32 @@ public:
   typedef typename Superclass::InverseTransformBasePointer
                                         InverseTransformBasePointer;
   /** Scalar type. */
-  typedef typename Superclass::ScalarType ScalarType;
+  typedef typename Superclass::ScalarType           ScalarType;
   /** Parameters type. */
-  typedef typename Superclass::ParametersType      ParametersType;
-  typedef typename Superclass::ParametersValueType ParametersValueType;
+  typedef typename Superclass::ParametersType       ParametersType;
+  typedef typename Superclass::ParametersValueType  ParametersValueType;
+  /** Derivative type */
+  typedef typename Superclass::DerivativeType       DerivativeType;
   /** Jacobian type. */
-  typedef typename Superclass::JacobianType JacobianType;
+  typedef typename Superclass::JacobianType         JacobianType;
   /** Standard coordinate point type for this class. */
-  typedef typename Superclass::InputPointType  InputPointType;
-  typedef typename Superclass::OutputPointType OutputPointType;
+  typedef typename Superclass::InputPointType       InputPointType;
+  typedef typename Superclass::OutputPointType      OutputPointType;
   /** Standard vector type for this class. */
-  typedef typename Superclass::InputVectorType  InputVectorType;
-  typedef typename Superclass::OutputVectorType OutputVectorType;
+  typedef typename Superclass::InputVectorType      InputVectorType;
+  typedef typename Superclass::OutputVectorType     OutputVectorType;
   /** Standard covariant vector type for this class */
   typedef typename Superclass::InputCovariantVectorType
-  InputCovariantVectorType;
+                                                    InputCovariantVectorType;
   typedef typename Superclass::OutputCovariantVectorType
-  OutputCovariantVectorType;
+                                                    OutputCovariantVectorType;
   /** Standard vnl_vector type for this class. */
-  typedef typename Superclass::InputVnlVectorType  InputVnlVectorType;
-  typedef typename Superclass::OutputVnlVectorType OutputVnlVectorType;
+  typedef typename Superclass::InputVnlVectorType   InputVnlVectorType;
+  typedef typename Superclass::OutputVnlVectorType  OutputVnlVectorType;
   /** Transform queue type */
-  typedef std::deque<TransformTypePointer> TransformQueueType;
+  typedef std::deque<TransformTypePointer>          TransformQueueType;
   /** Optimization flags queue type */
-  typedef std::deque<bool>                 TransformsToOptimizeFlagsType;
+  typedef std::deque<bool>                       TransformsToOptimizeFlagsType;
 
   /** Dimension of the domain spaces. */
   itkStaticConstMacro( InputDimension, unsigned int, NDimensions );
@@ -265,6 +267,7 @@ public:
   {
     this->m_TransformQueue.clear();
     this->m_TransformsToOptimizeFlags.clear();
+    this->Modified();
   }
 
   /** Return an inverse of this transform. */
@@ -323,6 +326,20 @@ public:
    */
   virtual const JacobianType & GetJacobian(const InputPointType  &) const;
 
+  /**
+   * Compute the Jacobian with respect to the parameters for the compositie
+   * transform using Jacobian rule. See comments in the implementation.
+   */
+  virtual void GetJacobianWithRespectToParameters(const InputPointType  &p,
+                                                  JacobianType &j) const;
+
+  virtual void GetJacobianWithRespectToPosition(const InputPointType  &x,
+                                                  JacobianType &jac) const
+  {
+    itkExceptionMacro( "GetJacobianWithRespectToPosition not yet implemented "
+                       "for " << this->GetNameOfClass() );
+  }
+
   /** Get/Set Parameter functions work on the current list of transforms
       that are set to be optimized (active) using the
       'Set[Nth|All]TransformToOptimze' routines.
@@ -330,15 +347,50 @@ public:
       concatenated into a single ParametersType object. */
   virtual const ParametersType & GetParameters(void) const;
 
+  /* SetParameters only for transforms that are set to be optimized */
   virtual void  SetParameters(const ParametersType & p);
 
+  /* GetFixedParameters only for transforms that are set to be optimized */
   virtual const ParametersType & GetFixedParameters(void) const;
 
+  /* SetFixedParameters only for transforms that are set to be optimized */
   virtual void  SetFixedParameters(const ParametersType & fixedParameters);
 
+  /* Get total number of parameters for transforms that are set to be
+   * optimized */
   virtual unsigned int GetNumberOfParameters(void) const;
 
+  /* Get total number of local parameters for transforms that are set
+   * to be optimized */
+  virtual unsigned int GetNumberOfLocalParameters(void) const;
+
+  /* Get total number of fixed parameters for transforms that are set
+   * to be optimized */
   virtual unsigned int GetNumberOfFixedParameters(void) const;
+
+  /* Prepare the transform for use, e.g. in registration framework.
+   * Must be called before registration to optimize parameter storage
+   * for more efficient operation, particularly with high-dimensionality
+   * sub-transforms. */
+   //virtual void PrepareForUse(void);
+
+  /** Update the transform's parameters by the values in \c update.
+   * We assume \c update is of the same length as Parameters. Throw
+   * exception otherwise.
+   * \c factor is a scalar multiplier for each value in update.
+   * SetParameters is called on each sub-transform, to allow transforms
+   * to perform any required operations on the update parameters, typically
+   * a converion to member variables for use in TransformPoint.
+   */
+  virtual void UpdateTransformParameters( DerivativeType & update,
+                                          ScalarType  factor = 1.0 );
+
+  /** Indicates if this transform is a "global" transform
+   *  e.g. an affine transform or a local one, e.g. a deformation field.
+   *  Returns true if only all sub-transforms that are set to be
+   *  optimized return true.
+   */
+  virtual bool HasLocalSupport() const;
 
 protected:
   CompositeTransform();
@@ -360,6 +412,13 @@ protected:
     this->m_TransformsToOptimizeFlags.push_back( true );
     this->Modified();
   }
+
+  /** Unify the parameter memory be copying all sub-transform parameters
+   * into a single memory block, and redirecting sub-transform's parameter
+   * memory to point within this block.
+   * \warning This will temporarily use twice the memory of all
+   * sub-transform. */
+  //void UnifyParameterMemory(void);
 
   /** Transform container object. */
   mutable TransformQueueType m_TransformQueue;
