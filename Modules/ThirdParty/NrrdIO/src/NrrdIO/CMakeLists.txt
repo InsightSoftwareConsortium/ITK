@@ -1,4 +1,4 @@
-PROJECT(ITKNrrdIO)
+PROJECT(ITK3P_NrrdIO)
 INCLUDE_REGULAR_EXPRESSION("^.*.h$")
 
 #
@@ -21,12 +21,12 @@ formatPNM.c formatText.c formatVTK.c )
 ADD_DEFINITIONS(-DTEEM_BUILD=1)
 
 # Configure files with settings for use by the build.
-CONFIGURE_FILE(${ITKNrrdIO_SOURCE_DIR}/NrrdConfigure.h.in 
-  ${ITKNrrdIO_BINARY_DIR}/NrrdConfigure.h)
+CONFIGURE_FILE(${ITK3P_NrrdIO_SOURCE_DIR}/NrrdConfigure.h.in
+  ${ITK3P_NrrdIO_BINARY_DIR}/NrrdConfigure.h)
 
 # Need to be able to fine NrrdConfig.h
 INCLUDE_DIRECTORIES(
-        ${ITKNrrdIO_BINARY_DIR} 
+  ${ITK3P_NrrdIO_BINARY_DIR}
 )
 
 #-----------------------------------------------------------------------------
@@ -85,7 +85,7 @@ IF(NOT ITK_INSTALL_NO_LIBRARIES)
 ENDIF(NOT ITK_INSTALL_NO_LIBRARIES)
 
 IF(NOT ITK_INSTALL_NO_DEVELOPMENT)
-  INSTALL(FILES NrrdIO.h itk_NrrdIO_mangle.h ${ITKNrrdIO_BINARY_DIR}/NrrdConfigure.h
+  INSTALL(FILES NrrdIO.h itk_NrrdIO_mangle.h ${ITK3P_NrrdIO_BINARY_DIR}/NrrdConfigure.h
     DESTINATION ${ITK3P_INSTALL_INCLUDE_DIR} # TODO: itk_NrrdIO.h #include "itkNrrdIO/NrrdIO.h"
     COMPONENT Development)
 ENDIF(NOT ITK_INSTALL_NO_DEVELOPMENT)

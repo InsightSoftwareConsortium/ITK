@@ -1,7 +1,7 @@
-project(ITKZLIB)
+project(ITK3P_ZLIB)
 include_regular_expression("^(itk|deflate|inf|trees|zconf|zlib|zutil).*$")
 
-include_directories(BEFORE ${ITKZLIB_SOURCE_DIR})
+include_directories(BEFORE ${ITK3P_ZLIB_SOURCE_DIR})
 
 # source files for zlib
 set(ZLIB_SRCS
@@ -24,8 +24,8 @@ if(WIN32)
   endif(BUILD_SHARED_LIBS)
 endif(WIN32)
 
-configure_file(${ITKZLIB_SOURCE_DIR}/zlibDllConfig.h.in
-               ${ITKZLIB_BINARY_DIR}/zlibDllConfig.h)
+configure_file(${ITK3P_ZLIB_SOURCE_DIR}/zlibDllConfig.h.in
+               ${ITK3P_ZLIB_BINARY_DIR}/zlibDllConfig.h)
 
 add_library(itkzlib ${ZLIB_SRCS})
 
@@ -45,10 +45,10 @@ endif(NOT ITK_INSTALL_NO_LIBRARIES)
 
 if(NOT ITK_INSTALL_NO_DEVELOPMENT)
   install(FILES
-    ${ITKZLIB_SOURCE_DIR}/zlib.h
-    ${ITKZLIB_SOURCE_DIR}/zconf.h
-    ${ITKZLIB_SOURCE_DIR}/itk_zlib_mangle.h
-    ${ITKZLIB_BINARY_DIR}/zlibDllConfig.h
+    ${ITK3P_ZLIB_SOURCE_DIR}/zlib.h
+    ${ITK3P_ZLIB_SOURCE_DIR}/zconf.h
+    ${ITK3P_ZLIB_SOURCE_DIR}/itk_zlib_mangle.h
+    ${ITK3P_ZLIB_BINARY_DIR}/zlibDllConfig.h
     DESTINATION ${ITK3P_INSTALL_INCLUDE_DIR}/itkzlib # itk_zlib.h #include "itkzlib/zlib.h"
     COMPONENT Development)
 endif(NOT ITK_INSTALL_NO_DEVELOPMENT)

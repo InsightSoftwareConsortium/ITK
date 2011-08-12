@@ -1,4 +1,4 @@
-PROJECT(ITKOpenJPEG C)
+PROJECT(ITK3P_OpenJPEG C)
 INCLUDE_REGULAR_EXPRESSION("^.*$")
 
 # Defines the source code for the library
@@ -58,13 +58,13 @@ ELSE(BUILD_SHARED_LIBS)
   SET(OPJ_STATIC 1)
 ENDIF(BUILD_SHARED_LIBS)
 
-CONFIGURE_FILE(${ITKOpenJPEG_SOURCE_DIR}/openjpegDllConfig.h.in
-               ${ITKOpenJPEG_BINARY_DIR}/openjpegDllConfig.h)
+CONFIGURE_FILE(${ITK3P_OpenJPEG_SOURCE_DIR}/openjpegDllConfig.h.in
+               ${ITK3P_OpenJPEG_BINARY_DIR}/openjpegDllConfig.h)
 
-CONFIGURE_FILE(${ITKOpenJPEG_SOURCE_DIR}/opj_configure.h.in
-               ${ITKOpenJPEG_BINARY_DIR}/opj_configure.h)
+CONFIGURE_FILE(${ITK3P_OpenJPEG_SOURCE_DIR}/opj_configure.h.in
+               ${ITK3P_OpenJPEG_BINARY_DIR}/opj_configure.h)
 
-INCLUDE_DIRECTORIES("${ITKOpenJPEG_BINARY_DIR}")
+INCLUDE_DIRECTORIES("${ITK3P_OpenJPEG_BINARY_DIR}")
 
 # Create the library
 SET(OPENJPEG_LIBRARY_NAME ${OPJ_PREFIX}openjpeg )
@@ -90,7 +90,7 @@ ENDIF(NOT ITK_INSTALL_NO_LIBRARIES)
 
 if(NOT ITK_INSTALL_NO_DEVELOPMENT)
   install(FILES
-    ${ITKOpenJPEG_SOURCE_DIR}/openjpeg.h
+    ${ITK3P_OpenJPEG_SOURCE_DIR}/openjpeg.h
     DESTINATION ${ITK3P_INSTALL_INCLUDE_DIR} # TODO: itk_openjpeg.h #include "itkopenjpeg/openjpeg.h"
     COMPONENT Development
   )
