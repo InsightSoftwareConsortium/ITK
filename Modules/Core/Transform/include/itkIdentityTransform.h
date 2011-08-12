@@ -164,7 +164,7 @@ public:
   }
 
   /** Compute the Jacobian Matrix of the transformation at one point */
-  virtual void GetJacobianWithRespectToParameters( const InputPointType  &p,
+  virtual void GetJacobianWithRespectToParameters( const InputPointType &,
                                  JacobianType & jacobian) const
   {
     jacobian = this->m_Jacobian;
@@ -174,7 +174,7 @@ public:
    *  jacobian because the transform is position-invariant.
    *  \jac will be resized as needed, but it will be more efficient if
    *  it is already properly sized. */
-  virtual void GetJacobianWithRespectToPosition(const InputPointType  &x,
+  virtual void GetJacobianWithRespectToPosition(const InputPointType &,
                                                   JacobianType &jac) const
   {
     jac.SetSize( NDimensions, NDimensions );

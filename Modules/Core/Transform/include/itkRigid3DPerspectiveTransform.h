@@ -193,8 +193,8 @@ public:
   virtual void GetJacobianWithRespectToParameters( const InputPointType  &p,
                                  JacobianType & jacobian) const;
 
-  virtual void GetJacobianWithRespectToPosition(const InputPointType  &x,
-                                                  JacobianType &jac) const
+  virtual void GetJacobianWithRespectToPosition(const InputPointType &,
+                                                  JacobianType &) const
   {
     itkExceptionMacro( "GetJacobianWithRespectToPosition not yet implemented "
                        "for " << this->GetNameOfClass() );

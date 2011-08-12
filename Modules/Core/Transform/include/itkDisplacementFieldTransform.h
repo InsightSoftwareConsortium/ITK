@@ -321,7 +321,7 @@ public:
    *
    * TODO: format the above for doxygen formula.
    */
-  virtual void GetJacobianWithRespectToParameters(const InputPointType  &x,
+  virtual void GetJacobianWithRespectToParameters(const InputPointType &,
                                                   JacobianType &j) const
   { j = this->m_IdentityJacobian; }
 
@@ -331,7 +331,7 @@ public:
    * See \c GetJacobianWithRespectToParameters( InputPointType, ... )
    * for rationale.
    */
-  virtual void GetJacobianWithRespectToParameters(const IndexType  &x,
+  virtual void GetJacobianWithRespectToParameters(const IndexType &,
                                                   JacobianType &j) const
   { j = this->m_IdentityJacobian; }
 

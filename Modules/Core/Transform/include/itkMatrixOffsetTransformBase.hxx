@@ -683,7 +683,7 @@ template< class TScalarType, unsigned int NInputDimensions,
           unsigned int NOutputDimensions >
 void
 MatrixOffsetTransformBase< TScalarType, NInputDimensions, NOutputDimensions >
-::GetJacobianWithRespectToPosition(const InputPointType  &x,
+::GetJacobianWithRespectToPosition(const InputPointType  &,
                                                   JacobianType &jac) const
 {
   jac.SetSize( MatrixType::RowDimensions, MatrixType::ColumnDimensions );

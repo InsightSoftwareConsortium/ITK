@@ -208,7 +208,7 @@ TranslationTransform< TScalarType, NDimensions >::GetJacobianWithRespectToParame
 template< class TScalarType, unsigned int NDimensions >
 void
 TranslationTransform< TScalarType, NDimensions >
-::GetJacobianWithRespectToPosition(const InputPointType  &x,
+::GetJacobianWithRespectToPosition(const InputPointType &,
                                                   JacobianType &jac) const
 {
   jac.SetSize( NDimensions, NDimensions );
