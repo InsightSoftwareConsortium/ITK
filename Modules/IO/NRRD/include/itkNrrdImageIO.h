@@ -80,8 +80,8 @@ public:
   virtual void Write(const void *buffer);
 
 protected:
-  NrrdImageIO() {}
-  ~NrrdImageIO() {}
+  NrrdImageIO();
+  ~NrrdImageIO();
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Utility functions for converting between enumerated data type
