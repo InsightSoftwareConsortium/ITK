@@ -47,9 +47,9 @@ namespace fem
  *
  * The constitutive equation used is from membrane bending energy.
  * This class combines the geometry of the FE problem defined in
- * \link Element2DC0LinearQuadrilateral
+ * \link Element2DC0LinearQuadrilateral\endlink
  * and the physics of the problem defined in
- * \link Element2DMembrane
+ * \link Element2DMembrane\endlink
  *
  * \sa Element2DC0LinearQuadrilateralStrain
  *

@@ -33,9 +33,9 @@ namespace fem
  * This element is combined from Element2DC0LinearTriangular and Element2DStress.
  * \ingroup ITKFEM
  * This class combines the geometry of the FE problem defined in
- * \link Element2DC0LinearTriangular
+ * \link Element2DC0LinearTriangular\endlink
  * and the physics of the problem defined in
- * \link Element2DStrain
+ * \link Element2DStrain\endlink
  *
  * \sa Element2DC0LinearTriangularMembrane
  * \sa Element2DC0LinearTriangularStrain

@@ -48,9 +48,9 @@ namespace fem
  *       (0,0)  (0,0.5)  (0,1)
  *
  * This class combines the geometry of the FE problem defined in
- * \link Element2DC0QuadraticTriangular
+ * \link Element2DC0QuadraticTriangular\endlink
  * and the physics of the problem defined in
- * \link Element2DStress
+ * \link Element2DStress\endlink
  *
  * \sa Element2DC0LinearTriangularStrain
  * \ingroup ITKFEM

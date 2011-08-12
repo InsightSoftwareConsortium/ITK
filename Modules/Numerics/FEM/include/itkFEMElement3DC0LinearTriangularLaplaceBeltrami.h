@@ -32,9 +32,9 @@ namespace fem
  * \brief 3-noded finite element class in 3D space for surface LaplaceBeltrami problem.
  *
  * * This class combines the geometry of the FE problem defined in
- * \link Element3DC0LinearTriangular
+ * \link Element3DC0LinearTriangular\endlink
  * and the physics of the problem defined in
- * \link Element3DMembrane1DOF
+ * \link Element3DMembrane1DOF\endlink
  *
  * \ingroup ITKFEM
  */

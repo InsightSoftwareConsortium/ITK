@@ -46,9 +46,9 @@ namespace fem
  *  0 (0,0)                  1 (0,1)
  *
  * This class combines the geometry of the FE problem defined in
- * \link Element2DC0LinearQuadrilateral
+ * \link Element2DC0LinearQuadrilateral\endlink
  * and the physics of the problem defined in
- * \link Element2DStrain
+ * \link Element2DStrain\endlink
  *
  * \sa Element2DC0LinearQuadrilateralMembrane
  */
