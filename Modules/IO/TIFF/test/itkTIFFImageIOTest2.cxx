@@ -50,6 +50,7 @@ int itkTIFFImageIOTest2( int argc, char* argv[] )
 
   image->SetRegions( region );
   image->Allocate();
+  image->FillBuffer(0);
 
   ImageType::SpacingType spacing;
 
