@@ -64,6 +64,8 @@ HEADER = """/*==================================================================
 """
 
 TRAILER = """
+#include <cstdlib> // needed for EXIT_SUCCESS macro
+
 int main ( int , char* [] )
 {
 

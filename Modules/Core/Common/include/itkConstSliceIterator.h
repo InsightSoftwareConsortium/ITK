@@ -19,7 +19,9 @@
 #define __itkConstSliceIterator_h
 
 #include "itkMacro.h"
+#include "itkIntTypes.h"
 #include <valarray>
+
 namespace itk
 {
 /**
