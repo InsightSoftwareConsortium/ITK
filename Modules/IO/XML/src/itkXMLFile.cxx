@@ -100,7 +100,7 @@ XMLReaderBase::parse(void)
     exception.SetDescription("File Read Error");
     throw exception;
     }
-  bool result = XML_Parse(Parser, buffer, inputstream.gcount(), false);
+  const bool result = static_cast<bool>(XML_Parse(Parser, buffer, inputstream.gcount(), false));
   delete[] buffer;
   if ( !result )
     {

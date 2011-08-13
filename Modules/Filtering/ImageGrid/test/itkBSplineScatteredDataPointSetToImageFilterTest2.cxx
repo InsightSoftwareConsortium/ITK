@@ -15,10 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4756 ) // overflow in constant arithmetic
-// seems to be a bogus warning for this test
-#endif
 
 #include "itkImage.h"
 #include "itkPointSet.h"

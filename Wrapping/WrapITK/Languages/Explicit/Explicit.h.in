@@ -1,8 +1,4 @@
 #if ( defined( _WIN32 ) || defined( WIN32 ) )
-#if defined( _MSC_VER )
-#pragma warning (disable: 4661) /* no definition available */
-#pragma warning (disable: 4099) /* class and struct used to define the same class */
-#endif
 #ifdef WRAP_ITK_@WRAPPER_LIBRARY_NAME@_EXPORTS
 #define WRAP_ITK_@WRAPPER_LIBRARY_NAME@_EXPORT __declspec(dllexport)
 #else

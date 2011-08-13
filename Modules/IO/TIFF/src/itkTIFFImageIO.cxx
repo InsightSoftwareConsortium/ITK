@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifdef _MSC_VER
-#pragma warning( disable : 4611 )
-#endif
 
 #include "itkTIFFImageIO.h"
 #include "itkRGBPixel.h"

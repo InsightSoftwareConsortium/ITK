@@ -18,10 +18,6 @@
 #ifndef __itkBinaryMask3DMeshSource_hxx
 #define __itkBinaryMask3DMeshSource_hxx
 
-#ifdef __INTEL_COMPILER
-#pragma warning(disable: 592)
-#endif
-
 #include "itkBinaryMask3DMeshSource.h"
 #include "itkContinuousIndex.h"
 #include "itkNumericTraits.h"

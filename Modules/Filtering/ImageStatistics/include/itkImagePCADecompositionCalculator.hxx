@@ -17,9 +17,6 @@
  *=========================================================================*/
 #ifndef __itkImagePCADecompositionCalculator_hxx
 #define __itkImagePCADecompositionCalculator_hxx
-#ifdef _MSC_VER
-#pragma warning( disable : 4288 )
-#endif
 
 #include "itkImagePCADecompositionCalculator.h"
 #include "itkImageRegionConstIterator.h"

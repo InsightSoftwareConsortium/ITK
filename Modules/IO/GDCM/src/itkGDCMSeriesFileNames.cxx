@@ -150,7 +150,8 @@ const FilenamesContainer & GDCMSeriesFileNames::GetFileNames(const std::string s
   gdcm::FileList::iterator it;
   if ( flist->size() )
     {
-    ProgressReporter progress(this, 0, flist->size(), 10);
+    ProgressReporter progress(this, 0,
+      static_cast<itk::SizeValueType>(flist->size()), 10);
     for ( it = flist->begin();
           it != flist->end(); ++it )
       {
