@@ -116,7 +116,7 @@ public:
 
   const Self & operator=(const VnlVectorType & rhs);
 
-  ~TransformParameters();
+  virtual ~TransformParameters();
 private:
    TransformParametersHelperType*           m_Helper;
 };

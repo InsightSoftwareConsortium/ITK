@@ -129,10 +129,12 @@ public:
    * vector. */
   OutputPointType     TransformPoint(const InputPointType  & point) const;
 
+  using Superclass::TransformVector;
   OutputVectorType    TransformVector(const InputVectorType & vector) const;
 
   OutputVnlVectorType TransformVector(const InputVnlVectorType & vector) const;
 
+  using Superclass::TransformCovariantVector;
   OutputCovariantVectorType TransformCovariantVector(
     const InputCovariantVectorType & vector) const;
 

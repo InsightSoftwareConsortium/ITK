@@ -342,6 +342,7 @@ public:
 
   /** Method to transform a vector -
    *  not applicable for this type of transform. */
+  using Superclass::TransformVector;
   virtual OutputVectorType TransformVector( const InputVectorType & ) const
     {
     itkExceptionMacro( "Method not applicable for deformable transform." );
@@ -358,6 +359,7 @@ public:
 
   /** Method to transform a CovariantVector -
    *  not applicable for this type of transform */
+  using Superclass::TransformCovariantVector;
   virtual OutputCovariantVectorType TransformCovariantVector(
     const InputCovariantVectorType & ) const
     {

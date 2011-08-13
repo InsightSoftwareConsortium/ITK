@@ -56,12 +56,14 @@ public:
   virtual OutputPointType TransformPoint(const InputPointType  & inputPoint ) const
     { return inputPoint; }
 
+  using Superclass::TransformVector;
   virtual OutputVectorType TransformVector(const InputVectorType  & inputVector ) const
     { return inputVector; }
 
   virtual OutputVnlVectorType TransformVector(const InputVnlVectorType  & inputVector ) const
     { return inputVector; }
 
+  using Superclass::TransformCovariantVector;
   virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType  & inputVector ) const
     { return inputVector; }
 

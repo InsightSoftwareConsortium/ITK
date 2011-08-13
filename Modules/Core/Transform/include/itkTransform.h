@@ -70,6 +70,11 @@ namespace itk
  *                                                  const InputPointType & x,
  *                                                JacobianType &j ) const;
  *
+ * Since TranformVector and TransformCovariantVector have multiple
+ * overloaded methods from the base class, subclasses must specify:
+ *  using Superclass::TransformVector;
+ *  using Superclass::TransformCovariantVector;
+ *
  * \ingroup Transforms
  *
  * \ingroup ITKTransform

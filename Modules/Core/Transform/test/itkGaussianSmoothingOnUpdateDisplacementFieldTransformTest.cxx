@@ -142,7 +142,7 @@ int itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest(int ,char *[] )
              //<< "derivativeTruth: " << std::endl << derivative << std::endl
   /* We should see 0's on all boundaries from the smoothing routine */
   {
-  unsigned int linelength = dimLength * dimensions;
+  linelength = dimLength * dimensions;
   for( unsigned int i=0; i < displacementTransform->GetNumberOfParameters();
         i++ )
     {

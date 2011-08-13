@@ -301,6 +301,7 @@ public:
                                           bool &isInsideTransformRegion ) const;
   */
   /**  Method to transform a vector. */
+  using Superclass::TransformVector;
   virtual OutputVectorType TransformVector(const InputVectorType &) const
   {
     itkExceptionMacro( "TransformVector unimplemented" );
@@ -313,6 +314,7 @@ public:
   }
 
   /**  Method to transform a CovariantVector. */
+  using Superclass::TransformCovariantVector;
   virtual OutputCovariantVectorType
   TransformCovariantVector(const InputCovariantVectorType &) const
   {
