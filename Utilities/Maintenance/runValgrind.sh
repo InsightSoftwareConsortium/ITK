@@ -64,6 +64,9 @@ if test "$1" == "-h" -o "$1" == "--help"; then
   exit 1
 fi
 
+# Remove results from prior run.
+find . -name DynamicAnalysis.xml -delete
+
 ctest -D ExperimentalMemCheck $*
 
 memcheck_xml=$(find . -name DynamicAnalysis.xml | xargs ls -t1 | head -n 1)
