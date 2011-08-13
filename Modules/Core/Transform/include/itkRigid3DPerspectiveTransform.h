@@ -163,6 +163,8 @@ public:
   OutputPointType  TransformPoint(const InputPointType  & point) const;
 
   /** These vector transforms are not implemented for this transform */
+  using Superclass::TransformVector;
+
   virtual OutputVectorType TransformVector(const InputVectorType &) const
   {
     itkExceptionMacro(
@@ -173,6 +175,8 @@ public:
     itkExceptionMacro(
       << "TransformVector(const InputVnlVectorType &) is not implemented for Rigid3DPerspectiveTransform");
   }
+
+  using Superclass::TransformCovariantVector;
 
   virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType &) const
   {

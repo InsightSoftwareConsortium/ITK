@@ -112,6 +112,7 @@ public:
   { return point; }
 
   /**  Method to transform a vector. */
+  using Superclass::TransformVector;
   virtual OutputVectorType TransformVector(const InputVectorType & vector) const
   { return vector; }
 
@@ -120,6 +121,7 @@ public:
   { return vector; }
 
   /**  Method to transform a CovariantVector. */
+  using Superclass::TransformCovariantVector;
   virtual OutputCovariantVectorType TransformCovariantVector(
     const InputCovariantVectorType & vector) const
   { return vector; }

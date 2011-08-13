@@ -330,10 +330,13 @@ public:
    * vector.  The TransformPoint method transforms its argument as
    * an affine point, whereas the TransformVector method transforms
    * its argument as a vector. */
+
   OutputPointType       TransformPoint(const InputPointType & point) const;
 
+  using Superclass::TransformVector;
   OutputVectorType      TransformVector(const InputVectorType & vector) const;
 
+  using Superclass::TransformCovariantVector;
   OutputVectorType      TransformVector(const InputVectorType & vector,
                                         const InputPointType & itkNotUsed(point) ) const
     { return TransformVector( vector ); }

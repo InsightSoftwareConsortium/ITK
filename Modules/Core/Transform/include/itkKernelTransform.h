@@ -145,6 +145,7 @@ public:
   virtual OutputPointType TransformPoint(const InputPointType & thisPoint) const;
 
   /** These vector transforms are not implemented for this transform */
+  using Superclass::TransformVector;
   virtual OutputVectorType TransformVector(const InputVectorType &) const
   {
     itkExceptionMacro(
@@ -157,6 +158,7 @@ public:
   }
 
   /**  Method to transform a CovariantVector. */
+  using Superclass::TransformCovariantVector;
   virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType &) const
   {
     itkExceptionMacro(
