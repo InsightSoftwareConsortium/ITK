@@ -159,7 +159,7 @@ int HDF5ReadWriteTest(const char *fileName)
   // Check MetaData
   itk::MetaDataDictionary & metaDict2(im2->GetMetaDataDictionary());
 
-  bool metaDataBool2;
+  bool metaDataBool2(false);
 
   if(!itk::ExposeMetaData<bool>(metaDict2,"TestBool",metaDataBool2) ||
      metaDataBool != metaDataBool2)
@@ -210,7 +210,7 @@ int HDF5ReadWriteTest(const char *fileName)
     success = EXIT_FAILURE;
     }
 
-  int metaDataInt2;
+  int metaDataInt2(1234);
   if(!itk::ExposeMetaData<int>(metaDict2,"TestInt",metaDataInt2) ||
      metaDataInt2 != metaDataInt)
     {
@@ -220,7 +220,7 @@ int HDF5ReadWriteTest(const char *fileName)
     success = EXIT_FAILURE;
     }
 
-  unsigned int metaDataUInt2;
+  unsigned int metaDataUInt2(1234);
   if(!itk::ExposeMetaData<unsigned int>(metaDict2,"TestUInt",metaDataUInt2) ||
      metaDataUInt2 != metaDataUInt)
     {
@@ -260,7 +260,7 @@ int HDF5ReadWriteTest(const char *fileName)
     success = EXIT_FAILURE;
     }
 
-  double metaDataDouble2;
+  double metaDataDouble2(false);
   if(!itk::ExposeMetaData<double>(metaDict2,"TestDouble",metaDataDouble2) ||
      metaDataDouble2 != metaDataDouble)
     {
