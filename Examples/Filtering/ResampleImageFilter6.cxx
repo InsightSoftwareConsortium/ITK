@@ -80,7 +80,10 @@ int main( int argc, char * argv[] )
 
 
   // Software Guide : BeginCodeSnippet
-  filter->SetDefaultPixelValue( 50 );
+  PixelType defaultValue;
+  defaultValue.Fill(50);
+
+  filter->SetDefaultPixelValue( defaultValue );
   // Software Guide : EndCodeSnippet
 
 
