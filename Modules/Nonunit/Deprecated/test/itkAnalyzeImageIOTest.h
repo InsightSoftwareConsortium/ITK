@@ -17,9 +17,6 @@
  *=========================================================================*/
 #ifndef __itkAnalyzeImageIOTest_h
 #define __itkAnalyzeImageIOTest_h
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <fstream>
 

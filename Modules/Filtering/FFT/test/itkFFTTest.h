@@ -17,9 +17,6 @@
  *=========================================================================*/
 #ifndef __itkFFTTest_h
 #define __itkFFTTest_h
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 /* This test is build for testing forward and Inverse Fast Fourier Transforms
  * using vnl , fftw and scsl fft libraries. */

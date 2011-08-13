@@ -18,9 +18,6 @@
 #ifndef __itkLandmarkSpatialObject_hxx
 #define __itkLandmarkSpatialObject_hxx
 
-#if defined( _MSC_VER )
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkLandmarkSpatialObject.h"
 #include "itkNumericTraits.h"

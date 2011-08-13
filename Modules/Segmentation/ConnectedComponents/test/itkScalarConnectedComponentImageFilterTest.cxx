@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkScalarConnectedComponentImageFilter.h"
 #include "itkRelabelComponentImageFilter.h"

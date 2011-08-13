@@ -18,9 +18,6 @@
 #ifndef __itkEquivalencyTable_h
 #define __itkEquivalencyTable_h
 
-#if defined( _MSC_VER )
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkProcessObject.h"
 #include "itksys/hash_map.hxx"

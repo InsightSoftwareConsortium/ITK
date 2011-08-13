@@ -30,9 +30,6 @@
 #ifndef __itkAnalyzeImageIO_h
 #define __itkAnalyzeImageIO_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <fstream>
 #include "itkImageIOBase.h"

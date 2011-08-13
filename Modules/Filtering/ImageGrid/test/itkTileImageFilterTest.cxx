@@ -15,9 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
+
 #include "itkTileImageFilter.h"
 #include "itkRGBPixel.h"
 #include "itkImageFileReader.h"

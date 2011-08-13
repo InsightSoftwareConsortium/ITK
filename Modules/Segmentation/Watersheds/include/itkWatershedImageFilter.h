@@ -18,9 +18,6 @@
 #ifndef __itkWatershedImageFilter_h
 #define __itkWatershedImageFilter_h
 
-#if defined( _MSC_VER )
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkImageToImageFilter.h"
 #include "itkWatershedSegmentTreeGenerator.h"

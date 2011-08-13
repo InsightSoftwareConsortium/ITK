@@ -19,9 +19,7 @@
 #include "itkImageFileWriter.h"
 #include "itkImage.h"
 #include "itkStimulateImageIO.h"
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
+
 #include <fstream>
 
 

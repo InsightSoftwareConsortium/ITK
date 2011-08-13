@@ -15,9 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
+
 #include "itkArchetypeSeriesFileNames.h"
 
 int itkArchetypeSeriesFileNamesTest(int argc, char* argv[])

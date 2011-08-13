@@ -18,9 +18,6 @@
 #ifndef __itkPolygonGroupSpatialObjectXMLFile_h
 #define __itkPolygonGroupSpatialObjectXMLFile_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkPolygonGroupSpatialObject.h"
 #include "itkXMLFile.h"

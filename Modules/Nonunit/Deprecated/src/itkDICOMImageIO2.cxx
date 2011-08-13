@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifdef _MSC_VER
-#pragma warning(disable:4786)
-#endif
 
 #include "itkArray.h"
 #include "itkDICOMImageIO2.h"

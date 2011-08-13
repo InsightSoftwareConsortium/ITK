@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkQuadEdgeMesh.h"
 #include "itkQuadEdgeMeshTopologyChecker.h"

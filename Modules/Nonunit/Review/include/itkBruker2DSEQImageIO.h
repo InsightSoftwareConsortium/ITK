@@ -36,9 +36,6 @@
 #ifndef __itkBruker2DSEQImageIO_h
 #define __itkBruker2DSEQImageIO_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkImageIOBase.h"
 #include "itkVectorContainer.h"

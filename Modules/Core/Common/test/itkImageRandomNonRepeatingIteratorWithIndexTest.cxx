@@ -22,9 +22,7 @@
   Machines, Montreal, Canada.  It is heavily based on the
   ImageRandomIterator test program.
 */
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
+
 #include <iostream>
 #include <algorithm>
 #include "itkImage.h"

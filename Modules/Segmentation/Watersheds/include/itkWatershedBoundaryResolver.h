@@ -18,9 +18,7 @@
 #ifndef __itkWatershedBoundaryResolver_h
 #define __itkWatershedBoundaryResolver_h
 
-#if defined( _MSC_VER )
-#pragma warning ( disable : 4786 )
-#endif
+
 #include "itkWatershedSegmenter.h"
 
 namespace itk

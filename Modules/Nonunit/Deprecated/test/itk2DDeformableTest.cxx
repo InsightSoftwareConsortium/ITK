@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <math.h>
 #include <iostream>
@@ -33,9 +30,6 @@
 #include "itkBalloonForceFilter.h"
 #include "itkSphereMeshSource.h"
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 int itk2DDeformableTest(int, char* [])
 {

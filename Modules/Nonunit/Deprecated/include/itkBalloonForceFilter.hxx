@@ -18,9 +18,6 @@
 #ifndef __itkBalloonForceFilter_hxx
 #define __itkBalloonForceFilter_hxx
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkBalloonForceFilter.h"
 

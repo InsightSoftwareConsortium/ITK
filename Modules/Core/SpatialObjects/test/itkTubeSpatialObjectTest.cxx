@@ -20,9 +20,6 @@
 * This test file test also the basic functions of the CompositeSpatialObject class,
 * like Add/RemoveSpatialObject(...), Get/SetChildren(...), etc...
 */
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkPoint.h"
 #include "itkAffineTransform.h"

@@ -18,9 +18,6 @@
 #ifndef __itkContourSpatialObject_hxx
 #define __itkContourSpatialObject_hxx
 
-#if defined( _MSC_VER )
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkContourSpatialObject.h"
 #include "itkNumericTraits.h"

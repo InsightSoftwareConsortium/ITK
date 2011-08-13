@@ -18,9 +18,6 @@
 #ifndef __itkRegularExpressionSeriesFileNames_h
 #define __itkRegularExpressionSeriesFileNames_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"

@@ -25,9 +25,6 @@
 #ifndef __itkHDF5ImageIO_h
 #define __itkHDF5ImageIO_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 // itk namespace first suppresses
 // kwstyle error for the H5 namespace below

@@ -18,9 +18,6 @@
 #ifndef __itkAnalyzeImageIOFactory_h
 #define __itkAnalyzeImageIOFactory_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"

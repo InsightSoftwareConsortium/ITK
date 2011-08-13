@@ -18,9 +18,6 @@
 #ifndef __itkBioGenome_h
 #define __itkBioGenome_h
 
-#if defined( _MSC_VER )
-#pragma warning ( disable : 4786 )
-#endif
 
 #if defined( _WIN32 )
 #include "itkWindows.h"

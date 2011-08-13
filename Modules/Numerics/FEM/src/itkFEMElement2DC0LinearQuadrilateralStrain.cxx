@@ -16,11 +16,6 @@
  *
  *=========================================================================*/
 
-// disable debug warnings in MS compiler
-#ifdef _MSC_VER
-#pragma warning(disable: 4786)
-#endif
-
 #include "itkFEMElement2DC0LinearQuadrilateralStrain.h"
 
 namespace itk

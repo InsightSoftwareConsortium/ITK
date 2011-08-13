@@ -16,10 +16,6 @@
  *
  *=========================================================================*/
 // Disable warning for long symbol names in this file only
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
-
 
 /**
  * This is a test file for the itkPlaneSpatialObject class.

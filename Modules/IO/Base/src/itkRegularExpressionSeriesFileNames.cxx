@@ -18,9 +18,6 @@
 #ifndef _itkRegularExpressionSeriesFileNames_cxx
 #define _itkRegularExpressionSeriesFileNames_cxx
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <vector>
 #include <string.h>

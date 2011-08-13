@@ -18,9 +18,6 @@
 #ifndef __itkSurfaceSpatialObject_hxx
 #define __itkSurfaceSpatialObject_hxx
 
-#if defined( _MSC_VER )
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkSurfaceSpatialObject.h"
 

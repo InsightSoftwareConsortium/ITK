@@ -15,10 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
-
 
 // Software Guide : BeginLatex
 //
@@ -255,7 +251,7 @@ int main(int, char* [])
   // an iterator.
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  typedef itk::TreeIteratorBase<TreeType> IteratorType;
+  typedef itk::TreeIteratorBase<TreeType>      IteratorType;
   typedef itk::TreeIteratorClone<IteratorType> IteratorCloneType;
   itk::PreOrderTreeIterator<TreeType> anIterator(tree);
   IteratorCloneType aClone = anIterator;

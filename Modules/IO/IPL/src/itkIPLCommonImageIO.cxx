@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
 #pragma warning ( disable : 4284 ) // return type for 'identifier::operator ->'
 // is not a UDT or reference
 #endif

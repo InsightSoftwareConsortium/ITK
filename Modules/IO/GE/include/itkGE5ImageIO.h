@@ -32,9 +32,6 @@
 #ifndef __itkGE5ImageIO_h
 #define __itkGE5ImageIO_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkIPLCommonImageIO.h"
 #include "Ge5xHdr.h"

@@ -18,9 +18,6 @@
 #ifndef __itkBMPImageIO_h
 #define __itkBMPImageIO_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <fstream>
 #include "itkImageIOBase.h"

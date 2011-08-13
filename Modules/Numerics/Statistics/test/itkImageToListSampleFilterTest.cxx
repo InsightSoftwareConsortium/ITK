@@ -19,9 +19,6 @@
 // The class is capable of generating an itk::ListSample from an image
 // confined to a mask (if specified). This test exercises that.
 
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkImageToListSampleFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
