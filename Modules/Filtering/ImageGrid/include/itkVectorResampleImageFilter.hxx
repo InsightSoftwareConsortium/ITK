@@ -42,7 +42,7 @@ VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType
   m_Transform = IdentityTransform< TInterpolatorPrecisionType, ImageDimension >::New();
   m_Interpolator = VectorLinearInterpolateImageFunction< InputImageType, TInterpolatorPrecisionType >::New();
 
-  //m_DefaultPixelValue.Fill(0);
+  m_DefaultPixelValue = NumericTraits< PixelType >::ZeroValue( m_DefaultPixelValue );
 }
 
 /**
