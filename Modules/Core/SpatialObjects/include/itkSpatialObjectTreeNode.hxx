@@ -20,6 +20,9 @@
 
 #include "itkSpatialObjectTreeNode.h"
 
+namespace itk
+{
+
 /** Constructor */
 template< unsigned int TDimension >
 SpatialObjectTreeNode< TDimension >
@@ -111,4 +114,5 @@ SpatialObjectTreeNode< TDimension >
 
 #endif
 
+}
 #endif
