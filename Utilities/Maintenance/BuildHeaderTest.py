@@ -77,7 +77,7 @@ import glob
 import os
 import sys
 
-if len(sys.argv) < 5:
+if len(sys.argv) < 6:
     print(usage)
     sys.exit(1)
 
@@ -86,48 +86,44 @@ def main():
     module_source_path = sys.argv[2]
     module_binary_path = sys.argv[3]
     maximum_number_of_headers = int(sys.argv[4])
+    test_num           = int(sys.argv[5])
 
     # Get all the header files.
     include_dir = os.path.join(module_source_path, 'include')
     h_files = glob.glob(os.path.join(include_dir, '*.h'))
     h_files = [os.path.basename(h) for h in h_files]
 
-    test_num = 0
-    added_header_idx = 0
-    while(added_header_idx < len(h_files)):
-        test_num += 1
-        test_source_path = os.path.join(module_binary_path, 'test')
-        if not os.path.exists(test_source_path):
-            os.makedirs(test_source_path)
-        test_source_file = os.path.join(test_source_path,
-            str(module_name) + 'HeaderTest' + str(test_num) + '.cxx')
+    added_header_idx = maximum_number_of_headers * (test_num - 1)
+    test_source_path = os.path.join(module_binary_path, 'test')
+    if not os.path.exists(test_source_path):
+        os.makedirs(test_source_path)
+    test_source_file = os.path.join(test_source_path,
+        str(module_name) + 'HeaderTest' + str(test_num) + '.cxx')
 
-        test_src = open(test_source_file, 'w')
-        try:
-            test_src.write(HEADER)
+    test_src = open(test_source_file, 'w')
+    try:
+        test_src.write(HEADER)
 
-            if added_header_idx + maximum_number_of_headers > len(h_files):
-                max_idx = added_header_idx + len(h_files) % maximum_number_of_headers
+        if added_header_idx + maximum_number_of_headers > len(h_files):
+            max_idx = added_header_idx + len(h_files) % maximum_number_of_headers
+        else:
+            max_idx = added_header_idx + maximum_number_of_headers
+        for i in range(added_header_idx, max_idx):
+            # Use the .hxx if possible.
+            hxx_file = h_files[i][:-1] + 'hxx'
+            if h_files[i] in BANNED_HEADERS:
+                to_include = '// #include "' + h_files[i] + '" // Banned in BuildHeaderTest.py\n'
+            elif os.path.exists(os.path.join(module_source_path, 'include',
+                hxx_file)):
+                to_include = '#include "' + hxx_file + '"\n'
             else:
-                max_idx = added_header_idx + maximum_number_of_headers
-            for i in range(added_header_idx, max_idx):
-                # Use the .hxx if possible.
-                hxx_file = h_files[i][:-1] + 'hxx'
-                if h_files[i] in BANNED_HEADERS:
-                    to_include = '// #include "' + h_files[i] + '" // Banned in BuildHeaderTest.py\n'
-                elif os.path.exists(os.path.join(module_source_path, 'include',
-                    hxx_file)):
-                    to_include = '#include "' + hxx_file + '"\n'
-                else:
-                    to_include = '#include "' + h_files[i] + '"\n'
+                to_include = '#include "' + h_files[i] + '"\n'
 
-                test_src.write(to_include)
+            test_src.write(to_include)
 
-            added_header_idx += maximum_number_of_headers
-
-            test_src.write(TRAILER)
-        finally:
-            test_src.close()
+        test_src.write(TRAILER)
+    finally:
+        test_src.close()
 
     return 0
 

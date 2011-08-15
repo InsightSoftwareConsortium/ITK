@@ -39,18 +39,21 @@ macro( itk_module_headertest _name )
     # time.
     file( REMOVE ${_outputs} )
 
-    add_custom_command(
-      OUTPUT ${_outputs}
-      COMMAND ${PYTHON_EXECUTABLE} ${ITK_SOURCE_DIR}/Utilities/Maintenance/BuildHeaderTest.py
-      ${_name}
-      ${${_name}_SOURCE_DIR}
-      ${${_name}_BINARY_DIR}
-      ${MAXIMUM_NUMBER_OF_HEADERS}
-      )
+    set( _test_num 1 )
     foreach( _header_test_src ${_outputs} )
       get_filename_component( _test_name ${_header_test_src} NAME_WE )
+      add_custom_command(
+        OUTPUT ${_header_test_src}
+        COMMAND ${PYTHON_EXECUTABLE} ${ITK_SOURCE_DIR}/Utilities/Maintenance/BuildHeaderTest.py
+        ${_name}
+        ${${_name}_SOURCE_DIR}
+        ${${_name}_BINARY_DIR}
+        ${MAXIMUM_NUMBER_OF_HEADERS}
+        ${_test_num}
+        )
       add_executable( ${_test_name} ${_header_test_src} )
       target_link_libraries( ${_test_name} ITKCommon )
+      math( EXPR _test_num "${_test_num} + 1" )
     endforeach()
   endif()
 endmacro()
