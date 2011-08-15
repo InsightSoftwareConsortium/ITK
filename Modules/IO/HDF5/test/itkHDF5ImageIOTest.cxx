@@ -230,7 +230,7 @@ int HDF5ReadWriteTest(const char *fileName)
     success = EXIT_FAILURE;
     }
 
-  long metaDataLong2;
+  long metaDataLong2(0);
   if(!itk::ExposeMetaData<long>(metaDict2,"TestLong",metaDataLong2) ||
      metaDataLong2 != metaDataLong)
     {
@@ -240,7 +240,7 @@ int HDF5ReadWriteTest(const char *fileName)
     success = EXIT_FAILURE;
     }
 
-  unsigned long metaDataULong2;
+  unsigned long metaDataULong2(0);
   if(!itk::ExposeMetaData<unsigned long>(metaDict2,"TestULong",metaDataULong2) ||
      metaDataULong2 != metaDataULong)
     {
@@ -250,7 +250,7 @@ int HDF5ReadWriteTest(const char *fileName)
     success = EXIT_FAILURE;
     }
 
-  float metaDataFloat2;
+  float metaDataFloat2(0.0f);
   if(!itk::ExposeMetaData<float>(metaDict2,"TestFloat",metaDataFloat2) ||
      metaDataFloat2 != metaDataFloat)
     {
@@ -260,7 +260,7 @@ int HDF5ReadWriteTest(const char *fileName)
     success = EXIT_FAILURE;
     }
 
-  double metaDataDouble2(false);
+  double metaDataDouble2(0.0);
   if(!itk::ExposeMetaData<double>(metaDict2,"TestDouble",metaDataDouble2) ||
      metaDataDouble2 != metaDataDouble)
     {
@@ -271,6 +271,7 @@ int HDF5ReadWriteTest(const char *fileName)
     }
 
   itk::Array<char> metaDataCharArray2;
+  metaDataCharArray2.Fill(itk::NumericTraits<char>::Zero);
   if(!itk::ExposeMetaData<itk::Array<char> >(metaDict2,"TestCharArray",
                                              metaDataCharArray2) ||
      metaDataCharArray2 != metaDataCharArray)
@@ -282,6 +283,7 @@ int HDF5ReadWriteTest(const char *fileName)
     }
 
   itk::Array<double> metaDataDoubleArray2;
+  metaDataDoubleArray2.Fill(itk::NumericTraits<double>::Zero);
   if(!itk::ExposeMetaData<itk::Array<double> >(metaDict2,"TestDoubleArray",
                                              metaDataDoubleArray2) ||
      metaDataDoubleArray2 != metaDataDoubleArray)
@@ -292,7 +294,7 @@ int HDF5ReadWriteTest(const char *fileName)
     success = EXIT_FAILURE;
     }
 
-  std::string metaDataStdString2;
+  std::string metaDataStdString2("");
   if(!itk::ExposeMetaData<std::string>(metaDict2,"StdString",metaDataStdString2) ||
      metaDataStdString2 != metaDataStdString)
     {
