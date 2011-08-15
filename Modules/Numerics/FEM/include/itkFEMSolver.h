@@ -120,7 +120,7 @@ public:
    *
    * \param dt New time step.
    */
-  virtual void SetTimeStep(Float)
+  virtual void SetTimeStep(Float itkNotUsed(dt))
   {
   }
 
