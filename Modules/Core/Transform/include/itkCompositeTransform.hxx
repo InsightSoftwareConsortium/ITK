@@ -211,7 +211,7 @@ CompositeTransform<TScalar, NDimensions>
      * M rows = dimensionality of the transforms
      * N cols = total number of parameters in the selected sub transforms. */
     j.SetSize( NDimensions, this->GetNumberOfLocalParameters() );
-    unsigned int offset = 0, offsetLast = -1;
+    unsigned int offset = 0, offsetLast;
 
     OutputPointType transformedPoint( p );
 
