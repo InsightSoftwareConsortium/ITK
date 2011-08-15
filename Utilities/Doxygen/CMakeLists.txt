@@ -53,6 +53,18 @@ set( ITK_DOXYGEN_INPUT ${DOXYGEN_INCLUDE_DIRS} )
 
 SET( ITK_DOXYGEN_DIAGRAMS YES )
 
+find_package( Perl )
+
+if( PERL_FOUND )
+  set( ITK_DOXYGEN_INPUT_FILTER
+    "${PERL_EXECUTABLE} ${ITK_BINARY_DIR}/Utilities/Doxygen/itkdoxygen.pl" )
+
+  configure_file(${ITK_SOURCE_DIR}/Utilities/Doxygen/itkdoxygen.pl.in
+               ${ITK_BINARY_DIR}/Utilities/Doxygen/itkdoxygen.pl)
+else()
+  set( ITK_DOXYGEN_INPUT_FILTER )
+endif()
+
 configure_file(${ITK_SOURCE_DIR}/Utilities/Doxygen/doxygen.config.in
                ${ITK_BINARY_DIR}/Utilities/Doxygen/doxygen.config)
 
@@ -65,9 +77,6 @@ set( ITK_DOXYGEN_DIAGRAMS NO )
 
 configure_file(${ITK_SOURCE_DIR}/Utilities/Doxygen/doxygen.config.in
                ${ITK_BINARY_DIR}/single-doxygen.config)
-
-configure_file(${ITK_SOURCE_DIR}/Utilities/Doxygen/itkdoxygen.pl.in
-               ${ITK_BINARY_DIR}/Utilities/Doxygen/itkdoxygen.pl)
 
 # -------------------------------------------------------------
 if (BUILD_DOCUMENTATION)
