@@ -138,7 +138,7 @@ protected:
   }
 
   /**
-   * \brief Compute the measure value for iEdge
+   * Compute the measure value for iEdge
    * \param[in] iEdge
    * \return measure value, here the squared edge length
    */
@@ -161,7 +161,7 @@ protected:
     return static_cast< MeasureType >( Q.ComputeError(p) );
   }
 
-  /** \brief
+  /** Delete point
    * \param[in] iIdToBeDeleted
    * \param[in] iRemaining
    */
@@ -175,7 +175,7 @@ protected:
     m_Quadric.erase(it);
   }
 
-  /**
+  /** Compute the optimal position for a given edge iEdge
   * \param[in] iEdge
   * \return the optimal point location
   */

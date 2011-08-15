@@ -99,7 +99,7 @@ class ITKCommon_EXPORT VMMapSummaryRecord:public MapRecord
 };
 
 /** \class VMMapRecord
- *  \breif Contains an entry in a smaps file.
+ *  \brief Contains an entry in a smaps file.
  *
  *  It is filled by operator>>(istream&,SmapsRecord&).
  * \ingroup ITKCommon
