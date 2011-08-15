@@ -63,7 +63,7 @@ public:
    *
    * \param ptr Pointer to the object of Solution class.
    */
-  virtual void SetSolution(Solution::ConstPointer) { }
+  virtual void SetSolution(Solution::ConstPointer itkNotUsed(ptr)) { }
   virtual Solution::ConstPointer GetSolution()
   {
     return 0;
