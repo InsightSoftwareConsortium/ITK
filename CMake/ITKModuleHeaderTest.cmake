@@ -41,7 +41,7 @@ macro( itk_module_headertest _name )
 
     add_custom_command(
       OUTPUT ${_outputs}
-      COMMAND ${ITK_SOURCE_DIR}/Utilities/Maintenance/BuildHeaderTest.py
+      COMMAND ${PYTHON_EXECUTABLE} ${ITK_SOURCE_DIR}/Utilities/Maintenance/BuildHeaderTest.py
       ${_name}
       ${${_name}_SOURCE_DIR}
       ${${_name}_BINARY_DIR}
