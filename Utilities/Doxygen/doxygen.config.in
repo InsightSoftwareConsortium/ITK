@@ -730,7 +730,7 @@ IMAGE_PATH             = "@ITK_SOURCE_DIR@/Documentation/Art" \
 # If FILTER_PATTERNS is specified, this tag will be
 # ignored.
 
-INPUT_FILTER           = "@PERL_EXECUTABLE@ @ITK_BINARY_DIR@/Utilities/Doxygen/itkdoxygen.pl"
+INPUT_FILTER           = "@ITK_DOXYGEN_INPUT_FILTER@"
 
 # The FILTER_PATTERNS tag can be used to specify filters on a per file pattern
 # basis.
