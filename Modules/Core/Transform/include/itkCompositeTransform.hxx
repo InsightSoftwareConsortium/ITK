@@ -215,7 +215,6 @@ CompositeTransform<TScalar, NDimensions>
 
     OutputPointType transformedPoint( p );
 
-    bool finishFirstIter = false;
     /*
      * Composite transform $T is composed of $T1(p1,x), $T2(p2,x) and $T3(p3, x) as:
      *
@@ -318,11 +317,7 @@ CompositeTransform<TScalar, NDimensions>
 
         /* Transform the point so it's ready for next transform's Jacobian */
         transformedPoint = transform->TransformPoint( transformedPoint );
-
-        finishFirstIter = true;
     }
-
-//    std::cout << "final j:" << std::endl << j << std::endl;
 
     return;
  }

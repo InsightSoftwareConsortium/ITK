@@ -361,16 +361,14 @@ public:
     (void)dimension;
     (void)cellId;
     (void)featureId;
-    cellSet = ( std::set< CellIdentifier > * ) 0;
+    (void)cellSet;
     return NumericTraits<CellIdentifier>::Zero;
   }
 
   /** NOTE ALEX: this method do not use CellFeature and thus could be recoded */
-  CellIdentifier GetCellNeighbors(CellIdentifier cellId,
-                                 std::set< CellIdentifier > *cellSet)
+  CellIdentifier GetCellNeighbors(CellIdentifier itkNotUsed(cellId),
+                                 std::set< CellIdentifier > * itkNotUsed(cellSet))
   {
-    (void)cellId;
-    cellSet = ( std::set< CellIdentifier > * ) 0;
     return NumericTraits<CellIdentifier>::Zero;
   }
 
