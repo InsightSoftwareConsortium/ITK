@@ -1,5 +1,5 @@
 # Set a list of group names
-set(group_list Core IO Filtering Registration Segmentation Numerics Utilities Bridge Nonunit)
+set(group_list Core IO Filtering Registration Segmentation Numerics ThirdParty Bridge Nonunit)
 
 #------------------------------------------------
 # Set a module name list for each group
@@ -17,13 +17,11 @@ ITKTestKernel
 ITKTransform
 )
 
-set(Core_documentation
-"This group of modules contains the framework of the toolkit used by other
-modules.  There are common base classes for data objects and process objects,
-basic data structures such as Image, Mesh, QuadEdgeMesh, and SpatialObjects, and
-common functionality for operations such as finite differences, image adaptors,
-image resampling, or image statistics."
-)
+set(Core_documentation "This group of modules contain the toolkit framework used
+by other modules.  There are common base classes for data objects and process
+objects, basic data structures such as Image, Mesh, QuadEdgeMesh, and
+SpatialObjects, and common functionality for operations such as finite
+differences, image adaptors, or image transforms.")
 
 set(IO_module_list
 ITKIOBase
@@ -49,10 +47,8 @@ ITKIOVTK
 ITKIOXML
 )
 
-set(IO_documentation
-"This group of modules contains classes for reading and writing images
-and other data objects."
-)
+set(IO_documentation "This group of modules contains classes for reading and
+writing images and other data objects.")
 
 set(Filtering_module_list
 ITKAnisotropicSmoothing
@@ -98,9 +94,11 @@ ITKPDEDeformableRegistration
 ITKRegistrationCommon
 )
 
-set(Registration_documentation
-"Documentation for group Registration"
-)
+set(Registration_documentation "This group of modules address the registration
+problem: find the spatial transformation between two images.  This is a high
+level group that makes use of many lower level modules such as \\ref
+ITKTransform, \\ref ITKOptimizers, \\ref ITKFiniteDifference, and \\ref
+ITKFEM.")
 
 set(Segmentation_module_list
 ITKBioCell
@@ -117,9 +115,10 @@ ITKVoronoi
 ITKWatersheds
 )
 
-set(Segmentation_documentation
-"Documentation for group Segmentation"
-)
+set(Segmentation_documentation "This group of modules address the segmentation
+problem: partition the image into classified regions (labels).  This is a high
+level group that makes use of many lower level modules such as \\ref
+ITKQuadEdgeMesh and \\ref ITKNarrowBand.")
 
 set(Numerics_module_list
 ITKEigen
@@ -131,19 +130,17 @@ ITKPolynomials
 ITKStatistics
 )
 
-set(Numerics_documentation
-"Documentation for group Numerics"
-)
+set(Numerics_documentation "This group of modules are basic numerical tools and
+algorithms that have general applications outside of imaging.")
 
 set(Bridge_module_list
 ITKVtkGlue
 ITKVTK)
 
-set(Bridge_documentation
-"Documentation for group Bridge"
-)
+set(Bridge_documentation "This group of modules are intended to bridge ITK to
+other toolkits as libraries such as visualization toolkits.")
 
-set(Utilities_module_list
+set(ThirdParty_module_list
 ITKKWSys
 ITKVNL
 ITKPNG
@@ -159,17 +156,17 @@ ITKVNLInstantiation
 ITKTIFF
 )
 
-set(Utilities_documentation
-"Documentation for group Utilities"
-)
+set(ThirdParty_documentation "This group of modules are third party libraries
+used by other ITK modules.")
 
 set(Nonunit_module_list
+ITKDeprecated
 ITKIntegratedTest
 ITKReview
 )
-set(Nonunit_documentation
-"Documentation for group Nonunit"
-)
+
+set(Nonunit_documentation "This group of modules are intended to make use of an
+extensive set of the toolkit modules.")
 
 #------------------------------------------------
 #------------------------------------------------
