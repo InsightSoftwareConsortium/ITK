@@ -16,6 +16,9 @@ set(ITK_VERSION_MAJOR "@ITK_VERSION_MAJOR@")
 set(ITK_VERSION_MINOR "@ITK_VERSION_MINOR@")
 set(ITK_VERSION_PATCH "@ITK_VERSION_PATCH@")
 
+# If ITK was built with version 3 compatibility features.
+set(ITKV3_COMPATIBILITY "@ITKV3_COMPATIBILITY@")
+
 # The location of the UseITK.cmake file.
 set(ITK_USE_FILE "@ITK_USE_FILE@")
 
