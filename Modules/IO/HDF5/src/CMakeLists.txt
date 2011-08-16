@@ -10,8 +10,7 @@ ${ITKHDF5_LIBRARIES}
 ${ITKIOBase_LIBRARIES}
 ${TEST_DEPENDS_LIBRARIES}
 ${ITKTestKernel_LIBRARIES}
-itkhdf5
-itkhdf5_cpp
+${ITKHDF5_LIBRARIES}
 )
 
 itk_module_target(ITKIOHDF5)
