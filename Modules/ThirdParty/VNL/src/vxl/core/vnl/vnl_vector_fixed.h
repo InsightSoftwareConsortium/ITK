@@ -422,7 +422,7 @@ class vnl_vector_fixed
 
   //: Check that size()==sz if not, abort();
   // This function does or tests nothing if NDEBUG is defined
-  void assert_size( unsigned sz ) const { assert( sz == n ); }
+  void assert_size( unsigned sz ) const { assert( sz == n ); (void)sz; }
 
   //: Check that this is finite if not, abort();
   // This function does or tests nothing if NDEBUG is defined

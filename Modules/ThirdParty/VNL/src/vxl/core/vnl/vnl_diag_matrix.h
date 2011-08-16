@@ -99,12 +99,14 @@ unsigned j
 
   //: set element with boundary checks.
   inline void put (unsigned r, unsigned c, T const& v) {
-    assert(r == c); assert (r<size()); diagonal_[r] = v;
+    assert(r == c); (void)c;
+    assert (r<size()); diagonal_[r] = v;
   }
 
   //: get element with boundary checks.
   inline T get (unsigned r, unsigned c) const {
-    assert(r == c); assert (r<size()); return diagonal_[r];
+    assert(r == c); (void)c;
+    assert (r<size()); return diagonal_[r];
   }
 
   //: Return a vector (copy) with the content of the (main) diagonal
