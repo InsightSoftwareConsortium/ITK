@@ -53,6 +53,44 @@ set( ITK_DOXYGEN_INPUT ${DOXYGEN_INCLUDE_DIRS} )
 
 SET( ITK_DOXYGEN_DIAGRAMS YES )
 
+option( ITK_DOXYGEN_HTML "Doxygen will generate HTML Output" ON )
+option( ITK_DOXYGEN_DOCSET "Doxygen will generate additional index files for XCode 3" OFF )
+option( ITK_DOXYGEN_CHM "Doxygen will generate Microsoft HTML help" OFF )
+option( ITK_DOXYGEN_QHP "Doxygen will generate Qt Compressed Help" OFF )
+option( ITK_DOXYGEN_ECLIPSEHELP "Doxygen will generate Eclipse help plugin" OFF )
+option( ITK_DOXYGEN_LATEX "Doxygen will generate LaTeX output" OFF )
+option( ITK_DOXYGEN_RTF "Doxygen will generate RTF output optimized for Word 97" OFF )
+option( ITK_DOXYGEN_XML "Doxygen will generate XML output" OFF )
+
+mark_as_advanced( ITK_DOXYGEN_HTML
+  ITK_DOXYGEN_DOCSET
+  ITK_DOXYGEN_CHM
+  ITK_DOXYGEN_QHP
+  ITK_DOXYGEN_ECLIPSEHELP
+  ITK_DOXYGEN_LATEX
+  ITK_DOXYGEN_RTF
+  ITK_DOXYGEN_XML
+)
+
+set( ITK_DOXYGEN_OUTPUT
+  HTML
+  DOCSET
+  CHM
+  QHP
+  ECLIPSEHELP
+  LATEX
+  RTF
+  XML
+)
+
+foreach( var ${ITK_DOXYGEN_OUTPUT} )
+  if( ITK_DOXYGEN_${var} )
+    set( ITK_DOXYGEN_GEN_${var} "YES" )
+  else()
+    set( ITK_DOXYGEN_GEN_${var} "NO" )
+  endif()
+endforeach()
+
 find_package( Perl )
 
 if( PERL_FOUND )
@@ -74,6 +112,7 @@ set( ITK_DOXYGEN_OUTPUT_DIR ${ITK_BINARY_DIR}/temp )
 set( ITK_DOXYGEN_INPUT "\"INPUT_SINGLE_FILE\"" )
 
 set( ITK_DOXYGEN_DIAGRAMS NO )
+
 
 configure_file(${ITK_SOURCE_DIR}/Utilities/Doxygen/doxygen.config.in
                ${ITK_BINARY_DIR}/single-doxygen.config)
