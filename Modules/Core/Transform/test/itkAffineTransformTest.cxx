@@ -393,8 +393,6 @@ int itkAffineTransformTest(int, char *[])
       return EXIT_FAILURE;
       }
 
-
-
     /* Back transform a vector */
     //y2 = aff2->BackTransform(x2);
     //std::cout << "Back transform a vnl_vector:" << std::endl
@@ -565,7 +563,6 @@ int itkAffineTransformTest(int, char *[])
 
     /* Test output of GetJacobian */
     Affine3DType::Pointer jaff = Affine3DType::New();
-    Affine3DType::OffsetType jaffVector = jaff->GetOffset();
 
     Affine3DType::InputPointType jpoint;
     jpoint[0] = 5.0;
