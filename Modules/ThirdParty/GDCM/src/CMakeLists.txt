@@ -26,10 +26,8 @@ set(OPENJPEG_LIBRARIES ${OPENJPEG_LIBRARY})
 set(OPENJPEG_INCLUDE_DIR ${ITKOpenJPEG_INCLUDE_DIRS})
 # ZLIB:
 set(GDCM_USE_SYSTEM_ZLIB ON CACHE INTERNAL "")
-if(NOT ITK_USE_SYSTEM_ZLIB)
-  set(ZLIB_INCLUDE_DIR ${ITKZLIB_SOURCE_DIR}/src/itkzlib)
-  set(ZLIB_LIBRARY itkzlib)
-endif()
+set(ZLIB_INCLUDE_DIR ${ITKZLIB_INCLUDE_DIRS})
+set(ZLIB_LIBRARY ${ITKZLIB_LIBRARIES})
 
 # Configure GDCM privately so its options do not appear to the user.
 set(GDCM_LEGACY_REMOVE OFF CACHE INTERNAL "Remove all legacy code completely.")
