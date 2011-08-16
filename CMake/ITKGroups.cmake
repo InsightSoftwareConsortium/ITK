@@ -18,7 +18,11 @@ ITKTransform
 )
 
 set(Core_documentation
-"Documentation for Group Core"
+"This group of modules contains the framework of the toolkit used by other
+modules.  There are common base classes for data objects and process objects,
+basic data structures such as Image, Mesh, QuadEdgeMesh, and SpatialObjects, and
+common functionality for operations such as finite differences, image adaptors,
+image resampling, or image statistics."
 )
 
 set(IO_module_list
@@ -46,7 +50,8 @@ ITKIOXML
 )
 
 set(IO_documentation
-"Documentation for Group IO"
+"This group of modules contains classes for reading and writing images
+and other data objects."
 )
 
 set(Filtering_module_list
@@ -82,9 +87,10 @@ ITKLabelMap
 ITKImageFusion
 )
 
-set(Filtering_documentation
-"Documentation for Group Filtering"
-)
+set(Filtering_documentation "This group of modules are filters that modify data
+in the ITK pipeline framework.  These filters take an input object, such as an
+Image, and modify it to create an output.  Filters can be chained together to
+create a processing pipeline.")
 
 set(Registration_module_list
 ITKFEMRegistration
