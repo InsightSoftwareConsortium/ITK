@@ -120,7 +120,7 @@ public:
   MembershipFunctionVectorObjectType::Pointer MembershipFunctionVectorObjectPointer;
 
   /** Output Membership function vector containing the membership functions with
-    * the final optimized paramters */
+    * the final optimized parameters */
   const MembershipFunctionVectorObjectType * GetOutput() const;
 
   /**  Set the position to initialize the optimization. */

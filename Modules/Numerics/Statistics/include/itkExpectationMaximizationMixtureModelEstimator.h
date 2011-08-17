@@ -164,7 +164,7 @@ public:
   ComponentMembershipFunctionType * GetComponentMembershipFunction(int componentIndex) const;
 
   /** Output Membership function vector containing the membership functions with
-    * the final optimized paramters */
+    * the final optimized parameters */
   const MembershipFunctionVectorObjectType * GetOutput() const;
 
 protected:

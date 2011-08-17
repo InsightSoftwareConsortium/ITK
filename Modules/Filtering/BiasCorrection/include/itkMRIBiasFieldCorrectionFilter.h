@@ -180,7 +180,7 @@ private:
  * unusual. The main purpose of this filter is to reduce such bias field.
  * To estimate the bias field, we use Legendre
  * polynomials. The 1+1 evolutionary optimizer searches for the best
- * paramters of a Legendre polynomial (bias field estimate) which
+ * parameters of a Legendre polynomial (bias field estimate) which
  * minimizes the total energy value of each image after bias field
  * is eleminated. The default Legendre polynomial degree is 3.
  *
