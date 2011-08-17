@@ -36,7 +36,7 @@ class Pow
 public:
   ;
   Pow() {}
-  bool operator!=(const Pow & other) const
+  bool operator!=(const Pow &) const
   {
     // we contain no data, so we are always the same
     return false;
