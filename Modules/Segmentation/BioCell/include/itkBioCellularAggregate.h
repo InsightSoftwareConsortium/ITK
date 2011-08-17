@@ -92,7 +92,6 @@ public:
   typedef typename PointsContainer::ConstIterator         PointsConstIterator;
   typedef typename PointDataContainer::ConstIterator      CellsConstIterator;
   typedef typename VoronoiRegionsContainer::ConstIterator VoronoiConstIterator;
-  typedef typename MeshType::PointIdentifier              IdentifierType;
   typedef typename MeshType::CellAutoPointer              CellAutoPointer;
 
   /**   Voronoi region around a bio::Cell */
