@@ -13,5 +13,5 @@ set(ITKTransform_SRC
   )
 
 add_library(ITKTransform ${ITKTransform_SRC})
-target_link_libraries(ITKTransform  ${ITKStatistics_LIBRARIES} itkhdf5 itkhdf5_cpp)
+target_link_libraries(ITKTransform  ${ITKStatistics_LIBRARIES} ${ITKHDF5_LIBRARIES})
 itk_module_target(ITKTransform)
