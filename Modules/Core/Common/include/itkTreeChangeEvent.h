@@ -51,7 +51,7 @@ public:
   virtual const char * GetEventName() const { return "TreeChangeEvent"; }
 
   /** Check the event */
-  virtual bool CheckEvent(const::itk::EventObject *e) const { return dynamic_cast< const Self * >( e ); }
+  virtual bool CheckEvent(const::itk::EventObject *e) const { return (dynamic_cast< const Self * >( e ) != NULL); }
 
   /** Make the event object */
   virtual::itk::EventObject * MakeObject() const { return new Self(*m_ChangePosition); }
@@ -120,7 +120,7 @@ public:
   virtual const char * GetEventName() const { return "TreeAddEvent"; }
 
   /** Check event function */
-  virtual bool CheckEvent(const::itk::EventObject *e) const { return dynamic_cast< const Self * >( e ); }
+  virtual bool CheckEvent(const::itk::EventObject *e) const { return (dynamic_cast< const Self * >( e ) != NULL); }
 
   /** Make the event object */
   virtual::itk::EventObject * MakeObject() const { return new Self(*this->m_ChangePosition); }
@@ -154,7 +154,7 @@ public:
   virtual const char * GetEventName() const { return "TreeRemoveEvent"; }
 
   /** Check the event */
-  virtual bool CheckEvent(const::itk::EventObject *e) const { return dynamic_cast< const Self * >( e ); }
+  virtual bool CheckEvent(const::itk::EventObject *e) const { return (dynamic_cast< const Self * >( e ) != NULL); }
 
   /** Make the event object */
   virtual::itk::EventObject * MakeObject() const { return new Self(*this->m_ChangePosition); }
@@ -183,7 +183,7 @@ public:
 
   virtual const char * GetEventName() const { return "TreePruneEvent"; }
 
-  virtual bool CheckEvent(const::itk::EventObject *e) const { return dynamic_cast< const Self * >( e ); }
+  virtual bool CheckEvent(const::itk::EventObject *e) const { return (dynamic_cast< const Self * >( e ) != NULL); }
 
   virtual::itk::EventObject * MakeObject() const { return new Self(*this->m_ChangePosition); }
 

@@ -210,20 +210,17 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 ::ComputeCannyEdge( const NeighborhoodType & it,
                     void *itkNotUsed(globalData) )
 {
-  unsigned int i, j;
 
   NeighborhoodInnerProduct< OutputImageType > innerProduct;
 
   OutputImagePixelType dx[ImageDimension];
   OutputImagePixelType dxx[ImageDimension];
   OutputImagePixelType dxy[ImageDimension * ( ImageDimension - 1 ) / 2];
-  OutputImagePixelType deriv;
-  OutputImagePixelType gradMag;
 
   //  double alpha = 0.01;
 
   //Calculate 1st & 2nd order derivative
-  for ( i = 0; i < ImageDimension; i++ )
+  for ( unsigned int i = 0; i < ImageDimension; i++ )
     {
     dx[i] = innerProduct(m_ComputeCannyEdgeSlice[i], it,
                          m_ComputeCannyEdge1stDerivativeOper);
@@ -231,13 +228,13 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
                           m_ComputeCannyEdge2ndDerivativeOper);
     }
 
-  deriv = NumericTraits< OutputImagePixelType >::Zero;
-  int k = 0;
+  OutputImagePixelType deriv = NumericTraits< OutputImagePixelType >::Zero;
 
+  int k = 0;
   //Calculate the 2nd derivative
-  for ( i = 0; i < ImageDimension - 1; i++ )
+  for ( unsigned int i = 0; i < ImageDimension - 1; i++ )
     {
-    for ( j = i + 1; j < ImageDimension; j++ )
+    for ( unsigned int j = i + 1; j < ImageDimension; j++ )
       {
       dxy[k] = 0.25 * it.GetPixel(m_Center - m_Stride[i] - m_Stride[j])
                - 0.25 * it.GetPixel(m_Center - m_Stride[i] + m_Stride[j])
@@ -249,8 +246,8 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
       }
     }
 
-  gradMag = 0.0001; // alpha * alpha;
-  for ( i = 0; i < ImageDimension; i++ )
+  OutputImagePixelType gradMag = static_cast<OutputImagePixelType>(0.0001); // alpha * alpha;
+  for ( unsigned int i = 0; i < ImageDimension; i++ )
     {
     deriv += dx[i] * dx[i] * dxx[i];
     gradMag += dx[i] * dx[i];

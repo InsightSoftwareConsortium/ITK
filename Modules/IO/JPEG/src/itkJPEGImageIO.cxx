@@ -15,11 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifdef _MSC_VER
-// warning C4611: interaction between '_setjmp' and C++ object
-// destruction is non-portable
-#pragma warning( disable : 4611 )
-#endif
 
 #include "itkJPEGImageIO.h"
 #include "itkRGBPixel.h"

@@ -18,10 +18,6 @@
 #ifndef __itkMersenneTwisterRandomVariateGenerator_h
 #define __itkMersenneTwisterRandomVariateGenerator_h
 
-#if defined( _MSC_VER )
-#pragma warning ( disable : 4146 )
-#endif
-
 #include "itkMacro.h"
 #include "itkObjectFactory.h"
 #include "itkRandomVariateGeneratorBase.h"

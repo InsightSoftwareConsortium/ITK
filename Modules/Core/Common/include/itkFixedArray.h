@@ -20,12 +20,6 @@
 
 #include "itkMacro.h"
 
-#ifdef _MSC_VER
-#pragma warning (push)
-#pragma warning (disable: 4284) // operator-> returning pointer to
-// non-aggregate
-#endif
-
 namespace itk
 {
 //HACK:  Need to remove this function.
@@ -267,10 +261,6 @@ public:
 template< typename TValueType, unsigned int VLength >
 std::ostream & operator<<(std::ostream & os, const FixedArray< TValueType, VLength > & arr);
 } // namespace itk
-
-#ifdef _MSC_VER
-#pragma warning (pop)
-#endif
 
 // Define instantiation macro for this template.
 #define ITK_TEMPLATE_FixedArray(_, EXPORT, TypeX, TypeY)                                  \

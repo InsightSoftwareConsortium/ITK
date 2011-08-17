@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4288 )
-#endif
 // Insight classes
 #include "itkImage.h"
 #include "itkVector.h"
