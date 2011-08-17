@@ -117,6 +117,26 @@ itkImageMomentsTest( int itkNotUsed(argc), char * itkNotUsed(argv) [] )
     VectorType cpm = moments->GetPrincipalMoments();
     MatrixType cpa = moments->GetPrincipalAxes();
 
+    /* Flip the principal axes if necessary.
+
+    The eigenvector solution is still valid if multiplied by a constant.
+    Since the eigenvectors (principal axes) are normalized, this constant
+    can be -1.  */
+    if( cpa(1,0) < 0.0 ) // Should be 0.6
+    {
+      for( unsigned int row = 0; row < 3; ++row )
+      {
+        cpa(row,0) *= -1;
+      }
+    }
+    if( cpa(1,1) > 0.0 ) // Should be -0.8
+    {
+      for( unsigned int row = 0; row < 3; ++row )
+      {
+        cpa(row,1) *= -1;
+      }
+    }
+
     /* Report the various non-central moments */
     // FIXME:  Indentation is not handled correctly in matrix output
     std::cout << "\nTotal mass = " << ctm << std::endl;
