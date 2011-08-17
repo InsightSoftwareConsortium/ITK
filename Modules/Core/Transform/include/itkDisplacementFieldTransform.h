@@ -294,14 +294,6 @@ public:
 
   /**
    * Compute the jacobian with respect to the parameters at a point.
-   * Returns identity matrix, sized [NDimensions, NDimensions],
-   * because ... TODO.
-   */
-  virtual const JacobianType & GetJacobian( const InputPointType & ) const
-  { return this->m_IdentityJacobian; }
-
-  /**
-   * Compute the jacobian with respect to the parameters at a point.
    * Simply returns identity matrix, sized [NDimensions, NDimensions].
    *
    * T(x, p), x is the position, p is the local parameter at position x.

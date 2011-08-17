@@ -423,7 +423,7 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
 
     {
     // Test the Jacobian
-    std::cout << "Testing GetJacobian()" << std::endl;
+    std::cout << "Testing GetJacobianWithRespectToParameters()" << std::endl;
 
     TransformType::Pointer quaternionRigid = TransformType::New();
     TransformType::ParametersType parameters( quaternionRigid->GetNumberOfParameters() );
@@ -448,7 +448,7 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
     pInit[2] = 2.6;
 
     TransformType::JacobianType jacobian;
-    jacobian = quaternionRigid->GetJacobian( pInit );
+    quaternionRigid->GetJacobianWithRespectToParameters( pInit, jacobian );
     std::cout << jacobian << std::endl;
 
     TransformType::JacobianType approxJacobian = jacobian;

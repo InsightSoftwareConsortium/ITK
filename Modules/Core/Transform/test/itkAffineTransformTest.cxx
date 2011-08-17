@@ -561,16 +561,17 @@ int itkAffineTransformTest(int, char *[])
       return EXIT_FAILURE;
       }
 
-    /* Test output of GetJacobian */
+    /* Test output of GetJacobianWithRespectToParameters */
     Affine3DType::Pointer jaff = Affine3DType::New();
 
     Affine3DType::InputPointType jpoint;
     jpoint[0] = 5.0;
     jpoint[1] = 10.0;
     jpoint[2] = 15.0;
-    Affine3DType::JacobianType jaffJacobian = jaff->GetJacobian( jpoint );
+    Affine3DType::JacobianType jaffJacobian;
+    jaff->GetJacobianWithRespectToParameters( jpoint , jaffJacobian );
 
-    std::cout << "GetJacobian: " << std::endl;
+    std::cout << "GetJacobianWithRespectToParameters: " << std::endl;
     std::cout << jaffJacobian << std::endl;
 
     double data[] =
@@ -586,7 +587,7 @@ int itkAffineTransformTest(int, char *[])
         {
         if( !testValue( expectedJacobian[i][j], jaffJacobian[i][j] ) )
           {
-          std::cout << "GetJacobian test failed." << std::endl;
+          std::cout << "GetJacobianWithRespectToParameters test failed." << std::endl;
           return EXIT_FAILURE;
           }
         }

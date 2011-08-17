@@ -169,9 +169,6 @@ public:
   typedef vnl_matrix_fixed< TScalarType, NDimensions, NDimensions > IMatrixType;
 
   /** Compute the Jacobian Matrix of the transformation at one point */
-  virtual const JacobianType & GetJacobian(const InputPointType  & point) const;
-
-  /** Compute the Jacobian Matrix of the transformation at one point */
   virtual void GetJacobianWithRespectToParameters( const InputPointType  &p,
                                  JacobianType & jacobian) const;
 

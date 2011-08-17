@@ -801,11 +801,9 @@ BSplineTransform<TScalarType, NDimensions, VSplineOrder>
 
 // Compute the Jacobian in one position
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
-const
-typename BSplineTransform<TScalarType, NDimensions, VSplineOrder>
-::JacobianType &
+void
 BSplineTransform<TScalarType, NDimensions, VSplineOrder>
-::GetJacobian( const InputPointType &point ) const
+::GetJacobianWithRespectToParameters( const InputPointType &point, JacobianType & jacobian ) const
 {
   // Zero all components of jacobian
   // NOTE: for efficiency, we only need to zero out the coefficients
@@ -843,7 +841,8 @@ BSplineTransform<TScalarType, NDimensions, VSplineOrder>
   // return the input point
   if( !this->InsideValidRegion( index ) )
     {
-    return this->m_Jacobian;
+    jacobian=this->m_Jacobian;
+    return;
     }
 
   // Compute interpolation weights
@@ -882,14 +881,14 @@ BSplineTransform<TScalarType, NDimensions, VSplineOrder>
     }
 
   // Return the results
-  return this->m_Jacobian;
+  jacobian=this->m_Jacobian;
 }
 
-// Compute the Jacobian in one position
+/** Get Jacobian at a point. A very specialized function just for BSplines */
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
 void
 BSplineTransform<TScalarType, NDimensions, VSplineOrder>
-::GetJacobian( const InputPointType &point, WeightsType &weights,
+::GetJacobianFromBSplineWeightsAtPoint( const InputPointType &point, WeightsType &weights,
   ParameterIndexArrayType &indexes ) const
 {
   ContinuousIndexType index;

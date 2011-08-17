@@ -395,16 +395,6 @@ KernelTransform< TScalarType, NDimensions >
   return result;
 }
 
-// Compute the Jacobian in one position
-template< class TScalarType, unsigned int NDimensions >
-const typename KernelTransform< TScalarType, NDimensions >::JacobianType &
-KernelTransform< TScalarType, NDimensions >
-::GetJacobian(const InputPointType & p) const
-{
-  GetJacobianWithRespectToParameters( p, this->m_Jacobian );
-  return this->m_Jacobian;
-}
-
 template< class TScalarType, unsigned int NDimensions >
 void
 KernelTransform< TScalarType, NDimensions >

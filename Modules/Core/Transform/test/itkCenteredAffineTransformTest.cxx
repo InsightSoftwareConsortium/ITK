@@ -251,7 +251,7 @@ int itkCenteredAffineTransformTest(int, char *[])
     image->SetSpacing(spacing);
 
 
-    /* Test output of GetJacobian */
+    /* Test output of GetJacobianWithRespectToParameters */
     Affine3DType::Pointer jaff = Affine3DType::New();
     const Affine3DType::MatrixType jaffMatrix = jaff->GetMatrix();
     std::cout << "GetMatrix:" << std::endl;
@@ -265,9 +265,10 @@ int itkCenteredAffineTransformTest(int, char *[])
     jpoint[0] = 5.0;
     jpoint[1] = 10.0;
     jpoint[2] = 15.0;
-    Affine3DType::JacobianType jaffJacobian = jaff->GetJacobian( jpoint );
+    Affine3DType::JacobianType jaffJacobian;
+    jaff->GetJacobianWithRespectToParameters( jpoint, jaffJacobian );
 
-    std::cout << "GetJacobian: " << std::endl;
+    std::cout << "GetJacobianWithRespectToParameters: " << std::endl;
     std::cout << jaffJacobian << std::endl;
 
     /* Get the parameters */

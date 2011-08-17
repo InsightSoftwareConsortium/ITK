@@ -330,10 +330,6 @@ public:
   virtual void TransformPoint( const InputPointType &,
     OutputPointType &, WeightsType &, ParameterIndexArrayType &, bool & ) const;
 
-  /** Get Jacobian at a point. */
-  virtual void GetJacobian( const InputPointType &, WeightsType &,
-    ParameterIndexArrayType & ) const;
-
   /** Get number of weights. */
   unsigned long GetNumberOfWeights() const
     {
@@ -367,15 +363,12 @@ public:
     return OutputCovariantVectorType();
     }
 
-  /** Compute the Jacobian Matrix of the transformation at one point */
-  virtual const JacobianType & GetJacobian( const InputPointType  & ) const;
+  /** Get Jacobian at a point. A very specialized function just for BSplines */
+  virtual void GetJacobianFromBSplineWeightsAtPoint( const InputPointType &, WeightsType &,
+    ParameterIndexArrayType & ) const;
 
-  virtual void GetJacobianWithRespectToParameters(const InputPointType &,
-                                                  JacobianType &) const
-  {
-    itkExceptionMacro("GetJacobianWithRespectToParameters unimplemented for "
-                      << this->GetNameOfClass() );
-  }
+  virtual void GetJacobianWithRespectToParameters(const InputPointType & p,
+                                                  JacobianType & jacobian) const;
 
   virtual void GetJacobianWithRespectToPosition(const InputPointType &,
                                                   JacobianType &) const

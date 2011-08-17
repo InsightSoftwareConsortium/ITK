@@ -152,8 +152,8 @@ MeanReciprocalSquareDifferencePointSetToImageMetric< TFixedPointSet, TMovingImag
       const RealType diffSquared = diff * diff;
 
       // Now compute the derivatives
-      const TransformJacobianType & jacobian =
-        this->m_Transform->GetJacobian(inputPoint);
+      TransformJacobianType jacobian;
+      this->m_Transform->GetJacobianWithRespectToParameters(inputPoint,jacobian);
 
       // Get the gradient by NearestNeighboorInterpolation:
       // which is equivalent to round up the point components.
@@ -255,8 +255,8 @@ MeanReciprocalSquareDifferencePointSetToImageMetric< TFixedPointSet, TMovingImag
       this->m_NumberOfPixelsCounted++;
 
       // Now compute the derivatives
-      const TransformJacobianType & jacobian =
-        this->m_Transform->GetJacobian(inputPoint);
+      TransformJacobianType jacobian;
+      this->m_Transform->GetJacobianWithRespectToParameters(inputPoint,jacobian);
 
       const RealType diff = movingValue - fixedValue;
       const RealType diffSquared = diff * diff;

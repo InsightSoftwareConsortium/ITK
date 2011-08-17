@@ -210,16 +210,6 @@ Similarity3DTransform< TScalarType >
   return this->m_Parameters;
 }
 
-// Set parameters
-template< class TScalarType >
-const typename Similarity3DTransform< TScalarType >::JacobianType &
-Similarity3DTransform< TScalarType >::
-GetJacobian(const InputPointType & p) const
-{
-  GetJacobianWithRespectToParameters( p, this->m_Jacobian );
-  return this->m_Jacobian;
-}
-
 template< class TScalarType >
 void
 Similarity3DTransform< TScalarType >::

@@ -130,15 +130,6 @@ CenteredEuler3DTransform< TScalarType >
   return this->m_Parameters;
 }
 
-// Get jacobian
-template< class TScalarType >
-const typename CenteredEuler3DTransform< TScalarType >::JacobianType &
-CenteredEuler3DTransform< TScalarType >::GetJacobian(const InputPointType & p) const
-{
-  GetJacobianWithRespectToParameters( p, this->m_Jacobian );
-  return this->m_Jacobian;
-}
-
 template< class TScalarType >
 void
 CenteredEuler3DTransform< TScalarType >

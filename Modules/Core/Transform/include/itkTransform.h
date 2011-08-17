@@ -55,20 +55,18 @@ namespace itk
  * the transform.
  *
  * Subclasses must provide implementations for:
- *   OutputPointType           TransformPoint(const InputPointType  &) const
- *   OutputVectorType          TransformVector(const InputVectorType &) const
- *   OutputVnlVectorType       TransformVector(const InputVnlVectorType &) const
- *   OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType &) const
- *   void                      SetParameters(const ParametersType &)
- *   void                      SetFixedParameters(const ParametersType &)
- *   const                     JacobianType & GetJacobian(
- *                                              const InputPointType  &) const
- *   void                      GetJacobianWithRespectToParameters(
- *                                                     const InputPointType &,
- *                                                       JacobianType &) const
- *   void                      GetJacobianWithRespectToPosition(
- *                                                  const InputPointType & x,
- *                                                JacobianType &j ) const;
+ *   virtual OutputPointType           TransformPoint(const InputPointType  &) const
+ *   virtual OutputVectorType          TransformVector(const InputVectorType &) const
+ *   virtual OutputVnlVectorType       TransformVector(const InputVnlVectorType &) const
+ *   virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType &) const
+ *   virtual void                      SetParameters(const ParametersType &)
+ *   virtual void                      SetFixedParameters(const ParametersType &)
+ *   virtual void                      GetJacobianWithRespectToParameters(
+ *                                                             const InputPointType &,
+ *                                                             JacobianType &) const
+ *   virtual void                      GetJacobianWithRespectToPosition(
+ *                                                             const InputPointType & x,
+ *                                                             JacobianType &j ) const;
  *
  * Since TranformVector and TransformCovariantVector have multiple
  * overloaded methods from the base class, subclasses must specify:
@@ -331,7 +329,27 @@ public:
     return m_FixedParameters;
   }
 
-  /** Compute the Jacobian of the transformation
+#ifdef ITKV3_COMPATIBILITY
+  /**
+   * This function is only here for ITKv3 backwards compatibility.
+   *
+   * This is not a thread-safe version for GetJacobian(), because the internal
+   * class member variable m_Jacobian could be changed for different values
+   * in different threads.
+   *
+   * All derived classes should move the computations of computing a jacobian
+   * from GetJacobian to GetJacobianWithRespectToParameters and then
+   * use this forwarding function for backwards compatibility.
+   */
+  virtual const JacobianType & GetJacobian(const InputPointType  &x) const
+  {
+    this->GetJacobianWithRespectToParameters(x,this->m_Jacobian);
+    return this->m_Jacobian;
+  }
+#endif
+
+  /**
+   * Compute the Jacobian of the transformation
    *
    * This method computes the Jacobian matrix of the transformation
    * at a given input point. The rank of the Jacobian will also indicate
@@ -358,19 +376,6 @@ public:
    *
    * \f]
    *
-   * All derived classes should implement:
-   *
-   * virtual void GetJacobian(const InputPointType  &x ) const
-   * {
-   *   this->GetJacobianWithRespectToParameters(x,this->m_Jacobian);
-   *   return this->m_Jacobian;
-   * }
-   *
-   * */
-  virtual const JacobianType & GetJacobian(const InputPointType  &) const = 0;
-
-  /** This is a thread-safe version for GetJacobian(). Otherwise,
-   *  m_Jacobian could be changed for different values in different threads.
    *  This is also used for efficient computation of a point-local jacobian
    *  for dense transforms.
    *  \c j is assumed to be thread-local variable, otherwise memory corruption

@@ -441,7 +441,7 @@ MutualInformationImageToImageMetric< TFixedImage, TMovingImage >
  *
  * This is a temporary solution until this feature is implemented
  * in the mapper. This solution only works for any transform
- * that support GetJacobian()
+ * that support GetJacobianWithRespectToParameters()
  */
 template< class TFixedImage, class TMovingImage >
 void

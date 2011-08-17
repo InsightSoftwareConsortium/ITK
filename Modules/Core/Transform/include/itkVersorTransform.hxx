@@ -175,15 +175,6 @@ VersorTransform< TScalarType >
   m_Versor.Set( this->GetMatrix() );
 }
 
-/** Get the Jacobian */
-template< class TScalarType >
-const typename VersorTransform< TScalarType >::JacobianType &
-VersorTransform< TScalarType >::GetJacobian(const InputPointType & p) const
-{
-  GetJacobianWithRespectToParameters( p, this->m_Jacobian );
-  return this->m_Jacobian;
-}
-
 template< class TScalarType >
 void
 VersorTransform< TScalarType >

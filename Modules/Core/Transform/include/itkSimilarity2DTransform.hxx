@@ -158,16 +158,6 @@ Similarity2DTransform< TScalarType >
     }
 }
 
-// Compute the transformation Jacobian
-template< class TScalarType >
-const typename Similarity2DTransform< TScalarType >::JacobianType &
-Similarity2DTransform< TScalarType >::
-GetJacobian(const InputPointType & p) const
-{
-  GetJacobianWithRespectToParameters( p, this->m_Jacobian );
-  return this->m_Jacobian;
-}
-
 template< class TScalarType >
 void
 Similarity2DTransform< TScalarType >

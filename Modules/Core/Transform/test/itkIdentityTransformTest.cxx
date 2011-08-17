@@ -158,7 +158,8 @@ int itkIdentityTransformTest(int ,char *[] )
 
   // Testing the Jacobian
   std::cout << "Testing Jacobian: ";
-  IdentityTransformType::JacobianType jacobian =  transform->GetJacobian(p);
+  IdentityTransformType::JacobianType jacobian;
+  transform->GetJacobianWithRespectToParameters(p, jacobian);
 
   if( jacobian.rows() != 3 || jacobian.columns() != 0 )
     {

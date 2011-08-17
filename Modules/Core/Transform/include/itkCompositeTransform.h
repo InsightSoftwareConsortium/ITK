@@ -53,7 +53,8 @@ namespace itk
  * queue, designating if each transform is to be used for optimization. Note
  * that all transforms in the queue are applied in TransformPoint, regardless
  * of these flags states'. The methods GetParameters, SetParameters,
- * GetJacobian, GetFixedParameters, and SetFixedParameters all query these
+ * GetJacobianWithRespectToParameters, GetJacobianWithRespectToPosition,
+ * GetFixedParameters, and SetFixedParameters all query these
  * flags and include only those transforms whose corresponsing flag is set.
  * Their input or output is a concatenated array of all transforms set for use
  * in optimization. The goal is to be able to optimize multiple transforms at
@@ -325,11 +326,6 @@ public:
   }
 
   virtual bool IsLinear() const;
-
-  /**
-   * Compute the jacobian with respect to the parameters.
-   */
-  virtual const JacobianType & GetJacobian(const InputPointType  &) const;
 
   /**
    * Compute the Jacobian with respect to the parameters for the compositie

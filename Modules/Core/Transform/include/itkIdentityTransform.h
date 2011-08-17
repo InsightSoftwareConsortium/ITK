@@ -160,12 +160,6 @@ public:
    *
    * \f]
    */
-  virtual const JacobianType & GetJacobian(const InputPointType  &) const
-  {
-    return this->m_Jacobian;
-  }
-
-  /** Compute the Jacobian Matrix of the transformation at one point */
   virtual void GetJacobianWithRespectToParameters( const InputPointType &,
                                  JacobianType & jacobian) const
   {

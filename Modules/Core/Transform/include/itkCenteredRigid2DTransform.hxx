@@ -127,15 +127,6 @@ CenteredRigid2DTransform< TScalarType >
   return this->m_Parameters;
 }
 
-// Compute the transformation Jacobian
-template< class TScalarType >
-const typename CenteredRigid2DTransform< TScalarType >::JacobianType &
-CenteredRigid2DTransform< TScalarType >::GetJacobian(const InputPointType & p) const
-{
-  GetJacobianWithRespectToParameters( p, this->m_Jacobian );
-  return this->m_Jacobian;
-}
-
 template< class TScalarType >
 void
 CenteredRigid2DTransform< TScalarType >

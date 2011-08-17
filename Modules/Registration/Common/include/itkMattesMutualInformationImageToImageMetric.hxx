@@ -1337,7 +1337,8 @@ MattesMutualInformationImageToImageMetric< TFixedImage, TMovingImage >
         indicesHelper = &( this->m_BSplineTransformIndices );
         }
 
-      this->m_BSplineTransform->GetJacobian(
+      /** Get Jacobian at a point. A very specialized function just for BSplines */
+      this->m_BSplineTransform->GetJacobianFromBSplineWeightsAtPoint(
         this->m_FixedImageSamples[sampleNumber].point,
         *weightsHelper, *indicesHelper);
       }

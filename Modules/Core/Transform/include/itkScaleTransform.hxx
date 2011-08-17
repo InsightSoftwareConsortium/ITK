@@ -210,17 +210,6 @@ ScaleTransform< ScalarType, NDimensions >
 // Compute the Jacobian of the transformation
 // It follows the same order of Parameters vector
 template< class ScalarType, unsigned int NDimensions >
-const typename ScaleTransform< ScalarType, NDimensions >::JacobianType &
-ScaleTransform< ScalarType, NDimensions >
-::GetJacobian(const InputPointType & p) const
-{
-  GetJacobianWithRespectToParameters( p, this->m_Jacobian );
-  return this->m_Jacobian;
-}
-
-// Compute the Jacobian of the transformation
-// It follows the same order of Parameters vector
-template< class ScalarType, unsigned int NDimensions >
 void
 ScaleTransform< ScalarType, NDimensions >
 ::GetJacobianWithRespectToParameters(const InputPointType & p, JacobianType &j) const

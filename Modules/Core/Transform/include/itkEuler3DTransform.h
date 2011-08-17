@@ -106,9 +106,6 @@ public:
    * given point or vector, returning the transformed point or
    * vector. The rank of the Jacobian will also indicate if the
    * transform is invertible at this point. */
-  const JacobianType & GetJacobian(const InputPointType  & point) const;
-
-  /** Compute the Jacobian Matrix of the transformation at one point */
   virtual void GetJacobianWithRespectToParameters( const InputPointType  &p,
                                  JacobianType & jacobian) const;
 

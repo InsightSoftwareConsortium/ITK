@@ -299,7 +299,8 @@ int itkBSplineTransformTest1()
   {
     // point inside the grid support region
     inputPoint.Fill( 7.5 );
-    const JacobianType & jacobian = transform->GetJacobian( inputPoint );
+    JacobianType jacobian;
+    transform->GetJacobianWithRespectToParameters( inputPoint, jacobian );
     PRINT_VALUE( 0, n );
     PRINT_VALUE( 1, n );
     PRINT_VALUE( 2, n );
@@ -310,12 +311,12 @@ int itkBSplineTransformTest1()
   {
     // point outside the grid support region
     inputPoint.Fill( -10.0 );
-    const JacobianType & jacobian = transform->GetJacobian( inputPoint );
+    JacobianType jacobian;
+    transform->GetJacobianWithRespectToParameters( inputPoint, jacobian );
     PRINT_VALUE( 0, n );
     PRINT_VALUE( 1, n );
     PRINT_VALUE( 2, n );
     std::cout << std::endl;
-
   }
 
 

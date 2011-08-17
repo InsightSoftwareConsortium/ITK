@@ -182,17 +182,6 @@ TranslationTransform< TScalarType, NDimensions >
 
 // Compute the Jacobian in one position
 template< class TScalarType, unsigned int NDimensions >
-const typename TranslationTransform< TScalarType, NDimensions >::JacobianType &
-TranslationTransform< TScalarType, NDimensions >::GetJacobian(const InputPointType &) const
-{
-  // the Jacobian is constant for this transform, and it has already been
-  // initialized in the constructor, so we just need to return it here.
-  return this->m_Jacobian;
-}
-
-
-// Compute the Jacobian in one position
-template< class TScalarType, unsigned int NDimensions >
 void
 TranslationTransform< TScalarType, NDimensions >::GetJacobianWithRespectToParameters(
         const InputPointType &,

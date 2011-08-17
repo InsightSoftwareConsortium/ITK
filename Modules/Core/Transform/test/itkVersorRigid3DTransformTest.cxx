@@ -360,12 +360,13 @@ int itkVersorRigid3DTransformTest(int, char* [] )
       }
      std::cout << "Input/Output parameter check Passed !"  << std::endl;
 
-     // Try the GetJacobian method
+     // Try the GetJacobianWithRespectToParameters method
      TransformType::InputPointType  aPoint;
      aPoint[0] = 10.0;
      aPoint[1] = 20.0;
      aPoint[2] = -10.0;
-     JacobianType   jacobian = transform->GetJacobian( aPoint );
+     JacobianType   jacobian;
+     transform->GetJacobianWithRespectToParameters( aPoint, jacobian );
      std::cout << "Jacobian: "  << std::endl;
      std::cout << jacobian << std::endl;
 

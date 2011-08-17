@@ -210,17 +210,6 @@ Rigid3DPerspectiveTransform< TScalarType >::ComputeMatrix(void)
   m_RotationMatrix = m_Versor.GetMatrix();
 }
 
-// Compute the Jacobian in one position
-template< class TScalarType >
-const typename Rigid3DPerspectiveTransform< TScalarType >::JacobianType &
-Rigid3DPerspectiveTransform< TScalarType >
-::GetJacobian(const InputPointType & p) const
-{
-  //TODO: see GetJacobianWithRespectToParameters
-  GetJacobianWithRespectToParameters( p, this->m_Jacobian );
-  return this->m_Jacobian;
-}
-
 template< class TScalarType >
 void
 Rigid3DPerspectiveTransform< TScalarType >

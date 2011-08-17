@@ -193,8 +193,8 @@ int itkCenteredEuler3DTransformTest(int,char *[] )
     pInit[i]=0;
   }
 
-  EulerTransformType::JacobianType  jacobian =
-                                        eulerTransform->GetJacobian(pInit);
+  EulerTransformType::JacobianType  jacobian;
+  eulerTransform->GetJacobianWithRespectToParameters( pInit, jacobian );
 
   if( jacobian[0][0] != 0.0 || jacobian[0][1] != 0.0
       || jacobian[0][2] != 0.0 ||jacobian[0][3] != 1.0
@@ -251,7 +251,7 @@ int itkCenteredEuler3DTransformTest(int,char *[] )
     pInit[1] = 1.5;
     pInit[2] = 2.6;
 
-    jacobian = eulerTransform->GetJacobian( pInit );
+    eulerTransform->GetJacobianWithRespectToParameters( pInit, jacobian );
     std::cout << jacobian << std::endl;
 
     EulerTransformType::JacobianType approxJacobian = jacobian;

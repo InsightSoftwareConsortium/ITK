@@ -241,15 +241,6 @@ Euler3DTransform< TScalarType >
     }
 }
 
-// Set parameters
-template< class TScalarType >
-const typename Euler3DTransform< TScalarType >::JacobianType &
-Euler3DTransform< TScalarType >::GetJacobian(const InputPointType & p) const
-{
-  GetJacobianWithRespectToParameters( p, this->m_Jacobian );
-  return this->m_Jacobian;
-}
-
 template< class TScalarType >
 void
 Euler3DTransform< TScalarType >

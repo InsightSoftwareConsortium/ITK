@@ -626,21 +626,6 @@ MatrixOffsetTransformBase< TScalarType, NInputDimensions, NOutputDimensions >
   this->Modified();
 }
 
-// Compute the Jacobian in one position
-template< class TScalarType, unsigned int NInputDimensions,
-          unsigned int NOutputDimensions >
-const typename MatrixOffsetTransformBase< TScalarType, NInputDimensions, NOutputDimensions >::JacobianType &
-MatrixOffsetTransformBase< TScalarType, NInputDimensions, NOutputDimensions >
-::GetJacobian(const InputPointType & p) const
-{
-  // The Jacobian of the affine transform is composed of
-  // subblocks of diagonal matrices, each one of them having
-  // a constant value in the diagonal.
-
-  GetJacobianWithRespectToParameters( p, this->m_Jacobian );
-  return this->m_Jacobian;
-}
-
 // Compute the Jacobian in one position, without setting values to m_Jacobian
 template< class TScalarType, unsigned int NInputDimensions,
           unsigned int NOutputDimensions >

@@ -237,14 +237,6 @@ ScaleVersor3DTransform< TScalarType >
   os << indent << "Scales:       " << m_Scale        << std::endl;
 }
 
-// Set parameters
-template< class TScalarType >
-const typename ScaleVersor3DTransform< TScalarType >::JacobianType &
-ScaleVersor3DTransform< TScalarType >::GetJacobian(const InputPointType & p) const
-{
-  GetJacobianWithRespectToParameters( p, this->m_Jacobian );
-  return this->m_Jacobian;
-}
 template< class TScalarType >
 void
 ScaleVersor3DTransform< TScalarType >

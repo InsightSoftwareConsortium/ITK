@@ -345,7 +345,7 @@ int itkCenteredRigid2DTransformTest(int argc,char *argv[] )
     // Really test the jacobian
     std::cout << "Testing Jacobian: ";
     TransformType::JacobianType jacobian;
-    jacobian = t4->GetJacobian( p1 );
+    t4->GetJacobianWithRespectToParameters( p1, jacobian );
 
     TransformType::JacobianType approxJacobian = jacobian;
 

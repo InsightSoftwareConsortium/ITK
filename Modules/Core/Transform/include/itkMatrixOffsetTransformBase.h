@@ -393,14 +393,11 @@ public:
    * This method computes the Jacobian matrix of the transformation.
    * given point or vector, returning the transformed point or
    * vector. The rank of the Jacobian will also indicate if the transform
-   * is invertible at this point. */
-  const JacobianType & GetJacobian(const InputPointType & point) const;
-
-  /** get local Jacobian for the given point
+   * is invertible at this point.
+   * Get local Jacobian for the given point
    * \c j will sized properly as needed.
-   * This is a thread-safe version for GetJacobian(). Otherwise,
-   * m_Jacobian could be changed for different values in different threads. */
-  void GetJacobianWithRespectToParameters(const InputPointType  &x,
+   */
+  virtual void GetJacobianWithRespectToParameters(const InputPointType  &x,
                                           JacobianType &j) const;
 
   /** Get the jacobian with respect to position. This simply returns

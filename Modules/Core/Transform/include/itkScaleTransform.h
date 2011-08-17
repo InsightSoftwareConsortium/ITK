@@ -121,8 +121,6 @@ public:
   virtual const ParametersType & GetFixedParameters(void) const;
 
   /** Get the Jacobian matrix. */
-  virtual const JacobianType & GetJacobian(const InputPointType & point) const;
-
   virtual void GetJacobianWithRespectToParameters(const InputPointType &point, JacobianType &j) const;
 
   /** Get the jacobian with respect to position, which simply is the

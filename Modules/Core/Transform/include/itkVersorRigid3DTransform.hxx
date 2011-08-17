@@ -129,14 +129,6 @@ VersorRigid3DTransform< TScalarType >
   return this->m_Parameters;
 }
 
-// Set parameters
-template< class TScalarType >
-const typename VersorRigid3DTransform< TScalarType >::JacobianType &
-VersorRigid3DTransform< TScalarType >::GetJacobian(const InputPointType & p) const
-{
-  GetJacobianWithRespectToParameters( p, this->m_Jacobian );
-  return this->m_Jacobian;
-}
 template< class TScalarType >
 void
 VersorRigid3DTransform< TScalarType >

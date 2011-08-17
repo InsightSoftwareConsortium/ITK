@@ -493,7 +493,7 @@ DisplacementFieldTransform<TScalar, NDimensions>
 }
 
 /*
- * GetJacobian methods
+ * GetJacobianWithRespectToParameters methods
  */
 
 template<class TScalar, unsigned int NDimensions>

@@ -155,52 +155,6 @@ CompositeTransform<TScalar, NDimensions>
 
 template
 <class TScalar, unsigned int NDimensions>
-const typename CompositeTransform< TScalar, NDimensions >::JacobianType &
-CompositeTransform<TScalar, NDimensions>
-::GetJacobian( const InputPointType & p ) const
-{
-
-
-  // The Jacobian of the affine transform is composed of
-  // subblocks of diagonal matrices, each one of them having
-  // a constant value in the diagonal.
-
-  GetJacobianWithRespectToParameters(p, this->m_Jacobian);
-  return this->m_Jacobian;
-
-//
-//    /* Returns a concatenated MxN array, holding the Jacobian of each sub
-//     * transform that is selected for optimization. The order is the same
-//     * as that in which they're applied, i.e. reverse order.
-//     * M rows = dimensionality of the transforms
-//     * N cols = total number of parameters in the selected sub transforms. */
-//
-//    this->m_Jacobian.SetSize( NDimensions, this->GetNumberOfParameters() );
-//    unsigned int offset = 0;
-//    OutputPointType transformedPoint( p );
-//
-//    for( signed long tind = (signed long) this->GetNumberOfTransforms()-1;
-//            tind >= 0; tind-- )
-//    {
-//        TransformTypePointer transform = this->GetNthTransform( tind );
-//        if( this->GetNthTransformToOptimize( tind ) )
-//        {
-//            /* Copy from another matrix, element-by-element */
-//            /* The matrices are row-major, so block copy is less obviously better */
-//            this->m_Jacobian.update(
-//                    transform->GetJacobian( transformedPoint ), 0, offset );
-//            offset += transform->GetParameters().Size();
-//        }
-//        /* Transform the point so it's ready for next transform's Jacobian */
-//        transformedPoint = transform->TransformPoint( transformedPoint );
-//    }
-//
-//    return this->m_Jacobian;
-}
-
-
-template
-<class TScalar, unsigned int NDimensions>
 void
 CompositeTransform<TScalar, NDimensions>
 ::GetJacobianWithRespectToParameters( const InputPointType & p, JacobianType &j ) const

@@ -113,15 +113,6 @@ CenteredSimilarity2DTransform< TScalarType >
   return this->m_Parameters;
 }
 
-// Compute the Jacobian
-template< class TScalarType >
-const typename CenteredSimilarity2DTransform< TScalarType >::JacobianType &
-CenteredSimilarity2DTransform< TScalarType >::GetJacobian(const InputPointType & p) const
-{
-  GetJacobianWithRespectToParameters( p, this->m_Jacobian );
-  return this->m_Jacobian;
-}
-
 template< class TScalarType >
 void
 CenteredSimilarity2DTransform< TScalarType >

@@ -132,11 +132,7 @@ public:
 
   /** This method computes the Jacobian matrix of the transformation
    * at a given input point.
-   *
-   * \sa Transform::GetJacobian() */
-  const JacobianType & GetJacobian(const InputPointType  & point) const;
-
-  /** Compute the Jacobian Matrix of the transformation at one point */
+   */
   virtual void GetJacobianWithRespectToParameters( const InputPointType  &p,
                                  JacobianType & jacobian) const;
 
