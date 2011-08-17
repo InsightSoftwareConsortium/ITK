@@ -194,7 +194,7 @@ private:
    * (frobenius_norm of covariance matrix). */
   double m_Epsilon;
 
-  /** Initial search radius in paramter space. */
+  /** Initial search radius in parameter space. */
   double m_InitialRadius;
 
   /** Search radius growth factor in parameter space. */

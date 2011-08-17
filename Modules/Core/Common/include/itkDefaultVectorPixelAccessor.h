@@ -30,10 +30,10 @@ namespace itk
  * with the same \c DefaultPixelAccessor interface that
  * DefaultPixelAccessor provides to Image.
  *
- * The template paramters is the type that is contained in by the elements of
+ * The template parameters is the type that is contained in by the elements of
  * a vector.
  *
- * The class also contains a m_VectorLength paramter, set with the SetVectorLength
+ * The class also contains a m_VectorLength parameter, set with the SetVectorLength
  * method to set the length of the vectors. This must be set before the accessor
  * can be used. This is the length of each of the vector containers.
  *

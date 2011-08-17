@@ -107,7 +107,7 @@ namespace itk
  *   (1) Threshold.  Sets the thresholding value of the Canny edge detection.
  *   See CannyEdgeDetectionImageFilter for more information.
  *   \par
- *   (2) Variance.  Controls the smoothing paramter of the gaussian filtering
+ *   (2) Variance.  Controls the smoothing parameter of the gaussian filtering
  *   done during Canny edge detection.
  *   \par
  *   (3) CurvatureScaling.  Controls the degree to which curvature influences

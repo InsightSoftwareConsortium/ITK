@@ -221,7 +221,7 @@ public:
 
   /** This method can ONLY be invoked AFTER calling SetParameters().
    *  This restriction is due to the fact that the BSplineTransform
-   *  does not copy the array of paramters internally, instead it keeps a
+   *  does not copy the array of parameters internally, instead it keeps a
    *  pointer to the user-provided array of parameters. This method is also
    *  in violation of the const-correctness of the parameters since the
    *  parameter array has been passed to the transform on a 'const' basis but

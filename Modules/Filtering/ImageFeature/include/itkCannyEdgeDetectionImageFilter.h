@@ -159,7 +159,7 @@ public:
       }
   }
 
-  /** Set/Get the MaximumError paramter used by the Gaussian smoothing filter
+  /** Set/Get the MaximumError parameter used by the Gaussian smoothing filter
       in this algorithm */
   void SetMaximumError(const typename ArrayType::ValueType v)
   {
