@@ -71,7 +71,9 @@ FFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
 
   if ( smartPtr.IsNull() )
     {
-    smartPtr = DispatchFFTW_R2C_New<Pointer, TInputImage, TOutputImage, OutputPixelType>::Apply();
+    smartPtr = DispatchFFTW_R2C_New< Pointer, TInputImage, TOutputImage,
+                                     typename NumericTraits< OutputPixelType >::ValueType >
+      ::Apply();
     }
 
   return smartPtr;
