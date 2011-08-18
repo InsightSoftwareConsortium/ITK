@@ -38,7 +38,6 @@ namespace itk
  * To free the memory allocated and cached in \c GaussianSmoothDisplacementField
  * on demand, see \c FreeGaussianSmoothingTempField.
  *
- * \ingroup Transforms
  *
  * \ingroup ITKTransform
  */

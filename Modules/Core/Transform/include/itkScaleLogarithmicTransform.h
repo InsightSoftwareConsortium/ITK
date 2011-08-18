@@ -29,7 +29,6 @@ namespace itk
  * is that here the parameters of the transformation are the logarithms of the
  * scales. This facilitates to linearize the expressions used for optimization.
  *
- * \ingroup Transforms
  * \ingroup ITKTransform
  */
 template <

@@ -63,7 +63,6 @@ namespace itk
  *
  * NDimensions   The number of dimensions of the vector space (must be >=3).
  *
- * \ingroup Transforms
  *
  * \todo Is there any real value in allowing the user to template
  * over the scalar type?  Perhaps it should always be double, unless

@@ -43,7 +43,6 @@ namespace itk
  * vectors) and over the dimension of the space. In this case the Input
  * and Output spaces are the same so only one dimension is required.
  *
- * \ingroup Transforms
  *
  * \ingroup ITKTransform
  */

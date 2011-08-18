@@ -31,7 +31,6 @@ namespace itk
  * This transform applies a rotation about a specific coordinate or
  * centre of rotation followed by a translation.
  *
- * \ingroup Transforms
  * \ingroup ITKTransform
  */
 template <class TScalarType = double>

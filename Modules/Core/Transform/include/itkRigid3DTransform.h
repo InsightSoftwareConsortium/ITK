@@ -42,7 +42,6 @@ namespace itk
  * The serialization of the fixed parameters is an array of 3 elements defining
  * the center of rotation in each dimension.
  *
- * \ingroup Transforms
  * \ingroup ITKTransform
  */
 template< class TScalarType = double >

@@ -39,7 +39,6 @@ namespace itk
  * http://hdl.handle.net/1926/1291  or
  * http://www.insight-journal.org/browse/publication/180
  *
- * \ingroup Transforms
  * \ingroup ITKTransform
  */
 template <class TScalarType = double>

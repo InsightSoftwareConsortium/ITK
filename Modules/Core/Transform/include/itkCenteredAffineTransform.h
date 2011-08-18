@@ -28,7 +28,6 @@ namespace itk
  * This class implements an Affine transform in which the rotation center
  * can be explicitly selected.
  *
- * \ingroup Transforms
  * \ingroup ITKTransform
  */
 template <

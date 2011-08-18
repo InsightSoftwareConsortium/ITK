@@ -33,7 +33,6 @@ namespace itk
  * but with a large difference in performace since the affine transform will
  * use a matrix multiplication using a diagonal matrix.
  *
- * \ingroup Transforms
  * \ingroup ITKTransform
  */
 template <

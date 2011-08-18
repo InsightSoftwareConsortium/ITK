@@ -50,7 +50,6 @@ namespace itk
  *
  * \sa Similarity2DTransform
  *
- * \ingroup Transforms
  * \ingroup ITKTransform
  */
 template <class TScalarType = double>

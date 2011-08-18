@@ -66,8 +66,7 @@ namespace itk
  * The last NOutputDimension parameters defines the translation
  * in each dimensions.
  *
- * \ingroup Transforms
- *
+ * \ingroup ITKTransform
  */
 
 template <

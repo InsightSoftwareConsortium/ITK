@@ -40,7 +40,6 @@ namespace itk
  * TODO: Need to make sure that the translation parameters in the baseclass
  * cannot be set to non-zero values.
  *
- * \ingroup Transforms
  *
  * \ingroup ITKTransform
  */

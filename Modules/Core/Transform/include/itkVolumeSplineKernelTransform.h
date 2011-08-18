@@ -28,7 +28,6 @@ namespace itk
  * the IEEE TMI paper by Davis, Khotanzad, Flamig, and Harms,
  * Vol. 16 No. 3 June 1997
  *
- * \ingroup Transforms
  * \ingroup ITKTransform
  */
 template< class TScalarType, // Data type for scalars (float or

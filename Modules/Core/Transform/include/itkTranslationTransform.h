@@ -31,7 +31,6 @@ namespace itk
  * The same functionality could be obtained by using the Affine tranform,
  * but with a large difference in performace.
  *
- * \ingroup Transforms
  * \ingroup ITKTransform
  *
  * \wiki

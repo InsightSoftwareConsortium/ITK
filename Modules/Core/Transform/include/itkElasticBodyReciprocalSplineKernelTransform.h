@@ -32,7 +32,6 @@ namespace itk
  * three-dimensional elastic body. The model can approximate the way
  * that some physical objects deform".
  *
- * \ingroup Transforms
  * \ingroup ITKTransform
  */
 template< class TScalarType = double,   // Data type for scalars (float or

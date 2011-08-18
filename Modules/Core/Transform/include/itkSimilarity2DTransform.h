@@ -56,7 +56,6 @@ namespace itk
  * \sa MatrixOffsetTransformBase
  * \sa Rigid2DTransform
  *
- * \ingroup Transforms
  * \ingroup ITKTransform
  */
 template <class TScalarType = double>

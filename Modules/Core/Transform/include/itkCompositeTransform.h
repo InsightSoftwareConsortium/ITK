@@ -94,7 +94,6 @@ namespace itk
  *  call to SetParameters. Is this worth worrying about? i.e. how much time
  *  will it take in the overall registration process? Probably very little.
  *
- * \ingroup Transforms
  *
  * \ingroup ITKTransform
  */
