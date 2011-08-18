@@ -121,7 +121,7 @@ public:
    * its use without copying full members. */
   virtual::itk::LightObject::Pointer CreateAnother(void) const
     {
-    itkExceptionMacro("CreateAnother unimplemented. See source comments.");
+      itkExceptionMacro("CreateAnother unimplemented. See source comments.");
     }
 
   /** Component transform type **/
@@ -175,14 +175,14 @@ public:
   /** See transforms at the front and the back of the queue */
   const
   TransformTypePointer GetFrontTransform()
-    {
+  {
     return this->m_TransformQueue.front();
-    }
+  }
   const
   TransformTypePointer GetBackTransform()
-    {
+  {
     return this->m_TransformQueue.back();
-    }
+  }
 
   const
   TransformTypePointer GetNthTransform( size_t n ) const
@@ -245,12 +245,15 @@ public:
 
   /** Access transform queue */
   const TransformQueueType & GetTransformQueue() const
-  { return this->m_TransformQueue; }
-
+  {
+    return this->m_TransformQueue;
+  }
 
   /** Access optimize flags */
   const TransformsToOptimizeFlagsType & GetTransformsToOptimizeFlags() const
-  { return this->m_TransformsToOptimizeFlags; }
+  {
+    return this->m_TransformsToOptimizeFlags;
+  }
 
   /** Misc. functionality */
   bool IsTransformQueueEmpty()
