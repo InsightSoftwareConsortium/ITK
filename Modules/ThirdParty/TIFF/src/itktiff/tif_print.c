@@ -1,26 +1,26 @@
-/* Id */
+/* $Id: tif_print.c,v 1.54 2011-04-02 20:54:09 bfriesen Exp $ */
 
 /*
  * Copyright (c) 1988-1997 Sam Leffler
  * Copyright (c) 1991-1997 Silicon Graphics, Inc.
  *
- * Permission to use, copy, modify, distribute, and sell this software and 
+ * Permission to use, copy, modify, distribute, and sell this software and
  * its documentation for any purpose is hereby granted without fee, provided
  * that (i) the above copyright notices and this permission notice appear in
  * all copies of the software and related documentation, and (ii) the names of
  * Sam Leffler and Silicon Graphics may not be used in any advertising or
  * publicity relating to the software without the specific, prior written
  * permission of Sam Leffler and Silicon Graphics.
- * 
- * THE SOFTWARE IS PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY KIND, 
- * EXPRESS, IMPLIED OR OTHERWISE, INCLUDING WITHOUT LIMITATION, ANY 
- * WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.  
- * 
+ *
+ * THE SOFTWARE IS PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS, IMPLIED OR OTHERWISE, INCLUDING WITHOUT LIMITATION, ANY
+ * WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+ *
  * IN NO EVENT SHALL SAM LEFFLER OR SILICON GRAPHICS BE LIABLE FOR
  * ANY SPECIAL, INCIDENTAL, INDIRECT OR CONSEQUENTIAL DAMAGES OF ANY KIND,
  * OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
- * WHETHER OR NOT ADVISED OF THE POSSIBILITY OF DAMAGE, AND ON ANY THEORY OF 
- * LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE 
+ * WHETHER OR NOT ADVISED OF THE POSSIBILITY OF DAMAGE, AND ON ANY THEORY OF
+ * LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
  * OF THIS SOFTWARE.
  */
 
@@ -60,6 +60,146 @@ static const char *orientNames[] = {
 };
 #define  NORIENTNAMES  (sizeof (orientNames) / sizeof (orientNames[0]))
 
+static void
+_TIFFPrintField(FILE* fd, const TIFFField *fip,
+    uint32 value_count, void *raw_data)
+{
+  uint32 j;
+
+  fprintf(fd, "  %s: ", fip->field_name);
+
+  for(j = 0; j < value_count; j++) {
+    if(fip->field_type == TIFF_BYTE)
+      fprintf(fd, "%u", ((uint8 *) raw_data)[j]);
+    else if(fip->field_type == TIFF_UNDEFINED)
+      fprintf(fd, "0x%x",
+          (unsigned int) ((unsigned char *) raw_data)[j]);
+    else if(fip->field_type == TIFF_SBYTE)
+      fprintf(fd, "%d", ((int8 *) raw_data)[j]);
+    else if(fip->field_type == TIFF_SHORT)
+      fprintf(fd, "%u", ((uint16 *) raw_data)[j]);
+    else if(fip->field_type == TIFF_SSHORT)
+      fprintf(fd, "%d", ((int16 *) raw_data)[j]);
+    else if(fip->field_type == TIFF_LONG)
+      fprintf(fd, "%lu",
+          (unsigned long)((uint32 *) raw_data)[j]);
+    else if(fip->field_type == TIFF_SLONG)
+      fprintf(fd, "%ld", (long)((int32 *) raw_data)[j]);
+    else if(fip->field_type == TIFF_IFD)
+      fprintf(fd, "0x%lx",
+        (unsigned long)((uint32 *) raw_data)[j]);
+    else if(fip->field_type == TIFF_RATIONAL
+      || fip->field_type == TIFF_SRATIONAL
+      || fip->field_type == TIFF_FLOAT)
+      fprintf(fd, "%f", ((float *) raw_data)[j]);
+    else if(fip->field_type == TIFF_LONG8)
+#if defined(__WIN32__) && (defined(_MSC_VER) || defined(__MINGW32__))
+      fprintf(fd, "%I64u",
+          (unsigned __int64)((uint64 *) raw_data)[j]);
+#else
+      fprintf(fd, "%llu",
+          (unsigned long long)((uint64 *) raw_data)[j]);
+#endif
+    else if(fip->field_type == TIFF_SLONG8)
+#if defined(__WIN32__) && (defined(_MSC_VER) || defined(__MINGW32__))
+      fprintf(fd, "%I64d", (__int64)((int64 *) raw_data)[j]);
+#else
+      fprintf(fd, "%lld", (long long)((int64 *) raw_data)[j]);
+#endif
+    else if(fip->field_type == TIFF_IFD8)
+#if defined(__WIN32__) && (defined(_MSC_VER) || defined(__MINGW32__))
+      fprintf(fd, "0x%I64x",
+        (unsigned __int64)((uint64 *) raw_data)[j]);
+#else
+      fprintf(fd, "0x%llx",
+        (unsigned long long)((uint64 *) raw_data)[j]);
+#endif
+    else if(fip->field_type == TIFF_FLOAT)
+      fprintf(fd, "%f", ((float *)raw_data)[j]);
+    else if(fip->field_type == TIFF_DOUBLE)
+      fprintf(fd, "%f", ((double *) raw_data)[j]);
+    else if(fip->field_type == TIFF_ASCII) {
+      fprintf(fd, "%s", (char *) raw_data);
+      break;
+    }
+    else {
+      fprintf(fd, "<unsupported data type in TIFFPrint>");
+      break;
+    }
+
+    if(j < value_count - 1)
+      fprintf(fd, ",");
+  }
+
+  fprintf(fd, "\n");
+}
+
+static int
+_TIFFPrettyPrintField(TIFF* tif, FILE* fd, uint32 tag,
+          uint32 value_count, void *raw_data)
+{
+        (void) tif;
+
+  switch (tag)
+  {
+    case TIFFTAG_INKSET:
+      fprintf(fd, "  Ink Set: ");
+      switch (*((uint16*)raw_data)) {
+        case INKSET_CMYK:
+          fprintf(fd, "CMYK\n");
+          break;
+        default:
+          fprintf(fd, "%u (0x%x)\n",
+              *((uint16*)raw_data),
+              *((uint16*)raw_data));
+          break;
+      }
+      return 1;
+    case TIFFTAG_DOTRANGE:
+      fprintf(fd, "  Dot Range: %u-%u\n",
+          ((uint16*)raw_data)[0], ((uint16*)raw_data)[1]);
+      return 1;
+    case TIFFTAG_WHITEPOINT:
+      fprintf(fd, "  White Point: %g-%g\n",
+          ((float *)raw_data)[0], ((float *)raw_data)[1]);
+      return 1;
+    case TIFFTAG_XMLPACKET:
+    {
+      uint32 i;
+
+      fprintf(fd, "  XMLPacket (XMP Metadata):\n" );
+      for(i = 0; i < value_count; i++)
+        fputc(((char *)raw_data)[i], fd);
+      fprintf( fd, "\n" );
+      return 1;
+    }
+    case TIFFTAG_RICHTIFFIPTC:
+      /*
+       * XXX: for some weird reason RichTIFFIPTC tag
+       * defined as array of LONG values.
+       */
+      fprintf(fd,
+          "  RichTIFFIPTC Data: <present>, %lu bytes\n",
+          (unsigned long) value_count * 4);
+      return 1;
+    case TIFFTAG_PHOTOSHOP:
+      fprintf(fd, "  Photoshop Data: <present>, %lu bytes\n",
+          (unsigned long) value_count);
+      return 1;
+    case TIFFTAG_ICCPROFILE:
+      fprintf(fd, "  ICC Profile: <present>, %lu bytes\n",
+          (unsigned long) value_count);
+      return 1;
+    case TIFFTAG_STONITS:
+      fprintf(fd,
+          "  Sample to Nits conversion factor: %.4e\n",
+          *((double*)raw_data));
+      return 1;
+  }
+
+  return 0;
+}
+
 /*
  * Print the contents of the current directory
  * to the specified stdio file stream.
@@ -67,14 +207,20 @@ static const char *orientNames[] = {
 void
 TIFFPrintDirectory(TIFF* tif, FILE* fd, long flags)
 {
-  register TIFFDirectory *td;
+  TIFFDirectory *td = &tif->tif_dir;
   char *sep;
   uint16 i;
   long l, n;
 
-  fprintf(fd, "TIFF Directory at offset 0x%lx\n",
-    (unsigned long)tif->tif_diroff);
-  td = &tif->tif_dir;
+#if defined(__WIN32__) && (defined(_MSC_VER) || defined(__MINGW32__))
+  fprintf(fd, "TIFF Directory at offset 0x%I64x (%I64u)\n",
+    (unsigned __int64) tif->tif_diroff,
+    (unsigned __int64) tif->tif_diroff);
+#else
+  fprintf(fd, "TIFF Directory at offset 0x%llx (%llu)\n",
+    (unsigned long long) tif->tif_diroff,
+    (unsigned long long) tif->tif_diroff);
+#endif
   if (TIFFFieldSet(tif,FIELD_SUBFILETYPE)) {
     fprintf(fd, "  Subfile Type:");
     sep = " ";
@@ -99,42 +245,6 @@ TIFFPrintDirectory(TIFF* tif, FILE* fd, long flags)
           (unsigned long) td->td_imagedepth);
     fprintf(fd, "\n");
   }
-
-   /* Begin Pixar */
-   if (TIFFFieldSet(tif,FIELD_IMAGEFULLWIDTH) ||
-       TIFFFieldSet(tif,FIELD_IMAGEFULLLENGTH)) {
-    fprintf(fd, "  Pixar Full Image Width: %lu Full Image Length: %lu\n",
-      (unsigned long) td->td_imagefullwidth,
-      (unsigned long) td->td_imagefulllength);
-   }
-   if (TIFFFieldSet(tif,FIELD_TEXTUREFORMAT))
-    _TIFFprintAsciiTag(fd, "Texture Format", td->td_textureformat);
-   if (TIFFFieldSet(tif,FIELD_WRAPMODES))
-    _TIFFprintAsciiTag(fd, "Texture Wrap Modes", td->td_wrapmodes);
-   if (TIFFFieldSet(tif,FIELD_FOVCOT))
-    fprintf(fd, "  Field of View Cotangent: %g\n", td->td_fovcot);
-  if (TIFFFieldSet(tif,FIELD_MATRIX_WORLDTOSCREEN)) {
-    typedef float  Matrix[4][4];
-    Matrix*    m = (Matrix*)td->td_matrixWorldToScreen;
-    
-    fprintf(fd, "  Matrix NP:\n\t%g %g %g %g\n\t%g %g %g %g\n\t%g %g %g %g\n\t%g %g %g %g\n",
-      (*m)[0][0], (*m)[0][1], (*m)[0][2], (*m)[0][3],
-      (*m)[1][0], (*m)[1][1], (*m)[1][2], (*m)[1][3],
-      (*m)[2][0], (*m)[2][1], (*m)[2][2], (*m)[2][3],
-      (*m)[3][0], (*m)[3][1], (*m)[3][2], (*m)[3][3]);
-   }
-   if (TIFFFieldSet(tif,FIELD_MATRIX_WORLDTOCAMERA)) {
-    typedef float  Matrix[4][4];
-    Matrix*    m = (Matrix*)td->td_matrixWorldToCamera;
-    
-    fprintf(fd, "  Matrix Nl:\n\t%g %g %g %g\n\t%g %g %g %g\n\t%g %g %g %g\n\t%g %g %g %g\n",
-      (*m)[0][0], (*m)[0][1], (*m)[0][2], (*m)[0][3],
-      (*m)[1][0], (*m)[1][1], (*m)[1][2], (*m)[1][3],
-      (*m)[2][0], (*m)[2][1], (*m)[2][2], (*m)[2][3],
-      (*m)[3][0], (*m)[3][1], (*m)[3][2], (*m)[3][3]);
-   }
-   /* End Pixar */
-  
   if (TIFFFieldSet(tif,FIELD_TILEDIMENSIONS)) {
     fprintf(fd, "  Tile Width: %lu Tile Length: %lu",
         (unsigned long) td->td_tilewidth, (unsigned long) td->td_tilelength);
@@ -249,22 +359,6 @@ TIFFPrintDirectory(TIFF* tif, FILE* fd, long flags)
     }
     fprintf(fd, ">\n");
   }
-  if (TIFFFieldSet(tif,FIELD_STONITS)) {
-    fprintf(fd, "  Sample to Nits conversion factor: %.4e\n",
-        td->td_stonits);
-  }
-  if (TIFFFieldSet(tif,FIELD_INKSET)) {
-    fprintf(fd, "  Ink Set: ");
-    switch (td->td_inkset) {
-    case INKSET_CMYK:
-      fprintf(fd, "CMYK\n");
-      break;
-    default:
-      fprintf(fd, "%u (0x%x)\n",
-          td->td_inkset, td->td_inkset);
-      break;
-    }
-  }
   if (TIFFFieldSet(tif,FIELD_INKNAMES)) {
     char* cp;
     fprintf(fd, "  Ink Names: ");
@@ -277,13 +371,6 @@ TIFFPrintDirectory(TIFF* tif, FILE* fd, long flags)
     }
                 fputs("\n", fd);
   }
-  if (TIFFFieldSet(tif,FIELD_NUMBEROFINKS))
-    fprintf(fd, "  Number of Inks: %u\n", td->td_ninks);
-  if (TIFFFieldSet(tif,FIELD_DOTRANGE))
-    fprintf(fd, "  Dot Range: %u-%u\n",
-        td->td_dotrange[0], td->td_dotrange[1]);
-  if (TIFFFieldSet(tif,FIELD_TARGETPRINTER))
-    _TIFFprintAsciiTag(fd, "Target Printer", td->td_targetprinter);
   if (TIFFFieldSet(tif,FIELD_THRESHHOLDING)) {
     fprintf(fd, "  Thresholding: ");
     switch (td->td_threshholding) {
@@ -319,18 +406,9 @@ TIFFPrintDirectory(TIFF* tif, FILE* fd, long flags)
   }
   if (TIFFFieldSet(tif,FIELD_YCBCRSUBSAMPLING))
         {
-            /*
-             * For hacky reasons (see tif_jpeg.c - JPEGFixupTestSubsampling),
-             * we need to fetch this rather than trust what is in our
-             * structures.
-             */
-            uint16 subsampling[2];
-
-            TIFFGetField( tif, TIFFTAG_YCBCRSUBSAMPLING, 
-                          subsampling + 0, subsampling + 1 );
     fprintf(fd, "  YCbCr Subsampling: %u, %u\n",
-                        subsampling[0], subsampling[1] );
-        }
+      td->td_ycbcrsubsampling[0], td->td_ycbcrsubsampling[1] );
+  }
   if (TIFFFieldSet(tif,FIELD_YCBCRPOSITIONING)) {
     fprintf(fd, "  YCbCr Positioning: ");
     switch (td->td_ycbcrpositioning) {
@@ -346,30 +424,9 @@ TIFFPrintDirectory(TIFF* tif, FILE* fd, long flags)
       break;
     }
   }
-  if (TIFFFieldSet(tif,FIELD_YCBCRCOEFFICIENTS))
-    fprintf(fd, "  YCbCr Coefficients: %g, %g, %g\n",
-        td->td_ycbcrcoeffs[0],
-        td->td_ycbcrcoeffs[1],
-        td->td_ycbcrcoeffs[2]);
   if (TIFFFieldSet(tif,FIELD_HALFTONEHINTS))
     fprintf(fd, "  Halftone Hints: light %u dark %u\n",
         td->td_halftonehints[0], td->td_halftonehints[1]);
-  if (TIFFFieldSet(tif,FIELD_ARTIST))
-    _TIFFprintAsciiTag(fd, "Artist", td->td_artist);
-  if (TIFFFieldSet(tif,FIELD_DATETIME))
-    _TIFFprintAsciiTag(fd, "Date & Time", td->td_datetime);
-  if (TIFFFieldSet(tif,FIELD_HOSTCOMPUTER))
-    _TIFFprintAsciiTag(fd, "Host Computer", td->td_hostcomputer);
-  if (TIFFFieldSet(tif,FIELD_COPYRIGHT))
-    _TIFFprintAsciiTag(fd, "Copyright", td->td_copyright);
-  if (TIFFFieldSet(tif,FIELD_DOCUMENTNAME))
-    _TIFFprintAsciiTag(fd, "Document Name", td->td_documentname);
-  if (TIFFFieldSet(tif,FIELD_IMAGEDESCRIPTION))
-    _TIFFprintAsciiTag(fd, "Image Description", td->td_imagedescription);
-  if (TIFFFieldSet(tif,FIELD_MAKE))
-    _TIFFprintAsciiTag(fd, "Make", td->td_make);
-  if (TIFFFieldSet(tif,FIELD_MODEL))
-    _TIFFprintAsciiTag(fd, "Model", td->td_model);
   if (TIFFFieldSet(tif,FIELD_ORIENTATION)) {
     fprintf(fd, "  Orientation: ");
     if (td->td_orientation < NORIENTNAMES)
@@ -391,12 +448,18 @@ TIFFPrintDirectory(TIFF* tif, FILE* fd, long flags)
     fprintf(fd, "  Min Sample Value: %u\n", td->td_minsamplevalue);
   if (TIFFFieldSet(tif,FIELD_MAXSAMPLEVALUE))
     fprintf(fd, "  Max Sample Value: %u\n", td->td_maxsamplevalue);
-  if (TIFFFieldSet(tif,FIELD_SMINSAMPLEVALUE))
-    fprintf(fd, "  SMin Sample Value: %g\n",
-        td->td_sminsamplevalue);
-  if (TIFFFieldSet(tif,FIELD_SMAXSAMPLEVALUE))
-    fprintf(fd, "  SMax Sample Value: %g\n",
-        td->td_smaxsamplevalue);
+  if (TIFFFieldSet(tif,FIELD_SMINSAMPLEVALUE)) {
+    fprintf(fd, "  SMin Sample Value:");
+    for (i = 0; i < td->td_samplesperpixel; ++i)
+      fprintf(fd, " %g", td->td_sminsamplevalue[i]);
+    fprintf(fd, "\n");
+  }
+  if (TIFFFieldSet(tif,FIELD_SMAXSAMPLEVALUE)) {
+    fprintf(fd, "  SMax Sample Value:");
+    for (i = 0; i < td->td_samplesperpixel; ++i)
+      fprintf(fd, " %g", td->td_smaxsamplevalue[i]);
+    fprintf(fd, "\n");
+  }
   if (TIFFFieldSet(tif,FIELD_PLANARCONFIG)) {
     fprintf(fd, "  Planar Configuration: ");
     switch (td->td_planarconfig) {
@@ -412,8 +475,6 @@ TIFFPrintDirectory(TIFF* tif, FILE* fd, long flags)
       break;
     }
   }
-  if (TIFFFieldSet(tif,FIELD_PAGENAME))
-    _TIFFprintAsciiTag(fd, "Page Name", td->td_pagename);
   if (TIFFFieldSet(tif,FIELD_PAGENUMBER))
     fprintf(fd, "  Page Number: %u-%u\n",
         td->td_pagenumber[0], td->td_pagenumber[1]);
@@ -431,21 +492,12 @@ TIFFPrintDirectory(TIFF* tif, FILE* fd, long flags)
     } else
       fprintf(fd, "(present)\n");
   }
-  if (TIFFFieldSet(tif,FIELD_WHITEPOINT))
-    fprintf(fd, "  White Point: %g-%g\n",
-        td->td_whitepoint[0], td->td_whitepoint[1]);
-  if (TIFFFieldSet(tif,FIELD_PRIMARYCHROMAS))
-    fprintf(fd, "  Primary Chromaticities: %g,%g %g,%g %g,%g\n",
-        td->td_primarychromas[0], td->td_primarychromas[1],
-        td->td_primarychromas[2], td->td_primarychromas[3],
-        td->td_primarychromas[4], td->td_primarychromas[5]);
   if (TIFFFieldSet(tif,FIELD_REFBLACKWHITE)) {
     fprintf(fd, "  Reference Black/White:\n");
-    for (i = 0; i < td->td_samplesperpixel; i++)
-      fprintf(fd, "    %2d: %5g %5g\n",
-          i,
-          td->td_refblackwhite[2*i+0],
-          td->td_refblackwhite[2*i+1]);
+    for (i = 0; i < 3; i++)
+    fprintf(fd, "    %2d: %5g %5g\n", i,
+      td->td_refblackwhite[2*i+0],
+      td->td_refblackwhite[2*i+1]);
   }
   if (TIFFFieldSet(tif,FIELD_TRANSFERFUNCTION)) {
     fprintf(fd, "  Transfer Function: ");
@@ -463,128 +515,133 @@ TIFFPrintDirectory(TIFF* tif, FILE* fd, long flags)
     } else
       fprintf(fd, "(present)\n");
   }
-  if (TIFFFieldSet(tif,FIELD_ICCPROFILE))
-    fprintf(fd, "  ICC Profile: <present>, %lu bytes\n",
-        (unsigned long) td->td_profileLength);
-   if (TIFFFieldSet(tif,FIELD_PHOTOSHOP))
-     fprintf(fd, "  Photoshop Data: <present>, %lu bytes\n",
-         (unsigned long) td->td_photoshopLength);
-   if (TIFFFieldSet(tif,FIELD_RICHTIFFIPTC))
-     fprintf(fd, "  RichTIFFIPTC Data: <present>, %lu bytes\n",
-         (unsigned long) td->td_richtiffiptcLength);
-  if (TIFFFieldSet(tif, FIELD_SUBIFD)) {
+  if (TIFFFieldSet(tif, FIELD_SUBIFD) && (td->td_subifd)) {
     fprintf(fd, "  SubIFD Offsets:");
     for (i = 0; i < td->td_nsubifd; i++)
-      fprintf(fd, " %5lu", (long) td->td_subifd[i]);
+#if defined(__WIN32__) && (defined(_MSC_VER) || defined(__MINGW32__))
+      fprintf(fd, " %5I64u",
+        (unsigned __int64) td->td_subifd[i]);
+#else
+      fprintf(fd, " %5llu",
+        (unsigned long long) td->td_subifd[i]);
+#endif
     fputc('\n', fd);
   }
-   if (TIFFFieldSet(tif,FIELD_XMLPACKET)) {
-            fprintf(fd, "  XMLPacket (XMP Metadata):\n" );
-            for( i=0; i < td->td_xmlpacketLength; i++ )
-                fputc( ((char *)td->td_xmlpacketData)[i], fd );
-            fprintf( fd, "\n" );
+
+  /*
+  ** Custom tag support.
+  */
+  {
+    int  i;
+    short count;
+
+    count = (short) TIFFGetTagListCount(tif);
+    for(i = 0; i < count; i++) {
+      uint32 tag = TIFFGetTagListEntry(tif, i);
+      const TIFFField *fip;
+      uint32 value_count;
+      int mem_alloc = 0;
+      void *raw_data;
+
+      fip = TIFFFieldWithTag(tif, tag);
+      if(fip == NULL)
+        continue;
+
+      if(fip->field_passcount) {
+        if(TIFFGetField(tif, tag, &value_count, &raw_data) != 1)
+          continue;
+      } else {
+        if (fip->field_readcount == TIFF_VARIABLE
+            || fip->field_readcount == TIFF_VARIABLE2)
+          value_count = 1;
+        else if (fip->field_readcount == TIFF_SPP)
+          value_count = td->td_samplesperpixel;
+        else
+          value_count = fip->field_readcount;
+        if ((fip->field_type == TIFF_ASCII
+            || fip->field_readcount == TIFF_VARIABLE
+            || fip->field_readcount == TIFF_VARIABLE2
+            || fip->field_readcount == TIFF_SPP
+            || value_count > 1)
+            && fip->field_tag != TIFFTAG_PAGENUMBER
+            && fip->field_tag != TIFFTAG_HALFTONEHINTS
+            && fip->field_tag != TIFFTAG_YCBCRSUBSAMPLING
+            && fip->field_tag != TIFFTAG_DOTRANGE) {
+          if(TIFFGetField(tif, tag, &raw_data) != 1)
+            continue;
+        } else if (fip->field_tag != TIFFTAG_PAGENUMBER
+            && fip->field_tag != TIFFTAG_HALFTONEHINTS
+            && fip->field_tag != TIFFTAG_YCBCRSUBSAMPLING
+            && fip->field_tag != TIFFTAG_DOTRANGE) {
+          raw_data = _TIFFmalloc(
+              _TIFFDataSize(fip->field_type)
+              * value_count);
+          mem_alloc = 1;
+          if(TIFFGetField(tif, tag, raw_data) != 1) {
+            _TIFFfree(raw_data);
+            continue;
+          }
+        } else {
+          /*
+           * XXX: Should be fixed and removed,
+           * see the notes related to
+           * TIFFTAG_PAGENUMBER,
+           * TIFFTAG_HALFTONEHINTS,
+           * TIFFTAG_YCBCRSUBSAMPLING and
+           * TIFFTAG_DOTRANGE tags in tif_dir.c.
+           */
+          char *tmp;
+          raw_data = _TIFFmalloc(
+              _TIFFDataSize(fip->field_type)
+              * value_count);
+          tmp = raw_data;
+          mem_alloc = 1;
+          if(TIFFGetField(tif, tag, tmp,
+              tmp + _TIFFDataSize(fip->field_type)) != 1) {
+            _TIFFfree(raw_data);
+            continue;
+          }
         }
+      }
 
-        /*
-        ** Custom tag support.
-        */
-        {
-            int ii;
-            short count;
+      /*
+       * Catch the tags which needs to be specially handled
+       * and pretty print them. If tag not handled in
+       * _TIFFPrettyPrintField() fall down and print it as
+       * any other tag.
+       */
+      if (!_TIFFPrettyPrintField(tif, fd, tag, value_count, raw_data))
+        _TIFFPrintField(fd, fip, value_count, raw_data);
 
-            count = (short) TIFFGetTagListCount( tif );
-            for( ii = 0; ii < count; ii++ )
-            {
-                ttag_t  tag = TIFFGetTagListEntry( tif, ii );
-                const TIFFFieldInfo *fld;
+      if(mem_alloc)
+        _TIFFfree(raw_data);
+    }
+  }
 
-                fld = TIFFFieldWithTag( tif, tag );
-                if( fld == NULL )
-                    continue;
-
-                if( fld->field_passcount )
-                {
-                    short value_count;
-                    int j;
-                    void *raw_data;
-                    
-                    if( TIFFGetField( tif, tag, &value_count, &raw_data ) != 1 )
-                        continue;
-
-                    fprintf(fd, "  %s: ", fld->field_name );
-
-                    for( j = 0; j < value_count; j++ )
-                    {
-      if( fld->field_type == TIFF_BYTE )
-                            fprintf( fd, "%d",
-                                     (int) ((char *) raw_data)[j] );
-      else if( fld->field_type == TIFF_SHORT )
-                            fprintf( fd, "%d",
-                                     (int) ((unsigned short *) raw_data)[j] );
-      else if( fld->field_type == TIFF_SSHORT )
-                            fprintf( fd, "%d",
-                                     (int) ((short *) raw_data)[j] );
-                        else if( fld->field_type == TIFF_LONG )
-                            fprintf( fd, "%d",
-                                     (int) ((unsigned long *) raw_data)[j] );
-                        else if( fld->field_type == TIFF_SLONG )
-                            fprintf( fd, "%d",
-                                     (int) ((long *) raw_data)[j] );
-      else if( fld->field_type == TIFF_RATIONAL )
-          fprintf( fd, "%f",
-             ((float *) raw_data)[j] );
-      else if( fld->field_type == TIFF_SRATIONAL )
-          fprintf( fd, "%f",
-             ((float *) raw_data)[j] );
-                        else if( fld->field_type == TIFF_ASCII )
-                        {
-                            fprintf( fd, "%s",
-                                     (char *) raw_data );
-                            break;
-                        }
-                        else if( fld->field_type == TIFF_DOUBLE )
-                            fprintf( fd, "%f",
-                                     ((double *) raw_data)[j] );
-                        else if( fld->field_type == TIFF_FLOAT )
-                            fprintf( fd, "%f",
-                                     ((float *) raw_data)[j] );
-                        else
-                        {
-                            fprintf( fd,
-                                     "<unsupported data type in TIFFPrint>" );
-                            break;
-                        }
-
-                        if( j < value_count-1 )
-                            fprintf( fd, "," );
-                    }
-                    fprintf( fd, "\n" );
-                } 
-                else if( !fld->field_passcount
-                         && fld->field_type == TIFF_ASCII )
-                {
-                    char *data;
-                    
-                    if( TIFFGetField( tif, tag, &data ) )
-                        fprintf(fd, "  %s: %s\n", fld->field_name, data );
-                }
-            }
-        }
-        
   if (tif->tif_tagmethods.printdir)
     (*tif->tif_tagmethods.printdir)(tif, fd, flags);
+
+        _TIFFFillStriles( tif );
+
   if ((flags & TIFFPRINT_STRIPS) &&
       TIFFFieldSet(tif,FIELD_STRIPOFFSETS)) {
-    tstrip_t s;
+    uint32 s;
 
     fprintf(fd, "  %lu %s:\n",
         (long) td->td_nstrips,
         isTiled(tif) ? "Tiles" : "Strips");
     for (s = 0; s < td->td_nstrips; s++)
-      fprintf(fd, "    %3lu: [%8lu, %8lu]\n",
+#if defined(__WIN32__) && (defined(_MSC_VER) || defined(__MINGW32__))
+      fprintf(fd, "    %3lu: [%8I64u, %8I64u]\n",
           (unsigned long) s,
-          (unsigned long) td->td_stripoffset[s],
-          (unsigned long) td->td_stripbytecount[s]);
+          (unsigned __int64) td->td_stripoffset[s],
+          (unsigned __int64) td->td_stripbytecount[s]);
+#else
+      fprintf(fd, "    %3lu: [%8llu, %8llu]\n",
+          (unsigned long) s,
+          (unsigned long long) td->td_stripoffset[s],
+          (unsigned long long) td->td_stripbytecount[s]);
+#endif
   }
 }
 
@@ -616,3 +673,11 @@ _TIFFprintAsciiTag(FILE* fd, const char* name, const char* value)
   fprintf(fd, "\"\n");
 }
 
+/* vim: set ts=8 sts=8 sw=8 noet: */
+/*
+ * Local Variables:
+ * mode: c
+ * c-basic-offset: 8
+ * fill-column: 78
+ * End:
+ */

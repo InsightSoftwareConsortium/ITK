@@ -17,6 +17,7 @@ if(ITK_USE_SYSTEM_TIFF)
 else()
   set(ITKTIFF_INCLUDE_DIRS
     ${ITKTIFF_BINARY_DIR}/src
+    ${ITKTIFF_BINARY_DIR}/src/itktiff
     ${ITKTIFF_SOURCE_DIR}/src
     )
   set(ITKTIFF_LIBRARIES itktiff)

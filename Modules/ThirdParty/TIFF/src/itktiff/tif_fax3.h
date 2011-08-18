@@ -1,26 +1,26 @@
-/* Id */
+/* $Id: tif_fax3.h,v 1.9 2011-03-10 20:23:07 fwarmerdam Exp $ */
 
 /*
  * Copyright (c) 1990-1997 Sam Leffler
  * Copyright (c) 1991-1997 Silicon Graphics, Inc.
  *
- * Permission to use, copy, modify, distribute, and sell this software and 
+ * Permission to use, copy, modify, distribute, and sell this software and
  * its documentation for any purpose is hereby granted without fee, provided
  * that (i) the above copyright notices and this permission notice appear in
  * all copies of the software and related documentation, and (ii) the names of
  * Sam Leffler and Silicon Graphics may not be used in any advertising or
  * publicity relating to the software without the specific, prior written
  * permission of Sam Leffler and Silicon Graphics.
- * 
- * THE SOFTWARE IS PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY KIND, 
- * EXPRESS, IMPLIED OR OTHERWISE, INCLUDING WITHOUT LIMITATION, ANY 
- * WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.  
- * 
+ *
+ * THE SOFTWARE IS PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS, IMPLIED OR OTHERWISE, INCLUDING WITHOUT LIMITATION, ANY
+ * WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+ *
  * IN NO EVENT SHALL SAM LEFFLER OR SILICON GRAPHICS BE LIABLE FOR
  * ANY SPECIAL, INCIDENTAL, INDIRECT OR CONSEQUENTIAL DAMAGES OF ANY KIND,
  * OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
- * WHETHER OR NOT ADVISED OF THE POSSIBILITY OF DAMAGE, AND ON ANY THEORY OF 
- * LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE 
+ * WHETHER OR NOT ADVISED OF THE POSSIBILITY OF DAMAGE, AND ON ANY THEORY OF
+ * LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
  * OF THIS SOFTWARE.
  */
 
@@ -52,7 +52,7 @@
  * data in the run array as needed (e.g. to append zero runs to bring
  * the count up to a nice multiple).
  */
-typedef  void (*TIFFFaxFillFunc)(unsigned char*, uint32*, uint32*, uint32);
+typedef void (*TIFFFaxFillFunc)(unsigned char*, uint32*, uint32*, uint32);
 
 /*
  * The default run filler; made external for other decoders.
@@ -60,36 +60,36 @@ typedef  void (*TIFFFaxFillFunc)(unsigned char*, uint32*, uint32*, uint32);
 #if defined(__cplusplus)
 extern "C" {
 #endif
-extern  void _TIFFFax3fillruns(unsigned char*, uint32*, uint32*, uint32);
+extern void _TIFFFax3fillruns(unsigned char*, uint32*, uint32*, uint32);
 #if defined(__cplusplus)
 }
 #endif
 
 
 /* finite state machine codes */
-#define S_Null    0
-#define S_Pass    1
+#define S_Null     0
+#define S_Pass     1
 #define S_Horiz    2
-#define S_V0    3
-#define S_VR    4
-#define S_VL    5
-#define S_Ext    6
+#define S_V0       3
+#define S_VR       4
+#define S_VL       5
+#define S_Ext      6
 #define S_TermW    7
 #define S_TermB    8
 #define S_MakeUpW  9
 #define S_MakeUpB  10
-#define S_MakeUp  11
-#define S_EOL    12
+#define S_MakeUp   11
+#define S_EOL      12
 
-typedef struct {    /* state table entry */
-  unsigned char State;  /* see above */
-  unsigned char Width;  /* width of code in bits */
-  uint32  Param;    /* unsigned 32-bit run length in bits */
+typedef struct {                /* state table entry */
+  unsigned char State;    /* see above */
+  unsigned char Width;    /* width of code in bits */
+  uint32 Param;           /* unsigned 32-bit run length in bits */
 } TIFFFaxTabEnt;
 
-extern  const TIFFFaxTabEnt TIFFFaxMainTable[];
-extern  const TIFFFaxTabEnt TIFFFaxWhiteTable[];
-extern  const TIFFFaxTabEnt TIFFFaxBlackTable[];
+extern const TIFFFaxTabEnt TIFFFaxMainTable[];
+extern const TIFFFaxTabEnt TIFFFaxWhiteTable[];
+extern const TIFFFaxTabEnt TIFFFaxBlackTable[];
 
 /*
  * The following macros define the majority of the G3/G4 decoder
@@ -217,9 +217,9 @@ static const char* StateNames[] = {
     ClrBits(TabEnt->Width);            \
 } while (0)
 
-#define SETVAL(x) do {              \
+#define SETVALUE(x) do {              \
     *pa++ = RunLength + (x);            \
-    printf("SETVAL: %d\t%d\n", RunLength + (x), a0);      \
+    printf("SETVALUE: %d\t%d\n", RunLength + (x), a0);      \
     a0 += x;                \
     RunLength = 0;              \
 } while (0)
@@ -239,7 +239,7 @@ static const char* StateNames[] = {
  * Append a run to the run length array for the
  * current row and reset decoding state.
  */
-#define SETVAL(x) do {              \
+#define SETVALUE(x) do {              \
     *pa++ = RunLength + (x);            \
     a0 += (x);                \
     RunLength = 0;              \
@@ -283,24 +283,23 @@ static const char* StateNames[] = {
  * overwritten and/or undecoded area is white filled.
  */
 #define  CLEANUP_RUNS() do {            \
-  if (RunLength) {            \
-    SETVAL(0);              \
-  }                         \
-  if (a0 != lastx) {              \
-    badlength(a0, lastx);            \
-    while (a0 > lastx && pa > thisrun)        \
-    a0 -= *--pa;            \
-    if (a0 < lastx) {            \
+    if (RunLength)              \
+  SETVALUE(0);              \
+    if (a0 != lastx) {              \
+  badlength(a0, lastx);            \
+  while (a0 > lastx && pa > thisrun)        \
+      a0 -= *--pa;            \
+  if (a0 < lastx) {            \
       if (a0 < 0)              \
-      a0 = 0;              \
+    a0 = 0;              \
       if ((pa-thisrun)&1)            \
-      SETVAL(0);            \
-      SETVAL(lastx - a0);            \
-    } else if (a0 > lastx) {          \
-      SETVAL(lastx);            \
-      SETVAL(0);              \
-    }                \
-  }                  \
+    SETVALUE(0);            \
+      SETVALUE(lastx - a0);            \
+  } else if (a0 > lastx) {          \
+      SETVALUE(lastx);            \
+      SETVALUE(0);              \
+  }                \
+    }                  \
 } while (0)
 
 /*
@@ -324,7 +323,7 @@ static const char* StateNames[] = {
     EOLcnt = 1;            \
     goto done1d;            \
       case S_TermW:            \
-    SETVAL(TabEnt->Param);          \
+    SETVALUE(TabEnt->Param);          \
     goto doneWhite1d;          \
       case S_MakeUpW:            \
       case S_MakeUp:            \
@@ -346,7 +345,7 @@ static const char* StateNames[] = {
     EOLcnt = 1;            \
     goto done1d;            \
       case S_TermB:            \
-    SETVAL(TabEnt->Param);          \
+    SETVALUE(TabEnt->Param);          \
     goto doneBlack1d;          \
       case S_MakeUpB:            \
       case S_MakeUp:            \
@@ -403,7 +402,7 @@ done1d:                  \
         LOOKUP16(13, TIFFFaxBlackTable, eof2d);    \
         switch (TabEnt->State) {        \
         case S_TermB:          \
-      SETVAL(TabEnt->Param);        \
+      SETVALUE(TabEnt->Param);        \
       goto doneWhite2da;        \
         case S_MakeUpB:          \
         case S_MakeUp:          \
@@ -419,7 +418,7 @@ done1d:                  \
         LOOKUP16(12, TIFFFaxWhiteTable, eof2d);    \
         switch (TabEnt->State) {        \
         case S_TermW:          \
-      SETVAL(TabEnt->Param);        \
+      SETVALUE(TabEnt->Param);        \
       goto doneBlack2da;        \
         case S_MakeUpW:          \
         case S_MakeUp:          \
@@ -436,7 +435,7 @@ done1d:                  \
         LOOKUP16(12, TIFFFaxWhiteTable, eof2d);    \
         switch (TabEnt->State) {        \
         case S_TermW:          \
-      SETVAL(TabEnt->Param);        \
+      SETVALUE(TabEnt->Param);        \
       goto doneWhite2db;        \
         case S_MakeUpW:          \
         case S_MakeUp:          \
@@ -452,7 +451,7 @@ done1d:                  \
         LOOKUP16(13, TIFFFaxBlackTable, eof2d);    \
         switch (TabEnt->State) {        \
         case S_TermB:          \
-      SETVAL(TabEnt->Param);        \
+      SETVALUE(TabEnt->Param);        \
       goto doneBlack2db;        \
         case S_MakeUpB:          \
         case S_MakeUp:          \
@@ -469,17 +468,23 @@ done1d:                  \
       break;              \
   case S_V0:              \
       CHECK_b1;              \
-      SETVAL(b1 - a0);            \
+      SETVALUE(b1 - a0);            \
       b1 += *pb++;            \
       break;              \
   case S_VR:              \
       CHECK_b1;              \
-      SETVAL(b1 - a0 + TabEnt->Param);        \
+      SETVALUE(b1 - a0 + TabEnt->Param);        \
       b1 += *pb++;            \
       break;              \
   case S_VL:              \
       CHECK_b1;              \
-      SETVAL(b1 - a0 - TabEnt->Param);        \
+      if (b1 <= (int) (a0 + TabEnt->Param)) {      \
+    if (b1 < (int) (a0 + TabEnt->Param) || pa != thisrun) {  \
+        unexpected("VL", a0);        \
+        goto eol2d;            \
+    }              \
+      }                \
+      SETVALUE(b1 - a0 - TabEnt->Param);        \
       b1 -= *--pb;            \
       break;              \
   case S_Ext:              \
@@ -518,9 +523,16 @@ done1d:                  \
     goto badMain2d;            \
       ClrBits(1);              \
   }                \
-  SETVAL(0);              \
+  SETVALUE(0);              \
     }                  \
 eol2d:                  \
     CLEANUP_RUNS();              \
 } while (0)
 #endif /* _FAX3_ */
+/*
+ * Local Variables:
+ * mode: c
+ * c-basic-offset: 8
+ * fill-column: 78
+ * End:
+ */
