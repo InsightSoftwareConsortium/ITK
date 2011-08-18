@@ -244,7 +244,7 @@ Euler3DTransform< TScalarType >
 template< class TScalarType >
 void
 Euler3DTransform< TScalarType >
-::GetJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
+::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
 {
   // need to check if angles are in the right order
   const double cx = vcl_cos(m_AngleX);

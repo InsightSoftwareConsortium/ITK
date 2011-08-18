@@ -48,11 +48,11 @@
       A complete description of the problem is in the issue tracker.
 
       To make a Transform ITKv4 compliant only, replace GetJacobian()
-      with GetJacobianWithRespectToParameters().
+      with ComputeJacobianWithRespectToParameters().
 
       To make a non-standard transform compliant with both ITKv3 and ITKv4,
       move the computation of the JacobianWithRespectToParameters from
-      GetJacobian() to GetJacobianWithRespectToParameters()
+      GetJacobian() to ComputeJacobianWithRespectToParameters()
       Then add the following delegation code for GetJacobian()
 
   // Compute the Jacobian in one position
@@ -61,7 +61,7 @@
   ::JacobianType &
   MyTransform< TScalarType, NDimensions >::GetJacobian(const InputPointType & p) const
   {
-    this->GetJacobianWithRespectToParameters( p, this->m_Jacobian );
+    this->ComputeJacobianWithRespectToParameters( p, this->m_Jacobian );
     return this->m_Jacobian;
   }
       ]]>
@@ -88,10 +88,10 @@
         <![CDATA[
         virtual const JacobianType & GetJacobian ( const InputPointType & p ) const
         {
-          this->GetJacobianWithRespectToParameters( p, this->m_Jacobian );
+          this->ComputeJacobianWithRespectToParameters( p, this->m_Jacobian );
           return this->m_Jacobian;
         }
-        virtual void GetJacobianWithRespectToParameters( const InputPointType & p, JacobianType & jacobian ) const
+        virtual void ComputeJacobianWithRespectToParameters( const InputPointType & p, JacobianType & jacobian ) const
         {
            jacobian.SetSize( NOutputDimensions, this->GetNumberOfLocalParameters() );
            /* Start Jacobian Calculations */
@@ -114,7 +114,7 @@
       <New>
         <![CDATA[
         /** Get Jacobian at a point. A very specialized function just for BSplines */
-        virtual void GetJacobianFromBSplineWeightsAtPoint( const InputPointType &, WeightsType &,
+        virtual void ComputeJacobianFromBSplineWeightsWithRespectToPosition( const InputPointType &, WeightsType &,
                  ParameterIndexArrayType & ) const;
         ]]>
       </New>

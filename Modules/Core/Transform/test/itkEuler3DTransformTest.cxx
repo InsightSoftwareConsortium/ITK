@@ -156,7 +156,7 @@ int itkEuler3DTransformTest(int,char *[] )
 
 
    // Testing Parameters
-  std::cout << "Testing Set/Get Parameters: " ;
+  std::cout << "Testing Set/Get Parameters: ";
   EulerTransformType::ParametersType parameters(6);
   for(unsigned int i=0;i<6;i++)
   {
@@ -188,7 +188,7 @@ int itkEuler3DTransformTest(int,char *[] )
   }
 
   EulerTransformType::JacobianType  jacobian;
-  eulerTransform->GetJacobianWithRespectToParameters(pInit, jacobian);
+  eulerTransform->ComputeJacobianWithRespectToParameters(pInit, jacobian);
 
   if( jacobian[0][0] != 0.0 || jacobian[0][1] != 0.0
       || jacobian[0][2] != 0.0 ||jacobian[0][3] != 1.0
@@ -235,7 +235,7 @@ int itkEuler3DTransformTest(int,char *[] )
     pInit[1] = 1.5;
     pInit[2] = 2.6;
 
-    eulerTransform->GetJacobianWithRespectToParameters( pInit, jacobian );
+    eulerTransform->ComputeJacobianWithRespectToParameters( pInit, jacobian );
     std::cout << jacobian << std::endl;
 
     EulerTransformType::JacobianType approxJacobian = jacobian;
@@ -321,16 +321,15 @@ int itkEuler3DTransformTest(int,char *[] )
    {
      // Testing SetMatrix()
      std::cout << "Testing SetMatrix() ... ";
-     unsigned int par;
 
      typedef itk::Euler3DTransform<double> TransformType;
-     typedef TransformType::MatrixType MatrixType;
-     MatrixType matrix;
+     typedef TransformType::MatrixType     MatrixType;
 
+     MatrixType matrix;
      TransformType::Pointer t = TransformType::New();
 
      // attempt to set an non-orthogonal matrix
-     par = 0;
+     unsigned int par = 0;
      for( unsigned int row = 0; row < 3; row++ )
         {
         for( unsigned int col = 0; col < 3; col++ )

@@ -123,7 +123,7 @@ public:
    *  given point or vector, returning the transformed point or
    *  vector. The rank of the Jacobian will also indicate if the
    *  transform is invertible at this point. */
-  virtual void GetJacobianWithRespectToParameters( const InputPointType  &p,
+  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  &p,
                                  JacobianType & jacobian) const;
 
 protected:

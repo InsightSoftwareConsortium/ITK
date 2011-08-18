@@ -53,7 +53,7 @@ namespace itk
  * queue, designating if each transform is to be used for optimization. Note
  * that all transforms in the queue are applied in TransformPoint, regardless
  * of these flags states'. The methods GetParameters, SetParameters,
- * GetJacobianWithRespectToParameters, GetJacobianWithRespectToPosition,
+ * ComputeJacobianWithRespectToParameters, ComputeJacobianWithRespectToPosition,
  * GetFixedParameters, and SetFixedParameters all query these
  * flags and include only those transforms whose corresponsing flag is set.
  * Their input or output is a concatenated array of all transforms set for use
@@ -331,13 +331,13 @@ public:
    * Compute the Jacobian with respect to the parameters for the compositie
    * transform using Jacobian rule. See comments in the implementation.
    */
-  virtual void GetJacobianWithRespectToParameters(const InputPointType  &p,
+  virtual void ComputeJacobianWithRespectToParameters(const InputPointType  &p,
                                                   JacobianType &j) const;
 
-  virtual void GetJacobianWithRespectToPosition(const InputPointType &,
+  virtual void ComputeJacobianWithRespectToPosition(const InputPointType &,
                                                   JacobianType &) const
   {
-    itkExceptionMacro( "GetJacobianWithRespectToPosition not yet implemented "
+    itkExceptionMacro( "ComputeJacobianWithRespectToPosition not yet implemented "
                        "for " << this->GetNameOfClass() );
   }
 

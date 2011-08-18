@@ -182,7 +182,7 @@ int itkDisplacementFieldTransformTest(int ,char *[] )
 
   /* Test LocalJacobian methods */
   DisplacementTransformType::JacobianType jacobian;
-  displacementTransform->GetJacobianWithRespectToPosition( testPoint, jacobian );
+  displacementTransform->ComputeJacobianWithRespectToPosition( testPoint, jacobian );
   std::cout << "Local jacobian estimated. " << std::endl << jacobian << std::endl;
   if (!sameArray2D( jacobian, fieldJTruth, 1e-6 ) )
     {
@@ -212,7 +212,7 @@ int itkDisplacementFieldTransformTest(int ,char *[] )
       return EXIT_FAILURE;
     }
 
-  /* Test GetJacobianWithRespectToParameters. Should return identity */
+  /* Test ComputeJacobianWithRespectToParameters. Should return identity */
   DisplacementTransformType::JacobianType
     identity(dimensions, dimensions), testIdentity;
   identity.Fill(0);
@@ -220,23 +220,23 @@ int itkDisplacementFieldTransformTest(int ,char *[] )
     {
     identity[i][i] = 1.0;
     }
-  displacementTransform->GetJacobianWithRespectToParameters(
+  displacementTransform->ComputeJacobianWithRespectToParameters(
                                                     testPoint, testIdentity );
   if( !sameArray2D( identity, testIdentity, 1e-10 ) )
     {
     std::cout << "Failed returning identity for "
-                 "GetJacobianWithRespectToParameters( point, ... )"
+                 "ComputeJacobianWithRespectToParameters( point, ... )"
               << std::endl;
     return EXIT_FAILURE;
     }
   DisplacementTransformType::IndexType testIndex;
   testIdentity.SetSize(1,1); //make sure it gets resized properly
-  displacementTransform->GetJacobianWithRespectToParameters(
+  displacementTransform->ComputeJacobianWithRespectToParameters(
                                                     testIndex, testIdentity );
   if( !sameArray2D( identity, testIdentity, 1e-10 ) )
     {
     std::cout << "Failed returning identity for "
-                 "GetJacobianWithRespectToParameters( index, ... )"
+                 "ComputeJacobianWithRespectToParameters( index, ... )"
               << std::endl;
     return EXIT_FAILURE;
     }

@@ -441,7 +441,7 @@ MutualInformationImageToImageMetric< TFixedImage, TMovingImage >
  *
  * This is a temporary solution until this feature is implemented
  * in the mapper. This solution only works for any transform
- * that support GetJacobianWithRespectToParameters()
+ * that support ComputeJacobianWithRespectToParameters()
  */
 template< class TFixedImage, class TMovingImage >
 void
@@ -466,7 +466,7 @@ MutualInformationImageToImageMetric< TFixedImage, TMovingImage >
 
   typedef typename TransformType::JacobianType JacobianType;
   JacobianType jacobian;
-  this->m_Transform->GetJacobianWithRespectToParameters(point, jacobian);
+  this->m_Transform->ComputeJacobianWithRespectToParameters(point, jacobian);
 
   unsigned int numberOfParameters = this->m_Transform->GetNumberOfParameters();
 

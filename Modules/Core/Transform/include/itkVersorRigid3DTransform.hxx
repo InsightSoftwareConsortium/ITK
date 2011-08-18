@@ -132,7 +132,7 @@ VersorRigid3DTransform< TScalarType >
 template< class TScalarType >
 void
 VersorRigid3DTransform< TScalarType >
-::GetJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
+::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
 {
   typedef typename VersorType::ValueType ValueType;
 

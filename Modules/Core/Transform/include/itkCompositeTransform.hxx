@@ -157,7 +157,7 @@ template
 <class TScalar, unsigned int NDimensions>
 void
 CompositeTransform<TScalar, NDimensions>
-::GetJacobianWithRespectToParameters( const InputPointType & p, JacobianType &j ) const
+::ComputeJacobianWithRespectToParameters( const InputPointType & p, JacobianType &j ) const
 {
   /* Returns a concatenated MxN array, holding the Jacobian of each sub
    * transform that is selected for optimization. The order is the same
@@ -229,7 +229,7 @@ CompositeTransform<TScalar, NDimensions>
       current_jacobian.SetSize(
         NDimensions, transform->GetNumberOfLocalParameters());
 
-      transform->GetJacobianWithRespectToParameters(
+      transform->ComputeJacobianWithRespectToParameters(
         transformedPoint, current_jacobian );
 
       j.update( current_jacobian, 0, offset );
@@ -264,11 +264,11 @@ CompositeTransform<TScalar, NDimensions>
 
       j1.SetSize(NDimensions, NDimensions);
 
-      transform->GetJacobianWithRespectToPosition(transformedPoint, j1);
+      transform->ComputeJacobianWithRespectToPosition(transformedPoint, j1);
 
       j.update(j1 * old_j, 0, 0);
 
-      // itkExceptionMacro(" To sort out with new GetJacobianWithRespectToPosition prototype ");
+      // itkExceptionMacro(" To sort out with new ComputeJacobianWithRespectToPosition prototype ");
       }
 
     /* Transform the point so it's ready for next transform's Jacobian */

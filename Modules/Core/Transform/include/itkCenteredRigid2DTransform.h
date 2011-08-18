@@ -133,7 +133,7 @@ public:
   /** This method computes the Jacobian matrix of the transformation
    * at a given input point.
    */
-  virtual void GetJacobianWithRespectToParameters( const InputPointType  &p,
+  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  &p,
                                  JacobianType & jacobian) const;
 
   /** Set the fixed parameters and update internal transformation.

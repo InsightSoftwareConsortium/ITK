@@ -803,7 +803,7 @@ BSplineTransform<TScalarType, NDimensions, VSplineOrder>
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
 void
 BSplineTransform<TScalarType, NDimensions, VSplineOrder>
-::GetJacobianWithRespectToParameters( const InputPointType &point, JacobianType & jacobian ) const
+::ComputeJacobianWithRespectToParameters( const InputPointType &point, JacobianType & jacobian ) const
 {
   // Zero all components of jacobian
   // NOTE: for efficiency, we only need to zero out the coefficients
@@ -888,7 +888,7 @@ BSplineTransform<TScalarType, NDimensions, VSplineOrder>
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
 void
 BSplineTransform<TScalarType, NDimensions, VSplineOrder>
-::GetJacobianFromBSplineWeightsAtPoint( const InputPointType &point, WeightsType &weights,
+::ComputeJacobianFromBSplineWeightsWithRespectToPosition( const InputPointType &point, WeightsType &weights,
   ParameterIndexArrayType &indexes ) const
 {
   ContinuousIndexType index;

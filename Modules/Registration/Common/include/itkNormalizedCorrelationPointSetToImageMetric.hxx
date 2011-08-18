@@ -194,7 +194,7 @@ NormalizedCorrelationPointSetToImageMetric< TFixedPointSet, TMovingImage >
 
       // Now compute the derivatives
       TransformJacobianType jacobian;
-      this->m_Transform->GetJacobianWithRespectToParameters(inputPoint, jacobian);
+      this->m_Transform->ComputeJacobianWithRespectToParameters(inputPoint, jacobian);
 
       // Get the gradient by NearestNeighboorInterpolation:
       // which is equivalent to round up the point components.
@@ -342,7 +342,7 @@ NormalizedCorrelationPointSetToImageMetric< TFixedPointSet, TMovingImage >
 
       // Now compute the derivatives
       TransformJacobianType jacobian;
-      this->m_Transform->GetJacobianWithRespectToParameters(inputPoint, jacobian);
+      this->m_Transform->ComputeJacobianWithRespectToParameters(inputPoint, jacobian);
 
       // Get the gradient by NearestNeighboorInterpolation:
       // which is equivalent to round up the point components.

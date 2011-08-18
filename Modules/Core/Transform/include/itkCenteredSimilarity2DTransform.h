@@ -138,7 +138,7 @@ public:
   const ParametersType & GetParameters(void) const;
 
   /** Compute the Jacobian Matrix of the transformation at one point */
-  virtual void GetJacobianWithRespectToParameters( const InputPointType  &p,
+  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  &p,
                                  JacobianType & jacobian) const;
 
   /** Set the fixed parameters and update internal transformation.

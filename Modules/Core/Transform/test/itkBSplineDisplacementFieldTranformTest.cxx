@@ -178,7 +178,7 @@ int itkBSplineDisplacementFieldTransformTest(int ,char *[] )
 //    }
 //  inverseOutput = inverseTransform2->TransformPoint( testPoint );
 
-  /* Test GetJacobianWithRespectToParameters - Since there are no parameters for this transform,
+  /* Test ComputeJacobianWithRespectToParameters - Since there are no parameters for this transform,
    * the Jacobian shouldn't be requested and will throw an exception. */
   DisplacementTransformType::JacobianType jacobian;
   DisplacementTransformType::InputPointType inputPoint;
@@ -187,7 +187,7 @@ int itkBSplineDisplacementFieldTransformTest(int ,char *[] )
   bool caughtException = false;
   try
     {
-    displacementTransform->GetJacobianWithRespectToParameters( inputPoint, jacobian );
+    displacementTransform->ComputeJacobianWithRespectToParameters( inputPoint, jacobian );
     }
   catch( itk::ExceptionObject & e )
     {
@@ -197,7 +197,7 @@ int itkBSplineDisplacementFieldTransformTest(int ,char *[] )
     }
   if( !caughtException )
     {
-    std::cout << "Expected GetJacobianWithRespectToParameters to throw exception." << std::endl;
+    std::cout << "Expected ComputeJacobianWithRespectToParameters to throw exception." << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "Passed Jacobian test." << std::endl;

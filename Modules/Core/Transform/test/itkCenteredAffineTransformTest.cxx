@@ -55,7 +55,7 @@ int itkCenteredAffineTransformTest(int, char *[])
        actually check that the results are correct. */
 
     /* Create a 2D identity transformation and show its parameters */
-    typedef itk::Point<double,6> ParametersType;
+    typedef itk::Point<double,6>    ParametersType;
     typedef itk::Matrix<double,2,6> JacobianType;
 
     typedef itk::CenteredAffineTransform<double,2> Affine2DType;
@@ -207,8 +207,6 @@ int itkCenteredAffineTransformTest(int, char *[])
     //std::cout << "Back transform a vector :" << std::endl
               //<< v4[0] << " , " << v4[1] << std::endl;
 
-
-
     /* Create a 3D transform and rotate in 3D */
     typedef itk::CenteredAffineTransform<double,3> Affine3DType;
     Affine3DType::Pointer aff3 = Affine3DType::New();
@@ -239,7 +237,6 @@ int itkCenteredAffineTransformTest(int, char *[])
     std::cout << "Create an inverse transformation:" << std::endl;
     inv4->Print( std::cout );
 
-
     /* Create an image for testing index<->physical transforms */
     std::cout << "Creating image for testing index<->physical transforms"
               << std::endl;
@@ -251,7 +248,7 @@ int itkCenteredAffineTransformTest(int, char *[])
     image->SetSpacing(spacing);
 
 
-    /* Test output of GetJacobianWithRespectToParameters */
+    /* Test output of ComputeJacobianWithRespectToParameters */
     Affine3DType::Pointer jaff = Affine3DType::New();
     const Affine3DType::MatrixType jaffMatrix = jaff->GetMatrix();
     std::cout << "GetMatrix:" << std::endl;
@@ -266,9 +263,9 @@ int itkCenteredAffineTransformTest(int, char *[])
     jpoint[1] = 10.0;
     jpoint[2] = 15.0;
     Affine3DType::JacobianType jaffJacobian;
-    jaff->GetJacobianWithRespectToParameters( jpoint, jaffJacobian );
+    jaff->ComputeJacobianWithRespectToParameters( jpoint, jaffJacobian );
 
-    std::cout << "GetJacobianWithRespectToParameters: " << std::endl;
+    std::cout << "ComputeJacobianWithRespectToParameters: " << std::endl;
     std::cout << jaffJacobian << std::endl;
 
     /* Get the parameters */

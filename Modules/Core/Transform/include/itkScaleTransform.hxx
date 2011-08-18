@@ -212,7 +212,7 @@ ScaleTransform< ScalarType, NDimensions >
 template< class ScalarType, unsigned int NDimensions >
 void
 ScaleTransform< ScalarType, NDimensions >
-::GetJacobianWithRespectToParameters(const InputPointType & p, JacobianType &j) const
+::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType &j) const
 {
   j.SetSize( SpaceDimension, this->GetNumberOfLocalParameters() );
   j.Fill(0.0);
@@ -226,7 +226,7 @@ ScaleTransform< ScalarType, NDimensions >
 template< class ScalarType, unsigned int NDimensions >
 void
 ScaleTransform< ScalarType, NDimensions >
-::GetJacobianWithRespectToPosition(const InputPointType &,
+::ComputeJacobianWithRespectToPosition(const InputPointType &,
                                                   JacobianType &jac) const
 {
   jac.SetSize( NDimensions, NDimensions );

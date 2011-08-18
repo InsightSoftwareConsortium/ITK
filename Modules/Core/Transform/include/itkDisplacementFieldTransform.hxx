@@ -221,7 +221,7 @@ DisplacementFieldTransform<TScalar, NDimensions>
     }
 
   JacobianType jacobian;
-  this->GetJacobianWithRespectToPosition( point, jacobian );
+  this->ComputeJacobianWithRespectToPosition( point, jacobian );
   OutputVectorType result;
 
   for ( unsigned int i = 0; i < NDimensions; i++ )
@@ -255,7 +255,7 @@ DisplacementFieldTransform<TScalar, NDimensions>
     }
 
   JacobianType jacobian;
-  this->GetJacobianWithRespectToPosition( point, jacobian );
+  this->ComputeJacobianWithRespectToPosition( point, jacobian );
   OutputVnlVectorType result;
 
   for ( unsigned int i = 0; i < NDimensions; i++ )
@@ -290,7 +290,7 @@ DisplacementFieldTransform<TScalar, NDimensions>
   const unsigned int numberOfComponents = NumericTraits< InputVectorPixelType >::GetLength( vector );
 
   JacobianType jacobian;
-  this->GetJacobianWithRespectToPosition( point, jacobian );
+  this->ComputeJacobianWithRespectToPosition( point, jacobian );
   OutputVectorPixelType result;
   result.SetSize( numberOfComponents );
 
@@ -331,7 +331,7 @@ DisplacementFieldTransform<TScalar, NDimensions>
     }
 
   //JacobianType jacobian;
-  //this->GetJacobianWithRespectToPosition( point, jacobian );
+  //this->ComputeJacobianWithRespectToPosition( point, jacobian );
 
   //Get Tensor-space version of local transform (i.e. always 3D)
   typedef MatrixOffsetTransformBase<ScalarType, InputDiffusionTensor3DType::Dimension, InputDiffusionTensor3DType::Dimension> EigenVectorTransformType;
@@ -493,29 +493,29 @@ DisplacementFieldTransform<TScalar, NDimensions>
 }
 
 /*
- * GetJacobianWithRespectToParameters methods
+ * ComputeJacobianWithRespectToParameters methods
  */
 
 template<class TScalar, unsigned int NDimensions>
 void
 DisplacementFieldTransform<TScalar, NDimensions>
-::GetJacobianWithRespectToPosition( const InputPointType & point,
+::ComputeJacobianWithRespectToPosition( const InputPointType & point,
                                       JacobianType & jacobian )
                                                                           const
 {
   IndexType idx;
   this->m_DisplacementField->TransformPhysicalPointToIndex( point, idx );
-  this->GetJacobianWithRespectToPosition( idx, jacobian );
+  this->ComputeJacobianWithRespectToPosition( idx, jacobian );
 }
 
 template<class TScalar, unsigned int NDimensions>
 void
 DisplacementFieldTransform<TScalar, NDimensions>
-::GetJacobianWithRespectToPosition( const IndexType & index,
+::ComputeJacobianWithRespectToPosition( const IndexType & index,
                                       JacobianType & jacobian )
                                                                           const
 {
-  this->GetJacobianWithRespectToPositionInternal( index, jacobian, false );
+  this->ComputeJacobianWithRespectToPositionInternal( index, jacobian, false );
 }
 
 template<class TScalar, unsigned int NDimensions>
@@ -544,7 +544,7 @@ DisplacementFieldTransform<TScalar, NDimensions>
 {
   if (useSVD)
     {
-    this->GetJacobianWithRespectToPositionInternal( index, jacobian, false );
+    this->ComputeJacobianWithRespectToPositionInternal( index, jacobian, false );
     vnl_svd< typename JacobianType::ValueType > svd( jacobian );
 
     for (unsigned int i=0; i<jacobian.rows(); i++)
@@ -553,17 +553,17 @@ DisplacementFieldTransform<TScalar, NDimensions>
     }
   else
     {
-    this->GetJacobianWithRespectToPositionInternal( index, jacobian, true );
+    this->ComputeJacobianWithRespectToPositionInternal( index, jacobian, true );
     }
 }
 
 /*
- * GetJacobianWithRespectToPositionInternal. Worker method.
+ * ComputeJacobianWithRespectToPositionInternal. Worker method.
  */
 template<class TScalar, unsigned int NDimensions>
 void
 DisplacementFieldTransform<TScalar, NDimensions>
-::GetJacobianWithRespectToPositionInternal( const IndexType & index,
+::ComputeJacobianWithRespectToPositionInternal( const IndexType & index,
                                       JacobianType & jacobian,
                                       bool doInverseJacobian )
                                                                           const

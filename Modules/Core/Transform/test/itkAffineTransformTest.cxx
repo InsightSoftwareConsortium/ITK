@@ -561,7 +561,7 @@ int itkAffineTransformTest(int, char *[])
       return EXIT_FAILURE;
       }
 
-    /* Test output of GetJacobianWithRespectToParameters */
+    /* Test output of ComputeJacobianWithRespectToParameters */
     Affine3DType::Pointer jaff = Affine3DType::New();
 
     Affine3DType::InputPointType jpoint;
@@ -569,9 +569,9 @@ int itkAffineTransformTest(int, char *[])
     jpoint[1] = 10.0;
     jpoint[2] = 15.0;
     Affine3DType::JacobianType jaffJacobian;
-    jaff->GetJacobianWithRespectToParameters( jpoint , jaffJacobian );
+    jaff->ComputeJacobianWithRespectToParameters( jpoint , jaffJacobian );
 
-    std::cout << "GetJacobianWithRespectToParameters: " << std::endl;
+    std::cout << "ComputeJacobianWithRespectToParameters: " << std::endl;
     std::cout << jaffJacobian << std::endl;
 
     double data[] =
@@ -587,15 +587,15 @@ int itkAffineTransformTest(int, char *[])
         {
         if( !testValue( expectedJacobian[i][j], jaffJacobian[i][j] ) )
           {
-          std::cout << "GetJacobianWithRespectToParameters test failed." << std::endl;
+          std::cout << "ComputeJacobianWithRespectToParameters test failed." << std::endl;
           return EXIT_FAILURE;
           }
         }
       }
 
-    /* Test GetJacobianWithRespectToPosition. Should return Matrix. */
+    /* Test ComputeJacobianWithRespectToPosition. Should return Matrix. */
     Affine3DType::MatrixType jaffMatrix = jaff->GetMatrix();
-    jaff->GetJacobianWithRespectToPosition( jpoint, jaffJacobian );
+    jaff->ComputeJacobianWithRespectToPosition( jpoint, jaffJacobian );
     for( unsigned int i=0; i < Affine3DType::MatrixType::RowDimensions; i++ )
       {
       for( unsigned int j=0;
@@ -603,7 +603,7 @@ int itkAffineTransformTest(int, char *[])
         {
         if( !testValue( jaffJacobian[i][j], jaffMatrix[i][j] ) )
           {
-          std::cout << "Failed GetJacobianWithRespectToPosition." << std::endl
+          std::cout << "Failed ComputeJacobianWithRespectToPosition." << std::endl
                     << "jaffJacobian: " << jaffJacobian << std::endl
                     << "jaffMatrix: " << jaffMatrix << std::endl;
           return EXIT_FAILURE;

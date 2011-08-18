@@ -254,7 +254,7 @@ KappaStatisticImageToImageMetric< TFixedImage, TMovingImage >
         }
 
       TransformJacobianType jacobian;
-      this->m_Transform->GetJacobianWithRespectToParameters(
+      this->m_Transform->ComputeJacobianWithRespectToParameters(
         inputPoint, jacobian);
 
       this->m_NumberOfPixelsCounted++;

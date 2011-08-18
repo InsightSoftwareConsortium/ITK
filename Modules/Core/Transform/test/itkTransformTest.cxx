@@ -67,11 +67,11 @@ public:
   virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType  & inputVector ) const
     { return inputVector; }
 
-  virtual void GetJacobianWithRespectToParameters(const InputPointType &,
+  virtual void ComputeJacobianWithRespectToParameters(const InputPointType &,
                                                   JacobianType &j) const
     { j.SetSize(3,6); j.Fill(1); }
 
-  inline virtual void GetJacobianWithRespectToPosition(
+  inline virtual void ComputeJacobianWithRespectToPosition(
                                                   const InputPointType &,
                                                   JacobianType &j ) const
     { j.SetSize(NOutputDimensions, NInputDimensions); j.Fill(1); }
@@ -124,7 +124,7 @@ int itkTransformTest(int, char* [] )
   TransformType::JacobianType jacobian;
   try
     {
-    transform->GetJacobianWithRespectToParameters(pnt, jacobian);
+    transform->ComputeJacobianWithRespectToParameters(pnt, jacobian);
     }
   catch ( itk::ExceptionObject & e )
     {

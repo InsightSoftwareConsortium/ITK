@@ -26,11 +26,8 @@
  *
  */
 
-
 #include "itkVersorRigid3DTransform.h"
 #include <iostream>
-
-
 
 //-------------------------
 //
@@ -44,41 +41,32 @@ int itkVersorRigid3DTransformTest(int, char* [] )
 
   const ValueType epsilon = 1e-12;
 
-
   //  Versor Transform type
   typedef    itk::VersorRigid3DTransform< ValueType >   TransformType;
 
   //  Versor type
   typedef    TransformType::VersorType      VersorType;
 
-
   //  Vector type
   typedef    TransformType::InputVectorType      VectorType;
-
 
   //  Point type
   typedef    TransformType::InputPointType      PointType;
 
-
   //  Covariant Vector type
   typedef    TransformType::InputCovariantVectorType      CovariantVectorType;
-
 
   //  VnlVector type
   typedef    TransformType::InputVnlVectorType      VnlVectorType;
 
-
   //  Parameters type
   typedef    TransformType::ParametersType      ParametersType;
-
 
   //  Jacobian type
   typedef    TransformType::JacobianType      JacobianType;
 
-
   //  Rotation Matrix type
   typedef    TransformType::MatrixType           MatrixType;
-
 
   {
     std::cout << "Test default constructor... ";
@@ -112,7 +100,6 @@ int itkVersorRigid3DTransformTest(int, char* [] )
 
   }
 
-
   {
     std::cout << "Test initial rotation matrix " << std::endl;
     TransformType::Pointer transform = TransformType::New();
@@ -120,8 +107,6 @@ int itkVersorRigid3DTransformTest(int, char* [] )
     std::cout << "Matrix = " << std::endl;
     std::cout <<    matrix   << std::endl;
   }
-
-
 
   /* Create a Rigid 3D transform with rotation */
 
@@ -219,7 +204,6 @@ int itkVersorRigid3DTransformTest(int, char* [] )
       }
     }
 
-
     {
       // Translate an itk::CovariantVector
       TransformType::InputCovariantVectorType::ValueType pInit[3] = {1,4,9};
@@ -249,7 +233,6 @@ int itkVersorRigid3DTransformTest(int, char* [] )
         std::cout << "Ok rotating an itk::CovariantVector " << std::endl;
       }
     }
-
 
     {
       // Translate a vnl_vector
@@ -284,11 +267,7 @@ int itkVersorRigid3DTransformTest(int, char* [] )
       }
     }
 
-
-
-
   }
-
 
   /**  Exercise the SetCenter method  */
   {
@@ -360,13 +339,13 @@ int itkVersorRigid3DTransformTest(int, char* [] )
       }
      std::cout << "Input/Output parameter check Passed !"  << std::endl;
 
-     // Try the GetJacobianWithRespectToParameters method
+     // Try the ComputeJacobianWithRespectToParameters method
      TransformType::InputPointType  aPoint;
      aPoint[0] = 10.0;
      aPoint[1] = 20.0;
      aPoint[2] = -10.0;
      JacobianType   jacobian;
-     transform->GetJacobianWithRespectToParameters( aPoint, jacobian );
+     transform->ComputeJacobianWithRespectToParameters( aPoint, jacobian );
      std::cout << "Jacobian: "  << std::endl;
      std::cout << jacobian << std::endl;
 
@@ -447,7 +426,6 @@ int itkVersorRigid3DTransformTest(int, char* [] )
   parameters[3] = 0.0;             // Translation
   parameters[4] = 0.0;
   parameters[5] = 0.0;
-
 
   ParametersType parameters2 = transform->GetParameters();
 
@@ -569,9 +547,6 @@ int itkVersorRigid3DTransformTest(int, char* [] )
     std::cout << "[ PASSED ]" << std::endl;
     }
 
-
-
   std::cout << std::endl << "Test PASSED ! " << std::endl;
   return EXIT_SUCCESS;
-
 }

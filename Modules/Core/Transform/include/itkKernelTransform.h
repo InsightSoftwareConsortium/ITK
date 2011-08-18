@@ -169,13 +169,13 @@ public:
   typedef vnl_matrix_fixed< TScalarType, NDimensions, NDimensions > IMatrixType;
 
   /** Compute the Jacobian Matrix of the transformation at one point */
-  virtual void GetJacobianWithRespectToParameters( const InputPointType  &p,
+  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  &p,
                                  JacobianType & jacobian) const;
 
-  virtual void GetJacobianWithRespectToPosition(const InputPointType &,
+  virtual void ComputeJacobianWithRespectToPosition(const InputPointType &,
                                                   JacobianType &) const
   {
-    itkExceptionMacro( "GetJacobianWithRespectToPosition not yet implemented "
+    itkExceptionMacro( "ComputeJacobianWithRespectToPosition not yet implemented "
                        "for " << this->GetNameOfClass() );
   }
 

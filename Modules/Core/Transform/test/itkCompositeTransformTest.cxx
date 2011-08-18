@@ -268,14 +268,14 @@ int itkCompositeTransformTest(int ,char *[] )
     return EXIT_FAILURE;
     }
 
-  /* Test GetJacobianWithRespectToParameters */
+  /* Test ComputeJacobianWithRespectToParameters */
   CompositeType::JacobianType jacComposite, jacSingle;
   CompositeType::InputPointType jacPoint;
   jacPoint[0]=1;
   jacPoint[1]=2;
-  affine->GetJacobianWithRespectToParameters( jacPoint, jacSingle );
+  affine->ComputeJacobianWithRespectToParameters( jacPoint, jacSingle );
   std::cout << "Single jacobian:" << std::endl << jacSingle << std::endl;
-  compositeTransform->GetJacobianWithRespectToParameters( jacPoint, jacComposite );
+  compositeTransform->ComputeJacobianWithRespectToParameters( jacPoint, jacComposite );
   std::cout << "Composite jacobian:" << std::endl << jacComposite << std::endl;
   if( !testJacobian( jacComposite, jacSingle ) )
     {
@@ -617,18 +617,18 @@ int itkCompositeTransformTest(int ,char *[] )
     return EXIT_FAILURE;
     }
 
-  /* Test GetJacobianWithRespectToParameters with three transforms, two of which (1st and 3rd) are active.
+  /* Test ComputeJacobianWithRespectToParameters with three transforms, two of which (1st and 3rd) are active.
    * Remember that the point gets transformed by preceding transforms
    * before its used for individual Jacobian. */
   CompositeType::JacobianType jacTruth, jacComposite2, jacAffine, jacAffine3;
   CompositeType::InputPointType jacPoint2;
   jacPoint2[0]=1;
   jacPoint2[1]=2;
-  compositeTransform->GetJacobianWithRespectToParameters( jacPoint2, jacComposite2 );
-  affine3->GetJacobianWithRespectToParameters( jacPoint2, jacAffine3 );
+  compositeTransform->ComputeJacobianWithRespectToParameters( jacPoint2, jacComposite2 );
+  affine3->ComputeJacobianWithRespectToParameters( jacPoint2, jacAffine3 );
   jacPoint2 = affine3->TransformPoint( jacPoint2 );
   jacPoint2 = affine2->TransformPoint( jacPoint2 );
-  affine->GetJacobianWithRespectToParameters( jacPoint2, jacAffine );
+  affine->ComputeJacobianWithRespectToParameters( jacPoint2, jacAffine );
   jacTruth.SetSize( jacAffine3.rows(), jacAffine.cols()+jacAffine3.cols() );
   jacTruth.update( affine->GetMatrix() * affine2->GetMatrix() * jacAffine3, 0, 0 );
   jacTruth.update( jacAffine, 0, jacAffine3.cols() );

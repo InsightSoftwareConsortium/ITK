@@ -160,14 +160,14 @@ public:
   virtual InverseTransformBasePointer GetInverseTransform() const;
 
   /** Compute the Jacobian Matrix of the transformation at one point */
-  virtual void GetJacobianWithRespectToParameters(const InputPointType  & point,
+  virtual void ComputeJacobianWithRespectToParameters(const InputPointType  & point,
           JacobianType &j) const;
 
   /** Get the jacobian with respect to position, which simply is an identity
    *  jacobian because the transform is position-invariant.
    *  \jac will be resized as needed, but it will be more efficient if
    *  it is already properly sized. */
-  virtual void GetJacobianWithRespectToPosition(const InputPointType  &x,
+  virtual void ComputeJacobianWithRespectToPosition(const InputPointType  &x,
                                                   JacobianType &jac) const;
 
   /** Set the parameters to the IdentityTransform */

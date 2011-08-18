@@ -116,7 +116,7 @@ CenteredSimilarity2DTransform< TScalarType >
 template< class TScalarType >
 void
 CenteredSimilarity2DTransform< TScalarType >
-::GetJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
+::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
 {
   const double angle = this->GetAngle();
   const double ca = vcl_cos(angle);

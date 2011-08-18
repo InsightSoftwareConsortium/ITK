@@ -26,11 +26,8 @@
  *
  */
 
-
 #include "itkVersorTransform.h"
 #include <iostream>
-
-
 
 //-------------------------
 //
@@ -44,41 +41,32 @@ int itkVersorTransformTest(int, char* [] )
 
   const ValueType epsilon = 1e-12;
 
-
   //  Versor Transform type
   typedef    itk::VersorTransform< ValueType >   TransformType;
 
   //  Versor type
   typedef    TransformType::VersorType      VersorType;
 
-
   //  Vector type
   typedef    TransformType::InputVectorType      VectorType;
-
 
   //  Point type
   typedef    TransformType::InputPointType      PointType;
 
-
   //  Covariant Vector type
   typedef    TransformType::InputCovariantVectorType      CovariantVectorType;
-
 
   //  VnlVector type
   typedef    TransformType::InputVnlVectorType      VnlVectorType;
 
-
   //  Parameters type
   typedef    TransformType::ParametersType      ParametersType;
-
 
   //  Jacobian type
   typedef    TransformType::JacobianType      JacobianType;
 
-
   //  Rotation Matrix type
   typedef    TransformType::MatrixType           MatrixType;
-
 
   {
     std::cout << "Test default constructor... ";
@@ -109,7 +97,6 @@ int itkVersorTransformTest(int, char* [] )
 
   }
 
-
   {
     std::cout << "Test initial rotation matrix " << std::endl;
     TransformType::Pointer transform = TransformType::New();
@@ -117,8 +104,6 @@ int itkVersorTransformTest(int, char* [] )
     std::cout << "Matrix = " << std::endl;
     std::cout <<    matrix   << std::endl;
   }
-
-
 
   /* Create a Rigid 3D transform with rotation */
 
@@ -216,7 +201,6 @@ int itkVersorTransformTest(int, char* [] )
       }
     }
 
-
     {
       // Translate an itk::CovariantVector
       TransformType::InputCovariantVectorType::ValueType pInit[3] = {1,4,9};
@@ -246,7 +230,6 @@ int itkVersorTransformTest(int, char* [] )
         std::cout << "Ok rotating an itk::CovariantVector " << std::endl;
       }
     }
-
 
     {
       // Translate a vnl_vector
@@ -280,9 +263,6 @@ int itkVersorTransformTest(int, char* [] )
         std::cout << "Ok rotating an vnl_Vector " << std::endl;
       }
     }
-
-
-
 
   }
 
@@ -353,13 +333,13 @@ int itkVersorTransformTest(int, char* [] )
       }
      std::cout << "Input/Output parameter check Passed !"  << std::endl;
 
-     // Try the GetJacobianWithRespectToParameters method
+     // Try the ComputeJacobianWithRespectToParameters method
      TransformType::InputPointType  aPoint;
      aPoint[0] = 10.0;
      aPoint[1] = 20.0;
      aPoint[2] = -10.0;
      JacobianType   jacobian;
-     transform->GetJacobianWithRespectToParameters( aPoint, jacobian );
+     transform->ComputeJacobianWithRespectToParameters( aPoint, jacobian );
      std::cout << "Jacobian: "  << std::endl;
      std::cout << jacobian << std::endl;
 
@@ -476,7 +456,7 @@ int itkVersorTransformTest(int, char* [] )
    // Check the computed parameters
 
     typedef TransformType::VersorType VersorType;
-    typedef VersorType::VectorType VectorType;
+    typedef VersorType::VectorType    VectorType;
     VectorType axis;
     axis.Fill( 0.0 );
     axis[2] = 1.0;
@@ -508,7 +488,6 @@ int itkVersorTransformTest(int, char* [] )
         }
       }
   }
-
 
   std::cout << std::endl << "Test PASSED ! " << std::endl;
   return EXIT_SUCCESS;

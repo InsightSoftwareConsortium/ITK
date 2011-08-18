@@ -61,10 +61,10 @@ namespace itk
  *   virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType &) const
  *   virtual void                      SetParameters(const ParametersType &)
  *   virtual void                      SetFixedParameters(const ParametersType &)
- *   virtual void                      GetJacobianWithRespectToParameters(
+ *   virtual void                      ComputeJacobianWithRespectToParameters(
  *                                                             const InputPointType &,
  *                                                             JacobianType &) const
- *   virtual void                      GetJacobianWithRespectToPosition(
+ *   virtual void                      ComputeJacobianWithRespectToPosition(
  *                                                             const InputPointType & x,
  *                                                             JacobianType &j ) const;
  *
@@ -338,12 +338,12 @@ public:
    * in different threads.
    *
    * All derived classes should move the computations of computing a jacobian
-   * from GetJacobian to GetJacobianWithRespectToParameters and then
+   * from GetJacobian to ComputeJacobianWithRespectToParameters and then
    * use this forwarding function for backwards compatibility.
    */
   virtual const JacobianType & GetJacobian(const InputPointType  &x) const
   {
-    this->GetJacobianWithRespectToParameters(x,this->m_Jacobian);
+    this->ComputeJacobianWithRespectToParameters(x,this->m_Jacobian);
     return this->m_Jacobian;
   }
 #endif
@@ -382,7 +382,7 @@ public:
    *  will most likely occur during multi-threading.
    *  To avoid repeatitive memory allocation, pass in 'j' with its size
    *  already set. */
-  virtual void GetJacobianWithRespectToParameters(const InputPointType  &p,
+  virtual void ComputeJacobianWithRespectToParameters(const InputPointType  &p,
                                                   JacobianType &j) const = 0;
 
   /** This provides the ability to get a local jacobian value
@@ -390,7 +390,7 @@ public:
    *  transforms it would be unclear what parameters would refer to.
    *  Generally, global transforms should return an indentity jacobian
    *  since there is no change with respect to position. */
-  virtual void GetJacobianWithRespectToPosition(
+  virtual void ComputeJacobianWithRespectToPosition(
                                        const InputPointType & x,
                                        JacobianType &j ) const = 0;
 

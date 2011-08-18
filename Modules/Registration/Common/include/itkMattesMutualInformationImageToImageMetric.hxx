@@ -1281,7 +1281,7 @@ MattesMutualInformationImageToImageMetric< TFixedImage, TMovingImage >
       }
 
     JacobianType jacobian;
-    transform->GetJacobianWithRespectToParameters(
+    transform->ComputeJacobianWithRespectToParameters(
       this->m_FixedImageSamples[sampleNumber].point, jacobian);
 
     for ( unsigned int mu = 0; mu < this->m_NumberOfParameters; mu++ )
@@ -1338,7 +1338,7 @@ MattesMutualInformationImageToImageMetric< TFixedImage, TMovingImage >
         }
 
       /** Get Jacobian at a point. A very specialized function just for BSplines */
-      this->m_BSplineTransform->GetJacobianFromBSplineWeightsAtPoint(
+      this->m_BSplineTransform->ComputeJacobianFromBSplineWeightsWithRespectToPosition(
         this->m_FixedImageSamples[sampleNumber].point,
         *weightsHelper, *indicesHelper);
       }

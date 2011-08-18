@@ -183,7 +183,7 @@ TranslationTransform< TScalarType, NDimensions >
 // Compute the Jacobian in one position
 template< class TScalarType, unsigned int NDimensions >
 void
-TranslationTransform< TScalarType, NDimensions >::GetJacobianWithRespectToParameters(
+TranslationTransform< TScalarType, NDimensions >::ComputeJacobianWithRespectToParameters(
         const InputPointType &,
         JacobianType & j) const
 {
@@ -197,7 +197,7 @@ TranslationTransform< TScalarType, NDimensions >::GetJacobianWithRespectToParame
 template< class TScalarType, unsigned int NDimensions >
 void
 TranslationTransform< TScalarType, NDimensions >
-::GetJacobianWithRespectToPosition(const InputPointType &,
+::ComputeJacobianWithRespectToPosition(const InputPointType &,
                                                   JacobianType &jac) const
 {
   jac.SetSize( NDimensions, NDimensions );

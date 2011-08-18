@@ -229,7 +229,7 @@ int itkSimilarity2DTransformTest(int ,char *[] )
   // Testing the Jacobian
   std::cout << "Testing Jacobian:";
   SimilarityTransformType::JacobianType jacobian0;
-  transform->GetJacobianWithRespectToParameters(p, jacobian0);
+  transform->ComputeJacobianWithRespectToParameters(p, jacobian0);
 
   if(
     (jacobian0[0][0] != 10) || (jacobian0[0][1] != -10) || (jacobian0[0][2] != 0) || (jacobian0[0][3] != 0)
@@ -370,7 +370,7 @@ int itkSimilarity2DTransformTest(int ,char *[] )
   // Really test the jacobian
   std::cout << "Testing Jacobian: ";
   TransformType::JacobianType jacobian;
-  t4->GetJacobianWithRespectToParameters( p1, jacobian );
+  t4->ComputeJacobianWithRespectToParameters( p1, jacobian );
 
   TransformType::JacobianType approxJacobian = jacobian;
 
@@ -533,7 +533,7 @@ int itkSimilarity2DTransformTest(int ,char *[] )
   // Really test the jacobian
   std::cout << "Testing Jacobian: ";
   TransformType::JacobianType jacobian;
-  t4->GetJacobianWithRespectToParameters( p1, jacobian );
+  t4->ComputeJacobianWithRespectToParameters( p1, jacobian );
 
   TransformType::JacobianType approxJacobian = jacobian;
 

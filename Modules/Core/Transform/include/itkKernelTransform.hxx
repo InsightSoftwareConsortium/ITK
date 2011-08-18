@@ -398,7 +398,7 @@ KernelTransform< TScalarType, NDimensions >
 template< class TScalarType, unsigned int NDimensions >
 void
 KernelTransform< TScalarType, NDimensions >
-::GetJacobianWithRespectToParameters(const InputPointType &, JacobianType & jacobian) const
+::ComputeJacobianWithRespectToParameters(const InputPointType &, JacobianType & jacobian) const
 {
   jacobian.Fill(0.0);
 

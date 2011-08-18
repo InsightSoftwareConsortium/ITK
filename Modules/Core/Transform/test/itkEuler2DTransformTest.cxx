@@ -154,7 +154,7 @@ int itkEuler2DTransformTest(int argc,char *argv[] )
   }
 
   // Testing Parameters
-  std::cout << "Testing Parameters: " ;
+  std::cout << "Testing Parameters: ";
   EulerTransformType::ParametersType parameters = eulerTransform->GetParameters();
 
   if( parameters[0] != 0.0
@@ -171,7 +171,7 @@ int itkEuler2DTransformTest(int argc,char *argv[] )
   // Testing Jacobian
   std::cout << "Testing Jacobian: ";
   EulerTransformType::JacobianType  jacobian;
-  eulerTransform->GetJacobianWithRespectToParameters(pInit, jacobian);
+  eulerTransform->ComputeJacobianWithRespectToParameters(pInit, jacobian);
 
   if( jacobian[0][0] != -10.0 || jacobian[0][1] != 1.0
       || jacobian[0][2] != 0.0
@@ -319,7 +319,7 @@ int itkEuler2DTransformTest(int argc,char *argv[] )
     // Really test the jacobian
     std::cout << "Testing Jacobian: ";
     TransformType::JacobianType jacobian2;
-    t4->GetJacobianWithRespectToParameters( p1, jacobian2 );
+    t4->ComputeJacobianWithRespectToParameters( p1, jacobian2 );
 
     TransformType::JacobianType approxJacobian = jacobian2;
 

@@ -178,7 +178,7 @@ VersorTransform< TScalarType >
 template< class TScalarType >
 void
 VersorTransform< TScalarType >
-::GetJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
+::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
 {
   typedef typename VersorType::ValueType ValueType;
 

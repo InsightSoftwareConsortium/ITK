@@ -22,18 +22,14 @@
 #include "vnl/vnl_vector_fixed.h"
 #include "itkVector.h"
 
-
-
-
 int itkQuaternionRigidTransformTest(int ,char * [] )
 {
 
-  typedef double CoordinateType;
+  typedef double                                           CoordinateType;
   typedef itk::QuaternionRigidTransform< CoordinateType >  TransformType;
 
   const double epsilon = 1e-10;
   const unsigned int N = 3;
-
 
   bool Ok = true;
 
@@ -58,8 +54,6 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
       return EXIT_FAILURE;
     }
   }
-
-
 
   /* Create a Rigid 3D transform with translation */
   {
@@ -172,7 +166,6 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
       }
     }
 
-
     {
       // Translate a vnl_vector
       TransformType::InputVnlVectorType p;
@@ -201,11 +194,7 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
       }
     }
 
-
-
-
   }
-
 
   /* Create a Rigid 3D transform with a rotation given by a Matrix */
   {
@@ -381,7 +370,6 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
       }
     }
 
-
     {
       // Translate a vnl_vector
       TransformType::InputVnlVectorType p;
@@ -394,7 +382,6 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
       q[0] =  p[0] * costh - p[1] * sinth;
       q[1] =  p[0] * sinth + p[1] * costh;
       q[2] =  p[2];
-
 
       TransformType::OutputVnlVectorType r;
       r = rotation->TransformVector( p );
@@ -423,7 +410,7 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
 
     {
     // Test the Jacobian
-    std::cout << "Testing GetJacobianWithRespectToParameters()" << std::endl;
+    std::cout << "Testing ComputeJacobianWithRespectToParameters()" << std::endl;
 
     TransformType::Pointer quaternionRigid = TransformType::New();
     TransformType::ParametersType parameters( quaternionRigid->GetNumberOfParameters() );
@@ -448,7 +435,7 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
     pInit[2] = 2.6;
 
     TransformType::JacobianType jacobian;
-    quaternionRigid->GetJacobianWithRespectToParameters( pInit, jacobian );
+    quaternionRigid->ComputeJacobianWithRespectToParameters( pInit, jacobian );
     std::cout << jacobian << std::endl;
 
     TransformType::JacobianType approxJacobian = jacobian;
@@ -515,7 +502,6 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
 
     }
 
-
   /* Create a Rigid 3D transform with a defined center and a rotation given by a Matrix */
   {
     TransformType::Pointer  rotation = TransformType::New();
@@ -543,7 +529,6 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
     center[0] = 17;
     center[1] = 19;
     center[2] = 23;
-
 
     TransformType::OutputVectorType itranslation;
     itranslation[0] = 13;
@@ -718,7 +703,6 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
       }
     }
 
-
     {
       // Rotate a vnl_vector
       TransformType::InputVnlVectorType p;
@@ -731,7 +715,6 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
       q[0] =  p[0] * costh - p[1] * sinth;
       q[1] =  p[0] * sinth + p[1] * costh;
       q[2] =  p[2];
-
 
       TransformType::OutputVnlVectorType r;
       r = rotation->TransformVector( p );

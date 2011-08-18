@@ -631,7 +631,7 @@ template< class TScalarType, unsigned int NInputDimensions,
           unsigned int NOutputDimensions >
 void
 MatrixOffsetTransformBase< TScalarType, NInputDimensions, NOutputDimensions >
-::GetJacobianWithRespectToParameters(const InputPointType & p, JacobianType &j) const
+::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType &j) const
 {
   //This will not reallocate memory if the dimensions are equal
   // to the matrix's current dimensions.
@@ -668,7 +668,7 @@ template< class TScalarType, unsigned int NInputDimensions,
           unsigned int NOutputDimensions >
 void
 MatrixOffsetTransformBase< TScalarType, NInputDimensions, NOutputDimensions >
-::GetJacobianWithRespectToPosition(const InputPointType  &,
+::ComputeJacobianWithRespectToPosition(const InputPointType  &,
                                                   JacobianType &jac) const
 {
   jac.SetSize( MatrixType::RowDimensions, MatrixType::ColumnDimensions );

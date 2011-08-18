@@ -79,9 +79,9 @@ class VectorInterpolateImageFunction;
  * Because this is a local transform, methods that have a version that takes
  * a point must be used, such as \c TransformVector,
  * \c TransformCovariantVector, and \c TransformDiffusionTensor. Also,
- * \c GetJacobianWithRespectToParameters simply returns
+ * \c ComputeJacobianWithRespectToParameters simply returns
  * an identity matrix (see method documentation),
- * and \c GetJacobianWithRespectToPosition should be used.
+ * and \c ComputeJacobianWithRespectToPosition should be used.
  *
  * \ingroup Transforms
  *
@@ -313,17 +313,17 @@ public:
    *
    * TODO: format the above for doxygen formula.
    */
-  virtual void GetJacobianWithRespectToParameters(const InputPointType &,
+  virtual void ComputeJacobianWithRespectToParameters(const InputPointType &,
                                                   JacobianType &j) const
   { j = this->m_IdentityJacobian; }
 
   /**
    * Compute the jacobian with respect to the parameters at an index.
    * Simply returns identity matrix, sized [NDimensions, NDimensions].
-   * See \c GetJacobianWithRespectToParameters( InputPointType, ... )
+   * See \c ComputeJacobianWithRespectToParameters( InputPointType, ... )
    * for rationale.
    */
-  virtual void GetJacobianWithRespectToParameters(const IndexType &,
+  virtual void ComputeJacobianWithRespectToParameters(const IndexType &,
                                                   JacobianType &j) const
   { j = this->m_IdentityJacobian; }
 
@@ -331,14 +331,14 @@ public:
    * Compute the jacobian with respect to the position, by point.
    * \c j will be resized as needed.
    */
-  virtual void GetJacobianWithRespectToPosition(const InputPointType  &x,
+  virtual void ComputeJacobianWithRespectToPosition(const InputPointType  &x,
                                                 JacobianType &j ) const;
 
   /**
    * Compute the jacobian with respect to the position, by index.
    * \c j will be resized as needed.
    */
-  virtual void GetJacobianWithRespectToPosition(const IndexType  &x,
+  virtual void ComputeJacobianWithRespectToPosition(const IndexType  &x,
                                                 JacobianType &j ) const;
 
   /**
@@ -409,7 +409,7 @@ protected:
   unsigned long                             m_DisplacementFieldSetTime;
 
   /** Create an identity jacobian for use in
-   * GetJacobianWithRespectToParameters. */
+   * ComputeJacobianWithRespectToParameters. */
   JacobianType                              m_IdentityJacobian;
 
 private:
@@ -418,13 +418,13 @@ private:
 
   /** Internal method for calculating either forward or inverse jacobian,
    * depending on state of \c doInverseJacobian. Used by
-   * public methods \c GetJacobianWithRespectToPosition and
+   * public methods \c ComputeJacobianWithRespectToPosition and
    * \c GetInverseJacobianOfForwardFieldWithRespectToPosition to
    * perform actual work.
    * \c doInverseJacobian indicates that the inverse jacobian
    * should be returned
    */
-  virtual void GetJacobianWithRespectToPositionInternal(
+  virtual void ComputeJacobianWithRespectToPositionInternal(
                                   const IndexType & index,
                                   JacobianType & jacobian,
                                   bool doInverseJacobian) const;

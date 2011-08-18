@@ -262,7 +262,7 @@ ScaleSkewVersor3DTransform< TScalarType >::PrintSelf(std::ostream & os, Indent i
 template< class TScalarType >
 void
 ScaleSkewVersor3DTransform< TScalarType >
-::GetJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
+::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
 {
   typedef typename VersorType::ValueType ValueType;
 

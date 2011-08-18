@@ -92,7 +92,7 @@ ScaleLogarithmicTransform< ScalarType, NDimensions >::PrintSelf(std::ostream & o
 template< class ScalarType, unsigned int NDimensions >
 void
 ScaleLogarithmicTransform< ScalarType, NDimensions >
-::GetJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
+::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
 {
   const ScaleType & scales = this->GetScale();
 

@@ -160,7 +160,7 @@ public:
    *
    * \f]
    */
-  virtual void GetJacobianWithRespectToParameters( const InputPointType &,
+  virtual void ComputeJacobianWithRespectToParameters( const InputPointType &,
                                  JacobianType & jacobian) const
   {
     jacobian = this->m_Jacobian;
@@ -170,7 +170,7 @@ public:
    *  jacobian because the transform is position-invariant.
    *  \jac will be resized as needed, but it will be more efficient if
    *  it is already properly sized. */
-  virtual void GetJacobianWithRespectToPosition(const InputPointType &,
+  virtual void ComputeJacobianWithRespectToPosition(const InputPointType &,
                                                   JacobianType &jac) const
   {
     jac.SetSize( NDimensions, NDimensions );
