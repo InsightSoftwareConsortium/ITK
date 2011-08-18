@@ -626,17 +626,17 @@ MatrixOffsetTransformBase< TScalarType, NInputDimensions, NOutputDimensions >
   this->Modified();
 }
 
-// Compute the Jacobian in one position, without setting values to m_Jacobian
+// Compute the Jacobian in one position
 template< class TScalarType, unsigned int NInputDimensions,
           unsigned int NOutputDimensions >
 void
 MatrixOffsetTransformBase< TScalarType, NInputDimensions, NOutputDimensions >
-::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType &j) const
+::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType &jacobian) const
 {
   //This will not reallocate memory if the dimensions are equal
   // to the matrix's current dimensions.
-  j.SetSize( NOutputDimensions, this->GetNumberOfLocalParameters() );
-  j.Fill(0.0);
+  jacobian.SetSize( NOutputDimensions, this->GetNumberOfLocalParameters() );
+  jacobian.Fill(0.0);
 
   // The Jacobian of the affine transform is composed of
   // subblocks of diagonal matrices, each one of them having
@@ -649,7 +649,7 @@ MatrixOffsetTransformBase< TScalarType, NInputDimensions, NOutputDimensions >
     {
     for ( unsigned int dim = 0; dim < NOutputDimensions; dim++ )
       {
-      j(block, blockOffset + dim) = v[dim];
+      jacobian(block, blockOffset + dim) = v[dim];
       }
 
     blockOffset += NInputDimensions;
@@ -657,7 +657,7 @@ MatrixOffsetTransformBase< TScalarType, NInputDimensions, NOutputDimensions >
 
   for ( unsigned int dim = 0; dim < NOutputDimensions; dim++ )
     {
-    j(dim, blockOffset + dim) = 1.0;
+    jacobian(dim, blockOffset + dim) = 1.0;
     }
 
   return;

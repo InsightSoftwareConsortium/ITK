@@ -31,8 +31,10 @@ template< class TScalarType,
 Transform< TScalarType, NInputDimensions, NOutputDimensions >
 ::Transform():
   m_Parameters(1),
-  m_FixedParameters(1),
-  m_Jacobian(NOutputDimensions, 1)
+  m_FixedParameters(1)
+#ifdef ITKV3_COMPATIBILITY
+  ,m_SharedLocalJacobian(NOutputDimensions, 1)
+#endif
 {
   m_DirectionChange.SetIdentity();
 
@@ -49,8 +51,10 @@ template< class TScalarType,
 Transform< TScalarType, NInputDimensions, NOutputDimensions >
 ::Transform(unsigned int dimension, unsigned int numberOfParameters):
   m_Parameters(numberOfParameters),
-  m_FixedParameters(numberOfParameters),
-  m_Jacobian(dimension, numberOfParameters)
+  m_FixedParameters(numberOfParameters)
+#ifdef ITKV3_COMPATIBILITY
+  ,m_SharedLocalJacobian(dimension, numberOfParameters)
+#endif
 {
   m_DirectionChange.SetIdentity();
 }

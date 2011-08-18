@@ -61,8 +61,9 @@
   ::JacobianType &
   MyTransform< TScalarType, NDimensions >::GetJacobian(const InputPointType & p) const
   {
-    this->ComputeJacobianWithRespectToParameters( p, this->m_Jacobian );
-    return this->m_Jacobian;
+    JacobianType tmp;
+    this->ComputeJacobianWithRespectToParameters( p, tmp );
+    return tmp;
   }
       ]]>
     </Description>
@@ -88,8 +89,9 @@
         <![CDATA[
         virtual const JacobianType & GetJacobian ( const InputPointType & p ) const
         {
-          this->ComputeJacobianWithRespectToParameters( p, this->m_Jacobian );
-          return this->m_Jacobian;
+          JacobianType tmp;
+          this->ComputeJacobianWithRespectToParameters( p, tmp );
+          return tmp;
         }
         virtual void ComputeJacobianWithRespectToParameters( const InputPointType & p, JacobianType & jacobian ) const
         {

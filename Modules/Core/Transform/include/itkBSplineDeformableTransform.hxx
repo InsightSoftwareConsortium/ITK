@@ -584,7 +584,7 @@ BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
    */
   ParametersValueType *dataPointer =
     const_cast< ParametersValueType * >( ( this->m_InputParametersPointer->data_block() ) );
-  unsigned int numberOfPixels = this->m_GridRegion.GetNumberOfPixels();
+  const unsigned int numberOfPixels = this->m_GridRegion.GetNumberOfPixels();
 
   for ( unsigned int j = 0; j < SpaceDimension; j++ )
     {
@@ -597,10 +597,10 @@ BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
    * Allocate memory for Jacobian and wrap into SpaceDimension number
    * of ITK images
    */
-  this->m_Jacobian.set_size( SpaceDimension, this->GetNumberOfParameters() );
-  this->m_Jacobian.Fill(NumericTraits< JacobianPixelType >::Zero);
+  this->m_SharedDataBSplineJacobian.set_size( SpaceDimension, this->GetNumberOfParameters() );
+  this->m_SharedDataBSplineJacobian.Fill(NumericTraits< JacobianPixelType >::Zero);
   this->m_LastJacobianIndex = this->m_ValidRegion.GetIndex();
-  JacobianPixelType *jacobianDataPointer = this->m_Jacobian.data_block();
+  JacobianPixelType *jacobianDataPointer = this->m_SharedDataBSplineJacobian.data_block();
 
   for ( unsigned int j = 0; j < SpaceDimension; j++ )
     {
@@ -909,7 +909,7 @@ BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
   // return the input point
   if ( !this->InsideValidRegion(index) )
     {
-    jacobian=this->m_Jacobian;
+    jacobian=this->m_SharedDataBSplineJacobian;
     return;
     }
 
@@ -945,7 +945,7 @@ BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
       ++( jacobianIterators[j] );
       }
     }
-    jacobian=this->m_Jacobian;
+    jacobian=this->m_SharedDataBSplineJacobian;
 }
 
 /** Get Jacobian at a point. A very specialized function just for BSplines */

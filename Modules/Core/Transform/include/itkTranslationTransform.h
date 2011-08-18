@@ -209,6 +209,7 @@ private:
   TranslationTransform(const Self &); //purposely not implemented
   void operator=(const Self &);       //purposely not implemented
 
+  JacobianType     m_IdentityJacobian;
   OutputVectorType m_Offset; // Offset of the transformation
 };                           //class TranslationTransform
 

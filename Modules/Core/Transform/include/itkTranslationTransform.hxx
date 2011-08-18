@@ -25,18 +25,19 @@ namespace itk
 {
 // Constructor with default arguments
 template< class TScalarType, unsigned int NDimensions >
-TranslationTransform< TScalarType, NDimensions >::TranslationTransform():Superclass(SpaceDimension, ParametersDimension)
+TranslationTransform< TScalarType, NDimensions >::TranslationTransform():Superclass(SpaceDimension, ParametersDimension),
+  m_IdentityJacobian(NDimensions, NDimensions)
 {
   m_Offset.Fill(0);
 
   // The Jacobian of this transform is constant.
-  // Therefore the m_Jacobian variable can be
+  // Therefore the m_IdentityJacobian variable can be
   // initialized here and be shared among all the threads.
-  this->m_Jacobian.Fill(0.0);
+  this->m_IdentityJacobian.Fill(0.0);
 
   for ( unsigned int i = 0; i < NDimensions; i++ )
     {
-    this->m_Jacobian(i, i) = 1.0;
+    this->m_IdentityJacobian(i, i) = 1.0;
     }
 }
 
@@ -185,11 +186,11 @@ template< class TScalarType, unsigned int NDimensions >
 void
 TranslationTransform< TScalarType, NDimensions >::ComputeJacobianWithRespectToParameters(
         const InputPointType &,
-        JacobianType & j) const
+        JacobianType & jacobian) const
 {
   // the Jacobian is constant for this transform, and it has already been
   // initialized in the constructor, so we just need to return it here.
-  j = this->m_Jacobian;
+  jacobian = this->m_IdentityJacobian;
   return;
 }
 

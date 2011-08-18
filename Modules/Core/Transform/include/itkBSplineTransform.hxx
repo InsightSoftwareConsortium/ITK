@@ -173,7 +173,7 @@ BSplineTransform<TScalarType, NDimensions, VSplineOrder>
     {
     this->m_TransformDomainMeshSize = meshSize;
 
-    this->m_Jacobian.SetSize( SpaceDimension, this->GetNumberOfParameters() );
+    this->m_SharedDataBSplineJacobian.SetSize( SpaceDimension, this->GetNumberOfParameters() );
 
     // Input parameters point to internal buffer => using default parameters.
     if( this->m_InputParametersPointer == &( this->m_InternalParametersBuffer ) )
@@ -508,9 +508,9 @@ BSplineTransform<TScalarType, NDimensions, VSplineOrder>
    * of ITK images
    */
 
-  this->m_Jacobian.set_size( SpaceDimension, this->GetNumberOfParameters() );
-  this->m_Jacobian.Fill(NumericTraits< JacobianPixelType >::Zero);
-  JacobianPixelType *jacobianDataPointer = this->m_Jacobian.data_block();
+  this->m_SharedDataBSplineJacobian.set_size( SpaceDimension, this->GetNumberOfParameters() );
+  this->m_SharedDataBSplineJacobian.Fill(NumericTraits< JacobianPixelType >::Zero);
+  JacobianPixelType *jacobianDataPointer = this->m_SharedDataBSplineJacobian.data_block();
 
   for( unsigned int j = 0; j < SpaceDimension; j++ )
     {
@@ -841,7 +841,7 @@ BSplineTransform<TScalarType, NDimensions, VSplineOrder>
   // return the input point
   if( !this->InsideValidRegion( index ) )
     {
-    jacobian=this->m_Jacobian;
+    jacobian=this->m_SharedDataBSplineJacobian;
     return;
     }
 
@@ -881,7 +881,7 @@ BSplineTransform<TScalarType, NDimensions, VSplineOrder>
     }
 
   // Return the results
-  jacobian=this->m_Jacobian;
+  jacobian=this->m_SharedDataBSplineJacobian;
 }
 
 /** Get Jacobian at a point. A very specialized function just for BSplines */

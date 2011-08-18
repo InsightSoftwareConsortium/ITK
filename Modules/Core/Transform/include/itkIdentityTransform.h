@@ -163,7 +163,7 @@ public:
   virtual void ComputeJacobianWithRespectToParameters( const InputPointType &,
                                  JacobianType & jacobian) const
   {
-    jacobian = this->m_Jacobian;
+    jacobian = this->m_IdentityJacobian;
   }
 
   /** Get the jacobian with respect to position, which simply is an identity
@@ -213,18 +213,19 @@ public:
   /** Set the fixed parameters and update internal transformation. */
   virtual void SetParameters(const ParametersType &) {}
 protected:
-  IdentityTransform():Transform< TScalarType, NDimensions, NDimensions >(NDimensions, 0)
+  IdentityTransform():Transform< TScalarType, NDimensions, NDimensions >(NDimensions, 0),
+    m_IdentityJacobian(NDimensions, 0)
   {
     // The Jacobian is constant, therefore it can be initialized in the
     // constructor.
-    this->m_Jacobian = JacobianType(NDimensions, 0);
-    this->m_Jacobian.Fill(0.0);
+    this->m_IdentityJacobian.Fill(0.0);
   }
 
   virtual ~IdentityTransform() {}
 private:
   IdentityTransform(const Self &); //purposely not implemented
   void operator=(const Self &);    //purposely not implemented
+  JacobianType m_IdentityJacobian;
 };
 } // end namespace itk
 
