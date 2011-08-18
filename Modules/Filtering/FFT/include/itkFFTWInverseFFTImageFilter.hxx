@@ -15,11 +15,11 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFFTWComplexConjugateToRealImageFilter_hxx
-#define __itkFFTWComplexConjugateToRealImageFilter_hxx
+#ifndef __itkFFTWInverseFFTImageFilter_hxx
+#define __itkFFTWInverseFFTImageFilter_hxx
 
-#include "itkFFTWComplexConjugateToRealImageFilter.h"
-#include "itkFFTComplexConjugateToRealImageFilter.hxx"
+#include "itkFFTWInverseFFTImageFilter.h"
+#include "itkInverseFFTImageFilter.hxx"
 
 #include "itkImageRegionIterator.h"
 #include "itkProgressReporter.h"
@@ -28,15 +28,15 @@ namespace itk
 {
 
 template< class TInputImage, class TOutputImage >
-FFTWComplexConjugateToRealImageFilter< TInputImage, TOutputImage >
-::FFTWComplexConjugateToRealImageFilter()
+FFTWInverseFFTImageFilter< TInputImage, TOutputImage >
+::FFTWInverseFFTImageFilter()
 {
   m_PlanRigor = FFTWGlobalConfiguration::GetPlanRigor();
 }
 
 template< class TInputImage, class TOutputImage >
 void
-FFTWComplexConjugateToRealImageFilter< TInputImage, TOutputImage >
+FFTWInverseFFTImageFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
 {
   // Get pointers to the input and output.
@@ -119,7 +119,7 @@ FFTWComplexConjugateToRealImageFilter< TInputImage, TOutputImage >
 
 template <class TInputImage, class TOutputImage>
 void
-FFTWComplexConjugateToRealImageFilter< TInputImage, TOutputImage >
+FFTWInverseFFTImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType itkNotUsed(threadId) )
 {
   typedef ImageRegionIterator< OutputImageType > IteratorType;
@@ -134,7 +134,7 @@ FFTWComplexConjugateToRealImageFilter< TInputImage, TOutputImage >
 
 template< class TInputImage, class TOutputImage >
 bool
-FFTWComplexConjugateToRealImageFilter< TInputImage, TOutputImage >
+FFTWInverseFFTImageFilter< TInputImage, TOutputImage >
 ::FullMatrix()
 {
   return false;
@@ -143,7 +143,7 @@ FFTWComplexConjugateToRealImageFilter< TInputImage, TOutputImage >
 
 template< class TInputImage, class TOutputImage >
 void
-FFTWComplexConjugateToRealImageFilter< TInputImage, TOutputImage >
+FFTWInverseFFTImageFilter< TInputImage, TOutputImage >
 ::UpdateOutputData(DataObject * output)
 {
   // We need to catch that information now, because it is changed
@@ -155,7 +155,7 @@ FFTWComplexConjugateToRealImageFilter< TInputImage, TOutputImage >
 
 template< class TInputImage, class TOutputImage >
 void
-FFTWComplexConjugateToRealImageFilter< TInputImage, TOutputImage >
+FFTWInverseFFTImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf( os, indent );
@@ -165,4 +165,4 @@ FFTWComplexConjugateToRealImageFilter< TInputImage, TOutputImage >
 }
 
 } // namespace itk
-#endif // _itkFFTWComplexConjugateToRealImageFilter_hxx
+#endif // _itkFFTWInverseFFTImageFilter_hxx

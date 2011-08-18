@@ -15,14 +15,14 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFFTRealToComplexConjugateImageFilter_hxx
-#define __itkFFTRealToComplexConjugateImageFilter_hxx
+#ifndef __itkForwardFFTImageFilter_hxx
+#define __itkForwardFFTImageFilter_hxx
 #include "itkMetaDataObject.h"
 
-#include "itkVnlFFTRealToComplexConjugateImageFilter.h"
+#include "itkVnlForwardFFTImageFilter.h"
 
 #if defined( USE_FFTWD ) || defined( USE_FFTWF )
-#include "itkFFTWRealToComplexConjugateImageFilter.h"
+#include "itkFFTWForwardFFTImageFilter.h"
 #endif
 
 namespace itk
@@ -33,7 +33,7 @@ struct DispatchFFTW_R2C_New
 {
   static TSelfPointer Apply()
     {
-      return VnlFFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
+      return VnlForwardFFTImageFilter< TInputImage, TOutputImage >
         ::New().GetPointer();
     }
 };
@@ -44,7 +44,7 @@ struct DispatchFFTW_R2C_New< TSelfPointer, TInputImage, TOutputImage, double >
 {
   static TSelfPointer Apply()
     {
-      return FFTWRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
+      return FFTWForwardFFTImageFilter< TInputImage, TOutputImage >
         ::New().GetPointer();
     }
 };
@@ -56,15 +56,15 @@ struct DispatchFFTW_R2C_New< TSelfPointer, TInputImage, TOutputImage, float >
 {
   static TSelfPointer Apply()
     {
-      return FFTWRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
+      return FFTWForwardFFTImageFilter< TInputImage, TOutputImage >
         ::New().GetPointer();
     }
 };
 #endif
 
 template< class TInputImage, class TOutputImage >
-typename FFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >::Pointer
-FFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
+typename ForwardFFTImageFilter< TInputImage, TOutputImage >::Pointer
+ForwardFFTImageFilter< TInputImage, TOutputImage >
 ::New(void)
 {
   Pointer smartPtr = ::itk::ObjectFactory< Self >::Create();
@@ -81,7 +81,7 @@ FFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
 
 template< class TInputImage, class TOutputImage >
 void
-FFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
+ForwardFFTImageFilter< TInputImage, TOutputImage >
 ::GenerateOutputInformation()
 {
   // Call the superclass' implementation of this method.
@@ -144,7 +144,7 @@ FFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
 
 template< class TInputImage, class TOutputImage >
 void
-FFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
+ForwardFFTImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
 {
   // Call the superclass implementation of this method.
@@ -164,7 +164,7 @@ FFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
 
 template< class TInputImage, class TOutputImage >
 void
-FFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
+ForwardFFTImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *output)
 {
   Superclass::EnlargeOutputRequestedRegion(output);

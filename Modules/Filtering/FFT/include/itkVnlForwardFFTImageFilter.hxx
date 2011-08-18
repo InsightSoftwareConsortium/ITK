@@ -15,11 +15,11 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVnlFFTRealToComplexConjugateImageFilter_hxx
-#define __itkVnlFFTRealToComplexConjugateImageFilter_hxx
+#ifndef __itkVnlForwardFFTImageFilter_hxx
+#define __itkVnlForwardFFTImageFilter_hxx
 
-#include "itkVnlFFTRealToComplexConjugateImageFilter.h"
-#include "itkFFTRealToComplexConjugateImageFilter.hxx"
+#include "itkVnlForwardFFTImageFilter.h"
+#include "itkForwardFFTImageFilter.hxx"
 #include "itkProgressReporter.h"
 
 #include "vnl/algo/vnl_fft_base.h"
@@ -31,7 +31,7 @@ namespace itk
 {
 
 template< class TInputImage, class TOutputImage >
-bool VnlFFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
+bool VnlForwardFFTImageFilter< TInputImage, TOutputImage >
 ::IsDimensionSizeLegal(InputSizeValueType n)
 {
   int ifac = 2;
@@ -57,7 +57,7 @@ bool VnlFFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
  */
 template< class TInputImage, class TOutputImage >
 void
-VnlFFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
+VnlForwardFFTImageFilter< TInputImage, TOutputImage >
 ::FFTND_transform(SignalVectorType &signal, const InputSizeType &inputSize, DimDiscriminator<1> *)
 {
   vnl_fft_1d< InputPixelType > v1d( inputSize[0] );
@@ -66,7 +66,7 @@ VnlFFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
 
 template< class TInputImage, class TOutputImage >
 void
-VnlFFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
+VnlForwardFFTImageFilter< TInputImage, TOutputImage >
 ::FFTND_transform(SignalVectorType &signal, const InputSizeType &inputSize, DimDiscriminator<2> *)
 {
   vnl_fft_2d< InputPixelType > v2d( inputSize[1], inputSize[0] );
@@ -75,7 +75,7 @@ VnlFFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
 
 template< class TInputImage, class TOutputImage >
 void
-VnlFFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
+VnlForwardFFTImageFilter< TInputImage, TOutputImage >
 ::FFTND_transform(SignalVectorType &signal, const InputSizeType &inputSize, DimDiscriminator<3> *)
 {
   vnl_fft_3d< InputPixelType > v3d( inputSize[2], inputSize[1], inputSize[0] );
@@ -84,7 +84,7 @@ VnlFFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
 
 template< class TInputImage, class TOutputImage >
 void
-VnlFFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
+VnlForwardFFTImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
   // Get pointers to the input and output.
@@ -112,7 +112,7 @@ VnlFFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
     if ( !this->IsDimensionSizeLegal( inputSize[i] ) )
       {
       itkExceptionMacro(<< "Cannot compute FFT of image with size "
-                        << inputSize << ". VnlFFTRealToComplexConjugateImageFilter operates "
+                        << inputSize << ". VnlForwardFFTImageFilter operates "
                         << "only on images whose size in each dimension is a multiple of "
                         << "2, 3, or 5." );
       }
@@ -138,7 +138,7 @@ VnlFFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
 
 template< class TInputImage, class TOutputImage >
 bool
-VnlFFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
+VnlForwardFFTImageFilter< TInputImage, TOutputImage >
 ::FullMatrix()
 {
   return true;

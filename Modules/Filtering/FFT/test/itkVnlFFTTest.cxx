@@ -20,7 +20,7 @@
 #include "itkImage.h"
 #include "itkFFTTest.h"
 
-#include "itkVnlFFTComplexConjugateToRealImageFilter.h"
+#include "itkVnlInverseFFTImageFilter.h"
 
 // Test FFT using VNL Libraries. The test is performed for 2 3d array one of
 // them having the same dimension(4,4,4) and the other having different
@@ -50,96 +50,96 @@ int itkVnlFFTTest(int, char *[])
   int rval = 0;
   std::cerr << "Vnl float,1 (4,4,4)" << std::endl;
   if((test_fft<float,1,
-      itk::VnlFFTRealToComplexConjugateImageFilter<ImageF1> ,
-      itk::VnlFFTComplexConjugateToRealImageFilter<ImageCF1> >(SizeOfDimensions1)) != 0)
+      itk::VnlForwardFFTImageFilter<ImageF1> ,
+      itk::VnlInverseFFTImageFilter<ImageCF1> >(SizeOfDimensions1)) != 0)
     {
     rval++;
     std::cerr << "--------------------- Failed!" << std::endl;
     }
   std::cerr << "Vnl float,2 (4,4,4)"<< std::endl;
   if((test_fft<float,2,
-      itk::VnlFFTRealToComplexConjugateImageFilter<ImageF2> ,
-      itk::VnlFFTComplexConjugateToRealImageFilter<ImageCF2> >(SizeOfDimensions1)) != 0)
+      itk::VnlForwardFFTImageFilter<ImageF2> ,
+      itk::VnlInverseFFTImageFilter<ImageCF2> >(SizeOfDimensions1)) != 0)
     {
     std::cerr << "--------------------- Failed!" << std::endl;
     rval++;
     }
   std::cerr << "Vnl float,3 (4,4,4)"<< std::endl;
   if((test_fft<float,3,
-      itk::VnlFFTRealToComplexConjugateImageFilter<ImageF3> ,
-      itk::VnlFFTComplexConjugateToRealImageFilter<ImageCF3> >(SizeOfDimensions1)) != 0)
+      itk::VnlForwardFFTImageFilter<ImageF3> ,
+      itk::VnlInverseFFTImageFilter<ImageCF3> >(SizeOfDimensions1)) != 0)
     {
     std::cerr << "--------------------- Failed!" << std::endl;
     rval++;
     }
   std::cerr << "Vnl double,1 (4,4,4)"<< std::endl;
   if((test_fft<double,1,
-      itk::VnlFFTRealToComplexConjugateImageFilter<ImageD1> ,
-      itk::VnlFFTComplexConjugateToRealImageFilter<ImageCD1> >(SizeOfDimensions1)) != 0)
+      itk::VnlForwardFFTImageFilter<ImageD1> ,
+      itk::VnlInverseFFTImageFilter<ImageCD1> >(SizeOfDimensions1)) != 0)
     {
     std::cerr << "--------------------- Failed!" << std::endl;
     rval++;
     }
   std::cerr << "Vnl double,2 (4,4,4)"<< std::endl;
   if((test_fft<double,2,
-      itk::VnlFFTRealToComplexConjugateImageFilter<ImageD2> ,
-      itk::VnlFFTComplexConjugateToRealImageFilter<ImageCD2> >(SizeOfDimensions1)) != 0)
+      itk::VnlForwardFFTImageFilter<ImageD2> ,
+      itk::VnlInverseFFTImageFilter<ImageCD2> >(SizeOfDimensions1)) != 0)
     {
     std::cerr << "--------------------- Failed!" << std::endl;
     rval++;
     }
   std::cerr << "Vnl double,3 (4,4,4)"<< std::endl;
   if((test_fft<double,3,
-      itk::VnlFFTRealToComplexConjugateImageFilter<ImageD3> ,
-      itk::VnlFFTComplexConjugateToRealImageFilter<ImageCD3> >(SizeOfDimensions1)) != 0)
+      itk::VnlForwardFFTImageFilter<ImageD3> ,
+      itk::VnlInverseFFTImageFilter<ImageCD3> >(SizeOfDimensions1)) != 0)
     {
     std::cerr << "--------------------- Failed!" << std::endl;
     rval++;
     }
   std::cerr << "Vnl float,1 (3,5,4)" << std::endl;
   if((test_fft<float,1,
-      itk::VnlFFTRealToComplexConjugateImageFilter<ImageF1> ,
-      itk::VnlFFTComplexConjugateToRealImageFilter<ImageCF1> >(SizeOfDimensions2)) != 0)
+      itk::VnlForwardFFTImageFilter<ImageF1> ,
+      itk::VnlInverseFFTImageFilter<ImageCF1> >(SizeOfDimensions2)) != 0)
     {
     std::cerr << "--------------------- Failed!" << std::endl;
     rval++;
     }
   std::cerr << "Vnl float,2 (3,5,4)"<< std::endl;
   if((test_fft<float,2,
-      itk::VnlFFTRealToComplexConjugateImageFilter<ImageF2> ,
-      itk::VnlFFTComplexConjugateToRealImageFilter<ImageCF2> >(SizeOfDimensions2)) != 0)
+      itk::VnlForwardFFTImageFilter<ImageF2> ,
+      itk::VnlInverseFFTImageFilter<ImageCF2> >(SizeOfDimensions2)) != 0)
     {
     std::cerr << "--------------------- Failed!" << std::endl;
     rval++;
     }
   std::cerr << "Vnl float,3 (3,5,4)"<< std::endl;
   if((test_fft<float,3,
-      itk::VnlFFTRealToComplexConjugateImageFilter<ImageF3> ,
-      itk::VnlFFTComplexConjugateToRealImageFilter<ImageCF3> >(SizeOfDimensions2)) != 0)
+      itk::VnlForwardFFTImageFilter<ImageF3> ,
+      itk::VnlInverseFFTImageFilter<ImageCF3> >(SizeOfDimensions2)) != 0)
     {
     std::cerr << "--------------------- Failed!" << std::endl;
     rval++;
     }
   std::cerr << "Vnl double,1 (3,5,4)"<< std::endl;
   if((test_fft<double,1,
-      itk::VnlFFTRealToComplexConjugateImageFilter<ImageD1> ,
-      itk::VnlFFTComplexConjugateToRealImageFilter<ImageCD1> >(SizeOfDimensions2)) != 0)
+      itk::VnlForwardFFTImageFilter<ImageD1> ,
+      itk::VnlInverseFFTImageFilter<ImageCD1> >(SizeOfDimensions2)) != 0)
     {
     std::cerr << "--------------------- Failed!" << std::endl;
     rval++;
     }
   std::cerr << "Vnl double,2 (3,5,4)"<< std::endl;
   if((test_fft<double,2,
-      itk::VnlFFTRealToComplexConjugateImageFilter<ImageD2> ,
-      itk::VnlFFTComplexConjugateToRealImageFilter<ImageCD2> >(SizeOfDimensions2)) != 0)
+      itk::VnlForwardFFTImageFilter<ImageD2> ,
+      itk::VnlInverseFFTImageFilter<ImageCD2> >(SizeOfDimensions2)) != 0)
     {
     std::cerr << "--------------------- Failed!" << std::endl;
     rval++;
     }
   std::cerr << "Vnl double,3 (3,5,4)"<< std::endl;
   if((test_fft<double,3,
-      itk::VnlFFTRealToComplexConjugateImageFilter<ImageD3> ,
-      itk::VnlFFTComplexConjugateToRealImageFilter<ImageCD3> >(SizeOfDimensions2)) != 0)
+      itk::VnlForwardFFTImageFilter<ImageD3> ,
+      itk::VnlInverseFFTImageFilter<ImageCD3> >(SizeOfDimensions2)) != 0)
     {
     std::cerr << "--------------------- Failed!" << std::endl;
     rval++;
@@ -149,8 +149,8 @@ int itkVnlFFTTest(int, char *[])
 
   std::cerr << "Vnl float,1 (7,6,4)" << std::endl;
   if((test_fft<float,1,
-      itk::VnlFFTRealToComplexConjugateImageFilter<ImageF1> ,
-      itk::VnlFFTComplexConjugateToRealImageFilter<ImageCF1> >(SizeOfDimensions3)) == 0)
+      itk::VnlForwardFFTImageFilter<ImageF1> ,
+      itk::VnlInverseFFTImageFilter<ImageCF1> >(SizeOfDimensions3)) == 0)
     {
     std::cerr << "--------------------- Failed!" << std::endl;
     rval++;
@@ -162,8 +162,8 @@ int itkVnlFFTTest(int, char *[])
 
   std::cerr << "Vnl float,2 (7,6,4)" << std::endl;
   if((test_fft<float,2,
-      itk::VnlFFTRealToComplexConjugateImageFilter<ImageF2> ,
-      itk::VnlFFTComplexConjugateToRealImageFilter<ImageCF2> >(SizeOfDimensions3)) == 0)
+      itk::VnlForwardFFTImageFilter<ImageF2> ,
+      itk::VnlInverseFFTImageFilter<ImageCF2> >(SizeOfDimensions3)) == 0)
     {
     std::cerr << "--------------------- Failed!" << std::endl;
     rval++;
@@ -175,8 +175,8 @@ int itkVnlFFTTest(int, char *[])
 
   std::cerr << "Vnl float,3 (7,6,4)" << std::endl;
   if((test_fft<float,3,
-      itk::VnlFFTRealToComplexConjugateImageFilter<ImageF3> ,
-      itk::VnlFFTComplexConjugateToRealImageFilter<ImageCF3> >(SizeOfDimensions3)) == 0)
+      itk::VnlForwardFFTImageFilter<ImageF3> ,
+      itk::VnlInverseFFTImageFilter<ImageCF3> >(SizeOfDimensions3)) == 0)
     {
     std::cerr << "--------------------- Failed!" << std::endl;
     rval++;
@@ -188,8 +188,8 @@ int itkVnlFFTTest(int, char *[])
 
   std::cerr << "Vnl double,1 (7,6,4)" << std::endl;
   if((test_fft<double,1,
-      itk::VnlFFTRealToComplexConjugateImageFilter<ImageD1> ,
-      itk::VnlFFTComplexConjugateToRealImageFilter<ImageCD1> >(SizeOfDimensions3)) == 0)
+      itk::VnlForwardFFTImageFilter<ImageD1> ,
+      itk::VnlInverseFFTImageFilter<ImageCD1> >(SizeOfDimensions3)) == 0)
     {
     std::cerr << "--------------------- Failed!" << std::endl;
     rval++;
@@ -201,8 +201,8 @@ int itkVnlFFTTest(int, char *[])
 
   std::cerr << "Vnl double,2 (7,6,4)" << std::endl;
   if((test_fft<double,2,
-      itk::VnlFFTRealToComplexConjugateImageFilter<ImageD2> ,
-      itk::VnlFFTComplexConjugateToRealImageFilter<ImageCD2> >(SizeOfDimensions3)) == 0)
+      itk::VnlForwardFFTImageFilter<ImageD2> ,
+      itk::VnlInverseFFTImageFilter<ImageCD2> >(SizeOfDimensions3)) == 0)
     {
     std::cerr << "--------------------- Failed!" << std::endl;
     rval++;
@@ -214,8 +214,8 @@ int itkVnlFFTTest(int, char *[])
 
   std::cerr << "Vnl double,3 (7,6,4)" << std::endl;
   if((test_fft<double,3,
-      itk::VnlFFTRealToComplexConjugateImageFilter<ImageD3> ,
-      itk::VnlFFTComplexConjugateToRealImageFilter<ImageCD3> >(SizeOfDimensions3)) == 0)
+      itk::VnlForwardFFTImageFilter<ImageD3> ,
+      itk::VnlInverseFFTImageFilter<ImageCD3> >(SizeOfDimensions3)) == 0)
     {
     std::cerr << "--------------------- Failed!" << std::endl;
     rval++;

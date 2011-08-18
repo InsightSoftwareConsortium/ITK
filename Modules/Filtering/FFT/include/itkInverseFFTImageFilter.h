@@ -15,14 +15,14 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFFTComplexConjugateToRealImageFilter_h
-#define __itkFFTComplexConjugateToRealImageFilter_h
+#ifndef __itkInverseFFTImageFilter_h
+#define __itkInverseFFTImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
 namespace itk
 {
-/** \class FFTComplexConjugateToRealImageFilter
+/** \class InverseFFTImageFilter
  *
  * \brief Base class for "Inverse" Fast Fourier Transform.
  *
@@ -44,11 +44,11 @@ namespace itk
  *
  * \ingroup FourierTransform
  *
- * \sa FFTRealToComplexConjugateImageFilter, FFTComplexConjugateToRealImageFilter
+ * \sa ForwardFFTImageFilter, InverseFFTImageFilter
  * \ingroup ITKFFT
  */
 template< class TInputImage, class TOutputImage=Image< typename TInputImage::PixelType::value_type, TInputImage::ImageDimension> >
-class ITK_EXPORT FFTComplexConjugateToRealImageFilter:
+class ITK_EXPORT InverseFFTImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 
 {
@@ -59,16 +59,16 @@ public:
   typedef TOutputImage                         OutputImageType;
   typedef typename OutputImageType::PixelType  OutputPixelType;
 
-  typedef FFTComplexConjugateToRealImageFilter                    Self;
-  typedef ImageToImageFilter< InputImageType, OutputImageType >   Superclass;
-  typedef SmartPointer< Self >                                    Pointer;
-  typedef SmartPointer< const Self >                              ConstPointer;
+  typedef InverseFFTImageFilter                                 Self;
+  typedef ImageToImageFilter< InputImageType, OutputImageType > Superclass;
+  typedef SmartPointer< Self >                                  Pointer;
+  typedef SmartPointer< const Self >                            ConstPointer;
 
   itkStaticConstMacro(ImageDimension, unsigned int,
                       InputImageType::ImageDimension);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FFTComplexConjugateToRealImageFilter, ImageToImageFilter);
+  itkTypeMacro(InverseFFTImageFilter, ImageToImageFilter);
 
   /** Customized object creation methods that support configuration-based
   * selection of FFT implementation.
@@ -109,8 +109,8 @@ public:
   }
 
 protected:
-  FFTComplexConjugateToRealImageFilter():m_ActualXDimensionIsOdd(false) {}
-  virtual ~FFTComplexConjugateToRealImageFilter(){}
+  InverseFFTImageFilter():m_ActualXDimensionIsOdd(false) {}
+  virtual ~InverseFFTImageFilter(){}
 
   /** Sets the output requested region to the largest possible output
    * region. */
@@ -118,17 +118,17 @@ protected:
 
 private:
   bool m_ActualXDimensionIsOdd;
-  FFTComplexConjugateToRealImageFilter(const Self &); //purposely not implemented
+  InverseFFTImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                       //purposely not implemented
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#ifndef __itkVnlFFTComplexConjugateToRealImageFilter_h
-#ifndef __itkVnlFFTComplexConjugateToRealImageFilter_hxx
-#ifndef __itkFFTWComplexConjugateToRealImageFilter_h
-#ifndef __itkFFTWComplexConjugateToRealImageFilter_hxx
-#include "itkFFTComplexConjugateToRealImageFilter.hxx"
+#ifndef __itkVnlInverseFFTImageFilter_h
+#ifndef __itkVnlInverseFFTImageFilter_hxx
+#ifndef __itkFFTWInverseFFTImageFilter_h
+#ifndef __itkFFTWInverseFFTImageFilter_hxx
+#include "itkInverseFFTImageFilter.hxx"
 #endif
 #endif
 #endif

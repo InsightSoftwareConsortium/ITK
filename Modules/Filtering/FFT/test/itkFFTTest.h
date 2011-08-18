@@ -23,11 +23,11 @@
 #include "itkConfigure.h"
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
-#include "itkVnlFFTRealToComplexConjugateImageFilter.h"
-#include "itkVnlFFTComplexConjugateToRealImageFilter.h"
+#include "itkVnlForwardFFTImageFilter.h"
+#include "itkVnlInverseFFTImageFilter.h"
 #if defined(USE_FFTWF) || defined(USE_FFTWD)
-#include "itkFFTWComplexConjugateToRealImageFilter.h"
-#include "itkFFTWRealToComplexConjugateImageFilter.h"
+#include "itkFFTWInverseFFTImageFilter.h"
+#include "itkFFTWForwardFFTImageFilter.h"
 #endif
 #include "itksys/SystemTools.hxx"
 #include "vnl/vnl_sample.h"
