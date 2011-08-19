@@ -41,16 +41,16 @@ int itkBSplineTransformTest1()
 {
 
   // Comment the following if you want to use the itk text output window
-  itk::OutputWindow::SetInstance(itk::TextOutput::New());
+  itk::OutputWindow::SetInstance(itk::TextOutput::New() );
 
   // Uncomment the following if you want to see each message independently
-  //itk::OutputWindow::GetInstance()->PromptUserOn();
+  // itk::OutputWindow::GetInstance()->PromptUserOn();
 
   const unsigned int SpaceDimension = 3;
   const unsigned int SplineOrder = 3;
   typedef double CoordinateRepType;
   typedef itk::BSplineTransform
-    <CoordinateRepType,SpaceDimension,SplineOrder> TransformType;
+  <CoordinateRepType, SpaceDimension, SplineOrder> TransformType;
 
   typedef TransformType::ParametersType ParametersType;
 
@@ -91,7 +91,7 @@ int itkBSplineTransformTest1()
   /**
    * Allocate memory for the parameters
    */
-  unsigned long numberOfParameters = transform->GetNumberOfParameters();
+  unsigned long  numberOfParameters = transform->GetNumberOfParameters();
   ParametersType parameters( numberOfParameters );
   parameters.Fill( itk::NumericTraits<ParametersType::ValueType>::Zero);
 
@@ -101,28 +101,26 @@ int itkBSplineTransformTest1()
    * Initialize by setting all elements to zero
    */
   typedef ParametersType::ValueType                   CoefficientType;
-  typedef itk::Image<CoefficientType,SpaceDimension>  CoefficientImageType;
+  typedef itk::Image<CoefficientType, SpaceDimension> CoefficientImageType;
 
-  CoefficientImageType::Pointer coeffImage[SpaceDimension];
+  CoefficientImageType::Pointer  coeffImage[SpaceDimension];
   CoefficientImageType::SizeType size;
-  unsigned int numberOfControlPoints = 0;
+  unsigned int                   numberOfControlPoints = 0;
   for( j = 0; j < SpaceDimension; j++ )
     {
     size[j] = ( meshSize[j] + SplineOrder );
     numberOfControlPoints += size[j];
     }
   CoefficientType * dataPointer = parameters.data_block();
-
-  for ( j = 0; j < SpaceDimension; j++ )
+  for( j = 0; j < SpaceDimension; j++ )
     {
     coeffImage[j] = CoefficientImageType::New();
     coeffImage[j]->SetRegions( size );
     coeffImage[j]->GetPixelContainer()->
-      SetImportPointer( dataPointer, numberOfControlPoints );
+    SetImportPointer( dataPointer, numberOfControlPoints );
     dataPointer += numberOfControlPoints;
     coeffImage[j]->FillBuffer( 0.0 );
     }
-
 
   /**
    * Populate the spline coefficients with some values.
@@ -132,14 +130,13 @@ int itkBSplineTransformTest1()
 
   coeffImage[1]->SetPixel( index, 1.0 );
 
-  unsigned long n = coeffImage[1]->ComputeOffset( index ) +
-    numberOfControlPoints;
+  unsigned long n = coeffImage[1]->ComputeOffset( index )
+    + numberOfControlPoints;
 
   /**
    * Set the parameters in the transform
    */
   transform->SetParameters( parameters );
-
 
   /**
    * Get the parameters back
@@ -148,10 +145,10 @@ int itkBSplineTransformTest1()
   // outParametersRef should point back to parameters
   const ParametersType & outParametersRef = transform->GetParameters();
 
-  if ( &outParametersRef != &parameters )
+  if( &outParametersRef != &parameters )
     {
     std::cout << "outParametersRef should point to the same memory as "
-      << "parameters";
+              << "parameters";
     std::cout << std::endl;
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
@@ -160,7 +157,7 @@ int itkBSplineTransformTest1()
   // outParametersCopy should make a copy of the parameters
   ParametersType outParametersCopy = transform->GetParameters();
 
-  if ( outParametersCopy != parameters )
+  if( outParametersCopy != parameters )
     {
     std::cout << "outParametersCopy should be the same as parameters";
     std::cout << std::endl;
@@ -168,15 +165,14 @@ int itkBSplineTransformTest1()
     return EXIT_FAILURE;
     }
 
-  if ( &outParametersCopy == &parameters )
+  if( &outParametersCopy == &parameters )
     {
     std::cout << "outParametersCopy should point to memory different "
-      << "to parameters";
+              << "to parameters";
     std::cout << std::endl;
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
     }
-
 
   /**
    * Transform some points
@@ -185,7 +181,6 @@ int itkBSplineTransformTest1()
 
   PointType inputPoint;
   PointType outputPoint;
-
 
   // point within the grid support region
   inputPoint.Fill( 9.0 );
@@ -236,21 +231,21 @@ int itkBSplineTransformTest1()
   std::cout << std::endl;
 
   // use the other version of TransformPoint
-  typedef TransformType::WeightsType              WeightsType;
-  typedef TransformType::IndexType                IndexType;
-  typedef TransformType::ParameterIndexArrayType  IndexArrayType;
+  typedef TransformType::WeightsType             WeightsType;
+  typedef TransformType::IndexType               IndexType;
+  typedef TransformType::ParameterIndexArrayType IndexArrayType;
 
-  WeightsType weights( transform->GetNumberOfWeights() );
+  WeightsType    weights( transform->GetNumberOfWeights() );
   IndexArrayType indices( transform->GetNumberOfWeights() );
-  bool inside;
+  bool           inside;
 
   inputPoint.Fill( 8.3 );
   transform->TransformPoint( inputPoint, outputPoint, weights, indices, inside );
 
   std::cout << "Number of Parameters: "
-    << transform->GetNumberOfParameters() << std::endl;
-  std::cout << "Number of Parameters per dimension: " <<
-    transform->GetNumberOfParametersPerDimension() << std::endl;
+            << transform->GetNumberOfParameters() << std::endl;
+  std::cout << "Number of Parameters per dimension: "
+            << transform->GetNumberOfParametersPerDimension() << std::endl;
   std::cout << "Input Point: " << inputPoint << std::endl;
   std::cout << "Output Point: " << outputPoint << std::endl;
   std::cout << "Indices: " << indices << std::endl;
@@ -268,10 +263,10 @@ int itkBSplineTransformTest1()
   unsigned int baseIndex;
 
   std::cout << "Index" << "\t" << "Value" << "\t" << "Weight" << std::endl;
-  for ( j = 0; j < SpaceDimension; j++ )
+  for( j = 0; j < SpaceDimension; j++ )
     {
     baseIndex = j * numberOfParametersPerDimension;
-    for ( unsigned int k = 0; k < numberOfCoefficientInSupportRegion; k++ )
+    for( unsigned int k = 0; k < numberOfCoefficientInSupportRegion; k++ )
       {
       linearIndex = indices[k] + baseIndex;
       std::cout << linearIndex << "\t";
@@ -281,22 +276,20 @@ int itkBSplineTransformTest1()
       }
     }
 
-
   /**
    * TODO: add test to check the numerical accuarcy of the transform
    */
-
 
   /**
    * Compute the Jacobian for various points
    */
   typedef TransformType::JacobianType JacobianType;
 
-#define PRINT_VALUE(R,C) \
+#define PRINT_VALUE(R, C) \
   std::cout << "Jacobian[" #R "," #C "] = "; \
   std::cout << jacobian[R][C] << std::endl;
 
-  {
+    {
     // point inside the grid support region
     inputPoint.Fill( 7.5 );
     JacobianType jacobian;
@@ -305,10 +298,9 @@ int itkBSplineTransformTest1()
     PRINT_VALUE( 1, n );
     PRINT_VALUE( 2, n );
     std::cout << std::endl;
-  }
+    }
 
-
-  {
+    {
     // point outside the grid support region
     inputPoint.Fill( -10.0 );
     JacobianType jacobian;
@@ -317,111 +309,109 @@ int itkBSplineTransformTest1()
     PRINT_VALUE( 1, n );
     PRINT_VALUE( 2, n );
     std::cout << std::endl;
-  }
-
+    }
 
   /**
    * TODO: add test to check the numerical accuarcy of the jacobian output
    */
 
-
   /**
    * TransformVector and TransformCovariant are not applicable for this
    * transform and should throw exceptions
    */
-  {
-  typedef TransformType::InputVectorType VectorType;
-  VectorType vector;
-  vector.Fill ( 1.0 );
+    {
+    typedef TransformType::InputVectorType VectorType;
+    VectorType vector;
+    vector.Fill( 1.0 );
 
-  bool pass = false;
-  try
-    {
-    transform->TransformVector( vector );
+    bool pass = false;
+    try
+      {
+      transform->TransformVector( vector );
+      }
+    catch( itk::ExceptionObject & err )
+      {
+      std::cout << "Caught expected exception." << std::endl;
+      std::cout << err << std::endl;
+      pass = true;
+      }
+    if( !pass )
+      {
+      std::cout << "Did not catch expected exception." << std::endl;
+      std::cout << "Test failed. " << std::endl;
+      return EXIT_FAILURE;
+      }
     }
-  catch( itk::ExceptionObject & err )
-    {
-    std::cout << "Caught expected exception." << std::endl;
-    std::cout << err << std::endl;
-    pass = true;
-    }
-  if ( !pass )
-    {
-    std::cout << "Did not catch expected exception." << std::endl;
-    std::cout << "Test failed. " << std::endl;
-    return EXIT_FAILURE;
-    }
-  }
 
-  {
-  typedef TransformType::InputCovariantVectorType VectorType;
-  VectorType vector;
-  vector.Fill ( 1.0 );
+    {
+    typedef TransformType::InputCovariantVectorType VectorType;
+    VectorType vector;
+    vector.Fill( 1.0 );
 
-  bool pass = false;
-  try
-    {
-    transform->TransformCovariantVector( vector );
+    bool pass = false;
+    try
+      {
+      transform->TransformCovariantVector( vector );
+      }
+    catch( itk::ExceptionObject & err )
+      {
+      std::cout << "Caught expected exception." << std::endl;
+      std::cout << err << std::endl;
+      pass = true;
+      }
+    if( !pass )
+      {
+      std::cout << "Did not catch expected exception." << std::endl;
+      std::cout << "Test failed. " << std::endl;
+      return EXIT_FAILURE;
+      }
     }
-  catch( itk::ExceptionObject & err )
-    {
-    std::cout << "Caught expected exception." << std::endl;
-    std::cout << err << std::endl;
-    pass = true;
-    }
-  if ( !pass )
-    {
-    std::cout << "Did not catch expected exception." << std::endl;
-    std::cout << "Test failed. " << std::endl;
-    return EXIT_FAILURE;
-    }
-  }
 
-  {
-  typedef TransformType::InputVnlVectorType VectorType;
-  VectorType vector;
-  vector.fill ( 1.0 );
+    {
+    typedef TransformType::InputVnlVectorType VectorType;
+    VectorType vector;
+    vector.fill( 1.0 );
 
-  bool pass = false;
-  try
-    {
-    transform->TransformVector( vector );
+    bool pass = false;
+    try
+      {
+      transform->TransformVector( vector );
+      }
+    catch( itk::ExceptionObject & err )
+      {
+      std::cout << "Caught expected exception." << std::endl;
+      std::cout << err << std::endl;
+      pass = true;
+      }
+    if( !pass )
+      {
+      std::cout << "Did not catch expected exception." << std::endl;
+      std::cout << "Test failed. " << std::endl;
+      return EXIT_FAILURE;
+      }
     }
-  catch( itk::ExceptionObject & err )
-    {
-    std::cout << "Caught expected exception." << std::endl;
-    std::cout << err << std::endl;
-    pass = true;
-    }
-  if ( !pass )
-    {
-    std::cout << "Did not catch expected exception." << std::endl;
-    std::cout << "Test failed. " << std::endl;
-    return EXIT_FAILURE;
-    }
-  }
 
-  {
-  bool pass = false;
-  try
     {
-    ParametersType temp( transform->GetNumberOfParameters() - 1 );
-    temp.Fill( 4.0 );
-    transform->SetParameters( temp );
+    bool pass = false;
+    try
+      {
+      ParametersType temp( transform->GetNumberOfParameters() - 1 );
+      temp.Fill( 4.0 );
+      transform->SetParameters( temp );
+      }
+    catch( itk::ExceptionObject & err )
+      {
+      std::cout << "Caught expected exception." << std::endl;
+      std::cout << err << std::endl;
+      pass = true;
+      }
+    if( !pass )
+      {
+      std::cout << "Did not catch expected exception." << std::endl;
+      std::cout << "Test failed. " << std::endl;
+      return EXIT_FAILURE;
+      }
     }
-  catch( itk::ExceptionObject & err )
-    {
-    std::cout << "Caught expected exception." << std::endl;
-    std::cout << err << std::endl;
-    pass = true;
-    }
-  if ( !pass )
-    {
-    std::cout << "Did not catch expected exception." << std::endl;
-    std::cout << "Test failed. " << std::endl;
-    return EXIT_FAILURE;
-    }
-  }
 
   /**
    * Exercise other methods
@@ -431,8 +421,8 @@ int itkBSplineTransformTest1()
   std::cout << transform->GetTransformDomainMeshSize() << std::endl;
   std::cout << transform->GetTransformDomainDirection() << std::endl;
 
-  typedef itk::BSplineTransform<CoordinateRepType,SpaceDimension,2>
-    EvenOrderTransformType;
+  typedef itk::BSplineTransform<CoordinateRepType, SpaceDimension, 2>
+  EvenOrderTransformType;
   EvenOrderTransformType::Pointer evenOrderTransform =
     EvenOrderTransformType::New();
 
@@ -441,7 +431,7 @@ int itkBSplineTransformTest1()
    */
   transform = NULL;
 
-  if ( outParametersCopy != parameters )
+  if( outParametersCopy != parameters )
     {
     std::cout << "parameters should remain intact after transform is destroyed";
     std::cout << std::endl;
@@ -452,27 +442,27 @@ int itkBSplineTransformTest1()
   /**
    * Exercise the SetIdentity() Method
    */
-  {
-  std::cout << "Exercising SetIdentity() " << std::endl;
-  TransformType::Pointer transform2 = TransformType::New();
-  transform2->SetTransformDomainOrigin( origin );
-  transform2->SetTransformDomainPhysicalDimensions( dimensions );
-  transform2->SetTransformDomainMeshSize( meshSize );
-  transform2->SetTransformDomainDirection( direction );
-  transform2->SetIdentity();
-  TransformType::ParametersType parameters2 = transform2->GetParameters();
-  const unsigned int numberOfParameters2 = transform2->GetNumberOfParameters();
-  std::cout << "numberOfParameters =  " << numberOfParameters2 << std::endl;
-  for(unsigned int i=0; i<numberOfParameters2; i++)
     {
-    if( vcl_fabs( parameters2[i] ) > 1e-10 )
+    std::cout << "Exercising SetIdentity() " << std::endl;
+    TransformType::Pointer transform2 = TransformType::New();
+    transform2->SetTransformDomainOrigin( origin );
+    transform2->SetTransformDomainPhysicalDimensions( dimensions );
+    transform2->SetTransformDomainMeshSize( meshSize );
+    transform2->SetTransformDomainDirection( direction );
+    transform2->SetIdentity();
+    TransformType::ParametersType parameters2 = transform2->GetParameters();
+    const unsigned int            numberOfParameters2 = transform2->GetNumberOfParameters();
+    std::cout << "numberOfParameters =  " << numberOfParameters2 << std::endl;
+    for( unsigned int i = 0; i < numberOfParameters2; i++ )
       {
-      std::cerr << "SetIdentity failed, parameters are not null "
-        << "after invoking SetIdentity() " << std::endl;
-      return EXIT_FAILURE;
+      if( vcl_fabs( parameters2[i] ) > 1e-10 )
+        {
+        std::cerr << "SetIdentity failed, parameters are not null "
+                  << "after invoking SetIdentity() " << std::endl;
+        return EXIT_FAILURE;
+        }
       }
-    }
-  } // end of SetIdentity() test
+    } // end of SetIdentity() test
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
@@ -480,10 +470,10 @@ int itkBSplineTransformTest1()
 
 int itkBSplineTransformTest2()
 {
- /**
-  * This function tests the Set/GetCoefficientImage interface
-  */
-  itk::OutputWindow::SetInstance(itk::TextOutput::New());
+  /**
+   * This function tests the Set/GetCoefficientImage interface
+   */
+  itk::OutputWindow::SetInstance(itk::TextOutput::New() );
 
   unsigned int j;
 
@@ -493,25 +483,24 @@ int itkBSplineTransformTest2()
   const unsigned int Dimension = 2;
   typedef double PixelType;
 
-  typedef itk::Image<PixelType,Dimension>  ImageType;
+  typedef itk::Image<PixelType, Dimension> ImageType;
 
   // Set up the transform
   const unsigned int SplineOrder = 3;
   typedef double CoordRep;
-  typedef itk::BSplineTransform<CoordRep,Dimension,SplineOrder>
-    TransformType;
-  TransformType::InputPointType inputPoint;
+  typedef itk::BSplineTransform<CoordRep, Dimension, SplineOrder>
+  TransformType;
+  TransformType::InputPointType  inputPoint;
   TransformType::OutputPointType outputPoint;
 
   TransformType::Pointer transform = TransformType::New();
 
   // Set up field spacing, origin, region
-  double spacing[Dimension];
-  double origin[Dimension];
-  ImageType::SizeType size;
+  double                spacing[Dimension];
+  double                origin[Dimension];
+  ImageType::SizeType   size;
   ImageType::RegionType region;
-
-  for ( j = 0; j < Dimension; j++ )
+  for( j = 0; j < Dimension; j++ )
     {
     spacing[j] = 10.0;
     origin[j]  = -10.0;
@@ -523,7 +512,7 @@ int itkBSplineTransformTest2()
   region.SetSize( size );
 
   TransformType::CoefficientImageArray field;
-  for ( j = 0; j < Dimension; j++ )
+  for( j = 0; j < Dimension; j++ )
     {
     field[j] = ImageType::New();
     field[j]->SetSpacing( spacing );
@@ -533,11 +522,10 @@ int itkBSplineTransformTest2()
     }
 
   // fill the field with a constant displacment
-  itk::Vector<double,Dimension> v;
+  itk::Vector<double, Dimension> v;
   v[0] = 5;
   v[1] = 7;
-
-  for ( j = 0; j < Dimension; j++ )
+  for( j = 0; j < Dimension; j++ )
     {
     field[j]->FillBuffer( v[j] );
     }
@@ -607,13 +595,13 @@ int itkBSplineTransformTest3()
   // This function tests the SetParametersByValue interface
 
   // Comment the following if you want to use the itk text output window
-  itk::OutputWindow::SetInstance(itk::TextOutput::New());
+  itk::OutputWindow::SetInstance(itk::TextOutput::New() );
 
   const unsigned int SpaceDimension = 3;
   const unsigned int SplineOrder = 3;
   typedef double CoordinateRepType;
   typedef itk::BSplineTransform
-    <CoordinateRepType,SpaceDimension,SplineOrder> TransformType;
+  <CoordinateRepType, SpaceDimension, SplineOrder> TransformType;
 
   typedef TransformType::ParametersType ParametersType;
 
@@ -654,7 +642,7 @@ int itkBSplineTransformTest3()
   /**
    * Allocate memory for the parameters
    */
-  unsigned long numberOfParameters = transform->GetNumberOfParameters();
+  unsigned long  numberOfParameters = transform->GetNumberOfParameters();
   ParametersType parameters( numberOfParameters );
   parameters.Fill( itk::NumericTraits<ParametersType::ValueType>::Zero);
 
@@ -663,29 +651,27 @@ int itkBSplineTransformTest3()
    * flat array into N images.
    * Initialize by setting all elements to zero
    */
-  typedef ParametersType::ValueType                     CoefficientType;
-  typedef itk::Image<CoefficientType,SpaceDimension>    CoefficientImageType;
+  typedef ParametersType::ValueType                   CoefficientType;
+  typedef itk::Image<CoefficientType, SpaceDimension> CoefficientImageType;
 
-  CoefficientImageType::Pointer coeffImage[SpaceDimension];
+  CoefficientImageType::Pointer  coeffImage[SpaceDimension];
   CoefficientImageType::SizeType size;
-  unsigned int numberOfControlPoints = 0;
+  unsigned int                   numberOfControlPoints = 0;
   for( j = 0; j < SpaceDimension; j++ )
     {
     size[j] = ( meshSize[j] + SplineOrder );
     numberOfControlPoints += size[j];
     }
   CoefficientType * dataPointer = parameters.data_block();
-
-  for ( j = 0; j < SpaceDimension; j++ )
+  for( j = 0; j < SpaceDimension; j++ )
     {
     coeffImage[j] = CoefficientImageType::New();
     coeffImage[j]->SetRegions( size );
     coeffImage[j]->GetPixelContainer()->
-      SetImportPointer( dataPointer, numberOfControlPoints );
+    SetImportPointer( dataPointer, numberOfControlPoints );
     dataPointer += numberOfControlPoints;
     coeffImage[j]->FillBuffer( 0.0 );
     }
-
 
   /**
    * Populate the spline coefficients with some values.
@@ -723,10 +709,10 @@ int itkBSplineTransformTest3()
   // outParametersRef should not point back to parameters
   const ParametersType & outParametersRef = transform->GetParameters();
 
-  if ( &outParametersRef == &parameters )
+  if( &outParametersRef == &parameters )
     {
     std::cout << "outParametersRef should not point to the same memory as "
-      << "parameters";
+              << "parameters";
     std::cout << std::endl;
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
@@ -755,13 +741,22 @@ int itkBSplineTransformTest(int, char * [] )
   bool failed;
 
   failed = itkBSplineTransformTest1();
-  if ( failed ) { return EXIT_FAILURE; }
+  if( failed )
+    {
+    return EXIT_FAILURE;
+    }
 
   failed = itkBSplineTransformTest2();
-  if ( failed ) { return EXIT_FAILURE; }
+  if( failed )
+    {
+    return EXIT_FAILURE;
+    }
 
   failed = itkBSplineTransformTest3();
-  if ( failed ) { return EXIT_FAILURE; }
+  if( failed )
+    {
+    return EXIT_FAILURE;
+    }
 
   return EXIT_SUCCESS;
 }

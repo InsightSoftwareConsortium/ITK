@@ -58,18 +58,18 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template< class TScalarType, // probably only float and double make sense here
-          unsigned int NDimensions >
+template <class TScalarType, // probably only float and double make sense here
+          unsigned int NDimensions>
 // Number of dimensions
-class ITK_EXPORT KernelTransform:
-  public Transform< TScalarType, NDimensions, NDimensions >
+class ITK_EXPORT KernelTransform :
+  public Transform<TScalarType, NDimensions, NDimensions>
 {
 public:
   /** Standard class typedefs. */
-  typedef KernelTransform                                    Self;
-  typedef Transform< TScalarType, NDimensions, NDimensions > Superclass;
-  typedef SmartPointer< Self >                               Pointer;
-  typedef SmartPointer< const Self >                         ConstPointer;
+  typedef KernelTransform                                  Self;
+  typedef Transform<TScalarType, NDimensions, NDimensions> Superclass;
+  typedef SmartPointer<Self>                               Pointer;
+  typedef SmartPointer<const Self>                         ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(KernelTransform, Transform);
@@ -107,11 +107,9 @@ public:
 
   /** PointList typedef. This type is used for maintaining lists of points,
    * specifically, the source and target landmark lists. */
-  typedef DefaultStaticMeshTraits< TScalarType, NDimensions,
-                                   NDimensions, TScalarType,
-                                   TScalarType >          PointSetTraitsType;
-  typedef PointSet< InputPointType, NDimensions, PointSetTraitsType >
-  PointSetType;
+  typedef DefaultStaticMeshTraits<TScalarType, NDimensions, NDimensions, TScalarType, TScalarType> PointSetTraitsType;
+  typedef PointSet<InputPointType, NDimensions, PointSetTraitsType>                                PointSetType;
+
   typedef typename PointSetType::Pointer                      PointSetPointer;
   typedef typename PointSetType::PointsContainer              PointsContainer;
   typedef typename PointSetType::PointsContainerIterator      PointsIterator;
@@ -119,8 +117,8 @@ public:
   typedef typename PointSetType::PointIdentifier              PointIdentifier;
 
   /** VectorSet typedef. */
-  typedef itk::VectorContainer< SizeValueType, InputVectorType >  VectorSetType;
-  typedef typename VectorSetType::Pointer                         VectorSetPointer;
+  typedef itk::VectorContainer<SizeValueType, InputVectorType> VectorSetType;
+  typedef typename VectorSetType::Pointer                      VectorSetPointer;
 
   /** Get the source landmarks list, which we will denote \f$ p \f$. */
   itkGetObjectMacro(SourceLandmarks, PointSetType);
@@ -151,6 +149,7 @@ public:
     itkExceptionMacro(
       << "TransformVector(const InputVectorType &) is not implemented for KernelTransform");
   }
+
   virtual OutputVnlVectorType TransformVector(const InputVnlVectorType &) const
   {
     itkExceptionMacro(
@@ -166,14 +165,13 @@ public:
   }
 
   /** 'I' (identity) matrix typedef. */
-  typedef vnl_matrix_fixed< TScalarType, NDimensions, NDimensions > IMatrixType;
+  typedef vnl_matrix_fixed<TScalarType, NDimensions, NDimensions> IMatrixType;
 
   /** Compute the Jacobian Matrix of the transformation at one point */
-  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  &p,
-                                 JacobianType & jacobian) const;
+  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const;
 
   virtual void ComputeJacobianWithRespectToPosition(const InputPointType &,
-                                                  JacobianType &) const
+                                                    JacobianType &) const
   {
     itkExceptionMacro( "ComputeJacobianWithRespectToPosition not yet implemented "
                        "for " << this->GetNameOfClass() );
@@ -204,7 +202,10 @@ public:
   /** This transform is not linear, because the transformation of a linear
    * combination of points is not equal to the linear combination of the
    * transformations of individual points */
-  virtual bool IsLinear() const { return false; }
+  virtual bool IsLinear() const
+  {
+    return false;
+  }
 
   /** Stiffness of the spline.  A stiffness of zero results in the
    * standard interpolating spline.  A non-zero stiffness allows the
@@ -216,7 +217,7 @@ public:
    * International Conference of the IEEE Engineering in Medicine and
    * Biology Society. 1996.
    */
-  itkSetClampMacro( Stiffness, double, 0.0, NumericTraits< double >::max() );
+  itkSetClampMacro( Stiffness, double, 0.0, NumericTraits<double>::max() );
   itkGetConstMacro(Stiffness, double);
 protected:
   KernelTransform();
@@ -225,37 +226,37 @@ protected:
 
 public:
   /** 'G' matrix typedef. */
-  typedef vnl_matrix_fixed< TScalarType, NDimensions, NDimensions > GMatrixType;
+  typedef vnl_matrix_fixed<TScalarType, NDimensions, NDimensions> GMatrixType;
 
   /** 'L' matrix typedef. */
-  typedef vnl_matrix< TScalarType > LMatrixType;
+  typedef vnl_matrix<TScalarType> LMatrixType;
 
   /** 'K' matrix typedef. */
-  typedef vnl_matrix< TScalarType > KMatrixType;
+  typedef vnl_matrix<TScalarType> KMatrixType;
 
   /** 'P' matrix typedef. */
-  typedef vnl_matrix< TScalarType > PMatrixType;
+  typedef vnl_matrix<TScalarType> PMatrixType;
 
   /** 'Y' matrix typedef. */
-  typedef vnl_matrix< TScalarType > YMatrixType;
+  typedef vnl_matrix<TScalarType> YMatrixType;
 
   /** 'W' matrix typedef. */
-  typedef vnl_matrix< TScalarType > WMatrixType;
+  typedef vnl_matrix<TScalarType> WMatrixType;
 
   /** 'D' matrix typedef. Deformation component */
-  typedef vnl_matrix< TScalarType > DMatrixType;
+  typedef vnl_matrix<TScalarType> DMatrixType;
 
   /** 'A' matrix typedef. Rotational part of the Affine component */
-  typedef vnl_matrix_fixed< TScalarType, NDimensions, NDimensions > AMatrixType;
+  typedef vnl_matrix_fixed<TScalarType, NDimensions, NDimensions> AMatrixType;
 
   /** 'B' matrix typedef. Translational part of the Affine component */
-  typedef vnl_vector_fixed< TScalarType, NDimensions > BMatrixType;
+  typedef vnl_vector_fixed<TScalarType, NDimensions> BMatrixType;
 
   /** Row matrix typedef. */
-  typedef vnl_matrix_fixed< TScalarType, 1, NDimensions > RowMatrixType;
+  typedef vnl_matrix_fixed<TScalarType, 1, NDimensions> RowMatrixType;
 
   /** Column matrix typedef. */
-  typedef vnl_matrix_fixed< TScalarType, NDimensions, 1 > ColumnMatrixType;
+  typedef vnl_matrix_fixed<TScalarType, NDimensions, 1> ColumnMatrixType;
 protected:
   /** Compute G(x)
    * This is essentially the kernel of the transform.
@@ -263,8 +264,7 @@ protected:
    *    Elastic body spline
    *    Thin plate spline
    *    Volume spline */
-  virtual void ComputeG(const InputVectorType & landmarkVector,
-                        GMatrixType & gmatrix) const;
+  virtual void ComputeG(const InputVectorType & landmarkVector, GMatrixType & gmatrix) const;
 
   /** Compute a G(x) for a point to itself (i.e. for the block diagonal
    * elements of the matrix K. Parameter indicates for which landmark
@@ -279,9 +279,7 @@ protected:
 
   /** Compute the contribution of the landmarks weighted by the kernel funcion
       to the global deformation of the space  */
-  virtual void ComputeDeformationContribution(
-    const InputPointType & inputPoint,
-    OutputPointType & result) const;
+  virtual void ComputeDeformationContribution(const InputPointType & inputPoint, OutputPointType & result) const;
 
   /** Compute K matrix. */
   void ComputeK();
@@ -355,11 +353,10 @@ protected:
 
   /** The list of target landmarks, denoted 'q'. */
   PointSetPointer m_TargetLandmarks;
-
 private:
 
-  KernelTransform(const Self &); //purposely not implemented
-  void operator=(const Self &);  //purposely not implemented
+  KernelTransform(const Self &); // purposely not implemented
+  void operator=(const Self &);  // purposely not implemented
 
 };
 } // end namespace itk
@@ -368,10 +365,10 @@ private:
 #define ITK_TEMPLATE_KernelTransform(_, EXPORT, TypeX, TypeY)     \
   namespace itk                                                   \
   {                                                               \
-  _( 2 ( class EXPORT KernelTransform< ITK_TEMPLATE_2 TypeX > ) ) \
+  _( 2 ( class EXPORT KernelTransform<ITK_TEMPLATE_2 TypeX> ) ) \
   namespace Templates                                             \
   {                                                               \
-  typedef KernelTransform< ITK_TEMPLATE_2 TypeX >                 \
+  typedef KernelTransform<ITK_TEMPLATE_2 TypeX>                 \
   KernelTransform##TypeY;                                       \
   }                                                               \
   }

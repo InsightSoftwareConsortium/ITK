@@ -25,33 +25,33 @@
 namespace itk
 {
 // Constructor with default arguments
-template< class TScalarType, unsigned int NDimensions >
-CenteredAffineTransform< TScalarType, NDimensions >::CenteredAffineTransform():Superclass(SpaceDimension,
+template <class TScalarType, unsigned int NDimensions>
+CenteredAffineTransform<TScalarType, NDimensions>::CenteredAffineTransform() : Superclass(SpaceDimension,
                                                                                           ParametersDimension)
-{}
+{
+}
 
 // Destructor
-template< class TScalarType, unsigned int NDimensions >
-CenteredAffineTransform< TScalarType, NDimensions >::
+template <class TScalarType, unsigned int NDimensions>
+CenteredAffineTransform<TScalarType, NDimensions>::
 ~CenteredAffineTransform()
 {
   return;
 }
 
 // Get parameters
-template< class TScalarType, unsigned int NDimensions >
-const typename CenteredAffineTransform< TScalarType,
-                                        NDimensions >::ParametersType &
-CenteredAffineTransform< TScalarType, NDimensions >::GetParameters(void) const
-{
+template <class TScalarType, unsigned int NDimensions>
+const typename CenteredAffineTransform<TScalarType,
+                                       NDimensions>::ParametersType
+& CenteredAffineTransform<TScalarType, NDimensions>::GetParameters(void) const
+  {
   // Transfer the linear part
   unsigned int par = 0;
 
   const MatrixType & matrix = this->GetMatrix();
-
-  for ( unsigned int row = 0; row < NDimensions; row++ )
+  for( unsigned int row = 0; row < NDimensions; row++ )
     {
-    for ( unsigned int col = 0; col < NDimensions; col++ )
+    for( unsigned int col = 0; col < NDimensions; col++ )
       {
       this->m_Parameters[par] = matrix[row][col];
       ++par;
@@ -60,7 +60,7 @@ CenteredAffineTransform< TScalarType, NDimensions >::GetParameters(void) const
 
   // Transfer the rotation center
   InputPointType center = this->GetCenter();
-  for ( unsigned int j = 0; j < NDimensions; j++ )
+  for( unsigned int j = 0; j < NDimensions; j++ )
     {
     this->m_Parameters[par] = center[j];
     ++par;
@@ -68,34 +68,33 @@ CenteredAffineTransform< TScalarType, NDimensions >::GetParameters(void) const
 
   // Transfer the translation
   OutputVectorType translation = this->GetTranslation();
-  for ( unsigned int k = 0; k < NDimensions; k++ )
+  for( unsigned int k = 0; k < NDimensions; k++ )
     {
     this->m_Parameters[par] = translation[k];
     ++par;
     }
 
   return this->m_Parameters;
-}
+  }
 
 /** Set the parameters */
-template< class TScalarType, unsigned int NDimensions >
+template <class TScalarType, unsigned int NDimensions>
 void
-CenteredAffineTransform< TScalarType, NDimensions >::SetParameters(const ParametersType & parameters)
+CenteredAffineTransform<TScalarType, NDimensions>::SetParameters(const ParametersType & parameters)
 {
   // Transfer the linear part
   unsigned int par = 0;
 
-  //Save parameters. Needed for proper operation of TransformUpdateParameters.
+  // Save parameters. Needed for proper operation of TransformUpdateParameters.
   if( &parameters != &(this->m_Parameters) )
     {
     this->m_Parameters = parameters;
     }
 
   MatrixType matrix;
-
-  for ( unsigned int row = 0; row < NDimensions; row++ )
+  for( unsigned int row = 0; row < NDimensions; row++ )
     {
-    for ( unsigned int col = 0; col < NDimensions; col++ )
+    for( unsigned int col = 0; col < NDimensions; col++ )
       {
       matrix[row][col] = this->m_Parameters[par];
       ++par;
@@ -106,7 +105,7 @@ CenteredAffineTransform< TScalarType, NDimensions >::SetParameters(const Paramet
 
   // Transfer the rotation center
   InputPointType center;
-  for ( unsigned int i = 0; i < NDimensions; i++ )
+  for( unsigned int i = 0; i < NDimensions; i++ )
     {
     center[i] = this->m_Parameters[par];
     ++par;
@@ -115,7 +114,7 @@ CenteredAffineTransform< TScalarType, NDimensions >::SetParameters(const Paramet
 
   // Transfer the translation
   OutputVectorType translation;
-  for ( unsigned int k = 0; k < NDimensions; k++ )
+  for( unsigned int k = 0; k < NDimensions; k++ )
     {
     translation[k] = this->m_Parameters[par];
     ++par;
@@ -127,9 +126,9 @@ CenteredAffineTransform< TScalarType, NDimensions >::SetParameters(const Paramet
   this->Modified();
 }
 
-template< class TScalarType, unsigned int NDimensions >
+template <class TScalarType, unsigned int NDimensions>
 void
-CenteredAffineTransform< TScalarType, NDimensions >
+CenteredAffineTransform<TScalarType, NDimensions>
 ::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
 {
   // The Jacobian of the affine transform is composed of
@@ -141,10 +140,9 @@ CenteredAffineTransform< TScalarType, NDimensions >
   jacobian.Fill(0.0);
 
   unsigned int blockOffset = 0;
-
-  for ( unsigned int block = 0; block < SpaceDimension; block++ )
+  for( unsigned int block = 0; block < SpaceDimension; block++ )
     {
-    for ( unsigned int dim = 0; dim < SpaceDimension; dim++ )
+    for( unsigned int dim = 0; dim < SpaceDimension; dim++ )
       {
       jacobian(block, blockOffset + dim) = p[dim];
       }
@@ -153,42 +151,42 @@ CenteredAffineTransform< TScalarType, NDimensions >
 
   // Block associated with the center parameters
   const MatrixType & matrix = this->GetMatrix();
-  for ( unsigned int k = 0; k < SpaceDimension; k++ )
+  for( unsigned int k = 0; k < SpaceDimension; k++ )
     {
     jacobian(k, blockOffset + k) = 1.0;
-    for ( unsigned int dim = 0; dim < SpaceDimension; dim++ )
+    for( unsigned int dim = 0; dim < SpaceDimension; dim++ )
       {
       jacobian(k, blockOffset + dim) -= matrix[k][dim];
       }
     }
   blockOffset += SpaceDimension;
-
   // Block associated with the translations
-  for ( unsigned int dim = 0; dim < SpaceDimension; dim++ )
+  for( unsigned int dim = 0; dim < SpaceDimension; dim++ )
     {
     jacobian(dim, blockOffset + dim) = 1.0;
     }
 }
 
 // Get an inverse of this transform
-template< class TScalarType, unsigned int NDimensions >
+template <class TScalarType, unsigned int NDimensions>
 bool
-CenteredAffineTransform< TScalarType, NDimensions >
+CenteredAffineTransform<TScalarType, NDimensions>
 ::GetInverse(Self *inverse) const
 {
   return this->Superclass::GetInverse(inverse);
 }
 
 // Return an inverse of this transform
-template< class TScalarType, unsigned int NDimensions >
-typename CenteredAffineTransform< TScalarType, NDimensions >::InverseTransformBasePointer
-CenteredAffineTransform< TScalarType, NDimensions >
+template <class TScalarType, unsigned int NDimensions>
+typename CenteredAffineTransform<TScalarType, NDimensions>::InverseTransformBasePointer
+CenteredAffineTransform<TScalarType, NDimensions>
 ::GetInverseTransform() const
 {
   Pointer inv = New();
 
   return this->GetInverse(inv) ? inv.GetPointer() : NULL;
 }
+
 } // namespace
 
 #endif

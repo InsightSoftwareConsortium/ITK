@@ -26,8 +26,8 @@ namespace itk
 /**
  * Constructor
  */
-template< class TFixedPointSet, class TMovingImage >
-NormalizedCorrelationPointSetToImageMetric< TFixedPointSet, TMovingImage >
+template <class TFixedPointSet, class TMovingImage>
+NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>
 ::NormalizedCorrelationPointSetToImageMetric()
 {
   m_SubtractMean = false;
@@ -36,14 +36,14 @@ NormalizedCorrelationPointSetToImageMetric< TFixedPointSet, TMovingImage >
 /**
  * Get the match Measure
  */
-template< class TFixedPointSet, class TMovingImage >
-typename NormalizedCorrelationPointSetToImageMetric< TFixedPointSet, TMovingImage >::MeasureType
-NormalizedCorrelationPointSetToImageMetric< TFixedPointSet, TMovingImage >
+template <class TFixedPointSet, class TMovingImage>
+typename NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>::MeasureType
+NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>
 ::GetValue(const TransformParametersType & parameters) const
 {
   FixedPointSetConstPointer fixedPointSet = this->GetFixedPointSet();
 
-  if ( !fixedPointSet )
+  if( !fixedPointSet )
     {
     itkExceptionMacro(<< "Fixed point set has not been assigned");
     }
@@ -60,29 +60,29 @@ NormalizedCorrelationPointSetToImageMetric< TFixedPointSet, TMovingImage >
 
   this->SetTransformParameters(parameters);
 
-  typedef  typename NumericTraits< MeasureType >::AccumulateType AccumulateType;
+  typedef  typename NumericTraits<MeasureType>::AccumulateType AccumulateType;
 
-  AccumulateType sff = NumericTraits< AccumulateType >::Zero;
-  AccumulateType smm = NumericTraits< AccumulateType >::Zero;
-  AccumulateType sfm = NumericTraits< AccumulateType >::Zero;
-  AccumulateType sf  = NumericTraits< AccumulateType >::Zero;
-  AccumulateType sm  = NumericTraits< AccumulateType >::Zero;
+  AccumulateType sff = NumericTraits<AccumulateType>::Zero;
+  AccumulateType smm = NumericTraits<AccumulateType>::Zero;
+  AccumulateType sfm = NumericTraits<AccumulateType>::Zero;
+  AccumulateType sf  = NumericTraits<AccumulateType>::Zero;
+  AccumulateType sm  = NumericTraits<AccumulateType>::Zero;
 
-  while ( pointItr != pointEnd && pointDataItr != pointDataEnd )
+  while( pointItr != pointEnd && pointDataItr != pointDataEnd )
     {
     InputPointType inputPoint;
     inputPoint.CastFrom( pointItr.Value() );
     OutputPointType transformedPoint =
       this->m_Transform->TransformPoint(inputPoint);
 
-    if ( this->m_Interpolator->IsInsideBuffer(transformedPoint) )
+    if( this->m_Interpolator->IsInsideBuffer(transformedPoint) )
       {
       const RealType movingValue  = this->m_Interpolator->Evaluate(transformedPoint);
       const RealType fixedValue   = pointDataItr.Value();
       sff += fixedValue  * fixedValue;
       smm += movingValue * movingValue;
       sfm += fixedValue  * movingValue;
-      if ( this->m_SubtractMean )
+      if( this->m_SubtractMean )
         {
         sf += fixedValue;
         sm += movingValue;
@@ -94,7 +94,7 @@ NormalizedCorrelationPointSetToImageMetric< TFixedPointSet, TMovingImage >
     ++pointDataItr;
     }
 
-  if ( this->m_SubtractMean && this->m_NumberOfPixelsCounted > 0 )
+  if( this->m_SubtractMean && this->m_NumberOfPixelsCounted > 0 )
     {
     sff -= ( sf * sf / this->m_NumberOfPixelsCounted );
     smm -= ( sm * sm / this->m_NumberOfPixelsCounted );
@@ -103,13 +103,13 @@ NormalizedCorrelationPointSetToImageMetric< TFixedPointSet, TMovingImage >
 
   const RealType denom = -1.0 * vcl_sqrt(sff * smm);
 
-  if ( this->m_NumberOfPixelsCounted > 0 && denom != 0.0 )
+  if( this->m_NumberOfPixelsCounted > 0 && denom != 0.0 )
     {
     measure = sfm / denom;
     }
   else
     {
-    measure = NumericTraits< MeasureType >::Zero;
+    measure = NumericTraits<MeasureType>::Zero;
     }
 
   return measure;
@@ -118,20 +118,20 @@ NormalizedCorrelationPointSetToImageMetric< TFixedPointSet, TMovingImage >
 /**
  * Get the Derivative Measure
  */
-template< class TFixedPointSet, class TMovingImage >
+template <class TFixedPointSet, class TMovingImage>
 void
-NormalizedCorrelationPointSetToImageMetric< TFixedPointSet, TMovingImage >
+NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>
 ::GetDerivative(const TransformParametersType & parameters,
                 DerivativeType & derivative) const
 {
-  if ( !this->GetGradientImage() )
+  if( !this->GetGradientImage() )
     {
     itkExceptionMacro(<< "The gradient image is null, maybe you forgot to call Initialize()");
     }
 
   FixedPointSetConstPointer fixedPointSet = this->GetFixedPointSet();
 
-  if ( !fixedPointSet )
+  if( !fixedPointSet )
     {
     itkExceptionMacro(<< "Fixed image has not been assigned");
     }
@@ -142,26 +142,26 @@ NormalizedCorrelationPointSetToImageMetric< TFixedPointSet, TMovingImage >
 
   this->SetTransformParameters(parameters);
 
-  typedef  typename NumericTraits< MeasureType >::AccumulateType AccumulateType;
+  typedef  typename NumericTraits<MeasureType>::AccumulateType AccumulateType;
 
-  AccumulateType sff  = NumericTraits< AccumulateType >::Zero;
-  AccumulateType smm  = NumericTraits< AccumulateType >::Zero;
-  AccumulateType sfm  = NumericTraits< AccumulateType >::Zero;
-  AccumulateType sf  = NumericTraits< AccumulateType >::Zero;
-  AccumulateType sm  = NumericTraits< AccumulateType >::Zero;
+  AccumulateType sff  = NumericTraits<AccumulateType>::Zero;
+  AccumulateType smm  = NumericTraits<AccumulateType>::Zero;
+  AccumulateType sfm  = NumericTraits<AccumulateType>::Zero;
+  AccumulateType sf  = NumericTraits<AccumulateType>::Zero;
+  AccumulateType sm  = NumericTraits<AccumulateType>::Zero;
 
   const unsigned int ParametersDimension = this->GetNumberOfParameters();
   derivative = DerivativeType(ParametersDimension);
-  derivative.Fill(NumericTraits< ITK_TYPENAME DerivativeType::ValueType >::Zero);
+  derivative.Fill(NumericTraits<ITK_TYPENAME DerivativeType::ValueType>::Zero);
 
   DerivativeType derivativeF = DerivativeType(ParametersDimension);
-  derivativeF.Fill(NumericTraits< ITK_TYPENAME DerivativeType::ValueType >::Zero);
+  derivativeF.Fill(NumericTraits<ITK_TYPENAME DerivativeType::ValueType>::Zero);
 
   DerivativeType derivativeM = DerivativeType(ParametersDimension);
-  derivativeM.Fill(NumericTraits< ITK_TYPENAME DerivativeType::ValueType >::Zero);
+  derivativeM.Fill(NumericTraits<ITK_TYPENAME DerivativeType::ValueType>::Zero);
 
   DerivativeType derivativeO = DerivativeType(ParametersDimension);
-  derivativeO.Fill(NumericTraits< ITK_TYPENAME DerivativeType::ValueType >::Zero);
+  derivativeO.Fill(NumericTraits<ITK_TYPENAME DerivativeType::ValueType>::Zero);
 
   PointIterator pointItr = fixedPointSet->GetPoints()->Begin();
   PointIterator pointEnd = fixedPointSet->GetPoints()->End();
@@ -169,14 +169,14 @@ NormalizedCorrelationPointSetToImageMetric< TFixedPointSet, TMovingImage >
   PointDataIterator pointDataItr = fixedPointSet->GetPointData()->Begin();
   PointDataIterator pointDataEnd = fixedPointSet->GetPointData()->End();
 
-  while ( pointItr != pointEnd && pointDataItr != pointDataEnd )
+  while( pointItr != pointEnd && pointDataItr != pointDataEnd )
     {
     InputPointType inputPoint;
     inputPoint.CastFrom( pointItr.Value() );
     OutputPointType transformedPoint =
       this->m_Transform->TransformPoint(inputPoint);
 
-    if ( this->m_Interpolator->IsInsideBuffer(transformedPoint) )
+    if( this->m_Interpolator->IsInsideBuffer(transformedPoint) )
       {
       const RealType movingValue  = this->m_Interpolator->Evaluate(transformedPoint);
       const RealType fixedValue   = pointDataItr.Value();
@@ -185,7 +185,7 @@ NormalizedCorrelationPointSetToImageMetric< TFixedPointSet, TMovingImage >
       sff += fixedValue  * fixedValue;
       smm += movingValue * movingValue;
       sfm += fixedValue  * movingValue;
-      if ( this->m_SubtractMean )
+      if( this->m_SubtractMean )
         {
         sf += fixedValue;
         sm += movingValue;
@@ -199,7 +199,7 @@ NormalizedCorrelationPointSetToImageMetric< TFixedPointSet, TMovingImage >
       // Get the gradient by NearestNeighboorInterpolation:
       // which is equivalent to round up the point components.
       typedef typename OutputPointType::CoordRepType CoordRepType;
-      typedef ContinuousIndex< CoordRepType, MovingImageType::ImageDimension >
+      typedef ContinuousIndex<CoordRepType, MovingImageType::ImageDimension>
       MovingImageContinuousIndexType;
 
       MovingImageContinuousIndexType tempIndex;
@@ -210,18 +210,17 @@ NormalizedCorrelationPointSetToImageMetric< TFixedPointSet, TMovingImage >
 
       const GradientPixelType gradient =
         this->GetGradientImage()->GetPixel(mappedIndex);
-
-      for ( unsigned int par = 0; par < ParametersDimension; par++ )
+      for( unsigned int par = 0; par < ParametersDimension; par++ )
         {
-        RealType sumD = NumericTraits< RealType >::Zero;
-        for ( unsigned int dim = 0; dim < dimension; dim++ )
+        RealType sumD = NumericTraits<RealType>::Zero;
+        for( unsigned int dim = 0; dim < dimension; dim++ )
           {
           const RealType differential = jacobian(dim, par) * gradient[dim];
           sumD += differential;
           }
         derivativeF[par] += sumD * fixedValue;
         derivativeM[par] += sumD * movingValue;
-        if ( this->m_SubtractMean )
+        if( this->m_SubtractMean )
           {
           derivativeO[par] += sumD;
           }
@@ -232,13 +231,12 @@ NormalizedCorrelationPointSetToImageMetric< TFixedPointSet, TMovingImage >
     ++pointDataItr;
     }
 
-  if ( this->m_SubtractMean && this->m_NumberOfPixelsCounted > 0 )
+  if( this->m_SubtractMean && this->m_NumberOfPixelsCounted > 0 )
     {
     sff -= ( sf * sf / this->m_NumberOfPixelsCounted );
     smm -= ( sm * sm / this->m_NumberOfPixelsCounted );
     sfm -= ( sf * sm / this->m_NumberOfPixelsCounted );
-
-    for ( unsigned int par = 0; par < ParametersDimension; par++ )
+    for( unsigned int par = 0; par < ParametersDimension; par++ )
       {
       derivativeF[par] -= derivativeO[par] * sf / this->m_NumberOfPixelsCounted;
       derivativeM[par] -= derivativeO[par] * sm / this->m_NumberOfPixelsCounted;
@@ -247,18 +245,18 @@ NormalizedCorrelationPointSetToImageMetric< TFixedPointSet, TMovingImage >
 
   const RealType denom = -1.0 * vcl_sqrt(sff * smm);
 
-  if ( this->m_NumberOfPixelsCounted > 0 && denom != 0.0 )
+  if( this->m_NumberOfPixelsCounted > 0 && denom != 0.0 )
     {
-    for ( unsigned int i = 0; i < ParametersDimension; i++ )
+    for( unsigned int i = 0; i < ParametersDimension; i++ )
       {
       derivative[i] = ( derivativeF[i] - ( sfm / smm ) * derivativeM[i] ) / denom;
       }
     }
   else
     {
-    for ( unsigned int i = 0; i < ParametersDimension; i++ )
+    for( unsigned int i = 0; i < ParametersDimension; i++ )
       {
-      derivative[i] = NumericTraits< MeasureType >::Zero;
+      derivative[i] = NumericTraits<MeasureType>::Zero;
       }
     }
 }
@@ -266,20 +264,20 @@ NormalizedCorrelationPointSetToImageMetric< TFixedPointSet, TMovingImage >
 /*
  * Get both the match Measure and theDerivative Measure
  */
-template< class TFixedPointSet, class TMovingImage >
+template <class TFixedPointSet, class TMovingImage>
 void
-NormalizedCorrelationPointSetToImageMetric< TFixedPointSet, TMovingImage >
+NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>
 ::GetValueAndDerivative(const TransformParametersType & parameters,
                         MeasureType & value, DerivativeType  & derivative) const
 {
-  if ( !this->GetGradientImage() )
+  if( !this->GetGradientImage() )
     {
     itkExceptionMacro(<< "The gradient image is null, maybe you forgot to call Initialize()");
     }
 
   FixedPointSetConstPointer fixedPointSet = this->GetFixedPointSet();
 
-  if ( !fixedPointSet )
+  if( !fixedPointSet )
     {
     itkExceptionMacro(<< "Fixed image has not been assigned");
     }
@@ -290,26 +288,26 @@ NormalizedCorrelationPointSetToImageMetric< TFixedPointSet, TMovingImage >
 
   this->SetTransformParameters(parameters);
 
-  typedef  typename NumericTraits< MeasureType >::AccumulateType AccumulateType;
+  typedef  typename NumericTraits<MeasureType>::AccumulateType AccumulateType;
 
-  AccumulateType sff  = NumericTraits< AccumulateType >::Zero;
-  AccumulateType smm  = NumericTraits< AccumulateType >::Zero;
-  AccumulateType sfm  = NumericTraits< AccumulateType >::Zero;
-  AccumulateType sf  = NumericTraits< AccumulateType >::Zero;
-  AccumulateType sm  = NumericTraits< AccumulateType >::Zero;
+  AccumulateType sff  = NumericTraits<AccumulateType>::Zero;
+  AccumulateType smm  = NumericTraits<AccumulateType>::Zero;
+  AccumulateType sfm  = NumericTraits<AccumulateType>::Zero;
+  AccumulateType sf  = NumericTraits<AccumulateType>::Zero;
+  AccumulateType sm  = NumericTraits<AccumulateType>::Zero;
 
   const unsigned int ParametersDimension = this->GetNumberOfParameters();
   derivative = DerivativeType(ParametersDimension);
-  derivative.Fill(NumericTraits< ITK_TYPENAME DerivativeType::ValueType >::Zero);
+  derivative.Fill(NumericTraits<ITK_TYPENAME DerivativeType::ValueType>::Zero);
 
   DerivativeType derivativeF = DerivativeType(ParametersDimension);
-  derivativeF.Fill(NumericTraits< ITK_TYPENAME DerivativeType::ValueType >::Zero);
+  derivativeF.Fill(NumericTraits<ITK_TYPENAME DerivativeType::ValueType>::Zero);
 
   DerivativeType derivativeM = DerivativeType(ParametersDimension);
-  derivativeM.Fill(NumericTraits< ITK_TYPENAME DerivativeType::ValueType >::Zero);
+  derivativeM.Fill(NumericTraits<ITK_TYPENAME DerivativeType::ValueType>::Zero);
 
   DerivativeType derivativeO = DerivativeType(ParametersDimension);
-  derivativeO.Fill(NumericTraits< ITK_TYPENAME DerivativeType::ValueType >::Zero);
+  derivativeO.Fill(NumericTraits<ITK_TYPENAME DerivativeType::ValueType>::Zero);
 
   PointIterator pointItr = fixedPointSet->GetPoints()->Begin();
   PointIterator pointEnd = fixedPointSet->GetPoints()->End();
@@ -317,14 +315,14 @@ NormalizedCorrelationPointSetToImageMetric< TFixedPointSet, TMovingImage >
   PointDataIterator pointDataItr = fixedPointSet->GetPointData()->Begin();
   PointDataIterator pointDataEnd = fixedPointSet->GetPointData()->End();
 
-  while ( pointItr != pointEnd && pointDataItr != pointDataEnd )
+  while( pointItr != pointEnd && pointDataItr != pointDataEnd )
     {
     InputPointType inputPoint;
     inputPoint.CastFrom( pointItr.Value() );
     OutputPointType transformedPoint =
       this->m_Transform->TransformPoint(inputPoint);
 
-    if ( this->m_Interpolator->IsInsideBuffer(transformedPoint) )
+    if( this->m_Interpolator->IsInsideBuffer(transformedPoint) )
       {
       const RealType movingValue  = this->m_Interpolator->Evaluate(transformedPoint);
       const RealType fixedValue   = pointDataItr.Value();
@@ -333,7 +331,7 @@ NormalizedCorrelationPointSetToImageMetric< TFixedPointSet, TMovingImage >
       sff += fixedValue  * fixedValue;
       smm += movingValue * movingValue;
       sfm += fixedValue  * movingValue;
-      if ( this->m_SubtractMean )
+      if( this->m_SubtractMean )
         {
         sf += fixedValue;
         sm += movingValue;
@@ -347,7 +345,7 @@ NormalizedCorrelationPointSetToImageMetric< TFixedPointSet, TMovingImage >
       // Get the gradient by NearestNeighboorInterpolation:
       // which is equivalent to round up the point components.
       typedef typename OutputPointType::CoordRepType CoordRepType;
-      typedef ContinuousIndex< CoordRepType, MovingImageType::ImageDimension >
+      typedef ContinuousIndex<CoordRepType, MovingImageType::ImageDimension>
       MovingImageContinuousIndexType;
 
       MovingImageContinuousIndexType tempIndex;
@@ -358,18 +356,17 @@ NormalizedCorrelationPointSetToImageMetric< TFixedPointSet, TMovingImage >
 
       const GradientPixelType gradient =
         this->GetGradientImage()->GetPixel(mappedIndex);
-
-      for ( unsigned int par = 0; par < ParametersDimension; par++ )
+      for( unsigned int par = 0; par < ParametersDimension; par++ )
         {
-        RealType sumD = NumericTraits< RealType >::Zero;
-        for ( unsigned int dim = 0; dim < dimension; dim++ )
+        RealType sumD = NumericTraits<RealType>::Zero;
+        for( unsigned int dim = 0; dim < dimension; dim++ )
           {
           const RealType differential = jacobian(dim, par) * gradient[dim];
           sumD += differential;
           }
         derivativeF[par] += sumD * fixedValue;
         derivativeM[par] += sumD * movingValue;
-        if ( this->m_SubtractMean )
+        if( this->m_SubtractMean )
           {
           derivativeO[par] += sumD;
           }
@@ -380,13 +377,12 @@ NormalizedCorrelationPointSetToImageMetric< TFixedPointSet, TMovingImage >
     ++pointDataItr;
     }
 
-  if ( this->m_SubtractMean && this->m_NumberOfPixelsCounted > 0 )
+  if( this->m_SubtractMean && this->m_NumberOfPixelsCounted > 0 )
     {
     sff -= ( sf * sf / this->m_NumberOfPixelsCounted );
     smm -= ( sm * sm / this->m_NumberOfPixelsCounted );
     sfm -= ( sf * sm / this->m_NumberOfPixelsCounted );
-
-    for ( unsigned int par = 0; par < ParametersDimension; par++ )
+    for( unsigned int par = 0; par < ParametersDimension; par++ )
       {
       derivativeF[par] -= derivativeO[par] * sf / this->m_NumberOfPixelsCounted;
       derivativeM[par] -= derivativeO[par] * sm / this->m_NumberOfPixelsCounted;
@@ -395,9 +391,9 @@ NormalizedCorrelationPointSetToImageMetric< TFixedPointSet, TMovingImage >
 
   const RealType denom = -1.0 * vcl_sqrt(sff * smm);
 
-  if ( this->m_NumberOfPixelsCounted > 0 && denom != 0.0 )
+  if( this->m_NumberOfPixelsCounted > 0 && denom != 0.0 )
     {
-    for ( unsigned int i = 0; i < ParametersDimension; i++ )
+    for( unsigned int i = 0; i < ParametersDimension; i++ )
       {
       derivative[i] = ( derivativeF[i] - ( sfm / smm ) * derivativeM[i] ) / denom;
       }
@@ -405,22 +401,23 @@ NormalizedCorrelationPointSetToImageMetric< TFixedPointSet, TMovingImage >
     }
   else
     {
-    for ( unsigned int i = 0; i < ParametersDimension; i++ )
+    for( unsigned int i = 0; i < ParametersDimension; i++ )
       {
-      derivative[i] = NumericTraits< MeasureType >::Zero;
+      derivative[i] = NumericTraits<MeasureType>::Zero;
       }
-    value = NumericTraits< MeasureType >::Zero;
+    value = NumericTraits<MeasureType>::Zero;
     }
 }
 
-template< class TFixedImage, class TMovingImage >
+template <class TFixedImage, class TMovingImage>
 void
-NormalizedCorrelationPointSetToImageMetric< TFixedImage, TMovingImage >
+NormalizedCorrelationPointSetToImageMetric<TFixedImage, TMovingImage>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "SubtractMean: " << m_SubtractMean << std::endl;
 }
+
 } // end namespace itk
 
 #endif

@@ -29,7 +29,7 @@ namespace itk
 
 /* Forward-declaration to avoid including the header file that would
  * introduce a circular dependency in the Transform module. */
-template< class TInputImage, class TCoordRep >
+template <class TInputImage, class TCoordRep>
 class VectorInterpolateImageFunction;
 
 /** \class DisplacementFieldTransform
@@ -88,16 +88,16 @@ class VectorInterpolateImageFunction;
  * \ingroup ITKTransform
  */
 template
-  <class TScalar, unsigned int NDimensions>
+<class TScalar, unsigned int NDimensions>
 class ITK_EXPORT DisplacementFieldTransform :
   public Transform<TScalar, NDimensions, NDimensions>
 {
 public:
   /** Standard class typedefs. */
-  typedef DisplacementFieldTransform                        Self;
-  typedef Transform<TScalar, NDimensions, NDimensions>      Superclass;
-  typedef SmartPointer<Self>                                Pointer;
-  typedef SmartPointer<const Self>                          ConstPointer;
+  typedef DisplacementFieldTransform                   Self;
+  typedef Transform<TScalar, NDimensions, NDimensions> Superclass;
+  typedef SmartPointer<Self>                           Pointer;
+  typedef SmartPointer<const Self>                     ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( DisplacementFieldTransform, Transform );
@@ -110,75 +110,75 @@ public:
    * that only copies parameters, so override here to prevent
    * its use without copying full members. */
   virtual::itk::LightObject::Pointer CreateAnother(void) const
-    {
+  {
     itkExceptionMacro("CreateAnother unimplemented. See source comments.");
-    }
+  }
 
   /** InverseTransform type. */
-  typedef typename Superclass::InverseTransformBasePointer  InverseTransformBasePointer;
+  typedef typename Superclass::InverseTransformBasePointer InverseTransformBasePointer;
 
   /** Scalar type. */
-  typedef typename Superclass::ScalarType  ScalarType;
+  typedef typename Superclass::ScalarType ScalarType;
 
   /** Type of the input parameters. */
-  typedef  typename Superclass::ParametersType      ParametersType;
+  typedef  typename Superclass::ParametersType ParametersType;
 
   /** Jacobian type. */
-  typedef typename Superclass::JacobianType  JacobianType;
+  typedef typename Superclass::JacobianType JacobianType;
 
   /** Standard coordinate point type for this class. */
-  typedef typename Superclass::InputPointType   InputPointType;
-  typedef typename Superclass::OutputPointType  OutputPointType;
+  typedef typename Superclass::InputPointType  InputPointType;
+  typedef typename Superclass::OutputPointType OutputPointType;
 
   /** Standard vector type for this class. */
-  typedef typename Superclass::InputVectorType      InputVectorType;
-  typedef typename Superclass::OutputVectorType     OutputVectorType;
+  typedef typename Superclass::InputVectorType  InputVectorType;
+  typedef typename Superclass::OutputVectorType OutputVectorType;
 
-  typedef typename Superclass::InputVectorPixelType   InputVectorPixelType;
-  typedef typename Superclass::OutputVectorPixelType  OutputVectorPixelType;
+  typedef typename Superclass::InputVectorPixelType  InputVectorPixelType;
+  typedef typename Superclass::OutputVectorPixelType OutputVectorPixelType;
 
   /** Standard covariant vector type for this class */
   typedef typename Superclass::InputCovariantVectorType
-    InputCovariantVectorType;
+  InputCovariantVectorType;
   typedef typename Superclass::OutputCovariantVectorType
-    OutputCovariantVectorType;
+  OutputCovariantVectorType;
 
   /** Standard vnl_vector type for this class. */
-  typedef typename Superclass::InputVnlVectorType   InputVnlVectorType;
-  typedef typename Superclass::OutputVnlVectorType  OutputVnlVectorType;
+  typedef typename Superclass::InputVnlVectorType  InputVnlVectorType;
+  typedef typename Superclass::OutputVnlVectorType OutputVnlVectorType;
 
   /** Standard diffusion tensor type for this class */
   typedef typename Superclass::InputDiffusionTensor3DType
-                                                  InputDiffusionTensor3DType;
+  InputDiffusionTensor3DType;
   typedef typename Superclass::OutputDiffusionTensor3DType
-                                                  OutputDiffusionTensor3DType;
+  OutputDiffusionTensor3DType;
 
   /** Standard tensor type for this class */
   typedef CovariantVector<ScalarType, InputDiffusionTensor3DType::Dimension>
-                                                    InputTensorEigenVectorType;
+  InputTensorEigenVectorType;
   typedef CovariantVector<ScalarType, OutputDiffusionTensor3DType::Dimension>
-                                                    OutputTensorEigenVectorType;
+  OutputTensorEigenVectorType;
   /** Derivative type */
-  typedef typename Superclass::DerivativeType       DerivativeType;
+  typedef typename Superclass::DerivativeType DerivativeType;
 
   /** Dimension of the domain spaces. */
   itkStaticConstMacro( Dimension, unsigned int, NDimensions );
 
   /** Define the displacement field type and corresponding interpolator type. */
   typedef Image<OutputVectorType,
-    itkGetStaticConstMacro( Dimension )> DisplacementFieldType;
+                itkGetStaticConstMacro( Dimension )> DisplacementFieldType;
   typedef VectorInterpolateImageFunction
-    <DisplacementFieldType, ScalarType> InterpolatorType;
+  <DisplacementFieldType, ScalarType> InterpolatorType;
 
   /** Standard Index type for Displacement Field */
   typedef typename DisplacementFieldType::IndexType IndexType;
 
   /** Define the internal parameter helper used to access the field */
   typedef ImageVectorTransformParametersHelper<
-                                          ScalarType,
-                                          OutputVectorType::Dimension,
-                                          itkGetStaticConstMacro( Dimension ) >
-                                                TransformParametersHelperType;
+    ScalarType,
+    OutputVectorType::Dimension,
+    itkGetStaticConstMacro( Dimension )>
+  TransformParametersHelperType;
 
   /** Get/Set the displacement field. */
   itkGetObjectMacro( DisplacementField, DisplacementFieldType );
@@ -202,95 +202,105 @@ public:
   /**  Method to transform a point. Out-of-bounds points will
    * be returned with zero displacemnt. */
   virtual OutputPointType TransformPoint( const InputPointType& thisPoint )
-                                                                        const;
+  const;
 
   /**  Method to transform a vector. */
   virtual OutputVectorType TransformVector(const InputVectorType &) const
-  { itkExceptionMacro( "TransformVector(Vector) unimplemented, use "
-    "TransformVector(Vector,Point)" ); }
+  {
+    itkExceptionMacro( "TransformVector(Vector) unimplemented, use "
+                       "TransformVector(Vector,Point)" );
+  }
 
   virtual OutputVectorPixelType TransformVector(const InputVectorPixelType &)
-                                                                          const
-  { itkExceptionMacro( "TransformVector(Vector) unimplemented, use "
-    "TransformVector(Vector,Point)" ); }
+  const
+  {
+    itkExceptionMacro( "TransformVector(Vector) unimplemented, use "
+                       "TransformVector(Vector,Point)" );
+  }
 
   virtual OutputVnlVectorType TransformVector(const InputVnlVectorType &) const
-  { itkExceptionMacro( "TransformVector(Vector) unimplemented, use "
-  "TransformVector(Vector,Point)" ); }
+  {
+    itkExceptionMacro( "TransformVector(Vector) unimplemented, use "
+                       "TransformVector(Vector,Point)" );
+  }
 
-  virtual OutputVectorType TransformVector(const InputVectorType &,
-                                           const InputPointType & ) const;
+  virtual OutputVectorType TransformVector(const InputVectorType &, const InputPointType & ) const;
 
-  virtual OutputVectorPixelType TransformVector(const InputVectorPixelType &,
-                                                const InputPointType & ) const;
+  virtual OutputVectorPixelType TransformVector(const InputVectorPixelType &, const InputPointType & ) const;
 
-  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType &,
-                                              const InputPointType & ) const;
+  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType &, const InputPointType & ) const;
 
   /** Method to transform a tensor */
   OutputDiffusionTensor3DType TransformDiffusionTensor(
-                                      const InputDiffusionTensor3DType & ) const
-  { itkExceptionMacro( "TransformDiffusionTensor(Tensor) unimplemented, use "
-    "TransformDiffusionTensor(Tensor,Point)" ); }
+    const InputDiffusionTensor3DType & ) const
+  {
+    itkExceptionMacro( "TransformDiffusionTensor(Tensor) unimplemented, use "
+                       "TransformDiffusionTensor(Tensor,Point)" );
+  }
 
   OutputVectorPixelType TransformDiffusionTensor(const InputVectorPixelType & )
-                                                                          const
-  { itkExceptionMacro( "TransformDiffusionTensor(Tensor) unimplemented, use "
-    "TransformDiffusionTensor(Tensor,Point)" ); }
+  const
+  {
+    itkExceptionMacro( "TransformDiffusionTensor(Tensor) unimplemented, use "
+                       "TransformDiffusionTensor(Tensor,Point)" );
+  }
 
-  OutputDiffusionTensor3DType TransformDiffusionTensor(
-                                              const InputDiffusionTensor3DType &,
-                                              const InputPointType &) const;
+  OutputDiffusionTensor3DType TransformDiffusionTensor(const InputDiffusionTensor3DType &,
+                                                       const InputPointType &) const;
 
-  OutputVectorPixelType TransformDiffusionTensor(const InputVectorPixelType &,
-                                                 const InputPointType &) const;
+  OutputVectorPixelType TransformDiffusionTensor(const InputVectorPixelType &, const InputPointType &) const;
 
   /**  Method to transform a CovariantVector. */
   virtual OutputCovariantVectorType TransformCovariantVector(
-                                        const InputCovariantVectorType &) const
-  { itkExceptionMacro( "TransformCovariantVector(CovariantVector) "
-    "unimplemented, use TransformCovariantVector(CovariantVector,Point)" ); }
+    const InputCovariantVectorType &) const
+  {
+    itkExceptionMacro( "TransformCovariantVector(CovariantVector) "
+                       "unimplemented, use TransformCovariantVector(CovariantVector,Point)" );
+  }
 
   virtual OutputVectorPixelType TransformCovariantVector(
-                                            const InputVectorPixelType &) const
-  { itkExceptionMacro( "TransformCovariantVector(CovariantVector) "
-    "unimplemented, use TransformCovariantVector(CovariantVector,Point)" ); }
+    const InputVectorPixelType &) const
+  {
+    itkExceptionMacro( "TransformCovariantVector(CovariantVector) "
+                       "unimplemented, use TransformCovariantVector(CovariantVector,Point)" );
+  }
 
   /** Transform a CovariantVector of type InputCovariantVectorType, at point. */
-  virtual OutputCovariantVectorType TransformCovariantVector(
-                        const InputCovariantVectorType &,
-                        const InputPointType &) const;
+  virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType &,
+                                                             const InputPointType &) const;
 
   /** Transform a CovariantVector of type InputVectorPixelType, at point. */
-  virtual OutputVectorPixelType TransformCovariantVector(
-                        const InputVectorPixelType &,
-                        const InputPointType & ) const;
+  virtual OutputVectorPixelType TransformCovariantVector(const InputVectorPixelType &, const InputPointType & ) const;
 
   /** Set the transformation parameters. This sets the displacement
    * field image directly. */
   virtual void SetParameters(const ParametersType & params)
-    {
+  {
     if( &(this->m_Parameters) != &params )
       {
       if( params.Size() != this->m_Parameters.Size() )
         {
         itkExceptionMacro("Input parameters size (" << params.Size()
-                          << ") does not match internal size ("
-                          << this->m_Parameters.Size() << ").");
+                                                    << ") does not match internal size ("
+                                                    << this->m_Parameters.Size() << ").");
         }
       /* copy into existing object */
       this->m_Parameters = params;
       this->Modified();
       }
-    }
+  }
 
   /** Set the fixed parameters and update internal transformation. */
   virtual void SetFixedParameters(const ParametersType &)
-  { itkExceptionMacro("SetFixedParameters unimplemented."); }
+  {
+    itkExceptionMacro("SetFixedParameters unimplemented.");
+  }
 
   /** Get the Fixed Parameters. */
   virtual const ParametersType & GetFixedParameters(void) const
-  { itkExceptionMacro("GetFixedParameters unimplemented."); }
+  {
+    itkExceptionMacro("GetFixedParameters unimplemented.");
+  }
 
   /**
    * Compute the jacobian with respect to the parameters at a point.
@@ -314,8 +324,10 @@ public:
    * TODO: format the above for doxygen formula.
    */
   virtual void ComputeJacobianWithRespectToParameters(const InputPointType &,
-                                                  JacobianType &j) const
-  { j = this->m_IdentityJacobian; }
+                                                      JacobianType & j) const
+  {
+    j = this->m_IdentityJacobian;
+  }
 
   /**
    * Compute the jacobian with respect to the parameters at an index.
@@ -324,22 +336,22 @@ public:
    * for rationale.
    */
   virtual void ComputeJacobianWithRespectToParameters(const IndexType &,
-                                                  JacobianType &j) const
-  { j = this->m_IdentityJacobian; }
+                                                      JacobianType & j) const
+  {
+    j = this->m_IdentityJacobian;
+  }
 
   /**
    * Compute the jacobian with respect to the position, by point.
    * \c j will be resized as needed.
    */
-  virtual void ComputeJacobianWithRespectToPosition(const InputPointType  &x,
-                                                JacobianType &j ) const;
+  virtual void ComputeJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & j ) const;
 
   /**
    * Compute the jacobian with respect to the position, by index.
    * \c j will be resized as needed.
    */
-  virtual void ComputeJacobianWithRespectToPosition(const IndexType  &x,
-                                                JacobianType &j ) const;
+  virtual void ComputeJacobianWithRespectToPosition(const IndexType  & x, JacobianType & j ) const;
 
   /**
    * Compute the inverse jacobian of the forward displacement field with
@@ -352,11 +364,10 @@ public:
    * method is more computationally expensive and may be used by
    * setting \c useSVD to true
    */
-  virtual void GetInverseJacobianOfForwardFieldWithRespectToPosition(
-                                  const InputPointType & point,
-                                  JacobianType & jacobian,
-                                  bool useSVD = false )
-                                                                         const;
+  virtual void GetInverseJacobianOfForwardFieldWithRespectToPosition(const InputPointType & point,
+                                                                     JacobianType & jacobian,
+                                                                     bool useSVD = false )
+  const;
 
   /**
    * Compute the inverse jacobian of the forward displacement field with
@@ -369,14 +380,11 @@ public:
    * method is more computationally expensive and may be used by
    * setting \c useSVD to true
    */
-  virtual void GetInverseJacobianOfForwardFieldWithRespectToPosition(
-                                  const IndexType & index,
-                                  JacobianType & jacobian,
-                                  bool useSVD = false )
-                                                                        const;
+  virtual void GetInverseJacobianOfForwardFieldWithRespectToPosition(const IndexType & index, JacobianType & jacobian,
+                                                                     bool useSVD = false )
+  const;
 
-  virtual void UpdateTransformParameters( DerivativeType & update,
-                                          ScalarType factor = 1.0 );
+  virtual void UpdateTransformParameters( DerivativeType & update, ScalarType factor = 1.0 );
 
   /** Return an inverse of this transform. */
   bool GetInverse( Self *inverse ) const;
@@ -385,13 +393,20 @@ public:
   virtual InverseTransformBasePointer GetInverseTransform() const;
 
   /** This transform is not linear. */
-  virtual bool IsLinear() const { return false; }
+  virtual bool IsLinear() const
+  {
+    return false;
+  }
 
   virtual unsigned int GetNumberOfLocalParameters(void) const
-  { return Dimension; }
+  {
+    return Dimension;
+  }
 
-  virtual bool HasLocalSupport() const { return true; }
-
+  virtual bool HasLocalSupport() const
+  {
+    return true;
+  }
 protected:
   DisplacementFieldTransform();
   virtual ~DisplacementFieldTransform();
@@ -406,15 +421,14 @@ protected:
 
   /** Track when the displacement field was last set/assigned, as
    * distinct from when it may have had its contents modified. */
-  unsigned long                             m_DisplacementFieldSetTime;
+  unsigned long m_DisplacementFieldSetTime;
 
   /** Create an identity jacobian for use in
    * ComputeJacobianWithRespectToParameters. */
-  JacobianType                              m_IdentityJacobian;
-
+  JacobianType m_IdentityJacobian;
 private:
-  DisplacementFieldTransform( const Self& ); //purposely not implemented
-  void operator=( const Self& ); //purposely not implemented
+  DisplacementFieldTransform( const Self & ); // purposely not implemented
+  void operator=( const Self & );             // purposely not implemented
 
   /** Internal method for calculating either forward or inverse jacobian,
    * depending on state of \c doInverseJacobian. Used by
@@ -424,20 +438,19 @@ private:
    * \c doInverseJacobian indicates that the inverse jacobian
    * should be returned
    */
-  virtual void ComputeJacobianWithRespectToPositionInternal(
-                                  const IndexType & index,
-                                  JacobianType & jacobian,
-                                  bool doInverseJacobian) const;
+  virtual void ComputeJacobianWithRespectToPositionInternal(const IndexType & index, JacobianType & jacobian,
+                                                            bool doInverseJacobian) const;
+
 };
 
 } // end namespace itk
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkDisplacementFieldTransform+-.h"
+#include "Templates/itkDisplacementFieldTransform+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkDisplacementFieldTransform.hxx"
+#include "itkDisplacementFieldTransform.hxx"
 #endif
 
 #endif // __itkDisplacementFieldTransform_h

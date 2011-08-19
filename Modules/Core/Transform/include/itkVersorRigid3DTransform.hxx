@@ -23,35 +23,37 @@
 namespace itk
 {
 // Constructor with default arguments
-template< class TScalarType >
-VersorRigid3DTransform< TScalarType >
-::VersorRigid3DTransform():
+template <class TScalarType>
+VersorRigid3DTransform<TScalarType>
+::VersorRigid3DTransform() :
   Superclass(OutputSpaceDimension, ParametersDimension)
-{}
+{
+}
 
 // Constructor with arguments
-template< class TScalarType >
-VersorRigid3DTransform< TScalarType >::VersorRigid3DTransform(unsigned int outputSpaceDim,
-                                                              unsigned int paramDim):
+template <class TScalarType>
+VersorRigid3DTransform<TScalarType>::VersorRigid3DTransform(unsigned int outputSpaceDim, unsigned int paramDim) :
   Superclass(outputSpaceDim, paramDim)
-{}
+{
+}
 
 // Constructor with arguments
-template< class TScalarType >
-VersorRigid3DTransform< TScalarType >::VersorRigid3DTransform(const MatrixType & matrix,
-                                                              const OutputVectorType & offset):
+template <class TScalarType>
+VersorRigid3DTransform<TScalarType>::VersorRigid3DTransform(const MatrixType & matrix,
+                                                            const OutputVectorType & offset) :
   Superclass(matrix, offset)
-{}
+{
+}
 
 // Set Parameters
-template< class TScalarType >
+template <class TScalarType>
 void
-VersorRigid3DTransform< TScalarType >
+VersorRigid3DTransform<TScalarType>
 ::SetParameters(const ParametersType & parameters)
 {
   itkDebugMacro(<< "Setting parameters " << parameters);
 
-  //Save parameters. Needed for proper operation of TransformUpdateParameters.
+  // Save parameters. Needed for proper operation of TransformUpdateParameters.
   if( &parameters != &(this->m_Parameters) )
     {
     this->m_Parameters = parameters;
@@ -67,13 +69,13 @@ VersorRigid3DTransform< TScalarType >
   axis[1] = parameters[1];
   norm += parameters[2] * parameters[2];
   axis[2] = parameters[2];
-  if ( norm > 0 )
+  if( norm > 0 )
     {
     norm = vcl_sqrt(norm);
     }
 
   double epsilon = 1e-10;
-  if ( norm >= 1.0 - epsilon )
+  if( norm >= 1.0 - epsilon )
     {
     axis = axis / ( norm + epsilon * norm );
     }
@@ -108,11 +110,11 @@ VersorRigid3DTransform< TScalarType >
 // p[3:5} = translation components
 //
 
-template< class TScalarType >
-const typename VersorRigid3DTransform< TScalarType >::ParametersType &
-VersorRigid3DTransform< TScalarType >
+template <class TScalarType>
+const typename VersorRigid3DTransform<TScalarType>::ParametersType
+& VersorRigid3DTransform<TScalarType>
 ::GetParameters(void) const
-{
+  {
   itkDebugMacro(<< "Getting parameters ");
 
   this->m_Parameters[0] = this->GetVersor().GetX();
@@ -127,11 +129,11 @@ VersorRigid3DTransform< TScalarType >
   itkDebugMacro(<< "After getting parameters " << this->m_Parameters);
 
   return this->m_Parameters;
-}
+  }
 
-template< class TScalarType >
+template <class TScalarType>
 void
-VersorRigid3DTransform< TScalarType >
+VersorRigid3DTransform<TScalarType>
 ::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
 {
   typedef typename VersorType::ValueType ValueType;
@@ -165,25 +167,25 @@ VersorRigid3DTransform< TScalarType >
 
   // compute Jacobian with respect to quaternion parameters
   jacobian[0][0] = 2.0 * ( ( vyw + vxz ) * py + ( vzw - vxy ) * pz )
-                           / vw;
+    / vw;
   jacobian[1][0] = 2.0 * ( ( vyw - vxz ) * px   - 2 * vxw   * py + ( vxx - vww ) * pz )
-                           / vw;
+    / vw;
   jacobian[2][0] = 2.0 * ( ( vzw + vxy ) * px + ( vww - vxx ) * py   - 2 * vxw   * pz )
-                           / vw;
+    / vw;
 
   jacobian[0][1] = 2.0 * ( -2 * vyw  * px + ( vxw + vyz ) * py + ( vww - vyy ) * pz )
-                           / vw;
+    / vw;
   jacobian[1][1] = 2.0 * ( ( vxw - vyz ) * px                + ( vzw + vxy ) * pz )
-                           / vw;
+    / vw;
   jacobian[2][1] = 2.0 * ( ( vyy - vww ) * px + ( vzw - vxy ) * py   - 2 * vyw   * pz )
-                           / vw;
+    / vw;
 
   jacobian[0][2] = 2.0 * ( -2 * vzw  * px + ( vzz - vww ) * py + ( vxw - vyz ) * pz )
-                           / vw;
+    / vw;
   jacobian[1][2] = 2.0 * ( ( vww - vzz ) * px   - 2 * vzw   * py + ( vyw + vxz ) * pz )
-                           / vw;
+    / vw;
   jacobian[2][2] = 2.0 * ( ( vxw + vyz ) * px + ( vyw - vxz ) * py )
-                           / vw;
+    / vw;
 
   jacobian[0][3] = 1.0;
   jacobian[1][4] = 1.0;
@@ -191,12 +193,13 @@ VersorRigid3DTransform< TScalarType >
 }
 
 // Print self
-template< class TScalarType >
+template <class TScalarType>
 void
-VersorRigid3DTransform< TScalarType >::PrintSelf(std::ostream & os, Indent indent) const
+VersorRigid3DTransform<TScalarType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
+
 } // namespace
 
 #endif

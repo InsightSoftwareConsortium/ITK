@@ -44,17 +44,17 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template< class TScalarType = double >
-//Data type for scalars (float or double)
-class ITK_EXPORT VersorTransform:public Rigid3DTransform< TScalarType >
+template <class TScalarType = double>
+// Data type for scalars (float or double)
+class ITK_EXPORT VersorTransform : public Rigid3DTransform<TScalarType>
 {
 public:
 
   /** Standard Self Typedef */
-  typedef VersorTransform                 Self;
-  typedef Rigid3DTransform< TScalarType > Superclass;
-  typedef SmartPointer< Self >            Pointer;
-  typedef SmartPointer< const Self >      ConstPointer;
+  typedef VersorTransform               Self;
+  typedef Rigid3DTransform<TScalarType> Superclass;
+  typedef SmartPointer<Self>            Pointer;
+  typedef SmartPointer<const Self>      ConstPointer;
 
   /** Run-time type information (and related methods).  */
   itkTypeMacro(VersorTransform, Rigid3DTransform);
@@ -86,10 +86,10 @@ public:
   typedef typename Superclass::OffsetType                OffsetType;
 
   /** VnlQuaternion Type */
-  typedef vnl_quaternion< TScalarType > VnlQuaternionType;
+  typedef vnl_quaternion<TScalarType> VnlQuaternionType;
 
   /** Versor Type */
-  typedef Versor< TScalarType >              VersorType;
+  typedef Versor<TScalarType>                VersorType;
   typedef typename VersorType::VectorType    AxisType;
   typedef typename VersorType::ValueType     AngleType;
   typedef typename AxisType::ValueType       AxisValueType;
@@ -123,28 +123,31 @@ public:
    *  given point or vector, returning the transformed point or
    *  vector. The rank of the Jacobian will also indicate if the
    *  transform is invertible at this point. */
-  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  &p,
-                                 JacobianType & jacobian) const;
+  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const;
 
 protected:
 
   /** Construct an VersorTransform object */
-  VersorTransform(const MatrixType & matrix,
-                  const OutputVectorType & offset);
-  VersorTransform(unsigned int outputDims,
-                  unsigned int paramDims);
+  VersorTransform(const MatrixType & matrix, const OutputVectorType & offset);
+  VersorTransform(unsigned int outputDims, unsigned int paramDims);
   VersorTransform();
 
   /** Destroy an VersorTransform object */
-  ~VersorTransform(){}
+  ~VersorTransform()
+  {
+  }
 
   /** This method must be made protected here because it is not a safe way of
    * initializing the Versor */
   virtual void SetRotationMatrix(const MatrixType & matrix)
-  { this->Superclass::SetRotationMatrix(matrix); }
+  {
+    this->Superclass::SetRotationMatrix(matrix);
+  }
 
   void SetVarVersor(const VersorType & newVersor)
-  { m_Versor = newVersor; }
+  {
+    m_Versor = newVersor;
+  }
 
   /** Print contents of a VersorTransform */
   void PrintSelf(std::ostream & os, Indent indent) const;
@@ -164,17 +167,17 @@ private:
 
   /** Versor containing the rotation */
   VersorType m_Versor;
-}; //class VersorTransform
+}; // class VersorTransform
 }  // namespace itk
 
 // Define instantiation macro for this template.
 #define ITK_TEMPLATE_VersorTransform(_, EXPORT, TypeX, TypeY)               \
   namespace itk                                                             \
   {                                                                         \
-  _( 1 ( class EXPORT VersorTransform< ITK_TEMPLATE_1 TypeX > ) )           \
+  _( 1 ( class EXPORT VersorTransform<ITK_TEMPLATE_1 TypeX> ) )           \
   namespace Templates                                                       \
   {                                                                         \
-  typedef VersorTransform< ITK_TEMPLATE_1 TypeX > VersorTransform##TypeY; \
+  typedef VersorTransform<ITK_TEMPLATE_1 TypeX> VersorTransform##TypeY; \
   }                                                                         \
   }
 

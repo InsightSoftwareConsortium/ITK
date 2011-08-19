@@ -45,17 +45,17 @@ namespace itk
  * \ingroup Transforms
  * \ingroup ITKTransform
  */
-template< class TScalarType = double >
+template <class TScalarType = double>
 // Data type for scalars:float or double
-class ITK_EXPORT ScaleSkewVersor3DTransform:
-  public VersorRigid3DTransform< TScalarType >
+class ITK_EXPORT ScaleSkewVersor3DTransform :
+  public VersorRigid3DTransform<TScalarType>
 {
 public:
   /** Standard class typedefs. */
-  typedef ScaleSkewVersor3DTransform            Self;
-  typedef VersorRigid3DTransform< TScalarType > Superclass;
-  typedef SmartPointer< Self >                  Pointer;
-  typedef SmartPointer< const Self >            ConstPointer;
+  typedef ScaleSkewVersor3DTransform          Self;
+  typedef VersorRigid3DTransform<TScalarType> Superclass;
+  typedef SmartPointer<Self>                  Pointer;
+  typedef SmartPointer<const Self>            ConstPointer;
 
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro(Self);
@@ -91,8 +91,8 @@ public:
   typedef typename Superclass::AngleType  AngleType;
 
   /** Scale & Skew Vector Type. */
-  typedef Vector< TScalarType, 3 > ScaleVectorType;
-  typedef Vector< TScalarType, 6 > SkewVectorType;
+  typedef Vector<TScalarType, 3> ScaleVectorType;
+  typedef Vector<TScalarType, 6> SkewVectorType;
 
   typedef typename ScaleVectorType::ValueType ScaleVectorValueType;
   typedef typename SkewVectorType::ValueType  SkewVectorValueType;
@@ -132,24 +132,27 @@ public:
    * given point or vector, returning the transformed point or
    * vector. The rank of the Jacobian will also indicate if the
    * transform is invertible at this point. */
-  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  &p,
-                                 JacobianType & jacobian) const;
+  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const;
 
 protected:
   ScaleSkewVersor3DTransform();
-  ScaleSkewVersor3DTransform(const MatrixType & matrix,
-                             const OutputVectorType & offset);
-  ScaleSkewVersor3DTransform(unsigned int outputDims,
-                             unsigned int paramDims);
-  ~ScaleSkewVersor3DTransform(){}
+  ScaleSkewVersor3DTransform(const MatrixType & matrix, const OutputVectorType & offset);
+  ScaleSkewVersor3DTransform(unsigned int outputDims, unsigned int paramDims);
+  ~ScaleSkewVersor3DTransform()
+  {
+  }
 
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   void SetVarScale(const ScaleVectorType & scale)
-  { m_Scale = scale; }
+  {
+    m_Scale = scale;
+  }
 
   void SetVarSkew(const SkewVectorType & skew)
-  { m_Skew = skew; }
+  {
+    m_Skew = skew;
+  }
 
   /** Compute the components of the rotation matrix in the superclass. */
   void ComputeMatrix(void);
@@ -157,25 +160,25 @@ protected:
   void ComputeMatrixParameters(void);
 
 private:
-  ScaleSkewVersor3DTransform(const Self &); //purposely not implemented
-  void operator=(const Self &);             //purposely not implemented
+  ScaleSkewVersor3DTransform(const Self &); // purposely not implemented
+  void operator=(const Self &);             // purposely not implemented
 
   /**  Vector containing the scale. */
   ScaleVectorType m_Scale;
 
   /**  Vector containing the skew */
   SkewVectorType m_Skew;
-}; //class ScaleSkewVersor3DTransform
+}; // class ScaleSkewVersor3DTransform
 }  // namespace itk
 
 // Define instantiation macro for this template.
 #define ITK_TEMPLATE_ScaleSkewVersor3DTransform(_, EXPORT, TypeX, TypeY)     \
   namespace itk                                                              \
   {                                                                          \
-  _( 1 ( class EXPORT ScaleSkewVersor3DTransform< ITK_TEMPLATE_1 TypeX > ) ) \
+  _( 1 ( class EXPORT ScaleSkewVersor3DTransform<ITK_TEMPLATE_1 TypeX> ) ) \
   namespace Templates                                                        \
   {                                                                          \
-  typedef ScaleSkewVersor3DTransform< ITK_TEMPLATE_1 TypeX >                 \
+  typedef ScaleSkewVersor3DTransform<ITK_TEMPLATE_1 TypeX>                 \
   ScaleSkewVersor3DTransform##TypeY;                                       \
   }                                                                          \
   }

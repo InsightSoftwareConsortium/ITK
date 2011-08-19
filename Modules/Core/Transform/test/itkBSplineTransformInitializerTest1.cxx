@@ -39,17 +39,16 @@ int itkBSplineTransformInitializerTest1( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
-  const     unsigned int   ImageDimension = 2;
+  const     unsigned int ImageDimension = 2;
 
-  typedef   unsigned char                             PixelType;
-  typedef   itk::Image< PixelType, ImageDimension >   FixedImageType;
-  typedef   itk::Image< PixelType, ImageDimension >   MovingImageType;
+  typedef   unsigned char                         PixelType;
+  typedef   itk::Image<PixelType, ImageDimension> FixedImageType;
+  typedef   itk::Image<PixelType, ImageDimension> MovingImageType;
 
-  typedef   itk::ImageFileReader< FixedImageType  >   FixedReaderType;
-  typedef   itk::ImageFileReader< MovingImageType >   MovingReaderType;
+  typedef   itk::ImageFileReader<FixedImageType>  FixedReaderType;
+  typedef   itk::ImageFileReader<MovingImageType> MovingReaderType;
 
-  typedef   itk::ImageFileWriter< MovingImageType >   MovingWriterType;
-
+  typedef   itk::ImageFileWriter<MovingImageType> MovingWriterType;
 
   FixedReaderType::Pointer fixedReader = FixedReaderType::New();
   fixedReader->SetFileName( argv[2] );
@@ -65,24 +64,21 @@ int itkBSplineTransformInitializerTest1( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
-
   MovingReaderType::Pointer movingReader = MovingReaderType::New();
   MovingWriterType::Pointer movingWriter = MovingWriterType::New();
 
   movingReader->SetFileName( argv[3] );
   movingWriter->SetFileName( argv[4] );
 
-
   FixedImageType::ConstPointer fixedImage = fixedReader->GetOutput();
 
-
-  typedef itk::ResampleImageFilter< MovingImageType,
-                                    FixedImageType  >  FilterType;
+  typedef itk::ResampleImageFilter<MovingImageType,
+                                   FixedImageType>  FilterType;
 
   FilterType::Pointer resampler = FilterType::New();
 
   typedef itk::LinearInterpolateImageFunction<
-                       MovingImageType, double >  InterpolatorType;
+    MovingImageType, double>  InterpolatorType;
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
@@ -96,12 +92,10 @@ int itkBSplineTransformInitializerTest1( int argc, char * argv[] )
   resampler->SetOutputOrigin(  fixedOrigin  );
   resampler->SetOutputDirection(  fixedDirection  );
 
-
   FixedImageType::RegionType fixedRegion = fixedImage->GetBufferedRegion();
   FixedImageType::SizeType   fixedSize =  fixedRegion.GetSize();
   resampler->SetSize( fixedSize );
   resampler->SetOutputStartIndex(  fixedRegion.GetIndex() );
-
 
   resampler->SetInput( movingReader->GetOutput() );
 
@@ -112,15 +106,15 @@ int itkBSplineTransformInitializerTest1( int argc, char * argv[] )
   typedef double CoordinateRepType;
 
   typedef itk::BSplineTransform<
-                            CoordinateRepType,
-                            SpaceDimension,
-                            SplineOrder >     TransformType;
+    CoordinateRepType,
+    SpaceDimension,
+    SplineOrder>     TransformType;
 
   TransformType::Pointer bsplineTransform = TransformType::New();
 
   typedef itk::BSplineTransformInitializer<
-                  TransformType,
-                  FixedImageType >      InitializerType;
+    TransformType,
+    FixedImageType>      InitializerType;
   InitializerType::Pointer transformInitializer = InitializerType::New();
 
   TransformType::MeshSizeType meshSize;
@@ -131,10 +125,10 @@ int itkBSplineTransformInitializerTest1( int argc, char * argv[] )
   transformInitializer->SetTransformDomainMeshSize( meshSize );
   transformInitializer->InitializeTransform();
 
-  typedef TransformType::ParametersType     ParametersType;
+  typedef TransformType::ParametersType ParametersType;
 
   const unsigned int numberOfParameters =
-               bsplineTransform->GetNumberOfParameters();
+    bsplineTransform->GetNumberOfParameters();
 
   const unsigned int numberOfNodes = numberOfParameters / SpaceDimension;
 
@@ -143,11 +137,10 @@ int itkBSplineTransformInitializerTest1( int argc, char * argv[] )
   std::ifstream infile;
 
   infile.open( argv[1] );
-
-  for( unsigned int n=0; n < numberOfNodes; n++ )
+  for( unsigned int n = 0; n < numberOfNodes; n++ )
     {
     infile >>  parameters[n];
-    infile >>  parameters[n+numberOfNodes];
+    infile >>  parameters[n + numberOfNodes];
     }
   infile.close();
 
@@ -166,9 +159,9 @@ int itkBSplineTransformInitializerTest1( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::Point<  float, ImageDimension >        PointType;
-  typedef itk::Vector< float, ImageDimension >        VectorType;
-  typedef itk::Image< VectorType, ImageDimension >    DeformationFieldType;
+  typedef itk::Point<float, ImageDimension>      PointType;
+  typedef itk::Vector<float, ImageDimension>     VectorType;
+  typedef itk::Image<VectorType, ImageDimension> DeformationFieldType;
 
   DeformationFieldType::Pointer field = DeformationFieldType::New();
   field->SetRegions( fixedRegion );
@@ -177,19 +170,19 @@ int itkBSplineTransformInitializerTest1( int argc, char * argv[] )
   field->SetDirection( fixedDirection );
   field->Allocate();
 
-  typedef itk::ImageRegionIterator< DeformationFieldType > FieldIterator;
+  typedef itk::ImageRegionIterator<DeformationFieldType> FieldIterator;
   FieldIterator fi( field, fixedRegion );
 
   fi.GoToBegin();
 
-  TransformType::InputPointType  fixedPoint;
-  TransformType::OutputPointType movingPoint;
-  TransformType::JacobianType jacobian;
+  TransformType::InputPointType   fixedPoint;
+  TransformType::OutputPointType  movingPoint;
+  TransformType::JacobianType     jacobian;
   DeformationFieldType::IndexType index;
 
   VectorType displacement;
 
-  while( ! fi.IsAtEnd() )
+  while( !fi.IsAtEnd() )
     {
     index = fi.GetIndex();
     field->TransformIndexToPhysicalPoint( index, fixedPoint );
@@ -200,7 +193,7 @@ int itkBSplineTransformInitializerTest1( int argc, char * argv[] )
     ++fi;
     }
 
-  typedef itk::ImageFileWriter< DeformationFieldType >  FieldWriterType;
+  typedef itk::ImageFileWriter<DeformationFieldType> FieldWriterType;
   FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
 
   fieldWriter->SetInput( field );
