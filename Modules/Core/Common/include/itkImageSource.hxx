@@ -86,6 +86,24 @@ ImageSource< TOutputImage >
  *
  */
 template< class TOutputImage >
+const typename ImageSource< TOutputImage >::OutputImageType *
+ImageSource< TOutputImage >
+::GetOutput() const
+{
+  if ( this->GetNumberOfOutputs() < 1 )
+    {
+    return 0;
+    }
+
+  // we assume that the first output is of the templated type
+  return static_cast< const TOutputImage * >
+         ( this->ProcessObject::GetOutput(0) );
+}
+
+/**
+ *
+ */
+template< class TOutputImage >
 typename ImageSource< TOutputImage >::OutputImageType *
 ImageSource< TOutputImage >
 ::GetOutput(unsigned int idx)
