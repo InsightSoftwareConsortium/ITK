@@ -53,7 +53,8 @@ namespace itk
  * queue, designating if each transform is to be used for optimization. Note
  * that all transforms in the queue are applied in TransformPoint, regardless
  * of these flags states'. The methods GetParameters, SetParameters,
- * GetJacobian, GetFixedParameters, and SetFixedParameters all query these
+ * ComputeJacobianWithRespectToParameters, ComputeJacobianWithRespectToPosition,
+ * GetFixedParameters, and SetFixedParameters all query these
  * flags and include only those transforms whose corresponsing flag is set.
  * Their input or output is a concatenated array of all transforms set for use
  * in optimization. The goal is to be able to optimize multiple transforms at
@@ -113,50 +114,50 @@ public:
   itkTypeMacro( CompositeTransform, Transform );
 
   /** New macro for creation of through a Smart Pointer */
- itkSimpleNewMacro( Self );
+  itkSimpleNewMacro( Self );
 
   /** Leave CreateAnother undefined. To fully implement here, it must be
    * sure to copy all members. It may be called from transform-cloning
    * that only copies parameters, so override here to prevent
    * its use without copying full members. */
   virtual::itk::LightObject::Pointer CreateAnother(void) const
-    {
-      itkExceptionMacro("CreateAnother unimplemented. See source comments.");
-    }
+  {
+    itkExceptionMacro("CreateAnother unimplemented. See source comments.");
+  }
 
   /** Component transform type **/
-  typedef Superclass                    TransformType;
-  typedef typename Superclass::Pointer  TransformTypePointer;
+  typedef Superclass                   TransformType;
+  typedef typename Superclass::Pointer TransformTypePointer;
   /** InverseTransform type. */
   typedef typename Superclass::InverseTransformBasePointer
-                                        InverseTransformBasePointer;
+  InverseTransformBasePointer;
   /** Scalar type. */
-  typedef typename Superclass::ScalarType           ScalarType;
+  typedef typename Superclass::ScalarType ScalarType;
   /** Parameters type. */
-  typedef typename Superclass::ParametersType       ParametersType;
-  typedef typename Superclass::ParametersValueType  ParametersValueType;
+  typedef typename Superclass::ParametersType      ParametersType;
+  typedef typename Superclass::ParametersValueType ParametersValueType;
   /** Derivative type */
-  typedef typename Superclass::DerivativeType       DerivativeType;
+  typedef typename Superclass::DerivativeType DerivativeType;
   /** Jacobian type. */
-  typedef typename Superclass::JacobianType         JacobianType;
+  typedef typename Superclass::JacobianType JacobianType;
   /** Standard coordinate point type for this class. */
-  typedef typename Superclass::InputPointType       InputPointType;
-  typedef typename Superclass::OutputPointType      OutputPointType;
+  typedef typename Superclass::InputPointType  InputPointType;
+  typedef typename Superclass::OutputPointType OutputPointType;
   /** Standard vector type for this class. */
-  typedef typename Superclass::InputVectorType      InputVectorType;
-  typedef typename Superclass::OutputVectorType     OutputVectorType;
+  typedef typename Superclass::InputVectorType  InputVectorType;
+  typedef typename Superclass::OutputVectorType OutputVectorType;
   /** Standard covariant vector type for this class */
   typedef typename Superclass::InputCovariantVectorType
-                                                    InputCovariantVectorType;
+  InputCovariantVectorType;
   typedef typename Superclass::OutputCovariantVectorType
-                                                    OutputCovariantVectorType;
+  OutputCovariantVectorType;
   /** Standard vnl_vector type for this class. */
-  typedef typename Superclass::InputVnlVectorType   InputVnlVectorType;
-  typedef typename Superclass::OutputVnlVectorType  OutputVnlVectorType;
+  typedef typename Superclass::InputVnlVectorType  InputVnlVectorType;
+  typedef typename Superclass::OutputVnlVectorType OutputVnlVectorType;
   /** Transform queue type */
-  typedef std::deque<TransformTypePointer>          TransformQueueType;
+  typedef std::deque<TransformTypePointer> TransformQueueType;
   /** Optimization flags queue type */
-  typedef std::deque<bool>                       TransformsToOptimizeFlagsType;
+  typedef std::deque<bool> TransformsToOptimizeFlagsType;
 
   /** Dimension of the domain spaces. */
   itkStaticConstMacro( InputDimension, unsigned int, NDimensions );
@@ -178,6 +179,7 @@ public:
   {
     return this->m_TransformQueue.front();
   }
+
   const
   TransformTypePointer GetBackTransform()
   {
@@ -194,7 +196,7 @@ public:
 
   void SetNthTransformToOptimize( size_t i, bool state )
   {
-    this->m_TransformsToOptimizeFlags.at(i)=state;
+    this->m_TransformsToOptimizeFlags.at(i) = state;
     this->Modified();
   }
 
@@ -231,7 +233,7 @@ public:
   void SetOnlyMostRecentTransformToOptimizeOn()
   {
     this->SetAllTransformsToOptimize( false );
-    this->SetNthTransformToOptimizeOn( this->GetNumberOfTransforms()-1 );
+    this->SetNthTransformToOptimizeOn( this->GetNumberOfTransforms() - 1 );
   }
 
   /* Get whether the Nth transform is set to be optimzied */
@@ -292,8 +294,8 @@ public:
   * image, the transforms are applied in reverse order of addition, i.e. from
   * the back of the queue, and thus, DF then Affine.
   */
-  virtual OutputPointType
-    TransformPoint( const InputPointType &inputPoint ) const;
+  virtual OutputPointType TransformPoint( const InputPointType & inputPoint ) const;
+
   /* Note: why was the 'isInsideTransformRegion' flag used below?
   {
     bool isInside = true;
@@ -318,8 +320,7 @@ public:
 
   /**  Method to transform a CovariantVector. */
   using Superclass::TransformCovariantVector;
-  virtual OutputCovariantVectorType
-  TransformCovariantVector(const InputCovariantVectorType &) const
+  virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType &) const
   {
     itkExceptionMacro( "TransformCovariantVector unimplemented" );
   }
@@ -327,21 +328,15 @@ public:
   virtual bool IsLinear() const;
 
   /**
-   * Compute the jacobian with respect to the parameters.
-   */
-  virtual const JacobianType & GetJacobian(const InputPointType  &) const;
-
-  /**
    * Compute the Jacobian with respect to the parameters for the compositie
    * transform using Jacobian rule. See comments in the implementation.
    */
-  virtual void GetJacobianWithRespectToParameters(const InputPointType  &p,
-                                                  JacobianType &j) const;
+  virtual void ComputeJacobianWithRespectToParameters(const InputPointType  & p, JacobianType & j) const;
 
-  virtual void GetJacobianWithRespectToPosition(const InputPointType &,
-                                                  JacobianType &) const
+  virtual void ComputeJacobianWithRespectToPosition(const InputPointType &,
+                                                    JacobianType &) const
   {
-    itkExceptionMacro( "GetJacobianWithRespectToPosition not yet implemented "
+    itkExceptionMacro( "ComputeJacobianWithRespectToPosition not yet implemented "
                        "for " << this->GetNameOfClass() );
   }
 
@@ -377,7 +372,7 @@ public:
    * Must be called before registration to optimize parameter storage
    * for more efficient operation, particularly with high-dimensionality
    * sub-transforms. */
-   //virtual void PrepareForUse(void);
+  // virtual void PrepareForUse(void);
 
   /** Update the transform's parameters by the values in \c update.
    * We assume \c update is of the same length as Parameters. Throw
@@ -387,8 +382,7 @@ public:
    * to perform any required operations on the update parameters, typically
    * a converion to member variables for use in TransformPoint.
    */
-  virtual void UpdateTransformParameters( DerivativeType & update,
-                                          ScalarType  factor = 1.0 );
+  virtual void UpdateTransformParameters( DerivativeType & update, ScalarType  factor = 1.0 );
 
   /** Indicates if this transform is a "global" transform
    *  e.g. an affine transform or a local one, e.g. a deformation field.
@@ -423,19 +417,19 @@ protected:
    * memory to point within this block.
    * \warning This will temporarily use twice the memory of all
    * sub-transform. */
-  //void UnifyParameterMemory(void);
+  // void UnifyParameterMemory(void);
 
   /** Transform container object. */
   mutable TransformQueueType m_TransformQueue;
 
   /** Get a list of transforms to optimize. Helper function. */
-  TransformQueueType& GetTransformsToOptimizeQueue() const;
+  TransformQueueType & GetTransformsToOptimizeQueue() const;
 
   mutable TransformQueueType            m_TransformsToOptimizeQueue;
   mutable TransformsToOptimizeFlagsType m_TransformsToOptimizeFlags;
 private:
-  CompositeTransform( const Self & ); //purposely not implemented
-  void operator=( const Self& );      //purposely not implemented
+  CompositeTransform( const Self & ); // purposely not implemented
+  void operator=( const Self & );     // purposely not implemented
 
   mutable unsigned long m_PreviousTransformsToOptimizeUpdateTime;
 };
@@ -443,11 +437,11 @@ private:
 } // end namespace itk
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkCompositeTransform+-.h"
+#include "Templates/itkCompositeTransform+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkCompositeTransform.hxx"
+#include "itkCompositeTransform.hxx"
 #endif
 
 #endif // __itkCompositeTransform_h

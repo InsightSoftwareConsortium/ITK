@@ -23,18 +23,20 @@
 namespace itk
 {
 // Constructor with default arguments
-template< class TScalarType >
-CenteredRigid2DTransform< TScalarType >
-::CenteredRigid2DTransform():
+template <class TScalarType>
+CenteredRigid2DTransform<TScalarType>
+::CenteredRigid2DTransform() :
   Superclass(OutputSpaceDimension, ParametersDimension)
-{}
+{
+}
 
 // Constructor with arguments
-template< class TScalarType >
-CenteredRigid2DTransform< TScalarType >::CenteredRigid2DTransform(unsigned int spaceDimension,
-                                                                  unsigned int parametersDimension):
+template <class TScalarType>
+CenteredRigid2DTransform<TScalarType>::CenteredRigid2DTransform(unsigned int spaceDimension,
+                                                                unsigned int parametersDimension) :
   Superclass(spaceDimension, parametersDimension)
-{}
+{
+}
 
 //
 // Set Parameters
@@ -46,14 +48,14 @@ CenteredRigid2DTransform< TScalarType >::CenteredRigid2DTransform(unsigned int s
 // p[3:4} = translation components
 //
 //
-template< class TScalarType >
+template <class TScalarType>
 void
-CenteredRigid2DTransform< TScalarType >
+CenteredRigid2DTransform<TScalarType>
 ::SetParameters(const ParametersType & parameters)
 {
   itkDebugMacro(<< "Setting parameters " << parameters);
 
-  //Save parameters
+  // Save parameters
   if( &parameters != &(this->m_Parameters) )
     {
     this->m_Parameters = parameters;
@@ -64,8 +66,7 @@ CenteredRigid2DTransform< TScalarType >
   this->SetVarAngle(angle);
   // Set the center
   InputPointType center;
-
-  for ( unsigned int i = 0; i < SpaceDimension; i++ )
+  for( unsigned int i = 0; i < SpaceDimension; i++ )
     {
     center[i] = parameters[i + 1];
     }
@@ -73,8 +74,7 @@ CenteredRigid2DTransform< TScalarType >
 
   // Set the translation
   OutputVectorType translation;
-
-  for ( unsigned int j = 0; j < SpaceDimension; j++ )
+  for( unsigned int j = 0; j < SpaceDimension; j++ )
     {
     translation[j] = parameters[j + 1 + SpaceDimension];
     }
@@ -100,24 +100,22 @@ CenteredRigid2DTransform< TScalarType >
 // p[1:2} = center of rotation coordinates
 // p[3:4} = translation components
 //
-template< class TScalarType >
-const typename CenteredRigid2DTransform< TScalarType >::ParametersType &
-CenteredRigid2DTransform< TScalarType >
+template <class TScalarType>
+const typename CenteredRigid2DTransform<TScalarType>::ParametersType
+& CenteredRigid2DTransform<TScalarType>
 ::GetParameters(void) const
-{
+  {
   itkDebugMacro(<< "Getting parameters ");
 
   // Get the angle
   this->m_Parameters[0] = this->GetAngle();
-
   // Get the center
-  for ( unsigned int i = 0; i < SpaceDimension; i++ )
+  for( unsigned int i = 0; i < SpaceDimension; i++ )
     {
     this->m_Parameters[i + 1] = this->GetCenter()[i];
     }
-
   // Get the translation
-  for ( unsigned int j = 0; j < SpaceDimension; j++ )
+  for( unsigned int j = 0; j < SpaceDimension; j++ )
     {
     this->m_Parameters[j + 1 + SpaceDimension] = this->GetTranslation()[j];
     }
@@ -125,21 +123,12 @@ CenteredRigid2DTransform< TScalarType >
   itkDebugMacro(<< "After getting parameters " << this->m_Parameters);
 
   return this->m_Parameters;
-}
+  }
 
-// Compute the transformation Jacobian
-template< class TScalarType >
-const typename CenteredRigid2DTransform< TScalarType >::JacobianType &
-CenteredRigid2DTransform< TScalarType >::GetJacobian(const InputPointType & p) const
-{
-  GetJacobianWithRespectToParameters( p, this->m_Jacobian );
-  return this->m_Jacobian;
-}
-
-template< class TScalarType >
+template <class TScalarType>
 void
-CenteredRigid2DTransform< TScalarType >
-::GetJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
+CenteredRigid2DTransform<TScalarType>
+::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
 {
   const double ca = vcl_cos( this->GetAngle() );
   const double sa = vcl_sin( this->GetAngle() );
@@ -171,39 +160,39 @@ CenteredRigid2DTransform< TScalarType >
   jacobian[1][4] = 1.0;
 }
 
-template< class TScalarType >
+template <class TScalarType>
 void
-CenteredRigid2DTransform< TScalarType >
+CenteredRigid2DTransform<TScalarType>
 ::SetFixedParameters( const ParametersType & itkNotUsed(parameters) )
 {
   // no fixed parameters
 }
 
-template< class TScalarType >
-const typename CenteredRigid2DTransform< TScalarType >::ParametersType &
-CenteredRigid2DTransform< TScalarType >
+template <class TScalarType>
+const typename CenteredRigid2DTransform<TScalarType>::ParametersType
+& CenteredRigid2DTransform<TScalarType>
 ::GetFixedParameters(void) const
-{
+  {
   // return dummy parameters
   this->m_FixedParameters.SetSize(0);
   return this->m_FixedParameters;
-}
+  }
 
 // Create and return an inverse transformation
-template< class TScalarType >
+template <class TScalarType>
 void
-CenteredRigid2DTransform< TScalarType >::CloneInverseTo(Pointer & result) const
+CenteredRigid2DTransform<TScalarType>::CloneInverseTo(Pointer & result) const
 {
   result = New();
   this->GetInverse( result.GetPointer() );
 }
 
 // return an inverse transformation
-template< class TScalarType >
+template <class TScalarType>
 bool
-CenteredRigid2DTransform< TScalarType >::GetInverse(Self *inverse) const
+CenteredRigid2DTransform<TScalarType>::GetInverse(Self *inverse) const
 {
-  if ( !inverse )
+  if( !inverse )
     {
     return false;
     }
@@ -216,9 +205,9 @@ CenteredRigid2DTransform< TScalarType >::GetInverse(Self *inverse) const
 }
 
 // Return an inverse of this transform
-template< class TScalarType >
-typename CenteredRigid2DTransform< TScalarType >::InverseTransformBasePointer
-CenteredRigid2DTransform< TScalarType >
+template <class TScalarType>
+typename CenteredRigid2DTransform<TScalarType>::InverseTransformBasePointer
+CenteredRigid2DTransform<TScalarType>
 ::GetInverseTransform() const
 {
   Pointer inv = New();
@@ -227,9 +216,9 @@ CenteredRigid2DTransform< TScalarType >
 }
 
 // Create and return an clone transformation
-template< class TScalarType >
+template <class TScalarType>
 void
-CenteredRigid2DTransform< TScalarType >::CloneTo(Pointer & result) const
+CenteredRigid2DTransform<TScalarType>::CloneTo(Pointer & result) const
 {
   result = New();
   result->SetCenter( this->GetCenter() );
@@ -238,12 +227,13 @@ CenteredRigid2DTransform< TScalarType >::CloneTo(Pointer & result) const
 }
 
 // Print self
-template< class TScalarType >
+template <class TScalarType>
 void
-CenteredRigid2DTransform< TScalarType >::PrintSelf(std::ostream & os, Indent indent) const
+CenteredRigid2DTransform<TScalarType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
 }
+
 } // namespace
 
 #endif

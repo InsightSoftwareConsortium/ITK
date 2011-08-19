@@ -49,17 +49,17 @@ namespace itk
  * \ingroup Transforms
  * \ingroup ITKTransform
  */
-template< class TScalarType = double >
+template <class TScalarType = double>
 // Data type for scalars
-class ITK_EXPORT CenteredRigid2DTransform:
-  public Rigid2DTransform< TScalarType >
+class ITK_EXPORT CenteredRigid2DTransform :
+  public Rigid2DTransform<TScalarType>
 {
 public:
   /** Standard class typedefs. */
-  typedef CenteredRigid2DTransform        Self;
-  typedef Rigid2DTransform< TScalarType > Superclass;
-  typedef SmartPointer< Self >            Pointer;
-  typedef SmartPointer< const Self >      ConstPointer;
+  typedef CenteredRigid2DTransform      Self;
+  typedef Rigid2DTransform<TScalarType> Superclass;
+  typedef SmartPointer<Self>            Pointer;
+  typedef SmartPointer<const Self>      ConstPointer;
 
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro(Self);
@@ -132,13 +132,8 @@ public:
 
   /** This method computes the Jacobian matrix of the transformation
    * at a given input point.
-   *
-   * \sa Transform::GetJacobian() */
-  const JacobianType & GetJacobian(const InputPointType  & point) const;
-
-  /** Compute the Jacobian Matrix of the transformation at one point */
-  virtual void GetJacobianWithRespectToParameters( const InputPointType  &p,
-                                 JacobianType & jacobian) const;
+   */
+  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const;
 
   /** Set the fixed parameters and update internal transformation.
    * This is a null function as there are no fixed parameters. */
@@ -166,27 +161,29 @@ public:
 
 protected:
   CenteredRigid2DTransform();
-  ~CenteredRigid2DTransform(){}
+  ~CenteredRigid2DTransform()
+  {
+  }
 
-  CenteredRigid2DTransform(unsigned int outputSpaceDimension,
-                           unsigned int parametersDimension);
+  CenteredRigid2DTransform(unsigned int outputSpaceDimension, unsigned int parametersDimension);
 
   void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  CenteredRigid2DTransform(const Self &); //purposely not implemented
-  void operator=(const Self &);           //purposely not implemented
-};                                        //class CenteredRigid2DTransform
+  CenteredRigid2DTransform(const Self &); // purposely not implemented
+  void operator=(const Self &);           // purposely not implemented
+
+};                                        // class CenteredRigid2DTransform
 }  // namespace itk
 
 // Define instantiation macro for this template.
 #define ITK_TEMPLATE_CenteredRigid2DTransform(_, EXPORT, TypeX, TypeY)     \
   namespace itk                                                            \
   {                                                                        \
-  _( 1 ( class EXPORT CenteredRigid2DTransform< ITK_TEMPLATE_1 TypeX > ) ) \
+  _( 1 ( class EXPORT CenteredRigid2DTransform<ITK_TEMPLATE_1 TypeX> ) ) \
   namespace Templates                                                      \
   {                                                                        \
-  typedef CenteredRigid2DTransform< ITK_TEMPLATE_1 TypeX >                 \
+  typedef CenteredRigid2DTransform<ITK_TEMPLATE_1 TypeX>                 \
   CenteredRigid2DTransform##TypeY;                                       \
   }                                                                        \
   }

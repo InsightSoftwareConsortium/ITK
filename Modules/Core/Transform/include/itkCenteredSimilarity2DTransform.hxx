@@ -23,28 +23,30 @@
 namespace itk
 {
 // Constructor with default arguments
-template< class TScalarType >
-CenteredSimilarity2DTransform< TScalarType >
-::CenteredSimilarity2DTransform():Superclass(OutputSpaceDimension,
-                                             ParametersDimension)
-{}
+template <class TScalarType>
+CenteredSimilarity2DTransform<TScalarType>
+::CenteredSimilarity2DTransform() : Superclass(OutputSpaceDimension,
+                                               ParametersDimension)
+{
+}
 
 // Constructor with arguments
-template< class TScalarType >
-CenteredSimilarity2DTransform< TScalarType >::CenteredSimilarity2DTransform(unsigned int spaceDimension,
-                                                                            unsigned int parametersDimension):
+template <class TScalarType>
+CenteredSimilarity2DTransform<TScalarType>::CenteredSimilarity2DTransform(unsigned int spaceDimension,
+                                                                          unsigned int parametersDimension) :
   Superclass(spaceDimension, parametersDimension)
-{}
+{
+}
 
 // Set Parameters
-template< class TScalarType >
+template <class TScalarType>
 void
-CenteredSimilarity2DTransform< TScalarType >
+CenteredSimilarity2DTransform<TScalarType>
 ::SetParameters(const ParametersType & parameters)
 {
   itkDebugMacro(<< "Setting parameters " << parameters);
 
-  //Save parameters. Needed for proper operation of TransformUpdateParameters.
+  // Save parameters. Needed for proper operation of TransformUpdateParameters.
   if( &parameters != &(this->m_Parameters) )
     {
     this->m_Parameters = parameters;
@@ -59,7 +61,7 @@ CenteredSimilarity2DTransform< TScalarType >
   this->SetVarAngle(angle);
 
   InputPointType center;
-  for ( unsigned int j = 0; j < SpaceDimension; j++ )
+  for( unsigned int j = 0; j < SpaceDimension; j++ )
     {
     center[j] = parameters[j + 2];
     }
@@ -67,8 +69,7 @@ CenteredSimilarity2DTransform< TScalarType >
 
   // Set translation
   OffsetType translation;
-
-  for ( unsigned int i = 0; i < SpaceDimension; i++ )
+  for( unsigned int i = 0; i < SpaceDimension; i++ )
     {
     translation[i] = parameters[i + 4];
     }
@@ -86,24 +87,24 @@ CenteredSimilarity2DTransform< TScalarType >
 }
 
 // Get Parameters
-template< class TScalarType >
-const typename CenteredSimilarity2DTransform< TScalarType >::ParametersType &
-CenteredSimilarity2DTransform< TScalarType >
+template <class TScalarType>
+const typename CenteredSimilarity2DTransform<TScalarType>::ParametersType
+& CenteredSimilarity2DTransform<TScalarType>
 ::GetParameters(void) const
-{
+  {
   itkDebugMacro(<< "Getting parameters ");
 
   this->m_Parameters[0] = this->GetScale();
   this->m_Parameters[1] = this->GetAngle();
 
   InputPointType center = this->GetCenter();
-  for ( unsigned int j = 0; j < SpaceDimension; j++ )
+  for( unsigned int j = 0; j < SpaceDimension; j++ )
     {
     this->m_Parameters[j + 2] = center[j];
     }
 
   OffsetType translation = this->GetTranslation();
-  for ( unsigned int i = 0; i < SpaceDimension; i++ )
+  for( unsigned int i = 0; i < SpaceDimension; i++ )
     {
     this->m_Parameters[i + 4] = translation[i];
     }
@@ -111,21 +112,12 @@ CenteredSimilarity2DTransform< TScalarType >
   itkDebugMacro(<< "After getting parameters " << this->m_Parameters);
 
   return this->m_Parameters;
-}
+  }
 
-// Compute the Jacobian
-template< class TScalarType >
-const typename CenteredSimilarity2DTransform< TScalarType >::JacobianType &
-CenteredSimilarity2DTransform< TScalarType >::GetJacobian(const InputPointType & p) const
-{
-  GetJacobianWithRespectToParameters( p, this->m_Jacobian );
-  return this->m_Jacobian;
-}
-
-template< class TScalarType >
+template <class TScalarType>
 void
-CenteredSimilarity2DTransform< TScalarType >
-::GetJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
+CenteredSimilarity2DTransform<TScalarType>
+::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
 {
   const double angle = this->GetAngle();
   const double ca = vcl_cos(angle);
@@ -144,17 +136,17 @@ CenteredSimilarity2DTransform< TScalarType >
 
   // derivatives with respect to the angle
   jacobian[0][1] = ( -sa * ( p[0] - cx ) - ca * ( p[1] - cy ) )
-                           * this->GetScale();
+    * this->GetScale();
   jacobian[1][1] = ( ca * ( p[0] - cx ) - sa * ( p[1] - cy ) )
-                           * this->GetScale();
+    * this->GetScale();
 
   // compute derivatives with respect to the center part
   // first with respect to cx
-  jacobian[0][2] = 1.0 - ca * this->GetScale();
-  jacobian[1][2] =     -sa * this->GetScale();
+  jacobian[0][2] = 1.0 - ca * this-> GetScale();
+  jacobian[1][2] =     -sa * this->  GetScale();
   // then with respect to cy
   jacobian[0][3] =       sa * this->GetScale();
-  jacobian[1][3] = 1.0 - ca * this->GetScale();
+  jacobian[1][3] = 1.0 - ca * this-> GetScale();
 
   // compute derivatives with respect to the translation part
   // first with respect to tx
@@ -165,65 +157,65 @@ CenteredSimilarity2DTransform< TScalarType >
   jacobian[1][5] = 1.0;
 }
 
-template< class TScalarType >
+template <class TScalarType>
 void
-CenteredSimilarity2DTransform< TScalarType >::SetFixedParameters( const ParametersType & itkNotUsed(parameters) )
+CenteredSimilarity2DTransform<TScalarType>::SetFixedParameters( const ParametersType & itkNotUsed(parameters) )
 {
   // no fixed parameters
 }
 
-template< class TScalarType >
-const typename CenteredSimilarity2DTransform< TScalarType >::ParametersType &
-CenteredSimilarity2DTransform< TScalarType >::GetFixedParameters(void) const
-{
+template <class TScalarType>
+const typename CenteredSimilarity2DTransform<TScalarType>::ParametersType
+& CenteredSimilarity2DTransform<TScalarType>::GetFixedParameters(void) const
+  {
   // return dummy parameters
   this->m_FixedParameters.SetSize(0);
   return this->m_FixedParameters;
-}
+  }
 
 // Print self
-template< class TScalarType >
+template <class TScalarType>
 void
-CenteredSimilarity2DTransform< TScalarType >::PrintSelf(std::ostream & os, Indent indent) const
+CenteredSimilarity2DTransform<TScalarType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
 
 // Create and return an inverse transformation
-template< class TScalarType >
+template <class TScalarType>
 void
-CenteredSimilarity2DTransform< TScalarType >::CloneInverseTo(Pointer & result) const
+CenteredSimilarity2DTransform<TScalarType>::CloneInverseTo(Pointer & result) const
 {
   result = New();
   this->GetInverse( result.GetPointer() );
 }
 
 // return an inverse transformation
-template< class TScalarType >
+template <class TScalarType>
 bool
-CenteredSimilarity2DTransform< TScalarType >::GetInverse(Self *inverse) const
+CenteredSimilarity2DTransform<TScalarType>::GetInverse(Self *inverse) const
 {
-  if ( !inverse )
+  if( !inverse )
     {
     return false;
     }
 
   inverse->SetCenter( this->GetCenter() );  // inverse have the same center
-  inverse->SetScale( NumericTraits< double >::One / this->GetScale() );
+  inverse->SetScale( NumericTraits<double>::One / this->GetScale() );
   inverse->SetAngle( -this->GetAngle() );
   inverse->SetTranslation( -( this->GetInverseMatrix() * this->GetTranslation() ) );
   return true;
 }
 
 // Return an inverse of this transform
-template< class TScalarType >
-typename CenteredSimilarity2DTransform< TScalarType >::InverseTransformBasePointer
-CenteredSimilarity2DTransform< TScalarType >
+template <class TScalarType>
+typename CenteredSimilarity2DTransform<TScalarType>::InverseTransformBasePointer
+CenteredSimilarity2DTransform<TScalarType>
 ::GetInverseTransform() const
 {
   Pointer inv = New();
 
-  if ( this->GetInverse(inv) )
+  if( this->GetInverse(inv) )
     {
     return inv.GetPointer();
     }
@@ -231,9 +223,9 @@ CenteredSimilarity2DTransform< TScalarType >
 }
 
 // Create and return a clone of the transformation
-template< class TScalarType >
+template <class TScalarType>
 void
-CenteredSimilarity2DTransform< TScalarType >::CloneTo(Pointer & result) const
+CenteredSimilarity2DTransform<TScalarType>::CloneTo(Pointer & result) const
 {
   result = New();
   result->SetCenter( this->GetCenter() );
@@ -241,6 +233,7 @@ CenteredSimilarity2DTransform< TScalarType >::CloneTo(Pointer & result) const
   result->SetAngle( this->GetAngle() );
   result->SetTranslation( this->GetTranslation() );
 }
+
 } // namespace
 
 #endif

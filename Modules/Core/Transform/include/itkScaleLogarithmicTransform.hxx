@@ -23,33 +23,33 @@
 namespace itk
 {
 // Constructor with default arguments
-template< class ScalarType, unsigned int NDimensions >
-ScaleLogarithmicTransform< ScalarType, NDimensions >::ScaleLogarithmicTransform()
+template <class ScalarType, unsigned int NDimensions>
+ScaleLogarithmicTransform<ScalarType, NDimensions>::ScaleLogarithmicTransform()
 {
   return;
 }
 
 // Destructor
-template< class ScalarType, unsigned int NDimensions >
-ScaleLogarithmicTransform< ScalarType, NDimensions >::
+template <class ScalarType, unsigned int NDimensions>
+ScaleLogarithmicTransform<ScalarType, NDimensions>::
 ~ScaleLogarithmicTransform()
 {
   return;
 }
 
 // Set the parameters
-template< class ScalarType, unsigned int NDimensions >
+template <class ScalarType, unsigned int NDimensions>
 void
-ScaleLogarithmicTransform< ScalarType, NDimensions >
+ScaleLogarithmicTransform<ScalarType, NDimensions>
 ::SetParameters(const ParametersType & parameters)
 {
   ScaleType scales;
 
-  for ( unsigned int i = 0; i < SpaceDimension; i++ )
+  for( unsigned int i = 0; i < SpaceDimension; i++ )
     {
     scales[i] = vcl_exp(parameters[i]);
     }
-  //Save parameters. Needed for proper operation of TransformUpdateParameters.
+  // Save parameters. Needed for proper operation of TransformUpdateParameters.
   if( &parameters != &(this->m_Parameters) )
     {
     this->m_Parameters = parameters;
@@ -62,16 +62,16 @@ ScaleLogarithmicTransform< ScalarType, NDimensions >
 }
 
 // Get Parameters
-template< class TScalarType, unsigned int NDimensions >
-const typename ScaleLogarithmicTransform< TScalarType, NDimensions >::ParametersType &
-ScaleLogarithmicTransform< TScalarType, NDimensions >
+template <class TScalarType, unsigned int NDimensions>
+const typename ScaleLogarithmicTransform<TScalarType, NDimensions>::ParametersType
+& ScaleLogarithmicTransform<TScalarType, NDimensions>
 ::GetParameters(void) const
-{
+  {
   itkDebugMacro(<< "Getting parameters ");
 
   const ScaleType & scales = this->GetScale();
   // Transfer the translation part
-  for ( unsigned int i = 0; i < SpaceDimension; i++ )
+  for( unsigned int i = 0; i < SpaceDimension; i++ )
     {
     this->m_Parameters[i] = vcl_log(scales[i]);
     }
@@ -79,43 +79,33 @@ ScaleLogarithmicTransform< TScalarType, NDimensions >
   itkDebugMacro(<< "After getting parameters " << this->m_Parameters);
 
   return this->m_Parameters;
-}
+  }
 
 // Print self
-template< class ScalarType, unsigned int NDimensions >
+template <class ScalarType, unsigned int NDimensions>
 void
-ScaleLogarithmicTransform< ScalarType, NDimensions >::PrintSelf(std::ostream & os, Indent indent) const
+ScaleLogarithmicTransform<ScalarType, NDimensions>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
 
-// Compute the Jacobian of the transformation
-// It follows the same order of Parameters vector
-template< class ScalarType, unsigned int NDimensions >
-const typename ScaleLogarithmicTransform< ScalarType, NDimensions >::JacobianType &
-ScaleLogarithmicTransform< ScalarType, NDimensions >
-::GetJacobian(const InputPointType & p) const
-{
-  GetJacobianWithRespectToParameters( p, this->m_Jacobian );
-  return this->m_Jacobian;
-}
-
-template< class ScalarType, unsigned int NDimensions >
+template <class ScalarType, unsigned int NDimensions>
 void
-ScaleLogarithmicTransform< ScalarType, NDimensions >
-::GetJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
+ScaleLogarithmicTransform<ScalarType, NDimensions>
+::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
 {
   const ScaleType & scales = this->GetScale();
 
   jacobian.SetSize( SpaceDimension, this->GetNumberOfLocalParameters() );
   jacobian.Fill(0);
-  for ( unsigned int dim = 0; dim < SpaceDimension; dim++ )
+  for( unsigned int dim = 0; dim < SpaceDimension; dim++ )
     {
     // the derivative with respect to Log(scale) = scale * derivative with
     // respect to scale.
     jacobian(dim, dim) = scales[dim] * p[dim];
     }
 }
+
 } // namespace
 
 #endif

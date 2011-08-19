@@ -23,30 +23,34 @@
 namespace itk
 {
 // Constructor with default arguments
-template< class TScalarType >
-CenteredEuler3DTransform< TScalarType >::CenteredEuler3DTransform():
+template <class TScalarType>
+CenteredEuler3DTransform<TScalarType>::CenteredEuler3DTransform() :
   Superclass(OutputSpaceDimension, ParametersDimension)
-{}
+{
+}
 
 // Constructor with default arguments
-template< class TScalarType >
-CenteredEuler3DTransform< TScalarType >::CenteredEuler3DTransform(unsigned int spaceDimension,
-                                                                  unsigned int parametersDimension):
+template <class TScalarType>
+CenteredEuler3DTransform<TScalarType>::CenteredEuler3DTransform(unsigned int spaceDimension,
+                                                                unsigned int parametersDimension) :
   Superclass(spaceDimension, parametersDimension)
-{}
+{
+}
 
 // Constructor with default arguments
-template< class TScalarType >
-CenteredEuler3DTransform< TScalarType >::CenteredEuler3DTransform(const MatrixType & matrix,
-                                                                  const OutputPointType & offset):
+template <class TScalarType>
+CenteredEuler3DTransform<TScalarType>::CenteredEuler3DTransform(const MatrixType & matrix,
+                                                                const OutputPointType & offset) :
   Superclass(matrix, offset)
-{}
+{
+}
 
 // Destructor
-template< class TScalarType >
-CenteredEuler3DTransform< TScalarType >::
+template <class TScalarType>
+CenteredEuler3DTransform<TScalarType>::
 ~CenteredEuler3DTransform()
-{}
+{
+}
 
 //
 // Set Parameters
@@ -58,14 +62,14 @@ CenteredEuler3DTransform< TScalarType >::
 // p[6:8] = translation
 //
 //
-template< class TScalarType >
+template <class TScalarType>
 void
-CenteredEuler3DTransform< TScalarType >
+CenteredEuler3DTransform<TScalarType>
 ::SetParameters(const ParametersType & parameters)
 {
   itkDebugMacro(<< "Setting parameters " << parameters);
 
-  //Save parameters
+  // Save parameters
   if( &parameters != &(this->m_Parameters) )
     {
     this->m_Parameters = parameters;
@@ -108,11 +112,11 @@ CenteredEuler3DTransform< TScalarType >
 // p[6:8] = translation
 //
 
-template< class TScalarType >
-const typename CenteredEuler3DTransform< TScalarType >::ParametersType &
-CenteredEuler3DTransform< TScalarType >
+template <class TScalarType>
+const typename CenteredEuler3DTransform<TScalarType>::ParametersType
+& CenteredEuler3DTransform<TScalarType>
 ::GetParameters(void) const
-{
+  {
   ParametersType parameters;
 
   this->m_Parameters[0] = this->GetAngleX();
@@ -128,21 +132,12 @@ CenteredEuler3DTransform< TScalarType >
   this->m_Parameters[8] = this->GetTranslation()[2];
 
   return this->m_Parameters;
-}
+  }
 
-// Get jacobian
-template< class TScalarType >
-const typename CenteredEuler3DTransform< TScalarType >::JacobianType &
-CenteredEuler3DTransform< TScalarType >::GetJacobian(const InputPointType & p) const
-{
-  GetJacobianWithRespectToParameters( p, this->m_Jacobian );
-  return this->m_Jacobian;
-}
-
-template< class TScalarType >
+template <class TScalarType>
 void
-CenteredEuler3DTransform< TScalarType >
-::GetJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
+CenteredEuler3DTransform<TScalarType>
+::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
 {
   // need to check if angles are in the right order
   const double cx = vcl_cos( this->GetAngleX() );
@@ -159,7 +154,7 @@ CenteredEuler3DTransform< TScalarType >
   const double py = p[1] - this->GetCenter()[1];
   const double pz = p[2] - this->GetCenter()[2];
 
-  if ( this->GetComputeZYX() )
+  if( this->GetComputeZYX() )
     {
     jacobian[0][0] = ( cz * sy * cx + sz * sx ) * py + ( -cz * sy * sx + sz * cx ) * pz;
     jacobian[1][0] = ( sz * sy * cx - cz * sx ) * py + ( -sz * sy * sx - cz * cx ) * pz;
@@ -170,9 +165,9 @@ CenteredEuler3DTransform< TScalarType >
     jacobian[2][1] = ( -cy ) * px + ( -sy * sx ) * py + ( -sy * cx ) * pz;
 
     jacobian[0][2] = ( -sz * cy ) * px + ( -sz * sy * sx - cz * cx ) * py
-                             + ( -sz * sy * cx + cz * sx ) * pz;
+      + ( -sz * sy * cx + cz * sx ) * pz;
     jacobian[1][2] = ( cz * cy ) * px + ( cz * sy * sx - sz * cx ) * py
-                             + ( cz * sy * cx + sz * sx ) * pz;
+      + ( cz * sy * cx + sz * sx ) * pz;
     jacobian[2][2] = 0;
     }
   else
@@ -186,40 +181,39 @@ CenteredEuler3DTransform< TScalarType >
     jacobian[2][1] = ( -cx * cy ) * px + ( -cx * sy ) * pz;
 
     jacobian[0][2] = ( -sz * cy - cz * sx * sy ) * px + ( -cz * cx ) * py
-                             + ( -sz * sy + cz * sx * cy ) * pz;
+      + ( -sz * sy + cz * sx * cy ) * pz;
     jacobian[1][2] = ( cz * cy - sz * sx * sy ) * px + ( -sz * cx ) * py
-                             + ( cz * sy + sz * sx * cy ) * pz;
+      + ( cz * sy + sz * sx * cy ) * pz;
     jacobian[2][2] = 0;
     }
 
   // compute derivatives for the center of rotation part
   unsigned int blockOffset = 3;
-  for ( unsigned int dim = 0; dim < SpaceDimension; dim++ )
+  for( unsigned int dim = 0; dim < SpaceDimension; dim++ )
     {
     jacobian[dim][blockOffset + dim] = 1.0;
     }
   blockOffset += SpaceDimension;
-
   // compute derivatives for the translation part
-  for ( unsigned int dim = 0; dim < SpaceDimension; dim++ )
+  for( unsigned int dim = 0; dim < SpaceDimension; dim++ )
     {
     jacobian[dim][blockOffset + dim] = 1.0;
     }
 }
 
 // Get an inverse of this transform
-template< class TScalarType >
+template <class TScalarType>
 bool
-CenteredEuler3DTransform< TScalarType >
+CenteredEuler3DTransform<TScalarType>
 ::GetInverse(Self *inverse) const
 {
   return this->Superclass::GetInverse(inverse);
 }
 
 // Return an inverse of this transform
-template< class TScalarType >
-typename CenteredEuler3DTransform< TScalarType >::InverseTransformBasePointer
-CenteredEuler3DTransform< TScalarType >
+template <class TScalarType>
+typename CenteredEuler3DTransform<TScalarType>::InverseTransformBasePointer
+CenteredEuler3DTransform<TScalarType>
 ::GetInverseTransform() const
 {
   Pointer inv = New();
@@ -228,12 +222,13 @@ CenteredEuler3DTransform< TScalarType >
 }
 
 // Print self
-template< class TScalarType >
+template <class TScalarType>
 void
-CenteredEuler3DTransform< TScalarType >::PrintSelf(std::ostream & os, Indent indent) const
+CenteredEuler3DTransform<TScalarType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
+
 } // namespace
 
 #endif

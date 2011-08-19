@@ -53,17 +53,17 @@ namespace itk
  * \ingroup Transforms
  * \ingroup ITKTransform
  */
-template< class TScalarType = double >
+template <class TScalarType = double>
 // Data type for scalars
-class ITK_EXPORT CenteredSimilarity2DTransform:
-  public Similarity2DTransform< TScalarType >
+class ITK_EXPORT CenteredSimilarity2DTransform :
+  public Similarity2DTransform<TScalarType>
 {
 public:
   /** Standard class typedefs. */
-  typedef CenteredSimilarity2DTransform        Self;
-  typedef Similarity2DTransform< TScalarType > Superclass;
-  typedef SmartPointer< Self >                 Pointer;
-  typedef SmartPointer< const Self >           ConstPointer;
+  typedef CenteredSimilarity2DTransform      Self;
+  typedef Similarity2DTransform<TScalarType> Superclass;
+  typedef SmartPointer<Self>                 Pointer;
+  typedef SmartPointer<const Self>           ConstPointer;
 
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro(Self);
@@ -137,15 +137,8 @@ public:
    * \sa Transform::GetFixedParameters() */
   const ParametersType & GetParameters(void) const;
 
-  /** This method computes the Jacobian matrix of the transformation
-   * at a given input point.
-   *
-   * \sa Transform::GetJacobian() */
-  const JacobianType & GetJacobian(const InputPointType  & point) const;
-
   /** Compute the Jacobian Matrix of the transformation at one point */
-  virtual void GetJacobianWithRespectToParameters( const InputPointType  &p,
-                                 JacobianType & jacobian) const;
+  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const;
 
   /** Set the fixed parameters and update internal transformation.
    * This is a null function as there are no fixed parameters. */
@@ -173,16 +166,18 @@ public:
 
 protected:
   CenteredSimilarity2DTransform();
-  CenteredSimilarity2DTransform(unsigned int spaceDimension,
-                                unsigned int parametersDimension);
+  CenteredSimilarity2DTransform(unsigned int spaceDimension, unsigned int parametersDimension);
 
-  ~CenteredSimilarity2DTransform(){}
+  ~CenteredSimilarity2DTransform()
+  {
+  }
   void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  CenteredSimilarity2DTransform(const Self &); //purposely not implemented
-  void operator=(const Self &);                //purposely not implemented
-};                                             //class
+  CenteredSimilarity2DTransform(const Self &); // purposely not implemented
+  void operator=(const Self &);                // purposely not implemented
+
+};                                             // class
                                                // CenteredSimilarity2DTransform
 }  // namespace itk
 
@@ -190,10 +185,10 @@ private:
 #define ITK_TEMPLATE_CenteredSimilarity2DTransform(_, EXPORT, TypeX, TypeY)     \
   namespace itk                                                                 \
   {                                                                             \
-  _( 1 ( class EXPORT CenteredSimilarity2DTransform< ITK_TEMPLATE_1 TypeX > ) ) \
+  _( 1 ( class EXPORT CenteredSimilarity2DTransform<ITK_TEMPLATE_1 TypeX> ) ) \
   namespace Templates                                                           \
   {                                                                             \
-  typedef CenteredSimilarity2DTransform< ITK_TEMPLATE_1 TypeX >                 \
+  typedef CenteredSimilarity2DTransform<ITK_TEMPLATE_1 TypeX>                 \
   CenteredSimilarity2DTransform##TypeY;                                       \
   }                                                                             \
   }

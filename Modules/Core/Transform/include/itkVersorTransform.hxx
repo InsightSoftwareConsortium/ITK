@@ -24,39 +24,38 @@
 namespace itk
 {
 /** Constructor with default arguments */
-template< class TScalarType >
-VersorTransform< TScalarType >
-::VersorTransform():Superclass(OutputSpaceDimension, ParametersDimension)
+template <class TScalarType>
+VersorTransform<TScalarType>
+::VersorTransform() : Superclass(OutputSpaceDimension, ParametersDimension)
 {
   m_Versor.SetIdentity();
 }
 
 /** Constructor with default arguments */
-template< class TScalarType >
-VersorTransform< TScalarType >::VersorTransform(unsigned int spaceDimension,
-                                                unsigned int parametersDimension):
+template <class TScalarType>
+VersorTransform<TScalarType>::VersorTransform(unsigned int spaceDimension, unsigned int parametersDimension) :
   Superclass(spaceDimension, parametersDimension)
 {
   m_Versor.SetIdentity();
 }
 
 /** Constructor with default arguments */
-template< class TScalarType >
-VersorTransform< TScalarType >::VersorTransform(const MatrixType & matrix,
-                                                const OutputVectorType & offset):Superclass(matrix, offset)
+template <class TScalarType>
+VersorTransform<TScalarType>::VersorTransform(const MatrixType & matrix,
+                                              const OutputVectorType & offset) : Superclass(matrix, offset)
 {
   this->ComputeMatrixParameters();  // called in MatrixOffset baseclass
 }
 
 /** Set Parameters */
-template< class TScalarType >
+template <class TScalarType>
 void
-VersorTransform< TScalarType >
+VersorTransform<TScalarType>
 ::SetParameters(const ParametersType & parameters)
 {
   itkDebugMacro(<< "Setting parameters " << parameters);
 
-  //Save parameters. Needed for proper operation of TransformUpdateParameters.
+  // Save parameters. Needed for proper operation of TransformUpdateParameters.
   if( &parameters != &(this->m_Parameters) )
     {
     this->m_Parameters = parameters;
@@ -84,22 +83,22 @@ VersorTransform< TScalarType >
 }
 
 /** Set Parameters */
-template< class TScalarType >
-const typename VersorTransform< TScalarType >::ParametersType &
-VersorTransform< TScalarType >
+template <class TScalarType>
+const typename VersorTransform<TScalarType>::ParametersType
+& VersorTransform<TScalarType>
 ::GetParameters(void) const
-{
+  {
   this->m_Parameters[0] = this->m_Versor.GetRight()[0];
   this->m_Parameters[1] = this->m_Versor.GetRight()[1];
   this->m_Parameters[2] = this->m_Versor.GetRight()[2];
 
   return this->m_Parameters;
-}
+  }
 
 /** Set Rotational Part */
-template< class TScalarType >
+template <class TScalarType>
 void
-VersorTransform< TScalarType >
+VersorTransform<TScalarType>
 ::SetRotation(const VersorType & versor)
 {
   m_Versor = versor;
@@ -108,9 +107,9 @@ VersorTransform< TScalarType >
 }
 
 /** Set Rotational Part */
-template< class TScalarType >
+template <class TScalarType>
 void
-VersorTransform< TScalarType >
+VersorTransform<TScalarType>
 ::SetRotation(const AxisType & axis, AngleType angle)
 {
   m_Versor.Set(axis, angle);
@@ -119,9 +118,9 @@ VersorTransform< TScalarType >
 }
 
 /** Set Identity */
-template< class TScalarType >
+template <class TScalarType>
 void
-VersorTransform< TScalarType >
+VersorTransform<TScalarType>
 ::SetIdentity()
 {
   Superclass::SetIdentity();
@@ -132,9 +131,9 @@ VersorTransform< TScalarType >
 }
 
 /** Compute the matrix */
-template< class TScalarType >
+template <class TScalarType>
 void
-VersorTransform< TScalarType >
+VersorTransform<TScalarType>
 ::ComputeMatrix(void)
 {
   const TScalarType vx = m_Versor.GetX();
@@ -167,27 +166,18 @@ VersorTransform< TScalarType >
 }
 
 /** Compute the matrix */
-template< class TScalarType >
+template <class TScalarType>
 void
-VersorTransform< TScalarType >
+VersorTransform<TScalarType>
 ::ComputeMatrixParameters(void)
 {
   m_Versor.Set( this->GetMatrix() );
 }
 
-/** Get the Jacobian */
-template< class TScalarType >
-const typename VersorTransform< TScalarType >::JacobianType &
-VersorTransform< TScalarType >::GetJacobian(const InputPointType & p) const
-{
-  GetJacobianWithRespectToParameters( p, this->m_Jacobian );
-  return this->m_Jacobian;
-}
-
-template< class TScalarType >
+template <class TScalarType>
 void
-VersorTransform< TScalarType >
-::GetJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
+VersorTransform<TScalarType>
+::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
 {
   typedef typename VersorType::ValueType ValueType;
 
@@ -220,36 +210,37 @@ VersorTransform< TScalarType >
 
   // compute Jacobian with respect to quaternion parameters
   jacobian[0][0] = 2.0 * ( ( vyw + vxz ) * py + ( vzw - vxy ) * pz )
-                           / vw;
+    / vw;
   jacobian[1][0] = 2.0 * ( ( vyw - vxz ) * px   - 2 * vxw   * py + ( vxx - vww ) * pz )
-                           / vw;
+    / vw;
   jacobian[2][0] = 2.0 * ( ( vzw + vxy ) * px + ( vww - vxx ) * py   - 2 * vxw   * pz )
-                           / vw;
+    / vw;
 
   jacobian[0][1] = 2.0 * ( -2 * vyw  * px + ( vxw + vyz ) * py + ( vww - vyy ) * pz )
-                           / vw;
+    / vw;
   jacobian[1][1] = 2.0 * ( ( vxw - vyz ) * px                + ( vzw + vxy ) * pz )
-                           / vw;
+    / vw;
   jacobian[2][1] = 2.0 * ( ( vyy - vww ) * px + ( vzw - vxy ) * py   - 2 * vyw   * pz )
-                           / vw;
+    / vw;
 
   jacobian[0][2] = 2.0 * ( -2 * vzw  * px + ( vzz - vww ) * py + ( vxw - vyz ) * pz )
-                           / vw;
+    / vw;
   jacobian[1][2] = 2.0 * ( ( vww - vzz ) * px   - 2 * vzw   * py + ( vyw + vxz ) * pz )
-                           / vw;
+    / vw;
   jacobian[2][2] = 2.0 * ( ( vxw + vyz ) * px + ( vyw - vxz ) * py )
-                           / vw;
+    / vw;
 }
 
 /** Print self */
-template< class TScalarType >
+template <class TScalarType>
 void
-VersorTransform< TScalarType >::PrintSelf(std::ostream & os, Indent indent) const
+VersorTransform<TScalarType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Versor: " << m_Versor  << std::endl;
 }
+
 } // namespace
 
 #endif

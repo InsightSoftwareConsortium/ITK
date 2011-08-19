@@ -18,7 +18,7 @@
 #ifndef __itkBSplineDeformableTransform_h
 #define __itkBSplineDeformableTransform_h
 
-#include "itkConfigure.h" //Needed to determine value of ITKV3_COMPATIBILITY
+#include "itkConfigure.h" // Needed to determine value of ITKV3_COMPATIBILITY
 #ifdef ITKV3_COMPATIBILITY
 
 #include <iostream>
@@ -110,20 +110,20 @@ namespace itk
  * \wikiexample{Registration/ImageRegistrationMethodBSpline,A global registration of two images}
  * \endwiki
  */
-template<
+template <
   class TScalarType = double,            // Data type for scalars
   unsigned int NDimensions = 3,          // Number of dimensions
-  unsigned int VSplineOrder = 3 >
+  unsigned int VSplineOrder = 3>
 // Spline order
-class ITK_EXPORT BSplineDeformableTransform:
-  public Transform< TScalarType, NDimensions, NDimensions >
+class ITK_EXPORT BSplineDeformableTransform :
+  public Transform<TScalarType, NDimensions, NDimensions>
 {
 public:
   /** Standard class typedefs. */
-  typedef BSplineDeformableTransform                         Self;
-  typedef Transform< TScalarType, NDimensions, NDimensions > Superclass;
-  typedef SmartPointer< Self >                               Pointer;
-  typedef SmartPointer< const Self >                         ConstPointer;
+  typedef BSplineDeformableTransform                       Self;
+  typedef Transform<TScalarType, NDimensions, NDimensions> Superclass;
+  typedef SmartPointer<Self>                               Pointer;
+  typedef SmartPointer<const Self>                         ConstPointer;
 
   /** New macro for creation of through the object factory. */
   static Pointer New(void);
@@ -151,28 +151,28 @@ public:
   typedef typename Superclass::JacobianType JacobianType;
 
   /** Standard vector type for this class. */
-  typedef Vector< TScalarType,
-                  itkGetStaticConstMacro(SpaceDimension) > InputVectorType;
-  typedef Vector< TScalarType,
-                  itkGetStaticConstMacro(SpaceDimension) > OutputVectorType;
+  typedef Vector<TScalarType,
+                 itkGetStaticConstMacro(SpaceDimension)> InputVectorType;
+  typedef Vector<TScalarType,
+                 itkGetStaticConstMacro(SpaceDimension)> OutputVectorType;
 
   /** Standard covariant vector type for this class. */
-  typedef CovariantVector< TScalarType,
-                           itkGetStaticConstMacro(SpaceDimension) > InputCovariantVectorType;
-  typedef CovariantVector< TScalarType,
-                           itkGetStaticConstMacro(SpaceDimension) > OutputCovariantVectorType;
+  typedef CovariantVector<TScalarType,
+                          itkGetStaticConstMacro(SpaceDimension)> InputCovariantVectorType;
+  typedef CovariantVector<TScalarType,
+                          itkGetStaticConstMacro(SpaceDimension)> OutputCovariantVectorType;
 
   /** Standard vnl_vector type for this class. */
-  typedef vnl_vector_fixed< TScalarType,
-                            itkGetStaticConstMacro(SpaceDimension) > InputVnlVectorType;
-  typedef vnl_vector_fixed< TScalarType,
-                            itkGetStaticConstMacro(SpaceDimension) > OutputVnlVectorType;
+  typedef vnl_vector_fixed<TScalarType,
+                           itkGetStaticConstMacro(SpaceDimension)> InputVnlVectorType;
+  typedef vnl_vector_fixed<TScalarType,
+                           itkGetStaticConstMacro(SpaceDimension)> OutputVnlVectorType;
 
   /** Standard coordinate point type for this class. */
-  typedef Point< TScalarType,
-                 itkGetStaticConstMacro(SpaceDimension) > InputPointType;
-  typedef Point< TScalarType,
-                 itkGetStaticConstMacro(SpaceDimension) > OutputPointType;
+  typedef Point<TScalarType,
+                itkGetStaticConstMacro(SpaceDimension)> InputPointType;
+  typedef Point<TScalarType,
+                itkGetStaticConstMacro(SpaceDimension)> OutputPointType;
 
   /** This method sets the parameters of the transform.
    * For a BSpline deformation transform, the parameters are the BSpline
@@ -249,16 +249,20 @@ public:
   virtual const ParametersType & GetFixedParameters(void) const;
 
   /** Parameters as SpaceDimension number of images. */
-  typedef typename ParametersType::ValueType                         ParametersValueType;
-  typedef Image< ParametersValueType, itkGetStaticConstMacro(SpaceDimension) > ImageType;
-  typedef typename ImageType::Pointer                                ImagePointer;
-  typedef typename itk::FixedArray<ImagePointer,NDimensions>         CoefficientImageArray;
+  typedef typename ParametersType::ValueType                                 ParametersValueType;
+  typedef Image<ParametersValueType, itkGetStaticConstMacro(SpaceDimension)> ImageType;
+  typedef typename ImageType::Pointer                                        ImagePointer;
+  typedef typename itk::FixedArray<ImagePointer, NDimensions>                CoefficientImageArray;
 
   /** Get the array of coefficient images. */
   virtual CoefficientImageArray GetCoefficientImage()
-  { return m_CoefficientImage; }
+  {
+    return m_CoefficientImage;
+  }
   virtual const CoefficientImageArray GetCoefficientImage() const
-  { return m_CoefficientImage; }
+  {
+    return m_CoefficientImage;
+  }
 
   /** Set the array of coefficient images.
    *
@@ -275,7 +279,7 @@ public:
   virtual void SetCoefficientImage(const CoefficientImageArray & images);
 
   /** Typedefs for specifying the extent of the grid. */
-  typedef ImageRegion< itkGetStaticConstMacro(SpaceDimension) > RegionType;
+  typedef ImageRegion<itkGetStaticConstMacro(SpaceDimension)> RegionType;
 
   typedef typename RegionType::IndexType    IndexType;
   typedef typename RegionType::SizeType     SizeType;
@@ -304,8 +308,8 @@ public:
   itkGetConstMacro(GridOrigin, OriginType);
 
   /** Typedef of the bulk transform. */
-  typedef Transform< ScalarType, itkGetStaticConstMacro(SpaceDimension),
-                     itkGetStaticConstMacro(SpaceDimension) > BulkTransformType;
+  typedef Transform<ScalarType, itkGetStaticConstMacro(SpaceDimension),
+                    itkGetStaticConstMacro(SpaceDimension)> BulkTransformType;
   typedef typename BulkTransformType::ConstPointer BulkTransformPointer;
 
   /** This method specifies the bulk transform to be applied.
@@ -318,15 +322,15 @@ public:
   OutputPointType  TransformPoint(const InputPointType  & point) const;
 
   /** Interpolation weights function type. */
-  typedef BSplineInterpolationWeightFunction< ScalarType,
-                                              itkGetStaticConstMacro(SpaceDimension),
-                                              itkGetStaticConstMacro(SplineOrder) > WeightsFunctionType;
+  typedef BSplineInterpolationWeightFunction<ScalarType,
+                                             itkGetStaticConstMacro(SpaceDimension),
+                                             itkGetStaticConstMacro(SplineOrder)> WeightsFunctionType;
   typedef typename WeightsFunctionType::WeightsType WeightsType;
   typedef typename WeightsFunctionType::ContinuousIndexType
   ContinuousIndexType;
 
   /** Parameter index array type. */
-  typedef Array< unsigned long > ParameterIndexArrayType;
+  typedef Array<unsigned long> ParameterIndexArrayType;
 
   /** Transform points by a BSpline deformable transformation.
    * On return, weights contains the interpolation weights used to compute the
@@ -335,21 +339,17 @@ public:
    * Parameter indices for the i-th dimension can be obtained by adding
    * ( i * this->GetNumberOfParametersPerDimension() ) to the indices array.
    */
-  virtual void TransformPoint(const InputPointType & inputPoint,
-                              OutputPointType & outputPoint,
-                              WeightsType & weights,
+  virtual void TransformPoint(const InputPointType & inputPoint, OutputPointType & outputPoint, WeightsType & weights,
                               ParameterIndexArrayType & indices,
                               bool & inside) const;
 
-  virtual void GetJacobian(const InputPointType & inputPoint,
-                           WeightsType & weights,
-                           ParameterIndexArrayType & indices
-                           ) const;
-
   /** Get number of weights. */
   unsigned long GetNumberOfWeights() const
-  { return m_WeightsFunction->GetNumberOfWeights(); }
+  {
+    return m_WeightsFunction->GetNumberOfWeights();
+  }
 
+  using Superclass::TransformVector;
   /** Method to transform a vector -
    *  not applicable for this type of transform. */
   virtual OutputVectorType TransformVector(const InputVectorType &) const
@@ -366,6 +366,7 @@ public:
     return OutputVnlVectorType();
   }
 
+  using Superclass::TransformCovariantVector;
   /** Method to transform a CovariantVector -
    *  not applicable for this type of transform */
   virtual OutputCovariantVectorType TransformCovariantVector(
@@ -375,20 +376,19 @@ public:
     return OutputCovariantVectorType();
   }
 
-  /** Compute the Jacobian Matrix of the transformation at one point */
-  virtual const JacobianType & GetJacobian(const InputPointType  & point) const;
+  /** Get Jacobian at a point. A very specialized function just for BSplines */
+  virtual void ComputeJacobianFromBSplineWeightsWithRespectToPosition(const InputPointType & inputPoint,
+                                                                      WeightsType & weights,
+                                                                      ParameterIndexArrayType & indices) const;
+
+  virtual void ComputeJacobianWithRespectToParameters(const InputPointType  & p, JacobianType & jacobian) const;
 
   /** NOT IMPLEMENTED: */
-  virtual void GetJacobianWithRespectToParameters(const InputPointType  &p,
-                                                  JacobianType &j) const
-  { itkExceptionMacro("GetJacobianWithRespectToParameters "
-                      "not yet implemented."); }
-
-  /** NOT IMPLEMENTED: */
-  virtual void GetJacobianWithRespectToPosition(const InputPointType  &p,
-                                                  JacobianType &j) const
-  { itkExceptionMacro("GetJacobianWithRespectToPosition "
-                      "not yet implemented."); }
+  virtual void ComputeJacobianWithRespectToPosition(const InputPointType  & itkNotUsed(p),
+                                                    JacobianType & itkNotUsed(jacobian) ) const
+  {
+    itkExceptionMacro("ComputeJacobianWithRespectToPosition not yet implemented.");
+  }
 
   /** Return the number of parameters that completely define the Transfom */
   virtual unsigned int GetNumberOfParameters(void) const;
@@ -398,7 +398,9 @@ public:
 
   /** Return the number of local parameters */
   virtual unsigned int GetNumberOfLocalParameters(void) const
-  { itkExceptionMacro("GetNumberOfLocalParameters not yet implemented."); }
+  {
+    itkExceptionMacro("GetNumberOfLocalParameters not yet implemented.");
+  }
 
   /** Return the region of the grid wholly within the support region */
   itkGetConstReferenceMacro(ValidRegion, RegionType);
@@ -408,7 +410,10 @@ public:
    *
    *           T( a*P + b*Q ) = a * T(P) + b * T(Q)
    */
-  virtual bool IsLinear() const { return false; }
+  virtual bool IsLinear() const
+  {
+    return false;
+  }
 
   unsigned int GetNumberOfAffectedWeights() const;
 
@@ -428,15 +433,21 @@ protected:
 
 private:
   void SetFixedParametersRegionFromCoefficientImageInformation() const;
+
   void SetFixedParametersOriginFromCoefficientImageInformation() const;
+
   void SetFixedParametersSpacingFromCoefficientImageInformation() const;
+
   void SetFixedParametersDirectionFromCoefficientImageInformation() const;
+
   void SetFixedParametersFromCoefficientImageInformation() const;
+
   void SetCoefficientImageInformationFromFixedParameters();
+
   void UpdateValidGridRegion();
 
-  BSplineDeformableTransform(const Self &); //purposely not implemented
-  void operator=(const Self &);             //purposely not implemented
+  BSplineDeformableTransform(const Self &); // purposely not implemented
+  void operator=(const Self &);             // purposely not implemented
 
   CoefficientImageArray ArrayOfImagePointerGeneratorHelper(void) const;
 
@@ -452,7 +463,7 @@ private:
   IndexType     m_ValidRegionLast;
   IndexType     m_ValidRegionFirst;
 
-  //NOTE:  There is a natural duality between the
+  // NOTE:  There is a natural duality between the
   //       two representations of of the coefficients
   //       whereby the m_InternalParametersBuffer is
   //       needed to fit into the optimization framework
@@ -476,9 +487,9 @@ private:
    * through the pointers (although it does enforce some
    * internal class syncronization).
    */
-  const RegionType    & m_GridRegion;
-  const OriginType    & m_GridOrigin;
-  const SpacingType   & m_GridSpacing;
+  const RegionType &    m_GridRegion;
+  const OriginType &    m_GridOrigin;
+  const SpacingType &   m_GridSpacing;
   const DirectionType & m_GridDirection;
 
   /** Keep a pointer to the input parameters. */
@@ -489,43 +500,45 @@ private:
 
   /** Jacobian as SpaceDimension number of images. */
   typedef typename JacobianType::ValueType JacobianPixelType;
-  typedef Image< JacobianPixelType,
-                 itkGetStaticConstMacro(SpaceDimension) > JacobianImageType;
-  typedef typename itk::FixedArray<typename JacobianImageType::Pointer,NDimensions> JacobianImageArrayType;
+  typedef Image<JacobianPixelType,
+                itkGetStaticConstMacro(SpaceDimension)> JacobianImageType;
+  typedef typename itk::FixedArray<typename JacobianImageType::Pointer, NDimensions> JacobianImageArrayType;
 
   JacobianImageArrayType m_JacobianImage;
 
   /** Keep track of last support region used in computing the Jacobian
    * for fast resetting of Jacobian to zero.
    */
-  mutable IndexType m_LastJacobianIndex;
+  mutable IndexType    m_LastJacobianIndex;
+  mutable JacobianType m_SharedDataBSplineJacobian;
 
   /** Pointer to function used to compute Bspline interpolation weights. */
   typename WeightsFunctionType::Pointer m_WeightsFunction;
 
   /** Check if a continuous index is inside the valid region. */
   bool InsideValidRegion(const ContinuousIndexType & index) const;
-}; //class BSplineDeformableTransform
+
+}; // class BSplineDeformableTransform
 }  // namespace itk
 
 // Define instantiation macro for this template.
 #define ITK_TEMPLATE_BSplineDeformableTransform(_, EXPORT, TypeX, TypeY)     \
   namespace itk                                                              \
   {                                                                          \
-  _( 3 ( class EXPORT BSplineDeformableTransform< ITK_TEMPLATE_3 TypeX > ) ) \
+  _( 3 ( class EXPORT BSplineDeformableTransform<ITK_TEMPLATE_3 TypeX> ) ) \
   namespace Templates                                                        \
   {                                                                          \
-  typedef BSplineDeformableTransform< ITK_TEMPLATE_3 TypeX >                 \
+  typedef BSplineDeformableTransform<ITK_TEMPLATE_3 TypeX>                 \
   BSplineDeformableTransform##TypeY;                                       \
   }                                                                          \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-//template < class TScalarType, unsigned int NDimensions, unsigned int
+// template < class TScalarType, unsigned int NDimensions, unsigned int
 // VSplineOrder >
 //   const unsigned int itk::BSplineDeformableTransform<TScalarType,
 // NDimensions, VSplineOrder >::SpaceDimension;
-//template < class TScalarType, unsigned int NDimensions, unsigned int
+// template < class TScalarType, unsigned int NDimensions, unsigned int
 // VSplineOrder >
 //   const unsigned int itk::BSplineDeformableTransform<TScalarType,
 // NDimensions, VSplineOrder >::SplineOrder;
@@ -536,8 +549,8 @@ private:
 #include "itkBSplineDeformableTransform.hxx"
 #endif
 
-
 #else  // def ITKV3_COMPATIBILITY
-#error "itkBSplineDeformableTransform.h should only be included for ITKv3 compatibility. Build with ITKV3_COMPATIBILITY=ON to use this"
+#error \
+  "itkBSplineDeformableTransform.h should only be included for ITKv3 compatibility. Build with ITKV3_COMPATIBILITY=ON to use this"
 #endif // def ITKV3_COMPATIBILITY
 #endif /* __itkBSplineDeformableTransform_h */
