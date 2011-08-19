@@ -121,7 +121,8 @@ public:
     {
     LevelSetDataType() : Value( "Value" ), Gradient( "Gradient" ),
       Hessian( "Hessian" ), Laplacian( "Laplacian" ),
-      GradientNorm( "GradientNorm" ), MeanCurvature( "MeanCurvature" )
+      GradientNorm( "GradientNorm" ), MeanCurvature( "MeanCurvature" ),
+      ForwardGradient( "ForwardGradient" ), BackwardGradient( "BackwardGradient" )
       {
       Value.m_Value = NumericTraits< OutputType >::Zero;
       Gradient.m_Value.Fill( NumericTraits< OutputRealType >::Zero );

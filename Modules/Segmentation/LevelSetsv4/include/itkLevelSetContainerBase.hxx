@@ -37,6 +37,22 @@ LevelSetContainerBase< TIdentifier, TLevelSet >
 }
 
 template< class TIdentifier, class TLevelSet >
+const typename
+LevelSetContainerBase< TIdentifier, TLevelSet >::LevelSetContainerType&
+LevelSetContainerBase< TIdentifier, TLevelSet >::GetContainer() const
+{
+  return m_Container;
+}
+
+template< class TIdentifier, class TLevelSet >
+void
+LevelSetContainerBase< TIdentifier, TLevelSet >
+::SetContainer(const LevelSetContainerType &iContainer)
+{
+  m_Container = iContainer;
+}
+
+template< class TIdentifier, class TLevelSet >
 typename LevelSetContainerBase< TIdentifier, TLevelSet >::Iterator
 LevelSetContainerBase< TIdentifier, TLevelSet >::Begin()
 {
@@ -102,17 +118,26 @@ bool LevelSetContainerBase< TIdentifier, TLevelSet >
     }
   else
     {
-    LevelSetContainerIteratorType it = m_Container.find( iId );
-
-    if( it != m_Container.end() )
-      {
-      return false;
-      }
-    else
+    if( m_Container.empty() )
       {
       m_Container.insert( LevelSetPairType( iId, iLevelSet ) );
       this->Modified();
       return true;
+      }
+    else
+      {
+      LevelSetContainerIteratorType it = m_Container.find( iId );
+
+      if( it != m_Container.end() )
+        {
+        return false;
+        }
+      else
+        {
+        m_Container.insert( LevelSetPairType( iId, iLevelSet ) );
+        this->Modified();
+        return true;
+        }
       }
     }
 }

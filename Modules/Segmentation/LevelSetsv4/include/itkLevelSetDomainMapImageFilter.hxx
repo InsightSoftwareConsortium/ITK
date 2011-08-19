@@ -55,6 +55,8 @@ ComputeConsistentRegion( const InputImageRegionType & inputRegion ) const
 
   do
     {
+    regionWasModified = false;
+
     InputConstIteratorType  iIt( input, subRegion );
     OutputConstIteratorType oIt( output, subRegion );
 

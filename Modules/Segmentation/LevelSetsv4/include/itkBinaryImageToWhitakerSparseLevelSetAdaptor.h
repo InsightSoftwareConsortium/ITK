@@ -125,7 +125,7 @@ protected:
   typedef ShapedNeighborhoodIterator< InternalImageType > NeighborhoodIteratorType;
 
   /** Fill layer adjacent (OutputLayer) to the layer (LayerToBeScanned) */
-  void PropagateToOutterLayers( LayerIdType LayerToBeScanned, LayerIdType OutputLayer, LayerIdType TestValue );
+  void PropagateToOuterLayers( LayerIdType LayerToBeScanned, LayerIdType OutputLayer, LayerIdType TestValue );
 
   /** Fill the layer corresponding to zero level set */
   void FindActiveLayer();

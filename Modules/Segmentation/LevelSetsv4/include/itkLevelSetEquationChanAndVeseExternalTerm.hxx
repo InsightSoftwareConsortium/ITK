@@ -28,6 +28,7 @@ LevelSetEquationChanAndVeseExternalTerm< TInput, TLevelSetContainer >
 ::LevelSetEquationChanAndVeseExternalTerm()
 {
   this->m_TermName = "External Chan And Vese term";
+  this->m_RequiredData.insert( "Value" );
 }
 
 template< class TInput, class TLevelSetContainer >

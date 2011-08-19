@@ -281,9 +281,6 @@ LevelSetImageBase< TImage >
   InputType pA = iP;
   InputType pB = iP;
 
-  GradientType dx_forward;
-  GradientType dx_backward;
-
   const RegionType largestRegion = this->m_Image->GetLargestPossibleRegion();
 
   for( unsigned int dim = 0; dim < Dimension; dim++ )

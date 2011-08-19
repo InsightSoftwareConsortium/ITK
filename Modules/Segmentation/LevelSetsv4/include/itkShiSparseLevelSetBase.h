@@ -162,6 +162,9 @@ public:
   virtual void SetLabelMap( LabelMapType* iLabelMap );
   itkGetObjectMacro( LabelMap, LabelMapType );
 
+  /** Graft data object as level set object */
+  virtual void Graft( const DataObject* data );
+
 protected:
 
   ShiSparseLevelSetBase();
@@ -183,9 +186,6 @@ private:
 
   /** Copy level set information from data object */
   virtual void CopyInformation( const DataObject* data );
-
-  /** Graft data object as level set object */
-  virtual void Graft( const DataObject* data );
 
   ShiSparseLevelSetBase( const Self& ); //purposely not implemented
   void operator = ( const Self& ); //purposely not implemented

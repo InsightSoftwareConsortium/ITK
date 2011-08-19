@@ -60,22 +60,22 @@ void BinaryImageToWhitakerSparseLevelSetAdaptor< TInputImage, TLevelSetValueType
   innerPart->SetLabel( LevelSetType::MinusThreeLayer() );
 
   // Precondition labelmap and phi
-  InputIteratorType iIt( this->m_InputImage, this->m_InputImage->GetLargestPossibleRegion() );
-  iIt.GoToBegin();
+  InputIteratorType inputIt( this->m_InputImage, this->m_InputImage->GetLargestPossibleRegion() );
+  inputIt.GoToBegin();
 
-  InternalIteratorType labelIt( this->m_InternalImage,
+  InternalIteratorType internalIt( this->m_InternalImage,
                                 this->m_InternalImage->GetLargestPossibleRegion() );
-  labelIt.GoToBegin();
+  internalIt.GoToBegin();
 
-  while( !iIt.IsAtEnd() )
+  while( !inputIt.IsAtEnd() )
     {
-    if ( iIt.Get() != NumericTraits< InputImagePixelType >::Zero )
+    if ( inputIt.Get() != NumericTraits< InputImagePixelType >::Zero )
       {
-      innerPart->AddIndex( iIt.GetIndex() );
-      labelIt.Set( LevelSetType::MinusThreeLayer() );
+      innerPart->AddIndex( inputIt.GetIndex() );
+      internalIt.Set( LevelSetType::MinusThreeLayer() );
       }
-    ++labelIt;
-    ++iIt;
+    ++internalIt;
+    ++inputIt;
     }
 
   innerPart->Optimize();
@@ -85,10 +85,10 @@ void BinaryImageToWhitakerSparseLevelSetAdaptor< TInputImage, TLevelSetValueType
 
   FindPlusOneMinusOneLayer();
 
-  PropagateToOutterLayers( LevelSetType::MinusOneLayer(),
+  PropagateToOuterLayers( LevelSetType::MinusOneLayer(),
                           LevelSetType::MinusTwoLayer(),
                           LevelSetType::MinusThreeLayer() );
-  PropagateToOutterLayers( LevelSetType::PlusOneLayer(),
+  PropagateToOuterLayers( LevelSetType::PlusOneLayer(),
                           LevelSetType::PlusTwoLayer(),
                           LevelSetType::PlusThreeLayer() );
 
@@ -102,7 +102,7 @@ void BinaryImageToWhitakerSparseLevelSetAdaptor< TInputImage, TLevelSetValueType
 
 template< class TInputImage, typename TLevelSetValueType >
 void BinaryImageToWhitakerSparseLevelSetAdaptor< TInputImage, TLevelSetValueType >
-::PropagateToOutterLayers( LayerIdType layerToBeScanned, LayerIdType outputLayer, LayerIdType testValue )
+::PropagateToOuterLayers( LayerIdType layerToBeScanned, LayerIdType outputLayer, LayerIdType testValue )
 {
   const LevelSetLayerType layerPlus1 = this->m_SparseLevelSet->GetLayer( layerToBeScanned );
 
@@ -262,8 +262,8 @@ void BinaryImageToWhitakerSparseLevelSetAdaptor< TInputImage, TLevelSetValueType
   const LevelSetOutputType plus1 = NumericTraits< LevelSetOutputType >::One;
 
   const LevelSetLayerType layer0 = this->m_SparseLevelSet->GetLayer( LevelSetType::ZeroLayer() );
-  LevelSetLayerType& layerMinus1 = this->m_SparseLevelSet->GetLayer( LevelSetType::MinusOneLayer() );
-  LevelSetLayerType& layerPlus1 = this->m_SparseLevelSet->GetLayer( LevelSetType::PlusOneLayer() );
+  LevelSetLayerType & layerMinus1 = this->m_SparseLevelSet->GetLayer( LevelSetType::MinusOneLayer() );
+  LevelSetLayerType & layerPlus1 = this->m_SparseLevelSet->GetLayer( LevelSetType::PlusOneLayer() );
 
   typename NeighborhoodIteratorType::RadiusType radius;
   radius.Fill( 1 );
@@ -294,8 +294,8 @@ void BinaryImageToWhitakerSparseLevelSetAdaptor< TInputImage, TLevelSetValueType
   while( nodeIt != nodeEnd )
     {
     LevelSetInputType idx = nodeIt->first;
-    neighIt.SetLocation( idx );
 
+    neighIt.SetLocation( idx );
     for( typename NeighborhoodIteratorType::Iterator it = neighIt.Begin();
          !it.IsAtEnd();
          ++it )
@@ -305,14 +305,14 @@ void BinaryImageToWhitakerSparseLevelSetAdaptor< TInputImage, TLevelSetValueType
         LevelSetInputType tempIndex =
           neighIt.GetIndex( it.GetNeighborhoodOffset() );
 
-        layerMinus1.insert( LayerPairType( tempIndex, minus1 ) );
+        layerPlus1.insert( LayerPairType( tempIndex, plus1 ) );
         }
-      if( it.Get() == LevelSetType::PlusThreeLayer() )
+      if( it.Get() == LevelSetType::MinusThreeLayer() )
         {
         LevelSetInputType tempIndex =
           neighIt.GetIndex( it.GetNeighborhoodOffset() );
 
-        layerPlus1.insert( LayerPairType( tempIndex, plus1 ) );
+        layerMinus1.insert( LayerPairType( tempIndex, minus1 ) );
         }
       }
     ++nodeIt;
@@ -336,7 +336,7 @@ void BinaryImageToWhitakerSparseLevelSetAdaptor< TInputImage, TLevelSetValueType
   this->m_LabelMap->AddLabelObject( ObjectMinus1 );
 
   LevelSetLabelObjectPointer ObjectPlus1 = LevelSetLabelObjectType::New();
-  ObjectPlus1->SetLabel( LevelSetType::MinusOneLayer() );
+  ObjectPlus1->SetLabel( LevelSetType::PlusOneLayer() );
 
   nodeIt = layerPlus1.begin();
   nodeEnd = layerPlus1.end();

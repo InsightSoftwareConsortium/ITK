@@ -80,6 +80,9 @@ public:
   typedef typename LevelSetType::ImageType    LevelSetImageType;
   typedef typename LevelSetImageType::Pointer LevelSetImagePointer;
 
+  /** Compute information from data object and/or allocate new level set image */
+  void CopyInformationAndAllocate( const Self * iOther, const bool & iAllocate );
+
 protected:
   DenseLevelSetContainer();
   ~DenseLevelSetContainer();
@@ -88,8 +91,6 @@ private:
   DenseLevelSetContainer( const Self & ); // purposely not implemented
   void operator = ( const Self & ); // purposely not implemented
 
-  /** Compute information from data object and/or allocate new level set image */
-  void CopyInformationAndAllocate( const Self * iOther, const bool & iAllocate );
 };
 }
 

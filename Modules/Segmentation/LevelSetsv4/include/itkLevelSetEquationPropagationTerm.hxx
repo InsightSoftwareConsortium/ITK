@@ -32,7 +32,8 @@ LevelSetEquationPropagationTerm< TInput, TLevelSetContainer >
     m_NeighborhoodScales[i] = 1.0;
     }
   this->m_TermName = "Propagation term";
-  this->m_RequiredData.insert( "Gradient" );
+  this->m_RequiredData.insert( "BackwardGradient" );
+  this->m_RequiredData.insert( "ForwardGradient" );
 }
 
 template< class TInput, class TLevelSetContainer >

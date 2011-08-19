@@ -64,10 +64,10 @@ public:
   LevelSetContainerType * GetLevelSetContainer() const;
 
   /** Add a equation to the system of equations in the EquationContainer map */
-  void AddEquation( LevelSetIdentifierType iId, TermContainerType * iEquation );
+  void AddEquation( const LevelSetIdentifierType& iId, TermContainerType * iEquation );
 
   /** Return a pointer to the equation of given id */
-  TermContainerType * GetEquation( LevelSetIdentifierType iId ) const;
+  TermContainerType * GetEquation( const LevelSetIdentifierType& iId ) const;
 
   /** Update the equation container recursively by calling update on individual equations */
   void UpdateInternalEquationTerms();

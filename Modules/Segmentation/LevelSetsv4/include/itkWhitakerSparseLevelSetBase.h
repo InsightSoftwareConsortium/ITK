@@ -173,6 +173,12 @@ static inline LayerIdType PlusThreeLayer() { return 3; }
   virtual void SetLabelMap( LabelMapType* iLabelMap );
   itkGetObjectMacro( LabelMap, LabelMapType );
 
+  /** Copy level set information from data object */
+  virtual void CopyInformation( const DataObject* data );
+
+  /** Graft data object as level set object */
+  virtual void Graft( const DataObject* data );
+
 protected:
 
   WhitakerSparseLevelSetBase();
@@ -190,12 +196,6 @@ protected:
 private:
   /** Initialize the label map point and the sparse-field layers */
   virtual void Initialize();
-
-  /** Copy level set information from data object */
-  virtual void CopyInformation( const DataObject* data );
-
-  /** Graft data object as level set object */
-  virtual void Graft( const DataObject* data );
 
   WhitakerSparseLevelSetBase( const Self& ); // purposely not implemented
   void operator = ( const Self& ); // purposely not implemented

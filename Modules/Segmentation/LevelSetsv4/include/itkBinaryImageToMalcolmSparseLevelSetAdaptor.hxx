@@ -59,22 +59,22 @@ void BinaryImageToMalcolmSparseLevelSetAdaptor< TInputImage >
   innerPart->SetLabel( LevelSetType::MinusOneLayer() );
 
   // Precondition labelmap and phi
-  InputIteratorType iIt( this->m_InputImage, this->m_InputImage->GetLargestPossibleRegion() );
-  iIt.GoToBegin();
+  InputIteratorType inputIt( this->m_InputImage, this->m_InputImage->GetLargestPossibleRegion() );
+  inputIt.GoToBegin();
 
-  InternalIteratorType labelIt( this->m_InternalImage,
+  InternalIteratorType internalIt( this->m_InternalImage,
                                 this->m_InternalImage->GetLargestPossibleRegion() );
-  labelIt.GoToBegin();
+  internalIt.GoToBegin();
 
-  while( !iIt.IsAtEnd() )
+  while( !inputIt.IsAtEnd() )
     {
-    if ( iIt.Get() != NumericTraits< InputImagePixelType >::Zero )
+    if ( inputIt.Get() != NumericTraits< InputImagePixelType >::Zero )
       {
-      innerPart->AddIndex( iIt.GetIndex() );
-      labelIt.Set( LevelSetType::MinusOneLayer() );
+      innerPart->AddIndex( inputIt.GetIndex() );
+      internalIt.Set( LevelSetType::MinusOneLayer() );
       }
-    ++labelIt;
-    ++iIt;
+    ++internalIt;
+    ++inputIt;
     }
 
   innerPart->Optimize();
@@ -207,12 +207,11 @@ void BinaryImageToMalcolmSparseLevelSetAdaptor< TInputImage >
     bool hasNegativeLayerNeighbor = false;
 
     for( typename NeighborhoodIteratorType::Iterator
-        i = neighIt.Begin();
-        !i.IsAtEnd(); ++i )
+        i = neighIt.Begin(); !i.IsAtEnd(); ++i )
       {
-      char tempValue = i.Get();
+      LayerIdType tempValue = i.Get();
 
-      if( tempValue != NumericTraits< LevelSetOutputType >::Zero )
+      if( tempValue != NumericTraits< LayerIdType >::Zero )
         {
         if( tempValue == LevelSetType::MinusOneLayer() )
           {
@@ -239,8 +238,8 @@ void BinaryImageToMalcolmSparseLevelSetAdaptor< TInputImage >
       ++nodeIt;
       list_0.erase( tempIt );
 
-      this->m_LabelMap->GetLabelObject( LevelSetType::ZeroLayer() )->RemoveIndex( tempIt->first );
-      this->m_LabelMap->GetLabelObject( LevelSetType::MinusOneLayer() )->AddIndex( tempIt->first );
+      this->m_LabelMap->GetLabelObject( LevelSetType::ZeroLayer() )->RemoveIndex( currentIdx );
+      this->m_LabelMap->GetLabelObject( LevelSetType::MinusOneLayer() )->AddIndex( currentIdx );
       }
     else
       {
@@ -250,7 +249,7 @@ void BinaryImageToMalcolmSparseLevelSetAdaptor< TInputImage >
         ++nodeIt;
         list_0.erase( tempIt );
 
-        this->m_LabelMap->GetLabelObject( LevelSetType::PlusOneLayer() )->RemoveIndex( tempIt->first );
+        this->m_LabelMap->GetLabelObject( LevelSetType::ZeroLayer() )->RemoveIndex( currentIdx );
         }
       else
         {
