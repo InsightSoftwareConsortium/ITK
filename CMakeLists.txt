@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
 if( "${CMAKE_GENERATOR}" MATCHES "Visual Studio 10" )
-  cmake_minimum_required(VERSION 2.8.5)
+  cmake_minimum_required(VERSION 2.8.4)
 endif()
 
 project(ITK)
