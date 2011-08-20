@@ -15,14 +15,14 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFFTRealToComplexConjugateImageFilter_h
-#define __itkFFTRealToComplexConjugateImageFilter_h
+#ifndef __itkForwardFFTImageFilter_h
+#define __itkForwardFFTImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
 namespace itk
 {
-/** \class FFTRealToComplexConjugateImageFilter
+/** \class ForwardFFTImageFilter
  *
  * \brief Base class for "Forward" Fast Fourier Transform.
  *
@@ -41,11 +41,11 @@ namespace itk
  *
  * \ingroup FourierTransform
  *
- * \sa FFTComplexConjugateToRealImageFilter, FFTComplexToComplexImageFilter
+ * \sa InverseFFTImageFilter, FFTComplexToComplexImageFilter
  * \ingroup ITKFFT
  */
 template< class TInputImage, class TOutputImage=Image< std::complex<typename TInputImage::PixelType>, TInputImage::ImageDimension> >
-class ITK_EXPORT FFTRealToComplexConjugateImageFilter:
+class ITK_EXPORT ForwardFFTImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
@@ -59,13 +59,13 @@ public:
   typedef typename OutputImageType::IndexType  OutputIndexType;
   typedef typename OutputIndexType::SizeType   OutputSizeType;
 
-  typedef FFTRealToComplexConjugateImageFilter                    Self;
-  typedef ImageToImageFilter< InputImageType, OutputImageType >   Superclass;
-  typedef SmartPointer< Self >                                    Pointer;
-  typedef SmartPointer< const Self >                              ConstPointer;
+  typedef ForwardFFTImageFilter                                 Self;
+  typedef ImageToImageFilter< InputImageType, OutputImageType > Superclass;
+  typedef SmartPointer< Self >                                  Pointer;
+  typedef SmartPointer< const Self >                            ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FFTRealToComplexConjugateImageFilter, ImageToImageFilter);
+  itkTypeMacro(ForwardFFTImageFilter, ImageToImageFilter);
 
   /** Customized object creation methods that support configuration-based
     * selection of FFT implementation.
@@ -74,8 +74,8 @@ public:
   static Pointer New(void);
 
 protected:
-  FFTRealToComplexConjugateImageFilter() {}
-  virtual ~FFTRealToComplexConjugateImageFilter() {}
+  ForwardFFTImageFilter() {}
+  virtual ~ForwardFFTImageFilter() {}
 
   /** The output may be a different size from the input if complex conjugate
    * symmetry is implicit. */
@@ -92,17 +92,17 @@ protected:
   virtual bool FullMatrix() = 0; // must be implemented in child
 
 private:
-  FFTRealToComplexConjugateImageFilter(const Self &); //purposely not implemented
+  ForwardFFTImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                       //purposely not implemented
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#ifndef __itkVnlFFTRealToComplexConjugateImageFilter_h
-#ifndef __itkVnlFFTRealToComplexConjugateImageFilter_hxx
-#ifndef __itkFFTWRealToComplexConjugateImageFilter_h
-#ifndef __itkFFTWRealToComplexConjugateImageFilter_hxx
-#include "itkFFTRealToComplexConjugateImageFilter.hxx"
+#ifndef __itkVnlForwardFFTImageFilter_h
+#ifndef __itkVnlForwardFFTImageFilter_hxx
+#ifndef __itkFFTWForwardFFTImageFilter_h
+#ifndef __itkFFTWForwardFFTImageFilter_hxx
+#include "itkForwardFFTImageFilter.hxx"
 #endif
 #endif
 #endif

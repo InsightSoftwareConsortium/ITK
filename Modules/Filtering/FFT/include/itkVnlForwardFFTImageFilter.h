@@ -15,34 +15,33 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVnlFFTComplexConjugateToRealImageFilter_h
-#define __itkVnlFFTComplexConjugateToRealImageFilter_h
+#ifndef __itkVnlForwardFFTImageFilter_h
+#define __itkVnlForwardFFTImageFilter_h
 
-#include "itkFFTComplexConjugateToRealImageFilter.h"
-
-#include "itkImage.h"
+#include "itkForwardFFTImageFilter.h"
 
 namespace itk
 {
-/** \class VnlFFTComplexConjugateToRealImageFilter
+/** \class VnlForwardFFTImageFilter
  *
- * \brief VNL based reverse Fast Fourier Transform.
+ * \brief VNL based forward Fast Fourier Transform.
  *
  * The input image size must be a multiple of combinations of 2s, 3s,
  * and/or 5s in all dimensions.
  *
  * \ingroup FourierTransform
  *
- * \sa FFTComplexConjugateToRealImageFilter
+ * \sa ForwardFFTImageFilter
  * \ingroup ITKFFT
  *
  * \wiki
+ * \wikiexample{SpectralAnalysis/VnlForwardFFTImageFilter,Compute the FFT of an image}
  * \wikiexample{SpectralAnalysis/CrossCorrelationInFourierDomain,Compute the cross-correlation of two images in the Fourier domain}
  * \endwiki
  */
-template< class TInputImage, class TOutputImage=Image< typename TInputImage::PixelType::value_type, TInputImage::ImageDimension> >
-class VnlFFTComplexConjugateToRealImageFilter:
-  public FFTComplexConjugateToRealImageFilter< TInputImage, TOutputImage >
+template< class TInputImage, class TOutputImage=Image< std::complex<typename TInputImage::PixelType>, TInputImage::ImageDimension> >
+class VnlForwardFFTImageFilter:
+  public ForwardFFTImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
@@ -52,22 +51,21 @@ public:
   typedef typename InputImageType::SizeValueType InputSizeValueType;
   typedef TOutputImage                           OutputImageType;
   typedef typename OutputImageType::PixelType    OutputPixelType;
-  typedef typename OutputImageType::SizeType     OutputSizeType;
 
-  typedef VnlFFTComplexConjugateToRealImageFilter                           Self;
-  typedef FFTComplexConjugateToRealImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                                              Pointer;
-  typedef SmartPointer< const Self >                                        ConstPointer;
+  typedef VnlForwardFFTImageFilter                           Self;
+  typedef ForwardFFTImageFilter<  TInputImage, TOutputImage> Superclass;
+  typedef SmartPointer< Self >                               Pointer;
+  typedef SmartPointer< const Self >                         ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VnlFFTComplexConjugateToRealImageFilter,
-               FFTComplexConjugateToRealImageFilter);
+  itkTypeMacro(VnlForwardFFTImageFilter,
+               ForwardFFTImageFilter);
 
-  /** Extract the dimensionality of the images. They must be the
-   * same. */
+  /** Extract the dimensionality of the images. They are assumed to be
+   * the same. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
   itkStaticConstMacro(InputImageDimension, unsigned int,
@@ -76,43 +74,41 @@ public:
                       TOutputImage::ImageDimension);
 
   /** These should be defined in every FFT filter class. */
-  virtual void GenerateData();  // generates output from input
+  virtual void GenerateData();
 
   virtual bool FullMatrix();
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro( PixelUnsignedIntDivisionOperatorsCheck,
-                   ( Concept::DivisionOperators< OutputPixelType, unsigned int > ) );
   itkConceptMacro( ImageDimensionsMatchCheck,
                    ( Concept::SameDimension< InputImageDimension, OutputImageDimension > ) );
   /** End concept checking */
 #endif
 
 protected:
-  VnlFFTComplexConjugateToRealImageFilter()  {}
-  virtual ~VnlFFTComplexConjugateToRealImageFilter(){}
+  VnlForwardFFTImageFilter() {}
+  ~VnlForwardFFTImageFilter() {}
 
-  /** Method to check if an array dimension is legal for the prime
-   * factor FFT algorithm. */
+  /** Method to check if an array dimension is legal for prime factor
+   * FFT algorithm. */
   bool IsDimensionSizeLegal(InputSizeValueType n);
 
 private:
   // compile time choice of fft solver instead of runtime
   template <unsigned VDim> struct DimDiscriminator { };
-  typedef vnl_vector< InputPixelType  > SignalVectorType;
+  typedef vnl_vector< vcl_complex< InputPixelType > > SignalVectorType;
   /** call proper vnl_fft transform function */
-  void FFTND_transform(SignalVectorType &signal, const OutputSizeType &inputSize, DimDiscriminator<1> *);
-  void FFTND_transform(SignalVectorType &signal, const OutputSizeType &inputSize, DimDiscriminator<2> *);
-  void FFTND_transform(SignalVectorType &signal, const OutputSizeType &inputSize, DimDiscriminator<3> *);
+  void FFTND_transform(SignalVectorType &signal, const InputSizeType &inputSize, DimDiscriminator<1> *);
+  void FFTND_transform(SignalVectorType &signal, const InputSizeType &inputSize, DimDiscriminator<2> *);
+  void FFTND_transform(SignalVectorType &signal, const InputSizeType &inputSize, DimDiscriminator<3> *);
 
-  VnlFFTComplexConjugateToRealImageFilter(const Self &); //purposely not implemented
+  VnlForwardFFTImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                          //purposely not implemented
 };
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVnlFFTComplexConjugateToRealImageFilter.hxx"
+#include "itkVnlForwardFFTImageFilter.hxx"
 #endif
 
 #endif

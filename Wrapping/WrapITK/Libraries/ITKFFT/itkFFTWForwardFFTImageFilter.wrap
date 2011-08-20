@@ -1,5 +1,5 @@
 if(USE_FFTWF OR USE_FFTWD)
-  WRAP_CLASS("itk::FFTWRealToComplexConjugateImageFilter" POINTER)
+  WRAP_CLASS("itk::FFTWForwardFFTImageFilter" POINTER)
     foreach(d ${WRAP_ITK_DIMS})
       if(USE_FFTWF AND WRAP_complex_float AND WRAP_float)
         WRAP_TEMPLATE("${ITKM_IF}${d}${ITKM_ICF}${d}" "${ITKT_IF${d}}, ${ITKT_ICF${d}}")

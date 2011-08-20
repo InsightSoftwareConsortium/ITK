@@ -15,16 +15,16 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFFTWRealToComplexConjugateImageFilter_h
-#define __itkFFTWRealToComplexConjugateImageFilter_h
+#ifndef __itkFFTWForwardFFTImageFilter_h
+#define __itkFFTWForwardFFTImageFilter_h
 
-#include "itkFFTRealToComplexConjugateImageFilter.h"
+#include "itkForwardFFTImageFilter.h"
 
 #include "itkFFTWCommon.h"
 
 namespace itk
 {
-/** \class FFTWRealToComplexConjugateImageFilter
+/** \class FFTWForwardFFTImageFilter
  *
  * \brief FFTW based forward Fast Fourier Transform
  *
@@ -48,11 +48,11 @@ namespace itk
  * \ingroup ITKFFT
  *
  * \sa FFTWGlobalConfiguration
- * \sa FFTRealToComplexConjugateImageFilter
+ * \sa ForwardFFTImageFilter
  */
 template< class TInputImage, class TOutputImage=Image< std::complex<typename TInputImage::PixelType>, TInputImage::ImageDimension> >
-class ITK_EXPORT FFTWRealToComplexConjugateImageFilter:
-  public FFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
+class ITK_EXPORT FFTWForwardFFTImageFilter:
+  public ForwardFFTImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
@@ -63,10 +63,10 @@ public:
   typedef typename OutputImageType::PixelType  OutputPixelType;
   typedef typename OutputImageType::SizeType   OutputSizeType;
 
-  typedef FFTWRealToComplexConjugateImageFilter                             Self;
-  typedef FFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                                              Pointer;
-  typedef SmartPointer< const Self >                                        ConstPointer;
+  typedef FFTWForwardFFTImageFilter                          Self;
+  typedef ForwardFFTImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                               Pointer;
+  typedef SmartPointer< const Self >                         ConstPointer;
 
   /** The proxy type is a wrapper for the FFTW API since the proxy is
    * only defined over double and float, trying to use any other pixel
@@ -79,8 +79,8 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FFTWRealToComplexConjugateImageFilter,
-               FFTRealToComplexConjugateImageFilter);
+  itkTypeMacro(FFTWForwardFFTImageFilter,
+               ForwardFFTImageFilter);
 
   /** Define the image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int, InputImageType::ImageDimension);
@@ -106,8 +106,8 @@ public:
   itkGetConstReferenceMacro( PlanRigor, int );
 
 protected:
-  FFTWRealToComplexConjugateImageFilter();
-  ~FFTWRealToComplexConjugateImageFilter() {}
+  FFTWForwardFFTImageFilter();
+  ~FFTWForwardFFTImageFilter() {}
 
   /** These should be defined in every FFT filter class. */
   virtual void GenerateData();
@@ -119,7 +119,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  FFTWRealToComplexConjugateImageFilter(const Self&); //purposely not implemented
+  FFTWForwardFFTImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   bool m_CanUseDestructiveAlgorithm;
@@ -129,7 +129,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFFTWRealToComplexConjugateImageFilter.hxx"
+#include "itkFFTWForwardFFTImageFilter.hxx"
 #endif
 
-#endif //__itkFFTWRealToComplexConjugateImageFilter_h
+#endif //__itkFFTWForwardFFTImageFilter_h

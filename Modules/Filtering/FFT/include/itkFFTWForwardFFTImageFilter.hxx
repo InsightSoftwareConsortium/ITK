@@ -15,11 +15,11 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFFTWRealToComplexConjugateImageFilter_hxx
-#define __itkFFTWRealToComplexConjugateImageFilter_hxx
+#ifndef __itkFFTWForwardFFTImageFilter_hxx
+#define __itkFFTWForwardFFTImageFilter_hxx
 
-#include "itkFFTWRealToComplexConjugateImageFilter.h"
-#include "itkFFTRealToComplexConjugateImageFilter.hxx"
+#include "itkFFTWForwardFFTImageFilter.h"
+#include "itkForwardFFTImageFilter.hxx"
 #include <iostream>
 #include "itkIndent.h"
 #include "itkMetaDataObject.h"
@@ -33,15 +33,15 @@ namespace itk
 */
 
 template< class TInputImage, class TOutputImage >
-FFTWRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
-::FFTWRealToComplexConjugateImageFilter()
+FFTWForwardFFTImageFilter< TInputImage, TOutputImage >
+::FFTWForwardFFTImageFilter()
 {
   m_PlanRigor = FFTWGlobalConfiguration::GetPlanRigor();
 }
 
 template< class TInputImage, class TOutputImage >
 void
-FFTWRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
+FFTWForwardFFTImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
   // Get pointers to the input and output.
@@ -108,7 +108,7 @@ FFTWRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
 
 template< class TInputImage, class TOutputImage >
 bool
-FFTWRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
+FFTWForwardFFTImageFilter< TInputImage, TOutputImage >
 ::FullMatrix()
 {
   return false;
@@ -116,7 +116,7 @@ FFTWRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
 
 template< class TInputImage, class TOutputImage >
 void
-FFTWRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
+FFTWForwardFFTImageFilter< TInputImage, TOutputImage >
 ::UpdateOutputData(DataObject * output)
 {
   // We need to catch that information now, because it is changed later
@@ -128,7 +128,7 @@ FFTWRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
 
 template< class TInputImage, class TOutputImage >
 void
-FFTWRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
+FFTWForwardFFTImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -138,4 +138,4 @@ FFTWRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
 
 } // namespace itk
 
-#endif //_itkFFTWRealToComplexConjugateImageFilter_hxx
+#endif //_itkFFTWForwardFFTImageFilter_hxx

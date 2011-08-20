@@ -31,8 +31,8 @@ for syntax and missing #include's.
 # Headers to not test because of dependecy issues, etc.
 BANNED_HEADERS = set(('itkExceptionObject.h', # There is a pre-processor check so people use itkMacro.h instead.
     'itkMINC2ImageIO.h', # In case minc2.h is not available.
-    'itkFFTWRealToComplexConjugateImageFilter.h',
-    'itkFFTWComplexConjugateToRealImageFilter.h',
+    'itkFFTWForwardFFTImageFilter.h',
+    'itkFFTWInverseFFTImageFilter.h',
     'itkFFTWComplexToComplexImageFilter.h',
     'itkFFTWCommon.h',
     'itkVanHerkGilWermanErodeDilateImageFilter.h', # circular include's

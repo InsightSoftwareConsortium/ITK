@@ -30,7 +30,7 @@ ImageType = itk.Image[PixelType, dim]
 ComplexImageType  = itk.Image[itk.complex[PixelType], dim]
 
 reader = itk.ImageFileReader[ImageType].New( FileName=argv[1] )
-fftFilter = itk.FFTRealToComplexConjugateImageFilter[ImageType, ComplexImageType].New(reader)
+fftFilter = itk.ForwardFFTImageFilter[ImageType, ComplexImageType].New(reader)
 
 # why this Update() ?
 fftFilter.Update()
