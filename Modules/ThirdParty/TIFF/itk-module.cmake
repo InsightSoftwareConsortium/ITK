@@ -4,6 +4,7 @@ image file format library.")
 
 itk_module(ITKTIFF
   DEPENDS
+    ITKKWSys
     ITKZLIB
     ITKJPEG
   DESCRIPTION

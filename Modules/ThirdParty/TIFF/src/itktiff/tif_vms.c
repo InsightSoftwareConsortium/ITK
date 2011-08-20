@@ -4,23 +4,23 @@
  * Copyright (c) 1988-1997 Sam Leffler
  * Copyright (c) 1991-1997 Silicon Graphics, Inc.
  *
- * Permission to use, copy, modify, distribute, and sell this software and 
+ * Permission to use, copy, modify, distribute, and sell this software and
  * its documentation for any purpose is hereby granted without fee, provided
  * that (i) the above copyright notices and this permission notice appear in
  * all copies of the software and related documentation, and (ii) the names of
  * Sam Leffler and Silicon Graphics may not be used in any advertising or
  * publicity relating to the software without the specific, prior written
  * permission of Sam Leffler and Silicon Graphics.
- * 
- * THE SOFTWARE IS PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY KIND, 
- * EXPRESS, IMPLIED OR OTHERWISE, INCLUDING WITHOUT LIMITATION, ANY 
- * WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.  
- * 
+ *
+ * THE SOFTWARE IS PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS, IMPLIED OR OTHERWISE, INCLUDING WITHOUT LIMITATION, ANY
+ * WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+ *
  * IN NO EVENT SHALL SAM LEFFLER OR SILICON GRAPHICS BE LIABLE FOR
  * ANY SPECIAL, INCIDENTAL, INDIRECT OR CONSEQUENTIAL DAMAGES OF ANY KIND,
  * OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
- * WHETHER OR NOT ADVISED OF THE POSSIBILITY OF DAMAGE, AND ON ANY THEORY OF 
- * LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE 
+ * WHETHER OR NOT ADVISED OF THE POSSIBILITY OF DAMAGE, AND ON ANY THEORY OF
+ * LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
  * OF THIS SOFTWARE.
  */
 
@@ -85,7 +85,7 @@ _tiffSizeProc(thandle_t fd)
 #include <secdef.h>
 
 /*
- * Table for storing information on current open sections. 
+ * Table for storing information on current open sections.
  * (Should really be a linked list)
  */
 #define MAX_MAPPED 100
@@ -96,8 +96,8 @@ static struct {
         unsigned short channel;
 } map_table[MAX_MAPPED];
 
-/* 
- * This routine maps a file into a private section. Note that this 
+/*
+ * This routine maps a file into a private section. Note that this
  * method of accessing a file is by far the fastest under VMS.
  * The routine may fail (i.e. return 0) for several reasons, for
  * example:
@@ -118,7 +118,7 @@ _tiffMapProc(thandle_t fd, tdata_t* pbase, toff_t* psize)
         char *inadr[2], *retadr[2];
         unsigned long status;
         long size;
-        
+
         if (no_mapped >= MAX_MAPPED)
                 return(0);
         /*
@@ -166,7 +166,7 @@ _tiffMapProc(thandle_t fd, tdata_t* pbase, toff_t* psize)
 }
 
 /*
- * This routine unmaps a section from the virtual address space of 
+ * This routine unmaps a section from the virtual address space of
  * the process, but only if the base was the one returned from a
  * call to TIFFMapFileContents.
  */
@@ -175,7 +175,7 @@ _tiffUnmapProc(thandle_t fd, tdata_t base, toff_t size)
 {
         char *inadr[2];
         int i, j;
-        
+
         /* Find the section in the table */
         for (i = 0;i < no_mapped; i++) {
                 if (map_table[i].base == (char *) base) {
@@ -295,8 +295,8 @@ _TIFFmemcmp(const tdata_t p1, const tdata_t p2, tsize_t c)
 /*
  * On the VAX, we need to make those global, writable pointers
  * non-shareable, otherwise they would be made shareable by default.
- * On the AXP, this brain damage has been corrected. 
- * 
+ * On the AXP, this brain damage has been corrected.
+ *
  * I (Karsten Spang, krs@kampsax.dk) have dug around in the GCC
  * manual and the GAS code and have come up with the following
  * construct, but I don't have GCC on my VAX, so it is untested.
@@ -350,7 +350,7 @@ typedef struct ieeefloat {
                 sign    : 1;
 } ieeefloat;
 
-/* 
+/*
  * NB: These are D_FLOAT's, not G_FLOAT's. A G_FLOAT is
  *  simply a reverse-IEEE float/double.
  */
@@ -397,7 +397,7 @@ typedef union {
  * holding the rest of the mantissa as follows:
  * (Note: It is assumed that the number has been eight-byte swapped to
  * LSB first.)
- * 
+ *
  * First longword:
  *      32 least significant bits of mantissa
  * Second longword:
@@ -412,8 +412,8 @@ typedef union {
  * If the exponent is 2047, the number is invalid, in case the mantissa is zero,
  * this means overflow (+/- depending of the sign bit), otherwise
  * it simply means invalid number.
- * 
- * If the number is too large for the machine or was specified as overflow, 
+ *
+ * If the number is too large for the machine or was specified as overflow,
  * +/-HUGE_VAL is returned.
  */
 INLINE static void
@@ -481,7 +481,7 @@ dtoieee(double *dp)
 
         /*
          * Handle cases where the value is outside the
-         * range for IEEE floating point numbers. 
+         * range for IEEE floating point numbers.
          * (Overflow cannot happen on a VAX, but underflow
          * can happen for G float.)
          */

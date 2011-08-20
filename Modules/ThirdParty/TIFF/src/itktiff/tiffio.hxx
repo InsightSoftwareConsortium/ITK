@@ -1,4 +1,4 @@
-/* Id */
+/* $Id: tiffio.hxx,v 1.3 2010-06-08 18:55:15 bfriesen Exp $ */
 
 /*
  * Copyright (c) 1988-1997 Sam Leffler
@@ -25,7 +25,7 @@
  */
 
 #ifndef _TIFFIO_HXX_
-#define  _TIFFIO_HXX_
+#define	_TIFFIO_HXX_
 
 /*
  * TIFF I/O library definitions which provide C++ streams API.
@@ -34,9 +34,16 @@
 #include <iostream>
 #include "tiff.h"
 
-extern  TIFF* TIFFStreamOpen(const char*, std::ostream *);
-extern  TIFF* TIFFStreamOpen(const char*, std::istream *);
+extern TIFF* TIFFStreamOpen(const char*, std::ostream *);
+extern TIFF* TIFFStreamOpen(const char*, std::istream *);
 
 #endif /* _TIFFIO_HXX_ */
 
 /* vim: set ts=8 sts=8 sw=8 noet: */
+/*
+ * Local Variables:
+ * mode: c++
+ * c-basic-offset: 8
+ * fill-column: 78
+ * End:
+ */

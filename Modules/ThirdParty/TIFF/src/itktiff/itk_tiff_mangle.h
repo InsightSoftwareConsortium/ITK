@@ -66,9 +66,9 @@ nm libitktiff.a |grep " R "
 #ifdef  PACKBITS_SUPPORT
 #define  TIFFInitPackBits  itk_TIFFInitPackBits
 #endif
-#ifdef  THUNDER_SUPPORT
+
 #define TIFFInitThunderScan itk_TIFFInitThunderScan
-#endif
+
 #ifdef  NEXT_SUPPORT
 #define  TIFFInitNeXT    itk_TIFFInitNeXT
 #endif
@@ -90,9 +90,9 @@ nm libitktiff.a |grep " R "
 #ifdef  ZIP_SUPPORT
 #define  TIFFInitZIP    itk_TIFFInitZIP
 #endif
-#ifdef  PIXARLOG_SUPPORT
+
 #define  TIFFInitPixarLog  itk_TIFFInitPixarLog
-#endif
+
 #ifdef LOGLUV_SUPPORT
 #define TIFFInitSGILog    itk_TIFFInitSGILog
 #endif

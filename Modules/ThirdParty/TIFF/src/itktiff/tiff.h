@@ -5,28 +5,32 @@
  * Copyright (c) 1988-1997 Sam Leffler
  * Copyright (c) 1991-1997 Silicon Graphics, Inc.
  *
- * Permission to use, copy, modify, distribute, and sell this software and 
+ * Permission to use, copy, modify, distribute, and sell this software and
  * its documentation for any purpose is hereby granted without fee, provided
  * that (i) the above copyright notices and this permission notice appear in
  * all copies of the software and related documentation, and (ii) the names of
  * Sam Leffler and Silicon Graphics may not be used in any advertising or
  * publicity relating to the software without the specific, prior written
  * permission of Sam Leffler and Silicon Graphics.
- * 
- * THE SOFTWARE IS PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY KIND, 
- * EXPRESS, IMPLIED OR OTHERWISE, INCLUDING WITHOUT LIMITATION, ANY 
- * WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.  
- * 
+ *
+ * THE SOFTWARE IS PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS, IMPLIED OR OTHERWISE, INCLUDING WITHOUT LIMITATION, ANY
+ * WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+ *
  * IN NO EVENT SHALL SAM LEFFLER OR SILICON GRAPHICS BE LIABLE FOR
  * ANY SPECIAL, INCIDENTAL, INDIRECT OR CONSEQUENTIAL DAMAGES OF ANY KIND,
  * OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
- * WHETHER OR NOT ADVISED OF THE POSSIBILITY OF DAMAGE, AND ON ANY THEORY OF 
- * LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE 
+ * WHETHER OR NOT ADVISED OF THE POSSIBILITY OF DAMAGE, AND ON ANY THEORY OF
+ * LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
  * OF THIS SOFTWARE.
  */
 
 #ifndef _TIFF_
-#define  _TIFF_
+#define _TIFF_
+
+#include "tiffconf.h"
+#include "tif_config.h"
+
 /*
  * Tag Image File Format (TIFF)
  *
@@ -37,99 +41,74 @@
  *    Suite 200
  *    Seattle, WA  98104
  *    206-622-5500
- *    
+ *
  *    (http://partners.adobe.com/asn/developer/PDFS/TN/TIFF6.pdf)
  *
- * For Big TIFF design notes see the following link
- *    http://gdal.maptools.org/twiki/bin/view/libtiff/BigTIFFDesign
+ * For BigTIFF design notes see the following links
+ *    http://www.remotesensing.org/libtiff/bigtiffdesign.html
+ *    http://www.awaresystems.be/imaging/tiff/bigtiff.html
  */
-#define  TIFF_VERSION          42
-#define TIFF_BIGTIFF_VERSION    43
 
-#define  TIFF_BIGENDIAN    0x4d4d
-#define  TIFF_LITTLEENDIAN  0x4949
+#define TIFF_VERSION_CLASSIC 42
+#define TIFF_VERSION_BIG 43
 
-/*
- * The so called TIFF types conflict with definitions from inttypes.h 
- * included from sys/types.h on AIX (at least using VisualAge compiler). 
- * We try to work around this by detecting this case.  Defining 
- * _TIFF_DATA_TYPEDEFS_ short circuits the later definitions in tiff.h, and
- * we will in the holes not provided for by inttypes.h. 
- *
- * See http://bugzilla.remotesensing.org/show_bug.cgi?id=39
- */
-#if defined(_H_INTTYPES) && defined(_ALL_SOURCE) && defined(USING_VISUALAGE)
-
-#define _TIFF_DATA_TYPEDEFS_
-typedef unsigned char uint8;
-typedef unsigned short uint16;
-typedef unsigned int uint32;
-
-#endif
+#define TIFF_BIGENDIAN      0x4d4d
+#define TIFF_LITTLEENDIAN   0x4949
+#define MDI_LITTLEENDIAN    0x5045
+#define MDI_BIGENDIAN       0x4550
 
 /*
  * Intrinsic data types required by the file format:
  *
- * 8-bit quantities  int8/uint8
- * 16-bit quantities  int16/uint16
- * 32-bit quantities  int32/uint32
- * strings    unsigned char*
+ * 8-bit quantities     int8/uint8
+ * 16-bit quantities    int16/uint16
+ * 32-bit quantities    int32/uint32
+ * 64-bit quantities    int64/uint64
+ * strings              unsigned char*
  */
-#ifndef _TIFF_DATA_TYPEDEFS_
-#define _TIFF_DATA_TYPEDEFS_
 
-typedef  signed char int8;  /* NB: non-ANSI compilers may not grok */
-typedef  unsigned char uint8;
-typedef  short int16;
-typedef  unsigned short uint16;  /* sizeof (uint16) must == 2 */
-#if defined(__amd64) || defined(__alpha) || (defined(_MIPS_SZLONG) && _MIPS_SZLONG == 64) || defined(__LP64__) || defined(__arch64__)
-typedef  int int32;
-typedef  unsigned int uint32;  /* sizeof (uint32) must == 4 */
-#else
-typedef  long int32;
-typedef  unsigned long uint32;  /* sizeof (uint32) must == 4 */
-#endif
+typedef TIFF_INT8_T   int8;
+typedef TIFF_UINT8_T  uint8;
 
-#endif /* _TIFF_DATA_TYPEDEFS_ */
+typedef TIFF_INT16_T  int16;
+typedef TIFF_UINT16_T uint16;
 
-/* For TIFFReassignTagToIgnore */
-enum TIFFIgnoreSense /* IGNORE tag table */
-{
-  TIS_STORE,
-  TIS_EXTRACT,
-  TIS_EMPTY
-};
+typedef TIFF_INT32_T  int32;
+typedef TIFF_UINT32_T uint32;
+
+typedef TIFF_INT64_T  int64;
+typedef TIFF_UINT64_T uint64;
+
+/*
+ * Some types as promoted in a variable argument list
+ * We use uint16_vap rather then directly using int, because this way
+ * we document the type we actually want to pass through, conceptually,
+ * rather then confusing the issue by merely stating the type it gets
+ * promoted to
+ */
+
+typedef int uint16_vap;
 
 /*
  * TIFF header.
  */
-typedef  struct {
-  uint16  tiff_magic;  /* magic number (defines byte order) */
-#define TIFF_MAGIC_SIZE    2
-  uint16  tiff_version;  /* TIFF version number */
-#define TIFF_VERSION_SIZE  2
-  uint32  tiff_diroff;  /* byte offset to first directory */
-#define TIFF_DIROFFSET_SIZE  4
-} TIFFHeader;
+typedef struct {
+  uint16 tiff_magic;      /* magic number (defines byte order) */
+  uint16 tiff_version;    /* TIFF version number */
+} TIFFHeaderCommon;
+typedef struct {
+  uint16 tiff_magic;      /* magic number (defines byte order) */
+  uint16 tiff_version;    /* TIFF version number */
+  uint32 tiff_diroff;     /* byte offset to first directory */
+} TIFFHeaderClassic;
+typedef struct {
+  uint16 tiff_magic;      /* magic number (defines byte order) */
+  uint16 tiff_version;    /* TIFF version number */
+  uint16 tiff_offsetsize; /* size of offsets, should be 8 */
+  uint16 tiff_unused;     /* unused word, should be 0 */
+  uint64 tiff_diroff;     /* byte offset to first directory */
+} TIFFHeaderBig;
 
-
-/*
- * TIFF Image File Directories are comprised of a table of field
- * descriptors of the form shown below.  The table is sorted in
- * ascending order by tag.  The values associated with each entry are
- * disjoint and may appear anywhere in the file (so long as they are
- * placed on a word boundary).
- *
- * If the value is 4 bytes or less, then it is placed in the offset
- * field to save space.  If the value is less than 4 bytes, it is
- * left-justified in the offset field.
- */
-typedef  struct {
-  uint16    tdir_tag;  /* see below */
-  uint16    tdir_type;  /* data type; see below */
-  uint32    tdir_count;  /* number of items; length in spec */
-  uint32    tdir_offset;  /* byte offset to field data */
-} TIFFDirEntry;
 
 /*
  * NB: In the comments below,
@@ -145,21 +124,24 @@ typedef  struct {
  *
  * Note: RATIONALs are the ratio of two 32-bit integer values.
  */
-typedef  enum {
-  TIFF_NOTYPE  = 0,  /* placeholder */
-  TIFF_BYTE  = 1,  /* 8-bit unsigned integer */
-  TIFF_ASCII  = 2,  /* 8-bit bytes w/ last byte null */
-  TIFF_SHORT  = 3,  /* 16-bit unsigned integer */
-  TIFF_LONG  = 4,  /* 32-bit unsigned integer */
-  TIFF_RATIONAL  = 5,  /* 64-bit unsigned fraction */
-  TIFF_SBYTE  = 6,  /* !8-bit signed integer */
-  TIFF_UNDEFINED  = 7,  /* !8-bit untyped data */
-  TIFF_SSHORT  = 8,  /* !16-bit signed integer */
-  TIFF_SLONG  = 9,  /* !32-bit signed integer */
-  TIFF_SRATIONAL  = 10,  /* !64-bit signed fraction */
-  TIFF_FLOAT  = 11,  /* !32-bit IEEE floating point */
-  TIFF_DOUBLE  = 12,  /* !64-bit IEEE floating point */
-  TIFF_IFD  = 13  /* %32-bit unsigned integer (offset) */
+typedef enum {
+  TIFF_NOTYPE = 0,      /* placeholder */
+  TIFF_BYTE = 1,        /* 8-bit unsigned integer */
+  TIFF_ASCII = 2,       /* 8-bit bytes w/ last byte null */
+  TIFF_SHORT = 3,       /* 16-bit unsigned integer */
+  TIFF_LONG = 4,        /* 32-bit unsigned integer */
+  TIFF_RATIONAL = 5,    /* 64-bit unsigned fraction */
+  TIFF_SBYTE = 6,       /* !8-bit signed integer */
+  TIFF_UNDEFINED = 7,   /* !8-bit untyped data */
+  TIFF_SSHORT = 8,      /* !16-bit signed integer */
+  TIFF_SLONG = 9,       /* !32-bit signed integer */
+  TIFF_SRATIONAL = 10,  /* !64-bit signed fraction */
+  TIFF_FLOAT = 11,      /* !32-bit IEEE floating point */
+  TIFF_DOUBLE = 12,     /* !64-bit IEEE floating point */
+  TIFF_IFD = 13,        /* %32-bit unsigned integer (offset) */
+  TIFF_LONG8 = 16,      /* BigTIFF 64-bit unsigned integer */
+  TIFF_SLONG8 = 17,     /* BigTIFF 64-bit signed integer */
+  TIFF_IFD8 = 18        /* BigTIFF 64-bit unsigned integer (offset) */
 } TIFFDataType;
 
 /*
@@ -207,6 +189,7 @@ typedef  enum {
 #define     COMPRESSION_SGILOG    34676  /* SGI Log Luminance RLE */
 #define     COMPRESSION_SGILOG24  34677  /* SGI Log 24-bit packed */
 #define     COMPRESSION_JP2000          34712   /* Leadtools JPEG2000 */
+#define      COMPRESSION_LZMA    34925  /* LZMA2 */
 #define  TIFFTAG_PHOTOMETRIC    262  /* photometric interpretation */
 #define      PHOTOMETRIC_MINISWHITE  0  /* min value is white */
 #define      PHOTOMETRIC_MINISBLACK  1  /* min value is black */
@@ -290,6 +273,9 @@ typedef  enum {
 #define  TIFFTAG_ARTIST      315  /* creator of image */
 #define  TIFFTAG_HOSTCOMPUTER    316  /* machine where created */
 #define  TIFFTAG_PREDICTOR    317  /* prediction scheme w/ LZW */
+#define     PREDICTOR_NONE    1  /* no prediction scheme used */
+#define     PREDICTOR_HORIZONTAL  2  /* horizontal differencing */
+#define     PREDICTOR_FLOATINGPOINT  3  /* floating point predictor */
 #define  TIFFTAG_WHITEPOINT    318  /* image white point */
 #define  TIFFTAG_PRIMARYCHROMATICITIES  319  /* !primary chromaticities */
 #define  TIFFTAG_COLORMAP    320  /* RGB map for pallette image */
@@ -374,7 +360,7 @@ typedef  enum {
 /* tags 33300-33309 are private tags registered to Pixar */
 /*
  * TIFFTAG_PIXAR_IMAGEFULLWIDTH and TIFFTAG_PIXAR_IMAGEFULLLENGTH
- * are set when an image has been cropped out of a larger image.  
+ * are set when an image has been cropped out of a larger image.
  * They reflect the size of the original uncropped image.
  * The TIFFTAG_XPOSITION and TIFFTAG_YPOSITION can be used
  * to determine the position of the smaller image in the larger one.
@@ -416,12 +402,15 @@ typedef  enum {
 #define TIFFTAG_IT8CMYKEQUIVALENT  34032  /* CMYK color equivalents */
 /* tags 34232-34236 are private tags registered to Texas Instruments */
 #define TIFFTAG_FRAMECOUNT              34232   /* Sequence Frame Count */
+/* tag 34377 is private tag registered to Adobe for PhotoShop */
+#define TIFFTAG_PHOTOSHOP    34377
+/* tags 34665, 34853 and 40965 are documented in EXIF specification */
+#define TIFFTAG_EXIFIFD      34665  /* Pointer to EXIF private directory */
 /* tag 34750 is a private tag registered to Adobe? */
 #define TIFFTAG_ICCPROFILE    34675  /* ICC profile data */
-/* tag 34377 is private tag registered to Adobe for PhotoShop */
-#define TIFFTAG_PHOTOSHOP    34377 
 /* tag 34750 is a private tag registered to Pixel Magic */
 #define  TIFFTAG_JBIGOPTIONS    34750  /* JBIG options */
+#define TIFFTAG_GPSIFD      34853  /* Pointer to GPS private directory */
 /* tags 34908-34914 are private tags registered to SGI */
 #define  TIFFTAG_FAXRECVPARAMS    34908  /* encoded Class 2 ses. parms */
 #define  TIFFTAG_FAXSUBADDRESS    34909  /* received SubAddr string */
@@ -431,9 +420,8 @@ typedef  enum {
 #define TIFFTAG_STONITS      37439  /* Sample value to Nits */
 /* tag 34929 is a private tag registered to FedEx */
 #define  TIFFTAG_FEDEX_EDR    34929  /* unknown use */
-/* tag 65535 is an undefined tag used by Eastman Kodak */
-#define TIFFTAG_DCSHUESHIFTVALUES       65535   /* hue shift correction data */
-/* Adobe Digital Negative format tags */
+#define TIFFTAG_INTEROPERABILITYIFD  40965  /* Pointer to Interoperability private directory */
+/* Adobe Digital Negative (DNG) format tags */
 #define TIFFTAG_DNGVERSION    50706  /* &DNG version number */
 #define TIFFTAG_DNGBACKWARDVERSION  50707  /* &DNG compatibility version */
 #define TIFFTAG_UNIQUECAMERAMODEL  50708  /* &name for the camera model */
@@ -455,7 +443,7 @@ typedef  enum {
 #define TIFFTAG_DEFAULTSCALE    50718  /* &default scale factors */
 #define TIFFTAG_DEFAULTCROPORIGIN  50719  /* &origin of the final image
                area */
-#define TIFFTAG_DEFAULTCROPSIZE    50720  /* &size of the final image 
+#define TIFFTAG_DEFAULTCROPSIZE    50720  /* &size of the final image
                area */
 #define TIFFTAG_COLORMATRIX1    50721  /* &XYZ->reference color space
                transformation matrix 1 */
@@ -486,9 +474,11 @@ typedef  enum {
                in the red/green rows */
 #define TIFFTAG_LINEARRESPONSELIMIT  50734  /* &non-linear encoding range */
 #define TIFFTAG_CAMERASERIALNUMBER  50735  /* &camera's serial number */
+#define TIFFTAG_LENSINFO    50736  /* info about the lens */
 #define TIFFTAG_CHROMABLURRADIUS  50737  /* &chroma blur radius */
 #define TIFFTAG_ANTIALIASSTRENGTH  50738  /* &relative strength of the
                camera's anti-alias filter */
+#define TIFFTAG_SHADOWSCALE    50739  /* &used by Adobe Camera Raw */
 #define TIFFTAG_DNGPRIVATEDATA    50740  /* &manufacturer's private data */
 #define TIFFTAG_MAKERNOTESAFETY    50741  /* &whether the EXIF MakerNote
                tag is safe to preserve
@@ -497,6 +487,23 @@ typedef  enum {
 #define  TIFFTAG_CALIBRATIONILLUMINANT1  50778  /* &illuminant 1 */
 #define TIFFTAG_CALIBRATIONILLUMINANT2  50779  /* &illuminant 2 */
 #define TIFFTAG_BESTQUALITYSCALE  50780  /* &best quality multiplier */
+#define TIFFTAG_RAWDATAUNIQUEID    50781  /* &unique identifier for
+               the raw image data */
+#define TIFFTAG_ORIGINALRAWFILENAME  50827  /* &file name of the original
+               raw file */
+#define TIFFTAG_ORIGINALRAWFILEDATA  50828  /* &contents of the original
+               raw file */
+#define TIFFTAG_ACTIVEAREA    50829  /* &active (non-masked) pixels
+               of the sensor */
+#define TIFFTAG_MASKEDAREAS    50830  /* &list of coordinates
+               of fully masked pixels */
+#define TIFFTAG_ASSHOTICCPROFILE  50831  /* &these two tags used to */
+#define TIFFTAG_ASSHOTPREPROFILEMATRIX  50832  /* map cameras's color space
+               into ICC profile space */
+#define TIFFTAG_CURRENTICCPROFILE  50833  /* & */
+#define TIFFTAG_CURRENTPREPROFILEMATRIX  50834  /* & */
+/* tag 65535 is an undefined tag used by Eastman Kodak */
+#define TIFFTAG_DCSHUESHIFTVALUES       65535   /* hue shift correction data */
 
 /*
  * The following are ``pseudo tags'' that can be used to control
@@ -563,6 +570,83 @@ typedef  enum {
 #define TIFFTAG_SGILOGENCODE    65561 /* SGILog data encoding control*/
 #define     SGILOGENCODE_NODITHER  0     /* do not dither encoded values*/
 #define     SGILOGENCODE_RANDITHER  1     /* randomly dither encd values */
+#define  TIFFTAG_LZMAPRESET    65562  /* LZMA2 preset (compression level) */
+#define TIFFTAG_PERSAMPLE       65563  /* interface for per sample tags */
+#define     PERSAMPLE_MERGED        0  /* present as a single value */
+#define     PERSAMPLE_MULTI         1  /* present as multiple values */
+
+/*
+ * EXIF tags
+ */
+#define EXIFTAG_EXPOSURETIME    33434  /* Exposure time */
+#define EXIFTAG_FNUMBER      33437  /* F number */
+#define EXIFTAG_EXPOSUREPROGRAM    34850  /* Exposure program */
+#define EXIFTAG_SPECTRALSENSITIVITY  34852  /* Spectral sensitivity */
+#define EXIFTAG_ISOSPEEDRATINGS    34855  /* ISO speed rating */
+#define EXIFTAG_OECF      34856  /* Optoelectric conversion
+               factor */
+#define EXIFTAG_EXIFVERSION    36864  /* Exif version */
+#define EXIFTAG_DATETIMEORIGINAL  36867  /* Date and time of original
+               data generation */
+#define EXIFTAG_DATETIMEDIGITIZED  36868  /* Date and time of digital
+               data generation */
+#define EXIFTAG_COMPONENTSCONFIGURATION  37121  /* Meaning of each component */
+#define EXIFTAG_COMPRESSEDBITSPERPIXEL  37122  /* Image compression mode */
+#define EXIFTAG_SHUTTERSPEEDVALUE  37377  /* Shutter speed */
+#define EXIFTAG_APERTUREVALUE    37378  /* Aperture */
+#define EXIFTAG_BRIGHTNESSVALUE    37379  /* Brightness */
+#define EXIFTAG_EXPOSUREBIASVALUE  37380  /* Exposure bias */
+#define EXIFTAG_MAXAPERTUREVALUE  37381  /* Maximum lens aperture */
+#define EXIFTAG_SUBJECTDISTANCE    37382  /* Subject distance */
+#define EXIFTAG_METERINGMODE    37383  /* Metering mode */
+#define EXIFTAG_LIGHTSOURCE    37384  /* Light source */
+#define EXIFTAG_FLASH      37385  /* Flash */
+#define EXIFTAG_FOCALLENGTH    37386  /* Lens focal length */
+#define EXIFTAG_SUBJECTAREA    37396  /* Subject area */
+#define EXIFTAG_MAKERNOTE    37500  /* Manufacturer notes */
+#define EXIFTAG_USERCOMMENT    37510  /* User comments */
+#define EXIFTAG_SUBSECTIME    37520  /* DateTime subseconds */
+#define EXIFTAG_SUBSECTIMEORIGINAL  37521  /* DateTimeOriginal subseconds */
+#define EXIFTAG_SUBSECTIMEDIGITIZED  37522  /* DateTimeDigitized subseconds */
+#define EXIFTAG_FLASHPIXVERSION    40960  /* Supported Flashpix version */
+#define EXIFTAG_COLORSPACE    40961  /* Color space information */
+#define EXIFTAG_PIXELXDIMENSION    40962  /* Valid image width */
+#define EXIFTAG_PIXELYDIMENSION    40963  /* Valid image height */
+#define EXIFTAG_RELATEDSOUNDFILE  40964  /* Related audio file */
+#define EXIFTAG_FLASHENERGY    41483  /* Flash energy */
+#define EXIFTAG_SPATIALFREQUENCYRESPONSE 41484  /* Spatial frequency response */
+#define EXIFTAG_FOCALPLANEXRESOLUTION  41486  /* Focal plane X resolution */
+#define EXIFTAG_FOCALPLANEYRESOLUTION  41487  /* Focal plane Y resolution */
+#define EXIFTAG_FOCALPLANERESOLUTIONUNIT 41488  /* Focal plane resolution unit */
+#define EXIFTAG_SUBJECTLOCATION    41492  /* Subject location */
+#define EXIFTAG_EXPOSUREINDEX    41493  /* Exposure index */
+#define EXIFTAG_SENSINGMETHOD    41495  /* Sensing method */
+#define EXIFTAG_FILESOURCE    41728  /* File source */
+#define EXIFTAG_SCENETYPE    41729  /* Scene type */
+#define EXIFTAG_CFAPATTERN    41730  /* CFA pattern */
+#define EXIFTAG_CUSTOMRENDERED    41985  /* Custom image processing */
+#define EXIFTAG_EXPOSUREMODE    41986  /* Exposure mode */
+#define EXIFTAG_WHITEBALANCE    41987  /* White balance */
+#define EXIFTAG_DIGITALZOOMRATIO  41988  /* Digital zoom ratio */
+#define EXIFTAG_FOCALLENGTHIN35MMFILM  41989  /* Focal length in 35 mm film */
+#define EXIFTAG_SCENECAPTURETYPE  41990  /* Scene capture type */
+#define EXIFTAG_GAINCONTROL    41991  /* Gain control */
+#define EXIFTAG_CONTRAST    41992  /* Contrast */
+#define EXIFTAG_SATURATION    41993  /* Saturation */
+#define EXIFTAG_SHARPNESS    41994  /* Sharpness */
+#define EXIFTAG_DEVICESETTINGDESCRIPTION 41995  /* Device settings description */
+#define EXIFTAG_SUBJECTDISTANCERANGE  41996  /* Subject distance range */
+#define EXIFTAG_GAINCONTROL    41991  /* Gain control */
+#define EXIFTAG_GAINCONTROL    41991  /* Gain control */
+#define EXIFTAG_IMAGEUNIQUEID    42016  /* Unique image ID */
+
 #endif /* _TIFF_ */
 
 /* vim: set ts=8 sts=8 sw=8 noet: */
+/*
+ * Local Variables:
+ * mode: c
+ * c-basic-offset: 8
+ * fill-column: 78
+ * End:
+ */
