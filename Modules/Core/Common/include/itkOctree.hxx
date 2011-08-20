@@ -274,7 +274,6 @@ Octree< TPixel, ColorTableSize, MappingFunctionType >::GetImage()
   unsigned int i, j, k;
 
   typename ImageType::SizeType imageSize = { { 0, 0, 0 } };
-  typedef typename ImageType::SizeType::SizeValueType SizeValueType;
   SizeValueType sizes[3];
   sizes[0] = m_TrueDims[0];
   sizes[1] = m_TrueDims[1];

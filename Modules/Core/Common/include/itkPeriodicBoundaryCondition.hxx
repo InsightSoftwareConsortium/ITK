@@ -27,7 +27,6 @@ PeriodicBoundaryCondition< TImage >
 ::operator()(const OffsetType & point_index, const OffsetType & boundary_offset,
              const NeighborhoodType *data) const
 {
-  typedef typename OffsetType::OffsetValueType OffsetValueType;
   const ConstNeighborhoodIterator< TImage > *iterator =
     dynamic_cast< const ConstNeighborhoodIterator< TImage > * >( data );
   typename TImage::PixelType * ptr;
@@ -83,7 +82,6 @@ PeriodicBoundaryCondition< TImage >
              const NeighborhoodType *data,
              const NeighborhoodAccessorFunctorType & neighborhoodAccessorFunctor) const
 {
-  typedef typename OffsetType::OffsetValueType OffsetValueType;
   const ConstNeighborhoodIterator< TImage > *iterator =
     dynamic_cast< const ConstNeighborhoodIterator< TImage > * >( data );
   typename TImage::InternalPixelType * ptr;
@@ -187,8 +185,6 @@ PeriodicBoundaryCondition< TImage >
   RegionType imageRegion = image->GetLargestPossibleRegion();
   IndexType  imageIndex  = imageRegion.GetIndex();
   SizeType   imageSize   = imageRegion.GetSize();
-
-  typedef typename IndexType::IndexValueType IndexValueType;
 
   IndexType lookupIndex;
 

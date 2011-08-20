@@ -179,8 +179,6 @@ int itkTransformFileReaderWriterTest( int argc, char *argv[] )
 
   if( !strcmp((*tit2)->GetNameOfClass(),"AffineTransform") )
     {
-    typedef AffineTransformType::Pointer AffineTransformPointer;
-
     TransformPointer transform_read = tit->GetPointer();
     affine_transform2 = dynamic_cast< AffineTransformType * >( transform_read.GetPointer() );
 

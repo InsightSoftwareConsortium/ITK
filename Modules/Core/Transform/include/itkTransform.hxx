@@ -56,6 +56,7 @@ Transform<TScalarType, NInputDimensions, NOutputDimensions>
   , m_SharedLocalJacobian(dimension, numberOfParameters)
 #endif
 {
+  (void)dimension;
   m_DirectionChange.SetIdentity();
 }
 

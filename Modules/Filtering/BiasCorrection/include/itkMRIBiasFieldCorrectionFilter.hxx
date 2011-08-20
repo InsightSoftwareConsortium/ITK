@@ -139,7 +139,6 @@ MRIBiasEnergyFunction< TImage, TImageMask, TBiasField >
     typename ImageType::IndexType curIndex;
     typename TBiasField::IndexType indexBias(SpaceDimension);
     typename ImageType::SizeType size = m_Region.GetSize();
-    typedef  typename ImageType::IndexType::IndexValueType IndexValueType;
     // use indexing for incomplete sampling
 
     if ( !m_Mask )

@@ -379,7 +379,6 @@ int itkVersorTransformTest(int, char * [] )
     unsigned int par;
     bool         Ok;
 
-    typedef TransformType::MatrixType MatrixType;
     MatrixType matrix;
 
     TransformType::Pointer t = TransformType::New();
@@ -451,15 +450,12 @@ int itkVersorTransformTest(int, char * [] )
 
     // Check the computed parameters
 
-    typedef TransformType::VersorType VersorType;
-    typedef VersorType::VectorType    VectorType;
     VectorType axis;
     axis.Fill( 0.0 );
     axis[2] = 1.0;
     VersorType v;
     v.Set( axis, a );
 
-    typedef TransformType::ParametersType ParametersType;
     ParametersType e( t->GetNumberOfParameters() );
     e[0] = v.GetX();
     e[1] = v.GetY();

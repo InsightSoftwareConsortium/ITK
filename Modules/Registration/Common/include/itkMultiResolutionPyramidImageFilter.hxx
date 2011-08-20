@@ -388,9 +388,7 @@ MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
     inputPtr->GetLargestPossibleRegion().GetIndex();
 
   typedef typename OutputImageType::SizeType  SizeType;
-  typedef typename SizeType::SizeValueType    SizeValueType;
   typedef typename OutputImageType::IndexType IndexType;
-  typedef typename IndexType::IndexValueType  IndexValueType;
 
   OutputImagePointer outputPtr;
   typename OutputImageType::PointType outputOrigin;
@@ -453,9 +451,7 @@ MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 
   // compute baseIndex and baseSize
   typedef typename OutputImageType::SizeType   SizeType;
-  typedef typename SizeType::SizeValueType     SizeValueType;
   typedef typename OutputImageType::IndexType  IndexType;
-  typedef typename IndexType::IndexValueType   IndexValueType;
   typedef typename OutputImageType::RegionType RegionType;
 
   TOutputImage *ptr = static_cast< TOutputImage * >( refOutput );
@@ -545,9 +541,7 @@ MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 
   // compute baseIndex and baseSize
   typedef typename OutputImageType::SizeType   SizeType;
-  typedef typename SizeType::SizeValueType     SizeValueType;
   typedef typename OutputImageType::IndexType  IndexType;
-  typedef typename IndexType::IndexValueType   IndexValueType;
   typedef typename OutputImageType::RegionType RegionType;
 
   unsigned int refLevel = m_NumberOfLevels - 1;

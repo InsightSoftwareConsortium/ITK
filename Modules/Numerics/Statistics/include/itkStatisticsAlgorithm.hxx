@@ -51,7 +51,7 @@ inline int Partition(TSubsample *sample,
                      int beginIndex, int endIndex,
                      const typename TSubsample::MeasurementType partitionValue)
 {
-  typedef typename TSubsample::MeasurementType MeasurementType;
+  typedef typename TSubsample::MeasurementType SampleMeasurementType;
 
   int moveToFrontIndex = beginIndex;
   int moveToBackIndex = endIndex - 1;
@@ -188,7 +188,7 @@ inline int Partition(TSubsample *sample,
 
   int storeIndex = ( beginOfSectionEqualToPartition + endOfSectionEqualToPartition ) / 2;
 
-  const MeasurementType pivotValue  = sample->GetMeasurementVectorByIndex(storeIndex)[activeDimension];
+  const SampleMeasurementType pivotValue  = sample->GetMeasurementVectorByIndex(storeIndex)[activeDimension];
   if ( pivotValue != partitionValue )
     {
     // The partition was done using a value that is not present in the sample.
@@ -197,8 +197,8 @@ inline int Partition(TSubsample *sample,
     // partitionValue.
     for ( int kk = beginIndex; kk < storeIndex; kk++ )
       {
-      MeasurementType nodeValue      = sample->GetMeasurementVectorByIndex(kk)[activeDimension];
-      MeasurementType boundaryValue  = sample->GetMeasurementVectorByIndex(storeIndex)[activeDimension];
+      SampleMeasurementType nodeValue      = sample->GetMeasurementVectorByIndex(kk)[activeDimension];
+      SampleMeasurementType boundaryValue  = sample->GetMeasurementVectorByIndex(storeIndex)[activeDimension];
       if ( nodeValue > boundaryValue )
         {
         sample->Swap(kk, storeIndex);
@@ -372,18 +372,18 @@ QuickSelect(TSubsample *sample,
             int kth,
             typename TSubsample::MeasurementType medianGuess)
 {
-  typedef typename TSubsample::MeasurementType MeasurementType;
+  typedef typename TSubsample::MeasurementType SampleMeasurementType;
 
   int begin = beginIndex;
   int end = endIndex - 1;
   int kthIndex = kth + beginIndex;
 
-  MeasurementType tempMedian;
+  SampleMeasurementType tempMedian;
 
   //
   // Select a pivot value
   //
-  if ( medianGuess != NumericTraits< MeasurementType >::NonpositiveMin() )
+  if ( medianGuess != NumericTraits< SampleMeasurementType >::NonpositiveMin() )
     {
     tempMedian = medianGuess;
     }
@@ -391,10 +391,10 @@ QuickSelect(TSubsample *sample,
     {
     const int             length = end - begin;
     const int             middle = begin + length / 2;
-    const MeasurementType v1 = sample->GetMeasurementVectorByIndex(begin)[activeDimension];
-    const MeasurementType v2 = sample->GetMeasurementVectorByIndex(end)[activeDimension];
-    const MeasurementType v3 = sample->GetMeasurementVectorByIndex(middle)[activeDimension];
-    tempMedian = MedianOfThree< MeasurementType >(v1, v2, v3);
+    const SampleMeasurementType v1 = sample->GetMeasurementVectorByIndex(begin)[activeDimension];
+    const SampleMeasurementType v2 = sample->GetMeasurementVectorByIndex(end)[activeDimension];
+    const SampleMeasurementType v3 = sample->GetMeasurementVectorByIndex(middle)[activeDimension];
+    tempMedian = MedianOfThree< SampleMeasurementType >(v1, v2, v3);
     }
 
   while ( true )
@@ -425,8 +425,8 @@ QuickSelect(TSubsample *sample,
       }
 
     const int             length = end - begin;
-    const MeasurementType v1 = sample->GetMeasurementVectorByIndex(begin)[activeDimension];
-    const MeasurementType v2 = sample->GetMeasurementVectorByIndex(end)[activeDimension];
+    const SampleMeasurementType v1 = sample->GetMeasurementVectorByIndex(begin)[activeDimension];
+    const SampleMeasurementType v2 = sample->GetMeasurementVectorByIndex(end)[activeDimension];
 
     // current partition has only 1 or 2 elements
     if ( length < 2 )
@@ -439,8 +439,8 @@ QuickSelect(TSubsample *sample,
       }
 
     const int             middle = begin + length / 2;
-    const MeasurementType v3 = sample->GetMeasurementVectorByIndex(middle)[activeDimension];
-    tempMedian = MedianOfThree< MeasurementType >(v1, v2, v3);
+    const SampleMeasurementType v3 = sample->GetMeasurementVectorByIndex(middle)[activeDimension];
+    tempMedian = MedianOfThree< SampleMeasurementType >(v1, v2, v3);
     }
 
   return sample->GetMeasurementVectorByIndex(kthIndex)[activeDimension];
@@ -454,8 +454,8 @@ QuickSelect(TSubsample *sample,
             int endIndex,
             int kth)
 {
-  typedef typename TSubsample::MeasurementType MeasurementType;
-  MeasurementType medianGuess = NumericTraits< MeasurementType >::NonpositiveMin();
+  typedef typename TSubsample::MeasurementType SampleMeasurementType;
+  SampleMeasurementType medianGuess = NumericTraits< SampleMeasurementType >::NonpositiveMin();
   return QuickSelect< TSubsample >(sample, activeDimension,
                                    beginIndex, endIndex, kth, medianGuess);
 }
@@ -563,9 +563,9 @@ inline void InsertSort(TSubsample *sample,
     backwardIndex = backwardSearchBegin;
     while ( backwardIndex > beginIndex )
       {
-      typedef typename TSubsample::MeasurementType MeasurementType;
-      const MeasurementType value1 = sample->GetMeasurementVectorByIndex(backwardIndex)[activeDimension];
-      const MeasurementType value2 = sample->GetMeasurementVectorByIndex(backwardIndex - 1)[activeDimension];
+      typedef typename TSubsample::MeasurementType SampleMeasurementType;
+      const SampleMeasurementType value1 = sample->GetMeasurementVectorByIndex(backwardIndex)[activeDimension];
+      const SampleMeasurementType value2 = sample->GetMeasurementVectorByIndex(backwardIndex - 1)[activeDimension];
 
       if ( value1 < value2 )
         {
@@ -590,12 +590,12 @@ inline void DownHeap(TSubsample *sample,
   int rightChild;
   int largerChild;
 
-  typedef typename TSubsample::MeasurementType MeasurementType;
-  MeasurementType currentNodeValue =
+  typedef typename TSubsample::MeasurementType SampleMeasurementType;
+  SampleMeasurementType currentNodeValue =
     sample->GetMeasurementVectorByIndex(currentNode)[activeDimension];
-  MeasurementType leftChildValue;
-  MeasurementType rightChildValue;
-  MeasurementType largerChildValue;
+  SampleMeasurementType leftChildValue;
+  SampleMeasurementType rightChildValue;
+  SampleMeasurementType largerChildValue;
 
   while ( true )
     {
@@ -670,7 +670,7 @@ inline void IntrospectiveSortLoop(TSubsample *sample,
                                   int depthLimit,
                                   int sizeThreshold)
 {
-  typedef typename TSubsample::MeasurementType MeasurementType;
+  typedef typename TSubsample::MeasurementType SampleMeasurementType;
 
   int length = endIndex - beginIndex;
   int cut;
@@ -686,7 +686,7 @@ inline void IntrospectiveSortLoop(TSubsample *sample,
     --depthLimit;
     cut = Partition< TSubsample >( sample, activeDimension,
                                    beginIndex, endIndex,
-                                   MedianOfThree< MeasurementType >
+                                   MedianOfThree< SampleMeasurementType >
                                      (sample->GetMeasurementVectorByIndex(beginIndex)[activeDimension],
                                      sample->GetMeasurementVectorByIndex(beginIndex + length / 2)[activeDimension],
                                      sample->GetMeasurementVectorByIndex(endIndex - 1)[activeDimension]) );
@@ -705,7 +705,6 @@ inline void IntrospectiveSort(TSubsample *sample,
                               int endIndex,
                               int sizeThreshold)
 {
-  typedef typename TSubsample::MeasurementType MeasurementType;
   IntrospectiveSortLoop< TSubsample >(sample, activeDimension, beginIndex, endIndex,
                                       2 * FloorLog(endIndex - beginIndex), sizeThreshold);
   InsertSort< TSubsample >(sample, activeDimension, beginIndex, endIndex);

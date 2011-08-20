@@ -77,9 +77,6 @@ int itkWeightedMeanSampleFilterTest(int, char* [] )
   const unsigned int                  numberOfMeasurementVectors = 5;
   unsigned int                        counter;
 
-  typedef itk::FixedArray<
-    float, MeasurementVectorSize >             MeasurementVectorType;
-
   typedef itk::Statistics::ListSample<
     MeasurementVectorType >                    SampleType;
 

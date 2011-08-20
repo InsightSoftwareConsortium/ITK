@@ -442,9 +442,9 @@ int main( int argc, char *argv[] )
   typedef itk::Vector< float,       3 >  Vector3DType;
   typedef itk::Image< Vector3DType, 3 >  VectorImage3DType;
 
-  typedef itk::ImageFileWriter< VectorImage3DType > WriterType;
+  typedef itk::ImageFileWriter< VectorImage3DType > VectorImage3DWriterType;
 
-  WriterType::Pointer writer3D = WriterType::New();
+  VectorImage3DWriterType::Pointer writer3D = VectorImage3DWriterType::New();
 
   VectorImage3DType::Pointer vectorImage3D = VectorImage3DType::New();
 

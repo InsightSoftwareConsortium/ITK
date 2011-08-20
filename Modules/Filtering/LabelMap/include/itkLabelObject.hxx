@@ -101,7 +101,6 @@ bool
 LabelObject< TLabel, VImageDimension >::RemoveIndex(const IndexType & idx)
 {
   typename LineContainerType::iterator it = m_LineContainer.begin();
-  typedef typename IndexType::IndexValueType IndexValueType;
 
   while( it != m_LineContainer.end() )
     {

@@ -158,8 +158,6 @@ ZeroFluxNeumannBoundaryCondition< TImage >
 
   IndexType lookupIndex;
 
-  typedef typename IndexType::IndexValueType IndexValueType;
-
   for ( unsigned int i = 0; i < ImageDimension; ++i )
     {
     IndexValueType lowerIndex = imageIndex[i];

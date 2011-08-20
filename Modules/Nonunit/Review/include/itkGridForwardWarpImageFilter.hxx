@@ -93,8 +93,6 @@ GridForwardWarpImageFilter< TDeformationField, TOutputImage >
   // Bresenham line iterator
   typedef LineIterator< OutputImageType > LineIteratorType;
 
-  typedef typename IndexType::IndexValueType IndexValueType;
-
   IndexType                                index, refIndex, targetIndex;
   ContinuousIndex< float, ImageDimension > contindex;
   DisplacementType                         displacement;

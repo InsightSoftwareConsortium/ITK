@@ -1110,8 +1110,6 @@ void
 BalloonForceFilter< TInputMesh, TOutputMesh >
 ::GradientFit()
 {
-  typedef typename GradientIndexType::IndexValueType IndexValueType;
-
   GradientIndexType coord, coord2, tmp_co_1, tmp_co_2;
   IPixelType        v1, v2;
   PixelType         mag;

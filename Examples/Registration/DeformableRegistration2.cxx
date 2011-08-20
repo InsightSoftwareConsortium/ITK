@@ -42,24 +42,21 @@
 // Software Guide : EndCodeSnippet
 
 
-
-
-
 //  The following section of code implements a Command observer
 //  that will monitor the evolution of the registration process.
 //
   class CommandIterationUpdate : public itk::Command
   {
   public:
-    typedef  CommandIterationUpdate   Self;
-    typedef  itk::Command             Superclass;
+    typedef  CommandIterationUpdate                     Self;
+    typedef  itk::Command                               Superclass;
     typedef  itk::SmartPointer<CommandIterationUpdate>  Pointer;
     itkNewMacro( CommandIterationUpdate );
   protected:
     CommandIterationUpdate() {};
 
-    typedef itk::Image< float, 2 > InternalImageType;
-    typedef itk::Vector< float, 2 >    VectorPixelType;
+    typedef itk::Image< float, 2 >            InternalImageType;
+    typedef itk::Vector< float, 2 >           VectorPixelType;
     typedef itk::Image<  VectorPixelType, 2 > DeformationFieldType;
 
     typedef itk::DemonsRegistrationFilter<
@@ -85,10 +82,6 @@
         std::cout << filter->GetMetric() << std::endl;
       }
   };
-
-
-
-
 
 
 int main( int argc, char *argv[] )
@@ -138,12 +131,12 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef float InternalPixelType;
+  typedef float                                      InternalPixelType;
   typedef itk::Image< InternalPixelType, Dimension > InternalImageType;
   typedef itk::CastImageFilter< FixedImageType,
-                                InternalImageType > FixedImageCasterType;
+                                InternalImageType >  FixedImageCasterType;
   typedef itk::CastImageFilter< MovingImageType,
-                                InternalImageType > MovingImageCasterType;
+                                InternalImageType >  MovingImageCasterType;
 
   FixedImageCasterType::Pointer fixedImageCaster   = FixedImageCasterType::New();
   MovingImageCasterType::Pointer movingImageCaster = MovingImageCasterType::New();
@@ -235,7 +228,7 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Vector< float, Dimension >    VectorPixelType;
+  typedef itk::Vector< float, Dimension >           VectorPixelType;
   typedef itk::Image<  VectorPixelType, Dimension > DeformationFieldType;
   typedef itk::DemonsRegistrationFilter<
                                 InternalImageType,
@@ -245,15 +238,10 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
-
   // Create the Command observer and register it with the registration filter.
   //
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
   filter->AddObserver( itk::IterationEvent(), observer );
-
-
 
 
   // Software Guide : BeginLatex
@@ -355,11 +343,11 @@ int main( int argc, char *argv[] )
 
 
   // Write warped image out to file
-  typedef  unsigned char  OutputPixelType;
+  typedef  unsigned char                           OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
   typedef itk::CastImageFilter<
                         MovingImageType,
-                        OutputImageType > CastFilterType;
+                        OutputImageType >          CastFilterType;
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
 
   WriterType::Pointer      writer =  WriterType::New();
@@ -398,7 +386,6 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
 
-
   // Software Guide : BeginLatex
   //
   // It may be also desirable to write the deformation field as an image of
@@ -432,7 +419,7 @@ int main( int argc, char *argv[] )
   if( argc > 5 ) // if a fifth line argument has been provided...
     {
 
-  typedef DeformationFieldType  VectorImage2DType;
+  typedef DeformationFieldType            VectorImage2DType;
   typedef DeformationFieldType::PixelType Vector2DType;
 
   VectorImage2DType::ConstPointer vectorImage2D = filter->GetOutput();
@@ -445,9 +432,9 @@ int main( int argc, char *argv[] )
   typedef itk::Vector< float,       3 >  Vector3DType;
   typedef itk::Image< Vector3DType, 3 >  VectorImage3DType;
 
-  typedef itk::ImageFileWriter< VectorImage3DType > WriterType;
+  typedef itk::ImageFileWriter< VectorImage3DType > VectorImage3DWriterType;
 
-  WriterType::Pointer writer3D = WriterType::New();
+  VectorImage3DWriterType::Pointer writer3D = VectorImage3DWriterType::New();
 
   VectorImage3DType::Pointer vectorImage3D = VectorImage3DType::New();
 
@@ -512,8 +499,5 @@ int main( int argc, char *argv[] )
 
   }
 
-
-
   return EXIT_SUCCESS;
 }
-
