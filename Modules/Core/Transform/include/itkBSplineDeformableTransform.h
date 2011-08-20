@@ -103,7 +103,6 @@ namespace itk
  * The class is templated coordinate representation type (float or double),
  * the space dimension and the spline order.
  *
- * \ingroup Transforms
  * \ingroup ITKTransform
  *
  * \wiki

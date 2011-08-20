@@ -51,7 +51,6 @@ namespace itk
  * \sa Transfrom
  * \sa MatrixOffsetTransformBase
  *
- * \ingroup Transforms
  * \ingroup ITKTransform
  */
 template <class TScalarType = double>

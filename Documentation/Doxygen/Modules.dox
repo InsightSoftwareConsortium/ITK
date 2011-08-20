@@ -356,8 +356,7 @@ Examples of these types of segmentation methods in ITK include: curvature flow-b
 
 
 
-/**
-\defgroup Transforms Transforms
+\defgroup ITKTransform Transforms
 \ingroup DataProcessing
 */
 

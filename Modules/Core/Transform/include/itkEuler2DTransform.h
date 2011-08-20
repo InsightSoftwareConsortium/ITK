@@ -35,7 +35,6 @@ namespace itk
  *
  * \sa Rigid2DTransform
  *
- * \ingroup Transforms
  * \ingroup ITKTransform
  */
 template< class TScalarType = double >

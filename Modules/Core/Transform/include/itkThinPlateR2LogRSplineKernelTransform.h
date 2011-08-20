@@ -30,7 +30,6 @@ namespace itk
  *
  * The kernel used in this variant of TPS is \f$ R^2 log(R) \f$
  *
- * \ingroup Transforms
  * \ingroup ITKTransform
  */
 template< class TScalarType,         // Data type for scalars (float or double)

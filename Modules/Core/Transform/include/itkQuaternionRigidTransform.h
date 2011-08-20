@@ -42,7 +42,6 @@ namespace itk
  * the center of rotation.
  *
  *
- * \ingroup Transforms
  * \ingroup ITKTransform
  */
 template <class TScalarType = double>

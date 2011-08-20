@@ -92,8 +92,7 @@ namespace itk
  * and a translation that is applied with respect to that centered rotation.
  * By default the center of rotation is set to the origin.
  *
- * \ingroup Transforms
- *
+ * \ingroup ITKTransform
  */
 
 template<

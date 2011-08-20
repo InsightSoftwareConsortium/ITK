@@ -32,7 +32,6 @@ namespace itk
 /** \class TransformBase
  *
  * This class is an abstract class to represent the transform
- * \ingroup Transforms
  *
  * \ingroup ITKTransform
  */

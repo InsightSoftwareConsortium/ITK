@@ -54,7 +54,6 @@ namespace itk
  * Registration". In 18th International Conference of the IEEE
  * Engineering in Medicine and Biology Society. 1996.
  *
- * \ingroup Transforms
  *
  * \ingroup ITKTransform
  */

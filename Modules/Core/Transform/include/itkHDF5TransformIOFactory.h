@@ -27,7 +27,6 @@ namespace itk
 /** \class HDF5TransformIOFactory
    * \brief Create instances of HDF5TransformIO objects using an object factory.
    *
-   * \ingroup Transforms
    * \ingroup ITKTransform
    */
 class HDF5TransformIOFactory:public ObjectFactoryBase

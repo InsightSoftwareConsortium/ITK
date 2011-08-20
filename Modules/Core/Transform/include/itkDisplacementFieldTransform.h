@@ -83,7 +83,6 @@ class VectorInterpolateImageFunction;
  * an identity matrix (see method documentation),
  * and \c ComputeJacobianWithRespectToPosition should be used.
  *
- * \ingroup Transforms
  *
  * \ingroup ITKTransform
  */
