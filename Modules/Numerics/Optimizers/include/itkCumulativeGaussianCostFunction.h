@@ -80,7 +80,7 @@ public:
   MeasureType GetValue(const ParametersType & parameters) const;
 
   /** Return a pointer of values evaluated for the given parameters. */
-  MeasureType * GetValue(ParametersType & parameters);
+  MeasureType * GetValuePointer(ParametersType & parameters);
 
   /** Calculate a fit error between the data and the fit curve. */
   double CalculateFitError(MeasureType *setTestArray);

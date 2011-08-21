@@ -60,6 +60,11 @@ public:
   /** Internal matrix type */
   typedef vnl_matrix_fixed< T, NRows, NColumns > InternalMatrixType;
 
+  /** Compatible square matrix. This is currently used by operator* to help
+   * with wrapping.  \todo In the future, the method should be templated to allow
+   * multiplication by NColumns by XRows.*/
+  typedef Matrix<T, NColumns, NColumns> CompatibleSquareMatrixType;
+
   /** Matrix by Vector multiplication.  */
   Vector< T, NRows > operator *(const Vector< T, NColumns > & vector) const;
 
@@ -71,7 +76,7 @@ public:
   operator *(const CovariantVector< T, NColumns > & vector) const;
 
   /** Matrix by Matrix multiplication.  */
-  Self operator *(const Self & matrix) const;
+  Self operator *(const CompatibleSquareMatrixType & matrix) const;
 
   /** Matrix addition.  */
   Self operator+(const Self & matrix) const;
@@ -87,7 +92,7 @@ public:
   vnl_matrix< T > operator *(const vnl_matrix< T > & matrix) const;
 
   /** Matrix by Matrix multiplication.  */
-  void operator*=(const Self & matrix);
+  void operator*=(const CompatibleSquareMatrixType & matrix);
 
   /** Matrix by vnl_matrix multiplication.  */
   void operator*=(const vnl_matrix< T > & matrix);

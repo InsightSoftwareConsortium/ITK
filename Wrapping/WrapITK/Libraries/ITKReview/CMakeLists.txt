@@ -18,7 +18,7 @@ ITKIOGDCM ITKIOIPL ITKIOGE ITKIOGIPL ITKIOJPEG ITKIOTIFF ITKIOLSM
 ITKIOMeta ITKIONIFTI ITKIONRRD ITKIOSiemens ITKIOSpatialObjects
 ITKIOStimulate ITKIOVTK ITKLabelVoting ITKQuadEdgeMeshFiltering
 ITKRegionGrowing ITKVoronoi ITKWatersheds ITKLabelMap
-ITKBinaryMathematicalMorphology ITKImageFusion)
+ITKBinaryMathematicalMorphology ITKImageFusion ITKOptimizers)
 
 
 set(WRAPPER_LIBRARY_LINK_LIBRARIES ${ITK_LIBRARIES})

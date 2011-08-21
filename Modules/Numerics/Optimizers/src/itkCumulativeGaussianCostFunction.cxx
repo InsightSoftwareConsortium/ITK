@@ -201,7 +201,7 @@ CumulativeGaussianCostFunction
 
 CumulativeGaussianCostFunction::MeasureType *
 CumulativeGaussianCostFunction
-::GetValue(ParametersType & parameters)
+::GetValuePointer(ParametersType & parameters)
 {
   m_MeasurePointer->SetSize(m_RangeDimension);
 

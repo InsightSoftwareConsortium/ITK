@@ -171,7 +171,11 @@ public:
                  itkGetStaticConstMacro(InputSpaceDimension)>
   DirectionChangeMatrix;
 
+#if 0
+  // this method is currently undocummented, untested and broken when input and output dimensions are
+  // not the same
   void SetDirectionChange( const OutputDirectionMatrix fixedDir, const InputDirectionMatrix  movingDir );
+#endif
 
   void SetDirectionChangeMatrix( const DirectionChangeMatrix & changeDir )
   {

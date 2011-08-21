@@ -1,7 +1,6 @@
 WRAP_LIBRARY(ITKStatistics)
 
 set(WRAPPER_LIBRARY_GROUPS
-  ITKCostFunctions
   itkSample
   itkHistogram
   itkListSample

@@ -8,7 +8,9 @@ set(WRAPPER_LIBRARY_GROUPS
   itkShapePriorSegmentationLevelSetImageFilter
 )
 
-set(WRAPPER_LIBRARY_DEPENDS ITKImageFeature ITKFiniteDifference ITKDistanceMap ITKAnisotropicSmoothing ITKThresholding ITKImageCompare ITKFastMarching)
+set(WRAPPER_LIBRARY_DEPENDS ITKImageFeature ITKFiniteDifference
+ITKDistanceMap ITKAnisotropicSmoothing ITKThresholding ITKImageCompare
+ITKFastMarching ITKOptimizers)
 
 set(WRAPPER_LIBRARY_LINK_LIBRARIES ${ITK_LIBRARIES})
 
