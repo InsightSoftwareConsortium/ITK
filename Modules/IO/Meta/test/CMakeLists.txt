@@ -3,6 +3,7 @@ set(ITKIOMetaTests
 itkMetaImageIOMetaDataTest.cxx
 itkMetaImageIOGzTest.cxx
 itkMetaImageIOTest.cxx
+itkLargeMetaImageWriteReadTest.cxx
 testMetaArray.cxx
 testMetaBlob.cxx
 testMetaCommand.cxx
@@ -127,3 +128,45 @@ itk_add_test(NAME itkMetaImageStreamingWriterIOTest2
     --compare ${ITK_DATA_ROOT}/Input/mri3D.mhd
               ${ITK_TEST_OUTPUT_DIR}/mri3DWriteStreamed.mha
     itkMetaImageStreamingWriterIOTest ${ITK_DATA_ROOT}/Input/mri3D.mhd ${ITK_TEST_OUTPUT_DIR}/mri3DWriteStreamed.mha)
+
+if( "${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5 )
+
+  # Image of 1.67 Gigabytes (pixels size is 16bits)
+  itk_add_test(NAME itkLargeMetaImageWriteReadTest1
+      COMMAND ITKIOMetaTestDriver
+    itkLargeMetaImageWriteReadTest ${ITK_TEST_OUTPUT_DIR}/LargeImage01.mhd  30000L )
+
+  # Image of 2.98 Gigabytes (pixels size is 16bits)
+  itk_add_test(NAME itkLargeMetaImageWriteReadTest2
+      COMMAND ITKIOMetaTestDriver
+    itkLargeMetaImageWriteReadTest ${ITK_TEST_OUTPUT_DIR}/LargeImage02.mhd  40000L )
+
+  # Image of 4.9 Gigabytes (pixels size is 8-bits out and 16-bit in)
+  itk_add_test(NAME itkLargeMetaImageWriteReadTest3
+      COMMAND ITKIOMetaTestDriver
+    itkLargeMetaImageWriteReadTest ${ITK_TEST_OUTPUT_DIR}/LargeImage03.mhd  50000L )
+
+  # Due to the large memory requirements this tests must be run one by one
+  set_tests_properties(itkLargeMetaImageWriteReadTest1
+                       itkLargeMetaImageWriteReadTest2
+                       itkLargeMetaImageWriteReadTest3
+                       PROPERTIES
+                       RUN_SERIAL 1
+                      )
+endif()
+
+
+if( "${ITK_COMPUTER_MEMORY_SIZE}" GREATER 12 )
+
+  # Image of 9.12 Gigabytes (pixels size is 16bits)
+  itk_add_test(NAME itkLargeMetaImageWriteReadTest4
+      COMMAND ITKIOMetaTestDriver
+    itkLargeMetaImageWriteReadTest ${ITK_TEST_OUTPUT_DIR}/LargeImage04.mhd  70000L )
+
+  # Due to the large memory requirements this tests must be run one by one
+  set_tests_properties(itkLargeMetaImageWriteReadTest4
+    PROPERTIES
+    RUN_SERIAL 1
+    )
+
+endif()
