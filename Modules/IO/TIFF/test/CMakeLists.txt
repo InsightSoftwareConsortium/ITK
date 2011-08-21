@@ -2,6 +2,7 @@ itk_module_test()
 set(ITKIOTIFFTests
 itkTIFFImageIOTest.cxx
 itkTIFFImageIOTest2.cxx
+itkLargeTIFFImageWriteReadTest.cxx
 )
 
 CreateTestDriver(ITKIOTIFF  "${ITKIOTIFF-Test_LIBRARIES}" "${ITKIOTIFFTests}")
@@ -104,3 +105,46 @@ itk_add_test(NAME itkTIFFImageIOMultResTest2
 itk_add_test(NAME itkTIFFImageIOSpacing
    COMMAND ITKIOTIFFTestDriver
     itkTIFFImageIOTest2 ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOSpacing.tif)
+
+
+if( "${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5 )
+
+  # Image of 1.67 Gigabytes (pixels size is 16bits)
+  itk_add_test(NAME itkLargeTIFFImageWriteReadTest1
+      COMMAND ITKIOTIFFTestDriver
+    itkLargeTIFFImageWriteReadTest ${ITK_TEST_OUTPUT_DIR}/LargeImage01.tif  30000L )
+
+  # Image of 2.98 Gigabytes (pixels size is 16bits)
+  itk_add_test(NAME itkLargeTIFFImageWriteReadTest2
+      COMMAND ITKIOTIFFTestDriver
+    itkLargeTIFFImageWriteReadTest ${ITK_TEST_OUTPUT_DIR}/LargeImage02.tif  40000L )
+
+  # Image of 4.9 Gigabytes (pixels size is 8-bits out and 16-bit in)
+  itk_add_test(NAME itkLargeTIFFImageWriteReadTest3
+      COMMAND ITKIOTIFFTestDriver
+    itkLargeTIFFImageWriteReadTest ${ITK_TEST_OUTPUT_DIR}/LargeImage03.tif  50000L )
+
+  # Due to the large memory requirements this tests must be run one by one
+  set_tests_properties(itkLargeTIFFImageWriteReadTest1
+                       itkLargeTIFFImageWriteReadTest2
+                       itkLargeTIFFImageWriteReadTest3
+                       PROPERTIES
+                       RUN_SERIAL 1
+                      )
+endif()
+
+
+if( "${ITK_COMPUTER_MEMORY_SIZE}" GREATER 12 )
+
+  # Image of 9.12 Gigabytes (pixels size is 16bits)
+  itk_add_test(NAME itkLargeTIFFImageWriteReadTest4
+      COMMAND ITKIOTIFFTestDriver
+    itkLargeTIFFImageWriteReadTest ${ITK_TEST_OUTPUT_DIR}/LargeImage04.tif  70000L )
+
+  # Due to the large memory requirements this tests must be run one by one
+  set_tests_properties(itkLargeTIFFImageWriteReadTest4
+    PROPERTIES
+    RUN_SERIAL 1
+    )
+
+endif()
