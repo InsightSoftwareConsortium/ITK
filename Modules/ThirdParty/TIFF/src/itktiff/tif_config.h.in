@@ -389,12 +389,7 @@ the sizes can be different.*/
 
 /* Signed size type */
 #undef TIFF_SSIZE_T
-#if defined( HAVE_STDINT_H )
-#define TIFF_SSIZE_T  size_t
-#else
-#define TIFF_SSIZE_T  size_t
-#endif
-
+#define TIFF_SSIZE_T  intptr_t
 
 /* Unsigned 16-bit type */
 #undef TIFF_UINT16_T
