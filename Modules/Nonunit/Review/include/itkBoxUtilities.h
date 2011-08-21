@@ -212,7 +212,6 @@ BoxMeanCalculatorFunction(const TInputImage *accImage,
   typedef typename TInputImage::IndexType       IndexType;
   typedef typename TInputImage::PixelType       PixelType;
   typedef typename TInputImage::OffsetType      OffsetType;
-  typedef typename TInputImage::OffsetValueType OffsetValueType;
   typedef TOutputImage                          OutputImageType;
   typedef typename TOutputImage::PixelType      OutputPixelType;
   typedef typename TInputImage::PixelType       InputPixelType;
@@ -397,7 +396,6 @@ BoxSigmaCalculatorFunction(const TInputImage *accImage,
   typedef typename TInputImage::IndexType       IndexType;
   typedef typename TInputImage::PixelType       PixelType;
   typedef typename TInputImage::OffsetType      OffsetType;
-  typedef typename TInputImage::OffsetValueType OffsetValueType;
   typedef TOutputImage                          OutputImageType;
   typedef typename TOutputImage::PixelType      OutputPixelType;
   typedef typename TInputImage::PixelType       InputPixelType;

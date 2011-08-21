@@ -65,9 +65,6 @@ PyramidFilterType::Pointer MakeTwoLevelPyramid(TImageType::Pointer refImage)
 }
 
 
-typedef itk::ImageMomentsCalculator<TImageType> momentsCalculatorType;
-
-
 TImageType::PointType GetImageCenterPhysicalPoint(TImageType::Pointer & image)
 {
   const TImageType::SizeType imageOverallSize=image->GetLargestPossibleRegion().GetSize();

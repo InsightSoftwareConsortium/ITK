@@ -443,7 +443,6 @@ int itkVersorRigid3DTransformTest(int, char * [] )
     unsigned int par;
     bool         Ok;
 
-    typedef TransformType::MatrixType MatrixType;
     MatrixType matrix;
 
     TransformType::Pointer t = TransformType::New();
@@ -515,7 +514,6 @@ int itkVersorRigid3DTransformTest(int, char * [] )
 
     // Check the computed parameters
 
-    typedef TransformType::ParametersType ParametersType;
     ParametersType e( t->GetNumberOfParameters() );
     e.Fill( 0.0 );
     e[2] = vcl_sin(0.5 * a);

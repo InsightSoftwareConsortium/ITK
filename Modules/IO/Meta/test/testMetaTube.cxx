@@ -101,9 +101,9 @@ int testMetaTube(int argc, char * argv[])
     (*it)->PrintInfo();
     if(!strncmp((*it)->ObjectTypeName(),"Tube",4))
     {
-      typedef MetaTube::PointListType ListType;
+      typedef MetaTube::PointListType PointListType;
       MetaTube* tube = dynamic_cast<MetaTube*>(*it);
-      ListType::iterator it2 = tube->GetPoints().begin();
+      PointListType::iterator it2 = tube->GetPoints().begin();
 
       for(unsigned int j=0;j< tube->GetPoints().size();j++)
       {

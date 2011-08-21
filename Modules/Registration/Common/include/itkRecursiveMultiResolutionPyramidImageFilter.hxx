@@ -265,9 +265,7 @@ RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
   oper->SetMaximumError( this->GetMaximumError() );
 
   typedef typename OutputImageType::SizeType   SizeType;
-  typedef typename SizeType::SizeValueType     SizeValueType;
   typedef typename OutputImageType::IndexType  IndexType;
-  typedef typename IndexType::IndexValueType   IndexValueType;
   typedef typename OutputImageType::RegionType RegionType;
 
   int          ilevel, idim;
@@ -394,9 +392,7 @@ RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 
   // compute baseIndex and baseSize
   typedef typename OutputImageType::SizeType   SizeType;
-  typedef typename SizeType::SizeValueType     SizeValueType;
   typedef typename OutputImageType::IndexType  IndexType;
-  typedef typename IndexType::IndexValueType   IndexValueType;
   typedef typename OutputImageType::RegionType RegionType;
 
   unsigned int refLevel = this->GetNumberOfLevels() - 1;

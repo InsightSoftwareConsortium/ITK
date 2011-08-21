@@ -121,8 +121,6 @@ ImageMaskSpatialObject< TDimension >
 
   ImagePointer image = this->GetImage();
 
-  typedef typename SizeType::SizeValueType SizeValueType;
-
   IndexType index;
   SizeType  size;
 

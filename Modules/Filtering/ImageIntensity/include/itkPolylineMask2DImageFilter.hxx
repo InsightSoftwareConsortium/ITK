@@ -156,8 +156,6 @@ void PolylineMask2DImageFilter< TInputImage, TPolyline, TOutputImage >
   ImageIndexType endImageIndex;
   ImageIndexType tmpImageIndex;
 
-  typedef typename ImageIndexType::IndexValueType IndexValueType;
-
   ImageLineIteratorType imit( outputImagePtr, outputImagePtr->GetLargestPossibleRegion() );
   imit.SetDirection(0);
 

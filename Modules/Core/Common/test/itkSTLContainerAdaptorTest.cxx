@@ -169,8 +169,6 @@ int itkSTLContainerAdaptorTest(int, char* [] )
 
     std::cout << "Testing the MapContainer " << std::endl;
 
-    typedef itk::MapContainer<IndexType, ElementType>  MapContainerType;
-
     MapContainerType::Pointer mapContainer = MapContainerType::New();
 
     typedef std::map<int,ElementType>  STLMapType;

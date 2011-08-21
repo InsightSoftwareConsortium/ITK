@@ -657,8 +657,6 @@ void
 DeformableMesh3DFilter< TInputMesh, TOutputMesh >
 ::GradientFit()
 {
-  typedef typename ImageIndexType::IndexValueType IndexValueType;
-
   ImageIndexType coord, coord2, tmp_co_1, tmp_co_2, tmp_co_3;
   InputPointType v1, v2;
   PixelType      mag;

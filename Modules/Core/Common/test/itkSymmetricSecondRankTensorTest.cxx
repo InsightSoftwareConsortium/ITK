@@ -436,7 +436,6 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
   //Test casting constructors
   {
     typedef itk::SymmetricSecondRankTensor<int,3>     Int3DTensorType;
-    typedef itk::SymmetricSecondRankTensor<float,3>   Float3DTensorType;
 
     Int3DTensorType intTensor;
     intTensor[0] =   1;

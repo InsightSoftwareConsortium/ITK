@@ -44,9 +44,9 @@ int itkJointDomainImageToListSampleAdaptorTest(int, char* [] )
   image->SetRegions( region );
   image->Allocate();
 
-  typedef itk::ImageRegionIteratorWithIndex< ImageType > IteratorType;
+  typedef itk::ImageRegionIteratorWithIndex< ImageType > RegionIteratorType;
 
-  IteratorType it( image, region );
+  RegionIteratorType it( image, region );
 
   it.GoToBegin();
 
