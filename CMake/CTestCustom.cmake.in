@@ -93,6 +93,7 @@ SET(CTEST_CUSTOM_WARNING_EXCEPTION
   ".*[/\\\\][Mm]odules[/\\\\][Tt]hird[Pp]arty[/\\\\][Vv][Nn][Ll][/\\\\].*[Ww]arning.*"
   ".*[/\\\\][Mm]odules[/\\\\][Tt]hird[Pp]arty[/\\\\][Vv][Nn][Ll][Ii]nstantiation[/\\\\].*[Ww]arning.*"
   ".*[/\\\\][Mm]odules[/\\\\][Tt]hird[Pp]arty[/\\\\][Zz][Ll][Ii][Bb][/\\\\].*[Ww]arning.*"
+  ".*Microsoft.*include.*win.*.h.*[Ww]arning.*"
   )
 
 IF(APPLE)
