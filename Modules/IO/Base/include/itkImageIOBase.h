@@ -270,7 +270,7 @@ public:
   std::string GetByteOrderAsString(ByteOrder) const;
 
   /** Type for representing size of bytes, and or positions along a file */
-  typedef std::streamoff SizeType;
+  typedef ::itk::intmax_t          SizeType;
 
   /** Type for representing size of bytes, and or positions along a memory
     buffer */

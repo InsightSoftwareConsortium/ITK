@@ -41,6 +41,8 @@ int ActualTest( std::string filename, typename TImageType::SizeType size )
   typedef itk::ImageRegionIterator< ImageType >       IteratorType;
   typedef itk::ImageRegionConstIterator< ImageType >  ConstIteratorType;
 
+  typedef itk::SizeValueType                 SizeValueType;
+
   typename ImageType::RegionType region;
   typename ImageType::IndexType index;
 
@@ -56,14 +58,17 @@ int ActualTest( std::string filename, typename TImageType::SizeType size )
 
   image->SetRegions(region);
 
-  size_t numberOfPixels = 1;
+  SizeValueType numberOfPixels = 1;
   for (unsigned int i = 0; i < ImageType::ImageDimension; ++i )
     {
-    numberOfPixels *= region.GetSize( i );
+    numberOfPixels *= static_cast< SizeValueType >( region.GetSize( i ) );
     }
 
-  const unsigned long sizeInMegaBytes = static_cast< unsigned long >(
-    ( sizeof(PixelType) * numberOfPixels ) / ( 1024.0 * 1024.0 ) );
+  const SizeValueType oneMegaByte = SizeValueType(1024) * SizeValueType(1024);
+
+  const SizeValueType sizeInBytes = sizeof(PixelType) * numberOfPixels;
+
+  const SizeValueType sizeInMegaBytes = sizeInBytes / oneMegaByte;
 
 
   std::cout << "Trying to allocate an image of size " << sizeInMegaBytes << " Mb " << std::endl;
