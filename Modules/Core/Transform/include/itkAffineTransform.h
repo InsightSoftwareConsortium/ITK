@@ -295,8 +295,7 @@ protected:
    * transformation in the appropriate number of dimensions.   */
   AffineTransform(const MatrixType & matrix,
                   const OutputVectorType & offset);
-  AffineTransform(unsigned int outputDims,
-                  unsigned int paramDims);
+  AffineTransform(unsigned int paramDims);
   AffineTransform();
 
   /** Destroy an AffineTransform object   */

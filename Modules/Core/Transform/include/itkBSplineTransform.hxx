@@ -29,7 +29,7 @@ namespace itk
 // Constructor with default arguments
 template <class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
 BSplineTransform<TScalarType, NDimensions, VSplineOrder>
-::BSplineTransform() : Superclass( SpaceDimension, 0 )
+::BSplineTransform() : Superclass( 0 )
 {
   // Initialize images
   for( unsigned int j = 0; j < SpaceDimension; j++ )

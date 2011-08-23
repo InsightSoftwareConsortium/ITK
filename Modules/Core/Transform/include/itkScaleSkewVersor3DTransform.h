@@ -136,7 +136,7 @@ public:
 protected:
   ScaleSkewVersor3DTransform();
   ScaleSkewVersor3DTransform(const MatrixType & matrix, const OutputVectorType & offset);
-  ScaleSkewVersor3DTransform(unsigned int outputDims, unsigned int paramDims);
+  ScaleSkewVersor3DTransform(unsigned int paramDims);
   ~ScaleSkewVersor3DTransform()
   {
   }

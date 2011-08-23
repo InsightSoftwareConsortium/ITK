@@ -26,14 +26,13 @@ namespace itk
 template< class TScalarType >
 Euler2DTransform< TScalarType >
 ::Euler2DTransform():
-  Superclass(SpaceDimension, ParametersDimension)
+  Superclass(ParametersDimension)
 {}
 
 // Constructor with arguments
 template< class TScalarType >
-Euler2DTransform< TScalarType >::Euler2DTransform(unsigned int spaceDimension,
-                                                  unsigned int parametersDimension):
-  Superclass(spaceDimension, parametersDimension)
+Euler2DTransform< TScalarType >::Euler2DTransform(unsigned int parametersDimension):
+  Superclass(parametersDimension)
 {}
 
 // Create and return an inverse transformation

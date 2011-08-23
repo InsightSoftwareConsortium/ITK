@@ -26,8 +26,7 @@ namespace itk
 {
 // Constructor with default arguments
 template <class TScalarType, unsigned int NDimensions>
-CenteredAffineTransform<TScalarType, NDimensions>::CenteredAffineTransform() : Superclass(SpaceDimension,
-                                                                                          ParametersDimension)
+CenteredAffineTransform<TScalarType, NDimensions>::CenteredAffineTransform() : Superclass(ParametersDimension)
 {
 }
 

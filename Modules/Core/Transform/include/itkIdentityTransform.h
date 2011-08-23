@@ -228,7 +228,7 @@ public:
   {
   }
 protected:
-  IdentityTransform() : Transform<TScalarType, NDimensions, NDimensions>(NDimensions, 0),
+  IdentityTransform() : Transform<TScalarType, NDimensions, NDimensions>(0),
     m_IdentityJacobian(NDimensions, 0)
   {
     // The Jacobian is constant, therefore it can be initialized in the

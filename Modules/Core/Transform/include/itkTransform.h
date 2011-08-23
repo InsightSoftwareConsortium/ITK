@@ -508,7 +508,7 @@ public:
   }
 protected:
   Transform();
-  Transform(unsigned int Dimension, unsigned int NumberOfParameters);
+  Transform(unsigned int NumberOfParameters);
   virtual ~Transform()
   {
   }

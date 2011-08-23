@@ -29,7 +29,7 @@ namespace itk
  */
 template
 <class TScalar, unsigned int NDimensions>
-CompositeTransform<TScalar, NDimensions>::CompositeTransform() : Superclass( NDimensions, 0 )
+CompositeTransform<TScalar, NDimensions>::CompositeTransform() : Superclass( 0 )
 {
   this->m_TransformQueue.clear();
   this->m_TransformsToOptimizeFlags.clear();

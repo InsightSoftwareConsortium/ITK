@@ -24,8 +24,7 @@ namespace itk
 {
 // Constructor with default arguments
 template <class TScalarType>
-Rigid3DPerspectiveTransform<TScalarType>::Rigid3DPerspectiveTransform() : Superclass(SpaceDimension,
-                                                                                     ParametersDimension)
+Rigid3DPerspectiveTransform<TScalarType>::Rigid3DPerspectiveTransform() : Superclass(ParametersDimension)
 {
   m_Offset.Fill(0);
   m_Versor.SetIdentity();

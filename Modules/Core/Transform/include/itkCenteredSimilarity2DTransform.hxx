@@ -25,8 +25,7 @@ namespace itk
 // Constructor with default arguments
 template <class TScalarType>
 CenteredSimilarity2DTransform<TScalarType>
-::CenteredSimilarity2DTransform() : Superclass(OutputSpaceDimension,
-                                               ParametersDimension)
+::CenteredSimilarity2DTransform() : Superclass(ParametersDimension)
 {
 }
 

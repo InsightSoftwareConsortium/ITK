@@ -114,8 +114,8 @@ public:
 
 protected:
   CenteredEuler3DTransform();
-  CenteredEuler3DTransform(unsigned int SpaceDimension, unsigned int ParametersDimension);
   CenteredEuler3DTransform(const MatrixType & matrix, const OutputPointType & offset);
+  CenteredEuler3DTransform(unsigned int ParametersDimension);
   ~CenteredEuler3DTransform();
 
   /**

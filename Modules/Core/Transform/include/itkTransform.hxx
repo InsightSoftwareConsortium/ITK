@@ -49,14 +49,13 @@ template <class TScalarType,
           unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
 Transform<TScalarType, NInputDimensions, NOutputDimensions>
-::Transform(unsigned int dimension, unsigned int numberOfParameters) :
+::Transform(unsigned int numberOfParameters) :
   m_Parameters(numberOfParameters),
   m_FixedParameters(numberOfParameters)
 #ifdef ITKV3_COMPATIBILITY
-  , m_SharedLocalJacobian(dimension, numberOfParameters)
+  , m_SharedLocalJacobian(NOutputDimensions, numberOfParameters)
 #endif
 {
-  (void)dimension;
   m_DirectionChange.SetIdentity();
 }
 

@@ -28,7 +28,7 @@ namespace itk
 template <class TScalarType>
 Similarity3DTransform<TScalarType>
 ::Similarity3DTransform() :
-  Superclass(OutputSpaceDimension, ParametersDimension),
+  Superclass(ParametersDimension),
   m_Scale(1.0)
 {
 }
@@ -36,8 +36,8 @@ Similarity3DTransform<TScalarType>
 // Constructor with arguments
 template <class TScalarType>
 Similarity3DTransform<TScalarType>
-::Similarity3DTransform(unsigned int outputSpaceDim, unsigned int paramDim) :
-  Superclass(outputSpaceDim, paramDim),
+::Similarity3DTransform(unsigned int paramDim) :
+  Superclass(paramDim),
   m_Scale(1.0)
 {
 }

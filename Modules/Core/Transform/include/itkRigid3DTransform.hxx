@@ -25,14 +25,13 @@ namespace itk
 // Constructor with default arguments
 template< class TScalarType >
 Rigid3DTransform< TScalarType >::Rigid3DTransform():
-  Superclass(OutputSpaceDimension, ParametersDimension)
+  Superclass(ParametersDimension)
 {}
 
 // Constructor with default arguments
 template< class TScalarType >
-Rigid3DTransform< TScalarType >::Rigid3DTransform(unsigned int spaceDim,
-                                                  unsigned int paramDim):
-  Superclass(spaceDim, paramDim)
+Rigid3DTransform< TScalarType >::Rigid3DTransform(unsigned int paramDim):
+  Superclass(paramDim)
 {}
 
 // Constructor with default arguments

@@ -36,7 +36,7 @@ class VectorLinearInterpolateImageFunction;
  * Constructor
  */
 template <class TScalar, unsigned int NDimensions>
-DisplacementFieldTransform<TScalar, NDimensions>::DisplacementFieldTransform() : Superclass( NDimensions, 0 )
+DisplacementFieldTransform<TScalar, NDimensions>::DisplacementFieldTransform() : Superclass( 0 )
 {
   this->m_DisplacementField = NULL;
   this->m_InverseDisplacementField = NULL;

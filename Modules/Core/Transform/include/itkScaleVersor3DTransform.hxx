@@ -25,7 +25,7 @@ namespace itk
 // Constructor with default arguments
 template <class TScalarType>
 ScaleVersor3DTransform<TScalarType>
-::ScaleVersor3DTransform() : Superclass(OutputSpaceDimension, ParametersDimension)
+::ScaleVersor3DTransform() : Superclass(ParametersDimension)
 {
   m_Scale.Fill(1.0);
 }
@@ -39,9 +39,8 @@ ScaleVersor3DTransform<TScalarType>
 
 // Constructor with arguments
 template <class TScalarType>
-ScaleVersor3DTransform<TScalarType>::ScaleVersor3DTransform(unsigned int spaceDimension,
-                                                            unsigned int parametersDimension) :
-  Superclass(spaceDimension, parametersDimension)
+ScaleVersor3DTransform<TScalarType>::ScaleVersor3DTransform(unsigned int parametersDimension) :
+  Superclass(parametersDimension)
 {
   m_Scale.Fill(1.0);
 }
