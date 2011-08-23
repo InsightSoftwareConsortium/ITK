@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkIterativeInverseDeformationFieldImageFilter_h
-#define __itkIterativeInverseDeformationFieldImageFilter_h
+#ifndef __itkIterativeInverseDisplacementFieldImageFilter_h
+#define __itkIterativeInverseDisplacementFieldImageFilter_h
 
 
 #include "itkWarpVectorImageFilter.h"
@@ -25,18 +25,18 @@
 
 namespace itk
 {
-/** \class IterativeInverseDeformationFieldImageFilter
- * \brief Computes the inverse of a deformation field.
+/** \class IterativeInverseDisplacementFieldImageFilter
+ * \brief Computes the inverse of a displacement field.
  *
- * IterativeInverseDeformationFieldImageFilter takes a deformation field as input and
- * computes the deformation field that is its inverse. If the input deformation
+ * IterativeInverseDisplacementFieldImageFilter takes a displacement field as input and
+ * computes the displacement field that is its inverse. If the input displacement
  * field was mapping coordinates from a space A into a space B, the output of
  * this filter will map coordinates from the space B into the space A.
  *
  * The algorithm implemented in this filter uses an iterative method for
  * progresively refining the values of the inverse field. Starting from the
  * direct field, at every pixel the direct mapping of this point is found, and
- * a the nevative of the current deformation is stored in the inverse field at
+ * a the nevative of the current displacement is stored in the inverse field at
  * the nearest pixel. Then, subsequent iterations verify if any of the neigbor pixels
  * provide a better return to the current pixel, in which case its value is taken for
  * updating the vector in the inverse field.
@@ -45,16 +45,16 @@ namespace itk
  *
  * \author  Corinne Mattmann
  *
- * \ingroup ITKDeformationField
+ * \ingroup ITKDisplacementField
  */
 
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT IterativeInverseDeformationFieldImageFilter:
+class ITK_EXPORT IterativeInverseDisplacementFieldImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef IterativeInverseDeformationFieldImageFilter     Self;
+  typedef IterativeInverseDisplacementFieldImageFilter    Self;
   typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
   typedef SmartPointer< Self >                            Pointer;
   typedef SmartPointer< const Self >                      ConstPointer;
@@ -63,7 +63,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(IterativeInverseDeformationFieldImageFilter, ImageToImageFilter);
+  itkTypeMacro(IterativeInverseDisplacementFieldImageFilter, ImageToImageFilter);
 
   /** Some typedefs. */
   typedef TInputImage                              InputImageType;
@@ -108,8 +108,8 @@ public:
   /** End concept checking */
 #endif
 protected:
-  IterativeInverseDeformationFieldImageFilter();
-  ~IterativeInverseDeformationFieldImageFilter() {}
+  IterativeInverseDisplacementFieldImageFilter();
+  ~IterativeInverseDisplacementFieldImageFilter() {}
 
   void PrintSelf(std::ostream & os, Indent indent) const;
 
@@ -120,14 +120,13 @@ protected:
   double m_StopValue;
   double m_Time;
 private:
-  IterativeInverseDeformationFieldImageFilter(const Self &); //purposely not
-                                                             // implemented
-  void operator=(const Self &);                              //purposely not
-
-  // implemented
+  IterativeInverseDisplacementFieldImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                              //purposely not implemented
 };
 } // end namespace itk
 
-#include "itkIterativeInverseDeformationFieldImageFilter.hxx"
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkIterativeInverseDisplacementFieldImageFilter.hxx"
+#endif
 
 #endif

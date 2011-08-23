@@ -417,8 +417,6 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-
-
   typedef itk::SquaredDifferenceImageFilter<
                                   FixedImageType,
                                   FixedImageType,
@@ -473,23 +471,23 @@ int main( int argc, char *argv[] )
   // the registration.
 
   typedef itk::Vector< float, ImageDimension >      VectorType;
-  typedef itk::Image< VectorType, ImageDimension >  DeformationFieldType;
+  typedef itk::Image< VectorType, ImageDimension >  DisplacementFieldType;
 
-  DeformationFieldType::Pointer field = DeformationFieldType::New();
+  DisplacementFieldType::Pointer field = DisplacementFieldType::New();
   field->SetRegions( fixedRegion );
   field->SetOrigin( fixedImage->GetOrigin() );
   field->SetSpacing( fixedImage->GetSpacing() );
   field->SetDirection( fixedImage->GetDirection() );
   field->Allocate();
 
-  typedef itk::ImageRegionIterator< DeformationFieldType > FieldIterator;
+  typedef itk::ImageRegionIterator< DisplacementFieldType > FieldIterator;
   FieldIterator fi( field, fixedRegion );
 
   fi.GoToBegin();
 
   TransformType::InputPointType  fixedPoint;
   TransformType::OutputPointType movingPoint;
-  DeformationFieldType::IndexType index;
+  DisplacementFieldType::IndexType index;
 
   VectorType displacement;
 
@@ -503,7 +501,7 @@ int main( int argc, char *argv[] )
     ++fi;
     }
 
-  typedef itk::ImageFileWriter< DeformationFieldType >  FieldWriterType;
+  typedef itk::ImageFileWriter< DisplacementFieldType >  FieldWriterType;
   FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
 
   fieldWriter->SetInput( field );

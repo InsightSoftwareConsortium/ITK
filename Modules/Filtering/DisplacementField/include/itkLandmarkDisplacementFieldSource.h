@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDeformationFieldSource_h
-#define __itkDeformationFieldSource_h
+#ifndef __itkLandmarkDisplacementFieldSource_h
+#define __itkLandmarkDisplacementFieldSource_h
 
 #include "itkImageSource.h"
 #include "itkKernelTransform.h"
@@ -24,37 +24,37 @@
 
 namespace itk
 {
-/** \class DeformationFieldSource
- * \brief Computes a deformation field from two sets of landmarks.
+/** \class LandmarkDisplacementFieldSource
+ * \brief Computes a displacement field from two sets of landmarks.
  *
- * DeformationFieldSource produces a deformation field from two set of input
+ * LandmarkDisplacementFieldSource produces a displacement field from two set of input
  * landmarks.  One set of landmarks are associated to the input space while the
  * second set of landmarks is associated with the output space.
  *
- * A KernelBase spline is used to interpolate the deformations and produce
- * deformation values for all the nodes of the image grid that will be produced
+ * A KernelBase spline is used to interpolate the displacements and produce
+ * displacement values for all the nodes of the image grid that will be produced
  * as output.
  *
  * The number of landmarks in the KernelBased spline will have a dramatic
- * effect on both the precision of output deformation field and the
+ * effect on both the precision of output displacement field and the
  * computational time required for the filter to complete the estimation.
  *
  *
  * This source object expects the image to be of pixel type Vector.
  *
  * \ingroup ImageSource
- * \ingroup ITKDeformationField
+ * \ingroup ITKDisplacementField
  */
 template< class TOutputImage >
-class ITK_EXPORT DeformationFieldSource:
+class ITK_EXPORT LandmarkDisplacementFieldSource:
   public ImageSource< TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef DeformationFieldSource      Self;
-  typedef ImageSource< TOutputImage > Superclass;
-  typedef SmartPointer< Self >        Pointer;
-  typedef SmartPointer< const Self >  ConstPointer;
+  typedef LandmarkDisplacementFieldSource Self;
+  typedef ImageSource< TOutputImage >     Superclass;
+  typedef SmartPointer< Self >            Pointer;
+  typedef SmartPointer< const Self >      ConstPointer;
 
   typedef TOutputImage                         OutputImageType;
   typedef typename OutputImageType::Pointer    OutputImagePointer;
@@ -64,7 +64,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(DeformationFieldSource, ImageSource);
+  itkTypeMacro(LandmarkDisplacementFieldSource, ImageSource);
 
   /** Number of dimensions. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -97,7 +97,7 @@ public:
   typedef typename TOutputImage::DirectionType DirectionType;
 
   /** Set the coordinate transformation.
-   * Set the KernelBase spline used for resampling the deformation grid.
+   * Set the KernelBase spline used for resampling the displacement grid.
    * */
   itkSetObjectMacro(KernelTransform, KernelTransformType);
 
@@ -132,7 +132,7 @@ public:
   itkSetConstObjectMacro(SourceLandmarks, LandmarkContainer);
   itkSetConstObjectMacro(TargetLandmarks, LandmarkContainer);
 
-  /** DeformationFieldSource produces an image which is a different size
+  /** LandmarkDisplacementFieldSource produces an image which is a different size
    * than its input.  As such, it needs to provide an implementation
    * for GenerateOutputInformation() in order to inform the pipeline
    * execution model.  The original documentation of this method is
@@ -143,23 +143,23 @@ public:
   unsigned long GetMTime(void) const;
 
 protected:
-  DeformationFieldSource();
-  ~DeformationFieldSource() {}
+  LandmarkDisplacementFieldSource();
+  ~LandmarkDisplacementFieldSource() {}
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   /**
    * GenerateData() computes the internal KernelBase spline and resamples
-   * the deformation field.
+   * the displacement field.
    */
   void GenerateData();
 
-  /** Subsample the input deformation field and generate the
+  /** Subsample the input displacement field and generate the
    *  landmarks for the kernel base spline
    */
   void PrepareKernelBaseSpline();
 
 private:
-  DeformationFieldSource(const Self &); //purposely not implemented
+  LandmarkDisplacementFieldSource(const Self &); //purposely not implemented
   void operator=(const Self &);         //purposely not implemented
 
   KernelTransformPointerType m_KernelTransform;      // Coordinate transform to
@@ -178,7 +178,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDeformationFieldSource.hxx"
+#include "itkLandmarkDisplacementFieldSource.hxx"
 #endif
 
 #endif

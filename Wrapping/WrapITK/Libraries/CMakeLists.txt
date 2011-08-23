@@ -45,7 +45,7 @@ ITKLevelSets
 ITKAntiAlias
 ITKIORAW
 ITKClassifiers
-ITKDeformationField
+ITKDisplacementField
 ITKDistanceMap
 ITKEigen
 ITKRegistrationCommon

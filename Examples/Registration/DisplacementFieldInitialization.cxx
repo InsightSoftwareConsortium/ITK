@@ -18,14 +18,14 @@
 
 //  Software Guide : BeginLatex
 //
-//  In order to initialize deformable registration algorithme it is often
-//  convenient to generate a deformation fields from a set of feature
+//  In order to initialize deformable registration algorithm it is often
+//  convenient to generate a displacemnt field from a set of feature
 //  correspondances provided by the user. The following example illustrates how
-//  to use the \doxygen{itkDeformableFieldSource} class in order to generate a
-//  deformation field from the specification of two sets of landmarks.
+//  to use the \doxygen{itkLandmarkDisplacementFieldSource} class in order to generate a
+//  displacement field from the specification of two sets of landmarks.
 //  Landmarks from one set are associated one-to-one to the landmarks in the
-//  other set. Each landmark pair defines one deformation vector. This class
-//  interpolates the values of all other deformation vectors using
+//  other set. Each landmark pair defines one displacement vector. This class
+//  interpolates the values of all other displacement vectors using
 //  \doxygen{KernelBasedTransform}
 //
 //
@@ -33,15 +33,13 @@
 //
 //  Software Guide : EndLatex
 
-
-
 // Software Guide : BeginCodeSnippet
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
 #include "itkImage.h"
 #include "itkVector.h"
-#include "itkDeformationFieldSource.h"
+#include "itkLandmarkDisplacementFieldSource.h"
 #include "itkImageFileWriter.h"
 
 #include <fstream>
@@ -54,7 +52,7 @@ int main( int argc, char * argv[] )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " landmarksFile fixedImage outputDeformationField" << std::endl;
+    std::cerr << " landmarksFile fixedImage outputDisplacementField" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -63,10 +61,10 @@ int main( int argc, char * argv[] )
 
   typedef   itk::Vector< VectorComponentType, Dimension >    VectorType;
 
-  typedef   itk::Image< VectorType,  Dimension >   DeformationFieldType;
+  typedef   itk::Image< VectorType,  Dimension >   DisplacementFieldType;
 
 
-  typedef   unsigned char  PixelType;
+  typedef   unsigned char                            PixelType;
   typedef   itk::Image< PixelType, Dimension >       FixedImageType;
 
   typedef   itk::ImageFileReader< FixedImageType >   FixedReaderType;
@@ -90,23 +88,16 @@ int main( int argc, char * argv[] )
 
   FixedImageType::ConstPointer fixedImage = fixedReader->GetOutput();
 
-
-
-
-  typedef itk::DeformationFieldSource<
-                                DeformationFieldType
+  typedef itk::LandmarkDisplacementFieldSource<
+                                DisplacementFieldType
                                              >  FilterType;
 
   FilterType::Pointer filter = FilterType::New();
-
-
 
   filter->SetOutputSpacing( fixedImage->GetSpacing() );
   filter->SetOutputOrigin(  fixedImage->GetOrigin() );
   filter->SetOutputRegion(  fixedImage->GetLargestPossibleRegion() );
   filter->SetOutputDirection( fixedImage->GetDirection() );
-
-
 
   //  Create source and target landmarks.
   //
@@ -157,7 +148,7 @@ int main( int argc, char * argv[] )
     }
 
   // Write an image for regression testing
-  typedef itk::ImageFileWriter<  DeformationFieldType  > WriterType;
+  typedef itk::ImageFileWriter<  DisplacementFieldType  > WriterType;
 
   WriterType::Pointer writer = WriterType::New();
 
@@ -183,4 +174,3 @@ int main( int argc, char * argv[] )
 //  Software Guide : EndLatex
 
 }
-

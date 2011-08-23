@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkInverseDeformationFieldImageFilter_h
-#define __itkInverseDeformationFieldImageFilter_h
+#ifndef __itkInverseDisplacementFieldImageFilter_h
+#define __itkInverseDisplacementFieldImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkKernelTransform.h"
@@ -24,21 +24,21 @@
 
 namespace itk
 {
-/** \class InverseDeformationFieldImageFilter
- * \brief Computes the inverse of a deformation field.
+/** \class InverseDisplacementFieldImageFilter
+ * \brief Computes the inverse of a displacement field.
  *
- * InverseDeformationFieldImageFilter takes a deformation field as input and
- * computes the deformation field that is its inverse. If the input deformation
+ * InverseDisplacementFieldImageFilter takes a displacement field as input and
+ * computes the displacement field that is its inverse. If the input displacement
  * field was mapping coordinates from a space A into a space B, the output of
  * this filter will map coordinates from the space B into the space A.
  *
- * Given that both the input and output deformation field are represented as
+ * Given that both the input and output displacement field are represented as
  * discrete images with pixel type vector, the inverse will be only an
  * estimation and will probably not correspond to a perfect inverse.  The
  * precision of the inverse can be improved at the price of increasing the
  * computation time and memory consumption in this filter.
  *
- * The method used for computing the inverse deformation field is to subsample
+ * The method used for computing the inverse displacement field is to subsample
  * the input field using a regular grid and create Kerned-Base Spline in which
  * the reference landmarks are the coordinates of the deformed point and the
  * target landmarks are the negative of the displacement vectors. The
@@ -47,7 +47,7 @@ namespace itk
  *
  * The subsampling factor used for the regular grid of the input field will
  * determine the number of landmarks in the KernelBased spline and therefore it
- * will have a dramatic effect on both the precision of output deformation
+ * will have a dramatic effect on both the precision of output displacement
  * field and the computational time required for the filter to complete the
  * estimation. A large subsampling factor will result in few landmarks in the
  * KernelBased spline, therefore on fast computation and low precision.  A
@@ -59,15 +59,15 @@ namespace itk
  * Vector.
  *
  * \ingroup ImageToImageFilter
- * \ingroup ITKDeformationField
+ * \ingroup ITKDisplacementField
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT InverseDeformationFieldImageFilter:
+class ITK_EXPORT InverseDisplacementFieldImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef InverseDeformationFieldImageFilter              Self;
+  typedef InverseDisplacementFieldImageFilter             Self;
   typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
   typedef SmartPointer< Self >                            Pointer;
   typedef SmartPointer< const Self >                      ConstPointer;
@@ -83,7 +83,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(InverseDeformationFieldImageFilter, ImageToImageFilter);
+  itkTypeMacro(InverseDisplacementFieldImageFilter, ImageToImageFilter);
 
   /** Number of dimensions. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -115,7 +115,7 @@ public:
   typedef typename TOutputImage::PointType   OriginPointType;
 
   /** Set the coordinate transformation.
-   * Set the KernelBase spline used for resampling the deformation grid.
+   * Set the KernelBase spline used for resampling the displacement grid.
    * */
   itkSetObjectMacro(KernelTransform, KernelTransformType);
 
@@ -142,7 +142,7 @@ public:
   /** Get the output image origin. */
   itkGetConstReferenceMacro(OutputOrigin, OriginPointType);
 
-  /** Set/Get the factor used for subsampling the input deformation field.  A
+  /** Set/Get the factor used for subsampling the input displacement field.  A
    * large value in this factor will produce a fast computation of the inverse
    * field but with low precision. A small value of this factor will produce a
    * precise computation of the inverse field at the price of large memory
@@ -150,15 +150,15 @@ public:
   itkSetMacro(SubsamplingFactor, unsigned int);
   itkGetConstMacro(SubsamplingFactor, unsigned int);
 
-  /** InverseDeformationFieldImageFilter produces an image which is a different size
+  /** InverseDisplacementFieldImageFilter produces an image which is a different size
    * than its input.  As such, it needs to provide an implementation
    * for GenerateOutputInformation() in order to inform the pipeline
    * execution model.  The original documentation of this method is
    * below. \sa ProcessObject::GenerateOutputInformaton() */
   virtual void GenerateOutputInformation();
 
-  /** InverseDeformationFieldImageFilter needs a different input requested region than
-   * the output requested region.  As such, InverseDeformationFieldImageFilter needs
+  /** InverseDisplacementFieldImageFilter needs a different input requested region than
+   * the output requested region.  As such, InverseDisplacementFieldImageFilter needs
    * to provide an implementation for GenerateInputRequestedRegion()
    * in order to inform the pipeline execution model.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
@@ -174,23 +174,23 @@ public:
   /** End concept checking */
 #endif
 protected:
-  InverseDeformationFieldImageFilter();
-  ~InverseDeformationFieldImageFilter() {}
+  InverseDisplacementFieldImageFilter();
+  ~InverseDisplacementFieldImageFilter() {}
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   /**
    * GenerateData() computes the internal KernelBase spline and resamples
-   * the deformation field.
+   * the displacement field.
    */
   void GenerateData();
 
-  /** Subsample the input deformation field and generate the
+  /** Subsample the input displacement field and generate the
    *  landmarks for the kernel base spline
    */
   void PrepareKernelBaseSpline();
 
 private:
-  InverseDeformationFieldImageFilter(const Self &); //purposely not implemented
+  InverseDisplacementFieldImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                     //purposely not implemented
 
   SizeType                   m_Size;                 // Size of the output image
@@ -205,7 +205,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkInverseDeformationFieldImageFilter.hxx"
+#include "itkInverseDisplacementFieldImageFilter.hxx"
 #endif
 
 #endif

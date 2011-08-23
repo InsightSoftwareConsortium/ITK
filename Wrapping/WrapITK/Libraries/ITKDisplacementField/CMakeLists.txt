@@ -1,4 +1,4 @@
-WRAP_LIBRARY(ITKDeformationField)
+WRAP_LIBRARY(ITKDisplacementField)
 
 set(WRAPPER_LIBRARY_DEPENDS ITKTransform ITKImageGrid ITKImageIntensity)
 

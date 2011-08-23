@@ -18,10 +18,10 @@
 #include <fstream>
 #include "itkAffineTransform.h"
 #include "itkBSplineTransform.h"
-#include "itkTransformToDeformationFieldSource.h"
+#include "itkTransformToDisplacementFieldSource.h"
 #include "itkImageFileWriter.h"
 
-int itkTransformToDeformationFieldSourceTest( int argc, char * argv [] )
+int itkTransformToDisplacementFieldSourceTest( int argc, char * argv [] )
 {
   /** Check command line arguments. */
   if( argc < 3 )
@@ -48,7 +48,7 @@ int itkTransformToDeformationFieldSourceTest( int argc, char * argv [] )
     ScalarPixelType, Dimension >          VectorPixelType;
 
   typedef itk::Image<
-    VectorPixelType, Dimension >          DeformationFieldImageType;
+    VectorPixelType, Dimension >          DisplacementFieldImageType;
 
   typedef itk::Transform<
     CoordRepresentationType, Dimension,
@@ -63,17 +63,17 @@ int itkTransformToDeformationFieldSourceTest( int argc, char * argv [] )
 
   typedef TransformType::ParametersType   ParametersType;
 
-  typedef itk::TransformToDeformationFieldSource<
-    DeformationFieldImageType,
-    CoordRepresentationType >             DeformationFieldGeneratorType;
+  typedef itk::TransformToDisplacementFieldSource<
+    DisplacementFieldImageType,
+    CoordRepresentationType >             DisplacementFieldGeneratorType;
 
-  typedef DeformationFieldGeneratorType::SizeType       SizeType;
-  typedef DeformationFieldGeneratorType::SpacingType    SpacingType;
-  typedef DeformationFieldGeneratorType::OriginType     OriginType;
-  typedef DeformationFieldGeneratorType::IndexType      IndexType;
-  typedef DeformationFieldGeneratorType::RegionType     RegionType;
+  typedef DisplacementFieldGeneratorType::SizeType       SizeType;
+  typedef DisplacementFieldGeneratorType::SpacingType    SpacingType;
+  typedef DisplacementFieldGeneratorType::OriginType     OriginType;
+  typedef DisplacementFieldGeneratorType::IndexType      IndexType;
+  typedef DisplacementFieldGeneratorType::RegionType     RegionType;
   typedef itk::ImageFileWriter<
-    DeformationFieldImageType >                         WriterType;
+    DisplacementFieldImageType >                         WriterType;
 
   /** Create output information. */
   SizeType size;        size.Fill( 20 );
@@ -148,9 +148,9 @@ int itkTransformToDeformationFieldSourceTest( int argc, char * argv [] )
     return EXIT_FAILURE;
     }
 
-  /** Create an setup deformation field generator. */
-  DeformationFieldGeneratorType::Pointer defGenerator
-    = DeformationFieldGeneratorType::New();
+  /** Create an setup displacement field generator. */
+  DisplacementFieldGeneratorType::Pointer defGenerator
+    = DisplacementFieldGeneratorType::New();
   std::cout << "Name of Class: " << defGenerator->GetNameOfClass()
             << std::endl;
   defGenerator->SetOutputSize( size );
@@ -161,7 +161,7 @@ int itkTransformToDeformationFieldSourceTest( int argc, char * argv [] )
   // for coverage, exercise access methods
   spacing  = defGenerator->GetOutputSpacing();
   origin = defGenerator->GetOutputOrigin();
-  DeformationFieldGeneratorType::DirectionType
+  DisplacementFieldGeneratorType::DirectionType
     direction = defGenerator->GetOutputDirection();
   std::cout << "Spacing " << spacing
             << " Origin " << origin
@@ -179,11 +179,11 @@ int itkTransformToDeformationFieldSourceTest( int argc, char * argv [] )
     }
   std::cout << "Transform: " << defGenerator->GetTransform()
             << std::endl;
-  DeformationFieldGeneratorType::OutputImageRegionType
+  DisplacementFieldGeneratorType::OutputImageRegionType
     outputRegion = defGenerator->GetOutputRegion();
   defGenerator->SetOutputRegion(outputRegion);
 
-  /** Write deformation field to disk. */
+  /** Write displacement field to disk. */
   WriterType::Pointer writer
     = WriterType::New();
   writer->SetInput( defGenerator->GetOutput() );
@@ -195,7 +195,7 @@ int itkTransformToDeformationFieldSourceTest( int argc, char * argv [] )
     }
   catch ( itk::ExceptionObject & e )
     {
-    std::cerr << "Exception detected while generating deformation field" << argv[1];
+    std::cerr << "Exception detected while generating displacement field" << argv[1];
     std::cerr << " : "  << e.GetDescription();
     return EXIT_FAILURE;
     }

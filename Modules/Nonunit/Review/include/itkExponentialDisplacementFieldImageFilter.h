@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkExponentialDeformationFieldImageFilter_h
-#define __itkExponentialDeformationFieldImageFilter_h
+#ifndef __itkExponentialDisplacementFieldImageFilter_h
+#define __itkExponentialDisplacementFieldImageFilter_h
 
 #include "itkDivideImageFilter.h"
 #include "itkCastImageFilter.h"
@@ -26,20 +26,20 @@
 
 namespace itk
 {
-/** \class ExponentialDeformationFieldImageFilter
- * \brief Computes a diffeomorphic deformation field as the Lie group
+/** \class ExponentialDisplacementFieldImageFilter
+ * \brief Computes a diffeomorphic displacement field as the Lie group
  * exponential of a vector field.
  *
- * ExponentialDeformationFieldImageFilter takes a 'smooth' vector field
- * as input and computes the deformation field that is its exponential.
+ * ExponentialDisplacementFieldImageFilter takes a 'smooth' vector field
+ * as input and computes the displacement field that is its exponential.
  *
- * Given that both the input and output deformation field are represented as
+ * Given that both the input and output displacement field are represented as
  * discrete images with pixel type vector, the exponential will be only an
  * estimation and will probably not correspond to a perfect exponential.  The
  * precision of the exponential can be improved at the price of increasing the
  * computation time (number of iterations).
  *
- * The method used for computing the exponential deformation field is
+ * The method used for computing the exponential displacement field is
  * an iterative scaling and squaring (cf Arsigny et al., "A
  * Log-Euclidean Framework for Statistics on Diffeomorphisms", MICCAI'06).
  *
@@ -60,12 +60,12 @@ namespace itk
  * \ingroup ITKReview
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT ExponentialDeformationFieldImageFilter:
+class ITK_EXPORT ExponentialDisplacementFieldImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef ExponentialDeformationFieldImageFilter          Self;
+  typedef ExponentialDisplacementFieldImageFilter         Self;
   typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
   typedef SmartPointer< Self >                            Pointer;
   typedef SmartPointer< const Self >                      ConstPointer;
@@ -74,7 +74,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ExponentialDeformationFieldImageFilter, ImageToImageFilter);
+  itkTypeMacro(ExponentialDisplacementFieldImageFilter, ImageToImageFilter);
 
   /** Some convenient typedefs. */
   typedef TInputImage                            InputImageType;
@@ -100,7 +100,7 @@ public:
   itkBooleanMacro(AutomaticNumberOfIterations);
 
   /** If ComputeInverse is on, the filter will compute the exponential
-   * of the opposite (minus) of the input vector field. The output deformation
+   * of the opposite (minus) of the input vector field. The output displacement
    * fields computed with ComputeInverse set to on and off respectively
    * therefore represent spatial transformations that are inverses of
    * each other. */
@@ -131,8 +131,8 @@ public:
   /** End concept checking */
 #endif
 protected:
-  ExponentialDeformationFieldImageFilter();
-  virtual ~ExponentialDeformationFieldImageFilter() {}
+  ExponentialDisplacementFieldImageFilter();
+  virtual ~ExponentialDisplacementFieldImageFilter() {}
 
   void PrintSelf(std::ostream & os, Indent indent) const;
 
@@ -168,7 +168,7 @@ protected:
   typedef typename FieldInterpolatorType::OutputType FieldInterpolatorOutputType;
   typedef typename AdderType::Pointer                AdderPointer;
 private:
-  ExponentialDeformationFieldImageFilter(const Self &); //purposely not
+  ExponentialDisplacementFieldImageFilter(const Self &); //purposely not
                                                         // implemented
   void operator=(const Self &);                         //purposely not
                                                         // implemented
@@ -186,7 +186,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkExponentialDeformationFieldImageFilter.hxx"
+#include "itkExponentialDisplacementFieldImageFilter.hxx"
 #endif
 
 #endif

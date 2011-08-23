@@ -34,7 +34,7 @@ namespace itk
  * input, where each output scalar at each pixel is the Jacobian determinant
  * of the vector field at that location.  This calculation is only correct if the
  * the vector field has values that are the absolute locations from which to get
- * the new values are to be taken.  This implies that the identity vector field (VF)
+ * the new values.  This implies that the identity vector field (VF)
  * mapping would have values at each location (x) equal to the location itself.
  * VF(x)=x.  THIS IS VERY UNUSUAL.  The DeformationFieldJacobianDeterminantFilter
  * computes the proper Jacobian Determinant for a vector field described this way
@@ -66,7 +66,7 @@ namespace itk
  *
  *
  * \author Torsten Rohlfing, Neuroscience Program, SRI International.
- * \ingroup ITKDeformationField
+ * \ingroup ITKDisplacementField
  */
 template< typename TInputImage,
           typename TRealType = float,

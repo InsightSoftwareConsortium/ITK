@@ -15,10 +15,10 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkIterativeInverseDeformationFieldImageFilter_hxx
-#define __itkIterativeInverseDeformationFieldImageFilter_hxx
+#ifndef __itkIterativeInverseDisplacementFieldImageFilter_hxx
+#define __itkIterativeInverseDisplacementFieldImageFilter_hxx
 
-#include "itkIterativeInverseDeformationFieldImageFilter.h"
+#include "itkIterativeInverseDisplacementFieldImageFilter.h"
 #include "itkProgressReporter.h"
 
 namespace itk
@@ -26,7 +26,7 @@ namespace itk
 //----------------------------------------------------------------------------
 // Constructor
 template< class TInputImage, class TOutputImage >
-IterativeInverseDeformationFieldImageFilter< TInputImage, TOutputImage >::IterativeInverseDeformationFieldImageFilter()
+IterativeInverseDisplacementFieldImageFilter< TInputImage, TOutputImage >::IterativeInverseDisplacementFieldImageFilter()
 {
   m_NumberOfIterations = 5;
   m_StopValue = 0;
@@ -35,7 +35,7 @@ IterativeInverseDeformationFieldImageFilter< TInputImage, TOutputImage >::Iterat
 
 //----------------------------------------------------------------------------
 template< class TInputImage, class TOutputImage >
-void IterativeInverseDeformationFieldImageFilter< TInputImage, TOutputImage >
+void IterativeInverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
   const unsigned int ImageDimension = InputImageType::ImageDimension;
@@ -57,7 +57,7 @@ void IterativeInverseDeformationFieldImageFilter< TInputImage, TOutputImage >
     }
 
   // calculate a first guess
-  // (calculate negative deformation field and apply it to itself)
+  // (calculate negative displacement field and apply it to itself)
   InputImagePointer negField = InputImageType::New();
   negField->SetRegions( inputPtr->GetLargestPossibleRegion() );
   negField->SetOrigin( inputPtr->GetOrigin() );
@@ -87,7 +87,7 @@ void IterativeInverseDeformationFieldImageFilter< TInputImage, TOutputImage >
   vectorWarper->SetOutputOrigin( inputPtr->GetOrigin() );
   vectorWarper->SetOutputSpacing( inputPtr->GetSpacing() );
   vectorWarper->SetOutputDirection( inputPtr->GetDirection() );
-  vectorWarper->SetDeformationField(negField);
+  vectorWarper->SetDisplacementField(negField);
   vectorWarper->GraftOutput(outputPtr);
   vectorWarper->UpdateLargestPossibleRegion();
 
@@ -246,7 +246,7 @@ void IterativeInverseDeformationFieldImageFilter< TInputImage, TOutputImage >
 
 //----------------------------------------------------------------------------
 template< class TInputImage, class TOutputImage >
-void IterativeInverseDeformationFieldImageFilter< TInputImage, TOutputImage >
+void IterativeInverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);

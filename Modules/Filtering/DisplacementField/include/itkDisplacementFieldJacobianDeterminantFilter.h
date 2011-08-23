@@ -106,7 +106,7 @@ namespace itk
  * from code provided by
  * \author Tom Vercauteren, INRIA & Mauna Kea Technologies
  * \author Torsten Rohlfing, Neuroscience Program, SRI International.
- * \ingroup ITKDeformationField
+ * \ingroup ITKDisplacementField
  */
 template< typename TInputImage,
           typename TRealType = float,

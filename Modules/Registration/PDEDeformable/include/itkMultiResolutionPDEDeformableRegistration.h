@@ -49,10 +49,10 @@ namespace itk
  *
  * The input fixed and moving images are set via methods SetFixedImage
  * and SetMovingImage respectively. An initial deformation field maybe set via
- * SetInitialDeformationField if is matches the characteristics of the coarsest
+ * SetInitialDisplacementField if is matches the characteristics of the coarsest
  * pyramid level. If no such assumption can be made (e.g. the deformation field
  * has the same characteristics as the input images), an initial deformation
- * field can still be set via SetArbitraryInitialDeformationField or
+ * field can still be set via SetArbitraryInitialDisplacementField or
  * SetInput. The filter will then take care of mathching the coarsest level
  * characteristics. If no initial field is set a zero field is used as the
  * initial condition.
@@ -77,14 +77,14 @@ namespace itk
  * \ingroup DeformableImageRegistration
  * \ingroup ITKPDEDeformableRegistration
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField, class TRealType = float >
+template< class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType = float >
 class ITK_EXPORT MultiResolutionPDEDeformableRegistration:
-  public ImageToImageFilter< TDeformationField, TDeformationField >
+  public ImageToImageFilter< TDisplacementField, TDisplacementField >
 {
 public:
   /** Standard class typedefs */
   typedef MultiResolutionPDEDeformableRegistration Self;
-  typedef ImageToImageFilter< TDeformationField, TDeformationField >
+  typedef ImageToImageFilter< TDisplacementField, TDisplacementField >
   Superclass;
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
@@ -107,8 +107,8 @@ public:
   typedef typename MovingImageType::ConstPointer MovingImageConstPointer;
 
   /** Deformation field image type. */
-  typedef TDeformationField                      DeformationFieldType;
-  typedef typename DeformationFieldType::Pointer DeformationFieldPointer;
+  typedef TDisplacementField                      DisplacementFieldType;
+  typedef typename DisplacementFieldType::Pointer DisplacementFieldPointer;
 
   /** ImageDimension. */
   itkStaticConstMacro(ImageDimension, unsigned int, FixedImageType::ImageDimension);
@@ -117,11 +117,11 @@ public:
   typedef Image< TRealType, itkGetStaticConstMacro(ImageDimension) > FloatImageType;
 
   /** The internal registration type. */
-  typedef PDEDeformableRegistrationFilter< FloatImageType, FloatImageType, DeformationFieldType > RegistrationType;
+  typedef PDEDeformableRegistrationFilter< FloatImageType, FloatImageType, DisplacementFieldType > RegistrationType;
   typedef typename RegistrationType::Pointer                                                      RegistrationPointer;
 
   /** The default registration type. */
-  typedef DemonsRegistrationFilter< FloatImageType, FloatImageType, DeformationFieldType > DefaultRegistrationType;
+  typedef DemonsRegistrationFilter< FloatImageType, FloatImageType, DisplacementFieldType > DefaultRegistrationType;
 
   /** The fixed multi-resolution image pyramid type. */
   typedef MultiResolutionPyramidImageFilter< FixedImageType, FloatImageType > FixedImagePyramidType;
@@ -132,7 +132,7 @@ public:
   typedef typename MovingImagePyramidType::Pointer                             MovingImagePyramidPointer;
 
   /** The deformation field expander type. */
-  typedef VectorResampleImageFilter< DeformationFieldType, DeformationFieldType > FieldExpanderType;
+  typedef VectorResampleImageFilter< DisplacementFieldType, DisplacementFieldType > FieldExpanderType;
   typedef typename FieldExpanderType::Pointer                                     FieldExpanderPointer;
 
   typedef Array< unsigned int > NumberOfIterationsType;
@@ -151,21 +151,21 @@ public:
 
   /** Set initial deformation field to be used as is (no smoothing, no
    *  subsampling at the coarsest level of the pyramid. */
-  virtual void SetInitialDeformationField(DeformationFieldType *ptr)
+  virtual void SetInitialDisplacementField(DisplacementFieldType *ptr)
   {
-    this->m_InitialDeformationField = ptr;
+    this->m_InitialDisplacementField = ptr;
   }
 
   /** Set initial deformation field. No assumption is made on the
    *  input. It will therefore be smoothed and resampled to match the
    *  images characteristics at the coarsest level of the pyramid. */
-  virtual void SetArbitraryInitialDeformationField(DeformationFieldType *ptr)
+  virtual void SetArbitraryInitialDisplacementField(DisplacementFieldType *ptr)
   {
     this->SetInput(ptr);
   }
 
   /** Get output deformation field. */
-  const DeformationFieldType * GetDeformationField(void)
+  const DisplacementFieldType * GetDisplacementField(void)
   { return this->GetOutput(); }
 
   /** Get the number of valid inputs.  For
@@ -269,7 +269,7 @@ private:
   FixedImagePyramidPointer  m_FixedImagePyramid;
   MovingImagePyramidPointer m_MovingImagePyramid;
   FieldExpanderPointer      m_FieldExpander;
-  DeformationFieldPointer   m_InitialDeformationField;
+  DisplacementFieldPointer  m_InitialDisplacementField;
 
   unsigned int                m_NumberOfLevels;
   unsigned int                m_CurrentLevel;

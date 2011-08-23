@@ -15,18 +15,16 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTransformToDeformationFieldSource_h
-#define __itkTransformToDeformationFieldSource_h
+#ifndef __itkTransformToDisplacementFieldSource_h
+#define __itkTransformToDisplacementFieldSource_h
 
 #include "itkTransform.h"
 #include "itkImageSource.h"
 
 namespace itk
 {
-/** \class TransformToDeformationFieldSource
- * \brief Generate a deformation field from a coordinate transform
- *
- * This class was inspired on an the itkDeformationFieldImageFilter class.
+/** \class TransformToDisplacementFieldSource
+ * \brief Generate a displacement field from a coordinate transform
  *
  * Output information (spacing, size and direction) for the output
  * image should be set. This information has the normal defaults of
@@ -55,15 +53,15 @@ namespace itk
  */
 template< class TOutputImage,
           class TTransformPrecisionType = double >
-class ITK_EXPORT TransformToDeformationFieldSource:
+class ITK_EXPORT TransformToDisplacementFieldSource:
   public ImageSource< TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef TransformToDeformationFieldSource Self;
-  typedef ImageSource< TOutputImage >       Superclass;
-  typedef SmartPointer< Self >              Pointer;
-  typedef SmartPointer< const Self >        ConstPointer;
+  typedef TransformToDisplacementFieldSource Self;
+  typedef ImageSource< TOutputImage >        Superclass;
+  typedef SmartPointer< Self >               Pointer;
+  typedef SmartPointer< const Self >         ConstPointer;
 
   typedef TOutputImage                           OutputImageType;
   typedef typename OutputImageType::Pointer      OutputImagePointer;
@@ -74,7 +72,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TransformToDeformationFieldSource, ImageSource);
+  itkTypeMacro(TransformToDisplacementFieldSource, ImageSource);
 
   /** Number of dimensions. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -152,7 +150,7 @@ public:
   /** Helper method to set the output parameters based on this image */
   void SetOutputParametersFromImage(const ImageBaseType *image);
 
-  /** DeformationFieldImageFilter produces a vector image. */
+  /** DisplacementFieldImageFilter produces a vector image. */
   virtual void GenerateOutputInformation(void);
 
   /** Just checking if transform is set. */
@@ -170,12 +168,12 @@ public:
   /** End concept checking */
 #endif
 protected:
-  TransformToDeformationFieldSource(void);
-  ~TransformToDeformationFieldSource(void) {}
+  TransformToDisplacementFieldSource(void);
+  ~TransformToDisplacementFieldSource(void) {}
 
   void PrintSelf(std::ostream & os, Indent indent) const;
 
-  /** TransformToDeformationFieldSource can be implemented as a multithreaded
+  /** TransformToDisplacementFieldSource can be implemented as a multithreaded
    * filter.
    */
   void ThreadedGenerateData(
@@ -198,7 +196,7 @@ protected:
 
 private:
 
-  TransformToDeformationFieldSource(const Self &); //purposely not implemented
+  TransformToDisplacementFieldSource(const Self &); //purposely not implemented
   void operator=(const Self &);                    //purposely not implemented
 
   /** Member variables. */
@@ -208,11 +206,11 @@ private:
   OriginType           m_OutputOrigin;    // output image origin
   DirectionType        m_OutputDirection; // output image direction cosines
 };                                        // end class
-                                          // TransformToDeformationFieldSource
+                                          // TransformToDisplacementFieldSource
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTransformToDeformationFieldSource.hxx"
+#include "itkTransformToDisplacementFieldSource.hxx"
 #endif
 
-#endif // end #ifndef __itkTransformToDeformationFieldSource_h
+#endif // end #ifndef __itkTransformToDisplacementFieldSource_h

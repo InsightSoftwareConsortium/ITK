@@ -20,7 +20,7 @@ itkDiscreteGaussianDerivativeImageFunctionTest.cxx
 itkDiscreteGradientMagnitudeGaussianImageFunctionTest.cxx
 itkDiscreteHessianGaussianImageFunctionTest.cxx
 itkDivideByConstantImageFilterTest.cxx
-itkExponentialDeformationFieldImageFilterTest.cxx
+itkExponentialDisplacementFieldImageFilterTest.cxx
 itkFastApproximateRankImageFilterTest.cxx
 itkFastSymmetricForcesDemonsRegistrationFilterTest.cxx
 itkGaborImageSourceTest.cxx
@@ -84,8 +84,8 @@ itkShapedFloodFilledImageFunctionConditionalConstIteratorTest3.cxx
 itkStochasticFractalDimensionImageFilterTest.cxx
 itkSubtractConstantFromImageFilterTest.cxx
 itkTimeAndMemoryProbeTest.cxx
-itkTransformToDeformationFieldSourceTest.cxx
-itkTransformToDeformationFieldSourceTest1.cxx
+itkTransformToDisplacementFieldSourceTest.cxx
+itkTransformToDisplacementFieldSourceTest1.cxx
 itkValuedRegionalMaximaImageFilterTest.cxx
 itkValuedRegionalMinimaImageFilterTest.cxx
 itkVectorCentralDifferenceImageFunctionTest.cxx
@@ -167,12 +167,12 @@ itk_add_test(NAME itkBSplineControlPointImageFilterTest2
     itkBSplineControlPointImageFilterTest 3 ${ITK_DATA_ROOT}/Baseline/Review/N4ControlPoints_3D.nii.gz ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_3D_output.nii.gz ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_3D_outputRefined.nii.gz)
 itk_add_test(NAME itkBSplineControlPointImageFunctionTest
       COMMAND ITKReviewTestDriver itkBSplineControlPointImageFunctionTest)
-itk_add_test(NAME itkTransformToDeformationFieldSourceTest03
+itk_add_test(NAME itkTransformToDisplacementFieldSourceTest03
       COMMAND ITKReviewTestDriver
     --compare ${TEMP}/transformedImage.nii
               ${TEMP}/warpedImage.nii
   --compareNumberOfPixelsTolerance 20
-   itkTransformToDeformationFieldSourceTest1 ${TEMP}/transformedImage.nii ${TEMP}/warpedImage.nii)
+   itkTransformToDisplacementFieldSourceTest1 ${TEMP}/transformedImage.nii ${TEMP}/warpedImage.nii)
 itk_add_test(NAME itkConformalFlatteningMeshFilterTest1
       COMMAND ITKReviewTestDriver itkConformalFlatteningMeshFilterTest
               ${ITK_DATA_ROOT}/Input/genusZeroSurface01.vtk ${ITK_TEST_OUTPUT_DIR}/genusZeroMesh01ConformalFlattenedToSphere.vtk 1)
@@ -285,8 +285,8 @@ itk_add_test(NAME itkDiscreteGradientMagnitudeGaussianImageFunctionTest01
     itkDiscreteGradientMagnitudeGaussianImageFunctionTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGradientMagnitudeGaussianImageFunctionTest01.png 2.0 0.01 32)
 itk_add_test(NAME itkDivideByConstantImageFilterTest
       COMMAND ITKReviewTestDriver itkDivideByConstantImageFilterTest)
-itk_add_test(NAME itkExponentialDeformationFieldImageFilterTest
-      COMMAND ITKReviewTestDriver itkExponentialDeformationFieldImageFilterTest)
+itk_add_test(NAME itkExponentialDisplacementFieldImageFilterTest
+      COMMAND ITKReviewTestDriver itkExponentialDisplacementFieldImageFilterTest)
 itk_add_test(NAME itkFastApproximateRankImageFilterTest3
       COMMAND ITKReviewTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkFastApproximateRankImageFilter3.png
@@ -769,12 +769,12 @@ itk_add_test(NAME itkSubtractConstantFromImageFilterTest
       COMMAND ITKReviewTestDriver itkSubtractConstantFromImageFilterTest)
 itk_add_test(NAME itkTimeAndMemoryProbeTest1
       COMMAND ITKReviewTestDriver itkTimeAndMemoryProbeTest)
-itk_add_test(NAME itkTransformToDeformationFieldSourceTest01
-      COMMAND ITKReviewTestDriver itkTransformToDeformationFieldSourceTest
-              Affine ${ITK_TEST_OUTPUT_DIR}/itkTransformToDeformationFieldSourceTestField01.mha ${ITK_TEST_OUTPUT_DIR}/itkTransformToDeformationFieldSourceTestImage01.mha)
-itk_add_test(NAME itkTransformToDeformationFieldSourceTest02
-      COMMAND ITKReviewTestDriver itkTransformToDeformationFieldSourceTest
-              BSpline ${ITK_TEST_OUTPUT_DIR}/itkTransformToDeformationFieldSourceTestField02.mha ${ITK_DATA_ROOT}/Input/parametersBSpline.txt ${ITK_TEST_OUTPUT_DIR}/itkTransformToDeformationFieldSourceTestImage02.mha)
+itk_add_test(NAME itkTransformToDisplacementFieldSourceTest01
+      COMMAND ITKReviewTestDriver itkTransformToDisplacementFieldSourceTest
+              Affine ${ITK_TEST_OUTPUT_DIR}/itkTransformToDisplacementFieldSourceTestField01.mha ${ITK_TEST_OUTPUT_DIR}/itkTransformToDisplacementFieldSourceTestImage01.mha)
+itk_add_test(NAME itkTransformToDisplacementFieldSourceTest02
+      COMMAND ITKReviewTestDriver itkTransformToDisplacementFieldSourceTest
+              BSpline ${ITK_TEST_OUTPUT_DIR}/itkTransformToDisplacementFieldSourceTestField02.mha ${ITK_DATA_ROOT}/Input/parametersBSpline.txt ${ITK_TEST_OUTPUT_DIR}/itkTransformToDisplacementFieldSourceTestImage02.mha)
 itk_add_test(NAME itkValuedRegionalMaximaImageFilterTest
       COMMAND ITKReviewTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Review/cthead1ValuedRegionalMaximal-ref.png

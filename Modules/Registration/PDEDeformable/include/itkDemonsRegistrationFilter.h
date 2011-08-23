@@ -27,47 +27,47 @@ namespace itk
  * \brief Deformably register two images using the demons algorithm.
  *
  * DemonsRegistrationFilter implements the demons deformable algorithm that
- * register two images by computing the deformation field which will map a
+ * register two images by computing the displacement field which will map a
  * moving image onto a fixed image.
  *
- * A deformation field is represented as a image whose pixel type is some
+ * A displacement field is represented as a image whose pixel type is some
  * vector type with at least N elements, where N is the dimension of
  * the fixed image. The vector type must support element access via operator
  * []. It is assumed that the vector elements behave like floating point
  * scalars.
  *
  * This class is templated over the fixed image type, moving image type
- * and the deformation field type.
+ * and the displacement field type.
  *
  * The input fixed and moving images are set via methods SetFixedImage
- * and SetMovingImage respectively. An initial deformation field maybe set via
- * SetInitialDeformationField or SetInput. If no initial field is set,
+ * and SetMovingImage respectively. An initial displacement field maybe set via
+ * SetInitialDisplacementField or SetInput. If no initial field is set,
  * a zero field is used as the initial condition.
  *
  * The algorithm has one parameters: the number of iteration to be performed.
  *
- * The output deformation field can be obtained via methods GetOutput
- * or GetDeformationField.
+ * The output displacement field can be obtained via methods GetOutput
+ * or GetDisplacementField.
  *
  * This class make use of the finite difference solver hierarchy. Update
  * for each iteration is computed in DemonsRegistrationFunction.
  *
  * \warning This filter assumes that the fixed image type, moving image type
- * and deformation field type all have the same number of dimensions.
+ * and displacement field type all have the same number of dimensions.
  *
  * \sa DemonsRegistrationFunction
  * \ingroup DeformableImageRegistration MultiThreaded
  * \ingroup ITKPDEDeformableRegistration
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 class ITK_EXPORT DemonsRegistrationFilter:
   public PDEDeformableRegistrationFilter< TFixedImage, TMovingImage,
-                                          TDeformationField >
+                                          TDisplacementField >
 {
 public:
   /** Standard class typedefs. */
   typedef DemonsRegistrationFilter                                                        Self;
-  typedef PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDeformationField > Superclass;
+  typedef PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField > Superclass;
   typedef SmartPointer< Self >                                                            Pointer;
   typedef SmartPointer< const Self >                                                      ConstPointer;
 
@@ -89,11 +89,11 @@ public:
   typedef typename Superclass::MovingImageType    MovingImageType;
   typedef typename Superclass::MovingImagePointer MovingImagePointer;
 
-  /** Deformation field type. */
-  typedef typename Superclass::DeformationFieldType
-  DeformationFieldType;
-  typedef typename Superclass::DeformationFieldPointer
-  DeformationFieldPointer;
+  /** displacement field type. */
+  typedef typename Superclass::DisplacementFieldType
+  DisplacementFieldType;
+  typedef typename Superclass::DisplacementFieldPointer
+  DisplacementFieldPointer;
 
   /** FiniteDifferenceFunction type. */
   typedef typename Superclass::FiniteDifferenceFunctionType
@@ -101,7 +101,7 @@ public:
 
   /** DemonsRegistrationFilterFunction type. */
   typedef DemonsRegistrationFunction< FixedImageType, MovingImageType,
-                                      DeformationFieldType >  DemonsRegistrationFunctionType;
+                                      DisplacementFieldType >  DemonsRegistrationFunctionType;
 
   /** Get the metric value. The metric value is the mean square difference
    * in intensity between the fixed image and transforming moving image
@@ -111,7 +111,7 @@ public:
   virtual double GetMetric() const;
 
   /** Switch between using the fixed image and moving image gradient
-   * for computing the deformation field updates. */
+   * for computing the displacement field updates. */
   itkSetMacro(UseMovingImageGradient, bool);
   itkGetConstMacro(UseMovingImageGradient, bool);
   itkBooleanMacro(UseMovingImageGradient);

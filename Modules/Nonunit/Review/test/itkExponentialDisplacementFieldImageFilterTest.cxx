@@ -18,12 +18,12 @@
 
 #include "itkImage.h"
 #include "itkVector.h"
-#include "itkExponentialDeformationFieldImageFilter.h"
+#include "itkExponentialDisplacementFieldImageFilter.h"
 
 #include "vnl/vnl_random.h"
 
 
-int itkExponentialDeformationFieldImageFilterTest(int, char* [] )
+int itkExponentialDisplacementFieldImageFilterTest(int, char* [] )
 {
   // Define the dimension of the images
   const unsigned int ImageDimension = 3;
@@ -86,7 +86,7 @@ int itkExponentialDeformationFieldImageFilterTest(int, char* [] )
     }
 
   // Declare the type for the filter
-  typedef itk::ExponentialDeformationFieldImageFilter<
+  typedef itk::ExponentialDisplacementFieldImageFilter<
                                   ImageType, ImageType  >   FilterType;
 
 

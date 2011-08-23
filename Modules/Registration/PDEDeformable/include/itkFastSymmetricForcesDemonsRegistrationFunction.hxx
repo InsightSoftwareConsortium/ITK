@@ -27,8 +27,8 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
-FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
+FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::FastSymmetricForcesDemonsRegistrationFunction()
 {
   RadiusType   r;
@@ -68,9 +68,9 @@ FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDefor
 /**
  * Standard "PrintSelf" method.
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -99,9 +99,9 @@ FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDefor
 /**
  *
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::SetIntensityDifferenceThreshold(double threshold)
 {
   m_IntensityDifferenceThreshold = threshold;
@@ -110,9 +110,9 @@ FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDefor
 /**
  *
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 double
-FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::GetIntensityDifferenceThreshold() const
 {
   return m_IntensityDifferenceThreshold;
@@ -121,9 +121,9 @@ FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDefor
 /**
  * Set the function state values before each iteration
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::InitializeIteration()
 {
   if ( !this->GetMovingImage() || !this->GetFixedImage() || !m_MovingImageInterpolator )
@@ -149,7 +149,7 @@ FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDefor
   m_MovingImageWarper->SetOutputSpacing( this->GetFixedImage()->GetSpacing() );
   m_MovingImageWarper->SetOutputDirection( this->GetFixedImage()->GetDirection() );
   m_MovingImageWarper->SetInput( this->GetMovingImage() );
-  m_MovingImageWarper->SetDeformationField( this->GetDeformationField() );
+  m_MovingImageWarper->SetDisplacementField( this->GetDisplacementField() );
   m_MovingImageWarper->Update();
   m_WarpedMovingImageGradientCalculator->SetInputImage( this->m_MovingImageWarper->GetOutput() );
 
@@ -165,10 +165,10 @@ FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDefor
 /**
  * Compute update at a non boundary neighbourhood
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
-typename FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
+typename FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::PixelType
-FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::ComputeUpdate( const NeighborhoodType & it, void *gd,
                  const FloatOffsetType & itkNotUsed(offset) )
 {
@@ -279,9 +279,9 @@ FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDefor
 /**
  * Update the metric and release the per-thread-global data.
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::ReleaseGlobalDataPointer(void *gd) const
 {
   GlobalDataStruct *globalData = (GlobalDataStruct *)gd;

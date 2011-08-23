@@ -15,10 +15,10 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDeformationFieldSource_hxx
-#define __itkDeformationFieldSource_hxx
+#ifndef __itkLandmarkDisplacementFieldSource_hxx
+#define __itkLandmarkDisplacementFieldSource_hxx
 
-#include "itkDeformationFieldSource.h"
+#include "itkLandmarkDisplacementFieldSource.h"
 #include "itkProgressReporter.h"
 #include "itkThinPlateSplineKernelTransform.h"
 
@@ -28,8 +28,8 @@ namespace itk
  * Initialize new instance
  */
 template< class TOutputImage >
-DeformationFieldSource< TOutputImage >
-::DeformationFieldSource()
+LandmarkDisplacementFieldSource< TOutputImage >
+::LandmarkDisplacementFieldSource()
 {
   m_OutputSpacing.Fill(1.0);
   m_OutputOrigin.Fill(0.0);
@@ -49,7 +49,7 @@ DeformationFieldSource< TOutputImage >
  */
 template< class TOutputImage >
 void
-DeformationFieldSource< TOutputImage >
+LandmarkDisplacementFieldSource< TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -70,7 +70,7 @@ DeformationFieldSource< TOutputImage >
  */
 template< class TOutputImage >
 void
-DeformationFieldSource< TOutputImage >
+LandmarkDisplacementFieldSource< TOutputImage >
 ::SetOutputSpacing(
   const double *spacing)
 {
@@ -84,7 +84,7 @@ DeformationFieldSource< TOutputImage >
  */
 template< class TOutputImage >
 void
-DeformationFieldSource< TOutputImage >
+LandmarkDisplacementFieldSource< TOutputImage >
 ::SetOutputOrigin(
   const double *origin)
 {
@@ -94,12 +94,12 @@ DeformationFieldSource< TOutputImage >
 }
 
 /**
- * Sub-sample the input deformation field and prepare the KernelBase
+ * Sub-sample the input displacement field and prepare the KernelBase
  * BSpline
  */
 template< class TOutputImage >
 void
-DeformationFieldSource< TOutputImage >
+LandmarkDisplacementFieldSource< TOutputImage >
 ::PrepareKernelBaseSpline()
 {
   // Shameful violation of const-correctness due to the
@@ -129,10 +129,10 @@ DeformationFieldSource< TOutputImage >
  */
 template< class TOutputImage >
 void
-DeformationFieldSource< TOutputImage >
+LandmarkDisplacementFieldSource< TOutputImage >
 ::GenerateData()
 {
-  // First subsample the input deformation field in order to create
+  // First subsample the input displacement field in order to create
   // the KernelBased spline.
   this->PrepareKernelBaseSpline();
 
@@ -174,13 +174,13 @@ DeformationFieldSource< TOutputImage >
     outputPtr->TransformIndexToPhysicalPoint(outputIndex, outputPoint);
 
     // Compute corresponding inverse displacement vector
-    OutputPointType interpolatedDeformation =
+    OutputPointType interpolatedDisplacement =
       m_KernelTransform->TransformPoint(outputPoint);
 
     OutputPixelType displacement;
     for ( unsigned int i = 0; i < ImageDimension; i++ )
       {
-      displacement[i] = interpolatedDeformation[i] - outputPoint[i];
+      displacement[i] = interpolatedDisplacement[i] - outputPoint[i];
       }
 
     outIt.Set(displacement);
@@ -196,7 +196,7 @@ DeformationFieldSource< TOutputImage >
  */
 template< class TOutputImage >
 void
-DeformationFieldSource< TOutputImage >
+LandmarkDisplacementFieldSource< TOutputImage >
 ::GenerateOutputInformation()
 {
   // call the superclass' implementation of this method
@@ -225,7 +225,7 @@ DeformationFieldSource< TOutputImage >
  */
 template< class TOutputImage >
 unsigned long
-DeformationFieldSource< TOutputImage >
+LandmarkDisplacementFieldSource< TOutputImage >
 ::GetMTime(void) const
 {
   unsigned long latestTime = Object::GetMTime();

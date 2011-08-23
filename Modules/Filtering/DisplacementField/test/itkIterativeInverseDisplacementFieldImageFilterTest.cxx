@@ -18,21 +18,20 @@
 
 #include "itkImage.h"
 #include "itkVector.h"
-#include "itkDeformationFieldSource.h"
+#include "itkIterativeInverseDisplacementFieldImageFilter.h"
+#include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageFileWriter.h"
 #include "itkFilterWatcher.h"
 
-#include <fstream>
 
-
-int itkDeformationFieldSourceTest( int argc, char * argv[] )
+int itkIterativeInverseDisplacementFieldImageFilterTest( int argc, char * argv[] )
 {
 
-  if( argc < 3 )
+  if( argc < 2 )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " landmarksFile outputImage" << std::endl;
+    std::cerr << " outputImage" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -41,25 +40,29 @@ int itkDeformationFieldSourceTest( int argc, char * argv[] )
 
   typedef   itk::Vector< VectorComponentType, Dimension >    VectorType;
 
-  typedef itk::Image< VectorType,  Dimension >   DeformationFieldType;
+  typedef itk::Image< VectorType,  Dimension >   DisplacementFieldType;
 
-  typedef itk::DeformationFieldSource<
-                                DeformationFieldType
+  typedef itk::IterativeInverseDisplacementFieldImageFilter<
+                                    DisplacementFieldType,
+                                    DisplacementFieldType
                                              >  FilterType;
 
   FilterType::Pointer filter = FilterType::New();
 
   FilterWatcher watcher(filter);
 
-  DeformationFieldType::SpacingType spacing;
+  // Creating an input displacement field
+  DisplacementFieldType::Pointer field = DisplacementFieldType::New();
+
+  DisplacementFieldType::SpacingType spacing;
   spacing.Fill( 1.0 );
 
-  DeformationFieldType::PointType origin;
+  DisplacementFieldType::PointType origin;
   origin.Fill( 0.0 );
 
-  DeformationFieldType::RegionType     region;
-  DeformationFieldType::SizeType       size;
-  DeformationFieldType::IndexType      start;
+  DisplacementFieldType::RegionType     region;
+  DisplacementFieldType::SizeType       size;
+  DisplacementFieldType::IndexType      start;
 
   size[0] = 128;
   size[1] = 128;
@@ -70,55 +73,41 @@ int itkDeformationFieldSourceTest( int argc, char * argv[] )
   region.SetSize( size );
   region.SetIndex( start );
 
-  DeformationFieldType::DirectionType direction;
-  direction.SetIdentity();
 
+  field->SetOrigin( origin );
+  field->SetSpacing( spacing );
+  field->SetRegions( region );
+  field->Allocate();
 
-  filter->SetOutputSpacing( spacing );
-  filter->SetOutputOrigin( origin );
-  filter->SetOutputRegion( region );
-  filter->SetOutputDirection( direction );
+  VectorType pixelValue;
 
+  itk::ImageRegionIteratorWithIndex< DisplacementFieldType > it( field, region );
 
-
-  //  Create source and target landmarks.
-  //
-  typedef FilterType::LandmarkContainerPointer   LandmarkContainerPointer;
-  typedef FilterType::LandmarkContainer          LandmarkContainerType;
-  typedef FilterType::LandmarkPointType          LandmarkPointType;
-
-  LandmarkContainerType::Pointer sourceLandmarks = LandmarkContainerType::New();
-  LandmarkContainerType::Pointer targetLandmarks = LandmarkContainerType::New();
-
-  LandmarkPointType sourcePoint;
-  LandmarkPointType targetPoint;
-
-  std::ifstream pointsFile;
-  pointsFile.open( argv[1] );
-
-  unsigned int pointId = 0;
-
-  pointsFile >> sourcePoint;
-  pointsFile >> targetPoint;
-
-  while( !pointsFile.fail() )
+  // Fill the field with some vectors
+  it.GoToBegin();
+  while( !it.IsAtEnd() )
     {
-    sourceLandmarks->InsertElement( pointId, sourcePoint );
-    targetLandmarks->InsertElement( pointId, targetPoint );
-    pointId++;
-
-    std::cout << sourcePoint << "  -->> " << targetPoint << std::endl;
-
-    pointsFile >> sourcePoint;
-    pointsFile >> targetPoint;
-
+    DisplacementFieldType::IndexType index = it.GetIndex();
+    pixelValue[0] = index[0] * 2.0;
+    pixelValue[1] = index[1] * 2.0;
+    it.Set( pixelValue );
+    ++it;
     }
 
-  pointsFile.close();
+  // Use the same geometry for the inverse field.
+  // This is for simplicity here, in general a
+  // different geometry should be used.
+  // filter->SetOutputSpacing( spacing );
 
 
-  filter->SetSourceLandmarks( sourceLandmarks.GetPointer() );
-  filter->SetTargetLandmarks( targetLandmarks.GetPointer() );
+  // keep the origin
+  // filter->SetOutputOrigin( origin );
+
+  // set the size
+  // filter->SetSize( size );
+
+
+  filter->SetInput( field );
 
   try
     {
@@ -128,15 +117,16 @@ int itkDeformationFieldSourceTest( int argc, char * argv[] )
     {
     std::cerr << "Exception thrown " << std::endl;
     std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
     }
 
   // Write an image for regression testing
-  typedef itk::ImageFileWriter<  DeformationFieldType  > WriterType;
+  typedef itk::ImageFileWriter<  DisplacementFieldType  > WriterType;
 
   WriterType::Pointer writer = WriterType::New();
 
   writer->SetInput (filter->GetOutput());
-  writer->SetFileName( argv[2] );
+  writer->SetFileName( argv[1] );
 
   try
     {
@@ -152,4 +142,3 @@ int itkDeformationFieldSourceTest( int argc, char * argv[] )
   return EXIT_SUCCESS;
 
 }
-

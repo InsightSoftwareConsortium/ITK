@@ -5,7 +5,7 @@ will find filters for: computing a deformation field from a transform,
 computing inverse deformation fields, and computing the Jacobian Determinant of
 a deformation field.")
 
-itk_module(ITKDeformationField
+itk_module(ITKDisplacementField
   DEPENDS
     ITKTransform
     ITKImageGrid

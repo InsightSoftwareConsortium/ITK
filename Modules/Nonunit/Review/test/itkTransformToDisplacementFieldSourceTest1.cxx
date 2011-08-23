@@ -25,14 +25,14 @@
 #include <fstream>
 #include "itkImage.h"
 #include "itkAffineTransform.h"
-#include "itkTransformToDeformationFieldSource.h"
+#include "itkTransformToDisplacementFieldSource.h"
 #include "itkImageFileWriter.h"
 #include "itkEuler3DTransform.h"
 #include "itkResampleImageFilter.h"
 #include "itkWarpImageFilter.h"
 #include "itkImageRegionConstIterator.h"
 
-int itkTransformToDeformationFieldSourceTest1( int argc, char *argv[] )
+int itkTransformToDisplacementFieldSourceTest1( int argc, char *argv[] )
 {
   if ( argc < 2 )
     {
@@ -52,20 +52,20 @@ int itkTransformToDeformationFieldSourceTest1( int argc, char *argv[] )
     ScalarPixelType, Dimension>          VectorPixelType;
 
   typedef itk::Image<
-    VectorPixelType, Dimension>          DeformationFieldImageType;
+    VectorPixelType, Dimension>          DisplacementFieldImageType;
 
   typedef itk::Euler3DTransform<
     CoordRepresentationType>             TransformType;
 
   typedef TransformType::ParametersType ParametersType;
 
-  typedef itk::TransformToDeformationFieldSource<
-    DeformationFieldImageType,
-    CoordRepresentationType>             DeformationFieldGeneratorType;
+  typedef itk::TransformToDisplacementFieldSource<
+    DisplacementFieldImageType,
+    CoordRepresentationType>             DisplacementFieldGeneratorType;
 
   typedef itk::WarpImageFilter<ImageType,
     ImageType,
-    DeformationFieldImageType>  WarpImageType;
+    DisplacementFieldImageType>  WarpImageType;
 
   typedef ImageType::SizeType      SizeType;
   typedef ImageType::SpacingType   SpacingType;
@@ -208,8 +208,8 @@ int itkTransformToDeformationFieldSourceTest1( int argc, char *argv[] )
     }
 
   /** Create an setup deformation field generator. */
-  DeformationFieldGeneratorType::Pointer defGenerator
-    = DeformationFieldGeneratorType::New();
+  DisplacementFieldGeneratorType::Pointer defGenerator
+    = DisplacementFieldGeneratorType::New();
   defGenerator->SetOutputSize( size );
   defGenerator->SetOutputSpacing( outputSpacing );
   defGenerator->SetOutputOrigin( outputOrigin );
@@ -233,7 +233,7 @@ int itkTransformToDeformationFieldSourceTest1( int argc, char *argv[] )
   warper->SetOutputSpacing(outputSpacing);
   warper->SetOutputOrigin(outputOrigin);
   warper->SetOutputDirection(outputDirection);
-  warper->SetDeformationField( defGenerator->GetOutput() );
+  warper->SetDisplacementField( defGenerator->GetOutput() );
   warper->SetInput( image );
   try
     {

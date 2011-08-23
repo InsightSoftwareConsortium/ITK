@@ -135,3 +135,8 @@ QuickViewTest.cxx Namespace Disable
 vtkCaptureScreen.h Namespace Disable
 DeformableRegistration1.cxx Namespace Disable
 DeformableRegistration11.cxx Namespace Disable
+BSplineWarping1.cxx Namespace Disable
+BSplineWarping2.cxx Namespace Disable
+DeformableRegistration.+\.cxx Namespace Disable
+itkWarpImageFilterTest.cxx InternalVariables Disable
+itkWarpVectorImageFilterTest.cxx InternalVariables Disable

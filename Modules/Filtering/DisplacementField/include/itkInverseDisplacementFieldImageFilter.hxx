@@ -15,10 +15,10 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkInverseDeformationFieldImageFilter_hxx
-#define __itkInverseDeformationFieldImageFilter_hxx
+#ifndef __itkInverseDisplacementFieldImageFilter_hxx
+#define __itkInverseDisplacementFieldImageFilter_hxx
 
-#include "itkInverseDeformationFieldImageFilter.h"
+#include "itkInverseDisplacementFieldImageFilter.h"
 #include "itkObjectFactory.h"
 #include "itkProgressReporter.h"
 #include "itkThinPlateSplineKernelTransform.h"
@@ -31,8 +31,8 @@ namespace itk
  * Initialize new instance
  */
 template< class TInputImage, class TOutputImage >
-InverseDeformationFieldImageFilter< TInputImage, TOutputImage >
-::InverseDeformationFieldImageFilter()
+InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
+::InverseDisplacementFieldImageFilter()
 {
   m_OutputSpacing.Fill(1.0);
   m_OutputOrigin.Fill(0.0);
@@ -57,7 +57,7 @@ InverseDeformationFieldImageFilter< TInputImage, TOutputImage >
  */
 template< class TInputImage, class TOutputImage >
 void
-InverseDeformationFieldImageFilter< TInputImage, TOutputImage >
+InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -76,7 +76,7 @@ InverseDeformationFieldImageFilter< TInputImage, TOutputImage >
  */
 template< class TInputImage, class TOutputImage >
 void
-InverseDeformationFieldImageFilter< TInputImage, TOutputImage >
+InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
 ::SetOutputSpacing(const double *spacing)
 {
   SpacingType s(spacing);
@@ -89,7 +89,7 @@ InverseDeformationFieldImageFilter< TInputImage, TOutputImage >
  */
 template< class TInputImage, class TOutputImage >
 void
-InverseDeformationFieldImageFilter< TInputImage, TOutputImage >
+InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
 ::SetOutputOrigin(const double *origin)
 {
   OriginPointType p(origin);
@@ -98,12 +98,12 @@ InverseDeformationFieldImageFilter< TInputImage, TOutputImage >
 }
 
 /**
- * Sub-sample the input deformation field and prepare the KernelBase
+ * Sub-sample the input displacement field and prepare the KernelBase
  * BSpline
  */
 template< class TInputImage, class TOutputImage >
 void
-InverseDeformationFieldImageFilter< TInputImage, TOutputImage >
+InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
 ::PrepareKernelBaseSpline()
 {
   typedef typename KernelTransformType::PointsContainer LandmarkContainer;
@@ -210,10 +210,10 @@ InverseDeformationFieldImageFilter< TInputImage, TOutputImage >
  */
 template< class TInputImage, class TOutputImage >
 void
-InverseDeformationFieldImageFilter< TInputImage, TOutputImage >
+InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
-  // First subsample the input deformation field in order to create
+  // First subsample the input displacement field in order to create
   // the KernelBased spline.
   this->PrepareKernelBaseSpline();
 
@@ -282,7 +282,7 @@ InverseDeformationFieldImageFilter< TInputImage, TOutputImage >
  */
 template< class TInputImage, class TOutputImage >
 void
-InverseDeformationFieldImageFilter< TInputImage, TOutputImage >
+InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
 {
   // call the superclass's implementation of this method
@@ -310,7 +310,7 @@ InverseDeformationFieldImageFilter< TInputImage, TOutputImage >
  */
 template< class TInputImage, class TOutputImage >
 void
-InverseDeformationFieldImageFilter< TInputImage, TOutputImage >
+InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
 ::GenerateOutputInformation()
 {
   // call the superclass' implementation of this method
@@ -340,7 +340,7 @@ InverseDeformationFieldImageFilter< TInputImage, TOutputImage >
  */
 template< class TInputImage, class TOutputImage >
 unsigned long
-InverseDeformationFieldImageFilter< TInputImage, TOutputImage >
+InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
 ::GetMTime(void) const
 {
   unsigned long latestTime = Object::GetMTime();

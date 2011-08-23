@@ -14,7 +14,7 @@ itk_module(ITKReview
     ITKConnectedComponents
     ITKCurvatureFlow
     ITKDeformableMesh
-    ITKDeformationField
+    ITKDisplacementField
     ITKDiffusionTensorImage
     ITKDistanceMap
     ITKEigen

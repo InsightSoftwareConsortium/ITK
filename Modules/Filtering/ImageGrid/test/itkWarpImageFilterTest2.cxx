@@ -24,10 +24,10 @@
 #include "itkPipelineMonitorImageFilter.h"
 
 typedef itk::Image<float,3>                    ImageType;
-typedef itk::Image<itk::Vector<double,3> , 3 > DeformationFieldType;
+typedef itk::Image<itk::Vector<double,3> , 3 > DisplacementFieldType;
 typedef itk::WarpImageFilter<ImageType,
                              ImageType,
-                             DeformationFieldType> WarpFilterType;
+                             DisplacementFieldType> WarpFilterType;
 
 typedef itk::PipelineMonitorImageFilter<ImageType> MonitorFilter;
 #define AllocateImageFromRegionAndSpacing(ImageType,rval,region,spacing) \
@@ -72,22 +72,22 @@ MakeCheckerboard()
   return image;
 }
 
-DeformationFieldType::Pointer MakeDeformationField(int dim)
+DisplacementFieldType::Pointer MakeDisplacementField(int dim)
 {
-  typedef itk::ImageRegionIterator<DeformationFieldType> IteratorType;
-  DeformationFieldType::SizeType size = {{dim,dim,dim}};
-  DeformationFieldType::SpacingType spacing;
+  typedef itk::ImageRegionIterator<DisplacementFieldType> IteratorType;
+  DisplacementFieldType::SizeType size = {{dim,dim,dim}};
+  DisplacementFieldType::SpacingType spacing;
   spacing[0] = spacing[1] = spacing[2] = 16.0/(double)dim;
-  DeformationFieldType::IndexType index = {{0,0,0}};
-  DeformationFieldType::RegionType region;
+  DisplacementFieldType::IndexType index = {{0,0,0}};
+  DisplacementFieldType::RegionType region;
   region.SetSize(size);
   region.SetIndex(index);
-  DeformationFieldType::Pointer image;
-  AllocateImageFromRegionAndSpacing(DeformationFieldType,image,region,spacing);
+  DisplacementFieldType::Pointer image;
+  AllocateImageFromRegionAndSpacing(DisplacementFieldType,image,region,spacing);
   IteratorType it(image,image->GetLargestPossibleRegion());
   for(;it != it.End(); ++it)
     {
-    DeformationFieldType::PixelType pix;
+    DisplacementFieldType::PixelType pix;
     for(unsigned i = 0; i < 3; i++)
       {
       pix[i] = 1.0;
@@ -105,20 +105,20 @@ itkWarpImageFilterTest2(int, char * [])
   //  itk::MultiThreader::SetGlobalDefaultNumberOfThreads(1);
   // make test image
   ImageType::Pointer image = MakeCheckerboard();
-  // make full-res deformation field
-  DeformationFieldType::Pointer defField1 = MakeDeformationField(16);
-  // make half-res deformation field
-  DeformationFieldType::Pointer defField2 = MakeDeformationField(8);
+  // make full-res displacement field
+  DisplacementFieldType::Pointer defField1 = MakeDisplacementField(16);
+  // make half-res displacement field
+  DisplacementFieldType::Pointer defField2 = MakeDisplacementField(8);
 
   WarpFilterType::Pointer filter = WarpFilterType::New();
   // test with full res
-  filter->SetDeformationField(defField1);
+  filter->SetDisplacementField(defField1);
   filter->SetInput(image);
   filter->SetOutputParametersFromImage(image);
   filter->Update();
   ImageType::Pointer result1 = filter->GetOutput();
   // test with half res
-  filter->SetDeformationField(defField2);
+  filter->SetDisplacementField(defField2);
   filter->SetInput(image);
   filter->SetOutputParametersFromImage(image);
   filter->Update();
@@ -149,7 +149,7 @@ itkWarpImageFilterTest2(int, char * [])
   monitor1->SetInput( image );
 
   WarpFilterType::Pointer filter2 = WarpFilterType::New();
-  filter2->SetDeformationField(defField2);
+  filter2->SetDisplacementField(defField2);
   filter2->SetInput( monitor1->GetOutput() );
   filter2->SetOutputParametersFromImage(image);
 

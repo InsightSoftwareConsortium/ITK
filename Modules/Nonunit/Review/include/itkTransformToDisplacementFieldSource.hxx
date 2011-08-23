@@ -15,10 +15,10 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTransformToDeformationFieldSource_hxx
-#define __itkTransformToDeformationFieldSource_hxx
+#ifndef __itkTransformToDisplacementFieldSource_hxx
+#define __itkTransformToDisplacementFieldSource_hxx
 
-#include "itkTransformToDeformationFieldSource.h"
+#include "itkTransformToDisplacementFieldSource.h"
 
 #include "itkIdentityTransform.h"
 #include "itkProgressReporter.h"
@@ -31,8 +31,8 @@ namespace itk
  * Constructor
  */
 template< class TOutputImage, class TTransformPrecisionType >
-TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
-::TransformToDeformationFieldSource()
+TransformToDisplacementFieldSource< TOutputImage, TTransformPrecisionType >
+::TransformToDisplacementFieldSource()
 {
   this->m_OutputSpacing.Fill(1.0);
   this->m_OutputOrigin.Fill(0.0);
@@ -57,7 +57,7 @@ TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
  */
 template< class TOutputImage, class TTransformPrecisionType >
 void
-TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
+TransformToDisplacementFieldSource< TOutputImage, TTransformPrecisionType >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -74,7 +74,7 @@ TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
  */
 template< class TOutputImage, class TTransformPrecisionType >
 void
-TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
+TransformToDisplacementFieldSource< TOutputImage, TTransformPrecisionType >
 ::SetOutputSize(const SizeType & size)
 {
   this->m_OutputRegion.SetSize(size);
@@ -84,10 +84,10 @@ TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
  * Get the output image size.
  */
 template< class TOutputImage, class TTransformPrecisionType >
-const typename TransformToDeformationFieldSource< TOutputImage,
+const typename TransformToDisplacementFieldSource< TOutputImage,
                                                   TTransformPrecisionType >
 ::SizeType &
-TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
+TransformToDisplacementFieldSource< TOutputImage, TTransformPrecisionType >
 ::GetOutputSize()
 {
   return this->m_OutputRegion.GetSize();
@@ -98,7 +98,7 @@ TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
  */
 template< class TOutputImage, class TTransformPrecisionType >
 void
-TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
+TransformToDisplacementFieldSource< TOutputImage, TTransformPrecisionType >
 ::SetOutputIndex(const IndexType & index)
 {
   this->m_OutputRegion.SetIndex(index);
@@ -108,10 +108,10 @@ TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
  * Get the output image index.
  */
 template< class TOutputImage, class TTransformPrecisionType >
-const typename TransformToDeformationFieldSource< TOutputImage,
+const typename TransformToDisplacementFieldSource< TOutputImage,
                                                   TTransformPrecisionType >
 ::IndexType &
-TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
+TransformToDisplacementFieldSource< TOutputImage, TTransformPrecisionType >
 ::GetOutputIndex()
 {
   return this->m_OutputRegion.GetIndex();
@@ -122,7 +122,7 @@ TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
  */
 template< class TOutputImage, class TTransformPrecisionType >
 void
-TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
+TransformToDisplacementFieldSource< TOutputImage, TTransformPrecisionType >
 ::SetOutputSpacing(const double *spacing)
 {
   SpacingType s(spacing);
@@ -135,7 +135,7 @@ TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
  */
 template< class TOutputImage, class TTransformPrecisionType >
 void
-TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
+TransformToDisplacementFieldSource< TOutputImage, TTransformPrecisionType >
 ::SetOutputOrigin(const double *origin)
 {
   OriginType p(origin);
@@ -146,7 +146,7 @@ TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
 /** Helper method to set the output parameters based on this image */
 template< class TOutputImage, class TTransformPrecisionType >
 void
-TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
+TransformToDisplacementFieldSource< TOutputImage, TTransformPrecisionType >
 ::SetOutputParametersFromImage(const ImageBaseType *image)
 {
   if ( !image )
@@ -167,7 +167,7 @@ TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
  */
 template< class TOutputImage, class TTransformPrecisionType >
 void
-TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
+TransformToDisplacementFieldSource< TOutputImage, TTransformPrecisionType >
 ::BeforeThreadedGenerateData(void)
 {
   if ( !this->m_Transform )
@@ -181,7 +181,7 @@ TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
  */
 template< class TOutputImage, class TTransformPrecisionType >
 void
-TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
+TransformToDisplacementFieldSource< TOutputImage, TTransformPrecisionType >
 ::ThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread,
   ThreadIdType threadId)
@@ -202,7 +202,7 @@ TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
 
 template< class TOutputImage, class TTransformPrecisionType >
 void
-TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
+TransformToDisplacementFieldSource< TOutputImage, TTransformPrecisionType >
 ::NonlinearThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread,
   ThreadIdType threadId)
@@ -252,7 +252,7 @@ TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
 
 template< class TOutputImage, class TTransformPrecisionType >
 void
-TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
+TransformToDisplacementFieldSource< TOutputImage, TTransformPrecisionType >
 ::LinearThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread,
   ThreadIdType threadId)
@@ -337,7 +337,7 @@ TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
  */
 template< class TOutputImage, class TTransformPrecisionType >
 void
-TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
+TransformToDisplacementFieldSource< TOutputImage, TTransformPrecisionType >
 ::GenerateOutputInformation(void)
 {
   // call the superclass' implementation of this method
@@ -362,7 +362,7 @@ TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
  */
 template< class TOutputImage, class TTransformPrecisionType >
 unsigned long
-TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
+TransformToDisplacementFieldSource< TOutputImage, TTransformPrecisionType >
 ::GetMTime(void) const
 {
   unsigned long latestTime = Object::GetMTime();
@@ -379,4 +379,4 @@ TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
 } // end GetMTime()
 } // end namespace itk
 
-#endif // end #ifndef _itkTransformToDeformationFieldSource_hxx
+#endif // end #ifndef _itkTransformToDisplacementFieldSource_hxx
