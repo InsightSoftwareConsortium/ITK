@@ -26,7 +26,7 @@ namespace itk
 template <class TScalarType>
 QuaternionRigidTransform<TScalarType>
 ::QuaternionRigidTransform() :
-  Superclass(SpaceDimension, ParametersDimension)
+  Superclass(ParametersDimension)
 {
   m_Rotation = VnlQuaternionType(0, 0, 0, 1); // axis * vcl_sin(t/2),
                                               // vcl_cos(t/2)
@@ -34,9 +34,8 @@ QuaternionRigidTransform<TScalarType>
 
 // Constructor with default arguments
 template <class TScalarType>
-QuaternionRigidTransform<TScalarType>::QuaternionRigidTransform(unsigned int outputSpaceDimension,
-                                                                unsigned int parametersDimension) :
-  Superclass(outputSpaceDimension, parametersDimension)
+QuaternionRigidTransform<TScalarType>::QuaternionRigidTransform(unsigned int parametersDimension) :
+  Superclass(parametersDimension)
 {
   m_Rotation = VnlQuaternionType(0, 0, 0, 1); // axis * vcl_sin(t/2),
                                               // vcl_cos(t/2)

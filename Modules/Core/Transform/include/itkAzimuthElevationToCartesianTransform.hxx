@@ -26,7 +26,7 @@ namespace itk
 template< class TScalarType, unsigned int NDimensions >
 AzimuthElevationToCartesianTransform< TScalarType, NDimensions >::AzimuthElevationToCartesianTransform()
 // add this construction call when deriving from itk::Transform
-// :Superclass(SpaceDimension,ParametersDimension)
+// :Superclass(ParametersDimension)
 {
   m_MaxAzimuth = 0;
   m_MaxElevation = 0;

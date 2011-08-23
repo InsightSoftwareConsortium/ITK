@@ -464,7 +464,7 @@ protected:
    * omitted, then the MatrixOffsetTransformBase is initialized to an identity
    * transformation in the appropriate number of dimensions. */
   MatrixOffsetTransformBase(const MatrixType & matrix, const OutputVectorType & offset);
-  MatrixOffsetTransformBase(unsigned int outputDims, unsigned int paramDims);
+  MatrixOffsetTransformBase(unsigned int paramDims);
   MatrixOffsetTransformBase();
 
   /** Destroy an MatrixOffsetTransformBase object */

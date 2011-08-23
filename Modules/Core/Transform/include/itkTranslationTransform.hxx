@@ -25,7 +25,7 @@ namespace itk
 {
 // Constructor with default arguments
 template <class TScalarType, unsigned int NDimensions>
-TranslationTransform<TScalarType, NDimensions>::TranslationTransform() : Superclass(SpaceDimension, ParametersDimension),
+TranslationTransform<TScalarType, NDimensions>::TranslationTransform() : Superclass(ParametersDimension),
   m_IdentityJacobian(NDimensions, NDimensions)
 {
   m_Offset.Fill(0);

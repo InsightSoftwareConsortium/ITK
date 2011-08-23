@@ -121,8 +121,8 @@ public:
   virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const;
 
 protected:
-  Similarity3DTransform(unsigned int outputSpaceDim, unsigned int paramDim);
   Similarity3DTransform(const MatrixType & matrix, const OutputVectorType & offset);
+  Similarity3DTransform(unsigned int paramDim);
   Similarity3DTransform();
   ~Similarity3DTransform()
   {

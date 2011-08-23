@@ -26,14 +26,14 @@ namespace itk
 template <class TScalarType>
 VersorRigid3DTransform<TScalarType>
 ::VersorRigid3DTransform() :
-  Superclass(OutputSpaceDimension, ParametersDimension)
+  Superclass(ParametersDimension)
 {
 }
 
 // Constructor with arguments
 template <class TScalarType>
-VersorRigid3DTransform<TScalarType>::VersorRigid3DTransform(unsigned int outputSpaceDim, unsigned int paramDim) :
-  Superclass(outputSpaceDim, paramDim)
+VersorRigid3DTransform<TScalarType>::VersorRigid3DTransform(unsigned int paramDim) :
+  Superclass(paramDim)
 {
 }
 

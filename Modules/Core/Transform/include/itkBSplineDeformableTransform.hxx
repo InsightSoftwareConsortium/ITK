@@ -46,7 +46,7 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 // Constructor with default arguments
 template <class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
 BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
-::BSplineDeformableTransform() : Superclass(SpaceDimension, 0),
+::BSplineDeformableTransform() : Superclass(0),
   m_CoefficientImage(this->ArrayOfImagePointerGeneratorHelper() ),
   m_GridRegion(this->m_CoefficientImage[0]->GetLargestPossibleRegion() ),
   m_GridOrigin(this->m_CoefficientImage[0]->GetOrigin() ),

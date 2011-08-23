@@ -25,9 +25,7 @@ namespace itk
  *
  */
 template <class TScalarType, unsigned int NDimensions>
-KernelTransform<TScalarType, NDimensions>::KernelTransform() : Superclass(
-    NDimensions,
-    NDimensions)
+KernelTransform<TScalarType, NDimensions>::KernelTransform() : Superclass(NDimensions)
 // the second NDimensions is associated is provided as
 // a tentative number for initializing the Jacobian.
 // The matrix can be resized at run time so this number

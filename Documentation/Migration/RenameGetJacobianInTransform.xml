@@ -123,6 +123,40 @@
 
     </SampleCode>
 
+    <SampleCode>
+      <Old>
+        <![CDATA[
+        MyCustomTransformITKV3(unsigned int outputDims, unsigned int paramDims);
+        MyCustomTransformITKV3< TScalarType, NDimensions >::MyCustomTransformITKV3():Superclass(SpaceDimension, ParametersDimension) {}
+        MyCustomTransformITKV3< TScalarType, NDimensions >::MyCustomTransformITKV3(unsigned int outputSpaceDimension, unsigned int parametersDimension):Superclass(outputSpaceDimension, parametersDimension) {}
+        ]]>
+      </Old>
+
+      <New>
+        <![CDATA[
+        /* Thread safe transforms do not have an private mutable m_Jacobian variable, so there is no need to initialize the "SpaceDimension" of that variable. */
+        MyCustomTransformITKV3(unsigned int paramDims);
+
+        MyCustomTransformITKV3< TScalarType, NDimensions >::MyCustomTransformITKV3()
+#if ITK_VERSION_MAJOR >=4
+        :Superclass(ParametersDimension)
+#else
+        /* Only needed to meet defunct ITKv3 API requirements that ensured non-thread-safety */
+        :Superclass(SpaceDimension,ParametersDimension)
+#endif
+#if ITK_VERSION_MAJOR >=4
+#else
+        /* Only needed to meet defunct ITKv3 API requirements that ensured non-thread-safety */
+        MyCustomTransformITKV3< TScalarType, NDimensions >::MyCustomTransformITKV3(unsigned int outputSpaceDimension, unsigned int parametersDimension):Superclass(outputSpaceDimension, parametersDimension) {}
+#endif
+
+        ]]>
+      </New>
+
+
+
+    </SampleCode>
+
     <!--**
     ** The change-ids for all commits in the topic branch
     **-->
