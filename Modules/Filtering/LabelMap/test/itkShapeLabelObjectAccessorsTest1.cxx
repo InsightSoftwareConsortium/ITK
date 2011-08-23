@@ -53,8 +53,6 @@ int itkShapeLabelObjectAccessorsTest1(int argc, char * argv[])
   attributes.push_back("Label");
   attributes.push_back("NumberOfPixels");
   attributes.push_back("PhysicalSize");
-  attributes.push_back("RegionElongation");
-  attributes.push_back("SizeRegionRatio");
   attributes.push_back("Centroid");
   attributes.push_back("BoundingBox");
   attributes.push_back("NumberOfPixelsOnBorder");
@@ -105,10 +103,6 @@ int itkShapeLabelObjectAccessorsTest1(int argc, char * argv[])
               << labelObject->GetPhysicalSize() << std::endl;
     std::cout << "    Centroid: "
               << labelObject->GetCentroid() << std::endl;
-    std::cout << "    RegionElongation: "
-              << labelObject->GetRegionElongation() << std::endl;
-    std::cout << "    SizeRegionRatio: "
-              << labelObject->GetSizeRegionRatio() << std::endl;
     std::cout << "    NumberOfPixelsOnBorder: "
               << labelObject->GetNumberOfPixelsOnBorder() << std::endl;
     std::cout << "    PerimeterOnBorder: "
@@ -164,16 +158,6 @@ int itkShapeLabelObjectAccessorsTest1(int argc, char * argv[])
     if (labelCopy->GetCentroid() != labelObject->GetCentroid())
       {
       std::cout << "CopyAttributeFrom failed for attribute " << "Centroid" << std::endl;
-      status = EXIT_FAILURE;
-      }
-    if (labelCopy->GetRegionElongation() != labelObject->GetRegionElongation())
-      {
-      std::cout << "CopyAttributeFrom failed for attribute " << "RegionElongation" << std::endl;
-      status = EXIT_FAILURE;
-      }
-    if (labelCopy->GetSizeRegionRatio() != labelObject->GetSizeRegionRatio())
-      {
-      std::cout << "CopyAttributeFrom failed for attribute " << "SizeRegionRatio" << std::endl;
       status = EXIT_FAILURE;
       }
     if (labelCopy->GetNumberOfPixelsOnBorder() != labelObject->GetNumberOfPixelsOnBorder())
@@ -275,18 +259,6 @@ int itkShapeLabelObjectAccessorsTest1(int argc, char * argv[])
     if (l->GetCentroid() != accessorCentroid(l))
       {
       std::cout << "l->GetCentroid() != accessorCentroid(l)" << std::endl;
-      status = EXIT_FAILURE;
-      }
-    itk::Functor::RegionElongationLabelObjectAccessor< ShapeLabelObjectType > accessorRegionElongation;
-    if (l->GetRegionElongation() != accessorRegionElongation(l))
-      {
-      std::cout << "l->GetRegionElongation() != accessorRegionElongation(l)" << std::endl;
-      status = EXIT_FAILURE;
-      }
-    itk::Functor::SizeRegionRatioLabelObjectAccessor< ShapeLabelObjectType > accessorSizeRegionRatio;
-    if (l->GetSizeRegionRatio() != accessorSizeRegionRatio(l))
-      {
-      std::cout << "l->GetSizeRegionRatio() != accessorSizeRegionRatio(l)" << std::endl;
       status = EXIT_FAILURE;
       }
     itk::Functor::NumberOfPixelsOnBorderLabelObjectAccessor< ShapeLabelObjectType > accessorSizeOnBorder;

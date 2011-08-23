@@ -50,20 +50,6 @@
       this->TemplatedGenerateData(accessor); \
       break; \
       } \
-    case LabelObjectType::SIZE_REGION_RATIO: \
-      { \
-      typedef typename Functor::SizeRegionRatioLabelObjectAccessor< LabelObjectType > AccessorType; \
-      AccessorType accessor; \
-      this->TemplatedGenerateData(accessor); \
-      break; \
-      } \
-    case LabelObjectType::REGION_ELONGATION: \
-      { \
-      typedef typename Functor::RegionElongationLabelObjectAccessor< LabelObjectType > AccessorType; \
-      AccessorType accessor; \
-      this->TemplatedGenerateData(accessor); \
-      break; \
-      } \
     case LabelObjectType::NUMBER_OF_PIXELS_ON_BORDER: \
       { \
       typedef typename Functor::NumberOfPixelsOnBorderLabelObjectAccessor< LabelObjectType > AccessorType; \

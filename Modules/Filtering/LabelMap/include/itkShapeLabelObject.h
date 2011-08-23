@@ -78,17 +78,6 @@ public:
     * physical pixel size. Its type is double. */
   itkStaticConstMacro(PHYSICAL_SIZE, AttributeType, 101);
 
-  /** RegionElongation is the ratio of the longest physical size
-    * of the region on one dimension and its smallest physical size.
-    * This descriptor is not robust, and in particular is sensitive
-    * to rotation. Its type is double.*/
-  itkStaticConstMacro(REGION_ELONGATION, AttributeType, 102);
-
-  /** SizeRegionRatio is the ratio of the size of the object region
-    * (the bounding box) and the real size of the object. Its type
-    * is double.*/
-  itkStaticConstMacro(SIZE_REGION_RATIO, AttributeType, 103);
-
   /** Centroid is the position of the center of the shape in
     * physical coordinates. It is not constrained to be in the
     * object, and thus can be outside if the object is not convex.*/
@@ -162,14 +151,6 @@ public:
     else if ( s == "PhysicalSize" )
       {
       return PHYSICAL_SIZE;
-      }
-    else if ( s == "RegionElongation" )
-      {
-      return REGION_ELONGATION;
-      }
-    else if ( s == "SizeRegionRatio" )
-      {
-      return SIZE_REGION_RATIO;
       }
     else if ( s == "Centroid" )
       {
@@ -245,12 +226,6 @@ public:
         break;
       case PHYSICAL_SIZE:
         name = "PhysicalSize";
-        break;
-      case REGION_ELONGATION:
-        name = "RegionElongation";
-        break;
-      case SIZE_REGION_RATIO:
-        name = "SizeRegionRatio";
         break;
       case CENTROID:
         name = "Centroid";
@@ -351,26 +326,6 @@ public:
   void SetCentroid(const CentroidType & centroid)
   {
     m_Centroid = centroid;
-  }
-
-  const double & GetRegionElongation() const
-  {
-    return m_RegionElongation;
-  }
-
-  void SetRegionElongation(const double & v)
-  {
-    m_RegionElongation = v;
-  }
-
-  const double & GetSizeRegionRatio() const
-  {
-    return m_SizeRegionRatio;
-  }
-
-  void SetSizeRegionRatio(const double & v)
-  {
-    m_SizeRegionRatio = v;
   }
 
   const SizeValueType & GetNumberOfPixelsOnBorder() const
@@ -574,8 +529,6 @@ public:
     m_NumberOfPixels = src->m_NumberOfPixels;
     m_PhysicalSize = src->m_PhysicalSize;
     m_Centroid = src->m_Centroid;
-    m_RegionElongation = src->m_RegionElongation;
-    m_SizeRegionRatio = src->m_SizeRegionRatio;
     m_NumberOfPixelsOnBorder = src->m_NumberOfPixelsOnBorder;
     m_PerimeterOnBorder = src->m_PerimeterOnBorder;
     m_FeretDiameter = src->m_FeretDiameter;
@@ -597,8 +550,6 @@ protected:
     m_NumberOfPixels = 0;
     m_PhysicalSize = 0;
     m_Centroid.Fill(0);
-    m_RegionElongation = 0;
-    m_SizeRegionRatio = 0;
     m_NumberOfPixelsOnBorder = 0;
     m_PerimeterOnBorder = 0;
     m_FeretDiameter = 0;
@@ -636,8 +587,6 @@ protected:
     os << indent << "PrincipalMoments: " << m_PrincipalMoments << std::endl;
     os << indent << "PrincipalAxes: " << std::endl << m_PrincipalAxes;
     os << indent << "FeretDiameter: " << m_FeretDiameter << std::endl;
-    os << indent << "RegionElongation: " << m_RegionElongation << std::endl;
-    os << indent << "SizeRegionRatio: " << m_SizeRegionRatio << std::endl;
   }
 
 private:
@@ -648,8 +597,6 @@ private:
   SizeValueType m_NumberOfPixels;
   double        m_PhysicalSize;
   CentroidType  m_Centroid;
-  double        m_RegionElongation;
-  double        m_SizeRegionRatio;
   SizeValueType m_NumberOfPixelsOnBorder;
   double        m_PerimeterOnBorder;
   double        m_FeretDiameter;
