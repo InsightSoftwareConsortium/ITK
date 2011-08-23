@@ -126,6 +126,16 @@ Transform<TScalarType, NInputDimensions, NOutputDimensions>
                       " be same as transform parameter size, "
                                                 << numberOfParameters << std::endl);
     }
+
+  /* Make sure m_Parameters is updated to reflect the current values in
+   * the transform's other parameter-related variables. This is effective for
+   * managing the parallel variables used for storing parameter data,
+   * but inefficient. However for small global transforms, shouldn't be
+   * too bad. Dense-field transform will want to make sure m_Parameters
+   * is always updated whenever the transform is changed, so GetParameters
+   * can be skipped in their implementations of UpdateTransformParameters. */
+  this->GetParameters();
+
   if( factor == 1.0 )
     {
     for( unsigned int k = 0; k < numberOfParameters; k++ )
