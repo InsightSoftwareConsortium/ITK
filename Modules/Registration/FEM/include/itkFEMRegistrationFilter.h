@@ -548,13 +548,6 @@ public:
 // HELPER FUNCTIONS
 protected:
 
-  /* Remove After debugging is complete */
-  void WriteWarpedImage(const char* fname);
-
-  int WriteDisplacementField(unsigned int index);
-
-  int WriteDisplacementFieldMultiComponent();
-
   /** This function generates a regular mesh of ElementsPerSide^D size */
   // void CreateMesh(double ElementsPerSide, FEMObjectType *femObject, SolverType *solver, ImageSizeType sz);
   void CreateMesh(double ElementsPerSide, SolverType *solver, ImageSizeType sz);
