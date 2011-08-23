@@ -114,9 +114,9 @@ public:
   virtual void SetIdentity(void);
 
 protected:
-  Euler3DTransform();
   Euler3DTransform(const MatrixType & matrix, const OutputPointType & offset);
-  Euler3DTransform(unsigned int outputSpaceDims, unsigned int paramsSpaceDims);
+  Euler3DTransform(unsigned int paramsSpaceDims);
+  Euler3DTransform();
 
   ~Euler3DTransform()
   {

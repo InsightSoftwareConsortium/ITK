@@ -108,8 +108,8 @@ public:
   virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const;
 
 protected:
-  VersorRigid3DTransform(unsigned int outputSpaceDim, unsigned int paramDim);
   VersorRigid3DTransform(const MatrixType & matrix, const OutputVectorType & offset);
+  VersorRigid3DTransform(unsigned int paramDim);
   VersorRigid3DTransform();
   ~VersorRigid3DTransform()
   {

@@ -123,7 +123,7 @@ public:
 protected:
   ScaleVersor3DTransform();
   ScaleVersor3DTransform(const MatrixType & matrix, const OutputVectorType & offset);
-  ScaleVersor3DTransform(unsigned int outputDims, unsigned int paramDims);
+  ScaleVersor3DTransform(unsigned int paramDims);
   ~ScaleVersor3DTransform();
 
   void PrintSelf(std::ostream & os, Indent indent) const;

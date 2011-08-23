@@ -25,7 +25,7 @@ namespace itk
 {
 // Constructor with default arguments
 template <class ScalarType, unsigned int NDimensions>
-ScaleTransform<ScalarType, NDimensions>::ScaleTransform() : Superclass(SpaceDimension, ParametersDimension)
+ScaleTransform<ScalarType, NDimensions>::ScaleTransform() : Superclass(ParametersDimension)
 {
   m_Scale.Fill(NumericTraits<ScalarType>::One);
   m_Center.Fill(NumericTraits<ScalarType>::Zero);

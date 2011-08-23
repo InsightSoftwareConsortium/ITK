@@ -192,10 +192,9 @@ virtual InverseTransformBasePointer GetInverseTransform() const
   bool MatrixIsOrthogonal(const MatrixType & matrix, double tol = 1e-10);
 
 protected:
-  Rigid3DTransform(unsigned int spaceDim,
-                   unsigned int paramDim);
   Rigid3DTransform(const MatrixType & matrix,
                    const OutputVectorType & offset);
+  Rigid3DTransform(unsigned int paramDim);
   Rigid3DTransform();
   ~Rigid3DTransform();
 

@@ -26,7 +26,7 @@ namespace itk
 template <class TScalarType>
 CenteredRigid2DTransform<TScalarType>
 ::CenteredRigid2DTransform() :
-  Superclass(OutputSpaceDimension, ParametersDimension)
+  Superclass(ParametersDimension)
 {
 }
 

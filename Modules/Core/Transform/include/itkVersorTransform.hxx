@@ -26,15 +26,15 @@ namespace itk
 /** Constructor with default arguments */
 template <class TScalarType>
 VersorTransform<TScalarType>
-::VersorTransform() : Superclass(OutputSpaceDimension, ParametersDimension)
+::VersorTransform() : Superclass(ParametersDimension)
 {
   m_Versor.SetIdentity();
 }
 
 /** Constructor with default arguments */
 template <class TScalarType>
-VersorTransform<TScalarType>::VersorTransform(unsigned int spaceDimension, unsigned int parametersDimension) :
-  Superclass(spaceDimension, parametersDimension)
+VersorTransform<TScalarType>::VersorTransform(unsigned int parametersDimension) :
+  Superclass(parametersDimension)
 {
   m_Versor.SetIdentity();
 }

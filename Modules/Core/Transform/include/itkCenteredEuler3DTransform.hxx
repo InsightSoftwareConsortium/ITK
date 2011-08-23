@@ -25,15 +25,14 @@ namespace itk
 // Constructor with default arguments
 template <class TScalarType>
 CenteredEuler3DTransform<TScalarType>::CenteredEuler3DTransform() :
-  Superclass(OutputSpaceDimension, ParametersDimension)
+  Superclass(ParametersDimension)
 {
 }
 
 // Constructor with default arguments
 template <class TScalarType>
-CenteredEuler3DTransform<TScalarType>::CenteredEuler3DTransform(unsigned int spaceDimension,
-                                                                unsigned int parametersDimension) :
-  Superclass(spaceDimension, parametersDimension)
+CenteredEuler3DTransform<TScalarType>::CenteredEuler3DTransform(unsigned int parametersDimension) :
+  Superclass(parametersDimension)
 {
 }
 

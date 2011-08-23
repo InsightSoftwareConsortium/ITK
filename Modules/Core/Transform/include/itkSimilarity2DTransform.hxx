@@ -26,16 +26,15 @@ namespace itk
 // Constructor with default arguments
 template <class TScalarType>
 Similarity2DTransform<TScalarType>
-::Similarity2DTransform() : Superclass(OutputSpaceDimension, ParametersDimension)
+::Similarity2DTransform() : Superclass(ParametersDimension)
 {
   m_Scale = 1.0f;
 }
 
 // Constructor with arguments
 template <class TScalarType>
-Similarity2DTransform<TScalarType>::Similarity2DTransform(unsigned int spaceDimension,
-                                                          unsigned int parametersDimension) :
-  Superclass(spaceDimension, parametersDimension)
+Similarity2DTransform<TScalarType>::Similarity2DTransform(unsigned int parametersDimension) :
+  Superclass(parametersDimension)
 {
   m_Scale = 1.0f;
 }

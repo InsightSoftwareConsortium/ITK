@@ -26,15 +26,15 @@ namespace itk
 // Constructor with default arguments
 template <class TScalarType>
 Rigid2DTransform<TScalarType>::Rigid2DTransform() :
-  Superclass(OutputSpaceDimension, ParametersDimension)
+  Superclass(ParametersDimension)
 {
   m_Angle = NumericTraits<TScalarType>::Zero;
 }
 
 // Constructor with arguments
 template <class TScalarType>
-Rigid2DTransform<TScalarType>::Rigid2DTransform(unsigned int spaceDimension, unsigned int parametersDimension) :
-  Superclass(spaceDimension, parametersDimension)
+Rigid2DTransform<TScalarType>::Rigid2DTransform(unsigned int parametersDimension) :
+  Superclass(parametersDimension)
 {
   m_Angle = NumericTraits<TScalarType>::Zero;
 }

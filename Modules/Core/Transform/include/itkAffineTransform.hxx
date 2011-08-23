@@ -26,14 +26,13 @@ namespace itk
 {
 /** Constructor with default arguments */
 template< class TScalarType, unsigned int NDimensions >
-AffineTransform< TScalarType, NDimensions >::AffineTransform():Superclass(SpaceDimension, ParametersDimension)
+AffineTransform< TScalarType, NDimensions >::AffineTransform():Superclass(ParametersDimension)
 {}
 
 /** Constructor with default arguments */
 template< class TScalarType, unsigned int NDimensions >
-AffineTransform< TScalarType, NDimensions >::AffineTransform(unsigned int outputSpaceDimension,
-                                                             unsigned int parametersDimension):
-  Superclass(outputSpaceDimension, parametersDimension)
+AffineTransform< TScalarType, NDimensions >::AffineTransform(unsigned int parametersDimension):
+  Superclass(parametersDimension)
 {}
 
 /** Constructor with explicit arguments */

@@ -31,7 +31,7 @@ template <class TScalarType, unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
 MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
 ::MatrixOffsetTransformBase() :
-  Superclass(OutputSpaceDimension, ParametersDimension)
+  Superclass(ParametersDimension)
 {
   m_Matrix.SetIdentity();
   m_MatrixMTime.Modified();
@@ -49,8 +49,8 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
 template <class TScalarType, unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
 MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
-::MatrixOffsetTransformBase(unsigned int outputDims, unsigned int paramDims) :
-  Superclass(outputDims, paramDims)
+::MatrixOffsetTransformBase(unsigned int paramDims) :
+  Superclass(paramDims)
 {
   m_Matrix.SetIdentity();
   m_MatrixMTime.Modified();

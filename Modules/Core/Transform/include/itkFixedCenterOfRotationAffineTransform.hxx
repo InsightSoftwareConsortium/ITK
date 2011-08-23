@@ -28,7 +28,7 @@ namespace itk
 /** Constructor with default arguments */
 template< class TScalarType, unsigned int NDimensions >
 FixedCenterOfRotationAffineTransform< TScalarType, NDimensions >::FixedCenterOfRotationAffineTransform():
-  Superclass(OutputSpaceDimension, ParametersDimension)
+  Superclass(ParametersDimension)
 {}
 
 template< class TScalarType, unsigned int NDimensions >
