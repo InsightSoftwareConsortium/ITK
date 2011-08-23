@@ -209,38 +209,40 @@ ExtractImageFilter< TInputImage, TOutputImage >
     // if the filter changes from a higher to a lower dimension, or
     // if, after rebuilding the direction cosines, there's a zero
     // length cosine vector, reset the directions to identity.
-    switch(m_DirectionCollapseStrategy)
+    if( static_cast<int>(InputImageDimension) != static_cast<int>(OutputImageDimension) )
       {
-    case DIRECTIONCOLLAPSETOIDENTITY:
+      switch(m_DirectionCollapseStrategy)
         {
-        outputDirection.SetIdentity();
-        }
-      break;
-    case DIRECTIONCOLLAPSETOSUBMATRIX:
-        {
-        if ( vnl_determinant( outputDirection.GetVnlMatrix() ) == 0.0 )
-          {
-          itkExceptionMacro( << "Invalid submatrix extracted for collapsed direction." );
-          }
-        }
-      break;
-    case DIRECTIONCOLLAPSETOGUESS:
-        {
-        if ( vnl_determinant( outputDirection.GetVnlMatrix() ) == 0.0 )
+      case DIRECTIONCOLLAPSETOIDENTITY:
           {
           outputDirection.SetIdentity();
           }
-        }
-      break;
-    case DIRECTIONCOLLAPSETOUNKOWN:
-    default:
-        {
-        itkExceptionMacro( << "It is required that the strategy for collapsing the direction matrix be explicitly specified. "
-          << "Set with either myfilter->SetDirectionCollapseToIdentity() or myfilter->SetDirectionCollapseToSubmatrix() "
-          << typeid( ImageBase< InputImageDimension > * ).name() );
+        break;
+      case DIRECTIONCOLLAPSETOSUBMATRIX:
+          {
+          if ( vnl_determinant( outputDirection.GetVnlMatrix() ) == 0.0 )
+            {
+            itkExceptionMacro( << "Invalid submatrix extracted for collapsed direction." );
+            }
+          }
+        break;
+      case DIRECTIONCOLLAPSETOGUESS:
+          {
+          if ( vnl_determinant( outputDirection.GetVnlMatrix() ) == 0.0 )
+            {
+            outputDirection.SetIdentity();
+            }
+          }
+        break;
+      case DIRECTIONCOLLAPSETOUNKOWN:
+      default:
+          {
+          itkExceptionMacro( << "It is required that the strategy for collapsing the direction matrix be explicitly specified. "
+            << "Set with either myfilter->SetDirectionCollapseToIdentity() or myfilter->SetDirectionCollapseToSubmatrix() "
+            << typeid( ImageBase< InputImageDimension > * ).name() );
+          }
         }
       }
-
     // set the spacing and origin
     outputPtr->SetSpacing(outputSpacing);
     outputPtr->SetDirection(outputDirection);
