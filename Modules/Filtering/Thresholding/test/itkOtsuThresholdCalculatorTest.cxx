@@ -17,13 +17,16 @@
  *=========================================================================*/
 
 #include "itkImage.h"
-#include "itkOtsuThresholdImageCalculator.h"
+#include "itkOtsuThresholdCalculator.h"
 #include "itkSize.h"
 #include "itkImageRegionIterator.h"
+#include "itkImageToHistogramFilter.h"
 
-typedef itk::Size<3>                          SizeType;
-typedef itk::Image<short, 3>                  ImageType;
-typedef itk::OtsuThresholdImageCalculator<ImageType>  CalculatorType;
+typedef itk::Size<3>                                        SizeType;
+typedef itk::Image<short, 3>                                ImageType;
+typedef itk::Statistics::ImageToHistogramFilter<ImageType>  HistogramGeneratorType;
+typedef HistogramGeneratorType::HistogramType               HistogramType;
+typedef itk::OtsuThresholdCalculator<HistogramType>         CalculatorType;
 namespace
 {
 
@@ -33,7 +36,7 @@ double origin [3] = { 0.0, 0.0, 0.0};
   double spacing[3] = { 1, 1 , 1};
 }
 
-int itkOtsuThresholdImageCalculatorTest(int, char* [] )
+int itkOtsuThresholdCalculatorTest(int, char* [] )
 {
     typedef itk::ImageRegionIterator<ImageType> Iterator;
 
@@ -79,15 +82,22 @@ int itkOtsuThresholdImageCalculatorTest(int, char* [] )
       ++iter;
       }
 
+
+    HistogramGeneratorType::Pointer histGenerator = HistogramGeneratorType::New();
+    histGenerator->SetInput(image);
+    HistogramGeneratorType::HistogramSizeType hsize(1);
+    hsize[0] = 64;
+    histGenerator->SetHistogramSize( hsize );
+    histGenerator->SetAutoMinimumMaximum( true );
+
     /* Create and initialize the calculator */
     CalculatorType::Pointer calculator = CalculatorType::New();
-    calculator->SetImage(image);
-    calculator->SetNumberOfHistogramBins( 64);
+    calculator->SetInput( histGenerator->GetOutput() );
 
-    calculator->Compute();
+    calculator->Update();
 
     std::cout << "calculator: " << calculator;
-    std::cout << "NumberOfHistogramBins: " << calculator->GetNumberOfHistogramBins();
+    std::cout << "NumberOfHistogramBins: " << histGenerator->GetOutput()->GetSize();
     std::cout << std::endl;
 
     /* Return minimum of intensity */

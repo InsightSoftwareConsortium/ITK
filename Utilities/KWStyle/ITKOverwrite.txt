@@ -155,3 +155,4 @@ vtkVisualize2DShiLevelSetTest.cxx Namespace Disable
 vtkVisualize2DWhitakerLevelSetLayersTest.cxx Namespace Disable
 vtkVisualize2DWhitakerLevelSetTest.cxx Namespace Disable
 itkLevelSetContainer.h Comments Disable
+itkHistogramThresholdCalculator.h InternalVariables Disable

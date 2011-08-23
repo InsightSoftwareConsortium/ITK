@@ -1,0 +1,6 @@
+WRAP_CLASS("itk::MomentsThresholdCalculator" POINTER)
+  foreach(t ${WRAP_ITK_SCALAR})
+    WRAP_TEMPLATE("${ITKM_HD}${ITKM_${t}}"  "${ITKT_HD}, ${ITKT_${t}}")
+    WRAP_TEMPLATE("${ITKM_HF}${ITKM_${t}}"  "${ITKT_HF}, ${ITKT_${t}}")
+  endforeach(t)
+END_WRAP_CLASS()

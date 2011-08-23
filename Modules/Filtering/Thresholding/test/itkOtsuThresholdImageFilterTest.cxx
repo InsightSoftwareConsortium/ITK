@@ -24,16 +24,15 @@
 
 int itkOtsuThresholdImageFilterTest(int argc, char* argv[] )
 {
-  if( argc < 4 )
+  if( argc < 3 )
     {
     std::cerr << "Usage: " << argv[0];
     std::cerr << " inputImageFile outputImageFile";
-    std::cerr << " numberOfHistogramBins";
     std::cerr << std::endl;
     return EXIT_FAILURE;
     }
 
-  typedef  short  InputPixelType;
+  typedef  short          InputPixelType;
   typedef  unsigned char  OutputPixelType;
 
   typedef itk::Image< InputPixelType,  2 >   InputImageType;
@@ -54,7 +53,7 @@ int itkOtsuThresholdImageFilterTest(int argc, char* argv[] )
 
   reader->SetFileName( argv[1] );
   filter->SetInput( reader->GetOutput() );
-  filter->SetNumberOfHistogramBins (atoi(argv[3]));
+  // filter->SetNumberOfHistogramBins (atoi(argv[3]));
   writer->SetInput( filter->GetOutput() );
 
   filter->Update();

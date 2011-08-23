@@ -1,6 +1,8 @@
 WRAP_LIBRARY(ITKThresholding)
 
 set(WRAPPER_LIBRARY_GROUPS
+  itkHistogramThresholdCalculator
+  itkHistogramThresholdImageFilter
 )
 
 set(WRAPPER_LIBRARY_DEPENDS ITKImageIntensity ITKImageStatistics)

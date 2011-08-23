@@ -18,6 +18,7 @@
 
 #include "itkVector.h"
 #include "itkMesh.h"
+#include "itkHistogram.h"
 
 #include "itkMattesMutualInformationImageToImageMetric.h"
 #include "itkMeanSquaresPointSetToImageMetric.h"
@@ -28,7 +29,7 @@
 #include "itkMutualInformationImageToImageMetric.h"
 #include "itkNormalizedCorrelationImageToImageMetric.h"
 #include "itkNormalizedCorrelationPointSetToImageMetric.h"
-#include "itkOtsuThresholdImageCalculator.h"
+#include "itkOtsuThresholdCalculator.h"
 #include "itkPDEDeformableRegistrationFilter.h"
 #include "itkRGBGibbsPriorFilter.h"
 #include "itkRecursiveMultiResolutionPyramidImageFilter.h"
@@ -41,16 +42,16 @@
 
 int main(int , char* [])
 {
-  typedef itk::Image<float,2> InputType;
-  typedef itk::Image<float,2> OutputType;
-  typedef itk::Image<bool,2> BinaryImageType;
+  typedef itk::Image<float,2>          InputType;
+  typedef itk::Image<float,2>          OutputType;
+  typedef itk::Image<bool,2>           BinaryImageType;
   typedef itk::Image<unsigned short,2> UShortImageType;
   typedef itk::Image<unsigned short,3> UShortImageType3D;
-  typedef itk::Image<unsigned char,2> CharType;
+  typedef itk::Image<unsigned char,2>  CharType;
 
   typedef itk::Mesh<double>  MeshType;
 
-  typedef itk::Vector<float,2> VectorType;
+  typedef itk::Vector<float,2>      VectorType;
   typedef itk::Image<VectorType, 2> VectorImageType;
   typedef itk::Image<VectorType, 3> VectorImageType3D;
 
@@ -59,7 +60,7 @@ int main(int , char* [])
 
   // Used for GradientVectorFlowImageFilter
   typedef itk::CovariantVector<double,2> GradientType;
-  typedef itk::Image<GradientType,2>   GradientImageType;
+  typedef itk::Image<GradientType,2>     GradientImageType;
 
   itk::MattesMutualInformationImageToImageMetric<InputType,InputType>::Pointer MattesMutualInformationImageToImageMetricObj =
     itk::MattesMutualInformationImageToImageMetric<InputType,InputType>::New();
@@ -103,9 +104,10 @@ int main(int , char* [])
     itk::NormalizedCorrelationPointSetToImageMetric<PointSetType,InputType>::New();
   std:: cout << "-------------NormalizedCorrelationPointSetToImageMetric " << NormalizedCorrelationPointSetToImageMetricObj;
 
-  itk::OtsuThresholdImageCalculator<InputType>::Pointer OtsuThresholdImageCalculatorObj =
-    itk::OtsuThresholdImageCalculator<InputType>::New();
-  std:: cout << "-------------OtsuThresholdImageCalculator " << OtsuThresholdImageCalculatorObj;
+  typedef itk::Statistics::Histogram< double > HistogramType;
+  itk::OtsuThresholdCalculator<HistogramType>::Pointer OtsuThresholdCalculatorObj =
+    itk::OtsuThresholdCalculator<HistogramType>::New();
+  std:: cout << "-------------OtsuThresholdCalculator " << OtsuThresholdCalculatorObj;
 
   itk::PDEDeformableRegistrationFilter<InputType,InputType,VectorImageType>::Pointer PDEDeformableRegistrationFilterObj =
     itk::PDEDeformableRegistrationFilter<InputType,InputType,VectorImageType>::New();
