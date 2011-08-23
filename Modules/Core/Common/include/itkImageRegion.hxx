@@ -52,6 +52,31 @@ ImageRegion< VImageDimension >
 {}
 
 template< unsigned int VImageDimension >
+typename ImageRegion< VImageDimension >::IndexType
+ImageRegion< VImageDimension >
+::GetUpperIndex() const
+{
+  IndexType idx;
+  for ( unsigned int i = 0; i < VImageDimension; i++ )
+    {
+    idx[i] = m_Index[i] + m_Size[i] - 1;
+    }
+
+  return idx;
+}
+
+template< unsigned int VImageDimension >
+void
+ImageRegion< VImageDimension >
+::SetUpperIndex( const IndexType & idx )
+{
+  for ( unsigned int i = 0; i < VImageDimension; i++ )
+    {
+    m_Size[i] = idx[i] - m_Index[i] + 1;
+    }
+}
+
+template< unsigned int VImageDimension >
 typename ImageRegion< VImageDimension >::SizeValueType
 ImageRegion< VImageDimension >
 ::GetNumberOfPixels() const

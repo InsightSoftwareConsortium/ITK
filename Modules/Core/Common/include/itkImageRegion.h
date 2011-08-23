@@ -165,6 +165,12 @@ public:
   IndexValueType GetIndex(unsigned long i) const
   { return m_Index[i]; }
 
+  /** Get index defining the upper corner of the region. */
+  IndexType GetUpperIndex() const;
+
+  /** Modify the Size of the ImageRegion so that the provided index will be the upper corner index. */
+  void SetUpperIndex( const IndexType & idx );
+
   /** Compare two regions. */
   bool
   operator==(const Self & region) const
