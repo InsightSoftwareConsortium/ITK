@@ -445,8 +445,6 @@ void JPEGImageIO::Write(const void *buffer)
 
 void JPEGImageIO::WriteSlice(std::string & fileName, const void *buffer)
 {
-  volatile const JSAMPLE *outPtr = ( (const JSAMPLE *)buffer );
-
   // use this class so return will call close
   JPEGFileWrapper JPEGfp(fileName.c_str(), "wb");
   FILE *          fp = JPEGfp.m_FilePointer;
@@ -541,6 +539,8 @@ void JPEGImageIO::WriteSlice(std::string & fileName, const void *buffer)
 
   // start compression
   jpeg_start_compress(&cinfo, TRUE);
+
+  volatile const JSAMPLE *outPtr = ( (const JSAMPLE *)buffer );
 
   // write the data. in jpeg, the first row is the top row of the image
   JSAMPROW *row_pointers = new JSAMPROW[height];
