@@ -58,6 +58,9 @@ public:
   /** Standard class typedefs. */
   typedef Offset Self;
 
+  /** Dimension constant */
+  itkStaticConstMacro(Dimension, unsigned int, VOffsetDimension);
+
   /** Get the dimension (size) of the index. */
   static unsigned int GetOffsetDimension() { return VOffsetDimension; }
 
