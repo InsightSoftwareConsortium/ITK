@@ -45,8 +45,6 @@
 
 // Define a macro for the common typedefs required by the
 // classes deriving form CellInterface (included).
-// This wouldn't be necessary if SGI compilers
-// were able to inherit types.
 #define itkCellCommonTypedefs(celltype)                   \
   typedef celltype                  Self;                 \
   typedef AutoPointer< const Self > ConstSelfAutoPointer; \
@@ -56,8 +54,6 @@
 
 // Define a macro for the common typedefs required by the
 // classes deriving form CellInterface (excluded).
-// This wouldn't be necessary if SGI compilers
-// were able to inherit types.
 #define itkCellInheritedTypedefs(superclassArg)                             \
   typedef superclassArg                             Superclass;             \
   typedef typename Superclass::PixelType            PixelType;              \

@@ -222,12 +222,13 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
 
     for ( unsigned int i = 1; i <= m_NumberOfGradientDirections; i++ )
       {
-      typename GradientImageType::Pointer gradientImagePointer = NULL;
 
-      // Would have liked a dynamic_cast here, but seems SGI doesn't like it
-      // The enum will ensure that an inappropriate cast is not done
-      gradientImagePointer = static_cast< GradientImageType * >(
-        this->ProcessObject::GetInput(i+1) );
+      typename GradientImageType::Pointer gradientImagePointer =
+        dynamic_cast< GradientImageType * >( this->ProcessObject::GetInput(i+1) );
+      if(gradientImagePointer.IsNull())
+        {
+        itkExceptionMacro(<< "Invalid dynamic_cast");
+        }
 
       GradientIteratorType *git = new GradientIteratorType(
         gradientImagePointer, outputRegionForThread);
