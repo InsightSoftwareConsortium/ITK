@@ -647,9 +647,6 @@ int itkAffineTransformTest(int, char *[])
       }
     }
 
-  paff->SetIdentity();
-  paff->Print( std::cout );
-
   /* Test UpdateTransformParameters */
   Affine3DType::DerivativeType update( paff->GetNumberOfParameters() );
   Affine3DType::ParametersType updateTruth;
@@ -667,6 +664,10 @@ int itkAffineTransformTest(int, char *[])
     if( updateTruth[k] != parametersRead[k] )
       {
       std::cout << "UpdateTransformParameters 1 failed." << std::endl;
+      std::cout << "updateTruth: " << std::endl
+                << updateTruth << std::endl
+                << "parametersRead: " << std::endl
+                << parametersRead << std::endl;
       return EXIT_FAILURE;
       }
     }
@@ -687,6 +688,9 @@ int itkAffineTransformTest(int, char *[])
       return EXIT_FAILURE;
       }
     }
+
+  paff->SetIdentity();
+  paff->Print( std::cout );
 
     {
     // Test SetParameters and GetInverse
