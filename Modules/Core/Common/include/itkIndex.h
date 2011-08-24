@@ -79,6 +79,9 @@ public:
   typedef   Index< VIndexDimension > IndexType;
   typedef   ::itk::IndexValueType    IndexValueType;
 
+  /** Dimension constant */
+  itkStaticConstMacro(Dimension, unsigned int, VIndexDimension);
+
   /** Get the dimension (size) of the index. */
   static unsigned int GetIndexDimension() { return VIndexDimension; }
 
