@@ -23,8 +23,6 @@
 #include "itkFEMElements.h"
 #include "itkFEMLoadBC.h"
 
-#include "itkImageFileWriter.h"
-#include "itkImageFileReader.h"
 #include "itkCastImageFilter.h"
 #include "itkDiscreteGaussianImageFilter.h"
 #include "itkDerivativeImageFilter.h"
@@ -254,60 +252,6 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ChooseMetric(
 
   m_Metric->SetGradientStep( m_Gamma[m_CurrentLevel] );
   m_Metric->SetNormalizeGradient( m_UseNormalizedGradient );
-}
-
-template <class TMovingImage, class TFixedImage, class TFemObject>
-int FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::WriteDisplacementFieldMultiComponent()
-// Outputs the displacement field as a multicomponent image  XYZXYZXYZ...
-{
-
-  itkDebugMacro( << "Writing multi-component displacement vector field...");
-
-  typedef itk::ImageFileWriter<FieldType> FieldWriterType;
-  typename FieldWriterType::Pointer  fieldWriter = FieldWriterType::New();
-
-  fieldWriter->SetInput( m_Field );
-  fieldWriter->SetFileName("VectorDeformationField.mhd");
-  try
-    {
-    fieldWriter->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
-    std::cerr << "Error while saving the displacement vector field" << std::endl;
-    std::cerr << excp << std::endl;
-    }
-
-  itkDebugMacro( << "done" << std::endl);
-  return 0;
-}
-
-template <class TMovingImage, class TFixedImage, class TFemObject>
-int FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::WriteDisplacementField(unsigned int index)
-// Outputs the displacement field for the index provided (0=x,1=y,2=z)
-{
-  // Initialize the Moving to the displacement field
-  typename IndexSelectCasterType::Pointer fieldCaster = IndexSelectCasterType::New();
-  fieldCaster->SetInput( m_Field );
-  fieldCaster->SetIndex( index );
-
-  // Define the output of the Moving
-  typename FloatImageType::Pointer fieldImage = FloatImageType::New();
-  fieldCaster->Update();
-  fieldImage = fieldCaster->GetOutput();
-
-  // Set up the output filename
-  std::string outfile = "DeformationField_" + static_cast<char>('x' + index) + std::string("vec.mhd");
-
-  typedef typename FloatImageType::PixelType FType;
-
-  typedef ImageFileWriter<FloatImageType> WriterType;
-  typename WriterType::Pointer writer = WriterType::New();
-  writer->SetInput(fieldImage);
-  writer->SetFileName(outfile.c_str() );
-  writer->Write();
-
-  return 0;
 }
 
 template <class TMovingImage, class TFixedImage, class TFemObject>
@@ -773,15 +717,8 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::IterativeSolv
       if( iters % m_EmployRegridding == 0  )
         {
         this->EnforceDiffeomorphism(1.0, mySolver, true);
-        //     std::string rfn="warpedimage";
-        //     WriteWarpedImage(rfn.c_str());
         }
       }
-    // uncomment to write out every deformation SLOW due to interpolating vector field everywhere.
-    // else if ( (iters % 5) == 0 || Done ) {
-    // WarpImage(m_MovingImage);
-    // WriteWarpedImage(m_ResultsFileName.c_str());
-    // }
     itkDebugMacro( << " min E " << m_MinE <<  " delt E " << deltE <<  " iter " << iters << std::endl);
     m_TotalIterations++;
     }
@@ -1371,59 +1308,6 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::EnforceDiffeo
       }
     itkDebugMacro( << " Enforcing diffeomorphism done "  );
     }
-}
-
-template <class TMovingImage, class TFixedImage, class TFemObject>
-void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::WriteWarpedImage(const char* fname)
-{
-
-  // for image output
-  std::ofstream fbin;
-  std::string exte = ".mhd";
-  std::string fnum;
-
-  std::stringstream buf;
-
-  buf << (m_FileCount + 10);
-  fnum = std::string(buf.str().c_str() );
-
-  std::string fullfname = (fname + fnum + exte);
-
-  if( !m_WarpedImage )
-    {
-    return;
-    }
-
-  typedef MinimumMaximumImageFilter<MovingImageType> MinMaxFilterType;
-  typename MinMaxFilterType::Pointer minMaxFilter = MinMaxFilterType::New();
-  minMaxFilter->SetInput( m_WarpedImage );
-  minMaxFilter->Update();
-  float min = minMaxFilter->GetMinimum();
-  double shift = -1.0 * static_cast<double>( min );
-  double scale = static_cast<double>( minMaxFilter->GetMaximum() );
-  scale += shift;
-  scale = 255.0 / scale;
-  typedef ShiftScaleImageFilter<MovingImageType, MovingImageType> FilterType;
-  typename FilterType::Pointer filter = FilterType::New();
-  filter->SetInput( m_WarpedImage );
-  filter->SetShift( shift );
-  filter->SetScale( scale );
-  filter->Update();
-
-  typedef unsigned char                                      PIX;
-  typedef itk::Image<PIX, ImageDimension>                    WriteImageType;
-  typedef itk::CastImageFilter<TMovingImage, WriteImageType> CasterType1;
-  typename CasterType1::Pointer caster1 = CasterType1::New();
-  caster1->SetInput(filter->GetOutput() );
-  caster1->Update();
-  typename ImageFileWriter<WriteImageType>::Pointer writer;
-  writer = ImageFileWriter<WriteImageType>::New();
-  writer->SetFileName(fullfname.c_str() );
-  writer->SetInput(caster1->GetOutput() );
-  writer->Write();
-
-  m_FileCount++;
-
 }
 
 template <class TMovingImage, class TFixedImage, class TFemObject>
