@@ -946,7 +946,6 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
       }
     }
 
-  // Make use of the SGI default "first-touch" memory placement policy
   // Copy from the current status/output images to the new ones and let each
   // thread do the copy of its own region.
   // This will make each thread be the FIRST to write to "it's" data in the new
@@ -1203,7 +1202,6 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
       }
 
     // Data initialization performed in parallel.
-    // Make use of the SGI default first-touch memory placement policy
     str->Filter->GetThreadRegionSplitByBoundary(ThreadId,
                                                 str->Filter->m_Data[ThreadId].ThreadRegion);
     str->Filter->ThreadedInitializeData(ThreadId,

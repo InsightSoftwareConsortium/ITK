@@ -117,13 +117,11 @@ SpatialObjectToImageStatisticsCalculator< TInputImage, TInputSpatialObject, TSam
     typedef Image< unsigned char, itkGetStaticConstMacro(ObjectDimension) >   MaskImageType;
     typedef ImageMaskSpatialObject< itkGetStaticConstMacro(ObjectDimension) > MaskSOType;
 
-    // This apparently redundant construction is added here in order to
-    // force the SGI CC compiler to instantiate the symbols of the
-    // ImageMaskSpatialObject class. Otherwise, there is no readon for calling
-    // New().
-    typename MaskSOType::Pointer maskSpatialObject = MaskSOType::New();
-
-    maskSpatialObject = dynamic_cast< MaskSOType * >( m_SpatialObject.GetPointer() );
+    typename MaskSOType::Pointer maskSpatialObject = dynamic_cast< MaskSOType * >( m_SpatialObject.GetPointer() );
+    if( maskSpatialObject.IsNull() )
+      {
+      itkExceptionMacro("Invalid dynamic cast.");
+      }
 
     typename MaskImageType::ConstPointer maskImage =  maskSpatialObject->GetImage();
 

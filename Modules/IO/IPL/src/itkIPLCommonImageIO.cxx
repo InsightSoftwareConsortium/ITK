@@ -625,21 +625,9 @@ void IPLCommonImageIO
 int IPLCommonImageIO
 ::statTimeToAscii(void *clock, char *timeString,int len)
 {
-  char *       asciiTime;
 
-#ifdef SGI
-  timespec_t *lclock;
-#else
-
-#endif
-
-#ifdef SGI
-  lclock = (timespec_t *)clock;
-  asciiTime = ctime ( &( lclock->tv_sec ) );
-#else
   time_t tclock = (time_t)*( (int *)clock );
-  asciiTime = ctime (&tclock);
-#endif
+  const char * const asciiTime = ctime (&tclock);
 
   strncpy (timeString, asciiTime, len);
   timeString[len-1] = '\0';

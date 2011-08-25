@@ -99,7 +99,7 @@ void MultiThreader::MultipleMethodExecute()
   ( m_MultipleMethod[0] )( (void *)( &m_ThreadInfoArray[0] ) );
 
   // The parent thread has finished its method - so now it
-  // waits for each of the other processes (created with sproc) to
+  // waits for each of the other processes to
   // exit
   for ( thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
     {

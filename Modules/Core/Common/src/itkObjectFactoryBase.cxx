@@ -55,27 +55,6 @@ static CleanUpObjectFactory m_CleanUpObjectFactoryGlobal;
 
 namespace itk
 {
-/**
- * Add this for the SGI compiler which does not seem
- * to provide a default implementation as it should.
- */
-bool operator==(const ObjectFactoryBase::OverrideInformation & rhs,
-                const ObjectFactoryBase::OverrideInformation & lhs)
-{
-  return ( rhs.m_Description == lhs.m_Description
-           && rhs.m_OverrideWithName == lhs.m_OverrideWithName );
-}
-
-/**
- * Add this for the SGI compiler which does not seem
- * to provide a default implementation as it should.
- */
-bool operator<(const ObjectFactoryBase::OverrideInformation & rhs,
-               const ObjectFactoryBase::OverrideInformation & lhs)
-{
-  return ( rhs.m_Description < lhs.m_Description
-           && rhs.m_OverrideWithName < lhs.m_OverrideWithName );
-}
 
 /** \class StringOverMap
  * \brief Internal implementation class for ObjectFactorBase.
