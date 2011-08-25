@@ -1046,6 +1046,10 @@ itkTypeMacro(newexcp, parentexcp);                                              
     itkAssertInDebugOrThrowInReleaseMacro( msgstr.str().c_str() ); \
     }
 
+#ifndef NDEBUG
 #define itkAssertInDebugAndIgnoreInReleaseMacro(X) assert(X)
+#else
+#define itkAssertInDebugAndIgnoreInReleaseMacro(X)
+#endif
 
 #endif //end of itkMacro.h
