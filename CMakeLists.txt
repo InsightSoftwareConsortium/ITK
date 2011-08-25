@@ -226,8 +226,6 @@ option(ITK_USE_STRICT_CONCEPT_CHECKING "Turn on Strict concept checking to give 
 mark_as_advanced(ITK_USE_STRICT_CONCEPT_CHECKING)
 
 #----------------------------------------------------------------------------
-configure_file(CMake/CTestCustom.cmake.in CTestCustom.cmake)
-
 set(ITK_TEST_OUTPUT_DIR "${ITK_BINARY_DIR}/Testing/Temporary")
 
 #-----------------------------------------------------------------------------
@@ -541,6 +539,9 @@ foreach(itk-module ${ITK_MODULES_ENABLED})
   include("${${itk-module}_SOURCE_DIR}/itk-module-init.cmake" OPTIONAL)
   add_subdirectory("${${itk-module}_SOURCE_DIR}" "${${itk-module}_BINARY_DIR}")
 endforeach()
+
+#----------------------------------------------------------------------------
+configure_file(CMake/CTestCustom.cmake.in CTestCustom.cmake)
 
 #-----------------------------------------------------------------------------
 
