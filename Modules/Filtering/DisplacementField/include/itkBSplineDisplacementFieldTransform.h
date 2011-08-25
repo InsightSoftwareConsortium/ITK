@@ -28,7 +28,7 @@ namespace itk
 
 /** \class BSplineDisplacementFieldTransform
  *
- * \ingroup ITKTransform
+ * \ingroup ITKDisplacementField
  */
 template
   <class TScalar, unsigned int NDimensions>

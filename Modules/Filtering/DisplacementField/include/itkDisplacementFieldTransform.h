@@ -23,14 +23,10 @@
 #include "itkImage.h"
 #include "itkMatrixOffsetTransformBase.h"
 #include "itkImageVectorTransformParametersHelper.h"
+#include "itkVectorInterpolateImageFunction.h"
 
 namespace itk
 {
-
-/* Forward-declaration to avoid including the header file that would
- * introduce a circular dependency in the Transform module. */
-template <class TInputImage, class TCoordRep>
-class VectorInterpolateImageFunction;
 
 /** \class DisplacementFieldTransform
  * \brief Provides local/dense/high-dimensionaltiy transformation via a
@@ -84,7 +80,7 @@ class VectorInterpolateImageFunction;
  * and \c ComputeJacobianWithRespectToPosition should be used.
  *
  *
- * \ingroup ITKTransform
+ * \ingroup ITKDisplacementField
  */
 template
 <class TScalar, unsigned int NDimensions>

@@ -39,7 +39,7 @@ namespace itk
  * on demand, see \c FreeGaussianSmoothingTempField.
  *
  *
- * \ingroup ITKTransform
+ * \ingroup ITKDisplacementField
  */
 template
   <class TScalar, unsigned int NDimensions>

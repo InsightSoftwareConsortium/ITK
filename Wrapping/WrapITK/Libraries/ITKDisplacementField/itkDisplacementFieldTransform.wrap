@@ -1,4 +1,4 @@
-WRAP_CLASS("itk::DeformationFieldTransform" POINTER)
+WRAP_CLASS("itk::DisplacementFieldTransform" POINTER)
   foreach(d ${WRAP_ITK_DIMS})
     WRAP_TEMPLATE("${ITKM_D}${d}" "${ITKT_D},${d}")
   endforeach(d)

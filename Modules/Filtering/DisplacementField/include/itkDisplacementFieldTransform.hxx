@@ -19,6 +19,7 @@
 #define __itkDisplacementFieldTransform_hxx
 
 #include "itkDisplacementFieldTransform.h"
+#include "itkVectorLinearInterpolateImageFunction.h"
 
 #include "itkImageRegionIteratorWithIndex.h"
 #include "vnl/algo/vnl_symmetric_eigensystem.h"
@@ -26,11 +27,6 @@
 
 namespace itk
 {
-
-/* Forward-declaration to avoid including the header file that would
- * introduce a circular dependency in the Transform module. */
-template <class TInputImage, class TCoordRep>
-class VectorLinearInterpolateImageFunction;
 
 /**
  * Constructor
