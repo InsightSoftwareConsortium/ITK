@@ -70,3 +70,10 @@ endif()
 #  ITK_INCLUDE_DIRS    = Header file search path
 #  ITK_LIBRARY_DIRS    = Library search path (for outside dependencies)
 itk_module_config(ITK ${ITK_MODULES_REQUESTED})
+
+# Add configuration with FFTW
+set(ITK_USE_FFTWD "@USE_FFTWD@")
+set(ITK_USE_FFTWF "@USE_FFTWF@")
+set(ITK_USE_SYSTEM_FFTW "@USE_SYSTEM_FFTW@")
+set(ITK_FFTW_INCLUDE_PATH "@FFTW_INCLUDE_PATH@")
+set(ITK_FFTW_LIBDIR "@FFTW_LIBDIR@")
