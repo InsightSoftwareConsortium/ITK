@@ -75,32 +75,6 @@ public:
 };
 
 template< class TLabelObject >
-class ITK_EXPORT RegionElongationLabelObjectAccessor
-{
-public:
-  typedef TLabelObject LabelObjectType;
-  typedef double       AttributeValueType;
-
-  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
-  {
-    return labelObject->GetRegionElongation();
-  }
-};
-
-template< class TLabelObject >
-class ITK_EXPORT SizeRegionRatioLabelObjectAccessor
-{
-public:
-  typedef TLabelObject LabelObjectType;
-  typedef double       AttributeValueType;
-
-  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
-  {
-    return labelObject->GetSizeRegionRatio();
-  }
-};
-
-template< class TLabelObject >
 class ITK_EXPORT NumberOfPixelsOnBorderLabelObjectAccessor
 {
 public:

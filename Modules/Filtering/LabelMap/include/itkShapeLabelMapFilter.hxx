@@ -271,15 +271,10 @@ ShapeLabelMapFilter< TImage, TLabelImage >
 
   // final computation
   typename LabelObjectType::RegionType::SizeType boundingBoxSize;
-  double minSize = NumericTraits< double >::max();
-  double maxSize = NumericTraits< double >::NonpositiveMin();
   for ( unsigned int i = 0; i < ImageDimension; i++ )
     {
     centroid[i] /= nbOfPixels;
     boundingBoxSize[i] = maxs[i] - mins[i] + 1;
-    double s = boundingBoxSize[i] * output->GetSpacing()[i];
-    minSize = vnl_math_min(s, minSize);
-    maxSize = vnl_math_max(s, maxSize);
     for ( unsigned int j = 0; j < ImageDimension; j++ )
       {
       centralMoments[i][j] /= nbOfPixels;
@@ -366,14 +361,6 @@ ShapeLabelMapFilter< TImage, TLabelImage >
   labelObject->SetPhysicalSize(physicalSize);
   labelObject->SetBoundingBox(boundingBox);
   labelObject->SetCentroid(physicalCentroid);
-  if ( minSize != 0 )
-    {
-    labelObject->SetRegionElongation(maxSize / minSize);
-    }
-  if ( boundingBox.GetNumberOfPixels() != 0 )
-    {
-    labelObject->SetSizeRegionRatio( nbOfPixels / (double)boundingBox.GetNumberOfPixels() );
-    }
   labelObject->SetNumberOfPixelsOnBorder(nbOfPixelsOnBorder);
   labelObject->SetPerimeterOnBorder(perimeterOnBorder);
   labelObject->SetPrincipalMoments(principalMoments);
