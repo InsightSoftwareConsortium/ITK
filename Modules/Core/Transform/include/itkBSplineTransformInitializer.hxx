@@ -64,17 +64,17 @@ BSplineTransformInitializer<TTransform, TImage>
 {
   if( !this->m_Transform )
     {
-    itkExceptionMacro( "Transform has not been set." );
+    itkExceptionMacro( << "Transform has not been set." );
     return;
     }
   if( !this->m_Image )
     {
-    itkExceptionMacro( "Image has not been set." );
+    itkExceptionMacro( << "Image has not been set." );
     return;
     }
   if( TImage::GetImageDimension() != SpaceDimension )
     {
-    itkExceptionMacro( "Image dimensionality does not match the transform." );
+    itkExceptionMacro( << "Image dimensionality does not match the transform." );
     return;
     }
 

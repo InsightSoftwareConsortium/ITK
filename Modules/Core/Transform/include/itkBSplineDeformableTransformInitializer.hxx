@@ -37,13 +37,13 @@ BSplineDeformableTransformInitializer< TTransform, TImage >
   // Sanity check
   if ( !this->m_Image )
     {
-    itkExceptionMacro("Reference Image has not been set");
+    itkExceptionMacro( << "Reference Image has not been set");
     return;
     }
 
   if ( !this->m_Transform )
     {
-    itkExceptionMacro("Transform has not been set");
+    itkExceptionMacro( << "Transform has not been set");
     return;
     }
 
