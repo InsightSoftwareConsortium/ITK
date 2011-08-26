@@ -2,7 +2,10 @@ WRAP_LIBRARY(ITKFastMarching)
 
 set(WRAPPER_LIBRARY_GROUPS
   itkLevelSetNode
+  itkNodePair
+  itkFastMarchingStoppingCriterionBase
   ITKFastMarchingBase
+  itkFastMarchingImageFilterBase
 )
 set(WRAPPER_LIBRARY_DEPENDS ITKCommon ITKQuadEdgeMesh ITKConnectedComponents)
 

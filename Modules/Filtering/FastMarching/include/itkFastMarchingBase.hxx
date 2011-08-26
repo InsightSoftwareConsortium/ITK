@@ -151,10 +151,10 @@ GenerateData()
       NodePairType current_node_pair = m_Heap.top();
       m_Heap.pop();
 
-      NodeType current_node = current_node_pair.first;
+      NodeType current_node = current_node_pair.GetNode();
       current_value = this->GetOutputValue( output, current_node );
 
-      if( current_value == current_node_pair.second )
+      if( current_value == current_node_pair.GetValue() )
         {
         // is this node already alive ?
         if( this->GetLabelValueForGivenNode( current_node ) != Traits::Alive )

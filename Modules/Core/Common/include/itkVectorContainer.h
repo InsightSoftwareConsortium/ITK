@@ -50,7 +50,7 @@ template<
   >
 class ITK_EXPORT VectorContainer:
   public Object,
-  public std::vector< TElement >
+  private std::vector< TElement >
 {
 public:
   /** Standard class typedefs. */
@@ -109,6 +109,47 @@ public:
   {
     return dynamic_cast< const STLContainerType & >( *this );
   }
+
+  using STLContainerType::begin;
+  using STLContainerType::end;
+  using STLContainerType::rbegin;
+  using STLContainerType::rend;
+
+  using STLContainerType::size;
+  using STLContainerType::max_size;
+  using STLContainerType::resize;
+  using STLContainerType::capacity;
+  using STLContainerType::empty;
+  using STLContainerType::reserve;
+
+  using STLContainerType::operator[];
+  using STLContainerType::at;
+  using STLContainerType::front;
+  using STLContainerType::back;
+
+  using STLContainerType::assign;
+  using STLContainerType::push_back;
+  using STLContainerType::pop_back;
+  using STLContainerType::insert;
+  using STLContainerType::erase;
+  using STLContainerType::swap;
+  using STLContainerType::clear;
+
+  using STLContainerType::get_allocator;
+
+  using STLContainerType::reference;
+  using STLContainerType::const_reference;
+  using STLContainerType::iterator;
+  using STLContainerType::const_iterator;
+  // already declared before
+  // using STLContainerType::size_type;
+  using STLContainerType::difference_type;
+  using STLContainerType::value_type;
+  using STLContainerType::allocator_type;
+  using STLContainerType::pointer;
+  using STLContainerType::const_pointer;
+  using STLContainerType::reverse_iterator;
+  using STLContainerType::const_reverse_iterator;
 
   /** Friends to this class. */
   friend class Iterator;
