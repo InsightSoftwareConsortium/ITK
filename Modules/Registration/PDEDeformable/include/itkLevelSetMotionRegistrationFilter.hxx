@@ -24,8 +24,8 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
-LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
+LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::LevelSetMotionRegistrationFilter()
 {
   typename LevelSetMotionFunctionType::Pointer drfp;
@@ -36,13 +36,13 @@ LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
 
   // By default, no regularization of the deformation field is
   // performed in LevelSetMotionRegistration
-  this->SmoothDeformationFieldOff();
+  this->SmoothDisplacementFieldOff();
   this->SmoothUpdateFieldOff();
 }
 
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -57,9 +57,9 @@ LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
 /*
  * Set the function state values before each iteration
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::InitializeIteration()
 {
   // call the superclass  implementation
@@ -81,18 +81,18 @@ LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
   //
   // Smooth the deformation field
   //
-  if ( this->GetSmoothDeformationField() )
+  if ( this->GetSmoothDisplacementField() )
     {
-    this->SmoothDeformationField();
+    this->SmoothDisplacementField();
     }
 }
 
 /**
  * Get the metric value from the difference function
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 bool
-LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::Halt()
 {
   // call the superclass' version
@@ -109,9 +109,9 @@ LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
 /**
  * Get the metric value from the difference function
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 double
-LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::GetMetric() const
 {
   LevelSetMotionFunctionType *drfp =
@@ -130,9 +130,9 @@ LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
 /**
  *
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 double
-LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::GetAlpha() const
 {
   LevelSetMotionFunctionType *drfp =
@@ -151,9 +151,9 @@ LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
 /**
  *
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::SetAlpha(double alpha)
 {
   LevelSetMotionFunctionType *drfp =
@@ -172,9 +172,9 @@ LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
 /**
  *
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 double
-LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::GetIntensityDifferenceThreshold() const
 {
   LevelSetMotionFunctionType *drfp =
@@ -193,9 +193,9 @@ LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
 /**
  *
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::SetIntensityDifferenceThreshold(double threshold)
 {
   LevelSetMotionFunctionType *drfp =
@@ -214,9 +214,9 @@ LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
 /**
  *
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 double
-LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::GetGradientMagnitudeThreshold() const
 {
   LevelSetMotionFunctionType *drfp =
@@ -235,9 +235,9 @@ LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
 /**
  *
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::SetGradientMagnitudeThreshold(double threshold)
 {
   LevelSetMotionFunctionType *drfp =
@@ -256,9 +256,9 @@ LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
 /**
  *
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 double
-LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::GetGradientSmoothingStandardDeviations() const
 {
   LevelSetMotionFunctionType *drfp =
@@ -277,9 +277,9 @@ LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
 /**
  *
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::SetGradientSmoothingStandardDeviations(double sigma)
 {
   LevelSetMotionFunctionType *drfp =
@@ -298,9 +298,9 @@ LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
 /**
  * Get the metric value from the difference function
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::ApplyUpdate(const TimeStepType& dt)
 {
   // If we smooth the update buffer before applying it, then the are

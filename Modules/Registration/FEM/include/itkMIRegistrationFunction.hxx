@@ -31,8 +31,8 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
-MIRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
+MIRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::MIRegistrationFunction()
 {
   RadiusType   r;
@@ -75,9 +75,9 @@ MIRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 /*
  * Standard "PrintSelf" method.
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-MIRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+MIRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -96,9 +96,9 @@ MIRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 /*
  * Set the function state values before each iteration
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-MIRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+MIRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::InitializeIteration()
 {
   if ( !this->m_MovingImage || !this->m_FixedImage || !m_MovingImageInterpolator )
@@ -123,10 +123,10 @@ MIRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 /**
  * Compute update at a non boundary neighbourhood
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
-typename MIRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
+typename MIRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::PixelType
-MIRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+MIRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::ComputeUpdate( const NeighborhoodType & it, void *itkNotUsed(globalData),
                  const FloatOffsetType & itkNotUsed(offset) )
 {
@@ -198,10 +198,10 @@ MIRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 
   unsigned int sampct = 0;
 
-  ConstNeighborhoodIterator< DeformationFieldType >
+  ConstNeighborhoodIterator< DisplacementFieldType >
   asamIt( hradius,
-          this->GetDeformationField(),
-          this->GetDeformationField()->GetRequestedRegion() );
+          this->GetDisplacementField(),
+          this->GetDisplacementField()->GetRequestedRegion() );
   asamIt.SetLocation(oindex);
   unsigned int hoodlen = asamIt.Size();
 
@@ -227,8 +227,8 @@ MIRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
       fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex(index);
 
       // Get moving image related information
-      typedef typename DeformationFieldType::PixelType DeformationPixelType;
-      const DeformationPixelType itvec = this->GetDeformationField()->GetPixel(index);
+      typedef typename DisplacementFieldType::PixelType DeformationPixelType;
+      const DeformationPixelType itvec = this->GetDisplacementField()->GetPixel(index);
 
       PointType mappedPoint;
       this->GetFixedImage()->TransformIndexToPhysicalPoint(index, mappedPoint);
@@ -313,8 +313,8 @@ MIRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
           fgm += fixedGradient[j] * fixedGradient[j];
           }
         // Get moving image related information
-        typedef typename DeformationFieldType::PixelType DeformationPixelType;
-        const DeformationPixelType itvec = this->GetDeformationField()->GetPixel(index);
+        typedef typename DisplacementFieldType::PixelType DeformationPixelType;
+        const DeformationPixelType itvec = this->GetDisplacementField()->GetPixel(index);
         PointType                  mappedPoint;
         this->GetFixedImage()->TransformIndexToPhysicalPoint(index, mappedPoint);
         for ( j = 0; j < ImageDimension; j++ )
@@ -350,13 +350,13 @@ MIRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
     }
   // END RANDOM A SAMPLES
 
-  const DeformationFieldType *const field = this->GetDeformationField();
+  const DisplacementFieldType *const field = this->GetDisplacementField();
 
   for ( j = 0; j < ImageDimension; j++ )
     {
     hradius[j] = 0;
     }
-  ConstNeighborhoodIterator< DeformationFieldType >
+  ConstNeighborhoodIterator< DisplacementFieldType >
   hoodIt( hradius, field, field->GetRequestedRegion() );
   hoodIt.SetLocation(oindex);
 
@@ -384,7 +384,7 @@ MIRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 
       // Get moving image related information
       // Get moving image related information
-      const typename DeformationFieldType::PixelType hooditvec = this->m_DeformationField->GetPixel(index);
+      const typename DisplacementFieldType::PixelType hooditvec = this->m_DisplacementField->GetPixel(index);
       PointType mappedPoint;
       this->GetFixedImage()->TransformIndexToPhysicalPoint(index, mappedPoint);
       for ( j = 0; j < ImageDimension; j++ )

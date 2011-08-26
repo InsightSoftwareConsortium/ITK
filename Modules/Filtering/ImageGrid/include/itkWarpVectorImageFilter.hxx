@@ -28,8 +28,8 @@ namespace itk
 /**
  * Default constructor.
  */
-template< class TInputImage, class TOutputImage, class TDeformationField >
-WarpVectorImageFilter< TInputImage, TOutputImage, TDeformationField >
+template< class TInputImage, class TOutputImage, class TDisplacementField >
+WarpVectorImageFilter< TInputImage, TOutputImage, TDisplacementField >
 ::WarpVectorImageFilter()
 {
   // Setup the number of required inputs
@@ -56,9 +56,9 @@ WarpVectorImageFilter< TInputImage, TOutputImage, TDeformationField >
 /**
  * Standard PrintSelf method.
  */
-template< class TInputImage, class TOutputImage, class TDeformationField >
+template< class TInputImage, class TOutputImage, class TDisplacementField >
 void
-WarpVectorImageFilter< TInputImage, TOutputImage, TDeformationField >
+WarpVectorImageFilter< TInputImage, TOutputImage, TDisplacementField >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -73,9 +73,9 @@ WarpVectorImageFilter< TInputImage, TOutputImage, TDeformationField >
 }
 
 /** Set the output image spacing. */
-template< class TInputImage, class TOutputImage, class TDeformationField >
+template< class TInputImage, class TOutputImage, class TDisplacementField >
 void
-WarpVectorImageFilter< TInputImage, TOutputImage, TDeformationField >
+WarpVectorImageFilter< TInputImage, TOutputImage, TDisplacementField >
 ::SetOutputSpacing(const double *spacing)
 {
   SpacingType s(spacing);
@@ -84,9 +84,9 @@ WarpVectorImageFilter< TInputImage, TOutputImage, TDeformationField >
 }
 
 /** Set the output image origin. */
-template< class TInputImage, class TOutputImage, class TDeformationField >
+template< class TInputImage, class TOutputImage, class TDisplacementField >
 void
-WarpVectorImageFilter< TInputImage, TOutputImage, TDeformationField >
+WarpVectorImageFilter< TInputImage, TOutputImage, TDisplacementField >
 ::SetOutputOrigin(const double *origin)
 {
   PointType p(origin);
@@ -94,43 +94,43 @@ WarpVectorImageFilter< TInputImage, TOutputImage, TDeformationField >
   this->SetOutputOrigin(p);
 }
 
-/** Set deformation field as Inputs[1] for this ProcessObject. */
-template< class TInputImage, class TOutputImage, class TDeformationField >
+/** Set displacement field as Inputs[1] for this ProcessObject. */
+template< class TInputImage, class TOutputImage, class TDisplacementField >
 void
-WarpVectorImageFilter< TInputImage, TOutputImage, TDeformationField >
-::SetDeformationField(
-  const DeformationFieldType *field)
+WarpVectorImageFilter< TInputImage, TOutputImage, TDisplacementField >
+::SetDisplacementField(
+  const DisplacementFieldType *field)
 {
   // const cast is needed because the pipeline is not const-correct.
-  DeformationFieldType *input =
-    const_cast< DeformationFieldType * >( field );
+  DisplacementFieldType *input =
+    const_cast< DisplacementFieldType * >( field );
 
   this->ProcessObject::SetNthInput(1, input);
 }
 
 /**
- * Set deformation field as Inputs[1] for this ProcessObject
+ * Set displacement field as Inputs[1] for this ProcessObject
  * (non const for backward compatibility)
  */
-template< class TInputImage, class TOutputImage, class TDeformationField >
+template< class TInputImage, class TOutputImage, class TDisplacementField >
 void
-WarpVectorImageFilter< TInputImage, TOutputImage, TDeformationField >
-::SetDeformationField(
-  DeformationFieldType *field)
+WarpVectorImageFilter< TInputImage, TOutputImage, TDisplacementField >
+::SetDisplacementField(
+  DisplacementFieldType *field)
 {
   this->ProcessObject::SetNthInput(1, field);
 }
 
 /**
- * Return a pointer to the deformation field.
+ * Return a pointer to the displacement field.
  */
-template< class TInputImage, class TOutputImage, class TDeformationField >
-typename WarpVectorImageFilter< TInputImage, TOutputImage, TDeformationField >
-::DeformationFieldType *
-WarpVectorImageFilter< TInputImage, TOutputImage, TDeformationField >
-::GetDeformationField(void)
+template< class TInputImage, class TOutputImage, class TDisplacementField >
+typename WarpVectorImageFilter< TInputImage, TOutputImage, TDisplacementField >
+::DisplacementFieldType *
+WarpVectorImageFilter< TInputImage, TOutputImage, TDisplacementField >
+::GetDisplacementField(void)
 {
-  return static_cast< DeformationFieldType * >
+  return static_cast< DisplacementFieldType * >
          ( this->ProcessObject::GetInput(1) );
 }
 
@@ -139,9 +139,9 @@ WarpVectorImageFilter< TInputImage, TOutputImage, TDeformationField >
  * InterpolatorType::SetInputImage is not thread-safe and hence
  * has to be setup before ThreadedGenerateData
  */
-template< class TInputImage, class TOutputImage, class TDeformationField >
+template< class TInputImage, class TOutputImage, class TDisplacementField >
 void
-WarpVectorImageFilter< TInputImage, TOutputImage, TDeformationField >
+WarpVectorImageFilter< TInputImage, TOutputImage, TDisplacementField >
 ::BeforeThreadedGenerateData()
 {
   if ( !m_Interpolator )
@@ -156,16 +156,16 @@ WarpVectorImageFilter< TInputImage, TOutputImage, TDeformationField >
 /**
  * Compute the output for the region specified by outputRegionForThread.
  */
-template< class TInputImage, class TOutputImage, class TDeformationField >
+template< class TInputImage, class TOutputImage, class TDisplacementField >
 void
-WarpVectorImageFilter< TInputImage, TOutputImage, TDeformationField >
+WarpVectorImageFilter< TInputImage, TOutputImage, TDisplacementField >
 ::ThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread,
   ThreadIdType threadId)
 {
   InputImageConstPointer  inputPtr = this->GetInput();
   OutputImagePointer      outputPtr = this->GetOutput();
-  DeformationFieldPointer fieldPtr = this->GetDeformationField();
+  DisplacementFieldPointer fieldPtr = this->GetDisplacementField();
 
   // support progress methods/callbacks
   ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
@@ -174,8 +174,8 @@ WarpVectorImageFilter< TInputImage, TOutputImage, TDeformationField >
   ImageRegionIteratorWithIndex< OutputImageType > outputIt(
     outputPtr, outputRegionForThread);
 
-  // iterator for the deformation field
-  ImageRegionIterator< DeformationFieldType > fieldIt(
+  // iterator for the displacement field
+  ImageRegionIterator< DisplacementFieldType > fieldIt(
     fieldPtr, outputRegionForThread);
 
   IndexType        index;
@@ -221,9 +221,9 @@ WarpVectorImageFilter< TInputImage, TOutputImage, TDeformationField >
     }
 }
 
-template< class TInputImage, class TOutputImage, class TDeformationField >
+template< class TInputImage, class TOutputImage, class TDisplacementField >
 void
-WarpVectorImageFilter< TInputImage, TOutputImage, TDeformationField >
+WarpVectorImageFilter< TInputImage, TOutputImage, TDisplacementField >
 ::GenerateInputRequestedRegion()
 {
   // call the superclass's implementation
@@ -239,8 +239,8 @@ WarpVectorImageFilter< TInputImage, TOutputImage, TDeformationField >
     }
 
   // just propagate up the output requested region for the
-  // deformation field.
-  DeformationFieldPointer fieldPtr = this->GetDeformationField();
+  // displacement field.
+  DisplacementFieldPointer fieldPtr = this->GetDisplacementField();
   OutputImagePointer      outputPtr = this->GetOutput();
   if ( fieldPtr )
     {
@@ -248,9 +248,9 @@ WarpVectorImageFilter< TInputImage, TOutputImage, TDeformationField >
     }
 }
 
-template< class TInputImage, class TOutputImage, class TDeformationField >
+template< class TInputImage, class TOutputImage, class TDisplacementField >
 void
-WarpVectorImageFilter< TInputImage, TOutputImage, TDeformationField >
+WarpVectorImageFilter< TInputImage, TOutputImage, TDisplacementField >
 ::GenerateOutputInformation()
 {
   // call the superclass's implementation of this method
@@ -262,7 +262,7 @@ WarpVectorImageFilter< TInputImage, TOutputImage, TDeformationField >
   outputPtr->SetOrigin(m_OutputOrigin);
   outputPtr->SetDirection(m_OutputDirection);
 
-  DeformationFieldPointer fieldPtr = this->GetDeformationField();
+  DisplacementFieldPointer fieldPtr = this->GetDisplacementField();
   if ( fieldPtr )
     {
     outputPtr->SetLargestPossibleRegion( fieldPtr->

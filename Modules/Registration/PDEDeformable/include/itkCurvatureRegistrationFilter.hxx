@@ -30,8 +30,8 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField, class TImageForceFunction >
-CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDeformationField, TImageForceFunction >
+template< class TFixedImage, class TMovingImage, class TDisplacementField, class TImageForceFunction >
+CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField, TImageForceFunction >
 ::CurvatureRegistrationFilter()
 {
   typename RegistrationFunctionType::Pointer drfp;
@@ -44,7 +44,7 @@ CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDeformationField, TImag
   this->SetConstraintWeight(0.01);
 
   m_PlanBackwardDCT = m_PlanForwardDCT = NULL;
-  m_DeformationFieldComponentImage = m_DeformationFieldComponentImageDCT = NULL;
+  m_DisplacementFieldComponentImage = m_DisplacementFieldComponentImageDCT = NULL;
 
   for ( unsigned int dim = 0; dim < ImageDimension; ++dim )
     {
@@ -55,8 +55,8 @@ CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDeformationField, TImag
 /**
  * Destructor.
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField, class TImageForceFunction >
-CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDeformationField, TImageForceFunction >
+template< class TFixedImage, class TMovingImage, class TDisplacementField, class TImageForceFunction >
+CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField, TImageForceFunction >
 ::~CurvatureRegistrationFilter()
 {
   if ( m_PlanForwardDCT )
@@ -77,9 +77,9 @@ CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDeformationField, TImag
     }
 }
 
-template< class TFixedImage, class TMovingImage, class TDeformationField, class TImageForceFunction >
+template< class TFixedImage, class TMovingImage, class TDisplacementField, class TImageForceFunction >
 void
-CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDeformationField, TImageForceFunction >
+CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField, TImageForceFunction >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -88,9 +88,9 @@ CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDeformationField, TImag
 /**
  * Set the function state values before each iteration
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField, class TImageForceFunction >
+template< class TFixedImage, class TMovingImage, class TDisplacementField, class TImageForceFunction >
 void
-CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDeformationField, TImageForceFunction >
+CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField, TImageForceFunction >
 ::Initialize()
 {
   RegistrationFunctionType *drfp =
@@ -103,22 +103,22 @@ CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDeformationField, TImag
       << "Could not cast difference function to CurvatureRegistrationFunction");
     }
 
-  drfp->SetDeformationField( this->GetDeformationField() );
+  drfp->SetDisplacementField( this->GetDisplacementField() );
 
   const SizeValueType numberOfPixels = this->GetFixedImage()->GetLargestPossibleRegion().GetNumberOfPixels();
 
   // allocate temporary storage for DCT, potentially aligned for SIMD processing
-  if ( m_DeformationFieldComponentImage )
+  if ( m_DisplacementFieldComponentImage )
     {
-    fftw_free(m_DeformationFieldComponentImage);
+    fftw_free(m_DisplacementFieldComponentImage);
     }
-  m_DeformationFieldComponentImage = static_cast< RealTypeDFT * >( fftw_malloc( numberOfPixels * sizeof( RealTypeDFT ) ) );
+  m_DisplacementFieldComponentImage = static_cast< RealTypeDFT * >( fftw_malloc( numberOfPixels * sizeof( RealTypeDFT ) ) );
 
-  if ( m_DeformationFieldComponentImageDCT )
+  if ( m_DisplacementFieldComponentImageDCT )
     {
-    fftw_free(m_DeformationFieldComponentImageDCT);
+    fftw_free(m_DisplacementFieldComponentImageDCT);
     }
-  m_DeformationFieldComponentImageDCT = static_cast< RealTypeDFT * >( fftw_malloc( numberOfPixels * sizeof( RealTypeDFT ) ) );
+  m_DisplacementFieldComponentImageDCT = static_cast< RealTypeDFT * >( fftw_malloc( numberOfPixels * sizeof( RealTypeDFT ) ) );
 
   fftw_r2r_kind fftForward[ImageDimension];
   fftw_r2r_kind fftBackward[ImageDimension];
@@ -160,16 +160,16 @@ CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDeformationField, TImag
     fftw_destroy_plan(m_PlanForwardDCT);
     }
   m_PlanForwardDCT = fftw_plan_r2r
-                       (ImageDimension, fixedImageDimensionsFFTW, m_DeformationFieldComponentImage,
-                       m_DeformationFieldComponentImageDCT, fftForward, FFTW_MEASURE | FFTW_DESTROY_INPUT);
+                       (ImageDimension, fixedImageDimensionsFFTW, m_DisplacementFieldComponentImage,
+                       m_DisplacementFieldComponentImageDCT, fftForward, FFTW_MEASURE | FFTW_DESTROY_INPUT);
 
   if ( m_PlanBackwardDCT )
     {
     fftw_destroy_plan(m_PlanBackwardDCT);
     }
   m_PlanBackwardDCT = fftw_plan_r2r
-                        (ImageDimension, fixedImageDimensionsFFTW, m_DeformationFieldComponentImageDCT,
-                        m_DeformationFieldComponentImage, fftBackward, FFTW_MEASURE | FFTW_DESTROY_INPUT);
+                        (ImageDimension, fixedImageDimensionsFFTW, m_DisplacementFieldComponentImageDCT,
+                        m_DisplacementFieldComponentImage, fftBackward, FFTW_MEASURE | FFTW_DESTROY_INPUT);
 
   // compute components of diagonal matrix elements
   for ( unsigned int dim = 0; dim < ImageDimension; ++dim )
@@ -196,9 +196,9 @@ CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDeformationField, TImag
 /*
  * Get the metric value from the difference function
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField, class TImageForceFunction >
+template< class TFixedImage, class TMovingImage, class TDisplacementField, class TImageForceFunction >
 double
-CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDeformationField, TImageForceFunction >
+CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField, TImageForceFunction >
 ::GetMetric() const
 {
   RegistrationFunctionType *drfp =
@@ -217,25 +217,25 @@ CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDeformationField, TImag
 /*
  * Get the metric value from the difference function
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField, class TImageForceFunction >
+template< class TFixedImage, class TMovingImage, class TDisplacementField, class TImageForceFunction >
 void
-CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDeformationField, TImageForceFunction >
+CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField, TImageForceFunction >
 ::ApplyUpdate(const TimeStepType& dt)
 {
   // unused dt parameter
   (void)dt;
-  DeformationFieldPointer update = this->GetUpdateBuffer();
+  DisplacementFieldPointer update = this->GetUpdateBuffer();
 
-  ImageRegionConstIterator< DeformationFieldType >    itInDeformation;
-  ImageRegionIterator< DeformationFieldType >         itOutDeformation;
-  ImageRegionConstIterator< DeformationFieldType >    itInUpdate;
+  ImageRegionConstIterator< DisplacementFieldType >    itInDeformation;
+  ImageRegionIterator< DisplacementFieldType >         itOutDeformation;
+  ImageRegionConstIterator< DisplacementFieldType >    itInUpdate;
   ImageRegionConstIteratorWithIndex< FixedImageType > fixedImageIteratorWithIndex;
 
-  itInDeformation = ImageRegionConstIterator< DeformationFieldType >
-                      ( this->GetDeformationField(), this->GetDeformationField()->GetLargestPossibleRegion() );
-  itOutDeformation = ImageRegionIterator< DeformationFieldType >
-                       ( this->GetDeformationField(), this->GetDeformationField()->GetLargestPossibleRegion() );
-  itInUpdate = ImageRegionConstIterator< DeformationFieldType >
+  itInDeformation = ImageRegionConstIterator< DisplacementFieldType >
+                      ( this->GetDisplacementField(), this->GetDisplacementField()->GetLargestPossibleRegion() );
+  itOutDeformation = ImageRegionIterator< DisplacementFieldType >
+                       ( this->GetDisplacementField(), this->GetDisplacementField()->GetLargestPossibleRegion() );
+  itInUpdate = ImageRegionConstIterator< DisplacementFieldType >
                  ( update, update->GetLargestPossibleRegion() );
   fixedImageIteratorWithIndex = ImageRegionConstIteratorWithIndex< FixedImageType >
                                   ( this->GetFixedImage(), this->GetFixedImage()->GetLargestPossibleRegion() );
@@ -262,7 +262,7 @@ CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDeformationField, TImag
           ( offset1 < numberOfPixels ) && !itInDeformation.IsAtEnd() && !itInUpdate.IsAtEnd();
           ++offset1 )
       {
-      this->m_DeformationFieldComponentImage[offset1] = this->m_TimeStep *itInUpdate. Value()[l]
+      this->m_DisplacementFieldComponentImage[offset1] = this->m_TimeStep *itInUpdate. Value()[l]
                                                         + itInDeformation.Value()[l];
       ++itInUpdate;
       ++itInDeformation;
@@ -284,7 +284,7 @@ CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDeformationField, TImag
         }
       d *= ( d * this->m_TimeStep * this->m_ConstraintWeight );
       d += 1.0;
-      this->m_DeformationFieldComponentImageDCT[offset++] /= d;
+      this->m_DisplacementFieldComponentImageDCT[offset++] /= d;
       ++fixedImageIteratorWithIndex;
       }
 
@@ -295,12 +295,12 @@ CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDeformationField, TImag
     itOutDeformation.GoToBegin();
     for ( SizeValueType offset1 = 0; ( offset1 < numberOfPixels ) && !itOutDeformation.IsAtEnd(); ++offset1 )
       {
-      itOutDeformation.Value()[l] = this->m_DeformationFieldComponentImage[offset1] * normFactorDCT;
+      itOutDeformation.Value()[l] = this->m_DisplacementFieldComponentImage[offset1] * normFactorDCT;
       ++itOutDeformation;
       }
     }
 
-  this->GetDeformationField()->Modified();
+  this->GetDisplacementField()->Modified();
 }
 } // end namespace itk
 

@@ -54,17 +54,17 @@
       <![CDATA[
       #include "itkMultiplyByConstantImageFilter.h"
       typedef MultiplyByConstantImageFilter<
-        DeformationFieldType,
-        TimeStepType, DeformationFieldType >                MultiplyType;
+        DisplacementFieldType,
+        TimeStepType, DisplacementFieldType >                MultiplyType;
       ]]>
       </Old>
 
       <New>
       <![CDATA[
       #include "itkMultiplyImageFilter.h"
-      typedef MultiplyImageFilter< DeformationFieldType,
+      typedef MultiplyImageFilter< DisplacementFieldType,
         itk::Image<TimeStepType, ImageDimension>,
-        DeformationFieldType >                              MultiplyType;
+        DisplacementFieldType >                              MultiplyType;
       ]]>
       </New>
 
@@ -90,8 +90,8 @@
       Modules/Nonunit/Review/include/itkDiffeomorphicDemonsRegistrationFilter.h
       Modules/Nonunit/Review/include/itkDiffeomorphicDemonsRegistrationFilter.txx
       Modules/Nonunit/Review/include/itkDivideByConstantImageFilter.h
-      Modules/Nonunit/Review/include/itkExponentialDeformationFieldImageFilter.h
-      Modules/Nonunit/Review/include/itkExponentialDeformationFieldImageFilter.txx
+      Modules/Nonunit/Review/include/itkExponentialDisplacementFieldImageFilter.h
+      Modules/Nonunit/Review/include/itkExponentialDisplacementFieldImageFilter.txx
       Modules/Nonunit/Review/include/itkFastSymmetricForcesDemonsRegistrationFilter.h
       Modules/Nonunit/Review/include/itkFastSymmetricForcesDemonsRegistrationFilter.txx
       Modules/Nonunit/Review/include/itkMultiplyByConstantImageFilter.h

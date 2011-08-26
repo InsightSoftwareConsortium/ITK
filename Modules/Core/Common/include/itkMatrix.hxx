@@ -92,11 +92,11 @@ Matrix< T, NRows, NColumns >
 template< class T, unsigned int NRows, unsigned int NColumns >
 Matrix< T, NRows, NColumns >
 Matrix< T, NRows, NColumns >
-::operator*(const Self & matrix) const
+::operator*(const CompatibleSquareMatrixType & matrix) const
 {
   Self result;
 
-  result = m_Matrix * matrix.m_Matrix;
+  result = m_Matrix * matrix.GetVnlMatrix();
   return result;
 }
 
@@ -193,9 +193,9 @@ Matrix< T, NRows, NColumns >
 template< class T, unsigned int NRows, unsigned int NColumns >
 void
 Matrix< T, NRows, NColumns >
-::operator*=(const Self & matrix)
+::operator*=(const CompatibleSquareMatrixType & matrix)
 {
-  m_Matrix *= matrix.m_Matrix;
+  m_Matrix *= matrix.GetVnlMatrix();
 }
 
 /**

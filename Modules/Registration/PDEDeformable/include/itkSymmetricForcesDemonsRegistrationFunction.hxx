@@ -27,8 +27,8 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
-SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
+SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::SymmetricForcesDemonsRegistrationFunction()
 {
   RadiusType r;
@@ -61,9 +61,9 @@ SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformati
 /*
  * Standard "PrintSelf" method.
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -92,9 +92,9 @@ SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformati
 /**
  *
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::SetIntensityDifferenceThreshold(double threshold)
 {
   m_IntensityDifferenceThreshold = threshold;
@@ -103,9 +103,9 @@ SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformati
 /**
  *
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 double
-SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::GetIntensityDifferenceThreshold() const
 {
   return m_IntensityDifferenceThreshold;
@@ -114,9 +114,9 @@ SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformati
 /**
  * Set the function state values before each iteration
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::InitializeIteration()
 {
   if ( !this->GetMovingImage() || !this->GetFixedImage() || !m_MovingImageInterpolator )
@@ -150,10 +150,10 @@ SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformati
 /**
  * Compute update at a non boundary neighbourhood
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
-typename SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
+typename SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::PixelType
-SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::ComputeUpdate( const NeighborhoodType & it, void *gd,
                  const FloatOffsetType & itkNotUsed(offset) )
 {
@@ -173,9 +173,9 @@ SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformati
   IndexType                         tmpIndex = index;
   PointType                         mappedNeighPoint;
   CovariantVectorType               movingGradient;
-  const DeformationFieldType *const field = this->GetDeformationField();
+  const DisplacementFieldType *const field = this->GetDisplacementField();
 
-  typedef typename DeformationFieldType::PixelType DeformationPixelType;
+  typedef typename DisplacementFieldType::PixelType DisplacementPixelType;
   PointType mappedCenterPoint;
   this->GetFixedImage()->TransformIndexToPhysicalPoint(index, mappedCenterPoint);
   for ( unsigned int dim = 0; dim < ImageDimension; dim++ )
@@ -189,11 +189,11 @@ SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformati
     else
       {
       tmpIndex[dim] += 1;
-      DeformationPixelType deformation = field->GetPixel(tmpIndex);
+      DisplacementPixelType displacement = field->GetPixel(tmpIndex);
       this->GetFixedImage()->TransformIndexToPhysicalPoint(tmpIndex, mappedNeighPoint);
       for ( unsigned int j = 0; j < ImageDimension; j++ )
         {
-        mappedNeighPoint[j] += deformation[j];
+        mappedNeighPoint[j] += displacement[j];
         }
       if ( m_MovingImageInterpolator->IsInsideBuffer(mappedNeighPoint) )
         {
@@ -205,11 +205,11 @@ SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformati
         }
 
       tmpIndex[dim] -= 2;
-      deformation = field->GetPixel(tmpIndex);
+      displacement = field->GetPixel(tmpIndex);
       this->GetFixedImage()->TransformIndexToPhysicalPoint(tmpIndex, mappedNeighPoint);
       for ( unsigned int j = 0; j < ImageDimension; j++ )
         {
-        mappedNeighPoint[j] += deformation[j];
+        mappedNeighPoint[j] += displacement[j];
         }
       if ( m_MovingImageInterpolator->IsInsideBuffer(mappedNeighPoint) )
         {
@@ -302,9 +302,9 @@ SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformati
 /**
  * Update the metric and release the per-thread-global data.
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::ReleaseGlobalDataPointer(void *gd) const
 {
   GlobalDataStruct *globalData = (GlobalDataStruct *)gd;

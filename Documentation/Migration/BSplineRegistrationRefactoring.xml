@@ -252,7 +252,7 @@
       Modules/Nonunit/Review/include/itkBSplineTransformInitializer.h
       Modules/Nonunit/Review/include/itkBSplineTransformInitializer.txx
       Modules/Nonunit/Review/include/itkOptImageToImageMetricsTest2.h
-      Modules/Nonunit/Review/test/itkTransformToDeformationFieldSourceTest.cxx
+      Modules/Nonunit/Review/test/itkTransformToDisplacementFieldSourceTest.cxx
       Modules/Registration/Common/test/itkMattesMutualInformationImageToImageMetricTest.cxx
       Modules/Core/Transform/include/itkBSplineDeformableTransform.h
       Modules/Core/Transform/include/itkBSplineDeformableTransform.txx

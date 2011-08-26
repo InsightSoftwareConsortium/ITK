@@ -12,7 +12,7 @@ itk_module(ITKIntegratedTest
     ITKConnectedComponents
     ITKCurvatureFlow
     ITKDeformableMesh
-    ITKDeformationField
+    ITKDisplacementField
     ITKDeprecated
     ITKDiffusionTensorImage
     ITKDistanceMap

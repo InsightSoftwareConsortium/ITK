@@ -27,8 +27,8 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
-DemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
+DemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::DemonsRegistrationFunction()
 {
   RadiusType   r;
@@ -69,9 +69,9 @@ DemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 /**
  * Standard "PrintSelf" method.
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-DemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+DemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -103,9 +103,9 @@ DemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 /**
  *
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-DemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+DemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::SetIntensityDifferenceThreshold(double threshold)
 {
   m_IntensityDifferenceThreshold = threshold;
@@ -114,9 +114,9 @@ DemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 /**
  *
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 double
-DemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+DemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::GetIntensityDifferenceThreshold() const
 {
   return m_IntensityDifferenceThreshold;
@@ -125,9 +125,9 @@ DemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 /**
  * Set the function state values before each iteration
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-DemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+DemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::InitializeIteration()
 {
   if ( !this->GetMovingImage() || !this->GetFixedImage() || !m_MovingImageInterpolator )
@@ -163,10 +163,10 @@ DemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 /**
  * Compute update at a specify neighbourhood
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
-typename DemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
+typename DemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::PixelType
-DemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+DemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::ComputeUpdate( const NeighborhoodType & it, void *gd,
                  const FloatOffsetType & itkNotUsed(offset) )
 {
@@ -258,9 +258,9 @@ DemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 /**
  * Update the metric and release the per-thread-global data.
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-DemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+DemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::ReleaseGlobalDataPointer(void *gd) const
 {
   GlobalDataStruct *globalData = (GlobalDataStruct *)gd;

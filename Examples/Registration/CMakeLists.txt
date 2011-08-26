@@ -122,8 +122,8 @@ target_link_libraries(DeformableRegistration16 ${ITK_LIBRARIES})
 add_executable(DeformableRegistration17 DeformableRegistration17.cxx )
 target_link_libraries(DeformableRegistration17 ${ITK_LIBRARIES})
 
-add_executable(DeformationFieldInitialization DeformationFieldInitialization.cxx )
-target_link_libraries(DeformationFieldInitialization ${ITK_LIBRARIES})
+add_executable(DisplacementFieldInitialization DisplacementFieldInitialization.cxx )
+target_link_libraries(DisplacementFieldInitialization ${ITK_LIBRARIES})
 
 add_executable(LandmarkWarping2 LandmarkWarping2.cxx )
 target_link_libraries(LandmarkWarping2 ${ITK_LIBRARIES})

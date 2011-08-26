@@ -219,7 +219,7 @@ set(itk_Wrap_VectorImage ${WRAPPER_TEMPLATES})
 WRAP_TYPE("itk::VariableLengthVector" "VLV")
   # Make a list of all of the selected image pixel types and also uchar
   # (for 8-bit image output)
-  UNIQUE(wrap_image_types "${WRAP_ITK_SCALAR};UC")
+  UNIQUE(wrap_image_types "${WRAP_ITK_SCALAR};UC;D")
 
   foreach(type ${wrap_image_types})
     ADD_TEMPLATE("${ITKM_${type}}"  "${ITKT_${type}}")

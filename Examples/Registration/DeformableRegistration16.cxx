@@ -119,14 +119,14 @@ protected:
   CommandIterationUpdate() {};
 
   // define ITK short-hand types
-  typedef short PixelType;
-  typedef float InternalPixelType;
-  typedef itk::Image< PixelType, 2 > ImageType;
-  typedef itk::Image< InternalPixelType, 2 > InternalImageType;
-  typedef itk::Vector< float, 2 > VectorPixelType;
-  typedef itk::Image< VectorPixelType, 2 > DeformationFieldType;
+  typedef short                                PixelType;
+  typedef float                                InternalPixelType;
+  typedef itk::Image< PixelType, 2 >           ImageType;
+  typedef itk::Image< InternalPixelType, 2 >   InternalImageType;
+  typedef itk::Vector< float, 2 >              VectorPixelType;
+  typedef itk::Image< VectorPixelType, 2 >     DisplacementFieldType;
   typedef itk::DemonsRegistrationFilter< InternalImageType,
-    InternalImageType, DeformationFieldType> RegistrationFilterType;
+    InternalImageType, DisplacementFieldType>  RegistrationFilterType;
 
 public:
 
@@ -164,8 +164,8 @@ class CommandResolutionLevelUpdate : public itk::Command
 {
 public:
   typedef  CommandResolutionLevelUpdate   Self;
-  typedef  itk::Command             Superclass;
-  typedef  itk::SmartPointer<Self>  Pointer;
+  typedef  itk::Command                   Superclass;
+  typedef  itk::SmartPointer<Self>        Pointer;
   itkNewMacro( Self );
 
 protected:
@@ -175,7 +175,7 @@ public:
   void Execute(itk::Object *caller, const itk::EventObject & event)
     {
     Execute( (const itk::Object *)caller, event);
-    };
+    }
   void Execute(const itk::Object *, const itk::EventObject & )
     {
     std::cout << "----------------------------------" << std::endl;
@@ -198,10 +198,10 @@ int main( int argc, char * argv [] )
 
   // define ITK short-hand types
   const unsigned int Dimension = 2;
-  typedef short PixelType;
-  typedef float InternalPixelType;
-  typedef itk::Image< PixelType, Dimension > ImageType;
-  typedef itk::Image< InternalPixelType, Dimension > InternalImageType;
+  typedef short                                                PixelType;
+  typedef float                                                InternalPixelType;
+  typedef itk::Image< PixelType, Dimension >                   ImageType;
+  typedef itk::Image< InternalPixelType, Dimension >           InternalImageType;
   typedef itk::CastImageFilter< ImageType, InternalImageType > ImageCasterType;
 
 
@@ -237,12 +237,12 @@ int main( int argc, char * argv [] )
   // setup the deformation field and filter
   typedef itk::Vector< float, Dimension > VectorPixelType;
 
-  typedef itk::Image< VectorPixelType, Dimension > DeformationFieldType;
+  typedef itk::Image< VectorPixelType, Dimension > DisplacementFieldType;
 
   typedef itk::DemonsRegistrationFilter<
     InternalImageType,
     InternalImageType,
-    DeformationFieldType>       RegistrationFilterType;
+    DisplacementFieldType>       RegistrationFilterType;
 
   RegistrationFilterType::Pointer filter = RegistrationFilterType::New();
 
@@ -259,7 +259,7 @@ int main( int argc, char * argv [] )
   typedef itk::MultiResolutionPDEDeformableRegistration<
     InternalImageType,
     InternalImageType,
-    DeformationFieldType >      MultiResRegistrationFilterType;
+    DisplacementFieldType >      MultiResRegistrationFilterType;
 
   MultiResRegistrationFilterType::Pointer multires =
     MultiResRegistrationFilterType::New();
@@ -289,7 +289,7 @@ int main( int argc, char * argv [] )
     }
 
   // compute the output (warped) image
-  typedef itk::WarpImageFilter< ImageType, ImageType, DeformationFieldType > WarperType;
+  typedef itk::WarpImageFilter< ImageType, ImageType, DisplacementFieldType > WarperType;
   typedef itk::LinearInterpolateImageFunction< ImageType, double > InterpolatorType;
 
   WarperType::Pointer warper = WarperType::New();
@@ -302,7 +302,7 @@ int main( int argc, char * argv [] )
   warper->SetOutputSpacing( targetImage->GetSpacing() );
   warper->SetOutputOrigin( targetImage->GetOrigin() );
   warper->SetOutputDirection( targetImage->GetDirection() );
-  warper->SetDeformationField( multires->GetOutput() );
+  warper->SetDisplacementField( multires->GetOutput() );
 
   typedef itk::ImageFileWriter< ImageType >  WriterType;
   WriterType::Pointer writer = WriterType::New();
@@ -320,7 +320,7 @@ int main( int argc, char * argv [] )
     }
 
   // write the deformation field
-  typedef itk::ImageFileWriter< DeformationFieldType >  DeformationWriterType;
+  typedef itk::ImageFileWriter< DisplacementFieldType >  DeformationWriterType;
   DeformationWriterType::Pointer defwriter = DeformationWriterType::New();
   defwriter->SetFileName( argv[4] );
   defwriter->SetInput( multires->GetOutput() );

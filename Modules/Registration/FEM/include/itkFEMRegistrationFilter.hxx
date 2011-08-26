@@ -273,7 +273,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::WarpImage( co
 
   warper = WarperType::New();
   warper->SetInput( ImageToWarp );
-  warper->SetDeformationField( m_Field );
+  warper->SetDisplacementField( m_Field );
   warper->SetInterpolator( interpolator );
   warper->SetOutputOrigin( m_FixedImage->GetOrigin() );
   warper->SetOutputSpacing( m_FixedImage->GetSpacing() );
@@ -402,7 +402,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>
     {
     this->InitializeField();
     }
-  m_Load->SetDeformationField(this->GetDeformationField() );
+  m_Load->SetDisplacementField(this->GetDisplacementField() );
   m_Load->SetMetric(m_Metric);
   m_Load->InitializeMetric();
   m_Load->SetGamma(m_Gamma[m_CurrentLevel]);
@@ -1169,7 +1169,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::EnforceDiffeo
       {
       warper = WarperType::New();
       warper->SetInput( m_OriginalMovingImage );
-      warper->SetDeformationField( fullField );
+      warper->SetDisplacementField( fullField );
       warper->SetInterpolator( interpolator );
       warper->SetOutputOrigin( m_FixedImage->GetOrigin() );
       warper->SetOutputSpacing( m_FixedImage->GetSpacing() );
@@ -1256,7 +1256,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::EnforceDiffeo
 
       warper = WarperType::New();
       warper->SetInput( m_OriginalMovingImage );
-      warper->SetDeformationField( m_TotalField );
+      warper->SetDisplacementField( m_TotalField );
       warper->SetInterpolator( interpolator );
       warper->SetOutputOrigin( m_FixedImage->GetOrigin() );
       warper->SetOutputSpacing( m_FixedImage->GetSpacing() );

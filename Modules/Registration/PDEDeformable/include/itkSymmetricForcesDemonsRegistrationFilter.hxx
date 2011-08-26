@@ -24,8 +24,8 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
-SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
+SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::SymmetricForcesDemonsRegistrationFilter()
 {
   typename DemonsRegistrationFunctionType::Pointer drfp;
@@ -38,9 +38,9 @@ SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformation
 /*
  * Set the function state values before each iteration
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::InitializeIteration()
 {
   // update variables in the equation object
@@ -53,7 +53,7 @@ SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformation
     itkExceptionMacro(<< "FiniteDifferenceFunction not of type DemonsRegistrationFunctionType");
     }
 
-  f->SetDeformationField( this->GetDeformationField() );
+  f->SetDisplacementField( this->GetDisplacementField() );
 
   // call the superclass  implementation
   Superclass::InitializeIteration();
@@ -61,18 +61,18 @@ SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformation
   /*
    * Smooth the deformation field
    */
-  if ( this->GetSmoothDeformationField() )
+  if ( this->GetSmoothDisplacementField() )
     {
-    this->SmoothDeformationField();
+    this->SmoothDisplacementField();
     }
 }
 
 /**
  * Get the metric value from the difference function
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 double
-SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::GetMetric() const
 {
   DemonsRegistrationFunctionType *drfp =
@@ -91,9 +91,9 @@ SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformation
 /*
  *
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 double
-SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::GetIntensityDifferenceThreshold() const
 {
   DemonsRegistrationFunctionType *drfp =
@@ -112,9 +112,9 @@ SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformation
 /*
  *
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::SetIntensityDifferenceThreshold(double threshold)
 {
   DemonsRegistrationFunctionType *drfp =
@@ -133,9 +133,9 @@ SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformation
 /*
  * Get the metric value from the difference function
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 const double &
-SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::GetRMSChange() const
 {
   DemonsRegistrationFunctionType *drfp =
@@ -154,9 +154,9 @@ SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformation
 /*
  * Get the metric value from the difference function
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::ApplyUpdate(const TimeStepType& dt)
 {
   // If we smooth the update buffer before applying it, then the are
@@ -181,9 +181,9 @@ SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformation
   this->SetRMSChange( drfp->GetRMSChange() );
 }
 
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);

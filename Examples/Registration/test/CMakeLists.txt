@@ -385,7 +385,7 @@ itk_add_test(NAME BSplineWarping1Test COMMAND ${ITK_TEST_DRIVER}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         ${TEMP}/BSplineWarping1Test.png
-        ${TEMP}/BSplineWarping1TestDeformationField.mhd
+        ${TEMP}/BSplineWarping1TestDisplacementField.mhd
         ${TEMP}/BSplineWarping1TestTransform.txt
 )
 
@@ -399,7 +399,7 @@ itk_add_test(NAME DeformableRegistration12Test1 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/DeformableRegistration12Test1.png
         ${TEMP}/DeformableRegistration12Test1DifferenceAfter.png
         ${TEMP}/DeformableRegistration12Test1DifferenceBefore.png
-        ${TEMP}/DeformableRegistration12Test1DeformationField.mhd
+        ${TEMP}/DeformableRegistration12Test1DisplacementField.mhd
         0 0
         ${TEMP}/DeformableRegistration12Test1FinalTransformParameters.txt
 )
@@ -414,7 +414,7 @@ itk_add_test(NAME DeformableRegistration12Test2 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/DeformableRegistration12Test2.png
         ${TEMP}/DeformableRegistration12Test2DifferenceAfter.png
         ${TEMP}/DeformableRegistration12Test2DifferenceBefore.png
-        ${TEMP}/DeformableRegistration12Test2DeformationField.mhd
+        ${TEMP}/DeformableRegistration12Test2DisplacementField.mhd
         0 1
         ${TEMP}/DeformableRegistration12Test2FinalTransformParameters.txt
 )
@@ -429,7 +429,7 @@ itk_add_test(NAME DeformableRegistration12Test3 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/DeformableRegistration12Test3.png
         ${TEMP}/DeformableRegistration12Test3DifferenceAfter.png
         ${TEMP}/DeformableRegistration12Test3DifferenceBefore.png
-        ${TEMP}/DeformableRegistration12Test3DeformationField.mhd
+        ${TEMP}/DeformableRegistration12Test3DisplacementField.mhd
         1 0
         ${TEMP}/DeformableRegistration12Test3FinalTransformParameters.txt
 )
@@ -444,7 +444,7 @@ itk_add_test(NAME DeformableRegistration12Test4 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/DeformableRegistration12Test4.png
         ${TEMP}/DeformableRegistration12Test4DifferenceAfter.png
         ${TEMP}/DeformableRegistration12Test4DifferenceBefore.png
-        ${TEMP}/DeformableRegistration12Test4DeformationField.mhd
+        ${TEMP}/DeformableRegistration12Test4DisplacementField.mhd
         1 1
         ${TEMP}/DeformableRegistration12Test4FinalTransformParameters.txt
 )
@@ -459,7 +459,7 @@ itk_add_test(NAME DeformableRegistration13Test1 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/DeformableRegistration13Test1.png
         ${TEMP}/DeformableRegistration13Test1DifferenceAfter.png
         ${TEMP}/DeformableRegistration13Test1DifferenceBefore.png
-        ${TEMP}/DeformableRegistration13Test1DeformationField.mhd
+        ${TEMP}/DeformableRegistration13Test1DisplacementField.mhd
         0 0
         ${TEMP}/DeformableRegistration13Test1FinalTransformParameters.txt
 )
@@ -474,7 +474,7 @@ itk_add_test(NAME DeformableRegistration13Test2 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/DeformableRegistration13Test2.png
         ${TEMP}/DeformableRegistration13Test2DifferenceAfter.png
         ${TEMP}/DeformableRegistration13Test2DifferenceBefore.png
-        ${TEMP}/DeformableRegistration13Test2DeformationField.mhd
+        ${TEMP}/DeformableRegistration13Test2DisplacementField.mhd
         0 1
         ${TEMP}/DeformableRegistration13Test2FinalTransformParameters.txt
 )
@@ -489,7 +489,7 @@ itk_add_test(NAME DeformableRegistration13Test3 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/DeformableRegistration13Test3.png
         ${TEMP}/DeformableRegistration13Test3DifferenceAfter.png
         ${TEMP}/DeformableRegistration13Test3DifferenceBefore.png
-        ${TEMP}/DeformableRegistration13Test3DeformationField.mhd
+        ${TEMP}/DeformableRegistration13Test3DisplacementField.mhd
         1 0
         ${TEMP}/DeformableRegistration13Test3FinalTransformParameters.txt
 )
@@ -504,7 +504,7 @@ itk_add_test(NAME DeformableRegistration13Test4 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/DeformableRegistration13Test4.png
         ${TEMP}/DeformableRegistration13Test4DifferenceAfter.png
         ${TEMP}/DeformableRegistration13Test4DifferenceBefore.png
-        ${TEMP}/DeformableRegistration13Test4DeformationField.mhd
+        ${TEMP}/DeformableRegistration13Test4DisplacementField.mhd
         1 1
         ${TEMP}/DeformableRegistration13Test4FinalTransformParameters.txt
 )
@@ -517,7 +517,7 @@ itk_add_test(NAME BSplineWarping2Test COMMAND ${ITK_TEST_DRIVER}
         DATA{../Data/BrainWeb/brainweb1e1a10f20.mha}
         DATA{../Data/BrainWeb/brainweb1e1a10f20.mha}
         ${TEMP}/BSplineWarping2Test.mhd
-        ${TEMP}/BSplineWarping2TestDeformationField.mhd
+        ${TEMP}/BSplineWarping2TestDisplacementField.mhd
         ${TEMP}/BSplineWarping2TestTransform.txt
 )
 
@@ -536,7 +536,7 @@ itk_add_test(NAME DeformableRegistration8Test1 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/DeformableRegistration8Test1.mhd
         ${TEMP}/DeformableRegistration8Test1DifferenceAfter.mhd
         ${TEMP}/DeformableRegistration8Test1DifferenceBefore.mhd
-        ${TEMP}/DeformableRegistration8Test1DeformationField.mhd
+        ${TEMP}/DeformableRegistration8Test1DisplacementField.mhd
         0 0
         ${TEMP}/DeformableRegistration8Test1FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
@@ -555,7 +555,7 @@ itk_add_test(NAME DeformableRegistration8Test2 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/DeformableRegistration8Test2.mhd
         ${TEMP}/DeformableRegistration8Test2DifferenceAfter.mhd
         ${TEMP}/DeformableRegistration8Test2DifferenceBefore.mhd
-        ${TEMP}/DeformableRegistration8Test2DeformationField.mhd
+        ${TEMP}/DeformableRegistration8Test2DisplacementField.mhd
         1 0
         ${TEMP}/DeformableRegistration8Test2FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
@@ -574,7 +574,7 @@ itk_add_test(NAME DeformableRegistration8Test3 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/DeformableRegistration8Test3.mhd
         ${TEMP}/DeformableRegistration8Test3DifferenceAfter.mhd
         ${TEMP}/DeformableRegistration8Test3DifferenceBefore.mhd
-        ${TEMP}/DeformableRegistration8Test3DeformationField.mhd
+        ${TEMP}/DeformableRegistration8Test3DisplacementField.mhd
         0 1
         ${TEMP}/DeformableRegistration8Test3FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
@@ -593,7 +593,7 @@ itk_add_test(NAME DeformableRegistration8Test4 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/DeformableRegistration8Test4.mhd
         ${TEMP}/DeformableRegistration8Test4DifferenceAfter.mhd
         ${TEMP}/DeformableRegistration8Test4DifferenceBefore.mhd
-        ${TEMP}/DeformableRegistration8Test4DeformationField.mhd
+        ${TEMP}/DeformableRegistration8Test4DisplacementField.mhd
         1 1
         ${TEMP}/DeformableRegistration8Test4FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
@@ -612,7 +612,7 @@ itk_add_test(NAME DeformableRegistration14Test1 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/DeformableRegistration14Test1.mhd
         ${TEMP}/DeformableRegistration14Test1DifferenceAfter.mhd
         ${TEMP}/DeformableRegistration14Test1DifferenceBefore.mhd
-        ${TEMP}/DeformableRegistration14Test1DeformationField.mhd
+        ${TEMP}/DeformableRegistration14Test1DisplacementField.mhd
         0 0
         ${TEMP}/DeformableRegistration14Test1FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
@@ -632,7 +632,7 @@ itk_add_test(NAME DeformableRegistration14Test2 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/DeformableRegistration14Test2.mhd
         ${TEMP}/DeformableRegistration14Test2DifferenceAfter.mhd
         ${TEMP}/DeformableRegistration14Test2DifferenceBefore.mhd
-        ${TEMP}/DeformableRegistration14Test2DeformationField.mhd
+        ${TEMP}/DeformableRegistration14Test2DisplacementField.mhd
         0 1
         ${TEMP}/DeformableRegistration14Test2FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
@@ -652,7 +652,7 @@ itk_add_test(NAME DeformableRegistration14Test3 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/DeformableRegistration14Test3.mhd
         ${TEMP}/DeformableRegistration14Test3DifferenceAfter.mhd
         ${TEMP}/DeformableRegistration14Test3DifferenceBefore.mhd
-        ${TEMP}/DeformableRegistration14Test3DeformationField.mhd
+        ${TEMP}/DeformableRegistration14Test3DisplacementField.mhd
         1 0
         ${TEMP}/DeformableRegistration14Test3FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
@@ -672,7 +672,7 @@ itk_add_test(NAME DeformableRegistration14Test4 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/DeformableRegistration14Test4.mhd
         ${TEMP}/DeformableRegistration14Test4DifferenceAfter.mhd
         ${TEMP}/DeformableRegistration14Test4DifferenceBefore.mhd
-        ${TEMP}/DeformableRegistration14Test4DeformationField.mhd
+        ${TEMP}/DeformableRegistration14Test4DisplacementField.mhd
         1 1
         ${TEMP}/DeformableRegistration14Test4FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
@@ -703,7 +703,7 @@ itk_add_test(NAME DeformableRegistration15Test1 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/DeformableRegistration15Test1.mhd
         ${TEMP}/DeformableRegistration15Test1DifferenceAfter.mhd
         ${TEMP}/DeformableRegistration15Test1DifferenceBefore.mhd
-        ${TEMP}/DeformableRegistration15Test1DeformationField.mhd
+        ${TEMP}/DeformableRegistration15Test1DisplacementField.mhd
         0 0
         ${TEMP}/DeformableRegistration15Test1FinalTransformParameters.txt
         5 100
@@ -722,7 +722,7 @@ itk_add_test(NAME DeformableRegistration8Test5 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/DeformableRegistration8Test5.mhd
         ${TEMP}/DeformableRegistration8Test5DifferenceAfter.mhd
         ${TEMP}/DeformableRegistration8Test5DifferenceBefore.mhd
-        ${TEMP}/DeformableRegistration8Test5DeformationField.mhd
+        ${TEMP}/DeformableRegistration8Test5DisplacementField.mhd
         0 0
         ${TEMP}/DeformableRegistration8Test5FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
@@ -736,7 +736,7 @@ itk_add_test(NAME DeformableRegistration8Test6 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/DeformableRegistration8Test6.mhd
         ${TEMP}/DeformableRegistration8Test6DifferenceAfter.mhd
         ${TEMP}/DeformableRegistration8Test6DifferenceBefore.mhd
-        ${TEMP}/DeformableRegistration8Test6DeformationField.mhd
+        ${TEMP}/DeformableRegistration8Test6DisplacementField.mhd
         0 1
         ${TEMP}/DeformableRegistration8Test6FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
@@ -750,7 +750,7 @@ itk_add_test(NAME DeformableRegistration8Test7 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/DeformableRegistration8Test7.mhd
         ${TEMP}/DeformableRegistration8Test7DifferenceAfter.mhd
         ${TEMP}/DeformableRegistration8Test7DifferenceBefore.mhd
-        ${TEMP}/DeformableRegistration8Test7DeformationField.mhd
+        ${TEMP}/DeformableRegistration8Test7DisplacementField.mhd
         1 0
         ${TEMP}/DeformableRegistration8Test7FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
@@ -764,7 +764,7 @@ itk_add_test(NAME DeformableRegistration8Test8 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/DeformableRegistration8Test8.mhd
         ${TEMP}/DeformableRegistration8Test8DifferenceAfter.mhd
         ${TEMP}/DeformableRegistration8Test8DifferenceBefore.mhd
-        ${TEMP}/DeformableRegistration8Test8DeformationField.mhd
+        ${TEMP}/DeformableRegistration8Test8DisplacementField.mhd
         1 1
         ${TEMP}/DeformableRegistration8Test8FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
@@ -779,7 +779,7 @@ itk_add_test(NAME DeformableRegistration8Test9 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/DeformableRegistration8Test9.mhd
         ${TEMP}/DeformableRegistration8Test9DifferenceAfter.mhd
         ${TEMP}/DeformableRegistration8Test9DifferenceBefore.mhd
-        ${TEMP}/DeformableRegistration8Test9DeformationField.mhd
+        ${TEMP}/DeformableRegistration8Test9DisplacementField.mhd
         0 0
         ${TEMP}/DeformableRegistration8Test9FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
@@ -793,7 +793,7 @@ itk_add_test(NAME DeformableRegistration8Test10 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/DeformableRegistration8Test10.mhd
         ${TEMP}/DeformableRegistration8Test10DifferenceAfter.mhd
         ${TEMP}/DeformableRegistration8Test10DifferenceBefore.mhd
-        ${TEMP}/DeformableRegistration8Test10DeformationField.mhd
+        ${TEMP}/DeformableRegistration8Test10DisplacementField.mhd
         0 1
         ${TEMP}/DeformableRegistration8Test10FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
@@ -821,7 +821,7 @@ itk_add_test(NAME DeformableRegistration8Test11 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/DeformableRegistration8Test11.mhd
         ${TEMP}/DeformableRegistration8Test11DifferenceAfter.mhd
         ${TEMP}/DeformableRegistration8Test11DifferenceBefore.mhd
-        ${TEMP}/DeformableRegistration8Test11DeformationField.mhd
+        ${TEMP}/DeformableRegistration8Test11DisplacementField.mhd
         1 0
         ${TEMP}/DeformableRegistration8Test11FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
@@ -835,7 +835,7 @@ itk_add_test(NAME DeformableRegistration8Test12 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/DeformableRegistration8Test12.mhd
         ${TEMP}/DeformableRegistration8Test12DifferenceAfter.mhd
         ${TEMP}/DeformableRegistration8Test12DifferenceBefore.mhd
-        ${TEMP}/DeformableRegistration8Test12DeformationField.mhd
+        ${TEMP}/DeformableRegistration8Test12DisplacementField.mhd
         1 1
         ${TEMP}/DeformableRegistration8Test12FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
@@ -866,7 +866,7 @@ itk_add_test(NAME DeformableRegistration15Test2 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/DeformableRegistration15Test2.mhd
         ${TEMP}/DeformableRegistration15Test2DifferenceAfter.mhd
         ${TEMP}/DeformableRegistration15Test2DifferenceBefore.mhd
-        ${TEMP}/DeformableRegistration15Test2DeformationField.mhd
+        ${TEMP}/DeformableRegistration15Test2DisplacementField.mhd
         0 0
         ${TEMP}/DeformableRegistration15Test2FinalTransformParameters.txt
         5 100

@@ -17,6 +17,7 @@ endif(USE_FFTWD OR USE_FFTWF)
 set(optional_libraries
 ITKStatistics
 ITKTransform
+ITKOptimizers
 ITKImageFunction
 ITKImageFilterBase
 ITKImageGrid
@@ -45,7 +46,7 @@ ITKLevelSets
 ITKAntiAlias
 ITKIORAW
 ITKClassifiers
-ITKDeformationField
+ITKDisplacementField
 ITKDistanceMap
 ITKEigen
 ITKRegistrationCommon

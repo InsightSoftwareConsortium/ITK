@@ -31,8 +31,8 @@ namespace itk
 /**
  * Default constructor.
  */
-template< class TDeformationField, class TOutputImage >
-GridForwardWarpImageFilter< TDeformationField, TOutputImage >
+template< class TDisplacementField, class TOutputImage >
+GridForwardWarpImageFilter< TDisplacementField, TOutputImage >
 ::GridForwardWarpImageFilter()
 {
   // Setup default values
@@ -44,9 +44,9 @@ GridForwardWarpImageFilter< TDeformationField, TOutputImage >
 /**
  * Standard PrintSelf method.
  */
-template< class TDeformationField, class TOutputImage >
+template< class TDisplacementField, class TOutputImage >
 void
-GridForwardWarpImageFilter< TDeformationField, TOutputImage >
+GridForwardWarpImageFilter< TDisplacementField, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -62,13 +62,13 @@ GridForwardWarpImageFilter< TDeformationField, TOutputImage >
 /**
  * Compute the output for the region specified by outputRegionForThread.
  */
-template< class TDeformationField, class TOutputImage >
+template< class TDisplacementField, class TOutputImage >
 void
-GridForwardWarpImageFilter< TDeformationField, TOutputImage >
+GridForwardWarpImageFilter< TDisplacementField, TOutputImage >
 ::GenerateData()
 {
   OutputImagePointer           outputPtr = this->GetOutput();
-  DeformationFieldConstPointer fieldPtr = this->GetInput();
+  DisplacementFieldConstPointer fieldPtr = this->GetInput();
 
   SpacingType spacing = fieldPtr->GetSpacing();
 
@@ -87,8 +87,8 @@ GridForwardWarpImageFilter< TDeformationField, TOutputImage >
   OutputImageIteratorWithIndex iter( outputPtr, outputPtr->GetRequestedRegion() );
 
   // iterator for the deformation field
-  typedef ImageRegionConstIterator< DeformationFieldType > DeformationFieldIterator;
-  DeformationFieldIterator fieldIt( fieldPtr, outputPtr->GetRequestedRegion() );
+  typedef ImageRegionConstIterator< DisplacementFieldType > DisplacementFieldIterator;
+  DisplacementFieldIterator fieldIt( fieldPtr, outputPtr->GetRequestedRegion() );
 
   // Bresenham line iterator
   typedef LineIterator< OutputImageType > LineIteratorType;
