@@ -8,6 +8,14 @@ itkMalcolmSparseLevelSetBaseTest.cxx
 itkBinaryImageToWhitakerSparseLevelSetAdaptorTest.cxx
 itkBinaryImageToMalcolmSparseLevelSetAdaptorTest.cxx
 itkBinaryImageToShiSparseLevelSetAdaptorTest.cxx
+itkLevelSetEquationChanAndVeseExternalTermTest.cxx
+itkLevelSetEquationChanAndVeseInternalTermTest.cxx
+itkLevelSetEquationCurvatureTermTest.cxx
+itkLevelSetEquationLaplacianTermTest.cxx
+itkLevelSetEquationPropagationTermTest.cxx
+itkLevelSetEquationRegionTermBaseTest.cxx
+itkLevelSetEquationTermBaseTest.cxx
+itkLevelSetEquationTermContainerBaseTest.cxx
 )
 
 CreateTestDriver(ITKLevelSetsv4  "${ITKLevelSetsv4-Test_LIBRARIES}" "${ITKLevelSetsv4Tests}")
