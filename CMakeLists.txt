@@ -137,7 +137,11 @@ endfunction()
 option(BUILD_SHARED_LIBS "Build ITK with shared libraries." OFF)
 set(ITK_BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS})
 
-include(ITKPlatformSpecificChecks)
+include(ITKSetStandardCompilerFlags)
+#---------------------------------------------------------------
+# run try compiles and tests for ITK
+include(itkTestFriendTemplatedFunction)
+
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${ITK_REQUIRED_C_FLAGS}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${ITK_REQUIRED_CXX_FLAGS}")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${ITK_REQUIRED_LINK_FLAGS}")

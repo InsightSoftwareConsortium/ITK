@@ -925,6 +925,12 @@ itkTypeMacro(newexcp, parentexcp);                                              
      #include "itkFoo.hxx"
      #endif
 */
+#ifndef ITK_TEMPLATE_CXX //At this point this variable MUST be defined
+#define ITK_TEMPLATE_CXX 0
+#endif
+#ifndef ITK_TEMPLATE_TYPE
+#define ITK_TEMPLATE_TYPE 0
+#endif
 #if defined( ITK_MANUAL_INSTANTIATION )
 #define ITK_TEMPLATE_TXX 0
 #else
