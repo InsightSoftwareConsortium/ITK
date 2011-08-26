@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkVTKPolyDataReader.h"
-#include "itkVTKPolyDataWriter.h"
+#include "itkMeshFileReader.h"
+#include "itkMeshFileWriter.h"
 #include "itkQuadEdgeMesh.h"
 
 // NEW
@@ -37,8 +37,8 @@ int itkDelaunayConformingQuadEdgeMeshFilterTest( int argc, char* argv[] )
   typedef double Coord;
 
   typedef itk::QuadEdgeMesh< Coord, 3 >                      MeshType;
-  typedef itk::VTKPolyDataReader< MeshType >                 ReaderType;
-  typedef itk::VTKPolyDataWriter< MeshType >                 WriterType;
+  typedef itk::MeshFileReader< MeshType >                    ReaderType;
+  typedef itk::MeshFileWriter< MeshType >                    WriterType;
 
   // ** READ THE FILE IN **
   ReaderType::Pointer reader = ReaderType::New( );

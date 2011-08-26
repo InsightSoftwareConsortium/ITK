@@ -21,7 +21,7 @@
 #include "itkQuadEdgeMeshExtendedTraits.h"
 #include "itkRegularSphereMeshSource.h"
 #include "itkFastMarchingThresholdStoppingCriterion.h"
-#include "itkQuadEdgeMeshScalarDataVTKPolyDataWriter.h"
+#include "itkMeshFileWriter.h"
 
 int itkFastMarchingQuadEdgeMeshFilterBaseTest3( int , char * [] )
 {
@@ -169,7 +169,7 @@ int itkFastMarchingQuadEdgeMeshFilterBaseTest3( int , char * [] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::QuadEdgeMeshScalarDataVTKPolyDataWriter< MeshType > WriterType;
+  typedef itk::MeshFileWriter< MeshType > WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( fmm_filter->GetOutput() );
   writer->SetFileName( "itkFastMarchingQuadEdgeMeshFilterBaseTest3.vtk" );

@@ -16,11 +16,11 @@
  *
  *=========================================================================*/
 #include "itkQuadEdgeMesh.h"
-#include "itkVTKPolyDataReader.h"
+#include "itkMeshFileReader.h"
+#include "itkMeshFileWriter.h"
 
 #include "itkQuadEdgeMeshExtendedTraits.h"
 #include "itkDiscreteMinimumCurvatureQuadEdgeMeshFilter.h"
-#include "itkQuadEdgeMeshScalarDataVTKPolyDataWriter.h"
 
 int itkDiscreteMinimumCurvatureQuadEdgeMeshFilterTest( int argc, char* argv[] )
 {
@@ -49,7 +49,7 @@ int itkDiscreteMinimumCurvatureQuadEdgeMeshFilterTest( int argc, char* argv[] )
   typedef itk::DiscreteMinimumCurvatureQuadEdgeMeshFilter<MeshType,MeshType>
     CurvatureFilterType;
 
-  typedef itk::VTKPolyDataReader< MeshType > ReaderType;
+  typedef itk::MeshFileReader< MeshType > ReaderType;
 
   ReaderType::Pointer reader = ReaderType::New( );
   reader->SetFileName( argv[1] );
@@ -72,7 +72,7 @@ int itkDiscreteMinimumCurvatureQuadEdgeMeshFilterTest( int argc, char* argv[] )
 
   MeshType::Pointer output = min_curvature->GetOutput();
 
-  typedef itk::QuadEdgeMeshScalarDataVTKPolyDataWriter< MeshType > WriterType;
+  typedef itk::MeshFileWriter< MeshType > WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( output );
   writer->SetFileName( "min_curvature.vtk" );

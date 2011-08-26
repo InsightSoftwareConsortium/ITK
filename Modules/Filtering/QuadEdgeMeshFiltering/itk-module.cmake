@@ -11,6 +11,7 @@ itk_module(ITKQuadEdgeMeshFiltering
     ITKQuadEdgeMesh
   TEST_DEPENDS
     ITKTestKernel
+    ITKIOMesh
   DESCRIPTION
     "${DOCUMENTATION}"
 )
