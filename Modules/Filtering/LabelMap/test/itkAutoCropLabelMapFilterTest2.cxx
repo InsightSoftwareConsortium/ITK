@@ -30,18 +30,19 @@
 #include "itkSimpleFilterWatcher.h"
 
 #include "itkLabelImageToLabelMapFilter.h"
+#include "itkLabelSelectionLabelMapFilter.h"
 #include "itkAutoCropLabelMapFilter.h"
 #include "itkLabelMapToLabelImageFilter.h"
 
 #include "itkTestingMacros.h"
 
-int itkAutoCropLabelMapFilterTest1( int argc, char * argv [] )
+int itkAutoCropLabelMapFilterTest2( int argc, char * argv [] )
 {
 
   if( argc != 6 )
     {
     std::cerr << "usage: " << argv[0];
-    std::cerr << " inputLabelImage outputLabelImage inputBackgroundValue sizeX sizeY" << std::endl;
+    std::cerr << " inputLabelImage outputLabelImage1 outputLabelImage2 label1 label2" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -60,46 +61,38 @@ int itkAutoCropLabelMapFilterTest1( int argc, char * argv [] )
   typedef itk::LabelImageToLabelMapFilter< ImageType, LabelMapType> I2LType;
   I2LType::Pointer i2l = I2LType::New();
   i2l->SetInput( reader->GetOutput() );
+  itk::SimpleFilterWatcher watcher(i2l, "i2l");
 
-  PixelType backgroundValue = atoi( argv[3] );
+  typedef itk::LabelSelectionLabelMapFilter< LabelMapType > SelectionType;
+  SelectionType::Pointer select = SelectionType::New();
+  select->SetInput( i2l->GetOutput() );
+  itk::SimpleFilterWatcher watcher2(select, "select");
 
-  i2l->SetBackgroundValue( backgroundValue );
-
-  typedef itk::AutoCropLabelMapFilter< LabelMapType > ChangeType;
-  ChangeType::Pointer change = ChangeType::New();
-  change->SetInput( i2l->GetOutput() );
-
-  ChangeType::SizeType size;
-  size[0] = atoi( argv[4] );
-  size[1] = atoi( argv[5] );
-  change->SetCropBorder( size );
-  TEST_SET_GET_VALUE( size, change->GetCropBorder() );
-
-  itk::SimpleFilterWatcher watcher6(change, "filter");
+  typedef itk::AutoCropLabelMapFilter< LabelMapType > CropType;
+  CropType::Pointer crop = CropType::New();
+  crop->SetInput( select->GetOutput() );
+  itk::SimpleFilterWatcher watcher3(crop, "crop");
 
   typedef itk::LabelMapToLabelImageFilter< LabelMapType, ImageType> L2IType;
   L2IType::Pointer l2i = L2IType::New();
-  l2i->SetInput( change->GetOutput() );
+  l2i->SetInput( crop->GetOutput() );
 
   typedef itk::ImageFileWriter< ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( l2i->GetOutput() );
-  writer->SetFileName( argv[2] );
-  writer->UseCompressionOn();
 
+  // first label
+  select->SetLabel( atoi(argv[4]) );
+  l2i->UpdateLargestPossibleRegion();
+  writer->SetFileName( argv[2] );
   TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
-  typedef ChangeType::IndexType             IndexType;
-  typedef ChangeType::InputImageRegionType  InputImageRegionType;
-
-
-  const InputImageRegionType & cropRegion = change->GetRegion();
-  const IndexType & minIndex = cropRegion.GetIndex();
-  const IndexType & maxIndex = cropRegion.GetUpperIndex();
-
-  std::cout << "GetMinIndex() = " << minIndex << std::endl;
-  std::cout << "GetMaxIndex() = " << maxIndex << std::endl;
-  std::cout << "GetRegion() = " << cropRegion << std::endl;
+  // second label
+  select->SetLabel( atoi(argv[5]) );
+  // crop->Modified();
+  l2i->UpdateLargestPossibleRegion();
+  writer->SetFileName( argv[3] );
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }

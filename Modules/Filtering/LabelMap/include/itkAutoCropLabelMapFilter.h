@@ -98,8 +98,6 @@ public:
   itkSetMacro(CropBorder, SizeType);
   itkGetConstReferenceMacro(CropBorder, SizeType);
 
-  itkGetConstReferenceMacro(MinIndex, IndexType);
-  itkGetConstReferenceMacro(MaxIndex, IndexType);
 protected:
   AutoCropLabelMapFilter();
   ~AutoCropLabelMapFilter() {}
@@ -112,17 +110,7 @@ private:
   AutoCropLabelMapFilter(const Self &); //purposely not implemented
   void operator=(const Self &);         //purposely not implemented
 
-  void FindBoundingBox();
-
-  void SetAndPadCropRegion();
-
   SizeType  m_CropBorder;
-  TimeStamp m_CropTimeStamp;
-
-  IndexType m_MinIndex;
-  IndexType m_MaxIndex;
-
-  InputImageRegionType m_CropRegion;
 };
 } // end namespace itk
 
