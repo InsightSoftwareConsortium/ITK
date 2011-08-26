@@ -64,7 +64,7 @@ int itkCumulativeGaussianOptimizerTest(int, char* [] )
   costFunction->Initialize(numberOfSamples);
 
   // Generate data given a set of parameters.
-  CostFunctionType::MeasureType * cumGaussianArray = costFunction->GetValue(parameters);
+  CostFunctionType::MeasureType * cumGaussianArray = costFunction->GetValuePointer(parameters);
 
   // Set the data array.
   costFunction->SetOriginalDataArray(cumGaussianArray);

@@ -32,8 +32,8 @@
 @ITK_SOURCE_DIR@/Modules/Filtering/BiasCorrection/src/itk*.cxx
 @ITK_SOURCE_DIR@/Modules/Filtering/CurvatureFlow/include/itk*.h
 @ITK_SOURCE_DIR@/Modules/Filtering/CurvatureFlow/include/itk*.hxx
-@ITK_SOURCE_DIR@/Modules/Filtering/DeformationField/include/itk*.h
-@ITK_SOURCE_DIR@/Modules/Filtering/DeformationField/include/itk*.hxx
+@ITK_SOURCE_DIR@/Modules/Filtering/DisplacementField/include/itk*.h
+@ITK_SOURCE_DIR@/Modules/Filtering/DisplacementField/include/itk*.hxx
 @ITK_SOURCE_DIR@/Modules/Filtering/DiffusionTensorImage/include/itk*.h
 @ITK_SOURCE_DIR@/Modules/Filtering/DiffusionTensorImage/include/itk*.hxx
 @ITK_SOURCE_DIR@/Modules/Filtering/DistanceMap/include/itk*.h

@@ -64,7 +64,7 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::CreateAnother(void) const
   copyPtr->m_Sign = this->m_Sign;
   copyPtr->m_WhichMetric = this->m_WhichMetric;
   copyPtr->m_DifferenceFunction = this->m_DifferenceFunction;
-  copyPtr->m_DeformationField = this->m_DeformationField;
+  copyPtr->m_DisplacementField = this->m_DisplacementField;
 
   smartPtr = static_cast<Pointer>(copyPtr);
 
@@ -83,7 +83,7 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::FiniteDifferenceFunctionLoad()
     }
 
   m_DifferenceFunction = NULL;
-  m_DeformationField = NULL;
+  m_DisplacementField = NULL;
 
 }
 
@@ -100,7 +100,7 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::InitializeIteration()
       = defaultRegistrationFunctionType::New();
     this->SetMetric(static_cast<FiniteDifferenceFunctionType *>(drfp) );
     }
-  std::cout << " load sizes " << m_DeformationField->GetLargestPossibleRegion().GetSize()
+  std::cout << " load sizes " << m_DisplacementField->GetLargestPossibleRegion().GetSize()
             << "  image " << m_FixedImage->GetLargestPossibleRegion().GetSize() << std::endl;
 
   m_DifferenceFunction->InitializeIteration();
@@ -270,17 +270,17 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::Fe
   femVec.set_size(ImageDimension);
   femVec.fill(0.0);
 
-  if( !m_DifferenceFunction || !m_DeformationField || !m_FixedImage || !m_MovingImage )
+  if( !m_DifferenceFunction || !m_DisplacementField || !m_FixedImage || !m_MovingImage )
     {
     std::cout << " initializing FE() ";
     this->InitializeIteration();
     std::cout << " done " << std::endl;
-    if( !m_DeformationField || !m_FixedImage || !m_MovingImage )
+    if( !m_DisplacementField || !m_FixedImage || !m_MovingImage )
       {
       std::cout << " input data {field,fixed/moving image} are not set ";
       return femVec;
       }
-    std::cout << " sizes " << m_DeformationField->GetLargestPossibleRegion().GetSize()
+    std::cout << " sizes " << m_DisplacementField->GetLargestPossibleRegion().GetSize()
               << "  image " << m_FixedImage->GetLargestPossibleRegion().GetSize() << std::endl;
     }
 
@@ -315,9 +315,7 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::Fe
     return femVec;
     }
 
-//  std::cout << " index " << oindex << std::endl;
-
-  FieldIteratorType nD(m_MetricRadius, m_DeformationField, m_DeformationField->GetLargestPossibleRegion() );
+  FieldIteratorType nD(m_MetricRadius, m_DisplacementField, m_DisplacementField->GetLargestPossibleRegion() );
   nD.SetLocation(oindex);
 
   void* globalData = NULL;

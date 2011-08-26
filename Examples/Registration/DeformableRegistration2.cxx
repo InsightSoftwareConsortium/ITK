@@ -57,12 +57,12 @@
 
     typedef itk::Image< float, 2 >            InternalImageType;
     typedef itk::Vector< float, 2 >           VectorPixelType;
-    typedef itk::Image<  VectorPixelType, 2 > DeformationFieldType;
+    typedef itk::Image<  VectorPixelType, 2 > DisplacementFieldType;
 
     typedef itk::DemonsRegistrationFilter<
                                 InternalImageType,
                                 InternalImageType,
-                                DeformationFieldType>   RegistrationFilterType;
+                                DisplacementFieldType>   RegistrationFilterType;
 
   public:
 
@@ -92,7 +92,7 @@ int main( int argc, char *argv[] )
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile movingImageFile ";
     std::cerr << " outputImageFile " << std::endl;
-    std::cerr << " [outputDeformationFieldFile] " << std::endl;
+    std::cerr << " [outputDisplacementFieldFile] " << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -229,11 +229,11 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   typedef itk::Vector< float, Dimension >           VectorPixelType;
-  typedef itk::Image<  VectorPixelType, Dimension > DeformationFieldType;
+  typedef itk::Image<  VectorPixelType, Dimension > DisplacementFieldType;
   typedef itk::DemonsRegistrationFilter<
                                 InternalImageType,
                                 InternalImageType,
-                                DeformationFieldType>   RegistrationFilterType;
+                                DisplacementFieldType>   RegistrationFilterType;
   RegistrationFilterType::Pointer filter = RegistrationFilterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -310,7 +310,7 @@ int main( int argc, char *argv[] )
   typedef itk::WarpImageFilter<
                           MovingImageType,
                           MovingImageType,
-                          DeformationFieldType  >     WarperType;
+                          DisplacementFieldType  >     WarperType;
   typedef itk::LinearInterpolateImageFunction<
                                    MovingImageType,
                                    double          >  InterpolatorType;
@@ -333,12 +333,12 @@ int main( int argc, char *argv[] )
   // represented by an image of vectors.  The resulting warped or resampled
   // image is written to file as per previous examples.
   //
-  // \index{itk::WarpImageFilter!SetDeformationField()}
+  // \index{itk::WarpImageFilter!SetDisplacementField()}
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  warper->SetDeformationField( filter->GetOutput() );
+  warper->SetDisplacementField( filter->GetOutput() );
   // Software Guide : EndCodeSnippet
 
 
@@ -397,7 +397,7 @@ int main( int argc, char *argv[] )
     {
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileWriter< DeformationFieldType > FieldWriterType;
+  typedef itk::ImageFileWriter< DisplacementFieldType > FieldWriterType;
   FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
   fieldWriter->SetFileName( argv[4] );
   fieldWriter->SetInput( filter->GetOutput() );
@@ -419,8 +419,8 @@ int main( int argc, char *argv[] )
   if( argc > 5 ) // if a fifth line argument has been provided...
     {
 
-  typedef DeformationFieldType            VectorImage2DType;
-  typedef DeformationFieldType::PixelType Vector2DType;
+  typedef DisplacementFieldType            VectorImage2DType;
+  typedef DisplacementFieldType::PixelType Vector2DType;
 
   VectorImage2DType::ConstPointer vectorImage2D = filter->GetOutput();
 

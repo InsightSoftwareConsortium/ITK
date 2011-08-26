@@ -26,8 +26,8 @@ namespace itk
 /**
  *
  */
-template< class TInputMesh, class TOutputMesh, class TDeformationField >
-WarpMeshFilter< TInputMesh, TOutputMesh, TDeformationField >
+template< class TInputMesh, class TOutputMesh, class TDisplacementField >
+WarpMeshFilter< TInputMesh, TOutputMesh, TDisplacementField >
 ::WarpMeshFilter()
 {
   // Setup the number of required inputs.
@@ -35,23 +35,23 @@ WarpMeshFilter< TInputMesh, TOutputMesh, TDeformationField >
   this->SetNumberOfRequiredInputs(2);
 }
 
-template< class TInputMesh, class TOutputMesh, class TDeformationField >
-const typename WarpMeshFilter< TInputMesh, TOutputMesh, TDeformationField >::DeformationFieldType *
-WarpMeshFilter< TInputMesh, TOutputMesh, TDeformationField >
-::GetDeformationField(void) const
+template< class TInputMesh, class TOutputMesh, class TDisplacementField >
+const typename WarpMeshFilter< TInputMesh, TOutputMesh, TDisplacementField >::DisplacementFieldType *
+WarpMeshFilter< TInputMesh, TOutputMesh, TDisplacementField >
+::GetDisplacementField(void) const
 {
-  return static_cast< const DeformationFieldType * >
+  return static_cast< const DisplacementFieldType * >
          ( this->ProcessObject::GetInput(1) );
 }
 
-template< class TInputMesh, class TOutputMesh, class TDeformationField >
+template< class TInputMesh, class TOutputMesh, class TDisplacementField >
 void
-WarpMeshFilter< TInputMesh, TOutputMesh, TDeformationField >
-::SetDeformationField(const DeformationFieldType *field)
+WarpMeshFilter< TInputMesh, TOutputMesh, TDisplacementField >
+::SetDisplacementField(const DisplacementFieldType *field)
 {
   // const cast is needed because the pipeline is not const-correct.
-  DeformationFieldType *input =
-    const_cast< DeformationFieldType * >( field );
+  DisplacementFieldType *input =
+    const_cast< DisplacementFieldType * >( field );
 
   this->ProcessObject::SetNthInput(1, input);
 }
@@ -59,9 +59,9 @@ WarpMeshFilter< TInputMesh, TOutputMesh, TDeformationField >
 /**
  *
  */
-template< class TInputMesh, class TOutputMesh, class TDeformationField >
+template< class TInputMesh, class TOutputMesh, class TDisplacementField >
 void
-WarpMeshFilter< TInputMesh, TOutputMesh, TDeformationField >
+WarpMeshFilter< TInputMesh, TOutputMesh, TDisplacementField >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -70,9 +70,9 @@ WarpMeshFilter< TInputMesh, TOutputMesh, TDeformationField >
 /**
  * This method causes the filter to generate its output.
  */
-template< class TInputMesh, class TOutputMesh, class TDeformationField >
+template< class TInputMesh, class TOutputMesh, class TDisplacementField >
 void
-WarpMeshFilter< TInputMesh, TOutputMesh, TDeformationField >
+WarpMeshFilter< TInputMesh, TOutputMesh, TDisplacementField >
 ::GenerateData(void)
 {
   typedef typename TInputMesh::PointsContainer  InputPointsContainer;
@@ -83,7 +83,7 @@ WarpMeshFilter< TInputMesh, TOutputMesh, TDeformationField >
 
   const InputMeshType *   inputMesh   =  this->GetInput();
   OutputMeshPointer       outputMesh     =  this->GetOutput();
-  DeformationFieldPointer fieldPtr   =  this->GetDeformationField();
+  DisplacementFieldPointer fieldPtr   =  this->GetDisplacementField();
 
   if ( !inputMesh )
     {
@@ -107,9 +107,9 @@ WarpMeshFilter< TInputMesh, TOutputMesh, TDeformationField >
   typename InputPointsContainer::ConstIterator inputPoint  = inPoints->Begin();
   typename OutputPointsContainer::Iterator outputPoint = outPoints->Begin();
 
-  typedef typename InputMeshType::PointType        InputPointType;
-  typedef typename OutputMeshType::PointType       OutputPointType;
-  typedef typename DeformationFieldType::IndexType IndexType;
+  typedef typename InputMeshType::PointType         InputPointType;
+  typedef typename OutputMeshType::PointType        OutputPointType;
+  typedef typename DisplacementFieldType::IndexType IndexType;
   IndexType index;
 
   OutputPointType displacedPoint;

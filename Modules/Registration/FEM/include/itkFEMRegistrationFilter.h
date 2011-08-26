@@ -255,13 +255,13 @@ public:
   }
 
   /** Outputs the FE deformation field interpolated over the entire image domain. */
-  FieldType * GetDeformationField()
+  FieldType * GetDisplacementField()
   {
     return m_Field;
   }
 
   /** Sets the FE deformation field. */
-  void SetDeformationField(FieldType* F)
+  void SetDisplacementField(FieldType* F)
   {
     m_FieldSize = F->GetLargestPossibleRegion().GetSize();
     m_Field = F;

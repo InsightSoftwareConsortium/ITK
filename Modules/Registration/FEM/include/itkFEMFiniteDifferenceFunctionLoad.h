@@ -139,33 +139,33 @@ public:
   VectorType;
   typedef   vnl_vector<Float> FEMVectorType;
   typedef   Image<VectorType, itkGetStaticConstMacro(ImageDimension)>
-  DeformationFieldType;
-  typedef   typename DeformationFieldType::Pointer DeformationFieldTypePointer;
+  DisplacementFieldType;
+  typedef   typename DisplacementFieldType::Pointer DisplacementFieldTypePointer;
 
-  typedef NeighborhoodIterator<DeformationFieldType>
+  typedef NeighborhoodIterator<DisplacementFieldType>
   FieldIteratorType;
 
 // Necessary typedefs for dealing with images END
 
   /** PDEDeformableRegistrationFilterFunction type. */
   typedef PDEDeformableRegistrationFunction<FixedImageType, MovingImageType,
-                                            DeformationFieldType>
+                                            DisplacementFieldType>
   FiniteDifferenceFunctionType;
   typedef typename FiniteDifferenceFunctionType::Pointer FiniteDifferenceFunctionTypePointer;
 
   typedef typename FiniteDifferenceFunctionType::TimeStepType TimeStepType;
 
   typedef MeanSquareRegistrationFunction<FixedImageType, MovingImageType,
-                                         DeformationFieldType>  MeanSquareRegistrationFunctionType;
+                                         DisplacementFieldType>  MeanSquareRegistrationFunctionType;
 
   typedef DemonsRegistrationFunction<FixedImageType, MovingImageType,
-                                     DeformationFieldType>  DemonsRegistrationFunctionType;
+                                     DisplacementFieldType>  DemonsRegistrationFunctionType;
 
   typedef NCCRegistrationFunction<FixedImageType, MovingImageType,
-                                  DeformationFieldType>  NCCRegistrationFunctionType;
+                                  DisplacementFieldType>  NCCRegistrationFunctionType;
 
   typedef MIRegistrationFunction<FixedImageType, MovingImageType,
-                                 DeformationFieldType>  MIRegistrationFunctionType;
+                                 DisplacementFieldType>  MIRegistrationFunctionType;
 
   typedef unsigned long                                        ElementIdentifier;
   typedef VectorContainer<ElementIdentifier, Element::Pointer> ElementContainerType;
@@ -179,7 +179,7 @@ public:
     drfp->SetFixedImage(m_FixedImage);
     drfp->SetMovingImage(m_MovingImage);
     drfp->SetRadius(m_MetricRadius);
-    drfp->SetDeformationField(m_DeformationField);
+    drfp->SetDisplacementField(m_DisplacementField);
     drfp->InitializeIteration();
     this->m_DifferenceFunction = drfp;
   }
@@ -189,7 +189,7 @@ public:
     this->SetDifferenceFunction( static_cast<FiniteDifferenceFunctionType *>(
                                    drfp.GetPointer() ) );
 
-    m_FixedSize = m_DeformationField->GetLargestPossibleRegion().GetSize();
+    m_FixedSize = m_DisplacementField->GetLargestPossibleRegion().GetSize();
   }
 
   /** Define the reference (moving) image. */
@@ -297,15 +297,15 @@ public:
   }
 
   /** Set the  */
-  void SetDeformationField( DeformationFieldTypePointer df)
+  void SetDisplacementField( DisplacementFieldTypePointer df)
   {
-    m_DeformationField = df;
+    m_DisplacementField = df;
   }
 
   /** Get the  */
-  DeformationFieldTypePointer GetDeformationField()
+  DisplacementFieldTypePointer GetDisplacementField()
   {
-    return m_DeformationField;
+    return m_DisplacementField;
   }
 
   void InitializeIteration();
@@ -338,7 +338,7 @@ private:
   float                               m_WhichMetric;
   FiniteDifferenceFunctionTypePointer m_DifferenceFunction;
 
-  typename DeformationFieldType::Pointer             m_DeformationField;
+  typename DisplacementFieldType::Pointer             m_DisplacementField;
 
 };
 

@@ -24,8 +24,6 @@
 //
 //  Software Guide : EndLatex
 
-
-
 // Software Guide : BeginCodeSnippet
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
@@ -47,7 +45,7 @@ class CommandProgressUpdate : public itk::Command
 {
 public:
   typedef  CommandProgressUpdate   Self;
-  typedef  itk::Command             Superclass;
+  typedef  itk::Command            Superclass;
   typedef itk::SmartPointer<Self>  Pointer;
   itkNewMacro( Self );
 protected:
@@ -87,7 +85,7 @@ int main( int argc, char * argv[] )
 // Software Guide : BeginCodeSnippet
   const     unsigned int   ImageDimension = 3;
 
-  typedef   unsigned char  PixelType;
+  typedef   unsigned char                            PixelType;
   typedef   itk::Image< PixelType, ImageDimension >  FixedImageType;
   typedef   itk::Image< PixelType, ImageDimension >  MovingImageType;
 
@@ -249,8 +247,6 @@ int main( int argc, char * argv[] )
   infile.close();
 //  Software Guide : EndCodeSnippet
 
-
-
 //  Software Guide : BeginLatex
 //
 //   Finally the array is passed to the B-spline transform using the
@@ -263,8 +259,6 @@ int main( int argc, char * argv[] )
   bsplineTransform->SetParameters( parameters );
 
 //  Software Guide : EndCodeSnippet
-
-
 
    CommandProgressUpdate::Pointer observer = CommandProgressUpdate::New();
 
@@ -295,25 +289,25 @@ int main( int argc, char * argv[] )
 //  Software Guide : EndCodeSnippet
 
 
-  typedef itk::Point<  float, ImageDimension >  PointType;
-  typedef itk::Vector< float, ImageDimension >  VectorType;
-  typedef itk::Image< VectorType, ImageDimension >  DeformationFieldType;
+  typedef itk::Point<  float, ImageDimension >      PointType;
+  typedef itk::Vector< float, ImageDimension >      VectorType;
+  typedef itk::Image< VectorType, ImageDimension >  DisplacementFieldType;
 
-  DeformationFieldType::Pointer field = DeformationFieldType::New();
+  DisplacementFieldType::Pointer field = DisplacementFieldType::New();
   field->SetRegions( fixedRegion );
   field->SetOrigin( fixedOrigin );
   field->SetSpacing( fixedSpacing );
   field->SetDirection( fixedDirection );
   field->Allocate();
 
-  typedef itk::ImageRegionIterator< DeformationFieldType > FieldIterator;
+  typedef itk::ImageRegionIterator< DisplacementFieldType > FieldIterator;
   FieldIterator fi( field, fixedRegion );
 
   fi.GoToBegin();
 
   TransformType::InputPointType  fixedPoint;
   TransformType::OutputPointType movingPoint;
-  DeformationFieldType::IndexType index;
+  DisplacementFieldType::IndexType index;
 
   VectorType displacement;
 
@@ -327,9 +321,7 @@ int main( int argc, char * argv[] )
     ++fi;
     }
 
-
-
-  typedef itk::ImageFileWriter< DeformationFieldType >  FieldWriterType;
+  typedef itk::ImageFileWriter< DisplacementFieldType >  FieldWriterType;
   FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
 
   fieldWriter->SetInput( field );

@@ -24,8 +24,8 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
-DemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
+DemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::DemonsRegistrationFilter()
 {
   typename DemonsRegistrationFunctionType::Pointer drfp;
@@ -37,9 +37,9 @@ DemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
   m_UseMovingImageGradient = false;
 }
 
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-DemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+DemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -52,9 +52,9 @@ DemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
 /*
  * Set the function state values before each iteration
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-DemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+DemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::InitializeIteration()
 {
   // call the superclass  implementation
@@ -76,18 +76,18 @@ DemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
   /**
    * Smooth the deformation field
    */
-  if ( this->GetSmoothDeformationField() )
+  if ( this->GetSmoothDisplacementField() )
     {
-    this->SmoothDeformationField();
+    this->SmoothDisplacementField();
     }
 }
 
 /**
  * Get the metric value from the difference function
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 double
-DemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+DemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::GetMetric() const
 {
   DemonsRegistrationFunctionType *drfp =
@@ -106,9 +106,9 @@ DemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
 /**
  *
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 double
-DemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+DemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::GetIntensityDifferenceThreshold() const
 {
   DemonsRegistrationFunctionType *drfp =
@@ -127,9 +127,9 @@ DemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
 /**
  *
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-DemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+DemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::SetIntensityDifferenceThreshold(double threshold)
 {
   DemonsRegistrationFunctionType *drfp =
@@ -148,9 +148,9 @@ DemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
 /**
  * Get the metric value from the difference function
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-DemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+DemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::ApplyUpdate(const TimeStepType& dt)
 {
   // If we smooth the update buffer before applying it, then the are

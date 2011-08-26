@@ -12,7 +12,7 @@ itk_module(ITKDeprecated
     ITKConnectedComponents
     ITKCurvatureFlow
     ITKDeformableMesh
-    ITKDeformationField
+    ITKDisplacementField
     ITKDiffusionTensorImage
     ITKDistanceMap
     ITKDICOMParser

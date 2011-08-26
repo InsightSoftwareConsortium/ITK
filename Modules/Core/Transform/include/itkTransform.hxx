@@ -77,6 +77,7 @@ std::string Transform<TScalarType, NInputDimensions, NOutputDimensions>
   return n.str();
 }
 
+#if 0
 /**
  * SetDirectionChange
  */
@@ -102,9 +103,11 @@ Transform<TScalarType, NInputDimensions, NOutputDimensions>
         }
       }
     }
-  m_DirectionChange = movingDir2 * fixedDir;
+  // TODO: this line can't work when NInputDimensions and NOutputDimensions are not the same
+  // m_DirectionChange = movingDir2 * fixedDir;
   this->Modified();
 }
+#endif
 
 /**
  * UpdateTransformParameters

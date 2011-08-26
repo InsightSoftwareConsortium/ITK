@@ -38,7 +38,7 @@ namespace itk
  * \sa TransformMeshFilter
  * \ingroup ITKMesh
  */
-template< class TInputMesh, class TOutputMesh, class TDeformationField >
+template< class TInputMesh, class TOutputMesh, class TDisplacementField >
 class ITK_EXPORT WarpMeshFilter:
   public MeshToMeshFilter< TInputMesh, TOutputMesh >
 {
@@ -59,9 +59,9 @@ public:
   typedef typename TInputMesh::CoordRepType CoordRepType;
 
   /** Deformation field typedef support. */
-  typedef TDeformationField                           DeformationFieldType;
-  typedef typename DeformationFieldType::ConstPointer DeformationFieldPointer;
-  typedef typename DeformationFieldType::PixelType    DisplacementType;
+  typedef TDisplacementField                           DisplacementFieldType;
+  typedef typename DisplacementFieldType::ConstPointer DisplacementFieldPointer;
+  typedef typename DisplacementFieldType::PixelType    DisplacementType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -70,10 +70,10 @@ public:
   itkTypeMacro(WarpMeshFilter, MeshToMeshFilter);
 
   /** Set the deformation field. */
-  void SetDeformationField(const DeformationFieldType *field);
+  void SetDisplacementField(const DisplacementFieldType *field);
 
   /** Get a pointer the deformation field. */
-  const DeformationFieldType * GetDeformationField(void) const;
+  const DisplacementFieldType * GetDisplacementField(void) const;
 
 protected:
   WarpMeshFilter();

@@ -27,8 +27,8 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
-MeanSquareRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
+MeanSquareRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::MeanSquareRegistrationFunction()
 {
   RadiusType   r;
@@ -58,9 +58,9 @@ MeanSquareRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 /*
  * Standard "PrintSelf" method.
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-MeanSquareRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+MeanSquareRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -79,9 +79,9 @@ MeanSquareRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 /*
  * Set the function state values before each iteration
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-MeanSquareRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+MeanSquareRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::InitializeIteration()
 {
   if ( !this->GetMovingImage() || !this->GetFixedImage() || !m_MovingImageInterpolator )
@@ -104,10 +104,10 @@ MeanSquareRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 /**
  * Compute update at a non boundary neighbourhood
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
-typename MeanSquareRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
+typename MeanSquareRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::PixelType
-MeanSquareRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+MeanSquareRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::ComputeUpdate( const NeighborhoodType & it, void *itkNotUsed(globalData),
                  const FloatOffsetType & itkNotUsed(offset) )
 {
@@ -125,7 +125,7 @@ MeanSquareRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
     }
 
   // Get moving image related information
-  const DeformationFieldPixelType itvec = this->GetDeformationField()->GetPixel(index);
+  const DisplacementFieldPixelType itvec = this->GetDisplacementField()->GetPixel(index);
   PointType                       mappedPoint;
   this->GetFixedImage()->TransformIndexToPhysicalPoint(index, mappedPoint);
   for ( unsigned int j = 0; j < ImageDimension; j++ )

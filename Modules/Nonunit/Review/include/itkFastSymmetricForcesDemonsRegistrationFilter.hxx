@@ -25,8 +25,8 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
-FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
+FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::FastSymmetricForcesDemonsRegistrationFilter()
 {
   typename DemonsRegistrationFunctionType::Pointer drfp;
@@ -45,15 +45,15 @@ FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeforma
 /*
  * Set the function state values before each iteration
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::InitializeIteration()
 {
   // update variables in the equation object
   DemonsRegistrationFunctionType *f = this->DownCastDifferenceFunctionType();
 
-  f->SetDeformationField( this->GetDeformationField() );
+  f->SetDisplacementField( this->GetDisplacementField() );
 
   // call the superclass  implementation ( initializes f )
   Superclass::InitializeIteration();
@@ -62,9 +62,9 @@ FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeforma
 /*
  * Get the metric value from the difference function
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 double
-FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::GetMetric() const
 {
   const DemonsRegistrationFunctionType *drfp = this->DownCastDifferenceFunctionType();
@@ -75,9 +75,9 @@ FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeforma
 /**
  * Return intensity difference threshold
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 double
-FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::GetIntensityDifferenceThreshold() const
 {
   const DemonsRegistrationFunctionType *drfp = this->DownCastDifferenceFunctionType();
@@ -88,9 +88,9 @@ FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeforma
 /**
  * Sets the intensity difference threshold
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::SetIntensityDifferenceThreshold(double threshold)
 {
   DemonsRegistrationFunctionType *drfp = this->DownCastDifferenceFunctionType();
@@ -101,9 +101,9 @@ FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeforma
 /**
  * Get the maximum update step length
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 double
-FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::GetMaximumUpdateStepLength() const
 {
   const DemonsRegistrationFunctionType *drfp = this->DownCastDifferenceFunctionType();
@@ -114,9 +114,9 @@ FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeforma
 /**
  * Set the maximum update step length
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::SetMaximumUpdateStepLength(double threshold)
 {
   DemonsRegistrationFunctionType *drfp = this->DownCastDifferenceFunctionType();
@@ -127,9 +127,9 @@ FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeforma
 /**
  * Get the metric value from the difference function
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 const double &
-FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::GetRMSChange() const
 {
   const DemonsRegistrationFunctionType *drfp = this->DownCastDifferenceFunctionType();
@@ -140,10 +140,10 @@ FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeforma
 /**
  *
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
-typename FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
+typename FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::GradientType
-FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::GetUseGradientType() const
 {
   const DemonsRegistrationFunctionType *drfp = this->DownCastDifferenceFunctionType();
@@ -154,9 +154,9 @@ FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeforma
 /**
  *
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::SetUseGradientType(GradientType gtype)
 {
   DemonsRegistrationFunctionType *drfp = this->DownCastDifferenceFunctionType();
@@ -168,10 +168,10 @@ FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeforma
  * Checks whether the DifferenceFunction is of type DemonsRegistrationFunction.
  * It throws and exception, if it is not.
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 typename FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage,
-                                                      TDeformationField >::DemonsRegistrationFunctionType *
-FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+                                                      TDisplacementField >::DemonsRegistrationFunctionType *
+FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::DownCastDifferenceFunctionType()
 {
   DemonsRegistrationFunctionType *drfp =
@@ -191,10 +191,10 @@ FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeforma
  * Checks whether the DifferenceFunction is of type DemonsRegistrationFunction.
  * It throws and exception, if it is not.
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 const typename FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage,
-                                                            TDeformationField >::DemonsRegistrationFunctionType *
-FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+                                                            TDisplacementField >::DemonsRegistrationFunctionType *
+FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::DownCastDifferenceFunctionType() const
 {
   const DemonsRegistrationFunctionType *drfp =
@@ -210,14 +210,14 @@ FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeforma
   return drfp;
 }
 
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::AllocateUpdateBuffer()
 {
   // The update buffer looks just like the output.
-  DeformationFieldPointer output = this->GetOutput();
-  DeformationFieldPointer upbuf = this->GetUpdateBuffer();
+  DisplacementFieldPointer output = this->GetOutput();
+  DisplacementFieldPointer upbuf = this->GetUpdateBuffer();
 
   upbuf->SetLargestPossibleRegion( output->GetLargestPossibleRegion() );
   upbuf->SetRequestedRegion( output->GetRequestedRegion() );
@@ -231,9 +231,9 @@ FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeforma
 /**
  * Get the metric value from the difference function
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::ApplyUpdate(const TimeStepType& dt)
 {
   // If we smooth the update buffer before applying it, then the are
@@ -272,15 +272,15 @@ FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeforma
   /*
    * Smooth the deformation field
    */
-  if ( this->GetSmoothDeformationField() )
+  if ( this->GetSmoothDisplacementField() )
     {
-    this->SmoothDeformationField();
+    this->SmoothDisplacementField();
     }
 }
 
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);

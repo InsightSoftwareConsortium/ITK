@@ -36,8 +36,6 @@ itkVersorRigid3DTransformTest.cxx
 itkVersorTransformTest.cxx
 itkSplineKernelTransformTest.cxx
 itkCompositeTransformTest.cxx
-itkDisplacementFieldTransformTest.cxx
-itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest.cxx
 )
 
 CreateTestDriver(ITKTransform  "${ITKTransform-Test_LIBRARIES}" "${ITKTransformTests}")
@@ -155,8 +153,3 @@ itk_add_test(NAME itkSplineKernelTransformTest
       COMMAND ITKTransformTestDriver itkSplineKernelTransformTest)
 itk_add_test(NAME itkCompositeTransformTest
       COMMAND ITKTransformTestDriver itkCompositeTransformTest)
-itk_add_test(NAME itkDisplacementFieldTransformTest
-      COMMAND ITKTransformTestDriver itkDisplacementFieldTransformTest)
-itk_add_test(NAME itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest
-      COMMAND ITKTransformTestDriver
-      itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest)

@@ -201,7 +201,7 @@ int itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv [] )
   const ImageType * moving = movingReader->GetOutput();
 
   warper->SetInput( moving );
-  warper->SetDeformationField( registrator->GetOutput() );
+  warper->SetDisplacementField( registrator->GetOutput() );
   warper->SetInterpolator( interpolator );
   warper->SetOutputSpacing( fixed->GetSpacing() );
   warper->SetOutputOrigin( fixed->GetOrigin() );

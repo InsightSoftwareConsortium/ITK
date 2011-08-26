@@ -27,8 +27,8 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
-ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
+ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::ESMDemonsRegistrationFunction()
 {
   RadiusType   r;
@@ -80,9 +80,9 @@ ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 /*
  * Standard "PrintSelf" method.
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -118,9 +118,9 @@ ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 /**
  *
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::SetIntensityDifferenceThreshold(double threshold)
 {
   m_IntensityDifferenceThreshold = threshold;
@@ -129,9 +129,9 @@ ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 /**
  *
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 double
-ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::GetIntensityDifferenceThreshold() const
 {
   return m_IntensityDifferenceThreshold;
@@ -140,9 +140,9 @@ ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 /**
  * Set the function state values before each iteration
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::InitializeIteration()
 {
   if ( !this->GetMovingImage() || !this->GetFixedImage()
@@ -184,8 +184,8 @@ ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
   m_MovingImageWarper->SetOutputSpacing(this->m_FixedImageSpacing);
   m_MovingImageWarper->SetOutputDirection(this->m_FixedImageDirection);
   m_MovingImageWarper->SetInput( this->GetMovingImage() );
-  m_MovingImageWarper->SetDeformationField( this->GetDeformationField() );
-  m_MovingImageWarper->GetOutput()->SetRequestedRegion( this->GetDeformationField()->GetRequestedRegion() );
+  m_MovingImageWarper->SetDisplacementField( this->GetDisplacementField() );
+  m_MovingImageWarper->GetOutput()->SetRequestedRegion( this->GetDisplacementField()->GetRequestedRegion() );
   m_MovingImageWarper->Update();
 
   // setup moving image interpolator for further access
@@ -200,10 +200,10 @@ ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 /**
  * Compute update at a non boundary neighbourhood
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
-typename ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
+typename ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::PixelType
-ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::ComputeUpdate( const NeighborhoodType & it, void *gd,
                  const FloatOffsetType & itkNotUsed(offset) )
 {
@@ -454,9 +454,9 @@ ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 /**
  * Update the metric and release the per-thread-global data.
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::ReleaseGlobalDataPointer(void *gd) const
 {
   GlobalDataStruct *globalData = (GlobalDataStruct *)gd;
