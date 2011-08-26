@@ -251,7 +251,7 @@ public:
    * region of the data object passed in as a parameter.  This method
    * implements the API from DataObject. The data object parameter must be
    * castable to an ImageBase. */
-  virtual void SetRequestedRegion(DataObject *data);
+  virtual void SetRequestedRegion(const DataObject *data);
 
   /** Get the region object that defines the size and starting index
    * for the region of the image requested (i.e., the region of the

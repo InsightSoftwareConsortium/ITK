@@ -242,7 +242,7 @@ protected:
  * needs). If this method always returned true, the DataObject would
  * be updated on every single call to Update() (not recommended).
  *
- * void SetRequestedRegion(DataObject *): Sets the RequestedRegion of
+ * void SetRequestedRegion(const DataObject *): Sets the RequestedRegion of
  * this DataObject to match the RequestedRegion of the DataObject that
  * is passed in as a parameter. This method is used by
  * ProcessObject::GenerateOutputRequestedRegion() and by
@@ -462,7 +462,7 @@ public:
    * DataObject's that do not support Regions, this method does
    * nothing. Subclasses of DataObject that do support Regions,
    * provide an alternative implementation. */
-  virtual void SetRequestedRegion(DataObject *) {}
+  virtual void SetRequestedRegion(const DataObject *) {}
 
   /** Method for grafting the content of one data object into another one.
    * This method is intended to be overloaded by derived classes. Each one of
