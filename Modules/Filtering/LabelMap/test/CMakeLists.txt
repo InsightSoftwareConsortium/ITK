@@ -8,6 +8,7 @@ itkAttributePositionLabelMapFilterTest1.cxx
 itkAttributeRelabelLabelMapFilterTest1.cxx
 itkAttributeUniqueLabelMapFilterTest1.cxx
 itkAutoCropLabelMapFilterTest1.cxx
+itkAutoCropLabelMapFilterTest2
 itkBinaryFillholeImageFilterTest1.cxx
 itkBinaryGrindPeakImageFilterTest1.cxx
 itkBinaryImageToLabelMapFilterTest.cxx
@@ -482,3 +483,16 @@ itk_add_test(NAME itkStatisticsPositionLabelMapFilterTest1
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkShapePositionLabelMapFilterTest1.png
               ${ITK_TEST_OUTPUT_DIR}/itkStatisticsPositionLabelMapFilterTest1.png
     itkStatisticsPositionLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/SpotsLabeled.png ${ITK_DATA_ROOT}/Input/SpotsLabeled.png ${ITK_TEST_OUTPUT_DIR}/itkStatisticsPositionLabelMapFilterTest1.png CenterOfGravity)
+itk_add_test(NAME itkAutoCropLabelMapFilterTest2
+      COMMAND ITKLabelMapTestDriver
+    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkAutoCropLabelMapFilterTest2-92.png
+              ${ITK_TEST_OUTPUT_DIR}/itkAutoCropLabelMapFilterTest2-92.png
+    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkAutoCropLabelMapFilterTest2-163.png
+              ${ITK_TEST_OUTPUT_DIR}/itkAutoCropLabelMapFilterTest2-163.png
+    itkAutoCropLabelMapFilterTest2
+    ${ITK_DATA_ROOT}/Input/cthead1Label.png
+    ${ITK_TEST_OUTPUT_DIR}/itkAutoCropLabelMapFilterTest2-92.png
+    ${ITK_TEST_OUTPUT_DIR}/itkAutoCropLabelMapFilterTest2-163.png
+    92
+    163
+    )
