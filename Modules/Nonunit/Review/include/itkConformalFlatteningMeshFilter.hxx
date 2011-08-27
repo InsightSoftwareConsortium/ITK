@@ -460,7 +460,7 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
     numIter += numIter / 10; // let the iteration times a little more than the
                              // dimension
 
-    double tol = 1e-6;
+    double tol = 1e-10;
 
     for ( i = 0; i <= numIter; ++i )
       {
