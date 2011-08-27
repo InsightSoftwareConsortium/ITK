@@ -149,11 +149,11 @@ static inline LayerIdType PlusThreeLayer() { return 3; }
 
   /** Return the label object pointer with a given id */
   template< class TLabel >
-  LabelObject< TLabel, Dimension >* GetAsLabelObject()
+  typename LabelObject< TLabel, Dimension >::Pointer
+  GetAsLabelObject()
     {
     typedef LabelObject< TLabel, Dimension > OutputLabelObjectType;
-    typename OutputLabelObjectType::Pointer object =
-        OutputLabelObjectType::New();
+    typename OutputLabelObjectType::Pointer object = OutputLabelObjectType::New();
 
     for( LayerIdType status = MinusThreeLayer(); status < PlusOneLayer(); status++ )
       {
@@ -166,7 +166,7 @@ static inline LayerIdType PlusThreeLayer() { return 3; }
       }
     object->Optimize();
 
-    return object.GetPointer();
+    return object;
     }
 
   /** Set/Get the label map for computing the sparse representation */
