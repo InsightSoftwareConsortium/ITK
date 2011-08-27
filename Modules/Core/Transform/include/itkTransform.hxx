@@ -49,7 +49,7 @@ template <class TScalarType,
           unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
 Transform<TScalarType, NInputDimensions, NOutputDimensions>
-::Transform(unsigned int numberOfParameters) :
+::Transform(NumberOfParametersType numberOfParameters) :
   m_Parameters(numberOfParameters),
   m_FixedParameters(numberOfParameters)
 #ifdef ITKV3_COMPATIBILITY
@@ -120,7 +120,7 @@ Transform<TScalarType, NInputDimensions, NOutputDimensions>
 ::UpdateTransformParameters( DerivativeType & update,
                              TScalarType factor )
 {
-  unsigned int numberOfParameters = this->GetNumberOfParameters();
+  NumberOfParametersType numberOfParameters = this->GetNumberOfParameters();
 
   if( update.Size() != numberOfParameters )
     {
@@ -140,14 +140,14 @@ Transform<TScalarType, NInputDimensions, NOutputDimensions>
 
   if( factor == 1.0 )
     {
-    for( unsigned int k = 0; k < numberOfParameters; k++ )
+    for( NumberOfParametersType k = 0; k < numberOfParameters; k++ )
       {
       this->m_Parameters[k] += update[k];
       }
     }
   else
     {
-    for( unsigned int k = 0; k < numberOfParameters; k++ )
+    for( NumberOfParametersType k = 0; k < numberOfParameters; k++ )
       {
       this->m_Parameters[k] += update[k] * factor;
       }

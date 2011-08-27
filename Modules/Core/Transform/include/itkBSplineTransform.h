@@ -137,6 +137,9 @@ public:
   /** Standard Jacobian container. */
   typedef typename Superclass::JacobianType JacobianType;
 
+  /** The number of parameters defininig this transform. */
+  typedef typename Superclass::NumberOfParametersType NumberOfParametersType;
+
   /** Standard vector type for this class. */
   typedef Vector
   <TScalarType, itkGetStaticConstMacro( SpaceDimension )> InputVectorType;
@@ -376,10 +379,10 @@ public:
   }
 
   /** Return the number of parameters that completely define the Transfom */
-  virtual unsigned int GetNumberOfParameters() const;
+  virtual NumberOfParametersType GetNumberOfParameters() const;
 
   /** Return the number of parameters per dimension */
-  unsigned int GetNumberOfParametersPerDimension() const;
+  NumberOfParametersType GetNumberOfParametersPerDimension() const;
 
   /** Indicates that this transform is linear. That is, given two
    * points P and Q, and scalar coefficients a and b, then

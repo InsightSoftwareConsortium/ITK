@@ -26,6 +26,7 @@
 #include "itkTransformParameters.h"
 
 #include "itkObjectFactory.h"
+#include "itkIntTypes.h"
 
 namespace itk
 {
@@ -51,8 +52,12 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(TransformBase, Object);
 
+  /** The number of parameters can potentially be very large,
+   *  therefore we use here a large capacity integer. */
+  typedef IdentifierType      NumberOfParametersType;
+
   /** Return the number of parameters that completely define the Transfom  */
-  virtual unsigned int GetNumberOfParameters(void) const = 0;
+  virtual NumberOfParametersType GetNumberOfParameters(void) const = 0;
 
   /** Get the Transformation Parameters. */
   virtual const ParametersType & GetParameters(void) const = 0;

@@ -7,7 +7,7 @@ itkLandmarkDisplacementFieldSourceTest.cxx
 itkInverseDisplacementFieldImageFilterTest.cxx
 itkDisplacementFieldTransformTest.cxx
 itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest.cxx
-# itkBSplineDisplacementFieldTransformTest.cxx
+itkBSplineSmoothingOnUpdateDisplacementFieldTransformTest.cxx
 )
 
 CreateTestDriver(ITKDisplacementField  "${ITKDisplacementField-Test_LIBRARIES}" "${ITKDisplacementFieldTests}")
@@ -30,3 +30,6 @@ itk_add_test(NAME ITKDisplacementFieldTestDriver
 itk_add_test(NAME itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest
       COMMAND ITKDisplacementFieldTestDriver
       itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest)
+itk_add_test(NAME itkBSplineSmoothingOnUpdateDisplacementFieldTransformTest
+      COMMAND ITKDisplacementFieldTestDriver
+      itkBSplineSmoothingOnUpdateDisplacementFieldTransformTest)

@@ -158,6 +158,9 @@ public:
   /** Optimization flags queue type */
   typedef std::deque<bool> TransformsToOptimizeFlagsType;
 
+  /** The number of parameters defininig this transform. */
+  typedef typename Superclass::NumberOfParametersType NumberOfParametersType;
+
   /** Dimension of the domain spaces. */
   itkStaticConstMacro( InputDimension, unsigned int, NDimensions );
   itkStaticConstMacro( OutputDimension, unsigned int, NDimensions );
@@ -357,15 +360,15 @@ public:
 
   /* Get total number of parameters for transforms that are set to be
    * optimized */
-  virtual unsigned int GetNumberOfParameters(void) const;
+  virtual NumberOfParametersType GetNumberOfParameters(void) const;
 
   /* Get total number of local parameters for transforms that are set
    * to be optimized */
-  virtual unsigned int GetNumberOfLocalParameters(void) const;
+  virtual NumberOfParametersType GetNumberOfLocalParameters(void) const;
 
   /* Get total number of fixed parameters for transforms that are set
    * to be optimized */
-  virtual unsigned int GetNumberOfFixedParameters(void) const;
+  virtual NumberOfParametersType GetNumberOfFixedParameters(void) const;
 
   /* Prepare the transform for use, e.g. in registration framework.
    * Must be called before registration to optimize parameter storage
