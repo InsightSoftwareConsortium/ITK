@@ -79,11 +79,7 @@ OBJMeshIO
   // Due to the windows couldn't work well for tellg() and seekg() for ASCII
   // mode, hence we
   // open the file with std::ios::binary
-#ifdef _WIN32
   m_InputFile.open(this->m_FileName.c_str(), std::ios_base::in | std::ios::binary);
-#else
-  m_InputFile.open(this->m_FileName.c_str(), std::ios_base::in);
-#endif
 
   // Test whether the file was opened
   if ( !m_InputFile.is_open() )
@@ -372,7 +368,7 @@ OBJMeshIO
 
 void
 OBJMeshIO
-::ReadCellData(void *buffer)
+::ReadCellData(void * itkNotUsed( buffer ) )
 {
   return;
 }
@@ -746,7 +742,7 @@ OBJMeshIO
 
 void
 OBJMeshIO
-::WriteCellData(void *buffer)
+::WriteCellData(void * itkNotUsed( buffer ) )
 {
   return;
 }

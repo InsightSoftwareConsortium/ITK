@@ -197,14 +197,14 @@ FreeSurferAsciiMeshIO
 
 void
 FreeSurferAsciiMeshIO
-::ReadPointData(void *buffer)
+::ReadPointData(void * itkNotUsed( buffer) )
 {
   return;
 }
 
 void
 FreeSurferAsciiMeshIO
-::ReadCellData(void *buffer)
+::ReadCellData(void * itkNotUsed( buffer) )
 {
   return;
 }
@@ -454,14 +454,14 @@ FreeSurferAsciiMeshIO
 
 void
 FreeSurferAsciiMeshIO
-::WritePointData(void *buffer)
+::WritePointData(void * itkNotUsed( buffer) )
 {
   return;
 }
 
 void
 FreeSurferAsciiMeshIO
-::WriteCellData(void *buffer)
+::WriteCellData(void * itkNotUsed( buffer) )
 {
   return;
 }

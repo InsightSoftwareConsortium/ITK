@@ -70,11 +70,7 @@ BYUMeshIO
 
   // Due to the windows couldn't work well for tellg() and seekg() for ASCII mode, hence we
   //open the file with std::ios::binary
-#ifdef _WIN32
   inputFile.open(this->m_FileName.c_str(), std::ios::in | std::ios::binary);
-#else
-  inputFile.open(this->m_FileName.c_str(), std::ios::in);
-#endif
 
   if ( !inputFile.is_open() )
     {
@@ -194,11 +190,7 @@ BYUMeshIO
 
   /** Due to the windows couldn't work well for tellg() and seekg() for ASCII mode, hence we
   open the file with std::ios::binary */
-#ifdef _WIN32
   inputFile.open(this->m_FileName.c_str(), std::ios::in | std::ios::binary);
-#else
-  inputFile.open(this->m_FileName.c_str(), std::ios::in);
-#endif
 
   if ( !inputFile.is_open() )
     {
@@ -238,11 +230,7 @@ BYUMeshIO
   // Define input file stream and attach it to input file
   std::ifstream inputFile;
 
-#ifdef _WIN32
   inputFile.open(this->m_FileName.c_str(), std::ios::in | std::ios::binary);
-#else
-  inputFile.open(this->m_FileName.c_str(), std::ios::in);
-#endif
 
   if ( !inputFile.is_open() )
     {
@@ -295,14 +283,14 @@ BYUMeshIO
 
 void
 BYUMeshIO
-::ReadPointData(void *buffer)
+::ReadPointData(void * itkNotUsed( buffer) )
 {
   return;
 }
 
 void
 BYUMeshIO
-::ReadCellData(void *buffer)
+::ReadCellData(void * itkNotUsed( buffer) )
 {
   return;
 }
@@ -553,14 +541,14 @@ BYUMeshIO
 
 void
 BYUMeshIO
-::WritePointData(void *buffer)
+::WritePointData(void * itkNotUsed( buffer) )
 {
   return;
 }
 
 void
 BYUMeshIO
-::WriteCellData(void *buffer)
+::WriteCellData(void * itkNotUsed( buffer) )
 {
   return;
 }

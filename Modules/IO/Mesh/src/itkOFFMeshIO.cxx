@@ -78,11 +78,7 @@ OFFMeshIO
   // Read file as ascii
   // Due to the windows doesn't work well for tellg() and seekg() for ASCII mode, hence we
   //open the file with std::ios::binary
-#ifdef _WIN32
   m_InputFile.open(this->m_FileName.c_str(), std::ios_base::in | std::ios::binary);
-#else
-  m_InputFile.open(this->m_FileName.c_str(), std::ios_base::in);
-#endif
 
   // Test whether the file was opened
   if ( !m_InputFile.is_open() )
@@ -332,14 +328,14 @@ OFFMeshIO
 
 void
 OFFMeshIO
-::ReadPointData(void *buffer)
+::ReadPointData(void * itkNotUsed( buffer) )
 {
   return;
 }
 
 void
 OFFMeshIO
-::ReadCellData(void *buffer)
+::ReadCellData(void * itkNotUsed( buffer) )
 {
   return;
 }
@@ -363,11 +359,7 @@ OFFMeshIO
     }
   else if ( m_FileType == BINARY )
     {
-#ifdef _WIN32
     outputFile.open(this->m_FileName.c_str(), std::ios::out | std::ios::binary);
-#else
-    outputFile.open(this->m_FileName.c_str(), std::ios::out);
-#endif
     }
 
   if ( !outputFile.is_open() )
@@ -430,11 +422,7 @@ OFFMeshIO
     }
   else if ( m_FileType == BINARY )
     {
-#ifdef _WIN32
     outputFile.open(this->m_FileName.c_str(), std::ios::app | std::ios::binary);
-#else
-    outputFile.open(this->m_FileName.c_str(), std::ios::app);
-#endif
     }
 
   if ( !outputFile.is_open() )
@@ -643,11 +631,7 @@ OFFMeshIO
     }
   else if ( m_FileType == BINARY )
     {
-#ifdef _WIN32
     outputFile.open(this->m_FileName.c_str(), std::ios::app | std::ios::binary);
-#else
-    outputFile.open(this->m_FileName.c_str(), std::ios::app);
-#endif
     }
 
   if ( !outputFile.is_open() )
@@ -842,14 +826,14 @@ OFFMeshIO
 
 void
 OFFMeshIO
-::WritePointData(void *buffer)
+::WritePointData(void * itkNotUsed( buffer ) )
 {
   return;
 }
 
 void
 OFFMeshIO
-::WriteCellData(void *buffer)
+::WriteCellData(void * itkNotUsed( buffer ) )
 {
   return;
 }
