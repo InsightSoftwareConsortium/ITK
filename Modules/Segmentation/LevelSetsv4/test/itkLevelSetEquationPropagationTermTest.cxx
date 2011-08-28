@@ -22,5 +22,12 @@
 int itkLevelSetEquationPropagationTermTest( int argc, char* argv[] )
 {
 
+  if( argc < 2 )
+    {
+    std::cerr << "Missing Arguments" << std::endl;
+    std::cerr << "Program " << argv[0] << std::endl;
+    return EXIT_FAILURE;
+    }
+
   return EXIT_SUCCESS;
 }
