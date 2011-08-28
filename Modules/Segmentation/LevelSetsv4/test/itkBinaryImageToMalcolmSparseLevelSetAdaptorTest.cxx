@@ -23,6 +23,12 @@
 
 int itkBinaryImageToMalcolmSparseLevelSetAdaptorTest( int argc, char* argv[] )
 {
+  if( argc < 3 )
+    {
+    std::cerr << "Missing Arguments" << std::endl;
+    return EXIT_FAILURE;
+    }
+
   const unsigned int Dimension = 2;
 
   typedef unsigned char InputPixelType;
