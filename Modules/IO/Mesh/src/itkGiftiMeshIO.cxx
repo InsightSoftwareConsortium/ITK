@@ -1128,7 +1128,7 @@ GiftiMeshIO
     m_GiftiImage->labeltable.key = (int *)malloc( labelMap->Size() * sizeof( int ) );
     m_GiftiImage->labeltable.label = (char **)malloc( labelMap->Size() * sizeof( char * ) );
 
-    int mm = 0;
+    unsigned int mm = 0;
     for ( LabelNameContainer::ConstIterator lt = labelMap->Begin(); lt != labelMap->End(); ++lt )
       {
       m_GiftiImage->labeltable.key[mm] = lt->Index();
@@ -1140,14 +1140,14 @@ GiftiMeshIO
     if ( ExposeMetaData< LabelColorContainerPointer >(metaDic, "colorContainer", colorMap) )
       {
       m_GiftiImage->labeltable.rgba = (float *)malloc( colorMap->Size() * 4 * sizeof( float ) );
-      int mm = 0;
+      unsigned int kk = 0;
       for ( LabelColorContainer::ConstIterator lt = colorMap->Begin(); lt != colorMap->End(); ++lt )
         {
         for ( int nn = 0; nn < 4; ++nn )
           {
-          m_GiftiImage->labeltable.rgba[mm * 4 + nn] = lt->Value().GetNthComponent(nn);
+          m_GiftiImage->labeltable.rgba[kk * 4 + nn] = lt->Value().GetNthComponent(nn);
           }
-        mm++;
+        kk++;
         }
       }
     }
@@ -1162,16 +1162,16 @@ GiftiMeshIO
     dalist[0] = nda++;
 
     // define dimensions
-    int dims[6] = {0};
-    dims[0] = this->m_NumberOfPoints;
-    dims[1] = this->m_PointDimension;
+    int dimensions[6] = {0};
+    dimensions[0] = this->m_NumberOfPoints;
+    dimensions[1] = this->m_PointDimension;
     m_GiftiImage->darray[dalist[0]]->num_dim = 2;
 
     long long nvals = 1;
     for ( int ii = 0; ii < m_GiftiImage->darray[dalist[0]]->num_dim; ii++ )
       {
-      m_GiftiImage->darray[dalist[0]]->dims[ii] = dims[ii];
-      nvals *= dims[ii];
+      m_GiftiImage->darray[dalist[0]]->dims[ii] = dimensions[ii];
+      nvals *= dimensions[ii];
       }
 
     m_GiftiImage->darray[dalist[0]]->nvals = nvals;
@@ -1234,16 +1234,16 @@ GiftiMeshIO
     dalist[0] = nda++;
 
     // define dimensions
-    int dims[6] = {0};
-    dims[0] = this->m_NumberOfCells;
-    dims[1] = 3;
+    int dimensions[6] = {0};
+    dimensions[0] = this->m_NumberOfCells;
+    dimensions[1] = 3;
     m_GiftiImage->darray[dalist[0]]->num_dim = 2;
 
     long long nvals = 1;
     for ( int ii = 0; ii < m_GiftiImage->darray[dalist[0]]->num_dim; ii++ )
       {
-      m_GiftiImage->darray[dalist[0]]->dims[ii] = dims[ii];
-      nvals *= dims[ii];
+      m_GiftiImage->darray[dalist[0]]->dims[ii] = dimensions[ii];
+      nvals *= dimensions[ii];
       }
 
     m_GiftiImage->darray[dalist[0]]->nvals = nvals;
@@ -1292,9 +1292,9 @@ GiftiMeshIO
     dalist[0] = nda++;
 
     // define dimensions
-    int dims[6] = {0};
-    dims[0] = this->m_NumberOfPointPixels;
-    dims[1] = this->m_NumberOfPointPixelComponents;
+    int dimensions[6] = {0};
+    dimensions[0] = this->m_NumberOfPointPixels;
+    dimensions[1] = this->m_NumberOfPointPixelComponents;
     if ( this->m_NumberOfPointPixelComponents == 1 )
       {
       m_GiftiImage->darray[dalist[0]]->num_dim = 1;
@@ -1307,8 +1307,8 @@ GiftiMeshIO
     long long nvals = 1;
     for ( int ii = 0; ii < m_GiftiImage->darray[dalist[0]]->num_dim; ii++ )
       {
-      m_GiftiImage->darray[dalist[0]]->dims[ii] = dims[ii];
-      nvals *= dims[ii];
+      m_GiftiImage->darray[dalist[0]]->dims[ii] = dimensions[ii];
+      nvals *= dimensions[ii];
       }
 
     m_GiftiImage->darray[dalist[0]]->nvals = nvals;
@@ -1377,9 +1377,9 @@ GiftiMeshIO
     dalist[0] = nda++;
 
     // define dimensions
-    int dims[6] = {0};
-    dims[0] = this->m_NumberOfCellPixels;
-    dims[1] = this->m_NumberOfCellPixelComponents;
+    int dimensions[6] = {0};
+    dimensions[0] = this->m_NumberOfCellPixels;
+    dimensions[1] = this->m_NumberOfCellPixelComponents;
     if ( this->m_NumberOfCellPixelComponents == 1 )
       {
       m_GiftiImage->darray[dalist[0]]->num_dim = 1;
@@ -1392,8 +1392,8 @@ GiftiMeshIO
     long long nvals = 1;
     for ( int ii = 0; ii < m_GiftiImage->darray[dalist[0]]->num_dim; ii++ )
       {
-      m_GiftiImage->darray[dalist[0]]->dims[ii] = dims[ii];
-      nvals *= dims[ii];
+      m_GiftiImage->darray[dalist[0]]->dims[ii] = dimensions[ii];
+      nvals *= dimensions[ii];
       }
 
     m_GiftiImage->darray[dalist[0]]->nvals = nvals;

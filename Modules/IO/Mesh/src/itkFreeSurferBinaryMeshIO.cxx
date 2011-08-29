@@ -279,7 +279,7 @@ FreeSurferBinaryMeshIO
 
 void
 FreeSurferBinaryMeshIO
-::ReadCellData(void *buffer)
+::ReadCellData(void * itkNotUsed( buffer) )
 {
   return;
 }
@@ -690,7 +690,7 @@ FreeSurferBinaryMeshIO
 
 void
 FreeSurferBinaryMeshIO
-::WriteCellData(void *buffer)
+::WriteCellData(void * itkNotUsed( buffer) )
 {
   return;
 }

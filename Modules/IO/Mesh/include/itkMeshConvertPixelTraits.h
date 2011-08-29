@@ -78,12 +78,14 @@ template<>                                                                \
   {                                                                       \
   return 1;                                                               \
   }                                                                       \
-  static unsigned int GetNumberOfComponents(const type& pixel)            \
+  static unsigned int GetNumberOfComponents(const type& itkNotUsed(pixel))\
   {                                                                       \
   return 1;                                                               \
   }                                                                       \
-  static ComponentType GetNthComponent(int c, const type& pixel)          \
-  { return pixel; }                                                       \
+  static ComponentType GetNthComponent(int itkNotUsed(c), const type& pixel)\
+  {                                                                       \
+  return pixel;                                                           \
+  }                                                                       \
   static void SetNthComponent(int , type& pixel, const ComponentType& v)  \
   {                                                                       \
   pixel = v;                                                              \
@@ -124,12 +126,14 @@ template<>                                                                \
   {                                                                                \
   return dimension;                                                                \
   }                                                                                \
-  static unsigned int GetNumberOfComponents(const TargetType& pixel)               \
+  static unsigned int GetNumberOfComponents(const TargetType& itkNotUsed(pixel))   \
   {                                                                                \
   return dimension;                                                                \
   }                                                                                \
   static ComponentType GetNthComponent(int c, const TargetType& pixel)             \
-  { return pixel[c]; }                                                             \
+  {                                                                                \
+  return pixel[c];                                                                 \
+  }                                                                                \
   static void SetNthComponent(int i, TargetType & pixel, const ComponentType& v)   \
   {                                                                                \
   pixel[i] = v;                                                                    \
@@ -163,12 +167,14 @@ template<>                                                                \
   {                                                                                  \
   return dimension;                                                                  \
   }                                                                                  \
-  static unsigned int GetNumberOfComponents(const TargetType& pixel)                 \
+  static unsigned int GetNumberOfComponents(const TargetType& itkNotUsed(pixel))     \
   {                                                                                  \
   return dimension;                                                                  \
   }                                                                                  \
   static ComponentType GetNthComponent(int c, const TargetType& pixel)               \
-  { return pixel[c]; }                                                               \
+  {                                                                                  \
+  return pixel[c];                                                                   \
+  }                                                                                  \
   static void SetNthComponent(int i, TargetType & pixel, const ComponentType& v)     \
   {                                                                                  \
   pixel[i] = v;                                                                      \
@@ -232,7 +238,7 @@ template<>                                                                      
   {                                                                                \
   return rows * cols;                                                              \
   }                                                                                \
-  static unsigned int GetNumberOfComponents(const TargetType& pixel)               \
+  static unsigned int GetNumberOfComponents(const TargetType& itkNotUsed(pixel))   \
   {                                                                                \
   return rows * cols;                                                              \
   }                                                                                \
@@ -241,7 +247,7 @@ template<>                                                                      
   const unsigned int row = c / cols;                                               \
   const unsigned int col = c % cols;                                               \
   return pixel[row][col];                                                          \
-}                                                                                  \
+  }                                                                                \
   static void SetNthComponent(int i, TargetType & pixel, const ComponentType& v)   \
   {                                                                                \
   const unsigned int row = i / cols;                                               \
@@ -306,31 +312,31 @@ template<>                                                                      
   {                                                                                \
   return 2;                                                                        \
   }                                                                                \
-  static unsigned int GetNumberOfComponents(const TargetType & pixel)              \
+  static unsigned int GetNumberOfComponents(const TargetType & itkNotUsed(pixel))  \
   {                                                                                \
   return 2;                                                                        \
   }                                                                                \
   static ComponentType GetNthComponent(int i, TargetType & pixel)                  \
   {                                                                                \
   if( i == 0 )                                                                     \
-  {                                                                                \
-  return pixel.imag();                                                             \
-  }                                                                                \
+    {                                                                              \
+    return pixel.imag();                                                           \
+    }                                                                              \
   else                                                                             \
-  {                                                                                \
-  return pixel.real();                                                             \
-  }                                                                                \
+    {                                                                              \
+    return pixel.real();                                                           \
+    }                                                                              \
   }                                                                                \
   static void SetNthComponent(int i, TargetType & pixel, const ComponentType& v)   \
   {                                                                                \
   if( i == 0 )                                                                     \
-  {                                                                                \
-  pixel = TargetType( v, pixel.imag() );                                           \
-  }                                                                                \
+    {                                                                              \
+    pixel = TargetType( v, pixel.imag() );                                         \
+    }                                                                              \
   else                                                                             \
-  {                                                                                \
-  pixel = TargetType( pixel.real(), v );                                           \
-  }                                                                                \
+    {                                                                              \
+    pixel = TargetType( pixel.real(), v );                                         \
+    }                                                                              \
   }                                                                                \
   static ComponentType GetScalarValue(const TargetType& pixel)                     \
   {                                                                                \
@@ -363,7 +369,9 @@ template<>                                                                      
   return pixel.Size();                                                             \
   }                                                                                \
   static ComponentType GetNthComponent(int c, const TargetType& pixel)             \
-  { return pixel[c]; }                                                             \
+  {                                                                                \
+  return pixel[c];                                                                 \
+  }                                                                                \
   static void SetNthComponent(int i, TargetType & pixel, const ComponentType& v)   \
   {                                                                                \
   pixel[i] = v;                                                                    \

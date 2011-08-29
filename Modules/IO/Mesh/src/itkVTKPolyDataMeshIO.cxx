@@ -84,11 +84,7 @@ VTKPolyDataMeshIO
     }
   else if ( m_FileType == BINARY )
     {
-#ifdef _WIN32
     inputFile.open(this->m_FileName.c_str(), std::ios::in | std::ios::binary);
-#else
-    inputFile.open(this->m_FileName.c_str(), std::ios::in);
-#endif
     }
 
   if ( !inputFile.is_open() )
@@ -359,14 +355,14 @@ VTKPolyDataMeshIO
     else if ( line.find("POINT_DATA") != std::string::npos )
       {
       // define string stream and put line into it
-      StringStreamType ss;
-      ss << line;
+      StringStreamType pdss;
+      pdss << line;
 
       // Get each item
-      ss >> item; // should be "POINT_DATA"
+      pdss >> item; // should be "POINT_DATA"
 
       // Get number of Point pixels
-      ss >> this->m_NumberOfPointPixels;
+      pdss >> this->m_NumberOfPointPixels;
 
       // Continue to read line and get data type
       if ( !inputFile.eof() )
@@ -384,19 +380,19 @@ VTKPolyDataMeshIO
       if ( line.find("SCALARS") != std::string::npos )
         {
         // define string stream and put line into it
-        StringStreamType ss;
-        ss << line;
+        StringStreamType scss;
+        scss << line;
 
         // Get each item
-        ss >> item; // should be "SCALARS"
+        scss >> item; // should be "SCALARS"
 
         if ( item == "SCALARS" )
           {
-          ss >> item;   // "point data name "
+          scss >> item;   // "point data name "
 
           // Get point data component type
           StringType pointDataComponentType;
-          ss >> pointDataComponentType;
+          scss >> pointDataComponentType;
 
           // Set point pixel component type
           if ( pointDataComponentType == "unsigned_char" )
@@ -470,12 +466,12 @@ VTKPolyDataMeshIO
       if ( line.find("COLOR_SCALARS") != std::string::npos )
         {
         // define string stream and put line into it
-        StringStreamType ss;
-        ss << line;
+        StringStreamType csss;
+        csss << line;
 
-        ss >> item;  // should be "COLOR_SCALARS"
-        ss >> item;  // "point data name "
-        ss >> this->m_NumberOfPointPixelComponents;
+        csss >> item;  // should be "COLOR_SCALARS"
+        csss >> item;  // "point data name "
+        csss >> this->m_NumberOfPointPixelComponents;
 
         // Set point pixel type
         this->m_PointPixelType = VARIABLELENGTHVECTOR;
@@ -495,16 +491,16 @@ VTKPolyDataMeshIO
       if ( line.find("VECTORS") != std::string::npos || line.find("NORMALS") != std::string::npos )
         {
         // define string stream and put line into it
-        StringStreamType ss;
-        ss << line;
+        StringStreamType vss;
+        vss << line;
 
         // Get each item
-        ss >> item; // should be "VECTORS"
-        ss >> item; // "point data name "
+        vss >> item; // should be "VECTORS"
+        vss >> item; // "point data name "
 
         // Get point data component type
         StringType pointDataComponentType;
-        ss >> pointDataComponentType;
+        vss >> pointDataComponentType;
 
         // Set point pixel component type
         if ( pointDataComponentType == "unsigned_char" )
@@ -575,16 +571,16 @@ VTKPolyDataMeshIO
       if ( line.find("TENSORS") != std::string::npos )
         {
         // define string stream and put line into it
-        StringStreamType ss;
-        ss << line;
+        StringStreamType tss;
+        tss << line;
 
         // Get each item
-        ss >> item; // should be "TENSORS"
-        ss >> item; // "point data name "
+        tss >> item; // should be "TENSORS"
+        tss >> item; // "point data name "
 
         // Get point data component type
         StringType pointDataComponentType;
-        ss >> pointDataComponentType;
+        tss >> pointDataComponentType;
 
         // Set point pixel component type
         if ( pointDataComponentType == "unsigned_char" )
@@ -656,14 +652,14 @@ VTKPolyDataMeshIO
     else if ( line.find("CELL_DATA") != std::string::npos )
       {
       // define string stream and put line into it
-      StringStreamType ss;
-      ss << line;
+      StringStreamType cdss;
+      cdss << line;
 
       // Get each item
-      ss >> item; // should be "CELL_DATA"
+      cdss >> item; // should be "CELL_DATA"
 
       // Get number of Point pixels
-      ss >> this->m_NumberOfCellPixels;
+      cdss >> this->m_NumberOfCellPixels;
 
       // Continue to read line and get data type
       if ( !inputFile.eof() )
@@ -681,19 +677,19 @@ VTKPolyDataMeshIO
       if ( line.find("SCALARS") != std::string::npos )
         {
         // define string stream and put line into it
-        StringStreamType ss;
-        ss << line;
+        StringStreamType sss;
+        sss << line;
 
         // Get each item
-        ss >> item; // should be "SCALARS"
+        sss >> item; // should be "SCALARS"
 
         if ( item == "SCALARS" )
           {
-          ss >> item;   // "cell data name "
+          sss >> item;   // "cell data name "
 
           //  Get cell data component type
           StringType cellDataComponentType;
-          ss >> cellDataComponentType;
+          sss >> cellDataComponentType;
 
           // Set point pixel component type
           if ( cellDataComponentType == "unsigned_char" )
@@ -765,12 +761,12 @@ VTKPolyDataMeshIO
       if ( line.find("COLOR_SCALARS") != std::string::npos )
         {
         // define string stream and put line into it
-        StringStreamType ss;
-        ss << line;
+        StringStreamType csss;
+        csss << line;
 
-        ss >> item;  // should be "COLOR_SCALARS"
-        ss >> item;  // "cell data name "
-        ss >> this->m_NumberOfCellPixelComponents;
+        csss >> item;  // should be "COLOR_SCALARS"
+        csss >> item;  // "cell data name "
+        csss >> this->m_NumberOfCellPixelComponents;
 
         // Set cell pixel type
         this->m_CellPixelType  = VARIABLELENGTHVECTOR;
@@ -790,16 +786,16 @@ VTKPolyDataMeshIO
       if ( line.find("VECTORS") != std::string::npos || line.find("NORMALS") != std::string::npos )
         {
         // define string stream and put line into it
-        StringStreamType ss;
-        ss << line;
+        StringStreamType vss;
+        vss << line;
 
         // Get each item
-        ss >> item; // should be "VECTORS"
-        ss >> item; // "cell data name "
+        vss >> item; // should be "VECTORS"
+        vss >> item; // "cell data name "
 
         // Get cell data component type
         StringType cellDataComponentType;
-        ss >> cellDataComponentType;
+        vss >> cellDataComponentType;
 
         // Set cell pixel component type
         if ( cellDataComponentType == "unsigned_char" )
@@ -867,16 +863,16 @@ VTKPolyDataMeshIO
       if ( line.find("TENSORS") != std::string::npos )
         {
         // define string stream and put line into it
-        StringStreamType ss;
-        ss << line;
+        StringStreamType tss;
+        tss << line;
 
         // Get each item
-        ss >> item; // should be "TENSORS"
-        ss >> item; // "cell data name "
+        tss >> item; // should be "TENSORS"
+        tss >> item; // "cell data name "
 
         // Get cell data component type
         StringType cellDataComponentType;
-        ss >> cellDataComponentType;
+        tss >> cellDataComponentType;
 
         // Set cell pixel component type
         if ( cellDataComponentType == "unsigned_char" )
@@ -965,11 +961,7 @@ VTKPolyDataMeshIO
     }
   else if ( m_FileType == BINARY )
     {
-#ifdef _WIN32
     inputFile.open(this->m_FileName.c_str(), std::ios::in | std::ios::binary);
-#else
-    inputFile.open(this->m_FileName.c_str(), std::ios::in);
-#endif
     }
 
   // Test whether the file has been opened
@@ -1178,11 +1170,7 @@ VTKPolyDataMeshIO
     }
   else if ( m_FileType == BINARY )
     {
-#ifdef _WIN32
     inputFile.open(this->m_FileName.c_str(), std::ios::in | std::ios::binary);
-#else
-    inputFile.open(this->m_FileName.c_str(), std::ios::in);
-#endif
     }
 
   // Test whether the file has been opened
@@ -1371,11 +1359,7 @@ VTKPolyDataMeshIO
     }
   else if ( m_FileType == BINARY )
     {
-#ifdef _WIN32
     inputFile.open(this->m_FileName.c_str(), std::ios::in | std::ios::binary);
-#else
-    inputFile.open(this->m_FileName.c_str(), std::ios::in);
-#endif
     }
 
   // Test whether the file has been opened
@@ -1584,11 +1568,7 @@ VTKPolyDataMeshIO
     }
   else if ( m_FileType == BINARY )
     {
-#ifdef _WIN32
     inputFile.open(this->m_FileName.c_str(), std::ios::in | std::ios::binary);
-#else
-    inputFile.open(this->m_FileName.c_str(), std::ios::in);
-#endif
     }
 
   // Test whether the file has been opened
@@ -1803,11 +1783,7 @@ VTKPolyDataMeshIO
     }
   else if ( m_FileType == BINARY )
     {
-#ifdef _WIN32
     outputFile.open(this->m_FileName.c_str(), std::ios::out | std::ios::binary);
-#else
-    outputFile.open(this->m_FileName.c_str(), std::ios::out);
-#endif
     }
 
   if ( !outputFile.is_open() )
@@ -1857,11 +1833,7 @@ VTKPolyDataMeshIO
     }
   else if ( m_FileType == BINARY )
     {
-#ifdef _WIN32
     outputFile.open(this->m_FileName.c_str(), std::ios::app | std::ios::binary);
-#else
-    outputFile.open(this->m_FileName.c_str(), std::ios::app);
-#endif
     }
 
   if ( !outputFile.is_open() )
@@ -2077,11 +2049,7 @@ VTKPolyDataMeshIO
     }
   else if ( m_FileType == BINARY )
     {
-#ifdef _WIN32
     outputFile.open(this->m_FileName.c_str(), std::ios::app | std::ios::binary);
-#else
-    outputFile.open(this->m_FileName.c_str(), std::ios::app);
-#endif
     }
 
   if ( !outputFile.is_open() )
@@ -2297,11 +2265,7 @@ VTKPolyDataMeshIO
     }
   else if ( m_FileType == BINARY )
     {
-#ifdef _WIN32
     outputFile.open(this->m_FileName.c_str(), std::ios::app | std::ios::binary);
-#else
-    outputFile.open(this->m_FileName.c_str(), std::ios::app);
-#endif
     }
 
   if ( !outputFile.is_open() )
@@ -2519,11 +2483,7 @@ VTKPolyDataMeshIO
     }
   else if ( m_FileType == BINARY )
     {
-#ifdef _WIN32
     outputFile.open(this->m_FileName.c_str(), std::ios::app | std::ios::binary);
-#else
-    outputFile.open(this->m_FileName.c_str(), std::ios::app);
-#endif
     }
 
   if ( !outputFile.is_open() )
