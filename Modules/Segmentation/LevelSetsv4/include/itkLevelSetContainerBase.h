@@ -85,8 +85,8 @@ public:
   typedef typename DomainMapImageFilterType::Pointer          DomainMapImageFilterPointer;
   typedef typename DomainMapImageFilterType::LevelSetDomain   LevelSetDomainType;
 
-  typedef typename std::map< LevelSetIdentifierType, LevelSetDomainType >   DomainContainerType;
-  typedef typename DomainContainerType::iterator                            DomainIteratorType;
+  typedef std::map< LevelSetIdentifierType, LevelSetDomainType >   DomainContainerType;
+  typedef typename DomainContainerType::iterator                   DomainIteratorType;
 
   /** Declare iterators to container. */
   class Iterator;
@@ -265,7 +265,7 @@ public:
 
   // set the domain map image filter
   itkSetObjectMacro( DomainMapFilter, DomainMapImageFilterType );
-  itkGetConstObjectMacro( DomainMapFilter, DomainMapImageFilterType );
+  itkGetObjectMacro( DomainMapFilter, DomainMapImageFilterType );
 
 protected:
   /** \brief Default Constructor */

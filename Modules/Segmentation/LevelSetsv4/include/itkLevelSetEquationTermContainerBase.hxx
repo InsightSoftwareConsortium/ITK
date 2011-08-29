@@ -61,7 +61,7 @@ LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
     m_TermContribution[iId] = NumericTraits< LevelSetOutputPixelType >::Zero;
     m_NameContainer[ iTerm->GetTermName() ] = iTerm;
 
-    RequiredDataType termRequiredData = iTerm->GetListOfRequiredData();
+    RequiredDataType termRequiredData = iTerm->GetRequiredData();
 
     typename RequiredDataType::const_iterator dIt = termRequiredData.begin();
     typename RequiredDataType::const_iterator dEnd = termRequiredData.end();
@@ -108,7 +108,7 @@ LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
     m_TermContribution[ id ] = NumericTraits< LevelSetOutputPixelType >::Zero;
     m_NameContainer[ iTerm->GetTermName() ] = iTerm;
 
-    RequiredDataType termRequiredData = iTerm->GetListOfRequiredData();
+    RequiredDataType termRequiredData = iTerm->GetRequiredData();
 
     typename RequiredDataType::const_iterator dIt = termRequiredData.begin();
     typename RequiredDataType::const_iterator dEnd = termRequiredData.end();

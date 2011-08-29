@@ -42,7 +42,7 @@ void LevelSetEquationChanAndVeseExternalTerm< TInput, TLevelSetContainer >
 ::ComputeProduct( const LevelSetInputIndexType& iP, LevelSetOutputRealType& prod )
 {
   this->ComputeProductTerm( iP, prod );
-  LevelSetPointer levelSet = this->m_LevelSetContainer->GetLevelSet( this->m_CurrentLevelSet );
+  LevelSetPointer levelSet = this->m_LevelSetContainer->GetLevelSet( this->m_CurrentLevelSetId );
   LevelSetOutputRealType value = levelSet->Evaluate( iP );
   prod *= -(1 - this->m_Heaviside->Evaluate( -value ) );
 }
@@ -52,18 +52,26 @@ void LevelSetEquationChanAndVeseExternalTerm< TInput, TLevelSetContainer >
 ::ComputeProductTerm( const LevelSetInputIndexType& iP, LevelSetOutputRealType& prod )
 {
   prod = -1.;
-  const LevelSetIdentifierType id = this->m_LevelSetContainer->GetDomainMapFilter()->GetOutput()->GetPixel( iP );
-  const IdListType lout = this->m_LevelSetContainer->GetDomainMapFilter()->m_LevelSetMap[id].m_List;
 
-  LevelSetPointer levelSet;
-  LevelSetOutputRealType value;
-  for( IdListIterator lIt = lout.begin(); lIt != lout.end(); ++lIt )
+  DomainMapImageFilterType * domain = this->m_LevelSetContainer->GetDomainMapFilter();
+  CacheImageType * cacheImage = domain->GetOutput();
+  const LevelSetIdentifierType id = cacheImage->GetPixel( iP );
+  DomainIteratorType levelSetMapItr = domain->m_LevelSetMap.find(id);
+
+  if( levelSetMapItr != domain->m_LevelSetMap.end() )
     {
-    if( *lIt-1 != this->m_CurrentLevelSet )
+    const IdListType lout = levelSetMapItr->second.m_List;
+
+    LevelSetPointer levelSet;
+    LevelSetOutputRealType value;
+    for( IdListConstIterator lIt = lout.begin(); lIt != lout.end(); ++lIt )
       {
-      levelSet = this->m_LevelSetContainer->GetLevelSet( *lIt - 1);
-      value = levelSet->Evaluate( iP );
-      prod *= (1 - this->m_Heaviside->Evaluate( -value ) );
+      if( *lIt-1 != this->m_CurrentLevelSetId )
+        {
+        levelSet = this->m_LevelSetContainer->GetLevelSet( *lIt - 1);
+        value = levelSet->Evaluate( iP );
+        prod *= (1 - this->m_Heaviside->Evaluate( -value ) );
+        }
       }
     }
 }
@@ -74,27 +82,33 @@ void LevelSetEquationChanAndVeseExternalTerm< TInput, TLevelSetContainer >
              const LevelSetOutputRealType & newValue )
 {
   // Compute the product factor
-  const LevelSetIdentifierType id =
-    this->m_LevelSetContainer->GetDomainMapFilter()->GetOutput()->GetPixel( iP );
-  const IdListType lout =
-    this->m_LevelSetContainer->GetDomainMapFilter()->m_LevelSetMap[id].m_List;
+  DomainMapImageFilterType * domain = this->m_LevelSetContainer->GetDomainMapFilter();
+  CacheImageType * cacheImage = domain->GetOutput();
+  const LevelSetIdentifierType id = cacheImage->GetPixel( iP );
 
-  LevelSetOutputRealType prod;
+  DomainIteratorType levelSetMapItr = domain->m_LevelSetMap.find(id);
 
-  this->ComputeProductTerm( iP, prod );
+  if( levelSetMapItr != domain->m_LevelSetMap.end() )
+    {
+    const IdListType lout = levelSetMapItr->second.m_List;
 
-  // For each affected h val: h val = new hval (this will dirty some cvals)
-  InputPixelType input = this->m_Input->GetPixel( iP );
+    LevelSetOutputRealType prod;
 
-  const LevelSetOutputRealType oldH = this->m_Heaviside->Evaluate( -oldValue );
-  const LevelSetOutputRealType newH = this->m_Heaviside->Evaluate( -newValue );
-  const LevelSetOutputRealType change = oldH - newH;//(1 - newH) - (1 - oldH);
+    this->ComputeProductTerm( iP, prod );
 
-  // Determine the change in the product factor
-  const LevelSetOutputRealType productChange = -( prod * change );
+    // For each affected h val: h val = new hval (this will dirty some cvals)
+    InputPixelType input = this->m_Input->GetPixel( iP );
 
-  this->m_TotalH += change;
-  this->m_TotalValue += input * productChange;
+    const LevelSetOutputRealType oldH = this->m_Heaviside->Evaluate( -oldValue );
+    const LevelSetOutputRealType newH = this->m_Heaviside->Evaluate( -newValue );
+    const LevelSetOutputRealType change = oldH - newH;//(1 - newH) - (1 - oldH);
+
+    // Determine the change in the product factor
+    const LevelSetOutputRealType productChange = -( prod * change );
+
+    this->m_TotalH += change;
+    this->m_TotalValue += input * productChange;
+    }
 }
 
 }

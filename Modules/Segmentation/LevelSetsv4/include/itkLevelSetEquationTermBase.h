@@ -75,10 +75,14 @@ public:
   typedef typename LevelSetContainerType::LevelSetDataType
                                                           LevelSetDataType;
 
+  typedef typename LevelSetContainerType::DomainMapImageFilterType  DomainMapImageFilterType;
+  typedef typename LevelSetContainerType::CacheImageType            CacheImageType;
+
   typedef HeavisideStepFunctionBase< LevelSetOutputRealType,
                                      LevelSetOutputRealType >
                                           HeavisideType;
-  typedef typename HeavisideType::Pointer HeavisidePointer;
+//  typedef typename HeavisideType::Pointer HeavisidePointer;
+  typedef typename HeavisideType::ConstPointer HeavisideConstPointer;
 
   /** Set/Get the image to be segmented */
   itkSetObjectMacro( Input, InputImageType );
@@ -87,8 +91,8 @@ public:
   itkSetMacro( Coefficient, LevelSetOutputRealType );
   itkGetMacro( Coefficient, LevelSetOutputRealType );
 
-  itkSetMacro( CurrentLevelSet, LevelSetIdentifierType );
-  itkGetMacro( CurrentLevelSet, LevelSetIdentifierType );
+  itkSetMacro( CurrentLevelSetId, LevelSetIdentifierType );
+  itkGetMacro( CurrentLevelSetId, LevelSetIdentifierType );
 
   itkGetObjectMacro( CurrentLevelSetPointer, LevelSetType );
 
@@ -134,22 +138,14 @@ public:
 
   typedef itksys::hash_set< std::string, hash_string > RequiredDataType;
 
-  const RequiredDataType & GetListOfRequiredData() const
-    {
-    return m_RequiredData;
-    }
+  const RequiredDataType & GetRequiredData() const;
 
 protected:
   /** Default Constructor */
   LevelSetEquationTermBase();
 
   /** Destructor */
-  virtual ~LevelSetEquationTermBase() {}
-
-  /** Set the default name for a given term (see m_TermName). */
-  virtual void SetDefaultTermName() = 0;
-
-  virtual void SetRequiredData() = 0;
+  virtual ~LevelSetEquationTermBase();
 
   void SetUp();
 
@@ -169,7 +165,7 @@ protected:
   LevelSetContainerPointer m_LevelSetContainer;
 
   /** Id of the current level-set function */
-  LevelSetIdentifierType   m_CurrentLevelSet;
+  LevelSetIdentifierType   m_CurrentLevelSetId;
 
   LevelSetPointer          m_CurrentLevelSetPointer;
 
@@ -184,18 +180,18 @@ protected:
   /** Heaviside function to be used. Depending on the term expression,
    *  this one may need to be provided
    */
-  HeavisidePointer         m_Heaviside;
+  HeavisideConstPointer         m_Heaviside;
 
   /** Name to be given to the term. Note by default, one name is provided,
    *  but end-users may rename differently each term.
    */
-  std::string              m_TermName;
+  std::string               m_TermName;
 
-  RequiredDataType m_RequiredData;
+  RequiredDataType          m_RequiredData;
 
 private:
-  LevelSetEquationTermBase( const Self& );
-  void operator = ( const Self& );
+  LevelSetEquationTermBase( const Self& ); // purposely not implemented
+  void operator = ( const Self& ); // purposely not implemented
 };
 }
 
