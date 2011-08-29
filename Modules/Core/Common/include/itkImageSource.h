@@ -134,6 +134,7 @@ public:
    * outputs.
    */
   OutputImageType * GetOutput(void);
+  const OutputImageType * GetOutput(void) const;
 
   OutputImageType * GetOutput(unsigned int idx);
 
