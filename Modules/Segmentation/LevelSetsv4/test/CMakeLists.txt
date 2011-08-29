@@ -34,6 +34,7 @@ itk_add_test(NAME itkBinaryImageToWhitakerSparseLevelSetsv4AdaptorTest
       itkBinaryImageToWhitakerSparseLevelSetAdaptorTest
       ${ITK_DATA_ROOT}/Input/circle.png
       ${ITK_TEST_OUTPUT_DIR}/output_binary_whitaker_adaptor.mha
+      ${ITK_TEST_OUTPUT_DIR}/status_binary_whitaker_adaptor.mha
       )
 itk_add_test(NAME itkBinaryImageToMalcolmSparseLevelSetsv4AdaptorTest
       COMMAND ITKLevelSetsv4TestDriver
