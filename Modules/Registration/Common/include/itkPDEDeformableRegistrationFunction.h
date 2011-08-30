@@ -64,6 +64,11 @@ public:
   typedef TDisplacementField                      DisplacementFieldType;
   typedef typename DisplacementFieldType::Pointer DisplacementFieldTypePointer;
 
+#ifdef ITKV3_COMPATIBILITY
+  typedef TDisplacementField                     DeformationFieldType;
+  typedef typename DeformationFieldType::Pointer DeformationFieldTypePointer;
+#endif
+
   /** Set the moving image.  */
   void SetMovingImage(const MovingImageType *ptr)
   { m_MovingImage = ptr; }
@@ -88,6 +93,14 @@ public:
    *  declared const. It is not for backward compatibility reasons. */
   DisplacementFieldType * GetDisplacementField(void)
   { return m_DisplacementField; }
+
+#ifdef ITKV3_COMPATIBILITY
+  void SetDeformationField(DeformationFieldTypePointer ptr)
+  { this->SetDisplacementField(ptr); }
+
+  DeformationFieldType * GetDeformationField(void)
+  { return static_cast<DeformationFieldType *> (this->GetDisplacementField()); }
+#endif
 
   void SetEnergy(double e) { m_Energy = e; }
   double GetEnergy() const { return m_Energy; }

@@ -19,7 +19,11 @@
 #define __itkBSplineDeformableTransform_h
 
 #include "itkConfigure.h" // Needed to determine value of ITKV3_COMPATIBILITY
-#ifdef ITKV3_COMPATIBILITY
+#if ! defined( ITKV3_COMPATIBILITY )
+#error \
+  "itkBSplineDeformableTransform.h should only be included for ITKv3 compatibility. Build with ITKV3_COMPATIBILITY=ON to use this"
+
+#else  // !defined( ITKV3_COMPATIBILITY )
 
 #include <iostream>
 #include "itkTransform.h"
@@ -551,8 +555,5 @@ private:
 #include "itkBSplineDeformableTransform.hxx"
 #endif
 
-#else  // def ITKV3_COMPATIBILITY
-#error \
-  "itkBSplineDeformableTransform.h should only be included for ITKv3 compatibility. Build with ITKV3_COMPATIBILITY=ON to use this"
 #endif // def ITKV3_COMPATIBILITY
 #endif /* __itkBSplineDeformableTransform_h */

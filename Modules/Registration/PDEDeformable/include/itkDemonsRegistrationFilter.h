@@ -90,10 +90,13 @@ public:
   typedef typename Superclass::MovingImagePointer MovingImagePointer;
 
   /** displacement field type. */
-  typedef typename Superclass::DisplacementFieldType
-  DisplacementFieldType;
-  typedef typename Superclass::DisplacementFieldPointer
-  DisplacementFieldPointer;
+  typedef typename Superclass::DisplacementFieldType    DisplacementFieldType;
+  typedef typename Superclass::DisplacementFieldPointer DisplacementFieldPointer;
+
+#ifdef ITKV3_COMPATIBILITY
+  typedef typename Superclass::DeformationFieldType    DeformationFieldType;
+  typedef typename Superclass::DeformationFieldPointer DeformationFieldPointer;
+#endif
 
   /** FiniteDifferenceFunction type. */
   typedef typename Superclass::FiniteDifferenceFunctionType

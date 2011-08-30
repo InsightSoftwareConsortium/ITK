@@ -101,6 +101,11 @@ public:
   typedef TDisplacementField                      DisplacementFieldType;
   typedef typename DisplacementFieldType::Pointer DisplacementFieldPointer;
 
+#ifdef ITKV3_COMPATIBILITY
+  typedef TDisplacementField                      DeformationFieldType;
+  typedef typename DeformationFieldType::Pointer  DeformationFieldPointer;
+#endif
+
   /** Types inherithed from the superclass */
   typedef typename Superclass::OutputImageType OutputImageType;
 
@@ -136,6 +141,19 @@ public:
   DisplacementFieldType * GetDisplacementField()
   { return this->GetOutput(); }
 
+#ifdef ITKV3_COMPATIBILITY
+  virtual void SetInitialDeformationField(DeformationFieldType *ptr)
+  {
+    this->SetInitialDisplacementField(ptr);
+  }
+
+  /** Get output deformation field. */
+  DeformationFieldType * GetDeformationField(void)
+  {
+    return static_cast<DeformationFieldType *> (this->GetDisplacementField());
+  }
+#endif
+
   /** Get the number of valid inputs.  For PDEDeformableRegistration,
    * this checks whether the fixed and moving images have been
    * set. While PDEDeformableRegistration can take a third input as an
@@ -151,6 +169,25 @@ public:
   itkSetMacro(SmoothDisplacementField, bool);
   itkGetConstMacro(SmoothDisplacementField, bool);
   itkBooleanMacro(SmoothDisplacementField);
+
+#ifdef ITKV3_COMPATIBILITY
+  virtual void SetSmoothDeformationField(bool val)
+  {
+    SetSmoothDisplacementField(val);
+  }
+  virtual bool GetSmoothDeformationField()
+  {
+    return this->GetSmoothDisplacementField();
+  }
+  virtual void SmoothDeformationFieldOn()
+  {
+    this->SmoothDisplacementFieldOn();
+  }
+  virtual void SmoothDeformationFieldOff()
+  {
+    this->SmoothDisplacementFieldOff();
+  }
+#endif
 
   typedef FixedArray< double, ImageDimension > StandardDeviationsType;
 
@@ -224,7 +261,12 @@ protected:
    * using a Guassian operator. The amount of smoothing can be specified
    * by setting the StandardDeviations. */
   virtual void SmoothDisplacementField();
-
+#ifdef ITKV3_COMPATIBILITY
+  virtual void SmoothDeformationField()
+  {
+    this->SmoothDisplacementField();
+  }
+#endif
   /** Utility to smooth the UpdateBuffer using a Gaussian operator.
    * The amount of smoothing can be specified by setting the
    * UpdateFieldStandardDeviations. */

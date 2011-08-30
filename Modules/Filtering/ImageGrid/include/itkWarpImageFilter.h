@@ -127,6 +127,12 @@ public:
   typedef typename DisplacementFieldType::Pointer   DisplacementFieldPointer;
   typedef typename DisplacementFieldType::PixelType DisplacementType;
 
+#ifdef ITKV3_COMPATIBILITY
+  typedef TDisplacementField                       DeformationFieldType;
+  typedef typename DeformationFieldType::Pointer   DeformationFieldPointer;
+  typedef typename DeformationFieldType::PixelType DeformationType;
+#endif
+
   /** Interpolator typedef support. */
   typedef double                                                   CoordRepType;
   typedef InterpolateImageFunction< InputImageType, CoordRepType > InterpolatorType;
@@ -142,9 +148,19 @@ public:
 
   /** Set the displacement field. */
   void SetDisplacementField(const DisplacementFieldType *field);
-
   /** Get a pointer the displacement field. */
   DisplacementFieldType * GetDisplacementField(void);
+
+#ifdef ITKV3_COMPATIBILITY
+  void SetDeformationField(const DisplacementFieldType *field)
+  {
+    this->SetDisplacementField(field);
+  }
+  DeformationFieldType * GetDeformationField(void)
+  {
+    return static_cast<DeformationFieldType *> (GetDisplacementField());
+  }
+#endif
 
   /** Set the interpolator function. */
   itkSetObjectMacro(Interpolator, InterpolatorType);

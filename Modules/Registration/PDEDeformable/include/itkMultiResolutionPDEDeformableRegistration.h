@@ -109,7 +109,10 @@ public:
   /** Deformation field image type. */
   typedef TDisplacementField                      DisplacementFieldType;
   typedef typename DisplacementFieldType::Pointer DisplacementFieldPointer;
-
+#ifdef ITKV3_COMPATIBILITY
+  typedef TDisplacementField                      DeformationFieldType;
+  typedef typename DeformationFieldType::Pointer  DeformationFieldPointer;
+#endif
   /** ImageDimension. */
   itkStaticConstMacro(ImageDimension, unsigned int, FixedImageType::ImageDimension);
 
@@ -167,6 +170,24 @@ public:
   /** Get output deformation field. */
   const DisplacementFieldType * GetDisplacementField(void)
   { return this->GetOutput(); }
+
+#ifdef ITKV3_COMPATIBILITY
+  virtual void SetInitialDeformationField(DisplacementFieldType *ptr)
+  {
+    this->SetInitialDisplacementField(ptr);
+  }
+
+  virtual void SetArbitraryInitialDeformationField(DisplacementFieldType *ptr)
+  {
+    this->SetArbitraryInitialDisplacementField(ptr);
+  }
+
+  /** Get output deformation field. */
+  const DeformationFieldType * GetDeformationField(void)
+  {
+    return static_cast<DeformationFieldType *> (this->GetDisplacementField());
+  }
+#endif
 
   /** Get the number of valid inputs.  For
    * MultiResolutionPDEDeformableRegistration, this checks whether the
