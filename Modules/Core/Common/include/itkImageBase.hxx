@@ -474,11 +474,9 @@ ImageBase< VImageDimension >
 template< unsigned int VImageDimension >
 void
 ImageBase< VImageDimension >
-::SetRequestedRegion(DataObject *data)
+::SetRequestedRegion( const DataObject *data )
 {
-  ImageBase *imgData;
-
-  imgData = dynamic_cast< ImageBase * >( data );
+  const ImageBase *imgData = dynamic_cast< const ImageBase * >( data );
 
   if ( imgData )
     {

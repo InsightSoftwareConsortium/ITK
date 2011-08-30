@@ -849,11 +849,9 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 void
 SpatialObject< TDimension >
-::SetRequestedRegion(DataObject *data)
+::SetRequestedRegion(const DataObject *data)
 {
-  SpatialObject *imgData;
-
-  imgData = dynamic_cast< SpatialObject * >( data );
+  const SpatialObject *imgData = dynamic_cast< const SpatialObject * >( data );
 
   if ( imgData )
     {
@@ -863,7 +861,7 @@ SpatialObject< TDimension >
     {
     // pointer could not be cast back down
     itkExceptionMacro(
-      << "itk::ImageBase::SetRequestedRegion(DataObject*) cannot cast "
+      << "itk::ImageBase::SetRequestedRegion(const DataObject *) cannot cast "
       << typeid( data ).name() << " to " << typeid( SpatialObject * ).name() );
     }
 }

@@ -443,11 +443,9 @@ PointSet< TPixelType, VDimension, TMeshTraits >
 template< typename TPixelType, unsigned int VDimension, typename TMeshTraits >
 void
 PointSet< TPixelType, VDimension, TMeshTraits >
-::SetRequestedRegion(DataObject *data)
+::SetRequestedRegion(const DataObject *data)
 {
-  Self *pointSet;
-
-  pointSet = dynamic_cast< Self * >( data );
+  const Self *pointSet = dynamic_cast< const Self * >( data );
 
   if ( pointSet )
     {

@@ -260,7 +260,7 @@ public:
    * the object to be modified. This method is called internally by
    * the pipeline and therefore bypasses the modified time
    * calculation. */
-  virtual void SetRequestedRegion(DataObject *data);
+  virtual void SetRequestedRegion( const DataObject *data );
 
   /** Get the region object that defines the size and starting index
    * for the region of the image requested (i.e., the region of the

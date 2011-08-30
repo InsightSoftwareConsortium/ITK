@@ -431,7 +431,7 @@ ImageAdaptor< TImage, TAccessor >
 template< class TImage, class TAccessor >
 void
 ImageAdaptor< TImage, TAccessor >
-::SetRequestedRegion(DataObject *data)
+::SetRequestedRegion(const DataObject *data)
 {
   // call the superclass' method first, then delegate
   Superclass::SetRequestedRegion(data);
