@@ -26,6 +26,7 @@
 #include "itkExpImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkImportImageFilter.h"
 #include "itkIterationReporter.h"
 #include "itkSubtractImageFilter.h"
 #include "itkVectorIndexSelectionCastImageFilter.h"
@@ -464,14 +465,26 @@ N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::Real
 N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 ::UpdateBiasFieldEstimate( RealImageType* fieldEstimate )
 {
-  // Get original direction and change to identity temporarily for the
-  // b-spline fitting.
-  typedef typename RealImageType::DirectionType   DirectionType;
-  DirectionType direction = fieldEstimate->GetDirection();
-  DirectionType identity;
-
+  // Temporarily set the direction cosine to identity since the B-spline
+  // approximation algorithm works in parametric space and not physical
+  // space.
+  typename ScalarImageType::DirectionType identity;
   identity.SetIdentity();
-  fieldEstimate->SetDirection( identity );
+
+  const typename ScalarImageType::RegionType & bufferedRegion = fieldEstimate->GetBufferedRegion();
+  const SizeValueType numberOfPixels = bufferedRegion.GetNumberOfPixels();
+  const bool filterHandlesMemory = false;
+
+  typedef ImportImageFilter<RealType, ImageDimension> ImporterType;
+  typename ImporterType::Pointer importer = ImporterType::New();
+  importer->SetImportPointer( fieldEstimate->GetBufferPointer(), numberOfPixels, filterHandlesMemory );
+  importer->SetRegion( fieldEstimate->GetBufferedRegion() );
+  importer->SetOrigin( fieldEstimate->GetOrigin() );
+  importer->SetSpacing( fieldEstimate->GetSpacing() );
+  importer->SetDirection( identity );
+  importer->Update();
+
+  const typename ImporterType::OutputImageType * parametricFieldEstimate = importer->GetOutput();
 
   PointSetPointer fieldPoints = PointSetType::New();
   fieldPoints->Initialize();
@@ -480,7 +493,7 @@ N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
     BSplineFilterType::WeightsContainerType::New();
   weights->Initialize();
   ImageRegionConstIteratorWithIndex<RealImageType>
-  It( fieldEstimate, fieldEstimate->GetRequestedRegion() );
+    It( parametricFieldEstimate, parametricFieldEstimate->GetRequestedRegion() );
 
   unsigned int index = 0;
   for ( It.GoToBegin(); !It.IsAtEnd(); ++It )
@@ -491,7 +504,7 @@ N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
              this->GetConfidenceImage()->GetPixel( It.GetIndex() ) > 0.0 ) )
       {
       PointType point;
-      fieldEstimate->TransformIndexToPhysicalPoint( It.GetIndex(), point );
+      parametricFieldEstimate->TransformIndexToPhysicalPoint( It.GetIndex(), point );
 
       ScalarType scalar;
       scalar[0] = It.Get();
@@ -509,7 +522,6 @@ N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
       index++;
       }
     }
-  fieldEstimate->SetDirection( direction );
 
   typename BSplineFilterType::Pointer bspliner = BSplineFilterType::New();
 
@@ -576,7 +588,7 @@ N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   reconstructer->SetInput( this->m_LogBiasFieldControlPointLattice );
   reconstructer->SetOrigin( fieldEstimate->GetOrigin() );
   reconstructer->SetSpacing( fieldEstimate->GetSpacing() );
-  reconstructer->SetDirection( direction );
+  reconstructer->SetDirection( fieldEstimate->GetDirection() );
   reconstructer->SetSize( fieldEstimate->GetLargestPossibleRegion().GetSize() );
   reconstructer->Update();
 
