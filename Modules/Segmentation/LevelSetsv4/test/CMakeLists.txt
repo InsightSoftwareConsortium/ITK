@@ -19,6 +19,8 @@ itkLevelSetEquationTermContainerBaseTest.cxx
 # domain partition classes
 itkLevelSetDomainPartitionBaseTest.cxx
 itkLevelSetDomainMapImageFilterTest.cxx
+# level set container
+itkSparseLevelSetContainerTest.cxx
 )
 
 CreateTestDriver(ITKLevelSetsv4  "${ITKLevelSetsv4-Test_LIBRARIES}" "${ITKLevelSetsv4Tests}")
@@ -56,3 +58,6 @@ itk_add_test(NAME itkLevelSetsv4DomainPartitionBaseTest
       COMMAND ITKLevelSetsv4TestDriver itkLevelSetDomainPartitionBaseTest)
 itk_add_test(NAME itkLevelSetsv4DomainMapImageFilterTest
       COMMAND ITKLevelSetsv4TestDriver itkLevelSetDomainMapImageFilterTest)
+# level set container
+itk_add_test(NAME itkLevelSetsv4ContainerBaseTest
+      COMMAND ITKLevelSetsv4TestDriver itkSparseLevelSetContainerTest)
