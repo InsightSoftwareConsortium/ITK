@@ -165,7 +165,8 @@ CompositeTransform<TScalar, NDimensions>
    * M rows = dimensionality of the transforms
    * N cols = total number of parameters in the selected sub transforms. */
   j.SetSize( NDimensions, this->GetNumberOfLocalParameters() );
-  unsigned int offset = 0, offsetLast;
+
+  NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::Zero;
 
   OutputPointType transformedPoint( p );
 
@@ -214,7 +215,7 @@ CompositeTransform<TScalar, NDimensions>
     {
     TransformTypePointer transform = this->GetNthTransform( tind );
 
-    offsetLast = offset;
+    NumberOfParametersType offsetLast = offset;
 
     if( this->GetNthTransformToOptimize( tind ) )
       {
@@ -295,7 +296,8 @@ const typename CompositeTransform<TScalar, NDimensions>::ParametersType
          * it's efficient. */
     this->m_Parameters.SetSize( this->GetNumberOfParameters() );
 
-    unsigned int offset = 0;
+    NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::Zero;
+
     typename TransformQueueType::const_iterator it;
 
     it = transforms.end();
@@ -354,7 +356,7 @@ CompositeTransform<TScalar, NDimensions>
     }
   else
     {
-    unsigned int offset = 0;
+    NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::Zero;
     typename TransformQueueType::const_iterator it;
 
     it = transforms.end();
@@ -403,7 +405,7 @@ const typename CompositeTransform<TScalar, NDimensions>::ParametersType
    * it's efficient. */
   this->m_FixedParameters.SetSize( this->GetNumberOfFixedParameters() );
 
-  unsigned int offset = 0;
+  NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::Zero;
   typename TransformQueueType::const_iterator it;
 
   it = transforms.end();
@@ -434,7 +436,7 @@ CompositeTransform<TScalar, NDimensions>
    * sub transforms currently selected for optimization. */
   TransformQueueType transforms = this->GetTransformsToOptimizeQueue();
 
-  unsigned int offset = 0;
+  NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::Zero;
 
   typename TransformQueueType::const_iterator it;
 
@@ -468,9 +470,8 @@ CompositeTransform<TScalar, NDimensions>
   return;
 }
 
-template
-<class TScalar, unsigned int NDimensions>
-unsigned int
+template<class TScalar, unsigned int NDimensions>
+typename CompositeTransform<TScalar, NDimensions>::NumberOfParametersType
 CompositeTransform<TScalar, NDimensions>
 ::GetNumberOfParameters(void) const
 {
@@ -481,7 +482,8 @@ CompositeTransform<TScalar, NDimensions>
    * However, it seems that number of parameter might change for dense
    * field transfroms (deformation, bspline) during processing and
    * we wouldn't know that in this class, so this is safest. */
-  unsigned int         result = 0;
+  NumberOfParametersType result = NumericTraits< NumberOfParametersType >::Zero;
+
   TransformTypePointer transform;
 
   for( signed long tind = (signed long) this->GetNumberOfTransforms() - 1;
@@ -496,9 +498,8 @@ CompositeTransform<TScalar, NDimensions>
   return result;
 }
 
-template
-<class TScalar, unsigned int NDimensions>
-unsigned int
+template<class TScalar, unsigned int NDimensions>
+typename CompositeTransform<TScalar, NDimensions>::NumberOfParametersType
 CompositeTransform<TScalar, NDimensions>
 ::GetNumberOfLocalParameters(void) const
 {
@@ -509,7 +510,7 @@ CompositeTransform<TScalar, NDimensions>
    * However, it seems that number of parameter might change for dense
    * field transfroms (deformation, bspline) during processing and
    * we wouldn't know that in this class, so this is safest. */
-  unsigned int         result = 0;
+  NumberOfParametersType result = NumericTraits< NumberOfParametersType >::Zero;
   TransformTypePointer transform;
 
   for( signed long tind = (signed long) this->GetNumberOfTransforms() - 1;
@@ -526,7 +527,7 @@ CompositeTransform<TScalar, NDimensions>
 
 template
 <class TScalar, unsigned int NDimensions>
-unsigned int
+typename CompositeTransform<TScalar, NDimensions>::NumberOfParametersType
 CompositeTransform<TScalar, NDimensions>
 ::GetNumberOfFixedParameters(void) const
 {
@@ -534,7 +535,7 @@ CompositeTransform<TScalar, NDimensions>
    * set to be used for optimized.
    * NOTE: We might want to optimize this only to store the result and
    * only re-calc when the composite object has been modified. */
-  unsigned int         result = 0;
+  NumberOfParametersType result = NumericTraits< NumberOfParametersType >::Zero;
   TransformTypePointer transform;
 
   for( signed long tind = (signed long) this->GetNumberOfTransforms() - 1;
@@ -565,7 +566,7 @@ CompositeTransform<TScalar, NDimensions>
    * functor to return whether or not it does therading. If all sub-transforms
    * return that they don't thread, we could do each sub-transform in its
    * own thread from here. */
-  unsigned int numberOfParameters = this->GetNumberOfParameters();
+  NumberOfParametersType numberOfParameters = this->GetNumberOfParameters();
 
   if( update.Size() != numberOfParameters )
     {
@@ -574,8 +575,10 @@ CompositeTransform<TScalar, NDimensions>
                                                 << numberOfParameters << std::endl);
     }
 
-  unsigned int         offset = 0;
+  NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::Zero;
+
   TransformTypePointer subtransform;
+
   for( signed long tind = (signed long) this->GetNumberOfTransforms() - 1;
        tind >= 0; tind-- )
     {
@@ -648,7 +651,8 @@ typename CompositeTransform<TScalar, NDimensions>::TransformQueueType
 
 template <class TScalarType, unsigned int NDimensions>
 void
-CompositeTransform<TScalarType, NDimensions>::PrintSelf( std::ostream& os, Indent indent ) const
+CompositeTransform<TScalarType, NDimensions>
+::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );
 

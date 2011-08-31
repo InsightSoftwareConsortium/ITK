@@ -149,6 +149,9 @@ public:
   /** Standard Jacobian container. */
   typedef typename Superclass::JacobianType JacobianType;
 
+  /** The number of parameters defininig this transform. */
+  typedef typename Superclass::NumberOfParametersType NumberOfParametersType;
+
   /** Standard vector type for this class. */
   typedef Vector<TScalarType,
                  itkGetStaticConstMacro(SpaceDimension)> InputVectorType;
@@ -390,13 +393,13 @@ public:
   }
 
   /** Return the number of parameters that completely define the Transfom */
-  virtual unsigned int GetNumberOfParameters(void) const;
+  virtual NumberOfParametersType GetNumberOfParameters(void) const;
 
   /** Return the number of parameters per dimension */
-  unsigned int GetNumberOfParametersPerDimension(void) const;
+  NumberOfParametersType GetNumberOfParametersPerDimension(void) const;
 
   /** Return the number of local parameters */
-  virtual unsigned int GetNumberOfLocalParameters(void) const
+  virtual NumberOfParametersType GetNumberOfLocalParameters(void) const
   {
     itkExceptionMacro("GetNumberOfLocalParameters not yet implemented.");
   }

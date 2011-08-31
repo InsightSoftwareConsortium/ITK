@@ -89,7 +89,7 @@ BSplineTransform<TScalarType, NDimensions, VSplineOrder>
 
 // Get the number of parameters
 template <class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
-unsigned int
+typename BSplineTransform<TScalarType, NDimensions, VSplineOrder>::NumberOfParametersType
 BSplineTransform<TScalarType, NDimensions, VSplineOrder>
 ::GetNumberOfParameters() const
 {
@@ -100,13 +100,13 @@ BSplineTransform<TScalarType, NDimensions, VSplineOrder>
 
 // Get the number of parameters per dimension
 template <class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
-unsigned int
+typename BSplineTransform<TScalarType, NDimensions, VSplineOrder>::NumberOfParametersType
 BSplineTransform<TScalarType, NDimensions, VSplineOrder>
 ::GetNumberOfParametersPerDimension() const
 {
   // The number of parameters per dimension equal number of
   // of pixels in the grid region.
-  unsigned int numberOfParametersPerDimension = 1;
+  NumberOfParametersType numberOfParametersPerDimension = 1;
 
   for( unsigned int i = 0; i < SpaceDimension; i++ )
     {
@@ -491,7 +491,7 @@ BSplineTransform<TScalarType, NDimensions, VSplineOrder>
 
   PixelType *dataPointer = const_cast<PixelType *>(
       this->m_InputParametersPointer->data_block() );
-  unsigned int numberOfPixels = this->GetNumberOfParametersPerDimension();
+  NumberOfParametersType numberOfPixels = this->GetNumberOfParametersPerDimension();
 
   for( unsigned int j = 0; j < SpaceDimension; j++ )
     {

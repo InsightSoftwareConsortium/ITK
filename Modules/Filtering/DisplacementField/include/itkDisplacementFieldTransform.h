@@ -121,6 +121,9 @@ public:
   /** Jacobian type. */
   typedef typename Superclass::JacobianType JacobianType;
 
+  /** The number of parameters defininig this transform. */
+  typedef typename Superclass::NumberOfParametersType NumberOfParametersType;
+
   /** Standard coordinate point type for this class. */
   typedef typename Superclass::InputPointType  InputPointType;
   typedef typename Superclass::OutputPointType OutputPointType;
@@ -393,7 +396,7 @@ public:
     return false;
   }
 
-  virtual unsigned int GetNumberOfLocalParameters(void) const
+  virtual NumberOfParametersType GetNumberOfLocalParameters(void) const
   {
     return Dimension;
   }

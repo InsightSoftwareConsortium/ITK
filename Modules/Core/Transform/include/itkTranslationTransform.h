@@ -74,6 +74,9 @@ public:
   /** Standard Jacobian container. */
   typedef typename Superclass::JacobianType JacobianType;
 
+  /** The number of parameters defininig this transform. */
+  typedef typename Superclass::NumberOfParametersType NumberOfParametersType;
+
   /** Standard vector type for this class. */
   typedef Vector<TScalarType, NDimensions> InputVectorType;
   typedef Vector<TScalarType, NDimensions> OutputVectorType;
@@ -173,7 +176,7 @@ public:
   void SetIdentity(void);
 
   /** Return the number of parameters that completely define the Transfom  */
-  virtual unsigned int GetNumberOfParameters(void) const
+  virtual NumberOfParametersType GetNumberOfParameters(void) const
   {
     return NDimensions;
   }

@@ -171,6 +171,8 @@ public:
                  itkGetStaticConstMacro(InputSpaceDimension)>
   DirectionChangeMatrix;
 
+  typedef Superclass::NumberOfParametersType    NumberOfParametersType;
+
 #if 0
   // this method is currently undocummented, untested and broken when input and output dimensions are
   // not the same
@@ -445,13 +447,13 @@ public:
    *  the number of image dimensions. If it is an affine transform, this will
    *  be the same as the GetNumberOfParameters().
    */
-  virtual unsigned int GetNumberOfLocalParameters(void) const
+  virtual NumberOfParametersType GetNumberOfLocalParameters(void) const
   {
     return this->GetNumberOfParameters();
   }
 
   /** Return the number of parameters that completely define the Transfom  */
-  virtual unsigned int GetNumberOfParameters(void) const
+  virtual NumberOfParametersType GetNumberOfParameters(void) const
   {
     return this->m_Parameters.Size();
   }
@@ -512,7 +514,7 @@ public:
   }
 protected:
   Transform();
-  Transform(unsigned int NumberOfParameters);
+  Transform(NumberOfParametersType NumberOfParameters);
   virtual ~Transform()
   {
   }
