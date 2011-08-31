@@ -1,5 +1,18 @@
 itk_module_test()
+if(ITKV3_COMPATIBILITY)
+  set(ITKV3_TEST_SOURCES
+    itkDeformationFieldSourceTest.cxx
+    itkExponentialDeformationFieldImageFilterTest.cxx
+    itkInverseDeformationFieldImageFilterTest.cxx
+    itkIterativeInverseDeformationFieldImageFilterTest.cxx
+    itkTransformToDeformationFieldSourceTest.cxx
+    itkTransformToDeformationFieldSourceTest1.cxx
+    itkDeformationFieldJacobianDeterminantFilterTest.cxx
+    )
+endif()
+
 set(ITKDeprecatedTests
+  ${ITKV3_TEST_SOURCES}
 itk2DDeformableTest.cxx
 itkDeformableTest.cxx
 itkNonThreadedShrinkImageTest.cxx
@@ -7,6 +20,7 @@ itkNonUniformBSplineTest.cxx
 itkReflectImageFilterTest.cxx
 itkShiftScaleInPlaceImageFilterTest.cxx
 itkTwoOutputExampleImageFilterTest.cxx
+itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest.cxx
 itkGradientToMagnitudeImageFilterTest.cxx
 itkAddConstantToImageFilterTest.cxx
 itkDivideByConstantImageFilterTest.cxx
@@ -141,3 +155,35 @@ itk_add_test(NAME itkImageReadDICOMSeriesWriteWithDirection003Test
        COMMAND DeprecatedIOTestDriver
       itkImageReadDICOMSeriesWriteTest ${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection003.mhd
   ${ITK_TEST_OUTPUT_DIR}/DICOMSeriesOutputHeadMRVolumeWithDirection003)
+
+if(ITKV3_COMPATIBILITY)
+# DEFORMATION
+itk_add_test(NAME itkDeformationFieldSourceTest
+      COMMAND ITKDeprecatedTestDriver itkDeformationFieldSourceTest
+              ${ITK_TEST_OUTPUT_DIR}/itkDeformationFieldSourceTestLandmarks.txt ${ITK_TEST_OUTPUT_DIR}/itkDeformationFieldSourceTest.mha)
+itk_add_test(NAME itkInverseDeformationFieldImageFilterTest
+      COMMAND ITKDeprecatedTestDriver itkInverseDeformationFieldImageFilterTest
+              ${ITK_TEST_OUTPUT_DIR}/itkInverseDeformationFieldImageFilterTest.mha)
+itk_add_test(NAME itkIterativeInverseDeformationFieldImageFilterTest
+      COMMAND ITKDeprecatedTestDriver itkIterativeInverseDeformationFieldImageFilterTest
+              ${ITK_TEST_OUTPUT_DIR}/itkIterativeInverseDeformationFieldImageFilterTest.mha)
+itk_add_test(NAME itkDeformationFieldJacobianDeterminantFilterTest
+  COMMAND ITKDeprecatedTestDriver itkDeformationFieldJacobianDeterminantFilterTest)
+itk_add_test(NAME itkTransformToDeformationFieldSourceTest03
+      COMMAND ITKDeprecatedTestDriver
+      --compare ${ITK_TEST_OUTPUT_DIR}/transformedImage.nii
+                ${ITK_TEST_OUTPUT_DIR}/warpedImage.nii
+  --compareNumberOfPixelsTolerance 20
+  itkTransformToDeformationFieldSourceTest1
+  ${ITK_TEST_OUTPUT_DIR}/transformedImage.nii ${ITK_TEST_OUTPUT_DIR}/warpedImage.nii)
+itk_add_test(NAME itkTransformToDeformationFieldSourceTest01
+      COMMAND ITKDeprecatedTestDriver itkTransformToDeformationFieldSourceTest
+              Affine ${ITK_TEST_OUTPUT_DIR}/itkTransformToDeformationFieldSourceTestField01.mha ${ITK_TEST_OUTPUT_DIR}/itkTransformToDeformationFieldSourceTestImage01.mha)
+itk_add_test(NAME itkTransformToDeformationFieldSourceTest02
+      COMMAND ITKDeprecatedTestDriver itkTransformToDeformationFieldSourceTest
+              BSpline ${ITK_TEST_OUTPUT_DIR}/itkTransformToDeformationFieldSourceTestField02.mha ${ITK_DATA_ROOT}/Input/parametersBSpline.txt ${ITK_TEST_OUTPUT_DIR}/itkTransformToDeformationFieldSourceTestImage02.mha)
+itk_add_test(NAME itkExponentialDeformationFieldImageFilterTest
+      COMMAND ITKDeprecatedTestDriver itkExponentialDeformationFieldImageFilterTest)
+itk_add_test(NAME itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest
+      COMMAND ITKDeprecatedTestDriver itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest)
+endif()

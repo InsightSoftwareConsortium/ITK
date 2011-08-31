@@ -1,7 +1,6 @@
 itk_module_test()
 set(ITKDisplacementFieldTests
 itkDisplacementFieldJacobianDeterminantFilterTest.cxx
-itkDeformationFieldJacobianDeterminantFilterTest.cxx
 itkIterativeInverseDisplacementFieldImageFilterTest.cxx
 itkLandmarkDisplacementFieldSourceTest.cxx
 itkInverseDisplacementFieldImageFilterTest.cxx
@@ -14,8 +13,6 @@ CreateTestDriver(ITKDisplacementField  "${ITKDisplacementField-Test_LIBRARIES}" 
 
 itk_add_test(NAME itkDisplacementFieldJacobianDeterminantFilterTest
       COMMAND ITKDisplacementFieldTestDriver itkDisplacementFieldJacobianDeterminantFilterTest)
-itk_add_test(NAME itkDeformationFieldJacobianDeterminantFilterTest
-      COMMAND ITKDisplacementFieldTestDriver itkDeformationFieldJacobianDeterminantFilterTest)
 itk_add_test(NAME itkIterativeInverseDisplacementFieldImageFilterTest
       COMMAND ITKDisplacementFieldTestDriver itkIterativeInverseDisplacementFieldImageFilterTest
               ${ITK_TEST_OUTPUT_DIR}/itkIterativeInverseDisplacementFieldImageFilterTest.mha)

@@ -79,6 +79,11 @@ public:
   typedef typename Superclass::DisplacementFieldTypePointer
   DisplacementFieldTypePointer;
 
+#ifdef ITKV3_COMPATIBILITY
+  typedef typename Superclass::DeformationFieldType        DeformationFieldType;
+  typedef typename Superclass::DeformationFieldTypePointer DeformationFieldTypePointer;
+#endif
+
   /** Inherit some enums from the superclass. */
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 

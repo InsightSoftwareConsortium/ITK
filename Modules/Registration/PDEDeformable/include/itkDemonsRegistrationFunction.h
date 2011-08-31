@@ -83,9 +83,13 @@ public:
   typedef typename FixedImageType::SpacingType   SpacingType;
 
   /** Deformation field type. */
-  typedef typename Superclass::DisplacementFieldType DisplacementFieldType;
-  typedef typename Superclass::DisplacementFieldTypePointer
-  DisplacementFieldTypePointer;
+  typedef typename Superclass::DisplacementFieldType        DisplacementFieldType;
+  typedef typename Superclass::DisplacementFieldTypePointer DisplacementFieldTypePointer;
+
+#ifdef ITKV3_COMPATIBILITY
+  typedef typename Superclass::DeformationFieldType        DeformationFieldType;
+  typedef typename Superclass::DeformationFieldTypePointer DeformationFieldTypePointer;
+#endif
 
   /** Inherit some enums from the superclass. */
   itkStaticConstMacro(ImageDimension, unsigned

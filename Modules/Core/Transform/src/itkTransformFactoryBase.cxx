@@ -37,7 +37,8 @@
 #include "itkVersorTransform.h"
 
 #include "itkBSplineTransform.h"
-#ifdef ITKV3_COMPATIBILITY
+
+#if defined( ITKV3_COMPATIBILITY )
 #include "itkBSplineDeformableTransform.h"
 #endif
 
