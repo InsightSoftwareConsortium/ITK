@@ -150,7 +150,6 @@ GradientDescentObjectOptimizer
 ::ModifyGradientOverSubRange( const IndexRangeType& subrange )
 {
   const ScalesType& scales = this->GetScales();
-  typedef IndexRangeType::IndexValueType     IndexValueType;
 
   /* Loop over the range. It is inclusive. */
   for ( IndexValueType j = subrange[0]; j <= subrange[1]; j++ )
