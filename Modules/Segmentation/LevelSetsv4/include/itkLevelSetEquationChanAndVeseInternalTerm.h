@@ -66,10 +66,13 @@ public:
   typedef typename Superclass::LevelSetHessianType        LevelSetHessianType;
   typedef typename Superclass::LevelSetIdentifierType     LevelSetIdentifierType;
 
-  typedef typename Superclass::HeavisideType    HeavisideType;
-  typedef typename Superclass::HeavisidePointer HeavisidePointer;
+  typedef typename Superclass::HeavisideType              HeavisideType;
+  typedef typename Superclass::HeavisideConstPointer      HeavisideConstPointer;
 
   typedef typename Superclass::LevelSetDataType LevelSetDataType;
+
+  typedef typename Superclass::DomainMapImageFilterType   DomainMapImageFilterType;
+  typedef typename Superclass::CacheImageType             CacheImageType;
 
   itkSetMacro( Mean, InputPixelRealType );
   itkGetMacro( Mean, InputPixelRealType );

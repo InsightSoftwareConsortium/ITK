@@ -28,17 +28,29 @@ namespace itk
 // ----------------------------------------------------------------------------
 template< class TInputImage, class TLevelSetContainer >
 LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
-::LevelSetEquationTermBase(): Superclass(),
-  m_Input( NULL ), m_LevelSetContainer( NULL ),
-  m_CurrentLevelSet( NumericTraits< LevelSetIdentifierType >::Zero ),
-  m_CurrentLevelSetPointer( NULL ),
-  m_Coefficient( NumericTraits< LevelSetOutputRealType >::One ),
-  m_CFLContribution( NumericTraits< LevelSetOutputRealType >::Zero ),
-  m_Heaviside( NULL ),
-  m_TermName( )
+::LevelSetEquationTermBase()
+{
+  this->m_CurrentLevelSetId =  NumericTraits< LevelSetIdentifierType >::Zero;
+  this->m_Coefficient = NumericTraits< LevelSetOutputRealType >::One;
+  this->m_CFLContribution = NumericTraits< LevelSetOutputRealType >::Zero;
+  this->m_TermName = "";
+}
+
+// ----------------------------------------------------------------------------
+template< class TInputImage, class TLevelSetContainer >
+LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
+::~LevelSetEquationTermBase()
 {
 }
+
 // ----------------------------------------------------------------------------
+template< class TInputImage, class TLevelSetContainer >
+const typename LevelSetEquationTermBase< TInputImage, TLevelSetContainer >::RequiredDataType &
+LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
+::GetRequiredData() const
+{
+  return this->m_RequiredData;
+}
 
 // ----------------------------------------------------------------------------
 template< class TInputImage, class TLevelSetContainer >
@@ -46,11 +58,10 @@ void
 LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
 ::SetLevelSetContainer( LevelSetContainerType* iContainer )
 {
-  m_LevelSetContainer = iContainer;
-  m_Heaviside = iContainer->GetHeaviside();
+  this->m_LevelSetContainer = iContainer;
+  this->m_Heaviside = iContainer->GetHeaviside();
   this->Modified();
 }
-// ----------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------
 template< class TInputImage, class TLevelSetContainer >
@@ -60,7 +71,7 @@ LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
 LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
 ::Evaluate( const LevelSetInputIndexType& iP )
 {
-  return m_Coefficient * this->Value( iP );
+  return this->m_Coefficient * this->Value( iP );
 }
 // ----------------------------------------------------------------------------
 
@@ -73,7 +84,7 @@ LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
 ::Evaluate( const LevelSetInputIndexType& iP,
             const LevelSetDataType& iData )
 {
-  return m_Coefficient * this->Value( iP, iData );
+  return this->m_Coefficient * this->Value( iP, iData );
 }
 // ----------------------------------------------------------------------------
 
@@ -84,17 +95,16 @@ LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
 ::SetUp()
 {
   this->m_CFLContribution = NumericTraits< LevelSetOutputRealType >::Zero;
-  this->SetDefaultTermName();
 
-  if( m_CurrentLevelSetPointer.IsNull() )
+  if( this->m_CurrentLevelSetPointer.IsNull() )
     {
-    m_CurrentLevelSetPointer =
-    this->m_LevelSetContainer->GetLevelSet( this->m_CurrentLevelSet );
+    this->m_CurrentLevelSetPointer =
+    this->m_LevelSetContainer->GetLevelSet( this->m_CurrentLevelSetId );
 
-    if( m_CurrentLevelSetPointer.IsNull() )
+    if( this->m_CurrentLevelSetPointer.IsNull() )
       {
       itkWarningMacro(
-      << "m_CurrentLevelSet does not exist in the level set container" );
+      << "m_CurrentLevelSetId does not exist in the level set container" );
       }
     }
 

@@ -71,8 +71,8 @@ public:
   typedef typename Superclass::LevelSetIdentifierType     LevelSetIdentifierType;
   typedef typename Superclass::LevelSetDataType           LevelSetDataType;
 
-  typedef typename Superclass::HeavisideType    HeavisideType;
-  typedef typename Superclass::HeavisidePointer HeavisidePointer;
+  typedef typename Superclass::HeavisideType         HeavisideType;
+  typedef typename Superclass::HeavisideConstPointer HeavisideConstPointer;
 
   itkStaticConstMacro(ImageDimension, unsigned int, InputImageType::ImageDimension);
 
