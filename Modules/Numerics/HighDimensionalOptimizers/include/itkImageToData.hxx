@@ -101,7 +101,6 @@ ImageToData<VDimension, TDataHolder, TInputObject>
     }
 
   // determine the actual number of pieces that will be generated
-  typedef typename SizeType::SizeValueType SizeValueType;
   const SizeValueType range = requestedRegionSize[splitAxis];
   ThreadIdType valuesPerThread =
     Math::Ceil<ThreadIdType>( range / static_cast<double>(requestedTotal) );
