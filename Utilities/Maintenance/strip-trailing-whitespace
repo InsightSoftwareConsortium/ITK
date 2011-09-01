@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# strip trailing whitespaces from filenames sent to stdin or as args
+
+if which tempfile &>/dev/null; then
+  TEMPMAKER=tempfile
+elif which mktemp &>/dev/null; then
+  TEMPMAKER=mktemp
+else
+  echo "Cannot find tempfile program." 2>&1
+  exit 1
+fi
+
+MYTEMP=$($TEMPMAKER)
+trap 'rm -f $MYTEMP' SIGINT SIGTERM
+
+stripit() {
+  echo "stripping $1"
+  sed 's/[ \t]*$//' "$1" > $MYTEMP
+  cp $MYTEMP "$1"
+}
+
+if [ $# -gt 0 ]; then
+  while [ "$1" != "" ]; do
+    stripit $1
+    shift
+  done
+else
+  while read -t 2; do
+    stripit $REPLY
+  done
+fi
+
+rm $MYTEMP
