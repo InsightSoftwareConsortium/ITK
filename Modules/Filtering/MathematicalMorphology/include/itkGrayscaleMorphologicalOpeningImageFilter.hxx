@@ -161,7 +161,7 @@ GrayscaleMorphologicalOpeningImageFilter< TInputImage, TOutputImage, TKernel >
       typename PadType::Pointer pad = PadType::New();
       pad->SetPadLowerBound(this->GetKernel().GetRadius());
       pad->SetPadUpperBound(this->GetKernel().GetRadius());
-      pad->SetConstant( NumericTraits< ITK_TYPENAME InputImageType::PixelType >::max() );
+      pad->SetConstant( NumericTraits< typename InputImageType::PixelType >::max() );
       pad->SetInput( this->GetInput() );
       progress->RegisterInternalFilter(pad, 0.1f);
 
@@ -204,7 +204,7 @@ GrayscaleMorphologicalOpeningImageFilter< TInputImage, TOutputImage, TKernel >
       typename PadType::Pointer pad = PadType::New();
       pad->SetPadLowerBound(this->GetKernel().GetRadius());
       pad->SetPadUpperBound(this->GetKernel().GetRadius());
-      pad->SetConstant( NumericTraits< ITK_TYPENAME InputImageType::PixelType >::max() );
+      pad->SetConstant( NumericTraits< typename InputImageType::PixelType >::max() );
       pad->SetInput( this->GetInput() );
       progress->RegisterInternalFilter(pad, 0.1f);
 
@@ -247,7 +247,7 @@ GrayscaleMorphologicalOpeningImageFilter< TInputImage, TOutputImage, TKernel >
       typename PadType::Pointer pad = PadType::New();
       pad->SetPadLowerBound(this->GetKernel().GetRadius());
       pad->SetPadUpperBound(this->GetKernel().GetRadius());
-      pad->SetConstant( NumericTraits< ITK_TYPENAME InputImageType::PixelType >::max() );
+      pad->SetConstant( NumericTraits< typename InputImageType::PixelType >::max() );
       pad->SetInput( this->GetInput() );
       progress->RegisterInternalFilter(pad, 0.1f);
 
@@ -296,7 +296,7 @@ GrayscaleMorphologicalOpeningImageFilter< TInputImage, TOutputImage, TKernel >
       typename PadType::Pointer pad = PadType::New();
       pad->SetPadLowerBound(this->GetKernel().GetRadius());
       pad->SetPadUpperBound(this->GetKernel().GetRadius());
-      pad->SetConstant( NumericTraits< ITK_TYPENAME InputImageType::PixelType >::max() );
+      pad->SetConstant( NumericTraits< typename InputImageType::PixelType >::max() );
       pad->SetInput( this->GetInput() );
       progress->RegisterInternalFilter(pad, 0.1f);
 

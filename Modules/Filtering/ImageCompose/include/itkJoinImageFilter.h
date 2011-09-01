@@ -204,10 +204,10 @@ template< class TInputImage1, class TInputImage2 >
 class ITK_EXPORT JoinImageFilter:
   public BinaryFunctorImageFilter< TInputImage1,
                                    TInputImage2,
-                                   ITK_TYPENAME
+                                   typename
                                    Functor::MakeJoin< TInputImage1,
                                                       TInputImage2 >::ImageType,
-                                   ITK_TYPENAME
+                                   typename
                                    Functor::MakeJoin< TInputImage1,
                                                       TInputImage2 >::FunctorType >
 {

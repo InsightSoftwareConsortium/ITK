@@ -197,15 +197,15 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
 
   const unsigned int ParametersDimension = this->GetNumberOfParameters();
   derivative = DerivativeType(ParametersDimension);
-  derivative.Fill(NumericTraits<ITK_TYPENAME DerivativeType::ValueType>::Zero);
+  derivative.Fill(NumericTraits<typename DerivativeType::ValueType>::Zero);
 
   typedef Array<double> ArrayType;
 
   ArrayType sum1 = ArrayType(ParametersDimension);
-  sum1.Fill(NumericTraits<ITK_TYPENAME ArrayType::ValueType>::Zero);
+  sum1.Fill(NumericTraits<typename ArrayType::ValueType>::Zero);
 
   ArrayType sum2 = ArrayType(ParametersDimension);
-  sum2.Fill(NumericTraits<ITK_TYPENAME ArrayType::ValueType>::Zero);
+  sum2.Fill(NumericTraits<typename ArrayType::ValueType>::Zero);
 
   int fixedArea = 0;
   int movingArea = 0;

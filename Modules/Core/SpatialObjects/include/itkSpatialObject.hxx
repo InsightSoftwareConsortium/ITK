@@ -583,7 +583,7 @@ SpatialObject< TDimension >
     }
 
   typename BoundingBoxType::PointType pnt;
-  pnt.Fill(itk::NumericTraits< ITK_TYPENAME
+  pnt.Fill(itk::NumericTraits< typename
                                BoundingBoxType::PointType::ValueType >::Zero);
   m_Bounds->SetMinimum(pnt);
   m_Bounds->SetMaximum(pnt);

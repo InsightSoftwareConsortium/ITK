@@ -263,7 +263,7 @@ public:
   /** Return true if the vector based algorithm is used, and
    * false if the map based algorithm is used */
   static bool GetUseVectorBasedAlgorithm()
-  { return Function::MorphologicalGradientHistogram< ITK_TYPENAME TInputImage::PixelType >::UseVectorBasedAlgorithm(); }
+  { return Function::MorphologicalGradientHistogram< typename TInputImage::PixelType >::UseVectorBasedAlgorithm(); }
 protected:
   MovingHistogramMorphologicalGradientImageFilter() {}
   ~MovingHistogramMorphologicalGradientImageFilter() {}

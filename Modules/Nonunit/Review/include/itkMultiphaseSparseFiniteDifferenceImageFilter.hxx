@@ -27,52 +27,52 @@ double MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, 
 ::m_ConstantGradientValue = 1.0;
 
 template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction, typename TIdCell >
-const ITK_TYPENAME MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
+const typename MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
                                                                 TOutputImage, TFunction, TIdCell >::ValueType
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell >
-::m_ValueOne = NumericTraits< ITK_TYPENAME
+::m_ValueOne = NumericTraits< typename
                               MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutputImage,
                                                                            TFunction, TIdCell >
                               ::ValueType >::One;
 
 template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction, typename TIdCell >
-const ITK_TYPENAME MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
+const typename MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
                                                                 TOutputImage, TFunction, TIdCell >::ValueType
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell >
-::m_ValueZero = NumericTraits< ITK_TYPENAME
+::m_ValueZero = NumericTraits< typename
                                MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutputImage,
                                                                             TFunction, TIdCell >::
                                ValueType >::Zero;
 
 template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction, typename TIdCell >
-const ITK_TYPENAME MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
+const typename MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
                                                                 TOutputImage, TFunction, TIdCell >::StatusType
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell >
-::m_StatusNull = NumericTraits< ITK_TYPENAME
+::m_StatusNull = NumericTraits< typename
                                 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutputImage,
                                                                              TFunction, TIdCell >::
                                 StatusType >::NonpositiveMin();
 
 template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction, typename TIdCell >
-const ITK_TYPENAME MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
+const typename MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
                                                                 TOutputImage, TFunction, TIdCell >::StatusType
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell >
 ::m_StatusChanging = -1;
 
 template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction, typename TIdCell >
-const ITK_TYPENAME MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
+const typename MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
                                                                 TOutputImage, TFunction, TIdCell >::StatusType
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell >
 ::m_StatusActiveChangingUp = -2;
 
 template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction, typename TIdCell >
-const ITK_TYPENAME MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
+const typename MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
                                                                 TOutputImage, TFunction, TIdCell >::StatusType
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell >
 ::m_StatusActiveChangingDown = -3;
 
 template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction, typename TIdCell >
-const ITK_TYPENAME MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
+const typename MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
                                                                 TOutputImage, TFunction, TIdCell >::StatusType
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell >
 ::m_StatusBoundaryPixel = -4;

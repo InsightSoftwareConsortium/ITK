@@ -152,8 +152,8 @@ void DoFace(typename TImage::ConstPointer input,
       // compat
       pixbuffer[0] = border;
       pixbuffer[len + 1] = border;
-      FillForwardExt< ITK_TYPENAME TImage::PixelType, TFunction >(pixbuffer, fExtBuffer, KernLen, len + 2);
-      FillReverseExt< ITK_TYPENAME TImage::PixelType, TFunction >(pixbuffer, rExtBuffer, KernLen, len + 2);
+      FillForwardExt< typename TImage::PixelType, TFunction >(pixbuffer, fExtBuffer, KernLen, len + 2);
+      FillReverseExt< typename TImage::PixelType, TFunction >(pixbuffer, rExtBuffer, KernLen, len + 2);
       // now compute result
       unsigned int size = len + 2;
       if ( size <= KernLen / 2 )

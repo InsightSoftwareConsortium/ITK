@@ -58,7 +58,7 @@ template< class TInputImage, class TCoordRep = double >
 class ITK_EXPORT VectorInterpolateImageFunction:
   public ImageFunction<
     TInputImage,
-    ITK_TYPENAME NumericTraits< typename TInputImage::PixelType >::RealType,
+    typename NumericTraits< typename TInputImage::PixelType >::RealType,
     TCoordRep >
 {
 public:
@@ -73,7 +73,7 @@ public:
   /** Standard class typedefs. */
   typedef VectorInterpolateImageFunction Self;
   typedef ImageFunction< TInputImage,
-                         ITK_TYPENAME NumericTraits< typename TInputImage::PixelType >::RealType,
+                         typename NumericTraits< typename TInputImage::PixelType >::RealType,
                          TCoordRep >                          Superclass;
 
   typedef SmartPointer< Self >       Pointer;

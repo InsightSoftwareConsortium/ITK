@@ -91,9 +91,9 @@ BayesianClassifierInitializationImageFilter< TInputImage,
 
   typedef Statistics::GaussianMembershipFunction<
     MeasurementVectorType >                        GaussianMembershipFunctionType;
-  typedef VectorContainer< unsigned short, ITK_TYPENAME
+  typedef VectorContainer< unsigned short, typename
                            GaussianMembershipFunctionType::MeanVectorType * >          MeanEstimatorsContainerType;
-  typedef VectorContainer< unsigned short, ITK_TYPENAME
+  typedef VectorContainer< unsigned short, typename
                            GaussianMembershipFunctionType::CovarianceMatrixType * >    CovarianceEstimatorsContainerType;
 
   // Run k means to get the means from the input image
@@ -204,10 +204,10 @@ BayesianClassifierInitializationImageFilter< TInputImage,
     covarianceEstimatorsContainer->
     InsertElement( i, new typename GaussianMembershipFunctionType::CovarianceMatrixType() );
     typename GaussianMembershipFunctionType::MeanVectorType *       meanEstimators =
-      const_cast< ITK_TYPENAME GaussianMembershipFunctionType::MeanVectorType * >
+      const_cast< typename GaussianMembershipFunctionType::MeanVectorType * >
       ( meanEstimatorsContainer->GetElement(i) );
     typename GaussianMembershipFunctionType::CovarianceMatrixType * covarianceEstimators =
-      const_cast< ITK_TYPENAME GaussianMembershipFunctionType::CovarianceMatrixType * >
+      const_cast< typename GaussianMembershipFunctionType::CovarianceMatrixType * >
       ( covarianceEstimatorsContainer->GetElement(i) );
     covarianceEstimators->SetSize(1, 1);
 

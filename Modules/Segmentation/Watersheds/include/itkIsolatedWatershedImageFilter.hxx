@@ -157,8 +157,8 @@ IsolatedWatershedImageFilter< TInputImage, TOutputImage >
 
   ImageRegionIterator< OutputImageType > ot =
     ImageRegionIterator< OutputImageType >(outputImage, region);
-  ImageRegionIterator< ITK_TYPENAME WatershedType::OutputImageType > it =
-    ImageRegionIterator< ITK_TYPENAME WatershedType::OutputImageType >(m_Watershed->GetOutput(), region);
+  ImageRegionIterator< typename WatershedType::OutputImageType > it =
+    ImageRegionIterator< typename WatershedType::OutputImageType >(m_Watershed->GetOutput(), region);
 
   IdentifierType seed1Label = m_Watershed->GetOutput()->GetPixel(m_Seed1);
   IdentifierType seed2Label = m_Watershed->GetOutput()->GetPixel(m_Seed2);

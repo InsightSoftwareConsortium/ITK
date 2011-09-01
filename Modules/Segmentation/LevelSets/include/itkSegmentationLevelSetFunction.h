@@ -149,7 +149,7 @@ protected:
   typename VectorImageType::Pointer m_AdvectionImage;
 
   /** A casting functor to convert between vector types.  */
-  Functor::VectorCast< ITK_TYPENAME VectorInterpolatorType::OutputType,
+  Functor::VectorCast< typename VectorInterpolatorType::OutputType,
                        VectorType > m_VectorCast;
 
   /** Returns the propagation speed from the precalculated speed image.*/

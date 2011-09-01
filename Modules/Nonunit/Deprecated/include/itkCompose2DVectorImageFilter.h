@@ -68,13 +68,13 @@ public:
 
 template< typename TInputImage,
           typename TOutputImage =
-            Image< Vector< ITK_TYPENAME TInputImage::PixelType, 2 >,
+            Image< Vector< typename TInputImage::PixelType, 2 >,
                    ::itk::GetImageDimension< TInputImage >::ImageDimension > >
 class ITK_EXPORT Compose2DVectorImageFilter:
   public
   BinaryFunctorImageFilter< TInputImage, TInputImage,
                             TOutputImage,
-                            Functor::Compose2DVector< ITK_TYPENAME TInputImage::PixelType >   >
+                            Functor::Compose2DVector< typename TInputImage::PixelType >   >
 {
 public:
   /** Standard class typedefs. */
@@ -83,7 +83,7 @@ public:
     TInputImage, TInputImage,
     TOutputImage,
     Functor::Compose2DVector<
-      ITK_TYPENAME TInputImage::PixelType > > Superclass;
+      typename TInputImage::PixelType > > Superclass;
 
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;

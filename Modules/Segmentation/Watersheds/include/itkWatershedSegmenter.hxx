@@ -332,7 +332,7 @@ void Segmenter< TInputImage >
   typename OutputImageType::Pointer output = this->GetOutputImage();
   typename BoundaryType::Pointer boundary  = this->GetBoundary();
 
-  ImageRegionIterator< ITK_TYPENAME BoundaryType::face_t > faceIt;
+  ImageRegionIterator< typename BoundaryType::face_t > faceIt;
   ImageRegionIterator< OutputImageType >                   labelIt;
 
   typename BoundaryType::face_t::Pointer face;
@@ -356,7 +356,7 @@ void Segmenter< TInputImage >
       region = face->GetRequestedRegion();
 
       // Grab all the labels of the boundary pixels.
-      faceIt = ImageRegionIterator< ITK_TYPENAME BoundaryType::face_t >(face,
+      faceIt = ImageRegionIterator< typename BoundaryType::face_t >(face,
                                                                         region);
       labelIt = ImageRegionIterator< OutputImageType >(output, region);
       faceIt = faceIt.Begin();
@@ -401,7 +401,7 @@ template< class TInputImage >
 void Segmenter< TInputImage >
 ::InitializeBoundary()
 {
-  ImageRegionIterator< ITK_TYPENAME BoundaryType::face_t > faceIt;
+  ImageRegionIterator< typename BoundaryType::face_t > faceIt;
   typename BoundaryType::face_t::Pointer face;
   typename BoundaryType::face_pixel_t fps;
   BoundaryIndexType idx;
@@ -416,7 +416,7 @@ void Segmenter< TInputImage >
       if ( this->GetBoundary()->GetValid(idx) == false ) { continue; }
       this->GetBoundary()->GetFlatHash(idx)->clear();
       face = this->GetBoundary()->GetFace(idx);
-      faceIt = ImageRegionIterator< ITK_TYPENAME BoundaryType::face_t >
+      faceIt = ImageRegionIterator< typename BoundaryType::face_t >
                  ( face, face->GetBufferedRegion() );
       for ( faceIt = faceIt.Begin(); !faceIt.IsAtEnd(); ++faceIt )
         {
@@ -441,7 +441,7 @@ void Segmenter< TInputImage >
 
   ConstNeighborhoodIterator< InputImageType >              searchIt;
   NeighborhoodIterator< OutputImageType >                  labelIt;
-  ImageRegionIterator< ITK_TYPENAME BoundaryType::face_t > faceIt;
+  ImageRegionIterator< typename BoundaryType::face_t > faceIt;
 
   BoundaryIndexType idx;
   ImageRegionType   region;
@@ -475,7 +475,7 @@ void Segmenter< TInputImage >
       searchIt =
         ConstNeighborhoodIterator< InputImageType >(rad, thresholdImage, region);
       labelIt = NeighborhoodIterator< OutputImageType >(rad, output, region);
-      faceIt  = ImageRegionIterator< ITK_TYPENAME BoundaryType::face_t >(face, region);
+      faceIt  = ImageRegionIterator< typename BoundaryType::face_t >(face, region);
 
       nCenter = searchIt.Size() / 2;
       searchIt.GoToBegin();

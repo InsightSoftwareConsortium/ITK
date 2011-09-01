@@ -101,7 +101,7 @@ NullImageToImageFilterDriver<TInputImage, TOutputImage>
 {
   for (unsigned int i=0; i < InputPixelDimension; ++i)
     {
-    pixel[i] = NumericTraits<ITK_TYPENAME PixelTraits<InputPixelType>::ValueType>::Zero;
+    pixel[i] = NumericTraits<typename PixelTraits<InputPixelType>::ValueType>::Zero;
     }
 }
 

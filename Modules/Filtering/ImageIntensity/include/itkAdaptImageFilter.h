@@ -122,7 +122,7 @@ private:
 template< class TInputImage, class TOutputImage, class TAccessor >
 class ITK_EXPORT AdaptImageFilter:
   public UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                                  Functor::AccessorFunctor< ITK_TYPENAME TInputImage::PixelType, TAccessor > >
+                                  Functor::AccessorFunctor< typename TInputImage::PixelType, TAccessor > >
 {
 public:
   /** Standard class typedefs. */
@@ -131,7 +131,7 @@ public:
   typedef UnaryFunctorImageFilter< TInputImage,
                                    TOutputImage,
                                    Functor::AccessorFunctor<
-                                     ITK_TYPENAME TInputImage::PixelType,
+                                     typename TInputImage::PixelType,
                                      TAccessor > >  Superclass;
 
   typedef SmartPointer< Self >             Pointer;

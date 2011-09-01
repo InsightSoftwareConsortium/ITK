@@ -41,13 +41,13 @@ namespace itk
  */
 template< class TInputImage, class TCoordRep = float >
 class ITK_EXPORT VarianceImageFunction:
-  public ImageFunction< TInputImage, ITK_TYPENAME NumericTraits< typename TInputImage::PixelType >::RealType,
+  public ImageFunction< TInputImage, typename NumericTraits< typename TInputImage::PixelType >::RealType,
                         TCoordRep >
 {
 public:
   /** Standard class typedefs. */
   typedef VarianceImageFunction Self;
-  typedef ImageFunction< TInputImage, ITK_TYPENAME NumericTraits< typename TInputImage::PixelType >::RealType,
+  typedef ImageFunction< TInputImage, typename NumericTraits< typename TInputImage::PixelType >::RealType,
                          TCoordRep > Superclass;
 
   typedef SmartPointer< Self >       Pointer;

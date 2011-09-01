@@ -44,14 +44,14 @@ namespace itk
 template< class TInputImage, class TCoordRep = float >
 class ITK_EXPORT MeanImageFunction:
   public ImageFunction< TInputImage,
-                        ITK_TYPENAME NumericTraits< typename TInputImage::PixelType >::RealType,
+                        typename NumericTraits< typename TInputImage::PixelType >::RealType,
                         TCoordRep >
 {
 public:
   /** Standard class typedefs. */
   typedef MeanImageFunction Self;
   typedef ImageFunction< TInputImage,
-                         ITK_TYPENAME NumericTraits< typename TInputImage::PixelType >::RealType,
+                         typename NumericTraits< typename TInputImage::PixelType >::RealType,
                          TCoordRep >                     Superclass;
 
   typedef SmartPointer< Self >       Pointer;
