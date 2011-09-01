@@ -24,7 +24,8 @@ namespace itk
 ObjectToObjectMetric
 ::ObjectToObjectMetric()
 {
-  SetGradientSource( this->GRADIENT_SOURCE_MOVING );
+  // Don't call SetGradientSource, to avoid valgrind warning.
+  this->m_GradientSource = this->GRADIENT_SOURCE_MOVING;
 }
 
 //-------------------------------------------------------------------
