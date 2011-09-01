@@ -108,16 +108,19 @@ public:
   virtual void Initialize(void) throw ( ExceptionObject ) = 0;
 
   /** This method returns the value of the cost function */
+  using Superclass::GetValue;
   virtual MeasureType GetValue() = 0;
 
   /** This method returns the derivative of the cost function.
    * \c derivative will be sized and allocated as needed by metric.
    * If it's already allocated at proper size, no new allocation is done. */
+  using Superclass::GetDerivative;
   virtual void GetDerivative(DerivativeType & derivative);
 
   /** This method returns the value and derivative of the cost function.
    * \c derivative will be sized and allocated as needed by metric.
    * If it's already proper size, no new allocation is done. */
+  using Superclass::GetValueAndDerivative;
   virtual void GetValueAndDerivative(MeasureType & value,
                                      DerivativeType & derivative) = 0;
 
@@ -143,18 +146,6 @@ public:
   virtual void UpdateTransformParameters( DerivativeType & derivative,
                                           ParametersValueType factor = 1.0) = 0;
 
-protected:
-  ObjectToObjectMetric();
-  virtual ~ObjectToObjectMetric();
-
-  void PrintSelf(std::ostream & os, Indent indent) const;
-
-  GradientSourceType       m_GradientSource;
-
-private:
-  ObjectToObjectMetric(const Self &); //purposely not implemented
-  void operator=(const Self &);     //purposely not implemented
-
   /** Provide these three methods to satisfy pure virtuals within
    * SingleValuedCostFunction. This is a sign that we probalby shouldn't
    * be deriving this class from SingleValuedCostFunction. */
@@ -166,6 +157,17 @@ private:
   void GetValueAndDerivative (const ParametersType &,
                               MeasureType &,
                               DerivativeType &) const;
+protected:
+  ObjectToObjectMetric();
+  virtual ~ObjectToObjectMetric();
+
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
+  GradientSourceType       m_GradientSource;
+
+private:
+  ObjectToObjectMetric(const Self &); //purposely not implemented
+  void operator=(const Self &);     //purposely not implemented
 
 };
 } // end namespace itk
