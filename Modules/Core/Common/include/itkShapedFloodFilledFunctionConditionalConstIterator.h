@@ -177,7 +177,7 @@ public:
     this->m_IsAtEnd = true;
     // Initialize the temporary image
     m_TempPtr->FillBuffer(
-      NumericTraits< ITK_TYPENAME TTempImage::PixelType >::Zero
+      NumericTraits< typename TTempImage::PixelType >::Zero
       );
 
     for ( unsigned int i = 0; i < m_Seeds.size(); i++ )

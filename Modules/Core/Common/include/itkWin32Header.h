@@ -70,9 +70,6 @@
 
 #endif
 
-// As of MSVS++ 7.1 and greater, typename is supported in templates
-#define ITK_TYPENAME typename
-
 // When a class definition has ITK_EXPORT, the class will be
 // checked automatically, by Utilities/Dart/PrintSelfCheck.tcl
 #define ITK_EXPORT

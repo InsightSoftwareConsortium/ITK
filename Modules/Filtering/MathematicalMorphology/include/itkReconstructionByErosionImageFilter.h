@@ -104,7 +104,7 @@ public:
 protected:
   ReconstructionByErosionImageFilter()
   {
-    this->m_MarkerValue = NumericTraits< ITK_TYPENAME TOutputImage::PixelType >::max();
+    this->m_MarkerValue = NumericTraits< typename TOutputImage::PixelType >::max();
   }
 
   virtual ~ReconstructionByErosionImageFilter() {}

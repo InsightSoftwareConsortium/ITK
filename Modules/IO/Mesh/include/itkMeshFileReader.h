@@ -94,8 +94,8 @@ public:
  */
 
 template< class TOutputMesh,
-          class ConvertPointPixelTraits = MeshConvertPixelTraits< ITK_TYPENAME TOutputMesh::PixelType >,
-          class ConvertCellPixelTraits = MeshConvertPixelTraits< ITK_TYPENAME TOutputMesh::CellPixelType > >
+          class ConvertPointPixelTraits = MeshConvertPixelTraits< typename TOutputMesh::PixelType >,
+          class ConvertCellPixelTraits = MeshConvertPixelTraits< typename TOutputMesh::CellPixelType > >
 class ITK_EXPORT MeshFileReader:public MeshSource< TOutputMesh >
 {
 public:

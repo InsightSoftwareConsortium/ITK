@@ -166,7 +166,7 @@ template< class TMesh,
           typename TElement = IdentifierType,
           typename TMeasure = double,
           class TPriorityQueueWrapper =
-            MinPriorityQueueElementWrapper< ITK_TYPENAME TMesh::QEType *,
+            MinPriorityQueueElementWrapper< typename TMesh::QEType *,
                                             std::pair< bool, TMeasure > > >
 class NumberOfFacesCriterion:
   public QuadEdgeMeshDecimationCriterion< TMesh, TElement,

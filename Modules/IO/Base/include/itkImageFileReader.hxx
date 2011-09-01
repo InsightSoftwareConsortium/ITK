@@ -394,7 +394,7 @@ void ImageFileReader< TOutputImage, ConvertPixelTraits >
     {
     ImageIOBase::IOComponentType ioType =
       ImageIOBase
-      ::MapPixelType< ITK_TYPENAME ConvertPixelTraits::ComponentType >::CType;
+      ::MapPixelType< typename ConvertPixelTraits::ComponentType >::CType;
     if ( m_ImageIO->GetComponentType() != ioType
          || ( m_ImageIO->GetNumberOfComponents() !=
               ConvertPixelTraits::GetNumberOfComponents() ) )

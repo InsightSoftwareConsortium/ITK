@@ -48,14 +48,14 @@
       <Old>
       <![CDATA[
 	namespace Function
-	Function::Compose2DCovariantVector< ITK_TYPENAME TInputImage::PixelType > > Superclass;
+	Function::Compose2DCovariantVector< typename TInputImage::PixelType > > Superclass;
       ]]>
       </Old>
 
       <New>
       <![CDATA[
 	namespace Functor
-	Functor::Compose2DCovariantVector< ITK_TYPENAME TInputImage::PixelType > > Superclass;
+	Functor::Compose2DCovariantVector< typename TInputImage::PixelType > > Superclass;
       ]]>
       </New>
 

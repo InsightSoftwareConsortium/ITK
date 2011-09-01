@@ -69,9 +69,9 @@ template<class TInputImage, class TOutputImage=TInputImage,
   class TInputFilter=ImageToImageFilter<
     Image< unsigned char, ::itk::GetImageDimension<TInputImage >::ImageDimension >,
     Image< unsigned char, ::itk::GetImageDimension<TOutputImage>::ImageDimension > >,
-  class TOutputFilter=ITK_TYPENAME TInputFilter::Superclass,
-  class TInternalInputImage=ITK_TYPENAME TInputFilter::InputImageType,
-  class TInternalOutputImage=ITK_TYPENAME TOutputFilter::OutputImageType >
+  class TOutputFilter=typename TInputFilter::Superclass,
+  class TInternalInputImage=typename TInputFilter::InputImageType,
+  class TInternalOutputImage=typename TOutputFilter::OutputImageType >
 class ITK_EXPORT ObjectByObjectLabelMapFilter :
     public LabelMapFilter<TInputImage, TOutputImage>
 {

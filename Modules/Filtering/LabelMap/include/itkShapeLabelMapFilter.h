@@ -49,7 +49,7 @@ namespace itk
  */
 
 template< class TImage, class TLabelImage =
-            Image< ITK_TYPENAME TImage::PixelType, ::itk::GetImageDimension< TImage >::ImageDimension > >
+            Image< typename TImage::PixelType, ::itk::GetImageDimension< TImage >::ImageDimension > >
 class ITK_EXPORT ShapeLabelMapFilter:
   public
   InPlaceLabelMapFilter< TImage >

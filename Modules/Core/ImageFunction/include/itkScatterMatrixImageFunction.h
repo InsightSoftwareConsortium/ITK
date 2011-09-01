@@ -45,7 +45,7 @@ template< class TInputImage, class TCoordRep = float >
 class ITK_EXPORT ScatterMatrixImageFunction:
   public ImageFunction< TInputImage,
                         vnl_matrix<
-                          ITK_TYPENAME NumericTraits< typename TInputImage::PixelType::ValueType >::RealType >,
+                          typename NumericTraits< typename TInputImage::PixelType::ValueType >::RealType >,
                         TCoordRep >
 {
 public:
@@ -53,7 +53,7 @@ public:
   typedef ScatterMatrixImageFunction Self;
   typedef ImageFunction< TInputImage,
                          vnl_matrix<
-                           ITK_TYPENAME NumericTraits< typename TInputImage::PixelType::ValueType >::RealType >,
+                           typename NumericTraits< typename TInputImage::PixelType::ValueType >::RealType >,
                          TCoordRep >                      Superclass;
 
   typedef SmartPointer< Self >       Pointer;

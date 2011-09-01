@@ -72,7 +72,7 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
   // Set the offset directions to their defaults: half of all the possible
   // directions 1 pixel away. (The other half is included by symmetry.)
   // We use a neighborhood iterator to calculate the appropriate offsets.
-  typedef Neighborhood<ITK_TYPENAME ImageType::PixelType,
+  typedef Neighborhood<typename ImageType::PixelType,
     ::itk::GetImageDimension<ImageType>::ImageDimension> NeighborhoodType;
   NeighborhoodType hood;
   hood.SetRadius( 1 );

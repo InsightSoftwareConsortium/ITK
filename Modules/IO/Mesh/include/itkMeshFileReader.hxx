@@ -351,7 +351,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
   try
     {
     if ( ( m_MeshIO->GetPointPixelComponentType() !=
-           MeshIOBase::MapComponentType< ITK_TYPENAME ConvertPointPixelTraits::ComponentType >::CType )
+           MeshIOBase::MapComponentType< typename ConvertPointPixelTraits::ComponentType >::CType )
         || ( m_MeshIO->GetNumberOfPointPixelComponents() != ConvertPointPixelTraits::GetNumberOfComponents() ) )
       {
       // the point pixel types don't match a type conversion needs to be
@@ -359,7 +359,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
       itkDebugMacro( << "Buffer conversion required from: "
                      << m_MeshIO->GetComponentTypeAsString( m_MeshIO->GetPointPixelComponentType() )
                      << " to: "
-                     << m_MeshIO->GetComponentTypeAsString(MeshIOBase::MapComponentType< ITK_TYPENAME ConvertPointPixelTraits::
+                     << m_MeshIO->GetComponentTypeAsString(MeshIOBase::MapComponentType< typename ConvertPointPixelTraits::
                                                                                         ComponentType >::CType)
                      << "ConvertPointPixelTraits::NumberOfComponents "
                      << ConvertPointPixelTraits::GetNumberOfComponents()
@@ -432,7 +432,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
   try
     {
     if ( ( m_MeshIO->GetCellPixelComponentType() !=
-           MeshIOBase::MapComponentType< ITK_TYPENAME ConvertCellPixelTraits::ComponentType >::CType )
+           MeshIOBase::MapComponentType< typename ConvertCellPixelTraits::ComponentType >::CType )
         || ( m_MeshIO->GetNumberOfCellPixelComponents() != ConvertCellPixelTraits::GetNumberOfComponents() ) )
       {
       // the cell pixel types don't match a type conversion needs to be
@@ -440,7 +440,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
       itkDebugMacro( << "Buffer conversion required from: "
                      << m_MeshIO->GetComponentTypeAsString( m_MeshIO->GetCellPixelComponentType() )
                      << " to: "
-                     << m_MeshIO->GetComponentTypeAsString(MeshIOBase::MapComponentType< ITK_TYPENAME ConvertCellPixelTraits::ComponentType >
+                     << m_MeshIO->GetComponentTypeAsString(MeshIOBase::MapComponentType< typename ConvertCellPixelTraits::ComponentType >
                                                           ::CType)
                      << "ConvertCellPixelTraits::NumberOfComponents "
                      << ConvertCellPixelTraits::GetNumberOfComponents()

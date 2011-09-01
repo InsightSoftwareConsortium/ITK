@@ -42,8 +42,8 @@ public:
 protected:
   AnchorOpenImageFilter()
   {
-    this->m_Boundary1 = NumericTraits< ITK_TYPENAME TImage::PixelType >::max();
-    this->m_Boundary2 = NumericTraits< ITK_TYPENAME TImage::PixelType >::NonpositiveMin();
+    this->m_Boundary1 = NumericTraits< typename TImage::PixelType >::max();
+    this->m_Boundary2 = NumericTraits< typename TImage::PixelType >::NonpositiveMin();
   }
   virtual ~AnchorOpenImageFilter() {}
 

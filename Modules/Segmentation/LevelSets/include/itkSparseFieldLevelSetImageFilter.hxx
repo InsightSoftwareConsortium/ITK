@@ -90,39 +90,39 @@ SparseFieldCityBlockNeighborList< TNeighborhoodType >
 //::m_ConstantGradientValue = 1.0;
 
 template<class TInputImage, class TOutputImage>
-ITK_TYPENAME SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ValueType
+typename SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ValueType
 SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::m_ValueOne = 1;
 
 template<class TInputImage, class TOutputImage>
-ITK_TYPENAME SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ValueType
+typename SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ValueType
 SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::m_ValueZero = 0;
 
 template< class TInputImage, class TOutputImage >
-ITK_TYPENAME SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::StatusType
+typename SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::StatusType
 SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
-::m_StatusNull = NumericTraits< ITK_TYPENAME SparseFieldLevelSetImageFilter< TInputImage,
+::m_StatusNull = NumericTraits< typename SparseFieldLevelSetImageFilter< TInputImage,
                                                                              TOutputImage >::StatusType >::
                  NonpositiveMin();
 
 template< class TInputImage, class TOutputImage >
-ITK_TYPENAME SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::StatusType
+typename SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::StatusType
 SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::m_StatusChanging = -1;
 
 template< class TInputImage, class TOutputImage >
-ITK_TYPENAME SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::StatusType
+typename SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::StatusType
 SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::m_StatusActiveChangingUp = -2;
 
 template< class TInputImage, class TOutputImage >
-ITK_TYPENAME SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::StatusType
+typename SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::StatusType
 SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::m_StatusActiveChangingDown = -3;
 
 template< class TInputImage, class TOutputImage >
-ITK_TYPENAME SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::StatusType
+typename SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::StatusType
 SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::m_StatusBoundaryPixel = -4;
 

@@ -84,8 +84,8 @@ public:
 
 template< class TInputImage, class TOutputImage,
           class TAccumulate =
-            ITK_TYPENAME NumericTraits<
-              ITK_TYPENAME TOutputImage::PixelType >::AccumulateType >
+            typename NumericTraits<
+              typename TOutputImage::PixelType >::AccumulateType >
 class ITK_EXPORT MeanProjectionImageFilter:public
   ProjectionImageFilter< TInputImage, TOutputImage,
                          Functor::MeanAccumulator< typename TInputImage::PixelType, TAccumulate > >

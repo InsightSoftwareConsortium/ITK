@@ -325,7 +325,7 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
     if ( FaceDir == DomDir ) // within 1 degree
       {
       // now check whether the line goes inside the image from this face
-      if ( NeedToDoFace< ITK_TYPENAME TInputImage::RegionType, TLine >(AllImage, *fit, line) )
+      if ( NeedToDoFace< typename TInputImage::RegionType, TLine >(AllImage, *fit, line) )
         {
 //        std::cout << "Using face: " << *fit << line << std::endl;
         RelevantRegion = *fit;

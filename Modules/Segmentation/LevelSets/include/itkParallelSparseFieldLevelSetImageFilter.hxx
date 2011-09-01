@@ -88,41 +88,41 @@ ParallelSparseFieldCityBlockNeighborList< TNeighborhoodType >
 }
 
 template< class TInputImage, class TOutputImage >
-ITK_TYPENAME ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::ValueType
+typename ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::ValueType
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
-::m_ValueOne = NumericTraits< ITK_TYPENAME ParallelSparseFieldLevelSetImageFilter< TInputImage,
+::m_ValueOne = NumericTraits< typename ParallelSparseFieldLevelSetImageFilter< TInputImage,
                                                                                    TOutputImage >::ValueType >::OneValue();
 
 template< class TInputImage, class TOutputImage >
-ITK_TYPENAME ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::ValueType
+typename ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::ValueType
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
-::m_ValueZero = NumericTraits< ITK_TYPENAME ParallelSparseFieldLevelSetImageFilter< TInputImage,
+::m_ValueZero = NumericTraits< typename ParallelSparseFieldLevelSetImageFilter< TInputImage,
                                                                                     TOutputImage >::ValueType >::ZeroValue();
 
 template< class TInputImage, class TOutputImage >
-ITK_TYPENAME ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::StatusType
+typename ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::StatusType
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
-::m_StatusNull = NumericTraits< ITK_TYPENAME ParallelSparseFieldLevelSetImageFilter< TInputImage,
+::m_StatusNull = NumericTraits< typename ParallelSparseFieldLevelSetImageFilter< TInputImage,
                                                                                      TOutputImage >::StatusType >::
                  NonpositiveMin();
 
 template< class TInputImage, class TOutputImage >
-ITK_TYPENAME ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::StatusType
+typename ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::StatusType
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::m_StatusChanging = -1;
 
 template< class TInputImage, class TOutputImage >
-ITK_TYPENAME ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::StatusType
+typename ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::StatusType
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::m_StatusActiveChangingUp = -2;
 
 template< class TInputImage, class TOutputImage >
-ITK_TYPENAME ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::StatusType
+typename ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::StatusType
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::m_StatusActiveChangingDown = -3;
 
 template< class TInputImage, class TOutputImage >
-ITK_TYPENAME ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::StatusType
+typename ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::StatusType
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::m_StatusBoundaryPixel = -4;
 

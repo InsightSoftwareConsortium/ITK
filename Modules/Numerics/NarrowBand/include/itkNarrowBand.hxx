@@ -35,7 +35,7 @@ namespace itk
 {
 #if !defined( CABLE_CONFIGURATION )
 template< class NodeType >
-std::vector< ITK_TYPENAME NarrowBand< NodeType >::RegionType >
+std::vector< typename NarrowBand< NodeType >::RegionType >
 NarrowBand< NodeType >
 ::SplitBand(const SizeType& n)
 {

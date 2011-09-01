@@ -29,7 +29,7 @@ namespace itk {
 template< class TInputImage, class TCoordRep = double >
 class ITK_EXPORT TestImageFunction:
   public ImageFunction< TInputImage,
-                        ITK_TYPENAME NumericTraits<
+                        typename NumericTraits<
                           typename TInputImage::PixelType >::RealType,
                         TCoordRep >
 {

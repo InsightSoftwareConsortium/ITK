@@ -100,13 +100,13 @@ public:
 
 template< class TInputImage,
           class TOutputImage,
-          class TAccumulate = ITK_TYPENAME
-                              NumericTraits< ITK_TYPENAME TOutputImage::PixelType >
+          class TAccumulate = typename
+                              NumericTraits< typename TOutputImage::PixelType >
                               ::AccumulateType >
 class ITK_EXPORT StandardDeviationProjectionImageFilter:
   public
   ProjectionImageFilter< TInputImage, TOutputImage,
-                         Functor::StandardDeviationAccumulator< ITK_TYPENAME
+                         Functor::StandardDeviationAccumulator< typename
                                                                 TInputImage::PixelType, TAccumulate > >
 {
 public:

@@ -105,7 +105,7 @@ NormalizedCorrelationImageFilter< TInputImage, TMaskImage, TOutputImage, TOperat
   // Normalize the template in a local variable. This will simplify
   // the calculations later.
   //
-  typedef Neighborhood< ITK_TYPENAME NumericTraits< OperatorValueType >::RealType,
+  typedef Neighborhood< typename NumericTraits< OperatorValueType >::RealType,
                         ImageDimension >                      NormalizedTemplateType;
   typedef typename NumericTraits< OutputPixelType >::RealType OutputPixelRealType;
 

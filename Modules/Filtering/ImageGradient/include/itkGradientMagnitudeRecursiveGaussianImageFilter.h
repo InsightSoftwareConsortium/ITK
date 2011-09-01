@@ -42,7 +42,7 @@ namespace itk
  * \wikiexample{EdgesAndGradients/GradientMagnitudeRecursiveGaussianImageFilter,Find the gradient magnitude of the image first smoothed with a Gaussian kernel}
  * \endwiki
  */
-// NOTE that the ITK_TYPENAME macro has to be used here in lieu
+// NOTE that the typename macro has to be used here in lieu
 // of "typename" because VC++ doesn't like the typename keyword
 // on the defaults of template parameters
 template< typename TInputImage,

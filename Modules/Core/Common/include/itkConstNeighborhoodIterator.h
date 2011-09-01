@@ -49,7 +49,7 @@ namespace itk
 template< class TImage,  class TBoundaryCondition =
             ZeroFluxNeumannBoundaryCondition< TImage > >
 class ITK_EXPORT ConstNeighborhoodIterator:
-  public Neighborhood< ITK_TYPENAME TImage::InternalPixelType *,
+  public Neighborhood< typename TImage::InternalPixelType *,
                        TImage::ImageDimension >
 {
 public:
