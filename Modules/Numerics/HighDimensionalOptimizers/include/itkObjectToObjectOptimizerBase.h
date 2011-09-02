@@ -125,6 +125,8 @@ protected:
   // spaces, e.g. bspline transforms.
   ParametersType                m_CurrentPosition;
 
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+
 private:
 
   //purposely not implemented
