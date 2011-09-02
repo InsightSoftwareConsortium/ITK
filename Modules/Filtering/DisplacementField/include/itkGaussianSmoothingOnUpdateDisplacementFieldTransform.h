@@ -19,8 +19,6 @@
 #define __itkGaussianSmoothingOnUpdateDisplacementFieldTransform_h
 
 #include "itkDisplacementFieldTransform.h"
-#include "itkGaussianOperator.h"
-#include "itkVectorNeighborhoodOperatorImageFilter.h"
 
 namespace itk
 {
@@ -48,10 +46,10 @@ class ITK_EXPORT GaussianSmoothingOnUpdateDisplacementFieldTransform :
 {
 public:
   /** Standard class typedefs. */
-  typedef GaussianSmoothingOnUpdateDisplacementFieldTransform                        Self;
-  typedef DisplacementFieldTransform<TScalar, NDimensions>  Superclass;
-  typedef SmartPointer<Self>                                Pointer;
-  typedef SmartPointer<const Self>                          ConstPointer;
+  typedef GaussianSmoothingOnUpdateDisplacementFieldTransform   Self;
+  typedef DisplacementFieldTransform<TScalar, NDimensions>      Superclass;
+  typedef SmartPointer<Self>                                    Pointer;
+  typedef SmartPointer<const Self>                              ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( GaussianSmoothingOnUpdateDisplacementFieldTransform,
@@ -63,11 +61,25 @@ public:
   /** Types from superclass */
   typedef typename Superclass::ScalarType               ScalarType;
   typedef typename Superclass::DerivativeType           DerivativeType;
+  typedef typename DerivativeType::ValueType            DerivativeValueType;
   typedef typename Superclass::DisplacementFieldType    DisplacementFieldType;
+  typedef typename Superclass::DisplacementFieldPointer DisplacementFieldPointer;
+  typedef typename DisplacementFieldType::PixelType     DisplacementVectorType;
 
-  /** Get/Set the GaussianOperator variance */
-  itkSetMacro( GaussianSmoothingSigma, ScalarType );
-  itkGetConstReferenceMacro( GaussianSmoothingSigma, ScalarType );
+
+  /**
+   * Get/Set the Gaussian smoothing standard deviation for the update field.
+   * Default = 1.75.
+   */
+  itkSetMacro( GaussianSmoothingVarianceForTheUpdateField, ScalarType );
+  itkGetConstReferenceMacro( GaussianSmoothingVarianceForTheUpdateField, ScalarType );
+
+  /**
+   * Get/Set the Gaussian smoothing standard deviation for the total field.
+   * Default = 0.5.
+   */
+  itkSetMacro( GaussianSmoothingVarianceForTheTotalField, ScalarType );
+  itkGetConstReferenceMacro( GaussianSmoothingVarianceForTheTotalField, ScalarType );
 
   /** Update the transform's parameters by the values in \c update.
    * We assume \c update is of the same length as Parameters. Throw
@@ -77,29 +89,13 @@ public:
    * added to the field.
    * See base class for more details.
    */
-  virtual void UpdateTransformParameters( DerivativeType & update,
-                                          ScalarType factor = 1.0 );
+  virtual void UpdateTransformParameters( DerivativeType & update, ScalarType factor = 1.0 );
 
   /** Smooth the displacement field in-place.
-   * Uses m_GaussSmoothSigma to change the variance for the GaussianOperator,
-   * the default is 3. Other parameters MaximumError and MaximumKernelWidth
-   * are hardcoded.
-   * \warning Not thread safe. Does its own threading. */
-  virtual void GaussianSmoothDisplacementField();
-
-  /** Free the \c m_GaussianSmoothingTempField object to conserve memory.
-   * This object is allocated during the first call to
-   * GaussianSmoothDisplacementField and cached to avoid re-allocation
-   * during multiple calls to GaussianSmoothDisplacementField during
-   * the lifetime of this object. Otherwise it will be deleted when
-   * this object is destroyed. */
-  virtual void FreeGaussianSmoothingTempField()
-  {
-    if( !m_GaussianSmoothingTempField.IsNull() )
-      {
-      m_GaussianSmoothingTempField = NULL;
-      }
-  }
+   * Uses m_GaussSmoothSigma to change the variance for the GaussianOperator.
+   * \warning Not thread safe. Does its own threading.
+   */
+  virtual DisplacementFieldPointer GaussianSmoothDisplacementField( DisplacementFieldType *, ScalarType );
 
 protected:
   GaussianSmoothingOnUpdateDisplacementFieldTransform();
@@ -108,31 +104,13 @@ protected:
 
   /** Used in GaussianSmoothDisplacementField as variance for the
    * GaussianOperator */
-  ScalarType                                  m_GaussianSmoothingSigma;
+  ScalarType                                  m_GaussianSmoothingVarianceForTheUpdateField;
+  ScalarType                                  m_GaussianSmoothingVarianceForTheTotalField;
 
 private:
   GaussianSmoothingOnUpdateDisplacementFieldTransform( const Self& ); //purposely not implemented
   void operator=( const Self& ); //purposely not implemented
 
-  /** Used to hold temporary displacement field during smoothing.
-   * Use member variable to avoid allocation on stack and allow
-   * cache'ing betwen calls. */
-  typename DisplacementFieldType::Pointer    m_GaussianSmoothingTempField;
-
-  /** Track when the temporary displacement field used during smoothing
-   * was last modified/initialized. We only want to change it if the
-   * main displacement field is also changed, i.e. assigned to a new object */
-  unsigned long                       m_GaussianSmoothingTempFieldModifiedTime;
-
-  /** Type of Gaussian Operator used during smoothing. Define here
-   * so we can use a member var during the operation. */
-  typedef GaussianOperator<ScalarType, Superclass::Dimension>
-                                                  GaussianSmoothingOperatorType;
-  typedef VectorNeighborhoodOperatorImageFilter< DisplacementFieldType,
-                                                 DisplacementFieldType >
-                                                  GaussianSmoothingSmootherType;
-  GaussianSmoothingOperatorType                    m_GaussianSmoothingOperator;
-  typename GaussianSmoothingSmootherType::Pointer  m_GaussianSmoothingSmoother;
 };
 
 } // end namespace itk

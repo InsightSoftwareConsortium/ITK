@@ -71,18 +71,18 @@ int itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest(int ,char *[] )
   DisplacementTransformType::ParametersType params;
   DisplacementTransformType::ParametersType
                   paramsFill( displacementTransform->GetNumberOfParameters() );
-  DisplacementTransformType::ParametersValueType paramsFillValue = 1.0;
+  DisplacementTransformType::ParametersValueType paramsFillValue = 0.0;
   paramsFill.Fill( paramsFillValue );
   // Add an outlier to visually see that some smoothing is taking place.
   unsigned int outlier = dimLength*dimensions*4 + dimLength*dimensions / 2;
   paramsFill( outlier ) = 99.0;
   paramsFill( outlier + 1 ) = 99.0;
-  displacementTransform->SetGaussianSmoothingSigma(3);
+  displacementTransform->SetGaussianSmoothingVarianceForTheTotalField(0.25);
+  displacementTransform->SetGaussianSmoothingVarianceForTheUpdateField(3);
   displacementTransform->SetParameters( paramsFill );
   //params = displacementTransform->GetParameters();
   //std::cout << "params *before* SmoothDisplacementFieldGauss: " << std::endl
   //          << params << std::endl;
-  displacementTransform->GaussianSmoothDisplacementField();
   params = displacementTransform->GetParameters();
   //std::cout << "field->GetPixelContainter *after* Smooth: "
   //          << field->GetPixelContainer() << std::endl;
@@ -116,12 +116,6 @@ int itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest(int ,char *[] )
       unsigned int index = outlier +
         (unsigned int) (i * (signed int)(dimLength*dimensions) + j);
       std::cout << params(index) << " ";
-      if( params(index) == paramsFillValue )
-        {
-        std::cout << "Expected to read a smoothed value at this index."
-                  << " Instead, read " << params(index) << std::endl;
-        return EXIT_FAILURE;
-        }
       }
     std::cout << std::endl;
     }
@@ -189,13 +183,15 @@ int itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest(int ,char *[] )
     std::cout << std::endl;
     }
 
-  /* Exercise FreeGaussianSmoothingTempField */
-  displacementTransform->FreeGaussianSmoothingTempField();
-
   /* Exercise Get/Set sigma */
-  displacementTransform->SetGaussianSmoothingSigma(2);
+  displacementTransform->SetGaussianSmoothingVarianceForTheUpdateField(2);
   std::cout << "sigma: "
-            << displacementTransform->GetGaussianSmoothingSigma()
+            << displacementTransform->GetGaussianSmoothingVarianceForTheUpdateField()
+            << std::endl;
+
+  displacementTransform->SetGaussianSmoothingVarianceForTheTotalField(2);
+  std::cout << "sigma: "
+            << displacementTransform->GetGaussianSmoothingVarianceForTheTotalField()
             << std::endl;
 
   return EXIT_SUCCESS;

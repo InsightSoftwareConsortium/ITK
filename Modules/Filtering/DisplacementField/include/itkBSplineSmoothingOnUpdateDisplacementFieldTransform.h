@@ -71,21 +71,21 @@ public:
   /** Types from superclass */
   typedef typename Superclass::ScalarType               ScalarType;
   typedef typename Superclass::DerivativeType           DerivativeType;
+  typedef typename DerivativeType::ValueType            DerivativeValueType;
   typedef typename Superclass::DisplacementFieldType    DisplacementFieldType;
+  typedef typename Superclass::DisplacementFieldPointer DisplacementFieldPointer;
 
   /**
    * typedefs for projecting the input displacement field onto a
    * B-spline field.
    */
   typedef typename DisplacementFieldType::PixelType                                         DisplacementVectorType;
-  typedef DisplacementFieldType                                                             ControlPointLatticeType;
   typedef PointSet<DisplacementVectorType, Dimension>                                       PointSetType;
   typedef unsigned int                                                                      SplineOrderType;
   typedef BSplineScatteredDataPointSetToImageFilter<PointSetType, DisplacementFieldType>    BSplineFilterType;
   typedef typename BSplineFilterType::WeightsContainerType                                  WeightsContainerType;
   typedef typename BSplineFilterType::PointDataImageType                                    DisplacementFieldControlPointLatticeType;
   typedef typename BSplineFilterType::ArrayType                                             ArrayType;
-  typedef typename BSplineFilterType::OutputImageType                                       OutputImageType;
   typedef typename ArrayType::ValueType                                                     ArrayValueType;
 
   /**
@@ -106,18 +106,44 @@ public:
   itkSetMacro( SplineOrder, SplineOrderType );
 
   /**
-   * Get the spline order defining the bias field estimate.  Default = 3.
+   * Get the spline order defining the displacement field estimate.  Default = 3.
    */
   itkGetConstMacro( SplineOrder, SplineOrderType );
 
   /**
    * Set the control point grid size definining the B-spline estimate of the
-   * scalar bias field.  In each dimension, the B-spline mesh size is equal
+   * update field.  In each dimension, the B-spline mesh size is equal
    * to the number of control points in that dimension minus the spline order.
    * Default = 4 control points in each dimension for a mesh size of 1 in each
    * dimension.
    */
-  itkSetMacro( NumberOfControlPoints, ArrayType );
+  itkSetMacro( NumberOfControlPointsForTheUpdateField, ArrayType );
+
+  /**
+   * Get the control point grid size definining the B-spline estimate of the
+   * update field.  In each dimension, the B-spline mesh size is equal
+   * to the number of control points in that dimension minus the spline order.
+   * Default = 4 control points in each dimension for a mesh size of 1 in each
+   * dimension.
+   */
+  itkGetConstMacro( NumberOfControlPointsForTheUpdateField, ArrayType );
+
+  /**
+   * Set the update field mesh size which is used to specify the control point
+   * grid size.  The mesh size in each dimension is calculated as the
+   * difference between the control point grid size and the spline order, i.e.
+   * meshSize = controlPointGridSize - SplineOrder.
+   */
+  void SetMeshSizeForTheUpdateField( const ArrayType & );
+
+  /**
+   * Set the control point grid size definining the B-spline estimate of the
+   * total field.  In each dimension, the B-spline mesh size is equal
+   * to the number of control points in that dimension minus the spline order.
+   * Default = 4 control points in each dimension for a mesh size of 1 in each
+   * dimension.
+   */
+  itkSetMacro( NumberOfControlPointsForTheTotalField, ArrayType );
 
   /**
    * Get the control point grid size definining the B-spline estimate of the
@@ -126,38 +152,15 @@ public:
    * Default = 4 control points in each dimension for a mesh size of 1 in each
    * dimension.
    */
-  itkGetConstMacro( NumberOfControlPoints, ArrayType );
+  itkGetConstMacro( NumberOfControlPointsForTheTotalField, ArrayType );
 
   /**
-   * Set the mesh size which is another way of specifying the control point
+   * Set the total field mesh size which is used to specify the control point
    * grid size.  The mesh size in each dimension is calculated as the
    * difference between the control point grid size and the spline order, i.e.
    * meshSize = controlPointGridSize - SplineOrder.
    */
-  void SetMeshSize( const ArrayType & );
-
-  /**
-   * Set the number of fitting levels.  This allows one to
-   * specify a B-spline mesh size for initial fitting followed by a doubling of
-   * the mesh resolution for each subsequent fitting level.  Default = 1 levels.
-   */
-  itkSetMacro( NumberOfFittingLevelsPerDimension, ArrayType );
-
-  /**
-   * Set the number of fitting levels.  This allows one to
-   * specify a B-spline mesh size for initial fitting followed by a doubling of
-   * the mesh resolution for each subsequent fitting level.  Default = 1 level.
-   */
-  void SetNumberOfFittingLevels( const ArrayValueType );
-
-  /**
-   * Get the number of fitting levels.  One of the contributions is the
-   * introduction of a multi-scale approach to fitting. This allows one to
-   * specify a B-spline mesh size for initial fitting followed by a doubling of
-   * the mesh resolution for each subsequent fitting level.
-   * Default = 1 levels.
-   */
-  itkGetConstMacro( NumberOfFittingLevelsPerDimension, ArrayType );
+  void SetMeshSizeForTheTotalField( const ArrayType & );
 
   /**
    * Enforce zero motion on the transform domain boundaries. Default = true.
@@ -182,18 +185,17 @@ protected:
   void PrintSelf( std::ostream& os, Indent indent ) const;
 
   /**
-   * Smooth the displacement field in-place using B-splines.
-   * \warning Not thread safe. Does its own threading.
+   * Smooth the displacement field using B-splines.
    */
-  virtual void BSplineSmoothDisplacementField();
+   DisplacementFieldPointer BSplineSmoothDisplacementField( const DisplacementFieldType *, const ArrayType & );
 
 private:
   BSplineSmoothingOnUpdateDisplacementFieldTransform( const Self& ); //purposely not implemented
   void operator=( const Self& ); //purposely not implemented
 
   SplineOrderType             m_SplineOrder;
-  ArrayType                   m_NumberOfControlPoints;
-  ArrayType                   m_NumberOfFittingLevelsPerDimension;
+  ArrayType                   m_NumberOfControlPointsForTheUpdateField;
+  ArrayType                   m_NumberOfControlPointsForTheTotalField;
   bool                        m_EnforceStationaryBoundary;
 };
 

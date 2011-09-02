@@ -71,17 +71,19 @@ int itkBSplineSmoothingOnUpdateDisplacementFieldTransformTest(int ,char *[] )
   std::cout << "Test SmoothDisplacementFieldBSpline" << std::endl;
   DisplacementTransformType::ParametersType params;
   DisplacementTransformType::ParametersType paramsFill( displacementTransform->GetNumberOfParameters() );
-  DisplacementTransformType::ParametersValueType paramsFillValue = 1.0;
+  DisplacementTransformType::ParametersValueType paramsFillValue = 0.0;
   paramsFill.Fill( paramsFillValue );
   // Add an outlier to visually see that some smoothing is taking place.
   unsigned int outlier = dimLength*dimensions*4 + dimLength*dimensions / 2;
   paramsFill( outlier ) = 99.0;
   paramsFill( outlier + 1 ) = 99.0;
 
-  DisplacementTransformType::ArrayType meshSize;
-  meshSize.Fill( static_cast<unsigned int>( 0.5 * dimLength ) );
-  displacementTransform->SetNumberOfFittingLevels( 1 );
-  displacementTransform->SetNumberOfControlPoints( 10 );
+  DisplacementTransformType::ArrayType meshSizeForUpdateField;
+  meshSizeForUpdateField.Fill( 15 );
+  displacementTransform->SetMeshSizeForTheUpdateField( meshSizeForUpdateField );
+  DisplacementTransformType::ArrayType meshSizeForTotalField;
+  meshSizeForTotalField.Fill( 30 );
+  displacementTransform->SetMeshSizeForTheTotalField( meshSizeForTotalField );
   displacementTransform->SetSplineOrder( 3 );
   displacementTransform->SetParameters( paramsFill );
   displacementTransform->SetEnforceStationaryBoundary( true );
@@ -152,8 +154,7 @@ int itkBSplineSmoothingOnUpdateDisplacementFieldTransformTest(int ,char *[] )
   /* fill with 0 */
   field->FillBuffer( zeroVector );
 
-  DisplacementTransformType::DerivativeType
-                update( displacementTransform->GetNumberOfParameters() );
+  DisplacementTransformType::DerivativeType update( displacementTransform->GetNumberOfParameters() );
 
   update.Fill(1.2);
   displacementTransform->UpdateTransformParameters( update );
