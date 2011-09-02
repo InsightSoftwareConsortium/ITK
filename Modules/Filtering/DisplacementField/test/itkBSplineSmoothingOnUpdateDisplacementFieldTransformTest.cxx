@@ -90,6 +90,7 @@ int itkBSplineSmoothingOnUpdateDisplacementFieldTransformTest(int ,char *[] )
    displacementTransform->GetNumberOfParameters();
 
   DisplacementTransformType::DerivativeType update1( numberOfParameters );
+  update1.Fill( 1.2 );
 
   displacementTransform->UpdateTransformParameters( update1 );
   params = displacementTransform->GetParameters();
