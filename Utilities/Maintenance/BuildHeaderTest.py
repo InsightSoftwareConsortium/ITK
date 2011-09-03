@@ -42,10 +42,6 @@ BANNED_HEADERS = set(('itkExceptionObject.h', # There is a pre-processor check s
     'itkDenseLevelSetContainer.h',                    # JIRA 2645 FIXME
     'itkLevelSetContainerBase.h',                     # JIRA 2645 FIXME
     'itkLevelSetEquationContainerBase.h',             # JIRA 2645 FIXME
-    'itkDeformationFieldSource.h',                      # Deprecated errors issued for ITKv3
-    'itkExponentialDeformationFieldImageFilter.h',      # Deprecated errors issued for ITKv3
-    'itkInverseDeformationFieldImageFilter.h',          # Deprecated errors issued for ITKv3
-    'itkIterativeInverseDeformationFieldImageFilter.h', # Deprecated errors issued for ITKv3
     'itkVanHerkGilWermanErodeDilateImageFilter.h', # circular include's
     'itkBSplineDeformableTransform.h',   # deprecated
     'itkBSplineDeformableTransformInitializer.h'))

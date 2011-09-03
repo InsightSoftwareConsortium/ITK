@@ -1,11 +1,13 @@
 # Set a list of group names
-set(group_list Core IO Filtering Registration Segmentation Numerics ThirdParty Bridge Nonunit)
+set(group_list Core IO Filtering Registration Segmentation Numerics ThirdParty Bridge Nonunit Compatibility)
 
 set(Core_documentation "This group of modules contain the toolkit framework used
 by other modules.  There are common base classes for data objects and process
 objects, basic data structures such as Image, Mesh, QuadEdgeMesh, and
 SpatialObjects, and common functionality for operations such as finite
 differences, image adaptors, or image transforms.")
+
+set(Compatibility_documentation "This group contains modules that ease the transition to ITKv4 and Deprecated classes.")
 
 set(IO_documentation "This group of modules contains classes for reading and
 writing images and other data objects.")
