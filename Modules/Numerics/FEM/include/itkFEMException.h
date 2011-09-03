@@ -38,7 +38,7 @@ namespace fem
  * \brief Base class for all exception's that can occur within FEM classes.
  * \ingroup ITKFEM
  */
-class FEMException : public itk::ExceptionObject
+class ITK_ABI_EXPORT FEMException : public itk::ExceptionObject
 {
 public:
   /**
@@ -68,7 +68,7 @@ public:
  * This class is normally used when reading or writing objects from/to stream.
  * \ingroup ITKFEM
  */
-class FEMExceptionIO : public FEMException
+class ITK_ABI_EXPORT FEMExceptionIO : public FEMException
 {
 public:
   /**
@@ -106,7 +106,7 @@ public:
  * accomodate this differences. Currently they are ignored.
  * \ingroup ITKFEM
  */
-class FEMExceptionWrongClass : public FEMException
+class ITK_ABI_EXPORT FEMExceptionWrongClass : public FEMException
 {
 public:
   FEMExceptionWrongClass(const char *file, unsigned int lineNumber, std::string location);
@@ -129,7 +129,7 @@ public:
  * global number was unsuccessful.
  * \ingroup ITKFEM
  */
-class FEMExceptionObjectNotFound : public FEMException
+class ITK_ABI_EXPORT FEMExceptionObjectNotFound : public FEMException
 {
 public:
   FEMExceptionObjectNotFound(const char *file, unsigned int lineNumber, std::string location, std::string baseClassName,
@@ -159,7 +159,7 @@ public:
  * already in memory and something went wrong while trying to solve it.
  * \ingroup ITKFEM
  */
-class FEMExceptionSolution : public FEMException
+class ITK_ABI_EXPORT FEMExceptionSolution : public FEMException
 {
 public:
   /**

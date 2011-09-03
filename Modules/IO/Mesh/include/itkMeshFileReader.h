@@ -41,7 +41,7 @@ namespace itk
  * \brief Base exception class for IO conflicts.
  * \ingroup ITKIOMesh
  */
-class MeshFileReaderException:public ExceptionObject
+class ITK_ABI_EXPORT MeshFileReaderException:public ExceptionObject
 {
 public:
   /** Run-time information. */

@@ -29,7 +29,7 @@ namespace itk
  * \class ImageFileWriterException
  * \ingroup ITKIOBase
  */
-class ImageFileWriterException:public ExceptionObject
+class ITK_ABI_EXPORT ImageFileWriterException:public ExceptionObject
 {
 public:
   /** Run-time information. */

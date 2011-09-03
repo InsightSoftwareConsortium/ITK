@@ -272,7 +272,7 @@ private:
  * \sa FEMException
  * \ingroup ITKFEM
  */
-class FEMExceptionItpackSparseMatrixSbagn : public FEMException
+class ITK_ABI_EXPORT FEMExceptionItpackSparseMatrixSbagn : public FEMException
 {
 public:
 
@@ -305,7 +305,7 @@ public:
  * \sa FEMException
  * \ingroup ITKFEM
  */
-class FEMExceptionItpackSparseMatrixSbsij : public FEMException
+class ITK_ABI_EXPORT FEMExceptionItpackSparseMatrixSbsij : public FEMException
 {
 public:
   /** typedefs from f2c.h  */

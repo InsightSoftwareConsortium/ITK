@@ -31,7 +31,7 @@ namespace itk
  * \brief Base exception class for IO conflicts.
  * \ingroup ITKIOBase
  */
-class ImageFileReaderException:public ExceptionObject
+class ITK_ABI_EXPORT ImageFileReaderException:public ExceptionObject
 {
 public:
   /** Run-time information. */

@@ -29,7 +29,7 @@ namespace itk
  *  \brief Base exception class for IO problems during writing.
  * \ingroup ITKIOBase
  */
-class ImageSeriesWriterException:public ExceptionObject
+class ITK_ABI_EXPORT ImageSeriesWriterException:public ExceptionObject
 {
 public:
   /** Run-time information. */

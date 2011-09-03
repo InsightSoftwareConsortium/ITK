@@ -28,20 +28,8 @@
  *
  * itkLoad() is C (not C++) function.
  */
-/**
- * Routine that is called when the shared library is loaded by
- * itk::ObjectFactoryBase::LoadDynamicFactories().
- *
- * itkLoad() is C (not C++) function.
- */
-#ifdef WIN32
-#define FileFreeIOPlugin_EXPORT __declspec(dllexport)
-#else
-#define FileFreeIOPlugin_EXPORT
-#endif
-
 extern "C" {
-  FileFreeIOPlugin_EXPORT itk::ObjectFactoryBase* itkLoad();
+  ITK_ABI_EXPORT itk::ObjectFactoryBase* itkLoad();
 }
 
 
