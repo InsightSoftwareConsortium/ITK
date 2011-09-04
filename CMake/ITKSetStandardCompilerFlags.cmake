@@ -249,8 +249,12 @@ endmacro()#End the platform check function
 #-----------------------------------------------------------------------------
 #Check the set of warning flags the compiler supports
 check_compiler_warning_flags(C_WARNING_FLAGS CXX_WARNING_FLAGS)
-set(ITK_REQUIRED_C_FLAGS "${ITK_REQUIRED_C_FLAGS} ${C_WARNING_FLAGS}")
-set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} ${CXX_WARNING_FLAGS}")
+
+# Append ITK warnings to the CMake flags.
+# We do not set them in ITK_REQUIRED FLAGS because all project which
+# use ITK don't require these flags .
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${C_WARNING_FLAGS}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CXX_WARNING_FLAGS}")
 
 #-----------------------------------------------------------------------------
 #Check the set of platform flags the compiler supports
