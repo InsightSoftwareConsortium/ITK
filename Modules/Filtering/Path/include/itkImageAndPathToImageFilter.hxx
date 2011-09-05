@@ -53,13 +53,7 @@ const typename ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage 
 ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >
 ::GetImageInput(void)
 {
-  if ( this->GetNumberOfInputs() < 1 )
-    {
-    return 0;
-    }
-
-  return static_cast< const TInputImage * >
-         ( this->ProcessObject::GetInput(0) );
+  return static_cast< const TInputImage * >( this->ProcessObject::GetInput(0) );
 }
 
 template< class TInputImage, class TInputPath, class TOutputImage >
@@ -70,8 +64,7 @@ ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >
   // We have 2 inputs:  a path and an image
 
   // Process object is not const-correct so the const_cast is required here
-  this->ProcessObject::SetNthInput( 1,
-                                    const_cast< InputPathType * >( path ) );
+  this->ProcessObject::SetNthInput( 1, const_cast< InputPathType * >( path ) );
 }
 
 template< class TInputImage, class TInputPath, class TOutputImage >
@@ -79,13 +72,7 @@ const typename ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage 
 ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >
 ::GetPathInput(void)
 {
-  if ( this->GetNumberOfInputs() < 2 )
-    {
-    return 0;
-    }
-
-  return static_cast< const TInputPath * >
-         ( this->ProcessObject::GetInput(1) );
+  return static_cast< const TInputPath * >( this->ProcessObject::GetInput(1) );
 }
 
 /**

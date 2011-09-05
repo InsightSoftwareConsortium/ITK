@@ -79,13 +79,7 @@ const typename SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >::
 SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 ::GetInput(void)
 {
-  if ( this->GetNumberOfInputs() < 1 )
-    {
-    return 0;
-    }
-
-  return static_cast< const TInputSpatialObject * >
-         ( this->ProcessObject::GetInput(0) );
+  return static_cast< const TInputSpatialObject * >( this->GetPrimaryInput() );
 }
 
 /** Get the input Spatial Object */

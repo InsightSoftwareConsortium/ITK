@@ -1341,14 +1341,14 @@ Segmenter< TInputImage >
   if ( imgData )
     {
     std::vector< ProcessObject::DataObjectPointer >::size_type idx;
-    for ( idx = 0; idx < this->GetOutputs().size(); ++idx )
+    for ( idx = 0; idx < this->GetNumberOfIndexedOutputs(); ++idx )
       {
-      if ( this->GetOutputs()[idx] && this->GetOutputs()[idx] != output )
+      if ( this->GetOutput(idx) && this->GetOutput(idx) != output )
         {
         op = dynamic_cast< ImageBase< ImageDimension >
-                           * >( this->GetOutputs()[idx].GetPointer() );
+                           * >( this->GetOutput(idx) );
 
-        if ( op ) { this->GetOutputs()[idx]->SetRequestedRegion(output); }
+        if ( op ) { this->GetOutput(idx)->SetRequestedRegion(output); }
         }
       }
     }

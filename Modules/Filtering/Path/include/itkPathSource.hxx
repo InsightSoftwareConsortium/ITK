@@ -48,13 +48,7 @@ typename PathSource< TOutputPath >::OutputPathType *
 PathSource< TOutputPath >
 ::GetOutput(void)
 {
-  if ( this->GetNumberOfOutputs() < 1 )
-    {
-    return 0;
-    }
-
-  return static_cast< TOutputPath * >
-         ( this->ProcessObject::GetOutput(0) );
+  return static_cast< TOutputPath * >( this->GetPrimaryOutput() );
 }
 
 /**
@@ -88,7 +82,7 @@ void
 PathSource< TOutputPath >
 ::GraftNthOutput(unsigned int idx, TOutputPath *graft)
 {
-  if ( idx < this->GetNumberOfOutputs() )
+  if ( idx < this->GetNumberOfIndexedOutputs() )
     {
     OutputPathType *output = this->GetOutput(idx);
 

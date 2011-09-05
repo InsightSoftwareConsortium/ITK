@@ -313,7 +313,7 @@
             def __len__(self):
                 """Returns the number of outputs of that object.
                 """
-                return self.GetNumberOfOutputs()
+                return self.GetNumberOfIndexedOutputs()
 
             def __getitem__(self, item):
                 """Returns the outputs of that object.
@@ -322,12 +322,11 @@
                 Several outputs may be returned by using the slice notation.
                 """
                 import itk
-                outputs = self.GetOutputs()
                 if isinstance(item, slice):
                     indices = item.indices(len(self))
-                    return [itk.down_cast(outputs[i]) for i in range(*indices)]
+                    return [itk.down_cast(self.GetOutput(i)) for i in range(*indices)]
                 else:
-                    return itk.down_cast(outputs[item])
+                    return itk.down_cast(self.GetOutput(item))
 
             def __call__(self, *args, **kargs):
                 """Change the inputs and attributes of the object and update it.

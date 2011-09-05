@@ -53,13 +53,7 @@ const typename PathAndImageToPathFilter< TInputPath, TInputImage, TOutputPath >:
 PathAndImageToPathFilter< TInputPath, TInputImage, TOutputPath >
 ::GetPathInput(void)
 {
-  if ( this->GetNumberOfInputs() < 1 )
-    {
-    return 0;
-    }
-
-  return static_cast< const TInputPath * >
-         ( this->ProcessObject::GetInput(0) );
+  return static_cast< const TInputPath * >( this->GetPrimaryInput() );
 }
 
 template< class TInputPath, class TInputImage, class TOutputPath >
@@ -79,13 +73,7 @@ const typename PathAndImageToPathFilter< TInputPath, TInputImage, TOutputPath >:
 PathAndImageToPathFilter< TInputPath, TInputImage, TOutputPath >
 ::GetImageInput(void)
 {
-  if ( this->GetNumberOfInputs() < 2 )
-    {
-    return 0;
-    }
-
-  return static_cast< const TInputImage * >
-         ( this->ProcessObject::GetInput(1) );
+  return static_cast< const TInputImage * >( this->ProcessObject::GetInput(1) );
 }
 
 /**

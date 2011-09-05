@@ -60,13 +60,7 @@ typename MeshSource< TOutputMesh >::OutputMeshType *
 MeshSource< TOutputMesh >
 ::GetOutput(void)
 {
-  if ( this->GetNumberOfOutputs() < 1 )
-    {
-    return 0;
-    }
-
-  return static_cast< TOutputMesh * >
-         ( this->ProcessObject::GetOutput(0) );
+  return static_cast< TOutputMesh * >( this->GetPrimaryOutput() );
 }
 
 /**
@@ -123,23 +117,35 @@ MeshSource< TOutputMesh >
 template< class TOutputMesh >
 void
 MeshSource< TOutputMesh >
-::GraftNthOutput(unsigned int idx, DataObject *graft)
+::GraftOutput(const DataObjectIdentifierType & key, DataObject *graft)
 {
-  if ( idx >= this->GetNumberOfOutputs() )
-    {
-    itkExceptionMacro(<< "Requested to graft output " << idx
-                      << " but this filter only has " << this->GetNumberOfOutputs() << " Outputs.");
-    }
-
   if ( !graft )
     {
     itkExceptionMacro(<< "Requested to graft output that is a NULL pointer");
     }
 
-  DataObject *output = this->GetOutput(idx);
+  // we use the process object method since all out output may not be
+  // of the same type
+  DataObject *output = this->ProcessObject::GetOutput(key);
 
-  // Call Graft on the Mesh in order to copy meta-information, and containers.
+  // Call GraftImage to copy meta-information, regions, and the pixel container
   output->Graft(graft);
+}
+
+/**
+ *
+ */
+template< class TOutputMesh >
+void
+MeshSource< TOutputMesh >
+::GraftNthOutput(unsigned int idx, DataObject *graft)
+{
+  if ( idx >= this->GetNumberOfIndexedOutputs() )
+    {
+    itkExceptionMacro(<< "Requested to graft output " << idx
+                      << " but this filter only has " << this->GetNumberOfIndexedOutputs() << " indexed Outputs.");
+    }
+  this->GraftOutput( this->MakeNameFromIndex(idx), graft );
 }
 
 /**

@@ -66,13 +66,7 @@ const typename PathToPathFilter< TInputPath, TOutputPath >::InputPathType *
 PathToPathFilter< TInputPath, TOutputPath >
 ::GetInput(void)
 {
-  if ( this->GetNumberOfInputs() < 1 )
-    {
-    return 0;
-    }
-
-  return static_cast< const TInputPath * >
-         ( this->ProcessObject::GetInput(0) );
+  return static_cast< const TInputPath * >( this->GetPrimaryInput() );
 }
 
 /**

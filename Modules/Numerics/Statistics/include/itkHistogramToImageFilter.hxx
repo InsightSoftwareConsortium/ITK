@@ -54,13 +54,7 @@ const typename HistogramToImageFilter< THistogram, TImage, TFunction >::Histogra
 HistogramToImageFilter< THistogram, TImage, TFunction >
 ::GetInput(void)
 {
-  if ( this->GetNumberOfInputs() < 1 )
-    {
-    return 0;
-    }
-
-  return static_cast< const HistogramType * >
-         ( this->ProcessObject::GetInput(0) );
+  return static_cast< const HistogramType * >( this->GetPrimaryInput() );
 }
 
 template< class THistogram, class TImage, class TFunction >

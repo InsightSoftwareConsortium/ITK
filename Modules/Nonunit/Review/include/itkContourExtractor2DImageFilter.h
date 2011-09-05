@@ -34,7 +34,7 @@ namespace itk
  * Uses the "marching squares" method to compute a the iso-valued contours of
  * the input 2D image for a given intensity value. Multiple outputs may be
  * produced because an image can have multiple contours at a given level, so it
- * is advised to call GetNumberOfOutputs() and GetOutput(n) to retrieve all of
+ * is advised to call GetNumberOfIndexedOutputs() and GetOutput(n) to retrieve all of
  * the contours. The contour value to be extracted can be set with
  * SetContourValue(). Image intensities will be linearly interpolated to provide
  * sub-pixel resolution for the output contours.

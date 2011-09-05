@@ -106,7 +106,7 @@ void
 TileImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
 {
-  for ( unsigned int i = 0; i < this->GetNumberOfInputs(); i++ )
+  for ( unsigned int i = 0; i < this->GetNumberOfIndexedInputs(); i++ )
     {
     TInputImage *input = const_cast< TInputImage * >( this->GetInput(i) );
     if ( input )
@@ -176,7 +176,7 @@ TileImageFilter< TInputImage, TOutputImage >
       {
       used *= m_Layout[d];
       }
-    outputSize[OutputImageDimension - 1] = ( this->GetNumberOfInputs() - 1 ) / used + 1;
+    outputSize[OutputImageDimension - 1] = ( this->GetNumberOfIndexedInputs() - 1 ) / used + 1;
     if ( outputSize[OutputImageDimension - 1] < 1 )
       {
       outputSize[OutputImageDimension - 1] = 1;
@@ -209,7 +209,7 @@ TileImageFilter< TInputImage, TOutputImage >
   TileInfo     info;
   while ( !it.IsAtEnd() )
     {
-    if ( input < this->GetNumberOfInputs() )
+    if ( input < this->GetNumberOfIndexedInputs() )
       {
       info.m_ImageNumber = input;
       it.Set (info);

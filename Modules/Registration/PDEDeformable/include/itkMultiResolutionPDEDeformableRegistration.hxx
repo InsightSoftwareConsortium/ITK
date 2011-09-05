@@ -485,7 +485,7 @@ MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplaceme
     // Initial deforamtion field is not set.
     // Copy information from the fixed image.
     for ( unsigned int idx = 0; idx <
-          this->GetNumberOfOutputs(); ++idx )
+          this->GetNumberOfIndexedOutputs(); ++idx )
       {
       output = this->GetOutput(idx);
       if ( output )

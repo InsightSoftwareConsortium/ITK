@@ -70,13 +70,7 @@ const typename InterpolateImageFilter< TInputImage, TOutputImage >::InputImageTy
 InterpolateImageFilter< TInputImage, TOutputImage >
 ::GetInput2()
 {
-  if ( this->GetNumberOfInputs() < 2 )
-    {
-    return 0;
-    }
-
-  return static_cast< const TInputImage * >
-         ( this->ProcessObject::GetInput(1) );
+  return static_cast< const TInputImage * >( this->ProcessObject::GetInput(1) );
 }
 
 /**

@@ -79,7 +79,7 @@ MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
   // set the required number of outputs
   this->SetNumberOfRequiredOutputs(m_NumberOfLevels);
 
-  unsigned int numOutputs = static_cast< unsigned int >( this->GetNumberOfOutputs() );
+  unsigned int numOutputs = static_cast< unsigned int >( this->GetNumberOfIndexedOutputs() );
   unsigned int idx;
   if ( numOutputs < m_NumberOfLevels )
     {
@@ -96,9 +96,7 @@ MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
     // remove extra outputs
     for ( idx = m_NumberOfLevels; idx < numOutputs; idx++ )
       {
-      typename DataObject::Pointer output =
-        this->GetOutputs()[idx];
-      this->RemoveOutput(output);
+      this->RemoveOutput(idx);
       }
     }
 }

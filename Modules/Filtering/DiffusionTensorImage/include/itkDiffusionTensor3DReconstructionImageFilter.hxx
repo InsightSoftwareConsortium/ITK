@@ -61,7 +61,7 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
   // If we have more than 3 inputs, then each input, except the first is a
   // gradient image. The number of gradient images must match the number of
   // gradient directions.
-  const unsigned int numberOfInputs = this->GetNumberOfInputs();
+  const unsigned int numberOfInputs = this->GetNumberOfIndexedInputs();
 
   // There need to be at least 6 gradient directions to be able to compute the
   // tensor basis

@@ -417,9 +417,7 @@ protected:
   const DataObject * GetOutput(unsigned int idx) const;
 
   /** Set an output */
-  virtual void SetOutput(const DataObjectIdentifierType key, DataObject *output);
-  // key is not passed by reference because the key is likely to be destroyed
-  // by this method
+  virtual void SetOutput(const DataObjectIdentifierType & key, DataObject *output);
 
   /** Remove an output */
   virtual void RemoveOutput(const DataObjectIdentifierType & key);

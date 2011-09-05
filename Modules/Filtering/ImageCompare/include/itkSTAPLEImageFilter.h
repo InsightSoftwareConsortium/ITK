@@ -178,7 +178,7 @@ public:
    * positive fraction, p) value for the i-th expert input volume. */
   double GetSensitivity(unsigned int i)
   {
-    if ( i > this->GetNumberOfInputs() )
+    if ( i > this->GetNumberOfIndexedInputs() )
       {
       itkExceptionMacro(<< "Array reference out of bounds.");
       }
@@ -189,7 +189,7 @@ public:
    * negative fraction, q) value for the i-th expert input volume. */
   double GetSpecificity(unsigned int i)
   {
-    if ( i > this->GetNumberOfInputs() )
+    if ( i > this->GetNumberOfIndexedInputs() )
       {
       itkExceptionMacro(<< "Array reference out of bounds.");
       }

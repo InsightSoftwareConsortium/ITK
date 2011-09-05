@@ -48,7 +48,7 @@ int itkConvolutionImageFilterTestInt(int argc, char * argv[])
   typedef itk::ConvolutionImageFilter<ImageType> ConvolutionFilterType;
   ConvolutionFilterType::Pointer convolver = ConvolutionFilterType::New();
   convolver->SetInput( reader1->GetOutput() );
-  convolver->SetImageKernelInput( reader2->GetOutput() );
+  convolver->SetImageKernel( reader2->GetOutput() );
 
   itk::SimpleFilterWatcher watcher(convolver, "filter");
 

@@ -50,7 +50,7 @@ int itkConvolutionImageFilterTest(int argc, char * argv[])
   ConvolutionFilterType::Pointer convoluter
     = ConvolutionFilterType::New();
   convoluter->SetInput( reader1->GetOutput() );
-  convoluter->SetImageKernelInput( reader2->GetOutput() );
+  convoluter->SetImageKernel( reader2->GetOutput() );
 
   itk::SimpleFilterWatcher watcher(convoluter, "filter");
 
@@ -169,7 +169,7 @@ int itkConvolutionImageFilterTest(int argc, char * argv[])
   largeKernel->Allocate();
   convoluter->SetOutputRegionModeToValid();
   convoluter->SetInput( reader1->GetOutput() );
-  convoluter->SetImageKernelInput( largeKernel );
+  convoluter->SetImageKernel( largeKernel );
   try
     {
     convoluter->Update();

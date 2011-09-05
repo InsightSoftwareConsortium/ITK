@@ -94,7 +94,7 @@ LabelMapToBinaryImageFilter< TInputImage, TOutputImage >
 
   // fill the output with background value - they will be overridden with the
   // foreground value later, if there is some objects
-  if ( this->GetNumberOfInputs() == 2 )
+  if ( this->GetNumberOfIndexedInputs() == 2 )
     {
     // fill the background with the background values from the background image
     ImageRegionConstIterator< OutputImageType > bgIt(this->GetBackgroundImage(), outputRegionForThread);

@@ -101,7 +101,7 @@ InPlaceLabelMapFilter< TInputImage >
       }
 
     // If there are more than one outputs, allocate the remaining outputs
-    for ( unsigned int i = 1; i < this->GetNumberOfOutputs(); i++ )
+    for ( unsigned int i = 1; i < this->GetNumberOfIndexedOutputs(); i++ )
       {
       OutputImagePointer outputPtr;
 

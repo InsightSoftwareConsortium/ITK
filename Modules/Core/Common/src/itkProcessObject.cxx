@@ -393,8 +393,12 @@ ProcessObject
  */
 void
 ProcessObject
-::SetOutput(const DataObjectIdentifierType key, DataObject * output)
+::SetOutput(const DataObjectIdentifierType & name, DataObject * output)
 {
+  // copy the key, because it might be destroyed in that method, so a reference
+  // is not enough.
+  DataObjectIdentifierType key = name;
+
   // does this change anything?
   DataObjectPointerMap::const_iterator it = m_Outputs.find(key);
   if ( it != m_Outputs.end() && it->second.GetPointer() == output)

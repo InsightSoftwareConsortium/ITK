@@ -67,6 +67,8 @@ int itkMergeLabelMapFilterTest1( int argc, char * argv[] )
   ChangeType::Pointer change = ChangeType::New();
   change->SetInput( i2l->GetOutput() );
   change->SetInput( 1, i2l2->GetOutput() );
+  std::cout << "======" << change->GetInputNames()[0] << std::endl;
+  std::cout << "======" << change->GetInputNames()[1] << std::endl;
 
   typedef ChangeType::MethodChoice MethodChoice;
   MethodChoice method = static_cast<MethodChoice>( atoi( argv[6] ) );

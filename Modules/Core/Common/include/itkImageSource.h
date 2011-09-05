@@ -73,6 +73,8 @@ public:
   /** Smart Pointer type to a DataObject. */
   typedef DataObject::Pointer DataObjectPointer;
 
+  typedef Superclass::DataObjectIdentifierType DataObjectIdentifierType;
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageSource, ProcessObject);
 
@@ -175,11 +177,18 @@ public:
    *  */
   virtual void GraftOutput(DataObject *output);
 
+  /** Graft the specified data object onto this ProcessObject's named
+   * output. This is similar to the GraftOutput method except it
+   * allows you to specify which output is affected.
+   * See the GraftOutput for general usage information.
+   */
+  virtual void GraftOutput(const DataObjectIdentifierType & key, DataObject *output);
+
   /** Graft the specified data object onto this ProcessObject's idx'th
    * output. This is similar to the GraftOutput method except it
    * allows you to specify which output is affected. The specified index
    * must be a valid output number (less than
-   * ProcessObject::GetNumberOfOutputs()). See the GraftOutput for
+   * ProcessObject::GetNumberOfIndexedOutputs()). See the GraftOutput for
    * general usage information. */
   virtual void GraftNthOutput(unsigned int idx, DataObject *output);
 

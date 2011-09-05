@@ -29,6 +29,8 @@
 #define __itkImageSource_hxx
 #include "itkImageSource.h"
 
+#include "itkOutputDataObjectIterator.h"
+
 #include "vnl/vnl_math.h"
 
 namespace itk
@@ -72,14 +74,8 @@ typename ImageSource< TOutputImage >::OutputImageType *
 ImageSource< TOutputImage >
 ::GetOutput()
 {
-  if ( this->GetNumberOfOutputs() < 1 )
-    {
-    return 0;
-    }
-
   // we assume that the first output is of the templated type
-  return static_cast< TOutputImage * >
-         ( this->ProcessObject::GetOutput(0) );
+  return static_cast< TOutputImage * >( this->GetPrimaryOutput() );
 }
 
 /**
@@ -135,14 +131,8 @@ ImageSource< TOutputImage >
 template< class TOutputImage >
 void
 ImageSource< TOutputImage >
-::GraftNthOutput(unsigned int idx, DataObject *graft)
+::GraftOutput(const DataObjectIdentifierType & key, DataObject *graft)
 {
-  if ( idx >= this->GetNumberOfOutputs() )
-    {
-    itkExceptionMacro(<< "Requested to graft output " << idx
-                      << " but this filter only has " << this->GetNumberOfOutputs() << " Outputs.");
-    }
-
   if ( !graft )
     {
     itkExceptionMacro(<< "Requested to graft output that is a NULL pointer");
@@ -150,10 +140,26 @@ ImageSource< TOutputImage >
 
   // we use the process object method since all out output may not be
   // of the same type
-  DataObject *output = this->ProcessObject::GetOutput(idx);
+  DataObject *output = this->ProcessObject::GetOutput(key);
 
   // Call GraftImage to copy meta-information, regions, and the pixel container
   output->Graft(graft);
+}
+
+/**
+ *
+ */
+template< class TOutputImage >
+void
+ImageSource< TOutputImage >
+::GraftNthOutput(unsigned int idx, DataObject *graft)
+{
+  if ( idx >= this->GetNumberOfIndexedOutputs() )
+    {
+    itkExceptionMacro(<< "Requested to graft output " << idx
+                      << " but this filter only has " << this->GetNumberOfIndexedOutputs() << " indexed Outputs.");
+    }
+  this->GraftOutput( this->MakeNameFromIndex(idx), graft );
 }
 
 //----------------------------------------------------------------------------
@@ -226,14 +232,14 @@ ImageSource< TOutputImage >
   typename ImageBaseType::Pointer outputPtr;
 
   // Allocate the output memory
-  for ( unsigned int i = 0; i < this->GetNumberOfOutputs(); i++ )
+  for ( OutputDataObjectIterator it(this); !it.IsAtEnd(); it++ )
     {
     // Check whether the output is an image of the appropriate
     // dimension (use ProcessObject's version of the GetInput()
     // method since it returns the input as a pointer to a
     // DataObject as opposed to the subclass version which
     // static_casts the input to an TInputImage).
-    outputPtr = dynamic_cast< ImageBaseType * >( this->ProcessObject::GetOutput(i) );
+    outputPtr = dynamic_cast< ImageBaseType * >( it.GetOutput() );
 
     if ( outputPtr )
       {

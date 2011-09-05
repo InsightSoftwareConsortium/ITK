@@ -64,13 +64,7 @@ const typename MeshToMeshFilter< TInputMesh, TOutputMesh >::InputMeshType *
 MeshToMeshFilter< TInputMesh, TOutputMesh >
 ::GetInput() const
 {
-  if ( this->GetNumberOfInputs() < 1 )
-    {
-    return 0;
-    }
-
-  return static_cast< const TInputMesh * >
-         ( this->ProcessObject::GetInput(0) );
+  return static_cast< const TInputMesh * >( this->GetPrimaryInput() );
 }
 
 /**

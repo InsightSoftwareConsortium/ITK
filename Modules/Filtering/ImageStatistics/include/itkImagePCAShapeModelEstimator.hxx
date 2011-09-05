@@ -92,7 +92,7 @@ ImagePCAShapeModelEstimator< TInputImage, TOutputImage >
 {
   // this filter requires the all of the output images to be in
   // the buffer
-  for ( unsigned int idx = 0; idx < this->GetNumberOfOutputs(); ++idx )
+  for ( unsigned int idx = 0; idx < this->GetNumberOfIndexedOutputs(); ++idx )
     {
     if ( this->GetOutput(idx) )
       {
@@ -121,7 +121,7 @@ ImagePCAShapeModelEstimator< TInputImage, TOutputImage >
     // Set the requested region of the remaining input to the largest possible
     // region of the first input
     unsigned int idx;
-    for ( idx = 1; idx < this->GetNumberOfInputs(); ++idx )
+    for ( idx = 1; idx < this->GetNumberOfIndexedInputs(); ++idx )
       {
       if ( this->GetInput(idx) )
         {
@@ -158,7 +158,7 @@ ImagePCAShapeModelEstimator< TInputImage, TOutputImage >
 
   // Allocate memory for each output.
   unsigned int numberOfOutputs =
-    static_cast< unsigned int >( this->GetNumberOfOutputs() );
+    static_cast< unsigned int >( this->GetNumberOfIndexedOutputs() );
 
   InputImagePointer input = const_cast< TInputImage * >( this->GetInput(0) );
   unsigned int      j;
@@ -246,7 +246,7 @@ ImagePCAShapeModelEstimator< TInputImage, TOutputImage >
     // Modify the required number of outputs ( 1 extra for the mean image )
     this->SetNumberOfRequiredOutputs(m_NumberOfPrincipalComponentsRequired + 1);
 
-    unsigned int numberOfOutputs = static_cast< unsigned int >( this->GetNumberOfOutputs() );
+    unsigned int numberOfOutputs = static_cast< unsigned int >( this->GetNumberOfIndexedOutputs() );
     unsigned int idx;
 
     if ( numberOfOutputs < m_NumberOfPrincipalComponentsRequired + 1 )
@@ -263,8 +263,7 @@ ImagePCAShapeModelEstimator< TInputImage, TOutputImage >
       // Remove the extra outputs
       for ( idx = numberOfOutputs - 1; idx >= m_NumberOfPrincipalComponentsRequired + 1; idx-- )
         {
-        typename DataObject::Pointer output = this->GetOutputs()[idx];
-        this->RemoveOutput(output);
+        this->RemoveOutput(idx);
         }
       }
     }
