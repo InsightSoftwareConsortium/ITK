@@ -72,7 +72,7 @@ LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >
 template< class TInput, class TLevelSetContainer >
 typename LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >::LevelSetOutputRealType
 LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >
-::LaplacianSpeed( const LevelSetInputIndexType& iP ) const
+::LaplacianSpeed( const LevelSetInputIndexType& itkNotUsed(iP) ) const
 {
   return NumericTraits< LevelSetOutputRealType >::One;
 }
@@ -92,7 +92,7 @@ LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >
 template< class TInput, class TLevelSetContainer >
 typename LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >::LevelSetOutputRealType
 LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >
-::Value( const LevelSetInputIndexType& iP, const LevelSetDataType& iData )
+::Value( const LevelSetInputIndexType& itkNotUsed(iP), const LevelSetDataType& iData )
 {
   return iData.Laplacian.m_Value;
 }
