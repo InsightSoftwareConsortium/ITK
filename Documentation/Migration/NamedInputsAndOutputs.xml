@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--**
+**
+** NamedInputsAndOutputs.xml
+**
+** >>>>>>>>>>>>>>>>>>>>>>>>>>>>
+** THIS FILE HAS BEEN AUTOMATICALLY GENERATED. EDIT IT BEFORE COMMITING
+** <<<<<<<<<<<<<<<<<<<<<<<<<<<
+**
+**-->
+<Change>
+    <!--**
+    ** Title for the online migration page
+    **-->
+    <Title>
+      Named Inputs And Outputs
+    </Title>
+
+    <!--**
+    ** The author of the change
+    **-->
+    <Author>
+      Gaëtan Lehmann
+    </Author>
+
+    <!--**
+    ** Date of creation for the XML document
+    **-->
+    <Date>
+      2011-05-16
+    </Date>
+
+    <!--**
+    ** Plain text description of the change
+    ** Extracted from git commit messages
+    **-->
+    <Description>
+      At this time, ITK only support indexed inputs and outputs in
+      ProcessObject and it&apos;s subclasses. While this approach is relevant
+      when an arbitrary number of inputs can be provided to the filter, like
+      NaryFunctorImageFilter, or when the filter can produce an arbitrary
+      number of outputs, like ContourExtractor2DImageFilter, a name is
+      usually more descriptive than a number.
+      Using only a index instead of a name may have limited the usage of
+      the pipeline in several ways:
+      * adding an (optional) input in a base class, like KernelImageFilter,
+      is very likely to be non backward compatible, because the subclasses
+      may add some inputs that would conflict with the newly added one in
+      the base class. Using a named input would avoid that problem.
+      * puting the filter parameters in the inputs would have very quickely
+      become messy. This may have drastically discourage the developers to
+      put the non image outputs of the filters in the outputs of process
+      object. To my knoledge, only a few filters are implemented that way -
+      StatisticsImageFilter is one of them - this prevent to reuse the
+      values produced as input of another filter in the pipeline.
+
+      The vectors used to store the inputs and outputs have been replaced
+      by a map. The direct acces to the container (formely a vector, now
+      a map) with a reference has been removed, to prevent its modification
+      outside of ProcessObject. GetInputs() and GetOutputs() are now returning
+      a plain vector of pointers to the inputs and outputs. The methods
+      GetInputNames() and GetOutputNames() have also been added to make
+      possible the exploration of the inputs and outputs at run time.
+
+      ProcessObject is still making the assumption that one of the
+      input and one of the outputs are more important than the other, and
+      are used to copy or propagate the metadata. Previously, the main
+      input and output where assumed to be of index 0. Now they are assumed
+      to be called &quot;Main&quot;.
+
+      The indexed inputs and outputs are still supported, with almost the
+      same set of methods, by converting the index in a name built as
+
+      &quot;IndexedDataObject&quot; + idx
+
+      The indexed input or output 0 is always the named "Primary" input or
+      output.
+
+      The indexed input and output should be used only when it make sense to
+      give a number to the input or output, for example when an undefined
+      number of inputs or outputs can be processed or produced by the filter.
+      In general, the other inputs and outputs should go in the named inputs
+      and outputs, excepted in a few cases like the one cited previously.
+
+      This is also true for the parameters of a transform, or for the extra
+      values which may be produced by that filter. They should be stored in
+      the ProcessObject inputs and outputs, instead of being stored as a class
+      member as it is done currently.
+      A filter should only have new members for the internal
+      computations - for example to store the values accumulated in each
+      threads. Most of the time, those changes can be made without breaking
+      backward compatibility.
+
+      A few new macros have been added to easily create the accessors to the
+      inputs and outputs.
+
+      Some non backward compatible changes have been made to implement that
+      new feature:
+
+      * GetNumberOfInputs() returns the number of inputs, not the number
+      of indexed input. They where the same previously. Now a filter
+      may have more inputs than indexed input - this will lead to
+      unexpected result if GetNumberOfInputs() is used as upper value
+      in a for loop to access to the indexed inputs.
+      GetNumberOfIndexedInputs() should be used instead.
+      This also applies to GetNumberOfOutputs() which should be replaced
+      by GetNumberOfIndexedOutputs().
+      SetNumberOfInputs() and SetNumberOfOutputs() don&apos;t make sense for
+      the named based implementation. They have been deprecated and replaced
+      by SetNumberOfIndexedInputs() and SetNumberOfIndexedOutputs().
+
+      * GetInputs() and GetOutputs() are returning a plain vector of pointer
+      to DataObject, instead of a reference to a vector of smart pointers
+      to DataObject. This prevent some external code to edit the internal
+      container and avoid the cost of carrying smart pointers. It may require
+      to change the variable use to get the inputs or outputs from a reference
+      to a plain variable, and to remove the .GetPointer() which was formely
+      used to get a raw pointer.
+
+      * SourceOutputIndex has been replaced by SourceOutputName in DataObject.
+      It is now a string instead of an unsigned int. The name can easily
+      be converted to an index if needed, with the method MakeIndexFromName().
+
+    </Description>
+
+    <!--**
+    ** Sample code snippets
+    ** Extracted from git diff of changed files in Examples and Testing
+    **-->
+    <SampleCode>
+      <Old>
+      ProcessObject::DataObjectPointerArray &amp; outputs = filter->GetOutputs();
+      ImageType * image = dynamic_cast&lt; ImageType * &gt;( outputs[0].GetPointer() );
+      </Old>
+
+      <New>
+      ProcessObject::DataObjectPointerArray outputs = filter->GetOutputs();
+      ImageType * image = dynamic_cast&lt; ImageType * &gt;( outputs[0] );
+      </New>
+
+    </SampleCode>
+
+    <!--**
+    ** The change-ids for all commits in the topic branch
+    **-->
+    <Gerrit-ChangeId>
+      I4d77e252f85e04caaa37a385742c89c3e0ff30fd
+    </Gerrit-ChangeId>
+
+    <!--**
+    ** List of all changed files from the topic branch
+    **-->
+    <FileList>
+      Modules/Core/Common/include/itkDataObject.h
+      Modules/Core/Common/include/itkImageSource.h
+      Modules/Core/Common/include/itkImageSource.hxx
+      Modules/Core/Common/include/itkImageToImageFilter.hxx
+      Modules/Core/Common/include/itkMacro.h
+      Modules/Core/Common/include/itkProcessObject.h
+      Modules/Core/Common/src/itkDataObject.cxx
+      Modules/Core/Common/src/itkProcessObject.cxx
+      Modules/Core/Mesh/include/itkMeshSource.h
+      Modules/Core/Mesh/include/itkMeshSource.hxx
+      Modules/Filtering/ImageStatistics/include/itkImagePCAShapeModelEstimator.hxx
+      Modules/Filtering/LabelMap/test/itkMergeLabelMapFilterTest1.cxx
+      Modules/Registration/Common/include/itkMultiResolutionPyramidImageFilter.hxx
+      Modules/Registration/Common/include/itkRecursiveMultiResolutionPyramidImageFilter.hxx
+      Modules/Segmentation/Watersheds/include/itkWatershedEquivalenceRelabeler.hxx
+      Modules/Segmentation/Watersheds/include/itkWatershedRelabeler.hxx
+      Modules/Segmentation/Watersheds/include/itkWatershedSegmenter.hxx
+    </FileList>
+
+    <MigrationFix-Automatic>
+      <Old>
+        GetNumberOfInputs()
+      </Old>
+      <New>
+        GetNumberOfIndexedInputs()
+      </New>
+    </MigrationFix-Automatic>
+
+    <MigrationFix-Automatic>
+      <Old>
+        GetNumberOfOutputs()
+      </Old>
+      <New>
+        GetNumberOfIndexedOutputs()
+      </New>
+    </MigrationFix-Automatic>
+
+    <MigrationFix-Manual>
+      <Old>
+        SourceOutputIndex
+      </Old>
+      <New>
+        SourceOutputName
+      </New>
+    </MigrationFix-Manual>
+
+</Change>

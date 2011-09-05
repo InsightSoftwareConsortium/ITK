@@ -280,6 +280,8 @@ public:
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
 
+  typedef std::string                DataObjectIdentifierType;
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(DataObject, Object);
 
@@ -303,6 +305,9 @@ public:
    * because it is assumed the code calling GetSource() wants to hold a
    * long term reference to the source. */
   SmartPointerForwardReference< ProcessObject > GetSource() const;
+
+  /** Which of the source's outputs corresponds to this data object? */
+  const DataObjectIdentifierType & GetSourceOutputName() const;
 
   /** Which of the source's outputs corresponds to this data object? */
   unsigned int GetSourceOutputIndex() const;
@@ -483,8 +488,8 @@ private:
   void operator=(const Self &); //purposely not implemented
 
   /** Who generated this data? */
-  mutable WeakPointer< ProcessObject > m_Source;
-  mutable unsigned int                 m_SourceOutputIndex;
+  WeakPointer< ProcessObject > m_Source;
+  DataObjectIdentifierType                  m_SourceOutputName;
 
   /** When was this data last generated?
    *  This time stap is an integer number and it is intended to synchronize the
@@ -509,17 +514,17 @@ private:
    * should only be called from a process object. The second parameter
    * indicates which of the source's outputs corresponds to this data
    * object. */
-  bool ConnectSource(ProcessObject *s, unsigned long idx) const;
+  bool ConnectSource(ProcessObject *s, const DataObjectIdentifierType & name);
 
   /** Disconnect the specified process object from the data
    * object. This should only be called from a process object. An
    * application should call DataObject::DisconnectPipeline() if it
    * wants to disconnect a data object from a pipeline. The second
    * parameter indicates which of the source's outputs corresponds to
-   * this data object. If the specified source output index does not
-   * match the index cached when the data object was connected to the
+   * this data object. If the specified source output name does not
+   * match the name cached when the data object was connected to the
    * pipeline (see ConnectSource), then nothing is done. */
-  bool DisconnectSource(ProcessObject *s, unsigned long idx) const;
+  bool DisconnectSource(ProcessObject *s, const DataObjectIdentifierType & name);
 
   /** Friends of DataObject */
   friend class ProcessObject;

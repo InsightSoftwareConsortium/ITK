@@ -103,23 +103,14 @@ namespace itk
 
 #define itkGetStaticConstMacro(name) (Self::name)
 
-/** Set an input. This defines the Set"name"Input() method */
-#define itkSetInputMacro(name, type, number)                                      \
-  virtual void Set##name##Input(const type *_arg)                             \
+/** Set an input. This defines the Set"name"() method */
+#define itkSetInputMacro(name, type)                                              \
+  virtual void Set##name(const type *_arg)                                        \
     {                                                                             \
-    itkDebugMacro("setting input " #name " to " << _arg);                        \
-    if ( _arg != static_cast< type * >( this->ProcessObject::GetInput(number) ) ) \
+    itkDebugMacro("setting input " #name " to " << _arg);                         \
+    if ( _arg != static_cast< type * >( this->ProcessObject::GetInput(#name) ) )  \
       {                                                                           \
-      this->ProcessObject::SetNthInput( number, const_cast< type * >( _arg ) );   \
-      this->Modified();                                                           \
-      }                                                                           \
-    }                                                                             \
-  virtual void SetInput##number(const type * _arg)                              \
-    {                                                                             \
-    itkDebugMacro("setting input " #number " to " << _arg);                      \
-    if ( _arg != static_cast< type * >( this->ProcessObject::GetInput(number) ) ) \
-      {                                                                           \
-      this->ProcessObject::SetNthInput( number, const_cast< type * >( _arg ) );   \
+      this->ProcessObject::SetInput( #name, const_cast< type * >( _arg ) );       \
       this->Modified();                                                           \
       }                                                                           \
     }
@@ -128,44 +119,57 @@ namespace itk
 #define itkSuperclassTraitMacro(traitnameType) \
   typedef typename Superclass::traitnameType traitnameType;
 
-/** Get an input. This defines the Get"name"Input() method */
-#define itkGetInputMacro(name, type, number)                                                                     \
-  virtual const type * Get##name##Input() const                                                              \
-    {                                                                                                            \
-    return static_cast< const type * >( this->ProcessObject::GetInput(number) );                                 \
-    }                                                                                                            \
-  virtual const type *GetInput##number() const                                                                 \
-    {                                                                                                            \
-    return static_cast< const type * >( this->ProcessObject::GetInput(number) );                                 \
+/** Get an input. This defines the Get"name"() method */
+#define itkGetInputMacro(name, type)                                                                            \
+  virtual const type * Get##name() const                                                                        \
+    {                                                                                                           \
+    itkDebugMacro( "returning input " << #name " of "                                                           \
+                                      << static_cast< const type * >( this->ProcessObject::GetInput(#name) ) ); \
+    return static_cast< const type * >( this->ProcessObject::GetInput(#name) );                                 \
     }
 
-/** Set a decorated input. This defines the Set"name"() and Get"name"() methods,
- * in addition to the Set"name"Input() and Get"name"Input() defined by invoking
- * SetInputMacro() and GetInputMacro() for the decorated object */
-#define itkSetDecoratedInputMacro(name, type, number)                \
-  itkSetInputMacro(name, SimpleDataObjectDecorator< type >, number); \
-  itkGetInputMacro(name, SimpleDataObjectDecorator< type >, number); \
-  virtual void Set##name(const type &_arg)                         \
+/** Set a decorated input. This defines the Set"name"() and a Set"name"Input() method */
+#define itkSetDecoratedInputMacro(name, type)                                                                 \
+  virtual void Set##name##Input(const SimpleDataObjectDecorator< type > *_arg)                                \
+    {                                                                                                         \
+    itkDebugMacro("setting input " #name " to " << _arg);                                                     \
+    if ( _arg != static_cast< SimpleDataObjectDecorator< type > * >( this->ProcessObject::GetInput(#name) ) ) \
+      {                                                                                                       \
+      this->ProcessObject::SetInput( #name, const_cast< SimpleDataObjectDecorator< type > * >( _arg ) );      \
+      this->Modified();                                                                                       \
+      }                                                                                                       \
+    }                                                                                                         \
+  virtual void Set##name(const type &_arg)                           \
     {                                                                \
     typedef SimpleDataObjectDecorator< type > DecoratorType;         \
-    itkDebugMacro("setting input " #name " to " << _arg);           \
+    itkDebugMacro("setting input " #name " to " << _arg);            \
     const DecoratorType *oldInput =                                  \
       static_cast< const DecoratorType * >(                          \
-        this->ProcessObject::GetInput(number) );                     \
+        this->ProcessObject::GetInput(#name) );                      \
     if ( oldInput && oldInput->Get() == _arg )                       \
       {                                                              \
       return;                                                        \
       }                                                              \
     typename DecoratorType::Pointer newInput = DecoratorType::New(); \
     newInput->Set(_arg);                                             \
-    this->Set##name##Input(newInput);                            \
+    this->Set##name##Input(newInput);                                \
+    }
+
+/** Set a decorated input. This defines the Set"name"() and Set"name"Input() method */
+#define itkGetDecoratedInputMacro(name, type)                                                                 \
+  virtual const SimpleDataObjectDecorator< type > * Get##name##Input() const                                                                 \
+    {                                                                                                                                        \
+    itkDebugMacro( "returning input " << #name " of "                                                                                        \
+                                      << static_cast< const SimpleDataObjectDecorator< type > * >( this->ProcessObject::GetInput(#name) ) ); \
+    return static_cast< const SimpleDataObjectDecorator< type > * >( this->ProcessObject::GetInput(#name) );                                 \
     }                                                                \
   virtual const type & Get##name() const                             \
     {                                                                \
+    itkDebugMacro("Getting input " #name);                           \
     typedef SimpleDataObjectDecorator< type > DecoratorType;         \
     const DecoratorType *input =                                     \
       static_cast< const DecoratorType * >(                          \
-        this->ProcessObject::GetInput(number) );                     \
+        this->ProcessObject::GetInput(#name) );                      \
     if( input == NULL )                                              \
       {                                                              \
       itkExceptionMacro(<<"input" #name " is not set");              \
@@ -173,28 +177,72 @@ namespace itk
     return input->Get();                                             \
     }
 
+/** Set a decorated input. This defines the Set"name"() and Set"name"Input() method
+ * and Get"name" and Get"name"Input methods */
+#define itkSetGetDecoratedInputMacro(name, type)  \
+  itkSetDecoratedInputMacro(name, type)           \
+  itkGetDecoratedInputMacro(name, type)
 
 /** Set a decorated input that derives from itk::Object, but not from
- * itk::DataObject. This defines the Set"name"() method.  It invokes
- * SetInputMacro() and GetInputMacro() for the decorated object */
-#define itkSetDecoratedObjectInputMacro(name, type, number)          \
-  itkSetInputMacro(name, DataObjectDecorator< type >, number);       \
-  itkGetInputMacro(name, DataObjectDecorator< type >, number);       \
-  virtual void Set##name(const type * _arg)                        \
+ * itk::DataObject. This defines the Set"name"() and Set"name"Input
+ * methods.
+ */
+#define itkSetDecoratedObjectInputMacro(name, type)          \
+  virtual void Set##name##Input(const DataObjectDecorator< type > *_arg)                                \
+    {                                                                                                   \
+    itkDebugMacro("setting input " #name " to " << _arg);                                               \
+    if ( _arg != static_cast< DataObjectDecorator< type > * >( this->ProcessObject::GetInput(#name) ) ) \
+      {                                                                                                 \
+      this->ProcessObject::SetInput( #name, const_cast< DataObjectDecorator< type > * >( _arg ) );      \
+      this->Modified();                                                                                 \
+      }                                                                                                 \
+    }                                                                                                   \
+  virtual void Set##name(const type * _arg)                          \
     {                                                                \
     typedef DataObjectDecorator< type > DecoratorType;               \
-    itkDebugMacro("setting input " #name " to " << _arg);           \
+    itkDebugMacro("setting input " #name " to " << _arg);            \
     const DecoratorType *oldInput =                                  \
       static_cast< const DecoratorType * >(                          \
-        this->ProcessObject::GetInput(number) );                     \
+        this->ProcessObject::GetInput(#name) );                      \
     if ( oldInput && oldInput->Get() == _arg )                       \
       {                                                              \
       return;                                                        \
       }                                                              \
     typename DecoratorType::Pointer newInput = DecoratorType::New(); \
     newInput->Set(_arg);                                             \
-    this->Set##name##Input(newInput);                            \
+    this->Set##name##Input(newInput);                                \
     }
+
+/** Get a decorated input that derives from itk::Object, but not from
+ * itk::DataObject. This defines the Get"name"() and Get"name"Input
+ * methods.
+ */
+#define itkGetDecoratedObjectInputMacro(name, type)          \
+  virtual const DataObjectDecorator< type > * Get##name##Input() const                                                                 \
+    {                                                                                                                                  \
+    itkDebugMacro( "returning input " << #name " of "                                                                                  \
+                                      << static_cast< const DataObjectDecorator< type > * >( this->ProcessObject::GetInput(#name) ) ); \
+    return static_cast< const DataObjectDecorator< type > * >( this->ProcessObject::GetInput(#name) );                                 \
+    }                                                                \
+  virtual const type * Get##name() const                             \
+    {                                                                \
+    itkDebugMacro("Getting input " #name);                           \
+    typedef DataObjectDecorator< type > DecoratorType;               \
+    const DecoratorType *input =                                     \
+      static_cast< const DecoratorType * >(                          \
+        this->ProcessObject::GetInput(#name) );                      \
+    if( input == NULL )                                              \
+      {                                                              \
+      itkExceptionMacro(<<"input" #name " is not set");              \
+      }                                                              \
+    return input->Get();                                             \
+    }
+
+/** Set a decorated input. This defines the Set"name"() and Set"name"Input() method
+ * and Get"name" and Get"name"Input methods */
+#define itkSetGetDecoratedObjectInputMacro(name, type)  \
+  itkSetDecoratedObjectInputMacro(name, type)           \
+  itkGetDecoratedObjectInputMacro(name, type)
 
 /** Set built-in type.  Creates member Set"name"() (e.g., SetVisibility()); */
 #define itkSetMacro(name, type)                      \
