@@ -24,6 +24,7 @@ itkWindowedSincInterpolateImageFunctionTest.cxx
 itkLinearInterpolateImageFunctionTest.cxx
 itkNeighborhoodOperatorImageFunctionTest.cxx
 itkNearestNeighborInterpolateImageFunctionTest.cxx
+itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest.cxx
 )
 
 CreateTestDriver(ITKImageFunction  "${ITKImageFunction-Test_LIBRARIES}" "${ITKImageFunctionTests}")
@@ -77,3 +78,6 @@ itk_add_test(NAME itkNeighborhoodOperatorImageFunctionTest
       COMMAND ITKImageFunctionTestDriver itkNeighborhoodOperatorImageFunctionTest)
 itk_add_test(NAME itkNearestNeighborInterpolateImageFunctionTest
       COMMAND ITKImageFunctionTestDriver itkNearestNeighborInterpolateImageFunctionTest)
+
+itk_add_test(NAME itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest
+      COMMAND ITKImageFunctionTestDriver itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest)

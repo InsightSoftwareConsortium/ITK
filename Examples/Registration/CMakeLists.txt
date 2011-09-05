@@ -158,8 +158,10 @@ target_link_libraries(ImageRegistration17 ${ITK_LIBRARIES})
 add_executable(MeanSquaresImageMetric1  MeanSquaresImageMetric1.cxx )
 target_link_libraries(MeanSquaresImageMetric1 ${ITK_LIBRARIES})
 
-add_executable(DeformationFieldJacobian DeformationFieldJacobian.cxx )
-target_link_libraries(DeformationFieldJacobian ${ITK_LIBRARIES})
+if(ITKV3_COMPATIBILITY)
+  add_executable(DeformationFieldJacobian DeformationFieldJacobian.cxx )
+  target_link_libraries(DeformationFieldJacobian ${ITK_LIBRARIES})
+endif()
 
 add_executable(IterativeClosestPoint1   IterativeClosestPoint1.cxx )
 target_link_libraries(IterativeClosestPoint1 ${ITK_LIBRARIES})
