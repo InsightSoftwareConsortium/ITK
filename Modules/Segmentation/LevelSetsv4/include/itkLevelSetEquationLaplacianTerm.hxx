@@ -92,9 +92,16 @@ LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >
 template< class TInput, class TLevelSetContainer >
 typename LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >::LevelSetOutputRealType
 LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >
-::Value( const LevelSetInputIndexType& itkNotUsed(iP), const LevelSetDataType& iData )
+::Value( const LevelSetInputIndexType& iP, const LevelSetDataType& iData )
 {
-  return iData.Laplacian.m_Value;
+  // Laplacian should be computed by this point.
+  itkAssertInDebugAndIgnoreInReleaseMacro( iData.Laplacian.m_Computed == true );
+
+  LevelSetOutputRealType laplacian = iData.Laplacian.m_Value;
+
+  laplacian *= this->LaplacianSpeed( iP );
+
+  return laplacian;
 }
 
 }
