@@ -23,7 +23,7 @@
  */
 int itkImageToDataTest(int , char* [])
 {
-  typedef ImageToData<2, Object> ImageToDataType;
-  itk::ImageToDataType::Pointer imageToDataThreader = itk::ImageToDataType::New();
+  typedef itk::ImageToData<2, itk::Object> ImageToDataType;
+  ImageToDataType::Pointer imageToDataThreader = ImageToDataType::New();
   return EXIT_SUCCESS;
 }
