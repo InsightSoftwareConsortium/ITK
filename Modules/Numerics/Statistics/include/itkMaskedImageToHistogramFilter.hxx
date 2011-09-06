@@ -37,30 +37,6 @@ MaskedImageToHistogramFilter< TImage, TMaskImage >
 template< class TImage, class TMaskImage >
 void
 MaskedImageToHistogramFilter< TImage, TMaskImage >
-::SetMaskImage(const MaskImageType *image)
-{
-  // Process object is not const-correct so the const_cast is required here
-  this->ProcessObject::SetNthInput( 6,
-                                    const_cast< MaskImageType * >( image ) );
-}
-
-template< class TImage, class TMaskImage >
-const TMaskImage *
-MaskedImageToHistogramFilter< TImage, TMaskImage >
-::GetMaskImage() const
-{
-  if ( this->GetNumberOfInputs() < 7 )
-    {
-    return 0;
-    }
-
-  return static_cast< const MaskImageType * >
-         ( this->ProcessObject::GetInput(6) );
-}
-
-template< class TImage, class TMaskImage >
-void
-MaskedImageToHistogramFilter< TImage, TMaskImage >
 ::ThreadedComputeMinimumAndMaximum( const RegionType & inputRegionForThread, ThreadIdType threadId, ProgressReporter & progress )
 {
   unsigned int nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
