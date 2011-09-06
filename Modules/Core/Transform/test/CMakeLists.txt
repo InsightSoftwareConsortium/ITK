@@ -112,9 +112,6 @@ itk_add_test(NAME itkTransformsSetParametersTest
       COMMAND ITKTransformTestDriver itkTransformsSetParametersTest)
 
 ## Tests for ITKv3 version of BSplineDeformableTransforms
-if(0)  ## These tests are failing because the DATA commands are not working with gerrit.  It is holding up these important changes for testing.
-       ## A future patcheset will restore these tests once gerrit data issues are figured out.
-       ## JIRA ISSUE: https://issues.itk.org/jira/browse/ITK-259 will stay open until this is resolved.
 itk_add_test(NAME itkBSplineDeformableTransformTest
       COMMAND ITKTransformTestDriver itkBSplineDeformableTransformTest)
 itk_add_test(NAME itkBSplineDeformableTransformTest2
@@ -147,7 +144,6 @@ itk_add_test(NAME itkBSplineDeformableTransformTest7
     --compare DATA{Baseline/itkBSplineDeformableTransformTest5PixelCentered.png}
               ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest7PixelCentered.png
     itkBSplineDeformableTransformTest3 DATA{Baseline/BSplineDeformationTransformDisplacements1.txt} ${ITK_EXAMPLE_DATA_ROOT}/DiagonalLines.png ${ITK_EXAMPLE_DATA_ROOT}/DiagonalLines.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest7PixelCentered.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest7DeformationFieldPixelCentered.mhd 2)
-endif()
 
 ## Tests for ITKv4 version of BSplineTransforms
 itk_add_test(NAME itkBSplineTransformTest
