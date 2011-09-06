@@ -41,6 +41,20 @@ GradientDescentObjectOptimizerBase
 {}
 
 //-------------------------------------------------------------------
+void
+GradientDescentObjectOptimizerBase
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "Modify Gradient Threader: " << this->m_ModifyGradientThreader << std::endl;
+  os << indent << "Number of iterations: " << this->m_NumberOfIterations  << std::endl;
+  os << indent << "Current iteration: " << this->m_CurrentIteration << std::endl;
+  os << indent << "Stop condition:"<< this->m_StopCondition << std::endl;
+  os << indent << "Stop condition description: " << this->m_StopConditionDescription.str()  << std::endl;
+}
+
+
+//-------------------------------------------------------------------
 const GradientDescentObjectOptimizerBase::StopConditionReturnStringType
 GradientDescentObjectOptimizerBase
 ::GetStopConditionDescription() const

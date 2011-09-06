@@ -37,6 +37,21 @@ GradientDescentObjectOptimizer
 ::~GradientDescentObjectOptimizer()
 {}
 
+
+/**
+ *PrintSelf
+ */
+void
+GradientDescentObjectOptimizer
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+ Superclass::PrintSelf(os, indent);
+ os << indent << "Learning rate:" << this->m_LearningRate << std::endl;
+}
+
+
+
+
 /**
  * Start and run the optimization
  */
