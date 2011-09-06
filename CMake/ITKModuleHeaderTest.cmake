@@ -12,6 +12,10 @@ find_package(PythonInterp)
 # and the cppcheck tests.)
 set( MAXIMUM_NUMBER_OF_HEADERS 35 )
 
+add_custom_target( ITKHeaderTests
+  ${CMAKE_COMMAND} --build ${ITK_BINARY_DIR}
+  COMMENT "Regenerating and building the header tests." )
+
 macro( itk_module_headertest _name )
   if( NOT ${_name}_THIRD_PARTY AND
       EXISTS ${${_name}_SOURCE_DIR}/include
@@ -36,8 +40,13 @@ macro( itk_module_headertest _name )
     # Delete the outputs.  These should be regenerated when the header files
     # move around, but adding the header files to the add_custom_command DEPENDS
     # does not solve the problem.  So, they get nuked at CMake configuration
-    # time.
+    # time for robustness.  Eventually it should show be considered if this
+    # should be removed once the the toolkit stabilizes following the 4.0 release.
     file( REMOVE ${_outputs} )
+
+    add_custom_target( ${_name}HeaderTestClean
+      ${CMAKE_COMMAND} -E remove ${_outputs} )
+    add_dependencies( ITKHeaderTests ${_name}HeaderTestClean )
 
     set( _test_num 1 )
     foreach( _header_test_src ${_outputs} )
