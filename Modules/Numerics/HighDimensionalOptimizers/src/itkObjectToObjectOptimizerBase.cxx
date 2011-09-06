@@ -37,6 +37,18 @@ ObjectToObjectOptimizerBase
 ::~ObjectToObjectOptimizerBase()
 {}
 
+void
+ObjectToObjectOptimizerBase
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "Number of threads: " << this->m_NumberOfThreads << std::endl;
+  os << indent << "Number of scales:  " << this->m_Scales.Size() << std::endl;
+  os << indent << "Metric: " << std::endl;
+  m_Metric->Print( os, indent.GetNextIndent() );
+}
+
 //-------------------------------------------------------------------
 void
 ObjectToObjectOptimizerBase

@@ -140,7 +140,10 @@ int itkObjectToObjectOptimizerBaseTest(int , char* [])
 
   optimizer->SetNumberOfThreads( 1 );
 
-  TRY_EXPECT_NO_EXCEPTION( optimizer->StartOptimization() )
+  TRY_EXPECT_NO_EXCEPTION( optimizer->StartOptimization() );
+
+  std::cout << "Printing self.." << std::endl;
+  std::cout << optimizer << std::endl;
 
   return EXIT_SUCCESS;
 }
