@@ -1,6 +1,7 @@
 itk_module_test()
 set(ITKHighDimensionalMetricsTests
   itkObjectToObjectMetricTest.cxx
+  itkImageToImageObjectMetricTest.cxx
 )
 
 set(INPUTDATA ${ITK_DATA_ROOT}/Input)
@@ -11,3 +12,7 @@ CreateTestDriver(ITKHighDimensionalMetrics  "${ITKHighDimensionalMetrics-Test_LI
 
 itk_add_test(NAME itkObjectToObjectMetricTest
       COMMAND ITKHighDimensionalMetricsTestDriver itkObjectToObjectMetricTest)
+
+itk_add_test(NAME itkImageToImageObjectMetricTest
+      COMMAND ITKHighDimensionalMetricsTestDriver
+              itkImageToImageObjectMetricTest)

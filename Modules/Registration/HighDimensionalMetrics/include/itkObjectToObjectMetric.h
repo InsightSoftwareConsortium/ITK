@@ -96,10 +96,18 @@ public:
   itkSetMacro( GradientSource, GradientSourceType );
 
   /**
-   * Get source of the gradient.
-   * \sa GradientSourceType
-   */
+   * Get gradient source.
+   * See \c GetGradientSourceIncludesFixed and \c GetGradientSourceIncludesMoving
+   * for convenience methods. */
   itkGetConstMacro( GradientSource, GradientSourceType );
+
+  /** Return true of \c m_GradientSource is either \c GRADIENT_SOURCE_FIXED or
+   * \c GRADIENT_SOURCE_BOTH. Convenience method. */
+  bool GetGradientSourceIncludesFixed();
+
+  /** Return true of \c m_GradientSource is either \c GRADIENT_SOURCE_MOVING or
+   * \c GRADIENT_SOURCE_BOTH. Convenience method. */
+  bool GetGradientSourceIncludesMoving();
 
   /** Initialize the Metric by making sure that all the components
    *  are present and plugged together correctly, and initializing
