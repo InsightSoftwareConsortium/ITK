@@ -17,7 +17,6 @@
  *=========================================================================*/
 #include "itkImageToData.h"
 
-using namespace itk;
 
 /*
  * Main test entry function
@@ -25,6 +24,6 @@ using namespace itk;
 int itkImageToDataTest(int , char* [])
 {
   typedef ImageToData<2, Object> ImageToDataType;
-  ImageToDataType::Pointer imageToDataThreader = ImageToDataType::New();
+  itk::ImageToDataType::Pointer imageToDataThreader = itk::ImageToDataType::New();
   return EXIT_SUCCESS;
 }
