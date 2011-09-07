@@ -18,6 +18,8 @@ set(optional_libraries
 ITKStatistics
 ITKTransform
 ITKOptimizers
+ITKHighDimensionalMetrics
+ITKHighDimensionalOptimizers
 ITKImageFunction
 ITKImageFilterBase
 ITKImageGrid
