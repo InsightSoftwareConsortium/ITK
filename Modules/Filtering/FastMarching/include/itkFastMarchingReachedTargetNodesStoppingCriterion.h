@@ -138,7 +138,7 @@ namespace itk
       }
 
     /** \brief Get a short description of the stopping criterion. */
-    const std::string GetDescription() const
+    std::string GetDescription() const
       {
       return "Target Nodes Reached with possible overshoot";
       }

@@ -49,7 +49,7 @@ public:
   must stop).
       \return \c fasle else. */
   virtual bool IsSatisfied() const = 0;
-  virtual const std::string GetDescription() const = 0;
+  virtual std::string GetDescription() const = 0;
 
 protected:
   /** \brief Constructor */
