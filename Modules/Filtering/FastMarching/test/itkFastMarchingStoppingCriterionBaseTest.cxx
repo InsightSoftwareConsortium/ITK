@@ -42,7 +42,7 @@ namespace itk
                  FastMarchingStoppingCriterionBase );
 
     bool IsSatisfied() const { return true; }
-    const std::string GetDescription() const { return "Description"; }
+    std::string GetDescription() const { return "Description"; }
 
   protected:
     FastMarchingStoppingCriterionBaseHelperTest() : Superclass() {}

@@ -60,7 +60,7 @@ namespace itk
       return ( this->m_CurrentValue >= this->m_Threshold );
       }
 
-    const std::string GetDescription() const
+    std::string GetDescription() const
       {
       return "Current Value >= Threshold";
       }
