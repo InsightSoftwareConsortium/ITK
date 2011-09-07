@@ -5,6 +5,7 @@ set(ITKHighDimensionalMetricsTests
   itkJensenHavrdaCharvatTsallisPointSetMetricTest.cxx
   itkObjectToObjectMetricTest.cxx
   itkImageToImageObjectMetricTest.cxx
+  itkDemonsImageToImageObjectMetricTest.cxx
 )
 
 set(INPUTDATA ${ITK_DATA_ROOT}/Input)
@@ -25,3 +26,7 @@ itk_add_test(NAME itkObjectToObjectMetricTest
 itk_add_test(NAME itkImageToImageObjectMetricTest
       COMMAND ITKHighDimensionalMetricsTestDriver
               itkImageToImageObjectMetricTest)
+
+itk_add_test(NAME itkDemonsImageToImageObjectMetricTest
+      COMMAND ITKHighDimensionalMetricsTestDriver
+      itkDemonsImageToImageObjectMetricTest)
