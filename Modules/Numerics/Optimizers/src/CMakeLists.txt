@@ -25,6 +25,9 @@ itkGradientDescentOptimizer.cxx
 itkSingleValuedNonLinearOptimizer.cxx
 itkRegularStepGradientDescentBaseOptimizer.cxx
 itkMultipleValuedVnlCostFunctionAdaptor.cxx
+itkParticleSwarmOptimizerBase.cxx
+itkParticleSwarmOptimizer.cxx
+itkInitializationBiasedParticleSwarmOptimizer.cxx
 )
 
 add_library(ITKOptimizers ${ITKOptimizers_SRC})

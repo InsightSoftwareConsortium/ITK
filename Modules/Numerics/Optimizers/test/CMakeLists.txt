@@ -15,6 +15,8 @@ itkRegularStepGradientDescentOptimizerTest.cxx
 itkLevenbergMarquardtOptimizerTest.cxx
 itkVersorRigid3DTransformOptimizerTest.cxx
 itkAmoebaOptimizerTest.cxx
+itkParticleSwarmOptimizerTest.cxx
+itkInitializationBiasedParticleSwarmOptimizerTest.cxx
 )
 
 CreateTestDriver(ITKOptimizers  "${ITKOptimizers-Test_LIBRARIES}" "${ITKOptimizersTests}")
@@ -49,3 +51,7 @@ itk_add_test(NAME itkVersorRigid3DTransformOptimizerTest
       COMMAND ITKOptimizersTestDriver itkVersorRigid3DTransformOptimizerTest)
 itk_add_test(NAME itkAmoebaOptimizerTest
       COMMAND ITKOptimizersTestDriver itkAmoebaOptimizerTest)
+itk_add_test(NAME itkParticleSwarmOptimizerTest
+      COMMAND ITKOptimizersTestDriver itkParticleSwarmOptimizerTest)
+itk_add_test(NAME itkInitializationBiasedParticleSwarmOptimizerTest
+      COMMAND ITKOptimizersTestDriver itkInitializationBiasedParticleSwarmOptimizerTest)
