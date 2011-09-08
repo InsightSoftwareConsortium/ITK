@@ -18,6 +18,7 @@
 
 #include "itkDataObject.h"
 #include "itkObjectFactory.h"
+#include "itkRealTimeClock.h"
 
 namespace itk {
 
@@ -56,7 +57,13 @@ int itkDataObjectTest( int , char * [] )
 {
   itk::DataObjectTestHelper::Pointer dataObject = itk::DataObjectTestHelper::New();
 
+  itk::RealTimeClock::Pointer clock = itk::RealTimeClock::New();
+  dataObject->SetRealTimeStamp(clock->GetRealTimeStamp());
   itk::RealTimeStamp timeStamp = dataObject->GetRealTimeStamp();
-
+  dataObject->DataHasBeenGenerated();
+  if( timeStamp != dataObject->GetRealTimeStamp() )
+    {
+    return EXIT_FAILURE;
+    }
   return EXIT_SUCCESS;
 }
