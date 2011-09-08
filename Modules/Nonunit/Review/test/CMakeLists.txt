@@ -56,7 +56,6 @@ itkMultiplyByConstantImageFilterTest.cxx
 itkMultiScaleHessianBasedMeasureImageFilterTest.cxx
 itkNeuralNetworkIOTest.cxx
 itkN4MRIBiasFieldCorrectionImageFilterTest
-itkObjectToObjectMetricTest.cxx
 itkOptImageToImageMetricsTest.cxx
 itkOptImageToImageMetricsTest2.cxx
 itkOptMattesMutualInformationImageToImageMetricThreadsTest1.cxx
@@ -581,8 +580,6 @@ itk_add_test(NAME itkN4MRIBiasFieldCorrectionImageFilterTest2
 itk_add_test(NAME itkNeuralNetworkIOTest
       COMMAND ITKReviewTestDriver itkNeuralNetworkIOTest
               ${ITK_DATA_ROOT}/Input/xornet.txt ${ITK_DATA_ROOT}/Input/xortest.txt ${ITK_TEST_OUTPUT_DIR})
-itk_add_test(NAME itkObjectToObjectMetricTest
-      COMMAND ITKReviewTestDriver itkObjectToObjectMetricTest)
 itk_add_test(NAME itkOptImageToImageMetricsTest01
       COMMAND ITKReviewTestDriver itkOptImageToImageMetricsTest
               ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png
