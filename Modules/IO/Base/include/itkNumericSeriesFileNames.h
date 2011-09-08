@@ -80,14 +80,10 @@ public:
   itkSetMacro(IncrementIndex, SizeValueType);
   itkGetConstMacro(IncrementIndex, SizeValueType);
 
-/** The format string used to generate the series. Different subclasses
+  /** The format string used to generate the series. Different subclasses
    * require different characteristics of this string. For example, the
    * subclass NumericSeriesFileNames requires a "%d" or some integral
    * format specified to be embedded in the string. Default is "%d".
-   *
-   * \wiki
-   * \wikiexample{Utilities/NumericSeriesFileNames,Create a list of file names}
-   * \endwiki
    */
   itkSetStringMacro(SeriesFormat);
   itkGetStringMacro(SeriesFormat);

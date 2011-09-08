@@ -103,8 +103,6 @@ namespace itk
  * the space dimension and the spline order.
  *
  * \ingroup ITKTransform
- * \wikiexample{Registration/ImageRegistrationMethodBSpline,
- *   A global registration of two images}
  *
  * \wiki
  * \wikiexample{Registration/ImageRegistrationMethodBSpline,A global registration of two images}
