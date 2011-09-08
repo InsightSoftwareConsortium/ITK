@@ -66,6 +66,10 @@ namespace itk
  *
  * \ingroup ImageFeatureExtraction
  * \ingroup ITKImageStatistics
+ *
+ * \wiki
+ * \wikiexample{Segmentation/EstimatePCAModel,Compute a PCA shape model from a training sample}
+ * \endwiki
  */
 
 template< class TInputImage,

@@ -75,6 +75,10 @@ public:
  * \ingroup IntensityImageFilters
  * \ingroup MultiThreaded
  * \ingroup ITKImageIntensity
+ *
+ * \wiki
+ * \wikiexample{Math/Trig/Atan2ImageFilter,Compute the arctangent of each pixel.}
+ * \endwiki
  */
 template< class TInputImage1, class TInputImage2, class TOutputImage >
 class ITK_EXPORT Atan2ImageFilter:

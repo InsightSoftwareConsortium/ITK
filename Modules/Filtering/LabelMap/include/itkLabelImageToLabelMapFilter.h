@@ -39,6 +39,10 @@ namespace itk
  * \sa BinaryImageToLabelMapFilter, LabelMapToLabelImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
+ *
+ * \wiki
+ * \wikiexample{ImageSegmentation/LabelImageToLabelMapFilter,Convert an itk::Image consisting of labeled regions to a LabelMap}
+ * \endwiki
  */
 template< class TInputImage, class TOutputImage =
             LabelMap< LabelObject< typename TInputImage::PixelType,

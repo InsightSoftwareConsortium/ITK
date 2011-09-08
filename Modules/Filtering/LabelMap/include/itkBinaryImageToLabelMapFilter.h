@@ -49,6 +49,10 @@ namespace itk
  *
  * \sa ConnectedComponentImageFilter, LabelImageToLabelMapFilter, LabelMap, LabelObject
  * \ingroup ITKLabelMap
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/BinaryImageToLabelMapFilter,Label binary regions in an image}
+ * \endwiki
  */
 
 template< class TInputImage,

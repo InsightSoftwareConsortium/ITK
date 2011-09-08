@@ -51,6 +51,10 @@ namespace itk
  *
  * \ingroup MathematicalStatisticsImageFilters
  * \ingroup ITKImageStatistics
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/LabelStatisticsImageFilter,Get statistical properties of labeled regions in an image}
+ * \endwiki
  */
 template< class TInputImage, class TLabelImage >
 class ITK_EXPORT LabelStatisticsImageFilter:

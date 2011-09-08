@@ -59,6 +59,10 @@ namespace itk
  * available at  http://midasjournal.com/browse/publication/825
  *
  * \ingroup ITKTransform
+ *
+ * \wiki
+ * \wikiexample{Registration/LandmarkBasedTransformInitializer,Rigidly register one image to another using manually specified landmarks}
+ * \endwiki
  */
 template< class TTransform,
           class TFixedImage,

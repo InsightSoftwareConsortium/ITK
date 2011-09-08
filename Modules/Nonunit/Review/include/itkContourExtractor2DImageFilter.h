@@ -87,6 +87,10 @@ namespace itk
  * \sa PolyLineParametricPath
  *
  * \ingroup ITKReview
+ *
+ * \wiki
+ * \wikiexample{Segmentation/ContourExtractor2DImageFilter,Extract contours from an image}
+ * \endwiki
  */
 template< class TInputImage >
 class ITK_EXPORT ContourExtractor2DImageFilter:

@@ -52,6 +52,10 @@ namespace itk
  *
  * \ingroup ImageEnhancement
  * \ingroup ITKAnisotropicSmoothing
+ *
+ * \wiki
+ * \wikiexample{Smoothing/VectorGradientAnisotropicDiffusionImageFilter,Smooth an image}
+ * \endwiki
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT VectorGradientAnisotropicDiffusionImageFilter:

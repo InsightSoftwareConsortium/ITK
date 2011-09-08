@@ -54,6 +54,10 @@ namespace itk
  * may be adjusted to contain the seed point's intensity.
  * \ingroup RegionGrowingSegmentation
  * \ingroup ITKRegionGrowing
+ *
+ * \wiki
+ * \wikiexample{ImageSegmentation/ConfidenceConnectedImageFilter,Segment pixels with similar statistics using connectivity}
+ * \endwiki
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT ConfidenceConnectedImageFilter:

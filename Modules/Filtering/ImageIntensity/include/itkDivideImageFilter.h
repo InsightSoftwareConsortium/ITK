@@ -71,6 +71,10 @@ public:
  * \ingroup IntensityImageFilters
  * \ingroup MultiThreaded
  * \ingroup ITKImageIntensity
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/DivideImageFilter,Pixel-wise division of two images}
+ * \endwiki
  */
 template< class TInputImage1, class TInputImage2, class TOutputImage >
 class ITK_EXPORT DivideImageFilter:

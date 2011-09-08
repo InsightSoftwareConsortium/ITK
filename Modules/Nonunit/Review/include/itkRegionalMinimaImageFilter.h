@@ -45,6 +45,10 @@ namespace itk
  *
  * \sa ValuedRegionalMinimaImageFilter
  * \sa HConcaveImageFilter
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/RegionalMinimaImageFilter,RegionalMinimaImageFilter}
+ * \endwiki
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT RegionalMinimaImageFilter:

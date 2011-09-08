@@ -42,6 +42,10 @@ namespace itk
  * \sa ShapeLabelObject, BinaryShapeKeepNObjectsImageFilter, LabelStatisticsKeepNObjectsImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/LabelShapeKeepNObjectsImageFilter,Keep only regions that rank above a certain level of a particular property}
+ * \endwiki
  */
 template< class TInputImage >
 class ITK_EXPORT LabelShapeKeepNObjectsImageFilter:

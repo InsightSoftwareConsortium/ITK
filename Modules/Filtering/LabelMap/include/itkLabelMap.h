@@ -61,6 +61,10 @@ namespace itk
  * \ingroup ImageObjects
  * \ingroup LabeledImageObject
  * \ingroup ITKLabelMap
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/ManuallyRemovingLabels,Remove labels from a LabelMap}
+ * \endwiki
  */
 template< class TLabelObject >
 class ITK_EXPORT LabelMap:public ImageBase< ::itk::GetImageDimension< TLabelObject >::ImageDimension >

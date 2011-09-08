@@ -62,6 +62,10 @@ namespace itk
  *
  * \author Zach Pincus
  * \ingroup ITKDistanceMap
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/ApproximateSignedDistanceMapImageFilter,Compute a distance map from objects in a binary image}
+ * \endwiki
  */
 
 template< class TInputImage, class TOutputImage >

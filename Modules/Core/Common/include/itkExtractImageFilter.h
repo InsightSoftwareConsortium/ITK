@@ -75,6 +75,10 @@ namespace itk
  * \sa CropImageFilter
  * \ingroup GeometricTransform
  * \ingroup ITKCommon
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/ExtractImageFilter,Crop an image by specifying the region to keep}
+ * \endwiki
  */
 
 template< class TInputImage, class TOutputImage >

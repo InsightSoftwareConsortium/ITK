@@ -54,6 +54,10 @@ namespace itk
  *  \sa NeighborhoodIterator
  *  \ingroup ImageFeatureExtraction
  * \ingroup ITKImageFeature
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/ZeroCrossingImageFilter,Find zero crossings in a signed image}
+ * \endwiki
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT ZeroCrossingImageFilter:

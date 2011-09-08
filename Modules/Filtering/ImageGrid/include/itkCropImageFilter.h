@@ -36,7 +36,7 @@ namespace itk
  * \ingroup ITKImageGrid
  *
  * \wiki
- * \wikiexample{ImageProcessing/CropImageFilter,Crop an image}
+ * \wikiexample{ImageProcessing/CropImageFilter,Crop an image by specifying the region to throw away}
  * \endwiki
  */
 template< class TInputImage, class TOutputImage >

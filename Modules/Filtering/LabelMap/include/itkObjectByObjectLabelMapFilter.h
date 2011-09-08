@@ -64,6 +64,10 @@ namespace itk {
  *
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/ObjectByObjectLabelMapFilter,Apply an operation to every label object in a label map}
+ * \endwiki
  */
 template<class TInputImage, class TOutputImage=TInputImage,
   class TInputFilter=ImageToImageFilter<

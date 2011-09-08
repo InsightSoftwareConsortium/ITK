@@ -40,6 +40,10 @@ namespace itk
  * \ingroup ImageFeatureExtraction
  *
  * \ingroup ITKImageFeature
+ *
+ * \wiki
+ * \wikiexample{EdgesAndGradients/SobelEdgeDetectionImageFilter,SobelEdgeDetectionImageFilter}
+ * \endwiki
  */
 
 template< class TInputImage, class TOutputImage >

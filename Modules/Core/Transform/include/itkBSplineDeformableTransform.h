@@ -105,6 +105,10 @@ namespace itk
  * \ingroup ITKTransform
  * \wikiexample{Registration/ImageRegistrationMethodBSpline,
  *   A global registration of two images}
+ *
+ * \wiki
+ * \wikiexample{Registration/ImageRegistrationMethodBSpline,A global registration of two images}
+ * \endwiki
  */
 template <class TScalarType = double, unsigned int NDimensions = 3,
           unsigned int VSplineOrder = 3>

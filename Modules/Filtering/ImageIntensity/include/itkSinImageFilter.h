@@ -58,6 +58,10 @@ public:
  * \ingroup IntensityImageFilters
  * \ingroup MultiThreaded
  * \ingroup ITKImageIntensity
+ *
+ * \wiki
+ * \wikiexample{Math/Trig/SinImageFilter,Compute the sine of each pixel.}
+ * \endwiki
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT SinImageFilter:

@@ -70,6 +70,10 @@ namespace itk
  *  http://hdl.handle.net/1926/1493
  *
  * \ingroup ITKReview
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/LabelGeometryImageFilter,Get geometric properties of labeled regions in an image}
+ * \endwiki
  */
 template< class TLabelImage, class TIntensityImage = TLabelImage >
 class ITK_EXPORT LabelGeometryImageFilter:

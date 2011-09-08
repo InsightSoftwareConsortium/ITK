@@ -40,6 +40,10 @@ namespace itk
  *
  * \ingroup MathematicalStatisticsImageFilters
  * \ingroup ITKImageStatistics
+ *
+ * \wiki
+ * \wikiexample{Statistics/StatisticsImageFilter,Compute min\, max\, variance and mean of an Image.}
+ * \endwiki
  */
 template< class TInputImage >
 class ITK_EXPORT StatisticsImageFilter:

@@ -55,6 +55,10 @@ namespace itk
  *
  * \ingroup PyramidImageFilter MultiThreaded Streamed
  * \ingroup ITKRegistrationCommon
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/RecursiveMultiResolutionPyramidImageFilter,Construct a multiresolution pyramid from an image}
+ * \endwiki
  */
 template<
   class TInputImage,

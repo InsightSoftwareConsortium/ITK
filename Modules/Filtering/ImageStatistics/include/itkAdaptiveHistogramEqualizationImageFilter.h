@@ -57,6 +57,10 @@ namespace itk
  *
  * \ingroup ImageEnhancement
  * \ingroup ITKImageStatistics
+ *
+ * \wiki
+ * \wikiexample{NeedDemo/ImageProcessing/AdaptiveHistogramEqualizationImageFilter,Adaptive histogram equalization}
+ * \endwiki
  */
 template< class TImageType >
 class ITK_EXPORT AdaptiveHistogramEqualizationImageFilter:
