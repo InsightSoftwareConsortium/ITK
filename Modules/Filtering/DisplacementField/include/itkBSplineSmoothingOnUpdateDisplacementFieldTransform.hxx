@@ -31,12 +31,12 @@ namespace itk
  * Constructor
  */
 template<class TScalar, unsigned int NDimensions>
-BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>::
-BSplineSmoothingOnUpdateDisplacementFieldTransform()
+BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
+::BSplineSmoothingOnUpdateDisplacementFieldTransform()
 {
   this->m_SplineOrder = 3;
-  this->m_NumberOfFittingLevelsPerDimension.Fill( 1 );
-  this->m_NumberOfControlPoints.Fill( 4 );
+  this->m_NumberOfControlPointsForTheUpdateField.Fill( 4 );
+  this->m_NumberOfControlPointsForTheTotalField.Fill( 0 );
   this->m_EnforceStationaryBoundary = true;
 }
 
@@ -50,33 +50,35 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>::
 }
 
 /**
- * set mesh size
+ * set mesh size for update field
  */
 template<class TScalar, unsigned int NDimensions>
 void
 BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
-::SetMeshSize( const ArrayType &meshSize )
+::SetMeshSizeForTheUpdateField( const ArrayType &meshSize )
 {
   ArrayType numberOfControlPoints;
   for( unsigned int d = 0; d < Dimension; d++ )
     {
     numberOfControlPoints[d] = meshSize[d] + this->m_SplineOrder;
     }
-  this->SetNumberOfControlPoints( numberOfControlPoints );
+  this->SetNumberOfControlPointsForTheUpdateField( numberOfControlPoints );
 }
 
 /**
- * set number of fitting levels
+ * set mesh size for total field
  */
 template<class TScalar, unsigned int NDimensions>
 void
 BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
-::SetNumberOfFittingLevels( const ArrayValueType n )
+::SetMeshSizeForTheTotalField( const ArrayType &meshSize )
 {
-  ArrayType nlevels;
-
-  nlevels.Fill( n );
-  this->SetNumberOfFittingLevelsPerDimension( nlevels );
+  ArrayType numberOfControlPoints;
+  for( unsigned int d = 0; d < Dimension; d++ )
+    {
+    numberOfControlPoints[d] = meshSize[d] + this->m_SplineOrder;
+    }
+  this->SetNumberOfControlPointsForTheTotalField( numberOfControlPoints );
 }
 
 template<class TScalar, unsigned int NDimensions>
@@ -84,33 +86,13 @@ void
 BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
 ::UpdateTransformParameters( DerivativeType &update, ScalarType factor )
 {
-  //This simply adds the values.
-  //TODO: This should be multi-threaded probably, via image add filter.
-  Superclass::UpdateTransformParameters( update, factor );
+  DisplacementFieldPointer displacementField = this->GetDisplacementField();
 
-  //Now we smooth the result. Not thread safe. Does it's own
-  // threading.
-  this->BSplineSmoothDisplacementField();
-}
-
-/**
- * set displacement field and project it onto the space of b-spline transforms
- */
-template<class TScalar, unsigned int NDimensions>
-void
-BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
-::BSplineSmoothDisplacementField()
-{
-  typename PointSetType::Pointer fieldPoints = PointSetType::New();
-  fieldPoints->Initialize();
-
-  typename DisplacementFieldType::Pointer displacementField = this->GetDisplacementField();
   const typename DisplacementFieldType::RegionType & bufferedRegion = displacementField->GetBufferedRegion();
-  const typename DisplacementFieldType::IndexType startIndex = bufferedRegion.GetIndex();
-  const typename DisplacementFieldType::SizeType size = bufferedRegion.GetSize();
   const SizeValueType numberOfPixels = bufferedRegion.GetNumberOfPixels();
 
-  itkDebugMacro( "Extracting points from update displacement field. " )
+  typedef ImportImageFilter<DisplacementVectorType, Dimension> ImporterType;
+  const bool importFilterWillReleaseMemory = false;
 
   // Temporarily set the direction cosine to identity since the B-spline
   // approximation algorithm works in parametric space and not physical
@@ -118,23 +100,107 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
   typename DisplacementFieldType::DirectionType identity;
   identity.SetIdentity();
 
-  typedef ImportImageFilter<DisplacementVectorType, Dimension> ImporterType;
-  typename ImporterType::Pointer importer = ImporterType::New();
-  const bool importFilterWillReleaseMemory = false;
-  importer->SetImportPointer( displacementField->GetBufferPointer(), numberOfPixels, importFilterWillReleaseMemory );
-  importer->SetRegion( displacementField->GetBufferedRegion() );
-  importer->SetOrigin( displacementField->GetOrigin() );
-  importer->SetSpacing( displacementField->GetSpacing() );
-  importer->SetDirection( identity );
-  importer->Update();
+  //
+  // Smooth the update field
+  //
+  bool smoothUpdateField = true;
+  for( unsigned int d = 0; d < Dimension; d++ )
+    {
+    if( this->m_NumberOfControlPointsForTheUpdateField[d] <= this->m_SplineOrder )
+      {
+      itkDebugMacro( "Not smooothing the update field." );
+      smoothUpdateField = false;
+      break;
+      }
+    }
+  if( smoothUpdateField )
+    {
+    itkDebugMacro( "Smooothing the update field." );
 
-  const DisplacementFieldType * canonicalField = importer->GetOutput();
+    DisplacementVectorType *updateFieldPointer = reinterpret_cast<DisplacementVectorType *>( update.data_block() );
+
+    typename ImporterType::Pointer importer = ImporterType::New();
+    importer->SetImportPointer( updateFieldPointer, numberOfPixels, importFilterWillReleaseMemory );
+    importer->SetRegion( displacementField->GetBufferedRegion() );
+    importer->SetOrigin( displacementField->GetOrigin() );
+    importer->SetSpacing( displacementField->GetSpacing() );
+    importer->SetDirection( identity );
+
+    DisplacementFieldPointer updateField = importer->GetOutput();
+    updateField->Update();
+    updateField->DisconnectPipeline();
+
+    DisplacementFieldPointer updateSmoothField = this->BSplineSmoothDisplacementField( updateField, this->m_NumberOfControlPointsForTheUpdateField );
+
+    DerivativeValueType *updatePointer = reinterpret_cast<DerivativeValueType *>( updateSmoothField->GetBufferPointer() );
+
+    memcpy( update.data_block(), updatePointer, sizeof( DisplacementVectorType ) * numberOfPixels );
+    }
+
+  //
+  // Add the update field to the current total field before (optionally)
+  // smoothing the total field
+  //
+  Superclass::UpdateTransformParameters( update, factor );
+
+  //
+  // Smooth the total field
+  //
+  bool smoothTotalField = true;
+  for( unsigned int d = 0; d < Dimension; d++ )
+    {
+    if( this->m_NumberOfControlPointsForTheTotalField[d] <= this->m_SplineOrder )
+      {
+      itkDebugMacro( "Not smooothing the total field." );
+      smoothTotalField = false;
+      break;
+      }
+    }
+  if( smoothTotalField )
+    {
+    itkDebugMacro( "Smooothing the total field." );
+
+    typename ImporterType::Pointer importer = ImporterType::New();
+    importer->SetImportPointer( displacementField->GetBufferPointer(), numberOfPixels, importFilterWillReleaseMemory );
+    importer->SetRegion( displacementField->GetBufferedRegion() );
+    importer->SetOrigin( displacementField->GetOrigin() );
+    importer->SetSpacing( displacementField->GetSpacing() );
+    importer->SetDirection( identity );
+
+    DisplacementFieldPointer totalField = importer->GetOutput();
+    totalField->Update();
+    totalField->DisconnectPipeline();
+
+    DisplacementFieldPointer totalSmoothField = this->BSplineSmoothDisplacementField( totalField, this->m_NumberOfControlPointsForTheTotalField );
+
+    memcpy( displacementField->GetBufferPointer(), totalSmoothField->GetBufferPointer(), sizeof( DisplacementVectorType ) * numberOfPixels );
+    }
+}
+
+/**
+ * set displacement field and project it onto the space of b-spline transforms
+ */
+template<class TScalar, unsigned int NDimensions>
+typename BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>::DisplacementFieldPointer
+BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
+::BSplineSmoothDisplacementField( const DisplacementFieldType * field, const ArrayType &numberOfControlPoints )
+{
+  const typename DisplacementFieldType::RegionType & bufferedRegion = field->GetBufferedRegion();
+  const typename DisplacementFieldType::IndexType startIndex = bufferedRegion.GetIndex();
+  const typename DisplacementFieldType::SizeType size = bufferedRegion.GetSize();
+
+  typename PointSetType::Pointer fieldPoints = PointSetType::New();
+  fieldPoints->Initialize();
+
+  itkDebugMacro( "Extracting points from field. " )
 
   typename WeightsContainerType::Pointer weights = WeightsContainerType::New();
 
   IdentifierType numberOfPoints = NumericTraits< IdentifierType >::Zero;
 
-  ImageRegionConstIteratorWithIndex<DisplacementFieldType> It( canonicalField, canonicalField->GetBufferedRegion() );
+  const typename WeightsContainerType::Element boundaryWeight = 1.0e10;
+
+  ImageRegionConstIteratorWithIndex<DisplacementFieldType> It( field, field->GetBufferedRegion() );
   for( It.GoToBegin(); !It.IsAtEnd(); ++It )
     {
     typename DisplacementFieldType::IndexType index = It.GetIndex();
@@ -156,12 +222,12 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
       if( isOnBoundary )
         {
         data.Fill( 0.0 );
-        weight = 1.0e10;
+        weight = boundaryWeight;
         }
       }
 
     typename PointSetType::PointType point;
-    canonicalField->TransformIndexToPhysicalPoint( index, point );
+    field->TransformIndexToPhysicalPoint( index, point );
 
     fieldPoints->SetPointData( numberOfPoints, data );
     fieldPoints->SetPoint( numberOfPoints, point );
@@ -169,28 +235,28 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
     numberOfPoints++;
     }
 
-  itkDebugMacro( "Calculating the B-spline displacement field." );
+  itkDebugMacro( "Calculating the B-spline field." );
 
   ArrayType close;
   close.Fill( false );
   typename BSplineFilterType::Pointer bspliner = BSplineFilterType::New();
-  bspliner->SetOrigin( displacementField->GetOrigin() );
-  bspliner->SetSpacing( displacementField->GetSpacing() );
-  bspliner->SetSize( displacementField->GetBufferedRegion().GetSize() );
-  bspliner->SetDirection( displacementField->GetDirection() );
-  bspliner->SetNumberOfLevels( this->m_NumberOfFittingLevelsPerDimension );
+  bspliner->SetOrigin( field->GetOrigin() );
+  bspliner->SetSpacing( field->GetSpacing() );
+  bspliner->SetSize( size );
+  bspliner->SetDirection( field->GetDirection() );
+  bspliner->SetNumberOfLevels( 1 );
   bspliner->SetSplineOrder( this->m_SplineOrder );
-  bspliner->SetNumberOfControlPoints( this->m_NumberOfControlPoints );
+  bspliner->SetNumberOfControlPoints( numberOfControlPoints );
   bspliner->SetCloseDimension( close );
   bspliner->SetInput( fieldPoints );
   bspliner->SetPointWeights( weights );
   bspliner->SetGenerateOutputImage( true );
-  bspliner->Update();
 
-  const OutputImageType * smoothedField = bspliner->GetOutput();
+  DisplacementFieldPointer smoothField = bspliner->GetOutput();
+  smoothField->Update();
+  smoothField->DisconnectPipeline();
 
-  memcpy( displacementField->GetBufferPointer(), smoothedField->GetBufferPointer(),
-    sizeof( DisplacementVectorType ) * numberOfPixels );
+  return smoothField;
 }
 
 template <class TScalar, unsigned int NDimensions>
@@ -210,8 +276,10 @@ PrintSelf( std::ostream& os, Indent indent ) const
     }
   os << indent << "B-spline parameters: " << std::endl;
   os << indent << "  spline order = " << this->m_SplineOrder << std::endl;
-  os << indent << "  number of control points = " << this->m_NumberOfControlPoints << std::endl;
-  os << indent << "  number of fitting levels per dimension = " << this->m_NumberOfFittingLevelsPerDimension << std::endl;
+  os << indent << "  number of control points for the update field = "
+    << this->m_NumberOfControlPointsForTheUpdateField << std::endl;
+  os << indent << "  number of control points for the total field = "
+    << this->m_NumberOfControlPointsForTheTotalField << std::endl;
 }
 } // namespace itk
 
