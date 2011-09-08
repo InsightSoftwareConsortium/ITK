@@ -191,6 +191,7 @@ public:
   virtual void SetMatrix(const MatrixType & matrix);
 
 protected:
+  Similarity2DTransform(unsigned int outputSpaceDimension, unsigned int parametersDimension);
   Similarity2DTransform(unsigned int parametersDimension);
   Similarity2DTransform();
 

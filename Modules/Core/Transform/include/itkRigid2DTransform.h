@@ -237,6 +237,7 @@ public:
   virtual void SetIdentity(void);
 
 protected:
+  Rigid2DTransform(unsigned int outputSpaceDimension, unsigned int parametersDimension);
   Rigid2DTransform(unsigned int parametersDimension);
   Rigid2DTransform();
 
