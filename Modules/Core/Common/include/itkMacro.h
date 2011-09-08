@@ -40,6 +40,7 @@
 
 #include "itkWin32Header.h"
 
+
 #include <string>
 #include <cstdlib>
 #ifndef NDEBUG
@@ -1057,5 +1058,13 @@ itkTypeMacro(newexcp, parentexcp);                                              
 #else
 #define itkAssertInDebugAndIgnoreInReleaseMacro(X)
 #endif
+
+#ifdef ITKV3_COMPATIBILITY
+// As of MSVS++ 7.1 and greater, typename is supported in templates
+// All ITKv4 compilers support the typename keyword, but this is
+// needed to ease transition from ITKv3.
+#define ITK_TYPENAME typename
+#endif
+
 
 #endif //end of itkMacro.h
