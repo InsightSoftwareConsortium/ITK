@@ -149,12 +149,22 @@ public:
   /**
    * Set the offsets over which the intensity/distance pairs will be computed.
    * Invoking this function clears the previous offsets.
+   * Note: for each individual offset in the OffsetVector, the rightmost non-zero
+   * offset element must be positive. For example, in the offset list of a 2D image,
+   * (1, 0) means the offset  along x-axis. (1, 0) has to be set instead
+   * of (-1, 0). This is required from the iterating order of pixel iterator.
+   *
    */
   itkSetObjectMacro( Offsets, OffsetVector );
 
   /**
    * Set offset over which the intensity/distance pairs will be computed.
    * Invoking this function clears the previous offset(s).
+   * Note: for each individual offset, the rightmost non-zero
+   * offset element must be positive. For example, in the offset list of a 2D image,
+   * (1, 0) means the offset  along x-axis. (1, 0) has to be set instead
+   * of (-1, 0). This is required from the iterating order of pixel iterator.
+   *
    */
   void SetOffset( const OffsetType offset );
 
@@ -230,6 +240,15 @@ protected:
 
   /** This method causes the filter to generate its output. */
   virtual void GenerateData();
+
+  /**
+   * Normalize the direction of the offset before it is applied.
+   * The last non-zero dimension of the offest has to be positive in order
+   * to match to scanning order of the iterator. Only the sign is changed.
+   * For example, the input offset (-1, 0) will be normalized as
+   * (1, 0).
+   * */
+  void NormalizeOffsetDirection(OffsetType &offset);
 
 private:
 
