@@ -33,8 +33,8 @@ namespace itk
  *  \f[
  *  \frac{\partial \phi(p)}{\partial \tau} = \sum\limits_{i=1}^{N} \alpha_{i} \cdot \omega_i(p)
  *  \f]
- *  where $\omega_i$ is a term which could depend on the level-set function,
- *  the input image; and $\alpha_i$ is a weight to balance the contribution of
+ *  where \f$\omega_i\f$ is a term which could depend on the level-set function,
+ *  the input image; and \f$\alpha_i\f$ is a weight to balance the contribution of
  *  each term in the PDE.
  *
  *  \tparam TInput Input Image Type
@@ -100,7 +100,7 @@ public:
   itkGetObjectMacro( LevelSetContainer, LevelSetContainerType );
 
   /** Returns the weighted term contribution at the given location iP, i.e.
-   *  \f$ \alpha_i \cdot \omega_i( p )
+   *  \f$ \alpha_i \cdot \omega_i( p ) \f$
    */
   virtual LevelSetOutputRealType Evaluate( const LevelSetInputIndexType& iP );
 
