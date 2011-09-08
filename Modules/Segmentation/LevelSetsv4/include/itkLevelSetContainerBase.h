@@ -274,6 +274,9 @@ protected:
   /** \brief Default Destructor */
   ~LevelSetContainerBase();
 
+  const LevelSetContainerType& GetContainer() const;
+  void SetContainer( const LevelSetContainerType& iContainer );
+
 private:
   LevelSetContainerBase( const Self & ); // purposely not implemented
   void operator = ( const Self & ); // purposely not implemented

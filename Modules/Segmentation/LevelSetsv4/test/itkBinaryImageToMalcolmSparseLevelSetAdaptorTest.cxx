@@ -62,7 +62,7 @@ int itkBinaryImageToMalcolmSparseLevelSetAdaptorTest( int argc, char* argv[] )
 
   typedef BinaryToSparseAdaptorType::LevelSetOutputType LevelSetOutputType;
 
-  typedef itk::Image< LevelSetOutputType, Dimension >   StatusImageType;
+  typedef itk::Image< char, Dimension >   StatusImageType;
   StatusImageType::Pointer statusImage = StatusImageType::New();
   statusImage->SetRegions( input->GetLargestPossibleRegion() );
   statusImage->CopyInformation( input );
@@ -79,6 +79,7 @@ int itkBinaryImageToMalcolmSparseLevelSetAdaptorTest( int argc, char* argv[] )
     {
     idx = sIt.GetIndex();
     sIt.Set( sparseLevelSet->Evaluate( idx ) );
+    std::cout << int(sparseLevelSet->Evaluate( idx )) << std::endl;
     ++sIt;
     }
 
@@ -102,7 +103,7 @@ int itkBinaryImageToMalcolmSparseLevelSetAdaptorTest( int argc, char* argv[] )
 
   while( lIt != layer.end() )
     {
-    std::cout << lIt->first << std::endl;
+    std::cout << lIt->first << ' ' << int(lIt->second) << std::endl;
     ++lIt;
     }
 

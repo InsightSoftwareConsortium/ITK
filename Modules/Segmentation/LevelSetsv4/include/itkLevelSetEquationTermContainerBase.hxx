@@ -27,16 +27,14 @@ namespace itk
 // ----------------------------------------------------------------------------
 template< class TInputImage, class TLevelSetContainer >
 LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
-::LevelSetEquationTermContainerBase() : Superclass(), m_Input( NULL )
-  {}
-// ----------------------------------------------------------------------------
+::LevelSetEquationTermContainerBase()
+{}
 
 // ----------------------------------------------------------------------------
 template< class TInputImage, class TLevelSetContainer >
 LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
 ::~LevelSetEquationTermContainerBase()
-  {}
-// ----------------------------------------------------------------------------
+{}
 
 // ----------------------------------------------------------------------------
 template< class TInputImage, class TLevelSetContainer >
@@ -79,7 +77,6 @@ LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
     itkGenericExceptionMacro( <<"Term supplied is null" );
     }
 }
-// ----------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------
 template< class TInputImage, class TLevelSetContainer >
@@ -126,7 +123,6 @@ LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
     itkGenericExceptionMacro( <<"Term supplied is null" );
     }
 }
-// ----------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------
 template< class TInputImage, class TLevelSetContainer >
@@ -134,8 +130,7 @@ typename LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >::T
 LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >::
 GetTerm( const std::string& iName )
 {
-  typename HashMapStringTermContainerType::iterator
-      it = m_Container.find( iName );
+  MapTermContainerIteratorType it = m_Container.find( iName );
 
   if( it == m_Container.end() )
     {
@@ -144,7 +139,6 @@ GetTerm( const std::string& iName )
 
   return it->second;
 }
-// ----------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------
 template< class TInputImage, class TLevelSetContainer >
@@ -161,7 +155,6 @@ GetTerm( const TermIdType& iId )
 
   return it->second;
 }
-// ----------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------
 template< class TInputImage, class TLevelSetContainer >
@@ -178,7 +171,6 @@ LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
     ++term_it;
     }
 }
-// ----------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------
 template< class TInputImage, class TLevelSetContainer >
@@ -188,10 +180,8 @@ LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
                const LevelSetOutputRealType & oldValue,
                const LevelSetOutputRealType & newValue )
 {
-  typename std::map< unsigned int, TermPointer >::iterator
-    term_it = m_Container.begin();
-  typename std::map< unsigned int, TermPointer >::iterator
-    term_end = m_Container.end();
+  MapTermContainerIteratorType term_it = m_Container.begin();
+  MapTermContainerIteratorType term_end = m_Container.end();
 
   while( term_it != term_end )
     {
@@ -199,7 +189,6 @@ LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
     ++term_it;
     }
 }
-// ----------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------
 template< class TInputImage, class TLevelSetContainer >
@@ -216,7 +205,6 @@ LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
     ++term_it;
     }
 }
-// ----------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------
 template< class TInputImage, class TLevelSetContainer >
@@ -244,7 +232,6 @@ LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
 
   return oValue;
 }
-// ----------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------
 template< class TInputImage, class TLevelSetContainer >
@@ -272,7 +259,6 @@ LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
 
   return oValue;
 }
-// ----------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------
 template< class TInputImage, class TLevelSetContainer >
@@ -293,7 +279,6 @@ LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
     ++cfl_it;
     }
 }
-// ----------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------
 template< class TInputImage, class TLevelSetContainer >
@@ -324,7 +309,6 @@ LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
 
   return oValue;
 }
-// ----------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------
 template< class TInputImage, class TLevelSetContainer >
@@ -333,7 +317,7 @@ LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
 ::ComputeRequiredData( const LevelSetInputIndexType& iP, LevelSetDataType& ioData )
 {
   typename RequiredDataType::const_iterator dIt = m_RequiredData.begin();
-  typename RequiredDataType::const_iterator dEnd = m_RequiredData.begin();
+  typename RequiredDataType::const_iterator dEnd = m_RequiredData.end();
 
   MapTermContainerIteratorType tIt = m_Container.begin();
 
@@ -365,11 +349,18 @@ LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
       {
       levelset->EvaluateMeanCurvature( iP, ioData );
       }
+    if( *dIt == "ForwardGradient" )
+      {
+      levelset->EvaluateForwardGradient( iP, ioData );
+      }
+    if( *dIt == "BackwardGradient" )
+      {
+      levelset->EvaluateBackwardGradient( iP, ioData );
+      }
     // here add new characteristics
     ++dIt;
     }
 }
-// ----------------------------------------------------------------------------
 
 }
 #endif // __itkLevelSetEquationTermContainerBase_hxx

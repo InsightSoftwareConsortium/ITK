@@ -40,9 +40,12 @@ void
 DenseLevelSetContainer< TIdentifier, TLevelSet >
 ::CopyInformationAndAllocate( const Self * iOther, const bool& iAllocate )
 {
-  LevelSetContainerConstIteratorType it = iOther->m_Container.begin();
+  LevelSetContainerType internalContainer = iOther->GetContainer();
+  LevelSetContainerConstIteratorType it = internalContainer.begin();
 
-  while( it != iOther->m_Container.end() )
+  LevelSetContainerType newContainer;
+
+  while( it != internalContainer.end() )
     {
     if( iAllocate )
       {
@@ -59,15 +62,17 @@ DenseLevelSetContainer< TIdentifier, TLevelSet >
       image->FillBuffer( NumericTraits< OutputPixelType >::Zero );
 
       temp_ls->SetImage( image );
-      this->m_Container[ it->first ] = temp_ls;
+      newContainer[ it->first ] = temp_ls;
       }
     else
       {
       LevelSetPointer temp_ls;
-      this->m_Container[ it->first ] = temp_ls;
+      newContainer[ it->first ] = temp_ls;
       }
     ++it;
     }
+
+  this->SetContainer( newContainer );
 }
 }
 #endif // __itkDenseLevelSetContainer_h
