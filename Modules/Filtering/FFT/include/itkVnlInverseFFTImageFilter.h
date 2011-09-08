@@ -21,6 +21,7 @@
 #include "itkInverseFFTImageFilter.h"
 
 #include "itkImage.h"
+#include "vnl/algo/vnl_fft_base.h"
 
 namespace itk
 {
@@ -98,16 +99,26 @@ protected:
   bool IsDimensionSizeLegal(InputSizeValueType n);
 
 private:
-  // compile time choice of fft solver instead of runtime
-  template <unsigned VDim> struct DimDiscriminator { };
-  typedef vnl_vector< InputPixelType  > SignalVectorType;
-  /** call proper vnl_fft transform function */
-  void FFTND_transform(SignalVectorType &signal, const OutputSizeType &inputSize, DimDiscriminator<1> *);
-  void FFTND_transform(SignalVectorType &signal, const OutputSizeType &inputSize, DimDiscriminator<2> *);
-  void FFTND_transform(SignalVectorType &signal, const OutputSizeType &inputSize, DimDiscriminator<3> *);
-
   VnlInverseFFTImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                          //purposely not implemented
+
+  typedef vnl_vector< InputPixelType  > SignalVectorType;
+
+  struct vnl_fft_transform:
+    public vnl_fft_base< ImageDimension, OutputPixelType >
+  {
+    typedef vnl_fft_base< ImageDimension, OutputPixelType > Base;
+
+    //: constructor takes size of signal.
+    vnl_fft_transform( const InputSizeType & s )
+    {
+      for( int i=0; i<ImageDimension; i++ )
+      {
+        Base::factors_[ImageDimension - i - 1].resize(s[i]);
+      }
+    }
+  };
+
 };
 }
 
