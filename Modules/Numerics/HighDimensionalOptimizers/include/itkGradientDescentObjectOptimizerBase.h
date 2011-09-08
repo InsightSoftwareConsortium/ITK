@@ -142,6 +142,7 @@ protected:
 
   /** Current gradient */
   DerivativeType     m_Gradient;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
 

@@ -215,6 +215,10 @@ int itkGradientDescentObjectOptimizerTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
+  std::cout <<  "Printing self.. " << std::endl;
+  std::cout << itkOptimizer  << std::endl;
+
+
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 
