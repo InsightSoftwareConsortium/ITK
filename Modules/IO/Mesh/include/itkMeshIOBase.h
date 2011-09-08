@@ -40,7 +40,8 @@ namespace itk
 {
 /** \class MeshIOBase
  * \brief Abstract superclass defines mesh IO interface.
- * MeshIOBase is a class that reads and/or writes itk::Mesh/itk::QuadEdgeMesh data
+ *
+ * MeshIOBase is a class that reads and/or writes Mesh / QuadEdgeMesh data
  * of a particular format (such as PNG or raw binary). The
  * MeshIOBase encapsulates both the reading and writing of data. The
  * MeshIOBase is used by the MeshFileReader class (to read data)

@@ -198,8 +198,9 @@ protected:
   }
 
 private:
-  QuadricDecimationQuadEdgeMeshFilter(const Self &);
-  void operator=(const Self &);
+
+  QuadricDecimationQuadEdgeMeshFilter(const Self &); // purposely not implemented
+  void operator=(const Self &); // purposely not implemented
 };
 }
 #endif
