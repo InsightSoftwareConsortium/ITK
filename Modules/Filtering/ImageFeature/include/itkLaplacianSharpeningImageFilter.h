@@ -44,6 +44,10 @@ namespace itk
  *
  * \ingroup ImageFeatureExtraction
  * \ingroup ITKImageFeature
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/LaplacianSharpeningImageFilter,Sharpen an image}
+ * \endwiki
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT LaplacianSharpeningImageFilter:

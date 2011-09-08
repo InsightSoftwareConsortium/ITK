@@ -75,6 +75,10 @@ namespace itk
  *
  * \ingroup GeometricTransform MultiThreaded Streamed
  * \ingroup ITKImageGrid
+ *
+ * \wiki
+ * \wikiexample{Registration/WarpImageFilter,Warp one image to another using manually specified landmarks}
+ * \endwiki
  */
 template<
   class TInputImage,

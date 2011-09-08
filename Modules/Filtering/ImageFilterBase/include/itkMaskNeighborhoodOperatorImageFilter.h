@@ -42,6 +42,10 @@ namespace itk
  * \sa NeighborhoodOperatorImageFilter
  * \sa NeighborhoodIterator
  * \ingroup ITKImageFilterBase
+ *
+ * \wiki
+ * \wikiexample{Images/MaskNeighborhoodOperatorImageFilter,Apply a kernel to every pixel in an image that is non-zero in a mask}
+ * \endwiki
  */
 template< class TInputImage, class TMaskImage, class TOutputImage, class TOperatorValueType =
             typename TOutputImage::PixelType >

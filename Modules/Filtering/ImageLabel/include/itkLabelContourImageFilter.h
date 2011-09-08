@@ -46,6 +46,10 @@ namespace itk
  * \sa BinaryContourImageFilter
  *
  * \ingroup ITKImageLabel
+ *
+ * \wiki
+ * \wikiexample{ImageSegmentation/LabelContourImageFilter,Label the contours of connected components}
+ * \endwiki
  */
 
 template< class TInputImage, class TOutputImage >

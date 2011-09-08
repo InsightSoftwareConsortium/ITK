@@ -47,6 +47,10 @@ namespace itk
  *
  * \ingroup PathObjects
  * \ingroup ITKPath
+ *
+ * \wiki
+ * \wikiexample{Curves/PolyLineParametricPath,A data structure for a piece-wise linear curve}
+ * \endwiki
  */
 template< unsigned int VDimension >
 class ITK_EXPORT PolyLineParametricPath:public

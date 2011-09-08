@@ -45,6 +45,7 @@ namespace itk
  *
  * \wiki
  * \wikiexample{Smoothing/MedianImageFilter,Median filter an image}
+ * \wikiexample{Smoothing/RGBMedianImageFilter,Median filter an RGB image}
  * \endwiki
  */
 template< class TInputImage, class TOutputImage >

@@ -37,6 +37,10 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup LabeledImageFilters
  * \ingroup ITKLabelMap
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/LabelMapToLabelImageFilter,Convert a LabelMap to a normal image with different values representing each region}
+ * \endwiki
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT LabelMapToLabelImageFilter:

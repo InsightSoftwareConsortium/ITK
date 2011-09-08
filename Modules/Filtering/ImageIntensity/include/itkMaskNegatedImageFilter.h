@@ -104,6 +104,10 @@ private:
  * \ingroup IntensityImageFilters
  * \ingroup MultiThreaded
  * \ingroup ITKImageIntensity
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/MaskNegatedImageFilter,Apply the inverse of a mask to an image}
+ * \endwiki
  */
 template< class TInputImage, class TMaskImage, class TOutputImage = TInputImage >
 class ITK_EXPORT MaskNegatedImageFilter:

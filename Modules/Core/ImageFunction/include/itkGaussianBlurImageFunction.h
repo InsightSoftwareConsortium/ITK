@@ -33,6 +33,11 @@ namespace itk
  * \sa NeighborhoodOperator
  * \sa ImageFunction
  * \ingroup ITKImageFunction
+ *
+ * \wiki
+ * \wikiexample{Functions/GaussianBlurImageFunction,GaussianBlurImageFunction}
+ * \wikiexample{Functions/GaussianBlurImageFunctionFilter,GaussianBlurImageFunctionFilter}
+ * \endwiki
  */
 template< class TInputImage, class TOutput = double >
 class ITK_EXPORT GaussianBlurImageFunction:

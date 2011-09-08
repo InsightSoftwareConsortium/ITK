@@ -45,6 +45,10 @@ namespace itk
  * \sa HMinimaImageFilter
  * \ingroup MathematicalMorphologyImageFilters
  * \ingroup ITKReview
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/ValuedRegionalMinimaImageFilter,ValuedRegionalMinimaImageFilter}
+ * \endwiki
  */
 
 template< class TInputImage, class TOutputImage >

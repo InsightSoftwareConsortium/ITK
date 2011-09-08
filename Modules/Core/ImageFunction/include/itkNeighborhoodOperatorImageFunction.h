@@ -32,6 +32,10 @@ namespace itk
  * \sa NeighborhoodOperator
  * \sa ImageFunction
  * \ingroup ITKImageFunction
+ *
+ * \wiki
+ * \wikiexample{Images/NeighborhoodOperatorImageFunction,Multiply a kernel with an image at a particular location}
+ * \endwiki
  */
 template< class TInputImage, class TOutput >
 class ITK_EXPORT NeighborhoodOperatorImageFunction:

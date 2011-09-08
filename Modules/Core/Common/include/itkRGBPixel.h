@@ -48,6 +48,10 @@ namespace itk
  * pixel[0], pixel[1], pixel[2]
  * \ingroup ImageObjects
  * \ingroup ITKCommon
+ *
+ * \wiki
+ * \wikiexample{SimpleOperations/RGBPixel,Create an RGB image}
+ * \endwiki
  */
 
 template< typename TComponent = unsigned short >

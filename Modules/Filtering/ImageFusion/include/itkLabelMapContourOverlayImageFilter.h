@@ -48,7 +48,11 @@ namespace itk {
  * \sa LabelMapToBinaryImageFilter, LabelMapToLabelImageFilter, LabelMapOverlayImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKImageFusion
-*/
+ *
+ * \wiki
+ * \wikiexample{Segmentation/LabelMapContourOverlayImageFilter,Color the boundaries of labeled regions in an image}
+ * \endwiki
+ */
 template<class TLabelMap, class TFeatureImage, class TOutputImage=Image< RGBPixel< typename TFeatureImage::PixelType >, TFeatureImage::ImageDimension > >
 class ITK_EXPORT LabelMapContourOverlayImageFilter :
     public LabelMapFilter<TLabelMap, TOutputImage>

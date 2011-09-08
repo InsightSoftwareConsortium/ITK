@@ -41,6 +41,10 @@ namespace itk
  *         similar if they are within threshold of each other.
  *         Uses ConnectedComponentFunctorImageFilter.
  * \ingroup ITKConnectedComponents
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/ScalarConnectedComponentImageFilter,Label connected components in a grayscale image}
+ * \endwiki
  */
 
 namespace Functor
