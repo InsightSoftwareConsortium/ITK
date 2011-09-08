@@ -1,9 +1,11 @@
 set(ITKVNLInstantiation_SRC
 vnl_vector+ulonglong-.cxx
 vnl_fft_base+float.3-.cxx
+vnl_fft_base+float.4-.cxx
 vnl_matrix_fixed_ref+double.2.2-.cxx
 vnl_matrix_fixed_ref+double.2.3-.cxx
 vnl_fft_base+double.3-.cxx
+vnl_fft_base+double.4-.cxx
 vnl_c_vector+ushort-.cxx
 vnl_vector+ushort-.cxx
 vnl_matrix_fixed+double.3.12-.cxx

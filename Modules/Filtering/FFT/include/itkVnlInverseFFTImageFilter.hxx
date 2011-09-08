@@ -22,10 +22,6 @@
 #include "itkInverseFFTImageFilter.hxx"
 #include "itkProgressReporter.h"
 
-#include "vnl/algo/vnl_fft_1d.h"
-#include "vnl/algo/vnl_fft_2d.h"
-#include "vnl_fft_3d.h"
-
 namespace itk
 {
 
@@ -47,41 +43,6 @@ VnlInverseFFTImageFilter< TInputImage, TOutputImage >
   return ( n == 1 ); // return false if decomposition failed
 }
 
-
-/** run vnl fft transform
- * In the following, we use the VNL "fwd_transform" even though this
- * filter is actually taking the reverse transform.  This is done
- * because the VNL definitions are switched from the standard
- * definition.  The standard definition uses a negative exponent for
- * the forward transform and positive for the reverse transform.
- * VNL does the opposite.
- */
-template< class TInputImage, class TOutputImage >
-void
-VnlInverseFFTImageFilter< TInputImage, TOutputImage >
-::FFTND_transform(SignalVectorType &signal, const OutputSizeType &outputSize, DimDiscriminator<1> *)
-{
-  vnl_fft_1d< OutputPixelType > v1d( outputSize[0] );
-  v1d.vnl_fft_1d< OutputPixelType >::base::transform( signal.data_block(), 1 );
-}
-
-template< class TInputImage, class TOutputImage >
-void
-VnlInverseFFTImageFilter< TInputImage, TOutputImage >
-::FFTND_transform(SignalVectorType &signal, const OutputSizeType &outputSize, DimDiscriminator<2> *)
-{
-  vnl_fft_2d< OutputPixelType > v2d( outputSize[1], outputSize[0] );
-  v2d.vnl_fft_2d< OutputPixelType >::base::transform( signal.data_block(), 1 );
-}
-
-template< class TInputImage, class TOutputImage >
-void
-VnlInverseFFTImageFilter< TInputImage, TOutputImage >
-::FFTND_transform(SignalVectorType &signal, const OutputSizeType &outputSize, DimDiscriminator<3> *)
-{
-  vnl_fft_3d< OutputPixelType > v3d( outputSize[2], outputSize[1], outputSize[0] );
-  v3d.vnl_fft_3d< OutputPixelType >::base::transform( signal.data_block(), 1 );
-}
 
 template< class TInputImage, class TOutputImage >
 void
@@ -131,7 +92,8 @@ VnlInverseFFTImageFilter< TInputImage, TOutputImage >
   OutputPixelType *out = outputPtr->GetBufferPointer();
 
   // call the proper transform, based on compile type template parameter
-  this->FFTND_transform(signal, outputSize, static_cast<DimDiscriminator<ImageDimension> *>(0));
+  vnl_fft_transform vnlfft( outputSize );
+  vnlfft.transform( signal.data_block(), 1 );
 
   // Copy the VNL output back to the ITK image.
   // Extract the real part of the signal.
