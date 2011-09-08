@@ -39,6 +39,13 @@ Rigid2DTransform<TScalarType>::Rigid2DTransform(unsigned int parametersDimension
   m_Angle = NumericTraits<TScalarType>::Zero;
 }
 
+template <class TScalarType>
+Rigid2DTransform<TScalarType>::Rigid2DTransform(unsigned int outputSpaceDimension, unsigned int parametersDimension) :
+  Superclass(parametersDimension)
+{
+  m_Angle = NumericTraits<TScalarType>::Zero;
+}
+
 // Destructor
 template <class TScalarType>
 Rigid2DTransform<TScalarType>::

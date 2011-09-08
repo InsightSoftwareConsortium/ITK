@@ -145,6 +145,8 @@ protected:
    * transformation in the appropriate number of dimensions. */
   ScalableAffineTransform(const MatrixType & matrix,
                           const OutputVectorType & offset);
+  ScalableAffineTransform(unsigned int outputSpaceDimension,
+                          unsigned int parametersDimension);
   ScalableAffineTransform(unsigned int parametersDimension);
   ScalableAffineTransform();
 

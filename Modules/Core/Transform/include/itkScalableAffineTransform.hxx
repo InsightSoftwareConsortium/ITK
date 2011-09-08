@@ -40,6 +40,18 @@ ScalableAffineTransform< TScalarType, NDimensions >
 /** Constructor with default arguments */
 template< class TScalarType, unsigned int NDimensions >
 ScalableAffineTransform< TScalarType, NDimensions >
+::ScalableAffineTransform(unsigned int outputSpaceDimension, unsigned int parametersDimension):
+  Superclass(parametersDimension)
+{
+  for ( unsigned int i = 0; i < NDimensions; i++ )
+    {
+    m_Scale[i] = 1;
+    m_MatrixScale[i] = 1;
+    }
+}
+
+template< class TScalarType, unsigned int NDimensions >
+ScalableAffineTransform< TScalarType, NDimensions >
 ::ScalableAffineTransform(unsigned int parametersDimension):
   Superclass(parametersDimension)
 {
