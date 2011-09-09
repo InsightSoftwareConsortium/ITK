@@ -16,19 +16,16 @@
  *
  *=========================================================================*/
 
-#include "itkWhitakerSparseLevelSetBase.h"
+#include "itkShiSparseLevelSetImage.h"
 
-int itkWhitakerSparseLevelSetBaseTest( int , char* [] )
+int itkShiSparseLevelSetImageTest( int , char* [] )
 {
-  typedef double OutputType;
   const unsigned int Dimension = 2;
-  typedef itk::WhitakerSparseLevelSetBase< OutputType, Dimension >
-      SparseLevelSetType;
+  typedef itk::ShiSparseLevelSetImage< Dimension > SparseLevelSetType;
 
   typedef SparseLevelSetType::LabelMapType LabelMapType;
   typedef LabelMapType::Pointer            LabelMapPointer;
   typedef LabelMapType::IndexType          IndexType;
-
 
   IndexType index;
   index.Fill( 3 );
@@ -42,12 +39,23 @@ int itkWhitakerSparseLevelSetBaseTest( int , char* [] )
     labelMap->SetPixel( index, -3 );
     }
 
+  index[1] = 2;
+  labelMap->SetPixel( index, -1 );
+
+  index[1] = 1;
+  labelMap->SetPixel( index, 1 );
+
+  index[1] = 7;
+  labelMap->SetPixel( index, -1 );
+
+  index[1] = 8;
+  labelMap->SetPixel( index, 1 );
+
   SparseLevelSetType::Pointer phi = SparseLevelSetType::New();
   phi->SetLabelMap( labelMap );
 
   index[0] = 3;
   index[1] = 3;
-
   if( phi->Evaluate( index ) != 3 )
     {
     std::cout << index << ' ' << phi->Evaluate( index ) << " != 3" << std::endl;

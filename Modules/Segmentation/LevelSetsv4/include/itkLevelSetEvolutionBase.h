@@ -23,7 +23,7 @@
 #include <list>
 
 #include "itkImage.h"
-#include "itkLevelSetImageBase.h"
+#include "itkDiscreteLevelSetImageBase.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkSignedMaurerDistanceMapImageFilter.h"
@@ -84,6 +84,7 @@ public:
   typedef typename LevelSetContainerType::LevelSetType  LevelSetType;
   typedef typename LevelSetType::Pointer                LevelSetPointer;
   typedef typename LevelSetType::ImageType              LevelSetImageType;
+  typedef typename LevelSetType::OutputType             LevelSetOutputType;
   typedef typename LevelSetType::OutputRealType         LevelSetOutputRealType;
   typedef typename LevelSetImageType::Pointer           LevelSetImagePointer;
   typedef typename LevelSetType::LevelSetDataType       LevelSetDataType;

@@ -76,7 +76,7 @@ public:
 
   virtual OutputRealType EvaluateLaplacian( const InputType& iP ) const = 0;
   virtual OutputRealType EvaluateGradientNorm( const InputType& iP ) const;
-  virtual OutputRealType EvaluateMeanCurvature( const InputType& iP ) const;
+  virtual OutputRealType EvaluateMeanCurvature( const InputType& iP ) const = 0;
 
   /** \class DataType
    *  \brief Internal class used for one computed characteritic

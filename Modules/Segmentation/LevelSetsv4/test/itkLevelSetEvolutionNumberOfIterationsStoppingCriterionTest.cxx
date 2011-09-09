@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include <string>
-#include "itkWhitakerSparseLevelSetBase.h"
+#include "itkWhitakerSparseLevelSetImage.h"
 #include "itkLevelSetContainerBase.h"
 #include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"
 
@@ -26,7 +26,8 @@ int itkLevelSetEvolutionNumberOfIterationsStoppingCriterionTest( int , char* [] 
   const unsigned int Dimension = 2;
   typedef float ValueType;
 
-  typedef itk::WhitakerSparseLevelSetBase< ValueType, Dimension > LevelSetType;
+  typedef itk::WhitakerSparseLevelSetImage< ValueType, Dimension > LevelSetType;
+
   typedef itk::LevelSetContainerBase< itk::IdentifierType, LevelSetType >
                                                             LevelSetContainerType;
 

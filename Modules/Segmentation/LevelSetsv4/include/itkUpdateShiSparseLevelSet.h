@@ -20,8 +20,8 @@
 #define __itkUpdateShiSparseLevelSet_h
 
 #include "itkImage.h"
-#include "itkLevelSetImageBase.h"
-#include "itkShiSparseLevelSetBase.h"
+#include "itkDiscreteLevelSetImageBase.h"
+#include "itkShiSparseLevelSetImage.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkShapedNeighborhoodIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
@@ -56,7 +56,7 @@ public:
 
   itkStaticConstMacro( ImageDimension, unsigned int, VDimension );
 
-  typedef ShiSparseLevelSetBase< ImageDimension >      LevelSetType;
+  typedef ShiSparseLevelSetImage< ImageDimension >     LevelSetType;
   typedef typename LevelSetType::Pointer               LevelSetPointer;
   typedef typename LevelSetType::InputType             LevelSetInputType;
   typedef typename LevelSetType::OutputType            LevelSetOutputType;
@@ -123,7 +123,7 @@ protected:
   /** Update +1 level set layers by checking the direction of the movement towards -1 */
   // this is the same as Procedure 2
   // Input is a update image point m_UpdateImage
-  // Input is also ShiSparseLevelSetBasePointer
+  // Input is also ShiSparseLevelSetImagePointer
   void UpdateLayerPlusOne();
 
   /** Update -1 level set layers by checking the direction of the movement towards +1 */

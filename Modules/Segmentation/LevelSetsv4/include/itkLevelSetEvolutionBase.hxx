@@ -302,10 +302,10 @@ LevelSetEvolutionBase< TEquationContainer >
     LevelSetImagePointer image = it->GetLevelSet()->GetImage();
 
     ThresholdFilterPointer thresh = ThresholdFilterType::New();
-    thresh->SetLowerThreshold( NumericTraits< LevelSetOutputRealType >::NonpositiveMin() );
-    thresh->SetUpperThreshold( NumericTraits< LevelSetOutputRealType >::Zero );
-    thresh->SetInsideValue( NumericTraits< LevelSetOutputRealType >::One );
-    thresh->SetOutsideValue( NumericTraits< LevelSetOutputRealType >::Zero );
+    thresh->SetLowerThreshold( NumericTraits< LevelSetOutputType >::NonpositiveMin() );
+    thresh->SetUpperThreshold( NumericTraits< LevelSetOutputType >::Zero );
+    thresh->SetInsideValue( NumericTraits< LevelSetOutputType >::One );
+    thresh->SetOutsideValue( NumericTraits< LevelSetOutputType >::Zero );
     thresh->SetInput( image );
     thresh->Update();
 

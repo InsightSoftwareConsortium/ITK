@@ -22,7 +22,7 @@
 
 #include "itkObject.h"
 #include "itkImage.h"
-#include "itkLevelSetImageBase.h"
+#include "itkDiscreteLevelSetImageBase.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkLevelSetDomainMapImageFilter.h"
 #include "itkUpdateWhitakerSparseLevelSet.h"

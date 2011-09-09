@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include "itkImage.h"
-#include "itkLevelSetImageBase.h"
+#include "itkLevelSetDenseImageBase.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkLevelSetDomainMapImageFilter.h"
 #include "itkDenseLevelSetContainer.h"
@@ -39,7 +39,7 @@ int itkMultiLevelSetEvolutionTest( int , char* [] )
 
   typedef float                                          PixelType;
   typedef itk::Image< PixelType, Dimension >             ImageType;
-  typedef itk::LevelSetImageBase< ImageType >            LevelSetType;
+  typedef itk::LevelSetDenseImageBase< ImageType >       LevelSetType;
   typedef LevelSetType::OutputRealType                   LevelSetOutputRealType;
   typedef itk::ImageRegionIteratorWithIndex< ImageType > IteratorType;
   typedef itk::IdentifierType                            IdentifierType;

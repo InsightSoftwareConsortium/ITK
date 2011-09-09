@@ -27,12 +27,13 @@
 #include "itkLevelSetEquationTermContainerBase.h"
 #include "itkLevelSetEquationContainerBase.h"
 #include "itkSinRegularizedHeavisideStepFunction.h"
-#include "itkLevelSetSparseEvolutionBase.h"
-#include "itkBinaryImageToWhitakerSparseLevelSetAdaptor.h"
+#include "itkHeavisideStepFunction.h"
+#include "itkLevelSetMalcolmEvolutionBase.h"
+#include "itkBinaryImageToMalcolmSparseLevelSetAdaptor.h"
 #include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"
 #include "itkNumericTraits.h"
 
-int itkTwoLevelSetSparse2DTest( int argc, char* argv[] )
+int itkTwoLevelSetMalcolmImage2DTest( int argc, char* argv[] )
 {
   if( argc < 4 )
     {
@@ -48,9 +49,7 @@ int itkTwoLevelSetSparse2DTest( int argc, char* argv[] )
                                                             InputIteratorType;
   typedef itk::ImageFileReader< InputImageType >            ReaderType;
 
-  typedef float                                             PixelType;
-
-  typedef itk::BinaryImageToWhitakerSparseLevelSetAdaptor< InputImageType, PixelType >
+  typedef itk::BinaryImageToMalcolmSparseLevelSetAdaptor< InputImageType >
                                                             BinaryToSparseAdaptorType;
 
   typedef itk::IdentifierType                               IdentifierType;
@@ -75,21 +74,21 @@ int itkTwoLevelSetSparse2DTest( int argc, char* argv[] )
   typedef itk::LevelSetEquationContainerBase< TermContainerType >
                                                             EquationContainerType;
 
-  typedef itk::LevelSetSparseEvolutionBase< EquationContainerType >
+  typedef itk::LevelSetMalcolmEvolutionBase< EquationContainerType >
                                                             LevelSetEvolutionType;
 
-  typedef SparseLevelSetType::OutputRealType                      LevelSetOutputRealType;
+  typedef SparseLevelSetType::OutputRealType                LevelSetOutputRealType;
   typedef itk::SinRegularizedHeavisideStepFunction< LevelSetOutputRealType, LevelSetOutputRealType >
                                                             HeavisideFunctionBaseType;
   typedef itk::ImageRegionIteratorWithIndex< InputImageType >     InputIteratorType;
 
-  // load binary input for segmentation
+  // load binary mask
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
   reader->Update();
   InputImageType::Pointer input = reader->GetOutput();
 
-  // Create a binary initialization
+  // Binary initialization
   InputImageType::Pointer binary = InputImageType::New();
   binary->SetRegions( input->GetLargestPossibleRegion() );
   binary->CopyInformation( input );
@@ -146,21 +145,21 @@ int itkTwoLevelSetSparse2DTest( int argc, char* argv[] )
 
   // Define the Heaviside function
   HeavisideFunctionBaseType::Pointer heaviside = HeavisideFunctionBaseType::New();
-  heaviside->SetEpsilon( 1.0 );
+  heaviside->SetEpsilon( 2.0 );
 
   // Insert the levelsets in a levelset container
   LevelSetContainerType::Pointer lscontainer = LevelSetContainerType::New();
   lscontainer->SetHeaviside( heaviside );
   lscontainer->SetDomainMapFilter( domainMapFilter );
 
-  bool levelSetNotYetAdded = lscontainer->AddLevelSet( 0, level_set0, false );
-  if ( !levelSetNotYetAdded )
+  bool LevelSetNotYetAdded = lscontainer->AddLevelSet( 0, level_set0, false );
+  if ( !LevelSetNotYetAdded )
     {
     return EXIT_FAILURE;
     }
 
-  levelSetNotYetAdded = lscontainer->AddLevelSet( 1, level_set1, false );
-  if ( !levelSetNotYetAdded )
+  LevelSetNotYetAdded = lscontainer->AddLevelSet( 1, level_set1, false );
+  if ( !LevelSetNotYetAdded )
     {
     return EXIT_FAILURE;
     }
@@ -189,7 +188,6 @@ int itkTwoLevelSetSparse2DTest( int argc, char* argv[] )
 
   // -----------------------------
   // *** 2nd Level Set phi ***
-
   ChanAndVeseInternalTermType::Pointer cvInternalTerm1 = ChanAndVeseInternalTermType::New();
   cvInternalTerm1->SetInput( input );
   cvInternalTerm1->SetCoefficient( 1.0 );
@@ -238,7 +236,7 @@ int itkTwoLevelSetSparse2DTest( int argc, char* argv[] )
   typedef itk::LevelSetEvolutionNumberOfIterationsStoppingCriterion< LevelSetContainerType >
       StoppingCriterionType;
   StoppingCriterionType::Pointer criterion = StoppingCriterionType::New();
-  criterion->SetNumberOfIterations( atoi(argv[2]) );
+  criterion->SetNumberOfIterations( atoi( argv[2] ) );
 
   LevelSetEvolutionType::Pointer evolution = LevelSetEvolutionType::New();
   evolution->SetEquationContainer( equationContainer );
@@ -251,10 +249,9 @@ int itkTwoLevelSetSparse2DTest( int argc, char* argv[] )
     }
   catch ( itk::ExceptionObject& err )
     {
-    std::cerr << err << std::endl;
+    std::cout << err << std::endl;
     return EXIT_FAILURE;
     }
-
   typedef itk::Image< char, Dimension > OutputImageType;
   OutputImageType::Pointer outputImage = OutputImageType::New();
   outputImage->SetRegions( input->GetLargestPossibleRegion() );
@@ -271,7 +268,7 @@ int itkTwoLevelSetSparse2DTest( int argc, char* argv[] )
   while( !oIt.IsAtEnd() )
     {
     idx = oIt.GetIndex();
-    oIt.Set( level_set1->GetLabelMap()->GetPixel(idx) );
+    oIt.Set( level_set0->Evaluate( idx ) );
     ++oIt;
     }
 
@@ -288,6 +285,7 @@ int itkTwoLevelSetSparse2DTest( int argc, char* argv[] )
     {
     std::cout << err << std::endl;
     }
+
 
   return EXIT_SUCCESS;
 }

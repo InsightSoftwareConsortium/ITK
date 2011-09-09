@@ -30,11 +30,18 @@
 #include "itkLevelSetSparseEvolutionBase.h"
 #include "itkBinaryImageToWhitakerSparseLevelSetAdaptor.h"
 #include "itkLevelSetEquationCurvatureTerm.h"
+#include "itkLevelSetEquationPropagationTerm.h"
 #include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"
 #include "itkNumericTraits.h"
 
-int itkSingleLevelSetSparseWithCurvature2DTest( int argc, char* argv[] )
+int itkSingleLevelSetWhitakerImage2DWithPropagationTest( int argc, char* argv[] )
 {
+  if( argc < 2 )
+    {
+    std::cerr << "Missing Arguments" << std::endl;
+    return EXIT_FAILURE;
+    }
+
   const unsigned int Dimension = 2;
 
   typedef unsigned short                                    InputPixelType;
@@ -66,6 +73,8 @@ int itkSingleLevelSetSparseWithCurvature2DTest( int argc, char* argv[] )
                                                             ChanAndVeseExternalTermType;
   typedef itk::LevelSetEquationCurvatureTerm< InputImageType, LevelSetContainerType >
                                                             CurvatureTermType;
+  typedef itk::LevelSetEquationPropagationTerm< InputImageType, LevelSetContainerType >
+                                                            PropagationTermType;
   typedef itk::LevelSetEquationTermContainerBase< InputImageType, LevelSetContainerType >
                                                             TermContainerType;
 
@@ -157,7 +166,7 @@ int itkSingleLevelSetSparseWithCurvature2DTest( int argc, char* argv[] )
   ChanAndVeseInternalTermType::Pointer cvInternalTerm0 = ChanAndVeseInternalTermType::New();
   cvInternalTerm0->SetInput( input );
   cvInternalTerm0->SetCoefficient( 1.0 );
-  cvInternalTerm0->SetCurrentLevelSet( 0 );
+  cvInternalTerm0->SetCurrentLevelSetId( 0 );
   cvInternalTerm0->SetLevelSetContainer( lscontainer );
   std::cout << "LevelSet 1: CV internal term created" << std::endl;
 
@@ -165,7 +174,7 @@ int itkSingleLevelSetSparseWithCurvature2DTest( int argc, char* argv[] )
   ChanAndVeseExternalTermType::Pointer cvExternalTerm0 = ChanAndVeseExternalTermType::New();
   cvExternalTerm0->SetInput( input );
   cvExternalTerm0->SetCoefficient( 1.0 );
-  cvExternalTerm0->SetCurrentLevelSet( 0 );
+  cvExternalTerm0->SetCurrentLevelSetId( 0 );
   cvExternalTerm0->SetLevelSetContainer( lscontainer );
   std::cout << "LevelSet 1: CV external term created" << std::endl;
 
@@ -173,9 +182,17 @@ int itkSingleLevelSetSparseWithCurvature2DTest( int argc, char* argv[] )
   CurvatureTermType::Pointer curvatureTerm0 = CurvatureTermType::New();
   curvatureTerm0->SetInput( input );
   curvatureTerm0->SetCoefficient( 1.0 );
-  curvatureTerm0->SetCurrentLevelSet( 0 );
+  curvatureTerm0->SetCurrentLevelSetId( 0 );
   curvatureTerm0->SetLevelSetContainer( lscontainer );
   std::cout << "LevelSet 1: Curvature term created" << std::endl;
+
+  // Create ChanAndVese curvature term for phi_{1}
+  PropagationTermType::Pointer propagationTerm0 = PropagationTermType::New();
+  propagationTerm0->SetInput( input );
+  propagationTerm0->SetCoefficient( 1.0 );
+  propagationTerm0->SetCurrentLevelSetId( 0 );
+  propagationTerm0->SetLevelSetContainer( lscontainer );
+  std::cout << "LevelSet 1: Propagation term created" << std::endl;
 
   // **************** CREATE ALL EQUATIONS ****************
 
@@ -192,6 +209,9 @@ int itkSingleLevelSetSparseWithCurvature2DTest( int argc, char* argv[] )
 
   temp = dynamic_cast< TermContainerType::TermType* >( curvatureTerm0.GetPointer() );
   termContainer0->AddTerm( 2, temp );
+
+  temp = dynamic_cast< TermContainerType::TermType* >( propagationTerm0.GetPointer() );
+  termContainer0->AddTerm( 3, temp );
   std::cout << "Term container 0 created" << std::endl;
 
   EquationContainerType::Pointer equationContainer = EquationContainerType::New();
@@ -200,13 +220,13 @@ int itkSingleLevelSetSparseWithCurvature2DTest( int argc, char* argv[] )
   typedef itk::LevelSetEvolutionNumberOfIterationsStoppingCriterion< LevelSetContainerType >
       StoppingCriterionType;
   StoppingCriterionType::Pointer criterion = StoppingCriterionType::New();
-  criterion->SetNumberOfIterations( 5 );
+  criterion->SetNumberOfIterations( 50 );
 
   LevelSetEvolutionType::Pointer evolution = LevelSetEvolutionType::New();
   evolution->SetEquationContainer( equationContainer );
   evolution->SetStoppingCriterion( criterion );
+//  evolution->SetNumberOfIterations( 50 );
   evolution->SetLevelSetContainer( lscontainer );
-  evolution->SetDomainMapFilter( domainMapFilter );
 
   try
     {
