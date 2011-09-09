@@ -229,29 +229,36 @@ ImageTransformer< TInputImage >
 
   // determine the actual number of pieces that will be generated
   typename TInputImage::SizeType::SizeValueType range = requestedRegionSize[splitAxis];
-  unsigned int valuesPerThread = Math::Ceil< unsigned int >(range / (double)num);
-  unsigned int maxThreadIdUsed = Math::Ceil< unsigned int >(range / (double)valuesPerThread) - 1;
+  if ( num != 0 && range !=0 )
+      {
+      unsigned int valuesPerThread = Math::Ceil< unsigned int >(range / (double)num);
+      unsigned int maxThreadIdUsed = Math::Ceil< unsigned int >(range / (double)valuesPerThread) - 1;
+      // Split the region
+      if ( i < maxThreadIdUsed )
+        {
+        splitIndex[splitAxis] += i * valuesPerThread;
+        splitSize[splitAxis] = valuesPerThread;
+        }
+      if ( i == maxThreadIdUsed )
+        {
+        splitIndex[splitAxis] += i * valuesPerThread;
+        // last thread needs to process the "rest" dimension being split
+        splitSize[splitAxis] = splitSize[splitAxis] - i * valuesPerThread;
+        }
 
-  // Split the region
-  if ( i < maxThreadIdUsed )
-    {
-    splitIndex[splitAxis] += i * valuesPerThread;
-    splitSize[splitAxis] = valuesPerThread;
-    }
-  if ( i == maxThreadIdUsed )
-    {
-    splitIndex[splitAxis] += i * valuesPerThread;
-    // last thread needs to process the "rest" dimension being split
-    splitSize[splitAxis] = splitSize[splitAxis] - i * valuesPerThread;
-    }
+      // set the split region ivars
+      splitRegion.SetIndex(splitIndex);
+      splitRegion.SetSize(splitSize);
 
-  // set the split region ivars
-  splitRegion.SetIndex(splitIndex);
-  splitRegion.SetSize(splitSize);
+      itkDebugMacro("  Split Piece: " << splitRegion);
 
-  itkDebugMacro("  Split Piece: " << splitRegion);
-
-  return maxThreadIdUsed + 1;
+      return maxThreadIdUsed + 1;
+      }
+  else
+      {
+      itkDebugMacro( "Division by zero: num/range = 0." );
+      return 1;
+      }
 }
 
 //----------------------------------------------------------------------------
