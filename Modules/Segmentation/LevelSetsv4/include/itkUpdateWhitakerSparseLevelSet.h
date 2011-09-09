@@ -20,8 +20,8 @@
 #define __itkUpdateWhitakerSparseLevelSet_h
 
 #include "itkImage.h"
-#include "itkLevelSetImageBase.h"
-#include "itkWhitakerSparseLevelSetBase.h"
+#include "itkDiscreteLevelSetImageBase.h"
+#include "itkWhitakerSparseLevelSetImage.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkShapedNeighborhoodIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
@@ -60,7 +60,7 @@ public:
 
   typedef TLevelSetValueType  LevelSetOutputType;
 
-  typedef WhitakerSparseLevelSetBase< LevelSetOutputType, ImageDimension >
+  typedef WhitakerSparseLevelSetImage< LevelSetOutputType, ImageDimension >
                                                        LevelSetType;
   typedef typename LevelSetType::Pointer               LevelSetPointer;
   typedef typename LevelSetType::InputType             LevelSetInputType;

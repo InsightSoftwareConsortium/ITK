@@ -19,7 +19,7 @@
 #include "vnl/vnl_math.h"
 
 #include "itkImage.h"
-#include "itkLevelSetImageBase.h"
+#include "itkLevelSetDenseImageBase.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
 #include "itkLevelSetTestFunction.h"
@@ -62,14 +62,14 @@ private:
 
 };
 
-int itkLevelSetImageBaseTest( int , char* [] )
+int itkLevelSetDenseImageBaseTest( int , char* [] )
 {
   const unsigned int Dimension = 2;
 
   typedef float PixelType;
 
-  typedef itk::Image< PixelType, Dimension >  ImageType;
-  typedef itk::LevelSetImageBase< ImageType > LevelSetType;
+  typedef itk::Image< PixelType, Dimension >        ImageType;
+  typedef itk::LevelSetDenseImageBase< ImageType >  LevelSetType;
 
   ImageType::IndexType index;
   index[0] = 0;

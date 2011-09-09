@@ -20,8 +20,8 @@
 #define __itkBinaryImageToShiSparseLevelSetAdaptor_h
 
 #include "itkImage.h"
-#include "itkLevelSetImageBase.h"
-#include "itkShiSparseLevelSetBase.h"
+#include "itkDiscreteLevelSetImageBase.h"
+#include "itkShiSparseLevelSetImage.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkShapedNeighborhoodIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
@@ -62,7 +62,7 @@ public:
   itkStaticConstMacro ( ImageDimension, unsigned int,
                        InputImageType::ImageDimension );
 
-  typedef ShiSparseLevelSetBase< ImageDimension >      LevelSetType;
+  typedef ShiSparseLevelSetImage< ImageDimension >     LevelSetType;
   typedef typename LevelSetType::Pointer               LevelSetPointer;
   typedef typename LevelSetType::InputType             LevelSetInputType;
   typedef typename LevelSetType::OutputType            LevelSetOutputType;

@@ -32,7 +32,7 @@
 #include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"
 #include "itkNumericTraits.h"
 
-int itkTwoLevelSetShiSparse2DTest( int argc, char* argv[] )
+int itkTwoLevelSetShiImage2DTest( int argc, char* argv[] )
 {
   if( argc < 4 )
     {

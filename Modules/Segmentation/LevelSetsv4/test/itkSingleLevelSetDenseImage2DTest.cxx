@@ -19,23 +19,22 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkFastMarchingImageFilter.h"
+#include "itkLevelSetDenseImageBase.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkLevelSetDomainMapImageFilter.h"
-#include "itkLevelSetContainerBase.h"
+#include "itkDenseLevelSetContainer.h"
 #include "itkLevelSetEquationChanAndVeseInternalTerm.h"
 #include "itkLevelSetEquationChanAndVeseExternalTerm.h"
 #include "itkLevelSetEquationTermContainerBase.h"
 #include "itkLevelSetEquationContainerBase.h"
-#include "itkSinRegularizedHeavisideStepFunction.h"
-#include "itkHeavisideStepFunction.h"
-#include "itkLevelSetMalcolmEvolutionBase.h"
-#include "itkBinaryImageToMalcolmSparseLevelSetAdaptor.h"
+#include "itkAtanRegularizedHeavisideStepFunction.h"
+#include "itkLevelSetEvolutionBase.h"
 #include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"
-#include "itkNumericTraits.h"
 
-int itkSingleLevelSetMalcolm2DTest( int argc, char* argv[] )
+int itkSingleLevelSetDenseImage2DTest( int argc, char* argv[] )
 {
-  if( argc < 4 )
+  if( argc < 6 )
     {
     std::cerr << "Missing Arguments" << std::endl;
     return EXIT_FAILURE;
@@ -43,83 +42,92 @@ int itkSingleLevelSetMalcolm2DTest( int argc, char* argv[] )
 
   const unsigned int Dimension = 2;
 
-  typedef unsigned short                                    InputPixelType;
-  typedef itk::Image< InputPixelType, Dimension >           InputImageType;
-  typedef itk::ImageRegionIteratorWithIndex< InputImageType >
-                                                            InputIteratorType;
-  typedef itk::ImageFileReader< InputImageType >            ReaderType;
+  typedef unsigned short                                      InputPixelType;
+  typedef itk::Image< InputPixelType, Dimension >             InputImageType;
+  typedef itk::ImageRegionIteratorWithIndex< InputImageType > InputIteratorType;
+  typedef itk::ImageFileReader< InputImageType >              ReaderType;
 
-  typedef itk::BinaryImageToMalcolmSparseLevelSetAdaptor< InputImageType >
-      BinaryToSparseAdaptorType;
+  typedef float                                          PixelType;
+  typedef itk::Image< PixelType, Dimension >             ImageType;
+  typedef itk::LevelSetDenseImageBase< ImageType >       LevelSetType;
+  typedef LevelSetType::OutputRealType                   LevelSetOutputRealType;
+  typedef itk::ImageRegionIteratorWithIndex< ImageType > IteratorType;
 
-  typedef itk::IdentifierType                               IdentifierType;
-  typedef BinaryToSparseAdaptorType::LevelSetType           SparseLevelSetType;
-
-  typedef itk::LevelSetContainerBase< IdentifierType, SparseLevelSetType >
-                                                            LevelSetContainerType;
-
-  typedef std::list< IdentifierType >                       IdListType;
-  typedef itk::Image< IdListType, Dimension >               IdListImageType;
-  typedef itk::Image< short, Dimension >                    CacheImageType;
+  typedef itk::IdentifierType                            IdentifierType;
+  typedef std::list< IdentifierType >                    IdListType;
+  typedef itk::Image< IdListType, Dimension >            IdListImageType;
+  typedef itk::Image< short, Dimension >                 CacheImageType;
   typedef itk::LevelSetDomainMapImageFilter< IdListImageType, CacheImageType >
-                                                            DomainMapImageFilterType;
+                                                         DomainMapImageFilterType;
 
+  typedef itk::DenseLevelSetContainer< IdentifierType, LevelSetType >  LevelSetContainerType;
   typedef itk::LevelSetEquationChanAndVeseInternalTerm< InputImageType, LevelSetContainerType >
-                                                            ChanAndVeseInternalTermType;
+                                                                      ChanAndVeseInternalTermType;
   typedef itk::LevelSetEquationChanAndVeseExternalTerm< InputImageType, LevelSetContainerType >
-                                                            ChanAndVeseExternalTermType;
+                                                                      ChanAndVeseExternalTermType;
   typedef itk::LevelSetEquationTermContainerBase< InputImageType, LevelSetContainerType >
-                                                            TermContainerType;
+                                                                      TermContainerType;
 
-  typedef itk::LevelSetEquationContainerBase< TermContainerType >
-                                                            EquationContainerType;
+  typedef itk::LevelSetEquationContainerBase< TermContainerType >     EquationContainerType;
 
-  typedef itk::LevelSetMalcolmEvolutionBase< EquationContainerType >
-                                                            LevelSetEvolutionType;
+  typedef itk::LevelSetEvolutionBase< EquationContainerType >         LevelSetEvolutionType;
 
-  typedef SparseLevelSetType::OutputRealType                LevelSetOutputRealType;
-  typedef itk::SinRegularizedHeavisideStepFunction< LevelSetOutputRealType, LevelSetOutputRealType >
-                                                            HeavisideFunctionBaseType;
-  typedef itk::ImageRegionIteratorWithIndex< InputImageType >     InputIteratorType;
+  typedef itk::AtanRegularizedHeavisideStepFunction<
+      LevelSetOutputRealType, LevelSetOutputRealType >          HeavisideFunctionBaseType;
 
-  // load input image
+  typedef  itk::FastMarchingImageFilter< ImageType, ImageType > FastMarchingFilterType;
+  typedef FastMarchingFilterType::NodeContainer                 NodeContainer;
+  typedef FastMarchingFilterType::NodeType                      NodeType;
+
+  // Read the image to be segmented
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
   reader->Update();
   InputImageType::Pointer input = reader->GetOutput();
 
-  // Binary initialization
-  InputImageType::Pointer binary = InputImageType::New();
-  binary->SetRegions( input->GetLargestPossibleRegion() );
-  binary->CopyInformation( input );
-  binary->Allocate();
-  binary->FillBuffer( itk::NumericTraits<InputPixelType>::Zero );
+  FastMarchingFilterType::Pointer  fastMarching = FastMarchingFilterType::New();
 
-  InputImageType::RegionType region;
-  InputImageType::IndexType index;
-  InputImageType::SizeType size;
+  NodeContainer::Pointer seeds = NodeContainer::New();
 
-  index.Fill( 10 );
-  size.Fill( 30 );
+  ImageType::IndexType  seedPosition;
+  seedPosition[0] = atoi( argv[2] );
+  seedPosition[1] = atoi( argv[3] );
 
-  region.SetIndex( index );
-  region.SetSize( size );
+  const double initialDistance = atof( argv[4] );
+  const double seedValue = - initialDistance;
 
-  InputIteratorType iIt( binary, region );
-  iIt.GoToBegin();
-  while( !iIt.IsAtEnd() )
-    {
-    iIt.Set( itk::NumericTraits<InputPixelType>::One );
-    ++iIt;
-    }
+  NodeType node;
+  node.SetValue( seedValue );
+  node.SetIndex( seedPosition );
 
-  // Convert binary mask to sparse level set
-  BinaryToSparseAdaptorType::Pointer adaptor = BinaryToSparseAdaptorType::New();
-  adaptor->SetInputImage( binary );
-  adaptor->Initialize();
-  std::cout << "Finished converting to sparse format" << std::endl;
+  //  The list of nodes is initialized and then every node is inserted using
+  //  the \code{InsertElement()}.
+  //
+  seeds->Initialize();
+  seeds->InsertElement( 0, node );
 
-  SparseLevelSetType::Pointer level_set = adaptor->GetSparseLevelSet();
+  //  The set of seed nodes is passed now to the
+  //  FastMarchingImageFilter with the method
+  //  \code{SetTrialPoints()}.
+  //
+  fastMarching->SetTrialPoints(  seeds  );
+
+  //  Since the FastMarchingImageFilter is used here just as a
+  //  Distance Map generator. It does not require a speed image as input.
+  //  Instead the constant value $1.0$ is passed using the
+  //  \code{SetSpeedConstant()} method.
+  //
+  fastMarching->SetSpeedConstant( 1.0 );
+
+  //  The FastMarchingImageFilter requires the user to specify the
+  //  size of the image to be produced as output. This is done using the
+  //  \code{SetOutputSize()}. Note that the size is obtained here from the
+  //  output image of the smoothing filter. The size of this image is valid
+  //  only after the \code{Update()} methods of this filter has been called
+  //  directly or indirectly.
+  //
+  fastMarching->SetOutputSize( input->GetBufferedRegion().GetSize() );
+  fastMarching->Update();
 
   IdListType list_ids;
   list_ids.push_back( 1 );
@@ -136,15 +144,19 @@ int itkSingleLevelSetMalcolm2DTest( int argc, char* argv[] )
 
   // Define the Heaviside function
   HeavisideFunctionBaseType::Pointer heaviside = HeavisideFunctionBaseType::New();
-   heaviside->SetEpsilon( 2.0 );
+  heaviside->SetEpsilon( 1.0 );
+
+  // Map of levelset bases
+  LevelSetType::Pointer  level_set = LevelSetType::New();
+  level_set->SetImage( fastMarching->GetOutput() );
 
   // Insert the levelsets in a levelset container
   LevelSetContainerType::Pointer lscontainer = LevelSetContainerType::New();
   lscontainer->SetHeaviside( heaviside );
   lscontainer->SetDomainMapFilter( domainMapFilter );
 
-  bool levelSetNotYetAdded = lscontainer->AddLevelSet( 0, level_set, false );
-  if ( !levelSetNotYetAdded )
+  bool LevelSetNotYetAdded = lscontainer->AddLevelSet( 0, level_set, false );
+  if ( !LevelSetNotYetAdded )
     {
     return EXIT_FAILURE;
     }
@@ -191,7 +203,7 @@ int itkSingleLevelSetMalcolm2DTest( int argc, char* argv[] )
   typedef itk::LevelSetEvolutionNumberOfIterationsStoppingCriterion< LevelSetContainerType >
       StoppingCriterionType;
   StoppingCriterionType::Pointer criterion = StoppingCriterionType::New();
-  criterion->SetNumberOfIterations( atoi( argv[2] ) );
+  criterion->SetNumberOfIterations( 50 );
 
   LevelSetEvolutionType::Pointer evolution = LevelSetEvolutionType::New();
   evolution->SetEquationContainer( equationContainer );
@@ -204,7 +216,7 @@ int itkSingleLevelSetMalcolm2DTest( int argc, char* argv[] )
     }
   catch ( itk::ExceptionObject& err )
     {
-    std::cout << err << std::endl;
+    std::cerr << err << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -230,7 +242,7 @@ int itkSingleLevelSetMalcolm2DTest( int argc, char* argv[] )
 
   typedef itk::ImageFileWriter< OutputImageType >     OutputWriterType;
   OutputWriterType::Pointer writer = OutputWriterType::New();
-  writer->SetFileName( argv[3] );
+  writer->SetFileName( argv[5] );
   writer->SetInput( outputImage );
 
   try
@@ -240,6 +252,22 @@ int itkSingleLevelSetMalcolm2DTest( int argc, char* argv[] )
   catch ( itk::ExceptionObject& err )
     {
     std::cout << err << std::endl;
+    }
+
+  PixelType mean = cvInternalTerm0->GetMean();
+  if ( ( mean < 24900 ) || ( mean > 24910 ) )
+    {
+    std::cerr << "( ( mean < 24900 ) || ( mean > 24910 ) )" <<std::endl;
+    std::cerr << "mean = " <<mean <<std::endl;
+    return EXIT_FAILURE;
+    }
+
+  mean = cvExternalTerm0->GetMean();
+  if ( ( mean < 1350 ) || ( mean > 1360 ) )
+    {
+    std::cerr << "( ( mean < 1350 ) || ( mean > 1360 ) )" <<std::endl;
+    std::cerr << "mean = " <<mean <<std::endl;
+    return EXIT_FAILURE;
     }
 
   return EXIT_SUCCESS;

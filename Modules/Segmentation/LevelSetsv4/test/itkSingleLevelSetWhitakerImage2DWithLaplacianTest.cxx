@@ -35,8 +35,14 @@
 #include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"
 #include "itkNumericTraits.h"
 
-int itkSingleLevelSetSparseWithLaplacian2DTest( int argc, char* argv[] )
+int itkSingleLevelSetWhitakerImage2DWithLaplacianTest( int argc, char* argv[] )
 {
+  if( argc < 2 )
+    {
+    std::cerr << "Missing Arguments" << std::endl;
+    return EXIT_FAILURE;
+    }
+
   const unsigned int Dimension = 2;
 
   typedef unsigned short                                    InputPixelType;
@@ -163,7 +169,7 @@ int itkSingleLevelSetSparseWithLaplacian2DTest( int argc, char* argv[] )
   ChanAndVeseInternalTermType::Pointer cvInternalTerm0 = ChanAndVeseInternalTermType::New();
   cvInternalTerm0->SetInput( input );
   cvInternalTerm0->SetCoefficient( 1.0 );
-  cvInternalTerm0->SetCurrentLevelSet( 0 );
+  cvInternalTerm0->SetCurrentLevelSetId( 0 );
   cvInternalTerm0->SetLevelSetContainer( lscontainer );
   std::cout << "LevelSet 1: CV internal term created" << std::endl;
 
@@ -171,7 +177,7 @@ int itkSingleLevelSetSparseWithLaplacian2DTest( int argc, char* argv[] )
   ChanAndVeseExternalTermType::Pointer cvExternalTerm0 = ChanAndVeseExternalTermType::New();
   cvExternalTerm0->SetInput( input );
   cvExternalTerm0->SetCoefficient( 1.0 );
-  cvExternalTerm0->SetCurrentLevelSet( 0 );
+  cvExternalTerm0->SetCurrentLevelSetId( 0 );
   cvExternalTerm0->SetLevelSetContainer( lscontainer );
   std::cout << "LevelSet 1: CV external term created" << std::endl;
 
@@ -179,7 +185,7 @@ int itkSingleLevelSetSparseWithLaplacian2DTest( int argc, char* argv[] )
   CurvatureTermType::Pointer curvatureTerm0 = CurvatureTermType::New();
   curvatureTerm0->SetInput( input );
   curvatureTerm0->SetCoefficient( 1.0 );
-  curvatureTerm0->SetCurrentLevelSet( 0 );
+  curvatureTerm0->SetCurrentLevelSetId( 0 );
   curvatureTerm0->SetLevelSetContainer( lscontainer );
   std::cout << "LevelSet 1: Curvature term created" << std::endl;
 
@@ -187,7 +193,7 @@ int itkSingleLevelSetSparseWithLaplacian2DTest( int argc, char* argv[] )
   PropagationTermType::Pointer propagationTerm0 = PropagationTermType::New();
   propagationTerm0->SetInput( input );
   propagationTerm0->SetCoefficient( 1.0 );
-  propagationTerm0->SetCurrentLevelSet( 0 );
+  propagationTerm0->SetCurrentLevelSetId( 0 );
   propagationTerm0->SetLevelSetContainer( lscontainer );
   std::cout << "LevelSet 1: Propagation term created" << std::endl;
 
@@ -195,7 +201,7 @@ int itkSingleLevelSetSparseWithLaplacian2DTest( int argc, char* argv[] )
   LaplacianTermType::Pointer laplacianTerm0 = LaplacianTermType::New();
   laplacianTerm0->SetInput( input );
   laplacianTerm0->SetCoefficient( 1.0 );
-  laplacianTerm0->SetCurrentLevelSet( 0 );
+  laplacianTerm0->SetCurrentLevelSetId( 0 );
   laplacianTerm0->SetLevelSetContainer( lscontainer );
   std::cout << "LevelSet 1: Laplacian term created" << std::endl;
 
@@ -234,7 +240,6 @@ int itkSingleLevelSetSparseWithLaplacian2DTest( int argc, char* argv[] )
   evolution->SetEquationContainer( equationContainer );
   evolution->SetStoppingCriterion( criterion );
   evolution->SetLevelSetContainer( lscontainer );
-  evolution->SetDomainMapFilter( domainMapFilter );
 
   try
     {

@@ -20,8 +20,8 @@
 #define __itkBinaryImageToWhitakerSparseLevelSetAdaptor_h
 
 #include "itkImage.h"
-#include "itkLevelSetImageBase.h"
-#include "itkWhitakerSparseLevelSetBase.h"
+#include "itkDiscreteLevelSetImageBase.h"
+#include "itkWhitakerSparseLevelSetImage.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkShapedNeighborhoodIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
@@ -68,7 +68,7 @@ public:
 
   typedef TLevelSetValueType  LevelSetOutputType;
 
-  typedef WhitakerSparseLevelSetBase< LevelSetOutputType, ImageDimension >
+  typedef WhitakerSparseLevelSetImage< LevelSetOutputType, ImageDimension >
                                                        LevelSetType;
   typedef typename LevelSetType::Pointer               LevelSetPointer;
   typedef typename LevelSetType::InputType             LevelSetInputType;
@@ -91,7 +91,7 @@ public:
    * http://www.shawnlankton.com/2009/04/sfm-and-active-contours/
    *
    * Input is a binary image m_InputImage
-   * Output is a WhitakerSparseLevelSetBasePointer  */
+   * Output is a WhitakerSparseLevelSetImagePointer  */
   void Initialize();
 
   /** Get the sparse levet set function */

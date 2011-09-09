@@ -16,27 +16,30 @@
  *
  *=========================================================================*/
 
-#include "itkMalcolmSparseLevelSetBase.h"
+#include "itkWhitakerSparseLevelSetImage.h"
 
-int itkMalcolmSparseLevelSetBaseTest( int , char* [] )
+int itkWhitakerSparseLevelSetImageTest( int , char* [] )
 {
+  typedef double OutputType;
   const unsigned int Dimension = 2;
-  typedef itk::MalcolmSparseLevelSetBase< Dimension > SparseLevelSetType;
+  typedef itk::WhitakerSparseLevelSetImage< OutputType, Dimension >
+      SparseLevelSetType;
 
   typedef SparseLevelSetType::LabelMapType LabelMapType;
   typedef LabelMapType::Pointer            LabelMapPointer;
   typedef LabelMapType::IndexType          IndexType;
 
+
   IndexType index;
   index.Fill( 3 );
 
   LabelMapType::Pointer labelMap = LabelMapType::New();
-  labelMap->SetBackgroundValue( 1 );
+  labelMap->SetBackgroundValue( 3 );
 
   for( int i = 0; i < 4; i++ )
     {
     ++index[1];
-    labelMap->SetPixel( index, -1 );
+    labelMap->SetPixel( index, -3 );
     }
 
   SparseLevelSetType::Pointer phi = SparseLevelSetType::New();
@@ -44,20 +47,20 @@ int itkMalcolmSparseLevelSetBaseTest( int , char* [] )
 
   index[0] = 3;
   index[1] = 3;
-  if( phi->Evaluate( index ) != 1 )
+
+  if( phi->Evaluate( index ) != 3 )
     {
-    std::cout << index << ' ' << phi->Evaluate( index ) << " != 1" << std::endl;
+    std::cout << index << ' ' << phi->Evaluate( index ) << " != 3" << std::endl;
     return EXIT_FAILURE;
     }
 
   index[0] = 3;
   index[1] = 4;
-  if( phi->Evaluate( index ) != -1 )
+  if( phi->Evaluate( index ) != -3 )
     {
-    std::cout << index << ' ' << phi->Evaluate( index ) << " != -1" << std::endl;
+    std::cout << index << ' ' << phi->Evaluate( index ) << " != -3" << std::endl;
     return EXIT_FAILURE;
     }
-
 
   return EXIT_SUCCESS;
 }

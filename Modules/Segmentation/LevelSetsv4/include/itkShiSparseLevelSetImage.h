@@ -16,17 +16,15 @@
  *
  *=========================================================================*/
 
-#ifndef __itkShiSparseLevelSetBase_h
-#define __itkShiSparseLevelSetBase_h
+#ifndef __itkShiSparseLevelSetImage_h
+#define __itkShiSparseLevelSetImage_h
 
-#include "itkLevelSetBase.h"
-#include "itkLabelObject.h"
-#include "itkLabelMap.h"
+#include "itkLevelSetSparseImageBase.h"
 
 namespace itk
 {
 /**
- *  \class ShiSparseLevelSetBase
+ *  \class ShiSparseLevelSetImage
  *  \brief Derived class for the shi representation of level-set function
  *
  *  This representation is a "sparse" level-set function, where values could
@@ -36,66 +34,54 @@ namespace itk
  *  \ingroup ITKLevelSetsv4
  */
 template< unsigned int VDimension >
-class ShiSparseLevelSetBase :
-    public LevelSetBase< Index< VDimension >,
-                         VDimension,
-                         int8_t,
-                         ImageBase< VDimension > >
+class ShiSparseLevelSetImage :
+    public LevelSetSparseImageBase< int8_t, VDimension >
 {
 public:
-  typedef Index< VDimension >                     IndexType;
-  typedef int8_t                                  OutputType;
-  typedef ImageBase< VDimension >                 ImageBaseType;
-
-  typedef ShiSparseLevelSetBase                   Self;
+  typedef ShiSparseLevelSetImage                  Self;
   typedef SmartPointer< Self >                    Pointer;
   typedef SmartPointer< const Self >              ConstPointer;
-  typedef LevelSetBase< IndexType, VDimension,
-                        OutputType, ImageBaseType >
+  typedef LevelSetSparseImageBase< int8_t, VDimension >
                                                   Superclass;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ShiSparseLevelSetBase, LevelSetBase);
+  itkTypeMacro(ShiSparseLevelSetImage, LevelSetSparseImageBase);
 
-  itkStaticConstMacro ( Dimension, unsigned int,
-                        VDimension );
+  itkStaticConstMacro ( Dimension, unsigned int, VDimension );
 
   typedef typename Superclass::InputType        InputType;
+  typedef typename Superclass::OutputType       OutputType;
   typedef typename Superclass::OutputRealType   OutputRealType;
   typedef typename Superclass::GradientType     GradientType;
   typedef typename Superclass::HessianType      HessianType;
   typedef typename Superclass::LevelSetDataType LevelSetDataType;
 
-  typedef int8_t                                 LayerIdType;
-  typedef LabelObject< LayerIdType, VDimension > LabelObjectType;
-  typedef typename LabelObjectType::Pointer      LabelObjectPointer;
-  typedef typename LabelObjectType::LengthType   LabelObjectLengthType;
-  typedef typename LabelObjectType::LineType     LabelObjectLineType;
+  typedef typename Superclass::LayerIdType            LayerIdType;
+  typedef typename Superclass::LabelObjectType        LabelObjectType;
+  typedef typename Superclass::LabelObjectPointer     LabelObjectPointer;
+  typedef typename Superclass::LabelObjectLengthType  LabelObjectLengthType;
+  typedef typename Superclass::LabelObjectLineType    LabelObjectLineType;
 
-  typedef LabelMap< LabelObjectType >         LabelMapType;
-  typedef typename LabelMapType::Pointer      LabelMapPointer;
-  typedef typename LabelMapType::RegionType   RegionType;
+  typedef typename Superclass::LabelMapType     LabelMapType;
+  typedef typename Superclass::LabelMapPointer  LabelMapPointer;
+  typedef typename Superclass::RegionType       RegionType;
 
-  typedef std::map< IndexType, OutputType, Functor::IndexLexicographicCompare< VDimension > >
-                                                  LayerType;
-  typedef typename LayerType::iterator            LayerIterator;
-  typedef typename LayerType::const_iterator      LayerConstIterator;
+  typedef typename Superclass::LayerType          LayerType;
+  typedef typename Superclass::LayerIterator      LayerIterator;
+  typedef typename Superclass::LayerConstIterator LayerConstIterator;
 
-  typedef std::map< LayerIdType, LayerType >      LayerMapType;
-  typedef typename LayerMapType::iterator         LayerMapIterator;
-  typedef typename LayerMapType::const_iterator   LayerMapConstIterator;
-
-  /** Returns the layer affiliation of a given location iP */
-  virtual LayerIdType Status( const InputType& iP ) const;
+  typedef typename Superclass::LayerMapType           LayerMapType;
+  typedef typename Superclass::LayerMapIterator       LayerMapIterator;
+  typedef typename Superclass::LayerMapConstIterator  LayerMapConstIterator;
 
   /** Returns the value of the level set function at a given location iP */
   virtual OutputType Evaluate( const InputType& iP ) const;
 
   /** Returns the gradient of the level set function at a given location iP */
-  virtual GradientType EvaluateGradient( const InputType& iP ) const;
+  virtual GradientType  EvaluateGradient( const InputType& iP ) const;
 
   /** Returns the Hessian of the level set function at a given location iP */
   virtual HessianType EvaluateHessian( const InputType& iP ) const;
@@ -103,10 +89,14 @@ public:
   /** Returns the Laplacian of the level set function at a given location iP */
   virtual OutputRealType EvaluateLaplacian( const InputType& iP ) const;
 
+  /** Returns the Laplacian of the level set function at a given location iP */
+  virtual OutputRealType EvaluateMeanCurvature( const InputType& iP ) const;
+
   virtual void Evaluate( const InputType& iP, LevelSetDataType& ioData ) const;
   virtual void EvaluateGradient( const InputType& iP, LevelSetDataType& ioData ) const;
   virtual void EvaluateHessian( const InputType& iP, LevelSetDataType& ioData ) const;
   virtual void EvaluateLaplacian( const InputType& iP, LevelSetDataType& ioData ) const;
+  virtual void EvaluateMeanCurvature( const InputType& iP, LevelSetDataType& ioData ) const;
 
   /** Returns the gradient of the level set function at a given location iP
    * as part of the LevelSetDataType
@@ -123,15 +113,6 @@ public:
   static inline LayerIdType PlusOneLayer() { return 1; }
   static inline LayerIdType PlusThreeLayer() { return 3; }
 
-  /** Return the const pointer to a layer map with given id  */
-  const LayerType& GetLayer( LayerIdType iVal ) const;
-
-  /** Return the pointer to a layer map with given id  */
-  LayerType& GetLayer( LayerIdType iVal );
-
-  /** Set a layer map with id to the given layer pointer */
-  void SetLayer( LayerIdType iVal, const LayerType& iLayer );
-
   /** Return the label object pointer with a given id */
   template< class TLabel >
   typename LabelObject< TLabel, Dimension >::Pointer
@@ -140,14 +121,14 @@ public:
     typedef LabelObject< TLabel, Dimension > OutputLabelObjectType;
     typename OutputLabelObjectType::Pointer object = OutputLabelObjectType::New();
 
-    LabelObjectPointer labelObject = m_LabelMap->GetLabelObject( MinusThreeLayer() );
+    LabelObjectPointer labelObject = this->m_LabelMap->GetLabelObject( this->MinusThreeLayer() );
 
     for( SizeValueType i = 0; i < labelObject->GetNumberOfLines(); i++ )
       {
       object->AddLine( labelObject->GetLine( i ) );
       }
 
-    labelObject = m_LabelMap->GetLabelObject( MinusOneLayer() );
+    labelObject = this->m_LabelMap->GetLabelObject( this->MinusOneLayer() );
 
     for( SizeValueType i = 0; i < labelObject->GetNumberOfLines(); i++ )
       {
@@ -158,42 +139,24 @@ public:
     return object;
     }
 
-  /** Set/Get the label map for computing the sparse representation */
-  virtual void SetLabelMap( LabelMapType* iLabelMap );
-  itkGetObjectMacro( LabelMap, LabelMapType );
-
-  /** Graft data object as level set object */
-  virtual void Graft( const DataObject* data );
-
 protected:
 
-  ShiSparseLevelSetBase();
+  ShiSparseLevelSetImage();
 
-  virtual ~ShiSparseLevelSetBase();
-
-  LayerMapType     m_Layers;
-  LabelMapPointer  m_LabelMap;
-
-  typedef GradientType ScalingType;
-  ScalingType m_NeighborhoodScales;
+  virtual ~ShiSparseLevelSetImage();
 
   /** Initialize the sparse field layers */
-  void InitializeLayers();
+  virtual void InitializeLayers();
 
 private:
-  /** Initialize the label map point and the sparse-field layers */
-  virtual void Initialize();
 
-  /** Copy level set information from data object */
-  virtual void CopyInformation( const DataObject* data );
-
-  ShiSparseLevelSetBase( const Self& ); //purposely not implemented
+  ShiSparseLevelSetImage( const Self& ); //purposely not implemented
   void operator = ( const Self& ); //purposely not implemented
 };
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShiSparseLevelSetBase.hxx"
+#include "itkShiSparseLevelSetImage.hxx"
 #endif
 
-#endif // __itkShiSparseLevelSetBase_h
+#endif // __itkShiSparseLevelSetImage_h

@@ -27,15 +27,15 @@
 #include "itkLevelSetEquationTermContainerBase.h"
 #include "itkLevelSetEquationContainerBase.h"
 #include "itkSinRegularizedHeavisideStepFunction.h"
-#include "itkHeavisideStepFunction.h"
-#include "itkLevelSetMalcolmEvolutionBase.h"
-#include "itkBinaryImageToMalcolmSparseLevelSetAdaptor.h"
+#include "itkLevelSetSparseEvolutionBase.h"
+#include "itkBinaryImageToWhitakerSparseLevelSetAdaptor.h"
+#include "itkLevelSetEquationCurvatureTerm.h"
 #include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"
 #include "itkNumericTraits.h"
 
-int itkTwoLevelSetMalcolm2DTest( int argc, char* argv[] )
+int itkSingleLevelSetWhitakerImage2DWithCurvatureTest( int argc, char* argv[] )
 {
-  if( argc < 4 )
+  if( argc < 2 )
     {
     std::cerr << "Missing Arguments" << std::endl;
     return EXIT_FAILURE;
@@ -49,7 +49,9 @@ int itkTwoLevelSetMalcolm2DTest( int argc, char* argv[] )
                                                             InputIteratorType;
   typedef itk::ImageFileReader< InputImageType >            ReaderType;
 
-  typedef itk::BinaryImageToMalcolmSparseLevelSetAdaptor< InputImageType >
+  typedef float                                             PixelType;
+
+  typedef itk::BinaryImageToWhitakerSparseLevelSetAdaptor< InputImageType, PixelType >
                                                             BinaryToSparseAdaptorType;
 
   typedef itk::IdentifierType                               IdentifierType;
@@ -68,16 +70,18 @@ int itkTwoLevelSetMalcolm2DTest( int argc, char* argv[] )
                                                             ChanAndVeseInternalTermType;
   typedef itk::LevelSetEquationChanAndVeseExternalTerm< InputImageType, LevelSetContainerType >
                                                             ChanAndVeseExternalTermType;
+  typedef itk::LevelSetEquationCurvatureTerm< InputImageType, LevelSetContainerType >
+                                                            CurvatureTermType;
   typedef itk::LevelSetEquationTermContainerBase< InputImageType, LevelSetContainerType >
                                                             TermContainerType;
 
   typedef itk::LevelSetEquationContainerBase< TermContainerType >
                                                             EquationContainerType;
 
-  typedef itk::LevelSetMalcolmEvolutionBase< EquationContainerType >
+  typedef itk::LevelSetSparseEvolutionBase< EquationContainerType >
                                                             LevelSetEvolutionType;
 
-  typedef SparseLevelSetType::OutputRealType                LevelSetOutputRealType;
+  typedef SparseLevelSetType::OutputRealType                      LevelSetOutputRealType;
   typedef itk::SinRegularizedHeavisideStepFunction< LevelSetOutputRealType, LevelSetOutputRealType >
                                                             HeavisideFunctionBaseType;
   typedef itk::ImageRegionIteratorWithIndex< InputImageType >     InputIteratorType;
@@ -114,24 +118,15 @@ int itkTwoLevelSetMalcolm2DTest( int argc, char* argv[] )
     }
 
   // Convert binary mask to sparse level set
-  BinaryToSparseAdaptorType::Pointer adaptor0 = BinaryToSparseAdaptorType::New();
-  adaptor0->SetInputImage( binary );
-  adaptor0->Initialize();
+  BinaryToSparseAdaptorType::Pointer adaptor = BinaryToSparseAdaptorType::New();
+  adaptor->SetInputImage( binary );
+  adaptor->Initialize();
   std::cout << "Finished converting to sparse format" << std::endl;
 
-  SparseLevelSetType::Pointer level_set0 = adaptor0->GetSparseLevelSet();
+  SparseLevelSetType::Pointer level_set = adaptor->GetSparseLevelSet();
 
-  BinaryToSparseAdaptorType::Pointer adaptor1 = BinaryToSparseAdaptorType::New();
-  adaptor1->SetInputImage( binary );
-  adaptor1->Initialize();
-  std::cout << "Finished converting to sparse format" << std::endl;
-
-  SparseLevelSetType::Pointer level_set1 = adaptor1->GetSparseLevelSet();
-
-  // Create a list image specifying both level set ids
   IdListType list_ids;
   list_ids.push_back( 1 );
-  list_ids.push_back( 2 );
 
   IdListImageType::Pointer id_image = IdListImageType::New();
   id_image->SetRegions( input->GetLargestPossibleRegion() );
@@ -145,20 +140,14 @@ int itkTwoLevelSetMalcolm2DTest( int argc, char* argv[] )
 
   // Define the Heaviside function
   HeavisideFunctionBaseType::Pointer heaviside = HeavisideFunctionBaseType::New();
-  heaviside->SetEpsilon( 2.0 );
+  heaviside->SetEpsilon( 1.0 );
 
   // Insert the levelsets in a levelset container
   LevelSetContainerType::Pointer lscontainer = LevelSetContainerType::New();
   lscontainer->SetHeaviside( heaviside );
   lscontainer->SetDomainMapFilter( domainMapFilter );
 
-  bool LevelSetNotYetAdded = lscontainer->AddLevelSet( 0, level_set0, false );
-  if ( !LevelSetNotYetAdded )
-    {
-    return EXIT_FAILURE;
-    }
-
-  LevelSetNotYetAdded = lscontainer->AddLevelSet( 1, level_set1, false );
+  bool LevelSetNotYetAdded = lscontainer->AddLevelSet( 0, level_set, false );
   if ( !LevelSetNotYetAdded )
     {
     return EXIT_FAILURE;
@@ -186,22 +175,13 @@ int itkTwoLevelSetMalcolm2DTest( int argc, char* argv[] )
   cvExternalTerm0->SetLevelSetContainer( lscontainer );
   std::cout << "LevelSet 1: CV external term created" << std::endl;
 
-  // -----------------------------
-  // *** 2nd Level Set phi ***
-  ChanAndVeseInternalTermType::Pointer cvInternalTerm1 = ChanAndVeseInternalTermType::New();
-  cvInternalTerm1->SetInput( input );
-  cvInternalTerm1->SetCoefficient( 1.0 );
-  cvInternalTerm1->SetCurrentLevelSetId( 1 );
-  cvInternalTerm1->SetLevelSetContainer( lscontainer );
-  std::cout << "LevelSet 2: CV internal term created" << std::endl;
-
-  // Create ChanAndVese external term for phi_{1}
-  ChanAndVeseExternalTermType::Pointer cvExternalTerm1 = ChanAndVeseExternalTermType::New();
-  cvExternalTerm1->SetInput( input );
-  cvExternalTerm1->SetCoefficient( 1.0 );
-  cvExternalTerm1->SetCurrentLevelSetId( 1 );
-  cvExternalTerm1->SetLevelSetContainer( lscontainer );
-  std::cout << "LevelSet 2: CV external term created" << std::endl;
+  // Create ChanAndVese curvature term for phi_{1}
+  CurvatureTermType::Pointer curvatureTerm0 = CurvatureTermType::New();
+  curvatureTerm0->SetInput( input );
+  curvatureTerm0->SetCoefficient( 1.0 );
+  curvatureTerm0->SetCurrentLevelSetId( 0 );
+  curvatureTerm0->SetLevelSetContainer( lscontainer );
+  std::cout << "LevelSet 1: Curvature term created" << std::endl;
 
   // **************** CREATE ALL EQUATIONS ****************
 
@@ -215,28 +195,18 @@ int itkTwoLevelSetMalcolm2DTest( int argc, char* argv[] )
 
   temp = dynamic_cast< TermContainerType::TermType* >( cvExternalTerm0.GetPointer() );
   termContainer0->AddTerm( 1, temp );
+
+  temp = dynamic_cast< TermContainerType::TermType* >( curvatureTerm0.GetPointer() );
+  termContainer0->AddTerm( 2, temp );
   std::cout << "Term container 0 created" << std::endl;
 
-  // Create Term Container
-  TermContainerType::Pointer termContainer1 = TermContainerType::New();
-  termContainer1->SetInput( input );
-
-  temp = dynamic_cast< TermContainerType::TermType* >( cvInternalTerm1.GetPointer() );
-  termContainer1->AddTerm( 0, temp );
-
-  temp = dynamic_cast< TermContainerType::TermType* >( cvExternalTerm1.GetPointer() );
-  termContainer1->AddTerm( 1, temp );
-  std::cout << "Term container 1 created" << std::endl;
-
-  // Create equation container
   EquationContainerType::Pointer equationContainer = EquationContainerType::New();
   equationContainer->AddEquation( 0, termContainer0 );
-  equationContainer->AddEquation( 1, termContainer1 );
 
   typedef itk::LevelSetEvolutionNumberOfIterationsStoppingCriterion< LevelSetContainerType >
       StoppingCriterionType;
   StoppingCriterionType::Pointer criterion = StoppingCriterionType::New();
-  criterion->SetNumberOfIterations( atoi( argv[2] ) );
+  criterion->SetNumberOfIterations( 5 );
 
   LevelSetEvolutionType::Pointer evolution = LevelSetEvolutionType::New();
   evolution->SetEquationContainer( equationContainer );
@@ -250,42 +220,7 @@ int itkTwoLevelSetMalcolm2DTest( int argc, char* argv[] )
   catch ( itk::ExceptionObject& err )
     {
     std::cout << err << std::endl;
-    return EXIT_FAILURE;
     }
-  typedef itk::Image< char, Dimension > OutputImageType;
-  OutputImageType::Pointer outputImage = OutputImageType::New();
-  outputImage->SetRegions( input->GetLargestPossibleRegion() );
-  outputImage->CopyInformation( input );
-  outputImage->Allocate();
-  outputImage->FillBuffer( 0 );
-
-  typedef itk::ImageRegionIteratorWithIndex< OutputImageType > OutputIteratorType;
-  OutputIteratorType oIt( outputImage, outputImage->GetLargestPossibleRegion() );
-  oIt.GoToBegin();
-
-  OutputImageType::IndexType idx;
-
-  while( !oIt.IsAtEnd() )
-    {
-    idx = oIt.GetIndex();
-    oIt.Set( level_set0->Evaluate( idx ) );
-    ++oIt;
-    }
-
-  typedef itk::ImageFileWriter< OutputImageType >     OutputWriterType;
-  OutputWriterType::Pointer writer = OutputWriterType::New();
-  writer->SetFileName( argv[3] );
-  writer->SetInput( outputImage );
-
-  try
-    {
-    writer->Update();
-    }
-  catch ( itk::ExceptionObject& err )
-    {
-    std::cout << err << std::endl;
-    }
-
 
   return EXIT_SUCCESS;
 }

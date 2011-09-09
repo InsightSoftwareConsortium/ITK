@@ -20,7 +20,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkFastMarchingImageFilter.h"
-#include "itkLevelSetImageBase.h"
+#include "itkLevelSetDenseImageBase.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkLevelSetDomainMapImageFilter.h"
 #include "itkDenseLevelSetContainer.h"
@@ -32,7 +32,7 @@
 #include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"
 #include "itkLevelSetEvolutionBase.h"
 
-int itkTwoLevelSetDense2DTest( int argc, char* argv[] )
+int itkTwoLevelSetDenseImage2DTest( int argc, char* argv[] )
 {
   if( argc < 6 )
     {
@@ -49,7 +49,7 @@ int itkTwoLevelSetDense2DTest( int argc, char* argv[] )
 
   typedef float                                          PixelType;
   typedef itk::Image< PixelType, Dimension >             ImageType;
-  typedef itk::LevelSetImageBase< ImageType >            LevelSetType;
+  typedef itk::LevelSetDenseImageBase< ImageType >       LevelSetType;
   typedef LevelSetType::OutputRealType                   LevelSetOutputRealType;
   typedef itk::ImageRegionIteratorWithIndex< ImageType > IteratorType;
 

@@ -27,7 +27,7 @@
 #include <sstream>
 
 #include "itkImage.h"
-#include "itkLevelSetImageBase.h"
+#include "itkDiscreteLevelSetImageBase.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkLevelSetDomainMapImageFilter.h"
 #include "itkUpdateShiSparseLevelSet.h"
