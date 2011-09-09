@@ -122,7 +122,7 @@ public:
    *
    * \deprecated Use GetMatrix instead
    */
-  const MatrixType & GetRotationMatrix()
+  const MatrixType & GetRotationMatrix() const
   { return this->GetMatrix(); }
 
   /**
