@@ -123,6 +123,7 @@ public:
       m_UseOSBitSize(true),
       m_UseNumberOfProcessors(true),
       m_UseVendorString(true),
+      m_UseVendorID(false),
       m_UseTypeID(true),
       m_UseFamilyID(true),
       m_UseModelID(true),
