@@ -25,9 +25,8 @@
 #include <cstdlib>
 
 
+
 /**
- * \class amoebaCostFunction
- *
  *  The objective function is the quadratic form:
  *
  *  1/2 x^T A x - b^T x
@@ -46,16 +45,16 @@
  *   and the expected final value of the function is 10.0
  *
  */
-class amoebaCostFunction : public itk::SingleValuedCostFunction
+class amoebaTestF1 : public itk::SingleValuedCostFunction
 {
 public:
 
-  typedef amoebaCostFunction                Self;
+  typedef amoebaTestF1                      Self;
   typedef itk::SingleValuedCostFunction     Superclass;
   typedef itk::SmartPointer<Self>           Pointer;
   typedef itk::SmartPointer<const Self>     ConstPointer;
   itkNewMacro( Self );
-  itkTypeMacro( amoebaCostFunction, SingleValuedCostFunction );
+  itkTypeMacro( amoebaTestF1, SingleValuedCostFunction );
 
   enum { SpaceDimension=2 };
 
@@ -67,7 +66,7 @@ public:
   typedef vnl_matrix<double>                      MatrixType;
 
 
-  amoebaCostFunction():m_A(SpaceDimension,SpaceDimension),m_b(SpaceDimension)
+  amoebaTestF1():m_A(SpaceDimension,SpaceDimension),m_b(SpaceDimension)
    {
     m_A[0][0] =  3;
     m_A[0][1] =  2;
@@ -140,21 +139,70 @@ private:
   bool              m_Negate;
 };
 
+
+/**
+ * Function we want to optimize, comprised of two parabolas with C0 continuity
+ * at 0:
+ * f(x) = if(x<0) x^2+4x; else 2x^2-8x
+ *
+ * Minima are at -2 and 2 with function values of -4 and -8 respectivly.
+ */
+class amoebaTestF2 : public itk::SingleValuedCostFunction
+{
+public:
+
+  typedef amoebaTestF2                      Self;
+  typedef itk::SingleValuedCostFunction     Superclass;
+  typedef itk::SmartPointer<Self>           Pointer;
+  typedef itk::SmartPointer<const Self>     ConstPointer;
+  itkNewMacro( Self );
+  itkTypeMacro( amoebaTestF1, SingleValuedCostFunction );
+
+  typedef Superclass::ParametersType              ParametersType;
+  typedef Superclass::MeasureType                 MeasureType;
+
+  amoebaTestF2()
+   {
+   }
+
+  double GetValue( const ParametersType & parameters ) const
+    {
+    double val;
+    if( parameters[0]<0 )
+      {
+      val = parameters[0]*parameters[0]+4*parameters[0];
+      }
+    else
+      {
+      val = 2*parameters[0]*parameters[0]-8*parameters[0];
+      }
+    return val;
+    }
+
+  void GetDerivative( const ParametersType & itkNotUsed(parameters),
+                            DerivativeType & itkNotUsed(derivative) ) const
+    {
+      throw itk::ExceptionObject( __FILE__, __LINE__,
+                                  "no derivative available" );
+    }
+
+  unsigned int GetNumberOfParameters(void) const
+    {
+    return 1;
+    }
+};
+
+
+
 class CommandIterationUpdateAmoeba : public itk::Command
 {
 public:
   typedef  CommandIterationUpdateAmoeba   Self;
-  typedef  itk::Command                   Superclass;
-  typedef itk::SmartPointer<Self>         Pointer;
+  typedef  itk::Command             Superclass;
+  typedef itk::SmartPointer<Self>  Pointer;
   itkNewMacro( Self );
-protected:
-  CommandIterationUpdateAmoeba()
-  {
-    m_IterationNumber=0;
-  }
-public:
-  typedef itk::AmoebaOptimizer         OptimizerType;
-  typedef   const OptimizerType   *    OptimizerPointer;
+
+  void Reset() { m_IterationNumber = 0; }
 
   void Execute(itk::Object *caller, const itk::EventObject & event)
     {
@@ -163,37 +211,64 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
-      OptimizerPointer optimizer =
-        dynamic_cast< OptimizerPointer >( object );
-      if( m_FunctionEvent.CheckEvent( &event ) )
-        {
-        std::cout << m_IterationNumber++ << "   ";
-        std::cout << optimizer->GetCachedValue() << "   ";
-        std::cout << optimizer->GetCachedCurrentPosition() << std::endl;
-        std::cout << optimizer->GetStopConditionDescription() << std::endl;
-        }
-      else if( m_GradientEvent.CheckEvent( &event ) )
-        {
-        std::cout << "Gradient " << optimizer->GetCachedDerivative() << "   ";
-        }
+    const itk::AmoebaOptimizer *optimizer =
+      dynamic_cast< const itk::AmoebaOptimizer * >( object );
+    if( dynamic_cast< const itk::FunctionEvaluationIterationEvent * >( &event ) )
+      {
+      std::cout << m_IterationNumber++ << ":  ";
+      std::cout << "x: "<< optimizer->GetCachedCurrentPosition() <<"  ";
+      std::cout << "f(x): " << optimizer->GetCachedValue() <<std::endl;
 
+      }
     }
+protected:
+  CommandIterationUpdateAmoeba()
+  {
+    m_IterationNumber=0;
+  }
 private:
   unsigned long m_IterationNumber;
-
-  itk::FunctionEvaluationIterationEvent m_FunctionEvent;
-  itk::GradientEvaluationIterationEvent m_GradientEvent;
 };
 
 
+
+
+
+/**
+ * Test Amoeba with a 2D quadratic function - happy day scenario.
+ */
+int AmoebaTest1();
+
+/**
+ * Test Amoeba and Amoeba with restarts on a function with two minima.
+ */
+int AmoebaTest2();
+
 int itkAmoebaOptimizerTest(int, char* [] )
 {
+  int result1 = AmoebaTest1();
+  int result2 = AmoebaTest2();
 
-  std::cout << "Amoeba Optimizer Test \n \n";
+  std::cout<< "All Tests Completed."<< std::endl;
+
+  if( result1 == EXIT_FAILURE ||
+      result2 == EXIT_FAILURE )
+    {
+    std::cerr<<"[FAILURE]\n";
+    return EXIT_FAILURE;
+    }
+  std::cout<<"[SUCCESS]\n";
+  return EXIT_SUCCESS;
+}
+
+
+
+int AmoebaTest1()
+{
+
+  std::cout << "Amoeba Optimizer Test 1\n \n";
 
   typedef  itk::AmoebaOptimizer  OptimizerType;
-
-  typedef  OptimizerType::InternalOptimizerType  vnlOptimizerType;
 
   // Declaration of a itkOptimizer
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
@@ -207,15 +282,9 @@ int itkAmoebaOptimizerTest(int, char* [] )
   double fTolerance = 0.001;
   itkOptimizer->SetFunctionConvergenceTolerance( fTolerance );
 
-  // Declaration of the CostFunction adaptor
-  amoebaCostFunction::Pointer costFunction = amoebaCostFunction::New();
-
-
+  amoebaTestF1::Pointer costFunction = amoebaTestF1::New();
   itkOptimizer->SetCostFunction( costFunction.GetPointer() );
   std::cout << "itkOptimizer->GetCostFunction(): " << itkOptimizer->GetCostFunction() << std::endl;
-
-  vnlOptimizerType * vnlOptimizer = itkOptimizer->GetOptimizer();
-
 
   OptimizerType::ParametersType initialValue(2);       // constructor requires vector size
 
@@ -232,33 +301,29 @@ int itkAmoebaOptimizerTest(int, char* [] )
   try
     {
 
-    vnlOptimizer->verbose = true;
-
     std::cout << "Run for " << itkOptimizer->GetMaximumNumberOfIterations();
-    std::cout << " iterations." << std::endl;
+    std::cout << " iterations or less." << std::endl;
 
     itkOptimizer->StartOptimization();
 
 
-    std::cout << "Continue for " << itkOptimizer->GetMaximumNumberOfIterations();
-    std::cout << " iterations." << std::endl;
-
     itkOptimizer->SetMaximumNumberOfIterations( 100 );
+    std::cout << "Continue for " << itkOptimizer->GetMaximumNumberOfIterations();
+    std::cout << " iterations or less." << std::endl;
     itkOptimizer->SetInitialPosition( itkOptimizer->GetCurrentPosition() );
     itkOptimizer->StartOptimization();
 
     }
   catch( itk::ExceptionObject & e )
     {
-    std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error ocurred during Optimization" << std::endl;
-    std::cout << "Location    = " << e.GetLocation()    << std::endl;
-    std::cout << "Description = " << e.GetDescription() << std::endl;
+    std::cerr << "Exception thrown ! " << std::endl;
+    std::cerr << "An error ocurred during Optimization" << std::endl;
+    std::cerr << "Location    = " << e.GetLocation()    << std::endl;
+    std::cerr << "Description = " << e.GetDescription() << std::endl;
+    std::cerr <<"[TEST 1 FAILURE]\n";
     return EXIT_FAILURE;
     }
 
-
-  std::cout << "Number of evals = " << vnlOptimizer->get_num_evaluations() << std::endl;
 
   std::cout << "Optimizer: " << itkOptimizer;
 
@@ -283,23 +348,23 @@ int itkAmoebaOptimizerTest(int, char* [] )
 
   if( !pass )
     {
-    std::cout << "Test failed." << std::endl;
+    std::cerr<<"[TEST 1 FAILURE]\n";
     return EXIT_FAILURE;
     }
 
   // Get the final value of the optimizer
-  std::cout << "Testing GetValue() : ";
+  std::cout << "Testing optimizers GetValue() : ";
   OptimizerType::MeasureType finalValue = itkOptimizer->GetValue();
   if(vcl_fabs(finalValue+9.99998)>0.01)
     {
-    std::cout << "[FAILURE]" << std::endl;
+    std::cerr << "failed\n";
+    std::cerr<<"[TEST 1 FAILURE]\n";
     return EXIT_FAILURE;
     }
   else
     {
-    std::cout << "[SUCCESS]" << std::endl;
+    std::cout << "succeeded\n";
     }
-
 
   // Set now the function to maximize
   //
@@ -313,9 +378,7 @@ int itkAmoebaOptimizerTest(int, char* [] )
 
   CommandIterationUpdateAmoeba::Pointer observer =
     CommandIterationUpdateAmoeba::New();
-  itkOptimizer->AddObserver( itk::IterationEvent(), observer );
   itkOptimizer->AddObserver( itk::FunctionEvaluationIterationEvent(), observer );
-
 
   try
     {
@@ -324,27 +387,27 @@ int itkAmoebaOptimizerTest(int, char* [] )
     costFunction->SetNegate(true);
     itkOptimizer->MaximizeOn();
 
-    vnlOptimizer->verbose = true;
-
     std::cout << "Run for " << itkOptimizer->GetMaximumNumberOfIterations();
-    std::cout << " iterations." << std::endl;
+    std::cout << " iterations or less." << std::endl;
 
     itkOptimizer->StartOptimization();
 
-    std::cout << "Continue for " << itkOptimizer->GetMaximumNumberOfIterations();
-    std::cout << " iterations." << std::endl;
-
     itkOptimizer->SetMaximumNumberOfIterations( 100 );
     itkOptimizer->SetInitialPosition( itkOptimizer->GetCurrentPosition() );
+
+    std::cout << "Continue for " << itkOptimizer->GetMaximumNumberOfIterations();
+    std::cout << " iterations or less, starting from previous position.";
+    std::cout << std::endl;
     itkOptimizer->StartOptimization();
 
     }
   catch( itk::ExceptionObject & e )
     {
-    std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error ocurred during Optimization" << std::endl;
-    std::cout << "Location    = " << e.GetLocation()    << std::endl;
-    std::cout << "Description = " << e.GetDescription() << std::endl;
+    std::cerr << "Exception thrown ! " << std::endl;
+    std::cerr << "An error ocurred during Optimization" << std::endl;
+    std::cerr << "Location    = " << e.GetLocation()    << std::endl;
+    std::cerr << "Description = " << e.GetDescription() << std::endl;
+    std::cerr <<"[TEST 1 FAILURE]\n";
     return EXIT_FAILURE;
     }
 
@@ -360,67 +423,130 @@ int itkAmoebaOptimizerTest(int, char* [] )
 
   if( !pass )
     {
-    std::cout << "Test failed." << std::endl;
+    std::cerr<<"[TEST 1 FAILURE]\n";
     return EXIT_FAILURE;
     }
 
   // Get the final value of the optimizer
-  std::cout << "Testing GetValue() : ";
+  std::cout << "Testing optimizer's GetValue() [invokes additional function evaluation]: ";
   finalValue = itkOptimizer->GetValue();
   if(vcl_fabs(finalValue+9.99998)>0.01)
     {
-    std::cout << "[FAILURE]" << std::endl;
+    std::cerr << "failed\n";
+    std::cerr <<"[TEST 1 FAILURE]\n";
     return EXIT_FAILURE;
     }
   else
     {
-    std::cout << "[SUCCESS]" << std::endl;
+    std::cout << "succeeded\n";
     }
+
   }
+  std::cout<<"[TEST 1 SUCCESS]\n";
+  return EXIT_SUCCESS;
+}
 
-  std::cout << "Testing behavior when AutomaticInitialSimplex is off."
-            << std::endl << std::endl;
-  itkOptimizer->AutomaticInitialSimplexOff();
 
-  std::cout << "Testing that exception is not thrown when size of initial "
-            << "simplex is the same as the size of the parameters." << std::endl;
 
-  OptimizerType::ParametersType delta( initialValue.GetSize() );
-  delta.Fill( 1.0 );
-  itkOptimizer->SetInitialSimplexDelta( delta );
-  itkOptimizer->SetMaximumNumberOfIterations( 1 );
+int AmoebaTest2()
+{
+  std::cout << "Amoeba Optimizer Test 2\n \n";
+
+  typedef  itk::AmoebaOptimizer  OptimizerType;
+  OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
+
+         // set optimizer parameters
+  unsigned int maxIterations = 100;
+  itkOptimizer->SetMaximumNumberOfIterations( maxIterations );
+
+  double xTolerance = 0.01;
+  itkOptimizer->SetParametersConvergenceTolerance( xTolerance );
+
+  double fTolerance = 0.001;
+  itkOptimizer->SetFunctionConvergenceTolerance( fTolerance );
+
+          //the initial simplex is constructed as:
+          //x,
+          //x_i = [x[0], ... , x[i]+initialSimplexDelta[i], ... , x[n]]
+          //
+  OptimizerType::ParametersType initialSimplexDelta( 1 );
+  initialSimplexDelta[0] = 10;
+  itkOptimizer->SetInitialSimplexDelta( initialSimplexDelta );
+
+  OptimizerType::ParametersType initialParameters( 1 ), finalParameters;
+             //starting position
+  initialParameters[0] =  -100;
+
+  itkOptimizer->SetInitialPosition( initialParameters );
+
+              //the function we want to optimize
+  amoebaTestF2::Pointer costFunction = amoebaTestF2::New();
+  itkOptimizer->SetCostFunction( costFunction.GetPointer() );
+
+              //observe the iterations
+  CommandIterationUpdateAmoeba::Pointer observer =
+    CommandIterationUpdateAmoeba::New();
+  itkOptimizer->AddObserver( itk::IterationEvent(), observer );
 
   try
     {
     itkOptimizer->StartOptimization();
-    std::cout << "[PASS]" << std::endl;
     }
-  catch ( itk::ExceptionObject & e )
+  catch( itk::ExceptionObject & e )
     {
-    std::cout << "[FAIL]" << std::endl;
-    std::cout << "Caught unexpected exception " << e << std::endl;
+    std::cerr << "Exception thrown ! " << std::endl;
+    std::cerr << "An error ocurred during Optimization" << std::endl;
+    std::cerr << "Location    = " << e.GetLocation()    << std::endl;
+    std::cerr << "Description = " << e.GetDescription() << std::endl;
+    std::cerr <<"[TEST 2 FAILURE]\n";
     return EXIT_FAILURE;
     }
 
-  std::cout << "Testing if exception is thrown when size of initial simplex "
-            << "is not the same as the size of the parameters." << std::endl;
+            //we should have converged to the local minimum, -2
+  finalParameters = itkOptimizer->GetCurrentPosition();
+  double knownParameters = -2.0;
+  std::cout<<"Standard Amoeba:\n";
+  std::cout << "Known parameters   = " << knownParameters<<"   ";
+  std::cout << "Estimated parameters = " << finalParameters << std::endl;
+  std::cout<< "Converged to local minimum." << std::endl;
+  if( fabs( finalParameters[0] - knownParameters ) > xTolerance )
+    {
+    std::cerr<<"[TEST 2 FAILURE]\n";
+    return EXIT_FAILURE;
+    }
 
-  delta = OptimizerType::ParametersType( initialValue.GetSize() + 1);
-  delta.Fill( 1.0 );
-  itkOptimizer->SetInitialSimplexDelta( delta );
+            //run again using multiple restarts
+  observer->Reset();
+  itkOptimizer->SetInitialPosition( initialParameters );
+  itkOptimizer->OptimizeWithRestartsOn();
 
   try
     {
     itkOptimizer->StartOptimization();
-    std::cout << "[FAIL]" << std::endl;
+    }
+  catch( itk::ExceptionObject & e )
+    {
+    std::cerr << "Exception thrown ! " << std::endl;
+    std::cerr << "An error ocurred during Optimization" << std::endl;
+    std::cerr << "Location    = " << e.GetLocation()    << std::endl;
+    std::cerr << "Description = " << e.GetDescription() << std::endl;
+    std::cerr <<"[TEST 2 FAILURE]\n";
     return EXIT_FAILURE;
     }
-  catch ( itk::ExceptionObject & e )
-    {
-    std::cout << "[PASS]" << std::endl;
-    std::cout << "Caught expected exception " << e << std::endl;
-    }
 
-  std::cout << "Test done." << std::endl;
+            //we should have converged to the global minimum, 2
+  finalParameters = itkOptimizer->GetCurrentPosition();
+  knownParameters = 2.0;
+  std::cout<<"Amoeba with restarts:\n";
+  std::cout << "Known parameters   = " << knownParameters<<"   ";
+  std::cout << "Estimated parameters = " << finalParameters << std::endl;
+  std::cout<< "Converged to global minimum." << std::endl;
+
+  if( fabs( finalParameters[0] - knownParameters ) > xTolerance )
+    {
+    std::cerr <<"[TEST 2 FAILURE]\n";
+    return EXIT_FAILURE;
+    }
+  std::cout<<"[TEST 1 SUCCESS]\n";
   return EXIT_SUCCESS;
 }

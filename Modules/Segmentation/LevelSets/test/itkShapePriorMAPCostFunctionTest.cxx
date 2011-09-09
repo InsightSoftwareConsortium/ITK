@@ -197,7 +197,6 @@ int itkShapePriorMAPCostFunctionTest( int, char *[])
 
   optimizer->SetFunctionConvergenceTolerance( 0.01 );
   optimizer->SetParametersConvergenceTolerance( 0.05 );
-  optimizer->GetOptimizer()->verbose = true;
 
   try
     {
