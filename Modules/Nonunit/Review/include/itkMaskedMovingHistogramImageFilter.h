@@ -120,6 +120,7 @@ public:
 
   void AllocateOutputs();
 
+  using Superclass::MakeOutput;
   DataObject::Pointer MakeOutput(unsigned int idx);
 
   itkSetMacro(FillValue, OutputPixelType);

@@ -87,6 +87,7 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, OutputImageType::ImageDimension);
 
   /** Set/Get the input of this process object.  */
+  using Superclass::SetInput;
   virtual void SetInput(const HistogramType *histogram);
 
   const HistogramType * GetInput(void);

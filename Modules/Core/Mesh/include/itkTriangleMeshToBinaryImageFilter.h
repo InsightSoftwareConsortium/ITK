@@ -179,6 +179,7 @@ public:
   itkGetConstMacro(Size, SizeType);
 
   /** Set the mesh input of this process object.  */
+  using Superclass::SetInput;
   void SetInput(InputMeshType *input);
 
   void SetInfoImage(OutputImageType *InfoImage)

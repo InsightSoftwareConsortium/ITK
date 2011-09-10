@@ -89,6 +89,7 @@ public:
   unsigned int GetMeasurementVectorSize() const;
 
   /** Method to set/get the image */
+  using Superclass::SetInput;
   void SetInput(const ImageType *image);
 
   const ImageType * GetInput() const;
@@ -116,6 +117,7 @@ protected:
 
   /** Standard itk::ProcessObject subclass method. */
   typedef DataObject::Pointer DataObjectPointer;
+  using Superclass::MakeOutput;
   virtual DataObjectPointer MakeOutput(unsigned int idx);
 
   /** This method causes the filter to generate its output. */

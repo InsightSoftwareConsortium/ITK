@@ -127,6 +127,7 @@ protected:
   void AfterThreadedGenerateData(void);
 
   /** Method that construct the outputs */
+  using Superclass::MakeOutput;
   DataObject::Pointer  MakeOutput(unsigned int);
 
   virtual void ThreadedComputeMinimumAndMaximum( const RegionType & inputRegionForThread, ThreadIdType threadId, ProgressReporter & progress );

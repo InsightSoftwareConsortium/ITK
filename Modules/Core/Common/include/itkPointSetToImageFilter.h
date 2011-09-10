@@ -70,6 +70,7 @@ public:
   typedef typename TOutputImage::PointType     PointType;
 
   /** Set/Get the input point-set of this process object.  */
+  using Superclass::SetInput;
   virtual void SetInput(const InputPointSetType *pointset);
 
   virtual void SetInput(unsigned int, const InputPointSetType *pointset);

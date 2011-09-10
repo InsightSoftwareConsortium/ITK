@@ -46,6 +46,7 @@ public:
   itkTypeMacro(ImageToMeshFilter, MeshSource);
 
   /** Create a valid output. */
+  using Superclass::MakeOutput;
   DataObject::Pointer  MakeOutput(unsigned int idx);
 
   /** Some Image related typedefs. */
@@ -60,6 +61,7 @@ public:
   typedef   typename OutputMeshType::Pointer OutputMeshPointer;
 
   /** Set the input image of this process object.  */
+  using Superclass::SetInput;
   void SetInput(unsigned int idx, const InputImageType *input);
   void SetInput(const InputImageType *input)
     {

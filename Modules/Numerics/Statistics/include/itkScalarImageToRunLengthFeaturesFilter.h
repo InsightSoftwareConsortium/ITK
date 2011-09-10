@@ -149,6 +149,7 @@ public:
 
   /** Connects the input image for which the features are going to be computed
     */
+  using Superclass::SetInput;
   void SetInput(const ImageType *);
 
   const ImageType * GetInput() const;
@@ -204,6 +205,7 @@ protected:
   virtual void GenerateData();
 
   /** Make a DataObject to be used for output output. */
+  using Superclass::MakeOutput;
   virtual DataObjectPointer MakeOutput(unsigned int);
 
 private:

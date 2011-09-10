@@ -131,6 +131,7 @@ public:
   }
 
   /** Set/Get the image input of this process object.  */
+  using Superclass::SetInput;
   virtual void SetInput( FEMObjectType *fem);
 
   virtual void SetInput( unsigned int, FEMObjectType * fem);
@@ -180,6 +181,7 @@ public:
 
   /** Make a DataObject of the correct type to be used as the specified
    * output. */
+  using Superclass::MakeOutput;
   virtual DataObjectPointer MakeOutput(unsigned int);
 
   /** Get the output data of this process object.  The output of this

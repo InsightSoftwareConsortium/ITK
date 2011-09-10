@@ -181,6 +181,7 @@ public:
   VectorImageType * GetVectorDistanceMap(void);
 
   /** Standard itk::ProcessObject subclass method. */
+  using Superclass::MakeOutput;
   virtual DataObjectPointer MakeOutput( unsigned int idx );
 
 #ifdef ITK_USE_CONCEPT_CHECKING

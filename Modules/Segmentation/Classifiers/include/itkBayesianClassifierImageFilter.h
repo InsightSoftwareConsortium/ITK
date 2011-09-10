@@ -181,6 +181,7 @@ public:
   itkGetConstMacro(NumberOfSmoothingIterations, unsigned int);
 
   /** This is overloaded to create the Posteriors output image */
+  using Superclass::MakeOutput;
   virtual DataObjectPointer MakeOutput(unsigned int idx);
 
 #ifdef ITK_USE_CONCEPT_CHECKING

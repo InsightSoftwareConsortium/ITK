@@ -64,6 +64,7 @@ public:
                       TInputImage::ImageDimension);
 
   /** Set/Get the image input of this process object.  */
+  using Superclass::SetInput;
   virtual void SetInput(const InputImageType *image);
 
   virtual void SetInput(unsigned int, const TInputImage *image);

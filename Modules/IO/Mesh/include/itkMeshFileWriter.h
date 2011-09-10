@@ -97,6 +97,7 @@ public:
   typedef typename MeshIOBase::SizeValueType SizeValueType;
 
   /** Set/Get the mesh input of this writer.  */
+  using Superclass::SetInput;
   void  SetInput(const InputMeshType *input);
 
   const InputMeshType * GetInput(void);

@@ -81,6 +81,7 @@ public:
   typedef VariableSizeMatrix< double > MatrixType;
 
   /** Method to set/get the sample */
+  using Superclass::SetInput;
   void SetInput(const SampleType *sample);
 
   const SampleType *  GetInput() const;
@@ -115,6 +116,7 @@ protected:
   /** DataObject pointer */
   typedef DataObject::Pointer DataObjectPointer;
 
+  using Superclass::MakeOutput;
   virtual DataObjectPointer MakeOutput(unsigned int idx);
 
   void GenerateData();

@@ -103,6 +103,7 @@ public:
   EigenVectorImageType * GetMaxEigenVector(void);
 
   /**  Create the Output */
+  using Superclass::MakeOutput;
   DataObject::Pointer MakeOutput(unsigned int idx);
 
 #ifdef ITK_USE_CONCEPT_CHECKING

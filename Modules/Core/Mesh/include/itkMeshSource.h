@@ -76,6 +76,7 @@ public:
   /** Set the mesh output of this process object. This call is slated
    * to be removed from ITK. You should GraftOutput() and possible
    * DataObject::DisconnectPipeline() to properly change the output. */
+  using Superclass::SetOutput;
   void SetOutput(TOutputMesh *output);
 
   /** Graft the specified DataObject onto this ProcessObject's output.
@@ -136,6 +137,7 @@ public:
    * SmartPointer to a DataObject. If a subclass of MeshSource has
    * multiple outputs of different types, then that class must provide
    * an implementation of MakeOutput(). */
+  using Superclass::MakeOutput;
   virtual DataObjectPointer MakeOutput(unsigned int idx);
 
 protected:

@@ -66,6 +66,7 @@ public:
   typedef itk::PointBasedSpatialObject< itkGetStaticConstMacro(ObjectDimension) > PointBasedSpatialObjectType;
 
   /** Set/Get the PointSet input of this process object.  */
+  using Superclass::SetInput;
   virtual void SetInput(const InputSpatialObjectType *object);
 
   virtual void SetInput(unsigned int, const InputSpatialObjectType *object);

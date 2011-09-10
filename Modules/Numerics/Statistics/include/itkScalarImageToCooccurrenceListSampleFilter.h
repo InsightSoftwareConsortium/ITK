@@ -78,6 +78,7 @@ public:
   void UseNeighbor(const OffsetType & offset);
 
   /** Method to set/get the image */
+  using Superclass::SetInput;
   void SetInput(const ImageType *image);
 
   const ImageType * GetInput() const;
@@ -103,6 +104,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   typedef DataObject::Pointer DataObjectPointer;
+  using Superclass::MakeOutput;
   virtual DataObjectPointer MakeOutput(unsigned int idx);
 
   /** This method causes the filter to generate its output. */

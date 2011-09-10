@@ -91,6 +91,7 @@ public:
   itkGetConstMacro(NumberOfPixelsWithDifferences, SizeValueType);
 
   /** Set/Get the image input of this process object.  */
+  using Superclass::SetInput;
   virtual void SetInput(const TInputImage *image);
   virtual void SetInput(unsigned int, const TInputImage *image);
   const TInputImage * GetInput(void) const;

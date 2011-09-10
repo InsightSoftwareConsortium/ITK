@@ -190,6 +190,7 @@ public:
 
   /** Overloaded to link the input to this filter with the input of the
       mini-pipeline */
+  using Superclass::SetInput;
   void SetInput(const InputImageType *input)
   {
     // if the input is changed, we'll need to clear the cached tree
