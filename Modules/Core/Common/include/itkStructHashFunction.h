@@ -19,6 +19,7 @@
 #define __itkStructHashFunction_h
 
 #include "itkIntTypes.h"
+#include "itkMacro.h"
 
 namespace itk
 {
