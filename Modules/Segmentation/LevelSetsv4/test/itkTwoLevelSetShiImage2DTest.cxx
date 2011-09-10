@@ -28,7 +28,7 @@
 #include "itkLevelSetEquationContainerBase.h"
 #include "itkSinRegularizedHeavisideStepFunction.h"
 #include "itkLevelSetShiEvolutionBase.h"
-#include "itkBinaryImageToShiSparseLevelSetAdaptor.h"
+#include "itkBinaryImageToSparseLevelSetImageAdaptor.h"
 #include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"
 #include "itkNumericTraits.h"
 
@@ -48,11 +48,11 @@ int itkTwoLevelSetShiImage2DTest( int argc, char* argv[] )
                                                             InputIteratorType;
   typedef itk::ImageFileReader< InputImageType >            ReaderType;
 
-  typedef itk::BinaryImageToShiSparseLevelSetAdaptor< InputImageType >
+  typedef itk::ShiSparseLevelSetImage< Dimension >          SparseLevelSetType;
+  typedef itk::BinaryImageToSparseLevelSetImageAdaptor< InputImageType, SparseLevelSetType >
                                                             BinaryToSparseAdaptorType;
 
   typedef itk::IdentifierType                               IdentifierType;
-  typedef BinaryToSparseAdaptorType::LevelSetType           SparseLevelSetType;
 
   typedef itk::LevelSetContainerBase< IdentifierType, SparseLevelSetType >
                                                             LevelSetContainerType;
@@ -118,14 +118,14 @@ int itkTwoLevelSetShiImage2DTest( int argc, char* argv[] )
   adaptor0->Initialize();
   std::cout << "Finished converting to sparse format" << std::endl;
 
-  SparseLevelSetType::Pointer level_set0 = adaptor0->GetSparseLevelSet();
+  SparseLevelSetType::Pointer level_set0 = adaptor0->GetLevelSet();
 
   BinaryToSparseAdaptorType::Pointer adaptor1 = BinaryToSparseAdaptorType::New();
   adaptor1->SetInputImage( binary );
   adaptor1->Initialize();
   std::cout << "Finished converting to sparse format" << std::endl;
 
-  SparseLevelSetType::Pointer level_set1 = adaptor1->GetSparseLevelSet();
+  SparseLevelSetType::Pointer level_set1 = adaptor1->GetLevelSet();
 
   // Create a list image specifying both level set ids
   IdListType list_ids;

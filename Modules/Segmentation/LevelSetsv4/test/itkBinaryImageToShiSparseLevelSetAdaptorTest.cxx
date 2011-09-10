@@ -19,7 +19,7 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkBinaryImageToShiSparseLevelSetAdaptor.h"
+#include "itkBinaryImageToSparseLevelSetImageAdaptor.h"
 
 int itkBinaryImageToShiSparseLevelSetAdaptorTest( int argc, char* argv[] )
 {
@@ -50,18 +50,19 @@ int itkBinaryImageToShiSparseLevelSetAdaptorTest( int argc, char* argv[] )
   InputImageType::Pointer input = reader->GetOutput();
   std::cout << "Input image read" << std::endl;
 
-  typedef itk::BinaryImageToShiSparseLevelSetAdaptor< InputImageType >
-    BinaryToSparseAdaptorType;
+  typedef itk::ShiSparseLevelSetImage< Dimension > LevelSetType;
+
+  typedef itk::BinaryImageToSparseLevelSetImageAdaptor< InputImageType,
+      LevelSetType > BinaryToSparseAdaptorType;
 
   BinaryToSparseAdaptorType::Pointer adaptor = BinaryToSparseAdaptorType::New();
   adaptor->SetInputImage( input );
   adaptor->Initialize();
   std::cout << "Finished converting to sparse format" << std::endl;
 
-  typedef BinaryToSparseAdaptorType::LevelSetType     SparseLevelSetType;
-  typedef SparseLevelSetType::LayerIdType             LayerIdType;
+  typedef LevelSetType::LayerIdType             LayerIdType;
 
-  SparseLevelSetType::Pointer sparseLevelSet = adaptor->GetSparseLevelSet();
+  LevelSetType::Pointer sparseLevelSet = adaptor->GetLevelSet();
 
   typedef BinaryToSparseAdaptorType::LevelSetOutputType LevelSetOutputType;
 
@@ -103,8 +104,8 @@ int itkBinaryImageToShiSparseLevelSetAdaptorTest( int argc, char* argv[] )
   for( LayerIdType lyr = sparseLevelSet->MinusOneLayer();
       lyr <= sparseLevelSet->PlusOneLayer(); lyr += 2 )
     {
-    SparseLevelSetType::LayerType layer = sparseLevelSet->GetLayer( lyr );
-    SparseLevelSetType::LayerIterator lIt = layer.begin();
+    LevelSetType::LayerType layer = sparseLevelSet->GetLayer( lyr );
+    LevelSetType::LayerIterator lIt = layer.begin();
 
     std::cout << "*** " << static_cast< int >( lyr ) << " ***" <<std::endl;
 
