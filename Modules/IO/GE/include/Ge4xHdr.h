@@ -1,22 +1,39 @@
+/*=========================================================================
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 /*
  * The definitions in this file were derived from signa.tpl from
  * David Clunie's Dicom3Tools
  *
  * Copyright (c) 1993-2006, David A. Clunie DBA PixelMed Publishing. All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice, this list of
  *    conditions and the following disclaimers.
- * 
+ *
  * 2. Redistributions in binary form must reproduce the above copyright notice, this list of
  *    conditions and the following disclaimers in the documentation and/or other materials
  *    provided with the distribution.
- * 
+ *
  * 3. Neither the name of PixelMed Publishing nor the names of its contributors may
  *    be used to endorse or promote products derived from this software.
- * 
+ *
  * This software is provided by the copyright holders and contributors "as is" and any
  * express or implied warranties, including, but not limited to, the implied warranties
  * of merchantability and fitness for a particular purpose are disclaimed. In no event
@@ -26,13 +43,13 @@
  * however caused and on any theory of liability, whether in contract, strict liability, or
  * tort (including negligence or otherwise) arising in any way out of the use of this software,
  * even if advised of the possibility of such damage.
- * 
+ *
  * This software has neither been tested nor approved for clinical use or for incorporation in
  * a medical device. It is the redistributor's or user's responsibility to comply with any
  * applicable local, state, national or international regulations.
  *
  */
- 
+
 #ifndef __Ge4xHdr_h
 #define __Ge4xHdr_h
 
@@ -73,7 +90,6 @@ enum GE_4X_STUDYHDR_OFFSET
   SIGNA_STHDR_CHECKSUM = 511       /*  checksum */
 };
 
-  
 enum GE_4X_SERIESHDR_OFFSET
 {
   SIGNA_SEHDR_ID = 0,               /*  Series Header Identifier */
@@ -143,9 +159,6 @@ enum GE_4X_SERIESHDR_OFFSET
   SIGNA_SEHDR_GATINGTYPE2 = 239,    /*  more pulse sequence types */
   SIGNA_SEHDR_CHECKSUM = 511        /*  checksum */
 };
-  
-
-  
 
 enum GE_4X_IMAGEHDR_OFFSET
 {
@@ -302,7 +315,6 @@ enum GE_4X_IMAGEHDR_OFFSET
   SIGNA_IMHDR_VENC_SCALE = 303,      /*  VENC scaling factor */
   SIGNA_IMHDR_CHECKSUM = 511         /*  checksum */
 };
-
 
 enum GE_4X_OFFSETS {
     SIGNA_STHDR_START=    6*256,
