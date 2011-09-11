@@ -45,26 +45,25 @@ void
 ParticleSwarmOptimizerBase
 ::SetInitialSwarm( const SwarmType &initialSwarm )
 {
-  SwarmType::const_iterator it, end;
-  end = initialSwarm.end();
-  unsigned int n;
+  //Always clear the m_Particles.
+  this->m_Particles.clear();
   if( !initialSwarm.empty() )
     {
-    n = initialSwarm[0].m_CurrentParameters.GetSize();
-    }
-  //check that the dimensions of the swarm data are consistent
-  for( it=initialSwarm.begin(); it != end; it++ )
-    {
+    const SwarmType::const_iterator initialSwarm_END = initialSwarm.end();
+    const unsigned int n = initialSwarm[0].m_CurrentParameters.GetSize();
+    //check that the dimensions of the swarm data are consistent
+    for( SwarmType::const_iterator it = initialSwarm.begin();
+      it != initialSwarm_END; it++ )
+      {
       if( (*it).m_CurrentParameters.GetSize() != n ||
-          (*it).m_CurrentVelocity.GetSize() != n ||
-          (*it).m_BestParameters.GetSize() != n )
+        (*it).m_CurrentVelocity.GetSize() != n ||
+        (*it).m_BestParameters.GetSize() != n )
+        {
         itkExceptionMacro(<<"inconsistent dimensions in swarm data")
-    }
-  this->m_Particles.clear();
-  this->m_Particles.insert( m_Particles.begin(),
-                      initialSwarm.begin(), initialSwarm.end() );
-  if( !this->m_Particles.empty() )
-    {
+        }
+      }
+    this->m_Particles.insert( m_Particles.begin(),
+      initialSwarm.begin(), initialSwarm_END );
     this->m_NumberOfParticles = m_Particles.size();
     }
   Modified();
