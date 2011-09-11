@@ -81,21 +81,21 @@ int test_fft(unsigned int *SizeOfDimensions)
       //TPixel val = static_cast<TPixel>(counter);
       if((counter + 1 ) % SizeOfDimensions[0] == 0)
         {
-        std::cerr << val << std::endl;
+        std::cout << val << std::endl;
         }
       else
         {
-        std::cerr << val << " ";
+        std::cout << val << " ";
         }
       counter++;
       OriginalImageIterator.Set(val);
       ++OriginalImageIterator;
       }
-    std::cerr << std::endl << std::endl;
+    std::cout << std::endl << std::endl;
     }
   catch(itk::ExceptionObject & ex)
     {
-    ex.Print(std::cerr);
+    ex.Print(std::cout);
     return -1;
     }
 
@@ -114,7 +114,7 @@ int test_fft(unsigned int *SizeOfDimensions)
     }
   catch (itk::ExceptionObject & ex)
     {
-    ex.Print(std::cerr);
+    ex.Print(std::cout);
     return -1;
     }
 
@@ -123,13 +123,14 @@ int test_fft(unsigned int *SizeOfDimensions)
   std::complex<TPixel> *fftbuf = complexImage->GetBufferPointer();
   const typename ComplexImageType::SizeType &complexImageSize =
     complexImage->GetLargestPossibleRegion().GetSize();
-  unsigned int sizes[3] = { 1,1,1 };
+  unsigned int sizes[4] = { 1,1,1,1 };
   for( unsigned int i = 0; i < VImageDimensions; i++)
     {
     sizes[i] = complexImageSize[i];
     }
   /* Print out the the frequency domain data obtained after performing
    * the forward transform. */
+  std::cout << "Frequency domain data after forward transform:" << std::endl;
   for( unsigned int i = 0; i < sizes[2]; i++)
     {
     unsigned int zStride = i * sizes[1] * sizes[0];
@@ -138,13 +139,13 @@ int test_fft(unsigned int *SizeOfDimensions)
       unsigned int yStride = j * sizes[0];
       for(unsigned int k = 0; k < sizes[0]; k++)
         {
-        std::cerr << fftbuf[zStride+yStride+k] << " ";
+        std::cout << fftbuf[zStride+yStride+k] << " ";
         }
-      std::cerr << std::endl;
+      std::cout << std::endl;
       }
     }
 
-  std::cerr << std::endl << std::endl;
+  std::cout << std::endl << std::endl;
 
   // Perform the Inverse FFT to get back the Real Image.C@R is the complex
   // conjugate to real image filter and we give the obtained complex image as
@@ -169,15 +170,15 @@ int test_fft(unsigned int *SizeOfDimensions)
     TPixel val = InverseFFTImageIterator.Value();
     if(counter == imageSize[0])
       {
-      std::cerr << val << std::endl;
+      std::cout << val << std::endl;
       counter = 0;
       }
     else
-      std::cerr << val << " ";
+      std::cout << val << " ";
     counter++;
     ++InverseFFTImageIterator;
     }
-  std::cerr << std::endl << std::endl;
+  std::cout << std::endl << std::endl;
   /*Subtract the Original image Pixel Values from the resultant image
    values and test whether they are greater than 0.01 for the test to pass*/
   OriginalImageIterator = OriginalImageIterator.Begin();
@@ -193,13 +194,13 @@ int test_fft(unsigned int *SizeOfDimensions)
       }
     if(diff > 0.01)
       {
-      std::cerr << "Diff found " << val << " " << val2 << " diff " << diff << std::endl;
+      std::cout << "Diff found " << val << " " << val2 << " diff " << diff << std::endl;
       return -1;
       }
     ++OriginalImageIterator;
     ++InverseFFTImageIterator;
     }
-  std::cerr << std::endl << std::endl;
+  std::cout << std::endl << std::endl;
   return 0;
 }
 
@@ -252,21 +253,21 @@ test_fft_rtc(unsigned int *SizeOfDimensions)
       TPixel val = vnl_sample_uniform(0.0, 16384.0);
       if((counter + 1 ) % SizeOfDimensions[0] == 0)
         {
-        std::cerr << val << std::endl;
+        std::cout << val << std::endl;
         }
       else
         {
-        std::cerr << val << " ";
+        std::cout << val << " ";
         }
       counter++;
       OriginalImageIterator.Set(val);
       ++OriginalImageIterator;
       }
-    std::cerr << std::endl << std::endl;
+    std::cout << std::endl << std::endl;
     }
   catch(itk::ExceptionObject & ex)
     {
-    ex.Print(std::cerr);
+    ex.Print(std::cout);
     return -1;
     }
 
@@ -295,8 +296,8 @@ test_fft_rtc(unsigned int *SizeOfDimensions)
     complexImageB->GetLargestPossibleRegion().GetSize();
 
 
-  unsigned int sizesA[3] = { 1,1,1 };
-  unsigned int sizesB[3] = { 1,1,1 };
+  unsigned int sizesA[4] = { 1,1,1,1 };
+  unsigned int sizesB[4] = { 1,1,1,1 };
   for(unsigned int i = 0; i < VImageDimensions; i++)
     {
       /* The size may be different if one implementation returns a
@@ -306,6 +307,7 @@ test_fft_rtc(unsigned int *SizeOfDimensions)
     }
 
   /* Print out the  the frequency domain data obtained after performing the forward transform */
+  std::cout << "Frequency domain data after forward transform:" << std::endl;
   for (unsigned int i = 0; i < sizesA[2]; i++)
     {
     unsigned int zStride = i * sizesA[1] * sizesA[0];
@@ -314,12 +316,12 @@ test_fft_rtc(unsigned int *SizeOfDimensions)
       unsigned int yStride = j * sizesA[0];
       for(unsigned int k = 0; k < sizesA[0]; k++)
         {
-        std::cerr << fftbufA[zStride+yStride+k] << " ";
+        std::cout << fftbufA[zStride+yStride+k] << " ";
         }
-      std::cerr << std::endl;
+      std::cout << std::endl;
       }
     }
-  std::cerr << std::endl << std::endl;
+  std::cout << std::endl << std::endl;
 
   for(unsigned int i = 0; i < sizesB[2]; i++)
     {
@@ -329,12 +331,12 @@ test_fft_rtc(unsigned int *SizeOfDimensions)
       unsigned int yStride = j * sizesB[0];
       for(unsigned int k = 0; k < sizesB[0]; k++)
         {
-        std::cerr << fftbufB[zStride+yStride+k] << " ";
+        std::cout << fftbufB[zStride+yStride+k] << " ";
         }
-      std::cerr << std::endl;
+      std::cout << std::endl;
       }
     }
-  std::cerr << std::endl << std::endl;
+  std::cout << std::endl << std::endl;
 
 
   /* Subtract the 2 image's pixel values. If one pixel difference is
@@ -357,7 +359,7 @@ test_fft_rtc(unsigned int *SizeOfDimensions)
           }
         if(diff > 0.01)
           {
-          std::cerr << "Diff found " << fftbufA[zStrideA+yStrideA+k]
+          std::cout << "Diff found " << fftbufA[zStrideA+yStrideA+k]
                     << " " << fftbufB[zStrideB+yStrideB+k] << " diff " << diff << std::endl;
           return -1;
           }
@@ -365,7 +367,7 @@ test_fft_rtc(unsigned int *SizeOfDimensions)
       }
     }
 
-  std::cerr << std::endl << std::endl;
+  std::cout << std::endl << std::endl;
   return 0;
 }
 #endif
