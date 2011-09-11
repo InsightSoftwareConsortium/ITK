@@ -35,7 +35,6 @@
  * just be it's own cxx file?
  */
 #include "itkSmartPointerForwardReference.hxx"
-#include "itkRealTimeClock.h"
 
 // Manual instantiation is necessary to prevent link errors
 template class itk::SmartPointerForwardReference< itk::ProcessObject >;
@@ -428,8 +427,6 @@ DataObject
   this->m_DataReleased = 0;
   this->Modified();
   this->m_UpdateMTime.Modified();
-  RealTimeClock::Pointer clock = RealTimeClock::New();
-  this->m_RealTimeStamp = clock->GetRealTimeStamp();
 }
 
 //----------------------------------------------------------------------------
