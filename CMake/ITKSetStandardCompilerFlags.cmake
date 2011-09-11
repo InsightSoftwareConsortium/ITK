@@ -85,6 +85,7 @@ function(check_compiler_warning_flags c_warning_flags_var cxx_warning_flags_var)
     -Wshadow
     -Wunused
     -Wwrite-strings
+    -funit-at-a-time
   )
 
   # Check this list on C++ compiler only
