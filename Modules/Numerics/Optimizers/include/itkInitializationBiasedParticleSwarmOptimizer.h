@@ -56,13 +56,13 @@ namespace itk
  *
  * Swarm initialization is performed within the user supplied parameter bounds
  * using a uniform distribution or a normal distribution centered on
- * the initial parameter values supplied by the user, \f$x_{init}$\f. The search
+ * the initial parameter values supplied by the user, \f$x_{init}\f$. The search
  * terminates when the maximal number of iterations has been reached or when the
  * change in the best value in the past \f$g\f$ generations is below a threshold
  * and the swarm has collapsed (i.e. particles are close to each other in
  * parameter space).
  *
- * NOTE: This implementation only performs minimization.
+ * \note This implementation only performs minimization.
  *
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizers

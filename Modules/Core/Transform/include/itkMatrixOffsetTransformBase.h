@@ -26,8 +26,8 @@
 
 namespace itk
 {
-/**
- * Matrix and Offset transformation of a vector space (e.g. space coordinates)
+/** \class MatrixOffsetTransformBase
+ * \brief Matrix and Offset transformation of a vector space (e.g. space coordinates)
  *
  * This class serves as a base class for transforms that can be expressed
  * as a linear transformation plus a constant offset (e.g., affine, similarity
@@ -48,14 +48,12 @@ namespace itk
  * problem by referring to the order of application rather than the
  * textual order.)
  *
- * There are three template parameters for this class:
+ * \tparam ScalarT            The type to be used for scalar numeric values.  Either
+ *    float or double.
  *
- * ScalarT       The type to be used for scalar numeric values.  Either
- *               float or double.
+ * \tparam NInputDimensions   The number of dimensions of the input vector space.
  *
- * NInputDimensions   The number of dimensions of the input vector space.
- *
- * NOutputDimensions   The number of dimensions of the output vector space.
+ * \tparam NOutputDimensions  The number of dimensions of the output vector space.
  *
  * This class provides several methods for setting the matrix and offset
  * defining the transform. To support the registration framework, the
@@ -414,7 +412,7 @@ public:
   virtual void ComputeJacobianWithRespectToParameters(const InputPointType  & x, JacobianType & j) const;
 
   /** Get the jacobian with respect to position. This simply returns
-   * the current Matrix. \jac will be resized as needed, but it's
+   * the current Matrix. jac will be resized as needed, but it's
    * more efficient if it's already properly sized. */
   virtual void ComputeJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & jac) const;
 
