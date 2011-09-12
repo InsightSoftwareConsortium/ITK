@@ -124,7 +124,7 @@ public:
 
   /** Get the jacobian with respect to position, which simply is the
    *  matrix because the transform is position-invariant.
-   *  \jac will be resized as needed, but it will be more efficient if
+   *  jac will be resized as needed, but it will be more efficient if
    *  it is already properly sized. */
   virtual void ComputeJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & jac) const;
 
