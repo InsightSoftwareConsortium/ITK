@@ -23,48 +23,33 @@
 #include "itkImageRegionExclusionIteratorWithIndex.h"
 
 
-
-
-int itkImageRegionExclusionIteratorWithIndexTest(int, char* [] )
+template< class TRegion >
+static bool RunTest(const TRegion & region, const TRegion & exclusionRegion)
 {
+  const unsigned int ImageDimension = TRegion::ImageDimension;
 
-  const unsigned int ImageDimension = 3;
-
-  typedef itk::Index< ImageDimension >             IndexPixelType;
-  typedef unsigned char                            ValuePixelType;
+  typedef itk::Index< ImageDimension >                  IndexPixelType;
+  typedef unsigned char                                 ValuePixelType;
 
   typedef itk::Image< IndexPixelType, ImageDimension >  IndexImageType;
   typedef itk::Image< ValuePixelType, ImageDimension >  ValueImageType;
 
-  IndexImageType::Pointer myIndexImage = IndexImageType::New();
-
-  IndexImageType::SizeType size;
-
-  size[0] = 7;
-  size[1] = 7;
-  size[2] = 7;
-
-  IndexImageType::IndexType start;
-  start.Fill(0);
-
-  IndexImageType::RegionType region;
-  region.SetIndex( start );
-  region.SetSize( size );
+  typename IndexImageType::Pointer myIndexImage = IndexImageType::New();
 
   myIndexImage->SetLargestPossibleRegion( region );
   myIndexImage->SetBufferedRegion( region );
   myIndexImage->SetRequestedRegion( region );
   myIndexImage->Allocate();
 
-  ValueImageType::Pointer  myValueImage  = ValueImageType::New();
+  typename ValueImageType::Pointer  myValueImage  = ValueImageType::New();
 
   myValueImage->SetLargestPossibleRegion( region );
   myValueImage->SetBufferedRegion( region );
   myValueImage->SetRequestedRegion( region );
   myValueImage->Allocate();
 
-  typedef itk::ImageRegionIteratorWithIndex< ValueImageType >     ValueIteratorType;
-  typedef itk::ImageRegionIteratorWithIndex< IndexImageType >     IndexIteratorType;
+  typedef itk::ImageRegionIteratorWithIndex< ValueImageType >  ValueIteratorType;
+  typedef itk::ImageRegionIteratorWithIndex< IndexImageType >  IndexIteratorType;
 
   const unsigned char normalRegionValue    = 100;
   const unsigned char exclusionRegionValue = 200;
@@ -86,26 +71,22 @@ int itkImageRegionExclusionIteratorWithIndexTest(int, char* [] )
     ++iv;
     }
 
-  IndexImageType::RegionType exclusionRegion;
-
-  IndexImageType::SizeType exclusionSize;
-
-  exclusionSize[0] = 3;
-  exclusionSize[1] = 3;
-  exclusionSize[2] = 3;
-
-  IndexImageType::IndexType exclusionStart;
-
-  exclusionStart[0] = 2;
-  exclusionStart[1] = 2;
-  exclusionStart[2] = 2;
-
-  exclusionRegion.SetIndex( exclusionStart );
-  exclusionRegion.SetSize(  exclusionSize  );
-
   std::cout << "Initializing the exclusion region on the image of values " << std::endl;
   // Set a different value inside the exclusion region
-  ValueIteratorType ive( myValueImage, exclusionRegion );
+  TRegion croppedExclusionRegion( exclusionRegion );
+  if ( !croppedExclusionRegion.Crop( region ) )
+    {
+    // Exclusion region is completely outside the region. Set it to
+    // have size 0.
+    typename TRegion::IndexType exclusionStart = region.GetIndex();
+    croppedExclusionRegion.SetIndex( exclusionStart );
+
+    typename TRegion::SizeType exclusionSize = croppedExclusionRegion.GetSize();
+    exclusionSize.Fill( 0 );
+    croppedExclusionRegion.SetSize( exclusionSize );
+    }
+
+  ValueIteratorType ive( myValueImage, croppedExclusionRegion );
 
   ive.GoToBegin();
   while( !ive.IsAtEnd() )
@@ -113,7 +94,6 @@ int itkImageRegionExclusionIteratorWithIndexTest(int, char* [] )
     ive.Set( exclusionRegionValue );
     ++ive;
     }
-
 
   std::cout << "Starting walk with the exclusion iterator... ";
   typedef itk::ImageRegionExclusionIteratorWithIndex< IndexImageType > ExclusionIndexIteratorType;
@@ -127,7 +107,7 @@ int itkImageRegionExclusionIteratorWithIndexTest(int, char* [] )
 
   unsigned int numberOfPixelsVisited = 0;
   const unsigned int pixelsToVisit  = region.GetNumberOfPixels() -
-                                      exclusionRegion.GetNumberOfPixels();
+                                      croppedExclusionRegion.GetNumberOfPixels();
 
   ev.GoToBegin();
   ei.GoToBegin();
@@ -138,7 +118,7 @@ int itkImageRegionExclusionIteratorWithIndexTest(int, char* [] )
       std::cout << "Error in exclusion iterator " << std::endl;
       std::cout << "It should be at " << ei.GetIndex();
       std::cout << " but it is at   " << ei.Get() << std::endl;
-      return EXIT_FAILURE;
+      return false;
       }
 
     if( ev.Get() != normalRegionValue )
@@ -146,7 +126,7 @@ int itkImageRegionExclusionIteratorWithIndexTest(int, char* [] )
       std::cout << "Error in exclusion iterator " << std::endl;
       std::cout << "It is stepping into the exclusion region " << std::endl;
       std::cout << "Entry point = " << ev.GetIndex() << std::endl;
-      return EXIT_FAILURE;
+      return false;
       }
     ++numberOfPixelsVisited;
     ++ei;
@@ -159,12 +139,11 @@ int itkImageRegionExclusionIteratorWithIndexTest(int, char* [] )
     std::cout << "It is not visiting all the pixels it should" << std::endl;
     std::cout << numberOfPixelsVisited << " pixels were visited instead of ";
     std::cout << pixelsToVisit << std::endl;
-    return EXIT_FAILURE;
+    return false;
     }
   std::cout << " Ok ! " << std::endl;
 
-
-  std::cout << "Testing the iterator backwars... ";
+  std::cout << "Testing the iterator backwards... ";
 
   numberOfPixelsVisited = 0;
   ev.GoToReverseBegin();
@@ -176,7 +155,7 @@ int itkImageRegionExclusionIteratorWithIndexTest(int, char* [] )
       std::cout << "Error in exclusion iterator " << std::endl;
       std::cout << "It should be at " << ei.GetIndex();
       std::cout << " but it is at   " << ei.Get() << std::endl;
-      return EXIT_FAILURE;
+      return false;
       }
 
     if( ev.Get() != normalRegionValue )
@@ -184,7 +163,7 @@ int itkImageRegionExclusionIteratorWithIndexTest(int, char* [] )
       std::cout << "Error in exclusion iterator " << std::endl;
       std::cout << "It is stepping into the exclusion region " << std::endl;
       std::cout << "Entry point = " << ev.GetIndex() << std::endl;
-      return EXIT_FAILURE;
+      return false;
       }
     ++numberOfPixelsVisited;
     --ei;
@@ -197,7 +176,7 @@ int itkImageRegionExclusionIteratorWithIndexTest(int, char* [] )
     std::cout << "It is not visiting all the pixels it should" << std::endl;
     std::cout << numberOfPixelsVisited << " pixels were visited instead of ";
     std::cout << pixelsToVisit << std::endl;
-    return EXIT_FAILURE;
+    return false;
     }
   std::cout << " Ok ! " << std::endl;
 
@@ -223,7 +202,7 @@ int itkImageRegionExclusionIteratorWithIndexTest(int, char* [] )
       std::cout << "Error in exclusion const iterator " << std::endl;
       std::cout << "It should be at " << cei.GetIndex();
       std::cout << " but it is at   " << cei.Get() << std::endl;
-      return EXIT_FAILURE;
+      return false;
       }
 
     if( cev.Get() != normalRegionValue )
@@ -231,7 +210,7 @@ int itkImageRegionExclusionIteratorWithIndexTest(int, char* [] )
       std::cout << "Error in exclusion const iterator " << std::endl;
       std::cout << "It is stepping into the exclusion region " << std::endl;
       std::cout << "Entry point = " << ev.GetIndex() << std::endl;
-      return EXIT_FAILURE;
+      return false;
       }
     ++numberOfPixelsVisited;
     ++cei;
@@ -244,12 +223,11 @@ int itkImageRegionExclusionIteratorWithIndexTest(int, char* [] )
     std::cout << "It is not visiting all the pixels it should" << std::endl;
     std::cout << numberOfPixelsVisited << " pixels were visited instead of ";
     std::cout << pixelsToVisit << std::endl;
-    return EXIT_FAILURE;
+    return false;
     }
   std::cout << " Ok ! " << std::endl;
 
-
-  std::cout << "Testing the Const iterator backwars... ";
+  std::cout << "Testing the Const iterator backwards... ";
 
   numberOfPixelsVisited = 0;
   cev.GoToReverseBegin();
@@ -261,7 +239,7 @@ int itkImageRegionExclusionIteratorWithIndexTest(int, char* [] )
       std::cout << "Error in exclusion const iterator " << std::endl;
       std::cout << "It should be at " << cei.GetIndex();
       std::cout << " but it is at   " << cei.Get() << std::endl;
-      return EXIT_FAILURE;
+      return false;
       }
 
     if( cev.Get() != normalRegionValue )
@@ -269,7 +247,7 @@ int itkImageRegionExclusionIteratorWithIndexTest(int, char* [] )
       std::cout << "Error in exclusion const iterator " << std::endl;
       std::cout << "It is stepping into the exclusion region " << std::endl;
       std::cout << "Entry point = " << cev.GetIndex() << std::endl;
-      return EXIT_FAILURE;
+      return false;
       }
     ++numberOfPixelsVisited;
     --cei;
@@ -282,15 +260,81 @@ int itkImageRegionExclusionIteratorWithIndexTest(int, char* [] )
     std::cout << "It is not visiting all the pixels it should" << std::endl;
     std::cout << numberOfPixelsVisited << " pixels were visited instead of ";
     std::cout << pixelsToVisit << std::endl;
-    return EXIT_FAILURE;
+    return false;
     }
   std::cout << " Ok ! " << std::endl;
 
   std::cout << "Test PASSED ! " << std::endl;
 
+  return true;
+}
+
+
+int itkImageRegionExclusionIteratorWithIndexTest(int, char* [] )
+{
+  const unsigned int                    Dimension = 3;
+  typedef itk::Size< Dimension >        SizeType;
+  typedef itk::Index< Dimension >       IndexType;
+  typedef itk::ImageRegion< Dimension > RegionType;
+
+  SizeType   regionSize;
+  IndexType  regionStart;
+  RegionType region;
+
+  regionStart.Fill( 0 );
+  regionSize.Fill( 7 );
+
+  region.SetIndex( regionStart );
+  region.SetSize( regionSize );
+
+  SizeType::SizeValueType size[2] = {4, 7};
+
+  unsigned int count = 0;
+  for (SizeType::SizeValueType s = 0; s < 2; ++s)
+    {
+    for (IndexType::IndexValueType k = -2; k < 6; ++k)
+      {
+      for (IndexType::IndexValueType j = -2; j < 6; ++j)
+        {
+        for (IndexType::IndexValueType i = -2; i < 6; ++i)
+          {
+          IndexType exclusionStart;
+          exclusionStart[0] = i;
+          exclusionStart[1] = j;
+          exclusionStart[2] = k;
+
+          SizeType exclusionSize;
+          exclusionSize.Fill( size[s] );
+
+          RegionType exclusionRegion( exclusionStart, exclusionSize );
+
+          std::cout << "Starting test " << count << "..." << std::endl;
+          count++;
+
+          if ( !RunTest( region, exclusionRegion ) )
+            {
+            std::cerr << "Test failed for exclusion region: " << exclusionRegion;
+            return EXIT_FAILURE;
+            }
+          }
+        }
+      }
+    }
+
+  // Test exclusion region completely outside the region.
+  IndexType exclusionStart;
+  exclusionStart.Fill( -3 );
+  SizeType exclusionSize;
+  exclusionSize.Fill( 2 );
+  RegionType exclusionRegion( exclusionStart, exclusionSize );
+
+  std::cout << "Starting test " << count << "..." << std::endl;
+
+  if ( !RunTest( region, exclusionRegion ) )
+    {
+    std::cerr << "Test failed for exclusion region: " << exclusionRegion;
+    return EXIT_FAILURE;
+    }
+
   return EXIT_SUCCESS;
-
-  }
-
-
-
+}

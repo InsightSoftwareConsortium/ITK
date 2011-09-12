@@ -196,12 +196,28 @@ public:
    */
   void SetExclusionRegionToInsetRegion();
 
+  /** Move an iterator to the beginning of the non-excluded region. */
+  void GoToBegin(void);
+
+  /** Move an iterator to the End of the region. */
+  void GoToReverseBegin(void);
+
 private:
 
   RegionType m_ExclusionRegion;
 
   IndexType m_ExclusionBegin;
   IndexType m_ExclusionEnd;
+
+  /** Helper method that increments to the next index regardless of
+   * whether it is in the exclusion region. */
+  void Increment();
+
+  /** Helper method that increments to the previous index regardless of
+   * whether it is in the exclusion region. */
+  void Decrement();
+
+
 };
 } // end namespace itk
 

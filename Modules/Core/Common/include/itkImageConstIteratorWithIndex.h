@@ -279,7 +279,7 @@ public:
     return !m_Remaining;
   }
 
-  /** Are there data remainning in the region ? */
+  /** Are there data remaining in the region ? */
   bool Remaining()
   {
     return m_Remaining;
