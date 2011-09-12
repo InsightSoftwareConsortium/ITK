@@ -168,7 +168,7 @@ public:
 
   /** Get the jacobian with respect to position, which simply is an identity
    *  jacobian because the transform is position-invariant.
-   *  \jac will be resized as needed, but it will be more efficient if
+   *  jac will be resized as needed, but it will be more efficient if
    *  it is already properly sized. */
   virtual void ComputeJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & jac) const;
 
@@ -184,7 +184,7 @@ public:
   /** Indicates that this transform is linear. That is, given two
    * points P and Q, and scalar coefficients a and b, then
    *
-   *           T( a*P + b*Q ) = a * T(P) + b * T(Q)
+   * \f[ T( a*P + b*Q ) = a * T(P) + b * T(Q) \f]
    */
   virtual bool IsLinear() const
   {
