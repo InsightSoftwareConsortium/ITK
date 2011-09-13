@@ -90,7 +90,7 @@ public:
 typedef std::list< ObjectFactoryBase * > FactoryListType;
 namespace ObjectFactoryBasePrivate
 {
-FactoryListType * RegisteredFactories;
+FactoryListType * m_RegisteredFactories;
 }
 
 /**
@@ -133,14 +133,14 @@ LightObject::Pointer
 ObjectFactoryBase
 ::CreateInstance(const char *itkclassname)
 {
-  if ( !ObjectFactoryBasePrivate::RegisteredFactories )
+  if ( !ObjectFactoryBasePrivate::m_RegisteredFactories )
     {
     ObjectFactoryBase::Initialize();
     }
 
   for ( FactoryListType::iterator
-        i = ObjectFactoryBasePrivate::RegisteredFactories->begin();
-        i != ObjectFactoryBasePrivate::RegisteredFactories->end(); ++i )
+        i = ObjectFactoryBasePrivate::m_RegisteredFactories->begin();
+        i != ObjectFactoryBasePrivate::m_RegisteredFactories->end(); ++i )
     {
     LightObject::Pointer newobject = ( *i )->CreateObject(itkclassname);
     if ( newobject )
@@ -156,14 +156,14 @@ std::list< LightObject::Pointer >
 ObjectFactoryBase
 ::CreateAllInstance(const char *itkclassname)
 {
-  if ( !ObjectFactoryBasePrivate::RegisteredFactories )
+  if ( !ObjectFactoryBasePrivate::m_RegisteredFactories )
     {
     ObjectFactoryBase::Initialize();
     }
   std::list< LightObject::Pointer > created;
   for ( FactoryListType::iterator
-        i = ObjectFactoryBasePrivate::RegisteredFactories->begin();
-        i != ObjectFactoryBasePrivate::RegisteredFactories->end(); ++i )
+        i = ObjectFactoryBasePrivate::m_RegisteredFactories->begin();
+        i != ObjectFactoryBasePrivate::m_RegisteredFactories->end(); ++i )
     {
     std::list< LightObject::Pointer > moreObjects = ( *i )->CreateAllObject(itkclassname);
     created.splice(created.end(), moreObjects);
@@ -182,12 +182,12 @@ ObjectFactoryBase
   /**
    * Don't do anything if we are already initialized
    */
-  if ( ObjectFactoryBasePrivate::RegisteredFactories )
+  if ( ObjectFactoryBasePrivate::m_RegisteredFactories )
     {
     return;
     }
 
-  ObjectFactoryBasePrivate::RegisteredFactories = new FactoryListType;
+  ObjectFactoryBasePrivate::m_RegisteredFactories = new FactoryListType;
 }
 
 /**
@@ -441,7 +441,7 @@ ObjectFactoryBase
 ::RegisterFactoryInternal(ObjectFactoryBase *factory)
 {
   ObjectFactoryBase::InitializeFactoryList();
-  ObjectFactoryBasePrivate::RegisteredFactories->push_back(factory);
+  ObjectFactoryBasePrivate::m_RegisteredFactories->push_back(factory);
   factory->Register();
 }
 
@@ -488,7 +488,7 @@ ObjectFactoryBase
         {
         itkGenericExceptionMacro(<< "position argument must not be used with INSERT_AT_BACK option");
         }
-      ObjectFactoryBasePrivate::RegisteredFactories->push_back(factory);
+      ObjectFactoryBasePrivate::m_RegisteredFactories->push_back(factory);
       break;
       }
     case INSERT_AT_FRONT:
@@ -497,23 +497,23 @@ ObjectFactoryBase
         {
         itkGenericExceptionMacro(<< "position argument must not be used with INSERT_AT_FRONT option");
         }
-      ObjectFactoryBasePrivate::RegisteredFactories->push_front(factory);
+      ObjectFactoryBasePrivate::m_RegisteredFactories->push_front(factory);
       break;
       }
     case INSERT_AT_POSITION:
       {
-      const size_t numberOfFactories = ObjectFactoryBasePrivate::RegisteredFactories->size();
+      const size_t numberOfFactories = ObjectFactoryBasePrivate::m_RegisteredFactories->size();
       if( position < numberOfFactories )
         {
         typedef FactoryListType::iterator    FactoryIterator;
-        FactoryIterator fitr = ObjectFactoryBasePrivate::RegisteredFactories->begin();
+        FactoryIterator fitr = ObjectFactoryBasePrivate::m_RegisteredFactories->begin();
 
         while( position-- )
           {
           ++fitr;
           }
 
-        ObjectFactoryBasePrivate::RegisteredFactories->insert(fitr,factory);
+        ObjectFactoryBasePrivate::m_RegisteredFactories->insert(fitr,factory);
         break;
         }
       else
@@ -564,40 +564,40 @@ ObjectFactoryBase
 ::UnRegisterFactory(ObjectFactoryBase *factory)
 {
   for ( std::list< ObjectFactoryBase * >::iterator i =
-          ObjectFactoryBasePrivate::RegisteredFactories->begin();
-        i != ObjectFactoryBasePrivate::RegisteredFactories->end(); ++i )
+          ObjectFactoryBasePrivate::m_RegisteredFactories->begin();
+        i != ObjectFactoryBasePrivate::m_RegisteredFactories->end(); ++i )
     {
     if ( factory == *i )
       {
       factory->UnRegister();
-      ObjectFactoryBasePrivate::RegisteredFactories->remove(factory);
+      ObjectFactoryBasePrivate::m_RegisteredFactories->remove(factory);
       return;
       }
     }
 }
 
 /**
- * unregister all factories and delete the RegisteredFactories list
+ * unregister all factories and delete the m_RegisteredFactories list
  */
 void
 ObjectFactoryBase
 ::UnRegisterAllFactories()
 {
-  if ( ObjectFactoryBasePrivate::RegisteredFactories )
+  if ( ObjectFactoryBasePrivate::m_RegisteredFactories )
     {
     // Collect up all the library handles so they can be closed
     // AFTER the factory has been deleted.
     std::list< void * > libs;
     for ( std::list< ObjectFactoryBase * >::iterator i =
-            ObjectFactoryBasePrivate::RegisteredFactories->begin();
-          i != ObjectFactoryBasePrivate::RegisteredFactories->end(); ++i )
+            ObjectFactoryBasePrivate::m_RegisteredFactories->begin();
+          i != ObjectFactoryBasePrivate::m_RegisteredFactories->end(); ++i )
       {
       libs.push_back( static_cast< void * >( ( *i )->m_LibraryHandle ) );
       }
     // Unregister each factory
     for ( std::list< ObjectFactoryBase * >::iterator f =
-            ObjectFactoryBasePrivate::RegisteredFactories->begin();
-          f != ObjectFactoryBasePrivate::RegisteredFactories->end(); ++f )
+            ObjectFactoryBasePrivate::m_RegisteredFactories->begin();
+          f != ObjectFactoryBasePrivate::m_RegisteredFactories->end(); ++f )
       {
       ( *f )->UnRegister();
       }
@@ -611,8 +611,8 @@ ObjectFactoryBase
         DynamicLoader::CloseLibrary( static_cast< LibHandle >( *lib ) );
         }
       }
-    delete ObjectFactoryBasePrivate::RegisteredFactories;
-    ObjectFactoryBasePrivate::RegisteredFactories = 0;
+    delete ObjectFactoryBasePrivate::m_RegisteredFactories;
+    ObjectFactoryBasePrivate::m_RegisteredFactories = 0;
     }
 }
 
@@ -738,7 +738,7 @@ std::list< ObjectFactoryBase * >
 ObjectFactoryBase
 ::GetRegisteredFactories()
 {
-  return *ObjectFactoryBasePrivate::RegisteredFactories;
+  return *ObjectFactoryBasePrivate::m_RegisteredFactories;
 }
 
 /**
