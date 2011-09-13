@@ -28,7 +28,7 @@ extern "C" {
 char *F77_aloc(integer Len, char *whence);
 void sig_die(register char *s, int kill);
 integer i_dnnt(doublereal *x);
-double f__cabs(double real, double imag);
+double f__cabs(double real_value, double imag_value);
 void exit_(integer *rc);
 double c_abs(complex *z);
 void c_div(complex *c, complex *a, complex *b);
