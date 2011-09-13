@@ -137,19 +137,19 @@ public:
 
   using STLContainerType::get_allocator;
 
-  using STLContainerType::reference;
-  using STLContainerType::const_reference;
-  using STLContainerType::iterator;
-  using STLContainerType::const_iterator;
+  using typename STLContainerType::reference;
+  using typename STLContainerType::const_reference;
+  using typename STLContainerType::iterator;
+  using typename STLContainerType::const_iterator;
   // already declared before
   // using STLContainerType::size_type;
-  using STLContainerType::difference_type;
-  using STLContainerType::value_type;
-  using STLContainerType::allocator_type;
-  using STLContainerType::pointer;
-  using STLContainerType::const_pointer;
-  using STLContainerType::reverse_iterator;
-  using STLContainerType::const_reverse_iterator;
+  using typename STLContainerType::difference_type;
+  using typename STLContainerType::value_type;
+  using typename STLContainerType::allocator_type;
+  using typename STLContainerType::pointer;
+  using typename STLContainerType::const_pointer;
+  using typename STLContainerType::reverse_iterator;
+  using typename STLContainerType::const_reverse_iterator;
 
   /** Friends to this class. */
   friend class Iterator;
