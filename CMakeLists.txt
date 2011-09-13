@@ -545,7 +545,7 @@ foreach(itk-module ${ITK_MODULES_ENABLED})
 endforeach()
 
 #----------------------------------------------------------------------------
-configure_file(CMake/CTestCustom.cmake.in CTestCustom.cmake)
+configure_file(CMake/CTestCustom.cmake.in CTestCustom.cmake @ONLY)
 
 #-----------------------------------------------------------------------------
 
