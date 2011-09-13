@@ -214,6 +214,7 @@ public:
     m_buf(m_fd)
   {
     ///\todo better handle mode flag
+    (void) mode;
     this->rdbuf(&m_buf);
   }
 
