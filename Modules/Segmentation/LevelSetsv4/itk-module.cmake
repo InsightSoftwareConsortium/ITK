@@ -6,14 +6,29 @@ to a partial differential equation based on image-based features and characteris
 of the level-set function. The segmentation evolves from an initial value for
 the segmenting contour.")
 
-itk_module(ITKLevelSetsv4
-  DEPENDS
-    ITKCommon
-    ITKLabelMap
-    ITKDistanceMap
-  TEST_DEPENDS
-    ITKTestKernel
-    ITKFastMarching
-  DESCRIPTION
-    "${DOCUMENTATION}"
-)
+if( LevelSetsv4_VIZ )
+   itk_module(ITKLevelSetsv4
+    DEPENDS
+      ITKCommon
+      ITKLabelMap
+      ITKDistanceMap
+      ITKVtkGlue
+    TEST_DEPENDS
+      ITKTestKernel
+      ITKFastMarching
+    DESCRIPTION
+      "${DOCUMENTATION}"
+  )
+else()
+  itk_module(ITKLevelSetsv4
+    DEPENDS
+      ITKCommon
+      ITKLabelMap
+      ITKDistanceMap
+    TEST_DEPENDS
+      ITKTestKernel
+      ITKFastMarching
+    DESCRIPTION
+      "${DOCUMENTATION}"
+  )
+endif()
