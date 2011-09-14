@@ -164,8 +164,8 @@ void
 UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
 ::EvolveWithUnPhasedPropagation()
 {
-  LevelSetOutputRealType oldValue;
-  LevelSetOutputRealType newValue;
+  LevelSetOutputType oldValue;
+  LevelSetOutputType newValue;
   LevelSetLayerType & level0 = this->m_OutputLevelSet->GetLayer( LevelSetType::ZeroLayer() );
 
   // neighborhood iterator
