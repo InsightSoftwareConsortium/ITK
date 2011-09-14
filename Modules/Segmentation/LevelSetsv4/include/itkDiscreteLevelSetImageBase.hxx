@@ -497,17 +497,17 @@ DiscreteLevelSetImageBase< TOutput, VDimension >
     {
     if( !ioData.Hessian.m_Computed )
       {
-      EvaluateHessian( iP, ioData );
+      this->EvaluateHessian( iP, ioData );
       }
 
     if( !ioData.Gradient.m_Computed )
       {
-      EvaluateGradient( iP, ioData );
+      this->EvaluateGradient( iP, ioData );
       }
 
     if( !ioData.GradientNorm.m_Computed )
       {
-      EvaluateGradientNorm( iP, ioData );
+      this->EvaluateGradientNorm( iP, ioData );
       }
 
     ioData.MeanCurvature.m_Computed = true;
