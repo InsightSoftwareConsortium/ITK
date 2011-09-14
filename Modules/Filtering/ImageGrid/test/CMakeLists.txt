@@ -39,6 +39,7 @@ itkWrapPadImageTest.cxx
 itkMirrorPadImageTest.cxx
 itkResampleImageTest.cxx
 itkResampleImageTest2.cxx
+itkResampleImageTest3.cxx
 itkResamplePhasedArray3DSpecialCoordinatesImageTest.cxx
 itkPushPopTileImageFilterTest.cxx
 itkShrinkImagePreserveObjectPhysicalLocations.cxx
@@ -179,6 +180,12 @@ itk_add_test(NAME itkResampleImageTest2
                           ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2b.png
                           ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2c.png
                           ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2d.png)
+itk_add_test(NAME itkResampleImageTest3
+      COMMAND ITKImageGridTestDriver
+    --compare DATA{Baseline/ResampleImageTest3.png}
+              ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest3.png
+    itkResampleImageTest3 ${ITK_DATA_ROOT}/Input/cthead1.png
+                          ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest3.png)
 itk_add_test(NAME itkResamplePhasedArray3DSpecialCoordinatesImageTest
       COMMAND ITKImageGridTestDriver itkResamplePhasedArray3DSpecialCoordinatesImageTest)
 itk_add_test(NAME itkPushPopTileImageFilterTest
