@@ -132,8 +132,8 @@ public:
    * its length is only known at run-time. Specializations of the
    * VariableLengthVector will provide a different implementation
    * where a vector of the correct size is built. */
-  static T max(const T & val) { return TraitsType::max(); }
-  static T min(const T & val) { return TraitsType::min(); }
+  static T max(const T &) { return TraitsType::max(); }
+  static T min(const T &) { return TraitsType::min(); }
 
   /** Scalars cannot be resized, so an exception will
    * be thrown if the input size is not 1.  If the size is valid

@@ -331,11 +331,11 @@ public:
 /** Stream operator for ImageRegionCopier objects. Just prints the RTTI
     typename. */
 template< unsigned int D1, unsigned int D2 >
-std::ostream & operator<<(std::ostream & os, const ImageRegionCopier< D1, D2 > &
-                          copier)
+std::ostream & operator<<(std::ostream & os,
+                          const ImageRegionCopier< D1, D2 > &)
 {
   os << "ImageRegionCopier: "
-  << typeid( ImageRegionCopier< D1, D2 > ).name() << std::endl;
+     << typeid( ImageRegionCopier< D1, D2 > ).name() << std::endl;
   return os;
 }
 

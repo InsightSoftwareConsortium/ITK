@@ -88,7 +88,7 @@ public:
     return boundaryCondition->operator()(point_index, boundary_offset, data);
   }
 
-  void SetVectorLength(VectorLengthType length) {}
+  void SetVectorLength(VectorLengthType) {}
   VectorLengthType SetVectorLength() { return 0; }
 
   /** Constructor */
