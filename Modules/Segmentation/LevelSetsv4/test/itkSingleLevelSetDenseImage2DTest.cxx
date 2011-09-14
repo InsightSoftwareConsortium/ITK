@@ -220,18 +220,16 @@ int itkSingleLevelSetDenseImage2DTest( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::Image< char, Dimension > OutputImageType;
-  OutputImageType::Pointer outputImage = OutputImageType::New();
+  ImageType::Pointer outputImage = ImageType::New();
   outputImage->SetRegions( input->GetLargestPossibleRegion() );
   outputImage->CopyInformation( input );
   outputImage->Allocate();
   outputImage->FillBuffer( 0 );
 
-  typedef itk::ImageRegionIteratorWithIndex< OutputImageType > OutputIteratorType;
-  OutputIteratorType oIt( outputImage, outputImage->GetLargestPossibleRegion() );
+  IteratorType oIt( outputImage, outputImage->GetLargestPossibleRegion() );
   oIt.GoToBegin();
 
-  OutputImageType::IndexType idx;
+  ImageType::IndexType idx;
 
   while( !oIt.IsAtEnd() )
     {
@@ -240,7 +238,7 @@ int itkSingleLevelSetDenseImage2DTest( int argc, char* argv[] )
     ++oIt;
     }
 
-  typedef itk::ImageFileWriter< OutputImageType >     OutputWriterType;
+  typedef itk::ImageFileWriter< ImageType > OutputWriterType;
   OutputWriterType::Pointer writer = OutputWriterType::New();
   writer->SetFileName( argv[5] );
   writer->SetInput( outputImage );
