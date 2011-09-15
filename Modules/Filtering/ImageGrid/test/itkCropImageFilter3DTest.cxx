@@ -53,7 +53,15 @@ int itkCropImageFilter3DTest(int, char* [] )
   // redundant, SetBoundaryCropSize sets both upper and lower;
   cropFilter->SetUpperBoundaryCropSize(extractSize);
   cropFilter->SetLowerBoundaryCropSize(extractSize);
-  cropFilter->Update();
+  try
+    {
+    cropFilter->Update();
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cerr << "Error: " << err << std::endl;
+    return EXIT_FAILURE;
+    }
 
   ImageType::Pointer croppedImage = cropFilter->GetOutput();
 
