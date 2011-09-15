@@ -75,7 +75,7 @@ http://graphviz.sourcearchive.com/documentation/2.16/gvrender__pango_8c-source.h
  * See http://download.oracle.com/docs/cd/E19963-01/html/821-1465/fpgetmask-3c.html
  */
 static int
-feenableexcept (unsigned int excepts)
+feenableexcept (unsigned int /*excepts*/)
 {
   // This code is what is suggested in Solaris docs
   // I'm guessing that was a cruel hoax
@@ -102,7 +102,7 @@ feenableexcept (unsigned int excepts)
 }
 
 static int
-fedisableexcept (unsigned int excepts)
+fedisableexcept (unsigned int /*excepts*/)
 {
   // This code is what is suggested in Solaris docs
   // I'm guessing that was a cruel hoax
