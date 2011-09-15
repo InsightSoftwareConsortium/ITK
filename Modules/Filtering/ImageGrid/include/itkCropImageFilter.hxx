@@ -44,8 +44,11 @@ CropImageFilter< TInputImage, TOutputImage >
   InputImageIndexType input_idx =
     inputPtr->GetLargestPossibleRegion().GetIndex();
 
-  idx = input_idx + m_LowerBoundaryCropSize;
-  sz  = input_sz  - ( m_UpperBoundaryCropSize + m_LowerBoundaryCropSize );
+  for( unsigned int i = 0; i < InputImageDimension; ++i )
+    {
+    idx[i] = input_idx[i] + m_LowerBoundaryCropSize[i];
+    sz[i]  = input_sz[i]  - ( m_UpperBoundaryCropSize[i] + m_LowerBoundaryCropSize[i] );
+    }
 
   croppedRegion.SetSize(sz);
   croppedRegion.SetIndex(idx);
