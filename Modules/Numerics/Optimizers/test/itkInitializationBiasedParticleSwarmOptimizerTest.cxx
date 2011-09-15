@@ -2,7 +2,7 @@
  *
  *  Copyright Insight Software Consortium
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
+< *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
@@ -98,11 +98,8 @@ int itkInitializationBiasedParticleSwarmOptimizerTest(int argc, char* argv[] )
 
 int IBPSOTest1()
 {
-  if( initalizationBasedTestVerboseFlag )
-    {
-    std::cout << "Particle Swarm Optimizer Test 1 [f(x) = if(x<0) x^2+4x; else 2x^2-8x]\n";
-    std::cout << "-------------------------------\n";
-    }
+  std::cout << "Particle Swarm Optimizer Test 1 [f(x) = if(x<0) x^2+4x; else 2x^2-8x]\n";
+  std::cout << "-------------------------------\n";
 
   double knownParameters = 2.0;
 
@@ -116,7 +113,7 @@ int IBPSOTest1()
   OptimizerType::ParameterBoundsType bounds;
   bounds.push_back( std::make_pair( -10, 10 ) );
   unsigned int numberOfParticles = 10;
-  unsigned int maxIterations = 100;
+  unsigned int maxIterations = 200;
   double xTolerance = 0.1;
   double fTolerance = 0.001;
   OptimizerType::ParametersType initialParameters( 1 ), finalParameters;
@@ -145,25 +142,19 @@ int IBPSOTest1()
     itkOptimizer->StartOptimization();
     finalParameters = itkOptimizer->GetCurrentPosition();
 
-  //check why we stopped and see if the optimization succeeded
+    //show why we stopped and see if the optimization succeeded
 
-  if( initalizationBasedTestVerboseFlag )
-    {
     std::cout<<"Reason for stopping optimization:\n";
     std::cout<<"\t"<<itkOptimizer->GetStopConditionDescription()<<"\n";
-    }
 
     finalParameters = itkOptimizer->GetCurrentPosition();
 
-  if( initalizationBasedTestVerboseFlag )
-    {
     std::cout << "Known parameters   = " << knownParameters<<"   ";
     std::cout << "Estimated parameters = " << finalParameters << std::endl;
-    }
 
     if( fabs( finalParameters[0] - knownParameters ) > xTolerance )
       {
-      //std::cout << "[Test 1 FAILURE]" << std::endl;
+      std::cout << "[Test 1 FAILURE]" << std::endl;
       return EXIT_FAILURE;
       }
              //run optimization again with a different initial value
@@ -179,25 +170,19 @@ int IBPSOTest1()
     itkOptimizer->StartOptimization();
     finalParameters = itkOptimizer->GetCurrentPosition();
 
-    //check why we stopped and see if the optimization succeeded
+    //show why we stopped and see if the optimization succeeded
 
-    if( initalizationBasedTestVerboseFlag )
-      {
-      std::cout<<"Reason for stopping optimization:\n";
-      std::cout<<"\t"<<itkOptimizer->GetStopConditionDescription()<<"\n";
-      }
+    std::cout<<"Reason for stopping optimization:\n";
+    std::cout<<"\t"<<itkOptimizer->GetStopConditionDescription()<<"\n";
 
     finalParameters = itkOptimizer->GetCurrentPosition();
 
-    if( initalizationBasedTestVerboseFlag )
-      {
-      std::cout << "Known parameters   = " << knownParameters<<"   ";
-      std::cout << "Estimated parameters = " << finalParameters << std::endl;
-      }
+    std::cout << "Known parameters   = " << knownParameters<<"   ";
+    std::cout << "Estimated parameters = " << finalParameters << std::endl;
 
     if( fabs( finalParameters[0] - knownParameters ) > xTolerance )
       {
-      //std::cout << "[Test 1 FAILURE]" << std::endl;
+      std::cout << "[Test 1 FAILURE]" << std::endl;
       return EXIT_FAILURE;
       }
     }
@@ -210,18 +195,15 @@ int IBPSOTest1()
     std::cout << "Description = " << e.GetDescription() << std::endl;
     return EXIT_FAILURE;
     }
-//  std::cout << "[Test 1 SUCCESS]" << std::endl;
+  std::cout << "[Test 1 SUCCESS]" << std::endl;
   return EXIT_SUCCESS;
 }
 
 
 int IBPSOTest2()
 {
-  if( initalizationBasedTestVerboseFlag )
-    {
-    std::cout << "Particle Swarm Optimizer Test 2 [f(x) = 1/2 x^T A x - b^T x]\n";
-    std::cout << "----------------------------------\n";
-    }
+  std::cout << "Particle Swarm Optimizer Test 2 [f(x) = 1/2 x^T A x - b^T x]\n";
+  std::cout << "----------------------------------\n";
 
   itk::Array<double> knownParameters( 2 );
   knownParameters[0] = 2.0;
@@ -238,7 +220,7 @@ int IBPSOTest2()
   bounds.push_back( std::make_pair( -10, 10 ) );
   bounds.push_back( std::make_pair( -10, 10 ) );
   unsigned int numberOfParticles = 10;
-  unsigned int maxIterations = 100;
+  unsigned int maxIterations = 200;
   double xTolerance = 0.1;
   double fTolerance = 0.001;
   OptimizerType::ParametersType initialParameters( 2 ), finalParameters;
@@ -267,26 +249,20 @@ int IBPSOTest2()
     itkOptimizer->StartOptimization();
     finalParameters = itkOptimizer->GetCurrentPosition();
 
-  //check why we stopped and see if the optimization succeeded
+    //show why we stopped and see if the optimization succeeded
 
-    if( initalizationBasedTestVerboseFlag )
-      {
-      std::cout<<"Reason for stopping optimization:\n";
-      std::cout<<"\t"<<itkOptimizer->GetStopConditionDescription()<<"\n";
-      }
+    std::cout<<"Reason for stopping optimization:\n";
+    std::cout<<"\t"<<itkOptimizer->GetStopConditionDescription()<<"\n";
 
     finalParameters = itkOptimizer->GetCurrentPosition();
 
-    if( initalizationBasedTestVerboseFlag )
-      {
-      std::cout << "Known parameters   = " << knownParameters<<"   ";
-      std::cout << "Estimated parameters = " << finalParameters << std::endl;
-      }
+    std::cout << "Known parameters   = " << knownParameters<<"   ";
+    std::cout << "Estimated parameters = " << finalParameters << std::endl;
 
     if( fabs( finalParameters[0] - knownParameters[0] ) > xTolerance ||
         fabs( finalParameters[1] - knownParameters[1] ) > xTolerance )
       {
-      //std::cout << "[Test 2 FAILURE]" << std::endl;
+      std::cout << "[Test 2 FAILURE]" << std::endl;
       return EXIT_FAILURE;
       }
     }
@@ -299,17 +275,14 @@ int IBPSOTest2()
     std::cout << "Description = " << e.GetDescription() << std::endl;
     return EXIT_FAILURE;
     }
-//  std::cout << "[Test 2 SUCCESS]" << std::endl;
+  std::cout << "[Test 2 SUCCESS]" << std::endl;
   return EXIT_SUCCESS;
 }
 
 int IBPSOTest3()
 {
-  if( initalizationBasedTestVerboseFlag )
-    {
-    std::cout << "Particle Swarm Optimizer Test 3 [f(x,y) = (1-x)^2 + 100(y-x^2)^2]\n";
-    std::cout << "----------------------------------\n";
-    }
+  std::cout << "Particle Swarm Optimizer Test 3 [f(x,y) = (1-x)^2 + 100(y-x^2)^2]\n";
+  std::cout << "----------------------------------\n";
 
   itk::Array<double> knownParameters( 2 );
   knownParameters[0] = 1.0;
@@ -326,7 +299,7 @@ int IBPSOTest3()
   bounds.push_back( std::make_pair( -100, 100 ) );
   bounds.push_back( std::make_pair( -100, 100 ) );
   unsigned int numberOfParticles = 100;
-  unsigned int maxIterations = 200;
+  unsigned int maxIterations = 1000;
   double xTolerance = 0.1;
   double fTolerance = 0.01;
   OptimizerType::ParametersType initialParameters( 2 ), finalParameters;
@@ -356,25 +329,19 @@ int IBPSOTest3()
     itkOptimizer->StartOptimization();
     finalParameters = itkOptimizer->GetCurrentPosition();
 
-    //check why we stopped and see if the optimization succeeded
-    if( initalizationBasedTestVerboseFlag )
-      {
-      std::cout<<"Reason for stopping optimization:\n";
-      std::cout<<"\t"<<itkOptimizer->GetStopConditionDescription()<<"\n";
-      }
+    //show why we stopped and see if the optimization succeeded
+    std::cout<<"Reason for stopping optimization:\n";
+    std::cout<<"\t"<<itkOptimizer->GetStopConditionDescription()<<"\n";
 
     finalParameters = itkOptimizer->GetCurrentPosition();
 
-    if( initalizationBasedTestVerboseFlag )
-      {
-      std::cout << "Known parameters   = " << knownParameters<<"   ";
-      std::cout << "Estimated parameters = " << finalParameters << std::endl;
-      }
+    std::cout << "Known parameters   = " << knownParameters<<"   ";
+    std::cout << "Estimated parameters = " << finalParameters << std::endl;
 
     if( fabs( finalParameters[0] - knownParameters[0] ) > xTolerance ||
         fabs( finalParameters[1] - knownParameters[1] ) > xTolerance )
       {
-      //std::cout << "[Test 3 FAILURE]" << std::endl;
+      std::cout << "[Test 3 FAILURE]" << std::endl;
       return EXIT_FAILURE;
       }
 
@@ -395,25 +362,19 @@ int IBPSOTest3()
     itkOptimizer->StartOptimization();
     finalParameters = itkOptimizer->GetCurrentPosition();
 
-              //check why we stopped and see if the optimization succeeded
-    if( initalizationBasedTestVerboseFlag )
-      {
-      std::cout<<"Reason for stopping optimization:\n";
-      std::cout<<"\t"<<itkOptimizer->GetStopConditionDescription()<<"\n";
-      }
+    //show why we stopped and see if the optimization succeeded
+    std::cout<<"Reason for stopping optimization:\n";
+    std::cout<<"\t"<<itkOptimizer->GetStopConditionDescription()<<"\n";
 
     finalParameters = itkOptimizer->GetCurrentPosition();
 
-    if( initalizationBasedTestVerboseFlag )
-      {
-      std::cout << "Known parameters   = " << knownParameters<<"   ";
-      std::cout << "Estimated parameters = " << finalParameters << std::endl;
-      }
+    std::cout << "Known parameters   = " << knownParameters<<"   ";
+    std::cout << "Estimated parameters = " << finalParameters << std::endl;
 
     if( fabs( finalParameters[0] - knownParameters[0] ) > xTolerance ||
         fabs( finalParameters[1] - knownParameters[1] ) > xTolerance )
       {
-      //std::cout << "[Test 3 FAILURE]" << std::endl;
+      std::cout << "[Test 3 FAILURE]" << std::endl;
       return EXIT_FAILURE;
       }
 
@@ -435,25 +396,19 @@ int IBPSOTest3()
     itkOptimizer->StartOptimization();
     finalParameters = itkOptimizer->GetCurrentPosition();
 
-              //check why we stopped and see if the optimization succeeded
-    if( initalizationBasedTestVerboseFlag )
-      {
-      std::cout<<"Reason for stopping optimization:\n";
-      std::cout<<"\t"<<itkOptimizer->GetStopConditionDescription()<<"\n";
-      }
+    //show why we stopped and see if the optimization succeeded
+    std::cout<<"Reason for stopping optimization:\n";
+    std::cout<<"\t"<<itkOptimizer->GetStopConditionDescription()<<"\n";
 
     finalParameters = itkOptimizer->GetCurrentPosition();
 
-    if( initalizationBasedTestVerboseFlag )
-      {
-      std::cout << "Known parameters   = " << knownParameters<<"   ";
-      std::cout << "Estimated parameters = " << finalParameters << std::endl;
-      }
+    std::cout << "Known parameters   = " << knownParameters<<"   ";
+    std::cout << "Estimated parameters = " << finalParameters << std::endl;
 
     if( fabs( finalParameters[0] - knownParameters[0] ) > xTolerance ||
         fabs( finalParameters[1] - knownParameters[1] ) > xTolerance )
       {
-      //std::cout << "[Test 3 FAILURE]" << std::endl;
+      std::cout << "[Test 3 FAILURE]" << std::endl;
       return EXIT_FAILURE;
       }
     }
@@ -466,6 +421,6 @@ int IBPSOTest3()
     std::cout << "Description = " << e.GetDescription() << std::endl;
     return EXIT_FAILURE;
     }
-//  std::cout << "[Test 3 SUCCESS]" << std::endl;
+  std::cout << "[Test 3 SUCCESS]" << std::endl;
   return EXIT_SUCCESS;
 }
