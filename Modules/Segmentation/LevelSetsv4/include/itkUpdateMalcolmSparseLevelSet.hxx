@@ -385,7 +385,6 @@ void
 UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
 ::CompactLayersToSinglePixelThickness()
 {
-  LevelSetOutputRealType oldValue, newValue;
   LevelSetLayerType & list_0 = this->m_OutputLevelSet->GetLayer( LevelSetType::ZeroLayer() );
 
   ZeroFluxNeumannBoundaryCondition< LabelImageType > sp_nbc;
@@ -425,8 +424,7 @@ UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
     bool positiveUpdate = false;
     bool negativeUpdate = false;
 
-    oldValue = LevelSetType::ZeroLayer();
-
+    LevelSetOutputRealType oldValue = LevelSetType::ZeroLayer();
     for( typename NeighborhoodIteratorType::Iterator
         i = neighIt.Begin();
         !i.IsAtEnd(); ++i )
@@ -444,24 +442,24 @@ UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
 
     if( negativeUpdate && !positiveUpdate )
       {
-      newValue = LevelSetType::MinusOneLayer();
+      const LevelSetOutputRealType newValue = LevelSetType::MinusOneLayer();
       LevelSetLayerIterator tempIt = nodeIt;
       ++nodeIt;
       list_0.erase( tempIt );
 
-      this->m_InternalImage->SetPixel( currentIdx, newValue );
+      this->m_InternalImage->SetPixel( currentIdx, static_cast<typename LabelImageType::PixelType>(newValue) );
       termContainer->UpdatePixel( currentIdx, oldValue , newValue );
       }
     else
       {
       if( positiveUpdate && !negativeUpdate )
         {
-        newValue = LevelSetType::PlusOneLayer();
+        const LevelSetOutputRealType newValue = LevelSetType::PlusOneLayer();
         LevelSetLayerIterator tempIt = nodeIt;
         ++nodeIt;
         list_0.erase( tempIt );
 
-        this->m_InternalImage->SetPixel( currentIdx, newValue );
+        this->m_InternalImage->SetPixel( currentIdx, static_cast<typename LabelImageType::PixelType>(newValue) );
 
         termContainer->UpdatePixel( currentIdx, oldValue , newValue );
         }

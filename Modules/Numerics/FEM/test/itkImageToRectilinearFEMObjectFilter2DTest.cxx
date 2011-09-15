@@ -183,10 +183,10 @@ int itkImageToRectilinearFEMObjectFilter2DTest(int argc, char *argv[])
     unsigned int    elementNumber = static_cast<unsigned int>( atoi( argv[10 + numberOfNodesToTest * 3 + i * 5] ) );
     vnl_vector<int> nodes;
     nodes.set_size(4);
-    nodes[0] = atof( argv[10 + numberOfNodesToTest * 3 + i * 5 + 1] );
-    nodes[1] = atof( argv[10 + numberOfNodesToTest * 3 + i * 5 + 2] );
-    nodes[2] = atof( argv[10 + numberOfNodesToTest * 3 + i * 5 + 3] );
-    nodes[3] = atof( argv[10 + numberOfNodesToTest * 3 + i * 5 + 4] );
+    nodes[0] = static_cast<int>(atof( argv[10 + numberOfNodesToTest * 3 + i * 5 + 1] ) );
+    nodes[1] = static_cast<int>(atof( argv[10 + numberOfNodesToTest * 3 + i * 5 + 2] ) );
+    nodes[2] = static_cast<int>(atof( argv[10 + numberOfNodesToTest * 3 + i * 5 + 3] ) );
+    nodes[3] = static_cast<int>(atof( argv[10 + numberOfNodesToTest * 3 + i * 5 + 4] ) );
 
     std::cout << "Element (" << elementNumber << ") Test " << i << ": ";
     if( (femObject->GetElement(elementNumber)->GetNode(0)->GetGlobalNumber() != nodes[0]) ||

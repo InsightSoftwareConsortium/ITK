@@ -115,7 +115,7 @@ private:
     {
     for ( unsigned int i = 0; i < this->GetNumberOfInputs(); i++ )
       {
-      pix[i] = inputItContainer[i].Get();
+      pix[i] = static_cast<typename NumericTraits<OutputPixelType>::ValueType >(inputItContainer[i].Get());
       ++( inputItContainer[i] );
       }
     }

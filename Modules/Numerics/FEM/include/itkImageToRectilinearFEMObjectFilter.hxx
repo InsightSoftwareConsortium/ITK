@@ -188,12 +188,12 @@ ImageToRectilinearFEMObjectFilter<TInputImage>
   ImagePointType nodePoint;
 
   int gn = 0; // number of node
-  for( double j = 0; j <= m_NumberOfElements[1]; j++ )
+  for( typename ImageSizeType::SizeValueType j = 0; j <= m_NumberOfElements[1]; j++ )
     {
-    nodeIndex[1] = j * size[1] / m_PixelsPerElement[1];
-    for( double i = 0; i <= m_NumberOfElements[0]; i++ )
+    nodeIndex[1] = static_cast<typename ImageIndexType::IndexValueType>(static_cast<double>(j * size[1]) / static_cast<double>(m_PixelsPerElement[1]) );
+    for( typename ImageSizeType::SizeValueType i = 0; i <= m_NumberOfElements[0]; i++ )
       {
-      nodeIndex[0] = i * size[0] / m_PixelsPerElement[0];
+      nodeIndex[0] = static_cast<typename ImageIndexType::IndexValueType>(static_cast<double>(i * size[0]) / static_cast<double>(m_PixelsPerElement[0]) );
       image->TransformIndexToPhysicalPoint(nodeIndex, nodePoint);
       Element::VectorType pt(2);
       pt[0] = nodePoint[0]; pt[1] = nodePoint[1];
