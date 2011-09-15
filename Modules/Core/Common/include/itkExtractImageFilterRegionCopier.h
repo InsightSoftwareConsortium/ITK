@@ -57,6 +57,7 @@ void ExtractImageFilterCopyRegion(const typename
                                   const ImageRegion< T2 > & srcRegion,
                                   const ImageRegion< T1 > & totalInputExtractionRegion)
 {
+  (void) totalInputExtractionRegion;
   ImageToImageFilterDefaultCopyRegion< T1, T2 >(firstLessThanSecond, destRegion, srcRegion);
 }
 
