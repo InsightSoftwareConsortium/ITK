@@ -43,7 +43,7 @@ namespace itk
  * see the Iterators chapter in the ITK Software Guide.  The ITK Software Guide
  * is available in print and as a free .pdf download from http://www.itk.org.
  *
- * \example ImageRegionIterator.cxx
+ * example ImageRegionIterator.cxx
  * \ingroup ImageIterators
  *
  * \sa ImageConstIterator \sa ConditionalConstIterator
