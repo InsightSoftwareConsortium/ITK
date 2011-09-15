@@ -259,6 +259,9 @@ public:
     m_Gamma = s;
   }
 
+  /** Set the pointer to the solution vector.
+   * \param ptr Pointer to the object of Solution class.
+   */
   void SetSolution(Solution::ConstPointer ptr)
   {
     m_Solution = ptr;

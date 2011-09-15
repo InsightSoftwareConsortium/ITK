@@ -61,7 +61,7 @@ public:
    * vector is not required, the functionn should be left unimplemented,
    * so that only the dummy implementation in base class is called.
    *
-   * \param ptr Pointer to the object of Solution class.
+   * param ptr Pointer to the object of Solution class.
    */
   virtual void SetSolution(Solution::ConstPointer itkNotUsed(ptr)) { }
   virtual Solution::ConstPointer GetSolution()
