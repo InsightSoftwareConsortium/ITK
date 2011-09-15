@@ -185,17 +185,17 @@ int itkImageToRectilinearFEMObjectFilter3DTest(int argc, char *argv[])
   const unsigned int numberOfElementsToTest = static_cast<unsigned int>( atoi( argv[11 + numberOfNodesToTest * 4] ) );
   for( unsigned int i = 0; i < numberOfElementsToTest; i++ )
     {
-    unsigned int    elementNumber = static_cast<unsigned int>( atoi( argv[12 + numberOfNodesToTest * 4 + i * 9] ) );
+    const unsigned int elementNumber = static_cast<unsigned int>( atoi( argv[12 + numberOfNodesToTest * 4 + i * 9] ) );
     vnl_vector<int> nodes;
     nodes.set_size(8);
-    nodes[0] = atof( argv[12 + numberOfNodesToTest * 4 + i * 9 + 1] );
-    nodes[1] = atof( argv[12 + numberOfNodesToTest * 4 + i * 9 + 2] );
-    nodes[2] = atof( argv[12 + numberOfNodesToTest * 4 + i * 9 + 3] );
-    nodes[3] = atof( argv[12 + numberOfNodesToTest * 4 + i * 9 + 4] );
-    nodes[4] = atof( argv[12 + numberOfNodesToTest * 4 + i * 9 + 5] );
-    nodes[5] = atof( argv[12 + numberOfNodesToTest * 4 + i * 9 + 6] );
-    nodes[6] = atof( argv[12 + numberOfNodesToTest * 4 + i * 9 + 7] );
-    nodes[7] = atof( argv[12 + numberOfNodesToTest * 4 + i * 9 + 8] );
+    nodes[0] = static_cast<int>(atof( argv[12 + numberOfNodesToTest * 4 + i * 9 + 1] ) );
+    nodes[1] = static_cast<int>(atof( argv[12 + numberOfNodesToTest * 4 + i * 9 + 2] ) );
+    nodes[2] = static_cast<int>(atof( argv[12 + numberOfNodesToTest * 4 + i * 9 + 3] ) );
+    nodes[3] = static_cast<int>(atof( argv[12 + numberOfNodesToTest * 4 + i * 9 + 4] ) );
+    nodes[4] = static_cast<int>(atof( argv[12 + numberOfNodesToTest * 4 + i * 9 + 5] ) );
+    nodes[5] = static_cast<int>(atof( argv[12 + numberOfNodesToTest * 4 + i * 9 + 6] ) );
+    nodes[6] = static_cast<int>(atof( argv[12 + numberOfNodesToTest * 4 + i * 9 + 7] ) );
+    nodes[7] = static_cast<int>(atof( argv[12 + numberOfNodesToTest * 4 + i * 9 + 8] ) );
 
     std::cout << "Element (" << elementNumber << ") Test " << i << ": ";
     if( (femObject->GetElement(elementNumber)->GetNode(0)->GetGlobalNumber() != nodes[0]) ||
