@@ -78,7 +78,6 @@ int itkExtractImageTest(int, char* [] )
   // Create a filter
   itk::ExtractImageFilter< ShortImage, ShortImage >::Pointer extract;
   extract = itk::ExtractImageFilter< ShortImage, ShortImage >::New();
-  extract->SetDirectionCollapseToSubmatrix();
   extract->SetInput( if2 );
 
   // fill in an image
