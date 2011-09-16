@@ -29,7 +29,7 @@
 #include "itkSinRegularizedHeavisideStepFunction.h"
 #include "itkHeavisideStepFunction.h"
 #include "itkLevelSetMalcolmEvolutionBase.h"
-#include "itkBinaryImageToMalcolmSparseLevelSetAdaptor.h"
+#include "itkBinaryImageToSparseLevelSetImageAdaptor.h"
 #include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"
 #include "itkNumericTraits.h"
 
@@ -49,11 +49,11 @@ int itkSingleLevelSetMalcolmImage2DTest( int argc, char* argv[] )
                                                             InputIteratorType;
   typedef itk::ImageFileReader< InputImageType >            ReaderType;
 
-  typedef itk::BinaryImageToMalcolmSparseLevelSetAdaptor< InputImageType >
-      BinaryToSparseAdaptorType;
+  typedef itk::MalcolmSparseLevelSetImage< Dimension >      SparseLevelSetType;
+  typedef itk::BinaryImageToSparseLevelSetImageAdaptor< InputImageType, SparseLevelSetType >
+                                                            BinaryToSparseAdaptorType;
 
   typedef itk::IdentifierType                               IdentifierType;
-  typedef BinaryToSparseAdaptorType::LevelSetType           SparseLevelSetType;
 
   typedef itk::LevelSetContainerBase< IdentifierType, SparseLevelSetType >
                                                             LevelSetContainerType;
@@ -119,7 +119,7 @@ int itkSingleLevelSetMalcolmImage2DTest( int argc, char* argv[] )
   adaptor->Initialize();
   std::cout << "Finished converting to sparse format" << std::endl;
 
-  SparseLevelSetType::Pointer level_set = adaptor->GetSparseLevelSet();
+  SparseLevelSetType::Pointer level_set = adaptor->GetLevelSet();
 
   IdListType list_ids;
   list_ids.push_back( 1 );

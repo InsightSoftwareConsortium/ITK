@@ -19,7 +19,7 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkBinaryImageToWhitakerSparseLevelSetAdaptor.h"
+#include "itkBinaryImageToSparseLevelSetImageAdaptor.h"
 
 int itkBinaryImageToWhitakerSparseLevelSetAdaptorTest( int argc, char* argv[] )
 {
@@ -53,8 +53,11 @@ int itkBinaryImageToWhitakerSparseLevelSetAdaptorTest( int argc, char* argv[] )
   InputImageType::Pointer input = reader->GetOutput();
   std::cout << "Input image read" << std::endl;
 
-  typedef itk::BinaryImageToWhitakerSparseLevelSetAdaptor< InputImageType,
-      OutputPixelType > BinaryToSparseAdaptorType;
+  typedef itk::WhitakerSparseLevelSetImage< OutputPixelType, Dimension >
+      LevelSetType;
+
+  typedef itk::BinaryImageToSparseLevelSetImageAdaptor< InputImageType,
+      LevelSetType > BinaryToSparseAdaptorType;
 
   BinaryToSparseAdaptorType::Pointer adaptor = BinaryToSparseAdaptorType::New();
   adaptor->SetInputImage( input );
@@ -62,10 +65,8 @@ int itkBinaryImageToWhitakerSparseLevelSetAdaptorTest( int argc, char* argv[] )
 
   std::cout << "Finished converting to sparse format" << std::endl;
 
-  typedef BinaryToSparseAdaptorType::LevelSetType     SparseLevelSetType;
-  typedef SparseLevelSetType::LayerIdType             LayerIdType;
-  SparseLevelSetType::Pointer sparseLevelSet = adaptor->GetSparseLevelSet();
-
+  typedef LevelSetType::LayerIdType             LayerIdType;
+  LevelSetType::Pointer sparseLevelSet = adaptor->GetLevelSet();
 
   typedef itk::Image< OutputPixelType, Dimension >    OutputImageType;
   OutputImageType::Pointer output = OutputImageType::New();
@@ -132,8 +133,8 @@ int itkBinaryImageToWhitakerSparseLevelSetAdaptorTest( int argc, char* argv[] )
   for( LayerIdType lyr = sparseLevelSet->MinusTwoLayer();
       lyr <= sparseLevelSet->PlusTwoLayer(); lyr ++ )
     {
-    SparseLevelSetType::LayerType layer = sparseLevelSet->GetLayer( lyr );
-    SparseLevelSetType::LayerIterator lIt = layer.begin();
+    LevelSetType::LayerType layer = sparseLevelSet->GetLayer( lyr );
+    LevelSetType::LayerIterator lIt = layer.begin();
 
     std::cout << "*** " << static_cast< int >( lyr ) << " ***" <<std::endl;
 

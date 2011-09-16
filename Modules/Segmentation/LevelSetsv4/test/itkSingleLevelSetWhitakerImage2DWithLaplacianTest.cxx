@@ -28,7 +28,7 @@
 #include "itkLevelSetEquationContainerBase.h"
 #include "itkSinRegularizedHeavisideStepFunction.h"
 #include "itkLevelSetSparseEvolutionBase.h"
-#include "itkBinaryImageToWhitakerSparseLevelSetAdaptor.h"
+#include "itkBinaryImageToSparseLevelSetImageAdaptor.h"
 #include "itkLevelSetEquationCurvatureTerm.h"
 #include "itkLevelSetEquationPropagationTerm.h"
 #include "itkLevelSetEquationLaplacianTerm.h"
@@ -53,11 +53,12 @@ int itkSingleLevelSetWhitakerImage2DWithLaplacianTest( int argc, char* argv[] )
 
   typedef float                                             PixelType;
 
-  typedef itk::BinaryImageToWhitakerSparseLevelSetAdaptor< InputImageType, PixelType >
+  typedef itk::WhitakerSparseLevelSetImage< PixelType, Dimension >
+                                                            SparseLevelSetType;
+  typedef itk::BinaryImageToSparseLevelSetImageAdaptor< InputImageType, SparseLevelSetType >
                                                             BinaryToSparseAdaptorType;
 
   typedef itk::IdentifierType                               IdentifierType;
-  typedef BinaryToSparseAdaptorType::LevelSetType           SparseLevelSetType;
 
   typedef itk::LevelSetContainerBase< IdentifierType, SparseLevelSetType >
                                                             LevelSetContainerType;
@@ -129,7 +130,7 @@ int itkSingleLevelSetWhitakerImage2DWithLaplacianTest( int argc, char* argv[] )
   adaptor->Initialize();
   std::cout << "Finished converting to sparse format" << std::endl;
 
-  SparseLevelSetType::Pointer level_set = adaptor->GetSparseLevelSet();
+  SparseLevelSetType::Pointer level_set = adaptor->GetLevelSet();
 
   IdListType list_ids;
   list_ids.push_back( 1 );

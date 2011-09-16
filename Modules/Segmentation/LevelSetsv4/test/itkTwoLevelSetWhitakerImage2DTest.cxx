@@ -28,7 +28,7 @@
 #include "itkLevelSetEquationContainerBase.h"
 #include "itkSinRegularizedHeavisideStepFunction.h"
 #include "itkLevelSetSparseEvolutionBase.h"
-#include "itkBinaryImageToWhitakerSparseLevelSetAdaptor.h"
+#include "itkBinaryImageToSparseLevelSetImageAdaptor.h"
 #include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"
 #include "itkNumericTraits.h"
 
@@ -50,11 +50,12 @@ int itkTwoLevelSetWhitakerImage2DTest( int argc, char* argv[] )
 
   typedef float                                             PixelType;
 
-  typedef itk::BinaryImageToWhitakerSparseLevelSetAdaptor< InputImageType, PixelType >
+  typedef itk::WhitakerSparseLevelSetImage< PixelType, Dimension >
+                                                            SparseLevelSetType;
+  typedef itk::BinaryImageToSparseLevelSetImageAdaptor< InputImageType, SparseLevelSetType >
                                                             BinaryToSparseAdaptorType;
 
   typedef itk::IdentifierType                               IdentifierType;
-  typedef BinaryToSparseAdaptorType::LevelSetType           SparseLevelSetType;
 
   typedef itk::LevelSetContainerBase< IdentifierType, SparseLevelSetType >
                                                             LevelSetContainerType;
@@ -120,14 +121,14 @@ int itkTwoLevelSetWhitakerImage2DTest( int argc, char* argv[] )
   adaptor0->Initialize();
   std::cout << "Finished converting to sparse format" << std::endl;
 
-  SparseLevelSetType::Pointer level_set0 = adaptor0->GetSparseLevelSet();
+  SparseLevelSetType::Pointer level_set0 = adaptor0->GetLevelSet();
 
   BinaryToSparseAdaptorType::Pointer adaptor1 = BinaryToSparseAdaptorType::New();
   adaptor1->SetInputImage( binary );
   adaptor1->Initialize();
   std::cout << "Finished converting to sparse format" << std::endl;
 
-  SparseLevelSetType::Pointer level_set1 = adaptor1->GetSparseLevelSet();
+  SparseLevelSetType::Pointer level_set1 = adaptor1->GetLevelSet();
 
   // Create a list image specifying both level set ids
   IdListType list_ids;

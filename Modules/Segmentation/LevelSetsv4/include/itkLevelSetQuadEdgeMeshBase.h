@@ -20,6 +20,7 @@
 #define __itkLevelSetQuadEdgeMeshBase_h
 
 #include "itkLevelSetBase.h"
+#include "itkObjectFactory.h"
 
 namespace itk
 {
