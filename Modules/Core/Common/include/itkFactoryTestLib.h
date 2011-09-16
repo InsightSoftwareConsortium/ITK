@@ -20,12 +20,6 @@
 
 #include "itkObjectFactoryBase.h"
 
-#ifdef WIN32
-#define FactoryTestPlugin_EXPORT __declspec(dllexport)
-#else
-#define FactoryTestPlugin_EXPORT
-#endif
-
 /**
  * Routine that is called when the shared library is loaded by
  * itk::ObjectFactoryBase::LoadDynamicFactories().
@@ -33,7 +27,7 @@
  * itkLoad() is C (not C++) function.
  */
 extern "C" {
-    FactoryTestPlugin_EXPORT itk::ObjectFactoryBase* itkLoad();
+    ITK_ABI_EXPORT itk::ObjectFactoryBase* itkLoad();
 }
 
 #endif

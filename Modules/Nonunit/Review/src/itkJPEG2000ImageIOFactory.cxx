@@ -51,9 +51,7 @@ JPEG2000ImageIOFactory::GetDescription() const
 // a factory.
 //
 extern "C"
-#ifdef _WIN32
-__declspec(dllexport)
-#endif
+ITK_ABI_EXPORT
 itk::ObjectFactoryBase * itkLoad()
   {
   std::cout << "Calling JPEG2000ImageIO itkLoad()" << std::endl;

@@ -37,7 +37,7 @@
 #include "itkSmartPointerForwardReference.hxx"
 
 // Manual instantiation is necessary to prevent link errors
-template class itk::SmartPointerForwardReference< itk::ProcessObject >;
+template class ITK_ABI_EXPORT itk::SmartPointerForwardReference< itk::ProcessObject >;
 
 namespace itk
 {

@@ -29,7 +29,7 @@ namespace itk
  *
  * \ingroup ITKIOMesh
  */
-class MeshFileWriterException:public ExceptionObject
+class ITK_ABI_EXPORT MeshFileWriterException:public ExceptionObject
 {
 public:
   /** Run-time information. */

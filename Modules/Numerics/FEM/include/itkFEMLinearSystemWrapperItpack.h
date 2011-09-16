@@ -670,7 +670,7 @@ private:
  * \sa FEMException
  * \ingroup ITKFEM
  */
-class FEMExceptionItpackSolver : public FEMException
+class ITK_ABI_EXPORT FEMExceptionItpackSolver : public FEMException
 {
 public:
   /** typedefs from f2c.h  */

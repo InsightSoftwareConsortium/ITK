@@ -488,7 +488,7 @@ private:
 
 };
 
-class FEMExceptionLinearSystem : public FEMException
+class ITK_ABI_EXPORT FEMExceptionLinearSystem : public FEMException
 {
 public:
   /**
@@ -508,7 +508,7 @@ public:
   itkTypeMacro(FEMExceptionLinearSystem, FEMException);
 };
 
-class FEMExceptionLinearSystemBounds : public FEMException
+class ITK_ABI_EXPORT FEMExceptionLinearSystemBounds : public FEMException
 {
 public:
   /**

@@ -74,16 +74,34 @@
 // checked automatically, by Utilities/Dart/PrintSelfCheck.tcl
 #define ITK_EXPORT
 
-#if ( defined( _WIN32 ) || defined( WIN32 ) ) && !defined( ITKSTATIC )
-#ifdef ITKCommon_EXPORTS
-#define ITKCommon_EXPORT __declspec(dllexport)
+#if defined( _WIN32 ) || defined ( WIN32 )
+  #define ITK_ABI_IMPORT __declspec(dllimport)
+  #define ITK_ABI_EXPORT __declspec(dllexport)
+  #define ITK_ABI_HIDDEN
 #else
-#define ITKCommon_EXPORT __declspec(dllimport)
+  #if __GNUC__ >= 4
+    #define ITK_ABI_IMPORT __attribute__ ((visibility ("default")))
+    #define ITK_ABI_EXPORT __attribute__ ((visibility ("default")))
+    #define ITK_ABI_HIDDEN  __attribute__ ((visibility ("hidden")))
+  #else
+    #define ITK_ABI_IMPORT
+    #define ITK_ABI_EXPORT
+    #define ITK_ABI_HIDDEN
+  #endif
+#endif
+
+#if !defined( ITKSTATIC )
+#ifdef ITKCommon_EXPORTS
+#define ITKCommon_EXPORT ITK_ABI_EXPORT
+#else
+#define ITKCommon_EXPORT ITK_ABI_IMPORT
 #endif  /* ITKCommon_EXPORTS */
+#define ITKCommon_HIDDEN ITK_ABI_HIDDEN
 
 #else
-/* unix needs nothing */
+/* ITKCommon is build as a static lib */
 #define ITKCommon_EXPORT
+#define ITKCommon_HIDDEN
 #endif
 
 #endif
