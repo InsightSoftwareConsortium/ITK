@@ -24,7 +24,7 @@ namespace itk
 {
 /** \class SignedMaurerDistanceMapImageFilter
  *
- *  \brief This filter calculates the squared Euclidean distance transform
+ *  \brief This filter calculates the Euclidean distance transform
  *  of a binary image in linear time for arbitrary dimensions.
  *
  *  \par Inputs and Outputs

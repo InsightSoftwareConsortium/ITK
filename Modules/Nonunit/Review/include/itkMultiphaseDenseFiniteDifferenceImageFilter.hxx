@@ -251,9 +251,9 @@ MultiphaseDenseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
 
       MaurerPointer maurer = MaurerType::New();
       maurer->SetInput( thresh->GetOutput() );
-      maurer->SetSquaredDistance(0);
+      maurer->SetSquaredDistance(false);
       maurer->SetUseImageSpacing(this->m_UseImageSpacing);
-      maurer->SetInsideIsPositive(0);
+      maurer->SetInsideIsPositive(false);
       maurer->Update();
 
       ImageRegionIterator< InputImageType > it (maurer->GetOutput(), region);
