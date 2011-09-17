@@ -30,11 +30,11 @@ void
 ImageRegionExclusionConstIteratorWithIndex< TImage >
 ::SetExclusionRegion(const RegionType & region)
 {
-  if ( !this->m_Region.IsInside(region) )
-    {
-    itkGenericExceptionMacro(<< "Attempt to set a exclusion region that is NOT contained inside the iterator region");
-    }
-  m_ExclusionRegion      = region;
+  // Crop the exclusion region so that it lies entirely within the
+  // iterator region.
+  m_ExclusionRegion = region;
+  m_ExclusionRegion.Crop( this->m_Region );
+
   m_ExclusionBegin       = m_ExclusionRegion.GetIndex();
   SizeType exclusionSize = m_ExclusionRegion.GetSize();
 
@@ -75,24 +75,91 @@ ImageRegionExclusionConstIteratorWithIndex< TImage >
 }
 
 //----------------------------------------------------------------------
-//  Advance along the line
+// Move to beginning of region
 //----------------------------------------------------------------------
 template< class TImage >
-ImageRegionExclusionConstIteratorWithIndex< TImage > &
+void
 ImageRegionExclusionConstIteratorWithIndex< TImage >
-::operator++()
+::GoToBegin()
+{
+  // Check whether exclusion region covers the entire region
+  if ( m_ExclusionRegion == this->m_Region )
+    {
+    this->m_Position = this->m_End;
+    this->m_Remaining = false;
+    return;
+    }
+
+  this->Superclass::GoToBegin();
+
+  // If inside the exclusion region to begin with, jump past it.
+  for ( unsigned int in = 0; in < TImage::ImageDimension; in++ )
+    {
+    if ( m_ExclusionRegion.IsInside( this->m_PositionIndex ) )
+      {
+      if ( m_ExclusionRegion.GetSize()[in] == this->m_Region.GetSize()[in] )
+        {
+        this->m_PositionIndex[in] = this->m_BeginIndex[in];
+        }
+      else
+        {
+        this->m_PositionIndex[in] = m_ExclusionEnd[in];
+        this->m_Position += this->m_OffsetTable[in] * m_ExclusionRegion.GetSize()[in];
+        }
+      }
+    }
+}
+
+//----------------------------------------------------------------------
+// Move to the end of the region
+//----------------------------------------------------------------------
+template< class TImage >
+void
+ImageRegionExclusionConstIteratorWithIndex< TImage >
+::GoToReverseBegin()
+{
+  // Check whether exclusion region covers the entire region
+  if ( m_ExclusionRegion == this->m_Region )
+    {
+    this->m_Position = this->m_End;
+    this->m_Remaining = false;
+    return;
+    }
+
+  this->Superclass::GoToReverseBegin();
+
+  // If inside the exclusion region to begin with, jump past it.
+  for ( unsigned int in = 0; in < TImage::ImageDimension; in++ )
+    {
+    if ( m_ExclusionRegion.IsInside( this->m_PositionIndex ) )
+      {
+      if ( m_ExclusionRegion.GetSize()[in] == this->m_Region.GetSize()[in] )
+        {
+        // The line will be skipped entirely.
+        this->m_PositionIndex[in] = this->m_EndIndex[in] - 1;
+        }
+      else
+        {
+        this->m_PositionIndex[in] = m_ExclusionBegin[in] - 1;
+        this->m_Position -= this->m_OffsetTable[in] * m_ExclusionRegion.GetSize()[in];
+        }
+      }
+    }
+}
+
+//----------------------------------------------------------------------
+//  Advance along the line, disregarding exclusion region
+//----------------------------------------------------------------------
+template< class TImage >
+void
+ImageRegionExclusionConstIteratorWithIndex< TImage >
+::Increment()
 {
   this->m_Remaining = false;
+
   for ( unsigned int in = 0; in < TImage::ImageDimension; in++ )
     {
     this->m_PositionIndex[in]++;
-
-    // if entering the exclusion region... jump over it
-    if ( m_ExclusionRegion.IsInside(this->m_PositionIndex) )
-      {
-      this->m_PositionIndex[in]  = m_ExclusionEnd[in];
-      this->m_Position += this->m_OffsetTable[in] * m_ExclusionRegion.GetSize()[in];
-      }
 
     if ( this->m_PositionIndex[in] < this->m_EndIndex[in] )
       {
@@ -102,7 +169,8 @@ ImageRegionExclusionConstIteratorWithIndex< TImage >
       }
     else
       {
-      this->m_Position -= this->m_OffsetTable[in] * ( static_cast< OffsetValueType >( this->m_Region.GetSize()[in] ) - 1 );
+      this->m_Position -= this->m_OffsetTable[in] *
+        ( static_cast< OffsetValueType >( this->m_Region.GetSize()[in] ) - 1 );
       this->m_PositionIndex[in] = this->m_BeginIndex[in];
       }
     }
@@ -111,40 +179,58 @@ ImageRegionExclusionConstIteratorWithIndex< TImage >
     {
     this->m_Position = this->m_End;
     }
+}
+
+//----------------------------------------------------------------------
+//  Advance along the line, skipping the exclusion region
+//----------------------------------------------------------------------
+template< class TImage >
+ImageRegionExclusionConstIteratorWithIndex< TImage > &
+ImageRegionExclusionConstIteratorWithIndex< TImage >
+::operator++()
+{
+  this->Increment();
+
+  while ( m_ExclusionRegion.IsInside( this->m_PositionIndex ) && this->m_Remaining )
+    {
+    // Entered the exclusion region, so jump across it
+    this->m_Position += this->m_OffsetTable[0] *
+      ( static_cast< OffsetValueType >( m_ExclusionRegion.GetSize()[0] ) );
+    this->m_PositionIndex[0] = m_ExclusionEnd[0];
+    if ( this->m_PositionIndex[0] == this->m_EndIndex[0] )
+      {
+      this->m_Position -= this->m_OffsetTable[0];
+      this->Increment();
+      }
+    }
 
   return *this;
 }
 
 //----------------------------------------------------------------------
-//  Advance along the line in reverse direction
+//  Advance along the line in reverse direction, disregarding
+//  exclusion region
 //----------------------------------------------------------------------
 template< class TImage >
-ImageRegionExclusionConstIteratorWithIndex< TImage > &
+void
 ImageRegionExclusionConstIteratorWithIndex< TImage >
-::operator--()
+::Decrement()
 {
   this->m_Remaining = false;
   for ( unsigned int in = 0; in < TImage::ImageDimension; in++ )
     {
-    if ( this->m_PositionIndex[in] > this->m_BeginIndex[in] )
+    this->m_PositionIndex[in]--;
+
+    if ( this->m_PositionIndex[in] >= this->m_BeginIndex[in] )
       {
-      this->m_PositionIndex[in]--;
       this->m_Position -= this->m_OffsetTable[in];
-
-      // if entering the exclusion region... jump over it
-      if ( m_ExclusionRegion.IsInside(this->m_PositionIndex) )
-        {
-        this->m_PositionIndex[in]  = m_ExclusionBegin[in] - 1;
-        this->m_Position -= this->m_OffsetTable[in] * m_ExclusionRegion.GetSize()[in];
-        }
-
       this->m_Remaining = true;
       break;
       }
     else
       {
-      this->m_PositionIndex[in]--;
-      this->m_Position += this->m_OffsetTable[in] * ( static_cast< OffsetValueType >( this->m_Region.GetSize()[in] ) - 1 );
+      this->m_Position += this->m_OffsetTable[in] *
+        ( static_cast< OffsetValueType >( this->m_Region.GetSize()[in] ) - 1 );
       this->m_PositionIndex[in] = this->m_EndIndex[in] - 1;
       }
     }
@@ -153,9 +239,35 @@ ImageRegionExclusionConstIteratorWithIndex< TImage >
     {
     this->m_Position = this->m_End;
     }
+}
+
+//----------------------------------------------------------------------
+//  Advance along the line in reverse direction, skipping exclusion region
+//----------------------------------------------------------------------
+template< class TImage >
+ImageRegionExclusionConstIteratorWithIndex< TImage > &
+ImageRegionExclusionConstIteratorWithIndex< TImage >
+::operator--()
+{
+  this->Decrement();
+
+  while ( m_ExclusionRegion.IsInside( this->m_PositionIndex ) && this->m_Remaining )
+    {
+    // Entered the exclusion region, so jump across it
+    this->m_Position -= this->m_OffsetTable[0] *
+      ( static_cast< OffsetValueType >( m_ExclusionRegion.GetSize()[0] ) );
+    this->m_PositionIndex[0] = m_ExclusionBegin[0] - 1;
+    if ( this->m_PositionIndex[0] < this->m_BeginIndex[0] )
+      {
+      this->m_Position += this->m_OffsetTable[0];
+      this->Decrement();
+      }
+    }
 
   return *this;
 }
+
+
 } // end namespace itk
 
 #endif
