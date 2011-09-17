@@ -50,7 +50,7 @@ SignedDanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage
   //Default values
   this->m_SquaredDistance     = false;  //Should we remove this ?
                                         //doesn't make sense in a SignedDaniel
-  this->m_UseImageSpacing     = false;
+  this->m_UseImageSpacing     = true;
   this->m_InsideIsPositive    = false;
 }
 
