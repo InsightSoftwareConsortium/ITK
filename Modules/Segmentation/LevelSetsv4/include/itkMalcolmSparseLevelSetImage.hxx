@@ -81,15 +81,6 @@ MalcolmSparseLevelSetImage< VDimension >::Evaluate( const InputType& iP ) const
 
 // ----------------------------------------------------------------------------
 template< unsigned int VDimension >
-typename MalcolmSparseLevelSetImage< VDimension >::GradientType
-MalcolmSparseLevelSetImage< VDimension >
-::EvaluateGradient( const InputType& iP ) const
-{
-  return Superclass::EvaluateGradient( iP );
-}
-
-// ----------------------------------------------------------------------------
-template< unsigned int VDimension >
 typename MalcolmSparseLevelSetImage< VDimension >::HessianType
 MalcolmSparseLevelSetImage< VDimension >
 ::EvaluateHessian( const InputType& iP ) const
@@ -145,43 +136,6 @@ MalcolmSparseLevelSetImage< VDimension >
 template< unsigned int VDimension >
 void
 MalcolmSparseLevelSetImage< VDimension >
-::Evaluate( const InputType& iP, LevelSetDataType& ioData ) const
-{
-  Superclass::Evaluate( iP, ioData );
-}
-
-// ----------------------------------------------------------------------------
-template< unsigned int VDimension >
-void
-MalcolmSparseLevelSetImage< VDimension >
-::EvaluateGradient( const InputType& iP, LevelSetDataType& ioData ) const
-{
-  Superclass::EvaluateGradient( iP, ioData );
-}
-
-// ----------------------------------------------------------------------------
-template< unsigned int VDimension >
-void
-MalcolmSparseLevelSetImage< VDimension >
-::EvaluateBackwardGradient( const InputType& iP, LevelSetDataType& ioData ) const
-{
-  Superclass::EvaluateBackwardGradient( iP, ioData );
-}
-
-// ----------------------------------------------------------------------------
-template< unsigned int VDimension >
-void
-MalcolmSparseLevelSetImage< VDimension >
-::EvaluateForwardGradient( const InputType& iP, LevelSetDataType& ioData ) const
-{
-  Superclass::EvaluateForwardGradient( iP, ioData );
-}
-
-
-// ----------------------------------------------------------------------------
-template< unsigned int VDimension >
-void
-MalcolmSparseLevelSetImage< VDimension >
 ::EvaluateHessian( const InputType& iP, LevelSetDataType& ioData ) const
 {
   (void) iP;
@@ -191,11 +145,7 @@ MalcolmSparseLevelSetImage< VDimension >
     return;
     }
 
-  itkGenericExceptionMacro( <<"The approximation of the hessian in the Malcolm's"
-                            <<" representation is poor, and far to be representative."
-                            <<" If it was required for regularization purpose, "
-                            <<" you better check recommended regularization methods"
-                            <<" for Malcolm's representation" );
+  ioData.Hessian.m_Value = this->EvaluateHessian( iP );
 
   ioData.Hessian.m_Computed = true;
 }
@@ -206,18 +156,12 @@ void
 MalcolmSparseLevelSetImage< VDimension >
 ::EvaluateLaplacian( const InputType& iP, LevelSetDataType& ioData ) const
 {
-  (void) iP;
-
   if( !ioData.Laplacian.m_Computed )
     {
     return;
     }
 
-  itkGenericExceptionMacro( <<"The approximation of the hessian in the Malcolm's"
-                            <<" representation is poor, and far to be representative."
-                            <<" If it was required for regularization purpose, "
-                            <<" you better check recommended regularization methods"
-                            <<" for Malcolm's representation" );
+  ioData.Laplacian.m_Value = this->EvaluateLaplacian( iP );
 
   ioData.Laplacian.m_Computed = true;
 }
@@ -228,19 +172,12 @@ void
 MalcolmSparseLevelSetImage< VDimension >
 ::EvaluateMeanCurvature( const InputType& iP, LevelSetDataType& ioData ) const
 {
-  (void) iP;
-
   if( !ioData.MeanCurvature.m_Computed )
     {
     return;
     }
 
-  itkGenericExceptionMacro( <<"The approximation of the hessian in the Malcolm's"
-                            <<" representation is poor, and far to be representative."
-                            <<" If it was required for regularization purpose, "
-                            <<" you better check recommended regularization methods"
-                            <<" for Malcolm's representation" );
-
+  ioData.MeanCurvature.m_Value = this->EvaluateMeanCurvature( iP );
   ioData.MeanCurvature.m_Computed = true;
 }
 
