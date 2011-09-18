@@ -85,14 +85,6 @@ WhitakerSparseLevelSetImage< TOutput, VDimension >
     return this->PlusThreeLayer();
     }
 }
-// ----------------------------------------------------------------------------
-template< typename TOutput, unsigned int VDimension >
-void
-WhitakerSparseLevelSetImage< TOutput, VDimension >
-::Evaluate(const InputType &iP, LevelSetDataType &ioData) const
-{
-  Superclass::Evaluate( iP, ioData );
-}
 
 // ----------------------------------------------------------------------------
 template< typename TOutput, unsigned int VDimension >

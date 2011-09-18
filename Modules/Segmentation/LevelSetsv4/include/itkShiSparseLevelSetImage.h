@@ -78,10 +78,8 @@ public:
   typedef typename Superclass::LayerMapConstIterator  LayerMapConstIterator;
 
   /** Returns the value of the level set function at a given location iP */
+  using Superclass::Evaluate;
   virtual OutputType Evaluate( const InputType& iP ) const;
-
-  /** Returns the gradient of the level set function at a given location iP */
-  virtual GradientType  EvaluateGradient( const InputType& iP ) const;
 
   /** Returns the Hessian of the level set function at a given location iP */
   virtual HessianType EvaluateHessian( const InputType& iP ) const;
@@ -92,21 +90,9 @@ public:
   /** Returns the Laplacian of the level set function at a given location iP */
   virtual OutputRealType EvaluateMeanCurvature( const InputType& iP ) const;
 
-  virtual void Evaluate( const InputType& iP, LevelSetDataType& ioData ) const;
-  virtual void EvaluateGradient( const InputType& iP, LevelSetDataType& ioData ) const;
   virtual void EvaluateHessian( const InputType& iP, LevelSetDataType& ioData ) const;
   virtual void EvaluateLaplacian( const InputType& iP, LevelSetDataType& ioData ) const;
   virtual void EvaluateMeanCurvature( const InputType& iP, LevelSetDataType& ioData ) const;
-
-  /** Returns the gradient of the level set function at a given location iP
-   * as part of the LevelSetDataType
-   * \todo to be implemented */
-  virtual void EvaluateForwardGradient( const InputType& iP, LevelSetDataType& ioData ) const;
-
-  /** Returns the gradient of the level set function at a given location iP
-   * as part of the LevelSetDataType
-   * \todo to be implemented */
-  virtual void EvaluateBackwardGradient( const InputType& iP, LevelSetDataType& ioData ) const;
 
   static inline LayerIdType MinusThreeLayer() { return -3; }
   static inline LayerIdType MinusOneLayer() { return -1; }

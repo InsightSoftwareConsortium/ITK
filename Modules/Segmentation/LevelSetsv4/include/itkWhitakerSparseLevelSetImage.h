@@ -81,9 +81,8 @@ public:
   typedef typename Superclass::LayerMapConstIterator  LayerMapConstIterator;
 
   /** Returns the value of the level set function at a given location iP */
+  using Superclass::Evaluate;
   virtual OutputType Evaluate( const InputType& iP ) const;
-
-  virtual void Evaluate( const InputType& iP, LevelSetDataType& ioData ) const;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */

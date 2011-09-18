@@ -81,15 +81,6 @@ ShiSparseLevelSetImage< VDimension >
 
 // ----------------------------------------------------------------------------
 template< unsigned int VDimension >
-typename ShiSparseLevelSetImage< VDimension >::GradientType
-ShiSparseLevelSetImage< VDimension >
-::EvaluateGradient( const InputType& iP ) const
-{
-  return Superclass::EvaluateGradient( iP );
-}
-
-// ----------------------------------------------------------------------------
-template< unsigned int VDimension >
 typename ShiSparseLevelSetImage< VDimension >::HessianType
 ShiSparseLevelSetImage< VDimension >
 ::EvaluateHessian( const InputType& itkNotUsed( iP ) ) const
@@ -115,8 +106,9 @@ ShiSparseLevelSetImage< VDimension >
                             <<" If it was required for regularization purpose, "
                             <<" you better check recommended regularization methods"
                             <<" for Shi's representation" );
-  OutputRealType oLaplacian;
-  oLaplacian = NumericTraits< OutputRealType >::Zero;
+
+  OutputRealType oLaplacian = NumericTraits< OutputRealType >::Zero;
+
   return oLaplacian;
 }
 
@@ -131,27 +123,9 @@ ShiSparseLevelSetImage< VDimension >
                             <<" If it was required for regularization purpose, "
                             <<" you better check recommended regularization methods"
                             <<" for Shi's representation" );
-  OutputRealType oMeanCurvature;
-  oMeanCurvature = NumericTraits< OutputRealType >::Zero;
+
+  OutputRealType oMeanCurvature = NumericTraits< OutputRealType >::Zero;
   return oMeanCurvature;
-}
-
-// ----------------------------------------------------------------------------
-template< unsigned int VDimension >
-void
-ShiSparseLevelSetImage< VDimension >
-::Evaluate( const InputType& iP, LevelSetDataType& ioData ) const
-{
-  Superclass::Evaluate( iP, ioData );
-}
-
-// ----------------------------------------------------------------------------
-template< unsigned int VDimension >
-void
-ShiSparseLevelSetImage< VDimension >
-::EvaluateGradient( const InputType& iP, LevelSetDataType& ioData ) const
-{
-  Superclass::EvaluateGradient( iP, ioData );
 }
 
 // ----------------------------------------------------------------------------
@@ -160,19 +134,12 @@ void
 ShiSparseLevelSetImage< VDimension >
 ::EvaluateHessian( const InputType& iP, LevelSetDataType& ioData ) const
 {
-  (void) iP;
-
   if( ioData.Hessian.m_Computed )
     {
     return;
     }
 
-  itkGenericExceptionMacro( <<"The approximation of the hessian in the Shi's"
-                            <<" representation is poor, and far to be representative."
-                            <<" If it was required for regularization purpose, "
-                            <<" you better check recommended regularization methods"
-                            <<" for Shi's representation" );
-
+  ioData.Hessian.m_Value = this->EvaluateHessian( iP );
   ioData.Hessian.m_Computed = true;
 }
 
@@ -182,19 +149,12 @@ void
 ShiSparseLevelSetImage< VDimension >
 ::EvaluateLaplacian( const InputType& iP, LevelSetDataType& ioData ) const
 {
-  (void) iP;
-
   if( ioData.Laplacian.m_Computed )
     {
     return;
     }
 
-  itkGenericExceptionMacro( <<"The approximation of the hessian in the Shi's"
-                            <<" representation is poor, and far to be representative."
-                            <<" If it was required for regularization purpose, "
-                            <<" you better check recommended regularization methods"
-                            <<" for Shi's representation" );
-
+  ioData.Laplacian.m_Value = this->EvaluateLaplacian( iP );
   ioData.Laplacian.m_Computed = true;
 }
 
@@ -204,19 +164,12 @@ void
 ShiSparseLevelSetImage< VDimension >
 ::EvaluateMeanCurvature( const InputType& iP, LevelSetDataType& ioData ) const
 {
-  (void) iP;
-
   if( ioData.MeanCurvature.m_Computed )
     {
     return;
     }
 
-  itkGenericExceptionMacro( <<"The approximation of the hessian in the Shi's"
-                            <<" representation is poor, and far to be representative."
-                            <<" If it was required for regularization purpose, "
-                            <<" you better check recommended regularization methods"
-                            <<" for Shi's representation" );
-
+  ioData.MeanCurvature.m_Value = this->EvaluateMeanCurvature( iP );
   ioData.MeanCurvature.m_Computed = true;
 }
 
@@ -229,94 +182,6 @@ ShiSparseLevelSetImage< VDimension >::InitializeLayers()
   this->m_Layers.clear();
   this->m_Layers[ MinusOneLayer() ] = LayerType();
   this->m_Layers[ PlusOneLayer()  ] = LayerType();
-}
-
-// ----------------------------------------------------------------------------
-template< unsigned int VDimension >
-void
-ShiSparseLevelSetImage< VDimension >
-::EvaluateForwardGradient( const InputType& iP, LevelSetDataType& ioData ) const
-{
-  if( ioData.ForwardGradient.m_Computed )
-    {
-    return;
-    }
-
-  // compute the gradient
-  if( !ioData.Value.m_Computed )
-    {
-    ioData.Value.m_Value = this->Evaluate( iP );
-    ioData.Value.m_Computed = true;
-    }
-
-  const OutputRealType center_value =
-    static_cast< OutputRealType >( ioData.Value.m_Value );
-
-  InputType pA = iP;
-
-  GradientType dx;
-
-  const RegionType largestRegion = this->m_LabelMap->GetLargestPossibleRegion();
-
-  for( unsigned int dim = 0; dim < Dimension; dim++ )
-    {
-    pA[dim] += 1;
-
-    const OutputRealType valueA = static_cast< OutputRealType >( this->Evaluate( pA ) );
-    const OutputRealType scale = this->m_NeighborhoodScales[dim];
-
-    dx[dim] = ( valueA - center_value ) * scale;
-
-    pA[dim] = iP[dim];
-    }
-
-  ioData.ForwardGradient.m_Value = dx;
-
-  ioData.ForwardGradient.m_Computed = true;
-}
-
-// ----------------------------------------------------------------------------
-template< unsigned int VDimension >
-void
-ShiSparseLevelSetImage< VDimension >
-::EvaluateBackwardGradient( const InputType& iP, LevelSetDataType& ioData ) const
-{
-  if( ioData.BackwardGradient.m_Computed )
-    {
-    return;
-    }
-
-  // compute the gradient
-  if( !ioData.Value.m_Computed )
-    {
-    ioData.Value.m_Value = this->Evaluate( iP );
-    ioData.Value.m_Computed = true;
-    }
-
-  const OutputRealType center_value =
-    static_cast< OutputRealType >( ioData.Value.m_Value );
-
-  InputType pA = iP;
-
-  GradientType dx;
-
-  const RegionType largestRegion = this->m_LabelMap->GetLargestPossibleRegion();
-
-  for( unsigned int dim = 0; dim < Dimension; dim++ )
-    {
-    pA[dim] -= 1;
-
-    const OutputRealType valueA = static_cast< OutputRealType >( this->Evaluate( pA ) );
-    const OutputRealType scale = this->m_NeighborhoodScales[dim];
-
-    dx[dim] = ( center_value - valueA ) * scale;
-
-    pA[dim] = iP[dim];
-    }
-
-  ioData.BackwardGradient.m_Value = dx;
-
-  ioData.BackwardGradient.m_Computed = true;
 }
 
 }
