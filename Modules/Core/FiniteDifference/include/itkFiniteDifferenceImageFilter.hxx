@@ -29,7 +29,7 @@ template< class TInputImage, class TOutputImage >
 FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 ::FiniteDifferenceImageFilter()
 {
-  m_UseImageSpacing    = false;
+  m_UseImageSpacing    = true;
   m_ElapsedIterations  = 0;
   m_DifferenceFunction = 0;
   m_NumberOfIterations = NumericTraits< IdentifierType >::max();

@@ -264,7 +264,7 @@ public:
   itkGetConstReferenceMacro(NumberOfIterations, unsigned int);
 
   /** Use the image spacing information in calculations. Use this option if you
-   *  want derivatives in physical space. Default is UseImageSpacingOff. */
+   *  want derivatives in physical space. Default is UseImageSpacingOn. */
   itkSetMacro(UseImageSpacing, bool);
   itkBooleanMacro(UseImageSpacing);
   itkGetConstReferenceMacro(UseImageSpacing, bool);
