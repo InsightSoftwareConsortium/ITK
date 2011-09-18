@@ -68,7 +68,7 @@ VectorGradientMagnitudeImageFilter< TInputImage, TRealType, TOutputImage >
 {
   unsigned int i;
 
-  m_UseImageSpacing = false;
+  m_UseImageSpacing = true;
   m_UsePrincipleComponents = true;
   m_RequestedNumberOfThreads = this->GetNumberOfThreads();
   for ( i = 0; i < ImageDimension; i++ )

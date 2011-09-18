@@ -34,7 +34,7 @@ template< typename TInputImage, typename TRealType, typename TOutputImage >
 DisplacementFieldJacobianDeterminantFilter< TInputImage, TRealType, TOutputImage >
 ::DisplacementFieldJacobianDeterminantFilter()
 {
-  m_UseImageSpacing = false;
+  m_UseImageSpacing = true;
   m_RequestedNumberOfThreads = this->GetNumberOfThreads();
   m_NeighborhoodRadius.Fill(1);
   m_DerivativeWeights.Fill(1.0);
@@ -46,6 +46,10 @@ void
 DisplacementFieldJacobianDeterminantFilter< TInputImage, TRealType, TOutputImage >
 ::SetDerivativeWeights(const WeightsType & data)
 {
+  //If the user provides their own derivative
+  //weights, then it is assumed that the
+  //user is accomodating image spacing
+  //internal to their weight settings.
   m_UseImageSpacing = false;
 
   for ( unsigned int i = 0; i < ImageDimension; ++i )

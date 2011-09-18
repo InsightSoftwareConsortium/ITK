@@ -86,8 +86,8 @@ namespace itk
  * scaled (inversely) with the pixel size of the input image, effectively
  * taking derivatives in world coordinates (versus isotropic image
  * space). SetUseImageSpacingOff turns this functionality off.  Default is
- * UseImageSpacingOff (all weights are 1.0).  The parameter UseImageSpacing can
- * be set directly with the method SetUseImageSpacing(bool).
+ * UseImageSpacingOn.  The parameter UseImageSpacing can be set
+ * directly with the method SetUseImageSpacing(bool).
  *
  * Weights can be applied to the derivatives directly using the
  * SetDerivativeWeights method.  Note that if UseImageSpacing is set to TRUE
@@ -197,13 +197,14 @@ public:
 
   /** Set the derivative weights according to the spacing of the input image
       (1/spacing). Use this option if you want to calculate the gradient in the
-      space in which the data was acquired. */
+      space in which the data was acquired. Default is
+      ImageSpacingOn. */
   void SetUseImageSpacingOn()
   { this->SetUseImageSpacing(true); }
 
   /** Reset the derivative weights to ignore image spacing.  Use this option if
       you want to calculate the gradient in the image space.  Default is
-      ImageSpacingOff. */
+      ImageSpacingOn. */
   void SetUseImageSpacingOff()
   { this->SetUseImageSpacing(false); }
 
