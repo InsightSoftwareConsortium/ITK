@@ -15,39 +15,42 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkForwardFFTImageFilter_h
-#define __itkForwardFFTImageFilter_h
+#ifndef __itkRealToHalfHermitianForwardFFTImageFilter_h
+#define __itkRealToHalfHermitianForwardFFTImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
 namespace itk
 {
-/** \class ForwardFFTImageFilter
+/** \class RealToHalfHermitianForwardFFTImageFilter
  *
- * \brief Base class for forward Fast Fourier Transform.
+ * \brief Base class for specialized real-to-complex forward Fast Fourier Transform.
  *
  * This is a base class for the "forward" or "direct" discrete Fourier
- * Transform.  This is an abstract base class: the actual
- * implementation is provided by the best child class available on the
- * system when the object is created via the object factory system.
+ * Transform.  This is an abstract base class: the actual implementation is
+ * provided by the best child class available on the system when the object is
+ * created via the object factory system.
  *
- * This class transforms a real input image into its full complex Fourier
+ * This class transforms a real input image into its complex Fourier
  * transform.  The Fourier transform of a real input image has
  * Hermitian symmetry: \f$ f(\mathbf{x}) = f^*(-\mathbf{x}) \f$. That
  * is, when the result of the transform is split in half along the
- * x-dimension, the values in the second half of the transform are the
+ * X-dimension, the values in the second half of the transform are the
  * complex conjugates of values in the first half reflected about the
- * center of the image in each dimension.
- *
- * This filter works only for real single-component input image types.
+ * center of the image in each dimension. This filter takes advantage
+ * of the Hermitian symmetry property and reduces the size of the
+ * output in the first dimention to N/2+1, where N is the size of the
+ * input image in that dimension and the division by 2 is rounded
+ * down.
  *
  * \ingroup FourierTransform
  *
- * \sa InverseFFTImageFilter, FFTComplexToComplexImageFilter
+ * \sa HalfHermitianToRealInverseFFTImageFilter
+ * \sa ForwardFFTImageFilter
  * \ingroup ITKFFT
  */
 template< class TInputImage, class TOutputImage=Image< std::complex<typename TInputImage::PixelType>, TInputImage::ImageDimension> >
-class ITK_EXPORT ForwardFFTImageFilter:
+class ITK_EXPORT RealToHalfHermitianForwardFFTImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
@@ -61,7 +64,7 @@ public:
   typedef typename OutputImageType::IndexType  OutputIndexType;
   typedef typename OutputIndexType::SizeType   OutputSizeType;
 
-  typedef ForwardFFTImageFilter                                 Self;
+  typedef RealToHalfHermitianForwardFFTImageFilter              Self;
   typedef ImageToImageFilter< InputImageType, OutputImageType > Superclass;
   typedef SmartPointer< Self >                                  Pointer;
   typedef SmartPointer< const Self >                            ConstPointer;
@@ -73,8 +76,12 @@ public:
   static Pointer New(void);
 
 protected:
-  ForwardFFTImageFilter() {}
-  virtual ~ForwardFFTImageFilter() {}
+  RealToHalfHermitianForwardFFTImageFilter() {}
+  virtual ~RealToHalfHermitianForwardFFTImageFilter() {}
+
+  /** The output is a different size from the input because of
+   * Hermitian symmetry. */
+  virtual void GenerateOutputInformation();
 
   /** This class requires the entire input. */
   virtual void GenerateInputRequestedRegion();
@@ -83,17 +90,17 @@ protected:
   virtual void EnlargeOutputRequestedRegion(DataObject *output);
 
 private:
-  ForwardFFTImageFilter(const Self &); // purposely not implemented
+  RealToHalfHermitianForwardFFTImageFilter(const Self &); // purposely not implemented
   void operator=(const Self &);        // purposely not implemented
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#ifndef __itkVnlForwardFFTImageFilter_h
-#ifndef __itkVnlForwardFFTImageFilter_hxx
-#ifndef __itkFFTWForwardFFTImageFilter_h
-#ifndef __itkFFTWForwardFFTImageFilter_hxx
-#include "itkForwardFFTImageFilter.hxx"
+#ifndef __itkVnlRealToHalfHermitianForwardFFTImageFilter_h
+#ifndef __itkVnlRealToHalfHermitianForwardFFTImageFilter_hxx
+#ifndef __itkFFTWRealToHalfHermitianForwardFFTImageFilter_h
+#ifndef __itkFFTWRealToHalfHermitianForwardFFTImageFilter_hxx
+#include "itkRealToHalfHermitianForwardFFTImageFilter.hxx"
 #endif
 #endif
 #endif

@@ -15,27 +15,23 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFFTWForwardFFTImageFilter_h
-#define __itkFFTWForwardFFTImageFilter_h
+#ifndef __itkFFTWHalfHermitianToRealInverseFFTImageFilter_h
+#define __itkFFTWHalfHermitianToRealInverseFFTImageFilter_h
 
-#include "itkForwardFFTImageFilter.h"
+#include "itkHalfHermitianToRealInverseFFTImageFilter.h"
 
 #include "itkFFTWCommon.h"
 
 namespace itk
 {
-/** \class FFTWForwardFFTImageFilter
+/** \class FFTWHalfHermitianToRealInverseFFTImageFilter
  *
- * \brief FFTW-based forward Fast Fourier Transform.
+ * \brief FFTW-based reverse Fast Fourier Transform
  *
- * This filter computes the forward Fourier transform of an image. The
+ * This filter computes the reverse Fourier transform of an image. The
  * implementation is based on the FFTW library.
  *
  * This filter is multithreaded and supports input images of any size.
- *
- * In order to use this class, USE_FFTWF must be set to ON in the CMake
- * configuration to support float images, and USE_FFTWD must set to ON to
- * support double images.
  *
  * This implementation was taken from the Insight Journal paper:
  * http://hdl.handle.net/10380/3154
@@ -48,11 +44,11 @@ namespace itk
  * \ingroup ITKFFT
  *
  * \sa FFTWGlobalConfiguration
- * \sa ForwardFFTImageFilter
+ * \sa InverseFFTImageFilter
  */
-template< class TInputImage, class TOutputImage=Image< std::complex<typename TInputImage::PixelType>, TInputImage::ImageDimension> >
-class ITK_EXPORT FFTWForwardFFTImageFilter:
-  public ForwardFFTImageFilter< TInputImage, TOutputImage >
+template< class TInputImage, class TOutputImage=Image< typename TInputImage::PixelType::value_type, TInputImage::ImageDimension> >
+class ITK_EXPORT FFTWHalfHermitianToRealInverseFFTImageFilter:
+  public HalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
@@ -61,26 +57,27 @@ public:
   typedef typename InputImageType::SizeType    InputSizeType;
   typedef TOutputImage                         OutputImageType;
   typedef typename OutputImageType::PixelType  OutputPixelType;
+  typedef typename OutputImageType::RegionType OutputRegionType;
   typedef typename OutputImageType::SizeType   OutputSizeType;
 
-  typedef FFTWForwardFFTImageFilter                          Self;
-  typedef ForwardFFTImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                               Pointer;
-  typedef SmartPointer< const Self >                         ConstPointer;
+  typedef FFTWHalfHermitianToRealInverseFFTImageFilter                                Self;
+  typedef HalfHermitianToRealInverseFFTImageFilter< InputImageType, OutputImageType > Superclass;
+  typedef SmartPointer< Self >                                                      Pointer;
+  typedef SmartPointer< const Self >                                                ConstPointer;
 
-  /** The proxy type is a wrapper for the FFTW API. Because the proxy
-   * is defined only for double and float, trying to use any other
-   * pixel type is unsupported, as is trying to use double if only the
-   * float FFTW version is configured in, or float if only double is
+  /** The proxy type is a wrapper for the FFTW API since the proxy is
+   * only defined over double and float, trying to use any other pixel
+   * type is unsupported, as is trying to use double if only the float
+   * FFTW version is configured in, or float if only double is
    * configured. */
-  typedef typename fftw::Proxy< InputPixelType > FFTWProxyType;
+  typedef typename fftw::Proxy< OutputPixelType > FFTWProxyType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FFTWForwardFFTImageFilter,
-               ForwardFFTImageFilter);
+  itkTypeMacro(FFTWHalfHermitianToRealInverseFFTImageFilter,
+               HalfHermitianToRealInverseFFTImageFilter);
 
   /** Define the image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int, InputImageType::ImageDimension);
@@ -90,12 +87,11 @@ public:
    *
    * The parameter is one of the FFTW planner rigor flags FFTW_ESTIMATE, FFTW_MEASURE,
    * FFTW_PATIENT, FFTW_EXHAUSTIVE provided by FFTWGlobalConfiguration.
-   *
    * /sa FFTWGlobalConfiguration
    */
   virtual void SetPlanRigor( const int & value )
   {
-    // Use that method to check the value
+    // Use that method to check the value.
     FFTWGlobalConfiguration::GetPlanRigorName( value );
     if( m_PlanRigor != value )
       {
@@ -104,29 +100,39 @@ public:
       }
   }
   itkGetConstReferenceMacro( PlanRigor, int );
+  void SetPlanRigor( const std::string & name )
+  {
+    this->SetPlanRigor( FFTWGlobalConfiguration::GetPlanRigorValue( name ) );
+  }
 
 protected:
-  FFTWForwardFFTImageFilter();
-  ~FFTWForwardFFTImageFilter() {}
-
-  virtual void GenerateData();
+  FFTWHalfHermitianToRealInverseFFTImageFilter();
+  virtual ~FFTWHalfHermitianToRealInverseFFTImageFilter() {}
 
   virtual void UpdateOutputData(DataObject *output);
+
+  virtual void BeforeThreadedGenerateData();
+
+  void ThreadedGenerateData(const OutputRegionType& outputRegionForThread,
+                            ThreadIdType threadId);
 
   void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  FFTWForwardFFTImageFilter(const Self&); // purposely not implemented
-  void operator=(const Self&);            // purposely not implemented
+  FFTWHalfHermitianToRealInverseFFTImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
   bool m_CanUseDestructiveAlgorithm;
 
   int m_PlanRigor;
+
 };
+
+
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFFTWForwardFFTImageFilter.hxx"
+#include "itkFFTWHalfHermitianToRealInverseFFTImageFilter.hxx"
 #endif
 
-#endif //__itkFFTWForwardFFTImageFilter_h
+#endif //__itkFFTWHalfHermitianToRealInverseFFTImageFilter_h

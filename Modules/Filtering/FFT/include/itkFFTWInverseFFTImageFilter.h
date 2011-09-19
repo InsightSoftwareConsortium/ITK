@@ -26,10 +26,10 @@ namespace itk
 {
 /** \class FFTWInverseFFTImageFilter
  *
- * \brief FFTW based reverse Fast Fourier Transform
+ * \brief FFTW-based inverse Fast Fourier Transform
  *
- * This filter computes the reverse Fourier transform of an image. The implementation is
- * based on the FFTW library.
+ * This filter computes the inverse Fourier transform of an image. The
+ * implementation is based on the FFTW library.
  *
  * This filter is multithreaded and supports input images of any size.
  *
@@ -82,9 +82,6 @@ public:
   /** Define the image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int, InputImageType::ImageDimension);
 
-  /** These should be defined in every FFT filter class. */
-  virtual bool FullMatrix();
-
   /** Set/Get the behavior of wisdom plan creation. The default is
    * provided by FFTWGlobalConfiguration::GetPlanRigor().
    *
@@ -112,8 +109,6 @@ protected:
   FFTWInverseFFTImageFilter();
   virtual ~FFTWInverseFFTImageFilter() {}
 
-  virtual void UpdateOutputData(DataObject *output);
-
   virtual void BeforeThreadedGenerateData();
 
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId );
@@ -123,8 +118,6 @@ protected:
 private:
   FFTWInverseFFTImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
-  bool m_CanUseDestructiveAlgorithm;
 
   int m_PlanRigor;
 

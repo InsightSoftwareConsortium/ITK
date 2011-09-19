@@ -18,30 +18,14 @@
 #ifndef __itkVnlForwardFFTImageFilter_hxx
 #define __itkVnlForwardFFTImageFilter_hxx
 
-#include "itkVnlForwardFFTImageFilter.h"
+#include "itkImageRegionIteratorWithIndex.h"
 #include "itkForwardFFTImageFilter.hxx"
 #include "itkProgressReporter.h"
+#include "itkVnlFFTCommon.h"
+#include "itkVnlForwardFFTImageFilter.h"
 
 namespace itk
 {
-
-template< class TInputImage, class TOutputImage >
-bool VnlForwardFFTImageFilter< TInputImage, TOutputImage >
-::IsDimensionSizeLegal(InputSizeValueType n)
-{
-  int ifac = 2;
-
-  for ( int l = 1; l <= 3; l++ )
-    {
-    for (; n % ifac == 0; )
-      {
-      n /= ifac;
-      }
-    ifac += l;
-    }
-  return ( n == 1 ); // return false if decomposition failed
-}
-
 
 template< class TInputImage, class TOutputImage >
 void
@@ -65,12 +49,11 @@ VnlForwardFFTImageFilter< TInputImage, TOutputImage >
 
   outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
   outputPtr->Allocate();
-  OutputPixelType *out = outputPtr->GetBufferPointer();
 
   unsigned int vectorSize = 1;
   for ( unsigned int i = 0; i < ImageDimension; i++ )
     {
-    if ( !this->IsDimensionSizeLegal( inputSize[i] ) )
+    if ( !VnlFFTCommon::IsDimensionSizeLegal( inputSize[i] ) )
       {
       itkExceptionMacro(<< "Cannot compute FFT of image with size "
                         << inputSize << ". VnlForwardFFTImageFilter operates "
@@ -88,22 +71,18 @@ VnlForwardFFTImageFilter< TInputImage, TOutputImage >
     }
 
   // call the proper transform, based on compile type template parameter
-  vnl_fft_transform vnlfft( inputSize );
+  VnlFFTCommon::VnlFFTTransform< InputImageType > vnlfft( inputSize );
   vnlfft.transform( signal.data_block(), -1 );
 
   // Copy the VNL output back to the ITK image.
-  for ( unsigned int i = 0; i < vectorSize; i++ )
+  ImageRegionIteratorWithIndex< TOutputImage > oIt( outputPtr,
+                                                    outputPtr->GetLargestPossibleRegion() );
+  for (oIt.GoToBegin(); !oIt.IsAtEnd(); ++oIt)
     {
-    out[i] = signal[i];
+    typename OutputImageType::IndexType index = oIt.GetIndex();
+    typename OutputImageType::OffsetValueType offset = inputPtr->ComputeOffset( index );
+    oIt.Set( signal[offset] );
     }
-}
-
-template< class TInputImage, class TOutputImage >
-bool
-VnlForwardFFTImageFilter< TInputImage, TOutputImage >
-::FullMatrix()
-{
-  return true;
 }
 }
 

@@ -29,7 +29,7 @@ namespace itk
 {
 
 template< typename TSelfPointer, class TInputImage, class TOutputImage, typename TPixel >
-struct DispatchFFTW_R2C_New
+struct DispatchFFTW_Forward_New
 {
   static TSelfPointer Apply()
     {
@@ -40,7 +40,7 @@ struct DispatchFFTW_R2C_New
 
 #ifdef USE_FFTWD
 template< typename TSelfPointer, class TInputImage, class TOutputImage >
-struct DispatchFFTW_R2C_New< TSelfPointer, TInputImage, TOutputImage, double >
+struct DispatchFFTW_Forward_New< TSelfPointer, TInputImage, TOutputImage, double >
 {
   static TSelfPointer Apply()
     {
@@ -52,7 +52,7 @@ struct DispatchFFTW_R2C_New< TSelfPointer, TInputImage, TOutputImage, double >
 
 #ifdef USE_FFTWF
 template< typename TSelfPointer, class TInputImage, class TOutputImage >
-struct DispatchFFTW_R2C_New< TSelfPointer, TInputImage, TOutputImage, float >
+struct DispatchFFTW_Forward_New< TSelfPointer, TInputImage, TOutputImage, float >
 {
   static TSelfPointer Apply()
     {
@@ -71,75 +71,12 @@ ForwardFFTImageFilter< TInputImage, TOutputImage >
 
   if ( smartPtr.IsNull() )
     {
-    smartPtr = DispatchFFTW_R2C_New< Pointer, TInputImage, TOutputImage,
-                                     typename NumericTraits< OutputPixelType >::ValueType >
+    smartPtr = DispatchFFTW_Forward_New< Pointer, TInputImage, TOutputImage,
+                                         typename NumericTraits< OutputPixelType >::ValueType >
       ::Apply();
     }
 
   return smartPtr;
-}
-
-template< class TInputImage, class TOutputImage >
-void
-ForwardFFTImageFilter< TInputImage, TOutputImage >
-::GenerateOutputInformation()
-{
-  // Call the superclass' implementation of this method.
-  Superclass::GenerateOutputInformation();
-  //
-  // If this implementation returns a full result instead of a
-  // 'half-complex' matrix, then none of this is necessary.
-  if ( this->FullMatrix() )
-    {
-    return;
-    }
-
-  // Get pointers to the input and output.
-  typename InputImageType::ConstPointer inputPtr  = this->GetInput();
-  typename OutputImageType::Pointer outputPtr = this->GetOutput();
-
-  if ( !inputPtr || !outputPtr )
-    {
-    return;
-    }
-
-  // This is all based on the same function in itk::ShrinkImageFilter
-  // ShrinkImageFilter also modifies the image spacing, but spacing
-  // has no meaning in the result of an FFT.
-  const InputSizeType inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
-  const InputIndexType inputStartIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
-
-  OutputSizeType outputSize;
-  OutputIndexType outputStartIndex;
-
-  // In 4.3.4 of the FFTW documentation, they indicate the size of
-  // of a real-to-complex FFT is N * N ... + (N /2+1)
-  //                              1   2        d
-  // complex numbers.
-  // static_cast probably not necessary but want to make sure integer
-  // division is used.
-  outputSize[0] = static_cast< unsigned int >( inputSize[0] ) / 2 + 1;
-  outputStartIndex[0] = inputStartIndex[0];
-
-  for ( unsigned int i = 1; i < OutputImageType::ImageDimension; i++ )
-    {
-    outputSize[i] = inputSize[i];
-    outputStartIndex[i] = inputStartIndex[i];
-    }
-
-  // The halving of the input size hides the actual size of the input.
-  // To get the same size image out of the IFFT, need to send it as
-  // Metadata.
-  typedef typename OutputImageType::SizeType::SizeValueType SizeScalarType;
-  itk::MetaDataDictionary & outputDictionary = outputPtr->GetMetaDataDictionary();
-  itk::EncapsulateMetaData< SizeScalarType >( outputDictionary,
-                                              std::string("FFT_Actual_RealImage_Size"),
-                                              inputSize[0] );
-  typename OutputImageType::RegionType outputLargestPossibleRegion;
-  outputLargestPossibleRegion.SetSize( outputSize );
-  outputLargestPossibleRegion.SetIndex( outputStartIndex );
-
-  outputPtr->SetLargestPossibleRegion( outputLargestPossibleRegion );
 }
 
 template< class TInputImage, class TOutputImage >
