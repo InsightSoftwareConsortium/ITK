@@ -80,6 +80,15 @@ endif(WIN32)
 
 ### generating libraries
 add_library( ITKCommon ${ITK_LIBRARY_BUILD_TYPE} ${ITKCommon_SRCS})
+if(NOT WIN32 AND CMAKE_COMPILER_IS_GNUCXX)
+  set(ITKCommon_CXX_FLAGS "-fvisibility=hidden -fvisibility-inlines-hidden")
+  CHECK_CXX_COMPILER_FLAG(${ITKCommon_CXX_FLAGS} ITKCommon_HAS_GCC_VISIBILITY_FLAGS)
+  if(ITKCommon_HAS_GCC_VISIBILITY_FLAGS)
+    set_target_properties(ITKCommon PROPERTIES
+      COMPILE_FLAGS "${ITKCommon_CXX_FLAGS}"
+    )
+  endif(ITKCommon_HAS_GCC_VISIBILITY_FLAGS)
+endif(NOT WIN32 AND CMAKE_COMPILER_IS_GNUCXX)
 
 target_link_libraries(ITKCommon itksys ITKVNLInstantiation)
 
