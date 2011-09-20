@@ -110,8 +110,8 @@ itk_add_test(NAME ImageRegistration8Test COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ImageRegistration8RegisteredSlice.png
             ${TEMP}/ImageRegistration8RegisteredSlice.png
   $<TARGET_FILE:ImageRegistration8>
-        DATA{../Data/BrainWeb/brainweb1e1a10f20.mha}
-        DATA{../Data/BrainWeb/brainweb1e1a10f20Rot10Tx15.mha}
+        DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
+        DATA{../../Data/BrainWeb/brainweb1e1a10f20Rot10Tx15.mha}
         ${TEMP}/ImageRegistration8Output.mhd
         ${TEMP}/ImageRegistration8DifferenceBefore.mhd
         ${TEMP}/ImageRegistration8DifferenceAfter.mhd
@@ -126,8 +126,8 @@ if( ${CMAKE_BUILD_TYPE} MATCHES "Release")
   # Therefore we only run it in a Release build
   itk_add_test(NAME ImageRegistration20Test COMMAND ${ITK_TEST_DRIVER}
     $<TARGET_FILE:ImageRegistration20>
-      DATA{../Data/BrainWeb/brainweb1e1a10f20.mha}
-      DATA{../Data/BrainWeb/brainweb1e1a10f20Rot10Tx15.mha}
+      DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
+      DATA{../../Data/BrainWeb/brainweb1e1a10f20Rot10Tx15.mha}
       ${TEMP}/ImageRegistration20Output.mhd
       ${TEMP}/ImageRegistration20DifferenceBefore.mhd
       ${TEMP}/ImageRegistration20DifferenceAfter.mhd
@@ -514,8 +514,8 @@ if(ITK_USE_BRAINWEB_DATA)
 itk_add_test(NAME BSplineWarping2Test COMMAND ${ITK_TEST_DRIVER}
   $<TARGET_FILE:BSplineWarping2>
         ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements2.txt
-        DATA{../Data/BrainWeb/brainweb1e1a10f20.mha}
-        DATA{../Data/BrainWeb/brainweb1e1a10f20.mha}
+        DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
+        DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/BSplineWarping2TestDisplacementField.mhd
         ${TEMP}/BSplineWarping2TestTransform.txt
@@ -526,12 +526,12 @@ set(NUMBER_OF_BSPLINE_GRID_NODES 5)
 if( DART_TESTING_TIMEOUT GREATER 3000 )
 
 itk_add_test(NAME DeformableRegistration8Test1 COMMAND ${ITK_TEST_DRIVER}
-    --compare DATA{../Data/BrainWeb/brainweb1e1a10f20.mha}
+    --compare DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
               ${TEMP}/DeformableRegistration8Test1.mhd
     --compareNumberOfPixelsTolerance 700000
     --compareIntensityTolerance 15
   $<TARGET_FILE:DeformableRegistration8>
-        DATA{../Data/BrainWeb/brainweb1e1a10f20.mha}
+        DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/DeformableRegistration8Test1.mhd
         ${TEMP}/DeformableRegistration8Test1DifferenceAfter.mhd
@@ -545,12 +545,12 @@ itk_add_test(NAME DeformableRegistration8Test1 COMMAND ${ITK_TEST_DRIVER}
 set_property(TEST DeformableRegistration8Test1 PROPERTY DEPENDS BSplineWarping2Test)
 
 itk_add_test(NAME DeformableRegistration8Test2 COMMAND ${ITK_TEST_DRIVER}
-    --compare DATA{../Data/BrainWeb/brainweb1e1a10f20.mha}
+    --compare DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
               ${TEMP}/DeformableRegistration8Test2.mhd
     --compareNumberOfPixelsTolerance 700000
     --compareIntensityTolerance 15
   $<TARGET_FILE:DeformableRegistration8>
-        DATA{../Data/BrainWeb/brainweb1e1a10f20.mha}
+        DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/DeformableRegistration8Test2.mhd
         ${TEMP}/DeformableRegistration8Test2DifferenceAfter.mhd
@@ -564,12 +564,12 @@ itk_add_test(NAME DeformableRegistration8Test2 COMMAND ${ITK_TEST_DRIVER}
 set_property(TEST DeformableRegistration8Test2 PROPERTY DEPENDS BSplineWarping2Test)
 
 itk_add_test(NAME DeformableRegistration8Test3 COMMAND ${ITK_TEST_DRIVER}
-    --compare DATA{../Data/BrainWeb/brainweb1e1a10f20.mha}
+    --compare DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
               ${TEMP}/DeformableRegistration8Test3.mhd
     --compareNumberOfPixelsTolerance 700000
     --compareIntensityTolerance 15
   $<TARGET_FILE:DeformableRegistration8>
-        DATA{../Data/BrainWeb/brainweb1e1a10f20.mha}
+        DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/DeformableRegistration8Test3.mhd
         ${TEMP}/DeformableRegistration8Test3DifferenceAfter.mhd
@@ -583,12 +583,12 @@ itk_add_test(NAME DeformableRegistration8Test3 COMMAND ${ITK_TEST_DRIVER}
 set_property(TEST DeformableRegistration8Test3 PROPERTY DEPENDS BSplineWarping2Test)
 
 itk_add_test(NAME DeformableRegistration8Test4 COMMAND ${ITK_TEST_DRIVER}
-    --compare DATA{../Data/BrainWeb/brainweb1e1a10f20.mha}
+    --compare DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
               ${TEMP}/DeformableRegistration8Test4.mhd
     --compareNumberOfPixelsTolerance 700000
     --compareIntensityTolerance 15
   $<TARGET_FILE:DeformableRegistration8>
-        DATA{../Data/BrainWeb/brainweb1e1a10f20.mha}
+        DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/DeformableRegistration8Test4.mhd
         ${TEMP}/DeformableRegistration8Test4DifferenceAfter.mhd
@@ -602,12 +602,12 @@ itk_add_test(NAME DeformableRegistration8Test4 COMMAND ${ITK_TEST_DRIVER}
 set_property(TEST DeformableRegistration8Test4 PROPERTY DEPENDS BSplineWarping2Test)
 
 itk_add_test(NAME DeformableRegistration14Test1 COMMAND ${ITK_TEST_DRIVER}
-    --compare DATA{../Data/BrainWeb/brainweb1e1a10f20.mha}
+    --compare DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
               ${TEMP}/DeformableRegistration14Test1.mhd
     --compareNumberOfPixelsTolerance 700000
     --compareIntensityTolerance 15
   $<TARGET_FILE:DeformableRegistration14>
-        DATA{../Data/BrainWeb/brainweb1e1a10f20.mha}
+        DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/DeformableRegistration14Test1.mhd
         ${TEMP}/DeformableRegistration14Test1DifferenceAfter.mhd
@@ -622,12 +622,12 @@ itk_add_test(NAME DeformableRegistration14Test1 COMMAND ${ITK_TEST_DRIVER}
 set_property(TEST DeformableRegistration14Test1 PROPERTY DEPENDS BSplineWarping2Test)
 
 itk_add_test(NAME DeformableRegistration14Test2 COMMAND ${ITK_TEST_DRIVER}
-    --compare DATA{../Data/BrainWeb/brainweb1e1a10f20.mha}
+    --compare DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
               ${TEMP}/DeformableRegistration14Test2.mhd
     --compareNumberOfPixelsTolerance 700000
     --compareIntensityTolerance 15
   $<TARGET_FILE:DeformableRegistration14>
-        DATA{../Data/BrainWeb/brainweb1e1a10f20.mha}
+        DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/DeformableRegistration14Test2.mhd
         ${TEMP}/DeformableRegistration14Test2DifferenceAfter.mhd
@@ -642,12 +642,12 @@ itk_add_test(NAME DeformableRegistration14Test2 COMMAND ${ITK_TEST_DRIVER}
 set_property(TEST DeformableRegistration14Test2 PROPERTY DEPENDS BSplineWarping2Test)
 
 itk_add_test(NAME DeformableRegistration14Test3 COMMAND ${ITK_TEST_DRIVER}
-    --compare DATA{../Data/BrainWeb/brainweb1e1a10f20.mha}
+    --compare DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
               ${TEMP}/DeformableRegistration14Test3.mhd
     --compareNumberOfPixelsTolerance 700000
     --compareIntensityTolerance 15
   $<TARGET_FILE:DeformableRegistration14>
-        DATA{../Data/BrainWeb/brainweb1e1a10f20.mha}
+        DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/DeformableRegistration14Test3.mhd
         ${TEMP}/DeformableRegistration14Test3DifferenceAfter.mhd
@@ -662,12 +662,12 @@ itk_add_test(NAME DeformableRegistration14Test3 COMMAND ${ITK_TEST_DRIVER}
 set_property(TEST DeformableRegistration14Test3 PROPERTY DEPENDS BSplineWarping2Test)
 
 itk_add_test(NAME DeformableRegistration14Test4 COMMAND ${ITK_TEST_DRIVER}
-    --compare DATA{../Data/BrainWeb/brainweb1e1a10f20.mha}
+    --compare DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
               ${TEMP}/DeformableRegistration14Test4.mhd
     --compareNumberOfPixelsTolerance 700000
     --compareIntensityTolerance 15
   $<TARGET_FILE:DeformableRegistration14>
-        DATA{../Data/BrainWeb/brainweb1e1a10f20.mha}
+        DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/DeformableRegistration14Test4.mhd
         ${TEMP}/DeformableRegistration14Test4DifferenceAfter.mhd
@@ -684,7 +684,7 @@ endif( DART_TESTING_TIMEOUT GREATER 3000 )
 
 itk_add_test(NAME ChangeInformationTest1 COMMAND ${ITK_TEST_DRIVER}
         $<TARGET_FILE:ChangeInformationImageFilter>
-        DATA{../Data/BrainWeb/brainweb1e1a10f20.mha}
+        DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
         ${TEMP}/BSplinedTranlatedScaledRotated.mhd
         1.05
         1.0 2.0 0.0
@@ -693,12 +693,12 @@ itk_add_test(NAME ChangeInformationTest1 COMMAND ${ITK_TEST_DRIVER}
 
 if( DART_TESTING_TIMEOUT GREATER 10000 )
 itk_add_test(NAME DeformableRegistration15Test1 COMMAND ${ITK_TEST_DRIVER}
-    --compare DATA{../Data/BrainWeb/brainweb1e1a10f20.mha}
+    --compare DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
               ${TEMP}/DeformableRegistration15Test1.mhd
     --compareNumberOfPixelsTolerance 700000
     --compareIntensityTolerance 15
   $<TARGET_FILE:DeformableRegistration15>
-        DATA{../Data/BrainWeb/brainweb1e1a10f20.mha}
+        DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
         ${TEMP}/BSplinedTranlatedScaledRotated.mhd
         ${TEMP}/DeformableRegistration15Test1.mhd
         ${TEMP}/DeformableRegistration15Test1DifferenceAfter.mhd
@@ -717,7 +717,7 @@ if( "${ITK_COMPUTER_MEMORY_SIZE}" GREATER 6 )
 set(NUMBER_OF_BSPLINE_GRID_NODES 32)
 itk_add_test(NAME DeformableRegistration8Test5 COMMAND ${ITK_TEST_DRIVER}
   $<TARGET_FILE:DeformableRegistration8>
-        DATA{../Data/BrainWeb/brainweb1e1a10f20.mha}
+        DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/DeformableRegistration8Test5.mhd
         ${TEMP}/DeformableRegistration8Test5DifferenceAfter.mhd
@@ -731,7 +731,7 @@ set_property(TEST DeformableRegistration8Test5 PROPERTY DEPENDS BSplineWarping2T
 
 itk_add_test(NAME DeformableRegistration8Test6 COMMAND ${ITK_TEST_DRIVER}
   $<TARGET_FILE:DeformableRegistration8>
-        DATA{../Data/BrainWeb/brainweb1e1a10f20.mha}
+        DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/DeformableRegistration8Test6.mhd
         ${TEMP}/DeformableRegistration8Test6DifferenceAfter.mhd
@@ -745,7 +745,7 @@ set_property(TEST DeformableRegistration8Test6 PROPERTY DEPENDS BSplineWarping2T
 
 itk_add_test(NAME DeformableRegistration8Test7 COMMAND ${ITK_TEST_DRIVER}
   $<TARGET_FILE:DeformableRegistration8>
-        DATA{../Data/BrainWeb/brainweb1e1a10f20.mha}
+        DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/DeformableRegistration8Test7.mhd
         ${TEMP}/DeformableRegistration8Test7DifferenceAfter.mhd
@@ -759,7 +759,7 @@ set_property(TEST DeformableRegistration8Test7 PROPERTY DEPENDS BSplineWarping2T
 
 itk_add_test(NAME DeformableRegistration8Test8 COMMAND ${ITK_TEST_DRIVER}
   $<TARGET_FILE:DeformableRegistration8>
-        DATA{../Data/BrainWeb/brainweb1e1a10f20.mha}
+        DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/DeformableRegistration8Test8.mhd
         ${TEMP}/DeformableRegistration8Test8DifferenceAfter.mhd
@@ -774,7 +774,7 @@ set_property(TEST DeformableRegistration8Test8 PROPERTY DEPENDS BSplineWarping2T
 set(NUMBER_OF_BSPLINE_GRID_NODES 100)
 itk_add_test(NAME DeformableRegistration8Test9 COMMAND ${ITK_TEST_DRIVER}
   $<TARGET_FILE:DeformableRegistration8>
-        DATA{../Data/BrainWeb/brainweb1e1a10f20.mha}
+        DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/DeformableRegistration8Test9.mhd
         ${TEMP}/DeformableRegistration8Test9DifferenceAfter.mhd
@@ -788,7 +788,7 @@ set_property(TEST DeformableRegistration8Test9 PROPERTY DEPENDS BSplineWarping2T
 
 itk_add_test(NAME DeformableRegistration8Test10 COMMAND ${ITK_TEST_DRIVER}
   $<TARGET_FILE:DeformableRegistration8>
-        DATA{../Data/BrainWeb/brainweb1e1a10f20.mha}
+        DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/DeformableRegistration8Test10.mhd
         ${TEMP}/DeformableRegistration8Test10DifferenceAfter.mhd
@@ -816,7 +816,7 @@ if( "${ITK_COMPUTER_MEMORY_SIZE}" GREATER 16 )
 
 itk_add_test(NAME DeformableRegistration8Test11 COMMAND ${ITK_TEST_DRIVER}
   $<TARGET_FILE:DeformableRegistration8>
-        DATA{../Data/BrainWeb/brainweb1e1a10f20.mha}
+        DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/DeformableRegistration8Test11.mhd
         ${TEMP}/DeformableRegistration8Test11DifferenceAfter.mhd
@@ -830,7 +830,7 @@ set_property(TEST DeformableRegistration8Test11 PROPERTY DEPENDS BSplineWarping2
 
 itk_add_test(NAME DeformableRegistration8Test12 COMMAND ${ITK_TEST_DRIVER}
   $<TARGET_FILE:DeformableRegistration8>
-        DATA{../Data/BrainWeb/brainweb1e1a10f20.mha}
+        DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/DeformableRegistration8Test12.mhd
         ${TEMP}/DeformableRegistration8Test12DifferenceAfter.mhd
