@@ -20,6 +20,7 @@
 #define __itkParticleSwarmOptimizerBase_h
 
 #include "itkSingleValuedNonLinearOptimizer.h"
+#include "itkMersenneTwisterRandomVariateGenerator.h"
 
 namespace itk
 {
@@ -76,12 +77,14 @@ public:
     CostFunctionType::MeasureType m_BestValue;
   };
 
-  typedef std::vector<ParticleData>     SwarmType;
-  typedef unsigned int                  NumberOfIterationsType;
-  typedef unsigned int                  NumberOfParticlesType;
-  typedef unsigned int                  NumberOfGenerationsType;
-  typedef CostFunctionType::MeasureType MeasureType;
-  typedef ParametersType::ValueType     ValueType;
+  typedef std::vector<ParticleData>         SwarmType;
+  typedef unsigned int                      NumberOfIterationsType;
+  typedef unsigned int                      NumberOfParticlesType;
+  typedef unsigned int                      NumberOfGenerationsType;
+  typedef CostFunctionType::MeasureType     MeasureType;
+  typedef ParametersType::ValueType         ValueType;
+  typedef Statistics::MersenneTwisterRandomVariateGenerator
+                                            RandomVariateGeneratorType;
 
   /** Specify whether to initialize the particles using a normal distribution
     * centered on the user supplied initial value or a uniform distribution.
@@ -101,7 +104,7 @@ public:
   void ClearSwarm();
 
   /**
-   * Inidicate whether or not to output the swarm information when printing an
+   * Indicate whether or not to output the swarm information when printing an
    * object. By default this option is turned off as it generates too much
    * information.
    */
@@ -165,6 +168,19 @@ public:
   itkGetMacro( PercentageParticlesConverged, double )
   itkSetMacro( PercentageParticlesConverged, double )
 
+  /**Set the random number seed for the swarm. Use this method to
+   * produce reaptible results, typically, for testing.
+   */
+  itkSetMacro( Seed, RandomVariateGeneratorType::IntegerType)
+  itkGetMacro( Seed, RandomVariateGeneratorType::IntegerType)
+
+  /** Use a specific seed to initialize the random number
+    * generator. If On, use m_Seed to seed the random number
+    * generator. Default is Off. */
+  itkSetMacro( UseSeed, bool )
+  itkGetMacro( UseSeed, bool )
+  itkBooleanMacro( UseSeed)
+
   /** Get the function value for the current position.
    *  NOTE: This value is only valid during and after the execution of the
    *        StartOptimization() method.*/
@@ -217,8 +233,9 @@ protected:
   std::vector<MeasureType>                     m_FunctionBestValueMemory;
   ParametersType                               m_ParametersBestValue;
   NumberOfIterationsType                       m_IterationIndex;
+  RandomVariateGeneratorType::IntegerType      m_Seed;
+  bool                                         m_UseSeed;
 };
-
 } // end namespace itk
 
 #endif
