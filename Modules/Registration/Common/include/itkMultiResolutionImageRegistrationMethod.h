@@ -208,6 +208,7 @@ public:
 
   /** Make a DataObject of the correct type to be used as the specified
    * output. */
+  using Superclass::MakeOutput;
   virtual DataObjectPointer MakeOutput(unsigned int idx);
 
   /** Method to return the latest modified time of this object or

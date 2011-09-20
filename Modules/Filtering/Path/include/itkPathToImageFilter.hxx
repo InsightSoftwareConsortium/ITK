@@ -76,13 +76,7 @@ const typename PathToImageFilter< TInputPath, TOutputImage >::InputPathType *
 PathToImageFilter< TInputPath, TOutputImage >
 ::GetInput(void)
 {
-  if ( this->GetNumberOfInputs() < 1 )
-    {
-    return 0;
-    }
-
-  return static_cast< const TInputPath * >
-         ( this->ProcessObject::GetInput(0) );
+  return static_cast< const TInputPath * >( this->GetPrimaryInput() );
 }
 
 /** Get the input Path */

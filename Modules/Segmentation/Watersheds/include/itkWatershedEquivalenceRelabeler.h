@@ -109,6 +109,7 @@ public:
   void GenerateData();
 
   /** Standard itk::ProcessObject subclass method. */
+  using Superclass::MakeOutput;
   virtual DataObjectPointer MakeOutput(unsigned int idx);
 
 protected:

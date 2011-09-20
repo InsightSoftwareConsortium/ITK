@@ -70,7 +70,7 @@ public:
   typedef SimpleDataObjectDecorator< RadiusType > InputRadiusObjectType;
 
   /** Method to set the input value of the Radius */
-  itkSetDecoratedInputMacro(Radius, RadiusType, 1);
+  itkSetGetDecoratedInputMacro(Radius, RadiusType);
 protected:
   NeighborhoodSampler();
   virtual ~NeighborhoodSampler();

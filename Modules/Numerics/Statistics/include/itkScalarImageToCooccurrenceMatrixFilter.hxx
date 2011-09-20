@@ -100,13 +100,7 @@ ScalarImageToCooccurrenceMatrixFilter< TImageType,
                                        THistogramFrequencyContainer >
 ::GetInput() const
 {
-  if ( this->GetNumberOfInputs() < 1 )
-    {
-    return 0;
-    }
-
-  return static_cast< const ImageType * >
-         ( this->ProcessObject::GetInput(0) );
+  return static_cast< const ImageType * >( this->GetPrimaryInput() );
 }
 
 template< class TImageType, class THistogramFrequencyContainer >
@@ -115,13 +109,7 @@ ScalarImageToCooccurrenceMatrixFilter< TImageType,
                                        THistogramFrequencyContainer >
 ::GetMaskImage() const
 {
-  if ( this->GetNumberOfInputs() < 2 )
-    {
-    return 0;
-    }
-
-  return static_cast< const ImageType * >
-         ( this->ProcessObject::GetInput(1) );
+  return static_cast< const ImageType * >( this->ProcessObject::GetInput(1) );
 }
 
 template< class TImageType, class THistogramFrequencyContainer >
@@ -190,7 +178,7 @@ ScalarImageToCooccurrenceMatrixFilter< TImageType,
 
   // Check if a mask image has been provided
   //
-  if ( this->GetNumberOfInputs() > 1 )
+  if ( this->GetNumberOfIndexedInputs() > 1 )
     {
     maskImage = this->GetMaskImage();
     }

@@ -399,7 +399,7 @@ itkContourExtractor2DImageFilterTestNamespace::ExtractorType::Pointer
    extractor,
 itkContourExtractor2DImageFilterTestNamespace::MyVertexListList& correct)
 {
-  if (extractor->GetNumberOfOutputs() != correct.size())
+  if (extractor->GetNumberOfIndexedOutputs() != correct.size())
     {
     return false;
     }

@@ -48,7 +48,7 @@ LabelVotingImageFilter< TInputImage, TOutputImage >
   typedef ImageRegionConstIterator< TInputImage > IteratorType;
 
   // Record the number of input files.
-  const unsigned int numberOfInputFiles = this->GetNumberOfInputs();
+  const unsigned int numberOfInputFiles = this->GetNumberOfIndexedInputs();
 
   for ( unsigned int i = 0; i < numberOfInputFiles; ++i )
     {
@@ -96,7 +96,7 @@ LabelVotingImageFilter< TInputImage, TOutputImage >
   typename TOutputImage::Pointer output = this->GetOutput();
 
   // Record the number of input files.
-  const unsigned int numberOfInputFiles = this->GetNumberOfInputs();
+  const unsigned int numberOfInputFiles = this->GetNumberOfIndexedInputs();
 
   //  create and initialize all input image iterators
   IteratorType *it = new IteratorType[numberOfInputFiles];

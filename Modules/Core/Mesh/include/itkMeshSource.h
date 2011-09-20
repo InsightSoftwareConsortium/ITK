@@ -66,6 +66,8 @@ public:
   typedef TOutputMesh                      OutputMeshType;
   typedef typename OutputMeshType::Pointer OutputMeshPointer;
 
+  typedef Superclass::DataObjectIdentifierType DataObjectIdentifierType;
+
   /** Get the mesh output of this process object.  */
   OutputMeshType * GetOutput(void);
 
@@ -74,6 +76,7 @@ public:
   /** Set the mesh output of this process object. This call is slated
    * to be removed from ITK. You should GraftOutput() and possible
    * DataObject::DisconnectPipeline() to properly change the output. */
+  using Superclass::SetOutput;
   void SetOutput(TOutputMesh *output);
 
   /** Graft the specified DataObject onto this ProcessObject's output.
@@ -112,6 +115,13 @@ public:
    * mini-pipeline will do). */
   virtual void GraftOutput(DataObject *output);
 
+  /** Graft the specified data object onto this ProcessObject's named
+   * output. This is similar to the GraftOutput method except it
+   * allows you to specify which output is affected.
+   * See the GraftOutput for general usage information.
+   */
+  virtual void GraftOutput(const DataObjectIdentifierType & key, DataObject *output);
+
   virtual void GraftNthOutput(unsigned int idx, DataObject *output);
 
   /** Make a DataObject of the correct type to used as the specified
@@ -127,6 +137,7 @@ public:
    * SmartPointer to a DataObject. If a subclass of MeshSource has
    * multiple outputs of different types, then that class must provide
    * an implementation of MakeOutput(). */
+  using Superclass::MakeOutput;
   virtual DataObjectPointer MakeOutput(unsigned int idx);
 
 protected:

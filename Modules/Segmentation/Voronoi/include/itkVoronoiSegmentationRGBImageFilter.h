@@ -125,6 +125,7 @@ public:
 
   void TakeAPrior(const BinaryObjectImage *aprior);
 
+  using Superclass::SetInput;
   virtual void SetInput(const InputImageType *input);
 
   virtual void SetInput(unsigned int, const InputImageType *image);

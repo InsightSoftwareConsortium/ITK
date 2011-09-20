@@ -67,6 +67,7 @@ public:
   typedef SubsampleType           OutputType;
 
   /** Set/Get the input sample */
+  using Superclass::SetInput;
   virtual void SetInput(const SampleType *sample);
 
   virtual const SampleType * GetInput() const;
@@ -85,6 +86,7 @@ protected:
    * called.
    * \sa ProcessObject
    */
+  using Superclass::MakeOutput;
   virtual DataObjectPointer MakeOutput(unsigned int idx);
 
 private:

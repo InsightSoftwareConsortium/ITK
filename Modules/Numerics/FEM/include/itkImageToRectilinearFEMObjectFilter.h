@@ -109,6 +109,7 @@ public:
   itkSetMacro(Element, ElementBasePointerType);
 
   /** Set/Get the image input of this process object.  */
+  using Superclass::SetInput;
   void SetInput( InputImageType *image);
 
   void SetInput( unsigned int, InputImageType *image);
@@ -119,6 +120,7 @@ public:
 
   /** Make a DataObject of the correct type to be used as the specified
    * output. */
+  using Superclass::MakeOutput;
   virtual DataObjectPointer MakeOutput(unsigned int idx);
 
   /** Get the output data of this process object.  The output of this

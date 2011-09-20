@@ -74,13 +74,7 @@ const typename PointSetToImageFilter< TInputPointSet, TOutputImage >::InputPoint
 PointSetToImageFilter< TInputPointSet, TOutputImage >
 ::GetInput(void)
 {
-  if ( this->GetNumberOfInputs() < 1 )
-    {
-    return 0;
-    }
-
-  return static_cast< const TInputPointSet * >
-         ( this->ProcessObject::GetInput(0) );
+  return static_cast< const TInputPointSet * >( this->GetPrimaryInput() );
 }
 
 /** Get the input point-set */

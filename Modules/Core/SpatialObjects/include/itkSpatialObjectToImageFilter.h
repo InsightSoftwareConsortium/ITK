@@ -77,6 +77,7 @@ public:
                       TOutputImage::ImageDimension);
 
   /** Set/Get the image input of this process object.  */
+  using Superclass::SetInput;
   virtual void SetInput(const InputSpatialObjectType *object);
 
   virtual void SetInput(unsigned int, const InputSpatialObjectType *object);

@@ -63,7 +63,7 @@ typename FastMarchingExtensionImageFilter< TLevelSet, TAuxValue, VAuxDimension, 
 FastMarchingExtensionImageFilter< TLevelSet, TAuxValue, VAuxDimension, TSpeedImage >
 ::GetAuxiliaryImage(unsigned int idx)
 {
-  if ( idx >= AuxDimension || this->GetNumberOfOutputs() < idx + 2 )
+  if ( idx >= AuxDimension || this->GetNumberOfIndexedOutputs() < idx + 2 )
     {
     return NULL;
     }
@@ -104,7 +104,7 @@ FastMarchingExtensionImageFilter< TLevelSet, TAuxValue, VAuxDimension, TSpeedIma
   DataObject *itkNotUsed(output) )
 {
   // This filter requires all of the output images in the buffer.
-  for ( unsigned int j = 0; j < this->GetNumberOfOutputs(); j++ )
+  for ( unsigned int j = 0; j < this->GetNumberOfIndexedOutputs(); j++ )
     {
     if ( this->ProcessObject::GetOutput(j) )
       {

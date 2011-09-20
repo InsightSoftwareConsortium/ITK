@@ -71,7 +71,7 @@ JoinSeriesImageFilter< TInputImage, TOutputImage >
 
   // for the new dimension, assuming the index has been set 0.
   outputLargestPossibleRegion.SetSize( InputImageDimension,
-                                       this->GetNumberOfInputs() );
+                                       this->GetNumberOfIndexedInputs() );
 
   outputPtr->SetLargestPossibleRegion(outputLargestPossibleRegion);
 
@@ -163,7 +163,7 @@ JoinSeriesImageFilter< TInputImage, TOutputImage >
   OutputImageRegionType outputRegion = this->GetOutput()->GetRequestedRegion();
   IndexValueType        begin = outputRegion.GetIndex(InputImageDimension);
   IndexValueType        end = begin + outputRegion.GetSize(InputImageDimension);
-  for ( IndexValueType idx = 0; idx < this->GetNumberOfInputs(); ++idx )
+  for ( IndexValueType idx = 0; idx < this->GetNumberOfIndexedInputs(); ++idx )
     {
     InputImagePointer inputPtr =
       const_cast< InputImageType * >( this->GetInput(idx) );

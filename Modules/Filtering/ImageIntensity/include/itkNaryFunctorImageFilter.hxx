@@ -47,7 +47,7 @@ NaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
                        ThreadIdType threadId)
 {
   const unsigned int numberOfInputImages =
-    static_cast< unsigned int >( this->GetNumberOfInputs() );
+    static_cast< unsigned int >( this->GetNumberOfIndexedInputs() );
 
   typedef ImageRegionConstIterator< TInputImage > ImageRegionConstIteratorType;
   std::vector< ImageRegionConstIteratorType * > inputItrVector;

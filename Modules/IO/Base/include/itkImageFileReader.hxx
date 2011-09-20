@@ -35,7 +35,7 @@ ImageFileReader< TOutputImage, ConvertPixelTraits >
 ::ImageFileReader()
 {
   m_ImageIO = 0;
-  m_FileName = "";
+  this->SetFileName("");
   m_UserSpecifiedImageIO = false;
   m_UseStreaming = true;
 }
@@ -62,7 +62,6 @@ void ImageFileReader< TOutputImage, ConvertPixelTraits >
     }
 
   os << indent << "UserSpecifiedImageIO flag: " << m_UserSpecifiedImageIO << "\n";
-  os << indent << "m_FileName: " << m_FileName << "\n";
   os << indent << "m_UseStreaming: " << m_UseStreaming << "\n";
 }
 
@@ -87,11 +86,11 @@ ImageFileReader< TOutputImage, ConvertPixelTraits >
 {
   typename TOutputImage::Pointer output = this->GetOutput();
 
-  itkDebugMacro(<< "Reading file for GenerateOutputInformation()" << m_FileName);
+  itkDebugMacro(<< "Reading file for GenerateOutputInformation()" << this->GetFileName());
 
   // Check to see if we can read the file given the name or prefix
   //
-  if ( m_FileName == "" )
+  if ( this->GetFileName() == "" )
     {
     throw ImageFileReaderException(__FILE__, __LINE__, "FileName must be specified", ITK_LOCATION);
     }
@@ -114,7 +113,7 @@ ImageFileReader< TOutputImage, ConvertPixelTraits >
 #if !defined(SPECIFIC_IMAGEIO_MODULE_TEST)
   if ( m_UserSpecifiedImageIO == false ) //try creating via factory
     {
-    m_ImageIO = ImageIOFactory::CreateImageIO(m_FileName.c_str(), ImageIOFactory::ReadMode);
+    m_ImageIO = ImageIOFactory::CreateImageIO(this->GetFileName().c_str(), ImageIOFactory::ReadMode);
     }
 #endif
 
@@ -122,7 +121,7 @@ ImageFileReader< TOutputImage, ConvertPixelTraits >
     {
     std::ostringstream msg;
     msg << " Could not create IO object for file "
-        << m_FileName.c_str() << std::endl;
+        << this->GetFileName().c_str() << std::endl;
     if ( m_ExceptionMessage.size() )
       {
       msg << m_ExceptionMessage;
@@ -149,7 +148,7 @@ ImageFileReader< TOutputImage, ConvertPixelTraits >
   // Got to allocate space for the image. Determine the characteristics of
   // the image.
   //
-  m_ImageIO->SetFileName( m_FileName.c_str() );
+  m_ImageIO->SetFileName( this->GetFileName().c_str() );
   m_ImageIO->ReadImageInformation();
 
   SizeType dimSize;
@@ -255,12 +254,12 @@ ImageFileReader< TOutputImage, ConvertPixelTraits >
 ::TestFileExistanceAndReadability()
 {
   // Test if the file exists.
-  if ( !itksys::SystemTools::FileExists( m_FileName.c_str() ) )
+  if ( !itksys::SystemTools::FileExists( this->GetFileName().c_str() ) )
     {
     ImageFileReaderException e(__FILE__, __LINE__);
     std::ostringstream       msg;
     msg << "The file doesn't exist. "
-        << std::endl << "Filename = " << m_FileName
+        << std::endl << "Filename = " << this->GetFileName()
         << std::endl;
     e.SetDescription( msg.str().c_str() );
     throw e;
@@ -269,13 +268,13 @@ ImageFileReader< TOutputImage, ConvertPixelTraits >
 
   // Test if the file can be open for reading access.
   std::ifstream readTester;
-  readTester.open( m_FileName.c_str() );
+  readTester.open( this->GetFileName().c_str() );
   if ( readTester.fail() )
     {
     readTester.close();
     std::ostringstream msg;
     msg << "The file couldn't be opened for reading. "
-        << std::endl << "Filename: " << m_FileName
+        << std::endl << "Filename: " << this->GetFileName()
         << std::endl;
     ImageFileReaderException e(__FILE__, __LINE__, msg.str().c_str(), ITK_LOCATION);
     throw e;
@@ -378,7 +377,7 @@ void ImageFileReader< TOutputImage, ConvertPixelTraits >
     }
 
   // Tell the ImageIO to read the file
-  m_ImageIO->SetFileName( m_FileName.c_str() );
+  m_ImageIO->SetFileName( this->GetFileName().c_str() );
 
   itkDebugMacro (<< "Setting imageIO IORegion to: " << m_ActualIORegion);
   m_ImageIO->SetIORegion(m_ActualIORegion);

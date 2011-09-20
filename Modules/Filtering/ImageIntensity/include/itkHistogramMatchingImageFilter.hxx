@@ -114,13 +114,7 @@ const typename HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogr
 HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
 ::GetReferenceImage()
 {
-  if ( this->GetNumberOfInputs() < 2 )
-    {
-    return NULL;
-    }
-
-  return dynamic_cast< TInputImage * >(
-           this->ProcessObject::GetInput(1) );
+  return dynamic_cast< TInputImage * >( this->ProcessObject::GetInput(1) );
 }
 
 /*
@@ -134,7 +128,7 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
 {
   this->Superclass::GenerateInputRequestedRegion();
 
-  for ( unsigned int idx = 0; idx < this->GetNumberOfInputs(); ++idx )
+  for ( unsigned int idx = 0; idx < this->GetNumberOfIndexedInputs(); ++idx )
     {
     if ( this->GetInput(idx) )
       {

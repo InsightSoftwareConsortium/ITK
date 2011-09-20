@@ -62,13 +62,7 @@ const TSample *
 CovarianceSampleFilter< TSample >
 ::GetInput() const
 {
-  if ( this->GetNumberOfInputs() < 1 )
-    {
-    return 0;
-    }
-
-  return static_cast< const SampleType * >
-         ( this->ProcessObject::GetInput(0) );
+  return static_cast< const SampleType * >( this->GetPrimaryInput() );
 }
 
 template< class TSample >

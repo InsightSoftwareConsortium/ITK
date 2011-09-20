@@ -176,6 +176,7 @@ public:
   itkBooleanMacro(GenerateHessianOutput);
 
   /** This is overloaded to create the Scales and Hessian output images */
+  using Superclass::MakeOutput;
   virtual DataObjectPointer MakeOutput(unsigned int idx);
 
 protected:

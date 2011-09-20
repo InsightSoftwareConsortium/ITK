@@ -142,23 +142,6 @@ int itkNeighborhoodSamplerTest1(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  filter->SetInput1( radiusObject1 );
-
-  recoveredRadiusObject = filter->GetInput1();
-
-  if( recoveredRadiusObject != radiusObject1 )
-    {
-    std::cerr << "GetRadiusInput() test for pointer consistency 3 failed." << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  if( recoveredRadiusObject->Get() != radius1 )
-    {
-    std::cerr << "GetRadiusInput() test for value consistency 5 failed." << std::endl;
-    return EXIT_FAILURE;
-    }
-
-
   //
   // Testing exception cases in the GenerateData() method.
   //

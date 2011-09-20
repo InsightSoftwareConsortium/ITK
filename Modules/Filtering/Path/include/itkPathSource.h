@@ -149,7 +149,7 @@ public:
    * output. This is the similar to GraftOutput method except is
    * allows you specify which output is affected. The specified index
    * must be a valid output number (less than
-   * ProcessObject::GetNumberOfOutputs()). See the GraftOutput for
+   * ProcessObject::GetNumberOfIndexedOutputs()). See the GraftOutput for
    * general usage information. */
   virtual void GraftNthOutput(unsigned int idx, OutputPathType *output);
 
@@ -166,6 +166,7 @@ public:
    * SmartPointer to a DataObject. If a subclass of ImageSource has
    * multiple outputs of different types, then that class must provide
    * an implementation of MakeOutput(). */
+  using Superclass::MakeOutput;
   virtual DataObjectPointer MakeOutput(unsigned int idx);
 
 protected:

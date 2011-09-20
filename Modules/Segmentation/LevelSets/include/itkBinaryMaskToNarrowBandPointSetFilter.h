@@ -124,6 +124,7 @@ public:
   void GenerateOutputInformation(void);
 
   /** accept the input image */
+  using Superclass::SetInput;
   void SetInput(const InputImageType *inputImage);
 
   /** Set/Get the width of the narrowband. This is the

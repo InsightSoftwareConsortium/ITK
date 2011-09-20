@@ -63,6 +63,7 @@ public:
                       TOutputImage::ImageDimension);
 
   /** Set/Get the path input of this process object.  */
+  using Superclass::SetInput;
   virtual void SetInput(const InputPathType *path);
 
   virtual void SetInput(unsigned int, const TInputPath *path);

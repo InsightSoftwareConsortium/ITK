@@ -279,13 +279,7 @@ const TImage *
 ScalarImageToTextureFeaturesFilter< TImage, THistogramFrequencyContainer >
 ::GetInput() const
 {
-  if ( this->GetNumberOfInputs() < 1 )
-    {
-    return 0;
-    }
-
-  return static_cast< const ImageType * >
-         ( this->ProcessObject::GetInput(0) );
+  return static_cast< const ImageType * >( this->GetPrimaryInput() );
 }
 
 template< class TImage, class THistogramFrequencyContainer >
@@ -310,13 +304,7 @@ const TImage *
 ScalarImageToTextureFeaturesFilter< TImage, THistogramFrequencyContainer >
 ::GetMaskImage() const
 {
-  if ( this->GetNumberOfInputs() < 2 )
-    {
-    return 0;
-    }
-
-  return static_cast< const ImageType * >
-         ( this->ProcessObject::GetInput(1) );
+  return static_cast< const ImageType * >( this->ProcessObject::GetInput(1) );
 }
 
 template< class TImage, class THistogramFrequencyContainer >

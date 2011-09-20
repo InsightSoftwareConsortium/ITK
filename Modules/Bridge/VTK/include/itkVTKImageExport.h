@@ -77,6 +77,7 @@ public:
                      3,itkGetStaticConstMacro(InputImageDimension) > ) );
 #endif
   /** Set the input image of this image exporter. */
+  using Superclass::SetInput;
   void SetInput(const InputImageType *);
 
 protected:

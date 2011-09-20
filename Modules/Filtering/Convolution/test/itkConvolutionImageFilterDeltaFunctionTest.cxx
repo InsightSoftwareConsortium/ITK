@@ -61,7 +61,7 @@ int itkConvolutionImageFilterDeltaFunctionTest(int argc, char * argv[])
   ConvolutionFilterType::Pointer convolver
     = ConvolutionFilterType::New();
   convolver->SetInput( deltaFunctionImage );
-  convolver->SetImageKernelInput( reader->GetOutput() );
+  convolver->SetImageKernel( reader->GetOutput() );
 
   // Flip output of the convolver and save the file. We should get
   // output identical to the input kernel image.

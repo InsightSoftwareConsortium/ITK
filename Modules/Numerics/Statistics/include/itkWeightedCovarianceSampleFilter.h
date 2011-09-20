@@ -80,13 +80,13 @@ public:
   typedef SimpleDataObjectDecorator< WeightArrayType > InputWeightArrayObjectType;
 
   /** Method to set the input value of the weight array */
-  itkSetDecoratedInputMacro(Weights, WeightArrayType, 1);
+  itkSetGetDecoratedInputMacro(Weights, WeightArrayType);
 
   /** Type of DataObjects to use for Weight function */
   typedef DataObjectDecorator< WeightingFunctionType > InputWeightingFunctionObjectType;
 
   /** Method to set the weighting function */
-  itkSetDecoratedObjectInputMacro(WeightingFunction, WeightingFunctionType, 2);
+  itkSetGetDecoratedObjectInputMacro(WeightingFunction, WeightingFunctionType);
 
 protected:
   WeightedCovarianceSampleFilter();

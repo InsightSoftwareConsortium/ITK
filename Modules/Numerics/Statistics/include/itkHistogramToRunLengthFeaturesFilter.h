@@ -88,6 +88,7 @@ public:
     TotalAbsoluteFrequencyType                            FrequencyType;
 
   /** Method to Set/Get the input Histogram */
+  using Superclass::SetInput;
   void SetInput ( const HistogramType * histogram );
   const HistogramType * GetInput() const;
 
@@ -163,6 +164,7 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Make a DataObject to be used for output output. */
+  using Superclass::MakeOutput;
   virtual DataObjectPointer MakeOutput( unsigned int );
 
   void GenerateData();

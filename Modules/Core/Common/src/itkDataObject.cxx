@@ -146,7 +146,7 @@ InvalidRequestedRegionError
 DataObject::DataObject():m_UpdateMTime()
 {
   m_Source = 0;
-  m_SourceOutputIndex = 0;
+  m_SourceOutputName = "";
   m_ReleaseDataFlag = false;
 
   // We have to assume that if a user is creating the data on their own,
@@ -220,7 +220,7 @@ DataObject
   // disconnect ourselves from the current process object
   if ( m_Source )
     {
-    m_Source->SetNthOutput(m_SourceOutputIndex, 0);
+    m_Source->SetOutput(m_SourceOutputName, NULL);
     }
 
   // set our release data flag to off by default (purposely done after
@@ -236,44 +236,44 @@ DataObject
 
 bool
 DataObject
-::DisconnectSource(ProcessObject *arg, unsigned long idx) const
+::DisconnectSource(ProcessObject *arg, const DataObjectIdentifierType & name)
 {
-  if ( m_Source == arg && m_SourceOutputIndex == idx )
+  if ( m_Source == arg && m_SourceOutputName == name )
     {
     itkDebugMacro("disconnecting source  " << arg
-                                           << ", source output index " << idx);
+                                           << ", source output name " << name);
 
     m_Source = 0;
-    m_SourceOutputIndex = 0;
+    m_SourceOutputName = "";
     this->Modified();
     return true;
     }
   else
     {
     itkDebugMacro("could not disconnect source  " << arg
-                                                  << ", source output index " << idx);
+                                                  << ", source output name " << name);
     return false;
     }
 }
 
 bool
 DataObject
-::ConnectSource(ProcessObject *arg, unsigned long idx) const
+::ConnectSource(ProcessObject *arg, const DataObjectIdentifierType & name)
 {
-  if ( m_Source != arg || m_SourceOutputIndex != idx )
+  if ( m_Source != arg || m_SourceOutputName != name )
     {
     itkDebugMacro("connecting source  " << arg
-                                        << ", source output index " << idx);
+                                        << ", source output name " << name);
 
     m_Source = arg;
-    m_SourceOutputIndex = idx;
+    m_SourceOutputName = name;
     this->Modified();
     return true;
     }
   else
     {
     itkDebugMacro("could not connect source  " << arg
-                                               << ", source output index " << idx);
+                                               << ", source output name " << name);
 
     return false;
     }
@@ -289,12 +289,23 @@ DataObject
   return m_Source.GetPointer();
 }
 
+const DataObject::DataObjectIdentifierType &
+DataObject
+::GetSourceOutputName() const
+{
+  itkDebugMacro("returning Source name " << m_SourceOutputName);
+  return m_SourceOutputName;
+}
+
 unsigned int
 DataObject
 ::GetSourceOutputIndex() const
 {
-  itkDebugMacro("returning Source index " << m_SourceOutputIndex);
-  return m_SourceOutputIndex;
+  if( ! m_Source )
+    {
+    return 0;
+    }
+  return m_Source->MakeIndexFromName( m_SourceOutputName );
 }
 
 //----------------------------------------------------------------------------
@@ -307,12 +318,12 @@ DataObject
   if ( m_Source )
     {
     os << indent << "Source: (" << m_Source.GetPointer() << ") \n";
-    os << indent << "Source output index: " << m_SourceOutputIndex << "\n";
+    os << indent << "Source output name: " << m_SourceOutputName << "\n";
     }
   else
     {
     os << indent << "Source: (none)\n";
-    os << indent << "Source output index:  0\n";
+    os << indent << "Source output name: (none)\n";
     }
 
   os << indent << "Release Data: "

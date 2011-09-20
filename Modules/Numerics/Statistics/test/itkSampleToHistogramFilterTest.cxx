@@ -207,9 +207,9 @@ int itkSampleToHistogramFilterTest( int , char * [] )
 
   histogramSizeObject->Set( histogramSize2 );
 
-  filter->SetInput1( histogramSizeObject );
+  filter->SetHistogramSizeInput( histogramSizeObject );
 
-  returnedHistogramSizeObject = filter->GetInput1();
+  returnedHistogramSizeObject = filter->GetHistogramSizeInput();
 
   if( returnedHistogramSizeObject != histogramSizeObject )
     {
@@ -329,9 +329,9 @@ int itkSampleToHistogramFilterTest( int , char * [] )
     return EXIT_FAILURE;
     }
 
-  filter->SetInput2( marginalScaleObject1 );
+  filter->SetMarginalScaleInput( marginalScaleObject1 );
 
-  recoveredMarginalScaleObject = filter->GetInput2();
+  recoveredMarginalScaleObject = filter->GetMarginalScaleInput();
 
   if( recoveredMarginalScaleObject != marginalScaleObject1 )
     {
@@ -426,9 +426,9 @@ int itkSampleToHistogramFilterTest( int , char * [] )
 
   histogramBinMinimumObject->Set( histogramBinMinimum2 );
 
-  filter->SetInput3( histogramBinMinimumObject );
+  filter->SetHistogramBinMinimumInput( histogramBinMinimumObject );
 
-  returnedHistogramBinMinimumObject = filter->GetInput3();
+  returnedHistogramBinMinimumObject = filter->GetHistogramBinMinimumInput();
 
   if( returnedHistogramBinMinimumObject != histogramBinMinimumObject )
     {
@@ -547,9 +547,9 @@ int itkSampleToHistogramFilterTest( int , char * [] )
 
   histogramBinMaximumObject->Set( histogramBinMaximum2 );
 
-  filter->SetInput3( histogramBinMaximumObject );
+  filter->SetHistogramBinMinimumInput( histogramBinMaximumObject );
 
-  returnedHistogramBinMaximumObject = filter->GetInput3();
+  returnedHistogramBinMaximumObject = filter->GetHistogramBinMinimumInput();
 
   if( returnedHistogramBinMaximumObject != histogramBinMaximumObject )
     {
@@ -670,9 +670,9 @@ int itkSampleToHistogramFilterTest( int , char * [] )
     return EXIT_FAILURE;
     }
 
-  filter->SetInput5( autoMinimumMaximumObject1 );
+  filter->SetAutoMinimumMaximumInput( autoMinimumMaximumObject1 );
 
-  recoveredAutoMinimumMaximumObject = filter->GetInput5();
+  recoveredAutoMinimumMaximumObject = filter->GetAutoMinimumMaximumInput();
 
   if( recoveredAutoMinimumMaximumObject != autoMinimumMaximumObject1 )
     {

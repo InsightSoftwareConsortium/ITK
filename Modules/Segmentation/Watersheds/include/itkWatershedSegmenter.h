@@ -197,6 +197,7 @@ public:
                            EquivalencyTable::Pointer);
 
   /** Standard itk::ProcessObject subclass method. */
+  using Superclass::MakeOutput;
   virtual DataObjectPointer MakeOutput(unsigned int idx);
 
   /** Gets/Sets the initial label (IdentifierType integer value) used

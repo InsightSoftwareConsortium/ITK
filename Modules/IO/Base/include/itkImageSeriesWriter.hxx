@@ -64,13 +64,7 @@ const typename ImageSeriesWriter< TInputImage, TOutputImage >::InputImageType *
 ImageSeriesWriter< TInputImage, TOutputImage >
 ::GetInput(void)
 {
-  if ( this->GetNumberOfInputs() < 1 )
-    {
-    return 0;
-    }
-
-  return static_cast< TInputImage * >
-         ( this->ProcessObject::GetInput(0) );
+  return static_cast< TInputImage * >( this->GetPrimaryInput() );
 }
 
 //---------------------------------------------------------

@@ -129,6 +129,7 @@ public:
   itkGetConstMacro(NumberOfCells, SizeValueType);
 
   /** accept the input image */
+  using Superclass::SetInput;
   virtual void SetInput(const InputImageType *inputImage);
 
   void SetRegionOfInterest( const RegionType & iRegion )

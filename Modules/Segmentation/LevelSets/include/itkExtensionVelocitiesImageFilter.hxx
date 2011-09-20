@@ -72,7 +72,7 @@ const typename ExtensionVelocitiesImageFilter< TLevelSet, TAuxValue, VAuxDimensi
 ExtensionVelocitiesImageFilter< TLevelSet, TAuxValue, VAuxDimension >
 ::GetInputVelocityImage(unsigned int idx)
 {
-  if ( idx >= VAuxDimension || this->GetNumberOfInputs() < idx + 2 )
+  if ( idx >= VAuxDimension || this->GetNumberOfIndexedInputs() < idx + 2 )
     {
     return NULL;
     }
@@ -90,7 +90,7 @@ typename ExtensionVelocitiesImageFilter< TLevelSet, TAuxValue, VAuxDimension >
 ExtensionVelocitiesImageFilter< TLevelSet, TAuxValue, VAuxDimension >
 ::GetOutputVelocityImage(unsigned int idx)
 {
-  if ( idx >= VAuxDimension || this->GetNumberOfOutputs() < idx + 2 )
+  if ( idx >= VAuxDimension || this->GetNumberOfIndexedOutputs() < idx + 2 )
     {
     return NULL;
     }
@@ -108,7 +108,7 @@ ExtensionVelocitiesImageFilter< TLevelSet, TAuxValue, VAuxDimension >
 ::EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) )
 {
   // This filter requires all of the output images in the buffer.
-  for ( unsigned int j = 0; j < this->GetNumberOfOutputs(); j++ )
+  for ( unsigned int j = 0; j < this->GetNumberOfIndexedOutputs(); j++ )
     {
     if ( this->ProcessObject::GetOutput(j) )
       {

@@ -71,13 +71,7 @@ const TInputImage *
 ImageClassifierFilter< TSample, TInputImage, TOutputImage >
 ::GetImage() const
 {
-  if ( this->GetNumberOfInputs() < 1 )
-    {
-    return 0;
-    }
-
-  return static_cast< const TInputImage * >
-         ( this->ProcessObject::GetInput(0) );
+  return static_cast< const TInputImage * >( this->GetPrimaryInput() );
 }
 
 template< class TSample, class TInputImage, class TOutputImage >

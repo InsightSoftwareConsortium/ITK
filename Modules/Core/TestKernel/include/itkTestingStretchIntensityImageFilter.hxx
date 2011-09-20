@@ -196,12 +196,7 @@ const TInputImage *
 StretchIntensityImageFilter< TInputImage, TOutputImage >
 ::GetInput(void) const
 {
-  if ( this->GetNumberOfInputs() < 1 )
-    {
-    return 0;
-    }
-
-  return static_cast< const TInputImage * >( this->ProcessObject::GetInput(0) );
+  return static_cast< const TInputImage * >( this->GetPrimaryInput() );
 }
 
 

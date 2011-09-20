@@ -64,7 +64,7 @@ typename FastMarchingExtensionImageFilterBase< TInput, TOutput, TAuxValue, VAuxD
 FastMarchingExtensionImageFilterBase< TInput, TOutput, TAuxValue, VAuxDimension >
 ::GetAuxiliaryImage(const unsigned int& idx)
 {
-  if ( idx >= AuxDimension || this->GetNumberOfOutputs() < idx + 2 )
+  if ( idx >= AuxDimension || this->GetNumberOfIndexedOutputs() < idx + 2 )
     {
     return NULL;
     }
@@ -107,7 +107,7 @@ FastMarchingExtensionImageFilterBase< TInput, TOutput, TAuxValue, VAuxDimension 
   DataObject *itkNotUsed(output) )
 {
   // This filter requires all of the output images in the buffer.
-  for ( unsigned int j = 0; j < this->GetNumberOfOutputs(); j++ )
+  for ( unsigned int j = 0; j < this->GetNumberOfIndexedOutputs(); j++ )
     {
     if ( this->ProcessObject::GetOutput(j) )
       {

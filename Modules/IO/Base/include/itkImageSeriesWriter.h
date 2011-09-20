@@ -105,6 +105,7 @@ public:
   typedef const DictionaryArrayType *         DictionaryArrayRawPointer;
 
   /** Set/Get the image input of this writer.  */
+  using Superclass::SetInput;
   void SetInput(const InputImageType *input);
 
   const InputImageType * GetInput(void);

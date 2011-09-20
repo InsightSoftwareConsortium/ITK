@@ -80,7 +80,7 @@ MergeLabelMapFilter< TImage >
 
   ProgressReporter progress(this, 0, 1);
 
-  for ( unsigned int i = 1; i < this->GetNumberOfInputs(); i++ )
+  for ( unsigned int i = 1; i < this->GetNumberOfIndexedInputs(); i++ )
     {
     typename ImageType::ConstIterator it2( this->GetInput(i) );
     while ( ! it2.IsAtEnd() )
@@ -125,7 +125,7 @@ MergeLabelMapFilter< TImage >
 
   ProgressReporter progress(this, 0, 1);
 
-  for ( unsigned int i = 1; i < this->GetNumberOfInputs(); i++ )
+  for ( unsigned int i = 1; i < this->GetNumberOfIndexedInputs(); i++ )
     {
     typename ImageType::ConstIterator it2( this->GetInput(i) );
     while ( ! it2.IsAtEnd() )
@@ -173,7 +173,7 @@ MergeLabelMapFilter< TImage >
 
   ProgressReporter progress(this, 0, 1);
 
-  for ( unsigned int i = 1; i < this->GetNumberOfInputs(); i++ )
+  for ( unsigned int i = 1; i < this->GetNumberOfIndexedInputs(); i++ )
     {
     typename ImageType::ConstIterator it2( this->GetInput(i) );
     while ( ! it2.IsAtEnd() )
@@ -240,7 +240,7 @@ MergeLabelMapFilter< TImage >
     }
 
   // now, the next images
-  for ( unsigned int i = 1; i < this->GetNumberOfInputs(); i++ )
+  for ( unsigned int i = 1; i < this->GetNumberOfIndexedInputs(); i++ )
     {
     typename ImageType::ConstIterator it2( this->GetInput(i) );
     while ( ! it2.IsAtEnd() )

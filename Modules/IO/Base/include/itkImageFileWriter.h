@@ -99,6 +99,7 @@ public:
   typedef typename InputImageType::PixelType  InputImagePixelType;
 
   /** Set/Get the image input of this writer.  */
+  using Superclass::SetInput;
   void SetInput(const InputImageType *input);
 
   const InputImageType * GetInput(void);

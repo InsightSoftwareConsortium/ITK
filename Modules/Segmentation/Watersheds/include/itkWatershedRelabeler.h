@@ -84,6 +84,7 @@ public:
   typedef DataObject::Pointer                               DataObjectPointer;
 
   /** Standard itk::ProcessObject subclass method. */
+  using Superclass::MakeOutput;
   virtual DataObjectPointer MakeOutput(unsigned int idx);
 
   /** Set/Get the input image */

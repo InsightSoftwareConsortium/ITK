@@ -56,8 +56,6 @@ int itkImageToHistogramFilterTest( int , char * [] )
   image->SetRegions( region );
   image->Allocate();
 
-
-
   //  Now fill up the image will all the combinations of RGB
   //  values from 0-255 on each channel.
   itk::ImageRegionIteratorWithIndex< RGBImageType > it( image, region );
@@ -162,9 +160,9 @@ int itkImageToHistogramFilterTest( int , char * [] )
 
   histogramBinMinimumObject->Set( histogramBinMinimum2 );
 
-  filter->SetInput3( histogramBinMinimumObject );
+  filter->SetHistogramBinMinimumInput( histogramBinMinimumObject );
 
-  returnedHistogramBinMinimumObject = filter->GetInput3();
+  returnedHistogramBinMinimumObject = filter->GetHistogramBinMinimumInput();
 
   if( returnedHistogramBinMinimumObject != histogramBinMinimumObject )
     {
@@ -259,9 +257,9 @@ int itkImageToHistogramFilterTest( int , char * [] )
 
   histogramBinMaximumObject->Set( histogramBinMaximum2 );
 
-  filter->SetInput3( histogramBinMaximumObject );
+  filter->SetHistogramBinMinimumInput( histogramBinMaximumObject );
 
-  returnedHistogramBinMaximumObject = filter->GetInput3();
+  returnedHistogramBinMaximumObject = filter->GetHistogramBinMinimumInput();
 
   if( returnedHistogramBinMaximumObject != histogramBinMaximumObject )
     {
