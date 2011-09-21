@@ -10,7 +10,7 @@ set(WRAPPER_LIBRARY_GROUPS
 
 set(WRAPPER_LIBRARY_DEPENDS ITKImageFeature ITKFiniteDifference
 ITKDistanceMap ITKAnisotropicSmoothing ITKThresholding ITKImageCompare
-ITKFastMarching ITKOptimizers)
+ITKFastMarching ITKOptimizers ITKNarrowBand)
 
 set(WRAPPER_LIBRARY_LINK_LIBRARIES ${ITK_LIBRARIES})
 
