@@ -91,13 +91,20 @@ public:
   using Superclass::ReleaseInputs;
   using Superclass::CacheInputReleaseDataFlags;
   using Superclass::RestoreInputReleaseDataFlags;
-
+  using Superclass::NameComparator;
 };
 
 }
 
 int itkDataObjectAndProcessObjectTest(int, char* [] )
 {
+  itk::TestProcessObject::NameComparator comparator;
+  TEST_SET_GET_VALUE( true, comparator("Primary", "Foo") );
+  TEST_SET_GET_VALUE( false, comparator("Primary", "Primary") );
+  TEST_SET_GET_VALUE( false, comparator("Foo", "Primary") );
+  TEST_SET_GET_VALUE( false, comparator("Foo", "Bar") );
+  TEST_SET_GET_VALUE( false, comparator("Foo", "Foo") );
+  TEST_SET_GET_VALUE( true, comparator("Bar", "Foo") );
 
   // create a TestProcessObject
   itk::TestProcessObject::Pointer process = itk::TestProcessObject::New();
@@ -251,6 +258,7 @@ int itkDataObjectAndProcessObjectTest(int, char* [] )
   TEST_SET_GET( input0, process->GetPrimaryInput() );
   TEST_SET_GET( input0, process->GetInput(0) );
   TEST_SET_GET( input0, process->GetInput("Primary") );
+  TEST_SET_GET_VALUE( 1, process->GetNumberOfIndexedInputs() );
   process->SetPrimaryInput( NULL );
   TEST_SET_GET_VALUE( NULL, process->GetPrimaryInput() );
   TEST_SET_GET_VALUE( NULL, process->GetInput(0) );
@@ -262,10 +270,21 @@ int itkDataObjectAndProcessObjectTest(int, char* [] )
 
   process->SetNthInput( 1, input1 );
   TEST_SET_GET( input1, process->GetInput(1) );
+  TEST_SET_GET_VALUE( 2, process->GetNumberOfIndexedInputs() );
   process->SetNthInput( 1, NULL );
   TEST_SET_GET_VALUE( NULL, process->GetInput(1) );
   process->SetNthInput( 1, input1 );
 
+  process->Print(std::cout);
+  process->RemoveInput(1);
+  TEST_SET_GET_VALUE( 1, process->GetNumberOfIndexedInputs() );
+  process->SetNthInput( 1, input1 );
+  TEST_SET_GET_VALUE( 2, process->GetNumberOfIndexedInputs() );
+  TEST_SET_GET( input1, process->GetInput(1) );
+  process->RemoveInput(10);
+  TEST_SET_GET_VALUE( 2, process->GetNumberOfIndexedInputs() );
+  process->PopBackInput();
+  TEST_SET_GET_VALUE( 1, process->GetNumberOfIndexedInputs() );
 
   return (EXIT_SUCCESS);
 }

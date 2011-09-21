@@ -398,3 +398,4 @@ itk_module_target_label(itkSystemInformationTest)
 target_link_libraries(itkSystemInformationTest  ${ITKCommon_LIBRARIES})
 itk_add_test(NAME itkSystemInformationTest
          COMMAND itkSystemInformationTest ${CMAKE_BINARY_DIR})
+itk_add_test(NAME itkDataObjectAndProcessObjectTest COMMAND ITKCommon2TestDriver itkDataObjectAndProcessObjectTest)
