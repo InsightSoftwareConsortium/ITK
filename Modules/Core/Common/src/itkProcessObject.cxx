@@ -185,7 +185,7 @@ ProcessObject
   DataObjectPointerMap::iterator it = m_Inputs.find(key);
   if ( it != m_Inputs.end() )
     {
-    m_Outputs.erase( it );
+    m_Inputs.erase( it );
     this->Modified();
     }
 }

@@ -644,6 +644,8 @@ private:
   friend class DataObjectIterator;
   friend class InputDataObjectIterator;
   friend class OutputDataObjectIterator;
+
+  friend class TestProcessObject;
 };
 } // end namespace itk
 
