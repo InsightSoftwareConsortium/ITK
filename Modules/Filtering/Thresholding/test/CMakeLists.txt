@@ -43,6 +43,6 @@ itk_add_test(NAME itkBinaryThresholdProjectionImageFilterTest
       COMMAND ITKThresholdingTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/HeadMRVolumeBinaryThresholdProjection.png}
               ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeBinaryThresholdProjection.png
-    itkBinaryThresholdProjectionImageFilterTest DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd} ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeBinaryThresholdProjection.png 100 255 0)
+    itkBinaryThresholdProjectionImageFilterTest DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeBinaryThresholdProjection.png 100 255 0)
 itk_add_test(NAME itkBinaryThresholdSpatialFunctionTest
       COMMAND ITKThresholdingTestDriver itkBinaryThresholdSpatialFunctionTest)

@@ -87,13 +87,13 @@ itk_add_test(NAME itkAnalyzeIOBigEndianCompressed.img.gz
          DATA{${ITK_DATA_ROOT}/Input/BigEndianCompressed.img.gz})
 itk_add_test(NAME itkAnalyzeIOBigEndian
       COMMAND DeprecatedIOTestDriver itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}
-         DATA{${ITK_DATA_ROOT}/Input/BigEndian.hdr})
+              DATA{${ITK_DATA_ROOT}/Input/BigEndian.hdr,BigEndian.mhd,BigEndian.img})
 itk_add_test(NAME itkAnalyzeIOLittleEndianCompressed
       COMMAND DeprecatedIOTestDriver itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}
-         DATA{${ITK_DATA_ROOT}/Input/LittleEndianCompressed.hdr})
+              DATA{${ITK_DATA_ROOT}/Input/LittleEndianCompressed.hdr,LittleEndianCompressed.img.gz})
 itk_add_test(NAME itkAnalyzeIOLittleEndian
       COMMAND DeprecatedIOTestDriver itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}
-         DATA{${ITK_DATA_ROOT}/Input/LittleEndian.hdr})
+              DATA{${ITK_DATA_ROOT}/Input/LittleEndian.hdr,LittleEndian.mhd,LittleEndian.img})
 itk_add_test(NAME itkAnalyzeIOInternalTests
       COMMAND DeprecatedIOTestDriver itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR} )
 itk_add_test(NAME itkAnalyzeIOShouldFail
@@ -101,10 +101,10 @@ itk_add_test(NAME itkAnalyzeIOShouldFail
                                 false DATA{${ITK_DATA_ROOT}/Input/ramp.gipl})
 itk_add_test(NAME itkAnalyzeIOShouldSucceed
       COMMAND DeprecatedIOTestDriver itkAnalyzeImageIOTest2 ${ITK_TEST_OUTPUT_DIR}
-                                true DATA{${ITK_DATA_ROOT}/Input/LittleEndian.hdr})
+                                true DATA{${ITK_DATA_ROOT}/Input/LittleEndian.hdr,LittleEndian.mhd,LittleEndian.img})
 itk_add_test(NAME itkAnalyzeIOShouldSucceedZ
       COMMAND DeprecatedIOTestDriver itkAnalyzeImageIOTest2 ${ITK_TEST_OUTPUT_DIR}
-                                true DATA{${ITK_DATA_ROOT}/Input/LittleEndianZ.hdr})
+                                true DATA{${ITK_DATA_ROOT}/Input/LittleEndianZ.hdr,LittleEndianZ.img.gz})
 itk_add_test(NAME itkAnalyzeImageIODirectionsTest
       COMMAND DeprecatedIOTestDriver itkAnalyzeImageIODirectionsTest
                                 ${ITK_TEST_OUTPUT_DIR})

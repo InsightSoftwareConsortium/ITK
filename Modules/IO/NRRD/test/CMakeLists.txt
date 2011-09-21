@@ -46,7 +46,7 @@ itk_add_test(NAME itkNrrdDiffusionTensor3DImageReadTensorDoubleWriteTensorDouble
       COMMAND ITKIONRRDTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/small-tensors-double.nrrd}
               ${ITK_TEST_OUTPUT_DIR}/small-tensors-double.nrrd
-    itkNrrdDiffusionTensor3DImageReadTensorDoubleWriteTensorDoubleTest DATA{${ITK_DATA_ROOT}/Input/small-tensors.nhdr} ${ITK_TEST_OUTPUT_DIR}/small-tensors-double.nrrd)
+    itkNrrdDiffusionTensor3DImageReadTensorDoubleWriteTensorDoubleTest DATA{${ITK_DATA_ROOT}/Input/small-tensors.nhdr,small-tensors.raw} ${ITK_TEST_OUTPUT_DIR}/small-tensors-double.nrrd)
 itk_add_test(NAME itkNrrdDiffusionTensor3DImageReadTest1
       COMMAND ITKIONRRDTestDriver itkNrrdDiffusionTensor3DImageReadTest
               DATA{${ITK_DATA_ROOT}/Input/mini-ten-mask.nrrd})
@@ -63,14 +63,14 @@ itk_add_test(NAME itkNrrdDiffusionTensor3DImageReadWriteTest
     itkNrrdDiffusionTensor3DImageReadWriteTest DATA{${ITK_DATA_ROOT}/Input/mini-ten-nomask-fast.nrrd} ${ITK_TEST_OUTPUT_DIR}/mini-ten.nrrd)
 itk_add_test(NAME itkNrrdDiffusionTensor3DImageReadWriteTest4
       COMMAND ITKIONRRDTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/small-tensors.nhdr}
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/small-tensors.nhdr,small-tensors.raw}
               ${ITK_TEST_OUTPUT_DIR}/small-tensors.nhdr
     itkNrrdDiffusionTensor3DImageReadWriteTest DATA{${ITK_DATA_ROOT}/Input/small-tensors.nhdr} ${ITK_TEST_OUTPUT_DIR}/small-tensors.nhdr)
 itk_add_test(NAME itkNrrdImageReadWriteTest1
       COMMAND ITKIONRRDTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/NrrdImageReadWriteTest1.nrrd}
               ${ITK_TEST_OUTPUT_DIR}/box.nrrd
-    itkNrrdImageReadWriteTest DATA{${ITK_DATA_ROOT}/Input/box.nhdr} ${ITK_TEST_OUTPUT_DIR}/box.nrrd)
+    itkNrrdImageReadWriteTest DATA{${ITK_DATA_ROOT}/Input/box.nhdr,box.raw} ${ITK_TEST_OUTPUT_DIR}/box.nrrd)
 itk_add_test(NAME itkNrrdImageReadWriteTest2
       COMMAND ITKIONRRDTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/vol-ascii.nrrd}
@@ -100,27 +100,27 @@ itk_add_test(NAME itkNrrdImageReadWriteTest7
       COMMAND ITKIONRRDTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/vol-ascii.nrrd}
               ${ITK_TEST_OUTPUT_DIR}/vol7.nrrd
-    itkNrrdImageReadWriteTest DATA{${ITK_DATA_ROOT}/Input/vol-ascii.nhdr} ${ITK_TEST_OUTPUT_DIR}/vol7.nrrd)
+    itkNrrdImageReadWriteTest DATA{${ITK_DATA_ROOT}/Input/vol-ascii.nhdr,vol-ascii.ascii} ${ITK_TEST_OUTPUT_DIR}/vol7.nrrd)
 itk_add_test(NAME itkNrrdImageReadWriteTest8
       COMMAND ITKIONRRDTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/vol-ascii.nrrd}
               ${ITK_TEST_OUTPUT_DIR}/vol8.nrrd
-    itkNrrdImageReadWriteTest DATA{${ITK_DATA_ROOT}/Input/vol-raw-big.nhdr} ${ITK_TEST_OUTPUT_DIR}/vol8.nrrd)
+    itkNrrdImageReadWriteTest DATA{${ITK_DATA_ROOT}/Input/vol-raw-big.nhdr,vol-raw-big.raw} ${ITK_TEST_OUTPUT_DIR}/vol8.nrrd)
 itk_add_test(NAME itkNrrdImageReadWriteTest9
       COMMAND ITKIONRRDTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/vol-ascii.nrrd}
               ${ITK_TEST_OUTPUT_DIR}/vol9.nrrd
-    itkNrrdImageReadWriteTest DATA{${ITK_DATA_ROOT}/Input/vol-raw-little.nhdr} ${ITK_TEST_OUTPUT_DIR}/vol9.nrrd)
+    itkNrrdImageReadWriteTest DATA{${ITK_DATA_ROOT}/Input/vol-raw-little.nhdr,vol-raw-little.raw} ${ITK_TEST_OUTPUT_DIR}/vol9.nrrd)
 itk_add_test(NAME itkNrrdImageReadWriteTest10
       COMMAND ITKIONRRDTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/vol-ascii.nrrd}
               ${ITK_TEST_OUTPUT_DIR}/vol10.nrrd
-    itkNrrdImageReadWriteTest DATA{${ITK_DATA_ROOT}/Input/vol-gzip-big.nhdr} ${ITK_TEST_OUTPUT_DIR}/vol10.nrrd)
+    itkNrrdImageReadWriteTest DATA{${ITK_DATA_ROOT}/Input/vol-gzip-big.nhdr,vol-gzip-big.raw.gz} ${ITK_TEST_OUTPUT_DIR}/vol10.nrrd)
 itk_add_test(NAME itkNrrdImageReadWriteTest11
       COMMAND ITKIONRRDTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/vol-ascii.nrrd}
               ${ITK_TEST_OUTPUT_DIR}/vol11.nrrd
-    itkNrrdImageReadWriteTest DATA{${ITK_DATA_ROOT}/Input/vol-gzip-little.nhdr} ${ITK_TEST_OUTPUT_DIR}/vol11.nrrd)
+    itkNrrdImageReadWriteTest DATA{${ITK_DATA_ROOT}/Input/vol-gzip-little.nhdr,vol-gzip-little.raw.gz} ${ITK_TEST_OUTPUT_DIR}/vol11.nrrd)
 itk_add_test(NAME itkNrrdRGBAImageReadWriteTest
       COMMAND ITKIONRRDTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/NrrdRGBAImageReadWriteTest.png}
@@ -130,17 +130,17 @@ itk_add_test(NAME itkNrrdRGBImageReadWriteTest0
       COMMAND ITKIONRRDTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/NrrdRGBImageReadWriteTest0.png}
               ${ITK_TEST_OUTPUT_DIR}/NrrdRGBImageReadWriteTest0.png
-    itkNrrdRGBImageReadWriteTest DATA{${ITK_DATA_ROOT}/Input/testrgb-0.nhdr} ${ITK_TEST_OUTPUT_DIR}/NrrdRGBImageReadWriteTest0.png)
+    itkNrrdRGBImageReadWriteTest DATA{${ITK_DATA_ROOT}/Input/testrgb-0.nhdr,testrgb-0.raw} ${ITK_TEST_OUTPUT_DIR}/NrrdRGBImageReadWriteTest0.png)
 itk_add_test(NAME itkNrrdRGBImageReadWriteTest1
       COMMAND ITKIONRRDTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/NrrdRGBImageReadWriteTest1.png}
               ${ITK_TEST_OUTPUT_DIR}/NrrdRGBImageReadWriteTest1.png
-    itkNrrdRGBImageReadWriteTest DATA{${ITK_DATA_ROOT}/Input/testrgb-1.nhdr} ${ITK_TEST_OUTPUT_DIR}/NrrdRGBImageReadWriteTest1.png)
+    itkNrrdRGBImageReadWriteTest DATA{${ITK_DATA_ROOT}/Input/testrgb-1.nhdr,testrgb-1.raw} ${ITK_TEST_OUTPUT_DIR}/NrrdRGBImageReadWriteTest1.png)
 itk_add_test(NAME itkNrrdRGBImageReadWriteTest2
       COMMAND ITKIONRRDTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/NrrdRGBImageReadWriteTest2.png}
               ${ITK_TEST_OUTPUT_DIR}/NrrdRGBImageReadWriteTest2.png
-    itkNrrdRGBImageReadWriteTest DATA{${ITK_DATA_ROOT}/Input/testrgb-2.nhdr} ${ITK_TEST_OUTPUT_DIR}/NrrdRGBImageReadWriteTest2.png)
+    itkNrrdRGBImageReadWriteTest DATA{${ITK_DATA_ROOT}/Input/testrgb-2.nhdr,testrgb-2.raw} ${ITK_TEST_OUTPUT_DIR}/NrrdRGBImageReadWriteTest2.png)
 itk_add_test(NAME itkNrrdVectorImageReadTest
       COMMAND ITKIONRRDTestDriver itkNrrdVectorImageReadTest
               DATA{${ITK_DATA_ROOT}/Input/mini-vector-fast.nrrd})

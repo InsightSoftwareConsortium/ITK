@@ -109,14 +109,14 @@ itk_add_test(NAME itkRegionOfInterestImageFilterTest
       COMMAND ITKImageGridTestDriver itkRegionOfInterestImageFilterTest)
 itk_add_test(NAME itkBSplineUpsampleImageFilterTest
       COMMAND ITKImageGridTestDriver itkBSplineUpsampleImageFilterTest
-              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd} ${ITK_TEST_OUTPUT_DIR}/itkBSplineUpsampleImageFilterTest1.mha 3)
+              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR}/itkBSplineUpsampleImageFilterTest1.mha 3)
 itk_add_test(NAME itkBSplineResampleImageFilterTest
       COMMAND ITKImageGridTestDriver itkBSplineResampleImageFilterTest)
 itk_add_test(NAME itkWarpImageFilterTest2
       COMMAND ITKImageGridTestDriver itkWarpImageFilterTest2)
 itk_add_test(NAME itkBSplineDownsampleImageFilterTest
       COMMAND ITKImageGridTestDriver itkBSplineDownsampleImageFilterTest
-              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd} ${ITK_TEST_OUTPUT_DIR}/itkBSplineDownsampleImageFilterTest1.mha 3)
+              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR}/itkBSplineDownsampleImageFilterTest1.mha 3)
 itk_add_test(NAME itkTileImageFilterTest
       COMMAND ITKImageGridTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/TileImageFilterTest4.png}
@@ -203,6 +203,6 @@ itk_add_test(NAME itkZeroFluxNeumannPadImageFilterTest
       COMMAND ITKImageGridTestDriver itkZeroFluxNeumannPadImageFilterTest)
 itk_add_test(NAME itkSliceBySliceImageFilterTest
       COMMAND ITKImageGridTestDriver itkSliceBySliceImageFilterTest
-              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd} ${ITK_TEST_OUTPUT_DIR}/itkSliceBySliceImageFilterTest.mha)
+              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR}/itkSliceBySliceImageFilterTest.mha)
 itk_add_test(NAME itkPadImageFilterTest
       COMMAND ITKImageGridTestDriver itkPadImageFilterTest)

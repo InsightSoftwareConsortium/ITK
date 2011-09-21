@@ -170,7 +170,7 @@ itk_add_test(NAME  GradientMagnitudeRecursiveGaussianImageFilterTest COMMAND ${I
 )
 itk_add_test(NAME  GradientRecursiveGaussianImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   $<TARGET_FILE:GradientRecursiveGaussianImageFilter>
-        DATA{${ITK_SOURCE_DIR}/Testing/Data/Input/HeadMRVolume.mhd}
+        DATA{${ITK_SOURCE_DIR}/Testing/Data/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
         ${TEMP}/GradientRecursiveGaussianImageFilterTest.mha
         1.5  # Sigma
 )
@@ -627,7 +627,7 @@ itk_add_test(NAME  ResampleVolumesToBeIsotropicTest COMMAND ${ITK_TEST_DRIVER}
         0 255
 )
 itk_add_test(NAME  ScaleSpaceGenerator2DTest COMMAND ${ITK_TEST_DRIVER}
-  --compare DATA{${BASELINE}/ScaleSpaceGenerator2D005.mhd}
+  --compare DATA{${BASELINE}/ScaleSpaceGenerator2D005.mhd,ScaleSpaceGenerator2D005.raw}
             ${TEMP}/ScaleSpaceGenerator2D005.mhd
   $<TARGET_FILE:ScaleSpaceGenerator2D>
         DATA{${ITK_SOURCE_DIR}/Testing/Data/Input/cthead1.png}
@@ -638,7 +638,7 @@ itk_add_test(NAME  SubsampleVolumeTest COMMAND ${ITK_TEST_DRIVER}
   --compare DATA{${BASELINE}/SubsampleVolume.mha}
             ${TEMP}/SubsampleVolume.mha
   $<TARGET_FILE:SubsampleVolume>
-        DATA{${ITK_SOURCE_DIR}/Testing/Data/Input/HeadMRVolume.mhd}
+        DATA{${ITK_SOURCE_DIR}/Testing/Data/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
         ${TEMP}/SubsampleVolume.mha
         2 2 2
 )
@@ -660,18 +660,18 @@ itk_add_test(NAME  SpatialObjectToImage3 COMMAND ${ITK_TEST_DRIVER}
 #   TensorRelativeAnisotropyImageFilter
 #
 itk_add_test(NAME  DiffusionTensor3DReconstructionImageFilterTest1 COMMAND ${ITK_TEST_DRIVER}
-  --compare DATA{${BASELINE}/FACorpusCallosum.mhd}
+  --compare DATA{${BASELINE}/FACorpusCallosum.mhd,FACorpusCallosum.raw}
             ${TEMP}/FACorpusCallosum.mhd
   $<TARGET_FILE:DiffusionTensor3DReconstructionImageFilter>
-        DATA{${ITK_SOURCE_DIR}/Testing/Data/Input/DwiCorpusCallosum.nhdr}
+        DATA{${ITK_SOURCE_DIR}/Testing/Data/Input/DwiCorpusCallosum.nhdr,DwiCorpusCallosum.raw}
         80 ${TEMP}/Tensors.mhd ${TEMP}/FACorpusCallosum.mhd
         ${TEMP}/RACorpusCallosum.mhd 0
 )
 itk_add_test(NAME  DiffusionTensor3DReconstructionImageFilterTest2 COMMAND ${ITK_TEST_DRIVER}
-  --compare DATA{${BASELINE}/RACorpusCallosum.mhd}
+  --compare DATA{${BASELINE}/RACorpusCallosum.mhd,RACorpusCallosum.raw}
             ${TEMP}/RACorpusCallosum.mhd
   $<TARGET_FILE:DiffusionTensor3DReconstructionImageFilter>
-        DATA{${ITK_SOURCE_DIR}/Testing/Data/Input/DwiCorpusCallosum.nhdr}
+        DATA{${ITK_SOURCE_DIR}/Testing/Data/Input/DwiCorpusCallosum.nhdr,DwiCorpusCallosum.raw}
         80 ${TEMP}/Tensors.mhd ${TEMP}/FACorpusCallosum.mhd
         ${TEMP}/RACorpusCallosum.mhd 0
 )

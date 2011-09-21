@@ -216,7 +216,7 @@ itk_add_test(NAME itkPolylineMaskImageFilterTest
       COMMAND ITKImageIntensityTestDriver itkPolylineMaskImageFilterTest)
 itk_add_test(NAME itkPromoteDimensionImageTest
       COMMAND ITKImageIntensityTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/PromoteDimensionImageTest.mhd}
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/PromoteDimensionImageTest.mhd,PromoteDimensionImageTest.raw}
               ${ITK_TEST_OUTPUT_DIR}/PromoteDimensionImageTest.mhd
     itkPromoteDimensionImageTest DATA{${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png} ${ITK_TEST_OUTPUT_DIR}/PromoteDimensionImageTest.mhd)
 itk_add_test(NAME itkModulusImageFilterTest

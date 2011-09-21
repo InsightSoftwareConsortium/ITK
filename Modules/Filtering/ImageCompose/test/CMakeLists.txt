@@ -40,8 +40,8 @@ itk_add_test(NAME itkJoinSeriesImageFilterTest
       COMMAND ITKImageComposeTestDriver itkJoinSeriesImageFilterTest)
 itk_add_test(NAME itkJoinSeriesImageFilterStreamingTest
       COMMAND ITKImageComposeTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd}
+    --compare DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
               ${ITK_TEST_OUTPUT_DIR}/itkJoinSeriesImageFilterStreamingTest.mha
-    itkJoinSeriesImageFilterStreamingTest DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd} ${ITK_TEST_OUTPUT_DIR}/itkJoinSeriesImageFilterStreamingTest.mha)
+    itkJoinSeriesImageFilterStreamingTest DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR}/itkJoinSeriesImageFilterStreamingTest.mha)
 itk_add_test(NAME itkJoinImageFilterTest
       COMMAND ITKImageComposeTestDriver itkJoinImageFilterTest)

@@ -313,22 +313,22 @@ itk_add_test(NAME itkGridForwardWarpImageFilterTest
       COMMAND ITKReviewTestDriver itkGridForwardWarpImageFilterTest)
 itk_add_test(NAME itkGridImageSourceTest1
       COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkGridImageSourceTest1.nhdr}
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkGridImageSourceTest1.nhdr,itkGridImageSourceTest1.raw.gz}
               ${ITK_TEST_OUTPUT_DIR}/itkGridImageSourceTest1.nhdr
     itkGridImageSourceTest ${ITK_TEST_OUTPUT_DIR}/itkGridImageSourceTest1.nhdr 0)
 itk_add_test(NAME itkGridImageSourceTest2
       COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkGridImageSourceTest2.nhdr}
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkGridImageSourceTest2.nhdr,itkGridImageSourceTest2.raw.gz}
               ${ITK_TEST_OUTPUT_DIR}/itkGridImageSourceTest2.nhdr
     itkGridImageSourceTest ${ITK_TEST_OUTPUT_DIR}/itkGridImageSourceTest2.nhdr 1)
 itk_add_test(NAME itkGridImageSourceTest3
       COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkGridImageSourceTest3.nhdr}
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkGridImageSourceTest3.nhdr,itkGridImageSourceTest3.raw.gz}
               ${ITK_TEST_OUTPUT_DIR}/itkGridImageSourceTest3.nhdr
     itkGridImageSourceTest ${ITK_TEST_OUTPUT_DIR}/itkGridImageSourceTest3.nhdr 2)
 itk_add_test(NAME itkGridImageSourceTest4
       COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkGridImageSourceTest4.nhdr}
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkGridImageSourceTest4.nhdr,itkGridImageSourceTest4.raw.gz}
               ${ITK_TEST_OUTPUT_DIR}/itkGridImageSourceTest4.nhdr
     itkGridImageSourceTest ${ITK_TEST_OUTPUT_DIR}/itkGridImageSourceTest4.nhdr 3)
 itk_add_test(NAME itkImageReadComplexWriteMagnitudeAndPhaseTest
@@ -355,7 +355,7 @@ set_tests_properties( itkJPEG2000Test03 PROPERTIES DEPENDS itkJPEG2000Test00 )
 
 itk_add_test(NAME itkJPEG2000Test05
       COMMAND ITKReviewTestDriver itkJPEG2000ImageIOTest05
-              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd} ${ITK_TEST_OUTPUT_DIR} jp2)
+              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR} jp2)
 itk_add_test(NAME itkJPEG2000Test06
       COMMAND ITKReviewTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/cthead1.tif}
@@ -795,7 +795,7 @@ itk_add_test(NAME itkVectorCentralDifferenceImageFunctionTest
       COMMAND ITKReviewTestDriver itkVectorCentralDifferenceImageFunctionTest)
 itk_add_test(NAME itkVoxBoCUBImageIOTest1
       COMMAND ITKReviewTestDriver itkVoxBoCUBImageIOTest
-              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd} ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume.cub)
+              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume.cub)
 itk_add_test(NAME itkVoxBoCUBImageIOTest2
       COMMAND ITKReviewTestDriver itkVoxBoCUBImageIOTest
               DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.cub} ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume1.cub)
@@ -810,12 +810,12 @@ itk_add_test(NAME itkVoxBoCUBImageIOTest5
               DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume2.cub.gz} ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume2.cub)
 itk_add_test(NAME itkVoxBoCUBImageIOTest6
       COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd}
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd,HeadMRVolume.raw}
               ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeFromCUB2.mha
     itkVoxBoCUBImageIOTest DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume2.cub} ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeFromCUB2.mha)
 itk_add_test(NAME itkVoxBoCUBImageIOTest7
       COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd}
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd,HeadMRVolume.raw}
               ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeFromCUB3.mha
     itkVoxBoCUBImageIOTest DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume2.cub.gz} ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeFromCUB3.mha)
 itk_add_test(NAME itkWarpHarmonicEnergyCalculatorTest

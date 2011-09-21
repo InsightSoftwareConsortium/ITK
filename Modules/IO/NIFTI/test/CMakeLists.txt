@@ -36,13 +36,13 @@ itk_add_test(NAME itkNiftiIOBigEndianCompressed.img.gz
               ${ITK_TEST_OUTPUT_DIR} itkNiftiIOBigEndianCompressed.img.gz DATA{${ITK_DATA_ROOT}/Input/BigEndianCompressed.img.gz})
 itk_add_test(NAME itkNiftiIOBigEndian
       COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest
-              ${ITK_TEST_OUTPUT_DIR} itkNiftiIOBigEndian DATA{${ITK_DATA_ROOT}/Input/BigEndian.hdr})
+              ${ITK_TEST_OUTPUT_DIR} itkNiftiIOBigEndian DATA{${ITK_DATA_ROOT}/Input/BigEndian.hdr,BigEndian.mhd,BigEndian.img})
 itk_add_test(NAME itkNiftiIOLittleEndianCompressed
       COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest
-              ${ITK_TEST_OUTPUT_DIR} itkNiftiImageIOTest DATA{${ITK_DATA_ROOT}/Input/LittleEndianCompressed.hdr})
+              ${ITK_TEST_OUTPUT_DIR} itkNiftiImageIOTest DATA{${ITK_DATA_ROOT}/Input/LittleEndianCompressed.hdr,LittleEndianCompressed.img.gz})
 itk_add_test(NAME itkNiftiIOLittleEndian
       COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest
-              ${ITK_TEST_OUTPUT_DIR} itkNiftiIOLittleEndian DATA{${ITK_DATA_ROOT}/Input/LittleEndian.hdr})
+              ${ITK_TEST_OUTPUT_DIR} itkNiftiIOLittleEndian DATA{${ITK_DATA_ROOT}/Input/LittleEndian.hdr,LittleEndian.mhd,LittleEndian.img})
 itk_add_test(NAME itkNiftiIOInternalTests
       COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest
               ${ITK_TEST_OUTPUT_DIR})
@@ -51,7 +51,7 @@ itk_add_test(NAME itkNiftiIOShouldFail
               ${ITK_TEST_OUTPUT_DIR} itkNiftiIOShouldFail false DATA{${ITK_DATA_ROOT}/Input/ramp.gipl})
 itk_add_test(NAME itkNiftiIOShouldSucceed
       COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest2
-              ${ITK_TEST_OUTPUT_DIR} itkNiftiIOShouldSucceed true DATA{${ITK_DATA_ROOT}/Input/LittleEndian.hdr})
+              ${ITK_TEST_OUTPUT_DIR} itkNiftiIOShouldSucceed true DATA{${ITK_DATA_ROOT}/Input/LittleEndian.hdr,LittleEndian.mhd,LittleEndian.img})
 itk_add_test(NAME itkDirCosinesTest
       COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest4 ${ITK_TEST_OUTPUT_DIR} )
 itk_add_test(NAME itkNiftiSlopeInterceptTest
