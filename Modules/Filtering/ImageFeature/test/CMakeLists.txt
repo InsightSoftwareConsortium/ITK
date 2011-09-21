@@ -40,57 +40,57 @@ itk_add_test(NAME itkHoughTransform2DLinesImageTest
       COMMAND ITKImageFeatureTestDriver itkHoughTransform2DLinesImageTest)
 itk_add_test(NAME itkCannyEdgeDetectionImageFilterTest
       COMMAND ITKImageFeatureTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkCannyEdgeDetectionImageFilterTest.png
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkCannyEdgeDetectionImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/itkCannyEdgeDetectionImageFilterTest.png
-    itkCannyEdgeDetectionImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkCannyEdgeDetectionImageFilterTest.png)
+    itkCannyEdgeDetectionImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkCannyEdgeDetectionImageFilterTest.png)
 itk_add_test(NAME itkBilateralImageFilterTest
       COMMAND ITKImageFeatureTestDriver itkBilateralImageFilterTest)
 itk_add_test(NAME itkBilateralImageFilterTest2
       COMMAND ITKImageFeatureTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/BilateralImageFilterTest2.png
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/BilateralImageFilterTest2.png}
               ${ITK_TEST_OUTPUT_DIR}/BilateralImageFilterTest2.png
-    itkBilateralImageFilterTest2 ${ITK_DATA_ROOT}/Input/cake_easy.png ${ITK_TEST_OUTPUT_DIR}/BilateralImageFilterTest2.png)
+    itkBilateralImageFilterTest2 DATA{${ITK_DATA_ROOT}/Input/cake_easy.png} ${ITK_TEST_OUTPUT_DIR}/BilateralImageFilterTest2.png)
 itk_add_test(NAME itkBilateralImageFilterTest3
       COMMAND ITKImageFeatureTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/BilateralImageFilterTest3.png
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/BilateralImageFilterTest3.png}
               ${ITK_TEST_OUTPUT_DIR}/BilateralImageFilterTest3.png
-    itkBilateralImageFilterTest3 ${ITK_DATA_ROOT}/Input/cake_easy.png ${ITK_TEST_OUTPUT_DIR}/BilateralImageFilterTest3.png)
+    itkBilateralImageFilterTest3 DATA{${ITK_DATA_ROOT}/Input/cake_easy.png} ${ITK_TEST_OUTPUT_DIR}/BilateralImageFilterTest3.png)
 itk_add_test(NAME itkGradientVectorFlowImageFilterTest
       COMMAND ITKImageFeatureTestDriver itkGradientVectorFlowImageFilterTest)
 itk_add_test(NAME itkSimpleContourExtractorImageFilterTest
       COMMAND ITKImageFeatureTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/SimpleContourExtractorImageFilterTest.png
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/SimpleContourExtractorImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/SimpleContourExtractorImageFilterTest.png
-    itkSimpleContourExtractorImageFilterTest ${ITK_DATA_ROOT}/Baseline/BasicFilters/BinaryThresholdImageFilterTest2.png ${ITK_TEST_OUTPUT_DIR}/SimpleContourExtractorImageFilterTest.png)
+    itkSimpleContourExtractorImageFilterTest DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/BinaryThresholdImageFilterTest2.png} ${ITK_TEST_OUTPUT_DIR}/SimpleContourExtractorImageFilterTest.png)
 itk_add_test(NAME itkZeroCrossingImageFilterTest
       COMMAND ITKImageFeatureTestDriver itkZeroCrossingImageFilterTest)
 itk_add_test(NAME itkCannyEdgeDetectionImageFilterTest2
       COMMAND ITKImageFeatureTestDriver
     --compare ${ITK_TEST_OUTPUT_DIR}/itkCannyEdgeDetectionImageFilterTest2_A.png
               ${ITK_TEST_OUTPUT_DIR}/itkCannyEdgeDetectionImageFilterTest2_B.png
-    itkCannyEdgeDetectionImageFilterTest2 ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkCannyEdgeDetectionImageFilterTest2_A.png ${ITK_TEST_OUTPUT_DIR}/itkCannyEdgeDetectionImageFilterTest2_B.png)
+    itkCannyEdgeDetectionImageFilterTest2 DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkCannyEdgeDetectionImageFilterTest2_A.png ${ITK_TEST_OUTPUT_DIR}/itkCannyEdgeDetectionImageFilterTest2_B.png)
 itk_add_test(NAME itkDerivativeImageFilterTest1x
       COMMAND ITKImageFeatureTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkDerivativeImageFilterTest1x.png
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkDerivativeImageFilterTest1x.png}
               ${ITK_TEST_OUTPUT_DIR}/itkDerivativeImageFilterTest1x.png
-    itkDerivativeImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkDerivativeImageFilterTest1x.png 1 0)
+    itkDerivativeImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkDerivativeImageFilterTest1x.png 1 0)
 itk_add_test(NAME itkDerivativeImageFilterTest1y
       COMMAND ITKImageFeatureTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkDerivativeImageFilterTest1y.png
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkDerivativeImageFilterTest1y.png}
               ${ITK_TEST_OUTPUT_DIR}/itkDerivativeImageFilterTest1y.png
-    itkDerivativeImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkDerivativeImageFilterTest1y.png 1 1)
+    itkDerivativeImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkDerivativeImageFilterTest1y.png 1 1)
 itk_add_test(NAME itkDerivativeImageFilterTest2x
       COMMAND ITKImageFeatureTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkDerivativeImageFilterTest2x.png
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkDerivativeImageFilterTest2x.png}
               ${ITK_TEST_OUTPUT_DIR}/itkDerivativeImageFilterTest2x.png
-    itkDerivativeImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkDerivativeImageFilterTest2x.png 2 0)
+    itkDerivativeImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkDerivativeImageFilterTest2x.png 2 0)
 itk_add_test(NAME itkDerivativeImageFilterTest2y
       COMMAND ITKImageFeatureTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkDerivativeImageFilterTest2y.png
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkDerivativeImageFilterTest2y.png}
               ${ITK_TEST_OUTPUT_DIR}/itkDerivativeImageFilterTest2y.png
-    itkDerivativeImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkDerivativeImageFilterTest2y.png 2 1)
+    itkDerivativeImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkDerivativeImageFilterTest2y.png 2 1)
 itk_add_test(NAME itkLaplacianRecursiveGaussianImageFilterTest
       COMMAND ITKImageFeatureTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/LaplacianRecursiveGaussianImageFilterTest.png
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/LaplacianRecursiveGaussianImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/LaplacianRecursiveGaussianImageFilterTest.png
-    itkLaplacianRecursiveGaussianImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/LaplacianRecursiveGaussianImageFilterTest.png)
+    itkLaplacianRecursiveGaussianImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/LaplacianRecursiveGaussianImageFilterTest.png)

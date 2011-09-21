@@ -56,20 +56,20 @@ itk_add_test(NAME itkMalcolmSparseLevelSetsv4BaseTest
 itk_add_test(NAME itkBinaryImageToWhitakerSparseLevelSetsv4AdaptorTest
       COMMAND ITKLevelSetsv4TestDriver
       itkBinaryImageToWhitakerSparseLevelSetAdaptorTest
-      ${ITK_DATA_ROOT}/Input/circle.png
+      DATA{${ITK_DATA_ROOT}/Input/circle.png}
       ${ITK_TEST_OUTPUT_DIR}/output_binary_whitaker_adaptor.mha
       ${ITK_TEST_OUTPUT_DIR}/status_binary_whitaker_adaptor.mha
       )
 itk_add_test(NAME itkBinaryImageToMalcolmSparseLevelSetsv4AdaptorTest
       COMMAND ITKLevelSetsv4TestDriver
       itkBinaryImageToMalcolmSparseLevelSetAdaptorTest
-      ${ITK_DATA_ROOT}/Input/circle.png
+      DATA{${ITK_DATA_ROOT}/Input/circle.png}
       ${ITK_TEST_OUTPUT_DIR}/output_binary_malcolm_adaptor.mha
       )
 itk_add_test(NAME itkBinaryImageToShiSparseLevelSetsv4AdaptorTest
       COMMAND ITKLevelSetsv4TestDriver
       itkBinaryImageToShiSparseLevelSetAdaptorTest
-      ${ITK_DATA_ROOT}/Input/circle.png
+      DATA{${ITK_DATA_ROOT}/Input/circle.png}
       ${ITK_TEST_OUTPUT_DIR}/output_binary_shi_adaptor.mha
       )
 # domain partition classes
@@ -86,7 +86,7 @@ itk_add_test(NAME itkSingleLevelSetsv4DenseImage2DTest
       --compare DATA{Baseline/solution_whiteSpot_output_dense_single.mha}
                 ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_dense_single.mha
       itkSingleLevelSetDenseImage2DTest
-      ${ITK_DATA_ROOT}/Input/whiteSpot.png 25 25 25
+      DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png} 25 25 25
       ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_dense_single.mha
 )
 
@@ -95,7 +95,7 @@ itk_add_test(NAME itkSingleLevelSetsv4WhitakerImage2DTest
       --compare DATA{Baseline/solution_whiteSpot_output_sparse_single.mha}
                 ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_sparse_single.mha
       itkSingleLevelSetWhitakerImage2DTest
-      ${ITK_DATA_ROOT}/Input/whiteSpot.png
+      DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png}
       50
       ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_sparse_single.mha
 )
@@ -104,7 +104,7 @@ itk_add_test(NAME itkSingleLevelSetsv4MalcolmImage2DTest
       --compare DATA{Baseline/solution_whiteSpot_output_malcolm_single.mha}
                 ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_malcolm_single.mha
       itkSingleLevelSetMalcolmImage2DTest
-      ${ITK_DATA_ROOT}/Input/whiteSpot.png
+      DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png}
       15
       ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_malcolm_single.mha
  )
@@ -113,43 +113,43 @@ itk_add_test(NAME itkSingleLevelSetsv4ShiImage2DTest
       --compare DATA{Baseline/solution_whiteSpot_output_shi_single.mha}
                 ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_shi_single.mha
       itkSingleLevelSetShiImage2DTest
-      ${ITK_DATA_ROOT}/Input/whiteSpot.png
+      DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png}
       15
       ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_shi_single.mha
 )
 itk_add_test(NAME itkSingleLevelSetsv4WhitakerImage2DWithCurvatureTest
       COMMAND ITKLevelSetsv4TestDriver
       itkSingleLevelSetWhitakerImage2DWithCurvatureTest
-      ${ITK_DATA_ROOT}/Input/whiteSpot.png
+      DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png}
 )
 itk_add_test(NAME itkSingleLevelSetsv4WhitakerImage2DWithLaplacianTest
       COMMAND ITKLevelSetsv4TestDriver
       itkSingleLevelSetWhitakerImage2DWithLaplacianTest
-      ${ITK_DATA_ROOT}/Input/whiteSpot.png
+      DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png}
 )
 itk_add_test(NAME itkSingleLevelSetsv4WhitakerImage2DWithPropagationTest
       COMMAND ITKLevelSetsv4TestDriver
       itkSingleLevelSetWhitakerImage2DWithPropagationTest
-      ${ITK_DATA_ROOT}/Input/whiteSpot.png
+      DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png}
 )
 
 itk_add_test(NAME LevelSetEquationCurvatureTermTest
       COMMAND ITKLevelSetsv4TestDriver itkLevelSetEquationCurvatureTermTest
-      ${ITK_DATA_ROOT}/Input/whiteSpot.png )
+      DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png} )
 
 itk_add_test(NAME itkLevelSetEquationPropagationTermTest
       COMMAND ITKLevelSetsv4TestDriver itkLevelSetEquationPropagationTermTest
-      ${ITK_DATA_ROOT}/Input/whiteSpot.png )
+      DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png} )
 
 itk_add_test(NAME itkLevelSetEquationLaplacianTermTest
       COMMAND ITKLevelSetsv4TestDriver itkLevelSetEquationLaplacianTermTest
-      ${ITK_DATA_ROOT}/Input/whiteSpot.png )
+      DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png} )
 
 # two level sets
 itk_add_test(NAME itkTwoLevelSetsv4DenseImage2DTest
       COMMAND ITKLevelSetsv4TestDriver
       itkTwoLevelSetDenseImage2DTest
-      ${ITK_DATA_ROOT}/Input/whiteSpot.png 25 25 10
+      DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png} 25 25 10
       ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_dense_two.mha
 )
 
@@ -158,7 +158,7 @@ itk_add_test(NAME itkTwoLevelSetsv4WhitakerImage2DTest
       --compare DATA{Baseline/solution_whiteSpot_output_sparse_two.mha}
                 ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_sparse_two.mha
       itkTwoLevelSetWhitakerImage2DTest
-      ${ITK_DATA_ROOT}/Input/whiteSpot.png
+      DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png}
       1
       ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_sparse_two.mha
 )
@@ -168,7 +168,7 @@ itk_add_test(NAME itkTwoLevelSetsv4MalcolmImage2DTest
       --compare DATA{Baseline/solution_whiteSpot_output_malcolm_two.mha}
                 ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_malcolm_two.mha
       itkTwoLevelSetMalcolmImage2DTest
-      ${ITK_DATA_ROOT}/Input/whiteSpot.png
+      DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png}
       1
       ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_malcolm_two.mha
 )
@@ -178,7 +178,7 @@ itk_add_test(NAME itkTwoLevelSetsv4ShiImage2DTest
       --compare DATA{Baseline/solution_whiteSpot_output_shi_two.mha}
                 ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_shi_two.mha
       itkTwoLevelSetShiImage2DTest
-      ${ITK_DATA_ROOT}/Input/whiteSpot.png
+      DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png}
       1
       ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_shi_two.mha
 )

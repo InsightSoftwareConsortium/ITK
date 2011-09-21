@@ -2,7 +2,7 @@ set(BASELINE ${ITK_DATA_ROOT}/Baseline/Statistics)
 set(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
 itk_add_test(NAME  ScalarImageKmeansClassifierTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/ScalarImageKmeansClassifierOutput.png
+  --compare DATA{${BASELINE}/ScalarImageKmeansClassifierOutput.png}
             ${TEMP}/ScalarImageKmeansClassifierOutput.png
   $<TARGET_FILE:ScalarImageKmeansClassifier>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png
@@ -11,11 +11,11 @@ itk_add_test(NAME  ScalarImageKmeansClassifierTest COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME  ScalarImageMarkovRandomField1Test COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/ScalarImageMarkovRandomField1Output.png
+  --compare DATA{${BASELINE}/ScalarImageMarkovRandomField1Output.png}
             ${TEMP}/ScalarImageMarkovRandomField1Output.png
   $<TARGET_FILE:ScalarImageMarkovRandomField1>
             ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png
-            ${ITK_DATA_ROOT}/Input/Statistics/BrainT1Slice_AfterKMeansClassification.png
+            DATA{${ITK_DATA_ROOT}/Input/Statistics/BrainT1Slice_AfterKMeansClassification.png}
             ${TEMP}/ScalarImageMarkovRandomField1Output.png
             50 3 3 14.8 91.6 134.9
 )
@@ -24,7 +24,7 @@ itk_add_test(NAME  BayesianPluginClassifierTest COMMAND ${ITK_TEST_DRIVER}
   $<TARGET_FILE:BayesianPluginClassifier>)
 
 itk_add_test(NAME  BayesianClassifierInitializerTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/BayesianClassifierInitializerClass2Output.png
+  --compare DATA{${BASELINE}/BayesianClassifierInitializerClass2Output.png}
             ${TEMP}/BayesianClassifierInitializerClass2Output.png
   $<TARGET_FILE:BayesianClassifierInitializer>
             ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
@@ -35,7 +35,7 @@ itk_add_test(NAME  BayesianClassifierInitializerTest COMMAND ${ITK_TEST_DRIVER}
 # This test uses inputs from BayesianClassifierInitializer.
 # If that output changes, a new file should be placed in Examples/Data.
 itk_add_test(NAME  BayesianClassifierTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/BayesianClassifierLabelMap.png
+  --compare DATA{${BASELINE}/BayesianClassifierLabelMap.png}
             ${TEMP}/BayesianClassifierLabelMap.png
   $<TARGET_FILE:BayesianClassifier>
             ${ITK_SOURCE_DIR}/Examples/Data/BayesianClassifierInitializerMemberships.mhd

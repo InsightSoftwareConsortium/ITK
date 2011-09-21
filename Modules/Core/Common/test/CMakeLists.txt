@@ -256,7 +256,7 @@ itk_add_test(NAME itkImageSliceIteratorTest
       COMMAND ITKCommon1TestDriver itkImageSliceIteratorTest)
 itk_add_test(NAME itkImageTest COMMAND ITKCommon1TestDriver itkImageTest)
 itk_add_test(NAME itkLightObjectTest COMMAND ITKCommon1TestDriver itkLightObjectTest)
-itk_add_test(NAME itkLineIteratorTest COMMAND ITKCommon1TestDriver itkLineIteratorTest ${BASELINE}/itkLineIteratorTest.txt )
+itk_add_test(NAME itkLineIteratorTest COMMAND ITKCommon1TestDriver itkLineIteratorTest DATA{${BASELINE}/itkLineIteratorTest.txt} )
 itk_add_test(NAME itkLoggerTest COMMAND ITKCommon1TestDriver itkLoggerTest ${TEMP}/test_logger.txt)
 itk_add_test(NAME itkLoggerOutputTest COMMAND ITKCommon2TestDriver itkLoggerOutputTest ${TEMP}/test_loggerOutput.txt)
 itk_add_test(NAME itkLoggerManagerTest COMMAND ITKCommon2TestDriver itkLoggerManagerTest ${TEMP}/test_LoggerManager.txt)
@@ -339,14 +339,14 @@ itk_add_test(NAME itkSTLThreadTest COMMAND ITKCommon1TestDriver itkSTLThreadTest
 itk_add_test(NAME itkStreamingImageFilterTest COMMAND ITKCommon1TestDriver itkStreamingImageFilterTest)
 itk_add_test(NAME itkStreamingImageFilterTest2 COMMAND ITKCommon1TestDriver itkStreamingImageFilterTest2)
 itk_add_test(NAME itkStreamingImageFilterTest3_1 COMMAND ITKCommon1TestDriver
-    --compare ${ITK_DATA_ROOT}/Input/CellsFluorescence1.png
+    --compare DATA{${ITK_DATA_ROOT}/Input/CellsFluorescence1.png}
               ${ITK_TEST_OUTPUT_DIR}/itkStreamingImageFilterTest3_1.png
-    itkStreamingImageFilterTest3 ${ITK_DATA_ROOT}/Input/CellsFluorescence1.png ${ITK_TEST_OUTPUT_DIR}/itkStreamingImageFilterTest3_1.png 10)
+    itkStreamingImageFilterTest3 DATA{${ITK_DATA_ROOT}/Input/CellsFluorescence1.png} ${ITK_TEST_OUTPUT_DIR}/itkStreamingImageFilterTest3_1.png 10)
 itk_add_test(NAME itkStreamingImageFilterTest3_2
       COMMAND ITKCommon1TestDriver
-    --compare ${ITK_DATA_ROOT}/Input/CellsFluorescence1.png
+    --compare DATA{${ITK_DATA_ROOT}/Input/CellsFluorescence1.png}
               ${ITK_TEST_OUTPUT_DIR}/itkStreamingImageFilterTest3_2.png
-    itkStreamingImageFilterTest3 ${ITK_DATA_ROOT}/Input/CellsFluorescence1.png ${ITK_TEST_OUTPUT_DIR}/itkStreamingImageFilterTest3_2.png 1000)
+    itkStreamingImageFilterTest3 DATA{${ITK_DATA_ROOT}/Input/CellsFluorescence1.png} ${ITK_TEST_OUTPUT_DIR}/itkStreamingImageFilterTest3_2.png 1000)
 itk_add_test(NAME itkVariableLengthVectorTest COMMAND ITKCommon2TestDriver itkVariableLengthVectorTest)
 itk_add_test(NAME itkVariableSizeMatrixTest COMMAND ITKCommon2TestDriver itkVariableSizeMatrixTest)
 #itk_add_test(NAME itkQuaternionOrientationAdapterTest COMMAND ITKCommon2TestDriver itkQuaternionOrientationAdapterTest)

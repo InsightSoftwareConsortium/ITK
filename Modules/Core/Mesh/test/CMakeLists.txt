@@ -64,69 +64,69 @@ itk_add_test(NAME itkTriangleMeshToBinaryImageFilterTest2
               ${ITK_TEST_OUTPUT_DIR}/itkTriangleMeshToBinaryImageFilterTest2.mha)
 itk_add_test(NAME itkTriangleMeshToBinaryImageFilterTest3
       COMMAND ITKMeshTestDriver itkTriangleMeshToBinaryImageFilterTest3
-              ${ITK_DATA_ROOT}/Input/genusZeroSurface01.vtk ${ITK_TEST_OUTPUT_DIR}/itkTriangleMeshToBinaryImageFilterTest3.mha 140 160 180 -0.7 -0.8 -0.9 0.01 0.01 0.01)
+              DATA{${ITK_DATA_ROOT}/Input/genusZeroSurface01.vtk} ${ITK_TEST_OUTPUT_DIR}/itkTriangleMeshToBinaryImageFilterTest3.mha 140 160 180 -0.7 -0.8 -0.9 0.01 0.01 0.01)
 itk_add_test(NAME itkTriangleMeshToSimplexMeshFilterTest
       COMMAND ITKMeshTestDriver itkTriangleMeshToSimplexMeshFilterTest)
 itk_add_test(NAME itkVTKPolyDataReaderTest
       COMMAND ITKMeshTestDriver itkVTKPolyDataReaderTest
-              ${ITK_DATA_ROOT}/Input/genusZeroSurface01.vtk)
+              DATA{${ITK_DATA_ROOT}/Input/genusZeroSurface01.vtk})
 itk_add_test(NAME itkVTKPolyDataReaderTest2
       COMMAND ITKMeshTestDriver itkVTKPolyDataReaderTest
-              ${ITK_DATA_ROOT}/Input/sphereBinary.vtk)
+              DATA{${ITK_DATA_ROOT}/Input/sphereBinary.vtk})
 itk_add_test(NAME itkVTKPolyDataReaderBadTest0
       COMMAND ITKMeshTestDriver itkVTKPolyDataReaderTest
-              ${ITK_DATA_ROOT}/Input/vtkPolyDataBad0.vtk)
+              DATA{${ITK_DATA_ROOT}/Input/vtkPolyDataBad0.vtk})
 itk_add_test(NAME itkVTKPolyDataReaderBadTest1
       COMMAND ITKMeshTestDriver itkVTKPolyDataReaderTest
-              ${ITK_DATA_ROOT}/Input/vtkPolyDataBad1.vtk)
+              DATA{${ITK_DATA_ROOT}/Input/vtkPolyDataBad1.vtk})
 itk_add_test(NAME itkVTKPolyDataReaderBadTest2
       COMMAND ITKMeshTestDriver itkVTKPolyDataReaderTest
-              ${ITK_DATA_ROOT}/Input/vtkPolyDataBad2.vtk)
+              DATA{${ITK_DATA_ROOT}/Input/vtkPolyDataBad2.vtk})
 itk_add_test(NAME itkVTKPolyDataReaderBadTest3
       COMMAND ITKMeshTestDriver itkVTKPolyDataReaderTest
-              ${ITK_DATA_ROOT}/Input/vtkPolyDataBad3.vtk)
+              DATA{${ITK_DATA_ROOT}/Input/vtkPolyDataBad3.vtk})
 itk_add_test(NAME itkVTKPolyDataReaderBadTest4
       COMMAND ITKMeshTestDriver itkVTKPolyDataReaderTest
-              ${ITK_DATA_ROOT}/Input/vtkPolyDataBad4.vtk)
+              DATA{${ITK_DATA_ROOT}/Input/vtkPolyDataBad4.vtk})
 itk_add_test(NAME itkVTKPolyDataReaderBadTest5
       COMMAND ITKMeshTestDriver itkVTKPolyDataReaderTest
-              ${ITK_DATA_ROOT}/Input/vtkPolyDataBad5.vtk)
+              DATA{${ITK_DATA_ROOT}/Input/vtkPolyDataBad5.vtk})
 itk_add_test(NAME itkVTKPolyDataReaderBadTest6
       COMMAND ITKMeshTestDriver itkVTKPolyDataReaderTest
-              ${ITK_DATA_ROOT}/Input/vtkPolyDataBad6.vtk)
+              DATA{${ITK_DATA_ROOT}/Input/vtkPolyDataBad6.vtk})
 itk_add_test(NAME itkVTKPolyDataReaderBadTest7
       COMMAND ITKMeshTestDriver itkVTKPolyDataReaderTest
-              ${ITK_DATA_ROOT}/Input/vtkPolyDataBad7.vtk)
+              DATA{${ITK_DATA_ROOT}/Input/vtkPolyDataBad7.vtk})
 itk_add_test(NAME itkVTKPolyDataReaderBadTest8
       COMMAND ITKMeshTestDriver itkVTKPolyDataReaderTest
-              ${ITK_DATA_ROOT}/Input/vtkPolyDataBad8.vtk)
+              DATA{${ITK_DATA_ROOT}/Input/vtkPolyDataBad8.vtk})
 itk_add_test(NAME itkVTKPolyDataReaderBadTest9
       COMMAND ITKMeshTestDriver itkVTKPolyDataReaderTest
-              ${ITK_DATA_ROOT}/Input/vtkPolyDataBad9.vtk)
+              DATA{${ITK_DATA_ROOT}/Input/vtkPolyDataBad9.vtk})
 itk_add_test(NAME itkVTKPolyDataReaderBadTest10
       COMMAND ITKMeshTestDriver itkVTKPolyDataReaderTest
-              ${ITK_DATA_ROOT}/Input/vtkPolyDataBad10.vtk)
+              DATA{${ITK_DATA_ROOT}/Input/vtkPolyDataBad10.vtk})
 itk_add_test(NAME itkVTKPolyDataReaderBadTest11
       COMMAND ITKMeshTestDriver itkVTKPolyDataReaderTest
-              ${ITK_DATA_ROOT}/Input/vtkPolyDataBad11.vtk)
+              DATA{${ITK_DATA_ROOT}/Input/vtkPolyDataBad11.vtk})
 itk_add_test(NAME itkVTKPolyDataReaderBadTest12
       COMMAND ITKMeshTestDriver itkVTKPolyDataReaderTest
-              ${ITK_DATA_ROOT}/Input/vtkPolyDataBad12.vtk)
+              DATA{${ITK_DATA_ROOT}/Input/vtkPolyDataBad12.vtk})
 itk_add_test(NAME itkVTKPolyDataReaderBadTest13
       COMMAND ITKMeshTestDriver itkVTKPolyDataReaderTest
-              ${ITK_DATA_ROOT}/Input/vtkPolyDataBad13.vtk)
+              DATA{${ITK_DATA_ROOT}/Input/vtkPolyDataBad13.vtk})
 itk_add_test(NAME itkVTKPolyDataReaderBadTest14
       COMMAND ITKMeshTestDriver itkVTKPolyDataReaderTest
-              ${ITK_DATA_ROOT}/Input/vtkPolyDataBad14.vtk)
+              DATA{${ITK_DATA_ROOT}/Input/vtkPolyDataBad14.vtk})
 itk_add_test(NAME itkVTKPolyDataReaderBadTest15
       COMMAND ITKMeshTestDriver itkVTKPolyDataReaderTest
-              ${ITK_DATA_ROOT}/Input/vtkPolyDataBad15.vtk)
+              DATA{${ITK_DATA_ROOT}/Input/vtkPolyDataBad15.vtk})
 itk_add_test(NAME itkVTKPolyDataReaderBadTest16
       COMMAND ITKMeshTestDriver itkVTKPolyDataReaderTest
-              ${ITK_DATA_ROOT}/Input/vtkPolyDataBad16.vtk)
+              DATA{${ITK_DATA_ROOT}/Input/vtkPolyDataBad16.vtk})
 itk_add_test(NAME itkVTKPolyDataReaderBadTest17
       COMMAND ITKMeshTestDriver itkVTKPolyDataReaderTest
-              ${ITK_DATA_ROOT}/Input/vtkPolyDataBad17.vtk)
+              DATA{${ITK_DATA_ROOT}/Input/vtkPolyDataBad17.vtk})
 itk_add_test(NAME itkVTKPolyDataWriterTest01
       COMMAND ITKMeshTestDriver itkVTKPolyDataWriterTest01
               ${ITK_TEST_OUTPUT_DIR}/VTKPolyDataWriterTest01.vtk)
@@ -152,7 +152,7 @@ itk_add_test(NAME itkMeshSpatialObjectIOTest1
               ${ITK_TEST_OUTPUT_DIR}/metameshIOTest1.txt binary)
 itk_add_test(NAME itkMeshSpatialObjectIOTest2
       COMMAND ITKMeshTestDriver itkMeshSpatialObjectIOTest
-              ${ITK_TEST_OUTPUT_DIR}/metameshIOTest2.txt ${ITK_DATA_ROOT}/Input/metamesh.txt)
+              ${ITK_TEST_OUTPUT_DIR}/metameshIOTest2.txt DATA{${ITK_DATA_ROOT}/Input/metamesh.txt})
 itk_add_test(NAME itkTriangleMeshToSimplexMeshFilter2Test
       COMMAND ITKMeshTestDriver itkTriangleMeshToSimplexMeshFilter2Test)
 

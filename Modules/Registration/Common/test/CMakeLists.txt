@@ -104,7 +104,7 @@ itk_add_test(NAME itkPointSetToImageRegistrationTest_1
       COMMAND ITKRegistrationCommonTestDriver itkPointSetToImageRegistrationTest_1)
 itk_add_test(NAME itkKappaStatisticImageToImageMetricTest
       COMMAND ITKRegistrationCommonTestDriver itkKappaStatisticImageToImageMetricTest
-              ${ITK_DATA_ROOT}/Input/Spots.png)
+              DATA{${ITK_DATA_ROOT}/Input/Spots.png})
 itk_add_test(NAME itkMattesMutualInformationImageToImageMetricTest
       COMMAND ITKRegistrationCommonTestDriver itkMattesMutualInformationImageToImageMetricTest
               1 1)
@@ -119,7 +119,7 @@ itk_add_test(NAME itkMattesMutualInformationImageToImageMetricTest4
               0 0)
 itk_add_test(NAME itkMatchCardinalityImageToImageMetricTest
       COMMAND ITKRegistrationCommonTestDriver itkMatchCardinalityImageToImageMetricTest
-              ${ITK_DATA_ROOT}/Input/Spots.png)
+              DATA{${ITK_DATA_ROOT}/Input/Spots.png})
 itk_add_test(NAME itkMultiResolutionPyramidImageFilterWithResampleFilterTest
       COMMAND ITKRegistrationCommonTestDriver itkMultiResolutionPyramidImageFilterTest
               Resample)

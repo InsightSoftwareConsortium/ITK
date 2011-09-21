@@ -77,9 +77,9 @@ itk_add_test(NAME itkFastMarchingImageFilterTest_Brain2D_SingleSeed_NoTopo
       COMMAND ITKFastMarchingTestDriver
     itkFastMarchingImageTopologicalTest
     2
-    ${ITK_DATA_ROOT}/Baseline/Filtering/BrainProtonDensitySlice_speed.nii.gz
+    DATA{${ITK_DATA_ROOT}/Baseline/Filtering/BrainProtonDensitySlice_speed.nii.gz}
     ${ITK_TEST_OUTPUT_DIR}/Baseline/Filtering/test_Brain2D_singleSeed_NoTopo.nii.gz
-    ${ITK_DATA_ROOT}/Baseline/Filtering/BrainProtonDensitySlice_singleSeed.nii.gz
+    DATA{${ITK_DATA_ROOT}/Baseline/Filtering/BrainProtonDensitySlice_singleSeed.nii.gz}
     150
     0
 )
@@ -88,9 +88,9 @@ itk_add_test(NAME itkFastMarchingImageFilterTest_Brain2D_SingleSeed_StrictTopo
       COMMAND ITKFastMarchingTestDriver
     itkFastMarchingImageTopologicalTest
     2
-    ${ITK_DATA_ROOT}/Baseline/Filtering/BrainProtonDensitySlice_speed.nii.gz
+    DATA{${ITK_DATA_ROOT}/Baseline/Filtering/BrainProtonDensitySlice_speed.nii.gz}
     ${ITK_TEST_OUTPUT_DIR}/Baseline/Filtering/test_Brain2D_singleSeed_StrictTopo.nii.gz
-    ${ITK_DATA_ROOT}/Baseline/Filtering/BrainProtonDensitySlice_singleSeed.nii.gz
+    DATA{${ITK_DATA_ROOT}/Baseline/Filtering/BrainProtonDensitySlice_singleSeed.nii.gz}
     150
     1
 )
@@ -99,9 +99,9 @@ itk_add_test(NAME itkFastMarchingImageFilterTest_Brain2D_SingleSeed_NoHandlesTop
       COMMAND ITKFastMarchingTestDriver
     itkFastMarchingImageTopologicalTest
     2
-    ${ITK_DATA_ROOT}/Baseline/Filtering/BrainProtonDensitySlice_speed.nii.gz
+    DATA{${ITK_DATA_ROOT}/Baseline/Filtering/BrainProtonDensitySlice_speed.nii.gz}
   test_Brain2D_singleSeed_NoHandlesTopo.nii.gz
-    ${ITK_DATA_ROOT}/Baseline/Filtering/BrainProtonDensitySlice_singleSeed.nii.gz
+    DATA{${ITK_DATA_ROOT}/Baseline/Filtering/BrainProtonDensitySlice_singleSeed.nii.gz}
     150
     2
 )
@@ -109,9 +109,9 @@ itk_add_test(NAME itkFastMarchingImageFilterTest_Brain2D_SingleSeed_NoHandlesTop
 itk_add_test(NAME itkFastMarchingImageFilterTest_Brain2D_multipleSeeds_NoTopo
       COMMAND ITKFastMarchingTestDriver
   itkFastMarchingImageTopologicalTest 2
-  ${ITK_DATA_ROOT}/Baseline/Filtering/BrainProtonDensitySlice_speed.nii.gz
+  DATA{${ITK_DATA_ROOT}/Baseline/Filtering/BrainProtonDensitySlice_speed.nii.gz}
   ${ITK_TEST_OUTPUT_DIR}/test_Brain2D_multipleSeeds_NoTopo.nii.gz
-  ${ITK_DATA_ROOT}/Baseline/Filtering/BrainProtonDensitySlice_multipleSeeds.nii.gz
+  DATA{${ITK_DATA_ROOT}/Baseline/Filtering/BrainProtonDensitySlice_multipleSeeds.nii.gz}
   150
   0
 )
@@ -120,9 +120,9 @@ itk_add_test(NAME itkFastMarchingImageFilterTest_Brain2D_multipleSeeds_StrictTop
       COMMAND ITKFastMarchingTestDriver
   itkFastMarchingImageTopologicalTest
   2
-  ${ITK_DATA_ROOT}/Baseline/Filtering/BrainProtonDensitySlice_speed.nii.gz
+  DATA{${ITK_DATA_ROOT}/Baseline/Filtering/BrainProtonDensitySlice_speed.nii.gz}
   ${ITK_TEST_OUTPUT_DIR}/test_Brain2D_multipleSeeds_StrictTopo.nii.gz
-  ${ITK_DATA_ROOT}/Baseline/Filtering/BrainProtonDensitySlice_multipleSeeds.nii.gz
+  DATA{${ITK_DATA_ROOT}/Baseline/Filtering/BrainProtonDensitySlice_multipleSeeds.nii.gz}
   150
   1
 )
@@ -131,9 +131,9 @@ itk_add_test( NAME itkFastMarchingImageFilterTest_Brain2D_multipleSeeds_NoHandle
       COMMAND ITKFastMarchingTestDriver
   itkFastMarchingImageTopologicalTest
   2
-  ${ITK_DATA_ROOT}/Baseline/Filtering/BrainProtonDensitySlice_speed.nii.gz
+  DATA{${ITK_DATA_ROOT}/Baseline/Filtering/BrainProtonDensitySlice_speed.nii.gz}
   ${ITK_TEST_OUTPUT_DIR}/test_Brain2D_multipleSeeds_NoHandlesTopo.nii.gz
-  ${ITK_DATA_ROOT}/Baseline/Filtering/BrainProtonDensitySlice_multipleSeeds.nii.gz
+  DATA{${ITK_DATA_ROOT}/Baseline/Filtering/BrainProtonDensitySlice_multipleSeeds.nii.gz}
   150
   2
 )
@@ -144,9 +144,9 @@ itk_add_test( NAME itkFastMarchingImageFilterTest_torus_multipleSeeds_NoTopo
       COMMAND ITKFastMarchingTestDriver
     itkFastMarchingImageTopologicalTest
     3
-    ${ITK_DATA_ROOT}/Baseline/Filtering/torus.nii.gz
+    DATA{${ITK_DATA_ROOT}/Baseline/Filtering/torus.nii.gz}
     ${ITK_TEST_OUTPUT_DIR}/test_torus_multipleSeeds_NoTopo.nii.gz
-    ${ITK_DATA_ROOT}/Baseline/Filtering/torus_multipleSeeds.nii.gz
+    DATA{${ITK_DATA_ROOT}/Baseline/Filtering/torus_multipleSeeds.nii.gz}
     150
     0
 )
@@ -155,9 +155,9 @@ itk_add_test( NAME itkFastMarchingImageFilterTest_torus_multipleSeeds_StrictTopo
       COMMAND ITKFastMarchingTestDriver
     itkFastMarchingImageTopologicalTest
     3
-    ${ITK_DATA_ROOT}/Baseline/Filtering/torus.nii.gz
+    DATA{${ITK_DATA_ROOT}/Baseline/Filtering/torus.nii.gz}
     ${ITK_TEST_OUTPUT_DIR}/test_torus_multipleSeeds_StrictTopo.nii.gz
-    ${ITK_DATA_ROOT}/Baseline/Filtering/torus_multipleSeeds.nii.gz
+    DATA{${ITK_DATA_ROOT}/Baseline/Filtering/torus_multipleSeeds.nii.gz}
     150
     1
 )
@@ -166,9 +166,9 @@ itk_add_test( NAME itkFastMarchingImageFilterTest_torus_multipleSeeds_NoHandlesT
       COMMAND ITKFastMarchingTestDriver
     itkFastMarchingImageTopologicalTest
     3
-    ${ITK_DATA_ROOT}/Baseline/Filtering/torus.nii.gz
+    DATA{${ITK_DATA_ROOT}/Baseline/Filtering/torus.nii.gz}
     ${ITK_TEST_OUTPUT_DIR}/test_torus_multipleSeeds_NoHandlesTopo.nii.gz
-    ${ITK_DATA_ROOT}/Baseline/Filtering/torus_multipleSeeds.nii.gz
+    DATA{${ITK_DATA_ROOT}/Baseline/Filtering/torus_multipleSeeds.nii.gz}
     150
     2
 )
@@ -177,9 +177,9 @@ itk_add_test( NAME itkFastMarchingImageFilterTest_wm_multipleSeeds_NoTopo
       COMMAND ITKFastMarchingTestDriver
     itkFastMarchingImageTopologicalTest
     3
-    ${ITK_DATA_ROOT}/Baseline/Filtering/wm.nii.gz
+    DATA{${ITK_DATA_ROOT}/Baseline/Filtering/wm.nii.gz}
     ${ITK_TEST_OUTPUT_DIR}/test_wm_multipleSeeds_NoTopo.nii.gz
-    ${ITK_DATA_ROOT}/Baseline/Filtering/wm_multipleSeeds.nii.gz
+    DATA{${ITK_DATA_ROOT}/Baseline/Filtering/wm_multipleSeeds.nii.gz}
     150
     0
 )
@@ -188,9 +188,9 @@ itk_add_test( NAME itkFastMarchingImageFilterTest_wm_multipleSeeds_StrictTopo
       COMMAND ITKFastMarchingTestDriver
     itkFastMarchingImageTopologicalTest
     3
-    ${ITK_DATA_ROOT}/Baseline/Filtering/wm.nii.gz
+    DATA{${ITK_DATA_ROOT}/Baseline/Filtering/wm.nii.gz}
     ${ITK_TEST_OUTPUT_DIR}/test_wm_multipleSeeds_StrictTopo.nii.gz
-    ${ITK_DATA_ROOT}/Baseline/Filtering/wm_multipleSeeds.nii.gz
+    DATA{${ITK_DATA_ROOT}/Baseline/Filtering/wm_multipleSeeds.nii.gz}
     150
     1
 )
@@ -199,9 +199,9 @@ itk_add_test( NAME itkFastMarchingImageFilterTest_wm_multipleSeeds_NoHandlesTopo
       COMMAND ITKFastMarchingTestDriver
     itkFastMarchingImageTopologicalTest
     3
-    ${ITK_DATA_ROOT}/Baseline/Filtering/wm.nii.gz
+    DATA{${ITK_DATA_ROOT}/Baseline/Filtering/wm.nii.gz}
     ${ITK_TEST_OUTPUT_DIR}/test_wm_multipleSeeds_NoHandlesTopo.nii.gz
-    ${ITK_DATA_ROOT}/Baseline/Filtering/wm_multipleSeeds.nii.gz
+    DATA{${ITK_DATA_ROOT}/Baseline/Filtering/wm_multipleSeeds.nii.gz}
     150
     2
 )

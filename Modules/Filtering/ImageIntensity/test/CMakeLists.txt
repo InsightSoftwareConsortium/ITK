@@ -82,24 +82,24 @@ itk_add_test(NAME itkLog10ImageFilterAndAdaptorTest
       COMMAND ITKImageIntensityTestDriver itkLog10ImageFilterAndAdaptorTest)
 itk_add_test(NAME itkVectorIndexSelectionCastImageFilterTest1
       COMMAND ITKImageIntensityTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkVectorIndexSelectionCastImageFilterTest1.mha
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkVectorIndexSelectionCastImageFilterTest1.mha}
               ${ITK_TEST_OUTPUT_DIR}/itkVectorIndexSelectionCastImageFilterTest1.mha
-    itkVectorIndexSelectionCastImageFilterTest ${ITK_DATA_ROOT}/Input/RGBTestImage.tif ${ITK_TEST_OUTPUT_DIR}/itkVectorIndexSelectionCastImageFilterTest1.mha 0)
+    itkVectorIndexSelectionCastImageFilterTest DATA{${ITK_DATA_ROOT}/Input/RGBTestImage.tif} ${ITK_TEST_OUTPUT_DIR}/itkVectorIndexSelectionCastImageFilterTest1.mha 0)
 itk_add_test(NAME itkVectorIndexSelectionCastImageFilterTest2
       COMMAND ITKImageIntensityTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkVectorIndexSelectionCastImageFilterTest2.mha
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkVectorIndexSelectionCastImageFilterTest2.mha}
               ${ITK_TEST_OUTPUT_DIR}/itkVectorIndexSelectionCastImageFilterTest2.mha
-    itkVectorIndexSelectionCastImageFilterTest ${ITK_DATA_ROOT}/Input/RGBTestImage.tif ${ITK_TEST_OUTPUT_DIR}/itkVectorIndexSelectionCastImageFilterTest2.mha 1)
+    itkVectorIndexSelectionCastImageFilterTest DATA{${ITK_DATA_ROOT}/Input/RGBTestImage.tif} ${ITK_TEST_OUTPUT_DIR}/itkVectorIndexSelectionCastImageFilterTest2.mha 1)
 itk_add_test(NAME itkVectorIndexSelectionCastImageFilterTest3
       COMMAND ITKImageIntensityTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkVectorIndexSelectionCastImageFilterTest3.mha
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkVectorIndexSelectionCastImageFilterTest3.mha}
               ${ITK_TEST_OUTPUT_DIR}/itkVectorIndexSelectionCastImageFilterTest3.mha
-    itkVectorIndexSelectionCastImageFilterTest ${ITK_DATA_ROOT}/Input/RGBTestImage.tif ${ITK_TEST_OUTPUT_DIR}/itkVectorIndexSelectionCastImageFilterTest3.mha 2)
+    itkVectorIndexSelectionCastImageFilterTest DATA{${ITK_DATA_ROOT}/Input/RGBTestImage.tif} ${ITK_TEST_OUTPUT_DIR}/itkVectorIndexSelectionCastImageFilterTest3.mha 2)
 itk_add_test(NAME itkInvertIntensityImageFilterTest
       COMMAND ITKImageIntensityTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/InvertIntensityImageFilterTest.png
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/InvertIntensityImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/InvertIntensityImageFilterTest.png
-    itkInvertIntensityImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/InvertIntensityImageFilterTest.png)
+    itkInvertIntensityImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/InvertIntensityImageFilterTest.png)
 itk_add_test(NAME itkSymmetricEigenAnalysisImageFilterTest
       COMMAND ITKImageIntensityTestDriver itkSymmetricEigenAnalysisImageFilterTest)
 itk_add_test(NAME itkEdgePotentialImageFilterTest
@@ -156,7 +156,7 @@ itk_add_test(NAME itkBinaryMagnitudeImageFilterTest
       COMMAND ITKImageIntensityTestDriver itkBinaryMagnitudeImageFilterTest)
 itk_add_test(NAME itkMatrixIndexSelectionImageFilterTest
       COMMAND ITKImageIntensityTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/MatrixIndexSelectionImageFilterTest.png
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/MatrixIndexSelectionImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/MatrixIndexSelectionImageFilterTest.png
     itkMatrixIndexSelectionImageFilterTest ${ITK_TEST_OUTPUT_DIR}/MatrixIndexSelectionImageFilterTest.png)
 itk_add_test(NAME itkSquareImageFilterTest
@@ -211,19 +211,19 @@ itk_add_test(NAME itkSinImageFilterAndAdaptorTest
       COMMAND ITKImageIntensityTestDriver itkSinImageFilterAndAdaptorTest)
 itk_add_test(NAME itkPolylineMask2DImageFilterTest
       COMMAND ITKImageIntensityTestDriver itkPolylineMask2DImageFilterTest
-              ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkPolylineMask2DImageFilterTest.png)
+              DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkPolylineMask2DImageFilterTest.png)
 itk_add_test(NAME itkPolylineMaskImageFilterTest
       COMMAND ITKImageIntensityTestDriver itkPolylineMaskImageFilterTest)
 itk_add_test(NAME itkPromoteDimensionImageTest
       COMMAND ITKImageIntensityTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/PromoteDimensionImageTest.mhd
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/PromoteDimensionImageTest.mhd}
               ${ITK_TEST_OUTPUT_DIR}/PromoteDimensionImageTest.mhd
-    itkPromoteDimensionImageTest ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png ${ITK_TEST_OUTPUT_DIR}/PromoteDimensionImageTest.mhd)
+    itkPromoteDimensionImageTest DATA{${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png} ${ITK_TEST_OUTPUT_DIR}/PromoteDimensionImageTest.mhd)
 itk_add_test(NAME itkModulusImageFilterTest
       COMMAND ITKImageIntensityTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ModulusImageFilterTest.png
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/ModulusImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/ModulusImageFilterTest.png
-    itkModulusImageFilterTest ${ITK_DATA_ROOT}/Input/Spots.png ${ITK_TEST_OUTPUT_DIR}/ModulusImageFilterTest.png)
+    itkModulusImageFilterTest DATA{${ITK_DATA_ROOT}/Input/Spots.png} ${ITK_TEST_OUTPUT_DIR}/ModulusImageFilterTest.png)
 itk_add_test(NAME itkVectorMagnitudeImageFilterTest
       COMMAND ITKImageIntensityTestDriver itkVectorMagnitudeImageFilterTest)
 itk_add_test(NAME itkNormalizeToConstantImageFilterTest

@@ -14,7 +14,7 @@ itk_add_test(NAME itkRawImageIOTest
               ${ITK_TEST_OUTPUT_DIR}/raw1.raw ${ITK_TEST_OUTPUT_DIR}/raw2.raw)
 itk_add_test(NAME itkRawImageIOTest2
       COMMAND ITKIORAWTestDriver itkRawImageIOTest2
-              ${ITK_DATA_ROOT}/Input/VHFColor.raw)
+              DATA{${ITK_DATA_ROOT}/Input/VHFColor.raw})
 itk_add_test(NAME itkRawImageIOTest3
       COMMAND ITKIORAWTestDriver itkRawImageIOTest3
               ${ITK_TEST_OUTPUT_DIR}/raw3.raw ${ITK_TEST_OUTPUT_DIR}/raw4.raw)

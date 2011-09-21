@@ -113,9 +113,9 @@ itk_add_test(NAME itkQuadEdgeMeshNoPointConstTest
       COMMAND ITKQuadEdgeMeshTestDriver itkQuadEdgeMeshNoPointConstTest)
 itk_add_test(NAME itkVTKPolyDataIOQuadEdgeMeshTest
       COMMAND ITKQuadEdgeMeshTestDriver itkVTKPolyDataIOQuadEdgeMeshTest
-              ${ITK_DATA_ROOT}/Input/genusZeroSurface01.vtk ${ITK_TEST_OUTPUT_DIR}/VTKPolyDataIOTest.vtk)
+              DATA{${ITK_DATA_ROOT}/Input/genusZeroSurface01.vtk} ${ITK_TEST_OUTPUT_DIR}/VTKPolyDataIOTest.vtk)
 itk_add_test(NAME itkVTKPolyDataReaderQuadEdgeMeshTest
       COMMAND ITKQuadEdgeMeshTestDriver itkVTKPolyDataReaderQuadEdgeMeshTest
-              ${ITK_DATA_ROOT}/Input/genusZeroSurface01.vtk)
+              DATA{${ITK_DATA_ROOT}/Input/genusZeroSurface01.vtk})
 itk_add_test(NAME itkDynamicQuadEdgeMeshTest
       COMMAND ITKQuadEdgeMeshTestDriver itkDynamicQuadEdgeMeshTest)

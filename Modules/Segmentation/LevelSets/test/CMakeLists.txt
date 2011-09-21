@@ -35,9 +35,9 @@ itk_add_test(NAME itkThresholdSegmentationLevelSetImageFilterTest
       COMMAND ITKLevelSetsTestDriver itkThresholdSegmentationLevelSetImageFilterTest)
 itk_add_test(NAME itkVectorThresholdSegmentationLevelSetImageFilterTest
       COMMAND ITKLevelSetsTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Algorithms/VectorThresholdSegmentationLevelSetImageFilterTest.png
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/Algorithms/VectorThresholdSegmentationLevelSetImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/VectorThresholdSegmentationLevelSetImageFilterTest.png
-    itkVectorThresholdSegmentationLevelSetImageFilterTest ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSliceInitialLevelSet.png ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png ${ITK_TEST_OUTPUT_DIR}/VectorThresholdSegmentationLevelSetImageFilterTest.png 5.0 50)
+    itkVectorThresholdSegmentationLevelSetImageFilterTest DATA{${ITK_DATA_ROOT}/Input/VisibleWomanEyeSliceInitialLevelSet.png} DATA{${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png} ${ITK_TEST_OUTPUT_DIR}/VectorThresholdSegmentationLevelSetImageFilterTest.png 5.0 50)
 itk_add_test(NAME itkAnisotropicFourthOrderLevelSetImageFilterTest
       COMMAND ITKLevelSetsTestDriver itkAnisotropicFourthOrderLevelSetImageFilterTest)
 itk_add_test(NAME itkReinitializeLevelSetImageFilterTest
@@ -52,7 +52,7 @@ itk_add_test(NAME itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2
       COMMAND ITKLevelSetsTestDriver itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2)
 itk_add_test(NAME itkParallelSparseFieldLevelSetImageFilterTest
       COMMAND ITKLevelSetsTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ParallelSparseFieldLevelSetImageFilterTest.mha
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/ParallelSparseFieldLevelSetImageFilterTest.mha}
               ${ITK_TEST_OUTPUT_DIR}/ParallelSparseFieldLevelSetImageFilterTest.mha
     itkParallelSparseFieldLevelSetImageFilterTest ${ITK_TEST_OUTPUT_DIR}/ParallelSparseFieldLevelSetImageFilterTest.mha)
 itk_add_test(NAME itkShapeDetectionLevelSetImageFilterTest
@@ -61,7 +61,7 @@ itk_add_test(NAME itkNarrowBandThresholdSegmentationLevelSetImageFilterTest
       COMMAND ITKLevelSetsTestDriver itkNarrowBandThresholdSegmentationLevelSetImageFilterTest)
 itk_add_test(NAME itkNarrowBandCurvesLevelSetImageFilterTest1
       COMMAND ITKLevelSetsTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Algorithms/itkNarrowBandCurvesLevelSetImageFilterTest.png
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/Algorithms/itkNarrowBandCurvesLevelSetImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/itkNarrowBandCurvesLevelSetImageFilterTest.png
     itkNarrowBandCurvesLevelSetImageFilterTest ${ITK_TEST_OUTPUT_DIR}/itkNarrowBandCurvesLevelSetImageFilterTest.png)
 itk_add_test(NAME itkCollidingFrontsImageFilterTest

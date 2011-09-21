@@ -14,25 +14,25 @@ CreateTestDriver(ITKNeuralNetworks  "${ITKNeuralNetworks-Test_LIBRARIES}" "${ITK
 
 itk_add_test(NAME NNetClassifierTest1
       COMMAND ITKNeuralNetworksTestDriver NNetClassifierTest1
-              ${ITK_DATA_ROOT}/Input/NeuralNetworks/train.txt ${ITK_DATA_ROOT}/Input/NeuralNetworks/test.txt)
+              DATA{${ITK_DATA_ROOT}/Input/NeuralNetworks/train.txt} DATA{${ITK_DATA_ROOT}/Input/NeuralNetworks/test.txt})
 itk_add_test(NAME NNetClassifierTest2
       COMMAND ITKNeuralNetworksTestDriver NNetClassifierTest2
-              ${ITK_DATA_ROOT}/Input/NeuralNetworks/train.txt ${ITK_DATA_ROOT}/Input/NeuralNetworks/test.txt)
+              DATA{${ITK_DATA_ROOT}/Input/NeuralNetworks/train.txt} DATA{${ITK_DATA_ROOT}/Input/NeuralNetworks/test.txt})
 itk_add_test(NAME NNetClassifierTest3
       COMMAND ITKNeuralNetworksTestDriver NNetClassifierTest3
-              ${ITK_DATA_ROOT}/Input/NeuralNetworks/train.txt ${ITK_DATA_ROOT}/Input/NeuralNetworks/test.txt)
+              DATA{${ITK_DATA_ROOT}/Input/NeuralNetworks/train.txt} DATA{${ITK_DATA_ROOT}/Input/NeuralNetworks/test.txt})
 itk_add_test(NAME NNetClassifierTest4
       COMMAND ITKNeuralNetworksTestDriver NNetClassifierTest4
-              ${ITK_DATA_ROOT}/Input/NeuralNetworks/train.txt ${ITK_DATA_ROOT}/Input/NeuralNetworks/test.txt)
+              DATA{${ITK_DATA_ROOT}/Input/NeuralNetworks/train.txt} DATA{${ITK_DATA_ROOT}/Input/NeuralNetworks/test.txt})
 itk_add_test(NAME RBFTest1
       COMMAND ITKNeuralNetworksTestDriver RBFTest1
-              ${ITK_DATA_ROOT}/Input/NeuralNetworks/rbf_multivar_gauss_train.txt ${ITK_DATA_ROOT}/Input/NeuralNetworks/rbf_multivar_gauss_test.txt)
+              DATA{${ITK_DATA_ROOT}/Input/NeuralNetworks/rbf_multivar_gauss_train.txt} DATA{${ITK_DATA_ROOT}/Input/NeuralNetworks/rbf_multivar_gauss_test.txt})
 itk_add_test(NAME QPropXORTest1
       COMMAND ITKNeuralNetworksTestDriver QPropXORTest1
-              ${ITK_DATA_ROOT}/Input/NeuralNetworks/qpropxortest.txt)
+              DATA{${ITK_DATA_ROOT}/Input/NeuralNetworks/qpropxortest.txt})
 itk_add_test(NAME XORTest1
       COMMAND ITKNeuralNetworksTestDriver XORTest1
-              ${ITK_DATA_ROOT}/Input/NeuralNetworks/xortest.txt)
+              DATA{${ITK_DATA_ROOT}/Input/NeuralNetworks/xortest.txt})
 itk_add_test(NAME XORTest2
       COMMAND ITKNeuralNetworksTestDriver XORTest2
-              ${ITK_DATA_ROOT}/Input/NeuralNetworks/xortest.txt)
+              DATA{${ITK_DATA_ROOT}/Input/NeuralNetworks/xortest.txt})

@@ -35,6 +35,6 @@ itk_add_test(NAME itkTransformToDeformationFieldSourceTest01
               Affine ${ITK_TEST_OUTPUT_DIR}/itkTransformToDeformationFieldSourceTestField01.mha ${ITK_TEST_OUTPUT_DIR}/itkTransformToDeformationFieldSourceTestImage01.mha)
 itk_add_test(NAME itkTransformToDeformationFieldSourceTest02
       COMMAND ITKV3CompatibilityTestDriver itkTransformToDeformationFieldSourceTest
-              BSpline ${ITK_TEST_OUTPUT_DIR}/itkTransformToDeformationFieldSourceTestField02.mha ${ITK_DATA_ROOT}/Input/parametersBSpline.txt ${ITK_TEST_OUTPUT_DIR}/itkTransformToDeformationFieldSourceTestImage02.mha)
+              BSpline ${ITK_TEST_OUTPUT_DIR}/itkTransformToDeformationFieldSourceTestField02.mha DATA{${ITK_DATA_ROOT}/Input/parametersBSpline.txt} ${ITK_TEST_OUTPUT_DIR}/itkTransformToDeformationFieldSourceTestImage02.mha)
 itk_add_test(NAME itkExponentialDeformationFieldImageFilterTest
       COMMAND ITKV3CompatibilityTestDriver itkExponentialDeformationFieldImageFilterTest)

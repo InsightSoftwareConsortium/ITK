@@ -2,7 +2,7 @@ set(BASELINE ${ITK_DATA_ROOT}/Baseline/Segmentation)
 set(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
 itk_add_test(NAME ConfidenceConnectedWhiteTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/ConfidenceConnectedWhiteTest.png
+  --compare DATA{${BASELINE}/ConfidenceConnectedWhiteTest.png}
             ${TEMP}/ConfidenceConnectedWhiteTest.png
   $<TARGET_FILE:ConfidenceConnected>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
@@ -11,7 +11,7 @@ itk_add_test(NAME ConfidenceConnectedWhiteTest COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME ConfidenceConnectedVentricleTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/ConfidenceConnectedVentricleTest.png
+  --compare DATA{${BASELINE}/ConfidenceConnectedVentricleTest.png}
             ${TEMP}/ConfidenceConnectedVentricleTest.png
   $<TARGET_FILE:ConfidenceConnected>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
@@ -20,7 +20,7 @@ itk_add_test(NAME ConfidenceConnectedVentricleTest COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME ConfidenceConnectedGrayTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/ConfidenceConnectedGrayTest.png
+  --compare DATA{${BASELINE}/ConfidenceConnectedGrayTest.png}
             ${TEMP}/ConfidenceConnectedGrayTest.png
   $<TARGET_FILE:ConfidenceConnected>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
@@ -29,7 +29,7 @@ itk_add_test(NAME ConfidenceConnectedGrayTest COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME ConnectedThresholdWhiteTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/ConnectedThresholdWhiteTest.png
+  --compare DATA{${BASELINE}/ConnectedThresholdWhiteTest.png}
             ${TEMP}/ConnectedThresholdWhiteTest.png
   $<TARGET_FILE:ConnectedThresholdImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
@@ -38,7 +38,7 @@ itk_add_test(NAME ConnectedThresholdWhiteTest COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME ConnectedThresholdVentricleTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/ConnectedThresholdVentricleTest.png
+  --compare DATA{${BASELINE}/ConnectedThresholdVentricleTest.png}
             ${TEMP}/ConnectedThresholdVentricleTest.png
   $<TARGET_FILE:ConnectedThresholdImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
@@ -47,7 +47,7 @@ itk_add_test(NAME ConnectedThresholdVentricleTest COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME ConnectedThresholdGrayTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/ConnectedThresholdGrayTest.png
+  --compare DATA{${BASELINE}/ConnectedThresholdGrayTest.png}
             ${TEMP}/ConnectedThresholdGrayTest.png
   $<TARGET_FILE:ConnectedThresholdImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
@@ -56,7 +56,7 @@ itk_add_test(NAME ConnectedThresholdGrayTest COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME FastMarchingLeftVentricleTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/FastMarchingLeftVentricleTest.png
+  --compare DATA{${BASELINE}/FastMarchingLeftVentricleTest.png}
             ${TEMP}/FastMarchingLeftVentricleTest.png
   $<TARGET_FILE:FastMarchingImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
@@ -65,7 +65,7 @@ itk_add_test(NAME FastMarchingLeftVentricleTest COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME FastMarchingRightVentricleTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/FastMarchingRightVentricleTest.png
+  --compare DATA{${BASELINE}/FastMarchingRightVentricleTest.png}
             ${TEMP}/FastMarchingRightVentricleTest.png
   $<TARGET_FILE:FastMarchingImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
@@ -74,7 +74,7 @@ itk_add_test(NAME FastMarchingRightVentricleTest COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME FastMarchingWhiteMatterTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/FastMarchingWhiteMatterTest.png
+  --compare DATA{${BASELINE}/FastMarchingWhiteMatterTest.png}
             ${TEMP}/FastMarchingWhiteMatterTest.png
   $<TARGET_FILE:FastMarchingImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
@@ -83,7 +83,7 @@ itk_add_test(NAME FastMarchingWhiteMatterTest COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME FastMarchingGrayMatterTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/FastMarchingGrayMatterTest.png
+  --compare DATA{${BASELINE}/FastMarchingGrayMatterTest.png}
             ${TEMP}/FastMarchingGrayMatterTest.png
   $<TARGET_FILE:FastMarchingImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
@@ -92,7 +92,7 @@ itk_add_test(NAME FastMarchingGrayMatterTest COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME GeodesicActiveContourLeftVentricleTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/GeodesicActiveContourLeftVentricleTest.png
+  --compare DATA{${BASELINE}/GeodesicActiveContourLeftVentricleTest.png}
             ${TEMP}/GeodesicActiveContourLeftVentricleTest.png
   $<TARGET_FILE:GeodesicActiveContourImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
@@ -101,7 +101,7 @@ itk_add_test(NAME GeodesicActiveContourLeftVentricleTest COMMAND ${ITK_TEST_DRIV
 )
 
 itk_add_test(NAME GeodesicActiveContourRightVentricleTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/GeodesicActiveContourRightVentricleTest.png
+  --compare DATA{${BASELINE}/GeodesicActiveContourRightVentricleTest.png}
             ${TEMP}/GeodesicActiveContourRightVentricleTest.png
   $<TARGET_FILE:GeodesicActiveContourImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
@@ -110,7 +110,7 @@ itk_add_test(NAME GeodesicActiveContourRightVentricleTest COMMAND ${ITK_TEST_DRI
 )
 
 itk_add_test(NAME GeodesicActiveContourWhiteMatterTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/GeodesicActiveContourWhiteMatterTest.png
+  --compare DATA{${BASELINE}/GeodesicActiveContourWhiteMatterTest.png}
             ${TEMP}/GeodesicActiveContourWhiteMatterTest.png
   $<TARGET_FILE:GeodesicActiveContourImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
@@ -119,7 +119,7 @@ itk_add_test(NAME GeodesicActiveContourWhiteMatterTest COMMAND ${ITK_TEST_DRIVER
 )
 
 itk_add_test(NAME GeodesicActiveContourGrayMatterTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/GeodesicActiveContourGrayMatterTest.png
+  --compare DATA{${BASELINE}/GeodesicActiveContourGrayMatterTest.png}
             ${TEMP}/GeodesicActiveContourGrayMatterTest.png
   $<TARGET_FILE:GeodesicActiveContourImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
@@ -128,7 +128,7 @@ itk_add_test(NAME GeodesicActiveContourGrayMatterTest COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME ShapeDetectionLevelSetLeftVentricleTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/ShapeDetectionLevelSetLeftVentricleTest.png
+  --compare DATA{${BASELINE}/ShapeDetectionLevelSetLeftVentricleTest.png}
             ${TEMP}/ShapeDetectionLevelSetLeftVentricleTest.png
   $<TARGET_FILE:ShapeDetectionLevelSetFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
@@ -137,7 +137,7 @@ itk_add_test(NAME ShapeDetectionLevelSetLeftVentricleTest COMMAND ${ITK_TEST_DRI
 )
 
 itk_add_test(NAME ShapeDetectionLevelSetRightVentricleTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/ShapeDetectionLevelSetRightVentricleTest.png
+  --compare DATA{${BASELINE}/ShapeDetectionLevelSetRightVentricleTest.png}
             ${TEMP}/ShapeDetectionLevelSetRightVentricleTest.png
   $<TARGET_FILE:ShapeDetectionLevelSetFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
@@ -146,7 +146,7 @@ itk_add_test(NAME ShapeDetectionLevelSetRightVentricleTest COMMAND ${ITK_TEST_DR
 )
 
 itk_add_test(NAME ShapeDetectionLevelSetWhiteMatterTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/ShapeDetectionLevelSetWhiteMatterTest.png
+  --compare DATA{${BASELINE}/ShapeDetectionLevelSetWhiteMatterTest.png}
             ${TEMP}/ShapeDetectionLevelSetWhiteMatterTest.png
   $<TARGET_FILE:ShapeDetectionLevelSetFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
@@ -155,7 +155,7 @@ itk_add_test(NAME ShapeDetectionLevelSetWhiteMatterTest COMMAND ${ITK_TEST_DRIVE
 )
 
 itk_add_test(NAME ShapeDetectionLevelSetGrayMatterTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/ShapeDetectionLevelSetGrayMatterTest.png
+  --compare DATA{${BASELINE}/ShapeDetectionLevelSetGrayMatterTest.png}
             ${TEMP}/ShapeDetectionLevelSetGrayMatterTest.png
   $<TARGET_FILE:ShapeDetectionLevelSetFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
@@ -164,7 +164,7 @@ itk_add_test(NAME ShapeDetectionLevelSetGrayMatterTest COMMAND ${ITK_TEST_DRIVER
 )
 
 itk_add_test(NAME ThresholdSegmentationLevelSetVentricleTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/ThresholdSegmentationLevelSetVentricleTest.png
+  --compare DATA{${BASELINE}/ThresholdSegmentationLevelSetVentricleTest.png}
             ${TEMP}/ThresholdSegmentationLevelSetVentricleTest.png
   $<TARGET_FILE:ThresholdSegmentationLevelSetImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
@@ -173,7 +173,7 @@ itk_add_test(NAME ThresholdSegmentationLevelSetVentricleTest COMMAND ${ITK_TEST_
 )
 
 itk_add_test(NAME ThresholdSegmentationLevelSetWhiteMatterTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/ThresholdSegmentationLevelSetWhiteMatterTest.png
+  --compare DATA{${BASELINE}/ThresholdSegmentationLevelSetWhiteMatterTest.png}
             ${TEMP}/ThresholdSegmentationLevelSetWhiteMatterTest.png
   $<TARGET_FILE:ThresholdSegmentationLevelSetImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
@@ -182,7 +182,7 @@ itk_add_test(NAME ThresholdSegmentationLevelSetWhiteMatterTest COMMAND ${ITK_TES
 )
 
 itk_add_test(NAME ThresholdSegmentationLevelSetGrayMatterTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/ThresholdSegmentationLevelSetGrayMatterTest.png
+  --compare DATA{${BASELINE}/ThresholdSegmentationLevelSetGrayMatterTest.png}
             ${TEMP}/ThresholdSegmentationLevelSetGrayMatterTest.png
   $<TARGET_FILE:ThresholdSegmentationLevelSetImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
@@ -209,7 +209,7 @@ itk_add_test(NAME CellularSegmentation2Test COMMAND ${ITK_TEST_DRIVER}
 endif( ITK_USE_BRAINWEB_DATA )
 
 itk_add_test(NAME VectorConfidenceConnectedTest1 COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/VectorConfidenceConnected1.png
+  --compare DATA{${BASELINE}/VectorConfidenceConnected1.png}
             ${TEMP}/VectorConfidenceConnected1.png
   $<TARGET_FILE:VectorConfidenceConnected>
         ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
@@ -218,7 +218,7 @@ itk_add_test(NAME VectorConfidenceConnectedTest1 COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME VectorConfidenceConnectedTest2 COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/VectorConfidenceConnected2.png
+  --compare DATA{${BASELINE}/VectorConfidenceConnected2.png}
             ${TEMP}/VectorConfidenceConnected2.png
   $<TARGET_FILE:VectorConfidenceConnected>
         ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
@@ -227,7 +227,7 @@ itk_add_test(NAME VectorConfidenceConnectedTest2 COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME VectorConfidenceConnectedTest3 COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/VectorConfidenceConnected3.png
+  --compare DATA{${BASELINE}/VectorConfidenceConnected3.png}
             ${TEMP}/VectorConfidenceConnected3.png
   $<TARGET_FILE:VectorConfidenceConnected>
         ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
@@ -237,17 +237,17 @@ itk_add_test(NAME VectorConfidenceConnectedTest3 COMMAND ${ITK_TEST_DRIVER}
 
 
 itk_add_test(NAME CannySegmentationLevelSetImageFilterTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/CannySegmentationLevelSetImageFilterTest.png
+  --compare DATA{${BASELINE}/CannySegmentationLevelSetImageFilterTest.png}
             ${TEMP}/CannySegmentationLevelSetImageFilterTest.png
   $<TARGET_FILE:CannySegmentationLevelSetImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
-        ${BASELINE}/ThresholdSegmentationLevelSetVentricle.png
+        DATA{${BASELINE}/ThresholdSegmentationLevelSetVentricle.png}
         ${TEMP}/CannySegmentationLevelSetImageFilterTest.png
         7 0.1 -10.0 127.5 10000
 )
 
 itk_add_test(NAME GeodesicActiveContourShapePriorCallosumTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/GeodesicActiveContourShapePriorCallosumTest.png
+  --compare DATA{${BASELINE}/GeodesicActiveContourShapePriorCallosumTest.png}
             ${TEMP}/GeodesicActiveContourShapePriorCallosumTest.png
   $<TARGET_FILE:GeodesicActiveContourShapePriorLevelSetImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainMidSagittalSlice.png
@@ -258,7 +258,7 @@ itk_add_test(NAME GeodesicActiveContourShapePriorCallosumTest COMMAND ${ITK_TEST
 )
 
 itk_add_test(NAME NeighborhoodConnectedWhiteTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/NeighborhoodConnectedWhiteTest.png
+  --compare DATA{${BASELINE}/NeighborhoodConnectedWhiteTest.png}
             ${TEMP}/NeighborhoodConnectedWhiteTest.png
   $<TARGET_FILE:NeighborhoodConnectedImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
@@ -267,7 +267,7 @@ itk_add_test(NAME NeighborhoodConnectedWhiteTest COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME NeighborhoodConnectedVentricleTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/NeighborhoodConnectedVentricleTest.png
+  --compare DATA{${BASELINE}/NeighborhoodConnectedVentricleTest.png}
             ${TEMP}/NeighborhoodConnectedVentricleTest.png
   $<TARGET_FILE:NeighborhoodConnectedImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
@@ -276,7 +276,7 @@ itk_add_test(NAME NeighborhoodConnectedVentricleTest COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME NeighborhoodConnectedGrayTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/NeighborhoodConnectedGrayTest.png
+  --compare DATA{${BASELINE}/NeighborhoodConnectedGrayTest.png}
             ${TEMP}/NeighborhoodConnectedGrayTest.png
   $<TARGET_FILE:NeighborhoodConnectedImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
@@ -285,7 +285,7 @@ itk_add_test(NAME NeighborhoodConnectedGrayTest COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME IsolatedConnectedTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/IsolatedConnectedTest.png
+  --compare DATA{${BASELINE}/IsolatedConnectedTest.png}
             ${TEMP}/IsolatedConnectedTest.png
   $<TARGET_FILE:IsolatedConnectedImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
@@ -294,7 +294,7 @@ itk_add_test(NAME IsolatedConnectedTest COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME RelabelComponentImageFilterTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/RelabelComponentImageFilter.png
+  --compare DATA{${BASELINE}/RelabelComponentImageFilter.png}
             ${TEMP}/RelabelComponentImageFilter.png
   $<TARGET_FILE:RelabelComponentImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/WatershedSegmentation.png
@@ -302,7 +302,7 @@ itk_add_test(NAME RelabelComponentImageFilterTest COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME WatershedSegmentation1Test1 COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/WatershedSegmentation1Test1.png
+  --compare DATA{${BASELINE}/WatershedSegmentation1Test1.png}
             ${TEMP}/WatershedSegmentation1Test1.png
   $<TARGET_FILE:WatershedSegmentation1>
         ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
@@ -311,7 +311,7 @@ itk_add_test(NAME WatershedSegmentation1Test1 COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME WatershedSegmentation1Test2 COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/WatershedSegmentation1Test2.png
+  --compare DATA{${BASELINE}/WatershedSegmentation1Test2.png}
             ${TEMP}/WatershedSegmentation1Test2.png
   $<TARGET_FILE:WatershedSegmentation1>
         ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
@@ -320,7 +320,7 @@ itk_add_test(NAME WatershedSegmentation1Test2 COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME CurvesLevelSetImageFilterTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/CurvesLevelSetImageFilterTest.png
+  --compare DATA{${BASELINE}/CurvesLevelSetImageFilterTest.png}
             ${TEMP}/CurvesLevelSetImageFilterTest.png
   $<TARGET_FILE:CurvesLevelSetImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
@@ -329,7 +329,7 @@ itk_add_test(NAME CurvesLevelSetImageFilterTest COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME HoughTransformTwo2DLinesTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/HoughTransformTwoLinesTest.png
+  --compare DATA{${BASELINE}/HoughTransformTwoLinesTest.png}
             ${TEMP}/HoughTransformTwoLinesTest.png
   $<TARGET_FILE:HoughTransform2DLinesImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/HoughTransformTwoLines.png
@@ -338,7 +338,7 @@ itk_add_test(NAME HoughTransformTwo2DLinesTest COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME HoughTransformTwo2DCirclesTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/HoughTransformTwoCirclesTest.png
+  --compare DATA{${BASELINE}/HoughTransformTwoCirclesTest.png}
             ${TEMP}/HoughTransformTwoCirclesTest.png
   $<TARGET_FILE:HoughTransform2DCirclesImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/HoughTransformTwoCircles.png
@@ -347,11 +347,11 @@ itk_add_test(NAME HoughTransformTwo2DCirclesTest COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME LaplacianSegmentationLevelSetImageFilterTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/LaplacianSegmentationLevelSetImageFilter.png
+  --compare DATA{${BASELINE}/LaplacianSegmentationLevelSetImageFilter.png}
             ${TEMP}/LaplacianSegmentationLevelSetImageFilter.png
   $<TARGET_FILE:LaplacianSegmentationLevelSetImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
-        ${BASELINE}/ThresholdSegmentationLevelSetVentricle.png
+        DATA{${BASELINE}/ThresholdSegmentationLevelSetVentricle.png}
         ${TEMP}/LaplacianSegmentationLevelSetImageFilter.png
         10 2.0 1 127.5 15
 )
