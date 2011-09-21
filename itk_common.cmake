@@ -29,6 +29,7 @@
 #   dashboard_root_name       = Change name of "My Tests" directory
 #   dashboard_source_name     = Name of source directory (ITK)
 #   dashboard_binary_name     = Name of binary directory (ITK-build)
+#   dashboard_data_name       = Name of ExternalData store (ExternalData)
 #   dashboard_cache           = Initial CMakeCache.txt file content
 #   dashboard_do_coverage     = True to enable coverage (ex: gcov)
 #   dashboard_do_memcheck     = True to enable memcheck (ex: valgrind)
@@ -164,6 +165,15 @@ if(NOT DEFINED CTEST_BINARY_DIRECTORY)
   endif()
 endif()
 
+# Select a data store.
+if(NOT DEFINED ExternalData_OBJECT_STORES)
+  if(DEFINED dashboard_data_name)
+    set(ExternalData_OBJECT_STORES ${CTEST_DASHBOARD_ROOT}/${dashboard_data_name})
+  else()
+    set(ExternalData_OBJECT_STORES ${CTEST_DASHBOARD_ROOT}/ExternalData)
+  endif()
+endif()
+
 # Delete source tree if it is incompatible with current VCS.
 if(EXISTS ${CTEST_SOURCE_DIRECTORY})
   if(NOT EXISTS "${CTEST_SOURCE_DIRECTORY}/.git")
@@ -252,6 +262,7 @@ foreach(v
     CTEST_BUILD_NAME
     CTEST_SOURCE_DIRECTORY
     CTEST_BINARY_DIRECTORY
+    ExternalData_OBJECT_STORES
     CTEST_CMAKE_GENERATOR
     CTEST_BUILD_CONFIGURATION
     CTEST_GIT_COMMAND
@@ -298,6 +309,7 @@ SITE:STRING=${CTEST_SITE}
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
 CTEST_USE_LAUNCHERS:BOOL=${CTEST_USE_LAUNCHERS}
 DART_TESTING_TIMEOUT:STRING=${CTEST_TEST_TIMEOUT}
+ExternalData_OBJECT_STORES:STRING=${ExternalData_OBJECT_STORES}
 ${cache_build_type}
 ${cache_make_program}
 ${dashboard_cache}
