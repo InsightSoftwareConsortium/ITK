@@ -34,6 +34,8 @@ ParticleSwarmOptimizerBase
   this->m_ParametersConvergenceTolerance.Fill( 1e-8 );
   this->m_PercentageParticlesConverged = 0.6;
   this->m_FunctionConvergenceTolerance = 1e-4;
+  this->m_Seed = 0;
+  this->m_UseSeed = false;
 }
 
 ParticleSwarmOptimizerBase
@@ -177,7 +179,10 @@ ParticleSwarmOptimizerBase
   os<<" ]\n";
   os<<indent<<"Parameters' convergence tolerance: "<<this->m_ParametersConvergenceTolerance;
   os<<"\n";
-  os<<indent<<"Function convergence tolerance: "<<this->m_FunctionConvergenceTolerance;
+  os<<indent<<"Function convergence tolerance: "<<this->m_FunctionConvergenceTolerance << std::endl;
+  os<<indent<<"UseSeed: " << m_UseSeed << std::endl;
+  os<<indent<<"Seed: " << m_Seed << std::endl;
+
   os<<"\n";
           //printing the swarm, usually should be avoided (too much information)
   if( this->m_PrintSwarm && !m_Particles.empty() )
@@ -410,7 +415,14 @@ ParticleSwarmOptimizerBase
 {
   itk::Statistics::MersenneTwisterRandomVariateGenerator::Pointer
     randomGenerator = Statistics::MersenneTwisterRandomVariateGenerator::GetInstance();
-  randomGenerator->SetSeed();
+  if (m_UseSeed)
+    {
+    randomGenerator->SetSeed(m_Seed);
+    }
+  else
+    {
+    randomGenerator->SetSeed();
+    }
 
   this->m_StopConditionDescription.str("");
 

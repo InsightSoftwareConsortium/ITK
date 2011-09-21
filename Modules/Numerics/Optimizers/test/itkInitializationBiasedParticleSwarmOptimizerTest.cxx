@@ -2,7 +2,7 @@
  *
  *  Copyright Insight Software Consortium
  *
-< *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
@@ -21,8 +21,10 @@
 #include <cstdlib>
 #include "itkInitializationBiasedParticleSwarmOptimizer.h"
 #include "itkParticleSwarmOptimizerTestFunctions.h"
+#include "itkMersenneTwisterRandomVariateGenerator.h"
 
 typedef  itk::InitializationBiasedParticleSwarmOptimizer OptimizerType;
+static OptimizerType::RandomVariateGeneratorType::IntegerType seedOffset = 0;
 
 /**
  * Test using a 1D function with two minima, two parabolas. Check that the
@@ -108,6 +110,8 @@ int IBPSOTest1()
     ParticleSwarmTestF1::New();
 
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
+  itkOptimizer->UseSeedOn();
+  itkOptimizer->SetSeed(8775070 + seedOffset++);
 
          // set optimizer parameters
   OptimizerType::ParameterBoundsType bounds;
@@ -214,6 +218,8 @@ int IBPSOTest2()
     ParticleSwarmTestF2::New();
 
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
+  itkOptimizer->UseSeedOn();
+  itkOptimizer->SetSeed(8775070 + seedOffset++);
 
          // set optimizer parameters
   OptimizerType::ParameterBoundsType bounds;
@@ -293,6 +299,8 @@ int IBPSOTest3()
     ParticleSwarmTestF3::New();
 
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
+  itkOptimizer->UseSeedOn();
+  itkOptimizer->SetSeed(8775070 + seedOffset++);
 
          // set optimizer parameters
   OptimizerType::ParameterBoundsType bounds;
