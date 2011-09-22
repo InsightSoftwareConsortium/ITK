@@ -24,10 +24,13 @@
 
 // Software Guide : BeginLatex
 //
-// \itkpiccaption[BinaryThresholdImageFilter transfer function]{Transfer function
-// of the BinaryThresholdImageFilter.
-// \label{fig:BinaryThresholdTransferFunction}}
-// \parpic(8cm,5cm)[r]{\includegraphics[width=7cm]{BinaryThresholdTransferFunction.eps}}
+//  \begin{floatingfigure}[rlp]{6cm}
+//    \centering
+//    \includegraphics[width=7cm]{BinaryThresholdTransferFunction.eps}
+//    \caption[BinaryThresholdImageFilter transfer function]
+//            {Transfer function of the BinaryThresholdImageFilter.
+//            \label{fig:BinaryThresholdTransferFunction}}
+//  \end{floatingfigure}
 //
 // This example illustrates the use of the binary threshold image filter.
 // This filter is used to transform an image into a binary image by changing

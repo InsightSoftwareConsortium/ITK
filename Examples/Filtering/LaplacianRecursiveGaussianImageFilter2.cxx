@@ -18,15 +18,13 @@
 
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS: {BrainProtonDensitySlice.png}
-//    OUTPUTS: {LaplacianRecursiveGaussianImageFilter2output3.mha}
-//    3
+//    LaplacianRecursiveGaussianImageFilter2Output3.mha 3
 //    OUTPUTS: {LaplacianRecursiveGaussianImageFilter2Output3.png}
 //  Software Guide : EndCommandLineArgs
 
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS: {BrainProtonDensitySlice.png}
-//    OUTPUTS: {LaplacianRecursiveGaussianImageFilter2output5.mha}
-//    5
+//    LaplacianRecursiveGaussianImageFilter2Output5.mha 5
 //    OUTPUTS: {LaplacianRecursiveGaussianImageFilter2Output5.png}
 //  Software Guide : EndCommandLineArgs
 
@@ -44,7 +42,6 @@
 //
 //  Software Guide : EndLatex
 
-
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
@@ -61,7 +58,6 @@
 // Software Guide : EndCodeSnippet
 #include "itkRescaleIntensityImageFilter.h"
 
-
 int main( int argc, char * argv[] )
 {
   if( argc < 4 )
@@ -70,7 +66,6 @@ int main( int argc, char * argv[] )
     std::cerr << argv[0] << "  inputImageFile  outputImageFile  sigma [RescaledOutputImageFile] " << std::endl;
     return EXIT_FAILURE;
     }
-
 
   //  Software Guide : BeginLatex
   //
@@ -83,7 +78,6 @@ int main( int argc, char * argv[] )
   typedef    float    OutputPixelType;
   // Software Guide : EndCodeSnippet
 
-
   //  Software Guide : BeginLatex
   //
   //  The input and output image types are instantiated using the pixel types.
@@ -95,9 +89,7 @@ int main( int argc, char * argv[] )
   typedef itk::Image< OutputPixelType, 2 >   OutputImageType;
   // Software Guide : EndCodeSnippet
 
-
   typedef itk::ImageFileReader< InputImageType >  ReaderType;
-
 
   //  Software Guide : BeginLatex
   //
@@ -113,10 +105,8 @@ int main( int argc, char * argv[] )
                         InputImageType, OutputImageType >  FilterType;
   // Software Guide : EndCodeSnippet
 
-
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
-
 
   //  Software Guide : BeginLatex
   //
@@ -133,8 +123,6 @@ int main( int argc, char * argv[] )
   FilterType::Pointer laplacian = FilterType::New();
   // Software Guide : EndCodeSnippet
 
-
-
   //  Software Guide : BeginLatex
   //
   //  The option for normalizing across scale space can also be selected in this filter.
@@ -147,7 +135,6 @@ int main( int argc, char * argv[] )
   laplacian->SetNormalizeAcrossScale( false );
   // Software Guide : EndCodeSnippet
 
-
   //  Software Guide : BeginLatex
   //
   //  The input image can be obtained from the output of another
@@ -158,7 +145,6 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   laplacian->SetInput( reader->GetOutput() );
   // Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //
@@ -178,7 +164,6 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   laplacian->SetSigma( sigma );
   // Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //
@@ -201,24 +186,17 @@ int main( int argc, char * argv[] )
     }
   // Software Guide : EndCodeSnippet
 
-
-
   // The image can also be saved into  a file, by using the ImageFileWriter.
   //
-  typedef  float WritePixelType;
-  typedef itk::Image< WritePixelType, 2 >    WriteImageType;
+  typedef  float                          WritePixelType;
+  typedef itk::Image< WritePixelType, 2 > WriteImageType;
 
   typedef itk::ImageFileWriter< WriteImageType >  WriterType;
 
   WriterType::Pointer writer = WriterType::New();
-
   writer->SetInput( laplacian->GetOutput() );
-
   writer->SetFileName( argv[2] );
-
   writer->Update();
-
-
 
   //  Software Guide : BeginLatex
   //
@@ -241,13 +219,13 @@ int main( int argc, char * argv[] )
   //
   //  Software Guide : EndLatex
 
-
   // Rescale float outputs to png for inclusion in the Software guide
   //
   if (argc > 4)
     {
-    typedef unsigned char    CharPixelType;
-    typedef itk::Image<CharPixelType, 2>    CharImageType;
+    typedef unsigned char                CharPixelType;
+    typedef itk::Image<CharPixelType, 2> CharImageType;
+
     typedef itk::RescaleIntensityImageFilter< OutputImageType, CharImageType>
                                                             RescaleFilterType;
     RescaleFilterType::Pointer rescale = RescaleFilterType::New();
@@ -263,4 +241,3 @@ int main( int argc, char * argv[] )
 
   return EXIT_SUCCESS;
 }
-

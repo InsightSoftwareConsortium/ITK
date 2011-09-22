@@ -18,15 +18,13 @@
 
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS: {BrainProtonDensitySlice.png}
-//    OUTPUTS: {LaplacianRecursiveGaussianImageFilteroutput3.mha}
-//    3
+//    LaplacianRecursiveGaussianImageFilterOutput3.mha 3
 //    OUTPUTS: {LaplacianRecursiveGaussianImageFilterOutput3.png}
 //  Software Guide : EndCommandLineArgs
 
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS: {BrainProtonDensitySlice.png}
-//    OUTPUTS: {LaplacianRecursiveGaussianImageFilteroutput5.mha}
-//    5
+//    LaplacianRecursiveGaussianImageFilterOutput5.mha 5
 //    OUTPUTS: {LaplacianRecursiveGaussianImageFilterOutput5.png}
 //  Software Guide : EndCommandLineArgs
 
@@ -364,10 +362,12 @@ int main( int argc, char * argv[] )
   //
   if (argc > 4)
     {
-    typedef unsigned char    CharPixelType;
-    typedef itk::Image<CharPixelType, 2>    CharImageType;
+    typedef unsigned char                CharPixelType;
+    typedef itk::Image<CharPixelType, 2> CharImageType;
+
     typedef itk::RescaleIntensityImageFilter< OutputImageType, CharImageType>
                                                             RescaleFilterType;
+
     RescaleFilterType::Pointer rescale = RescaleFilterType::New();
     rescale->SetInput( addFilter->GetOutput() );
     rescale->SetOutputMinimum(   0 );
@@ -382,4 +382,3 @@ int main( int argc, char * argv[] )
 
   return EXIT_SUCCESS;
 }
-

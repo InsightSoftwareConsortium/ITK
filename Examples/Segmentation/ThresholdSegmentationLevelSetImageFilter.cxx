@@ -67,12 +67,14 @@
 // \label{fig:ThresholdSegmentationLevelSetImageFilterDiagram}
 // \end{figure}
 //
-// \itkpiccaption[Propagation term for threshold-based level set
-// segmentation]{Propagation term for threshold-based level set segmentation.
-// From
-// Equation~\ref{eqn:ThresholdSegmentationLevelSetImageFilterPropagationTerm}.
-// \label{fig:ThresholdSegmentationSpeedTerm}}
-// \parpic(7.0cm,4.5cm)[r]{\includegraphics[width=6.5cm]{ThresholdSegmentationLevelSetImageFilterFigure1.eps}}
+//  \begin{floatingfigure}[rlp]{6cm}
+//    \centering
+//    \includegraphics[width=6.5cm]{ThresholdSegmentationLevelSetImageFilterFigure1.eps}
+//    \caption[Propagation term for threshold-based level set segmentation]
+//            {Propagation term for threshold-based level set segmentation.
+//             From Equation~\ref{eqn:ThresholdSegmentationLevelSetImageFilterPropagationTerm}.
+//             \label{fig:ThresholdSegmentationSpeedTerm}}
+//  \end{floatingfigure}
 //
 // The threshold segmentation filter expects two inputs.  The first is an
 // initial level set in the form of an \doxygen{Image}. The second input is

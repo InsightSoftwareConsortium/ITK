@@ -43,8 +43,11 @@ int main(int, char *[])
 {
   //  Software Guide : BeginLatex
   //
-  //  \itkpiccaption[PointSet with Vectors as PixelType]{Vectors as PixelType.\label{fig:PointSetWithVectors}}
-  //  \parpic(6cm,4cm)[r]{\includegraphics[width=4cm]{PointSetWithVectors.eps}}
+  //  \begin{floatingfigure}[rlp]{6cm}
+  //    \centering
+  //    \includegraphics[width=4cm]{PointSetWithVectors.eps}
+  //    \caption[PointSet with Vectors as PixelType]{Vectors as PixelType.\label{fig:PointSetWithVectors}}
+  //  \end{floatingfigure}
   //
   //  The Vector class is templated over the type used to represent
   //  the spatial coordinates and over the space dimension.  Since the

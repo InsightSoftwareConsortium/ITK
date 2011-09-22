@@ -17,8 +17,8 @@
  *=========================================================================*/
 
 //  Software Guide : BeginCommandLineArgs
-//    INPUTS: {brainweb1e1a10f20.mha}
-//    INPUTS: {brainweb1e1a10f20Rot10Tx15.mha}
+//    brainweb1e1a10f20.mha
+//    brainweb1e1a10f20Rot10Tx15.mha
 //    ImageRegistration8Output.mhd
 //    ImageRegistration8DifferenceBefore.mhd
 //    ImageRegistration8DifferenceAfter.mhd
