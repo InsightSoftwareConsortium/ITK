@@ -247,11 +247,11 @@ int itkDataObjectAndProcessObjectTest(int, char* [] )
   itk::TestDataObject::Pointer output1 = itk::TestDataObject::New();
 
   // default input values
-  TEST_SET_GET_VALUE( NULL, process->GetPrimaryInput() );
-  TEST_SET_GET_VALUE( NULL, process->GetInput("Primary") );
-  TEST_SET_GET_VALUE( NULL, process->GetInput("toto") );
-  TEST_SET_GET_VALUE( NULL, process->GetInput(0) );
-  TEST_SET_GET_VALUE( NULL, process->GetInput(1) );
+  TEST_SET_GET_NULL_VALUE( process->GetPrimaryInput() );
+  TEST_SET_GET_NULL_VALUE( process->GetInput("Primary") );
+  TEST_SET_GET_NULL_VALUE( process->GetInput("toto") );
+  TEST_SET_GET_NULL_VALUE( process->GetInput(0) );
+  TEST_SET_GET_NULL_VALUE( process->GetInput(1) );
 
   process->Print(std::cout);
   process->SetInput( "Primary", input0 );
@@ -260,9 +260,9 @@ int itkDataObjectAndProcessObjectTest(int, char* [] )
   TEST_SET_GET( input0, process->GetInput("Primary") );
   TEST_SET_GET_VALUE( 1, process->GetNumberOfIndexedInputs() );
   process->SetPrimaryInput( NULL );
-  TEST_SET_GET_VALUE( NULL, process->GetPrimaryInput() );
-  TEST_SET_GET_VALUE( NULL, process->GetInput(0) );
-  TEST_SET_GET_VALUE( NULL, process->GetInput("Primary") );
+  TEST_SET_GET_NULL_VALUE( process->GetPrimaryInput() );
+  TEST_SET_GET_NULL_VALUE( process->GetInput(0) );
+  TEST_SET_GET_NULL_VALUE( process->GetInput("Primary") );
   process->SetNthInput( 0, input0 );
   TEST_SET_GET( input0, process->GetPrimaryInput() );
   TEST_SET_GET( input0, process->GetInput(0) );
@@ -272,7 +272,7 @@ int itkDataObjectAndProcessObjectTest(int, char* [] )
   TEST_SET_GET( input1, process->GetInput(1) );
   TEST_SET_GET_VALUE( 2, process->GetNumberOfIndexedInputs() );
   process->SetNthInput( 1, NULL );
-  TEST_SET_GET_VALUE( NULL, process->GetInput(1) );
+  TEST_SET_GET_NULL_VALUE( process->GetInput(1) );
   process->SetNthInput( 1, input1 );
 
   process->Print(std::cout);
