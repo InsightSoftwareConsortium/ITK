@@ -431,12 +431,6 @@ public:
    * information is stored in the cell links container, not in the points. */
   void BuildCellLinks() const;
 
-  /** Get the bounding box of a cell in the mesh. The user
-   *  must supply the bounding box. The methods return a pointer to
-   *  the user-supplied bounding box as a convenience. */
-  BoundingBoxPointer GetCellBoundingBox(CellIdentifier cellId,
-                                        BoundingBoxPointer bbox);
-
   /** This method iterates over all the cells in the mesh and has
    *  each cell Accept the MultiVisitor. See MultiVisitor for more
    *  information.  (Note, this follows the Visitor Design Pattern.) */

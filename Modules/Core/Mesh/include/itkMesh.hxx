@@ -501,29 +501,6 @@ Mesh< TPixelType, VDimension, TMeshTraits >
 }
 
 /**
- * Get the bounding box of the cell with the given identifier.
- */
-template< typename TPixelType, unsigned int VDimension, typename TMeshTraits >
-typename Mesh< TPixelType, VDimension, TMeshTraits >::BoundingBoxPointer
-Mesh< TPixelType, VDimension, TMeshTraits >
-::GetCellBoundingBox(CellIdentifier cellId, BoundingBoxPointer bbox)
-{
-  bbox->SetPoints( this->GetPoints() );
-  return bbox;
-}
-
-/**
- * Given the geometric coordinates of a point and a squared tolerance,
- * locate .....COMMENT ME.....
- */
-#if 0
-template< typename TPixelType, unsigned int VDimension, typename TMeshTraits >
-bool
-Mesh< TPixelType, VDimension, TMeshTraits >
-::FindCell(CoordRep coords[PointDimension], ..FINISH ME..)
-#endif
-
-/**
  * Restore the Mesh to its initial state.  Useful for data pipeline updates
  * without memory re-allocation.
  */
