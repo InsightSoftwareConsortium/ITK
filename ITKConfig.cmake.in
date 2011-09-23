@@ -46,9 +46,9 @@ SET(ITK_CableSwig_DIR "@ITK_CableSwig_DIR_CONFIG@")
 # automatically pull in their dependencies.
 SET(ITK_LIBRARIES ITKAlgorithms ITKStatistics ITKFEM)
 
-IF(@ITK_USE_REVIEW@)
+IF("@ITK_USE_REVIEW@")
    SET(ITK_LIBRARIES ${ITK_LIBRARIES} ITKQuadEdgeMesh)
-ENDIF(@ITK_USE_REVIEW@)
+ENDIF("@ITK_USE_REVIEW@")
 
 # The ITK library dependencies.
 IF(NOT ITK_NO_LIBRARY_DEPENDS AND
