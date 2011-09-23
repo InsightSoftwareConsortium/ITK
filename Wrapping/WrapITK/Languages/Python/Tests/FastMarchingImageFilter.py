@@ -16,24 +16,24 @@
 #
 #==========================================================================*/
 
-#     INPUTS: BrainProtonDensitySlice.png
+#     INPUTS:  BrainProtonDensitySlice.png
 #     OUTPUTS: FastMarchingImageFilterOutput5.png
-#     81 114 1.0  -0.5  3.0   100 100
+#     ARGUMENTS:    81 114 1.0  -0.5  3.0   100 100
 #
-#     INPUTS: BrainProtonDensitySlice.png
+#     INPUTS:  BrainProtonDensitySlice.png
 #     OUTPUTS: FastMarchingImageFilterOutput6.png
-#     99 114 1.0  -0.5  3.0   100 100
+#     ARGUMENTS:    99 114 1.0  -0.5  3.0   100 100
 #
-#     INPUTS: BrainProtonDensitySlice.png
+#     INPUTS:  BrainProtonDensitySlice.png
 #     OUTPUTS: FastMarchingImageFilterOutput7.png
-#     56 92 1.0  -0.3  2.0   200 100
+#     ARGUMENTS:    56 92 1.0  -0.3  2.0   200 100
 #
-#     INPUTS: BrainProtonDensitySlice.png
+#     INPUTS:  BrainProtonDensitySlice.png
 #     OUTPUTS: FastMarchingImageFilterOutput8.png
 #     OUTPUTS: [FastMarchingFilterOutput1.png]
 #     OUTPUTS: [FastMarchingFilterOutput2.png]
 #     OUTPUTS: [FastMarchingFilterOutput3.png]
-#     40 90 0.5  -0.3  2.0   200 100
+#     ARGUMENTS:    40 90 0.5  -0.3  2.0   200 100
 
 import itk
 from sys import argv, stderr, exit

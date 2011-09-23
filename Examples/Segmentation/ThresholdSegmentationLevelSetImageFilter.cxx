@@ -17,19 +17,19 @@
  *=========================================================================*/
 
 //  Software Guide : BeginCommandLineArgs
-//    INPUTS: {BrainProtonDensitySlice.png}
+//    INPUTS:  {BrainProtonDensitySlice.png}
 //    OUTPUTS: {ThresholdSegmentationLevelSetImageFilterWhiteMatter.png}
-//    60 116 5 150 180
+//    ARGUMENTS:    60 116 5 150 180
 //  Software Guide : EndCommandLineArgs
 //  Software Guide : BeginCommandLineArgs
-//    INPUTS: {BrainProtonDensitySlice.png}
+//    INPUTS:  {BrainProtonDensitySlice.png}
 //    OUTPUTS: {ThresholdSegmentationLevelSetImageFilterVentricle.png}
-//    81 112 5 210 250
+//    ARGUMENTS:    81 112 5 210 250
 //  Software Guide : EndCommandLineArgs
 //  Software Guide : BeginCommandLineArgs
-//    INPUTS: {BrainProtonDensitySlice.png}
+//    INPUTS:  {BrainProtonDensitySlice.png}
 //    OUTPUTS: {ThresholdSegmentationLevelSetImageFilterGrayMatter.png}
-//    107 69 5 180  210
+//    ARGUMENTS:    107 69 5 180  210
 //  Software Guide : EndCommandLineArgs
 
 // Software Guide : BeginLatex

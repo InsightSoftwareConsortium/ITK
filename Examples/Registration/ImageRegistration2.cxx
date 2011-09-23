@@ -17,8 +17,8 @@
  *=========================================================================*/
 
 //  Software Guide : BeginCommandLineArgs
-//    INPUTS: {BrainT1SliceBorder20.png}
-//    INPUTS: {BrainProtonDensitySliceShifted13x17y.png}
+//    INPUTS:  {BrainT1SliceBorder20.png}
+//    INPUTS:  {BrainProtonDensitySliceShifted13x17y.png}
 //    OUTPUTS: {ImageRegistration2Output.png}
 //    OUTPUTS: {ImageRegistration2CheckerboardBefore.png}
 //    OUTPUTS: {ImageRegistration2CheckerboardAfter.png}

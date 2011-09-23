@@ -17,24 +17,24 @@
  *=========================================================================*/
 
 //  Software Guide : BeginCommandLineArgs
-//    INPUTS: {BrainProtonDensitySlice.png}
+//    INPUTS:  {BrainProtonDensitySlice.png}
 //    OUTPUTS: {ResampleImageFilterOutput1.png}
-//    0
+//    ARGUMENTS:    0
 //  Software Guide : EndCommandLineArgs
 //  Software Guide : BeginCommandLineArgs
-//    INPUTS: {BrainProtonDensitySlice.png}
+//    INPUTS:  {BrainProtonDensitySlice.png}
 //    OUTPUTS: {ResampleImageFilterOutput2.png}
-//    1
+//    ARGUMENTS:    1
 //  Software Guide : EndCommandLineArgs
 //  Software Guide : BeginCommandLineArgs
-//    INPUTS: {BrainProtonDensitySlice.png}
+//    INPUTS:  {BrainProtonDensitySlice.png}
 //    OUTPUTS: {ResampleImageFilterOutput3.png}
-//    2
+//    ARGUMENTS:    2
 //  Software Guide : EndCommandLineArgs
 //  Software Guide : BeginCommandLineArgs
-//    INPUTS: {BrainProtonDensitySlice.png}
+//    INPUTS:  {BrainProtonDensitySlice.png}
 //    OUTPUTS: {ResampleImageFilterOutput4.png}
-//    3
+//    ARGUMENTS:    3
 //  Software Guide : EndCommandLineArgs
 //
 //  Software Guide : BeginLatex

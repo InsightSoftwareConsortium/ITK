@@ -20,7 +20,7 @@
 //    INPUTS:  {BrainT1SliceBorder20.png}
 //    INPUTS:  {BrainProtonDensitySliceShifted13x17y.png}
 //    OUTPUTS: {MultiResImageRegistration2Output.png}
-//    100
+//    ARGUMENTS:    100
 //    OUTPUTS: {MultiResImageRegistration2CheckerboardBefore.png}
 //    OUTPUTS: {MultiResImageRegistration2CheckerboardAfter.png}
 //  Software Guide : EndCommandLineArgs

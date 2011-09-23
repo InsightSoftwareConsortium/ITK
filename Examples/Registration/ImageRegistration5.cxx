@@ -17,21 +17,21 @@
  *=========================================================================*/
 
 //  Software Guide : BeginCommandLineArgs
-//    INPUTS: {BrainProtonDensitySliceBorder20.png}
-//    INPUTS: {BrainProtonDensitySliceRotated10.png}
+//    INPUTS:  {BrainProtonDensitySliceBorder20.png}
+//    INPUTS:  {BrainProtonDensitySliceRotated10.png}
 //    OUTPUTS: {ImageRegistration5Output.png}
 //    OUTPUTS: {ImageRegistration5DifferenceAfter.png}
 //    OUTPUTS: {ImageRegistration5DifferenceBefore.png}
-//    0.1
+//    ARGUMENTS:    0.1
 //  Software Guide : EndCommandLineArgs
 
 //  Software Guide : BeginCommandLineArgs
-//    INPUTS: {BrainProtonDensitySliceBorder20.png}
-//    INPUTS: {BrainProtonDensitySliceR10X13Y17.png}
+//    INPUTS:  {BrainProtonDensitySliceBorder20.png}
+//    INPUTS:  {BrainProtonDensitySliceR10X13Y17.png}
 //    OUTPUTS: {ImageRegistration5Output2.png}
 //    OUTPUTS: {ImageRegistration5DifferenceAfter2.png}
 //    OUTPUTS: {ImageRegistration5DifferenceBefore2.png}
-//    1.0
+//    ARGUMENTS:    1.0
 //  Software Guide : EndCommandLineArgs
 
 

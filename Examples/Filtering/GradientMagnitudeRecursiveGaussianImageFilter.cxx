@@ -17,14 +17,14 @@
  *=========================================================================*/
 
 //  Software Guide : BeginCommandLineArgs
-//    INPUTS: {BrainProtonDensitySlice.png}
+//    INPUTS:  {BrainProtonDensitySlice.png}
 //    OUTPUTS: {GradientMagnitudeRecursiveGaussianImageFilterOutput3.png}
-//    3
+//    ARGUMENTS:    3
 //  Software Guide : EndCommandLineArgs
 //  Software Guide : BeginCommandLineArgs
-//    INPUTS: {BrainProtonDensitySlice.png}
+//    INPUTS:  {BrainProtonDensitySlice.png}
 //    OUTPUTS: {GradientMagnitudeRecursiveGaussianImageFilterOutput5.png}
-//    5
+//    ARGUMENTS:    5
 //  Software Guide : EndCommandLineArgs
 
 //  Software Guide : BeginLatex

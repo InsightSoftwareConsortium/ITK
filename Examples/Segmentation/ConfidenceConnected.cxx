@@ -17,19 +17,19 @@
  *=========================================================================*/
 
 //  Software Guide : BeginCommandLineArgs
-//  INPUTS: {BrainProtonDensitySlice.png}
-//  OUTPUTS: {ConfidenceConnectedOutput1.png}
-//  60 116
+//    INPUTS:  {BrainProtonDensitySlice.png}
+//    OUTPUTS: {ConfidenceConnectedOutput1.png}
+//    ARGUMENTS:    60 116
 //  Software Guide : EndCommandLineArgs
 //  Software Guide : BeginCommandLineArgs
-//  INPUTS: {BrainProtonDensitySlice.png}
-//  OUTPUTS: {ConfidenceConnectedOutput2.png}
-//  81 112
+//    INPUTS:  {BrainProtonDensitySlice.png}
+//    OUTPUTS: {ConfidenceConnectedOutput2.png}
+//    ARGUMENTS:    81 112
 //  Software Guide : EndCommandLineArgs
 //  Software Guide : BeginCommandLineArgs
-//  INPUTS: {BrainProtonDensitySlice.png}
-//  OUTPUTS: {ConfidenceConnectedOutput3.png}
-//  107 69
+//    INPUTS:  {BrainProtonDensitySlice.png}
+//    OUTPUTS: {ConfidenceConnectedOutput3.png}
+//    ARGUMENTS:    107 69
 //  Software Guide : EndCommandLineArgs
 
 // Software Guide : BeginLatex

@@ -17,9 +17,9 @@
  *=========================================================================*/
 
 // SoftwareGuide : BeginCommandLineArgs
-//  INPUTS: {BinaryImage.png}
-//  OUTPUTS: {ShapedNeighborhoodIterators1b.png}
-//  4
+//   INPUTS:  {BinaryImage.png}
+//   OUTPUTS: {ShapedNeighborhoodIterators1b.png}
+//   ARGUMENTS:    4
 // SoftwareGuide : EndCommandLineArgs
 
 #include "itkImageFileReader.h"

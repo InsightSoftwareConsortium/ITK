@@ -17,8 +17,10 @@
  *=========================================================================*/
 
 //  Software Guide : BeginCommandLineArgs
-//    RatLungSlice1.mha RatLungSlice2.mha DeformableRegistration2Output.mha
-//    DeformableRegistration2Field.mha
+//    INPUTS:  RatLungSlice1.mha
+//    INPUTS:  RatLungSlice2.mha
+//    OUTPUTS:  DeformableRegistration2Output.mha
+//    OUTPUTS: DeformableRegistration2Field.mha
 //  Software Guide : EndCommandLineArgs
 
 

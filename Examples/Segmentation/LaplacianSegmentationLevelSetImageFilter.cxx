@@ -17,9 +17,10 @@
  *=========================================================================*/
 
 //  Software Guide : BeginCommandLineArgs
-//    INPUTS: {BrainProtonDensitySlice.png}, {ThresholdSegmentationLevelSetImageFilterVentricle.png}
+//    INPUTS:  {BrainProtonDensitySlice.png}
+//    INPUTS:  {ThresholdSegmentationLevelSetImageFilterVentricle.png}
 //    OUTPUTS: {LaplacianSegmentationLevelSetImageFilterVentricle.png}
-//    10 2.0 1 127.5 15
+//    ARGUMENTS:    10 2.0 1 127.5 15
 //  Software Guide : EndCommandLineArgs
 
 // Software Guide : BeginLatex

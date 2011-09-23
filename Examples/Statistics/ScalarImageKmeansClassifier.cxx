@@ -17,9 +17,9 @@
  *=========================================================================*/
 
 //  Software Guide : BeginCommandLineArgs
-//    INPUTS: {BrainT1Slice.png}
+//    INPUTS:  {BrainT1Slice.png}
 //    OUTPUTS: {BrainT1Slice_labelled.png}
-//    0 3 14.8 91.6 134.9
+//    ARGUMENTS:    0 3 14.8 91.6 134.9
 //    NORMALIZE_EPS_OUTPUT_OF: {BrainT1Slice_labelled.png}
 //  Software Guide : EndCommandLineArgs
 

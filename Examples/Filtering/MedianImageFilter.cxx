@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 //  Software Guide : BeginCommandLineArgs
-//    INPUTS: {BrainProtonDensitySlice.png}
+//    INPUTS:  {BrainProtonDensitySlice.png}
 //    OUTPUTS: {MedianImageFilterOutput.png}
 //  Software Guide : EndCommandLineArgs
 

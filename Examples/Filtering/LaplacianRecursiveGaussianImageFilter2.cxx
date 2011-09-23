@@ -17,14 +17,14 @@
  *=========================================================================*/
 
 //  Software Guide : BeginCommandLineArgs
-//    INPUTS: {BrainProtonDensitySlice.png}
-//    LaplacianRecursiveGaussianImageFilter2Output3.mha 3
+//    INPUTS:  {BrainProtonDensitySlice.png}
+//    ARGUMENTS:    LaplacianRecursiveGaussianImageFilter2Output3.mha 3
 //    OUTPUTS: {LaplacianRecursiveGaussianImageFilter2Output3.png}
 //  Software Guide : EndCommandLineArgs
 
 //  Software Guide : BeginCommandLineArgs
-//    INPUTS: {BrainProtonDensitySlice.png}
-//    LaplacianRecursiveGaussianImageFilter2Output5.mha 5
+//    INPUTS:  {BrainProtonDensitySlice.png}
+//    ARGUMENTS:    LaplacianRecursiveGaussianImageFilter2Output5.mha 5
 //    OUTPUTS: {LaplacianRecursiveGaussianImageFilter2Output5.png}
 //  Software Guide : EndCommandLineArgs
 

@@ -17,11 +17,12 @@
  *=========================================================================*/
 
 //  Software Guide : Begin TODO HACK FIXME CommandLineArgs
-//  INPUTS: {BrainT1SliceBorder20.png}, {BrainProtonDensitySliceShifted13x17y.png}
-//  RegisteredImage.png 0
+//  INPUTS:  {BrainT1SliceBorder20.png}
+//  INPUTS:  {BrainProtonDensitySliceShifted13x17y.png}
+//  ARGUMENTS:    RegisteredImage.png 0
 //  OUTPUTS: {JointEntropyHistogramPriorToRegistration.png}
 //  OUTPUTS: {JointEntropyHistogramAfterRegistration.png}
-//  128
+//  ARGUMENTS:    128
 //  Software Guide : End TODO HACK FIXME CommandLineArgs
 
 //  Software Guide : BeginLatex

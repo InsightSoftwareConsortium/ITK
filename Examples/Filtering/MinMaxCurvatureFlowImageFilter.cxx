@@ -17,9 +17,9 @@
  *=========================================================================*/
 
 //  Software Guide : BeginCommandLineArgs
-//    INPUTS: {BrainProtonDensitySlice.png}
+//    INPUTS:  {BrainProtonDensitySlice.png}
 //    OUTPUTS: {MinMaxCurvatureFlowImageFilterOutput.png}
-//    10 0.125 1
+//    ARGUMENTS:    10 0.125 1
 //  Software Guide : EndCommandLineArgs
 
 //  Software Guide : BeginLatex

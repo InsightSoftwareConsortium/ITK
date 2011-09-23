@@ -20,7 +20,7 @@
 //    INPUTS:  {BrainProtonDensitySlice.png}
 //    OUTPUTS: {DerivativeImageFilterFloatOutput.mhd}
 //    OUTPUTS: {DerivativeImageFilterOutput.png}
-//    1 0
+//    ARGUMENTS:    1 0
 //  Software Guide : EndCommandLineArgs
 
 //  Software Guide : BeginLatex

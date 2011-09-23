@@ -17,9 +17,10 @@
  *=========================================================================*/
 
 //  Software Guide : BeginCommandLineArgs
-//    INPUTS: {BrainT1Slice.png}, {BrainT1Slice_labelled.png}
+//    INPUTS:  {BrainT1Slice.png}
+//    INPUTS:  {BrainT1Slice_labelled.png}
 //    OUTPUTS: {ScalarImageMarkovRandomField1Output.png}
-//    50 3 3 14.8 91.6 134.9
+//    ARGUMENTS:    50 3 3 14.8 91.6 134.9
 //    NORMALIZE_EPS_OUTPUT_OF: {ScalarImageMarkovRandomField1Output.png}
 //  Software Guide : EndCommandLineArgs
 
