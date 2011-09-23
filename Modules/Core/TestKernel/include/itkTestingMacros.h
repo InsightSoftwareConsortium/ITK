@@ -91,7 +91,16 @@
   if( variable != command )   \
     {   \
     std::cerr << "Error in " << #command << std::endl; \
-    std::cerr << "Expected " << variable << std::endl; \
+    std::cerr << "Expected " << variable << std::endl;   \
+    std::cerr << "but got  " << command << std::endl; \
+    return EXIT_FAILURE; \
+    }
+
+#define TEST_SET_GET_NULL_VALUE( command ) \
+  if( NULL != command )   \
+    {   \
+    std::cerr << "Error in " << #command << std::endl; \
+    std::cerr << "Expected " << "NULL" << std::endl;   \
     std::cerr << "but got  " << command << std::endl; \
     return EXIT_FAILURE; \
     }
