@@ -26,7 +26,7 @@
 #include "itkLevelSetEquationTermContainerBase.h"
 #include "itkLevelSetEquationContainerBase.h"
 #include "itkAtanRegularizedHeavisideStepFunction.h"
-#include "itkLevelSetEvolutionBase.h"
+#include "itkLevelSetEvolution.h"
 #include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"
 
 int itkMultiLevelSetEvolutionTest( int , char* [] )
@@ -60,7 +60,8 @@ int itkMultiLevelSetEvolutionTest( int , char* [] )
 
   typedef itk::LevelSetEquationContainerBase< TermContainerType >     EquationContainerType;
 
-  typedef itk::LevelSetEvolutionBase< EquationContainerType >             LevelSetEvolutionType;
+  typedef itk::LevelSetEvolution< EquationContainerType, LevelSetType > LevelSetEvolutionType;
+
   typedef itk::AtanRegularizedHeavisideStepFunction<
       LevelSetOutputRealType, LevelSetOutputRealType > HeavisideFunctionBaseType;
 

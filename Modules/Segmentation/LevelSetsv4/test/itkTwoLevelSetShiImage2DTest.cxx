@@ -27,7 +27,7 @@
 #include "itkLevelSetEquationTermContainerBase.h"
 #include "itkLevelSetEquationContainerBase.h"
 #include "itkSinRegularizedHeavisideStepFunction.h"
-#include "itkLevelSetShiEvolutionBase.h"
+#include "itkLevelSetEvolution.h"
 #include "itkBinaryImageToSparseLevelSetImageAdaptor.h"
 #include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"
 #include "itkNumericTraits.h"
@@ -73,7 +73,7 @@ int itkTwoLevelSetShiImage2DTest( int argc, char* argv[] )
   typedef itk::LevelSetEquationContainerBase< TermContainerType >
                                                             EquationContainerType;
 
-  typedef itk::LevelSetShiEvolutionBase< EquationContainerType >
+  typedef itk::LevelSetEvolution< EquationContainerType, SparseLevelSetType >
                                                             LevelSetEvolutionType;
 
   typedef SparseLevelSetType::OutputRealType                      LevelSetOutputRealType;
