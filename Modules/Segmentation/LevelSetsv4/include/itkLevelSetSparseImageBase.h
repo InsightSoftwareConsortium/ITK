@@ -39,7 +39,7 @@ namespace itk
 template< typename TOutput, unsigned int VDimension >
 class LevelSetSparseImageBase :
   public DiscreteLevelSetImageBase< TOutput, VDimension >
-  {
+{
 public:
   typedef LevelSetSparseImageBase                           Self;
   typedef SmartPointer< Self >                              Pointer;
@@ -58,11 +58,13 @@ public:
   typedef typename Superclass::HessianType      HessianType;
   typedef typename Superclass::LevelSetDataType LevelSetDataType;
 
-  typedef int8_t                                 LayerIdType;
-  typedef LabelObject< LayerIdType, VDimension > LabelObjectType;
-  typedef typename LabelObjectType::Pointer      LabelObjectPointer;
-  typedef typename LabelObjectType::LengthType   LabelObjectLengthType;
-  typedef typename LabelObjectType::LineType     LabelObjectLineType;
+  typedef int8_t                                  LayerIdType;
+  typedef std::list< LayerIdType >                LayerIdListType;
+
+  typedef LabelObject< LayerIdType, VDimension >  LabelObjectType;
+  typedef typename LabelObjectType::Pointer       LabelObjectPointer;
+  typedef typename LabelObjectType::LengthType    LabelObjectLengthType;
+  typedef typename LabelObjectType::LineType      LabelObjectLineType;
 
   typedef LabelMap< LabelObjectType >         LabelMapType;
   typedef typename LabelMapType::Pointer      LabelMapPointer;
@@ -97,16 +99,23 @@ public:
   /** Graft data object as level set object */
   virtual void Graft( const DataObject* data );
 
+  /** Return the label object pointer with a given id */
+  template< class TLabel >
+  typename LabelObject< TLabel, VDimension >::Pointer GetAsLabelObject();
+
 protected:
   LevelSetSparseImageBase();
 
   virtual ~LevelSetSparseImageBase();
 
-  LayerMapType     m_Layers;
-  LabelMapPointer  m_LabelMap;
+  LayerMapType      m_Layers;
+  LabelMapPointer   m_LabelMap;
+  LayerIdListType   m_InternalLabelList;
 
   /** Initialize the sparse field layers */
   virtual void InitializeLayers() = 0;
+
+  virtual void InitializeInternalLabelList() = 0;
 
   virtual bool IsInside( const InputType& iP ) const;
 

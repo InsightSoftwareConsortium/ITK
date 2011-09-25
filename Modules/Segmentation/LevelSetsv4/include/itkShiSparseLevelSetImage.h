@@ -99,32 +99,6 @@ public:
   static inline LayerIdType PlusOneLayer() { return 1; }
   static inline LayerIdType PlusThreeLayer() { return 3; }
 
-  /** Return the label object pointer with a given id */
-  template< class TLabel >
-  typename LabelObject< TLabel, Dimension >::Pointer
-  GetAsLabelObject()
-    {
-    typedef LabelObject< TLabel, Dimension > OutputLabelObjectType;
-    typename OutputLabelObjectType::Pointer object = OutputLabelObjectType::New();
-
-    LabelObjectPointer labelObject = this->m_LabelMap->GetLabelObject( this->MinusThreeLayer() );
-
-    for( SizeValueType i = 0; i < labelObject->GetNumberOfLines(); i++ )
-      {
-      object->AddLine( labelObject->GetLine( i ) );
-      }
-
-    labelObject = this->m_LabelMap->GetLabelObject( this->MinusOneLayer() );
-
-    for( SizeValueType i = 0; i < labelObject->GetNumberOfLines(); i++ )
-      {
-      object->AddLine( labelObject->GetLine( i ) );
-      }
-    object->Optimize();
-
-    return object;
-    }
-
 protected:
 
   ShiSparseLevelSetImage();
@@ -133,6 +107,8 @@ protected:
 
   /** Initialize the sparse field layers */
   virtual void InitializeLayers();
+
+  virtual void InitializeInternalLabelList();
 
 private:
 

@@ -131,6 +131,8 @@ protected:
   /** Initialize the sparse field layers */
   virtual void InitializeLayers();
 
+  virtual void InitializeInternalLabelList();
+
 private:
 
   WhitakerSparseLevelSetImage( const Self& ); // purposely not implemented
