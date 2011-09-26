@@ -27,7 +27,7 @@
 #include "itkLevelSetEquationTermContainerBase.h"
 #include "itkLevelSetEquationContainerBase.h"
 #include "itkSinRegularizedHeavisideStepFunction.h"
-#include "itkLevelSetSparseEvolutionBase.h"
+#include "itkLevelSetEvolution.h"
 #include "itkBinaryImageToSparseLevelSetImageAdaptor.h"
 #include "itkLevelSetEquationCurvatureTerm.h"
 #include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"
@@ -79,7 +79,7 @@ int itkSingleLevelSetWhitakerImage2DWithCurvatureTest( int argc, char* argv[] )
   typedef itk::LevelSetEquationContainerBase< TermContainerType >
                                                             EquationContainerType;
 
-  typedef itk::LevelSetSparseEvolutionBase< EquationContainerType >
+  typedef itk::LevelSetEvolution< EquationContainerType, SparseLevelSetType >
                                                             LevelSetEvolutionType;
 
   typedef SparseLevelSetType::OutputRealType                      LevelSetOutputRealType;

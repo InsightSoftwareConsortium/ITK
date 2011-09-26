@@ -30,7 +30,7 @@
 #include "itkLevelSetEquationContainerBase.h"
 #include "itkAtanRegularizedHeavisideStepFunction.h"
 #include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"
-#include "itkLevelSetEvolutionBase.h"
+#include "itkLevelSetEvolution.h"
 
 int itkTwoLevelSetDenseImage2DTest( int argc, char* argv[] )
 {
@@ -70,7 +70,7 @@ int itkTwoLevelSetDenseImage2DTest( int argc, char* argv[] )
 
   typedef itk::LevelSetEquationContainerBase< TermContainerType >     EquationContainerType;
 
-  typedef itk::LevelSetEvolutionBase< EquationContainerType >         LevelSetEvolutionType;
+  typedef itk::LevelSetEvolution< EquationContainerType, LevelSetType > LevelSetEvolutionType;
 
   typedef itk::AtanRegularizedHeavisideStepFunction<
       LevelSetOutputRealType, LevelSetOutputRealType >  HeavisideFunctionBaseType;
