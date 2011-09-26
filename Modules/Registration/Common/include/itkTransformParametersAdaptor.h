@@ -85,14 +85,14 @@ public:
   virtual void AdaptTransformParameters() = 0;
 
 protected:
-  TransformParametersAdaptor() {};
-  ~TransformParametersAdaptor() {};
+  TransformParametersAdaptor() {}
+  ~TransformParametersAdaptor() {}
 
   void PrintSelf( std::ostream & os, Indent indent ) const
   {
     this->m_Transform->Print( os, indent );
     os << "Fixed parameters" << this->m_RequiredFixedParameters << std::endl;
-  };
+  }
 
   TransformPointer                           m_Transform;
   ParametersType                             m_RequiredFixedParameters;
