@@ -115,8 +115,6 @@ public:
 protected:
   GradientVectorFlowImageFilter();
   ~GradientVectorFlowImageFilter() {}
-  GradientVectorFlowImageFilter(const Self &) {}
-  void operator=(const Self &) {}
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   virtual void GenerateData();
@@ -128,6 +126,9 @@ protected:
   void UpdatePixels();
 
 private:
+  GradientVectorFlowImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
+
   // parameters;
   double m_TimeStep;                               //the timestep of each
                                                    // iteration

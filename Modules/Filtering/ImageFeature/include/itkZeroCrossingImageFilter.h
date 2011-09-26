@@ -136,7 +136,6 @@ protected:
   ~ZeroCrossingImageFilter(){}
   void PrintSelf(std::ostream & os, Indent indent) const;
 
-  ZeroCrossingImageFilter(const Self &) {}
   OutputImagePixelType m_BackgroundValue;
   OutputImagePixelType m_ForegroundValue;
 
@@ -153,6 +152,10 @@ protected:
    */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                             ThreadIdType threadId);
+private:
+  ZeroCrossingImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
+
 };
 } //end of namespace itk
 

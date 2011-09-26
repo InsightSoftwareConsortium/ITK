@@ -40,7 +40,7 @@ Rigid2DTransform<TScalarType>::Rigid2DTransform(unsigned int parametersDimension
 }
 
 template <class TScalarType>
-Rigid2DTransform<TScalarType>::Rigid2DTransform(unsigned int outputSpaceDimension, unsigned int parametersDimension) :
+Rigid2DTransform<TScalarType>::Rigid2DTransform(unsigned int , unsigned int parametersDimension) :
   Superclass(parametersDimension)
 {
   m_Angle = NumericTraits<TScalarType>::Zero;

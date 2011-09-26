@@ -244,7 +244,6 @@ protected:
     m_OriginalNumberOfObjects(0), m_MinimumObjectSize(0)
   { this->InPlaceOff(); }
   virtual ~RelabelComponentImageFilter() {}
-  RelabelComponentImageFilter(const Self &) {}
 
   /**
    * Standard pipeline method.
@@ -293,6 +292,8 @@ public:
     }
   };
 private:
+  RelabelComponentImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 
   LabelType      m_NumberOfObjects;
   LabelType      m_NumberOfObjectsToPrint;

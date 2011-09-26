@@ -117,7 +117,6 @@ public:
 protected:
   HardConnectedComponentImageFilter() {}
   virtual ~HardConnectedComponentImageFilter() {}
-  HardConnectedComponentImageFilter(const Self &) {}
 
   /**
    * Standard pipeline method.
@@ -126,7 +125,11 @@ protected:
 
   void PrintSelf(std::ostream & os, Indent indent) const
   { Superclass::PrintSelf(os, indent); }
+
 private:
+  HardConnectedComponentImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
+
   ListType m_Seeds;
 };
 } // end namespace itk

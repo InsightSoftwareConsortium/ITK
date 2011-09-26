@@ -221,7 +221,6 @@ public:
 #endif
 protected:
   CannyEdgeDetectionImageFilter();
-  CannyEdgeDetectionImageFilter(const Self &) {}
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   void GenerateData();
@@ -231,6 +230,9 @@ protected:
   typedef MultiplyImageFilter< OutputImageType,
                                OutputImageType, OutputImageType >       MultiplyImageFilterType;
 private:
+  CannyEdgeDetectionImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
+
   virtual ~CannyEdgeDetectionImageFilter(){}
 
   /** Thread-Data Structure   */
