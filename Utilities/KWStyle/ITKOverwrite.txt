@@ -141,3 +141,16 @@ BSplineWarping2.cxx Namespace Disable
 DeformableRegistration.+\.cxx Namespace Disable
 itkWarpImageFilterTest.cxx InternalVariables Disable
 itkWarpVectorImageFilterTest.cxx InternalVariables Disable
+vtkVisualize2DLevelSetImageBase.h Namespace Disable
+vtkVisualize2DMalcolmLevelSetLayers.h Namespace Disable
+vtkVisualize2DShiLevelSetLayers.h Namespace Disable
+vtkVisualize2DWhitakerLevelSet.h Namespace Disable
+vtkVisualize2DWhitakerLevelSetLayers.h Namespace Disable
+vtkVisualize3DLevelSetImageBase.h Namespace Disable
+vtkVisualize2DLevelSetImageBaseTest.cxx Namespace Disable
+vtkVisualize2DMalcolmLevelSetLayersTest.cxx Namespace Disable
+vtkVisualize2DMalcolmLevelSetTest.cxx Namespace Disable
+vtkVisualize2DShiLevelSetLayersTest.cxx Namespace Disable
+vtkVisualize2DShiLevelSetTest.cxx Namespace Disable
+vtkVisualize2DWhitakerLevelSetLayersTest.cxx Namespace Disable
+vtkVisualize2DWhitakerLevelSetTest.cxx Namespace Disable
