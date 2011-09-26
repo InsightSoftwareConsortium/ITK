@@ -21,6 +21,7 @@ itk_module(ITKRegistrationCommon
     ITKImageGradient
     ITKImageFeature
     ITKFiniteDifference
+    ITKDisplacementField
   TEST_DEPENDS
     ITKTestKernel
     ITKDistanceMap

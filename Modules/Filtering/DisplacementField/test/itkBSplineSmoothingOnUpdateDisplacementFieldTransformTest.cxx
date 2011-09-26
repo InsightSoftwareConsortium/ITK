@@ -86,7 +86,6 @@ int itkBSplineSmoothingOnUpdateDisplacementFieldTransformTest(int ,char *[] )
   displacementTransform->SetMeshSizeForTheTotalField( meshSizeForTotalField );
   displacementTransform->SetSplineOrder( 3 );
   displacementTransform->SetParameters( paramsFill );
-  displacementTransform->SetEnforceStationaryBoundary( true );
 
   DisplacementTransformType::NumberOfParametersType numberOfParameters =
    displacementTransform->GetNumberOfParameters();

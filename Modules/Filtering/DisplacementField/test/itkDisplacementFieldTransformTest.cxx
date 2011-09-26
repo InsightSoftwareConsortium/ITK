@@ -130,6 +130,7 @@ int itkDisplacementFieldTransformTest(int, char *[] )
   DisplacementTransformType::Pointer displacementTransform =
     DisplacementTransformType::New();
   typedef DisplacementTransformType::DisplacementFieldType FieldType;
+  typedef DisplacementTransformType::DisplacementFieldType DisplacementFieldType;
   FieldType::Pointer field = FieldType::New(); // This is based on itk::Image
 
   FieldType::SizeType   size;
@@ -146,6 +147,46 @@ int itkDisplacementFieldTransformTest(int, char *[] )
   DisplacementTransformType::OutputVectorType zeroVector;
   zeroVector.Fill( 0 );
   field->FillBuffer( zeroVector );
+
+  // Test the fixed parameters
+
+  displacementTransform->SetDisplacementField( field );
+
+  DisplacementTransformType::ParametersType fixedParameters = displacementTransform->GetFixedParameters();
+  std::cout << "Fixed parameters:  " << fixedParameters << std::endl;
+  displacementTransform->SetFixedParameters( fixedParameters );
+
+  DisplacementFieldType::SizeType size2 = displacementTransform->GetDisplacementField()->GetLargestPossibleRegion().GetSize();
+  DisplacementFieldType::PointType origin2 = displacementTransform->GetDisplacementField()->GetOrigin();
+  DisplacementFieldType::DirectionType direction2 = displacementTransform->GetDisplacementField()->GetDirection();
+  DisplacementFieldType::SpacingType spacing2 = displacementTransform->GetDisplacementField()->GetSpacing();
+
+  size = field->GetLargestPossibleRegion().GetSize();
+  DisplacementFieldType::PointType origin = field->GetOrigin();
+  DisplacementFieldType::DirectionType direction = field->GetDirection();
+  DisplacementFieldType::SpacingType spacing = field->GetSpacing();
+
+  if( size != size2 )
+    {
+    std::cerr << "Incorrect size from fixed parameters." << std::endl;
+    return EXIT_FAILURE;
+    }
+  if( origin != origin2 )
+    {
+    std::cerr << "Incorrect origin from fixed parameters." << std::endl;
+    return EXIT_FAILURE;
+    }
+  if( spacing != spacing2 )
+    {
+    std::cerr << "Incorrect spacing from fixed parameters." << std::endl;
+    return EXIT_FAILURE;
+    }
+  if( direction != direction2 )
+    {
+    std::cerr << "Incorrect direction from fixed parameters." << std::endl;
+    return EXIT_FAILURE;
+    }
+
 
   /* Initialize Affine transform and use to create displacement field */
   typedef itk::CenteredAffineTransform<double, 2> AffineTransformType;
@@ -512,6 +553,9 @@ int itkDisplacementFieldTransformTest(int, char *[] )
     std::cout << "Expected GetInverse() to fail." << std::endl;
     return EXIT_FAILURE;
     }
+
+  /** Set the inverse displacement field */
+  displacementTransform->SetInverseDisplacementField( field );
 
   return EXIT_SUCCESS;
 }
