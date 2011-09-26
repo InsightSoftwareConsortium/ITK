@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
-if(WIN32)
+if(WIN32 OR NOT EXISTS /dev/urandom)
   cmake_minimum_required(VERSION 2.8.5)
 endif()
 
