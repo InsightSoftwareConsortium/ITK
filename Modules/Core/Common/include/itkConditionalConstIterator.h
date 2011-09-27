@@ -23,17 +23,16 @@
 namespace itk
 {
 /** \class ConditionalConstIterator
- * \brief ConditionalConstIterator is a base class for other iterators where
- * membership in the set of output pixels is "conditional" upon some
- * property, calculation, etc. For example, a threshold iterator might
- * walk a region and return only those pixels which meet a minimum
- * intensity condition.
+ *  \brief A base class for other iterators where membership in the set
+ *         of output pixels is conditional upon some property, calculation,
+ *         etc. For example, a threshold iterator might walk a region and
+ *         return only those pixels which meet a minimum intensity condition.
  *
- * This class is the const version of the ConditionalIterator
- * for this reason it doesn't support the Set() method.
+ * This class is the const version of the ConditionalIterator.
+ * For this reason, it doesn't support the Set() method.
  *
  * \ingroup ImageIterators
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TImage >
 class ConditionalConstIterator
@@ -134,7 +133,7 @@ protected: //made protected so other iterators can access
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkConditionalConstIterator.txx"
+#include "itkConditionalConstIterator.hxx"
 #endif
 
 #endif

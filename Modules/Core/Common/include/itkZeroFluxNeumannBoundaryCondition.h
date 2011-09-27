@@ -52,7 +52,7 @@ namespace itk
  *
  * \ingroup DataRepresentation
  * \ingroup ImageObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TImage >
 class ITK_EXPORT ZeroFluxNeumannBoundaryCondition:
@@ -66,7 +66,9 @@ public:
   /** Extract information from the image type. */
   typedef typename Superclass::PixelType        PixelType;
   typedef typename Superclass::PixelPointerType PixelPointerType;
+  typedef typename Superclass::RegionType       RegionType;
   typedef typename Superclass::IndexType        IndexType;
+  typedef typename Superclass::SizeType         SizeType;
   typedef typename Superclass::OffsetType       OffsetType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
 
@@ -78,6 +80,12 @@ public:
 
   /** Default constructor. */
   ZeroFluxNeumannBoundaryCondition() {}
+
+  /** Runtime information support. */
+  virtual const char * GetNameOfClass() const
+  {
+    return "itkZeroFluxNeumannBoundaryCondition";
+  }
 
   /** Computes and returns a neighborhood of appropriate values from
    * neighborhood iterator data.. */
@@ -92,6 +100,30 @@ public:
     const OffsetType & boundary_offset,
     const NeighborhoodType *data,
     const NeighborhoodAccessorFunctorType & neighborhoodAccessorFunctor) const;
+
+  /** Determines the necessary input region for the output region.
+   * For this boundary condition, only the intersection of the largest
+   * possible image region and the output requested region is
+   * needed. If the intersection is empty, then a one-pixel layer of
+   * the image from the side closest to the output requested region is needed.
+   *
+   * \param inputLargestPossibleRegion Largest possible region of the input image.
+   * \param outputRequestedRegion The output requested region.
+   * \return The necessary input region required to determine the
+   * pixel values in the outputRequestedRegion.
+   */
+  virtual RegionType GetInputRequestedRegion( const RegionType & inputLargestPossibleRegion,
+                                              const RegionType & outputRequestedRegion ) const;
+
+  /** Returns a value for a given pixel at an index. If the index is inside the
+   * bounds of the input image, then the pixel value is obtained from
+   * the input image. Otherwise, the nearest pixel value is returned.
+   *
+   * \param index The index of the desired pixel.
+   * \param image The image from which pixel values should be determined.
+   */
+  PixelType GetPixel( const IndexType & index, const TImage * image ) const;
+
 };
 } // end namespace itk
 
@@ -112,12 +144,12 @@ public:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkZeroFluxNeumannBoundaryCondition.txx"
+#include "itkZeroFluxNeumannBoundaryCondition.hxx"
 #endif
 
 /*
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkZeroFluxNeumannBoundaryCondition.txx"
+#include "itkZeroFluxNeumannBoundaryCondition.hxx"
 #endif
 */
 

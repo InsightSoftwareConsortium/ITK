@@ -19,7 +19,7 @@
 #define __itkKdTreeBasedKmeansEstimator_h
 
 #include <vector>
-#include "itk_hash_map.h"
+#include "itksys/hash_map.hxx"
 
 #include "itkObject.h"
 #include "itkEuclideanDistanceMetric.h"
@@ -66,7 +66,7 @@ namespace Statistics
  *
  * \sa ImageKmeansModelEstimator
  * \sa WeightedCentroidKdTreeGenerator, KdTree
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  */
 
 template< class TKdTree >
@@ -120,7 +120,7 @@ public:
   MembershipFunctionVectorObjectType::Pointer MembershipFunctionVectorObjectPointer;
 
   /** Output Membership function vector containing the membership functions with
-    * the final optimized paramters */
+    * the final optimized parameters */
   const MembershipFunctionVectorObjectType * GetOutput() const;
 
   /**  Set the position to initialize the optimization. */
@@ -152,7 +152,7 @@ public:
    * of changes in centroid positions)  */
   void StartOptimization();
 
-  typedef itk::hash_map< InstanceIdentifier, unsigned int > ClusterLabelsType;
+  typedef itksys::hash_map< InstanceIdentifier, unsigned int > ClusterLabelsType;
 
   itkSetMacro(UseClusterLabels, bool);
   itkGetConstMacro(UseClusterLabels, bool);
@@ -166,7 +166,7 @@ protected:
 
   /** \class CandidateVector
    * \brief Candidate Vector
-   * \ingroup ITK-Statistics
+   * \ingroup ITKStatistics
    */
   class CandidateVector
   {
@@ -323,7 +323,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkKdTreeBasedKmeansEstimator.txx"
+#include "itkKdTreeBasedKmeansEstimator.hxx"
 #endif
 
 #endif

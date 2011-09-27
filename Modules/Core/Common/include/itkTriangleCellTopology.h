@@ -25,11 +25,11 @@ namespace itk
  * TriangleCellTopology holds data defining the topological
  * connections of the vertices and edges of an Triangle Cell.
  *
- * This class is used to localize static variables out of .txx
+ * This class is used to localize static variables out of .hxx
  * files. This prevents multiple definition of static variables.
  *
  * \ingroup MeshObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 class ITKCommon_EXPORT TriangleCellTopology

@@ -22,7 +22,7 @@
 #include "itkESMDemonsRegistrationFunction.h"
 
 #include "itkMultiplyImageFilter.h"
-#include "itkExponentialDeformationFieldImageFilter.h"
+#include "itkExponentialDisplacementFieldImageFilter.h"
 
 namespace itk
 {
@@ -47,11 +47,11 @@ namespace itk
  *
  * The input fixed and moving images are set via methods SetFixedImage
  * and SetMovingImage respectively. An initial deformation field maybe set via
- * SetInitialDeformationField or SetInput. If no initial field is set,
+ * SetInitialDisplacementField or SetInput. If no initial field is set,
  * a zero field is used as the initial condition.
  *
  * The output deformation field can be obtained via methods GetOutput
- * or GetDeformationField.
+ * or GetDisplacementField.
  *
  * This class make use of the finite difference solver hierarchy. Update
  * for each iteration is computed in DemonsRegistrationFunction.
@@ -67,17 +67,17 @@ namespace itk
  * \sa DemonsRegistrationFilter
  * \sa DemonsRegistrationFunction
  * \ingroup DeformableImageRegistration MultiThreaded
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 class ITK_EXPORT FastSymmetricForcesDemonsRegistrationFilter:
   public PDEDeformableRegistrationFilter< TFixedImage, TMovingImage,
-                                          TDeformationField >
+                                          TDisplacementField >
 {
 public:
   /** Standard class typedefs. */
   typedef FastSymmetricForcesDemonsRegistrationFilter                                     Self;
-  typedef PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDeformationField > Superclass;
+  typedef PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField > Superclass;
   typedef SmartPointer< Self >                                                            Pointer;
   typedef SmartPointer< const Self >                                                      ConstPointer;
 
@@ -97,8 +97,8 @@ public:
   typedef typename Superclass::MovingImagePointer MovingImagePointer;
 
   /** Deformation field type. */
-  typedef typename Superclass::DeformationFieldType    DeformationFieldType;
-  typedef typename Superclass::DeformationFieldPointer DeformationFieldPointer;
+  typedef typename Superclass::DisplacementFieldType    DisplacementFieldType;
+  typedef typename Superclass::DisplacementFieldPointer DisplacementFieldPointer;
 
   itkStaticConstMacro(
     ImageDimension, unsigned int, FixedImageType::ImageDimension);
@@ -118,7 +118,7 @@ public:
    */
   typedef ESMDemonsRegistrationFunction<
     FixedImageType,
-    MovingImageType, DeformationFieldType >                DemonsRegistrationFunctionType;
+    MovingImageType, DisplacementFieldType >                DemonsRegistrationFunctionType;
 
   typedef typename DemonsRegistrationFunctionType::GradientType GradientType;
   virtual void SetUseGradientType(GradientType gtype);
@@ -162,13 +162,13 @@ protected:
 
   /** other typedefs */
   typedef MultiplyImageFilter<
-    DeformationFieldType,
+    DisplacementFieldType,
     itk::Image<TimeStepType, ImageDimension>,
-    DeformationFieldType >                                MultiplyByConstantType;
+    DisplacementFieldType >                                MultiplyByConstantType;
 
   typedef AddImageFilter<
-    DeformationFieldType,
-    DeformationFieldType, DeformationFieldType >          AdderType;
+    DisplacementFieldType,
+    DisplacementFieldType, DisplacementFieldType >          AdderType;
 
   typedef typename MultiplyByConstantType::Pointer MultiplyByConstantPointer;
   typedef typename AdderType::Pointer              AdderPointer;
@@ -191,7 +191,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFastSymmetricForcesDemonsRegistrationFilter.txx"
+#include "itkFastSymmetricForcesDemonsRegistrationFilter.hxx"
 #endif
 
 #endif

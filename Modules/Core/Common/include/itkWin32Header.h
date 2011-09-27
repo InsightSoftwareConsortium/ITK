@@ -45,10 +45,6 @@
 // decorated name length exceeded, name was truncated
 #pragma warning ( disable : 4503 )
 
-// 'identifier' : identifier was truncated to 'number' characters in the
-// debug information
-#pragma warning ( disable : 4786 )
-
 // 'type' : forcing value to bool 'true' or 'false' (performance warning)
 #pragma warning ( disable : 4800 )
 
@@ -74,19 +70,16 @@
 
 #endif
 
-// As of MSVS++ 7.1 and greater, typename is supported in templates
-#define ITK_TYPENAME typename
-
 // When a class definition has ITK_EXPORT, the class will be
 // checked automatically, by Utilities/Dart/PrintSelfCheck.tcl
 #define ITK_EXPORT
 
 #if ( defined( _WIN32 ) || defined( WIN32 ) ) && !defined( ITKSTATIC )
-#ifdef ITK_Common_EXPORTS
+#ifdef ITKCommon_EXPORTS
 #define ITKCommon_EXPORT __declspec(dllexport)
 #else
 #define ITKCommon_EXPORT __declspec(dllimport)
-#endif  /* ITK_Common_EXPORTS */
+#endif  /* ITKCommon_EXPORTS */
 
 #else
 /* unix needs nothing */

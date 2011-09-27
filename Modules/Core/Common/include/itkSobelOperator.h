@@ -26,7 +26,7 @@ namespace itk
  * \class SobelOperator
  *
  * \brief A NeighborhoodOperator for performing a directional Sobel
- * edge-detection operation * at a pixel location.
+ * edge-detection operation at a pixel location.
  *
  * SobelOperator is a directional NeighborhoodOperator that should be
  * applied a NeighborhoodIterator using the NeighborhoodInnerProduct
@@ -85,7 +85,7 @@ namespace itk
  * \sa BackwardDifferenceOperator
  *
  * \ingroup Operators
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{Operators/SobelOperator,Create the Sobel kernel}
@@ -178,7 +178,7 @@ protected:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkSobelOperator.txx"
+#include "itkSobelOperator.hxx"
 #endif
 
 #endif

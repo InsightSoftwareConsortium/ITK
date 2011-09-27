@@ -83,7 +83,7 @@ namespace itk
  *
  * \author Gaetan Lehmann
  * \author Richard Beare
- * \ingroup ITK-MathematicalMorphology
+ * \ingroup ITKMathematicalMorphology
  */
 
 template< class TInputImage, class TOutputImage, class TKernel >
@@ -193,7 +193,7 @@ public:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMovingHistogramImageFilterBase.txx"
+#include "itkMovingHistogramImageFilterBase.hxx"
 #endif
 
 #endif

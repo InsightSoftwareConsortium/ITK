@@ -34,7 +34,7 @@ namespace itk
  * a cross structuring element, and let create a structuring element
  * based on an image.
  *
- * \ingroup ITK-MathematicalMorphology
+ * \ingroup ITKMathematicalMorphology
  *
  * \wiki
  * \wikiexample{Morphology/FlatStructuringElement,Erode a binary image using a flat (box) structuring element}
@@ -53,8 +53,8 @@ public:
   typedef typename Superclass::PixelType PixelType;
 
   /** Iterator typedef support. Note the naming is intentional, i.e.,
-  * \\::iterator and \\::const_iterator, because the allocator may be a
-  * vnl object or other type, which uses this form. */
+  * AllocatorType::iterator and AllocatorType::const_iterator, because the
+  * allocator may be a vnl object or other type, which uses this form. */
   typedef typename Superclass::Iterator      Iterator;
   typedef typename Superclass::ConstIterator ConstIterator;
 
@@ -167,7 +167,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFlatStructuringElement.txx"
+#include "itkFlatStructuringElement.hxx"
 #endif
 
 #endif

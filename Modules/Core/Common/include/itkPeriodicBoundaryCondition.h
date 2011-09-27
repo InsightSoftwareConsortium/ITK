@@ -32,7 +32,7 @@ namespace itk
  *
  * \ingroup DataRepresentation
  * \ingroup ImageObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TImage >
 class ITK_EXPORT PeriodicBoundaryCondition:
@@ -46,7 +46,9 @@ public:
   /** Extract information from the image type. */
   typedef typename Superclass::PixelType        PixelType;
   typedef typename Superclass::PixelPointerType PixelPointerType;
+  typedef typename Superclass::RegionType       RegionType;
   typedef typename Superclass::IndexType        IndexType;
+  typedef typename Superclass::SizeType         SizeType;
   typedef typename Superclass::OffsetType       OffsetType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
 
@@ -58,6 +60,12 @@ public:
 
   /** Default constructor. */
   PeriodicBoundaryCondition() {}
+
+  /** Runtime information support. */
+  virtual const char * GetNameOfClass() const
+  {
+    return "itkPeriodicBoundaryCondition";
+  }
 
   /** Computes and returns a neighborhood of appropriate values from
    * neighborhood iterator data.. */
@@ -72,6 +80,33 @@ public:
     const OffsetType & boundary_offset,
     const NeighborhoodType *data,
     const NeighborhoodAccessorFunctorType & neighborhoodAccessorFunctor) const;
+
+  /** Determines the necessary input region for the output region.
+   * For this boundary condition, the output region is mapped into the
+   * input image index space. If the mapped region crosses an image
+   * boundary in some dimension, then the entire size of the image in
+   * that dimension is requested. For this reason, it is most memory
+   * efficient to request regions that map to regions that do cross
+   * image boundaries.
+   *
+   * \param inputLargestPossibleRegion Largest possible region of the input image.
+   * \param outputRequestedRegion The output requested region.
+   * \return The necessary input region required to determine the
+   * pixel values in the outputRequestedRegion.
+   */
+  virtual RegionType GetInputRequestedRegion( const RegionType & inputLargestPossibleRegion,
+                                              const RegionType & outputRequestedRegion ) const;
+
+  /** Returns a value for a given pixel at an index. If the index is inside the
+   * bounds of the input image, then the pixel value is obtained from
+   * the input image. Otherwise, the pixel at the desired index (modulo
+   * the size of the image) is returned.
+   *
+   * \param index The index of the desired pixel.
+   * \param image The image from which pixel values should be determined.
+   */
+  PixelType GetPixel( const IndexType & index, const TImage * image ) const;
+
 };
 } // end namespace itk
 
@@ -92,7 +127,7 @@ public:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkPeriodicBoundaryCondition.txx"
+#include "itkPeriodicBoundaryCondition.hxx"
 #endif
 
 #endif

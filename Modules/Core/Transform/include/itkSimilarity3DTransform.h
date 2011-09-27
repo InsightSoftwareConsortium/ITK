@@ -39,22 +39,21 @@ namespace itk
  * The serialization of the fixed parameters is an array of 3 elements defining
  * the center of rotation.
  *
- * \ingroup Transforms
  *
  * \sa VersorRigid3DTransform
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  */
-template< class TScalarType = double >
+template <class TScalarType = double>
 // Data type for scalars (float or double)
-class ITK_EXPORT Similarity3DTransform:
-  public VersorRigid3DTransform< TScalarType >
+class ITK_EXPORT Similarity3DTransform :
+  public VersorRigid3DTransform<TScalarType>
 {
 public:
   /** Standard class typedefs. */
-  typedef Similarity3DTransform                 Self;
-  typedef VersorRigid3DTransform< TScalarType > Superclass;
-  typedef SmartPointer< Self >                  Pointer;
-  typedef SmartPointer< const Self >            ConstPointer;
+  typedef Similarity3DTransform               Self;
+  typedef VersorRigid3DTransform<TScalarType> Superclass;
+  typedef SmartPointer<Self>                  Pointer;
+  typedef SmartPointer<const Self>            ConstPointer;
 
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro(Self);
@@ -94,6 +93,7 @@ public:
 
   /** Set the parameters to the IdentityTransform */
   virtual void SetIdentity(void);
+
   /** Directly set the rotation matrix of the transform.
    * \warning The input matrix must be orthogonal with isotropic scaling
    * to within a specified tolerance, else an exception is thrown.
@@ -118,15 +118,15 @@ public:
    * given point or vector, returning the transformed point or
    * vector. The rank of the Jacobian will also indicate if the
    * transform is invertible at this point. */
-  const JacobianType & GetJacobian(const InputPointType  & point) const;
+  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const;
 
 protected:
-  Similarity3DTransform(unsigned int outputSpaceDim,
-                        unsigned int paramDim);
-  Similarity3DTransform(const MatrixType & matrix,
-                        const OutputVectorType & offset);
+  Similarity3DTransform(const MatrixType & matrix, const OutputVectorType & offset);
+  Similarity3DTransform(unsigned int paramDim);
   Similarity3DTransform();
-  ~Similarity3DTransform(){}
+  ~Similarity3DTransform()
+  {
+  }
 
   void PrintSelf(std::ostream & os, Indent indent) const;
 
@@ -138,21 +138,21 @@ protected:
   void ComputeMatrixParameters();
 
 private:
-  Similarity3DTransform(const Self &); //purposely not implemented
-  void operator=(const Self &);        //purposely not implemented
+  Similarity3DTransform(const Self &); // purposely not implemented
+  void operator=(const Self &);        // purposely not implemented
 
   ScaleType m_Scale;
-}; //class Similarity3DTransform
+}; // class Similarity3DTransform
 }  // namespace itk
 
 // Define instantiation macro for this template.
 #define ITK_TEMPLATE_Similarity3DTransform(_, EXPORT, TypeX, TypeY)                     \
   namespace itk                                                                         \
   {                                                                                     \
-  _( 1 ( class EXPORT Similarity3DTransform< ITK_TEMPLATE_1 TypeX > ) )                 \
+  _( 1 ( class EXPORT Similarity3DTransform<ITK_TEMPLATE_1 TypeX> ) )                 \
   namespace Templates                                                                   \
   {                                                                                     \
-  typedef Similarity3DTransform< ITK_TEMPLATE_1 TypeX > Similarity3DTransform##TypeY; \
+  typedef Similarity3DTransform<ITK_TEMPLATE_1 TypeX> Similarity3DTransform##TypeY; \
   }                                                                                     \
   }
 
@@ -161,7 +161,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkSimilarity3DTransform.txx"
+#include "itkSimilarity3DTransform.hxx"
 #endif
 
 #endif /* __itkSimilarity3DTransform_h */

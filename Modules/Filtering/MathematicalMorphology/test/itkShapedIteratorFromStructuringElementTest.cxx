@@ -3,13 +3,27 @@
 #include "itkImageRegionConstIterator.h"
 #include "itkBinaryBallStructuringElement.h"
 
-typedef itk::Image<int, 2>   ImageType;
-typedef ImageType::PixelType PixelType;
+typedef itk::Image<int, 2>  LocalImageType;
+void CreateImagex(LocalImageType::Pointer& image)
+{
+  LocalImageType::IndexType start;
+  start.Fill(0);
 
-void CreateImagex(ImageType::Pointer image);
+  LocalImageType::SizeType size;
+  size.Fill(10);
+
+  LocalImageType::RegionType region(start,size);
+
+  image->SetRegions(region);
+  image->Allocate();
+  image->FillBuffer(0);
+}
 
 int itkShapedIteratorFromStructuringElementTest(int, char*[])
 {
+  typedef itk::Image<int, 2>   ImageType;
+  typedef ImageType::PixelType PixelType;
+
   ImageType::Pointer image = ImageType::New();
   CreateImagex(image);
 
@@ -81,19 +95,4 @@ int itkShapedIteratorFromStructuringElementTest(int, char*[])
     }
 
   return EXIT_SUCCESS;
-}
-
-void CreateImagex(ImageType::Pointer image)
-{
-  ImageType::IndexType start;
-  start.Fill(0);
-
-  ImageType::SizeType size;
-  size.Fill(10);
-
-  ImageType::RegionType region(start,size);
-
-  image->SetRegions(region);
-  image->Allocate();
-  image->FillBuffer(0);
 }

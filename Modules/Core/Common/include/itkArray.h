@@ -38,7 +38,7 @@ namespace itk
  * - TValueType = Element type stored at each location in the array.
  *
  * \ingroup DataRepresentation
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< typename TValueType >
 class Array:public vnl_vector< TValueType >
@@ -184,7 +184,7 @@ std::ostream & operator<<(std::ostream & os, const Array< TValueType > & arr)
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkArray.txx"
+#include "itkArray.hxx"
 #endif
 
 #endif

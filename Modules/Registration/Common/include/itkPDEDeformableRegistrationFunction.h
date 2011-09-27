@@ -35,18 +35,18 @@ namespace itk
  *
  * \sa PDEDeformableRegistrationFilter
  * \ingroup FiniteDifferenceFunctions
- * \ingroup ITK-RegistrationCommon
+ * \ingroup ITKRegistrationCommon
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 class ITK_EXPORT PDEDeformableRegistrationFunction:
-  public FiniteDifferenceFunction< TDeformationField >
+  public FiniteDifferenceFunction< TDisplacementField >
 {
 public:
   /** Standard class typedefs. */
-  typedef PDEDeformableRegistrationFunction             Self;
-  typedef FiniteDifferenceFunction< TDeformationField > Superclass;
-  typedef SmartPointer< Self >                          Pointer;
-  typedef SmartPointer< const Self >                    ConstPointer;
+  typedef PDEDeformableRegistrationFunction              Self;
+  typedef FiniteDifferenceFunction< TDisplacementField > Superclass;
+  typedef SmartPointer< Self >                           Pointer;
+  typedef SmartPointer< const Self >                     ConstPointer;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(PDEDeformableRegistrationFunction,
@@ -61,8 +61,13 @@ public:
   typedef typename FixedImageType::ConstPointer FixedImagePointer;
 
   /** Deformation field type. */
-  typedef TDeformationField                      DeformationFieldType;
+  typedef TDisplacementField                      DisplacementFieldType;
+  typedef typename DisplacementFieldType::Pointer DisplacementFieldTypePointer;
+
+#ifdef ITKV3_COMPATIBILITY
+  typedef TDisplacementField                     DeformationFieldType;
   typedef typename DeformationFieldType::Pointer DeformationFieldTypePointer;
+#endif
 
   /** Set the moving image.  */
   void SetMovingImage(const MovingImageType *ptr)
@@ -81,13 +86,21 @@ public:
   { return m_FixedImage; }
 
   /** Set the deformation field image. */
-  void SetDeformationField(DeformationFieldTypePointer ptr)
-  { m_DeformationField = ptr; }
+  void SetDisplacementField(DisplacementFieldTypePointer ptr)
+  { m_DisplacementField = ptr; }
 
   /** Get the deformation field. This function should have been
    *  declared const. It is not for backward compatibility reasons. */
+  DisplacementFieldType * GetDisplacementField(void)
+  { return m_DisplacementField; }
+
+#ifdef ITKV3_COMPATIBILITY
+  void SetDeformationField(DeformationFieldTypePointer ptr)
+  { this->SetDisplacementField(ptr); }
+
   DeformationFieldType * GetDeformationField(void)
-  { return m_DeformationField; }
+  { return static_cast<DeformationFieldType *> (this->GetDisplacementField()); }
+#endif
 
   void SetEnergy(double e) { m_Energy = e; }
   double GetEnergy() const { return m_Energy; }
@@ -100,7 +113,7 @@ protected:
   {
     m_MovingImage = NULL;
     m_FixedImage = NULL;
-    m_DeformationField = NULL;
+    m_DisplacementField = NULL;
     m_Energy = 0.0;
     m_NormalizeGradient = true;
     m_GradientStep = 1.0;
@@ -124,7 +137,7 @@ protected:
   FixedImagePointer m_FixedImage;
 
   /** The deformation field. */
-  DeformationFieldTypePointer m_DeformationField;
+  DisplacementFieldTypePointer m_DisplacementField;
 
   mutable double m_Energy;
 

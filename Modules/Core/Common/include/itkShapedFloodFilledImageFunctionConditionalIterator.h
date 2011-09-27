@@ -24,14 +24,15 @@ namespace itk
 {
 /**
  * \class ShapedFloodFilledImageFunctionConditionalIterator
- * \brief Iterates over a flood-filled image function.
+ * \brief Iterates over a flood-filled image function with write access
+ *        to pixels.
  *
  * Contributed as a paper to the Insight Journal:
  *  http://hdl.handle.net/1926/1320
  *
  * \ingroup ImageIterators
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TImage, class TFunction >
 class ITK_EXPORT ShapedFloodFilledImageFunctionConditionalIterator:public

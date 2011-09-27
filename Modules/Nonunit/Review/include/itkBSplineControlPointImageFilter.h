@@ -54,7 +54,7 @@ namespace itk
  * http://www.insight-journal.org/browse/publication/57
  *
  * \author Nicholas J. Tustison
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 
 template <class TInputImage, class TOutputImage = TInputImage>
@@ -221,7 +221,7 @@ protected:
   void PrintSelf( std::ostream& os, Indent indent ) const;
 
   /**
-   * Multithreaded function which generates the output sampled B-spline object.
+   * Multi-threaded function which generates the output sampled B-spline object.
    */
   void ThreadedGenerateData( const OutputImageRegionType &, ThreadIdType );
 
@@ -304,7 +304,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBSplineControlPointImageFilter.txx"
+#include "itkBSplineControlPointImageFilter.hxx"
 #endif
 
 #endif

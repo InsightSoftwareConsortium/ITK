@@ -56,8 +56,8 @@ namespace itk
  * This filter is implemented as a multithreaded filter.  It provides a
  * ThreadedGenerateData() method for its implementation.
  *
- * \ingroup GeometricTransforms Streamed
- * \ingroup ITK-ImageGrid
+ * \ingroup GeometricTransform Streamed
+ * \ingroup ITKImageGrid
  *
  * \wiki
  * \wikiexample{Images/ShrinkImageFilter,Shrink an image}
@@ -165,7 +165,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShrinkImageFilter.txx"
+#include "itkShrinkImageFilter.hxx"
 #endif
 
 #endif

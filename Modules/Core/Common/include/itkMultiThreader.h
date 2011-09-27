@@ -38,16 +38,16 @@ namespace itk
  * \brief A class for performing multithreaded execution
  *
  * Multithreader is a class that provides support for multithreaded
- * execution using sproc() on an SGI, or pthread_create on any platform
+ * execution using pthread_create on any platform
  * supporting POSIX threads.  This class can be used to execute a single
  * method on multiple threads, or to specify a method per thread.
  *
- * \ingroup OSSystemObejcts
+ * \ingroup OSSystemObjects
  *
  * If ITK_USE_PTHREADS is defined, then
  * pthread_create() will be used to create multiple threads (on
  * a sun, for example).
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 class ITKCommon_EXPORT MultiThreader:public Object

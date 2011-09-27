@@ -30,23 +30,25 @@
 namespace itk
 {
 /** \class RGBAPixel
- * \brief Represent Red, Green, Blue cand Alpha component for color images
+ * \brief Represent Red, Green, Blue and Alpha components for color images.
  *
  * This class is templated over the representation used for each
  * component.
  *
  * The following syntax for assigning an index is allowed/suggested:
  *
+ * \code
  *    RGBAPixel<float> pixel; pixel = 1.0f, 0.0f, .5f, .8;
  *    RGBAPixel<char> pixelArray[2];
  *    pixelArray[0] = 255, 255, 255, 230;
  *    pixelArray[1] = 255, 255, 244, 255;
+ * \endcode
  *
  * Since RGBAPixel is a subclass of Array, you can access its components as:
  * pixel[0], pixel[1], pixel[2], pixel[3]
  * \ingroup ImageObjects
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{SimpleOperations/Transparency,Make part of an image transparent}
@@ -75,8 +77,7 @@ public:
 
   /** Default constructor has nothing to do. */
   RGBAPixel() { this->Fill(0); }
-  RGBAPixel (const ComponentType & r)
-  { this->Fill(r); }
+  RGBAPixel (const ComponentType & r) { this->Fill(r); }
 
   /** Pass-through constructor for the Array base class. */
   template< class TRGBAPixelValueType >
@@ -102,11 +103,10 @@ public:
   bool operator==(const Self & vec) const;
 
   /** Return the number of componentsxquery-rep. */
-  static unsigned int GetNumberOfComponents(){ return 4; }
+  static unsigned int GetNumberOfComponents() { return 4; }
 
   /** Return the value for the Nth component. */
-  ComponentType GetNthComponent(int c) const
-  { return this->operator[](c); }
+  ComponentType GetNthComponent(int c) const { return this->operator[](c); }
 
   /** Return the value for the Nth component. */
   ComponentType GetScalarValue() const
@@ -121,8 +121,7 @@ public:
   }
 
   /** Set the Nth component to v. */
-  void SetNthComponent(int c, const ComponentType & v)
-  {  this->operator[](c) = v; }
+  void SetNthComponent(int c, const ComponentType & v) {  this->operator[](c) = v; }
 
   /** Set the Red component. */
   void SetRed(ComponentType red) { this->operator[](0) = red; }
@@ -138,7 +137,12 @@ public:
 
   /** Set the four components. */
   void Set(ComponentType red, ComponentType green, ComponentType blue, ComponentType alpha)
-  { this->operator[](0) = red; this->operator[](1) = green; this->operator[](2) = blue; this->operator[](3) = alpha; }
+  {
+    this->operator[](0) = red;
+    this->operator[](1) = green;
+    this->operator[](2) = blue;
+    this->operator[](3) = alpha;
+  }
 
   /** Get the Red component. */
   const ComponentType & GetRed(void) const { return this->operator[](0); }
@@ -185,13 +189,13 @@ ITK_EXPORT std::istream & operator>>(std::istream & is,
 // instantiations control of this class, in case the implicit instantiation
 // needs to be disabled.
 //
-// NumericTraits must be included before (optionally) including the .txx file,
-// in case the .txx requires to use NumericTraits.
+// NumericTraits must be included before (optionally) including the .hxx file,
+// in case the .hxx requires to use NumericTraits.
 //
 #include "itkNumericTraitsRGBAPixel.h"
 
 #if ITK_TEMPLATE_TXX
-#include "itkRGBAPixel.txx"
+#include "itkRGBAPixel.hxx"
 #endif
 
 #endif

@@ -24,6 +24,7 @@ namespace itk
 {
 /**
  * \class AntiAliasBinaryImageFilter
+ * \brief A method for estimation of a surface from a binary volume.
  *
  * \par
  * This filter implements a surface-fitting method for estimation of a
@@ -96,7 +97,7 @@ namespace itk
  *  In the common case, the only parameter that will need to be set is the
  *  MaximumRMSChange parameter, which determines when the solver halts.
  *
- * \ingroup ITK-AntiAlias
+ * \ingroup ITKAntiAlias
  *
  * \wiki
  * \wikiexample{Smoothing/AntiAliasBinaryImageFilter,Anti alias a binary image}
@@ -188,7 +189,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAntiAliasBinaryImageFilter.txx"
+#include "itkAntiAliasBinaryImageFilter.hxx"
 #endif
 
 #endif

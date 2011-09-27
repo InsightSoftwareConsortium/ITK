@@ -22,14 +22,14 @@
 namespace itk
 {
 /** \class QuadrilateralCellTopology
- * QuadrilateralCellTopology holds data defining the topological
- * connections of the vertices and edges of an Quadrilateral Cell.
+ *  \brief Holds data defining the topological
+ *         connections of the vertices and edges of a QuadrilateralCell.
  *
- * This class is used to localize static variables out of .txx
+ * This class is used to localize static variables out of .hxx
  * files. This prevents multiple definition of static variables.
  *
  * \ingroup MeshObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 class ITKCommon_EXPORT QuadrilateralCellTopology

@@ -1,10 +1,10 @@
-project(ITK-NrrdIO)
-set(ITK-NrrdIO_THIRD_PARTY 1)
+project(ITKNrrdIO)
+set(ITKNrrdIO_THIRD_PARTY 1)
 
-set(ITK-NrrdIO_INCLUDE_DIRS
-  ${ITK-NrrdIO_BINARY_DIR}/src/NrrdIO
-  ${ITK-NrrdIO_SOURCE_DIR}/src/NrrdIO
+set(ITKNrrdIO_INCLUDE_DIRS
+  ${ITKNrrdIO_BINARY_DIR}/src/NrrdIO
+  ${ITKNrrdIO_SOURCE_DIR}/src/NrrdIO
   )
-set(ITK-NrrdIO_LIBRARIES ITKNrrdIO)
+set(ITKNrrdIO_LIBRARIES ITKNrrdIO)
 
 itk_module_impl()

@@ -20,11 +20,15 @@
 
 #include "itkTransferFunctionBase.h"
 
-
 namespace itk
 {
 namespace Statistics
 {
+/** \class GaussianTransferFunction
+ * \brief This is the itkGaussianTransferFunction class.
+ *
+ * \ingroup ITKNeuralNetworks
+ */
 
 template<class ScalarType>
 class GaussianTransferFunction : public TransferFunctionBase<ScalarType>
@@ -61,7 +65,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-  #include "itkGaussianTransferFunction.txx"
+  #include "itkGaussianTransferFunction.hxx"
 #endif
 
 #endif

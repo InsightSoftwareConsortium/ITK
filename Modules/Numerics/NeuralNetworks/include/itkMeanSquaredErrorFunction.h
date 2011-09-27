@@ -26,6 +26,11 @@ namespace itk
 {
 namespace Statistics
 {
+/** \class MeanSquaredErrorFunction_
+ * \brief This is the itkMeanSquaredErrorFunction_ class.
+ *
+ * \ingroup ITKNeuralNetworks
+ */
 
 template<class TMeasurementVector, class ScalarType>
 class MeanSquaredErrorFunction : public ErrorFunctionBase<TMeasurementVector, ScalarType>
@@ -64,7 +69,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-  #include "itkMeanSquaredErrorFunction.txx"
+  #include "itkMeanSquaredErrorFunction.hxx"
 #endif
 
 

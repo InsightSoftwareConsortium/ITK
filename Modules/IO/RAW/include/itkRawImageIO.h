@@ -41,7 +41,7 @@ namespace itk
  * \sa ImageFileReader
  *
  * \ingroup IOFilters
- * \ingroup ITK-IO-RAW
+ * \ingroup ITKIORAW
  */
 
 template< class TPixel, unsigned int VImageDimension = 2 >
@@ -198,7 +198,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRawImageIO.txx"
+#include "itkRawImageIO.hxx"
 #endif
 
 #endif

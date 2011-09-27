@@ -15,13 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
-
-
-
-
 
 //  Software Guide : BeginLatex
 //
@@ -29,16 +22,14 @@
 //  and two sets of landmarks.
 //
 //  \index{WarpImageFilter}
-//  \index{DeformationFieldSource}
+//  \index{LandmarkDisplacementFieldSource}
 //
 //  Software Guide : EndLatex
-
-
 
 // Software Guide : BeginCodeSnippet
 #include "itkVector.h"
 #include "itkImage.h"
-#include "itkDeformationFieldSource.h"
+#include "itkLandmarkDisplacementFieldSource.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkWarpImageFilter.h"
@@ -64,10 +55,10 @@ int main( int argc, char * argv[] )
 
   typedef   itk::Vector< VectorComponentType, Dimension >    VectorType;
 
-  typedef   itk::Image< VectorType,  Dimension >   DeformationFieldType;
+  typedef   itk::Image< VectorType,  Dimension >   DisplacementFieldType;
 
 
-  typedef   unsigned char  PixelType;
+  typedef   unsigned char                            PixelType;
   typedef   itk::Image< PixelType, Dimension >       FixedImageType;
   typedef   itk::Image< PixelType, Dimension >       MovingImageType;
 
@@ -102,26 +93,22 @@ int main( int argc, char * argv[] )
   FixedImageType::ConstPointer fixedImage = fixedReader->GetOutput();
 
 
-  typedef itk::DeformationFieldSource<
-                                DeformationFieldType
-                                             >  DeformationSourceType;
+  typedef itk::LandmarkDisplacementFieldSource<
+                                DisplacementFieldType
+                                             >  DisplacementSourceType;
 
-  DeformationSourceType::Pointer deformer = DeformationSourceType::New();
-
-
+  DisplacementSourceType::Pointer deformer = DisplacementSourceType::New();
 
   deformer->SetOutputSpacing( fixedImage->GetSpacing() );
   deformer->SetOutputOrigin(  fixedImage->GetOrigin() );
   deformer->SetOutputRegion(  fixedImage->GetLargestPossibleRegion() );
   deformer->SetOutputDirection( fixedImage->GetDirection() );
 
-
-
   //  Create source and target landmarks.
   //
-  typedef DeformationSourceType::LandmarkContainerPointer   LandmarkContainerPointer;
-  typedef DeformationSourceType::LandmarkContainer          LandmarkContainerType;
-  typedef DeformationSourceType::LandmarkPointType          LandmarkPointType;
+  typedef DisplacementSourceType::LandmarkContainerPointer   LandmarkContainerPointer;
+  typedef DisplacementSourceType::LandmarkContainer          LandmarkContainerType;
+  typedef DisplacementSourceType::LandmarkPointType          LandmarkPointType;
 
   LandmarkContainerType::Pointer sourceLandmarks = LandmarkContainerType::New();
   LandmarkContainerType::Pointer targetLandmarks = LandmarkContainerType::New();
@@ -165,11 +152,11 @@ int main( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
-  DeformationFieldType::ConstPointer deformationField = deformer->GetOutput();
+  DisplacementFieldType::ConstPointer displacementField = deformer->GetOutput();
 
   typedef itk::WarpImageFilter< MovingImageType,
                                 MovingImageType,
-                                DeformationFieldType  >  FilterType;
+                                DisplacementFieldType  >  FilterType;
 
   FilterType::Pointer warper = FilterType::New();
 
@@ -181,16 +168,14 @@ int main( int argc, char * argv[] )
   warper->SetInterpolator( interpolator );
 
 
-  warper->SetOutputSpacing( deformationField->GetSpacing() );
-  warper->SetOutputOrigin(  deformationField->GetOrigin() );
+  warper->SetOutputSpacing( displacementField->GetSpacing() );
+  warper->SetOutputOrigin(  displacementField->GetOrigin() );
 
-  warper->SetDeformationField( deformationField );
+  warper->SetDisplacementField( displacementField );
 
   warper->SetInput( movingReader->GetOutput() );
 
   movingWriter->SetInput( warper->GetOutput() );
-
-
 
   try
     {
@@ -203,8 +188,6 @@ int main( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
-
   return EXIT_SUCCESS;
 
 }
-

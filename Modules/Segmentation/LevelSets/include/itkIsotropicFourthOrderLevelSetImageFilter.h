@@ -68,7 +68,7 @@ namespace itk
  * of the input to process. The MaxFilterIterations parameter determine the
  * number of iterations for which this filter will run. The more iterations,
  * the more smoothing.
- * \ingroup ITK-LevelSets
+ * \ingroup ITKLevelSets
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT IsotropicFourthOrderLevelSetImageFilter:
@@ -127,7 +127,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkIsotropicFourthOrderLevelSetImageFilter.txx"
+#include "itkIsotropicFourthOrderLevelSetImageFilter.hxx"
 #endif
 
 #endif

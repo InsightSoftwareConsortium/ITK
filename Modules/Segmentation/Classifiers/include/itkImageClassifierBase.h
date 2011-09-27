@@ -25,19 +25,19 @@
 namespace itk
 {
 /** \class ImageClassifierBase
- * \brief Base class for ImageClassifierBase object
+ * \brief Base class for the ImageClassifierBase object.
  *
  * itkImageClassifierBase is the base class for algorithms
  * that take input data as images and preserve the image structure
  * while performing classification. In other words, the data is not
  * converted into a list, hence filters that require spatial information
  * of a pixel can use the subclasses under this tree. It provides
- * the basic function definitions that are inherent to a image classifier
+ * the basic function definitions that are inherent to an image classifier
  * objects.
  *
  * This is the SuperClass for the image classifier tree of the classifier
  * framework. This is the class for all the classification objects available
- * through the classifier framework in the ITK toolkit thatholds the input
+ * through the classifier framework in the ITK toolkit that hold the input
  * image and the classified image data.
  *
  * It is templated over the type of input image, classified image. The second
@@ -57,13 +57,13 @@ namespace itk
  * you should plug in all necessary parts as described in the superclass
  * documentation.
  *
- * The core computation is carried out here. The function requires that the
+ * The core computation is carried out here. The function requires that
  * the number of classes be set to a non zero value and the membership
- * functions be populated. In addition the number of classes should be equal
+ * functions be populated. In addition, the number of classes should be equal
  * to the number of membership functions.
  *
  * \ingroup ImageClassificationFilters
- * \ingroup ITK-Classifiers
+ * \ingroup ITKClassifiers
  */
 
 template< class TInputImage,
@@ -136,7 +136,7 @@ public:
   ImageRegionIterator< TClassifiedImage >    ClassifiedImageIterator;
 
   /** Method to get the membership of a given pixel to the different classes */
-  const std::vector< double > &
+  std::vector< double >
   GetPixelMembershipValue(const InputImagePixelType inputImagePixel);
 
 protected:
@@ -158,7 +158,6 @@ private:
 
   InputImageConstPointer m_InputImage;
   ClassifiedImagePointer m_ClassifiedImage;
-  std::vector< double >  m_PixelMembershipValue;
 
   /** Define a virtual Classifier function to classify the whole image. */
   virtual void Classify();
@@ -166,7 +165,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageClassifierBase.txx"
+#include "itkImageClassifierBase.hxx"
 #endif
 
 #endif

@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 // Software Guide : BeginLatex
 //
@@ -27,7 +24,7 @@
 // initialization, then they are registered using a rigid transform, that in
 // turn, is used to initialize a registration with an affine transform. The
 // transform resulting from the affine registration is used as the bulk
-// transform of a BSplineDeformableTransform. The deformable registration is
+// transform of a BSplineTransform. The deformable registration is
 // computed, and finally the resulting transform is used to resample the moving
 // image.
 //
@@ -45,7 +42,7 @@
 //
 //  \index{itk::VersorRigid3DTransform!header}
 //  \index{itk::AffineTransform!header}
-//  \index{itk::BSplineDeformableTransform!header}
+//  \index{itk::BSplineTransform!header}
 //  \index{itk::RegularStepGradientDescentOptimizer!header}
 //
 //  Software Guide : EndLatex
@@ -54,7 +51,7 @@
 #include "itkCenteredTransformInitializer.h"
 #include "itkVersorRigid3DTransform.h"
 #include "itkAffineTransform.h"
-#include "itkBSplineDeformableTransform.h"
+#include "itkBSplineTransform.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
 // Software Guide : EndCodeSnippet
 
@@ -141,7 +138,7 @@ int main( int argc, char *argv[] )
 
   typedef itk::AffineTransform< double, SpaceDimension > AffineTransformType;
 
-  typedef itk::BSplineDeformableTransform<
+  typedef itk::BSplineTransform<
                             CoordinateRepType,
                             SpaceDimension,
                             SplineOrder >     DeformableTransformType;
@@ -246,7 +243,7 @@ int main( int argc, char *argv[] )
     // each one of the samples used to compute the metric. Enabling caching will
     // make the algorithm run faster but it will have a cost on the amount of memory
     // that needs to be allocated. This option is only relevant when using the
-    // BSplineDeformableTransform.
+    // BSplineTransform.
     metric->SetUseCachingOfBSplineWeights( atoi( argv[8] ) );
     }
 
@@ -426,49 +423,25 @@ int main( int argc, char *argv[] )
 
   unsigned int numberOfGridNodesInOneDimensionCoarse = 5;
 
-  if( argc > 10 )
+  DeformableTransformType::PhysicalDimensionsType   fixedPhysicalDimensions;
+  DeformableTransformType::MeshSizeType             meshSize;
+  DeformableTransformType::OriginType               fixedOrigin;
+
+  for( unsigned int i=0; i< SpaceDimension; i++ )
     {
-    numberOfGridNodesInOneDimensionCoarse = atoi( argv[10] );
+    fixedOrigin = fixedImage->GetOrigin()[i];
+    fixedPhysicalDimensions[i] = fixedImage->GetSpacing()[i] *
+      static_cast<double>(
+      fixedImage->GetLargestPossibleRegion().GetSize()[i] - 1 );
     }
+  meshSize.Fill( numberOfGridNodesInOneDimensionCoarse - SplineOrder );
 
-
-  typedef DeformableTransformType::RegionType RegionType;
-  RegionType bsplineRegion;
-  RegionType::SizeType   gridSizeOnImage;
-  RegionType::SizeType   gridBorderSize;
-  RegionType::SizeType   totalGridSize;
-
-  gridSizeOnImage.Fill( numberOfGridNodesInOneDimensionCoarse );
-  gridBorderSize.Fill( SplineOrder );    // Border for spline order = 3 ( 1 lower, 2 upper )
-  totalGridSize = gridSizeOnImage + gridBorderSize;
-
-  bsplineRegion.SetSize( totalGridSize );
-
-  typedef DeformableTransformType::SpacingType SpacingType;
-  SpacingType spacing = fixedImage->GetSpacing();
-
-  typedef DeformableTransformType::OriginType OriginType;
-  OriginType origin = fixedImage->GetOrigin();
-
-  FixedImageType::SizeType fixedImageSize = fixedRegion.GetSize();
-
-  for(unsigned int r=0; r<ImageDimension; r++)
-    {
-    spacing[r] *= static_cast<double>(fixedImageSize[r] - 1)  /
-                  static_cast<double>(gridSizeOnImage[r] - 1);
-    }
-
-  FixedImageType::DirectionType gridDirection = fixedImage->GetDirection();
-  SpacingType gridOriginOffset = gridDirection * spacing;
-
-  OriginType gridOrigin = origin - gridOriginOffset;
-
-  bsplineTransformCoarse->SetGridSpacing( spacing );
-  bsplineTransformCoarse->SetGridOrigin( gridOrigin );
-  bsplineTransformCoarse->SetGridRegion( bsplineRegion );
-  bsplineTransformCoarse->SetGridDirection( gridDirection );
-
-  bsplineTransformCoarse->SetBulkTransform( affineTransform );
+  bsplineTransformCoarse->SetTransformDomainOrigin( fixedOrigin );
+  bsplineTransformCoarse->SetTransformDomainPhysicalDimensions(
+    fixedPhysicalDimensions );
+  bsplineTransformCoarse->SetTransformDomainMeshSize( meshSize );
+  bsplineTransformCoarse->SetTransformDomainDirection(
+    fixedImage->GetDirection() );
 
   typedef DeformableTransformType::ParametersType     ParametersType;
 
@@ -561,46 +534,22 @@ int main( int argc, char *argv[] )
   //
   //  Once the registration has finished with the low resolution grid, we
   //  proceed to instantiate a higher resolution
-  //  \code{BSplineDeformableTransform}.
+  //  \code{BSplineTransform}.
   //
   //  Software Guide : EndLatex
 
   DeformableTransformType::Pointer  bsplineTransformFine = DeformableTransformType::New();
 
-  unsigned int numberOfGridNodesInOneDimensionFine = 20;
+  unsigned int numberOfGridNodesInOneDimensionFine = 5;
 
-  if( argc > 11 )
-    {
-    numberOfGridNodesInOneDimensionFine = atoi( argv[11] );
-    }
+  meshSize.Fill( numberOfGridNodesInOneDimensionFine - SplineOrder );
 
-  RegionType::SizeType   gridHighSizeOnImage;
-  gridHighSizeOnImage.Fill( numberOfGridNodesInOneDimensionFine );
-  totalGridSize = gridHighSizeOnImage + gridBorderSize;
-
-  bsplineRegion.SetSize( totalGridSize );
-
-  SpacingType spacingHigh = fixedImage->GetSpacing();
-  OriginType  originHigh  = fixedImage->GetOrigin();
-
-  for(unsigned int rh=0; rh<ImageDimension; rh++)
-    {
-    spacingHigh[rh] *= static_cast<double>(fixedImageSize[rh] - 1)  /
-      static_cast<double>(gridHighSizeOnImage[rh] - 1);
-    originHigh[rh] -= spacingHigh[rh];
-    }
-
-  SpacingType gridOriginOffsetHigh = gridDirection * spacingHigh;
-
-  OriginType gridOriginHigh = origin - gridOriginOffsetHigh;
-
-
-  bsplineTransformFine->SetGridSpacing( spacingHigh );
-  bsplineTransformFine->SetGridOrigin( gridOriginHigh );
-  bsplineTransformFine->SetGridRegion( bsplineRegion );
-  bsplineTransformFine->SetGridDirection( gridDirection );
-
-  bsplineTransformFine->SetBulkTransform( affineTransform );
+  bsplineTransformFine->SetTransformDomainOrigin( fixedOrigin );
+  bsplineTransformFine->SetTransformDomainPhysicalDimensions(
+    fixedPhysicalDimensions );
+  bsplineTransformFine->SetTransformDomainMeshSize( meshSize );
+  bsplineTransformFine->SetTransformDomainDirection(
+    fixedImage->GetDirection() );
 
   numberOfBSplineParameters = bsplineTransformFine->GetNumberOfParameters();
 
@@ -628,12 +577,15 @@ int main( int argc, char *argv[] )
     typedef itk::BSplineResampleImageFunction<ParametersImageType,double> FunctionType;
     FunctionType::Pointer function = FunctionType::New();
 
-    upsampler->SetInput( bsplineTransformCoarse->GetCoefficientImage()[k] );
+    upsampler->SetInput( bsplineTransformCoarse->GetCoefficientImages()[k] );
     upsampler->SetInterpolator( function );
     upsampler->SetTransform( identityTransform );
-    upsampler->SetSize( bsplineTransformFine->GetGridRegion().GetSize() );
-    upsampler->SetOutputSpacing( bsplineTransformFine->GetGridSpacing() );
-    upsampler->SetOutputOrigin( bsplineTransformFine->GetGridOrigin() );
+    upsampler->SetSize( bsplineTransformFine->GetCoefficientImages()[k]->
+      GetLargestPossibleRegion().GetSize() );
+    upsampler->SetOutputSpacing( bsplineTransformFine->GetCoefficientImages()[k]->
+      GetSpacing() );
+    upsampler->SetOutputOrigin( bsplineTransformFine->GetCoefficientImages()[k]->
+      GetOrigin() );
 
     typedef itk::BSplineDecompositionImageFilter<ParametersImageType,ParametersImageType>
       DecompositionType;
@@ -647,7 +599,8 @@ int main( int argc, char *argv[] )
 
     // copy the coefficients into the parameter array
     typedef itk::ImageRegionIterator<ParametersImageType> Iterator;
-    Iterator it( newCoefficients, bsplineTransformFine->GetGridRegion() );
+    Iterator it( newCoefficients, bsplineTransformFine->GetCoefficientImages()[k]->
+      GetLargestPossibleRegion() );
     while ( !it.IsAtEnd() )
       {
       parametersHigh[ counter++ ] = it.Get();
@@ -851,23 +804,23 @@ int main( int argc, char *argv[] )
     {
 
     typedef itk::Vector< float, ImageDimension >      VectorType;
-    typedef itk::Image< VectorType, ImageDimension >  DeformationFieldType;
+    typedef itk::Image< VectorType, ImageDimension >  DisplacementFieldType;
 
-    DeformationFieldType::Pointer field = DeformationFieldType::New();
+    DisplacementFieldType::Pointer field = DisplacementFieldType::New();
     field->SetRegions( fixedRegion );
     field->SetOrigin( fixedImage->GetOrigin() );
     field->SetSpacing( fixedImage->GetSpacing() );
     field->SetDirection( fixedImage->GetDirection() );
     field->Allocate();
 
-    typedef itk::ImageRegionIterator< DeformationFieldType > FieldIterator;
+    typedef itk::ImageRegionIterator< DisplacementFieldType > FieldIterator;
     FieldIterator fi( field, fixedRegion );
 
     fi.GoToBegin();
 
     DeformableTransformType::InputPointType  fixedPoint;
     DeformableTransformType::OutputPointType movingPoint;
-    DeformationFieldType::IndexType index;
+    DisplacementFieldType::IndexType index;
 
     VectorType displacement;
 
@@ -881,7 +834,7 @@ int main( int argc, char *argv[] )
       ++fi;
       }
 
-    typedef itk::ImageFileWriter< DeformationFieldType >  FieldWriterType;
+    typedef itk::ImageFileWriter< DisplacementFieldType >  FieldWriterType;
     FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
 
     fieldWriter->SetInput( field );

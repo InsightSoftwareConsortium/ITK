@@ -15,14 +15,16 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #ifndef __itkFEMMaterialLinearElasticity_h
 #define __itkFEMMaterialLinearElasticity_h
 
 #include "itkFEMMaterialBase.h"
 
-namespace itk {
-namespace fem {
-
+namespace itk
+{
+namespace fem
+{
 /**
  * \class MaterialLinearElasticity
  * \brief Linear elasticity material class
@@ -30,45 +32,122 @@ namespace fem {
  * This class includes material and other kind of properties required to
  * define material properties of finite elements applied to linear
  * elasticity problems in FEM toolkit.
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
-class MaterialLinearElasticity : public Material {
-FEM_CLASS(MaterialLinearElasticity,Material)
+class MaterialLinearElasticity : public Material
+{
 public:
-  virtual void Read(std::istream& f, void* info);
-  virtual void Write(std::ostream& f ) const;
+  /** Standard class typedefs. */
+  typedef MaterialLinearElasticity Self;
+  typedef Material                 Superclass;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
+
+  /** Method for creation through the object factory. */
+  itkSimpleNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(MaterialLinearElasticity, Material);
+
+  /** CreateAnother method will clone the existing instance of this type,
+   * including its internal member variables. */
+  virtual::itk::LightObject::Pointer CreateAnother(void) const;
 
   /**
    * Default constructor only initializes the members.
    */
   MaterialLinearElasticity();
 
+  /**
+  * Set cross-sectional area
+  */
+  void SetCrossSectionalArea(double area);
+
+  /**
+    * Get cross-sectional area
+    */
+  double GetCrossSectionalArea() const;
+
+  /**
+  * Set youngs/elastic modulus
+  */
+  void SetYoungsModulus(double modulus);
+
+  /**
+   * Get youngs/elastic modulus
+   */
+  double GetYoungsModulus() const;
+
+  /**
+  * Set thickness - for 2D plane stress/strain problems
+  */
+  void SetThickness(double t);
+
+  /**
+   * Get thickness - for 2D plane stress/strain problems
+   */
+  double GetThickness() const;
+
+  /**
+  * Set Moment of intertia - for beam elements
+  */
+  void SetMomentOfInertia(double iner);
+
+  /**
+ * Get Moment of intertia - for beam elements
+ */
+  double GetMomentOfInertia() const;
+
+  /**
+ * Set poisson's ratio
+ */
+  void SetPoissonsRatio(double poi);
+
+  /**
+* Get poisson's ratio
+*/
+  double GetPoissonsRatio() const;
+
+  /**
+* Set density heat product
+*/
+  void SetDensityHeatProduct(double dhp);
+
+  /**
+  * Get density heat product
+  */
+  double GetDensityHeatProduct() const;
+
+protected:
+
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+
   /* Data members of MaterialLinearElasticity class */
 
   /**
    * Young modulus
    */
-  double E;
+  double m_YoungModulus;
 
   /**
    * Cross section area of a line element
    */
-  double A;  //
+  double m_CrossSectionalArea;  //
 
   /**
    * Moment of inertia
    */
-  double I;
+  double m_MomentOfInertia;
 
   /**
    * Poisson's ratio
    */
-  double nu;
+  double m_PoissonRatio;
 
   /**
    * Thickness
    */
-  double h;
+  double m_Thickness;
 
   /*
    * ... we can add properties here as required without the influence on the already defined elements
@@ -77,12 +156,10 @@ public:
   /**
    * Density times Heat Capacity
    */
-  double RhoC;
-
+  double m_DensityHeatCapacity;
 };
 
-FEM_CLASS_INIT(MaterialLinearElasticity)
-
-}} // end namespace itk::fem
+}
+}  // end namespace itk::fem
 
 #endif // #ifndef __itkFEMMaterialLinearElasticity_h

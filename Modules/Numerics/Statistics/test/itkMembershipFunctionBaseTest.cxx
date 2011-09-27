@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <iostream>
 #include "itkMembershipFunctionBase.h"
@@ -54,11 +51,12 @@ public:
     return score;
     }
 
-  typename MembershipFunctionBase< TMeasurementVector >::Pointer Clone()
+  typename MembershipFunctionBase< TMeasurementVector >::Pointer Clone() const
     {
     Pointer memberFunction = MyMembershipFunctionBase< TMeasurementVector >::New();
     return memberFunction.GetPointer();
     }
+
 };
 
 }

@@ -1,14 +1,23 @@
-itk_module(ITK-LevelSets
+set(DOCUMENTATION "This module contains classes related to level-set
+segmentation.  In level-set segmentation, the segmentation contour is modeled as
+the zero level set of a higher dimensional level-set function.  The level-set
+function evolves according to a differential equation based on image-based
+features and characteristics of the level-set function.  The segmentation
+evolves from an initial value for the segmenting contour.")
+
+itk_module(ITKLevelSets
   DEPENDS
-    ITK-ImageFeature
-    ITK-FiniteDifference
-    ITK-DistanceMap
-    ITK-SignedDistanceFunction
-    ITK-AnisotropicSmoothing
-    ITK-Thresholding
-    ITK-Optimizers
-    ITK-ImageCompare
-    ITK-FastMarching
+    ITKImageFeature
+    ITKFiniteDifference
+    ITKDistanceMap
+    ITKSignedDistanceFunction
+    ITKAnisotropicSmoothing
+    ITKThresholding
+    ITKOptimizers
+    ITKImageCompare
+    ITKFastMarching
   TEST_DEPENDS
-    ITK-TestKernel
+    ITKTestKernel
+  DESCRIPTION
+    "${DOCUMENTATION}"
 )

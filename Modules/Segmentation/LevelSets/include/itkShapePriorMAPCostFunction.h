@@ -44,7 +44,7 @@ namespace itk
  *
  *
  * \ingroup Numerics Optimizers
- * \ingroup ITK-LevelSets
+ * \ingroup ITKLevelSets
  */
 template< class TFeatureImage, class TOutputPixel >
 class ITK_EXPORT ShapePriorMAPCostFunction:
@@ -90,6 +90,7 @@ public:
   typedef typename Superclass::ShapeFunctionType ShapeFunctionType;
 
   /** Type of the array for storing shape parameter mean and standard deivation.
+    * FIXME: should be templated.
     */
   typedef Array< double > ArrayType;
 
@@ -158,7 +159,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShapePriorMAPCostFunction.txx"
+#include "itkShapePriorMAPCostFunction.hxx"
 #endif
 
 #endif

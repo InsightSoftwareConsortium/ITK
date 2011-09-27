@@ -64,7 +64,7 @@ namespace itk
  * \ingroup ImageFeatureExtraction
  * \todo Support color images
  * \todo Support vector images
- * \ingroup ITK-ImageFeature
+ * \ingroup ITKImageFeature
  *
  * \wiki
  * \wikiexample{Smoothing/BilateralImageFilter,Bilateral filter an image}
@@ -245,7 +245,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBilateralImageFilter.txx"
+#include "itkBilateralImageFilter.hxx"
 #endif
 
 #endif

@@ -29,7 +29,7 @@ namespace itk
  * \brief functionality in common for anchor openings/closings and
  * erosions/dilation
  *
- * \ingroup ITK-MathematicalMorphology
+ * \ingroup ITKMathematicalMorphology
  */
 template< class PixelType, class TFunction >
 void FillReverseExt(std::vector<PixelType> & pixbuffer,
@@ -56,7 +56,7 @@ void DoFace(typename TImage::ConstPointer input,
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVanHerkGilWermanUtilities.txx"
+#include "itkVanHerkGilWermanUtilities.hxx"
 #endif
 
 #endif

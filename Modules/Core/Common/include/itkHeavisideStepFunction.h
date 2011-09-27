@@ -53,7 +53,7 @@ namespace itk
  *      http://hdl.handle.net/1926/1533
  *
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< typename TInput = float, typename TOutput = double >
 class HeavisideStepFunction:
@@ -89,7 +89,7 @@ private:
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkHeavisideStepFunction.txx"
+#include "itkHeavisideStepFunction.hxx"
 #endif
 
 #endif

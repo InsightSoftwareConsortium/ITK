@@ -28,14 +28,14 @@ namespace itk
  * GridForwardWarpImageFilter warps a grid with respect to
  * a given deformation field.
  *
- * A deformation field is represented as a image whose pixel type is some
+ * A displacement field is represented as a image whose pixel type is some
  * vector type with at least N elements, where N is the dimension of
  * the input image. The vector type must support element access via operator
  * [].
  *
  * The output image is produced by forward mapping.
  *
- * Each vector in the deformation field represent the distance between
+ * Each vector in the displacement field represent the distance between
  * a geometric point in the input space and a point in the output space such
  * that:
  *
@@ -49,21 +49,21 @@ namespace itk
  * This implementation was taken from the Insight Journal paper:
  * http://hdl.handle.net/1926/510
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template<
-  class TDeformationField,
+  class TDisplacementField,
   class TOutputImage
   >
 class ITK_EXPORT GridForwardWarpImageFilter:
-  public ImageToImageFilter< TDeformationField, TOutputImage >
+  public ImageToImageFilter< TDisplacementField, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef GridForwardWarpImageFilter                            Self;
-  typedef ImageToImageFilter< TDeformationField, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                                  Pointer;
-  typedef SmartPointer< const Self >                            ConstPointer;
+  typedef GridForwardWarpImageFilter                             Self;
+  typedef ImageToImageFilter< TDisplacementField, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                                   Pointer;
+  typedef SmartPointer< const Self >                             ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -85,13 +85,13 @@ public:
   /** Determine the image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
-  itkStaticConstMacro(DeformationFieldDimension, unsigned int,
-                      TDeformationField::ImageDimension);
+  itkStaticConstMacro(DisplacementFieldDimension, unsigned int,
+                      TDisplacementField::ImageDimension);
 
   /** Deformation field typedef support. */
-  typedef TDeformationField                           DeformationFieldType;
-  typedef typename DeformationFieldType::ConstPointer DeformationFieldConstPointer;
-  typedef typename DeformationFieldType::PixelType    DisplacementType;
+  typedef TDisplacementField                           DisplacementFieldType;
+  typedef typename DisplacementFieldType::ConstPointer DisplacementFieldConstPointer;
+  typedef typename DisplacementFieldType::PixelType    DisplacementType;
 
   /** Set the background value */
   itkSetMacro(BackgroundValue, PixelType);
@@ -108,9 +108,9 @@ public:
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro( SameDimensionCheck,
-                   ( Concept::SameDimension< ImageDimension, DeformationFieldDimension > ) );
-  itkConceptMacro( DeformationFieldHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< typename TDeformationField::PixelType::ValueType > ) );
+                   ( Concept::SameDimension< ImageDimension, DisplacementFieldDimension > ) );
+  itkConceptMacro( DisplacementFieldHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< typename TDisplacementField::PixelType::ValueType > ) );
   /** End concept checking */
 #endif
 protected:
@@ -135,7 +135,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGridForwardWarpImageFilter.txx"
+#include "itkGridForwardWarpImageFilter.hxx"
 #endif
 
 #endif

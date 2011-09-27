@@ -19,6 +19,7 @@
  * Also it removes a few annoying #define's in windows.h. */
 #ifndef __itkWindows_h
 #define __itkWindows_h
+#if defined(_MSC_VER) || defined(__MINGW32__) // if on Windows
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
@@ -29,3 +30,4 @@
 #include <windows.h>
 #include <winbase.h>
 #endif
+#endif // _MSC_VER

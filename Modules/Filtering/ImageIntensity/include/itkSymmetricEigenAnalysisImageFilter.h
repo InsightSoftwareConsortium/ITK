@@ -111,9 +111,9 @@ private:
  * The user of this class is explicitly supposed to set the dimension of the
  * 2D matrix using the SetDimension() method.
  *
- * \ingroup IntensityImageFilters  Multithreaded  TensorObjects
+ * \ingroup IntensityImageFilters  MultiThreaded  TensorObjects
  *
- * \ingroup ITK-ImageIntensity
+ * \ingroup ITKImageIntensity
  */
 template< typename  TInputImage, typename  TOutputImage = TInputImage >
 class ITK_EXPORT SymmetricEigenAnalysisImageFilter:

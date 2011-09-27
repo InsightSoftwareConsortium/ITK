@@ -50,18 +50,18 @@ namespace itk
  * \sa ResampleImageFilter
  *
  * \ingroup ImageFunctions
- * \ingroup ITK-ImageFunction
+ * \ingroup ITKImageFunction
  */
 template< class TImageType, class TCoordRep = float >
 class ITK_EXPORT BSplineResampleImageFunction:
   public BSplineInterpolateImageFunction<
-    TImageType, TCoordRep, ITK_TYPENAME TImageType::PixelType >
+    TImageType, TCoordRep, typename TImageType::PixelType >
 {
 public:
   /** Standard class typedefs. */
   typedef BSplineResampleImageFunction Self;
   typedef BSplineInterpolateImageFunction<
-    TImageType, TCoordRep, ITK_TYPENAME TImageType::PixelType >  Superclass;
+    TImageType, TCoordRep, typename TImageType::PixelType >  Superclass;
 
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;

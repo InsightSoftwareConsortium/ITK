@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkImageFileReader.h"
 #include "itkRecursiveGaussianImageFilter.h"
@@ -29,9 +26,9 @@
 #include "itkDirectFourierReconstructionImageToImageFilter.h"
 
 typedef double    InternalPixelType;
-typedef short int OutputPixelType;
+typedef short int TestOutputPixelType;
 
-typedef itk::Image< OutputPixelType, 3 > OutputImageType;
+typedef itk::Image< TestOutputPixelType, 3 > OutputImageType;
 typedef itk::Image< InternalPixelType, 3 > InternalImageType;
 typedef itk::DirectFourierReconstructionImageToImageFilter< InternalImageType, InternalImageType > ReconstructionFilterType;
 
@@ -120,8 +117,8 @@ int itkDirectFourierReconstructionImageToImageFilterTest (int argc, char * argv[
 
   RescalerType::Pointer rescaler = RescalerType::New();
   rescaler->SetInput( reconstruct->GetOutput() );
-  rescaler->SetOutputMinimum( itk::NumericTraits< OutputPixelType >::min() );
-  rescaler->SetOutputMaximum( itk::NumericTraits< OutputPixelType >::max() );
+  rescaler->SetOutputMinimum( itk::NumericTraits< TestOutputPixelType >::min() );
+  rescaler->SetOutputMaximum( itk::NumericTraits< TestOutputPixelType >::max() );
 
 
   ROIFilterType::Pointer ROIFilter = ROIFilterType::New();

@@ -53,7 +53,7 @@ namespace itk
  *      http://www.insight-journal.org/browse/publication/323
  *      http://hdl.handle.net/1926/1533
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  *
  * \wiki
  * \wikiexample{Segmentation/SinglephaseChanAndVeseDenseFieldLevelSetSegmentation,Single-phase Chan And Vese Dense Field Level Set Segmentation}
@@ -61,7 +61,7 @@ namespace itk
  */
 template< class TInputImage, class TFeatureImage, class TOutputImage,
           class TFunction = ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage >,
-          class TSharedData = ITK_TYPENAME TFunction::SharedDataType >
+          class TSharedData = typename TFunction::SharedDataType >
 class ITK_EXPORT ScalarChanAndVeseDenseLevelSetImageFilter:
   public MultiphaseDenseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutputImage,
                                                      TFunction >
@@ -154,7 +154,7 @@ private:
 } //end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkScalarChanAndVeseDenseLevelSetImageFilter.txx"
+#include "itkScalarChanAndVeseDenseLevelSetImageFilter.hxx"
 #endif
 
 #endif

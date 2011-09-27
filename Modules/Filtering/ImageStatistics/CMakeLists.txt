@@ -1,2 +1,2 @@
-project(ITK-ImageStatistics)
+project(ITKImageStatistics)
 itk_module_impl()

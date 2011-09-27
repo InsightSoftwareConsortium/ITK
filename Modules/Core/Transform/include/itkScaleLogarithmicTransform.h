@@ -29,24 +29,23 @@ namespace itk
  * is that here the parameters of the transformation are the logarithms of the
  * scales. This facilitates to linearize the expressions used for optimization.
  *
- * \ingroup Transforms
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  */
-template<
+template <
   class TScalarType = float, // Type for cordinate representation type (float or
                              // double)
-  unsigned int NDimensions = 3  >
+  unsigned int NDimensions = 3>
 // Number of dimensions
-class ITK_EXPORT ScaleLogarithmicTransform:
-  public ScaleTransform< TScalarType,
-                         NDimensions >
+class ITK_EXPORT ScaleLogarithmicTransform :
+  public ScaleTransform<TScalarType,
+                        NDimensions>
 {
 public:
   /** Standard class typedefs.   */
-  typedef ScaleLogarithmicTransform                  Self;
-  typedef ScaleTransform< TScalarType, NDimensions > Superclass;
-  typedef SmartPointer< Self >                       Pointer;
-  typedef SmartPointer< const Self >                 ConstPointer;
+  typedef ScaleLogarithmicTransform                Self;
+  typedef ScaleTransform<TScalarType, NDimensions> Superclass;
+  typedef SmartPointer<Self>                       Pointer;
+  typedef SmartPointer<const Self>                 ConstPointer;
 
   /** New macro for creation of through a smart pointer. */
   itkNewMacro(Self);
@@ -100,8 +99,9 @@ public:
    * two represent the offset. */
   const ParametersType & GetParameters(void) const;
 
-  /** Get the Jacobian matrix. */
-  const JacobianType & GetJacobian(const InputPointType & point) const;
+  /** Compute the Jacobian Matrix of the transformation at one point,
+   *  allowing for thread-safety. */
+  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const;
 
 protected:
   /** Construct an ScaleLogarithmicTransform object. */
@@ -114,9 +114,10 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  ScaleLogarithmicTransform(const Self & other); //purposely not implemented
-  const Self & operator=(const Self &);          //purposely not implemented
-};                                               //class
+  ScaleLogarithmicTransform(const Self & other); // purposely not implemented
+  const Self & operator=(const Self &);          // purposely not implemented
+
+};                                               // class
                                                  // ScaleLogarithmicTransform
 }  // namespace itk
 
@@ -124,10 +125,10 @@ private:
 #define ITK_TEMPLATE_ScaleLogarithmicTransform(_, EXPORT, TypeX, TypeY)     \
   namespace itk                                                             \
   {                                                                         \
-  _( 2 ( class EXPORT ScaleLogarithmicTransform< ITK_TEMPLATE_2 TypeX > ) ) \
+  _( 2 ( class EXPORT ScaleLogarithmicTransform<ITK_TEMPLATE_2 TypeX> ) ) \
   namespace Templates                                                       \
   {                                                                         \
-  typedef ScaleLogarithmicTransform< ITK_TEMPLATE_2 TypeX >                 \
+  typedef ScaleLogarithmicTransform<ITK_TEMPLATE_2 TypeX>                 \
   ScaleLogarithmicTransform##TypeY;                                       \
   }                                                                         \
   }
@@ -137,7 +138,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkScaleLogarithmicTransform.txx"
+#include "itkScaleLogarithmicTransform.hxx"
 #endif
 
 #endif /* __itkScaleLogarithmicTransform_h */

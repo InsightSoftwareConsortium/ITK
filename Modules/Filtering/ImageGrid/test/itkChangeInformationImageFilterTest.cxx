@@ -15,9 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
+
 #include <iostream>
 #include "itkChangeInformationImageFilter.h"
 #include "itkImage.h"
@@ -95,12 +93,8 @@ void PrintInformation3(ImagePointer image1, ImagePointer image2, ImagePointer im
 
 int itkChangeInformationImageFilterTest(int, char* [] )
 {
-
-
-  typedef itk::Image<float, ImageDimension>  ImageType;
   typedef itk::ChangeInformationImageFilter<ImageType> FilterType;
   typedef itk::FixedArray<double,ImageDimension> ArrayType;
-
 
   ImageType::Pointer inputImage  = ImageType::New();
   ImageType::Pointer referenceImage  = ImageType::New();

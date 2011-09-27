@@ -1,8 +1,8 @@
-set(ITK-IO-BioRad_SRC
+set(ITKIOBioRad_SRC
 itkBioRadImageIOFactory.cxx
 itkBioRadImageIO.cxx
 )
 
-add_library(ITK-IO-BioRad ${ITK-IO-BioRad_SRC})
-target_link_libraries(ITK-IO-BioRad  ${ITK-IO-Base_LIBRARIES})
-itk_module_target(ITK-IO-BioRad)
+add_library(ITKIOBioRad ${ITKIOBioRad_SRC})
+target_link_libraries(ITKIOBioRad  ${ITKIOBase_LIBRARIES})
+itk_module_target(ITKIOBioRad)

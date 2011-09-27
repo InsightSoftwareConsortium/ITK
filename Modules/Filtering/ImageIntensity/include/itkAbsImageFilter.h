@@ -23,18 +23,12 @@
 
 namespace itk
 {
-/** \class AbsImageFilter
- * \brief Computes the ABS(x) pixel-wise
- *
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageIntensity
- *
- * \wiki
- * \wikiexample{ImageProcessing/AbsImageFilter,Compute the absolute value of an image}
- * \endwiki
- */
 namespace Functor
 {
+/** \class Abs
+ * \brief Computes the absolute value of a pixel.
+ * \ingroup ITKImageIntensity
+ */
 template< class TInput, class TOutput >
 class Abs
 {
@@ -58,6 +52,19 @@ public:
 };
 }
 
+/** \class AbsImageFilter
+ * \brief Computes the absolute value of each pixel.
+ *
+ * vnl_math_abs() is used to perform the computation.
+ *
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
+ * \ingroup ITKImageIntensity
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/AbsImageFilter,Compute the absolute value of an image}
+ * \endwiki
+ */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT AbsImageFilter:
   public

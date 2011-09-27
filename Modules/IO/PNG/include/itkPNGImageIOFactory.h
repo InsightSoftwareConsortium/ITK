@@ -18,9 +18,6 @@
 #ifndef __itkPNGImageIOFactory_h
 #define __itkPNGImageIOFactory_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"
@@ -29,7 +26,7 @@ namespace itk
 {
 /** \class PNGImageIOFactory
  * \brief Create instances of PNGImageIO objects using an object factory.
- * \ingroup ITK-IO-PNG
+ * \ingroup ITKIOPNG
  */
 class ITK_EXPORT PNGImageIOFactory:public ObjectFactoryBase
 {

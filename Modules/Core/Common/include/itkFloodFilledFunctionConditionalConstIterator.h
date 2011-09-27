@@ -33,7 +33,7 @@ namespace itk
  *
  * \ingroup ImageIterators
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TImage, class TFunction >
 class ITK_EXPORT FloodFilledFunctionConditionalConstIterator:
@@ -183,7 +183,7 @@ public:
     this->m_IsAtEnd = true;
     // Initialize the temporary image
     m_TemporaryPointer->FillBuffer(
-      NumericTraits< ITK_TYPENAME TTempImage::PixelType >::Zero
+      NumericTraits< typename TTempImage::PixelType >::Zero
       );
 
     for ( unsigned int i = 0; i < m_Seeds.size(); i++ )
@@ -271,7 +271,7 @@ protected: //made protected so other iterators can access
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkFloodFilledFunctionConditionalConstIterator.txx"
+#include "itkFloodFilledFunctionConditionalConstIterator.hxx"
 #endif
 
 #endif

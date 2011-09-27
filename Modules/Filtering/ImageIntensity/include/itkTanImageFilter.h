@@ -23,14 +23,13 @@
 
 namespace itk
 {
-/** \class TanImageFilter
- * \brief Computes the vcl_tan(x) pixel-wise
- *
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageIntensity
- */
 namespace Functor
 {
+/**
+ * \class Tan
+ * \brief
+ * \ingroup ITKImageIntensity
+ */
 template< class TInput, class TOutput >
 class Tan
 {
@@ -51,6 +50,15 @@ public:
   { return (TOutput)vcl_tan( (double)A ); }
 };
 }
+/** \class TanImageFilter
+ * \brief Computes the tangent of each input pixel.
+ *
+ * The computations are performed using vcl_tan(x).
+ *
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
+ * \ingroup ITKImageIntensity
+ */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT TanImageFilter:
   public

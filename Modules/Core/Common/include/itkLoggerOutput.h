@@ -34,8 +34,8 @@
 namespace itk
 {
 /** \class LoggerOutput
- * \brief This class is meant for overriding itk::OutputWindow to redirect
- * messages to itk::Logger.
+ * \brief Used for overriding itk::OutputWindow to redirect
+ *        messages to itk::Logger.
  *
  * Text messages that the system should display to the user are sent to
  * this object (or subclasses of this object).
@@ -45,7 +45,7 @@ namespace itk
  *                     ISIS Center, Georgetown University.
  *
  * \ingroup OSSystemObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 class ITKCommon_EXPORT LoggerOutput:public OutputWindow
 {

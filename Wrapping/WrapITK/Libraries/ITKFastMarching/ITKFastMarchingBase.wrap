@@ -1,0 +1,16 @@
+WRAP_INCLUDE("itkNodePair.h")
+
+WRAP_CLASS("itk::VectorContainer" POINTER)
+  foreach(d ${WRAP_ITK_DIMS})
+    foreach(t ${WRAP_ITK_SCALAR})
+      WRAP_TEMPLATE("${ITKM_UI}${ITKM_LSN${t}${d}}"  "${ITKT_UI},${ITKT_LSN${t}${d}}")
+      WRAP_TEMPLATE("${ITKM_UL}NPI${d}${ITKM_${t}}"  "${ITKT_UL}, itk::NodePair< itk::Index<${d}>, ${ITKT_${t}} >")
+    endforeach(t)
+  endforeach(d)
+END_WRAP_CLASS()
+
+WRAP_CLASS("itk::FastMarchingBase" POINTER)
+#   WRAP_IMAGE_FILTER_USIGN_INT(2)
+#   WRAP_IMAGE_FILTER_SIGN_INT(2)
+  WRAP_IMAGE_FILTER_REAL(2)
+END_WRAP_CLASS()

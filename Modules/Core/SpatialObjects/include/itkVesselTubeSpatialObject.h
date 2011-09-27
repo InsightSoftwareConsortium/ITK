@@ -35,7 +35,7 @@ namespace itk
  * A tube is also identified by an id number when connected to a network.
  *
  * \sa VesselTubeSpatialObjectPoint
- * \ingroup ITK-SpatialObjects
+ * \ingroup ITKSpatialObjects
  */
 
 template< unsigned int TDimension = 3 >
@@ -81,7 +81,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVesselTubeSpatialObject.txx"
+#include "itkVesselTubeSpatialObject.hxx"
 #endif
 
 #endif // __itkVesselTubeSpatialObject_h

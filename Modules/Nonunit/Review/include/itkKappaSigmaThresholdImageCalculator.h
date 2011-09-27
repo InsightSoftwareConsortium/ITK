@@ -34,7 +34,7 @@ namespace itk
  *
  * \ingroup Operators
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TInputImage, class TMaskImage >
 class ITK_EXPORT KappaSigmaThresholdImageCalculator:public Object
@@ -114,7 +114,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkKappaSigmaThresholdImageCalculator.txx"
+#include "itkKappaSigmaThresholdImageCalculator.hxx"
 #endif
 
 #endif /* __itkKappaSigmaThresholdImageCalculator_h */

@@ -18,9 +18,6 @@
 #ifndef __itkGiplImageIO_h
 #define __itkGiplImageIO_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <fstream>
 #include "itkImageIOBase.h"
@@ -36,7 +33,7 @@ class GiplImageIOInternals;
  *
  *  \ingroup IOFilters
  *
- * \ingroup ITK-IO-GIPL
+ * \ingroup ITKIOGIPL
  */
 class ITK_EXPORT GiplImageIO:public ImageIOBase
 {

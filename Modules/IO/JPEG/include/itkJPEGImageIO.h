@@ -18,9 +18,6 @@
 #ifndef __itkJPEGImageIO_h
 #define __itkJPEGImageIO_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkImageIOBase.h"
 
@@ -32,7 +29,7 @@ namespace itk
  *
  * \ingroup IOFilters
  *
- * \ingroup ITK-IO-JPEG
+ * \ingroup ITKIOJPEG
  */
 class ITK_EXPORT JPEGImageIO:public ImageIOBase
 {

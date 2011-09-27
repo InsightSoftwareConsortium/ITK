@@ -22,6 +22,8 @@
 #include "itkPriorityQueueContainer.h"
 #include "itkQuadEdgeMeshToQuadEdgeMeshFilter.h"
 #include "itkQuadEdgeMeshEulerOperatorFlipEdgeFunction.h"
+#include "vcl_cmath.h"
+#include "vnl/vnl_math.h"
 
 namespace itk
 {
@@ -30,7 +32,7 @@ namespace itk
  *
  *  \brief FIXME Add documentation
  *
- * \ingroup ITK-QuadEdgeMeshFiltering
+ * \ingroup ITKQuadEdgeMeshFiltering
  */
 template< class TInputMesh, class TOutputMesh=TInputMesh >
 class ITK_EXPORT DelaunayConformingQuadEdgeMeshFilter:
@@ -210,6 +212,6 @@ private:
 };                                                    //
 } // end namespace itk
 
-#include "itkDelaunayConformingQuadEdgeMeshFilter.txx"
+#include "itkDelaunayConformingQuadEdgeMeshFilter.hxx"
 
 #endif

@@ -41,7 +41,7 @@ namespace itk
  * from integration.
  *
  * \ingroup Numerics Optimizers
- * \ingroup ITK-Optimizers
+ * \ingroup ITKOptimizers
  */
 
 class ITK_EXPORT CumulativeGaussianOptimizer:

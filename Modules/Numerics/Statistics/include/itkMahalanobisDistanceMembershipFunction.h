@@ -18,13 +18,7 @@
 #ifndef __itkMahalanobisDistanceMembershipFunction_h
 #define __itkMahalanobisDistanceMembershipFunction_h
 
-#include "vnl/vnl_vector.h"
-#include "vnl/vnl_vector_ref.h"
-#include "vnl/vnl_transpose.h"
-#include "vnl/vnl_matrix.h"
-#include "vnl/algo/vnl_matrix_inverse.h"
-#include "vnl/algo/vnl_determinant.h"
-#include "itkArray.h"
+#include "itkVariableSizeMatrix.h"
 
 #include "itkMembershipFunctionBase.h"
 
@@ -33,13 +27,35 @@ namespace itk
 namespace Statistics
 {
 /** \class MahalanobisDistanceMembershipFunction
- * \brief MahalanobisDistanceMembershipFunction class represents MahalanobisDistance Density Function.
+ * \brief MahalanobisDistanceMembershipFunction models class
+ * membership using Mahalanobis distance.
  *
- * This class keeps parameter to define MahalanobisDistance Density Function  and has
- * method to return the probability density
- * of an instance.  MeasurementVectorSize is the dimension of measurement space.
- * double is type of measurement.
- * \ingroup ITK-Statistics
+ * MahalanobisDistanceMembershipFunction is a subclass of
+ * MembershipFunctionBase that models class membership (or likelihood)
+ * using the Mahalanobis distance. The mean and covariance structure
+ * of the Mahalanobis distance are established using the methods
+ * SetMean() and SetCovariance(). The mean is a vector-type that is the same
+ * vector-type as the measurement vector but guarenteed to have a real
+ * element type. For instance, if the measurement type is an
+ * Vector<int,3>, then the mean is Vector<double,3>. If the
+ * measurement type is a VariableLengthVector<float>, then the mean is
+ * VariableLengthVector<double>. In contrast to this behavior, the
+ * covariance is always a VariableSizeMatrix<double>.
+ *
+ * Note that this membership function does not return a probability
+ * density function in contrast to the GaussianMembershipFunction.
+ *
+ * Note, as is the case in other packages (MATLAB, R), the value
+ * returned by this membership function is the squared distance.
+ *
+ * If the covariance is singular or nearly singular, the membership function
+ * behaves somewhat like (the opposite of) an impulse located at the
+ * mean. In this case, we specify the covariance to be a diagonal
+ * matrix with large values along the diagonal. This membership
+ * function, therefore, will return large but differentiable values
+ * everywhere and decay to zero sharply near the mean.
+ *
+ * \ingroup ITKStatistics
  */
 
 template< class TVector >
@@ -57,57 +73,51 @@ public:
   itkTypeMacro(MahalanobisDistanceMembershipFunction, MembershipFunctionBase);
   itkNewMacro(Self);
 
+  /** SmartPointer class for superclass */
+  typedef typename Superclass::Pointer MembershipFunctionPointer;
+
   /** Typedef alias for the measurement vectors */
   typedef TVector MeasurementVectorType;
 
   /** Typedef to represent the length of measurement vectors */
   typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
 
-  /** Type used for representing the mean vector */
-  typedef vnl_vector< double > MeanVectorType;
+  /** Type of the mean vector. RealType on a vector-type is the same
+   * vector-type but with a real element type.  */
+  typedef typename itk::NumericTraits< MeasurementVectorType >::RealType MeasurementVectorRealType;
+  typedef MeasurementVectorRealType  MeanVectorType;
 
-  /** Type used for representing the covariance matrix */
-  typedef vnl_matrix< double > CovarianceMatrixType;
+  /** Type of the covariance matrix */
+  typedef VariableSizeMatrix< double > CovarianceMatrixType;
 
-  /**  Set the length of each measurement vector. */
-  virtual void SetMeasurementVectorSize(MeasurementVectorSizeType);
-
-  /** Method to set mean */
+  /** Set the mean used in the Mahalanobis distance. Mean is a vector type
+   * similar to the measurement type but with a real element type.  */
   void SetMean(const MeanVectorType & mean);
 
-  void SetMean(const Array< double > & mean);
+  /** Get the mean of the Mahalanobis distance. Mean is a vector type
+   * similar to the measurement type but with a real element type. */
+  itkGetConstReferenceMacro(Mean, MeanVectorType);
 
-  /** Method to get mean */
-  const MeanVectorType & GetMean() const;
-
-  /**
-   * Method to set covariance matrix
-   * Also, this function calculates inverse covariance and pre factor of
-   * MahalanobisDistance Distribution to speed up GetProbability */
+  /** Set the covariance matrix. Covariance matrix is a
+   * VariableSizeMatrix of doubles. The inverse of the covariance
+   * matrix is calculated whenever the covaraince matrix is changed. */
   void SetCovariance(const CovarianceMatrixType & cov);
 
-  /** Method to get covariance matrix */
+  /** Get the covariance matrix. Covariance matrix is a
+   * VariableSizeMatrix of doubles. */
   itkGetConstReferenceMacro(Covariance, CovarianceMatrixType);
 
   /**
-   * Method to set covariance matrix
-   * Also, this function calculates inverse covariance and pre factor of
-   * MahalanobisDistance Distribution to speed up GetProbability */
-  void SetInverseCovariance(const CovarianceMatrixType & invcov);
-
-  /** Method to get covariance matrix */
-  itkGetConstReferenceMacro(InverseCovariance, CovarianceMatrixType);
-
-  /** Method to set the number of samples */
-  itkSetMacro(NumberOfSamples, double);
-
-  /** Method to get the number of samples */
-  itkGetConstMacro(NumberOfSamples, double);
-
-  /**
-   * Method to get probability of an instance. The return value is the
-   * value of the density function, not probability. */
+   * Evaluate the Mahalanobis distance of a measurement using the
+   * prescribed mean and covariance. Note that the Mahalanobis
+   * distance is not a probability density. The square of the
+   * distance is returned. */
   double Evaluate(const MeasurementVectorType & measurement) const;
+
+  /** Method to clone a membership function, i.e. create a new instance of
+   * the same type of membership function and configure its ivars to
+   * match. */
+  MembershipFunctionPointer Clone() const;
 
 protected:
   MahalanobisDistanceMembershipFunction(void);
@@ -118,28 +128,18 @@ private:
   MeanVectorType       m_Mean;               // mean
   CovarianceMatrixType m_Covariance;         // covariance matrix
 
-  // inverse covariance matrix which is automatically calculated
-  // when covariace matirx is set.  This speed up the GetProbability()
+  // inverse covariance matrix. automatically calculated
+  // when covariace matirx is set.
   CovarianceMatrixType m_InverseCovariance;
 
-  // Number of samples defining this density
-  double m_NumberOfSamples;
-  // pre_factor which is automatically calculated
-  // when covariace matirx is set.  This speeds up the GetProbability()
-  double m_PreFactor;
-  double m_Epsilon;
-  double m_DoubleMax;
-
-  mutable vnl_matrix< double > m_TempVec;
-  mutable vnl_matrix< double > m_TempMat;
-
-  void CalculateInverseCovariance();
+  /** Boolean to cache whether the covarinace is singular or nearly singular */
+  bool m_CovarianceNonsingular;
 };
 } // end of namespace Statistics
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMahalanobisDistanceMembershipFunction.txx"
+#include "itkMahalanobisDistanceMembershipFunction.hxx"
 #endif
 
 #endif

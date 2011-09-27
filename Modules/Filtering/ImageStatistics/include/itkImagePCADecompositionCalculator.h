@@ -53,7 +53,7 @@ namespace itk
  * \author Zachary Pincus
  *
  * \ingroup Operators
- * \ingroup ITK-ImageStatistics
+ * \ingroup ITKImageStatistics
  */
 template< class TInputImage,
           class TBasisImage = Image< double, ::itk::GetImageDimension< TInputImage >::ImageDimension > >
@@ -153,7 +153,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImagePCADecompositionCalculator.txx"
+#include "itkImagePCADecompositionCalculator.hxx"
 #endif
 
 #endif

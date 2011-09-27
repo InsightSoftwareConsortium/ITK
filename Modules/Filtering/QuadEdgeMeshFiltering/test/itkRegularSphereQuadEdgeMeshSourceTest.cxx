@@ -15,15 +15,11 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
-
 
 #include "itkQuadEdgeMesh.h"
 #include "itkRegularSphereMeshSource.h"
 #include "itkDefaultStaticMeshTraits.h"
-#include "itkVTKPolyDataWriter.h"
+#include "itkMeshFileWriter.h"
 
 #include <iostream>
 
@@ -82,7 +78,7 @@ int itkRegularSphereQuadEdgeMeshSourceTest(int argc, char * argv [] )
     std::cout << "Point[" << i << "]: " << pt << std::endl;
     }
 
-  typedef itk::VTKPolyDataWriter<MeshType>   WriterType;
+  typedef itk::MeshFileWriter<MeshType>   WriterType;
 
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( myMesh );

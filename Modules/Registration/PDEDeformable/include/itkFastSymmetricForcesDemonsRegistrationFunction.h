@@ -40,18 +40,18 @@ namespace itk
  * \ingroup FiniteDifferenceFunctions
  *
  * \author Torsten Rohlfing, Neuroscience Program, SRI International
- * \ingroup ITK-PDEDeformableRegistration
+ * \ingroup ITKPDEDeformableRegistration
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 class ITK_EXPORT FastSymmetricForcesDemonsRegistrationFunction:
   public PDEDeformableRegistrationFunction< TFixedImage,
-                                            TMovingImage, TDeformationField >
+                                            TMovingImage, TDisplacementField >
 {
 public:
   /** Standard class typedefs. */
   typedef FastSymmetricForcesDemonsRegistrationFunction Self;
   typedef PDEDeformableRegistrationFunction< TFixedImage,
-                                             TMovingImage, TDeformationField >
+                                             TMovingImage, TDisplacementField >
   Superclass;
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
@@ -75,9 +75,14 @@ public:
   typedef typename FixedImageType::SpacingType   SpacingType;
 
   /** Deformation field type. */
-  typedef typename Superclass::DeformationFieldType DeformationFieldType;
-  typedef typename Superclass::DeformationFieldTypePointer
-  DeformationFieldTypePointer;
+  typedef typename Superclass::DisplacementFieldType DisplacementFieldType;
+  typedef typename Superclass::DisplacementFieldTypePointer
+  DisplacementFieldTypePointer;
+
+#ifdef ITKV3_COMPATIBILITY
+  typedef typename Superclass::DeformationFieldType        DeformationFieldType;
+  typedef typename Superclass::DeformationFieldTypePointer DeformationFieldTypePointer;
+#endif
 
   /** Inherit some enums from the superclass. */
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
@@ -97,7 +102,7 @@ public:
   typedef LinearInterpolateImageFunction< MovingImageType, CoordRepType > DefaultInterpolatorType;
 
   /** Warper type */
-  typedef WarpImageFilter< MovingImageType, MovingImageType, DeformationFieldType > WarperType;
+  typedef WarpImageFilter< MovingImageType, MovingImageType, DisplacementFieldType > WarperType;
   typedef typename WarperType::Pointer                                              WarperPointer;
 
   /** Covariant vector type. */
@@ -235,7 +240,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFastSymmetricForcesDemonsRegistrationFunction.txx"
+#include "itkFastSymmetricForcesDemonsRegistrationFunction.hxx"
 #endif
 
 #endif

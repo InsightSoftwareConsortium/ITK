@@ -37,6 +37,11 @@ namespace itk
 {
 namespace Statistics
 {
+/** \class RBFNetwork
+ * \brief This is the itkRBFNetwork class.
+ *
+ * \ingroup ITKNeuralNetworks
+ */
 
 template<class TMeasurementVector, class TTargetVector>
 class RBFNetwork :
@@ -76,7 +81,7 @@ public:
   void SetDistanceMetric(DistanceMetricType* f);
   void InitializeWeights();
 
-  /* Method for creation through the object factory. */
+  /** Method for creation through the object factory. */
   itkTypeMacro(RBFNetwork,
                MultilayerNeuralNetworkBase);
   itkNewMacro(Self);
@@ -150,7 +155,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRBFNetwork.txx"
+#include "itkRBFNetwork.hxx"
 #endif
 
 #endif

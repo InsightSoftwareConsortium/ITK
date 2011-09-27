@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkApproximateSignedDistanceMapImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
@@ -100,7 +97,18 @@ int itkApproximateSignedDistanceMapImageFilterTest(int argc, char* argv[] )
   DistanceType::Pointer distance = DistanceType::New();
   distance->SetInput( image );
   distance->SetInsideValue(InsideValue);
+  if( distance->GetInsideValue() != InsideValue )
+    {
+    std::cerr <<"distance->GetInsideValue() != InsideValue" <<std::endl;
+    return EXIT_FAILURE;
+    }
   distance->SetOutsideValue(OutsideValue);
+  if( distance->GetOutsideValue() != OutsideValue )
+    {
+    std::cerr <<"distance->GetOutsideValue() != OutsideValue" <<std::endl;
+    return EXIT_FAILURE;
+    }
+
 
   try
     {

@@ -41,10 +41,11 @@ namespace itk
  * \sa NeighborhoodIterator
  *
  * \ingroup IntensityImageFilters
- * \ingroup ITK-Smoothing
+ * \ingroup ITKSmoothing
  *
  * \wiki
  * \wikiexample{Smoothing/MedianImageFilter,Median filter an image}
+ * \wikiexample{Smoothing/RGBMedianImageFilter,Median filter an RGB image}
  * \endwiki
  */
 template< class TInputImage, class TOutputImage >
@@ -117,7 +118,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMedianImageFilter.txx"
+#include "itkMedianImageFilter.hxx"
 #endif
 
 #endif

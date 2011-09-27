@@ -19,14 +19,16 @@
 #define __itkImageTransformHelper_h
 
 #include "itkConceptChecking.h"
+#include "itkImageBase.h"
 #include "itkMatrix.h"
 #include "vnl/vnl_math.h"
+#include "itkImageBase.h"
 
 namespace itk
 {
 /** \class ImageTransformHelper
  *  \brief Fast index/physical index computation
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< unsigned int NImageDimension, unsigned int R, unsigned int C >
 class ImageTransformHelper

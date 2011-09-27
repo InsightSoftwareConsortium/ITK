@@ -26,13 +26,13 @@
 namespace itk
 {
 /** \class WarpVectorImageFilter
- * \brief Warps an image using an input deformation field.
+ * \brief Warps an image using an input displacement field.
  *
  * WarpVectorImageFilter warps an existing image with respect to
- * a given deformation field. The input image is expected to have
+ * a given displacement field. The input image is expected to have
  * vector-like pixel types.
  *
- * A deformation field is represented as a image whose pixel type is some
+ * A displacement field is represented as a image whose pixel type is some
  * vector type with at least N elements, where N is the dimension of
  * the input image. The vector type must support element access via operator
  * [].
@@ -41,7 +41,7 @@ namespace itk
  * are mapped back onto the input image. This scheme avoids the creation of
  * any holes and overlaps in the output image.
  *
- * Each vector in the deformation field represent the distance between
+ * Each vector in the displacement field represent the distance between
  * a geometric point in the input space and a point in the output space such
  * that:
  *
@@ -59,35 +59,35 @@ namespace itk
  * a edge padding value.
  *
  * The LargetPossibleRegion for the output is inherited
- * from the input deformation field. The output image
+ * from the input displacement field. The output image
  * spacing, origin and direction may be set via
  * SetOutputSpacing, SetOutputOrigin and
  * SetOutputDirection. The default are respectively a
  * vector of 1's, a vector of 0's and an identity matrix.
  *
  * This class is templated over the type of the input image, the
- * type of the output image and the type of the deformation field.
+ * type of the output image and the type of the displacement field.
  *
- * The input image is set via SetInput. The input deformation field
- * is set via SetDeformationField.
+ * The input image is set via SetInput. The input displacement field
+ * is set via SetDisplacementField.
  *
  * This filter is implemented as a multithreaded filter.
  *
  * \warning This filter assumes that the input type, output type
- * and deformation field type all have the same number of dimensions.
+ * and displacement field type all have the same number of dimensions.
  *
  * \warning WarpVectorImageFilter works only with input images
  * of the type Image< Vector< T, D >, N > and not VectorImage< T, N >.
  *
  * \author  Corinne Mattmann
  *
- * \ingroup GeometricTransforms MultiThreaded
- * \ingroup ITK-ImageGrid
+ * \ingroup GeometricTransform MultiThreaded
+ * \ingroup ITKImageGrid
  */
 template<
   class TInputImage,
   class TOutputImage,
-  class TDeformationField
+  class TDisplacementField
   >
 class ITK_EXPORT WarpVectorImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
@@ -129,10 +129,16 @@ public:
   itkStaticConstMacro(PixelDimension, unsigned int,
                       PixelType::Dimension);
 
-  /** Deformation field typedef support. */
-  typedef TDeformationField                        DeformationFieldType;
+  /** Displacement field typedef support. */
+  typedef TDisplacementField                        DisplacementFieldType;
+  typedef typename DisplacementFieldType::Pointer   DisplacementFieldPointer;
+  typedef typename DisplacementFieldType::PixelType DisplacementType;
+
+#ifdef ITKV3_COMPATIBILITY
+  typedef TDisplacementField                       DeformationFieldType;
   typedef typename DeformationFieldType::Pointer   DeformationFieldPointer;
-  typedef typename DeformationFieldType::PixelType DisplacementType;
+  typedef typename DeformationFieldType::PixelType DeformationType;
+#endif
 
   /** Interpolator typedef support. */
   typedef double                                                         CoordRepType;
@@ -147,14 +153,31 @@ public:
   /** Type for representing the direction of the output image */
   typedef typename TOutputImage::DirectionType DirectionType;
 
-  /** Set the deformation field. */
-  void SetDeformationField(const DeformationFieldType *field);
+  /** Set the displacement field. */
+  void SetDisplacementField(const DisplacementFieldType *field);
 
-  /** Set the deformation field (non const for backward compatibility). */
-  void SetDeformationField(DeformationFieldType *field);
+  /** Set the displacement field (non const for backward compatibility). */
+  void SetDisplacementField(DisplacementFieldType *field);
 
-  /** Get a pointer the deformation field. */
-  DeformationFieldType * GetDeformationField(void);
+  /** Get a pointer the displacement field. */
+  DisplacementFieldType * GetDisplacementField(void);
+
+#ifdef ITKV3_COMPATIBILITY
+  void SetDeformationField(const DeformationFieldType *field)
+  {
+    this->SetDisplacementField(field);
+  }
+
+  void SetDeformationField(DeformationFieldType *field)
+  {
+    this->SetDisplacementField(field);
+  }
+
+  DeformationFieldType * GetDeformationField(void)
+  {
+    return static_cast<DeformationFieldType *> (GetDisplacementField());
+  }
+#endif
 
   /** Set the interpolator function. */
   itkSetObjectMacro(Interpolator, InterpolatorType);
@@ -190,14 +213,14 @@ public:
    * size than its input image. As such, it needs to provide an
    * implemenation for GenerateOutputInformation() which set
    * the output information according the OutputSpacing, OutputOrigin
-   * and the deformation field's LargestPossibleRegion. */
+   * and the displacement field's LargestPossibleRegion. */
   virtual void GenerateOutputInformation();
 
   /** It is difficult to compute in advance the input image region
    * required to compute the requested output region. Thus the safest
    * thing to do is to request for the whole input image.
    *
-   * For the deformation field, the input requested region
+   * For the displacement field, the input requested region
    * set to be the same as that of the output requested region. */
   virtual void GenerateInputRequestedRegion();
 
@@ -211,8 +234,8 @@ public:
                    ( Concept::HasNumericTraits< typename TInputImage::PixelType::ValueType > ) );
   itkConceptMacro( OutputHasNumericTraitsCheck,
                    ( Concept::HasNumericTraits< ValueType > ) );
-  itkConceptMacro( DeformationFieldHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< typename TDeformationField::PixelType::ValueType > ) );
+  itkConceptMacro( DisplacementFieldHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< typename TDisplacementField::PixelType::ValueType > ) );
   /** End concept checking */
 #endif
 protected:
@@ -240,7 +263,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkWarpVectorImageFilter.txx"
+#include "itkWarpVectorImageFilter.hxx"
 #endif
 
 #endif

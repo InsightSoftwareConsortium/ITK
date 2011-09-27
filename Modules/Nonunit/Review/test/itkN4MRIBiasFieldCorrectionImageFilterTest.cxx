@@ -261,7 +261,7 @@ int N4( int argc, char *argv[] )
   // handle the shrink factor
   typedef itk::ShrinkImageFilter<ImageType, ImageType> ShrinkerType;
   typename ShrinkerType::Pointer shrinker = ShrinkerType::New();
-  shrinker->SetInput( reader->GetOutput() );
+  shrinker->SetInput( inputImage );
   shrinker->SetShrinkFactors( 1 );
 
   typedef itk::ShrinkImageFilter<MaskImageType, MaskImageType>
@@ -306,6 +306,7 @@ int N4( int argc, char *argv[] )
 
   // Test the reconstruction of the log bias field
   ImagePointer originalInputImage = reader->GetOutput();
+  reader->UpdateOutputInformation();
   typedef itk::BSplineControlPointImageFilter
   <typename CorrecterType::BiasFieldControlPointLatticeType, typename
    CorrecterType::ScalarImageType> BSplinerType;
@@ -346,10 +347,10 @@ int itkN4MRIBiasFieldCorrectionImageFilterTest( int argc, char *argv[] )
   switch( atoi( argv[1] ) )
     {
     case 2:
-      N4<2>( argc, argv );
+      return N4<2>( argc, argv );
       break;
     case 3:
-      N4<3>( argc, argv );
+      return N4<3>( argc, argv );
       break;
     default:
       std::cerr << "Unsupported dimension" << std::endl;

@@ -48,11 +48,11 @@ namespace itk
  *
  * The input fixed and moving images are set via methods SetFixedImage
  * and SetMovingImage respectively. An initial deformation field maybe set via
- * SetInitialDeformationField or SetInput. If no initial field is set,
+ * SetInitialDisplacementField or SetInput. If no initial field is set,
  * a zero field is used as the initial condition.
  *
  * The output deformation field can be obtained via methods GetOutput
- * or GetDeformationField.
+ * or GetDisplacementField.
  *
  * This class makes use of the finite difference solver hierarchy. Update
  * for each iteration is computed in the function class defined by the
@@ -92,19 +92,19 @@ namespace itk
  * \ingroup DeformableImageRegistration MultiThreaded
  *
  * \author Torsten Rohlfing, SRI International, Neuroscience Program
- * \ingroup ITK-PDEDeformableRegistration
+ * \ingroup ITKPDEDeformableRegistration
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField,
+template< class TFixedImage, class TMovingImage, class TDisplacementField,
           class TImageForceFunction =
-            MeanSquareRegistrationFunction< TFixedImage, TMovingImage, TDeformationField > >
+            MeanSquareRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField > >
 class ITK_EXPORT CurvatureRegistrationFilter:
   public PDEDeformableRegistrationFilter< TFixedImage, TMovingImage,
-                                          TDeformationField >
+                                          TDisplacementField >
 {
 public:
   /** Standard class typedefs. */
   typedef CurvatureRegistrationFilter                                                     Self;
-  typedef PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDeformationField > Superclass;
+  typedef PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField > Superclass;
   typedef SmartPointer< Self >                                                            Pointer;
   typedef SmartPointer< const Self >                                                      ConstPointer;
 
@@ -128,14 +128,14 @@ public:
   typedef typename Superclass::MovingImagePointer MovingImagePointer;
 
   /** Deformation field type. */
-  typedef typename Superclass::DeformationFieldType
-  DeformationFieldType;
-  typedef typename Superclass::DeformationFieldPointer
-  DeformationFieldPointer;
+  typedef typename Superclass::DisplacementFieldType
+  DisplacementFieldType;
+  typedef typename Superclass::DisplacementFieldPointer
+  DisplacementFieldPointer;
 
-  typedef typename TDeformationField::PixelType         DeformationFieldPixelType;
-  typedef typename DeformationFieldPixelType::ValueType DeformationFieldComponentType;
-  itkStaticConstMacro(DeformationVectorDimension, unsigned int, DeformationFieldPixelType::Dimension);
+  typedef typename TDisplacementField::PixelType         DisplacementFieldPixelType;
+  typedef typename DisplacementFieldPixelType::ValueType DisplacementFieldComponentType;
+  itkStaticConstMacro(DeformationVectorDimension, unsigned int, DisplacementFieldPixelType::Dimension);
 
   #if defined( USE_FFTWD )
   //Prefer to use double precision
@@ -148,8 +148,8 @@ public:
     #endif
   #endif
 
-  typedef Image< RealTypeDFT, TDeformationField::ImageDimension > DeformationFieldComponentImageType;
-  typedef typename DeformationFieldComponentImageType::Pointer    DeformationFieldComponentImagePointer;
+  typedef Image< RealTypeDFT, TDisplacementField::ImageDimension > DisplacementFieldComponentImageType;
+  typedef typename DisplacementFieldComponentImageType::Pointer    DisplacementFieldComponentImagePointer;
 
   /** FiniteDifferenceFunction type. */
   typedef typename Superclass::FiniteDifferenceFunctionType
@@ -188,8 +188,8 @@ private:
 
   unsigned int m_FixedImageDimensions[ImageDimension];
 
-  RealTypeDFT *m_DeformationFieldComponentImage;
-  RealTypeDFT *m_DeformationFieldComponentImageDCT;
+  RealTypeDFT *m_DisplacementFieldComponentImage;
+  RealTypeDFT *m_DisplacementFieldComponentImageDCT;
 
   float m_ConstraintWeight;
 
@@ -203,7 +203,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCurvatureRegistrationFilter.txx"
+#include "itkCurvatureRegistrationFilter.hxx"
 #endif
 
 #endif //defined(USE_FFTWF) || defined(USE_FFTWD)

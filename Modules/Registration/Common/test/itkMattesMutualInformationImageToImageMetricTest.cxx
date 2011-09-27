@@ -15,9 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
+
 #include "itkMattesMutualInformationImageToImageMetric.h"
 #include "itkImageRegionIterator.h"
 
@@ -25,7 +23,7 @@
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkBSplineInterpolateImageFunction.h"
 #include "itkTextOutput.h"
-#include "itkBSplineDeformableTransform.h"
+#include "itkBSplineTransform.h"
 #include "itkImageMaskSpatialObject.h"
 
 #include <iostream>
@@ -392,7 +390,7 @@ int TestMattesMetricWithAffineTransform(
 
 /**
  *  This templated function test the MattesMutualInformationImageToMetric
- *  class using an BSplineDeformableTransform and various interpolators.
+ *  class using an BSplineTransform and various interpolators.
  *
  *  This test uses two 2D-Gaussians (standard deviation RegionSize/2)
  *  One is shifted by 5 pixels from the other.
@@ -403,7 +401,7 @@ int TestMattesMetricWithAffineTransform(
  *
  */
 template< class TImage, class TInterpolator>
-int TestMattesMetricWithBSplineDeformableTransform(
+int TestMattesMetricWithBSplineTransform(
   TInterpolator * interpolator, bool useSampling,
   bool useExplicitJointPDFDerivatives, bool useCachingBSplineWeights )
 {
@@ -498,47 +496,26 @@ int TestMattesMetricWithBSplineDeformableTransform(
 //-----------------------------------------------------------
 // Set up a transformer
 //-----------------------------------------------------------
-  typedef itk::BSplineDeformableTransform<
+  typedef itk::BSplineTransform<
     double, ImageDimension, 3 > TransformType;
   typedef typename TransformType::ParametersType ParametersType;
+  typename TransformType::PhysicalDimensionsType dimensions;
+  for( unsigned int dim = 0; dim < ImageDimension; dim++ )
+    {
+    dimensions[dim] = imgFixed->GetSpacing()[dim] *
+      ( imgFixed->GetLargestPossibleRegion().GetSize()[dim] - 1 );
+    }
+  typename TransformType::MeshSizeType meshSize;
+  meshSize.Fill( 4 );
 
   typename TransformType::Pointer transformer = TransformType::New();
 
-  // set up a 3x3 region
-  typename TImage::SizeType gridSize;
-  typename TImage::RegionType gridRegion;
-  gridSize.Fill( 7 );
-  gridRegion.SetSize( gridSize );
+  transformer->SetTransformDomainPhysicalDimensions( dimensions );
+  transformer->SetTransformDomainOrigin( imgFixed->GetOrigin() );
+  transformer->SetTransformDomainDirection( imgFixed->GetDirection() );
+  transformer->SetTransformDomainMeshSize( meshSize );
 
-  transformer->SetGridRegion( gridRegion );
-
-  typedef itk::Point<double,ImageDimension> PointType;
-  PointType startPosition;
-  PointType endPosition;
-  itk::Offset<ImageDimension> offset;
-
-  index = imgFixed->GetBufferedRegion().GetIndex();
-  imgFixed->TransformIndexToPhysicalPoint( index, startPosition );
-
-  index += imgFixed->GetBufferedRegion().GetSize();
-  offset.Fill( 1 );
-  index -= offset;
-  imgFixed->TransformIndexToPhysicalPoint( index, endPosition );
-
-  typename TransformType::SpacingType spacing;
-  typename TransformType::OriginType  origin;
-
-  for( unsigned int j = 0; j < ImageDimension; j++ )
-    {
-    spacing[j] = ( endPosition[j] - startPosition[j] ) /
-      static_cast<double>( gridSize[j] - 3 );
-    origin[j] = -1.0 * spacing[j];
-    }
-
- transformer->SetGridSpacing( spacing );
- transformer->SetGridOrigin( origin );
-
- transformer->Print( std::cout );
+  transformer->Print( std::cout );
 
 //------------------------------------------------------------
 // Set up the metric
@@ -772,7 +749,7 @@ int itkMattesMutualInformationImageToImageMetricTest(int argc, char * argv [] )
 
   // Test metric with BSpline deformable transform
   useSampling = true;
-  failed = TestMattesMetricWithBSplineDeformableTransform<
+  failed = TestMattesMetricWithBSplineTransform<
     ImageType,BSplineInterpolatorType>( bSplineInterpolator, useSampling,
         useExplicitJointPDFDerivatives, useCachingBSplineWeights );
 
@@ -792,7 +769,7 @@ int itkMattesMutualInformationImageToImageMetricTest(int argc, char * argv [] )
   /*
   std::cout << "Test metric with BSpline deformable transform and using all the pixels" << std::endl;
   useSampling = false;
-  failed = TestMattesMetricWithBSplineDeformableTransform<
+  failed = TestMattesMetricWithBSplineTransform<
     ImageType,BSplineInterpolatorType>( bSplineInterpolator, useSampling );
 
   if ( failed )

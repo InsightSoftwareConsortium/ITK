@@ -22,6 +22,8 @@ echo "                                                                        "
 echo "  How to use this script   "
 echo "   "
 echo "   0)  Use Linux or Mac   "
+echo "        - install lcov"
+echo "        - use the gcc compiler"
 echo "   "
 echo "   1)  Add the CMake flags:   "
 echo "   "
@@ -61,8 +63,8 @@ echo "       code coverage report will be generated in HTML can be opened with y
 echo "       favorite browser. The HTML report will be placed in the MODULE directory. "
 echo "       For example, in the case above: "
 echo "    "
-echo "          In Linux, you can do        firefox  .Modules/IO/HDF5/index.html     "
-echo "          In Mac,   you can do        open     .Modules/IO/HDF5/index.html     "
+echo "          In Linux, you can do        firefox  ./Modules/IO/HDF5/index.html     "
+echo "          In Mac,   you can do        open     ./Modules/IO/HDF5/index.html     "
 echo "    "
 
 else
@@ -76,6 +78,6 @@ cd $destinationdir
 lcov --directory . --capture --output-file app.info
 lcov --remove app.info '*test*'  '*ThirdParty*' '/usr/*' --output-file  app.info2
 genhtml app.info2
-echo "To view results on Linux, type firefox "$destinationdir"index.html"
-echo "To view results on Mac, type open "$destinationdir"index.html"
+echo "To view results on Linux, type firefox "$destinationdir"/index.html"
+echo "To view results on Mac, type open "$destinationdir"/index.html"
 fi

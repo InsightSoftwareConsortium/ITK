@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <iostream>
 
@@ -25,20 +22,18 @@
 #include "vnl/vnl_vector_fixed.h"
 #include "itkVector.h"
 
-
-int itkEuler3DTransformTest(int,char *[] )
+int itkEuler3DTransformTest(int, char *[] )
 {
 
   std::cout << "==================================" << std::endl;
   std::cout << "Testing Euler Angles 3D Transform" << std::endl << std::endl;
 
-  const double epsilon = 1e-10;
+  const double       epsilon = 1e-10;
   const unsigned int N = 3;
-  bool Ok = true;
+  bool               Ok = true;
 
-  typedef itk::Euler3DTransform<double>  EulerTransformType;
+  typedef itk::Euler3DTransform<double> EulerTransformType;
   EulerTransformType::Pointer eulerTransform = EulerTransformType::New();
-
 
   // Testing Identity
   std::cout << "Testing identity transform: ";
@@ -46,16 +41,15 @@ int itkEuler3DTransformTest(int,char *[] )
 
   EulerTransformType::OffsetType offset = eulerTransform->GetOffset();
   if( offset[0] != 0.0
-     || offset[1] != 0.0
-     || offset[2] != 0.0
-    )
-  {
-     std::cout << "[ FAILED ]" << std::endl;
+      || offset[1] != 0.0
+      || offset[2] != 0.0
+      )
+    {
+    std::cout << "[ FAILED ]" << std::endl;
     return EXIT_FAILURE;
-  }
+    }
 
   std::cout << "[ PASSED ]" << std::endl;
-
 
   // 15 degrees in radians
   const double angleX = 15.0 * vcl_atan( 1.0f ) / 45.0;
@@ -73,63 +67,58 @@ int itkEuler3DTransformTest(int,char *[] )
   const double sz = vcl_sin(angleZ);
 
   std::cout << "Testing Rotation:";
-  eulerTransform->SetRotation(angleX,angleY,angleZ);
+  eulerTransform->SetRotation(angleX, angleY, angleZ);
 
   // Rotate an itk::Point
-  EulerTransformType::InputPointType::ValueType pInit[3] = {10,-5,3};
-  EulerTransformType::InputPointType p = pInit;
-  EulerTransformType::InputPointType q;
+  EulerTransformType::InputPointType::ValueType pInit[3] = {10, -5, 3};
+  EulerTransformType::InputPointType            p = pInit;
+  EulerTransformType::InputPointType            q;
 
-  itk::Matrix<double,3,3> RotationX;
-  RotationX[0][0]=1;RotationX[0][1]=0;RotationX[0][2]=0;
-  RotationX[1][0]=0;RotationX[1][1]=cx;RotationX[1][2]=-sx;
-  RotationX[2][0]=0;RotationX[2][1]=sx;RotationX[2][2]=cx;
+  itk::Matrix<double, 3, 3> RotationX;
+  RotationX[0][0] = 1; RotationX[0][1] = 0; RotationX[0][2] = 0;
+  RotationX[1][0] = 0; RotationX[1][1] = cx; RotationX[1][2] = -sx;
+  RotationX[2][0] = 0; RotationX[2][1] = sx; RotationX[2][2] = cx;
 
+  itk::Matrix<double, 3, 3> RotationY;
+  RotationY[0][0] = cy; RotationY[0][1] = 0; RotationY[0][2] = sy;
+  RotationY[1][0] = 0; RotationY[1][1] = 1; RotationY[1][2] = 0;
+  RotationY[2][0] = -sy; RotationY[2][1] = 0; RotationY[2][2] = cy;
 
-  itk::Matrix<double,3,3> RotationY;
-  RotationY[0][0]=cy;RotationY[0][1]=0;RotationY[0][2]=sy;
-  RotationY[1][0]=0;RotationY[1][1]=1;RotationY[1][2]=0;
-  RotationY[2][0]=-sy;RotationY[2][1]=0;RotationY[2][2]=cy;
+  itk::Matrix<double, 3, 3> RotationZ;
+  RotationZ[0][0] = cz; RotationZ[0][1] = -sz; RotationZ[0][2] = 0;
+  RotationZ[1][0] = sz; RotationZ[1][1] = cz; RotationZ[1][2] = 0;
+  RotationZ[2][0] = 0; RotationZ[2][1] = 0; RotationZ[2][2] = 1;
 
-
-  itk::Matrix<double,3,3> RotationZ;
-  RotationZ[0][0]=cz;RotationZ[0][1]=-sz;RotationZ[0][2]=0;
-  RotationZ[1][0]=sz;RotationZ[1][1]=cz;RotationZ[1][2]=0;
-  RotationZ[2][0]=0;RotationZ[2][1]=0;RotationZ[2][2]=1;
-
-
-  q = RotationZ*RotationX*RotationY*p; // standard transformation
-
+  q = RotationZ * RotationX * RotationY * p; // standard transformation
 
   EulerTransformType::OutputPointType r;
   r = eulerTransform->TransformPoint( p );
-  for(unsigned int i=0; i<N; i++)
-  {
-     if( vcl_fabs( q[i]- r[i] ) > epsilon )
-     {
-        Ok = false;
-        break;
-     }
-  }
+  for( unsigned int i = 0; i < N; i++ )
+    {
+    if( vcl_fabs( q[i] - r[i] ) > epsilon )
+      {
+      Ok = false;
+      break;
+      }
+    }
   if( !Ok )
-  {
+    {
     std::cerr << "Error rotating point   : " << p << std::endl;
     std::cerr << "Result should be       : " << q << std::endl;
     std::cerr << "Reported Result is     : " << r << std::endl;
     return EXIT_FAILURE;
-  }
+    }
   else
-  {
+    {
     std::cout << " [ PASSED ] " << std::endl;
-  }
-
+    }
 
   std::cout << "Testing Translation:";
 
-  eulerTransform->SetRotation(0,0,0);
+  eulerTransform->SetRotation(0, 0, 0);
 
-  EulerTransformType::OffsetType::ValueType ioffsetInit[3] = {1,-4,8};
-  EulerTransformType::OffsetType ioffset = ioffsetInit;
+  EulerTransformType::OffsetType::ValueType ioffsetInit[3] = {1, -4, 8};
+  EulerTransformType::OffsetType            ioffset = ioffsetInit;
 
   eulerTransform->SetOffset( ioffset );
   std::cout << "eulerTransform: " << eulerTransform;
@@ -137,34 +126,33 @@ int itkEuler3DTransformTest(int,char *[] )
   q = p + ioffset;
 
   r = eulerTransform->TransformPoint( p );
-  for(unsigned int i=0; i<N; i++)
-  {
-    if( vcl_fabs( q[i]- r[i] ) > epsilon )
+  for( unsigned int i = 0; i < N; i++ )
     {
+    if( vcl_fabs( q[i] - r[i] ) > epsilon )
+      {
       Ok = false;
       break;
+      }
     }
-  }
   if( !Ok )
-  {
+    {
     std::cerr << "Error translating point: " << p << std::endl;
     std::cerr << "Result should be       : " << q << std::endl;
     std::cerr << "Reported Result is     : " << r << std::endl;
     return EXIT_FAILURE;
-  }
+    }
   else
-  {
+    {
     std::cout << " [ PASSED ] " << std::endl;
-  }
+    }
 
-
-   // Testing Parameters
-  std::cout << "Testing Set/Get Parameters: " ;
+  // Testing Parameters
+  std::cout << "Testing Set/Get Parameters: ";
   EulerTransformType::ParametersType parameters(6);
-  for(unsigned int i=0;i<6;i++)
-  {
-    parameters[i]=i;
-  }
+  for( unsigned int i = 0; i < 6; i++ )
+    {
+    parameters[i] = i;
+    }
 
   eulerTransform->SetParameters(parameters);
   EulerTransformType::ParametersType parameters_result = eulerTransform->GetParameters();
@@ -175,44 +163,43 @@ int itkEuler3DTransformTest(int,char *[] )
       || parameters_result[3] != 3.0
       || parameters_result[4] != 4.0
       || parameters_result[5] != 5.0
-    )
-  {
+      )
+    {
     std::cout << " [ FAILED ] " << std::endl;
     return EXIT_FAILURE;
-  }
+    }
   std::cout << " [ PASSED ] " << std::endl;
-
 
   // Testing Jacobian
   std::cout << "Testing Jacobian: ";
-  for(unsigned int i=0;i<3;i++)
-  {
-    pInit[i]=0;
-  }
+  for( unsigned int i = 0; i < 3; i++ )
+    {
+    pInit[i] = 0;
+    }
 
-  EulerTransformType::JacobianType  jacobian = eulerTransform->GetJacobian(pInit);
+  EulerTransformType::JacobianType jacobian;
+  eulerTransform->ComputeJacobianWithRespectToParameters(pInit, jacobian);
 
   if( jacobian[0][0] != 0.0 || jacobian[0][1] != 0.0
-      || jacobian[0][2] != 0.0 ||jacobian[0][3] != 1.0
-      || jacobian[0][4] != 0.0 ||jacobian[0][5] != 0.0
+      || jacobian[0][2] != 0.0 || jacobian[0][3] != 1.0
+      || jacobian[0][4] != 0.0 || jacobian[0][5] != 0.0
       || jacobian[1][0] != 0.0 || jacobian[1][1] != 0.0
-      || jacobian[1][2] != 0.0 ||jacobian[1][3] != 0.0
-      || jacobian[1][4] != 1.0 ||jacobian[1][5] != 0.0
+      || jacobian[1][2] != 0.0 || jacobian[1][3] != 0.0
+      || jacobian[1][4] != 1.0 || jacobian[1][5] != 0.0
       || jacobian[2][0] != 0.0 || jacobian[2][1] != 0.0
-      || jacobian[2][2] != 0.0 ||jacobian[2][3] != 0.0
-      || jacobian[2][4] != 0.0 ||jacobian[2][5] != 1.0
-    )
-  {
+      || jacobian[2][2] != 0.0 || jacobian[2][3] != 0.0
+      || jacobian[2][4] != 0.0 || jacobian[2][5] != 1.0
+      )
+    {
     std::cout << " [ FAILED ] " << std::endl;
     return EXIT_FAILURE;
-  }
+    }
   std::cout << " [ PASSED ] " << std::endl;
-
   // Really test the Jacobian
   for( unsigned int pp = 0; pp < 2; pp++ )
     {
     std::cout << "Testing Jacobian when ComputeZYX is ";
-    if ( pp == 0 )
+    if( pp == 0 )
       {
       std::cout << "true" << std::endl;
       eulerTransform->SetComputeZYX( true );
@@ -237,14 +224,13 @@ int itkEuler3DTransformTest(int,char *[] )
     pInit[1] = 1.5;
     pInit[2] = 2.6;
 
-    jacobian = eulerTransform->GetJacobian( pInit );
+    eulerTransform->ComputeJacobianWithRespectToParameters( pInit, jacobian );
     std::cout << jacobian << std::endl;
 
     EulerTransformType::JacobianType approxJacobian = jacobian;
-
     for( unsigned int k = 0; k < eulerTransform->GetNumberOfParameters(); k++ )
       {
-      const double delta = 0.001;
+      const double                       delta = 0.001;
       EulerTransformType::ParametersType plusParameters;
       EulerTransformType::ParametersType minusParameters;
 
@@ -260,13 +246,12 @@ int itkEuler3DTransformTest(int,char *[] )
       plusPoint = eulerTransform->TransformPoint( pInit );
       eulerTransform->SetParameters( minusParameters );
       minusPoint = eulerTransform->TransformPoint( pInit );
-
       for( unsigned int j = 0; j < 3; j++ )
         {
         double approxDerivative = ( plusPoint[j] - minusPoint[j] ) / ( 2.0 * delta );
         double computedDerivative = jacobian[j][k];
         approxJacobian[j][k] = approxDerivative;
-        if ( vnl_math_abs( approxDerivative - computedDerivative ) > 1e-5 )
+        if( vnl_math_abs( approxDerivative - computedDerivative ) > 1e-5 )
           {
           std::cerr << "Error computing Jacobian [" << j << "][" << k << "]" << std::endl;
           std::cerr << "Result should be: " << approxDerivative << std::endl;
@@ -280,21 +265,20 @@ int itkEuler3DTransformTest(int,char *[] )
     std::cout << approxJacobian << std::endl;
     std::cout << " [ PASSED ] " << std::endl;
 
-  }
-
+    }
 
   std::cout << "Testing Angle from matrix : ";
   eulerTransform->SetIdentity();
 
-  eulerTransform->SetRotation(0.2,0.1,0.3);
+  eulerTransform->SetRotation(0.2, 0.1, 0.3);
 
   EulerTransformType::Pointer t2 = EulerTransformType::New();
   t2->SetIdentity();
   t2->Compose(eulerTransform);
-  if( (vcl_fabs(t2->GetParameters()[0]-0.2)>0.0001)
-    || (vcl_fabs(t2->GetParameters()[1]-0.1)>0.0001)
-    || (vcl_fabs(t2->GetParameters()[2]-0.3)>0.0001)
-    )
+  if( (vcl_fabs(t2->GetParameters()[0] - 0.2) > 0.0001)
+      || (vcl_fabs(t2->GetParameters()[1] - 0.1) > 0.0001)
+      || (vcl_fabs(t2->GetParameters()[2] - 0.3) > 0.0001)
+      )
     {
     std::cout << " [ FAILED ] " << std::endl;
     return EXIT_FAILURE;
@@ -304,99 +288,98 @@ int itkEuler3DTransformTest(int,char *[] )
   std::cout << "Testing Angle from matrix (ZYX) : ";
   eulerTransform->SetIdentity();
   eulerTransform->SetComputeZYX(true);
-  eulerTransform->SetRotation(0.2,0.1,0.3);
+  eulerTransform->SetRotation(0.2, 0.1, 0.3);
 
   t2->SetIdentity();
   t2->SetComputeZYX(true);
   t2->Compose(eulerTransform);
 
-  if( (vcl_fabs(t2->GetParameters()[0]-0.2)>0.0001)
-    || (vcl_fabs(t2->GetParameters()[1]-0.1)>0.0001)
-    || (vcl_fabs(t2->GetParameters()[2]-0.3)>0.0001)
-    )
+  if( (vcl_fabs(t2->GetParameters()[0] - 0.2) > 0.0001)
+      || (vcl_fabs(t2->GetParameters()[1] - 0.1) > 0.0001)
+      || (vcl_fabs(t2->GetParameters()[2] - 0.3) > 0.0001)
+      )
     {
     std::cout << " [ FAILED ] " << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << " [ PASSED ] " << std::endl;
 
-   {
-     // Testing SetMatrix()
-     std::cout << "Testing SetMatrix() ... ";
-     unsigned int par;
+    {
+    // Testing SetMatrix()
+    std::cout << "Testing SetMatrix() ... ";
 
-     typedef itk::Euler3DTransform<double> TransformType;
-     typedef TransformType::MatrixType MatrixType;
-     MatrixType matrix;
+    typedef itk::Euler3DTransform<double> TransformType;
+    typedef TransformType::MatrixType     MatrixType;
 
-     TransformType::Pointer t = TransformType::New();
+    MatrixType             matrix;
+    TransformType::Pointer t = TransformType::New();
 
-     // attempt to set an non-orthogonal matrix
-     par = 0;
-     for( unsigned int row = 0; row < 3; row++ )
+    // attempt to set an non-orthogonal matrix
+    unsigned int par = 0;
+    for( unsigned int row = 0; row < 3; row++ )
+      {
+      for( unsigned int col = 0; col < 3; col++ )
         {
-        for( unsigned int col = 0; col < 3; col++ )
-          {
-          matrix[row][col] = static_cast<double>( par + 1 );
-          ++par;
-          }
+        matrix[row][col] = static_cast<double>( par + 1 );
+        ++par;
         }
+      }
 
-     Ok = false;
-     try
+    Ok = false;
+    try
       {
       t->SetMatrix( matrix );
       }
-     catch ( itk::ExceptionObject & itkNotUsed(err) )
+    catch( itk::ExceptionObject & itkNotUsed(err) )
       {
       Ok = true;
       }
-     catch( ... )
+    catch( ... )
       {
       std::cout << "Caught unknown exception" << std::endl;
       }
 
-     if( !Ok )
+    if( !Ok )
       {
       std::cerr << "Error: expected to catch an exception when attempting";
       std::cerr << " to set an non-orthogonal matrix." << std::endl;
       return EXIT_FAILURE;
       }
 
-      t = TransformType::New();
+    t = TransformType::New();
 
-      // attempt to set an orthogonal matrix
-      matrix.GetVnlMatrix().set_identity();
+    // attempt to set an orthogonal matrix
+    matrix.GetVnlMatrix().set_identity();
 
-      double a = 1.0 / 180.0 * vnl_math::pi;
-      matrix[0][0] =        vcl_cos( a );
-      matrix[0][1] = -1.0 * vcl_sin( a );
-      matrix[1][0] =        vcl_sin( a );
-      matrix[1][1] =        vcl_cos( a );
+    double a = 1.0 / 180.0 * vnl_math::pi;
+    matrix[0][0] =        vcl_cos( a );
+    matrix[0][1] = -1.0 * vcl_sin( a );
+    matrix[1][0] =        vcl_sin( a );
+    matrix[1][1] =        vcl_cos( a );
 
-     Ok = true;
-     try
+    Ok = true;
+    try
       {
       t->SetMatrix( matrix );
       }
-     catch ( itk::ExceptionObject & err )
+    catch( itk::ExceptionObject & err )
       {
       std::cout << err << std::endl;
       Ok = false;
       }
-     catch( ... )
+    catch( ... )
       {
       std::cout << "Caught unknown exception" << std::endl;
       Ok = false;
       }
 
-     if( !Ok )
+    if( !Ok )
       {
       std::cerr << "Error: caught unexpected exception" << std::endl;
       return EXIT_FAILURE;
       }
 
-   // Check the computed parameters
+    // Check the computed parameters
     typedef TransformType::ParametersType ParametersType;
     ParametersType e( t->GetNumberOfParameters() );
     e.Fill( 0.0 );
@@ -409,7 +392,6 @@ int itkEuler3DTransformTest(int,char *[] )
     t3->SetMatrix( t->GetMatrix() );
 
     ParametersType par0 = t3->GetParameters();
-
     for( unsigned int k = 0; k < e.GetSize(); k++ )
       {
       if( vcl_fabs( e[k] - par0[k] ) > epsilon )

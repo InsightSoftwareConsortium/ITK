@@ -45,7 +45,9 @@ namespace itk
  * see the Iterators chapter in the ITK Software Guide.  The ITK Software Guide
  * is available in print and as a free .pdf download from http://www.itk.org.
  *
- * \ingroup PathObjects \ingroup ImageIterators
+ * \ingroup PathObjects
+ * \ingroup ImageIterators
+ * \ingroup ITKPath
  *
  * \sa ImageConstIterator \sa ConditionalConstIterator
  * \sa ConstNeighborhoodIterator \sa ConstShapedNeighborhoodIterator
@@ -68,7 +70,6 @@ namespace itk
  * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex
  * \sa NeighborhoodIterator \sa PathIterator \sa ShapedNeighborhoodIterator
  * \sa SliceIterator \sa ImageConstIteratorWithIndex
- * \ingroup ITK-Path
  */
 template< class TImage, class TPath >
 class ITK_EXPORT PathConstIterator
@@ -233,7 +234,7 @@ protected: //made protected so other iterators can access
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPathConstIterator.txx"
+#include "itkPathConstIterator.hxx"
 #endif
 
 #endif

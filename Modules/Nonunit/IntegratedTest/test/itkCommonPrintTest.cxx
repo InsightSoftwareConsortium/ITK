@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkMesh.h"
 
@@ -26,10 +23,8 @@
 #include "itkAsinImageAdaptor.h"
 #include "itkAtanImageAdaptor.h"
 #include "itkAzimuthElevationToCartesianTransform.h"
-#include "itkBSplineDeformableTransform.h"
+#include "itkBSplineTransform.h"
 #include "itkBSplineDerivativeKernelFunction.h"
-#include "itkBloxBoundaryProfileImage.h"
-#include "itkBloxBoundaryPointToCoreAtomImageFilter.h"
 #include "itkBoundingBox.h"
 #include "itkCellInterfaceVisitor.h"
 #include "itkCenteredAffineTransform.h"
@@ -38,10 +33,8 @@
 #include "itkCentralDifferenceImageFunction.h"
 #include "itkColorTable.h"
 #include "itkConicShellInteriorExteriorSpatialFunction.h"
-#include "itkCoreAtomImageToDistanceMatrixProcess.h"
 #include "itkCosImageAdaptor.h"
 #include "itkCreateObjectFunction.h"
-#include "itkDifferenceImageFilter.h"
 #include "itkDynamicLoader.h"
 #include "itkElasticBodyReciprocalSplineKernelTransform.h"
 #include "itkElasticBodySplineKernelTransform.h"
@@ -66,6 +59,7 @@
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkLog10ImageAdaptor.h"
 #include "itkLogImageAdaptor.h"
+#include "itkMatrixResizeableDataObject.h"
 #include "itkMaximumDecisionRule.h"
 #include "itkMaximumRatioDecisionRule.h"
 #include "itkMeanImageFunction.h"
@@ -85,9 +79,6 @@
 #include "itkQuaternionRigidTransform.h"
 #include "itkRGBToVectorImageAdaptor.h"
 #include "itkRigid3DPerspectiveTransform.h"
-#ifdef ITKV3_COMPATIBILITY
-#include "itkRigid3DTransform.h"
-#endif
 #include "itkv3Rigid3DTransform.h"
 #include "itkScaleSkewVersor3DTransform.h"
 #include "itkScaleTransform.h"
@@ -112,8 +103,12 @@
 #include "itkVersorTransform.h"
 #include "itkVolumeSplineKernelTransform.h"
 #include "itkXMLFileOutputWindow.h"
-
 #include "itkRedPixelAccessor.h"
+
+#ifdef ITKV3_COMPATIBILITY
+#include "itkDifferenceImageFilter.h"
+#include "itkRigid3DTransform.h"
+#endif
 
 struct TestObject
 {
@@ -128,6 +123,7 @@ int itkCommonPrintTest(int , char* [])
   typedef itk::Image<unsigned char,2> CharType;
   typedef itk::Image<float,2>         OutputType;
 
+  typedef itk::Point<float,3>   Point3DType;
   typedef itk::Point<float,2>   PointType;
   typedef itk::Mesh<PointType>  MeshType;
 
@@ -140,14 +136,9 @@ int itkCommonPrintTest(int , char* [])
   // Used for CenteredTransformInitializer
   typedef itk::CenteredRigid2DTransform<float> TransformType;
 
-  // Used for BloxImage
-  typedef itk::BloxPixel<PointType> BloxPixelType;
 
   // Used for ImageAdaptor
   typedef itk::RedPixelAccessor<float> RedAccessorType;
-
-  // Used for CoreAtomImageToDistanceMatrixProcess
-  typedef itk::BloxBoundaryPointToCoreAtomImageFilter<3>::TOutputImage BloxCAImageType;
 
   itk::AcosImageAdaptor<InputType,InputType>::Pointer AcosImageAdaptorObj =
     itk::AcosImageAdaptor<InputType,InputType>::New();
@@ -173,9 +164,9 @@ int itkCommonPrintTest(int , char* [])
     itk::AzimuthElevationToCartesianTransform<float,3>::New();
   std::cout << "------------AzimuthElevationToCartesianTransform" << AzimuthElevationToCartesianTransformObj;
 
-  itk::BSplineDeformableTransform<float,3,3>::Pointer BSplineDeformableTransformObj =
-    itk::BSplineDeformableTransform<float,3,3>::New();
-  std::cout << "------------BSplineDeformableTransform" << BSplineDeformableTransformObj;
+  itk::BSplineTransform<float,3,3>::Pointer BSplineTransformObj =
+    itk::BSplineTransform<float,3,3>::New();
+  std::cout << "------------BSplineTransform" << BSplineTransformObj;
 
   itk::BSplineDerivativeKernelFunction<3>::Pointer BSplineDerivativeKernelFunctionObj =
     itk::BSplineDerivativeKernelFunction<3>::New();
@@ -192,22 +183,6 @@ int itkCommonPrintTest(int , char* [])
   itk::BinaryThresholdImageFunction<InputType>::Pointer BinaryThresholdImageFunctionObj =
     itk::BinaryThresholdImageFunction<InputType>::New();
   std::cout << "------------BinaryThresholdImageFunction" << BinaryThresholdImageFunctionObj;
-
-  itk::BloxBoundaryPointImage<3>::Pointer BloxBoundaryPointImageObj =
-    itk::BloxBoundaryPointImage<3>::New();
-  std::cout << "------------BloxBoundaryPointImage" << BloxBoundaryPointImageObj;
-
-  itk::BloxBoundaryProfileImage<3>::Pointer BloxBoundaryProfileImageObj =
-    itk::BloxBoundaryProfileImage<3>::New();
-  std::cout << "------------BloxBoundaryProfileImage" << BloxBoundaryProfileImageObj;
-
-  itk::BloxCoreAtomImage<3>::Pointer BloxCoreAtomImageObj =
-    itk::BloxCoreAtomImage<3>::New();
-  std::cout << "------------BloxCoreAtomImage" << BloxCoreAtomImageObj;
-
-  itk::BloxImage<BloxPixelType,3>::Pointer BloxImageObj =
-    itk::BloxImage<BloxPixelType,3>::New();
-  std::cout << "------------BloxImage" << BloxImageObj;
 
   itk::BoundingBox<unsigned long>::Pointer BoundingBoxObj =
     itk::BoundingBox<unsigned long>::New();
@@ -237,17 +212,15 @@ int itkCommonPrintTest(int , char* [])
     itk::ConicShellInteriorExteriorSpatialFunction<3>::New();
   std::cout << "------------ConicShellInteriorExteriorSpatialFunction" << ConicShellInteriorExteriorSpatialFunctionObj;
 
-  itk::CoreAtomImageToDistanceMatrixProcess<BloxCAImageType>::Pointer CoreAtomImageToDistanceMatrixProcessObj =
-    itk::CoreAtomImageToDistanceMatrixProcess<BloxCAImageType>::New();
-  std::cout << "------------CoreAtomImageToDistanceMatrixProcess" << CoreAtomImageToDistanceMatrixProcessObj;
-
   itk::CosImageAdaptor<InputType,InputType>::Pointer CosImageAdaptorObj =
     itk::CosImageAdaptor<InputType,InputType>::New();
   std::cout << "------------CosImageAdaptor" << CosImageAdaptorObj;
 
+#ifdef ITKV3_COMPATIBILITY
   itk::DifferenceImageFilter<InputType,OutputType>::Pointer DifferenceImageFilterObj =
     itk::DifferenceImageFilter<InputType,OutputType>::New();
   std::cout << "------------DifferenceImageFilter" << DifferenceImageFilterObj;
+#endif
 
   itk::DynamicLoader::Pointer DynamicLoaderObj =
     itk::DynamicLoader::New();
@@ -293,8 +266,8 @@ int itkCommonPrintTest(int , char* [])
     itk::FileOutputWindow::New();
   std::cout << "------------FileOutputWindow" << FileOutputWindowObj;
 
-  itk::FiniteCylinderSpatialFunction<2,PointType>::Pointer FiniteCylinderSpatialFunctionObj =
-    itk::FiniteCylinderSpatialFunction<2,PointType>::New();
+  itk::FiniteCylinderSpatialFunction<3,Point3DType>::Pointer FiniteCylinderSpatialFunctionObj =
+    itk::FiniteCylinderSpatialFunction<3,Point3DType>::New();
   std::cout << "------------FiniteCylinderSpatialFunction" << FiniteCylinderSpatialFunctionObj;
 
   itk::FrustumSpatialFunction<2,PointType>::Pointer FrustumSpatialFunctionObj =
@@ -377,12 +350,12 @@ int itkCommonPrintTest(int , char* [])
     itk::MatrixResizeableDataObject<double>::New();
   std::cout << "------------MatrixResizeableDataObject" << MatrixResizeableDataObjectObj;
 
-  itk::MaximumDecisionRule::Pointer MaximumDecisionRuleObj =
-    itk::MaximumDecisionRule::New();
+  itk::Statistics::MaximumDecisionRule::Pointer MaximumDecisionRuleObj =
+    itk::Statistics::MaximumDecisionRule::New();
   std::cout << "------------MaximumDecisionRule" << MaximumDecisionRuleObj;
 
-  itk::MaximumRatioDecisionRule::Pointer MaximumRatioDecisionRuleObj =
-    itk::MaximumRatioDecisionRule::New();
+  itk::Statistics::MaximumRatioDecisionRule::Pointer MaximumRatioDecisionRuleObj =
+    itk::Statistics::MaximumRatioDecisionRule::New();
   std::cout << "------------MaximumRatioDecisionRule" << MaximumRatioDecisionRuleObj;
 
   itk::MeanImageFunction<InputType,float>::Pointer MeanImageFunctionObj =
@@ -409,8 +382,8 @@ int itkCommonPrintTest(int , char* [])
     itk::MetaDataObject<VectorImageType>::New();
   std::cout << "------------MetaDataObject" << MetaDataObjectObj;
 #endif
-  itk::MinimumDecisionRule::Pointer MinimumDecisionRuleObj =
-    itk::MinimumDecisionRule::New();
+  itk::Statistics::MinimumDecisionRule::Pointer MinimumDecisionRuleObj =
+    itk::Statistics::MinimumDecisionRule::New();
   std::cout << "------------MinimumDecisionRule" << MinimumDecisionRuleObj;
 
   itk::MultiThreader::Pointer MultiThreaderObj =

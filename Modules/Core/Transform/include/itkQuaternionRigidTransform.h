@@ -42,20 +42,19 @@ namespace itk
  * the center of rotation.
  *
  *
- * \ingroup Transforms
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  */
-template< class TScalarType = double >
+template <class TScalarType = double>
 // Data type for scalars (float or double)
-class ITK_EXPORT QuaternionRigidTransform:
-  public Rigid3DTransform< TScalarType >
+class ITK_EXPORT QuaternionRigidTransform :
+  public Rigid3DTransform<TScalarType>
 {
 public:
   /** Standard class typedefs.   */
-  typedef QuaternionRigidTransform        Self;
-  typedef Rigid3DTransform< TScalarType > Superclass;
-  typedef SmartPointer< Self >            Pointer;
-  typedef SmartPointer< const Self >      ConstPointer;
+  typedef QuaternionRigidTransform      Self;
+  typedef Rigid3DTransform<TScalarType> Superclass;
+  typedef SmartPointer<Self>            Pointer;
+  typedef SmartPointer<const Self>      ConstPointer;
 
   /** New macro for creation of through a Smart Pointer   */
   itkNewMacro(Self);
@@ -90,7 +89,7 @@ public:
   typedef typename Superclass::TranslationType           TranslationType;
 
   /** VnlQuaternion type.  */
-  typedef vnl_quaternion< TScalarType > VnlQuaternionType;
+  typedef vnl_quaternion<TScalarType> VnlQuaternionType;
 
   /** Compute the Jacobian Matrix of the transformation at one point */
   /** Set the rotation of the rigid transform.
@@ -102,7 +101,9 @@ public:
    * This method returns the value of the rotation of the
    * QuaternionRigidTransform. */
   const VnlQuaternionType & GetRotation(void) const
-  { return m_Rotation; }
+  {
+    return m_Rotation;
+  }
 
   /** Set the parameters to the IdentityTransform */
   virtual void SetIdentity(void);
@@ -121,44 +122,46 @@ public:
    * given point or vector, returning the transformed point or
    * vector. The rank of the Jacobian will also indicate if the transform
    * is invertible at this point. */
-  const JacobianType & GetJacobian(const InputPointType  & point) const;
+  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const;
 
 protected:
-  QuaternionRigidTransform(const MatrixType & matrix,
-                           const OutputVectorType & offset);
-  QuaternionRigidTransform(unsigned int outputDims,
-                           unsigned int paramDims);
+  QuaternionRigidTransform(const MatrixType & matrix, const OutputVectorType & offset);
+  QuaternionRigidTransform(unsigned int paramDims);
   QuaternionRigidTransform();
-  ~QuaternionRigidTransform(){}
+  ~QuaternionRigidTransform()
+  {
+  }
 
   void ComputeMatrix();
 
   void ComputeMatrixParameters();
 
   void SetVarRotation(const VnlQuaternionType & rotation)
-  { m_Rotation = rotation; }
+  {
+    m_Rotation = rotation;
+  }
 
   const InverseMatrixType & GetInverseMatrix(void) const;
 
   void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  QuaternionRigidTransform(const Self &); //purposely not implemented
-  void operator=(const Self &);           //purposely not implemented
+  QuaternionRigidTransform(const Self &); // purposely not implemented
+  void operator=(const Self &);           // purposely not implemented
 
   /** Rotation of the transformation. */
   VnlQuaternionType m_Rotation;
-}; //class QuaternionRigidTransform
+}; // class QuaternionRigidTransform
 }  // namespace itk
 
 // Define instantiation macro for this template.
 #define ITK_TEMPLATE_QuaternionRigidTransform(_, EXPORT, TypeX, TypeY)     \
   namespace itk                                                            \
   {                                                                        \
-  _( 1 ( class EXPORT QuaternionRigidTransform< ITK_TEMPLATE_1 TypeX > ) ) \
+  _( 1 ( class EXPORT QuaternionRigidTransform<ITK_TEMPLATE_1 TypeX> ) ) \
   namespace Templates                                                      \
   {                                                                        \
-  typedef QuaternionRigidTransform< ITK_TEMPLATE_1 TypeX >                 \
+  typedef QuaternionRigidTransform<ITK_TEMPLATE_1 TypeX>                 \
   QuaternionRigidTransform##TypeY;                                       \
   }                                                                        \
   }
@@ -168,7 +171,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkQuaternionRigidTransform.txx"
+#include "itkQuaternionRigidTransform.hxx"
 #endif
 
 #endif /* __itkQuaternionRigidTransform_h */

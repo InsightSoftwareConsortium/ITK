@@ -44,7 +44,7 @@ namespace itk
  * \sa RegionalMinimaImageFilter
  *
  * \ingroup MathematicalMorphologyImageFilters
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  *
  * \wiki
  * \wikiexample{ImageProcessing/RegionalMaximaImageFilter,RegionalMaximaImageFilter}
@@ -156,7 +156,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRegionalMaximaImageFilter.txx"
+#include "itkRegionalMaximaImageFilter.hxx"
 #endif
 
 #endif

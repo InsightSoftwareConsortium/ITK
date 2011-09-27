@@ -15,21 +15,22 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #ifndef __itkFEMItpackSparseMatrix_h
 #define __itkFEMItpackSparseMatrix_h
 
 #include "itkFEMException.h"
 
-
-namespace itk {
-namespace fem {
-
+namespace itk
+{
+namespace fem
+{
 /**
  * \class ItpackSparseMatrix
  * \brief a compressed row sparse matrix representation that makes
  *        use of itpack to dynamically assemble the matrix
  * \sa ItpackLinearSystemWrapper
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 
 // Forward declaration of friend class
@@ -40,8 +41,8 @@ class ItpackSparseMatrix
 public:
 
   /** typedefs from f2c.h  */
-  typedef long      integer;
-  typedef double    doublereal;
+  typedef long   integer;
+  typedef double doublereal;
 
   /** Constructor */
   ItpackSparseMatrix();
@@ -51,7 +52,6 @@ public:
    * \param order the order of the matrix to be created
    */
   ItpackSparseMatrix(integer order);
-
 
   /**
    * Constructor with two parameters
@@ -71,14 +71,20 @@ public:
    * \param order the order of the matrix
    * \note the order must be set before any values are entered
    */
-  void SetOrder(integer order) { m_N = order; }
+  void SetOrder(integer order)
+  {
+    m_N = order;
+  }
 
   /**
    * Set the maximum number of non-zero values that may appear in the matrix
    * \param maxNonZeroValues maximum number of non-zero values that may appear in matrix
    * \note the maxNonZeroValues must be set before any values are entered
    */
-  void SetMaxNonZeroValues(integer maxNonZeroValues) { m_NZ = maxNonZeroValues; }
+  void SetMaxNonZeroValues(integer maxNonZeroValues)
+  {
+    m_NZ = maxNonZeroValues;
+  }
 
   /**
    * Insert a value into the matrix
@@ -105,12 +111,15 @@ public:
   /**
    * Get the order of the matrix (via "itpack-like" naming scheme)
    */
-  integer*    GetN()   { return &m_N; }
+  integer *    GetN()
+  {
+    return &m_N;
+  }
 
   /**
    * Get the row indices of the matrix (via "itpack-like" naming scheme)
    */
-  integer*     GetIA();
+  integer *     GetIA();
 
   /**
    * Pass pointers to compressed row format arrays
@@ -119,40 +128,56 @@ public:
    * \param a matrix values
    */
   void  SetCompressedRow(integer *ia, integer *ja, doublereal *a);
+
   /**
    * Get the column indices of the matrix (via "itpack-like" naming scheme)
    */
-  integer*     GetJA();
+  integer *     GetJA();
 
   /**
    * Get the values of the matrix (via "itpack-like" naming scheme)
    */
-  doublereal*  GetA();
+  doublereal *  GetA();
 
   /**
    * Get the values of the matrix
    */
-  doublereal* GetValueArray()       { return GetA();  }
+  doublereal * GetValueArray()
+  {
+    return GetA();
+  }
 
   /**
    * Get the column indices
    */
-  integer*    GetColumnArray()      { return GetJA(); }
+  integer *    GetColumnArray()
+  {
+    return GetJA();
+  }
 
   /**
    * Get the row indices
    */
-  integer*    GetRowArray()         { return GetIA(); }
+  integer *    GetRowArray()
+  {
+    return GetIA();
+  }
 
   /**
    * Get the order of the matrix
    */
-  integer     GetOrder()       const     { return m_N; }
+  integer     GetOrder()       const
+  {
+    return m_N;
+  }
 
   /**
    * Get the maximum number of non-zero values allowed in the matrix
    */
-  integer     GetMaxNonZeroValues() const { return m_NZ; }
+  integer     GetMaxNonZeroValues() const
+  {
+    return m_NZ;
+  }
 
   /**
    * Clear the memory
@@ -162,12 +187,12 @@ public:
   /**
    * Multiply the matrix by a vector
    */
-  void mult(doublereal* vector, doublereal* result);
+  void mult(doublereal *vector, doublereal *result);
 
   /**
    * Multiply the matrix by another ItpackSparseMatrix
    */
-  void mult(ItpackSparseMatrix* rightMatrix, ItpackSparseMatrix* resultMatrix);
+  void mult(ItpackSparseMatrix *rightMatrix, ItpackSparseMatrix *resultMatrix);
 
   /** output compressed row vectors: IA, JA, A */
   void PrintCompressedRow();
@@ -237,7 +262,7 @@ private:
    *       = 701 - Improper value for i or j
    *       = 701 - m_NZ is too small - no room for new entry
    */
-  //integer m_IER;
+  // integer m_IER;
 };
 
 /**
@@ -245,29 +270,32 @@ private:
  * \brief handles errors that occur when unfinalizing the matrix
  * \sa ItpackSparseMatrix
  * \sa FEMException
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 class FEMExceptionItpackSparseMatrixSbagn : public FEMException
 {
 public:
 
   /** typedefs from f2c.h  */
-  typedef long      integer;
-  typedef double    doublereal;
+  typedef long   integer;
+  typedef double doublereal;
 
   /**
    * Constructor. In order to construct this exception object, five parameters
    * must be provided: file, lineNumber, location and a detailed description
    * of the exception, and the invalid index
    */
-  FEMExceptionItpackSparseMatrixSbagn(const char *file, unsigned int lineNumber, std::string location, integer errorCode);
+  FEMExceptionItpackSparseMatrixSbagn(const char *file, unsigned int lineNumber, std::string location,
+                                      integer errorCode);
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  virtual ~FEMExceptionItpackSparseMatrixSbagn() throw() {}
+  virtual ~FEMExceptionItpackSparseMatrixSbagn()
+  throw ( )
+  {
+  }
 
   /** Type related information. */
-  itkTypeMacro(FEMExceptionItpackSparseMatrixSbagn,FEMException);
-
+  itkTypeMacro(FEMExceptionItpackSparseMatrixSbagn, FEMException);
 };
 
 /**
@@ -275,30 +303,33 @@ public:
  * \brief handles errors that occur when building the matrix
  * \sa ItpackSparseMatrix
  * \sa FEMException
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 class FEMExceptionItpackSparseMatrixSbsij : public FEMException
 {
 public:
   /** typedefs from f2c.h  */
-  typedef long      integer;
-  typedef double    doublereal;
+  typedef long   integer;
+  typedef double doublereal;
 
   /**
    * Constructor. In order to construct this exception object, five parameters
    * must be provided: file, lineNumber, location and a detailed description
    * of the exception, and the invalid index
    */
-  FEMExceptionItpackSparseMatrixSbsij(const char *file, unsigned int lineNumber, std::string location, integer errorCode);
+  FEMExceptionItpackSparseMatrixSbsij(const char *file, unsigned int lineNumber, std::string location,
+                                      integer errorCode);
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  virtual ~FEMExceptionItpackSparseMatrixSbsij() throw() {}
+  virtual ~FEMExceptionItpackSparseMatrixSbsij()
+  throw ( )
+  {
+  }
 
   /** Type related information. */
-  itkTypeMacro(FEMExceptionItpackSparseMatrixSbsij,FEMException);
-
+  itkTypeMacro(FEMExceptionItpackSparseMatrixSbsij, FEMException);
 };
-
-}} // end namespace itk::fem
+}
+}  // end namespace itk::fem
 
 #endif

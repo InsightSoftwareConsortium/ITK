@@ -25,7 +25,6 @@
 #include "itkArray2D.h"
 #include "itkTransform.h"
 
-
 namespace itk
 {
 /** \class IdentityTransform
@@ -44,20 +43,19 @@ namespace itk
  * vectors) and over the dimension of the space. In this case the Input
  * and Output spaces are the same so only one dimension is required.
  *
- * \ingroup Transforms
  *
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  */
-template< class TScalarType,
-          unsigned int NDimensions = 3 >
-class ITK_EXPORT IdentityTransform:public Transform< TScalarType, NDimensions, NDimensions >
+template <class TScalarType,
+          unsigned int NDimensions = 3>
+class ITK_EXPORT IdentityTransform : public Transform<TScalarType, NDimensions, NDimensions>
 {
 public:
   /** Standard class typedefs. */
-  typedef IdentityTransform                                  Self;
-  typedef Transform< TScalarType, NDimensions, NDimensions > Superclass;
-  typedef SmartPointer< Self >                               Pointer;
-  typedef SmartPointer< const Self >                         ConstPointer;
+  typedef IdentityTransform                                Self;
+  typedef Transform<TScalarType, NDimensions, NDimensions> Superclass;
+  typedef SmartPointer<Self>                               Pointer;
+  typedef SmartPointer<const Self>                         ConstPointer;
 
   /** New method for creating an object using a factory. */
   itkNewMacro(Self);
@@ -79,28 +77,28 @@ public:
   typedef  typename Superclass::JacobianType JacobianType;
 
   /** Standard vector type for this class. */
-  typedef Vector< TScalarType,
-                  itkGetStaticConstMacro(InputSpaceDimension) >  InputVectorType;
-  typedef Vector< TScalarType,
-                  itkGetStaticConstMacro(OutputSpaceDimension) > OutputVectorType;
+  typedef Vector<TScalarType,
+                 itkGetStaticConstMacro(InputSpaceDimension)>  InputVectorType;
+  typedef Vector<TScalarType,
+                 itkGetStaticConstMacro(OutputSpaceDimension)> OutputVectorType;
 
   /** Standard covariant vector type for this class */
-  typedef CovariantVector< TScalarType,
-                           itkGetStaticConstMacro(InputSpaceDimension) >  InputCovariantVectorType;
-  typedef CovariantVector< TScalarType,
-                           itkGetStaticConstMacro(OutputSpaceDimension) > OutputCovariantVectorType;
+  typedef CovariantVector<TScalarType,
+                          itkGetStaticConstMacro(InputSpaceDimension)>  InputCovariantVectorType;
+  typedef CovariantVector<TScalarType,
+                          itkGetStaticConstMacro(OutputSpaceDimension)> OutputCovariantVectorType;
 
   /** Standard vnl_vector type for this class. */
-  typedef vnl_vector_fixed< TScalarType,
-                            itkGetStaticConstMacro(InputSpaceDimension) >  InputVnlVectorType;
-  typedef vnl_vector_fixed< TScalarType,
-                            itkGetStaticConstMacro(OutputSpaceDimension) > OutputVnlVectorType;
+  typedef vnl_vector_fixed<TScalarType,
+                           itkGetStaticConstMacro(InputSpaceDimension)>  InputVnlVectorType;
+  typedef vnl_vector_fixed<TScalarType,
+                           itkGetStaticConstMacro(OutputSpaceDimension)> OutputVnlVectorType;
 
   /** Standard coordinate point type for this class */
-  typedef Point< TScalarType,
-                 itkGetStaticConstMacro(InputSpaceDimension) > InputPointType;
-  typedef Point< TScalarType,
-                 itkGetStaticConstMacro(OutputSpaceDimension) > OutputPointType;
+  typedef Point<TScalarType,
+                itkGetStaticConstMacro(InputSpaceDimension)> InputPointType;
+  typedef Point<TScalarType,
+                itkGetStaticConstMacro(OutputSpaceDimension)> OutputPointType;
 
   /** Base inverse transform type. This type should not be changed to the
    * concrete inverse transform type or inheritance would be lost.*/
@@ -109,26 +107,38 @@ public:
 
   /**  Method to transform a point. */
   virtual OutputPointType TransformPoint(const InputPointType  & point) const
-  { return point; }
+  {
+    return point;
+  }
 
   /**  Method to transform a vector. */
+  using Superclass::TransformVector;
   virtual OutputVectorType TransformVector(const InputVectorType & vector) const
-  { return vector; }
+  {
+    return vector;
+  }
 
   /**  Method to transform a vnl_vector. */
   virtual OutputVnlVectorType TransformVector(const InputVnlVectorType & vector) const
-  { return vector; }
+  {
+    return vector;
+  }
 
   /**  Method to transform a CovariantVector. */
+  using Superclass::TransformCovariantVector;
   virtual OutputCovariantVectorType TransformCovariantVector(
     const InputCovariantVectorType & vector) const
-  { return vector; }
+  {
+    return vector;
+  }
 
   /** Set the transformation to an Identity
    *
    * This is a NULL operation in the case of this particular transform.
      The method is provided only to comply with the interface of other transforms. */
-  void SetIdentity(void) {}
+  void SetIdentity(void)
+  {
+  }
 
   /** Compute the Jacobian of the transformation
    *
@@ -158,9 +168,25 @@ public:
    *
    * \f]
    */
-  virtual const JacobianType & GetJacobian(const InputPointType  &) const
+  virtual void ComputeJacobianWithRespectToParameters( const InputPointType &,
+                                                       JacobianType & jacobian) const
   {
-    return this->m_Jacobian;
+    jacobian = this->m_IdentityJacobian;
+  }
+
+  /** Get the jacobian with respect to position, which simply is an identity
+   *  jacobian because the transform is position-invariant.
+   *  \jac will be resized as needed, but it will be more efficient if
+   *  it is already properly sized. */
+  virtual void ComputeJacobianWithRespectToPosition(const InputPointType &,
+                                                    JacobianType & jac) const
+  {
+    jac.SetSize( NDimensions, NDimensions );
+    jac.Fill(0.0);
+    for( unsigned int dim = 0; dim < NDimensions; dim++ )
+      {
+      jac[dim][dim] = 1.0;
+      }
   }
 
   /** Return an inverse of the identity transform - another identity transform.
@@ -175,7 +201,10 @@ public:
    *
    *           T( a*P + b*Q ) = a * T(P) + b * T(Q)
    */
-  virtual bool IsLinear() const { return true; }
+  virtual bool IsLinear() const
+  {
+    return true;
+  }
 
   /** Get the Fixed Parameters. */
   virtual const ParametersType & GetFixedParameters(void) const
@@ -184,7 +213,9 @@ public:
   }
 
   /** Set the fixed parameters and update internal transformation. */
-  virtual void SetFixedParameters(const ParametersType &) {}
+  virtual void SetFixedParameters(const ParametersType &)
+  {
+  }
 
   /** Get the Parameters. */
   virtual const ParametersType & GetParameters(void) const
@@ -193,20 +224,26 @@ public:
   }
 
   /** Set the fixed parameters and update internal transformation. */
-  virtual void SetParameters(const ParametersType &) {}
+  virtual void SetParameters(const ParametersType &)
+  {
+  }
 protected:
-  IdentityTransform():Transform< TScalarType, NDimensions, NDimensions >(NDimensions, 0)
+  IdentityTransform() : Transform<TScalarType, NDimensions, NDimensions>(0),
+    m_IdentityJacobian(NDimensions, 0)
   {
     // The Jacobian is constant, therefore it can be initialized in the
     // constructor.
-    this->m_Jacobian = JacobianType(NDimensions, 0);
-    this->m_Jacobian.Fill(0.0);
+    this->m_IdentityJacobian.Fill(0.0);
   }
 
-  virtual ~IdentityTransform() {}
+  virtual ~IdentityTransform()
+  {
+  }
 private:
-  IdentityTransform(const Self &); //purposely not implemented
-  void operator=(const Self &);    //purposely not implemented
+  IdentityTransform(const Self &); // purposely not implemented
+  void operator=(const Self &);    // purposely not implemented
+
+  JacobianType m_IdentityJacobian;
 };
 } // end namespace itk
 

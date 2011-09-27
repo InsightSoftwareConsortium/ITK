@@ -53,7 +53,7 @@ namespace itk
  *      http://www.insight-journal.org/browse/publication/323
  *      http://hdl.handle.net/1926/1533
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  *
  * \wiki
  * \wikiexample{Segmentation/MultiphaseChanAndVeseSparseFieldLevelSetSegmentation,Multiphase Chan And Vese Sparse Field Level Set Segmentation}
@@ -62,7 +62,7 @@ namespace itk
  */
 template< class TInputImage, class TFeatureImage, class TOutputImage,
           class TFunction = ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage >,
-          class TSharedData = ITK_TYPENAME TFunction::SharedDataType,
+          class TSharedData = typename TFunction::SharedDataType,
           typename TIdCell = unsigned int >
 class ITK_EXPORT ScalarChanAndVeseSparseLevelSetImageFilter:
   public MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
@@ -154,7 +154,7 @@ protected:
 } //end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkScalarChanAndVeseSparseLevelSetImageFilter.txx"
+#include "itkScalarChanAndVeseSparseLevelSetImageFilter.hxx"
 #endif
 
 #endif

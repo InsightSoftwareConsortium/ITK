@@ -15,26 +15,52 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #ifndef __itkFEMElement3DC0LinearHexahedronMembrane_h
 #define __itkFEMElement3DC0LinearHexahedronMembrane_h
 
 #include "itkFEMElement3DC0LinearHexahedron.h"
 #include "itkFEMElement3DMembrane.h"
 
-namespace itk {
-namespace fem {
-
+namespace itk
+{
+namespace fem
+{
 /**
  * \class Element3DC0LinearHexahedronMembrane
- * \brief 8-noded finite element class in 3D space for linear elasticity problem
- * \ingroup ITK-FEM
+ * \brief 8-noded finite element class in 3D space.
+ * The constitutive equation used is from membrane bending energy.
+ *
+ *
+ * This class combines the geometry of the FE problem defined in
+ * \link Element3DC0LinearHexahedron\endlink
+ * and the physics of the problem defined in
+ * \link Element3DMembrane\endlink
+ *
+ * \sa Element3DC0LinearHexahedronStrain
+ *
+ * \ingroup ITKFEM
  */
 class Element3DC0LinearHexahedronMembrane : public Element3DMembrane<Element3DC0LinearHexahedron>
 {
-FEM_CLASS(Element3DC0LinearHexahedronMembrane,Element3DMembrane<Element3DC0LinearHexahedron>)
 public:
+  /** Standard class typedefs. */
+  typedef Element3DC0LinearHexahedronMembrane            Self;
+  typedef Element3DMembrane<Element3DC0LinearHexahedron> Superclass;
+  typedef SmartPointer<Self>                             Pointer;
+  typedef SmartPointer<const Self>                       ConstPointer;
 
-  HANDLE_ELEMENT_LOADS();
+  /** Method for creation through the object factory. */
+  itkSimpleNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Element3DC0LinearHexahedronMembrane, Element3DMembrane<Element3DC0LinearHexahedron> );
+
+  /**
+   * CreateAnother method will clone the existing instance of this type,
+   * including its internal member variables.
+   */
+  virtual::itk::LightObject::Pointer CreateAnother(void) const;
 
   /**
    * Default constructor only clears the internal storage
@@ -45,14 +71,13 @@ public:
    * Construct an element by specifying pointers to
    * an array of 8 points and a material.
    */
-  Element3DC0LinearHexahedronMembrane(
-      NodeIDType ns_[],
-      Material::ConstPointer p_ );
+  Element3DC0LinearHexahedronMembrane(NodeIDType ns_[], Material::ConstPointer p_);
+protected:
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
-}; // class Element3DC0LinearHexahedronMembrane
+};  // class Element3DC0LinearHexahedronMembrane
 
-FEM_CLASS_INIT(Element3DC0LinearHexahedronMembrane)
-
-}} // end namespace itk::fem
+}
+}  // end namespace itk::fem
 
 #endif  // #ifndef __itkFEMElement3DC0LinearHexahedronMembrane_h

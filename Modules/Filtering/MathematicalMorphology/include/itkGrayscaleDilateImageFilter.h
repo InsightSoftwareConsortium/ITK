@@ -42,7 +42,7 @@ namespace itk
  *
  * \sa MorphologyImageFilter, GrayscaleFunctionDilateImageFilter, BinaryDilateImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
- * \ingroup ITK-MathematicalMorphology
+ * \ingroup ITKMathematicalMorphology
  *
  * \wiki
  * \wikiexample{Morphology/GrayscaleDilateImageFilter,Dilate a grayscale image}
@@ -160,7 +160,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGrayscaleDilateImageFilter.txx"
+#include "itkGrayscaleDilateImageFilter.hxx"
 #endif
 
 #endif

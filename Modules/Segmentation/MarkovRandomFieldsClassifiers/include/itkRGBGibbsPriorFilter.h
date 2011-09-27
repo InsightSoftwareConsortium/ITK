@@ -26,11 +26,10 @@
 namespace itk
 {
 /** \class RGBGibbsPriorFilter
- * \brief
+ * \brief The RGBGibbsPriorFilter applies Gibbs Prior model for the segmentation
+ * of MRF images.
  *
- * RGBGibbsPriorFilter applies Gibbs Prior model for the segmentation
- * of MRF images. The core of the method is based on the minimization of a
- * Gibbsian energy function.
+ * The core of the method is based on the minimization of a Gibbsian energy function.
  * This energy function f can be divided into three part:
  *   f = f_1 + f_2 + f_3;
  * f_1 is related to the object homogeneity,
@@ -39,8 +38,10 @@ namespace itk
  * The two force components f_1 and f_3 are minimized by the GradientEnergy
  * method while f_2 is minized by the GibbsTotalEnergy method.
  *
+ * This filter only works with 3D images.
+ *
  * \ingroup MRFFilters
- * \ingroup ITK-MarkovRandomFieldsClassifiers
+ * \ingroup ITKMarkovRandomFieldsClassifiers
  */
 template< class TInputImage, class TClassifiedImage >
 class ITK_EXPORT RGBGibbsPriorFilter:public MRFImageFilter< TInputImage,
@@ -76,6 +77,7 @@ public:
   typedef typename TInputImage::PixelType InputPixelType;
 
   /** Type definitions for the training image. */
+  typedef TClassifiedImage                   ClassifiedImageType;
   typedef typename TClassifiedImage::Pointer TrainingImageType;
 
   /** Type definitions for the labelled image.
@@ -171,6 +173,17 @@ protected:
 
   virtual void ApplyGPImageFilter();
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro( SameDimension,
+                   ( Concept::SameDimension< itkGetStaticConstMacro(InputImageType::ImageDimension),
+                                             itkGetStaticConstMacro(ClassifiedImageType::ImageDimension) > ) );
+  itkConceptMacro( DimensionShouldBe3,
+                   ( Concept::SameDimension< itkGetStaticConstMacro(InputImageType::ImageDimension), 3 > ) );
+  /** End concept checking */
+#endif
+
+
 private:
   RGBGibbsPriorFilter(const Self &);
   void operator=(const Self &);
@@ -250,6 +263,6 @@ private:
 };
 } // end namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRGBGibbsPriorFilter.txx"
+#include "itkRGBGibbsPriorFilter.hxx"
 #endif
 #endif

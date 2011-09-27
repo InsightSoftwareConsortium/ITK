@@ -18,7 +18,7 @@
 #include "itkRealTimeStamp.h"
 #include "itkNumericTraits.h"
 
-// This macro makes sure that it the number of microseconds is ever enough to
+// This macro makes sure that if the number of microseconds is ever enough to
 // complete a second, then the number of seconds will be incremented, and the
 // remainder of microseconds will be kept. It also ensures that if the number
 // of microseconds is negative, then we decrement the number of seconds and
@@ -53,7 +53,7 @@ if( seconds < 0 && micro_seconds > 0 ) \
 namespace itk
 {
 
-/*
+/**
  * Constructor to initialize a time stamp
  */
 RealTimeStamp::RealTimeStamp()
@@ -62,10 +62,10 @@ RealTimeStamp::RealTimeStamp()
   this->m_MicroSeconds = itk::NumericTraits< MicroSecondsCounterType >::Zero;
 }
 
-/*
+/**
  * Constructor with values to initialize a time stamp.
  * This constructor should only be called from the RealTimeClock,
- * or from an file reading class.
+ * or from a file reading class.
  */
 RealTimeStamp::RealTimeStamp( SecondsCounterType seconds, MicroSecondsCounterType micro_seconds )
 {
@@ -73,14 +73,14 @@ RealTimeStamp::RealTimeStamp( SecondsCounterType seconds, MicroSecondsCounterTyp
   this->m_MicroSeconds = micro_seconds;
 }
 
-/*
+/**
  * Destructor.
  */
 RealTimeStamp::~RealTimeStamp()
 {
 }
 
-/*
+/**
  * Return time in microseconds.
  */
 RealTimeStamp::TimeRepresentationType
@@ -106,7 +106,7 @@ RealTimeStamp::GetTimeInMilliSeconds() const
   return result;
 }
 
-/*
+/**
  * Return time in second.
  */
 RealTimeStamp::TimeRepresentationType
@@ -119,7 +119,7 @@ RealTimeStamp::GetTimeInSeconds() const
   return result;
 }
 
-/*
+/**
  * Return time in minutes.
  */
 RealTimeStamp::TimeRepresentationType
@@ -129,7 +129,7 @@ RealTimeStamp::GetTimeInMinutes() const
   return result;
 }
 
-/*
+/**
  * Return time in hours.
  */
 RealTimeStamp::TimeRepresentationType
@@ -140,7 +140,7 @@ RealTimeStamp::GetTimeInHours() const
 }
 
 
-/*
+/**
  * Return time in days.
  */
 RealTimeStamp::TimeRepresentationType
@@ -151,7 +151,7 @@ RealTimeStamp::GetTimeInDays() const
 }
 
 
-/*
+/**
  * Compute the time interval between two time stamps.
  */
 RealTimeInterval
@@ -171,7 +171,7 @@ RealTimeStamp::operator-( const Self & other ) const
 }
 
 
-/*
+/**
  * Add a time interval to this time stamp to compute a new time stamp.
  */
 RealTimeStamp
@@ -197,7 +197,7 @@ RealTimeStamp::operator+( const RealTimeInterval & difference ) const
 }
 
 
-/*
+/**
  * Add a time interval to this time stamp to compute a new time stamp.
  */
 RealTimeStamp
@@ -222,7 +222,7 @@ RealTimeStamp::operator-( const RealTimeInterval & difference ) const
   return result;
 }
 
-/*
+/**
  * Add a time interval to this time stamp and update it.
  */
 const RealTimeStamp &
@@ -245,7 +245,7 @@ RealTimeStamp::operator+=( const RealTimeInterval & difference )
   return *this;
 }
 
-/*
+/**
  * Subtract a time interval from this time stamp and update it.
  */
 const RealTimeStamp &
@@ -268,7 +268,7 @@ RealTimeStamp::operator-=( const RealTimeInterval & difference )
   return *this;
 }
 
-/*
+/**
  * Compare two time Stamps.
  */
 bool
@@ -287,7 +287,7 @@ RealTimeStamp::operator>( const Self & other ) const
   return ( this->m_MicroSeconds > other.m_MicroSeconds );
 }
 
-/*
+/**
  * Compare two time Stamps.
  */
 bool
@@ -306,7 +306,7 @@ RealTimeStamp::operator<( const Self & other ) const
   return ( this->m_MicroSeconds < other.m_MicroSeconds );
 }
 
-/*
+/**
  * Compare two time Stamps.
  */
 bool
@@ -325,7 +325,7 @@ RealTimeStamp::operator>=( const Self & other ) const
   return ( this->m_MicroSeconds >= other.m_MicroSeconds );
 }
 
-/*
+/**
  * Compare two time Stamps.
  */
 bool
@@ -345,7 +345,7 @@ RealTimeStamp::operator<=( const Self & other ) const
 }
 
 
-/*
+/**
  * Compare two time Stamps.
  */
 bool
@@ -355,7 +355,7 @@ RealTimeStamp::operator==( const Self & other ) const
            ( this->m_Seconds == other.m_Seconds ) );
 }
 
-/*
+/**
  * Compare two time Stamps.
  */
 bool

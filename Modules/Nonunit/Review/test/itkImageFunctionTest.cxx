@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <iostream>
 
@@ -32,7 +29,7 @@ namespace itk {
 template< class TInputImage, class TCoordRep = double >
 class ITK_EXPORT TestImageFunction:
   public ImageFunction< TInputImage,
-                        ITK_TYPENAME NumericTraits<
+                        typename NumericTraits<
                           typename TInputImage::PixelType >::RealType,
                         TCoordRep >
 {

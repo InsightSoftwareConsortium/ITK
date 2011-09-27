@@ -39,13 +39,13 @@ namespace itk
  * \sa MeanImageFunction
  *
  * \ingroup ImageFunctions
- * \ingroup ITK-ImageFunction
+ * \ingroup ITKImageFunction
  */
 template< class TInputImage, class TCoordRep = float >
 class ITK_EXPORT VectorMeanImageFunction:
   public ImageFunction< TInputImage,
                         FixedArray<
-                          ITK_TYPENAME NumericTraits< typename TInputImage::PixelType::ValueType >::RealType,
+                          typename NumericTraits< typename TInputImage::PixelType::ValueType >::RealType,
                           ::itk::GetVectorDimension< typename TInputImage::PixelType >::VectorDimension >,
                         TCoordRep >
 {
@@ -54,7 +54,7 @@ public:
   typedef VectorMeanImageFunction Self;
   typedef ImageFunction< TInputImage,
                          FixedArray<
-                           ITK_TYPENAME NumericTraits< typename TInputImage::PixelType::ValueType >::RealType,
+                           typename NumericTraits< typename TInputImage::PixelType::ValueType >::RealType,
                            ::itk::GetVectorDimension< typename TInputImage::PixelType >::VectorDimension >,
                          TCoordRep >                     Superclass;
 
@@ -147,7 +147,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkVectorMeanImageFunction.txx"
+#include "itkVectorMeanImageFunction.hxx"
 #endif
 
 #endif

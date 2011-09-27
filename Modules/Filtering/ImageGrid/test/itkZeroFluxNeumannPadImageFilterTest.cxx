@@ -15,13 +15,11 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <fstream>
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
+#include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkZeroFluxNeumannPadImageFilter.h"
 #include "itkFileOutputWindow.h"
 #include "itkMultiThreader.h"

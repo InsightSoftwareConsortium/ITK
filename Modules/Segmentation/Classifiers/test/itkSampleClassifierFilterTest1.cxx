@@ -15,14 +15,11 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkArray.h"
 #include "itkListSample.h"
 #include "itkSampleClassifierFilter.h"
-#include "itkMaximumDecisionRule2.h"
+#include "itkMaximumDecisionRule.h"
 #include "itkDistanceToCentroidMembershipFunction.h"
 #include "itkMeasurementVectorTraits.h"
 
@@ -206,7 +203,7 @@ int itkSampleClassifierFilterTest1( int, char * [] )
     }
 
   //Set a decision rule type
-  typedef itk::Statistics::MaximumDecisionRule2  DecisionRuleType;
+  typedef itk::Statistics::MaximumDecisionRule  DecisionRuleType;
 
   DecisionRuleType::Pointer    decisionRule = DecisionRuleType::New();
   filter->SetDecisionRule( decisionRule );

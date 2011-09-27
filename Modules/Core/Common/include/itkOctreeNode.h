@@ -28,6 +28,8 @@ class OctreeBase;
 
 /**
  * \class OctreeNode
+ * \brief A data structure representing a node in an Octree.
+ *
  * OctreeNode data structure,  OctreeNodes have two states: 1) They are a Colored node and the
  * m_Branch is a sentinal value indicating the color, or 2) they are a branch node, and m_Branch
  * is a dynamically allocated array of 8 pointers to OctreeNodes.  In the second state, the 8 child
@@ -36,7 +38,7 @@ class OctreeBase;
  * This class is the basic building block of an octree.  It is rarely used by itself, and commonly
  * used by the Octree class.
  * \todo FIXME copy & paste documentation in all methods.
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 class ITKCommon_EXPORT OctreeNode
 {

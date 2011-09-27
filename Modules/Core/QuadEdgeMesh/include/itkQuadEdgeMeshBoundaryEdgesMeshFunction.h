@@ -28,11 +28,10 @@ namespace itk
  * \brief Build a list of references to edges (as \ref GeometricalQuadEdge::RawPointer)
  *        each one representing a different boundary component.
  * \note  Each resulting edge has the surface on its right and is hence
- *        ready for an walk on with the help of
- *        \ref QEPrimal::IteratorGeom::BeginGeomLnext().
+ *        ready for a walk on with the help of BeginGeomLnext().
  * \note  The size() of the resulting list is the number of boundary
  *        components.
- * \ingroup ITK-QuadEdgeMesh
+ * \ingroup ITKQuadEdgeMesh
  */
 template< class TMesh >
 class ITK_EXPORT QuadEdgeMeshBoundaryEdgesMeshFunction:
@@ -72,7 +71,7 @@ private:
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkQuadEdgeMeshBoundaryEdgesMeshFunction.txx"
+#include "itkQuadEdgeMeshBoundaryEdgesMeshFunction.hxx"
 #endif
 
 #endif

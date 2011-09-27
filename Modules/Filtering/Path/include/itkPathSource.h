@@ -34,7 +34,7 @@ namespace itk
  *
  * \ingroup DataSources
  * \ingroup Paths
- * \ingroup ITK-Path
+ * \ingroup ITKPath
  */
 
 template< class TOutputPath >
@@ -184,7 +184,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPathSource.txx"
+#include "itkPathSource.hxx"
 #endif
 
 #endif

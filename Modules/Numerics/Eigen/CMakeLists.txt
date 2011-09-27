@@ -1,2 +1,2 @@
-project(ITK-Eigen)
+project(ITKEigen)
 itk_module_impl()

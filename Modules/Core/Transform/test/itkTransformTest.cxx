@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <iostream>
 
@@ -30,71 +27,94 @@ namespace itkTransformTestHelpers
 {
 
 template <
-    class TScalarType,
-    unsigned int NInputDimensions,
-    unsigned int NOutputDimensions>
+  class TScalarType,
+  unsigned int NInputDimensions,
+  unsigned int NOutputDimensions>
 class TransformTestHelper :
-          public Transform< TScalarType, NInputDimensions, NOutputDimensions >
+  public Transform<TScalarType, NInputDimensions, NOutputDimensions>
 {
 public:
-  typedef TransformTestHelper                                           Self;
-  typedef Transform< TScalarType, NInputDimensions, NOutputDimensions > Superclass;
-  typedef SmartPointer<Self>                                            Pointer;
-  typedef SmartPointer<const Self>                                      ConstPointer;
+  typedef TransformTestHelper                                         Self;
+  typedef Transform<TScalarType, NInputDimensions, NOutputDimensions> Superclass;
+  typedef SmartPointer<Self>                                          Pointer;
+  typedef SmartPointer<const Self>                                    ConstPointer;
 
   itkNewMacro( Self );
   itkTypeMacro( TransformTestHelper, Transform );
 
-  typedef typename Superclass::JacobianType                JacobianType;
-  typedef typename Superclass::ParametersType              ParametersType;
-  typedef typename Superclass::InputPointType              InputPointType;
-  typedef typename Superclass::OutputPointType             OutputPointType;
-  typedef typename Superclass::InputVectorType             InputVectorType;
-  typedef typename Superclass::OutputVectorType            OutputVectorType;
-  typedef typename Superclass::InputVnlVectorType          InputVnlVectorType;
-  typedef typename Superclass::OutputVnlVectorType         OutputVnlVectorType;
-  typedef typename Superclass::InputCovariantVectorType    InputCovariantVectorType;
-  typedef typename Superclass::OutputCovariantVectorType   OutputCovariantVectorType;
+  typedef typename Superclass::JacobianType              JacobianType;
+  typedef typename Superclass::ParametersType            ParametersType;
+  typedef typename Superclass::InputPointType            InputPointType;
+  typedef typename Superclass::OutputPointType           OutputPointType;
+  typedef typename Superclass::InputVectorType           InputVectorType;
+  typedef typename Superclass::OutputVectorType          OutputVectorType;
+  typedef typename Superclass::InputVnlVectorType        InputVnlVectorType;
+  typedef typename Superclass::OutputVnlVectorType       OutputVnlVectorType;
+  typedef typename Superclass::InputCovariantVectorType  InputCovariantVectorType;
+  typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
 
   virtual OutputPointType TransformPoint(const InputPointType  & inputPoint ) const
-    { return inputPoint; }
+  {
+    return inputPoint;
+  }
 
+  using Superclass::TransformVector;
   virtual OutputVectorType TransformVector(const InputVectorType  & inputVector ) const
-    { return inputVector; }
+  {
+    return inputVector;
+  }
 
   virtual OutputVnlVectorType TransformVector(const InputVnlVectorType  & inputVector ) const
-    { return inputVector; }
+  {
+    return inputVector;
+  }
 
+  using Superclass::TransformCovariantVector;
   virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType  & inputVector ) const
-    { return inputVector; }
+  {
+    return inputVector;
+  }
 
-  virtual const JacobianType & GetJacobian(const InputPointType  & ) const
-    { return this->m_Jacobian; }
+  virtual void ComputeJacobianWithRespectToParameters(const InputPointType &,
+                                                      JacobianType & j) const
+  {
+    j.SetSize(3, 6); j.Fill(1);
+  }
 
-  virtual void SetParameters(const ParametersType &) {}
-  virtual void SetFixedParameters(const ParametersType &) {}
+  inline virtual void ComputeJacobianWithRespectToPosition(
+    const InputPointType &,
+    JacobianType & j ) const
+  {
+    j.SetSize(NOutputDimensions, NInputDimensions); j.Fill(1);
+  }
+
+  virtual void SetParameters(const ParametersType &)
+  {
+  }
+  virtual void SetFixedParameters(const ParametersType &)
+  {
+  }
 };
 
-
 }
 }
 
-int itkTransformTest(int, char* [] )
+int itkTransformTest(int, char * [] )
 {
 
-  typedef  itk::itkTransformTestHelpers::TransformTestHelper<double,3,3>      TransformType;
+  typedef  itk::itkTransformTestHelpers::TransformTestHelper<double, 3, 3> TransformType;
   TransformType::Pointer transform = TransformType::New();
 
   TransformType::InputPointType pnt;
   transform->TransformPoint(pnt);
 
-  TransformType::InputVectorType  vec;
+  TransformType::InputVectorType vec;
   transform->TransformVector(vec);
 
-  TransformType::InputVnlVectorType   vec_vnl;
+  TransformType::InputVnlVectorType vec_vnl;
   transform->TransformVector(vec_vnl);
 
-  TransformType::InputCovariantVectorType    covec;
+  TransformType::InputCovariantVectorType covec;
   transform->TransformCovariantVector(covec);
 
   TransformType::ParametersType parameters(6);
@@ -116,9 +136,21 @@ int itkTransformTest(int, char* [] )
     std::cerr << e << std::endl;
     }
 
+  TransformType::JacobianType jacobian;
   try
     {
-    transform->GetJacobian(pnt);
+    transform->ComputeJacobianWithRespectToParameters(pnt, jacobian);
+    }
+  catch( itk::ExceptionObject & e )
+    {
+    std::cerr << e << std::endl;
+    }
+
+  TransformType::DerivativeType update( transform->GetNumberOfParameters() );
+  update.Fill(1);
+  try
+    {
+    transform->UpdateTransformParameters( update );
     }
   catch( itk::ExceptionObject & e )
     {

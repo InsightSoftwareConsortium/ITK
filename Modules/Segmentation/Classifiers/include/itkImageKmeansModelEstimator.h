@@ -40,20 +40,20 @@
 namespace itk
 {
 /** \class ImageKmeansModelEstimator
- * \brief Base class for ImageKmeansModelEstimator object
+ * \brief Base class for ImageKmeansModelEstimator object.
  *
- * itkImageKmeansModelEstimator generated the kmeans model (cluster centers).
- * This object performs clustering of data sets into different clusters
- * either using user provided seed points as initial guess or generating
+ * itkImageKmeansModelEstimator generates the kmeans model (cluster centers).
+ * This object performs clustering of data sets into different clusters,
+ * either using user-provided seed points as an initial guess or generating
  * the clusters using a recursive approach when the user provides the
  * number of desired clusters. Each cluster is represented by its cluster
  * center. The two algorithms used are the generalized Lloyd
- * algorithm (GLA) and the Linde-Buzo-Gray algorithms. The cluster centers
- * are also referred to as codewords and a table of cluster centers is
+ * algorithm (GLA) and the Linde-Buzo-Gray algorithm. The cluster centers
+ * are also referred to as codewords and a table of cluster centers
  * is referred as a codebook.
  *
  * As required by the GLA algorithm, the initial seed cluster should contain
- * approximate centers of clusters.  The GLA algorithm genrates an updated
+ * approximate centers of clusters.  The GLA algorithm genrates updated
  * cluster centers that result in a lower distortion than the input seed
  * cluster when the input vectors are mapped/classified/labelled using the
  * given codebooks.
@@ -63,16 +63,16 @@ namespace itk
  * centroids of the input vectors (data). However, since there is no initial
  * codebook, LBG first creates a one word codebook (or centroid of one
  * cluster comprising of all the input training vectors). The LBG uses
- * codeword/or centroid splitting to create increasing number of clusters.
+ * codeword or centroid splitting to create an increasing number of clusters.
  * Each new set of clusters are optimized using the GLA algorithm.
  * The number of clusters increases as $2^{n}$ n= 0, 1, ... The codebook
- * is expected to be in the form of a vnl matrix, where there are N rows.
+ * is expected to be in the form of a vnl matrix, where there are N rows,
  * each row representing the cluster mean of a given cluster. The number
- * of columns in a the codebook should be equal to the input image vector
+ * of columns in the codebook should be equal to the input image vector
  * dimension.
  *
- * The threshold parameter controls the ``optimality'' of the returned
- * codebook where optimality is related to the least possible
+ * The threshold parameter controls the ''optimality'' of the returned
+ * codebook, where optimality is related to the least possible
  * mean-squared error distortion that can be found by the algorithm.
  * For larger thresholds, the result will be less optimal.  For
  * smaller thresholds, the result will be more optimal.  If a more
@@ -80,9 +80,9 @@ namespace itk
  * complete. A reasonable threshold value is 0.01.
  *
  * If, during the operation of the algorithm, there are any unused
- * clusters or cells, the m_OffsetAdd and m_OffsetMultiply parameters is
+ * clusters or cells, the m_OffsetAdd and m_OffsetMultiply parameters are
  * used to split the cells with the highest distortion.  This
- * functions will attempt to fill empty cells up to 10 times (unless
+ * function will attempt to fill empty cells up to 10 times (unless
  * the overall distortion is zero). Using 0.01 is a reasonable default
  * values for the m_OffsetAdd and m_OffsetMultiply parameters.
  *
@@ -120,7 +120,7 @@ namespace itk
  * \sa ScalarImageKmeansImageFilter
  *
  * \ingroup ClassificationFilters
- * \ingroup ITK-Classifiers
+ * \ingroup ITKClassifiers
  */
 template< class TInputImage,
           class TMembershipFunction >
@@ -175,8 +175,7 @@ public:
   itkGetConstMacro(Codebook, CodebookMatrixOfDoubleType);
 
   /** Get the optimized codebook or the centroids of the clusters. */
-  CodebookMatrixOfDoubleType GetOutCodebook()
-  { return m_Codebook; }
+  CodebookMatrixOfDoubleType GetOutCodebook() { return m_Codebook; }
 
   /** Set the threshold parameter. */
   itkSetMacro(Threshold, double);
@@ -203,8 +202,7 @@ public:
   itkGetConstMacro(MaxSplitAttempts, int);
 
   /** Return the codebook/cluster centers. */
-  CodebookMatrixOfDoubleType GetKmeansResults(void)
-  { return m_Centroid; }
+  CodebookMatrixOfDoubleType GetKmeansResults(void) { return m_Centroid; }
 protected:
   ImageKmeansModelEstimator();
   ~ImageKmeansModelEstimator();
@@ -281,7 +279,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageKmeansModelEstimator.txx"
+#include "itkImageKmeansModelEstimator.hxx"
 #endif
 
 #endif

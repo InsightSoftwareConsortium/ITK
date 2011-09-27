@@ -15,15 +15,13 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
-
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
 #include "itkResampleImageFilter.h"
+#include "itkImage.h"
+#include "itkLinearInterpolateImageFunction.h"
 
 #include "itkBSplineDeformableTransform.h"
 
@@ -188,15 +186,14 @@ static int RunTest(int argc, char * argv [] )
 
   const unsigned int numberOfParameters = bsplineTransform->GetNumberOfParameters();
 
-  const unsigned int numberOfNodes = numberOfParameters / SpaceDimension;
 
   ParametersType parameters( numberOfParameters );
-
 
   std::ifstream infile;
 
   infile.open( argv[1] );
 
+  const unsigned int numberOfNodes = numberOfParameters / SpaceDimension;
   for( unsigned int n=0; n < numberOfNodes; n++ )
     {
     infile >>  parameters[n];
@@ -205,14 +202,11 @@ static int RunTest(int argc, char * argv [] )
 
   infile.close();
 
-
   bsplineTransform->SetParameters( parameters );
-
 
   typename CommandProgressUpdate::Pointer observer = CommandProgressUpdate::New();
 
   resampler->AddObserver( itk::ProgressEvent(), observer );
-
 
   resampler->SetTransform( bsplineTransform );
 

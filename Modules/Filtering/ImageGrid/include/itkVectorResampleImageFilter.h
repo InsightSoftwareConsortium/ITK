@@ -48,8 +48,8 @@ namespace itk
  * This filter is implemented as a multithreaded filter.  It provides a
  * ThreadedGenerateData() method for its implementation.
  *
- * \ingroup GeometricTransforms
- * \ingroup ITK-ImageGrid
+ * \ingroup GeometricTransform
+ * \ingroup ITKImageGrid
  *
  * \wiki
  * \wikiexample{VectorImages/VectorResampleImageFilter,Translate a vector image}
@@ -241,7 +241,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVectorResampleImageFilter.txx"
+#include "itkVectorResampleImageFilter.hxx"
 #endif
 
 #endif

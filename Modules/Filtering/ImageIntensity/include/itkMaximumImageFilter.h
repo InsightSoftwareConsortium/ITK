@@ -22,25 +22,13 @@
 
 namespace itk
 {
-/** \class MaximumImageFilter
- * \brief Implements a pixel-wise operator Max(a,b) between two images.
- *
- * The pixel values of the output image are the maximum between the
- * corresponding pixels of the two input images.
- *
- * This class is parametrized over the types of the two
- * input images and the type of the output image.
- * Numeric conversions (castings) are done by the C++ defaults.
- *
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageIntensity
- *
- * \wiki
- * \wikiexample{ImageProcessing/MaximumImageFilter,Pixel wise compare two input images and set the output pixel to their max}
- * \endwiki
- */
 namespace Functor
 {
+/**
+ * \class Maximum
+ * \brief
+ * \ingroup ITKImageIntensity
+ */
 template< class TInput1, class TInput2 = TInput1, class TOutput = TInput1 >
 class Maximum
 {
@@ -70,7 +58,24 @@ public:
   }
 };
 }
-
+/** \class MaximumImageFilter
+ * \brief Implements a pixel-wise operator Max(a,b) between two images.
+ *
+ * The pixel values of the output image are the maximum between the
+ * corresponding pixels of the two input images.
+ *
+ * This class is templated over the types of the two
+ * input images and the type of the output image.
+ * Numeric conversions (castings) are done by the C++ defaults.
+ *
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
+ * \ingroup ITKImageIntensity
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/MaximumImageFilter,Pixel wise compare two input images and set the output pixel to their max}
+ * \endwiki
+ */
 template< class TInputImage1, class TInputImage2 = TInputImage1, class TOutputImage = TInputImage1 >
 class ITK_EXPORT MaximumImageFilter:
   public

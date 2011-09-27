@@ -15,14 +15,16 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #ifndef __itkFEMLoadElementBase_h
 #define __itkFEMLoadElementBase_h
 
 #include "itkFEMLoadBase.h"
 
-namespace itk {
-namespace fem {
-
+namespace itk
+{
+namespace fem
+{
 /**
  * \class LoadElement
  * \brief Virtual element load base class.
@@ -37,12 +39,27 @@ namespace fem {
  * the Element's Fe() member funtion is called with the pointer to the LoadElement class that is
  * prescribed on that element. Fe() function shuld dynamically cast this pointer to specific
  * load class, which it can handle and return the element's force vector.
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 class LoadElement : public Load
 {
-  FEM_CLASS(LoadElement,Load)
 public:
+  /** Standard class typedefs. */
+  typedef LoadElement              Self;
+  typedef Load                     Superclass;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
+
+  /** Method for creation through the object factory. */
+  itkSimpleNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(LoadElement, Load);
+
+  /** CreateAnother method will clone the existing instance of this type,
+   * including its internal member variables. */
+  virtual::itk::LightObject::Pointer CreateAnother(void) const;
+
   /**
    * Float type used in Element and derived classes
    */
@@ -51,19 +68,46 @@ public:
   /**
    * Type of array of pointers to element objects
    */
-  typedef std::vector<Element::ConstPointer> ElementPointersVectorType;
-  ElementPointersVectorType el;  /** pointers to element objects on which the load acts */
-
-  virtual void Read( std::istream& f, void* info );
-  void Write( std::ostream& f ) const;
+  typedef std::vector<const Element *> ElementPointersVectorType;
 
   // FIXME: should clear vector, not zero it
-  LoadElement() : el(0) {}
+  LoadElement() : m_Element(0)
+  {
+  }
+  void AddNextElement(Element::ConstPointer e)
+    {
+      this->AddNextElementInternal(e.GetPointer());
+    }
+  void AddNextElement(Element::Pointer e)
+    {
+      this->AddNextElementInternal(e.GetPointer());
+    }
 
+  Element::ConstPointer GetElement(int i);
+
+  unsigned int GetNumberOfElements(void);
+
+  ElementPointersVectorType & GetElementArray()
+    {
+      return this->m_Element;
+    }
+
+  const ElementPointersVectorType & GetElementArray() const
+    {
+      return this->m_Element;
+    }
+
+  /** Apply the load to the specified element */
+  virtual void ApplyLoad(Element::ConstPointer , Element::VectorType & ) { /* HACK:  This should probably through an execption if it is not intended to be used. */ }
+
+protected:
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  void AddNextElementInternal(const Element *e);
+  ElementPointersVectorType m_Element;  /** pointers to element objects on which the
+                                   load acts */
 };
 
-FEM_CLASS_INIT(LoadElement)
-
-}} // end namespace itk::fem
+}
+}  // end namespace itk::fem
 
 #endif // #ifndef __itkFEMLoadElementBase_h

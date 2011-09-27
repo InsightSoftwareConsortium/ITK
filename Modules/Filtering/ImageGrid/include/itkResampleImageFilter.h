@@ -22,6 +22,7 @@
 #include "itkTransform.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageToImageFilter.h"
+#include "itkExtrapolateImageFunction.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkBSplineInterpolateImageFunction.h"
 #include "itkSize.h"
@@ -47,6 +48,10 @@ namespace itk
  * NearestNeighborInterpolateImageFunction< InputImageType,
  * TCoordRep > would be a better choice.
  *
+ * If an sample is taken from outside the image domain, the default behavior is
+ * to use a default pixel value.  If different behavior is desired, an
+ * extrapolator function can be set with SetExtrapolator().
+ *
  * Output information (spacing, size and direction) for the output
  * image should be set. This information has the normal defaults of
  * unit spacing, zero origin and identity direction. Optionally, the
@@ -66,8 +71,8 @@ namespace itk
  * \warning For multithreading, the TransformPoint method of the
  * user-designated coordinate transform must be threadsafe.
  *
- * \ingroup GeometricTransforms
- * \ingroup ITK-ImageGrid
+ * \ingroup GeometricTransform
+ * \ingroup ITKImageGrid
  *
  * \wiki
  * \wikiexample{SimpleOperations/TranslationTransform,Translate an image}
@@ -132,6 +137,11 @@ public:
   typedef typename BSplineInterpolatorType::Pointer
   BSplineInterpolatorPointerType;
 
+  /** Extrapolator typedef. */
+  typedef ExtrapolateImageFunction< InputImageType,
+                                    TInterpolatorPrecisionType >     ExtrapolatorType;
+  typedef typename ExtrapolatorType::Pointer ExtrapolatorPointerType;
+
   /** Image size typedef. */
   typedef Size< itkGetStaticConstMacro(ImageDimension) > SizeType;
 
@@ -181,6 +191,14 @@ public:
 
   /** Get a pointer to the interpolator function. */
   itkGetConstObjectMacro(Interpolator, InterpolatorType);
+
+  /** Set the extrapolator function.  The default behavior when sampling outside
+   * of the input image is to use the DefaultPixelValue.  Some other options
+   * include NearestNeighborExtrapolateImageFunction. */
+  itkSetObjectMacro(Extrapolator, ExtrapolatorType);
+
+  /** Get a pointer to the extrapolator function. */
+  itkGetConstObjectMacro(Extrapolator, ExtrapolatorType);
 
   /** Set the size of the output image. */
   itkSetMacro(Size, SizeType);
@@ -305,6 +323,8 @@ private:
   TransformPointerType    m_Transform;         // Transform
   InterpolatorPointerType m_Interpolator;      // Image function for
                                                // interpolation
+  ExtrapolatorPointerType m_Extrapolator;      // Image function for
+                                               // extrapolation
   PixelType m_DefaultPixelValue;               // default pixel value
                                                // if the point is
                                                // outside the image
@@ -320,7 +340,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkResampleImageFilter.txx"
+#include "itkResampleImageFilter.hxx"
 #endif
 
 #endif

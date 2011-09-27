@@ -48,8 +48,8 @@ namespace itk
  *
  *
  * \sa AccumulateImageFilter
- * \ingroup   IntensityImageFilters     Singlethreaded
- * \ingroup ITK-ImageStatistics
+ * \ingroup   IntensityImageFilters     SingelThreaded
+ * \ingroup ITKImageStatistics
  */
 template< class TInputImage, class TOutputImage, class TAccumulator >
 class ITK_EXPORT ProjectionImageFilter:
@@ -126,7 +126,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkProjectionImageFilter.txx"
+#include "itkProjectionImageFilter.hxx"
 #endif
 
 #endif

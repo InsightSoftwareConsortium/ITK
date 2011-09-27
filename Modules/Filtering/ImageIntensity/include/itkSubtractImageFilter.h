@@ -22,25 +22,13 @@
 
 namespace itk
 {
-/** \class SubtractImageFilter
- * \brief Implements an operator for pixel-wise subtraction of two images.
- *
- * Output = Input1 - Input2.
- *
- * This class is parametrized over the types of the two
- * input images and the type of the output image.
- * Numeric conversions (castings) are done by the C++ defaults.
- *
- * \ingroup IntensityImageFilters Multithreaded
- * \ingroup ITK-ImageIntensity
- *
- * \wiki
- * \wikiexample{ImageProcessing/SubtractImageFilter,Subtract two images}
- * \wikiexample{ImageProcessing/SubtractConstantFromImageFilter,Subtract a constant from every pixel in an image}
- * \endwiki
- */
 namespace Functor
 {
+/**
+ * \class Sub2
+ * \brief
+ * \ingroup ITKImageIntensity
+ */
 template< class TInput1, class TInput2 = TInput1, class TOutput = TInput1 >
 class Sub2
 {
@@ -61,7 +49,46 @@ public:
   { return (TOutput)( A - B ); }
 };
 }
-
+/** \class SubtractImageFilter
+ * \brief Pixel-wise subtraction of two images.
+ *
+ * Subtract each pixel from image2 from its corresponding pixel in
+ * image1:
+ *
+ * \code
+ * Output = Input1 - Input2.
+ * \endcode
+ *
+ * This is done using
+ *
+ * \code
+ * SetInput1( image1 );
+ * SetInput2( image2 );
+ * \endcode
+ *
+ * This class is templated over the types of the two
+ * input images and the type of the output image.
+ * Numeric conversions (castings) are done by the C++ defaults.
+ *
+ * Additionally, a constant can be subtracted from every pixel in an image using:
+ *
+ * \code
+ * SetInput1( image1 );
+ * SetConstant2( constant );
+ * \endcode
+ *
+ * \note The result of AddImageFilter with a negative constant is not
+ * necessarily the same as SubtractImageFilter. This would be the case when
+ * the PixelType defines an operator-() that is not the inverse of operator+()
+ *
+ * \ingroup IntensityImageFilters MultiThreaded
+ * \ingroup ITKImageIntensity
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/SubtractImageFilter,Subtract two images}
+ * \wikiexample{ImageProcessing/SubtractConstantFromImageFilter,Subtract a constant from every pixel in an image}
+ * \endwiki
+ */
 template< class TInputImage1, class TInputImage2 = TInputImage1, class TOutputImage = TInputImage1 >
 class ITK_EXPORT SubtractImageFilter:
   public

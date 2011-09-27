@@ -27,10 +27,7 @@ namespace itk
  *
  * This class implements an Affine transform in which the rotation center can be explicitly selected.
  *
- *
- * \ingroup Transforms
- *
- *
+ * \ingroup ITKTransform
  */
 
 template<
@@ -150,6 +147,7 @@ protected:
                           const OutputVectorType & offset);
   ScalableAffineTransform(unsigned int outputSpaceDimension,
                           unsigned int parametersDimension);
+  ScalableAffineTransform(unsigned int parametersDimension);
   ScalableAffineTransform();
 
   void ComputeMatrix();
@@ -189,7 +187,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkScalableAffineTransform.txx"
+#include "itkScalableAffineTransform.hxx"
 #endif
 
 #endif /* __itkScalableAffineTransform_h */

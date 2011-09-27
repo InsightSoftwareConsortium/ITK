@@ -1,8 +1,8 @@
-set(ITK-IO-NIFTI_SRC
+set(ITKIONIFTI_SRC
 itkNiftiImageIOFactory.cxx
 itkNiftiImageIO.cxx
 )
 
-add_library(ITK-IO-NIFTI ${ITK-IO-NIFTI_SRC})
-target_link_libraries(ITK-IO-NIFTI  ${ITK-NIFTI_LIBRARIES} ${ITK-IO-Base_LIBRARIES} ${ITK-Transform_LIBRARIES})
-itk_module_target(ITK-IO-NIFTI)
+add_library(ITKIONIFTI ${ITKIONIFTI_SRC})
+target_link_libraries(ITKIONIFTI  ${ITKNIFTI_LIBRARIES} ${ITKIOBase_LIBRARIES} ${ITKTransform_LIBRARIES})
+itk_module_target(ITKIONIFTI)

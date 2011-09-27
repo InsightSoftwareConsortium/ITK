@@ -24,14 +24,14 @@
 namespace itk
 {
 /** \class LoggerBase
- *   \brief Class LoggerBase is meant for logging information during a run.
+ *  \brief Used for logging information during a run.
  *
  * \author Hee-Su Kim, Compute Science Dept. Kyungpook National University,
  *                     ISIS Center, Georgetown University.
  *
  *
- *  \ingroup OSSystemObjects LoggingObjects
- * \ingroup ITK-Common
+ * \ingroup OSSystemObjects LoggingObjects
+ * \ingroup ITKCommon
  */
 
 class ITKCommon_EXPORT LoggerBase:public Object

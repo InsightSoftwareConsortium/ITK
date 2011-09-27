@@ -27,6 +27,8 @@
 namespace itk
 {
 /** \class DefaultDynamicMeshTraits
+ *  \brief A simple structure that holds type information for a mesh and its cells.
+ *
  * DefaultDynamicMeshTraits is a simple structure that holds type information
  * for a mesh and its cells.  It is used to avoid the passing of many
  * template parameters while still enjoying the benefits of generic
@@ -36,25 +38,21 @@ namespace itk
  * is designed to create Mesh instances that will have many insert and delete
  * operations done on them.
  *
- * Template parameters for DefaultDynamicMeshTraits:
+ * \tparam TPixelType The type stored as data for an entity (cell, point,
+ * or boundary).
  *
- * TPixelType =
- *    The type stored as data for an entity (cell, point, or boundary).
+ * \tparam VPointDimension Geometric dimension of space.
  *
- * VPointDimension =
- *    Geometric dimension of space.
+ * \tparam VMaxTopologicalDimension Max topological dimension of a cell
+ * that can be inserted into this mesh.
  *
- * VMaxTopologicalDimension =
- *    Max topological dimension of a cell that can be inserted into this mesh.
+ * \tparam TCoordRep Numerical type to store each coordinate value.
  *
- * TCoordRep =
- *    Numerical type to store each coordinate value.
- *
- * TInterpolationWeight =
- *    Numerical type to store interpolation weights.
+ * \tparam TInterpolationWeight Numerical type to store interpolation
+ * weights.
  *
  * \ingroup MeshObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template<
   typename TPixelType,

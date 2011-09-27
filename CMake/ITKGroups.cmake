@@ -1,131 +1,82 @@
 # Set a list of group names
-set(group_list Core IO Filtering Registration Segmentation Numerics Utilities Bridge Nonunit)
+set(group_list Core IO Filtering Registration Segmentation Numerics ThirdParty Bridge Nonunit Compatibility)
+
+set(Core_documentation "This group of modules contain the toolkit framework used
+by other modules.  There are common base classes for data objects and process
+objects, basic data structures such as Image, Mesh, QuadEdgeMesh, and
+SpatialObjects, and common functionality for operations such as finite
+differences, image adaptors, or image transforms.")
+
+set(Compatibility_documentation "This group contains modules that ease the transition to ITKv4 and Deprecated classes.")
+
+set(IO_documentation "This group of modules contains classes for reading and
+writing images and other data objects.")
+
+set(Filtering_documentation "This group of modules are filters that modify data
+in the ITK pipeline framework.  These filters take an input object, such as an
+Image, and modify it to create an output.  Filters can be chained together to
+create a processing pipeline.")
+
+set(Registration_documentation "This group of modules address the registration
+problem: find the spatial transformation between two images.  This is a high
+level group that makes use of many lower level modules such as \\ref
+ITKTransform, \\ref ITKOptimizers, \\ref ITKFiniteDifference, and \\ref
+ITKFEM.")
+
+set(Segmentation_documentation "This group of modules address the segmentation
+problem: partition the image into classified regions (labels).  This is a high
+level group that makes use of many lower level modules such as \\ref
+ITKQuadEdgeMesh and \\ref ITKNarrowBand.")
+
+set(Numerics_documentation "This group of modules are basic numerical tools and
+algorithms that have general applications outside of imaging.")
+
+set(Bridge_documentation "This group of modules are intended to bridge ITK to
+other toolkits as libraries such as visualization toolkits.")
+
+set(ThirdParty_documentation "This group of modules are third party libraries
+used by other ITK modules.")
+
+set(Nonunit_documentation "This group of modules are intended to make use of an
+extensive set of the toolkit modules.")
+
+# Set a module name list for each group
+foreach( group ${group_list} )
+  set( ${group}_module_list )
+  file( GLOB_RECURSE _module_files ${ITK_SOURCE_DIR}/Modules/${group}/itk-module.cmake )
+  foreach( _module_f ${_module_files} )
+    file( STRINGS ${_module_f} _module_line REGEX "itk_module[ \n]*\\([ \n]*ITK[A-Za-z0-9]*" )
+    string( REGEX MATCH "ITK[A-Za-z0-9]*" _module_name ${_module_line} )
+    list( APPEND ${group}_module_list ${_module_name} )
+  endforeach()
+endforeach()
 
 #------------------------------------------------
-# Set a module name list for each group
-set(Core_module_list
-ITK-Common
-ITK-FiniteDifference
-ITK-ImageAdaptors
-ITK-ImageFunction
-ITK-ImageGrid
-ITK-ImageStatistics
-ITK-Mesh
-ITK-QuadEdgeMesh
-ITK-SpatialObjects
-ITK-TestKernel
-ITK-Transform
-)
+#------------------------------------------------
+set( group_list_dox )
+foreach(group ${group_list} )
+  set( group_list_dox
+"${group_list_dox}
+// -----------------------------------------------
+// Group ${group}
+/** \\defgroup Group-${group} Group ${group}
+${${group}_documentation} */\n"
+    )
 
+  foreach(mod ${${group}_module_list} )
+    set( group_list_dox
+"${group_list_dox}
+/** \\defgroup ${mod} Module ${mod}
+\\ingroup Group-${group} */\n"
+      )
+  endforeach()
+endforeach()
 
-set(IO_module_list
-ITK-IO-Base
-ITK-IO-BioRad
-ITK-IO-BMP
-ITK-IO-GDCM
-ITK-IO-GE
-ITK-IO-GIPL
-ITK-IO-IPL
-ITK-IO-JPEG
-ITK-IO-LSM
-ITK-IO-Meta
-ITK-IO-NIFTI
-ITK-IO-NRRD
-ITK-IO-PNG
-ITK-IO-RAW
-ITK-IO-Siemens
-ITK-IO-SpatialObjects
-ITK-IO-Stimulate
-ITK-IO-TIFF
-ITK-IO-VTK
-ITK-IO-XML
-)
-
-set(Filtering_module_list
-ITK-AnisotropicSmoothing
-ITK-AntiAlias
-ITK-BiasCorrection
-ITK-ConnectedComponents
-ITK-CurvatureFlow
-ITK-DeformationField
-ITK-DiffusionTensorImage
-ITK-DistanceMap
-ITK-FFT
-ITK-FastMarching
-ITK-ImageCompare
-ITK-ImageCompose
-ITK-ImageFeature
-ITK-ImageFilterBase
-ITK-ImageGradient
-ITK-ImageGrid
-ITK-ImageIntensity
-ITK-ImageLabel
-ITK-ImageStatistics
-ITK-LabelVoting
-ITK-MathematicalMorphology
-ITK-Path
-ITK-QuadEdgeMeshFiltering
-ITK-Smoothing
-ITK-SpatialFunction
-ITK-Thresholding
-)
-
-set(Registration_module_list
-ITK-FEMRegistration
-ITK-PDEDeformableRegistration
-ITK-RegistrationCommon
-)
-
-set(Segmentation_module_list
-ITK-BioCell
-ITK-Blox
-ITK-Classifiers
-ITK-ConnectedComponents
-ITK-DeformableMesh
-ITK-KLMRegionGrowing
-ITK-LabelVoting
-ITK-LevelSets
-ITK-MarkovRandomFieldsClassifier
-ITK-RegionGrowing
-ITK-SignedDistanceFunction
-ITK-Voronoi
-ITK-Watersheds
-)
-
-set(Numerics_module_list
-ITK-Eigen
-ITK-FEM
-ITK-NarrowBand
-ITK-NeuralNetworks
-ITK-Optimizers
-ITK-Polynomials
-ITK-Statistics
-)
-
-
-set(Bridge_module_list
-ITK-VTK)
-
-set(Utilities_module_list
-ITK-KWSys
-ITK-VNL
-ITK-PNG
-ITK-JPEG
-ITK-Expat
-ITK-NrrdIO
-ITK-NIFTI
-ITK-MetaIO
-ITK-GDCM
-ITK-OpenJPEG
-ITK-ZLIB
-ITK-VNLInstantiation
-ITK-TIFF
-)
-
-set(Nonunit_module_list
-ITK-IntegratedTest
-ITK-Review
-)
+set( _content ${group_list_dox} )
+configure_file(
+  "${ITK_SOURCE_DIR}/Utilities/Doxygen/Module.dox.in"
+  "${ITK_BINARY_DIR}/Utilities/Doxygen/Modules/ITK-AllGroups.dox"
+  )
 
 #------------------------------------------------
 # Turn on the ITK_BUILD option for each group

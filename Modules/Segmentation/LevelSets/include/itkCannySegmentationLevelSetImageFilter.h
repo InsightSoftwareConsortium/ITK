@@ -107,7 +107,7 @@ namespace itk
  *   (1) Threshold.  Sets the thresholding value of the Canny edge detection.
  *   See CannyEdgeDetectionImageFilter for more information.
  *   \par
- *   (2) Variance.  Controls the smoothing paramter of the gaussian filtering
+ *   (2) Variance.  Controls the smoothing parameter of the gaussian filtering
  *   done during Canny edge detection.
  *   \par
  *   (3) CurvatureScaling.  Controls the degree to which curvature influences
@@ -124,7 +124,7 @@ namespace itk
  *   \sa SegmentationLevelSetImageFilter
  *   \sa CannySegmentationLevelSetFunction,
  *   \sa SparseFieldLevelSetImageFilter
- * \ingroup ITK-LevelSets
+ * \ingroup ITKLevelSets
  */
 template< class TInputImage,
           class TFeatureImage,
@@ -198,7 +198,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCannySegmentationLevelSetImageFilter.txx"
+#include "itkCannySegmentationLevelSetImageFilter.hxx"
 #endif
 
 #endif

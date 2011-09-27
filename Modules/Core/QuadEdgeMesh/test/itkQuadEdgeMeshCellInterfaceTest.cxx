@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <iostream>
 
@@ -346,7 +343,6 @@ int itkQuadEdgeMeshCellInterfaceTest(int, char* [] )
 
   // ITK QuadEdgeMesh CELLS - Standard cell API test
 
-  typedef itk::QuadEdgeMeshPolygonCell<CellInterfaceType> QEPolygonCellType;
   QEPolygonCellType* tempQEPolygon = new QEPolygonCellType;
   status = TestCellInterface("QuadEdgePolygonCell with 0 vertices",
                              tempQEPolygon);
@@ -363,7 +359,6 @@ int itkQuadEdgeMeshCellInterfaceTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::QuadEdgeMeshLineCell<CellInterfaceType> QELineCellType;
   status = TestCellInterface("QuadEdgeLineCell", new QELineCellType());
   if (status != 0)
     {
@@ -372,7 +367,6 @@ int itkQuadEdgeMeshCellInterfaceTest(int, char* [] )
 
   // ITK QuadEdgeMesh CELLS - Specific QEcell API test
 
-  typedef itk::QuadEdgeMeshPolygonCell<CellInterfaceType> QEPolygonCellType;
   tempQEPolygon = new QEPolygonCellType();
 
   status = TestQECellInterface("QuadEdgePolygonCell with 0 vertices",

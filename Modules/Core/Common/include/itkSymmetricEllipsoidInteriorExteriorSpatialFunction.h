@@ -22,10 +22,10 @@
 
 namespace itk
 {
-/** \class EllipsoidSpatialFunction
+/** \class SymmetricEllipsoidInteriorExteriorSpatialFunction
  * \brief Function implementation of an ellipsoid
  *
- * Similar to itkEllipsoidInteriorExteriorSpatialFunction in that it
+ * Similar to EllipsoidInteriorExteriorSpatialFunction in that it
  * implements a function that returns 1 for points inside or on the surface
  * of a ellipsoid and 0 for points outside the ellipsoid. However, this
  * ellipsoid is defined by a single orientation vector and deals
@@ -33,7 +33,7 @@ namespace itk
  * is one which has m axes of equal length and (n - m) unique axes lengths.
  * Specifically, this class deals with the case where (n - m) = 1 and
  * the ellipsoid's major axis is oriented along a singles orientation vector.
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< unsigned int VDimension = 3,
           typename TInput = Point< double, VDimension > >
@@ -119,7 +119,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkSymmetricEllipsoidInteriorExteriorSpatialFunction.txx"
+#include "itkSymmetricEllipsoidInteriorExteriorSpatialFunction.hxx"
 #endif
 
 #endif

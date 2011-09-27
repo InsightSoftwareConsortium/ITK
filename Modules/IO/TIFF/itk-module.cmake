@@ -1,7 +1,12 @@
-itk_module(ITK-IO-TIFF
+set(DOCUMENTATION "This module contains classes for reading and writing image
+files in the Tagged Image File Format (TIFF).")
+
+itk_module(ITKIOTIFF
   DEPENDS
-    ITK-TIFF
-    ITK-IO-Base
+    ITKTIFF
+    ITKIOBase
   TEST_DEPENDS
-    ITK-TestKernel
+    ITKTestKernel
+  DESCRIPTION
+    "${DOCUMENTATION}"
 )

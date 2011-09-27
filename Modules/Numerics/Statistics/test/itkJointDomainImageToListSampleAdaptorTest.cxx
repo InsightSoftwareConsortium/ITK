@@ -17,9 +17,6 @@
  *=========================================================================*/
 // The example tests the class itk::Statistics::JointDomainImageToListSampleAdaptor.
 
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkJointDomainImageToListSampleAdaptor.h"
 #include "itkImageRegionIteratorWithIndex.h"
@@ -47,9 +44,9 @@ int itkJointDomainImageToListSampleAdaptorTest(int, char* [] )
   image->SetRegions( region );
   image->Allocate();
 
-  typedef itk::ImageRegionIteratorWithIndex< ImageType > IteratorType;
+  typedef itk::ImageRegionIteratorWithIndex< ImageType > RegionIteratorType;
 
-  IteratorType it( image, region );
+  RegionIteratorType it( image, region );
 
   it.GoToBegin();
 

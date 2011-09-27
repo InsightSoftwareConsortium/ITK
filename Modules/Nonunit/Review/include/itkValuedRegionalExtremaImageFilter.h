@@ -69,7 +69,7 @@ namespace itk
  * \sa ValuedRegionalMinimaImageFilter, ValuedRegionalMaximaImageFilter,
  * \sa  HMinimaImageFilter
  * \ingroup MathematicalMorphologyImageFilters
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 
 template< class TInputImage, class TOutputImage,
@@ -175,7 +175,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkValuedRegionalExtremaImageFilter.txx"
+#include "itkValuedRegionalExtremaImageFilter.hxx"
 #endif
 
 #endif

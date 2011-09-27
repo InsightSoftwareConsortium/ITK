@@ -40,14 +40,14 @@ namespace itk
  * \sa Neighborhood
  * \sa NeighborhoodOperator
  * \sa NeighborhoodIterator
- * \ingroup ITK-ImageStatistics
+ * \ingroup ITKImageStatistics
  *
  * \wiki
  * \wikiexample{Images/NormalizedCorrelationImageFilter,Normalized correlation}
  * \endwiki
  */
 template< class TInputImage, class TMaskImage, class TOutputImage, class TOperatorValueType =
-            ITK_TYPENAME TOutputImage::PixelType >
+            typename TOutputImage::PixelType >
 class ITK_EXPORT NormalizedCorrelationImageFilter:
   public NeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueType >
 {
@@ -165,7 +165,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNormalizedCorrelationImageFilter.txx"
+#include "itkNormalizedCorrelationImageFilter.hxx"
 #endif
 
 #endif

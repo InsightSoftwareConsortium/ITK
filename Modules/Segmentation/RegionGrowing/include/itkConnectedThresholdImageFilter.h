@@ -31,7 +31,7 @@ namespace itk
  * threshold range.
  *
  * \ingroup RegionGrowingSegmentation
- * \ingroup ITK-RegionGrowing
+ * \ingroup ITKRegionGrowing
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT ConnectedThresholdImageFilter:
@@ -166,7 +166,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkConnectedThresholdImageFilter.txx"
+#include "itkConnectedThresholdImageFilter.hxx"
 #endif
 
 #endif

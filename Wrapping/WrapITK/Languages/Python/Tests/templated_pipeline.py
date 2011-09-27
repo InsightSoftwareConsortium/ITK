@@ -24,8 +24,7 @@ class LabelDilateImageFilter(itk.pipeline):
     self.connect(itk.DanielssonDistanceMapImageFilter[ImageType, DistanceMapType].New(UseImageSpacing=True, SquaredDistance=False))
     self.connect(itk.BinaryThresholdImageFilter[DistanceMapType, ImageType].New())
     self.expose("UpperThreshold", "Radius")
-    self.append(itk.CastImageFilter[DistanceMapType, ImageType].New(self.filters[0].GetVoronoiMap()))
-    self.connect(itk.MaskImageFilter[ImageType, ImageType, ImageType].New(Input2=self.filters[1]))
+    self.append(itk.MaskImageFilter[ImageType, ImageType, ImageType].New(self.filters[0].GetVoronoiMap(), Input2=self.filters[1]))
 
     # now we can parse the inputs
     itk.set_inputs(self, args, kargs)

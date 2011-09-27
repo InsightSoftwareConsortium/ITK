@@ -41,22 +41,22 @@ const unsigned int Dimension = 3;
   class CommandIterationUpdate : public itk::Command
   {
   public:
-    typedef  CommandIterationUpdate   Self;
-    typedef  itk::Command             Superclass;
+    typedef  CommandIterationUpdate                     Self;
+    typedef  itk::Command                               Superclass;
     typedef  itk::SmartPointer<CommandIterationUpdate>  Pointer;
     itkNewMacro( CommandIterationUpdate );
   protected:
     CommandIterationUpdate() {};
 
-    typedef itk::Image< float, Dimension > InternalImageType;
-    typedef itk::Vector< float, Dimension >    VectorPixelType;
-    typedef itk::Image<  VectorPixelType, Dimension > DeformationFieldType;
+    typedef itk::Image< float, Dimension >            InternalImageType;
+    typedef itk::Vector< float, Dimension >           VectorPixelType;
+    typedef itk::Image<  VectorPixelType, Dimension > DisplacementFieldType;
 
     typedef itk::CurvatureRegistrationFilter<
                                 InternalImageType,
                                 InternalImageType,
-                                DeformationFieldType,
-                                itk::FastSymmetricForcesDemonsRegistrationFunction<InternalImageType,InternalImageType,DeformationFieldType> >   RegistrationFilterType;
+                                DisplacementFieldType,
+                                itk::FastSymmetricForcesDemonsRegistrationFunction<InternalImageType,InternalImageType,DisplacementFieldType> >   RegistrationFilterType;
 
   public:
 
@@ -93,7 +93,7 @@ int main( int argc, char *argv[] )
 
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
   typedef itk::Image< PixelType, Dimension >  MovingImageType;
-  typedef itk::Image< float, Dimension > JacobianImageType;
+  typedef itk::Image< float, Dimension >      JacobianImageType;
 
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
   typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
@@ -106,12 +106,12 @@ int main( int argc, char *argv[] )
   fixedImageReader->SetFileName( argv[1] );
   movingImageReader->SetFileName( argv[2] );
 
-  typedef float InternalPixelType;
+  typedef float                                      InternalPixelType;
   typedef itk::Image< InternalPixelType, Dimension > InternalImageType;
   typedef itk::CastImageFilter< FixedImageType,
-                                InternalImageType > FixedImageCasterType;
+                                InternalImageType >  FixedImageCasterType;
   typedef itk::CastImageFilter< MovingImageType,
-                                InternalImageType > MovingImageCasterType;
+                                InternalImageType >  MovingImageCasterType;
 
   FixedImageCasterType::Pointer fixedImageCaster   =
     FixedImageCasterType::New();
@@ -132,13 +132,13 @@ int main( int argc, char *argv[] )
   matcher->SetNumberOfMatchPoints( 7 );
   matcher->ThresholdAtMeanIntensityOn();
 
-  typedef itk::Vector< float, Dimension >    VectorPixelType;
-  typedef itk::Image<  VectorPixelType, Dimension > DeformationFieldType;
+  typedef itk::Vector< float, Dimension >           VectorPixelType;
+  typedef itk::Image<  VectorPixelType, Dimension > DisplacementFieldType;
   typedef itk::CurvatureRegistrationFilter<
                                 InternalImageType,
                                 InternalImageType,
-                                DeformationFieldType,
-                                itk::FastSymmetricForcesDemonsRegistrationFunction<InternalImageType,InternalImageType,DeformationFieldType> >   RegistrationFilterType;
+                                DisplacementFieldType,
+                                itk::FastSymmetricForcesDemonsRegistrationFunction<InternalImageType,InternalImageType,DisplacementFieldType> >   RegistrationFilterType;
   RegistrationFilterType::Pointer filter = RegistrationFilterType::New();
   filter->SetTimeStep( 1 );
   filter->SetConstraintWeight( 0.1 );
@@ -149,7 +149,7 @@ int main( int argc, char *argv[] )
   typedef itk::MultiResolutionPDEDeformableRegistration<
                                 InternalImageType,
                                 InternalImageType,
-                                DeformationFieldType >   MultiResRegistrationFilterType;
+                                DisplacementFieldType >   MultiResRegistrationFilterType;
   MultiResRegistrationFilterType::Pointer multires = MultiResRegistrationFilterType::New();
   multires->SetRegistrationFilter( filter );
   multires->SetNumberOfLevels( 3 );
@@ -163,7 +163,7 @@ int main( int argc, char *argv[] )
   typedef itk::WarpImageFilter<
                           MovingImageType,
                           MovingImageType,
-                          DeformationFieldType  >     WarperType;
+                          DisplacementFieldType  >     WarperType;
   typedef itk::LinearInterpolateImageFunction<
                                    MovingImageType,
                                    double          >  InterpolatorType;
@@ -176,10 +176,10 @@ int main( int argc, char *argv[] )
   warper->SetOutputSpacing( fixedImage->GetSpacing() );
   warper->SetOutputOrigin( fixedImage->GetOrigin() );
   warper->SetOutputDirection( fixedImage->GetDirection() );
-  warper->SetDeformationField( multires->GetOutput() );
+  warper->SetDisplacementField( multires->GetOutput() );
 
   // Write warped image out to file
-  typedef unsigned short  OutputPixelType;
+  typedef unsigned short                           OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
   typedef itk::CastImageFilter<
                         MovingImageType,
@@ -198,7 +198,7 @@ int main( int argc, char *argv[] )
   if( argc > 4 ) // if a fourth line argument has been provided...
     {
 
-    typedef itk::ImageFileWriter< DeformationFieldType > FieldWriterType;
+    typedef itk::ImageFileWriter< DisplacementFieldType > FieldWriterType;
 
     FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
     fieldWriter->SetFileName( argv[4] );
@@ -216,4 +216,3 @@ int main( int argc, char *argv[] )
 
   return EXIT_SUCCESS;
 }
-

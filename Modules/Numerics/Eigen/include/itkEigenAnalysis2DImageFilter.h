@@ -37,7 +37,7 @@ namespace itk
  * image using vector as pixel type.
  *
  * \ingroup ShouldBeThreaded IntensityImageFilters
- * \ingroup ITK-Eigen
+ * \ingroup ITKEigen
  */
 
 template< class TInputImage, class TEigenValueImage, class TEigenVectorImage >
@@ -124,7 +124,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkEigenAnalysis2DImageFilter.txx"
+#include "itkEigenAnalysis2DImageFilter.hxx"
 #endif
 
 #endif

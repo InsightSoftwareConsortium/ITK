@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <iostream>
 #include "itkDistanceToCentroidMembershipFunction.h"
@@ -115,7 +112,7 @@ int itkDistanceToCentroidMembershipFunctionTest(int, char* [] )
     }
 
   // Exercise the Clone method.
-  MembershipFunctionType::Pointer clonedFunction = function->Clone();
+  MembershipFunctionType::MembershipFunctionPointer clonedFunction = function->Clone();
 
   return EXIT_SUCCESS;
 }

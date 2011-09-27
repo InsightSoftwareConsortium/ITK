@@ -15,46 +15,91 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #ifndef __itkFEMLoadPoint_h
 #define __itkFEMLoadPoint_h
 
 #include "itkFEMLoadElementBase.h"
 #include "vnl/vnl_vector.h"
 
-namespace itk {
-namespace fem {
-
+namespace itk
+{
+namespace fem
+{
 /**
  * \class LoadPoint
  * \brief This load is applied on a point in an element.
  *
- * FIXME: To be implemented. Nothing works yet
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
-class LoadPoint : public LoadElement {
-  FEM_CLASS(LoadPoint,LoadElement)
+class LoadPoint : public LoadElement
+{
 public:
+  /** Standard class typedefs. */
+  typedef LoadPoint                Self;
+  typedef LoadElement              Superclass;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
-  /**
-   * Point of which the load acts in global coord. sys.
-   */
-  vnl_vector<Float> point;
+  /** Method for creation through the object factory. */
+  itkSimpleNewMacro(Self);
 
-  /**
-   * the actual load vector
-   */
-  vnl_vector<Float> Fp;
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(LoadPoint, LoadElement);
+
+  /** CreateAnother method will clone the existing instance of this type,
+   * including its internal member variables. */
+  virtual::itk::LightObject::Pointer CreateAnother(void) const;
 
   /**
    * Default constructor
    */
   LoadPoint() :
-    point(2), Fp(2) {}    /**  we initialize 2D point and force vector */
+    m_Point(2), m_ForcePoint(2)
+  {
+    /** Default Initialization of 2D point and force vector */
+  }
+
+/**
+   * Set the point where the load acts
+   */
+  void SetPoint(const vnl_vector<Float> p);
+
+  /**
+   * Get the point where the load acts
+   */
+  vnl_vector<Float> GetPoint();
+
+/**
+   * Set the force vector
+   */
+  void SetForce(const vnl_vector<Float> f);
+
+  /**
+   * Get the force vector
+   */
+  vnl_vector<Float> GetForce();
+
+  /** Apply the load to the specified element */
+  virtual void ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe);
+
+protected:
+
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+
+  /**
+  * Point of which the load acts in global coord. sys.
+  */
+  vnl_vector<Float> m_Point;
+
+  /**
+   * the actual load vector
+   */
+  vnl_vector<Float> m_ForcePoint;
 
 };
 
-FEM_CLASS_INIT(LoadPoint)
-
-}} // end namespace itk::fem
+}
+}  // end namespace itk::fem
 
 #endif // #ifndef __itkFEMLoadPoint_h

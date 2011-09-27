@@ -49,7 +49,7 @@ namespace itk
  *
  * \ingroup Operators
  * \ingroup ImageIterators
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 template< class TPixel, unsigned int VDimension = 2,
@@ -70,8 +70,8 @@ public:
   typedef TPixel PixelType;
 
   /** Iterator typedef support. Note the naming is intentional, i.e.,
-  * \\::iterator and \\::const_iterator, because the allocator may be a
-  * vnl object or other type, which uses this form. */
+  * AllocatorType::iterator and AllocatorType::const_iterator, because the
+  * allocator may be a vnl object or other type, which uses this form. */
   typedef typename AllocatorType::iterator       Iterator;
   typedef typename AllocatorType::const_iterator ConstIterator;
 
@@ -304,12 +304,12 @@ std::ostream & operator<<(std::ostream & os, const Neighborhood< TPixel, VDimens
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkNeighborhood.txx"
+#include "itkNeighborhood.hxx"
 #endif
 
 /*
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNeighborhood.txx"
+#include "itkNeighborhood.hxx"
 #endif
 */
 

@@ -25,7 +25,7 @@
 namespace itk
 {
 /** \class HistogramMatchingImageFilter
- * \brief Normalize the grayscale values between two image by histogram
+ * \brief Normalize the grayscale values between two images by histogram
  * matching.
  *
  * HistogramMatchingImageFilter normalizes the grayscale values of a source
@@ -53,13 +53,13 @@ namespace itk
  * type and that the input and output image type have the same number of
  * dimension and have scalar pixel types.
  *
- * \ingroup IntensityImageFilters Multithreaded
+ * \ingroup IntensityImageFilters MultiThreaded
  *
- * \ingroup ITK-ImageIntensity
+ * \ingroup ITKImageIntensity
  */
 /* THistogramMeasurement -- The precision level for which to do
   HistogramMeasurmenets */
-template< class TInputImage, class TOutputImage, class THistogramMeasurement = ITK_TYPENAME TInputImage::PixelType >
+template< class TInputImage, class TOutputImage, class THistogramMeasurement = typename TInputImage::PixelType >
 class ITK_EXPORT HistogramMatchingImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
@@ -168,6 +168,13 @@ protected:
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                             ThreadIdType threadId);
 
+  /** Override VeriyInputInformation() since this filter does not expect
+   * the input images to occupy the same physical space.
+   *
+   * \sa ProcessObject::VerifyInputInformation
+   */
+  virtual void VerifyInputInformation() {}
+
   /** Compute min, max and mean of an image. */
   void ComputeMinMaxMean(const InputImageType *image,
                          THistogramMeasurement & minValue,
@@ -216,7 +223,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkHistogramMatchingImageFilter.txx"
+#include "itkHistogramMatchingImageFilter.hxx"
 #endif
 
 #endif

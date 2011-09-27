@@ -25,17 +25,17 @@
 namespace itk
 {
 /** \class NaryFunctorImageFilter
- * \brief Implements pixel-wise generic operation of Nth similar images.
+ * \brief Perform a generic pixel-wise operation on N images.
  *
- * This class is parameterized over the types of the input images
- * and the type of the output image.  It is also parameterized by the
+ * This class is templated over the types of the input images
+ * and the type of the output image.  It is also templated by the
  * operation to be applied.  A Functor style is used to represent the
  * function.
  *
- * All the input images are of the same type.
+ * All the input images must be of the same type.
  *
- * \ingroup IntensityImageFilters   Multithreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup IntensityImageFilters MultiThreaded
+ * \ingroup ITKImageIntensity
  */
 
 template< class TInputImage, class TOutputImage, class TFunction >
@@ -128,7 +128,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNaryFunctorImageFilter.txx"
+#include "itkNaryFunctorImageFilter.hxx"
 #endif
 
 #endif

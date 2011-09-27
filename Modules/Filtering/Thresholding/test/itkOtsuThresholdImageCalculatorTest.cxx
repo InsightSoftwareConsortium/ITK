@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkImage.h"
 #include "itkOtsuThresholdImageCalculator.h"
@@ -27,7 +24,6 @@
 typedef itk::Size<3>                          SizeType;
 typedef itk::Image<short, 3>                  ImageType;
 typedef itk::OtsuThresholdImageCalculator<ImageType>  CalculatorType;
-typedef itk::ImageRegionIterator<ImageType> Iterator;
 namespace
 {
 
@@ -39,6 +35,8 @@ double origin [3] = { 0.0, 0.0, 0.0};
 
 int itkOtsuThresholdImageCalculatorTest(int, char* [] )
 {
+    typedef itk::ImageRegionIterator<ImageType> Iterator;
+
     int flag = 0;           /* Did this test program work? */
 
     std::cout << "Testing Minimum and Maximum Image Calulator:\n";

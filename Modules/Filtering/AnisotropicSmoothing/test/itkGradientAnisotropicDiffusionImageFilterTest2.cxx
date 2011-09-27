@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <fstream>
 #include "itkCastImageFilter.h"
@@ -25,7 +22,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkChangeInformationImageFilter.h"
-#include "itkDifferenceImageFilter.h"
+#include "itkTestingComparisonImageFilter.h"
 
 typedef float PixelType;
 typedef itk::Image<PixelType, 2> myFloatImage;
@@ -41,7 +38,7 @@ bool SameImage(ImagePointer testImage, ImagePointer baselineImage)
   int radiusTolerance = 0;
   unsigned long numberOfPixelTolerance = 0;
 
-  typedef itk::DifferenceImageFilter<ImageType,ImageType> DiffType;
+  typedef itk::Testing::ComparisonImageFilter<ImageType,ImageType> DiffType;
   DiffType::Pointer diff = DiffType::New();
   diff->SetValidInput(baselineImage);
   diff->SetTestInput(testImage);
@@ -141,7 +138,9 @@ int itkGradientAnisotropicDiffusionImageFilterTest2(int ac, char* av[] )
     return EXIT_FAILURE;
     }
 
-  // the results with spacing should be about the same as without spacing
+  // the results with spacing should be about the same as without
+
+  normalImage->CopyInformation( filter->GetOutput() );
   if ( !SameImage( filter->GetOutput(), normalImage ) )
     {
     std::cout << "Results varied with spacing enabled!" << std::endl;

@@ -42,7 +42,7 @@ namespace Statistics
  * handles images with scalar, fixed array or variable length vector pixel types.
  *
  * \sa Sample, ListSample
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  *
  * \wiki
  * \wikiexample{Statistics/ImageToListSampleAdaptor,Create a list of samples from an image without duplicating the data}
@@ -131,7 +131,7 @@ public:
 
   /** \class ConstIterator
    *  \brief Const Iterator
-   * \ingroup ITK-Statistics
+   * \ingroup ITKStatistics
    */
   class ConstIterator
   {
@@ -209,7 +209,7 @@ private:
 
   /** \class Iterator
    *  \brief Iterator
-   * \ingroup ITK-Statistics
+   * \ingroup ITKStatistics
    */
   class Iterator:public ConstIterator
   {
@@ -300,7 +300,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageToListSampleAdaptor.txx"
+#include "itkImageToListSampleAdaptor.hxx"
 #endif
 
 #endif

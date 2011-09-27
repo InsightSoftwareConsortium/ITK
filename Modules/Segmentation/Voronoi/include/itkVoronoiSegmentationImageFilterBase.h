@@ -53,7 +53,7 @@ namespace itk
  *  Computerized Medical Imaging and Graphics, Vor.24, pp 173-180, 2000.
  *
  * \ingroup HybridSegmentation
- * \ingroup ITK-Voronoi
+ * \ingroup ITKVoronoi
  */
 template< class TInputImage, class TOutputImage, class TBinaryPriorImage = Image< unsigned char, 2 > >
 class ITK_EXPORT VoronoiSegmentationImageFilterBase:
@@ -269,7 +269,7 @@ private:
 } //end namespace
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVoronoiSegmentationImageFilterBase.txx"
+#include "itkVoronoiSegmentationImageFilterBase.hxx"
 #endif
 
 #endif

@@ -106,7 +106,7 @@ namespace itk
  * This implementation was contributed as a paper to the Insight Journal
  * http://hdl.handle.net/1926/306
  *
- * \ingroup ITK-QuadEdgeMesh
+ * \ingroup ITKQuadEdgeMesh
  */
 template< typename TPixel, unsigned int VDimension,
           typename TTraits = QuadEdgeMeshTraits< TPixel, VDimension, bool, bool > >
@@ -361,16 +361,14 @@ public:
     (void)dimension;
     (void)cellId;
     (void)featureId;
-    cellSet = ( std::set< CellIdentifier > * ) 0;
+    (void)cellSet;
     return NumericTraits<CellIdentifier>::Zero;
   }
 
   /** NOTE ALEX: this method do not use CellFeature and thus could be recoded */
-  CellIdentifier GetCellNeighbors(CellIdentifier cellId,
-                                 std::set< CellIdentifier > *cellSet)
+  CellIdentifier GetCellNeighbors(CellIdentifier itkNotUsed(cellId),
+                                 std::set< CellIdentifier > * itkNotUsed(cellSet))
   {
-    (void)cellId;
-    cellSet = ( std::set< CellIdentifier > * ) 0;
     return NumericTraits<CellIdentifier>::Zero;
   }
 
@@ -474,8 +472,6 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro( DimensionShouldBe3,
-                   ( Concept::SameDimension< itkGetStaticConstMacro(PointDimension), 3 > ) );
   /** End concept checking */
 #endif
 
@@ -516,7 +512,7 @@ protected:
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkQuadEdgeMesh.txx"
+#include "itkQuadEdgeMesh.hxx"
 #endif
 
 #endif

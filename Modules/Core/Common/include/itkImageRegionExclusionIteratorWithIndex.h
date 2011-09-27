@@ -24,8 +24,9 @@
 namespace itk
 {
 /** \class ImageRegionExclusionIteratorWithIndex
- *  \brief Multi-dimensional image iterator that walks an image region,
- *  excluding a second region contained within the first.
+ *  \brief A multi-dimensional image iterator that walks an image region,
+ *         excluding a second region contained within the first, with write
+ *         access to pixels.
  *
  * Most of the functionality of this iterator is inherited from the
  * ImageRegionExclusionConstIteratorWithIndex, which should be consulted for
@@ -60,7 +61,7 @@ namespace itk
  * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator
  * \sa ShapedNeighborhoodIterator  \sa SliceIterator
  * \sa ImageConstIteratorWithIndex
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< typename TImage >
 class ITK_EXPORT ImageRegionExclusionIteratorWithIndex:public ImageRegionExclusionConstIteratorWithIndex< TImage >
@@ -90,7 +91,7 @@ public:
   ImageRegionExclusionIteratorWithIndex(ImageType *ptr, const RegionType & region);
 
   /** Constructor that can be used to cast from an ImageIterator to an
-   * ImageRegionExclusionIteratorWithIndex. Many routines return an ImageIterator but for a
+   * ImageRegionExclusionIteratorWithIndex. Many routines return an ImageIterator, but for a
    * particular task, you may want an ImageRegionExclusionIteratorWithIndex.  Rather than
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
@@ -99,15 +100,15 @@ public:
 
   /** Set the pixel value */
   void Set(const PixelType & value) const
-  { this->m_PixelAccessor.Set(*( const_cast< InternalPixelType * >( this->m_Position ) ), value); }
+  { this->m_PixelAccessorFunctor.Set(*( const_cast< InternalPixelType * >( this->m_Position ) ), value); }
 
-  /** Return a reference to the pixel
+  /** Return a reference to the pixel.
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */
   PixelType & Value(void)
   { return *( const_cast< InternalPixelType * >( this->m_Position ) ); }
 protected:
-  /** the construction from a const iterator is declared protected
+  /** The construction from a const iterator is declared protected
       in order to enforce const correctness. */
   ImageRegionExclusionIteratorWithIndex(const ImageRegionExclusionConstIteratorWithIndex< TImage > & it);
   Self & operator=(const ImageRegionExclusionConstIteratorWithIndex< TImage > & it);
@@ -115,7 +116,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageRegionExclusionIteratorWithIndex.txx"
+#include "itkImageRegionExclusionIteratorWithIndex.hxx"
 #endif
 
 #endif

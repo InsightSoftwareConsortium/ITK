@@ -21,9 +21,9 @@
  *
  */
 
-import org.itk.base.*;
-import org.itk.io.*;
-import org.itk.denoising.*;
+import org.itk.itkcommon.*;
+import org.itk.itkiobase.*;
+import org.itk.itksmoothing.*;
 
 public class MeanImageFilter
 {

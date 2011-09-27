@@ -35,7 +35,7 @@ namespace Statistics
  *  an histogram from an image. Internally it creates a List that is feed into
  *  the SampleToHistogramFilter.
  *
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  */
 
 template< class TImage, class TMaskImage >
@@ -95,7 +95,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMaskedImageToHistogramFilter.txx"
+#include "itkMaskedImageToHistogramFilter.hxx"
 #endif
 
 #endif

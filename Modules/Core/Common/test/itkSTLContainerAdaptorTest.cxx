@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkVectorContainer.h"
 #include "itkMapContainer.h"
@@ -171,8 +168,6 @@ int itkSTLContainerAdaptorTest(int, char* [] )
   { // create a local scope
 
     std::cout << "Testing the MapContainer " << std::endl;
-
-    typedef itk::MapContainer<IndexType, ElementType>  MapContainerType;
 
     MapContainerType::Pointer mapContainer = MapContainerType::New();
 

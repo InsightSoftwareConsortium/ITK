@@ -15,15 +15,17 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #ifndef __itkFEMLoadGrav_h
 #define __itkFEMLoadGrav_h
 
 #include "itkFEMLoadElementBase.h"
 #include "vnl/vnl_vector.h"
 
-namespace itk {
-namespace fem {
-
+namespace itk
+{
+namespace fem
+{
 /**
  * \class LoadGrav
  * \brief Abstract gravity load class.
@@ -32,14 +34,27 @@ namespace fem {
  * Fg member function defined in a derived class. The Fg function accepts a vector
  * specifying a point in global coordinate system and returns a load vector
  * defined at the point. Derived LoadClasses must define this function.
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 class LoadGrav : public LoadElement
 {
-  FEM_ABSTRACT_CLASS(LoadGrav,LoadElement)
 public:
+  /** Standard class typedefs. */
+  typedef LoadGrav                 Self;
+  typedef LoadElement              Superclass;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
-  virtual vnl_vector<Float> Fg(vnl_vector<Float>) = 0;
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(LoadGrav, LoadElement);
+
+  virtual vnl_vector<Float> GetGravitationalForceAtPoint(vnl_vector<Float> ) = 0;
+
+protected:
+  virtual void PrintSelf(std::ostream& os, Indent indent) const
+  {
+    Superclass::PrintSelf(os, indent);
+  }
 
 };
 
@@ -49,32 +64,53 @@ public:
  *
  * This is a special case of LoadGrav. The load vector is the same on
  * every point in space.
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 class LoadGravConst : public LoadGrav
 {
-  FEM_CLASS(LoadGravConst,LoadGrav)
 public:
-  vnl_vector<Float> Fg_value;
-  virtual vnl_vector<Float> Fg(vnl_vector<Float>)
-    {
-    return Fg_value;
-    }
+  /** Standard class typedefs. */
+  typedef LoadGravConst            Self;
+  typedef LoadGrav                 Superclass;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
+
+  /** Method for creation through the object factory. */
+  itkSimpleNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(LoadGravConst, LoadGrav);
+
+  /** CreateAnother method will clone the existing instance of this type,
+   * including its internal member variables. */
+  virtual::itk::LightObject::Pointer CreateAnother(void) const;
+
+  virtual vnl_vector<Float> GetGravitationalForceAtPoint(vnl_vector<Float> )
+  {
+    return m_GravityForce;
+  }
 
   /**
-   * Read an object from input stream.
+   * Set the gravity force that exists at every point
    */
-  virtual void Read( std::istream& f, void* info );
+  void SetForce(const vnl_vector<itk::fem::Element::Float> force);
 
   /**
-   * Write an object to the output stream
+   * Get the gravity force that exists at every point
    */
-  virtual void Write( std::ostream& f ) const;
+  vnl_vector<itk::fem::Element::Float> & GetForce();
+  const vnl_vector<itk::fem::Element::Float> & GetForce() const;
 
+  /** Apply the load to the specified element */
+  virtual void ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe);
+
+protected:
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+
+  vnl_vector<Float> m_GravityForce;
 };
 
-FEM_CLASS_INIT(LoadGravConst)
-
-}} // end namespace itk::fem
+}
+}  // end namespace itk::fem
 
 #endif // #ifndef __itkFEMLoadGrav_h

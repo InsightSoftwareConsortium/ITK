@@ -1,0 +1,27 @@
+WRAP_LIBRARY(ITKReview)
+
+set(WRAPPER_LIBRARY_GROUPS
+  itkImageToPathFilter
+)
+
+set(WRAPPER_LIBRARY_DEPENDS ITKCommon  ITKStatistics ITKTransform
+ITKImageFunction ITKImageFilterBase ITKImageGrid ITKFiniteDifference
+ITKCurvatureFlow ITKAnisotropicSmoothing ITKMesh ITKIOBase
+ITKSpatialObjects ITKImageCompose ITKImageStatistics ITKPath
+ITKImageIntensity ITKSmoothing ITKImageGradient ITKImageFeature
+ITKThresholding ITKConnectedComponents ITKIOPNG
+ITKMathematicalMorphology ITKNarrowBand ITKImageCompare
+ITKQuadEdgeMesh ITKFastMarching ITKLevelSets ITKAntiAlias ITKIORAW
+ITKClassifiers ITKDisplacementField  ITKEigen ITKRegistrationCommon
+ITKPDEDeformableRegistration ITKImageLabel ITKIOBioRad ITKIOBMP
+ITKIOGDCM ITKIOIPL ITKIOGE ITKIOGIPL ITKIOJPEG ITKIOTIFF ITKIOLSM
+ITKIOMeta ITKIONIFTI ITKIONRRD ITKIOSiemens ITKIOSpatialObjects
+ITKIOStimulate ITKIOVTK ITKLabelVoting ITKQuadEdgeMeshFiltering
+ITKRegionGrowing ITKVoronoi ITKWatersheds ITKLabelMap
+ITKBinaryMathematicalMorphology ITKImageFusion ITKOptimizers)
+
+
+set(WRAPPER_LIBRARY_LINK_LIBRARIES ${ITK_LIBRARIES})
+
+AUTO_INCLUDE_MODULES()
+END_WRAP_LIBRARY()

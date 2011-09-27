@@ -27,15 +27,30 @@ namespace itk
 namespace Statistics
 {
 /** \class MembershipFunctionBase
- * \brief MembershipFunctionBase class declares common interfaces
+ * \brief MembershipFunctionBase defines common interfaces
  * for membership functions.
  *
- * As a function derived from FunctionBase, users use Evaluate method
- * get result. However, the return value type of the method is fixed
- * as double. Any function derived from this class returns quantitative
- * measure for how well the vector x belong to the class ( or group)
- * represented by the function.
- * \ingroup ITK-Statistics
+ * MembershipFunctionBase is a subclass of FunctionBase which
+ * restricts the function type to be a membership function. Membership
+ * functions provide a mapping from an arbitrary domain to a set of
+ * real numbers. Membership functions are typically used to model or
+ * approximate likelihood functions, \f$p( x | i )\f$, i.e. the
+ * probability of the measurement \f$x\f$ belonging to a class
+ * \f$i\f$.
+ *
+ * The Statistics framework models random variables \f$x\f$ as
+ * vectors. Typical uses of MembershipFunctions include templating
+ * over a FixedArray, Array, Vector, or VariableLengthVector.
+ *
+ * The Evaluate() method returns the membership rank or likelihood
+ * that the measurement belongs to the class represented by this
+ * membership function.
+ *
+ * Evaluations of a single measurement across of set MembershipFunctions
+ * can then be passed to a DecisionRule in order to establish
+ * class (or group) assignment.
+ *
+ * \ingroup ITKStatistics
  */
 
 template< class TVector >
@@ -49,7 +64,7 @@ public:
   typedef SmartPointer< Self >            Pointer;
   typedef SmartPointer< const Self >      ConstPointer;
 
-  /** Strandard macros */
+  /** Standard macros */
   itkTypeMacro(MembershipFunctionBase, FunctionBase);
 
   /** MeasurementVector typedef support */
@@ -58,10 +73,23 @@ public:
   /** Typedef for the length of each measurement vector */
   typedef unsigned int MeasurementVectorSizeType;
 
-  /** Method to get membership score (discriminant score) of an entity. */
+  /** Method to clone a membership function, i.e. create a new instance of
+   * the same type of membership function and configure its ivars to
+   * match. */
+  virtual Pointer Clone() const = 0;
+
+  /** Method to get membership score (discriminant score) of an entity
+   * or measurement. Evaluate() maps from a vector measurement type
+   * to a real number. */
   virtual double Evaluate(const MeasurementVectorType & x) const = 0;
 
-  /** Set method for the length of the measurement vector */
+  /** Set the length of the measurement vector. If this membership
+   * function is templated over a vector type that can be resized,
+   * the new size is set. If the vector type has a fixed size and an
+   * attempt is made to change its size, an exception is
+   * thrown. Subclasses may have to override this method if a change
+   * in vector size requires invalidating other instance variables,
+   * e.g. covariance matrices, mean vectors, etc. */
   virtual void SetMeasurementVectorSize(MeasurementVectorSizeType s)
   {
     // Test whether the vector type is resizable or not
@@ -93,14 +121,14 @@ public:
       if ( defaultLength != s )
         {
         itkExceptionMacro(
-          "Attempting to change the measurement \
-           vector size of a non-resizable vector type" );
+          "Attempting to change the measurement vector size of a non-resizable vector type" );
         }
       }
   }
 
-  /** Get method for the length of the measurement vector */
+  /** Get the length of the measurement vector */
   itkGetConstMacro(MeasurementVectorSize, MeasurementVectorSizeType);
+
 protected:
   MembershipFunctionBase()
   {
@@ -117,7 +145,12 @@ protected:
        << m_MeasurementVectorSize << std::endl;
   }
 
+private:
+  MembershipFunctionBase(const Self &);   //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
+
   MeasurementVectorSizeType m_MeasurementVectorSize;
+
 };  // end of class
 } // end of namespace Statistics
 } // end namespace itk

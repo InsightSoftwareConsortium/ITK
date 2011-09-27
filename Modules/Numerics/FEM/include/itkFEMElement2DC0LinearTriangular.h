@@ -15,60 +15,91 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #ifndef __itkFEMElement2DC0LinearTriangular_h
 #define __itkFEMElement2DC0LinearTriangular_h
 
 #include "itkFEMElementStd.h"
 
-namespace itk {
-namespace fem {
-
+namespace itk
+{
+namespace fem
+{
 /**
  * \class Element2DC0LinearTriangular
  * \brief 3-noded, linear, C0 continuous finite element in 2D space.
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
+ *
+ * The ordering of the nodes is counter clockwise. That is the nodes
+ * should be defined in the following order:
+ *
+ *  (0,1)
+ *  2
+ *  *
+ *  |\
+ *  | \
+ *  |  \
+ *  |   \
+ *  |    \
+ *  |     \
+ *  *------*
+ *  0      1
+ *  (0,0)  (0,1)
+ *
+ * This is an abstract class. Specific concrete implemenations of this
+ * It must be combined with the physics component of the problem.
+ * This has already been done in the following classes:
+ *
+ * \sa Element2DC0LinearTriangular
+ * \sa Element2DC0LinearTriangularStrain
+ * \sa Element2DC0LinearTriangularStress
  */
-class Element2DC0LinearTriangular : public ElementStd<3,2>
+class Element2DC0LinearTriangular : public ElementStd<3, 2>
 {
-  typedef ElementStd<3,2> TemplatedParentClass;
-  FEM_ABSTRACT_CLASS( Element2DC0LinearTriangular, TemplatedParentClass )
 public:
+  /** Standard class typedefs. */
+  typedef Element2DC0LinearTriangular Self;
+  typedef ElementStd<3, 2>            TemplatedParentClass;
+  typedef TemplatedParentClass        Superclass;
+  typedef SmartPointer<Self>          Pointer;
+  typedef SmartPointer<const Self>    ConstPointer;
 
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Element2DC0LinearTriangular, TemplatedParentClass);
 
-  //////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////
   /**
    * Methods related to numeric integration
    */
 
   enum { DefaultIntegrationOrder = 1 };
 
-  virtual void GetIntegrationPointAndWeight(unsigned int i, VectorType& pt, Float& w, unsigned int order) const;
+  /** Get the Integration point and weight */
+  virtual void GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, Float & w, unsigned int order) const;
 
+  /** Get the number of integration points */
   virtual unsigned int GetNumberOfIntegrationPoints(unsigned int order) const;
 
-  //////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////
   /**
    * Methods related to the geometry of an element
    */
 
-  virtual VectorType ShapeFunctions( const VectorType& pt ) const;
+  /** Return the shape functions used to interpolate across the element */
+  virtual VectorType ShapeFunctions(const VectorType & pt) const;
 
-  virtual void ShapeFunctionDerivatives( const VectorType& pt, MatrixType& shapeD ) const;
+  /** Return the shape functions derivatives in the shapeD matrix */
+  virtual void ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const;
 
-  // FIXME: Write a proper implementation
-  virtual bool GetLocalFromGlobalCoordinates( const VectorType& globalPt , VectorType& localPt) const;
+  /** Convert from global to local coordinates */
+  virtual bool GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const;
 
   // Since the Jacobian is not quadratic, we need to provide our
   // own implementation of calculating the determinant and inverse.
-  virtual Float JacobianDeterminant( const VectorType& pt, const MatrixType* pJ = 0 ) const;
-  virtual void JacobianInverse( const VectorType& pt, MatrixType& invJ, const MatrixType* pJ = 0 ) const;
+  virtual Float JacobianDeterminant(const VectorType & pt, const MatrixType *pJ = 0) const;
 
-  /**
-   * Draw the element on the specified device context
-   */
-#ifdef FEM_BUILD_VISUALIZATION
-  void Draw(CDC* pDC, Solution::ConstPointer sol) const;
-#endif
+  /** Return the inverse of the Jacobian */
+  virtual void JacobianInverse(const VectorType & pt, MatrixType & invJ, const MatrixType *pJ = 0) const;
 
   /**
    * Constants for integration rules.
@@ -80,9 +111,13 @@ public:
    * of numerical integration.
    */
   static const unsigned int Nip[6];
+protected:
+  virtual void PopulateEdgeIds(void);
+
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 };
-
-}} // end namespace itk::fem
+}
+}  // end namespace itk::fem
 
 #endif  // #ifndef __itkFEMElement2DC0LinearTriangular_h

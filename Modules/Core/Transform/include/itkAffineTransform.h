@@ -92,8 +92,7 @@ namespace itk
  * and a translation that is applied with respect to that centered rotation.
  * By default the center of rotation is set to the origin.
  *
- * \ingroup Transforms
- *
+ * \ingroup ITKTransform
  */
 
 template<
@@ -296,8 +295,7 @@ protected:
    * transformation in the appropriate number of dimensions.   */
   AffineTransform(const MatrixType & matrix,
                   const OutputVectorType & offset);
-  AffineTransform(unsigned int outputDims,
-                  unsigned int paramDims);
+  AffineTransform(unsigned int paramDims);
   AffineTransform();
 
   /** Destroy an AffineTransform object   */
@@ -418,7 +416,7 @@ AffineTransform< TScalarType, NDimensions >::BackTransform(const OutputPointType
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkAffineTransform.txx"
+#include "itkAffineTransform.hxx"
 #endif
 
 #endif /* __itkAffineTransform_h */

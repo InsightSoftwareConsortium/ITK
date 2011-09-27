@@ -18,7 +18,7 @@
 #ifndef __itkGDCMSeriesFileNames_h
 #define __itkGDCMSeriesFileNames_h
 
-#include "itkObject.h"
+#include "itkProcessObject.h"
 #include "itkObjectFactory.h"
 #include "itkMacro.h"
 #include <vector>
@@ -46,23 +46,23 @@ namespace itk
  *
  * \ingroup IOFilters
  *
- * \ingroup ITK-IO-GDCM
+ * \ingroup ITKIOGDCM
  */
 typedef std::vector< std::string > FilenamesContainer;
 typedef std::vector< std::string > SerieUIDContainer;
-class ITK_EXPORT GDCMSeriesFileNames:public Object
+class ITK_EXPORT GDCMSeriesFileNames:public ProcessObject
 {
 public:
   /** Standard class typedefs. */
   typedef GDCMSeriesFileNames  Self;
-  typedef Object               Superclass;
+  typedef ProcessObject        Superclass;
   typedef SmartPointer< Self > Pointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GDCMSeriesFileNames, Object);
+  itkTypeMacro(GDCMSeriesFileNames, ProcessObject);
 
   /* -------- Define the API for GDCMSeriesFileNames ----------- */
 

@@ -61,7 +61,7 @@ namespace itk
  * unreasonable. Finally NormalProcessUnsharpWeight controls the amount of
  * extrapolation (or equivalently the amount of detail enhancement). This value
  * should be in the range [0.1,1] for reasonable results.
- * \ingroup ITK-LevelSets
+ * \ingroup ITKLevelSets
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT UnsharpMaskLevelSetImageFilter:
@@ -125,7 +125,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkUnsharpMaskLevelSetImageFilter.txx"
+#include "itkUnsharpMaskLevelSetImageFilter.hxx"
 #endif
 
 #endif

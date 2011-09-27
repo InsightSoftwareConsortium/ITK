@@ -155,7 +155,7 @@ namespace itk
  * \ingroup ImageFilter
  * \ingroup LevelSetSegmentation
  * \sa DenseFiniteDifferenceImageFilter2
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TInputImage,
           class TFeatureImage,
@@ -523,7 +523,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMultiphaseFiniteDifferenceImageFilter.txx"
+#include "itkMultiphaseFiniteDifferenceImageFilter.hxx"
 #endif
 
 #endif

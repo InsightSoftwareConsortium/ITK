@@ -1,8 +1,8 @@
-set(ITK-IO-NRRD_SRC
+set(ITKIONRRD_SRC
 itkNrrdImageIOFactory.cxx
 itkNrrdImageIO.cxx
 )
 
-add_library(ITK-IO-NRRD ${ITK-IO-NRRD_SRC})
-target_link_libraries(ITK-IO-NRRD  ${ITK-NrrdIO_LIBRARIES} ${ITK-IO-Base_LIBRARIES})
-itk_module_target(ITK-IO-NRRD)
+add_library(ITKIONRRD ${ITKIONRRD_SRC})
+target_link_libraries(ITKIONRRD  ${ITKNrrdIO_LIBRARIES} ${ITKIOBase_LIBRARIES})
+itk_module_target(ITKIONRRD)

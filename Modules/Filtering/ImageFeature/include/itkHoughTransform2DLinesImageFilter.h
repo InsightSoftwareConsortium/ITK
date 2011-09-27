@@ -18,9 +18,6 @@
 #ifndef __itkHoughTransform2DLinesImageFilter_h
 #define __itkHoughTransform2DLinesImageFilter_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkImageToImageFilter.h"
 #include "itkLineSpatialObject.h"
@@ -32,10 +29,10 @@ namespace itk
  * \brief Performs the Hough Transform to find 2D straight lines
  *        in a 2D image.
  *
- * This filter derives from ImageToImageFilter
+ * This filter derives from ImageToImageFilter.
  * The input is an image, and all pixels above some threshold are those
  * to be extracted. The output is the image of the accumulator.
- * GetLines() returns a list of LinesSpatialObjects
+ * GetLines() returns a list of LinesSpatialObjects.
  *
  * Lines are parameterized in the form: R = x*vcl_cos(Teta)+y*vcl_sin(Teta)
  * where R is the perpendicular distance from the origin and Teta
@@ -54,7 +51,7 @@ namespace itk
  * \ingroup ImageFeatureExtraction
  * \sa LineSpatialObject
  *
- * \ingroup ITK-ImageFeature
+ * \ingroup ITKImageFeature
  *
  * \wiki
  * \wikiexample{Conversions/HoughTransform2DLinesImageFilter,HoughTransform2DLinesImageFilter}
@@ -200,7 +197,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkHoughTransform2DLinesImageFilter.txx"
+#include "itkHoughTransform2DLinesImageFilter.hxx"
 #endif
 
 #endif

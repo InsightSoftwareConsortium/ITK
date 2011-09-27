@@ -33,8 +33,8 @@ namespace itk
  * takes advantage of the second order moments in order to initialize the
  * Versor representing rotation.
  *
- * \ingroup Transforms
- * \ingroup ITK-RegistrationCommon
+ * \ingroup ITKRegistrationCommon
+ * \ingroup ITKTransform
  */
 template< class TFixedImage,
           class TMovingImage >
@@ -124,7 +124,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkCenteredVersorTransformInitializer.txx"
+#include "itkCenteredVersorTransformInitializer.hxx"
 #endif
 
 #endif /* __itkCenteredVersorTransformInitializer_h */

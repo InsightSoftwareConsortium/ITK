@@ -15,14 +15,11 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <iostream>
 #include "itkImage.h"
 #include "itkZeroCrossingImageFilter.h"
-#include "itkNullImageToImageFilterDriver.txx"
+#include "itkNullImageToImageFilterDriver.hxx"
 #include "itkVector.h"
 
 inline std::ostream& operator<<(std::ostream &o, const itk::Vector<float, 3> &v)

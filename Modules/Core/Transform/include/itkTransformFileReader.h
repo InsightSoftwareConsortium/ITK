@@ -25,7 +25,7 @@ namespace itk
 /** \class TransformFileReader
  *
  * \brief TODO
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  *
  * \wiki
  * \wikiexample{IO/TransformFileReader,Read a transform from a file}
@@ -58,7 +58,7 @@ public:
   itkGetStringMacro(FileName);
 
   /** Read the transform */
-  void Update();
+  virtual void Update();
 
   /** Get the list of transform */
   TransformListType * GetTransformList() { return &m_TransformList; }
@@ -73,6 +73,12 @@ protected:
   TransformFileReader();
   virtual ~TransformFileReader();
   void CreateTransform(TransformPointer & ptr, const std::string & ClassName);
+
+  /** Flag set by CompositeTransformReader.
+   * \warning This is TEMPORARY and should only be used
+   * internally. Used for testing during transition to final CompositeTransform
+   * IO method */
+  bool m_ReadingCompositeTransform;
 
 private:
   TransformListType m_TransformList;

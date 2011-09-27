@@ -3,16 +3,16 @@ particular you will find here: Canny edge detection, Sobel, ZeroCrossings,
 Hough transform for lines and circles, Hessian filters, Vesselness, and
 Fractional anisotropy for tensor images.")
 
-itk_module(ITK-ImageFeature
+itk_module(ITKImageFeature
   DEPENDS
-    ITK-ImageIntensity
-    ITK-Smoothing
-    ITK-ImageGradient
-    ITK-SpatialObjects
+    ITKImageIntensity
+    ITKSmoothing
+    ITKImageGradient
+    ITKSpatialObjects
   TEST_DEPENDS
-    ITK-TestKernel
-    ITK-Thresholding
+    ITKTestKernel
+    ITKThresholding
   DESCRIPTION
     "${DOCUMENTATION}"
   )
-# Extra test dependency on ITK-Thresholding is introduced by itkHoughTransform2DCirclesImageTest.
+# Extra test dependency on ITKThresholding is introduced by itkHoughTransform2DCirclesImageTest.

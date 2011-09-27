@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS: {BrainT1Slice.png}, {BrainT1Slice_labelled.png}
@@ -262,7 +259,7 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::MinimumDecisionRule DecisionRuleType;
+  typedef itk::Statistics::MinimumDecisionRule DecisionRuleType;
 
   DecisionRuleType::Pointer  classifierDecisionRule = DecisionRuleType::New();
 

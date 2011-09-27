@@ -1,3 +1,3 @@
-project(ITK-IO-JPEG)
-set(ITK-IO-JPEG_LIBRARIES ITK-IO-JPEG)
+project(ITKIOJPEG)
+set(ITKIOJPEG_LIBRARIES ITKIOJPEG)
 itk_module_impl()

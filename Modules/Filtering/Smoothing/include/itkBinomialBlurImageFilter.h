@@ -26,14 +26,14 @@
 namespace itk
 {
 /** \class BinomialBlurImageFilter
- * \brief Performs a separable blur on each dimension of an image
+ * \brief Performs a separable blur on each dimension of an image.
  *
  * The binomial blur consists of a nearest neighbor average along each
  * image dimension. The net result after n-iterations approaches
  * convultion with a gaussian.
  *
  * \ingroup ImageEnhancement
- * \ingroup ITK-Smoothing
+ * \ingroup ITKSmoothing
  *
  * \wiki
  * \wikiexample{Smoothing/BinomialBlurImageFilter,Blur an image}
@@ -60,7 +60,7 @@ public:
   itkStaticConstMacro(NDimensions, unsigned int, TInputImage::ImageDimension);
   itkStaticConstMacro(NOutputDimensions, unsigned int, TOutputImage::ImageDimension);
 
-  /** typedef for images */
+  /** Typedef for images */
   typedef TInputImage                           InputImageType;
   typedef TOutputImage                          OutputImageType;
   typedef typename OutputImageType::Pointer     OutputImagePointer;
@@ -118,7 +118,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinomialBlurImageFilter.txx"
+#include "itkBinomialBlurImageFilter.hxx"
 #endif
 
 #endif

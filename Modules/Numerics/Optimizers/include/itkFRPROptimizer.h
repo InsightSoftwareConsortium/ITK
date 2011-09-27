@@ -43,7 +43,7 @@ namespace itk
  *
  * \ingroup Numerics Optimizers
  *
- * \ingroup ITK-Optimizers
+ * \ingroup ITKOptimizers
  */
 
 class ITK_EXPORT FRPROptimizer:

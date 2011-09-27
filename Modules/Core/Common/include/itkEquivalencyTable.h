@@ -18,12 +18,9 @@
 #ifndef __itkEquivalencyTable_h
 #define __itkEquivalencyTable_h
 
-#if defined( _MSC_VER )
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkProcessObject.h"
-#include "itk_hash_map.h"
+#include "itksys/hash_map.hxx"
 
 namespace itk
 {
@@ -42,7 +39,7 @@ namespace itk
  * identified among image segments and as the input to
  * itk::watershed::Relabeler.
  * \ingroup WatershedSegmentation
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 class ITKCommon_EXPORT EquivalencyTable:public DataObject
 {
@@ -56,8 +53,8 @@ public:
   itkTypeMacro(EquivalencyTable, DataObject);
 
   /** Define the container type for the table. */
-  typedef itk::hash_map< unsigned long, unsigned long,
-                         itk::hash< unsigned long > > HashTableType;
+  typedef itksys::hash_map< unsigned long, unsigned long,
+    itksys::hash< unsigned long > > HashTableType;
 
   typedef HashTableType::iterator       Iterator;
   typedef HashTableType::const_iterator ConstIterator;

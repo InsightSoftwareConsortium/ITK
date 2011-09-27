@@ -22,8 +22,10 @@
 namespace itk
 {
 /** \class itkFloatingPointExceptions
+ *  \brief Allows floating point exceptions to be caught during program execution.
+ *
  * Allows floating point exceptions to be caught during program execution.
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 class ITKCommon_EXPORT FloatingPointExceptions
 {

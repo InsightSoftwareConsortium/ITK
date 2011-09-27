@@ -15,15 +15,12 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <fstream>
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkPipelineMonitorImageFilter.h"
-#include "itkDifferenceImageFilter.h"
+#include "itkTestingComparisonImageFilter.h"
 
 
 typedef unsigned char            PixelType;
@@ -44,7 +41,7 @@ bool SameImage(std::string output, std::string baseline) {
   testReader->SetFileName(output);
   baselineReader->SetFileName(baseline);
 
-  typedef itk::DifferenceImageFilter<ImageType,ImageType> DiffType;
+  typedef itk::Testing::ComparisonImageFilter<ImageType,ImageType> DiffType;
   DiffType::Pointer diff = DiffType::New();
   diff->SetValidInput(baselineReader->GetOutput());
   diff->SetTestInput(testReader->GetOutput());

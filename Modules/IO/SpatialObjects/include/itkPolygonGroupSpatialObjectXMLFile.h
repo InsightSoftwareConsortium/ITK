@@ -18,9 +18,6 @@
 #ifndef __itkPolygonGroupSpatialObjectXMLFile_h
 #define __itkPolygonGroupSpatialObjectXMLFile_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkPolygonGroupSpatialObject.h"
 #include "itkXMLFile.h"
@@ -33,7 +30,7 @@ typedef PolygonGroupSpatialObject< 3 > PGroupSpatialObjectType;
  *
  * Reads an XML-format file containing a list of polygons, and
  * creates a corresponding PolygonGroupSpatialObject
- * \ingroup ITK-IO-SpatialObjects
+ * \ingroup ITKIOSpatialObjects
  */
 class ITK_EXPORT PolygonGroupSpatialObjectXMLFileReader:
   public XMLReader< PGroupSpatialObjectType >
@@ -84,7 +81,7 @@ private:
  *
  * Writes an XML-format file containing a list of polygons,
  * based on a PolygonGroupSpatialObject.
- * \ingroup ITK-IO-SpatialObjects
+ * \ingroup ITKIOSpatialObjects
  */
 class ITK_EXPORT PolygonGroupSpatialObjectXMLFileWriter:
   public XMLWriterBase< PGroupSpatialObjectType >

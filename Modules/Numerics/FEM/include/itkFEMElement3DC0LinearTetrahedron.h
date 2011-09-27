@@ -18,57 +18,93 @@
 #ifndef __itkFEMElement3DC0LinearTetrahedron_h
 #define __itkFEMElement3DC0LinearTetrahedron_h
 
-
 #include "itkFEMElementStd.h"
-//to make some checks in GetLocalFromGlobalCoordinates
-#include "vnl/vnl_matrix.h"
-#include "vnl/algo/vnl_matrix_inverse.h"
+// to make some checks in GetLocalFromGlobalCoordinates
+#include <vnl/vnl_matrix.h>
+#include <vnl/algo/vnl_matrix_inverse.h>
 
-namespace itk {
-namespace fem {
-
+namespace itk
+{
+namespace fem
+{
 /**
  * \class Element3DC0LinearTetrahedron
  * \brief 4-noded, linear, C0 continuous finite element in 3D space.
- * \ingroup ITK-FEM
+ *
+ * The ordering of the nodes should be defined in the following order:
+ *
+ *            (1,0,1)
+ *               3
+ *               *
+ *              /|\
+ *             / | \
+ *            /  |  \
+ * (0,0,0) 0 *-- | --* 2 (2,0,0)
+ *            \  |  /
+ *             \ | /
+ *              \|/
+ *               *
+ *               1
+ *            (1,1,0)
+ *
+ *
+ * This is an abstract class. Specific concrete implemenations of this
+ * It must be combined with the physics component of the problem.
+ * This has already been done in the following classes:
+ *
+ * \sa Element3DC0LinearTetrahedronMembrane
+ * \sa Element3DC0LinearTetrahedronStrain
+ *
+ *
+ * \ingroup ITKFEM
  */
-class Element3DC0LinearTetrahedron : public ElementStd<4,3>
+class Element3DC0LinearTetrahedron : public ElementStd<4, 3>
 {
-  typedef ElementStd<4,3> TemplatedParentClass;
-  FEM_ABSTRACT_CLASS( Element3DC0LinearTetrahedron, TemplatedParentClass )
 public:
+  /** Standard class typedefs. */
+  typedef Element3DC0LinearTetrahedron Self;
+  typedef ElementStd<4, 3>             TemplatedParentClass;
+  typedef TemplatedParentClass         Superclass;
+  typedef SmartPointer<Self>           Pointer;
+  typedef SmartPointer<const Self>     ConstPointer;
 
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Element3DC0LinearTetrahedron, TemplatedParentClass);
 
-  //////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////
   /**
    * Methods related to numeric integration
    */
 
-  virtual void GetIntegrationPointAndWeight(unsigned int i, VectorType& pt, Float& w, unsigned int order) const;
+  enum { DefaultIntegrationOrder = 1 };
 
+  /** Get the Integration point and weight */
+  virtual void GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, Float & w, unsigned int order) const;
+
+  /** Get the number of integration points */
   virtual unsigned int GetNumberOfIntegrationPoints(unsigned int order) const;
 
-  //////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////
   /**
    * Methods related to the geometry of an element
    */
 
-  virtual VectorType ShapeFunctions( const VectorType& pt ) const;
+  /** Return the shape functions used to interpolate across the element */
+  virtual VectorType ShapeFunctions(const VectorType & pt) const;
 
-  virtual void ShapeFunctionDerivatives( const VectorType& pt, MatrixType& shapeD ) const;
+  /** Return the shape functions derivatives in the shapeD matrix */
+  virtual void ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const;
 
-  virtual bool GetLocalFromGlobalCoordinates( const VectorType& globalPt, VectorType& localPt ) const;
+  /** Convert from global to local coordinates */
+  virtual bool GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const;
 
-  /**
-   * Draw the element on the specified device context
-   */
-#ifdef FEM_BUILD_VISUALIZATION
-  void Draw(CDC* pDC, Solution::ConstPointer sol) const;
-#endif
+protected:
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
+  virtual void PopulateEdgeIds(void);
 
 };
-
-}} // end namespace itk::fem
+}
+}  // end namespace itk::fem
 
 #endif  // #ifndef __itkFEMElement3DC0LinearTetrahedron_h

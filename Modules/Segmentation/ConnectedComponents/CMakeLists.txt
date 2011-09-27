@@ -1,2 +1,2 @@
-project(ITK-ConnectedComponents)
+project(ITKConnectedComponents)
 itk_module_impl()

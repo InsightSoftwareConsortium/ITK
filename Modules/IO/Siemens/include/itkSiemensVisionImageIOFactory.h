@@ -18,9 +18,6 @@
 #ifndef __itkSiemensVisionImageIOFactory_h
 #define __itkSiemensVisionImageIOFactory_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"
@@ -29,7 +26,7 @@ namespace itk
 {
 /** \class SiemensVisionImageIOFactory
    * \brief Create instances of SiemensVisionImageIO objects using an object factory.
-   * \ingroup ITK-IO-Siemens
+   * \ingroup ITKIOSiemens
    */
 class ITK_EXPORT SiemensVisionImageIOFactory:public ObjectFactoryBase
 {

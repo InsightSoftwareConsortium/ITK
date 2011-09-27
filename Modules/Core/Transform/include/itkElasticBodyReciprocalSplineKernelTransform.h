@@ -32,8 +32,7 @@ namespace itk
  * three-dimensional elastic body. The model can approximate the way
  * that some physical objects deform".
  *
- * \ingroup Transforms
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  */
 template< class TScalarType = double,   // Data type for scalars (float or
                                         // double)
@@ -77,8 +76,6 @@ public:
   /** Get alpha */
   itkGetConstMacro(Alpha, TScalarType);
 
-  /** These (rather redundant) typedefs are needed because on SGI, typedefs
-   * are not inherited */
   typedef typename Superclass::InputPointType            InputPointType;
   typedef typename Superclass::OutputPointType           OutputPointType;
   typedef typename Superclass::InputVectorType           InputVectorType;
@@ -90,10 +87,7 @@ protected:
   virtual ~ElasticBodyReciprocalSplineKernelTransform();
   void PrintSelf(std::ostream & os, Indent indent) const;
 
-  /** These (rather redundant) typedefs are needed because on SGI, typedefs
-   * are not inherited */
   typedef typename Superclass::GMatrixType GMatrixType;
-
   /** Compute G(x)
    * For the elastic body spline, this is:
    * G(x) = [alpha*r(x)*I - 3*x*x'/r(x)]
@@ -134,7 +128,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkElasticBodyReciprocalSplineKernelTransform.txx"
+#include "itkElasticBodyReciprocalSplineKernelTransform.hxx"
 #endif
 
 #endif // __itkElasticBodyReciprocalSplineKernelTransform_h

@@ -19,7 +19,8 @@
 #define __itkScaleTransform_h
 
 #include <iostream>
-#include "itkTransform.h"
+// #include "itkTransform.h"
+#include "itkMatrixOffsetTransformBase.h"
 #include "itkMacro.h"
 #include "itkMatrix.h"
 
@@ -32,24 +33,24 @@ namespace itk
  * but with a large difference in performace since the affine transform will
  * use a matrix multiplication using a diagonal matrix.
  *
- * \ingroup Transforms
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  */
-template<
+template <
   class TScalarType = float, // Type for cordinate representation type (float or
                              // double)
-  unsigned int NDimensions = 3  >
+  unsigned int NDimensions = 3>
 // Number of dimensions
-class ITK_EXPORT ScaleTransform:public Transform< TScalarType,
-                                                  NDimensions,
-                                                  NDimensions >
+// class ITK_EXPORT ScaleTransform:public Transform< TScalarType,
+class ITK_EXPORT ScaleTransform : public MatrixOffsetTransformBase<TScalarType,
+                                                                   NDimensions,
+                                                                   NDimensions>
 {
 public:
   /** Standard class typedefs.   */
-  typedef ScaleTransform                                     Self;
-  typedef Transform< TScalarType, NDimensions, NDimensions > Superclass;
-  typedef SmartPointer< Self >                               Pointer;
-  typedef SmartPointer< const Self >                         ConstPointer;
+  typedef ScaleTransform                                                   Self;
+  typedef MatrixOffsetTransformBase<TScalarType, NDimensions, NDimensions> Superclass;
+  typedef SmartPointer<Self>                                               Pointer;
+  typedef SmartPointer<const Self>                                         ConstPointer;
 
   /** New macro for creation of through a smart pointer. */
   itkNewMacro(Self);
@@ -71,28 +72,30 @@ public:
   typedef typename Superclass::JacobianType JacobianType;
 
   /** Standard vector type for this class. */
-  typedef FixedArray< TScalarType, NDimensions > ScaleType;
+  typedef FixedArray<TScalarType, NDimensions> ScaleType;
 
   /** Standard vector type for this class. */
-  typedef Vector< TScalarType, NDimensions > InputVectorType;
-  typedef Vector< TScalarType, NDimensions > OutputVectorType;
+  typedef Vector<TScalarType, NDimensions> InputVectorType;
+  typedef Vector<TScalarType, NDimensions> OutputVectorType;
 
   /** Standard covariant vector type for this class. */
-  typedef CovariantVector< TScalarType, NDimensions > InputCovariantVectorType;
-  typedef CovariantVector< TScalarType, NDimensions > OutputCovariantVectorType;
+  typedef CovariantVector<TScalarType, NDimensions> InputCovariantVectorType;
+  typedef CovariantVector<TScalarType, NDimensions> OutputCovariantVectorType;
 
   /** Standard vnl_vector type for this class. */
-  typedef vnl_vector_fixed< TScalarType, NDimensions > InputVnlVectorType;
-  typedef vnl_vector_fixed< TScalarType, NDimensions > OutputVnlVectorType;
+  typedef vnl_vector_fixed<TScalarType, NDimensions> InputVnlVectorType;
+  typedef vnl_vector_fixed<TScalarType, NDimensions> OutputVnlVectorType;
 
   /** Standard coordinate point type for this class. */
-  typedef Point< TScalarType, NDimensions > InputPointType;
-  typedef Point< TScalarType, NDimensions > OutputPointType;
+  typedef Point<TScalarType, NDimensions> InputPointType;
+  typedef Point<TScalarType, NDimensions> OutputPointType;
 
   /** Base inverse transform type. This type should not be changed to the
    * concrete inverse transform type or inheritance would be lost.*/
   typedef typename Superclass::InverseTransformBaseType InverseTransformBaseType;
   typedef typename InverseTransformBaseType::Pointer    InverseTransformBasePointer;
+
+  typedef typename Superclass::MatrixType MatrixType;
 
   /** Set parameters.  This method sets the parameters for the transform value
    *  specified by the user. The parameters are organized as scale[i] =
@@ -109,13 +112,21 @@ public:
   /** Set the fixed parameters and update internal
    * transformation. This transform has no fixed paramaters
    */
-  virtual void SetFixedParameters(const ParametersType &) {}
+  virtual void SetFixedParameters(const ParametersType &)
+  {
+  }
 
   /** Get the fixed parameters */
   virtual const ParametersType & GetFixedParameters(void) const;
 
   /** Get the Jacobian matrix. */
-  const JacobianType & GetJacobian(const InputPointType & point) const;
+  virtual void ComputeJacobianWithRespectToParameters(const InputPointType & point, JacobianType & j) const;
+
+  /** Get the jacobian with respect to position, which simply is the
+   *  matrix because the transform is position-invariant.
+   *  \jac will be resized as needed, but it will be more efficient if
+   *  it is already properly sized. */
+  virtual void ComputeJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & jac) const;
 
   /** Set the factors of an Scale Transform
    * This method sets the factors of an ScaleTransform to a
@@ -126,7 +137,11 @@ public:
    * scale[0] corresponds to X, scale[1] corresponds to Y and scale[2]
    * corresponds to Z. */
   void SetScale(const ScaleType & scale)
-  { this->Modified(); m_Scale = scale; }
+  {
+    m_Scale = scale; this->ComputeMatrix(); this->Modified();
+  }
+
+  virtual void ComputeMatrix(void);
 
   /** Compose with another ScaleTransform. */
   void Compose(const Self *other, bool pre = false);
@@ -142,12 +157,13 @@ public:
    * vector. */
   OutputPointType     TransformPoint(const InputPointType  & point) const;
 
+  using Superclass::TransformVector;
   OutputVectorType    TransformVector(const InputVectorType & vector) const;
 
   OutputVnlVectorType TransformVector(const InputVnlVectorType & vector) const;
 
-  OutputCovariantVectorType TransformCovariantVector(
-    const InputCovariantVectorType & vector) const;
+  using Superclass::TransformCovariantVector;
+  OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType & vector) const;
 
   /** Back transform by a scale transformation
    * This method finds the point or vector that maps to a given
@@ -159,8 +175,7 @@ public:
 
   inline InputVnlVectorType BackTransform(const OutputVnlVectorType & vector) const;
 
-  inline InputCovariantVectorType BackTransform(
-    const OutputCovariantVectorType & vector) const;
+  inline InputCovariantVectorType BackTransform(const OutputCovariantVectorType & vector) const;
 
   /** Find inverse of a scale transformation
    * This method creates and returns a new ScaleTransform object
@@ -175,7 +190,9 @@ public:
    *
    * This sets all the scales to 1.0 */
   void SetIdentity(void)
-  { m_Scale.Fill(1.0); }
+  {
+    m_Scale.Fill(1.0);
+  }
 
   /** Set/Get the center used as fixed point for the scaling */
   itkSetMacro(Center, InputPointType);
@@ -189,7 +206,10 @@ public:
    *
    *           T( a*P + b*Q ) = a * T(P) + b * T(Q)
    */
-  virtual bool IsLinear() const { return true; }
+  virtual bool IsLinear() const
+  {
+    return true;
+  }
 protected:
   /** Construct an ScaleTransform object. */
   ScaleTransform();
@@ -201,24 +221,24 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  ScaleTransform(const Self & other);   //purposely not implemented
-  const Self & operator=(const Self &); //purposely not implemented
+  ScaleTransform(const Self & other);   // purposely not implemented
+  const Self & operator=(const Self &); // purposely not implemented
 
   ScaleType m_Scale;    // Scales of the transformation
 
   InputPointType         m_Center; // Scaling center
   mutable ParametersType m_FixedParameters;
-};                         //class ScaleTransform
+};                         // class ScaleTransform
 
 // Back transform a point
-template< class ScalarType, unsigned int NDimensions >
+template <class ScalarType, unsigned int NDimensions>
 inline
-typename ScaleTransform< ScalarType, NDimensions >::InputPointType
-ScaleTransform< ScalarType, NDimensions >::BackTransform(const OutputPointType & point) const
+typename ScaleTransform<ScalarType, NDimensions>::InputPointType
+ScaleTransform<ScalarType, NDimensions>::BackTransform(const OutputPointType & point) const
 {
   InputPointType result;
 
-  for ( unsigned int i = 0; i < SpaceDimension; i++ )
+  for( unsigned int i = 0; i < SpaceDimension; i++ )
     {
     result[i] = ( point[i] + m_Center[i] ) / m_Scale[i] - m_Center[i];
     }
@@ -226,14 +246,14 @@ ScaleTransform< ScalarType, NDimensions >::BackTransform(const OutputPointType &
 }
 
 // Back transform a vector
-template< class ScalarType, unsigned int NDimensions >
+template <class ScalarType, unsigned int NDimensions>
 inline
-typename ScaleTransform< ScalarType, NDimensions >::InputVectorType
-ScaleTransform< ScalarType, NDimensions >::BackTransform(const OutputVectorType & vect) const
+typename ScaleTransform<ScalarType, NDimensions>::InputVectorType
+ScaleTransform<ScalarType, NDimensions>::BackTransform(const OutputVectorType & vect) const
 {
   InputVectorType result;
 
-  for ( unsigned int i = 0; i < SpaceDimension; i++ )
+  for( unsigned int i = 0; i < SpaceDimension; i++ )
     {
     result[i] = vect[i] / m_Scale[i];
     }
@@ -241,14 +261,14 @@ ScaleTransform< ScalarType, NDimensions >::BackTransform(const OutputVectorType 
 }
 
 // Back transform a vnl_vector
-template< class ScalarType, unsigned int NDimensions >
+template <class ScalarType, unsigned int NDimensions>
 inline
-typename ScaleTransform< ScalarType, NDimensions >::InputVnlVectorType
-ScaleTransform< ScalarType, NDimensions >::BackTransform(const OutputVnlVectorType & vect) const
+typename ScaleTransform<ScalarType, NDimensions>::InputVnlVectorType
+ScaleTransform<ScalarType, NDimensions>::BackTransform(const OutputVnlVectorType & vect) const
 {
   InputVnlVectorType result;
 
-  for ( unsigned int i = 0; i < SpaceDimension; i++ )
+  for( unsigned int i = 0; i < SpaceDimension; i++ )
     {
     result[i] = vect[i] / m_Scale[i];
     }
@@ -256,30 +276,31 @@ ScaleTransform< ScalarType, NDimensions >::BackTransform(const OutputVnlVectorTy
 }
 
 // Back Transform a CovariantVector
-template< class ScalarType, unsigned int NDimensions >
+template <class ScalarType, unsigned int NDimensions>
 inline
-typename ScaleTransform< ScalarType, NDimensions >::InputCovariantVectorType
-ScaleTransform< ScalarType, NDimensions >::BackTransform(const OutputCovariantVectorType & vect) const
+typename ScaleTransform<ScalarType, NDimensions>::InputCovariantVectorType
+ScaleTransform<ScalarType, NDimensions>::BackTransform(const OutputCovariantVectorType & vect) const
 {
   // Covariant Vectors are scaled by the inverse
   InputCovariantVectorType result;
 
-  for ( unsigned int i = 0; i < SpaceDimension; i++ )
+  for( unsigned int i = 0; i < SpaceDimension; i++ )
     {
     result[i] = vect[i] * m_Scale[i];
     }
   return result;
 }
+
 }  // namespace itk
 
 // Define instantiation macro for this template.
 #define ITK_TEMPLATE_ScaleTransform(_, EXPORT, TypeX, TypeY)              \
   namespace itk                                                           \
   {                                                                       \
-  _( 2 ( class EXPORT ScaleTransform< ITK_TEMPLATE_2 TypeX > ) )          \
+  _( 2 ( class EXPORT ScaleTransform<ITK_TEMPLATE_2 TypeX> ) )          \
   namespace Templates                                                     \
   {                                                                       \
-  typedef ScaleTransform< ITK_TEMPLATE_2 TypeX > ScaleTransform##TypeY; \
+  typedef ScaleTransform<ITK_TEMPLATE_2 TypeX> ScaleTransform##TypeY; \
   }                                                                       \
   }
 
@@ -288,7 +309,7 @@ ScaleTransform< ScalarType, NDimensions >::BackTransform(const OutputCovariantVe
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkScaleTransform.txx"
+#include "itkScaleTransform.hxx"
 #endif
 
 #endif /* __itkScaleTransform_h */

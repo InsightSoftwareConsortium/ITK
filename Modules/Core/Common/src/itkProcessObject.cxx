@@ -657,6 +657,38 @@ ProcessObject
  */
 void
 ProcessObject
+::VerifyPreconditions()
+{
+
+  /**
+    * Count the number of required inputs which have been assigned
+    */
+  DataObjectPointerArraySizeType ninputs = this->GetNumberOfValidRequiredInputs();
+
+  if ( ninputs < m_NumberOfRequiredInputs )
+    {
+    itkExceptionMacro(<< "At least " << m_NumberOfRequiredInputs
+                      << " inputs are required but only " << ninputs
+                      << " are specified.");
+    }
+}
+
+
+/**
+ *
+ */
+void
+ProcessObject
+::VerifyInputInformation()
+{
+}
+
+
+/**
+ *
+ */
+void
+ProcessObject
 ::UpdateOutputInformation()
 {
   unsigned long                  t1, t2;
@@ -678,6 +710,14 @@ ProcessObject
     this->Modified();
     return;
     }
+
+  /**
+   * Verify that the process object has been configured correctly,
+   * that all required inputs are set, and needed parameters are set
+   * appropriately before we continue the pipeline, i.e. is the filter
+   * in a state that it can be run.
+   */
+  this->VerifyPreconditions();
 
   /**
    * We now wish to set the PipelineMTime of each output DataObject to
@@ -744,6 +784,16 @@ ProcessObject
         }
       }
 
+    /**
+     * Verify that all the inputs are consistent with the
+     * requirements of the filter. For example, subclasses might want
+     * to ensure all the inputs are in the same coordinate frame.
+     */
+    this->VerifyInputInformation();
+
+    /**
+     * Finally, generate the output information.
+     */
     this->GenerateOutputInformation();
 
     /**
@@ -964,17 +1014,6 @@ ProcessObject
 
   try
     {
-    /**
-    * Count the number of required inputs which have been assigned
-    */
-    DataObjectPointerArraySizeType ninputs = this->GetNumberOfValidRequiredInputs();
-    if ( ninputs < m_NumberOfRequiredInputs )
-      {
-      itkExceptionMacro(<< "At least " << m_NumberOfRequiredInputs
-                        << " inputs are required but only " << ninputs
-                        << " are specified.");
-      }
-
     this->GenerateData();
     }
   catch ( ProcessAborted & excp )

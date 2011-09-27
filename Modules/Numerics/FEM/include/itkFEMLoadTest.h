@@ -15,14 +15,16 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #ifndef __itkFEMLoadTest_h
 #define __itkFEMLoadTest_h
 
 #include "itkFEMLoadElementBase.h"
 
-namespace itk {
-namespace fem {
-
+namespace itk
+{
+namespace fem
+{
 /**
  * \class LoadTest
  * \brief Example to show how to define templated load classes.
@@ -30,58 +32,57 @@ namespace fem {
  * \note The class must be instantiated, before the object factory can
  *       produce more objects of this class. Instantiate the specific
  *       derived classes with: "template class LoadTest<...>;" where required.
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
-template<class TClass>
+template <class TClass>
 class LoadTest : public LoadElement
 {
-  FEM_CLASS(LoadTest,LoadElement)
 public:
+  /** Standard class typedefs. */
+  typedef LoadTest                 Self;
+  typedef LoadElement              Superclass;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
+
+  /** Method for creation through the object factory. */
+  itkSimpleNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(LoadTest, LoadElement);
+
+  /** CreateAnother method will clone the existing instance of this type,
+   * including its internal member variables. */
+  virtual::itk::LightObject::Pointer CreateAnother(void) const
+  {
+    ::itk::LightObject::Pointer smartPtr;
+    Pointer copyPtr = Self::New();
+    for( unsigned int i = 0; i < this->m_Element.size(); i++ )
+      {
+      copyPtr->AddNextElement( this->m_Element[i] );
+      }
+    copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
+
+    smartPtr = static_cast<Pointer>(copyPtr);
+
+    return smartPtr;
+  }
 
   /**
    * Default constructor
    */
-  LoadTest() {}
+  LoadTest()
+  {
+  }
 
   /**
    * Some data that this load defines.
    */
   TClass data;
-
-  virtual void Read( std::istream& f, void* info )
-    {
-    Superclass::Read(f,info);
-    }
-  void Write( std::ostream& f ) const
-    {
-    // call the parent's write function
-    Superclass::Write(f);
-    }
-
 private:
-  /** Dummy static int that enables automatic registration
-      with FEMObjectFactory. */
-  static const int DummyCLID;
 
 };
 
-// Provide the templated code for CLID function, that is
-// otherwise generated automaticly with FEM_CLASS_REGISTER
-// macro.
-template<class TClass>
-int LoadTest<TClass>::CLID(void)
-{
-  static const int CLID_ = FEMOF::Register( LoadTest::NewB, (std::string("LoadTest(")
-                +typeid(TClass).name()+")").c_str());
-  return CLID_;
 }
-
-// Make sure that the class is registered with FEMObjectFactory
-// by calling CLID() static member function each time the class
-// is instantiated for a specific template parameter TClass.
-template<class TClass>
-const int LoadTest<TClass>::DummyCLID=LoadTest<TClass>::CLID();
-
-}} // end namespace itk::fem
+}  // end namespace itk::fem
 
 #endif // #ifndef __itkFEMLoadTest_h

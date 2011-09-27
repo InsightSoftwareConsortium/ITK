@@ -43,8 +43,8 @@ namespace itk
  * The filter expect all images to have the same dimension
  * (e.g. all 2D, or all 3D, or all ND)
  *
- * \ingroup IntensityImageFilters Multithreaded
- * \ingroup ITK-ImageCompare
+ * \ingroup IntensityImageFilters MultiThreaded
+ * \ingroup ITKImageCompare
  *
  * \wiki
  * \wikiexample{ImageProcessing/SquaredDifferenceImageFilter,Compute the squared difference of corresponding pixels in two images}

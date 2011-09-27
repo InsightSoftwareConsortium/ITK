@@ -28,7 +28,7 @@ class SpatialObject;
 
 /** \class SpatialObjectTreeNode
  * \brief TODO
- * \ingroup ITK-SpatialObjects
+ * \ingroup ITKSpatialObjects
  */
 template< unsigned int TDimension >
 class ITK_EXPORT SpatialObjectTreeNode:public TreeNode< SpatialObject< TDimension > * >
@@ -87,10 +87,10 @@ private:
   void operator=(const Self &);        //purposely not implemented
 };
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSpatialObjectTreeNode.txx"
-#endif
-
 } // end namespace itk
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkSpatialObjectTreeNode.hxx"
+#endif
 
 #endif

@@ -65,7 +65,7 @@ namespace itk
  * first.
  *
  * \ingroup ImageFilters
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{Developer/ImageFilter,Filter an image}
@@ -146,6 +146,27 @@ protected:
   ~ImageToImageFilter();
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const;
+
+  /** \brief Verifies that the input images occupy the same physical
+   * space and the each index is at the same physical location.
+   *
+   * The default implementation of the PropagateRequestedRegion
+   * methods copies the index and size from the output to the
+   * input. This makes an implicit assumption that the images occupy
+   * the same physical location at each voxel. This method enforces
+   * that they are the same.
+   *
+   * This implementation verifies that all input images of
+   * InputImageDimensions have the same origin, spacing and direction.
+   *
+   * Filters which do not expect all input images to be at the same
+   * physical location should over-ride this method. Also filters
+   * whose inputs are different dimensions may need to overide this
+   * method.
+   *
+   * \sa ProcessObject::VerifyInputInformation
+   */
+  virtual void VerifyInputInformation();
 
   /** What is the input requested region that is required to produce
    * the output requested region? The base assumption for image
@@ -290,7 +311,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkImageToImageFilter.txx"
+#include "itkImageToImageFilter.hxx"
 #endif
 
 #endif

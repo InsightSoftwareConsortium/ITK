@@ -28,22 +28,21 @@ namespace itk
  * This class implements an Affine transform in which the rotation center
  * can be explicitly selected.
  *
- * \ingroup Transforms
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  */
-template<
+template <
   class TScalarType = double,      // Data type for scalars
-  unsigned int NDimensions = 3 >
+  unsigned int NDimensions = 3>
 // Number of dimensions in the input space
-class ITK_EXPORT CenteredAffineTransform:public AffineTransform< TScalarType,
-                                                                 NDimensions >
+class ITK_EXPORT CenteredAffineTransform : public AffineTransform<TScalarType,
+                                                                  NDimensions>
 {
 public:
   /** Standard typedefs   */
-  typedef CenteredAffineTransform                     Self;
-  typedef AffineTransform< TScalarType, NDimensions > Superclass;
-  typedef SmartPointer< Self >                        Pointer;
-  typedef SmartPointer< const Self >                  ConstPointer;
+  typedef CenteredAffineTransform                   Self;
+  typedef AffineTransform<TScalarType, NDimensions> Superclass;
+  typedef SmartPointer<Self>                        Pointer;
+  typedef SmartPointer<const Self>                  ConstPointer;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(CenteredAffineTransform, AffineTransform);
@@ -54,7 +53,7 @@ public:
   /** Dimension of the domain space. */
   itkStaticConstMacro(SpaceDimension, unsigned int, NDimensions);
   itkStaticConstMacro( ParametersDimension, unsigned int,
-                       NDimensions *( NDimensions + 2 ) );
+                       NDimensions * ( NDimensions + 2 ) );
 
   /** Types taken from the Superclass */
   typedef typename Superclass::ParametersType      ParametersType;
@@ -101,7 +100,7 @@ public:
    * given point or vector, returning the transformed point or
    * vector. The rank of the Jacobian will also indicate if the transform
    * is invertible at this point. */
-  const JacobianType & GetJacobian(const InputPointType  & point) const;
+  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const;
 
   /** Get an inverse of this transform. */
   bool GetInverse(Self *inverse) const;
@@ -118,17 +117,18 @@ protected:
 private:
   CenteredAffineTransform(const Self & other);
   const Self & operator=(const Self &);
-}; //class CenteredAffineTransform
+
+}; // class CenteredAffineTransform
 }  // namespace itk
 
 // Define instantiation macro for this template.
 #define ITK_TEMPLATE_CenteredAffineTransform(_, EXPORT, TypeX, TypeY)                       \
   namespace itk                                                                             \
   {                                                                                         \
-  _( 2 ( class EXPORT CenteredAffineTransform< ITK_TEMPLATE_2 TypeX > ) )                   \
+  _( 2 ( class EXPORT CenteredAffineTransform<ITK_TEMPLATE_2 TypeX> ) )                   \
   namespace Templates                                                                       \
   {                                                                                         \
-  typedef CenteredAffineTransform< ITK_TEMPLATE_2 TypeX > CenteredAffineTransform##TypeY; \
+  typedef CenteredAffineTransform<ITK_TEMPLATE_2 TypeX> CenteredAffineTransform##TypeY; \
   }                                                                                         \
   }
 
@@ -137,7 +137,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkCenteredAffineTransform.txx"
+#include "itkCenteredAffineTransform.hxx"
 #endif
 
 #endif /* __itkCenteredAffineTransform_h */

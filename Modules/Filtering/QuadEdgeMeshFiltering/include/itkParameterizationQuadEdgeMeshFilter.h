@@ -29,7 +29,7 @@ namespace itk
  *  \brief Compute a planar parameterization of the input mesh.
  *  \note Here we have only implemented some parameterizations with fixed
  *        boundary.
- * \ingroup ITK-QuadEdgeMeshFiltering
+ * \ingroup ITKQuadEdgeMeshFiltering
  *
  * \wiki
  * \wikiexample{Meshes/QuadEdgeMeshParameterizationFilter,Planar parameterization of a mesh}
@@ -178,6 +178,6 @@ private:
 };
 } // end namespace itk
 
-#include "itkParameterizationQuadEdgeMeshFilter.txx"
+#include "itkParameterizationQuadEdgeMeshFilter.hxx"
 
 #endif

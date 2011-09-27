@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<!DOCTYPE Change SYSTEM "http://ij.itk.org/itkfaq/ITKMigration.dtd">
 <!--**
 **
 ** MetaArrowFixMemoryLeaksAndConvertToITKObject.xml
@@ -33,6 +33,7 @@
     ** Extracted from git commit messages
     **-->
     <Description>
+      <![CDATA[
       A review of the MetaArrowConverter code revealed that this class does not
       use any state information (does not have any member variables) and therefore
       all of its methods can be declared static. The arguments of many of the methods
@@ -61,7 +62,7 @@
       ENH: Making most methods of itkMetaArrowConverter to be static,
       since this class doesn&apos;t really have a state (no member variables).
       As pointed out by Brad Lowekamp during Gerrit review.
-
+      ]]>
     </Description>
 
     <!--**
@@ -70,11 +71,14 @@
     **-->
     <SampleCode>
       <Old>
+        <![CDATA[
         typedef MetaArrowConverter<Dimension> MetaArrowConverterType;
         MetaArrowConverterType  converter;
+        ]]>
       </Old>
 
       <New>
+        <![CDATA[
          typedef MetaArrowConverter<Dimension> MetaArrowConverterType;
          MetaArrowConverterType::Pointer converter = MetaArrowConverterType::New();
 
@@ -96,6 +100,7 @@
          SpatialObjectPointer arrowObject = MetaArrowConverterType::MetaArrowToArrowSpatialObject( arrow );
 
          MetaArrow * anotherArrow = MetaArrowConverterType::ArrowSpatialObjectToMetaArrow( arrowObject );
+        ]]>
       </New>
 
     </SampleCode>

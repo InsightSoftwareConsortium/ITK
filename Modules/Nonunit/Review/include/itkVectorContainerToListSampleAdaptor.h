@@ -39,7 +39,7 @@ namespace Statistics
  *
  * \sa Sample, ListSample, VectorContainer
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 
 template< class TVectorContainer >
@@ -101,7 +101,7 @@ public:
   TotalAbsoluteFrequencyType GetTotalFrequency() const;
 
   /** \class ConstIterator
-   * \ingroup ITK-Review
+   * \ingroup ITKReview
    */
   class ConstIterator
   {
@@ -175,7 +175,7 @@ public:
   };
 
   /** \class Iterator
-   * \ingroup ITK-Review
+   * \ingroup ITKReview
    */
   class Iterator:public ConstIterator
   {
@@ -269,7 +269,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVectorContainerToListSampleAdaptor.txx"
+#include "itkVectorContainerToListSampleAdaptor.hxx"
 #endif
 
 #endif

@@ -35,8 +35,8 @@ namespace itk
  * informations for the first N dimensions are taken from the first input.
  * Note that all the inputs should have the same information.
  *
- * \ingroup GeometricTransforms
- * \ingroup Multithreaded
+ * \ingroup GeometricTransform
+ * \ingroup MultiThreaded
  * \ingroup Streamed
  *
  * \author Hideaki Hiraki
@@ -44,7 +44,7 @@ namespace itk
  * Contributed in the users list
  * http://public.kitware.com/pipermail/insight-users/2004-February/006542.html
  *
- * \ingroup ITK-ImageCompose
+ * \ingroup ITKImageCompose
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT JoinSeriesImageFilter:
@@ -128,7 +128,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkJoinSeriesImageFilter.txx"
+#include "itkJoinSeriesImageFilter.hxx"
 #endif
 
 #endif

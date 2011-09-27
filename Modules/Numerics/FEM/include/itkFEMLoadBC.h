@@ -20,31 +20,60 @@
 
 #include "itkFEMLoadBase.h"
 
-namespace itk {
-namespace fem {
-
+namespace itk
+{
+namespace fem
+{
 /**
  * \class LoadBC
  * \brief Generic essential (Dirichlet) boundary conditions.
  *
  * Objects of this class specify, which DOFs in a system are fixed.
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 class LoadBC : public Load
 {
-  FEM_CLASS(LoadBC,Load)
 public:
+  /** Standard class typedefs. */
+  typedef LoadBC                   Self;
+  typedef Load                     Superclass;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
-  /**
-   * Pointer to an element, which holds the DOF that is affected
-   * by boundary condition.
-   */
-Element::ConstPointer m_element;
+  /** Method for creation through the object factory. */
+  itkSimpleNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(LoadBC, Load);
+
+  /** CreateAnother method will clone the existing instance of this type,
+   * including its internal member variables. */
+  virtual::itk::LightObject::Pointer CreateAnother(void) const;
+
+  /** Default constructor */
+  LoadBC() : m_DegreeOfFreedom(0), m_Value()
+  {
+  }
+
+  /** Set the number of degrees of freedom*/
+  void SetDegreeOfFreedom(int dof);
+
+  /** Get the number of degrees of freedom*/
+  int GetDegreeOfFreedom() const;
+
+  /** Set the boundary condition using vector representation*/
+  void SetValue(const vnl_vector<Element::Float> val);
+
+  /** Get the boundary condition as vector representation*/
+  vnl_vector<Element::Float> GetValue() const;
+
+protected:
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
    * Local DOF number within the Element object.
    */
-  unsigned int m_dof;
+  unsigned int m_DegreeOfFreedom;
 
   /**
    * Value which the DOF is being fixed.
@@ -54,21 +83,10 @@ Element::ConstPointer m_element;
    *       defined by optional dim parameter (defaults to 0) in AssembleF
    *       function in solver.
    */
-  vnl_vector<Element::Float> m_value;
-
-  /** Default constructor */
-  LoadBC() : m_element(0), m_dof(0), m_value() {}
-
-  /** Read a LoadBC object from input stream.*/
-  virtual void Read( std::istream& f, void* info );
-
-  /** Write a LoadBC object to the output stream*/
-  virtual void Write( std::ostream& f ) const;
-
+  vnl_vector<Element::Float> m_Value;
 };
 
-FEM_CLASS_INIT(LoadBC)
-
-}} // end namespace itk::fem
+}
+}  // end namespace itk::fem
 
 #endif // #ifndef __itkFEMLoadBC_h

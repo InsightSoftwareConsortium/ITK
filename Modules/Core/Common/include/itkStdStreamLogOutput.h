@@ -27,7 +27,8 @@
 namespace itk
 {
 /** \class StdStreamLogOutput
- *  \brief Class StdStreamLogOutput represents a standard stream output stream.
+ *  \brief Represents a standard stream output stream.
+ *
  *  This class provides thread safety for the standard stream output stream.
  *
  * \author Hee-Su Kim, Compute Science Dept. Kyungpook National University,
@@ -35,7 +36,7 @@ namespace itk
  *
  *
  *  \ingroup OSSystemObjects LoggingObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 class ITKCommon_EXPORT StdStreamLogOutput:public LogOutput

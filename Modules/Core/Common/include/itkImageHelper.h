@@ -42,7 +42,7 @@ namespace itk
  * Information on the National Centers for Biomedical Computing
  * can be obtained from http://commonfund.nih.gov/bioinformatics.
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 // Forward reference ImageBase

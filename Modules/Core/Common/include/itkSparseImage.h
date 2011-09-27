@@ -27,7 +27,7 @@ namespace itk
 /**
  * \class SparseImage
  *
- * \brief This class implements a storage type for sparse image data.
+ * \brief A storage type for sparse image data.
  *
  * \par
  * This class is derived from the Image class. It uses the base class image
@@ -36,7 +36,21 @@ namespace itk
  * stored using the SparseFieldLayer and ObjectStore classes to allow
  * sequential list access to the nodes. This functionality is used in filter
  * classes that process the SparseImage class such as
- * FiniteDifferenceSparseImageFilter.
+ * FiniteDifferenceSparseImageFilter. The node type must also have members
+ * NodeType* Next and NodeType* Previous. A minimal node class which could
+ * be used to create the sparse equivalent of an itk::Image<unsigned char, 2>
+ * is shown below:
+ *
+ * \code
+ * struct NodeType
+ * {
+ * NodeType* Next;
+ * NodeType* Previous;
+ * ImageType::IndexType m_Index;
+ * unsigned char m_Data;
+ * };
+ * typedef itk::SparseImage<NodeType, 2> SparseImageType;
+ * \endcode
  *
  * \par
  * This class provides the method AddNode which allocates a node variable,
@@ -46,7 +60,7 @@ namespace itk
  * any calls to AddNode. This would allow the user later to distinguish between
  * valid and non-valid pixels.
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 template< class TNode, unsigned int VImageDimension = 2 >
@@ -137,7 +151,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSparseImage.txx"
+#include "itkSparseImage.hxx"
 #endif
 
 #endif

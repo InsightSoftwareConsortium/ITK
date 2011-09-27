@@ -28,6 +28,8 @@ namespace itk
 namespace NeighborhoodAlgorithm
 {
 /** \class ImageBoundaryFacesCalculator
+*   \brief Splits an image into a main region and several "face" regions
+*          which are used to handle computations on the boundary of an image.
 *
 * Splitting the image into the necessary regions is an easy task when you use
 * the ImageBoundaryFacesCalculator.  The face
@@ -55,7 +57,7 @@ namespace NeighborhoodAlgorithm
 * regionToProcess and bufferedRegion. The non-boundary regions (if
 * any) are the remaining faces in faceList.
 *
-* \ingroup ITK-Common
+* \ingroup ITKCommon
 */
 template< class TImage >
 struct ITK_EXPORT ImageBoundaryFacesCalculator {
@@ -70,12 +72,13 @@ struct ITK_EXPORT ImageBoundaryFacesCalculator {
 };
 
 /** \class CalculateOutputWrapOffsetModifiers
+ *  \brief Sets up itkNeighborhoodIterator output buffers.
  *
  * Helper class for setting up itkNeighborhoodIterator output
  * buffers. Calculates the necessary modifiers to synchronize input and output
  * iteration between images with equal RequestedRegion sizes but unequal
  * BufferedRegion sizes.
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TImage >
 struct ITK_EXPORT CalculateOutputWrapOffsetModifiers {
@@ -86,7 +89,7 @@ struct ITK_EXPORT CalculateOutputWrapOffsetModifiers {
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNeighborhoodAlgorithm.txx"
+#include "itkNeighborhoodAlgorithm.hxx"
 #endif
 
 #endif

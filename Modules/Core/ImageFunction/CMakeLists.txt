@@ -1,2 +1,2 @@
-project(ITK-ImageFunction)
+project(ITKImageFunction)
 itk_module_impl()

@@ -49,7 +49,7 @@ namespace itk
  * [1] Leventon, M.E. et al. "Statistical Shape Influence in Geodesic Active Contours", CVPR 2000.
  *
  * \ingroup FiniteDifferenceFunctions
- * \ingroup ITK-LevelSets
+ * \ingroup ITKLevelSets
  */
 template< class TImageType, class TFeatureImageType = TImageType >
 class ITK_EXPORT ShapePriorSegmentationLevelSetFunction:
@@ -154,7 +154,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShapePriorSegmentationLevelSetFunction.txx"
+#include "itkShapePriorSegmentationLevelSetFunction.hxx"
 #endif
 
 #endif

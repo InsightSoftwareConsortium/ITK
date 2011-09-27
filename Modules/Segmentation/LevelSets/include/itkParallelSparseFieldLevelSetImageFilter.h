@@ -31,7 +31,7 @@ namespace itk
 /** \class ParallelSparseFieldLevelSetNode
  * A data structure used in the ParallelSparsefieldlevelsetimagefilter to construct
  * lists of indicies and other values.
- * \ingroup ITK-LevelSets
+ * \ingroup ITKLevelSets
  */
 template< class TNodeIndexType >
 class ParallelSparseFieldLevelSetNode
@@ -69,7 +69,7 @@ public:
  *
  * \endcode
  *
- * \ingroup ITK-LevelSets
+ * \ingroup ITKLevelSets
  */
 template< class TNeighborhoodType >
 class ParallelSparseFieldCityBlockNeighborList
@@ -243,7 +243,7 @@ private:
  * \par
  * Sethian, J.A. Level Set Methods. Cambridge University Press. 1996.
  *
- * \ingroup ITK-LevelSets
+ * \ingroup ITKLevelSets
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT ParallelSparseFieldLevelSetImageFilter:
@@ -785,7 +785,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkParallelSparseFieldLevelSetImageFilter.txx"
+#include "itkParallelSparseFieldLevelSetImageFilter.hxx"
 #endif
 
 #endif

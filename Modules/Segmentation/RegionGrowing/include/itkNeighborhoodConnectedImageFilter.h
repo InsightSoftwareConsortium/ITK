@@ -30,7 +30,7 @@ namespace itk
  * Lower and Upper threshold range.
  *
  * \ingroup RegionGrowingSegmentation
- * \ingroup ITK-RegionGrowing
+ * \ingroup ITKRegionGrowing
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT NeighborhoodConnectedImageFilter:
@@ -141,7 +141,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNeighborhoodConnectedImageFilter.txx"
+#include "itkNeighborhoodConnectedImageFilter.hxx"
 #endif
 
 #endif

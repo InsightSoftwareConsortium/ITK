@@ -1,2 +1,2 @@
-project(ITK-NarrowBand)
+project(ITKNarrowBand)
 itk_module_impl()

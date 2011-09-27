@@ -32,10 +32,12 @@ namespace itk
 namespace bio
 {
 /** \class CellularAggregate
- * \brief This class represent an aggregation of bio::Cell objects
- * This class is the base for different types of cellular groups
+ * \brief Base class for different types of cellular groups,
  * including bacterial colonies and pluricellular organisms
- * \ingroup ITK-BioCell
+ * 
+ * This class represents an aggregation of bio::Cell objects.
+ *
+ * \ingroup ITKBioCell
  */
 template< unsigned int NSpaceDimension = 3 >
 class ITK_EXPORT CellularAggregate:public CellularAggregateBase
@@ -90,7 +92,6 @@ public:
   typedef typename PointsContainer::ConstIterator         PointsConstIterator;
   typedef typename PointDataContainer::ConstIterator      CellsConstIterator;
   typedef typename VoronoiRegionsContainer::ConstIterator VoronoiConstIterator;
-  typedef typename MeshType::PointIdentifier              IdentifierType;
   typedef typename MeshType::CellAutoPointer              CellAutoPointer;
 
   /**   Voronoi region around a bio::Cell */
@@ -172,7 +173,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBioCellularAggregate.txx"
+#include "itkBioCellularAggregate.hxx"
 #endif
 
 #endif

@@ -51,22 +51,21 @@ namespace itk
  * \sa Transfrom
  * \sa MatrixOffsetTransformBase
  *
- * \ingroup Transforms
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  */
-template< class TScalarType = double >
+template <class TScalarType = double>
 // Data type for scalars (float or double)
-class ITK_EXPORT Rigid2DTransform:
-  public MatrixOffsetTransformBase< TScalarType, 2, 2 >      // Dimensions of
+class ITK_EXPORT Rigid2DTransform :
+  public MatrixOffsetTransformBase<TScalarType, 2, 2>        // Dimensions of
                                                              // input and output
                                                              // spaces
 {
 public:
   /** Standard class typedefs. */
-  typedef Rigid2DTransform                               Self;
-  typedef MatrixOffsetTransformBase< TScalarType, 2, 2 > Superclass;
-  typedef SmartPointer< Self >                           Pointer;
-  typedef SmartPointer< const Self >                     ConstPointer;
+  typedef Rigid2DTransform                             Self;
+  typedef MatrixOffsetTransformBase<TScalarType, 2, 2> Superclass;
+  typedef SmartPointer<Self>                           Pointer;
+  typedef SmartPointer<const Self>                     ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(Rigid2DTransform, MatrixOffsetTransformBase);
@@ -89,28 +88,28 @@ public:
   /** Jacobian type. */
   typedef typename Superclass::JacobianType JacobianType;
 
-  /// Standard matrix type for this class
+  // / Standard matrix type for this class
   typedef typename Superclass::MatrixType      MatrixType;
   typedef typename Superclass::MatrixValueType MatrixValueType;
 
-  /// Standard vector type for this class
+  // / Standard vector type for this class
   typedef typename Superclass::OffsetType      OffsetType;
   typedef typename Superclass::OffsetValueType OffsetValueType;
 
-  /// Standard vector type for this class
+  // / Standard vector type for this class
   typedef typename Superclass::InputVectorType       InputVectorType;
   typedef typename Superclass::OutputVectorType      OutputVectorType;
   typedef typename Superclass::OutputVectorValueType OutputVectorValueType;
 
-  /// Standard covariant vector type for this class
+  // / Standard covariant vector type for this class
   typedef typename Superclass::InputCovariantVectorType  InputCovariantVectorType;
   typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
 
-  /// Standard vnl_vector type for this class
+  // / Standard vnl_vector type for this class
   typedef typename Superclass::InputVnlVectorType  InputVnlVectorType;
   typedef typename Superclass::OutputVnlVectorType OutputVnlVectorType;
 
-  /// Standard coordinate point type for this class
+  // / Standard coordinate point type for this class
   typedef typename Superclass::InputPointType  InputPointType;
   typedef typename Superclass::OutputPointType OutputPointType;
 
@@ -139,9 +138,13 @@ public:
    * GetMatrix().
    */
   virtual void SetRotationMatrix(const MatrixType & matrix)
-  { this->SetMatrix(matrix); }
+  {
+    this->SetMatrix(matrix);
+  }
   const MatrixType & GetRotationMatrix() const
-  { return this->GetMatrix(); }
+  {
+    return this->GetMatrix();
+  }
 
   /**
    * Compose the transformation with a translation
@@ -166,8 +169,7 @@ public:
 
   inline InputVnlVectorType  BackTransform(const OutputVnlVectorType & vector) const;
 
-  inline InputCovariantVectorType BackTransform(
-    const OutputCovariantVectorType & vector) const;
+  inline InputCovariantVectorType BackTransform(const OutputCovariantVectorType & vector) const;
 
   /** Set/Get the angle of rotation in radians */
   void SetAngle(TScalarType angle);
@@ -181,9 +183,13 @@ public:
    * are old and are retained for backward compatibility.
    * Instead, use SetAngle() and GetAngle(). */
   void SetRotation(TScalarType angle)
-  { this->SetAngle(angle); }
+  {
+    this->SetAngle(angle);
+  }
   virtual const TScalarType & GetRotation() const
-  { return m_Angle; }
+  {
+    return m_Angle;
+  }
 
   /** Set the transformation from a container of parameters
    * This is typically used by optimizers.
@@ -205,11 +211,9 @@ public:
    * \sa Transform::GetFixedParameters() */
   const ParametersType & GetParameters(void) const;
 
-  /** This method computes the Jacobian matrix of the transformation
-   * at a given input point.
-   *
-   * \sa Transform::GetJacobian() */
-  const JacobianType & GetJacobian(const InputPointType  & point) const;
+  /** Compute the Jacobian Matrix of the transformation at one point,
+   *  allowing for thread-safety. */
+  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const;
 
   /**
    * This method creates and returns a new Rigid2DTransform object
@@ -233,9 +237,9 @@ public:
   virtual void SetIdentity(void);
 
 protected:
+  Rigid2DTransform(unsigned int outputSpaceDimension, unsigned int parametersDimension);
+  Rigid2DTransform(unsigned int parametersDimension);
   Rigid2DTransform();
-  Rigid2DTransform(unsigned int outputSpaceDimension,
-                   unsigned int parametersDimension);
 
   ~Rigid2DTransform();
 
@@ -257,19 +261,22 @@ protected:
 
   /** Update angle without recomputation of other internal variables. */
   void SetVarAngle(TScalarType angle)
-  { m_Angle = angle; }
+  {
+    m_Angle = angle;
+  }
 private:
-  Rigid2DTransform(const Self &); //purposely not implemented
-  void operator=(const Self &);   //purposely not implemented
+  Rigid2DTransform(const Self &); // purposely not implemented
+  void operator=(const Self &);   // purposely not implemented
 
   TScalarType m_Angle;
-}; //class Rigid2DTransform
+
+}; // class Rigid2DTransform
 
 // Back transform a point
-template< class TScalarType >
+template <class TScalarType>
 inline
-typename Rigid2DTransform< TScalarType >::InputPointType
-Rigid2DTransform< TScalarType >::BackTransform(const OutputPointType & point) const
+typename Rigid2DTransform<TScalarType>::InputPointType
+Rigid2DTransform<TScalarType>::BackTransform(const OutputPointType & point) const
 {
   itkWarningMacro(
     <<
@@ -279,10 +286,10 @@ Rigid2DTransform< TScalarType >::BackTransform(const OutputPointType & point) co
 }
 
 // Back transform a vector
-template< class TScalarType >
+template <class TScalarType>
 inline
-typename Rigid2DTransform< TScalarType >::InputVectorType
-Rigid2DTransform< TScalarType >::BackTransform(const OutputVectorType & vect) const
+typename Rigid2DTransform<TScalarType>::InputVectorType
+Rigid2DTransform<TScalarType>::BackTransform(const OutputVectorType & vect) const
 {
   itkWarningMacro(
     <<
@@ -292,10 +299,10 @@ Rigid2DTransform< TScalarType >::BackTransform(const OutputVectorType & vect) co
 }
 
 // Back transform a vnl_vector
-template< class TScalarType >
+template <class TScalarType>
 inline
-typename Rigid2DTransform< TScalarType >::InputVnlVectorType
-Rigid2DTransform< TScalarType >::BackTransform(const OutputVnlVectorType & vect) const
+typename Rigid2DTransform<TScalarType>::InputVnlVectorType
+Rigid2DTransform<TScalarType>::BackTransform(const OutputVnlVectorType & vect) const
 {
   itkWarningMacro(
     <<
@@ -305,10 +312,10 @@ Rigid2DTransform< TScalarType >::BackTransform(const OutputVnlVectorType & vect)
 }
 
 // Back Transform a CovariantVector
-template< class TScalarType >
+template <class TScalarType>
 inline
-typename Rigid2DTransform< TScalarType >::InputCovariantVectorType
-Rigid2DTransform< TScalarType >::BackTransform(const OutputCovariantVectorType & vect) const
+typename Rigid2DTransform<TScalarType>::InputCovariantVectorType
+Rigid2DTransform<TScalarType>::BackTransform(const OutputCovariantVectorType & vect) const
 {
   itkWarningMacro(
     <<
@@ -316,16 +323,17 @@ Rigid2DTransform< TScalarType >::BackTransform(const OutputCovariantVectorType &
     );
   return this->GetMatrix() * vect;
 }
+
 }  // namespace itk
 
 // Define instantiation macro for this template.
 #define ITK_TEMPLATE_Rigid2DTransform(_, EXPORT, TypeX, TypeY)                \
   namespace itk                                                               \
   {                                                                           \
-  _( 1 ( class EXPORT Rigid2DTransform< ITK_TEMPLATE_1 TypeX > ) )            \
+  _( 1 ( class EXPORT Rigid2DTransform<ITK_TEMPLATE_1 TypeX> ) )            \
   namespace Templates                                                         \
   {                                                                           \
-  typedef Rigid2DTransform< ITK_TEMPLATE_1 TypeX > Rigid2DTransform##TypeY; \
+  typedef Rigid2DTransform<ITK_TEMPLATE_1 TypeX> Rigid2DTransform##TypeY; \
   }                                                                           \
   }
 
@@ -334,7 +342,7 @@ Rigid2DTransform< TScalarType >::BackTransform(const OutputCovariantVectorType &
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkRigid2DTransform.txx"
+#include "itkRigid2DTransform.hxx"
 #endif
 
 #endif /* __itkRigid2DTransform_h */

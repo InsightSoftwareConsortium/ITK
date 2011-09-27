@@ -26,7 +26,7 @@ namespace itk
 /**
  * \class QuadEdgeMeshDecimationCriterion
  * \brief
- * \ingroup ITK-QuadEdgeMeshFiltering
+ * \ingroup ITKQuadEdgeMeshFiltering
  */
 template< class TMesh,
           typename TElement  = IdentifierType,
@@ -111,7 +111,7 @@ private:
 /**
  * \class NumberOfPointsCriterion
  * \brief
- * \ingroup ITK-QuadEdgeMeshFiltering
+ * \ingroup ITKQuadEdgeMeshFiltering
  */
 template< class TMesh,
           typename TElement = IdentifierType,
@@ -160,13 +160,13 @@ private:
 /**
  * \class NumberOfFacesCriterion
  * \brief
- * \ingroup ITK-QuadEdgeMeshFiltering
+ * \ingroup ITKQuadEdgeMeshFiltering
  */
 template< class TMesh,
           typename TElement = IdentifierType,
           typename TMeasure = double,
           class TPriorityQueueWrapper =
-            MinPriorityQueueElementWrapper< ITK_TYPENAME TMesh::QEType *,
+            MinPriorityQueueElementWrapper< typename TMesh::QEType *,
                                             std::pair< bool, TMeasure > > >
 class NumberOfFacesCriterion:
   public QuadEdgeMeshDecimationCriterion< TMesh, TElement,
@@ -210,7 +210,7 @@ private:
 /**
  * \class MaxMeasureBoundCriterion
  * \brief
- * \ingroup ITK-QuadEdgeMeshFiltering
+ * \ingroup ITKQuadEdgeMeshFiltering
  */
 template< class TMesh,
           typename TElement = IdentifierType,
@@ -260,7 +260,7 @@ private:
 /**
  * \class MinMeasureBoundCriterion
  * \brief
- * \ingroup ITK-QuadEdgeMeshFiltering
+ * \ingroup ITKQuadEdgeMeshFiltering
  */
 template< class TMesh,
           typename TElement = IdentifierType,

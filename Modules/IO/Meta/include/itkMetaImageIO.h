@@ -18,9 +18,6 @@
 #ifndef __itkMetaImageIO_h
 #define __itkMetaImageIO_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <fstream>
 #include "itkImageIOBase.h"
@@ -34,7 +31,7 @@ namespace itk
  *  \brief Read MetaImage file format.
  *
  *  \ingroup IOFilters
- * \ingroup ITK-IO-Meta
+ * \ingroup ITKIOMeta
  */
 class ITK_EXPORT MetaImageIO:public ImageIOBase
 {

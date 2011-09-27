@@ -76,7 +76,7 @@ namespace itk
  * \ingroup GeometricTransformationFilters
  * \ingroup SingleThreaded
  * \ingroup CannotBeStreamed
- * \ingroup ITK-ImageGrid
+ * \ingroup ITKImageGrid
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT BSplineResampleImageFilterBase:
@@ -188,7 +188,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBSplineResampleImageFilterBase.txx"
+#include "itkBSplineResampleImageFilterBase.hxx"
 #endif
 
 #endif

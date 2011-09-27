@@ -15,15 +15,17 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #ifndef __itkFEMElement2DStress_h
 #define __itkFEMElement2DStress_h
 
 #include "itkFEMElementBase.h"
 #include "itkFEMMaterialLinearElasticity.h"
 
-namespace itk {
-namespace fem {
-
+namespace itk
+{
+namespace fem
+{
 /**
  * \class Element2DStress
  * \brief Class that is used to define linear elasticity problem in 2D space.
@@ -37,13 +39,20 @@ namespace fem {
  *                be derived from the Element base class. This enables you
  *                to use this class at any level of element definition.
  *                If not specified, it defaults to the Element base class.
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
-template<class TBaseClass=Element>
+template <class TBaseClass = Element>
 class Element2DStress : public TBaseClass
 {
-FEM_ABSTRACT_CLASS(Element2DStress,TBaseClass)
 public:
+  /** Standard class typedefs. */
+  typedef Element2DStress          Self;
+  typedef TBaseClass               Superclass;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Element2DStress, TBaseClass);
 
   // Repeat the required typedefs and enums from parent class
   typedef typename Superclass::Float      Float;
@@ -51,21 +60,11 @@ public:
   typedef typename Superclass::VectorType VectorType;
 
   /**
-   * Read data for this class from input stream
-   */
-  virtual void Read( std::istream&, void* info );
-
-  /**
-   * Write this class to output stream
-   */
-  virtual void Write( std::ostream& f ) const;
-
-  /**
    * Default constructor only clears the internal storage
    */
   Element2DStress();
 
-  //////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////
   /*
    * Methods related to the physics of the problem.
    */
@@ -73,48 +72,64 @@ public:
   /**
    * Compute the B matrix.
    */
-  virtual void GetStrainDisplacementMatrix(MatrixType& B, const MatrixType& shapeDgl) const;
+  virtual void GetStrainDisplacementMatrix(MatrixType & B, const MatrixType & shapeDgl) const;
 
   /**
    * Compute the D matrix.
    */
-  virtual void GetMaterialMatrix(MatrixType& D) const;
+  virtual void GetMaterialMatrix(MatrixType & D) const;
 
   /**
    * Compute the mass matrix specific for 2D stress problems.
    */
-  void GetMassMatrix(MatrixType& Me) const;
-
+  void GetMassMatrix(MatrixType & Me) const;
 
   /**
    * 2D stress elements have 2 DOFs per node.
    */
-  virtual unsigned int GetNumberOfDegreesOfFreedomPerNode( void ) const
-    { return 2; }
+  virtual unsigned int GetNumberOfDegreesOfFreedomPerNode(void) const
+  {
+    return 2;
+  }
 
-public:
+  /**
+   * Get/Set the material properties for the element
+   */
+  virtual Material::ConstPointer GetMaterial(void) const
+  {
+    return dynamic_cast<const Material *>(m_mat);
+  }
+
+  virtual void SetMaterial(Material::ConstPointer mat_)
+  {
+    this->SetMaterialInternal(mat_.GetPointer());
+  }
+  virtual void SetMaterial(Material::Pointer mat_)
+  {
+    this->SetMaterialInternal(mat_.GetPointer());
+  }
+
+protected:
+
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
    * Pointer to material properties of the element
    */
-  MaterialLinearElasticity::ConstPointer m_mat;
-  virtual Material::ConstPointer GetMaterial(void) const { return m_mat; }
-  virtual void SetMaterial(Material::ConstPointer mat_ ) { m_mat=dynamic_cast<const MaterialLinearElasticity*>(&*mat_); }
+  const MaterialLinearElasticity * m_mat;
+  virtual void SetMaterialInternal(const Material *mat_)
+    {
+      m_mat =
+        dynamic_cast<const MaterialLinearElasticity *>( mat_ );
+    }
 
-}; // class Element2DStress
+};  // class Element2DStress
 
-#ifdef _MSC_VER
-// Declare a static dummy function to prevent a MSVC 6.0 SP5 from crashing.
-// I have no idea why things don't work when this is not declared, but it
-// looks like this declaration makes compiler forget about some of the
-// troubles it has with templates.
-static void Dummy( void );
-#endif // #ifdef _MSC_VER
-
-}} // end namespace itk::fem
+}
+}  // end namespace itk::fem
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFEMElement2DStress.txx"
+#include "itkFEMElement2DStress.hxx"
 #endif
 
 #endif  // #ifndef __itkFEMElement2DStress_h

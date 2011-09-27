@@ -49,7 +49,7 @@ namespace Statistics
  * through the image.
  *
  * \sa ImageToListSampleAdaptor
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  */
 template< class TImage, class TMaskImage = TImage >
 class ITK_EXPORT ImageToListSampleFilter:
@@ -138,7 +138,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageToListSampleFilter.txx"
+#include "itkImageToListSampleFilter.hxx"
 #endif
 
 #endif

@@ -38,7 +38,7 @@ namespace itk
  *     Type information of mesh containing cell.
  *
  * \ingroup MeshObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 template< typename TCellInterface >
@@ -145,7 +145,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTriangleCell.txx"
+#include "itkTriangleCell.hxx"
 #endif
 
 #endif

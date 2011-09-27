@@ -26,16 +26,16 @@ namespace itk
 namespace Accessor
 {
 /** \class ComplexToModulusPixelAccessor
- * \brief Give access to the Modulus of a std::complex<> value
+ * \brief Give access to the Modulus of a std::complex<> value.
  *
  * ComplexToModulusPixelAccessor is templated over an internal type and an
  * external type representation. The internal type is an std::complex<T> and
- * the external part is a type T. This class cast the input applies the function
- * to it and cast the result according to the types defined as template
- * parameters
+ * the external part is a type T. This class casts the input, applies the function
+ * to it, and casts the result according to the types defined as template
+ * parameters.
  *
  * \ingroup ImageAdaptors
- * \ingroup ITK-ImageAdaptors
+ * \ingroup ITKImageAdaptors
  */
 template< class TInternalType, class TExternalType >
 class ITK_EXPORT ComplexToModulusPixelAccessor
@@ -62,13 +62,13 @@ public:
 
 /** \class ComplexToModulusImageAdaptor
  * \brief Presents a complex image as being composed of vcl_abs() part
- * of its pixels
+ * of its pixels.
  *
  * Additional casting is performed according to the input and output image
  * types following C++ default casting rules.
  *
  * \ingroup ImageAdaptors
- * \ingroup ITK-ImageAdaptors
+ * \ingroup ITKImageAdaptors
  */
 template< class TImage, class TOutputPixelType >
 class ITK_EXPORT ComplexToModulusImageAdaptor:public

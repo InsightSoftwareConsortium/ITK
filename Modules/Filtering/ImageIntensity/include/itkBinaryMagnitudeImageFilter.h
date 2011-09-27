@@ -22,32 +22,13 @@
 
 namespace itk
 {
-/** \class BinaryMagnitudeImageFilter
- * \brief Implements pixel-wise the computation of square root of the sum of squares.
- *
- * This filter is parametrized over the types of the two
- * input images and the type of the output image.
- *
- * Numeric conversions (castings) are done by the C++ defaults.
- *
- * The filter will walk over all the pixels in the two input images, and for
- * each one of them it will do the following:
- *
- * - cast the input 1 pixel value to \c double
- * - cast the input 2 pixel value to \c double
- * - compute the sum of squares of the two pixel values
- * - compute the square root of the sum
- * - cast the \c double value resulting from \c vcl_sqrt() to the pixel type of the output image
- * - store the casted value into the output image.
- *
- * The filter expect all images to have the same dimension
- * (e.g. all 2D, or all 3D, or all ND)
- *
- * \ingroup IntensityImageFilters Multithreaded
- * \ingroup ITK-ImageIntensity
- */
 namespace Functor
 {
+/**
+ * \class Modulus2
+ * \brief
+ * \ingroup ITKImageIntensity
+ */
 template< class TInput1, class TInput2, class TOutput >
 class Modulus2
 {
@@ -74,7 +55,31 @@ public:
   }
 };
 }
-
+/** \class BinaryMagnitudeImageFilter
+ * \brief Computes the square root of the sum of squares of corresponding input pixels.
+ *
+ * This filter is templated over the types of the two
+ * input images and the type of the output image.
+ *
+ * Numeric conversions (castings) are done by the C++ defaults.
+ *
+ * The filter walks over all of the pixels in the two input images, and for
+ * each pixel does the following:
+ *
+ * \li cast the input 1 pixel value to \c double
+ * \li cast the input 2 pixel value to \c double
+ * \li compute the sum of squares of the two pixel values
+ * \li compute the square root of the sum
+ * \li cast the \c double value resulting from \c vcl_sqrt() to the pixel type of the output image
+ * \li store the cast value into the output image.
+ *
+ * The filter expects all images to have the same dimension
+ * (e.g. all 2D, or all 3D, or all ND)
+ *
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
+ * \ingroup ITKImageIntensity
+ */
 template< class TInputImage1, class TInputImage2, class TOutputImage >
 class ITK_EXPORT BinaryMagnitudeImageFilter:
   public

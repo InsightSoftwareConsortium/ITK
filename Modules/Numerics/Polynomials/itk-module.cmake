@@ -1,6 +1,11 @@
-itk_module(ITK-Polynomials
+set(DOCUMENTATION "This module contains code for the calculation of polynomial
+functions.")
+
+itk_module(ITKPolynomials
   DEPENDS
-    ITK-Common
+    ITKCommon
   TEST_DEPENDS
-    ITK-TestKernel
+    ITKTestKernel
+  DESCRIPTION
+    "${DOCUMENTATION}"
 )

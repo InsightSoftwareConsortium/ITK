@@ -45,7 +45,11 @@ namespace itk
  *
  * \sa BinaryContourImageFilter
  *
- * \ingroup ITK-ImageLabel
+ * \ingroup ITKImageLabel
+ *
+ * \wiki
+ * \wikiexample{ImageSegmentation/LabelContourImageFilter,Label the contours of connected components}
+ * \endwiki
  */
 
 template< class TInputImage, class TOutputImage >
@@ -201,7 +205,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLabelContourImageFilter.txx"
+#include "itkLabelContourImageFilter.hxx"
 #endif
 
 #endif

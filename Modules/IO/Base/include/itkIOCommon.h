@@ -18,9 +18,6 @@
 #ifndef __itkIOCommon_h
 #define __itkIOCommon_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkIntTypes.h"
 #include "itkProcessObject.h"
@@ -35,7 +32,7 @@ namespace itk
    *
    * \ingroup IOFilters
    *
-   * \ingroup ITK-IO-Base
+   * \ingroup ITKIOBase
    */
 class ITK_EXPORT IOCommon
 {

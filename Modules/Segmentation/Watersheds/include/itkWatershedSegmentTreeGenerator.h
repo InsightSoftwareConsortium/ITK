@@ -72,7 +72,7 @@ namespace watershed
  * == do not merge).
  * \sa itk::WatershedImageFilter
  * \ingroup WatershedSegmentation
- * \ingroup ITK-Watersheds
+ * \ingroup ITKWatersheds
  */
 template< class TScalarType >
 class ITK_EXPORT SegmentTreeGenerator:public ProcessObject
@@ -215,7 +215,8 @@ private:
   double m_FloodLevel;
   bool   m_ConsumeInput;
 
-  typedef itk::hash_map< IdentifierType, bool, itk::hash< IdentifierType > >  HashMapType;
+  typedef itksys::hash_map< IdentifierType, bool,
+                            itksys::hash< IdentifierType > >  HashMapType;
 
   OneWayEquivalencyTableType::Pointer m_MergedSegmentsTable;
 
@@ -229,7 +230,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkWatershedSegmentTreeGenerator.txx"
+#include "itkWatershedSegmentTreeGenerator.hxx"
 #endif
 
 #endif

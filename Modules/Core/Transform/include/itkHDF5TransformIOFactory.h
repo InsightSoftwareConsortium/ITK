@@ -18,9 +18,6 @@
 #ifndef __itkHDF5TransformIOFactory_h
 #define __itkHDF5TransformIOFactory_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkObjectFactoryBase.h"
 #include "itkTransformIOBase.h"
@@ -30,8 +27,7 @@ namespace itk
 /** \class HDF5TransformIOFactory
    * \brief Create instances of HDF5TransformIO objects using an object factory.
    *
-   * \ingroup Transforms
-   * \ingroup ITK-Transform
+   * \ingroup ITKTransform
    */
 class HDF5TransformIOFactory:public ObjectFactoryBase
 {

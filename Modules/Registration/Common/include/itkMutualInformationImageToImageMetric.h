@@ -83,7 +83,7 @@ namespace itk
  * \sa GaussianKernelFunction
  *
  * \ingroup RegistrationMetrics
- * \ingroup ITK-RegistrationCommon
+ * \ingroup ITKRegistrationCommon
  *
  * \wiki
  * \wikiexample{Registration/MutualInformation,Mutual Information}
@@ -201,7 +201,7 @@ private:
   /** \class SpatialSample
    * A spatial sample consists of the fixed domain point, the fixed
    * image value at that point, and the corresponding moving image value.
-   * \ingroup ITK-RegistrationCommon
+   * \ingroup ITKRegistrationCommon
    */
   class SpatialSample
   {
@@ -258,7 +258,7 @@ public:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMutualInformationImageToImageMetric.txx"
+#include "itkMutualInformationImageToImageMetric.hxx"
 #endif
 
 #endif

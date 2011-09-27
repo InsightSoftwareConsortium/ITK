@@ -15,74 +15,84 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #ifndef __itkFEMElementBase_h
 #define __itkFEMElementBase_h
 
+#include "itkFEMLightObject.h"
+#include "itkFEMPArray.h"
 #include "itkFEMMaterialBase.h"
 #include "itkFEMSolution.h"
-#include "itkVisitorDispatcher.h"
+#include "itkVectorContainer.h"
 #include "vnl/vnl_matrix.h"
 #include "vnl/vnl_vector.h"
+
 #include <set>
 #include <vector>
 
-namespace itk {
-namespace fem {
-
-// FIXME: Write better documentation
+namespace itk
+{
+namespace fem
+{
 /**
  * \class Element
  * \brief Abstract base element class.
  *
  * Derive this class to create new finite element classes.
- * All derived classes must define:
- *
- *    - Ke():    Function to calculate the element stiffness matrix in global coordinate system.
- *    - Fe():    Function to calculate the element force vector in global coordinate system.
- *    - uDOF():  Provide a pointer to storage of i-th DOF displacement in the element.
- *    - Clone(): Function that creates a duplicate of current element and returns a pointer to it.
- *
- * and optionally (if required):
- *    - Read():  Reads element data from the stream f. assume that the stream position is
- *               already where the element data starts. Take care of the error checking.
- *    - Write(): Writes element data to the stream.
- *    - Draw():  Draws the element on the device context (Windows only).
- *
  * The storage of element parameters (geometry...) can't be implemented here, since we don't know yet,
  * how much memory each element needs. Instead each derived class should take care of the memory
  * management (declare appropriate data members) for the element parameters and provide access
  * to these parameters (like nodes, materials...).
- * \ingroup ITK-FEM
- */
-
-
-/**
- * \def HANDLE_ELEMENT_LOADS()
- * \brief Macro that simplifies the the GetLoadVector function definitions.
  *
- * NOTE: This macro must be called in declaration of ALL
- *       derived Element classes.
+ * Derived classes must define the following class methods:
+ *   GetIntegrationPointAndWeight
+ *   GetNumberOfIntegrationPoints
+ *   ShapeFunctions
+ *   ShapeFunctionDerivatives
+ *   GetLocalFromGlobalCoordinates
+ *   JacobianDeterminant
+ *   JacobianInverse
+ *   PopulateEdgeIds
+ *
+ * These are required for the loads to be properly applied properly to the
+ * element.
+ *
+ * \sa Element2DC0LinearLine
+ * \sa Element2DC0LinearQuadrilateral
+ * \sa Element2DC0LinearTriangular
+ * \sa Element2DC1Beam
+ * \sa Element2DC0QuadraticTriangular
+ * \sa Element3DC0LinearHexahedron
+ * \sa Element3DC0LinearTetrahedron
+ * \sa Element3DC0LinearTriangular
+ * \sa Element3DC0LinearTriangularLaplaceBeltrami
+ * \ingroup ITKFEM
  */
-#define HANDLE_ELEMENT_LOADS() \
-  /** Pointer type that specifies functions that can handle loads on this element */ \
-  typedef void (*LoadImplementationFunctionPointer)(ConstPointer,Element::LoadPointer, Element::VectorType& ); \
-  virtual void GetLoadVector( Element::LoadPointer l, Element::VectorType& Fe ) const \
-  { VisitorDispatcher<Self,Element::LoadType, LoadImplementationFunctionPointer>::Visit(l)(this,l,Fe); }
 
 class Element : public FEMLightObject
 {
-  FEM_ABSTRACT_CLASS(Element,FEMLightObject)
 public:
+  /** Standard class typedefs. */
+  typedef Element                  Self;
+  typedef FEMLightObject           Superclass;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Element, FEMLightObject);
 
   /**
    * Floating point type used in all Element classes.
    */
-  typedef double Float;
+  typedef double        Float;
+  typedef unsigned long ElementIdentifier;
 
   /**
    * Array class that holds special pointers to the Element objects
    */
-  typedef FEMPArray<Element> ArrayType;
+  // FIXME - Remove FEMPArray Type and replace with VectorContainer version
+  typedef FEMPArray<Element>                                   ArrayType;
+  typedef VectorContainer<ElementIdentifier, Element::Pointer> ArrayType1;
 
   /**
    * Class used to store the element stiffness matrix
@@ -111,6 +121,7 @@ public:
   /**
    * Type that stores global ID's of degrees of freedom.
    */
+
   typedef unsigned int DegreeOfFreedomIDType;
 
   /**
@@ -118,21 +129,62 @@ public:
    * If a degree of freedom is assigned this value, this means that
    * that no specific value was (yet) assigned to this DOF.
    */
-  enum{ InvalidDegreeOfFreedomID = 0xffffffff };
+  enum { InvalidDegreeOfFreedomID = 0xffffffff };
 
-  /**
-   * \class Node
-   * \brief Class that stores information required to define a node.
-   *
-   * A node can define a point in space and can hold an arbitrary number
-   * of coordinates and the DOFs. Since the only classes that use nodes
-   * are the elements, the node class is defined within an element base class.
-   * \ingroup ITK-FEM
-   */
+
+/**
+ * \class Node
+ * \brief Class that stores information required to define a node.
+ *
+ * A node can define a point in space and can hold an arbitrary number
+ * of coordinates and the DOFs. Since the only classes that use nodes
+ * are the elements, the node class is defined within an element base class.
+ *
+ * \note Possibly move this class to its own file
+ * \ingroup ITKFEM
+ */
   class Node : public FEMLightObject
-    {
-    FEM_CLASS(Node,FEMLightObject)
-     public:
+  {
+  public:
+    /** Standard class typedefs. */
+    typedef Node                     Self;
+    typedef FEMLightObject           Superclass;
+    typedef SmartPointer<Self>       Pointer;
+    typedef SmartPointer<const Self> ConstPointer;
+
+    /** Method for creation through the object factory. */
+    // itkNewMacro(Self);
+    static Pointer New(void)
+      {
+        Pointer smartPtr = ::itk::ObjectFactory<Self>::Create();
+
+        if( smartPtr.IsNull() )
+          {
+          smartPtr = static_cast<Pointer>(new Self);
+          }
+        smartPtr->UnRegister();
+        return smartPtr;
+      }
+
+    /** Run-time type information (and related methods). */
+    itkTypeMacro(Node, FEMLightObject);
+
+    /** CreateAnother method will clone the existing instance of this type,
+     * including its internal member variables. */
+    virtual::itk::LightObject::Pointer CreateAnother(void) const
+      {
+        ::itk::LightObject::Pointer smartPtr;
+        Pointer copyPtr = Self::New();
+
+        copyPtr->m_coordinates = this->m_coordinates;
+        copyPtr->m_dof = this->m_dof;
+        copyPtr->m_elements = this->m_elements;
+        copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
+
+        smartPtr = static_cast<Pointer>(copyPtr);
+
+        return smartPtr;
+      }
 
     /**
      * Floating point precision type.
@@ -144,51 +196,48 @@ public:
      */
     typedef FEMPArray<Self> ArrayType;
 
-
-    /* Windows visualization */
-  #ifdef FEM_BUILD_VISUALIZATION
-    /** Draws the node on the DC */
-    void Draw(CDC* pDC, Solution::ConstPointer sol) const;
-    /** Global scale for drawing on the DC */
-    static double& DC_Scale;
-  #endif
-
     /**
      * Default constructor
      */
-    Node() {}
-
+    Node()
+      {
+      }
     /**
-     * Create 2D node.
+     * Destructor
      */
-    Node(Float x, Float y) : m_coordinates(VectorType(2))
-    { m_coordinates[0]=x; m_coordinates[1]=y; }
+    ~Node()
+      {
+        this->ClearDegreesOfFreedom();
+        this->m_elements.clear();
+      }
 
-    /**
-     * Create 3D node.
-     */
-    Node(Float x, Float y, Float z) : m_coordinates(VectorType(3))
-      { m_coordinates[0]=x; m_coordinates[1]=y; m_coordinates[2]=z;}
     /**
      * Return a reference to a vector that contains coordinates
      * of this node.
      */
-    const VectorType& GetCoordinates( void ) const
-      { return m_coordinates; }
+    const VectorType & GetCoordinates(void) const
+      {
+        return m_coordinates;
+      }
 
     /**
      * Set coordinates of a node.
      */
-    void SetCoordinates( const VectorType& coords )
-      { m_coordinates=coords; }
+    void SetCoordinates(const VectorType & coords)
+      {
+        m_coordinates = coords;
+      }
 
     /**
      * Get DOF IDs associated with this node.
      */
     DegreeOfFreedomIDType GetDegreeOfFreedom(unsigned int i) const
       {
-      if( i>=m_dof.size() ) { return InvalidDegreeOfFreedomID; }
-      return m_dof[i];
+        if( i >= m_dof.size() )
+          {
+          return InvalidDegreeOfFreedomID;
+          }
+        return m_dof[i];
       }
 
     /**
@@ -196,25 +245,33 @@ public:
      */
     void SetDegreeOfFreedom(unsigned int i, DegreeOfFreedomIDType dof) const
       {
-      if( i>=m_dof.size() ) { m_dof.resize(i+1, InvalidDegreeOfFreedomID); }
-      m_dof[i]=dof;
+        if( i >= m_dof.size() )
+          {
+          m_dof.resize(i + 1, InvalidDegreeOfFreedomID);
+          }
+        m_dof[i] = dof;
       }
 
-    virtual void ClearDegreesOfFreedom( void ) const
+    virtual void ClearDegreesOfFreedom(void) const
       {
-      m_dof.clear();
+        m_dof.clear();
       }
-
-    virtual void Read(  std::istream& f, void* info );
-    virtual void Write( std::ostream& f ) const;
 
   public:
     /**
      * List of pointers to elements that use this node. External code is
      * responsible for maintaining the list.
      */
-    typedef std::set<Element*> SetOfElements;
+    typedef std::set<Element *> SetOfElements;
     mutable SetOfElements m_elements;
+  protected:
+    virtual void PrintSelf(std::ostream& os, Indent indent) const
+      {
+        Superclass::PrintSelf(os, indent);
+        // os << indent << "DOF: " << this->m_dof << std::endl;
+        // os << indent << "Coordinates: " << this->m_coordinates << std::endl;
+        // os << indent << "Elements: " << this->m_elements << std::endl;
+      }
 
   private:
     /**
@@ -227,17 +284,17 @@ public:
      * defined at this node.
      */
     mutable std::vector<DegreeOfFreedomIDType> m_dof;
+  };  // end class Node
 
-  }; // end class Node
+// ////////////////////////////////////////////////////////////////////////
+/*
+ * Methods related to the physics of the problem.
+ */
 
-//////////////////////////////////////////////////////////////////////////
-  /*
-   * Methods related to the physics of the problem.
-   */
+  virtual VectorType GetStrainsAtPoint(const VectorType & pt, const Solution & sol, unsigned int index) const;
 
-  virtual VectorType GetStrainsAtPoint(const VectorType& pt, const Solution& sol, unsigned int index) const;
-
-  virtual VectorType GetStressesAtPoint(const VectorType& pt, const VectorType& e, const Solution& sol, unsigned int index) const;
+  virtual VectorType GetStressesAtPoint(const VectorType & pt, const VectorType & e, const Solution & sol,
+                                        unsigned int index) const;
 
   /**
    * Compute and return element stiffnes matrix (Ke) in global coordinate
@@ -259,7 +316,7 @@ public:
    *       that is suitable for any problem/element definition. A specifc
    *       element may override this implementation with its own simple one.
    */
-  virtual void GetStiffnessMatrix( MatrixType& Ke ) const;
+  virtual void GetStiffnessMatrix(MatrixType & Ke) const;
 
   /**
    * Compute the physical energy, U, of the deformation (e.g. stress / strain ).
@@ -270,7 +327,7 @@ public:
    * The matrix LocalSolution contains the solution to use in the energy
    * computation.  Usually, this is the solution at the nodes.
    */
-  virtual Float GetElementDeformationEnergy( MatrixType& LocalSolution ) const;
+  virtual Float GetElementDeformationEnergy(MatrixType & LocalSolution) const;
 
   /**
    * Compute and return element mass matrix (Me) in global coordinate system.
@@ -283,7 +340,7 @@ public:
    * equal to one. If this is not the case, this function must be overriden in
    * a derived class. Implementation is similar to GetStiffnessMatrix.
    */
-  virtual void GetMassMatrix( MatrixType& Me ) const;
+  virtual void GetMassMatrix(MatrixType & Me) const;
 
   /**
    * Compute and return landmark contribution to element stiffness
@@ -296,38 +353,7 @@ public:
    * where (eta ) is the landmark weight.  Implementation is similar
    * to GetMassMatrix.
    */
-  virtual void GetLandmarkContributionMatrix(float eta, MatrixType& Le) const;
-
-  /**
-   * Compute and return the element load vector for a given external load.
-   * The class of load object determines the type of load acting on the
-   * elemnent. Basically this is the contribution of this element on the right
-   * side of the master matrix equation, due to the specified load.
-   * Returned vector includes only nodal forces that correspond to the given
-   * Load object.
-   *
-   * Visitor design pattern is used in the loads implementation. This function
-   * only selects and calls the proper function based on the given class of
-   * load object. The code that performs the actual conversion to the
-   * corresponding nodal loads is defined elswhere.
-   *
-   * \note Each derived class must implement its own version of this function.
-   *       This is automated by calling the LOAD_FUNCTION() macro within the
-   *       class declaration (in the public: block).
-   *
-   * For example on how to define specific element load, see funtion
-   * LoadImplementationPoint_Bar2D.
-   *
-   * \note: Before a load can be applied to an element, the function that
-   *        implements a load must be registered with the VisitorDispactcher
-   *        class.
-   *
-   * \param l Pointer to a load object.
-   * \param Fe Reference to vector object that will store nodal forces.
-   *
-   * \sa VisitorDispatcher
-   */
-  virtual void GetLoadVector( LoadPointer l, VectorType& Fe ) const = 0;
+  virtual void GetLandmarkContributionMatrix(float eta, MatrixType & Le) const;
 
   /**
    * Compute the strain displacement matrix at local point.
@@ -336,14 +362,14 @@ public:
    * \param shapeDgl Matrix that contains derivatives of shape functions
    *                 w.r.t. global coordinates.
    */
-  virtual void GetStrainDisplacementMatrix( MatrixType& B, const MatrixType& shapeDgl ) const = 0;
+  virtual void GetStrainDisplacementMatrix(MatrixType & B, const MatrixType & shapeDgl) const = 0;
 
   /**
    * Compute the element material matrix.
    *
    * \param D Reference to a matrix object
    */
-  virtual void GetMaterialMatrix( MatrixType& D ) const = 0;
+  virtual void GetMaterialMatrix(MatrixType & D) const = 0;
 
   /**
    * Return interpolated value of all unknown functions at
@@ -356,7 +382,9 @@ public:
    *            at nodes (degrees of freedom).
    * \param solutionIndex We allow more than one solution vector to be stored - this selects which to use in interpolation.
    */
-  virtual VectorType InterpolateSolution( const VectorType& pt, const Solution& sol , unsigned int solutionIndex=0 ) const;
+  virtual VectorType InterpolateSolution(const VectorType & pt,
+                                         const Solution & sol,
+                                         unsigned int solutionIndex = 0) const;
 
   /**
    * Return interpolated value of f-th unknown function at
@@ -371,7 +399,8 @@ public:
    *          Must be 0 <= f < GetNumberOfDegreesOfFreedomPerNode().
    * \param solutionIndex We allow more than one solution vector to be stored - this selects which to use in interpolation.
    */
-  virtual Float InterpolateSolutionN( const VectorType& pt, const Solution& sol, unsigned int f , unsigned int solutionIndex=0 ) const;
+  virtual Float InterpolateSolutionN(const VectorType & pt, const Solution & sol, unsigned int f,
+                                     unsigned int solutionIndex = 0) const;
 
   /**
    * Convenient way to access IDs of degrees of freedom
@@ -379,10 +408,15 @@ public:
    *
    * \param local_dof Local number of degree of freedom within an element.
    */
-  DegreeOfFreedomIDType GetDegreeOfFreedom( unsigned int local_dof ) const
+  DegreeOfFreedomIDType GetDegreeOfFreedom(unsigned int local_dof) const
     {
-    if(local_dof>this->GetNumberOfDegreesOfFreedom()) { return InvalidDegreeOfFreedomID; }
-    return this->GetNode(local_dof/this->GetNumberOfDegreesOfFreedomPerNode())->GetDegreeOfFreedom(local_dof%this->GetNumberOfDegreesOfFreedomPerNode());
+      if( local_dof > this->GetNumberOfDegreesOfFreedom() )
+        {
+        return InvalidDegreeOfFreedomID;
+        }
+      return this->GetNode(local_dof /
+                           this->GetNumberOfDegreesOfFreedomPerNode() )
+        ->GetDegreeOfFreedom(local_dof % this->GetNumberOfDegreesOfFreedomPerNode() );
     }
 
   /**
@@ -401,7 +435,10 @@ public:
    *
    * \sa SetMaterial
    */
-  virtual Material::ConstPointer GetMaterial(void) const { return 0; }
+  virtual Material::ConstPointer GetMaterial(void) const
+    {
+      return 0;
+    }
 
   /**
    * Set the pointer to the Material object used by the element.
@@ -411,9 +448,11 @@ public:
    *
    * \sa GetMaterial
    */
-  virtual void SetMaterial(Material::ConstPointer) {} // FIXME: maybe we should throw an exception instead
+  virtual void SetMaterial(Material::ConstPointer)
+    {
+    }
 
-  //////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////
   /**
    * Methods related to numeric integration
    */
@@ -440,7 +479,10 @@ public:
    *
    * \sa GetNumberOfIntegrationPoints()
    */
-  virtual void GetIntegrationPointAndWeight( unsigned int i, VectorType& pt, Float& w, unsigned int order=0 ) const = 0;
+  virtual void GetIntegrationPointAndWeight(unsigned int i,
+                                            VectorType & pt,
+                                            Float & w,
+                                            unsigned int order = 0) const = 0;
 
   /**
    * Returns total number of integration points, for given order
@@ -452,7 +494,7 @@ public:
    *
    * \sa GetIntegrationPointAndWeight()
    */
-  virtual unsigned int GetNumberOfIntegrationPoints( unsigned int order=0 ) const = 0;
+  virtual unsigned int GetNumberOfIntegrationPoints(unsigned int order = 0) const = 0;
 
   /**
    * Maximum supported order of 1D Gauss-Legendre integration.
@@ -462,7 +504,7 @@ public:
    *
    * \sa gaussPoint
    */
-  enum { gaussMaxOrder=10 };
+  enum { gaussMaxOrder = 10 };
 
   /**
    * Points for 1D Gauss-Legendre integration from -1 to 1. First
@@ -475,20 +517,19 @@ public:
    *
    * \sa gaussWeight
    */
-  static const Float gaussPoint[gaussMaxOrder+1][gaussMaxOrder];
+  static const Float gaussPoint[gaussMaxOrder + 1][gaussMaxOrder];
 
   /**
    * Weights for Gauss-Legendre integration.
    *
    * \sa gaussPoint
    */
-  static const Float gaussWeight[gaussMaxOrder+1][gaussMaxOrder];
+  static const Float gaussWeight[gaussMaxOrder + 1][gaussMaxOrder];
 
-
-//////////////////////////////////////////////////////////////////////////
-  /*
-   * Methods related to the geometry of an element
-   */
+// ////////////////////////////////////////////////////////////////////////
+/*
+ * Methods related to the geometry of an element
+ */
 
   /**
    * Type that is used to store IDs of a node. It is a
@@ -499,7 +540,7 @@ public:
   /**
    * Return the total number of nodes in an elememnt.
    */
-  virtual unsigned int GetNumberOfNodes( void ) const = 0;
+  virtual unsigned int GetNumberOfNodes(void) const = 0;
 
   /**
    * Returns the ID (pointer) of n-th node in an element.
@@ -510,20 +551,23 @@ public:
    * Sets the pointe of n-th node in an element to node.
    */
   virtual void SetNode(unsigned int n, NodeIDType node) = 0;
-
+  virtual void SetNode(unsigned int n, Node::Pointer node)
+    {
+      this->SetNode(n,NodeIDType(node.GetPointer()));
+    }
   /**
    * Return a vector of global coordinates of n-th node in an element.
    *
    * \param n Local number of node. Must be 0 <= n < this->GetNumberOfNodes().
    */
-  virtual const VectorType& GetNodeCoordinates( unsigned int n ) const = 0;
+  virtual const VectorType & GetNodeCoordinates(unsigned int n) const = 0;
 
   /**
    * Transforms the given local element coordinates into global.
    *
    * \param pt Point in local element coordinates.
    */
-  virtual VectorType GetGlobalFromLocalCoordinates( const VectorType& pt ) const;
+  virtual VectorType GetGlobalFromLocalCoordinates(const VectorType & pt) const;
 
   /**
    * Transforms the given global element coordinates into local.  Returns false if the point is outside.
@@ -531,7 +575,7 @@ public:
    * \param globalPt Reference to vector containing a point in global (world) coordinates.
    * \param localPt Reference to the vector that will store the local coordinate.
    */
-  virtual bool GetLocalFromGlobalCoordinates( const VectorType& globalPt , VectorType& localPt ) const = 0;
+  virtual bool GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const = 0;
 
   /**
    * Returns the number of dimensions of space in which the element is
@@ -547,7 +591,7 @@ public:
    *
    * \param pt Point in local element coordinates.
    */
-  virtual VectorType ShapeFunctions( const VectorType& pt ) const = 0;
+  virtual VectorType ShapeFunctions(const VectorType & pt) const = 0;
 
   /**
    * Compute the matrix of values of the shape functions derivatives with
@@ -564,7 +608,7 @@ public:
    *
    * \sa ShapeFunctionGlobalDerivatives
    */
-  virtual void ShapeFunctionDerivatives( const VectorType& pt, MatrixType& shapeD ) const = 0;
+  virtual void ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const = 0;
 
   /**
    * Compute matrix of shape function derivatives with respect to
@@ -585,7 +629,8 @@ public:
    *
    * \sa ShapeFunctionDerivatives
    */
-  virtual void ShapeFunctionGlobalDerivatives( const VectorType& pt, MatrixType& shapeDgl, const MatrixType* pJ=0, const MatrixType* pshapeD=0 ) const;
+  virtual void ShapeFunctionGlobalDerivatives(const VectorType & pt, MatrixType & shapeDgl, const MatrixType *pJ = 0,
+                                              const MatrixType *pshapeD = 0) const;
 
   /**
    * Compute the Jacobian matrix of the transformation from local
@@ -608,7 +653,7 @@ public:
    *                If this pointer is 0, derivatives will be computed as
    *                necessary.
    */
-  virtual void Jacobian( const VectorType& pt, MatrixType& J, const MatrixType* pshapeD = 0 ) const;
+  virtual void Jacobian(const VectorType & pt, MatrixType & J, const MatrixType *pshapeD = 0) const;
 
   /**
    * Compute the determinant of the Jacobian matrix
@@ -619,7 +664,7 @@ public:
    * \param pJ Optional pointer to Jacobian matrix computed at point pt. If this
    *           is set to 0, the Jacobian will be computed as necessary.
    */
-  virtual Float JacobianDeterminant( const VectorType& pt, const MatrixType* pJ = 0 ) const;
+  virtual Float JacobianDeterminant(const VectorType & pt, const MatrixType *pJ = 0) const;
 
   /**
    * Compute the inverse of the Jacobian matrix
@@ -632,16 +677,24 @@ public:
    * \param pJ Optional pointer to Jacobian matrix computed at point pt. If this
    *           is set to 0, the Jacobian will be computed as necessary.
    */
-  virtual void JacobianInverse( const VectorType& pt, MatrixType& invJ, const MatrixType* pJ = 0 ) const;
+  virtual void JacobianInverse(const VectorType & pt, MatrixType & invJ, const MatrixType *pJ = 0) const;
 
   /**
    * Return the total number of degrees of freedom defined in a derived
    * element class. By default this is equal to number of points in a cell
    * multiplied by number of degrees of freedom at each point.
    */
-  virtual unsigned int GetNumberOfDegreesOfFreedom( void ) const
+  virtual unsigned int GetNumberOfDegreesOfFreedom(void) const
     {
-    return this->GetNumberOfNodes() * this->GetNumberOfDegreesOfFreedomPerNode();
+      return this->GetNumberOfNodes() * this->GetNumberOfDegreesOfFreedomPerNode();
+    }
+
+  /**
+   * Access the edge ids vector. The vector in turn contains a list of edge ids.
+   */
+  virtual std::vector<std::vector<int> > GetEdgeIds(void) const
+    {
+      return this->m_EdgeIds;
     }
 
   /**
@@ -651,64 +704,21 @@ public:
    *
    * \note This function must be overriden in all derived classes.
    */
-  virtual unsigned int GetNumberOfDegreesOfFreedomPerNode( void ) const = 0;
+  virtual unsigned int GetNumberOfDegreesOfFreedomPerNode(void) const = 0;
 
-  //////////////////////////////////////////////////////////////////////////
-  /**
-   * Methods and classes related to IO and drawing
-   */
+  /** Set the edge order and the points defining each edge */
+  virtual void PopulateEdgeIds(void) = 0;
 
-#ifdef FEM_BUILD_VISUALIZATION
-  /**
-   * Draws the element on the DC.
-   */
-  virtual void Draw(CDC* pDC, Solution::ConstPointer sol) const {}
-  /** global scale for drawing on the DC */
-  static double DC_Scale;
-#endif
+protected:
+
+  // to store edge connectivity data
+  std::vector<std::vector<int> > m_EdgeIds;
+
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 };
 
-// Make sure that Element::Node class is registered with the object factory.
-static INITClass Initializer_ElementNode(Element::Node::CLID());
-
-// Alias for Element::Node class
-typedef Element::Node Node;
-
-/**
- * \class ReadInfoType
- * \brief Helper class for storing additional information that is required
- *        when reading FEM objects from stream.
- *
- * When an element is to be read from the input stream, we must provide
- * pointers to the array of nodes and materials. When reading load objects
- * we also need pointer to the array of elements. Construct object of this
- * class and pass a pointer to it when calling Read virtual member function
- * for any type of fem classes.
- * \ingroup ITK-FEM
- */
-class ReadInfoType
-{
-public:
-
-  typedef Node::ArrayType::ConstPointer     NodeArrayPointer;
-  typedef Element::ArrayType::ConstPointer  ElementArrayPointer;
-  typedef Material::ArrayType::ConstPointer MaterialArrayPointer;
-
-  /** Pointer to an array of nodes. */
-  NodeArrayPointer m_node;
-
-  /** Pointer to an array of elements */
-  ElementArrayPointer m_el;
-
-  /** Pointer to an array of materials. */
-  MaterialArrayPointer m_mat;
-
-  /** Constructor for simple object creation. */
-  ReadInfoType( NodeArrayPointer node_, ElementArrayPointer el_, MaterialArrayPointer mat_) :
-    m_node(node_), m_el(el_), m_mat(mat_) {}
-};
-
-}} // end namespace itk::fem
+}
+}  // end namespace itk::fem
 
 #endif // #ifndef __itkFEMElementBase_h

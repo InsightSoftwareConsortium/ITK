@@ -18,7 +18,7 @@
 #ifndef __itkMembershipSample_h
 #define __itkMembershipSample_h
 
-#include "itk_hash_map.h"
+#include "itksys/hash_map.hxx"
 #include "itkSubsample.h"
 
 namespace itk
@@ -45,7 +45,7 @@ namespace Statistics
  * the method, you should first plug in a basic type sample using the
  * SetSample method
  *
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  *
  * \wiki
  * \wikiexample{Statistics/MembershipSample,Create a list of samples with associated class IDs}
@@ -84,7 +84,7 @@ public:
 
   /** Typedef for the storage that holds a class label for each instance.
    * The relationship between instances and class label is one-to-one */
-  typedef itk::hash_map< InstanceIdentifier, ClassLabelType > ClassLabelHolderType;
+  typedef itksys::hash_map< InstanceIdentifier, ClassLabelType > ClassLabelHolderType;
 
   /** Typedef for each subsample that stores instance identifers of instances
    * that belong to a class */
@@ -305,7 +305,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMembershipSample.txx"
+#include "itkMembershipSample.hxx"
 #endif
 
 #endif

@@ -25,10 +25,10 @@ namespace itk
 namespace Statistics
 {
 /** \class RandomVariateGeneratorBase
- * \brief this class defines common interfaces for random variate generators
+ * \brief Defines common interfaces for random variate generators.
  *
  * \ingroup Common
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 class ITK_EXPORT RandomVariateGeneratorBase:public Object
 {

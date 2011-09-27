@@ -44,7 +44,7 @@ namespace itk
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
  * \ingroup IntensityImageFilters
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 
 template< class TInputImage, class TGradientImage = TInputImage, class TOutputImage = TInputImage >
@@ -169,7 +169,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRobustAutomaticThresholdImageFilter.txx"
+#include "itkRobustAutomaticThresholdImageFilter.hxx"
 #endif
 
 #endif

@@ -174,7 +174,7 @@ std::vector< typename ImType::OffsetType > CornerOffsets(const ImType *im)
   NIterator    N1( unitradius, im, im->GetRequestedRegion() );
   unsigned int centerIndex = N1.GetCenterNeighborhoodIndex();
   typename NIterator::OffsetType offset;
-  std::vector< ITK_TYPENAME ImType::OffsetType > result;
+  std::vector< typename ImType::OffsetType > result;
   for ( unsigned int d = 0; d < centerIndex * 2 + 1; d++ )
     {
     offset = N1.GetOffset(d);
@@ -212,7 +212,6 @@ BoxMeanCalculatorFunction(const TInputImage *accImage,
   typedef typename TInputImage::IndexType       IndexType;
   typedef typename TInputImage::PixelType       PixelType;
   typedef typename TInputImage::OffsetType      OffsetType;
-  typedef typename TInputImage::OffsetValueType OffsetValueType;
   typedef TOutputImage                          OutputImageType;
   typedef typename TOutputImage::PixelType      OutputPixelType;
   typedef typename TInputImage::PixelType       InputPixelType;
@@ -397,7 +396,6 @@ BoxSigmaCalculatorFunction(const TInputImage *accImage,
   typedef typename TInputImage::IndexType       IndexType;
   typedef typename TInputImage::PixelType       PixelType;
   typedef typename TInputImage::OffsetType      OffsetType;
-  typedef typename TInputImage::OffsetValueType OffsetValueType;
   typedef TOutputImage                          OutputImageType;
   typedef typename TOutputImage::PixelType      OutputPixelType;
   typedef typename TInputImage::PixelType       InputPixelType;

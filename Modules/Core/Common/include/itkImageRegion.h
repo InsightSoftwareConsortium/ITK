@@ -56,7 +56,7 @@ class ImageBase;
  * \sa MeshRegion
  *
  * \ingroup ImageObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{Images/ImageRegion,An object which holds the index (start) and size of a region of an image}
@@ -164,6 +164,12 @@ public:
   { m_Index[i] = sze; }
   IndexValueType GetIndex(unsigned long i) const
   { return m_Index[i]; }
+
+  /** Get index defining the upper corner of the region. */
+  IndexType GetUpperIndex() const;
+
+  /** Modify the Size of the ImageRegion so that the provided index will be the upper corner index. */
+  void SetUpperIndex( const IndexType & idx );
 
   /** Compare two regions. */
   bool
@@ -328,7 +334,7 @@ std::ostream & operator<<(std::ostream & os, const ImageRegion< VImageDimension 
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkImageRegion.txx"
+#include "itkImageRegion.hxx"
 #endif
 
 #endif

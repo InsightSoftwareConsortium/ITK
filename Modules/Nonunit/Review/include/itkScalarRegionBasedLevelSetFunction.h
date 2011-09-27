@@ -60,7 +60,7 @@ namespace itk
  *      http://hdl.handle.net/1926/1533
  *
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TInputImage, class TFeatureImage, class TSharedData >
 class ITK_EXPORT ScalarRegionBasedLevelSetFunction:
@@ -151,7 +151,7 @@ private:
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkScalarRegionBasedLevelSetFunction.txx"
+#include "itkScalarRegionBasedLevelSetFunction.hxx"
 #endif
 
 #endif

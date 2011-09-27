@@ -15,28 +15,67 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #ifndef __itkFEMElement2DC0LinearTriangularMembrane_h
 #define __itkFEMElement2DC0LinearTriangularMembrane_h
 
 #include "itkFEMElement2DC0LinearTriangular.h"
 #include "itkFEMElement2DMembrane.h"
 
-namespace itk {
-namespace fem {
-
+namespace itk
+{
+namespace fem
+{
 /**
  * \class Element2DC0LinearTriangularMembrane
- * \brief 3-noded finite element class in 2D space for linear elasticity problem.
+ * \brief 3-noded finite element class in 2D space.
+ *
+ * The ordering of the nodes is counter clockwise. That is the nodes
+ * should be defined in the following order:
+ *
+ *  (0,1)
+ *  2
+ *  *
+ *  |\
+ *  | \
+ *  |  \
+ *  |   \
+ *  |    \
+ *  |     \
+ *  *------*
+ *  0      1
+ *  (0,0)  (0,1)
+ *
+ * The constitutive equation used is from membrane bending energy.
+ * This class combines the geometry of the FE problem defined in
+ * \link Element2DC0LinearTriangular\endlink
+ * and the physics of the problem defined in
+ * \link Element2DMembrane\endlink
+ *
+ * \sa Element2DC0LinearTriangularStrain
+ * \sa Element2DC0LinearTriangularStress
  *
  * This element is combined from Element2DC0LinearTriangular and Element2DMembrane.
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 class Element2DC0LinearTriangularMembrane : public Element2DMembrane<Element2DC0LinearTriangular>
 {
-FEM_CLASS(Element2DC0LinearTriangularMembrane,Element2DMembrane<Element2DC0LinearTriangular>)
 public:
+  /** Standard class typedefs. */
+  typedef Element2DC0LinearTriangularMembrane            Self;
+  typedef Element2DMembrane<Element2DC0LinearTriangular> Superclass;
+  typedef SmartPointer<Self>                             Pointer;
+  typedef SmartPointer<const Self>                       ConstPointer;
 
-  HANDLE_ELEMENT_LOADS();
+  /** Method for creation through the object factory. */
+  itkSimpleNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Element2DC0LinearTriangularMembrane, Element2DMembrane<Element2DC0LinearTriangular> );
+
+  /** CreateAnother method will clone the existing instance of this type,
+   * including its internal member variables. */
+  virtual::itk::LightObject::Pointer CreateAnother(void) const;
 
   /**
    * Default constructor only clears the internal storage
@@ -47,15 +86,14 @@ public:
    * Construct an element by specifying pointers to
    * 3 points and a material.
    */
-  Element2DC0LinearTriangularMembrane(
-      NodeIDType n1_,
-      NodeIDType n2_,
-      NodeIDType n3_,
-      Material::ConstPointer p_ );
+  Element2DC0LinearTriangularMembrane(NodeIDType n1_, NodeIDType n2_, NodeIDType n3_, Material::ConstPointer p_);
 
-}; // class Element2DC0LinearTriangularMembrane
+protected:
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
-FEM_CLASS_INIT(Element2DC0LinearTriangularMembrane)
-}} // end namespace itk::fem
+};  // class Element2DC0LinearTriangularMembrane
+
+}
+}  // end namespace itk::fem
 
 #endif  // #ifndef __itkFEMElement2DC0LinearTriangularMembrane_h

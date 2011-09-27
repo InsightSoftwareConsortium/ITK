@@ -33,7 +33,7 @@ namespace itk
  * conference: VisMath '02
  * location: Berlin (Germany)
  * \author: Arnaud Gelas, Alexandre Gouaillard
- * \ingroup ITK-QuadEdgeMeshFiltering
+ * \ingroup ITKQuadEdgeMeshFiltering
  */
 template< class TInputMesh, class TOutputMesh=TInputMesh >
 class ITK_EXPORT DiscreteGaussianCurvatureQuadEdgeMeshFilter:

@@ -18,6 +18,7 @@
 #ifndef __itkQuadEdgeMeshExtendedTraits_h
 #define __itkQuadEdgeMeshExtendedTraits_h
 
+#include "itkCellInterface.h"
 #include "itkQuadEdgeCellTraitsInfo.h"
 #include <set>
 
@@ -55,7 +56,7 @@ namespace itk
  * \tparam TCellPixelType
  *     The type associated with every cell.
  *
- * \ingroup ITK-QuadEdgeMesh
+ * \ingroup ITKQuadEdgeMesh
  */
 template<
   typename TPixelType = float,

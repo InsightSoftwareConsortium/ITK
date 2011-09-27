@@ -27,7 +27,7 @@ namespace itk
  *
  * itkImageModelEstimatorBase is the base class for the ImageModelEstimator
  * objects. It provides the basic function definitions that are inherent to
- *  a ImageModelEstimator objects.
+ * ImageModelEstimator objects.
  *
  * This is the SuperClass for the ImageModelEstimator framework. This is an
  * abstract class defining an interface for all such objects
@@ -44,7 +44,7 @@ namespace itk
  * image is treated as a single band scalar image.
  *
  * EstimateModels() is a pure virtual function making this an abstract class.
- * The template parameter is the type of a membership function the
+ * The template parameter is the type of membership function the
  * ImageModelEstimator populates.
  *
  * A membership function represents a specific knowledge about
@@ -52,14 +52,12 @@ namespace itk
  * measurement vector (pattern) belong to the class.
  *
  * As the method name indicates, you can have more than one membership
- * function. One for each classes. The order you put the membership
+ * function. One for each classes. The order of the membership
  * calculator becomes the class label for the class that is represented
  * by the membership calculator.
  *
-
- *
  * \ingroup ClassificationFilters
- * \ingroup ITK-Classifiers
+ * \ingroup ITKClassifiers
  */
 template< class TInputImage,
           class TMembershipFunction >
@@ -158,7 +156,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageModelEstimatorBase.txx"
+#include "itkImageModelEstimatorBase.hxx"
 #endif
 
 #endif

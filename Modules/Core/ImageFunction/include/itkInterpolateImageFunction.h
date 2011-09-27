@@ -38,12 +38,12 @@ namespace itk
  * \ingroup ImageFunctions ImageInterpolators
  *
  *
- * \ingroup ITK-ImageFunction
+ * \ingroup ITKImageFunction
  */
 template< class TInputImage, class TCoordRep = double >
 class ITK_EXPORT InterpolateImageFunction:
   public ImageFunction< TInputImage,
-                        ITK_TYPENAME NumericTraits< typename TInputImage::PixelType >::RealType, TCoordRep >
+                        typename NumericTraits< typename TInputImage::PixelType >::RealType, TCoordRep >
 {
 public:
   /** Standard class typedefs. */

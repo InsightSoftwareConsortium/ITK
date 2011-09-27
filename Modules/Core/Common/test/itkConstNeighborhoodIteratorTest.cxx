@@ -15,11 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
-#include "itkNeighborhoodIteratorTestCommon.txx"
+#include "itkNeighborhoodIteratorTestCommon.hxx"
 #include "itkConstNeighborhoodIterator.h"
 
 void println(const char *s)

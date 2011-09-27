@@ -63,7 +63,7 @@ namespace itk
  *
  * \ingroup ImageFilters
  * \sa FiniteDifferenceImageFilter
- * \ingroup ITK-FiniteDifference
+ * \ingroup ITKFiniteDifference
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT DenseFiniteDifferenceImageFilter:
@@ -204,7 +204,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkDenseFiniteDifferenceImageFilter.txx"
+#include "itkDenseFiniteDifferenceImageFilter.hxx"
 #endif
 
 #endif

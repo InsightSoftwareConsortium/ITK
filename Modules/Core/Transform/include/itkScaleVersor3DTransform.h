@@ -39,19 +39,18 @@ namespace itk
  * http://hdl.handle.net/1926/1291  or
  * http://www.insight-journal.org/browse/publication/180
  *
- * \ingroup Transforms
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  */
-template< class TScalarType = double >
+template <class TScalarType = double>
 // Data type for scalars:float or double
-class ITK_EXPORT ScaleVersor3DTransform:public VersorRigid3DTransform< TScalarType >
+class ITK_EXPORT ScaleVersor3DTransform : public VersorRigid3DTransform<TScalarType>
 {
 public:
   /** Standard class typedefs. */
-  typedef ScaleVersor3DTransform                Self;
-  typedef VersorRigid3DTransform< TScalarType > Superclass;
-  typedef SmartPointer< Self >                  Pointer;
-  typedef SmartPointer< const Self >            ConstPointer;
+  typedef ScaleVersor3DTransform              Self;
+  typedef VersorRigid3DTransform<TScalarType> Superclass;
+  typedef SmartPointer<Self>                  Pointer;
+  typedef SmartPointer<const Self>            ConstPointer;
 
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro(Self);
@@ -87,7 +86,7 @@ public:
   typedef typename Superclass::AngleType  AngleType;
 
   /** Scale Vector Type. */
-  typedef Vector< TScalarType, 3 > ScaleVectorType;
+  typedef Vector<TScalarType, 3> ScaleVectorType;
 
   /** Directly set the matrix of the transform.
    *
@@ -119,14 +118,12 @@ public:
    * given point or vector, returning the transformed point or
    * vector. The rank of the Jacobian will also indicate if the
    * transform is invertible at this point. */
-  const JacobianType & GetJacobian(const InputPointType  & point) const;
+  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const;
 
 protected:
   ScaleVersor3DTransform();
-  ScaleVersor3DTransform(const MatrixType & matrix,
-                         const OutputVectorType & offset);
-  ScaleVersor3DTransform(unsigned int outputDims,
-                         unsigned int paramDims);
+  ScaleVersor3DTransform(const MatrixType & matrix, const OutputVectorType & offset);
+  ScaleVersor3DTransform(unsigned int paramDims);
   ~ScaleVersor3DTransform();
 
   void PrintSelf(std::ostream & os, Indent indent) const;
@@ -142,16 +139,16 @@ protected:
   void ComputeMatrixParameters(void);
 
 private:
-  ScaleVersor3DTransform(const Self &); //purposely not implemented
-  void operator=(const Self &);         //purposely not implemented
+  ScaleVersor3DTransform(const Self &); // purposely not implemented
+  void operator=(const Self &);         // purposely not implemented
 
   /**  Vector containing the scale. */
   ScaleVectorType m_Scale;
-}; //class ScaleVersor3DTransform
+}; // class ScaleVersor3DTransform
 }  // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkScaleVersor3DTransform.txx"
+#include "itkScaleVersor3DTransform.hxx"
 #endif
 
 #endif /* __ScaleVersor3DTransform_h */

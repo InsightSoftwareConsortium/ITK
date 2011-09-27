@@ -15,9 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
+
 #include <iostream>
 #include <fstream>
 
@@ -26,7 +24,7 @@
 #include "itkAffineTransform.h"
 #include "itkTransformFactory.h"
 #include "itkSimilarity2DTransform.h"
-#include "itkBSplineDeformableTransform.h"
+#include "itkBSplineTransform.h"
 #include "itksys/SystemTools.hxx"
 
 static int oneTest(const char *goodname,const char *badname)

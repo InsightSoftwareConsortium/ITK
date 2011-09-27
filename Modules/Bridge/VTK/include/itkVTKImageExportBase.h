@@ -31,7 +31,7 @@ namespace itk
  *
  * \ingroup IOFilters
  * \sa VTKImageExport
- * \ingroup ITK-VTK
+ * \ingroup ITKVTK
  */
 class ITK_EXPORT VTKImageExportBase:public ProcessObject
 {
@@ -67,7 +67,7 @@ public:
 
   /** \class CallbackTypeProxy
    * \brief Provide compatibility between VTK 4.4 and earlier versions.
-   * \ingroup ITK-VTK
+   * \ingroup ITKVTK
    */
   class CallbackTypeProxy
   {

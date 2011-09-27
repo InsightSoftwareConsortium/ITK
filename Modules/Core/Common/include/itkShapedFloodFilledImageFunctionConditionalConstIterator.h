@@ -24,14 +24,15 @@ namespace itk
 {
 /**
  * \class ShapedFloodFilledImageFunctionConditionalConstIterator
- * \brief Iterates over a flood-filled image function.
+ * \brief Iterates over a flood-filled image function with read-only
+ *        access to pixels.
  *
  * Contributed as a paper to the Insight Journal:
  *  http://hdl.handle.net/1926/1320
  *
  * \ingroup ImageIterators
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TImage, class TFunction >
 class ITK_EXPORT ShapedFloodFilledImageFunctionConditionalConstIterator:
@@ -110,7 +111,7 @@ public:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShapedFloodFilledImageFunctionConditionalConstIterator.txx"
+#include "itkShapedFloodFilledImageFunctionConditionalConstIterator.hxx"
 #endif
 
 #endif

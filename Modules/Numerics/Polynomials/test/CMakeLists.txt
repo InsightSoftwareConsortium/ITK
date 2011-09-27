@@ -1,12 +1,9 @@
 itk_module_test()
-set(ITK-PolynomialsTests
+set(ITKPolynomialsTests
 itkMultivariateLegendrePolynomialTest.cxx
-itkPolynomialsHeaderTest.cxx
 )
 
-CreateTestDriver(ITK-Polynomials  "${ITK-Polynomials-Test_LIBRARIES}" "${ITK-PolynomialsTests}")
+CreateTestDriver(ITKPolynomials  "${ITKPolynomials-Test_LIBRARIES}" "${ITKPolynomialsTests}")
 
-itk_add_test(NAME itkPolynomialsHeaderTest
-      COMMAND ITK-PolynomialsTestDriver itkPolynomialsHeaderTest)
 itk_add_test(NAME itkMultivariateLegendrePolynomialTest
-      COMMAND ITK-PolynomialsTestDriver itkMultivariateLegendrePolynomialTest)
+      COMMAND ITKPolynomialsTestDriver itkMultivariateLegendrePolynomialTest)

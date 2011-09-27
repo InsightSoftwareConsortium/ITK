@@ -20,13 +20,17 @@
 
 #include "itkFEMLoadElementBase.h"
 
+#include "itkFEMObject.h"
 #include "itkImage.h"
 #include "itkTranslationTransform.h"
 
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkNeighborhoodIterator.h"
+#include "itkNeighborhoodIterator.h"
 #include "itkNeighborhoodInnerProduct.h"
 #include "itkDerivativeOperator.h"
 #include "itkForwardDifferenceOperator.h"
+#include "itkLinearInterpolateImageFunction.h"
 #include "vnl/vnl_math.h"
 
 #include "itkDemonsRegistrationFunction.h"
@@ -38,6 +42,7 @@ namespace itk
 {
 namespace fem
 {
+
 /**
  * \class FiniteDifferenceFunctionLoad
  * \brief General image pair load that uses the itkFiniteDifferenceFunctions.
@@ -56,13 +61,40 @@ namespace fem
  * This region size may be set by the user by calling SetMetricRadius.
  * As the metric derivative computation evolves, performance should improve
  * and more functionality will be available (such as scale selection).
- * \ingroup ITK-FEMRegistration
+ * \ingroup ITKFEMRegistration
  */
-template< class TMoving, class TFixed >
-class ITK_EXPORT FiniteDifferenceFunctionLoad:public LoadElement
+template <class TMoving, class TFixed>
+class ITK_EXPORT FiniteDifferenceFunctionLoad : public LoadElement
 {
-  FEM_CLASS(FiniteDifferenceFunctionLoad, LoadElement)
 public:
+  /** Standard class typedefs. */
+  typedef FiniteDifferenceFunctionLoad Self;
+  typedef LoadElement                  Superclass;
+  typedef SmartPointer<Self>           Pointer;
+  typedef SmartPointer<const Self>     ConstPointer;
+
+  // itkNewMacro(Self);
+  /** New macro for creation of through the object factory. */
+  // itkNewMacro(Self);
+  static Pointer New(void);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(FiniteDifferenceFunctionLoad, LoadElement);
+
+#ifdef USE_FEM_CLONE
+  /** Create a new object from the existing one */
+  virtual Baseclass::Pointer Clone() const
+  {
+    Pointer o = new Self(*this);
+
+    return o.GetPointer();
+  }
+
+#endif
+
+  /** CreateAnother method will clone the existing instance of this type,
+   * including its internal member variables. */
+  virtual::itk::LightObject::Pointer CreateAnother(void) const;
 
   // Necessary typedefs for dealing with images BEGIN
   typedef typename LoadElement::Float Float;
@@ -78,10 +110,10 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       MovingImageType::ImageDimension);
 
-  typedef ImageRegionIteratorWithIndex< MovingImageType > MovingRegionIteratorType;
-  typedef ImageRegionIteratorWithIndex< FixedImageType >  FixedRegionIteratorType;
+  typedef ImageRegionIteratorWithIndex<MovingImageType> MovingRegionIteratorType;
+  typedef ImageRegionIteratorWithIndex<FixedImageType>  FixedRegionIteratorType;
 
-  typedef NeighborhoodIterator< MovingImageType >
+  typedef NeighborhoodIterator<MovingImageType>
   MovingNeighborhoodIteratorType;
   typedef typename MovingNeighborhoodIteratorType::IndexType
   MovingNeighborhoodIndexType;
@@ -89,7 +121,7 @@ public:
   MovingRadiusType;
   typedef typename MovingNeighborhoodIteratorType::RadiusType
   RadiusType;
-  typedef NeighborhoodIterator< FixedImageType >
+  typedef NeighborhoodIterator<FixedImageType>
   FixedNeighborhoodIteratorType;
   typedef typename FixedNeighborhoodIteratorType::IndexType
   FixedNeighborhoodIndexType;
@@ -101,77 +133,82 @@ public:
   typedef   typename  FixedImageType::PixelType  FixedPixelType;
   typedef   Float                                PixelType;
   typedef   Float                                ComputationType;
-  typedef   Image< PixelType, itkGetStaticConstMacro(ImageDimension) >
+  typedef   Image<PixelType, itkGetStaticConstMacro(ImageDimension)>
   ImageType;
-  typedef   itk::Vector< float, itkGetStaticConstMacro(ImageDimension) >
+  typedef   itk::Vector<float, itkGetStaticConstMacro(ImageDimension)>
   VectorType;
-  typedef   vnl_vector< Float > FEMVectorType;
-  typedef   Image< VectorType, itkGetStaticConstMacro(ImageDimension) >
-  DeformationFieldType;
-  typedef   typename DeformationFieldType::Pointer DeformationFieldTypePointer;
+  typedef   vnl_vector<Float> FEMVectorType;
+  typedef   Image<VectorType, itkGetStaticConstMacro(ImageDimension)>
+  DisplacementFieldType;
+  typedef   typename DisplacementFieldType::Pointer DisplacementFieldTypePointer;
 
-  typedef NeighborhoodIterator< DeformationFieldType >
+  typedef NeighborhoodIterator<DisplacementFieldType>
   FieldIteratorType;
 
 // Necessary typedefs for dealing with images END
 
   /** PDEDeformableRegistrationFilterFunction type. */
-  typedef PDEDeformableRegistrationFunction< FixedImageType, MovingImageType,
-                                             DeformationFieldType >
+  typedef PDEDeformableRegistrationFunction<FixedImageType, MovingImageType,
+                                            DisplacementFieldType>
   FiniteDifferenceFunctionType;
   typedef typename FiniteDifferenceFunctionType::Pointer FiniteDifferenceFunctionTypePointer;
 
   typedef typename FiniteDifferenceFunctionType::TimeStepType TimeStepType;
 
-  typedef MeanSquareRegistrationFunction< FixedImageType, MovingImageType,
-                                          DeformationFieldType >  MeanSquareRegistrationFunctionType;
+  typedef MeanSquareRegistrationFunction<FixedImageType, MovingImageType,
+                                         DisplacementFieldType>  MeanSquareRegistrationFunctionType;
 
-  typedef DemonsRegistrationFunction< FixedImageType, MovingImageType,
-                                      DeformationFieldType >  DemonsRegistrationFunctionType;
+  typedef DemonsRegistrationFunction<FixedImageType, MovingImageType,
+                                     DisplacementFieldType>  DemonsRegistrationFunctionType;
 
-  typedef NCCRegistrationFunction< FixedImageType, MovingImageType,
-                                   DeformationFieldType >  NCCRegistrationFunctionType;
+  typedef NCCRegistrationFunction<FixedImageType, MovingImageType,
+                                  DisplacementFieldType>  NCCRegistrationFunctionType;
 
-  typedef MIRegistrationFunction< FixedImageType, MovingImageType,
-                                  DeformationFieldType >  MIRegistrationFunctionType;
+  typedef MIRegistrationFunction<FixedImageType, MovingImageType,
+                                 DisplacementFieldType>  MIRegistrationFunctionType;
 
+  typedef unsigned long                                        ElementIdentifier;
+  typedef VectorContainer<ElementIdentifier, Element::Pointer> ElementContainerType;
 // FUNCTIONS
 
   /* This method sets the pointer to a FiniteDifferenceFunction object that
    * will be used by the filter to calculate updates at image pixels.
    * \returns A FiniteDifferenceObject pointer. */
-  void SetDifferenceFunction(FiniteDifferenceFunctionTypePointer drfp)
+  void SetDifferenceFunction( FiniteDifferenceFunctionTypePointer drfp)
   {
     drfp->SetFixedImage(m_FixedImage);
     drfp->SetMovingImage(m_MovingImage);
     drfp->SetRadius(m_MetricRadius);
-    drfp->SetDeformationField(m_DeformationField);
+    drfp->SetDisplacementField(m_DisplacementField);
     drfp->InitializeIteration();
     this->m_DifferenceFunction = drfp;
   }
 
-  void SetMetric(FiniteDifferenceFunctionTypePointer drfp)
+  void SetMetric( FiniteDifferenceFunctionTypePointer drfp )
   {
-    this->SetDifferenceFunction( static_cast< FiniteDifferenceFunctionType * >(
+    this->SetDifferenceFunction( static_cast<FiniteDifferenceFunctionType *>(
                                    drfp.GetPointer() ) );
 
-    m_FixedSize = m_DeformationField->GetLargestPossibleRegion().GetSize();
+    m_FixedSize = m_DisplacementField->GetLargestPossibleRegion().GetSize();
   }
 
   /** Define the reference (moving) image. */
-  void SetMovingImage(MovingImageType *R)
+  void SetMovingImage(MovingImageType* R)
   {
     m_MovingImage = R;
     m_MovingSize = m_MovingImage->GetLargestPossibleRegion().GetSize();
-    if ( this->m_DifferenceFunction ) { this->m_DifferenceFunction->SetMovingImage(m_MovingImage); }
-  }
+    if( this->m_DifferenceFunction )
+      {
+      this->m_DifferenceFunction->SetMovingImage(m_MovingImage);
+      }
+  };
 
   /** Define the target (fixed) image. */
-  void SetFixedImage(FixedImageType *T)
+  void SetFixedImage(FixedImageType* T)
   {
     m_FixedImage = T;
     m_FixedSize = T->GetLargestPossibleRegion().GetSize();
-    if ( this->m_DifferenceFunction )
+    if( this->m_DifferenceFunction )
       {
       this->m_DifferenceFunction->SetFixedImage(m_MovingImage);
       }
@@ -221,12 +258,6 @@ public:
     m_Sign = s;
   }
 
-  /** Set the sigma in a gaussian measure. */
-  void SetTemp(Float s)
-  {
-    m_Temp = s;
-  }
-
   /** Scaling of the similarity energy term */
   void SetGamma(Float s)
   {
@@ -243,15 +274,16 @@ public:
     return m_Solution;
   }
 
-  /** \todo FIXME - WE ASSUME THE 2ND VECTOR (INDEX 1) HAS THE INFORMATION WE WANT */
+  // FIXME - WE ASSUME THE 2ND VECTOR (INDEX 1) HAS THE INFORMATION WE WANT
   Float GetSolution(unsigned int i, unsigned int which = 0)
   {
     return m_Solution->GetSolutionValue(i, which);
   }
 
-  FiniteDifferenceFunctionLoad(); // cannot be private until we always use smart
-                                  // pointers
-  Float EvaluateMetricGivenSolution(Element::ArrayType *el, Float step = 1.0);
+  FiniteDifferenceFunctionLoad(); // cannot be private until we always use smart pointers
+  Float EvaluateMetricGivenSolution( Element::ArrayType* el, Float step = 1.0);
+
+  Float EvaluateMetricGivenSolution1( ElementContainerType *el, Float step = 1.0);
 
   /**
    * Compute the image based load - implemented with ITK metric derivatives.
@@ -260,14 +292,22 @@ public:
   FEMVectorType Fe(FEMVectorType, FEMVectorType);
 
   static Baseclass * NewFiniteDifferenceFunctionLoad(void)
-  { return new FiniteDifferenceFunctionLoad; }
+  {
+    return new FiniteDifferenceFunctionLoad;
+  }
 
   /** Set the  */
-  void SetDeformationField(DeformationFieldTypePointer df)
-  { m_DeformationField = df; }
+  void SetDisplacementField( DisplacementFieldTypePointer df)
+  {
+    m_DisplacementField = df;
+  }
 
   /** Get the  */
-  DeformationFieldTypePointer GetDeformationField() { return m_DeformationField; }
+  DisplacementFieldTypePointer GetDisplacementField()
+  {
+    return m_DisplacementField;
+  }
+
   void InitializeIteration();
 
   void InitializeMetric();
@@ -276,47 +316,37 @@ public:
 
   double GetCurrentEnergy();
 
-  void  SetCurrentEnergy(double e = 0.0);
+  void  SetCurrentEnergy( double e = 0.0);
+
+  virtual void ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe);
 
 protected:
 private:
   MovingPointer    m_MovingImage;
   FixedPointer     m_FixedImage;
-  MovingRadiusType m_MetricRadius;                                   /** used by
-                                                                       the
-                                                                       metric to
-                                                                       set
-                                                                       region
-                                                                       size for
-                                                                       fixed
+  MovingRadiusType m_MetricRadius;                                   /** used by the metric to set region size for fixed
                                                                        image*/
-  typename MovingImageType::SizeType m_MovingSize;
-
-  typename FixedImageType::SizeType m_FixedSize;
-
-  unsigned int m_NumberOfIntegrationPoints;
-  unsigned int m_SolutionIndex;
-  unsigned int m_SolutionIndex2;
-  Float        m_Temp;
-  Float        m_Gamma;
-
-  typename Solution::ConstPointer m_Solution;
-
+  typename MovingImageType::SizeType  m_MovingSize;
+  typename FixedImageType::SizeType   m_FixedSize;
+  unsigned int                        m_NumberOfIntegrationPoints;
+  unsigned int                        m_SolutionIndex;
+  unsigned int                        m_SolutionIndex2;
+  Float                               m_Gamma;
+  typename Solution::ConstPointer     m_Solution;
   float                               m_GradSigma;
   float                               m_Sign;
   float                               m_WhichMetric;
   FiniteDifferenceFunctionTypePointer m_DifferenceFunction;
 
-  typename DeformationFieldType::Pointer m_DeformationField;
-  /** Dummy static int that enables automatic registration
-      with FEMObjectFactory. */
-  static const int m_DummyCLID;
+  typename DisplacementFieldType::Pointer             m_DisplacementField;
+
 };
+
 }
 } // end namespace fem/itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFEMFiniteDifferenceFunctionLoad.txx"
+#include "itkFEMFiniteDifferenceFunctionLoad.hxx"
 #endif
 
 #endif

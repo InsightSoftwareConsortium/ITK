@@ -44,8 +44,8 @@ namespace itk
  *
  * The pixels must support the operators >= and <=.
  *
- * \ingroup IntensityImageFilters Multithreaded
- * \ingroup ITK-Thresholding
+ * \ingroup IntensityImageFilters MultiThreaded
+ * \ingroup ITKThresholding
  *
  * \wiki
  * \wikiexample{ImageProcessing/ThresholdImageFilter,Threshold an image}
@@ -144,7 +144,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkThresholdImageFilter.txx"
+#include "itkThresholdImageFilter.hxx"
 #endif
 
 #endif

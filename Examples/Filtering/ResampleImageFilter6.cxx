@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 //  Software Guide : BeginLatex
 //
@@ -83,7 +80,10 @@ int main( int argc, char * argv[] )
 
 
   // Software Guide : BeginCodeSnippet
-  filter->SetDefaultPixelValue( 50 );
+  PixelType defaultValue;
+  defaultValue.Fill(50);
+
+  filter->SetDefaultPixelValue( defaultValue );
   // Software Guide : EndCodeSnippet
 
 

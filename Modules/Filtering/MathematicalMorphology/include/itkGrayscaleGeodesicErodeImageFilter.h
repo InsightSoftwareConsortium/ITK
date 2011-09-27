@@ -59,7 +59,7 @@ namespace itk
  * GrayscaleFunctionErodeImageFilter, BinaryErodeImageFilter,
  * ReconstructionByErosionImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
- * \ingroup ITK-MathematicalMorphology
+ * \ingroup ITKMathematicalMorphology
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT GrayscaleGeodesicErodeImageFilter:
@@ -195,7 +195,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGrayscaleGeodesicErodeImageFilter.txx"
+#include "itkGrayscaleGeodesicErodeImageFilter.hxx"
 #endif
 
 #endif

@@ -20,6 +20,7 @@
 
 #include "itkIndex.h"
 #include "itkNeighborhood.h"
+#include "itkImageRegion.h"
 
 namespace itk
 {
@@ -45,7 +46,7 @@ namespace itk
  *
  * \ingroup DataRepresentation
  * \ingroup ImageObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TImageType >
 class ITK_EXPORT ImageBoundaryCondition
@@ -59,10 +60,12 @@ public:
   typedef ImageBoundaryCondition Self;
 
   /** Extract information from the image type */
-  typedef typename TImageType::PixelType                   PixelType;
-  typedef typename TImageType::InternalPixelType *         PixelPointerType;
-  typedef Index< itkGetStaticConstMacro(ImageDimension) >  IndexType;
-  typedef Offset< itkGetStaticConstMacro(ImageDimension) > OffsetType;
+  typedef typename TImageType::PixelType                        PixelType;
+  typedef typename TImageType::InternalPixelType *              PixelPointerType;
+  typedef Index< itkGetStaticConstMacro(ImageDimension) >       IndexType;
+  typedef Size< itkGetStaticConstMacro(ImageDimension) >        SizeType;
+  typedef Offset< itkGetStaticConstMacro(ImageDimension) >      OffsetType;
+  typedef ImageRegion< itkGetStaticConstMacro(ImageDimension) > RegionType;
 
   /** Type of the data container passed to this function object. */
   typedef Neighborhood< PixelPointerType,
@@ -74,6 +77,18 @@ public:
 
   /** Default constructor. */
   ImageBoundaryCondition() {}
+
+  /** Runtime information support. */
+  virtual const char * GetNameOfClass() const
+  {
+    return "itkImageBoundaryCondition";
+  }
+
+  /** Utility for printing the boundary condition. */
+  virtual void Print( std::ostream & os, Indent i = 0 ) const
+  {
+    os << i << this->GetNameOfClass() << " (" << this << ")" << std::endl;
+  }
 
   /** Returns a value for a given out-of-bounds pixel.  The arguments are the
    * phantom pixel (ND) index within the neighborhood, the pixel's offset from
@@ -100,6 +115,34 @@ public:
     * indexes to active pixels (or no pixels).
     */
   virtual bool RequiresCompleteNeighborhood() { return true; }
+
+  /** Determines the necessary input region for an output region given
+   * the largest possible region of the input image. Subclasses should
+   * override this method to efficiently support streaming.
+   *
+   * \param inputLargestPossibleRegion Largest possible region of the input image.
+   * \param outputRequestedRegion The output requested region.
+   * \return The necessary input region required to determine the
+   * pixel values in the outputRequestedRegion.
+   */
+  virtual RegionType GetInputRequestedRegion( const RegionType & inputLargestPossibleRegion,
+                                              const RegionType & outputRequestedRegion ) const
+  {
+    (void) outputRequestedRegion;
+    return inputLargestPossibleRegion;
+  }
+
+  /** Returns a value for a given pixel at an index. If the index is inside the
+   * bounds of the input image, then the pixel value is obtained from
+   * the input image. Otherwise, the pixel value is determined
+   * according to the boundary condition type.
+   *
+   * \param index The index of the desired pixel.
+   * \param image The image from which pixel values should be determined.
+   */
+  virtual PixelType GetPixel( const IndexType & index,
+                              const TImageType * image ) const = 0;
+
 };
 } // end namespace itk
 

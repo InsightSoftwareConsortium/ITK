@@ -50,9 +50,6 @@
 // http://wiki.na-mic.org/Wiki/index.php/NAMIC_Wiki:DTI:Nrrd_format
 //
 
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkDiffusionTensor3DReconstructionImageFilter.h"
 #include "itkTensorFractionalAnisotropyImageFilter.h"

@@ -158,7 +158,7 @@ namespace itk
  *     GetLabelledImage() function.
  *
  * \ingroup RegionGrowingSegmentation
- * \ingroup ITK-KLMRegionGrowing
+ * \ingroup ITKKLMRegionGrowing
  */
 
 template< class TInputImage, class TOutputImage >
@@ -381,7 +381,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkKLMRegionGrowImageFilter.txx"
+#include "itkKLMRegionGrowImageFilter.hxx"
 #endif
 
 #endif

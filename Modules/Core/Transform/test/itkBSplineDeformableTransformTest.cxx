@@ -25,9 +25,6 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkBSplineDeformableTransform.h"
 #include "itkBSplineInterpolateImageFunction.h"
@@ -44,16 +41,16 @@ int itkBSplineDeformableTransformTest1()
 {
 
   // Comment the following if you want to use the itk text output window
-  itk::OutputWindow::SetInstance(itk::TextOutput::New());
+  itk::OutputWindow::SetInstance(itk::TextOutput::New() );
 
   // Uncomment the following if you want to see each message independently
-  //itk::OutputWindow::GetInstance()->PromptUserOn();
+  // itk::OutputWindow::GetInstance()->PromptUserOn();
 
   const unsigned int SpaceDimension = 3;
   const unsigned int SplineOrder = 3;
   typedef double CoordinateRepType;
-  typedef itk::BSplineDeformableTransform<CoordinateRepType,SpaceDimension,SplineOrder>
-    TransformType;
+  typedef itk::BSplineDeformableTransform
+  <CoordinateRepType,SpaceDimension, SplineOrder> TransformType;
 
   typedef TransformType::ParametersType ParametersType;
 
@@ -62,6 +59,11 @@ int itkBSplineDeformableTransformTest1()
   /**
    * Define the deformable grid region, spacing and origin
    */
+
+  typedef TransformType::OriginType OriginType;
+  OriginType origin;
+  origin.Fill( 0.0 );
+
   typedef TransformType::RegionType RegionType;
   RegionType region;
   RegionType::SizeType   size;
@@ -72,10 +74,6 @@ int itkBSplineDeformableTransformTest1()
   typedef TransformType::SpacingType SpacingType;
   SpacingType spacing;
   spacing.Fill( 2.0 );
-
-  typedef TransformType::OriginType OriginType;
-  OriginType origin;
-  origin.Fill( 0.0 );
 
   /**
    * Instantiate a transform
@@ -90,8 +88,9 @@ int itkBSplineDeformableTransformTest1()
   /**
    * Allocate memory for the parameters
    */
-  unsigned long numberOfParameters = transform->GetNumberOfParameters();
+  unsigned long  numberOfParameters = transform->GetNumberOfParameters();
   ParametersType parameters( numberOfParameters );
+  parameters.Fill( itk::NumericTraits<ParametersType::ValueType>::Zero);
 
   /**
    * Define N * N-D grid of spline coefficients by wrapping the
@@ -99,22 +98,20 @@ int itkBSplineDeformableTransformTest1()
    * Initialize by setting all elements to zero
    */
   typedef ParametersType::ValueType                   CoefficientType;
-  typedef itk::Image<CoefficientType,SpaceDimension>  CoefficientImageType;
+  typedef itk::Image<CoefficientType, SpaceDimension> CoefficientImageType;
 
-  CoefficientImageType::Pointer coeffImage[SpaceDimension];
-  unsigned int numberOfPixels = region.GetNumberOfPixels();
+  CoefficientImageType::Pointer  coeffImage[SpaceDimension];
+  unsigned int numberOfControlPoints = region.GetNumberOfPixels();
   CoefficientType * dataPointer = parameters.data_block();
-
-  for ( j = 0; j < SpaceDimension; j++ )
+  for( j = 0; j < SpaceDimension; j++ )
     {
     coeffImage[j] = CoefficientImageType::New();
     coeffImage[j]->SetRegions( region );
     coeffImage[j]->GetPixelContainer()->
-      SetImportPointer( dataPointer, numberOfPixels );
-    dataPointer += numberOfPixels;
+    SetImportPointer( dataPointer, numberOfControlPoints );
+    dataPointer += numberOfControlPoints;
     coeffImage[j]->FillBuffer( 0.0 );
     }
-
 
   /**
    * Populate the spline coefficients with some values.
@@ -124,14 +121,13 @@ int itkBSplineDeformableTransformTest1()
 
   coeffImage[1]->SetPixel( index, 1.0 );
 
-  unsigned long n = coeffImage[1]->ComputeOffset( index ) +
-    numberOfPixels;
+  unsigned long n = coeffImage[1]->ComputeOffset( index )
+    + numberOfControlPoints;
 
   /**
    * Set the parameters in the transform
    */
   transform->SetParameters( parameters );
-
 
   /**
    * Get the parameters back
@@ -140,9 +136,10 @@ int itkBSplineDeformableTransformTest1()
   // outParametersRef should point back to parameters
   const ParametersType & outParametersRef = transform->GetParameters();
 
-  if ( &outParametersRef != &parameters )
+  if( &outParametersRef != &parameters )
     {
-    std::cout << "outParametersRef should point to the same memory as parameters";
+    std::cout << "outParametersRef should point to the same memory as "
+              << "parameters";
     std::cout << std::endl;
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
@@ -151,7 +148,7 @@ int itkBSplineDeformableTransformTest1()
   // outParametersCopy should make a copy of the parameters
   ParametersType outParametersCopy = transform->GetParameters();
 
-  if ( outParametersCopy != parameters )
+  if( outParametersCopy != parameters )
     {
     std::cout << "outParametersCopy should be the same as parameters";
     std::cout << std::endl;
@@ -159,9 +156,10 @@ int itkBSplineDeformableTransformTest1()
     return EXIT_FAILURE;
     }
 
-  if ( &outParametersCopy == &parameters )
+  if( &outParametersCopy == &parameters )
     {
-    std::cout << "outParametersCopy should point to memory different to parameters";
+    std::cout << "outParametersCopy should point to memory different "
+              << "to parameters";
     std::cout << std::endl;
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
@@ -186,7 +184,6 @@ int itkBSplineDeformableTransformTest1()
 
   PointType inputPoint;
   PointType outputPoint;
-
 
   // point within the grid support region
   inputPoint.Fill( 9.0 );
@@ -240,20 +237,21 @@ int itkBSplineDeformableTransformTest1()
   transform->SetBulkTransform( NULL );
 
   // use the other version of TransformPoint
-  typedef TransformType::WeightsType              WeightsType;
-  typedef TransformType::IndexType                IndexType;
-  typedef TransformType::ParameterIndexArrayType  IndexArrayType;
+  typedef TransformType::WeightsType             WeightsType;
+  typedef TransformType::IndexType               IndexType;
+  typedef TransformType::ParameterIndexArrayType IndexArrayType;
 
-  WeightsType weights( transform->GetNumberOfWeights() );
+  WeightsType    weights( transform->GetNumberOfWeights() );
   IndexArrayType indices( transform->GetNumberOfWeights() );
-  bool inside;
+  bool           inside;
 
   inputPoint.Fill( 8.3 );
   transform->TransformPoint( inputPoint, outputPoint, weights, indices, inside );
 
-  std::cout << "Number of Parameters: " << transform->GetNumberOfParameters() << std::endl;
-  std::cout << "Number of Parameters per dimension: " <<
-    transform->GetNumberOfParametersPerDimension() << std::endl;
+  std::cout << "Number of Parameters: "
+            << transform->GetNumberOfParameters() << std::endl;
+  std::cout << "Number of Parameters per dimension: "
+            << transform->GetNumberOfParametersPerDimension() << std::endl;
   std::cout << "Input Point: " << inputPoint << std::endl;
   std::cout << "Output Point: " << outputPoint << std::endl;
   std::cout << "Indices: " << indices << std::endl;
@@ -263,16 +261,18 @@ int itkBSplineDeformableTransformTest1()
 
   // cycling through all the parameters and weights used in the previous
   // transformation
-  unsigned int numberOfCoefficientInSupportRegion = transform->GetNumberOfWeights();
-  unsigned int numberOfParametersPerDimension = transform->GetNumberOfParametersPerDimension();
+  unsigned int numberOfCoefficientInSupportRegion =
+    transform->GetNumberOfWeights();
+  unsigned int numberOfParametersPerDimension =
+    transform->GetNumberOfParametersPerDimension();
   unsigned int linearIndex;
   unsigned int baseIndex;
 
   std::cout << "Index" << "\t" << "Value" << "\t" << "Weight" << std::endl;
-  for ( j = 0; j < SpaceDimension; j++ )
+  for( j = 0; j < SpaceDimension; j++ )
     {
     baseIndex = j * numberOfParametersPerDimension;
-    for ( unsigned int k = 0; k < numberOfCoefficientInSupportRegion; k++ )
+    for( unsigned int k = 0; k < numberOfCoefficientInSupportRegion; k++ )
       {
       linearIndex = indices[k] + baseIndex;
       std::cout << linearIndex << "\t";
@@ -282,58 +282,53 @@ int itkBSplineDeformableTransformTest1()
       }
     }
 
-
   /**
    * TODO: add test to check the numerical accuarcy of the transform
    */
-
 
   /**
    * Compute the Jacobian for various points
    */
   typedef TransformType::JacobianType JacobianType;
 
-#define PRINT_VALUE(R,C) \
+#define PRINT_VALUE(R, C) \
   std::cout << "Jacobian[" #R "," #C "] = "; \
   std::cout << jacobian[R][C] << std::endl;
 
-  {
+    {
     // point inside the grid support region
     inputPoint.Fill( 10.0 );
-    const JacobianType & jacobian = transform->GetJacobian( inputPoint );
+    JacobianType jacobian;
+    transform->ComputeJacobianWithRespectToParameters( inputPoint, jacobian );
     PRINT_VALUE( 0, n );
     PRINT_VALUE( 1, n );
     PRINT_VALUE( 2, n );
     std::cout << std::endl;
+    }
 
-  }
-
-
-  {
+    {
     // point outside the grid support region
     inputPoint.Fill( -10.0 );
-    const JacobianType & jacobian = transform->GetJacobian( inputPoint );
+    JacobianType jacobian;
+    transform->ComputeJacobianWithRespectToParameters( inputPoint, jacobian );
     PRINT_VALUE( 0, n );
     PRINT_VALUE( 1, n );
     PRINT_VALUE( 2, n );
     std::cout << std::endl;
-
-  }
-
+    }
 
   /**
    * TODO: add test to check the numerical accuarcy of the jacobian output
    */
 
-
   /**
    * TransformVector and TransformCovariant are not applicable for this
    * transform and should throw exceptions
    */
-  {
+    {
     typedef TransformType::InputVectorType VectorType;
     VectorType vector;
-    vector.Fill ( 1.0 );
+    vector.Fill( 1.0 );
 
     bool pass = false;
     try
@@ -346,19 +341,18 @@ int itkBSplineDeformableTransformTest1()
       std::cout << err << std::endl;
       pass = true;
       }
-    if ( !pass )
+    if( !pass )
       {
       std::cout << "Did not catch expected exception." << std::endl;
       std::cout << "Test failed. " << std::endl;
       return EXIT_FAILURE;
       }
+    }
 
-  }
-
-  {
+    {
     typedef TransformType::InputCovariantVectorType VectorType;
     VectorType vector;
-    vector.Fill ( 1.0 );
+    vector.Fill( 1.0 );
 
     bool pass = false;
     try
@@ -371,19 +365,18 @@ int itkBSplineDeformableTransformTest1()
       std::cout << err << std::endl;
       pass = true;
       }
-    if ( !pass )
+    if( !pass )
       {
       std::cout << "Did not catch expected exception." << std::endl;
       std::cout << "Test failed. " << std::endl;
       return EXIT_FAILURE;
       }
+    }
 
-  }
-
-  {
+    {
     typedef TransformType::InputVnlVectorType VectorType;
     VectorType vector;
-    vector.fill ( 1.0 );
+    vector.fill( 1.0 );
 
     bool pass = false;
     try
@@ -396,17 +389,15 @@ int itkBSplineDeformableTransformTest1()
       std::cout << err << std::endl;
       pass = true;
       }
-    if ( !pass )
+    if( !pass )
       {
       std::cout << "Did not catch expected exception." << std::endl;
       std::cout << "Test failed. " << std::endl;
       return EXIT_FAILURE;
       }
+    }
 
-  }
-
-  {
-
+    {
     bool pass = false;
     try
       {
@@ -420,14 +411,13 @@ int itkBSplineDeformableTransformTest1()
       std::cout << err << std::endl;
       pass = true;
       }
-    if ( !pass )
+    if( !pass )
       {
       std::cout << "Did not catch expected exception." << std::endl;
       std::cout << "Test failed. " << std::endl;
       return EXIT_FAILURE;
       }
-
-  }
+    }
 
   /**
    * Exercise other methods
@@ -437,16 +427,17 @@ int itkBSplineDeformableTransformTest1()
   std::cout << transform->GetGridOrigin() << std::endl;
   std::cout << transform->GetValidRegion() << std::endl;
 
-  typedef itk::BSplineDeformableTransform<CoordinateRepType,SpaceDimension,2>
-    EvenOrderTransformType;
-  EvenOrderTransformType::Pointer evenOrderTransform = EvenOrderTransformType::New();
+  typedef itk::BSplineDeformableTransform<CoordinateRepType, SpaceDimension, 2>
+  EvenOrderTransformType;
+  EvenOrderTransformType::Pointer evenOrderTransform =
+    EvenOrderTransformType::New();
 
   /**
    * Parameters should remain even when the transform has been destroyed
    */
   transform = NULL;
 
-  if ( outParametersCopy != parameters )
+  if( outParametersCopy != parameters )
     {
     std::cout << "parameters should remain intact after transform is destroyed";
     std::cout << std::endl;
@@ -457,7 +448,7 @@ int itkBSplineDeformableTransformTest1()
   /**
    * Exercise the SetIdentity() Method
    */
-  {
+    {
     std::cout << "Exercising SetIdentity() " << std::endl;
     TransformType::Pointer transform2 = TransformType::New();
     transform2->SetGridSpacing( spacing );
@@ -466,31 +457,29 @@ int itkBSplineDeformableTransformTest1()
     transform2->SetParameters( parameters );
     transform2->SetIdentity();
     TransformType::ParametersType parameters2 = transform2->GetParameters();
-    const unsigned int numberOfParameters2 = transform2->GetNumberOfParameters();
+    const unsigned int            numberOfParameters2 = transform2->GetNumberOfParameters();
     std::cout << "numberOfParameters =  " << numberOfParameters2 << std::endl;
-    for(unsigned int i=0; i<numberOfParameters2; i++)
+    for( unsigned int i = 0; i < numberOfParameters2; i++ )
       {
       if( vcl_fabs( parameters2[i] ) > 1e-10 )
         {
-        std::cerr << "SetIdentity failed, parameters are not null after invoking SetIdentity() " << std::endl;
+        std::cerr << "SetIdentity failed, parameters are not null "
+                  << "after invoking SetIdentity() " << std::endl;
         return EXIT_FAILURE;
         }
       }
-  } // end of SetIdentity() test
-
+    } // end of SetIdentity() test
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
-
 }
 
 int itkBSplineDeformableTransformTest2()
 {
-
- /**
-  * This function tests the Set/GetCoefficientImage interface
-  */
-  itk::OutputWindow::SetInstance(itk::TextOutput::New());
+  /**
+   * This function tests the Set/GetCoefficientImages interface
+   */
+  itk::OutputWindow::SetInstance(itk::TextOutput::New() );
 
   unsigned int j;
 
@@ -500,15 +489,23 @@ int itkBSplineDeformableTransformTest2()
   const unsigned int Dimension = 2;
   typedef double PixelType;
 
-  typedef itk::Image<PixelType,Dimension>  ImageType;
+  typedef itk::Image<PixelType, Dimension> ImageType;
+
+  // Set up the transform
+  const unsigned int SplineOrder = 3;
+  typedef double CoordRep;
+  typedef itk::BSplineDeformableTransform<CoordRep, Dimension, SplineOrder> TransformType;
+  TransformType::InputPointType  inputPoint;
+  TransformType::OutputPointType outputPoint;
+
+  TransformType::Pointer transform = TransformType::New();
 
   // Set up field spacing, origin, region
-  double spacing[Dimension];
-  double origin[Dimension];
-  ImageType::SizeType size;
+  double                spacing[Dimension];
+  double                origin[Dimension];
+  ImageType::SizeType   size;
   ImageType::RegionType region;
-
-  for ( j = 0; j < Dimension; j++ )
+  for( j = 0; j < Dimension; j++ )
     {
     spacing[j] = 10.0;
     origin[j]  = -10.0;
@@ -520,7 +517,7 @@ int itkBSplineDeformableTransformTest2()
   region.SetSize( size );
 
   ImageType::Pointer field[Dimension];
-  for ( j = 0; j < Dimension; j++ )
+  for( j = 0; j < Dimension; j++ )
     {
     field[j] = ImageType::New();
     field[j]->SetSpacing( spacing );
@@ -530,35 +527,25 @@ int itkBSplineDeformableTransformTest2()
     }
 
   // fill the field with a constant displacment
-  itk::Vector<double,Dimension> v;
+  itk::Vector<double, Dimension> v;
   v[0] = 5;
   v[1] = 7;
-
-  for ( j = 0; j < Dimension; j++ )
+  for( j = 0; j < Dimension; j++ )
     {
     field[j]->FillBuffer( v[j] );
     }
-
-  // Set up the transform
-  const unsigned int SplineOrder = 3;
-  typedef double CoordRep;
-  typedef itk::BSplineDeformableTransform<CoordRep,Dimension,SplineOrder> TransformType;
-  TransformType::InputPointType inputPoint;
-  TransformType::OutputPointType outputPoint;
-
-  TransformType::Pointer transform = TransformType::New();
 
   // This should generate a warning about parameters not being set
   inputPoint.Fill( 0.0 );
   outputPoint = transform->TransformPoint( inputPoint );
 
   // Set the coefficient images
-  transform->SetCoefficientImage( field );
+  transform->SetCoefficientImages( field );
 
   // Exercise get and print methods
   transform->Print( std::cout );
   std::cout << "CoefficientImage[0]: "
-            << transform->GetCoefficientImage()[0].GetPointer() << std::endl;
+            << transform->GetCoefficientImages()[0].GetPointer() << std::endl;
 
   /**
    * Transform some points
@@ -603,8 +590,8 @@ int itkBSplineDeformableTransformTest2()
     return EXIT_FAILURE;
     }
 
- std::cout << "Test passed." << std::endl;
- return EXIT_SUCCESS;
+  std::cout << "Test passed." << std::endl;
+  return EXIT_SUCCESS;
 }
 
 int itkBSplineDeformableTransformTest3()
@@ -613,13 +600,13 @@ int itkBSplineDeformableTransformTest3()
   // This function tests the SetParametersByValue interface
 
   // Comment the following if you want to use the itk text output window
-  itk::OutputWindow::SetInstance(itk::TextOutput::New());
+  itk::OutputWindow::SetInstance(itk::TextOutput::New() );
 
   const unsigned int SpaceDimension = 3;
   const unsigned int SplineOrder = 3;
   typedef double CoordinateRepType;
-  typedef itk::BSplineDeformableTransform<CoordinateRepType,SpaceDimension,SplineOrder>
-    TransformType;
+  typedef itk::BSplineDeformableTransform
+  <CoordinateRepType, SpaceDimension, SplineOrder> TransformType;
 
   typedef TransformType::ParametersType ParametersType;
 
@@ -628,6 +615,11 @@ int itkBSplineDeformableTransformTest3()
   /**
    * Define the deformable grid region, spacing and origin
    */
+
+  typedef TransformType::OriginType OriginType;
+  OriginType origin;
+  origin.Fill( 0.0 );
+
   typedef TransformType::RegionType RegionType;
   RegionType region;
   RegionType::SizeType   size;
@@ -638,11 +630,6 @@ int itkBSplineDeformableTransformTest3()
   typedef TransformType::SpacingType SpacingType;
   SpacingType spacing;
   spacing.Fill( 2.0 );
-
-  typedef TransformType::OriginType OriginType;
-  OriginType origin;
-  origin.Fill( 0.0 );
-
   /**
    * Instantiate a transform
    */
@@ -656,7 +643,7 @@ int itkBSplineDeformableTransformTest3()
   /**
    * Allocate memory for the parameters
    */
-  unsigned long numberOfParameters = transform->GetNumberOfParameters();
+  unsigned long  numberOfParameters = transform->GetNumberOfParameters();
   ParametersType parameters( numberOfParameters );
 
   /**
@@ -664,23 +651,21 @@ int itkBSplineDeformableTransformTest3()
    * flat array into N images.
    * Initialize by setting all elements to zero
    */
-  typedef ParametersType::ValueType                     CoefficientType;
-  typedef itk::Image<CoefficientType,SpaceDimension>    CoefficientImageType;
+  typedef ParametersType::ValueType                   CoefficientType;
+  typedef itk::Image<CoefficientType, SpaceDimension> CoefficientImageType;
 
-  CoefficientImageType::Pointer coeffImage[SpaceDimension];
-  unsigned int numberOfPixels = region.GetNumberOfPixels();
+  CoefficientImageType::Pointer  coeffImage[SpaceDimension];
+  unsigned int numberOfControlPoints = region.GetNumberOfPixels();
   CoefficientType * dataPointer = parameters.data_block();
-
-  for ( j = 0; j < SpaceDimension; j++ )
+  for( j = 0; j < SpaceDimension; j++ )
     {
     coeffImage[j] = CoefficientImageType::New();
     coeffImage[j]->SetRegions( region );
     coeffImage[j]->GetPixelContainer()->
-      SetImportPointer( dataPointer, numberOfPixels );
-    dataPointer += numberOfPixels;
+    SetImportPointer( dataPointer, numberOfControlPoints );
+    dataPointer += numberOfControlPoints;
     coeffImage[j]->FillBuffer( 0.0 );
     }
-
 
   /**
    * Populate the spline coefficients with some values.
@@ -718,9 +703,10 @@ int itkBSplineDeformableTransformTest3()
   // outParametersRef should not point back to parameters
   const ParametersType & outParametersRef = transform->GetParameters();
 
-  if ( &outParametersRef == &parameters )
+  if( &outParametersRef == &parameters )
     {
-    std::cout << "outParametersRef should not point to the same memory as parameters";
+    std::cout << "outParametersRef should not point to the same memory as "
+              << "parameters";
     std::cout << std::endl;
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
@@ -749,13 +735,22 @@ int itkBSplineDeformableTransformTest(int, char * [] )
   bool failed;
 
   failed = itkBSplineDeformableTransformTest1();
-  if ( failed ) { return EXIT_FAILURE; }
+  if( failed )
+    {
+    return EXIT_FAILURE;
+    }
 
   failed = itkBSplineDeformableTransformTest2();
-  if ( failed ) { return EXIT_FAILURE; }
+  if( failed )
+    {
+    return EXIT_FAILURE;
+    }
 
   failed = itkBSplineDeformableTransformTest3();
-  if ( failed ) { return EXIT_FAILURE; }
+  if( failed )
+    {
+    return EXIT_FAILURE;
+    }
 
   return EXIT_SUCCESS;
 }

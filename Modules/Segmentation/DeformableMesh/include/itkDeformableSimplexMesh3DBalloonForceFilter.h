@@ -46,7 +46,7 @@ namespace itk
   *
   * \author Thomas Boettger. Division Medical and Biological Informatics, German Cancer Research Center, Heidelberg.
   *
-  * \ingroup ITK-DeformableMesh
+  * \ingroup ITKDeformableMesh
   */
 template< class TInputMesh, class TOutputMesh >
 class ITK_EXPORT DeformableSimplexMesh3DBalloonForceFilter:public DeformableSimplexMesh3DFilter< TInputMesh,
@@ -113,7 +113,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDeformableSimplexMesh3DBalloonForceFilter.txx"
+#include "itkDeformableSimplexMesh3DBalloonForceFilter.hxx"
 #endif
 
 #endif //__itkDeformableSimplexMesh3DBalloonForceFilter_H

@@ -18,9 +18,6 @@
 #ifndef __itkJPEG2000ImageIO_h
 #define __itkJPEG2000ImageIO_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <fstream>
 #include "itkStreamingImageIOBase.h"
@@ -47,7 +44,7 @@ class JPEG2000ImageIOInternal;
  *
  *
  *  \ingroup IOFilters
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 class ITK_EXPORT JPEG2000ImageIO:public StreamingImageIOBase
 {

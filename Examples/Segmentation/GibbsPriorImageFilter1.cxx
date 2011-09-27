@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 // Software Guide : BeginLatex
 //
@@ -200,9 +197,9 @@ int main( int argc, char *argv[] )
   //----------------------------------------------------------------------
   //Set the decision rule
   //----------------------------------------------------------------------
-  typedef itk::DecisionRuleBase::Pointer DecisionRuleBasePointer;
+  typedef itk::Statistics::DecisionRule::Pointer DecisionRuleBasePointer;
 
-  typedef itk::MinimumDecisionRule DecisionRuleType;
+  typedef itk::Statistics::MinimumDecisionRule DecisionRuleType;
   DecisionRuleType::Pointer  myDecisionRule = DecisionRuleType::New();
 
   std::cout << " site 3 " << std::endl;

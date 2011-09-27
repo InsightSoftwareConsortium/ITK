@@ -15,9 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
+
 #include "itkHoughTransform2DCirclesImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkThresholdImageFilter.h"

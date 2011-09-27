@@ -25,14 +25,14 @@
 namespace itk
 {
 /** \class ResourceProbesCollectorBase
- *  \brief Class for aggregating a set of probes.
+ *  \brief Aggregates a set of probes.
  *
  *  This class defines a set of ResourceProbes and assign names to them.
  *  The user can start and stop each one of the probes by addressing them by name.
  *
  *  \sa ResourceProbe
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TProbe >
 class ITK_EXPORT ResourceProbesCollectorBase
@@ -64,7 +64,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkResourceProbesCollectorBase.txx"
+#include "itkResourceProbesCollectorBase.hxx"
 #endif
 
 #endif //__itkResourceProbesCollectorBase_h

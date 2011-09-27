@@ -18,15 +18,12 @@
 #ifndef __itkWatershedBoundary_h
 #define __itkWatershedBoundary_h
 
-#if defined( _MSC_VER )
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <list>
 #include <vector>
 #include "itkImage.h"
 #include "itkProcessObject.h"
-#include "itk_hash_map.h"
+#include "itksys/hash_map.hxx"
 
 namespace itk
 {
@@ -51,7 +48,7 @@ namespace watershed
  * \sa WatershedSegmenter
  * \sa WatershedBoundaryResolver
  * \ingroup WatershedSegmentation
- * \ingroup ITK-Watersheds
+ * \ingroup ITKWatersheds
  */
 template< class TScalarType, unsigned int TDimension >
 class ITK_EXPORT Boundary:public DataObject
@@ -117,8 +114,8 @@ public:
       types. */
   typedef Image< face_pixel_t, TDimension > face_t;
   /** A hash table holding flat region data structures.   */
-  typedef itk::hash_map< IdentifierType,             flat_region_t,
-                         itk::hash< IdentifierType > > flat_hash_t;
+  typedef itksys::hash_map< IdentifierType,             flat_region_t,
+                        itksys::hash< IdentifierType > > flat_hash_t;
   typedef typename flat_hash_t::value_type FlatHashValueType;
 
   /** Itk typedefs and macros defining smart pointer and type identification.
@@ -219,7 +216,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkWatershedBoundary.txx"
+#include "itkWatershedBoundary.hxx"
 #endif
 
 #endif

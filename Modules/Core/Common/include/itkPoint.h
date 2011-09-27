@@ -40,7 +40,7 @@ namespace itk
  * \ingroup DataRepresentation
  *
  * \sa Image \sa Mesh \sa Vector \sa CovariantVector \sa Matrix
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{SimpleOperations/DistanceBetweenPoints,Distance between two points}
@@ -269,7 +269,9 @@ ITK_EXPORT std::istream & operator>>(std::istream & is,
                                      Point< T, NPointDimension > & v);
 
 /** \class BarycentricCombination
- * Class that computes the barycentric combination of an array of N points
+ *  \brief Computes the barycentric combination of an array of N points.
+ *
+ * This class computes the barycentric combination of an array of N points.
  *
  * An array of (N-1) values is expected to weight the contribution of the
  * first (N-1) points, the weight of the Nth point is computed to ensure that
@@ -289,7 +291,7 @@ ITK_EXPORT std::istream & operator>>(std::istream & is,
  * having a operator[i].
  *
  * \ingroup Geometry
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TPointContainer, class TWeightContainer >
 ITK_EXPORT class BarycentricCombination
@@ -330,7 +332,7 @@ public:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkPoint.txx"
+#include "itkPoint.hxx"
 #endif
 
 #endif

@@ -30,7 +30,7 @@ namespace itk
  * that can be used to build tubes.
  *
  * \sa VesselTubeSpatialObject
- * \ingroup ITK-SpatialObjects
+ * \ingroup ITKSpatialObjects
  */
 
 template< unsigned int TPointDimension = 3 >
@@ -126,7 +126,7 @@ protected:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVesselTubeSpatialObjectPoint.txx"
+#include "itkVesselTubeSpatialObjectPoint.hxx"
 #endif
 
 #endif // __itkVesselTubeSpatialObjectPoint_h

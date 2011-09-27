@@ -1,5 +1,33 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+
+if( "${CMAKE_GENERATOR}" MATCHES "Visual Studio 10" )
+  cmake_minimum_required(VERSION 2.8.4)
+endif()
+
 project(ITK)
+
+if( WIN32 )
+
+  string( LENGTH "${CMAKE_CURRENT_SOURCE_DIR}" n )
+  if( n GREATER 50 )
+    message(
+      FATAL_ERROR
+      "Source tree directory of ITK is too deep (${n} > 50)."
+      "Please use a shorter root directory for the ITK source tree."
+      )
+  endif()
+
+  string( LENGTH "${CMAKE_CURRENT_BINARY_DIR}" n )
+  if( n GREATER 50 )
+    message(
+      FATAL_ERROR
+      "Binary tree directory of ITK is too deep (${n} > 50)."
+      "Please use a shorter root directory for the ITK binary tree."
+      )
+  endif()
+
+endif()
+
 set(CMAKE_MODULE_PATH ${ITK_SOURCE_DIR}/CMake ${CMAKE_MODULE_PATH})
 include(PreventInSourceBuilds)
 include(PreventInBuildInstalls)
@@ -44,6 +72,35 @@ macro(verify_itk_module_is_set)
 endmacro()
 
 #-----------------------------------------------------------------------------
+# Set a default build type if none was specified
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+  message(STATUS "Setting build type to 'Release' as none was specified.")
+  set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
+  # Set the possible values of build type for cmake-gui
+  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
+endif()
+
+
+#-----------------------------------------------------------------------------
+# Enable runinng cppcheck for each module on its source and test directories.
+option(ITK_CPPCHECK_TEST "Run cppcheck for static code analysis" OFF)
+mark_as_advanced(ITK_CPPCHECK_TEST)
+
+#-----------------------------------------------------------------------------
+# Default values for CMake options may vary based on whether it's a
+# dashboard build or not:
+#
+if("$ENV{DASHBOARD_TEST_FROM_CTEST}" STREQUAL "")
+  # developer build
+  set(ITK_BUILD_ALL_MODULES_DEFAULT ON)
+  set(BUILD_EXAMPLES_DEFAULT ON)
+else()
+  # dashboard build
+  set(ITK_BUILD_ALL_MODULES_DEFAULT ON)
+  set(BUILD_EXAMPLES_DEFAULT ON)
+endif()
+
+#-----------------------------------------------------------------------------
 # Enable the download and use of BrainWeb datasets.
 # When this data is available, additional 3D tests are enabled.
 option(ITK_USE_BRAINWEB_DATA "Download and use BrainWeb data for advanced testing" OFF)
@@ -80,7 +137,11 @@ endfunction()
 option(BUILD_SHARED_LIBS "Build ITK with shared libraries." OFF)
 set(ITK_BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS})
 
-include(ITKPlatformSpecificChecks)
+include(ITKSetStandardCompilerFlags)
+#---------------------------------------------------------------
+# run try compiles and tests for ITK
+include(itkTestFriendTemplatedFunction)
+
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${ITK_REQUIRED_C_FLAGS}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${ITK_REQUIRED_CXX_FLAGS}")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${ITK_REQUIRED_LINK_FLAGS}")
@@ -88,6 +149,8 @@ set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ${ITK_REQUIRED_LINK_
 set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} ${ITK_REQUIRED_LINK_FLAGS}")
 
 include(CTest)
+
+include( CppcheckTargets )
 
 # Setup build locations.
 if(NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
@@ -116,7 +179,7 @@ r the Copyright Policy of ITK." OFF)
 mark_as_advanced(ITK_USE_REVIEW)
 
 if (ITK_USE_REVIEW)
-  set(Module_ITK-Review ON)
+  set(Module_ITKReview ON)
 endif(ITK_USE_REVIEW)
 
 #-----------------------------------------------------------------------------
@@ -125,7 +188,8 @@ INCLUDE(${ITK_SOURCE_DIR}/Utilities/KWStyle/KWStyle.cmake)
 
 #-----------------------------------------------------------------------------
 # ITK build the Examples that are illustrated in the Software Guide
-option(BUILD_EXAMPLES "Build the Examples directory." OFF)
+option(BUILD_EXAMPLES "Build the Examples directory."
+  ${BUILD_EXAMPLES_DEFAULT})
 
 #-----------------------------------------------------------------------------
 # Enable GPU support. Requires OpenCL to be installed
@@ -166,8 +230,6 @@ option(ITK_USE_STRICT_CONCEPT_CHECKING "Turn on Strict concept checking to give 
 mark_as_advanced(ITK_USE_STRICT_CONCEPT_CHECKING)
 
 #----------------------------------------------------------------------------
-configure_file(CMake/CTestCustom.cmake.in CTestCustom.cmake)
-
 set(ITK_TEST_OUTPUT_DIR "${ITK_BINARY_DIR}/Testing/Temporary")
 
 #-----------------------------------------------------------------------------
@@ -220,10 +282,10 @@ foreach(f ${meta})
   endif()
 
   # Reject bad dependencies.
-  string(REGEX MATCHALL ";(ITK-Deprecated|ITK-Review|ITK-IntegratedTest);"
+  string(REGEX MATCHALL ";(ITKDeprecated|ITKReview|ITKIntegratedTest);"
     _bad_deps ";${ITK_MODULE_${itk-module}_DEPENDS};${ITK_MODULE_${itk-module-test}_DEPENDS};")
   foreach(dep ${_bad_deps})
-    if(NOT "${itk-module}" MATCHES "^(${dep}|ITK-IntegratedTest)$")
+    if(NOT "${itk-module}" MATCHES "^(${dep}|ITKIntegratedTest)$")
       message(FATAL_ERROR
         "Module \"${itk-module}\" loaded from\n"
         "  ${${itk-module}_BASE}/itk-module.cmake\n"
@@ -267,13 +329,6 @@ endforeach()
 #----------------------------------------------------------------------
 
 # Provide an option for all modules.
-if("$ENV{DASHBOARD_TEST_FROM_CTEST}" STREQUAL "")
-  # developer build
-  set(ITK_BUILD_ALL_MODULES_DEFAULT OFF)
-else()
-  # dashboard build
-  set(ITK_BUILD_ALL_MODULES_DEFAULT ON)
-endif()
 option(ITK_BUILD_ALL_MODULES "Request to build all modules"
   ${ITK_BUILD_ALL_MODULES_DEFAULT})
 
@@ -488,6 +543,9 @@ foreach(itk-module ${ITK_MODULES_ENABLED})
   include("${${itk-module}_SOURCE_DIR}/itk-module-init.cmake" OPTIONAL)
   add_subdirectory("${${itk-module}_SOURCE_DIR}" "${${itk-module}_BINARY_DIR}")
 endforeach()
+
+#----------------------------------------------------------------------------
+configure_file(CMake/CTestCustom.cmake.in CTestCustom.cmake)
 
 #-----------------------------------------------------------------------------
 

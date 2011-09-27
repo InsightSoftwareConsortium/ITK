@@ -26,7 +26,7 @@ namespace itk
 /** \class PlaneSpatialObject
  * A plane spatial object is defined by two points
  * \brief
- * \ingroup ITK-SpatialObjects
+ * \ingroup ITKSpatialObjects
  *
  * \wiki
  * \wikiexample{SpatialObjects/PlaneSpatialObject,Plane spatial object}
@@ -102,7 +102,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPlaneSpatialObject.txx"
+#include "itkPlaneSpatialObject.hxx"
 #endif
 
 #endif // __itkPlaneSpatialObject_h

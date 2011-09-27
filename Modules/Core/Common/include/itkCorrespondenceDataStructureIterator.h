@@ -23,7 +23,8 @@ namespace itk
 /** \class CorrespondenceDataStructureIterator
  * \brief An iterator designed to easily traverse an
  *        CorrespondenceDataStructure.
- * \ingroup ITK-Common
+ *
+ * \ingroup ITKCommon
  */
 template< class TStructureType >
 class CorrespondenceDataStructureIterator
@@ -34,7 +35,9 @@ public:
 
   /** Get the dimension (size) of the index. */
   static unsigned int GetIteratorDimension()
-  { return TStructureType::dim; }
+  {
+    return TStructureType::dim;
+  }
 
   /** Is the iterator at the end of the region? */
   bool IsAtEnd();
@@ -72,7 +75,9 @@ public:
 
   /** Get m_CorrespondingListPointer.  */
   CorrespondingListType * GetCorrespondingListPointer()
-  { return m_CorrespondingListPointer; }
+  {
+    return m_CorrespondingListPointer;
+  }
 
   CorrespondingListIterator m_CorrespondingListIterator;
   SecondaryNodeListIterator m_SecondaryListIterator;
@@ -91,7 +96,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCorrespondenceDataStructureIterator.txx"
+#include "itkCorrespondenceDataStructureIterator.hxx"
 #endif
 
 #endif

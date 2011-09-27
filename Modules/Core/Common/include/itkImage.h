@@ -76,7 +76,7 @@ namespace itk
  * \example VectorImage.cxx
  *
  * \ingroup ImageObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{SimpleOperations/SetPixels,Set specified pixels to specified values}
@@ -330,7 +330,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkImage.txx"
+#include "itkImage.hxx"
 #endif
 
 #endif

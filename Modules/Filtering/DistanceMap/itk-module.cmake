@@ -1,14 +1,14 @@
 set(DOCUMENTATION "This module contains multiple implementations of distance
-map filters. They include the implementations of Danielsson and Maurer, as well
-as other distance concepts such as Hausdorff and Chamfer distances.")
+map filters. They include the implementations of Danielsson and Maurer, as
+well as other distance concepts such as Hausdorff and Chamfer distances.")
 
-itk_module(ITK-DistanceMap
+itk_module(ITKDistanceMap
   DEPENDS
-    ITK-ImageIntensity
-    ITK-MathematicalMorphology
-    ITK-NarrowBand
+    ITKImageIntensity
+    ITKBinaryMathematicalMorphology
+    ITKNarrowBand
+    ITKImageLabel
   TEST_DEPENDS
-    ITK-TestKernel
+    ITKTestKernel
   DESCRIPTION
-    "${DOCUMENTATION}"
-)
+    "${DOCUMENTATION}")

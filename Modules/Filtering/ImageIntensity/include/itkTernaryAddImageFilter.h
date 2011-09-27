@@ -22,18 +22,13 @@
 
 namespace itk
 {
-/** \class TernaryAddImageFilter
- * \brief Implements pixel-wise addition of three images.
- *
- * This class is parametrized over the types of the three
- * input images and the type of the output image.
- * Numeric conversions (castings) are done by the C++ defaults.
- *
- * \ingroup IntensityImageFilters
- * \ingroup ITK-ImageIntensity
- */
 namespace Functor
 {
+/**
+ * \class Add3
+ * \brief
+ * \ingroup ITKImageIntensity
+ */
 template< class TInput1, class TInput2, class TInput3, class TOutput >
 class Add3
 {
@@ -56,7 +51,16 @@ public:
   { return (TOutput)( A + B + C ); }
 };
 }
-
+/** \class TernaryAddImageFilter
+ * \brief Pixel-wise addition of three images.
+ *
+ * This class is templated over the types of the three
+ * input images and the type of the output image.
+ * Numeric conversions (castings) are done by the C++ defaults.
+ *
+ * \ingroup IntensityImageFilters
+ * \ingroup ITKImageIntensity
+ */
 template< class TInputImage1, class TInputImage2,
           class TInputImage3, class TOutputImage >
 class ITK_EXPORT TernaryAddImageFilter:

@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 // Software Guide : BeginLatex
 //
@@ -90,10 +87,10 @@ int main(int, char*[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  DensityFunctionType::MeanType mean( 2 );
+  DensityFunctionType::MeanVectorType mean( 2 );
   mean.Fill( 0.0 );
 
-  DensityFunctionType::CovarianceType cov;
+  DensityFunctionType::CovarianceMatrixType cov;
   cov.SetSize( 2, 2 );
   cov.SetIdentity();
   cov *= 4;

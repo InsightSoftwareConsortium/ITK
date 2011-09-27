@@ -61,7 +61,7 @@ namespace itk
  * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator
  * \sa ShapedNeighborhoodIterator  \sa SliceIterator
  * \sa ImageConstIteratorWithIndex
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{Iterators/ImageRegionIteratorWithIndex,Iterate over a region of an image with efficient access to the current index (with write access)}
@@ -95,7 +95,7 @@ public:
   ImageRegionIteratorWithIndex(TImage *ptr, const RegionType & region);
 
   /** Constructor that can be used to cast from an ImageIterator to an
-   * ImageRegionIteratorWithIndex. Many routines return an ImageIterator but for a
+   * ImageRegionIteratorWithIndex. Many routines return an ImageIterator, but for a
    * particular task, you may want an ImageRegionIteratorWithIndex.  Rather than
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
@@ -106,13 +106,13 @@ public:
   void Set(const PixelType & value) const
   { this->m_PixelAccessorFunctor.Set(*( const_cast< InternalPixelType * >( this->m_Position ) ), value); }
 
-  /** Return a reference to the pixel
+  /** Return a reference to the pixel.
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */
   PixelType & Value(void)
   { return *( const_cast< InternalPixelType * >( this->m_Position ) ); }
 protected:
-  /** the construction from a const iterator is declared protected
+  /** The construction from a const iterator is declared protected
       in order to enforce const correctness. */
   ImageRegionIteratorWithIndex(const ImageRegionConstIteratorWithIndex< TImage > & it);
   Self & operator=(const ImageRegionConstIteratorWithIndex< TImage > & it);
@@ -135,7 +135,7 @@ protected:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkImageRegionIteratorWithIndex.txx"
+#include "itkImageRegionIteratorWithIndex.hxx"
 #endif
 
 #endif

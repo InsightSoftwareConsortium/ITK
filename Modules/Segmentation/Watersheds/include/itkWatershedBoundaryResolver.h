@@ -18,9 +18,7 @@
 #ifndef __itkWatershedBoundaryResolver_h
 #define __itkWatershedBoundaryResolver_h
 
-#if defined( _MSC_VER )
-#pragma warning ( disable : 4786 )
-#endif
+
 #include "itkWatershedSegmenter.h"
 
 namespace itk
@@ -60,7 +58,7 @@ namespace watershed
  * how boundary faces are indexed.
  * \sa itk::watershed::Boundary
  * \ingroup WatershedSegmentation
- * \ingroup ITK-Watersheds
+ * \ingroup ITKWatersheds
  */
 template< class TPixelType, unsigned int TDimension >
 class ITK_EXPORT BoundaryResolver:public ProcessObject
@@ -140,7 +138,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkWatershedBoundaryResolver.txx"
+#include "itkWatershedBoundaryResolver.hxx"
 #endif
 
 #endif

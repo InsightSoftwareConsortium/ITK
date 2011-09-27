@@ -24,19 +24,19 @@
 namespace itk
 {
 /** \class GaussianDerivativeSpatialFunction
- * \brief N-dimensional gaussian spatial function class
+ * \brief N-dimensional Gaussian spatial function class
  *
- * GaussianDerivativeSpatialFunction implements a standard derivative of gaussian
+ * GaussianDerivativeSpatialFunction implements a standard derivative of Gaussian
  * curve in N-d.
  * m_Normalized determines whether or not the Derivative of the Gaussian
- * is normalized (whether or not the sum over infinite space is 1.0)
+ * is normalized (whether or not the sum over infinite space is 1.0).
  *
  * m_Scale scales the output of the Gaussian to span a range
  * larger than 0->1, and is often set to the maximum value
- * of the output data type (for instance, 255 for uchars)
+ * of the output data type (for instance, 255 for uchars).
  *
  * \ingroup SpatialFunctions
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< typename TOutput = double,
           unsigned int VImageDimension = 3,
@@ -130,7 +130,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkGaussianDerivativeSpatialFunction.txx"
+#include "itkGaussianDerivativeSpatialFunction.hxx"
 #endif
 
 #endif

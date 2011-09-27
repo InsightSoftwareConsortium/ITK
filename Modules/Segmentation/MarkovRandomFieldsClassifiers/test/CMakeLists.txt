@@ -1,15 +1,12 @@
 itk_module_test()
-set(ITK-MarkovRandomFieldsClassifiersTests
+set(ITKMarkovRandomFieldsClassifiersTests
 itkMRFImageFilterTest.cxx
-itkMarkovRandomFieldsClassifiersHeaderTest.cxx
 itkGibbsTest.cxx
 )
 
-CreateTestDriver(ITK-MarkovRandomFieldsClassifiers  "${ITK-MarkovRandomFieldsClassifiers-Test_LIBRARIES}" "${ITK-MarkovRandomFieldsClassifiersTests}")
+CreateTestDriver(ITKMarkovRandomFieldsClassifiers  "${ITKMarkovRandomFieldsClassifiers-Test_LIBRARIES}" "${ITKMarkovRandomFieldsClassifiersTests}")
 
-itk_add_test(NAME itkMarkovRandomFieldsClassifiersHeaderTest
-      COMMAND ITK-MarkovRandomFieldsClassifiersTestDriver itkMarkovRandomFieldsClassifiersHeaderTest)
 itk_add_test(NAME itkMRFImageFilterTest
-      COMMAND ITK-MarkovRandomFieldsClassifiersTestDriver itkMRFImageFilterTest)
+      COMMAND ITKMarkovRandomFieldsClassifiersTestDriver itkMRFImageFilterTest)
 itk_add_test(NAME itkGibbsTest
-      COMMAND ITK-MarkovRandomFieldsClassifiersTestDriver itkGibbsTest)
+      COMMAND ITKMarkovRandomFieldsClassifiersTestDriver itkGibbsTest)

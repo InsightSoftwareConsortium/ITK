@@ -1,10 +1,10 @@
-project(ITKJPEG)
+project(ITK3P_JPEG)
 
 include_regular_expression("^(jchuff|jconfig|jdct|jdhuff|jerror|jinclude|jmemsys|jmorecfg|jpegint|jpeglib|jversion|jpeg).*$")
 
 include_directories(BEFORE
                "${CMAKE_CURRENT_BINARY_DIR}"
-               "${ITKJPEG_SOURCE_DIR}")
+               "${ITK3P_JPEG_SOURCE_DIR}")
 
 # memmgr back ends: compile only one of these into a working library
 # (For now, let's use the mode that requires the image fit into memory.
@@ -47,8 +47,8 @@ if(WIN32)
   endif(BUILD_SHARED_LIBS)
 endif(WIN32)
 
-configure_file(${ITKJPEG_SOURCE_DIR}/jpegDllConfig.h.in
-               ${ITKJPEG_BINARY_DIR}/jpegDllConfig.h)
+configure_file(${ITK3P_JPEG_SOURCE_DIR}/jpegDllConfig.h.in
+               ${ITK3P_JPEG_BINARY_DIR}/jpegDllConfig.h)
 
 add_library(itkjpeg ${systemdependent_SRCS} ${common_SRCS} ${compression_SRCS} ${decompression_SRCS})
 
@@ -68,12 +68,12 @@ endif(NOT ITK_INSTALL_NO_LIBRARIES)
 
 if(NOT ITK_INSTALL_NO_DEVELOPMENT)
   install(FILES
-    ${ITKJPEG_BINARY_DIR}/jpegDllConfig.h
-    ${ITKJPEG_SOURCE_DIR}/jpeglib.h
-    ${ITKJPEG_SOURCE_DIR}/itk_jpeg_mangle.h
-    ${ITKJPEG_SOURCE_DIR}/jconfig.h
-    ${ITKJPEG_SOURCE_DIR}/jmorecfg.h
-    ${ITKJPEG_SOURCE_DIR}/jerror.h
+    ${ITK3P_JPEG_BINARY_DIR}/jpegDllConfig.h
+    ${ITK3P_JPEG_SOURCE_DIR}/jpeglib.h
+    ${ITK3P_JPEG_SOURCE_DIR}/itk_jpeg_mangle.h
+    ${ITK3P_JPEG_SOURCE_DIR}/jconfig.h
+    ${ITK3P_JPEG_SOURCE_DIR}/jmorecfg.h
+    ${ITK3P_JPEG_SOURCE_DIR}/jerror.h
     DESTINATION ${ITK3P_INSTALL_INCLUDE_DIR}/itkjpeg # itk_jpeg.h #include "itkjpeg/jpeglib.h"
     COMPONENT Development)
 endif(NOT ITK_INSTALL_NO_DEVELOPMENT)

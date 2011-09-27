@@ -1,8 +1,8 @@
-project(ITKTIFF)
+project(ITK3P_TIFF)
 include_regular_expression("^(itk|tif|fax|port|uv|tconf|t4|mk|itkjpeg|jpeg|mangle|jconfig|jmorecfg).*$")
 
-include_directories(BEFORE ${ITKTIFF_SOURCE_DIR})
-include_directories(BEFORE ${ITKTIFF_BINARY_DIR})
+include_directories(BEFORE ${ITK3P_TIFF_SOURCE_DIR})
+include_directories(BEFORE ${ITK3P_TIFF_BINARY_DIR})
 
 # library object files common to compression and decompression
 set(common_SRCS
@@ -26,12 +26,14 @@ set(common_SRCS
   tif_next.c
   tif_open.c
   tif_packbits.c
+  tif_pixarlog.c
   tif_predict.c
   tif_print.c
   tif_read.c
   tif_strip.c
   tif_swab.c
   tif_tile.c
+  tif_thunder.c
   tif_version.c
   tif_warning.c
   tif_write.c
@@ -52,29 +54,6 @@ endif(WIN32)
 if(BORLAND)
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -w-8004 -w-8057")
 endif(BORLAND)
-
-if(NOT UNIX)
-  add_definitions( -DTIF_PLATFORM_CONSOLE )
-  set(common_SRCS ${common_SRCS} tif_win32.c tif_fax3sm.c)
-  if(NOT BORLAND)
-    if(NOT MINGW)
-      set(common_SRCS ${common_SRCS} itktiff.def)
-    endif(NOT MINGW)
-  endif(NOT BORLAND)
-else(NOT UNIX)
-  set(TIFF_RIGHT_VERSION 1)
-
-  set(common_SRCS ${common_SRCS} tif_unix.c tif_fax3sm.c)
-  set_source_files_properties(tif_fax3sm.c GENERATED)
-  add_executable(itkmkg3states mkg3states.c)
-  set_property(TARGET itkmkg3states PROPERTY RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
-  add_custom_command(
-    OUTPUT ${ITKTIFF_BINARY_DIR}/tif_fax3sm.c
-    COMMAND itkmkg3states
-    ARGS -c const ${ITKTIFF_BINARY_DIR}/tif_fax3sm.c
-    DEPENDS itkmkg3states
-    )
-endif(NOT UNIX)
 
 include(${CMAKE_ROOT}/Modules/CheckIncludeFiles.cmake)
 include(${CMAKE_ROOT}/Modules/CheckSymbolExists.cmake)
@@ -115,22 +94,41 @@ CHECK_FUNCTION_EXISTS(strstr HAVE_STRSTR)
 CHECK_FUNCTION_EXISTS(strtol HAVE_STRTOL)
 CHECK_FUNCTION_EXISTS(strtoul HAVE_STRTOUL)
 
-
-if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" LESS 2.0)
-else("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" LESS 2.0)
-  include(CheckTypeSize)
-endif("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" LESS 2.0)
+include(CheckTypeSize)
 
 CHECK_TYPE_SIZE("int" SIZEOF_INT)
 CHECK_TYPE_SIZE("long" SIZEOF_LONG)
 
-configure_file(${ITKTIFF_SOURCE_DIR}/tiffDllConfig.h.in
-  ${ITKTIFF_BINARY_DIR}/tiffDllConfig.h)
-configure_file(${ITKTIFF_SOURCE_DIR}/tif_config.h.in
-  ${ITKTIFF_BINARY_DIR}/tif_config.h)
+configure_file(${ITK3P_TIFF_SOURCE_DIR}/tiffDllConfig.h.in
+  ${ITK3P_TIFF_BINARY_DIR}/tiffDllConfig.h)
+configure_file(${ITK3P_TIFF_SOURCE_DIR}/tif_config.h.in
+  ${ITK3P_TIFF_BINARY_DIR}/tif_config.h)
+
+if(NOT UNIX)
+  add_definitions( -DTIF_PLATFORM_CONSOLE )
+  set(common_SRCS ${common_SRCS} tif_win32.c tif_fax3sm.c)
+  if(NOT BORLAND)
+    if(NOT MINGW)
+      set(common_SRCS ${common_SRCS} itktiff.def)
+    endif(NOT MINGW)
+  endif(NOT BORLAND)
+else(NOT UNIX)
+  set(TIFF_RIGHT_VERSION 1)
+
+  set(common_SRCS ${common_SRCS} tif_unix.c tif_fax3sm.c)
+  set_source_files_properties(tif_fax3sm.c GENERATED)
+  add_executable(itkmkg3states mkg3states.c)
+  set_property(TARGET itkmkg3states PROPERTY RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+  add_custom_command(
+    OUTPUT ${ITK3P_TIFF_BINARY_DIR}/tif_fax3sm.c
+    COMMAND itkmkg3states
+    ARGS -c const ${ITK3P_TIFF_BINARY_DIR}/tif_fax3sm.c
+    DEPENDS itkmkg3states
+    )
+endif(NOT UNIX)
 
 add_library(itktiff ${common_SRCS})
-target_link_libraries(itktiff ${ITK-ZLIB_LIBRARIES} ${ITK-JPEG_LIBRARIES})
+target_link_libraries(itktiff ${ITKZLIB_LIBRARIES} ${ITKJPEG_LIBRARIES})
 
 if(UNIX)
   target_link_libraries(itktiff -lm)
@@ -152,12 +150,12 @@ endif(NOT ITK_INSTALL_NO_LIBRARIES)
 
 if(NOT ITK_INSTALL_NO_DEVELOPMENT)
   install(FILES
-    ${ITKTIFF_BINARY_DIR}/tiffDllConfig.h
-    ${ITKTIFF_SOURCE_DIR}/tiffvers.h
-    ${ITKTIFF_SOURCE_DIR}/itk_tiff_mangle.h
-    ${ITKTIFF_SOURCE_DIR}/tiff.h
-    ${ITKTIFF_SOURCE_DIR}/tiffio.h
-    ${ITKTIFF_SOURCE_DIR}/tconf.h
+    ${ITK3P_TIFF_BINARY_DIR}/tiffDllConfig.h
+    ${ITK3P_TIFF_SOURCE_DIR}/tiffvers.h
+    ${ITK3P_TIFF_SOURCE_DIR}/itk_tiff_mangle.h
+    ${ITK3P_TIFF_SOURCE_DIR}/tiff.h
+    ${ITK3P_TIFF_SOURCE_DIR}/tiffio.h
+    ${ITK3P_TIFF_SOURCE_DIR}/tconf.h
     DESTINATION ${ITK3P_INSTALL_INCLUDE_DIR}/itktiff # itk_tiff.h #include "itktiff/tiff.h"
     COMPONENT Development)
 endif(NOT ITK_INSTALL_NO_DEVELOPMENT)

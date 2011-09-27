@@ -1,9 +1,16 @@
-itk_module(ITK-KLMRegionGrowing
+set(DOCUMENTATION "This module contains classes to perform energy-based region
+growing for multiband images.  Since this is based on G. Koepfler, C. Lopez and
+J. M. Morel's work, the acronym KLM is added to quality the region growing
+method.  See also \\\\ref ITKRegionGrowing.")
+
+itk_module(ITKKLMRegionGrowing
   DEPENDS
-    ITK-Common
+    ITKCommon
   TEST_DEPENDS
-    ITK-TestKernel
-    ITK-Statistics
+    ITKTestKernel
+    ITKStatistics
+  DESCRIPTION
+    "${DOCUMENTATION}"
 )
 
-# Extra test dependency on ITK-Statistics in introduced by itkRegionGrow2DTest.
+# Extra test dependency on ITKStatistics in introduced by itkRegionGrow2DTest.

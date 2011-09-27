@@ -26,16 +26,16 @@ namespace itk
 namespace Accessor
 {
 /** \class ComplexToPhasePixelAccessor
- * \brief Give access to the Phase part of a std::complex<> value
+ * \brief Give access to the Phase part of a std::complex<> value.
  *
  * ComplexToPhasePixelAccessor is templated over an internal type and an
  * external type representation. The internal type is an std::complex<T> and
- * the external part is a type T. This class cast the input applies the function
- * to it and cast the result according to the types defined as template
- * parameters
+ * the external part is a type T. This class casts the input, applies the function
+ * to it, and casts the result according to the types defined as template
+ * parameters.
  *
  * \ingroup ImageAdaptors
- * \ingroup ITK-ImageAdaptors
+ * \ingroup ITKImageAdaptors
  */
 template< class TInternalType, class TExternalType >
 class ITK_EXPORT ComplexToPhasePixelAccessor
@@ -58,13 +58,13 @@ public:
 } // end namespace Accessor
 
 /** \class ComplexToPhaseImageAdaptor
- * \brief Presents a complex image as being composed of arg() part of its pixels
+ * \brief Presents a complex image as being composed of arg() part of its pixels.
  *
  * Additional casting is performed according to the input and output image
  * types following C++ default casting rules.
  *
  * \ingroup ImageAdaptors
- * \ingroup ITK-ImageAdaptors
+ * \ingroup ITKImageAdaptors
  */
 template< class TImage, class TOutputPixelType >
 class ITK_EXPORT ComplexToPhaseImageAdaptor:public

@@ -26,15 +26,15 @@
 namespace itk
 {
 /** \class MultipleLogOutput
- *  \brief Class MultipleLogOutput allows writing simultaneously to multiple
- *  streams. Note that the class derives from std::streambuf and contains a
- *  std::set<> of LogOutput.
+ *  \brief Allows writing simultaneously to multiple streams. Note that the
+ *         class derives from std::streambuf and contains a
+ *         std::set<> of LogOutput.
  *
  * \author Hee-Su Kim, Compute Science Dept. Kyungpook National University,
  *                     ISIS Center, Georgetown University.
  *
  *  \ingroup OSSystemObjects LoggingObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 class ITKCommon_EXPORT MultipleLogOutput:public LogOutput

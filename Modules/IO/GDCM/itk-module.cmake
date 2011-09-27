@@ -1,8 +1,14 @@
-itk_module(ITK-IO-GDCM
+set(DOCUMENTATION "This module contain ITK ImageIO classes for the <a
+href=\"http://sourceforge.net/projects/gdcm/\">Grass Root DICOM (GDCM)</a> based
+readers and writers of the medical imaging DICOM standard.")
+
+itk_module(ITKIOGDCM
   DEPENDS
-    ITK-GDCM
-    ITK-IO-Base
+    ITKGDCM
+    ITKIOBase
   TEST_DEPENDS
-    ITK-TestKernel
-    ITK-ImageIntensity
+    ITKTestKernel
+    ITKImageIntensity
+  DESCRIPTION
+    "${DOCUMENTATION}"
 )

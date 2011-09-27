@@ -18,9 +18,6 @@
 #ifndef __itkJPEGImageIOFactory_h
 #define __itkJPEGImageIOFactory_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"
@@ -29,7 +26,7 @@ namespace itk
 {
 /** \class JPEGImageIOFactory
  * \brief Create instances of JPEGImageIO objects using an object factory.
- * \ingroup ITK-IO-JPEG
+ * \ingroup ITKIOJPEG
  */
 class ITK_EXPORT JPEGImageIOFactory:public ObjectFactoryBase
 {

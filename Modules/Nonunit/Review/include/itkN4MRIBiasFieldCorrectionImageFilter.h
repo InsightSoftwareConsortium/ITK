@@ -81,9 +81,9 @@ namespace itk {
  * IEEE Transactions on Medical Imaging, Vol 17, No 1. Feb 1998.
  *
  * N.J. Tustison, B.B. Avants, P.A. Cook, Y. Zheng, A. Egan, P.A. Yushkevich,
- * and J.C. Gee. "N4ITK:  Improved N3 Bias Correction
+ * and J.C. Gee. "N4ITK:  Improved N3 Bias Correction"
  * IEEE Transactions on Medical Imaging, 29(6):1310-1320, June 2010.
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 
 template<class TInputImage, class TMaskImage =
@@ -436,7 +436,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkN4MRIBiasFieldCorrectionImageFilter.txx"
+#include "itkN4MRIBiasFieldCorrectionImageFilter.hxx"
 #endif
 
 #endif

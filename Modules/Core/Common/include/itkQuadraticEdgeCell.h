@@ -23,21 +23,16 @@
 namespace itk
 {
 /** \class QuadraticEdgeCell
- * QuadraticEdgeCell represents a second order line segment for a Mesh.
+ *  \brief Represents a second order line segment for a Mesh.
  *
- * Template parameters for QuadraticEdgeCell:
+ * \tparam TPixelType The type associated with a point, cell, or boundary
+ * for use in storing its data.
  *
- * TPixelType =
- *     The type associated with a point, cell, or boundary for use in storing
- *     its data.
- *
- * TCellTraits =
- *     Type information of mesh containing cell.
+ * \tparam TCellTraits Type information of mesh containing cell.
  *
  * \ingroup MeshObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
-
 template< typename TCellInterface >
 class ITK_EXPORT QuadraticEdgeCell:public TCellInterface
 {
@@ -118,7 +113,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkQuadraticEdgeCell.txx"
+#include "itkQuadraticEdgeCell.hxx"
 #endif
 
 #endif

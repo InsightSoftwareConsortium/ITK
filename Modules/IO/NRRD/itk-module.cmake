@@ -1,7 +1,13 @@
-itk_module(ITK-IO-NRRD
+set(DOCUMENTATION "This module contains an ImageIO class to read and write the
+<a href=\"http://teem.sourceforge.net/nrrd/format.html/\">Nearly Raw Raster Data
+(Nrrd)</a> medical image format.")
+
+itk_module(ITKIONRRD
   DEPENDS
-    ITK-NrrdIO
-    ITK-IO-Base
+    ITKNrrdIO
+    ITKIOBase
   TEST_DEPENDS
-    ITK-TestKernel
+    ITKTestKernel
+  DESCRIPTION
+    "${DOCUMENTATION}"
 )

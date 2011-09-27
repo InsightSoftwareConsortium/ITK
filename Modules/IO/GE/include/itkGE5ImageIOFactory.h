@@ -18,9 +18,6 @@
 #ifndef __itkGE5ImageIOFactory_h
 #define __itkGE5ImageIOFactory_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"
@@ -29,7 +26,7 @@ namespace itk
 {
 /** \class GE5ImageIOFactory
    * \brief Create instances of GE5ImageIO objects using an object factory.
-   * \ingroup ITK-IO-GE
+   * \ingroup ITKIOGE
    */
 class ITK_EXPORT GE5ImageIOFactory:public ObjectFactoryBase
 {

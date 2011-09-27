@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkImage.h"
 #include "itkWarpHarmonicEnergyCalculator.h"
@@ -34,11 +31,11 @@ int itkWarpHarmonicEnergyCalculatorTest(int, char* [] )
   typedef unsigned char                           OutputPixelType;
 
   // Declare the types of the images
-  typedef itk::Image<DeformationPixelType, ImageDimension>  DeformationFieldType;
+  typedef itk::Image<DeformationPixelType, ImageDimension>  DisplacementFieldType;
   typedef itk::Image<OutputPixelType, ImageDimension>       OutputImageType;
 
   // Declare Iterator types apropriated for each image
-  typedef itk::ImageRegionIteratorWithIndex< DeformationFieldType >  DeformationIteratorType;
+  typedef itk::ImageRegionIteratorWithIndex< DisplacementFieldType >  DeformationIteratorType;
   typedef itk::ImageRegionIteratorWithIndex< OutputImageType >       OutputIteratorType;
 
 
@@ -52,7 +49,7 @@ int itkWarpHarmonicEnergyCalculatorTest(int, char* [] )
   typedef itk::ImageRegion<ImageDimension>   RegionType;
 
   // Create two images
-  DeformationFieldType ::Pointer inputDeformationField  = DeformationFieldType ::New();
+  DisplacementFieldType ::Pointer inputDisplacementField  = DisplacementFieldType ::New();
 
   // Define their size, and start index
   SizeType size;
@@ -70,14 +67,14 @@ int itkWarpHarmonicEnergyCalculatorTest(int, char* [] )
   region.SetSize( size );
 
   // Initialize Image A
-  inputDeformationField->SetLargestPossibleRegion( region );
-  inputDeformationField->SetBufferedRegion( region );
-  inputDeformationField->SetRequestedRegion( region );
-  inputDeformationField->Allocate();
+  inputDisplacementField->SetLargestPossibleRegion( region );
+  inputDisplacementField->SetBufferedRegion( region );
+  inputDisplacementField->SetRequestedRegion( region );
+  inputDisplacementField->Allocate();
 
   // Create one iterator for the Input Image (this is a light object)
-  DeformationIteratorType it( inputDeformationField,
-                              inputDeformationField->GetBufferedRegion() );
+  DeformationIteratorType it( inputDisplacementField,
+                              inputDisplacementField->GetBufferedRegion() );
 
   // Initialize the content of Image A
   DeformationPixelType vectorValue;
@@ -92,7 +89,7 @@ int itkWarpHarmonicEnergyCalculatorTest(int, char* [] )
     }
 
   // Declare the type for the calculator
-  typedef itk::WarpHarmonicEnergyCalculator< DeformationFieldType > CalculatorType;
+  typedef itk::WarpHarmonicEnergyCalculator< DisplacementFieldType > CalculatorType;
 
 
   // Create one Filter
@@ -100,7 +97,7 @@ int itkWarpHarmonicEnergyCalculatorTest(int, char* [] )
 
 
   // Connect the input images
-  calculator->SetImage( inputDeformationField );
+  calculator->SetImage( inputDisplacementField );
 
   // Execute the calculator
   calculator->Compute();

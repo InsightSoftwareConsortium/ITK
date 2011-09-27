@@ -46,7 +46,7 @@ namespace itk
  * \sa HMinimaImageFilter
  *
  * \ingroup MathematicalMorphologyImageFilters
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  *
  * \wiki
  * \wikiexample{ImageProcessing/ValuedRegionalMaximaImageFilter,ValuedRegionalMaximaImageFilter}
@@ -94,7 +94,7 @@ protected:
   ValuedRegionalMaximaImageFilter()
   {
     this->SetMarkerValue(
-      NumericTraits< ITK_TYPENAME TOutputImage::PixelType >::NonpositiveMin() );
+      NumericTraits< typename TOutputImage::PixelType >::NonpositiveMin() );
   }
 
   virtual ~ValuedRegionalMaximaImageFilter() {}

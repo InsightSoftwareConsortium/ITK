@@ -42,7 +42,7 @@ namespace itk
  *
  *
  * \ingroup Numerics Optimizers
- * \ingroup ITK-LevelSets
+ * \ingroup ITKLevelSets
  */
 template< class TFeatureImage, class TOutputPixel >
 class ITK_EXPORT ShapePriorMAPCostFunctionBase:
@@ -155,7 +155,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShapePriorMAPCostFunctionBase.txx"
+#include "itkShapePriorMAPCostFunctionBase.hxx"
 #endif
 
 #endif

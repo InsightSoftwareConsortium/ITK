@@ -23,22 +23,13 @@
 
 namespace itk
 {
-/** \class Atan2ImageFilter
- * \brief Computes arctangent pixel-wise from two images.
- *
- * This class is parametrized over the types of the two
- * input images and the type of the output image.
- * Numeric conversions (castings) are done by the C++ defaults.
- *
- * Both pixel input types are casted to \c double in order to be
- * used as parameters of \c vcl_atan2(). The resulting \c double value
- * is casted to the output pixel type.
- *
- * \ingroup IntensityImageFilters Multithreaded
- * \ingroup ITK-ImageIntensity
- */
 namespace Functor
 {
+/**
+ * \class Atan2
+ * \brief
+ * \ingroup ITKImageIntensity
+ */
 template< class TInput1, class TInput2, class TOutput >
 class Atan2
 {
@@ -65,7 +56,30 @@ public:
   }
 };
 }
-
+/** \class Atan2ImageFilter
+ * \brief Computes two argument inverse tangent.
+ *
+ * The first argument to the atan function is provided by a pixel
+ * in the first input image (SetInput1()) and the corresponding
+ * pixel in the second input image (SetInput2()) is used as the second
+ * argument.
+ *
+ * This class is templated over the types of the two
+ * input images and the type of the output image.
+ * Numeric conversions (castings) are done by the C++ defaults.
+ *
+ * Both pixel input types are cast to \c double in order to be
+ * used as parameters of \c vcl_atan2(). The resulting \c double value
+ * is cast to the output pixel type.
+ *
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
+ * \ingroup ITKImageIntensity
+ *
+ * \wiki
+ * \wikiexample{Math/Trig/Atan2ImageFilter,Compute the arctangent of each pixel.}
+ * \endwiki
+ */
 template< class TInputImage1, class TInputImage2, class TOutputImage >
 class ITK_EXPORT Atan2ImageFilter:
   public

@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <stdio.h>
 #include <iostream>
@@ -104,9 +101,9 @@ int testMetaTube(int argc, char * argv[])
     (*it)->PrintInfo();
     if(!strncmp((*it)->ObjectTypeName(),"Tube",4))
     {
-      typedef MetaTube::PointListType ListType;
+      typedef MetaTube::PointListType PointListType;
       MetaTube* tube = dynamic_cast<MetaTube*>(*it);
-      ListType::iterator it2 = tube->GetPoints().begin();
+      PointListType::iterator it2 = tube->GetPoints().begin();
 
       for(unsigned int j=0;j< tube->GetPoints().size();j++)
       {

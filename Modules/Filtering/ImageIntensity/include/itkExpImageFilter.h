@@ -23,17 +23,13 @@
 
 namespace itk
 {
-/** \class ExpImageFilter
- * \brief Computes the vcl_exp(x) pixel-wise
- *
- *
- * \ingroup IntensityImageFilters  Multithreaded
- *
- * \ingroup ITK-ImageIntensity
- */
-
 namespace Functor
 {
+/**
+ * \class Exp
+ * \brief
+ * \ingroup ITKImageIntensity
+ */
 template< class TInput, class TOutput >
 class Exp
 {
@@ -56,6 +52,16 @@ public:
   }
 };
 }
+/** \class ExpImageFilter
+ * \brief Computes the exponential function of each pixel.
+ *
+ * The computation is performed using vcl_exp(x).
+ *
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
+ *
+ * \ingroup ITKImageIntensity
+ */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT ExpImageFilter:
   public

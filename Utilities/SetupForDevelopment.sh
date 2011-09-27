@@ -37,6 +37,47 @@ if test -d .git/.git; then
 Please 'rm -rf' this directory."
 fi
 
+# Check to make sure we got a new enough git.
+git_required_major_version=1
+git_required_minor_version=6
+git_required_release_version=6
+git_required_bugfix_version="" # Use "" if there is no bugfix version.
+echo "Checking Git version..."
+git_version=$(git --version | awk '{print $3}')
+declare -a git_version_arr
+git_version_arr=(`echo ${git_version//./ }`)
+insufficient_version() {
+  if test -z "${git_required_bugfix_version}"; then
+    git_required_version="${git_required_major_version}.${git_required_minor_version}.${git_required_release_version}"
+  else
+    git_required_version="${git_required_major_version}.${git_required_minor_version}.${git_required_release_version}.${git_required_bugfix_version}"
+  fi
+  die "Insufficient Git version.
+
+Detected version was
+  ${git_version}
+and the minimum required version is
+  ${git_required_version}"
+}
+if test ${git_version_arr[0]} -lt $git_required_major_version; then
+  insufficient_version
+elif test ${git_version_arr[0]} -eq $git_required_major_version; then
+  if test ${git_version_arr[1]} -lt $git_required_minor_version; then
+    insufficient_version
+  elif test ${git_version_arr[1]} -eq $git_required_minor_version; then
+    if test ${git_version_arr[2]} -lt $git_required_release_version; then
+      insufficient_version
+    elif test ${git_version_arr[2]} -eq $git_required_release_version; then
+      if test -n "${git_required_bugfix_version}" -a \
+         -n "${git_version_arr[3]}" -o \
+         ${git_version_arr[3]} -lt $git_required_bugfix_version; then
+        insufficient_version
+      fi
+    fi
+  fi
+fi
+echo -e "Git version $git_version is OK.\n"
+
 echo "Initializing and downloading submodules..."
 git submodule update --init || die "Failure downloading submodules."
 echo -e "Done.\n"

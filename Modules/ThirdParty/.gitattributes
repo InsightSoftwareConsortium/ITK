@@ -1,0 +1,7 @@
+# Third-party code need not pass our style checks.
+
+*.c     -hooks.style
+*.h     -hooks.style
+*.cxx   -hooks.style
+*.hxx   -hooks.style
+*.txx   -hooks.style

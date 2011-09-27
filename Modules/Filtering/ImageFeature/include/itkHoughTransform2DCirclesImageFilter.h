@@ -18,9 +18,6 @@
 #ifndef __itkHoughTransform2DCirclesImageFilter_h
 #define __itkHoughTransform2DCirclesImageFilter_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkImageToImageFilter.h"
 #include "itkEllipseSpatialObject.h"
@@ -31,7 +28,7 @@ namespace itk
  * \class HoughTransform2DCirclesImageFilter
  * \brief Performs the Hough Transform to find circles in a 2D image.
  *
- * This filter derives from the base class ImageToImageFilter
+ * This filter derives from the base class ImageToImageFilter.
  * The input is an image, and all pixels above some threshold are those
  * we want to consider during the process.
  *
@@ -39,14 +36,14 @@ namespace itk
  *   1) The accumulator array, which represents probability of centers.
  *   2) The array or radii, which has the radius value at each coordinate point.
  *
- *  When the filter found a "correct" point, it computes the gradient at this
- * point and draw a regular narrow-banded circle using the minimum and maximum
- * radius given by the user, and fill in the array of radii.
+ *  When the filter finds a "correct" point, it computes the gradient at this
+ * point and draws a regular narrow-banded circle using the minimum and maximum
+ * radius given by the user, and fills in the array of radii.
  * The SweepAngle value can be adjusted to improve the segmentation.
  *
  * \ingroup ImageFeatureExtraction
  *
- * \ingroup ITK-ImageFeature
+ * \ingroup ITKImageFeature
  *
  * \wiki
  * \wikiexample{Conversions/HoughTransform2DCirclesImageFilter,HoughTransform2DCirclesImageFilter}
@@ -202,7 +199,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkHoughTransform2DCirclesImageFilter.txx"
+#include "itkHoughTransform2DCirclesImageFilter.hxx"
 #endif
 
 #endif

@@ -24,6 +24,12 @@ namespace itk
 {
 namespace Statistics
 {
+/** \class MultiquadricRadialBasisFunction
+ * \brief This is the itkMultiquadricRadialBasisFunction class.
+ *
+ * \ingroup ITKNeuralNetworks
+ */
+
 template<class ScalarType>
 class MultiquadricRadialBasisFunction : public TransferFunctionBase<ScalarType>
 {
@@ -71,7 +77,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-  #include "itkMultiquadricRadialBasisFunction.txx"
+  #include "itkMultiquadricRadialBasisFunction.hxx"
 #endif
 
 

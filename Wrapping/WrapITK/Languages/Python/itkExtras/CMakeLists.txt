@@ -47,4 +47,4 @@ else("${WrapITK_BINARY_DIR}" MATCHES "^${WrapITK_SOURCE_DIR}$")
 endif("${WrapITK_BINARY_DIR}" MATCHES "^${WrapITK_SOURCE_DIR}$")
 
 # Install the package python files.
-WRAP_ITK_INSTALL(/Python/itkExtras ${WRAP_ITK_PYTHON_EXTRAS_INSTALL_FILES})
+WRAP_ITK_BINDINGS_INSTALL(/Python/itkExtras ${WRAP_ITK_PYTHON_EXTRAS_INSTALL_FILES})

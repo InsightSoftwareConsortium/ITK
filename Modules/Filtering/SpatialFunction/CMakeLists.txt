@@ -1,2 +1,2 @@
-project(ITK-SpatialFunction)
+project(ITKSpatialFunction)
 itk_module_impl()

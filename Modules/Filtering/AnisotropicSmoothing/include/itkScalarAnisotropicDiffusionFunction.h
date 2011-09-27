@@ -35,7 +35,7 @@ namespace itk
  * \sa VectorAnisotropicDiffusionFunction
  * \ingroup FiniteDifferenceFunctions
  * \ingroup ImageEnhancement
- * \ingroup ITK-AnisotropicSmoothing
+ * \ingroup ITKAnisotropicSmoothing
  */
 template< class TImage >
 class ITK_EXPORT ScalarAnisotropicDiffusionFunction:
@@ -76,7 +76,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkScalarAnisotropicDiffusionFunction.txx"
+#include "itkScalarAnisotropicDiffusionFunction.hxx"
 #endif
 
 #endif

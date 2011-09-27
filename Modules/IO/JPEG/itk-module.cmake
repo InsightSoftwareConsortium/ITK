@@ -1,7 +1,12 @@
-itk_module(ITK-IO-JPEG
+set(DOCUMENTATION "This module contains an ImageIO class for reading and
+writing files in the JPEG format.")
+
+itk_module(ITKIOJPEG
   DEPENDS
-    ITK-JPEG
-    ITK-IO-Base
+    ITKJPEG
+    ITKIOBase
   TEST_DEPENDS
-    ITK-TestKernel
+    ITKTestKernel
+  DESCRIPTION
+    "${DOCUMENTATION}"
 )

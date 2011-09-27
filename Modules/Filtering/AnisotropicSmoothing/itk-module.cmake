@@ -2,16 +2,16 @@ set(DOCUMENTATION "This module contains filters that implement variations of
 anisotropic smoothing. This is an image denoising technique that strives for
 preserving edges on the images while smoothing regions of uniform intensity.
 This type of filtering is convenient as a preprocessing stage of segmentation
-algorithms. You may find useful as well the filters in the ITK-CurvatureFlow
-module and the ITK-SmoothingModule.")
+algorithms. You may find useful as well the filters in the ITKCurvatureFlow
+module and the ITKSmoothingModule.")
 
-itk_module(ITK-AnisotropicSmoothing
+itk_module(ITKAnisotropicSmoothing
   DEPENDS
-    ITK-ImageGrid
-    ITK-CurvatureFlow
-    ITK-FiniteDifference
+    ITKImageGrid
+    ITKCurvatureFlow
+    ITKFiniteDifference
   TEST_DEPENDS
-    ITK-TestKernel
+    ITKTestKernel
   DESCRIPTION
     "${DOCUMENTATION}"
 )

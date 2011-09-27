@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 // Software Guide : BeginLatex
 //
@@ -36,7 +33,7 @@
 // Software Guide : EndCodeSnippet
 
 #include "itkAffineTransform.h"
-#include "itkBSplineDeformableTransform.h"
+#include "itkBSplineTransform.h"
 #include "itkTransformFactory.h"
 #include "itkTransformFileWriter.h"
 
@@ -48,20 +45,16 @@ int main(int itkNotUsed(ac), char* itkNotUsed(av)[])
   cor.Fill(12);
   affine->SetCenter(cor);
 
-  typedef itk::BSplineDeformableTransform<double,3,5> BSplineTransformType;
+  typedef itk::BSplineTransform<double,3,5> BSplineTransformType;
   BSplineTransformType::Pointer bspline = BSplineTransformType::New();
-  BSplineTransformType::RegionType region;
 
-  BSplineTransformType::SizeType size;
-  size.Fill(10);
-  region.SetSize(size);
-  bspline->SetGridRegion( region );
   BSplineTransformType::OriginType origin;
-  origin.Fill ( 100 );
-  bspline->SetGridOrigin ( origin );
-  BSplineTransformType::SpacingType spacing;
-  spacing.Fill ( 1.5 );
-  bspline->SetGridSpacing ( spacing );
+  origin.Fill( 100 );
+  BSplineTransformType::PhysicalDimensionsType dimensions;
+  dimensions.Fill( 1.5 * 9.0 );
+
+  bspline->SetTransformDomainOrigin( origin );
+  bspline->SetTransformDomainPhysicalDimensions( dimensions );
 
   BSplineTransformType::ParametersType parameters( bspline->GetNumberOfParameters() );
   bspline->SetParameters( parameters );
@@ -189,7 +182,7 @@ int main(int itkNotUsed(ac), char* itkNotUsed(av)[])
 
   ++it;
 
-  if(!strcmp((*it)->GetNameOfClass(),"BSplineDeformableTransform"))
+  if(!strcmp((*it)->GetNameOfClass(),"BSplineTransform"))
     {
     BSplineTransformType::Pointer bspline_read = static_cast<BSplineTransformType*>((*it).GetPointer());
     bspline_read->Print(std::cout);

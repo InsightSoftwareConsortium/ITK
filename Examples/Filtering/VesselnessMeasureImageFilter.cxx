@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 // The example takes an image (say MRA image), computes the vesselness measure
 // of the image using the HessianRecursiveGaussianImageFilter and the

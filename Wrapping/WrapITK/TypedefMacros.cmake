@@ -279,15 +279,15 @@ endmacro(INCLUDE_MODULE)
 
 macro(WRAP_MODULE module)
 
+  message(STATUS "${WRAPPER_LIBRARY_NAME}: Creating ${module} module.")
+
   # We run into some trouble if there's a module with the same name as the
   # wrapper library. Fix this.
   string(TOUPPER "${module}" upper_module)
   string(TOUPPER "${WRAPPER_LIBRARY_NAME}" upper_lib)
   if("${upper_module}" STREQUAL "${upper_lib}")
-    set(module "${module}_module")
+    message(FATAL_ERROR "The module ${module} can't have the same name than its library. Note that the names are not case sensitive.")
   endif("${upper_module}" STREQUAL "${upper_lib}")
-
-  message(STATUS "${WRAPPER_LIBRARY_NAME}: Creating ${module} module.")
 
   # preset the vars before include the file
   set(WRAPPER_MODULE_NAME "${module}")

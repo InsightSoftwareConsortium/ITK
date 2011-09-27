@@ -1,6 +1,11 @@
-itk_module(ITK-IO-BMP
+set(DOCUMENTATION "This module contains ImageIO classes for reading the
+Microsoft Bitmap File Format (BMP).")
+
+itk_module(ITKIOBMP
   DEPENDS
-    ITK-IO-Base
+    ITKIOBase
   TEST_DEPENDS
-    ITK-TestKernel
+    ITKTestKernel
+  DESCRIPTION
+    "${DOCUMENTATION}"
 )

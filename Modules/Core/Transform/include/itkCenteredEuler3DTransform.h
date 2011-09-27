@@ -31,20 +31,19 @@ namespace itk
  * This transform applies a rotation about a specific coordinate or
  * centre of rotation followed by a translation.
  *
- * \ingroup Transforms
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  */
-template< class TScalarType = double >
+template <class TScalarType = double>
 // Data type for scalars
-class ITK_EXPORT CenteredEuler3DTransform:
-  public Euler3DTransform< TScalarType >
+class ITK_EXPORT CenteredEuler3DTransform :
+  public Euler3DTransform<TScalarType>
 {
 public:
   /** Standard class typedefs. */
-  typedef CenteredEuler3DTransform        Self;
-  typedef Euler3DTransform< TScalarType > Superclass;
-  typedef SmartPointer< Self >            Pointer;
-  typedef SmartPointer< const Self >      ConstPointer;
+  typedef CenteredEuler3DTransform      Self;
+  typedef Euler3DTransform<TScalarType> Superclass;
+  typedef SmartPointer<Self>            Pointer;
+  typedef SmartPointer<const Self>      ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(CenteredEuler3DTransform, Euler3DTransform);
@@ -105,7 +104,7 @@ public:
    * given point or vector, returning the transformed point or
    * vector. The rank of the Jacobian will also indicate if the
    * transform is invertible at this point. */
-  const JacobianType & GetJacobian(const InputPointType  & point) const;
+  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const;
 
   /** Get an inverse of this transform. */
   bool GetInverse(Self *inverse) const;
@@ -115,10 +114,8 @@ public:
 
 protected:
   CenteredEuler3DTransform();
-  CenteredEuler3DTransform(unsigned int SpaceDimension,
-                           unsigned int ParametersDimension);
-  CenteredEuler3DTransform(const MatrixType & matrix,
-                           const OutputPointType & offset);
+  CenteredEuler3DTransform(const MatrixType & matrix, const OutputPointType & offset);
+  CenteredEuler3DTransform(unsigned int ParametersDimension);
   ~CenteredEuler3DTransform();
 
   /**
@@ -127,19 +124,20 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  CenteredEuler3DTransform(const Self &); //purposely not implemented
-  void operator=(const Self &);           //purposely not implemented
-};                                        //class CenteredEuler3DTransform
+  CenteredEuler3DTransform(const Self &); // purposely not implemented
+  void operator=(const Self &);           // purposely not implemented
+
+};                                        // class CenteredEuler3DTransform
 }  // namespace itk
 
 // Define instantiation macro for this template.
 #define ITK_TEMPLATE_CenteredEuler3DTransform(_, EXPORT, TypeX, TypeY)     \
   namespace itk                                                            \
   {                                                                        \
-  _( 1 ( class EXPORT CenteredEuler3DTransform< ITK_TEMPLATE_1 TypeX > ) ) \
+  _( 1 ( class EXPORT CenteredEuler3DTransform<ITK_TEMPLATE_1 TypeX> ) ) \
   namespace Templates                                                      \
   {                                                                        \
-  typedef CenteredEuler3DTransform< ITK_TEMPLATE_1 TypeX >                 \
+  typedef CenteredEuler3DTransform<ITK_TEMPLATE_1 TypeX>                 \
   CenteredEuler3DTransform##TypeY;                                       \
   }                                                                        \
   }
@@ -149,7 +147,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkCenteredEuler3DTransform.txx"
+#include "itkCenteredEuler3DTransform.hxx"
 #endif
 
 #endif /* __itkCenteredEuler3DTransform_h */

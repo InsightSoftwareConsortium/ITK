@@ -31,11 +31,11 @@ namespace itk
  *
  * This object allows a mini-pipeline filters to easily keep track of the
  * progress performed by the internal filters.
- * See DiscreteGaussianImageFilter.txx for an implementation example.
+ * See DiscreteGaussianImageFilter.hxx for an implementation example.
  *
  * \sa DiscreteGaussianImageFilter
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 class ITKCommon_EXPORT ProgressAccumulator:public Object
 {

@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 // This example demostrates usage of the itk::BayesianClassifierImageFilter
 // The input to this example is an itk::VectorImage that represents pixel

@@ -81,7 +81,7 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
                  "${WRAP_ITK_PYTHON_BINARY_DIR}/InstallOnly/itkConfig.py"
                 @ONLY IMMEDIATE)
 
-  WRAP_ITK_INSTALL(/Python "${WRAP_ITK_PYTHON_BINARY_DIR}/InstallOnly/itkConfig.py")
+  WRAP_ITK_BINDINGS_INSTALL(/Python "${WRAP_ITK_PYTHON_BINARY_DIR}/InstallOnly/itkConfig.py")
 
   # copy the files to expose build options in python
   set(WRAP_ITK_PYTHON_VECTOR_REAL )
@@ -111,10 +111,10 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
   configure_file("${CMAKE_CURRENT_SOURCE_DIR}/WrapITKBuildOptionsPython.py.in"
                  "${WRAP_ITK_PYTHON_BINARY_DIR}/WrapITKBuildOptionsPython.py"
                 @ONLY IMMEDIATE)
-  WRAP_ITK_INSTALL(/Python "${WRAP_ITK_PYTHON_BINARY_DIR}/WrapITKBuildOptionsPython.py")
+  WRAP_ITK_BINDINGS_INSTALL(/Python "${WRAP_ITK_PYTHON_BINARY_DIR}/WrapITKBuildOptionsPython.py")
 
   exec_program(${CMAKE_COMMAND} ARGS -E copy_if_different "\"${CMAKE_CURRENT_SOURCE_DIR}/WrapITKBuildOptionsConfig.py\"" "\"${CMAKE_CURRENT_BINARY_DIR}/Configuration/WrapITKBuildOptionsConfig.py\"")
-  WRAP_ITK_INSTALL(/Python/Configuration "${CMAKE_CURRENT_SOURCE_DIR}/WrapITKBuildOptionsConfig.py")
+  WRAP_ITK_BINDINGS_INSTALL(/Python/Configuration "${CMAKE_CURRENT_SOURCE_DIR}/WrapITKBuildOptionsConfig.py")
 
 endif(NOT EXTERNAL_WRAP_ITK_PROJECT)
 
@@ -130,7 +130,7 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
   configure_file("${WRAP_ITK_PYTHON_SOURCE_DIR}/InsightToolkit.py.in"
              "${WRAP_ITK_PYTHON_BINARY_DIR}/InsightToolkit.py"
              @ONLY IMMEDIATE)
-  WRAP_ITK_INSTALL(/Python "${WRAP_ITK_PYTHON_BINARY_DIR}/InsightToolkit.py")
+  WRAP_ITK_BINDINGS_INSTALL(/Python "${WRAP_ITK_PYTHON_BINARY_DIR}/InsightToolkit.py")
 endif(NOT EXTERNAL_WRAP_ITK_PROJECT)
 
 
@@ -191,7 +191,7 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
   endif("${WrapITK_BINARY_DIR}" MATCHES "^${WrapITK_SOURCE_DIR}$")
 
   # Install the package python files.
-  WRAP_ITK_INSTALL(/Python ${WRAP_ITK_PYTHON_INSTALL_FILES})
+  WRAP_ITK_BINDINGS_INSTALL(/Python ${WRAP_ITK_PYTHON_INSTALL_FILES})
 
 endif(NOT EXTERNAL_WRAP_ITK_PROJECT)
 
@@ -220,7 +220,7 @@ else(CMAKE_CONFIGURATION_TYPES)
 
 endif(CMAKE_CONFIGURATION_TYPES)
 
-set(CONFIG_WRAP_ITK_PYTHON_DIR "${CMAKE_INSTALL_PREFIX}/${WRAP_ITK_INSTALL_PREFIX}/Python")
+set(CONFIG_WRAP_ITK_PYTHON_DIR "${CMAKE_INSTALL_PREFIX}/lib/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Python")
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/WrapITK.pth.in"
             "${CMAKE_CURRENT_BINARY_DIR}/InstallOnly/WrapITK.pth"
             @ONLY IMMEDIATE)
@@ -328,7 +328,7 @@ macro(END_WRAP_LIBRARY_PYTHON)
   configure_file("${WRAP_ITK_PYTHON_SOURCE_DIR}/ModuleConfig.py.in"
     "${WRAP_ITK_PYTHON_BINARY_DIR}/Configuration/${WRAPPER_LIBRARY_NAME}Config.py"
     @ONLY IMMEDIATE)
-  WRAP_ITK_INSTALL("/Python/Configuration"
+  WRAP_ITK_BINDINGS_INSTALL("/Python/Configuration"
     "${WRAP_ITK_PYTHON_BINARY_DIR}/Configuration/${WRAPPER_LIBRARY_NAME}Config.py"
   )
 
@@ -340,7 +340,7 @@ macro(END_WRAP_LIBRARY_PYTHON)
   configure_file("${WRAP_ITK_PYTHON_SOURCE_DIR}/ModuleLoader.py.in"
     "${WRAP_ITK_PYTHON_BINARY_DIR}/${WRAPPER_LIBRARY_NAME}.py"
     @ONLY IMMEDIATE)
-  WRAP_ITK_INSTALL("/Python" "${WRAP_ITK_PYTHON_BINARY_DIR}/${WRAPPER_LIBRARY_NAME}.py")
+  WRAP_ITK_BINDINGS_INSTALL("/Python" "${WRAP_ITK_PYTHON_BINARY_DIR}/${WRAPPER_LIBRARY_NAME}.py")
 
 #   add_custom_target(${WRAPPER_LIBRARY_NAME}SwigPython DEPENDS ${cpp_files} ${python_files})
 #   add_custom_target(${WRAPPER_LIBRARY_NAME}Python DEPENDS ${modules})
@@ -398,7 +398,7 @@ macro(END_WRAP_LIBRARY_PYTHON)
     WORKING_DIRECTORY ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python
     DEPENDS ${DEPS} ${WRAP_ITK_PYTHON_LIBRARY_DEPS} ${interface_file} ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/${WRAPPER_LIBRARY_NAME}_ext.i ${WRAP_ITK_TYPEDEFS_DIRECTORY}/pyBase.i ${SWIG_EXECUTABLE}
   )
-  WRAP_ITK_INSTALL("/lib" "${python_file}")
+  WRAP_ITK_BINDINGS_INSTALL("/Python" "${python_file}")
 
   # build all the c++ files from this module in a common lib
   set(lib ${WRAPPER_LIBRARY_NAME}Python)
@@ -430,7 +430,7 @@ macro(END_WRAP_LIBRARY_PYTHON)
   if(CMAKE_SYSTEM MATCHES "SunOS.*" AND CMAKE_SIZEOF_VOID_P EQUAL 8)
     set(sun64 "/64")
   endif(CMAKE_SYSTEM MATCHES "SunOS.*" AND CMAKE_SIZEOF_VOID_P EQUAL 8)
-  install(TARGETS "${lib}" DESTINATION "${WRAP_ITK_INSTALL_PREFIX}/lib${sun64}")
+  install(TARGETS "${lib}" DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Python${sun64}")
   if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     # don't depends on the targets from wrapitk in external projects
     foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
@@ -448,34 +448,6 @@ macro(END_WRAP_MODULE_PYTHON group_name)
 
   set(base_name ${group_name})
 
-  if("${group_name}" STREQUAL "itkVectorContainer")
-    # add a template definition for the superclass which is not in ITK
-    set(text )
-    foreach(d ${WRAP_ITK_DIMS})
-      foreach(t ${WRAP_ITK_SCALAR})
-        set(text "${text}%template(vectoritkLevelSetNode${t}${d}) std::vector< itkLevelSetNode${t}${d} >;\n")
-        ADD_PYTHON_CONFIG_TEMPLATE("vector" "std::vector" "vectoritkLevelSetNode${t}${d}" "${ITKT_LSN${t}${d}}")
-      endforeach(t)
-
-      set(text "${text}%template(vectoritkVectorD${d}) std::vector< itkVectorD${d} >;\n")
-      ADD_PYTHON_CONFIG_TEMPLATE("vector" "std::vector" "vectoritkVectorD${d}" "${ITKT_VD${d}}")
-
-      set(text "${text}%template(vectoritkPointD${d}) std::vector< itkPointD${d} >;\n")
-      ADD_PYTHON_CONFIG_TEMPLATE("vector" "std::vector" "vectoritkPointD${d}" "${ITKT_PD${d}}")
-
-      set(text "${text}%template(vectoritkOffset${d}) std::vector< itkOffset${d} >;\n")
-      ADD_PYTHON_CONFIG_TEMPLATE("vector" "std::vector" "vectoritkOffset${d}" "${ITKT_O${d}}")
-
-      set(text "${text}%template(vectoritkContinuousIndexD${d}) std::vector< itkContinuousIndexD${d} >;\n")
-      ADD_PYTHON_CONFIG_TEMPLATE("vector" "std::vector" "vectoritkContinuousIndexD${d}" "${ITKT_CID${d}}")
-    endforeach(d)
-
-    set(text "${text}%template(vectoritkVectorUC1) std::vector< itkVectorUC1 >;\n")
-    ADD_PYTHON_CONFIG_TEMPLATE("vector" "std::vector" "vectoritkVectorUC1" "${ITKT_VUC1}")
-
-    set(WRAP_ITK_PYTHON_SWIG_EXT "${WRAP_ITK_PYTHON_SWIG_EXT}${text}")
-  endif("${group_name}" STREQUAL "itkVectorContainer")
-
   if("${group_name}" STREQUAL "itkMapContainer")
     # add a template definition for the superclass which is not in ITK
     set(text )
@@ -490,7 +462,7 @@ macro(END_WRAP_MODULE_PYTHON group_name)
     set(WRAP_ITK_PYTHON_SWIG_EXT "${WRAP_ITK_PYTHON_SWIG_EXT}${text}")
   endif("${group_name}" STREQUAL "itkMapContainer")
 
-  if("${group_name}" STREQUAL "itkQuadEdgeMeshBase")
+  if("${group_name}" STREQUAL "ITKQuadEdgeMeshBase")
     # add a template definition for the superclass which is not in ITK
     set(text )
     foreach(d ${WRAP_ITK_DIMS})
@@ -507,7 +479,7 @@ macro(END_WRAP_MODULE_PYTHON group_name)
     endforeach(d)
 
     set(WRAP_ITK_PYTHON_SWIG_EXT "${WRAP_ITK_PYTHON_SWIG_EXT}${text}")
-  endif("${group_name}" STREQUAL "itkQuadEdgeMeshBase")
+  endif("${group_name}" STREQUAL "ITKQuadEdgeMeshBase")
 
   # is there a docstring file?
   if(WRAP_ITK_DOC AND NOT WRAP_ITK_PYTHON_PROCCESS_SWIG_INPUTS)
@@ -570,7 +542,7 @@ macro(END_WRAP_MODULE_PYTHON group_name)
     DEPENDS ${DEPS} ${interface_file} ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/${base_name}_ext.i ${WRAP_ITK_TYPEDEFS_DIRECTORY}/pyBase.i ${doc_file} ${SWIG_EXECUTABLE}
     # ${WRAP_ITK_PYTHON_LIBRARY_DEPS}
   )
-  WRAP_ITK_INSTALL("/lib" "${python_file}")
+  WRAP_ITK_BINDINGS_INSTALL("/Python" "${python_file}")
 
 # gcc visibility can't be used without getting errors when passing objects
 # from one module to an other
@@ -756,6 +728,9 @@ macro(ADD_SIMPLE_TYPEDEF_PYTHON wrap_class swig_name)
     # add the templated method non seen by gccxml, in a more python-friendly way
     # than the c++ version
     set(WRAP_ITK_PYTHON_SWIG_EXT "${WRAP_ITK_PYTHON_SWIG_EXT}DECL_PYTHON_IMAGEBASE_CLASS(${swig_name}, ${template_params})\n")
+    set(WRAP_ITK_PYTHON_SWIG_EXT "${WRAP_ITK_PYTHON_SWIG_EXT}%inline %{\n")
+    set(WRAP_ITK_PYTHON_SWIG_EXT "${WRAP_ITK_PYTHON_SWIG_EXT}#include \"itkContinuousIndexSwigInterface.h\"\n")
+    set(WRAP_ITK_PYTHON_SWIG_EXT "${WRAP_ITK_PYTHON_SWIG_EXT}%}\n")
   endif("${cpp_name}" STREQUAL "itk::ImageBase" AND NOT "${swig_name}" MATCHES "Pointer$")
 
   if("${cpp_name}" STREQUAL "itk::StatisticsLabelObject" AND NOT "${swig_name}" MATCHES "Pointer$")

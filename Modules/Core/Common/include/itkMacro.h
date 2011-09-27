@@ -508,7 +508,7 @@ extern ITKCommon_EXPORT void OutputWindowDisplayDebugText(const char *);
 /** This macro is used to print debug (or other information). They are
  * also used to catch errors, etc. Example usage looks like:
  * itkDebugMacro(<< "this is debug info" << this->SomeVariable); */
-#if defined( ITK_LEAN_AND_MEAN_TEST_RENAME_TO_INVESTIGATE_REMOVAL_OPTIONS ) || defined( NDEBUG )
+#if defined( NDEBUG )
 #define itkDebugMacro(x)
 #define itkDebugStatement(x)
 #else
@@ -532,10 +532,6 @@ extern ITKCommon_EXPORT void OutputWindowDisplayDebugText(const char *);
 /** This macro is used to print warning information (i.e., unusual circumstance
  * but not necessarily fatal.) Example usage looks like:
  * itkWarningMacro(<< "this is warning info" << this->SomeVariable); */
-#ifdef ITK_LEAN_AND_MEAN_TEST_RENAME_TO_INVESTIGATE_REMOVAL_OPTIONS
-#define itkWarningMacro(x)
-#define itkWarningStatement(x)
-#else
 #define itkWarningMacro(x)                                            \
     {                                                                 \
     if ( ::itk::Object::GetGlobalWarningDisplay() )                   \
@@ -551,7 +547,6 @@ extern ITKCommon_EXPORT void OutputWindowDisplayDebugText(const char *);
 //The itkDebugStatement is to be used ot protect code that is only
 //used in the itkDebugMacro
 #define itkWarningStatement(x) x
-#endif
 
 #if defined( ITK_CPP_FUNCTION )
   #if defined( _WIN32 ) && !defined( __MINGW32__ ) && !defined( CABLE_CONFIGURATION ) \
@@ -625,9 +620,6 @@ itkTypeMacro(newexcp, parentexcp);                                              
     }
 
 
-#ifdef ITK_LEAN_AND_MEAN_TEST_RENAME_TO_INVESTIGATE_REMOVAL_OPTIONS
-#define itkGenericOutputMacro(x)
-#else
 #define itkGenericOutputMacro(x)                                           \
     {                                                                      \
     if ( ::itk::Object::GetGlobalWarningDisplay() )                        \
@@ -638,7 +630,6 @@ itkTypeMacro(newexcp, parentexcp);                                              
       ::itk::OutputWindowDisplayGenericOutputText( itkmsg.str().c_str() ); \
       }                                                                    \
     }
-#endif
 
 //----------------------------------------------------------------------------
 // Macros for simplifying the use of logging
@@ -735,10 +726,6 @@ itkTypeMacro(newexcp, parentexcp);                                              
     " instead.")
 #endif
 
-#if defined( __INTEL_COMPILER )
-#pragma warning (disable: 193) /* #if testing undefined identifier */
-#endif
-
 //=============================================================================
 /* Define a common way of declaring a templated function as a friend inside a class.
   - ITK_FRIEND_TEMPLATE_FUNCTION_ARGUMENTS(T)
@@ -832,9 +819,6 @@ itkTypeMacro(newexcp, parentexcp);                                              
 */
 #if ITK_TEMPLATE_EXTERN
 #define ITK_TEMPLATE_IMPORT_DELAY(x) extern template ITK_TEMPLATE_##x;
-#if defined( _MSC_VER )
-#pragma warning (disable: 4231) /* extern template extension */
-#endif
 #elif ITK_TEMPLATE_DO_NOT_INSTANTIATE
 #define ITK_TEMPLATE_IMPORT_DELAY(x) \
   ITK_TEMPLATE_IMPORT_IMPL(do_not_instantiate ITK_TEMPLATE_##x)
@@ -934,13 +918,19 @@ itkTypeMacro(newexcp, parentexcp);                                              
 #define ITK_TEMPLATE_9(x1, x2, x3, x4, x5, x6, x7, x8, x9) x1, x2, x3, x4, x5, x6, x7, x8, x9
 
 /* In order to support both implicit and explicit instantation a .h
-   file needs to know whether it should include its .txx file
+   file needs to know whether it should include its .hxx file
    containing the template definitions.  Define a macro to tell
    it.  Typical usage in itkFoo.h:
      #if ITK_TEMPLATE_TXX
-     #include "itkFoo.txx"
+     #include "itkFoo.hxx"
      #endif
 */
+#ifndef ITK_TEMPLATE_CXX //At this point this variable MUST be defined
+#define ITK_TEMPLATE_CXX 0
+#endif
+#ifndef ITK_TEMPLATE_TYPE
+#define ITK_TEMPLATE_TYPE 0
+#endif
 #if defined( ITK_MANUAL_INSTANTIATION )
 #define ITK_TEMPLATE_TXX 0
 #else
@@ -950,15 +940,11 @@ itkTypeMacro(newexcp, parentexcp);                                              
 /* All explicit instantiation source files define ITK_TEMPLATE_CXX.
    Define ITK_MANUAL_INSTANTIATION to tell .h files that have not been
    converted to this explicit instantiation scheme to not include
-   their .txx files.  Also disable warnings that commonly occur in
+   their .hxx files.  Also disable warnings that commonly occur in
    these files but are not useful.  */
 #if ITK_TEMPLATE_CXX
 #undef ITK_MANUAL_INSTANTIATION
 #define ITK_MANUAL_INSTANTIATION
-#if defined( _MSC_VER )
-#pragma warning (disable: 4275) /* non dll-interface base */
-#pragma warning (disable: 4661) /* no definition available */
-#endif
 #endif
 //=============================================================================
 
@@ -1066,6 +1052,10 @@ itkTypeMacro(newexcp, parentexcp);                                              
     itkAssertInDebugOrThrowInReleaseMacro( msgstr.str().c_str() ); \
     }
 
+#ifndef NDEBUG
 #define itkAssertInDebugAndIgnoreInReleaseMacro(X) assert(X)
+#else
+#define itkAssertInDebugAndIgnoreInReleaseMacro(X)
+#endif
 
 #endif //end of itkMacro.h

@@ -37,7 +37,7 @@ namespace Statistics
  *
  * \sa SampleToSubsampleFilter
  *
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  */
 
 template< class TSample >
@@ -86,7 +86,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNeighborhoodSampler.txx"
+#include "itkNeighborhoodSampler.hxx"
 #endif
 
 #endif

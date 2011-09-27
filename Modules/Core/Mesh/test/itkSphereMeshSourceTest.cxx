@@ -15,10 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
-
 
 #include "itkSphereMeshSource.h"
 #include <iostream>

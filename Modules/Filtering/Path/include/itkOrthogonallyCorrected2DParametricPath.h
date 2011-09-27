@@ -39,7 +39,7 @@ namespace itk
  * \sa Vector
  *
  * \ingroup PathObjects
- * \ingroup ITK-Path
+ * \ingroup ITKPath
  */
 class ITK_EXPORT OrthogonallyCorrected2DParametricPath:public
   ParametricPath< 2 >

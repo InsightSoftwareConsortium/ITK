@@ -15,15 +15,17 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #ifndef __itkFEMLoadEdge_h
 #define __itkFEMLoadEdge_h
 
 #include "itkFEMLoadElementBase.h"
 #include "vnl/vnl_matrix.h"
 
-namespace itk {
-namespace fem {
-
+namespace itk
+{
+namespace fem
+{
 /**
  * \class LoadEdge
  * \brief A generic load that can be applied to an edge of the element.
@@ -32,24 +34,54 @@ namespace fem {
  * edge of the element. In this case m_Edge defines the edge or surfance
  * of the element on which the BC exists and matrix m_Force holds the actual
  * prescribed values of the BC.
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 class LoadEdge : public LoadElement
 {
-  FEM_CLASS(LoadEdge,LoadElement)
 public:
-  /**
-   * Read a Load object from input stream.
-   * We need arrays of elements and nodes to do that.
-   */
-  virtual void Read( std::istream& f, void* info );
+  /** Standard class typedefs. */
+  typedef LoadEdge                 Self;
+  typedef LoadElement              Superclass;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
+
+  /** New macro for creation of through the object factory. */
+  itkSimpleNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(LoadEdge, LoadElement);
+
+  /** CreateAnother method will clone the existing instance of this type,
+   * including its internal member variables. */
+  virtual::itk::LightObject::Pointer CreateAnother(void) const;
 
   /**
-   * Write a Load object to the output stream
+   * Set the edge number on which the force is being applied
    */
-  virtual void Write( std::ostream& f ) const;
+  void SetEdge(int edge);
 
-public:
+  /**
+   * Get the edge number on which the force is being applied
+   */
+  int GetEdge() const;
+
+  /**
+   * Set the edge force values
+   */
+  void SetForce(const vnl_matrix<itk::fem::Element::Float> force);
+
+  /**
+   * Get the edge force values
+   */
+  const vnl_matrix<itk::fem::Element::Float> & GetForce() const;
+  vnl_matrix<itk::fem::Element::Float> & GetForce();
+
+  /** Apply the load to the specified element */
+  virtual void ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe);
+
+protected:
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+
   /**
    * Local number of the edge (face) of the element on which the load acts.
    * Check the corresponding element class for more info on edge numbering.
@@ -73,11 +105,9 @@ public:
    * the force is applied.
    */
   vnl_matrix<Float> m_Force;
-
 };
 
-FEM_CLASS_INIT(LoadEdge)
-
-}} // end namespace itk::fem
+}
+}  // end namespace itk::fem
 
 #endif // #ifndef __itkFEMLoadEdge_h

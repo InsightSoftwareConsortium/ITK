@@ -22,7 +22,7 @@
 #include "itkImageBase.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"
 #include "itkSpatialObject.h"
-#include "itkBSplineDeformableTransform.h"
+#include "itkBSplineTransform.h"
 #include "itkCentralDifferenceImageFunction.h"
 
 #include "itkMultiThreader.h"
@@ -48,7 +48,7 @@ namespace itk
  *
  * \ingroup RegistrationMetrics
  *
- * \ingroup ITK-RegistrationCommon
+ * \ingroup ITKRegistrationCommon
  */
 
 template< class TFixedImage,  class TMovingImage >
@@ -295,9 +295,9 @@ public:
   void ReinitializeSeed(int seed);
 
   /** This boolean flag is only relevant when this metric is used along
-   * with a BSplineDeformableTransform. The flag enables/disables the
+   * with a BSplineTransform. The flag enables/disables the
    * caching of values computed when a physical point is mapped through
-   * the BSplineDeformableTransform. In particular it will cache the
+   * the BSplineTransform. In particular it will cache the
    * values of the BSpline weights for that points, and the indexes
    * indicating what BSpline-grid nodes are relevant for that specific
    * point. This caching is made optional due to the fact that the
@@ -331,7 +331,7 @@ protected:
   /** \class FixedImageSamplePoint
    * A fixed image spatial sample consists of the fixed domain point
    * and the fixed image value at that point.
-   * \ingroup ITK-RegistrationCommon
+   * \ingroup ITKRegistrationCommon
    */
   class FixedImageSamplePoint
   {
@@ -407,7 +407,7 @@ public:
   int m_RandomSeed;
 
   /** Types and variables related to BSpline deformable transforms.
-    * If the transform is of type third order BSplineDeformableTransform,
+    * If the transform is of type third order BSplineTransform,
     * then we can speed up the metric derivative calculation by
     * only inspecting the parameters within the support region
     * of a mapped point.  */
@@ -421,7 +421,7 @@ public:
 
   itkStaticConstMacro(DeformationSplineOrder, unsigned int, 3);
 
-  typedef BSplineDeformableTransform< CoordinateRepresentationType,
+  typedef BSplineTransform< CoordinateRepresentationType,
                                       ::itk::GetImageDimension< FixedImageType >::ImageDimension,
                                       itkGetStaticConstMacro(DeformationSplineOrder) >             BSplineTransformType;
 
@@ -586,7 +586,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageToImageMetric.txx"
+#include "itkImageToImageMetric.hxx"
 #endif
 
 #endif

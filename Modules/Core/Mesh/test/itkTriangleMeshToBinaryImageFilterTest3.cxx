@@ -15,21 +15,18 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkImage.h"
 #include "itkTriangleMeshToBinaryImageFilter.h"
 #include "itkImageFileWriter.h"
-#include "itkVTKPolyDataReader.h"
+#include "itkMeshFileReader.h"
 
 int itkTriangleMeshToBinaryImageFilterTest3( int argc, char * argv [] )
 {
 
   if( argc != 12 )
     {
-    std::cerr << "Usage: itkVTKPolyDataReaderTest ";
+    std::cerr << "Usage: itkTriangleMeshToBinaryImageFilterTest3 ";
     std::cerr << " inputFilename.vtk outputImageMask";
     std::cerr << " imageSizeX imageSizeY imageSizeZ ";
     std::cerr << " imageOriginX imageOriginY imageOriginZ ";
@@ -41,7 +38,7 @@ int itkTriangleMeshToBinaryImageFilterTest3( int argc, char * argv [] )
   const unsigned int Dimension = 3;
 
   typedef itk::Mesh<float, Dimension>           MeshType;
-  typedef itk::VTKPolyDataReader< MeshType >    ReaderType;
+  typedef itk::MeshFileReader< MeshType >       ReaderType;
 
   ReaderType::Pointer  polyDataReader = ReaderType::New();
 

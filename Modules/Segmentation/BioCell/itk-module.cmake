@@ -1,6 +1,13 @@
-itk_module(ITK-BioCell
+set(DOCUMENTATION "This module contains classes related to segmentation of
+biological cells.  It has classes to represent cells' shape, color, and growth
+state.  It also has classes to represent a cell genome, whose expression is
+modeled by differential equations.")
+
+itk_module(ITKBioCell
   DEPENDS
-    ITK-Mesh
+    ITKMesh
   TEST_DEPENDS
-    ITK-TestKernel
+    ITKTestKernel
+  DESCRIPTION
+    "${DOCUMENTATION}"
 )

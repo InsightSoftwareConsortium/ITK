@@ -31,14 +31,21 @@
 #include "itkDataObject.h"
 
 #include "itkImageRegion.h"
+#include "itkMatrix.h"
 #include "itkObjectFactory.h"
 #include "itkOffset.h"
 #include "itkFixedArray.h"
 #include "itkImageHelper.h"
+//HACK:  vnl/vnl_matrix_fixed.txx is needed here?
+//      to avoid undefined symbol vnl_matrix_fixed<double, 8u, 8u>::set_identity()", referenced from
 #include "vnl/vnl_matrix_fixed.txx"
 
 #include "itkImageRegion.h"
 #include "itkImageTransformHelper.h"
+
+/* Forward declaration (ImageTransformHelper include's ImageBase) */
+template< unsigned int NImageDimension, unsigned int R, unsigned int C >
+class ImageTransformHelper;
 
 namespace itk
 {
@@ -82,7 +89,7 @@ struct GetImageDimension {
  * \ingroup ImageObjects
  * \ingroup ITKSystemObjects
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< unsigned int VImageDimension = 2 >
 class ITK_EXPORT ImageBase:public DataObject
@@ -253,7 +260,7 @@ public:
    * the object to be modified. This method is called internally by
    * the pipeline and therefore bypasses the modified time
    * calculation. */
-  virtual void SetRequestedRegion(DataObject *data);
+  virtual void SetRequestedRegion( const DataObject *data );
 
   /** Get the region object that defines the size and starting index
    * for the region of the image requested (i.e., the region of the
@@ -668,7 +675,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkImageBase.txx"
+#include "itkImageBase.hxx"
 #endif
 
 #endif

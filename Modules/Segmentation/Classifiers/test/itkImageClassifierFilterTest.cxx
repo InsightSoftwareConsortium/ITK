@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkImageToListSampleAdaptor.h"
 #include "itkImageClassifierFilter.h"
@@ -25,7 +22,7 @@
 #include "itkFixedArray.h"
 #include "itkGaussianMixtureModelComponent.h"
 #include "itkExpectationMaximizationMixtureModelEstimator.h"
-#include "itkMaximumDecisionRule2.h"
+#include "itkMaximumDecisionRule.h"
 #include "itkImageToListSampleAdaptor.h"
 #include "itkNormalVariateGenerator.h"
 #include "itkImageFileWriter.h"
@@ -197,7 +194,7 @@ int itkImageClassifierFilterTest(int argc, char* argv[] )
   classLabelVector.push_back( class2 );
 
   //Set a decision rule type
-  typedef itk::Statistics::MaximumDecisionRule2  DecisionRuleType;
+  typedef itk::Statistics::MaximumDecisionRule  DecisionRuleType;
 
   DecisionRuleType::Pointer    decisionRule = DecisionRuleType::New();
 

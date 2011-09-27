@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
@@ -38,31 +35,27 @@
 #include "itkWarpImageFilter.h"
 // Software Guide : EndCodeSnippet
 
-
-
-
-
 //  The following section of code implements a Command observer
 //  that will monitor the evolution of the registration process.
 //
   class CommandIterationUpdate : public itk::Command
   {
   public:
-    typedef  CommandIterationUpdate   Self;
-    typedef  itk::Command             Superclass;
+    typedef  CommandIterationUpdate                     Self;
+    typedef  itk::Command                               Superclass;
     typedef  itk::SmartPointer<CommandIterationUpdate>  Pointer;
     itkNewMacro( CommandIterationUpdate );
   protected:
     CommandIterationUpdate() {};
 
-    typedef itk::Image< float, 2 > InternalImageType;
-    typedef itk::Vector< float, 2 >    VectorPixelType;
-    typedef itk::Image<  VectorPixelType, 2 > DeformationFieldType;
+    typedef itk::Image< float, 2 >            InternalImageType;
+    typedef itk::Vector< float, 2 >           VectorPixelType;
+    typedef itk::Image<  VectorPixelType, 2 > DisplacementFieldType;
 
     typedef itk::LevelSetMotionRegistrationFilter<
                                 InternalImageType,
                                 InternalImageType,
-                                DeformationFieldType>   RegistrationFilterType;
+                                DisplacementFieldType>   RegistrationFilterType;
 
   public:
 
@@ -83,11 +76,6 @@
       }
   };
 
-
-
-
-
-
 int main( int argc, char *argv[] )
 {
   if( argc < 4 )
@@ -96,7 +84,7 @@ int main( int argc, char *argv[] )
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile movingImageFile ";
     std::cerr << " outputImageFile " << std::endl;
-    std::cerr << " [outputDeformationFieldFile] " << std::endl;
+    std::cerr << " [outputDisplacementFieldFile] " << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -135,12 +123,12 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef float InternalPixelType;
-  typedef itk::Image< InternalPixelType, Dimension > InternalImageType;
+  typedef float                                       InternalPixelType;
+  typedef itk::Image< InternalPixelType, Dimension >  InternalImageType;
   typedef itk::CastImageFilter< FixedImageType,
-                                InternalImageType > FixedImageCasterType;
+                                InternalImageType >   FixedImageCasterType;
   typedef itk::CastImageFilter< MovingImageType,
-                                InternalImageType > MovingImageCasterType;
+                                InternalImageType >   MovingImageCasterType;
 
   FixedImageCasterType::Pointer fixedImageCaster   = FixedImageCasterType::New();
   MovingImageCasterType::Pointer movingImageCaster = MovingImageCasterType::New();
@@ -234,26 +222,19 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Vector< float, Dimension >    VectorPixelType;
-  typedef itk::Image<  VectorPixelType, Dimension > DeformationFieldType;
+  typedef itk::Vector< float, Dimension >                VectorPixelType;
+  typedef itk::Image<  VectorPixelType, Dimension >      DisplacementFieldType;
   typedef itk::LevelSetMotionRegistrationFilter<
                                 InternalImageType,
                                 InternalImageType,
-                                DeformationFieldType>   RegistrationFilterType;
+                                DisplacementFieldType>   RegistrationFilterType;
   RegistrationFilterType::Pointer filter = RegistrationFilterType::New();
   // Software Guide : EndCodeSnippet
-
-
-
-
 
   // Create the Command observer and register it with the registration filter.
   //
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
   filter->AddObserver( itk::IterationEvent(), observer );
-
-
-
 
   // Software Guide : BeginLatex
   //
@@ -322,7 +303,7 @@ int main( int argc, char *argv[] )
   typedef itk::WarpImageFilter<
                           MovingImageType,
                           MovingImageType,
-                          DeformationFieldType  >     WarperType;
+                          DisplacementFieldType  >     WarperType;
   typedef itk::LinearInterpolateImageFunction<
                                    MovingImageType,
                                    double          >  InterpolatorType;
@@ -345,21 +326,21 @@ int main( int argc, char *argv[] )
   // represented by an image of vectors.  The resulting warped or resampled
   // image is written to file as per previous examples.
   //
-  // \index{itk::WarpImageFilter!SetDeformationField()}
+  // \index{itk::WarpImageFilter!SetDisplacementField()}
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  warper->SetDeformationField( filter->GetOutput() );
+  warper->SetDisplacementField( filter->GetOutput() );
   // Software Guide : EndCodeSnippet
 
 
   // Write warped image out to file
-  typedef  unsigned char  OutputPixelType;
+  typedef  unsigned char                           OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
   typedef itk::CastImageFilter<
                         MovingImageType,
-                        OutputImageType > CastFilterType;
+                        OutputImageType >          CastFilterType;
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
 
   WriterType::Pointer      writer =  WriterType::New();
@@ -397,8 +378,6 @@ int main( int argc, char *argv[] )
   //
   // Software Guide : EndLatex
 
-
-
   // Software Guide : BeginLatex
   //
   // It may be also desirable to write the deformation field as an image of
@@ -410,7 +389,7 @@ int main( int argc, char *argv[] )
     {
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileWriter< DeformationFieldType > FieldWriterType;
+  typedef itk::ImageFileWriter< DisplacementFieldType > FieldWriterType;
   FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
   fieldWriter->SetFileName( argv[4] );
   fieldWriter->SetInput( filter->GetOutput() );
@@ -432,8 +411,8 @@ int main( int argc, char *argv[] )
   if( argc > 5 ) // if a fifth line argument has been provided...
     {
 
-  typedef DeformationFieldType  VectorImage2DType;
-  typedef DeformationFieldType::PixelType Vector2DType;
+  typedef DisplacementFieldType            VectorImage2DType;
+  typedef DisplacementFieldType::PixelType Vector2DType;
 
   VectorImage2DType::ConstPointer vectorImage2D = filter->GetOutput();
 
@@ -445,9 +424,9 @@ int main( int argc, char *argv[] )
   typedef itk::Vector< float,       3 >  Vector3DType;
   typedef itk::Image< Vector3DType, 3 >  VectorImage3DType;
 
-  typedef itk::ImageFileWriter< VectorImage3DType > WriterType;
+  typedef itk::ImageFileWriter< VectorImage3DType > VectorImage3DWriterType;
 
-  WriterType::Pointer writer3D = WriterType::New();
+  VectorImage3DWriterType::Pointer writer3D = VectorImage3DWriterType::New();
 
   VectorImage3DType::Pointer vectorImage3D = VectorImage3DType::New();
 
@@ -503,7 +482,6 @@ int main( int argc, char *argv[] )
     ++it3;
     }
 
-
   writer3D->SetInput( vectorImage3D );
 
   writer3D->SetFileName( argv[5] );
@@ -521,8 +499,5 @@ int main( int argc, char *argv[] )
 
   }
 
-
-
   return EXIT_SUCCESS;
 }
-

@@ -30,7 +30,7 @@ namespace itk
  * image, the maximum size of the path's bounding box is used.  The default
  * spacing of the image is given by the spacing of the input  path (currently
  * assumed internally to be 1.0).
- * \ingroup ITK-Path
+ * \ingroup ITKPath
  */
 template< class TInputPath, class TOutputImage >
 class ITK_EXPORT PathToImageFilter:public ImageSource< TOutputImage >
@@ -123,7 +123,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPathToImageFilter.txx"
+#include "itkPathToImageFilter.hxx"
 #endif
 
 #endif

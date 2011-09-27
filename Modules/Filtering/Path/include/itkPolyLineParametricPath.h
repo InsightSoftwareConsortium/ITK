@@ -46,7 +46,11 @@ namespace itk
  * \sa Vector
  *
  * \ingroup PathObjects
- * \ingroup ITK-Path
+ * \ingroup ITKPath
+ *
+ * \wiki
+ * \wikiexample{Curves/PolyLineParametricPath,A data structure for a piece-wise linear curve}
+ * \endwiki
  */
 template< unsigned int VDimension >
 class ITK_EXPORT PolyLineParametricPath:public
@@ -144,7 +148,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkPolyLineParametricPath.txx"
+#include "itkPolyLineParametricPath.hxx"
 #endif
 
 #endif

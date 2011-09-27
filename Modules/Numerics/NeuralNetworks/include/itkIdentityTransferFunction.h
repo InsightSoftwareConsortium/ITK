@@ -24,6 +24,11 @@ namespace itk
 {
 namespace Statistics
 {
+/** \class IdentityTransferFunction
+ * \brief This is the itkIdentityTransferFunction class.
+ *
+ * \ingroup ITKNeuralNetworks
+ */
 
 template<class ScalarType>
 class IdentityTransferFunction : public TransferFunctionBase<ScalarType>
@@ -63,7 +68,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-  #include "itkIdentityTransferFunction.txx"
+  #include "itkIdentityTransferFunction.hxx"
 #endif
 
 

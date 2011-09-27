@@ -220,7 +220,7 @@ CellBase
  *    Check point before dividing the cell in two daughter cells
  *    at this point DNA replication has already been performed
  *    as well as DNA proofreading and error corrections. This
- *    check point in principle shoult test if the resulting
+ *    check point in principle should test if the resulting
  *    genomes satisfy the quality standards of a living cell.
  */
 bool
@@ -288,7 +288,7 @@ CellBase
 
 /**
  *  Mark this cell for removal
- *  The cellular aggregate with remove
+ *  The cellular aggregate will remove
  *  this cell from its list at the earliest occasion
  */
 void
@@ -300,7 +300,7 @@ CellBase
 
 /**
  *  Mark this cell for removal
- *  The cellular aggregate with remove
+ *  The cellular aggregate will remove
  *  this cell from its list at the earliest occasion
  */
 bool
@@ -411,8 +411,8 @@ CellBase
 }
 
 /**
- *    Set the value of the limiting cell radius
- *    this is a static value used for the whole
+ *    Set the value of the limiting cell radius.
+ *    This is a static value used for the whole
  *    cellular aggregate
  */
 void
@@ -474,8 +474,8 @@ CellBase
 
 /**
  *    Set the value of the increment in cellular
- *    radius at each time step
- *    this is a static value used for the whole
+ *    radius at each time step.
+ *    This is a static value used for the whole
  *    cellular aggregate
  */
 void
@@ -507,7 +507,7 @@ CellBase
 
 /**
  *   Compute the Gene Network
- *   This method update the level of expression of
+ *   This method updates the level of expression of
  *   all the genes in the cell's genome.
  *   see: http://www.ingeneue.org  for details
  */
@@ -522,7 +522,7 @@ CellBase
 
   // Color the cell acording to pressure.
   // This is done by generating pigments under
-  // the influence of presure.
+  // the influence of pressure.
   const double pressurinLevel = m_Genome->GetExpressionLevel(Pressurin);
 
   const double red = GenomeType::Sigmoide(5.0, 1.0, pressurinLevel);
@@ -533,7 +533,7 @@ CellBase
 
   // Color the Cell acording to the substrate.
   // This is done by generating pigments.
-  // This color overrides the selection of the Presure...
+  // This color overrides the selection of the Pressure...
 
   if ( m_ChemoAttractantLevel > ChemoAttractantHighThreshold )
     {

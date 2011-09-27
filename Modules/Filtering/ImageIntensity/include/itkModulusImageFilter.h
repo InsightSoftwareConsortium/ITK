@@ -65,9 +65,9 @@ private:
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup IntensityImageFilters  MultiThreaded
  *
- * \ingroup ITK-ImageIntensity
+ * \ingroup ITKImageIntensity
  */
 template< typename  TInputImage, typename  TOutputImage = TInputImage >
 class ITK_EXPORT ModulusImageFilter:
@@ -128,7 +128,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkModulusImageFilter.txx"
+#include "itkModulusImageFilter.hxx"
 #endif
 
 #endif

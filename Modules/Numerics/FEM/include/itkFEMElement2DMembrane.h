@@ -15,15 +15,17 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #ifndef __itkFEMElement2DMembrane_h
 #define __itkFEMElement2DMembrane_h
 
 #include "itkFEMElementBase.h"
 #include "itkFEMMaterialLinearElasticity.h"
 
-namespace itk {
-namespace fem {
-
+namespace itk
+{
+namespace fem
+{
 /**
  * \class Element2DMembrane
  * \brief Class that is used to define a membrane energy problem in 2D space.
@@ -31,19 +33,34 @@ namespace fem {
  * This class only defines the physics of the problem. Use his class together
  * with element classes that specify the geometry to fully define the element.
  *
+ * A membrane element a two dimensional flat extensional element.
+ * There are two in plane displacement DOF’s at each node of the element.
+ * The elements can be used to model two dimensional elasticity problems, plane
+ * strain and plane stress. The membrane element has no rotational stiffness or
+ * stiffness normal to the plane of the element. It can be situated arbitrarily
+ * in space but the resultant forces must lie in the plane of the element.
+ *
+ *
  * You can specify one template parameter:
  *
  *   TBaseClass - Class from which Element2DMembrane is derived. TBaseClass must
  *                be derived from the Element base class. This enables you
  *                to use this class at any level of element definition.
  *                If not specified, it defaults to the Element base class.
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
-template<class TBaseClass=Element>
+template <class TBaseClass = Element>
 class Element2DMembrane : public TBaseClass
 {
-FEM_ABSTRACT_CLASS(Element2DMembrane,TBaseClass)
 public:
+  /** Standard class typedefs. */
+  typedef Element2DMembrane        Self;
+  typedef TBaseClass               Superclass;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Element2DMembrane, TBaseClass);
 
   // Repeat the required typedefs and enums from parent class
   typedef typename Superclass::Float      Float;
@@ -51,21 +68,11 @@ public:
   typedef typename Superclass::VectorType VectorType;
 
   /**
-   * Read data for this class from input stream
-   */
-  virtual void Read( std::istream&, void* info );
-
-  /**
-   * Write this class to output stream
-   */
-  virtual void Write( std::ostream& f ) const;
-
-  /**
    * Default constructor only clears the internal storage
    */
   Element2DMembrane();
 
-  //////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////
   /**
    * Methods related to the physics of the problem.
    */
@@ -73,49 +80,56 @@ public:
   /**
    * Compute the B matrix.
    */
-  virtual void GetStrainDisplacementMatrix(MatrixType& B, const MatrixType& shapeDgl) const;
+  virtual void GetStrainDisplacementMatrix(MatrixType & B, const MatrixType & shapeDgl) const;
 
   /**
    * Compute the D matrix.
    */
-  virtual void GetMaterialMatrix(MatrixType& D) const;
+  virtual void GetMaterialMatrix(MatrixType & D) const;
 
   /**
    * Compute the mass matrix specific for 2D stress problems.
    */
-  void GetMassMatrix(MatrixType& Me) const;
-
+  void GetMassMatrix(MatrixType & Me) const;
 
   /**
    * 2D stress elements have 2 DOFs per node.
    */
-  virtual unsigned int GetNumberOfDegreesOfFreedomPerNode( void ) const
-    { return 2; }
-
-public:
+  virtual unsigned int GetNumberOfDegreesOfFreedomPerNode(void) const
+  {
+    return 2;
+  }
 
   /**
-   * Pointer to material properties of the element
+   * Get/Set the material properties for the element
    */
-  MaterialLinearElasticity::ConstPointer m_mat;
-  virtual Material::ConstPointer GetMaterial(void) const { return m_mat; }
-  virtual void SetMaterial(Material::ConstPointer mat_ ) { m_mat=dynamic_cast<const MaterialLinearElasticity*>(&*mat_); }
+  virtual Material::ConstPointer GetMaterial(void) const
+  {
+    return m_mat;
+  }
 
+  virtual void SetMaterial(Material::ConstPointer mat_)
+  {
+    m_mat =
+      dynamic_cast<const MaterialLinearElasticity *>( mat_.GetPointer() );
+  }
 
-}; // class Element2DMembrane
+protected:
 
-#ifdef _MSC_VER
-// Declare a static dummy function to prevent a MSVC 6.0 SP5 from crashing.
-// I have no idea why things don't work when this is not declared, but it
-// looks like this declaration makes compiler forget about some of the
-// troubles it has with templates.
-static void Dummy( void );
-#endif // #ifdef _MSC_VER
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
-}} // end namespace itk::fem
+  /**
+   * Pointer to material properties for the element
+   */
+  const MaterialLinearElasticity *m_mat;
+
+};  // class Element2DMembrane
+
+}
+}  // end namespace itk::fem
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFEMElement2DMembrane.txx"
+#include "itkFEMElement2DMembrane.hxx"
 #endif
 
 #endif  // #ifndef __itkFEMElement2DMembrane_h

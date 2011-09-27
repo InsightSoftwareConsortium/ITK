@@ -19,10 +19,13 @@
 #define __itkFEMLoadBase_h
 
 #include "itkFEMElementBase.h"
+#include "itkFEMSolution.h"
+#include "itkFEMPArray.h"
 
-namespace itk {
-namespace fem {
-
+namespace itk
+{
+namespace fem
+{
 /**
  * \class Load
  * \brief General abstract load base class.
@@ -31,12 +34,19 @@ namespace fem {
  * The load class defines an external load that acts on the system. For each specific subtype
  * of load, a separate load abstract class should be derived. For example we have LoadElement,
  * which defines the base for all loads that act on a specific element in a system.
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 class Load : public FEMLightObject
 {
-  FEM_ABSTRACT_CLASS(Load,FEMLightObject)
 public:
+  /** Standard class typedefs. */
+  typedef Load                     Self;
+  typedef FEMLightObject           Superclass;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Load, FEMLightObject);
 
   /** Array class that holds special pointers to the load objects */
   typedef FEMPArray<Self> ArrayType;
@@ -53,14 +63,44 @@ public:
    *
    * \param ptr Pointer to the object of Solution class.
    */
-  virtual void SetSolution(Solution::ConstPointer ptr)
-    { // this is to prevent a warning about an unused variable
-    (void) ptr;
+  virtual void SetSolution(Solution::ConstPointer itkNotUsed(ptr)) { }
+  virtual Solution::ConstPointer GetSolution()
+  {
+    return 0;
+  }
+  /**
+  * Get the element containing the degree of freedom
+  * on which the force is being applied.
+  */
+  Element::ConstPointer GetElement() const
+    {
+      return m_Element;
     }
-  virtual Solution::ConstPointer GetSolution( ) { return 0;}
+
+  /**
+   * Get the element containing the degree of freedom
+   * on which the force is being applied.
+   */
+  void SetElement(Element::ConstPointer el)
+    {
+      this->m_Element = el;
+    }
+  void SetElement(Element::Pointer el)
+    {
+      this->m_Element = el.GetPointer();
+    }
+
+protected:
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  /**
+   * Pointer to an element in a system that contains the DOF
+   * on which the external force is applied.
+   */
+  Element::ConstPointer m_Element;
+
 
 };
-
-}} // end namespace itk::fem
+}
+}  // end namespace itk::fem
 
 #endif // #ifndef __itkFEMLoadBase_h

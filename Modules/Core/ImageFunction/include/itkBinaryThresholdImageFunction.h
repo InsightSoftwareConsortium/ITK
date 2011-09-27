@@ -37,7 +37,7 @@ namespace itk
  *
  * \ingroup ImageFunctions
  *
- * \ingroup ITK-ImageFunction
+ * \ingroup ITKImageFunction
  */
 template< class TInputImage, class TCoordRep = float >
 class ITK_EXPORT BinaryThresholdImageFunction:
@@ -169,7 +169,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkBinaryThresholdImageFunction.txx"
+#include "itkBinaryThresholdImageFunction.hxx"
 #endif
 
 #endif

@@ -28,16 +28,13 @@
 namespace itk
 {
 /** \class ThreadLogger
- *  \brief Class ThreadLogger is meant for providing logging service
- *  as a separate thread.
- *
+ *  \brief Providing logging service as a separate thread.
  *
  * \author Hee-Su Kim, Compute Science Dept. Kyungpook National University,
  *                     ISIS Center, Georgetown University.
  *
- *
  *  \ingroup OSSystemObjects LoggingObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 class ITKCommon_EXPORT ThreadLogger:public Logger
@@ -52,35 +49,49 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ThreadLogger, Logger);
 
-  /** New macro for creation of through a Smart Pointer */
+  /** New macro for creation of a Smart Pointer */
   itkNewMacro(Self);
 
   typedef  Logger::OutputType OutputType;
 
   typedef  Logger::PriorityLevelType PriorityLevelType;
 
+  typedef  unsigned int DelayType;
+
   /** Definition of types of operations for ThreadLogger. */
-  typedef enum {
+  typedef enum
+  {
     SET_PRIORITY_LEVEL,
     SET_LEVEL_FOR_FLUSHING,
     ADD_LOG_OUTPUT,
     WRITE,
     FLUSH
-    } OperationType;
+  }
+  OperationType;
 
   /** Set the priority level for the current logger. Only messages that have
    * priorities equal or greater than the one set here will be posted to the
-   * current outputs */
+   * current outputs. */
   virtual void SetPriorityLevel(PriorityLevelType level);
 
   /** Get the priority level for the current logger. Only messages that have
    * priorities equal or greater than the one set here will be posted to the
-   * current outputs */
+   * current outputs. */
   virtual PriorityLevelType GetPriorityLevel() const;
 
   virtual void SetLevelForFlushing(PriorityLevelType level);
 
   virtual PriorityLevelType GetLevelForFlushing() const;
+
+/** Set the delay in milliseconds between checks to see if there are any
+ *  low priority messages to be processed.
+ */
+  virtual void SetDelay(DelayType delay);
+
+/** Get the delay in milliseconds between checks to see if there are any
+ *  low priority messages to be processed.
+ */
+  virtual DelayType GetDelay() const;
 
   /** Registers another output stream with the multiple output. */
   virtual void AddLogOutput(OutputType *output);
@@ -126,7 +137,8 @@ private:
 
   SimpleFastMutexLock m_Mutex;
 
-  SimpleFastMutexLock m_WaitMutex;
+  DelayType m_Delay;
+
 };  // class ThreadLogger
 } // namespace itk
 

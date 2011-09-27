@@ -44,7 +44,7 @@ namespace itk
  * Filters", so far unpublished.
  *
  * \ingroup ImageFilters
- * \ingroup ITK-ImageFilterBase
+ * \ingroup ITKImageFilterBase
  */
 template< typename TInputImage, typename TOutputImage = TInputImage >
 class ITK_EXPORT RecursiveSeparableImageFilter:
@@ -173,7 +173,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRecursiveSeparableImageFilter.txx"
+#include "itkRecursiveSeparableImageFilter.hxx"
 #endif
 
 #endif

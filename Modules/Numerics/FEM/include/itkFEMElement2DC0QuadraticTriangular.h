@@ -15,66 +15,99 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #ifndef __itkFEMElement2DC0QuadraticTriangular_h
 #define __itkFEMElement2DC0QuadraticTriangular_h
 
 #include "itkFEMElementStd.h"
 
-namespace itk {
-namespace fem {
-
+namespace itk
+{
+namespace fem
+{
 /**
  * \class Element2DC0QuadraticTriangular
- * \brief 3-noded, quadratic, C0 continuous finite element in 2D space.
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
+ * \brief 6-noded, quadratic, C0 continuous finite element in 2D space
+ *        that defines a triangle.
+ *
+ * The ordering of the nodes is counter clockwise. That is the nodes
+ * should be defined in the following order:
+ *
+ *          (0,1)
+ *          2
+ *          *
+ *          |\
+ *          |  \
+ *          |    \
+ *(0,0.5) 5 *      * 4 (0.5, 0.5)
+ *          |        \
+ *          |          \
+ *          *-----*-----*
+ *          0     3      1
+ *       (0,0)  (0,0.5)  (0,1)
+ *
+ * This class defines the geometry of the FE problem.
+ * It must be combined with the physics component of the problem.
+ * This has already been done in the following classes:
+ *
+ * \sa Element2DC0QuadraticTriangularStrain
+ * \sa Element2DC0QuadraticTriangularStress
  */
-class Element2DC0QuadraticTriangular : public ElementStd<6,2>
+class Element2DC0QuadraticTriangular : public ElementStd<6, 2>
 {
-  typedef ElementStd<3,2> TemplatedParentClass;
-  FEM_ABSTRACT_CLASS( Element2DC0QuadraticTriangular, TemplatedParentClass )
 public:
+  /** Standard class typedefs. */
+  typedef Element2DC0QuadraticTriangular Self;
+  typedef ElementStd<6, 2>               TemplatedParentClass;
+  typedef TemplatedParentClass           Superclass;
+  typedef SmartPointer<Self>             Pointer;
+  typedef SmartPointer<const Self>       ConstPointer;
 
-  //////////////////////////////////////////////////////////////////////////
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Element2DC0QuadraticTriangular, TemplatedParentClass);
+
+  // ////////////////////////////////////////////////////////////////////////
   /**
    * Methods related to numeric integration
    */
 
   enum { DefaultIntegrationOrder = 2 };
 
-  virtual void GetIntegrationPointAndWeight(unsigned int i, VectorType& pt, Float& w, unsigned int order) const;
+  /** Get the Integration point and weight */
+  virtual void GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, Float & w, unsigned int order) const;
 
+  /** Get the number of integration points */
   virtual unsigned int GetNumberOfIntegrationPoints(unsigned int order) const;
 
-  //////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////
   /**
    * Methods related to the geometry of an element
    */
 
-  virtual VectorType ShapeFunctions( const VectorType& pt ) const;
+  /** Return the shape functions used to interpolate across the element */
+  virtual VectorType ShapeFunctions(const VectorType & pt) const;
 
-  virtual void ShapeFunctionDerivatives( const VectorType& pt, MatrixType& shapeD ) const;
+  /** Return the shape functions derivatives in the shapeD matrix */
+  virtual void ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const;
 
-  // FIXME: Write a proper implementation
-  virtual bool GetLocalFromGlobalCoordinates( const VectorType&, VectorType& ) const
-    {
-    throw;
-    return false;
-    }
+  /** Convert from global to local coordinates */
+  virtual bool GetLocalFromGlobalCoordinates(const VectorType & GlobalPt, VectorType & LocalPt) const;
 
   // Since the Jacobian is not quadratic, we need to provide our
   // own implementation of calculating the determinant and inverse.
-  virtual Float JacobianDeterminant( const VectorType& pt, const MatrixType* pJ = 0 ) const;
-  virtual void JacobianInverse( const VectorType& pt, MatrixType& invJ, const MatrixType* pJ = 0 ) const;
+  virtual Float JacobianDeterminant(const VectorType & pt, const MatrixType *pJ = 0) const;
 
-  /**
-   * Draw the element on the specified device context
-   */
-#ifdef FEM_BUILD_VISUALIZATION
-  void Draw(CDC* pDC, Solution::ConstPointer sol) const;
-#endif
+  /** Compute the inverse of the Jacobian matrix */
+  virtual void JacobianInverse(const VectorType & pt, MatrixType & invJ, const MatrixType *pJ = 0) const;
+
+protected:
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+
+  virtual void PopulateEdgeIds(void);
 
 };
-
-}} // end namespace itk::fem
+}
+}  // end namespace itk::fem
 
 #endif  // #ifndef __itkFEMElement2DC0QuadraticTriangular_h

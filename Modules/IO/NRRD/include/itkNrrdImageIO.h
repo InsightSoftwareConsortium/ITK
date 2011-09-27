@@ -18,9 +18,6 @@
 #ifndef __itkNrrdImageIO_h
 #define __itkNrrdImageIO_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkImageIOBase.h"
 #include <fstream>
@@ -35,7 +32,7 @@ namespace itk
  * (teem.sourceforge.net).
  *
  *  \ingroup IOFilters
- * \ingroup ITK-IO-NRRD
+ * \ingroup ITKIONRRD
  */
 class ITK_EXPORT NrrdImageIO:public ImageIOBase
 {
@@ -80,8 +77,8 @@ public:
   virtual void Write(const void *buffer);
 
 protected:
-  NrrdImageIO() {}
-  ~NrrdImageIO() {}
+  NrrdImageIO();
+  ~NrrdImageIO();
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Utility functions for converting between enumerated data type

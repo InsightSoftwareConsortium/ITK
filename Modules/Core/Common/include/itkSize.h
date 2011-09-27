@@ -42,7 +42,7 @@ namespace itk
  *
  * \sa Index
  * \ingroup ImageObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{Images/Size,An object which holds the size of an image}
@@ -58,6 +58,9 @@ public:
   /** Compatible Size and value typedef */
   typedef   Size< VDimension > SizeType;
   typedef   itk::SizeValueType SizeValueType;
+
+  /** Dimension constant */
+  itkStaticConstMacro(Dimension, unsigned int, VDimension);
 
   /** Get the dimension of the size object. */
   static unsigned int GetSizeDimension(void) { return VDimension; }

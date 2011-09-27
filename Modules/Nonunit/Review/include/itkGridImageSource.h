@@ -51,7 +51,7 @@ namespace itk
  * http://hdl.handle.net/1926/475
  *
  * \ingroup DataSources
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< typename TOutputImage >
 class ITK_EXPORT GridImageSource:public ImageSource< TOutputImage >
@@ -174,7 +174,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGridImageSource.txx"
+#include "itkGridImageSource.hxx"
 #endif
 
 #endif

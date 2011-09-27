@@ -66,15 +66,19 @@ namespace itk
  *            define their desired behavior.
  *    1)  DirectionCollapseToIdentity();
  *            Output has identity direction no matter what
- *    2)  DirectionCollaspeToSubmatrix();
+ *    2)  DirectionCollapseToSubmatrix();
  *            Output direction is the sub-matrix if it is positive definite, else throw an exception.
  *
  * This filter is implemented as a multithreaded filter.  It provides a
  * ThreadedGenerateData() method for its implementation.
  *
  * \sa CropImageFilter
- * \ingroup GeometricTransforms
- * \ingroup ITK-Common
+ * \ingroup GeometricTransform
+ * \ingroup ITKCommon
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/ExtractImageFilter,Crop an image by specifying the region to keep}
+ * \endwiki
  */
 
 template< class TInputImage, class TOutputImage >
@@ -112,30 +116,30 @@ public:
   typedef typename TOutputImage::SizeType  OutputImageSizeType;
   typedef typename TInputImage::SizeType   InputImageSizeType;
 
-  typedef enum DirectionCollaspeStrategyEnum {
+  typedef enum DirectionCollapseStrategyEnum {
     DIRECTIONCOLLAPSETOUNKOWN=0,
-    DIRECTIONCOLLASPETOIDENTITY=1,
-    DIRECTIONCOLLASPETOSUBMATRIX=2,
-    DIRECTIONCOLLASPETOGUESS=3
-  } DIRECTIONCOLLASPESTRATEGY;
+    DIRECTIONCOLLAPSETOIDENTITY=1,
+    DIRECTIONCOLLAPSETOSUBMATRIX=2,
+    DIRECTIONCOLLAPSETOGUESS=3
+  } DIRECTIONCOLLAPSESTRATEGY;
 
 
   /**
    * Set the strategy to be used to collapse pysical space dimensions.
    *
-   * itk::itkExtractImageFilter::DIRECTIONCOLLASPETOIDENTITY
+   * itk::itkExtractImageFilter::DIRECTIONCOLLAPSETOIDENTITY
    * Set the strategy so that all collapsed images have an identity direction.
    * Use this strategy when you know that retention of the physical space
    * orientation of the collapsed image is not important.
    *
-   * itk::itkExtractImageFilter::DIRECTIONCOLLASPETOGUESS
+   * itk::itkExtractImageFilter::DIRECTIONCOLLAPSETOGUESS
    * Set the strategy so that all collapsed images where
    * output direction is the sub-matrix it it is positive definite, else
    * return identity. This is backwards compatible with ITKv3, but
    * is highly discouraged because the results are difficult to
    * anticipate under differing data scenerios.
    *
-   * itk::itkExtractImageFilter::DIRECTIONCOLLASPETOSUBMATRIX
+   * itk::itkExtractImageFilter::DIRECTIONCOLLAPSETOSUBMATRIX
    * Set the strategy so that all collapsed images where
    * output direction is the sub-matrix it it is positive definite,
    * else throw an exception.  Use this strategy when it is known
@@ -144,20 +148,20 @@ public:
    * example when the applicaiton programmer knows that a 4D image
    * is 3D+time, and that the 3D sub-space is properly defined.
    */
-  void SetDirectionCollapseToStrategy(const DIRECTIONCOLLASPESTRATEGY choosenStrategy)
+  void SetDirectionCollapseToStrategy(const DIRECTIONCOLLAPSESTRATEGY choosenStrategy)
     {
     switch(choosenStrategy)
       {
-    case DIRECTIONCOLLASPETOGUESS:
-    case DIRECTIONCOLLASPETOIDENTITY:
-    case DIRECTIONCOLLASPETOSUBMATRIX:
+    case DIRECTIONCOLLAPSETOGUESS:
+    case DIRECTIONCOLLAPSETOIDENTITY:
+    case DIRECTIONCOLLAPSETOSUBMATRIX:
       break;
     case DIRECTIONCOLLAPSETOUNKOWN:
     default:
       itkExceptionMacro( << "Invalid Strategy Choosen for itk::ExtractImageFilter" );
       }
 
-    this->m_DirectionCollaspeStrategy=choosenStrategy;
+    this->m_DirectionCollapseStrategy=choosenStrategy;
     this->Modified();
     }
 
@@ -169,27 +173,27 @@ public:
   /**
    * Get the currently set strategy for collapsing directions of physical space.
    */
-  DIRECTIONCOLLASPESTRATEGY GetDirectionCollapseToStrategy() const
+  DIRECTIONCOLLAPSESTRATEGY GetDirectionCollapseToStrategy() const
     {
-    return this->m_DirectionCollaspeStrategy;
+    return this->m_DirectionCollapseStrategy;
     }
 
   /** \sa SetDirectionCollapseToStrategy */
   void SetDirectionCollapseToGuess()
     {
-    this->SetDirectionCollapseToStrategy(DIRECTIONCOLLASPETOGUESS);
+    this->SetDirectionCollapseToStrategy(DIRECTIONCOLLAPSETOGUESS);
     }
 
   /** \sa SetDirectionCollapseToStrategy */
   void SetDirectionCollapseToIdentity()
     {
-    this->SetDirectionCollapseToStrategy(DIRECTIONCOLLASPETOIDENTITY);
+    this->SetDirectionCollapseToStrategy(DIRECTIONCOLLAPSETOIDENTITY);
     }
 
   /** \sa SetDirectionCollapseToStrategy */
   void SetDirectionCollapseToSubmatrix()
     {
-    this->SetDirectionCollapseToStrategy(DIRECTIONCOLLASPETOSUBMATRIX);
+    this->SetDirectionCollapseToStrategy(DIRECTIONCOLLAPSETOSUBMATRIX);
     }
 
 
@@ -264,12 +268,12 @@ private:
   ExtractImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);     //purposely not implemented
 
-  DIRECTIONCOLLASPESTRATEGY m_DirectionCollaspeStrategy;
+  DIRECTIONCOLLAPSESTRATEGY m_DirectionCollapseStrategy;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkExtractImageFilter.txx"
+#include "itkExtractImageFilter.hxx"
 #endif
 
 #endif

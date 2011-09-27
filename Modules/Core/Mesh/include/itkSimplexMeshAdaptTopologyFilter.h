@@ -44,7 +44,7 @@ namespace itk
  *
  * \author Thomas Boettger. Division Medical and Biological Informatics, German Cancer Research Center, Heidelberg.
  *
- * \ingroup ITK-Mesh
+ * \ingroup ITKMesh
  */
 template< class TInputMesh, class TOutputMesh >
 class ITK_EXPORT SimplexMeshAdaptTopologyFilter:public MeshToMeshFilter< TInputMesh, TOutputMesh >
@@ -96,7 +96,7 @@ public:
    * The visitor computes the area and curvature
    * of each cell and stores them in the area
    * map.
-   * \ingroup ITK-Mesh
+   * \ingroup ITKMesh
    */
   class SimplexCellVisitor
   {
@@ -315,7 +315,7 @@ protected:
 } //end of namespace
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSimplexMeshAdaptTopologyFilter.txx"
+#include "itkSimplexMeshAdaptTopologyFilter.hxx"
 #endif
 
 #endif // __itkSimplexMeshAdaptTopologyFilter_h

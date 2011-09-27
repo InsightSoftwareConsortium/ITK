@@ -40,7 +40,11 @@ namespace itk
  *         objects in an arbitrary image.  Two pixels are
  *         similar if they are within threshold of each other.
  *         Uses ConnectedComponentFunctorImageFilter.
- * \ingroup ITK-ConnectedComponents
+ * \ingroup ITKConnectedComponents
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/ScalarConnectedComponentImageFilter,Label connected components in a grayscale image}
+ * \endwiki
  */
 
 namespace Functor

@@ -1,0 +1,3 @@
+WRAP_CLASS("itk::FastMarchingImageToNodePairContainerAdaptor" POINTER)
+  WRAP_IMAGE_FILTER_REAL(3)
+END_WRAP_CLASS()

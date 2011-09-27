@@ -79,7 +79,7 @@ namespace itk
  * framework can be found in the ITK Software Guide.
  *
  * \ingroup RegistrationFilters
- * \ingroup ITK-RegistrationCommon
+ * \ingroup ITKRegistrationCommon
  */
 template< typename TFixedImage, typename TMovingSpatialObject >
 class ITK_EXPORT ImageToSpatialObjectRegistrationMethod:public ProcessObject
@@ -214,7 +214,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageToSpatialObjectRegistrationMethod.txx"
+#include "itkImageToSpatialObjectRegistrationMethod.hxx"
 #endif
 
 #endif

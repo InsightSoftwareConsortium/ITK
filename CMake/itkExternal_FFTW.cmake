@@ -84,10 +84,10 @@ else(USE_SYSTEM_FFTW)
         --prefix=${ITK_BINARY_DIR}/fftw
         )
     endif(USE_FFTWD)
-    link_directories(${ITK_BINARY_DIR}/fftw/lib)
-    include_directories(${ITK_BINARY_DIR}/fftw/include)
-    # backwards compatibility
     set(FFTW_INCLUDE_PATH ${ITK_BINARY_DIR}/fftw/include)
+    set(FFTW_LIBDIR ${ITK_BINARY_DIR}/fftw/lib)
+    link_directories(${FFTW_LIBDIR})
+    include_directories(${FFTW_INCLUDE_PATH})
     #
     # copy libraries into install tree
     install(CODE

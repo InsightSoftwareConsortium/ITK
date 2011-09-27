@@ -18,9 +18,6 @@
 #ifndef __itkHDF5ImageIOFactory_h
 #define __itkHDF5ImageIOFactory_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"
@@ -31,7 +28,7 @@ namespace itk
    * \author KEnt Williams
    * \brief Create instances of HDF5ImageIO objects using an object
    * factory.
-   * \ingroup ITK-IO-HDF5
+   * \ingroup ITKIOHDF5
    */
 class ITK_EXPORT HDF5ImageIOFactory:public ObjectFactoryBase
 {

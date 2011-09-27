@@ -18,9 +18,6 @@
 #ifndef _itkNumericSeriesFileNames_h
 #define _itkNumericSeriesFileNames_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <vector>
 #include <string>

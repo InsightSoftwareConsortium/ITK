@@ -40,7 +40,7 @@ namespace itk
   will be itk::ImageToImageFilter; and itk::QuadEdgeMeshToQuadEdgeMeshFilter
   when dealing with itk::QuadEdgeMesh
 
-  \ingroup ITK-FastMarching
+  \ingroup ITKFastMarching
   */
 template< class TInputDomain,
           class TNode,

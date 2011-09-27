@@ -40,7 +40,7 @@ namespace itk
  * \sa SymmetricEigenAnalysis
  *
  * \ingroup Numerics Deprecated
- * \ingroup ITK-Eigen
+ * \ingroup ITKEigen
  */
 
 template< class TMatrixElement, int VNumberOfRows >
@@ -131,7 +131,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSymmetricEigenSystem.txx"
+#include "itkSymmetricEigenSystem.hxx"
 #endif
 
 #endif

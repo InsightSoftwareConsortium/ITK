@@ -15,13 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-/*
-The QuickPropLearningRule is the base class for all the ErrorBackPropagationLearning strategies. These
-include error back propagation, bp+momentum, conjugte gradient descent, quick prop.
-This class specifies how the errors are backpropagated for a layer. They take a LayerBase
-object as input and compute the input for the layers input weightset
-*/
-
 #ifndef __itkQuickPropLearningRule_h
 #define __itkQuickPropLearningRule_h
 
@@ -32,6 +25,19 @@ namespace itk
 {
 namespace Statistics
 {
+/** \class QuickPropLearningRule
+ * \brief The QuickPropLearningRule is the base class for all
+ * the ErrorBackPropagationLearning strategies.
+ *
+ * ErrorBackPropagationLearning strategies include error back propagation,
+ * bp+momentum, conjugte gradient descent, and quick prop.
+ *
+ * This class specifies how the errors are backpropagated for a layer.
+ * They take a LayerBase object as input and compute the input for the
+ * layers input weightset.
+ *
+ * \ingroup ITKNeuralNetworks
+ */
 
 template<class LayerType, class TTargetVector>
 class QuickPropLearningRule : public LearningFunctionBase<LayerType, TTargetVector>
@@ -79,7 +85,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-  #include "itkQuickPropLearningRule.txx"
+  #include "itkQuickPropLearningRule.hxx"
 #endif
 
 #endif

@@ -20,6 +20,7 @@
 
 #include "itkMixtureModelComponentBase.h"
 #include "itkGaussianMembershipFunction.h"
+#include "itkSimpleDataObjectDecorator.h"
 
 namespace itk
 {
@@ -49,7 +50,7 @@ namespace Statistics
  * GetMeasurementVectorSize() to get the length.
  *
  * \sa MixtureModelComponentBase, GaussianMixtureModelComponent
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  *
  * \wiki
  * \wikiexample{Statistics/ExpectationMaximizationMixtureModelEstimator_2D,2D Gaussian Mixture Model Expectation Maximization}
@@ -163,7 +164,7 @@ public:
   ComponentMembershipFunctionType * GetComponentMembershipFunction(int componentIndex) const;
 
   /** Output Membership function vector containing the membership functions with
-    * the final optimized paramters */
+    * the final optimized parameters */
   const MembershipFunctionVectorObjectType * GetOutput() const;
 
 protected:
@@ -201,7 +202,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkExpectationMaximizationMixtureModelEstimator.txx"
+#include "itkExpectationMaximizationMixtureModelEstimator.hxx"
 #endif
 
 #endif

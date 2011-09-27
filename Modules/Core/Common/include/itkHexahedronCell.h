@@ -24,19 +24,20 @@
 namespace itk
 {
 /** \class HexahedronCell
+ *  \brief Represents a hexahedron for a Mesh.
+ *
  * HexahedronCell represents a hexahedron for a Mesh.
  *
- * Template parameters for HexahedronCell:
+ * \tparam TPixelType The type associated with a point, cell, or boundary
+ * for use in storing its data.
  *
- * TPixelType =
- *     The type associated with a point, cell, or boundary for use in storing
- *     its data.
+ * \tparam TCellTraits Type information of mesh containing cell.
  *
- * TCellTraits =
- *     Type information of mesh containing cell.
+ * \todo When reviewing this class, the documentation of the  template
+ * parameters MUST be fixed.
  *
  * \ingroup MeshObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 template< typename TCellInterface >
@@ -140,7 +141,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkHexahedronCell.txx"
+#include "itkHexahedronCell.hxx"
 #endif
 
 #endif

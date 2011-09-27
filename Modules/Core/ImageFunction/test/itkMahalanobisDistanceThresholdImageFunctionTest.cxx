@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <stdio.h>
 
@@ -69,11 +66,8 @@ int itkMahalanobisDistanceThresholdImageFunctionTest(int, char* [] )
   function->SetThreshold( threshold );
 
 
-  typedef vnl_matrix<double> CovarianceType;
-  typedef vnl_vector<double> MeanType;
-
-  CovarianceType Covariance( Dimension, Dimension );
-  MeanType  Mean( Dimension );
+  FunctionType::CovarianceMatrixType Covariance( Dimension, Dimension );
+  FunctionType::MeanVectorType  Mean( Dimension );
 
   Mean[0] = 10.0;
   Mean[1] = 20.0;

@@ -26,6 +26,11 @@ namespace itk
 {
 namespace Statistics
 {
+/** \class SquaredDifferenceErrorFunction
+ * \brief This is the itkSquaredDifferenceErrorFunction class.
+ *
+ * \ingroup ITKNeuralNetworks
+ */
 
 template<class TMeasurementVector, class ScalarType>
 class SquaredDifferenceErrorFunction : public ErrorFunctionBase<TMeasurementVector, ScalarType>
@@ -65,7 +70,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-  #include "itkSquaredDifferenceErrorFunction.txx"
+  #include "itkSquaredDifferenceErrorFunction.hxx"
 #endif
 
 

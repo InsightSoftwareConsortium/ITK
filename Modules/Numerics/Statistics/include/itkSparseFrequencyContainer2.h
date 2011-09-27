@@ -34,7 +34,7 @@ namespace Statistics
  *  This class uses an map to store histogram. If your histogram is dense
  *  use DenseHistogram.  You should access each bin by
  * (InstanceIdentifier)index or measurement vector.
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  */
 
 class ITK_EXPORT SparseFrequencyContainer2:public Object

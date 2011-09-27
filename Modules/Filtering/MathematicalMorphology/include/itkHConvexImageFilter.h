@@ -39,7 +39,7 @@ namespace itk
  * \sa GrayscaleGeodesicDilateImageFilter, HMinimaImageFilter
  * \sa MorphologyImageFilter, GrayscaleDilateImageFilter, GrayscaleFunctionDilateImageFilter, BinaryDilateImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
- * \ingroup ITK-MathematicalMorphology
+ * \ingroup ITKMathematicalMorphology
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT HConvexImageFilter:
@@ -132,7 +132,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkHConvexImageFilter.txx"
+#include "itkHConvexImageFilter.hxx"
 #endif
 
 #endif

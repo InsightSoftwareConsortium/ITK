@@ -25,9 +25,6 @@
 #ifndef __itkMINC2ImageIO_h
 #define __itkMINC2ImageIO_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkImageIOBase.h"
 
@@ -59,7 +56,7 @@ namespace itk
  *
  * \ingroup IOFilters
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 class ITK_EXPORT MINC2ImageIO:public ImageIOBase
 {

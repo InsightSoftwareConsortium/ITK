@@ -15,12 +15,14 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #ifndef __itkFEMSolution_h
 #define __itkFEMSolution_h
 
-namespace itk {
-namespace fem {
-
+namespace itk
+{
+namespace fem
+{
 /**
  * \class Solution
  * \brief Provides functions to access the values of the solution vector.
@@ -29,7 +31,7 @@ namespace fem {
  * the data is implemented in LinearSystemWrapper class.
  *
  * \sa LinearSystemWrapper
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 class Solution
 {
@@ -40,9 +42,9 @@ public:
   /** Standard "Superclass" typedef. */
   typedef Solution Superclass;
   /**  Pointer to an object. */
-  typedef Self* Pointer;
+  typedef Self *Pointer;
   /**  Const pointer to an object. */
-  typedef const Self* ConstPointer;
+  typedef const Self *ConstPointer;
 
   /** Floating point storage type used within a class */
   typedef double Float;
@@ -66,10 +68,11 @@ public:
    * Virtual destructor should properly destroy the object and clean up any
    * memory allocated for matrix and vector storage.
    */
-  virtual ~Solution() {};
-
+  virtual ~Solution()
+  {
+  }
 };
-
-}} // end namespace itk::fem
+}
+}  // end namespace itk::fem
 
 #endif // #ifndef __itkFEMSolution_h

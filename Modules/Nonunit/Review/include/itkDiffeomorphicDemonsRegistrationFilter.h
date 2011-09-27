@@ -22,7 +22,7 @@
 #include "itkESMDemonsRegistrationFunction.h"
 
 #include "itkMultiplyImageFilter.h"
-#include "itkExponentialDeformationFieldImageFilter.h"
+#include "itkExponentialDisplacementFieldImageFilter.h"
 
 namespace itk
 {
@@ -52,11 +52,11 @@ namespace itk
  *
  * The input fixed and moving images are set via methods SetFixedImage
  * and SetMovingImage respectively. An initial deformation field maybe set via
- * SetInitialDeformationField or SetInput. If no initial field is set,
+ * SetInitialDisplacementField or SetInput. If no initial field is set,
  * a zero field is used as the initial condition.
  *
  * The output deformation field can be obtained via methods GetOutput
- * or GetDeformationField.
+ * or GetDisplacementField.
  *
  * This class make use of the finite difference solver hierarchy. Update
  * for each iteration is computed in DemonsRegistrationFunction.
@@ -72,17 +72,17 @@ namespace itk
  * \sa DemonsRegistrationFilter
  * \sa DemonsRegistrationFunction
  * \ingroup DeformableImageRegistration MultiThreaded
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 class ITK_EXPORT DiffeomorphicDemonsRegistrationFilter:
   public PDEDeformableRegistrationFilter< TFixedImage, TMovingImage,
-                                          TDeformationField >
+                                          TDisplacementField >
 {
 public:
   /** Standard class typedefs. */
   typedef DiffeomorphicDemonsRegistrationFilter                                           Self;
-  typedef PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDeformationField > Superclass;
+  typedef PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField > Superclass;
   typedef SmartPointer< Self >                                                            Pointer;
   typedef SmartPointer< const Self >                                                      ConstPointer;
 
@@ -101,8 +101,12 @@ public:
   typedef typename Superclass::MovingImagePointer MovingImagePointer;
 
   /** Deformation field type. */
+  typedef typename Superclass::DisplacementFieldType    DisplacementFieldType;
+  typedef typename Superclass::DisplacementFieldPointer DisplacementFieldPointer;
+#ifdef ITKV3_COMPATIBILITY
   typedef typename Superclass::DeformationFieldType    DeformationFieldType;
   typedef typename Superclass::DeformationFieldPointer DeformationFieldPointer;
+#endif
 
   /** FiniteDifferenceFunction type. */
   typedef typename Superclass::FiniteDifferenceFunctionType FiniteDifferenceFunctionType;
@@ -112,7 +116,7 @@ public:
 
   /** DemonsRegistrationFilterFunction type. */
   typedef ESMDemonsRegistrationFunction< FixedImageType, MovingImageType,
-                                         DeformationFieldType > DemonsRegistrationFunctionType;
+                                         DisplacementFieldType > DemonsRegistrationFunctionType;
   typedef typename DemonsRegistrationFunctionType::GradientType GradientType;
 
   itkStaticConstMacro(
@@ -180,23 +184,23 @@ private:
   const DemonsRegistrationFunctionType *  DownCastDifferenceFunctionType() const;
 
   /** Exp and composition typedefs */
-  typedef MultiplyImageFilter< DeformationFieldType,
+  typedef MultiplyImageFilter< DisplacementFieldType,
     itk::Image<TimeStepType, ImageDimension>,
-    DeformationFieldType >                              MultiplyByConstantType;
+    DisplacementFieldType >                              MultiplyByConstantType;
 
-  typedef ExponentialDeformationFieldImageFilter<
-    DeformationFieldType, DeformationFieldType >        FieldExponentiatorType;
+  typedef ExponentialDisplacementFieldImageFilter<
+    DisplacementFieldType, DisplacementFieldType >        FieldExponentiatorType;
 
   typedef WarpVectorImageFilter<
-    DeformationFieldType,
-    DeformationFieldType, DeformationFieldType >        VectorWarperType;
+    DisplacementFieldType,
+    DisplacementFieldType, DisplacementFieldType >        VectorWarperType;
 
   typedef VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<
-    DeformationFieldType, double >                      FieldInterpolatorType;
+    DisplacementFieldType, double >                      FieldInterpolatorType;
 
   typedef AddImageFilter<
-    DeformationFieldType,
-    DeformationFieldType, DeformationFieldType >        AdderType;
+    DisplacementFieldType,
+    DisplacementFieldType, DisplacementFieldType >        AdderType;
 
   typedef typename MultiplyByConstantType::Pointer   MultiplyByConstantPointer;
   typedef typename FieldExponentiatorType::Pointer   FieldExponentiatorPointer;
@@ -214,7 +218,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDiffeomorphicDemonsRegistrationFilter.txx"
+#include "itkDiffeomorphicDemonsRegistrationFilter.hxx"
 #endif
 
 #endif

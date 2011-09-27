@@ -114,6 +114,9 @@ void ExtractImageFilterCopyRegion(const typename
 }
 
 /** \class ExtractImageFilterRegionCopier
+  * \brief A special variation of ImageRegionCopier for when the output image
+  *        has fewer dimensions than the input image.
+  *
   *  ExtractImageFilterRegionCopier is a special variation on ImageRegionCopier.
   *  The difference in this version is when the T1 > T2.  In this case, the
   *  output image has fewer dimension than the input image.  This only works correctly
@@ -129,7 +132,7 @@ void ExtractImageFilterCopyRegion(const typename
   *  in ImageToImageFilterDetail.
   *
   *
-  * \ingroup ITK-Common
+  * \ingroup ITKCommon
   */
 template< unsigned int T1, unsigned int T2 >
 class ITK_EXPORT ExtractImageFilterRegionCopier:

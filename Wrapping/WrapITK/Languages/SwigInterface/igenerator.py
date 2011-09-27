@@ -17,6 +17,8 @@ optionParser.add_option("--include", action="append", dest="includes", default=[
 optionParser.add_option("--take-includes", action="append", dest="take_includes", default=[], metavar="FILE", help="File which contains the include to take, and include in the generated interface file.")
 optionParser.add_option("--swig-include", action="append", dest="swig_includes", default=[], metavar="FILE", help="File to be included by swig (%include) in the generated interface file.")
 optionParser.add_option("--import", action="append", dest="imports", default=[], metavar="FILE", help="File to be imported in the generated interface file.")
+optionParser.add_option("--typedef-input", action="store", type="string", dest="typedef_input")
+optionParser.add_option("--typedef-output", action="store", type="string", dest="typedef_output")
 optionParser.add_option("-w", "--disable-warning", action="append", dest="warnings", default=[], metavar="WARNING", help="Warning to be disabled.")
 optionParser.add_option("-A", "--disable-access-warning", action="append", dest="access_warnings", default=[], metavar="LEVEL", help="Access level where warnings are disabled (public, protected, private).")
 optionParser.add_option("-W", "--warning-error", action="store_true", dest="warningError", help="Treat warnings as errors.")
@@ -300,6 +302,24 @@ def load_idx(file_name):
     # print >> outputFile, "typedef %s %s;" % (full_name, alias)
   f.close()
 
+mdx_loaded = set()
+def load_mdx(file_name):
+  if file_name in mdx_loaded:
+    # already loaded - no need to do it again
+    return
+  mdx_loaded.add( file_name )
+  f = file( file_name )
+  ls = f.readlines()
+  f.close()
+  for l in ls :
+    if l.startswith( '%' ) or l.isspace():
+      # exclude the lines which are starting with % - that's not the idx files
+      pass
+    elif l.strip().endswith(".mdx"):
+      load_mdx(os.path.dirname(file_name)+os.sep+l.strip())
+    else:
+      load_idx(os.path.dirname(file_name)+os.sep+l.strip())
+
 
 def normalize(name):
   name = name.replace("short unsigned int", "unsigned short")
@@ -488,7 +508,7 @@ cable_ns = global_ns.namespace('_cable_')
 wrappers_ns = cable_ns.namespace('wrappers')
 # pygccxml.declarations.print_declarations( global_ns )
 
-
+moduleName = cable_ns.variable('group').value[len('(const char*)"'):-1]
 
 # and begin to write the output
 headerFile = cStringIO.StringIO()
@@ -502,7 +522,7 @@ print >> headerFile
 # [1:-1] is there to drop the quotes
 for lang in ["CHICKEN", "CSHARP", "GUILE", "JAVA", "LUA", "MODULA3", "MZSCHEME", "OCAML", "PERL", "PERL5", "PHP", "PHP4", "PHP5", "PIKE", "PYTHON", "R", "RUBY", "SEXP", "TCL", "XML"]:
   print >> headerFile, "#ifdef SWIG%s" % lang
-  print >> headerFile, "%%module %s%s" % ( cable_ns.variable('group').value[len('(const char*)"'):-1], lang.title() )
+  print >> headerFile, "%%module %s%s" % ( moduleName, lang.title() )
   print >> headerFile, "#endif"
 print >> headerFile
 
@@ -536,13 +556,8 @@ print >> headerFile, "%{"
 for f in options.idx:
   load_idx(f)
 # and the idx files in the mdx ones
-for file_name in options.mdx:
-  f = file( file_name )
-  for l in f :
-    # exclude the lines which are starting with % - that's not the idx files
-    if not l.startswith( '%' ) and not l.isspace():
-      load_idx(os.path.dirname(file_name)+os.sep+l.strip())
-  f.close()
+for f in options.mdx:
+  load_mdx(f)
 # iterate over all the typedefs in the _cable_::wrappers namespace
 # to fill the alias dict
 for typedef in wrappers_ns.typedefs(): #allow_empty=True):
@@ -629,16 +644,33 @@ usedSources = set()
 for alias in usedTypes:
   if typedefSource.has_key( alias ):
     idxName = os.path.basename( typedefSource[ alias ] )
-    iName = idxName[:-len(".idx")] + ".i"
+    iName = idxName[:-len(".idx")]
     usedSources.add( iName )
 outputFileName = os.path.basename( args[1] )
 if outputFileName in usedSources:
   usedSources.remove( outputFileName )
 # print usedSources
 for src in usedSources:
-  print >> importFile, "%%import %s" % src
+  print >> importFile, "%%import %s.i" % src
 print >> importFile
 print >> importFile
+
+
+# create the typedef header
+if options.typedef_output:
+  typedefFile = cStringIO.StringIO()
+  print >> typedefFile, "#ifndef __%sSwigInterface_h" % moduleName
+  print >> typedefFile, "#define __%sSwigInterface_h" % moduleName
+  if options.typedef_input:
+    f = file(options.typedef_input)
+    print >> typedefFile, f.read()
+    f.close()
+  for src in usedSources:
+    print >> typedefFile, '#include "%sSwigInterface.h"' % src
+  print >> typedefFile, "#endif"
+  f = file(options.typedef_output, "w")
+  f.write( typedefFile.getvalue() )
+  f.close()
 
 
 # finally, really write the output

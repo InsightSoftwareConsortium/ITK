@@ -27,7 +27,7 @@ namespace itk
  * \brief Wrap of the vnl_lbfgs algorithm
  *
  * \ingroup Numerics Optimizers
- * \ingroup ITK-Optimizers
+ * \ingroup ITKOptimizers
  */
 class ITK_EXPORT LBFGSOptimizer:
   public SingleValuedNonLinearVnlOptimizer

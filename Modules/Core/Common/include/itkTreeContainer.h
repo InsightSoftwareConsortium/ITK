@@ -24,18 +24,15 @@
 namespace itk
 {
 /** \class TreeContainer
- *  \brief TreeContainer class
+ *  \brief A tree container.
  *
  * This class derives from the TreeContainerBase class.
- *
  * The class is templated over the type of the elements.
  *
- * Template parameters for class TreeContainer:
- *
- * - TValueType = Element type stored at each location in the Tree.
+ * \tparam TValueType Element type stored at each location in the Tree.
  *
  * \ingroup DataRepresentation
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TValueType >
 class TreeContainer:public TreeContainerBase< TValueType >
@@ -135,7 +132,7 @@ protected:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkTreeContainer.txx"
+#include "itkTreeContainer.hxx"
 #endif
 
 #endif

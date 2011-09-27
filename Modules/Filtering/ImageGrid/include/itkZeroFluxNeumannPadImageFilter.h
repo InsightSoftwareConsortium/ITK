@@ -20,6 +20,8 @@
 
 #include "itkPadImageFilter.h"
 
+#include "itkZeroFluxNeumannBoundaryCondition.h"
+
 namespace itk
 {
 
@@ -51,8 +53,8 @@ namespace itk
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
- * \ingroup GeometricTransforms
- * \ingroup ITK-ImageGrid
+ * \ingroup GeometricTransform
+ * \ingroup ITKImageGrid
  * \sa WrapPadImageFilter, MirrorPadImageFilter, ConstantPadImageFilter, ZeroFluxNeumannBoundaryCondition
  */
 template< class TInputImage, class TOutputImage >
@@ -109,40 +111,19 @@ public:
 #endif
 
 protected:
-  ZeroFluxNeumannPadImageFilter() {};
+  ZeroFluxNeumannPadImageFilter();
   ~ZeroFluxNeumannPadImageFilter() {};
-
-  /** PadImageFilter can be implemented as a multithreaded filter.  Therefore,
-   * this implementation provides a ThreadedGenerateData() routine which
-   * is called for each processing thread. The output image data is allocated
-   * automatically by the superclass prior to calling ThreadedGenerateData().
-   * ThreadedGenerateData can only write to the portion of the output image
-   * specified by the parameter "outputRegionForThread"
-   *
-   * \sa ImageToImageFilter::ThreadedGenerateData(),
-   *     ImageToImageFilter::GenerateData() */
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                            ThreadIdType threadId );
-
-  /**
-   * Given an n dimensional list of output region breakpoints in indices
-   * and size (where the current region and maximum region for each dimension
-   * is encoded in regIndices and regLimit), choose the next output region.
-   */
-  int GenerateNextRegion(long *regIndices, long *regLimit,
-                         OutputImageIndexType *indices,
-                         OutputImageSizeType *sizes,
-                         OutputImageRegionType& outputRegion);
 
 private:
   ZeroFluxNeumannPadImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
+  ZeroFluxNeumannBoundaryCondition< TInputImage > m_InternalBoundaryCondition;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkZeroFluxNeumannPadImageFilter.txx"
+#include "itkZeroFluxNeumannPadImageFilter.hxx"
 #endif
 
 #endif

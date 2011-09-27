@@ -30,8 +30,7 @@ namespace itk
  *
  * The kernel used in this variant of TPS is \f$ R^2 log(R) \f$
  *
- * \ingroup Transforms
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  */
 template< class TScalarType,         // Data type for scalars (float or double)
           unsigned int NDimensions = 3 >
@@ -64,8 +63,6 @@ public:
   /** Dimension of the domain space. */
   itkStaticConstMacro(SpaceDimension, unsigned int, Superclass::SpaceDimension);
 
-  /** These (rather redundant) typedefs are needed because on SGI, typedefs
-   * are not inherited */
   typedef typename Superclass::InputPointType            InputPointType;
   typedef typename Superclass::OutputPointType           OutputPointType;
   typedef typename Superclass::InputVectorType           InputVectorType;
@@ -77,10 +74,7 @@ protected:
   ThinPlateR2LogRSplineKernelTransform() {}
   virtual ~ThinPlateR2LogRSplineKernelTransform() {}
 
-  /** These (rather redundant) typedefs are needed because on SGI, typedefs
-   * are not inherited. */
   typedef typename Superclass::GMatrixType GMatrixType;
-
   /** Compute G(x)
    * For the thin plate spline, this is:
    * G(x) = r(x)*I
@@ -121,7 +115,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkThinPlateR2LogRSplineKernelTransform.txx"
+#include "itkThinPlateR2LogRSplineKernelTransform.hxx"
 #endif
 
 #endif // __itkThinPlateR2LogRSplineKernelTransform_h

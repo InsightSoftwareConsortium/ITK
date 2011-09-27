@@ -99,7 +99,7 @@ namespace itk
  * \sa SparseFieldLevelSetImageFilter
  *
  * \ingroup LevelSetSegmentation
- * \ingroup ITK-LevelSets
+ * \ingroup ITKLevelSets
  */
 template< class TInputImage,
           class TFeatureImage,
@@ -170,7 +170,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGeodesicActiveContourLevelSetImageFilter.txx"
+#include "itkGeodesicActiveContourLevelSetImageFilter.hxx"
 #endif
 
 #endif

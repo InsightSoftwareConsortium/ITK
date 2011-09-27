@@ -1,3 +1,3 @@
-project(ITK-IO-Siemens)
-set(ITK-IO-Siemens_LIBRARIES ITK-IO-Siemens)
+project(ITKIOSiemens)
+set(ITKIOSiemens_LIBRARIES ITKIOSiemens)
 itk_module_impl()

@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkArray.h"
 #include "itkVariableLengthVector.h"
@@ -182,7 +179,6 @@ int itkSubsampleTest2( int, char * [] )
 
   // Testing methods specific to Iterators
     {
-    typedef CascadedSubsampleType::Iterator IteratorType;
     IteratorType iter7 = subSample2->Begin();
     IteratorType iter8 = subSample2->End();
 
@@ -247,7 +243,6 @@ int itkSubsampleTest2( int, char * [] )
 
   // Testing methods specific to ConstIterators
     {
-    typedef CascadedSubsampleType::ConstIterator ConstIteratorType;
     ConstIteratorType iter11 = subSample2->Begin();
     ConstIteratorType iter12 = subSample2->End();
 

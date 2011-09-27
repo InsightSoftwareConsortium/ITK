@@ -31,13 +31,13 @@ namespace itk
  * This class encapsulate the PDE which drives the demons registration
  * algorithm (formula (5) in J.-P. Thirions's paper "Fast Non-Rigid Matching of
  * 3D MEdical Images", May 1995). It is used by SymmetricForcesDemonsRegistrationFilter
- * to compute the output deformation field which will map a moving image onto a
+ * to compute the output displacement field which will map a moving image onto a
  * a fixed image.
  *
  * This class was contributed by Corinne Mattmann, ETH Zurich, Switzerland.
  * based on a variation of the DemonsRegistrationFunction. The basic modification
  * is to use equation (5) from Thirion's paper along with the modification for
- * avoiding large deformations when gradients have small values.
+ * avoiding large displacements when gradients have small values.
  *
  * Non-integer moving image values are obtained by using
  * interpolation. The default interpolator is of type
@@ -46,27 +46,27 @@ namespace itk
  * interpolator must derive from baseclass InterpolateImageFunction.
  *
  * This class is templated over the fixed image type, moving image type,
- * and the deformation field type.
+ * and the displacement field type.
  *
  * \warning This filter assumes that the fixed image type, moving image type
- * and deformation field type all have the same number of dimensions.
+ * and displacement field type all have the same number of dimensions.
  *
  * \sa SymmetricForcesDemonsRegistrationFilter
  * \sa DemonsRegistrationFilter
  * \sa DemonsRegistrationFunction
  * \ingroup FiniteDifferenceFunctions
- * \ingroup ITK-PDEDeformableRegistration
+ * \ingroup ITKPDEDeformableRegistration
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 class ITK_EXPORT SymmetricForcesDemonsRegistrationFunction:
   public PDEDeformableRegistrationFunction< TFixedImage,
-                                            TMovingImage, TDeformationField >
+                                            TMovingImage, TDisplacementField >
 {
 public:
   /** Standard class typedefs. */
   typedef SymmetricForcesDemonsRegistrationFunction Self;
   typedef PDEDeformableRegistrationFunction< TFixedImage,
-                                             TMovingImage, TDeformationField >
+                                             TMovingImage, TDisplacementField >
   Superclass;
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
@@ -90,9 +90,9 @@ public:
   typedef typename FixedImageType::SpacingType   SpacingType;
 
   /** Deformation field type. */
-  typedef typename Superclass::DeformationFieldType DeformationFieldType;
-  typedef typename Superclass::DeformationFieldTypePointer
-  DeformationFieldTypePointer;
+  typedef typename Superclass::DisplacementFieldType DisplacementFieldType;
+  typedef typename Superclass::DisplacementFieldTypePointer
+  DisplacementFieldTypePointer;
 
   /** Inherit some enums from the superclass. */
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
@@ -160,7 +160,7 @@ public:
   virtual double GetMetric() const
   { return m_Metric; }
 
-  /** Get the rms change in deformation field. */
+  /** Get the rms change in displacement field. */
   virtual const double & GetRMSChange() const
   { return m_RMSChange; }
 
@@ -229,7 +229,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSymmetricForcesDemonsRegistrationFunction.txx"
+#include "itkSymmetricForcesDemonsRegistrationFunction.hxx"
 #endif
 
 #endif

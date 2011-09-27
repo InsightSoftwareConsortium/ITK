@@ -26,6 +26,11 @@ namespace itk
 {
 namespace Statistics
 {
+/** \class ProductInputFunction
+ * \brief This is the itkProductInputFunction class.
+ *
+ * \ingroup ITKNeuralNetworks
+ */
 
 template<class TMeasurementVector, class ScalarType>
 class ProductInputFunction : public InputFunctionBase<TMeasurementVector, ScalarType>
@@ -60,7 +65,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-  #include "itkProductInputFunction.txx"
+  #include "itkProductInputFunction.hxx"
 #endif
 
 #endif

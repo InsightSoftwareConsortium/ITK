@@ -39,8 +39,8 @@ namespace itk
  * RealImageType.
  *
  * \ingroup IntensityImageFilters
- * \ingroup Singlethreaded
- * \ingroup ITK-Smoothing
+ * \ingroup SingelThreaded
+ * \ingroup ITKSmoothing
  *
  * \wiki
  * \wikiexample{Smoothing/SmoothingRecursiveGaussianImageFilter,Gaussian smoothing that works with image adaptors}
@@ -188,7 +188,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSmoothingRecursiveGaussianImageFilter.txx"
+#include "itkSmoothingRecursiveGaussianImageFilter.hxx"
 #endif
 
 #endif

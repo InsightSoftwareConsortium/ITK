@@ -32,7 +32,7 @@ namespace itk
  * \sa NeighborhoodIterator
  *
  * \ingroup IntensityImageFilters
- * \ingroup ITK-LabelVoting
+ * \ingroup ITKLabelVoting
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT VotingBinaryImageFilter:
@@ -152,7 +152,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVotingBinaryImageFilter.txx"
+#include "itkVotingBinaryImageFilter.hxx"
 #endif
 
 #endif

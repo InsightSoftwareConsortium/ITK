@@ -60,7 +60,7 @@ class IndexLexicographicCompare;
  *
  * \ingroup ImageAccess
  * \ingroup ImageObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{SimpleOperations/DistanceBetweenIndices,Distance between two indices}
@@ -78,6 +78,9 @@ public:
   /** Compatible Index and value typedef */
   typedef   Index< VIndexDimension > IndexType;
   typedef   ::itk::IndexValueType    IndexValueType;
+
+  /** Dimension constant */
+  itkStaticConstMacro(Dimension, unsigned int, VIndexDimension);
 
   /** Get the dimension (size) of the index. */
   static unsigned int GetIndexDimension() { return VIndexDimension; }
@@ -322,7 +325,7 @@ namespace Functor
  * This is a comparison functor suitable for storing Index instances
  * in an STL container.  The ordering is total and unique but has
  * little geometric meaning.
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< unsigned int VIndexDimension >
 class IndexLexicographicCompare

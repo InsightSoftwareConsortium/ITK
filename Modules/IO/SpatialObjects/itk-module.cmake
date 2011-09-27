@@ -1,8 +1,17 @@
-itk_module(ITK-IO-SpatialObjects
+set(DOCUMENTATION "This module contains classes for reading and writing
+SpatialObjects as opposed to general images.  The SpatialObjects are written in
+<a
+href=\"http://www.vtk.org/Wiki/MetaIO/Documentation#Spatial_Objects\">MetaIO</a>
+format.")
+
+
+itk_module(ITKIOSpatialObjects
   DEPENDS
-    ITK-SpatialObjects
-    ITK-IO-XML
-    ITK-IO-Base
+    ITKSpatialObjects
+    ITKIOXML
+    ITKIOBase
   TEST_DEPENDS
-    ITK-TestKernel
+    ITKTestKernel
+  DESCRIPTION
+    "${DOCUMENTATION}"
 )

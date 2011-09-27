@@ -15,26 +15,49 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #ifndef __itkFEMElement3DC0LinearTetrahedronStrain_h
 #define __itkFEMElement3DC0LinearTetrahedronStrain_h
 
 #include "itkFEMElement3DC0LinearTetrahedron.h"
 #include "itkFEMElement3DStrain.h"
 
-namespace itk {
-namespace fem {
-
+namespace itk
+{
+namespace fem
+{
 /**
  * \class Element3DC0LinearTetrahedronStrain
  * \brief 4-noded finite element class in 3D space for linear elasticity problem
- * \ingroup ITK-FEM
+ *
+ * This class combines the geometry of the FE problem defined in
+ * \link Element3DC0LinearTetrahedron\endlink
+ * and the physics of the problem defined in
+ * \link Element3DStrain\endlink
+ *
+ * \sa Element3DC0LinearTetrahedronMembrane
+ * \ingroup ITKFEM
  */
 class Element3DC0LinearTetrahedronStrain : public Element3DStrain<Element3DC0LinearTetrahedron>
 {
-FEM_CLASS(Element3DC0LinearTetrahedronStrain,Element3DStrain<Element3DC0LinearTetrahedron>)
 public:
+  /** Standard class typedefs. */
+  typedef Element3DC0LinearTetrahedronStrain            Self;
+  typedef Element3DStrain<Element3DC0LinearTetrahedron> Superclass;
+  typedef SmartPointer<Self>                            Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
 
-  HANDLE_ELEMENT_LOADS();
+  /** Method for creation through the object factory. */
+  itkSimpleNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Element3DC0LinearTetrahedronStrain, Element3DStrain<Element3DC0LinearTetrahedron> );
+
+  /**
+   * CreateAnother method will clone the existing instance of this type,
+   * including its internal member variables.
+   */
+  virtual::itk::LightObject::Pointer CreateAnother(void) const;
 
   /**
    * Default constructor only clears the internal storage
@@ -45,14 +68,13 @@ public:
    * Construct an element by specifying pointers to
    * an array of 4 points and a material.
    */
-  Element3DC0LinearTetrahedronStrain(
-      NodeIDType ns_[],
-      Material::ConstPointer p_ );
+  Element3DC0LinearTetrahedronStrain(NodeIDType ns_[], Material::ConstPointer p_);
+protected:
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
-}; // class Element3DC0LinearTetrahedronStrain
+};  // class Element3DC0LinearTetrahedronStrain
 
-FEM_CLASS_INIT(Element3DC0LinearTetrahedronStrain)
-
-}} // end namespace itk::fem
+}
+}  // end namespace itk::fem
 
 #endif  // #ifndef __itkFEMElement3DC0LinearTetrahedronStrain_h

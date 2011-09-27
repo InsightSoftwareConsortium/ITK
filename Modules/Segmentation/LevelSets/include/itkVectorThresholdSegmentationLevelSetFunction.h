@@ -52,7 +52,7 @@ namespace itk
  *  \sa SegmentationLevelSetImageFunction
  *  \sa ThresholdSegmentationLevelSetImageFilter
  *  \sa MahalanobisDistanceMembershipFunction
- * \ingroup ITK-LevelSets
+ * \ingroup ITKLevelSets
  */
 template< class TImageType, class TFeatureImageType >
 class ITK_EXPORT VectorThresholdSegmentationLevelSetFunction:
@@ -128,8 +128,8 @@ protected:
     MeanVectorType       mean(NumberOfComponents);
     CovarianceMatrixType covariance(NumberOfComponents, NumberOfComponents);
 
-    mean.fill(NumericTraits< ITK_TYPENAME FeatureScalarType::ValueType >::Zero);
-    covariance.fill(NumericTraits< ITK_TYPENAME FeatureScalarType::ValueType >::Zero);
+    mean.Fill(NumericTraits< typename FeatureScalarType::ValueType >::Zero);
+    covariance.Fill(NumericTraits< typename FeatureScalarType::ValueType >::Zero);
 
     m_Mahalanobis = MahalanobisFunctionType::New();
     m_Mahalanobis->SetMean(mean);
@@ -161,7 +161,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVectorThresholdSegmentationLevelSetFunction.txx"
+#include "itkVectorThresholdSegmentationLevelSetFunction.hxx"
 #endif
 
 #endif

@@ -36,8 +36,8 @@ namespace itk
  *
  * The filter expect both images to have the same number of dimensions.
  *
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-Thresholding
+ * \ingroup IntensityImageFilters  MultiThreaded
+ * \ingroup ITKThresholding
  */
 namespace Functor
 {
@@ -212,7 +212,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkThresholdLabelerImageFilter.txx"
+#include "itkThresholdLabelerImageFilter.hxx"
 #endif
 
 #endif

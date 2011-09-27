@@ -15,14 +15,11 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkVariableLengthVector.h"
 #include "itkListSample.h"
 #include "itkSampleClassifierFilter.h"
-#include "itkMaximumDecisionRule2.h"
+#include "itkMaximumDecisionRule.h"
 #include "itkGaussianMembershipFunction.h"
 #include "itkNormalVariateGenerator.h"
 
@@ -60,8 +57,8 @@ int itkSampleClassifierFilterTest2( int, char * [] )
 
   typedef itk::Statistics::GaussianMembershipFunction< MeasurementVectorType >
                                                                MembershipFunctionType;
-  typedef MembershipFunctionType::MeanType                     MeanType;
-  typedef MembershipFunctionType::CovarianceType               CovarianceType;
+  typedef MembershipFunctionType::MeanVectorType                     MeanVectorType;
+  typedef MembershipFunctionType::CovarianceMatrixType               CovarianceMatrixType;
 
   typedef MembershipFunctionType::Pointer                      MembershipFunctionPointer;
 
@@ -76,12 +73,12 @@ int itkSampleClassifierFilterTest2( int, char * [] )
 
   MembershipFunctionPointer membershipFunction1 = MembershipFunctionType::New();
   membershipFunction1->SetMeasurementVectorSize( numberOfComponents );
-  MeanType  mean1;
-  itk::NumericTraits<MeanType>::SetLength( mean1, numberOfComponents );
+  MeanVectorType  mean1;
+  itk::NumericTraits<MeanVectorType>::SetLength( mean1, numberOfComponents );
   mean1[0] = 10.5;
 
   membershipFunction1->SetMean( mean1 );
-  CovarianceType covariance1;
+  CovarianceMatrixType covariance1;
   covariance1.SetSize( numberOfComponents, numberOfComponents );
   covariance1.SetIdentity();
   covariance1[0][0] = 0.5;
@@ -91,12 +88,12 @@ int itkSampleClassifierFilterTest2( int, char * [] )
   MembershipFunctionPointer membershipFunction2 = MembershipFunctionType::New();
   membershipFunction1->SetMeasurementVectorSize( numberOfComponents );
 
-  MeanType  mean2;
-  itk::NumericTraits<MeanType>::SetLength( mean2, numberOfComponents );
+  MeanVectorType  mean2;
+  itk::NumericTraits<MeanVectorType>::SetLength( mean2, numberOfComponents );
   mean2[0] = 200.5;
   membershipFunction2->SetMean( mean2 );
 
-  CovarianceType covariance2;
+  CovarianceMatrixType covariance2;
   covariance2.SetSize( numberOfComponents, numberOfComponents );
   covariance2.SetIdentity();
   covariance2[0][0] = 0.5;
@@ -115,7 +112,7 @@ int itkSampleClassifierFilterTest2( int, char * [] )
   classLabelVector.push_back( class2 );
 
   //Set a decision rule type
-  typedef itk::Statistics::MaximumDecisionRule2  DecisionRuleType;
+  typedef itk::Statistics::MaximumDecisionRule  DecisionRuleType;
 
   DecisionRuleType::Pointer    decisionRule = DecisionRuleType::New();
   filter->SetDecisionRule( decisionRule );

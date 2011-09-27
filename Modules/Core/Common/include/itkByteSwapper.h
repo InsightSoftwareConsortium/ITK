@@ -43,7 +43,7 @@ namespace itk
  *
  * \ingroup IOFilters
  * \ingroup OSSystemObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 template< class T >
@@ -166,7 +166,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkByteSwapper.txx"
+#include "itkByteSwapper.hxx"
 #endif
 
 #endif

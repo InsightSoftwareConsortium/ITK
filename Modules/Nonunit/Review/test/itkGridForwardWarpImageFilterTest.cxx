@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkImage.h"
 #include "itkVector.h"
@@ -34,11 +31,11 @@ int itkGridForwardWarpImageFilterTest(int, char* [] )
   typedef unsigned char                           OutputPixelType;
 
   // Declare the types of the images
-  typedef itk::Image<DeformationPixelType, ImageDimension>  DeformationFieldType;
+  typedef itk::Image<DeformationPixelType, ImageDimension>  DisplacementFieldType;
   typedef itk::Image<OutputPixelType, ImageDimension>       OutputImageType;
 
   // Declare Iterator types apropriated for each image
-  typedef itk::ImageRegionIteratorWithIndex< DeformationFieldType >  DeformationIteratorType;
+  typedef itk::ImageRegionIteratorWithIndex< DisplacementFieldType >  DeformationIteratorType;
   typedef itk::ImageRegionIteratorWithIndex< OutputImageType >  OutputIteratorType;
 
 
@@ -52,7 +49,7 @@ int itkGridForwardWarpImageFilterTest(int, char* [] )
   typedef itk::ImageRegion<ImageDimension>   RegionType;
 
   // Create two images
-  DeformationFieldType ::Pointer inputDeformationField  = DeformationFieldType ::New();
+  DisplacementFieldType ::Pointer inputDisplacementField  = DisplacementFieldType ::New();
 
   // Define their size, and start index
   SizeType size;
@@ -70,14 +67,14 @@ int itkGridForwardWarpImageFilterTest(int, char* [] )
   region.SetSize( size );
 
   // Initialize Image A
-  inputDeformationField->SetLargestPossibleRegion( region );
-  inputDeformationField->SetBufferedRegion( region );
-  inputDeformationField->SetRequestedRegion( region );
-  inputDeformationField->Allocate();
+  inputDisplacementField->SetLargestPossibleRegion( region );
+  inputDisplacementField->SetBufferedRegion( region );
+  inputDisplacementField->SetRequestedRegion( region );
+  inputDisplacementField->Allocate();
 
   // Create one iterator for the Input Image (this is a light object)
-  DeformationIteratorType it( inputDeformationField,
-                              inputDeformationField->GetBufferedRegion() );
+  DeformationIteratorType it( inputDisplacementField,
+                              inputDisplacementField->GetBufferedRegion() );
 
   // Initialize the content of Image A
   DeformationPixelType vectorValue;
@@ -93,7 +90,7 @@ int itkGridForwardWarpImageFilterTest(int, char* [] )
 
   // Declare the type for the Log filter
   typedef itk::GridForwardWarpImageFilter<
-    DeformationFieldType, OutputImageType  >   FilterType;
+    DisplacementFieldType, OutputImageType  >   FilterType;
 
 
   // Create one Filter
@@ -101,7 +98,7 @@ int itkGridForwardWarpImageFilterTest(int, char* [] )
 
 
   // Connect the input images
-  filter->SetInput( inputDeformationField );
+  filter->SetInput( inputDisplacementField );
 
   // Execute the filter
   filter->Update();

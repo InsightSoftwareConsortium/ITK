@@ -19,6 +19,7 @@
 #define __itkSpatialObjectWriter_h
 
 #include "itkMetaSceneConverter.h"
+#include "itkMetaConverterBase.h"
 #include "itkSpatialObject.h"
 
 namespace itk
@@ -26,7 +27,7 @@ namespace itk
 /** \class SpatialObjectWriter
  *
  * \brief TODO
- * \ingroup ITK-IO-SpatialObjects
+ * \ingroup ITKIOSpatialObjects
  */
 template< unsigned int NDimensions = 3,
           typename PixelType = unsigned char,
@@ -45,6 +46,11 @@ public:
   typedef SpatialObject< NDimensions >        SpatialObjectType;
   typedef typename SpatialObjectType::Pointer SpatialObjectPointer;
   typedef SceneSpatialObject< NDimensions >   SceneType;
+
+  /** base type for MetaConverters -- bidirections conversion btw
+   *  SpatialObject & MetaObject
+   */
+  typedef MetaConverterBase< NDimensions >  MetaConverterBaseType;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
@@ -77,6 +83,11 @@ public:
   /** Set/Get if the images should be written in a different file */
   itkSetMacro(WriteImagesInSeparateFile, bool);
   itkGetConstMacro(WriteImagesInSeparateFile, bool);
+
+  /** Add a converter for a new MetaObject/SpatialObject type */
+  void RegisterMetaConverter(const char *metaTypeName,
+                             const char *spatialObjectTypeName,
+                             MetaConverterBaseType *converter);
 protected:
   SpatialObjectWriter(const Self &); //purposely not implemented
   void operator=(const Self &);      //purposely not implemented
@@ -98,7 +109,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSpatialObjectWriter.txx"
+#include "itkSpatialObjectWriter.hxx"
 #endif
 
 #endif // __itkSpatialObjectWriter_h

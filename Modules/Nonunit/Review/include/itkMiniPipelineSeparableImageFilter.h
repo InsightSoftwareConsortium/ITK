@@ -43,7 +43,7 @@ namespace itk
  *
  * \author Gaetan Lehmann
  * \author Richard Beare
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 
 template< class TInputImage, class TOutputImage, class TFilter >
@@ -111,7 +111,7 @@ private:
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMiniPipelineSeparableImageFilter.txx"
+#include "itkMiniPipelineSeparableImageFilter.hxx"
 #endif
 
 #endif

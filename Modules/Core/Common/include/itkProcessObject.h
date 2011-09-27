@@ -36,7 +36,7 @@
 namespace itk
 {
 /** \class ProcessObject
- * \brief ProcessObject is the base class for all process objects (source,
+ * \brief The base class for all process objects (source,
  *        filters, mappers) in the Insight data processing pipeline.
  *
  * ProcessObject is an abstract object that specifies behavior and
@@ -89,7 +89,7 @@ namespace itk
  * \ingroup ITKSystemObjects
  * \ingroup DataProcessing
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 class ITKCommon_EXPORT ProcessObject:public Object
 {
@@ -297,7 +297,33 @@ public:
 protected:
   ProcessObject();
   ~ProcessObject();
+
   void PrintSelf(std::ostream & os, Indent indent) const;
+
+  /** \brief Verifies that the process object has been configured
+   * correctly, that all required inputs are set, and needed parameters
+   * are set appropriately. If not valid an exceptions will be thrown.
+   *
+   * This method is called before UpdateOutputInformation is
+   * propagated to the inputs.
+   *
+   * The ProcessObject's implementation verifies that the
+   * NumberOfRequiredInputs are set and not null.
+   *
+   */
+  virtual void VerifyPreconditions();
+
+  /** \brief Verifies that the inputs meta-data is consistent and valid
+   * for continued execution of the pipeline, throws an exception if
+   * not valid.
+   *
+   * This method is called imediately before GenerateOutputInformation().
+   *
+   * The ProcessObject implementation does nothing. Subclasses might
+   * check if all the inputs are in the same coordinate frame.
+   *
+   */
+  virtual void VerifyInputInformation();
 
   /** Protected methods for setting inputs.
    * Subclasses make use of them for setting input. */

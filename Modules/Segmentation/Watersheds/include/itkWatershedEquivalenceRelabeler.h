@@ -47,7 +47,7 @@ namespace watershed
  * \ingroup WatershedSegmentation
  * \sa itk::WatershedImageFilter
  * \sa EquivalencyTable
- * \ingroup ITK-Watersheds
+ * \ingroup ITKWatersheds
  */
 template< class TScalarType, unsigned int TImageDimension >
 class ITK_EXPORT EquivalenceRelabeler:
@@ -133,7 +133,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkWatershedEquivalenceRelabeler.txx"
+#include "itkWatershedEquivalenceRelabeler.hxx"
 #endif
 
 #endif

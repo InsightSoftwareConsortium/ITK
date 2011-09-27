@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkWarpMeshFilter.h"
 #include "itkRegularSphereMeshSource.h"
@@ -30,13 +27,13 @@ int itkWarpMeshFilterTest(int, char* [] )
   // Declare the type of the input and output mesh
   typedef itk::DefaultStaticMeshTraits<
     double, Dimension, Dimension, double, double, double> MeshTraits;
-  typedef itk::Mesh<double,Dimension,MeshTraits> MeshType;
+  typedef itk::Mesh<double,Dimension,MeshTraits>          MeshType;
 
 
   // declare triangle mesh source
   typedef itk::RegularSphereMeshSource< MeshType >  SphereMeshSourceType;
-  typedef SphereMeshSourceType::PointType PointType;
-  typedef SphereMeshSourceType::VectorType VectorType;
+  typedef SphereMeshSourceType::PointType           PointType;
+  typedef SphereMeshSourceType::VectorType          VectorType;
 
   SphereMeshSourceType::Pointer  sphereMeshSource = SphereMeshSourceType::New();
 
@@ -56,35 +53,35 @@ int itkWarpMeshFilterTest(int, char* [] )
 
 
   // Declare the deformation field
-  typedef itk::Vector< double, Dimension> VectorType;
-  typedef itk::Image< VectorType, Dimension > DeformationFieldType;
+  typedef itk::Vector< double, Dimension>     VectorType;
+  typedef itk::Image< VectorType, Dimension > DisplacementFieldType;
 
-  DeformationFieldType::Pointer deformationField = DeformationFieldType::New();
+  DisplacementFieldType::Pointer deformationField = DisplacementFieldType::New();
 
-  DeformationFieldType::IndexType  start;
+  DisplacementFieldType::IndexType  start;
   start[0] = 0;
   start[1] = 0;
   start[2] = 0;
 
-  DeformationFieldType::SizeType   size;
+  DisplacementFieldType::SizeType   size;
   size[0] = 25;
   size[1] = 25;
   size[2] = 25;
 
-  DeformationFieldType::RegionType region;
+  DisplacementFieldType::RegionType region;
   region.SetSize( size );
   region.SetIndex( start );
 
   deformationField->SetRegions( region );
 
-  DeformationFieldType::PointType  origin;
+  DisplacementFieldType::PointType  origin;
   origin[0] = 0.0;
   origin[1] = 0.0;
   origin[2] = 0.0;
 
   deformationField->SetOrigin( origin );
 
-  DeformationFieldType::SpacingType  spacing;
+  DisplacementFieldType::SpacingType  spacing;
   spacing[0] = 2.0;
   spacing[1] = 2.0;
   spacing[2] = 2.0;
@@ -102,14 +99,14 @@ int itkWarpMeshFilterTest(int, char* [] )
 
   // Declare the Warping filter
   typedef itk::WarpMeshFilter<
-            MeshType, MeshType, DeformationFieldType >
+            MeshType, MeshType, DisplacementFieldType >
                                            WarpFilterType;
 
   WarpFilterType::Pointer warpFilter = WarpFilterType::New();
 
   warpFilter->SetInput( sphereMeshSource->GetOutput() );
 
-  warpFilter->SetDeformationField( deformationField );
+  warpFilter->SetDisplacementField( deformationField );
 
   try
     {

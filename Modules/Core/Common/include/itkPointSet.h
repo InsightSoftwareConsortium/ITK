@@ -83,7 +83,7 @@ struct GetPointSetDimension {
  *
  * \ingroup MeshObjects
  * \ingroup DataRepresentation
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{PointSet/CreatePointSet,Create a PointSet}
@@ -207,7 +207,7 @@ public:
    * region of the data object passed in as a parameter.  This method
    * implements the API from DataObject. The data object parameter must be
    * castable to a PointSet. */
-  virtual void SetRequestedRegion(DataObject *data);
+  virtual void SetRequestedRegion(const DataObject *data);
 
   /** Set/Get the Requested region */
   virtual void SetRequestedRegion(const RegionType & region);
@@ -262,12 +262,12 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkPointSet.txx"
+#include "itkPointSet.hxx"
 #endif
 
 /*
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPointSet.txx"
+#include "itkPointSet.hxx"
 #endif
 */
 

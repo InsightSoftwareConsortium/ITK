@@ -15,22 +15,21 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <stdio.h>
 #include <fstream>
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkDifferenceImageFilter.h"
+#include "itkTestingComparisonImageFilter.h"
 #include "itkExtractImageFilter.h"
 #include "itkPipelineMonitorImageFilter.h"
 
 
-typedef unsigned char            PixelType;
-typedef itk::Image<PixelType,3>  ImageType;
-typedef ImageType::Pointer       ImagePointer;
+const unsigned int VDimension = 3;
+typedef unsigned char                     PixelType;
+typedef itk::Image<PixelType,VDimension>  ImageType;
+typedef ImageType::Pointer                ImagePointer;
+typedef ImageType::SpacingType            SpacingType;
 
 namespace {
 
@@ -41,10 +40,12 @@ bool SameImage(ImagePointer testImage, ImagePointer baselineImage)
   int radiusTolerance = 0;
   unsigned long numberOfPixelTolerance = 0;
 
-  typedef itk::DifferenceImageFilter<ImageType,ImageType> DiffType;
+  // NOTE ALEX: it look slike this filter does not take the spacing
+  // into account, to check later.
+  typedef itk::Testing::ComparisonImageFilter<ImageType,ImageType> DiffType;
   DiffType::Pointer diff = DiffType::New();
-  diff->SetValidInput(baselineImage);
-  diff->SetTestInput(testImage);
+  diff->SetValidInput( baselineImage );
+  diff->SetTestInput( testImage );
   diff->SetDifferenceThreshold( intensityTolerance );
   diff->SetToleranceRadius( radiusTolerance );
   diff->UpdateLargestPossibleRegion();
@@ -56,62 +57,66 @@ bool SameImage(ImagePointer testImage, ImagePointer baselineImage)
     return false;
     }
 
+  SpacingType testImageSpacing =  testImage->GetSpacing();
+  SpacingType baselineImageSpacing =  baselineImage->GetSpacing();
+  // compare spacing
+  for( unsigned int i = 0; i < VDimension; i++ )
+    {
+    if( testImageSpacing[i] != baselineImageSpacing[i] )
+      {
+      return false;
+      }
+    }
+
   return true;
 }
 
+// NOTE ALEX: why this function is not a wrapper of the above?
 bool SameImage(std::string testImageFileName, ImagePointer baselineImage)
 {
-  PixelType intensityTolerance = 5; // need this for compression
-  int radiusTolerance = 0;
-  unsigned long numberOfPixelTolerance = 0;
-
-
   typedef itk::ImageFileReader<ImageType>    ReaderType;
   ReaderType::Pointer readerTestImage = ReaderType::New();
   readerTestImage->SetFileName( testImageFileName );
 
-  typedef itk::DifferenceImageFilter<ImageType,ImageType> DiffType;
-  DiffType::Pointer diff = DiffType::New();
-  diff->SetValidInput(baselineImage);
-  diff->SetTestInput(readerTestImage->GetOutput());
-  diff->SetDifferenceThreshold( intensityTolerance );
-  diff->SetToleranceRadius( radiusTolerance );
-  diff->UpdateLargestPossibleRegion();
-
-  unsigned long status = diff->GetNumberOfPixelsWithDifferences();
-
-  if (status > numberOfPixelTolerance)
-    {
-    std::cout << "NumberOfPixelsWithDifference: " << status << std::endl;
-    return false;
-    }
-
-  return true;
+  // NOTE ALEX: here we suppose the reading went well
+  // we should surround the GetOUtput() with a try/catch
+  return SameImage( readerTestImage->GetOutput(), baselineImage );
 }
 
-bool ActualTest(std::string inputFileName, std::string outputFileNameBase, std::string outputFileNameExtension, bool streamWriting, bool pasteWriting, bool compressWriting, int expectException = -1)
+bool
+ActualTest(
+  std::string inputFileName,
+  std::string outputFileNameBase,
+  std::string outputFileNameExtension,
+  bool streamWriting,
+  bool pasteWriting,
+  bool compressWriting,
+  int expectException = -1
+  )
 {
 
-  std::cout << "Writing Combination: " << streamWriting << " " << pasteWriting << " " << compressWriting << std::endl;
+  std::cout << "Writing Combination: ";
+  std::cout << streamWriting << " ";
+  std::cout << pasteWriting << " " << compressWriting << std::endl;
 
   std::ostringstream outputFileNameStream;
-  outputFileNameStream << outputFileNameBase << streamWriting << pasteWriting << compressWriting << "." << outputFileNameExtension;
+  outputFileNameStream << outputFileNameBase << streamWriting;
+  outputFileNameStream << pasteWriting << compressWriting;
+  outputFileNameStream << "." << outputFileNameExtension;
   std::string outputFileName = outputFileNameStream.str();
-
 
   std::cout << "Writing to File: " << outputFileName << std::endl;
   unsigned int m_NumberOfPieces = 10;
 
   // We remove the output file
+  // NOTE ALEX: shoudl we check it exists first?
   itksys::SystemTools::RemoveFile(outputFileName.c_str());
 
-  typedef unsigned char            PixelType;
+  typedef unsigned char             PixelType;
   typedef itk::Image<PixelType,3>   ImageType;
 
-  typedef itk::ImageFileReader<ImageType>         ReaderType;
-  typedef itk::ImageFileWriter< ImageType >  WriterType;
-
-
+  typedef itk::ImageFileReader<ImageType>  ReaderType;
+  typedef itk::ImageFileWriter<ImageType>  WriterType;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( inputFileName.c_str() );
@@ -133,12 +138,12 @@ bool ActualTest(std::string inputFileName, std::string outputFileNameBase, std::
   pasteSize[2] = 1;
   ImageType::RegionType pasteRegion(pasteIndex, pasteSize);
 
+  // TODO: drew, check and save the spacing of the input image here
 
+  // ??
   typedef itk::PipelineMonitorImageFilter<ImageType> MonitorFilter;
   MonitorFilter::Pointer monitor = MonitorFilter::New();
   monitor->SetInput(reader->GetOutput());
-
-
 
   // Setup the writer
   WriterType::Pointer writer = WriterType::New();
@@ -147,7 +152,9 @@ bool ActualTest(std::string inputFileName, std::string outputFileNameBase, std::
 
   // create a vaild region from the largest
   itk::ImageIORegion  ioregion(3);
-  itk::ImageIORegionAdaptor<3>::Convert(pasteRegion, ioregion, largestRegion.GetIndex());
+  itk::ImageIORegionAdaptor<3>::Convert(
+    pasteRegion, ioregion, largestRegion.GetIndex()
+    );
 
   if (streamWriting)
     {
@@ -193,13 +200,13 @@ bool ActualTest(std::string inputFileName, std::string outputFileNameBase, std::
 
 
   // if we didn't have an exception then we should have produced the
-  // correct image
+  // correct image - This is the TEST !!
   if (pasteWriting)
     {
     typedef itk::ExtractImageFilter<ImageType, ImageType> ExtractImageFilterType;
     ExtractImageFilterType::Pointer extractBaselineImage = ExtractImageFilterType::New();
     extractBaselineImage->SetDirectionCollapseToSubmatrix();
-    extractBaselineImage->SetInput(reader->GetOutput());
+    extractBaselineImage->SetInput( reader->GetOutput() );
     extractBaselineImage->SetExtractionRegion(pasteRegion);
 
     ReaderType::Pointer readerTestImage = ReaderType::New();

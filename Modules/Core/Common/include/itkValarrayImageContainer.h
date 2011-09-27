@@ -27,8 +27,10 @@
 namespace itk
 {
 /** \class ValarrayImageContainer
- * Defines a front-end to the std\\::\<valarray\> container that conforms to the
- * ImageContainerInterface.  This is a full-fleged Object, so
+ *  \brief Defines a front-end to the std\\::\<valarray\> container that conforms to the
+ *         ImageContainerInterface.
+ *
+ * This is a full-fleged Object, so
  * there is modification time, debug, and reference count information.
  *
  * \tparam TElementIdentifier
@@ -40,7 +42,7 @@ namespace itk
  *
  * \ingroup ImageObjects
  * \ingroup DataRepresentation
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template<
   typename TElementIdentifier,

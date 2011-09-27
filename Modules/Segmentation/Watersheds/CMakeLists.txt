@@ -1,3 +1,3 @@
-project(ITK-Watersheds)
-set(ITK-Watersheds_LIBRARIES ITK-Watersheds)
+project(ITKWatersheds)
+set(ITKWatersheds_LIBRARIES ITKWatersheds)
 itk_module_impl()

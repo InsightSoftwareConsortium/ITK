@@ -61,7 +61,7 @@ namespace itk
  * \sa VectorExpandImageFilter
  *
  * \ingroup GeometricTransform
- * \ingroup ITK-ImageGrid
+ * \ingroup ITKImageGrid
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT ExpandImageFilter:
@@ -186,7 +186,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkExpandImageFilter.txx"
+#include "itkExpandImageFilter.hxx"
 #endif
 
 #endif

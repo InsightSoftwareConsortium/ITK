@@ -55,8 +55,7 @@ namespace itkv3
  * The serialization of the fixed parameters is an array of 3 elements defining
  * the center of rotation in each dimension.
  *
- * \ingroup Transforms
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  */
 template< class TScalarType = double >
 // type for scalars (float or double)

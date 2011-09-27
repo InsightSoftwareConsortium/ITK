@@ -26,6 +26,8 @@
 namespace itk
 {
 /** \class NodeOfPermutation
+ *  \brief A node to be used when computing permutations.
+ *
  * The itk::ImageRandomNonRepeatingIterator works by creating a random
  * permutation of the image pixels and then using that to control the
  * order in which it accesses them.  The classes NodeOfPermutation and
@@ -33,7 +35,7 @@ namespace itk
  * basically container which holds NodeOfPermutation objects.  The
  * node class overloads the < operator, which allows the sort algorithm
  * from the STL to be used on it.
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 class NodeOfPermutation
 {
@@ -63,8 +65,8 @@ public:
 };
 
 /** \class RandomPermutation
- * \brief Random Permutation
- * \ingroup ITK-Common
+ * \brief Produce a random permutation of a collection.
+ * \ingroup ITKCommon
  */
 class RandomPermutation
 {
@@ -78,7 +80,7 @@ public:
   {
     m_Size = sz;
     m_Permutation = new NodeOfPermutation[m_Size];
-    m_Generator = Statistics::MersenneTwisterRandomVariateGenerator::New();
+    m_Generator = Statistics::MersenneTwisterRandomVariateGenerator::GetInstance();
     this->Shuffle();
   }
 
@@ -201,7 +203,7 @@ public:
  * \sa ShapedNeighborhoodIterator  \sa SliceIterator
  * \sa ImageConstIteratorWithIndex
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{Iterators/ImageRandomNonRepeatingConstIteratorWithIndex,Randomly select pixels from a region of an image without replacement}
@@ -341,7 +343,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageRandomNonRepeatingConstIteratorWithIndex.txx"
+#include "itkImageRandomNonRepeatingConstIteratorWithIndex.hxx"
 #endif
 
 #endif

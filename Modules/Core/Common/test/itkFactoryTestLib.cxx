@@ -116,7 +116,6 @@ protected:
         m_Allocator.destroy(base);
         }
       m_Allocator.deallocate(ptr, this->Capacity() );
-      m_MemoryAllocatedByAllocator = false;
 
       this->SetImportPointer(0);
       this->SetCapacity(0);

@@ -26,7 +26,7 @@ namespace itk
 {
 /** \class MemoryProbe
  *
- *  \brief Class for computing the memory allocated between two points in the code.
+ *  \brief Computes the memory allocated between two points in code.
  *
  *   This class allows the user to trace the memory charge between the execution
  *   of two pieces of code. It can be started and stopped in order to evaluate
@@ -34,7 +34,7 @@ namespace itk
  *   GetProcessMemoryInfo() for Windows, the SMAPS file for Linux
  *   and getrusage() otherwise.
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 class ITKCommon_EXPORT MemoryProbe:
   public ResourceProbe< SizeValueType, double >

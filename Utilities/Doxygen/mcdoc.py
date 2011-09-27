@@ -112,7 +112,7 @@ def main():
       f = file(fname, "r")
       mcontent = f.read()
       f.close()
-      module = re.match(r"itk_module\(([^ )]+)", mcontent).group(1)
+      module = re.search(r"itk_module\(([^ )]+)", mcontent).group(1)
       dname = os.path.dirname(fname)
       for fname2 in glob.glob(dname+"/include/*.h"):
         setGroup(fname2, module)
@@ -126,8 +126,16 @@ def main():
     module = sys.argv[2]
     files = sys.argv[3:]
     ret = 0
+    count = 0
     for fname in files:
-      ret = max( ret, checkGroup(fname, module) )
+      if os.path.isdir(fname):
+        for fname2 in glob.glob(fname+"/*.h"):
+          count += 1
+          ret = max( ret, checkGroup(fname2, module) )
+      else:
+        count += 1
+        ret = max( ret, checkGroup(fname, module) )
+    print >> sys.stderr, count, "headers checked."
     return ret
 
   elif command == "massive-check":

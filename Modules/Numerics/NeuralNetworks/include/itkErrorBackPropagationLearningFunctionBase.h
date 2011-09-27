@@ -15,15 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-/** \class ErrorBackPropagationLearningFunctionBase
- *  \brief The ErrorBackPropagationLearningFunctionBase is the base
- *  class for all the ErrorBackPropagationLearning strategies. These
- *  include error back propagation, bp+momentum, conjugte gradient descent, quick prop.
- *  This class specifies how the errors are backpropagated for a layer. They take a LayerBase
- *  object as input and compute the input for the layers input weightset
- * \ingroup ITK-NeuralNetworks
- */
-
 #ifndef __itkErrorBackPropagationLearningFunctionBase_h
 #define __itkErrorBackPropagationLearningFunctionBase_h
 
@@ -34,6 +25,19 @@ namespace itk
 {
 namespace Statistics
 {
+/** \class ErrorBackPropagationLearningFunctionBase
+ *  \brief The ErrorBackPropagationLearningFunctionBase is the base
+ *  class for all the ErrorBackPropagationLearning strategies.
+ *
+ * ErrorBackPropagationLearning strategies include error back propagation,
+ * bp+momentum, conjugte gradient descent, and quick prop.
+ *
+ * This class specifies how the errors are backpropagated for a layer. They take a LayerBase
+ * object as input and compute the input for the layers input weightset
+ *
+ * \ingroup ITKNeuralNetworks
+ */
+
 template<class LayerType, class TTargetVector>
 class ErrorBackPropagationLearningFunctionBase : public LearningFunctionBase<typename LayerType::LayerInterfaceType, TTargetVector>
 {
@@ -69,7 +73,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-  #include "itkErrorBackPropagationLearningFunctionBase.txx"
+  #include "itkErrorBackPropagationLearningFunctionBase.hxx"
 #endif
 
 #endif

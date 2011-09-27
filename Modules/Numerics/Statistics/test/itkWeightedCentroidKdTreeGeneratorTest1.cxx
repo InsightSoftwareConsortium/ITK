@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkVector.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
@@ -39,7 +36,7 @@ int itkWeightedCentroidKdTreeGeneratorTest1(int argc , char * argv [] )
   // Random number generator
   typedef itk::Statistics::MersenneTwisterRandomVariateGenerator NumberGeneratorType;
 
-  NumberGeneratorType::Pointer randomNumberGenerator = NumberGeneratorType::New();
+  NumberGeneratorType::Pointer randomNumberGenerator = NumberGeneratorType::GetInstance();
   randomNumberGenerator->Initialize();
 
   typedef itk::Array< double > MeasurementVectorType;

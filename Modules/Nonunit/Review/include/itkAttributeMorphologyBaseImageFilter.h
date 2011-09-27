@@ -56,7 +56,7 @@ namespace itk
  *
  * \author Richard Beare. Department of Medicine, Monash University, Melbourne, Australia.
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 
 template< class TInputImage, class TOutputImage, class TAttribute, class TFunction >
@@ -329,7 +329,7 @@ public:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAttributeMorphologyBaseImageFilter.txx"
+#include "itkAttributeMorphologyBaseImageFilter.hxx"
 #endif
 
 #endif

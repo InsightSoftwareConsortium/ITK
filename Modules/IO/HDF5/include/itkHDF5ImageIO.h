@@ -25,9 +25,6 @@
 #ifndef __itkHDF5ImageIO_h
 #define __itkHDF5ImageIO_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 // itk namespace first suppresses
 // kwstyle error for the H5 namespace below
@@ -53,7 +50,7 @@ class MetaDataDictionary;
  * \brief Class that defines how to read HDF5 file format.
  * HDF5 IMAGE FILE FORMAT - As much information as I can determine from sourceforge.net/projects/HDF5lib
  *
- * \ingroup ITK-IO-HDF5
+ * \ingroup ITKIOHDF5
  *
  * HDF5 paths for elements in file
  * \li N is dimension of image

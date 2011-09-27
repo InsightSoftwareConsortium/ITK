@@ -18,9 +18,6 @@
 #ifndef __itkArchetypeSeriesFileNames_h
 #define __itkArchetypeSeriesFileNames_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
@@ -64,7 +61,7 @@ namespace itk
  *
  *  \ingroup IOFilters
  *
- * \ingroup ITK-IO-Base
+ * \ingroup ITKIOBase
  */
 
 class ITK_EXPORT ArchetypeSeriesFileNames:public Object

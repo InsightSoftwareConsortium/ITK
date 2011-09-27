@@ -35,7 +35,7 @@ namespace itk
  * derived from TransformIOBase; the TransformIOFactory is used by
  * the Reader/Writer to pick a concrete derived class to do the actual
  * reading/writing of transforms.
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  */
 class ITK_EXPORT TransformIOBase:public LightProcessObject
 {

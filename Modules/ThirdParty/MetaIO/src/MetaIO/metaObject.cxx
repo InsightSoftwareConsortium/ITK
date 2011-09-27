@@ -1625,18 +1625,21 @@ M_Read(void)
 
   int i;
   mF = MET_GetFieldRecord("Color", &m_Fields);
-  if(mF && mF->defined)
+  if(mF)
     {
-    for(i=0; i<mF->length && i < 4; i++)
+    if(mF->defined)
       {
-      m_Color[i] = static_cast<float>( mF->value[i] );
+      for(i=0; i<mF->length && i < 4; i++)
+        {
+        m_Color[i] = static_cast<float>( mF->value[i] );
+        }
       }
-    }
-  else
-    {
-    for(i=0; i<mF->length && i < 4; i++)
+    else
       {
-      m_Color[i] = static_cast<unsigned int>( 1 );
+      for(i=0; i<mF->length && i < 4; i++)
+        {
+        m_Color[i] = static_cast<unsigned int>( 1 );
+        }
       }
     }
 
@@ -1733,29 +1736,32 @@ M_Read(void)
     }
 
   mF = MET_GetFieldRecord("ElementSpacing", &m_Fields);
-  if(mF && mF->defined)
+  if(mF)
     {
-    for(i=0; i<mF->length && i < 10; i++)
+    if(mF->defined)
       {
-      m_ElementSpacing[i] = static_cast<float>( mF->value[i] );
-      if (META_DEBUG)
+      for(i=0; i<mF->length && i < 10; i++)
         {
-        METAIO_STREAM::cout << "metaObject: M_Read: elementSpacing["
-                            << i << "] = "
-                            << m_ElementSpacing[i] << METAIO_STREAM::endl;
+        m_ElementSpacing[i] = static_cast<float>( mF->value[i] );
+        if (META_DEBUG)
+          {
+          METAIO_STREAM::cout << "metaObject: M_Read: elementSpacing["
+                              << i << "] = "
+                              << m_ElementSpacing[i] << METAIO_STREAM::endl;
+          }
         }
       }
-    }
-  else
-    {
-    for(i=0; i<mF->length && i < 10; i++)
+    else
       {
-      m_ElementSpacing[i] = 1;
-      if (META_DEBUG)
+      for(i=0; i<mF->length && i < 10; i++)
         {
-        METAIO_STREAM::cout << "metaObject: M_Read: elementSpacing["
-                            << i << "] = "
-                            << m_ElementSpacing[i] << METAIO_STREAM::endl;
+        m_ElementSpacing[i] = 1;
+        if (META_DEBUG)
+          {
+          METAIO_STREAM::cout << "metaObject: M_Read: elementSpacing["
+                              << i << "] = "
+                              << m_ElementSpacing[i] << METAIO_STREAM::endl;
+          }
         }
       }
     }
@@ -1772,13 +1778,13 @@ M_Read(void)
      // causes a double free, and an abort.
      FieldsContainerType::iterator dup;
      for(dup = m_UserDefinedWriteFields.begin();
-	 dup != m_UserDefinedWriteFields.end();
-	 dup++)
+         dup != m_UserDefinedWriteFields.end();
+         dup++)
        {
        if( (*dup) == mF )
-	 {
-	 break;
-	 }
+         {
+         break;
+         }
        }
      if(dup == m_UserDefinedWriteFields.end())
        {

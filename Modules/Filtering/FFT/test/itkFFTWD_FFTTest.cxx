@@ -16,9 +16,6 @@
  *
  *=========================================================================*/
 
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkFFTTest.h"
 
@@ -44,33 +41,33 @@ int itkFFTWD_FFTTest(int, char *[])
 
   std::cerr << "FFTWD:double,1 (4,4,4)"<< std::endl;
   if((test_fft<double,1,
-      itk::FFTWRealToComplexConjugateImageFilter<ImageD1> ,
-      itk::FFTWComplexConjugateToRealImageFilter<ImageCD1> >(SizeOfDimensions1)) != 0)
+      itk::FFTWForwardFFTImageFilter<ImageD1> ,
+      itk::FFTWInverseFFTImageFilter<ImageCD1> >(SizeOfDimensions1)) != 0)
     rval++;
   std::cerr << "FFTWD:double,2 (4,4,4)"<< std::endl;
   if((test_fft<double,2,
-      itk::FFTWRealToComplexConjugateImageFilter<ImageD2> ,
-      itk::FFTWComplexConjugateToRealImageFilter<ImageCD2> >(SizeOfDimensions1)) != 0)
+      itk::FFTWForwardFFTImageFilter<ImageD2> ,
+      itk::FFTWInverseFFTImageFilter<ImageCD2> >(SizeOfDimensions1)) != 0)
     rval++;
   std::cerr << "FFTWD:double,3 (4,4,4)"<< std::endl;
   if((test_fft<double,3,
-      itk::FFTWRealToComplexConjugateImageFilter<ImageD3> ,
-      itk::FFTWComplexConjugateToRealImageFilter<ImageCD3> >(SizeOfDimensions1)) != 0)
+      itk::FFTWForwardFFTImageFilter<ImageD3> ,
+      itk::FFTWInverseFFTImageFilter<ImageCD3> >(SizeOfDimensions1)) != 0)
     rval++;
   std::cerr << "FFTWD:double,1 (3,5,4)"<< std::endl;
   if((test_fft<double,1,
-      itk::FFTWRealToComplexConjugateImageFilter<ImageD1> ,
-      itk::FFTWComplexConjugateToRealImageFilter<ImageCD1> >(SizeOfDimensions2)) != 0)
+      itk::FFTWForwardFFTImageFilter<ImageD1> ,
+      itk::FFTWInverseFFTImageFilter<ImageCD1> >(SizeOfDimensions2)) != 0)
     rval++;
   std::cerr << "FFTWD:double,2 (3,5,4)"<< std::endl;
   if((test_fft<double,2,
-      itk::FFTWRealToComplexConjugateImageFilter<ImageD2> ,
-      itk::FFTWComplexConjugateToRealImageFilter<ImageCD2> >(SizeOfDimensions2)) != 0)
+      itk::FFTWForwardFFTImageFilter<ImageD2> ,
+      itk::FFTWInverseFFTImageFilter<ImageCD2> >(SizeOfDimensions2)) != 0)
     rval++;
   std::cerr << "FFTWD:double,3 (3,5,4)"<< std::endl;
   if((test_fft<double,3,
-      itk::FFTWRealToComplexConjugateImageFilter<ImageD3> ,
-      itk::FFTWComplexConjugateToRealImageFilter<ImageCD3> >(SizeOfDimensions2)) != 0)
+      itk::FFTWForwardFFTImageFilter<ImageD3> ,
+      itk::FFTWInverseFFTImageFilter<ImageCD3> >(SizeOfDimensions2)) != 0)
     rval++;
   return (rval == 0) ? 0 : -1;
 }

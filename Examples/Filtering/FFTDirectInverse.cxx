@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 //
 // This example was originally contributed by Stephan in the users list
@@ -39,8 +36,8 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkResampleImageFilter.h"
-#include "itkVnlFFTRealToComplexConjugateImageFilter.h"
-#include "itkVnlFFTComplexConjugateToRealImageFilter.h"
+#include "itkVnlForwardFFTImageFilter.h"
+#include "itkVnlInverseFFTImageFilter.h"
 
 int main( int argc, char * argv[] )
 {
@@ -96,13 +93,13 @@ int main( int argc, char * argv[] )
   // worksize is the nearest multiple of 2 larger than the input
   for( unsigned int i=0; i < 2; i++ )
     {
-    int n=0;
+    unsigned int n=0;
     worksize[i] = inputsize[i];
     while( worksize[i] >>= 1 )
       {
       n++;
       }
-    worksize[i] = 1 << (n+1);
+    worksize[i] = static_cast<IOImageType::SizeValueType> ( 1 << (n+1) );
 
     std::cout << "inputsize[" << i << "]=" << inputsize[i] << std::endl;
     std::cout << "worksize[" << i << "]=" << worksize[i] << std::endl;
@@ -112,7 +109,7 @@ int main( int argc, char * argv[] )
   inputresampler->SetInput( inputreader->GetOutput() );
 
   // Forward FFT filter
-  typedef itk::VnlFFTRealToComplexConjugateImageFilter < WorkImageType > FFTFilterType;
+  typedef itk::VnlForwardFFTImageFilter < WorkImageType > FFTFilterType;
   FFTFilterType::Pointer fftinput = FFTFilterType::New();
   fftinput->SetInput( inputresampler->GetOutput() );
 
@@ -120,7 +117,7 @@ int main( int argc, char * argv[] )
   typedef FFTFilterType::OutputImageType ComplexImageType;
 
   // Do the inverse transform = forward transform / num voxels
-  typedef itk::VnlFFTComplexConjugateToRealImageFilter < ComplexImageType > invFFTFilterType;
+  typedef itk::VnlInverseFFTImageFilter < ComplexImageType > invFFTFilterType;
   invFFTFilterType::Pointer fftoutput = invFFTFilterType::New();
   fftoutput->SetInput(fftinput->GetOutput()); // try to recover the input image
 

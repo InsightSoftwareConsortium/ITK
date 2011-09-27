@@ -1,8 +1,13 @@
-itk_module(ITK-NarrowBand
+set(DOCUMENTATION "This module contains code for data types and calculation on a
+narrow band of space.")
+
+itk_module(ITKNarrowBand
   DEPENDS
-    ITK-ImageIntensity
-    ITK-FiniteDifference
-    ITK-CurvatureFlow
+    ITKImageIntensity
+    ITKFiniteDifference
+    ITKCurvatureFlow
   TEST_DEPENDS
-    ITK-TestKernel
+    ITKTestKernel
+  DESCRIPTION
+    "${DOCUMENTATION}"
 )

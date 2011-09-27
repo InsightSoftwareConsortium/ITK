@@ -38,7 +38,7 @@ namespace Accessor
  * for Medical Research, Grant U54 EB005149.
  *
  * \ingroup ImageAdaptors
- * \ingroup ITK-ImageAdaptors
+ * \ingroup ITKImageAdaptors
  */
 template< class TType >
 class ITK_EXPORT VectorImageToImagePixelAccessor
@@ -104,7 +104,7 @@ private:
  *
  * \ingroup ImageAdaptors
  *
- * \ingroup ITK-ImageAdaptors
+ * \ingroup ITKImageAdaptors
  *
  * \wiki
  * \wikiexample{VectorImages/VectorImageToImageAdaptor,View a component of a vector image as if it were a scalar image}

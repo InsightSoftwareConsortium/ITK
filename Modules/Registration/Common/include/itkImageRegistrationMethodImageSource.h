@@ -20,6 +20,7 @@
 #include "itkImage.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkCommandIterationUpdate.h"
+#include "itkTransformParameters.h"
 
 /**
  *  This class generates two 2D-Gaussians (standard deviation RegionSize/2)
@@ -47,7 +48,7 @@ public:
   typedef Object                                Superclass;
   typedef SmartPointer<Self>                    Pointer;
   typedef SmartPointer<const Self>              ConstPointer;
-  typedef Array<double>                         ParametersType;
+  typedef TransformParameters<double>           ParametersType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <iostream>
 
@@ -32,10 +29,11 @@
 namespace
 {
 bool CheckEqual(
- itk::Point<double,2> p1,
- itk::Point<double,2> p2 )
+  itk::Point<double, 2> p1,
+  itk::Point<double, 2> p2 )
 {
   const double epsilon = 1e-5;
+
   for( unsigned int i = 0; i < 2; i++ )
     {
     if( vcl_fabs( p1[i] - p2[i] ) > epsilon )
@@ -47,26 +45,25 @@ bool CheckEqual(
   std::cout << p1 << " == " << p2 << ":[ PASSED ]" << std::endl;
   return true;
 }
+
 }
 
-
-int itkCenteredRigid2DTransformTest(int argc,char *argv[] )
+int itkCenteredRigid2DTransformTest(int argc, char *argv[] )
 {
-  if (argc < 2)
+  if( argc < 2 )
     {
     std::cout << "Usage: " << argv[0] << " logFilename" << std::endl;
     return EXIT_FAILURE;
     }
 
-
   std::cout << "==================================" << std::endl;
   std::cout << "Testing CenteredRigid 2D Transform" << std::endl << std::endl;
 
-  const double epsilon = 1e-10;
+  const double       epsilon = 1e-10;
   const unsigned int N = 2;
-  bool Ok = true;
+  bool               Ok = true;
 
-  typedef itk::CenteredRigid2DTransform<double>  CenteredRigidTransformType;
+  typedef itk::CenteredRigid2DTransform<double> CenteredRigidTransformType;
   CenteredRigidTransformType::Pointer transform = CenteredRigidTransformType::New();
 
   // 15 degrees in radians
@@ -74,79 +71,77 @@ int itkCenteredRigid2DTransformTest(int argc,char *argv[] )
   const double sinth = vcl_sin( angle );
   const double costh = vcl_cos( angle );
 
-
   std::cout << "Testing Rotation:";
   transform->SetAngle(angle);
 
   // Rotate an itk::Point
-  CenteredRigidTransformType::InputPointType::ValueType pInit[2] = {10,10};
-  CenteredRigidTransformType::InputPointType p = pInit;
-  CenteredRigidTransformType::InputPointType q;
+  CenteredRigidTransformType::InputPointType::ValueType pInit[2] = {10, 10};
+  CenteredRigidTransformType::InputPointType            p = pInit;
+  CenteredRigidTransformType::InputPointType            q;
 
   q[0] =  p[0] * costh - p[1] * sinth;
   q[1] =  p[0] * sinth + p[1] * costh;
 
   CenteredRigidTransformType::OutputPointType r;
   r = transform->TransformPoint( p );
-  for(unsigned int i=0; i<N; i++)
-  {
-     if( vcl_fabs( q[i]- r[i] ) > epsilon )
-     {
-        Ok = false;
-        break;
-     }
-  }
+  for( unsigned int i = 0; i < N; i++ )
+    {
+    if( vcl_fabs( q[i] - r[i] ) > epsilon )
+      {
+      Ok = false;
+      break;
+      }
+    }
   if( !Ok )
-  {
+    {
     std::cerr << "Error rotating point   : " << p << std::endl;
     std::cerr << "Result should be       : " << q << std::endl;
     std::cerr << "Reported Result is     : " << r << std::endl;
     return EXIT_FAILURE;
-  }
+    }
   else
-  {
+    {
     std::cout << " [ PASSED ] " << std::endl;
-  }
-
+    }
 
   std::cout << "Testing Translation:";
 
   transform->SetAngle(0);
 
-  CenteredRigidTransformType::OffsetType::ValueType ioffsetInit[2] = {1,4};
-  CenteredRigidTransformType::OffsetType ioffset = ioffsetInit;
+  CenteredRigidTransformType::OffsetType::ValueType ioffsetInit[2] = {1, 4};
+  CenteredRigidTransformType::OffsetType            ioffset = ioffsetInit;
 
   transform->SetOffset( ioffset );
 
   q = p + ioffset;
 
   r = transform->TransformPoint( p );
-  for(unsigned int i=0; i<N; i++)
-  {
-    if( vcl_fabs( q[i]- r[i] ) > epsilon )
+  for( unsigned int i = 0; i < N; i++ )
     {
+    if( vcl_fabs( q[i] - r[i] ) > epsilon )
+      {
       Ok = false;
       break;
+      }
     }
-  }
   if( !Ok )
-  {
+    {
     std::cerr << "Error translating point: " << p << std::endl;
     std::cerr << "Result should be       : " << q << std::endl;
     std::cerr << "Reported Result is     : " << r << std::endl;
     return EXIT_FAILURE;
-  }
+    }
   else
-  {
+    {
     std::cout << " [ PASSED ] " << std::endl;
-  }
+    }
 
-  {
+    {
     std::cout << "Testing Inverse:";
 
     // Populate the transform with some parameters
     CenteredRigidTransformType::Pointer transform2 = CenteredRigidTransformType::New();
-    const double a = 0.175;
+    const double                        a = 0.175;
     transform2->SetAngle( a);
 
     CenteredRigidTransformType::InputPointType c;
@@ -176,31 +171,31 @@ int itkCenteredRigid2DTransformTest(int argc,char *argv[] )
 
     // Check that point p3 is the same as point p1
     Ok = true;
-    for ( unsigned int i = 0; i < N; i++ )
+    for( unsigned int i = 0; i < N; i++ )
       {
-      if ( vcl_fabs( p1[i] - p3[i] ) > epsilon )
+      if( vcl_fabs( p1[i] - p3[i] ) > epsilon )
         {
         Ok = false;
         break;
         }
       }
     if( !Ok )
-    {
+      {
       std::cerr << "Error in inverse computation" << std::endl;
       std::cerr << "Result should be       : " << p1 << std::endl;
       std::cerr << "Reported Result is     : " << p3 << std::endl;
       return EXIT_FAILURE;
-    }
+      }
     else
-    {
+      {
       std::cout << " [ PASSED ] " << std::endl;
-    }
+      }
 
     // Get inverse transform and transform point p2 to obtain point p3
     CenteredRigidTransformType::Pointer inversebis
-       = dynamic_cast<CenteredRigidTransformType*>(transform2->GetInverseTransform().GetPointer());
+      = dynamic_cast<CenteredRigidTransformType *>(transform2->GetInverseTransform().GetPointer() );
 
-    if(!inversebis)
+    if( !inversebis )
       {
       std::cout << "Cannot compute inverse transformation" << std::endl;
       return EXIT_FAILURE;
@@ -210,121 +205,120 @@ int itkCenteredRigid2DTransformTest(int argc,char *argv[] )
 
     // Check that point p3 is the same as point p1
     Ok = true;
-    for ( unsigned int i = 0; i < N; i++ )
+    for( unsigned int i = 0; i < N; i++ )
       {
-      if ( vcl_fabs( p1[i] - p3[i] ) > epsilon )
+      if( vcl_fabs( p1[i] - p3[i] ) > epsilon )
         {
         Ok = false;
         break;
         }
       }
     if( !Ok )
-    {
+      {
       std::cerr << "Error in inverse computation" << std::endl;
       std::cerr << "Result should be       : " << p1 << std::endl;
       std::cerr << "Reported Result is     : " << p3 << std::endl;
       return EXIT_FAILURE;
-    }
+      }
     else
-    {
+      {
       std::cout << " [ PASSED ] " << std::endl;
+      }
     }
-  }
 
-   {
-      // Test instantiation, inverse computation, back transform etc.
-      typedef CenteredRigidTransformType TransformType;
-      TransformType::Pointer t1 = TransformType::New();
+    {
+    // Test instantiation, inverse computation, back transform etc.
+    typedef CenteredRigidTransformType TransformType;
+    TransformType::Pointer t1 = TransformType::New();
 
-      // Set parameters
-      TransformType::ParametersType parameters( t1->GetNumberOfParameters() );
+    // Set parameters
+    TransformType::ParametersType parameters( t1->GetNumberOfParameters() );
 
-      parameters[0] = -21.0 / 180.0 * vnl_math::pi;
-      parameters[1] = 12.0;
-      parameters[2] = -8.9;
-      parameters[3] = 67.8;
-      parameters[4] = -0.2;
+    parameters[0] = -21.0 / 180.0 * vnl_math::pi;
+    parameters[1] = 12.0;
+    parameters[2] = -8.9;
+    parameters[3] = 67.8;
+    parameters[4] = -0.2;
 
-      t1->SetParameters( parameters );
+    t1->SetParameters( parameters );
 
-      TransformType::InputPointType p1;
-      p1[0] = 96.8;
-      p1[1] = -3.2;
+    TransformType::InputPointType p1;
+    p1[0] = 96.8;
+    p1[1] = -3.2;
 
-      TransformType::InputPointType p2;
-      p2 = t1->TransformPoint( p1 );
+    TransformType::InputPointType p2;
+    p2 = t1->TransformPoint( p1 );
 
-      // Test inverse
-      TransformType::Pointer t2;
-      t1->CloneInverseTo( t2 );
+    // Test inverse
+    TransformType::Pointer t2;
+    t1->CloneInverseTo( t2 );
 
-      TransformType::InputPointType p3;
-      p3 = t2->TransformPoint( p2 );
+    TransformType::InputPointType p3;
+    p3 = t2->TransformPoint( p2 );
 
-      std::cout << "Test CloneInverseTo(): ";
-      if( !CheckEqual( p1, p3 ) )
-        {
-        return EXIT_FAILURE;
-        }
+    std::cout << "Test CloneInverseTo(): ";
+    if( !CheckEqual( p1, p3 ) )
+      {
+      return EXIT_FAILURE;
+      }
 
-      TransformType::Pointer t2dash = TransformType::New();
-      t1->GetInverse( t2dash );
-      TransformType::InputPointType p3dash;
-      p3dash = t2dash->TransformPoint( p2 );
+    TransformType::Pointer t2dash = TransformType::New();
+    t1->GetInverse( t2dash );
+    TransformType::InputPointType p3dash;
+    p3dash = t2dash->TransformPoint( p2 );
 
-      std::cout << "Test GetInverseTransform(): ";
-      if( !CheckEqual( p1, p3dash ) )
-        {
-        return EXIT_FAILURE;
-        }
+    std::cout << "Test GetInverseTransform(): ";
+    if( !CheckEqual( p1, p3dash ) )
+      {
+      return EXIT_FAILURE;
+      }
 
-      t2dash = dynamic_cast<TransformType*>(t1->GetInverseTransform().GetPointer());
-      if (!t2dash)
-        {
-        std::cout << "Cannot compute inverse transformation" << std::endl;
-        return EXIT_FAILURE;
-        }
-      p3dash = t2dash->TransformPoint( p2 );
+    t2dash = dynamic_cast<TransformType *>(t1->GetInverseTransform().GetPointer() );
+    if( !t2dash )
+      {
+      std::cout << "Cannot compute inverse transformation" << std::endl;
+      return EXIT_FAILURE;
+      }
+    p3dash = t2dash->TransformPoint( p2 );
 
-      std::cout << "Test GetInverseTransform(): ";
-      if( !CheckEqual( p1, p3dash ) )
-        {
-        return EXIT_FAILURE;
-        }
+    std::cout << "Test GetInverseTransform(): ";
+    if( !CheckEqual( p1, p3dash ) )
+      {
+      return EXIT_FAILURE;
+      }
 
+    // Test clone
+    TransformType::Pointer t3;
+    t1->CloneTo( t3 );
 
-      // Test clone
-      TransformType::Pointer t3;
-      t1->CloneTo( t3 );
+    TransformType::InputPointType p4;
+    p4 = t3->TransformPoint( p1 );
 
-      TransformType::InputPointType p4;
-      p4 = t3->TransformPoint( p1 );
+    std::cout << "Test Clone(): ";
+    if( !CheckEqual( p2, p4 ) )
+      {
+      return EXIT_FAILURE;
+      }
 
-      std::cout << "Test Clone(): ";
-      if( !CheckEqual( p2, p4 ) )
-        {
-        return EXIT_FAILURE;
-        }
+    // Test compose
+    TransformType::Pointer t4 = TransformType::New();
 
-     // Test compose
-     TransformType::Pointer t4 = TransformType::New();
+    parameters[0] = 14.7 / 180.0 * vnl_math::pi;
+    parameters[1] = 4.0;
+    parameters[2] = 4.0;
+    parameters[3] = 67.1;
+    parameters[4] = 67.1;
 
-     parameters[0] = 14.7 / 180.0 * vnl_math::pi;
-     parameters[1] = 4.0;
-     parameters[2] = 4.0;
-     parameters[3] = 67.1;
-     parameters[4] = 67.1;
+    t4->SetParameters( parameters );
 
-     t4->SetParameters( parameters );
+    TransformType::Pointer t5;
+    t1->CloneTo( t5 );
+    t5->Compose( t4, false );
 
-     TransformType::Pointer t5;
-     t1->CloneTo( t5 );
-     t5->Compose( t4, false );
-
-     TransformType::InputPointType p5, p6, p7;
-     p5 = t1->TransformPoint( p1 );
-     p6 = t4->TransformPoint( p5 );
-     p7 = t5->TransformPoint( p1 );
+    TransformType::InputPointType p5, p6, p7;
+    p5 = t1->TransformPoint( p1 );
+    p6 = t4->TransformPoint( p5 );
+    p7 = t5->TransformPoint( p1 );
 
     std::cout << "Test Compose(.,false): ";
     if( !CheckEqual( p6, p7 ) )
@@ -348,13 +342,12 @@ int itkCenteredRigid2DTransformTest(int argc,char *argv[] )
     // Really test the jacobian
     std::cout << "Testing Jacobian: ";
     TransformType::JacobianType jacobian;
-    jacobian = t4->GetJacobian( p1 );
+    t4->ComputeJacobianWithRespectToParameters( p1, jacobian );
 
     TransformType::JacobianType approxJacobian = jacobian;
-
     for( unsigned int k = 0; k < t1->GetNumberOfParameters(); k++ )
       {
-      const double delta = 0.001;
+      const double                  delta = 0.001;
       TransformType::ParametersType plusParameters;
       TransformType::ParametersType minusParameters;
 
@@ -370,13 +363,12 @@ int itkCenteredRigid2DTransformTest(int argc,char *argv[] )
       plusPoint = t4->TransformPoint( p1 );
       t4->SetParameters( minusParameters );
       minusPoint = t4->TransformPoint( p1 );
-
       for( unsigned int j = 0; j < 2; j++ )
         {
         double approxDerivative = ( plusPoint[j] - minusPoint[j] ) / ( 2.0 * delta );
         double computedDerivative = jacobian[j][k];
         approxJacobian[j][k] = approxDerivative;
-        if ( vnl_math_abs( approxDerivative - computedDerivative ) > 1e-4 )
+        if( vnl_math_abs( approxDerivative - computedDerivative ) > 1e-4 )
           {
           std::cerr << "Error computing Jacobian [" << j << "][" << k << "]" << std::endl;
           std::cerr << "Result should be: " << approxDerivative << std::endl;
@@ -384,7 +376,7 @@ int itkCenteredRigid2DTransformTest(int argc,char *argv[] )
           std::cerr << " [ FAILED ] " << std::endl;
           return EXIT_FAILURE;
           } // if
-        } // for j
+        }   // for j
 
       } // for k
 
@@ -392,7 +384,7 @@ int itkCenteredRigid2DTransformTest(int argc,char *argv[] )
 
     }
 
- {
+    {
     // Test IO
     typedef CenteredRigidTransformType TransformType;
     itk::TransformFactory<TransformType>::RegisterTransform();
@@ -428,10 +420,10 @@ int itkCenteredRigid2DTransformTest(int argc,char *argv[] )
     writer->AddTransform( t1 );
 
     try
-    {
-    writer->Update();
-    reader->Update();
-    }
+      {
+      writer->Update();
+      reader->Update();
+      }
     catch( itk::ExceptionObject & excp )
       {
       std::cerr << "Error while saving the transforms" << std::endl;
@@ -450,7 +442,7 @@ int itkCenteredRigid2DTransformTest(int argc,char *argv[] )
     ip[1] = 9.0;
 
     TransformType * ptr;
-    ptr = dynamic_cast< TransformType * >( list->front().GetPointer() );
+    ptr = dynamic_cast<TransformType *>( list->front().GetPointer() );
     if( !ptr )
       {
       std::cout << "Can't cast back to the right type!" << std::endl;
@@ -472,7 +464,7 @@ int itkCenteredRigid2DTransformTest(int argc,char *argv[] )
       return EXIT_FAILURE;
       }
 
-  }
+    }
 
   return EXIT_SUCCESS;
 

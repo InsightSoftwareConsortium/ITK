@@ -31,7 +31,7 @@ namespace itk
  * The Landmark is basically defined by a set of points with spatial locations.
  *
  * \sa SpatialObjectPoint
- * \ingroup ITK-SpatialObjects
+ * \ingroup ITKSpatialObjects
  */
 
 template< unsigned int TDimension = 3 >
@@ -120,7 +120,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLandmarkSpatialObject.txx"
+#include "itkLandmarkSpatialObject.hxx"
 #endif
 
 #endif // __itkLandmarkSpatialObject_h

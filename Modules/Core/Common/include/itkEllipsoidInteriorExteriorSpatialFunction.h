@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- * \class EllipsoidSpatialFunction
+ * \class EllipsoidInteriorExteriorSpatialFunction
  * \brief Function implementation of an ellipsoid
  *
  * Implements a function that returns 1 for points inside or on the
@@ -33,7 +33,7 @@ namespace itk
  * orthogonal vectors. See
  * Examples/EllipsoidInteriorExteriorSpatialFunction/README for an
  * example of creating an Ellipsoid in an image.
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< unsigned int VDimension = 3,
           typename TInput = Point< double, VDimension > >
@@ -118,7 +118,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkEllipsoidInteriorExteriorSpatialFunction.txx"
+#include "itkEllipsoidInteriorExteriorSpatialFunction.hxx"
 #endif
 
 #endif

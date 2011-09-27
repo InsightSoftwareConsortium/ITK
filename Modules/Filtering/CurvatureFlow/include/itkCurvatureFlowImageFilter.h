@@ -78,13 +78,13 @@ namespace itk
   * \sa BinaryMinMaxCurvatureFlowImageFilter
   *
   * \ingroup ImageEnhancement
-  * \ingroup Multithreaded
+  * \ingroup MultiThreaded
   * \ingroup Streamed
   *
   * Input/Output Restrictions:
   *  TInputImage and TOutputImage must have the same dimension.
   *  TOutputImage's pixel type must be a real number type.
-  * \ingroup ITK-CurvatureFlow
+  * \ingroup ITKCurvatureFlow
   */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT CurvatureFlowImageFilter:
@@ -196,7 +196,7 @@ private:
 } // end namspace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCurvatureFlowImageFilter.txx"
+#include "itkCurvatureFlowImageFilter.hxx"
 #endif
 
 #endif

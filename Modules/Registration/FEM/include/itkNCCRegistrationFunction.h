@@ -30,7 +30,7 @@ namespace itk
  *
  * This class encapsulate the PDE which drives the demons registration
  * algorithm. It is used by NCCRegistrationFilter to compute the
- * output deformation field which will map a moving image onto a
+ * output displacement field which will map a moving image onto a
  * a fixed image.
  *
  * Non-integer moving image values are obtained by using
@@ -40,25 +40,25 @@ namespace itk
  * interpolator must derive from baseclass InterpolateImageFunction.
  *
  * This class is templated over the fixed image type, moving image type,
- * and the deformation field type.
+ * and the displacement field type.
  *
  * \warning This filter assumes that the fixed image type, moving image type
- * and deformation field type all have the same number of dimensions.
+ * and displacement field type all have the same number of dimensions.
  *
  * \sa NCCRegistrationFilter
  * \ingroup FiniteDifferenceFunctions
- * \ingroup ITK-FEMRegistration
+ * \ingroup ITKFEMRegistration
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 class ITK_EXPORT NCCRegistrationFunction:
   public PDEDeformableRegistrationFunction< TFixedImage,
-                                            TMovingImage, TDeformationField >
+                                            TMovingImage, TDisplacementField >
 {
 public:
   /** Standard class typedefs. */
   typedef NCCRegistrationFunction Self;
   typedef PDEDeformableRegistrationFunction< TFixedImage,
-                                             TMovingImage, TDeformationField > Superclass;
+                                             TMovingImage, TDisplacementField > Superclass;
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
 
@@ -80,10 +80,10 @@ public:
   typedef typename FixedImageType::SizeType      SizeType;
   typedef typename FixedImageType::SpacingType   SpacingType;
 
-  /** Deformation field type. */
-  typedef typename Superclass::DeformationFieldType DeformationFieldType;
-  typedef typename Superclass::DeformationFieldTypePointer
-  DeformationFieldTypePointer;
+  /** Displacement field type. */
+  typedef typename Superclass::DisplacementFieldType DisplacementFieldType;
+  typedef typename Superclass::DisplacementFieldTypePointer
+  DisplacementFieldTypePointer;
 
   /** Inherit some enums from the superclass. */
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
@@ -186,7 +186,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNCCRegistrationFunction.txx"
+#include "itkNCCRegistrationFunction.hxx"
 #endif
 
 #endif

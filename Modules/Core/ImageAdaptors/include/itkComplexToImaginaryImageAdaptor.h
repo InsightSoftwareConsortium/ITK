@@ -26,16 +26,19 @@ namespace itk
 namespace Accessor
 {
 /** \class ComplexToImaginaryPixelAccessor
- * \brief Give access to the Imaginary part of a std::complex<> value
+ * \brief Give access to the Imaginary part of a std::complex<> value.
  *
  * ComplexToImaginaryPixelAccessor is templated over an internal type and an
  * external type representation. The internal type is an std::complex<T> and
- * the external part is a type T. This class cast the input applies the function
- * to it and cast the result according to the types defined as template
- * parameters
+ * the external part is a type T. This class casts the input, applies the function
+ * to it, and casts the result according to the types defined as template
+ * parameters.
+ *
+ * \tparam TInternalType is the type used to represent the pixel internally.
+ * \tparam TExternalType is the type used to represent the pixel externally.
  *
  * \ingroup ImageAdaptors
- * \ingroup ITK-ImageAdaptors
+ * \ingroup ITKImageAdaptors
  */
 template< class TInternalType, class TExternalType >
 class ITK_EXPORT ComplexToImaginaryPixelAccessor
@@ -65,7 +68,7 @@ public:
  * types following C++ default casting rules.
  *
  * \ingroup ImageAdaptors
- * \ingroup ITK-ImageAdaptors
+ * \ingroup ITKImageAdaptors
  */
 template< class TImage, class TOutputPixelType >
 class ITK_EXPORT ComplexToImaginaryImageAdaptor:public

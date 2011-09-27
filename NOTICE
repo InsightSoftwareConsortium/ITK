@@ -132,17 +132,7 @@ They are:
                 This is just a script for making easier
                 the CVS syncs of VXL.
 
- 12) Testing/Code/IO/itkIOHeaderTest.cxx:
-
-                Copyright: National Library of Medicine.
-                Actually this is created by the Tcl script
-
-          Insight/Utilities/Dart/BuildHeadrTests.tcl
-
-                A fix has been commited for this file.
-
-
-  13) Testing/Code/Numerics/NeuralNetworks:
+  12) Testing/Code/Numerics/NeuralNetworks:
 
                 Copyright: CADDLab at UNC
                 Fixed now in CVS --> ISC

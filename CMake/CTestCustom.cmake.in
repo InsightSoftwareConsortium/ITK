@@ -18,12 +18,15 @@
 #----------------------------------------------------------------------
 
 SET(CTEST_CUSTOM_MAXIMUM_PASSED_TEST_OUTPUT_SIZE 1000000)
-SET(CTEST_CUSTOM_MAXIMUM_NUMBER_OF_WARNINGS 1000)
+SET(CTEST_CUSTOM_MAXIMUM_NUMBER_OF_WARNINGS 199)
 SET(CTEST_CUSTOM_MAXIMUM_NUMBER_OF_ERRORS 50)
 
 SET(CTEST_CUSTOM_MEMCHECK_IGNORE
-  itkFloatingPointExceptionsTest5
-  ModuleInDoxygenGroup
+  ${CTEST_CUSTOM_MEMCHECK_IGNORE}
+  )
+
+SET(CTEST_MEMORYCHECK_SUPPRESSIONS_FILE
+  @ITK_SOURCE_DIR@/CMake/InsightValgrind.supp
   )
 
 SET(CTEST_EXTRA_COVERAGE_GLOB
@@ -69,7 +72,7 @@ SET(CTEST_CUSTOM_WARNING_EXCEPTION
   "Warning itk::Statistics::Histogram"
   "itkIOCommonTest.cxx:.*warning:.* is deprecated"
   "/usr/bin/ld: warning: libnetcdf.so.3, needed by.*may conflict with libnetcdf.so.4"
-  "itkQuadEdgeMeshEdgeMergeDecimationFilter.txx:.*warning: unused parameter.*iEdge.*"
+  "itkQuadEdgeMeshEdgeMergeDecimationFilter.hxx:.*warning: unused parameter.*iEdge.*"
   "vnl_diag_matrix.h"
   "WARNING non-zero return value in ctest"
   "Warning.*Anachronism.*"
@@ -89,6 +92,7 @@ SET(CTEST_CUSTOM_WARNING_EXCEPTION
   ".*[/\\\\][Mm]odules[/\\\\][Tt]hird[Pp]arty[/\\\\][Vv][Nn][Ll][/\\\\].*[Ww]arning.*"
   ".*[/\\\\][Mm]odules[/\\\\][Tt]hird[Pp]arty[/\\\\][Vv][Nn][Ll][Ii]nstantiation[/\\\\].*[Ww]arning.*"
   ".*[/\\\\][Mm]odules[/\\\\][Tt]hird[Pp]arty[/\\\\][Zz][Ll][Ii][Bb][/\\\\].*[Ww]arning.*"
+  ".*Microsoft.*include.*win.*.h.*[Ww]arning.*"
   )
 
 IF(APPLE)

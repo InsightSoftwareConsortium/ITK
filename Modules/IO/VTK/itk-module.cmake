@@ -1,6 +1,11 @@
-itk_module(ITK-IO-VTK
+set(DOCUMENTATION "This module contains classes for reading and writing image
+files in the \"legacy\" (non-XML) VTK file format.")
+
+itk_module(ITKIOVTK
   DEPENDS
-    ITK-IO-Base
+    ITKIOBase
   TEST_DEPENDS
-    ITK-TestKernel
+    ITKTestKernel
+  DESCRIPTION
+    "${DOCUMENTATION}"
 )

@@ -23,7 +23,7 @@
 namespace itk
 {
 /** \class RedPixelAccessor
- * \brief Give access to the red component of a RGBPixel type
+ * \brief Give access to the red component of a RGBPixel type.
  *
  * This class is intended to be used as parameter of
  * an ImageAdaptor to make an RGBPixel image appear as being
@@ -31,7 +31,7 @@ namespace itk
  *
  * \sa ImageAdaptor
  * \ingroup ImageAdaptors
- * \ingroup ITK-ImageAdaptors
+ * \ingroup ITKImageAdaptors
  */
 
 template< class T >
@@ -51,11 +51,15 @@ public:
 
   /** Write access to the Red component */
   inline void Set(InternalType & output, const ExternalType & input) const
-  { output.SetRed(input); }
+  {
+    output.SetRed(input);
+  }
 
   /** Read access to the Red component */
   inline const ExternalType & Get(const InternalType & input) const
-  { return input.GetRed(); }
+  {
+    return input.GetRed();
+  }
 
   bool operator!=(const Self &) const
   {

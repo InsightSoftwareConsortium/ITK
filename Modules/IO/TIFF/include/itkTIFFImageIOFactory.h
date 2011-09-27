@@ -18,9 +18,6 @@
 #ifndef __itkTIFFImageIOFactory_h
 #define __itkTIFFImageIOFactory_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"
@@ -29,7 +26,7 @@ namespace itk
 {
 /** \class TIFFImageIOFactory
  * \brief Create instances of TIFFImageIO objects using an object factory.
- * \ingroup ITK-IO-TIFF
+ * \ingroup ITKIOTIFF
  */
 class ITK_EXPORT TIFFImageIOFactory:public ObjectFactoryBase
 {

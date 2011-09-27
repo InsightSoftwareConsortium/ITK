@@ -77,7 +77,7 @@ namespace itk
  * parameter and the conductance parameter: for a given conductance parameter,
  * surface features with high enough curvature will be preserved even if the
  * number of iterations is set to be extremely large.
- * \ingroup ITK-LevelSets
+ * \ingroup ITKLevelSets
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT AnisotropicFourthOrderLevelSetImageFilter:
@@ -143,7 +143,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAnisotropicFourthOrderLevelSetImageFilter.txx"
+#include "itkAnisotropicFourthOrderLevelSetImageFilter.hxx"
 #endif
 
 #endif

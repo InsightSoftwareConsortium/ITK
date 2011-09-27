@@ -26,7 +26,7 @@ namespace itk
 {
 /** \class TimeProbe
  *
- *  \brief Class for computing the time passed between two points in the code.
+ *  \brief Computes the time passed between two points in code.
  *
  *   This class allows the user to trace the time passed between the execution
  *   of two pieces of code.  It can be started and stopped in order to evaluate
@@ -35,7 +35,7 @@ namespace itk
  *
  *   \sa RealTimeClock
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{Utilities/TimeProbe,Time probe}

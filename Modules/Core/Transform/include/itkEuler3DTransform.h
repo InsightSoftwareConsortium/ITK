@@ -41,20 +41,19 @@ namespace itk
  * The serialization of the fixed parameters is an array of 3 elements defining
  * the center of rotation.
  *
- * \ingroup Transforms
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  */
-template< class TScalarType = double >
+template <class TScalarType = double>
 // Data type for scalars (float or double)
-class ITK_EXPORT Euler3DTransform:
-  public Rigid3DTransform< TScalarType >
+class ITK_EXPORT Euler3DTransform :
+  public Rigid3DTransform<TScalarType>
 {
 public:
   /** Standard class typedefs. */
-  typedef Euler3DTransform                Self;
-  typedef Rigid3DTransform< TScalarType > Superclass;
-  typedef SmartPointer< Self >            Pointer;
-  typedef SmartPointer< const Self >      ConstPointer;
+  typedef Euler3DTransform              Self;
+  typedef Rigid3DTransform<TScalarType> Superclass;
+  typedef SmartPointer<Self>            Pointer;
+  typedef SmartPointer<const Self>      ConstPointer;
 
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro(Self);
@@ -106,7 +105,7 @@ public:
    * given point or vector, returning the transformed point or
    * vector. The rank of the Jacobian will also indicate if the
    * transform is invertible at this point. */
-  const JacobianType & GetJacobian(const InputPointType  & point) const;
+  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const;
 
   /** Set/Get the order of the computation. Default ZXY */
   itkSetMacro(ComputeZYX, bool);
@@ -115,13 +114,13 @@ public:
   virtual void SetIdentity(void);
 
 protected:
+  Euler3DTransform(const MatrixType & matrix, const OutputPointType & offset);
+  Euler3DTransform(unsigned int paramsSpaceDims);
   Euler3DTransform();
-  Euler3DTransform(const MatrixType & matrix,
-                   const OutputPointType & offset);
-  Euler3DTransform(unsigned int outputSpaceDims,
-                   unsigned int paramsSpaceDims);
 
-  ~Euler3DTransform(){}
+  ~Euler3DTransform()
+  {
+  }
 
   void PrintSelf(std::ostream & os, Indent indent) const;
 
@@ -134,24 +133,24 @@ protected:
   void ComputeMatrixParameters(void);
 
 private:
-  Euler3DTransform(const Self &); //purposely not implemented
-  void operator=(const Self &);   //purposely not implemented
+  Euler3DTransform(const Self &); // purposely not implemented
+  void operator=(const Self &);   // purposely not implemented
 
   ScalarType m_AngleX;
   ScalarType m_AngleY;
   ScalarType m_AngleZ;
   bool       m_ComputeZYX;
-}; //class Euler3DTransform
+}; // class Euler3DTransform
 }  // namespace itk
 
 // Define instantiation macro for this template.
 #define ITK_TEMPLATE_Euler3DTransform(_, EXPORT, TypeX, TypeY)     \
   namespace itk                                                    \
   {                                                                \
-  _( 1 ( class EXPORT Euler3DTransform< ITK_TEMPLATE_1 TypeX > ) ) \
+  _( 1 ( class EXPORT Euler3DTransform<ITK_TEMPLATE_1 TypeX> ) ) \
   namespace Templates                                              \
   {                                                                \
-  typedef Euler3DTransform< ITK_TEMPLATE_1 TypeX >                 \
+  typedef Euler3DTransform<ITK_TEMPLATE_1 TypeX>                 \
   Euler3DTransform##TypeY;                                       \
   }                                                                \
   }
@@ -161,7 +160,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkEuler3DTransform.txx"
+#include "itkEuler3DTransform.hxx"
 #endif
 
 #endif /* __itkEuler3DTransform_h */

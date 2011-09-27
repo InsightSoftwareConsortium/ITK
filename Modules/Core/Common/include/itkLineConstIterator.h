@@ -25,11 +25,12 @@ namespace itk
 {
 /**
  * \class LineConstIterator
- * \brief Iterator that walks a Bresenham line through an ND image.
+ * \brief An iterator that walks a Bresenham line through an ND image
+ *        with read-only access to pixels.
  *
  * LineConstIterator is an iterator that walks a Bresenham line
  * through an image.  The iterator is constructed similar to other
- * image iterators except for instead of specifying a region to
+ * image iterators, except instead of specifying a region to
  * traverse, you specify two indices. The interval specified by
  * the two indices is closed.  So, a line iterator specified with
  * the same start and end index will visit exactly one pixel.
@@ -42,10 +43,10 @@ namespace itk
  * }
  * \endcode
  *
- * This class was contributed by Benjamin King, Experimentelle
- * Radiologie, Medizinische Hochschule Hannover.
+ * \author Benjamin King, Experimentelle Radiologie, Medizinische
+ * Hochschule Hannover.
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{Iterators/LineConstIterator,Iterate over a line through an image without write access}
@@ -58,7 +59,7 @@ public:
   /** Standard class typedefs. */
   typedef LineConstIterator Self;
 
-  /** Dimension of the image the iterator walks.  This constant is needed so
+  /** Dimension of the image that the iterator walks.  This constant is needed so
    * that functions that are templated over image iterator type (as opposed to
    * being templated over pixel type and dimension) can have compile time
    * access to the dimension of the image that the iterator walks. */
@@ -87,7 +88,7 @@ public:
   typedef TImage ImageType;
 
   /** PixelContainer typedef support. Used to refer to the container for
-   * the pixel data. While this was already typdef'ed in the superclass
+   * the pixel data. While this was already typdef'ed in the superclass,
    * it needs to be redone here for this subclass to compile properly with gcc. */
   typedef typename TImage::PixelContainer  PixelContainer;
   typedef typename PixelContainer::Pointer PixelContainerPointer;
@@ -201,7 +202,7 @@ protected: //made protected so other iterators can access
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkLineConstIterator.txx"
+#include "itkLineConstIterator.hxx"
 #endif
 
 #endif

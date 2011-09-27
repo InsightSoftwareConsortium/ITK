@@ -15,13 +15,11 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
+
 #include "itkReinitializeLevelSetImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkShiftScaleImageFilter.h"
-#include "itkDifferenceImageFilter.h"
+#include "itkTestingComparisonImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"
 #include "itkMultiplyImageFilter.h"
 
@@ -135,7 +133,7 @@ int itkReinitializeLevelSetImageFilterTest(int, char* [] )
 */
 
   // Check the output signed distance map is within threshold
-  typedef itk::DifferenceImageFilter<ImageType,ImageType> DifferenceType;
+  typedef itk::Testing::ComparisonImageFilter<ImageType,ImageType> DifferenceType;
   DifferenceType::Pointer difference = DifferenceType::New();
   difference->SetTestInput( image );
   difference->SetValidInput( reinitializer->GetOutput() );

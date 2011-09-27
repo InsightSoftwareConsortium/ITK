@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <iostream>
 #include <vector>
@@ -31,10 +28,10 @@ int itkMaximumDecisionRuleTest(int,char *[] )
   std::cout << "==================================" << std::endl;
   std::cout << "Testing MaximumDecionRule " << std::endl << std::endl;
 
-  typedef itk::MaximumDecisionRule  DecisionRuleType;
+  typedef itk::Statistics::MaximumDecisionRule  DecisionRuleType;
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
 
-  std::vector< double > discriminantScores;
+  DecisionRuleType::MembershipVectorType discriminantScores;
   discriminantScores.resize( 3 );
 
   discriminantScores[0] = 0.0;
@@ -47,7 +44,7 @@ int itkMaximumDecisionRuleTest(int,char *[] )
     return EXIT_FAILURE;
     }
 
-  DecisionRuleType::VectorType discriminantScores2;
+  DecisionRuleType::MembershipVectorType discriminantScores2;
   discriminantScores2.resize( 3 );
 
   discriminantScores2[0] = 0.0;
@@ -60,18 +57,7 @@ int itkMaximumDecisionRuleTest(int,char *[] )
     return EXIT_FAILURE;
     }
 
-  DecisionRuleType::ArrayType discriminantScores3(3);
-
-  discriminantScores3[0] = 0.0;
-  discriminantScores3[1] = 1.0;
-  discriminantScores3[2] = 2.0;
-
-  if ( decisionRule->Evaluate( discriminantScores3 ) != 2 )
-    {
-    std::cout << "[FAILED]" << std::endl;
-    return EXIT_FAILURE;
-    }
-
   std::cout << "[SUCCEEDED]" << std::endl;
+
   return EXIT_SUCCESS;
 }

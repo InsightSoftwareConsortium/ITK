@@ -15,15 +15,13 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
-
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
 #include "itkResampleImageFilter.h"
+#include "itkImage.h"
+#include "itkLinearInterpolateImageFunction.h"
 
 #include "itkBSplineDeformableTransform.h"
 #include "itkSimilarity2DTransform.h"

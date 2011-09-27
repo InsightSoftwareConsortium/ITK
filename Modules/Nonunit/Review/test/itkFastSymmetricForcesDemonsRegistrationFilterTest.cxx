@@ -15,9 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
+
 #include "itkFastSymmetricForcesDemonsRegistrationFilter.h"
 
 #include "itkIndex.h"
@@ -177,7 +175,7 @@ int itkFastSymmetricForcesDemonsRegistrationFilterTest(int, char* [] )
     RegistrationType;
   RegistrationType::Pointer registrator = RegistrationType::New();
 
-  registrator->SetInitialDeformationField( caster->GetOutput() );
+  registrator->SetInitialDisplacementField( caster->GetOutput() );
   registrator->SetMovingImage( moving );
   registrator->SetFixedImage( fixed );
   registrator->SetNumberOfIterations( 200 );
@@ -226,7 +224,7 @@ int itkFastSymmetricForcesDemonsRegistrationFilterTest(int, char* [] )
 
 
   warper->SetInput( moving );
-  warper->SetDeformationField( registrator->GetOutput() );
+  warper->SetDisplacementField( registrator->GetOutput() );
   warper->SetInterpolator( interpolator );
   warper->SetOutputSpacing( fixed->GetSpacing() );
   warper->SetOutputOrigin( fixed->GetOrigin() );

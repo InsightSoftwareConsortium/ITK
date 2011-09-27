@@ -18,9 +18,6 @@
 #ifndef __itkVoxBoCUBImageIO_h
 #define __itkVoxBoCUBImageIO_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <fstream>
 #include <string>
@@ -48,7 +45,7 @@ class GenericCUBFileAdaptor;
  *
  * \ingroup IOFilters
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 class ITK_EXPORT VoxBoCUBImageIO:public ImageIOBase
 {

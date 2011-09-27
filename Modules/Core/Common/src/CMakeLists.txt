@@ -1,4 +1,4 @@
-set(ITK-Common_SRCS
+set(ITKCommon_SRCS
 itkLoggerOutput.cxx
 itkProgressAccumulator.cxx
 itkNumericTraits.cxx
@@ -34,7 +34,6 @@ itkDataObject.cxx
 itkThreadLogger.cxx
 itkNumericTraitsTensorPixel.cxx
 itkCommand.cxx
-itk_hashtable.cxx
 itkNumericTraitsPointPixel.cxx
 itkLightObject.cxx
 itkStdStreamLogOutput.cxx
@@ -76,16 +75,16 @@ itkStoppingCriterionBase.cxx
 )
 
 if(WIN32)
-   set(ITK-Common_SRCS ${ITK-Common_SRCS};itkWin32OutputWindow.cxx;itkSmartPointerForwardReferenceProcessObject.cxx)
+   set(ITKCommon_SRCS ${ITKCommon_SRCS};itkWin32OutputWindow.cxx;itkSmartPointerForwardReferenceProcessObject.cxx)
 endif(WIN32)
 
 ### generating libraries
-add_library( ITK-Common ${ITK_LIBRARY_BUILD_TYPE} ${ITK-Common_SRCS})
+add_library( ITKCommon ${ITK_LIBRARY_BUILD_TYPE} ${ITKCommon_SRCS})
 
-target_link_libraries(ITK-Common itksys ITK-VNLInstantiation)
+target_link_libraries(ITKCommon itksys ITKVNLInstantiation)
 
 if(UNIX)
-  target_link_libraries(ITK-Common ${CMAKE_THREAD_LIBS} ${CMAKE_DL_LIBS} -lm)
+  target_link_libraries(ITKCommon ${CMAKE_THREAD_LIBS} ${CMAKE_DL_LIBS} -lm)
 endif(UNIX)
 
-itk_module_target(ITK-Common)
+itk_module_target(ITKCommon)

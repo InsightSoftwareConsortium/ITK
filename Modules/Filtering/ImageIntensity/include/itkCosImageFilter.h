@@ -23,27 +23,13 @@
 
 namespace itk
 {
-/** \class CosImageFilter
- * \brief Computes the vcl_cos(x) pixel-wise
- *
- * This filter is templated over the pixel type of the input image
- * and the pixel type of the output image.
- *
- * The filter will walk over all the pixels in the input image, and for
- * each one of them it will do the following:
- *
- * - cast the pixel value to \c double,
- * - apply the \c vcl_cos() function to the \c double value
- * - cast the \c double value resulting from \c vcl_cos() to the pixel type of the output image
- * - store the casted value into the output image.
- *
- * The filter expect both images to have the same dimension (e.g. both 2D, or both 3D, or both ND)
- *
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageIntensity
- */
 namespace Functor
 {
+/**
+ * \class Cos
+ * \brief
+ * \ingroup ITKImageIntensity
+ */
 template< class TInput, class TOutput >
 class Cos
 {
@@ -66,6 +52,27 @@ public:
   }
 };
 }
+/** \class CosImageFilter
+ * \brief Computes the cosine of each pixel.
+ *
+ * This filter is templated over the pixel type of the input image
+ * and the pixel type of the output image.
+ *
+ * The filter walks over all of the pixels in the input image, and for
+ * each pixel does the following:
+ *
+ * \li cast the pixel value to \c double,
+ * \li apply the \c vcl_cos() function to the \c double value,
+ * \li cast the \c double value resulting from \c vcl_cos() to the pixel type of the output image,
+ * \li store the cast value into the output image.
+ *
+ * The filter expects both images to have the same dimension (e.g. both
+ * 2D, or both 3D, or both ND)
+ *
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
+ * \ingroup ITKImageIntensity
+ */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT CosImageFilter:
   public

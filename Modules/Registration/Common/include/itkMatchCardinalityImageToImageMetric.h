@@ -61,7 +61,7 @@ namespace itk
  * buffers conditional on any assigned masks.
  *
  * \ingroup RegistrationMetrics
- * \ingroup ITK-RegistrationCommon
+ * \ingroup ITKRegistrationCommon
  */
 template< class TFixedImage, class TMovingImage >
 class ITK_EXPORT MatchCardinalityImageToImageMetric:
@@ -102,7 +102,7 @@ public:
                      DerivativeType & derivative) const
   {
     itkWarningMacro(<< "This metric does not provide metric derivatives.");
-    derivative.Fill(NumericTraits< ITK_TYPENAME DerivativeType::ValueType >::Zero);
+    derivative.Fill(NumericTraits< typename DerivativeType::ValueType >::Zero);
   }
 
   /**  Get the value of the metric at a particular parameter
@@ -179,7 +179,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMatchCardinalityImageToImageMetric.txx"
+#include "itkMatchCardinalityImageToImageMetric.hxx"
 #endif
 
 #endif

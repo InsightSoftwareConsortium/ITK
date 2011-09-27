@@ -1,2 +1,2 @@
-project(ITK-IO-RAW)
+project(ITKIORAW)
 itk_module_impl()

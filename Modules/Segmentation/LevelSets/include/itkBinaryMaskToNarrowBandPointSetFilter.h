@@ -48,7 +48,7 @@ namespace itk
  * \sa PointSetToImageRegistrationMethod
  *
  * \ingroup ImageFilters  MeshFilters
- * \ingroup ITK-LevelSets
+ * \ingroup ITKLevelSets
  */
 template< class TInputImage, class TOutputMesh >
 class ITK_EXPORT BinaryMaskToNarrowBandPointSetFilter:
@@ -150,7 +150,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryMaskToNarrowBandPointSetFilter.txx"
+#include "itkBinaryMaskToNarrowBandPointSetFilter.hxx"
 #endif
 
 #endif

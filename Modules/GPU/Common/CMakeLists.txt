@@ -1,4 +1,4 @@
-project(ITK-GPUCommon)
+project(ITKGPUCommon)
 
 
 IF (ITK_USE_GPU)

@@ -63,8 +63,6 @@ namespace itk
  *
  * NDimensions   The number of dimensions of the vector space (must be >=3).
  *
- * \ingroup Transforms
- *
  * \todo Is there any real value in allowing the user to template
  * over the scalar type?  Perhaps it should always be double, unless
  * there's a compatibility problem with the Point class.
@@ -72,7 +70,7 @@ namespace itk
  * \todo  Derive this class from a yet undefined TransformBase class.
  *        Currently, this class derives from AffineTransform, although
  *        it is not an affine transform.
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  *
  * \wiki
  * \wikiexample{Utilities/AzimuthElevationToCartesianTransform,Cartesian to AzimuthElevation and vice-versa}
@@ -240,7 +238,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkAzimuthElevationToCartesianTransform.txx"
+#include "itkAzimuthElevationToCartesianTransform.hxx"
 #endif
 
 #endif /* __itkAzimuthElevationToCartesianTransform_h */

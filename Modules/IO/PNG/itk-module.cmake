@@ -1,7 +1,12 @@
-itk_module(ITK-IO-PNG
+set(DOCUMENTATION "This module contains an ImageIO class for reading and writing
+files in the Portable Network Graphics (PNG) format.")
+
+itk_module(ITKIOPNG
   DEPENDS
-    ITK-PNG
-    ITK-IO-Base
+    ITKPNG
+    ITKIOBase
   TEST_DEPENDS
-    ITK-TestKernel
+    ITKTestKernel
+  DESCRIPTION
+    "${DOCUMENTATION}"
 )

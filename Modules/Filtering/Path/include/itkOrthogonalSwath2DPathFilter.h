@@ -46,7 +46,7 @@ namespace itk
  * It provides a good usage example of itk::OrthogonalSwath2DPathFilter
  *
  * \ingroup PathFilters
- * \ingroup ITK-Path
+ * \ingroup ITKPath
  */
 template< class TFourierSeriesPath, class TSwathMeritImage >
 class ITK_EXPORT OrthogonalSwath2DPathFilter:public
@@ -144,7 +144,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkOrthogonalSwath2DPathFilter.txx"
+#include "itkOrthogonalSwath2DPathFilter.hxx"
 #endif
 
 #endif

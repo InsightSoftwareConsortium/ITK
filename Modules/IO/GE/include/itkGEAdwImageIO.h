@@ -32,9 +32,6 @@
 #ifndef __itkGEAdwImageIO_h
 #define __itkGEAdwImageIO_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkIPLCommonImageIO.h"
 
@@ -46,7 +43,7 @@ namespace itk
  * \brief Class that defines how to read GEAdw file format.
  *
  * \ingroup IOFilters
- * \ingroup ITK-IO-GE
+ * \ingroup ITKIOGE
  */
 class ITK_EXPORT GEAdwImageIO:public IPLCommonImageIO
 {

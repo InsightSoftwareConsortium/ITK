@@ -29,12 +29,13 @@
 namespace itk
 {
 /** \class Matrix
- * \brief A templated class holding a M x N size Matrix
+ * \brief A templated class holding a M x N size Matrix.
+ *
  * This class contains a vnl_matrix_fixed in order
  * to make all the vnl mathematical methods available.
  *
  * \ingroup DataRepresentation
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{Math/Matrix,Matrix}
@@ -59,6 +60,11 @@ public:
   /** Internal matrix type */
   typedef vnl_matrix_fixed< T, NRows, NColumns > InternalMatrixType;
 
+  /** Compatible square matrix. This is currently used by operator* to help
+   * with wrapping.  \todo In the future, the method should be templated to allow
+   * multiplication by NColumns by XRows.*/
+  typedef Matrix<T, NColumns, NColumns> CompatibleSquareMatrixType;
+
   /** Matrix by Vector multiplication.  */
   Vector< T, NRows > operator *(const Vector< T, NColumns > & vector) const;
 
@@ -70,7 +76,7 @@ public:
   operator *(const CovariantVector< T, NColumns > & vector) const;
 
   /** Matrix by Matrix multiplication.  */
-  Self operator *(const Self & matrix) const;
+  Self operator *(const CompatibleSquareMatrixType & matrix) const;
 
   /** Matrix addition.  */
   Self operator+(const Self & matrix) const;
@@ -86,7 +92,7 @@ public:
   vnl_matrix< T > operator *(const vnl_matrix< T > & matrix) const;
 
   /** Matrix by Matrix multiplication.  */
-  void operator*=(const Self & matrix);
+  void operator*=(const CompatibleSquareMatrixType & matrix);
 
   /** Matrix by vnl_matrix multiplication.  */
   void operator*=(const vnl_matrix< T > & matrix);
@@ -130,31 +136,45 @@ public:
 
   /** Return an element of the matrix. */
   inline const T & operator()(unsigned int row, unsigned int col) const
-  { return m_Matrix(row, col); }
+  {
+    return m_Matrix(row, col);
+  }
 
   /** Return a row of the matrix. */
   inline T * operator[](unsigned int i)
-  { return m_Matrix[i]; }
+  {
+    return m_Matrix[i];
+  }
 
   /** Return a row of the matrix. */
   inline const T * operator[](unsigned int i) const
-  { return m_Matrix[i]; }
+  {
+    return m_Matrix[i];
+  }
 
   /** Return the matrix. */
   inline InternalMatrixType & GetVnlMatrix(void)
-  { return m_Matrix; }
+  {
+    return m_Matrix;
+  }
 
   /** Return the matrix. */
   inline const InternalMatrixType & GetVnlMatrix(void) const
-  { return m_Matrix; }
+  {
+    return m_Matrix;
+  }
 
   /** Set the matrix to identity. */
   inline void SetIdentity(void)
-  { m_Matrix.set_identity(); }
+  {
+    m_Matrix.set_identity();
+  }
 
   /** Fill the matrix with a value. */
   inline void Fill(const T & value)
-  { m_Matrix.fill(value); }
+  {
+    m_Matrix.fill(value);
+  }
 
   /** Assignment operator. */
   inline const Self & operator=(const vnl_matrix< T > & matrix)
@@ -262,7 +282,7 @@ ITK_EXPORT std::ostream & operator<<(std::ostream & os, const Matrix< T, NRows, 
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkMatrix.txx"
+#include "itkMatrix.hxx"
 #endif
 
 #endif

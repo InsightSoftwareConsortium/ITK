@@ -18,9 +18,12 @@
 #ifndef __itkFEMP_h
 #define __itkFEMP_h
 
-namespace itk {
-namespace fem {
+#include <iostream>
 
+namespace itk
+{
+namespace fem
+{
 /**
  * \class FEMP
  * \brief Pointer used to store polymorphic elements in STL arrays.
@@ -39,9 +42,9 @@ namespace fem {
  * Class T should also include typedefs T::Pointer and T::ConstPointer that
  * define standard pointers to the class. Note that these could be
  * SmartPointer classes.
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
-template<class T>
+template <class T>
 class FEMP
 {
 public:
@@ -52,24 +55,29 @@ public:
    * on destruction.
    */
   FEMP() : m_Data(0)
-    {
-    }
+  {
+  }
 
   /**
    * Copy constructor. Clone() method is called
    * to duplicate the existing object.
    */
-  FEMP(const FEMP& x)
-    {
-    if (x.m_Data)
+  FEMP(const FEMP & x)
+  {
+    if( x.m_Data )
       {
-      m_Data=static_cast<T*>(&*x.m_Data->Clone());
+#ifdef USE_FEM_CLONE
+      m_Data = static_cast<T *>( x.m_Data->Clone().GetPointer() );
+#else
+      std::cout << "Create Another" << std::endl;
+      m_Data = static_cast<T *>( x.m_Data->CreateAnother().GetPointer() );
+#endif
       }
     else
       {
-      m_Data=0;
+      m_Data = 0;
       }
-    }
+  }
 
   /**
    * Conversion constructor from T::Pointer to FEMP<T>.
@@ -78,33 +86,35 @@ public:
    * use: FEMP(x->Clone()) instead of FEMP(x).
    */
   explicit FEMP(typename T::Pointer x) : m_Data(x)
-    {}
+  {
+  }
 
   /**
    * Destructor of a special pointer class also destroys the actual object.
    */
   ~FEMP()
-    {
-    #ifndef FEM_USE_SMART_POINTERS
-    delete m_Data;
-    #endif
-    }
+  {
+    m_Data = 0;
+  }
 
   /**
    * Asignment operator
    */
-  const FEMP& operator= (const FEMP &rhs);
+  const FEMP<T> & operator=(const FEMP<T> & rhs);
 
   /**
    * Easy access to members of stored object
    */
-  typename T::Pointer operator-> () const { return m_Data; }
+  typename T::Pointer operator->() const
+  {
+    return m_Data;
+  }
 
   /**
    * Dereferencing operator provides automatic conversion from
    * special to standard pointer to object
    */
-  operator T * () const
+  operator T *() const
     {
     return m_Data;
     }
@@ -114,9 +124,9 @@ public:
    * to a valid object and false otherwise.
    */
   bool IsNULL() const
-    {
-    return (m_Data==0);
-    }
+  {
+    return m_Data == 0;
+  }
 
 private:
 
@@ -124,42 +134,41 @@ private:
    * Pointer to actual object. Note that this could be a SmartPointer.
    */
   typename T::Pointer m_Data;
-
 };
 
-template<class T>
-const FEMP<T>& FEMP<T>::operator= (const FEMP &rhs)
+template <class T>
+const FEMP<T> & FEMP<T>::operator=(const FEMP<T> & rhs)
 {
-
   /** Self assignments don't make sense. */
-  if (&rhs!=this)
+  if( &rhs != this )
     {
     /**
      * First destroy the existing object on the left hand side
      */
-    #ifndef FEM_USE_SMART_POINTERS
-    delete m_Data;
-    #else
-    m_Data=0;
-    #endif
+    m_Data = 0;
 
     /**
      * Then clone the one on the right hand side
      * of the expression (if not NULL).
      */
-    if (rhs.m_Data)
+    if( rhs.m_Data )
       {
-      m_Data=static_cast<T*>(&*rhs.m_Data->Clone());
+#ifdef USE_FEM_CLONE
+      m_Data = static_cast<T *>( rhs.m_Data->Clone().GetPointer() );
+#else
+      m_Data = static_cast<T *>( rhs.m_Data->CreateAnother().GetPointer() );
+#endif
+
       }
     else
       {
-      m_Data=0;
+      m_Data = 0;
       }
-
     }
   return *this;
 }
 
-}} // end namespace itk::fem
+}
+}  // end namespace itk::fem
 
 #endif // #ifndef __itkFEMP_h

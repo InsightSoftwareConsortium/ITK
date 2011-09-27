@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <iostream>
 #include "itkVector.h"
@@ -26,22 +23,15 @@
 #include "itkDataObjectDecorator.h"
 #include "itkAutoPointerDataObjectDecorator.h"
 
-// Problems with gcc 2.95. Temporary workaround
-#if !(defined(__GNUC__) && __GNUC__ <= 2)
-#define OK
-#endif
-
-#ifdef OK
 namespace {
-template <class charT, class traits, class T, class A>
-std::basic_ostream<charT, traits>&
-operator<<(std::basic_ostream<charT, traits>&os, const std::vector<T,A> &p)
+template <class CharType, class TraitsType, class MemberType, class AllocatorType>
+std::basic_ostream<CharType, TraitsType>&
+operator<<(std::basic_ostream<CharType, TraitsType>&os, const std::vector<MemberType,AllocatorType> &p)
 {
-  os << "vector<" << typeid(T).name() << "> with " << p.size() << " elements " << std::endl;
+  os << "vector<" << typeid(MemberType).name() << "> with " << p.size() << " elements " << std::endl;
   return os;
 }
 }
-#endif
 
 int itkDecoratorTest(int, char* [] )
 {
@@ -61,7 +51,7 @@ int itkDecoratorTest(int, char* [] )
   std::cout << "----------------------------------------------------"
             << std::endl;
 
-  typedef itk::AffineTransform<double, 3> TransformType;
+  typedef itk::AffineTransform<double, 3>         TransformType;
   typedef itk::DataObjectDecorator<TransformType> TransformObjectType;
 
   TransformObjectType::Pointer decoratedTransform = TransformObjectType::New();
@@ -79,21 +69,17 @@ int itkDecoratorTest(int, char* [] )
   std::cout << "----------------------------------------------------"
             << std::endl;
 
-  typedef std::vector<float> VectorType;
-  typedef VectorType* VectorPointer;
-  typedef itk::SimpleDataObjectDecorator<VectorType> VectorObjectType;
+  typedef std::vector<float>                              VectorType;
+  typedef VectorType*                                     VectorPointer;
+  typedef itk::SimpleDataObjectDecorator<VectorType>      VectorObjectType;
   typedef itk::AutoPointerDataObjectDecorator<VectorType> VectorPointerObjectType;
 
   VectorType v;
   v.resize(5);
-#ifdef OK
   std::cout << v << std::endl;
-#endif
   VectorObjectType::Pointer vo = VectorObjectType::New();
   vo->Set(v);
-#ifdef OK
   std::cout << vo;
-#endif
   std::cout << "----------------------------------------------------"
             << std::endl;
 
@@ -104,16 +90,12 @@ int itkDecoratorTest(int, char* [] )
   VectorPointer vp;
   vp = new VectorType;
   vp->resize(3);
-#ifdef OK
   std::cout << *vp << std::endl;
-#endif
 
   VectorPointerObjectType::Pointer vop = VectorPointerObjectType::New();
   vop->Set(vp);
 
-#ifdef OK
   std::cout << vop;
-#endif
   }
 
   std::cout << "----------------------------------------------------"

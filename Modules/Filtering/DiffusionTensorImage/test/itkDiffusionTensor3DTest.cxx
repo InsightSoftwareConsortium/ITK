@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <iostream>
 
@@ -463,7 +460,6 @@ int itkDiffusionTensor3DTest(int, char* [] )
   //Test casting constructors
   {
     typedef itk::DiffusionTensor3D<int>     Int3DTensorType;
-    typedef itk::DiffusionTensor3D<float>   Float3DTensorType;
 
     Int3DTensorType intTensor;
     intTensor[0] =   1;

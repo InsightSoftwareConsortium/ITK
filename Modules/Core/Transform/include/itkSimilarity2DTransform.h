@@ -56,20 +56,19 @@ namespace itk
  * \sa MatrixOffsetTransformBase
  * \sa Rigid2DTransform
  *
- * \ingroup Transforms
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  */
-template< class TScalarType = double >
+template <class TScalarType = double>
 // Data type for scalars (float or double)
-class ITK_EXPORT Similarity2DTransform:
-  public Rigid2DTransform< TScalarType >
+class ITK_EXPORT Similarity2DTransform :
+  public Rigid2DTransform<TScalarType>
 {
 public:
   /** Standard class typedefs. */
-  typedef Similarity2DTransform           Self;
-  typedef Rigid2DTransform< TScalarType > Superclass;
-  typedef SmartPointer< Self >            Pointer;
-  typedef SmartPointer< const Self >      ConstPointer;
+  typedef Similarity2DTransform         Self;
+  typedef Rigid2DTransform<TScalarType> Superclass;
+  typedef SmartPointer<Self>            Pointer;
+  typedef SmartPointer<const Self>      ConstPointer;
 
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro(Self);
@@ -152,9 +151,8 @@ public:
 
   /** This method computes the Jacobian matrix of the transformation
   * at a given input point.
-  *
-  * \sa Transform::GetJacobian() */
-  const JacobianType & GetJacobian(const InputPointType  & point) const;
+  */
+  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const;
 
   /** Set the transformation to an identity. */
   virtual void SetIdentity(void);
@@ -193,11 +191,13 @@ public:
   virtual void SetMatrix(const MatrixType & matrix);
 
 protected:
+  Similarity2DTransform(unsigned int outputSpaceDimension, unsigned int parametersDimension);
+  Similarity2DTransform(unsigned int parametersDimension);
   Similarity2DTransform();
-  Similarity2DTransform(unsigned int spaceDimension,
-                        unsigned int parametersDimension);
 
-  ~Similarity2DTransform(){}
+  ~Similarity2DTransform()
+  {
+  }
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Compute matrix from angle and scale. This is used in Set methods
@@ -213,23 +213,25 @@ protected:
 
   /** Set the scale without updating underlying variables. */
   void SetVarScale(ScaleType scale)
-  { m_Scale = scale; }
+  {
+    m_Scale = scale;
+  }
 private:
-  Similarity2DTransform(const Self &); //purposely not implemented
-  void operator=(const Self &);        //purposely not implemented
+  Similarity2DTransform(const Self &); // purposely not implemented
+  void operator=(const Self &);        // purposely not implemented
 
   ScaleType m_Scale;
-}; //class Similarity2DTransform
+}; // class Similarity2DTransform
 }  // namespace itk
 
 // Define instantiation macro for this template.
 #define ITK_TEMPLATE_Similarity2DTransform(_, EXPORT, TypeX, TypeY)                     \
   namespace itk                                                                         \
   {                                                                                     \
-  _( 1 ( class EXPORT Similarity2DTransform< ITK_TEMPLATE_1 TypeX > ) )                 \
+  _( 1 ( class EXPORT Similarity2DTransform<ITK_TEMPLATE_1 TypeX> ) )                 \
   namespace Templates                                                                   \
   {                                                                                     \
-  typedef Similarity2DTransform< ITK_TEMPLATE_1 TypeX > Similarity2DTransform##TypeY; \
+  typedef Similarity2DTransform<ITK_TEMPLATE_1 TypeX> Similarity2DTransform##TypeY; \
   }                                                                                     \
   }
 
@@ -238,7 +240,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkSimilarity2DTransform.txx"
+#include "itkSimilarity2DTransform.hxx"
 #endif
 
 #endif /* __itkSimilarity2DTransform_h */

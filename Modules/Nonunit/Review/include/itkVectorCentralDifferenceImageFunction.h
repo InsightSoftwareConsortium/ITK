@@ -52,7 +52,7 @@ struct GetDimension {
  * http://hdl.handle.net/1926/510
  *
  * \ingroup ImageFunctions
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template<
   class TInputImage,
@@ -170,7 +170,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVectorCentralDifferenceImageFunction.txx"
+#include "itkVectorCentralDifferenceImageFunction.hxx"
 #endif
 
 #endif

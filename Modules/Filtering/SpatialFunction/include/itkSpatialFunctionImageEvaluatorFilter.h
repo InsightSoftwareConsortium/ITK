@@ -37,7 +37,7 @@ namespace itk
  * pipeline and produces a unique output image.
  *
  * \ingroup ImageFilters
- * \ingroup ITK-SpatialFunction
+ * \ingroup ITKSpatialFunction
  */
 template< class TSpatialFunction, class TInputImage, class TOutputImage >
 class ITK_EXPORT SpatialFunctionImageEvaluatorFilter:
@@ -101,7 +101,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSpatialFunctionImageEvaluatorFilter.txx"
+#include "itkSpatialFunctionImageEvaluatorFilter.hxx"
 #endif
 
 #endif

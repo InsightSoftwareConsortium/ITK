@@ -23,28 +23,13 @@
 
 namespace itk
 {
-/** \class NotImageFilter
- * \brief Implements the NOT logical operator pixel-wise on an image.
- *
- * This class is parametrized over the types of an
- * input image and the type of the output image.
- * Numeric conversions (castings) are done by the C++ defaults.
- *
- * Since the logical NOT operation is only defined in C++ for integer
- * types, the images passed to this filter must comply with the requirement
- * of using integer pixel type.
- *
- * The total operation over one pixel will be
- *
- *  output_pixel = static_cast<OutputPixelType>( !input_pixel )
- *
- * Where "!" is the unary NOT operator in C++.
- *
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageIntensity
- */
 namespace Functor
 {
+/**
+ * \class NOT
+ * \brief
+ * \ingroup ITKImageIntensity
+ */
 template< class TInput, class TOutput = TInput >
 class NOT
 {
@@ -67,6 +52,29 @@ public:
   }
 };
 }
+/** \class NotImageFilter
+ * \brief Implements the NOT logical operator pixel-wise on an image.
+ *
+ * This class is templated over the types of an
+ * input image and the type of the output image.
+ * Numeric conversions (castings) are done by the C++ defaults.
+ *
+ * Since the logical NOT operation is only defined in C++ for integer
+ * types, the images passed to this filter must comply with the requirement
+ * of using integer pixel type.
+ *
+ * The total operation over one pixel will be
+ *
+ * \code
+ *  output_pixel = static_cast<OutputPixelType>( !input_pixel )
+ * \endcode
+ *
+ * Where "!" is the unary NOT operator in C++.
+ *
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
+ * \ingroup ITKImageIntensity
+ */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT NotImageFilter:
   public

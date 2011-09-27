@@ -2,3 +2,4 @@ MINC2ImageIO
 Brains2MaskImageIO
 AnalyzeImageIO
 DicomImageIO
+PhilipsRECImageIO

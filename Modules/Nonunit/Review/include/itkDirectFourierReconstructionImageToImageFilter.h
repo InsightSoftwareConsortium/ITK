@@ -21,8 +21,8 @@
 #include "itkImageToImageFilter.h"
 #include "itkImage.h"
 
-#include "itkVnlFFTRealToComplexConjugateImageFilter.h"
-#include "itkVnlFFTComplexConjugateToRealImageFilter.h"
+#include "itkVnlForwardFFTImageFilter.h"
+#include "itkVnlInverseFFTImageFilter.h"
 
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageSliceConstIteratorWithIndex.h"
@@ -45,7 +45,7 @@ namespace itk
  * http://hdl.handle.net/1926/585
  *
  * \ingroup ImageFilters
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TInputImage, class TOutputImage=TInputImage >
 class ITK_EXPORT DirectFourierReconstructionImageToImageFilter:
@@ -137,7 +137,7 @@ private:
 
   /** 1D FFT filter type */
   typedef Image< double, 1 >                                       LineImageType;
-  typedef VnlFFTRealToComplexConjugateImageFilter< LineImageType > FFTLineFilterType;
+  typedef VnlForwardFFTImageFilter< LineImageType > FFTLineFilterType;
   /** Derived 1D FFT image type */
   typedef FFTLineFilterType::OutputImageType FFTLineType;
   /** Derived 1D input image type */
@@ -149,7 +149,7 @@ private:
 
   /** 2D inverse FFT filter type */
   typedef Image< std::complex<double>, 2>                          IFFTImageType;
-  typedef VnlFFTComplexConjugateToRealImageFilter< IFFTImageType > IFFTSliceFilterType;
+  typedef VnlInverseFFTImageFilter< IFFTImageType > IFFTSliceFilterType;
   /** Derived 2D FFT image type */
   typedef IFFTSliceFilterType::InputImageType FFTSliceType;
   /** Derived 2D output slice type */
@@ -186,7 +186,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDirectFourierReconstructionImageToImageFilter.txx"
+#include "itkDirectFourierReconstructionImageToImageFilter.hxx"
 #endif
 
 #endif /* __itkDirectFourierReconstructionImageToImageFilter_h */

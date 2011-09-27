@@ -21,6 +21,7 @@
 #include "itkObject.h"
 #include "itkObjectFactory.h"
 #include "itkArray.h"
+#include "itkTransformParameters.h"
 
 namespace itk
 {
@@ -31,7 +32,7 @@ namespace itk
  *  It is not intended to be instantiated.
  *
  * \ingroup Numerics Optimizers
- * \ingroup ITK-Optimizers
+ * \ingroup ITKOptimizers
  */
 class ITK_EXPORT Optimizer:public Object
 {
@@ -50,7 +51,7 @@ public:
 
   /**  Parameters type.
    *  It defines a position in the optimization search space. */
-  typedef Array< double > ParametersType;
+  typedef TransformParameters< double > ParametersType;
 
   /**  Scale type.
    *  This array defines scale to be applied to parameters before

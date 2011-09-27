@@ -1,15 +1,12 @@
 itk_module_test()
-set(ITK-BiasCorrectionTests
-itkBiasCorrectionHeaderTest.cxx
+set(ITKBiasCorrectionTests
 itkCompositeValleyFunctionTest.cxx
 itkMRIBiasFieldCorrectionFilterTest.cxx
 )
 
-CreateTestDriver(ITK-BiasCorrection  "${ITK-BiasCorrection-Test_LIBRARIES}" "${ITK-BiasCorrectionTests}")
+CreateTestDriver(ITKBiasCorrection  "${ITKBiasCorrection-Test_LIBRARIES}" "${ITKBiasCorrectionTests}")
 
-itk_add_test(NAME itkBiasCorrectionHeaderTest
-      COMMAND ITK-BiasCorrectionTestDriver itkBiasCorrectionHeaderTest)
 itk_add_test(NAME itkCompositeValleyFunctionTest
-      COMMAND ITK-BiasCorrectionTestDriver itkCompositeValleyFunctionTest)
+      COMMAND ITKBiasCorrectionTestDriver itkCompositeValleyFunctionTest)
 itk_add_test(NAME itkMRIBiasFieldCorrectionFilterTest
-      COMMAND ITK-BiasCorrectionTestDriver itkMRIBiasFieldCorrectionFilterTest)
+      COMMAND ITKBiasCorrectionTestDriver itkMRIBiasFieldCorrectionFilterTest)

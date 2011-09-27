@@ -1,36 +1,33 @@
 itk_module_test()
-set(ITK-ImageCompareTests
-itkImageCompareHeaderTest.cxx
+set(ITKImageCompareTests
 itkAbsoluteValueDifferenceImageFilterTest.cxx
 itkSquaredDifferenceImageFilterTest.cxx
 itkCheckerBoardImageFilterTest.cxx
 itkConstrainedValueDifferenceImageFilterTest.cxx
 itkSimilarityIndexImageFilterTest.cxx
 itkSTAPLEImageFilterTest.cxx
-itkDifferenceImageFilterTest.cxx
+itkTestingComparisonImageFilterTest.cxx
 )
 
-CreateTestDriver(ITK-ImageCompare  "${ITK-ImageCompare-Test_LIBRARIES}" "${ITK-ImageCompareTests}")
+CreateTestDriver(ITKImageCompare  "${ITKImageCompare-Test_LIBRARIES}" "${ITKImageCompareTests}")
 
-itk_add_test(NAME itkImageCompareHeaderTest
-      COMMAND ITK-ImageCompareTestDriver itkImageCompareHeaderTest)
 itk_add_test(NAME itkAbsoluteValueDifferenceImageFilterTest
-      COMMAND ITK-ImageCompareTestDriver itkAbsoluteValueDifferenceImageFilterTest)
+      COMMAND ITKImageCompareTestDriver itkAbsoluteValueDifferenceImageFilterTest)
 itk_add_test(NAME itkSquaredDifferenceImageFilterTest
-      COMMAND ITK-ImageCompareTestDriver itkSquaredDifferenceImageFilterTest)
+      COMMAND ITKImageCompareTestDriver itkSquaredDifferenceImageFilterTest)
 itk_add_test(NAME itkCheckerBoardImageFilterTest
-      COMMAND ITK-ImageCompareTestDriver itkCheckerBoardImageFilterTest)
+      COMMAND ITKImageCompareTestDriver itkCheckerBoardImageFilterTest)
 itk_add_test(NAME itkConstrainedValueDifferenceImageFilterTest
-      COMMAND ITK-ImageCompareTestDriver itkConstrainedValueDifferenceImageFilterTest)
+      COMMAND ITKImageCompareTestDriver itkConstrainedValueDifferenceImageFilterTest)
 itk_add_test(NAME itkSimilarityIndexImageFilterTest
-      COMMAND ITK-ImageCompareTestDriver itkSimilarityIndexImageFilterTest)
+      COMMAND ITKImageCompareTestDriver itkSimilarityIndexImageFilterTest)
 itk_add_test(NAME itkSTAPLEImageFilterTest
-      COMMAND ITK-ImageCompareTestDriver
+      COMMAND ITKImageCompareTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Algorithms/STAPLEImageFilterTest.mha
               ${ITK_TEST_OUTPUT_DIR}/STAPLEImageFilterTest.mha
     itkSTAPLEImageFilterTest 2 ${ITK_TEST_OUTPUT_DIR}/STAPLEImageFilterTest.mha 255 0.5 ${ITK_DATA_ROOT}/Input/STAPLE1.png ${ITK_DATA_ROOT}/Input/STAPLE2.png ${ITK_DATA_ROOT}/Input/STAPLE3.png ${ITK_DATA_ROOT}/Input/STAPLE4.png)
-itk_add_test(NAME itkDifferenceImageFilterTest
-      COMMAND ITK-ImageCompareTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Common/itkDifferenceImageFilterTest.png
-              ${ITK_TEST_OUTPUT_DIR}/itkDifferenceImageFilterTest.png
-    itkDifferenceImageFilterTest ${ITK_DATA_ROOT}/Input/cake_easy.png ${ITK_DATA_ROOT}/Input/cake_hard.png ${ITK_TEST_OUTPUT_DIR}/itkDifferenceImageFilterTest.png 10 1)
+itk_add_test(NAME itkTestingComparisonImageFilterTest
+      COMMAND ITKImageCompareTestDriver
+      --compare DATA{Input//itkTestingComparisonImageFilterTest.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkTestingComparisonImageFilterTest.png
+    itkTestingComparisonImageFilterTest ${ITK_DATA_ROOT}/Input/cake_easy.png ${ITK_DATA_ROOT}/Input/cake_hard.png ${ITK_TEST_OUTPUT_DIR}/itkTestingComparisonImageFilterTest.png 10 1)

@@ -15,9 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
+
 #include "itkMatchCardinalityImageToImageMetric.h"
 #include "itkImage.h"
 #include "itkArray.h"
@@ -48,7 +46,7 @@ int itkMatchCardinalityImageToImageMetricTest(int argc, char* argv[] )
   TransformType::Pointer transform = TransformType::New();
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
-  itk::Array<double> offset(2);
+  MetricType::ParametersType offset(2);
 
   reader->SetFileName (argv[1]);
   reader->Update();

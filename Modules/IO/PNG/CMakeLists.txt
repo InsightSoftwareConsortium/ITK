@@ -1,3 +1,3 @@
-project(ITK-IO-PNG)
-set(ITK-IO-PNG_LIBRARIES ITK-IO-PNG)
+project(ITKIOPNG)
+set(ITKIOPNG_LIBRARIES ITKIOPNG)
 itk_module_impl()

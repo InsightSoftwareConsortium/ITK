@@ -19,6 +19,7 @@
 #ifndef __itkNodePair_h
 #define __itkNodePair_h
 
+#include <utility>
 
 namespace itk
 {
@@ -26,10 +27,10 @@ namespace itk
 \class NodePair
 \brief Represents a Node and its associated value (front value)
 
-\ingroup ITK-FastMarching
+\ingroup ITKFastMarching
 */
 template<class NodeType, class OutputPixelType>
-class NodePair : public std::pair< NodeType, OutputPixelType >
+class NodePair : private std::pair< NodeType, OutputPixelType >
   {
 public:
   typedef NodePair                               Self;
@@ -50,7 +51,11 @@ public:
     {
     this->second = iValue;
     }
-  OutputPixelType GetValue() const
+  const OutputPixelType & GetValue() const
+    {
+    return this->second;
+    }
+  OutputPixelType & GetValue()
     {
     return this->second;
     }
@@ -58,7 +63,11 @@ public:
     {
     this->first = iNode;
     }
-  NodeType GetNode() const
+  const NodeType & GetNode() const
+    {
+    return this->first;
+    }
+  NodeType & GetNode()
     {
     return this->first;
     }

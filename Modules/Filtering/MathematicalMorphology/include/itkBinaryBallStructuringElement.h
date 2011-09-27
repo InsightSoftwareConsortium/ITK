@@ -47,7 +47,7 @@ namespace itk
  *
  * \ingroup Operators
  * \ingroup ImageIterators
- * \ingroup ITK-MathematicalMorphology
+ * \ingroup ITKMathematicalMorphology
  *
  * \wiki
  * \wikiexample{Morphology/BinaryBallStructuringElement,An elliptical structuring element}
@@ -74,8 +74,8 @@ public:
   typedef TPixel PixelType;
 
   /** Iterator typedef support. Note the naming is intentional, i.e.,
-  * \\::iterator and \\::const_iterator, because the allocator may be a
-  * vnl object or other type, which uses this form. */
+  * AllocatorType::iterator and AllocatorType::const_iterator, because the
+  * allocator may be a vnl object or other type, which uses this form. */
   typedef typename AllocatorType::iterator       Iterator;
   typedef typename AllocatorType::const_iterator ConstIterator;
 
@@ -132,7 +132,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkBinaryBallStructuringElement.txx"
+#include "itkBinaryBallStructuringElement.hxx"
 #endif
 
 #endif

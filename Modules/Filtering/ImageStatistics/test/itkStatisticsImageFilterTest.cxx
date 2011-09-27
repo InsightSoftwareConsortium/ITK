@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <iostream>
 
@@ -114,7 +111,8 @@ int itkStatisticsImageFilterTest(int, char* [] )
     }
 
   // Now generate an image with a known mean and variance
-  itk::Statistics::MersenneTwisterRandomVariateGenerator::Pointer rvgen = itk::Statistics::MersenneTwisterRandomVariateGenerator::New();
+  itk::Statistics::MersenneTwisterRandomVariateGenerator::Pointer rvgen =
+    itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance();
   double knownMean = 12.0;
   double knownVariance = 10.0;
 

@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifdef _MSC_VER
-#pragma warning( disable : 4611 )
-#endif
 
 #include "itkTIFFImageIO.h"
 #include "itkRGBPixel.h"
@@ -47,8 +44,8 @@ public:
 
   TIFF *         m_Image;
   bool           m_IsOpen;
-  unsigned int   m_Width;
-  unsigned int   m_Height;
+  uint32_t       m_Width;
+  uint32_t       m_Height;
   unsigned short m_NumberOfPages;
   unsigned short m_CurrentPage;
   unsigned short m_SamplesPerPixel;
@@ -63,7 +60,7 @@ public:
   unsigned int   m_TileColumns;
   unsigned int   m_TileWidth;
   unsigned int   m_TileHeight;
-  unsigned short m_NumberOfTiles;
+  uint32_t       m_NumberOfTiles;
   unsigned int   m_SubFiles;
   unsigned int   m_IgnoredSubFiles;
   unsigned int   m_ResolutionUnit;
@@ -306,8 +303,8 @@ void TIFFImageIO::ReadTwoSamplesPerPixelImage(void *out,
                                               unsigned int width,
                                               unsigned int height)
 {
-  unsigned int isize = TIFFScanlineSize(m_InternalImage->m_Image);
-  unsigned int cc;
+  uint64 isize = TIFFScanlineSize64(m_InternalImage->m_Image);
+  uint64 cc;
   int          row;
   tdata_t      buf = _TIFFmalloc(isize);
 
@@ -459,8 +456,8 @@ void TIFFImageIO::ReadGenericImage(void *out,
                                    unsigned int width,
                                    unsigned int height)
 {
-  unsigned int isize = TIFFScanlineSize(m_InternalImage->m_Image);
-  unsigned int cc;
+  uint64 isize = TIFFScanlineSize64(m_InternalImage->m_Image);
+  uint64 cc;
   int          row, inc;
   tdata_t      buf = _TIFFmalloc(isize);
 
@@ -1628,53 +1625,6 @@ void TIFFImageIO::Write(const void *buffer)
     }
 }
 
-class TIFFWriterIO
-{
-public:
-  // Writing file no reading
-  static tsize_t TIFFRead(thandle_t, tdata_t, tsize_t) { return 0; }
-
-  // Write data
-  static tsize_t TIFFWrite(thandle_t fd, tdata_t buf, tsize_t size)
-  {
-    std::ostream *out = reinterpret_cast< std::ostream * >( fd );
-
-    out->write(static_cast< char * >( buf ), size);
-    return out->fail() ? static_cast< tsize_t >( 0 ) : size;
-  }
-
-  static toff_t TIFFSeek(thandle_t fd, toff_t off, int whence)
-  {
-    std::ostream *out = reinterpret_cast< std::ostream * >( fd );
-
-    switch ( whence )
-      {
-      case SEEK_SET:
-        out->seekp(off, std::ios::beg);
-        break;
-      case SEEK_END:
-        out->seekp(off, std::ios::end);
-        break;
-      case SEEK_CUR:
-        out->seekp(off, std::ios::cur);
-        break;
-      default:
-        return static_cast< toff_t >( out->tellp() );
-      }
-    return static_cast< toff_t >( out->tellp() );
-  }
-
-  static toff_t TIFFSize(thandle_t fd)
-  {
-    std::ostream *out = reinterpret_cast< std::ostream * >( fd );
-
-    out->seekp(0, std::ios::end);
-    return static_cast< toff_t >( out->tellp() );
-  }
-
-  static int TIFFMapFile(thandle_t, tdata_t *, toff_t *) { return ( 0 ); }
-  static void TIFFUnmapFile(thandle_t, tdata_t, toff_t) {}
-};
 
 void TIFFImageIO::InternalWrite(const void *buffer)
 {
@@ -1690,7 +1640,8 @@ void TIFFImageIO::InternalWrite(const void *buffer)
     }
 
   int    scomponents = this->GetNumberOfComponents();
-  double resolution = -1;
+  float  resolution_x = static_cast< float >( m_Spacing[0] != 0.0 ? 25.4 / m_Spacing[0] : 0.0);
+  float  resolution_y = static_cast< float >( m_Spacing[1] != 0.0 ? 25.4 / m_Spacing[1] : 0.0);
   uint32 rowsperstrip = ( uint32 ) - 1;
   int    bps;
 
@@ -1715,7 +1666,16 @@ void TIFFImageIO::InternalWrite(const void *buffer)
 
   int predictor;
 
-  TIFF *tif = TIFFOpen(m_FileName.c_str(), "w");
+  const char *mode = "w";
+  // if the size of the image if greater then 2GB then use big tiff
+  if ( this->GetImageSizeInBytes() > SizeType( 1073741824u ) * 3 )
+    {
+    // adding the 8 enable big tiff
+    mode = "w8";
+    }
+
+
+  TIFF *tif = TIFFOpen(m_FileName.c_str(), mode );
   if ( !tif )
     {
     itkExceptionMacro( "Error while trying to open file for writing: "
@@ -1821,12 +1781,13 @@ void TIFFImageIO::InternalWrite(const void *buffer)
     TIFFSetField( tif,
                   TIFFTAG_ROWSPERSTRIP,
                   TIFFDefaultStripSize(tif, rowsperstrip) );
-    if ( resolution > 0 )
-      {
-      TIFFSetField(tif, TIFFTAG_XRESOLUTION, resolution);
-      TIFFSetField(tif, TIFFTAG_YRESOLUTION, resolution);
-      TIFFSetField(tif, TIFFTAG_RESOLUTIONUNIT, RESUNIT_INCH);
-      }
+
+    if ( resolution_x > 0 && resolution_y > 0 )
+     {
+     TIFFSetField(tif, TIFFTAG_XRESOLUTION, resolution_x);
+     TIFFSetField(tif, TIFFTAG_YRESOLUTION, resolution_y);
+     TIFFSetField(tif, TIFFTAG_RESOLUTIONUNIT, RESUNIT_INCH);
+     }
 
     if ( m_NumberOfDimensions == 3 )
       {
@@ -1889,7 +1850,7 @@ bool TIFFImageIO::CanFindTIFFTag(unsigned int t)
     }
 
   ttag_t               tag = t; // 32bits integer
-  const TIFFFieldInfo *fld = TIFFFieldWithTag(m_InternalImage->m_Image, tag);
+  const TIFFField *fld = TIFFFieldWithTag(m_InternalImage->m_Image, tag);
   if ( fld == NULL )
     {
     return false;
@@ -1907,7 +1868,7 @@ void * TIFFImageIO::ReadRawByteFromTag(unsigned int t, short & value_count)
     }
   ttag_t               tag = t;
   void *               raw_data = NULL;
-  const TIFFFieldInfo *fld = TIFFFieldWithTag(m_InternalImage->m_Image, tag);
+  const TIFFField *fld = TIFFFieldWithTag(m_InternalImage->m_Image, tag);
   if ( fld == NULL )
     {
     itkExceptionMacro(<< "fld is NULL");

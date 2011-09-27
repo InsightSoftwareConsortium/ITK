@@ -36,7 +36,7 @@ namespace itk
  * have to take care of transforming this data by other means.
  *
  * \ingroup MeshFilters
- * \ingroup ITK-Mesh
+ * \ingroup ITKMesh
  */
 template< class TInputMesh, class TOutputMesh, class TTransform >
 class ITK_EXPORT TransformMeshFilter:
@@ -88,7 +88,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTransformMeshFilter.txx"
+#include "itkTransformMeshFilter.hxx"
 #endif
 
 #endif

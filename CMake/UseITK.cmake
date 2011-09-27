@@ -10,6 +10,12 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${ITK_REQUIRED_LINK_FLAGS}
 set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ${ITK_REQUIRED_LINK_FLAGS}")
 set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} ${ITK_REQUIRED_LINK_FLAGS}")
 
+# Add FFTW include and library directories
+if (ITK_USE_FFTWF OR ITK_USE_FFTWD)
+  set(ITK_INCLUDE_DIRS ${ITK_INCLUDE_DIRS} "${ITK_FFTW_INCLUDE_PATH}")
+  set(ITK_LIBRARY_DIRS ${ITK_LIBRARY_DIRS} "${ITK_FFTW_LIBDIR}")
+endif()
+
 # Add include directories needed to use ITK.
 include_directories(BEFORE ${ITK_INCLUDE_DIRS})
 
@@ -24,15 +30,15 @@ if(NOT ITK_NO_IO_FACTORY_REGISTER_MANAGER)
   set(LIST_OF_FACTORY_NAMES "")
 
   foreach (ImageFormat  JPEG GDCM BMP LSM PNG TIFF VTK Stimulate BioRad Meta)
-    if (ITK-IO-${ImageFormat}_LOADED)
+    if (ITKIO${ImageFormat}_LOADED)
       set (LIST_OF_FACTORIES_REGISTRATION "${LIST_OF_FACTORIES_REGISTRATION}void ${ImageFormat}ImageIOFactoryRegister__Private(void);")
       set (LIST_OF_FACTORY_NAMES  "${LIST_OF_FACTORY_NAMES}${ImageFormat}ImageIOFactoryRegister__Private,")
     endif()
   endforeach()
 
-  foreach (ImageFormat  Nifti Nrrd Gipl)
+  foreach (ImageFormat  Nifti Nrrd Gipl HDF5 )
     string(TOUPPER ${ImageFormat} ImageFormat_UPPER)
-    if (ITK-IO-${ImageFormat_UPPER}_LOADED)
+    if (ITKIO${ImageFormat_UPPER}_LOADED)
       set (LIST_OF_FACTORIES_REGISTRATION "${LIST_OF_FACTORIES_REGISTRATION}void ${ImageFormat}ImageIOFactoryRegister__Private(void);")
       set (LIST_OF_FACTORY_NAMES  "${LIST_OF_FACTORY_NAMES}${ImageFormat}ImageIOFactoryRegister__Private,")
     endif()

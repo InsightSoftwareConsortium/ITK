@@ -86,7 +86,7 @@ namespace Statistics
  *
  * \author  Zachary Pincus and Glenn Pierce
  *
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  */
 
 template< class TImageType,
@@ -206,7 +206,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkScalarImageToCooccurrenceMatrixFilter.txx"
+#include "itkScalarImageToCooccurrenceMatrixFilter.hxx"
 #endif
 
 #endif

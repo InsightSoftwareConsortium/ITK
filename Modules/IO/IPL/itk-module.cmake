@@ -1,6 +1,11 @@
-itk_module(ITK-IO-IPL
+set(DOCUMENTATION "This module contains code common to both the GE and Siemens
+IO modules.")
+
+itk_module(ITKIOIPL
   DEPENDS
-    ITK-IO-Base
+    ITKIOBase
   TEST_DEPENDS
-    ITK-TestKernel
+    ITKTestKernel
+  DESCRIPTION
+    "${DOCUMENTATION}"
 )

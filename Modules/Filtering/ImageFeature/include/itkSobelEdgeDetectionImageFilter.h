@@ -39,7 +39,11 @@ namespace itk
  *
  * \ingroup ImageFeatureExtraction
  *
- * \ingroup ITK-ImageFeature
+ * \ingroup ITKImageFeature
+ *
+ * \wiki
+ * \wikiexample{EdgesAndGradients/SobelEdgeDetectionImageFilter,SobelEdgeDetectionImageFilter}
+ * \endwiki
  */
 
 template< class TInputImage, class TOutputImage >
@@ -131,13 +135,15 @@ protected:
   void GenerateData();
 
   void PrintSelf(std::ostream & os, Indent indent) const
-  { Superclass::PrintSelf(os, indent); }
+  {
+    Superclass::PrintSelf(os, indent);
+  }
 private:
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSobelEdgeDetectionImageFilter.txx"
+#include "itkSobelEdgeDetectionImageFilter.hxx"
 #endif
 
 #endif

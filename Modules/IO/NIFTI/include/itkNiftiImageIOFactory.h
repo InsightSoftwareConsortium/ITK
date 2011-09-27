@@ -18,9 +18,6 @@
 #ifndef __itkNiftiImageIOFactory_h
 #define __itkNiftiImageIOFactory_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"
@@ -29,7 +26,7 @@ namespace itk
 {
 /** \class NiftiImageIOFactory
    * \brief Create instances of NiftiImageIO objects using an object factory.
-   * \ingroup ITK-IO-NIFTI
+   * \ingroup ITKIONIFTI
    */
 class ITK_EXPORT NiftiImageIOFactory:public ObjectFactoryBase
 {

@@ -38,8 +38,8 @@ namespace itk
  *
  * \sa UnaryFunctorImageFilter TernaryFunctorImageFilter
  *
- * \ingroup IntensityImageFilters   Multithreaded
- * \ingroup ITK-ImageFilterBase
+ * \ingroup IntensityImageFilters   MultiThreaded
+ * \ingroup ITKImageFilterBase
  *
  * \wiki
  * \wikiexample{ImageProcessing/BinaryFunctorImageFilter,Apply a predefined operation to corresponding pixels in two images}
@@ -197,7 +197,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryFunctorImageFilter.txx"
+#include "itkBinaryFunctorImageFilter.hxx"
 #endif
 
 #endif

@@ -59,7 +59,7 @@ namespace Statistics
  *
  * \sa KdTree, KdTreeNode, KdTreeWeightedCentroidNonterminalNode,
  * KdTreeTerminalNode, KdTreeGenerator
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  */
 
 template< class TSample >
@@ -116,7 +116,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkWeightedCentroidKdTreeGenerator.txx"
+#include "itkWeightedCentroidKdTreeGenerator.hxx"
 #endif
 
 #endif

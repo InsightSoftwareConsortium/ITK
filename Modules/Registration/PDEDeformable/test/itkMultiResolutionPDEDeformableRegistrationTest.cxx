@@ -15,9 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
+
 #include "itkMultiResolutionPDEDeformableRegistration.h"
 #include "itkIndex.h"
 #include "itkImageRegionIteratorWithIndex.h"
@@ -43,7 +41,7 @@ public:
     {m_Process = o; m_Prefix="";}
   void ShowProgress()
     {
-    std::cout <<  m_Prefix ;
+    std::cout <<  m_Prefix;
     std::cout << "Progress " << m_Process->GetProgress() << std::endl;
     }
   void ShowIteration()
@@ -51,7 +49,7 @@ public:
     std::cout << "Level Completed" << std::endl;
     }
   itk::ProcessObject::Pointer m_Process;
-  std::string m_Prefix;
+  std::string                 m_Prefix;
 };
 
 template<typename TRegistration>
@@ -79,14 +77,15 @@ TImage * image,
 typename TImage::PixelType value )
 {
 
- typedef itk::ImageRegionIteratorWithIndex<TImage> Iterator;
- Iterator it( image, image->GetBufferedRegion() );
- it.Begin();
+  typedef itk::ImageRegionIteratorWithIndex<TImage> Iterator;
+  Iterator it( image, image->GetBufferedRegion() );
+  it.Begin();
 
- for( ; !it.IsAtEnd(); ++it )
-  {
-   it.Set( value );
-  }
+  while( !it.IsAtEnd() )
+    {
+    it.Set( value );
+    ++it;
+    }
 
 }
 
@@ -109,7 +108,7 @@ typename TImage::PixelType backgnd )
  typename TImage::IndexType index;
  double r2 = vnl_math_sqr( radius );
 
- for( ; !it.IsAtEnd(); ++it )
+ while( !it.IsAtEnd() )
   {
     index = it.GetIndex();
     double distance = 0;
@@ -119,6 +118,7 @@ typename TImage::PixelType backgnd )
       }
     if( distance <= r2 ) it.Set( foregnd );
     else it.Set( backgnd );
+    ++it;
   }
 
 }
@@ -132,9 +132,8 @@ TImage *input,
 TImage *output )
 {
   typedef itk::ImageRegionIteratorWithIndex<TImage> Iterator;
-  Iterator inIt( input, output->GetBufferedRegion() );
   Iterator outIt( output, output->GetBufferedRegion() );
-  for( ; !inIt.IsAtEnd(); ++inIt, ++outIt )
+  for( Iterator inIt( input, output->GetBufferedRegion() ); !inIt.IsAtEnd(); ++inIt, ++outIt )
     {
     outIt.Set( inIt.Get() );
     }
@@ -146,13 +145,14 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int argc, char* argv[] )
 
   typedef unsigned char PixelType;
   enum {ImageDimension = 2};
-  typedef itk::Image<PixelType,ImageDimension> ImageType;
-  typedef itk::Vector<float,ImageDimension> VectorType;
+  typedef itk::Image<PixelType,ImageDimension>  ImageType;
+  typedef itk::Vector<float,ImageDimension>     VectorType;
   typedef itk::Image<VectorType,ImageDimension> FieldType;
-  typedef itk::Image<VectorType::ValueType,ImageDimension> FloatImageType;
-  typedef ImageType::IndexType  IndexType;
-  typedef ImageType::SizeType   SizeType;
-  typedef ImageType::RegionType RegionType;
+  typedef itk::Image<VectorType::ValueType,ImageDimension>
+                                                FloatImageType;
+  typedef ImageType::IndexType                  IndexType;
+  typedef ImageType::SizeType                   SizeType;
+  typedef ImageType::RegionType                 RegionType;
 
   if(argc < 2)
     {
@@ -295,7 +295,7 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int argc, char* argv[] )
 
 
   warper->SetInput( moving );
-  warper->SetDeformationField( registrator->GetOutput() );
+  warper->SetDisplacementField( registrator->GetOutput() );
   warper->SetInterpolator( interpolator );
   warper->SetOutputSpacing( fixed->GetSpacing() );
   warper->SetOutputOrigin( fixed->GetOrigin() );

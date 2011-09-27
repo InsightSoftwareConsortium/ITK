@@ -20,7 +20,7 @@
 
 #include "itkArray.h"
 #include "itkDefaultStaticMeshTraits.h"
-#include "itk_hash_map.h"
+#include "itksys/hash_map.hxx"
 #include "itkHexahedronCell.h"
 #include "itkIntTypes.h"
 #include "itkMesh.h"
@@ -105,7 +105,7 @@ namespace itk
  * pipeline, but GetOutput() is always valid after every
  * Add[Something]() call, and Update() is a no-op.  It is <b>not
  * thread safe</b>.
- * \ingroup ITK-Mesh
+ * \ingroup ITKMesh
  */
 template< class TOutputMesh >
 class ITK_EXPORT AutomaticTopologyMeshSource:public MeshSource< TOutputMesh >
@@ -143,7 +143,7 @@ public:
 
   /** hash_map typedefs. */
 
-  typedef itk::hash_map<
+  typedef itksys::hash_map<
     PointType,
     IdentifierType,
     StructHashFunction< PointHashType > >          PointHashMap;
@@ -389,7 +389,7 @@ private:
   AutomaticTopologyMeshSource(const Self &);  //purposely not implemented
   void operator=(const Self &);               //purposely not implemented
 
-  typedef itk::hash_map<
+  typedef itksys::hash_map<
     Array< IdentifierType >,
     IdentifierType,
     IdentifierArrayHashFunction,
@@ -402,7 +402,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAutomaticTopologyMeshSource.txx"
+#include "itkAutomaticTopologyMeshSource.hxx"
 #endif
 
 #endif // __itkAutomaticTopologyMeshSource_h

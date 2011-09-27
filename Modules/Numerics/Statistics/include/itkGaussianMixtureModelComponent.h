@@ -43,7 +43,7 @@ namespace Statistics
  * GetMeasurementVectorSize() to get the length.
  *
  * \sa MixtureModelComponentBase, ExpectationMaximizationMixtureModelEstimator
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  */
 
 template< class TSample >
@@ -78,10 +78,10 @@ public:
   typedef WeightedCovarianceSampleFilter< TSample > CovarianceEstimatorType;
 
   /** Type of the mean vector */
-  typedef typename MeanEstimatorType::OutputType MeanType;
+  typedef typename MeanEstimatorType::OutputType MeanVectorType;
 
   /** Type of the covariance matrix */
-  typedef typename CovarianceEstimatorType::OutputType CovarianceType;
+  typedef typename CovarianceEstimatorType::OutputType CovarianceMatrixType;
 
   /** Sets the input sample */
   void SetSample(const TSample *sample);
@@ -116,7 +116,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGaussianMixtureModelComponent.txx"
+#include "itkGaussianMixtureModelComponent.hxx"
 #endif
 
 #endif

@@ -15,10 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
-
 
 #include <iostream>
 
@@ -130,6 +126,7 @@ int itkResampleImageTest(int, char* [] )
   resample->Print( std::cout );
   std::cout << "Transform: " << resample->GetTransform() << std::endl;
   std::cout << "Interpolator: " << resample->GetInterpolator() << std::endl;
+  std::cout << "Extrapolator: " << resample->GetExtrapolator() << std::endl;
   std::cout << "Size: " << resample->GetSize() << std::endl;
   std::cout << "DefaultPixelValue: " << resample->GetDefaultPixelValue() << std::endl;
   std::cout << "OutputOrigin: " << resample->GetOutputOrigin() << std::endl;

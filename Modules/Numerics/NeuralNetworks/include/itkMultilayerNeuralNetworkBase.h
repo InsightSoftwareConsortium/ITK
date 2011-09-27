@@ -24,6 +24,11 @@ namespace itk
 {
 namespace Statistics
 {
+/** \class MultilayerNeuralNetworkBase
+ * \brief This is the itkMultilayerNeuralNetworkBase class.
+ *
+ * \ingroup ITKNeuralNetworks
+ */
 
 template<class TMeasurementVector, class TTargetVector,class TLearningLayer=LayerBase<TMeasurementVector, TTargetVector> >
 class MultilayerNeuralNetworkBase : public NeuralNetworkObject<TMeasurementVector, TTargetVector>
@@ -128,7 +133,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMultilayerNeuralNetworkBase.txx"
+#include "itkMultilayerNeuralNetworkBase.hxx"
 #endif
 
 #endif

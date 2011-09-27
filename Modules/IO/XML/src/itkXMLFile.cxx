@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkXMLFile_txx
-#define __itkXMLFile_txx
+#ifndef __itkXMLFile_hxx
+#define __itkXMLFile_hxx
 
 #include "itkXMLFile.h"
 #include "itkMacro.h"
@@ -100,7 +100,7 @@ XMLReaderBase::parse(void)
     exception.SetDescription("File Read Error");
     throw exception;
     }
-  bool result = XML_Parse(Parser, buffer, inputstream.gcount(), false);
+  const bool result = static_cast<bool>(XML_Parse(Parser, buffer, inputstream.gcount(), false));
   delete[] buffer;
   if ( !result )
     {

@@ -1,3 +1,3 @@
-project(ITK-VTK)
-set(ITK-VTK_LIBRARIES ITK-VTK)
+project(ITKVTK)
+set(ITKVTK_LIBRARIES ITKVTK)
 itk_module_impl()

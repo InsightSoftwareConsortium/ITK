@@ -1,4 +1,4 @@
 add_executable(itkTestDriver itkTestDriver.cxx)
-target_link_libraries(itkTestDriver ${ITK-TestKernel_LIBRARIES})
+target_link_libraries(itkTestDriver ${ITKTestKernel_LIBRARIES})
 itk_module_target_label(itkTestDriver)
 itk_module_target_install(itkTestDriver)

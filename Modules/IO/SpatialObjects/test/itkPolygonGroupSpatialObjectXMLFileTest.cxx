@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkPolygonSpatialObject.h"
 #include <iostream>
@@ -121,6 +118,7 @@ int testPolygonGroupEquivalence(PolygonGroup3DPointer &p1,
     Polygon3DType::PointListType::iterator pointItEnd2
       = points2.end();
 
+
     while(pointIt1 != pointItEnd1)
       {
       if(pointIt2 == pointItEnd2)
@@ -133,6 +131,13 @@ int testPolygonGroupEquivalence(PolygonGroup3DPointer &p1,
         (*pointIt1).GetPosition();
       Polygon3DType::PointType curpoint2 =
         (*pointIt2).GetPosition();
+      if(curpoint1 != curpoint2)
+        {
+        //Just a silly test to make sure that the positions returned are valid
+        std::cerr << "Error: both points should have the same value: " <<  curpoint1 << " and " << curpoint2 << std::endl;
+        //This should never happen in htis test.
+        return EXIT_FAILURE;
+        }
       pointIt1++;
       pointIt2++;
       }

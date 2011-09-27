@@ -35,8 +35,8 @@ namespace Testing
  * their values with the pixel values in the neighborhood of the homologous
  * pixel in the other image.
  *
- * \ingroup IntensityImageFilters   Multithreaded
- * \ingroup ITK-TestKernel
+ * \ingroup IntensityImageFilters   MultiThreaded
+ * \ingroup ITKTestKernel
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT ComparisonImageFilter:
@@ -141,7 +141,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTestingComparisonImageFilter.txx"
+#include "itkTestingComparisonImageFilter.hxx"
 #endif
 
 

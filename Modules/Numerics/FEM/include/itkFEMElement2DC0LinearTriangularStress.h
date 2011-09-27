@@ -15,28 +15,49 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #ifndef __itkFEMElement2DC0LinearTriangularStress_h
 #define __itkFEMElement2DC0LinearTriangularStress_h
 
 #include "itkFEMElement2DC0LinearTriangular.h"
 #include "itkFEMElement2DStress.h"
 
-namespace itk {
-namespace fem {
-
+namespace itk
+{
+namespace fem
+{
 /**
  * \class Element2DC0LinearTriangularStress
  * \brief 3-noded finite element class in 2D space for linear elasticity problem.
  *
  * This element is combined from Element2DC0LinearTriangular and Element2DStress.
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
+ * This class combines the geometry of the FE problem defined in
+ * \link Element2DC0LinearTriangular\endlink
+ * and the physics of the problem defined in
+ * \link Element2DStrain\endlink
+ *
+ * \sa Element2DC0LinearTriangularMembrane
+ * \sa Element2DC0LinearTriangularStrain
  */
 class Element2DC0LinearTriangularStress : public Element2DStress<Element2DC0LinearTriangular>
 {
-FEM_CLASS(Element2DC0LinearTriangularStress,Element2DStress<Element2DC0LinearTriangular>)
 public:
+  /** Standard class typedefs. */
+  typedef Element2DC0LinearTriangularStress            Self;
+  typedef Element2DStress<Element2DC0LinearTriangular> Superclass;
+  typedef SmartPointer<Self>                           Pointer;
+  typedef SmartPointer<const Self>                     ConstPointer;
 
-  HANDLE_ELEMENT_LOADS();
+  /** Method for creation through the object factory. */
+  itkSimpleNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Element2DC0LinearTriangularStress, Element2DStress<Element2DC0LinearTriangular> );
+
+  /** CreateAnother method will clone the existing instance of this type,
+   * including its internal member variables. */
+  virtual::itk::LightObject::Pointer CreateAnother(void) const;
 
   /**
    * Default constructor only clears the internal storage
@@ -47,16 +68,16 @@ public:
    * Construct an element by specifying pointers to
    * 3 points and a material.
    */
-  Element2DC0LinearTriangularStress(
-      NodeIDType n1_,
-      NodeIDType n2_,
-      NodeIDType n3_,
-      Material::ConstPointer p_ );
+  Element2DC0LinearTriangularStress(NodeIDType n1_,
+                                    NodeIDType n2_,
+                                    NodeIDType n3_,
+                                    Material::ConstPointer p_);
+protected:
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
-}; // class Element2DC0LinearTriangularStress
+};  // class Element2DC0LinearTriangularStress
 
-FEM_CLASS_INIT(Element2DC0LinearTriangularStress)
-
-}} // end namespace itk::fem
+}
+}  // end namespace itk::fem
 
 #endif  // #ifndef __itkFEMElement2DC0LinearTriangularStress_h

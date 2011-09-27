@@ -60,7 +60,8 @@ namespace itk
  * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator
  * \sa ShapedNeighborhoodIterator  \sa SliceIterator
  * \sa ImageConstIteratorWithIndex
- * \ingroup ITK-Common
+ *
+ * \ingroup ITKCommon
  */
 template< typename TImage >
 class ITK_EXPORT ImageRandomIteratorWithIndex:public ImageRandomConstIteratorWithIndex< TImage >
@@ -90,7 +91,7 @@ public:
   ImageRandomIteratorWithIndex(ImageType *ptr, const RegionType & region);
 
   /** Constructor that can be used to cast from an ImageIterator to an
-   * ImageRandomIteratorWithIndex. Many routines return an ImageIterator but for a
+   * ImageRandomIteratorWithIndex. Many routines return an ImageIterator, but for a
    * particular task, you may want an ImageRandomIteratorWithIndex.  Rather than
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
@@ -101,13 +102,13 @@ public:
   void Set(const PixelType & value) const
   { this->m_PixelAccessorFunctor.Set(*( const_cast< InternalPixelType * >( this->m_Position ) ), value); }
 
-  /** Return a reference to the pixel
+  /** Return a reference to the pixel.
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */
   PixelType & Value(void)
   { return *( const_cast< InternalPixelType * >( this->m_Position ) ); }
 protected:
-  /** the construction from a const iterator is declared protected
+  /** The construction from a const iterator is declared protected
       in order to enforce const correctness. */
   ImageRandomIteratorWithIndex(const ImageRandomConstIteratorWithIndex< TImage > & it);
   Self & operator=(const ImageRandomConstIteratorWithIndex< TImage > & it);
@@ -115,7 +116,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageRandomIteratorWithIndex.txx"
+#include "itkImageRandomIteratorWithIndex.hxx"
 #endif
 
 #endif

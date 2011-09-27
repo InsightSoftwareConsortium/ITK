@@ -19,12 +19,14 @@
 #define __itkConstSliceIterator_h
 
 #include "itkMacro.h"
+#include "itkIntTypes.h"
 #include <valarray>
+
 namespace itk
 {
 /**
  * \class ConstSliceIterator
- * \brief A flexible iterator for itk containers(i.e. itk::Neighborhood)
+ * \brief A flexible iterator for ITK containers(i.e. itk::Neighborhood)
  * that support pixel access through operator[].
  *
  * ConstSliceIterator allows const iteration along a std::slice through the
@@ -43,7 +45,7 @@ namespace itk
  *
  * \ingroup Iterators
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TPixel, class TContainer >
 class ITK_EXPORT ConstSliceIterator

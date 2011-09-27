@@ -29,14 +29,15 @@ namespace itk
 {
 /**
  * \class ShapedFloodFilledFunctionConditionalConstIterator
- * \brief Iterates over a flood-filled spatial function.
+ * \brief Iterates over a flood-filled spatial function with read-only access
+ *        to pixels.
  *
  * Contributed as a paper to the Insight Journal:
  *  http://hdl.handle.net/1926/1320
  *
  * \ingroup ImageIterators
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TImage, class TFunction >
 class ITK_EXPORT ShapedFloodFilledFunctionConditionalConstIterator:
@@ -176,7 +177,7 @@ public:
     this->m_IsAtEnd = true;
     // Initialize the temporary image
     m_TempPtr->FillBuffer(
-      NumericTraits< ITK_TYPENAME TTempImage::PixelType >::Zero
+      NumericTraits< typename TTempImage::PixelType >::Zero
       );
 
     for ( unsigned int i = 0; i < m_Seeds.size(); i++ )
@@ -273,7 +274,7 @@ protected: //made protected so other iterators can access
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShapedFloodFilledFunctionConditionalConstIterator.txx"
+#include "itkShapedFloodFilledFunctionConditionalConstIterator.hxx"
 #endif
 
 #endif

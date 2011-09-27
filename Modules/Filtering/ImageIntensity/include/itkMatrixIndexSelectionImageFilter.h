@@ -73,8 +73,8 @@ private:
  * the type used for representing the vector is that it must provide an
  * operator(i,j).
  *
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup IntensityImageFilters  MultiThreaded
+ * \ingroup ITKImageIntensity
  */
 
 template< class TInputImage, class TOutputImage >

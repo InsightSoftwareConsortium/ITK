@@ -30,7 +30,7 @@ namespace itk
  * defines the SetInput() method for defining the input to a filter.
  *
  * \ingroup ImageFilters
- * \ingroup ITK-Mesh
+ * \ingroup ITKMesh
  */
 template< class TInputImage, class TOutputMesh >
 class ITK_EXPORT ImageToMeshFilter:public MeshSource< TOutputMesh >
@@ -89,7 +89,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageToMeshFilter.txx"
+#include "itkImageToMeshFilter.hxx"
 #endif
 
 #endif

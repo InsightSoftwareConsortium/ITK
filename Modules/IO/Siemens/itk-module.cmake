@@ -1,7 +1,12 @@
-itk_module(ITK-IO-Siemens
+set(DOCUMENTATION "This module contains a class for reading the SiemensVision
+medical file format.")
+
+itk_module(ITKIOSiemens
   DEPENDS
-    ITK-IO-IPL
-    ITK-IO-GE
+    ITKIOIPL
+    ITKIOGE
   TEST_DEPENDS
-    ITK-TestKernel
+    ITKTestKernel
+  DESCRIPTION
+    "${DOCUMENTATION}"
 )

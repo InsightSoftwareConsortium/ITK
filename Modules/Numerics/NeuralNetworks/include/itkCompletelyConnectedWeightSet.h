@@ -24,7 +24,13 @@ namespace itk
 {
 namespace Statistics
 {
-template<class TMeasurementVector, class TTargetVector>
+/** \class CompletelyConnectedWeightSet
+ * \brief This is the itkCompletelyConnectedWeightSet class.
+ *
+ * \ingroup ITKNeuralNetworks
+ */
+
+ template<class TMeasurementVector, class TTargetVector>
 class CompletelyConnectedWeightSet : public WeightSetBase<TMeasurementVector, TTargetVector>
 {
 public:
@@ -55,7 +61,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCompletelyConnectedWeightSet.txx"
+#include "itkCompletelyConnectedWeightSet.hxx"
 #endif
 
 #endif

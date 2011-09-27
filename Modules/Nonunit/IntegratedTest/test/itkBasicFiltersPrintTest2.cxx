@@ -15,10 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
-#define ITK_LEAN_AND_MEAN
 
 #include "itkAffineTransform.h"
 #include "itkPoint.h"

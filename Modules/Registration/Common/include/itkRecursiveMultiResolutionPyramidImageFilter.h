@@ -53,8 +53,12 @@ namespace itk
  *
  * \sa MultiResolutionPyramidImageFilter
  *
- * \ingroup PyramidImageFilter Multithreaded Streamed
- * \ingroup ITK-RegistrationCommon
+ * \ingroup PyramidImageFilter MultiThreaded Streamed
+ * \ingroup ITKRegistrationCommon
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/RecursiveMultiResolutionPyramidImageFilter,Construct a multiresolution pyramid from an image}
+ * \endwiki
  */
 template<
   class TInputImage,
@@ -121,7 +125,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRecursiveMultiResolutionPyramidImageFilter.txx"
+#include "itkRecursiveMultiResolutionPyramidImageFilter.hxx"
 #endif
 
 #endif

@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkCumulativeGaussianOptimizer.h"
 
@@ -67,7 +64,7 @@ int itkCumulativeGaussianOptimizerTest(int, char* [] )
   costFunction->Initialize(numberOfSamples);
 
   // Generate data given a set of parameters.
-  CostFunctionType::MeasureType * cumGaussianArray = costFunction->GetValue(parameters);
+  CostFunctionType::MeasureType * cumGaussianArray = costFunction->GetValuePointer(parameters);
 
   // Set the data array.
   costFunction->SetOriginalDataArray(cumGaussianArray);
@@ -100,7 +97,7 @@ int itkCumulativeGaussianOptimizerTest(int, char* [] )
       << "Test Passed with a Fit Error of " << optimizer->GetFitError()
       << std::endl << std::endl;
 
-    // Print out the resulting paramters.
+    // Print out the resulting parameters.
     std::cerr << "Fitted mean = " << optimizer->GetComputedMean() << std::endl;
     std::cerr << "Fitted standard deviation = " << optimizer->GetComputedStandardDeviation() << std::endl;
     std::cerr << "Fitted upper intensity = " << optimizer->GetUpperAsymptote() << std::endl;
@@ -114,7 +111,7 @@ int itkCumulativeGaussianOptimizerTest(int, char* [] )
       << "Test Failed with a Fit Error of " << optimizer->GetFitError()
       << std::endl << std::endl;
 
-    // Print out the resulting paramters.
+    // Print out the resulting parameters.
     std::cerr << "Fitted mean = " << optimizer->GetComputedMean() << std::endl;
     std::cerr << "Fitted standard deviation = " << optimizer->GetComputedStandardDeviation() << std::endl;
     std::cerr << "Fitted upper asymptote = " << optimizer->GetUpperAsymptote() << std::endl;
@@ -124,4 +121,3 @@ int itkCumulativeGaussianOptimizerTest(int, char* [] )
     }
 
 }
-

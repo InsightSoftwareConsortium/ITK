@@ -240,7 +240,11 @@ void GDCMImageIO::Read(void *pointer)
     len *= 3;
     }
 
-  image.GetBuffer( (char *)pointer );
+  if ( !image.GetBuffer( (char*)pointer ) )
+    {
+    itkExceptionMacro(<< "Failed to get the buffer!");
+    return;
+    }
 
   const gdcm::PixelFormat & pixeltype = image.GetPixelFormat();
   itkAssertInDebugAndIgnoreInReleaseMacro( pixeltype_debug == pixeltype ); (void)pixeltype_debug;
@@ -946,6 +950,13 @@ void GDCMImageIO::Write(const void *buffer)
       gdcm::DataElement de( gdcm::Tag(0x0020, 0x000e) ); // Series
       de.SetByteValue( seriesuid, strlen(seriesuid) );
       de.SetVR( gdcm::Attribute< 0x0020, 0x000e >::GetVR() );
+      header.Insert(de);
+      }
+    const char *frameofreferenceuid = m_FrameOfReferenceInstanceUID.c_str();
+      {
+      gdcm::DataElement de( gdcm::Tag(0x0020, 0x0052) ); // Frame of Reference
+      de.SetByteValue( frameofreferenceuid, strlen(frameofreferenceuid) );
+      de.SetVR( gdcm::Attribute< 0x0020, 0x0052 >::GetVR() );
       header.Insert(de);
       }
     }

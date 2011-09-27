@@ -18,9 +18,6 @@
 #ifndef __itkTxtTransformIOFactory_h
 #define __itkTxtTransformIOFactory_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkObjectFactoryBase.h"
 #include "itkTransformIOBase.h"
@@ -29,7 +26,7 @@ namespace itk
 {
 /** \class TxtTransformIOFactory
    * \brief Create instances of TxtTransformIO objects using an object factory.
-   * \ingroup ITK-Transform
+   * \ingroup ITKTransform
    */
 class ITK_EXPORT TxtTransformIOFactory:public ObjectFactoryBase
 {

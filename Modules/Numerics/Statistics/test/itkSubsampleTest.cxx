@@ -15,9 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
+
 #include "itkImageToListSampleFilter.h"
 #include "itkSubsample.h"
 #include "itkRandomImageSource.h"
@@ -132,6 +130,7 @@ int itkSubsampleTest(int, char* [] )
     MeasurementVectorType vec = subsample->GetMeasurementVector( idOutisdeRange );
     std::cerr << "Exception should have been thrown since \
       the id specified is outside the range of the sample container" << std::endl;
+    std::cerr << "The invalid subsample->GetMeasurementVector() is: " << vec << std::endl;
     return EXIT_FAILURE;
     }
   catch( itk::ExceptionObject & excp )
@@ -176,6 +175,9 @@ int itkSubsampleTest(int, char* [] )
             subsample->GetMeasurementVectorByIndex( index );
     std::cerr << "Exception should have been thrown since \
       the index specified is outside the range of the sample container" << std::endl;
+    std::cerr << "The size of the invalid subsample->GetMeasurementVectorByIndex( index ) is: "
+      << subsample << std::endl;
+    std::cerr << "The invalid subsample->GetMeasurementVectorByIndex() is: " << measurementVector << std::endl;
     return EXIT_FAILURE;
     }
   catch( itk::ExceptionObject & excp )

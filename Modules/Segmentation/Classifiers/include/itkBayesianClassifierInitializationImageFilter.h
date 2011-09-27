@@ -29,10 +29,12 @@ namespace itk
 /** \class BayesianClassifierInitializationImageFilter
  *
  * \brief This filter is intended to be used as a helper class to
- * initialize the BayesianClassifierImageFilter. The goal of this filter
- * is to generate a membership image that indicates the membership of each
- * pixel to each class. These membership images are fed as input to the
- * bayesian classfier filter.
+ * initialize the BayesianClassifierImageFilter.
+ *
+ * \par
+ * The goal of this filter is to generate a membership image that indicates
+ * the membership of each pixel to each class. These membership images are fed
+ * as input to the Bayesian classfier filter.
  *
  * \par Parameters
  * Number of classes: This defines the number of classes, which will determine
@@ -47,7 +49,7 @@ namespace itk
  * functions are Gaussian density functions centered around 'n' pixel intensity
  * values, \f$ I_k \f$. These 'n' values are obtained by running K-means on the
  * image. In other words, the default behaviour of the filter is to generate
- * gaussian mixture model for the input image.
+ * Gaussian mixture model for the input image.
  *
  * \par Inputs and Outputs
  * The filter takes a scalar Image as input and generates a VectorImage, each
@@ -68,7 +70,7 @@ namespace itk
  * \sa BayesianClassifierImageFilter
  * \sa VectorImage
  * \ingroup ClassificationFilters
- * \ingroup ITK-Classifiers
+ * \ingroup ITKClassifiers
  */
 template< class TInputImage, class TProbabilityPrecisionType = float >
 class ITK_EXPORT BayesianClassifierInitializationImageFilter:
@@ -130,7 +132,7 @@ public:
   /** Method to set/get the density functions. Here you can set a vector
    * container of density functions. If no density functions are specified,
    * the filter will create ones for you. These default density functions
-   * are gaussian density functions centered around the K-means of the
+   * are Gaussian density functions centered around the K-means of the
    * input image.  */
   virtual void SetMembershipFunctions(MembershipFunctionContainerType
                                       *densityFunctionContainer);
@@ -164,7 +166,7 @@ protected:
 
   /** Initialize the membership functions. This will be called only if the membership
    * function hasn't already been set. This method initializes membership functions
-   * using gaussian density functions centered around the means computed using
+   * using Gaussian density functions centered around the means computed using
    * Kmeans.
    */
   virtual void InitializeMembershipFunctions();
@@ -187,7 +189,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBayesianClassifierInitializationImageFilter.txx"
+#include "itkBayesianClassifierInitializationImageFilter.hxx"
 #endif
 
 #endif

@@ -106,7 +106,7 @@ namespace itk
  *      IEEE Transactions in Image Processing, 9(12) December 2000.
  *
  * \ingroup RegistrationMetrics
- * \ingroup ITK-RegistrationCommon
+ * \ingroup ITKRegistrationCommon
  */
 template< class TFixedImage, class TMovingImage >
 class ITK_EXPORT MattesMutualInformationImageToImageMetric:
@@ -209,7 +209,7 @@ public:
    * method an extra 2D array is used for storing the weights of each one of
    * the PDF bins. This is an array of doubles with size equals to (number of
    * histogram bins)^2. This method is well suited for Transforms with a large
-   * number of parameters, such as, BSplineDeformableTransforms. */
+   * number of parameters, such as, BSplineTransforms. */
   itkSetMacro(UseExplicitPDFDerivatives, bool);
   itkGetConstReferenceMacro(UseExplicitPDFDerivatives, bool);
   itkBooleanMacro(UseExplicitPDFDerivatives);
@@ -346,7 +346,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMattesMutualInformationImageToImageMetric.txx"
+#include "itkMattesMutualInformationImageToImageMetric.hxx"
 #endif
 
 #endif

@@ -1,26 +1,26 @@
-/* "Id */
+/* "$Id: mkg3states.c,v 1.11 2010-03-10 18:56:48 bfriesen Exp $ */
 
 /*
  * Copyright (c) 1991-1997 Sam Leffler
  * Copyright (c) 1991-1997 Silicon Graphics, Inc.
  *
- * Permission to use, copy, modify, distribute, and sell this software and 
+ * Permission to use, copy, modify, distribute, and sell this software and
  * its documentation for any purpose is hereby granted without fee, provided
  * that (i) the above copyright notices and this permission notice appear in
  * all copies of the software and related documentation, and (ii) the names of
  * Sam Leffler and Silicon Graphics may not be used in any advertising or
  * publicity relating to the software without the specific, prior written
  * permission of Sam Leffler and Silicon Graphics.
- * 
- * THE SOFTWARE IS PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY KIND, 
- * EXPRESS, IMPLIED OR OTHERWISE, INCLUDING WITHOUT LIMITATION, ANY 
- * WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.  
- * 
+ *
+ * THE SOFTWARE IS PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS, IMPLIED OR OTHERWISE, INCLUDING WITHOUT LIMITATION, ANY
+ * WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+ *
  * IN NO EVENT SHALL SAM LEFFLER OR SILICON GRAPHICS BE LIABLE FOR
  * ANY SPECIAL, INCIDENTAL, INDIRECT OR CONSEQUENTIAL DAMAGES OF ANY KIND,
  * OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
- * WHETHER OR NOT ADVISED OF THE POSSIBILITY OF DAMAGE, AND ON ANY THEORY OF 
- * LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE 
+ * WHETHER OR NOT ADVISED OF THE POSSIBILITY OF DAMAGE, AND ON ANY THEORY OF
+ * LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
  * OF THIS SOFTWARE.
  */
 
@@ -40,6 +40,10 @@
 #endif
 
 #include "tif_fax3.h"
+
+#ifndef HAVE_GETOPT
+extern int getopt(int, char**, char*);
+#endif
 
 #define  streq(a,b)  (strcmp(a,b) == 0)
 
@@ -332,31 +336,31 @@ FillTable(TIFFFaxTabEnt *T, int Size, struct proto *P, int State)
     }
 }
 
-static  const char* storage_class = "";
-static  const char* const_class = "";
+static  char* storage_class = "";
+static  char* const_class = "";
 static  int packoutput = 1;
-static  const char* prebrace = "{";
-static  const char* postbrace = "}";
+static  char* prebrace = "";
+static  char* postbrace = "";
 
 void
 WriteTable(FILE* fd, const TIFFFaxTabEnt* T, int Size, const char* name)
 {
     int i;
-    const char* sep;
+    char* sep;
 
     fprintf(fd, "%s %s TIFFFaxTabEnt %s[%d] = {",
-      storage_class, const_class, name, Size);
+  storage_class, const_class, name, Size);
     if (packoutput) {
-      sep = "\n";
-      for (i = 0; i < Size; i++) {
-          fprintf(fd, "%s%s%d,%d,%d%s",
-          sep, prebrace, T->State, T->Width, (int) T->Param, postbrace);
-          if (((i+1) % 10) == 0)
-            sep = ",\n";
-          else
-            sep = ",";
-          T++;
-      }
+  sep = "\n";
+  for (i = 0; i < Size; i++) {
+      fprintf(fd, "%s%s%d,%d,%d%s",
+    sep, prebrace, T->State, T->Width, (int) T->Param, postbrace);
+      if (((i+1) % 10) == 0)
+        sep = ",\n";
+      else
+        sep = ",";
+      T++;
+  }
     } else {
   sep = "\n ";
   for (i = 0; i < Size; i++) {
@@ -377,7 +381,7 @@ int
 main(int argc, char* argv[])
 {
     FILE* fd;
-    const char* outputfile;
+    char* outputfile;
     int c;
     extern int optind;
     extern char* optarg;
@@ -437,3 +441,11 @@ main(int argc, char* argv[])
     return (0);
 }
 
+/* vim: set ts=8 sts=8 sw=8 noet: */
+/*
+ * Local Variables:
+ * mode: c
+ * c-basic-offset: 8
+ * fill-column: 78
+ * End:
+ */

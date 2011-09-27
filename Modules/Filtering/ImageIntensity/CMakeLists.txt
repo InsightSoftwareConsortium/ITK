@@ -1,2 +1,2 @@
-project(ITK-ImageIntensity)
+project(ITKImageIntensity)
 itk_module_impl()

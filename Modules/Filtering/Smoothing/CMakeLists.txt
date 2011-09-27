@@ -1,2 +1,2 @@
-project(ITK-Smoothing)
+project(ITKSmoothing)
 itk_module_impl()

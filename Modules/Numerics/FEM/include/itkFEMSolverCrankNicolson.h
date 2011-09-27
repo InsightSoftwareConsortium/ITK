@@ -15,24 +15,28 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #ifndef __itkFEMSolverCrankNicolson_h
 #define __itkFEMSolverCrankNicolson_h
 
 #include "itkFEMSolver.h"
+#include "itkFEMElementBase.h"
+#include "itkFEMMaterialBase.h"
+#include "itkFEMLoadBase.h"
+#include "itkFEMLinearSystemWrapperVNL.h"
 
 #include "vnl/vnl_sparse_matrix.h"
 #include "vnl/vnl_matrix.h"
 #include "vnl/vnl_vector.h"
 #include "vnl/algo/vnl_svd.h"
 #include "vnl/algo/vnl_cholesky.h"
-#include "vnl/vnl_sparse_matrix_linear_system.h"
+#include <vnl/vnl_sparse_matrix_linear_system.h>
 #include <math.h>
 
-
-namespace itk {
-namespace fem {
-
-
+namespace itk
+{
+namespace fem
+{
 /**
  * \class SolverCrankNicolson
  * \brief FEM Solver for time dependent problems; uses Crank-Nicolson implicit discretization scheme.
@@ -50,22 +54,160 @@ namespace fem {
  * Practically, it is good to set rho to something small (for the itpack solver).
  * The advantage of choosing \f$\alpha=0.5\f$ is that the solution is then stable for any
  * choice of time step, dt.  This class inherits and uses most of the Solver class
- * functionality.  One must call AssembleKandM instead of AssembleK and
- * AssembleFforTimeStep instead of AssembleF.
- * FIXMEs:  1) Members should be privatized, etc.
- * 2) We should also account for the contribution to the force from essential BCs.
+ * functionality.
+ *
+ * Updated: The calls to to AssembleKandM (or AssembleK) and
+ * AssembleFforTimeStep (or AssembleF) are now handled internally
+ * by calling Update().
+ *
+ * FIXME:
+ * 1) We should also account for the contribution to the force from essential BCs.
  * Basically there are terms involving  \f$ M * (\dot g_b) \f$  and  \f$ K * g_b \f$
  * where\f$ g_b\f$ is the essential BC vector.
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
-class SolverCrankNicolson : public Solver
+
+template <unsigned int TDimension = 3>
+class SolverCrankNicolson : public Solver<TDimension>
 {
 public:
+  typedef SolverCrankNicolson      Self;
+  typedef Solver<TDimension>       Superclass;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
+
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
+  /** Run-time type information (and related methods) */
+  itkTypeMacro(SolverCrankNicolson, Solver<TDimension> );
+
+  typedef Element::Float Float;
+
+  /**
+   * Get/Set the use of the Mass Matrix for the solution
+   */
+  itkSetMacro(UseMassMatrix, bool);
+  itkGetMacro(UseMassMatrix, bool);
+
+  /**
+   * Get the number of iterations run for the solver
+   */
+  itkGetConstMacro(Iterations, unsigned int);
+
+  /**
+   * Reset the number of iterations for the solver. This
+   * will prompt the Solver to Assemble the master stiffness
+   * and mass matrix again. This is only generated before the
+   * first iteration.
+   */
+  void ResetIterations(void)
+  {
+    m_Iterations = 0;
+  }
+
+  /**
+   * Add solution vector u to the corresponding nodal values, which are
+   * stored in node objects). This is standard post processing of the solution
+   */
+  void AddToDisplacements(Float optimum = 1.0);
+
+  void AverageLastTwoDisplacements(Float t = 0.5);
+
+  void ZeroVector(int which = 0);
+
+  void PrintDisplacements();
+
+  void PrintForce();
+
+  /** Get the index for the current solution */
+  itkGetMacro(TotalSolutionIndex, unsigned int);
+
+  /** Get the index for the previous solution */
+  itkGetMacro(SolutionTMinus1Index, unsigned int);
+
+  /** Set stability step for the solution.  Initialized to 0.5 */
+  // inline void SetAlpha(Float a = 0.5) { m_alpha = a; }
+  itkSetMacro(Alpha, Float);
+  itkGetMacro(Alpha, Float);
+
+  /** Set time step for the solution. Should be 1/2. */
+  itkSetMacro(DeltaT, Float);
+  itkGetMacro(DeltaT, Float);
+  // inline void SetDeltatT(Float T) { m_deltaT = T; }
+
+  /** Set density constant.  */
+  itkSetMacro(Rho, Float);
+  itkGetMacro(Rho, Float);
+  // inline void SetRho(Float rho) { m_rho = rho;  }
+
+  /** compute the current state of the right hand side and store the current force
+   *  for the next iteration.
+   */
+  void RecomputeForceVector(unsigned int index);
+
+// FIXME - Keep here or in FEMRegistration Filter???
+
+  /* Finds a triplet that brackets the energy minimum.  From Numerical
+    Recipes.*/
+  void FindBracketingTriplet(Float *a, Float *b, Float *c);
+
+  /** Finds the optimum value between the last two solutions
+   * and sets the current solution to that value.  Uses Evaluate Residual;
+   */
+  Float GoldenSection(Float tol = 0.01, unsigned int MaxIters = 25);
+
+  /* Brents method from Numerical Recipes. */
+  Float BrentsMethod(Float tol = 0.01, unsigned int MaxIters = 25);
+
+  Float EvaluateResidual(Float t = 1.0);
+
+  Float GetDeformationEnergy(Float t = 1.0);
+
+  inline Float GSSign(Float a, Float b)
+  {
+    return b > 0.0 ? vcl_fabs(a) : -1. * vcl_fabs(a);
+  }
+  inline Float GSMax(Float a, Float b)
+  {
+    return a > b ? a : b;
+  }
+
+  void SetEnergyToMin(Float xmin);
+
+  inline LinearSystemWrapper * GetLS()
+  {
+    return this->m_ls;
+  }
+
+  Float GetCurrentMaxSolution()
+  {
+    return m_CurrentMaxSolution;
+  }
+
+  /** Compute and print the minimum and maximum of the total solution
+   * and the last solution. */
+  void PrintMinMaxOfSolution();
+
+protected:
+
+  SolverCrankNicolson();
+  ~SolverCrankNicolson() { }
+
+  /** Method invoked by the pipeline in order to trigger the computation of
+   * the registration. */
+  void  GenerateData();
+
+  /**
+   * Solve for the displacement vector u at a given time.  Update the total solution as well.
+   */
+  virtual void RunSolver(void);
 
   /**
    * helper initialization function before assembly but after generate GFN.
    */
   void InitializeForSolution();
+
   /**
    * Assemble the master stiffness and mass matrix.  We actually assemble
    * the right hand side and left hand side of the implicit scheme equation.
@@ -79,103 +221,36 @@ public:
                 normally used with isotropic elements to specify the
                 dimension for which the master force vector should be assembled.
    */
-  void AssembleFforTimeStep(int dim=0);
+  void AssembleFforTimeStep(int dim = 0);
 
-  /**
-   * Solve for the displacement vector u at a given time.  Update the total solution as well.
-   */
-  void Solve();
-
-  /**
-   * add solution vector u to the corresponding nodal values, which are
-   * stored in node objects). This is standard post processing of the solution
-   */
-  void AddToDisplacements(Float optimum=1.0);
-  void AverageLastTwoDisplacements(Float t=0.5);
-  void ZeroVector(int which=0);
-  void PrintDisplacements();
-  void PrintForce();
-
-  /** Set stability step for the solution.  */
-  inline void SetAlpha(Float a = 0.5) { m_alpha=a; }
-
-  /** Set time step for the solution. Should be 1/2. */
-  inline void SetDeltatT(Float T) { m_deltaT=T; }
-
-  /** Set density constant.  */
-  inline void SetRho(Float rho) { m_rho=rho;  }
-
-  /** compute the current state of the right hand side and store the current force
-   *  for the next iteration.
-   */
-  void RecomputeForceVector(unsigned int index);
-
-  /* Finds a triplet that brackets the energy minimum.  From Numerical Recipes.*/
-  void FindBracketingTriplet(Float* a,Float* b,Float* c);
-
-  /** Finds the optimum value between the last two solutions
-   * and sets the current solution to that value.  Uses Evaluate Residual;
-   */
-  Float GoldenSection(Float tol=0.01,unsigned int MaxIters=25);
-  /* Brents method from Numerical Recipes. */
-  Float BrentsMethod(Float tol=0.01,unsigned int MaxIters=25);
-  Float EvaluateResidual(Float t=1.0);
-  Float GetDeformationEnergy(Float t=1.0);
-  inline Float GSSign(Float a,Float b) { return (b > 0.0 ? vcl_fabs(a) : -1.*vcl_fabs(a)); }
-  inline Float GSMax(Float a,Float b) { return (a > b ? a : b); }
-
-  void SetEnergyToMin(Float xmin);
-  inline LinearSystemWrapper* GetLS(){ return m_ls;}
-
-  Float GetCurrentMaxSolution() { return m_CurrentMaxSolution; }
-
-  /** Compute and print the minimum and maximum of the total solution
-   * and the last solution. */
-  void PrintMinMaxOfSolution();
-   /**
-   * Default constructor which sets the indices for the matrix and vector storage.
-   * Time step and other parameters are also initialized.
-   */
-  SolverCrankNicolson()
-    {
-    m_deltaT=0.5;
-    m_rho=1.;
-    m_alpha=0.5;
-    // BUG FIXME NOT SURE IF SOLVER IS USING VECTOR INDEX 1 FOR BCs
-    ForceTIndex=0;                        // vector
-    ForceTMinus1Index=2;                  // vector
-    SolutionVectorTMinus1Index=3;         // vector
-    DiffMatrixBySolutionTMinus1Index=4;   // vector
-    ForceTotalIndex=5;                    // vector
-    SolutionTIndex=0;                   // solution
-    TotalSolutionIndex=1;               // solution
-    SolutionTMinus1Index=2;       // solution
-    SumMatrixIndex=0;                   // matrix
-    DifferenceMatrixIndex=1;            // matrix
-    m_CurrentMaxSolution=1.0;
-    }
-
-
-  ~SolverCrankNicolson() { }
-
-  Float m_deltaT;
-  Float m_rho;
-  Float m_alpha;
+  Float m_DeltaT;
+  Float m_Rho;
+  Float m_Alpha;
   Float m_CurrentMaxSolution;
 
-  unsigned int ForceTIndex;
-  unsigned int ForceTotalIndex;
-  unsigned int ForceTMinus1Index;
-  unsigned int SolutionTIndex;
-  unsigned int SolutionTMinus1Index;
-  unsigned int SolutionVectorTMinus1Index;
-  unsigned int TotalSolutionIndex;
-  unsigned int DifferenceMatrixIndex;
-  unsigned int SumMatrixIndex;
-  unsigned int DiffMatrixBySolutionTMinus1Index;
+  bool         m_UseMassMatrix;
+  unsigned int m_Iterations;
+
+  unsigned int m_ForceTIndex;
+  unsigned int m_ForceTotalIndex;
+  unsigned int m_ForceTMinus1Index;
+  unsigned int m_SolutionTIndex;
+  unsigned int m_SolutionTMinus1Index;
+  unsigned int m_SolutionVectorTMinus1Index;
+  unsigned int m_TotalSolutionIndex;
+  unsigned int m_DifferenceMatrixIndex;
+  unsigned int m_SumMatrixIndex;
+  unsigned int m_DiffMatrixBySolutionTMinus1Index;
+private:
+  SolverCrankNicolson(const Self &); // purposely not implemented
+  void operator=(const Self &);      // purposely not implemented
 
 };
+}
+}  // end namespace itk::fem
 
-}} // end namespace itk::fem
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkFEMSolverCrankNicolson.hxx"
+#endif
 
 #endif // #ifndef __itkFEMSolverCrankNicolson_h

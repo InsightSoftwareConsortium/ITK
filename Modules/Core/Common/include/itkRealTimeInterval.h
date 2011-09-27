@@ -25,7 +25,7 @@
 namespace itk
 {
 /** \class RealTimeInterval
- * \brief The RealTimeInterval is a data structure for representing the time
+ * \brief A data structure for representing the time
  * span between two RealTimeStamps, with similar high precision and a large
  * dynamic range to what the RealTimeStamps offer.
  *
@@ -39,7 +39,7 @@ namespace itk
  * \sa RealTimeStamp
  * \sa RealTimeClock
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 class ITKCommon_EXPORT RealTimeInterval
@@ -101,7 +101,7 @@ private:
   SecondsDifferenceType        m_Seconds;
 
   /** Number of Microseconds since the second.
-   *  should be in the range -999,999 to 999,999
+   *  Should be in the range -999,999 to 999,999
    *  and it must always have the same sign as
    *  the m_Seconds member variable. */
   MicroSecondsDifferenceType   m_MicroSeconds;

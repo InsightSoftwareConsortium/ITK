@@ -23,14 +23,13 @@
 
 namespace itk
 {
-/** \class LogImageFilter
- * \brief Computes the vcl_log(x) pixel-wise
- *
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageIntensity
- */
 namespace Functor
 {
+/**
+ * \class Log
+ * \brief
+ * \ingroup ITKImageIntensity
+ */
 template< class TInput, class TOutput >
 class Log
 {
@@ -53,6 +52,13 @@ public:
   }
 };
 }
+/** \class LogImageFilter
+ * \brief Computes the log() of each pixel.
+ *
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
+ * \ingroup ITKImageIntensity
+ */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT LogImageFilter:
   public

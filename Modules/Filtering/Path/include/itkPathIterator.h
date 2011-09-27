@@ -62,7 +62,7 @@ namespace itk
  * \sa ImageConstIteratorWithIndex
  *
  * \ingroup PathObjects
- * \ingroup ITK-Path
+ * \ingroup ITKPath
  */
 template< class TImage, class TPath >
 class ITK_EXPORT PathIterator:public PathConstIterator< TImage, TPath >
@@ -130,7 +130,7 @@ public:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPathIterator.txx"
+#include "itkPathIterator.hxx"
 #endif
 
 #endif

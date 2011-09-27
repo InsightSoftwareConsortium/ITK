@@ -1393,3 +1393,290 @@
    fun:Tcl_Main
    fun:main
 }
+{
+   <insert a suppression name here>
+   Memcheck:Leak
+   fun:malloc
+   fun:strdup
+   fun:Py_InitializeEx
+   fun:Py_Main
+   fun:(below main)
+}
+{
+   <insert a suppression name here>
+   Memcheck:Leak
+   fun:malloc
+   fun:PyList_New
+   obj:/usr/lib64/libpython2.6.so.1.0
+   obj:/usr/lib64/libpython2.6.so.1.0
+   fun:Py_BuildValue
+   fun:PyImport_Import
+   fun:PyImport_ImportModule
+   fun:_PyExc_Init
+   fun:Py_InitializeEx
+   fun:Py_Main
+   fun:(below main)
+}
+{
+   <insert a suppression name here>
+   Memcheck:Leak
+   fun:malloc
+   fun:_dl_new_object
+   fun:_dl_map_object_from_fd
+   fun:_dl_map_object
+   fun:dl_open_worker
+   fun:_dl_catch_error
+   fun:_dl_open
+   obj:/lib64/libdl-2.9.so
+   fun:_dl_catch_error
+   obj:/lib64/libdl-2.9.so
+   fun:dlopen
+   fun:_PyImport_GetDynLoadFunc
+   fun:_PyImport_LoadDynamicModule
+   obj:/usr/lib64/libpython2.6.so.1.0
+   obj:/usr/lib64/libpython2.6.so.1.0
+   obj:/usr/lib64/libpython2.6.so.1.0
+   fun:PyImport_ImportModuleLevel
+   obj:/usr/lib64/libpython2.6.so.1.0
+   fun:PyObject_Call
+   fun:PyEval_CallObjectWithKeywords
+   fun:PyEval_EvalFrameEx
+   fun:PyEval_EvalCodeEx
+   fun:PyEval_EvalCode
+   obj:/usr/lib64/libpython2.6.so.1.0
+}
+{
+   <insert a suppression name here>
+   Memcheck:Leak
+   fun:malloc
+   fun:expand_dynamic_string_token
+   fun:_dl_map_object
+   fun:dl_open_worker
+   fun:_dl_catch_error
+   fun:_dl_open
+   obj:/lib64/libdl-2.9.so
+   fun:_dl_catch_error
+   obj:/lib64/libdl-2.9.so
+   fun:dlopen
+   fun:_PyImport_GetDynLoadFunc
+   fun:_PyImport_LoadDynamicModule
+   obj:/usr/lib64/libpython2.6.so.1.0
+   obj:/usr/lib64/libpython2.6.so.1.0
+   obj:/usr/lib64/libpython2.6.so.1.0
+   fun:PyImport_ImportModuleLevel
+   obj:/usr/lib64/libpython2.6.so.1.0
+   fun:PyObject_Call
+   fun:PyEval_CallObjectWithKeywords
+   fun:PyEval_EvalFrameEx
+   fun:PyEval_EvalCodeEx
+   fun:PyEval_EvalCode
+   obj:/usr/lib64/libpython2.6.so.1.0
+   fun:PyRun_FileExFlags
+}
+{
+   <insert a suppression name here>
+   Memcheck:Leak
+   fun:calloc
+   fun:_dl_check_map_versions
+   fun:dl_open_worker
+   fun:_dl_catch_error
+   fun:_dl_open
+   obj:/lib64/libdl-2.9.so
+   fun:_dl_catch_error
+   obj:/lib64/libdl-2.9.so
+   fun:dlopen
+   fun:_PyImport_GetDynLoadFunc
+   fun:_PyImport_LoadDynamicModule
+   obj:/usr/lib64/libpython2.6.so.1.0
+   obj:/usr/lib64/libpython2.6.so.1.0
+   obj:/usr/lib64/libpython2.6.so.1.0
+   fun:PyImport_ImportModuleLevel
+   obj:/usr/lib64/libpython2.6.so.1.0
+   fun:PyObject_Call
+   fun:PyEval_CallObjectWithKeywords
+   fun:PyEval_EvalFrameEx
+   fun:PyEval_EvalCodeEx
+   fun:PyEval_EvalCode
+   obj:/usr/lib64/libpython2.6.so.1.0
+   fun:PyRun_FileExFlags
+   fun:PyRun_SimpleFileExFlags
+}
+{
+   <insert a suppression name here>
+   Memcheck:Leak
+   fun:malloc
+   fun:PyThread_allocate_lock
+   fun:PyInterpreterState_New
+   fun:Py_InitializeEx
+   fun:Py_Main
+   fun:(below main)
+}
+{
+   <insert a suppression name here>
+   Memcheck:Leak
+   fun:malloc
+   fun:_dl_map_object_deps
+   fun:dl_open_worker
+   fun:_dl_catch_error
+   fun:_dl_open
+   obj:/lib64/libdl-2.9.so
+   fun:_dl_catch_error
+   obj:/lib64/libdl-2.9.so
+   fun:dlopen
+   fun:_PyImport_GetDynLoadFunc
+   fun:_PyImport_LoadDynamicModule
+   obj:/usr/lib64/libpython2.6.so.1.0
+   obj:/usr/lib64/libpython2.6.so.1.0
+   obj:/usr/lib64/libpython2.6.so.1.0
+   fun:PyImport_ImportModuleLevel
+   obj:/usr/lib64/libpython2.6.so.1.0
+   fun:PyObject_Call
+   fun:PyEval_CallObjectWithKeywords
+   fun:PyEval_EvalFrameEx
+   fun:PyEval_EvalCodeEx
+   fun:PyEval_EvalCode
+   obj:/usr/lib64/libpython2.6.so.1.0
+   fun:PyRun_FileExFlags
+   fun:PyRun_SimpleFileExFlags
+}
+{
+   <insert a suppression name here>
+   Memcheck:Leak
+   fun:malloc
+   obj:/usr/lib64/libpython2.6.so.1.0
+   fun:Py_GetProgramFullPath
+   fun:_PySys_Init
+   fun:Py_InitializeEx
+   fun:Py_Main
+   fun:(below main)
+}
+{
+   <insert a suppression name here>
+   Memcheck:Leak
+   fun:realloc
+   obj:/usr/lib64/libpython2.6.so.1.0
+   obj:/usr/lib64/libpython2.6.so.1.0
+   obj:/usr/lib64/libpython2.6.so.1.0
+   fun:PyType_Ready
+   fun:_PyExc_Init
+   fun:Py_InitializeEx
+   fun:Py_Main
+   fun:(below main)
+}
+{
+   <insert a suppression name here>
+   Memcheck:Leak
+   fun:malloc
+   fun:realloc
+   obj:/usr/lib64/libpython2.6.so.1.0
+   obj:/usr/lib64/libpython2.6.so.1.0
+   obj:/usr/lib64/libpython2.6.so.1.0
+   fun:PyType_Ready
+   fun:_Py_ReadyTypes
+   fun:Py_InitializeEx
+   fun:Py_Main
+   fun:(below main)
+}
+{
+   <insert a suppression name here>
+   Memcheck:Leak
+   fun:calloc
+   fun:_dl_new_object
+   fun:_dl_map_object_from_fd
+   fun:_dl_map_object
+   fun:dl_open_worker
+   fun:_dl_catch_error
+   fun:_dl_open
+   obj:/lib64/libdl-2.9.so
+   fun:_dl_catch_error
+   obj:/lib64/libdl-2.9.so
+   fun:dlopen
+   fun:_PyImport_GetDynLoadFunc
+   fun:_PyImport_LoadDynamicModule
+   obj:/usr/lib64/libpython2.6.so.1.0
+   obj:/usr/lib64/libpython2.6.so.1.0
+   obj:/usr/lib64/libpython2.6.so.1.0
+   fun:PyImport_ImportModuleLevel
+   obj:/usr/lib64/libpython2.6.so.1.0
+   fun:PyObject_Call
+   fun:PyEval_CallObjectWithKeywords
+   fun:PyEval_EvalFrameEx
+   fun:PyEval_EvalCodeEx
+   fun:PyEval_EvalCode
+   obj:/usr/lib64/libpython2.6.so.1.0
+}
+{
+   <insert a suppression name here>
+   Memcheck:Leak
+   fun:malloc
+   obj:/usr/lib64/libpython2.6.so.1.0
+   fun:_PyInt_Init
+   fun:Py_InitializeEx
+   fun:Py_Main
+   fun:(below main)
+}
+{
+   <insert a suppression name here>
+   Memcheck:Leak
+   fun:malloc
+   fun:PyStructSequence_InitType
+   fun:_PyFloat_Init
+   fun:Py_InitializeEx
+   fun:Py_Main
+   fun:(below main)
+}
+{
+   <insert a suppression name here>
+   Memcheck:Leak
+   fun:malloc
+   fun:PyObject_Malloc
+   fun:_PyObject_GC_Malloc
+   fun:_PyObject_GC_NewVar
+   fun:PyFrame_New
+   fun:PyEval_EvalCodeEx
+   obj:/usr/lib64/libpython2.6.so.1.0
+   fun:PyObject_Call
+   obj:/usr/lib64/libpython2.6.so.1.0
+   obj:/usr/lib64/libpython2.6.so.1.0
+   fun:PyObject_Call
+   fun:PyObject_CallFunctionObjArgs
+   fun:PyEval_EvalFrameEx
+   fun:PyEval_EvalCodeEx
+   fun:PyEval_EvalCode
+   fun:PyImport_ExecCodeModuleEx
+   obj:/usr/lib64/libpython2.6.so.1.0
+   obj:/usr/lib64/libpython2.6.so.1.0
+   obj:/usr/lib64/libpython2.6.so.1.0
+   obj:/usr/lib64/libpython2.6.so.1.0
+   fun:PyImport_ImportModuleLevel
+   obj:/usr/lib64/libpython2.6.so.1.0
+   fun:PyObject_Call
+   fun:PyEval_CallObjectWithKeywords
+}
+{
+   <insert a suppression name here>
+   Memcheck:Leak
+   fun:malloc
+   obj:/usr/lib64/libpython2.6.so.1.0
+   fun:PyType_Ready
+   fun:PyType_Ready
+   fun:_Py_ReadyTypes
+   fun:Py_InitializeEx
+   fun:Py_Main
+   fun:(below main)
+}
+{
+   <insert a suppression name here>
+   Memcheck:Leak
+   fun:malloc
+   fun:PyObject_Malloc
+   fun:_PyObject_GC_Malloc
+   fun:_PyObject_GC_NewVar
+   fun:PyTuple_New
+   fun:PyType_Ready
+   fun:PyType_Ready
+   fun:_Py_ReadyTypes
+   fun:Py_InitializeEx
+   fun:Py_Main
+   fun:(below main)
+}

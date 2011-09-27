@@ -15,10 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#pragma warning ( disable : 4288 )
-#endif
 // Insight classes
 #include "itkImage.h"
 #include "itkVector.h"
@@ -29,6 +25,12 @@
 #include "itkMahalanobisDistanceMembershipFunction.h"
 #include "itkMinimumDecisionRule.h"
 #include "itkImageClassifierBase.h"
+
+
+// This tests the supervised image classifier methods. The test,
+// however, only exercises a pathalogical case, where the covariances
+// of all the classes are singular.  In this case, the methods degrade
+// to classifying based on euclidean distance to the mean.
 
 
 //Data definitons
@@ -286,18 +288,12 @@ int itkSupervisedImageClassifierTest(int, char* [] )
   MembershipFunctionPointerVector membershipFunctions =
     applyEstimateModel->GetMembershipFunctions();
 
-  for(unsigned int idx=0; idx < membershipFunctions.size(); idx++ )
-    {
-    std::cout << "Number of samples for class " << idx << " is " <<
-      membershipFunctions[ idx ]->GetNumberOfSamples() << std::endl;
-    }
-
   //----------------------------------------------------------------------
   //Set the decision rule
   //----------------------------------------------------------------------
-  typedef itk::DecisionRuleBase::Pointer DecisionRuleBasePointer;
+  typedef itk::Statistics::DecisionRule::Pointer DecisionRuleBasePointer;
 
-  typedef itk::MinimumDecisionRule DecisionRuleType;
+  typedef itk::Statistics::MinimumDecisionRule DecisionRuleType;
   DecisionRuleType::Pointer
     myDecisionRule = DecisionRuleType::New();
 

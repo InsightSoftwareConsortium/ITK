@@ -25,9 +25,6 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#if defined( _MSC_VER )
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkObjectFactoryBase.h"
 #include "itkDynamicLoader.h"
@@ -52,32 +49,12 @@ public:
     itk::ObjectFactoryBase::UnRegisterAllFactories();
   }
 };
-static CleanUpObjectFactory CleanUpObjectFactoryGlobal;
+//NOTE:  KWStyle insists on m_ for m_CleanUpObjectFactoryGlobal
+static CleanUpObjectFactory m_CleanUpObjectFactoryGlobal;
 }
 
 namespace itk
 {
-/**
- * Add this for the SGI compiler which does not seem
- * to provide a default implementation as it should.
- */
-bool operator==(const ObjectFactoryBase::OverrideInformation & rhs,
-                const ObjectFactoryBase::OverrideInformation & lhs)
-{
-  return ( rhs.m_Description == lhs.m_Description
-           && rhs.m_OverrideWithName == lhs.m_OverrideWithName );
-}
-
-/**
- * Add this for the SGI compiler which does not seem
- * to provide a default implementation as it should.
- */
-bool operator<(const ObjectFactoryBase::OverrideInformation & rhs,
-               const ObjectFactoryBase::OverrideInformation & lhs)
-{
-  return ( rhs.m_Description < lhs.m_Description
-           && rhs.m_OverrideWithName < lhs.m_OverrideWithName );
-}
 
 /** \class StringOverMap
  * \brief Internal implementation class for ObjectFactorBase.
@@ -201,7 +178,7 @@ void
 ObjectFactoryBase
 ::InitializeFactoryList()
 {
-  CleanUpObjectFactoryGlobal.Use();
+  m_CleanUpObjectFactoryGlobal.Use();
   /**
    * Don't do anything if we are already initialized
    */

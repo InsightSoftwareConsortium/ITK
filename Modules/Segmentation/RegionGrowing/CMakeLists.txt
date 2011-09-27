@@ -1,2 +1,2 @@
-project(ITK-RegionGrowing)
+project(ITKRegionGrowing)
 itk_module_impl()

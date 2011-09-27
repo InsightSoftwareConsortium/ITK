@@ -15,51 +15,56 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-// disable debug warnings in MS compiler
-#ifdef _MSC_VER
-#pragma warning(disable: 4786)
-#endif
 
 #include "itkFEMException.h"
 
-namespace itk {
-namespace fem {
+#include <iostream>
+#include <sstream>
 
+namespace itk
+{
+namespace fem
+{
 FEMException::FEMException(const char *file, unsigned int lineNumber, std::string location) :
-    ExceptionObject(file,lineNumber)
+  ExceptionObject(file, lineNumber)
 {
   SetDescription("Unhandled exception in FEM class!");
   SetLocation(location);
 }
 
-FEMExceptionIO::FEMExceptionIO(const char *file, unsigned int lineNumber, std::string location, std::string moreDescription) :
-    FEMException(file,lineNumber)
+FEMExceptionIO::FEMExceptionIO(const char *file, unsigned int lineNumber, std::string location,
+                               std::string moreDescription) :
+  FEMException(file, lineNumber)
 {
-  SetDescription("IO error in FEM class: "+moreDescription);
+  SetDescription("IO error in FEM class: " + moreDescription);
   SetLocation(location);
 }
 
-FEMExceptionWrongClass::FEMExceptionWrongClass(const char *file, unsigned int lineNumber, std::string location)
-  : FEMException(file, lineNumber, location)
+FEMExceptionWrongClass::FEMExceptionWrongClass(const char *file, unsigned int lineNumber, std::string location) :
+  FEMException(file, lineNumber, location)
 {
   SetDescription("Object was of wrong class!");
 }
 
-FEMExceptionObjectNotFound::FEMExceptionObjectNotFound(const char *file, unsigned int lineNumber, std::string location, std::string baseClassName, int GN)
-  : FEMException(file, lineNumber, location)
+FEMExceptionObjectNotFound::FEMExceptionObjectNotFound(const char *file, unsigned int lineNumber, std::string location,
+                                                       std::string baseClassName,
+                                                       int GN) :
+  FEMException(file, lineNumber, location)
 {
-  m_baseClassName=baseClassName;
-  m_GN=GN;
+  m_baseClassName = baseClassName;
+  m_GlobalNumber = GN;
   std::ostringstream buf;
-  buf<<"Object not found ("<<m_baseClassName<<", GN="<<m_GN<<")!";
-  SetDescription(buf.str().c_str());
+  buf << "Object not found (" << m_baseClassName << ", GlobalNumber=" << m_GlobalNumber << ")!";
+  SetDescription( buf.str().c_str() );
 }
 
-FEMExceptionSolution::FEMExceptionSolution(const char *file, unsigned int lineNumber, std::string location, std::string moreDescription) :
-  FEMException(file,lineNumber)
+FEMExceptionSolution::FEMExceptionSolution(const char *file, unsigned int lineNumber, std::string location,
+                                           std::string moreDescription) :
+  FEMException(file, lineNumber)
 {
-  SetDescription("Error when solving FEM problem: "+moreDescription);
+  SetDescription("Error when solving FEM problem: " + moreDescription);
   SetLocation(location);
 }
 
-}} // end namespace itk::fem
+}
+}  // end namespace itk::fem

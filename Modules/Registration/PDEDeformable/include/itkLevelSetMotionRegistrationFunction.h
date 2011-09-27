@@ -48,19 +48,19 @@ namespace itk
  *
  * \sa LevelSetMotionRegistrationFilter
  * \ingroup FiniteDifferenceFunctions
- * \ingroup ITK-PDEDeformableRegistration
+ * \ingroup ITKPDEDeformableRegistration
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 class ITK_EXPORT LevelSetMotionRegistrationFunction:
   public PDEDeformableRegistrationFunction< TFixedImage,
                                             TMovingImage,
-                                            TDeformationField >
+                                            TDisplacementField >
 {
 public:
   /** Standard class typedefs. */
   typedef LevelSetMotionRegistrationFunction Self;
   typedef PDEDeformableRegistrationFunction< TFixedImage,
-                                             TMovingImage, TDeformationField
+                                             TMovingImage, TDisplacementField
                                              > Superclass;
 
   typedef SmartPointer< Self >       Pointer;
@@ -86,9 +86,9 @@ public:
   typedef typename FixedImageType::SpacingType   SpacingType;
 
   /** Deformation field type. */
-  typedef typename Superclass::DeformationFieldType DeformationFieldType;
-  typedef typename Superclass::DeformationFieldTypePointer
-  DeformationFieldTypePointer;
+  typedef typename Superclass::DisplacementFieldType DisplacementFieldType;
+  typedef typename Superclass::DisplacementFieldTypePointer
+  DisplacementFieldTypePointer;
 
   /** Inherit some enums from the superclass. */
   itkStaticConstMacro(ImageDimension, unsigned
@@ -267,7 +267,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetMotionRegistrationFunction.txx"
+#include "itkLevelSetMotionRegistrationFunction.hxx"
 #endif
 
 #endif

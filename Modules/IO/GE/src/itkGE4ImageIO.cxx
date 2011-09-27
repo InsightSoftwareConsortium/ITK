@@ -101,6 +101,9 @@ GEImageHeader * GE4ImageIO::ReadHeader(const char *FileNameToRead)
     {
     RAISE_EXCEPTION();
     }
+  // Set modality to UNKNOWN
+  strcpy(hdr->modality, "UNK");
+
   //  RGEDEBUG(char debugbuf[16384];)
   char      tmpStr[IOCommon::ITK_MAXPATHLEN + 1];
   int       intTmp;

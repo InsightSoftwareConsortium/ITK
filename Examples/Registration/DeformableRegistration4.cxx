@@ -15,13 +15,10 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 // Software Guide : BeginLatex
 //
-// This example illustrates the use of the \doxygen{BSplineDeformableTransform}
+// This example illustrates the use of the \doxygen{BSplineTransform}
 // class for performing registration of two $2D$ images. The example code is
 // for the most part identical to the code presented in
 // Section~\ref{sec:RigidRegistrationIn2D}.  The major difference is that this
@@ -31,8 +28,8 @@
 // \doxygen{LBFGSOptimizer}.
 //
 //
-// \index{itk::BSplineDeformableTransform}
-// \index{itk::BSplineDeformableTransform!DeformableRegistration}
+// \index{itk::BSplineTransform}
+// \index{itk::BSplineTransform!DeformableRegistration}
 // \index{itk::LBFGSOptimizer}
 //
 //
@@ -48,25 +45,25 @@
 //
 //  The following are the most relevant headers to this example.
 //
-//  \index{itk::BSplineDeformableTransform!header}
+//  \index{itk::BSplineTransform!header}
 //  \index{itk::LBFGSOptimizer!header}
 //
 //  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-#include "itkBSplineDeformableTransform.h"
+#include "itkBSplineTransform.h"
 #include "itkLBFGSOptimizer.h"
 // Software Guide : EndCodeSnippet
 
 //  Software Guide : BeginLatex
 //
-//  The parameter space of the \code{BSplineDeformableTransform} is composed by
+//  The parameter space of the \code{BSplineTransform} is composed by
 //  the set of all the deformations associated with the nodes of the BSpline
 //  grid.  This large number of parameters makes possible to represent a wide
 //  variety of deformations, but it also has the price of requiring a
 //  significant amount of computation time.
 //
-//  \index{itk::BSplineDeformableTransform!header}
+//  \index{itk::BSplineTransform!header}
 //
 //  Software Guide : EndLatex
 
@@ -102,12 +99,12 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  We instantiate now the type of the \code{BSplineDeformableTransform} using
+  //  We instantiate now the type of the \code{BSplineTransform} using
   //  as template parameters the type for coordinates representation, the
   //  dimension of the space, and the order of the BSpline.
   //
-  //  \index{BSplineDeformableTransform!New}
-  //  \index{BSplineDeformableTransform!Instantiation}
+  //  \index{BSplineTransform!New}
+  //  \index{BSplineTransform!Instantiation}
   //
   //  Software Guide : EndLatex
 
@@ -116,7 +113,7 @@ int main( int argc, char *argv[] )
   const unsigned int SplineOrder = 3;
   typedef double CoordinateRepType;
 
-  typedef itk::BSplineDeformableTransform<
+  typedef itk::BSplineTransform<
                             CoordinateRepType,
                             SpaceDimension,
                             SplineOrder >     TransformType;
@@ -182,58 +179,28 @@ int main( int argc, char *argv[] )
 
  registration->SetFixedImageRegion( fixedRegion );
 
-  //  Software Guide : BeginLatex
-  //
-  //  Here we define the parameters of the BSplineDeformableTransform grid.  We
-  //  arbitrarily decide to use a grid with $5 \times 5$ nodes within the image.
-  //  The reader should note that the BSpline computation requires a
-  //  finite support region ( 1 grid node at the lower borders and 2
-  //  grid nodes at upper borders). Therefore in this example, we set
-  //  the grid size to be $8 \times 8$ and place the grid origin such that
-  //  grid node (1,1) coincides with the first pixel in the fixed image.
-  //
-  //  \index{BSplineDeformableTransform}
-  //
-  //  Software Guide : EndLatex
-
-
   // Software Guide : BeginCodeSnippet
-  typedef TransformType::RegionType RegionType;
-  RegionType bsplineRegion;
-  RegionType::SizeType   gridSizeOnImage;
-  RegionType::SizeType   gridBorderSize;
-  RegionType::SizeType   totalGridSize;
 
-  gridSizeOnImage.Fill( 5 );
-  gridBorderSize.Fill( 3 );    // Border for spline order = 3 ( 1 lower, 2 upper )
-  totalGridSize = gridSizeOnImage + gridBorderSize;
+  TransformType::PhysicalDimensionsType   fixedPhysicalDimensions;
+  TransformType::MeshSizeType             meshSize;
+  TransformType::OriginType               fixedOrigin;
 
-  bsplineRegion.SetSize( totalGridSize );
+  unsigned int numberOfGridNodesInOneDimension = 8;
 
-  typedef TransformType::SpacingType SpacingType;
-  SpacingType spacing = fixedImage->GetSpacing();
-
-  typedef TransformType::OriginType OriginType;
-  OriginType origin = fixedImage->GetOrigin();
-
-  FixedImageType::SizeType fixedImageSize = fixedRegion.GetSize();
-
-  for(unsigned int r=0; r<ImageDimension; r++)
+  for( unsigned int i=0; i< SpaceDimension; i++ )
     {
-    spacing[r] *= static_cast<double>(fixedImageSize[r] - 1)  /
-                  static_cast<double>(gridSizeOnImage[r] - 1);
+    fixedOrigin = fixedImage->GetOrigin()[i];
+    fixedPhysicalDimensions[i] = fixedImage->GetSpacing()[i] *
+      static_cast<double>(
+      fixedImage->GetLargestPossibleRegion().GetSize()[i] - 1 );
     }
+  meshSize.Fill( numberOfGridNodesInOneDimension - SplineOrder );
 
-  FixedImageType::DirectionType gridDirection = fixedImage->GetDirection();
-  SpacingType gridOriginOffset = gridDirection * spacing;
-
-  OriginType gridOrigin = origin - gridOriginOffset;
-
-  transform->SetGridSpacing( spacing );
-  transform->SetGridOrigin( gridOrigin );
-  transform->SetGridRegion( bsplineRegion );
-  transform->SetGridDirection( gridDirection );
-
+  transform->SetTransformDomainOrigin( fixedOrigin );
+  transform->SetTransformDomainPhysicalDimensions(
+    fixedPhysicalDimensions );
+  transform->SetTransformDomainMeshSize( meshSize );
+  transform->SetTransformDomainDirection( fixedImage->GetDirection() );
 
   typedef TransformType::ParametersType     ParametersType;
 
@@ -378,8 +345,6 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-
-
   typedef itk::SquaredDifferenceImageFilter<
                                   FixedImageType,
                                   FixedImageType,
@@ -434,23 +399,23 @@ int main( int argc, char *argv[] )
   // the registration.
 
   typedef itk::Vector< float, ImageDimension >      VectorType;
-  typedef itk::Image< VectorType, ImageDimension >  DeformationFieldType;
+  typedef itk::Image< VectorType, ImageDimension >  DisplacementFieldType;
 
-  DeformationFieldType::Pointer field = DeformationFieldType::New();
+  DisplacementFieldType::Pointer field = DisplacementFieldType::New();
   field->SetRegions( fixedRegion );
   field->SetOrigin( fixedImage->GetOrigin() );
   field->SetSpacing( fixedImage->GetSpacing() );
   field->SetDirection( fixedImage->GetDirection() );
   field->Allocate();
 
-  typedef itk::ImageRegionIterator< DeformationFieldType > FieldIterator;
+  typedef itk::ImageRegionIterator< DisplacementFieldType > FieldIterator;
   FieldIterator fi( field, fixedRegion );
 
   fi.GoToBegin();
 
   TransformType::InputPointType  fixedPoint;
   TransformType::OutputPointType movingPoint;
-  DeformationFieldType::IndexType index;
+  DisplacementFieldType::IndexType index;
 
   VectorType displacement;
 
@@ -464,7 +429,7 @@ int main( int argc, char *argv[] )
     ++fi;
     }
 
-  typedef itk::ImageFileWriter< DeformationFieldType >  FieldWriterType;
+  typedef itk::ImageFileWriter< DisplacementFieldType >  FieldWriterType;
   FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
 
   fieldWriter->SetInput( field );

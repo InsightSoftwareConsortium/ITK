@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <math.h>
 #include <time.h>
@@ -294,7 +291,6 @@ itkAutomaticTopologyQuadEdgeMeshSourceTest(int, char* [] )
         {
         std::cout << "Cell " << i << ":\n";
 
-        typedef MeshSourceType::IdentifierType IdentifierType;
         typedef std::set<IdentifierType>       NeighborSet;
         NeighborSet cellSet;
 

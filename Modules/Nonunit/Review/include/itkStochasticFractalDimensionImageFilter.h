@@ -47,7 +47,7 @@ namespace itk
  *
  * \author Nick Tustison
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TInputImage, class TMaskImage = Image< unsigned char,
                                                        ::itk::GetImageDimension< TInputImage >::ImageDimension >,
@@ -114,7 +114,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkStochasticFractalDimensionImageFilter.txx"
+#include "itkStochasticFractalDimensionImageFilter.hxx"
 #endif
 
 #endif

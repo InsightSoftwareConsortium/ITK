@@ -5,60 +5,131 @@ include (${CMAKE_ROOT}/Modules/Documentation.cmake)
 
 mark_as_advanced(CLEAR BUILD_DOCUMENTATION)
 
-if (BUILD_DOCUMENTATION)
+# -------------------------------------------------------------
+#
+# Generate Doxygen configuration file in all configuration file
+#
+if( ${DOXYGEN_DOT_FOUND} )
+  set( ITK_HAVE_DOT "YES" )
+else()
+  set( ITK_HAVE_DOT "NO" )
+endif()
 
-  if( ${DOXYGEN_DOT_FOUND} )
-    set( ITK_HAVE_DOT "YES" )
+set( DOX_MODULE_LIST ${ITK_MODULES_ENABLED} )
+
+foreach(itk-module ${DOX_MODULE_LIST})
+  if(${itk-module}_IS_TEST)
+    list( APPEND DOXYGEN_TEST_DIRS "\"${${itk-module}_SOURCE_DIR}\" \\ \n ")
   else()
-    set( ITK_HAVE_DOT "NO" )
-  endif()
-
-  set( DOX_MODULE_LIST ${ITK_MODULES_ENABLED} )
-
-  foreach(itk-module ${DOX_MODULE_LIST})
-    if(${itk-module}_IS_TEST)
-      list( APPEND DOXYGEN_TEST_DIRS "\"${${itk-module}_SOURCE_DIR}\" \\ \n ")
-    else()
-      if( EXISTS ${${itk-module}_SOURCE_DIR}/include )
-        list( APPEND DOXYGEN_INCLUDE_DIRS "\"${${itk-module}_SOURCE_DIR}/include\" \\ \n")
-      endif()
-
-      if( ${DOXYGEN_DOT_FOUND} )
-        # generates here one image for each module which corresponds to
-        # its local dependency.
-        set(_png ${itk-module}_dependencies.png)
-        add_custom_command( OUTPUT ${_png}
-          COMMAND ${DOXYGEN_DOT_EXECUTABLE} -Tpng
-            -o ${_png} ${itk-module}.dot
-          DEPENDS ${ITK_BINARY_DIR}/Utilities/Doxygen/Modules/${itk-module}.dot
-          WORKING_DIRECTORY ${ITK_BINARY_DIR}/Utilities/Doxygen/Modules/
-          )
-
-        list( APPEND DOX_MODULE_PNGS ${_png} )
-      endif()
+    if( EXISTS ${${itk-module}_SOURCE_DIR}/include )
+      list( APPEND DOXYGEN_INCLUDE_DIRS "\"${${itk-module}_SOURCE_DIR}/include\" \\ \n")
     endif()
-  endforeach()
+  endif()
+endforeach()
 
-  list( APPEND DOXYGEN_TEST_DIRS "\"${ITK_SOURCE_DIR}/Examples\" \n")
+list( APPEND DOXYGEN_TEST_DIRS "\"${ITK_SOURCE_DIR}/Examples\" \n")
 
-  string( REGEX REPLACE ";" "\$" DOXYGEN_TEST_DIRS ${DOXYGEN_TEST_DIRS} )
+# By definition DOXYGEN_TEST_DIRS can not be empty. In the worst case if
+# BUILD_TESTING is turned OFF, there is only ${ITK_SOURCE_DIR}/Examples;
+# thus we don't need to do any replacement in the string.
+if( BUILD_TESTING )
+  # replace ";" in the string by space+backslash+newline
+  string( REPLACE ";" " \\\\n" DOXYGEN_TEST_DIRS ${DOXYGEN_TEST_DIRS} )
+endif()
 
-  string( REGEX REPLACE ";" "\$" DOXYGEN_INCLUDE_DIRS ${DOXYGEN_INCLUDE_DIRS} )
+list( LENGTH DOXYGEN_INCLUDE_DIRS _doxygen_include_dirs_size )
 
-  #
-  # Configure the script and the doxyfile, then add target
-  #
-  configure_file(${ITK_SOURCE_DIR}/Utilities/Doxygen/doxygen.config.in
-                 ${ITK_BINARY_DIR}/Utilities/Doxygen/doxygen.config)
+if( ${_doxygen_include_dirs_size} GREATER 0 )
+  # replace ";" in the string by space+backslash+newline
+  string( REPLACE ";" " \\\\n" DOXYGEN_INCLUDE_DIRS ${DOXYGEN_INCLUDE_DIRS} )
+endif()
+
+#
+# Configure the script and the doxyfile, then add target
+#
+set( ITK_DOXYGEN_OUTPUT_DIR ${ITK_BINARY_DIR}/Utilities/Doxygen )
+
+set( ITK_DOXYGEN_INPUT ${DOXYGEN_INCLUDE_DIRS} )
+
+SET( ITK_DOXYGEN_DIAGRAMS YES )
+
+option( ITK_DOXYGEN_HTML "Doxygen will generate HTML Output" ON )
+option( ITK_DOXYGEN_DOCSET "Doxygen will generate additional index files for XCode 3" OFF )
+option( ITK_DOXYGEN_CHM "Doxygen will generate Microsoft HTML help" OFF )
+option( ITK_DOXYGEN_QHP "Doxygen will generate Qt Compressed Help" OFF )
+option( ITK_DOXYGEN_ECLIPSEHELP "Doxygen will generate Eclipse help plugin" OFF )
+option( ITK_DOXYGEN_LATEX "Doxygen will generate LaTeX output" OFF )
+option( ITK_DOXYGEN_RTF "Doxygen will generate RTF output optimized for Word 97" OFF )
+option( ITK_DOXYGEN_XML "Doxygen will generate XML output" OFF )
+
+mark_as_advanced( ITK_DOXYGEN_HTML
+  ITK_DOXYGEN_DOCSET
+  ITK_DOXYGEN_CHM
+  ITK_DOXYGEN_QHP
+  ITK_DOXYGEN_ECLIPSEHELP
+  ITK_DOXYGEN_LATEX
+  ITK_DOXYGEN_RTF
+  ITK_DOXYGEN_XML
+)
+
+set( ITK_DOXYGEN_OUTPUT
+  HTML
+  DOCSET
+  CHM
+  QHP
+  ECLIPSEHELP
+  LATEX
+  RTF
+  XML
+)
+
+foreach( var ${ITK_DOXYGEN_OUTPUT} )
+  if( ITK_DOXYGEN_${var} )
+    set( ITK_DOXYGEN_GEN_${var} "YES" )
+  else()
+    set( ITK_DOXYGEN_GEN_${var} "NO" )
+  endif()
+endforeach()
+
+find_package( Perl )
+
+if( PERL_FOUND )
+  set( ITK_DOXYGEN_INPUT_FILTER
+    "${PERL_EXECUTABLE} ${ITK_BINARY_DIR}/Utilities/Doxygen/itkdoxygen.pl" )
 
   configure_file(${ITK_SOURCE_DIR}/Utilities/Doxygen/itkdoxygen.pl.in
-                 ${ITK_BINARY_DIR}/Utilities/Doxygen/itkdoxygen.pl)
+               ${ITK_BINARY_DIR}/Utilities/Doxygen/itkdoxygen.pl)
+else()
+  set( ITK_DOXYGEN_INPUT_FILTER )
+endif()
+
+configure_file(${ITK_SOURCE_DIR}/Utilities/Doxygen/doxygen.config.in
+               ${ITK_BINARY_DIR}/Utilities/Doxygen/doxygen.config)
+
+
+set( ITK_DOXYGEN_OUTPUT_DIR ${ITK_BINARY_DIR}/temp )
+
+set( ITK_DOXYGEN_INPUT "\"INPUT_SINGLE_FILE\"" )
+
+set( ITK_DOXYGEN_DIAGRAMS NO )
+
+
+configure_file(${ITK_SOURCE_DIR}/Utilities/Doxygen/doxygen.config.in
+               ${ITK_BINARY_DIR}/single-doxygen.config)
+
+# -------------------------------------------------------------
+if (BUILD_DOCUMENTATION)
+
+  find_package( LATEX )
+
+  if( NOT LATEX_COMPILER )
+    message( "Warning: LaTeX not found. Formulas will not be generated in documentation." )
+  endif()
 
   add_custom_target(Documentation ALL
     COMMAND ${DOXYGEN_EXECUTABLE} ${ITK_BINARY_DIR}/Utilities/Doxygen/doxygen.config
     MAIN_DEPENDENCY ${ITK_BINARY_DIR}/Utilities/Doxygen/doxygen.config
     DEPENDS         ${ITK_BINARY_DIR}/Utilities/Doxygen/itkdoxygen.pl
-                    ${DOX_MODULE_PNGS}
     WORKING_DIRECTORY ${ITK_BINARY_DIR}/Utilities/Doxygen
     )
 
@@ -76,8 +147,3 @@ if (BUILD_DOCUMENTATION)
          )
 
 endif (BUILD_DOCUMENTATION)
-
-find_package(PythonInterp)
-if(PYTHON_EXECUTABLE)
-  itk_add_test(NAME ModuleInDoxygenGroup COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/mcdoc.py massive-check ${ITK_SOURCE_DIR})
-endif()

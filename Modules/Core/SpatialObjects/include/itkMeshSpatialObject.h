@@ -30,7 +30,7 @@ namespace itk
  * and an itkMesh.
  *
  * \sa SpatialObject
- * \ingroup ITK-SpatialObjects
+ * \ingroup ITKSpatialObjects
  */
 
 template< class TMesh = Mesh< int > >
@@ -68,6 +68,7 @@ public:
 
   /** Get a pointer to the Mesh currently attached to the object. */
   MeshType * GetMesh(void);
+  const MeshType *GetMesh(void) const;
 
   /** Return true if the object is evaluable at the requested point,
    *  and else otherwise. */
@@ -123,7 +124,7 @@ protected:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMeshSpatialObject.txx"
+#include "itkMeshSpatialObject.hxx"
 #endif
 
 #endif //__itkMeshSpatialObject_h

@@ -58,14 +58,14 @@ namespace itk
  * http://www.insight-journal.org/browse/publication/160
  *
  * \author Richard Beare
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 
 template< class TInputImage, class TMaskImage, class TOutputImage, class TKernel =
             FlatStructuringElement< ::itk::GetImageDimension< TInputImage >::ImageDimension > >
 class ITK_EXPORT MaskedRankImageFilter:
   public MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel,
-                                           Function::RankHistogram< ITK_TYPENAME TInputImage::PixelType > >
+                                           Function::RankHistogram< typename TInputImage::PixelType > >
 {
 public:
   /** Standard class typedefs. */
@@ -135,7 +135,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMaskedRankImageFilter.txx"
+#include "itkMaskedRankImageFilter.hxx"
 #endif
 
 #endif

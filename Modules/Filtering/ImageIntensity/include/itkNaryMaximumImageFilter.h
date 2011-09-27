@@ -23,41 +23,13 @@
 
 namespace itk
 {
-/** \class NaryMaximumImageFilter
- * \brief Implements an operator computing the pixel-wise maximum of several images.
- *
- * This class is parametrized over the types of the input images and the type
- * of the output image.  Numeric conversions (castings) are done by the C++
- * defaults.
- *
- * The pixel type of the output images must have a valid defintion of the
- * operator<. This condition is required because internally this filter will
- * perform an operation similar to:
- *
- *    const OutputPixelType query_value = static_cast<OutputPixelType>(pixel_from_input_n);
- *    if(current_maximum < query_value)
- *      {
- *      current_maximum = query_value;
- *      }
- * (where current_maximum is also of type OutputPixelType)
- *
- * for each of the n input images.
- *
- * For example, this filter could be used directly to find a "maximum projection"
- * of a series of images, often used in preliminary analysis of time-series data.
- *
- * \author Zachary Pincus
- *
- * This filter was contributed by Zachary Pincus from the Department of
- * Biochemistry and Program in Biomedical Informatics at Stanford University
- * School of Medicine
- *
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageIntensity
- */
-
 namespace Functor
 {
+/**
+ * \class Maximum1
+ * \brief
+ * \ingroup ITKImageIntensity
+ */
 template< class TInput, class TOutput >
 class Maximum1
 {
@@ -93,6 +65,41 @@ public:
   }
 };
 }
+/** \class NaryMaximumImageFilter
+ * \brief Computes the pixel-wise maximum of several images.
+ *
+ * This class is templated over the types of the input images and the type
+ * of the output image.  Numeric conversions (castings) are done by the C++
+ * defaults.
+ *
+ * The pixel type of the output images must have a valid defintion of the
+ * operator<. This condition is required because internally this filter will
+ * perform an operation similar to:
+ *
+ * \code
+ *    const OutputPixelType query_value = static_cast<OutputPixelType>(pixel_from_input_n);
+ *    if(current_maximum < query_value)
+ *      {
+ *      current_maximum = query_value;
+ *      }
+ * \endcode
+ * (where current_maximum is also of type OutputPixelType)
+ *
+ * for each of the n input images.
+ *
+ * For example, this filter could be used directly to find a "maximum projection"
+ * of a series of images, often used in preliminary analysis of time-series data.
+ *
+ * \author Zachary Pincus
+ *
+ * This filter was contributed by Zachary Pincus from the Department of
+ * Biochemistry and Program in Biomedical Informatics at Stanford University
+ * School of Medicine
+ *
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
+ * \ingroup ITKImageIntensity
+ */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT NaryMaximumImageFilter:
   public

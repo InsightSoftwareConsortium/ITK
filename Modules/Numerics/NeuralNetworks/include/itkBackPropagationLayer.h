@@ -27,6 +27,12 @@ namespace itk
 {
 namespace Statistics
 {
+/** \class BackPropagationLayer
+ * \brief This is the itkBackPropagationLayer class.
+ *
+ * \ingroup ITKNeuralNetworks
+ */
+
 template<class TMeasurementVector, class TTargetVector>
 class BackPropagationLayer : public LayerBase<TMeasurementVector, TTargetVector>
 {
@@ -105,7 +111,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBackPropagationLayer.txx"
+#include "itkBackPropagationLayer.hxx"
 #endif
 
 #endif

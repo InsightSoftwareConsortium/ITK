@@ -23,37 +23,13 @@
 
 namespace itk
 {
-/** \class ConstrainedValueAdditionImageFilter
- * \brief Implements pixel-wise the computation of constrained value addition.
- *
- * This filter is parametrized over the types of the two
- * input images and the type of the output image.
- *
- * Numeric conversions (castings) are done by the C++ defaults.
- *
- * The filter will walk over all the pixels in the two input images, and for
- * each one of them it will do the following:
- *
- * - cast the input 1 pixel value to \c double
- * - cast the input 2 pixel value to \c double
- * - compute the addition of the two pixel values
- * - compute the constrained value (constrained to be between the
- *   NonpositiveMin and max of the output pixel type)
- * - cast the \c double value resulting from \c the constrained value
- *   to the pixel type of the output image
- * - store the cast value into the output image.
- *
- * The filter expects all images to have the same dimension
- * (e.g. all 2D, or all 3D, or all ND)
- *
- * \author Lino Ramirez. Dept. of Electrical and Computer
- * Engineering. University of Alberta. Canada
- *
- * \ingroup IntensityImageFilters Multithreaded
- * \ingroup ITK-ImageIntensity
- */
 namespace Functor
 {
+/**
+ * \class ConstrainedValueAddition
+ * \brief
+ * \ingroup ITKImageIntensity
+ */
 template< class TInput1, class TInput2, class TOutput >
 class ConstrainedValueAddition
 {
@@ -85,7 +61,36 @@ public:
   }
 };
 }
-
+/** \class ConstrainedValueAdditionImageFilter
+ * \brief Implements pixel-wise the computation of constrained value addition.
+ *
+ * This filter is templated over the types of the two
+ * input images and the type of the output image.
+ *
+ * Numeric conversions (castings) are done by the C++ defaults.
+ *
+ * The filter will walk over all the pixels in the two input images, and for
+ * each one of them it will do the following:
+ *
+ * \li cast the input 1 pixel value to \c double
+ * \li cast the input 2 pixel value to \c double
+ * \li compute the addition of the two pixel values
+ * \li compute the constrained value (constrained to be between the
+ *   NonpositiveMin and max of the output pixel type)
+ * \li cast the \c double value resulting from \c the constrained value
+ *   to the pixel type of the output image
+ * \li store the cast value into the output image.
+ *
+ * The filter expects all images to have the same dimension
+ * (e.g. all 2D, or all 3D, or all ND)
+ *
+ * \author Lino Ramirez. Dept. of Electrical and Computer
+ * Engineering. University of Alberta. Canada
+ *
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
+ * \ingroup ITKImageIntensity
+ */
 template< class TInputImage1, class TInputImage2, class TOutputImage >
 class ITK_EXPORT ConstrainedValueAdditionImageFilter:
   public

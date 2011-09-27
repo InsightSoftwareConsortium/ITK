@@ -18,9 +18,6 @@
 #ifndef __itkPNGImageIO_h
 #define __itkPNGImageIO_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkImageIOBase.h"
 
@@ -32,7 +29,7 @@ namespace itk
  *
  * \ingroup IOFilters
  *
- * \ingroup ITK-IO-PNG
+ * \ingroup ITKIOPNG
  */
 class ITK_EXPORT PNGImageIO:public ImageIOBase
 {

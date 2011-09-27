@@ -40,7 +40,11 @@ namespace itk
 {
 /**
  * \class MetaDataObject
+ * \brief Allows arbitrary data types to be stored as MetaDataObjectBase types,
+ *        and to be stored in a MetaDataDictionary.
+ *
  * \author Hans J. Johnson
+ *
  * The MetaDataObject class is a templated class that
  * is a specialization of the MetaDataObjectBase type.
  * This class allows arbitrary data types to be
@@ -64,7 +68,7 @@ namespace itk
  * a specialized Print() characteristics to produce results desirable for their application.
  * A set of very crude Macros {NATIVE_TYPE_METADATAPRINT, ITK_OBJECT_TYPE_METADATAPRINT_1COMMA, ITK_IMAGE_TYPE_METADATAPRINT  }
  * are provided to facilitate a very simple implementation, and as an example.
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class MetaDataObjectType >
 class ITK_EXPORT MetaDataObject:public MetaDataObjectBase
@@ -347,7 +351,7 @@ NATIVE_TYPE_METADATAPRINT_NOCONST(std::string)
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkMetaDataObject.txx"
+#include "itkMetaDataObject.hxx"
 #endif
 
 #endif //itkMetaDataObject_h

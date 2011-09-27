@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 /** Example illustrating use of FFTComplexToComplexImageFilter
  *
@@ -39,13 +36,6 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkFFTComplexToComplexImageFilter.h"
-// #include "itkFFTWComplexToComplexImageFilter.h"
-
-#if !defined(USE_FFTWF)
-//#error "This example only works when single precision FFTW is used"
-//Changing WorkPixeltype to double and changing this conditional to USE_FFTWD
-//will also work.
-#endif
 
 int itkFFTComplexToComplexImageFilterTest02( int argc, char * argv[] )
 {
@@ -60,7 +50,11 @@ int itkFFTComplexToComplexImageFilterTest02( int argc, char * argv[] )
     }
 
   const unsigned int                              Dimension = 3;
+#if defined(USE_FFTWF) && !defined(USE_FFTWD)
   typedef float                                   PixelComponentType;
+#else
+  typedef double                                  PixelComponentType;
+#endif
   typedef std::complex< PixelComponentType >      PixelType;
 
   typedef itk::Image< PixelType,  Dimension >     ImageType;

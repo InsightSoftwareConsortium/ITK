@@ -65,7 +65,11 @@ namespace itk
  * the membership function objects and populates them.
  *
  * \ingroup ImageFeatureExtraction
- * \ingroup ITK-ImageStatistics
+ * \ingroup ITKImageStatistics
+ *
+ * \wiki
+ * \wikiexample{Segmentation/EstimatePCAModel,Compute a PCA shape model from a training sample}
+ * \endwiki
  */
 
 template< class TInputImage,
@@ -206,7 +210,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImagePCAShapeModelEstimator.txx"
+#include "itkImagePCAShapeModelEstimator.hxx"
 #endif
 
 #endif

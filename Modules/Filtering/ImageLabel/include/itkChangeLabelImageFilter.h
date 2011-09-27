@@ -42,8 +42,8 @@ namespace itk
  *  U.S. Army Medical Research and Materiel Command/TATRC Assistance
  *  Agreement, Contract#W81XWH-05-2-0059.
  *
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageLabel
+ * \ingroup IntensityImageFilters  MultiThreaded
+ * \ingroup ITKImageLabel
  */
 
 #include <map>
@@ -170,7 +170,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkChangeLabelImageFilter.txx"
+#include "itkChangeLabelImageFilter.hxx"
 #endif
 
 #endif

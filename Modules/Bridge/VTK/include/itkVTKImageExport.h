@@ -48,7 +48,7 @@ namespace itk
  *
  * \ingroup IOFilters
  * \sa VTKImageExportBase
- * \ingroup ITK-VTK
+ * \ingroup ITKVTK
  */
 template< class TInputImage >
 class ITK_EXPORT VTKImageExport:public VTKImageExportBase
@@ -125,7 +125,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVTKImageExport.txx"
+#include "itkVTKImageExport.hxx"
 #endif
 
 #endif

@@ -15,15 +15,17 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #ifndef __itkFEMMaterialBase_h
 #define __itkFEMMaterialBase_h
 
 #include "itkFEMLightObject.h"
 #include "itkFEMPArray.h"
 
-namespace itk {
-namespace fem {
-
+namespace itk
+{
+namespace fem
+{
 /**
  * \class Material
  * \brief Base class for storing all the implicit material and other properties
@@ -38,19 +40,31 @@ namespace fem {
  * Everything usefull is stored in derived clases. This class
  * is here just to group all material classes together and access
  * them via this base class.
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 class Material : public FEMLightObject
 {
-  FEM_ABSTRACT_CLASS(Material,FEMLightObject)
 public:
+  /** Standard class typedefs. */
+  typedef Material                 Self;
+  typedef FEMLightObject           Superclass;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Material, FEMLightObject);
+
   /**
    * Array class that holds special pointers to objects of all Material classes
    */
   typedef FEMPArray<Self> ArrayType;
+protected:
+
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 };
 
-}} // end namespace itk::fem
+}
+}  // end namespace itk::fem
 
 #endif // #ifndef __itkFEMMaterialBase_h

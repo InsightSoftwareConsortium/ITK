@@ -41,7 +41,7 @@ namespace itk
  *FiniteDifferenceSparseImageFilter class. The precomputation step can be used
  *to speed up computation by avoiding repetitions. See the
  *NormalVectorDiffusionFunction for an example.
- * \ingroup ITK-FiniteDifference
+ * \ingroup ITKFiniteDifference
  */
 template< class TSparseImageType >
 class ITK_EXPORT FiniteDifferenceSparseImageFunction:
@@ -118,7 +118,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFiniteDifferenceSparseImageFunction.txx"
+#include "itkFiniteDifferenceSparseImageFunction.hxx"
 #endif
 
 #endif

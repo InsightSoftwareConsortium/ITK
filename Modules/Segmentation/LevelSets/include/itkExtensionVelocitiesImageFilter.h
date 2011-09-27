@@ -44,7 +44,7 @@ namespace itk
  * Cambridge Press, Second edition, 1999.
  *
  * \ingroup LevelSetSegmentation
- * \ingroup ITK-LevelSets
+ * \ingroup ITKLevelSets
  */
 template<
   class TLevelSet,
@@ -140,7 +140,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkExtensionVelocitiesImageFilter.txx"
+#include "itkExtensionVelocitiesImageFilter.hxx"
 #endif
 
 #endif

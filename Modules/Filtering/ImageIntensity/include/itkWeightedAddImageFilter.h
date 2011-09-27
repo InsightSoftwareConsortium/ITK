@@ -23,36 +23,13 @@
 
 namespace itk
 {
-/** \class WeightedAddImageFilter
- * \brief Implements an operator for computing a weighted sum of two images pixel-wise.
- *
- * This class is parametrized over the types of the two
- * input images and the type of the output image.
- * Numeric conversions (castings) are done by the C++ defaults.
- *
- * The pixel type of the input 1 image must have a valid defintion of
- * the operator+ with a pixel type of the image 2. This condition is
- * required because internally this filter will perform the operation
- *
- *        pixel_from_image_1 * alpha +  pixel_from_image_2 * (1.0 - alpha)
- *
- * Additionally the type resulting from the sum will be cast to
- * the pixel type of the output image.
- *
- * The total operation over one pixel will be
- *
- *  output_pixel = static_cast<OutputPixelType>(
- *      input1_pixel * alpha + input2_pixel * (1-alpha) )
- *
- * The alpha parameter is set using SetAlpha.
- *
- * \warning No numeric overflow checking is performed in this filter.
- *
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageIntensity
- */
 namespace Functor
 {
+/**
+ * \class WeightedAdd2
+ * \brief
+ * \ingroup ITKImageIntensity
+ */
 template< class TInput1, class TInput2, class TOutput >
 class WeightedAdd2
 {
@@ -99,6 +76,39 @@ private:
   RealType m_Beta;     // auxiliary var to avoid a subtraction at every pixel
 };
 }
+/** \class WeightedAddImageFilter
+ * \brief Computes a weighted sum of two images pixel-wise.
+ *
+ * This class is templated over the types of the two
+ * input images and the type of the output image.
+ * Numeric conversions (castings) are done by the C++ defaults.
+ *
+ * The pixel type of the input 1 image must have a valid defintion of
+ * the operator+ with a pixel type of the image 2. This condition is
+ * required because internally this filter will perform the operation
+ *
+ * \code
+ *        pixel_from_image_1 * alpha +  pixel_from_image_2 * (1.0 - alpha)
+ * \endcode
+ *
+ * Additionally the type resulting from the sum will be cast to
+ * the pixel type of the output image.
+ *
+ * The total operation over one pixel will be
+ *
+ * \code
+ *  output_pixel = static_cast<OutputPixelType>(
+ *      input1_pixel * alpha + input2_pixel * (1-alpha) )
+ * \endcode
+ *
+ * The alpha parameter is set using SetAlpha.
+ *
+ * \warning No numeric overflow checking is performed in this filter.
+ *
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
+ * \ingroup ITKImageIntensity
+ */
 template< class TInputImage1, class TInputImage2, class TOutputImage >
 class ITK_EXPORT WeightedAddImageFilter:
   public

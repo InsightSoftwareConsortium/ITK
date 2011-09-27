@@ -27,13 +27,13 @@ namespace itk
 {
 /**
   * \class StoppingCriterionBase
-  * \brief Abstract base class to represent a stopping criterion for an iterative
-  * algorithm.
+  * \brief An abstract base class to represent a stopping criterion for an iterative
+  *        algorithm.
   *
   * The main method is StoppingCriterionBase::IsSatisfied that must be
   * reimplemented in inheriting classes.
   *
-  * \ingroup ITK-Common
+  * \ingroup ITKCommon
 */
 class ITKCommon_EXPORT StoppingCriterionBase : public Object
 {
@@ -49,7 +49,7 @@ public:
   must stop).
       \return \c fasle else. */
   virtual bool IsSatisfied() const = 0;
-  virtual const std::string GetDescription() const = 0;
+  virtual std::string GetDescription() const = 0;
 
 protected:
   /** \brief Constructor */

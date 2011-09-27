@@ -32,7 +32,7 @@ namespace itk
  * The Line is basically defined by a set of points.
  *
  * \sa LineSpatialObjectPoint
- * \ingroup ITK-SpatialObjects
+ * \ingroup ITKSpatialObjects
  *
  * \wiki
  * \wikiexample{SpatialObjects/LineSpatialObject,Line spatial object}
@@ -52,6 +52,7 @@ public:
   typedef double                                       ScalarType;
   typedef LineSpatialObjectPoint< TDimension >         LinePointType;
   typedef std::vector< LinePointType >                 PointListType;
+  typedef const PointListType                          ConstPointListType;
   typedef typename Superclass::SpatialObjectPointType  SpatialObjectPointType;
   typedef typename Superclass::PointType               PointType;
   typedef typename Superclass::TransformType           TransformType;
@@ -66,7 +67,8 @@ public:
   itkTypeMacro(LineSpatialObject, PointBasedSpatialObject);
 
   /** Returns a reference to the list of the Line points. */
-  PointListType & GetPoints(void);
+  PointListType & GetPoints(void) { return m_Points; }
+  ConstPointListType & GetPoints(void) const { return m_Points; }
 
   /** Set the list of line points. */
   void SetPoints(PointListType & newPoints);
@@ -122,7 +124,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLineSpatialObject.txx"
+#include "itkLineSpatialObject.hxx"
 #endif
 
 #endif // __itkLineSpatialObject_h

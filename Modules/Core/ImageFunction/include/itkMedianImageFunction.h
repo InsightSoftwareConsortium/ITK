@@ -37,17 +37,17 @@ namespace itk
  * coordinate representation type (e.g. float or double ).
  *
  * \ingroup ImageFunctions
- * \ingroup ITK-ImageFunction
+ * \ingroup ITKImageFunction
  */
 template< class TInputImage, class TCoordRep = float >
 class ITK_EXPORT MedianImageFunction:
-  public ImageFunction< TInputImage, ITK_TYPENAME TInputImage::PixelType,
+  public ImageFunction< TInputImage, typename TInputImage::PixelType,
                         TCoordRep >
 {
 public:
   /** Standard class typedefs. */
   typedef MedianImageFunction Self;
-  typedef ImageFunction< TInputImage, ITK_TYPENAME TInputImage::PixelType,
+  typedef ImageFunction< TInputImage, typename TInputImage::PixelType,
                          TCoordRep >                     Superclass;
 
   typedef SmartPointer< Self >       Pointer;
@@ -136,7 +136,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkMedianImageFunction.txx"
+#include "itkMedianImageFunction.hxx"
 #endif
 
 #endif

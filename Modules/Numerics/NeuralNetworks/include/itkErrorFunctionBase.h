@@ -19,11 +19,17 @@
 #define __itkErrorFunctionBase_h
 
 #include "itkFunctionBase.h"
+#include "itkArray.h"
 
 namespace itk
 {
 namespace Statistics
 {
+/** \class ErrorFunctionBase
+ * \brief This is the itkErrorFunctionBase class.
+ *
+ * \ingroup ITKNeuralNetworks
+ */
 
 template<class TMeasurementVector, class TTargetVector>
 class ErrorFunctionBase : public FunctionBase<TMeasurementVector, TTargetVector>

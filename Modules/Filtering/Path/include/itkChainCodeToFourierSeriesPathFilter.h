@@ -35,7 +35,7 @@ namespace itk
  * it is advisable to check the number of harmonics in the actual output.
  *
  * \ingroup PathFilters
- * \ingroup ITK-Path
+ * \ingroup ITKPath
  */
 template< class TInputChainCodePath, class TOutputFourierSeriesPath >
 class ITK_EXPORT ChainCodeToFourierSeriesPathFilter:public
@@ -91,7 +91,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkChainCodeToFourierSeriesPathFilter.txx"
+#include "itkChainCodeToFourierSeriesPathFilter.hxx"
 #endif
 
 #endif

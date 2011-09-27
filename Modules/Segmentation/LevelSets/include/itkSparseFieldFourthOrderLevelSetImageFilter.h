@@ -32,7 +32,7 @@ namespace itk
  * \brief This is a data storage class that can is used as the node type for
  * the SparseImage class.
  *
- * \ingroup ITK-LevelSets
+ * \ingroup ITKLevelSets
  */
 template< class TImageType >
 class NormalBandNode
@@ -150,7 +150,7 @@ public:
  *
  * \par IMPORTANT
  * Users of this class must define the Halt function.
- * \ingroup ITK-LevelSets
+ * \ingroup ITKLevelSets
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT SparseFieldFourthOrderLevelSetImageFilter:
@@ -367,7 +367,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSparseFieldFourthOrderLevelSetImageFilter.txx"
+#include "itkSparseFieldFourthOrderLevelSetImageFilter.hxx"
 #endif
 
 #endif

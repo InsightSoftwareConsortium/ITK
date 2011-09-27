@@ -29,9 +29,11 @@ namespace bio
 class CellBase;
 
 /** \class CellularAggregateBase
- * \brief Base class for the CellularAggregates. This base class is not
- * templated over the space dimension.
- * \ingroup ITK-BioCell
+ * \brief Base class for the CellularAggregates. 
+ * 
+ * This base class is not templated over the space dimension.
+ *
+ * \ingroup ITKBioCell
  */
 class ITK_EXPORT CellularAggregateBase:public Object
 {

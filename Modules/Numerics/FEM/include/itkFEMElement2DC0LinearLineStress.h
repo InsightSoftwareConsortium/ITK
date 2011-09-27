@@ -15,26 +15,40 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #ifndef __itkFEMElement2DC0LinearLineStress_h
 #define __itkFEMElement2DC0LinearLineStress_h
 
 #include "itkFEMElement2DC0LinearLine.h"
 #include "itkFEMElement1DStress.h"
 
-namespace itk {
-namespace fem {
-
+namespace itk
+{
+namespace fem
+{
 /**
  * \class Element2DC0LinearLineStress
  * \brief 2-noded finite element class in 2D space for linear elasticity problem.
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 class Element2DC0LinearLineStress : public Element1DStress<Element2DC0LinearLine>
 {
-  FEM_CLASS(Element2DC0LinearLineStress,Element1DStress<Element2DC0LinearLine>)
 public:
+  /** Standard class typedefs. */
+  typedef Element2DC0LinearLineStress            Self;
+  typedef Element1DStress<Element2DC0LinearLine> Superclass;
+  typedef SmartPointer<Self>                     Pointer;
+  typedef SmartPointer<const Self>               ConstPointer;
 
-  HANDLE_ELEMENT_LOADS();
+  /** Method for creation through the object factory. */
+  itkSimpleNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Element2DC0LinearLineStress, Element1DStress<Element2DC0LinearLine> );
+
+  /** CreateAnother method will clone the existing instance of this type,
+   * including its internal member variables. */
+  virtual::itk::LightObject::Pointer CreateAnother(void) const;
 
   /**
    * Default constructor only clears the internal storage
@@ -45,21 +59,20 @@ public:
    * Construct an element by specifying pointers to
    * 4 points and a material.
    */
-  Element2DC0LinearLineStress(
-      NodeIDType n1_,
-      NodeIDType n2_,
-      Material::ConstPointer p_ );
+  Element2DC0LinearLineStress(NodeIDType n1_, NodeIDType n2_, Material::ConstPointer p_);
 
   /**
-   * Mass matrix
+   * Consistent mass matrix for a line element.
+   * See any finite element book for Consistent mass matrix definition.
    */
-  // FIMXE: this implementation should be made general and moved to base class
-  virtual void GetMassMatrix( MatrixType& Me ) const;
+  virtual void GetMassMatrix(MatrixType & Me) const;
 
-}; // class Element2DC0LinearLineStress
+protected:
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
-FEM_CLASS_INIT(Element2DC0LinearLineStress)
+};  // class Element2DC0LinearLineStress
 
-}} // end namespace itk::fem
+}
+}  // end namespace itk::fem
 
 #endif  // #ifndef __itkFEMElement2DC0LinearLineStress_h

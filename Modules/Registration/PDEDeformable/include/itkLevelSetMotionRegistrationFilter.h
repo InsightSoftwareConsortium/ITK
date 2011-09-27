@@ -64,13 +64,13 @@ namespace itk
  *
  * The input fixed and moving images are set via methods SetFixedImage
  * and SetMovingImage respectively. An initial deformation field maybe set via
- * SetInitialDeformationField or SetInput. If no initial field is set,
+ * SetInitialDisplacementField or SetInput. If no initial field is set,
  * a zero field is used as the initial condition.
  *
  * The algorithm has one parameters: the number of iteration to be performed.
  *
  * The output deformation field can be obtained via methods GetOutput
- * or GetDeformationField.
+ * or GetDisplacementField.
  *
  * This class make use of the finite difference solver hierarchy. Update
  * for each iteration is computed in LevelSetMotionFunction.
@@ -85,17 +85,17 @@ namespace itk
  * \sa LevelSetMotionRegistrationFunction
  * \sa DemonsRegistrationFilter
  * \ingroup DeformableImageRegistration MultiThreaded
- * \ingroup ITK-PDEDeformableRegistration
+ * \ingroup ITKPDEDeformableRegistration
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 class ITK_EXPORT LevelSetMotionRegistrationFilter:
   public PDEDeformableRegistrationFilter< TFixedImage, TMovingImage,
-                                          TDeformationField >
+                                          TDisplacementField >
 {
 public:
   /** Standard class typedefs. */
   typedef LevelSetMotionRegistrationFilter                                                Self;
-  typedef PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDeformationField > Superclass;
+  typedef PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField > Superclass;
   typedef SmartPointer< Self >                                                            Pointer;
   typedef SmartPointer< const Self >                                                      ConstPointer;
 
@@ -118,10 +118,10 @@ public:
   typedef typename Superclass::MovingImagePointer MovingImagePointer;
 
   /** Deformation field type. */
-  typedef typename Superclass::DeformationFieldType
-  DeformationFieldType;
-  typedef typename Superclass::DeformationFieldPointer
-  DeformationFieldPointer;
+  typedef typename Superclass::DisplacementFieldType
+  DisplacementFieldType;
+  typedef typename Superclass::DisplacementFieldPointer
+  DisplacementFieldPointer;
 
   /** FiniteDifferenceFunction type. */
   typedef typename Superclass::FiniteDifferenceFunctionType
@@ -129,7 +129,7 @@ public:
 
   /** LevelSetMotionFilterFunction type. */
   typedef LevelSetMotionRegistrationFunction< FixedImageType, MovingImageType,
-                                              DeformationFieldType >  LevelSetMotionFunctionType;
+                                              DisplacementFieldType >  LevelSetMotionFunctionType;
 
   /** Get the metric value. The metric value is the mean square difference
    * in intensity between the fixed image and transforming moving image
@@ -202,7 +202,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetMotionRegistrationFilter.txx"
+#include "itkLevelSetMotionRegistrationFilter.hxx"
 #endif
 
 #endif

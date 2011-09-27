@@ -33,7 +33,7 @@ namespace itk
     moving image and pixels in the fixed images using a histogram.
 
     \ingroup RegistrationMetrics
- * \ingroup ITK-RegistrationCommon
+ * \ingroup ITKRegistrationCommon
  */
 template< class TFixedImage, class TMovingImage >
 class ITK_EXPORT CorrelationCoefficientHistogramImageToImageMetric:
@@ -108,7 +108,7 @@ private:
 } // End namespace itk.
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCorrelationCoefficientHistogramImageToImageMetric.txx"
+#include "itkCorrelationCoefficientHistogramImageToImageMetric.hxx"
 #endif
 
 #endif // __itkCorrelationCoefficientHistogramImageToImageMetric_h

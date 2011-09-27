@@ -45,8 +45,6 @@
 
 // Define a macro for the common typedefs required by the
 // classes deriving form CellInterface (included).
-// This wouldn't be necessary if SGI compilers
-// were able to inherit types.
 #define itkCellCommonTypedefs(celltype)                   \
   typedef celltype                  Self;                 \
   typedef AutoPointer< const Self > ConstSelfAutoPointer; \
@@ -56,8 +54,6 @@
 
 // Define a macro for the common typedefs required by the
 // classes deriving form CellInterface (excluded).
-// This wouldn't be necessary if SGI compilers
-// were able to inherit types.
 #define itkCellInheritedTypedefs(superclassArg)                             \
   typedef superclassArg                             Superclass;             \
   typedef typename Superclass::PixelType            PixelType;              \
@@ -90,17 +86,16 @@
 namespace itk
 {
 /** \class CellInterface
+ *  \brief An abstract interface for cells.
+ *
  * Define an abstract interface for cells.  Actual cell types derive from
  * this class.
  *
- * Template parameters for Cell:
- *
- * TPixelType = The type stored with an entity (cell, point, or boundary).
- *
- * TCellTraits = Type information for cell.
+ * \tparam TPixelType The type stored with an entity (cell, point, or boundary).
+ * \tparam TCellTraits Type information for cell.
  *
  * \ingroup MeshObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template<
   typename TPixelType,
@@ -168,7 +163,7 @@ public:
    * type of cell that needs to be visited.
    *
    * \ingroup MeshAccess
-   * \ingroup ITK-Common
+   * \ingroup ITKCommon
    */
   class MultiVisitor:public LightObject
   {
@@ -201,7 +196,7 @@ public:
         }
       else
         {
-        typename std::map< int, ITK_TYPENAME VisitorType::Pointer >::iterator
+        typename std::map< int, typename VisitorType::Pointer >::iterator
         pos = m_UserDefined.find(id);
         if ( pos != m_UserDefined.end() )
           {
@@ -464,7 +459,7 @@ private:
  * type structure definition.
  *
  * \ingroup MeshObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< int VPointDimension, typename TCoordRep,
           typename TInterpolationWeight, typename TPointIdentifier,
@@ -497,7 +492,7 @@ public:
 
 #if !defined( CABLE_CONFIGURATION )
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCellInterface.txx"
+#include "itkCellInterface.hxx"
 #endif
 #endif
 

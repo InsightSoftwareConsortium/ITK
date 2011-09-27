@@ -22,19 +22,19 @@
 #include "itkPoint.h"
 #include "itkCovariantVector.h"
 #include "vnl/vnl_vector_fixed.h"
-#include "itkArray.h"
 #include "itkArray2D.h"
+#include "itkTransformParameters.h"
 
 #include "itkObjectFactory.h"
+#include "itkIntTypes.h"
 
 namespace itk
 {
 /** \class TransformBase
  *
  * This class is an abstract class to represent the transform
- * \ingroup Transforms
  *
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  */
 class ITK_EXPORT TransformBase:public Object
 {
@@ -46,14 +46,18 @@ public:
   typedef SmartPointer< const Self > ConstPointer;
 
   /** Type of the input parameters. */
-  typedef  double                       ParametersValueType;
-  typedef  Array< ParametersValueType > ParametersType;
+  typedef  double                                     ParametersValueType;
+  typedef  TransformParameters< ParametersValueType > ParametersType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(TransformBase, Object);
 
+  /** The number of parameters can potentially be very large,
+   *  therefore we use here a large capacity integer. */
+  typedef IdentifierType      NumberOfParametersType;
+
   /** Return the number of parameters that completely define the Transfom  */
-  virtual unsigned int GetNumberOfParameters(void) const = 0;
+  virtual NumberOfParametersType GetNumberOfParameters(void) const = 0;
 
   /** Get the Transformation Parameters. */
   virtual const ParametersType & GetParameters(void) const = 0;

@@ -46,7 +46,7 @@ namespace itk
  *    This class is templated over the type of the fixed and moving
  *    images to be compared.
  * \ingroup RegistrationMetrics
- * \ingroup ITK-RegistrationCommon
+ * \ingroup ITKRegistrationCommon
  */
 template< class TFixedImage, class TMovingImage >
 class ITK_EXPORT NormalizedMutualInformationHistogramImageToImageMetric:
@@ -102,7 +102,7 @@ private:
 } // End namespace itk.
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNormalizedMutualInformationHistogramImageToImageMetric.txx"
+#include "itkNormalizedMutualInformationHistogramImageToImageMetric.hxx"
 #endif
 
 #endif // __itkNormalizedMutualInformationHistogramImageToImageMetric_h

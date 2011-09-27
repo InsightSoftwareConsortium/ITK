@@ -15,9 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
+
 #include <iostream>
 #include <vector>
 #include <cstddef>
@@ -45,27 +43,27 @@
 #include "itkNumericTraitsVectorPixel.h"
 
 
-template<class T> void CheckTraits(const char *name, T t)
+template<class T> void CheckVariableLengthArrayTraits(T t)
 {
+  std::string name;
+#ifdef GCC_USEDEMANGLE
+  char const *mangledName = typeid( t ).name();
+  int         status;
+  char *      unmangled = abi::__cxa_demangle(mangledName, 0, 0, &status);
+  name = unmangled;
+  free(unmangled);
+#else
+  name = typeid( t ).name();
+#endif
+
   // check std::numeric_limits members
   std::cout << "itk::NumericTraits<" << name << ">" << std::endl;
-  std::cout << "\tis_specialized: " << itk::NumericTraits<T>::digits << std::endl;
-  std::cout << "\tdigits: " << itk::NumericTraits<T>::digits << std::endl;
-  std::cout << "\tdigits10: " << itk::NumericTraits<T>::digits10 << std::endl;
-  std::cout << "\tis_signed: " << itk::NumericTraits<T>::is_signed << std::endl;
-  std::cout << "\tround_error(): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::round_error()) << std::endl;
-  std::cout << "\tdenorm_min(): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::denorm_min()) << std::endl;
-
-  // to move to array traits?
-  std::cout << "\tepsilon(): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::epsilon()) << std::endl;
-
-  // check NumericTraits
-  std::cout << "\tIsPositive( One )" << itk::NumericTraits<T>::IsPositive( itk::NumericTraits<T>::One ) << std::endl;
-  std::cout << "\tIsNonpositive( One )" << itk::NumericTraits<T>::IsNonpositive( itk::NumericTraits<T>::One ) << std::endl;
-  std::cout << "\tIsNegative( One )" << itk::NumericTraits<T>::IsNegative( itk::NumericTraits<T>::One ) << std::endl;
-  std::cout << "\tIsNonnegative( One )" << itk::NumericTraits<T>::IsNonnegative( itk::NumericTraits<T>::One ) << std::endl;
-
- CheckFixedArrayTraits(t);
+  std::cout << "\tmin(" << name << "): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::min(t)) << std::endl;
+  std::cout << "\tNonpositiveMin(" << name << "): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::NonpositiveMin(t)) << std::endl;
+  std::cout << "\tmax(" << name << "): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::max(t)) << std::endl;
+  std::cout << "\tZeroValue(" << name << "): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::ZeroValue(t)) << std::endl;
+  std::cout << "\tOneValue(" << name << "): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::OneValue(t)) << std::endl;
+  std::cout << "\tGetLength(" << name << "): " << itk::NumericTraits<T>::GetLength(t) << std::endl;
 }
 
 
@@ -97,27 +95,27 @@ template<class T> void CheckFixedArrayTraits(T t)
 }
 
 
-template<class T> void CheckVariableLengthArrayTraits(T t)
+template<class T> void CheckTraits(const char *name, T t)
 {
-  std::string name;
-#ifdef GCC_USEDEMANGLE
-  char const *mangledName = typeid( t ).name();
-  int         status;
-  char *      unmangled = abi::__cxa_demangle(mangledName, 0, 0, &status);
-  name = unmangled;
-  free(unmangled);
-#else
-  name = typeid( t ).name();
-#endif
-
   // check std::numeric_limits members
   std::cout << "itk::NumericTraits<" << name << ">" << std::endl;
-  std::cout << "\tmin(" << name << "): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::min(t)) << std::endl;
-  std::cout << "\tNonpositiveMin(" << name << "): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::NonpositiveMin(t)) << std::endl;
-  std::cout << "\tmax(" << name << "): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::max(t)) << std::endl;
-  std::cout << "\tZeroValue(" << name << "): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::ZeroValue(t)) << std::endl;
-  std::cout << "\tOneValue(" << name << "): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::OneValue(t)) << std::endl;
-  std::cout << "\tGetLength(" << name << "): " << itk::NumericTraits<T>::GetLength(t) << std::endl;
+  std::cout << "\tis_specialized: " << itk::NumericTraits<T>::digits << std::endl;
+  std::cout << "\tdigits: " << itk::NumericTraits<T>::digits << std::endl;
+  std::cout << "\tdigits10: " << itk::NumericTraits<T>::digits10 << std::endl;
+  std::cout << "\tis_signed: " << itk::NumericTraits<T>::is_signed << std::endl;
+  std::cout << "\tround_error(): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::round_error()) << std::endl;
+  std::cout << "\tdenorm_min(): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::denorm_min()) << std::endl;
+
+  // to move to array traits?
+  std::cout << "\tepsilon(): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::epsilon()) << std::endl;
+
+  // check NumericTraits
+  std::cout << "\tIsPositive( One )" << itk::NumericTraits<T>::IsPositive( itk::NumericTraits<T>::One ) << std::endl;
+  std::cout << "\tIsNonpositive( One )" << itk::NumericTraits<T>::IsNonpositive( itk::NumericTraits<T>::One ) << std::endl;
+  std::cout << "\tIsNegative( One )" << itk::NumericTraits<T>::IsNegative( itk::NumericTraits<T>::One ) << std::endl;
+  std::cout << "\tIsNonnegative( One )" << itk::NumericTraits<T>::IsNonnegative( itk::NumericTraits<T>::One ) << std::endl;
+
+ CheckFixedArrayTraits(t);
 }
 
 
@@ -150,10 +148,9 @@ int itkNumericTraitsTest(int, char* [] )
   // Check not fundamental types which we need
 
   CheckTraits("size_t", static_cast<size_t>(0));
-  CheckTraits("ptrdiff_t", static_cast<ptrdiff_t>(0));
+  CheckTraits("std::ptrdiff_t", static_cast<std::ptrdiff_t>(0));
   typedef std::vector<int>::size_type VectorSizeType;
   CheckTraits("std::vector<int>::size_type", static_cast<VectorSizeType>(0));
-
 
 
   // itk::CovariantVector<char, 1>()

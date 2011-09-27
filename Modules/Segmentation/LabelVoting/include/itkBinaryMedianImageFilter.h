@@ -43,7 +43,7 @@ namespace itk
  * \sa NeighborhoodIterator
  *
  * \ingroup IntensityImageFilters
- * \ingroup ITK-LabelVoting
+ * \ingroup ITKLabelVoting
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT BinaryMedianImageFilter:
@@ -149,7 +149,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryMedianImageFilter.txx"
+#include "itkBinaryMedianImageFilter.hxx"
 #endif
 
 #endif

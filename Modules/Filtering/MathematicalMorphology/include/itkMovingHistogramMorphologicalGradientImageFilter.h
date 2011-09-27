@@ -218,7 +218,7 @@ class MorphologicalGradientHistogram<bool>:
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
- * \ingroup ITK-MathematicalMorphology
+ * \ingroup ITKMathematicalMorphology
  */
 
 template< class TInputImage, class TOutputImage, class TKernel >
@@ -263,7 +263,7 @@ public:
   /** Return true if the vector based algorithm is used, and
    * false if the map based algorithm is used */
   static bool GetUseVectorBasedAlgorithm()
-  { return Function::MorphologicalGradientHistogram< ITK_TYPENAME TInputImage::PixelType >::UseVectorBasedAlgorithm(); }
+  { return Function::MorphologicalGradientHistogram< typename TInputImage::PixelType >::UseVectorBasedAlgorithm(); }
 protected:
   MovingHistogramMorphologicalGradientImageFilter() {}
   ~MovingHistogramMorphologicalGradientImageFilter() {}

@@ -34,7 +34,7 @@ namespace itk
  * - the use of Neighborhood operators may improve efficiency.
  *
  * \ingroup ImageFunctions
- * \ingroup ITK-ImageFunction
+ * \ingroup ITKImageFunction
  */
 template<
   class TInputImage,
@@ -162,7 +162,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkCentralDifferenceImageFunction.txx"
+#include "itkCentralDifferenceImageFunction.hxx"
 #endif
 
 #endif

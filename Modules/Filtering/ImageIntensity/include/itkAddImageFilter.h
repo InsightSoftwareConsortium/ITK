@@ -23,46 +23,13 @@
 
 namespace itk
 {
-/** \class AddImageFilter
- * \brief Implements an operator for pixel-wise addition of two images.
- *
- * This class is parametrized over the types of the two
- * input images and the type of the output image.
- * Numeric conversions (castings) are done by the C++ defaults.
- *
- * The pixel type of the input 1 image must have a valid defintion of
- * the operator+ with a pixel type of the image 2. This condition is
- * required because internally this filter will perform the operation
- *
- *        pixel_from_image_1 + pixel_from_image_2
- *
- * Additionally the type resulting from the sum, will be cast to
- * the pixel type of the output image.
- *
- * The total operation over one pixel will be
- *
- *  output_pixel = static_cast<OutputPixelType>( input1_pixel + input2_pixel )
- *
- * For example, this filter could be used directly for adding images whose
- * pixels are vectors of the same dimension, and to store the resulting vector
- * in an output image of vector pixels.
- *
- * The images to be added are set using the methods:
- * SetInput1( image1 );
- * SetInput2( image2 );
- *
- * \warning No numeric overflow checking is performed in this filter.
- *
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageIntensity
- *
- * \wiki
- * \wikiexample{ImageProcessing/AddImageFilter,Add two images together}
- * \wikiexample{ImageProcessing/AddConstantToImageFilter,Add a constant to every pixel in an image}
- * \endwiki
- */
 namespace Functor
 {
+/**
+ * \class Add2
+ * \brief
+ * \ingroup ITKImageIntensity
+ */
 template< class TInput1, class TInput2 = TInput1, class TOutput = TInput1 >
 class Add2
 {
@@ -88,6 +55,56 @@ public:
   }
 };
 }
+/** \class AddImageFilter
+ * \brief Pixel-wise addition of two images.
+ *
+ * This class is templated over the types of the two
+ * input images and the type of the output image.
+ * Numeric conversions (castings) are done by the C++ defaults.
+ *
+ * The pixel type of the input 1 image must have a valid defintion of
+ * the operator+ with a pixel type of the image 2. This condition is
+ * required because internally this filter will perform the operation
+ *
+ * \code
+ *        pixel_from_image_1 + pixel_from_image_2
+ * \endcode
+ *
+ * Additionally the type resulting from the sum, will be cast to
+ * the pixel type of the output image.
+ *
+ * The total operation over one pixel will be
+ * \code
+ * output_pixel = static_cast<OutputPixelType>( input1_pixel + input2_pixel )
+ * \endcode
+ *
+ * For example, this filter could be used directly for adding images whose
+ * pixels are vectors of the same dimension, and to store the resulting vector
+ * in an output image of vector pixels.
+ *
+ * The images to be added are set using the methods:
+ * \code
+ * SetInput1( image1 );
+ * SetInput2( image2 );
+ * \endcode
+ *
+ * Additionally, this filter can be used to add a constant to every pixel of an
+ * image by using
+ * \code
+ * SetInput1( image1 );
+ * SetConstant2( constant );
+ * \endcode
+ *
+ * \warning No numeric overflow checking is performed in this filter.
+ *
+ * \ingroup IntensityImageFilters  MultiThreaded
+ * \ingroup ITKImageIntensity
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/AddImageFilter,Add two images together}
+ * \wikiexample{ImageProcessing/AddConstantToImageFilter,Add a constant to every pixel in an image}
+ * \endwiki
+ */
 template< class TInputImage1, class TInputImage2 = TInputImage1, class TOutputImage = TInputImage1 >
 class ITK_EXPORT AddImageFilter:
   public

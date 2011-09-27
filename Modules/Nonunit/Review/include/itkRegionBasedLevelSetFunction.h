@@ -59,7 +59,7 @@ namespace itk
  *
  * NOTE: The convention followed is
  * inside of the level-set function is negative and outside is positive.
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< class TInput,   // LevelSetImageType
           class TFeature, // FeatureImageType
@@ -422,7 +422,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRegionBasedLevelSetFunction.txx"
+#include "itkRegionBasedLevelSetFunction.hxx"
 #endif
 
 #endif

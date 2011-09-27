@@ -22,12 +22,6 @@
 
 #include <memory>
 
-
-#if defined( _MSC_VER )
-
-// local variable may be used without having been initialized
-#pragma warning ( disable : 4701 )
-#endif
 namespace itk
 {
 namespace Functor
@@ -50,7 +44,7 @@ class OffsetLexicographicCompare;
  *
  * \sa Index
  * \ingroup ImageAccess
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{SimpleOperations/Offset,Add an offset to a pixel index}
@@ -63,6 +57,9 @@ class Offset
 public:
   /** Standard class typedefs. */
   typedef Offset Self;
+
+  /** Dimension constant */
+  itkStaticConstMacro(Dimension, unsigned int, VOffsetDimension);
 
   /** Get the dimension (size) of the index. */
   static unsigned int GetOffsetDimension() { return VOffsetDimension; }
@@ -222,7 +219,7 @@ namespace Functor
  * This is a comparison functor suitable for storing Offset instances
  * in an STL container.  The ordering is total and unique but has
  * little geometric meaning.
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< unsigned int VOffsetDimension >
 class OffsetLexicographicCompare

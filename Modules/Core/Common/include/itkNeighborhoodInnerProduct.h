@@ -25,9 +25,11 @@
 namespace itk
 {
 /** \class NeighborhoodInnerProduct
+ *  \brief Defines the inner product operation between an
+ *         Neighborhood and a NeighborhoodOperator.
  *
  * This class defines the inner product operation between an
- * itk::Neighborhood and and itk::NeighborhoodOperator.  The
+ * itk::Neighborhood and an itk::NeighborhoodOperator.  The
  * operator() method is overloaded to support various types of
  * neighborhoods as well as inner products with slices of
  * neighborhoods.
@@ -39,10 +41,10 @@ namespace itk
  * inner product calculation (defaults to the operator type).
  *
  * \ingroup Operators
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
-template< class TImage, class TOperator = ITK_TYPENAME TImage::PixelType, class TComputation = TOperator >
+template< class TImage, class TOperator = typename TImage::PixelType, class TComputation = TOperator >
 class ITK_EXPORT NeighborhoodInnerProduct
 {
 public:
@@ -104,12 +106,12 @@ public:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkNeighborhoodInnerProduct.txx"
+#include "itkNeighborhoodInnerProduct.hxx"
 #endif
 
 /*
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNeighborhoodInnerProduct.txx"
+#include "itkNeighborhoodInnerProduct.hxx"
 #endif
 */
 

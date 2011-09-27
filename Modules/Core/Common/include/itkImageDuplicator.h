@@ -24,7 +24,7 @@
 namespace itk
 {
 /** \class ImageDuplicator
- * \brief This helper class create an image which is perfect copy of the input image.
+ * \brief A helper class which creates an image which is perfect copy of the input image.
  *
  * This class is NOT a filter. Although it has an API similar to a filter, this class
  * is not intended to be used in a pipeline. Instead, the typical use will be like
@@ -44,7 +44,7 @@ namespace itk
  * that provides the input to the ImageDuplicator object. This is needed
  * because the ImageDuplicator is not a pipeline filter.
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{SimpleOperations/ImageDuplicator,Duplicate an image}
@@ -115,7 +115,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkImageDuplicator.txx"
+#include "itkImageDuplicator.hxx"
 #endif
 
 #endif /* __itkImageDuplicator_h */

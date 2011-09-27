@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLBFGSBOptimizer_txx
-#define __itkLBFGSBOptimizer_txx
+#ifndef __itkLBFGSBOptimizer_hxx
+#define __itkLBFGSBOptimizer_hxx
 
 #include "itkIntTypes.h"
 #include "itkLBFGSBOptimizer.h"
@@ -419,6 +419,8 @@ LBFGSBOptimizer
 
   // Clear the description
   m_StopConditionDescription.str("");
+
+  this->InvokeEvent( StartEvent() );
 
   // vnl optimizers return the solution by reference
   // in the variable provided as initial position

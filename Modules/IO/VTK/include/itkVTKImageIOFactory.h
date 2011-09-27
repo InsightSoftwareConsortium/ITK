@@ -35,7 +35,7 @@ namespace itk
 {
 /** \class VTKImageIOFactory
  * \brief Create instances of VTKImageIO objects using an object factory.
- * \ingroup ITK-IO-VTK
+ * \ingroup ITKIOVTK
  */
 class ITK_EXPORT VTKImageIOFactory:public ObjectFactoryBase
 {

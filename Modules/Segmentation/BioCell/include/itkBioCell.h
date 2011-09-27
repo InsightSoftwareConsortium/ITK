@@ -26,12 +26,13 @@ namespace itk
 namespace bio
 {
 /** \class Cell
- * \brief This class implement the minimal behavior
+ * \brief This class implements the minimal behavior
  * of a biological cell.
- * The basic behavior of a cell is related with the
+ * 
+ * The basic behavior of a cell is related to the
  * cell cycle. Geometrical concepts like size and shape
  * are also managed by this abstract cell.
- * \ingroup ITK-BioCell
+ * \ingroup ITKBioCell
  */
 
 template< unsigned int NSpaceDimension = 3 >
@@ -65,13 +66,18 @@ public:
   virtual const CellularAggregateBase * GetCellularAggregate(void) const;
 
   static const char * GetSpeciesName(void)
-  { return "Primitive Cell"; }
+  {
+    return "Primitive Cell";
+  }
+
   static Cell * CreateEgg(void);
 
   static unsigned int GetDimension()
-  { return NSpaceDimension; }
+  {
+    return NSpaceDimension;
+  }
 protected:
-  Cell(); // Users should create cell with the CreateEgg() method
+  Cell(); // Users should create a cell with the CreateEgg() method
 public:
 
   virtual const VectorType & GetForce(void) const;
@@ -85,7 +91,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBioCell.txx"
+#include "itkBioCell.hxx"
 #endif
 
 #endif

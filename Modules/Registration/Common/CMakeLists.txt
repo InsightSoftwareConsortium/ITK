@@ -1,2 +1,2 @@
-project(ITK-RegistrationCommon)
+project(ITKRegistrationCommon)
 itk_module_impl()

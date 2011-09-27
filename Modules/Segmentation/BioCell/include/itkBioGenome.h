@@ -18,9 +18,6 @@
 #ifndef __itkBioGenome_h
 #define __itkBioGenome_h
 
-#if defined( _MSC_VER )
-#pragma warning ( disable : 4786 )
-#endif
 
 #if defined( _WIN32 )
 #include "itkWindows.h"
@@ -36,12 +33,13 @@ namespace itk
 namespace bio
 {
 /** \class Genome
- * \brief This class implement the abstraction of a biological genome.
+ * \brief This class implements the abstraction of a biological genome.
  *
- * The genome is considered to be a sequence of genes each one having
+ * The genome is considered to be a sequence of genes, each one having
  * a name and a level of expression. This class is intended to be used
  * by artificial cells implementing cellular algorithms for image processing.
- * \ingroup ITK-BioCell
+ *
+ * \ingroup ITKBioCell
  */
 class ITK_EXPORT Genome
 {

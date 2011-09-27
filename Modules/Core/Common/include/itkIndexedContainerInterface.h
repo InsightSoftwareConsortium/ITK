@@ -23,6 +23,8 @@
 namespace itk
 {
 /** \class IndexedContainerInterface
+ *  \brief This should only be used for reference when writing containers
+ *         conforming to this interface.
  * This should only be used for reference when writing containers
  * conforming to this interface.  ITK uses generic programming to
  * allow container type substitution, so polymorphism is not needed to
@@ -38,17 +40,13 @@ namespace itk
  * Element type.  Also note that all non-const methods assume that the
  * container was modified, and update the modification time.
  *
- * Template parameters for IndexedContainerInterface:
+ * \tparam TElementIdentifier A type that shall be used to index the
+ * container. It must have a < operator defined for ordering.
  *
- * TElementIdentifier =
- *    A type that shall be used to index the container.
- *    It must have a < operator defined for ordering.
- *
- * TElement =
- *    The element type stored in the container.
+ * \tparam TElement The element type stored in the container.
  *
  * \ingroup DataRepresentation
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 template< typename TElementIdentifier, typename TElement >
@@ -128,7 +126,7 @@ public:
    * methods:
    *   ElementIdentifier Index(void) const;
    *   Element&          Value(void);
-   * \ingroup ITK-Common
+   * \ingroup ITKCommon
    */
   class Iterator {};
 
@@ -138,7 +136,7 @@ public:
    * methods:
    *   ElementIdentifier Index(void) const;
    *   const Element&    Value(void) const;
-   * \ingroup ITK-Common
+   * \ingroup ITKCommon
    */
   class ConstIterator {};
 

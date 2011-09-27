@@ -39,7 +39,7 @@ namespace Statistics
  * \sa DistanceMetric
  * \sa EuclideanDistanceMetric
  * \sa EuclideanSquareDistanceMetric
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  */
 
 template< class TVector >
@@ -130,7 +130,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMahalanobisDistanceMetric.txx"
+#include "itkMahalanobisDistanceMetric.hxx"
 #endif
 
 #endif

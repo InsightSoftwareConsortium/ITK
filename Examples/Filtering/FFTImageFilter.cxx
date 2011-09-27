@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 //  Software Guide : BeginLatex
 //
@@ -35,14 +32,14 @@
 //  libraries are fftw\footnote{http://www.fftw.org} and the VXL implementation
 //  of FFT. For this reason ITK provides a base abstract class that factorizes
 //  the interface to multiple specific implementations of FFT. This base class
-//  is the \doxygen{FFTRealToComplexConjugateImageFilter}, and two of its
-//  derived classes are \doxygen{VnlFFTRealToComplexConjugateImageFilter} and
+//  is the \doxygen{ForwardFFTImageFilter}, and two of its
+//  derived classes are \doxygen{VnlForwardFFTImageFilter} and
 //  \doxygen{FFTWRealToComplexConjugateImageFilter}.
 //
 //
-//  \index{itk::FFT\-Real\-To\-Complex\-Conjugate\-Image\-Filter}
-//  \index{itk::Vnl\-FFT\-Real\-ToComplex\-Conjugate\-Image\-Filter}
-//  \index{itk::FFTW\-Real\-To\-Complex\-Conjugate\-Image\-Filter}
+//  \index{itk::Forward\-FFT\-Image\-Filter}
+//  \index{itk::Vnl\-Forward\-FFT\-Image\-Filter}
+//  \index{itk::FFTW\-Forward\-FFT\-Image\-Filter}
 //
 //  Software Guide : EndLatex
 
@@ -56,7 +53,7 @@
 
 // Software Guide : BeginCodeSnippet
 #include "itkImage.h"
-#include "itkVnlFFTRealToComplexConjugateImageFilter.h"
+#include "itkVnlForwardFFTImageFilter.h"
 #include "itkComplexToRealImageFilter.h"
 #include "itkComplexToImaginaryImageFilter.h"
 // Software Guide : EndCodeSnippet
@@ -91,9 +88,7 @@ int main( int argc, char * argv [] )
 // Software Guide : BeginLatex
 //
 // We use the same image type in order to instantiate the FFT filter. In this
-// case the \doxygen{VnlFFTRealToComplexConjugateImageFilter}. Note that
-// contrary to most ITK filters, the FFT filter is instantiated using the Pixel
-// type and the image dimension explicitly. Once the filter type is
+// case the \doxygen{VnlForwardFFTImageFilter}. Once the filter type is
 // instantiated, we can use it for creating one object by invoking the
 // \code{New()} method and assigning the result to a SmartPointer.
 //
@@ -101,7 +96,7 @@ int main( int argc, char * argv [] )
 
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::VnlFFTRealToComplexConjugateImageFilter< ImageType >  FFTFilterType;
+  typedef itk::VnlForwardFFTImageFilter< ImageType >  FFTFilterType;
 
   FFTFilterType::Pointer fftFilter = FFTFilterType::New();
 // Software Guide : EndCodeSnippet
@@ -212,7 +207,6 @@ int main( int argc, char * argv [] )
 
   typedef unsigned char                           WritePixelType;
   typedef itk::Image< WritePixelType, Dimension > WriteImageType;
-
 
 
 // Software Guide : BeginLatex

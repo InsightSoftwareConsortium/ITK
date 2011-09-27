@@ -15,11 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
+
 #include <iostream>
-#define ITK_LEAN_AND_MEAN
 
 #include "itkImage.h"
 #include "itkImageHelper.h"

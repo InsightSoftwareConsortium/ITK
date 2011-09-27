@@ -1,7 +1,12 @@
-itk_module(ITK-IO-GIPL
+set(DOCUMENTATION "This module contains ImageIO classes for reading the Gipl
+(Guys Image Processing Lab) image format.")
+
+itk_module(ITKIOGIPL
   DEPENDS
-    ITK-IO-Base
-    ITK-ZLIB
+    ITKIOBase
+    ITKZLIB
   TEST_DEPENDS
-    ITK-TestKernel
+    ITKTestKernel
+  DESCRIPTION
+    "${DOCUMENTATION}"
 )

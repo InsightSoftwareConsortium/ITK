@@ -49,7 +49,7 @@ namespace itk
  *
  * \ingroup LevelSetSegmentation
  *
- * \ingroup ITK-LevelSets
+ * \ingroup ITKLevelSets
  */
 template< class TLevelSet >
 class ITK_EXPORT ReinitializeLevelSetImageFilter:
@@ -172,7 +172,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkReinitializeLevelSetImageFilter.txx"
+#include "itkReinitializeLevelSetImageFilter.hxx"
 #endif
 
 #endif

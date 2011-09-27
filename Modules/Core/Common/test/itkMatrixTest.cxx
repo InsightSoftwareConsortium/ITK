@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <iostream>
 
@@ -215,10 +212,10 @@ int itkMatrixTest(int, char* [] )
     const unsigned int nc = 4;
     const unsigned int nr = 3;
 
-    typedef itk::Matrix<double, nr, nc>  MatrixType;
+    typedef itk::Matrix<double, nr, nc>  AddSubtractMatrixType;
 
-    MatrixType m1;
-    MatrixType m2;
+    AddSubtractMatrixType m1;
+    AddSubtractMatrixType m2;
 
     // fill the matrices with something
     {
@@ -234,10 +231,10 @@ int itkMatrixTest(int, char* [] )
       }
     }
 
-    MatrixType m3;
+    AddSubtractMatrixType m3;
     m3 = m1 + m2;
 
-    MatrixType m4;
+    AddSubtractMatrixType m4;
     m4 = m1 - m2;
 
     std::cout << "Results of ITK matrix addition" << std::endl;

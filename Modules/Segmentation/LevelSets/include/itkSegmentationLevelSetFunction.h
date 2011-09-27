@@ -40,7 +40,7 @@ namespace itk
 
   \sa SegmentationLevelSetImageFilter
   \sa LevelSetFunction
- * \ingroup ITK-LevelSets
+ * \ingroup ITKLevelSets
  */
 
 template< class TImageType, class TFeatureImageType = TImageType >
@@ -149,7 +149,7 @@ protected:
   typename VectorImageType::Pointer m_AdvectionImage;
 
   /** A casting functor to convert between vector types.  */
-  Functor::VectorCast< ITK_TYPENAME VectorInterpolatorType::OutputType,
+  Functor::VectorCast< typename VectorInterpolatorType::OutputType,
                        VectorType > m_VectorCast;
 
   /** Returns the propagation speed from the precalculated speed image.*/
@@ -195,7 +195,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkSegmentationLevelSetFunction.txx"
+#include "itkSegmentationLevelSetFunction.hxx"
 #endif
 
 #endif

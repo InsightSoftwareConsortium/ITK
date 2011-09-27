@@ -28,8 +28,7 @@ namespace itk
  * the IEEE TMI paper by Davis, Khotanzad, Flamig, and Harms,
  * Vol. 16 No. 3 June 1997
  *
- * \ingroup Transforms
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  */
 template< class TScalarType, // Data type for scalars (float or
                              // double)
@@ -64,8 +63,7 @@ public:
   itkStaticConstMacro(SpaceDimension, unsigned int,
                       Superclass::SpaceDimension);
 
-  /** These (rather redundant) typedefs are needed because on SGI, typedefs
-   * are not inherited */
+  /** These (rather redundant) typedefs are needed because typedefs are not inherited */
   typedef typename Superclass::InputPointType            InputPointType;
   typedef typename Superclass::OutputPointType           OutputPointType;
   typedef typename Superclass::InputVectorType           InputVectorType;
@@ -77,8 +75,7 @@ protected:
   VolumeSplineKernelTransform() {}
   virtual ~VolumeSplineKernelTransform() {}
 
-  /** These (rather redundant) typedefs are needed because on SGI,
-   * typedefs are not inherited. */
+  /** These (rather redundant) typedefs are needed because on typedefs are not inherited. */
   typedef typename Superclass::GMatrixType GMatrixType;
 
   /** Compute G(x)
@@ -122,7 +119,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkVolumeSplineKernelTransform.txx"
+#include "itkVolumeSplineKernelTransform.hxx"
 #endif
 
 #endif // __itkVolumeSplineKernelTransform_h

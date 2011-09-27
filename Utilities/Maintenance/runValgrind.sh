@@ -16,63 +16,85 @@
 #   limitations under the License.
 #
 #==========================================================================*/
-#
-#  How to use this script
-#
-#   0)  Use Linux or Mac
-#
-#   1)  Compile ITK for Debug
-#
-#   2)  cd into  the ITK binary build directory
-#
-#   3)  type the "ctest" expression that select
-#       the test that you want to check with Valgrind
-#
-#       for example:
-#
-#          ctest  -R   itkHDF5ImageIOTest   -V   -N
-#
-#       This will print to the console the command line instructions needed to
-#       run the tests (-V option), but without running the tests (-N option).
-#
-#   4)  Type the path to this script in the ITK source tree and then put in
-#       front of it the expression that you get from step (3)
-#
-#       for example:
-#
-#          ~/src/ITK/Utilities/Maintenance/runValgrind.sh    \
-#                $HOME/bin/ITK/Debug/bin/ITK-IO-HDF5TestDriver \
-#                "itkHDF5ImageIOTest"   \
-#                "$HOME/bin/ITK/Debug/Testing/Temporary"
-#
-#      At this point, the test will be run under the control of Valgrind
-#      and the combined text output of both the test and the Valgrind analysis
-#      will be printed in the console. For convienience, the same output is being
-#      copied to a file in the /tmp directory. More precisely to:
-#
-#                        /tmp/itkValgrindReport.txt
-#
-#
-#==============================================================================
 
-#
-#  Find the path to the Valgrind suppressions file.
-#
-basenameOfScript=`basename $0`
-directoryOfScript=`dirname $0`
-directoryOfValgrindSuppressions=$directoryOfScript/../../CMake
-pathToValgrindSuppressionsFile=$directoryOfValgrindSuppressions/InsightValgrind.supp
+usage() {
 
-#
-#  Run the test under Valgrind control
-#
-echo "RUNNING " $*
-valgrind \
- --sim-hints=lax-ioctls \
- --trace-children=yes \
- -v \
- --tool=memcheck \
- --leak-check=yes \
- --show-reachable=yes \
- --suppressions=$pathToValgrindSuppressionsFile \
-  $* |& tee /tmp/itkValgrindReport.txt
+cat << EOF
+  How to use this script:
+
+0)  Use Linux or Mac, install
+     - valgrind
+     - xsltproc
+
+1)  Compile ITK with RelWithDebInfo CMAKE_BUILD_TYPE
+
+2)  cd into  the ITK binary build directory
+
+3)  From the TOP of the binary directory type the "ctest" expression that
+set(DOC  "
+    selects the tests that you want to perform memory checking on.
+
+For example:
+
+    ctest  -R   itkHDF5ImageIOTest  -N
+
+This will print the tests selected by the regular expression but not run the
+tests (-N option).
+
+4)  Type the path to this script in the ITK source tree and add the select expression
+    from step 3 above.
+
+For example:
+
+   ~/src/ITK/Utilities/Maintenance/runValgrind.sh    \
+      -R itkHDF5ImageIOTest
+
+This will run the selected tests under valgrind and generate HTML that can be
+opened with your favorite browser.  The HTML is written to ./memcheck_index.html
+To open:
+
+  In Linux, you can do      firefox  ./memcheck_index.html
+  In Mac,   you can do      open     ./memcheck_index.html
+EOF
+
+}
+
+if test "$1" == "-h" -o "$1" == "--help"; then
+  usage
+  exit 1
+fi
+
+# Remove results from prior run.
+find . -name DynamicAnalysis.xml -delete
+
+ctest -D ExperimentalMemCheck $*
+
+memcheck_xml=$(find . -name DynamicAnalysis.xml | xargs ls -t1 | head -n 1)
+
+u=$(cd "$(echo "$0"|sed 's/[^/]*$//')"; pwd)
+
+tests=$(xsltproc "${u}/DynamicAnalysisGetTests.xsl" "$memcheck_xml")
+if test -z "$tests"; then
+  echo
+  echo "No memory leaks were detected :-)."
+  exit
+fi
+
+for test in  $tests
+do
+  sed "s/@TESTNAME@/${test}/" "${u}/DynamicAnalysisFile.xsl" > test.xsl
+  xsltproc test.xsl "${memcheck_xml}" > "${test}.html"
+done
+rm test.xsl
+
+xsltproc "${u}/DynamicAnalysis.xsl" "${memcheck_xml}" > memcheck_index.html
+
+cp "${u}/stylish.css" ./
+
+cat << EOF
+
+To open:
+
+  In Linux, you can do      firefox  ./memcheck_index.html
+  In Mac,   you can do      open     ./memcheck_index.html
+EOF

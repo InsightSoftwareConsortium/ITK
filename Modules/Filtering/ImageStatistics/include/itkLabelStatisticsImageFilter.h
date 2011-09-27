@@ -21,7 +21,7 @@
 #include "itkImageToImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkSimpleDataObjectDecorator.h"
-#include "itk_hash_map.h"
+#include "itksys/hash_map.hxx"
 #include "itkHistogram.h"
 #include "itkFastMutexLock.h"
 #include <vector>
@@ -50,7 +50,11 @@ namespace itk
  * its AfterThreadedGenerate method.
  *
  * \ingroup MathematicalStatisticsImageFilters
- * \ingroup ITK-ImageStatistics
+ * \ingroup ITKImageStatistics
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/LabelStatisticsImageFilter,Get statistical properties of labeled regions in an image}
+ * \endwiki
  */
 template< class TInputImage, class TLabelImage >
 class ITK_EXPORT LabelStatisticsImageFilter:
@@ -106,7 +110,7 @@ public:
 
   /** \class LabelStatistics
    * \brief Statistics stored per label
-   * \ingroup ITK-ImageStatistics
+   * \ingroup ITKImageStatistics
    */
   class LabelStatistics
   {
@@ -222,10 +226,10 @@ public:
   };
 
   /** Type of the map used to store data per label */
-  typedef itk::hash_map< LabelPixelType, LabelStatistics >                          MapType;
-  typedef typename itk::hash_map< LabelPixelType, LabelStatistics >::iterator       MapIterator;
-  typedef typename itk::hash_map< LabelPixelType, LabelStatistics >::const_iterator MapConstIterator;
-  typedef IdentifierType                                                            MapSizeType;
+  typedef itksys::hash_map< LabelPixelType, LabelStatistics >                          MapType;
+  typedef typename itksys::hash_map< LabelPixelType, LabelStatistics >::iterator       MapIterator;
+  typedef typename itksys::hash_map< LabelPixelType, LabelStatistics >::const_iterator MapConstIterator;
+  typedef IdentifierType                                                               MapSizeType;
 
   /** Type of the container used to store valid label values */
   typedef std::vector<LabelPixelType> ValidLabelValuesContainerType;
@@ -362,7 +366,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLabelStatisticsImageFilter.txx"
+#include "itkLabelStatisticsImageFilter.hxx"
 #endif
 
 #endif

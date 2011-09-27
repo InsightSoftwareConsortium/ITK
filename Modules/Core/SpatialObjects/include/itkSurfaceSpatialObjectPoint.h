@@ -31,7 +31,7 @@ namespace itk
  * A surface point has a position and only one normal
  *
  * \sa SpatialObjectPoint
- * \ingroup ITK-SpatialObjects
+ * \ingroup ITKSpatialObjects
  */
 
 template< unsigned int TPointDimension = 3 >
@@ -75,7 +75,7 @@ protected:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSurfaceSpatialObjectPoint.txx"
+#include "itkSurfaceSpatialObjectPoint.hxx"
 #endif
 
 #endif // __itkSurfaceSpatialObjectPoint_h

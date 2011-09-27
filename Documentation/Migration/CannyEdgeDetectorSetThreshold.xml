@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<!DOCTYPE Change SYSTEM "http://ij.itk.org/itkfaq/ITKMigration.dtd">
 <!--**
 **
 ** CArrayRemoval.xml
@@ -36,20 +36,24 @@
     **-->
     <SampleCode>
       <Old>
+        <![CDATA[
         typedef itk::Image<float, 3> InputImage;
         itk::CannyEdgeDetectionImageFilter<InputImage, InputImage>::Pointer
         filter =
         itk::CannyEdgeDetectionImageFilter<InputImage, InputImage>::New();
         filter->SetThreshold(30);
+        ]]>
       </Old>
 
       <New>
+        <![CDATA[
         typedef itk::Image<float, 3> InputImage;
         itk::CannyEdgeDetectionImageFilter<InputImage, InputImage>::Pointer
         filter =
         itk::CannyEdgeDetectionImageFilter<InputImage, InputImage>::New();
         filter->SetUpperThreshold(30);
         filter->SetLowerThreshold(filter->GetUpperThreshold() / 2);
+        ]]>
       </New>
 
     </SampleCode>

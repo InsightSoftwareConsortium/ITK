@@ -15,55 +15,103 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #ifndef __itkFEMElement3DC0LinearHexahedron_h
 #define __itkFEMElement3DC0LinearHexahedron_h
 
 #include "itkFEMElementStd.h"
 
-namespace itk {
-namespace fem {
-
+namespace itk
+{
+namespace fem
+{
 /**
  * \class Element3DC0LinearHexahedron
  * \brief 8-noded, linear, C0 continuous finite element in 3D space.
- * \ingroup ITK-FEM
+ *
+ *
+ * The ordering of the nodes should be defined in the following order:
+ *
+ *                  5 (0,1,1)                6 (1,1,1)
+ *                  *------------------------*
+ *                 /|                       /|
+ *                / |                      / |
+ *               /  |                     /  |
+ *              /   |                    /   |
+ *             /    |         (1,1,0) 7 /    |
+ *  (0,1,0)  4*------------------------*     |
+ *            |    1* ---------------- | ----*2 (1,0,1)
+ *            |    / (0,0,1)           |    /
+ *            |   /                    |   /
+ *            |  /                     |  /
+ *            | /                      | /
+ *            |/                       |/
+ *            *------------------------*
+ *            0                        3
+ *          (0,0,0)                  (1,0)
+ *
+ *
+ * This is an abstract class. Specific concrete implemenations of this
+ * It must be combined with the physics component of the problem.
+ * This has already been done in the following classes:
+ *
+ * \sa Element3DC0LinearHexahedronMembrane
+ * \sa Element3DC0LinearHexahedronStrain
+ *
+ * \ingroup ITKFEM
  */
-class Element3DC0LinearHexahedron : public ElementStd<8,3>
+class Element3DC0LinearHexahedron : public ElementStd<8, 3>
 {
-  typedef ElementStd<8,3> TemplatedParentClass;
-  FEM_ABSTRACT_CLASS( Element3DC0LinearHexahedron, TemplatedParentClass )
 public:
+  /** Standard class typedefs. */
+  typedef Element3DC0LinearHexahedron Self;
+  typedef ElementStd<8, 3>            TemplatedParentClass;
+  typedef TemplatedParentClass        Superclass;
+  typedef SmartPointer<Self>          Pointer;
+  typedef SmartPointer<const Self>    ConstPointer;
 
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Element3DC0LinearHexahedron, TemplatedParentClass);
 
-  //////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////
   /**
    * Methods related to numeric integration
    */
 
-  virtual void GetIntegrationPointAndWeight(unsigned int i, VectorType& pt, Float& w, unsigned int order) const;
+  virtual void GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, Float & w, unsigned int order) const;
 
   virtual unsigned int GetNumberOfIntegrationPoints(unsigned int order) const;
 
-  //////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////
   /**
    * Methods related to the geometry of an element
    */
 
-  virtual VectorType ShapeFunctions( const VectorType& pt ) const;
+  /** Return the shape functions used to interpolate across the element */
+  virtual VectorType ShapeFunctions(const VectorType & pt) const;
 
-  virtual void ShapeFunctionDerivatives( const VectorType& pt, MatrixType& shapeD ) const;
+  /** Return the shape functions derivatives in the shapeD matrix */
+  virtual void ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const;
 
-  virtual bool GetLocalFromGlobalCoordinates( const VectorType& globalPt , VectorType& localPt) const;
+  /** Convert from global to local coordinates */
+  virtual bool GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const;
 
   /**
-   * Draw the element on the specified device context
+   * Methods used in computing parametric/local coordinates given global coordinates.
    */
-#ifdef FEM_BUILD_VISUALIZATION
-  void Draw(CDC* pDC, Solution::ConstPointer sol) const;
-#endif
+  void InterpolationFunctions( const VectorType & pcoords, VectorType & sf) const;
+
+  void InterpolationDerivs(const VectorType & pcoords, VectorType & derivs) const;
+
+  Float Determinant3x3(const VectorType & c1, const VectorType & c2, const VectorType & c3) const;
+
+protected:
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+
+  virtual void PopulateEdgeIds(void);
 
 };
-
-}} // end namespace itk::fem
+}
+}  // end namespace itk::fem
 
 #endif  // #ifndef __itkFEMElement3DC0LinearHexahedron_h

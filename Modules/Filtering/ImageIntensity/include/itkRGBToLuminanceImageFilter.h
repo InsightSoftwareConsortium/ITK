@@ -30,8 +30,8 @@ namespace itk
  * pixel type of the input image must have a GetLuminance() method. This is the
  * case of the itk::RGBPixel class.
  *
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup IntensityImageFilters  MultiThreaded
+ * \ingroup ITKImageIntensity
  */
 namespace Functor
 {

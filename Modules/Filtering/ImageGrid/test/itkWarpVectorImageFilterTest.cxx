@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <iostream>
 
@@ -37,7 +34,7 @@ class ImagePattern
 {
 public:
   typedef itk::Index<VDimension> IndexType;
-  typedef itk::Size<VDimension> SizeType;
+  typedef itk::Size<VDimension>  SizeType;
 
   ImagePattern()
     {
@@ -94,17 +91,15 @@ public:
   itk::ProcessObject::Pointer m_Process;
 };
 
-
-
 int itkWarpVectorImageFilterTest(int, char* [] )
 {
   const unsigned int ImageDimension = 2;
 
-  typedef itk::Vector<float,ImageDimension> VectorType;
+  typedef itk::Vector<float,ImageDimension>     VectorType;
   typedef itk::Image<VectorType,ImageDimension> FieldType;
 
   // In this case, the image to be warped is also a vector field.
-  typedef FieldType ImageType;
+  typedef FieldType             ImageType;
   typedef ImageType::PixelType  PixelType;
   typedef ImageType::IndexType  IndexType;
 
@@ -133,18 +128,17 @@ int itkWarpVectorImageFilterTest(int, char* [] )
     }
 
   typedef itk::ImageRegionIteratorWithIndex<ImageType> Iterator;
-  Iterator inIter( input, region );
 
   float padValue = 4.0;
 
-  for( ; !inIter.IsAtEnd(); ++inIter )
+  for( Iterator inIter( input, region ); !inIter.IsAtEnd(); ++inIter )
     {
     inIter.Set( pattern.Evaluate( inIter.GetIndex(), size, size, padValue ) );
     }
 
   //=============================================================
 
-  std::cout << "Create the input deformation field." << std::endl;
+  std::cout << "Create the input displacement field." << std::endl;
 
   unsigned int factors[ImageDimension] = { 2, 3 };
 
@@ -162,9 +156,8 @@ int itkWarpVectorImageFilterTest(int, char* [] )
   field->Allocate();
 
   typedef itk::ImageRegionIteratorWithIndex<FieldType> FieldIterator;
-  FieldIterator fieldIter( field, fieldRegion );
 
-  for( ; !fieldIter.IsAtEnd(); ++fieldIter )
+  for( FieldIterator fieldIter( field, fieldRegion ); !fieldIter.IsAtEnd(); ++fieldIter )
     {
     IndexType index = fieldIter.GetIndex();
     VectorType displacement;
@@ -183,7 +176,7 @@ int itkWarpVectorImageFilterTest(int, char* [] )
   WarperType::Pointer warper = WarperType::New();
 
   warper->SetInput( input );
-  warper->SetDeformationField( field );
+  warper->SetDisplacementField( field );
   warper->SetEdgePaddingValue( padValue );
 
   ShowProgressObject progressWatch(warper);
@@ -197,7 +190,7 @@ int itkWarpVectorImageFilterTest(int, char* [] )
 
   // exercise Get methods
   std::cout << "Interpolator: " << warper->GetInterpolator() << std::endl;
-  std::cout << "DeformationField: " << warper->GetDeformationField() << std::endl;
+  std::cout << "DisplacementField: " << warper->GetDisplacementField() << std::endl;
   std::cout << "EdgePaddingValue: " << warper->GetEdgePaddingValue() << std::endl;
 
   // exercise Set methods
@@ -218,8 +211,6 @@ int itkWarpVectorImageFilterTest(int, char* [] )
   //=============================================================
 
   std::cout << "Checking the output against expected." << std::endl;
-  Iterator outIter( warper->GetOutput(),
-    warper->GetOutput()->GetBufferedRegion() );
 
   // compute non-padded output region
   ImageType::RegionType validRegion;
@@ -240,7 +231,7 @@ int itkWarpVectorImageFilterTest(int, char* [] )
     //or to (0,253), with 254 exactly at 1/2 pixel, therefore out
     //also; or (0, 317), with 317 at 2/5 pixel beyond 315. And so on.
 
-    decrementForScaling[j] =   factors[j] / 2 ;
+    decrementForScaling[j] =   factors[j] / 2;
 
     validSize[j] -= decrementForScaling[j];
 
@@ -256,7 +247,7 @@ int itkWarpVectorImageFilterTest(int, char* [] )
       }
     else
       {
-      clampSizeDecrement[j]  =  (factors[j] - 1 - decrementForScaling[j]) ;
+      clampSizeDecrement[j]  =  (factors[j] - 1 - decrementForScaling[j]);
       }
     clampSize[j]= validSize[j] - clampSizeDecrement[j];
     }
@@ -268,7 +259,8 @@ int itkWarpVectorImageFilterTest(int, char* [] )
     pattern.coeff[j] /= (double) factors[j];
     }
 
-  for( ; !outIter.IsAtEnd(); ++outIter )
+  Iterator outIter( warper->GetOutput(), warper->GetOutput()->GetBufferedRegion() );
+  while(  !outIter.IsAtEnd() )
     {
     IndexType index = outIter.GetIndex();
     PixelType value = outIter.Get();
@@ -300,7 +292,7 @@ int itkWarpVectorImageFilterTest(int, char* [] )
         std::cout << "Actual: " << value << std::endl;
         }
       }
-
+    ++outIter;
     }
 
   //=============================================================
@@ -311,12 +303,12 @@ int itkWarpVectorImageFilterTest(int, char* [] )
   typedef itk::VectorCastImageFilter<FieldType,FieldType> VectorCasterType;
   VectorCasterType::Pointer vcaster = VectorCasterType::New();
 
-  vcaster->SetInput( warper->GetDeformationField() );
+  vcaster->SetInput( warper->GetDisplacementField() );
 
   WarperType::Pointer warper2 = WarperType::New();
 
   warper2->SetInput( warper->GetInput() );
-  warper2->SetDeformationField( vcaster->GetOutput() );
+  warper2->SetDisplacementField( vcaster->GetOutput() );
   warper2->SetEdgePaddingValue( warper->GetEdgePaddingValue() );
 
   typedef itk::StreamingImageFilter<ImageType,ImageType> StreamerType;

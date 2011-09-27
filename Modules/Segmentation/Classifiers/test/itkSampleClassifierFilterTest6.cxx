@@ -15,15 +15,12 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <vector>
 #include "itkVariableLengthVector.h"
 #include "itkListSample.h"
 #include "itkSampleClassifierFilter.h"
-#include "itkMinimumDecisionRule2.h"
+#include "itkMinimumDecisionRule.h"
 #include "itkNormalVariateGenerator.h"
 #include "itkKdTree.h"
 #include "itkKdTreeBasedKmeansEstimator.h"
@@ -131,7 +128,7 @@ int itkSampleClassifierFilterTest6( int, char * [] )
   classLabelVector.push_back( class2 );
 
   //Set a decision rule type
-  typedef itk::Statistics::MinimumDecisionRule2  DecisionRuleType;
+  typedef itk::Statistics::MinimumDecisionRule  DecisionRuleType;
 
   DecisionRuleType::Pointer    decisionRule = DecisionRuleType::New();
 

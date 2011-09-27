@@ -15,48 +15,69 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #ifndef __itkFEMElement2DC0LinearLine_h
 #define __itkFEMElement2DC0LinearLine_h
 
 #include "itkFEMElementStd.h"
 
-namespace itk {
-namespace fem {
-
+namespace itk
+{
+namespace fem
+{
 /**
  * \class Element2DC0LinearLine
  * \brief 2-noded, linear, C0 continuous line element in 2D space.
- * \ingroup ITK-FEM
+ *  takes loads only along the length of the axis
+ * \ingroup ITKFEM
  */
-class Element2DC0LinearLine : public ElementStd<2,2>
+class Element2DC0LinearLine : public ElementStd<2, 2>
 {
-  typedef ElementStd<2,2> TemplatedParentClass;
-  FEM_ABSTRACT_CLASS( Element2DC0LinearLine, TemplatedParentClass )
 public:
+  /** Standard class typedefs. */
+  typedef Element2DC0LinearLine    Self;
+  typedef ElementStd<2, 2>         TemplatedParentClass;
+  typedef TemplatedParentClass     Superclass;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Element2DC0LinearLine, TemplatedParentClass);
 
-  //////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////
   /**
    * Methods related to numeric integration
    */
 
   enum { DefaultIntegrationOrder = 1 };
 
-  virtual void GetIntegrationPointAndWeight(unsigned int i, VectorType& pt, Float& w, unsigned int order) const;
+  /** Get the Integration point and weight */
+  virtual void GetIntegrationPointAndWeight(unsigned int i,
+                                            VectorType & pt,
+                                            Float & w,
+                                            unsigned int order) const;
 
+  /** Get the number of integration points */
   virtual unsigned int GetNumberOfIntegrationPoints(unsigned int order) const;
 
-  //////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////
   /**
    * Methods related to the geometry of an element
    */
 
-  virtual VectorType ShapeFunctions( const VectorType& pt ) const;
+  /** Return the shape functions used to interpolate across the element */
+  virtual VectorType ShapeFunctions(const VectorType & pt) const;
 
-  virtual void ShapeFunctionDerivatives( const VectorType& pt, MatrixType& shapeD ) const;
+  /** Return the shape functions derivatives in the shapeD matrix */
+  virtual void ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const;
 
-  // FIXME: Write a proper implementation
-  virtual bool GetLocalFromGlobalCoordinates( const VectorType& globalPt, VectorType& localPt ) const;
+  /**
+   * Get parametric/local coordinates given global coordinates. The function returns true if the
+   * global coordinate is within the element else returns false.
+   * For a line, line length*1e-4 is used as the tolerance
+   */
+  virtual bool GetLocalFromGlobalCoordinates(const VectorType & globalPt,
+                                             VectorType & localPt) const;
 
   /**
    * We need to provide our own implementation of calculating Jacobian,
@@ -67,17 +88,24 @@ public:
    *
    * Jacobian is a scalar for this element.
    */
-  virtual void Jacobian( const VectorType& pt, MatrixType& J, const MatrixType* pshapeD = 0 ) const;
+  virtual void Jacobian(const VectorType & pt, MatrixType & J, const MatrixType *pshapeD = 0) const;
 
   /**
-   * Draw the element on the specified device context
+   * Distance of a point to a line.(Used in GetLocalFromGlobalCoordinates ).
    */
-#ifdef FEM_BUILD_VISUALIZATION
-  void Draw(CDC* pDC, Solution::ConstPointer sol) const;
-#endif
+  Float DistanceToLine(const VectorType & x, const VectorType & p1, const VectorType & p2, Float & t,
+                       VectorType & closestPoint) const;
+
+protected:
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+
+  virtual void PopulateEdgeIds(void); // HACK:  Should PopulateEdgeIds
+                                      // be const or not in this
+                                      // heirarchy. Sometimes it is,
+                                      // sometimes it is not.
 
 };
-
-}} // end namespace itk::fem
+}
+}  // end namespace itk::fem
 
 #endif  // #ifndef __itkFEMElement2DC0LinearLine_h

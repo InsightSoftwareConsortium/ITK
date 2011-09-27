@@ -33,7 +33,7 @@ namespace itk
  * types following C++ default casting rules.
  *
  * \ingroup ImageAdaptors
- * \ingroup ITK-ImageAdaptors
+ * \ingroup ITKImageAdaptors
  *
  * \wiki
  * \wikiexample{ImageProcessing/NthElementImageAdaptor,Extract a component of an itkImage with pixels with multiple components}

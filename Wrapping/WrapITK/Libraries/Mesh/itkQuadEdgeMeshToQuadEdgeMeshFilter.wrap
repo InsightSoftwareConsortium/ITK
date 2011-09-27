@@ -1,9 +1,0 @@
-WRAP_INCLUDE("itkQuadEdgeMesh.h")
-
-# for the time being this filter is only wrapped for 3D
-FILTER_DIMS(d3 3)
-if(d3)
-  WRAP_CLASS("itk::QuadEdgeMeshToQuadEdgeMeshFilter" POINTER)
-    WRAP_TEMPLATE("QEM${ITKM_D}3QEM${ITKM_D}3" "itk::QuadEdgeMesh< ${ITKT_D},3 >, itk::QuadEdgeMesh< ${ITKT_D},3 >")
-  END_WRAP_CLASS()
-endif(d3)

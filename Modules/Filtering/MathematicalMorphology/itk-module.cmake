@@ -1,17 +1,16 @@
 set(DOCUMENTATION "This module contains classes that implement variations of
-mathematical morphology techniques. In addition to the classical erosion,
+mathematical morphology techniques for grayscale images. In addition to the classical erosion,
 dilation, opening and closing filters, you will find here geodesic operations,
-maxima and minima filters, and reconstruction filters. This module contains
-filters for both binary and grayscale mathematical morphology.")
+maxima and minima filters, and reconstruction filters.")
 
-itk_module(ITK-MathematicalMorphology
+itk_module(ITKMathematicalMorphology
   DEPENDS
-    ITK-ImageIntensity
-    ITK-ImageGrid
-    ITK-ConnectedComponents
-    ITK-IO-PNG
+    ITKImageIntensity
+    ITKImageGrid
+    ITKConnectedComponents
   TEST_DEPENDS
-    ITK-TestKernel
+    ITKTestKernel
+    ITKIOPNG
   DESCRIPTION
     "${DOCUMENTATION}"
 )

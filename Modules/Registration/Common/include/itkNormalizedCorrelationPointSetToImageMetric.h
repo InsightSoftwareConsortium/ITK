@@ -38,7 +38,7 @@ namespace itk
  * the moving image are interpolated using a user-selected Interpolator.
  *
  * \ingroup RegistrationMetrics
- * \ingroup ITK-RegistrationCommon
+ * \ingroup ITKRegistrationCommon
  */
 template< class TFixedPointSet, class TMovingImage >
 class ITK_EXPORT NormalizedCorrelationPointSetToImageMetric:
@@ -113,7 +113,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNormalizedCorrelationPointSetToImageMetric.txx"
+#include "itkNormalizedCorrelationPointSetToImageMetric.hxx"
 #endif
 
 #endif

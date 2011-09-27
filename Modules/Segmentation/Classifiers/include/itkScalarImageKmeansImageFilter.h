@@ -25,7 +25,7 @@
 
 #include "itkSampleClassifierFilter.h"
 #include "itkImageToListSampleAdaptor.h"
-#include "itkMinimumDecisionRule2.h"
+#include "itkMinimumDecisionRule.h"
 
 #include "itkRegionOfInterestImageFilter.h"
 
@@ -53,7 +53,7 @@ namespace itk
  * \sa RelabelImageFilter
  *
  * \ingroup ClassificationFilters
- * \ingroup ITK-Classifiers
+ * \ingroup ITKClassifiers
  *
  * \wiki
  * \wikiexample{Statistics/ScalarImageKmeansImageFilter,Cluster the pixels in a greyscale image}
@@ -100,7 +100,7 @@ public:
 
   typedef itk::Statistics::DistanceToCentroidMembershipFunction< MeasurementVectorType > MembershipFunctionType;
   typedef itk::Statistics::SampleClassifierFilter< AdaptorType >                         ClassifierType;
-  typedef itk::Statistics::MinimumDecisionRule2                                          DecisionRuleType;
+  typedef itk::Statistics::MinimumDecisionRule  DecisionRuleType;
 
   typedef typename ClassifierType::ClassLabelVectorType ClassLabelVectorType;
 
@@ -180,7 +180,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkScalarImageKmeansImageFilter.txx"
+#include "itkScalarImageKmeansImageFilter.hxx"
 #endif
 
 #endif

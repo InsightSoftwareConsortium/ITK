@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkDecisionRule.h"
 
@@ -40,8 +37,15 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
+  /** Types for discriminant values and vectors. */
+  typedef Superclass::MembershipValueType MembershipValueType;
+  typedef Superclass::MembershipVectorType MembershipVectorType;
+
+  /** Types for class identifiers. */
+  typedef Superclass::ClassIdentifierType ClassIdentifierType;
+
   /** Evaluate membership score */
-  unsigned int Evaluate(const MembershipVectorType &scoreVector) const
+  ClassIdentifierType Evaluate(const MembershipVectorType &scoreVector) const
     {
     double max = scoreVector[0];
 

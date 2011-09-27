@@ -42,7 +42,7 @@ namespace itk
  *  http://www.insight-journal.org/browse/publication/729
  *  http://hdl.handle.net/10380/3171
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 class ITK_EXPORT MRCImageIOFactory:public ObjectFactoryBase
 {

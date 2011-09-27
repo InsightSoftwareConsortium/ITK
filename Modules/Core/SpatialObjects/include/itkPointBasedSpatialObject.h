@@ -30,7 +30,7 @@ namespace itk
  * A PointBasedSpatialObject is an abstract class to support
  * PointBasedSpatialObject filters and algorithms.
  *
- * \ingroup ITK-SpatialObjects
+ * \ingroup ITKSpatialObjects
  */
 
 template< unsigned int TDimension = 3 >
@@ -102,7 +102,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPointBasedSpatialObject.txx"
+#include "itkPointBasedSpatialObject.hxx"
 #endif
 
 #endif // __itkPointBasedSpatialObject_h

@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <string>
 #include "itkNrrdImageIO.h"
@@ -28,6 +25,19 @@
 namespace itk
 {
 #define KEY_PREFIX "NRRD_"
+
+NrrdImageIO::NrrdImageIO()
+{
+  this->SetNumberOfDimensions(3);
+  this->AddSupportedWriteExtension(".nrrd");
+  this->AddSupportedReadExtension(".nrrd");
+  this->AddSupportedWriteExtension(".nhdr");
+  this->AddSupportedReadExtension(".nhdr");
+}
+
+NrrdImageIO::~NrrdImageIO()
+{}
+
 
 bool NrrdImageIO::SupportsDimension(unsigned long dim)
 {

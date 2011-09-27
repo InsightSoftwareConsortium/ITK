@@ -26,14 +26,20 @@ namespace itk
 namespace Statistics
 {
 /** \class DistanceToCentroidMembershipFunction
- * \brief class represents DistanceToCentroid Density Function.
+ * \brief DistanceToCentroidMembershipFunction models class membership
+ * using a distance metric.
  *
- * This class keeps parameter to define DistanceToCentroid Density Function  and has
- * method to return the probability density
- * of an instance.  MeasurementVectorSize is the dimension of measurement
- * space.
- * double is type of measurement.
- * \ingroup ITK-Statistics
+ * DistanceToCentroidMembershipFunction is a subclass of
+ * MembershipFunctionBase that models class membership using the
+ * distance to the centroid of the class. A choice of distance metric
+ * can be specified using the SetDistanceMetric() method. Options
+ * include EuclideanDistanceMetric, EuclideanSquaredDistanceMetric,
+ * and ManhattenDistanceMetric. The centroid of the class is specified
+ * using the SetCentroid() method. Any other parameters to control the
+ * distance function evaluation have to be set directly on the
+ * distance function itself.
+ *
+ * \ingroup ITKStatistics
  */
 template< class TVector >
 class ITK_EXPORT DistanceToCentroidMembershipFunction:
@@ -51,6 +57,9 @@ public:
                MembershipFunctionBase);
   itkNewMacro(Self);
 
+  /** SmartPointer class for superclass */
+  typedef typename Superclass::Pointer MembershipFunctionPointer;
+
   /** Typedef alias for the measurement vectors */
   typedef TVector MeasurementVectorType;
 
@@ -64,17 +73,23 @@ public:
   /** Type of the DistanceMetric to use */
   typedef DistanceMetric< MeasurementVectorType > DistanceMetricType;
   typedef typename DistanceMetricType::Pointer    DistanceMetricPointer;
+  typedef typename DistanceMetricType::OriginType CentroidType;
 
   /** Set the DistanceMetric to be used when calling the Evaluate() method */
   itkSetObjectMacro(DistanceMetric, DistanceMetricType);
+
+  /** Get the DistanceMetric used by the MembershipFunction */
   itkGetConstObjectMacro(DistanceMetric, DistanceMetricType);
 
-  typedef typename DistanceMetricType::OriginType CentroidType;
+  /** Get the DistanceMetric used by the MembershipFunction. This is
+   * a non-const version that allows you to configure the distance
+   * function directly. */
+  itkGetObjectMacro(DistanceMetric, DistanceMetricType);
 
-  /** Method to set mean */
+  /** Set the centroid of the class (propagated to the DistanceMetric) */
   void SetCentroid(const CentroidType & centroid);
 
-  /** Method to get mean */
+  /** Get the centroid of the class (requested from the DistanceMetric */
   const CentroidType & GetCentroid() const;
 
   /**
@@ -83,7 +98,7 @@ public:
   double Evaluate(const MeasurementVectorType & measurement) const;
 
   /** Return a copy of the current membership function */
-  Pointer Clone();
+  MembershipFunctionPointer Clone() const;
 
 protected:
   DistanceToCentroidMembershipFunction(void);
@@ -91,6 +106,8 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
+  DistanceToCentroidMembershipFunction(const Self &);   //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 
   DistanceMetricPointer m_DistanceMetric;
 };
@@ -98,7 +115,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDistanceToCentroidMembershipFunction.txx"
+#include "itkDistanceToCentroidMembershipFunction.hxx"
 #endif
 
 #endif

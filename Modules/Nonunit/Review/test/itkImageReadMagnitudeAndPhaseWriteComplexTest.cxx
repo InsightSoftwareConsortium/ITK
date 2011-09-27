@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 /** Example illustrating use of functions to convert between complex valued
  * voxels, magnitude and phase, and real and imaginary representations.

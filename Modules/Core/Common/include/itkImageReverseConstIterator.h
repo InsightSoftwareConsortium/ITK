@@ -81,7 +81,7 @@ namespace itk
  * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator
  * \sa ShapedNeighborhoodIterator  \sa SliceIterator
  * \sa ImageConstIteratorWithIndex
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< typename TImage >
 class ITK_EXPORT ImageReverseConstIterator
@@ -164,7 +164,7 @@ public:
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
-  ImageReverseConstIterator(ImageType *ptr, const RegionType & region)
+  ImageReverseConstIterator(const ImageType *ptr, const RegionType & region)
   {
     SizeValueType offset;
 
@@ -405,7 +405,7 @@ protected: //made protected so other iterators can access
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkImageReverseConstIterator.txx"
+#include "itkImageReverseConstIterator.hxx"
 #endif
 
 #endif

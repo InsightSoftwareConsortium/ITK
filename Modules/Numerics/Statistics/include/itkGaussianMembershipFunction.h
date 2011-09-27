@@ -26,17 +26,29 @@ namespace itk
 namespace Statistics
 {
 /** \class GaussianMembershipFunction
- * \brief GaussianMembershipFunction class represents Gaussian function.
+ * \brief GaussianMembershipFunction models class membership through a
+ * multivariate Gaussian function.
  *
- * This class keeps parameter to define Gaussian function and has
- * method to return the probability density of an instance (pattern) .
- * If the all element of the covariance matrix is zero the "usual" density
- * calculations ignored. if the measurement vector to be evaluated is equal to
- * the mean, then the Evaluate method will return maximum value of
- * double and return 0 for others
+ * GaussianMembershipFunction is a subclass of MembershipFunctionBase
+ * that models class membership (or likelihood) using a multivariate
+ * Gaussian function. The mean and covariance structure of the
+ * Gaussian are established using the methods SetMean() and
+ * SetCovariance(). The mean is a vector-type that is the same
+ * vector-type as the measurement vector but guarenteed to have a real
+ * element type. For instance, if the measurement type is an
+ * Vector<int,3>, then the mean is Vector<double,3>. If the
+ * measurement type is a VariableLengthVector<float>, then the mean is
+ * VariableLengthVector<double>. In contrast to this behavior, the
+ * covariance is always a VariableSizeMatrix<double>.
  *
+ * If the covariance is singular or nearly singular, the membership function
+ * behaves somewhat like an impulse located at the mean. In this case,
+ * we specify the covariance to be a diagonal matrix with large values
+ * along the diagonal. This membership function, therefore,
+ * will return small but differentiable values everywher and increase
+ * sharply near the mean.
  *
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  */
 
 template< class TMeasurementVector >
@@ -50,9 +62,12 @@ public:
   typedef SmartPointer< Self >                         Pointer;
   typedef SmartPointer< const Self >                   ConstPointer;
 
-  /** Strandard macros */
+  /** Standard macros */
   itkTypeMacro(GaussianMembershipFunction, MembershipFunction);
   itkNewMacro(Self);
+
+  /** SmartPointer class for superclass */
+  typedef typename Superclass::Pointer MembershipFunctionPointer;
 
   /** Typedef alias for the measurement vectors */
   typedef TMeasurementVector MeasurementVectorType;
@@ -60,31 +75,43 @@ public:
   /** Length of each measurement vector */
   typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
 
-  /** Type of the mean vector */
+  /** Type of the mean vector. RealType on a vector-type is the same
+   * vector-type but with a real element type.  */
   typedef typename itk::NumericTraits< MeasurementVectorType >::RealType MeasurementVectorRealType;
-  typedef MeasurementVectorRealType                                      MeanType;
-
+  typedef MeasurementVectorRealType MeanVectorType;
 
   /** Type of the covariance matrix */
-  typedef VariableSizeMatrix< double > CovarianceType;
+  typedef VariableSizeMatrix< double > CovarianceMatrixType;
 
-  /** Set/Get the mean */
-  void SetMean(const MeanType & mean);
+  /** Set the mean of the Gaussian distribution. Mean is a vector type
+   * similar to the measurement type but with a real element type. */
+  void SetMean(const MeanVectorType & mean);
 
-  itkGetConstMacro(Mean, MeanType);
+  /** Get the mean of the Gaussian distribution. Mean is a vector type
+   * similar to the measurement type but with a real element type. */
+  itkGetConstReferenceMacro(Mean, MeanVectorType);
 
-  /** Sets the covariance matrix.
-   * Also, this function calculates inverse covariance and pre factor of
-   * Gaussian Distribution to speed up GetProbability */
-  void SetCovariance(const CovarianceType & cov);
+  /** Set the covariance matrix. Covariance matrix is a
+   * VariableSizeMatrix of doubles. The inverse of the covariance
+   * matrix and the normlization term for the multivariate Gaussian
+   * are calculate whenever the covaraince matrix is changed. */
+  void SetCovariance(const CovarianceMatrixType & cov);
 
-  itkGetConstMacro(Covariance, CovarianceType);
+  /* Get the covariance matrix. Covariance matrix is a
+  VariableSizeMatrix of doubles. */
+  itkGetConstReferenceMacro(Covariance, CovarianceMatrixType);
 
-  /** Gets the probability density of a measurement vector. */
+  /* Get the inverse covariance matrix. Covariance matrix is a
+  VariableSizeMatrix of doubles. */
+  itkGetConstReferenceMacro(InverseCovariance, CovarianceMatrixType);
+
+  /** Evaluate the probability density of a measurement vector. */
   double Evaluate(const MeasurementVectorType & measurement) const;
 
-  /** Return a copy of the current membership function */
-  Pointer Clone();
+  /** Method to clone a membership function, i.e. create a new instance of
+   * the same type of membership function and configure its ivars to
+   * match. */
+  MembershipFunctionPointer Clone() const;
 
 protected:
   GaussianMembershipFunction(void);
@@ -92,26 +119,28 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  MeanType       m_Mean;            // mean
-  CovarianceType m_Covariance;      // covariance matrix
+  GaussianMembershipFunction(const Self &);   //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 
-  // inverse covariance matrix which is automatically calculated
-  // when covariace matirx is set.  This speed up the GetProbability()
-  CovarianceType m_InverseCovariance;
+  MeanVectorType       m_Mean;            // mean
+  CovarianceMatrixType m_Covariance;      // covariance matrix
 
-  // pre_factor which is automatically calculated
-  // when covariace matirx is set.  This speeds up the GetProbability()
+  // inverse covariance matrix. automatically calculated
+  // when covariace matirx is set.
+  CovarianceMatrixType m_InverseCovariance;
+
+  // pre_factor (normalization term). automatically calculated
+  // when covariace matirx is set.
   double m_PreFactor;
 
-  /** if the all element of the given covarinace is zero, then this
-   * value set to true */
-  bool m_DeterminantOK;
+  /** Boolean to cache whether the covarinace is singular or nearly singular */
+  bool m_CovarianceNonsingular;
 };
 } // end of namespace Statistics
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGaussianMembershipFunction.txx"
+#include "itkGaussianMembershipFunction.hxx"
 #endif
 
 #endif

@@ -37,7 +37,7 @@ namespace itk
  *
  * \ingroup ImageFunctions ImageInterpolators
  *
- * \ingroup ITK-ImageFunction
+ * \ingroup ITKImageFunction
  */
 template< class TInputImage, class TCoordRep = double >
 class ITK_EXPORT VectorNearestNeighborInterpolateImageFunction:

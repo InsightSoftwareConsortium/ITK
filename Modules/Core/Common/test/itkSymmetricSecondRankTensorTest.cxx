@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <iostream>
 
@@ -439,7 +436,6 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
   //Test casting constructors
   {
     typedef itk::SymmetricSecondRankTensor<int,3>     Int3DTensorType;
-    typedef itk::SymmetricSecondRankTensor<float,3>   Float3DTensorType;
 
     Int3DTensorType intTensor;
     intTensor[0] =   1;

@@ -26,9 +26,11 @@ namespace itk
 {
 /**
  * \class ConstSparseFieldLayerIterator
+ * \brief Used to iterate through an itkSparseFieldLayer.
+ *
  *  This class is modeled on the STL Forward Iterator concept, and is used to
  *  iterate through an itkSparseFieldLayer.
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TNodeType >
 class ConstSparseFieldLayerIterator
@@ -79,8 +81,8 @@ protected:
 };
 
 /** \class SparseFieldLayerIterator
- *  The non-const version of the ConstSparseFieldLayerIterator.
- * \ingroup ITK-Common
+ *  \brief The non-const version of the ConstSparseFieldLayerIterator.
+ * \ingroup ITKCommon
  */
 template< class TNodeType >
 class SparseFieldLayerIterator:
@@ -124,7 +126,8 @@ public:
 };
 
 /** \class SparseFieldLayer
- *
+ *  \brief A very simple linked list that is used to manage
+ *         nodes in a layer of a sparse field level-set solver.
  *  \par
  *  This class implements a *very* simple linked list that is used to manage
  *  nodes in a layer of a sparse field level-set solver.  For more information
@@ -142,7 +145,7 @@ public:
  *  contention among threads. Because no allocation/deallocation occurs, it is
  *  entirely up to the calling program to manage the allocating and freeing of
  *  the list nodes.
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class TNodeType >
 class ITK_EXPORT SparseFieldLayer:
@@ -267,7 +270,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSparseFieldLayer.txx"
+#include "itkSparseFieldLayer.hxx"
 #endif
 
 #endif

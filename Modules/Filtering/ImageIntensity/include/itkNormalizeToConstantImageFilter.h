@@ -45,8 +45,11 @@ namespace itk {
  * \sa DivideImageFilter
  *
  * \ingroup MathematicalImageFilters
- * \ingroup ITK-ImageIntensity
+ * \ingroup ITKImageIntensity
  *
+ * \wiki
+ * \wikiexample{ImageProcessing/NormalizeToConstantImageFilter,Scale all pixels so that their sum is a specified constant}
+ * \endwiki
  */
 template<class TInputImage, class TOutputImage>
 class ITK_EXPORT NormalizeToConstantImageFilter :
@@ -123,7 +126,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNormalizeToConstantImageFilter.txx"
+#include "itkNormalizeToConstantImageFilter.hxx"
 #endif
 
 #endif

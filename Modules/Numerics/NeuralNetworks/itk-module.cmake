@@ -1,6 +1,12 @@
-itk_module(ITK-NeuralNetworks
+set(DOCUMENTATION "This module contains classes and support classes for the
+calculation of artificial neural networks.  This can be used, for instance, for
+image classification.")
+
+itk_module(ITKNeuralNetworks
   DEPENDS
-    ITK-Statistics
+    ITKStatistics
   TEST_DEPENDS
-    ITK-TestKernel
+    ITKTestKernel
+  DESCRIPTION
+    "${DOCUMENTATION}"
 )

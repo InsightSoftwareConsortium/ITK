@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<!DOCTYPE Change SYSTEM "http://ij.itk.org/itkfaq/ITKMigration.dtd">
 <!--**
 **
 ** FFTUseImageAsTemplateParameter.xml
@@ -14,7 +14,7 @@
     ** Title for the online migration page
     **-->
     <Title>
-      F F T Use Image As Template Parameter
+      FFT Use Image As Template Parameter
     </Title>
 
     <!--**
@@ -48,17 +48,24 @@
     **-->
     <SampleCode>
       <Old>
-        typedef itk::VnlFFTRealToComplexConjugateImageFilter &amp;lt;
-        WorkPixelType,
-        Dimension &gt; FFTFilterType;
-        typedef itk::VnlFFTComplexConjugateToRealImageFilter &amp;lt;
-        WorkPixelType,
-        Dimension &gt; invFFTFilterType;
+        <![CDATA[
+        typedef double WorkPixelType;
+        const unsigned int Dimension = 3;
+        typedef itk::VnlFFTRealToComplexConjugateImageFilter< WorkPixelType, Dimension >
+          FFTFilterType;
+        typedef itk::VnlFFTComplexConjugateToRealImageFilter< WorkPixelType, Dimension >
+          invFFTFilterType;
+        ]]>
       </Old>
 
       <New>
-        typedef itk::VnlFFTRealToComplexConjugateImageFilter &amp;lt; WorkImageType &gt; FFTFilterType;
-        typedef itk::VnlFFTComplexConjugateToRealImageFilter &amp;lt; ComplexImageType &gt; invFFTFilterType;
+        <![CDATA[
+        typedef double WorkPixelType;
+        const unsigned int Dimension = 3;
+        typedef itk::Image< WorkPixelType, Dimension > WorkImageType;
+        typedef itk::VnlForwardFFTImageFilter < WorkImageType >    FFTFilterType;
+        typedef itk::VnlInverseFFTImageFilter < ComplexImageType > InvFFTFilterType;
+        ]]>
       </New>
 
     </SampleCode>

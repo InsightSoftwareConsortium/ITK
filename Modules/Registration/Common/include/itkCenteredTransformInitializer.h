@@ -54,8 +54,8 @@ namespace itk
  * registration is to superimpose both mass centers.  Note that this
  * assumption will probably not hold in multi-modality registration.
  *
- * \ingroup Transforms
- * \ingroup ITK-RegistrationCommon
+ * \ingroup ITKRegistrationCommon
+ * \ingroup ITKTransform
  */
 template< class TTransform,
           class TFixedImage,
@@ -155,7 +155,7 @@ private:
 }  // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCenteredTransformInitializer.txx"
+#include "itkCenteredTransformInitializer.hxx"
 #endif
 
 #endif /* __itkCenteredTransformInitializer_h */

@@ -17,8 +17,10 @@
  *=========================================================================*/
 #ifndef __itkConstantBoundaryCondition_h
 #define __itkConstantBoundaryCondition_h
+
 #include "itkNumericTraits.h"
 #include "itkImageBoundaryCondition.h"
+#include "itkVariableLengthVector.h"
 
 namespace itk
 {
@@ -53,7 +55,7 @@ namespace itk
  *
  * \ingroup DataRepresentation
  * \ingroup ImageObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{Iterators/ConstantBoundaryCondition,Make out of bounds pixels return a constant value}
@@ -71,7 +73,9 @@ public:
   /** Extract information from the image type */
   typedef typename Superclass::PixelType        PixelType;
   typedef typename Superclass::PixelPointerType PixelPointerType;
+  typedef typename Superclass::RegionType       RegionType;
   typedef typename Superclass::IndexType        IndexType;
+  typedef typename Superclass::SizeType         SizeType;
   typedef typename Superclass::OffsetType       OffsetType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
 
@@ -82,15 +86,27 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 
   /** Default constructor. */
-  ConstantBoundaryCondition()
-  { m_Constant = NumericTraits< PixelType >::Zero; }
+  ConstantBoundaryCondition();
+
+  /** Runtime information support. */
+  virtual const char * GetNameOfClass() const
+  {
+    return "itkConstantBoundaryCondition";
+  }
+
+  /** Utility for printing the boundary condition. */
+  virtual void Print( std::ostream & os, Indent i = 0 ) const;
+
+  /** Special version of initialize for images with pixel type
+   * VariableLengthVector. */
+  template < class TPixel >
+  void Initialize( const VariableLengthVector< TPixel > * );
 
   /** Computes and returns appropriate out-of-bounds values from
    * neighborhood iterator data. */
   virtual PixelType operator()(const OffsetType &,
                                const OffsetType &,
-                               const NeighborhoodType *) const
-  { return m_Constant; }
+                               const NeighborhoodType *) const;
 
   /** Computes and returns the appropriate pixel value from
    * neighborhood iterator data, using the functor. */
@@ -98,24 +114,47 @@ public:
     const OffsetType &,
     const OffsetType &,
     const NeighborhoodType *,
-    const NeighborhoodAccessorFunctorType &) const
-  { return m_Constant; }
+    const NeighborhoodAccessorFunctorType &) const;
 
   /** Set the value of the constant. */
-  void SetConstant(const PixelType & c)
-  {  m_Constant = c; }
+  void SetConstant(const PixelType & c);
 
   /** Get the value of the constant. */
-  const PixelType & GetConstant() const
-  {  return m_Constant;  }
+  const PixelType & GetConstant() const;
 
   /** Tell if the boundary condition can index to any location within
     * the associated iterator's neighborhood or if it has some limited
     * subset (such as none) that it relies upon. */
   bool RequiresCompleteNeighborhood() { return false; }
+
+  /** Determines the necessary input region for the output region.
+   * For this boundary condition, only the intersection of the largest
+   * possible image region and the output requested region is needed.
+   *
+   * \param inputLargestPossibleRegion Largest possible region of the input image.
+   * \param outputRequestedRegion The output requested region.
+   * \return The necessary input region required to determine the
+   * pixel values in the outputRequestedRegion.
+   */
+  virtual RegionType GetInputRequestedRegion( const RegionType & inputLargestPossibleRegion,
+                                              const RegionType & outputRequestedRegion ) const;
+
+  /** Returns a value for a given pixel at an index. If the index is inside the
+   * bounds of the input image, then the pixel value is obtained from
+   * the input image. Otherwise, the constant value is returned.
+   *
+   * \param index The index of the desired pixel.
+   * \param image The image from which pixel values should be determined.
+   */
+  PixelType GetPixel( const IndexType & index, const TImage * image ) const;
+
 private:
   PixelType m_Constant;
 };
 } // end namespace itk
+
+#if ITK_TEMPLATE_TXX
+#include "itkConstantBoundaryCondition.hxx"
+#endif
 
 #endif

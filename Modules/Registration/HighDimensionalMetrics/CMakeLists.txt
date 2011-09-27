@@ -1,0 +1,3 @@
+project(ITKHighDimensionalMetrics)
+set(ITKHighDimensionalMetrics_LIBRARIES ITKHighDimensionalMetrics)
+itk_module_impl()

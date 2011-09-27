@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 //  Software Guide : BeginLatex
 //
@@ -31,9 +28,9 @@
 //
 //  This typical processing is what it is illustrated in the example below.
 //
-//  \index{itk::FFT\-Real\-To\-Complex\-Conjugate\-Image\-Filter}
-//  \index{itk::Vnl\-FFT\-Real\-To\-Complex\-Conjugate\-Image\-Filter}
-//  \index{itk::FFTW\-Real\-To\-Complex\-Conjugate\-Image\-Filter}
+//  \index{itk::Forward\-FFT\-Image\-Filter}
+//  \index{itk::Vnl\-Forward\-FFT\-Image\-Filter}
+//  \index{itk::FFTW\-Forward\-FFT\-Image\-Filter}
 //  \index{itk::Mask\-Image\-Filter}
 //
 //  Software Guide : EndLatex
@@ -56,8 +53,8 @@
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-#include "itkVnlFFTRealToComplexConjugateImageFilter.h"
-#include "itkVnlFFTComplexConjugateToRealImageFilter.h"
+#include "itkVnlForwardFFTImageFilter.h"
+#include "itkVnlInverseFFTImageFilter.h"
 #include "itkMaskImageFilter.h"
 // Software Guide : EndCodeSnippet
 
@@ -117,7 +114,7 @@ int main( int argc, char * argv [] )
 
   // Software Guide : BeginLatex
   //
-  // Now the \doxygen{VnlFFTRealToComplexConjugateImageFilter} can be instantiated.
+  // Now the \doxygen{VnlForwardFFTImageFilter} can be instantiated.
   // Like most ITK filters, the FFT filter is instantiated using the full image type.
   // By not setting the output image type, we decide to use the default one provided
   // by the filter. Using the type we construct one instance of the filter.
@@ -125,7 +122,7 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::VnlFFTRealToComplexConjugateImageFilter< InputImageType >  FFTFilterType;
+  typedef itk::VnlForwardFFTImageFilter< InputImageType >  FFTFilterType;
 
   FFTFilterType::Pointer fftFilter = FFTFilterType::New();
 
@@ -192,7 +189,7 @@ int main( int argc, char * argv [] )
 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::VnlFFTComplexConjugateToRealImageFilter<
+  typedef itk::VnlInverseFFTImageFilter<
     SpectralImageType >  IFFTFilterType;
 
   IFFTFilterType::Pointer fftInverseFilter = IFFTFilterType::New();

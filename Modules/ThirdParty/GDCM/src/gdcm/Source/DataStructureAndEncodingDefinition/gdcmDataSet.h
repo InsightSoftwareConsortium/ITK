@@ -116,7 +116,6 @@ public:
     for( ; it != DES.end(); ++it)
       {
       assert( !(it->GetLength<TDE>().IsUndefined()) );
-      VL len = it->GetLength<TDE>();
       if ( it->GetTag() != Tag(0xfffe,0xe00d) )
         {
         ll += it->GetLength<TDE>();
@@ -273,13 +272,15 @@ protected:
   void InsertDataElement(const DataElement& de) {
     //if( de.GetTag() == Tag(0xfffe,0xe00d) ) return;
     //if( de.GetTag() == Tag(0xfffe,0xe0dd) ) return;
-    std::pair<Iterator,bool> pr = DES.insert(de);
 #ifndef NDEBUG
+    std::pair<Iterator,bool> pr = DES.insert(de);
     if( pr.second == false )
       {
       gdcmWarningMacro( "DataElement: " << de << " was already found, skipping duplicate entry.\n"
         "Original entry kept is: " << *pr.first );
       }
+#else
+    DES.insert(de);
 #endif
     assert( de.IsEmpty() || de.GetVL() == de.GetValue().GetLength() );
     }

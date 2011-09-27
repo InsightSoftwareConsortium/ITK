@@ -36,9 +36,6 @@
 #ifndef __itkBruker2DSEQImageIO_h
 #define __itkBruker2DSEQImageIO_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkImageIOBase.h"
 #include "itkVectorContainer.h"
@@ -111,7 +108,7 @@ namespace itk
  * It will look for these files in the directory structure described above.  The
  * path and filename of the '2dseq' file must be the name of the file to read
  * (see CanReadFile).  This class supports reading only.
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 class ITK_EXPORT Bruker2DSEQImageIO:public ImageIOBase
 {

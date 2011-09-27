@@ -41,9 +41,9 @@ namespace itk
  * This filter is implemented as a multithreaded filter.  It provides a
  * ThreadedGenerateData() method for its implementation.
  *
- * \ingroup GeometricTransforms
+ * \ingroup GeometricTransform
  * \sa WrapPadImageFilter, ConstantPadImageFilter
- * \ingroup ITK-ImageGrid
+ * \ingroup ITKImageGrid
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT MirrorPadImageFilter:
@@ -202,7 +202,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMirrorPadImageFilter.txx"
+#include "itkMirrorPadImageFilter.hxx"
 #endif
 
 #endif

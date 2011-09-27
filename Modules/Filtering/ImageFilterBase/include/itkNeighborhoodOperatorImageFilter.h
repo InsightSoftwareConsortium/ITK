@@ -41,13 +41,13 @@ namespace itk
  * \sa Neighborhood
  * \sa NeighborhoodOperator
  * \sa NeighborhoodIterator
- * \ingroup ITK-ImageFilterBase
+ * \ingroup ITKImageFilterBase
  *
  * \wiki
  * \wikiexample{Images/NeighborhoodOperatorImageFilter,Apply a kernel to every pixel in an image}
  * \endwiki
  */
-template< class TInputImage, class TOutputImage, class TOperatorValueType = ITK_TYPENAME TOutputImage::PixelType >
+template< class TInputImage, class TOutputImage, class TOperatorValueType = typename TOutputImage::PixelType >
 class ITK_EXPORT NeighborhoodOperatorImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
@@ -188,7 +188,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNeighborhoodOperatorImageFilter.txx"
+#include "itkNeighborhoodOperatorImageFilter.hxx"
 #endif
 
 #endif

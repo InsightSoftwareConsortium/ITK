@@ -15,9 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
+
 //  Software Guide : BeginLatex
 //
 //  This example illustrates the common task of extracting a 2D slice from a

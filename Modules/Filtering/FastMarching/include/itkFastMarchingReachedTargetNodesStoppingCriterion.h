@@ -30,7 +30,7 @@ namespace itk
     Stopping criterion where the condition is satisfied when the front
     reaches one, several or all target nodes (provided by the user).
 
-    \ingroup ITK-FastMarching
+    \ingroup ITKFastMarching
 */
   template< class TInput, class TOutput >
   class FastMarchingReachedTargetNodesStoppingCriterion :
@@ -138,7 +138,7 @@ namespace itk
       }
 
     /** \brief Get a short description of the stopping criterion. */
-    const std::string GetDescription() const
+    std::string GetDescription() const
       {
       return "Target Nodes Reached with possible overshoot";
       }

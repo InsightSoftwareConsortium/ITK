@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <iostream>
 #include "itkImageRegion.h"
@@ -51,12 +48,27 @@ int itkImageRegionTest(int, char* [] )
 
   IndexType startA = {{ 12, 12, 12 }};
   IndexType startB = {{ 14, 14, 14 }};
+  IndexType endA = {{ 21, 31, 41 }};
 
   RegionType regionA;
   RegionType regionB;
 
   regionA.SetSize(  sizeA  );
   regionA.SetIndex( startA );
+
+  if( regionA.GetUpperIndex() != endA )
+    {
+    std::cout << "Upper index is " << regionA.GetUpperIndex() << " instead of " << endA << std::endl;
+    return EXIT_FAILURE;
+    }
+  RegionType regionC;
+  regionC.SetIndex( startA );
+  regionC.SetUpperIndex( endA );
+  if( regionC.GetSize() != sizeA )
+    {
+    std::cout << "Size is " << regionC.GetSize() << " instead of " << sizeA << std::endl;
+    return EXIT_FAILURE;
+    }
 
   // Take slices of a region
   try
@@ -275,7 +287,7 @@ int itkImageRegionTest(int, char* [] )
     TCoordRepType rf = itk::Math::RoundHalfIntegerUp< TCoordRepType >(NaN);
     std::cout << "TCoordRepType = RoundHalfIntegerUp(NaN): " << rf << std::endl;
     RegionType::IndexValueType rl =
-      itk::Math::RoundHalfIntegerUp< TCoordRepType >(NaN);
+      itk::Math::RoundHalfIntegerUp< RegionType::IndexValueType, TCoordRepType >(NaN);
     std::cout << "RegionType::IndexValueType type = RoundHalfIntegerUp(NaN): "
               << rl << std::endl;
     std::cout << "static_cast<RegionType::IndexValueType>( NaN ): "

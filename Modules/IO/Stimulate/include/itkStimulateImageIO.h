@@ -28,9 +28,6 @@
 #ifndef __itkStimulateImageIO_h
 #define __itkStimulateImageIO_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include <fstream>
 #include "itkImageIOBase.h"
@@ -59,7 +56,7 @@ namespace itk
  *
  * \ingroup IOFilters
  *
- * \ingroup ITK-IO-Stimulate
+ * \ingroup ITKIOStimulate
  */
 class ITK_EXPORT StimulateImageIO:public ImageIOBase
 {

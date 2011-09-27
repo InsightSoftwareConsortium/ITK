@@ -32,8 +32,8 @@ namespace itk
  * This filter is implemented using the recursive gaussian filters.
  *
  * \ingroup GradientFilters
- * \ingroup Singlethreaded
- * \ingroup ITK-ImageFeature
+ * \ingroup SingelThreaded
+ * \ingroup ITKImageFeature
  *
  * \wiki
  * \wikiexample{EdgesAndGradients/LaplacianRecursiveGaussianImageFilter,Compute the Laplacian of Gaussian (LoG) of an image}
@@ -61,7 +61,7 @@ public:
 
   typedef typename NumericTraits< PixelType >::RealType RealType;
 
-  /** Define the image type for internal computations
+  /** Define the image type for internal computations.
       RealType is usually 'double' in NumericTraits.
       Here we prefer float in order to save memory.  */
   typedef float InternalRealType;
@@ -162,7 +162,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLaplacianRecursiveGaussianImageFilter.txx"
+#include "itkLaplacianRecursiveGaussianImageFilter.hxx"
 #endif
 
 #endif

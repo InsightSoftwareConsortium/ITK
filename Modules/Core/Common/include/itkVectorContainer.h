@@ -27,20 +27,18 @@
 namespace itk
 {
 /** \class VectorContainer
- * Define a front-end to the STL "vector" container that conforms to the
- * IndexedContainerInterface.  This is a full-fleged Object, so
+ *  \brief Define a front-end to the STL "vector" container that conforms to the
+ *         IndexedContainerInterface.
+ *
+ * This is a full-fleged Object, so
  * there is modification time, debug, and reference count information.
  *
- * Template parameters for VectorContainer:
+ * \tparam TElementIdentifier An INTEGRAL type for use in indexing the vector.
  *
- * TElementIdentifier =
- *     An INTEGRAL type for use in indexing the vector.
- *
- * TElement =
- *    The element type stored in the container.
+ * \tparam TElement The element type stored in the container.
  *
  * \ingroup DataRepresentation
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{Utilities/VectorContainer,Vector container}
@@ -52,7 +50,7 @@ template<
   >
 class ITK_EXPORT VectorContainer:
   public Object,
-  public std::vector< TElement >
+  private std::vector< TElement >
 {
 public:
   /** Standard class typedefs. */
@@ -112,6 +110,47 @@ public:
     return dynamic_cast< const STLContainerType & >( *this );
   }
 
+  using STLContainerType::begin;
+  using STLContainerType::end;
+  using STLContainerType::rbegin;
+  using STLContainerType::rend;
+
+  using STLContainerType::size;
+  using STLContainerType::max_size;
+  using STLContainerType::resize;
+  using STLContainerType::capacity;
+  using STLContainerType::empty;
+  using STLContainerType::reserve;
+
+  using STLContainerType::operator[];
+  using STLContainerType::at;
+  using STLContainerType::front;
+  using STLContainerType::back;
+
+  using STLContainerType::assign;
+  using STLContainerType::push_back;
+  using STLContainerType::pop_back;
+  using STLContainerType::insert;
+  using STLContainerType::erase;
+  using STLContainerType::swap;
+  using STLContainerType::clear;
+
+  using STLContainerType::get_allocator;
+
+  using STLContainerType::reference;
+  using STLContainerType::const_reference;
+  using STLContainerType::iterator;
+  using STLContainerType::const_iterator;
+  // already declared before
+  // using STLContainerType::size_type;
+  using STLContainerType::difference_type;
+  using STLContainerType::value_type;
+  using STLContainerType::allocator_type;
+  using STLContainerType::pointer;
+  using STLContainerType::const_pointer;
+  using STLContainerType::reverse_iterator;
+  using STLContainerType::const_reverse_iterator;
+
   /** Friends to this class. */
   friend class Iterator;
   friend class ConstIterator;
@@ -119,7 +158,7 @@ public:
   /** \class Iterator
    * Simulate STL-map style iteration where dereferencing the iterator
    * gives access to both the index and the value.
-   * \ingroup ITK-Common
+   * \ingroup ITKCommon
    */
   class Iterator
   {
@@ -152,7 +191,7 @@ private:
   /** \class ConstIterator
    * Simulate STL-map style const iteration where dereferencing the iterator
    * gives read access to both the index and the value.
-   * \ingroup ITK-Common
+   * \ingroup ITKCommon
    */
   class ConstIterator
   {
@@ -327,7 +366,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkVectorContainer.txx"
+#include "itkVectorContainer.hxx"
 #endif
 
 #endif

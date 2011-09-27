@@ -15,6 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #ifndef __itkFEMElement2DC1Beam_h
 #define __itkFEMElement2DC1Beam_h
 
@@ -22,22 +23,38 @@
 #include "itkFEMLoadElementBase.h"
 #include "itkFEMMaterialLinearElasticity.h"
 
-namespace itk {
-namespace fem {
-
+namespace itk
+{
+namespace fem
+{
 /**
  * \class Element2DC1Beam
  * \brief 1D Beam (spring that also bends) finite element in 2D space.
- * \ingroup ITK-FEM
+ *
+ * The Displacements at each node are modeled with two translational,
+ * and one rotational, degree of freedom.
+ * \ingroup ITKFEM
  */
-class Element2DC1Beam : public ElementStd<2,2>
+class Element2DC1Beam : public ElementStd<2, 2>
 {
-  typedef ElementStd<2,2> TemplatedParentClass;
-  FEM_CLASS(Element2DC1Beam,TemplatedParentClass)
 public:
+  /** Standard class typedefs. */
+  typedef Element2DC1Beam          Self;
+  typedef ElementStd<2, 2>         TemplatedParentClass;
+  typedef TemplatedParentClass     Superclass;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
-  // FIXME: Write this class in the same way as the others -
-  //        properly define all virtual functions.
+  /** Method for creation through the object factory. */
+  itkSimpleNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Element2DC1Beam, TemplatedParentClass);
+
+  /** CreateAnother method will clone the existing instance of this type,
+   * including its internal member variables. */
+  virtual::itk::LightObject::Pointer CreateAnother(void) const;
+
 
   /**
    * Default constructor only clears the internal storage
@@ -47,79 +64,96 @@ public:
   /**
    * Construct an element by specifying two nodes and material
    */
-  Element2DC1Beam(  Node::ConstPointer n1_,
-      Node::ConstPointer n2_,
-      Material::ConstPointer mat_);
+  Element2DC1Beam(Node::ConstPointer n1_, Node::ConstPointer n2_, Material::ConstPointer mat_);
 
-  /**
-   * Read data of this class from input stream
-   */
-  void Read( std::istream&, void* info );
-
-  /**
-   * Write this class to output stream
-   */
-  void Write( std::ostream& f ) const;
-
-//////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////
   /*
    * Methods related to the physics of the problem.
    */
-  virtual void GetStiffnessMatrix( MatrixType& Ke ) const;
-  virtual void GetMassMatrix( MatrixType& Me ) const;
-  HANDLE_ELEMENT_LOADS();
 
-  virtual void GetStrainDisplacementMatrix( MatrixType&, const MatrixType& ) const {}
-  virtual void GetMaterialMatrix( MatrixType& ) const {}
+  /** Get the Stiffness matrix */
+  virtual void GetStiffnessMatrix(MatrixType & Ke) const;
 
+  /** Get the Mass matrix */
+  virtual void GetMassMatrix(MatrixType & Me) const;
 
-  //////////////////////////////////////////////////////////////////////////
+  /** Get the Strain Displacement matrix */
+  virtual void GetStrainDisplacementMatrix(MatrixType &, const MatrixType &) const
+  {
+  }
+
+  /** Get the Material matrix */
+  virtual void GetMaterialMatrix(MatrixType &) const
+  {
+  }
+
+  // ////////////////////////////////////////////////////////////////////////
   /**
    * Methods related to numeric integration
    */
 
   enum { DefaultIntegrationOrder = 1 };
-  virtual void GetIntegrationPointAndWeight( unsigned int i, VectorType& pt, Float& w, unsigned int order=0 ) const;
-  virtual unsigned int GetNumberOfIntegrationPoints( unsigned int order ) const;
 
-  //////////////////////////////////////////////////////////////////////////
+  /** Get the Integration point and weight */
+  virtual void GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, Float & w, unsigned int order = 0) const;
+
+  virtual unsigned int GetNumberOfIntegrationPoints(unsigned int order) const;
+
+  // ////////////////////////////////////////////////////////////////////////
   /**
    * Methods related to the geometry of an element
    */
 
-  virtual VectorType ShapeFunctions( const VectorType& pt ) const;
-  virtual void ShapeFunctionDerivatives( const VectorType& pt, MatrixType& shapeD ) const;
-  virtual bool GetLocalFromGlobalCoordinates( const VectorType&, VectorType& ) const
-    {
+  /** Return the shape functions used to interpolate across the element */
+  virtual VectorType ShapeFunctions(const VectorType & pt) const;
+
+  /** Return the shape functions derivatives in the shapeD matrix */
+  virtual void ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const;
+
+  /** Convert from global to local coordinates */
+  virtual bool GetLocalFromGlobalCoordinates(const VectorType &, VectorType &) const
+  {
     return false;
-    }
-  virtual Float JacobianDeterminant( const VectorType& pt, const MatrixType* pJ ) const;
+  }
 
-  virtual unsigned int GetNumberOfDegreesOfFreedomPerNode( void ) const
-    { return 3; }
+  /** Return the determinate of the Jacobian */
+  virtual Float JacobianDeterminant(const VectorType & pt, const MatrixType *pJ) const;
 
-  /**
-   * Draws the element on the specified device context
-   */
-#ifdef FEM_BUILD_VISUALIZATION
-  void Draw(CDC* pDC, Solution::ConstPointer sol) const;
-#endif
-
-
-public:
+  /** Get the degrees of freedom for each node */
+  virtual unsigned int GetNumberOfDegreesOfFreedomPerNode(void) const
+  {
+    return 3;
+  }
 
   /**
-   * Pointer to geometric and material properties of the element
+   * Get/Set the material properties for the element
    */
-  MaterialLinearElasticity::ConstPointer m_mat;
-  virtual Material::ConstPointer GetMaterial(void) const { return m_mat; }
-  virtual void SetMaterial(Material::ConstPointer mat_ ) { m_mat=dynamic_cast<const MaterialLinearElasticity*>(&*mat_); }
+  virtual Material::ConstPointer GetMaterial(void) const
+  {
+    return dynamic_cast<const Material *>(m_mat);
+  }
 
+  virtual void SetMaterial(Material::ConstPointer mat_)
+  {
+    m_mat =
+      dynamic_cast<const MaterialLinearElasticity *>( mat_.GetPointer() );
+  }
+
+  /** No edges to populate in this class */
+  virtual void PopulateEdgeIds(void) { /* empty */ }
+protected:
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+
+private:
+
+  /**
+   * Pointer to material properties of the element
+   */
+  const MaterialLinearElasticity *m_mat;
 
 };
 
-FEM_CLASS_INIT(Element2DC1Beam)
-
-}} // end namespace itk::fem
+}
+}  // end namespace itk::fem
 
 #endif // #ifndef __itkFEMElement2DC1Beam_h

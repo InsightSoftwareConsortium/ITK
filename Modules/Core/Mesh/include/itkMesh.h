@@ -28,9 +28,6 @@
 #ifndef __itkMesh_h
 #define __itkMesh_h
 
-#if defined( _MSC_VER )
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkPointSet.h"
 
@@ -112,7 +109,7 @@ struct GetMeshDimension {
  * No reference information is available.
  *
  * \ingroup MeshObjects
- * \ingroup ITK-Mesh
+ * \ingroup ITKMesh
  */
 template<
   typename TPixelType,
@@ -213,7 +210,7 @@ public:
    *  This class provides a pair of these identifiers with appropriate
    *  comparison operators available for use of the Ids in sorted container
    *  classes.
-   * \ingroup ITK-Mesh
+   * \ingroup ITKMesh
    */
   class BoundaryAssignmentIdentifier
   {
@@ -476,7 +473,7 @@ private:
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #ifndef CABLE_CONFIGURATION
-#include "itkMesh.txx"
+#include "itkMesh.hxx"
 #endif
 #endif
 

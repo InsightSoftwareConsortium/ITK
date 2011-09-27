@@ -36,19 +36,19 @@ namespace itk
  * filters
  *
  * \ingroup GradientFilters
- * \ingroup Singlethreaded
- * \ingroup ITK-ImageGradient
+ * \ingroup SingelThreaded
+ * \ingroup ITKImageGradient
  *
  * \wiki
  * \wikiexample{EdgesAndGradients/GradientRecursiveGaussianImageFilter,Compute the gradient of an image by convolution with the first derivative of a Gaussian}
  * \endwiki
  */
-// NOTE that the ITK_TYPENAME macro has to be used here in lieu
+// NOTE that the typename macro has to be used here in lieu
 // of "typename" because VC++ doesn't like the typename keyword
 // on the defaults of template parameters
 template< typename TInputImage,
           typename TOutputImage = Image< CovariantVector<
-                                           ITK_TYPENAME NumericTraits< ITK_TYPENAME TInputImage::PixelType >::RealType,
+                                           typename NumericTraits< typename TInputImage::PixelType >::RealType,
                                            ::itk::GetImageDimension< TInputImage >::ImageDimension >,
                                          ::itk::GetImageDimension< TInputImage >::ImageDimension > >
 class ITK_EXPORT GradientRecursiveGaussianImageFilter:
@@ -190,7 +190,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGradientRecursiveGaussianImageFilter.txx"
+#include "itkGradientRecursiveGaussianImageFilter.hxx"
 #endif
 
 #endif

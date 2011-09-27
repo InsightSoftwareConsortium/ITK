@@ -27,6 +27,7 @@
  *=========================================================================*/
 #ifndef __itkWin32OutputWindow_h
 #define __itkWin32OutputWindow_h
+#if defined(_MSC_VER) || defined(__MINGW32__) // if on Windows
 
 #include "itkWin32Header.h"
 #include "itkOutputWindow.h"
@@ -46,7 +47,7 @@ namespace itk
  * window is created the next time text is written to the window.
  *
  * \ingroup OSSystemObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 
 class ITKCommon_EXPORT Win32OutputWindow:public OutputWindow
@@ -88,4 +89,6 @@ private:
   static HWND m_OutputWindow;
 };
 } // end namespace itk
+
+#endif // _MSC_VER
 #endif  //  __itkWin32OutputWindow_h

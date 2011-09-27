@@ -1,0 +1,7 @@
+WRAP_INCLUDE("itkQuadEdgeMesh.h")
+
+WRAP_CLASS("itk::DiscreteMaximumCurvatureQuadEdgeMeshFilter" POINTER)
+  foreach(d ${WRAP_ITK_DIMS})
+    WRAP_TEMPLATE("QEM${ITKM_D}${d}" "itk::QuadEdgeMesh< ${ITKT_D},${d} >")
+  endforeach(d)
+END_WRAP_CLASS()

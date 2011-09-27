@@ -82,7 +82,7 @@ private:
 } // end namespace itk
 
 #if ITK_TEMPLATE_TXX
-#include "itkChildTreeIterator.txx"
+#include "itkChildTreeIterator.hxx"
 #endif
 
 #endif

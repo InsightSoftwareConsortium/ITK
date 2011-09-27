@@ -22,6 +22,7 @@
 #include "itkMinimumMaximumImageCalculator.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "vnl/vnl_vector_fixed.h"
+#include "itkTransform.h"
 
 namespace itk
 {
@@ -53,7 +54,7 @@ namespace itk
  *  A full discussion of the Transform directions in the ITK registration
  *  framework can be found in the ITK Software Guide.
  *
- * \ingroup ITK-RegistrationCommon
+ * \ingroup ITKRegistrationCommon
  */
 
 template< class TFixedImage, class TMovingSpatialObject >
@@ -184,7 +185,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageToSpatialObjectMetric.txx"
+#include "itkImageToSpatialObjectMetric.hxx"
 #endif
 
 #endif

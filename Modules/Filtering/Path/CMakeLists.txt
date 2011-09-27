@@ -1,3 +1,3 @@
-project(ITK-Path)
-set(ITK-Path_LIBRARIES ITK-Path)
+project(ITKPath)
+set(ITKPath_LIBRARIES ITKPath)
 itk_module_impl()

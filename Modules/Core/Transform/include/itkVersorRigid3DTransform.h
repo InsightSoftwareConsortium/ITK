@@ -40,20 +40,19 @@ namespace itk
  * the center of rotation.
  *
  *
- * \ingroup Transforms
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
  */
-template< class TScalarType = double >
-//Data type for scalars (float or double)
-class ITK_EXPORT VersorRigid3DTransform:
-  public VersorTransform< TScalarType >
+template <class TScalarType = double>
+// Data type for scalars (float or double)
+class ITK_EXPORT VersorRigid3DTransform :
+  public VersorTransform<TScalarType>
 {
 public:
   /** Standard class typedefs. */
-  typedef VersorRigid3DTransform         Self;
-  typedef VersorTransform< TScalarType > Superclass;
-  typedef SmartPointer< Self >           Pointer;
-  typedef SmartPointer< const Self >     ConstPointer;
+  typedef VersorRigid3DTransform       Self;
+  typedef VersorTransform<TScalarType> Superclass;
+  typedef SmartPointer<Self>           Pointer;
+  typedef SmartPointer<const Self>     ConstPointer;
 
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro(Self);
@@ -106,32 +105,33 @@ public:
    * given point or vector, returning the transformed point or
    * vector. The rank of the Jacobian will also indicate if the
    * transform is invertible at this point. */
-  const JacobianType & GetJacobian(const InputPointType  & point) const;
+  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const;
 
 protected:
-  VersorRigid3DTransform(unsigned int outputSpaceDim,
-                         unsigned int paramDim);
-  VersorRigid3DTransform(const MatrixType & matrix,
-                         const OutputVectorType & offset);
+  VersorRigid3DTransform(const MatrixType & matrix, const OutputVectorType & offset);
+  VersorRigid3DTransform(unsigned int paramDim);
   VersorRigid3DTransform();
-  ~VersorRigid3DTransform(){}
+  ~VersorRigid3DTransform()
+  {
+  }
 
   void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  VersorRigid3DTransform(const Self &); //purposely not implemented
-  void operator=(const Self &);         //purposely not implemented
-};                                      //class VersorRigid3DTransform
+  VersorRigid3DTransform(const Self &); // purposely not implemented
+  void operator=(const Self &);         // purposely not implemented
+
+};                                      // class VersorRigid3DTransform
 }  // namespace itk
 
 // Define instantiation macro for this template.
 #define ITK_TEMPLATE_VersorRigid3DTransform(_, EXPORT, TypeX, TypeY)                      \
   namespace itk                                                                           \
   {                                                                                       \
-  _( 1 ( class EXPORT VersorRigid3DTransform< ITK_TEMPLATE_1 TypeX > ) )                  \
+  _( 1 ( class EXPORT VersorRigid3DTransform<ITK_TEMPLATE_1 TypeX> ) )                  \
   namespace Templates                                                                     \
   {                                                                                       \
-  typedef VersorRigid3DTransform< ITK_TEMPLATE_1 TypeX > VersorRigid3DTransform##TypeY; \
+  typedef VersorRigid3DTransform<ITK_TEMPLATE_1 TypeX> VersorRigid3DTransform##TypeY; \
   }                                                                                       \
   }
 
@@ -140,7 +140,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-#include "itkVersorRigid3DTransform.txx"
+#include "itkVersorRigid3DTransform.hxx"
 #endif
 
 #endif /* __itkVersorRigid3DTransform_h */

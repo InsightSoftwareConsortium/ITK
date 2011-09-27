@@ -25,6 +25,11 @@ namespace itk
 {
 namespace Statistics
 {
+/** \class RadialBasisFunctionBase
+ * \brief This is the itkRadialBasisFunctionBase class.
+ *
+ * \ingroup ITKNeuralNetworks
+ */
 
 template<class ScalarType>
 class RadialBasisFunctionBase : public FunctionBase<ScalarType,ScalarType>
@@ -51,7 +56,7 @@ public:
                                                     char mode,int element_id=0) const=0;
 
   itkSetMacro(Radius,ScalarType);
-  itkGetConstMacro( Radius, ScalarType );
+  itkGetConstMacro(Radius, ScalarType );
 
   itkSetMacro(Center,ArrayType);
   itkGetConstMacro(Center, ArrayType );

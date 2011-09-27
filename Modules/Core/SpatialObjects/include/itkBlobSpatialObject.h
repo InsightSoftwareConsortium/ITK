@@ -35,7 +35,7 @@ namespace itk
  * represent a binary image.
  *
  * \sa SpatialObjectPoint
- * \ingroup ITK-SpatialObjects
+ * \ingroup ITKSpatialObjects
  *
  * \wiki
  * \wikiexample{SpatialObjects/BlobSpatialObject,Blob}
@@ -128,7 +128,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBlobSpatialObject.txx"
+#include "itkBlobSpatialObject.hxx"
 #endif
 
 #endif // __itkBlobSpatialObject_h

@@ -24,6 +24,11 @@ namespace itk
 {
 namespace Functor
 {
+/**
+ * \class InvertIntensityTransform
+ * \brief
+ * \ingroup ITKImageIntensity
+ */
 template< typename TInput, typename  TOutput >
 class InvertIntensityTransform
 {
@@ -61,9 +66,9 @@ private:
 }  // end namespace functor
 
 /** \class InvertIntensityImageFilter
- * \brief Invert intensity of an image
+ * \brief Invert the intensity of an image.
  *
- * InvertIntensityImageFilter invert intensity of pixels by
+ * InvertIntensityImageFilter inverts intensity of pixels by
  * subtracting pixel value to a maximum value. The maximum value can
  * be set with SetMaximum and defaults the maximum of input pixel
  * type. This filter can be used to invert, for example, a binary
@@ -72,9 +77,9 @@ private:
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
  * \sa IntensityWindowingImageFilter ShiftScaleImageFilter
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup IntensityImageFilters  MultiThreaded
  *
- * \ingroup ITK-ImageIntensity
+ * \ingroup ITKImageIntensity
  *
  * \wiki
  * \wikiexample{ImageProcessing/InvertIntensityImageFilter,Invert an image}
@@ -136,7 +141,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkInvertIntensityImageFilter.txx"
+#include "itkInvertIntensityImageFilter.hxx"
 #endif
 
 #endif

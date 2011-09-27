@@ -26,12 +26,16 @@
 namespace itk
 {
 /** \class MetaDataDictionary
+ *  \brief Provides a mechanism for storing a collection of arbitrary
+ *         data types
+ *
  * \author Hans J. Johnson
+ *
  * The MetaDataDictionary, along with the MetaDataObject derived template
  * classes, is designed to provide a mechanism for storing a collection of
  * arbitrary data types. The main motivation for such a collection is to
  * associate arbitrary data elements with itk DataObjects.
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 class ITKCommon_EXPORT MetaDataDictionary
 {

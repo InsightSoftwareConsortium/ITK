@@ -34,6 +34,11 @@ namespace itk
 {
 namespace Statistics
 {
+/** \class TwoHiddenLayerBackPropagationNeuralNetwork
+ * \brief This is the itkTwoHiddenLayerBackPropagationNeuralNetwork class.
+ *
+ * \ingroup ITKNeuralNetworks
+ */
 
 template<class TMeasurementVector, class TTargetVector>
 class TwoHiddenLayerBackPropagationNeuralNetwork :
@@ -60,7 +65,7 @@ public:
   typedef typename Superclass::TransferFunctionInterfaceType TransferFunctionInterfaceType;
   typedef typename Superclass::InputFunctionInterfaceType    InputFunctionInterfaceType;
 
-  /* Method for creation through the object factory. */
+  /** Method for creation through the object factory. */
   itkTypeMacro(TwoHiddenLayerBackPropagationNeuralNetwork,
                MultilayerNeuralNetworkBase);
   itkNewMacro(Self);
@@ -135,7 +140,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTwoHiddenLayerBackPropagationNeuralNetwork.txx"
+#include "itkTwoHiddenLayerBackPropagationNeuralNetwork.hxx"
 #endif
 
 #endif

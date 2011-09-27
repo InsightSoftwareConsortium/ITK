@@ -1,6 +1,12 @@
-itk_module(ITK-IO-Stimulate
+set(DOCUMENTATION "This model contains a class for reading
+<a href=\"http://www.cmrr.umn.edu/stimulate/stimUsersGuide/node57.html\">
+Stimulate (SDT/SPR)</a> images.")
+
+itk_module(ITKIOStimulate
   DEPENDS
-    ITK-IO-Base
+    ITKIOBase
   TEST_DEPENDS
-    ITK-TestKernel
+    ITKTestKernel
+  DESCRIPTION
+    "${DOCUMENTATION}"
 )

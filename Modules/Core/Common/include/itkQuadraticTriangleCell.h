@@ -24,21 +24,16 @@
 namespace itk
 {
 /** \class QuadraticTriangleCell
- * QuadraticTriangleCell represents a second order triangular patch for a Mesh.
+ *  \brief Represents a second order triangular patch for a Mesh.
  *
- * Template parameters for QuadraticTriangleCell:
+ * \tparam TPixelType The type associated with a point, cell, or boundary
+ * for use in storing its data.
  *
- * TPixelType =
- *     The type associated with a point, cell, or boundary for use in storing
- *     its data.
- *
- * TCellTraits =
- *     Type information of mesh containing cell.
+ * \tparam TCellTraits Type information of mesh containing cell.
  *
  * \ingroup MeshObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
-
 template< typename TCellInterface >
 class QuadraticTriangleCell:public TCellInterface, private QuadraticTriangleCellTopology
 {
@@ -128,7 +123,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkQuadraticTriangleCell.txx"
+#include "itkQuadraticTriangleCell.hxx"
 #endif
 
 #endif

@@ -29,6 +29,7 @@
 #define __itkDataObjectDecorator_h
 
 #include "itkDataObject.h"
+#include "itkObjectFactory.h"
 
 namespace itk
 {
@@ -59,7 +60,7 @@ namespace itk
  * \sa AutoPointerDataObjectDecorator
  * \ingroup ITKSystemObjects
  *
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
  */
 template< class T >
 class ITK_EXPORT DataObjectDecorator:public DataObject
@@ -102,7 +103,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDataObjectDecorator.txx"
+#include "itkDataObjectDecorator.hxx"
 #endif
 
 #endif

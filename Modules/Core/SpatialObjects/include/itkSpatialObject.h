@@ -19,9 +19,6 @@
 #define __itkSpatialObject_h
 
 // Disable warning for lengthy symbol names in this file only
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkAffineGeometryFrame.h"
 #include "itkCovariantVector.h"
@@ -52,7 +49,7 @@ namespace itk
  * virtual functions.  Examples of such functions are ValueAt(),
  * IsEvaluableAt(), and IsInside(), each of which has a meaning
  * specific to each particular object type.
- * \ingroup ITK-SpatialObjects
+ * \ingroup ITKSpatialObjects
  */
 
 template< unsigned int VDimension >
@@ -254,7 +251,7 @@ public:
    * region of the data object passed in as a parameter.  This method
    * implements the API from DataObject. The data object parameter must be
    * castable to an ImageBase. */
-  virtual void SetRequestedRegion(DataObject *data);
+  virtual void SetRequestedRegion(const DataObject *data);
 
   /** Get the region object that defines the size and starting index
    * for the region of the image requested (i.e., the region of the
@@ -608,7 +605,7 @@ private:
 
 #if !defined( CABLE_CONFIGURATION )
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSpatialObject.txx"
+#include "itkSpatialObject.hxx"
 #endif
 #endif
 

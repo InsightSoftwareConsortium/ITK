@@ -8,5 +8,4 @@ WRAP_TEMPLATE("IUC3ESF3PD3" "Templates::ImageUC3,Templates::EllipsoidInteriorExt
 WRAP_TEMPLATE("IUI3ESF3PD3" "Templates::ImageUI3,Templates::EllipsoidInteriorExteriorSpatialFunction3PD3")
 WRAP_TEMPLATE("IUS3ESF3PD3" "Templates::ImageUS3,Templates::EllipsoidInteriorExteriorSpatialFunction3PD3")
 WRAP_NO_INCLUDE("BCAI3ESF3PD3")
-WRAP_TEMPLATE("BCAI3ESF3PD3" "Templates::BloxCoreAtomImage3,Templates::EllipsoidInteriorExteriorSpatialFunction3PD3")
 END_WRAP_CLASS()

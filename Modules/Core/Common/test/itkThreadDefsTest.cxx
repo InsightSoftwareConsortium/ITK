@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkObject.h"
 #include <vector>
@@ -26,7 +23,7 @@ int itkThreadDefsTest (int, char* [] )
 {
 #if defined(_NOTHREADS) && defined(ITK_USE_PTHREADS)
   std::cout << "ERROR: _NOTHREADS is defined and ITK_USE_PTHREADS is defined." << std::endl;
-  std::cout << "STL containers WILL NOT BE thread safe on SGI's and GNU c++ systems." << std::endl;
+  std::cout << "STL containers WILL NOT BE thread safe on GNU c++ systems." << std::endl;
     std::cout << "The C++ compiler needs a -D_PTHREADS option." << std::endl;
   return EXIT_FAILURE;
 #endif

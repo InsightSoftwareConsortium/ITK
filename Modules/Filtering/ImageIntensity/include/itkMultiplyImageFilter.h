@@ -22,23 +22,13 @@
 
 namespace itk
 {
-/** \class MultiplyImageFilter
- * \brief Implements an operator for pixel-wise multiplication of two images.
- *
- * This class is parametrized over the types of the two
- * input images and the type of the output image.
- * Numeric conversions (castings) are done by the C++ defaults.
- *
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageIntensity
- *
- * \wiki
- * \wikiexample{ImageProcessing/MultiplyImageFilter,Multiply two images together}
- * \wikiexample{ImageProcessing/MultiplyByConstantImageFilter,Multiply every pixel in an image by a constant}
- * \endwiki
- */
 namespace Functor
 {
+/**
+ * \class Mult
+ * \brief
+ * \ingroup ITKImageIntensity
+ */
 template< class TInput1, class TInput2 = TInput1, class TOutput = TInput1 >
 class Mult
 {
@@ -59,7 +49,22 @@ public:
   { return (TOutput)( A * B ); }
 };
 }
-
+/** \class MultiplyImageFilter
+ * \brief Pixel-wise multiplication of two images.
+ *
+ * This class is templated over the types of the two
+ * input images and the type of the output image.
+ * Numeric conversions (castings) are done by the C++ defaults.
+ *
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
+ * \ingroup ITKImageIntensity
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/MultiplyImageFilter,Multiply two images together}
+ * \wikiexample{ImageProcessing/MultiplyByConstantImageFilter,Multiply every pixel in an image by a constant}
+ * \endwiki
+ */
 template< class TInputImage1, class TInputImage2 = TInputImage1, class TOutputImage = TInputImage1 >
 class ITK_EXPORT MultiplyImageFilter:
   public

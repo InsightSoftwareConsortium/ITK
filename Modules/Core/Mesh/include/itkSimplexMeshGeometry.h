@@ -18,9 +18,6 @@
 #ifndef __itkSimplexMeshGeometry_h
 #define __itkSimplexMeshGeometry_h
 
-#if defined( _MSC_VER )
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkIntTypes.h"
 #include "itkPoint.h"
@@ -41,7 +38,7 @@ namespace itk
  *
  * \author Thomas Boettger. Division Medical and Biological Informatics, German Cancer Research Center, Heidelberg.
  *
- * \ingroup ITK-Mesh
+ * \ingroup ITKMesh
  */
 class ITK_EXPORT SimplexMeshGeometry
 {

@@ -56,7 +56,7 @@ namespace itk
  *
  * \ingroup IntensityImageFilters TensorObjects
  *
- * \ingroup ITK-Review
+ * \ingroup ITKReview
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_EXPORT HessianToObjectnessMeasureImageFilter:public
@@ -146,6 +146,10 @@ private:
 
   // functor used to sort the eigenvalues are to be sorted
   // |e1|<=|e2|<=...<=|eN|
+  /** \class AbsLessEqualCompare
+    * \brief Returns ( abs(a) <= abs(b) )
+    * \ingroup ITKReview
+    */
   struct AbsLessEqualCompare {
     bool operator()(EigenValueType a, EigenValueType b)
     {
@@ -163,7 +167,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkHessianToObjectnessMeasureImageFilter.txx"
+#include "itkHessianToObjectnessMeasureImageFilter.hxx"
 #endif
 
 #endif

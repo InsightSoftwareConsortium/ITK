@@ -15,9 +15,11 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #ifndef __itkFEMLinearSystemWrapper_h
 #define __itkFEMLinearSystemWrapper_h
 
+#include "itkMacro.h"
 #include "itkFEMSolution.h"
 #include "itkFEMException.h"
 
@@ -25,10 +27,10 @@
 #include <typeinfo>
 #include <string>
 
-namespace itk {
-namespace fem {
-
-
+namespace itk
+{
+namespace fem
+{
 /**
  * \class LinearSystemWrapper
  * \brief Defines all functions required by Solver class to allocate,
@@ -46,15 +48,15 @@ namespace fem {
  * and solver.
  *
  * \sa Solver::SetLinearSystemWrapper
- * \ingroup ITK-FEM
+ * \ingroup ITKFEM
  */
 class LinearSystemWrapper : public Solution
 {
 public:
   typedef LinearSystemWrapper Self;
   typedef Solution            Superclass;
-  typedef Self*               Pointer;
-  typedef const Self*         ConstPointer;
+  typedef Self *              Pointer;
+  typedef const Self *        ConstPointer;
 
   typedef std::vector<unsigned int> ColumnArray;
 
@@ -62,39 +64,53 @@ public:
    * Constructor for linear system, should perform any initialization that
    * is required by derived class.
    */
-  LinearSystemWrapper()
-    : m_Order(0), m_NumberOfMatrices(1), m_NumberOfVectors(1), m_NumberOfSolutions(1) {}
-      /* , m_PrimaryMatrixSetupFunction(0), m_PrimaryVectorSetupFunction(0), m_PrimarySolutionSetupFunction(0) {} */
+  LinearSystemWrapper() :
+    m_Order(0), m_NumberOfMatrices(1), m_NumberOfVectors(1), m_NumberOfSolutions(1)
+  {
+  }
+  /* , m_PrimaryMatrixSetupFunction(0), m_PrimaryVectorSetupFunction(0),
+    m_PrimarySolutionSetupFunction(0) {} */
 
   /**
    * Virtual destructor should properly destroy the object and clean up any
    * memory allocated for matrix and vector storage.
    */
-  virtual ~LinearSystemWrapper() {};
+  virtual ~LinearSystemWrapper()
+  {
+  }
 
   /**
    * Clear all the data (matrices) inside the system, so that the system
    * is ready to solve another problem from scratch.
    */
-  virtual void Clean( void );
+  virtual void Clean(void);
 
   /**
    * Set the order of the system.  All matrices will be of size NxN and
    * all vectors will be of size N
    * \param N order of the linear system
    */
-  void SetSystemOrder(unsigned int N) { m_Order = N; }
+  void SetSystemOrder(unsigned int N)
+  {
+    m_Order = N;
+  }
 
   /**
    * Get the order of the system
    */
-  unsigned int GetSystemOrder() const { return m_Order; }
+  unsigned int GetSystemOrder() const
+  {
+    return m_Order;
+  }
 
   /**
    * Set Index of matrices used by the system
    * \param nMatrices Index of matrices used by system
    */
-  void SetNumberOfMatrices(unsigned int nMatrices) { m_NumberOfMatrices = nMatrices; }
+  void SetNumberOfMatrices(unsigned int nMatrices)
+  {
+    m_NumberOfMatrices = nMatrices;
+  }
 
   /*
    * Set the maximum number of entries permitted in a matrix
@@ -102,36 +118,51 @@ public:
    * \param maxNonZeros maximum number of entries allowed in matrix
    * \note in general this function does nothing, however it may
    *       redefined by the derived wrapper if necessary
-   * \todo Should we keep the documentation if the method is commented?
    */
-  //virtual void SetMaximumNonZeroValuesInMatrix(unsigned int maxNonZeroValues) = 0;
+  // virtual void SetMaximumNonZeroValuesInMatrix(unsigned int maxNonZeroValues)
+  // = 0;
 
   /**
    * Get Index of matrices used by system
    */
-  unsigned int GetNumberOfMatrices() { return m_NumberOfMatrices; }
+  unsigned int GetNumberOfMatrices() const
+  {
+    return m_NumberOfMatrices;
+  }
 
   /**
    * Set Index of vectors used by the system
    * \param nVectors Index of vectors used by system
    */
-  void SetNumberOfVectors(unsigned int nVectors) { m_NumberOfVectors = nVectors; }
+  void SetNumberOfVectors(unsigned int nVectors)
+  {
+    m_NumberOfVectors = nVectors;
+  }
 
   /**
    * Get Index of vectors used by system
    */
-  unsigned int GetNumberOfVectors() { return m_NumberOfVectors; }
+  unsigned int GetNumberOfVectors() const
+  {
+    return m_NumberOfVectors;
+  }
 
   /**
    * Set Index of solutions used by the system
    * \param nSolutions Index of solutions used by system
    */
-  void SetNumberOfSolutions(unsigned int nSolutions) { m_NumberOfSolutions = nSolutions; }
+  void SetNumberOfSolutions(unsigned int nSolutions)
+  {
+    m_NumberOfSolutions = nSolutions;
+  }
 
   /**
    * Get Index of solutions used by system
    */
-  unsigned int GetNumberOfSolutions() { return m_NumberOfSolutions; }
+  unsigned int GetNumberOfSolutions() const
+  {
+    return m_NumberOfSolutions;
+  }
 
   /**
    * Initialization of the A matrix. First any existing data for matrix A
@@ -141,7 +172,6 @@ public:
    * \param matrixIndex index of matrix to initialize
    */
   virtual void InitializeMatrix(unsigned int matrixIndex = 0) = 0;
-
 
   /**
    * Check to see if matrix is initialized
@@ -162,7 +192,6 @@ public:
    *
    */
   virtual void InitializeVector(unsigned int vectorIndex = 0) = 0;
-
 
   /**
    * Check to see if vector is initialized
@@ -233,7 +262,8 @@ public:
    *          function returns -1.
    * \param matrixIndex Index of matrix (defaults to 0)
    */
-  virtual void GetColumnsOfNonZeroMatrixElementsInRow( unsigned int row, ColumnArray& cols, unsigned int matrixIndex = 0 );
+  virtual void GetColumnsOfNonZeroMatrixElementsInRow(unsigned int row, ColumnArray & cols,
+                                                      unsigned int matrixIndex = 0);
 
   /**
    * Virtual function to get a value of a specific element of the B vector.
@@ -315,7 +345,6 @@ public:
    */
   virtual void SwapSolutions(unsigned int solutionIndex1, unsigned int solutionIndex2) = 0;
 
-
   /**
    * Multiplies all elements of a matrix by a scalar
    * \param scale scalar to multiply all matrix values by
@@ -323,14 +352,12 @@ public:
    */
   virtual void ScaleMatrix(Float scale, unsigned int matrixIndex = 0);
 
-
   /**
    * Multiplies all elements of a vector by a scalar
    * \param scale scalar to multiply all vector values by
    * \param vectorIndex index of vector to modify
    */
   void ScaleVector(Float scale, unsigned int vectorIndex = 0);
-
 
   /**
    * Multiplies all elements of a solution by a scalar
@@ -345,7 +372,8 @@ public:
    * \param rightMatrixIndex index of right matrix
    * \param resultMatrixIndex index of matrix where solution is stored
    */
-  virtual void MultiplyMatrixMatrix(unsigned int resultMatrixIndex, unsigned int leftMatrixIndex, unsigned int rightMatrixIndex) = 0;
+  virtual void MultiplyMatrixMatrix(unsigned int resultMatrixIndex, unsigned int leftMatrixIndex,
+                                    unsigned int rightMatrixIndex) = 0;
 
   /**
    * Adds two matrices storing the result in the first matrix.
@@ -384,6 +412,7 @@ public:
    * \param solutionIndex index of a solution to copy the solution to
    */
   virtual void CopyVector2Solution(unsigned int vectorIndex, unsigned int solutionIndex) = 0;
+
   /**
    * Copy a vector
    * \param vectorSource index of a vector to copy
@@ -404,7 +433,7 @@ public:
    * \param matrixIndex index of matrix to examine
    * \param newNumbering vector of new degree of freedom ordering
    */
-  virtual void ReverseCuthillMckeeOrdering(ColumnArray& newNumbering, unsigned int matrixIndex = 0);
+  virtual void ReverseCuthillMckeeOrdering(ColumnArray & newNumbering, unsigned int matrixIndex = 0);
 
 protected:
 
@@ -429,7 +458,7 @@ protected:
   /*
    * Function used to prepare primary matrix for numerical solving
    */
-  //void (*m_PrimaryMatrixSetupFunction)(LinearSystemWrapper *lsw);
+  // void (*m_PrimaryMatrixSetupFunction)(LinearSystemWrapper *lsw);
 
   /*
    * Function used to prepare primary vector for numerical solving
@@ -440,21 +469,22 @@ protected:
    * Function used to prepare primary matrix for numerical solving
    */
   /* void (*m_PrimarySolutionSetupFunction)(LinearSystemWrapper *lsw); */
-
 private:
 
   /**
    * matrix reordering utility
    */
-  void CuthillMckeeOrdering(ColumnArray& newNumbering, int startingRow, unsigned int matrixIndex = 0);
+  void CuthillMckeeOrdering(ColumnArray & newNumbering, int startingRow, unsigned int matrixIndex = 0);
 
-  void FollowConnectionsCuthillMckeeOrdering(unsigned int rowNumber, ColumnArray& rowDegree, ColumnArray& newNumbering, unsigned int nextRowNumber, unsigned int matrixIndex = 0);
+  void FollowConnectionsCuthillMckeeOrdering(unsigned int rowNumber, ColumnArray & rowDegree,
+                                             ColumnArray & newNumbering, unsigned int nextRowNumber,
+                                             unsigned int matrixIndex = 0);
 
   /** Copy constructor is not allowed. */
-  LinearSystemWrapper(const LinearSystemWrapper&);
+  LinearSystemWrapper(const LinearSystemWrapper &);
 
   /** Asignment operator is not allowed. */
-  const LinearSystemWrapper& operator= (const LinearSystemWrapper&);
+  const LinearSystemWrapper & operator=(const LinearSystemWrapper &);
 
 };
 
@@ -469,11 +499,13 @@ public:
   FEMExceptionLinearSystem(const char *file, unsigned int lineNumber, std::string location, std::string moreDescription);
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  virtual ~FEMExceptionLinearSystem() throw() {}
+  virtual ~FEMExceptionLinearSystem()
+  throw ( )
+  {
+  }
 
   /** Type related information. */
-  itkTypeMacro(FEMExceptionLinearSystem,FEMException);
-
+  itkTypeMacro(FEMExceptionLinearSystem, FEMException);
 };
 
 class FEMExceptionLinearSystemBounds : public FEMException
@@ -484,22 +516,28 @@ public:
    * must be provided: file, lineNumber, location and a detailed description
    * of the exception, and the invalid index
    */
-  FEMExceptionLinearSystemBounds(const char *file, unsigned int lineNumber, std::string location, std::string moreDescription, unsigned int index1);
+  FEMExceptionLinearSystemBounds(const char *file, unsigned int lineNumber, std::string location,
+                                 std::string moreDescription,
+                                 unsigned int index1);
 
   /**
    * Constructor. In order to construct this exception object, six parameters
    * must be provided: file, lineNumber, location and a detailed description
    * of the exception, the first index, and the second index   */
-  FEMExceptionLinearSystemBounds(const char *file, unsigned int lineNumber, std::string location, std::string moreDescription, unsigned int index1, unsigned int index2);
+  FEMExceptionLinearSystemBounds(const char *file, unsigned int lineNumber, std::string location,
+                                 std::string moreDescription, unsigned int index1,
+                                 unsigned int index2);
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  virtual ~FEMExceptionLinearSystemBounds() throw() {}
+  virtual ~FEMExceptionLinearSystemBounds()
+  throw ( )
+  {
+  }
 
   /** Type related information. */
-  itkTypeMacro(FEMExceptionLinearSystem,FEMException);
-
+  itkTypeMacro(FEMExceptionLinearSystem, FEMException);
 };
-
-}} // end namespace itk::fem
+}
+}  // end namespace itk::fem
 
 #endif // #ifndef __itkFEMLinearSystemWrapper_h

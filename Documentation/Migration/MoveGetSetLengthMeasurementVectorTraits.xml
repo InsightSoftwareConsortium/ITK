@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<!DOCTYPE Change SYSTEM "http://ij.itk.org/itkfaq/ITKMigration.dtd">
 <!--***************************************************************************
 **
 ** MoveGetSetLengthMeasurementVectorTraits.xml
@@ -80,7 +80,12 @@
 ****************************************************************************-->
 
 <Change>
-
+  <!--**
+  ** Title for the online migration page
+  **-->
+  <Title>
+    Move Get Set Length Measurement Vector Traits
+  </Title>
   <!--
   ** English language description of what was changed and why
   **-->
@@ -94,18 +99,27 @@
   ** Sample code to illustrate the fix process
   **-->
   <SampleCode>
-    <OldCode>
+    <Old>
     MeasurementVectorType mv;
     MeasurementVectorTraits::SetLength( mv, 3 );
     unsigned int length = MeasurementVectorTraits::GetLength( mv );
-    </OldCode>
+    </Old>
 
-    <NewCode>
+    <New>
+    <![CDATA[
     MeasurementVectorType mv;
     NumericTraits<MeasurementVectorType>::SetLength( mv, 3 );
     unsigned int length = NumericTraits<MeasurementVectorType>::GetLength( mv );
-    </NewCode>
+    ]]>
+    </New>
   </SampleCode>
+
+  <!--
+  ** The asociated Gerrit entry for this API change
+  **-->
+  <Gerrit-ChangeId>
+  Ie78170c85c29a5d030e5ab605610878fe67d75c2
+  </Gerrit-ChangeId>
 
   <!--
   ** List of all files that were changed (might be automatically populated by
@@ -172,27 +186,23 @@
   Testing/Code/Numerics/Statistics/itkWeightedCovarianceSampleFilterTest2.cxx
   </FileList>
 
-  <!--
-  ** The asociated Gerrit entry for this API change
-  **-->
-  <Gerrit-ChangeId>
-  Ie78170c85c29a5d030e5ab605610878fe67d75c2
-  </Gerrit-ChangeId>
 
 
   <!--
   ** Migration guide rules
   **-->
-  <MigrationFix-Manual type="MethodRefactor">
+  <MigrationFix-Manual>
     <Old>
     MeasurementVectorTraits::GetLength
     </Old>
+    <New></New>
   </MigrationFix-Manual>
 
-  <MigrationFix-Manual type="MethodRefactor">
+  <MigrationFix-Manual >
     <Old>
     MeasurementVectorTraits::SetLength
     </Old>
+    <New></New>
   </MigrationFix-Manual>
 
 

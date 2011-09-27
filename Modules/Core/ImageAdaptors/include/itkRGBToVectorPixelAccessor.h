@@ -36,7 +36,7 @@ namespace Accessor
  * \sa ImageAdaptor
  * \ingroup ImageAdaptors
  *
- * \ingroup ITK-ImageAdaptors
+ * \ingroup ITKImageAdaptors
  */
 
 template< class T >
@@ -66,7 +66,6 @@ public:
   inline ExternalType Get(const InternalType & input) const
   {
     ExternalType v( input.GetDataPointer() );
-
     return v;
   }
 

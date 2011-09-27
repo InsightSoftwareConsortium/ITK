@@ -1,15 +1,12 @@
 itk_module_test()
-set(ITK-IO-LSMTests
-itkIOLSMHeaderTest.cxx
+set(ITKIOLSMTests
 itkLSMImageIOTest.cxx
 )
 
-CreateTestDriver(ITK-IO-LSM  "${ITK-IO-LSM-Test_LIBRARIES}" "${ITK-IO-LSMTests}")
+CreateTestDriver(ITKIOLSM  "${ITKIOLSM-Test_LIBRARIES}" "${ITKIOLSMTests}")
 
-itk_add_test(NAME itkIOLSMHeaderTest
-      COMMAND ITK-IO-LSMTestDriver itkIOLSMHeaderTest)
 itk_add_test(NAME itkLSMImageIOTest
-      COMMAND ITK-IO-LSMTestDriver
+      COMMAND ITKIOLSMTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/IO/cthead1.tif
               ${ITK_TEST_OUTPUT_DIR}/cthead1.tif
     itkLSMImageIOTest ${ITK_DATA_ROOT}/Input/cthead1.lsm ${ITK_TEST_OUTPUT_DIR}/cthead1.tif)

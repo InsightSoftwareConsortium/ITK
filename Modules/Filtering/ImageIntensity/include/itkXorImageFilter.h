@@ -23,32 +23,13 @@
 
 namespace itk
 {
-/** \class XorImageFilter
- * \brief Implements the XOR logical operator pixel-wise between two images.
- *
- * This class is parametrized over the types of the two
- * input images and the type of the output image.
- * Numeric conversions (castings) are done by the C++ defaults.
- *
- * Since the logical XOR operation is only defined in C++ for integer
- * types, the images passed to this filter must comply with the requirement
- * of using integer pixel type.
- *
- * The total operation over one pixel will be
- *
- *  output_pixel = static_cast<OutputPixelType>( input1_pixel ^ input2_pixel )
- *
- * Where "^" is the boolean XOR operator in C++.
- *
- * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageIntensity
- *
- * \wiki
- * \wikiexample{ImageProcessing/XorImageFilter,Binary XOR (exclusive OR) two images}
- * \endwiki
- */
 namespace Functor
 {
+/**
+ * \class XOR
+ * \brief
+ * \ingroup ITKImageIntensity
+ */
 template< class TInput1, class TInput2 = TInput1, class TOutput = TInput1 >
 class XOR
 {
@@ -71,6 +52,33 @@ public:
   }
 };
 }
+/** \class XorImageFilter
+ * \brief Computes the XOR logical operator pixel-wise between two images.
+ *
+ * This class is templated over the types of the two
+ * input images and the type of the output image.
+ * Numeric conversions (castings) are done by the C++ defaults.
+ *
+ * Since the logical XOR operation is only defined in C++ for integer
+ * types, the images passed to this filter must comply with the requirement
+ * of using integer pixel type.
+ *
+ * The total operation over one pixel will be
+ *
+ * \code
+ *  output_pixel = static_cast<OutputPixelType>( input1_pixel ^ input2_pixel )
+ * \endcode
+ *
+ * Where "^" is the boolean XOR operator in C++.
+ *
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
+ * \ingroup ITKImageIntensity
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/XorImageFilter,Binary XOR (exclusive OR) two images}
+ * \endwiki
+ */
 template< class TInputImage1, class TInputImage2 = TInputImage1, class TOutputImage = TInputImage1 >
 class ITK_EXPORT XorImageFilter:
   public

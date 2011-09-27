@@ -1,5 +1,12 @@
-itk_module(ITK-TIFF
+set(DOCUMENTATION "This module contains the third party <a
+href=\"http://www.libtiff.org/\">Tag Image File Format (TIFF)</a>
+image file format library.")
+
+itk_module(ITKTIFF
   DEPENDS
-    ITK-ZLIB
-    ITK-JPEG
+    ITKKWSys
+    ITKZLIB
+    ITKJPEG
+  DESCRIPTION
+    "${DOCUMENTATION}"
 )

@@ -29,54 +29,54 @@ namespace itk
  *
  * PDEDeformableRegistrationFilter is a base case for filter implementing
  * a PDE deformable algorithm that register two images by computing the
- * deformation field which will map a moving image onto a fixed image.
+ * displacement field which will map a moving image onto a fixed image.
  *
- * A deformation field is represented as a image whose pixel type is some
+ * A displacement field is represented as a image whose pixel type is some
  * vector type with at least N elements, where N is the dimension of
  * the fixed image. The vector type must support element access via operator
  * []. It is assumed that the vector elements behave like floating point
  * scalars.
  *
  * This class is templated over the fixed image type, moving image type
- * and the deformation Field type.
+ * and the displacement Field type.
  *
  * The input fixed and moving images are set via methods SetFixedImage
- * and SetMovingImage respectively. An initial deformation field maybe set via
- * SetInitialDeformationField or SetInput. If no initial field is set,
+ * and SetMovingImage respectively. An initial displacement field maybe set via
+ * SetInitialDisplacementField or SetInput. If no initial field is set,
  * a zero field is used as the initial condition.
  *
- * The output deformation field can be obtained via methods GetOutput
- * or GetDeformationField.
+ * The output displacement field can be obtained via methods GetOutput
+ * or GetDisplacementField.
  *
  * The PDE algorithm is run for a user defined number of iterations.
  * Typically the PDE algorithm requires period Gaussin smoothing of the
- * deformation field to enforce an elastic-like condition. The amount
+ * displacement field to enforce an elastic-like condition. The amount
  * of smoothing is governed by a set of user defined standard deviations
  * (one for each dimension).
  *
  * In terms of memory, this filter keeps two internal buffers: one for storing
  * the intermediate updates to the field and one for double-buffering when
- * smoothing the deformation field. Both buffers are the same type and size as the
- * output deformation field.
+ * smoothing the displacement field. Both buffers are the same type and size as the
+ * output displacement field.
  *
  * This class make use of the finite difference solver hierarchy. Update
  * for each iteration is computed using a PDEDeformableRegistrationFunction.
  *
  * \warning This filter assumes that the fixed image type, moving image type
- * and deformation field type all have the same number of dimensions.
+ * and displacement field type all have the same number of dimensions.
  *
  * \sa PDEDeformableRegistrationFunction.
  * \ingroup DeformableImageRegistration
- * \ingroup ITK-PDEDeformableRegistration
+ * \ingroup ITKPDEDeformableRegistration
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 class ITK_EXPORT PDEDeformableRegistrationFilter:
-  public DenseFiniteDifferenceImageFilter< TDeformationField, TDeformationField >
+  public DenseFiniteDifferenceImageFilter< TDisplacementField, TDisplacementField >
 {
 public:
   /** Standard class typedefs. */
   typedef PDEDeformableRegistrationFilter                                          Self;
-  typedef DenseFiniteDifferenceImageFilter< TDeformationField, TDeformationField > Superclass;
+  typedef DenseFiniteDifferenceImageFilter< TDisplacementField, TDisplacementField > Superclass;
   typedef SmartPointer< Self >                                                     Pointer;
   typedef SmartPointer< const Self >                                               ConstPointer;
 
@@ -98,8 +98,13 @@ public:
   typedef typename MovingImageType::ConstPointer MovingImageConstPointer;
 
   /** Deformation field type. */
-  typedef TDeformationField                      DeformationFieldType;
-  typedef typename DeformationFieldType::Pointer DeformationFieldPointer;
+  typedef TDisplacementField                      DisplacementFieldType;
+  typedef typename DisplacementFieldType::Pointer DisplacementFieldPointer;
+
+#ifdef ITKV3_COMPATIBILITY
+  typedef TDisplacementField                      DeformationFieldType;
+  typedef typename DeformationFieldType::Pointer  DeformationFieldPointer;
+#endif
 
   /** Types inherithed from the superclass */
   typedef typename Superclass::OutputImageType OutputImageType;
@@ -110,7 +115,7 @@ public:
 
   /** PDEDeformableRegistrationFilterFunction type. */
   typedef PDEDeformableRegistrationFunction< FixedImageType, MovingImageType,
-                                             DeformationFieldType >  PDEDeformableRegistrationFunctionType;
+                                             DisplacementFieldType >  PDEDeformableRegistrationFunctionType;
 
   /** Inherit some enums and typedefs from the superclass. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -128,40 +133,72 @@ public:
   /** Get the moving image. */
   const MovingImageType * GetMovingImage(void) const;
 
-  /** Set initial deformation field. */
-  void SetInitialDeformationField(const DeformationFieldType *ptr)
+  /** Set initial displacement field. */
+  void SetInitialDisplacementField(const DisplacementFieldType *ptr)
   { this->SetInput(ptr); }
 
-  /** Get output deformation field. */
-  DeformationFieldType * GetDeformationField()
+  /** Get output displacement field. */
+  DisplacementFieldType * GetDisplacementField()
   { return this->GetOutput(); }
+
+#ifdef ITKV3_COMPATIBILITY
+  virtual void SetInitialDeformationField(DeformationFieldType *ptr)
+  {
+    this->SetInitialDisplacementField(ptr);
+  }
+
+  /** Get output deformation field. */
+  DeformationFieldType * GetDeformationField(void)
+  {
+    return static_cast<DeformationFieldType *> (this->GetDisplacementField());
+  }
+#endif
 
   /** Get the number of valid inputs.  For PDEDeformableRegistration,
    * this checks whether the fixed and moving images have been
    * set. While PDEDeformableRegistration can take a third input as an
-   * initial deformation field, this input is not a required input.
+   * initial displacement field, this input is not a required input.
    */
   virtual std::vector< SmartPointer< DataObject > >::size_type GetNumberOfValidRequiredInputs() const;
 
-  /** Set/Get whether the deformation field is smoothed
-   * (regularized). Smoothing the deformation yields a solution
-   * elastic in nature. If SmoothDeformationField is on, then the
-   * deformation field is smoothed with a Gaussian whose standard
+  /** Set/Get whether the displacement field is smoothed
+   * (regularized). Smoothing the displacement yields a solution
+   * elastic in nature. If SmoothDisplacementField is on, then the
+   * displacement field is smoothed with a Gaussian whose standard
    * deviations are specified with SetStandardDeviations() */
-  itkSetMacro(SmoothDeformationField, bool);
-  itkGetConstMacro(SmoothDeformationField, bool);
-  itkBooleanMacro(SmoothDeformationField);
+  itkSetMacro(SmoothDisplacementField, bool);
+  itkGetConstMacro(SmoothDisplacementField, bool);
+  itkBooleanMacro(SmoothDisplacementField);
+
+#ifdef ITKV3_COMPATIBILITY
+  virtual void SetSmoothDeformationField(bool val)
+  {
+    SetSmoothDisplacementField(val);
+  }
+  virtual bool GetSmoothDeformationField()
+  {
+    return this->GetSmoothDisplacementField();
+  }
+  virtual void SmoothDeformationFieldOn()
+  {
+    this->SmoothDisplacementFieldOn();
+  }
+  virtual void SmoothDeformationFieldOff()
+  {
+    this->SmoothDisplacementFieldOff();
+  }
+#endif
 
   typedef FixedArray< double, ImageDimension > StandardDeviationsType;
 
   /** Set the Gaussian smoothing standard deviations for the
-   * deformation field. The values are set with respect to pixel
+   * displacement field. The values are set with respect to pixel
    * coordinates. */
   itkSetMacro(StandardDeviations, StandardDeviationsType);
   virtual void SetStandardDeviations(double value);
 
   /** Get the Gaussian smoothing standard deviations use for smoothing
-   * the deformation field. */
+   * the displacement field. */
   itkGetConstReferenceMacro(StandardDeviations, StandardDeviationsType);
 
   /** Set/Get whether the update field is smoothed
@@ -220,11 +257,16 @@ protected:
    * Progress feeback is implemented as part of this method. */
   virtual void InitializeIteration();
 
-  /** Utility to smooth the deformation field (represented in the Output)
+  /** Utility to smooth the displacement field (represented in the Output)
    * using a Guassian operator. The amount of smoothing can be specified
    * by setting the StandardDeviations. */
-  virtual void SmoothDeformationField();
-
+  virtual void SmoothDisplacementField();
+#ifdef ITKV3_COMPATIBILITY
+  virtual void SmoothDeformationField()
+  {
+    this->SmoothDisplacementField();
+  }
+#endif
   /** Utility to smooth the UpdateBuffer using a Gaussian operator.
    * The amount of smoothing can be specified by setting the
    * UpdateFieldStandardDeviations. */
@@ -237,9 +279,9 @@ protected:
   /** This method is called before iterating the solution. */
   virtual void Initialize();
 
-  /** By default the output deformation field has the same Spacing, Origin
-   * and LargestPossibleRegion as the input/initial deformation field.  If
-   * the initial deformation field is not set, the output information is
+  /** By default the output displacement field has the same Spacing, Origin
+   * and LargestPossibleRegion as the input/initial displacement field.  If
+   * the initial displacement field is not set, the output information is
    * copied from the fixed image. */
   virtual void GenerateOutputInformation();
 
@@ -247,7 +289,7 @@ protected:
    * required to compute the requested output region. Thus the safest
    * thing to do is to request for the whole moving image.
    *
-   * For the fixed image and deformation field, the input requested region
+   * For the fixed image and displacement field, the input requested region
    * set to be the same as that of the output requested region. */
   virtual void GenerateInputRequestedRegion();
 
@@ -259,13 +301,13 @@ private:
   StandardDeviationsType m_StandardDeviations;
   StandardDeviationsType m_UpdateFieldStandardDeviations;
 
-  /** Modes to control smoothing of the update and deformation fields */
-  bool m_SmoothDeformationField;
+  /** Modes to control smoothing of the update and displacement fields */
+  bool m_SmoothDisplacementField;
   bool m_SmoothUpdateField;
 
-  /** Temporary deformation field use for smoothing the
-   * the deformation field. */
-  DeformationFieldPointer m_TempField;
+  /** Temporary displacement field use for smoothing the
+   * the displacement field. */
+  DisplacementFieldPointer m_TempField;
 private:
   /** Maximum error for Gaussian operator approximation. */
   double m_MaximumError;
@@ -279,7 +321,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPDEDeformableRegistrationFilter.txx"
+#include "itkPDEDeformableRegistrationFilter.hxx"
 #endif
 
 #endif

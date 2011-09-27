@@ -18,9 +18,6 @@
 #ifndef __itkArrowSpatialObject_h
 #define __itkArrowSpatialObject_h
 
-#if defined( _MSC_VER )
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkSpatialObject.h"
 
@@ -34,7 +31,7 @@ namespace itk
  * the elements of the Arrow.  Since any itk::SpatialObject can have
  * children (see SpatialObject::GetChildren()), this class needs no
  * additional methods.
- * \ingroup ITK-SpatialObjects
+ * \ingroup ITKSpatialObjects
  */
 
 template< unsigned int TDimension = 3 >
@@ -161,7 +158,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkArrowSpatialObject.txx"
+#include "itkArrowSpatialObject.hxx"
 #endif
 
 #endif // __itkArrowSpatialObject_h

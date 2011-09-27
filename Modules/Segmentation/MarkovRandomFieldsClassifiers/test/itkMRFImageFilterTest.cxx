@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 // Insight classes
 #include "itkMRFImageFilter.h"
@@ -281,9 +278,7 @@ int itkMRFImageFilterTest(int, char* [] )
   //----------------------------------------------------------------------
   //Set the decision rule
   //----------------------------------------------------------------------
-  typedef itk::DecisionRuleBase::Pointer DecisionRuleBasePointer;
-
-  typedef itk::MinimumDecisionRule DecisionRuleType;
+  typedef itk::Statistics::MinimumDecisionRule DecisionRuleType;
   DecisionRuleType::Pointer
     myDecisionRule = DecisionRuleType::New();
 
@@ -308,7 +303,7 @@ int itkMRFImageFilterTest(int, char* [] )
 
   // Set the decison rule
   myClassifier->
-    SetDecisionRule((DecisionRuleBasePointer) myDecisionRule );
+    SetDecisionRule((itk::Statistics::DecisionRule *) myDecisionRule );
 
   //Add the membership functions
   for( unsigned int ii=0; ii<NUM_CLASSES; ii++ )
@@ -444,7 +439,7 @@ int itkMRFImageFilterTest(int, char* [] )
     }
   else
     {
-    std::cout<< "MRF labeller Test failed" << std::endl;
+    std::cout<< "MRF labeller Test failed. Label sum is " << sum << " and not 22." << std::endl;
     return EXIT_FAILURE;
     }
 

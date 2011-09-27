@@ -24,6 +24,11 @@ namespace itk
 {
 namespace Statistics
 {
+/** \class InputFunctionBase
+ * \brief This is the itkInputFunctionBase class.
+ *
+ * \ingroup ITKNeuralNetworks
+ */
 
 template<class TMeasurementVector, class TTargetVector>
 class InputFunctionBase : public FunctionBase<TMeasurementVector, TTargetVector>

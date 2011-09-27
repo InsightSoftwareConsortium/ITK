@@ -15,9 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
+
 #include "itkSymmetricForcesDemonsRegistrationFilter.h"
 
 #include "itkIndex.h"
@@ -60,7 +58,7 @@ typename TImage::PixelType backgnd )
   typename TImage::IndexType index;
   double r2 = vnl_math_sqr( radius );
 
-  for( ; !it.IsAtEnd(); ++it )
+  while( !it.IsAtEnd() )
     {
     index = it.GetIndex();
     double distance = 0;
@@ -70,6 +68,7 @@ typename TImage::PixelType backgnd )
       }
     if( distance <= r2 ) it.Set( foregnd );
     else it.Set( backgnd );
+    ++it;
     }
 
 }
@@ -83,9 +82,8 @@ TImage *input,
 TImage *output )
 {
   typedef itk::ImageRegionIteratorWithIndex<TImage> Iterator;
-  Iterator inIt( input, output->GetBufferedRegion() );
   Iterator outIt( output, output->GetBufferedRegion() );
-  for( ; !inIt.IsAtEnd(); ++inIt, ++outIt )
+  for( Iterator inIt( input, output->GetBufferedRegion() ); !inIt.IsAtEnd(); ++inIt, ++outIt )
     {
     outIt.Set( inIt.Get() );
     }
@@ -97,13 +95,14 @@ int itkSymmetricForcesDemonsRegistrationFilterTest(int, char* [] )
 
   typedef unsigned char PixelType;
   enum {ImageDimension = 2};
-  typedef itk::Image<PixelType,ImageDimension> ImageType;
-  typedef itk::Vector<float,ImageDimension> VectorType;
+  typedef itk::Image<PixelType,ImageDimension>  ImageType;
+  typedef itk::Vector<float,ImageDimension>     VectorType;
   typedef itk::Image<VectorType,ImageDimension> FieldType;
-  typedef itk::Image<VectorType::ValueType,ImageDimension> FloatImageType;
-  typedef ImageType::IndexType  IndexType;
-  typedef ImageType::SizeType   SizeType;
-  typedef ImageType::RegionType RegionType;
+  typedef itk::Image<VectorType::ValueType,ImageDimension>
+                                                FloatImageType;
+  typedef ImageType::IndexType                  IndexType;
+  typedef ImageType::SizeType                   SizeType;
+  typedef ImageType::RegionType                 RegionType;
 
   //--------------------------------------------------------
   std::cout << "Generate input images and initial deformation field";
@@ -161,7 +160,7 @@ int itkSymmetricForcesDemonsRegistrationFilterTest(int, char* [] )
     RegistrationType;
   RegistrationType::Pointer registrator = RegistrationType::New();
 
-  registrator->SetInitialDeformationField( initField );
+  registrator->SetInitialDisplacementField( initField );
   registrator->SetMovingImage( moving );
   registrator->SetFixedImage( fixed );
   registrator->SetNumberOfIterations( 150 );
@@ -205,7 +204,7 @@ int itkSymmetricForcesDemonsRegistrationFilterTest(int, char* [] )
 
 
   warper->SetInput( moving );
-  warper->SetDeformationField( registrator->GetOutput() );
+  warper->SetDisplacementField( registrator->GetOutput() );
   warper->SetInterpolator( interpolator );
   warper->SetOutputSpacing( fixed->GetSpacing() );
   warper->SetOutputOrigin( fixed->GetOrigin() );
@@ -319,6 +318,4 @@ int itkSymmetricForcesDemonsRegistrationFilterTest(int, char* [] )
   std::cout << "Test passed" << std::endl;
   return EXIT_SUCCESS;
 
-
 }
-

@@ -42,7 +42,7 @@ namespace itk
  *
  * \ingroup ImageAdaptors
  *
- * \ingroup ITK-ImageAdaptors
+ * \ingroup ITKImageAdaptors
  *
  * \wiki
  * \wikiexample{ImageProcessing/ImageAdaptorExtractVectorComponent,Present an image by first performing an operation}
@@ -143,7 +143,7 @@ public:
    * region of the data object passed in as a parameter.  This method
    * implements the API from DataObject. The data object parameter must be
    * castable to an ImageBase. */
-  virtual void SetRequestedRegion(DataObject *data);
+  virtual void SetRequestedRegion(const DataObject *data);
 
   /** Get the region object that defines the size and starting index
    * for the region of the image requested (i.e., the region of the
@@ -392,7 +392,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageAdaptor.txx"
+#include "itkImageAdaptor.hxx"
 #endif
 
 #endif

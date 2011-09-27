@@ -44,7 +44,7 @@ namespace itk
  * of the function is \f$ {\frac{{x - \mu }}{{\sigma \sqrt 2 }}} \f$.
  *
  * \ingroup Numerics Cost Functions
- * \ingroup ITK-Optimizers
+ * \ingroup ITKOptimizers
  */
 
 class ITK_EXPORT CumulativeGaussianCostFunction:public MultipleValuedCostFunction
@@ -80,7 +80,7 @@ public:
   MeasureType GetValue(const ParametersType & parameters) const;
 
   /** Return a pointer of values evaluated for the given parameters. */
-  MeasureType * GetValue(ParametersType & parameters);
+  MeasureType * GetValuePointer(ParametersType & parameters);
 
   /** Calculate a fit error between the data and the fit curve. */
   double CalculateFitError(MeasureType *setTestArray);

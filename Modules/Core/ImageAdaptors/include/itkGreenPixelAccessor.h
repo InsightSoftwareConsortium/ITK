@@ -34,7 +34,7 @@ namespace itk
  *
  * \ingroup ImageAdaptors
  *
- * \ingroup ITK-ImageAdaptors
+ * \ingroup ITKImageAdaptors
  */
 
 template< class T >

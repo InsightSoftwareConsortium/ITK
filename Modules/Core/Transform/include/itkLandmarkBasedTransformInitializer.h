@@ -22,6 +22,7 @@
 #include "itkObjectFactory.h"
 #include "itkVersorRigid3DTransform.h"
 #include "itkRigid2DTransform.h"
+#include "itkAffineTransform.h"
 #include <vector>
 #include <iostream>
 
@@ -31,7 +32,7 @@ namespace itk
  * \brief LandmarkBasedTransformInitializer is a helper class intended to
  * The class computes the transform that aligns the fixed and moving images
  * given a set of landmarks. The class is templated over the Transform type.
- *    The transform computed gives the best fit transform that maps the fixed
+ * The transform computed gives the best fit transform that maps the fixed
  * and moving images in a least squares sense. The indices are taken to
  * correspond, so point 1 in the first set will get mapped close to point
  * 1 in the second set, etc. An equal number of fixed and moving landmarks
@@ -41,7 +42,7 @@ namespace itk
  *
  * Currently, the  following transforms are supported by the class:
  *    VersorRigid3DTransform
- *    Rigid2DTansform
+ *    Rigid2DTransform
  *
  * The class is based in part on Hybrid/vtkLandmarkTransform originally
  * implemented in python by David G. Gobbi.
@@ -51,9 +52,17 @@ namespace itk
  * using unit quaternions,"
  * http://people.csail.mit.edu/bkph/papers/Absolute_Orientation.pdf
  *
+ * The Affine Transform initializer  is based on an algorithm by H
+ * Spaeth, and is described in the Insight Journal Article
+ * "Affine Transformation for Landmark Based Registration Initializer
+ * in ITK" by Kim E.Y., Johnson H., Williams N.
+ * available at  http://midasjournal.com/browse/publication/825
  *
- * \ingroup Transforms
- * \ingroup ITK-Transform
+ * \ingroup ITKTransform
+ *
+ * \wiki
+ * \wikiexample{Registration/LandmarkBasedTransformInitializer,Rigidly register one image to another using manually specified landmarks}
+ * \endwiki
  */
 template< class TTransform,
           class TFixedImage,
@@ -86,8 +95,9 @@ public:
   itkSetObjectMacro(Transform,   TransformType);
 
   /** Image Types to use in the initialization of the transform */
-  typedef   TFixedImage  FixedImageType;
-  typedef   TMovingImage MovingImageType;
+  typedef TFixedImage  FixedImageType;
+  typedef TMovingImage MovingImageType;
+
 
   typedef   typename FixedImageType::ConstPointer  FixedImagePointer;
   typedef   typename MovingImageType::ConstPointer MovingImagePointer;
@@ -103,6 +113,8 @@ public:
   typedef typename LandmarkPointContainer::const_iterator         PointsContainerConstIterator;
   typedef typename TransformType::ParametersType                  ParametersType;
   typedef typename ParametersType::ValueType                      ParameterValueType;
+  typedef std::vector< double >                                   LandmarkWeightType;
+  typedef LandmarkWeightType::const_iterator                      LandmarkWeightConstIterator;
 
   /** Set the Fixed landmark point containers */
   void SetFixedLandmarks(const LandmarkPointContainer & fixedLandmarks)
@@ -116,10 +128,18 @@ public:
     this->m_MovingLandmarks = movingLandmarks;
   }
 
-  /**  Supported Transform typedefs */
-  typedef VersorRigid3DTransform< ParameterValueType > VersorRigid3DTransformType;
-  typedef Rigid2DTransform< ParameterValueType >       Rigid2DTransformType;
+  /** Set the landmark weight point containers
+   *  Weight includes diagonal elements of weight matrix
+   */
+  void SetLandmarkWeight(LandmarkWeightType & landmarkWeight)
+  {
+    this->m_LandmarkWeight= landmarkWeight;
+  }
 
+  /**  Supported Transform typedefs */
+  typedef VersorRigid3DTransform< ParameterValueType >                          VersorRigid3DTransformType;
+  typedef Rigid2DTransform< ParameterValueType >                                Rigid2DTransformType;
+  typedef AffineTransform< ParameterValueType, FixedImageType::ImageDimension > AffineTransformType;
   /** Initialize the transform from the landmarks */
   virtual void InitializeTransform();
 
@@ -139,6 +159,17 @@ private:
   LandmarkBasedTransformInitializer(const Self &); //purposely not implemented
   void operator=(const Self &);                    //purposely not implemented
 
+
+  /** fallback Initializer just sets transform to identity */
+  template <class TTransform2>
+    void InternalInitializeTransform(TTransform *);
+  /** Initializer for VersorRigid3D */
+  void InternalInitializeTransform(VersorRigid3DTransformType *);
+  /** Initializer for Rigid2DTransform */
+  void InternalInitializeTransform(Rigid2DTransformType *);
+  /** Initializer for AffineTransform */
+  void InternalInitializeTransform(AffineTransformType *);
+
   FixedImagePointer  m_FixedImage;
   MovingImagePointer m_MovingImage;
 
@@ -146,11 +177,14 @@ private:
   LandmarkPointContainer m_MovingLandmarks;
 
   TransformPointer m_Transform;
+  /** weights for affine landmarks */
+  LandmarkWeightType m_LandmarkWeight;
+
 }; //class LandmarkBasedTransformInitializer
 }  // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLandmarkBasedTransformInitializer.txx"
+#include "itkLandmarkBasedTransformInitializer.hxx"
 #endif
 
 #endif /* __itkLandmarkBasedTransformInitializer_h */

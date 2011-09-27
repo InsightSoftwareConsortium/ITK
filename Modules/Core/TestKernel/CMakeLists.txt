@@ -1,3 +1,3 @@
-project(ITK-TestKernel)
+project(ITKTestKernel)
 include("CreateTestDriver.cmake")
 itk_module_impl()

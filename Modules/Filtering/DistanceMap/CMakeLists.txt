@@ -1,2 +1,2 @@
-project(ITK-DistanceMap)
+project(ITKDistanceMap)
 itk_module_impl()

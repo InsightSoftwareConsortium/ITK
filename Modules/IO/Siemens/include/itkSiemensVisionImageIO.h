@@ -33,9 +33,6 @@
 #ifndef __itkSiemensVisionImageIO_h
 #define __itkSiemensVisionImageIO_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkIPLCommonImageIO.h"
 
@@ -47,7 +44,7 @@ namespace itk
  * \brief Class that defines how to read SiemensVision file format.
  *
  * \ingroup IOFilters
- * \ingroup ITK-IO-Siemens
+ * \ingroup ITKIOSiemens
  */
 class ITK_EXPORT SiemensVisionImageIO:public IPLCommonImageIO
 {

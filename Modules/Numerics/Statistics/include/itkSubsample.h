@@ -35,7 +35,7 @@ namespace Statistics
  * original source sample. Most Statistics algorithms (that derive from
  * StatisticsAlgorithmBase accept Subsample objects as inputs).
  *
- * \ingroup ITK-Statistics
+ * \ingroup ITKStatistics
  */
 template< class TSample >
 class ITK_EXPORT Subsample:
@@ -278,7 +278,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSubsample.txx"
+#include "itkSubsample.hxx"
 #endif
 
 #endif

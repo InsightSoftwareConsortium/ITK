@@ -18,12 +18,9 @@
 #ifndef __itkOneWayEquivalencyTable_h
 #define __itkOneWayEquivalencyTable_h
 
-#if defined( _MSC_VER )
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkProcessObject.h"
-#include "itk_hash_map.h"
+#include "itksys/hash_map.hxx"
 
 namespace itk
 {
@@ -43,7 +40,7 @@ namespace itk
  * \ingroup WatershedSegmentation
  *
  * \sa EquivalencyTable
- * \ingroup ITK-Watersheds
+ * \ingroup ITKWatersheds
  */
 class ITK_EXPORT OneWayEquivalencyTable:public DataObject
 {
@@ -57,8 +54,8 @@ public:
   itkTypeMacro(OneWayEquivalencyTable, DataObject);
 
   /** Define the container type for this table */
-  typedef itk::hash_map< unsigned long, unsigned long,
-                         itk::hash< unsigned long > > HashTableType;
+  typedef itksys::hash_map< unsigned long, unsigned long,
+                            itksys::hash< unsigned long > > HashTableType;
 
   typedef HashTableType::iterator       Iterator;
   typedef HashTableType::const_iterator ConstIterator;

@@ -30,22 +30,28 @@
 namespace itk
 {
 /** \class RGBPixel
- * \brief Represent Red, Green and Blue component for color images
+ * \brief Represent Red, Green and Blue components for color images.
  *
  * This class is templated over the representation used for each
  * component.
  *
  * The following syntax for assigning an index is allowed/suggested:
  *
+ * \code
  *    RGBPixel<float> pixel; pixel = 1.0f, 0.0f, .5f;
  *    RGBPixel<char> pixelArray[2];
  *    pixelArray[0] = 255, 255, 255;
  *    pixelArray[1] = 255, 255, 244;
+ * \endcode
  *
  * Since RGBPixel is a subclass of Array, you can access its components as:
  * pixel[0], pixel[1], pixel[2]
  * \ingroup ImageObjects
- * \ingroup ITK-Common
+ * \ingroup ITKCommon
+ *
+ * \wiki
+ * \wikiexample{SimpleOperations/RGBPixel,Create an RGB image}
+ * \endwiki
  */
 
 template< typename TComponent = unsigned short >
@@ -108,8 +114,7 @@ public:
   static unsigned int GetNumberOfComponents(){ return 3; }
 
   /** Return the value for the Nth component. */
-  ComponentType GetNthComponent(int c) const
-  { return this->operator[](c); }
+  ComponentType GetNthComponent(int c) const { return this->operator[](c); }
 
   /** Return the value for the Nth component. */
   ComponentType GetScalarValue() const
@@ -124,8 +129,7 @@ public:
   }
 
   /** Set the Nth component to v. */
-  void SetNthComponent(int c, const ComponentType & v)
-  {  this->operator[](c) = v; }
+  void SetNthComponent(int c, const ComponentType & v) {  this->operator[](c) = v; }
 
   /** Set the Red component. */
   void SetRed(ComponentType red) { this->operator[](0) = red; }
@@ -138,7 +142,11 @@ public:
 
   /** Set the three components. */
   void Set(ComponentType red, ComponentType green, ComponentType blue)
-  { this->operator[](0) = red; this->operator[](1) = green; this->operator[](2) = blue; }
+  {
+    this->operator[](0) = red;
+    this->operator[](1) = green;
+    this->operator[](2) = blue;
+  }
 
   /** Get the Red component. */
   const ComponentType & GetRed(void) const { return this->operator[](0); }
@@ -182,13 +190,13 @@ ITK_EXPORT std::istream & operator>>(std::istream & is,
 // instantiations control of this class, in case the implicit instantiation
 // needs to be disabled.
 //
-// NumericTraits must be included before (optionally) including the .txx file,
-// in case the .txx requires to use NumericTraits.
+// NumericTraits must be included before (optionally) including the .hxx file,
+// in case the .hxx requires to use NumericTraits.
 //
 #include "itkNumericTraitsRGBPixel.h"
 
 #if ITK_TEMPLATE_TXX
-#include "itkRGBPixel.txx"
+#include "itkRGBPixel.hxx"
 #endif
 
 #endif
