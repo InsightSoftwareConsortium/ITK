@@ -25,12 +25,10 @@
 
 namespace itk
 {
-// ----------------------------------------------------------------------------
 template< class TInput, unsigned int VDimension, typename TOutput, class TDomain >
 LevelSetBase< TInput, VDimension, TOutput, TDomain >
 ::LevelSetBase()
   {}
-// ----------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------
 template< class TInput, unsigned int VDimension, typename TOutput, class TDomain >
@@ -40,7 +38,6 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
 {
   return ( this->Evaluate( iP ) <= NumericTraits< OutputType >::Zero );
 }
-// ----------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------
 template< class TInput, unsigned int VDimension, typename TOutput, class TDomain >
@@ -50,7 +47,6 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
 {
   Superclass::Initialize();
 }
-// ----------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------
 template< class TInput, unsigned int VDimension, typename TOutput, class TDomain >
@@ -69,7 +65,6 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
     ioData.GradientNorm.m_Value = ioData.Gradient.m_Value.GetNorm();
     }
 }
-// ----------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------
 template< class TInput, unsigned int VDimension, typename TOutput, class TDomain >
@@ -82,7 +77,6 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
   GradientType grad = this->EvaluateGradient( iP );
   return grad.GetNorm();
 }
-// ----------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------
 template< class TInput, unsigned int VDimension, typename TOutput, class TDomain >
@@ -122,7 +116,6 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
 
   return oValue;
 }
-// ----------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------
 template< class TInput, unsigned int VDimension, typename TOutput, class TDomain >
@@ -176,7 +169,6 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
       }
     }
 }
-// ----------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------
 template< class TInput, unsigned int VDimension, typename TOutput, class TDomain >
@@ -198,7 +190,6 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
     this->SetRequestedRegionToLargestPossibleRegion();
     }
 }
-// ----------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------
 template< class TInput, unsigned int VDimension, typename TOutput, class TDomain >
@@ -209,7 +200,6 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
   m_RequestedNumberOfRegions  = NumericTraits< RegionType >::One;
   m_RequestedRegion           = NumericTraits< RegionType >::Zero;
 }
-// ----------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------
 template< class TInput, unsigned int VDimension, typename TOutput, class TDomain >
@@ -246,7 +236,6 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
   m_BufferedRegion  = levelSet->m_BufferedRegion;
   m_RequestedRegion = levelSet->m_RequestedRegion;
 }
-// ----------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------
 template< class TInput, unsigned int VDimension, typename TOutput, class TDomain >
@@ -279,7 +268,6 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
                        << typeid( Self * ).name() );
     }
 }
-// ----------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------
 template< class TInput, unsigned int VDimension, typename TOutput, class TDomain >
@@ -295,7 +283,6 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
 
   return false;
 }
-// ----------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------
 template< class TInput, unsigned int VDimension, typename TOutput, class TDomain >
@@ -322,7 +309,6 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
 
   return retval;
 }
-// ----------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------
 template< class TInput, unsigned int VDimension, typename TOutput, class TDomain >
@@ -339,7 +325,6 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
     m_RequestedNumberOfRegions = levelSet->m_RequestedNumberOfRegions;
     }
 }
-// ----------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------
 template< class TInput, unsigned int VDimension, typename TOutput, class TDomain >
@@ -352,7 +337,6 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
     m_RequestedRegion = region;
     }
 }
-// ----------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------
 template< class TInput, unsigned int VDimension, typename TOutput, class TDomain >
@@ -367,6 +351,5 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
     }
   }
 }
-// ----------------------------------------------------------------------------
 
 #endif // __itkLevelSetBase_hxx
