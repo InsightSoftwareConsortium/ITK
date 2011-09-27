@@ -30,6 +30,7 @@ itkKullbackLeiblerCompareHistogramImageToImageMetricTest.cxx
 itkNormalizedMutualInformationHistogramImageToImageMetricTest.cxx
 itkPointSetToSpatialObjectDemonsRegistrationTest.cxx
 itkPointSetToImageRegistrationTest_1.cxx
+itkPointsLocatorTest.cxx
 itkKappaStatisticImageToImageMetricTest.cxx
 itkMattesMutualInformationImageToImageMetricTest.cxx
 itkMatchCardinalityImageToImageMetricTest.cxx
@@ -114,6 +115,8 @@ itk_add_test(NAME itkPointSetToSpatialObjectDemonsRegistrationTest
       COMMAND ITKRegistrationCommonTestDriver itkPointSetToSpatialObjectDemonsRegistrationTest)
 itk_add_test(NAME itkPointSetToImageRegistrationTest_1
       COMMAND ITKRegistrationCommonTestDriver itkPointSetToImageRegistrationTest_1)
+itk_add_test(NAME itkPointsLocatorTest
+      COMMAND ITKRegistrationCommonTestDriver itkPointsLocatorTest)
 itk_add_test(NAME itkKappaStatisticImageToImageMetricTest
       COMMAND ITKRegistrationCommonTestDriver itkKappaStatisticImageToImageMetricTest
               ${ITK_DATA_ROOT}/Input/Spots.png)

@@ -86,6 +86,7 @@ itkSubsampleTest3.cxx
 itkTDistributionTest.cxx
 itkStatisticsAlgorithmTest.cxx
 itkStatisticsAlgorithmTest2.cxx
+itkVectorContainerToListSampleAdaptorTest.cxx
 )
 
 CreateTestDriver(ITKStatistics  "${ITKStatistics-Test_LIBRARIES}" "${ITKStatisticsTests}")
@@ -344,3 +345,5 @@ itk_add_test(NAME itkStatisticsAlgorithmTest
       COMMAND ITKStatisticsTestDriver itkStatisticsAlgorithmTest)
 itk_add_test(NAME itkStatisticsAlgorithmTest2
       COMMAND ITKStatisticsTestDriver itkStatisticsAlgorithmTest2)
+itk_add_test(NAME itkVectorContainerToListSampleAdaptorTest
+      COMMAND ITKStatisticsTestDriver itkVectorContainerToListSampleAdaptorTest)

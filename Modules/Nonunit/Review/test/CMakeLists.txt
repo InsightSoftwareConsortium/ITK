@@ -59,7 +59,6 @@ itkN4MRIBiasFieldCorrectionImageFilterTest
 itkOptImageToImageMetricsTest.cxx
 itkOptImageToImageMetricsTest2.cxx
 itkOptMattesMutualInformationImageToImageMetricThreadsTest1.cxx
-itkPointsLocatorTest.cxx
 itkRankImageFilterTest.cxx
 itkRegionalMaximaImageFilterTest.cxx
 itkRegionalMaximaImageFilterTest2.cxx
@@ -600,8 +599,6 @@ itk_add_test(NAME itkOptImageToImageMetricsTest04
 itk_add_test(NAME itkOptMattesImageToImageMetricsTest01
       COMMAND ITKReviewTestDriver itkOptMattesMutualInformationImageToImageMetricThreadsTest1
               ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png 0 100)
-itk_add_test(NAME itkPointsLocatorTest
-      COMMAND ITKReviewTestDriver itkPointsLocatorTest)
 itk_add_test(NAME itkRankImageFilterTest3
       COMMAND ITKReviewTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkRankImageFilter3.png
