@@ -8,6 +8,7 @@ itk_module(ITKHighDimensionalMetrics
     ITKImageGradient
     ITKSpatialObjects
     ITKDisplacementField
+    ITKRegistrationCommon
   TEST_DEPENDS
     ITKTestKernel
     ITKHighDimensionalOptimizers

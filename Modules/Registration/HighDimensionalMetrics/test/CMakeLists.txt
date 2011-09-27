@@ -1,5 +1,8 @@
 itk_module_test()
 set(ITKHighDimensionalMetricsTests
+  itkEuclideanDistancePointSetMetricTest.cxx
+  itkExpectationBasedPointSetMetricTest.cxx
+  itkJensenHavrdaCharvatTsallisPointSetMetricTest.cxx
   itkObjectToObjectMetricTest.cxx
   itkImageToImageObjectMetricTest.cxx
 )
@@ -10,6 +13,12 @@ set(TEMP ${ITK_TEST_OUTPUT_DIR})
 
 CreateTestDriver(ITKHighDimensionalMetrics  "${ITKHighDimensionalMetrics-Test_LIBRARIES}" "${ITKHighDimensionalMetricsTests}")
 
+itk_add_test(NAME itkEuclideanDistancePointSetMetricTest
+      COMMAND ITKHighDimensionalMetricsTestDriver itkEuclideanDistancePointSetMetricTest)
+itk_add_test(NAME itkExpectationBasedPointSetMetricTest
+      COMMAND ITKHighDimensionalMetricsTestDriver itkExpectationBasedPointSetMetricTest)
+itk_add_test(NAME itkJensenHavrdaCharvatTsallisPointSetMetricTest
+      COMMAND ITKHighDimensionalMetricsTestDriver itkJensenHavrdaCharvatTsallisPointSetMetricTest)
 itk_add_test(NAME itkObjectToObjectMetricTest
       COMMAND ITKHighDimensionalMetricsTestDriver itkObjectToObjectMetricTest)
 
