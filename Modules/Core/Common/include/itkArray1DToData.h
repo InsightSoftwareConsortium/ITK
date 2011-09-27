@@ -50,7 +50,7 @@
  *
  * \sa ImageToData
  * \sa ObjectToDataBase
- * \ingroup ITKHighDimensionalOptimizers
+ * \ingroup ITKCommon
  */
 
 namespace itk

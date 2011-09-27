@@ -61,7 +61,7 @@ namespace itk
  * changed for more clarity.
  *
  * \sa ImageToData
- * \ingroup ITKHighDimensionalOptimizers
+ * \ingroup ITKCommon
  */
 
 template <class TInputObject, class TDataHolder>

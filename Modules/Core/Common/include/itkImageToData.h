@@ -56,7 +56,7 @@ namespace itk
  * before running.
  *
  * \sa ObjectToDataBase
- * \ingroup ITKHighDimensionalOptimizers
+ * \ingroup ITKCommon
  */
 
 template <unsigned int VDimension, class TDataHolder>
