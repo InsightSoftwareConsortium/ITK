@@ -27,8 +27,8 @@ namespace itk
 /**
  * Constructor
  */
-template <unsigned int VDimension, class TDataHolder, typename TInputObject>
-ImageToData<VDimension, TDataHolder, TInputObject>
+template <unsigned int VDimension, class TDataHolder>
+ImageToData<VDimension, TDataHolder>
 ::ImageToData()
 {
 }
@@ -36,17 +36,17 @@ ImageToData<VDimension, TDataHolder, TInputObject>
 /**
  * Destructor
  */
-template <unsigned int VDimension, class TDataHolder, typename TInputObject>
-ImageToData<VDimension, TDataHolder, TInputObject>
+template <unsigned int VDimension, class TDataHolder>
+ImageToData<VDimension, TDataHolder>
 ::~ImageToData()
 {}
 
 /**
  *
  */
-template <unsigned int VDimension, class TDataHolder, typename TInputObject>
+template <unsigned int VDimension, class TDataHolder>
 void
-ImageToData<VDimension, TDataHolder, TInputObject>
+ImageToData<VDimension, TDataHolder>
 ::SetOverallRegion(  const ImageRegionType& region )
 {
   this->SetOverallObject( region );
@@ -55,9 +55,9 @@ ImageToData<VDimension, TDataHolder, TInputObject>
 /**
  *
  */
-template <unsigned int VDimension, class TDataHolder, typename TInputObject>
+template <unsigned int VDimension, class TDataHolder>
 ThreadIdType
-ImageToData<VDimension, TDataHolder, TInputObject>
+ImageToData<VDimension, TDataHolder>
 ::SplitRequestedObject( const ThreadIdType threadID,
                         const ThreadIdType requestedTotal,
                         const InputObjectType &overallRegion,

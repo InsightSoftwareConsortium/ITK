@@ -4,8 +4,13 @@ itk_module(ITKHighDimensionalMetrics
   DEPENDS
     ITKTransform
     ITKOptimizers
+    ITKImageFunction
+    ITKImageGradient
+    ITKSpatialObjects
+    ITKDisplacementField
   TEST_DEPENDS
     ITKTestKernel
+    ITKHighDimensionalOptimizers
   DESCRIPTION
     "${DOCUMENTATION}"
 )

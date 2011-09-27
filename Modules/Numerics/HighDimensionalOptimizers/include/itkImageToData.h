@@ -59,18 +59,16 @@ namespace itk
  * \ingroup ITKHighDimensionalOptimizers
  */
 
-
-template <unsigned int VDimension, class TDataHolder,
-          typename TInputObject = ImageRegion<VDimension> >
+template <unsigned int VDimension, class TDataHolder>
 class ITK_EXPORT ImageToData
-  : public ObjectToDataBase<TInputObject, TDataHolder>
+  : public ObjectToDataBase<ImageRegion<VDimension>, TDataHolder>
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageToData                                 Self;
-  typedef ObjectToDataBase<TInputObject, TDataHolder> Superclass;
-  typedef SmartPointer<Self>                          Pointer;
-  typedef SmartPointer<const Self>                    ConstPointer;
+  typedef ImageToData                                             Self;
+  typedef ObjectToDataBase<ImageRegion<VDimension>, TDataHolder>  Superclass;
+  typedef SmartPointer<Self>                                      Pointer;
+  typedef SmartPointer<const Self>                                ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
