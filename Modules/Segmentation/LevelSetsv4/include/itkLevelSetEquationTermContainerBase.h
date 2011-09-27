@@ -121,6 +121,147 @@ public:
                             LevelSetDataType& ioData );
 
 protected:
+
+  typedef std::map< TermIdType, TermPointer >           MapTermContainerType;
+  typedef typename MapTermContainerType::iterator       MapTermContainerIteratorType;
+  typedef typename MapTermContainerType::const_iterator MapTermContainerConstIteratorType;
+
+public:
+  class Iterator;
+  friend class Iterator;
+
+  class ConstIterator
+  {
+  public:
+    ConstIterator() {}
+    ConstIterator( const MapTermContainerConstIteratorType& it ) : m_Iterator( it ) {}
+    ~ConstIterator() {}
+    ConstIterator( const Iterator& it ) : m_Iterator( it.m_Iterator ) {}
+    ConstIterator & operator * () { return *this; }
+    ConstIterator * operator->() { return this; }
+    ConstIterator & operator++()
+      {
+      ++m_Iterator;
+      return *this;
+      }
+    ConstIterator operator++(int)
+      {
+      ConstIterator tmp( *this );
+      ++(*this);
+      return tmp;
+      }
+    ConstIterator & operator--()
+      {
+      --m_Iterator;
+      return *this;
+      }
+    ConstIterator operator--(int)
+      {
+      ConstIterator tmp( *this );
+      --(*this);
+      return tmp;
+      }
+    bool operator == (const Iterator& it) const
+      {
+      return (m_Iterator == it.m_Iterator);
+      }
+    bool operator != (const Iterator& it) const
+      {
+      return (m_Iterator != it.m_Iterator);
+      }
+    bool operator == (const ConstIterator& it) const
+      {
+      return (m_Iterator == it.m_Iterator);
+      }
+    bool operator != (const ConstIterator& it) const
+      {
+      return (m_Iterator != it.m_Iterator);
+      }
+    TermIdType GetIdentifier() const
+      {
+      return m_Iterator->first;
+      }
+
+    TermType * GetTerm() const
+      {
+      return m_Iterator->second;
+      }
+  private:
+    MapTermContainerConstIteratorType m_Iterator;
+    friend class Iterator;
+  };
+
+  class Iterator
+  {
+  public:
+    Iterator() {}
+    Iterator( const MapTermContainerIteratorType& it ) : m_Iterator( it ) {}
+    Iterator( const ConstIterator& it ) : m_Iterator( it.m_Iterator ) {}
+    ~Iterator() {}
+
+    Iterator & operator * () { return *this; }
+    Iterator * operator ->() { return this; }
+
+    Iterator & operator++()
+    {
+      ++m_Iterator;
+      return *this;
+    }
+    Iterator operator++(int)
+    {
+       Iterator tmp( *this );
+      ++(*this);
+      return tmp;
+    }
+    Iterator & operator--()
+    {
+      --m_Iterator;
+      return *this;
+    }
+    Iterator operator--(int)
+    {
+      Iterator tmp( *this );
+      --(*this);
+      return tmp;
+    }
+
+    bool operator==(const Iterator& it) const
+    {
+      return (m_Iterator==it.m_Iterator);
+    }
+    bool operator!=(const Iterator& it) const
+    {
+      return (m_Iterator!=it.m_Iterator);
+    }
+    bool operator==(const ConstIterator& it)const
+    {
+      return (m_Iterator == it.m_Iterator);
+    }
+    bool operator!=(const ConstIterator& it)const
+    {
+      return (m_Iterator != it.m_Iterator);
+    }
+    TermIdType GetIdentifier() const
+      {
+      return m_Iterator->first;
+      }
+
+    TermType * GetTerm() const
+      {
+      return m_Iterator->second;
+      }
+  private:
+    MapTermContainerIteratorType m_Iterator;
+    friend class ConstIterator;
+  };
+
+   Iterator Begin();
+   Iterator End();
+
+  ConstIterator Begin() const;
+  ConstIterator End() const;
+
+protected:
   LevelSetEquationTermContainerBase();
 
   virtual ~LevelSetEquationTermContainerBase();
@@ -133,10 +274,6 @@ protected:
 
   typedef typename TermType::RequiredDataType RequiredDataType;
   RequiredDataType  m_RequiredData;
-
-  typedef std::map< TermIdType, TermPointer >           MapTermContainerType;
-  typedef typename MapTermContainerType::iterator       MapTermContainerIteratorType;
-  typedef typename MapTermContainerType::const_iterator MapTermContainerConstIteratorType;
 
   MapTermContainerType  m_Container;
 
