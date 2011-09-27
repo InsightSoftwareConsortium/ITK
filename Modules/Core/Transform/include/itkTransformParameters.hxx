@@ -44,7 +44,7 @@ TransformParameters< TValueType >
 /** Constructor with size */
 template< typename TValueType >
 TransformParameters< TValueType >
-::TransformParameters(unsigned int dimension)
+::TransformParameters(SizeValueType dimension)
   : Array< TValueType >(dimension)
 {
   this->Initialize();

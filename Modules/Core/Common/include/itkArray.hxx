@@ -45,7 +45,7 @@ Array<TValueType>
 /** Constructor with size */
 template< typename TValueType >
 Array< TValueType >
-::Array(unsigned int dimension):vnl_vector< TValueType >(dimension)
+::Array(SizeValueType dimension):vnl_vector< TValueType >(dimension)
 {
   m_LetArrayManageMemory = true;
 }
@@ -53,7 +53,7 @@ Array< TValueType >
 /** Constructor with user specified data */
 template< typename TValueType >
 Array< TValueType >
-::Array(ValueType *datain, unsigned int sz, bool LetArrayManageMemory)
+::Array(ValueType *datain, SizeValueType sz, bool LetArrayManageMemory)
 {
   vnl_vector< TValueType >::data = datain;
   vnl_vector< TValueType >::num_elmts = sz;
@@ -63,7 +63,7 @@ Array< TValueType >
 /** Constructor with user specified data */
 template< typename TValueType >
 Array< TValueType >
-::Array(const ValueType *datain, unsigned int sz, bool LetArrayManageMemory)
+::Array(const ValueType *datain, SizeValueType sz, bool LetArrayManageMemory)
 {
   vnl_vector< TValueType >::data = const_cast< TValueType * >( datain );
   // Argh!! Discard constness WRONG.!!
@@ -112,7 +112,7 @@ Array< TValueType >
 template< typename TValueType >
 void
 Array< TValueType >
-::SetData(TValueType *datain, unsigned int sz, bool LetArrayManageMemory)
+::SetData(TValueType *datain, SizeValueType sz, bool LetArrayManageMemory)
 {
   if ( m_LetArrayManageMemory )
     {
@@ -125,7 +125,7 @@ Array< TValueType >
 
 template< typename TValueType >
 void Array< TValueType >
-::SetSize(unsigned int sz)
+::SetSize(SizeValueType sz)
 {
   if ( this->size() != sz )
     {
