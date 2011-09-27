@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCopperColormapFunction_h
-#define __itkCopperColormapFunction_h
+#ifndef __itkOverUnderColormapFunction_h
+#define __itkOverUnderColormapFunction_h
 
 #include "itkColormapFunction.h"
 
@@ -25,7 +25,7 @@ namespace itk
 namespace Function
 {
 /**
- * \class CopperColormapFunction
+ * \class OverUnderColormapFunction
  * \brief Function object which maps a scalar value into an RGB colormap value.
  *
  * \author Nicholas Tustison, Hui Zhang, Gaetan Lehmann, Paul Yushkevich
@@ -37,15 +37,15 @@ namespace Function
  * http://www.insight-journal.org/browse/publication/285
  * http://hdl.handle.net/1926/1452
  *
- * \ingroup ITKReview
+ * \ingroup ITKColormap
  */
 template< class TScalar, class TRGBPixel >
-class ITK_EXPORT CopperColormapFunction:
+class ITK_EXPORT OverUnderColormapFunction:
   public ColormapFunction< TScalar, TRGBPixel >
 {
 public:
 
-  typedef CopperColormapFunction                 Self;
+  typedef OverUnderColormapFunction              Self;
   typedef ColormapFunction< TScalar, TRGBPixel > Superclass;
   typedef SmartPointer< Self >                   Pointer;
   typedef SmartPointer< const Self >             ConstPointer;
@@ -60,17 +60,17 @@ public:
   virtual RGBPixelType operator()(const TScalar &) const;
 
 protected:
-  CopperColormapFunction() {}
-  ~CopperColormapFunction() {}
+  OverUnderColormapFunction() {}
+  ~OverUnderColormapFunction() {}
 private:
-  CopperColormapFunction(const Self &); //purposely not implemented
-  void operator=(const Self &);        //purposely not implemented
+  OverUnderColormapFunction(const Self &); //purposely not implemented
+  void operator=(const Self &);           //purposely not implemented
 };
 } // end namespace functor
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCopperColormapFunction.hxx"
+#include "itkOverUnderColormapFunction.hxx"
 #endif
 
 #endif

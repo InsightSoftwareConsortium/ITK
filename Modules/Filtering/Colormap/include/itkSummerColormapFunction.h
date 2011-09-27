@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHSVColormapFunction_h
-#define __itkHSVColormapFunction_h
+#ifndef __itkSummerColormapFunction_h
+#define __itkSummerColormapFunction_h
 
 #include "itkColormapFunction.h"
 
@@ -25,7 +25,7 @@ namespace itk
 namespace Function
 {
 /**
- * \class HSVColormapFunction
+ * \class SummerColormapFunction
  * \brief Function object which maps a scalar value into an RGB colormap value.
  *
  * \author Nicholas Tustison, Hui Zhang, Gaetan Lehmann, Paul Yushkevich
@@ -37,15 +37,15 @@ namespace Function
  * http://www.insight-journal.org/browse/publication/285
  * http://hdl.handle.net/1926/1452
  *
- * \ingroup ITKReview
+ * \ingroup ITKColormap
  */
 template< class TScalar, class TRGBPixel >
-class ITK_EXPORT HSVColormapFunction:
+class ITK_EXPORT SummerColormapFunction:
   public ColormapFunction< TScalar, TRGBPixel >
 {
 public:
 
-  typedef HSVColormapFunction                    Self;
+  typedef SummerColormapFunction                 Self;
   typedef ColormapFunction< TScalar, TRGBPixel > Superclass;
   typedef SmartPointer< Self >                   Pointer;
   typedef SmartPointer< const Self >             ConstPointer;
@@ -60,17 +60,17 @@ public:
   virtual RGBPixelType operator()(const TScalar &) const;
 
 protected:
-  HSVColormapFunction() {}
-  ~HSVColormapFunction() {}
+  SummerColormapFunction() {}
+  ~SummerColormapFunction() {}
 private:
-  HSVColormapFunction(const Self &); //purposely not implemented
-  void operator=(const Self &);     //purposely not implemented
+  SummerColormapFunction(const Self &); //purposely not implemented
+  void operator=(const Self &);        //purposely not implemented
 };
 } // end namespace functor
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkHSVColormapFunction.hxx"
+#include "itkSummerColormapFunction.hxx"
 #endif
 
 #endif
