@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHotColormapFunction_h
-#define __itkHotColormapFunction_h
+#ifndef __itkGreyColormapFunction_h
+#define __itkGreyColormapFunction_h
 
 #include "itkColormapFunction.h"
 
@@ -25,7 +25,7 @@ namespace itk
 namespace Function
 {
 /**
- * \class HotColormapFunction
+ * \class GreyColormapFunction
  * \brief Function object which maps a scalar value into an RGB colormap value.
  *
  * \author Nicholas Tustison, Hui Zhang, Gaetan Lehmann, Paul Yushkevich
@@ -37,15 +37,15 @@ namespace Function
  * http://www.insight-journal.org/browse/publication/285
  * http://hdl.handle.net/1926/1452
  *
- * \ingroup ITKReview
+ * \ingroup ITKColormap
  */
 template< class TScalar, class TRGBPixel >
-class ITK_EXPORT HotColormapFunction:
+class ITK_EXPORT GreyColormapFunction:
   public ColormapFunction< TScalar, TRGBPixel >
 {
 public:
 
-  typedef HotColormapFunction                    Self;
+  typedef GreyColormapFunction                   Self;
   typedef ColormapFunction< TScalar, TRGBPixel > Superclass;
   typedef SmartPointer< Self >                   Pointer;
   typedef SmartPointer< const Self >             ConstPointer;
@@ -60,17 +60,17 @@ public:
   virtual RGBPixelType operator()(const TScalar &) const;
 
 protected:
-  HotColormapFunction() {}
-  ~HotColormapFunction() {}
+  GreyColormapFunction() {}
+  ~GreyColormapFunction() {}
 private:
-  HotColormapFunction(const Self &); //purposely not implemented
-  void operator=(const Self &);     //purposely not implemented
+  GreyColormapFunction(const Self &); //purposely not implemented
+  void operator=(const Self &);      //purposely not implemented
 };
 } // end namespace functor
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkHotColormapFunction.hxx"
+#include "itkGreyColormapFunction.hxx"
 #endif
 
 #endif
