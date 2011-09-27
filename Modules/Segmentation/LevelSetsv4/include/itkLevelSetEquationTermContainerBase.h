@@ -127,18 +127,7 @@ protected:
 
   InputImagePointer     m_Input;
 
-  /** \todo  */
-  struct hash_string
-  {
-    size_t operator()( const std::string& x ) const
-    {
-      return itksys::hash< const char* >()( x.c_str() );
-    }
-  };
-
-  typedef itksys::hash_map< std::string,
-                            TermPointer,
-                            hash_string >                   HashMapStringTermContainerType;
+  typedef itksys::hash_map< std::string, TermPointer > HashMapStringTermContainerType;
 
   HashMapStringTermContainerType m_NameContainer;
 

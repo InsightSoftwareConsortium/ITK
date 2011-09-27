@@ -128,15 +128,7 @@ public:
   /** Update the term parameter values at end of iteration */
   virtual void Update() = 0;
 
-  struct hash_string
-  {
-    size_t operator()( const std::string& x ) const
-    {
-      return itksys::hash< const char* >()( x.c_str() );
-    }
-  };
-
-  typedef itksys::hash_set< std::string, hash_string > RequiredDataType;
+  typedef itksys::hash_set< std::string > RequiredDataType;
 
   const RequiredDataType & GetRequiredData() const;
 
