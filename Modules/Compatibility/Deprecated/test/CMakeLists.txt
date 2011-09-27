@@ -16,7 +16,7 @@ itkSubtractConstantFromImageFilterTest.cxx
 )
 
 # For itkTestDriverIncludeDeprecatedIOFactories.h.
-include_directories( ${ITKDeprecated_SOURCE_DIR}/test )
+include_directories( ${CMAKE_CURRENT_SOURCE_DIR} )
 
 CreateTestDriver_SupportBuildInIOFactories(ITKDeprecated  "${ITKDeprecated-Test_LIBRARIES}" "${ITKDeprecatedTests}")
 
