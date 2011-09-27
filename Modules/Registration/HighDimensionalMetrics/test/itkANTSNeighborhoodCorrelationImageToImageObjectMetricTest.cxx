@@ -20,11 +20,6 @@
 
 #include "itkANTSNeighborhoodCorrelationImageToImageObjectMetric.h"
 
-//FIXME We need these as long as we have to define ImageToData and
-// Array1DToData as a fwd-declare in itkImageToImageObjectMetric.h
-#include "itkImageToData.h"
-#include "itkArray1DToData.h"
-
 /**
  * Test program for ANTSNeighborhoodCorrelationImageToImageObjectMetric,
  * using a synthectic image and initial displacement.

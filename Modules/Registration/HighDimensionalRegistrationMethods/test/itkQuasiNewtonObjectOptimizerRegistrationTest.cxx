@@ -48,11 +48,6 @@
 #include "itksys/SystemTools.hxx"
 #include "itkResampleImageFilter.h"
 
-//FIXME We need these as long as we have to define ImageToData and
-// Array1DToData as a fwd-declare in itkImageToImageObjectMetric.h
-#include "itkImageToData.h"
-#include "itkArray1DToData.h"
-
 template<unsigned int Dimension, class TAffineTransform>
 int itkQuasiNewtonObjectOptimizerRegistrationTestMain(int argc, char *argv[])
 {

@@ -19,11 +19,6 @@
 #include "itkJointHistogramMutualInformationImageToImageObjectMetric.h"
 #include "itkTranslationTransform.h"
 
-//FIXME We need these as long as we have to define ImageToData and
-// Array1DToData as a fwd-declare in itkImageToImageObjectMetric.h
-#include "itkImageToData.h"
-#include "itkArray1DToData.h"
-
 /* Simple test to verify that class builds and runs.
  * Results are not verified. See ImageToImageObjectMetricTest
  * for verification of basic metric functionality.

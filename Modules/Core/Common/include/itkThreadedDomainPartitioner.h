@@ -15,30 +15,33 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkObjectToDataBase_h
-#define __itkObjectToDataBase_h
+#ifndef __itkThreadedDomainPartitioner_h
+#define __itkThreadedDomainPartitioner_h
 
-#include "itkProcessObject.h"
+#include "itkIntTypes.h"
+#include "itkMultiThreader.h"
+#include "itkObject.h"
 
 namespace itk
 {
 
-/** \class ObjectToDataBase
- *  \brief Virtual base class for threading setup and dispatch.
+/** \class ThreadedDomainPartitioner
+ *  \brief Virtual base class for partitioning a domain into subsets to be
+ *  processed per thread when parallel processing.
  *
- * The class is templated over the type of object over which threading
+ * The class is templated over the type of domain over which threading
  * is performed, e.g. an image region. And it is templated over the
  * type of the data holder. The data holder is supplied to the threading
  * callback for the user, i.e. as user data.
  *
- * SplitRequestedObject is a method to split the object into
+ * SplitDomain is a method to split the domain into
  * non-overlapping pieces for threading. Must be overridden by derived
  * classes to provide the particular functionality required for
- * TInputObject type.
+ * TDomain type.
  *
  * Call SetHolder to assign a user data object.
  *
- * Call SetOverallObject to assign the object to split into per-thread
+ * Call SetDomain to assign the domain object to split into per-thread
  * regions.
  *
  * Call SetThreadedGenerateData to define the worker callback function,
@@ -49,7 +52,7 @@ namespace itk
  *
  * \warning The actual number of threads used may be less than the
  * requested number of threads. Either because the requested number is
- * greater than the number available, or the SplitRequestedObject method
+ * greater than the number available, or the PartitionDomain method
  * decides that fewer threads would be more efficient. After the threader
  * has run, m_NumberOfThreadsUsed holds the actual number used.
  * See \c DetermineNumberOfThreadsToUse to get the number of threads
@@ -57,28 +60,26 @@ namespace itk
  *
  * \note There is no test for this class yet. See Array1DToDataTest.
  * \todo Make test.
- * \note The name of this and derived classes should possibly be
- * changed for more clarity.
  *
- * \sa ImageToData
+ * \sa ThreadedImageRegionPartitioner
  * \ingroup ITKCommon
  */
 
-template <class TInputObject, class TDataHolder>
-class ITK_EXPORT ObjectToDataBase : public ProcessObject
+template <class TDomain, class TDataHolder>
+class ITKCommon_EXPORT ThreadedDomainPartitioner : public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef ObjectToDataBase          Self;
-  typedef ProcessObject             Superclass;
+  typedef ThreadedDomainPartitioner Self;
+  typedef Object                    Superclass;
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ObjectToDataBase,ProcessObject);
+  itkTypeMacro(ThreadedDomainPartitioner, Object);
 
   /** Type of the input object that's split for threading */
-  typedef TInputObject              InputObjectType;
+  typedef TDomain                   DomainType;
 
   /** Type of the data holder, i.e. user data */
   typedef TDataHolder               DataHolderType;
@@ -100,12 +101,12 @@ public:
   //  actually would have to be an extern "C" non-member function to be correct,
   //  since "C linkage" doesn't only cover things like name mangling, but also
   //  calling conventions, which might be different between C and C++.
-  typedef void (*ThreadedGenerateDataFuncType)(const InputObjectType&,
+  typedef void (*ThreadedGenerateDataFuncType)(const DomainType&,
                                                 ThreadIdType threadId,
                                                 DataHolderType * holder);
 
-  /** Set the overall (i.e. complete) object over which to thread */
-  void SetOverallObject( const InputObjectType & object );
+  /** Set the complete (i.e. overall) domain over which to thread */
+  void SetCompleteDomain( const DomainType & domain );
 
   /** Set the threaded worker callback. Used by the user class
    * to assign the worker callback.
@@ -119,22 +120,30 @@ public:
   itkGetMacro( Holder, DataHolderType *);
   itkGetConstMacro( Holder, DataHolderType *);
 
+  /** Get/Set the number of threads to create when executing. */
+  itkSetClampMacro(NumberOfThreads, ThreadIdType, 1, ITK_MAX_THREADS);
+  itkGetConstReferenceMacro(NumberOfThreads, ThreadIdType);
+
   /** Accessor for number of threads actually used */
   itkGetMacro( NumberOfThreadsUsed, ThreadIdType );
+
+  /** Return the multithreader used by this class. */
+  MultiThreader * GetMultiThreader()
+  { return m_Threader; }
 
   /** Start the threading process */
   virtual void StartThreadedExecution();
 
   /** Determine the number of threads that will be used by calling
-   * SplitRequestedObject once and getting the return value. This uses
-   * m_NumberOfThreads and requires that \c m_OverallObject has been set.
-   * The number may be less than m_NumberOfThreads if SplitRequestedObject
+   * PartitionDomain once and getting the return value. This uses
+   * m_NumberOfThreads and requires that \c m_Domain has been set.
+   * The number may be less than m_NumberOfThreads if PartitionDomain
    * determines that fewer threads would be more efficient. */
   ThreadIdType DetermineNumberOfThreadsToUse() const;
 
 protected:
-  ObjectToDataBase();
-  virtual ~ObjectToDataBase();
+  ThreadedDomainPartitioner();
+  virtual ~ThreadedDomainPartitioner();
 
   /** Split the output's RequestedObject into \c requestedTotal "pieces",
    * returning piece \c i as \c splitObject. "Pieces" may represent
@@ -148,10 +157,10 @@ protected:
    * This must be overridden by derived classes to provide specialized
    * behavior. */
   virtual
-  ThreadIdType SplitRequestedObject(const ThreadIdType threadID,
+  ThreadIdType PartitionDomain(const ThreadIdType threadID,
                            const ThreadIdType requestedTotal,
-                           const InputObjectType& overallObject,
-                           InputObjectType& splitObject) const = 0;
+                           const DomainType& completeDomain,
+                           DomainType& subdomain) const = 0;
 
   /** Static function used as a "callback" by the MultiThreader.  The threading
    * library will call this routine for each thread, which will delegate the
@@ -167,10 +176,10 @@ protected:
 
   /** The object over which to thread. */
   //This should probably be made into a SmartPointer
-  InputObjectType               m_OverallObject;
+  DomainType                    m_Domain;
 
   /** Flag is set when user calls SetOveralObject */
-  bool                          m_OverallObjectHasBeenSet;
+  bool                          m_DomainHasBeenSet;
 
   /** Raw C-pointer to the data holder */
   DataHolderType *              m_Holder;
@@ -188,7 +197,13 @@ private:
    * This value is valid once the threader has been run. */
   ThreadIdType                  m_NumberOfThreadsUsed;
 
-  ObjectToDataBase(const Self&); //purposely not implemented
+  /** Support processing data in multiple threads. Used by subclasses
+   * (e.g., ImageSource). */
+  MultiThreader::Pointer m_Threader;
+
+  ThreadIdType           m_NumberOfThreads;
+
+  ThreadedDomainPartitioner(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
 };
@@ -196,7 +211,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-# include "itkObjectToDataBase.hxx"
+# include "itkThreadedDomainPartitioner.hxx"
 #endif
 
 #endif

@@ -95,7 +95,7 @@ ANTSNeighborhoodCorrelationImageToImageObjectMetric<TFixedImage,
                           TMovingImage,
                           TVirtualImage>
 ::NeighborhoodScanningWindowGetValueAndDerivativeThreadedCallback(
-            const DenseThreaderInputObjectType& virtualImageSubRegion,
+            const DenseThreaderDomainType& virtualImageSubRegion,
             ThreadIdType threadID, Superclass * dataHolderA)
 {
   Self *dataHolder = dynamic_cast<Self *>(dataHolderA);

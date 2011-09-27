@@ -35,10 +35,6 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
-//FIXME We need these as long as we have to define ImageToData and
-// Array1DToData as a fwd-declare in itkImageToImageObjectMetric.h
-#include "itkImageToData.h"
-
 namespace{
 // The following class is used to support callbacks
 // on the filter in the pipeline that follows later

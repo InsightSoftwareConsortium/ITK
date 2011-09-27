@@ -15,26 +15,26 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkArray1DToData.h"
+#include "itkThreadedArrayPartitioner.h"
 
-class   Array1DToDataTest_UserDataClass;
-typedef itk::Array1DToData<Array1DToDataTest_UserDataClass>
-                                            Array1DToDataTest_Array1DToDataType;
-typedef Array1DToDataTest_Array1DToDataType::IndexRangeType
-                                            Array1DToDataTest_IndexRangeType;
+class   ThreadedArrayPartitionerTest_UserDataClass;
+typedef itk::ThreadedArrayPartitioner<ThreadedArrayPartitionerTest_UserDataClass>
+                                            ThreadedArrayPartitionerTest_ThreadedArrayPartitionerType;
+typedef ThreadedArrayPartitionerTest_ThreadedArrayPartitionerType::IndexRangeType
+                                            ThreadedArrayPartitionerTest_IndexRangeType;
 
 /*
  * Helper class that holds callback and stores results from threads.
  */
-class Array1DToDataTest_UserDataClass
+class ThreadedArrayPartitionerTest_UserDataClass
 {
 public:
-  typedef Array1DToDataTest_UserDataClass Self;
+  typedef ThreadedArrayPartitionerTest_UserDataClass Self;
 
   /* Callback used during threaded operation.
    * An instance of this class is referenced through
    * holder, which is passed in via the threader's user data. */
-  static void ThreadedCallback( const Array1DToDataTest_IndexRangeType&
+  static void ThreadedCallback( const ThreadedArrayPartitionerTest_IndexRangeType&
                                   rangeForThread,
                                 itk::ThreadIdType threadId,
                                 Self *holder )
@@ -51,7 +51,7 @@ public:
   {
     m_GotMoreThreadsThanExpected = false;
     m_RangeInCallback.resize(numberOfThreads);
-    Array1DToDataTest_IndexRangeType emptyRange;
+    ThreadedArrayPartitionerTest_IndexRangeType emptyRange;
     emptyRange.Fill(-1);
     for(itk::ThreadIdType i=0; i<m_RangeInCallback.size(); i++)
       {
@@ -59,20 +59,20 @@ public:
       }
   }
 
-  bool                                           m_GotMoreThreadsThanExpected;
-  std::vector<Array1DToDataTest_IndexRangeType>  m_RangeInCallback;
-  itk::ThreadIdType                              m_NumberOfThreads;
+  bool                                                      m_GotMoreThreadsThanExpected;
+  std::vector<ThreadedArrayPartitionerTest_IndexRangeType>  m_RangeInCallback;
+  itk::ThreadIdType                                         m_NumberOfThreads;
 
 };
 
 /*
  * Run the actual test
  */
-int Array1DToDataTest_RunTest(
-             Array1DToDataTest_Array1DToDataType::Pointer& threader,
+int ThreadedArrayPartitionerTest_RunTest(
+             ThreadedArrayPartitionerTest_ThreadedArrayPartitionerType::Pointer& threader,
              itk::ThreadIdType numberOfThreads,
-             Array1DToDataTest_IndexRangeType& fullRange,
-             Array1DToDataTest_UserDataClass& holder)
+             ThreadedArrayPartitionerTest_IndexRangeType& fullRange,
+             ThreadedArrayPartitionerTest_UserDataClass& holder)
 {
   std::cout << "Testing with " << numberOfThreads
             << " threads and range " << fullRange << "..." << std::endl;
@@ -93,7 +93,7 @@ int Array1DToDataTest_RunTest(
   holder.Init( numberOfThreads );
 
   /* Tell the threader the whole range over which to split and thread */
-  threader->SetOverallIndexRange( fullRange );
+  threader->SetCompleteIndexRange( fullRange );
 
   /* Run the threader */
   threader->StartThreadedExecution();
@@ -111,10 +111,10 @@ int Array1DToDataTest_RunTest(
             << threader->GetNumberOfThreadsUsed() << std::endl;
 
   /* Check the results */
-  Array1DToDataTest_IndexRangeType::IndexValueType previousEndIndex = -1;
+  ThreadedArrayPartitionerTest_IndexRangeType::IndexValueType previousEndIndex = -1;
   for( itk::ThreadIdType i=0; i < threader->GetNumberOfThreadsUsed(); i++ )
     {
-    Array1DToDataTest_IndexRangeType subRange = holder.m_RangeInCallback[i];
+    ThreadedArrayPartitionerTest_IndexRangeType subRange = holder.m_RangeInCallback[i];
     /* Check that the sub range was assigned something at all */
     if( subRange[0] == -1 ||
         subRange[1] == -1 )
@@ -158,10 +158,10 @@ int Array1DToDataTest_RunTest(
 /*
  * Main test entry function
  */
-int itkArray1DToDataTest(int , char* [])
+int itkThreadedArrayPartitionerTest(int , char* [])
 {
-  Array1DToDataTest_Array1DToDataType::Pointer threader = Array1DToDataTest_Array1DToDataType::New();
-  Array1DToDataTest_UserDataClass   holder;
+  ThreadedArrayPartitionerTest_ThreadedArrayPartitionerType::Pointer threader = ThreadedArrayPartitionerTest_ThreadedArrayPartitionerType::New();
+  ThreadedArrayPartitionerTest_UserDataClass   holder;
 
   int result = EXIT_SUCCESS;
 
@@ -176,17 +176,17 @@ int itkArray1DToDataTest(int , char* [])
             << std::endl;
 
   /* Set the callback for the threader to use */
-  threader->SetThreadedGenerateData( Array1DToDataTest_UserDataClass::ThreadedCallback );
+  threader->SetThreadedGenerateData( ThreadedArrayPartitionerTest_UserDataClass::ThreadedCallback );
   /* Set the data/method holder that threader will pass to callback */
   threader->SetHolder( &holder );
 
-  Array1DToDataTest_IndexRangeType fullRange;
+  ThreadedArrayPartitionerTest_IndexRangeType fullRange;
 
   /* Test with single thread */
   fullRange[0] = 0;
   fullRange[1] = 102; //set total range to prime to test uneven division
   itk::ThreadIdType numberOfThreads = 1;
-  if( Array1DToDataTest_RunTest( threader, numberOfThreads, fullRange, holder )
+  if( ThreadedArrayPartitionerTest_RunTest( threader, numberOfThreads, fullRange, holder )
         != EXIT_SUCCESS )
     {
     result = EXIT_FAILURE;
@@ -196,7 +196,7 @@ int itkArray1DToDataTest(int , char* [])
   fullRange[0] = 2;
   fullRange[1] = 104; //set total range to prime to test uneven division
   numberOfThreads = 1;
-  if( Array1DToDataTest_RunTest( threader, numberOfThreads, fullRange, holder )
+  if( ThreadedArrayPartitionerTest_RunTest( threader, numberOfThreads, fullRange, holder )
         != EXIT_SUCCESS )
     {
     result = EXIT_FAILURE;
@@ -211,7 +211,7 @@ int itkArray1DToDataTest(int , char* [])
     fullRange[1] = 108; //set total range to prime to test uneven division
     numberOfThreads =
       threader->GetMultiThreader()->GetGlobalDefaultNumberOfThreads();
-    if( Array1DToDataTest_RunTest( threader, numberOfThreads, fullRange, holder )
+    if( ThreadedArrayPartitionerTest_RunTest( threader, numberOfThreads, fullRange, holder )
           != EXIT_SUCCESS )
       {
       result = EXIT_FAILURE;
@@ -223,7 +223,7 @@ int itkArray1DToDataTest(int , char* [])
       threader->GetMultiThreader()->GetGlobalMaximumNumberOfThreads();
     fullRange[0] = 6;
     fullRange[1] = fullRange[0]+maxNumberOfThreads-2;
-    if( Array1DToDataTest_RunTest( threader, maxNumberOfThreads, fullRange, holder )
+    if( ThreadedArrayPartitionerTest_RunTest( threader, maxNumberOfThreads, fullRange, holder )
           != EXIT_SUCCESS )
       {
       result = EXIT_FAILURE;
@@ -249,7 +249,7 @@ int itkArray1DToDataTest(int , char* [])
   bool caught = false;
   try
     {
-    Array1DToDataTest_RunTest( threader, numberOfThreads, fullRange, holder );
+    ThreadedArrayPartitionerTest_RunTest( threader, numberOfThreads, fullRange, holder );
     }
   catch ( itk::ExceptionObject & err )
     {

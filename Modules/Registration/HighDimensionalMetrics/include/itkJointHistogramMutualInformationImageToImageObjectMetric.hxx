@@ -287,7 +287,7 @@ JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage,TMovingImage
   SamplingIteratorHelperType * iterator;
   if( this->m_UseFixedSampledPointSet )
     {
-    typename Superclass::SampledThreaderInputObjectType sampledRange;
+    typename Superclass::SampledThreaderDomainType sampledRange;
     sampledRange[0] = 0;
     sampledRange[1] = this->m_VirtualSampledPointSet->GetNumberOfPoints() - 1;
     iterator = new SamplingIteratorHelperType( this->m_VirtualDomainImage,

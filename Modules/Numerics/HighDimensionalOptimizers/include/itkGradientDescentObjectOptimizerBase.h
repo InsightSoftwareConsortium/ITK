@@ -19,7 +19,7 @@
 #define __itkGradientDescentObjectOptimizerBase_h
 
 #include "itkObjectToObjectOptimizerBase.h"
-#include "itkArray1DToData.h"
+#include "itkThreadedArrayPartitioner.h"
 
 namespace itk
 {
@@ -77,7 +77,7 @@ public:
   typedef Superclass::InternalComputationValueType InternalComputationValueType;
 
   /** Threader for gradient update */
-  typedef Array1DToData<Self>                        ModifyGradientThreaderType;
+  typedef ThreadedArrayPartitioner<Self>                        ModifyGradientThreaderType;
 
   /** Type of index range for threading */
   typedef ModifyGradientThreaderType::IndexRangeType IndexRangeType;

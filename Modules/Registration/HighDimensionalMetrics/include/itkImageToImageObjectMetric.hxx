@@ -201,7 +201,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 
   /* Assign the virtual image region to the threader. Do this before
    * calling DetermineNumberOfThreadsToUse. */
-  this->m_DenseValueAndDerivativeThreader->SetOverallObject(
+  this->m_DenseValueAndDerivativeThreader->SetCompleteDomain(
                                             this->GetVirtualDomainRegion() );
 
   /* Assign the range to the sampling threader. */
@@ -211,10 +211,10 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
       {
       itkExceptionMacro("FixedSampledPointSet must have 1 or more points.");
       }
-    SampledThreaderInputObjectType range;
+    SampledThreaderDomainType range;
     range[0] = 0;
     range[1] = this->m_FixedSampledPointSet->GetNumberOfPoints() - 1;
-    this->m_SampledValueAndDerivativeThreader->SetOverallObject( range );
+    this->m_SampledValueAndDerivativeThreader->SetCompleteDomain( range );
     }
 
   /* Determine how many threads will be used, given the set OverallObject.
@@ -529,7 +529,7 @@ template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 ::DenseGetValueAndDerivativeThreadedCallback(
-                const DenseThreaderInputObjectType & subRegion,
+                const DenseThreaderDomainType& subRegion,
                 ThreadIdType threadID,
                 Self * self)
 {
@@ -541,7 +541,7 @@ template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 ::SampledGetValueAndDerivativeThreadedCallback(
-                const SampledThreaderInputObjectType & sampledRange,
+                const SampledThreaderDomainType& sampledRange,
                 ThreadIdType threadID,
                 Self * self)
 {
@@ -1474,7 +1474,7 @@ public:
 
   /** Constructor for use with dense sampling */
   SamplingIteratorHelper( const VirtualImagePointer & virtualDomainImage,
-                          const DenseThreaderInputObjectType & subRegion )
+                          const DenseThreaderDomainType & subRegion )
     {
     m_UseSampledPointSet = false;
     m_VirtualDomainImageLocal = virtualDomainImage;
@@ -1486,7 +1486,7 @@ public:
   /** Constructor for use with sparse sampling with a point set */
   SamplingIteratorHelper( const VirtualImagePointer & virtualDomainImage,
                           const VirtualSampledPointSetPointer & pointSet,
-                          const SampledThreaderInputObjectType & sampledRange )
+                          const SampledThreaderDomainType & sampledRange )
     {
     m_UseSampledPointSet = true;
     m_VirtualDomainImageLocal = virtualDomainImage;
@@ -1503,13 +1503,13 @@ public:
 private:
 
   DenseIteratorType               m_DenseIt;
-  DenseThreaderInputObjectType    m_SubRegion;
+  DenseThreaderDomainType         m_SubRegion;
 
   VirtualImagePointer                   m_VirtualDomainImageLocal;
   VirtualSampledPointSetPointer         m_SampledPointSet;
-  SampledThreaderInputObjectValueType   m_FirstSample;
-  SampledThreaderInputObjectValueType   m_LastSample;
-  SampledThreaderInputObjectValueType   m_NextSample;
+  SampledThreaderDomainValueType        m_FirstSample;
+  SampledThreaderDomainValueType        m_LastSample;
+  SampledThreaderDomainValueType        m_NextSample;
   bool                                  m_UseSampledPointSet;
 };
 

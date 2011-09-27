@@ -29,22 +29,10 @@
 #include "itkTransform.h"
 #include "itkTransformParametersAdaptor.h"
 
-//FIXME We need these as long as we have to define ImageToData and
-// Array1DToData as a fwd-declare in itkImageToImageObjectMetric.h
-#include "itkImageToData.h"
-#include "itkArray1DToData.h"
-
 #include <vector>
 
 namespace itk
 {
-//Forward-declare these because of module dependency conflict.
-//They will soon be moved to a different module, at which
-// time this can be removed.
-template <unsigned int VDimension, class TDataHolder>
-class ImageToData;
-template <class TDataHolder>
-class Array1DToData;
 
 /** \class SimpleImageRegistrationMethod
  * \brief Interface method for the current registration framework.

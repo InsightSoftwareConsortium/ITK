@@ -129,7 +129,7 @@ public:
   typedef typename Superclass::FixedImageType                 FixedImageType;
   typedef typename Superclass::MovingImageType                MovingImageType;
   typedef typename Superclass::VirtualImageType               VirtualImageType;
-  typedef typename Superclass::DenseThreaderInputObjectType        DenseThreaderInputObjectType;
+  typedef typename Superclass::DenseThreaderDomainType        DenseThreaderDomainType;
   typedef typename Superclass::FixedOutputPointType           FixedOutputPointType;
   typedef typename Superclass::MovingOutputPointType          MovingOutputPointType;
 
@@ -269,7 +269,7 @@ private:
   void operator=(const Self &);
 
   static void NeighborhoodScanningWindowGetValueAndDerivativeThreadedCallback(
-      const DenseThreaderInputObjectType& virtualImageSubRegion,
+      const DenseThreaderDomainType& virtualImageSubRegion,
       ThreadIdType threadID, Superclass * dataHolder);
 
   // Radius of the neighborhood window centered at each pixel

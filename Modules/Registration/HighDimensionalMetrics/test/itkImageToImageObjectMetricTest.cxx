@@ -19,11 +19,6 @@
 #include "itkTranslationTransform.h"
 #include "itkTestingMacros.h"
 
-//FIXME We need these as long as we have to define ImageToData and
-// Array1DToData as a fwd-declare in itkImageToImageObjectMetric.h
-#include "itkImageToData.h"
-#include "itkArray1DToData.h"
-
 /*
  * This test creates synthetic images and verifies numerical results
  * of metric evaluation.

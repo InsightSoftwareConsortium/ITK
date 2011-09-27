@@ -15,10 +15,10 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageToData_hxx
-#define __itkImageToData_hxx
+#ifndef __itkThreadedImageRegionPartitioner_hxx
+#define __itkThreadedImageRegionPartitioner_hxx
 
-#include "itkImageToData.h"
+#include "itkThreadedImageRegionPartitioner.h"
 
 namespace itk
 {
@@ -27,8 +27,8 @@ namespace itk
  * Constructor
  */
 template <unsigned int VDimension, class TDataHolder>
-ImageToData<VDimension, TDataHolder>
-::ImageToData()
+ThreadedImageRegionPartitioner<VDimension, TDataHolder>
+::ThreadedImageRegionPartitioner()
 {
 }
 
@@ -36,8 +36,8 @@ ImageToData<VDimension, TDataHolder>
  * Destructor
  */
 template <unsigned int VDimension, class TDataHolder>
-ImageToData<VDimension, TDataHolder>
-::~ImageToData()
+ThreadedImageRegionPartitioner<VDimension, TDataHolder>
+::~ThreadedImageRegionPartitioner()
 {}
 
 /**
@@ -45,10 +45,10 @@ ImageToData<VDimension, TDataHolder>
  */
 template <unsigned int VDimension, class TDataHolder>
 void
-ImageToData<VDimension, TDataHolder>
-::SetOverallRegion(  const ImageRegionType& region )
+ThreadedImageRegionPartitioner<VDimension, TDataHolder>
+::SetCompleteRegion(  const ImageRegionType& region )
 {
-  this->SetOverallObject( region );
+  this->SetCompleteDomain( region );
 }
 
 /**
@@ -56,19 +56,19 @@ ImageToData<VDimension, TDataHolder>
  */
 template <unsigned int VDimension, class TDataHolder>
 ThreadIdType
-ImageToData<VDimension, TDataHolder>
-::SplitRequestedObject( const ThreadIdType threadID,
+ThreadedImageRegionPartitioner<VDimension, TDataHolder>
+::PartitionDomain( const ThreadIdType threadID,
                         const ThreadIdType requestedTotal,
-                        const InputObjectType &overallRegion,
-                        InputObjectType& splitRegion) const
+                        const DomainType &completeRegion,
+                        DomainType& subRegion) const
 {
-  const SizeType      requestedRegionSize = overallRegion.GetSize();
+  const SizeType      requestedRegionSize = completeRegion.GetSize();
   const ThreadIdType  singleThread = 1;
 
-  // Initialize the splitRegion to the output requested region
-  splitRegion = overallRegion;
-  IndexType splitIndex = splitRegion.GetIndex();
-  SizeType splitSize = splitRegion.GetSize();
+  // Initialize the subRegion to the output requested region
+  subRegion = completeRegion;
+  IndexType splitIndex = subRegion.GetIndex();
+  SizeType splitSize = subRegion.GetSize();
 
   // Protect against division by 0 below. Seems this would be a bug
   // in MultiThreader if it passed 0 for requestedTotal.
@@ -92,11 +92,11 @@ ImageToData<VDimension, TDataHolder>
 
   // Make sure we don't have a 0-valued dimension size to avoid
   // division by 0 below.
-  // This would be a bug in the passed overallRegion.
+  // This would be a bug in the passed completeRegion.
   if( requestedRegionSize[splitAxis] == 0 )
     {
     itkExceptionMacro( "requestedRegionSize[splitAxis] == 0. "
-                      << "Error in input 'overallRegion'" );
+                      << "Error in input 'completeRegion'" );
     }
 
   // determine the actual number of pieces that will be generated
@@ -123,10 +123,10 @@ ImageToData<VDimension, TDataHolder>
     }
 
   // set the split region ivars
-  splitRegion.SetIndex( splitIndex );
-  splitRegion.SetSize( splitSize );
+  subRegion.SetIndex( splitIndex );
+  subRegion.SetSize( splitSize );
 
-  itkDebugMacro("  Split Piece: " << splitRegion );
+  itkDebugMacro("  Split Piece: " << subRegion );
 
   return maxThreadIdUsed + 1;
 }

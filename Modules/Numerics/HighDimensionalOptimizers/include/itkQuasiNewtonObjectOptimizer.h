@@ -80,7 +80,7 @@ public:
   typedef std::vector<HessianType>                    HessianArrayType;
 
   /** Threader for Quasi-Newton method */
-  typedef Array1DToData<Self>                         QuasiNewtonThreaderType;
+  typedef ThreadedArrayPartitioner<Self>                         QuasiNewtonThreaderType;
 
   /** Start and run the optimization */
   virtual void StartOptimization();
@@ -161,7 +161,10 @@ protected:
    */
   void ModifyCombinedNewtonStep();
 
-  /** Advance one step using the Quasi-Newton step or the gradient step. */
+  /**
+   * Advance one step using the Quasi-Newton step. When the Newton step
+   * is invalid, the gradient step will be used.
+   */
   virtual void AdvanceOneStep(void);
 
   QuasiNewtonObjectOptimizer();

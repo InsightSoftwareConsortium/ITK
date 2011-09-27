@@ -24,21 +24,14 @@
 #include "itkInterpolateImageFunction.h"
 #include "itkSpatialObject.h"
 #include "itkResampleImageFilter.h"
+#include "itkThreadedArrayPartitioner.h"
+#include "itkThreadedImageRegionPartitioner.h"
 #include "itkImageToImageFilter.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"
 #include "itkPointSet.h"
 
 namespace itk
 {
-
-//Forward-declare these because of module dependency conflict.
-//They will soon be moved to a different module, at which
-// time this can be removed.
-template <unsigned int VDimension, class TDataHolder>
-class ImageToData;
-template <class TDataHolder>
-class Array1DToData;
-
 /** \class ImageToImageObjectMetric
  *
  * Computes similarity between regions of two images, using two
@@ -880,23 +873,24 @@ protected:
    * in GetValue and GetDerivative.
    * This splits an image region in per-thread sub-regions over the outermost
    * image dimension. */
-  typedef ImageToData<VirtualImageDimension, Self>
+  typedef ThreadedImageRegionPartitioner<VirtualImageDimension, Self>
                                              DenseValueAndDerivativeThreaderType;
-  typedef typename DenseValueAndDerivativeThreaderType::InputObjectType
-                                             DenseThreaderInputObjectType;
+  typedef typename DenseValueAndDerivativeThreaderType::DomainType
+                                             DenseThreaderDomainType;
 
   /** Type of the default threader used for sampled evaulation
    * in GetValue and GetDerivative.
    * This splits the list of sample points into equal blocks. */
-  typedef Array1DToData<Self> SampledValueAndDerivativeThreaderType;
-  typedef typename SampledValueAndDerivativeThreaderType::InputObjectType
-                                             SampledThreaderInputObjectType;
-  typedef typename SampledValueAndDerivativeThreaderType::InputObjectValueType
-                                             SampledThreaderInputObjectValueType;
+  typedef ThreadedArrayPartitioner<Self> SampledValueAndDerivativeThreaderType;
+  typedef typename SampledValueAndDerivativeThreaderType::DomainType
+                                             SampledThreaderDomainType;
+  typedef typename SampledThreaderDomainType::IndexValueType
+                                             SampledThreaderDomainValueType;
 
-  /* Optinally set the threader type to use. This performs the splitting of the
+  /* Optionally set the threader type to use. This performs the splitting of the
    * virtual region over threads, and user may wish to provide a different
-   * one that does a different split. The default is ImageToData. */
+   * one that does a different split. The default is
+   * ThreadedImageRegionPartitioner. */
   itkSetObjectMacro(DenseValueAndDerivativeThreader,DenseValueAndDerivativeThreaderType);
 
   /** Threader used for dense evaluation of value and deriviative. */
@@ -937,7 +931,7 @@ private:
    * iterate over image region and call derived class for calculations.
    * \c m_ValueAndDerivativeThreader->SetThreadedGenerateData( mycallback ) */
   static void DenseGetValueAndDerivativeThreadedCallback(
-                        const DenseThreaderInputObjectType& virtualImageSubRegion,
+                        const DenseThreaderDomainType& virtualImageSubRegion,
                         ThreadIdType threadId,
                         Self * dataHolder);
   /**
@@ -946,7 +940,7 @@ private:
    * iterate over sample point-set and call derived class for calculations.
    */
   static void SampledGetValueAndDerivativeThreadedCallback(
-                        const SampledThreaderInputObjectType& sampledRange,
+                        const SampledThreaderDomainType& sampledRange,
                         ThreadIdType threadId,
                         Self * dataHolder);
 

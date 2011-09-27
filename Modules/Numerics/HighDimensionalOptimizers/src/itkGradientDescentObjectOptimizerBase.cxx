@@ -87,15 +87,15 @@ void
 GradientDescentObjectOptimizerBase
 ::ModifyGradient()
 {
-  IndexRangeType fullrange;
-  fullrange[0] = 0;
-  fullrange[1] = this->m_Gradient.GetSize()-1; //range is inclusive
-  /* Perform the modification either with or without threading */
-  if( this->m_Metric->HasLocalSupport() )
-    {
+IndexRangeType fullrange;
+fullrange[0] = 0;
+fullrange[1] = this->m_Gradient.GetSize()-1; //range is inclusive
+/* Perform the modification either with or without threading */
+if( this->m_Metric->HasLocalSupport() )
+  {
     if (!this->m_ScalesAreIdentity)
       {
-      this->m_ModifyGradientByScalesThreader->SetOverallIndexRange( fullrange );
+      this->m_ModifyGradientByScalesThreader->SetCompleteIndexRange( fullrange );
       /* This ends up calling ModifyGradientByScalesThreaded from each thread */
       this->m_ModifyGradientByScalesThreader->StartThreadedExecution();
       }
@@ -106,7 +106,7 @@ GradientDescentObjectOptimizerBase
        But m_LearningRate is not assessible here.
        Should we declare it in a base class as m_Scales ? */
 
-    this->m_ModifyGradientByLearningRateThreader->SetOverallIndexRange( fullrange );
+    this->m_ModifyGradientByLearningRateThreader->SetCompleteIndexRange( fullrange );
     /* This ends up calling ModifyGradientByLearningRateThreaded from each thread */
     this->m_ModifyGradientByLearningRateThreader->StartThreadedExecution();
     }

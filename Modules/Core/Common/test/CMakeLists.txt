@@ -99,8 +99,8 @@ itkMersenneTwisterRandomVariateGeneratorTest.cxx
 )
 
 set(ITKCommon2Tests
-itkArray1DToDataTest.cxx
-itkImageToDataTest.cxx
+itkThreadedArrayPartitionerTest.cxx
+itkThreadedImageRegionPartitionerTest.cxx
 itkMetaDataDictionaryTest.cxx
 itkStdStreamLogOutputTest.cxx
 itkOctreeTest.cxx
@@ -183,10 +183,10 @@ if(ITK_BUILD_SHARED_LIBS)
 endif(ITK_BUILD_SHARED_LIBS)
 
 itk_add_test(NAME itkAdaptorComparisonTest COMMAND ITKCommon1TestDriver itkAdaptorComparisonTest)
-itk_add_test(NAME itkArray1DToDataTest COMMAND ITKCommon2TestDriver itkArray1DToDataTest)
+itk_add_test(NAME itkThreadedArrayPartitionerTest COMMAND ITKCommon2TestDriver itkThreadedArrayPartitionerTest)
 
 itk_add_test(NAME itkImageAdaptorPipeLineTest COMMAND ITKCommon1TestDriver itkImageAdaptorPipeLineTest)
-itk_add_test(NAME itkImageToDataTest COMMAND ITKCommon2TestDriver itkImageToDataTest)
+itk_add_test(NAME itkThreadedImageRegionPartitionerTest COMMAND ITKCommon2TestDriver itkThreadedImageRegionPartitionerTest)
 itk_add_test(NAME itkImportContainerTest COMMAND ITKCommon1TestDriver itkImportContainerTest)
 itk_add_test(NAME itkImportImageTest COMMAND ITKCommon1TestDriver itkImportImageTest)
 itk_add_test(NAME itkCellInterfaceTest COMMAND ITKCommon1TestDriver itkCellInterfaceTest)

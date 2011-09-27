@@ -15,18 +15,18 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkImageToData.h"
+#include "itkThreadedImageRegionPartitioner.h"
 
 /*
  * Main test entry function
  */
-int itkImageToDataTest(int , char* [])
+int itkThreadedImageRegionPartitionerTest(int , char* [])
 {
-  typedef itk::ImageToData<2, itk::Object> ImageToDataType;
+  typedef itk::ThreadedImageRegionPartitioner<2, itk::Object> ThreadedImageRegionPartitionerType;
 
-  ImageToDataType::Pointer imageToDataThreader = ImageToDataType::New();
+  ThreadedImageRegionPartitionerType::Pointer threadedImageRegionPartitioner = ThreadedImageRegionPartitionerType::New();
 
-  typedef ImageToDataType::ImageRegionType ImageRegionType;
+  typedef ThreadedImageRegionPartitionerType::ImageRegionType ImageRegionType;
 
   typedef ImageRegionType::SizeType   SizeType;
   typedef ImageRegionType::IndexType  IndexType;
@@ -42,7 +42,7 @@ int itkImageToDataTest(int , char* [])
   region.SetSize( size );
   region.SetIndex( start );
 
-  imageToDataThreader->SetOverallRegion( region );
+  threadedImageRegionPartitioner->SetCompleteRegion( region );
 
   return EXIT_SUCCESS;
 }

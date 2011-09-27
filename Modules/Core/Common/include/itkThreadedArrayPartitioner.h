@@ -15,13 +15,13 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkArray1DToData_h
-#define __itkArray1DToData_h
+#ifndef __itkThreadedArrayPartitioner_h
+#define __itkThreadedArrayPartitioner_h
 
-#include "itkObjectToDataBase.h"
+#include "itkThreadedDomainPartitioner.h"
 #include "itkIndex.h"
 
-/** \class Array1DToData
+/** \class ThreadedArrayPartitioner
  *  \brief Class for custom threading setup and dispatch of 1D data.
  *
  * This class provides threading over 1D data.
@@ -48,8 +48,8 @@
  * See \c DetermineNumberOfThreadsToUse to get the number of threads
  * before running.
  *
- * \sa ImageToData
- * \sa ObjectToDataBase
+ * \sa ThreadedImageRegionPartitioner
+ * \sa ThreadedDomainPartitioner
  * \ingroup ITKCommon
  */
 
@@ -57,37 +57,36 @@ namespace itk
 {
 
 template<class TDataHolder>
-class ITK_EXPORT Array1DToData
-  : public ObjectToDataBase< Index<2>, TDataHolder >
+class ITKCommon_EXPORT ThreadedArrayPartitioner
+  : public ThreadedDomainPartitioner< Index<2>, TDataHolder >
 {
 public:
   /** Standard class typedefs. */
-  typedef Array1DToData                               Self;
-  typedef ObjectToDataBase<Index<2>, TDataHolder>     Superclass;
-  typedef SmartPointer<Self>                          Pointer;
-  typedef SmartPointer<const Self>                    ConstPointer;
+  typedef ThreadedArrayPartitioner                         Self;
+  typedef ThreadedDomainPartitioner<Index<2>, TDataHolder> Superclass;
+  typedef SmartPointer<Self>                               Pointer;
+  typedef SmartPointer<const Self>                         ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Array1DToData, ObjectToDataBase);
+  itkTypeMacro(ThreadedArrayPartitioner, ThreadedDomainPartitioner);
 
   /** Type of the object being threaded over */
   typedef Index<2>                              IndexRangeType;
 
   /** Type for convenience of base class methods */
-  typedef typename Superclass::InputObjectType    InputObjectType;
-  typedef typename IndexRangeType::IndexValueType InputObjectValueType;
+  typedef typename Superclass::DomainType  DomainType;
 
   /** Set the overall index range over which to operate.
    * This performs some error checking and is named more intuitively
    * for this derived class. */
-  virtual void SetOverallIndexRange( const IndexRangeType & range  );
+  virtual void SetCompleteIndexRange( const IndexRangeType & range  );
 
 protected:
-  Array1DToData();
-  virtual ~Array1DToData();
+  ThreadedArrayPartitioner();
+  virtual ~ThreadedArrayPartitioner();
 
   /** Split the IndexRange \c overallIndexRange into
    * \c requestedTotal subranges, returning subrange \c i as \c splitIndex.
@@ -96,14 +95,14 @@ protected:
    * the routine is capable of splitting the output RequestedObject,
    * i.e. return value is less than or equal to \c requestedTotal. */
   virtual
-  ThreadIdType SplitRequestedObject(const ThreadIdType i,
+  ThreadIdType PartitionDomain(const ThreadIdType i,
                            const ThreadIdType requestedTotal,
-                           const InputObjectType& overallIndexRange,
-                           InputObjectType& splitIndexRange) const;
+                           const DomainType& completeIndexRange,
+                           DomainType& subdomain) const;
 
 private:
 
-  Array1DToData(const Self&); //purposely not implemented
+  ThreadedArrayPartitioner(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
 };
@@ -111,7 +110,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-# include "itkArray1DToData.hxx"
+# include "itkThreadedArrayPartitioner.hxx"
 #endif
 
 #endif

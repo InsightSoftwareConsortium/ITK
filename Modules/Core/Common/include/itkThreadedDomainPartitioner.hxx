@@ -15,10 +15,10 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkObjectToDataBase_hxx
-#define __itkObjectToDataBase_hxx
+#ifndef __itkThreadedDomainPartitioner_hxx
+#define __itkThreadedDomainPartitioner_hxx
 
-#include "itkObjectToDataBase.h"
+#include "itkThreadedDomainPartitioner.h"
 #include "vnl/vnl_math.h"
 
 namespace itk
@@ -27,30 +27,31 @@ namespace itk
 /**
  *
  */
-template <class TInputObject, class TDataHolder>
-ObjectToDataBase<TInputObject, TDataHolder>
-::ObjectToDataBase()
+template <class TDomain, class TDataHolder>
+ThreadedDomainPartitioner<TDomain, TDataHolder>
+::ThreadedDomainPartitioner()
 {
-  this->ProcessObject::SetNumberOfRequiredOutputs(0);
+  this->m_Threader = MultiThreader::New();
+  this->m_NumberOfThreads = m_Threader->GetNumberOfThreads();
   this->m_Holder = NULL;
   this->m_ThreadedGenerateData = NULL;
-  this->m_OverallObjectHasBeenSet = false;
+  this->m_DomainHasBeenSet = false;
   this->m_NumberOfThreadsUsed = 0;
 }
 
 /*
  * Destructor
  */
-template <class TInputObject, class TDataHolder>
-ObjectToDataBase<TInputObject, TDataHolder>
-::~ObjectToDataBase()
+template <class TDomain, class TDataHolder>
+ThreadedDomainPartitioner<TDomain, TDataHolder>
+::~ThreadedDomainPartitioner()
 {
 }
 
 //----------------------------------------------------------------------------
-template <class TInputObject, class TDataHolder>
+template <class TDomain, class TDataHolder>
 void
-ObjectToDataBase<TInputObject, TDataHolder>
+ThreadedDomainPartitioner<TDomain, TDataHolder>
 ::VerifyInputConsistency()
 {
   // Make sure hold and threader worker have been defined
@@ -62,16 +63,16 @@ ObjectToDataBase<TInputObject, TDataHolder>
     {
     itkExceptionMacro("m_ThreadedGenereateData must be defined.");
     }
-  if( ! this->m_OverallObjectHasBeenSet )
+  if( ! this->m_DomainHasBeenSet )
     {
-    itkExceptionMacro("m_OverallObject must be set.");
+    itkExceptionMacro("m_Domain must be set.");
     }
 }
 
 //----------------------------------------------------------------------------
-template <class TInputObject, class TDataHolder>
+template <class TDomain, class TDataHolder>
 void
-ObjectToDataBase<TInputObject, TDataHolder>
+ThreadedDomainPartitioner<TDomain, TDataHolder>
 ::StartThreadedExecution()
 {
   this->VerifyInputConsistency();
@@ -92,9 +93,9 @@ ObjectToDataBase<TInputObject, TDataHolder>
 // Callback routine used by the threading library. This routine just calls
 // the ThreadedGenerateData method after setting the correct region for this
 // thread.
-template <class TInputObject, class TDataHolder>
+template <class TDomain, class TDataHolder>
 ITK_THREAD_RETURN_TYPE
-ObjectToDataBase<TInputObject, TDataHolder>
+ThreadedDomainPartitioner<TDomain, TDataHolder>
 ::ThreaderCallback( void *arg )
 {
   MultiThreader::ThreadInfoStruct* info = static_cast<MultiThreader::ThreadInfoStruct *>(arg);
@@ -103,11 +104,11 @@ ObjectToDataBase<TInputObject, TDataHolder>
   ThreadIdType threadCount = info->NumberOfThreads;
 
   // first find out how many pieces extent can be split into.
-  InputObjectType splitObject;
-  const ThreadIdType total = str->Filter->SplitRequestedObject(threadId,
+  DomainType subdomain;
+  const ThreadIdType total = str->Filter->PartitionDomain(threadId,
                                             threadCount,
-                                            str->Filter->m_OverallObject,
-                                            splitObject);
+                                            str->Filter->m_Domain,
+                                            subdomain);
 
   // store the actual number of threads used
   if( threadId == 0 )
@@ -117,12 +118,12 @@ ObjectToDataBase<TInputObject, TDataHolder>
 
   // execute the actual method with appropriate output region.
   // If the threadID is greater than the total number of regions
-  // that SplitRequestedObject will create, don't use this thread.
+  // that PartitionDomain will create, don't use this thread.
   // Sometimes the threads dont break up very well and it is just
   // as efficient to leave a few threads idle.
   if (threadId < total)
     {
-    str->Filter->m_ThreadedGenerateData(splitObject,
+    str->Filter->m_ThreadedGenerateData(subdomain,
                                         threadId,
                                         str->Filter->m_Holder);
     }
@@ -130,36 +131,36 @@ ObjectToDataBase<TInputObject, TDataHolder>
   return ITK_THREAD_RETURN_VALUE;
 }
 
-template <class TInputObject, class TDataHolder>
+template <class TDomain, class TDataHolder>
 ThreadIdType
-ObjectToDataBase<TInputObject, TDataHolder>
+ThreadedDomainPartitioner<TDomain, TDataHolder>
 ::DetermineNumberOfThreadsToUse() const
 {
-  if( ! this->m_OverallObjectHasBeenSet )
+  if( ! this->m_DomainHasBeenSet )
     {
-    itkExceptionMacro("m_OverallObject must be set.");
+    itkExceptionMacro("m_Domain must be set.");
     }
 
-  InputObjectType splitObject;
+  DomainType subdomain;
 
-  return this->SplitRequestedObject( 0,
-                                    this->GetNumberOfThreads(),
-                                    this->m_OverallObject,
-                                    splitObject);
+  return this->PartitionDomain( 0,
+                                this->GetNumberOfThreads(),
+                                this->m_Domain,
+                                subdomain);
 }
 
 /*
  *
  */
-template <class TInputObject, class TDataHolder>
+template <class TDomain, class TDataHolder>
 void
-ObjectToDataBase<TInputObject, TDataHolder>
-::SetOverallObject( const InputObjectType & object )
+ThreadedDomainPartitioner<TDomain, TDataHolder>
+::SetCompleteDomain( const DomainType & object )
 {
-  if( object != this->m_OverallObject )
+  if( object != this->m_Domain )
     {
-    this->m_OverallObject = object;
-    this->m_OverallObjectHasBeenSet = true;
+    this->m_Domain = object;
+    this->m_DomainHasBeenSet = true;
     this->Modified();
     }
 }
@@ -167,9 +168,9 @@ ObjectToDataBase<TInputObject, TDataHolder>
 /*
  *
  */
-template <class TInputObject, class TDataHolder>
+template <class TDomain, class TDataHolder>
 void
-ObjectToDataBase<TInputObject, TDataHolder>
+ThreadedDomainPartitioner<TDomain, TDataHolder>
 ::SetThreadedGenerateData( ThreadedGenerateDataFuncType func )
 {
   m_ThreadedGenerateData = func;
@@ -178,9 +179,9 @@ ObjectToDataBase<TInputObject, TDataHolder>
 /*
  *
  */
-template <class TInputObject, class TDataHolder>
+template <class TDomain, class TDataHolder>
 void
-ObjectToDataBase<TInputObject, TDataHolder>
+ThreadedDomainPartitioner<TDomain, TDataHolder>
 ::SetHolder( DataHolderType* holder )
 {
   if( this->m_Holder != holder )
