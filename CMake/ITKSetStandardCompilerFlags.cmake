@@ -86,6 +86,7 @@ function(check_compiler_warning_flags c_warning_flags_var cxx_warning_flags_var)
     -Wunused
     -Wwrite-strings
     -funit-at-a-time
+    -Wno-strict-overflow
   )
 
   # Check this list on C++ compiler only
