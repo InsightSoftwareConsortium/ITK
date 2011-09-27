@@ -158,7 +158,6 @@ protected:
   }
 
   ~ZeroCrossingBasedEdgeDetectionImageFilter(){}
-  ZeroCrossingBasedEdgeDetectionImageFilter(const Self &) {}
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Standard pipeline method. While this class does not implement a
@@ -170,6 +169,9 @@ protected:
   void GenerateData();
 
 private:
+  ZeroCrossingBasedEdgeDetectionImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
+
   /** The variance of the Gaussian Filter used in this filter */
   ArrayType m_Variance;
 

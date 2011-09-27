@@ -406,7 +406,7 @@ macro(END_WRAP_LIBRARY_PYTHON)
   set_target_properties(${lib} PROPERTIES PREFIX "_")
   # gcc 4.4 complains a lot without this flag when building in release mode
   if(CMAKE_COMPILER_IS_GNUCC)
-    set_target_properties(${lib} PROPERTIES COMPILE_FLAGS -fno-strict-aliasing)
+    set_target_properties(${lib} PROPERTIES COMPILE_FLAGS "-fno-strict-aliasing -Wno-shadow")
   endif(CMAKE_COMPILER_IS_GNUCC)
   # work around linkage problem on some solaris systems
   if(CMAKE_SYSTEM MATCHES "SunOS-." AND CMAKE_COMPILER_IS_GNUCXX AND CMAKE_COMPILER_IS_GNUCC)

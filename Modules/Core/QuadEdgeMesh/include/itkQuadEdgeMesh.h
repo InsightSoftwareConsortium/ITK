@@ -379,6 +379,7 @@ public:
                                           CellAutoPointer & cellAP) const
   {
     (void)dimension;
+    (void)cellId;
     (void)featureId;
     (void)cellAP;
     return ( false ); // ALEX: is it the good way?

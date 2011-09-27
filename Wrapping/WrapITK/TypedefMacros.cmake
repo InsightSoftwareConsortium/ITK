@@ -122,16 +122,6 @@ endmacro(BEGIN_WRAPPER_LIBRARY)
 
 
 macro(END_WRAP_LIBRARY)
-  # don't chek for deps in external projects
-  if("${PROJECT_NAME}" STREQUAL "WrapITK")
-    foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
-      # be sure that the module is selected by the user
-      if(NOT "${WRAP_ITK_LIBRARIES}" MATCHES "(^|;)${dep}(;|$)")
-        message(SEND_ERROR "${dep} is required by ${WRAPPER_LIBRARY_NAME} module. Please set WRAP_${dep} to ON, or WRAP_${WRAPPER_LIBRARY_NAME} to OFF.")
-      endif(NOT "${WRAP_ITK_LIBRARIES}" MATCHES "(^|;)${dep}(;|$)")
-    endforeach(dep)
-  endif("${PROJECT_NAME}" STREQUAL "WrapITK")
-
   if("${WRAPPER_LIBRARY_WRAP_LIBRARIES_STATUS}" STREQUAL "EXECUTED_IN_WRAP_LIBRARY")
     END_WRAP_LIBRARIES()
   endif("${WRAPPER_LIBRARY_WRAP_LIBRARIES_STATUS}" STREQUAL "EXECUTED_IN_WRAP_LIBRARY")

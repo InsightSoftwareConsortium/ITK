@@ -163,7 +163,6 @@ protected:
   }
 
   virtual ~ConnectedComponentImageFilter() {}
-  ConnectedComponentImageFilter(const Self &) {}
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   /**
@@ -188,6 +187,9 @@ protected:
 
   bool m_FullyConnected;
 private:
+  ConnectedComponentImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
+
   LabelType            m_ObjectCount;
   OutputImagePixelType m_BackgroundValue;
 

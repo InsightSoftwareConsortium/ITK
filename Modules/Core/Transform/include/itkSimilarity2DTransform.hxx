@@ -40,7 +40,7 @@ Similarity2DTransform<TScalarType>::Similarity2DTransform(unsigned int parameter
 }
 
 template <class TScalarType>
-Similarity2DTransform<TScalarType>::Similarity2DTransform(unsigned int outputSpaceDimension, unsigned int parametersDimension) :
+Similarity2DTransform<TScalarType>::Similarity2DTransform(unsigned int , unsigned int parametersDimension) :
   Superclass(parametersDimension)
 {
   m_Scale = 1.0f;

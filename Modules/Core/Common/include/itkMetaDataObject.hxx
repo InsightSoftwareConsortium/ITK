@@ -57,7 +57,7 @@ MetaDataObject< MetaDataObjectType >
 template< class MetaDataObjectType >
 MetaDataObject< MetaDataObjectType >
 ::MetaDataObject(const MetaDataObject< MetaDataObjectType > & TemplateObject):
-  m_MetaDataObjectValue(TemplateObject.m_MetaDataObjectValue)
+  Superclass(), m_MetaDataObjectValue(TemplateObject.m_MetaDataObjectValue)
 {
   //Nothing to be done here
 }
