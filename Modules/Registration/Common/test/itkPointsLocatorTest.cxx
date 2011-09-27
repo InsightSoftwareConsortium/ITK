@@ -42,7 +42,7 @@ int itkPointsLocatorTest( int, char*[] )
    * Create a simple point set structure that will create a non-degenerate
    * bounding box but will allow simple querying tests.
    */
-  for( unsigned int i=1; i <= 100 ; ++i )
+  for( unsigned int i=1; i <= 100; ++i )
     {
     PointType testPoint;
     testPoint[0] = static_cast<float>( i );

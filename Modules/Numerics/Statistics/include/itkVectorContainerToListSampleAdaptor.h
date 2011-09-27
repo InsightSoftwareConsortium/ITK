@@ -61,7 +61,7 @@ public:
 
   /** the number of components in a measurement vector */
   itkStaticConstMacro( MeasurementVectorSize, unsigned int,
-                       TVectorContainer::Element::PointDimension );
+                       TVectorContainer::Element::Dimension );
 
   /** VectorContainer typedefs */
   typedef TVectorContainer                          VectorContainerType;
