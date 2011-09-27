@@ -273,10 +273,10 @@ itk_add_test(NAME itkFEMSpatialObjectTest ${FEM_TESTS3}
          COMMAND ITKFEMTestDriver itkFEMSpatialObjectTest
          DATA{Input/tri3-e.meta})
 
-#add_test(NAME itkFEMRegistrationFilterTest ${FEM_TESTS3}
+#itk_add_test(NAME itkFEMRegistrationFilterTest ${FEM_TESTS3}
 #         COMMAND ITKFEMTestDriver itkFEMRegistrationFilterTest)
 
-#add_test(NAME itkFEMSolverTest2D ${FEM_TESTS3}
+#itk_add_test(NAME itkFEMSolverTest2D ${FEM_TESTS3}
 #        COMMAND ITKFEMTestDriver itkFEMSolverTest2D
 #        DATA{Input/2DC0LinearTriangleStressTest.meta}
 #        ${ITK_TEST_OUTPUT_DIR}/2DC0LinearTriangleStressTestWrite_NewSolver.meta)
