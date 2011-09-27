@@ -23,6 +23,26 @@
 int itkImageToDataTest(int , char* [])
 {
   typedef itk::ImageToData<2, itk::Object> ImageToDataType;
+
   ImageToDataType::Pointer imageToDataThreader = ImageToDataType::New();
+
+  typedef ImageToDataType::ImageRegionType ImageRegionType;
+
+  typedef ImageRegionType::SizeType   SizeType;
+  typedef ImageRegionType::IndexType  IndexType;
+
+  SizeType size;
+  IndexType start;
+
+  size.Fill(100);
+  start.Fill(0);
+
+  ImageRegionType region;
+
+  region.SetSize( size );
+  region.SetIndex( start );
+
+  imageToDataThreader->SetOverallRegion( region );
+
   return EXIT_SUCCESS;
 }

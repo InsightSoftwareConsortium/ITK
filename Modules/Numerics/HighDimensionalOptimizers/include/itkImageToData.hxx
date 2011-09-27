@@ -19,7 +19,6 @@
 #define __itkImageToData_hxx
 
 #include "itkImageToData.h"
-#include "vnl/vnl_math.h"
 
 namespace itk
 {
@@ -102,8 +101,10 @@ ImageToData<VDimension, TDataHolder>
 
   // determine the actual number of pieces that will be generated
   const SizeValueType range = requestedRegionSize[splitAxis];
+
   ThreadIdType valuesPerThread =
     Math::Ceil<ThreadIdType>( range / static_cast<double>(requestedTotal) );
+
   ThreadIdType maxThreadIdUsed =
     Math::Ceil<ThreadIdType>( range / static_cast<double>(valuesPerThread) ) - 1;
 
