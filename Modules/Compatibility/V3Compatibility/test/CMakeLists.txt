@@ -7,6 +7,9 @@ set(ITKV3CompatibilityTests
   itkTransformToDeformationFieldSourceTest.cxx
   itkTransformToDeformationFieldSourceTest1.cxx
   itkDeformationFieldJacobianDeterminantFilterTest.cxx
+  itkBSplineDeformableTransformTest.cxx
+  itkBSplineDeformableTransformTest2.cxx
+  itkBSplineDeformableTransformTest3.cxx
 )
 
 CreateTestDriver(ITKV3Compatibility  "${ITKV3Compatibility-Test_LIBRARIES}" "${ITKV3CompatibilityTests}")
@@ -38,3 +41,38 @@ itk_add_test(NAME itkTransformToDeformationFieldSourceTest02
               BSpline ${ITK_TEST_OUTPUT_DIR}/itkTransformToDeformationFieldSourceTestField02.mha ${ITK_DATA_ROOT}/Input/parametersBSpline.txt ${ITK_TEST_OUTPUT_DIR}/itkTransformToDeformationFieldSourceTestImage02.mha)
 itk_add_test(NAME itkExponentialDeformationFieldImageFilterTest
       COMMAND ITKV3CompatibilityTestDriver itkExponentialDeformationFieldImageFilterTest)
+
+
+## Tests for ITKv3 version of BSplineDeformableTransforms
+itk_add_test(NAME itkBSplineDeformableTransformTest
+      COMMAND ITKV3CompatibilityTestsDriver itkBSplineDeformableTransformTest)
+itk_add_test(NAME itkBSplineDeformableTransformTest2
+      COMMAND ITKV3CompatibilityTestsDriver
+    --compare DATA{Baseline/itkBSplineDeformableTransformTest2PixelCentered.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest2PixelCentered.png
+    itkBSplineDeformableTransformTest2 DATA{Baseline/BSplineDeformationTransformDisplacements5.txt} ${ITK_EXAMPLE_DATA_ROOT}/DiagonalLines.png ${ITK_EXAMPLE_DATA_ROOT}/DiagonalLines.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest2PixelCentered.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest2DeformationFieldPixelCentered.mhd 1)
+itk_add_test(NAME itkBSplineDeformableTransformTest3
+      COMMAND ITKV3CompatibilityTestsDriver
+    --compare DATA{Baseline/itkBSplineDeformableTransformTest3PixelCentered.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest3PixelCentered.png
+    itkBSplineDeformableTransformTest2 DATA{Baseline/BSplineDeformationTransformDisplacements3.txt} ${ITK_EXAMPLE_DATA_ROOT}/DiagonalLines.png ${ITK_EXAMPLE_DATA_ROOT}/DiagonalLines.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest3PixelCentered.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest3DeformationFieldPixelCentered.mhd 2)
+itk_add_test(NAME itkBSplineDeformableTransformTest4
+      COMMAND ITKV3CompatibilityTestsDriver
+    --compare DATA{Baseline/itkBSplineDeformableTransformTest4PixelCentered.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest4PixelCentered.png
+    itkBSplineDeformableTransformTest2 DATA{Baseline/BSplineDeformationTransformDisplacements1.txt} ${ITK_EXAMPLE_DATA_ROOT}/DiagonalLines.png ${ITK_EXAMPLE_DATA_ROOT}/DiagonalLines.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest4PixelCentered.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest4DeformationFieldPixelCentered.mhd 3)
+itk_add_test(NAME itkBSplineDeformableTransformTest5
+      COMMAND ITKV3CompatibilityTestsDriver
+    --compare DATA{Baseline/itkBSplineDeformableTransformTest5PixelCentered.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest5PixelCentered.png
+    itkBSplineDeformableTransformTest3 DATA{Baseline/BSplineDeformationTransformDisplacements1.txt} ${ITK_EXAMPLE_DATA_ROOT}/DiagonalLines.png ${ITK_EXAMPLE_DATA_ROOT}/DiagonalLines.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest5PixelCentered.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest5DeformationFieldPixelCentered.mhd 0)
+itk_add_test(NAME itkBSplineDeformableTransformTest6
+      COMMAND ITKV3CompatibilityTestsDriver
+    --compare DATA{Baseline/itkBSplineDeformableTransformTest5PixelCentered.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest6PixelCentered.png
+    itkBSplineDeformableTransformTest3 DATA{Baseline/BSplineDeformationTransformDisplacements1.txt} ${ITK_EXAMPLE_DATA_ROOT}/DiagonalLines.png ${ITK_EXAMPLE_DATA_ROOT}/DiagonalLines.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest6PixelCentered.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest6DeformationFieldPixelCentered.mhd 1)
+itk_add_test(NAME itkBSplineDeformableTransformTest7
+      COMMAND ITKV3CompatibilityTestsDriver
+    --compare DATA{Baseline/itkBSplineDeformableTransformTest5PixelCentered.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest7PixelCentered.png
+    itkBSplineDeformableTransformTest3 DATA{Baseline/BSplineDeformationTransformDisplacements1.txt} ${ITK_EXAMPLE_DATA_ROOT}/DiagonalLines.png ${ITK_EXAMPLE_DATA_ROOT}/DiagonalLines.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest7PixelCentered.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest7DeformationFieldPixelCentered.mhd 2)
