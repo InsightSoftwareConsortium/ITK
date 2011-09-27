@@ -39,7 +39,7 @@ namespace Statistics
  *
  * \sa Sample, ListSample, VectorContainer
  *
- * \ingroup ITKReview
+ * \ingroup ITKStatistics
  */
 
 template< class TVectorContainer >
@@ -101,7 +101,7 @@ public:
   TotalAbsoluteFrequencyType GetTotalFrequency() const;
 
   /** \class ConstIterator
-   * \ingroup ITKReview
+   * \ingroup ITKStatistics
    */
   class ConstIterator
   {
@@ -175,7 +175,7 @@ public:
   };
 
   /** \class Iterator
-   * \ingroup ITKReview
+   * \ingroup ITKStatistics
    */
   class Iterator:public ConstIterator
   {

@@ -1086,6 +1086,8 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
         DerivativeType &                  itkNotUsed(localDerivativeReturn),
         const ThreadIdType                itkNotUsed(threadID) ) const
 {
+  itkExceptionMacro("GetValueAndDerivativeProcessPoint called in base class. "
+                    "Must be overridden by derived class.");
   return false;
 }
 
