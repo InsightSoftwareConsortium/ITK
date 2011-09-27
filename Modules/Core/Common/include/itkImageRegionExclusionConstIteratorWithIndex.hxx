@@ -22,6 +22,24 @@
 
 namespace itk
 {
+template< class TImage >
+ImageRegionExclusionConstIteratorWithIndex< TImage >
+::ImageRegionExclusionConstIteratorWithIndex() : Superclass()
+{}
+
+template< class TImage >
+ImageRegionExclusionConstIteratorWithIndex< TImage >
+::ImageRegionExclusionConstIteratorWithIndex(const ImageType *ptr,
+                                             const RegionType & region) :
+Superclass(ptr, region)
+{}
+
+template< class TImage >
+ImageRegionExclusionConstIteratorWithIndex< TImage >
+::ImageRegionExclusionConstIteratorWithIndex(const Superclass & it)
+{
+  Superclass::operator=(it);
+}
 //----------------------------------------------------------------------
 //  Set the region to exclude from the walk
 //----------------------------------------------------------------------
@@ -148,40 +166,6 @@ ImageRegionExclusionConstIteratorWithIndex< TImage >
 }
 
 //----------------------------------------------------------------------
-//  Advance along the line, disregarding exclusion region
-//----------------------------------------------------------------------
-template< class TImage >
-void
-ImageRegionExclusionConstIteratorWithIndex< TImage >
-::Increment()
-{
-  this->m_Remaining = false;
-
-  for ( unsigned int in = 0; in < TImage::ImageDimension; in++ )
-    {
-    this->m_PositionIndex[in]++;
-
-    if ( this->m_PositionIndex[in] < this->m_EndIndex[in] )
-      {
-      this->m_Position += this->m_OffsetTable[in];
-      this->m_Remaining = true;
-      break;
-      }
-    else
-      {
-      this->m_Position -= this->m_OffsetTable[in] *
-        ( static_cast< OffsetValueType >( this->m_Region.GetSize()[in] ) - 1 );
-      this->m_PositionIndex[in] = this->m_BeginIndex[in];
-      }
-    }
-
-  if ( !this->m_Remaining ) // It will not advance here otherwise
-    {
-    this->m_Position = this->m_End;
-    }
-}
-
-//----------------------------------------------------------------------
 //  Advance along the line, skipping the exclusion region
 //----------------------------------------------------------------------
 template< class TImage >
@@ -189,7 +173,7 @@ ImageRegionExclusionConstIteratorWithIndex< TImage > &
 ImageRegionExclusionConstIteratorWithIndex< TImage >
 ::operator++()
 {
-  this->Increment();
+  this->Superclass::operator++();
 
   while ( m_ExclusionRegion.IsInside( this->m_PositionIndex ) && this->m_Remaining )
     {
@@ -200,45 +184,11 @@ ImageRegionExclusionConstIteratorWithIndex< TImage >
     if ( this->m_PositionIndex[0] == this->m_EndIndex[0] )
       {
       this->m_Position -= this->m_OffsetTable[0];
-      this->Increment();
+      this->Superclass::operator++();
       }
     }
 
   return *this;
-}
-
-//----------------------------------------------------------------------
-//  Advance along the line in reverse direction, disregarding
-//  exclusion region
-//----------------------------------------------------------------------
-template< class TImage >
-void
-ImageRegionExclusionConstIteratorWithIndex< TImage >
-::Decrement()
-{
-  this->m_Remaining = false;
-  for ( unsigned int in = 0; in < TImage::ImageDimension; in++ )
-    {
-    this->m_PositionIndex[in]--;
-
-    if ( this->m_PositionIndex[in] >= this->m_BeginIndex[in] )
-      {
-      this->m_Position -= this->m_OffsetTable[in];
-      this->m_Remaining = true;
-      break;
-      }
-    else
-      {
-      this->m_Position += this->m_OffsetTable[in] *
-        ( static_cast< OffsetValueType >( this->m_Region.GetSize()[in] ) - 1 );
-      this->m_PositionIndex[in] = this->m_EndIndex[in] - 1;
-      }
-    }
-
-  if ( !this->m_Remaining ) // It will not advance here otherwise
-    {
-    this->m_Position = this->m_End;
-    }
 }
 
 //----------------------------------------------------------------------
@@ -249,7 +199,7 @@ ImageRegionExclusionConstIteratorWithIndex< TImage > &
 ImageRegionExclusionConstIteratorWithIndex< TImage >
 ::operator--()
 {
-  this->Decrement();
+  this->Superclass::operator--();
 
   while ( m_ExclusionRegion.IsInside( this->m_PositionIndex ) && this->m_Remaining )
     {
@@ -260,7 +210,7 @@ ImageRegionExclusionConstIteratorWithIndex< TImage >
     if ( this->m_PositionIndex[0] < this->m_BeginIndex[0] )
       {
       this->m_Position += this->m_OffsetTable[0];
-      this->Decrement();
+      this->Superclass::operator--();
       }
     }
 
