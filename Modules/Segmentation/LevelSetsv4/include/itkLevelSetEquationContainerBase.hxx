@@ -91,6 +91,34 @@ LevelSetEquationContainerBase< TTermContainer >
 }
 
 template< class TTermContainer >
+typename LevelSetEquationContainerBase< TTermContainer >::Iterator
+LevelSetEquationContainerBase< TTermContainer >::Begin()
+{
+  return Iterator( m_Container.begin() );
+}
+
+template< class TTermContainer >
+typename LevelSetEquationContainerBase< TTermContainer >::Iterator
+LevelSetEquationContainerBase< TTermContainer >::End()
+{
+  return Iterator( m_Container.end() );
+}
+
+template< class TTermContainer >
+typename LevelSetEquationContainerBase< TTermContainer >::ConstIterator
+LevelSetEquationContainerBase< TTermContainer >::Begin() const
+{
+  return ConstIterator( m_Container.begin() );
+}
+
+template< class TTermContainer >
+typename LevelSetEquationContainerBase< TTermContainer >::ConstIterator
+LevelSetEquationContainerBase< TTermContainer >::End() const
+{
+  return ConstIterator( m_Container.end() );
+}
+
+template< class TTermContainer >
 void
 LevelSetEquationContainerBase< TTermContainer >
 ::UpdateInternalEquationTerms()
