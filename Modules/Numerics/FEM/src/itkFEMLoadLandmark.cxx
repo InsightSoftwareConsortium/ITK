@@ -69,7 +69,7 @@ Element::ConstPointer LoadLandmark::GetAssignedElement(Element::ArrayType1::Poin
  * Find the Element to which the LoadLandmark belongs
  */
 
-void LoadLandmark::AssignToElement(Element::ArrayType::Pointer elements)
+bool LoadLandmark::AssignToElement(Element::ArrayType::Pointer elements)
 {
   bool isFound = false;
 
@@ -81,18 +81,15 @@ void LoadLandmark::AssignToElement(Element::ArrayType::Pointer elements)
     if( ( *n )->GetLocalFromGlobalCoordinates(m_Source, this->m_Point) )
       {
       isFound = true;
-      std::cout << "Found: " << ( *n ) << std::endl;
+      //std::cout << "Found: " << ( *n ) << std::endl;
       this->m_Element[0] = *n;
       }
     }
 
-  if( !isFound )
-    {
-    throw FEMException(__FILE__, __LINE__, "LoadLandmark::Read() - could not find element containing landmark!");
-    }
+  return isFound;
 }
 
-void LoadLandmark::AssignToElement(Element::ArrayType1::Pointer elements)
+bool LoadLandmark::AssignToElement(Element::ArrayType1::Pointer elements)
 {
   bool isFound = false;
 
@@ -107,15 +104,12 @@ void LoadLandmark::AssignToElement(Element::ArrayType1::Pointer elements)
     if( (nel )->GetLocalFromGlobalCoordinates(m_Source, this->m_Point) )
       {
       isFound = true;
-      std::cout << "Found: " << nel << std::endl;
+      //std::cout << "Found: " << nel << std::endl;
       this->m_Element[0] = nel;
       }
     }
 
-  if( !isFound )
-    {
-    throw FEMException(__FILE__, __LINE__, "LoadLandmark::Read() - could not find element containing landmark!");
-    }
+  return isFound;
 }
 
 void LoadLandmark::SetEta(double e)
@@ -169,7 +163,7 @@ void LoadLandmark::ApplyLoad(Element::ConstPointer element, Element::VectorType 
     {
     force.fill(0.0);
     }
-  std::cout <<  " LM distance  " << curdist << std::endl;
+  //std::cout <<  " LM distance  " << curdist << std::endl;
 
   // "Integrate" at the location of the point load
   shapeF = element->ShapeFunctions(pt);

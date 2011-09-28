@@ -108,6 +108,31 @@ public:
   typedef typename InterpolationGridType::PointType              InterpolationGridPointType;
   typedef typename InterpolationGridType::SpacingType            InterpolationGridSpacingType;
   typedef typename InterpolationGridType::IndexType              InterpolationGridIndexType;
+  typedef typename InterpolationGridType::DirectionType          InterpolationGridDirectionType;
+
+  /*
+   * Get/Set the Interpolation Grid Origin
+   */
+  itkSetMacro(Origin, InterpolationGridPointType);
+  itkGetMacro(Origin, InterpolationGridPointType);
+
+  /*
+   * Get/Set the Interpolation Grid Spacing
+   */
+  itkSetMacro(Spacing, InterpolationGridSpacingType);
+  itkGetMacro(Spacing, InterpolationGridSpacingType);
+
+  /*
+   * Get/Set the Interpolation Grid Region
+   */
+  itkSetMacro(Region, InterpolationGridRegionType);
+  itkGetMacro(Region, InterpolationGridRegionType);
+
+  /*
+   * Get/Set the Interpolation Grid Direction
+   */
+  itkSetMacro(Direction, InterpolationGridDirectionType);
+  itkGetMacro(Direction, InterpolationGridDirectionType);
 
   /** Returns the time step used for dynamic problems. */
   virtual Float GetTimeStep(void) const
@@ -179,6 +204,62 @@ public:
     return m_ls;
   }
 
+  /**
+   * Initialize the interpolation grid. The interpolation grid is used to
+   * find elements that containg specific points in a mesh. The interpolation
+   * grid stores pointers to elements for each point on a grid thereby providing
+   * a fast way (lookup table) to perform interpolation of results.
+   *
+   * \note Interpolation grid must be reinitialized each time a mesh changes.
+   *
+   * \param size Vector that represents number of points on a grid in each dimension.
+   * \param bb1 Lower limit of a bounding box of a grid.
+   * \param bb2 Upper limit of a bounding box of a grid.
+   *
+   * \sa GetInterpolationGrid
+   */
+  void InitializeInterpolationGrid(const InterpolationGridSizeType & size, const InterpolationGridPointType & bb1,
+                                   const InterpolationGridPointType & bb2);
+
+  /** Same as InitializeInterpolationGrid(size, {0,0...}, size); */
+  void InitializeInterpolationGrid(const InterpolationGridSizeType & size)
+  {
+    InterpolationGridPointType bb1;
+
+    bb1.Fill(0.0);
+
+    InterpolationGridPointType bb2;
+    for( unsigned int i = 0; i < FEMDimension; i++ )
+    {
+      bb2[i] = size[i] - 1.0;
+    }
+    InitializeInterpolationGrid(size, bb1, bb2);
+  }
+
+  /**
+   * Initialize the interpolation grid, over the domain specified by the user
+   */
+  void InitializeInterpolationGrid(const InterpolationGridRegionType & region,
+                                   const InterpolationGridPointType & origin,
+                                   const InterpolationGridSpacingType & spacing,
+                                   const InterpolationGridDirectionType & direction);
+
+  /**
+   * Returns pointer to interpolation grid, which is an itk::Image of pointers
+   * to Element objects. Normally you would use physical coordinates to get
+   * specific points (pointers to elements) from the image. You can then
+   * use the Elemenet::InterpolateSolution member function on the returned
+   * element to obtain the solution at this point.
+   *
+   * \note Physical coordinates in an image correspond to the global
+   *       coordinate system in which the mesh (nodes) are.
+   */
+  const InterpolationGridType * GetInterpolationGrid(void) const
+  {
+    return m_InterpolationGrid.GetPointer();
+  }
+
+
   /** Make a DataObject of the correct type to be used as the specified
    * output. */
   using Superclass::MakeOutput;
@@ -210,52 +291,6 @@ protected:
    * the registration. */
   void  GenerateData();
 
-  /**
-   * Initialize the interpolation grid. The interpolation grid is used to
-   * find elements that containg specific points in a mesh. The interpolation
-   * grid stores pointers to elements for each point on a grid thereby providing
-   * a fast way (lookup table) to perform interpolation of results.
-   *
-   * \note Interpolation grid must be reinitialized each time a mesh changes.
-   *
-   * \param size Vector that represents number of points on a grid in each dimension.
-   * \param bb1 Lower limit of a bounding box of a grid.
-   * \param bb2 Upper limit of a bounding box of a grid.
-   *
-   * \sa GetInterpolationGrid
-   */
-  void InitializeInterpolationGrid(const InterpolationGridSizeType & size, const InterpolationGridPointType & bb1,
-                                   const InterpolationGridPointType & bb2);
-
-  /** Same as InitializeInterpolationGrid(size, {0,0...}, size); */
-  void InitializeInterpolationGrid(const InterpolationGridSizeType & size)
-  {
-    InterpolationGridPointType bb1;
-
-    bb1.Fill(0.0);
-
-    InterpolationGridPointType bb2;
-    for( unsigned int i = 0; i < FEMDimension; i++ )
-      {
-      bb2[i] = size[i] - 1.0;
-      }
-    InitializeInterpolationGrid(size, bb1, bb2);
-  }
-
-  /**
-   * Returns pointer to interpolation grid, which is an itk::Image of pointers
-   * to Element objects. Normally you would use physical coordinates to get
-   * specific points (pointers to elements) from the image. You can then
-   * use the Elemenet::InterpolateSolution member function on the returned
-   * element to obtain the solution at this point.
-   *
-   * \note Physical coordinates in an image correspond to the global
-   *       coordinate system in which the mesh (nodes) are.
-   */
-  const InterpolationGridType * GetInterpolationGrid(void) const
-  {
-    return m_InterpolationGrid.GetPointer();
-  }
 
   /**
    * System solver functions. Call all six functions below (in listed order) to solve system.
@@ -349,6 +384,11 @@ protected:
   void UpdateDisplacements(void);
 
   /**
+   * Fill the interpolation grid based on the current deformed grid
+   */
+  void FillInterpolationGrid(void);
+
+  /**
    * Performs any initialization needed for LinearSystemWrapper
    * object i.e. sets the maximum number of matrices and vectors.
    */
@@ -385,16 +425,13 @@ private:
   Solver(const Self &);         // purposely not implemented
   void operator=(const Self &); // purposely not implemented
 
-  /**
-   * Default constructor sets Solver to use VNL linear system .
-   * \sa Solver::SetLinearSystemWrapper
+  /*
+   * Properties of the Interpolation Grid
    */
-  // Solver();
-
-  /**
-   * Virtual destructor
-   */
-  // virtual ~Solver() {}
+  InterpolationGridRegionType       m_Region;
+  InterpolationGridPointType        m_Origin;
+  InterpolationGridSpacingType      m_Spacing;
+  InterpolationGridDirectionType    m_Direction;
 
 };
 }  // end namespace fem

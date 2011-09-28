@@ -81,14 +81,11 @@ target_link_libraries(MultiResImageRegistration2 ${ITK_LIBRARIES})
 add_executable(MultiResImageRegistration3 MultiResImageRegistration3.cxx )
 target_link_libraries(MultiResImageRegistration3 ${ITK_LIBRARIES})
 
-## VAM FIXME HACK DeformableRegistration1 and DeformableRegistration11
-# both depend on FEM framework, and need to be updated to
-# accomodate the api
-#add_executable(DeformableRegistration1 DeformableRegistration1.cxx )
-#target_link_libraries(DeformableRegistration1 ${ITK_LIBRARIES})
-#
-#add_executable(DeformableRegistration11 DeformableRegistration11.cxx )
-#target_link_libraries(DeformableRegistration11 ${ITK_LIBRARIES})
+add_executable(DeformableRegistration1 DeformableRegistration1.cxx )
+target_link_libraries(DeformableRegistration1 ${ITK_LIBRARIES})
+
+add_executable(DeformableRegistration11 DeformableRegistration11.cxx )
+target_link_libraries(DeformableRegistration11 ${ITK_LIBRARIES})
 
 add_executable(DeformableRegistration2 DeformableRegistration2.cxx )
 target_link_libraries(DeformableRegistration2 ${ITK_LIBRARIES})

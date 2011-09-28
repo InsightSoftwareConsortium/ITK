@@ -1,4 +1,7 @@
 itk_module_test()
+# Find the top of the main ITK source tree.
+get_filename_component(ITK_TOP_DIR ${ITKFEM_SOURCE_DIR}/../../.. ABSOLUTE)
+include(${ITK_TOP_DIR}/CMake/ITKExternalData.cmake)
 
 set(ITKFEMTests
 itkFEMExceptionTest.cxx
@@ -31,7 +34,6 @@ itkFEMLoadBCMFCTestUser.cxx
 itkFEMLoadEdgeTest.cxx
 itkFEMLoadGravConstTest.cxx
 itkFEMLandmarkLoadImplementationTest.cxx
-#itkFEMRegistrationFilterTest.cxx
 # itkFEMSolverTest2D.cxx
 itkFEMSolverTest3D.cxx
 itkImageToRectilinearFEMObjectFilter2DTest.cxx
@@ -273,10 +275,7 @@ itk_add_test(NAME itkFEMSpatialObjectTest ${FEM_TESTS3}
          COMMAND ITKFEMTestDriver itkFEMSpatialObjectTest
          DATA{Input/tri3-e.meta})
 
-#itk_add_test(NAME itkFEMRegistrationFilterTest ${FEM_TESTS3}
-#         COMMAND ITKFEMTestDriver itkFEMRegistrationFilterTest)
-
-#itk_add_test(NAME itkFEMSolverTest2D ${FEM_TESTS3}
+#add_test(NAME itkFEMSolverTest2D ${FEM_TESTS3}
 #        COMMAND ITKFEMTestDriver itkFEMSolverTest2D
 #        DATA{Input/2DC0LinearTriangleStressTest.meta}
 #        ${ITK_TEST_OUTPUT_DIR}/2DC0LinearTriangleStressTestWrite_NewSolver.meta)
@@ -289,9 +288,9 @@ itk_add_test(NAME itkFEMSolverTest3D ${FEM_TESTS3}
 itk_add_test(NAME itkImageToRectilinearFEMObjectFilter2DTest ${FEM_TESTS3}
          COMMAND ITKFEMTestDriver itkImageToRectilinearFEMObjectFilter2DTest
          DATA{${ITK_DATA_ROOT}/Input/circle.png}
-         20 20 7 7 64 49 3 0 0 0 10 14 7 33 7 28 3 0 0 1 9 8 10 11 12 20 19 33 37 38 46 45)
+         20 20 7 7 64 49 3 0 0 0 10 40 20 33 20 80 3 0 0 1 9 8 10 11 12 20 19 33 37 38 46 45)
 
 itk_add_test(NAME itkImageToRectilinearFEMObjectFilter3DTest ${FEM_TESTS3}
          COMMAND ITKFEMTestDriver itkImageToRectilinearFEMObjectFilter3DTest
          DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection.mhd}
-         10 10 10 4 6 4 175 96 3 0 0 0 0 10 24 41.5692 0 33 122.497 100.172 0 3 0 0 1 6 5 35 36 41 40 10 12 13 18 17 47 48 53 52 33 46 47 52 51 81 82 87 86)
+         10 10 10 4 6 4 175 96 3 0 0 0 0 10 40 69.282 0 33 223.923 147.846 0 3 0 0 1 6 5 35 36 41 40 10 12 13 18 17 47 48 53 52 33 46 47 52 51 81 82 87 86)

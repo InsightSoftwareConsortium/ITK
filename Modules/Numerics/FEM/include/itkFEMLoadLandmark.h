@@ -99,6 +99,9 @@ public:
     return m_Source;
   }
 
+  /**
+   * Get the force vector
+   */
   Element::VectorType & GetForce()
   {
     return m_Force;
@@ -177,11 +180,27 @@ public:
   }
 
   /**
+   * Set the element containing the landmark
+   */
+  void SetContainedElement(Element::Pointer e)
+  {
+      this->m_Element[0] = e;
+  }
+
+  /**
+   * Get the element containing the landmark
+   */
+  Element::Pointer GetContainedElement()
+  {
+      return const_cast<Element*>(this->m_Element[0]);
+  }
+
+  /**
    * Assign the LoadLandmark to an element
    */
-  virtual void AssignToElement(Element::ArrayType::Pointer elements);
+  virtual bool AssignToElement(Element::ArrayType::Pointer elements);
 
-  virtual void AssignToElement(Element::ArrayType1::Pointer elements);
+  virtual bool AssignToElement(Element::ArrayType1::Pointer elements);
 
   virtual Element::ConstPointer GetAssignedElement(Element::ArrayType1::Pointer elements);
 

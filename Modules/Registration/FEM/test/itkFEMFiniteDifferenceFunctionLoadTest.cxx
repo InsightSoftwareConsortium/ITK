@@ -171,21 +171,25 @@ int RunTest(testImageType* fixed, testImageType* moving, FieldType* initField,
     {
     MetricType1::Pointer metric = MetricType1::New();
     load->SetMetric(metric.GetPointer());
+    load->SetDescentDirectionMinimize();
     }
   else if (metricType == 2)
     {
     MetricType2::Pointer metric = MetricType2::New();
     load->SetMetric(metric.GetPointer());
+    load->SetDescentDirectionMaximize();
     }
   else if (metricType == 3)
     {
     MetricType3::Pointer metric = MetricType3::New();
     load->SetMetric(metric.GetPointer());
+    load->SetDescentDirectionMinimize();
     }
   else
     {
     MetricType0::Pointer metric = MetricType0::New();
     load->SetMetric(metric.GetPointer());
+    load->SetDescentDirectionMinimize();
     }
   load->InitializeMetric();
 
@@ -195,8 +199,7 @@ int RunTest(testImageType* fixed, testImageType* moving, FieldType* initField,
   load->SetMetricRadius(r);
   load->SetGamma(1);
   load->SetNumberOfIntegrationPoints(1);
-  load->SetSign(0);
-  load->PrintCurrentEnergy(); // why is it returning 0?
+  load->PrintCurrentEnergy();
 
 
   // --------------------------------------------------------
@@ -214,7 +217,7 @@ int RunTest(testImageType* fixed, testImageType* moving, FieldType* initField,
       position[d] = iter.GetIndex()[d] * spacing[d] + origin[d];
       solution[d] = 0;
       }
-    solution = load->Fe(position, solution);
+    solution = load->Fe(position);
 
     // Write to output displacement field
     FieldType::PixelType pixelVal;

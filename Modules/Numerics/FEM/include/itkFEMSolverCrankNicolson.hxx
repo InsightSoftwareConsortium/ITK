@@ -40,7 +40,7 @@ template <unsigned int VDimension>
 SolverCrankNicolson<VDimension>
 ::SolverCrankNicolson()
 {
-  m_DeltaT = 0.5;
+  m_TimeStep = 0.5;
   m_Rho = 1.;
   m_Alpha = 0.5;
   // BUG FIXME NOT SURE IF SOLVER IS USING VECTOR INDEX 1 FOR BCs
@@ -164,12 +164,12 @@ SolverCrankNicolson<VDimension>
         if( Ke(j, k) != Float(0.0) || Me(j, k) != Float(0.0) )
           {
           // left hand side matrix
-          lhsval = ( Me(j, k) + m_Alpha * m_DeltaT * Ke(j, k) );
+          lhsval = ( Me(j, k) + m_Alpha * m_TimeStep * Ke(j, k) );
           this->m_ls->AddMatrixValue( this->m_FEMObject->GetElement(e)->GetDegreeOfFreedom(j),
                                       this->m_FEMObject->GetElement(e)->GetDegreeOfFreedom(k),
                                       lhsval, m_SumMatrixIndex );
           // right hand side matrix
-          rhsval = ( Me(j, k) - ( 1. - m_Alpha ) * m_DeltaT * Ke(j, k) );
+          rhsval = ( Me(j, k) - ( 1. - m_Alpha ) * m_TimeStep * Ke(j, k) );
           this->m_ls->AddMatrixValue( this->m_FEMObject->GetElement(e)->GetDegreeOfFreedom(j),
                                       this->m_FEMObject->GetElement(e)->GetDegreeOfFreedom(k),
                                       rhsval, m_DifferenceMatrixIndex );
@@ -208,12 +208,12 @@ SolverCrankNicolson<VDimension>
           if( Le(j, k) != Float(0.0) )
             {
             // lhs matrix
-            lhsval = m_Alpha * m_DeltaT * Le(j, k);
+            lhsval = m_Alpha * m_TimeStep * Le(j, k);
             this->m_ls->AddMatrixValue(ep->GetDegreeOfFreedom(j),
                                        ep->GetDegreeOfFreedom(k),
                                        lhsval, m_SumMatrixIndex);
             // rhs matrix
-            rhsval = ( 1. - m_Alpha ) * m_DeltaT * Le(j, k);
+            rhsval = ( 1. - m_Alpha ) * m_TimeStep * Le(j, k);
             this->m_ls->AddMatrixValue(ep->GetDegreeOfFreedom(j),
                                        ep->GetDegreeOfFreedom(k),
                                        rhsval, m_DifferenceMatrixIndex);
@@ -240,7 +240,8 @@ SolverCrankNicolson<VDimension>
     {
     return;
     }
-  // AssembleF(dim); // assuming assemblef uses index 0 in vector!
+
+  this->AssembleF(dim); // assuming assemblef uses index 0 in vector!
 
   typedef std::map<Element::DegreeOfFreedomIDType, Float> BCTermType;
   BCTermType bcterm;
@@ -283,7 +284,7 @@ SolverCrankNicolson<VDimension>
   Float ft   = this->m_ls->GetVectorValue(index, m_ForceTIndex);
   Float ftm1 = this->m_ls->GetVectorValue(index, m_ForceTMinus1Index);
   Float utm1 = this->m_ls->GetVectorValue(index, m_DiffMatrixBySolutionTMinus1Index);
-  Float f = m_DeltaT * ( m_Alpha * ft + ( 1. - m_Alpha ) * ftm1 ) + utm1;
+  Float f = m_TimeStep * ( m_Alpha * ft + ( 1. - m_Alpha ) * ftm1 ) + utm1;
 
   this->m_ls->SetVectorValue(index, f, m_ForceTIndex);
 }

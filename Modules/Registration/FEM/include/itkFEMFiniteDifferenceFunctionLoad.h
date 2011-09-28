@@ -250,13 +250,43 @@ public:
     return m_NumberOfIntegrationPoints;
   }
 
-  /** Set the direction of the gradient (uphill or downhill).
-    * E.g. the mean squares metric should be minimized while NCC and PR should be maximized.
+  /** Set/Get the direction of the gradient (uphill or downhill).
+    * E.g. the mean squares metric should be minimized while NCC and PR should be maximized.260
     */
-  void SetSign(Float s)
+  void SetDescentDirectionMinimize( )
   {
-    m_Sign = s;
+    m_Sign = 1.0;
   }
+
+  void SetDescentDirectionMaximize()
+  {
+    m_Sign = -1.0;
+  }
+
+  void IsDirectionMaximize()
+  {
+    if (m_Sign == -1.0)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
+
+  void IsDirectionMinimize()
+  {
+    if (m_Sign == 1.0)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
+
 
   /** Scaling of the similarity energy term */
   void SetGamma(Float s)
@@ -288,8 +318,7 @@ public:
   /**
    * Compute the image based load - implemented with ITK metric derivatives.
    */
-  VectorType    Fe1(VectorType);
-  FEMVectorType Fe(FEMVectorType, FEMVectorType);
+  FEMVectorType Fe(FEMVectorType);
 
   static Baseclass * NewFiniteDifferenceFunctionLoad(void)
   {
