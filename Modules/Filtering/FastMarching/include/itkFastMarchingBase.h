@@ -166,6 +166,10 @@ public:
   itkGetMacro( SpeedConstant, double );
   itkSetMacro( SpeedConstant, double );
 
+  /** \brief Set/Get NormalizationFactor */
+  itkGetMacro( NormalizationFactor, double );
+  itkSetMacro( NormalizationFactor, double );
+
   /** \brief Get the value reached by the front when it stops propagating */
   itkGetMacro( TargetReachedValue, OutputPixelType );
 
