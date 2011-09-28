@@ -357,8 +357,9 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
   this->m_MovingTransformJacobianPerThread.resize( this->GetNumberOfThreads() );
 
   /* This size always comes from the moving image */
-  unsigned int globalDerivativeSize =
+  NumberOfParametersType globalDerivativeSize =
     this->m_MovingTransform->GetNumberOfParameters();
+
   itkDebugMacro("ImageToImageObjectMetric::Initialize: deriv size  "
                   << globalDerivativeSize << std::endl);
   /* NOTE: this does *not* get init'ed to 0 here. */
@@ -483,7 +484,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
   /* Accumulate the metric value from threads and store */
   this->m_Value = NumericTraits<InternalComputationValueType>::Zero;
 
-  for(unsigned int i=0; i< this->m_MeasurePerThread.size(); i++)
+  for(size_t i=0; i< this->m_MeasurePerThread.size(); i++)
     {
     this->m_Value += this->m_MeasurePerThread[i];
     }
@@ -658,7 +659,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
       OffsetValueType offset =
         this->m_VirtualDomainImage->ComputeOffset(virtualIndex);
       offset *= this->m_MovingTransform->GetNumberOfLocalParameters();
-      for (unsigned int i=0;
+      for (NumberOfParametersType i=0;
             i < this->m_MovingTransform->GetNumberOfLocalParameters(); i++)
         {
         /* Be sure to *add* here and not assign. Required for proper behavior
@@ -1022,7 +1023,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 
   const typename FixedImageType::SpacingType & spacing = image->GetSpacing();
   double maximumSpacing = 0.0;
-  for ( unsigned int i = 0; i < FixedImageDimension; i++ )
+  for ( ImageDimensionType i = 0; i < FixedImageDimension; i++ )
     {
     if ( spacing[i] > maximumSpacing )
       {
@@ -1055,7 +1056,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 
   const typename MovingImageType::SpacingType & spacing = image->GetSpacing();
   double maximumSpacing = 0.0;
-  for ( unsigned int i = 0; i < MovingImageDimension; i++ )
+  for ( ImageDimensionType i = 0; i < MovingImageDimension; i++ )
     {
     if ( spacing[i] > maximumSpacing )
       {
@@ -1242,7 +1243,8 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
-unsigned int
+typename
+ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>::NumberOfParametersType
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
 ::GetNumberOfParameters() const
 {
@@ -1258,7 +1260,8 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
-unsigned int
+typename
+ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >::NumberOfParametersType
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 ::GetNumberOfLocalParameters() const
 {

@@ -185,11 +185,12 @@ public:
   typedef typename VirtualImageType::IndexType      VirtualIndexType;
 
   /* Image dimension accessors */
-  itkStaticConstMacro(FixedImageDimension, unsigned int,
+  typedef unsigned int   ImageDimensionType;
+  itkStaticConstMacro(FixedImageDimension, ImageDimensionType,
       ::itk::GetImageDimension<FixedImageType>::ImageDimension);
-  itkStaticConstMacro(MovingImageDimension, unsigned int,
+  itkStaticConstMacro(MovingImageDimension, ImageDimensionType,
       ::itk::GetImageDimension<MovingImageType>::ImageDimension);
-  itkStaticConstMacro(VirtualImageDimension, unsigned int,
+  itkStaticConstMacro(VirtualImageDimension, ImageDimensionType,
       ::itk::GetImageDimension<VirtualImageType>::ImageDimension);
 
   /**  Type of the Transform Base classes */
@@ -479,15 +480,18 @@ public:
    * Need to differentiate it from GetValue method in base class. */
   MeasureType GetValueResult() const;
 
+  /** Type to represent the number of parameters that are being optimized at
+   * any given iteration of the optimizer. */
+  typedef typename Superclass::NumberOfParametersType   NumberOfParametersType;
+
   /** Return the number of parameters.
    * \note Currently we're always optimizing the moving image transform,
    * so return its number of parameters. The class will eventually allow
    * either the fixed transform to be optimized, or both. This and related
    * methods make it so the user or calling-class doesn't need to know which
    * of the transforms are being optimized.
-   * TODO: Swithc return type to NumberOfParametersType when superclass
-   * has been changed. */
-  virtual unsigned int GetNumberOfParameters() const;
+   */
+  virtual NumberOfParametersType GetNumberOfParameters() const;
 
   /** Get a const reference to the moving transform's parameters */
   virtual const ParametersType & GetParameters() const;
@@ -501,10 +505,8 @@ public:
   virtual void UpdateTransformParameters( DerivativeType & derivative,
                                           ParametersValueType factor = 1.0);
 
-  /** Get the number of local parameters from the moving transform.
-   * TODO: Swithc return type to NumberOfParametersType when superclass
-   * has been changed. */
-  virtual unsigned int GetNumberOfLocalParameters() const;
+  /** Get the number of local parameters from the moving transform. */
+  virtual NumberOfParametersType GetNumberOfLocalParameters() const;
 
   /** Get if the moving transform has local support. */
   virtual bool HasLocalSupport() const;
