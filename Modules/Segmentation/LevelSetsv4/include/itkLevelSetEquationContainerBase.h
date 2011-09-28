@@ -20,6 +20,7 @@
 #define __itkLevelSetEquationContainerBase_h
 
 #include "itkObject.h"
+#include "itkObjectFactory.h"
 
 namespace itk
 {
