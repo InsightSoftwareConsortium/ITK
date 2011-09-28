@@ -90,18 +90,23 @@
   #endif
 #endif
 
-#if !defined( ITKSTATIC )
-#ifdef ITKCommon_EXPORTS
-#define ITKCommon_EXPORT ITK_ABI_EXPORT
-#else
-#define ITKCommon_EXPORT ITK_ABI_IMPORT
-#endif  /* ITKCommon_EXPORTS */
 #define ITKCommon_HIDDEN ITK_ABI_HIDDEN
 
+#if !defined( ITKSTATIC )
+  #ifdef ITKCommon_EXPORTS
+    #define ITKCommon_EXPORT ITK_ABI_EXPORT
+  #else
+    #define ITKCommon_EXPORT ITK_ABI_IMPORT
+  #endif  /* ITKCommon_EXPORTS */
 #else
-/* ITKCommon is build as a static lib */
-#define ITKCommon_EXPORT
-#define ITKCommon_HIDDEN
+  /* ITKCommon is build as a static lib */
+  #if __GNUC__ >= 4
+    // Don't hide symbols in the static ITKCommon library in case
+    // -fvisibility=hidden is used
+    #define ITKCommon_EXPORT ITK_ABI_EXPORT
+  #else
+    #define ITKCommon_EXPORT
+  #endif
 #endif
 
 #endif
