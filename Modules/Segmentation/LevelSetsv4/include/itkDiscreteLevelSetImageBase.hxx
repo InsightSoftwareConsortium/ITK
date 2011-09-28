@@ -76,7 +76,69 @@ DiscreteLevelSetImageBase< TOutput, VDimension >::EvaluateGradient( const InputT
 
   return dx;
 }
+
 // ----------------------------------------------------------------------------
+template< typename TOutput, unsigned int VDimension >
+typename DiscreteLevelSetImageBase< TOutput, VDimension >::GradientType
+DiscreteLevelSetImageBase< TOutput, VDimension >
+::EvaluateForwardGradient( const InputType& iP ) const
+{
+  const OutputRealType center_value = static_cast< OutputRealType >( this->Evaluate( iP ) );
+
+  InputType pA = iP;
+
+  GradientType dx;
+
+  for( unsigned int dim = 0; dim < Dimension; dim++ )
+    {
+    pA[dim] += 1;
+
+    if( !this->IsInside( pA ) )
+      {
+      pA[dim] = iP[dim];
+      }
+
+    const OutputRealType valueA = static_cast< OutputRealType >( this->Evaluate( pA ) );
+    const OutputRealType scale = this->m_NeighborhoodScales[dim];
+
+    dx[dim] = ( valueA - center_value ) * scale;
+
+    pA[dim] = iP[dim];
+    }
+
+  return dx;
+}
+
+// ----------------------------------------------------------------------------
+template< typename TOutput, unsigned int VDimension >
+typename DiscreteLevelSetImageBase< TOutput, VDimension >::GradientType
+DiscreteLevelSetImageBase< TOutput, VDimension >
+::EvaluateBackwardGradient( const InputType& iP ) const
+{
+  const OutputRealType center_value = static_cast< OutputRealType >( this->Evaluate( iP ) );
+
+  InputType pA = iP;
+
+  GradientType dx;
+
+  for( unsigned int dim = 0; dim < Dimension; dim++ )
+    {
+    pA[dim] -= 1;
+
+    if( !this->IsInside( pA ) )
+      {
+      pA[dim] = iP[dim];
+      }
+
+    const OutputRealType valueA = static_cast< OutputRealType >( this->Evaluate( pA ) );
+    const OutputRealType scale = this->m_NeighborhoodScales[dim];
+
+    dx[dim] = ( center_value - valueA ) * scale;
+
+    pA[dim] = iP[dim];
+    }
+  return dx;
+}
 
 // ----------------------------------------------------------------------------
 template< typename TOutput, unsigned int VDimension >
