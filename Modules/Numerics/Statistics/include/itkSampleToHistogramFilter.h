@@ -79,8 +79,9 @@ public:
   /** Type for the data object output */
   itkSuperclassTraitMacro(DataObjectPointer)
 
-  /** Set/Get the input sample */
   using Superclass::SetInput;
+
+  /** Set/Get the input sample */
   virtual void SetInput(const SampleType *sample);
 
   virtual const SampleType * GetInput() const;
