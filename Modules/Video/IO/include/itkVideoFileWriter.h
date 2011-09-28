@@ -33,7 +33,7 @@ namespace itk
  * A call to Update() will write the entire requested temporal region to the
  * file. If no temporal region is requested, the largest possible will be used.
  *
- * \ingroup ITKIOVideo
+ * \ingroup ITKVideoIO
  */
 template< class TInputVideoStream >
 class ITK_EXPORT VideoFileWriter : public TemporalProcessObject

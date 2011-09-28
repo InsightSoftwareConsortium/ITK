@@ -35,7 +35,7 @@ namespace itk
  * to load a single frame at a time into the frame buffer of the output
  * VideoSource.
  *
- * \ingroup ITKIOVideo
+ * \ingroup ITKVideoIO
  */
 template< class TOutputVideoStream >
 class ITK_EXPORT VideoFileReader : public VideoSource< TOutputVideoStream >

@@ -43,7 +43,7 @@ namespace itk
  * \sa VideoFileWriter
  * \sa VideoFileReader
  *
- * \ingroup ITKIOVideo
+ * \ingroup ITKVideoIO
  */
 class ITK_EXPORT VideoIOBase : public ImageIOBase
 {
