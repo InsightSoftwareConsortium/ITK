@@ -30,7 +30,7 @@ namespace itk
  * desired file or camera. In order for a specific VideoIO type to be
  * considered, it must be registered with the ITK ObjectFactoryBase.
  *
- * \ingroup ITKIOVideo
+ * \ingroup ITKVideoIO
  */
 class ITK_EXPORT VideoIOFactory : public Object
 {

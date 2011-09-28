@@ -1,5 +1,5 @@
 # Set a list of group names
-set(group_list Core IO Filtering Registration Segmentation Numerics ThirdParty Bridge Nonunit Compatibility)
+set(group_list Core IO Filtering Registration Segmentation Numerics Video ThirdParty Bridge Nonunit Compatibility)
 
 set(Core_documentation "This group of modules contain the toolkit framework used
 by other modules.  There are common base classes for data objects and process
@@ -30,6 +30,10 @@ ITKQuadEdgeMesh and \\ref ITKNarrowBand.")
 
 set(Numerics_documentation "This group of modules are basic numerical tools and
 algorithms that have general applications outside of imaging.")
+
+set(Video_documentation "This group of modules handles input, output and processing
+of static and real-time data with temporal components. It also handles communications
+to OpenCV and VXL external libraires.")
 
 set(Bridge_documentation "This group of modules are intended to bridge ITK to
 other toolkits as libraries such as visualization toolkits.")

@@ -41,7 +41,7 @@ namespace itk
  * SplitFileNames(...) static method is made public in order to allow the
  * splitting functionality to be accessed publically.
  *
- * \ingroup ITKIOVideo
+ * \ingroup ITKVideoIO
  *
  */
 class ITK_EXPORT FileListVideoIO : public VideoIOBase

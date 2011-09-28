@@ -1,16 +1,16 @@
 itk_module_test()
-set(ITKIOVideoTests
+set(ITKVideoIOTests
   itkVideoFileReaderWriterTest.cxx
   itkFileListVideoIOTest.cxx
   itkFileListVideoIOFactoryTest.cxx
 )
 
-CreateTestDriver(ITKIOVideo "${ITKIOVideo-Test_LIBRARIES}" "${ITKIOVideoTests}")
+CreateTestDriver(ITKVideoIO "${ITKVideoIO-Test_LIBRARIES}" "${ITKVideoIOTests}")
 
 # VideoFileRederWriterTest:
 itk_add_test(
   NAME VideoFileReaderWriterTest
-  COMMAND ITKIOVideoTestDriver
+  COMMAND ITKVideoIOTestDriver
     itkVideoFileReaderWriterTest
       DATA{Input/frame0.jpg}
       DATA{Input/frame1.jpg}
@@ -24,7 +24,7 @@ itk_add_test(
 # FileListVideoIO:
 itk_add_test(
   NAME FileListVideoIOTest
-  COMMAND ITKIOVideoTestDriver
+  COMMAND ITKVideoIOTestDriver
     itkFileListVideoIOTest
       DATA{Input/frame0.jpg}
       DATA{Input/frame1.jpg}
@@ -39,7 +39,7 @@ itk_add_test(
 # FileListVideoIOFactory:
 itk_add_test(
   NAME FileListVideoIOFactoryTest
-  COMMAND ITKIOVideoTestDriver
+  COMMAND ITKVideoIOTestDriver
     itkFileListVideoIOFactoryTest
     DATA{Input/frame0.jpg}
     DATA{Input/frame1.jpg}
