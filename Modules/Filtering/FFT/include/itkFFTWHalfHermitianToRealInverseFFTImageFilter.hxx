@@ -15,13 +15,11 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFFTWInverseFFTImageFilter_hxx
-#define __itkFFTWInverseFFTImageFilter_hxx
+#ifndef __itkFFTWHalfHermitianToRealInverseFFTImageFilter_hxx
+#define __itkFFTWHalfHermitianToRealInverseFFTImageFilter_hxx
 
-#include "itkFullToHalfHermitianImageFilter.h"
-#include "itkFFTWInverseFFTImageFilter.h"
-#include "itkInverseFFTImageFilter.hxx"
-
+#include "itkFFTWHalfHermitianToRealInverseFFTImageFilter.h"
+#include "itkHalfHermitianToRealInverseFFTImageFilter.hxx"
 #include "itkImageRegionIterator.h"
 #include "itkProgressReporter.h"
 
@@ -29,15 +27,15 @@ namespace itk
 {
 
 template< class TInputImage, class TOutputImage >
-FFTWInverseFFTImageFilter< TInputImage, TOutputImage >
-::FFTWInverseFFTImageFilter()
+FFTWHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
+::FFTWHalfHermitianToRealInverseFFTImageFilter()
 {
   m_PlanRigor = FFTWGlobalConfiguration::GetPlanRigor();
 }
 
 template< class TInputImage, class TOutputImage >
 void
-FFTWInverseFFTImageFilter< TInputImage, TOutputImage >
+FFTWHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
 {
   // Get pointers to the input and output.
@@ -73,16 +71,21 @@ FFTWInverseFFTImageFilter< TInputImage, TOutputImage >
     totalInputSize *= inputSize[i];
     }
 
-  // Cut the full complex image to just the portion needed by FFTW.
-  typedef FullToHalfHermitianImageFilter< InputImageType > FullToHalfFilterType;
-  typename FullToHalfFilterType::Pointer fullToHalfFilter = FullToHalfFilterType::New();
-  fullToHalfFilter->SetInput( this->GetInput() );
-  fullToHalfFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
-  fullToHalfFilter->UpdateLargestPossibleRegion();
-
-  typename FFTWProxyType::ComplexType * in =
-    (typename FFTWProxyType::ComplexType *) fullToHalfFilter->GetOutput()->GetBufferPointer();
-
+  typename FFTWProxyType::ComplexType * in;
+  // The complex-to-real transform doesn't support the
+  // FFTW_PRESERVE_INPUT flag at this time. So if the input can't be
+  // destroyed, we have to copy the input data to a buffer before
+  // running the IFFT.
+  if( m_CanUseDestructiveAlgorithm )
+    {
+    // Ok, so lets use the input buffer directly, to save some memory.
+    in = (typename FFTWProxyType::ComplexType*)inputPtr->GetBufferPointer();
+    }
+  else
+    {
+    // We must use a buffer where fftw can work and destroy what it wants.
+    in = new typename FFTWProxyType::ComplexType[totalInputSize];
+    }
   OutputPixelType * out = outputPtr->GetBufferPointer();
   typename FFTWProxyType::PlanType plan;
 
@@ -91,19 +94,30 @@ FFTWInverseFFTImageFilter< TInputImage, TOutputImage >
     {
     sizes[(ImageDimension - 1) - i] = outputSize[i];
     }
-
   plan = FFTWProxyType::Plan_dft_c2r( ImageDimension, sizes, in, out, m_PlanRigor,
-                                      this->GetNumberOfThreads(), false );
+                                      this->GetNumberOfThreads(),
+                                      !m_CanUseDestructiveAlgorithm );
+  if( !m_CanUseDestructiveAlgorithm )
+    {
+    memcpy( in,
+            inputPtr->GetBufferPointer(),
+            totalInputSize * sizeof(typename FFTWProxyType::ComplexType) );
+    }
   FFTWProxyType::Execute( plan );
 
   // Some cleanup.
   FFTWProxyType::DestroyPlan( plan );
+  if( !m_CanUseDestructiveAlgorithm )
+    {
+    delete [] in;
+    }
 }
 
 template <class TInputImage, class TOutputImage>
 void
-FFTWInverseFFTImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType itkNotUsed(threadId) )
+FFTWHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
+::ThreadedGenerateData(const OutputRegionType& outputRegionForThread,
+                       ThreadIdType itkNotUsed(threadId) )
 {
   typedef ImageRegionIterator< OutputImageType > IteratorType;
   unsigned long totalOutputSize = this->GetOutput()->GetRequestedRegion().GetNumberOfPixels();
@@ -117,7 +131,19 @@ FFTWInverseFFTImageFilter< TInputImage, TOutputImage >
 
 template< class TInputImage, class TOutputImage >
 void
-FFTWInverseFFTImageFilter< TInputImage, TOutputImage >
+FFTWHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
+::UpdateOutputData(DataObject * output)
+{
+  // We need to catch that information now, because it is changed
+  // later during the pipeline execution, and thus can't be grabbed in
+  // GenerateData().
+  m_CanUseDestructiveAlgorithm = this->GetInput()->GetReleaseDataFlag();
+  Superclass::UpdateOutputData( output );
+}
+
+template< class TInputImage, class TOutputImage >
+void
+FFTWHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf( os, indent );
@@ -127,4 +153,4 @@ FFTWInverseFFTImageFilter< TInputImage, TOutputImage >
 }
 
 } // namespace itk
-#endif // _itkFFTWInverseFFTImageFilter_hxx
+#endif // _itkFFTWHalfHermitianToRealInverseFFTImageFilter_hxx

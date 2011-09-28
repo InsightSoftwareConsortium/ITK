@@ -15,20 +15,20 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVnlInverseFFTImageFilter_hxx
-#define __itkVnlInverseFFTImageFilter_hxx
+#ifndef __itkVnlRealToHalfHermitianForwardFFTImageFilter_hxx
+#define __itkVnlRealToHalfHermitianForwardFFTImageFilter_hxx
 
-#include "itkInverseFFTImageFilter.hxx"
+#include "itkVnlRealToHalfHermitianForwardFFTImageFilter.h"
+#include "itkRealToHalfHermitianForwardFFTImageFilter.hxx"
+#include "itkImageRegionIteratorWithIndex.h"
 #include "itkProgressReporter.h"
-#include "itkVnlFFTCommon.h"
-#include "itkVnlInverseFFTImageFilter.h"
 
 namespace itk
 {
 
 template< class TInputImage, class TOutputImage >
 void
-VnlInverseFFTImageFilter< TInputImage, TOutputImage >
+VnlRealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
   // Get pointers to the input and output.
@@ -41,52 +41,49 @@ VnlInverseFFTImageFilter< TInputImage, TOutputImage >
     }
 
   // We don't have a nice progress to report, but at least this simple line
-  // reports the begining and the end of the process.
+  // reports the beginning and the end of the process.
   ProgressReporter progress( this, 0, 1 );
 
+  const InputSizeType inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
   const OutputSizeType outputSize = outputPtr->GetLargestPossibleRegion().GetSize();
 
-  // Allocate output buffer memory
   outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
   outputPtr->Allocate();
-
-  const InputPixelType *in = inputPtr->GetBufferPointer();
 
   unsigned int vectorSize = 1;
   for ( unsigned int i = 0; i < ImageDimension; i++ )
     {
-    if ( !VnlFFTCommon::IsDimensionSizeLegal( outputSize[i] ) )
+    if ( !VnlFFTCommon::IsDimensionSizeLegal( inputSize[i] ) )
       {
       itkExceptionMacro(<< "Cannot compute FFT of image with size "
-                        << outputSize << ". VnlInverseFFTImageFilter operates "
-                        << "only on images whose size in each dimension is a multiple of "
-                        << "2, 3, or 5." );
+                        << inputSize << ". VnlRealToHalfHermitianForwardFFTImageFilter operates "
+                        << "only on images whose size in each dimension has a prime "
+                        << "factorization consisting of only 2s, 3s, or 5s." );
       }
-    vectorSize *= outputSize[i];
+    vectorSize *= inputSize[i];
     }
 
+  const InputPixelType *in = inputPtr->GetBufferPointer();
   SignalVectorType signal( vectorSize );
-  for (unsigned int i = 0; i < vectorSize; i++ )
+  for ( unsigned int i = 0; i < vectorSize; i++ )
     {
     signal[i] = in[i];
     }
 
-  OutputPixelType *out = outputPtr->GetBufferPointer();
-
   // call the proper transform, based on compile type template parameter
-  VnlFFTCommon::VnlFFTTransform< OutputImageType > vnlfft( outputSize );
-  vnlfft.transform( signal.data_block(), 1 );
+  VnlFFTCommon::VnlFFTTransform< InputImageType > vnlfft( inputSize );
+  vnlfft.transform( signal.data_block(), -1 );
 
   // Copy the VNL output back to the ITK image.
-  // Extract the real part of the signal.
-  // Ideally, the normalization by the number of elements
-  // should have been accounted for by the VNL inverse Fourier transform,
-  // but it is not.  So, we take care of it by dividing the signal by
-  // the vectorSize.
-  for ( unsigned int i = 0; i < vectorSize; i++ )
+  ImageRegionIteratorWithIndex< TOutputImage > oIt( outputPtr,
+                                                    outputPtr->GetLargestPossibleRegion() );
+  for (oIt.GoToBegin(); !oIt.IsAtEnd(); ++oIt)
     {
-    out[i] = signal[i].real() / vectorSize;
+    typename OutputImageType::IndexType index = oIt.GetIndex();
+    typename OutputImageType::OffsetValueType offset = inputPtr->ComputeOffset( index );
+    oIt.Set( signal[offset] );
     }
 }
 }
+
 #endif

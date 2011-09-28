@@ -17,16 +17,16 @@
  *=========================================================================*/
 
 
-#include "itkFFTTest.h"
+#include "itkRealFFTTest.h"
 
 #if defined(USE_FFTWF)
-// Compare FFT using VNL and FFTW Libraries. The test is performed for 2 3d
-// array one of them having the same dimension(4,4,4) and the other having
-// different dimensions (3,4,5). Images are created with different dimensions
-// in the test function based on the second template argument   and  the size
-// of these dimensions are taken from the array.The data types used are float
-// and double.
-int itkVnlFFTWF_FFTTest(int argc, char *argv[])
+// Compare FFT using VNL and FFTW Libraries. The test is performed for
+// two 3D arrays, one of them having the same dimension(4,4,4) and the
+// other having different dimensions (3,4,5). Images are created with
+// different dimensions in the test function based on the second
+// template argument and the size of these dimensions are taken from
+// the array. The data types used are float and double.
+int itkVnlFFTWF_RealFFTTest(int argc, char *argv[])
 {
   typedef itk::Image< float, 1>               ImageF1;
   typedef itk::Image< std::complex<float>, 1> ImageCF1;
@@ -52,33 +52,33 @@ int itkVnlFFTWF_FFTTest(int argc, char *argv[])
   int rval = 0;
   std::cerr << "VnlFFTWF:float,1 (4,4,4)" << std::endl;
   if((test_fft_rtc<float,1,
-      itk::VnlForwardFFTImageFilter<ImageF1> ,
-      itk::FFTWForwardFFTImageFilter<ImageF1> >(SizeOfDimensions1)) != 0)
+      itk::VnlRealToHalfHermitianForwardFFTImageFilter<ImageF1> ,
+      itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageF1> >(SizeOfDimensions1)) != 0)
     rval++;
   std::cerr << "VnlFFTWF:float,2 (4,4,4)" << std::endl;
   if((test_fft_rtc<float,2,
-      itk::VnlForwardFFTImageFilter<ImageF2> ,
-      itk::FFTWForwardFFTImageFilter<ImageF2> >(SizeOfDimensions1)) != 0)
+      itk::VnlRealToHalfHermitianForwardFFTImageFilter<ImageF2> ,
+      itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageF2> >(SizeOfDimensions1)) != 0)
     rval++;
   std::cerr << "VnlFFTWF:float,3 (4,4,4)" << std::endl;
   if((test_fft_rtc<float,3,
-      itk::VnlForwardFFTImageFilter<ImageF3> ,
-      itk::FFTWForwardFFTImageFilter<ImageF3> >(SizeOfDimensions1)) != 0)
+      itk::VnlRealToHalfHermitianForwardFFTImageFilter<ImageF3> ,
+      itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageF3> >(SizeOfDimensions1)) != 0)
     rval++;
   std::cerr << "VnlFFTWF:float,1 (3,5,4)" << std::endl;
   if((test_fft_rtc<float,1,
-      itk::VnlForwardFFTImageFilter<ImageF1> ,
-      itk::FFTWForwardFFTImageFilter<ImageF1> >(SizeOfDimensions2)) != 0)
+      itk::VnlRealToHalfHermitianForwardFFTImageFilter<ImageF1> ,
+      itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageF1> >(SizeOfDimensions2)) != 0)
     rval++;
   std::cerr << "VnlFFTWF:float,2 (3,5,4)" << std::endl;
   if((test_fft_rtc<float,2,
-      itk::VnlForwardFFTImageFilter<ImageF2> ,
-      itk::FFTWForwardFFTImageFilter<ImageF2> >(SizeOfDimensions2)) != 0)
+      itk::VnlRealToHalfHermitianForwardFFTImageFilter<ImageF2> ,
+      itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageF2> >(SizeOfDimensions2)) != 0)
     rval++;
   std::cerr << "VnlFFTWF:float,3 (3,5,4)" << std::endl;
   if((test_fft_rtc<float,3,
-      itk::VnlForwardFFTImageFilter<ImageF3> ,
-      itk::FFTWForwardFFTImageFilter<ImageF3> >(SizeOfDimensions2)) != 0)
+      itk::VnlRealToHalfHermitianForwardFFTImageFilter<ImageF3> ,
+      itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageF3> >(SizeOfDimensions2)) != 0)
     rval++;
 
   return (rval == 0) ? 0 : -1;

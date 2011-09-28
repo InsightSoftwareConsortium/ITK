@@ -15,20 +15,23 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFFTTest_h
-#define __itkFFTTest_h
+#ifndef __itkRealFFTTest_h
+#define __itkRealFFTTest_h
 
-/* This test is build for testing forward and inverse Fast Fourier Transforms
- * using VNL and FFTW FFT libraries. */
+/* This test is built for filters specialized for real-to-complex
+ * forward and complex-to-real inverse Fast Fourier Transforms using
+ * VNL and FFTW FFT libraries. */
 #include "itkConfigure.h"
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
-#include "itkVnlForwardFFTImageFilter.h"
-#include "itkVnlInverseFFTImageFilter.h"
+#include "itkVnlRealToHalfHermitianForwardFFTImageFilter.h"
+#include "itkVnlHalfHermitianToRealInverseFFTImageFilter.h"
+
 #if defined(USE_FFTWF) || defined(USE_FFTWD)
-#include "itkFFTWInverseFFTImageFilter.h"
-#include "itkFFTWForwardFFTImageFilter.h"
+#include "itkFFTWRealToHalfHermitianForwardFFTImageFilter.h"
+#include "itkFFTWHalfHermitianToRealInverseFFTImageFilter.h"
 #endif
+
 #include "itksys/SystemTools.hxx"
 #include "vnl/vnl_sample.h"
 #include <math.h>
@@ -62,8 +65,8 @@ test_fft(unsigned int *SizeOfDimensions)
   region.SetSize( imageSize );
   region.SetIndex( imageIndex );
 
-  typename RealImageType::Pointer realImage = RealImageType::New();
   // Create the Real Image.
+  typename RealImageType::Pointer realImage = RealImageType::New();
   realImage->SetLargestPossibleRegion( region );
   realImage->SetBufferedRegion( region );
   realImage->SetRequestedRegion( region );
@@ -105,7 +108,8 @@ test_fft(unsigned int *SizeOfDimensions)
 
   // Real to complex pointer. This computes the forward FFT.
   typename R2CType::Pointer R2C = R2CType::New();
-  // Complex to Real pointer. This computes the Inverse FFT.
+
+  // Complex to Real pointer. This computes the HalfHermitianToRealInverse FFT.
   typename C2RType::Pointer C2R = C2RType::New();
 
   // Set the real image created as the input to the forward FFT
@@ -134,6 +138,7 @@ test_fft(unsigned int *SizeOfDimensions)
     {
     sizes[i] = complexImageSize[i];
     }
+
   /* Print out the the frequency domain data obtained after performing
    * the forward transform. */
   std::cout << "Frequency domain data after forward transform:" << std::endl;
@@ -153,28 +158,30 @@ test_fft(unsigned int *SizeOfDimensions)
 
   std::cout << std::endl << std::endl;
 
-  // Perform the Inverse FFT to get back the Real Image. C2R is the
+  // Perform the HalfHermitianToRealInverse FFT to get back the Real Image. C2R is the
   // complex conjugate to real image filter and we give the resulting
-  // complex image as input to this filter. This is the Inverse FFT of
+  // complex image as input to this filter. This is the HalfHermitianToRealInverse FFT of
   // the image.
   C2R->SetInput( complexImage );
 
   // Inform the filter that there's an odd # of pixels in the x
   // dimension.
+  const bool dimensionIsOdd = SizeOfDimensions[0] & 1;
+  C2R->SetActualXDimensionIsOdd( dimensionIsOdd );
   C2R->Print( std::cout );
   C2R->Update();
   std::cerr << "C2R region: " << C2R->GetOutput()->GetLargestPossibleRegion() << std::endl;
-  typename RealImageType::Pointer imageAfterInverseFFT = C2R->GetOutput();
+  typename RealImageType::Pointer imageAfterHalfHermitianToRealInverseFFT = C2R->GetOutput();
 
-  // The Inverse FFT image iterator is the resultant iterator after we
-  // perform the FFT and Inverse FFT on the Original Image. */
-  itk::ImageRegionIterator< RealImageType > inverseFFTImageIterator( imageAfterInverseFFT,
+  // The HalfHermitianToRealInverse FFT image iterator is the resultant iterator after we
+  // perform the FFT and HalfHermitianToRealInverse FFT on the Original Image. */
+  itk::ImageRegionIterator< RealImageType > inverseFFTImageIterator( imageAfterHalfHermitianToRealInverseFFT,
                                                                      region );
   counter = 0;
   inverseFFTImageIterator = inverseFFTImageIterator.Begin();
 
-  // Print the Image data obtained by performing the Inverse FFT.
-  std::cerr << "---- Inverse FFT image ----" << std::endl;
+  // Print the Image data obtained by performing the HalfHermitianToRealInverse FFT.
+  std::cerr << "---- HalfHermitianToRealInverse FFT image ----" << std::endl;
   while ( !inverseFFTImageIterator.IsAtEnd() )
     {
     TPixel val = inverseFFTImageIterator.Value();

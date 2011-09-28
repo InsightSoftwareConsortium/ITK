@@ -17,10 +17,16 @@
  *=========================================================================*/
 
 
-#include "itkFFTTest.h"
+#include "itkRealFFTTest.h"
 
 #if defined(USE_FFTWD)
-int itkFFTWD_FFTTest(int, char *[])
+// Test FFT using FFTW Libraries. The test is performed for two 3D
+// arrays, one of them having the same dimension(4,4,4) and the other
+// having different dimensions (3,4,5).  Images are created with
+// different dimensions in the test function based on the second
+// template argument and the size of these dimensions are taken from
+// the array.The data types used are float and double.
+int itkFFTWD_RealFFTTest(int, char *[])
 {
   typedef itk::Image< double, 1>               ImageD1;
   typedef itk::Image< std::complex<double>, 1> ImageCD1;
@@ -41,38 +47,38 @@ int itkFFTWD_FFTTest(int, char *[])
 
   std::cerr << "FFTWD:double,1 (4,4,4)" << std::endl;
   if((test_fft<double,1,
-      itk::FFTWForwardFFTImageFilter<ImageD1> ,
-      itk::FFTWInverseFFTImageFilter<ImageCD1> >(SizeOfDimensions1)) != 0)
+      itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageD1> ,
+      itk::FFTWHalfHermitianToRealInverseFFTImageFilter<ImageCD1> >(SizeOfDimensions1)) != 0)
     rval++;
   std::cerr << "FFTWD:double,2 (4,4,4)" << std::endl;
   if((test_fft<double,2,
-      itk::FFTWForwardFFTImageFilter<ImageD2> ,
-      itk::FFTWInverseFFTImageFilter<ImageCD2> >(SizeOfDimensions1)) != 0)
+      itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageD2> ,
+      itk::FFTWHalfHermitianToRealInverseFFTImageFilter<ImageCD2> >(SizeOfDimensions1)) != 0)
     rval++;
   std::cerr << "FFTWD:double,3 (4,4,4)" << std::endl;
   if((test_fft<double,3,
-      itk::FFTWForwardFFTImageFilter<ImageD3> ,
-      itk::FFTWInverseFFTImageFilter<ImageCD3> >(SizeOfDimensions1)) != 0)
+      itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageD3> ,
+      itk::FFTWHalfHermitianToRealInverseFFTImageFilter<ImageCD3> >(SizeOfDimensions1)) != 0)
     rval++;
   std::cerr << "FFTWD:double,1 (3,5,4)" << std::endl;
   if((test_fft<double,1,
-      itk::FFTWForwardFFTImageFilter<ImageD1> ,
-      itk::FFTWInverseFFTImageFilter<ImageCD1> >(SizeOfDimensions2)) != 0)
+      itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageD1> ,
+      itk::FFTWHalfHermitianToRealInverseFFTImageFilter<ImageCD1> >(SizeOfDimensions2)) != 0)
     rval++;
   std::cerr << "FFTWD:double,2 (3,5,4)" << std::endl;
   if((test_fft<double,2,
-      itk::FFTWForwardFFTImageFilter<ImageD2> ,
-      itk::FFTWInverseFFTImageFilter<ImageCD2> >(SizeOfDimensions2)) != 0)
+      itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageD2> ,
+      itk::FFTWHalfHermitianToRealInverseFFTImageFilter<ImageCD2> >(SizeOfDimensions2)) != 0)
     rval++;
   std::cerr << "FFTWD:double,3 (3,5,4)" << std::endl;
   if((test_fft<double,3,
-      itk::FFTWForwardFFTImageFilter<ImageD3> ,
-      itk::FFTWInverseFFTImageFilter<ImageCD3> >(SizeOfDimensions2)) != 0)
+      itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageD3> ,
+      itk::FFTWHalfHermitianToRealInverseFFTImageFilter<ImageCD3> >(SizeOfDimensions2)) != 0)
     rval++;
 
   // Exercise the plan rigor methods
-  itk::FFTWForwardFFTImageFilter< ImageD3 >::Pointer fft =
-    itk::FFTWForwardFFTImageFilter< ImageD3 >::New();
+  itk::FFTWRealToHalfHermitianForwardFFTImageFilter< ImageD3 >::Pointer fft =
+    itk::FFTWRealToHalfHermitianForwardFFTImageFilter< ImageD3 >::New();
   fft->SetPlanRigor( FFTW_ESTIMATE );
   if ( fft->GetPlanRigor() != FFTW_ESTIMATE )
     {
@@ -81,8 +87,8 @@ int itkFFTWD_FFTTest(int, char *[])
     }
   fft->SetPlanRigor( FFTW_MEASURE );
 
-  itk::FFTWInverseFFTImageFilter< ImageCD3 >::Pointer ifft =
-    itk::FFTWInverseFFTImageFilter< ImageCD3 >::New();
+  itk::FFTWHalfHermitianToRealInverseFFTImageFilter< ImageCD3 >::Pointer ifft =
+    itk::FFTWHalfHermitianToRealInverseFFTImageFilter< ImageCD3 >::New();
   ifft->SetPlanRigor( FFTW_ESTIMATE );
   if ( ifft->GetPlanRigor() != FFTW_ESTIMATE )
     {

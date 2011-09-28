@@ -30,7 +30,7 @@ namespace itk
 
 // Partial specialization allows avoiding runtime type choice
 template< typename TSelfPointer, class TInputImage, class TOutputImage, typename TPixel >
-struct Dispatch_C2R_New
+struct Dispatch_Inverse_New
 {
   static TSelfPointer Apply()
     {
@@ -41,7 +41,7 @@ struct Dispatch_C2R_New
 
 #ifdef USE_FFTWD
 template < typename TSelfPointer, class TInputImage, class TOutputImage >
-struct Dispatch_C2R_New< TSelfPointer, TInputImage, TOutputImage, double >
+struct Dispatch_Inverse_New< TSelfPointer, TInputImage, TOutputImage, double >
 {
   static TSelfPointer Apply()
     {
@@ -53,7 +53,7 @@ struct Dispatch_C2R_New< TSelfPointer, TInputImage, TOutputImage, double >
 
 #ifdef USE_FFTWF
 template< typename TSelfPointer, class TInputImage, class TOutputImage >
-struct Dispatch_C2R_New< TSelfPointer, TInputImage, TOutputImage, float >
+struct Dispatch_Inverse_New< TSelfPointer, TInputImage, TOutputImage, float >
 {
   static TSelfPointer Apply()
     {
@@ -72,88 +72,10 @@ InverseFFTImageFilter< TInputImage, TOutputImage >
 
   if ( smartPtr.IsNull() )
     {
-    smartPtr = Dispatch_C2R_New<Pointer, TInputImage, TOutputImage, OutputPixelType>::Apply();
+    smartPtr = Dispatch_Inverse_New<Pointer, TInputImage, TOutputImage, OutputPixelType>::Apply();
     }
 
   return smartPtr;
-}
-
-template< class TInputImage, class TOutputImage >
-void
-InverseFFTImageFilter< TInputImage, TOutputImage >
-::GenerateOutputInformation()
-{
-  // call the superclass' implementation of this method
-  Superclass::GenerateOutputInformation();
-  //
-  // If this implementation returns a full result
-  // instead of a 'half-complex' matrix, then none of this
-  // is necessary
-  if ( this->FullMatrix() )
-    {
-    return;
-    }
-
-  // get pointers to the input and output
-  typename InputImageType::ConstPointer inputPtr  = this->GetInput();
-  typename OutputImageType::Pointer outputPtr = this->GetOutput();
-
-  if ( !inputPtr || !outputPtr )
-    {
-    return;
-    }
-
-  // This is all based on the same function in itk::ShrinkImageFilter.
-  // ShrinkImageFilter also modifies the image spacing, but spacing
-  // has no meaning in the result of an FFT. For an IFFT, since the
-  // spacing is propagated to the complex result, we can use the spacing
-  // from the input to propagate back to the output.
-  const typename InputImageType::SizeType &   inputSize =
-    inputPtr->GetLargestPossibleRegion().GetSize();
-  const typename InputImageType::IndexType &  inputStartIndex =
-    inputPtr->GetLargestPossibleRegion().GetIndex();
-
-  typename OutputImageType::SizeType outputSize;
-  typename OutputImageType::IndexType outputStartIndex;
-
-  // In 4.3.4 of the FFTW documentation, they indicate the size of
-  // of a real-to-complex FFT is N * N ... + (N /2+1)
-  //                              1   2        d
-  // complex numbers.
-  // Going from complex to real, you know the output is at least
-  // twice the size in the last dimension as the input, but it might
-  // be 2*size+1.  Consequently, the output of the FFT:R2C operation
-  MetaDataDictionary & inputDictionary =
-    const_cast< MetaDataDictionary & >( inputPtr->GetMetaDataDictionary() );
-
-  typedef typename InputImageType::SizeType::SizeValueType SizeScalarType;
-
-  SizeScalarType x = 0;
-
-  outputSize[0] = ( inputSize[0] - 1 ) * 2;
-  if ( this->ActualXDimensionIsOdd() )
-    {
-    outputSize[0]++;
-    }
-  // Backwards compatible/deprecated version
-  if ( ExposeMetaData< SizeScalarType >
-         ( inputDictionary, std::string( "FFT_Actual_RealImage_Size" ), x ) )
-    {
-    outputSize[0] = x;
-    }
-
-  outputStartIndex[0] = inputStartIndex[0];
-
-  for ( unsigned int i = 1; i < OutputImageType::ImageDimension; i++ )
-    {
-    outputSize[i] = inputSize[i];
-    outputStartIndex[i] = inputStartIndex[i];
-    }
-  typename OutputImageType::RegionType outputLargestPossibleRegion;
-  outputLargestPossibleRegion.SetSize( outputSize );
-  outputLargestPossibleRegion.SetIndex( outputStartIndex );
-
-  outputPtr->SetLargestPossibleRegion( outputLargestPossibleRegion );
 }
 
 template< class TInputImage, class TOutputImage >

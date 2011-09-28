@@ -15,17 +15,17 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVnlInverseFFTImageFilter_h
-#define __itkVnlInverseFFTImageFilter_h
+#ifndef __itkVnlHalfHermitianToRealInverseFFTImageFilter_h
+#define __itkVnlHalfHermitianToRealInverseFFTImageFilter_h
 
-#include "itkInverseFFTImageFilter.h"
+#include "itkHalfHermitianToRealInverseFFTImageFilter.h"
 
 #include "itkImage.h"
 #include "vnl/algo/vnl_fft_base.h"
 
 namespace itk
 {
-/** \class VnlInverseFFTImageFilter
+/** \class VnlHalfHermitianToRealInverseFFTImageFilter
  *
  * \brief VNL-based reverse Fast Fourier Transform.
  *
@@ -34,16 +34,13 @@ namespace itk
  *
  * \ingroup FourierTransform
  *
- * \sa InverseFFTImageFilter
+ * \sa HalfHermitianToRealInverseFFTImageFilter
  * \ingroup ITKFFT
  *
- * \wiki
- * \wikiexample{SpectralAnalysis/CrossCorrelationInFourierDomain,Compute the cross-correlation of two images in the Fourier domain}
- * \endwiki
  */
 template< class TInputImage, class TOutputImage=Image< typename TInputImage::PixelType::value_type, TInputImage::ImageDimension> >
-class VnlInverseFFTImageFilter:
-  public InverseFFTImageFilter< TInputImage, TOutputImage >
+class VnlHalfHermitianToRealInverseFFTImageFilter:
+  public HalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
@@ -53,19 +50,20 @@ public:
   typedef typename InputImageType::SizeValueType InputSizeValueType;
   typedef TOutputImage                           OutputImageType;
   typedef typename OutputImageType::PixelType    OutputPixelType;
+  typedef typename OutputImageType::IndexType    OutputIndexType;
   typedef typename OutputImageType::SizeType     OutputSizeType;
 
-  typedef VnlInverseFFTImageFilter                           Self;
-  typedef InverseFFTImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                               Pointer;
-  typedef SmartPointer< const Self >                         ConstPointer;
+  typedef VnlHalfHermitianToRealInverseFFTImageFilter                           Self;
+  typedef HalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                                                Pointer;
+  typedef SmartPointer< const Self >                                          ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VnlInverseFFTImageFilter,
-               InverseFFTImageFilter);
+  itkTypeMacro(VnlHalfHermitianToRealInverseFFTImageFilter,
+               HalfHermitianToRealInverseFFTImageFilter);
 
   /** Extract the dimensionality of the images. They must be the
    * same. */
@@ -86,13 +84,13 @@ public:
 #endif
 
 protected:
-  VnlInverseFFTImageFilter()  {}
-  virtual ~VnlInverseFFTImageFilter(){}
+  VnlHalfHermitianToRealInverseFFTImageFilter()  {}
+  virtual ~VnlHalfHermitianToRealInverseFFTImageFilter(){}
 
-  virtual void GenerateData();  // generates output from input
+  virtual void GenerateData();
 
 private:
-  VnlInverseFFTImageFilter(const Self &); //purposely not implemented
+  VnlHalfHermitianToRealInverseFFTImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                          //purposely not implemented
 
   typedef vnl_vector< InputPixelType  > SignalVectorType;
@@ -100,7 +98,7 @@ private:
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVnlInverseFFTImageFilter.hxx"
+#include "itkVnlHalfHermitianToRealInverseFFTImageFilter.hxx"
 #endif
 
 #endif

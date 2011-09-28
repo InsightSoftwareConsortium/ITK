@@ -33,6 +33,8 @@ BANNED_HEADERS = set(('itkExceptionObject.h', # There is a pre-processor check s
     'itkMINC2ImageIO.h', # In case minc2.h is not available.
     'itkFFTWForwardFFTImageFilter.h',
     'itkFFTWInverseFFTImageFilter.h',
+    'itkFFTWRealToHalfHermitianForwardFFTImageFilter.h',
+    'itkFFTWHalfHermitianToRealInverseFFTImageFilter.h',
     'itkFFTWComplexToComplexImageFilter.h',
     'itkFFTWCommon.h',
     'itkVanHerkGilWermanErodeDilateImageFilter.h', # circular include's
