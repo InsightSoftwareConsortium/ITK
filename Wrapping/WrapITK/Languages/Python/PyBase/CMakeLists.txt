@@ -34,7 +34,7 @@ WRAP_LIBRARY("ITKPyBase" Python)
   ADD_PYTHON_CONFIG_TEMPLATE("ostream" "std::ostream" "ostream" "")
 #  ADD_PYTHON_CONFIG_TEMPLATE("ostringstream" "std::ostringstream" "ostringstream" "")
 #  ADD_PYTHON_CONFIG_TEMPLATE("streambuf" "std::streambuf" "streambuf" "")
-#  ADD_PYTHON_CONFIG_TEMPLATE("string" "std::string" "string" "")
+  ADD_PYTHON_CONFIG_TEMPLATE("string" "std::string" "str" "")
 #  ADD_PYTHON_CONFIG_TEMPLATE("stringstream" "std::stringstream" "stringstream" "")
 
 # TODO: readd the bool (B) once supported by sunstudio
