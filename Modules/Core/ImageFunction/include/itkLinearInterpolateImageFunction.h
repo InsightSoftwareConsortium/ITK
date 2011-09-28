@@ -114,7 +114,7 @@ private:
   struct Dispatch: DispatchBase {};
 
   inline OutputType EvaluateOptimized(const Dispatch< 0 > &,
-                                      const ContinuousIndexType & index) const
+                                      const ContinuousIndexType & ) const
   {
     return 0;
   }

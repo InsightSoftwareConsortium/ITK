@@ -37,15 +37,19 @@ namespace itk
  * The deformation \f$ D(\vec{x}) \f$ at any point \f$ \vec{x} \f$
  * is obtained by using a B-spline interpolation kernel.
  *
- * The deformation field grid is defined by a user specified GridRegion,
- * GridSpacing and GridOrigin. Each grid/control point has associated with it
+ * The deformation field grid is defined by a user specified transform
+ * domain (origin, physical dimensions, direction) and B-spline mesh size
+ * where the mesh size is the number of polynomial patches comprising the
+ * finite domain of support.  The relationship between the mesh size (
+ * number of polynomical pieces) and the number of control points in any
+ * given dimension is
+ *
+ * mesh size = number of control points - spline order
+ *
+ * Each grid/control point has associated with it
  * N deformation coefficients \f$ \vec{\delta}_j \f$, representing the N
  * directional components of the deformation. Deformation outside the grid
  * plus support region for the BSpline interpolation is assumed to be zero.
- *
- * Additionally, the user can specified an addition bulk transform \f$ B \f$
- * such that the transformed point is given by:
- * \f[ \vec{y} = B(\vec{x}) + D(\vec{x}) \f]
  *
  * The parameters for this transform is N x N-D grid of spline coefficients.
  * The user specifies the parameters as one flat array: each N-D grid
@@ -62,14 +66,14 @@ namespace itk
  * typedef BSplineTransform<double,2,3> TransformType;
  * TransformType::Pointer transform = TransformType::New();
  *
- * transform->SetGridRegion( region );
- * transform->SetGridSpacing( spacing );
- * transform->SetGridOrigin( origin );
+ * transform->SetTransformDomainOrigin( origin );
+ * transform->SetTransformDomainPhysicalDimensions( physicalDimensions );
+ * transform->SetTransformDomainDirection( direction );
+ * transform->SetTransformDomainMeshSize( meshSize );
  *
  * // NB: the region must be set first before setting the parameters
  *
- * TransformType::ParametersType parameters(
- *                                       transform->GetNumberOfParameters() );
+ * TransformType::ParametersType parameters( transform->GetNumberOfParameters() );
  *
  * // Fill the parameters with values
  *
@@ -80,7 +84,7 @@ namespace itk
  * \endverbatim
  *
  * An alternative way to set the B-spline coefficients is via array of
- * images. The grid region, spacing and origin information is taken
+ * images. The fixed parameters of the transform are taken
  * directly from the first image. It is assumed that the subsequent images
  * are the same buffered region. The following illustrates the API:
  * \verbatim
@@ -94,7 +98,7 @@ namespace itk
  *
  * \endverbatim
  *
- * Warning: use either the SetParameters() or SetCoefficientImage()
+ * Warning: use either the SetParameters() or SetCoefficientImages()
  * API. Mixing the two modes may results in unexpected results.
  *
  * The class is templated coordinate representation type (float or double),
@@ -141,35 +145,29 @@ public:
   typedef typename Superclass::NumberOfParametersType NumberOfParametersType;
 
   /** Standard vector type for this class. */
-  typedef Vector<TScalarType, itkGetStaticConstMacro( SpaceDimension )> InputVectorType;
-  typedef Vector<TScalarType, itkGetStaticConstMacro( SpaceDimension )> OutputVectorType;
+  typedef Vector<TScalarType, SpaceDimension> InputVectorType;
+  typedef Vector<TScalarType, SpaceDimension> OutputVectorType;
 
   /** Standard covariant vector type for this class. */
-  typedef CovariantVector<TScalarType,
-    itkGetStaticConstMacro( SpaceDimension )> InputCovariantVectorType;
-  typedef CovariantVector<TScalarType,
-    itkGetStaticConstMacro( SpaceDimension )> OutputCovariantVectorType;
+  typedef CovariantVector<TScalarType, SpaceDimension> InputCovariantVectorType;
+  typedef CovariantVector<TScalarType, SpaceDimension> OutputCovariantVectorType;
 
   /** Standard vnl_vector type for this class. */
-  typedef vnl_vector_fixed<TScalarType,
-    itkGetStaticConstMacro( SpaceDimension )> InputVnlVectorType;
-  typedef vnl_vector_fixed<TScalarType,
-    itkGetStaticConstMacro( SpaceDimension )> OutputVnlVectorType;
+  typedef vnl_vector_fixed<TScalarType, SpaceDimension> InputVnlVectorType;
+  typedef vnl_vector_fixed<TScalarType, SpaceDimension> OutputVnlVectorType;
 
   /** Standard coordinate point type for this class. */
-  typedef Point
-    <TScalarType, itkGetStaticConstMacro( SpaceDimension )> InputPointType;
-  typedef Point
-    <TScalarType, itkGetStaticConstMacro( SpaceDimension )> OutputPointType;
+  typedef Point<TScalarType, SpaceDimension> InputPointType;
+  typedef Point<TScalarType, SpaceDimension> OutputPointType;
 
   /** This method sets the parameters of the transform.
    * For a BSpline deformation transform, the parameters are the BSpline
    * coefficients on a sparse grid.
    *
    * The parameters are N number of N-D grid of coefficients. Each N-D grid
-   * is represented as a flat array of doubles
-   * (in the same configuration as an itk::Image).
-   * The N arrays are then concatenated to form one parameter array.
+   * is represented as a flat array of scalars (in the same configuration as
+   * an itk::Image). The N arrays are then concatenated to form one parameter
+   * array.
    *
    * For efficiency, this transform does not make a copy of the parameters.
    * It only keeps a pointer to the input parameters. It assumes that the memory
@@ -177,23 +175,29 @@ public:
    * to call copy the parameters.
    *
    * This method wraps each grid as itk::Image's using the user specified
-   * grid region, spacing and origin.
-   * NOTE: The grid region, spacing and origin must be set first.
+   * fixed parameters.
+   * NOTE: The transform domain must be set first.
    *
    */
   void SetParameters( const ParametersType & parameters );
 
   /** This method sets the fixed parameters of the transform.
-   * For a BSpline deformation transform, the parameters are the following:
-   *    Grid Size, Grid Origin, and Grid Spacing
+   * For a BSpline deformation transform, the fixed parameters are the
+   * following: grid size, grid origin, grid spacing, and grid direction.
+   * However, all of these are set via the much more intuitive
+   * SetTransformDomainXXX() functions
    *
    * The fixed parameters are the three times the size of the templated
-   * dimensions.
-   * This function has the effect of make the following calls:
-   *       transform->SetGridSpacing( spacing );
-   *       transform->SetGridOrigin( origin );
-   *       transform->SetGridDirection( direction );
-   *       transform->SetGridRegion( bsplineRegion );
+   * dimensions.  This function has the effect of make the following non-
+   * existing functional calls:
+   *   transform->SetGridSpacing( spacing );
+   *   transform->SetGridOrigin( origin );
+   *   transform->SetGridDirection( direction );
+   *   transform->SetGridRegion( bsplineRegion );
+   *
+   * With recent updates to this transform, however, all these parameters
+   * are set indirectly by setting the transform domain parameters unless
+   * the user sets them with SetFixedParameters().
    *
    * This function was added to allow the transform to work with the
    * itkTransformReader/Writer I/O filters.
@@ -214,9 +218,8 @@ public:
    * efficiency the SetParameters method does not.
    *
    * This method wraps each grid as itk::Image's using the user specified
-   * grid region, spacing and origin.
-   * NOTE: The grid region, spacing and origin must be set first.
-   *
+   * fixed parameters.
+   * NOTE: The fixed parameters must be set first.
    */
   void SetParametersByValue( const ParametersType & parameters );
 
@@ -237,17 +240,16 @@ public:
   virtual const ParametersType & GetFixedParameters() const;
 
   /** Parameters as SpaceDimension number of images. */
-  typedef typename ParametersType::ValueType                                   ParametersValueType;
-  typedef Image<ParametersValueType, itkGetStaticConstMacro( SpaceDimension )> ImageType;
-  typedef typename ImageType::Pointer                                          ImagePointer;
-  typedef FixedArray<ImagePointer, NDimensions>                                CoefficientImageArray;
-
+  typedef typename ParametersType::ValueType           ParametersValueType;
+  typedef Image<ParametersValueType, SpaceDimension>   ImageType;
+  typedef typename ImageType::Pointer                  ImagePointer;
+  typedef FixedArray<ImagePointer, NDimensions>        CoefficientImageArray;
 
   /** Set the array of coefficient images.
    *
    * This is an alternative API for setting the BSpline coefficients
-   * as an array of SpaceDimension images. The grid region spacing
-   * and origin is taken from the first image. It is assume that
+   * as an array of SpaceDimension images. The fixed parameters are
+   * taken from the first image. It is assumed that
    * the buffered region of all the subsequent images are the same
    * as the first image. Note that no error checking is done.
    *
@@ -263,8 +265,7 @@ public:
   }
 
   /** Typedefs for specifying the extent of the grid. */
-  typedef ImageRegion<itkGetStaticConstMacro( SpaceDimension )> RegionType;
-
+  typedef ImageRegion<SpaceDimension>       RegionType;
   typedef typename RegionType::IndexType    IndexType;
   typedef typename RegionType::SizeType     SizeType;
   typedef typename ImageType::SpacingType   SpacingType;
@@ -274,9 +275,7 @@ public:
   OutputPointType  TransformPoint( const InputPointType & point ) const;
 
   /** Interpolation weights function type. */
-  typedef BSplineInterpolationWeightFunction<ScalarType,
-    itkGetStaticConstMacro( SpaceDimension ),
-     itkGetStaticConstMacro( SplineOrder )> WeightsFunctionType;
+  typedef BSplineInterpolationWeightFunction<ScalarType, SpaceDimension, SplineOrder> WeightsFunctionType;
 
   typedef typename WeightsFunctionType::WeightsType         WeightsType;
   typedef typename WeightsFunctionType::ContinuousIndexType ContinuousIndexType;
@@ -293,7 +292,7 @@ public:
    * ( i * this->GetNumberOfParametersPerDimension() ) to the indices array.
    */
   virtual void TransformPoint( const InputPointType & inputPoint, OutputPointType & outputPoint,
-    WeightsType & weights, ParameterIndexArrayType & indices, bool & inside) const;
+    WeightsType & weights, ParameterIndexArrayType & indices, bool & inside ) const;
 
   /** Get number of weights. */
   unsigned long GetNumberOfWeights() const

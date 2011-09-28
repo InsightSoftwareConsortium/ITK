@@ -21,6 +21,8 @@ itk_module(ITKRegistrationCommon
     ITKImageGradient
     ITKImageFeature
     ITKFiniteDifference
+    ITKDisplacementField
+    ITKStatistics
   TEST_DEPENDS
     ITKTestKernel
     ITKDistanceMap
@@ -29,3 +31,4 @@ itk_module(ITKRegistrationCommon
 )
 
 # Extra test dependency on ITKDistanceMap is introduced by itkPointSetToPointSetRegistrationTest.
+# Dependency on ITKStatistics is introduced by itkPointsLocator.

@@ -261,7 +261,7 @@ macro(END_WRAP_LIBRARY_JAVA)
   if(deps)
     list(REMOVE_DUPLICATES deps)
   endif()
-  set(WRAP_ITK_JAVA_${WRAPPER_LIBRARY_NAME}_DEPS ${deps} CACHE INTERNALL "java module dependencies" FORCE)
+  set(WRAP_ITK_JAVA_${WRAPPER_LIBRARY_NAME}_DEPS ${deps} CACHE INTERNAL "java module dependencies" FORCE)
 endmacro(END_WRAP_LIBRARY_JAVA)
 
 ###############################################################################

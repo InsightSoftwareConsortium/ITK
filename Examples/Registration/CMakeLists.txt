@@ -173,8 +173,6 @@ add_executable(IterativeClosestPoint3   IterativeClosestPoint3.cxx )
 target_link_libraries(IterativeClosestPoint3 ${ITK_LIBRARIES})
 
 
-if( NOT ITK_DISABLE_CXX_TESTING )
-  if(BUILD_TESTING)
-    add_subdirectory(test)
-  endif(BUILD_TESTING)
-endif( NOT ITK_DISABLE_CXX_TESTING )
+if(BUILD_TESTING)
+  add_subdirectory(test)
+endif(BUILD_TESTING)

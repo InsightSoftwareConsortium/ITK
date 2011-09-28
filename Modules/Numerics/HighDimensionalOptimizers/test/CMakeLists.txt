@@ -4,6 +4,10 @@ set(ITKHighDimensionalOptimizersTests
   itkObjectToObjectOptimizerBaseTest.cxx
   itkGradientDescentObjectOptimizerTest.cxx
   itkImageToDataTest.cxx
+  itkOptimizerParameterScalesEstimatorTest.cxx
+  itkRegistrationParameterScalesEstimatorTest.cxx
+  itkRegistrationParameterScalesFromShiftTest.cxx
+  itkRegistrationParameterScalesFromJacobianTest.cxx
 )
 
 set(INPUTDATA ${ITK_DATA_ROOT}/Input)
@@ -25,3 +29,19 @@ itk_add_test(NAME itkGradientDescentObjectOptimizerTest
 
 itk_add_test(NAME itkImageToDataTest
          COMMAND ITKHighDimensionalOptimizersTestDriver itkImageToDataTest)
+
+itk_add_test(NAME itkOptimizerParameterScalesEstimatorTest
+      COMMAND ITKHighDimensionalOptimizersTestDriver
+      itkOptimizerParameterScalesEstimatorTest)
+
+itk_add_test(NAME itkRegistrationParameterScalesEstimatorTest
+      COMMAND ITKHighDimensionalOptimizersTestDriver
+      itkRegistrationParameterScalesEstimatorTest)
+
+itk_add_test(NAME itkRegistrationParameterScalesFromShiftTest
+      COMMAND ITKHighDimensionalOptimizersTestDriver
+      itkRegistrationParameterScalesFromShiftTest)
+
+itk_add_test(NAME itkRegistrationParameterScalesFromJacobianTest
+      COMMAND ITKHighDimensionalOptimizersTestDriver
+      itkRegistrationParameterScalesFromJacobianTest)

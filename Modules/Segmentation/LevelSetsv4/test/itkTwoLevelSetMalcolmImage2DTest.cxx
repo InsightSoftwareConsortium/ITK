@@ -28,7 +28,7 @@
 #include "itkLevelSetEquationContainerBase.h"
 #include "itkSinRegularizedHeavisideStepFunction.h"
 #include "itkHeavisideStepFunction.h"
-#include "itkLevelSetMalcolmEvolutionBase.h"
+#include "itkLevelSetEvolution.h"
 #include "itkBinaryImageToSparseLevelSetImageAdaptor.h"
 #include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"
 #include "itkNumericTraits.h"
@@ -74,7 +74,7 @@ int itkTwoLevelSetMalcolmImage2DTest( int argc, char* argv[] )
   typedef itk::LevelSetEquationContainerBase< TermContainerType >
                                                             EquationContainerType;
 
-  typedef itk::LevelSetMalcolmEvolutionBase< EquationContainerType >
+  typedef itk::LevelSetEvolution< EquationContainerType, SparseLevelSetType >
                                                             LevelSetEvolutionType;
 
   typedef SparseLevelSetType::OutputRealType                LevelSetOutputRealType;

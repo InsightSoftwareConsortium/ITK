@@ -353,9 +353,9 @@ class vnl_matrix_fixed_ref_const
   void assert_size(unsigned, unsigned ) const
   {
 #else
-  void assert_size(unsigned rows, unsigned cols) const
+  void assert_size(unsigned r, unsigned c) const
   {
-    assert_size_internal(rows, cols);
+    assert_size_internal(r, c);
 #endif
   }
   //: abort if matrix contains any INFs or NANs.

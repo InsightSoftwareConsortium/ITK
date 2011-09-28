@@ -1,5 +1,9 @@
 itk_module_test()
 set(ITKRegistrationCommonTests
+itkBSplineTransformParametersAdaptorTest.cxx
+itkDisplacementFieldTransformParametersAdaptorTest.cxx
+itkBSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptorTest.cxx
+itkGaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptorTest.cxx
 itkCenteredTransformInitializerTest.cxx
 itkCenteredVersorTransformInitializerTest.cxx
 itkMultiResolutionImageRegistrationMethodTest_1.cxx
@@ -26,6 +30,7 @@ itkKullbackLeiblerCompareHistogramImageToImageMetricTest.cxx
 itkNormalizedMutualInformationHistogramImageToImageMetricTest.cxx
 itkPointSetToSpatialObjectDemonsRegistrationTest.cxx
 itkPointSetToImageRegistrationTest_1.cxx
+itkPointsLocatorTest.cxx
 itkKappaStatisticImageToImageMetricTest.cxx
 itkMattesMutualInformationImageToImageMetricTest.cxx
 itkMatchCardinalityImageToImageMetricTest.cxx
@@ -50,6 +55,14 @@ itkSpatialObjectToImageRegistrationTest.cxx
 
 CreateTestDriver(ITKRegistrationCommon  "${ITKRegistrationCommon-Test_LIBRARIES}" "${ITKRegistrationCommonTests}")
 
+itk_add_test(NAME itkBSplineTransformParametersAdaptorTest
+      COMMAND ITKRegistrationCommonTestDriver itkBSplineTransformParametersAdaptorTest)
+itk_add_test(NAME itkDisplacementFieldTransformParametersAdaptorTest
+      COMMAND ITKRegistrationCommonTestDriver itkDisplacementFieldTransformParametersAdaptorTest)
+itk_add_test(NAME itkBSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptorTest
+      COMMAND ITKRegistrationCommonTestDriver itkBSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptorTest)
+itk_add_test(NAME itkGaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptorTest
+      COMMAND ITKRegistrationCommonTestDriver itkGaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptorTest)
 itk_add_test(NAME itkCenteredTransformInitializerTest
       COMMAND ITKRegistrationCommonTestDriver itkCenteredTransformInitializerTest)
 itk_add_test(NAME itkCenteredVersorTransformInitializerTest
@@ -102,6 +115,8 @@ itk_add_test(NAME itkPointSetToSpatialObjectDemonsRegistrationTest
       COMMAND ITKRegistrationCommonTestDriver itkPointSetToSpatialObjectDemonsRegistrationTest)
 itk_add_test(NAME itkPointSetToImageRegistrationTest_1
       COMMAND ITKRegistrationCommonTestDriver itkPointSetToImageRegistrationTest_1)
+itk_add_test(NAME itkPointsLocatorTest
+      COMMAND ITKRegistrationCommonTestDriver itkPointsLocatorTest)
 itk_add_test(NAME itkKappaStatisticImageToImageMetricTest
       COMMAND ITKRegistrationCommonTestDriver itkKappaStatisticImageToImageMetricTest
               DATA{${ITK_DATA_ROOT}/Input/Spots.png})

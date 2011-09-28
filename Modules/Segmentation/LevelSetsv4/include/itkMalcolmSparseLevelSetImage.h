@@ -101,32 +101,6 @@ public:
   static inline LayerIdType ZeroLayer() { return 0; }
   static inline LayerIdType PlusOneLayer() { return 1; }
 
-  /** Return the label object pointer with a given id */
-  template< class TLabel >
-  typename LabelObject< TLabel, Dimension >::Pointer
-  GetAsLabelObject()
-    {
-    typedef LabelObject< TLabel, Dimension > OutputLabelObjectType;
-    typename OutputLabelObjectType::Pointer object = OutputLabelObjectType::New();
-
-    LabelObjectPointer labelObject = this->m_LabelMap->GetLabelObject( MinusOneLayer() );
-
-    for( SizeValueType i = 0; i < labelObject->GetNumberOfLines(); i++ )
-      {
-      object->AddLine( labelObject->GetLine( i ) );
-      }
-
-    labelObject = this->m_LabelMap->GetLabelObject( 0 );
-
-    for( SizeValueType i = 0; i < labelObject->GetNumberOfLines(); i++ )
-      {
-      object->AddLine( labelObject->GetLine( i ) );
-      }
-    object->Optimize();
-
-    return object;
-    }
-
 protected:
 
   MalcolmSparseLevelSetImage();
@@ -135,6 +109,8 @@ protected:
 
   /** Initialize the sparse field layers */
   virtual void InitializeLayers();
+
+  virtual void InitializeInternalLabelList();
 
 private:
   MalcolmSparseLevelSetImage( const Self& ); //purposely not implemented

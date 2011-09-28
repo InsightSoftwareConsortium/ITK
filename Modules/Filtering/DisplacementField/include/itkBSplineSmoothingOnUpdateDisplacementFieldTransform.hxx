@@ -37,7 +37,6 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
   this->m_SplineOrder = 3;
   this->m_NumberOfControlPointsForTheUpdateField.Fill( 4 );
   this->m_NumberOfControlPointsForTheTotalField.Fill( 0 );
-  this->m_EnforceStationaryBoundary = true;
 }
 
 /**
@@ -208,22 +207,19 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
     DisplacementVectorType data = It.Get();
     typename WeightsContainerType::Element weight = 1.0;
 
-    if( this->m_EnforceStationaryBoundary )
+    bool isOnBoundary = false;
+    for( unsigned int d = 0; d < Dimension; d++ )
       {
-      bool isOnBoundary = false;
-      for( unsigned int d = 0; d < Dimension; d++ )
+      if( index[d] == startIndex[d] || index[d] == startIndex[d] + static_cast<int>( size[d] ) - 1 )
         {
-        if( index[d] == startIndex[d] || index[d] == startIndex[d] + static_cast<int>( size[d] ) - 1 )
-          {
-          isOnBoundary = true;
-          break;
-          }
+        isOnBoundary = true;
+        break;
         }
-      if( isOnBoundary )
-        {
-        data.Fill( 0.0 );
-        weight = boundaryWeight;
-        }
+      }
+    if( isOnBoundary )
+      {
+      data.Fill( 0.0 );
+      weight = boundaryWeight;
       }
 
     typename PointSetType::PointType point;
@@ -266,14 +262,6 @@ PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf( os,indent );
 
-  if( this->m_EnforceStationaryBoundary )
-    {
-    os << indent << "Enforce stationary boundary" << std::endl;
-    }
-  else
-    {
-    os << indent << "Does not enforce stationary boundary" << std::endl;
-    }
   os << indent << "B-spline parameters: " << std::endl;
   os << indent << "  spline order = " << this->m_SplineOrder << std::endl;
   os << indent << "  number of control points for the update field = "

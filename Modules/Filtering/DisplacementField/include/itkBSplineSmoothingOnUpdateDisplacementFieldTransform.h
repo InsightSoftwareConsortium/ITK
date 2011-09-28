@@ -162,22 +162,6 @@ public:
    */
   void SetMeshSizeForTheTotalField( const ArrayType & );
 
-  /**
-   * Enforce zero motion on the transform domain boundaries. Default = true.
-   */
-  itkSetMacro( EnforceStationaryBoundary, bool );
-
-  /**
-   * Enforce zero motion on the transform domain boundaries. Default = true.
-   */
-  itkGetConstMacro( EnforceStationaryBoundary, bool );
-
-  /**
-   * Enforce zero motion on the transform domain boundaries. Default = true.
-   */
-  itkBooleanMacro( EnforceStationaryBoundary );
-
-
 protected:
   BSplineSmoothingOnUpdateDisplacementFieldTransform();
   virtual ~BSplineSmoothingOnUpdateDisplacementFieldTransform();
@@ -196,7 +180,6 @@ private:
   SplineOrderType             m_SplineOrder;
   ArrayType                   m_NumberOfControlPointsForTheUpdateField;
   ArrayType                   m_NumberOfControlPointsForTheTotalField;
-  bool                        m_EnforceStationaryBoundary;
 };
 
 } // end namespace itk

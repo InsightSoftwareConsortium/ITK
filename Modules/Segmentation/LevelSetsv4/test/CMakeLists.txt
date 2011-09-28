@@ -1,4 +1,5 @@
 itk_module_test()
+
 set(ITKLevelSetsv4Tests
 itkLevelSetDenseImageBaseTest.cxx
 itkWhitakerSparseLevelSetImageTest.cxx

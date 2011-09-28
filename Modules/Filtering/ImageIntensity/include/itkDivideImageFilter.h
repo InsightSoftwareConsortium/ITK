@@ -129,8 +129,6 @@ public:
 protected:
   DivideImageFilter() {}
   virtual ~DivideImageFilter() {}
-  DivideImageFilter(const Self &) {}
-  void operator=(const Self &) {}
 
   void GenerateData()
     {
@@ -146,6 +144,10 @@ protected:
       Superclass::GenerateData();
       }
     }
+
+private:
+  DivideImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 
 };
 } // end namespace itk

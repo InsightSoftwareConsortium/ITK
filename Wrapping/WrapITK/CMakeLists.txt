@@ -56,7 +56,6 @@ if(CMAKE_CL_64 OR CMAKE_COMPILER_2005)
  add_definitions(/bigobj)
 endif()
 
-
 # Set up options needed for ConfigureWrapping
 
 # set WrapITK version

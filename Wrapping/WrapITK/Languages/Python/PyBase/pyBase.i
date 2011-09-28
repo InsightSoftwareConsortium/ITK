@@ -508,7 +508,7 @@
             if (d >= dim) { throw std::out_of_range("swig_name index out of range."); }
             self->operator[]( d ) = v;
         }
-        unsigned int __len__() {
+        static unsigned int __len__() {
             return dim;
         }
         std::string __repr__() {
@@ -697,7 +697,7 @@
             if (d >= dim) { throw std::out_of_range("swig_name index out of range."); }
             self->operator[]( d ) = v;
         }
-        unsigned int __len__() {
+        static unsigned int __len__() {
             return dim;
         }
         std::string __repr__() {

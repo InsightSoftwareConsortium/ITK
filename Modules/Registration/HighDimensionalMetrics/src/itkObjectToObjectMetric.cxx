@@ -43,6 +43,24 @@ ObjectToObjectMetric
 }
 
 //-------------------------------------------------------------------
+bool
+ObjectToObjectMetric
+::GetGradientSourceIncludesFixed()
+{
+  return m_GradientSource == GRADIENT_SOURCE_FIXED ||
+         m_GradientSource == GRADIENT_SOURCE_BOTH;
+}
+
+//-------------------------------------------------------------------
+bool
+ObjectToObjectMetric
+::GetGradientSourceIncludesMoving()
+{
+  return m_GradientSource == GRADIENT_SOURCE_MOVING ||
+         m_GradientSource == GRADIENT_SOURCE_BOTH;
+}
+
+//-------------------------------------------------------------------
 void
 ObjectToObjectMetric
 ::PrintSelf(std::ostream & os, Indent indent) const
