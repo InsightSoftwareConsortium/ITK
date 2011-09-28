@@ -65,9 +65,8 @@ public:
 
   void Initialize(void) throw ( itk::ExceptionObject ) {}
 
-  using Superclass::GetValueAndDerivative;
   void GetValueAndDerivative( MeasureType & value,
-                              DerivativeType & derivative )
+                              DerivativeType & derivative ) const
   {
     if( derivative.Size() != 2 )
       derivative.SetSize(2);
@@ -93,8 +92,7 @@ public:
     std::cout << "derivative: " << derivative << std::endl;
   }
 
-  using Superclass::GetValue;
-  MeasureType  GetValue()
+  MeasureType  GetValue() const
   {
     return 0.0;
   }

@@ -34,18 +34,9 @@ ObjectToObjectMetric
 {}
 
 //-------------------------------------------------------------------
-void
-ObjectToObjectMetric
-::GetDerivative(DerivativeType & derivative)
-{
-  MeasureType value;
-  this->GetValueAndDerivative(value, derivative);
-}
-
-//-------------------------------------------------------------------
 bool
 ObjectToObjectMetric
-::GetGradientSourceIncludesFixed()
+::GetGradientSourceIncludesFixed() const
 {
   return m_GradientSource == GRADIENT_SOURCE_FIXED ||
          m_GradientSource == GRADIENT_SOURCE_BOTH;
@@ -54,7 +45,7 @@ ObjectToObjectMetric
 //-------------------------------------------------------------------
 bool
 ObjectToObjectMetric
-::GetGradientSourceIncludesMoving()
+::GetGradientSourceIncludesMoving() const
 {
   return m_GradientSource == GRADIENT_SOURCE_MOVING ||
          m_GradientSource == GRADIENT_SOURCE_BOTH;
@@ -67,33 +58,6 @@ ObjectToObjectMetric
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "TODO...";
-}
-
-//-------------------------------------------------------------------
-ObjectToObjectMetric::MeasureType
-ObjectToObjectMetric
-::GetValue( const ParametersType& ) const
-{
-  itkExceptionMacro("Not implemented. Use GetValue(void).");
-}
-
-//-------------------------------------------------------------------
-void
-ObjectToObjectMetric
-::GetDerivative( const ParametersType &, DerivativeType &) const
-{
-  itkExceptionMacro("Not implemented. Use GetDerivative(DerivativeType&).");
-}
-
-//-------------------------------------------------------------------
-void
-ObjectToObjectMetric
-::GetValueAndDerivative (const ParametersType &,
-                              MeasureType &,
-                              DerivativeType &) const
-{
-  itkExceptionMacro("Not implemented. Use GetValueAndDerivative( "
-                      "MeasureType & value, DerivativeType & derivative).");
 }
 
 }//namespace itk

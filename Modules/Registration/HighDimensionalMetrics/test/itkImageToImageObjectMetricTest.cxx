@@ -117,17 +117,15 @@ public:
   }
 
   //This is of one two evaluation methods that the user may call.
-  using Superclass::GetValue;
-  MeasureType GetValue()
+  MeasureType GetValue() const
   {
     //TODO
     itkExceptionMacro("GetValue not yet implemented.");
   }
 
   //This is of one two evaluation methods that the user may call.
-  using Superclass::GetValueAndDerivative;
   void GetValueAndDerivative( MeasureType & valueReturn,
-                              DerivativeType & derivativeReturn)
+                              DerivativeType & derivativeReturn) const
   {
     //1) Do any pre-processing required for your metric. To help with
     // threading, you can use ImageToData or Array1DToData classes,
