@@ -525,9 +525,9 @@ protected:
    * given a point, value and image derivative for both fixed and moving
    * spaces. The provided values have been calculated from \c virtualPoint,
    * which is provided in case it's needed.
-   * By default, this will return false and not assign any values.
    * Derived classes that use \c GetValueAndDerivativeThreadedExecute
-   * to initiate process must override this method.
+   * to initiate process must override this method, otherwise an exception
+   * is thrown.
    * \note This method is not pure virtual because some derived classes
    * do not use \c GetValueAndDerivativeThreadedExecute, and instead
    * provide their own processing control.
