@@ -18,7 +18,7 @@
 #ifndef __itkObjectToObjectMetric_h
 #define __itkObjectToObjectMetric_h
 
-#include "itkSingleValuedCostFunction.h"
+#include "itkSingleValuedHighDimensionalCostFunction.h"
 
 namespace itk
 {
@@ -52,17 +52,17 @@ namespace itk
  */
 
 class ITK_EXPORT ObjectToObjectMetric:
-  public SingleValuedCostFunction
+  public SingleValuedHighDimensionalCostFunction
 {
 public:
   /** Standard class typedefs. */
-  typedef ObjectToObjectMetric       Self;
-  typedef SingleValuedCostFunction   Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  typedef ObjectToObjectMetric                      Self;
+  typedef SingleValuedHighDimensionalCostFunction   Superclass;
+  typedef SmartPointer< Self >                      Pointer;
+  typedef SmartPointer< const Self >                ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ObjectToObjectMetric, SingleValuedCostFunction);
+  itkTypeMacro(ObjectToObjectMetric, SingleValuedHighDimensionalCostFunction);
 
   /** Type used for representing object components  */
   typedef Superclass::ParametersValueType CoordinateRepresentationType;
@@ -103,34 +103,17 @@ public:
 
   /** Return true of \c m_GradientSource is either \c GRADIENT_SOURCE_FIXED or
    * \c GRADIENT_SOURCE_BOTH. Convenience method. */
-  bool GetGradientSourceIncludesFixed();
+  bool GetGradientSourceIncludesFixed() const;
 
   /** Return true of \c m_GradientSource is either \c GRADIENT_SOURCE_MOVING or
    * \c GRADIENT_SOURCE_BOTH. Convenience method. */
-  bool GetGradientSourceIncludesMoving();
+  bool GetGradientSourceIncludesMoving() const;
 
   /** Initialize the Metric by making sure that all the components
    *  are present and plugged together correctly, and initializing
    *  internal variables as required. This is for one-time initialization,
    *  e.g. before starting an optimization process. */
   virtual void Initialize(void) throw ( ExceptionObject ) = 0;
-
-  /** This method returns the value of the cost function */
-  using Superclass::GetValue;
-  virtual MeasureType GetValue() = 0;
-
-  /** This method returns the derivative of the cost function.
-   * \c derivative will be sized and allocated as needed by metric.
-   * If it's already allocated at proper size, no new allocation is done. */
-  using Superclass::GetDerivative;
-  virtual void GetDerivative(DerivativeType & derivative);
-
-  /** This method returns the value and derivative of the cost function.
-   * \c derivative will be sized and allocated as needed by metric.
-   * If it's already proper size, no new allocation is done. */
-  using Superclass::GetValueAndDerivative;
-  virtual void GetValueAndDerivative(MeasureType & value,
-                                     DerivativeType & derivative) = 0;
 
   /** Methods for working with the metric's 'active' transform, e.g. the
    * transform being optimized in the case of registration. Some of these are
@@ -154,17 +137,6 @@ public:
   virtual void UpdateTransformParameters( DerivativeType & derivative,
                                           ParametersValueType factor = 1.0) = 0;
 
-  /** Provide these three methods to satisfy pure virtuals within
-   * SingleValuedCostFunction. This is a sign that we probalby shouldn't
-   * be deriving this class from SingleValuedCostFunction. */
-  MeasureType GetValue( const ParametersType& ) const;
-
-  /** This method returns the derivative of the cost function */
-  void GetDerivative( const ParametersType &, DerivativeType &) const;
-
-  void GetValueAndDerivative (const ParametersType &,
-                              MeasureType &,
-                              DerivativeType &) const;
 protected:
   ObjectToObjectMetric();
   virtual ~ObjectToObjectMetric();
