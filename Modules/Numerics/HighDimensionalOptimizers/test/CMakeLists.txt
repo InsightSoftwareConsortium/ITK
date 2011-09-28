@@ -2,6 +2,7 @@ itk_module_test()
 set(ITKHighDimensionalOptimizersTests
   itkArray1DToDataTest.cxx
   itkObjectToObjectOptimizerBaseTest.cxx
+  itkGradientDescentObjectOptimizerBaseTest.cxx
   itkGradientDescentObjectOptimizerTest.cxx
   itkImageToDataTest.cxx
   itkOptimizerParameterScalesEstimatorTest.cxx
@@ -22,6 +23,10 @@ itk_add_test(NAME itkArray1DToDataTest
 itk_add_test(NAME itkObjectToObjectOptimizerBaseTest
          COMMAND ITKHighDimensionalOptimizersTestDriver
          itkObjectToObjectOptimizerBaseTest)
+
+itk_add_test(NAME itkGradientDescentObjectOptimizerBaseTest
+      COMMAND ITKHighDimensionalOptimizersTestDriver
+      itkGradientDescentObjectOptimizerBaseTest)
 
 itk_add_test(NAME itkGradientDescentObjectOptimizerTest
       COMMAND ITKHighDimensionalOptimizersTestDriver
