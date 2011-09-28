@@ -29,15 +29,18 @@ namespace itk
 
 \ingroup ITKFastMarching
 */
-template<class NodeType, class OutputPixelType>
-class NodePair : private std::pair< NodeType, OutputPixelType >
+template<class TNode, class TOutputPixel>
+class NodePair : private std::pair< TNode, TOutputPixel >
   {
 public:
-  typedef NodePair                               Self;
-  typedef std::pair< NodeType, OutputPixelType > Superclass;
+  typedef NodePair                         Self;
+  typedef std::pair< TNode, TOutputPixel > Superclass;
+
+  typedef TNode         NodeType;
+  typedef TOutputPixel  OutputPixelType;
 
   NodePair() : Superclass() {}
-  NodePair( const NodeType& iNode, const OutputPixelType& iValue ) :
+  NodePair( const TNode& iNode, const TOutputPixel& iValue ) :
     Superclass( iNode, iValue ) {}
   NodePair( const Self& iPair ) : Superclass( iPair ) {}
 
@@ -47,27 +50,27 @@ public:
     this->second = iPair.second;
     }
 
-  void SetValue( const OutputPixelType& iValue )
+  void SetValue( const TOutputPixel& iValue )
     {
     this->second = iValue;
     }
-  const OutputPixelType & GetValue() const
+  const TOutputPixel & GetValue() const
     {
     return this->second;
     }
-  OutputPixelType & GetValue()
+  TOutputPixel & GetValue()
     {
     return this->second;
     }
-  void SetNode( const NodeType& iNode )
+  void SetNode( const TNode& iNode )
     {
     this->first = iNode;
     }
-  const NodeType & GetNode() const
+  const TNode & GetNode() const
     {
     return this->first;
     }
-  NodeType & GetNode()
+  TNode & GetNode()
     {
     return this->first;
     }
