@@ -25,6 +25,7 @@ itkDenseLevelSetContainerTest.cxx
 itkSparseLevelSetContainerTest.cxx
 # single level set
 itkSingleLevelSetDenseImage2DTest.cxx
+itkSingleLevelSetDenseAdvectionImage2DTest.cxx
 itkSingleLevelSetWhitakerImage2DTest.cxx
 itkSingleLevelSetMalcolmImage2DTest.cxx
 itkSingleLevelSetShiImage2DTest.cxx
@@ -92,6 +93,16 @@ itk_add_test(NAME itkSingleLevelSetsv4DenseImage2DTest
       itkSingleLevelSetDenseImage2DTest
       DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png} 25 25 25
       ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_dense_single.mha
+)
+
+itk_add_test(NAME itkSingleLevelSetsv4DenseAdvectionImage2DTest_5
+      COMMAND ITKLevelSetsv4TestDriver
+      # --compare DATA{Baseline/solution_whiteSpot_output_dense_single_5.mha}
+      #          ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_dense_advection_single_5.mha
+      itkSingleLevelSetDenseAdvectionImage2DTest
+      DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png} 25 25 25
+      ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_dense_advection_single_5.mha
+      5
 )
 
 itk_add_test(NAME itkSingleLevelSetsv4WhitakerImage2DTest

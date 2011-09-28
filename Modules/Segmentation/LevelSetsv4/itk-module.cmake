@@ -12,6 +12,7 @@ if( LevelSetsv4_VIZ )
       ITKCommon
       ITKLabelMap
       ITKDistanceMap
+      ITKImageGradient
       ITKVtkGlue
     TEST_DEPENDS
       ITKTestKernel
@@ -25,6 +26,7 @@ else()
       ITKCommon
       ITKLabelMap
       ITKDistanceMap
+      ITKImageGradient
     TEST_DEPENDS
       ITKTestKernel
       ITKFastMarching
