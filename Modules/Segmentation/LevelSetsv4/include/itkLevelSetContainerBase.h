@@ -21,6 +21,7 @@
 
 #include <map>
 #include "itkObject.h"
+#include "itkObjectFactory.h"
 #include "itkHeavisideStepFunctionBase.h"
 #include "itkLevelSetDomainMapImageFilter.h"
 

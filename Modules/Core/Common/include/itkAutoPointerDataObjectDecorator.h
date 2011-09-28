@@ -30,6 +30,7 @@
 
 #include <memory>
 #include "itkDataObject.h"
+#include "itkObjectFactory.h"
 
 namespace itk
 {
