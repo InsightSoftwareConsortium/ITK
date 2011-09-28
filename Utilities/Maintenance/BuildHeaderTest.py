@@ -35,13 +35,6 @@ BANNED_HEADERS = set(('itkExceptionObject.h', # There is a pre-processor check s
     'itkFFTWInverseFFTImageFilter.h',
     'itkFFTWComplexToComplexImageFilter.h',
     'itkFFTWCommon.h',
-    'itkLevelSetEquationChanAndVeseInternalTerm.h',   # JIRA 2645 FIXME
-    'itkLevelSetEquationCurvatureTerm.h',             # JIRA 2645 FIXME
-    'itkLevelSetEquationLaplacianTerm.h',             # JIRA 2645 FIXME
-    'itkLevelSetEquationPropagationTerm.h',           # JIRA 2645 FIXME
-    'itkDenseLevelSetContainer.h',                    # JIRA 2645 FIXME
-    'itkLevelSetContainerBase.h',                     # JIRA 2645 FIXME
-    'itkLevelSetEquationContainerBase.h',             # JIRA 2645 FIXME
     'itkVanHerkGilWermanErodeDilateImageFilter.h', # circular include's
     'itkBSplineDeformableTransform.h',   # deprecated
     'itkBSplineDeformableTransformInitializer.h'))
