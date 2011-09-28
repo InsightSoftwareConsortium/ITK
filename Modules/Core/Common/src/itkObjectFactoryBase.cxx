@@ -330,7 +330,10 @@ NameIsSharedLibrary(const char *name)
   // Need to also check libraries with a .dylib extension.
   extension = ".dylib";
 #endif
-  if ( sname.rfind(extension) == sname.size() - extension.size() )
+  const size_t extensionpos = sname.rfind(extension);
+  if ( ( extensionpos != std::string::npos )
+    && ( extensionpos == ( sname.size() - extension.size() ) )
+    )
     {
     return true;
     }
