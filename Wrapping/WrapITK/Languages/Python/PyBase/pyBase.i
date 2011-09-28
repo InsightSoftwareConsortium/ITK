@@ -15,6 +15,11 @@
 // TODO: make a bug report to swig
 // %include std_sstream.i
 
+// let str be usable as a template parameter instead of std::string
+%pythoncode {
+str = str
+}
+
 %exception {
   try {
     $action
