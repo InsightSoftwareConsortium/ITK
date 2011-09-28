@@ -79,7 +79,7 @@ protected:
 
 private:
   GradientDescentObjectOptimizerBaseTestMetric( const Self& ); //purposely not implemented
-  void operator ( const Self& ); //purposely not implemented
+  void operator = ( const Self& ); //purposely not implemented
 
   ParametersType m_Parameters;
 };
@@ -130,7 +130,7 @@ protected:
 
 private:
   GradientDescentObjectOptimizerBaseTestOptimizer(const Self& ); //purposely not implemented
-  void operator (const Self&); //purposely not implemented
+  void operator = (const Self&); //purposely not implemented
 
 };
 
