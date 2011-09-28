@@ -1,8 +1,8 @@
 itk_module_test()
 set(ITKIntegratedTestTests
-itkFilterImageAddTest.cxx # missing add_test() call
+itkFilterImageAddTest.cxx # missing itk_add_test() call
 itkNumericsPrintTest.cxx
-itkReleaseDataFilterTest.cxx # missing add_test() call
+itkReleaseDataFilterTest.cxx # missing itk_add_test() call
 itkStatisticsPrintTest.cxx
 itkCommonPrintTest.cxx
 itkIOPrintTest.cxx
