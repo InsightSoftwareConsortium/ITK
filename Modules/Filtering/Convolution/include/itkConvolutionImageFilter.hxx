@@ -23,6 +23,7 @@
 
 #include "itkConstantPadImageFilter.h"
 #include "itkCropImageFilter.h"
+#include "itkFlipImageFilter.h"
 #include "itkImageBase.h"
 #include "itkImageKernelOperator.h"
 #include "itkNeighborhoodOperatorImageFilter.h"
@@ -64,7 +65,7 @@ ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
     typename NormalizeFilterType::Pointer normalizeFilter = NormalizeFilterType::New();
     normalizeFilter->SetConstant( NumericTraits< RealPixelType >::One );
     normalizeFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
-    normalizeFilter->SetInput( this->GetImageKernel() );
+    normalizeFilter->SetInput( this->GetKernelImage() );
     normalizeFilter->ReleaseDataFlagOn();
     progress->RegisterInternalFilter( normalizeFilter, 0.1f );
     normalizeFilter->UpdateLargestPossibleRegion();
@@ -73,7 +74,7 @@ ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
     }
   else
     {
-    this->ComputeConvolution( this->GetImageKernel(), progress );
+    this->ComputeConvolution( this->GetKernelImage(), progress );
     }
 }
 
@@ -104,6 +105,14 @@ ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
     optionalFilterWeights += 0.1f;
     }
 
+  // Flip the kernel
+  typedef FlipImageFilter< TImage > FlipperType;
+  typename FlipperType::Pointer flipper = FlipperType::New();
+  typename FlipperType::FlipAxesArrayType axesArray;
+  axesArray.Fill( true );
+  flipper->SetFlipAxes( axesArray );
+  flipper->SetInput( kernelImage );
+
   if ( kernelNeedsPadding )
     {
     // Pad the kernel if necessary to an odd size in each dimension.
@@ -113,7 +122,7 @@ ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
     kernelPadImageFilter->SetPadLowerBound( this->GetKernelPadSize() );
     kernelPadImageFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
     kernelPadImageFilter->ReleaseDataFlagOn();
-    kernelPadImageFilter->SetInput( kernelImage );
+    kernelPadImageFilter->SetInput( flipper->GetOutput() );
     progress->RegisterInternalFilter( kernelPadImageFilter, 0.1f );
     kernelPadImageFilter->UpdateLargestPossibleRegion();
 
@@ -121,7 +130,8 @@ ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
     }
   else
     {
-    kernelOperator.SetImageKernel( kernelImage );
+    flipper->UpdateLargestPossibleRegion();
+    kernelOperator.SetImageKernel( flipper->GetOutput() );
     }
 
   KernelSizeType radius = this->GetKernelRadius( kernelImage );
@@ -207,7 +217,7 @@ bool
 ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
 ::GetKernelNeedsPadding() const
 {
-  const KernelImageType *kernel = this->GetImageKernel();
+  const KernelImageType *kernel = this->GetKernelImage();
   InputRegionType kernelRegion = kernel->GetLargestPossibleRegion();
   InputSizeType kernelSize = kernelRegion.GetSize();
 
@@ -227,7 +237,7 @@ typename ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >::Kern
 ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
 ::GetKernelPadSize() const
 {
-  const KernelImageType *kernel = this->GetImageKernel();
+  const KernelImageType *kernel = this->GetKernelImage();
   KernelRegionType kernelRegion = kernel->GetLargestPossibleRegion();
   KernelSizeType kernelSize = kernelRegion.GetSize();
   KernelSizeType padSize;
@@ -270,8 +280,8 @@ ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
   OutputSizeType validSize = inputLargestPossibleRegion.GetSize();
 
   // Shrink the output largest possible region by the kernel radius.
-  KernelSizeType kernelSize = this->GetImageKernel()->GetLargestPossibleRegion().GetSize();
-  KernelSizeType radius = this->GetKernelRadius( this->GetImageKernel() );
+  KernelSizeType kernelSize = this->GetKernelImage()->GetLargestPossibleRegion().GetSize();
+  KernelSizeType radius = this->GetKernelRadius( this->GetKernelImage() );
   for ( unsigned int i = 0; i < ImageDimension; ++i )
     {
     if ( validSize[i] < 2*radius[i] )
@@ -331,7 +341,7 @@ ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
     InputRegionType inputRegion = this->GetOutput()->GetRequestedRegion();
 
     // Pad the output request region by the kernel radius.
-    KernelSizeType radius = this->GetKernelRadius( this->GetImageKernel() );
+    KernelSizeType radius = this->GetKernelRadius( this->GetKernelImage() );
     inputRegion.PadByRadius( radius );
 
     // Crop the output request region to fit within the largest
@@ -354,12 +364,12 @@ ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
     }
 
   // Request the largest possible region for the kernel image.
-  if ( this->GetImageKernel() )
+  if ( this->GetKernelImage() )
     {
     // Input kernel is an image, cast away the constness so we can set
     // the requested region.
     typename KernelImageType::Pointer kernelPtr =
-      const_cast< KernelImageType * >( this->GetImageKernel() );
+      const_cast< KernelImageType * >( this->GetKernelImage() );
     kernelPtr->SetRequestedRegionToLargestPossibleRegion();
     }
 }

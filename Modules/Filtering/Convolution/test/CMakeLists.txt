@@ -9,14 +9,14 @@ CreateTestDriver(ITKConvolution  "${ITKConvolution-Test_LIBRARIES}" "${ITKConvol
 
 itk_add_test(NAME itkConvolutionImageFilterTestSobelX
       COMMAND ITKConvolutionTestDriver
-    --compare DATA{Baseline/itkConvolutionImageFilterTestSobelX.nii.gz}
-              ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTestSobelX.nii.gz
-    itkConvolutionImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Input/sobel_x.nii.gz ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTestSobelX.nii.gz)
+    --compare DATA{Baseline/itkConvolutionImageFilterTestSobelX.nrrd}
+              ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTestSobelX.nrrd
+    itkConvolutionImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Input/sobel_x.nii.gz ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTestSobelX.nrrd)
 itk_add_test(NAME itkConvolutionImageFilterTestSobelY
       COMMAND ITKConvolutionTestDriver
-    --compare DATA{Baseline/itkConvolutionImageFilterTestSobelY.nii.gz}
-              ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTestSobelY.nii.gz
-    itkConvolutionImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Input/sobel_y.nii.gz ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTestSobelY.nii.gz)
+    --compare DATA{Baseline/itkConvolutionImageFilterTestSobelY.nrrd}
+              ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTestSobelY.nrrd
+    itkConvolutionImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Input/sobel_y.nii.gz ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTestSobelY.nrrd)
 itk_add_test(NAME itkConvolutionImageFilterTest4x4Mean
       COMMAND ITKConvolutionTestDriver
     --compare DATA{Baseline/itkConvolutionImageFilterTest4x4Mean.png}
