@@ -30,16 +30,6 @@ import sys
 import re
 import collections
 
-def makeGlobalMapping(filePathBaseDirs,dirname,fnames):
-    """
-    A function print process all files in a tree
-    using the os.path.walk function
-    """
-    for ff in fnames:
-        filePathBaseDirs[ff]=dirname
-#        print("{0} --> {1}".format(dirname, ff))
-
-
 class FileToPathMapping:
     def __init__(self):
         self.filePathBaseDirs=dict()

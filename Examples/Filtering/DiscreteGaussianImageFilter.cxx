@@ -17,16 +17,19 @@
  *=========================================================================*/
 
 //  Software Guide : BeginCommandLineArgs
-//    INPUTS: {BrainProtonDensitySlice.png}
+//    INPUTS:  {BrainProtonDensitySlice.png}
 //    OUTPUTS: {DiscreteGaussianImageFilterOutput.png}
-//    4 9
+//    ARGUMENTS:    4 9
 //  Software Guide : EndCommandLineArgs
 //
 //  Software Guide : BeginLatex
 //
-//  \itkpiccaption[DiscreteGaussianImageFilter Gaussian diagram.]{Discretized
-//  Gaussian.\label{fig:DiscretizedGaussian}}
-//  \parpic(7cm,4cm)[r]{\includegraphics[width=6cm]{DiscreteGaussian.eps}}
+//  \begin{floatingfigure}[rlp]{6cm}
+//    \centering
+//    \includegraphics[width=6cm]{DiscreteGaussian.eps}
+//    \caption[DiscreteGaussianImageFilter Gaussian diagram.]
+//            {Discretized Gaussian.\label{fig:DiscretizedGaussian}
+//  \end{floatingfigure}
 //
 //  The \doxygen{DiscreteGaussianImageFilter} computes the convolution of the
 //  input image with a Gaussian kernel.  This is done in $ND$ by taking

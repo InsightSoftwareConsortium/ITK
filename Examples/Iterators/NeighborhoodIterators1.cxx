@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 //  Software Guide : BeginCommandLineArgs
-//    INPUTS: {BrainT1Slice.png}
+//    INPUTS:  {BrainT1Slice.png}
 //    OUTPUTS: {NeighborhoodIterators1a.png}
 //  Software Guide : EndCommandLineArgs
 

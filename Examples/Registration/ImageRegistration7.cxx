@@ -17,12 +17,12 @@
  *=========================================================================*/
 
 //  Software Guide : BeginCommandLineArgs
-//    INPUTS: {BrainProtonDensitySliceBorder20.png}
-//    INPUTS: {BrainProtonDensitySliceR10X13Y17S12.png}
+//    INPUTS:  {BrainProtonDensitySliceBorder20.png}
+//    INPUTS:  {BrainProtonDensitySliceR10X13Y17S12.png}
 //    OUTPUTS: {ImageRegistration7Output.png}
 //    OUTPUTS: {ImageRegistration7DifferenceBefore.png}
 //    OUTPUTS: {ImageRegistration7DifferenceAfter.png}
-//    1.0   1.0   0.0
+//    ARGUMENTS:    1.0   1.0   0.0
 //  Software Guide : EndCommandLineArgs
 
 // Software Guide : BeginLatex

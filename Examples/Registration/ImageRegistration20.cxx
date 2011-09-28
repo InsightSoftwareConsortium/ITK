@@ -19,7 +19,7 @@
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS: {brainweb1e1a10f20.mha}
 //    INPUTS: {brainweb1e1a10f20Rot10Tx15.mha}
-//    ImageRegistration20Output.mhd
+//    ARGUMENTS:   ImageRegistration20Output.mhd
 //  Software Guide : EndCommandLineArgs
 
 // Software Guide : BeginLatex

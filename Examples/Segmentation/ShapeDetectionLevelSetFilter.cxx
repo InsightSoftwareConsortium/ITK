@@ -17,27 +17,27 @@
  *=========================================================================*/
 
 //  Software Guide : BeginCommandLineArgs
-//    INPUTS: {BrainProtonDensitySlice.png}
+//    INPUTS:  {BrainProtonDensitySlice.png}
 //    OUTPUTS: {ShapeDetectionLevelSetFilterOutput5.png}
-//    81 114 5 1.0  -0.5  3.0   .05 1
+//    ARGUMENTS:    81 114 5 1.0  -0.5  3.0   .05 1
 //  Software Guide : EndCommandLineArgs
 //  Software Guide : BeginCommandLineArgs
-//    INPUTS: {BrainProtonDensitySlice.png}
+//    INPUTS:  {BrainProtonDensitySlice.png}
 //    OUTPUTS: {ShapeDetectionLevelSetFilterOutput6.png}
-//    99 114 5 1.0  -0.5  3.0   .05 1
+//    ARGUMENTS:    99 114 5 1.0  -0.5  3.0   .05 1
 //  Software Guide : EndCommandLineArgs
 //  Software Guide : BeginCommandLineArgs
-//    INPUTS: {BrainProtonDensitySlice.png}
+//    INPUTS:  {BrainProtonDensitySlice.png}
 //    OUTPUTS: {ShapeDetectionLevelSetFilterOutput7.png}
-//    56 92 5 1.0  -0.3  2.0   .05 1
+//    ARGUMENTS:    56 92 5 1.0  -0.3  2.0   .05 1
 //  Software Guide : EndCommandLineArgs
 //  Software Guide : BeginCommandLineArgs
-//    INPUTS: {BrainProtonDensitySlice.png}
+//    INPUTS:  {BrainProtonDensitySlice.png}
 //    OUTPUTS: {ShapeDetectionLevelSetFilterOutput8.png}
 //    OUTPUTS: [ShapeDetectionLevelSetFilterOutput1.png]
 //    OUTPUTS: [ShapeDetectionLevelSetFilterOutput2.png]
 //    OUTPUTS: [ShapeDetectionLevelSetFilterOutput3.png]
-//    40 90 5 0.5  -0.3  2.0   .05 1
+//    ARGUMENTS:    40 90 5 0.5  -0.3  2.0   .05 1
 //  Software Guide : EndCommandLineArgs
 
 // Software Guide : BeginLatex

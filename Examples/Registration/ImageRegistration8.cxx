@@ -17,11 +17,11 @@
  *=========================================================================*/
 
 //  Software Guide : BeginCommandLineArgs
-//    INPUTS: {brainweb1e1a10f20.mha}
-//    INPUTS: {brainweb1e1a10f20Rot10Tx15.mha}
-//    ImageRegistration8Output.mhd
-//    ImageRegistration8DifferenceBefore.mhd
-//    ImageRegistration8DifferenceAfter.mhd
+//    INPUTS: brainweb1e1a10f20.mha
+//    INPUTS: brainweb1e1a10f20Rot10Tx15.mha
+//    INPUTS: ImageRegistration8Output.mhd
+//    INPUTS: ImageRegistration8DifferenceBefore.mhd
+//    INPUTS: ImageRegistration8DifferenceAfter.mhd
 //    OUTPUTS: {ImageRegistration8Output.png}
 //    OUTPUTS: {ImageRegistration8DifferenceBefore.png}
 //    OUTPUTS: {ImageRegistration8DifferenceAfter.png}

@@ -17,14 +17,14 @@
  *=========================================================================*/
 
 //  Software Guide : BeginCommandLineArgs
-//  INPUTS: {VisibleWomanEyeSlice.png}
-//  OUTPUTS: {WatershedSegmentation1Output1.png}
-//  2 10 0 0.05 1
+//    INPUTS:  {VisibleWomanEyeSlice.png}
+//    OUTPUTS: {WatershedSegmentation1Output1.png}
+//    ARGUMENTS:    2 10 0 0.05 1
 //  Software Guide : EndCommandLineArgs
 //  Software Guide : BeginCommandLineArgs
-//  INPUTS: {VisibleWomanEyeSlice.png}
-//  OUTPUTS: {WatershedSegmentation1Output2.png}
-//  2 10 0.001 0.15 0
+//    INPUTS:  {VisibleWomanEyeSlice.png}
+//    OUTPUTS: {WatershedSegmentation1Output2.png}
+//    ARGUMENTS:    2 10 0.001 0.15 0
 //  Software Guide : EndCommandLineArgs
 
 // Software Guide : BeginLatex

@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 //  Software Guide : BeginCommandLineArgs
-//     INPUTS: {VisibleWomanEyeSlice.png}
+//     INPUTS:  {VisibleWomanEyeSlice.png}
 //     OUTPUTS: {ImageRegionIteratorWithIndexOutput.png}
 //  Software Guide : EndCommandLineArgs
 

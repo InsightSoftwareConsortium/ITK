@@ -17,12 +17,11 @@
  *=========================================================================*/
 
 //  Software Guide : BeginCommandLineArgs
-//    INPUTS: {BrainProtonDensitySlice.png}
+//    INPUTS:  {BrainProtonDensitySlice.png}
 //    OUTPUTS: {ZeroCrossingBasedEdgeDetectionImageFilter.png}
-//    1.0  0.1
+//    ARGUMENTS:    1.0  0.1
 //  Software Guide : EndCommandLineArgs
-
-
+//
 //  Software Guide : BeginLatex
 //
 //  The \doxygen{ZeroCrossingBasedEdgeDetectionImageFilter} performs
