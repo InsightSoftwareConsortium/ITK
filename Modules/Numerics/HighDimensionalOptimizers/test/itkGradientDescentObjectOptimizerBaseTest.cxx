@@ -44,14 +44,12 @@ public:
   // Pure virtual functions that all Metrics must provide
   unsigned int GetNumberOfParameters() const { return 5; }
 
-  using Superclass::GetValue;
-  MeasureType GetValue()
+  MeasureType GetValue() const
     {
     return itk::NumericTraits< MeasureType >::One;
     }
 
-  using Superclass::GetValueAndDerivative;
-  void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative )
+  void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const
     {
     value = itk::NumericTraits< MeasureType >::One;
     derivative.Fill( itk::NumericTraits< ParametersValueType >::Zero );
