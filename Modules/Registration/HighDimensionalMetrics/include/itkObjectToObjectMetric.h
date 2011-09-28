@@ -115,11 +115,15 @@ public:
    *  e.g. before starting an optimization process. */
   virtual void Initialize(void) throw ( ExceptionObject ) = 0;
 
+  /** Type to represent the number of parameters that are being optimized at
+   * any given iteration of the optimizer. */
+  typedef unsigned int NumberOfParametersType;
+
   /** Methods for working with the metric's 'active' transform, e.g. the
    * transform being optimized in the case of registration. Some of these are
    * used in non-metric classes, e.g. optimizers. */
-  virtual unsigned int GetNumberOfParameters() const = 0;
-  virtual unsigned int GetNumberOfLocalParameters() const = 0;
+  virtual NumberOfParametersType GetNumberOfParameters() const = 0;
+  virtual NumberOfParametersType GetNumberOfLocalParameters() const = 0;
 
   /** Get a const reference to the active transform's parameters */
   virtual const ParametersType & GetParameters() const = 0;
