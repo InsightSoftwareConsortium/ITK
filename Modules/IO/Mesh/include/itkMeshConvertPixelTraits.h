@@ -20,6 +20,7 @@
 #define __itkMeshConvertPixelTraits_h
 
 #include "itkArray.h"
+#include "itkMatrix.h"
 #include "itkOffset.h"
 #include "itkCovariantVector.h"
 #include "itkVariableLengthVector.h"
