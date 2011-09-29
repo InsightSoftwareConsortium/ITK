@@ -35,9 +35,9 @@ namespace itk
  * traditional open methods will throw exceptions, so it can only be used to
  * access the output of an ITK video pipeline from an OpenCV capture context.
  *
- * \ingroup Video-Core-OpenCV
+ * \ingroup ITKVideoBridgeOpenCV
  */
-template<class TVideoStream>
+template <class TVideoStream>
 class OpenCVVideoCapture : public cv::VideoCapture
 {
 public:
@@ -45,10 +45,10 @@ public:
   /**-CONSTRUCTORS AND DESTRUCTOR--------------------------------------------*/
 
   /** ITK stype typedefs */
-  typedef TVideoStream                          VideoStreamType;
-  typedef OpenCVVideoCapture< VideoStreamType > Self;
-  typedef typename VideoStreamType::FrameType   FrameType;
-  typedef typename FrameType::PixelType         PixelType;
+  typedef TVideoStream                        VideoStreamType;
+  typedef OpenCVVideoCapture<VideoStreamType> Self;
+  typedef typename VideoStreamType::FrameType FrameType;
+  typedef typename FrameType::PixelType       PixelType;
   static const unsigned int Dimensions =        FrameType::ImageDimension;
 
   /** Constructor that initializes internal VideoStream to null */
@@ -59,39 +59,43 @@ public:
 
   /** Destructor that does nothing. The VideoStream will be freed by the source
    * that generated it. */
-  virtual ~OpenCVVideoCapture() {}
+  virtual ~OpenCVVideoCapture()
+  {
+  }
 
   /** ITK's type info */
   itkTypeMacro(OpenCVVideoCapture, cv::VideoCapture);
 
-
   /**-OPEN CLOSE FUNCTIONALITY-----------------------------------------------*/
 
   /** overload reading from file and camera just to throw exceptions */
-  virtual bool open(const std::string&)
-    {
+  virtual bool open(const std::string &)
+  {
     itkExceptionMacro("itk::OpenCVVideoCapture::open(filename) -> If you just want "
-      "to read from a file, use cv::VideoCapture since there is nothing to be "
-      "gained using itk's version.");
-    }
+                      "to read from a file, use cv::VideoCapture since there is nothing to be "
+                      "gained using itk's version.");
+  }
+
   virtual bool open(int)
-    {
+  {
     itkExceptionMacro("itk::OpenCVVideoCapture::open(device) -> If you just want "
-      "to read from a device, use cv::VideoCapture since there is nothing to be "
-      "gained using itk's version.");
-    }
+                      "to read from a device, use cv::VideoCapture since there is nothing to be "
+                      "gained using itk's version.");
+  }
 
   /** Add an open method that takes a TemporalDataObject. This checks to make
    * sure that it can be cast to a VideoStream */
   virtual bool open(VideoStreamType* videoStream);
 
   /** Check if the VideoStream is null */
-  virtual bool isOpened() { return m_VideoStream == 0; }
+  virtual bool isOpened()
+  {
+    return m_VideoStream == 0;
+  }
 
   /** Just set the internal pointer to null. Let the upstream filters take care
    * of actually freeing the memory */
   virtual void release();
-
 
   /**-FRAME ACCESS-----------------------------------------------------------*/
 
@@ -99,15 +103,14 @@ public:
   virtual bool grab();
 
   /** Access the current frame of the VideoStream */
-  virtual bool retrieve(cv::Mat& image, int channel=0);
+  virtual bool retrieve(cv::Mat & image, int channel = 0);
 
   /** Stream the next frame into the provided image.
    * Equivalent to grab() + retrieve(image, 0) */
-  virtual Self& operator >> (cv::Mat& image);
+  virtual Self & operator >>(cv::Mat& image);
 
   /** non-operator version of >>'s functionality */
   virtual bool read(cv::Mat& image);
-
 
   /**-PROPERTIES-------------------------------------------------------------*/
 
@@ -124,14 +127,14 @@ protected:
 
   /** Property members */
   double m_FpS;
-  int m_FourCC;
+  int    m_FourCC;
 
 };  // end class VideoCapture
 
 } // end namespace itk
 
 #if ITK_TEMPLATE_TXX
-#include "itkOpenCVVideoCapture.txx"
+#include "itkOpenCVVideoCapture.hxx"
 #endif
 
 #endif

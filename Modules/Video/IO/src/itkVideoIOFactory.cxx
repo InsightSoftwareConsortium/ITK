@@ -23,19 +23,11 @@
 #include "itkMutexLock.h"
 #include "itkMutexLockHolder.h"
 
-#ifdef ITK_VIDEO_USE_OPENCV
-#include "itkOpenCVVideoIOFactory.h"
-#endif
-
-#ifdef ITK_VIDEO_USE_VXL
-#include "itkVXLIOFactory.h"
-#endif
 
 namespace itk
 {
 VideoIOBase::Pointer VideoIOFactory::CreateVideoIO( IOModeType mode, const char* arg )
 {
-  RegisterBuiltInFactories();
 
   std::list< VideoIOBase::Pointer > possibleVideoIO;
   std::list< LightObject::Pointer > allobjects =
@@ -95,31 +87,6 @@ VideoIOBase::Pointer VideoIOFactory::CreateVideoIO( IOModeType mode, const char*
   // Didn't find a usable VideoIO
   return NULL;
 
-}
-
-void VideoIOFactory::RegisterBuiltInFactories()
-{
-  static bool firstTime = true;
-
-  static SimpleMutexLock mutex;
-
-    {
-    // This helper class makes sure the Mutex is unlocked
-    // in the event an exception is thrown.
-    MutexLockHolder< SimpleMutexLock > mutexHolder(mutex);
-    if ( firstTime )
-      {
-#ifdef ITK_VIDEO_USE_OPENCV
-      ObjectFactoryBase::RegisterFactory( OpenCVVideoIOFactory::New() );
-#endif
-
-#ifdef ITK_VIDEO_USE_VXL
-      ObjectFactoryBase::RegisterFactory( VXLVideoIOFactory::New() );
-#endif
-
-      firstTime = false;
-      }
-    }
 }
 
 } // end namespace itk

@@ -54,12 +54,10 @@ public:
    */
   static VideoIOBase::Pointer CreateVideoIO( IOModeType mode, const char* arg );
 
-  /** Register Builtin factories **/
-  static void RegisterBuiltInFactories();
-
 protected:
   VideoIOFactory();
   ~VideoIOFactory();
+
 private:
   VideoIOFactory(const Self &); //purposely not implemented
   void operator=(const Self &); //purposely not implemented

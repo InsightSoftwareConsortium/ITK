@@ -18,15 +18,6 @@
 #ifndef __itkFileListVideoIO_h
 #define __itkFileListVideoIO_h
 
-// Define support for FileListVideo
-#ifndef ITK_VIDEO_USE_FILE_LIST
-#define ITK_VIDEO_USE_FILE_LIST
-#endif
-
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
-
 #include "itkVideoIOBase.h"
 
 namespace itk
