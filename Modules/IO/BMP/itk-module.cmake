@@ -3,7 +3,7 @@ Microsoft Bitmap File Format (BMP).")
 
 itk_module(ITKIOBMP
   DEPENDS
-    ITKIOBase
+    ITKIOImageBase
   TEST_DEPENDS
     ITKTestKernel
   DESCRIPTION

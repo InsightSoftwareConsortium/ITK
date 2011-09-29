@@ -4,7 +4,7 @@ libraries.")
 
 itk_module(ITKVideoIO
   DEPENDS
-    ITKIOBase
+    ITKIOImageBase
     ITKVideoCore
   TEST_DEPENDS
     ITKVideoCore

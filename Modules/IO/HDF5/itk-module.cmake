@@ -5,7 +5,7 @@ data model and file format.")
 itk_module(ITKIOHDF5
   DEPENDS
     ITKCommon
-    ITKIOBase
+    ITKIOImageBase
     ITKHDF5
   TEST_DEPENDS
     ITKTestKernel

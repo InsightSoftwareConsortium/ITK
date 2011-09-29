@@ -5,7 +5,7 @@ itk_module(ITKIOMesh
     ITKCommon
     ITKMesh
     ITKGIFTI
-    ITKIOBase
+    ITKIOImageBase
   TEST_DEPENDS
     ITKTestKernel
     ITKQuadEdgeMesh

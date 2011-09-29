@@ -9,7 +9,7 @@ itk_module(ITKIOSpatialObjects
   DEPENDS
     ITKSpatialObjects
     ITKIOXML
-    ITKIOBase
+    ITKIOImageBase
   TEST_DEPENDS
     ITKTestKernel
   DESCRIPTION

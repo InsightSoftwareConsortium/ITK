@@ -5,7 +5,7 @@ reading RAW files.")
 
 itk_module(ITKIORAW
   DEPENDS
-    ITKIOBase
+    ITKIOImageBase
   TEST_DEPENDS
     ITKTestKernel
   DESCRIPTION

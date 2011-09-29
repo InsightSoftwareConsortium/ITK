@@ -32,7 +32,7 @@ itk_module(ITKDeprecated
     ITKImageIntensity
     ITKImageLabel
     ITKImageStatistics
-    ITKIOBase
+    ITKIOImageBase
     ITKIOBioRad
     ITKIOBMP
     ITKIOGDCM

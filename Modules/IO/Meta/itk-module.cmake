@@ -7,7 +7,7 @@ file (usually .mhd + .raw) or the header inline with the data (usually .mha).")
 itk_module(ITKIOMeta
   DEPENDS
     ITKMetaIO
-    ITKIOBase
+    ITKIOImageBase
   TEST_DEPENDS
     ITKTestKernel
     ITKSmoothing

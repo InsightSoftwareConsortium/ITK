@@ -6,7 +6,7 @@ set(WRAPPER_LIBRARY_GROUPS
 
 set(WRAPPER_LIBRARY_DEPENDS ITKCommon  ITKStatistics ITKTransform
 ITKImageFunction ITKImageFilterBase ITKImageGrid ITKFiniteDifference
-ITKCurvatureFlow ITKAnisotropicSmoothing ITKMesh ITKIOBase
+ITKCurvatureFlow ITKAnisotropicSmoothing ITKMesh ITKIOImageBase
 ITKSpatialObjects ITKImageCompose ITKImageStatistics ITKPath
 ITKImageIntensity ITKSmoothing ITKImageGradient ITKImageFeature
 ITKThresholding ITKConnectedComponents ITKIOPNG
