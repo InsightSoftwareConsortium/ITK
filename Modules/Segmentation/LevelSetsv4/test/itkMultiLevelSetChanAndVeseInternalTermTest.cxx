@@ -20,7 +20,7 @@
 #include "itkLevelSetDenseImageBase.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkLevelSetDomainMapImageFilter.h"
-#include "itkLevelSetContainerBase.h"
+#include "itkLevelSetContainer.h"
 #include "itkLevelSetEquationChanAndVeseInternalTerm.h"
 #include "itkLevelSetEquationTermContainerBase.h"
 #include "itkAtanRegularizedHeavisideStepFunction.h"
@@ -45,7 +45,7 @@ int itkMultiLevelSetChanAndVeseInternalTermTest( int , char* [] )
   typedef itk::LevelSetDomainMapImageFilter< IdListImageType, CacheImageType >
                                                          DomainMapImageFilterType;
 
-  typedef itk::LevelSetContainerBase< IdentifierType, LevelSetType >  LevelSetContainerType;
+  typedef itk::LevelSetContainer< IdentifierType, LevelSetType >  LevelSetContainerType;
   typedef itk::LevelSetEquationChanAndVeseInternalTerm< InputImageType, LevelSetContainerType > ChanAndVeseTermType;
   typedef itk::LevelSetEquationTermContainerBase< InputImageType, LevelSetContainerType > TermContainerType;
 

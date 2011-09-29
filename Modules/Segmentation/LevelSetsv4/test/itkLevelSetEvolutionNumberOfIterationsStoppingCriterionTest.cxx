@@ -18,7 +18,7 @@
 
 #include <string>
 #include "itkWhitakerSparseLevelSetImage.h"
-#include "itkLevelSetContainerBase.h"
+#include "itkLevelSetContainer.h"
 #include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"
 
 int itkLevelSetEvolutionNumberOfIterationsStoppingCriterionTest( int , char* [] )
