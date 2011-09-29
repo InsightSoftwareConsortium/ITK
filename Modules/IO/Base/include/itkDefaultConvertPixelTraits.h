@@ -21,6 +21,7 @@
 #include "itkOffset.h"
 #include "itkVector.h"
 #include "itkMatrix.h"
+#include "itkVariableLengthVector.h"
 
 namespace itk
 {
@@ -46,6 +47,9 @@ public:
   static unsigned int GetNumberOfComponents()
   { return PixelType::GetNumberOfComponents(); }
 
+  static unsigned int GetNumberOfComponents( const PixelType itkNotUsed(pixel) )
+  { return PixelType::GetNumberOfComponents( ); }
+
   /** Return the nth component of the pixel. */
   static ComponentType GetNthComponent(int c, const PixelType & pixel)
   { return pixel.GetNthComponent(c); }
@@ -69,9 +73,17 @@ public:                                                                    \
       {                                                                    \
       return 1;                                                            \
       }                                                                    \
+    static unsigned int GetNumberOfComponents(const type)                  \
+      {                                                                    \
+      return 1;                                                            \
+      }                                                                    \
     static void SetNthComponent(int, type & pixel, const ComponentType &v) \
       {                                                                    \
       pixel = v;                                                           \
+      }                                                                    \
+    static type GetNthComponent(int, const type pixel)                     \
+      {                                                                    \
+      return pixel;                                                        \
       }                                                                    \
     static type GetScalarValue(const type &pixel)                          \
       {                                                                    \
@@ -133,10 +145,18 @@ public:
     {                                                                   \
       return VDimension;                                                \
     }                                                                   \
+    static unsigned int GetNumberOfComponents( const TargetType )       \
+    {                                                                   \
+      return VDimension;                                                \
+    }                                                                   \
     static void SetNthComponent(int i, TargetType & pixel,              \
                                 const ComponentType &v)                 \
     {                                                                   \
       pixel[i] = v;                                                     \
+    }                                                                   \
+    static ComponentType GetNthComponent(int i, const TargetType pixel) \
+    {                                                                   \
+      return pixel[i];                                                  \
     }                                                                   \
     static ComponentType GetScalarValue(const TargetType &pixel)        \
     {                                                                   \
@@ -148,6 +168,44 @@ ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(Vector);
 ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(CovariantVector);
 ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(Point);
 ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(FixedArray);
+
+//
+//  End of Traits for the classes deriving from FixedArray.
+//
+//
+
+//
+//  Default traits for pixel types deriving from VariableLengthVector<>
+//
+template<typename VComponent>
+class DefaultConvertPixelTraits< VariableLengthVector< VComponent > >
+{
+public:
+  typedef VariableLengthVector< VComponent > TargetType;
+  typedef VComponent                         ComponentType;
+  static unsigned int GetNumberOfComponents()
+  {
+    return 0;
+  }
+  static unsigned int GetNumberOfComponents( const TargetType pixel )
+  {
+    return pixel.Size();
+  }
+  static void SetNthComponent(int i, TargetType & pixel,
+                              const ComponentType &v)
+  {
+    pixel[i] = v;
+  }
+  static ComponentType GetNthComponent(int i, const TargetType & pixel)
+  {
+    return pixel[i];
+  }
+  static ComponentType GetScalarValue(const TargetType &pixel)
+  {
+    return pixel.GetNorm();
+  }
+};
+
 
 //
 //  End of Traits for the classes deriving from FixedArray.
