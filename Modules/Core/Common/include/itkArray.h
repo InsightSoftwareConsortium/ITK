@@ -46,9 +46,9 @@ class Array:public vnl_vector< TValueType >
 public:
 
   /** The element type stored at each location in the Array. */
-  typedef TValueType                     ValueType;
-  typedef Array                          Self;
-  typedef vnl_vector< TValueType >       VnlVectorType;
+  typedef TValueType                                   ValueType;
+  typedef Array                                        Self;
+  typedef vnl_vector< TValueType >                     VnlVectorType;
   typedef typename vnl_vector< TValueType>::size_type  SizeValueType;
 
 public:
