@@ -19,6 +19,7 @@
 #define __itkVnlHalfHermitianToRealInverseFFTImageFilter_h
 
 #include "itkHalfHermitianToRealInverseFFTImageFilter.h"
+#include "itkVnlFFTCommon.h"
 
 #include "itkImage.h"
 #include "vnl/algo/vnl_fft_base.h"

@@ -18,6 +18,8 @@
 #ifndef __itkAddPixelAccessor_h
 #define __itkAddPixelAccessor_h
 
+#include "itkNumericTraits.h"
+
 namespace itk
 {
 namespace Accessor
