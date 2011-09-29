@@ -60,7 +60,7 @@ public:
   RealTimeInterval GetRealDuration() const;
 
   /** Get/Set FrameStart */
-  void SetFrameStart(const unsigned long s);
+  void SetFrameStart(const FrameOffsetType s);
   FrameOffsetType GetFrameStart() const;
 
   /** Get/Set FrameDuration */
