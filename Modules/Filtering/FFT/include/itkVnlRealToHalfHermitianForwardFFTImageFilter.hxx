@@ -45,7 +45,6 @@ VnlRealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
   ProgressReporter progress( this, 0, 1 );
 
   const InputSizeType inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
-  const OutputSizeType outputSize = outputPtr->GetLargestPossibleRegion().GetSize();
 
   outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
   outputPtr->Allocate();

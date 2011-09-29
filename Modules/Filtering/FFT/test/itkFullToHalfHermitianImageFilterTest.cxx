@@ -73,7 +73,6 @@ int itkFullToHalfHermitianImageFilterTest(int argc, char *argv[])
   fft->Update();
 
   ComplexImageType::RegionType fftRegion = fft->GetOutput()->GetLargestPossibleRegion();
-  ComplexImageType::SizeType fftSize = fftRegion.GetSize();
 
   // Expand the non-redundant half to the full complex image.
   typedef itk::HalfToFullHermitianImageFilter< ComplexImageType > HalfToFullFilterType;

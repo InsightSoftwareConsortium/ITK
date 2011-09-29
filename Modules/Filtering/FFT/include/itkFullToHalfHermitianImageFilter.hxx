@@ -100,11 +100,6 @@ FullToHalfHermitianImageFilter< TInputImage >
   // reports the begining and the end of the process.
   ProgressReporter progress(this, 0, 1);
 
-  InputImageRegionType inputRegion = inputPtr->GetLargestPossibleRegion();
-  InputImageIndexType  inputRegionIndex = inputRegion.GetIndex();
-  InputImageSizeType   inputRegionSize = inputRegion.GetSize();
-  InputImageIndexType  inputRegionMaximumIndex = inputRegionIndex + inputRegionSize;
-
   // Copy the non-reflected region.
   ImageAlgorithm::Copy( inputPtr.GetPointer(), outputPtr.GetPointer(),
                         outputRegionForThread, outputRegionForThread );
