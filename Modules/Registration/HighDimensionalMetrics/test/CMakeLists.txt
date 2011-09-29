@@ -5,6 +5,8 @@ set(ITKHighDimensionalMetricsTests
   itkJensenHavrdaCharvatTsallisPointSetMetricTest.cxx
   itkObjectToObjectMetricTest.cxx
   itkImageToImageObjectMetricTest.cxx
+  itkJointHistogramMutualInformationImageToImageObjectMetricTest.cxx
+  itkJointHistogramMutualInformationImageToImageObjectRegistrationTest.cxx
   itkDemonsImageToImageObjectMetricTest.cxx
 )
 
@@ -27,6 +29,17 @@ itk_add_test(NAME itkImageToImageObjectMetricTest
       COMMAND ITKHighDimensionalMetricsTestDriver
               itkImageToImageObjectMetricTest)
 
+itk_add_test(NAME itkJointHistogramMutualInformationImageToImageObjectMetricTest
+      COMMAND ITKHighDimensionalMetricsTestDriver
+              itkJointHistogramMutualInformationImageToImageObjectMetricTest)
+
+itk_add_test(NAME itkJointHistogramMutualInformationImageToImageObjectRegistrationTest
+      COMMAND ITKHighDimensionalMetricsTestDriver
+              itkJointHistogramMutualInformationImageToImageObjectRegistrationTest
+              ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+              ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBSplined10.png
+              ${TEMP}/itkJointHistogramMutualInformationImageToImageObjectRegistrationTest.nii.gz
+              10 1 0.25 )
 itk_add_test(NAME itkDemonsImageToImageObjectMetricTest
       COMMAND ITKHighDimensionalMetricsTestDriver
       itkDemonsImageToImageObjectMetricTest)
