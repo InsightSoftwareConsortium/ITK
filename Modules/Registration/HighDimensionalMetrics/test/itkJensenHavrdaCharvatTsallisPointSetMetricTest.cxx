@@ -66,7 +66,7 @@ int itkJensenHavrdaCharvatTsallisPointSetMetricTest( int, char* [] )
   // Test derivative source using moving point set
   metric->SetGradientSource( PointSetMetricType::GRADIENT_SOURCE_MOVING );
 
-  PointSetMetricType::MeasureType measure = metric->GetValue();
+  metric->GetValue();
   PointSetMetricType::DerivativeType derivative;
   metric->GetDerivative( derivative );
 
@@ -112,7 +112,7 @@ int itkJensenHavrdaCharvatTsallisPointSetMetricTest( int, char* [] )
   // Test derivative source using fixed point set
   metric->SetGradientSource( PointSetMetricType::GRADIENT_SOURCE_FIXED );
 
-  measure = metric->GetValue();
+  metric->GetValue();
   metric->GetDerivative( derivative );
 
   std::ofstream fixed_str1( "sourceFixed.txt" );
