@@ -4,6 +4,7 @@ itkBasicArchitectureTest.cxx
 itkBSplineScatteredDataPointSetToImageFilterTest.cxx
 itkBSplineScatteredDataPointSetToImageFilterTest2.cxx
 itkBSplineScatteredDataPointSetToImageFilterTest3.cxx
+itkBSplineScatteredDataPointSetToImageFilterTest4.cxx
 itkChangeInformationImageFilterTest.cxx
 itkConstantPadImageTest.cxx
 itkCoxDeBoorBSplineKernelFunctionTest.cxx
@@ -64,6 +65,8 @@ itk_add_test(NAME itkBSplineScatteredDataPointSetToImageFilterTest02
 itk_add_test(NAME itkBSplineScatteredDataPointSetToImageFilterTest03
       COMMAND ITKImageGridTestDriver itkBSplineScatteredDataPointSetToImageFilterTest3
               ${ITK_DATA_ROOT}/Input/BSplineScatteredApproximationDataPointsInput.txt)
+itk_add_test(NAME itkBSplineScatteredDataPointSetToImageFilterTest04
+      COMMAND ITKImageGridTestDriver itkBSplineScatteredDataPointSetToImageFilterTest4)
 itk_add_test(NAME itkChangeInformationImageFilterTest
       COMMAND ITKImageGridTestDriver itkChangeInformationImageFilterTest)
 itk_add_test(NAME itkConstantPadImageTest
