@@ -18,7 +18,7 @@
 #ifndef __itkTetrahedronCellTopology_h
 #define __itkTetrahedronCellTopology_h
 
-#include "itkWin32Header.h"
+#include "itkMacro.h"
 
 namespace itk
 {
