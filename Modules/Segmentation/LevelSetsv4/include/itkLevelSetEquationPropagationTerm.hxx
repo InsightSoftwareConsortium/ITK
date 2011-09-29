@@ -27,10 +27,6 @@ template< class TInput, class TLevelSetContainer >
 LevelSetEquationPropagationTerm< TInput, TLevelSetContainer >
 ::LevelSetEquationPropagationTerm()
 {
-  for( unsigned int i = 0; i < ImageDimension; i++ )
-    {
-    m_NeighborhoodScales[i] = 1.0;
-    }
   this->m_TermName = "Propagation term";
   this->m_RequiredData.insert( "BackwardGradient" );
   this->m_RequiredData.insert( "ForwardGradient" );
@@ -87,42 +83,10 @@ typename LevelSetEquationPropagationTerm< TInput, TLevelSetContainer >::LevelSet
 LevelSetEquationPropagationTerm< TInput, TLevelSetContainer >
 ::Value( const LevelSetInputIndexType& iP )
 {
-  // Construct upwind gradient values for use in the propagation speed term:
-  //  $\beta G(\mathbf{x})\mid\nabla\phi\mid$
-  // The following scheme for ``upwinding'' in the normal direction is taken
-  // from Sethian, Ch. 6 as referenced above.
-
-  //
-  // TODO FIXME DO A SECOND REVIEW OF CODE STYLE
-  //
-  const LevelSetOutputRealType center_value =
-    static_cast< LevelSetOutputRealType >( this->m_CurrentLevelSetPointer->Evaluate( iP ) );
-
-  LevelSetInputIndexType pA;
-  LevelSetInputIndexType pB;
-  LevelSetOutputRealType valueA;
-  LevelSetOutputRealType valueB;
+  LevelSetGradientType backwardGradient = this->m_CurrentLevelSetPointer->EvaluateBackwardGradient( iP );
+  LevelSetGradientType forwardGradient  = this->m_CurrentLevelSetPointer->EvaluateForwardGradient( iP );
 
   const LevelSetOutputRealType zero = NumericTraits< LevelSetOutputRealType >::Zero;
-
-  /** Array of first derivatives */
-  LevelSetOutputRealType m_dx_forward[itkGetStaticConstMacro(ImageDimension)];
-  LevelSetOutputRealType m_dx_backward[itkGetStaticConstMacro(ImageDimension)];
-
-  for ( unsigned int i = 0; i < ImageDimension; i++ )
-    {
-    pA = pB = iP;
-    pA[i] += 1;
-    pB[i] -= 1;
-
-    valueA =
-        static_cast< LevelSetOutputRealType >( this->m_CurrentLevelSetPointer->Evaluate( pA ) );
-    valueB =
-        static_cast< LevelSetOutputRealType >( this->m_CurrentLevelSetPointer->Evaluate( pB ) );
-
-    m_dx_forward[i]  = ( valueA - center_value ) * m_NeighborhoodScales[i];
-    m_dx_backward[i] = ( center_value - valueB ) * m_NeighborhoodScales[i];
-    }
 
   /// \todo why this initialization ?
   LevelSetOutputRealType propagation_gradient = zero;
@@ -132,8 +96,8 @@ LevelSetEquationPropagationTerm< TInput, TLevelSetContainer >
     for ( unsigned int i = 0; i < ImageDimension; i++ )
       {
       propagation_gradient +=
-        vnl_math_sqr( vnl_math_max( m_dx_backward[i], zero ) ) +
-        vnl_math_sqr( vnl_math_min( m_dx_forward[i],  zero ) );
+        vnl_math_sqr( vnl_math_max( backwardGradient[i], zero ) ) +
+        vnl_math_sqr( vnl_math_min( forwardGradient[i],  zero ) );
       }
     }
   else
@@ -141,8 +105,8 @@ LevelSetEquationPropagationTerm< TInput, TLevelSetContainer >
     for ( unsigned int i = 0; i < ImageDimension; i++ )
       {
       propagation_gradient +=
-        vnl_math_sqr( vnl_math_min( m_dx_backward[i], zero ) ) +
-        vnl_math_sqr( vnl_math_max( m_dx_forward[i],  zero) );
+        vnl_math_sqr( vnl_math_min( backwardGradient[i], zero ) ) +
+        vnl_math_sqr( vnl_math_max( forwardGradient[i],  zero) );
       }
     }
   propagation_gradient *= this->PropagationSpeed( iP );
@@ -156,9 +120,6 @@ LevelSetEquationPropagationTerm< TInput, TLevelSetContainer >
 ::Value( const LevelSetInputIndexType& iP,
          const LevelSetDataType& iData )
 {
-  //
-  // TODO FIXME DO A SECOND REVIEW OF CODE STYLE
-  //
   const LevelSetOutputRealType zero = NumericTraits< LevelSetOutputRealType >::Zero;
   LevelSetOutputRealType propagation_gradient = zero;
 
