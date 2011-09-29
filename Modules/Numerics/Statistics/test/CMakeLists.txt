@@ -6,6 +6,7 @@ itkExpectationMaximizationMixtureModelEstimatorTest.cxx
 itkGaussianDistributionTest.cxx
 itkGaussianMembershipFunctionTest.cxx
 itkGaussianMixtureModelComponentTest.cxx
+itkGaussianRandomSpatialNeighborSubsamplerTest.cxx
 itkKalmanLinearEstimatorTest.cxx
 itkKdTreeBasedKmeansEstimatorTest.cxx
 itkKdTreeGeneratorTest.cxx
@@ -78,6 +79,7 @@ itkScalarImageToTextureFeaturesFilterTest.cxx
 itkScalarImageToRunLengthMatrixFilterTest.cxx
 itkScalarImageToRunLengthFeaturesFilterTest.cxx
 itkSparseFrequencyContainer2Test.cxx
+itkSpatialNeighborSubsamplerTest.cxx
 itkStandardDeviationPerComponentSampleFilterTest.cxx
 itkStatisticsTypesTest.cxx
 itkSubsampleTest.cxx
@@ -86,6 +88,7 @@ itkSubsampleTest3.cxx
 itkTDistributionTest.cxx
 itkStatisticsAlgorithmTest.cxx
 itkStatisticsAlgorithmTest2.cxx
+itkUniformRandomSpatialNeighborSubsamplerTest.cxx
 itkVectorContainerToListSampleAdaptorTest.cxx
 )
 
@@ -107,6 +110,12 @@ itk_add_test(NAME itkGaussianMembershipFunctionTest
 itk_add_test(NAME itkGaussianMixtureModelComponentTest
       COMMAND ITKStatisticsTestDriver itkGaussianMixtureModelComponentTest
               DATA{${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat})
+itk_add_test(NAME itkGaussianRandomSpatialNeighborSubsamplerTest
+      COMMAND ITKStatisticsTestDriver
+    --compare DATA{Baseline/itkGaussianRandomSubsamplingTest.mha}
+              ${ITK_TEST_OUTPUT_DIR}/itkGaussianRandomSubsamplingTest.mha
+    itkGaussianRandomSpatialNeighborSubsamplerTest
+     ${ITK_TEST_OUTPUT_DIR}/itkGaussianRandomSubsamplingTest.mha)
 itk_add_test(NAME itkKalmanLinearEstimatorTest
       COMMAND ITKStatisticsTestDriver itkKalmanLinearEstimatorTest)
 itk_add_test(NAME itkKdTreeBasedKmeansEstimatorTest
@@ -365,6 +374,8 @@ itk_add_test(NAME itkScalarImageToRunLengthFeaturesFilterTest
       COMMAND ITKStatisticsTestDriver itkScalarImageToRunLengthFeaturesFilterTest)
 itk_add_test(NAME itkSparseFrequencyContainer2Test
       COMMAND ITKStatisticsTestDriver itkSparseFrequencyContainer2Test)
+itk_add_test(NAME itkSpatialNeighborSubsamplerTest
+      COMMAND ITKStatisticsTestDriver itkSpatialNeighborSubsamplerTest)
 itk_add_test(NAME itkStandardDeviationPerComponentSampleFilterTest
       COMMAND ITKStatisticsTestDriver itkStandardDeviationPerComponentSampleFilterTest)
 itk_add_test(NAME itkStatisticsTypesTest
@@ -381,5 +392,11 @@ itk_add_test(NAME itkStatisticsAlgorithmTest
       COMMAND ITKStatisticsTestDriver itkStatisticsAlgorithmTest)
 itk_add_test(NAME itkStatisticsAlgorithmTest2
       COMMAND ITKStatisticsTestDriver itkStatisticsAlgorithmTest2)
+itk_add_test(NAME itkUniformRandomSpatialNeighborSubsamplerTest
+      COMMAND ITKStatisticsTestDriver
+    --compare DATA{Baseline/itkUniformRandomSubsamplingTest.mha}
+              ${ITK_TEST_OUTPUT_DIR}/itkUniformRandomSubsamplingTest.mha
+    itkUniformRandomSpatialNeighborSubsamplerTest
+     ${ITK_TEST_OUTPUT_DIR}/itkUniformRandomSubsamplingTest.mha)
 itk_add_test(NAME itkVectorContainerToListSampleAdaptorTest
       COMMAND ITKStatisticsTestDriver itkVectorContainerToListSampleAdaptorTest)

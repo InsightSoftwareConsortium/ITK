@@ -77,6 +77,21 @@ ImageRegion< VImageDimension >
 }
 
 template< unsigned int VImageDimension >
+void
+ImageRegion< VImageDimension >
+::ComputeOffsetTable(OffsetTableType offsetTable) const
+{
+  OffsetValueType num=1;
+
+  offsetTable[0] = num;
+  for (unsigned int i=0; i < ImageDimension; i++)
+    {
+    num *= m_Size[i];
+    offsetTable[i+1] = num;
+    }
+}
+
+template< unsigned int VImageDimension >
 typename ImageRegion< VImageDimension >::SizeValueType
 ImageRegion< VImageDimension >
 ::GetNumberOfPixels() const
