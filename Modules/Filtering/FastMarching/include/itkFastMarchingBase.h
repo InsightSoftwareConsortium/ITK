@@ -72,6 +72,28 @@ namespace itk
  * taking nodes out from the front and putting nodes in from the back.
  * Use itk::PriorityQueueContainer instead.
  *
+ * \par Topology constraints:
+ * Additional flexibiility in this class includes the implementation of
+ * topology constraints for image-based fast marching.  Further details
+ * can be found in the paper
+ *
+ * NJ Tustison, BA Avants, MF Siqueira, JC Gee. "Topological Well-
+ * Composedness and Glamorous Glue: A Digital Gluing Algorithm for
+ * Topologically Constrained Front Propagation, IEEE Transactions on
+ * Image Processing, 20(6):1756-1761, June 2011.
+ *
+ * Essentially, one can constrain the propagating front(s) such that
+ * they either:
+ *  1. don't merge (using the "Strict" option)
+ *  2. don't create handles (using the "NoHandles" option)
+ *
+ * Whereas the majority of related work uses the digital topological
+ * concept of "simple points" to constrain the evolving front, this
+ * filter uses the concept of "well-composedness".  Advantages of
+ * the latter over the former includes being able to use the standard
+ * marching cubes algorithm to produce a mesh whose genus is identical
+ * to that of the evolved front(s).
+ *
  * \sa FastMarchingStoppingCriterionBase
  *
  * \ingroup ITKFastMarching
