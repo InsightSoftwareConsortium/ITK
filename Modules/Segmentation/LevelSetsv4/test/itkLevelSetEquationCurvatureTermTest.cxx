@@ -18,7 +18,7 @@
 
 #include "itkImage.h"
 #include "itkLevelSetDomainMapImageFilter.h"
-#include "itkLevelSetContainerBase.h"
+#include "itkLevelSetContainer.h"
 #include "itkLevelSetEquationCurvatureTerm.h"
 #include "itkSinRegularizedHeavisideStepFunction.h"
 #include "itkBinaryImageToSparseLevelSetImageAdaptor.h"
@@ -48,12 +48,9 @@ int itkLevelSetEquationCurvatureTermTest( int argc, char* argv[] )
   typedef itk::BinaryImageToSparseLevelSetImageAdaptor< InputImageType, SparseLevelSetType >
                                                             BinaryToSparseAdaptorType;
 
-  typedef itk::LevelSetContainerBase< IdentifierType, SparseLevelSetType > LevelSetContainerType;
+  typedef itk::LevelSetContainer< IdentifierType, SparseLevelSetType >  LevelSetContainerType;
   typedef itk::LevelSetEquationCurvatureTerm< InputImageType, LevelSetContainerType >
-                                                            CurvatureTermType;
-
-  typedef itk::LevelSetContainerBase< IdentifierType, SparseLevelSetType >
-                                                            LevelSetContainerType;
+                                                                        CurvatureTermType;
 
   typedef std::list< IdentifierType >                       IdListType;
   typedef itk::Image< IdListType, Dimension >               IdListImageType;

@@ -21,7 +21,7 @@
 #include "itkImageFileWriter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkLevelSetDomainMapImageFilter.h"
-#include "itkLevelSetContainerBase.h"
+#include "itkLevelSetContainer.h"
 #include "itkLevelSetEquationChanAndVeseInternalTerm.h"
 #include "itkLevelSetEquationChanAndVeseExternalTerm.h"
 #include "itkLevelSetEquationTermContainerBase.h"
@@ -55,7 +55,7 @@ int itkTwoLevelSetMalcolmImage2DTest( int argc, char* argv[] )
 
   typedef itk::IdentifierType                               IdentifierType;
 
-  typedef itk::LevelSetContainerBase< IdentifierType, SparseLevelSetType >
+  typedef itk::LevelSetContainer< IdentifierType, SparseLevelSetType >
                                                             LevelSetContainerType;
 
   typedef std::list< IdentifierType >                       IdListType;

@@ -18,7 +18,7 @@
 
 #include "itkImage.h"
 #include "itkLevelSetDomainMapImageFilter.h"
-#include "itkLevelSetContainerBase.h"
+#include "itkLevelSetContainer.h"
 #include "itkLevelSetEquationLaplacianTerm.h"
 #include "itkSinRegularizedHeavisideStepFunction.h"
 #include "itkBinaryImageToSparseLevelSetImageAdaptor.h"
@@ -48,10 +48,8 @@ int itkLevelSetEquationLaplacianTermTest( int argc, char* argv[] )
   typedef itk::BinaryImageToSparseLevelSetImageAdaptor< InputImageType, SparseLevelSetType >
                                                             BinaryToSparseAdaptorType;
 
-  typedef itk::LevelSetContainerBase< IdentifierType, SparseLevelSetType > LevelSetContainerType;
+  typedef itk::LevelSetContainer< IdentifierType, SparseLevelSetType > LevelSetContainerType;
 
-  typedef itk::LevelSetContainerBase< IdentifierType, SparseLevelSetType >
-                                                            LevelSetContainerType;
   typedef itk::LevelSetEquationLaplacianTerm< InputImageType, LevelSetContainerType >
                                                             LaplacianTermType;
 

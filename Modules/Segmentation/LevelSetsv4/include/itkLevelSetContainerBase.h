@@ -25,6 +25,7 @@
 #include "itkHeavisideStepFunctionBase.h"
 #include "itkLevelSetDomainMapImageFilter.h"
 
+
 namespace itk
 {
 /**
@@ -45,9 +46,6 @@ public:
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
   typedef Object                     Superclass;
-
-  /** Method for creation through object factory */
-  itkNewMacro ( Self );
 
   /** Run-time type information */
   itkTypeMacro ( LevelSetContainerBase, Object );
@@ -286,7 +284,6 @@ private:
   DomainMapImageFilterPointer   m_DomainMapFilter;
   LevelSetContainerType         m_Container;
 };
-
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION
