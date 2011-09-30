@@ -29,7 +29,7 @@ namespace itk
  *
  *  See \c GetValueAndDerivativeProcessPoint for algorithm implementation.
  *
- * \ingroup ITKHighDimensionalMetric
+ * \ingroup ITKHighDimensionalMetrics
  */
 template <class TFixedImage,
           class TMovingImage,

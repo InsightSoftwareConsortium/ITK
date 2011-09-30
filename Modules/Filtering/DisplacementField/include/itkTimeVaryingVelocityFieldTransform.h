@@ -48,6 +48,7 @@ namespace itk
  * \author Brian Avants
  *
  * \ingroup Transforms
+ * \ingroup ITKDisplacementField
  *
  * \wiki
  * \wikiexample{}
