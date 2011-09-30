@@ -64,8 +64,8 @@ public:
   typedef typename Superclass::LevelSetContainerConstIteratorType LevelSetContainerConstIteratorType;
   typedef typename Superclass::LevelSetContainerIteratorType      LevelSetContainerIteratorType;
 
-  typedef typename Superclass::HeavisideType    HeavisideType;
-  typedef typename Superclass::HeavisidePointer HeavisidePointer;
+  typedef typename Superclass::HeavisideType          HeavisideType;
+  typedef typename Superclass::HeavisideConstPointer  HeavisideConstPointer;
 
   itkStaticConstMacro ( Dimension, unsigned int, LevelSetType::Dimension );
 
@@ -122,8 +122,8 @@ public:
   typedef typename Superclass::LevelSetContainerConstIteratorType LevelSetContainerConstIteratorType;
   typedef typename Superclass::LevelSetContainerIteratorType      LevelSetContainerIteratorType;
 
-  typedef typename Superclass::HeavisideType    HeavisideType;
-  typedef typename Superclass::HeavisidePointer HeavisidePointer;
+  typedef typename Superclass::HeavisideType          HeavisideType;
+  typedef typename Superclass::HeavisideConstPointer  HeavisideConstPointer;
 
   itkStaticConstMacro ( Dimension, unsigned int, LevelSetType::Dimension );
 
