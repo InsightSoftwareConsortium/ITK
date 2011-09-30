@@ -376,6 +376,7 @@ protected:
 
   /** Constructor */
   DummyTemporalProcessObject()
+    : m_IdNumber(0)
   {
     DummyTemporalDataObject::Pointer po = DummyTemporalDataObject::New();
 
