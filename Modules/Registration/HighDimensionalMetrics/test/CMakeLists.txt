@@ -40,6 +40,15 @@ itk_add_test(NAME itkJointHistogramMutualInformationImageToImageObjectRegistrati
               ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBSplined10.png
               ${TEMP}/itkJointHistogramMutualInformationImageToImageObjectRegistrationTest.nii.gz
               10 1 0.25 )
+
+itk_add_test(NAME itkJointHistogramMutualInformationImageToImageObjectRegistrationTest2
+      COMMAND ITKHighDimensionalMetricsTestDriver
+              itkJointHistogramMutualInformationImageToImageObjectRegistrationTest
+              DATA{Input/face_b.jpg}
+              DATA{Baseline/face_avg.jpg}
+              ${TEMP}/itkJointHistogramMutualInformationImageToImageObjectRegistrationTest2.nii.gz
+              10 1 0.25 )
+
 itk_add_test(NAME itkDemonsImageToImageObjectMetricTest
       COMMAND ITKHighDimensionalMetricsTestDriver
       itkDemonsImageToImageObjectMetricTest)
