@@ -19,6 +19,7 @@
 #define __itkRingBuffer_hxx
 
 #include "itkRingBuffer.h"
+#include "vcl_cmath.h"
 
 namespace itk
 {
@@ -224,7 +225,7 @@ typename RingBuffer< TElement >::OffsetValueType
 RingBuffer< TElement >
 ::GetOffsetBufferIndex(OffsetValueType offset)
 {
-  OffsetValueType moddedOffset = vnl_abs(offset) % this->GetNumberOfBuffers();
+  OffsetValueType moddedOffset = vcl_abs(offset) % this->GetNumberOfBuffers();
   OffsetValueType signedHeadIndex = static_cast<OffsetValueType>(m_HeadIndex);
   if (offset >= 0)
     {
