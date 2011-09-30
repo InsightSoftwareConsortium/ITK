@@ -192,7 +192,7 @@ VertexCell< TCellInterface >
                    double *minDist2,
                    InterpolationWeightType *weights)
 {
-  PointType X = points->GetElement(0);
+  PointType X = points->GetElement(m_PointIds[0]);
 
   if ( closestPoint )
     {
@@ -206,7 +206,7 @@ VertexCell< TCellInterface >
     {
     for ( unsigned int i = 0; i < PointDimension; i++ )
       {
-      dist2 += ( X[i] - x[i] ) * ( X[i] * x[i] );
+      dist2 += ( X[i] - x[i] ) * ( X[i] - x[i] );
       }
     }
 
