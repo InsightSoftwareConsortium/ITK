@@ -68,7 +68,7 @@ public:
   typedef typename LevelSetContainerType::iterator            LevelSetContainerIteratorType;
 
   typedef HeavisideStepFunctionBase< OutputRealType, OutputRealType > HeavisideType;
-  typedef typename HeavisideType::Pointer                             HeavisidePointer;
+  typedef typename HeavisideType::ConstPointer                        HeavisideConstPointer;
 
   itkStaticConstMacro ( Dimension, unsigned int, LevelSetType::Dimension );
 
@@ -280,7 +280,7 @@ private:
   LevelSetContainerBase( const Self & ); // purposely not implemented
   void operator = ( const Self & ); // purposely not implemented
 
-  HeavisidePointer              m_Heaviside;
+  HeavisideConstPointer         m_Heaviside;
   DomainMapImageFilterPointer   m_DomainMapFilter;
   LevelSetContainerType         m_Container;
 };
