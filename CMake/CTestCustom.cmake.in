@@ -17,7 +17,6 @@
 #
 #----------------------------------------------------------------------
 
-SET(CTEST_CUSTOM_MAXIMUM_PASSED_TEST_OUTPUT_SIZE 1000000)
 SET(CTEST_CUSTOM_MAXIMUM_NUMBER_OF_WARNINGS 199)
 SET(CTEST_CUSTOM_MAXIMUM_NUMBER_OF_ERRORS 50)
 
@@ -93,6 +92,10 @@ SET(CTEST_CUSTOM_WARNING_EXCEPTION
   ".*[/\\\\][Mm]odules[/\\\\][Tt]hird[Pp]arty[/\\\\][Vv][Nn][Ll][Ii]nstantiation[/\\\\].*[Ww]arning.*"
   ".*[/\\\\][Mm]odules[/\\\\][Tt]hird[Pp]arty[/\\\\][Zz][Ll][Ii][Bb][/\\\\].*[Ww]arning.*"
   ".*Microsoft.*include.*win.*.h.*[Ww]arning.*"
+
+  # Ignore clang's summary warning, assuming prior text has matched some
+  # other warning expression:
+  "[0-9,]+ warnings? generated."
   )
 
 IF(APPLE)
