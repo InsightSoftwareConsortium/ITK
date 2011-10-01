@@ -130,7 +130,6 @@ BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
   Superclass::PrintSelf( os,indent );
 
   os << indent << "B-spline parameters: " << std::endl;
-  os << indent << "  spline order = " << this->m_SplineOrder << std::endl;
   os << indent << "  number of control points for the update field = "
     << this->m_NumberOfControlPointsForTheUpdateField << std::endl;
   os << indent << "  number of control points for the total field = "
