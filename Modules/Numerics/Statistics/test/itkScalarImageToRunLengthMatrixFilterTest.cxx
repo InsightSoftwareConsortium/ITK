@@ -117,8 +117,8 @@ int itkScalarImageToRunLengthMatrixFilterTest(int, char* [] )
 
     filter->SetInput(image);
 
-    InputImageType::OffsetType offset1 = {{0, 1}};
-    InputImageType::OffsetType offset2 = {{1, 0}};
+    InputImageType::OffsetType offset1 = {{0, -1}};
+    InputImageType::OffsetType offset2 = {{-1, 0}};
     FilterType::OffsetVectorPointer offsetV =
     FilterType::OffsetVector::New();
     offsetV->push_back(offset1);
@@ -126,7 +126,8 @@ int itkScalarImageToRunLengthMatrixFilterTest(int, char* [] )
 
     filter->SetOffsets( offsetV );
     filter->SetMaskImage( mask );
-    filter->SetPixelValueMinMax( 0, 2 );
+    // purposedly setting the max value to max(Image)+1
+    filter->SetPixelValueMinMax( 0, 3 );
     filter->SetDistanceValueMinMax( 0, 8 );
     filter->SetNumberOfBinsPerAxis( 5 );
     filter->Update();
@@ -138,20 +139,25 @@ int itkScalarImageToRunLengthMatrixFilterTest(int, char* [] )
     //--------------------------------------------------------------------------
     bool passed = true;
 
-    unsigned int frequencies[9] = {0, 0, 0, 0, 0, 0, 3, 0, 1};
+    unsigned int frequencies[5][5] = {
+      {0, 3, 0, 0, 0},
+      {0, 1, 0, 0, 0},
+      {0, 0, 0, 0, 0},
+      {0, 0, 0, 0, 0},
+      {0, 0, 0, 0, 0} };
 
     unsigned int count = 0;
-    for( unsigned int i = 0; i < 3; i++ )
+    for( unsigned int i = 0; i < 5; i++ )
       {
-      for( unsigned int j = 0; j < 3; j++ )
+      for( unsigned int j = 0; j < 5; j++ )
         {
         typedef FilterType::HistogramType::IndexType IndexType;
         IndexType index( hist->GetMeasurementVectorSize() );
         index[0] = i;
         index[1] = j;
-        if( hist->GetFrequency( index ) != frequencies[count] )
-          {
-          std::cerr << "Expected frequency = " << frequencies[count]
+        if( hist->GetFrequency( index ) != frequencies[j][i] )
+        {
+          std::cerr << "Expected frequency  (i,j)= " << "(" <<i << "," << j << ")" << frequencies[j][i]
             << ", calculated = "
             << hist->GetFrequency( index ) << std::endl;
           passed = false;
@@ -173,7 +179,8 @@ int itkScalarImageToRunLengthMatrixFilterTest(int, char* [] )
     filter->SetOffsets( offsetV );
     filter->SetMaskImage( mask );
     filter->SetInsidePixelValue( 0 );
-    filter->SetPixelValueMinMax( 0, 2 );
+    // purposedly setting the max value to max(Image)+1
+    filter->SetPixelValueMinMax( 0, 3 );
     filter->SetDistanceValueMinMax( 0, 8 );
     filter->SetNumberOfBinsPerAxis( 5 );
 
@@ -197,7 +204,7 @@ int itkScalarImageToRunLengthMatrixFilterTest(int, char* [] )
         << std::endl;
       passed = false;
       }
-    if( filter->GetMax() != 2 )
+    if( filter->GetMax() != 3 )
       {
       std::cerr << "Error: " << std::endl;
       std::cerr << "GetMax() is not returning the expected value"
@@ -221,8 +228,8 @@ int itkScalarImageToRunLengthMatrixFilterTest(int, char* [] )
 
     const FilterType::OffsetVector *offsetVector = filter->GetOffsets();
     if( offsetVector->size() != 2 ||
-      (*offsetVector)[0][0] != 0 || (*offsetVector)[0][1] != 1 ||
-      (*offsetVector)[1][0] != 1 || (*offsetVector)[1][1] != 0 )
+      (*offsetVector)[0][0] != 0 || (*offsetVector)[0][1] != -1 ||
+      (*offsetVector)[1][0] != -1 || (*offsetVector)[1][1] != 0 )
       {
       std::cerr << "Error: " << std::endl;
       std::cerr << "GetOffsets() is not returning the correct offsets"
@@ -240,20 +247,25 @@ int itkScalarImageToRunLengthMatrixFilterTest(int, char* [] )
     filter->Update();
     hist = filter->GetOutput();
 
-    unsigned int frequencies2[9] = {0, 12, 0, 0, 0, 0, 12, 0, 0};
+    unsigned int frequencies2[5][5] = {
+        {0, 12, 0, 10, 0},
+        {0, 0, 0, 0, 0},
+        {0, 3, 0, 2, 0},
+        {0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0} };
 
     count = 0;
-    for( unsigned int i = 0; i < 3; i++ )
+    for( unsigned int i = 0; i < 5; i++ )
       {
-      for( unsigned int j = 0; j < 3; j++ )
+      for( unsigned int j = 0; j < 5; j++ )
         {
         typedef FilterType::HistogramType::IndexType IndexType;
         IndexType index( hist->GetMeasurementVectorSize() );
         index[0] = i;
         index[1] = j;
-        if( hist->GetFrequency( index ) != frequencies2[count] )
-          {
-          std::cerr << "Expected frequency2 = " << frequencies2[count]
+        if( hist->GetFrequency( index ) != frequencies2[j][i] )
+        {
+          std::cerr << "Expected frequency2  (i,j)= " << "(" <<i << "," << j << ")" << frequencies2[j][i]
             << ", calculated = "
             << hist->GetFrequency( index ) << std::endl;
           passed = false;
@@ -261,7 +273,6 @@ int itkScalarImageToRunLengthMatrixFilterTest(int, char* [] )
         count++;
         }
       }
-
 
     filter->Print( std::cout, 3 );
 
