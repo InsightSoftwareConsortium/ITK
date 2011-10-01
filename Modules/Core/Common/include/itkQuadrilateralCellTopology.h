@@ -17,7 +17,8 @@
  *=========================================================================*/
 #ifndef __itkQuadrilateralCellTopology_h
 #define __itkQuadrilateralCellTopology_h
-#include "itkWin32Header.h"
+
+#include "itkMacro.h"
 
 namespace itk
 {

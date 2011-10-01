@@ -22,7 +22,7 @@
 #if defined( _WIN32 )
 #include "itkWindows.h"
 #endif
-#include "itkWin32Header.h"
+#include "itkMacro.h"
 
 #include <map>
 #include <string>

@@ -18,7 +18,7 @@
 #ifndef __itkQuadraticTriangleCellTopology_h
 #define __itkQuadraticTriangleCellTopology_h
 
-#include "itkWin32Header.h"
+#include "itkMacro.h"
 
 namespace itk
 {
