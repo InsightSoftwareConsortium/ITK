@@ -35,7 +35,7 @@ int itkSampleToHistogramFilterTest4( int, char * [] )
   // components, while the Histogram can use a float type for
   // it measurement type.
   //
-  typedef signed int  VMeasurementType;  // integer type for the samples
+  typedef float       VMeasurementType;  // float type for the samples
   typedef float       HMeasurementType;  // float type for the histogram
 
 
@@ -77,6 +77,7 @@ int itkSampleToHistogramFilterTest4( int, char * [] )
   histogramSize[0] = 36;
   histogramSize[1] = 40;
   histogramSize[2] = 50;
+
 
   MeasurementVectorType measure( numberOfComponents );
 
@@ -161,6 +162,7 @@ int itkSampleToHistogramFilterTest4( int, char * [] )
       std::cerr << histogramItr.GetMeasurementVector() << std::endl;
       std::cerr << "Expected frequency = " << expectedFrequency1 << std::endl;
       std::cerr << "Computed frequency = " << histogramItr.GetFrequency() << std::endl;
+      return EXIT_FAILURE;
       }
     ++histogramItr;
     }

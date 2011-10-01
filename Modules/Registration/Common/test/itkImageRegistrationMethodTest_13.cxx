@@ -24,7 +24,6 @@
 
 #include "itkTextOutput.h"
 #include "itkImageRegionIterator.h"
-#include "itkCommandIterationUpdate.h"
 
 namespace
 {
@@ -165,7 +164,7 @@ int itkImageRegistrationMethodTest_13(int, char* [] )
 
 
   typedef itk::ImageRegionIterator<MovingImageType> MovingImageIterator;
-  typedef itk::ImageRegionIterator<FixedImageType> FixedImageIterator;
+  typedef itk::ImageRegionIterator<FixedImageType>  FixedImageIterator;
 
   itk::Point<double,dimension> center;
   for ( j = 0; j < dimension; j++ )
@@ -232,15 +231,6 @@ int itkImageRegistrationMethodTest_13(int, char* [] )
 
   // need to maximize for mutual information
   optimizer->MaximizeOn();
-
-  /******************************************************************
-   * Set up the optimizer observer
-   ******************************************************************/
-  typedef itk::CommandIterationUpdate< OptimizerType > CommandIterationType;
-  CommandIterationType::Pointer iterationCommand =
-    CommandIterationType::New();
-
-  iterationCommand->SetOptimizer( optimizer );
 
   /******************************************************************
    * Set up the metric.

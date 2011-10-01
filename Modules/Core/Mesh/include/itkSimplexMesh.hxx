@@ -261,45 +261,8 @@ SimplexMesh< TPixelType, VDimension, TMeshTraits >
 
   os << indent << "LastCellId = " << m_LastCellId << std::endl;
 
-  CellsContainerConstPointer  cells = this->GetCells();
-  CellsContainerConstIterator cellIt = cells->Begin();
-
-  os << indent << "Cells Point Ids:" << std::endl;
-  while ( cellIt != cells->End() )
-    {
-    os << indent << "cell id: " << cellIt->Index() << ", point ids: ";
-    CellType *nextCell = cellIt->Value();
-    typename CellType::PointIdIterator pointIt = nextCell->PointIdsBegin();
-    while ( pointIt != nextCell->PointIdsEnd() )
-      {
-      os << *pointIt++ << "-";
-      }
-    os << std::endl;
-    cellIt++;
-    }
-
-  PointsContainerConstIterator pointsIt = this->GetPoints()->Begin();
-  os << indent << "Point locations:" << std::endl;
-  while ( pointsIt != this->GetPoints()->End() )
-    {
-    os << indent << "pt index:" << pointsIt->Index() << " , coords: " << pointsIt->Value() << std::endl;
-    pointsIt++;
-    }
-
   GeometryMapPointer  geometryMap = this->GetGeometryData();
-  GeometryMapIterator pointDataIterator = geometryMap->Begin();
-  GeometryMapIterator pointDataEnd = geometryMap->End();
-
-  while ( pointDataIterator != pointDataEnd )
-    {
-    SimplexMeshGeometry *geometry = pointDataIterator->Value();
-    os << indent << "Mesh Geometry Data for point:" << pointDataIterator->Index() << std::endl;
-    os << indent << "Direct Neighbors indices: "
-       << geometry->neighborIndices[0] << ", "
-       << geometry->neighborIndices[1] << ", "
-       << geometry->neighborIndices[2] << std::endl;
-    pointDataIterator++;
-    }
+  os << indent << "GeometryData: " << geometryMap << std::endl;
 }
 
 template< typename TPixelType, unsigned int VDimension, typename TMeshTraits >
