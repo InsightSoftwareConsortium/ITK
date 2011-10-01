@@ -1667,10 +1667,16 @@ void TIFFImageIO::InternalWrite(const void *buffer)
   int predictor;
 
   const char *mode = "w";
-  // if the size of the image if greater then 2GB then use big tiff
-  if ( this->GetImageSizeInBytes() > SizeType( 1073741824u ) * 3 )
+
+  // If the size of the image if greater then 2GB then use big tiff
+  const SizeType oneKiloByte = 1024;
+  const SizeType oneMegaByte = 1024 * oneKiloByte;
+  const SizeType oneGigaByte = 1024 * oneMegaByte;
+  const SizeType twoGigaBytes = 2 * oneGigaByte;
+
+  if ( this->GetImageSizeInBytes() > twoGigaBytes )
     {
-    // adding the 8 enable big tiff
+    // Adding the "8" option enables the use of big tiff
     mode = "w8";
     }
 
