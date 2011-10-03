@@ -27,6 +27,7 @@ itkImageRandomNonRepeatingIteratorWithIndexTest2.cxx
 itkImageSliceIteratorTest.cxx
 itkTreeContainerTest2.cxx
 itkTriangleCellTest.cxx
+itkQuadrilateralCellTest.cxx
 itkRGBPixelTest.cxx
 itkLightObjectTest.cxx
 itkBoundingBoxTest.cxx
@@ -323,6 +324,7 @@ itk_add_test(NAME itkRealTimeClockTest COMMAND ITKCommon1TestDriver itkRealTimeC
 itk_add_test(NAME itkRealTimeStampTest COMMAND ITKCommon1TestDriver itkRealTimeStampTest)
 itk_add_test(NAME itkRealTimeIntervalTest COMMAND ITKCommon1TestDriver itkRealTimeIntervalTest)
 itk_add_test(NAME itkTriangleCellTest COMMAND ITKCommon1TestDriver itkTriangleCellTest)
+itk_add_test(NAME itkQuadrilateralCellTest COMMAND ITKCommon1TestDriver itkQuadrilateralCellTest)
 itk_add_test(NAME itkRGBPixelTest COMMAND ITKCommon1TestDriver itkRGBPixelTest)
 itk_add_test(NAME itkSparseImageTest COMMAND ITKCommon1TestDriver itkSparseImageTest)
 itk_add_test(NAME itkSimpleFilterWatcherTest COMMAND ITKCommon1TestDriver itkSimpleFilterWatcherTest)

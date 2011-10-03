@@ -94,6 +94,14 @@ public:
   virtual bool GetVertex(CellFeatureIdentifier, VertexAutoPointer &);
   virtual bool GetEdge(CellFeatureIdentifier, EdgeAutoPointer &);
 
+  /** Evaluate the position inside the cell */
+  virtual bool EvaluatePosition(CoordRepType *,
+                                PointsContainer *,
+                                CoordRepType *,
+                                CoordRepType[],
+                                double *,
+                                InterpolationWeightType *);
+
   /** Visitor interface */
   itkCellVisitMacro(Superclass::QUADRILATERAL_CELL);
 
@@ -110,6 +118,11 @@ public:
 protected:
   /** Store the number of points needed for a quadrilateral. */
   PointIdentifier m_PointIds[NumberOfPoints];
+
+  void InterpolationDerivs(CoordRepType pcoords[2], CoordRepType derivs[8]);
+  void InterpolationFunctions(CoordRepType pcoords[2], InterpolationWeightType sf[4]);
+  void EvaluateLocation(int &itkNotUsed(subId), PointsContainer * points, CoordRepType pcoords[2],
+                        CoordRepType x[2], InterpolationWeightType * weights);
 private:
   QuadrilateralCell(const Self &); //purposely not implemented
   void operator=(const Self &);    //purposely not implemented
