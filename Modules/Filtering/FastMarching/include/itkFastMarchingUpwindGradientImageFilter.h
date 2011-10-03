@@ -181,6 +181,8 @@ public:
   /** Begin concept checking */
   itkConceptMacro( LevelSetDoubleDivisionOperatorsCheck,
                    ( Concept::DivisionOperators< typename TLevelSet::PixelType, double > ) );
+  itkConceptMacro( LevelSetDoubleDivisionAndAssignOperatorsCheck,
+                   ( Concept::DivisionAndAssignOperators< typename TLevelSet::PixelType, double > ) );
   /** End concept checking */
 #endif
 protected:

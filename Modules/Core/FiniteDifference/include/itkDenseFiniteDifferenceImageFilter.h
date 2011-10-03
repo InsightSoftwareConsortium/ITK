@@ -107,6 +107,8 @@ public:
                    ( Concept::MultiplyOperator< PixelType, double > ) );
   itkConceptMacro( OutputAdditiveOperatorsCheck,
                    ( Concept::AdditiveOperators< PixelType > ) );
+  itkConceptMacro( OutputAdditiveAndAssignOperatorsCheck,
+                   ( Concept::AdditiveAndAssignOperators< PixelType > ) );
   itkConceptMacro( InputConvertibleToOutputCheck,
                    ( Concept::Convertible< typename TInputImage::PixelType, PixelType > ) );
   /** End concept checking */

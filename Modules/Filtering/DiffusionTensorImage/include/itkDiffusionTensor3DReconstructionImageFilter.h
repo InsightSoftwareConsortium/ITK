@@ -266,6 +266,10 @@ public:
   itkConceptMacro( GradientReferenceAdditiveOperatorsCheck,
                    ( Concept::AdditiveOperators< GradientPixelType, GradientPixelType,
                                                  ReferencePixelType > ) );
+  itkConceptMacro( GradientReferenceAdditiveAndAssignOperatorsCheck,
+                   ( Concept::AdditiveAndAssignOperators< GradientPixelType,
+                                                          ReferencePixelType > ) );
+
   itkConceptMacro( ReferenceOStreamWritableCheck,
                    ( Concept::OStreamWritable< ReferencePixelType > ) );
   itkConceptMacro( TensorOStreamWritableCheck,

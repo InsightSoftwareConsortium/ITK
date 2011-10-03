@@ -289,7 +289,7 @@ struct Comparable {
   itkConceptConstraintsMacro();
 };
 
-/** Concept requiring T1 to have operators +, -, +=, -= in the form
+/** Concept requiring T1 to have operators +, -, in the form
     T1 op T2 = T3.  */
 template< typename T1, typename T2 = T1, typename T3 = T1 >
 struct AdditiveOperators {
@@ -298,8 +298,6 @@ struct AdditiveOperators {
     {
       a = static_cast< T3 >( b + c );
       a = static_cast< T3 >( b - c );
-      a += static_cast< T3 >( c );
-      a -= static_cast< T3 >( c );
       const_constraints(b, c);
     }
 
@@ -307,13 +305,37 @@ struct AdditiveOperators {
     {
       a = static_cast< T3 >( d + e );
       a = static_cast< T3 >( d - e );
-      a += static_cast< T3 >( e );
-      a -= static_cast< T3 >( e );
     }
 
     T3 a;
     T1 b;
     T2 c;
+  };
+
+  itkConceptConstraintsMacro();
+};
+
+
+/** Concept requiring T1 to have operators +=, -= in the form
+    T2 op= T1.  */
+template< typename T1, typename T2 = T1>
+struct AdditiveAndAssignOperators {
+  struct Constraints {
+    void constraints()
+    {
+      a += c;
+      a -= c;
+      const_constraints(c);
+    }
+
+    void const_constraints(const T1 & d)
+    {
+      a += d;
+      a -= d;
+    }
+
+    T2 a;
+    T1 c;
   };
 
   itkConceptConstraintsMacro();
@@ -347,13 +369,13 @@ struct MultiplyAndAssignOperator {
   struct Constraints {
     void constraints()
     {
-      a *= static_cast< T2 >( b );
+      a *= b;
       const_constraints(b);
     }
 
     void const_constraints(const T1 & d)
     {
-      a *= static_cast< T2 >( d );
+      a *= d;
     }
 
     T2 a;
@@ -363,21 +385,19 @@ struct MultiplyAndAssignOperator {
   itkConceptConstraintsMacro();
 };
 
-/** Concept requiring T to have operators / and /= in the form T1 op T2 = T3. */
+/** Concept requiring T to have operators / the form T1 op T2 = T3. */
 template< typename T1, typename T2 = T1, typename T3 = T1 >
 struct DivisionOperators {
   struct Constraints {
     void constraints()
     {
       a = static_cast< T3 >( b / c );
-      a /= c;
       const_constraints(b, c);
     }
 
     void const_constraints(const T1 & d, const T2 & e)
     {
       a = static_cast< T3 >( d / e );
-      a /= e;
     }
 
     T3 a;
@@ -387,6 +407,30 @@ struct DivisionOperators {
 
   itkConceptConstraintsMacro();
 };
+
+
+/** Concept requiring T to have operators /= in the form T2 op= T1. */
+template< typename T1, typename T2 = T1 >
+struct DivisionAndAssignOperators {
+  struct Constraints {
+    void constraints()
+    {
+      a /= c;
+      const_constraints(c);
+    }
+
+    void const_constraints(const T1 & d)
+    {
+      a /= d;
+    }
+
+    T1 c;
+    T2 a;
+  };
+
+  itkConceptConstraintsMacro();
+};
+
 
 /** Concept requiring T1 to have operators &, |, and ^ in the form
     T1 op T2 = T3.  */
