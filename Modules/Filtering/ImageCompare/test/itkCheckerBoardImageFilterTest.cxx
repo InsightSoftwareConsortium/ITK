@@ -131,17 +131,6 @@ int itkCheckerBoardImageFilterTest(int, char* [] )
   // Execute the filter
   filter->Update();
 
-  // Create an iterator for going through the image output
-  myIteratorType it3(outputImage, outputImage->GetBufferedRegion());
-
-  //  Print the content of the result image
-  std::cout << " Result " << std::endl;
-  while( !it3.IsAtEnd() )
-    {
-    std::cout << it3.Get() << std::endl;
-    ++it3;
-    }
-
   // Exercise the GetCheckerPattern() method
   myPatternArrayType pattern2 = filter->GetCheckerPattern();
 

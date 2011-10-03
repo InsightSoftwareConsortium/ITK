@@ -139,32 +139,22 @@ int itkSampleToHistogramFilterTest5(int argc, char *argv[] )
 
   typedef itk::NumericTraits< VMeasurementType >::PrintType    PrintType;
 
+  unsigned int count = 0;
   while( histogramItr != histogramEnd )
     {
     if( histogramItr.GetFrequency() != 0 )
       {
-      MeasurementVectorType measurementVector = histogramItr.GetMeasurementVector();
-      std::cout << static_cast< PrintType >( measurementVector[0] ) << "  ";
-      std::cout << static_cast< PrintType >( measurementVector[1] ) << "  ";
-      std::cout << static_cast< PrintType >( measurementVector[2] ) << "  ";
-      std::cout << histogramItr.GetFrequency() << std::endl;
+      count++;
+      if (count % 1000)
+        {
+        MeasurementVectorType measurementVector = histogramItr.GetMeasurementVector();
+        std::cout << static_cast< PrintType >( measurementVector[0] ) << "  ";
+        std::cout << static_cast< PrintType >( measurementVector[1] ) << "  ";
+        std::cout << static_cast< PrintType >( measurementVector[2] ) << "  ";
+        std::cout << "frequency: " << histogramItr.GetFrequency() << std::endl;
+        }
       }
     ++histogramItr;
-    }
-
-
-  SampleType::ConstPointer sample = imageToSampleFilter->GetOutput();
-
-  SampleType::ConstIterator itr = sample->Begin();
-  SampleType::ConstIterator end = sample->End();
-
-  while( itr != end )
-    {
-    PixelType pixel = itr.GetMeasurementVector();
-    std::cout << static_cast< PrintType >( pixel[0] ) << "  ";
-    std::cout << static_cast< PrintType >( pixel[1] ) << "  ";
-    std::cout << static_cast< PrintType >( pixel[2] ) << std::endl;
-    ++itr;
     }
 
   std::cout << "Test passed." << std::endl;
