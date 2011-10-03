@@ -121,9 +121,6 @@ template<class T> void CheckTraits(const char *name, T t)
 
 int itkNumericTraitsTest(int, char* [] )
 {
-  // Preserve valuable output regardless of the limits set in
-  // CMake/CTestCustom.cmake
-  std::cout << "CTEST_FULL_OUTPUT\n";
   CheckTraits("char", static_cast<char>(0));
   CheckTraits("signed char", static_cast<signed char>(0));
   CheckTraits("unsigned char", static_cast<unsigned char>(0));

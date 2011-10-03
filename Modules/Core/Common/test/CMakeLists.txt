@@ -305,7 +305,7 @@ itk_add_test(NAME itkNeighborhoodIteratorTest COMMAND ITKCommon2TestDriver itkNe
 itk_add_test(NAME itkNeighborhoodOperatorTest COMMAND ITKCommon1TestDriver itkNeighborhoodOperatorTest)
 itk_add_test(NAME itkNewTest COMMAND ITKCommon1TestDriver itkNewTest)
 itk_add_test(NAME itkNumericsTest COMMAND ITKCommon1TestDriver itkNumericsTest)
-itk_add_test(NAME itkNumericTraitsTest COMMAND ITKCommon1TestDriver itkNumericTraitsTest)
+itk_add_test(NAME itkNumericTraitsTest COMMAND  ITKCommon1TestDriver --full-output itkNumericTraitsTest)
 itk_add_test(NAME itkIntTypesTest COMMAND ITKCommon1TestDriver itkIntTypesTest)
 itk_add_test(NAME itkOctreeTest COMMAND ITKCommon2TestDriver itkOctreeTest)
 
