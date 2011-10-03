@@ -41,6 +41,9 @@ void itkSystemInformationPrintFile(const char* name, std::ostream& os)
 {
   const char* div =
     "=======================================================================";
+  // Preserve valuable output regardless of the limits set in
+  // CMake/CTestCustom.cmake
+  os << "CTEST_FULL_OUTPUT\n";
   os << "System Information File \"" << name << "\"";
   struct stat fs;
   if(stat(name, &fs) != 0)
