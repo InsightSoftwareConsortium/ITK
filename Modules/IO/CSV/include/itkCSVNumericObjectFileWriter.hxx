@@ -171,7 +171,7 @@ CSVNumericObjectFileWriter<TValueType,NRows,NColumns>
         outputStream << this->m_ColumnHeaders[i];
         if ( i < this->m_ColumnHeaders.size() - 1 )
           {
-          outputStream << this->m_FieldDelimiterCharacter ;
+          outputStream << this->m_FieldDelimiterCharacter;
           }
         }
       outputStream << std::endl;

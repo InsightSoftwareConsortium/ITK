@@ -49,9 +49,6 @@ GradientDescentObjectOptimizer
  os << indent << "Learning rate:" << this->m_LearningRate << std::endl;
 }
 
-
-
-
 /**
  * Start and run the optimization
  */

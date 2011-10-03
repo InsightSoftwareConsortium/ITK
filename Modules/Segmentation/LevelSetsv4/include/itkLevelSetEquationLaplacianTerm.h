@@ -70,7 +70,7 @@ public:
   typedef typename Superclass::LevelSetHessianType        LevelSetHessianType;
   typedef typename Superclass::LevelSetIdentifierType     LevelSetIdentifierType;
 
-  typedef typename Superclass::HeavisideType    HeavisideType;
+  typedef typename Superclass::HeavisideType         HeavisideType;
   typedef typename Superclass::HeavisideConstPointer HeavisideConstPointer;
 
   typedef typename Superclass::LevelSetDataType LevelSetDataType;

@@ -15,4 +15,5 @@
 <EmptyLines>2</EmptyLines>
 <Template>[TNV]</Template>
 <Operator>1,1</Operator>
+<Header>Utilities/KWStyle/ITKHeader.h,false,true</Header>
 </Description>
