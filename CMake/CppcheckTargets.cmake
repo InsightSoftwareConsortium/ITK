@@ -121,7 +121,7 @@ function(add_cppcheck_dir _name _dir _include_dirs)
 
     if("${CMAKE_VERSION}" VERSION_LESS "2.8.0")
       # Older than CMake 2.8.0
-      add_test(${_name}_cppcheck_test
+      itk_add_test(${_name}_cppcheck_test
         "${CPPCHECK_EXECUTABLE}"
         ${CPPCHECK_TEMPLATE_ARG}
         ${_cppcheck_args}
@@ -130,7 +130,7 @@ function(add_cppcheck_dir _name _dir _include_dirs)
         )
     else()
       # CMake 2.8.0 and newer
-      add_test(
+      itk_add_test(
         NAME
           ${_name}_cppcheck_test
         COMMAND
@@ -225,7 +225,7 @@ function(add_cppcheck_sources _targetname)
 
     if("${CMAKE_VERSION}" VERSION_LESS "2.8.0")
       # Older than CMake 2.8.0
-      add_test(${_targetname}_cppcheck_test
+      itk_add_test(${_targetname}_cppcheck_test
         "${CPPCHECK_EXECUTABLE}"
         ${CPPCHECK_TEMPLATE_ARG}
         ${_cppcheck_args}
@@ -233,7 +233,7 @@ function(add_cppcheck_sources _targetname)
         ${_files})
     else()
       # CMake 2.8.0 and newer
-      add_test(
+      itk_add_test(
         NAME
           ${_targetname}_cppcheck_test
         COMMAND
@@ -314,7 +314,7 @@ function(add_cppcheck _name)
 
     if("${CMAKE_VERSION}" VERSION_LESS "2.8.0")
        # Older than CMake 2.8.0
-      add_test(${_name}_cppcheck_test
+      itk_add_test(${_name}_cppcheck_test
          "${CPPCHECK_EXECUTABLE}"
          ${CPPCHECK_TEMPLATE_ARG}
          ${_cppcheck_args}
@@ -322,7 +322,7 @@ function(add_cppcheck _name)
          ${_files})
       else()
         # CMake 2.8.0 and newer
-        add_test(
+        itk_add_test(
           NAME
             ${_name}_cppcheck_test
           COMMAND

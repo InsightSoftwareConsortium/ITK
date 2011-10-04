@@ -27,7 +27,7 @@
 #include "itkNearestNeighborExtrapolateImageFunction.h"
 
 /* Further testing of itkResampleImageFilter
- * Output is compared with baseline image using the cmake add_test
+ * Output is compared with baseline image using the cmake itk_add_test
  * '--compare' option.
  */
 

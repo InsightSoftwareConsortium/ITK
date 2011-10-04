@@ -46,9 +46,11 @@ class Array:public vnl_vector< TValueType >
 public:
 
   /** The element type stored at each location in the Array. */
-  typedef TValueType               ValueType;
-  typedef Array                    Self;
-  typedef vnl_vector< TValueType > VnlVectorType;
+  typedef TValueType                     ValueType;
+  typedef Array                          Self;
+  typedef vnl_vector< TValueType >       VnlVectorType;
+  typedef typename vnl_vector< TValueType>::size_type  SizeValueType;
+
 public:
 
   /** Default constructor. It is created with an empty array
@@ -60,7 +62,7 @@ public:
   Array(const Array&);
 
   /** Constructor with size. Size can only be changed by assignment */
-  explicit Array(unsigned int dimension);
+  explicit Array(SizeValueType dimension);
 
   /** Constructor that initializes array with contents from a user supplied
    * buffer. The pointer to the buffer and the length is specified. By default,
@@ -68,7 +70,7 @@ public:
    * that location and it is the user's responsibility to delete it.
    * If "LetArrayManageMemory" is true, then this class will free the
    * memory when this object is destroyed. */
-  Array(ValueType *data, unsigned int sz, bool LetArrayManageMemory = false);
+  Array(ValueType *data, SizeValueType sz, bool LetArrayManageMemory = false);
 
   /** Constructor that initializes array with contents from a user supplied
    * buffer. The pointer to the buffer and the length is specified. By default,
@@ -76,7 +78,7 @@ public:
    * that location and it is the user's responsibility to delete it.
    * If "LetArrayManageMemory" is true, then this class will free the
    * memory when this object is destroyed. */
-  Array(const ValueType *data, unsigned int sz,
+  Array(const ValueType *data, SizeValueType sz,
         bool LetArrayManageMemory = false);
 
   /** Constructor to initialize an array from another of any data type */
@@ -85,7 +87,7 @@ public:
   {
     this->m_LetArrayManageMemory = true;
     this->SetSize( r.GetSize() );
-    for( unsigned int i=0; i<r.GetSize(); i++ )
+    for( SizeValueType i=0; i<r.GetSize(); i++ )
       {
       this->operator[](i) = static_cast< TValueType >( r[i] );
       }
@@ -100,24 +102,24 @@ public:
   const Self & operator=(const VnlVectorType & rhs);
 
   /** Return the number of elements in the Array  */
-  unsigned int Size(void) const
-  { return static_cast< unsigned int >( this->size() ); }
+  SizeValueType Size(void) const
+  { return static_cast<SizeValueType >( this->size() ); }
   unsigned int GetNumberOfElements(void) const
-  { return static_cast< unsigned int >( this->size() ); }
+  { return static_cast<SizeValueType >( this->size() ); }
 
   /** Get one element */
-  const TValueType & GetElement(unsigned int i) const
+  const TValueType & GetElement(SizeValueType i) const
   { return this->operator[](i); }
 
   /** Set one element */
-  void SetElement(unsigned int i, const TValueType & value)
+  void SetElement(SizeValueType i, const TValueType & value)
   { this->operator[](i) = value; }
 
   /** Destructively set the size to that given.  Will lose data.  */
-  void SetSize(unsigned int sz);
+  void SetSize(SizeValueType sz);
 
-  unsigned int GetSize(void) const
-  { return static_cast< unsigned int >( this->size() ); }
+  SizeValueType GetSize(void) const
+  { return static_cast< SizeValueType >( this->size() ); }
 
   /** Set the pointer from which the data is imported.
    * If "LetArrayManageMemory" is false, then the application retains
@@ -135,7 +137,7 @@ public:
    * the responsibility of freeing the memory for this data.  If
    * "LetArrayManageMemory" is true, then this class will free the
    * memory when this object is destroyed. */
-  void SetData(TValueType *data, unsigned int sz,
+  void SetData(TValueType *data, SizeValueType sz,
                bool LetArrayManageMemory = false);
 
   /** This destructor is not virtual for performance reasons. However, this

@@ -35,11 +35,12 @@ class TransformParameters : public Array< TValueType >
 public:
 
   /** The element type stored at each location in the Array. */
-  typedef TValueType                          ValueType;
-  typedef TransformParameters                 Self;
-  typedef Array< TValueType >                 Superclass;
-  typedef Superclass                          ArrayType;
-  typedef typename Superclass::VnlVectorType  VnlVectorType;
+  typedef TValueType                               ValueType;
+  typedef TransformParameters                      Self;
+  typedef Array< TValueType >                      Superclass;
+  typedef Superclass                               ArrayType;
+  typedef typename Superclass::VnlVectorType       VnlVectorType;
+  typedef typename Superclass::SizeValueType       SizeValueType;
 
   /** Helper class for managing different types of parameter
    * data. */
@@ -57,7 +58,7 @@ public:
   TransformParameters(const TransformParameters& rhs);
 
   /** Constructor with size. Size can only be changed by assignment */
-  explicit TransformParameters(unsigned int dimension);
+  explicit TransformParameters(SizeValueType  dimension);
 
   /** Constructor with Array assignment */
   TransformParameters( const ArrayType& array );

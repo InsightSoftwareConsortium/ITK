@@ -29,7 +29,7 @@
 /* Further testing of itkResampleImageFilter
  * Test that ResampleImageFilter can handle a ReferenceImage with
  * meta information that differs from the input imake.
- * Output is compared with baseline image using the cmake add_test
+ * Output is compared with baseline image using the cmake itk_add_test
  * '--compare' option.
  */
 
