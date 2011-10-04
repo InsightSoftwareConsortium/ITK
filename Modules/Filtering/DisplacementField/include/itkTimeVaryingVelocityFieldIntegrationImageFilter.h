@@ -30,10 +30,12 @@ namespace itk
  *
  * Diffeomorphisms are topology-preserving mappings that are useful for
  * describing biologically plausible deformations.  Mathematically, a
- * diffeomorphism, \phi, is generated from a time-varying velocity field, v, as
+ * diffeomorphism, \f$ \phi \f$, is generated from a time-varying velocity field, v, as
  * described by the integral equation:
  *
+ * \f[
  * \phi(t_b) = \phi(t_a) + \int_t_a^t_b v(\phi(t),t) dt
+ * \f]
  *
  * In this class, the input is the time-varying velocity field and an initial
  * diffeomorophism.  The output diffeomorphism is produced using fourth order
@@ -46,10 +48,6 @@ namespace itk
  * \author Brian Avants
  *
  * \ingroup ITKDisplacementField
- *
- * \wiki
- * \wikiexample{}
- * \endwiki
  */
 template<class TTimeVaryingVelocityField, class TDisplacementField =
  Image<typename TTimeVaryingVelocityField::PixelType,

@@ -31,7 +31,7 @@
 namespace itk
 {
 
-/** \class ManifoldParzenWindowsPointSetFunction.h
+/** \class ManifoldParzenWindowsPointSetFunction
  * \brief Point set function based on n-dimensional parzen windowing.
  *
  * This class allows evaluating a function derived from a point set
@@ -41,7 +41,6 @@ namespace itk
  *
  * \ingroup ITKHighDimensionalMetrics
  */
-
 template <class TPointSet, class TOutput = double, class TCoordRep = double>
 class ITK_EXPORT ManifoldParzenWindowsPointSetFunction
 : public PointSetFunction<TPointSet, TOutput, TCoordRep>
