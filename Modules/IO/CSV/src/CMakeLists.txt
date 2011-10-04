@@ -3,5 +3,5 @@ itkCSVFileReaderBase.cxx
 )
 
 add_library(ITKIOCSV ${ITKIOCSV_SRC})
-target_link_libraries(ITKIOCSV  ${ITKIOBase_LIBRARIES})
+target_link_libraries(ITKIOCSV  ${ITKIOImageBase_LIBRARIES})
 itk_module_target(ITKIOCSV)

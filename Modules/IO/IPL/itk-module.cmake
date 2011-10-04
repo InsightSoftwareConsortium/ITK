@@ -3,7 +3,7 @@ IO modules.")
 
 itk_module(ITKIOIPL
   DEPENDS
-    ITKIOBase
+    ITKIOImageBase
   TEST_DEPENDS
     ITKTestKernel
   DESCRIPTION

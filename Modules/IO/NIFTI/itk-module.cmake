@@ -4,7 +4,7 @@ set(DOCUMENTATION "This modules contains an ImageIO class to read or write the
 itk_module(ITKIONIFTI
   DEPENDS
     ITKNIFTI
-    ITKIOBase
+    ITKIOImageBase
   TEST_DEPENDS
     ITKTestKernel
     ITKTransform

@@ -1,0 +1,16 @@
+set(ITKIOTransform_SRC
+itkHDF5TransformIO.cxx
+itkHDF5TransformIOFactory.cxx
+itkMatlabTransformIO.cxx
+itkMatlabTransformIOFactory.cxx
+itkTransformFileReader.cxx
+itkTransformFileWriter.cxx
+itkTransformIOBase.cxx
+itkTransformIOFactory.cxx
+itkTxtTransformIO.cxx
+itkTxtTransformIOFactory.cxx
+)
+
+add_library(ITKIOTransform ${ITKIOTransform_SRC})
+target_link_libraries(ITKIOTransform ${ITKHDF5_LIBRARIES} ${ITKTransform_LIBRARIES})
+itk_module_target(ITKIOTransform)

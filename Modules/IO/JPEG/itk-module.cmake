@@ -4,7 +4,7 @@ writing files in the JPEG format.")
 itk_module(ITKIOJPEG
   DEPENDS
     ITKJPEG
-    ITKIOBase
+    ITKIOImageBase
   TEST_DEPENDS
     ITKTestKernel
   DESCRIPTION

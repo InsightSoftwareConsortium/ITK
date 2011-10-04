@@ -1,6 +1,6 @@
 itk_module(ITKIOCSV
   DEPENDS
-    ITKIOBase
+    ITKIOImageBase
   TEST_DEPENDS
     ITKTestKernel
 )

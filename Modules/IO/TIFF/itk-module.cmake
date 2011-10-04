@@ -4,7 +4,7 @@ files in the Tagged Image File Format (TIFF).")
 itk_module(ITKIOTIFF
   DEPENDS
     ITKTIFF
-    ITKIOBase
+    ITKIOImageBase
   TEST_DEPENDS
     ITKTestKernel
   DESCRIPTION

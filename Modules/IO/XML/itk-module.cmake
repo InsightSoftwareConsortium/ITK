@@ -4,7 +4,7 @@ files with the expat library.")
 itk_module(ITKIOXML
   DEPENDS
     ITKExpat
-    ITKIOBase
+    ITKIOImageBase
   TEST_DEPENDS
     ITKTestKernel
   DESCRIPTION

@@ -4,5 +4,5 @@ itkVTKImageIO.cxx
 )
 
 add_library(ITKIOVTK ${ITKIOVTK_SRC})
-target_link_libraries(ITKIOVTK  ${ITKIOBase_LIBRARIES})
+target_link_libraries(ITKIOVTK  ${ITKIOImageBase_LIBRARIES})
 itk_module_target(ITKIOVTK)

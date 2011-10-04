@@ -32,7 +32,7 @@ itk_module(ITKIntegratedTest
     ITKImageIntensity
     ITKImageLabel
     ITKImageStatistics
-    ITKIOBase
+    ITKIOImageBase
     ITKIOBioRad
     ITKIOBMP
     ITKIOGDCM
@@ -47,6 +47,7 @@ itk_module(ITKIntegratedTest
     ITKIOPNG
     ITKIORAW
     ITKIOSiemens
+    ITKIOTransform
     ITKIOSpatialObjects
     ITKIOStimulate
     ITKIOTIFF
@@ -74,7 +75,6 @@ itk_module(ITKIntegratedTest
     ITKSpatialObjects
     ITKStatistics
     ITKThresholding
-    ITKTransform
     ITKVoronoi
     ITKVTK
     ITKWatersheds
