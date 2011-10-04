@@ -54,8 +54,6 @@ static bool RunTest(const TRegion & region, const TRegion & exclusionRegion)
   const unsigned char normalRegionValue    = 100;
   const unsigned char exclusionRegionValue = 200;
 
-  std::cout << "Initializing an image of indices and an image of values" << std::endl;
-
   // Initialize the Image
   IndexIteratorType ii( myIndexImage, region );
   ValueIteratorType iv( myValueImage, region );
@@ -71,7 +69,6 @@ static bool RunTest(const TRegion & region, const TRegion & exclusionRegion)
     ++iv;
     }
 
-  std::cout << "Initializing the exclusion region on the image of values " << std::endl;
   // Set a different value inside the exclusion region
   TRegion croppedExclusionRegion( exclusionRegion );
   if ( !croppedExclusionRegion.Crop( region ) )
@@ -95,7 +92,6 @@ static bool RunTest(const TRegion & region, const TRegion & exclusionRegion)
     ++ive;
     }
 
-  std::cout << "Starting walk with the exclusion iterator... ";
   typedef itk::ImageRegionExclusionIteratorWithIndex< IndexImageType > ExclusionIndexIteratorType;
   typedef itk::ImageRegionExclusionIteratorWithIndex< ValueImageType > ExclusionValueIteratorType;
 
@@ -141,9 +137,6 @@ static bool RunTest(const TRegion & region, const TRegion & exclusionRegion)
     std::cout << pixelsToVisit << std::endl;
     return false;
     }
-  std::cout << " Ok ! " << std::endl;
-
-  std::cout << "Testing the iterator backwards... ";
 
   numberOfPixelsVisited = 0;
   ev.GoToReverseBegin();
@@ -178,10 +171,7 @@ static bool RunTest(const TRegion & region, const TRegion & exclusionRegion)
     std::cout << pixelsToVisit << std::endl;
     return false;
     }
-  std::cout << " Ok ! " << std::endl;
 
-
-  std::cout << "Starting walk with the exclusion Const iterator... ";
   typedef itk::ImageRegionExclusionConstIteratorWithIndex< IndexImageType > ExclusionIndexConstIteratorType;
   typedef itk::ImageRegionExclusionConstIteratorWithIndex< ValueImageType > ExclusionValueConstIteratorType;
 
@@ -225,9 +215,6 @@ static bool RunTest(const TRegion & region, const TRegion & exclusionRegion)
     std::cout << pixelsToVisit << std::endl;
     return false;
     }
-  std::cout << " Ok ! " << std::endl;
-
-  std::cout << "Testing the Const iterator backwards... ";
 
   numberOfPixelsVisited = 0;
   cev.GoToReverseBegin();
@@ -262,9 +249,6 @@ static bool RunTest(const TRegion & region, const TRegion & exclusionRegion)
     std::cout << pixelsToVisit << std::endl;
     return false;
     }
-  std::cout << " Ok ! " << std::endl;
-
-  std::cout << "Test PASSED ! " << std::endl;
 
   return true;
 }
@@ -308,7 +292,6 @@ int itkImageRegionExclusionIteratorWithIndexTest(int, char* [] )
 
           RegionType exclusionRegion( exclusionStart, exclusionSize );
 
-          std::cout << "Starting test " << count << "..." << std::endl;
           count++;
 
           if ( !RunTest( region, exclusionRegion ) )
@@ -327,8 +310,6 @@ int itkImageRegionExclusionIteratorWithIndexTest(int, char* [] )
   SizeType exclusionSize;
   exclusionSize.Fill( 2 );
   RegionType exclusionRegion( exclusionStart, exclusionSize );
-
-  std::cout << "Starting test " << count << "..." << std::endl;
 
   if ( !RunTest( region, exclusionRegion ) )
     {
