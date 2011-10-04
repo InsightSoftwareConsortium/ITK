@@ -26,15 +26,18 @@
 #include "itkResampleImageFilter.h"
 #include "itkImageToImageFilter.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"
+#include "itkPointSet.h"
 
 namespace itk
 {
 
-//Forward-declare this because of module dependency conflict.
-//ImageToData will soon be moved to a different module, at which
+//Forward-declare these because of module dependency conflict.
+//They will soon be moved to a different module, at which
 // time this can be removed.
 template <unsigned int VDimension, class TDataHolder>
 class ImageToData;
+template <class TDataHolder>
+class Array1DToData;
 
 /** \class ImageToImageObjectMetric
  *
@@ -233,6 +236,23 @@ public:
   typedef typename MovingImageMaskType::ConstPointer
                                                    MovingImageMaskConstPointer;
 
+  /** Type of the point set used for sparse sampling. The user can pass
+   * an arbitrary point set to designate point for sampling. It's presumed that
+   * the user will be working in terms of the fixed image domain, and thus the
+   * sampling domain is the same. Internally, the points are transformed
+   * into the virtual domain as needed. */
+  typedef PointSet<typename FixedImageType::PixelType,
+                   itkGetStaticConstMacro(FixedImageDimension)>
+                                                     FixedSampledPointSetType;
+  typedef typename FixedSampledPointSetType::Pointer FixedSampledPointSetPointer;
+  typedef typename FixedSampledPointSetType::ConstPointer FixedSampledPointSetConstPointer;
+
+  typedef PointSet<typename VirtualImageType::PixelType,
+                   itkGetStaticConstMacro(VirtualImageDimension)>
+                                                     VirtualSampledPointSetType;
+
+  typedef typename VirtualSampledPointSetType::Pointer VirtualSampledPointSetPointer;
+
   /**  Type of the Interpolator Base class */
   typedef InterpolateImageFunction< FixedImageType,
                                     CoordinateRepresentationType >
@@ -365,7 +385,7 @@ public:
    * The image is expected to be allocated.
    * If the user does not set this explicitly then it is taken from the fixed
    * image in \c Initialize method. */
-  itkSetObjectMacro(VirtualDomainImage, VirtualImageType);
+  void SetVirtualDomainImage( VirtualImageType * virtualImage);
 
   /** Get the virtual domain image */
   itkGetConstObjectMacro(VirtualDomainImage, VirtualImageType);
@@ -415,6 +435,19 @@ public:
   itkSetObjectMacro(FixedImageMask, FixedImageMaskType);
   itkSetConstObjectMacro(FixedImageMask, FixedImageMaskType);
   itkGetConstObjectMacro(FixedImageMask, FixedImageMaskType);
+
+  /** Set/Get the fixed image domain sampling point set */
+  itkSetObjectMacro(FixedSampledPointSet, FixedSampledPointSetType);
+  itkSetConstObjectMacro(FixedSampledPointSet, FixedSampledPointSetType);
+  itkGetConstObjectMacro(FixedSampledPointSet, FixedSampledPointSetType);
+
+  /** Set/Get flag to use fixed image domain sampling point set */
+  itkSetMacro(UseFixedSampledPointSet, bool);
+  itkGetConstReferenceMacro(UseFixedSampledPointSet, bool);
+  itkBooleanMacro(UseFixedSampledPointSet);
+
+  /** Get the virtual domain sampling point set */
+  itkGetConstObjectMacro(VirtualSampledPointSet, VirtualSampledPointSetType);
 
   /** Set/Get the gradient filter */
   itkSetObjectMacro( FixedImageGradientFilter, FixedImageGradientFilterType );
@@ -522,6 +555,24 @@ public:
   virtual void Initialize(void) throw ( itk::ExceptionObject );
 
 protected:
+
+  /** \class SamplingIteratorHelper class
+   * \brief Simple helper class for working with both dense sampling via
+   * an image iterator, and sparse sampling for a point set.
+   * Fully-declared in defined in .hxx file.
+   *
+   * \ingroup ITKHighDimensionalMetrics
+   */
+  class SamplingIteratorHelper;
+
+  /* Worker method to iterate over an image sub region or list of sample
+   * points. It calculates fixed and moving point values and image derivatives
+   * and calls the derived class' user worker method to calculate
+   * value and derivative. */
+  void GetValueAndDerivativeProcessPointRange(
+                                      SamplingIteratorHelper & samplingIterator,
+                                      ThreadIdType threadID,
+                                      Self * self);
 
   /** Method to calculate the metric value and derivative
    * given a point, value and image derivative for both fixed and moving
@@ -715,9 +766,20 @@ protected:
    * calculation. */
   mutable SizeValueType                       m_NumberOfValidPoints;
 
+  /** Flag that is set when user provides a virtual domain, either via
+   * CreateVirtualDomainImage or SetVirtualDomainImage. */
+  bool                                        m_UserHasProvidedVirtualDomainImage;
+
   /** Masks */
   FixedImageMaskConstPointer                  m_FixedImageMask;
   MovingImageMaskConstPointer                 m_MovingImageMask;
+
+  /** Sampled point sets */
+  FixedSampledPointSetConstPointer            m_FixedSampledPointSet;
+  VirtualSampledPointSetPointer               m_VirtualSampledPointSet;
+
+  /** Flag to use FixedSampledPointSet */
+  bool                                        m_UseFixedSampledPointSet;
 
   /** Metric value, stored after evaluating */
   mutable MeasureType             m_Value;
@@ -760,22 +822,36 @@ protected:
    */
   virtual void GetValueAndDerivativeThreadedPostProcess( bool doAverage ) const;
 
-  /** Type of the default threader used for GetValue and GetDerivative.
+  /** Type of the default threader used for dense (full-image) evaulation
+   * in GetValue and GetDerivative.
    * This splits an image region in per-thread sub-regions over the outermost
    * image dimension. */
   typedef ImageToData<VirtualImageDimension, Self>
-                                             ValueAndDerivativeThreaderType;
-  typedef typename ValueAndDerivativeThreaderType::InputObjectType
-                                             ThreaderInputObjectType;
+                                             DenseValueAndDerivativeThreaderType;
+  typedef typename DenseValueAndDerivativeThreaderType::InputObjectType
+                                             DenseThreaderInputObjectType;
+
+  /** Type of the default threader used for sampled evaulation
+   * in GetValue and GetDerivative.
+   * This splits the list of sample points into equal blocks. */
+  typedef Array1DToData<Self> SampledValueAndDerivativeThreaderType;
+  typedef typename SampledValueAndDerivativeThreaderType::InputObjectType
+                                             SampledThreaderInputObjectType;
+  typedef typename SampledValueAndDerivativeThreaderType::InputObjectValueType
+                                             SampledThreaderInputObjectValueType;
 
   /* Optinally set the threader type to use. This performs the splitting of the
    * virtual region over threads, and user may wish to provide a different
    * one that does a different split. The default is ImageToData. */
-  itkSetObjectMacro(ValueAndDerivativeThreader,ValueAndDerivativeThreaderType);
+  itkSetObjectMacro(DenseValueAndDerivativeThreader,DenseValueAndDerivativeThreaderType);
 
-  /** Threader used to evaluate value and deriviative. */
-  typename ValueAndDerivativeThreaderType::Pointer
-                                              m_ValueAndDerivativeThreader;
+  /** Threader used for dense evaluation of value and deriviative. */
+  typename DenseValueAndDerivativeThreaderType::Pointer
+                                              m_DenseValueAndDerivativeThreader;
+
+  /** Threader used for sampled evaluation of value and deriviative. */
+  typename SampledValueAndDerivativeThreaderType::Pointer
+                                              m_SampledValueAndDerivativeThreader;
 
   /** Intermediary threaded metric value storage. */
   mutable std::vector<InternalComputationValueType>  m_MeasurePerThread;
@@ -785,7 +861,7 @@ protected:
 
   /** Pre-allocated transform jacobian objects, for use as needed by dervied
    * classes for efficiency. */
-  mutable std::vector<JacobianType>                  m_MovingTransformJacobianPerThread;
+  mutable std::vector<JacobianType>           m_MovingTransformJacobianPerThread;
 
   ImageToImageObjectMetric();
   virtual ~ImageToImageObjectMetric();
@@ -798,19 +874,25 @@ protected:
 
 private:
 
-  /** Multi-threader callback used to iterate over image region by thread,
-   * and call the derived class' user worker method to calculate
-   * value and derivative.
+  /** Multi-threader callback used to initiate processing over images.
    * If a derived class needs to implement its own callback to replace this,
    * define a static method with a different name, and assign it to the
    * threader in the class' constructor by calling
    * \c m_ValueAndDerivativeThreader->SetThreadedGenerateData( mycallback ) */
-  static void GetValueAndDerivativeThreadedCallback(
-                          const ThreaderInputObjectType& virtualImageSubRegion,
-                          ThreadIdType threadId,
-                          Self * dataHolder);
+  static void DenseGetValueAndDerivativeThreadedCallback(
+                        const DenseThreaderInputObjectType& virtualImageSubRegion,
+                        ThreadIdType threadId,
+                        Self * dataHolder);
+  static void SampledGetValueAndDerivativeThreadedCallback(
+                        const SampledThreaderInputObjectType& sampledRange,
+                        ThreadIdType threadId,
+                        Self * dataHolder);
 
-  /** Pre-warp the images for efficiency and computational stability. */
+  /** Map the fixed point set samples to the virtual domain */
+  void MapFixedSampledPointSetToVirtual( void );
+
+  /** Pre-warp the images for efficiency and computational stability.
+   * See main class documentation for important considerations. */
   void DoFixedImagePreWarp( void ) const;
   void DoMovingImagePreWarp( void ) const;
 

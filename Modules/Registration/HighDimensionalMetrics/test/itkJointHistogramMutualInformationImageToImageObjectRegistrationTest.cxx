@@ -45,9 +45,10 @@
 #include "itksys/SystemTools.hxx"
 #include "itkResampleImageFilter.h"
 
-//We need this as long as we have to define ImageToData as a fwd-declare
-// in itkImageToImageObjectMetric.h
+//FIXME We need these as long as we have to define ImageToData and
+// Array1DToData as a fwd-declare in itkImageToImageObjectMetric.h
 #include "itkImageToData.h"
+#include "itkArray1DToData.h"
 
 namespace{
 // The following class is used to support callbacks
@@ -88,6 +89,7 @@ int itkJointHistogramMutualInformationImageToImageObjectRegistrationTest(int arg
 
   std::cout << argc << std::endl;
   unsigned int numberOfIterations = 10;
+  unsigned int numberOfDisplacementIterations = 10;
   double learningRate = 0.1;
   double deformationLearningRate = 1;
   if( argc >= 5 )
@@ -98,9 +100,13 @@ int itkJointHistogramMutualInformationImageToImageObjectRegistrationTest(int arg
     {
     learningRate = atof( argv[5] );
     }
-  if( argc == 7 )
+  if( argc >= 7 )
     {
     deformationLearningRate = atof( argv[6] );
+    }
+  if( argc == 8 )
+    {
+    numberOfDisplacementIterations = atof( argv[7] );
     }
   std::cout << " iterations "<< numberOfIterations << " learningRate "<<learningRate << std::endl;
 
@@ -179,14 +185,42 @@ int itkJointHistogramMutualInformationImageToImageObjectRegistrationTest(int arg
 
   // The metric
   typedef itk::JointHistogramMutualInformationImageToImageObjectMetric
-    < FixedImageType, MovingImageType > MetricType;
+    < FixedImageType, MovingImageType >         MetricType;
+  typedef MetricType::FixedSampledPointSetType  PointSetType;
   MetricType::Pointer metric = MetricType::New();
   metric->SetNumberOfHistogramBins(20);
+  typedef PointSetType::PointType     PointType;
+  PointSetType::Pointer               pset(PointSetType::New());
+  unsigned long ind=0,ct=0;
+  itk::ImageRegionIteratorWithIndex<FixedImageType> It(fixedImage, fixedImage->GetLargestPossibleRegion() );
+  for( It.GoToBegin(); !It.IsAtEnd(); ++It )
+    {
+    // take every N^th point
+    if ( ct % 20 == 0  ) // about a factor of 5 speed-up over dense
+      {
+        PointType pt;
+        fixedImage->TransformIndexToPhysicalPoint( It.GetIndex(), pt);
+        pset->SetPoint(ind, pt);
+        ind++;
+      }
+      ct++;
+    }
+    // brief profiling notes on mutual information affine registration macbook air , mi using every 20th point for sparse
+    //  1 thread dense = 10 sec
+    //  2 thread dense = 7.5  sec
+    //  1 thread sparse = 2.2 sec
+    //  2 thread sparse = 1.8 sec
+    // this uses only 1500 points so it's probably not a great multi-thread test for the sparse case
+  std::cout << "Setting point set with " << ind << " points of " << fixedImage->GetLargestPossibleRegion().GetNumberOfPixels() << " total " << std::endl;
+  metric->SetFixedSampledPointSet( pset );
+  metric->SetUseFixedSampledPointSet( true );
+  std::cout << "Testing metric with point set..." << std::endl;
+
 
   // Assign images and transforms.
   // By not setting a virtual domain image or virtual domain settings,
   // the metric will use the fixed image for the virtual domain.
-  metric->SetVirtualDomainImage( fixedImage );
+//  metric->SetVirtualDomainImage( fixedImage );
   metric->SetFixedImage( fixedImage );
   metric->SetMovingImage( movingImage );
   metric->SetFixedTransform( identityTransform );
@@ -226,6 +260,7 @@ int itkJointHistogramMutualInformationImageToImageObjectRegistrationTest(int arg
   compositeTransform->SetAllTransformsToOptimizeOn(); //Set back to optimize all.
   compositeTransform->SetOnlyMostRecentTransformToOptimizeOn(); //set to optimize the displacement field
   metric->SetMovingTransform( compositeTransform );
+  metric->SetUseFixedSampledPointSet( false );
   metric->Initialize();
 
   // Optimizer
@@ -235,7 +270,7 @@ int itkJointHistogramMutualInformationImageToImageObjectRegistrationTest(int arg
   optimizer->SetMetric( metric );
   optimizer->SetLearningRate( deformationLearningRate );
   optimizer->SetScales( displacementScales );
-  optimizer->SetNumberOfIterations( numberOfIterations );
+  optimizer->SetNumberOfIterations( numberOfDisplacementIterations );
   try
     {
     optimizer->StartOptimization();
@@ -274,12 +309,12 @@ int itkJointHistogramMutualInformationImageToImageObjectRegistrationTest(int arg
   displacementwriter->Update();
 
   //write the warped image into a file
-  typedef double                              OutputPixelType;
-  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
+  typedef double                                    OutputPixelType;
+  typedef itk::Image< OutputPixelType, Dimension >  OutputImageType;
   typedef itk::CastImageFilter<
                         MovingImageType,
-                        OutputImageType >     CastFilterType;
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+                        OutputImageType >           CastFilterType;
+  typedef itk::ImageFileWriter< OutputImageType >   WriterType;
   WriterType::Pointer      writer =  WriterType::New();
   CastFilterType::Pointer  caster =  CastFilterType::New();
   writer->SetFileName( argv[3] );

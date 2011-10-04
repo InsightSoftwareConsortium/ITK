@@ -23,9 +23,10 @@
 #include "itkIntTypes.h"
 #include "itkTestingMacros.h"
 
-//We need this as long as we have to define ImageToData as a fwd-declare
-// in itkImageToImageObjectMetric.h
+//FIXME We need these as long as we have to define ImageToData and
+// Array1DToData as a fwd-declare in itkImageToImageObjectMetric.h
 #include "itkImageToData.h"
+#include "itkArray1DToData.h"
 
 /*
  * This test creates synthetic images and verifies numerical results
@@ -330,15 +331,6 @@ int ImageToImageObjectMetricTestRunSingleTest(
        itk::SizeValueType expectedNumberOfPoints,
        bool setTruthValues )
 {
-  std::cout << "Pre-warp image: fixed, moving: "
-            << metric->GetDoFixedImagePreWarp() << ", "
-            << metric->GetDoMovingImagePreWarp() << std::endl
-            << "Use gradient filter for: fixed, moving: "
-            << metric->GetUseFixedImageGradientFilter()
-            << ", "
-            << metric->GetUseMovingImageGradientFilter()
-            << std::endl;
-
   // Initialize.
   try
     {
@@ -415,7 +407,8 @@ int itkImageToImageObjectMetricTest(int, char ** const)
   bool origGlobalWarningValue = itk::Object::GetGlobalWarningDisplay();
   itk::Object::SetGlobalWarningDisplay( true );
 
-  const unsigned int imageSize = 10;
+  typedef unsigned int    DimensionSizeType;
+  const DimensionSizeType imageSize = 10;
 
   int result = EXIT_SUCCESS;
 
@@ -540,6 +533,15 @@ int itkImageToImageObjectMetricTest(int, char ** const)
                                 imageSize * imageSize, false )
                                                               != EXIT_SUCCESS )
               {
+              std::cout << "Failed for these settings: " << std::endl
+                        << "Pre-warp image: fixed, moving: "
+                        << metric->GetDoFixedImagePreWarp() << ", "
+                        << metric->GetDoMovingImagePreWarp() << std::endl
+                        << "Use gradient filter for: fixed, moving: "
+                        << metric->GetUseFixedImageGradientFilter()
+                        << ", "
+                        << metric->GetUseMovingImageGradientFilter()
+                        << "---------------------------------------" << std::endl;
               result = EXIT_FAILURE;
               }
             computeNewTruthValues = false;
@@ -613,7 +615,60 @@ int itkImageToImageObjectMetricTest(int, char ** const)
             << "fixed image:" << std::endl;
   TRY_EXPECT_EXCEPTION( metric->Initialize() );
 
+  //
+  // Test with sampled point-set
+  //
+  std::cout << "Testing with sampled point-set:" << std::endl;
+  fixedTransform->SetIdentity();
+  movingTransform->SetIdentity();
+  metric->SetMovingTransform( movingTransform );
+  metric->SetFixedTransform( fixedTransform );
+  metric->SetGradientSource(
+                ImageToImageObjectMetricTestMetricType::GRADIENT_SOURCE_BOTH );
+  metric->SetDoFixedImagePreWarp( false );
+  metric->SetDoMovingImagePreWarp( false );
+  metric->SetUseFixedImageGradientFilter( false );
+  metric->SetUseMovingImageGradientFilter( false );
+
+  // create a point set, size of image for basic testing
+  typedef ImageToImageObjectMetricTestMetricType::FixedImagePixelType
+    FixedImagePixelType;
+  typedef ImageToImageObjectMetricTestMetricType::FixedSampledPointSetType
+    PointSetType;
+
+  typedef PointSetType::PointType     PointType;
+  PointSetType::CoordRepType          testPointCoords[2];
+  PointSetType::Pointer               pset(PointSetType::New());
+
+  std::cout << "Creating point set..." << std::endl;
+  DimensionSizeType ind = 0;
+  for( DimensionSizeType i=0; i < imageSize; i++ )
+    {
+    for( DimensionSizeType j=0; j < imageSize; j++ )
+      {
+      testPointCoords[0] = i;
+      testPointCoords[1] = j;
+      pset->SetPoint(ind, PointType(testPointCoords));
+      ind++;
+      }
+    }
+
+  std::cout << "Setting point set..." << std::endl;
+  metric->SetFixedSampledPointSet( pset );
+  metric->SetUseFixedSampledPointSet( true );
+  std::cout << "Testing metric outpute..." << std::endl;
+  ImageToImageObjectMetricTestComputeIdentityTruthValues(
+                                                metric, fixedImage, movingImage,
+                                                truthValue, truthDerivative );
+  if( ImageToImageObjectMetricTestRunSingleTest( metric,
+                      truthValue, truthDerivative,
+                      imageSize * imageSize, false ) != EXIT_SUCCESS )
+    {
+    result = EXIT_FAILURE;
+    }
+
   //exercise PrintSelf
+  std::cout << std::endl << "PrintSelf: " << std::cout;
   metric->Print( std::cout );
 
   itk::Object::SetGlobalWarningDisplay( origGlobalWarningValue );

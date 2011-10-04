@@ -77,7 +77,8 @@ public:
   typedef Index<2>                              IndexRangeType;
 
   /** Type for convenience of base class methods */
-  typedef typename Superclass::InputObjectType  InputObjectType;
+  typedef typename Superclass::InputObjectType    InputObjectType;
+  typedef typename IndexRangeType::IndexValueType InputObjectValueType;
 
   /** Set the overall index range over which to operate.
    * This performs some error checking and is named more intuitively

@@ -271,59 +271,74 @@ JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage,TMovingImage
     ItV( this->GetVirtualDomainImage(), this->GetVirtualDomainRegion() );
 
   typename Superclass::VirtualPointType            virtualPoint;
+  typename Superclass::VirtualIndexType            virtualIndex;
   typename Superclass::FixedOutputPointType        mappedFixedPoint;
   typename Superclass::FixedImagePixelType         fixedImageValue;
   FixedImageGradientType   fixedImageGradients;
   typename Superclass::MovingOutputPointType       mappedMovingPoint;
   typename Superclass::MovingImagePixelType        movingImageValue;
   MovingImageGradientType  movingImageGradients;
-  bool                        pointIsValid = false;
+  bool                                             pointIsValid = false;
 
   /* Iterate over the sub region */
-  ItV.GoToBegin();
-  while( !ItV.IsAtEnd() )
+  /* FIXME - do this w/out using a raw pointer. Probably need separate
+   * Set accessors and/or Initialize within SamplingIteratorHelper. */
+  typedef typename Superclass::SamplingIteratorHelper SamplingIteratorHelperType;
+  SamplingIteratorHelperType * iterator;
+  if( this->m_UseFixedSampledPointSet )
     {
-    /* Get the virtual point */
-    this->GetVirtualDomainImage()->TransformIndexToPhysicalPoint(
-                                              ItV.GetIndex(), virtualPoint);
-      try
+    typename Superclass::SampledThreaderInputObjectType sampledRange;
+    sampledRange[0] = 0;
+    sampledRange[1] = this->m_VirtualSampledPointSet->GetNumberOfPoints() - 1;
+    iterator = new SamplingIteratorHelperType( this->m_VirtualDomainImage,
+      this->m_VirtualSampledPointSet, sampledRange );
+    }
+  else
+    {
+    iterator = new SamplingIteratorHelperType( this->m_VirtualDomainImage,
+                                               this->GetVirtualDomainRegion() );
+    }
+
+  while( iterator->GetNext( virtualIndex, virtualPoint ) )
+    {
+    try
+      {
+      this->TransformAndEvaluateFixedPoint( virtualIndex,
+                                            virtualPoint,
+                                            false /*compute gradient*/,
+                                            mappedFixedPoint,
+                                            fixedImageValue,
+                                            fixedImageGradients,
+                                            pointIsValid );
+      if( pointIsValid )
         {
-        this->TransformAndEvaluateFixedPoint( ItV.GetIndex(),
+        this->TransformAndEvaluateMovingPoint( virtualIndex,
                                               virtualPoint,
                                               false /*compute gradient*/,
-                                              mappedFixedPoint,
-                                              fixedImageValue,
-                                              fixedImageGradients,
+                                              mappedMovingPoint,
+                                              movingImageValue,
+                                              movingImageGradients,
                                               pointIsValid );
-        if( pointIsValid )
-          {
-          this->TransformAndEvaluateMovingPoint( ItV.GetIndex(),
-                                                virtualPoint,
-                                                false /*compute gradient*/,
-                                                mappedMovingPoint,
-                                                movingImageValue,
-                                                movingImageGradients,
-                                                pointIsValid );
-          }
         }
-      catch( ExceptionObject & exc )
-        {
-        //NOTE: there must be a cleaner way to do this:
-        std::string msg("Caught exception: \n");
-        msg += exc.what();
-        ExceptionObject err(__FILE__, __LINE__, msg);
-        throw err;
-        }
-      /** add the paired intensity points to the joint histogram */
-      JointPDFPointType jointPDFpoint;
-      this->ComputeJointPDFPoint(fixedImageValue,movingImageValue, jointPDFpoint,0);
-      JointPDFIndexType  jointPDFIndex;
-      jointPDFIndex.Fill(0);
-      this->m_JointPDF->TransformPhysicalPointToIndex(jointPDFpoint,jointPDFIndex);
-      this->m_JointPDF->SetPixel(jointPDFIndex,this->m_JointPDF->GetPixel(jointPDFIndex)+1);
-    //next index
-    ++ItV;
+      }
+    catch( ExceptionObject & exc )
+      {
+      //NOTE: there must be a cleaner way to do this:
+      std::string msg("Caught exception: \n");
+      msg += exc.what();
+      ExceptionObject err(__FILE__, __LINE__, msg);
+      throw err;
+      }
+    /** add the paired intensity points to the joint histogram */
+    JointPDFPointType jointPDFpoint;
+    this->ComputeJointPDFPoint(fixedImageValue,movingImageValue, jointPDFpoint,0);
+    JointPDFIndexType  jointPDFIndex;
+    jointPDFIndex.Fill( 0 );
+    this->m_JointPDF->TransformPhysicalPointToIndex( jointPDFpoint, jointPDFIndex);
+    this->m_JointPDF->SetPixel( jointPDFIndex, this->m_JointPDF->GetPixel(jointPDFIndex)+1);
     }
+
+  delete iterator;
 
   /**
    * Normalize the PDFs, compute moving image marginal PDF
