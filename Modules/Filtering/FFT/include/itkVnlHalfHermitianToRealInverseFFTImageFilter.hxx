@@ -44,8 +44,9 @@ VnlHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
   // reports the begining and the end of the process.
   ProgressReporter progress( this, 0, 1 );
 
-  const InputSizeType inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
-  const OutputSizeType outputSize = outputPtr->GetLargestPossibleRegion().GetSize();
+  const InputSizeType   inputSize   = inputPtr->GetLargestPossibleRegion().GetSize();
+  const InputIndexType  inputIndex  = inputPtr->GetLargestPossibleRegion().GetIndex();
+  const OutputSizeType  outputSize  = outputPtr->GetLargestPossibleRegion().GetSize();
   const OutputIndexType outputIndex = outputPtr->GetLargestPossibleRegion().GetIndex();
 
   // Allocate output buffer memory
@@ -70,11 +71,14 @@ VnlHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
   SignalVectorType signal( vectorSize );
   ImageRegionIteratorWithIndex< OutputImageType > oIt( outputPtr,
                                                        outputPtr->GetLargestPossibleRegion() );
+
+  OutputIndexValueType maxXIndex = inputIndex[0] +
+    static_cast< OutputIndexValueType >( inputSize[0] );
   unsigned int si = 0;
   for (oIt.GoToBegin(); !oIt.IsAtEnd(); ++oIt)
     {
     typename OutputImageType::IndexType index = oIt.GetIndex();
-    if ( index[0] >= static_cast< typename OutputImageType::IndexValueType >( inputSize[0] ) )
+    if ( index[0] >= maxXIndex )
       {
       // Flip the indices in each dimension
       for (unsigned int i = 0; i < ImageDimension; ++i)

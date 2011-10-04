@@ -57,8 +57,8 @@ test_fft(unsigned int *SizeOfDimensions)
   for (unsigned int i = 0; i < VImageDimensions; i++)
     {
     imageSize.SetElement( i, SizeOfDimensions[i] );
-    imageIndex.SetElement( i, -2*i ); // Test for handling non-zero
-                                      // image indices correctly
+    imageIndex.SetElement( i, -2*i - 5 ); // Test for handling non-zero
+                                          // image indices correctly
     }
 
   typename RealImageType::RegionType region;
