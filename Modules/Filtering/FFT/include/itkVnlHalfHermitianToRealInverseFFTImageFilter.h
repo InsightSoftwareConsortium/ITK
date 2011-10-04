@@ -45,19 +45,21 @@ class VnlHalfHermitianToRealInverseFFTImageFilter:
 {
 public:
   /** Standard class typedefs. */
-  typedef TInputImage                            InputImageType;
-  typedef typename InputImageType::PixelType     InputPixelType;
-  typedef typename InputImageType::SizeType      InputSizeType;
-  typedef typename InputImageType::SizeValueType InputSizeValueType;
-  typedef TOutputImage                           OutputImageType;
-  typedef typename OutputImageType::PixelType    OutputPixelType;
-  typedef typename OutputImageType::IndexType    OutputIndexType;
-  typedef typename OutputImageType::SizeType     OutputSizeType;
+  typedef TInputImage                              InputImageType;
+  typedef typename InputImageType::PixelType       InputPixelType;
+  typedef typename InputImageType::SizeType        InputSizeType;
+  typedef typename InputImageType::IndexType       InputIndexType;
+  typedef typename InputImageType::SizeValueType   InputSizeValueType;
+  typedef TOutputImage                             OutputImageType;
+  typedef typename OutputImageType::PixelType      OutputPixelType;
+  typedef typename OutputImageType::IndexType      OutputIndexType;
+  typedef typename OutputImageType::SizeType       OutputSizeType;
+  typedef typename OutputImageType::IndexValueType OutputIndexValueType;
 
   typedef VnlHalfHermitianToRealInverseFFTImageFilter                           Self;
   typedef HalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                                                Pointer;
-  typedef SmartPointer< const Self >                                          ConstPointer;
+  typedef SmartPointer< Self >                                                  Pointer;
+  typedef SmartPointer< const Self >                                            ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
