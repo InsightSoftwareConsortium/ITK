@@ -42,7 +42,7 @@ VideoIOBase::Pointer VideoIOFactory::CreateVideoIO( IOModeType mode, const char*
     ObjectFactoryBase::CreateAllInstance("itkVideoIOBase");
 
   for ( std::list< LightObject::Pointer >::iterator i = allobjects.begin();
-        i != allobjects.end() ; ++i )
+        i != allobjects.end(); ++i )
     {
 
     VideoIOBase* io = dynamic_cast< VideoIOBase* >( i->GetPointer() );
@@ -59,7 +59,7 @@ VideoIOBase::Pointer VideoIOFactory::CreateVideoIO( IOModeType mode, const char*
     }
 
   for ( std::list< VideoIOBase::Pointer >::iterator j = possibleVideoIO.begin();
-        j != possibleVideoIO.end() ; ++j )
+        j != possibleVideoIO.end(); ++j )
     {
 
     // Check file readability if reading from file

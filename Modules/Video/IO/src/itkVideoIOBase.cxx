@@ -37,4 +37,4 @@ void VideoIOBase::PrintSelf(std::ostream & os, Indent indent) const
   Superclass::PrintSelf(os,indent);
 }
 
-}; //namespace itk end
+} //namespace itk end

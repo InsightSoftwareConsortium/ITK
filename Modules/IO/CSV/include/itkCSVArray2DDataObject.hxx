@@ -234,10 +234,10 @@ CSVArray2DDataObject <TData>
 
   if ( this->m_HasColumnHeaders )
     {
-    os << indent << indent ;
+    os << indent << indent;
     for (unsigned int i = 0; i < this->m_ColumnHeaders.size(); i++)
       {
-      os << this->m_ColumnHeaders[i] << indent ;
+      os << this->m_ColumnHeaders[i] << indent;
       }
     os << std::endl;
     }
