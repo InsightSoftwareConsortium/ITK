@@ -10,7 +10,7 @@ CreateTestDriver(ITKVtkGlue "${ITKVtkGlue-Test_LIBRARIES}" "${ITKVtkGlueTests}")
 itk_add_test(
   NAME itkVtkMedianImageFilterTest
   COMMAND ITKVtkGlueTestDriver
-    itkVtkMedianFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png 2)
+    itkVtkMedianFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} 2)
 
 itk_add_test(
   NAME itkImageToVTKImageFilterTest

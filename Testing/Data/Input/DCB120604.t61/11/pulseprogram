@@ -1,0 +1,895 @@
+# 1 "/opt/Pv3.0.1/exp/stan/nmr/lists/pp/msme_tomo.ppg"
+# 1 "/opt/Pv3.0.1/exp/stan/nmr/lists/pp/msme_tomo.ppg"
+;****************************************************************
+;
+; Source
+;
+; Copyright (c) 1995-2000
+; BRUKER MEDICAL GMBH
+; D-76275 Ettlingen, Germany
+;
+; All Rights Reserved
+;
+;****************************************************************
+
+;derived from msme_tomo.gcu2 by mah 12.10.2000
+
+# 1 "/opt/Pv3.0.1/exp/stan/nmr/lists/pp/Avance.incl" 1
+;Avance.incl
+;
+;avance-version (02/08/12)
+
+
+;switch between high and low stage oh H amplifier
+
+
+
+;use 2H channel for lock or pulse (lockswitch)
+
+
+
+;allow for 2H decoupling (lockswitch)
+
+
+
+;turn lock-hold on/off (BSMS)
+
+
+
+;switch between 1H or 19F output (H amplifier)
+
+
+
+;select output for 19F (amplifier)
+
+
+
+;homospoil on/off (BSMS)
+
+
+
+;for Q-switch probes
+
+
+
+;for mixing probe
+
+
+
+;gating pulse for RX22, ADC and HPPR
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;not active
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;Id
+# 15 "/opt/Pv3.0.1/exp/stan/nmr/lists/pp/msme_tomo.ppg" 2
+
+# 1 "/opt/Pv3.0.1/exp/stan/nmr/lists/pp/DBX.include" 1
+;****************************************************************
+;
+; Source
+;
+; Copyright (c) 1996
+; Bruker Medizintechnik GmbH
+; D-76275 Ettlingen, Germany
+;
+; All Rights Reserved
+;
+;
+; $Locker:  $
+; $State: Exp $
+; $Revision: 1.1 $
+; Revision 1.2  1996/02/01  07:44:13  fe
+; removed dublicated RCS header
+;
+; Revision 1.1  1996/01/09  10:03:28  appadmin
+; Autocheckin during RCSinit
+;
+;
+;****************************************************************
+;DBX.include
+define delay aqq
+"aqq=dw*td"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+define delay deparx
+define delay derxadc
+define delay rdeadc
+
+"deparx=derx-depa"
+"derxadc=deadc-derx"
+"rdeadc=de-deadc"
+# 16 "/opt/Pv3.0.1/exp/stan/nmr/lists/pp/msme_tomo.ppg" 2
+
+
+define delay dur2
+define delay dur25
+define delay dur27
+define delay dur4
+define delay aqqmde1
+"dur2 = d2 - 10u*2"
+"dur25= d25 - 10u*2"
+"dur27= d27 + 10u - 10u*2" ; increased dur27 by 10u
+"d25= d25 - 10u"		   ; decereased d25 by 10 u
+"dur4=d4-de+de1"
+"aqqmde1=td*dw+depa-de1"
+
+"l1 = ds"
+
+preset off
+
+if (!IMND_hft_mode)
+{
+lgrad r2d<2d>=ACQ_size[1]      ; From XwinNmr3.0 on possible
+}
+if (IMND_hft_mode)
+{
+lgrad IMND_hft_grad<2d>=ACQ_size[1]      ; From XwinNmr3.0 on possible
+}
+lgrad r3d<3d>=L[17]
+
+# 1 "/opt/Pv3.0.1/exp/stan/nmr/lists/pp/MEDSPEC.include" 1
+;MEDSPEC.include
+
+	if (Coil_operation == Single_Coil)
+	  {
+          2u setnmr3|11           ;Single-Coil-Operation
+	  }
+	if (Coil_operation == Cross_Coil)
+	  {
+          2u setnmr3^11           ;Cross-Coil-Operation
+	  }
+
+
+         fq1b receive	;select DDSB for receive as default
+
+         if (CONFIG_preemp_type >= GREAT_60)
+         {
+            200u setnmr0|34|33|32 ; Disable blanking pulse
+         }
+
+# 44 "/opt/Pv3.0.1/exp/stan/nmr/lists/pp/msme_tomo.ppg" 2
+
+
+start,	2m
+if(IMND_evolution_trigger)
+{
+  if(ACQ_scan_type==Scan_Experiment)
+  {
+	10u
+# 1 "/opt/Pv3.0.1/exp/stan/nmr/lists/pp/trigger" 1
+;****************************************************************
+;
+; Source
+;
+; Copyright (c) 1996
+; Bruker Medizintechnik GmbH
+; D-76275 Ettlingen, Germany
+;
+; All Rights Reserved
+;
+;
+; $Locker:  $
+; $State: Exp $
+; Log: trigger
+; Revision 3.4.2.2  2002/08/13 12:04:31  pfre
+; Bugfix: 3229 replace setnmr by macros
+;
+; Revision 3.4.2.1  2002/08/06 11:00:38  dwe
+; change trigger syntax
+;
+; Revision 3.4  2002/01/22 13:27:28  mah
+; AvUnify:  Unified Pulseprograms for AV
+;
+; Revision 3.3  1997/09/30 14:01:58  gh
+; Update from methods group
+;
+;
+;****************************************************************
+
+  ;trigger module
+        10u     setnmr3|8       ;trigger enable on
+        10u     trigpl1
+        10u     setnmr3^8       ;trigger enable off, continue
+        d7
+# 52 "/opt/Pv3.0.1/exp/stan/nmr/lists/pp/msme_tomo.ppg" 2
+
+  }
+}
+	zgrad	r3d
+
+;----------------------------------------------------------------
+; Start of 3D Loop 
+;----------------------------------------------------------------
+
+start3, 
+if (!IMND_hft_mode)
+{
+	zgrad   r2d
+}
+if (IMND_hft_mode)
+{
+	zgrad   IMND_hft_grad
+}
+;----------------------------------------------------------------
+; Start of 2D-Loop 
+;----------------------------------------------------------------
+
+start2,	10u
+if (ACQ_rare_factor != 1)
+{
+  if (!IMND_hft_mode)
+  {
+	sgrad   r2d
+  }
+  if (IMND_hft_mode)
+  {
+	sgrad   IMND_hft_grad
+  }
+}
+;----------------------------------------------------------------
+; Start of NA-Loop 
+;----------------------------------------------------------------
+
+start1,
+if (ACQ_trigger_enable)
+{
+# 1 "/opt/Pv3.0.1/exp/stan/nmr/lists/pp/trigger" 1
+;****************************************************************
+;
+; Source
+;
+; Copyright (c) 1996
+; Bruker Medizintechnik GmbH
+; D-76275 Ettlingen, Germany
+;
+; All Rights Reserved
+;
+;
+; $Locker:  $
+; $State: Exp $
+; Log: trigger
+; Revision 3.4.2.2  2002/08/13 12:04:31  pfre
+; Bugfix: 3229 replace setnmr by macros
+;
+; Revision 3.4.2.1  2002/08/06 11:00:38  dwe
+; change trigger syntax
+;
+; Revision 3.4  2002/01/22 13:27:28  mah
+; AvUnify:  Unified Pulseprograms for AV
+;
+; Revision 3.3  1997/09/30 14:01:58  gh
+; Update from methods group
+;
+;
+;****************************************************************
+
+  ;trigger module
+        10u     setnmr3|8       ;trigger enable on
+        10u     trigpl1
+        10u     setnmr3^8       ;trigger enable off, continue
+        d7
+# 93 "/opt/Pv3.0.1/exp/stan/nmr/lists/pp/msme_tomo.ppg" 2
+
+}
+;----------------------------------------------------------------
+; Start of Movie Loop
+;----------------------------------------------------------------
+
+movie, zgrad slice
+
+;----------------------------------------------------------------
+; Start of Slice Loop
+;----------------------------------------------------------------
+
+slice, 2m	fq8b:f1
+if(IMND_mtcflag)
+{
+# 1 "/opt/Pv3.0.1/exp/stan/nmr/lists/pp/mtc" 1
+;****************************************************************
+; Source
+;
+; Copyright (c) 1996
+; Bruker Medizintechnik GmbH
+; D-76275 Ettlingen, Germany
+;
+; All Rights Reserved
+;
+;
+; $Locker:  $
+; $State: Exp $
+; Log: mtc
+; Revision 3.4  2002/01/22 13:27:28  mah
+; AvUnify:  Unified Pulseprograms for AV
+;
+; Revision 3.3  1997/09/30 14:01:50  gh
+; Update from methods group
+;
+;
+;****************************************************************
+
+ ; mtc module
+ ;
+ ; dwe 6/4/95
+ ;
+        300u
+	d8	fq3:f1
+    mtc,d12	gatepulse 1
+		p12:sp4	ph0
+        lo to mtc times l12
+
+# 108 "/opt/Pv3.0.1/exp/stan/nmr/lists/pp/msme_tomo.ppg" 2
+
+}
+if(IMND_suppression)
+{
+# 1 "/opt/Pv3.0.1/exp/stan/nmr/lists/pp/watersup" 1
+;****************************************************************
+;
+; Source
+;
+; Copyright (c) 1995-2000
+; BRUKER MEDICAL GMBH
+; D-76275 Ettlingen, Germany
+;
+; All Rights Reserved
+;
+;****************************************************************
+
+;water suppression module
+;
+;derived from 'water' bye MAH 12.10.2000
+;
+    15m grad{ (-25,no_scale) | (-25,no_scale) | (-25,no_scale) } 
+     4m groff  
+
+     d8 fq3:f1
+     5u
+     p10:sp2
+    15m grad{ (25,no_scale)  | (0)            | (0)            }
+     4m groff
+
+     d8 fq3:f1
+     5u
+     p10:sp2
+    15m grad{ (0)            | (25,no_scale)  | (0)            }
+     4m groff
+
+     d8 fq3:f1
+     5u
+     p10:sp2
+    15m grad{ (0)            | (0)            | (25,no_scale)  }
+     4m groff
+# 112 "/opt/Pv3.0.1/exp/stan/nmr/lists/pp/msme_tomo.ppg" 2
+
+}
+if(IMND_fatflag) 
+{
+     1m     fq3:f1
+     d8	    gatepulse 1
+     p11:sp3
+     5m grad{ (0) | (0) | (t20, no_scale) }
+     d4 groff
+}
+if(IMND_invflag )
+{
+# 1 "/opt/Pv3.0.1/exp/stan/nmr/lists/pp/inversion" 1
+;****************************************************************
+;
+; Source
+;
+; Copyright (c) 1995-2000
+; BRUKER MEDICAL GMBH
+; D-76275 Ettlingen, Germany
+;
+; All Rights Reserved
+;
+;****************************************************************
+
+; inversion module
+;
+; MAH 12.10.2000
+;
+
+lgrad IMND_InvRecov_grad=L[12]
+ 
+	200u
+	200u zgrad IMND_InvRecov_grad
+	d4 grad{(0)|(0)|IMND_InvRecov_grad(100,no_scale)}
+
+inclist1,   20u	fq1:f1
+		lo to inclist1 times l11
+	d8 gatepulse 1
+	p14:sp6	ph2		;Inversion
+	4m
+	d4 groff
+
+	if(L[10]>0)
+	{
+inclist2,   20u	fq1:f1
+		lo to inclist2 times l10
+	}
+# 124 "/opt/Pv3.0.1/exp/stan/nmr/lists/pp/msme_tomo.ppg" 2
+
+		d6				;Correction-Time
+}
+if(IMND_FovSat_flag)
+{
+# 1 "/opt/Pv3.0.1/exp/stan/nmr/lists/pp/fovsat" 1
+;****************************************************************
+;
+; Source
+;
+; Copyright (c) 1995-2000
+; BRUKER MEDICAL GMBH
+; D-76275 Ettlingen, Germany
+;
+; All Rights Reserved
+;
+;****************************************************************
+
+;fov saturation module 
+;
+;dervived from 'fovsat' by MAH 12.10.2000
+; 
+lgrad IMND_FovSat_grad = L[13]
+	200u 
+	zgrad IMND_FovSat_grad
+fov,    d4 grad{IMND_FovSat_grad(100,direct_scale) | (0) | (0) } fq3:f1
+    	d8		gatepulse 1
+        p13:sp5		ph0
+        4m grad{ (0) | (0) | IMND_FovSat_spoiler(100,no_scale) }
+	igrad IMND_FovSat_grad
+        lo to fov times l13
+	d4 ph0 groff
+# 129 "/opt/Pv3.0.1/exp/stan/nmr/lists/pp/msme_tomo.ppg" 2
+
+}
+if(IMND_InflowSat_flag)
+{
+# 1 "/opt/Pv3.0.1/exp/stan/nmr/lists/pp/inflowsat" 1
+;****************************************************************
+;
+; Source
+;
+; Copyright (c) 1995-2000
+; BRUKER MEDICAL GMBH
+; D-76275 Ettlingen, Germany
+;
+; All Rights Reserved
+;
+;****************************************************************
+
+;inflow saturation module
+;
+;dervived from 'inflowsat' by MAH 12.10.2000
+;
+lgrad IMND_InflowSat_grad = L[14]
+
+	zgrad IMND_InflowSat_grad
+inflow,	d4 grad{ (0) | (0) | IMND_InflowSat_grad(100,no_scale) } fq2:f1
+       	d8		gatepulse 1
+       	p14:sp7		ph0
+       	4m grad{ (0) |(0)  | IMND_InflowSat_spoiler(100,no_scale) }
+	igrad IMND_InflowSat_grad
+	lo to inflow times l14
+	d4 ph0 groff
+# 133 "/opt/Pv3.0.1/exp/stan/nmr/lists/pp/msme_tomo.ppg" 2
+
+}
+if(!IMND_invflag)
+{	
+	200u
+}
+
+	5m grad{ (t0,no_scale) | (0) | (0) }	fq1:f1	
+	d4 grad{ (0) | (0) | (t20,no_scale) }	gatepulse 1	; slice-selection
+
+	p1:sp0		ph0		;+90-Grad
+	d1 grad{ (t1,no_scale) | (t11,no_scale) | (t21,no_scale) }
+
+;----------------------------------------------------------------
+; Rare/Echo Loop
+;----------------------------------------------------------------
+rare1,
+
+if (ACQ_rare_factor != 1)
+{
+ if (!IMND_hft_mode)
+  {
+	0u rgrad   r2d
+  }
+  if (IMND_hft_mode)
+  {
+	0u rgrad   IMND_hft_grad
+  }
+}
+
+rare,	d4 grad{ (0) | (0) | (t20,no_scale) }	gatepulse 1	; slice-selection
+if(IMND_pulse_flag)
+{
+	d14
+}
+	p2:sp1		ph1		;180-Grad
+if(IMND_pulse_flag)
+{
+	d14
+}
+if(!IMND_split)							; phase-encoding
+{
+  if(!IMND_hft_mode)
+  {
+    if (ACQ_rare_factor==1)
+    {
+	10u grad{ (t2,no) | r2d(t12,no) | (t22,no) + r3d(t19,no) }
+    }
+    if (ACQ_rare_factor!=1)
+    {
+	10u grad{ (t2,no) | (t11,no)+r2d(t12,no) | (t22,no) + r3d(t19,no) }
+    }
+  }								
+  if(IMND_hft_mode)
+  {
+    if (ACQ_rare_factor==1)
+    {
+	10u grad{ (t2,no) | IMND_hft_grad(t12,no) | (t22,no) + r3d(t19,no) }
+    }
+    if (ACQ_rare_factor!=1)
+    {
+	10u grad{ (t2,no) | (t11,no)+IMND_hft_grad(t12,no) | (t22,no) + r3d(t19,no) }
+    }
+  }
+
+	10u
+	dur2    :e
+}
+if(IMND_split)
+{
+	10u grad{ (0) | (0) | (t22,no_scale) }
+	10u
+	dur25
+	d26 groff
+  if(!IMND_hft_mode)
+  {
+    if (ACQ_rare_factor==1)
+    {
+	d27 :e grad{ (t2,no_scale) | r2d(t12,no_scale) | r3d(t19,no_scale) }
+    }
+    if (ACQ_rare_factor!=1)
+    {
+	d27 :e grad{ (t2,no) | (t11,no) + r2d(t12,no) | r3d(t19,no) }
+    }
+  }
+  if(IMND_hft_mode)
+  {
+    if (ACQ_rare_factor==1)
+    {
+	d27 :e grad{ (t2,no_scale) | IMND_hft_grad(t12,no_scale) | r3d(t19,no_scale) }
+    }
+    if (ACQ_rare_factor!=1)
+    {
+	d27 :e grad{ (t2,no) | (t11,no) + IMND_hft_grad(t12,no) | r3d(t19,no) }
+    }
+  }
+}
+ 	dur4 :e grad{ (t0,no_scale) | (0) | (0) } 	;read grad
+        deparx     adc ph4 setnmr3^4 syrec fqatofqb:f1 \n derxadc     ph1:r setnmr8|6 				\n rdeadc     setnmr3|0					; needs de time
+        aqqmde1   
+
+if(!IMND_split)
+{
+  if(!IMND_hft_mode)						; phase-decoding
+  {
+ 	10u grad{ (t3,no) | r2d(t13,no) | (t23,no) + r3d(t18,no) }  
+  }
+  if(IMND_hft_mode)
+  {
+	10u grad{ (t3,no) | IMND_hft_grad(t13,no) | (t23,no) + r3d(t18,no) }  
+  }
+}
+if(IMND_split)
+{
+  if(!IMND_hft_mode)						; phase-decoding
+  {
+ 	10u     grad{ (t3,no) | r2d(t13,no) | r3d(t18,no) }
+  }
+  if(IMND_hft_mode)
+  {
+	10u     grad{ (t3,no) | IMND_hft_grad(t13,no) | r3d(t18,no) }
+  }
+}
+
+if(!IMND_split)
+{
+        dur2
+}
+if (IMND_split)
+{
+	dur27
+	d26 groff
+	d25 grad{ (0) | (0) | (t23,no_scale) }
+}
+        1u 
+ 	1u  
+	8u eoscnp
+
+if (ACQ_rare_factor > 1)
+{
+  if (!IMND_hft_mode)
+  {
+	0u igrad   r2d
+  }
+  if (IMND_hft_mode)
+  {
+	0u igrad   IMND_hft_grad
+  }
+  lo to rare times ACQ_rare_factor
+
+  lo to rare1 times NECHOES/ACQ_rare_factor
+}
+if (ACQ_rare_factor <= 1)
+{
+  lo to rare times NECHOES
+}
+
+;----------------------------------------------------------------
+; Echo/Rare Loop finished
+;----------------------------------------------------------------
+
+if (IMND_flipback)				
+{
+    	d4 grad{ (0) | (0) | (t20,no_scale) }	gatepulse 1	; slice selection
+  if(IMND_pulse_flag)
+  {
+	d14
+  }
+        p2:sp1:f1	ph1	;180-Grad
+  if(IMND_pulse_flag)
+  {
+	d14
+  }
+    	d1 grad{ (t1,no) | (t11,no) | (t21,no) }		; read.t0 slice.t3
+    	d4 grad{ (0) | (0) | (t20,no_scale) }	gatepulse 1	; slice selection
+  if (IMND_invflag)
+  {
+	p1:sp0	ph0						; Back +90-Grad
+  }
+  if (!IMND_invflag)
+  {
+	p1:sp0	ph2	;Back -90-Grad
+  }
+}
+	d20 grad { (t4,no_scale) | (t14,no_scale) | (t24,no) }	;long spoiler
+	d21 groff
+if(IMND_auto_adv)
+{
+  if(l15)
+  {
+fq1loop,1u	fq1:f1
+	1u
+	5u	fq8b:f1
+	1u
+    if(IMND_InflowSat_flag)
+    {
+	1u	fq2:f1
+	5u
+      if(L[16]==2)
+      {
+	1u	fq2:f1
+	5u
+      }
+    }
+	5u
+	lo to fq1loop times l15
+  }
+}
+	2.5u  igrad slice
+	lo to slice times NSLICES;		Slice-Loop
+
+;----------------------------------------------------------------
+; Slice Loop finished
+;----------------------------------------------------------------
+
+	5u
+	lo to movie times l26;			Movie-Loop
+
+;----------------------------------------------------------------
+; Movie Loop finished
+;----------------------------------------------------------------
+
+	2.5u		ipp0
+	2.5u		ipp2
+	2.5u		ip4*2
+	lo to start1 times NA;			Averaging-Loop
+;----------------------------------------------------------------
+; NA Loop finished
+;----------------------------------------------------------------
+	2.5u		rpp0
+	2.5u		rpp2
+	2.5u		rp4
+if(IMND_evolution)
+{
+        5u
+ if (ACQ_rare_factor == 1)
+ {
+  if (!IMND_hft_mode)
+  {
+	5u igrad   r2d
+  }
+  if (IMND_hft_mode)
+  {
+	5u igrad   IMND_hft_grad
+  }
+ } 
+ if (ACQ_rare_factor != 1)
+ {
+	5u
+ }
+
+        lo to start2 times l23                  ;2D-Loop with Evolution
+}
+if(!IMND_evolution)
+{
+        5u
+	if "l1 == 0" goto skip
+	"l1 = l1 - 1"
+  if (ACQ_rare_factor > 1)
+  { 
+    if (!IMND_hft_mode)
+    {	
+	zgrad   r2d
+    } 
+    if (IMND_hft_mode)
+    {	
+	zgrad   IMND_hft_grad
+    }
+  }
+	goto start2
+skip,	5u      
+ if (ACQ_rare_factor == 1)
+ {
+  if (!IMND_hft_mode)
+  {
+	5u igrad   r2d
+  }
+  if (IMND_hft_mode)
+  {
+	5u igrad   IMND_hft_grad
+  }
+ }
+ if (ACQ_rare_factor != 1)
+ {
+	5u
+ }
+  if(IMND_auto_adv)
+  {
+	lo to start2 times l23
+  }
+  ;-------------------------------------------------------------
+  ; Reloop incorrect
+  ; correct: loto start2 times ACQ_size[1]/ACQ_rare_factor
+  ;-------------------------------------------------------------
+  if(!IMND_auto_adv)				; Normal 2D-Loop
+  {
+    if (ACQ_rare_factor > 0)
+    {
+      lo to start2 times ACQ_size[1]/ACQ_rare_factor
+    }
+    if (ACQ_rare_factor <= 0)
+    {
+      lo to start2 times ACQ_size[1]
+    }
+  }
+} 
+;----------------------------------------------------------------
+; 2D Loop finished
+;----------------------------------------------------------------
+	5u      igrad r3d	
+    	lo to start3 times l17;			3D-Loop
+
+;----------------------------------------------------------------
+; 3D Loop finished
+;----------------------------------------------------------------
+
+	vd	ivd
+if(IMND_auto_adv)
+{
+	1u	fq1:f1
+	1u
+	5u	fq8b:f1
+	1u
+  if(IMND_InflowSat_flag)
+  {
+	5u	fq2:f1
+	5u
+    if(L[16] == 2)
+    {
+	5u	fq2:f1
+	5u
+    }
+  }
+}
+	lo to start times NR;			Evolution-Loop
+	5u
+	goto start
+exit
+
+ph0 = 0 2
+ph1 = 1
+ph2 = 2 0
+ph3 = 3
+ph4 = 0

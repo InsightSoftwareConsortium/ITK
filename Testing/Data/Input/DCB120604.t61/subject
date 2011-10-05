@@ -1,0 +1,43 @@
+##TITLE=Parameter List
+##JCAMPDX=4.24
+##DATATYPE=Parameter Values
+##ORIGIN=Bruker BioSpin MRI GmbH
+##OWNER=pvsu
+$$ Mon Dec  6 09:35:43 2004 EST (UT-5h)  pvsu
+$$ /opt/Pv3.0.1/data/pvsu/nmr/DCB120604.t61/subject
+##$SUBJECT_version_nr=2
+##$SUBJECT_id=( 11 )
+<DCB120604>
+##$SUBJECT_patient_instance_uid=( 65 )
+<2.16.756.5.5.51.3885393167.1102343736.785012>
+##$SUBJECT_name_string=( 64 )
+<BIOE596`>
+$$ @vis= SUBJECT_version_nr SUBJECT_id SUBJECT_patient_instance_uid
+##$SUBJECT_name=(<>, <BIOE596`>)
+##$SUBJECT_dbirth=( 12 )
+<>
+##$SUBJECT_type=Human
+##$SUBJECT_sex=( 8 )
+<female>
+$$ @vis= SUBJECT_name_string SUBJECT_name SUBJECT_dbirth SUBJECT_type
+##$SUBJECT_sex_human=Female
+##$SUBJECT_study_name=( 64 )
+<BIOE596>
+##$SUBJECT_study_nr=1
+##$SUBJECT_study_instance_uid=( 65 )
+<2.16.756.5.5.52.3885393167.1102343736.785159>
+$$ @vis= SUBJECT_sex SUBJECT_sex_human SUBJECT_study_name SUBJECT_study_nr
+##$SUBJECT_size=0.0010
+##$SUBJECT_weight=5
+##$SUBJECT_pos_valid=Yes
+$$ @vis= SUBJECT_study_instance_uid SUBJECT_size SUBJECT_weight
+##$SUBJECT_location=( 32 )
+<BRUKER>
+##$SUBJECT_entry=SUBJ_ENTRY_HeadFirst
+##$SUBJECT_position=SUBJ_POS_Supine
+##$SUBJECT_date=( 21 )
+<09:35:36  6 Dec 2004>
+$$ @vis= SUBJECT_pos_valid SUBJECT_location SUBJECT_entry SUBJECT_position
+##$SUBJECT_abs_date=1102343736
+$$ @vis= SUBJECT_date SUBJECT_abs_date SUBJECT
+##END=

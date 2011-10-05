@@ -19,14 +19,14 @@ CreateTestDriver(ITKClassifiers  "${ITKClassifiers-Test_LIBRARIES}" "${ITKClassi
 
 itk_add_test(NAME itkBayesianClassifierImageFilterTest
       COMMAND ITKClassifiersTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Algorithms/itkBayesianClassifierImageFilterTestLabelMap.png
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/Algorithms/itkBayesianClassifierImageFilterTestLabelMap.png}
               ${ITK_TEST_OUTPUT_DIR}/itkBayesianClassifierImageFilterTestLabelMap.png
     itkBayesianClassifierImageFilterTest ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySlice.png ${ITK_TEST_OUTPUT_DIR}/itkBayesianClassifierImageFilterTestLabelMap.png 4 2)
 itk_add_test(NAME itkKmeansModelEstimatorTest
       COMMAND ITKClassifiersTestDriver itkKmeansModelEstimatorTest)
 itk_add_test(NAME itkImageClassifierFilterTest
       COMMAND ITKClassifiersTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Statistics/ImageClassifierFilterTestClassifiedImageTest.png
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/Statistics/ImageClassifierFilterTestClassifiedImageTest.png}
               ${ITK_TEST_OUTPUT_DIR}/ImageClassifierFilterTestClassifiedImage.png
     itkImageClassifierFilterTest ${ITK_TEST_OUTPUT_DIR}/ImageClassifierFilterTestClassifiedImage.png)
 itk_add_test(NAME itkSampleClassifierFilterTest1
@@ -43,7 +43,7 @@ itk_add_test(NAME itkSampleClassifierFilterTest6
       COMMAND ITKClassifiersTestDriver itkSampleClassifierFilterTest6)
 itk_add_test(NAME itkSampleClassifierFilterTest7
       COMMAND ITKClassifiersTestDriver itkSampleClassifierFilterTest7
-              ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussianTesting.dat)
+              DATA{${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat} DATA{${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussianTesting.dat})
 itk_add_test(NAME itkSupervisedImageClassifierTest
       COMMAND ITKClassifiersTestDriver itkSupervisedImageClassifierTest)
 itk_add_test(NAME itkScalarImageKmeansImageFilter3DTest

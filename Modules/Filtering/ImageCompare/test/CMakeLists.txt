@@ -23,11 +23,11 @@ itk_add_test(NAME itkSimilarityIndexImageFilterTest
       COMMAND ITKImageCompareTestDriver itkSimilarityIndexImageFilterTest)
 itk_add_test(NAME itkSTAPLEImageFilterTest
       COMMAND ITKImageCompareTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Algorithms/STAPLEImageFilterTest.mha
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/Algorithms/STAPLEImageFilterTest.mha}
               ${ITK_TEST_OUTPUT_DIR}/STAPLEImageFilterTest.mha
-    itkSTAPLEImageFilterTest 2 ${ITK_TEST_OUTPUT_DIR}/STAPLEImageFilterTest.mha 255 0.5 ${ITK_DATA_ROOT}/Input/STAPLE1.png ${ITK_DATA_ROOT}/Input/STAPLE2.png ${ITK_DATA_ROOT}/Input/STAPLE3.png ${ITK_DATA_ROOT}/Input/STAPLE4.png)
+    itkSTAPLEImageFilterTest 2 ${ITK_TEST_OUTPUT_DIR}/STAPLEImageFilterTest.mha 255 0.5 DATA{${ITK_DATA_ROOT}/Input/STAPLE1.png} DATA{${ITK_DATA_ROOT}/Input/STAPLE2.png} DATA{${ITK_DATA_ROOT}/Input/STAPLE3.png} DATA{${ITK_DATA_ROOT}/Input/STAPLE4.png})
 itk_add_test(NAME itkTestingComparisonImageFilterTest
       COMMAND ITKImageCompareTestDriver
       --compare DATA{Input//itkTestingComparisonImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/itkTestingComparisonImageFilterTest.png
-    itkTestingComparisonImageFilterTest ${ITK_DATA_ROOT}/Input/cake_easy.png ${ITK_DATA_ROOT}/Input/cake_hard.png ${ITK_TEST_OUTPUT_DIR}/itkTestingComparisonImageFilterTest.png 10 1)
+    itkTestingComparisonImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cake_easy.png} DATA{${ITK_DATA_ROOT}/Input/cake_hard.png} ${ITK_TEST_OUTPUT_DIR}/itkTestingComparisonImageFilterTest.png 10 1)

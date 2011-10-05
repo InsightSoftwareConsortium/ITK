@@ -34,24 +34,24 @@ itk_add_test(NAME itkReflectiveImageRegionIteratorTest
       COMMAND ITKDistanceMapTestDriver itkReflectiveImageRegionIteratorTest)
 itk_add_test(NAME itkSignedMaurerDistanceMapImageFilterTest1
       COMMAND ITKDistanceMapTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkSignedMaurerDistanceMapImageFilterTest1.mhd
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkSignedMaurerDistanceMapImageFilterTest1.mhd,itkSignedMaurerDistanceMapImageFilterTest1.zraw}
               ${ITK_TEST_OUTPUT_DIR}/itkSignedMaurerDistanceMapImageFilterTest1.mhd
-    itkSignedMaurerDistanceMapImageFilterTest ${ITK_DATA_ROOT}/Input/SquareBinary201.png ${ITK_TEST_OUTPUT_DIR}/itkSignedMaurerDistanceMapImageFilterTest1.mhd)
+    itkSignedMaurerDistanceMapImageFilterTest DATA{${ITK_DATA_ROOT}/Input/SquareBinary201.png} ${ITK_TEST_OUTPUT_DIR}/itkSignedMaurerDistanceMapImageFilterTest1.mhd)
 itk_add_test(NAME itkSignedMaurerDistanceMapImageFilterTest2
       COMMAND ITKDistanceMapTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkSignedMaurerDistanceMapImageFilterTest2.mhd
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkSignedMaurerDistanceMapImageFilterTest2.mhd,itkSignedMaurerDistanceMapImageFilterTest2.zraw}
               ${ITK_TEST_OUTPUT_DIR}/itkSignedMaurerDistanceMapImageFilterTest2.mhd
-    itkSignedMaurerDistanceMapImageFilterTest ${ITK_DATA_ROOT}/Input/BrainSliceBinary.png ${ITK_TEST_OUTPUT_DIR}/itkSignedMaurerDistanceMapImageFilterTest2.mhd)
+    itkSignedMaurerDistanceMapImageFilterTest DATA{${ITK_DATA_ROOT}/Input/BrainSliceBinary.png} ${ITK_TEST_OUTPUT_DIR}/itkSignedMaurerDistanceMapImageFilterTest2.mhd)
 itk_add_test(NAME itkSignedMaurerDistanceMapImageFilterTest3
       COMMAND ITKDistanceMapTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkSignedMaurerDistanceMapImageFilterTest3.mhd
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkSignedMaurerDistanceMapImageFilterTest3.mhd,itkSignedMaurerDistanceMapImageFilterTest3.zraw}
               ${ITK_TEST_OUTPUT_DIR}/itkSignedMaurerDistanceMapImageFilterTest3.mhd
-    itkSignedMaurerDistanceMapImageFilterTest ${ITK_DATA_ROOT}/Input/LungSliceBinary.png ${ITK_TEST_OUTPUT_DIR}/itkSignedMaurerDistanceMapImageFilterTest3.mhd)
+    itkSignedMaurerDistanceMapImageFilterTest DATA{${ITK_DATA_ROOT}/Input/LungSliceBinary.png} ${ITK_TEST_OUTPUT_DIR}/itkSignedMaurerDistanceMapImageFilterTest3.mhd)
 itk_add_test(NAME itkSignedDanielssonDistanceMapImageFilterTest
       COMMAND ITKDistanceMapTestDriver itkSignedDanielssonDistanceMapImageFilterTest)
 itk_add_test(NAME itkApproximateSignedDistanceMapImageFilterTest
       COMMAND ITKDistanceMapTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkApproximateSignedDistanceMapImageFilterTest.png
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkApproximateSignedDistanceMapImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/itkApproximateSignedDistanceMapImageFilterTest.png
     itkApproximateSignedDistanceMapImageFilterTest ${ITK_TEST_OUTPUT_DIR}/itkApproximateSignedDistanceMapImageFilterTest.png)
 itk_add_test(NAME itkIsoContourDistanceImageFilterTest

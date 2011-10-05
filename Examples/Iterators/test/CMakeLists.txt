@@ -2,7 +2,7 @@ set(BASELINE ${ITK_DATA_ROOT}/Baseline/Iterators)
 set(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
 itk_add_test(NAME ImageLinearIteratorWithIndexTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/ImageLinearIteratorWithIndexTest.png
+  --compare DATA{${BASELINE}/ImageLinearIteratorWithIndexTest.png}
             ${TEMP}/ImageLinearIteratorWithIndexTest.png
   $<TARGET_FILE:ImageLinearIteratorWithIndex>
         ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
@@ -10,7 +10,7 @@ itk_add_test(NAME ImageLinearIteratorWithIndexTest COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME ImageRegionIteratorWithIndexTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/ImageRegionIteratorWithIndexTest.png
+  --compare DATA{${BASELINE}/ImageRegionIteratorWithIndexTest.png}
             ${TEMP}/ImageRegionIteratorWithIndexTest.png
   $<TARGET_FILE:ImageRegionIteratorWithIndex>
         ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
@@ -18,7 +18,7 @@ itk_add_test(NAME ImageRegionIteratorWithIndexTest COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME ImageRegionIteratorTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/ImageRegionIteratorTest.png
+  --compare DATA{${BASELINE}/ImageRegionIteratorTest.png}
             ${TEMP}/ImageRegionIteratorTest.png
   $<TARGET_FILE:ImageRegionIterator>
         ${ITK_SOURCE_DIR}/Examples/Data/FatMRISlice.png
@@ -27,7 +27,7 @@ itk_add_test(NAME ImageRegionIteratorTest COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME ImageSliceIteratorWithIndexTest COMMAND ${ITK_TEST_DRIVER}
-  --compare ${BASELINE}/ImageSliceIteratorWithIndexTest.mha
+  --compare DATA{${BASELINE}/ImageSliceIteratorWithIndexTest.mha}
             ${TEMP}/ImageSliceIteratorWithIndexTest.mha
  $<TARGET_FILE:ImageSliceIteratorWithIndex>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensity3Slices.mha

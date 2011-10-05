@@ -63,20 +63,20 @@ itk_add_test(NAME itkFFTShiftImageFilterTestOdd0
       COMMAND ITKFFTTestDriver
     --compare DATA{Baseline/itkFFTShiftImageFilterTest0.png}
               ${ITK_TEST_OUTPUT_DIR}/itkFFTShiftImageFilterTest0.png
-    itkFFTShiftImageFilterTest ${ITK_DATA_ROOT}/Input/BrainSliceBinary.png ${ITK_TEST_OUTPUT_DIR}/itkFFTShiftImageFilterTest0.png 0)
+    itkFFTShiftImageFilterTest DATA{${ITK_DATA_ROOT}/Input/BrainSliceBinary.png} ${ITK_TEST_OUTPUT_DIR}/itkFFTShiftImageFilterTest0.png 0)
 itk_add_test(NAME itkFFTShiftImageFilterTestOdd1
       COMMAND ITKFFTTestDriver
-    --compare ${ITK_DATA_ROOT}/Input/BrainSliceBinary.png
+    --compare DATA{${ITK_DATA_ROOT}/Input/BrainSliceBinary.png}
               ${ITK_TEST_OUTPUT_DIR}/itkFFTShiftImageFilterTest1.png
     itkFFTShiftImageFilterTest DATA{Baseline/itkFFTShiftImageFilterTest0.png} ${ITK_TEST_OUTPUT_DIR}/itkFFTShiftImageFilterTest1.png 1)
 itk_add_test(NAME itkFFTShiftImageFilterTestEven0
       COMMAND ITKFFTTestDriver
     --compare DATA{Baseline/itkFFTShiftImageFilterTestEven0.png}
               ${ITK_TEST_OUTPUT_DIR}/itkFFTShiftImageFilterTestEven0.png
-    itkFFTShiftImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkFFTShiftImageFilterTestEven0.png 0)
+    itkFFTShiftImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkFFTShiftImageFilterTestEven0.png 0)
 itk_add_test(NAME itkFFTShiftImageFilterTestEven1
       COMMAND ITKFFTTestDriver
-    --compare ${ITK_DATA_ROOT}/Input/cthead1.png
+    --compare DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
               ${ITK_TEST_OUTPUT_DIR}/itkFFTShiftImageFilterTestEven1.png
     itkFFTShiftImageFilterTest DATA{Baseline/itkFFTShiftImageFilterTestEven0.png} ${ITK_TEST_OUTPUT_DIR}/itkFFTShiftImageFilterTestEven1.png 1)
 itk_add_test(NAME itkHalfToFullHermitianImageFilterTestEvenEven

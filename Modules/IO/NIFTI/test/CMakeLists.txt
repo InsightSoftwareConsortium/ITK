@@ -27,31 +27,31 @@ CreateTestDriver(ITKIONIFTI  "${ITKIONIFTI-Test_LIBRARIES}" "${ITKIONIFTITests}"
 
 itk_add_test(NAME itkNiftiIOBigEndianCompressed.hdr
       COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest
-              ${ITK_TEST_OUTPUT_DIR} itkNiftiIOBigEndianCompressed.hdr ${ITK_DATA_ROOT}/Input/BigEndianCompressed.hdr)
+              ${ITK_TEST_OUTPUT_DIR} itkNiftiIOBigEndianCompressed.hdr DATA{${ITK_DATA_ROOT}/Input/BigEndianCompressed.hdr})
 itk_add_test(NAME itkNiftiIOBigEndianCompressed.img
       COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest
-              ${ITK_TEST_OUTPUT_DIR} itkNiftiIOBigEndianCompressed.img ${ITK_DATA_ROOT}/Input/BigEndianCompressed.img)
+              ${ITK_TEST_OUTPUT_DIR} itkNiftiIOBigEndianCompressed.img DATA{${ITK_DATA_ROOT}/Input/BigEndianCompressed.img})
 itk_add_test(NAME itkNiftiIOBigEndianCompressed.img.gz
       COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest
-              ${ITK_TEST_OUTPUT_DIR} itkNiftiIOBigEndianCompressed.img.gz ${ITK_DATA_ROOT}/Input/BigEndianCompressed.img.gz)
+              ${ITK_TEST_OUTPUT_DIR} itkNiftiIOBigEndianCompressed.img.gz DATA{${ITK_DATA_ROOT}/Input/BigEndianCompressed.img.gz})
 itk_add_test(NAME itkNiftiIOBigEndian
       COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest
-              ${ITK_TEST_OUTPUT_DIR} itkNiftiIOBigEndian ${ITK_DATA_ROOT}/Input/BigEndian.hdr)
+              ${ITK_TEST_OUTPUT_DIR} itkNiftiIOBigEndian DATA{${ITK_DATA_ROOT}/Input/BigEndian.hdr,BigEndian.mhd,BigEndian.img})
 itk_add_test(NAME itkNiftiIOLittleEndianCompressed
       COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest
-              ${ITK_TEST_OUTPUT_DIR} itkNiftiImageIOTest ${ITK_DATA_ROOT}/Input/LittleEndianCompressed.hdr)
+              ${ITK_TEST_OUTPUT_DIR} itkNiftiImageIOTest DATA{${ITK_DATA_ROOT}/Input/LittleEndianCompressed.hdr,LittleEndianCompressed.img.gz})
 itk_add_test(NAME itkNiftiIOLittleEndian
       COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest
-              ${ITK_TEST_OUTPUT_DIR} itkNiftiIOLittleEndian ${ITK_DATA_ROOT}/Input/LittleEndian.hdr)
+              ${ITK_TEST_OUTPUT_DIR} itkNiftiIOLittleEndian DATA{${ITK_DATA_ROOT}/Input/LittleEndian.hdr,LittleEndian.mhd,LittleEndian.img})
 itk_add_test(NAME itkNiftiIOInternalTests
       COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest
               ${ITK_TEST_OUTPUT_DIR})
 itk_add_test(NAME itkNiftiIOShouldFail
       COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest2
-              ${ITK_TEST_OUTPUT_DIR} itkNiftiIOShouldFail false ${ITK_DATA_ROOT}/Input/ramp.gipl)
+              ${ITK_TEST_OUTPUT_DIR} itkNiftiIOShouldFail false DATA{${ITK_DATA_ROOT}/Input/ramp.gipl})
 itk_add_test(NAME itkNiftiIOShouldSucceed
       COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest2
-              ${ITK_TEST_OUTPUT_DIR} itkNiftiIOShouldSucceed true ${ITK_DATA_ROOT}/Input/LittleEndian.hdr)
+              ${ITK_TEST_OUTPUT_DIR} itkNiftiIOShouldSucceed true DATA{${ITK_DATA_ROOT}/Input/LittleEndian.hdr,LittleEndian.mhd,LittleEndian.img})
 itk_add_test(NAME itkDirCosinesTest
       COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest4 ${ITK_TEST_OUTPUT_DIR} )
 itk_add_test(NAME itkNiftiSlopeInterceptTest

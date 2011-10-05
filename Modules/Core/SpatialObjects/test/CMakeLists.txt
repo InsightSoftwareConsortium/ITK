@@ -76,7 +76,7 @@ itk_add_test(NAME itkAffineGeometryFrameTest
       COMMAND ITKSpatialObjectsTestDriver itkAffineGeometryFrameTest)
 itk_add_test(NAME itkBoxSpatialObjectTest
       COMMAND ITKSpatialObjectsTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/SpatialObjects/BoxSpatialObjectTest.png
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/SpatialObjects/BoxSpatialObjectTest.png}
               ${ITK_TEST_OUTPUT_DIR}/BoxSpatialObjectTest.png
     itkBoxSpatialObjectTest ${ITK_TEST_OUTPUT_DIR}/BoxSpatialObjectTest.png)
 itk_add_test(NAME itkGaussianSpatialObjectTest

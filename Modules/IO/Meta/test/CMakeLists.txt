@@ -31,12 +31,12 @@ itk_add_test(NAME itkMetaImageIOGzTest
               ${ITK_TEST_OUTPUT_DIR})
 itk_add_test(NAME itkMetaImageIOTest
       COMMAND ITKIOMetaTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd,HeadMRVolume.raw}
               ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume.mhd
-    itkMetaImageIOTest ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume.mhd)
+    itkMetaImageIOTest DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume.mhd)
 itk_add_test(NAME itkMetaImageIOShouldFailTest
       COMMAND ITKIOMetaTestDriver itkMetaImageIOTest
-              ${ITK_DATA_ROOT}/Input/MetaImageError.mhd 1)
+              DATA{${ITK_DATA_ROOT}/Input/MetaImageError.mhd} 1)
 itk_add_test(NAME testMetaGroup
       COMMAND ITKIOMetaTestDriver testMetaGroup
               ${ITK_TEST_OUTPUT_DIR})
@@ -110,19 +110,19 @@ itk_add_test(NAME testMetaBlob
               ${ITK_TEST_OUTPUT_DIR})
 itk_add_test(NAME itkMetaImageStreamingIOTest
       COMMAND ITKIOMetaTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd,HeadMRVolume.raw}
               ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeStreamed.mhd
-    itkMetaImageStreamingIOTest ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeStreamed.mhd)
+    itkMetaImageStreamingIOTest DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeStreamed.mhd)
 itk_add_test(NAME itkMetaImageCompressedStreamingIOTest
       COMMAND ITKIOMetaTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd,HeadMRVolume.raw}
               ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeCompressedStreamed.mha
-    itkMetaImageStreamingIOTest ${ITK_DATA_ROOT}/Input/HeadMRVolumeCompressed.mha ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeCompressedStreamed.mha)
+    itkMetaImageStreamingIOTest DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeCompressed.mha} ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeCompressedStreamed.mha)
 itk_add_test(NAME itkMetaImageStreamingWriterIOTest
       COMMAND ITKIOMetaTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd,HeadMRVolume.raw}
               ${ITK_TEST_OUTPUT_DIR}/MetaImageStreamingWriterIOTest.mha
-    itkMetaImageStreamingWriterIOTest ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd ${ITK_TEST_OUTPUT_DIR}/MetaImageStreamingWriterIOTest.mha)
+    itkMetaImageStreamingWriterIOTest DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR}/MetaImageStreamingWriterIOTest.mha)
 itk_add_test(NAME itkMetaImageStreamingWriterIOTest2
       COMMAND ITKIOMetaTestDriver
     --compare ${ITK_DATA_ROOT}/Input/mri3D.mhd

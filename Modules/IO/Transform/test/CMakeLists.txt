@@ -19,13 +19,13 @@ itk_add_test(NAME itkEuler2DTransformTest
               ${ITK_TEST_OUTPUT_DIR}/testEulerTransform.txt)
 itk_add_test(NAME itkTransformFileReaderWriterTest0
       COMMAND ITKIOTransformTestDriver itkTransformFileReaderWriterTest
-              ${ITK_DATA_ROOT}/Input/itkAffineTransform00.txt ${ITK_TEST_OUTPUT_DIR}/itkTransformFileReaderWriterTest0.txt)
+              DATA{${ITK_DATA_ROOT}/Input/itkAffineTransform00.txt} ${ITK_TEST_OUTPUT_DIR}/itkTransformFileReaderWriterTest0.txt)
 itk_add_test(NAME itkTransformFileReaderWriterTest1
       COMMAND ITKIOTransformTestDriver itkTransformFileReaderWriterTest
-              ${ITK_DATA_ROOT}/Input/itkAffineTransform01.txt ${ITK_TEST_OUTPUT_DIR}/itkTransformFileReaderWriterTest1.txt)
+              DATA{${ITK_DATA_ROOT}/Input/itkAffineTransform01.txt} ${ITK_TEST_OUTPUT_DIR}/itkTransformFileReaderWriterTest1.txt)
 itk_add_test(NAME itkTransformFileReaderWriterTest2
       COMMAND ITKIOTransformTestDriver itkTransformFileReaderWriterTest
-              ${ITK_DATA_ROOT}/Input/itkAffineTransform01.txt ${ITK_TEST_OUTPUT_DIR}/itkTransformFileReaderWriterTest1.mat)
+              DATA{${ITK_DATA_ROOT}/Input/itkAffineTransform01.txt} ${ITK_TEST_OUTPUT_DIR}/itkTransformFileReaderWriterTest1.mat)
 itk_add_test(NAME itkTransformFileReaderWriterTest3
       COMMAND ITKIOTransformTestDriver itkTransformFileReaderWriterTest
               DATA{Baseline/itkBSplineTransform00.txt} ${ITK_TEST_OUTPUT_DIR}/itkBSplineTransform00.mat)

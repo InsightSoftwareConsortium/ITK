@@ -15,9 +15,9 @@ CreateTestDriver(ITKSmoothing  "${ITKSmoothing-Test_LIBRARIES}" "${ITKSmoothingT
 
 itk_add_test(NAME itkDiscreteGaussianImageFilterTest2
       COMMAND ITKSmoothingTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/DiscreteGaussianImageFilterTest2_OutputA.mha
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/DiscreteGaussianImageFilterTest2_OutputA.mha}
               ${ITK_TEST_OUTPUT_DIR}/DiscreteGaussianImageFilterTest2_OutputA.mha
-    itkDiscreteGaussianImageFilterTest2 2 3 ${ITK_DATA_ROOT}/Input/RGBTestImage.tif 3.5 ${ITK_TEST_OUTPUT_DIR}/DiscreteGaussianImageFilterTest2_OutputA.mha)
+    itkDiscreteGaussianImageFilterTest2 2 3 DATA{${ITK_DATA_ROOT}/Input/RGBTestImage.tif} 3.5 ${ITK_TEST_OUTPUT_DIR}/DiscreteGaussianImageFilterTest2_OutputA.mha)
 itk_add_test(NAME itkSmoothingRecursiveGaussianImageFilterTest
       COMMAND ITKSmoothingTestDriver itkSmoothingRecursiveGaussianImageFilterTest)
 itk_add_test(NAME itkMeanImageFilterTest

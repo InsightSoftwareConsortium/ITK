@@ -14,7 +14,7 @@ set(TEMP ${ITK_TEST_OUTPUT_DIR})
 
 itk_add_test(NAME itkPhilipsRECImageIOTest1
       COMMAND ITKIOPhilipsRECTestDriver itkPhilipsRECImageIOTest
-              ${ITK_DATA_ROOT}/Input/T1_MEASUREMENT_4_1.PAR ${ITK_TEST_OUTPUT_DIR}/itkPhilipsRECImageIOTest1.mha)
+              DATA{${ITK_DATA_ROOT}/Input/T1_MEASUREMENT_4_1.PAR,T1_MEASUREMENT_4_1.REC} ${ITK_TEST_OUTPUT_DIR}/itkPhilipsRECImageIOTest1.mha)
 itk_add_test(NAME itkPhilipsRECImageIOOrientationTest1
       COMMAND ITKIOPhilipsRECTestDriver
     --compare DATA{Baseline/itkPhilipsRECImageIOOrientationTest1.mha}

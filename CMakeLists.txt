@@ -232,22 +232,8 @@ mark_as_advanced(ITK_USE_STRICT_CONCEPT_CHECKING)
 #----------------------------------------------------------------------------
 set(ITK_TEST_OUTPUT_DIR "${ITK_BINARY_DIR}/Testing/Temporary")
 
-#-----------------------------------------------------------------------------
 # Configure the default ITK_DATA_ROOT for the location of ITK Data.
-unset(ITK_DATA_ROOT CACHE) # No longer a cache entry.
-if(EXISTS ${ITK_SOURCE_DIR}/Testing/Data/ITKData.readme)
-  set(ITK_DATA_ROOT ${ITK_SOURCE_DIR}/Testing/Data)
-else()
-  set(ITK_DATA_ROOT "ITK_DATA_ROOT-NOTFOUND")
-  foreach(opt BUILD_TESTING BUILD_EXAMPLES)
-    if(${opt})
-      message(FATAL_ERROR
-        "${opt} is ON but the Testing/Data submodule is not available.  "
-        "Run\n  git submodule update --init\n"
-        "from the top of the source tree to get it!")
-    endif()
-  endforeach()
-endif()
+set(ITK_DATA_ROOT ${ITK_SOURCE_DIR}/Testing/Data)
 
 # Location of ITK Example Data.
 set(ITK_EXAMPLE_DATA_ROOT "${ITK_SOURCE_DIR}/Examples/Data")

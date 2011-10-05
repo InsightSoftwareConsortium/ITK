@@ -1,0 +1,29 @@
+##TITLE=Parameter List
+##JCAMPDX=4.24
+##DATATYPE=Parameter Values
+##ORIGIN=Bruker BioSpin MRI GmbH
+##OWNER=pvsu
+$$ Mon Dec  6 11:34:50 2004 EST (UT-5h)  pvsu
+$$ /opt/Pv3.0.1/data/pvsu/nmr/DCB120604.t61/11/pdata/1/d3proc
+##$SEQTYPE=slices
+##$DATTYPE=ip_short
+##$IM_SIX=256
+##$IM_SIY=256
+##$IM_SIZ=1
+##$IM_SIT=1
+##$SIM_SIX=256
+##$SIM_SIY=256
+##$SIM_SIZ=1
+##$SIM_SIT=1
+$$ @vis= SEQTYPE DATTYPE IM_SIX IM_SIY IM_SIZ IM_SIT SIM_SIX SIM_SIY SIM_SIZ
+##$SIM_X0=0
+##$SIM_Y0=0
+##$SIM_Z0=0
+##$SIM_T0=0
+##$CEN_SLC=1
+##$PR_STA=( 16 )
+25 25 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+##$PR_STP=( 16 )
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 8 32
+$$ @vis= SIM_SIT SIM_X0 SIM_Y0 SIM_Z0 SIM_T0 CEN_SLC PR_STA PR_STP
+##END=

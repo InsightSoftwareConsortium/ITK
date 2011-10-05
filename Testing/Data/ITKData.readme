@@ -1,0 +1,5 @@
+The Input directory contains data files that are used by the tests.
+
+The Baseline directory contains valid images created by
+tests. Generated images are compared with these baseline images
+during regression testing.

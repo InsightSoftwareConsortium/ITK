@@ -41,13 +41,13 @@ CreateTestDriver(ITKIOImageBase  "${ITKIOImageBase-Test_LIBRARIES}" "${ITKIOImag
 itk_add_test(NAME itkArchetypeSeriesFileNamesTest
       COMMAND ITKIOImageBaseTestDriver
     itkArchetypeSeriesFileNamesTest
-    ${ITK_DATA_ROOT}/Input/Archetype/a5b7.PNG
-    ${ITK_DATA_ROOT}/Input/Archetype/a7b1.PNG)
+    DATA{${ITK_DATA_ROOT}/Input/Archetype/a5b7.PNG,REGEX:a[0-9]b[0-9]\\.PNG}
+    DATA{${ITK_DATA_ROOT}/Input/Archetype/a7b1.PNG})
 itk_add_test(NAME itkArchetypeSeriesFileNamesTest2
       COMMAND ITKIOImageBaseTestDriver
     itkArchetypeSeriesFileNamesTest
-    ${ITK_DATA_ROOT}/Input/Archetype/image.001
-    ${ITK_DATA_ROOT}/Input/Archetype/image.010)
+    DATA{${ITK_DATA_ROOT}/Input/Archetype/image.001,REGEX:image\\.[0-9]+}
+    DATA{${ITK_DATA_ROOT}/Input/Archetype/image.010})
 itk_add_test(NAME itkConvertBufferTest
       COMMAND ITKIOImageBaseTestDriver itkConvertBufferTest)
 itk_add_test(NAME itkConvertBufferTest2
@@ -68,57 +68,57 @@ itk_add_test(NAME itkRegularExpressionSeriesFileNamesTest
               ${ITK_DATA_ROOT}/Input)
 itk_add_test(NAME itkImageFileReaderDimensionsTest_MHD
       COMMAND ITKIOImageBaseTestDriver itkImageFileReaderDimensionsTest
-              ${ITK_DATA_ROOT}/Input/HeadMRVolume.mha ${ITK_TEST_OUTPUT_DIR} mha)
+              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha} ${ITK_TEST_OUTPUT_DIR} mha)
 itk_add_test(NAME itkImageFileReaderDimensionsTest_NRRD
       COMMAND ITKIOImageBaseTestDriver itkImageFileReaderDimensionsTest
-              ${ITK_DATA_ROOT}/Input/vol-ascii.nrrd ${ITK_TEST_OUTPUT_DIR} nrrd)
+              DATA{${ITK_DATA_ROOT}/Input/vol-ascii.nrrd} ${ITK_TEST_OUTPUT_DIR} nrrd)
 itk_add_test(NAME itkImageFileReaderStreamingTest_1
       COMMAND ITKIOImageBaseTestDriver itkImageFileReaderStreamingTest
-              ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd 1 0)
+              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} 1 0)
 itk_add_test(NAME itkImageFileReaderStreamingTest_2
       COMMAND ITKIOImageBaseTestDriver itkImageFileReaderStreamingTest
-              ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd 0 1)
+              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} 0 1)
 itk_add_test(NAME itkImageFileReaderStreamingTest_3
       COMMAND ITKIOImageBaseTestDriver itkImageFileReaderStreamingTest
-              ${ITK_DATA_ROOT}/Input/vol-ascii.nrrd 0 0)
+              DATA{${ITK_DATA_ROOT}/Input/vol-ascii.nrrd} 0 0)
 itk_add_test(NAME itkImageFileReaderStreamingTest2_MHD
       COMMAND ITKIOImageBaseTestDriver itkImageFileReaderStreamingTest2
-              ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd)
+              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw})
 itk_add_test(NAME itkImageFileWriterPastingTest1
       COMMAND ITKIOImageBaseTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd,HeadMRVolume.raw}
               ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest1_01.mha
-    itkImageFileWriterPastingTest1 ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest1_01.mha)
+    itkImageFileWriterPastingTest1 DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest1_01.mha)
 itk_add_test(NAME itkImageFileWriterPastingTest2_5
       COMMAND ITKIOImageBaseTestDriver itkImageFileWriterPastingTest2
-              ${ITK_DATA_ROOT}/Input/HeadMRVolume.mha ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest2_5.mha)
+              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha} ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest2_5.mha)
 itk_add_test(NAME itkImageFileWriterPastingTest2_6
       COMMAND ITKIOImageBaseTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd,HeadMRVolume.raw}
               ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest2_6.mha
-    itkImageFileWriterPastingTest2 ${ITK_DATA_ROOT}/Input/HeadMRVolume.mha ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest2_6.mha ${ITK_DATA_ROOT}/Input/HeadMRVolume.mha)
+    itkImageFileWriterPastingTest2 DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha} ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest2_6.mha DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha})
 itk_add_test(NAME itkImageFileWriterPastingTest2_7
       COMMAND ITKIOImageBaseTestDriver itkImageFileWriterPastingTest2
-              ${ITK_DATA_ROOT}/Input/HeadMRVolume.mha ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest2_7.mha ${ITK_DATA_ROOT}/Input/HeadMRVolumeCompressed.mha)
+              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha} ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest2_7.mha DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeCompressed.mha})
 itk_add_test(NAME itkImageFileWriterPastingTest3
       COMMAND ITKIOImageBaseTestDriver
     itkImageFileWriterPastingTest3
-            ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
+            DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
             ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest3_01.mha)
 itk_add_test(NAME itkImageFileWriterStreamingPastingCompressingTest_MHA
       COMMAND ITKIOImageBaseTestDriver itkImageFileWriterStreamingPastingCompressingTest1
-              ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest mha 0 0 0 1 0 0 0 1)
+              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest mha 0 0 0 1 0 0 0 1)
 itk_add_test(NAME itkImageFileWriterStreamingPastingCompressingTest_NRRD
       COMMAND ITKIOImageBaseTestDriver itkImageFileWriterStreamingPastingCompressingTest1
-              ${ITK_DATA_ROOT}/Input/vol-ascii.nrrd ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest nrrd 0 0 1 1 0 0 1 1)
+              DATA{${ITK_DATA_ROOT}/Input/vol-ascii.nrrd} ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest nrrd 0 0 1 1 0 0 1 1)
 itk_add_test(NAME itkImageFileWriterStreamingPastingCompressingTest_NHDR
       COMMAND ITKIOImageBaseTestDriver itkImageFileWriterStreamingPastingCompressingTest1
-              ${ITK_DATA_ROOT}/Input/vol-ascii.nrrd ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest nhdr 0 0 1 1 0 0 1 1)
+              DATA{${ITK_DATA_ROOT}/Input/vol-ascii.nrrd} ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest nhdr 0 0 1 1 0 0 1 1)
 itk_add_test(NAME itkImageFileWriterStreamingPastingCompressingTest_VTK
       COMMAND ITKIOImageBaseTestDriver
-    --compare ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
+    --compare DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
               ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest000.vtk
-    itkImageFileWriterStreamingPastingCompressingTest1 ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest vtk 0 0 0 0 0 0 0 0)
+    itkImageFileWriterStreamingPastingCompressingTest1 DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest vtk 0 0 0 0 0 0 0 0)
 
 # JIRA ITK182
 # This test has been disabled due to the above bug. It should be
@@ -127,27 +127,27 @@ itk_add_test(NAME itkImageFileWriterStreamingPastingCompressingTest_VTK
 #
 #itk_add_test(NAME itkImageFileWriterStreamingPastingCompressingTest_DCM
 #      COMMAND ITKIOImageBaseTestDriver itkImageFileWriterStreamingPastingCompressingTest1
-#              ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest dcm 0 0 1 1 0 0 1 1)
+#              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest dcm 0 0 1 1 0 0 1 1)
 itk_add_test(NAME itkImageFileWriterStreamingTest1_1
       COMMAND ITKIOImageBaseTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd,HeadMRVolume.raw}
               ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreaming1_1.mha
-    itkImageFileWriterStreamingTest1 ${ITK_DATA_ROOT}/Input/HeadMRVolume.mha ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreaming1_1.mha)
+    itkImageFileWriterStreamingTest1 DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha} ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreaming1_1.mha)
 itk_add_test(NAME itkImageFileWriterStreamingTest1_2
       COMMAND ITKIOImageBaseTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd,HeadMRVolume.raw}
               ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreaming1_2.mha
-    itkImageFileWriterStreamingTest1 ${ITK_DATA_ROOT}/Input/HeadMRVolume.mha ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreaming1_2.mha ${ITK_DATA_ROOT}/Input/HeadMRVolumeCompressed.mha 0)
+    itkImageFileWriterStreamingTest1 DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha} ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreaming1_2.mha DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeCompressed.mha} 0)
 itk_add_test(NAME itkImageFileWriterStreamingTest1_3
       COMMAND ITKIOImageBaseTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd,HeadMRVolume.raw}
               ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreaming1_3.mha
-    itkImageFileWriterStreamingTest1 ${ITK_DATA_ROOT}/Input/HeadMRVolume.mha ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreaming1_3.mha ${ITK_DATA_ROOT}/Input/HeadMRVolume.mha 1)
+    itkImageFileWriterStreamingTest1 DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha} ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreaming1_3.mha DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha} 1)
 itk_add_test(NAME itkImageFileWriterStreamingTest2_4
       COMMAND ITKIOImageBaseTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd,HeadMRVolume.raw}
               ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreaming2_4.mha
-    itkImageFileWriterStreamingTest2 ${ITK_DATA_ROOT}/Input/HeadMRVolume.mha ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreaming2_4.mha)
+    itkImageFileWriterStreamingTest2 DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha} ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreaming2_4.mha)
 itk_add_test(NAME itkImageFileWriterTest2_1
       COMMAND ITKIOImageBaseTestDriver itkImageFileWriterTest2
               ${ITK_TEST_OUTPUT_DIR}/test.nrrd)
@@ -159,9 +159,9 @@ itk_add_test(NAME itkImageFileWriterTest2_3
               ${ITK_TEST_OUTPUT_DIR}/test.vtk)
 itk_add_test(NAME itkImageFileWriterUpdateLargestPossibleRegionTest
       COMMAND ITKIOImageBaseTestDriver
-    --compare ${ITK_DATA_ROOT}/Input/cthead1.png
+    --compare DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
               ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterUpdateLargestPossibleRegionTest.png
-    itkImageFileWriterUpdateLargestPossibleRegionTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterUpdateLargestPossibleRegionTest.png)
+    itkImageFileWriterUpdateLargestPossibleRegionTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterUpdateLargestPossibleRegionTest.png)
 itk_add_test(NAME itkImageIOBaseTest
       COMMAND ITKIOImageBaseTestDriver itkImageIOBaseTest)
 itk_add_test(NAME itkImageIODirection2DTest01
@@ -211,31 +211,31 @@ itk_add_test(NAME itkImageIODirection2DTest15
               ${ITK_EXAMPLE_DATA_ROOT}/BrainT1SliceBorder20DirectionPlus30.nhdr 0.8660254 -0.5 0.5 0.8660254)
 itk_add_test(NAME itkImageIODirection3DTest01
       COMMAND ITKIOImageBaseTestDriver itkImageIODirection3DTest
-              ${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirectionIdentity.mhd 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirectionIdentity.mhd)
+              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirectionIdentity.mhd} 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirectionIdentity.mhd)
 itk_add_test(NAME itkImageIODirection3DTest02
       COMMAND ITKIOImageBaseTestDriver itkImageIODirection3DTest
-              ${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection.mhd 0.8660254 0.5 0.0 -0.5 0.8660254 0.0 0.0 0.0 1.0 ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirection.mhd)
+              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection.mhd} 0.8660254 0.5 0.0 -0.5 0.8660254 0.0 0.0 0.0 1.0 ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirection.mhd)
 itk_add_test(NAME itkImageIODirection3DTest03
       COMMAND ITKIOImageBaseTestDriver itkImageIODirection3DTest
-              ${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirectionIdentity.mhd 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirectionIdentity.nhdr)
+              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirectionIdentity.mhd} 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirectionIdentity.nhdr)
 itk_add_test(NAME itkImageIODirection3DTest04
       COMMAND ITKIOImageBaseTestDriver itkImageIODirection3DTest
-              ${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection.mhd 0.8660254 0.5 0.0 -0.5 0.8660254 0.0 0.0 0.0 1.0 ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirection.nhdr)
+              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection.mhd} 0.8660254 0.5 0.0 -0.5 0.8660254 0.0 0.0 0.0 1.0 ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirection.nhdr)
 itk_add_test(NAME itkImageIODirection3DTest05
       COMMAND ITKIOImageBaseTestDriver itkImageIODirection3DTest
-              ${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirectionIdentity.nhdr 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0)
+              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirectionIdentity.nhdr,HeadMRVolumeWithDirectionIdentity.raw.gz} 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0)
 itk_add_test(NAME itkImageIODirection3DTest06
       COMMAND ITKIOImageBaseTestDriver itkImageIODirection3DTest
-              ${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection.nhdr 0.8660254 0.5 0.0 -0.5 0.8660254 0.0 0.0 0.0 1.0)
+              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection.nhdr,HeadMRVolumeWithDirection.raw.gz} 0.8660254 0.5 0.0 -0.5 0.8660254 0.0 0.0 0.0 1.0)
 itk_add_test(NAME itkImageIODirection3DTest07
       COMMAND ITKIOImageBaseTestDriver itkImageIODirection3DTest
-              ${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection001.mhd 1.0 0.0 0.0 0.0 -1.0 0.0 0.0 0.0 1.0 ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirection001.nhdr)
+              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection001.mhd} 1.0 0.0 0.0 0.0 -1.0 0.0 0.0 0.0 1.0 ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirection001.nhdr)
 itk_add_test(NAME itkImageIODirection3DTest08
       COMMAND ITKIOImageBaseTestDriver itkImageIODirection3DTest
-              ${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection002.mhd 1.0 0.0 0.0 0.0 0.0 01.0 0.0 -1.0 0.0 ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirection002.nhdr)
+              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection002.mhd} 1.0 0.0 0.0 0.0 0.0 01.0 0.0 -1.0 0.0 ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirection002.nhdr)
 itk_add_test(NAME itkImageIODirection3DTest09
       COMMAND ITKIOImageBaseTestDriver itkImageIODirection3DTest
-              ${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection003.mhd 0.0 -1.0 0.0 0.0 0.0 1.0 1.0 0.0 0.0 ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirection003.nhdr)
+              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection003.mhd} 0.0 -1.0 0.0 0.0 0.0 1.0 1.0 0.0 0.0 ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirection003.nhdr)
 itk_add_test(NAME itkImageIOFileNameExtensionsTests
       COMMAND ITKIOImageBaseTestDriver itkImageIOFileNameExtensionsTests)
 itk_add_test(NAME itkImageSeriesReaderDimensionsTest1
@@ -243,13 +243,13 @@ itk_add_test(NAME itkImageSeriesReaderDimensionsTest1
               ${ITK_DATA_ROOT}/Input/DicomSeries/Image0075.dcm ${ITK_DATA_ROOT}/Input/DicomSeries/Image0076.dcm ${ITK_DATA_ROOT}/Input/DicomSeries/Image0077.dcm)
 itk_add_test(NAME itkImageSeriesReaderDimensionsTest2
       COMMAND ITKIOImageBaseTestDriver itkImageSeriesReaderDimensionsTest
-              ${ITK_DATA_ROOT}/Input/cthead1.tif ${ITK_DATA_ROOT}/Input/cthead1.tif ${ITK_DATA_ROOT}/Input/cthead1.tif)
+              DATA{${ITK_DATA_ROOT}/Input/cthead1.tif} DATA{${ITK_DATA_ROOT}/Input/cthead1.tif} DATA{${ITK_DATA_ROOT}/Input/cthead1.tif})
 itk_add_test(NAME itkImageSeriesReaderVectorImageTest1
    COMMAND ITKIOImageBaseTestDriver itkImageSeriesReaderVectorTest
-   ${ITK_DATA_ROOT}/Input/RGBTestImage.tif ${ITK_DATA_ROOT}/Input/RGBTestImage.tif ${ITK_DATA_ROOT}/Input/RGBTestImage.tif )
+   DATA{${ITK_DATA_ROOT}/Input/RGBTestImage.tif} DATA{${ITK_DATA_ROOT}/Input/RGBTestImage.tif} DATA{${ITK_DATA_ROOT}/Input/RGBTestImage.tif} )
 itk_add_test(NAME itkImageSeriesReaderVectorImageTest2
    COMMAND ITKIOImageBaseTestDriver itkImageSeriesReaderVectorTest
-   ${ITK_DATA_ROOT}/Input/48BitTestImage.tif ${ITK_DATA_ROOT}/Input/48BitTestImage.tif ${ITK_DATA_ROOT}/Input/48BitTestImage.tif )
+   DATA{${ITK_DATA_ROOT}/Input/48BitTestImage.tif} DATA{${ITK_DATA_ROOT}/Input/48BitTestImage.tif} DATA{${ITK_DATA_ROOT}/Input/48BitTestImage.tif} )
 itk_add_test(NAME itkImageSeriesWriterTest
       COMMAND ITKIOImageBaseTestDriver itkImageSeriesWriterTest
               ${ITK_DATA_ROOT}/Input/DicomSeries ${ITK_TEST_OUTPUT_DIR} png)
@@ -271,9 +271,9 @@ if(ITK_BUILD_SHARED_LIBS)
 endif(ITK_BUILD_SHARED_LIBS)
 itk_add_test(NAME itkNoiseImageFilterTest
       COMMAND ITKIOImageBaseTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkNoiseImageFilterTest.png
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkNoiseImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/itkNoiseImageFilterTest.png
-    itkNoiseImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkNoiseImageFilterTest.png)
+    itkNoiseImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkNoiseImageFilterTest.png)
 itk_add_test(NAME itkMatrixImageWriteReadTest
       COMMAND ITKIOImageBaseTestDriver itkMatrixImageWriteReadTest
               ${ITK_TEST_OUTPUT_DIR}/testMatrix1.mha)

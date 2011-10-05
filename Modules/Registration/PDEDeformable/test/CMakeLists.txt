@@ -21,7 +21,7 @@ itk_add_test(NAME itkSymmetricForcesDemonsRegistrationFilterTest
       COMMAND ITKPDEDeformableRegistrationTestDriver itkSymmetricForcesDemonsRegistrationFilterTest)
 itk_add_test(NAME itkMultiResolutionPDEDeformableRegistrationTestD ${TestDriver}
       COMMAND ITKPDEDeformableRegistrationTestDriver
-            --compare ${BASELINE}/itkMultiResolutionPDEDeformableRegistrationTestPixelCentered.png
+            --compare DATA{${BASELINE}/itkMultiResolutionPDEDeformableRegistrationTestPixelCentered.png}
             ${TEMP}/itkMultiResolutionPDEDeformableRegistrationTestPixelCentered.png
   --compareNumberOfPixelsTolerance 20
   itkMultiResolutionPDEDeformableRegistrationTest

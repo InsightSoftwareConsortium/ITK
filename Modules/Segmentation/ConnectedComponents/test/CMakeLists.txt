@@ -15,55 +15,55 @@ CreateTestDriver(ITKConnectedComponents  "${ITKConnectedComponents-Test_LIBRARIE
 
 itk_add_test(NAME itkRelabelComponentImageFilterTest
       COMMAND ITKConnectedComponentsTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/RelabelComponentImageFilterTest.png
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/RelabelComponentImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/RelabelComponentImageFilterTest.png
-    itkRelabelComponentImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/RelabelComponentImageFilterTest.png 130 145)
+    itkRelabelComponentImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/RelabelComponentImageFilterTest.png 130 145)
 itk_add_test(NAME itkHardConnectedComponentImageFilterTest
       COMMAND ITKConnectedComponentsTestDriver itkHardConnectedComponentImageFilterTest)
 itk_add_test(NAME itkConnectedComponentImageFilterTestRGB
       COMMAND ITKConnectedComponentsTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ConnectedComponentImageFilterTest.png
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/ConnectedComponentImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/ConnectedComponentImageFilterTestRGB.png
-    itkConnectedComponentImageFilterTestRGB ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/ConnectedComponentImageFilterTestRGB.png 130 145)
+    itkConnectedComponentImageFilterTestRGB DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/ConnectedComponentImageFilterTestRGB.png 130 145)
 itk_add_test(NAME itkConnectedComponentImageFilterTest
       COMMAND ITKConnectedComponentsTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ConnectedComponentImageFilterTest.png
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/ConnectedComponentImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/ConnectedComponentImageFilterTest.png
-    itkConnectedComponentImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/ConnectedComponentImageFilterTest.png 130 145)
+    itkConnectedComponentImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/ConnectedComponentImageFilterTest.png 130 145)
 itk_add_test(NAME itkConnectedComponentImageFilterTest2
       COMMAND ITKConnectedComponentsTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ConnectedComponentImageFilterTest2.png
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/ConnectedComponentImageFilterTest2.png}
               ${ITK_TEST_OUTPUT_DIR}/ConnectedComponentImageFilterTest2.png
-    itkConnectedComponentImageFilterTest ${ITK_DATA_ROOT}/Input/Shapes.png ${ITK_TEST_OUTPUT_DIR}/ConnectedComponentImageFilterTest2.png 128 255 0)
+    itkConnectedComponentImageFilterTest DATA{${ITK_DATA_ROOT}/Input/Shapes.png} ${ITK_TEST_OUTPUT_DIR}/ConnectedComponentImageFilterTest2.png 128 255 0)
 itk_add_test(NAME itkConnectedComponentImageFilterTest3
       COMMAND ITKConnectedComponentsTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ConnectedComponentImageFilterTest3.png
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/ConnectedComponentImageFilterTest3.png}
               ${ITK_TEST_OUTPUT_DIR}/ConnectedComponentImageFilterTest3.png
-    itkConnectedComponentImageFilterTest ${ITK_DATA_ROOT}/Input/Shapes.png ${ITK_TEST_OUTPUT_DIR}/ConnectedComponentImageFilterTest3.png 128 255 1)
+    itkConnectedComponentImageFilterTest DATA{${ITK_DATA_ROOT}/Input/Shapes.png} ${ITK_TEST_OUTPUT_DIR}/ConnectedComponentImageFilterTest3.png 128 255 1)
 itk_add_test(NAME itkThresholdMaximumConnectedComponentsImageFilterTest1
       COMMAND ITKConnectedComponentsTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Algorithms/itkThresholdMaximumConnectedComponentsImageFilterTest1.png
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/Algorithms/itkThresholdMaximumConnectedComponentsImageFilterTest1.png}
               ${ITK_TEST_OUTPUT_DIR}/itkThresholdMaximumConnectedComponentsImageFilterTest1.png
-    itkThresholdMaximumConnectedComponentsImageFilterTest ${ITK_DATA_ROOT}/Input/CellsFluorescence1.png ${ITK_TEST_OUTPUT_DIR}/itkThresholdMaximumConnectedComponentsImageFilterTest1.png 10)
+    itkThresholdMaximumConnectedComponentsImageFilterTest DATA{${ITK_DATA_ROOT}/Input/CellsFluorescence1.png} ${ITK_TEST_OUTPUT_DIR}/itkThresholdMaximumConnectedComponentsImageFilterTest1.png 10)
 itk_add_test(NAME itkThresholdMaximumConnectedComponentsImageFilterTest2
       COMMAND ITKConnectedComponentsTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Algorithms/itkThresholdMaximumConnectedComponentsImageFilterTest2.png
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/Algorithms/itkThresholdMaximumConnectedComponentsImageFilterTest2.png}
               ${ITK_TEST_OUTPUT_DIR}/itkThresholdMaximumConnectedComponentsImageFilterTest2.png
-    itkThresholdMaximumConnectedComponentsImageFilterTest ${ITK_DATA_ROOT}/Input/CellsFluorescence2.png ${ITK_TEST_OUTPUT_DIR}/itkThresholdMaximumConnectedComponentsImageFilterTest2.png 10)
+    itkThresholdMaximumConnectedComponentsImageFilterTest DATA{${ITK_DATA_ROOT}/Input/CellsFluorescence2.png} ${ITK_TEST_OUTPUT_DIR}/itkThresholdMaximumConnectedComponentsImageFilterTest2.png 10)
 itk_add_test(NAME itkScalarConnectedComponentImageFilterTest
       COMMAND ITKConnectedComponentsTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ScalarConnectedComponentImageFilterTest.png
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/ScalarConnectedComponentImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/ScalarConnectedComponentImageFilterTest.png
-    itkScalarConnectedComponentImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/ScalarConnectedComponentImageFilterTest.png 20 1)
+    itkScalarConnectedComponentImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/ScalarConnectedComponentImageFilterTest.png 20 1)
 itk_add_test(NAME itkVectorConnectedComponentImageFilterTest
       COMMAND ITKConnectedComponentsTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/VectorConnectedComponentImageFilterTest.png
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/VectorConnectedComponentImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/VectorConnectedComponentImageFilterTest.png
     itkVectorConnectedComponentImageFilterTest ${ITK_TEST_OUTPUT_DIR}/VectorConnectedComponentImageFilterTest.png)
 itk_add_test(NAME itkConnectedComponentImageFilterTooManyObjectsTest
       COMMAND ITKConnectedComponentsTestDriver itkConnectedComponentImageFilterTooManyObjectsTest)
 itk_add_test(NAME itkMaskConnectedComponentImageFilterTest
       COMMAND ITKConnectedComponentsTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/MaskConnectedComponentImageFilterTest.png
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/MaskConnectedComponentImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/MaskConnectedComponentImageFilterTest.png
-    itkMaskConnectedComponentImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/MaskConnectedComponentImageFilterTest.png 130 145)
+    itkMaskConnectedComponentImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/MaskConnectedComponentImageFilterTest.png 130 145)

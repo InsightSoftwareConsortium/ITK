@@ -78,33 +78,33 @@ target_link_libraries(DeprecatedIOTestDriver ${ITKDeprecated-Test_LIBRARIES})
 ##Analyze Test Suite
 itk_add_test(NAME itkAnalyzeIOBigEndianCompressed.hdr
       COMMAND DeprecatedIOTestDriver itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}
-         ${ITK_DATA_ROOT}/Input/BigEndianCompressed.hdr)
+         DATA{${ITK_DATA_ROOT}/Input/BigEndianCompressed.hdr})
 itk_add_test(NAME itkAnalyzeIOBigEndianCompressed.img
       COMMAND DeprecatedIOTestDriver itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}
-         ${ITK_DATA_ROOT}/Input/BigEndianCompressed.img)
+         DATA{${ITK_DATA_ROOT}/Input/BigEndianCompressed.img})
 itk_add_test(NAME itkAnalyzeIOBigEndianCompressed.img.gz
       COMMAND DeprecatedIOTestDriver itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}
-         ${ITK_DATA_ROOT}/Input/BigEndianCompressed.img.gz)
+         DATA{${ITK_DATA_ROOT}/Input/BigEndianCompressed.img.gz})
 itk_add_test(NAME itkAnalyzeIOBigEndian
       COMMAND DeprecatedIOTestDriver itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}
-         ${ITK_DATA_ROOT}/Input/BigEndian.hdr)
+              DATA{${ITK_DATA_ROOT}/Input/BigEndian.hdr,BigEndian.mhd,BigEndian.img})
 itk_add_test(NAME itkAnalyzeIOLittleEndianCompressed
       COMMAND DeprecatedIOTestDriver itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}
-         ${ITK_DATA_ROOT}/Input/LittleEndianCompressed.hdr)
+              DATA{${ITK_DATA_ROOT}/Input/LittleEndianCompressed.hdr,LittleEndianCompressed.img.gz})
 itk_add_test(NAME itkAnalyzeIOLittleEndian
       COMMAND DeprecatedIOTestDriver itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}
-         ${ITK_DATA_ROOT}/Input/LittleEndian.hdr)
+              DATA{${ITK_DATA_ROOT}/Input/LittleEndian.hdr,LittleEndian.mhd,LittleEndian.img})
 itk_add_test(NAME itkAnalyzeIOInternalTests
       COMMAND DeprecatedIOTestDriver itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR} )
 itk_add_test(NAME itkAnalyzeIOShouldFail
       COMMAND DeprecatedIOTestDriver itkAnalyzeImageIOTest2 ${ITK_TEST_OUTPUT_DIR}
-                                false ${ITK_DATA_ROOT}/Input/ramp.gipl)
+                                false DATA{${ITK_DATA_ROOT}/Input/ramp.gipl})
 itk_add_test(NAME itkAnalyzeIOShouldSucceed
       COMMAND DeprecatedIOTestDriver itkAnalyzeImageIOTest2 ${ITK_TEST_OUTPUT_DIR}
-                                true ${ITK_DATA_ROOT}/Input/LittleEndian.hdr)
+                                true DATA{${ITK_DATA_ROOT}/Input/LittleEndian.hdr,LittleEndian.mhd,LittleEndian.img})
 itk_add_test(NAME itkAnalyzeIOShouldSucceedZ
       COMMAND DeprecatedIOTestDriver itkAnalyzeImageIOTest2 ${ITK_TEST_OUTPUT_DIR}
-                                true ${ITK_DATA_ROOT}/Input/LittleEndianZ.hdr)
+                                true DATA{${ITK_DATA_ROOT}/Input/LittleEndianZ.hdr,LittleEndianZ.img.gz})
 itk_add_test(NAME itkAnalyzeImageIODirectionsTest
       COMMAND DeprecatedIOTestDriver itkAnalyzeImageIODirectionsTest
                                 ${ITK_TEST_OUTPUT_DIR})
@@ -125,20 +125,20 @@ itk_add_test(NAME itkDICOMSeriesFileNamesTest
        COMMAND DeprecatedIOTestDriver itkDICOMSeriesFileNamesTest ${ITK_DATA_ROOT}/Input/DicomSeries)
 itk_add_test(NAME itkDicomDifficultFile
      COMMAND DeprecatedIOTestDriver
-    itkDicomImageIOTest ${ITK_DATA_ROOT}/Input/012345.002.050
+    itkDicomImageIOTest DATA{${ITK_DATA_ROOT}/Input/012345.002.050}
          ${ITK_TEST_OUTPUT_DIR}/itkDicomDifficultFile.png)
 itk_add_test(NAME itkDicomImageIODirection2DTest
       COMMAND DeprecatedIOTestDriver itkDicomImageIODirection2DTest
               ${ITK_TEST_OUTPUT_DIR}/itkDicomImage3DIODirection2DTest.dcm ${ITK_TEST_OUTPUT_DIR}/itkDicomImage3DIODirection2DTest.mhd ${ITK_TEST_OUTPUT_DIR}/itkDicomImage2DIODirection2DTest.mhd)
 itk_add_test(NAME itkImageReadDICOMSeriesWriteTest
      COMMAND DeprecatedIOTestDriver
-      itkImageReadDICOMSeriesWriteTest ${ITK_DATA_ROOT}/Input/HeadMRVolumeCompressed.mha
+      itkImageReadDICOMSeriesWriteTest DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeCompressed.mha}
   ${ITK_TEST_OUTPUT_DIR}/DICOMSeriesOutputHeadMRVolume)
 itk_add_test(NAME itkImageReadDICOMSeriesWriteWithDirection002Test
        COMMAND DeprecatedIOTestDriver
-      itkImageReadDICOMSeriesWriteTest ${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection002.mhd
+      itkImageReadDICOMSeriesWriteTest DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection002.mhd}
   ${ITK_TEST_OUTPUT_DIR}/DICOMSeriesOutputHeadMRVolumeWithDirection002)
 itk_add_test(NAME itkImageReadDICOMSeriesWriteWithDirection003Test
        COMMAND DeprecatedIOTestDriver
-      itkImageReadDICOMSeriesWriteTest ${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection003.mhd
+      itkImageReadDICOMSeriesWriteTest DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection003.mhd}
   ${ITK_TEST_OUTPUT_DIR}/DICOMSeriesOutputHeadMRVolumeWithDirection003)

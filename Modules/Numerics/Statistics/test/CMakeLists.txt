@@ -97,31 +97,31 @@ itk_add_test(NAME itkDenseFrequencyContainer2Test
       COMMAND ITKStatisticsTestDriver itkDenseFrequencyContainer2Test)
 itk_add_test(NAME itkExpectationMaximizationMixtureModelEstimatorTest
       COMMAND ITKStatisticsTestDriver itkExpectationMaximizationMixtureModelEstimatorTest
-              ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
+              DATA{${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat})
 itk_add_test(NAME itkGaussianDistributionTest
       COMMAND ITKStatisticsTestDriver itkGaussianDistributionTest)
 itk_add_test(NAME itkGaussianMembershipFunctionTest
       COMMAND ITKStatisticsTestDriver itkGaussianMembershipFunctionTest)
 itk_add_test(NAME itkGaussianMixtureModelComponentTest
       COMMAND ITKStatisticsTestDriver itkGaussianMixtureModelComponentTest
-              ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
+              DATA{${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat})
 itk_add_test(NAME itkKalmanLinearEstimatorTest
       COMMAND ITKStatisticsTestDriver itkKalmanLinearEstimatorTest)
 itk_add_test(NAME itkKdTreeBasedKmeansEstimatorTest
       COMMAND ITKStatisticsTestDriver itkKdTreeBasedKmeansEstimatorTest
-              ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat 1 28.54746 0.07)
+              DATA{${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat} 1 28.54746 0.07)
 itk_add_test(NAME itkKdTreeGeneratorTest
       COMMAND ITKStatisticsTestDriver itkKdTreeGeneratorTest
-              ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
+              DATA{${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat})
 itk_add_test(NAME itkKdTreeTest1
       COMMAND ITKStatisticsTestDriver itkKdTreeTest1
               100 100 1 ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest1_100.dot)
 itk_add_test(NAME itkKdTreeTest2
       COMMAND ITKStatisticsTestDriver itkKdTreeTest2
-              ${ITK_DATA_ROOT}/Input/pointsForKdTree.txt 1 ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest2.dot)
+              DATA{${ITK_DATA_ROOT}/Input/pointsForKdTree.txt} 1 ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest2.dot)
 itk_add_test(NAME itkKdTreeTest3
       COMMAND ITKStatisticsTestDriver itkKdTreeTest2
-              ${ITK_DATA_ROOT}/Input/pointsForKdTree2.txt 1 ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest3.dot)
+              DATA{${ITK_DATA_ROOT}/Input/pointsForKdTree2.txt} 1 ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest3.dot)
 itk_add_test(NAME itkKdTreeTest4
       COMMAND ITKStatisticsTestDriver itkKdTreeTest1
               1000 1000 1)
@@ -308,7 +308,7 @@ itk_add_test(NAME itkSampleToHistogramFilterTest4
       COMMAND ITKStatisticsTestDriver itkSampleToHistogramFilterTest4)
 itk_add_test(NAME itkSampleToHistogramFilterTest5
       COMMAND ITKStatisticsTestDriver itkSampleToHistogramFilterTest5
-              ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png)
+              DATA{${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png})
 itk_add_test(NAME itkSampleToHistogramFilterTest6
       COMMAND ITKStatisticsTestDriver itkSampleToHistogramFilterTest6)
 itk_add_test(NAME itkSampleToHistogramFilterTest7
