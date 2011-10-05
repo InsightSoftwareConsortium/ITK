@@ -10,7 +10,9 @@ find_package(PythonInterp)
 
 # The maximum number of headers in a test.  (This helps limit memory issues,
 # and the cppcheck tests.)
-set( MAXIMUM_NUMBER_OF_HEADERS 35 )
+set( MAXIMUM_NUMBER_OF_HEADERS 35
+  CACHE STRING "The number of headers in a HeaderTest code." )
+mark_as_advanced( MAXIMUM_NUMBER_OF_HEADERS )
 
 add_custom_target( ITKHeaderTests
   ${CMAKE_COMMAND} --build ${ITK_BINARY_DIR}

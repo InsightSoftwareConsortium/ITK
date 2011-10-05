@@ -17,7 +17,8 @@
  *=========================================================================*/
 #ifndef __itkTriangleCellTopology_h
 #define __itkTriangleCellTopology_h
-#include "itkWin32Header.h"
+
+#include "itkMacro.h"
 
 namespace itk
 {

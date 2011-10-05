@@ -9,7 +9,6 @@ toolkit.")
 itk_module(ITKTransform
   DEPENDS
     ITKStatistics
-    ITKHDF5
     ITKImageFilterBase
   TEST_DEPENDS
     ITKTestKernel

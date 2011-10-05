@@ -29,7 +29,7 @@ import ITKImageStatistics
 import ITKSmoothing
 import ITKDistanceMap
 import ITKImageIntensity
-import ITKIOBase
+import ITKIOImageBase
 import ITKThresholding
 import ITKImageGrid
 
@@ -51,7 +51,7 @@ image.Allocate()
 
 sources.append(("ITKCommon", image))
 
-sources.append(("ITKIOBase", reader.GetOutput()))
+sources.append(("ITKIOImageBase", reader.GetOutput()))
 
 otsu = ITKThresholding.OtsuThresholdImageFilter[IType, IType].New(reader)
 sources.append(("ITKThresholding", otsu.GetOutput()))
@@ -115,8 +115,8 @@ dests.append(("ITKDistanceMap", ddistance))
 # dlaplacian = Filtering.LaplacianImageFilter[IType, IType].New()
 # dests.append(("Filtering", dlaplacian))
 
-writer = ITKIOBase.ImageFileWriter[IType].New(FileName='out.png')
-dests.append(("ITKIOBase", writer))
+writer = ITKIOImageBase.ImageFileWriter[IType].New(FileName='out.png')
+dests.append(("ITKIOImageBase", writer))
 
 
 nb = 0

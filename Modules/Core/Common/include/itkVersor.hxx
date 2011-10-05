@@ -21,6 +21,7 @@
 #include "itkVersor.h"
 #include "itkNumericTraits.h"
 #include "itkMath.h"
+#include <vnl/vnl_det.h>
 
 namespace itk
 {
@@ -395,6 +396,27 @@ Versor< T >
   // epsilon value
   //to a higher tolerance, the alternate stable methods for conversion are used.
   const T epsilon = vcl_numeric_limits< T >::epsilon();
+  // Use a slightly less epsilon for detecting difference
+  const T epsilonDiff = vcl_numeric_limits< T >::epsilon() * 10.0;
+
+  vnl_matrix_fixed< T, 3, 3 > I;
+              //check for orthonormality and that it isn't a reflection
+  I = m*m.transpose();
+  if( vcl_abs( I[0][1] ) > epsilon || vcl_abs( I[0][2] ) > epsilon ||
+      vcl_abs( I[1][0] ) > epsilon || vcl_abs( I[1][2] ) > epsilon ||
+      vcl_abs( I[2][0] ) > epsilon || vcl_abs( I[2][1] ) > epsilon ||
+      vcl_abs( I[0][0] - itk::NumericTraits<T>::One ) > epsilonDiff ||
+      vcl_abs( I[1][1] - itk::NumericTraits<T>::One ) > epsilonDiff ||
+      vcl_abs( I[2][2] - itk::NumericTraits<T>::One ) > epsilonDiff ||
+      vnl_det( I ) < 0 )
+    {
+    itkGenericExceptionMacro(<< "The following matrix does not represent rotation."
+                             << std::endl
+                             << m << std::endl
+                             << "det(m * m transpose) is: " << vnl_det(I) << std::endl
+                             << "m * m transpose is:" << std::endl
+                             << I << std::endl);
+    }
 
   double trace = m(0, 0) + m(1, 1) + m(2, 2) + 1.0;
 

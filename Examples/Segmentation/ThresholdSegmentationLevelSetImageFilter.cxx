@@ -17,19 +17,19 @@
  *=========================================================================*/
 
 //  Software Guide : BeginCommandLineArgs
-//    INPUTS: {BrainProtonDensitySlice.png}
+//    INPUTS:  {BrainProtonDensitySlice.png}
 //    OUTPUTS: {ThresholdSegmentationLevelSetImageFilterWhiteMatter.png}
-//    60 116 5 150 180
+//    ARGUMENTS:    60 116 5 150 180
 //  Software Guide : EndCommandLineArgs
 //  Software Guide : BeginCommandLineArgs
-//    INPUTS: {BrainProtonDensitySlice.png}
+//    INPUTS:  {BrainProtonDensitySlice.png}
 //    OUTPUTS: {ThresholdSegmentationLevelSetImageFilterVentricle.png}
-//    81 112 5 210 250
+//    ARGUMENTS:    81 112 5 210 250
 //  Software Guide : EndCommandLineArgs
 //  Software Guide : BeginCommandLineArgs
-//    INPUTS: {BrainProtonDensitySlice.png}
+//    INPUTS:  {BrainProtonDensitySlice.png}
 //    OUTPUTS: {ThresholdSegmentationLevelSetImageFilterGrayMatter.png}
-//    107 69 5 180  210
+//    ARGUMENTS:    107 69 5 180  210
 //  Software Guide : EndCommandLineArgs
 
 // Software Guide : BeginLatex
@@ -67,12 +67,14 @@
 // \label{fig:ThresholdSegmentationLevelSetImageFilterDiagram}
 // \end{figure}
 //
-// \itkpiccaption[Propagation term for threshold-based level set
-// segmentation]{Propagation term for threshold-based level set segmentation.
-// From
-// Equation~\ref{eqn:ThresholdSegmentationLevelSetImageFilterPropagationTerm}.
-// \label{fig:ThresholdSegmentationSpeedTerm}}
-// \parpic(7.0cm,4.5cm)[r]{\includegraphics[width=6.5cm]{ThresholdSegmentationLevelSetImageFilterFigure1.eps}}
+//  \begin{floatingfigure}[rlp]{6cm}
+//    \centering
+//    \includegraphics[width=6.5cm]{ThresholdSegmentationLevelSetImageFilterFigure1.eps}
+//    \caption[Propagation term for threshold-based level set segmentation]
+//            {Propagation term for threshold-based level set segmentation.
+//             From Equation~\ref{eqn:ThresholdSegmentationLevelSetImageFilterPropagationTerm}.
+//             \label{fig:ThresholdSegmentationSpeedTerm}}
+//  \end{floatingfigure}
 //
 // The threshold segmentation filter expects two inputs.  The first is an
 // initial level set in the form of an \doxygen{Image}. The second input is

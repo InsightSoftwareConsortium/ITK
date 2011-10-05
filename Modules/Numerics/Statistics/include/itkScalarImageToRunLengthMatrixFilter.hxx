@@ -23,6 +23,7 @@
 #include "itkConstNeighborhoodIterator.h"
 #include "itkNeighborhood.h"
 #include "vnl/vnl_math.h"
+#include "itkMacro.h"
 
 namespace itk
 {
@@ -160,19 +161,28 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
   NeighborhoodIteratorType neighborIt( radius,
     this->GetInput(), this->GetInput()->GetRequestedRegion() );
 
+
+  // this temp image has the same dimension for each offset
+  // moving the allocation out of loop of offsets
+  // while keeping FillBuffer with boolean false in each loop
+  typedef Image<bool, ImageDimension> BoolImageType;
+  typename BoolImageType::Pointer alreadyVisitedImage = BoolImageType::New();
+  alreadyVisitedImage->CopyInformation( this->GetInput() );
+  alreadyVisitedImage->SetRegions( this->GetInput()->GetRequestedRegion() );
+  alreadyVisitedImage->Allocate();
+
   typename OffsetVector::ConstIterator offsets;
   for( offsets = this->GetOffsets()->Begin();
     offsets != this->GetOffsets()->End(); offsets++ )
     {
-    typedef Image<bool, ImageDimension> BoolImageType;
-    typename BoolImageType::Pointer alreadyVisitedImage = BoolImageType::New();
-    alreadyVisitedImage->CopyInformation( this->GetInput() );
-    alreadyVisitedImage->SetRegions( this->GetInput()->GetRequestedRegion() );
-    alreadyVisitedImage->Allocate();
+
     alreadyVisitedImage->FillBuffer( false );
 
     neighborIt.GoToBegin();
     OffsetType offset = offsets.Value();
+
+    this->NormalizeOffsetDirection(offset);
+
 
     for( neighborIt.GoToBegin(); !neighborIt.IsAtEnd(); ++neighborIt )
       {
@@ -188,22 +198,53 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
                   // is out-of-bounds or is outside the mask.
         }
 
+      itkDebugMacro("===> offset = " << offset << std::endl);
+
       MeasurementType centerBinMin = this->GetOutput()->
         GetBinMinFromValue( 0, centerPixelIntensity );
       MeasurementType centerBinMax = this->GetOutput()->
         GetBinMaxFromValue( 0, centerPixelIntensity );
+      MeasurementType lastBinMax = this->GetOutput()->
+              GetDimensionMaxs( 0 )[ this->GetOutput()->GetSize( 0 ) - 1 ];
 
-      IndexType index = centerIndex;
-      PixelType pixelIntensity = this->GetInput()->GetPixel( index );
-      while( pixelIntensity >= centerBinMin &&
-        pixelIntensity <= centerBinMax &&
-        !alreadyVisitedImage->GetPixel( index ) )
+      PixelType pixelIntensity;
+      IndexType index;
+
+      index = centerIndex + offset;
+      IndexType lastGoodIndex = centerIndex;
+      bool runLengthSegmentAlreadyVisited = false;
+
+      // Scan from the current pixel at index, following
+      // the direction of offset. Run length is computed as the
+      // length of continuous pixels whose pixel values are
+      // in the same bin.
+
+      while ( this->GetInput()->GetRequestedRegion().IsInside(index) )
         {
-        alreadyVisitedImage->SetPixel( index, true );
-        index += offset;
-        if( this->GetInput()->GetRequestedRegion().IsInside( index ) )
+        // For the same offset, each run length segment can
+        // only be visited once
+        if (alreadyVisitedImage->GetPixel( index ) )
           {
-          pixelIntensity = this->GetInput()->GetPixel( index );
+          runLengthSegmentAlreadyVisited = true;
+          break;
+          }
+
+        pixelIntensity = this->GetInput()->GetPixel( index );
+
+        // Special attention paid to boundaries of bins.
+        // For the last bin,
+        // it is left close and right close (following the previous
+        // gerrit patch).
+        // For all
+        // other bins,
+        // the bin is left close and right open.
+
+        if ( pixelIntensity >= centerBinMin
+            && ( pixelIntensity < centerBinMax || ( pixelIntensity == centerBinMax && centerBinMax == lastBinMax ) ) )
+          {
+          alreadyVisitedImage->SetPixel( index, true );
+          lastGoodIndex = index;
+          index += offset;
           }
         else
           {
@@ -211,11 +252,16 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
           }
         }
 
+      if ( runLengthSegmentAlreadyVisited )
+        {
+        continue;
+        }
+
       PointType centerPoint;
       this->GetInput()->TransformIndexToPhysicalPoint(
         centerIndex, centerPoint );
       PointType point;
-      this->GetInput()->TransformIndexToPhysicalPoint( index, point );
+      this->GetInput()->TransformIndexToPhysicalPoint( lastGoodIndex, point );
 
       run[0] = centerPixelIntensity;
       run[1] = centerPoint.EuclideanDistanceTo( point );
@@ -223,6 +269,18 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
       if( run[1] >= this->m_MinDistance && run[1] <= this->m_MaxDistance )
         {
         output->IncreaseFrequencyOfMeasurement( run, 1 );
+
+        itkDebugMacro( "centerIndex<->index: "
+            << (int) centerPixelIntensity
+            << "@"<< centerIndex
+                << "<->" << (int) pixelIntensity << "@" << index
+                <<", Bin# " << output->GetIndex(run)
+                << ", Measurement: (" << run[0] << ", " << run[1] << ")"
+                << ", Center bin [" << this->GetOutput()->GetBinMinFromValue( 0, run[0] )
+                << "," << this->GetOutput()->GetBinMaxFromValue( 0, run[0] ) << "]"
+                << "~[" << this->GetOutput()->GetBinMinFromValue( 1, run[1] )
+                << "," << this->GetOutput()->GetBinMaxFromValue( 1, run[1] ) << "]"
+                << std::endl );
         }
       }
     }
@@ -271,6 +329,32 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
   os << indent << "NumberOfBinsPerAxis: " << this->m_NumberOfBinsPerAxis
     << std::endl;
   os << indent << "InsidePixelValue: " << this->m_InsidePixelValue << std::endl;
+}
+
+template<class TImageType, class THistogramFrequencyContainer>
+void
+ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
+::NormalizeOffsetDirection(OffsetType &offset)
+{
+
+  itkDebugMacro("old offset = " << offset << std::endl);
+  int sign = 1;
+  bool metLastNonZero = false;
+  for (int i = offset.GetOffsetDimension()-1; i>=0; i--)
+    {
+    if (metLastNonZero)
+      {
+      offset[i] *= sign;
+      }
+    else if (offset[i] != 0)
+      {
+      sign = (offset[i] > 0 ) ? 1 : -1;
+      metLastNonZero = true;
+      offset[i] *= sign;
+      }
+    }
+
+  itkDebugMacro("new  offset = " << offset << std::endl);
 }
 
 } // end of namespace Statistics

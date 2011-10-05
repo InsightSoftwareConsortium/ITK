@@ -76,6 +76,10 @@ public:
   /** Returns the mean curvature of the level set function at a given location iP */
   virtual OutputRealType EvaluateMeanCurvature( const InputType& iP ) const;
 
+  virtual GradientType EvaluateForwardGradient( const InputType& iP ) const;
+
+  virtual GradientType EvaluateBackwardGradient( const InputType& iP ) const;
+
   /** Returns the value of the level set function at a given location iP */
   virtual void Evaluate( const InputType& iP, LevelSetDataType& ioData ) const;
 

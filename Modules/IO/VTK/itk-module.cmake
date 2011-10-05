@@ -3,7 +3,7 @@ files in the \"legacy\" (non-XML) VTK file format.")
 
 itk_module(ITKIOVTK
   DEPENDS
-    ITKIOBase
+    ITKIOImageBase
   TEST_DEPENDS
     ITKTestKernel
   DESCRIPTION

@@ -305,7 +305,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
-::GetValueAndDerivativeThreadedExecute( DerivativeType & derivativeReturn )
+::GetValueAndDerivativeThreadedExecute( DerivativeType & derivativeReturn ) const
 {
   //Initialize threading memory if this is the first time
   // in here since a call to Initialize, or if user has passed
@@ -317,7 +317,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
     }
 
   //Initialization required for each iteration.
-  InitializeForIteration();
+  this->InitializeForIteration();
 
   // Do the threaded evaluation. This will
   // call GetValueAndDerivativeThreadedCallback, which
@@ -326,7 +326,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
   this->m_ValueAndDerivativeThreader->StartThreadedExecution();
 
   // Determine the total number of points used during calculations.
-  CollectNumberOfValidPoints();
+  this->CollectNumberOfValidPoints();
 
   // To collect the results from each thread into final values
   // the derived class can call GetValueAndDerivativeThreadedPostProcess,
@@ -342,7 +342,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
-::InitializeThreadingMemory( DerivativeType & derivativeReturn )
+::InitializeThreadingMemory( DerivativeType & derivativeReturn ) const
 {
   /* Point our results object to the object provided by user. */
   this->m_DerivativeResult = &derivativeReturn;
@@ -357,8 +357,9 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
   this->m_MovingTransformJacobianPerThread.resize( this->GetNumberOfThreads() );
 
   /* This size always comes from the moving image */
-  unsigned int globalDerivativeSize =
+  NumberOfParametersType globalDerivativeSize =
     this->m_MovingTransform->GetNumberOfParameters();
+
   itkDebugMacro("ImageToImageObjectMetric::Initialize: deriv size  "
                   << globalDerivativeSize << std::endl);
   /* NOTE: this does *not* get init'ed to 0 here. */
@@ -404,7 +405,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
-::InitializeForIteration()
+::InitializeForIteration() const
 {
   /* Initialize some threading values that require per-iteration
    * initialization. */
@@ -447,7 +448,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
-::CollectNumberOfValidPoints()
+::CollectNumberOfValidPoints() const
 {
   /* Count number of valid points.
    * Other post-processing can be done by calling
@@ -469,7 +470,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
-::GetValueAndDerivativeThreadedPostProcess( bool doAverage )
+::GetValueAndDerivativeThreadedPostProcess( bool doAverage ) const
 {
   /* For global transforms, sum the derivatives from each region. */
   if ( ! this->m_MovingTransform->HasLocalSupport() )
@@ -481,9 +482,9 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
     }
 
   /* Accumulate the metric value from threads and store */
-  this->m_Value =
-    NumericTraits<InternalComputationValueType>::Zero;
-  for(unsigned int i=0; i< this->m_MeasurePerThread.size(); i++)
+  this->m_Value = NumericTraits<InternalComputationValueType>::Zero;
+
+  for(size_t i=0; i< this->m_MeasurePerThread.size(); i++)
     {
     this->m_Value += this->m_MeasurePerThread[i];
     }
@@ -658,7 +659,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
       OffsetValueType offset =
         this->m_VirtualDomainImage->ComputeOffset(virtualIndex);
       offset *= this->m_MovingTransform->GetNumberOfLocalParameters();
-      for (unsigned int i=0;
+      for (NumberOfParametersType i=0;
             i < this->m_MovingTransform->GetNumberOfLocalParameters(); i++)
         {
         /* Be sure to *add* here and not assign. Required for proper behavior
@@ -911,7 +912,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
-::DoFixedImagePreWarp()
+::DoFixedImagePreWarp() const
 {
   /* Call Modified to make sure the filter recalculates the output. We haven't
    * changed any settings, but we assume the transform parameters have changed,
@@ -939,7 +940,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
-::DoMovingImagePreWarp()
+::DoMovingImagePreWarp() const
 {
   /* Call Modified to make sure the filter recalculates the output. We haven't
    * changed any settings, but we assume the transform parameters have changed,
@@ -985,7 +986,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
-::ComputeMovingImageGradientFilterImage()
+::ComputeMovingImageGradientFilterImage() const
 {
   MovingImageConstPointer  image;
   if( this->m_DoMovingImagePreWarp )
@@ -1022,7 +1023,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 
   const typename FixedImageType::SpacingType & spacing = image->GetSpacing();
   double maximumSpacing = 0.0;
-  for ( unsigned int i = 0; i < FixedImageDimension; i++ )
+  for ( ImageDimensionType i = 0; i < FixedImageDimension; i++ )
     {
     if ( spacing[i] > maximumSpacing )
       {
@@ -1055,7 +1056,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 
   const typename MovingImageType::SpacingType & spacing = image->GetSpacing();
   double maximumSpacing = 0.0;
-  for ( unsigned int i = 0; i < MovingImageDimension; i++ )
+  for ( ImageDimensionType i = 0; i < MovingImageDimension; i++ )
     {
     if ( spacing[i] > maximumSpacing )
       {
@@ -1086,6 +1087,8 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
         DerivativeType &                  itkNotUsed(localDerivativeReturn),
         const ThreadIdType                itkNotUsed(threadID) ) const
 {
+  itkExceptionMacro("GetValueAndDerivativeProcessPoint called in base class. "
+                    "Must be overridden by derived class.");
   return false;
 }
 
@@ -1242,7 +1245,8 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
-unsigned int
+typename
+ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>::NumberOfParametersType
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
 ::GetNumberOfParameters() const
 {
@@ -1258,7 +1262,8 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
-unsigned int
+typename
+ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >::NumberOfParametersType
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 ::GetNumberOfLocalParameters() const
 {

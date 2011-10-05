@@ -82,8 +82,8 @@ int main(int, char *[])
   //  Let's now create a Mesh and insert some points into it. Note that the
   //  dimension of the points matches the dimension of the Mesh. Here we insert
   //  a sequence of points that look like a plot of the $\log()$ function.  We
-  //  add the \code{vnl_math::eps} value in oder to avoid numerical errors when
-  //  the point id is zero. The value of \code{vnl_math::eps} is the difference
+  //  add the \code{vnl\_math::eps} value in oder to avoid numerical errors when
+  //  the point id is zero. The value of \code{vnl\_math::eps} is the difference
   //  between 1.0 and the least value greater than 1.0 that is representable in
   //  this computer.
   //

@@ -26,10 +26,10 @@ namespace itk
 {
 /** \class FFTWForwardFFTImageFilter
  *
- * \brief FFTW based forward Fast Fourier Transform
+ * \brief FFTW-based forward Fast Fourier Transform.
  *
- * This filter computes the forward Fourier transform of an image. The implementation is
- * based on the FFTW library.
+ * This filter computes the forward Fourier transform of an image. The
+ * implementation is based on the FFTW library.
  *
  * This filter is multithreaded and supports input images of any size.
  *
@@ -68,10 +68,10 @@ public:
   typedef SmartPointer< Self >                               Pointer;
   typedef SmartPointer< const Self >                         ConstPointer;
 
-  /** The proxy type is a wrapper for the FFTW API since the proxy is
-   * only defined over double and float, trying to use any other pixel
-   * type is unsupported, as is trying to use double if only the float
-   * FFTW version is configured in, or float if only double is
+  /** The proxy type is a wrapper for the FFTW API. Because the proxy
+   * is defined only for double and float, trying to use any other
+   * pixel type is unsupported, as is trying to use double if only the
+   * float FFTW version is configured in, or float if only double is
    * configured. */
   typedef typename fftw::Proxy< InputPixelType > FFTWProxyType;
 
@@ -109,18 +109,15 @@ protected:
   FFTWForwardFFTImageFilter();
   ~FFTWForwardFFTImageFilter() {}
 
-  /** These should be defined in every FFT filter class. */
   virtual void GenerateData();
-
-  virtual bool FullMatrix();
 
   virtual void UpdateOutputData(DataObject *output);
 
   void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  FFTWForwardFFTImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  FFTWForwardFFTImageFilter(const Self&); // purposely not implemented
+  void operator=(const Self&);            // purposely not implemented
 
   bool m_CanUseDestructiveAlgorithm;
 

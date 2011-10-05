@@ -4,7 +4,7 @@ used by confocal microscopes like MRC 1024 and MRC 600.")
 
 itk_module(ITKIOBioRad
   DEPENDS
-    ITKIOBase
+    ITKIOImageBase
   TEST_DEPENDS
     ITKTestKernel
   DESCRIPTION

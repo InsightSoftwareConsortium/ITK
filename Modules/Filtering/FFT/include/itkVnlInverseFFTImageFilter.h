@@ -27,7 +27,7 @@ namespace itk
 {
 /** \class VnlInverseFFTImageFilter
  *
- * \brief VNL based reverse Fast Fourier Transform.
+ * \brief VNL-based reverse Fast Fourier Transform.
  *
  * The input image size must be a multiple of combinations of 2s, 3s,
  * and/or 5s in all dimensions.
@@ -76,11 +76,6 @@ public:
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
-  /** These should be defined in every FFT filter class. */
-  virtual void GenerateData();  // generates output from input
-
-  virtual bool FullMatrix();
-
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro( PixelUnsignedIntDivisionOperatorsCheck,
@@ -94,31 +89,13 @@ protected:
   VnlInverseFFTImageFilter()  {}
   virtual ~VnlInverseFFTImageFilter(){}
 
-  /** Method to check if an array dimension is legal for the prime
-   * factor FFT algorithm. */
-  bool IsDimensionSizeLegal(InputSizeValueType n);
+  virtual void GenerateData();  // generates output from input
 
 private:
   VnlInverseFFTImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                          //purposely not implemented
 
   typedef vnl_vector< InputPixelType  > SignalVectorType;
-
-  struct vnl_fft_transform:
-    public vnl_fft_base< ImageDimension, OutputPixelType >
-  {
-    typedef vnl_fft_base< ImageDimension, OutputPixelType > Base;
-
-    //: constructor takes size of signal.
-    vnl_fft_transform( const InputSizeType & s )
-    {
-      for( int i=0; i<ImageDimension; i++ )
-      {
-        Base::factors_[ImageDimension - i - 1].resize(s[i]);
-      }
-    }
-  };
-
 };
 }
 

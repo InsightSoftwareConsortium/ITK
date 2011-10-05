@@ -19,6 +19,7 @@
 #define __itkAnchorOpenCloseLine_h
 
 #include "itkMorphologyHistogram.h"
+#include "itkIndent.h"
 
 //#define RAWHIST
 

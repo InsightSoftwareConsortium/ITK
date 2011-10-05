@@ -24,23 +24,16 @@ namespace itk
 {
 /** \class InverseFFTImageFilter
  *
- * \brief Base class for "Inverse" Fast Fourier Transform.
+ * \brief Base class for inverse Fast Fourier Transform.
  *
  * This is a base class for the "inverse" or "reverse" Discrete Fourier
  * Transform.  This is an abstract base class: the actual implementation is
  * provided by the best child available on the system when the object is
  * created via the object factory system.
  *
- * This class transforms a complex conjugate symmetric image into its real
- * spatial domain representation.  If the input is not complex conjugate symmetric, the
- * imaginary component is discarded.  The transform of a real input image has
- * complex conjugate symmetry.  That is, values in the second half of the
- * transform are the complex conjugates of values in the first half.  Some
- * implementations, e.g. FFTW, may take advantage of this property and reduce
- * the size of the output in one direction during the forward transform  to
- * N/2+1, where N is the size of the input.  If this occurs, FullMatrix()
- * returns 'false'.  If this was the case, the size of the inverse output image
- * will be larger than the input.
+ * This class transforms a full complex image with Hermitian symmetry into
+ * its real spatial domain representation.  If the input does not have
+ * Hermitian symmetry, the imaginary component is discarded.
  *
  * \ingroup FourierTransform
  *
@@ -67,59 +60,26 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       InputImageType::ImageDimension);
 
-  /** Run-time type information (and related methods). */
-  itkTypeMacro(InverseFFTImageFilter, ImageToImageFilter);
-
   /** Customized object creation methods that support configuration-based
   * selection of FFT implementation.
   *
   * Default implementation is VnlFFT. */
   static Pointer New(void);
 
-  /** The output may be a different size from the input if complex conjugate
-   * symmetry is implicit. */
-  virtual void GenerateOutputInformation();
+protected:
+  InverseFFTImageFilter() {}
+  virtual ~InverseFFTImageFilter(){}
 
   /** This class requires the entire input. */
   virtual void GenerateInputRequestedRegion();
-
-  /** Returns true if the output's size is the same size as the input, i.e.
-   * we do not take advantage of complex conjugate symmetry. */
-  virtual bool FullMatrix() = 0; // must be implemented in child
-
-  /** Was the original truncated dimension size odd? */
-  void SetActualXDimensionIsOdd(bool isodd)
-  {
-    m_ActualXDimensionIsOdd = isodd;
-  }
-
-  void SetActualXDimensionIsOddOn()
-  {
-    this->SetActualXDimensionIsOdd(true);
-  }
-
-  void SetActualXDimensionIsOddOff()
-  {
-    this->SetActualXDimensionIsOdd(false);
-  }
-
-  bool ActualXDimensionIsOdd()
-  {
-    return m_ActualXDimensionIsOdd;
-  }
-
-protected:
-  InverseFFTImageFilter():m_ActualXDimensionIsOdd(false) {}
-  virtual ~InverseFFTImageFilter(){}
 
   /** Sets the output requested region to the largest possible output
    * region. */
   void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) );
 
 private:
-  bool m_ActualXDimensionIsOdd;
-  InverseFFTImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);                       //purposely not implemented
+  InverseFFTImageFilter(const Self &); // purposely not implemented
+  void operator=(const Self &);        // purposely not implemented
 };
 } // end namespace itk
 

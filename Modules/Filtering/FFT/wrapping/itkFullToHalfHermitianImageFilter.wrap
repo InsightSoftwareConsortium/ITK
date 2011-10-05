@@ -1,0 +1,3 @@
+WRAP_CLASS("itk::FullToHalfHermitianImageFilter" POINTER)
+  WRAP_IMAGE_FILTER_COMPLEX_REAL(1)
+END_WRAP_CLASS()

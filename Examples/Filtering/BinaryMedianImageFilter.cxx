@@ -17,9 +17,9 @@
  *=========================================================================*/
 
 //  Software Guide : BeginCommandLineArgs
-//    INPUTS: {BinaryThresholdImageFilterOutput.png}
+//    INPUTS:  {BinaryThresholdImageFilterOutput.png}
 //    OUTPUTS: {BinaryMedianImageFilterOutput.png}
-//    2 2
+//    ARGUMENTS:    2 2
 //  Software Guide : EndCommandLineArgs
 //
 //    BinaryThresholdImageFilterOutput.png was obtained from the BinaryThreshold

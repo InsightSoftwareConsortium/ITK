@@ -55,12 +55,12 @@ int itkVnlFFTWF_FFTTest(int argc, char *argv[])
       itk::VnlForwardFFTImageFilter<ImageF1> ,
       itk::FFTWForwardFFTImageFilter<ImageF1> >(SizeOfDimensions1)) != 0)
     rval++;
-  std::cerr << "VnlFFTWF:float,2 (4,4,4)"<< std::endl;
+  std::cerr << "VnlFFTWF:float,2 (4,4,4)" << std::endl;
   if((test_fft_rtc<float,2,
       itk::VnlForwardFFTImageFilter<ImageF2> ,
       itk::FFTWForwardFFTImageFilter<ImageF2> >(SizeOfDimensions1)) != 0)
     rval++;
-  std::cerr << "VnlFFTWF:float,3 (4,4,4)"<< std::endl;
+  std::cerr << "VnlFFTWF:float,3 (4,4,4)" << std::endl;
   if((test_fft_rtc<float,3,
       itk::VnlForwardFFTImageFilter<ImageF3> ,
       itk::FFTWForwardFFTImageFilter<ImageF3> >(SizeOfDimensions1)) != 0)
@@ -70,12 +70,12 @@ int itkVnlFFTWF_FFTTest(int argc, char *argv[])
       itk::VnlForwardFFTImageFilter<ImageF1> ,
       itk::FFTWForwardFFTImageFilter<ImageF1> >(SizeOfDimensions2)) != 0)
     rval++;
-  std::cerr << "VnlFFTWF:float,2 (3,5,4)"<< std::endl;
+  std::cerr << "VnlFFTWF:float,2 (3,5,4)" << std::endl;
   if((test_fft_rtc<float,2,
       itk::VnlForwardFFTImageFilter<ImageF2> ,
       itk::FFTWForwardFFTImageFilter<ImageF2> >(SizeOfDimensions2)) != 0)
     rval++;
-  std::cerr << "VnlFFTWF:float,3 (3,5,4)"<< std::endl;
+  std::cerr << "VnlFFTWF:float,3 (3,5,4)" << std::endl;
   if((test_fft_rtc<float,3,
       itk::VnlForwardFFTImageFilter<ImageF3> ,
       itk::FFTWForwardFFTImageFilter<ImageF3> >(SizeOfDimensions2)) != 0)

@@ -20,6 +20,7 @@
 #define __itkLevelSetEquationContainerBase_h
 
 #include "itkObject.h"
+#include "itkObjectFactory.h"
 
 namespace itk
 {
@@ -89,13 +90,149 @@ public:
   itkGetConstObjectMacro( Input, InputImageType );
 
 protected:
-
-  LevelSetEquationContainerBase();
-  virtual ~LevelSetEquationContainerBase();
-
   typedef std::map< LevelSetIdentifierType, TermContainerPointer >  MapContainerType;
   typedef typename MapContainerType::iterator                       MapContainerIterator;
   typedef typename MapContainerType::const_iterator                 MapContainerConstIterator;
+
+public:
+  class Iterator;
+  friend class Iterator;
+
+  class ConstIterator
+  {
+  public:
+    ConstIterator() {}
+    ConstIterator( const MapContainerConstIterator& it ) : m_Iterator( it ) {}
+    ~ConstIterator() {}
+    ConstIterator( const Iterator& it ) : m_Iterator( it.m_Iterator ) {}
+    ConstIterator & operator * () { return *this; }
+    ConstIterator * operator->() { return this; }
+    ConstIterator & operator++()
+      {
+      ++m_Iterator;
+      return *this;
+      }
+    ConstIterator operator++(int)
+      {
+      ConstIterator tmp( *this );
+      ++(*this);
+      return tmp;
+      }
+    ConstIterator & operator--()
+      {
+      --m_Iterator;
+      return *this;
+      }
+    ConstIterator operator--(int)
+      {
+      ConstIterator tmp( *this );
+      --(*this);
+      return tmp;
+      }
+    bool operator == (const Iterator& it) const
+      {
+      return (m_Iterator == it.m_Iterator);
+      }
+    bool operator != (const Iterator& it) const
+      {
+      return (m_Iterator != it.m_Iterator);
+      }
+    bool operator == (const ConstIterator& it) const
+      {
+      return (m_Iterator == it.m_Iterator);
+      }
+    bool operator != (const ConstIterator& it) const
+      {
+      return (m_Iterator != it.m_Iterator);
+      }
+    LevelSetIdentifierType GetIdentifier() const
+      {
+      return m_Iterator->first;
+      }
+
+    TermContainerType * GetEquation() const
+      {
+      return m_Iterator->second;
+      }
+  private:
+    MapContainerConstIterator m_Iterator;
+    friend class Iterator;
+  };
+
+  class Iterator
+  {
+  public:
+    Iterator() {}
+    Iterator( const MapContainerIterator& it ) : m_Iterator( it ) {}
+    Iterator( const ConstIterator& it ) : m_Iterator( it.m_Iterator ) {}
+    ~Iterator() {}
+
+    Iterator & operator * () { return *this; }
+    Iterator * operator ->() { return this; }
+
+    Iterator & operator++()
+    {
+      ++m_Iterator;
+      return *this;
+    }
+    Iterator operator++(int)
+    {
+      Iterator tmp( *this );
+      ++(*this);
+      return tmp;
+    }
+    Iterator & operator--()
+    {
+      --m_Iterator;
+      return *this;
+    }
+    Iterator operator--(int)
+    {
+      Iterator tmp( *this );
+      --(*this);
+      return tmp;
+    }
+
+    bool operator==(const Iterator& it) const
+    {
+      return (m_Iterator==it.m_Iterator);
+    }
+    bool operator!=(const Iterator& it) const
+    {
+      return (m_Iterator!=it.m_Iterator);
+    }
+    bool operator==(const ConstIterator& it)const
+    {
+      return (m_Iterator == it.m_Iterator);
+    }
+    bool operator!=(const ConstIterator& it)const
+    {
+      return (m_Iterator != it.m_Iterator);
+    }
+    LevelSetIdentifierType GetIdentifier() const
+      {
+      return m_Iterator->first;
+      }
+
+    TermContainerType * GetEquation() const
+      {
+      return m_Iterator->second;
+      }
+  private:
+    MapContainerIterator m_Iterator;
+    friend class ConstIterator;
+  };
+
+  Iterator Begin();
+  Iterator End();
+
+  ConstIterator Begin() const;
+  ConstIterator End() const;
+
+protected:
+
+  LevelSetEquationContainerBase();
+  virtual ~LevelSetEquationContainerBase();
 
   MapContainerType  m_Container;
   InputImagePointer m_Input;

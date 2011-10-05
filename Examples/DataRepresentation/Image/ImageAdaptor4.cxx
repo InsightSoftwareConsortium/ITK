@@ -17,14 +17,15 @@
  *=========================================================================*/
 
 //  Software Guide : BeginCommandLineArgs
-//    INPUTS: {BrainProtonDensitySlice.png}
+//    INPUTS:  {BrainProtonDensitySlice.png}
 //    OUTPUTS: {ImageAdaptorThresholdingA.png}
-//    180
+//    ARGUMENTS:    180
 //  Software Guide : EndCommandLineArgs
+//
 //  Software Guide : BeginCommandLineArgs
-//    INPUTS: {BrainProtonDensitySlice.png}
+//    INPUTS:  {BrainProtonDensitySlice.png}
 //    OUTPUTS: {ImageAdaptorThresholdingB.png}
-//    220
+//    ARGUMENTS:    220
 //  Software Guide : EndCommandLineArgs
 
 // Software Guide : BeginLatex

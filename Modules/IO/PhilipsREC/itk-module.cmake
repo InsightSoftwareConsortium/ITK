@@ -3,7 +3,7 @@ REC/PAR image files.")
 
 itk_module(ITKIOPhilipsREC
   DEPENDS
-    ITKIOBase
+    ITKIOImageBase
     ITKZLIB
   TEST_DEPENDS
     ITKTestKernel

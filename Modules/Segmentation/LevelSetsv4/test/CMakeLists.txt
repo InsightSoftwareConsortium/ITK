@@ -21,6 +21,7 @@ itkLevelSetEquationTermContainerBaseTest.cxx
 itkLevelSetDomainPartitionBaseTest.cxx
 itkLevelSetDomainMapImageFilterTest.cxx
 # level set container
+itkDenseLevelSetContainerTest.cxx
 itkSparseLevelSetContainerTest.cxx
 # single level set
 itkSingleLevelSetDenseImage2DTest.cxx
@@ -81,6 +82,8 @@ itk_add_test(NAME itkLevelSetsv4DomainMapImageFilterTest
 # level set container
 itk_add_test(NAME itkLevelSetsv4SparseLevelSetContainerTest
       COMMAND ITKLevelSetsv4TestDriver itkSparseLevelSetContainerTest)
+itk_add_test(NAME itkLevelSetsv4DenseLevelSetContainerTest
+      COMMAND ITKLevelSetsv4TestDriver itkDenseLevelSetContainerTest)
 # single level set
 itk_add_test(NAME itkSingleLevelSetsv4DenseImage2DTest
       COMMAND ITKLevelSetsv4TestDriver

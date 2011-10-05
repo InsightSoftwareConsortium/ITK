@@ -18,7 +18,7 @@
 
 #include "itkImage.h"
 #include "itkLevelSetDomainMapImageFilter.h"
-#include "itkLevelSetContainerBase.h"
+#include "itkLevelSetContainer.h"
 #include "itkLevelSetEquationChanAndVeseInternalTerm.h"
 #include "itkLevelSetEquationLaplacianTerm.h"
 #include "itkLevelSetEquationTermContainerBase.h"
@@ -50,10 +50,9 @@ int itkLevelSetEquationTermContainerBaseTest( int argc, char* argv[] )
   typedef itk::BinaryImageToSparseLevelSetImageAdaptor< InputImageType, SparseLevelSetType >
                                                             BinaryToSparseAdaptorType;
 
-  typedef itk::LevelSetContainerBase< IdentifierType, SparseLevelSetType >
+  typedef itk::LevelSetContainer< IdentifierType, SparseLevelSetType >
                                                             LevelSetContainerType;
 
-  typedef itk::LevelSetContainerBase< IdentifierType, SparseLevelSetType > LevelSetContainerType;
   typedef itk::LevelSetEquationChanAndVeseInternalTerm< InputImageType, LevelSetContainerType >
                                                                            ChanAndVeseInternalTermType;
 

@@ -22,7 +22,7 @@
 #include <string>
 #include <vector>
 #include <map>
-#include "itkWin32Header.h"
+#include "itkMacro.h"
 
 namespace itk
 {

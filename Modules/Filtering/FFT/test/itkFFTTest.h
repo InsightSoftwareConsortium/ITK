@@ -18,8 +18,8 @@
 #ifndef __itkFFTTest_h
 #define __itkFFTTest_h
 
-/* This test is build for testing forward and Inverse Fast Fourier Transforms
- * using vnl , fftw and scsl fft libraries. */
+/* This test is build for testing forward and inverse Fast Fourier Transforms
+ * using VNL and FFTW FFT libraries. */
 #include "itkConfigure.h"
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
@@ -33,53 +33,57 @@
 #include "vnl/vnl_sample.h"
 #include <math.h>
 
-// test_fft is the test function and it is templated over the pixel, Image
-// dimensions and the  FFT library to be used.
-template <class TPixel,unsigned int VImageDimensions,
-          class R2CType,class C2RType>
-int test_fft(unsigned int *SizeOfDimensions)
+/* test_fft is the test function and it is templated over the pixel, Image
+ * dimensions and the FFT library to be used. */
+template< class TPixel, unsigned int VImageDimensions,
+          class R2CType, class C2RType >
+int
+test_fft(unsigned int *SizeOfDimensions)
 {
-  typedef itk::Image< TPixel , VImageDimensions >                  RealImageType;
-  typedef itk::Image< std::complex<TPixel> , VImageDimensions >    ComplexImageType;
+  typedef itk::Image< TPixel, VImageDimensions >                  RealImageType;
+  typedef itk::Image< std::complex< TPixel >, VImageDimensions >  ComplexImageType;
   unsigned int counter = 0;
   typename RealImageType::SizeType  imageSize;
   typename RealImageType::IndexType imageIndex;
 
-  // We are testing the fft for 1D, 2D, and 3D images. An array
+  // We are testing the FFT for 1D, 2D, and 3D images. An array
   // (SizeOfDimensions) containing the sizes of each dimension is
   // passed as an argument to this function. Based on the template
   // argument VImageDimensions, we create a 1D, 2D, or 3D image by
-  // selecting the sizes of image dimensions from this array .
-  for(unsigned int i = 0; i < VImageDimensions; i++)
+  // selecting the sizes of image dimensions from this array.
+  for (unsigned int i = 0; i < VImageDimensions; i++)
     {
-    imageSize.SetElement(i, SizeOfDimensions[i]);
-    imageIndex.SetElement(i, 0);
+    imageSize.SetElement( i, SizeOfDimensions[i] );
+    imageIndex.SetElement( i, -2*i ); // Test for handling non-zero
+                                      // image indices correctly
     }
 
   typename RealImageType::RegionType region;
-  region.SetSize(imageSize);
-  region.SetIndex(imageIndex);
+  region.SetSize( imageSize );
+  region.SetIndex( imageIndex );
 
   typename RealImageType::Pointer realImage = RealImageType::New();
-  /* Create the Real Image.*/
-  realImage->SetLargestPossibleRegion(region);
-  realImage->SetBufferedRegion(region);
-  realImage->SetRequestedRegion(region);
+  // Create the Real Image.
+  realImage->SetLargestPossibleRegion( region );
+  realImage->SetBufferedRegion( region );
+  realImage->SetRequestedRegion( region );
   realImage->Allocate();
-  vnl_sample_reseed(static_cast<int>(itksys::SystemTools::GetTime()/10000.0));
-  /*We use 2 region iterators for this test the original image iterator and another iterator for
-   the resultant image after performing FFT and IFFT */
-  itk::ImageRegionIterator<RealImageType> OriginalImageIterator(realImage,region);
+  vnl_sample_reseed( static_cast< int >( itksys::SystemTools::GetTime() / 10000.0 ) );
 
-  /* Allocate random pixel values to the image by iterating through it
-   * and print out the image data.*/
+  // We use 2 region iterators for this test: the original image
+  // iterator and another iterator for the resultant image after
+  // performing FFT and IFFT.
+  itk::ImageRegionIterator< RealImageType > originalImageIterator( realImage, region );
+
+  // Allocate random pixel values to the image by iterating through it
+  // and print out the image data.
   try
     {
-    while(!OriginalImageIterator.IsAtEnd())
+    std::cerr << "---- Original image ----" << std::endl;
+    while( !originalImageIterator.IsAtEnd() )
       {
-      TPixel val = vnl_sample_uniform(0.0, 16384.0);
-      //TPixel val = static_cast<TPixel>(counter);
-      if((counter + 1 ) % SizeOfDimensions[0] == 0)
+      TPixel val = vnl_sample_uniform( 0.0, 16384.0 );
+      if ( (counter + 1 ) % SizeOfDimensions[0] == 0 )
         {
         std::cout << val << std::endl;
         }
@@ -88,41 +92,43 @@ int test_fft(unsigned int *SizeOfDimensions)
         std::cout << val << " ";
         }
       counter++;
-      OriginalImageIterator.Set(val);
-      ++OriginalImageIterator;
+      originalImageIterator.Set( val );
+      ++originalImageIterator;
       }
     std::cout << std::endl << std::endl;
     }
-  catch(itk::ExceptionObject & ex)
+  catch ( itk::ExceptionObject & ex )
     {
-    ex.Print(std::cout);
+    ex.Print( std::cerr );
     return -1;
     }
 
-  /* Real to complex pointer. This computes the forward FFT. */
+  // Real to complex pointer. This computes the forward FFT.
   typename R2CType::Pointer R2C = R2CType::New();
-  /* Complex to Real pointer. This computes the Inverse FFT. */
+  // Complex to Real pointer. This computes the Inverse FFT.
   typename C2RType::Pointer C2R = C2RType::New();
-  /* Set the real image created as the input to the forward FFT
-   * filter. */
-  R2C->SetInput(realImage);
+
+  // Set the real image created as the input to the forward FFT
+  // filter.
+  R2C->SetInput( realImage );
   R2C->Print( std::cout );
 
   try
     {
     R2C->Update();
     }
-  catch (itk::ExceptionObject & ex)
+  catch ( itk::ExceptionObject & ex )
     {
-    ex.Print(std::cout);
+    ex.Print( std::cerr );
     return -1;
     }
 
-  /* Get the size and the pointer to the complex image. */
+  // Get the size and the pointer to the complex image.
   typename ComplexImageType::Pointer complexImage = R2C->GetOutput();
-  std::complex<TPixel> *fftbuf = complexImage->GetBufferPointer();
-  const typename ComplexImageType::SizeType &complexImageSize =
+  std::complex< TPixel > *fftbuf = complexImage->GetBufferPointer();
+  const typename ComplexImageType::SizeType & complexImageSize =
     complexImage->GetLargestPossibleRegion().GetSize();
+
   unsigned int sizes[4] = { 1,1,1,1 };
   for( unsigned int i = 0; i < VImageDimensions; i++)
     {
@@ -134,10 +140,10 @@ int test_fft(unsigned int *SizeOfDimensions)
   for( unsigned int i = 0; i < sizes[2]; i++)
     {
     unsigned int zStride = i * sizes[1] * sizes[0];
-    for(unsigned int j = 0; j < sizes[1]; j++)
+    for (unsigned int j = 0; j < sizes[1]; j++)
       {
       unsigned int yStride = j * sizes[0];
-      for(unsigned int k = 0; k < sizes[0]; k++)
+      for (unsigned int k = 0; k < sizes[0]; k++)
         {
         std::cout << fftbuf[zStride+yStride+k] << " ";
         }
@@ -147,111 +153,124 @@ int test_fft(unsigned int *SizeOfDimensions)
 
   std::cout << std::endl << std::endl;
 
-  // Perform the Inverse FFT to get back the Real Image.C@R is the complex
-  // conjugate to real image filter and we give the obtained complex image as
-  // input to this filter. This is the Inverse FFT of the image.
-  C2R->SetInput(complexImage);
+  // Perform the Inverse FFT to get back the Real Image. C2R is the
+  // complex conjugate to real image filter and we give the resulting
+  // complex image as input to this filter. This is the Inverse FFT of
+  // the image.
+  C2R->SetInput( complexImage );
 
-  //
-  // newer method to inform filter that there's an odd # of pixels in the x dimension.
-  const bool dimensionIsOdd = SizeOfDimensions[0] & 1;
-  C2R->SetActualXDimensionIsOdd( dimensionIsOdd );
+  // Inform the filter that there's an odd # of pixels in the x
+  // dimension.
   C2R->Print( std::cout );
   C2R->Update();
-  typename RealImageType::Pointer imageafterInverseFFT = C2R->GetOutput();
-   /*The Inverse FFT image iterator is the resultant iterator after we
-     perform the FFT and Inverse FFT on the Original Image*/
-  itk::ImageRegionIterator<RealImageType> InverseFFTImageIterator(imageafterInverseFFT,region);
+  std::cerr << "C2R region: " << C2R->GetOutput()->GetLargestPossibleRegion() << std::endl;
+  typename RealImageType::Pointer imageAfterInverseFFT = C2R->GetOutput();
+
+  // The Inverse FFT image iterator is the resultant iterator after we
+  // perform the FFT and Inverse FFT on the Original Image. */
+  itk::ImageRegionIterator< RealImageType > inverseFFTImageIterator( imageAfterInverseFFT,
+                                                                     region );
   counter = 0;
-  InverseFFTImageIterator = InverseFFTImageIterator.Begin();
-  /*Print the Image data obtained by performing the Inverse FFT. */
-  while(!InverseFFTImageIterator.IsAtEnd())
+  inverseFFTImageIterator = inverseFFTImageIterator.Begin();
+
+  // Print the Image data obtained by performing the Inverse FFT.
+  std::cerr << "---- Inverse FFT image ----" << std::endl;
+  while ( !inverseFFTImageIterator.IsAtEnd() )
     {
-    TPixel val = InverseFFTImageIterator.Value();
-    if(counter == imageSize[0])
+    TPixel val = inverseFFTImageIterator.Value();
+    if ( (counter + 1 ) % SizeOfDimensions[0] == 0 )
       {
-      std::cout << val << std::endl;
-      counter = 0;
+      std::cerr << val << std::endl;
       }
     else
-      std::cout << val << " ";
-    counter++;
-    ++InverseFFTImageIterator;
-    }
-  std::cout << std::endl << std::endl;
-  /*Subtract the Original image Pixel Values from the resultant image
-   values and test whether they are greater than 0.01 for the test to pass*/
-  OriginalImageIterator = OriginalImageIterator.Begin();
-  InverseFFTImageIterator = InverseFFTImageIterator.Begin();
-  while(!OriginalImageIterator.IsAtEnd())
-    {
-    TPixel val = OriginalImageIterator.Value();
-    TPixel val2 = InverseFFTImageIterator.Value();
-    TPixel diff = vnl_math_abs(val-val2);
-    if(val != 0)
       {
-      diff /= vnl_math_abs(val);
+      std::cerr << val << " ";
       }
-    if(diff > 0.01)
+    counter++;
+    ++inverseFFTImageIterator;
+    }
+
+  std::cerr << std::endl << std::endl;
+
+  // Subtract the Original image Pixel Values from the resultant image
+  // values and test whether they are greater than 0.01 for the test
+  // to pass.
+  originalImageIterator = originalImageIterator.Begin();
+  inverseFFTImageIterator = inverseFFTImageIterator.Begin();
+  while ( !originalImageIterator.IsAtEnd() )
+    {
+    TPixel val = originalImageIterator.Value();
+    TPixel val2 = inverseFFTImageIterator.Value();
+    TPixel diff = vnl_math_abs( val - val2 );
+    if ( val != 0 )
       {
-      std::cout << "Diff found " << val << " " << val2 << " diff " << diff << std::endl;
+      diff /= vnl_math_abs( val );
+      }
+    if ( diff > 0.01 )
+      {
+      std::cerr << "Diff found in test_fft: " << val << " " << val2 << " diff " << diff
+                << std::endl;
       return -1;
       }
-    ++OriginalImageIterator;
-    ++InverseFFTImageIterator;
+    ++originalImageIterator;
+    ++inverseFFTImageIterator;
     }
   std::cout << std::endl << std::endl;
+
   return 0;
 }
 
 
-/*test_fft_rtc is the test function to compare two implementations (Direct FFT only).
-  It is templated over the pixel, Image dimensions and the  FFT libraries to be used.*/
-template <class TPixel,unsigned int VImageDimensions,
-          class R2CAType,class R2CBType>
+/* test_fft_rtc is the test function to compare two implementations
+ * (Direct FFT only).  It is templated over the pixel, Image
+ * dimensions and the FFT libraries to be used. */
+template< class TPixel, unsigned int VImageDimensions,
+          class R2CAType, class R2CBType >
 int
 test_fft_rtc(unsigned int *SizeOfDimensions)
 {
-  typedef itk::Image< TPixel , VImageDimensions >                RealImageType;
-  typedef itk::Image< std::complex<TPixel> , VImageDimensions >  ComplexImageType;
+  typedef itk::Image< TPixel, VImageDimensions >                  RealImageType;
+  typedef itk::Image< std::complex< TPixel >, VImageDimensions >  ComplexImageType;
   unsigned int counter = 0;
-  typename RealImageType::SizeType    imageSize;
-  typename RealImageType::IndexType   imageIndex;
+  typename RealImageType::SizeType  imageSize;
+  typename RealImageType::IndexType imageIndex;
 
-  // We are testing the fft for 1d ,2d and 3d images. An array
-  // (SizeOfDimensions) containing the sizes of each dimension is passed as an
-  // argument to this function.Based on the template argument VImageDimensions,
-  // we create a 1d 2d or 3d image by selecting the sizes of image dimensions
-  // from this array .
-  for(unsigned int i = 0; i < VImageDimensions; i++)
+  // We are testing the FFT for 1D, 2D, and 3D images. An array
+  // (SizeOfDimensions) containing the sizes of each dimension is
+  // passed as an argument to this function. Based on the template
+  // argument VImageDimensions, we create a 1D, 2D, or 3D image by
+  // selecting the sizes of image dimensions from this array.
+  for (unsigned int i = 0; i < VImageDimensions; i++)
     {
-    imageSize.SetElement(i,SizeOfDimensions[i]);
-    imageIndex.SetElement(i,0);
+    imageSize.SetElement( i, SizeOfDimensions[i] );
+    imageIndex.SetElement( i, 0 );
     }
 
   typename RealImageType::RegionType region;
-  region.SetSize(imageSize);
-  region.SetIndex(imageIndex);
+  region.SetSize( imageSize );
+  region.SetIndex( imageIndex );
   typename RealImageType::Pointer realImage = RealImageType::New();
-  /* Create the Real Image.*/
-  realImage->SetLargestPossibleRegion(region);
-  realImage->SetBufferedRegion(region);
-  realImage->SetRequestedRegion(region);
+
+  // Create the Real Image.
+  realImage->SetLargestPossibleRegion( region );
+  realImage->SetBufferedRegion( region );
+  realImage->SetRequestedRegion( region );
   realImage->Allocate();
-  vnl_sample_reseed(static_cast<int>(itksys::SystemTools::GetTime()/10000.0));
+  vnl_sample_reseed( static_cast<int >( itksys::SystemTools::GetTime() / 10000.0 ) );
 
-  /*We use 2 region iterators for this test the original image iterator and another iterator for
-   the resultant image after performing FFT and IFFT */
-  itk::ImageRegionIterator<RealImageType> OriginalImageIterator(realImage, region);
+  // We use 2 region iterators for this test the original image
+  // iterator and another iterator for the resultant image after
+  // performing FFT and IFFT.
+  itk::ImageRegionIterator< RealImageType > originalImageIterator( realImage, region );
 
-  /* Allocate random pixel values to the image by iterating through it
-   * and Print out the image data.*/
+  // Allocate random pixel values to the image by iterating through it
+  // and Print out the image data.
   try
     {
-    while( !OriginalImageIterator.IsAtEnd() )
+    while( !originalImageIterator.IsAtEnd() )
       {
-      TPixel val = vnl_sample_uniform(0.0, 16384.0);
-      if((counter + 1 ) % SizeOfDimensions[0] == 0)
+      TPixel val = vnl_sample_uniform( 0.0, 16384.0 );
+      if ( (counter + 1 ) % SizeOfDimensions[0] == 0 )
         {
         std::cout << val << std::endl;
         }
@@ -260,39 +279,40 @@ test_fft_rtc(unsigned int *SizeOfDimensions)
         std::cout << val << " ";
         }
       counter++;
-      OriginalImageIterator.Set(val);
-      ++OriginalImageIterator;
+      originalImageIterator.Set( val );
+      ++originalImageIterator;
       }
     std::cout << std::endl << std::endl;
     }
-  catch(itk::ExceptionObject & ex)
+  catch( itk::ExceptionObject & ex )
     {
-    ex.Print(std::cout);
+    ex.Print( std::cerr );
     return -1;
     }
 
-  /*Real to complex pointers. This computes the forward FFT*/
+  // Real to complex pointers. This computes the forward FFT.
   typename R2CAType::Pointer R2Ca = R2CAType::New();
 
-  /*Real to complex pointers. This computes the forward FFT*/
+  // Real to complex pointers. This computes the forward FFT.
   typename R2CBType::Pointer R2Cb = R2CBType::New();
 
-  /*Set the real image created as the input to the forwar FFT filter*/
-  R2Ca->SetInput(realImage);
+  // Set the real image created as the input to the forward FFT
+  // filter.
+  R2Ca->SetInput( realImage );
   R2Ca->Update();
 
-  R2Cb->SetInput(realImage);
+  R2Cb->SetInput( realImage );
   R2Cb->Update();
 
-  /*Get the size and the pointer to the complex image.*/
+  // Get the size and the pointer to the complex image.
   typename ComplexImageType::Pointer complexImageA = R2Ca->GetOutput();
-  std::complex<TPixel> *fftbufA = complexImageA->GetBufferPointer();
-  const typename ComplexImageType::SizeType &complexImageSizeA =
+  std::complex< TPixel > *fftbufA = complexImageA->GetBufferPointer();
+  const typename ComplexImageType::SizeType & complexImageSizeA =
     complexImageA->GetLargestPossibleRegion().GetSize();
 
   typename ComplexImageType::Pointer complexImageB = R2Cb->GetOutput();
-  std::complex<TPixel> *fftbufB = complexImageB->GetBufferPointer();
-  const typename ComplexImageType::SizeType &complexImageSizeB =
+  std::complex< TPixel > *fftbufB = complexImageB->GetBufferPointer();
+  const typename ComplexImageType::SizeType & complexImageSizeB =
     complexImageB->GetLargestPossibleRegion().GetSize();
 
 
@@ -300,21 +320,22 @@ test_fft_rtc(unsigned int *SizeOfDimensions)
   unsigned int sizesB[4] = { 1,1,1,1 };
   for(unsigned int i = 0; i < VImageDimensions; i++)
     {
-      /* The size may be different if one implementation returns a
-         full matrix but not the other. */
-      sizesA[i] = complexImageSizeA[i];
-      sizesB[i] = complexImageSizeB[i];
+    // The size may be different if one implementation returns a
+    // full matrix but not the other.
+    sizesA[i] = complexImageSizeA[i];
+    sizesB[i] = complexImageSizeB[i];
     }
 
-  /* Print out the  the frequency domain data obtained after performing the forward transform */
+  // Print out the the frequency domain data obtained after performing
+  // the forward transform.
   std::cout << "Frequency domain data after forward transform:" << std::endl;
   for (unsigned int i = 0; i < sizesA[2]; i++)
     {
     unsigned int zStride = i * sizesA[1] * sizesA[0];
-    for(unsigned int j = 0; j < sizesA[1]; j++)
+    for (unsigned int j = 0; j < sizesA[1]; j++)
       {
       unsigned int yStride = j * sizesA[0];
-      for(unsigned int k = 0; k < sizesA[0]; k++)
+      for (unsigned int k = 0; k < sizesA[0]; k++)
         {
         std::cout << fftbufA[zStride+yStride+k] << " ";
         }
@@ -323,13 +344,13 @@ test_fft_rtc(unsigned int *SizeOfDimensions)
     }
   std::cout << std::endl << std::endl;
 
-  for(unsigned int i = 0; i < sizesB[2]; i++)
+  for (unsigned int i = 0; i < sizesB[2]; i++)
     {
     unsigned int zStride = i * sizesB[1] * sizesB[0];
-    for(unsigned int j = 0; j < sizesB[1]; j++)
+    for (unsigned int j = 0; j < sizesB[1]; j++)
       {
       unsigned int yStride = j * sizesB[0];
-      for(unsigned int k = 0; k < sizesB[0]; k++)
+      for (unsigned int k = 0; k < sizesB[0]; k++)
         {
         std::cout << fftbufB[zStride+yStride+k] << " ";
         }
@@ -339,27 +360,28 @@ test_fft_rtc(unsigned int *SizeOfDimensions)
   std::cout << std::endl << std::endl;
 
 
-  /* Subtract the 2 image's pixel values. If one pixel difference is
-    greater than 0.01, the test is considered to have failed. */
-  for(unsigned int i = 0; i < vnl_math_min(sizesA[2],sizesB[2]); i++)
+  // Subtract the pixel values from the two images. If one pixel
+  // difference is greater than 0.01, the test is considered to have
+  // failed.
+  for (unsigned int i = 0; i < vnl_math_min( sizesA[2], sizesB[2] ); i++)
     {
     unsigned int zStrideA = i * sizesA[1] * sizesA[0];
     unsigned int zStrideB = i * sizesB[1] * sizesB[0];
-    for(unsigned int j = 0; j < vnl_math_min(sizesA[1],sizesB[1]); j++)
+    for (unsigned int j = 0; j < vnl_math_min( sizesA[1], sizesB[1] ); j++)
       {
       unsigned int yStrideA = j * sizesA[0];
       unsigned int yStrideB = j * sizesB[0];
-      for(unsigned int k = 0; k < vnl_math_min(sizesA[0],sizesB[0]); k++)
+      for (unsigned int k = 0; k < vnl_math_min( sizesA[0], sizesB[0] ); k++)
         {
         double val = std::abs(fftbufA[zStrideA+yStrideA+k]);
-        double diff = std::abs(fftbufA[zStrideA+yStrideA+k]-fftbufB[zStrideB+yStrideB+k]);
-        if(val != 0)
+        double diff = std::abs(fftbufA[zStrideA+yStrideA+k] - fftbufB[zStrideB+yStrideB+k]);
+        if ( val != 0 )
           {
-          diff /= vnl_math_abs(val);
+          diff /= vnl_math_abs( val );
           }
-        if(diff > 0.01)
+        if ( diff > 0.01 )
           {
-          std::cout << "Diff found " << fftbufA[zStrideA+yStrideA+k]
+          std::cerr << "Diff found in test_fft_r2c: " << fftbufA[zStrideA+yStrideA+k]
                     << " " << fftbufB[zStrideB+yStrideB+k] << " diff " << diff << std::endl;
           return -1;
           }
@@ -368,6 +390,7 @@ test_fft_rtc(unsigned int *SizeOfDimensions)
     }
 
   std::cout << std::endl << std::endl;
+
   return 0;
 }
 #endif

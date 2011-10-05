@@ -22,12 +22,12 @@
 
 #include "itkVnlInverseFFTImageFilter.h"
 
-// Test FFT using VNL Libraries. The test is performed for 2 3d array one of
-// them having the same dimension(4,4,4) and the other having different
-// dimensions (3,4,5).  Images are created with different dimensions in the
-// test function based on the second template argument    and  the size of
-// these dimensions are taken from the array.  The data types used are float
-// and double.
+// Test FFT using VNL Libraries. The test is performed for two 3D
+// arrays, one of them having the same dimension(4,4,4) and the other
+// having different dimensions (3,4,5).  Images are created with
+// different dimensions in the test function based on the second
+// template argument and the size of these dimensions are taken from
+// the array.  The data types used are float and double.
 int itkVnlFFTTest(int, char *[])
 {
   typedef itk::Image< float, 1>               ImageF1;
@@ -60,7 +60,7 @@ int itkVnlFFTTest(int, char *[])
     rval++;
     std::cerr << "--------------------- Failed!" << std::endl;
     }
-  std::cerr << "Vnl float,2 (4,4,4)"<< std::endl;
+  std::cerr << "Vnl float,2 (4,4,4)" << std::endl;
   if((test_fft<float,2,
       itk::VnlForwardFFTImageFilter<ImageF2> ,
       itk::VnlInverseFFTImageFilter<ImageCF2> >(SizeOfDimensions1)) != 0)
@@ -68,7 +68,7 @@ int itkVnlFFTTest(int, char *[])
     std::cerr << "--------------------- Failed!" << std::endl;
     rval++;
     }
-  std::cerr << "Vnl float,3 (4,4,4)"<< std::endl;
+  std::cerr << "Vnl float,3 (4,4,4)" << std::endl;
   if((test_fft<float,3,
       itk::VnlForwardFFTImageFilter<ImageF3> ,
       itk::VnlInverseFFTImageFilter<ImageCF3> >(SizeOfDimensions1)) != 0)
@@ -76,7 +76,7 @@ int itkVnlFFTTest(int, char *[])
     std::cerr << "--------------------- Failed!" << std::endl;
     rval++;
     }
-  std::cerr << "Vnl float,4 (4,4,4)"<< std::endl;
+  std::cerr << "Vnl float,4 (4,4,4)" << std::endl;
   if((test_fft<float,4,
       itk::VnlForwardFFTImageFilter<ImageF4> ,
       itk::VnlInverseFFTImageFilter<ImageCF4> >(SizeOfDimensions1)) != 0)
@@ -84,7 +84,7 @@ int itkVnlFFTTest(int, char *[])
     std::cerr << "--------------------- Failed!" << std::endl;
     rval++;
     }
-  std::cerr << "Vnl double,1 (4,4,4)"<< std::endl;
+  std::cerr << "Vnl double,1 (4,4,4)" << std::endl;
   if((test_fft<double,1,
       itk::VnlForwardFFTImageFilter<ImageD1> ,
       itk::VnlInverseFFTImageFilter<ImageCD1> >(SizeOfDimensions1)) != 0)
@@ -92,7 +92,7 @@ int itkVnlFFTTest(int, char *[])
     std::cerr << "--------------------- Failed!" << std::endl;
     rval++;
     }
-  std::cerr << "Vnl double,2 (4,4,4)"<< std::endl;
+  std::cerr << "Vnl double,2 (4,4,4)" << std::endl;
   if((test_fft<double,2,
       itk::VnlForwardFFTImageFilter<ImageD2> ,
       itk::VnlInverseFFTImageFilter<ImageCD2> >(SizeOfDimensions1)) != 0)
@@ -100,7 +100,7 @@ int itkVnlFFTTest(int, char *[])
     std::cerr << "--------------------- Failed!" << std::endl;
     rval++;
     }
-  std::cerr << "Vnl double,3 (4,4,4)"<< std::endl;
+  std::cerr << "Vnl double,3 (4,4,4)" << std::endl;
   if((test_fft<double,3,
       itk::VnlForwardFFTImageFilter<ImageD3> ,
       itk::VnlInverseFFTImageFilter<ImageCD3> >(SizeOfDimensions1)) != 0)
@@ -116,7 +116,7 @@ int itkVnlFFTTest(int, char *[])
     std::cerr << "--------------------- Failed!" << std::endl;
     rval++;
     }
-  std::cerr << "Vnl float,2 (3,5,4)"<< std::endl;
+  std::cerr << "Vnl float,2 (3,5,4)" << std::endl;
   if((test_fft<float,2,
       itk::VnlForwardFFTImageFilter<ImageF2> ,
       itk::VnlInverseFFTImageFilter<ImageCF2> >(SizeOfDimensions2)) != 0)
@@ -124,7 +124,7 @@ int itkVnlFFTTest(int, char *[])
     std::cerr << "--------------------- Failed!" << std::endl;
     rval++;
     }
-  std::cerr << "Vnl float,3 (3,5,4)"<< std::endl;
+  std::cerr << "Vnl float,3 (3,5,4)" << std::endl;
   if((test_fft<float,3,
       itk::VnlForwardFFTImageFilter<ImageF3> ,
       itk::VnlInverseFFTImageFilter<ImageCF3> >(SizeOfDimensions2)) != 0)
@@ -132,7 +132,7 @@ int itkVnlFFTTest(int, char *[])
     std::cerr << "--------------------- Failed!" << std::endl;
     rval++;
     }
-  std::cerr << "Vnl double,1 (3,5,4)"<< std::endl;
+  std::cerr << "Vnl double,1 (3,5,4)" << std::endl;
   if((test_fft<double,1,
       itk::VnlForwardFFTImageFilter<ImageD1> ,
       itk::VnlInverseFFTImageFilter<ImageCD1> >(SizeOfDimensions2)) != 0)
@@ -140,7 +140,7 @@ int itkVnlFFTTest(int, char *[])
     std::cerr << "--------------------- Failed!" << std::endl;
     rval++;
     }
-  std::cerr << "Vnl double,2 (3,5,4)"<< std::endl;
+  std::cerr << "Vnl double,2 (3,5,4)" << std::endl;
   if((test_fft<double,2,
       itk::VnlForwardFFTImageFilter<ImageD2> ,
       itk::VnlInverseFFTImageFilter<ImageCD2> >(SizeOfDimensions2)) != 0)
@@ -148,7 +148,7 @@ int itkVnlFFTTest(int, char *[])
     std::cerr << "--------------------- Failed!" << std::endl;
     rval++;
     }
-  std::cerr << "Vnl double,3 (3,5,4)"<< std::endl;
+  std::cerr << "Vnl double,3 (3,5,4)" << std::endl;
   if((test_fft<double,3,
       itk::VnlForwardFFTImageFilter<ImageD3> ,
       itk::VnlInverseFFTImageFilter<ImageCD3> >(SizeOfDimensions2)) != 0)

@@ -9,7 +9,7 @@ itk_module(ITKSpatialObjects
   DEPENDS
     ITKImageFunction
     ITKMesh
-    ITKIOBase
+    ITKIOImageBase
     ITKMetaIO
   TEST_DEPENDS
     ITKTestKernel

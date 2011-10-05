@@ -106,16 +106,8 @@ public:
   /**
    * Set/Get the colormap object.
    */
-  typename ColormapType::Pointer GetColormap() { return m_Colormap; }
-
-  void SetColormap(ColormapType *colormap)
-  {
-    if ( m_Colormap != colormap )
-      {
-      m_Colormap = colormap;
-      this->Modified();
-      }
-  }
+  itkSetObjectMacro(Colormap, ColormapType);
+  itkGetObjectMacro(Colormap, ColormapType);
 
   /**
    * Enum type that provides for an easy interface to existing colormaps.

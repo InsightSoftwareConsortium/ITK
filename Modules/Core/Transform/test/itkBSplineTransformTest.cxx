@@ -81,10 +81,54 @@ int itkBSplineTransformTest1()
    */
   TransformType::Pointer transform = TransformType::New();
 
-  transform->SetTransformDomainOrigin( origin );
-  transform->SetTransformDomainPhysicalDimensions( dimensions );
-  transform->SetTransformDomainMeshSize( meshSize );
-  transform->SetTransformDomainDirection( direction );
+  /**
+   * Set fixed parameters which store the following information:
+   *     transform domain size
+   *     transform domain origin
+   *     transform domain spacing
+   *     transform domain direction
+   *     transform domain mesh size
+   *     spline order
+   *  The size of these is equal to the  NInputDimensions
+   */
+
+  ParametersType fixedParameters;
+  fixedParameters.SetSize( SpaceDimension * ( SpaceDimension + 3 ) );
+
+  unsigned int fixedParametersCount = 0;
+  for( unsigned int i = 0; i < SpaceDimension; i++ )
+    {
+    fixedParameters[fixedParametersCount++] = meshSize[i] + SplineOrder;
+    }
+  for( unsigned int i = 0; i < SpaceDimension; i++ )
+    {
+    double delta = dimensions[i] / static_cast<double>( meshSize[i] );
+    fixedParameters[fixedParametersCount++] = origin[i] - delta;
+    }
+  for( unsigned int i = 0; i < SpaceDimension; i++ )
+    {
+    fixedParameters[fixedParametersCount++] = dimensions[i] /
+      static_cast<double>( meshSize[i] );
+    }
+  for( unsigned int i = 0; i < SpaceDimension; i++ )
+    {
+    for( j = 0; j < SpaceDimension; j++ )
+      {
+      fixedParameters[fixedParametersCount++] = direction[i][j];
+      }
+    }
+
+  std::cout << "Fixed parameters set: " << fixedParameters << std::endl;
+  transform->SetFixedParameters( fixedParameters );
+  ParametersType returnedParameters = transform->GetFixedParameters();
+  std::cout << "Fixed parameters returned: " << returnedParameters << std::endl;
+
+  if( fixedParameters != returnedParameters )
+    {
+    std::cout << "Set fixed parameters do not equal returned fixed parameters."
+       << std::endl;
+    return EXIT_FAILURE;
+    }
 
   transform->Print( std::cout );
 
@@ -93,7 +137,7 @@ int itkBSplineTransformTest1()
    */
   unsigned long  numberOfParameters = transform->GetNumberOfParameters();
   ParametersType parameters( numberOfParameters );
-  parameters.Fill( itk::NumericTraits<ParametersType::ValueType>::Zero);
+  parameters.Fill( itk::NumericTraits<ParametersType::ValueType>::Zero );
 
   /**
    * Define N * N-D grid of spline coefficients by wrapping the
@@ -464,7 +508,7 @@ int itkBSplineTransformTest1()
       }
     } // end of SetIdentity() test
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed.  Woohoo!" << std::endl;
   return EXIT_SUCCESS;
 }
 
@@ -584,7 +628,7 @@ int itkBSplineTransformTest2()
     return EXIT_FAILURE;
     }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed. Woohoo!" << std::endl;
   return EXIT_SUCCESS;
 }
 

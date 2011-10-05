@@ -54,26 +54,21 @@
 //
 //  Software Guide : EndLatex
 
-
 //  Software Guide : BeginLatex
 //
-//  The class \code{vnl_fft_1D} is the VNL class that computes such transform.
+//  The class \code{vnl\_fft\_1D} is the VNL class that computes such transform.
 //  In order to use it, we should include its header file first.
 //
 //  Software Guide : EndLatex
-
 
 // Software Guide : BeginCodeSnippet
 #include "vnl/algo/vnl_fft_1d.h"
 // Software Guide : EndCodeSnippet
 
-
 #include "itkPoint.h"
 #include "itkVectorContainer.h"
 
-
 #include <fstream>
-
 
 int main(int argc, char * argv[] )
 {
@@ -93,11 +88,9 @@ int main(int argc, char * argv[] )
   //
   //  Software Guide : EndLatex
 
-
   // Software Guide : BeginCodeSnippet
   typedef vnl_fft_1d< double > FFTCalculator;
   // Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //
@@ -105,7 +98,6 @@ int main(int argc, char * argv[] )
   //  \doxygen{VectorContainer} of \doxygen{Point}.
   //
   //  Software Guide : EndLatex
-
 
   // Software Guide : BeginCodeSnippet
   typedef itk::Point< double, 2 >  PointType;
@@ -115,13 +107,11 @@ int main(int argc, char * argv[] )
   PointsContainer::Pointer points = PointsContainer::New();
   // Software Guide : EndCodeSnippet
 
-
   //  Software Guide : BeginLatex
   //
   //  In this example we read the set of points from a text file.
   //
   //  Software Guide : EndLatex
-
 
   // Software Guide : BeginCodeSnippet
   std::ifstream inputFile;
@@ -149,7 +139,6 @@ int main(int argc, char * argv[] )
     }
   // Software Guide : EndCodeSnippet
 
-
   //  Software Guide : BeginLatex
   //
   //  This class will compute the Fast Fourier transform of the input an it will
@@ -159,14 +148,10 @@ int main(int argc, char * argv[] )
   //
   //  Software Guide : EndLatex
 
-
   // Software Guide : BeginCodeSnippet
-  typedef vcl_complex<double>   FFTCoefficientType;
+  typedef vcl_complex<double>              FFTCoefficientType;
   typedef vcl_vector< FFTCoefficientType > FFTSpectrumType;
   // Software Guide : EndCodeSnippet
-
-
-
 
   //  Software Guide : BeginLatex
   //
@@ -182,8 +167,6 @@ int main(int argc, char * argv[] )
 
   const unsigned int spectrumSize = 1 << powerOfTwo;
 
-
-
   //  Software Guide : BeginLatex
   //
   //  The Fourier Transform type can now be used for constructing one of such
@@ -192,12 +175,9 @@ int main(int argc, char * argv[] )
   //
   //  Software Guide : EndLatex
 
-
   // Software Guide : BeginCodeSnippet
   FFTCalculator  fftCalculator( spectrumSize );
   // Software Guide : EndCodeSnippet
-
-
 
   FFTSpectrumType signal( spectrumSize );
 
@@ -208,9 +188,6 @@ int main(int argc, char * argv[] )
     ++pointItr;
     }
   // Software Guide : EndCodeSnippet
-
-
-
 
   //  Software Guide : BeginLatex
   //
@@ -228,9 +205,6 @@ int main(int argc, char * argv[] )
     }
   // Software Guide : EndCodeSnippet
 
-
-
-
   //  Software Guide : BeginLatex
   //
   //  Now we print out the signal as it is passed to the transform calculator
@@ -246,8 +220,6 @@ int main(int argc, char * argv[] )
     }
   // Software Guide : EndCodeSnippet
 
-
-
   //  Software Guide : BeginLatex
   //
   //  The actual transform is computed by invoking the \code{fwd_transform}
@@ -258,9 +230,6 @@ int main(int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   fftCalculator.fwd_transform( signal );
   // Software Guide : EndCodeSnippet
-
-
-
 
   //  Software Guide : BeginLatex
   //
@@ -280,9 +249,5 @@ int main(int argc, char * argv[] )
     }
   // Software Guide : EndCodeSnippet
 
-
   return EXIT_SUCCESS;
 }
-
-
-

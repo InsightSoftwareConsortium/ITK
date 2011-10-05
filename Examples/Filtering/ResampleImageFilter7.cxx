@@ -32,7 +32,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkResampleImageFilter.h"
-
+#include "itkBSplineInterpolateImageFunction.h"
 
 //  Software Guide : BeginLatex
 //
@@ -185,4 +185,3 @@ int main( int argc, char * argv[] )
 
   return EXIT_SUCCESS;
 }
-

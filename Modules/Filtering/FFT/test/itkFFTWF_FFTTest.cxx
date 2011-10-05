@@ -61,12 +61,12 @@ int itkFFTWF_FFTTest(int argc, char *argv[])
       itk::FFTWForwardFFTImageFilter<ImageF1> ,
       itk::FFTWInverseFFTImageFilter<ImageCF1> >(SizeOfDimensions1)) != 0)
     rval++;
-  std::cerr << "FFTWF:float,2 (4,4,4)"<< std::endl;
+  std::cerr << "FFTWF:float,2 (4,4,4)" << std::endl;
   if((test_fft<float,2,
       itk::FFTWForwardFFTImageFilter<ImageF2> ,
       itk::FFTWInverseFFTImageFilter<ImageCF2> >(SizeOfDimensions1)) != 0)
     rval++;
-  std::cerr << "FFTWF:float,3 (4,4,4)"<< std::endl;
+  std::cerr << "FFTWF:float,3 (4,4,4)" << std::endl;
   if((test_fft<float,3,
       itk::FFTWForwardFFTImageFilter<ImageF3> ,
       itk::FFTWInverseFFTImageFilter<ImageCF3> >(SizeOfDimensions1)) != 0)
@@ -76,16 +76,40 @@ int itkFFTWF_FFTTest(int argc, char *argv[])
       itk::FFTWForwardFFTImageFilter<ImageF1> ,
       itk::FFTWInverseFFTImageFilter<ImageCF1> >(SizeOfDimensions2)) != 0)
     rval++;
-  std::cerr << "FFTWF:float,2 (3,5,4)"<< std::endl;
+  std::cerr << "FFTWF:float,2 (3,5,4)" << std::endl;
   if((test_fft<float,2,
       itk::FFTWForwardFFTImageFilter<ImageF2> ,
       itk::FFTWInverseFFTImageFilter<ImageCF2> >(SizeOfDimensions2)) != 0)
     rval++;
-  std::cerr << "FFTWF:float,3 (3,5,4)"<< std::endl;
+  std::cerr << "FFTWF:float,3 (3,5,4)" << std::endl;
   if((test_fft<float,3,
       itk::FFTWForwardFFTImageFilter<ImageF3> ,
       itk::FFTWInverseFFTImageFilter<ImageCF3> >(SizeOfDimensions2)) != 0)
     rval++;
+
+  // Exercise the plan rigor methods
+  itk::FFTWForwardFFTImageFilter< ImageF3 >::Pointer fft =
+    itk::FFTWForwardFFTImageFilter< ImageF3 >::New();
+  fft->SetPlanRigor( FFTW_ESTIMATE );
+  if ( fft->GetPlanRigor() != FFTW_ESTIMATE )
+    {
+    std::cerr << "Plan rigor read from FFT filter is not FFTW_ESTIMATE." << std::endl;
+    return 0;
+    }
+  fft->SetPlanRigor( FFTW_MEASURE );
+
+  itk::FFTWInverseFFTImageFilter< ImageCF3 >::Pointer ifft =
+    itk::FFTWInverseFFTImageFilter< ImageCF3 >::New();
+  ifft->SetPlanRigor( FFTW_ESTIMATE );
+  if ( ifft->GetPlanRigor() != FFTW_ESTIMATE )
+    {
+    std::cerr << "Plan rigor read from FFT filter is not FFTW_ESTIMATE." << std::endl;
+    return 0;
+    }
+  ifft->SetPlanRigor( FFTW_MEASURE );
+
+  fft->Print(std::cout);
+  ifft->Print(std::cout);
 
   return (rval == 0) ? 0 : -1;
 }

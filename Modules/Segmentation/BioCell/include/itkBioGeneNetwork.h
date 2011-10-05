@@ -19,7 +19,7 @@
 #define __itkBioGeneNetwork_h
 
 
-#include "itkWin32Header.h"
+#include "itkMacro.h"
 
 #include <vector>
 

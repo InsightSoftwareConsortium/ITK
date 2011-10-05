@@ -5,7 +5,7 @@ readers and writers of the medical imaging DICOM standard.")
 itk_module(ITKIOGDCM
   DEPENDS
     ITKGDCM
-    ITKIOBase
+    ITKIOImageBase
   TEST_DEPENDS
     ITKTestKernel
     ITKImageIntensity

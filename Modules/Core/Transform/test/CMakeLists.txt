@@ -11,11 +11,8 @@ itkTransformTest.cxx
 itkRigid3DPerspectiveTransformTest.cxx
 itkSimilarity2DTransformTest.cxx
 itkTranslationTransformTest.cxx
-itkCenteredRigid2DTransformTest.cxx
 itkIdentityTransformTest.cxx
 itkv3Rigid3DTransformTest.cxx
-itkTransformFactoryBaseTest.cxx
-itkEuler2DTransformTest.cxx
 itkCenteredAffineTransformTest.cxx
 itkRigid2DTransformTest.cxx
 itkScaleLogarithmicTransformTest.cxx
@@ -24,12 +21,11 @@ itkScaleTransformTest.cxx
 itkSimilarity3DTransformTest.cxx
 itkAzimuthElevationToCartesianTransformTest.cxx
 itkCenteredEuler3DTransformTest.cxx
-itkTransformFileReaderWriterTest.cxx
-itkTransformIOTest.cxx
 itkTransformsSetParametersTest.cxx
 itkBSplineDeformableTransformTest.cxx
 itkBSplineDeformableTransformTest2.cxx
 itkBSplineDeformableTransformTest3.cxx
+itkTransformFactoryBaseTest.cxx
 itkBSplineTransformTest.cxx
 itkBSplineTransformTest2.cxx
 itkBSplineTransformTest3.cxx
@@ -65,18 +61,10 @@ itk_add_test(NAME itkSimilarity2DTransformTest
       COMMAND ITKTransformTestDriver itkSimilarity2DTransformTest)
 itk_add_test(NAME itkTranslationTransformTest
       COMMAND ITKTransformTestDriver itkTranslationTransformTest)
-itk_add_test(NAME itkCenteredRigid2DTransformTest
-      COMMAND ITKTransformTestDriver itkCenteredRigid2DTransformTest
-              ${ITK_TEST_OUTPUT_DIR}/testCenteredTransform.txt)
 itk_add_test(NAME itkIdentityTransformTest
       COMMAND ITKTransformTestDriver itkIdentityTransformTest)
 itk_add_test(NAME itkv3Rigid3DTransformTest
       COMMAND ITKTransformTestDriver itkv3Rigid3DTransformTest)
-itk_add_test(NAME itkTransformFactoryBaseTest
-      COMMAND ITKTransformTestDriver itkTransformFactoryBaseTest)
-itk_add_test(NAME itkEuler2DTransformTest
-      COMMAND ITKTransformTestDriver itkEuler2DTransformTest
-              ${ITK_TEST_OUTPUT_DIR}/testEulerTransform.txt)
 itk_add_test(NAME itkCenteredAffineTransformTest
       COMMAND ITKTransformTestDriver itkCenteredAffineTransformTest)
 itk_add_test(NAME itkRigid2DTransformTest
@@ -93,21 +81,8 @@ itk_add_test(NAME itkAzimuthElevationToCartesianTransformTest
       COMMAND ITKTransformTestDriver itkAzimuthElevationToCartesianTransformTest)
 itk_add_test(NAME itkCenteredEuler3DTransformTest
       COMMAND ITKTransformTestDriver itkCenteredEuler3DTransformTest)
-itk_add_test(NAME itkTransformFileReaderWriterTest0
-      COMMAND ITKTransformTestDriver itkTransformFileReaderWriterTest
-              DATA{${ITK_DATA_ROOT}/Input/itkAffineTransform00.txt} ${ITK_TEST_OUTPUT_DIR}/itkTransformFileReaderWriterTest0.txt)
-itk_add_test(NAME itkTransformFileReaderWriterTest1
-      COMMAND ITKTransformTestDriver itkTransformFileReaderWriterTest
-              DATA{${ITK_DATA_ROOT}/Input/itkAffineTransform01.txt} ${ITK_TEST_OUTPUT_DIR}/itkTransformFileReaderWriterTest1.txt)
-itk_add_test(NAME itkTransformFileReaderWriterTest2
-      COMMAND ITKTransformTestDriver itkTransformFileReaderWriterTest
-              DATA{${ITK_DATA_ROOT}/Input/itkAffineTransform01.txt} ${ITK_TEST_OUTPUT_DIR}/itkTransformFileReaderWriterTest1.mat)
-itk_add_test(NAME itkTransformFileReaderWriterTest3
-      COMMAND ITKTransformTestDriver itkTransformFileReaderWriterTest
-              DATA{Baseline/itkBSplineTransform00.txt} ${ITK_TEST_OUTPUT_DIR}/itkBSplineTransform00.mat)
-itk_add_test(NAME itkTransformIOTest
-      COMMAND ITKTransformTestDriver itkTransformIOTest
-              ${ITK_TEST_OUTPUT_DIR})
+itk_add_test(NAME itkTransformFactoryBaseTest
+      COMMAND ITKTransformTestDriver itkTransformFactoryBaseTest)
 itk_add_test(NAME itkTransformsSetParametersTest
       COMMAND ITKTransformTestDriver itkTransformsSetParametersTest)
 

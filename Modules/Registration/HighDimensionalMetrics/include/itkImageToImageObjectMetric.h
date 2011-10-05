@@ -185,11 +185,12 @@ public:
   typedef typename VirtualImageType::IndexType      VirtualIndexType;
 
   /* Image dimension accessors */
-  itkStaticConstMacro(FixedImageDimension, unsigned int,
+  typedef unsigned int   ImageDimensionType;
+  itkStaticConstMacro(FixedImageDimension, ImageDimensionType,
       ::itk::GetImageDimension<FixedImageType>::ImageDimension);
-  itkStaticConstMacro(MovingImageDimension, unsigned int,
+  itkStaticConstMacro(MovingImageDimension, ImageDimensionType,
       ::itk::GetImageDimension<MovingImageType>::ImageDimension);
-  itkStaticConstMacro(VirtualImageDimension, unsigned int,
+  itkStaticConstMacro(VirtualImageDimension, ImageDimensionType,
       ::itk::GetImageDimension<VirtualImageType>::ImageDimension);
 
   /**  Type of the Transform Base classes */
@@ -479,15 +480,18 @@ public:
    * Need to differentiate it from GetValue method in base class. */
   MeasureType GetValueResult() const;
 
+  /** Type to represent the number of parameters that are being optimized at
+   * any given iteration of the optimizer. */
+  typedef typename Superclass::NumberOfParametersType   NumberOfParametersType;
+
   /** Return the number of parameters.
    * \note Currently we're always optimizing the moving image transform,
    * so return its number of parameters. The class will eventually allow
    * either the fixed transform to be optimized, or both. This and related
    * methods make it so the user or calling-class doesn't need to know which
    * of the transforms are being optimized.
-   * TODO: Swithc return type to NumberOfParametersType when superclass
-   * has been changed. */
-  virtual unsigned int GetNumberOfParameters() const;
+   */
+  virtual NumberOfParametersType GetNumberOfParameters() const;
 
   /** Get a const reference to the moving transform's parameters */
   virtual const ParametersType & GetParameters() const;
@@ -501,10 +505,8 @@ public:
   virtual void UpdateTransformParameters( DerivativeType & derivative,
                                           ParametersValueType factor = 1.0);
 
-  /** Get the number of local parameters from the moving transform.
-   * TODO: Swithc return type to NumberOfParametersType when superclass
-   * has been changed. */
-  virtual unsigned int GetNumberOfLocalParameters() const;
+  /** Get the number of local parameters from the moving transform. */
+  virtual NumberOfParametersType GetNumberOfLocalParameters() const;
 
   /** Get if the moving transform has local support. */
   virtual bool HasLocalSupport() const;
@@ -525,9 +527,9 @@ protected:
    * given a point, value and image derivative for both fixed and moving
    * spaces. The provided values have been calculated from \c virtualPoint,
    * which is provided in case it's needed.
-   * By default, this will return false and not assign any values.
    * Derived classes that use \c GetValueAndDerivativeThreadedExecute
-   * to initiate process must override this method.
+   * to initiate process must override this method, otherwise an exception
+   * is thrown.
    * \note This method is not pure virtual because some derived classes
    * do not use \c GetValueAndDerivativeThreadedExecute, and instead
    * provide their own processing control.
@@ -575,7 +577,7 @@ protected:
    * a registration loop.
    * Called from \c GetValueAndDerivativeThreadedExecute before
    * threading starts. */     //NOTE: make this private or protected?
-  virtual void InitializeForIteration(void);
+  virtual void InitializeForIteration(void) const;
 
   /** Transform and evaluate a point into the virtual domain.
    * This function also checks if mapped point is within the mask if
@@ -635,7 +637,7 @@ protected:
    * to m_MovingImageGradientImage. It will use either the original
    * moving image, or the pre-warped version, depending on the setting
    * of DoMovingImagePreWarp. */
-  virtual void ComputeMovingImageGradientFilterImage(void);
+  virtual void ComputeMovingImageGradientFilterImage(void) const;
 
   /** Initialize the default image gradient filters. This must only
    * be called once the fixed and moving images have been set. */
@@ -653,7 +655,7 @@ protected:
   /** Called from \c GetValueAndDerivativeThreadedExecute after
    * threading is complete, to count the total number of valid points
    * used during calculations, storing it in \c m_NumberOfValidPoints */
-  virtual void CollectNumberOfValidPoints(void);
+  virtual void CollectNumberOfValidPoints(void) const;
 
   FixedImageConstPointer  m_FixedImage;
   FixedTransformPointer   m_FixedTransform;
@@ -682,8 +684,8 @@ protected:
                                              m_DefaultMovingImageGradientFilter;
 
   /** Gradient images to store gradient filter output. */
-  FixedImageGradientImagePointer    m_FixedImageGradientImage;
-  MovingImageGradientImagePointer   m_MovingImageGradientImage;
+  mutable FixedImageGradientImagePointer    m_FixedImageGradientImage;
+  mutable MovingImageGradientImagePointer   m_MovingImageGradientImage;
 
   /** Image gradient calculators */
   FixedImageGradientCalculatorPointer   m_FixedImageGradientCalculator;
@@ -696,8 +698,8 @@ protected:
   bool                               m_DoMovingImagePreWarp;
 
   /** Pre-warped images. */
-  FixedImagePointer   m_FixedWarpedImage;
-  MovingImagePointer  m_MovingWarpedImage;
+  mutable FixedImagePointer   m_FixedWarpedImage;
+  mutable MovingImagePointer  m_MovingWarpedImage;
 
   /** Resample image filters for pre-warping images */
   MovingWarpResampleImageFilterPointer    m_MovingWarpResampleImageFilter;
@@ -707,18 +709,18 @@ protected:
    * to a user-provided object. This enables
    * safely sharing a derivative object between metrics during multi-variate
    * analsys, for memory efficiency. */
-  DerivativeType*                             m_DerivativeResult;
+  mutable DerivativeType *                    m_DerivativeResult;
 
   /** Store the number of points used during most recent value and derivative
    * calculation. */
-  SizeValueType                               m_NumberOfValidPoints;
+  mutable SizeValueType                       m_NumberOfValidPoints;
 
   /** Masks */
   FixedImageMaskConstPointer                  m_FixedImageMask;
   MovingImageMaskConstPointer                 m_MovingImageMask;
 
   /** Metric value, stored after evaluating */
-  MeasureType             m_Value;
+  mutable MeasureType             m_Value;
 
   /*
    * Multi-threading variables and methods
@@ -729,7 +731,7 @@ protected:
    * Typically this will be the user-supplied object from a call to
    * GetValueAndDerivative.
    */ //NOTE: make this private, or will a derived class want to override?
-  virtual void InitializeThreadingMemory( DerivativeType & derivativeReturn );
+  virtual void InitializeThreadingMemory( DerivativeType & derivativeReturn ) const;
 
   /** Initiates multi-threading to evaluate the current metric value
    * and derivatives.
@@ -741,8 +743,7 @@ protected:
    * into this parameter.
    * \sa GetValueAndDerivativeThreadedPostProcess
    */
-  virtual void GetValueAndDerivativeThreadedExecute( DerivativeType &
-                                                            derivativeReturn );
+  virtual void GetValueAndDerivativeThreadedExecute( DerivativeType & derivativeReturn ) const;
 
   /** Default post-processing after multi-threaded calculation of
    * value and derivative. Typically called by derived classes after
@@ -757,7 +758,7 @@ protected:
    * sums for global transforms only (i.e. transforms without local support).
    * Derived classes need not call this if they require special handling.
    */
-  virtual void GetValueAndDerivativeThreadedPostProcess( bool doAverage );
+  virtual void GetValueAndDerivativeThreadedPostProcess( bool doAverage ) const;
 
   /** Type of the default threader used for GetValue and GetDerivative.
    * This splits an image region in per-thread sub-regions over the outermost
@@ -777,13 +778,14 @@ protected:
                                               m_ValueAndDerivativeThreader;
 
   /** Intermediary threaded metric value storage. */
-  std::vector<InternalComputationValueType>  m_MeasurePerThread;
-  std::vector< DerivativeType >              m_DerivativesPerThread;
-  std::vector< DerivativeType >              m_LocalDerivativesPerThread;
-  std::vector< SizeValueType >               m_NumberOfValidPointsPerThread;
+  mutable std::vector<InternalComputationValueType>  m_MeasurePerThread;
+  mutable std::vector< DerivativeType >              m_DerivativesPerThread;
+  mutable std::vector< DerivativeType >              m_LocalDerivativesPerThread;
+  mutable std::vector< SizeValueType >               m_NumberOfValidPointsPerThread;
+
   /** Pre-allocated transform jacobian objects, for use as needed by dervied
    * classes for efficiency. */
-  std::vector<JacobianType>                  m_MovingTransformJacobianPerThread;
+  mutable std::vector<JacobianType>                  m_MovingTransformJacobianPerThread;
 
   ImageToImageObjectMetric();
   virtual ~ImageToImageObjectMetric();
@@ -809,17 +811,17 @@ private:
                           Self * dataHolder);
 
   /** Pre-warp the images for efficiency and computational stability. */
-  void DoFixedImagePreWarp( void );
-  void DoMovingImagePreWarp( void );
+  void DoFixedImagePreWarp( void ) const;
+  void DoMovingImagePreWarp( void ) const;
 
   /** Flag to track if threading memory has been initialized since last
    * call to Initialize. */
-  bool                    m_ThreadingMemoryHasBeenInitialized;
+  mutable bool            m_ThreadingMemoryHasBeenInitialized;
 
   /** Flag to track if the number of threads has been initialized in
    * the Initialize routine. We don't want GetNumberOfThreads to be
    * called until this has been initialized. */
-  bool                    m_NumberOfThreadsHasBeenInitialized;
+  mutable bool            m_NumberOfThreadsHasBeenInitialized;
 
   //purposely not implemented
   ImageToImageObjectMetric(const Self &);

@@ -4,7 +4,7 @@ Stimulate (SDT/SPR)</a> images.")
 
 itk_module(ITKIOStimulate
   DEPENDS
-    ITKIOBase
+    ITKIOImageBase
   TEST_DEPENDS
     ITKTestKernel
   DESCRIPTION

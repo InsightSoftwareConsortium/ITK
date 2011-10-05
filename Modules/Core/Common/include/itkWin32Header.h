@@ -28,8 +28,6 @@
 #ifndef __itkWin32Header_h
 #define __itkWin32Header_h
 
-#include "itkConfigure.h"
-
 /** Disable some common warnings in MS VC++ */
 #if defined( _MSC_VER )
 
@@ -68,40 +66,6 @@
 // unreferenced local function has been removed
 #pragma warning ( disable : 4505 )
 
-#endif
-
-// When a class definition has ITK_EXPORT, the class will be
-// checked automatically, by Utilities/Dart/PrintSelfCheck.tcl
-#define ITK_EXPORT
-
-#if defined( _WIN32 ) || defined ( WIN32 )
-  #define ITK_ABI_IMPORT __declspec(dllimport)
-  #define ITK_ABI_EXPORT __declspec(dllexport)
-  #define ITK_ABI_HIDDEN
-#else
-  #if __GNUC__ >= 4
-    #define ITK_ABI_IMPORT __attribute__ ((visibility ("default")))
-    #define ITK_ABI_EXPORT __attribute__ ((visibility ("default")))
-    #define ITK_ABI_HIDDEN  __attribute__ ((visibility ("hidden")))
-  #else
-    #define ITK_ABI_IMPORT
-    #define ITK_ABI_EXPORT
-    #define ITK_ABI_HIDDEN
-  #endif
-#endif
-
-#if !defined( ITKSTATIC )
-#ifdef ITKCommon_EXPORTS
-#define ITKCommon_EXPORT ITK_ABI_EXPORT
-#else
-#define ITKCommon_EXPORT ITK_ABI_IMPORT
-#endif  /* ITKCommon_EXPORTS */
-#define ITKCommon_HIDDEN ITK_ABI_HIDDEN
-
-#else
-/* ITKCommon is build as a static lib */
-#define ITKCommon_EXPORT
-#define ITKCommon_HIDDEN
-#endif
+#endif // _MSC_VER
 
 #endif

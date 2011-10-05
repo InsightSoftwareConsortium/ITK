@@ -18,31 +18,13 @@
 #ifndef __itkVnlInverseFFTImageFilter_hxx
 #define __itkVnlInverseFFTImageFilter_hxx
 
-#include "itkVnlInverseFFTImageFilter.h"
 #include "itkInverseFFTImageFilter.hxx"
 #include "itkProgressReporter.h"
+#include "itkVnlFFTCommon.h"
+#include "itkVnlInverseFFTImageFilter.h"
 
 namespace itk
 {
-
-template< class TInputImage, class TOutputImage >
-bool
-VnlInverseFFTImageFilter< TInputImage, TOutputImage >
-::IsDimensionSizeLegal(InputSizeValueType n)
-{
-  int ifac = 2;
-
-  for ( int l = 1; l <= 3; l++ )
-    {
-    for (; n % ifac == 0; )
-      {
-      n /= ifac;
-      }
-    ifac += l;
-    }
-  return ( n == 1 ); // return false if decomposition failed
-}
-
 
 template< class TInputImage, class TOutputImage >
 void
@@ -73,7 +55,7 @@ VnlInverseFFTImageFilter< TInputImage, TOutputImage >
   unsigned int vectorSize = 1;
   for ( unsigned int i = 0; i < ImageDimension; i++ )
     {
-    if ( !this->IsDimensionSizeLegal( outputSize[i] ) )
+    if ( !VnlFFTCommon::IsDimensionSizeLegal( outputSize[i] ) )
       {
       itkExceptionMacro(<< "Cannot compute FFT of image with size "
                         << outputSize << ". VnlInverseFFTImageFilter operates "
@@ -92,7 +74,7 @@ VnlInverseFFTImageFilter< TInputImage, TOutputImage >
   OutputPixelType *out = outputPtr->GetBufferPointer();
 
   // call the proper transform, based on compile type template parameter
-  vnl_fft_transform vnlfft( outputSize );
+  VnlFFTCommon::VnlFFTTransform< OutputImageType > vnlfft( outputSize );
   vnlfft.transform( signal.data_block(), 1 );
 
   // Copy the VNL output back to the ITK image.
@@ -105,14 +87,6 @@ VnlInverseFFTImageFilter< TInputImage, TOutputImage >
     {
     out[i] = signal[i].real() / vectorSize;
     }
-}
-
-template< class TInputImage, class TOutputImage >
-bool
-VnlInverseFFTImageFilter< TInputImage, TOutputImage >
-::FullMatrix()
-{
-  return true;
 }
 }
 #endif

@@ -112,8 +112,6 @@ protected:
   virtual LevelSetOutputRealType Value( const LevelSetInputIndexType& iP,
                                         const LevelSetDataType& iData );
 
-  LevelSetOutputRealType m_NeighborhoodScales[ImageDimension];
-
 private:
   LevelSetEquationPropagationTerm( const Self& ); // purposely not implemented
   void operator = ( const Self& ); // purposely not implemented

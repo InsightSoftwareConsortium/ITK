@@ -24,20 +24,22 @@ namespace itk
 {
 /** \class ForwardFFTImageFilter
  *
- * \brief Base class for "Forward" Fast Fourier Transform.
+ * \brief Base class for forward Fast Fourier Transform.
  *
  * This is a base class for the "forward" or "direct" discrete Fourier
- * Transform.  This is an abstract base class: the actual implementation is
- * provided by the best child class available on the system when the object is
- * created via the object factory system.
+ * Transform.  This is an abstract base class: the actual
+ * implementation is provided by the best child class available on the
+ * system when the object is created via the object factory system.
  *
- * This class transforms a real input image into its complex Fourier Transform.
- * The transform of a real input image has complex conjugate symmetry.  That is,
- * values in the second half of the transform are the complex conjugates of
- * values in the first half.  Some implementations, e.g. FFTW, may take
- * advantage of this property and reduce the size of the output in one direction
- * to N/2+1, where N is the size of the input.  If this occurs, FullMatrix()
- * returns 'false'.
+ * This class transforms a real input image into its full complex Fourier
+ * transform.  The Fourier transform of a real input image has
+ * Hermitian symmetry: \f$ f(\mathbf{x}) = f^*(-\mathbf{x}) \f$. That
+ * is, when the result of the transform is split in half along the
+ * x-dimension, the values in the second half of the transform are the
+ * complex conjugates of values in the first half reflected about the
+ * center of the image in each dimension.
+ *
+ * This filter works only for real single-component input image types.
  *
  * \ingroup FourierTransform
  *
@@ -64,9 +66,6 @@ public:
   typedef SmartPointer< Self >                                  Pointer;
   typedef SmartPointer< const Self >                            ConstPointer;
 
-  /** Run-time type information (and related methods). */
-  itkTypeMacro(ForwardFFTImageFilter, ImageToImageFilter);
-
   /** Customized object creation methods that support configuration-based
     * selection of FFT implementation.
     *
@@ -77,23 +76,15 @@ protected:
   ForwardFFTImageFilter() {}
   virtual ~ForwardFFTImageFilter() {}
 
-  /** The output may be a different size from the input if complex conjugate
-   * symmetry is implicit. */
-  virtual void GenerateOutputInformation();
-
   /** This class requires the entire input. */
   virtual void GenerateInputRequestedRegion();
 
   /** This class produces the entire output. */
   virtual void EnlargeOutputRequestedRegion(DataObject *output);
 
-  /** Returns true if the outputs size is the same size as the input, i.e.
-   * we do not take advantage of complex conjugate symmetry. */
-  virtual bool FullMatrix() = 0; // must be implemented in child
-
 private:
-  ForwardFFTImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);                       //purposely not implemented
+  ForwardFFTImageFilter(const Self &); // purposely not implemented
+  void operator=(const Self &);        // purposely not implemented
 };
 } // end namespace itk
 

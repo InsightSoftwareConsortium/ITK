@@ -18,12 +18,14 @@
 #ifndef __itkFFTWForwardFFTImageFilter_hxx
 #define __itkFFTWForwardFFTImageFilter_hxx
 
+#include "itkHalfToFullHermitianImageFilter.h"
 #include "itkFFTWForwardFFTImageFilter.h"
 #include "itkForwardFFTImageFilter.hxx"
-#include <iostream>
 #include "itkIndent.h"
 #include "itkMetaDataObject.h"
 #include "itkProgressReporter.h"
+
+#include <iostream>
 
 namespace itk
 {
@@ -79,9 +81,18 @@ FFTWForwardFFTImageFilter< TInputImage, TOutputImage >
     totalOutputSize *= outputSize[i];
     }
 
+  // Set up image to hold the half image results from FFTW.
+  typename OutputImageType::SizeType fftwOutputSize( outputSize );
+  fftwOutputSize[0] = ( fftwOutputSize[0] / 2 ) + 1;
+  typename OutputImageType::RegionType fftwOutputRegion( outputPtr->GetLargestPossibleRegion() );
+  fftwOutputRegion.SetSize( fftwOutputSize );
+
+  typename OutputImageType::Pointer fftwOutput = OutputImageType::New();
+  fftwOutput->SetRegions( fftwOutputRegion );
+  fftwOutput->Allocate();
+
   typename FFTWProxyType::PlanType plan;
   InputPixelType * in = const_cast<InputPixelType*>(inputPtr->GetBufferPointer());
-  typename FFTWProxyType::ComplexType * out = (typename FFTWProxyType::ComplexType*) outputPtr->GetBufferPointer();
   int flags = m_PlanRigor;
   if( !m_CanUseDestructiveAlgorithm )
     {
@@ -96,22 +107,23 @@ FFTWForwardFFTImageFilter< TInputImage, TOutputImage >
     sizes[(ImageDimension - 1) - i] = inputSize[i];
     }
 
-  plan = FFTWProxyType::Plan_dft_r2c(ImageDimension,sizes,
-                                    in,
-                                    out,
-                                    flags,
-                                    this->GetNumberOfThreads());
+  plan = FFTWProxyType::Plan_dft_r2c(ImageDimension, sizes, in,
+                                     (typename FFTWProxyType::ComplexType*)
+                                     fftwOutput->GetBufferPointer(), flags,
+                                     this->GetNumberOfThreads());
   delete [] sizes;
   FFTWProxyType::Execute(plan);
   FFTWProxyType::DestroyPlan(plan);
-}
 
-template< class TInputImage, class TOutputImage >
-bool
-FFTWForwardFFTImageFilter< TInputImage, TOutputImage >
-::FullMatrix()
-{
-  return false;
+  // Expand the half image to the full image size
+  typedef HalfToFullHermitianImageFilter< OutputImageType > HalfToFullFilterType;
+  typename HalfToFullFilterType::Pointer halfToFullFilter = HalfToFullFilterType::New();
+  halfToFullFilter->SetActualXDimensionIsOdd( inputSize[0] % 2 != 0 );
+  halfToFullFilter->SetInput( fftwOutput );
+  halfToFullFilter->GraftOutput( this->GetOutput() );
+  halfToFullFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
+  halfToFullFilter->UpdateLargestPossibleRegion();
+  this->GraftOutput( halfToFullFilter->GetOutput() );
 }
 
 template< class TInputImage, class TOutputImage >

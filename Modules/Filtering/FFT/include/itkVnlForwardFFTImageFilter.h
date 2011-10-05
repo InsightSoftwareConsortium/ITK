@@ -74,11 +74,6 @@ public:
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
-  /** These should be defined in every FFT filter class. */
-  virtual void GenerateData();
-
-  virtual bool FullMatrix();
-
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro( ImageDimensionsMatchCheck,
@@ -90,30 +85,13 @@ protected:
   VnlForwardFFTImageFilter() {}
   ~VnlForwardFFTImageFilter() {}
 
-  /** Method to check if an array dimension is legal for prime factor
-   * FFT algorithm. */
-  bool IsDimensionSizeLegal(InputSizeValueType n);
+  virtual void GenerateData();
 
 private:
   VnlForwardFFTImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                          //purposely not implemented
 
   typedef vnl_vector< vcl_complex< InputPixelType > > SignalVectorType;
-
-  struct vnl_fft_transform:
-    public vnl_fft_base< ImageDimension, InputPixelType >
-  {
-    typedef vnl_fft_base< ImageDimension, InputPixelType > Base;
-
-    //: constructor takes size of signal.
-    vnl_fft_transform( const InputSizeType & s )
-    {
-      for( int i=0; i<ImageDimension; i++ )
-      {
-        Base::factors_[ImageDimension - i - 1].resize(s[i]);
-      }
-    }
-  };
 };
 }
 

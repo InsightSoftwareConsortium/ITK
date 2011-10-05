@@ -44,14 +44,12 @@ public:
   // Pure virtual functions that all Metrics must provide
   unsigned int GetNumberOfParameters() const { return 5; }
 
-  using Superclass::GetValue;
-  MeasureType GetValue()
+  MeasureType GetValue() const
     {
     return 1.0;
     }
 
-  using Superclass::GetValueAndDerivative;
-  void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative )
+  void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const
     {
     value = 1.0; derivative.Fill(0.0);
     }

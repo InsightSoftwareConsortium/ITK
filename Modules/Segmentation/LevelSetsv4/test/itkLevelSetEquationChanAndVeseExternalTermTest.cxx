@@ -18,7 +18,7 @@
 
 #include "itkImage.h"
 #include "itkLevelSetDomainMapImageFilter.h"
-#include "itkLevelSetContainerBase.h"
+#include "itkLevelSetContainer.h"
 #include "itkLevelSetEquationChanAndVeseExternalTerm.h"
 #include "itkSinRegularizedHeavisideStepFunction.h"
 #include "itkBinaryImageToSparseLevelSetImageAdaptor.h"
@@ -49,12 +49,9 @@ int itkLevelSetEquationChanAndVeseExternalTermTest( int argc, char* argv[] )
   typedef itk::BinaryImageToSparseLevelSetImageAdaptor< InputImageType, SparseLevelSetType >
                                                             BinaryToSparseAdaptorType;
 
-  typedef itk::LevelSetContainerBase< IdentifierType, SparseLevelSetType > LevelSetContainerType;
+  typedef itk::LevelSetContainer< IdentifierType, SparseLevelSetType >  LevelSetContainerType;
   typedef itk::LevelSetEquationChanAndVeseExternalTerm< InputImageType, LevelSetContainerType >
-                                                                           ChanAndVeseExternalTermType;
-
-  typedef itk::LevelSetContainerBase< IdentifierType, SparseLevelSetType >
-                                                            LevelSetContainerType;
+                                                                        ChanAndVeseExternalTermType;
 
   typedef std::list< IdentifierType >                       IdListType;
   typedef itk::Image< IdListType, Dimension >               IdListImageType;

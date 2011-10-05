@@ -32,6 +32,7 @@ DisplacementFieldTransformParametersAdaptor<TTransform>
 ::DisplacementFieldTransformParametersAdaptor()
 {
   this->m_RequiredFixedParameters.SetSize( SpaceDimension * ( SpaceDimension + 3 ) );
+  this->m_RequiredFixedParameters.Fill( 0.0 );
 }
 
 template<class TTransform>
