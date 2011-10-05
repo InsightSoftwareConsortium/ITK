@@ -98,6 +98,14 @@ struct ProcessedOutputType
   ArgumentsList add_before_env_with_sep;
 };
 
+// A structure to hold redirect output parameters
+typedef struct
+{
+  bool redirect;
+  std::string fileName;
+} RedirectOutputParameters;
+
+RedirectOutputParameters redirectOutputParameters;
 
 void usage()
 {
@@ -146,6 +154,8 @@ void usage()
   std::cerr << std::endl;
   std::cerr << "  --full-output" << std::endl;
   std::cerr << "      Causes the full output of the test to be passed to cdash." << std::endl;
+  std::cerr << "  --redirect-output TEST_OUTPUT" << std::endl;
+  std::cerr << "      Redirects the test output to the file TEST_OUTPUT." << std::endl;
   std::cerr << std::endl;
   std::cerr << "  --" << std::endl;
   std::cerr << "      The options after -- are not interpreted by this program and passed" << std::endl;
@@ -165,6 +175,8 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
   regressionTestParameters.intensityTolerance  = 2.0;
   regressionTestParameters.numberOfPixelsTolerance = 0;
   regressionTestParameters.radiusTolerance = 0;
+
+  redirectOutputParameters.redirect = false;
 
   if( processedOutput )
     {
@@ -316,6 +328,18 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
         }
       (*av) += 1;
       *ac -= 1;
+      }
+    else if ( !skip && strcmp((*av)[i], "--redirectOutput") == 0 )
+      {
+      if ( i + 1 >= *ac )
+        {
+        usage();
+        return 1;
+        }
+      redirectOutputParameters.redirect = true;
+      redirectOutputParameters.fileName = (*av)[i + 1];
+      *av += 2;
+      *ac -= 2;
       }
     else
       {
