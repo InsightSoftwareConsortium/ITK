@@ -104,19 +104,12 @@ public:
 
   typedef ImageJointDomainTraits< TImage > ImageJointDomainTraitsType;
 
-  typedef typename ImageJointDomainTraitsType::MeasurementVectorType
-  MeasurementVectorType;
+  typedef typename ImageJointDomainTraitsType::MeasurementVectorType      MeasurementVectorType;
+  typedef typename ImageJointDomainTraitsType::MeasurementType            MeasurementType;
+  typedef typename ImageJointDomainTraitsType::RangeDomainMeasurementType RangeDomainMeasurementType;
+  typedef typename ImageJointDomainTraitsType::PointType                  PointType;
+  typedef typename ImageJointDomainTraitsType::CoordinateRepType          CoordinateRepType;
 
-  typedef typename ImageJointDomainTraitsType::MeasurementType
-  MeasurementType;
-
-  typedef typename ImageJointDomainTraitsType::RangeDomainMeasurementType
-  RangeDomainMeasurementType;
-
-  typedef typename ImageJointDomainTraitsType::PointType PointType;
-
-  typedef typename ImageJointDomainTraitsType::CoordinateRepType
-  CoordinateRepType;
   /** Run-time type information (and related methods). */
   itkTypeMacro(JointDomainImageToListSampleAdaptor, ListSample);
 
@@ -124,17 +117,16 @@ public:
   itkNewMacro(Self);
 
   /** the number of components in a measurement vector */
-  itkStaticConstMacro(MeasurementVectorSize,
-                      unsigned int,
+  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
                       ImageJointDomainTraitsType::Dimension);
 
-  itkSuperclassTraitMacro(MeasurementVectorSizeType)
+  typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
 
   /** typedefs for Measurement vector, measurement,
    * Instance Identifier, frequency, size, size element value */
-  itkSuperclassTraitMacro(AbsoluteFrequencyType)
-  itkSuperclassTraitMacro(TotalAbsoluteFrequencyType)
-  itkSuperclassTraitMacro(InstanceIdentifier)
+  typedef typename Superclass::AbsoluteFrequencyType      AbsoluteFrequencyType;
+  typedef typename Superclass::TotalAbsoluteFrequencyType TotalAbsoluteFrequencyType;
+  typedef typename Superclass::InstanceIdentifier         InstanceIdentifier;
 
   /** Image typedefs */
   typedef TImage                                ImageType;
@@ -165,19 +157,14 @@ public:
   /** Get total frequency */
   TotalAbsoluteFrequencyType GetTotalFrequency() const;
 
-  itkStaticConstMacro(RangeDomainDimension,
-                      unsigned int,
-                      itk::PixelTraits<
-                        typename TImage::PixelType >::Dimension);
+  itkStaticConstMacro(RangeDomainDimension, unsigned int,
+                      itk::PixelTraits< typename TImage::PixelType >::Dimension);
 
   typedef FixedArray< RangeDomainMeasurementType,
-                      itkGetStaticConstMacro(RangeDomainDimension) >
-  RangeDomainMeasurementVectorType;
+                      itkGetStaticConstMacro(RangeDomainDimension) >          RangeDomainMeasurementVectorType;
 
-  typedef std::vector< InstanceIdentifier > InstanceIdentifierVectorType;
-
-  typedef FixedArray< float, itkGetStaticConstMacro(MeasurementVectorSize) >
-  NormalizationFactorsType;
+  typedef std::vector< InstanceIdentifier >                                   InstanceIdentifierVectorType;
+  typedef FixedArray< float, itkGetStaticConstMacro(MeasurementVectorSize) >  NormalizationFactorsType;
 
   /** Sets the normalization factors */
   void SetNormalizationFactors(NormalizationFactorsType & factors);

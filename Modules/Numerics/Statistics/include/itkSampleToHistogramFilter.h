@@ -77,7 +77,7 @@ public:
   typedef typename HistogramType::MeasurementVectorType HistogramMeasurementVectorType;
 
   /** Type for the data object output */
-  itkSuperclassTraitMacro(DataObjectPointer)
+  typedef typename Superclass::DataObjectPointer DataObjectPointer;
 
   using Superclass::SetInput;
 

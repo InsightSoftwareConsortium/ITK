@@ -57,11 +57,11 @@ public:
   itkTypeMacro( EuclideanDistancePointSetMetric, PointSetToPointSetMetric );
 
   /** Types transferred from the base class */
-  itkSuperclassTraitMacro( MeasureType );
-  itkSuperclassTraitMacro( DerivativeType );
-  itkSuperclassTraitMacro( LocalDerivativeType );
-  itkSuperclassTraitMacro( PointType );
-  itkSuperclassTraitMacro( PointIdentifier );
+  typedef typename Superclass::MeasureType          MeasureType;
+  typedef typename Superclass::DerivativeType       DerivativeType;
+  typedef typename Superclass::LocalDerivativeType  LocalDerivativeType;
+  typedef typename Superclass::PointType            PointType;
+  typedef typename Superclass::PointIdentifier      PointIdentifier;
 
   /**
    * Calculates the local metric value for a single point.

@@ -156,10 +156,6 @@ namespace itk
       }                                                                           \
     }
 
-/** Macro used to redefine a type from the superclass. */
-#define itkSuperclassTraitMacro(traitnameType) \
-  typedef typename Superclass::traitnameType traitnameType;
-
 /** Get an input. This defines the Get"name"() method */
 #define itkGetInputMacro(name, type)                                                                            \
   virtual const type * Get##name() const                                                                        \

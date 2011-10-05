@@ -56,12 +56,12 @@ public:
 
   /** Typedefs for Measurement vector, measurement, Instance Identifier,
    * frequency, size, size element value from the template argument TSample */
-  itkSuperclassTraitMacro(SampleType)
-  itkSuperclassTraitMacro(MeasurementVectorType)
-  itkSuperclassTraitMacro(MeasurementType)
-  itkSuperclassTraitMacro(InstanceIdentifier)
-  itkSuperclassTraitMacro(SubsampleType)
-  itkSuperclassTraitMacro(OutputType)
+  typedef typename Superclass::SampleType             SampleType;
+  typedef typename Superclass::MeasurementVectorType  MeasurementVectorType;
+  typedef typename Superclass::MeasurementType        MeasurementType;
+  typedef typename Superclass::InstanceIdentifier     InstanceIdentifier;
+  typedef typename Superclass::SubsampleType          SubsampleType;
+  typedef typename Superclass::OutputType             OutputType;
 
   /** Type of the distance radius. */
   typedef double RadiusType;
@@ -71,6 +71,7 @@ public:
 
   /** Method to set the input value of the Radius */
   itkSetGetDecoratedInputMacro(Radius, RadiusType);
+
 protected:
   NeighborhoodSampler();
   virtual ~NeighborhoodSampler();
