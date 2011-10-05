@@ -311,7 +311,6 @@ FastMarchingUpwindGradientImageFilter< TLevelSet, TSpeedImage >
       {
       gradientPixel[j] = dx_forward;
       }
-
     gradientPixel[j] /= spacing[j];
     }
 
