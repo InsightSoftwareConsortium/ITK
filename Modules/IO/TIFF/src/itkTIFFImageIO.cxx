@@ -303,8 +303,8 @@ void TIFFImageIO::ReadTwoSamplesPerPixelImage(void *out,
                                               unsigned int width,
                                               unsigned int height)
 {
-  uint64 isize = TIFFScanlineSize64(m_InternalImage->m_Image);
-  uint64 cc;
+  uint64_t isize = TIFFScanlineSize64(m_InternalImage->m_Image);
+  uint64_t cc;
   int          row;
   tdata_t      buf = _TIFFmalloc(isize);
 
@@ -456,8 +456,8 @@ void TIFFImageIO::ReadGenericImage(void *out,
                                    unsigned int width,
                                    unsigned int height)
 {
-  uint64 isize = TIFFScanlineSize64(m_InternalImage->m_Image);
-  uint64 cc;
+  uint64_t isize = TIFFScanlineSize64(m_InternalImage->m_Image);
+  uint64_t cc;
   int          row, inc;
   tdata_t      buf = _TIFFmalloc(isize);
 
