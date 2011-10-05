@@ -28,10 +28,17 @@ endif()
 
 CreateTestDriver(ITKFFT  "${ITKFFT-Test_LIBRARIES}" "${ITKFFTTests}")
 
+set(TEMP ${ITK_TEST_OUTPUT_DIR})
+
 itk_add_test(NAME itkVnlFFTTest
-      COMMAND ITKFFTTestDriver itkVnlFFTTest)
+      COMMAND ITKFFTTestDriver  --redirectOutput ${TEMP}/itkVnlFFTTest.txt
+    itkVnlFFTTest)
+set_tests_properties(itkVnlFFTTest PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/itkVnlFFTTest.txt)
+
 itk_add_test(NAME itkVnlRealFFTTest
-      COMMAND ITKFFTTestDriver itkVnlRealFFTTest)
+      COMMAND ITKFFTTestDriver --redirectOutput ${TEMP}/itkVnlRealFFTTest.txt
+    itkVnlRealFFTTest)
+set_tests_properties(itkVnlRealFFTTest PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/itkVnlRealFFTTest.txt)
 
 if(USE_FFTWF)
   itk_add_test(NAME itkFFTWF_FFTTest

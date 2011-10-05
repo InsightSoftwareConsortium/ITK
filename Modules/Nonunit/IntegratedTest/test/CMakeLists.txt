@@ -13,6 +13,8 @@ itkSpatialObjectPrintTest.cxx
 
 CreateTestDriver_SupportBuildInIOFactories(ITKIntegratedTest  "${ITKIntegratedTest-Test_LIBRARIES}" "${ITKIntegratedTestTests}")
 
+set(TEMP ${ITK_TEST_OUTPUT_DIR})
+
 # temporary solution for all print tests. Each module should have its own print test later.
 add_executable(itkAlgorithmsPrintTest  itkAlgorithmsPrintTest.cxx)
 itk_module_target_label(itkAlgorithmsPrintTest)
@@ -41,10 +43,17 @@ itk_add_test(NAME itkSpatialObjectPrintTest
       COMMAND ITKIntegratedTestTestDriver itkSpatialObjectPrintTest)
 itk_add_test(NAME itkIOPrintTest
       COMMAND ITKIntegratedTestTestDriver itkIOPrintTest)
+
 itk_add_test(NAME itkCommonPrintTest
-      COMMAND ITKIntegratedTestTestDriver itkCommonPrintTest)
+      COMMAND ITKIntegratedTestTestDriver  --redirectOutput ${TEMP}/itkCommonPrintTest.txt
+    itkCommonPrintTest)
+set_tests_properties(itkCommonPrintTest PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/itkCommonPrintTest.txt)
+
 itk_add_test(NAME itkBasicFiltersPrintTest
-      COMMAND ITKIntegratedTestTestDriver itkBasicFiltersPrintTest)
+      COMMAND ITKIntegratedTestTestDriver   --redirectOutput ${TEMP}/itkBasicFiltersPrintTest.txt
+    itkBasicFiltersPrintTest)
+set_tests_properties(itkBasicFiltersPrintTest PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/itkBasicFiltersPrintTest.txt)
+
 itk_add_test(NAME itkNeuralNetworksPrintTest
       COMMAND ITKIntegratedTestTestDriver itkNeuralNetworksPrintTest)
 itk_add_test(NAME itkNumericsPrintTest

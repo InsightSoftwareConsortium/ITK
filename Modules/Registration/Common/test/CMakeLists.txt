@@ -55,6 +55,8 @@ itkSpatialObjectToImageRegistrationTest.cxx
 
 CreateTestDriver(ITKRegistrationCommon  "${ITKRegistrationCommon-Test_LIBRARIES}" "${ITKRegistrationCommonTests}")
 
+set(TEMP ${ITK_TEST_OUTPUT_DIR})
+
 itk_add_test(NAME itkBSplineTransformParametersAdaptorTest
       COMMAND ITKRegistrationCommonTestDriver itkBSplineTransformParametersAdaptorTest)
 itk_add_test(NAME itkDisplacementFieldTransformParametersAdaptorTest
@@ -79,12 +81,21 @@ itk_add_test(NAME itkImageRegistrationMethodTest_12
       COMMAND ITKRegistrationCommonTestDriver itkImageRegistrationMethodTest_12)
 itk_add_test(NAME itkImageRegistrationMethodTest_13
       COMMAND ITKRegistrationCommonTestDriver itkImageRegistrationMethodTest_13)
+
 itk_add_test(NAME itkImageRegistrationMethodTest_14
-      COMMAND ITKRegistrationCommonTestDriver itkImageRegistrationMethodTest_14)
+      COMMAND ITKRegistrationCommonTestDriver --redirectOutput ${TEMP}/itkImageRegistrationMethodTest_14.txt
+    itkImageRegistrationMethodTest_14)
+set_tests_properties(itkImageRegistrationMethodTest_14 PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/itkImageRegistrationMethodTest_14.txt)
+
+
 itk_add_test(NAME itkImageRegistrationMethodTest_15
       COMMAND ITKRegistrationCommonTestDriver itkImageRegistrationMethodTest_15)
+
 itk_add_test(NAME itkImageRegistrationMethodTest_16
-      COMMAND ITKRegistrationCommonTestDriver itkImageRegistrationMethodTest_16)
+      COMMAND ITKRegistrationCommonTestDriver --redirectOutput ${TEMP}/itkImageRegistrationMethodTest_16.txt
+    itkImageRegistrationMethodTest_16)
+set_tests_properties(itkImageRegistrationMethodTest_16 PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/itkImageRegistrationMethodTest_16.txt)
+
 itk_add_test(NAME itkMeanSquaresPointSetToImageMetricTest
       COMMAND ITKRegistrationCommonTestDriver itkMeanSquaresPointSetToImageMetricTest)
 itk_add_test(NAME itkGradientDifferenceImageToImageMetricTest

@@ -21,11 +21,17 @@ include_directories( ${ITKIONRRD_SOURCE_DIR} )
 CreateTestDriver(ITKIONRRD  "${ITKIONRRD-Test_LIBRARIES}" "${ITKIONRRDTests}")
 
 itk_add_test(NAME itkNrrdImageIOTest1
-      COMMAND ITKIONRRDTestDriver itkNrrdImageIOTest
-              ${ITK_TEST_OUTPUT_DIR}/testNrrd.nrrd)
+      COMMAND ITKIONRRDTestDriver --redirectOutput ${ITK_TEST_OUTPUT_DIR}/itkNrrdImageIOTest1.txt
+    itkNrrdImageIOTest
+        ${ITK_TEST_OUTPUT_DIR}/testNrrd.nrrd)
+set_tests_properties(itkNrrdImageIOTest1 PROPERTIES ATTACHED_FILES_ON_FAIL ${ITK_TEST_OUTPUT_DIR}/itkNrrdImageIOTest1.txt)
+
 itk_add_test(NAME itkNrrdImageIOTest2
-      COMMAND ITKIONRRDTestDriver itkNrrdImageIOTest
-              ${ITK_TEST_OUTPUT_DIR}/testNrrd.nhdr)
+      COMMAND ITKIONRRDTestDriver --redirectOutput ${ITK_TEST_OUTPUT_DIR}/itkNrrdImageIOTest2.txt
+    itkNrrdImageIOTest
+        ${ITK_TEST_OUTPUT_DIR}/testNrrd.nhdr)
+set_tests_properties(itkNrrdImageIOTest2 PROPERTIES ATTACHED_FILES_ON_FAIL ${ITK_TEST_OUTPUT_DIR}/itkNrrdImageIOTest2.txt)
+
 itk_add_test(NAME itkNrrdComplexImageReadTest
       COMMAND ITKIONRRDTestDriver itkNrrdComplexImageReadTest
               DATA{${ITK_DATA_ROOT}/Input/mini-complex-slow.nrrd})

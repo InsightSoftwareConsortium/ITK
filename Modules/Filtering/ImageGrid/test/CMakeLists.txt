@@ -116,8 +116,13 @@ itk_add_test(NAME itkRegionOfInterestImageFilterTest
 itk_add_test(NAME itkBSplineUpsampleImageFilterTest
       COMMAND ITKImageGridTestDriver itkBSplineUpsampleImageFilterTest
               DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR}/itkBSplineUpsampleImageFilterTest1.mha 3)
+
 itk_add_test(NAME itkBSplineResampleImageFilterTest
-      COMMAND ITKImageGridTestDriver itkBSplineResampleImageFilterTest)
+      COMMAND ITKImageGridTestDriver
+        --redirectOutput ${ITK_TEST_OUTPUT_DIR}/itkBSplineResampleImageFilterTest
+    itkBSplineResampleImageFilterTest)
+set_tests_properties(itkBSplineResampleImageFilterTest PROPERTIES ATTACHED_FILES_ON_FAIL ${ITK_TEST_OUTPUT_DIR}/itkBSplineResampleImageFilterTest.txt)
+
 itk_add_test(NAME itkWarpImageFilterTest2
       COMMAND ITKImageGridTestDriver itkWarpImageFilterTest2)
 itk_add_test(NAME itkBSplineDownsampleImageFilterTest
