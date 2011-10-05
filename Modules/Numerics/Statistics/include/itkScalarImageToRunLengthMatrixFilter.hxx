@@ -207,7 +207,7 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
       MeasurementType lastBinMax = this->GetOutput()->
               GetDimensionMaxs( 0 )[ this->GetOutput()->GetSize( 0 ) - 1 ];
 
-      PixelType pixelIntensity;
+      PixelType pixelIntensity( NumericTraits<PixelType>::Zero );
       IndexType index;
 
       index = centerIndex + offset;
