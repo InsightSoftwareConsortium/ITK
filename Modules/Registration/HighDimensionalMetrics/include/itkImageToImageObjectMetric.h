@@ -556,7 +556,7 @@ public:
 
 protected:
 
-  /** \class SamplingIteratorHelper class
+  /** \class SamplingIteratorHelper
    * \brief Simple helper class for working with both dense sampling via
    * an image iterator, and sparse sampling for a point set.
    * Fully-declared in defined in .hxx file.
@@ -568,7 +568,9 @@ protected:
   /* Worker method to iterate over an image sub region or list of sample
    * points. It calculates fixed and moving point values and image derivatives
    * and calls the derived class' user worker method to calculate
-   * value and derivative. */
+   * value and derivative.
+   * Iterates over a range of samples and calls derived class for calculations.
+   */
   void GetValueAndDerivativeProcessPointRange(
                                       SamplingIteratorHelper & samplingIterator,
                                       ThreadIdType threadID,
@@ -630,7 +632,8 @@ protected:
    * threading starts. */     //NOTE: make this private or protected?
   virtual void InitializeForIteration(void) const;
 
-  /** Transform and evaluate a point into the virtual domain.
+  /**
+   * Transform a point from VirtualImage domain to FixedImage domain.
    * This function also checks if mapped point is within the mask if
    * one is set, and that is within the fixed image buffer, in which
    * case \c pointIsValid will be true on return.
@@ -649,8 +652,7 @@ protected:
                            FixedImagePixelType & mappedFixedPixelValue,
                            FixedImageGradientType & mappedFixedImageGradient,
                            bool & pointIsValid ) const;
-
-  /** See TransformAndEvaluateFixedPoint. TODO. */
+  /** Transform a point from VirtualImage domain to MovingImage domain. */
   virtual void TransformAndEvaluateMovingPoint(
                            const VirtualIndexType & index,
                            const VirtualPointType & point,
@@ -660,18 +662,27 @@ protected:
                            MovingImageGradientType & mappedMovingImageGradient,
                            bool & pointIsValid ) const;
 
-  /** Compute image derivatives at a point. */
+  /** Compute image derivatives for a Fixed point.
+   * NOTE: This doesn't transform result into virtual space. For that,
+   * see TransformAndEvaluateFixedPoint
+   */
   virtual void ComputeFixedImageGradientAtPoint(
                                     const FixedImagePointType & mappedPoint,
                                     FixedImageGradientType & gradient ) const;
+  /** Compute image derivatives for a moving point. */
   virtual void ComputeMovingImageGradientAtPoint(
                                     const MovingImagePointType & mappedPoint,
                                     MovingImageGradientType & gradient ) const;
 
-  /** Compute image derivatives at an index. */
+  /**
+   * Compute fixed warped image derivatives for an index at virtual domain.
+   * NOTE: This doesn't transform result into virtual space. For that,
+   * see TransformAndEvaluateFixedPoint
+   */
   virtual void ComputeFixedImageGradientAtIndex(
                                     const VirtualIndexType & index,
                                     FixedImageGradientType & gradient ) const;
+  /** Compute image derivatives for a moving point. */
   virtual void ComputeMovingImageGradientAtIndex(
                                     const VirtualIndexType & index,
                                     MovingImageGradientType & gradient ) const;
@@ -792,6 +803,11 @@ protected:
    * \c derivativeReturn will be used to store the derivative results.
    * Typically this will be the user-supplied object from a call to
    * GetValueAndDerivative.
+   *
+   * We have a separate method that's called during the first call to evaluate
+   * the metric after Initialize has been called. This is so we can handle
+   * m_DerivativeResult as a raw pointer, obtained from user input.
+   *
    */ //NOTE: make this private, or will a derived class want to override?
   virtual void InitializeThreadingMemory( DerivativeType & derivativeReturn ) const;
 
@@ -878,11 +894,19 @@ private:
    * If a derived class needs to implement its own callback to replace this,
    * define a static method with a different name, and assign it to the
    * threader in the class' constructor by calling
+   *
+   * Create an iterator object and pass it to worker method to
+   * iterate over image region and call derived class for calculations.
    * \c m_ValueAndDerivativeThreader->SetThreadedGenerateData( mycallback ) */
   static void DenseGetValueAndDerivativeThreadedCallback(
                         const DenseThreaderInputObjectType& virtualImageSubRegion,
                         ThreadIdType threadId,
                         Self * dataHolder);
+  /**
+   * Sampled threader callback.
+   * Create an iterator object and pass it to worker method to
+   * iterate over sample point-set and call derived class for calculations.
+   */
   static void SampledGetValueAndDerivativeThreadedCallback(
                         const SampledThreaderInputObjectType& sampledRange,
                         ThreadIdType threadId,
