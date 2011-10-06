@@ -57,7 +57,22 @@ ObjectToObjectMetric
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "TODO...";
+  os << indent << "GradientSourceType: ";
+  switch( m_GradientSource )
+    {
+  case GRADIENT_SOURCE_FIXED:
+    os << "GRADIENT_SOURCE_FIXED";
+    break;
+  case GRADIENT_SOURCE_MOVING:
+    os << "GRADIENT_SOURCE_MOVING";
+    break;
+  case GRADIENT_SOURCE_BOTH:
+    os << "GRADIENT_SOURCE_BOTH";
+    break;
+  default:
+    itkExceptionMacro(<< "Unknown GradientSource.");
+    }
+  os << std::endl;
 }
 
 }//namespace itk
