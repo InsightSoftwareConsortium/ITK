@@ -17,10 +17,10 @@ include(${ITK_TOP_DIR}/CMake/ITKModuleMacros.cmake)
 include(${ITK_TOP_DIR}/CMake/ITKExternalData.cmake)
 
 # Tell modules how to add their tests.
-macro(itk_add_test)
+function(itk_add_test)
   # Add tests with data in the ITKData group.
   ExternalData_add_test(ITKData ${ARGN})
-endmacro()
+endfunction()
 
 # Find the ITK build or install tree.  Assume the version matches exactly.
 # One should provide ITK_DIR explicitly in our intended use cases.
