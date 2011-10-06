@@ -324,8 +324,8 @@ QuadrilateralCell< TCellInterface >
   pcoords[0] = pcoords[1] = params[0] = params[1] = 0.5;
 
   // NOTE: Point x is here assumed to lie on the plane of Quad.  Otherwise, (FIXME)
-  //	   - Get normal for quadrilateral, using its 3 corners
-  //	   - Project point x onto Quad plane using this normal
+  //   - Get normal for quadrilateral, using its 3 corners
+  //   - Project point x onto Quad plane using this normal
   // See vtkQuad for this:  ComputeNormal (this, pt1, pt2, pt3, n);  vtkPlane::ProjectPoint(x,pt1,n,cp);
 
   //  enter iteration loop

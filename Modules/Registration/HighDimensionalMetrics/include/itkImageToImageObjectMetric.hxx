@@ -29,9 +29,6 @@
 namespace itk
 {
 
-/*
- * Constructor
- */
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 ::ImageToImageObjectMetric()
@@ -107,19 +104,12 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
   this->m_NumberOfThreadsHasBeenInitialized = false;
 }
 
-/*
- * Destructor
- */
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 ::~ImageToImageObjectMetric()
 {
 }
 
-/*
- * Initialize. One-time initializations, i.e. once before each
- * registration loop.
- */
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
@@ -336,9 +326,6 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
     }
 }
 
-/*
- * Initiate threaded evaluation.
- */
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
@@ -377,12 +364,6 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
   // or do their own processing.
 }
 
-/*
- * InitializeThreadingMemory
- * We have a separate method that's called during the first call to evaluate
- * the metric after Initialize has been called. This is so we can handle
- * m_DerivativeResult as a raw pointer, obtained from user input.
- */
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
@@ -486,9 +467,6 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
     }
 }
 
-/*
- * Collect number of valid points, after threading is completed.
- */
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
@@ -507,10 +485,6 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
                  << this->m_NumberOfValidPoints );
 }
 
-/*
- * Default post-processing for threaded GetValueAndDerivative calculation,
- * after threading is completed.
- */
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
@@ -543,11 +517,6 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
     }
 }
 
-/*
- * Dense threader callback.
- * Create an iterator object and pass it to worker method to
- * iterate over image region and call derived class for calculations.
- */
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
@@ -560,11 +529,6 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
   self->GetValueAndDerivativeProcessPointRange( iterator, threadID, self );
 }
 
-/*
- * Sampled threader callback.
- * Create an iterator object and pass it to worker method to
- * iterate over sample point-set and call derived class for calculations.
- */
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
@@ -578,10 +542,6 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
   self->GetValueAndDerivativeProcessPointRange( iterator, threadID, self );
 }
 
-/*
- * GetValueAndDerivativeProcessSampleRange
- * Iterates over a range of samples and calls derived class for calculations.
- */
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
@@ -702,11 +662,6 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
   self->m_MeasurePerThread[threadID] = metricValueSum;
 }
 
-/*
- * Store the derivative results from a single point.
- * \warning See warning in definition, regarding overriding
- * or not using this class.
- */
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
@@ -749,9 +704,6 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
     }
 }
 
-/*
- * Transform a point from VirtualImage domain to FixedImage domain.
- */
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
@@ -815,9 +767,6 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
     }
 }
 
-/*
- * Transform a point from VirtualImage domain to MovingImage domain.
- */
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
@@ -881,11 +830,6 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
     }
 }
 
-/*
- * Compute image derivatives for a Fixed point.
- * NOTE: This doesn't transform result into virtual space. For that,
- * see TransformAndEvaluateFixedPoint
- */
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
@@ -908,9 +852,6 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
     }
 }
 
-/*
- * Compute image derivatives for a moving point.
- */
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
@@ -934,11 +875,6 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
     }
 }
 
-/*
- * Compute fixed warped image derivatives for an index at virtual domain.
- * NOTE: This doesn't transform result into virtual space. For that,
- * see TransformAndEvaluateFixedPoint
- */
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
@@ -957,9 +893,6 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
     }
 }
 
-/*
- * Compute image derivatives for a moving point.
- */
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
@@ -978,9 +911,6 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
     }
 }
 
-/*
- * Pre-warp images.
- */
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
@@ -1006,9 +936,6 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
     }
 }
 
-/*
- * Pre-warp images.
- */
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
@@ -1029,9 +956,6 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
     }
 }
 
-/*
- * ComputeFixedImageGradientFilterImage
- */
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
@@ -1052,9 +976,6 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
   this->m_FixedImageGradientImage = this->m_FixedImageGradientFilter->GetOutput();
 }
 
-/*
- * ComputeMovingImageGradientFilterImage
- */
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
@@ -1075,9 +996,6 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
   this->m_MovingImageGradientImage = this->m_MovingImageGradientFilter->GetOutput();
 }
 
-/*
- * Initialize the default fixed image gradient filter.
- */
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
@@ -1108,9 +1026,6 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
   this->m_DefaultFixedImageGradientFilter->SetUseImageDirection( true );
 }
 
-/*
- * Initialize the default moving image gradient filter.
- */
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
@@ -1141,9 +1056,6 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
   this->m_DefaultMovingImageGradientFilter->SetUseImageDirection(true);
 }
 
-/*
- * Default behavior for GetValueAndDerivativeProcessPoint
- */
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 bool
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
@@ -1164,9 +1076,6 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
   return false;
 }
 
-/*
- * SetTransform
- */
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
@@ -1175,9 +1084,6 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
   SetMovingTransform( transform );
 }
 
-/*
- * GetTransform
- */
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 const typename ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >::MovingTransformType *
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
@@ -1186,9 +1092,6 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
   return GetMovingTransform();
 }
 
-/*
- * UpdateParameters
- */
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
@@ -1244,9 +1147,6 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
     }
 }
 
-/*
- * CreateVirtualDomainImage
- */
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
@@ -1266,9 +1166,6 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
   this->Modified();
 }
 
-/*
- * SetVirtualDomainImage
- */
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
@@ -1347,9 +1244,6 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
     }
 }
 
-/*
- * MapFixedSampledPointSetToVirtual
- */
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
@@ -1422,9 +1316,6 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
   return this->m_MovingTransform->HasLocalSupport();
 }
 
-/*
- * Verify a displacement field and virtual image are in the same space.
- */
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
@@ -1527,9 +1418,6 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
       }
 }
 
-/*
- * SamplingIteratorHelper class
- */
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 class
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
