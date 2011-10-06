@@ -91,6 +91,8 @@ itkVectorContainerToListSampleAdaptorTest.cxx
 
 CreateTestDriver(ITKStatistics  "${ITKStatistics-Test_LIBRARIES}" "${ITKStatisticsTests}")
 
+set(TEMP ${ITK_TEST_OUTPUT_DIR})
+
 itk_add_test(NAME itkDecisionRuleTest
      COMMAND ITKStatisticsTestDriver itkDecisionRuleTest)
 itk_add_test(NAME itkDenseFrequencyContainer2Test
@@ -113,39 +115,73 @@ itk_add_test(NAME itkKdTreeBasedKmeansEstimatorTest
 itk_add_test(NAME itkKdTreeGeneratorTest
       COMMAND ITKStatisticsTestDriver itkKdTreeGeneratorTest
               DATA{${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat})
+
 itk_add_test(NAME itkKdTreeTest1
-      COMMAND ITKStatisticsTestDriver itkKdTreeTest1
+      COMMAND ITKStatisticsTestDriver --redirectOutput ${TEMP}/itkKdTreeTest1.txt
+      itkKdTreeTest1
               100 100 1 ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest1_100.dot)
+set_tests_properties(itkKdTreeTest1 PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/itkKdTreeTest1.txt)
+
 itk_add_test(NAME itkKdTreeTest2
-      COMMAND ITKStatisticsTestDriver itkKdTreeTest2
+      COMMAND ITKStatisticsTestDriver --redirectOutput ${TEMP}/itkKdTreeTest2.txt
+      itkKdTreeTest2
               DATA{${ITK_DATA_ROOT}/Input/pointsForKdTree.txt} 1 ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest2.dot)
+set_tests_properties(itkKdTreeTest2 PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/itkKdTreeTest2.txt)
+
 itk_add_test(NAME itkKdTreeTest3
-      COMMAND ITKStatisticsTestDriver itkKdTreeTest2
+      COMMAND ITKStatisticsTestDriver --redirectOutput ${TEMP}/itkKdTreeTest3.txt
+      itkKdTreeTest2
               DATA{${ITK_DATA_ROOT}/Input/pointsForKdTree2.txt} 1 ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest3.dot)
+set_tests_properties(itkKdTreeTest3 PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/itkKdTreeTest3.txt)
+
 itk_add_test(NAME itkKdTreeTest4
-      COMMAND ITKStatisticsTestDriver itkKdTreeTest1
+      COMMAND ITKStatisticsTestDriver --redirectOutput ${TEMP}/itkKdTreeTest4.txt
+      itkKdTreeTest1
               1000 1000 1)
+set_tests_properties(itkKdTreeTest4 PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/itkKdTreeTest4.txt)
+
 itk_add_test(NAME itkKdTreeTest5
-      COMMAND ITKStatisticsTestDriver itkKdTreeTest1
+      COMMAND ITKStatisticsTestDriver --redirectOutput ${TEMP}/itkKdTreeTest5.txt
+      itkKdTreeTest1
               1000 1000 2)
+set_tests_properties(itkKdTreeTest5 PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/itkKdTreeTest5.txt)
+
 itk_add_test(NAME itkKdTreeTest6
-      COMMAND ITKStatisticsTestDriver itkKdTreeTest1
+      COMMAND ITKStatisticsTestDriver --redirectOutput ${TEMP}/itkKdTreeTest6.txt
+      itkKdTreeTest1
               1000 1000 3)
+set_tests_properties(itkKdTreeTest6 PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/itkKdTreeTest6.txt)
+
 itk_add_test(NAME itkKdTreeTest7
-      COMMAND ITKStatisticsTestDriver itkKdTreeTest1
+      COMMAND ITKStatisticsTestDriver --redirectOutput ${TEMP}/itkKdTreeTest7.txt
+      itkKdTreeTest1
               1000 1000 5)
+set_tests_properties(itkKdTreeTest7 PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/itkKdTreeTest7.txt)
+
 itk_add_test(NAME itkKdTreeTest8
-      COMMAND ITKStatisticsTestDriver itkKdTreeTest1
+      COMMAND ITKStatisticsTestDriver --redirectOutput ${TEMP}/itkKdTreeTest8.txt
+      itkKdTreeTest1
               1000 1000 10)
+set_tests_properties(itkKdTreeTest8 PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/itkKdTreeTest8.txt)
+
 itk_add_test(NAME itkKdTreeTest9
-      COMMAND ITKStatisticsTestDriver itkKdTreeTest1
+      COMMAND ITKStatisticsTestDriver --redirectOutput ${TEMP}/itkKdTreeTest9.txt
+      itkKdTreeTest1
               1000 1000 20)
+set_tests_properties(itkKdTreeTest9 PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/itkKdTreeTest9.txt)
+
 itk_add_test(NAME itkKdTreeTest10
-      COMMAND ITKStatisticsTestDriver itkKdTreeTest1
+      COMMAND ITKStatisticsTestDriver --redirectOutput ${TEMP}/itkKdTreeTest10.txt
+      itkKdTreeTest1
               1000 1000 100)
+set_tests_properties(itkKdTreeTest10 PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/itkKdTreeTest10.txt)
+
 itk_add_test(NAME itkKdTreeTest11
-      COMMAND ITKStatisticsTestDriver itkKdTreeTest3
+      COMMAND ITKStatisticsTestDriver --redirectOutput ${TEMP}/itkKdTreeTest11.txt
+      itkKdTreeTest3
               1000 100 20 16)
+set_tests_properties(itkKdTreeTest11 PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/itkKdTreeTest11.txt)
+
 
 #
 #  The following tests generate graphical plots of the KdTree organization.

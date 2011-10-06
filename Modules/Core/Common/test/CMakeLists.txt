@@ -192,7 +192,12 @@ itk_add_test(NAME itkFilterDispatchTest COMMAND ITKCommon1TestDriver itkFilterDi
 itk_add_test(NAME itkFloodFilledSpatialFunctionTest COMMAND ITKCommon1TestDriver itkFloodFilledSpatialFunctionTest)
 itk_add_test(NAME itkFloodFillIteratorTest COMMAND ITKCommon1TestDriver itkFloodFillIteratorTest)
 itk_add_test(NAME itkAnnulusOperatorTest COMMAND ITKCommon1TestDriver itkAnnulusOperatorTest)
-itk_add_test(NAME itkColorTableTest COMMAND ITKCommon1TestDriver itkColorTableTest)
+
+itk_add_test(NAME itkColorTableTest COMMAND
+             ITKCommon1TestDriver --redirectOutput ${TEMP}/itkColorTableTest.txt
+             itkColorTableTest)
+set_tests_properties(itkColorTableTest PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/itkColorTableTest.txt)
+
 itk_add_test(NAME itkDirectoryTest COMMAND ITKCommon1TestDriver itkDirectoryTest ${TEMP})
 itk_add_test(NAME itkDerivativeOperatorTest COMMAND ITKCommon1TestDriver itkDerivativeOperatorTest)
 itk_add_test(NAME itkMultipleLogOutputTest COMMAND ITKCommon1TestDriver itkMultipleLogOutputTest ${TEMP}/test_multi.txt)
