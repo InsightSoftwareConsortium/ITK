@@ -21,7 +21,7 @@
  *
  */
 
-import org.itk.itkiobase.*;
+import org.itk.itkioimagebase.*;
 import org.itk.itkanisotropicsmoothing.*;
 import org.itk.itkimagefilterbase.*;
 import org.itk.itkimageintensity.*;

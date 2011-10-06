@@ -22,7 +22,7 @@
  */
 
 import org.itk.itkcommon.*;
-import org.itk.itkiobase.*;
+import org.itk.itkioimagebase.*;
 import org.itk.itkmathematicalmorphology.*;
 
 public class BinaryDilateImageFilter

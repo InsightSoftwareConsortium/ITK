@@ -21,7 +21,7 @@
  *
  */
 
-import org.itk.itkiobase.*;
+import org.itk.itkioimagebase.*;
 import org.itk.itkthresholding.*;
 
 public class BinaryThresholdImageFilter

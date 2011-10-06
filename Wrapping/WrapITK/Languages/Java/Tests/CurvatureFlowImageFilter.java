@@ -21,7 +21,7 @@
  *
  */
 
-import org.itk.itkiobase.*;
+import org.itk.itkioimagebase.*;
 import org.itk.itkimagefilterbase.*;
 import org.itk.itkcurvatureflow.*;
 import org.itk.itkimageintensity.*;

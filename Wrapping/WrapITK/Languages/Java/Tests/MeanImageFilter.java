@@ -22,7 +22,7 @@
  */
 
 import org.itk.itkcommon.*;
-import org.itk.itkiobase.*;
+import org.itk.itkioimagebase.*;
 import org.itk.itksmoothing.*;
 
 public class MeanImageFilter
