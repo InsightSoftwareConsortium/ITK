@@ -50,7 +50,6 @@ namespace itk
  *
  * \ingroup ITKHighDimensionalOptimizers
  */
-
 class ITK_EXPORT ObjectToObjectMetric:
   public SingleValuedHighDimensionalCostFunction
 {
@@ -139,7 +138,7 @@ public:
    * \c derivative must be the proper size, as retrieved
    * from GetNumberOfParameters. */
   virtual void UpdateTransformParameters( DerivativeType & derivative,
-                                          ParametersValueType factor = 1.0) = 0;
+                                          ParametersValueType factor = NumericTraits<ParametersValueType>::One) = 0;
 
 protected:
   ObjectToObjectMetric();

@@ -33,11 +33,7 @@ QuasiNewtonObjectOptimizer
   this->m_MaximumNewtonStepSizeInPhysicalUnits = NumericTraits<InternalComputationValueType>::Zero;
 
   /** Threader for Quasi-Newton method */
-  this->m_EstimateNewtonStepThreader = QuasiNewtonThreaderType::New();
-  this->m_EstimateNewtonStepThreader->SetThreadedGenerateData(
-                                                Self::EstimateNewtonStepThreaded );
-  this->m_EstimateNewtonStepThreader->SetHolder( this );
-
+  this->m_EstimateNewtonStepThreader = QuasiNewtonObjectOptimizerEstimateNewtonStepThreader::New();
 }
 
 QuasiNewtonObjectOptimizer
@@ -293,23 +289,13 @@ QuasiNewtonObjectOptimizer
   /* Perform the modification either with or without threading */
   if( this->m_Metric->HasLocalSupport() )
     {
-    this->m_EstimateNewtonStepThreader->SetCompleteDomain( fullrange );
-    /* This ends up calling EstimateNewtonStepThreaded from each thread */
-    this->m_EstimateNewtonStepThreader->StartThreadedExecution();
+    /* This ends up calling EstimateNewtonStepOverSubRange from each thread */
+    this->m_EstimateNewtonStepThreader->Execute( this, fullrange );
     }
   else
     {
     this->EstimateNewtonStepOverSubRange( fullrange );
     }
-}
-
-void
-QuasiNewtonObjectOptimizer
-::EstimateNewtonStepThreaded( const IndexRangeType& rangeForThread,
-                          ThreadIdType,
-                          Self *holder )
-{
-  holder->EstimateNewtonStepOverSubRange( rangeForThread );
 }
 
 void QuasiNewtonObjectOptimizer

@@ -15,7 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-
 #ifndef __itkJointHistogramMutualInformationImageToImageObjectMetric_hxx
 #define __itkJointHistogramMutualInformationImageToImageObjectMetric_hxx
 
@@ -26,59 +25,47 @@
 
 namespace itk
 {
-/**
-  Constructor
- */
+
 template <class TFixedImage,class TMovingImage,class TVirtualImage>
 JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage,TMovingImage,TVirtualImage>
 ::JointHistogramMutualInformationImageToImageObjectMetric()
 {
   // Initialize histogram properties
   this->m_NumberOfHistogramBins = 20;
-  this->m_FixedImageTrueMin = (0.0);
-  this->m_FixedImageTrueMax = (0.0);
-  this->m_MovingImageTrueMin = (0.0);
-  this->m_MovingImageTrueMax = (0.0);
-  this->m_FixedImageBinSize = (0.0);
-  this->m_MovingImageBinSize = (0.0);
+  this->m_FixedImageTrueMin     = NumericTraits< InternalComputationValueType >::Zero;
+  this->m_FixedImageTrueMax     = NumericTraits< InternalComputationValueType >::Zero;
+  this->m_MovingImageTrueMin    = NumericTraits< InternalComputationValueType >::Zero;
+  this->m_MovingImageTrueMax    = NumericTraits< InternalComputationValueType >::Zero;
+  this->m_FixedImageBinSize     = NumericTraits< InternalComputationValueType >::Zero;
+  this->m_MovingImageBinSize    = NumericTraits< InternalComputationValueType >::Zero;
   this->m_Padding = 2;
-  this->m_JointPDFSum = (0.0);
-  this->m_ThreaderJointPDFInterpolator = NULL;
-  this->m_ThreaderMovingImageMarginalPDFInterpolator = NULL;
-  this->m_ThreaderFixedImageMarginalPDFInterpolator = NULL;
+  this->m_JointPDFSum = NumericTraits< InternalComputationValueType >::Zero;
   this->m_Log2 = vcl_log(2.0);
   this->m_VarianceForJointPDFSmoothing = 1.5;
+
+  // We have our own GetValueAndDerivativeThreader's that we want
+  // ImageToImageObjectMetric to use.
+  this->m_DenseGetValueAndDerivativeThreader  = JointHistogramMutualInformationDenseGetValueAndDerivativeThreaderType::New();
+  this->m_SparseGetValueAndDerivativeThreader = JointHistogramMutualInformationSparseGetValueAndDerivativeThreaderType::New();
+
+  this->m_JointHistogramMutualInformationDenseComputeJointPDFThreader  = JointHistogramMutualInformationDenseComputeJointPDFThreaderType::New();
+  this->m_JointHistogramMutualInformationSparseComputeJointPDFThreader = JointHistogramMutualInformationSparseComputeJointPDFThreaderType::New();
+  this->m_JointPDFInterpolator = JointPDFInterpolatorType::New();
 }
 
-/**
- * Destructor
- */
 template <class TFixedImage, class TMovingImage, class TVirtualImage>
 JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
 ::~JointHistogramMutualInformationImageToImageObjectMetric()
 {
-  if ( this->m_ThreaderFixedImageMarginalPDFInterpolator != NULL )
-    {
-    delete[] this->m_ThreaderFixedImageMarginalPDFInterpolator;
-    }
-  if ( this->m_ThreaderMovingImageMarginalPDFInterpolator != NULL )
-    {
-    delete[] this->m_ThreaderMovingImageMarginalPDFInterpolator;
-    }
-  if ( this->m_ThreaderJointPDFInterpolator != NULL )
-    {
-    delete[] this->m_ThreaderJointPDFInterpolator;
-    }
-
 }
 
-/** Initialize the metric */
 template <class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage,TMovingImage,TVirtualImage>
 ::Initialize() throw (itk::ExceptionObject)
 {
   Superclass::Initialize();
+
   /** Get the fixed and moving image true max's and mins.
    *  Initialize them to the PixelType min and max. */
   this->m_FixedImageTrueMin =
@@ -95,6 +82,7 @@ JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage,TMovingImage
   itk::ImageRegionConstIteratorWithIndex<TFixedImage>
                 fi(this->m_FixedImage,this->m_FixedImage->GetRequestedRegion());
 
+  /** \todo multi-thread me */
   while( !fi.IsAtEnd() )
     {
     typename TFixedImage::PointType fixedSpacePhysicalPoint;
@@ -180,6 +168,7 @@ JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage,TMovingImage
   origin[1]=origin[0];
   this->m_JointPDF->SetOrigin(origin);
   this->m_JointPDF->Allocate();
+  this->m_JointPDFInterpolator->SetInputImage( this->m_JointPDF );
 
   // do the same thing for the marginal pdfs
   this->m_FixedImageMarginalPDF = MarginalPDFType::New();
@@ -216,46 +205,18 @@ JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage,TMovingImage
   this->m_MovingImageMarginalPDF->SetSpacing(mspacing);
   this->m_FixedImageMarginalPDF->Allocate();
   this->m_MovingImageMarginalPDF->Allocate();
-
-   // Threaded data
-   if (this->m_ThreaderJointPDFInterpolator != NULL)
-    {
-    delete[] this->m_ThreaderJointPDFInterpolator;
-    }
-   this->m_ThreaderJointPDFInterpolator = new JointPDFInterpolatorPointer[this->GetNumberOfThreads() ];
-   if (this->m_ThreaderFixedImageMarginalPDFInterpolator != NULL)
-    {
-    delete[] this->m_ThreaderFixedImageMarginalPDFInterpolator;
-    }
-   this->m_ThreaderFixedImageMarginalPDFInterpolator = new MarginalPDFInterpolatorPointer[this->GetNumberOfThreads() ];
-
-   if (this->m_ThreaderMovingImageMarginalPDFInterpolator != NULL)
-    {
-    delete[] this->m_ThreaderMovingImageMarginalPDFInterpolator;
-    }
-   this->m_ThreaderMovingImageMarginalPDFInterpolator = new MarginalPDFInterpolatorPointer[this->GetNumberOfThreads() ];
-
-   for (ThreadIdType threadID = 0; threadID < this->GetNumberOfThreads(); threadID++)
-     {
-     this->m_ThreaderJointPDFInterpolator[threadID] = JointPDFInterpolatorType::New();
-     this->m_ThreaderJointPDFInterpolator[threadID]->SetInputImage(this->m_JointPDF);
-     this->m_ThreaderFixedImageMarginalPDFInterpolator[threadID] = MarginalPDFInterpolatorType::New();
-     this->m_ThreaderFixedImageMarginalPDFInterpolator[threadID]->SetInputImage(this->m_FixedImageMarginalPDF);
-     this->m_ThreaderMovingImageMarginalPDFInterpolator[threadID] = MarginalPDFInterpolatorType::New();
-     this->m_ThreaderMovingImageMarginalPDFInterpolator[threadID]->SetInputImage(this->m_MovingImageMarginalPDF);
-     }
-
 }
 
 
-/**
- * Prepare histograms for use in GetValueAndDerivative
- */
 template <class TFixedImage, class TMovingImage, class TVirtualImage>
 void
 JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage,TMovingImage,TVirtualImage>
-::UpdateHistograms() const
+::InitializeForIteration() const
 {
+  Superclass::InitializeForIteration();
+
+  /* Prepare histograms for use in GetValueAndDerivative */
+
   // Initialize the joint pdf and the fixed and moving image marginal pdfs
   PDFValueType pdfzero = NumericTraits< PDFValueType >::Zero;
   this->m_JointPDF->FillBuffer(pdfzero);
@@ -265,109 +226,16 @@ JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage,TMovingImage
   /**
    * First, we compute the joint histogram
    */
-
-  /* Create an iterator over the virtual sub region */
-  ImageRegionConstIteratorWithIndex<typename Superclass::VirtualImageType>
-    ItV( this->GetVirtualDomainImage(), this->GetVirtualDomainRegion() );
-
-  typename Superclass::VirtualPointType            virtualPoint;
-  typename Superclass::VirtualIndexType            virtualIndex;
-  typename Superclass::FixedOutputPointType        mappedFixedPoint;
-  typename Superclass::FixedImagePixelType         fixedImageValue;
-  FixedImageGradientType   fixedImageGradients;
-  typename Superclass::MovingOutputPointType       mappedMovingPoint;
-  typename Superclass::MovingImagePixelType        movingImageValue;
-  MovingImageGradientType  movingImageGradients;
-  bool                                             pointIsValid = false;
-
-  /* Iterate over the sub region */
-  /* FIXME - do this w/out using a raw pointer. Probably need separate
-   * Set accessors and/or Initialize within SamplingIteratorHelper. */
-  typedef typename Superclass::SamplingIteratorHelper SamplingIteratorHelperType;
-  SamplingIteratorHelperType * iterator;
   if( this->m_UseFixedSampledPointSet )
     {
-    typename Superclass::SampledThreaderDomainType sampledRange;
+    typename JointHistogramMutualInformationSparseComputeJointPDFThreaderType::DomainType sampledRange;
     sampledRange[0] = 0;
     sampledRange[1] = this->m_VirtualSampledPointSet->GetNumberOfPoints() - 1;
-    iterator = new SamplingIteratorHelperType( this->m_VirtualDomainImage,
-      this->m_VirtualSampledPointSet, sampledRange );
+    this->m_JointHistogramMutualInformationSparseComputeJointPDFThreader->Execute( const_cast<Self *>(this), sampledRange );
     }
   else
     {
-    iterator = new SamplingIteratorHelperType( this->m_VirtualDomainImage,
-                                               this->GetVirtualDomainRegion() );
-    }
-
-  while( iterator->GetNext( virtualIndex, virtualPoint ) )
-    {
-    try
-      {
-      this->TransformAndEvaluateFixedPoint( virtualIndex,
-                                            virtualPoint,
-                                            false /*compute gradient*/,
-                                            mappedFixedPoint,
-                                            fixedImageValue,
-                                            fixedImageGradients,
-                                            pointIsValid );
-      if( pointIsValid )
-        {
-        this->TransformAndEvaluateMovingPoint( virtualIndex,
-                                              virtualPoint,
-                                              false /*compute gradient*/,
-                                              mappedMovingPoint,
-                                              movingImageValue,
-                                              movingImageGradients,
-                                              pointIsValid );
-        }
-      }
-    catch( ExceptionObject & exc )
-      {
-      //NOTE: there must be a cleaner way to do this:
-      std::string msg("Caught exception: \n");
-      msg += exc.what();
-      ExceptionObject err(__FILE__, __LINE__, msg);
-      throw err;
-      }
-    /** add the paired intensity points to the joint histogram */
-    JointPDFPointType jointPDFpoint;
-    this->ComputeJointPDFPoint(fixedImageValue,movingImageValue, jointPDFpoint,0);
-    JointPDFIndexType  jointPDFIndex;
-    jointPDFIndex.Fill( 0 );
-    this->m_JointPDF->TransformPhysicalPointToIndex( jointPDFpoint, jointPDFIndex);
-    this->m_JointPDF->SetPixel( jointPDFIndex, this->m_JointPDF->GetPixel(jointPDFIndex)+1);
-    }
-
-  delete iterator;
-
-  /**
-   * Normalize the PDFs, compute moving image marginal PDF
-   *
-   */
-  typedef ImageRegionIterator<JointPDFType> JointPDFIteratorType;
-  JointPDFIteratorType jointPDFIterator ( m_JointPDF, m_JointPDF->GetBufferedRegion() );
-
-  // Compute joint PDF normalization factor (to ensure joint PDF sum adds to 1.0)
-  InternalComputationValueType jointPDFSum = 0.0;
-  jointPDFIterator.GoToBegin();
-  while( !jointPDFIterator.IsAtEnd() )
-    {
-    float temp = jointPDFIterator.Get();
-    jointPDFSum += temp;
-    ++jointPDFIterator;
-    }
-
-  if ( jointPDFSum == NumericTraits< JointPDFValueType >::Zero )
-    {
-    itkExceptionMacro( "Joint PDF summed to zero" );
-    }
-
-  // Normalize the PDF bins
-  jointPDFIterator.GoToEnd();
-  while( !jointPDFIterator.IsAtBegin() )
-    {
-    --jointPDFIterator;
-    jointPDFIterator.Value() /= static_cast<PDFValueType>( jointPDFSum );
+    this->m_JointHistogramMutualInformationDenseComputeJointPDFThreader->Execute( const_cast<Self *>(this), this->GetVirtualDomainRegion() );
     }
 
   // Optionally smooth the joint pdf
@@ -421,129 +289,8 @@ JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage,TMovingImage
     linearIter.NextLine();
     ++movingIndex;
     }
-
 }
 
-/** Get the value and derivative */
-template <class TFixedImage, class TMovingImage, class TVirtualImage>
-void
-JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage,TMovingImage,TVirtualImage>
-::GetValueAndDerivative(MeasureType & value, DerivativeType & derivative) const
-{
-  // Prepare the histograms
-  this->UpdateHistograms();
-
-  // Calculate value
-  value = this->GetValue();
-  itkDebugMacro(" Mutual information value " << value );
-
-  // Multithreaded initiate and process sample.
-  // This will put results in 'derivative'.
-  this->GetValueAndDerivativeThreadedExecute( derivative );
-
-  // Post processing
-  this->GetValueAndDerivativeThreadedPostProcess( true /*doAverage*/ );
-
-  // Attention: GetValueAndDerivativeThreadedPostProcess overwrites this->m_Value
-  // with an uninitialized value. We restore it to the value from this->GetValue().
-  this->m_Value = value;
-}
-
-
-/** Process the sample point*/
-template <class TFixedImage,class TMovingImage,class TVirtualImage>
-bool
-JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
-::GetValueAndDerivativeProcessPoint(
-                    const VirtualPointType &,
-                    const FixedImagePointType &,
-                    const FixedImagePixelType &        fixedImageValue,
-                    const FixedImageGradientType &,
-                    const MovingImagePointType &       mappedMovingPoint,
-                    const MovingImagePixelType &       movingImageValue,
-                    const MovingImageGradientType &   movingImageGradient,
-                    MeasureType &,
-                    DerivativeType &                   localDerivativeReturn,
-                    const ThreadIdType                 threadID) const
-{
-  // check that the moving image sample is within the range of the true min
-  // and max, hence being within the moving image mask
-  if ( movingImageValue < this->m_MovingImageTrueMin )
-    {
-    return false;
-    }
-  else if ( movingImageValue > this->m_MovingImageTrueMax )
-    {
-    return false;
-    }
-  /** the scalingfactor is the MI specific scaling of the image gradient and jacobian terms */
-  InternalComputationValueType scalingfactor = 0; // for scaling the jacobian terms
-
-  JointPDFPointType jointPDFpoint;
-  bool pointok = this->ComputeJointPDFPoint( fixedImageValue,movingImageValue, jointPDFpoint,threadID);
-  if ( !pointok )
-    {
-    return false;
-    }
-  InternalComputationValueType jointPDFValue =
-    this->m_ThreaderJointPDFInterpolator[threadID]->Evaluate(jointPDFpoint);
-  SizeValueType ind = 1;
-  InternalComputationValueType dJPDF = this->ComputeJointPDFDerivative( jointPDFpoint, threadID , ind );
-  typename MarginalPDFType::PointType mind;
-  mind[0] = jointPDFpoint[ind];
-  InternalComputationValueType movingImagePDFValue =
-    this->m_ThreaderMovingImageMarginalPDFInterpolator[threadID]->Evaluate(mind);
-  InternalComputationValueType dMmPDF =
-    this->ComputeMovingImageMarginalPDFDerivative( mind , threadID );
-
-  InternalComputationValueType term1 = NumericTraits< InternalComputationValueType >::Zero;
-  InternalComputationValueType term2 = NumericTraits< InternalComputationValueType >::Zero;
-  InternalComputationValueType eps = 1.e-16;
-  if( jointPDFValue > eps &&  (movingImagePDFValue) > eps )
-    {
-    const InternalComputationValueType pRatio =
-                            vcl_log(jointPDFValue)-vcl_log(movingImagePDFValue);
-    term1 = dJPDF*pRatio;
-    term2 = vcl_log(2.0) * dMmPDF * jointPDFValue / movingImagePDFValue;
-    scalingfactor =  ( term2 - term1 );
-    }  // end if-block to check non-zero bin contribution
-  else
-    {
-    scalingfactor = 0;
-    }
-
-  /* Use a pre-allocated jacobian object for efficiency */
-  FixedTransformJacobianType & jacobian =
-    const_cast< FixedTransformJacobianType &   >(this->m_MovingTransformJacobianPerThread[threadID]);
-
-  /** For dense transforms, this returns identity */
-  this->m_MovingTransform->ComputeJacobianWithRespectToParameters(
-                                                            mappedMovingPoint,
-                                                            jacobian);
-
-  // this correction is necessary for consistent derivatives across N threads
-  typedef typename DerivativeType::ValueType    DerivativeValueType;
-  DerivativeValueType floatingpointcorrectionresolution = 10000.0;
-  // NOTE: change 'unsigned int' here when we have NumberOfParametersType
-  // defined in metric base.
-  for ( unsigned int par = 0; par < this->GetNumberOfLocalParameters(); par++ )
-    {
-    InternalComputationValueType sum = NumericTraits< InternalComputationValueType >::Zero;
-    for ( SizeValueType dim = 0; dim < this->MovingImageDimension; dim++ )
-      {
-      sum += scalingfactor * jacobian(dim, par) * movingImageGradient[dim];
-      }
-    localDerivativeReturn[par] = sum;
-    intmax_t test = static_cast<intmax_t>
-             ( localDerivativeReturn[par] * floatingpointcorrectionresolution );
-    localDerivativeReturn[par] = static_cast<DerivativeValueType>
-                                   ( test / floatingpointcorrectionresolution );
-    }
-  return true;
-}
-
-
-// Get the value
 template <class TFixedImage, class TMovingImage, class TVirtualImage>
 typename JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage,TMovingImage,TVirtualImage>::MeasureType
 JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage,TMovingImage,TVirtualImage>
@@ -593,8 +340,7 @@ bool
 JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
 ::ComputeJointPDFPoint( const FixedImagePixelType fixedImageValue,
                         const MovingImagePixelType movingImageValue,
-                        JointPDFPointType& jointPDFpoint,
-                        const ThreadIdType threadID ) const
+                        JointPDFPointType& jointPDFpoint ) const
 {
     InternalComputationValueType a =
         ( fixedImageValue - this->m_FixedImageTrueMin ) /
@@ -604,145 +350,9 @@ JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage, TMovingImag
            ( this->m_MovingImageTrueMax - this->m_MovingImageTrueMin );
     jointPDFpoint[0] = a;
     jointPDFpoint[1] = b;
-    bool isInsideBuffer = this->m_ThreaderJointPDFInterpolator[threadID]->
-                                                IsInsideBuffer(jointPDFpoint );
-    return isInsideBuffer;
+    return this->m_JointPDFInterpolator->IsInsideBuffer( jointPDFpoint );
 }
 
-template <class TFixedImage, class TMovingImage, class TVirtualImage>
-typename JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>::InternalComputationValueType
-JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
-::ComputeFixedImageMarginalPDFDerivative(
-                                        const MarginalPDFPointType & margPDFpoint,
-                                        const ThreadIdType threadID ) const
-{
-  InternalComputationValueType offset = 0.5*this->m_JointPDFSpacing[0];
-  InternalComputationValueType eps = this->m_JointPDFSpacing[0];
-  MarginalPDFPointType         leftpoint = margPDFpoint;
-  leftpoint[0] -= offset;
-  MarginalPDFPointType  rightpoint = margPDFpoint;
-  rightpoint[0] += offset;
-  if (leftpoint[0] < eps )
-    {
-    leftpoint[0] = eps;
-    }
-  if (rightpoint[0] < eps )
-    {
-    rightpoint[0] = eps;
-    }
-  if (leftpoint[0] > 1 )
-    {
-    leftpoint[0] = 1;
-    }
-  if (rightpoint[0] > 1  )
-    {
-    rightpoint[0] = 1;
-    }
-  InternalComputationValueType delta = rightpoint[0]-leftpoint[0];
-  if ( delta > 0 )
-    {
-    InternalComputationValueType deriv = this->m_ThreaderFixedImageMarginalPDFInterpolator[threadID]->Evaluate(rightpoint) -
-      this->m_ThreaderFixedImageMarginalPDFInterpolator[threadID]->Evaluate(leftpoint);
-    return deriv/delta;
-    }
-  else
-    {
-    return 0;
-    }
-}
-
-template <class TFixedImage, class TMovingImage, class TVirtualImage>
-typename JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>::InternalComputationValueType
-JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
-::ComputeMovingImageMarginalPDFDerivative(
-                                        const MarginalPDFPointType & margPDFpoint,
-                                        const ThreadIdType threadID ) const
-{
-  InternalComputationValueType offset = 0.5*this->m_JointPDFSpacing[0];
-  InternalComputationValueType eps = this->m_JointPDFSpacing[0];
-  MarginalPDFPointType  leftpoint = margPDFpoint;
-  leftpoint[0] -= offset;
-  MarginalPDFPointType  rightpoint = margPDFpoint;
-  rightpoint[0] += offset;
-  if( leftpoint[0] < eps )
-    {
-    leftpoint[0] = eps;
-    }
-  if( rightpoint[0] < eps )
-    {
-    rightpoint[0] = eps;
-    }
-  if( leftpoint[0] > 1 )
-    {
-    leftpoint[0] = 1;
-    }
-  if( rightpoint[0] > 1  )
-    {
-    rightpoint[0] = 1;
-    }
-  InternalComputationValueType delta = rightpoint[0] - leftpoint[0];
-  if ( delta > 0 )
-    {
-    InternalComputationValueType deriv =
-      this->m_ThreaderMovingImageMarginalPDFInterpolator[threadID]->Evaluate(rightpoint) -
-      this->m_ThreaderMovingImageMarginalPDFInterpolator[threadID]->Evaluate(leftpoint);
-    return deriv/delta;
-    }
-  else
-    {
-    return 0;
-    }
-}
-
-template <class TFixedImage, class TMovingImage, class TVirtualImage>
-typename JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>::InternalComputationValueType
-JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
-::ComputeJointPDFDerivative( const JointPDFPointType & jointPDFpoint,
-                             const ThreadIdType threadID,
-                             const SizeValueType ind ) const
-{
-  InternalComputationValueType offset = 0.5*this->m_JointPDFSpacing[ind];
-  InternalComputationValueType eps = this->m_JointPDFSpacing[ind];
-  JointPDFPointType  leftpoint = jointPDFpoint;
-  leftpoint[ind] -= offset;
-  JointPDFPointType  rightpoint = jointPDFpoint;
-  rightpoint[ind] += offset;
-
-  if (leftpoint[ind] < eps )
-    {
-    leftpoint[ind] = eps;
-    }
-
-  if (rightpoint[ind] < eps )
-    {
-    rightpoint[ind] = eps;
-    }
-
-  if (leftpoint[ind] > 1 )
-    {
-    leftpoint[ind] = 1;
-    }
-
-  if (rightpoint[ind] > 1 )
-    {
-    rightpoint[ind] = 1;
-    }
-
-  InternalComputationValueType delta = rightpoint[ind] - leftpoint[ind];
-  InternalComputationValueType deriv = 0;
-  if ( delta > 0 )
-    {
-    deriv = this->m_ThreaderJointPDFInterpolator[threadID]->Evaluate(rightpoint)-
-          this->m_ThreaderJointPDFInterpolator[threadID]->Evaluate(leftpoint);
-    return deriv/delta;
-    }
-  else
-    {
-    return deriv;
-    }
-}
-
-/** Print function */
 template <class TFixedImage, class TMovingImage, class TVirtualImage>
 void
 JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>

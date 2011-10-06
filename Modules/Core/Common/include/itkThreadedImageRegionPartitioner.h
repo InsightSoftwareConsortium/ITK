@@ -59,14 +59,14 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-template <unsigned int VDimension, class TDataHolder>
+template <unsigned int VDimension>
 class ITKCommon_EXPORT ThreadedImageRegionPartitioner
-  : public ThreadedDomainPartitioner<ImageRegion<VDimension>, TDataHolder>
+  : public ThreadedDomainPartitioner< ImageRegion<VDimension> >
 {
 public:
   /** Standard class typedefs. */
   typedef ThreadedImageRegionPartitioner                                   Self;
-  typedef ThreadedDomainPartitioner<ImageRegion<VDimension>, TDataHolder>  Superclass;
+  typedef ThreadedDomainPartitioner<ImageRegion<VDimension> >              Superclass;
   typedef SmartPointer<Self>                                               Pointer;
   typedef SmartPointer<const Self>                                         ConstPointer;
 
@@ -74,7 +74,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ThreadedImageRegionPartitioner,ThreadedDomainPartitioner);
+  itkTypeMacro(ThreadedImageRegionPartitioner, ThreadedDomainPartitioner);
 
   /** Type of the object being threaded over */
   typedef typename Superclass::DomainType  DomainType;
@@ -86,15 +86,6 @@ public:
   typedef ImageRegion<VDimension>   ImageRegionType;
   typedef Size<VDimension>          SizeType;
   typedef Index<VDimension>         IndexType;
-
-  /** Set the overall image region over which to operate.
-   * This is equivalent to SetOverallObject, but named more intuitively
-   * for this derived class. */
-  virtual void SetCompleteRegion(  const ImageRegionType& region );
-
-protected:
-  ThreadedImageRegionPartitioner();
-  virtual ~ThreadedImageRegionPartitioner();
 
   /** Split the ImageRegion \c overallRegion into \c requestedTotal subregions,
    * returning subregion \c i as \c splitRegion.
@@ -108,11 +99,13 @@ protected:
                            const DomainType& completeRegion,
                            DomainType& subRegion) const;
 
-private:
+protected:
+  ThreadedImageRegionPartitioner();
+  virtual ~ThreadedImageRegionPartitioner();
 
+private:
   ThreadedImageRegionPartitioner(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
 };
 
 } // end namespace itk

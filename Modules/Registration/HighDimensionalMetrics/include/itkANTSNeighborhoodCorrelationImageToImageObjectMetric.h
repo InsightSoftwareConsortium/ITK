@@ -21,6 +21,8 @@
 #include "itkImageToImageObjectMetric.h"
 #include "itkConstNeighborhoodIterator.h"
 
+#include "itkANTSNeighborhoodCorrelationImageToImageObjectMetricDenseGetValueAndDerivativeThreader.h"
+
 #include <deque>
 
 namespace itk {
@@ -50,7 +52,7 @@ namespace itk {
  * 1) It is assumed that the derivative is only affected by changes in the
  * transform at the center of the window. This is obviously not true but speeds
  * the evaluation up considerably and works well in practice. This assumption
- * is the main differentiattion of this approach from a more generic one.
+ * is the main differentiation of this approach from a more generic one.
  *
  * 2) The evaluation uses on-the-fly queues with multi-threading and a sliding
  * neighborhood window. This is described in the above paper and specifically
@@ -79,16 +81,14 @@ namespace itk {
  *  metric->GetValueAndDerivative(valueReturn, derivativeReturn);
  *
  *
- * This Class is templated over the type of the two input objects.
+ * This class is templated over the type of the two input objects.
  * This is the base class for a hierarchy of similarity metrics that may, in
  * derived classes, operate on meshes, images, etc.  This class computes a
  * value that measures the similarity between the two objects.
  *
  * \ingroup ITKHighDimensionalMetrics
  */
-template<class TFixedImage,
-         class TMovingImage,
-         class TVirtualImage = TFixedImage>
+template<class TFixedImage, class TMovingImage, class TVirtualImage = TFixedImage>
 class ITK_EXPORT ANTSNeighborhoodCorrelationImageToImageObjectMetric :
   public ImageToImageObjectMetric< TFixedImage, TMovingImage, TVirtualImage>
 {
@@ -110,6 +110,7 @@ public:
   /** superclass types */
   typedef typename Superclass::MeasureType                    MeasureType;
   typedef typename Superclass::DerivativeType                 DerivativeType;
+  typedef typename Superclass::DerivativeValueType            DerivativeValueType;
   typedef typename Superclass::VirtualPointType               VirtualPointType;
   typedef typename Superclass::FixedImagePointType            FixedImagePointType;
   typedef typename Superclass::FixedImagePixelType            FixedImagePixelType;
@@ -129,11 +130,10 @@ public:
   typedef typename Superclass::FixedImageType                 FixedImageType;
   typedef typename Superclass::MovingImageType                MovingImageType;
   typedef typename Superclass::VirtualImageType               VirtualImageType;
-  typedef typename Superclass::DenseThreaderDomainType        DenseThreaderDomainType;
   typedef typename Superclass::FixedOutputPointType           FixedOutputPointType;
   typedef typename Superclass::MovingOutputPointType          MovingOutputPointType;
 
-  typedef double InternalComputationValueType;
+  typedef typename Superclass::InternalComputationValueType  InternalComputationValueType;
 
   typedef typename Superclass::FixedTransformType::JacobianType
                             FixedTransformJacobianType;
@@ -157,19 +157,8 @@ public:
   itkStaticConstMacro(VirtualImageDimension, ImageDimensionType,
         ::itk::GetImageDimension<VirtualImageType>::ImageDimension);
 
-  /** Initialize. Must be called before first call to GetValue or
-   *  GetValueAndDerivative, after metric settings are changed. */
-  virtual void Initialize(void) throw (itk::ExceptionObject);
-
-  /** Evaluate and return the value and derivative */
-  using Superclass::GetValueAndDerivative;
-  void GetValueAndDerivative(MeasureType & value,
-      DerivativeType & derivative) const;
-
   /** Evaluate and return the metric value */
-  MeasureType GetValue() const {
-    itkExceptionMacro("GetValue not yet implemented.");
-  }
+  virtual MeasureType GetValue() const;
 
   // Set the radius of the neighborhood window centered at each pixel
   itkSetMacro(Radius, RadiusType);
@@ -179,98 +168,67 @@ public:
   itkGetConstMacro(Radius, RadiusType);
 
 protected:
+  ANTSNeighborhoodCorrelationImageToImageObjectMetric();
+  virtual ~ANTSNeighborhoodCorrelationImageToImageObjectMetric();
 
   // interested values here updated during scanning
   typedef InternalComputationValueType                 QueueRealType;
   typedef std::deque<QueueRealType>                    SumQueueType;
-  typedef ConstNeighborhoodIterator<VirtualImageType>  ScanningIteratorType;
+  typedef ConstNeighborhoodIterator<VirtualImageType>  ScanIteratorType;
+
   // one ScanMemType for each thread
   typedef struct ScanMemType {
     // queues used in the scanning
-    SumQueueType Qsuma2;
-    SumQueueType Qsumb2;
-    SumQueueType Qsuma;
-    SumQueueType Qsumb;
-    SumQueueType Qsumab;
+    // sum of the fixed value squared
+    SumQueueType QsumFixed2;
+    // sum of the moving value squared
+    SumQueueType QsumMoving2;
+    SumQueueType QsumFixed;
+    SumQueueType QsumMoving;
+    SumQueueType QsumFixedMoving;
     SumQueueType Qcount;
 
-    QueueRealType Ia;
-    QueueRealType Ja;
-    QueueRealType sfm;
-    QueueRealType sff;
-    QueueRealType smm;
+    QueueRealType fixedA;
+    QueueRealType movingA;
+    QueueRealType sFixedMoving;
+    QueueRealType sFixedFixed;
+    QueueRealType sMovingMoving;
 
-    FixedImageGradientType gradI;
-    MovingImageGradientType gradJ;
+    FixedImageGradientType  fixedImageGradient;
+    MovingImageGradientType movingImageGradient;
 
-    MovingImagePointType mappedMovingPoint;
+    MovingImagePointType    mappedMovingPoint;
 
   } ScanMemType;
 
-  typedef struct ScanParaType {
+  typedef struct ScanParametersType {
     // const values during scanning
-    ImageRegionType scan_region;
-    SizeValueType number_of_fill_zero; // for each queue
-    SizeValueType window_length; // number of voxels in the scanning window
-    IndexValueType scan_region_begin_index_dim0;
+    ImageRegionType scanRegion;
+    SizeValueType   numberOfFillZero; // for each queue
+    SizeValueType   windowLength; // number of voxels in the scanning window
+    IndexValueType  scanRegionBeginIndexDim0;
 
-    typename FixedImageType::ConstPointer I;
-    typename MovingImageType::ConstPointer J;
-    typename VirtualImageType::ConstPointer V;
-    RadiusType r;
+    typename FixedImageType::ConstPointer   fixedImage;
+    typename MovingImageType::ConstPointer  movingImage;
+    typename VirtualImageType::ConstPointer virtualImage;
+    RadiusType radius;
 
-  } ScanParaType;
+  } ScanParametersType;
 
-  // computation routines for normalized cross correlation
+  friend class ANTSNeighborhoodCorrelationImageToImageObjectMetricDenseGetValueAndDerivativeThreader< Superclass, Self >;
+  typedef ANTSNeighborhoodCorrelationImageToImageObjectMetricDenseGetValueAndDerivativeThreader< Superclass, Self >
+    ANTSNeighborhoodCorrelationImageToImageObjectMetricDenseGetValueAndDerivativeThreaderType;
 
-  void InitializeScanning(const ImageRegionType &scan_region,
-    ScanningIteratorType &scan_it, ScanMemType &scan_mem,
-    ScanParaType &scan_para ) const;
-
-  void UpdateQueuesAtBeginingOfLine(
-    const ScanningIteratorType &scan_it, ScanMemType &scan_mem,
-    const ScanParaType &scan_para,
-    const ThreadIdType threadID) const;
-
-  // Increment the iterator and check to see if we're at the end of the
-  // line.  If so, go to the next line.  Otherwise, add the
-  // the values for the next hyperplane.
-  void UpdateQueuesToNextScanWindow(
-    const ScanningIteratorType &scan_it, ScanMemType &scan_mem,
-    const ScanParaType &scan_para,
-    const ThreadIdType threadID) const;
-
-  void UpdateQueues(const ScanningIteratorType &scan_it,
-    ScanMemType &scan_mem, const ScanParaType &scan_para,
-    ThreadIdType threadID) const;
-
-  bool ComputeInformationFromQueues(
-    const ScanningIteratorType &scan_it, ScanMemType &scan_mem,
-    const ScanParaType &scan_para,
-    const ThreadIdType threadID) const;
-
- void ComputeMovingTransformDerivative(
-    const ScanningIteratorType &scan_it, ScanMemType &scan_mem,
-    const ScanParaType &scan_para, DerivativeType &deriv,
-    MeasureType &local_cc, const ThreadIdType threadID) const;
-
-protected:
-
-  ANTSNeighborhoodCorrelationImageToImageObjectMetric();
-  virtual ~ANTSNeighborhoodCorrelationImageToImageObjectMetric();
+  /** Create an iterator over the virtual sub region */
+  void InitializeScanning(const ImageRegionType &scanRegion,
+    ScanIteratorType &scanIt, ScanMemType &scanMem,
+    ScanParametersType &scanParameters ) const;
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  //purposely not implemented
-  ANTSNeighborhoodCorrelationImageToImageObjectMetric(
-      const Self &);
-  //purposely not implemented
-  void operator=(const Self &);
-
-  static void NeighborhoodScanningWindowGetValueAndDerivativeThreadedCallback(
-      const DenseThreaderDomainType& virtualImageSubRegion,
-      ThreadIdType threadID, Superclass * dataHolder);
+  ANTSNeighborhoodCorrelationImageToImageObjectMetric( const Self & ); //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 
   // Radius of the neighborhood window centered at each pixel
   RadiusType m_Radius;

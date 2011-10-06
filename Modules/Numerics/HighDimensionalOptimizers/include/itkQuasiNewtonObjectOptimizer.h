@@ -24,6 +24,8 @@
 #include "vnl/algo/vnl_matrix_inverse.h"
 #include "vnl/algo/vnl_determinant.h"
 
+#include "itkQuasiNewtonObjectOptimizerEstimateNewtonStepThreader.h"
+
 namespace itk
 {
 /** \class QuasiNewtonObjectOptimizer
@@ -78,9 +80,6 @@ public:
 
   /** Type for an array of Hessian matrix for local support */
   typedef std::vector<HessianType>                    HessianArrayType;
-
-  /** Threader for Quasi-Newton method */
-  typedef ThreadedArrayPartitioner<Self>                         QuasiNewtonThreaderType;
 
   /** Start and run the optimization */
   virtual void StartOptimization();
@@ -172,19 +171,14 @@ protected:
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
+  friend class QuasiNewtonObjectOptimizerEstimateNewtonStepThreader;
+
 private:
   QuasiNewtonObjectOptimizer(const Self &);     //purposely not implemented
   void operator=(const Self &);           //purposely not implemented
 
-  /**
-   * Estimate the quasi-newton step in a thread.
-   */
-  static void EstimateNewtonStepThreaded( const IndexRangeType& rangeForThread,
-                          ThreadIdType,
-                          Self *holder );
-
   /** Threader for Newton step estimation. */
-  QuasiNewtonThreaderType::Pointer      m_EstimateNewtonStepThreader;
+  QuasiNewtonObjectOptimizerEstimateNewtonStepThreader::Pointer m_EstimateNewtonStepThreader;
 };
 } // end namespace itk
 

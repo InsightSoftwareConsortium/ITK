@@ -99,7 +99,7 @@ itkMersenneTwisterRandomVariateGeneratorTest.cxx
 )
 
 set(ITKCommon2Tests
-itkThreadedArrayPartitionerTest.cxx
+itkThreadedIndexedContainerPartitionerTest.cxx
 itkThreadedImageRegionPartitionerTest.cxx
 itkMetaDataDictionaryTest.cxx
 itkStdStreamLogOutputTest.cxx
@@ -183,7 +183,7 @@ if(ITK_BUILD_SHARED_LIBS)
 endif(ITK_BUILD_SHARED_LIBS)
 
 itk_add_test(NAME itkAdaptorComparisonTest COMMAND ITKCommon1TestDriver itkAdaptorComparisonTest)
-itk_add_test(NAME itkThreadedArrayPartitionerTest COMMAND ITKCommon2TestDriver itkThreadedArrayPartitionerTest)
+itk_add_test(NAME itkThreadedIndexedContainerPartitionerTest COMMAND ITKCommon2TestDriver itkThreadedIndexedContainerPartitionerTest)
 
 itk_add_test(NAME itkImageAdaptorPipeLineTest COMMAND ITKCommon1TestDriver itkImageAdaptorPipeLineTest)
 itk_add_test(NAME itkThreadedImageRegionPartitionerTest COMMAND ITKCommon2TestDriver itkThreadedImageRegionPartitionerTest)

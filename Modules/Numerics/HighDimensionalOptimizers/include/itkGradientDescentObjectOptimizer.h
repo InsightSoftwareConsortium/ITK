@@ -54,7 +54,7 @@ namespace itk
  * does not have a "maximize/minimize" option to modify the effect of the metric
  * derivative. The assigned metric is assumed to return a parameter derivative
  * result that "improves" the optimization when *added* to the current
- * parameters via the metric::UpateTransformParameters method, after the
+ * parameters via the metric::UpdateTransformParameters method, after the
  * optimizer applies scales and a learning rate.
  *
  * \ingroup ITKHighDimensionalOptimizers
@@ -130,12 +130,8 @@ protected:
   OptimizerParameterScalesEstimator::Pointer m_ScalesEstimator;
 
 private:
-
-  //purposely not implemented
-  GradientDescentObjectOptimizer( const Self & );
-  //purposely not implemented
-  void operator=( const Self& );
-
+  GradientDescentObjectOptimizer( const Self & ); //purposely not implemented
+  void operator=( const Self& ); //purposely not implemented
 };
 
 } // end namespace itk

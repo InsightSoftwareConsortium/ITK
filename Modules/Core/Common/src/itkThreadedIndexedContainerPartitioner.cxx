@@ -15,53 +15,24 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkThreadedArrayPartitioner_hxx
-#define __itkThreadedArrayPartitioner_hxx
-
-#include "itkThreadedArrayPartitioner.h"
+#include "itkThreadedIndexedContainerPartitioner.h"
 #include "vnl/vnl_math.h"
 
 namespace itk
 {
 
-/**
- * Default constructor
- */
-template<class TDataHolder>
-ThreadedArrayPartitioner<TDataHolder>::ThreadedArrayPartitioner()
+ThreadedIndexedContainerPartitioner
+::ThreadedIndexedContainerPartitioner()
 {
-  this->m_Domain.Fill(0);
 }
 
-/**
- * Destructor
- */
-template<class TDataHolder>
-ThreadedArrayPartitioner<TDataHolder>::~ThreadedArrayPartitioner()
-{}
-
-/**
- * Set the overall range over which to thread.
- */
-template<class TDataHolder>
-void
-ThreadedArrayPartitioner<TDataHolder>
-::SetCompleteIndexRange(  const IndexRangeType & range )
+ThreadedIndexedContainerPartitioner
+::~ThreadedIndexedContainerPartitioner()
 {
-  if( range[0] > range[1] )
-    {
-    itkExceptionMacro("Error in range.  Begin is less than End: "
-                      << range << ".");
-    }
-  this->SetCompleteDomain( range );
 }
 
-/**
- * Split the requested range into a subrange.
- */
-template<class TDataHolder>
 ThreadIdType
-ThreadedArrayPartitioner<TDataHolder>
+ThreadedIndexedContainerPartitioner
 ::PartitionDomain( const ThreadIdType threadID,
                         const ThreadIdType requestedTotal,
                         const DomainType& completeIndexRange,
@@ -90,11 +61,9 @@ ThreadedArrayPartitioner<TDataHolder>
     subIndexRange[1] = completeIndexRange[1];
     }
 
-  itkDebugMacro("ThreadedArrayPartitioner:  Split : " << subIndexRange );
+  itkDebugMacro("ThreadedIndexedContainerPartitioner:  Split : " << subIndexRange );
 
   return maxThreadIdUsed + 1;
 }
 
 } // end namespace itk
-
-#endif

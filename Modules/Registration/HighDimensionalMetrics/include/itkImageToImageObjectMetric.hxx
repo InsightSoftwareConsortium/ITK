@@ -33,23 +33,6 @@ template<class TFixedImage,class TMovingImage,class TVirtualImage>
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 ::ImageToImageObjectMetric()
 {
-  /* Instantiate the default dense threader, and set the callback and user-data
-   * holder for threading */
-  this->m_DenseValueAndDerivativeThreader = DenseValueAndDerivativeThreaderType::New();
-  this->m_DenseValueAndDerivativeThreader->SetThreadedGenerateData(
-    Self::DenseGetValueAndDerivativeThreadedCallback );
-  this->m_DenseValueAndDerivativeThreader->SetHolder( this );
-
-  /* Instantiate the default sampling threader, and set the callback and user-data
-   * holder for threading */
-  this->m_SampledValueAndDerivativeThreader =
-    SampledValueAndDerivativeThreaderType::New();
-  this->m_SampledValueAndDerivativeThreader->SetThreadedGenerateData(
-    Self::SampledGetValueAndDerivativeThreadedCallback );
-  this->m_SampledValueAndDerivativeThreader->SetHolder( this );
-
-  this->m_ThreadingMemoryHasBeenInitialized = false;
-
   /* Both transforms default to an identity transform */
   typedef IdentityTransform<CoordinateRepresentationType,
     itkGetStaticConstMacro( MovingImageDimension ) >
@@ -57,7 +40,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
   typedef IdentityTransform<CoordinateRepresentationType,
     itkGetStaticConstMacro( MovingImageDimension ) >
                                           FixedIdentityTransformType;
-  this->m_FixedTransform = FixedIdentityTransformType::New();
+  this->m_FixedTransform  = FixedIdentityTransformType::New();
   this->m_MovingTransform = MovingIdentityTransformType::New();
 
   /* Interpolators. Default to linear. */
@@ -67,15 +50,15 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
   typedef LinearInterpolateImageFunction< MovingImageType,
                                           CoordinateRepresentationType >
                                                   MovingLinearInterpolatorType;
-  this->m_FixedInterpolator = FixedLinearInterpolatorType::New();
+  this->m_FixedInterpolator  = FixedLinearInterpolatorType::New();
   this->m_MovingInterpolator = MovingLinearInterpolatorType::New();
 
   /* Setup default gradient filter. It gets initialized with default
    * parameters during Initialize. */
-  this->m_DefaultFixedImageGradientFilter = DefaultFixedImageGradientFilter::New();
+  this->m_DefaultFixedImageGradientFilter  = DefaultFixedImageGradientFilter::New();
   this->m_DefaultMovingImageGradientFilter = DefaultMovingImageGradientFilter::New();
-  this->m_FixedImageGradientFilter = this->m_DefaultFixedImageGradientFilter;
-  this->m_MovingImageGradientFilter = this->m_DefaultMovingImageGradientFilter;
+  this->m_FixedImageGradientFilter         = this->m_DefaultFixedImageGradientFilter;
+  this->m_MovingImageGradientFilter        = this->m_DefaultMovingImageGradientFilter;
 
   /* Setup default gradient image function */
   typedef CentralDifferenceImageFunction<FixedImageType,
@@ -85,23 +68,24 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
                                          CoordinateRepresentationType>
                                           MovingCentralDifferenceCalculatorType;
   typename FixedCentralDifferenceCalculatorType::Pointer
-                  fixedCalculator = FixedCentralDifferenceCalculatorType::New();
+                  fixedCalculator       = FixedCentralDifferenceCalculatorType::New();
   fixedCalculator->UseImageDirectionOn();
-  this->m_FixedImageGradientCalculator = fixedCalculator;
+  this->m_FixedImageGradientCalculator  = fixedCalculator;
   typename MovingCentralDifferenceCalculatorType::Pointer
-                  movingCalculator = MovingCentralDifferenceCalculatorType::New();
+                  movingCalculator      = MovingCentralDifferenceCalculatorType::New();
   movingCalculator->UseImageDirectionOn();
   this->m_MovingImageGradientCalculator = movingCalculator;
 
   /* Setup default options assuming dense-sampling */
-  this->m_DoFixedImagePreWarp = true;
-  this->m_DoMovingImagePreWarp = true;
-  this->m_UseFixedImageGradientFilter = true;
+  this->m_DoFixedImagePreWarp          = true;
+  this->m_DoMovingImagePreWarp         = true;
+  this->m_UseFixedImageGradientFilter  = true;
   this->m_UseMovingImageGradientFilter = true;
-  this->m_UseFixedSampledPointSet = false;
+  this->m_UseFixedSampledPointSet      = false;
 
   this->m_UserHasProvidedVirtualDomainImage = false;
-  this->m_NumberOfThreadsHasBeenInitialized = false;
+
+  this->m_FloatingPointCorrectionResolution = 1e4;
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
@@ -118,19 +102,19 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
   itkDebugMacro("Initialize entered");
 
   /* Verify things are connected */
-  if ( !this->m_FixedImage )
+  if ( this->m_FixedImage.IsNull() )
     {
     itkExceptionMacro(<< "FixedImage is not present");
     }
-  if ( !this->m_MovingImage )
+  if ( this->m_MovingImage.IsNull() )
     {
     itkExceptionMacro(<< "MovingImage is not present");
     }
-  if ( !this->m_FixedTransform )
+  if ( this->m_FixedTransform.IsNull() )
     {
     itkExceptionMacro(<< "FixedTransform is not present");
     }
-  if ( !this->m_MovingTransform )
+  if ( this->m_MovingTransform.IsNull() )
     {
     itkExceptionMacro(<< "MovingTransform is not present");
     }
@@ -195,47 +179,6 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
       }
     }
 
-  /*
-   * Determine number of threads that will be used
-   */
-
-  /* Assign the virtual image region to the threader. Do this before
-   * calling DetermineNumberOfThreadsToUse. */
-  this->m_DenseValueAndDerivativeThreader->SetCompleteDomain(
-                                            this->GetVirtualDomainRegion() );
-
-  /* Assign the range to the sampling threader. */
-  if( this->m_UseFixedSampledPointSet )
-    {
-    if( this->m_FixedSampledPointSet->GetNumberOfPoints() < 1 )
-      {
-      itkExceptionMacro("FixedSampledPointSet must have 1 or more points.");
-      }
-    SampledThreaderDomainType range;
-    range[0] = 0;
-    range[1] = this->m_FixedSampledPointSet->GetNumberOfPoints() - 1;
-    this->m_SampledValueAndDerivativeThreader->SetCompleteDomain( range );
-    }
-
-  /* Determine how many threads will be used, given the set OverallObject.
-   * The threader uses
-   * its SplitRequestedObject method to split the image region over threads,
-   * and it may decide to that using fewer than the number of available
-   * threads is more effective. */
-  ThreadIdType numThreads =
-    this->m_DenseValueAndDerivativeThreader->DetermineNumberOfThreadsToUse();
-  if( this->m_UseFixedSampledPointSet )
-    {
-    numThreads =
-      this->m_SampledValueAndDerivativeThreader->DetermineNumberOfThreadsToUse();
-    }
-  this->SetNumberOfThreads( numThreads );
-  this->m_NumberOfThreadsHasBeenInitialized = true;
-
-  /* Clear this flag to force initialization of threading memory
-   * in GetValueAndDerivativeThreadedExecute. */
-  this->m_ThreadingMemoryHasBeenInitialized = false;
-
   /* Inititialize interpolators. */
   itkDebugMacro("Initialize Interpolators");
   this->m_FixedInterpolator->SetInputImage( this->m_FixedImage );
@@ -266,7 +209,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
     this->m_FixedWarpResampleImageFilter->SetOutputParametersFromImage(
                                                 this->GetVirtualDomainImage() );
     this->m_FixedWarpResampleImageFilter->SetNumberOfThreads(
-                                                    this->GetNumberOfThreads() );
+                                                    this->GetMaximumNumberOfThreads() );
     this->m_FixedWarpResampleImageFilter->SetTransform(
                                                     this->GetFixedTransform() );
     this->m_FixedWarpResampleImageFilter->SetInput( this->GetFixedImage() );
@@ -291,7 +234,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
     this->m_MovingWarpResampleImageFilter->SetOutputParametersFromImage(
                                                 this->GetVirtualDomainImage() );
     this->m_MovingWarpResampleImageFilter->SetNumberOfThreads(
-                                               this->GetNumberOfThreads() );
+                                               this->GetMaximumNumberOfThreads() );
     this->m_MovingWarpResampleImageFilter->SetTransform(
                                                this->GetMovingTransform() );
     this->m_MovingWarpResampleImageFilter->SetInput( this->GetMovingImage() );
@@ -336,103 +279,30 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
-::GetValueAndDerivativeThreadedExecute( DerivativeType & derivativeReturn ) const
+ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
+::GetValueAndDerivative( MeasureType & value,
+                         DerivativeType & derivative ) const
 {
-  //Initialize threading memory if this is the first time
-  // in here since a call to Initialize, or if user has passed
-  // in a different object for the results (why might they do that?).
-  if( ! this->m_ThreadingMemoryHasBeenInitialized ||
-      &derivativeReturn != this->m_DerivativeResult )
-    {
-    this->InitializeThreadingMemory( derivativeReturn );
-    }
-
-  //Initialization required for each iteration.
+  this->m_DerivativeResult = &derivative;
   this->InitializeForIteration();
 
-  // Do the threaded evaluation. This will
-  // call GetValueAndDerivativeThreadedCallback, which
-  // iterates over virtual domain region and calls derived class'
-  // GetValueAndDerivativeProcessPoint.
-  if( this->m_UseFixedSampledPointSet )
+  if( this->m_UseFixedSampledPointSet ) // sparse sampling
     {
-    this->m_SampledValueAndDerivativeThreader->StartThreadedExecution();
-    }
-  else
-    {
-    this->m_DenseValueAndDerivativeThreader->StartThreadedExecution();
-    }
-
-  // Determine the total number of points used during calculations.
-  this->CollectNumberOfValidPoints();
-
-  // To collect the results from each thread into final values
-  // the derived class can call GetValueAndDerivativeThreadedPostProcess,
-  // or do their own processing.
-}
-
-template<class TFixedImage,class TMovingImage,class TVirtualImage>
-void
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
-::InitializeThreadingMemory( DerivativeType & derivativeReturn ) const
-{
-  /* Point our results object to the object provided by user. */
-  this->m_DerivativeResult = &derivativeReturn;
-
-  /* Per-thread results */
-  this->m_MeasurePerThread.resize( this->GetNumberOfThreads() );
-  this->m_NumberOfValidPointsPerThread.resize( this->GetNumberOfThreads() );
-  this->m_DerivativesPerThread.resize( this->GetNumberOfThreads() );
-  /* This one is intermediary, for getting per-point results. */
-  this->m_LocalDerivativesPerThread.resize( this->GetNumberOfThreads() );
-  /* Per-thread pre-allocated Jacobian objects for efficiency */
-  this->m_MovingTransformJacobianPerThread.resize( this->GetNumberOfThreads() );
-
-  /* This size always comes from the moving image */
-  NumberOfParametersType globalDerivativeSize =
-    this->m_MovingTransform->GetNumberOfParameters();
-
-  itkDebugMacro("ImageToImageObjectMetric::Initialize: deriv size  "
-                  << globalDerivativeSize << std::endl);
-  /* NOTE: this does *not* get init'ed to 0 here. */
-  if( this->m_DerivativeResult->GetSize() != globalDerivativeSize )
-    {
-    this->m_DerivativeResult->SetSize( globalDerivativeSize );
-    }
-  for (ThreadIdType i=0; i<this->GetNumberOfThreads(); i++)
-    {
-    /* Allocate intermediary per-thread storage used to get results from
-     * derived classes */
-    this->m_LocalDerivativesPerThread[i].SetSize(
-                                          this->GetNumberOfLocalParameters() );
-    this->m_MovingTransformJacobianPerThread[i].SetSize(
-                                          this->VirtualImageDimension,
-                                          this->GetNumberOfLocalParameters() );
-    /* For transforms with local support, e.g. displacement field,
-     * use a single derivative container that's updated by region
-     * in multiple threads. */
-    if ( this->m_MovingTransform->HasLocalSupport() )
+    if( this->m_FixedSampledPointSet->GetNumberOfPoints() < 1 )
       {
-      itkDebugMacro(
-        "ImageToImageObjectMetric::Initialize: tx HAS local support\n");
-        /* Set each per-thread object to point to m_DerivativeResult */
-        this->m_DerivativesPerThread[i].SetData(
-                                      this->m_DerivativeResult->data_block(),
-                                      this->m_DerivativeResult->Size(),
-                                      false );
+      itkExceptionMacro("FixedSampledPointSet must have 1 or more points.");
       }
-    else
-      {
-      itkDebugMacro(
-      "ImageToImageObjectMetric::Initialize: tx does NOT have local support\n");
-      /* Global transforms get a separate derivatives container for each thread
-       * that holds the result over a particular image region. */
-        this->m_DerivativesPerThread[i].SetSize( globalDerivativeSize );
-      }
+    typename ImageToImageObjectMetricGetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Self >::DomainType range;
+    range[0] = 0;
+    range[1] = this->m_FixedSampledPointSet->GetNumberOfPoints() - 1;
+    this->m_SparseGetValueAndDerivativeThreader->Execute( const_cast< Self* >(this), range );
     }
-  /* This will be true until next call to Initialize */
-  this->m_ThreadingMemoryHasBeenInitialized = true;
+  else // dense sampling
+    {
+    this->m_DenseGetValueAndDerivativeThreader->Execute( const_cast< Self* >(this), this->GetVirtualDomainRegion() );
+    }
+
+  value = this->m_Value;
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
@@ -440,24 +310,17 @@ void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 ::InitializeForIteration() const
 {
-  /* Initialize some threading values that require per-iteration
-   * initialization. */
-  for (ThreadIdType i=0; i<this->GetNumberOfThreads(); i++)
+  /* This size always comes from the moving image */
+  const NumberOfParametersType globalDerivativeSize =
+    this->m_MovingTransform->GetNumberOfParameters();
+  /* NOTE: this does *not* get init'ed to 0 here. */
+  if( this->m_DerivativeResult->GetSize() != globalDerivativeSize )
     {
-    this->m_NumberOfValidPointsPerThread[i] = 0;
-    this->m_MeasurePerThread[i] = 0;
-    if ( ! this->m_MovingTransform->HasLocalSupport() )
-      {
-      /* Be sure to init to 0 here, because the threader may not use
-       * all the threads if the region is better split into fewer
-       * subregions. */
-      this->m_DerivativesPerThread[i].Fill( 0 );
-      }
+    this->m_DerivativeResult->SetSize( globalDerivativeSize );
     }
-
   /* Clear derivative final result. This will
    * require an option to skip for use with multivariate metric. */
-  this->m_DerivativeResult->Fill( 0 );
+  this->m_DerivativeResult->Fill( NumericTraits< DerivativeValueType >::Zero );
 
   /* Pre-warp the moving image if set to do so. Then we have
    * to recompute the image gradients if ImageFilter option is set.
@@ -476,244 +339,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
-void
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
-::CollectNumberOfValidPoints() const
-{
-  /* Count number of valid points.
-   * Other post-processing can be done by calling
-   * GetValueAndDerivativeThreadedPostProcess, or direclty
-   * in the derived class. */
-  this->m_NumberOfValidPoints = 0;
-  for (ThreadIdType i=0; i<this->GetNumberOfThreads(); i++)
-    {
-    this->m_NumberOfValidPoints += this->m_NumberOfValidPointsPerThread[i];
-    }
-  itkDebugMacro( "ImageToImageObjectMetric: NumberOfValidPoints: "
-                 << this->m_NumberOfValidPoints );
-}
-
-template<class TFixedImage,class TMovingImage,class TVirtualImage>
-void
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
-::GetValueAndDerivativeThreadedPostProcess( bool doAverage ) const
-{
-  /* For global transforms, sum the derivatives from each region. */
-  if ( ! this->m_MovingTransform->HasLocalSupport() )
-    {
-    for (ThreadIdType i=0; i<this->GetNumberOfThreads(); i++)
-      {
-      *(this->m_DerivativeResult) += this->m_DerivativesPerThread[i];
-      }
-    }
-
-  /* Accumulate the metric value from threads and store */
-  this->m_Value = NumericTraits<InternalComputationValueType>::Zero;
-
-  for(size_t i=0; i< this->m_MeasurePerThread.size(); i++)
-    {
-    this->m_Value += this->m_MeasurePerThread[i];
-    }
-
-  if( doAverage )
-    {
-    if ( ! this->m_MovingTransform->HasLocalSupport() )
-      {
-      *(this->m_DerivativeResult) /= this->m_NumberOfValidPoints;
-      }
-    this->m_Value /= this->m_NumberOfValidPoints;
-    }
-}
-
-template<class TFixedImage,class TMovingImage,class TVirtualImage>
-void
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
-::DenseGetValueAndDerivativeThreadedCallback(
-                const DenseThreaderDomainType& subRegion,
-                ThreadIdType threadID,
-                Self * self)
-{
-  SamplingIteratorHelper  iterator( self->m_VirtualDomainImage, subRegion );
-  self->GetValueAndDerivativeProcessPointRange( iterator, threadID, self );
-}
-
-template<class TFixedImage,class TMovingImage,class TVirtualImage>
-void
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
-::SampledGetValueAndDerivativeThreadedCallback(
-                const SampledThreaderDomainType& sampledRange,
-                ThreadIdType threadID,
-                Self * self)
-{
-  SamplingIteratorHelper iterator( self->m_VirtualDomainImage,
-                                   self->m_VirtualSampledPointSet, sampledRange );
-  self->GetValueAndDerivativeProcessPointRange( iterator, threadID, self );
-}
-
-template<class TFixedImage,class TMovingImage,class TVirtualImage>
-void
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
-::GetValueAndDerivativeProcessPointRange(
-                SamplingIteratorHelper & samplingIterator,
-                ThreadIdType threadID,
-                Self * self)
-{
-  VirtualPointType            virtualPoint;
-  VirtualIndexType            virtualIndex;
-  FixedOutputPointType        mappedFixedPoint;
-  FixedImagePixelType         mappedFixedPixelValue;
-  FixedImageGradientType      mappedFixedImageGradient;
-  MovingOutputPointType       mappedMovingPoint;
-  MovingImagePixelType        mappedMovingPixelValue;
-  MovingImageGradientType     mappedMovingImageGradient;
-  bool                        pointIsValid = false;
-  MeasureType                 metricValueResult;
-  MeasureType                 metricValueSum = 0;
-
-  /* Get pre-allocated local results object. This actually provides very
-   * little benefit, since this only gets called once for each thread. However
-   * if we get up to the hundres of threads, it might have an impact */
-  DerivativeType & localDerivativeResult =
-                                   self->m_LocalDerivativesPerThread[threadID];
-
-  /* Iterate over the sub region */
-  while( samplingIterator.GetNext( virtualIndex, virtualPoint ) )
-  {
-    /* Transform the point into fixed and moving spaces, and evaluate.
-     * Different behavior with pre-warping enabled is handled transparently.
-     * Do this in a try block to catch exceptions and print more useful info
-     * then we otherwise get when exceptions are caught in MultiThreader. */
-    try
-      {
-      self->TransformAndEvaluateFixedPoint( virtualIndex,
-                                        virtualPoint,
-                                        self->GetGradientSourceIncludesFixed(),
-                                        mappedFixedPoint,
-                                        mappedFixedPixelValue,
-                                        mappedFixedImageGradient,
-                                        pointIsValid );
-      }
-    catch( ExceptionObject & exc )
-      {
-      //NOTE: there must be a cleaner way to do this:
-      std::string msg("Caught exception: \n");
-      msg += exc.what();
-      ExceptionObject err(__FILE__, __LINE__, msg);
-      throw err;
-      }
-
-    if( !pointIsValid )
-      {
-      continue;
-      }
-
-    try
-      {
-      self->TransformAndEvaluateMovingPoint( virtualIndex,
-                                      virtualPoint,
-                                      self->GetGradientSourceIncludesMoving(),
-                                      mappedMovingPoint,
-                                      mappedMovingPixelValue,
-                                      mappedMovingImageGradient,
-                                      pointIsValid );
-      }
-    catch( ExceptionObject & exc )
-      {
-      std::string msg("Caught exception: \n");
-      msg += exc.what();
-      ExceptionObject err(__FILE__, __LINE__, msg);
-      throw err;
-      }
-
-    if( !pointIsValid )
-      {
-      continue;
-      }
-
-    /* Call the user method in derived classes to do the specific
-     * calculations for value and derivative. */
-    try
-      {
-      pointIsValid = self->GetValueAndDerivativeProcessPoint(
-                                     virtualPoint,
-                                     mappedFixedPoint, mappedFixedPixelValue,
-                                     mappedFixedImageGradient,
-                                     mappedMovingPoint, mappedMovingPixelValue,
-                                     mappedMovingImageGradient,
-                                     metricValueResult, localDerivativeResult,
-                                     threadID );
-      }
-    catch( ExceptionObject & exc )
-      {
-      //NOTE: there must be a cleaner way to do this:
-      std::string msg("Exception in GetValueAndDerivativeProcessPoint:\n");
-      msg += exc.what();
-      ExceptionObject err(__FILE__, __LINE__, msg);
-      throw err;
-      }
-
-    if( !pointIsValid )
-      {
-      continue;
-      }
-
-    /* Assign the results */
-    self->m_NumberOfValidPointsPerThread[ threadID ]++;
-    metricValueSum += metricValueResult;
-    /* Store the result. The behavior depends on what type of
-     * transform is being used. */
-    self->StoreDerivativeResult( localDerivativeResult,
-                                 virtualIndex, threadID );
-  } //loop over region
-
-  /* Store metric value result for this thread. */
-  self->m_MeasurePerThread[threadID] = metricValueSum;
-}
-
-template<class TFixedImage,class TMovingImage,class TVirtualImage>
-void
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
-::StoreDerivativeResult(  DerivativeType & derivative,
-                           const VirtualIndexType & virtualIndex,
-                           ThreadIdType threadID )
-{
-  DerivativeType & derivativeResult = this->m_DerivativesPerThread[threadID];
-  if ( ! this->m_MovingTransform->HasLocalSupport() )
-    {
-    derivativeResult += derivative;
-    }
-  else
-    {
-    // Dense transform, e.g. displacement field.
-    // update derivative at some index
-    // this requires the moving image displacement field to be
-    // same size as virtual image, and that VirtualImage PixelType
-    // is scalar.
-    try
-      {
-      OffsetValueType offset =
-        this->ComputeParameterOffsetFromVirtualDomainIndex( virtualIndex,
-          this->m_MovingTransform->GetNumberOfLocalParameters() );
-      for (NumberOfParametersType i=0;
-            i < this->m_MovingTransform->GetNumberOfLocalParameters(); i++)
-        {
-        /* Be sure to *add* here and not assign. Required for proper behavior
-         * with multi-variate metric. */
-        derivativeResult[offset+i] += derivative[i];
-        }
-      }
-    catch( ExceptionObject & exc )
-      {
-      std::string msg("Caught exception: \n");
-      msg += exc.what();
-      ExceptionObject err(__FILE__, __LINE__, msg);
-      throw err;
-      }
-    }
-}
-
-template<class TFixedImage,class TMovingImage,class TVirtualImage>
-void
+bool
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 ::TransformAndEvaluateFixedPoint(
                          const VirtualIndexType & index,
@@ -721,10 +347,9 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
                          const bool computeImageGradient,
                          FixedImagePointType & mappedFixedPoint,
                          FixedImagePixelType & mappedFixedPixelValue,
-                         FixedImageGradientType & mappedFixedImageGradient,
-                         bool & pointIsValid ) const
+                         FixedImageGradientType & mappedFixedImageGradient ) const
 {
-  pointIsValid = true;
+  bool pointIsValid = true;
   mappedFixedPixelValue = NumericTraits<FixedImagePixelType>::Zero;
 
   // map the point into fixed space
@@ -738,7 +363,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
     pointIsValid = this->m_FixedImageMask->IsInside( mappedFixedPoint );
     if( ! pointIsValid )
       {
-      return;
+      return pointIsValid;
       }
     }
 
@@ -746,7 +371,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
   pointIsValid = this->m_FixedInterpolator->IsInsideBuffer(mappedFixedPoint);
   if( ! pointIsValid )
     {
-    return;
+    return pointIsValid;
     }
 
   if( this->m_DoFixedImagePreWarp )
@@ -773,10 +398,12 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
                                                       mappedFixedPoint );
       }
     }
+
+  return pointIsValid;
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
-void
+bool
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 ::TransformAndEvaluateMovingPoint(
                          const VirtualIndexType & index,
@@ -784,10 +411,9 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
                          const bool computeImageGradient,
                          MovingImagePointType & mappedMovingPoint,
                          MovingImagePixelType & mappedMovingPixelValue,
-                         MovingImageGradientType & mappedMovingImageGradient,
-                         bool & pointIsValid ) const
+                         MovingImageGradientType & mappedMovingImageGradient ) const
 {
-  pointIsValid = true;
+  bool pointIsValid = true;
   mappedMovingPixelValue = NumericTraits<MovingImagePixelType>::Zero;
 
   // map the point into moving space
@@ -801,7 +427,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
     pointIsValid = this->m_MovingImageMask->IsInside( mappedMovingPoint );
     if( ! pointIsValid )
       {
-      return;
+      return pointIsValid;
       }
     }
 
@@ -809,7 +435,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
   pointIsValid = this->m_MovingInterpolator->IsInsideBuffer(mappedMovingPoint);
   if( ! pointIsValid )
     {
-    return;
+    return pointIsValid;
     }
 
   if( this->m_DoMovingImagePreWarp )
@@ -836,6 +462,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
                                                      mappedMovingPoint );
       }
     }
+  return pointIsValid;
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
@@ -1030,7 +657,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
     }
   this->m_DefaultFixedImageGradientFilter->SetSigma(maximumSpacing);
   this->m_DefaultFixedImageGradientFilter->SetNormalizeAcrossScale( true );
-  this->m_DefaultFixedImageGradientFilter->SetNumberOfThreads(this->GetNumberOfThreads());
+  this->m_DefaultFixedImageGradientFilter->SetNumberOfThreads(this->GetMaximumNumberOfThreads());
   this->m_DefaultFixedImageGradientFilter->SetUseImageDirection( true );
 }
 
@@ -1060,28 +687,8 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
     }
   this->m_DefaultMovingImageGradientFilter->SetSigma(maximumSpacing);
   this->m_DefaultMovingImageGradientFilter->SetNormalizeAcrossScale(true);
-  this->m_DefaultMovingImageGradientFilter->SetNumberOfThreads(this->GetNumberOfThreads());
+  this->m_DefaultMovingImageGradientFilter->SetNumberOfThreads(this->GetMaximumNumberOfThreads());
   this->m_DefaultMovingImageGradientFilter->SetUseImageDirection(true);
-}
-
-template<class TFixedImage,class TMovingImage,class TVirtualImage>
-bool
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
-::GetValueAndDerivativeProcessPoint(
-        const VirtualPointType &          itkNotUsed(virtualPoint),
-        const FixedImagePointType &       itkNotUsed(mappedFixedPoint),
-        const FixedImagePixelType &       itkNotUsed(mappedFixedPixelValue),
-        const FixedImageGradientType &    itkNotUsed(mappedFixedImageGradient),
-        const MovingImagePointType &      itkNotUsed(mappedMovingPoint),
-        const MovingImagePixelType &      itkNotUsed(mappedMovingPixelValue),
-        const MovingImageGradientType &   itkNotUsed(mappedMovingImageGradient),
-        MeasureType &                     itkNotUsed(metricValueReturn),
-        DerivativeType &                  itkNotUsed(localDerivativeReturn),
-        const ThreadIdType                itkNotUsed(threadID) ) const
-{
-  itkExceptionMacro("GetValueAndDerivativeProcessPoint called in base class. "
-                    "Must be overridden by derived class.");
-  return false;
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
@@ -1089,7 +696,7 @@ void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 ::SetTransform( MovingTransformType* transform )
 {
-  SetMovingTransform( transform );
+  this->SetMovingTransform( transform );
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
@@ -1097,7 +704,7 @@ const typename ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 ::GetTransform()
 {
-  return GetMovingTransform();
+  return this->GetMovingTransform();
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
@@ -1114,44 +721,44 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
-::SetNumberOfThreads( ThreadIdType number )
+::SetMaximumNumberOfThreads( const ThreadIdType number )
 {
-  if( this->m_UseFixedSampledPointSet )
+  if( number != this->m_SparseGetValueAndDerivativeThreader->GetMaximumNumberOfThreads() )
     {
-    if( number != this->m_SampledValueAndDerivativeThreader->GetNumberOfThreads() )
-      {
-      this->m_SampledValueAndDerivativeThreader->SetNumberOfThreads( number );
-      this->Modified();
-      }
+    this->m_SparseGetValueAndDerivativeThreader->SetMaximumNumberOfThreads( number );
+    this->Modified();
     }
-  else
+  if( number != this->m_DenseGetValueAndDerivativeThreader->GetMaximumNumberOfThreads() )
     {
-    if( number != this->m_DenseValueAndDerivativeThreader->GetNumberOfThreads() )
-      {
-      this->m_DenseValueAndDerivativeThreader->SetNumberOfThreads( number );
-      this->Modified();
-      }
+    this->m_DenseGetValueAndDerivativeThreader->SetMaximumNumberOfThreads( number );
+    this->Modified();
     }
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 ThreadIdType
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
-::GetNumberOfThreads( void ) const
+::GetMaximumNumberOfThreads() const
 {
-  if( ! this->m_NumberOfThreadsHasBeenInitialized )
-    {
-    itkExceptionMacro("m_NumberOfThreadsHasBeenInitialized is false. "
-                      "Initialize must be called to initialize the number "
-                      "of threads first.");
-    }
   if( this->m_UseFixedSampledPointSet )
     {
-    return this->m_SampledValueAndDerivativeThreader->GetNumberOfThreads();
+    return this->m_SparseGetValueAndDerivativeThreader->GetMaximumNumberOfThreads();
+    }
+  return  this->m_DenseGetValueAndDerivativeThreader->GetMaximumNumberOfThreads();
+}
+
+template<class TFixedImage,class TMovingImage,class TVirtualImage>
+ThreadIdType
+ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
+::GetNumberOfThreadsUsed() const
+{
+  if( this->m_UseFixedSampledPointSet )
+    {
+    return this->m_SparseGetValueAndDerivativeThreader->GetNumberOfThreadsUsed();
     }
   else
     {
-    return this->m_DenseValueAndDerivativeThreader->GetNumberOfThreads();
+    return this->m_DenseGetValueAndDerivativeThreader->GetNumberOfThreadsUsed();
     }
 }
 
@@ -1273,7 +880,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
   typedef typename FixedSampledPointSetType::PointsContainer PointsContainer;
   typename PointsContainer::ConstPointer
     points = this->m_FixedSampledPointSet->GetPoints();
-  typename PointsContainer::ConstIterator It = points->Begin();
+  typename PointsContainer::ConstIterator it = points->Begin();
 
   typename FixedTransformType::InverseTransformBasePointer
     inverseTransform = this->m_FixedTransform->GetInverseTransform();
@@ -1283,21 +890,13 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
                       " point set.");
     }
 
-  while( It != points->End() )
+  while( it != points->End() )
     {
     typename FixedSampledPointSetType::PointType
-      point = inverseTransform->TransformPoint( It.Value() );
-    this->m_VirtualSampledPointSet->SetPoint( It.Index(), point );
-    ++It;
+      point = inverseTransform->TransformPoint( it.Value() );
+    this->m_VirtualSampledPointSet->SetPoint( it.Index(), point );
+    ++it;
     }
-}
-
-template<class TFixedImage,class TMovingImage,class TVirtualImage>
-typename ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>::MeasureType
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
-::GetValueResult() const
-{
-  return m_Value;
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
@@ -1437,83 +1036,6 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
-class
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
-::SamplingIteratorHelper
-{
-public:
-  typedef ImageRegionConstIteratorWithIndex<VirtualImageType> DenseIteratorType;
-
-  bool GetNext( VirtualIndexType & virtualIndex, VirtualPointType & virtualPoint )
-  {
-    if( m_UseSampledPointSet )
-      {
-      if( m_NextSample > m_LastSample )
-        {
-        return false;
-        }
-      virtualPoint = m_SampledPointSet->GetPoint( m_NextSample );
-      m_VirtualDomainImageLocal->TransformPhysicalPointToIndex(
-                                            virtualPoint, virtualIndex);
-      m_NextSample++;
-      return true;
-      }
-    else
-      {
-      if( m_DenseIt.IsAtEnd() )
-        {
-        return false;
-        }
-      virtualIndex = m_DenseIt.GetIndex();
-      m_VirtualDomainImageLocal->TransformIndexToPhysicalPoint(
-                                            virtualIndex, virtualPoint);
-      ++m_DenseIt;
-      return true;
-      }
-  }
-
-  /** Constructor for use with dense sampling */
-  SamplingIteratorHelper( const VirtualImagePointer & virtualDomainImage,
-                          const DenseThreaderDomainType & subRegion )
-    {
-    m_UseSampledPointSet = false;
-    m_VirtualDomainImageLocal = virtualDomainImage;
-    m_SubRegion = subRegion;
-    m_DenseIt = DenseIteratorType( virtualDomainImage, subRegion );
-    m_DenseIt.GoToBegin();
-    }
-
-  /** Constructor for use with sparse sampling with a point set */
-  SamplingIteratorHelper( const VirtualImagePointer & virtualDomainImage,
-                          const VirtualSampledPointSetPointer & pointSet,
-                          const SampledThreaderDomainType & sampledRange )
-    {
-    m_UseSampledPointSet = true;
-    m_VirtualDomainImageLocal = virtualDomainImage;
-    m_SampledPointSet = pointSet;
-    m_FirstSample = sampledRange[0];
-    /* The range is inclusive */
-    m_LastSample = sampledRange[1];
-    m_NextSample = m_FirstSample;
-    }
-
-  /** Default constructor should not be used */
-  SamplingIteratorHelper(){};
-
-private:
-
-  DenseIteratorType               m_DenseIt;
-  DenseThreaderDomainType         m_SubRegion;
-
-  VirtualImagePointer                   m_VirtualDomainImageLocal;
-  VirtualSampledPointSetPointer         m_SampledPointSet;
-  SampledThreaderDomainValueType        m_FirstSample;
-  SampledThreaderDomainValueType        m_LastSample;
-  SampledThreaderDomainValueType        m_NextSample;
-  bool                                  m_UseSampledPointSet;
-};
-
-template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 ::PrintSelf(std::ostream& os, Indent indent) const
@@ -1521,8 +1043,6 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
   Superclass::PrintSelf(os, indent);
 
   os << indent << "ImageToImageObjectMetric: " << std::endl
-               << "GetNumberOfThreads: " << this->GetNumberOfThreads()
-               << std::endl
                << "GetUseFixedImageGradientFilter: "
                << this->GetUseFixedImageGradientFilter()
                << std::endl
@@ -1533,16 +1053,6 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
                << std::endl
                << "DoMovingImagePreWarp: " << this->GetDoMovingImagePreWarp()
                << std::endl;
-
-  if( this->m_NumberOfThreadsHasBeenInitialized )
-    {
-    os << indent << "GetNumberOfThreads: " << this->GetNumberOfThreads()
-                 << std::endl;
-    }
-  else
-    {
-    os << indent << "Number of threads not yet initialized." << std::endl;
-    }
 
   if( this->GetVirtualDomainImage() != NULL )
     {

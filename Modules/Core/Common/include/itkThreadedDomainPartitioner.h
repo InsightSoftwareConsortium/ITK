@@ -58,14 +58,18 @@ namespace itk
  * See \c DetermineNumberOfThreadsToUse to get the number of threads
  * before running.
  *
- * \note There is no test for this class yet. See Array1DToDataTest.
+ * \note There is no test for this class yet. See ThreadedArrayPartitioner.
  * \todo Make test.
  *
  * \sa ThreadedImageRegionPartitioner
+ *
+ * \ingroup DataProcessing
+ *
  * \ingroup ITKCommon
+ *
  */
 
-template <class TDomain, class TDataHolder>
+template <class TDomain >
 class ITKCommon_EXPORT ThreadedDomainPartitioner : public Object
 {
 public:
@@ -81,69 +85,12 @@ public:
   /** Type of the input object that's split for threading */
   typedef TDomain                   DomainType;
 
-  /** Type of the data holder, i.e. user data */
-  typedef TDataHolder               DataHolderType;
-
-  /** Type of callback function called by threader to do the work.
-   */
-  // http://www.parashift.com/c++-faq-lite/pointers-to-members.html
-  //  [33.2] How do I pass a pointer-to-member-function to a signal handler,
-  //  X event callback, system call that starts a thread/task, etc?
-  //  Don't.
-  //  so this call back function has to be define outside of the class OR use
-  //  static function instead
-  //
-  //  Note: static member functions do not require an actual object to be
-  //  invoked,
-  //  so pointers-to-static-member-functions are usually type-compatible with
-  //  regular pointers-to-functions. However, although it probably works on
-  //  most compilers, it
-  //  actually would have to be an extern "C" non-member function to be correct,
-  //  since "C linkage" doesn't only cover things like name mangling, but also
-  //  calling conventions, which might be different between C and C++.
-  typedef void (*ThreadedGenerateDataFuncType)(const DomainType&,
-                                                ThreadIdType threadId,
-                                                DataHolderType * holder);
-
-  /** Set the complete (i.e. overall) domain over which to thread */
-  void SetCompleteDomain( const DomainType & domain );
-
-  /** Set the threaded worker callback. Used by the user class
-   * to assign the worker callback.
-   * \note This callback must be a static function if it is a class method. */
-  void SetThreadedGenerateData( ThreadedGenerateDataFuncType func );
-
-  /** Set the object holder used during threading. */
-  void SetHolder( DataHolderType* holder );
-
-  /** Get the assigned holder, as a raw C-pointer */
-  itkGetMacro( Holder, DataHolderType *);
-  itkGetConstMacro( Holder, DataHolderType *);
-
-  /** Get/Set the number of threads to create when executing. */
-  itkSetClampMacro(NumberOfThreads, ThreadIdType, 1, ITK_MAX_THREADS);
-  itkGetConstReferenceMacro(NumberOfThreads, ThreadIdType);
-
-  /** Accessor for number of threads actually used */
-  itkGetMacro( NumberOfThreadsUsed, ThreadIdType );
-
-  /** Return the multithreader used by this class. */
-  MultiThreader * GetMultiThreader()
-  { return m_Threader; }
-
-  /** Start the threading process */
-  virtual void StartThreadedExecution();
-
   /** Determine the number of threads that will be used by calling
    * PartitionDomain once and getting the return value. This uses
    * m_NumberOfThreads and requires that \c m_Domain has been set.
    * The number may be less than m_NumberOfThreads if PartitionDomain
    * determines that fewer threads would be more efficient. */
   ThreadIdType DetermineNumberOfThreadsToUse() const;
-
-protected:
-  ThreadedDomainPartitioner();
-  virtual ~ThreadedDomainPartitioner();
 
   /** Split the output's RequestedObject into \c requestedTotal "pieces",
    * returning piece \c i as \c splitObject. "Pieces" may represent
@@ -162,56 +109,15 @@ protected:
                            const DomainType& completeDomain,
                            DomainType& subdomain) const = 0;
 
-  /** Static function used as a "callback" by the MultiThreader.  The threading
-   * library will call this routine for each thread, which will delegate the
-   * control to the function pointed to by m_ThreadedGenerateData. */
-  static ITK_THREAD_RETURN_TYPE ThreaderCallback( void *arg );
-
-  /** Internal structure used for passing image data into the
-   * threading library */
-  struct ThreadStruct
-    {
-    Pointer Filter;
-    };
-
-  /** The object over which to thread. */
-  //This should probably be made into a SmartPointer
-  DomainType                    m_Domain;
-
-  /** Flag is set when user calls SetOveralObject */
-  bool                          m_DomainHasBeenSet;
-
-  /** Raw C-pointer to the data holder */
-  DataHolderType *              m_Holder;
-
-  /** Verify that all the inputs required are set properly.
-   *  This method is called from GenerateData().  */
-  virtual void VerifyInputConsistency();
+protected:
+  ThreadedDomainPartitioner(){}
+  ~ThreadedDomainPartitioner(){}
 
 private:
-  ThreadedGenerateDataFuncType  m_ThreadedGenerateData;
-
-  /** Store the actual number of threads used, which may be less than
-   * the number allocated by the threader if the object does not split
-   * well into that number.
-   * This value is valid once the threader has been run. */
-  ThreadIdType                  m_NumberOfThreadsUsed;
-
-  /** Support processing data in multiple threads. Used by subclasses
-   * (e.g., ImageSource). */
-  MultiThreader::Pointer m_Threader;
-
-  ThreadIdType           m_NumberOfThreads;
-
   ThreadedDomainPartitioner(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
 };
 
 } // end namespace itk
-
-#ifndef ITK_MANUAL_INSTANTIATION
-# include "itkThreadedDomainPartitioner.hxx"
-#endif
 
 #endif

@@ -1501,9 +1501,6 @@ ProcessObject
     }
 }
 
-/**
- *
- */
 void
 ProcessObject
 ::UpdateLargestPossibleRegion()
@@ -1516,4 +1513,29 @@ ProcessObject
     this->GetPrimaryOutput()->Update();
     }
 }
+
+template< class TDomainPartitioner, class TAssociate >
+ProcessObject::ProcessObjectDomainThreader< TDomainPartitioner, TAssociate >
+::ProcessObjectDomainThreader()
+{
+}
+
+template< class TDomainPartitioner, class TAssociate >
+ProcessObject::ProcessObjectDomainThreader< TDomainPartitioner, TAssociate >
+::~ProcessObjectDomainThreader()
+{
+}
+
+template< class TDomainPartitioner, class TAssociate >
+void
+ProcessObject::ProcessObjectDomainThreader< TDomainPartitioner, TAssociate >
+::DetermineNumberOfThreadsUsed()
+{
+  MultiThreader * multiThreader = this->m_Associate->GetMultiThreader();
+  this->SetMultiThreader( multiThreader );
+  multiThreader->SetNumberOfThreads( this->m_Associate->GetNumberOfThreads() );
+
+  Superclass::DetermineNumberOfThreadsUsed();
+}
+
 } // end namespace itk

@@ -23,40 +23,21 @@
 namespace itk
 {
 
-/**
- * Constructor
- */
-template <unsigned int VDimension, class TDataHolder>
-ThreadedImageRegionPartitioner<VDimension, TDataHolder>
+template <unsigned int VDimension>
+ThreadedImageRegionPartitioner<VDimension>
 ::ThreadedImageRegionPartitioner()
 {
 }
 
-/**
- * Destructor
- */
-template <unsigned int VDimension, class TDataHolder>
-ThreadedImageRegionPartitioner<VDimension, TDataHolder>
+template <unsigned int VDimension>
+ThreadedImageRegionPartitioner<VDimension>
 ::~ThreadedImageRegionPartitioner()
-{}
-
-/**
- *
- */
-template <unsigned int VDimension, class TDataHolder>
-void
-ThreadedImageRegionPartitioner<VDimension, TDataHolder>
-::SetCompleteRegion(  const ImageRegionType& region )
 {
-  this->SetCompleteDomain( region );
 }
 
-/**
- *
- */
-template <unsigned int VDimension, class TDataHolder>
+template <unsigned int VDimension>
 ThreadIdType
-ThreadedImageRegionPartitioner<VDimension, TDataHolder>
+ThreadedImageRegionPartitioner<VDimension>
 ::PartitionDomain( const ThreadIdType threadID,
                         const ThreadIdType requestedTotal,
                         const DomainType &completeRegion,
@@ -66,9 +47,9 @@ ThreadedImageRegionPartitioner<VDimension, TDataHolder>
   const ThreadIdType  singleThread = 1;
 
   // Initialize the subRegion to the output requested region
-  subRegion = completeRegion;
+  subRegion            = completeRegion;
   IndexType splitIndex = subRegion.GetIndex();
-  SizeType splitSize = subRegion.GetSize();
+  SizeType  splitSize  = subRegion.GetSize();
 
   // Protect against division by 0 below. Seems this would be a bug
   // in MultiThreader if it passed 0 for requestedTotal.

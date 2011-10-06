@@ -22,8 +22,9 @@
  */
 int itkThreadedImageRegionPartitionerTest(int , char* [])
 {
-  typedef itk::ThreadedImageRegionPartitioner<2, itk::Object> ThreadedImageRegionPartitionerType;
+  const unsigned int Dimension = 2;
 
+  typedef itk::ThreadedImageRegionPartitioner< Dimension > ThreadedImageRegionPartitionerType;
   ThreadedImageRegionPartitionerType::Pointer threadedImageRegionPartitioner = ThreadedImageRegionPartitionerType::New();
 
   typedef ThreadedImageRegionPartitionerType::ImageRegionType ImageRegionType;
@@ -32,17 +33,57 @@ int itkThreadedImageRegionPartitionerTest(int , char* [])
   typedef ImageRegionType::IndexType  IndexType;
 
   SizeType size;
-  IndexType start;
+  IndexType index;
 
-  size.Fill(100);
-  start.Fill(0);
+  size.Fill(97);
+  index.Fill(4);
 
-  ImageRegionType region;
+  ImageRegionType completeRegion;
 
-  region.SetSize( size );
-  region.SetIndex( start );
+  completeRegion.SetSize( size );
+  completeRegion.SetIndex( index );
 
-  threadedImageRegionPartitioner->SetCompleteRegion( region );
+  // Define the expected results
+  ImageRegionType expectedRegion;
+  std::vector< ImageRegionType > expectedSubRegions;
+  size[1] = 25;
+  expectedRegion.SetIndex( index );
+  expectedRegion.SetSize( size );
+  expectedSubRegions.push_back( expectedRegion );
+
+  index[1] = 29;
+  expectedRegion.SetIndex( index );
+  expectedSubRegions.push_back( expectedRegion );
+
+  index[1] = 54;
+  expectedRegion.SetIndex( index );
+  expectedSubRegions.push_back( expectedRegion );
+
+  index[1] = 79;
+  expectedRegion.SetIndex( index );
+  size[1]  = 22;
+  expectedRegion.SetSize( size );
+  expectedSubRegions.push_back( expectedRegion );
+
+  const itk::ThreadIdType totalThreads = 4;
+  ImageRegionType subRegion;
+  for( itk::ThreadIdType i = 0; i < totalThreads; ++i )
+    {
+    threadedImageRegionPartitioner->PartitionDomain( i,
+                                                     totalThreads,
+                                                     completeRegion,
+                                                     subRegion );
+    std::cout << "The resulting subregion for thread: " << i
+              << " is : " << subRegion << std::endl;
+
+    if( expectedSubRegions[i] != subRegion )
+      {
+      std::cerr << "The calculated sub-region, " << subRegion
+                << " did not match the expected region: " << expectedSubRegions[i]
+                << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
 
   return EXIT_SUCCESS;
 }
