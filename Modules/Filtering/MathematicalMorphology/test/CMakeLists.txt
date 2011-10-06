@@ -42,7 +42,11 @@ itk_add_test(NAME itkClosingByReconstructionImageFilterTest2
               ${ITK_TEST_OUTPUT_DIR}/ClosingByReconstructionImageFilterTest2.png
     itkClosingByReconstructionImageFilterTest DATA{${ITK_DATA_ROOT}/Input/closerec1.jpg} ${ITK_TEST_OUTPUT_DIR}/ClosingByReconstructionImageFilterTest2.png 4 1 ${ITK_TEST_OUTPUT_DIR}/ClosingByReconstructionImageFilterTestSubtract2.png)
 itk_add_test(NAME itkFlatStructuringElementTest
-      COMMAND ITKMathematicalMorphologyTestDriver itkFlatStructuringElementTest)
+      COMMAND ITKMathematicalMorphologyTestDriver
+              --redirectOutput ${ITK_TEST_OUTPUT_DIR}/itkFlatStructuringElementTest.txt
+    itkFlatStructuringElementTest)
+set_tests_properties(itkFlatStructuringElementTest PROPERTIES ATTACHED_FILES_ON_FAIL ${ITK_TEST_OUTPUT_DIR}/itkFlatStructuringElementTest.txt)
+
 itk_add_test(NAME itkGrayscaleConnectedClosingImageFilterTest
       COMMAND ITKMathematicalMorphologyTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/GrayscaleConnectedClosingImageFilterTest.png}

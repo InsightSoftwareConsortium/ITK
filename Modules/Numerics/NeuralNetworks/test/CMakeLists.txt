@@ -13,14 +13,22 @@ XORTest2.cxx
 CreateTestDriver(ITKNeuralNetworks  "${ITKNeuralNetworks-Test_LIBRARIES}" "${ITKNeuralNetworksTests}")
 
 itk_add_test(NAME NNetClassifierTest1
-      COMMAND ITKNeuralNetworksTestDriver NNetClassifierTest1
-              DATA{${ITK_DATA_ROOT}/Input/NeuralNetworks/train.txt} DATA{${ITK_DATA_ROOT}/Input/NeuralNetworks/test.txt})
+      COMMAND ITKNeuralNetworksTestDriver --redirectOutput ${ITK_TEST_OUTPUT_DIR}/NNetClassifierTest1.txt
+    NNetClassifierTest1
+        DATA{${ITK_DATA_ROOT}/Input/NeuralNetworks/train.txt} DATA{${ITK_DATA_ROOT}/Input/NeuralNetworks/test.txt})
+set_tests_properties(NNetClassifierTest1 PROPERTIES ATTACHED_FILES_ON_FAIL ${ITK_TEST_OUTPUT_DIR}/NNetClassifierTest1)
+
+
 itk_add_test(NAME NNetClassifierTest2
       COMMAND ITKNeuralNetworksTestDriver NNetClassifierTest2
               DATA{${ITK_DATA_ROOT}/Input/NeuralNetworks/train.txt} DATA{${ITK_DATA_ROOT}/Input/NeuralNetworks/test.txt})
+
 itk_add_test(NAME NNetClassifierTest3
-      COMMAND ITKNeuralNetworksTestDriver NNetClassifierTest3
-              DATA{${ITK_DATA_ROOT}/Input/NeuralNetworks/train.txt} DATA{${ITK_DATA_ROOT}/Input/NeuralNetworks/test.txt})
+      COMMAND ITKNeuralNetworksTestDriver --redirectOutput ${ITK_TEST_OUTPUT_DIR}/NNetClassifierTest3.txt
+    NNetClassifierTest3
+        DATA{${ITK_DATA_ROOT}/Input/NeuralNetworks/train.txt} DATA{${ITK_DATA_ROOT}/Input/NeuralNetworks/test.txt})
+set_tests_properties(NNetClassifierTest3 PROPERTIES ATTACHED_FILES_ON_FAIL ${ITK_TEST_OUTPUT_DIR}/NNetClassifierTest3)
+
 itk_add_test(NAME NNetClassifierTest4
       COMMAND ITKNeuralNetworksTestDriver NNetClassifierTest4
               DATA{${ITK_DATA_ROOT}/Input/NeuralNetworks/train.txt} DATA{${ITK_DATA_ROOT}/Input/NeuralNetworks/test.txt})

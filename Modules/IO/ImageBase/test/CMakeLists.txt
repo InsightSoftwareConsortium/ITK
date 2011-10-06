@@ -63,9 +63,14 @@ itk_add_test(NAME itkIOCommonTest2
       COMMAND ITKIOImageBaseTestDriver itkIOCommonTest2)
 itk_add_test(NAME itkNumericSeriesFileNamesTest
       COMMAND ITKIOImageBaseTestDriver itkNumericSeriesFileNamesTest)
+
 itk_add_test(NAME itkRegularExpressionSeriesFileNamesTest
-      COMMAND ITKIOImageBaseTestDriver itkRegularExpressionSeriesFileNamesTest
+      COMMAND ITKIOImageBaseTestDriver --redirectOutput ${ITK_TEST_OUTPUT_DIR}/itkRegularExpressionSeriesFileNamesTest.txt
+    itkRegularExpressionSeriesFileNamesTest
               ${ITK_DATA_ROOT}/Input)
+set_tests_properties(itkRegularExpressionSeriesFileNamesTest PROPERTIES ATTACHED_FILES_ON_FAIL ${ITK_TEST_OUTPUT_DIR}/itkRegularExpressionSeriesFileNamesTest.txt)
+
+
 itk_add_test(NAME itkImageFileReaderDimensionsTest_MHD
       COMMAND ITKIOImageBaseTestDriver itkImageFileReaderDimensionsTest
               DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha} ${ITK_TEST_OUTPUT_DIR} mha)
