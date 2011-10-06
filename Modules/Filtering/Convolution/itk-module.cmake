@@ -7,6 +7,7 @@ itk_module(ITKConvolution
     ITKFFT
     ITKImageGrid
     ITKImageIntensity
+    ITKThresholding
   TEST_DEPENDS
     ITKTestKernel
   DESCRIPTION

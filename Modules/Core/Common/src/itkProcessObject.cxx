@@ -1042,8 +1042,10 @@ ProcessObject
   if ( ninputs < m_NumberOfRequiredInputs )
     {
     itkExceptionMacro(<< "At least " << m_NumberOfRequiredInputs
+                      << " of the first " << m_NumberOfRequiredInputs
                       << " inputs are required but only " << ninputs
-                      << " are specified.");
+                      << " are specified."
+                      << " The required inputs are expected to be the first inputs.");
     }
 }
 
