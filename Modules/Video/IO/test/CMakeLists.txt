@@ -5,7 +5,10 @@ set(ITKVideoIOTests
   itkFileListVideoIOFactoryTest.cxx
 )
 
-CreateTestDriver(ITKVideoIO "${ITKVideoIO-Test_LIBRARIES}" "${ITKVideoIOTests}")
+CreateTestDriver(ITKVideoIO
+  "${ITKVideoIO-Test_LIBRARIES}"
+  "${ITKVideoIOTests}"
+)
 
 # VideoFileRederWriterTest:
 itk_add_test(
