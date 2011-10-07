@@ -123,10 +123,8 @@ private:
   BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor( const Self & ); //purposely not implemented
   void operator=( const Self & );             //purposely not implemented
 
-  SplineOrderType             m_SplineOrder;
   ArrayType                   m_NumberOfControlPointsForTheUpdateField;
   ArrayType                   m_NumberOfControlPointsForTheTotalField;
-  bool                        m_EnforceStationaryBoundary;
   unsigned long               m_NumberOfControlPointsForTheUpdateFieldSetTime;
   unsigned long               m_NumberOfControlPointsForTheTotalFieldSetTime;
 
