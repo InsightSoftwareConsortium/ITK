@@ -33,6 +33,9 @@ RegistrationParameterScalesEstimator< TMetric >
   // number for random sampling
   m_NumberOfRandomSamples = 0;
 
+  // default sampling strategy
+  m_SamplingStrategy = FullDomainSampling;
+
   // the metric object must be set before EstimateScales()
 }
 

@@ -40,6 +40,7 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
 {
   this->m_GaussianSmoothingVarianceForTheUpdateField = 3.0;
   this->m_GaussianSmoothingVarianceForTheTotalField = 0.5;
+  this->m_GaussianSmoothingTempFieldModifiedTime = 0;
 }
 
 /**
