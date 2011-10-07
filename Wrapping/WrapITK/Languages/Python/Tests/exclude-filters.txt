@@ -1,6 +1,5 @@
 UnaryFunctorImageFilter
 ReconstructionImageFilter
-PadImageFilter
 ObjectMorphologyImageFilter
 MovingHistogramDilateImageFilter
 MovingHistogramErodeImageFilter
@@ -61,3 +60,4 @@ AttributeUniqueLabelMapFilter
 BinaryReconstructionLabelMapFilter
 LabelMapToAttributeImageFilter
 ConvertLabelMapFilter
+HistogramToImageFilter
