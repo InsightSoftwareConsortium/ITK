@@ -27,6 +27,20 @@ if (redirectOutputParameters.redirect)
   std::cout.rdbuf(oldCoutBuf);
   redirectStream.close();
   }
+
+// before the image to image compare we first check md5 hashes
+for( size_t li = 0; li < hashTestList.size(); ++li )
+  {
+  const char * testFilename = hashTestList[li].first;
+
+  int ret = 0;
+
+  if ( (ret = HashTestImage( testFilename, hashTestList[li].second )) )
+    {
+    result += ret;
+    }
+  }
+
 // Make a list of possible baselines
 for ( int ii = 0;
       ii < static_cast< int >( regressionTestParameters.compareList.size() );
