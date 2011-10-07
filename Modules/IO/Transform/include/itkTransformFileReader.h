@@ -74,12 +74,6 @@ protected:
   virtual ~TransformFileReader();
   void CreateTransform(TransformPointer & ptr, const std::string & ClassName);
 
-  /** Flag set by CompositeTransformReader.
-   * \warning This is TEMPORARY and should only be used
-   * internally. Used for testing during transition to final CompositeTransform
-   * IO method */
-  bool m_ReadingCompositeTransform;
-
 private:
   TransformListType m_TransformList;
 };

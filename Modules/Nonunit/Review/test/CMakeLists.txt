@@ -89,9 +89,6 @@ itkVectorCentralDifferenceImageFunctionTest.cxx
 itkVoxBoCUBImageIOTest.cxx
 itkWarpHarmonicEnergyCalculatorTest.cxx
 itkWarpJacobianDeterminantFilterTest.cxx
-itkCompositeTransformWriterTest.cxx
-itkCompositeTransformReaderTest.cxx
-itkCompositeTransformWriterAndReaderTest.cxx
 )
 
 set(BASELINE ${ITK_DATA_ROOT}/Baseline/Review)
@@ -785,10 +782,3 @@ itk_add_test(NAME itkHessianToObjectnessMeasureImageFilterTest2
   DATA{${INPUTDATA}/DSA.png}
   ${TEMP}/itkHessianToObjectnessMeasureImageFilterTestOutput2.mha
   0 0)
-itk_add_test(NAME itkCompositeTransformReaderTest
-      COMMAND ITKReviewTestDriver itkCompositeTransformReaderTest)
-itk_add_test(NAME itkCompositeTransformWriterTest
-      COMMAND ITKReviewTestDriver itkCompositeTransformWriterTest ${TEMP})
-itk_add_test(NAME itkCompositeTransformWriterAndReaderTest
-      COMMAND ITKReviewTestDriver
-      itkCompositeTransformWriterAndReaderTest ${TEMP})

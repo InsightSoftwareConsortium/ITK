@@ -87,6 +87,8 @@ private:
   /** write a string variable */
   void WriteString(const std::string &path, const std::string &value);
   void WriteString(const std::string &path, const char *value);
+  void WriteOneTransform(const int transformIndex,
+                         const TransformType *transform);
 
   H5::H5File *m_H5File;
 };

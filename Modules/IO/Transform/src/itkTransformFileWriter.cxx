@@ -65,16 +65,6 @@ bool TransformFileWriter::GetAppendMode()
 /** Set the input transform and reinitialize the list of transforms */
 void TransformFileWriter::SetInput(const TransformType *transform)
 {
-  /* Check for a CompositeTransform. This check can be removed
-   * once the CompositeTransform IO is moved into this class and
-   * TranformFileReader */
-  std::string transformName = transform->GetNameOfClass();
-  if( transformName.find("CompositeTransform") != std::string::npos )
-    {
-    itkExceptionMacro("Cannot write a transform of type CompositeTransform. "
-                      "Use CompositeTransformWriter instead.");
-    }
-
   m_TransformList.clear();
   m_TransformList.push_back( ConstTransformPointer(transform) );
 }
@@ -88,14 +78,18 @@ const TransformFileWriter::TransformType * TransformFileWriter::GetInput()
 /** Add a transform to be written */
 void TransformFileWriter::AddTransform(const TransformType *transform)
 {
-  /* Check for a CompositeTransform. This check can be removed
-   * once the CompositeTransform IO is moved into this class and
-   * TranformFileReader */
+  /* Check for a CompositeTransform.
+   * The convention is that there should be one, and it should
+   * be the first transform in the file
+   */
   std::string transformName = transform->GetNameOfClass();
   if( transformName.find("CompositeTransform") != std::string::npos )
     {
-    itkExceptionMacro("Cannot write a transform of type CompositeTransform. "
-                      "Use CompositeTransformWriter instead.");
+    if(this->m_TransformList.size() > 0)
+      {
+      itkExceptionMacro("Can only write a transform of type CompositeTransform "
+                        "as the first transform in the file.");
+      }
     }
 
   m_TransformList.push_back( ConstTransformPointer(transform) );

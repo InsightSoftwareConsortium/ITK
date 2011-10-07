@@ -20,6 +20,8 @@
 #include "vnl/vnl_matlab_read.h"
 #include "vnl/vnl_matlab_write.h"
 #include "itkTransformFileReader.h"
+#include "itkCompositeTransform.h"
+#include "itkCompositeTransformIOHelper.h"
 
 namespace itk
 {
@@ -270,25 +272,54 @@ TxtTransformIO::Read()
 void
 TxtTransformIO::Write()
 {
-  ConstTransformListType::iterator it = this->GetWriteTransformList().begin();
+  ConstTransformListType &transformList =
+    this->GetWriteTransformList();
 
-  vnl_vector< double > TempArray;
   std::ofstream        out;
   this->OpenStream(out, false);
 
   out << "#Insight Transform File V1.0" << std::endl;
-  int count = 0;
-  while ( it != this->GetWriteTransformList().end() )
+
+  const std::string CompositeTransformTypeName =
+    transformList.front()->GetTransformTypeAsString();
+  //
+  // if the first transform in the list is a
+  // composite transform, use its internal list
+  // instead of the IO
+  CompositeTransformIOHelper helper;
+  if(CompositeTransformTypeName.find("CompositeTransform") != std::string::npos)
     {
+    transformList = helper.GetTransformList(transformList.front().GetPointer());
+    }
+  vnl_vector< double > TempArray;
+  int count = 0;
+
+  ConstTransformListType::const_iterator end = transformList.end();
+
+  for (ConstTransformListType::const_iterator it = transformList.begin();
+       it != end; ++it,++count )
+    {
+    const std::string TransformTypeName = ( *it )->GetTransformTypeAsString();
     out << "#Transform " << count << std::endl;
     out << "Transform: " << ( *it )->GetTransformTypeAsString() << std::endl;
-
-    TempArray = ( *it )->GetParameters();
-    out << "Parameters: " << TempArray << std::endl;
-    TempArray = ( *it )->GetFixedParameters();
-    out << "FixedParameters: " << TempArray << std::endl;
-    it++;
-    count++;
+    //
+    // Composite Transforms are not written out with parameters;
+    // their parameters are the union of all their component
+    // transforms' parameters.
+    if(TransformTypeName.find("CompositeTransform") != std::string::npos)
+      {
+      if(count > 0)
+        {
+        itkExceptionMacro(<< "Composite Transform can only be 1st transform in a file");
+        }
+      }
+    else
+      {
+      TempArray = ( *it )->GetParameters();
+      out << "Parameters: " << TempArray << std::endl;
+      TempArray = ( *it )->GetFixedParameters();
+      out << "FixedParameters: " << TempArray << std::endl;
+      }
     }
   out.close();
 }

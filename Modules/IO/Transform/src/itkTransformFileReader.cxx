@@ -18,6 +18,8 @@
 #include "itkTransformFileReader.h"
 #include "itkTransformFactoryBase.h"
 #include "itkTransformIOFactory.h"
+#include "itkCompositeTransform.h"
+#include "itkCompositeTransformIOHelper.h"
 
 namespace itk
 {
@@ -27,8 +29,6 @@ TransformFileReader
 {
   m_FileName = "";
   TransformFactoryBase::RegisterDefaultTransforms();
-  /* to be removed soon. See .h */
-  m_ReadingCompositeTransform = false;
 }
 
 /** Destructor */
@@ -55,24 +55,32 @@ void TransformFileReader
   transformIO->SetFileName(m_FileName);
   transformIO->Read();
 
-  /* Check for a CompositeTransform. This check can be removed
-   * once the CompositeTransform IO is moved into this class and
-   * TranformFileWriter */
-  if( ! m_ReadingCompositeTransform )
-    {
-    std::string transformName =
-                   transformIO->GetTransformList().front()->GetNameOfClass();
-    if( transformName.find("CompositeTransform") != std::string::npos )
-      {
-      itkExceptionMacro("Cannot read a file of type CompositeTransform. Use "
-                        " CompositeTransformReader instead. ");
-      }
-    }
+  TransformIOBase::TransformListType &ioTransformList =
+    transformIO->GetTransformList();
+
   for ( TransformListType::iterator it =
-          transformIO->GetTransformList().begin();
-        it != transformIO->GetTransformList().end(); ++it )
+          ioTransformList.begin();
+        it != ioTransformList.end(); ++it )
     {
     this->m_TransformList.push_back( TransformPointer(*it) );
+    }
+
+  //
+  // in the case where the first transform in the list is a
+  // CompositeTransform, add all the transforms to that first
+  // transform.
+  std::string transformName =
+    ioTransformList.front()->GetNameOfClass();
+  if(transformName.find("CompositeTransform") != std::string::npos)
+    {
+
+    TransformListType::const_iterator tit = ioTransformList.begin();
+    TransformType *composite = (*tit).GetPointer();
+    //
+    // CompositeTransformIOHelper knows how to assign to the composite
+    // transform's internal list
+    CompositeTransformIOHelper helper;
+    helper.SetTransformList(composite,ioTransformList);
     }
 }
 

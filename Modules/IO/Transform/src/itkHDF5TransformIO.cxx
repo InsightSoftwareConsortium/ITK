@@ -18,9 +18,10 @@
 #include "itkHDF5TransformIO.h"
 #include "itksys/SystemTools.hxx"
 #include "itksys/SystemInformation.hxx"
+#include "itkCompositeTransform.h"
+#include "itkCompositeTransformIOHelper.h"
 #include "itkVersion.h"
 #include <sstream>
-
 #include "itk_H5Cpp.h"
 
 namespace itk
@@ -252,17 +253,21 @@ HDF5TransformIO::Read()
       TransformPointer transform;
       this->CreateTransform(transform,transformType);
       this->GetReadTransformList().push_back (transform);
+      //
+      // Composite transform doesn't store its own parameters
+      if(transformType.find("CompositeTransform") == std::string::npos)
+        {
+        std::string fixedParamsName(transformName);
+        fixedParamsName += transformFixedName;
+        ParametersType params(this->ReadParameters(fixedParamsName));
+        transform->SetFixedParameters(params);
 
-      std::string fixedParamsName(transformName);
-      fixedParamsName += transformFixedName;
-      ParametersType params(this->ReadParameters(fixedParamsName));
-      transform->SetFixedParameters(params);
-
-      std::string paramsName(transformName);
-      paramsName += transformParamsName;
-      params = this->ReadParameters(paramsName);
-      transform->SetParametersByValue(params);
-      currentTransformGroup.close();
+        std::string paramsName(transformName);
+        paramsName += transformParamsName;
+        params = this->ReadParameters(paramsName);
+        transform->SetParametersByValue(params);
+        }
+        currentTransformGroup.close();
       }
     transformGroup.close();
     }
@@ -290,6 +295,47 @@ HDF5TransformIO::Read()
 
 void
 HDF5TransformIO
+::WriteOneTransform(const int transformIndex,
+                    const TransformBase *curTransform)
+{
+  std::string transformName(GetTransformName(transformIndex));
+  H5::Group transform = this->m_H5File->createGroup(transformName);
+  const std::string transformType = curTransform->GetTransformTypeAsString();
+  //
+  // write out transform type.
+  {
+  std::string typeName(transformName);
+  typeName += transformTypeName;
+  this->WriteString(typeName,transformType);
+  }
+  //
+  // composite transform doesn't store own parameters
+  if(transformType.find("CompositeTransform") != std::string::npos)
+    {
+    if(transformIndex != 0)
+      {
+      itkExceptionMacro(<< "Composite Transform can only be 1st transform in a file");
+      }
+    }
+  else
+    {
+    //
+    // write out Fixed Parameters
+    ParametersType tmpArray = curTransform->GetFixedParameters();
+    std::string fixedParamsName(transformName);
+    fixedParamsName += transformFixedName;
+    this->WriteParameters(fixedParamsName,tmpArray);
+    // parameters
+    tmpArray = curTransform->GetParameters();
+    std::string paramsName(transformName);
+    paramsName += transformParamsName;
+    this->WriteParameters(paramsName,tmpArray);
+    }
+}
+
+
+void
+HDF5TransformIO
 ::Write()
 {
   itksys::SystemInformation sysInfo;
@@ -304,39 +350,30 @@ HDF5TransformIO
     this->WriteString(OSVersion,sysInfo.GetOSRelease());
 
     H5::Group transformGroup = this->m_H5File->createGroup(transformGroupName);
-    int i = 0;
-    for(ConstTransformListType::iterator it =
-          this->GetWriteTransformList().begin();
-        it != this->GetWriteTransformList().end();
-        it++,i++)
+
+    ConstTransformListType &transformList =
+      this->GetWriteTransformList();
+
+    std::string compositeTransformType = transformList.front()->GetTransformTypeAsString();
+
+    CompositeTransformIOHelper helper;
+    //
+    // if the first transform in the list is a
+    // composite transform, use its internal list
+    // instead of the IO
+    if(compositeTransformType.find("CompositeTransform") != std::string::npos)
       {
-      std::string transformName(GetTransformName(i));
-      H5::Group transform = this->m_H5File->createGroup(transformName);
-      //
-      // write out transform type.
-      {
-      hsize_t numStrings(1);
-      H5::DataSpace typeSpace(1,&numStrings);
-      H5::StrType typeType(H5::PredType::C_S1,H5T_VARIABLE);
-      std::string typeName(transformName);
-      typeName += transformTypeName;
-      H5::DataSet typeSet = this->m_H5File->createDataSet(typeName,typeType,typeSpace);
-      const std::string transformType =
-        (*it)->GetTransformTypeAsString();
-      typeSet.write(transformType,typeType);
-      typeSet.close();
+      transformList = helper.GetTransformList(transformList.front().GetPointer());
       }
-      //
-      // write out Fixed Parameters
-      ParametersType tmpArray = (*it)->GetFixedParameters();
-      std::string fixedParamsName(transformName);
-      fixedParamsName += transformFixedName;
-      this->WriteParameters(fixedParamsName,tmpArray);
-      // parameters
-      tmpArray = (*it)->GetParameters();
-      std::string paramsName(transformName);
-      paramsName += transformParamsName;
-      this->WriteParameters(paramsName,tmpArray);
+
+    ConstTransformListType::const_iterator end = transformList.end();
+
+    int count = 0;
+
+    for (ConstTransformListType::const_iterator it = transformList.begin();
+         it != end; ++it,++count )
+      {
+      this->WriteOneTransform(count,(*it).GetPointer());
       }
     }
   // catch failure caused by the H5File operations
