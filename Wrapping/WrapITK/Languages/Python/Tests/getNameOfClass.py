@@ -27,7 +27,7 @@ itk.force_load()
 
 # a list of classes to exclude. Typically, the classes with a custom New() method, which return a subclass
 # of the current class
-exclude = ["ForwardFFTImageFilter", "InverseFFTImageFilter", "OutputWindow", "FFTComplexToComplexImageFilter", "templated_class"]
+exclude = ["ForwardFFTImageFilter", "InverseFFTImageFilter", "OutputWindow", "FFTComplexToComplexImageFilter", "templated_class", "HalfHermitianToRealInverseFFTImageFilter", "RealToHalfHermitianForwardFFTImageFilter"]
 
 wrongName = False
 
@@ -47,7 +47,7 @@ for t in dir(itk):
         # and don't provide any New() method. In that case, the one of the superclass
         # is used.
         if 'GetNameOfClass' in dir(I):
-          print "Checking", t
+          # print "Checking", t
           n = I.GetNameOfClass()
           if n != t and itk.class_(I) == i:
             print >> sys.stderr, t, "doesn't provide the right name."
@@ -56,7 +56,7 @@ for t in dir(itk):
       if 'New' in dir(T):
         I = T.New()
         if 'GetNameOfClass' in dir(I):
-          print "Checking", t
+          # print "Checking", t
           n = I.GetNameOfClass()
           if n != t and itk.class_(I) == T:
             print >> sys.stderr, t, "doesn't provide the right name."
