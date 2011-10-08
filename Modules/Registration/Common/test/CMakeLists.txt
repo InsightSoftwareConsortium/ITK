@@ -193,4 +193,6 @@ itk_add_test(NAME itkMutualInformationMetricTest
 itk_add_test(NAME itkPointSetToPointSetRegistrationTest
       COMMAND ITKRegistrationCommonTestDriver itkPointSetToPointSetRegistrationTest)
 itk_add_test(NAME itkSpatialObjectToImageRegistrationTest
-      COMMAND ITKRegistrationCommonTestDriver itkSpatialObjectToImageRegistrationTest)
+      COMMAND ITKRegistrationCommonTestDriver --redirectOutput itkSpatialObjectToImageRegistrationTest.txt
+          itkSpatialObjectToImageRegistrationTest)
+set_tests_properties(itkSpatialObjectToImageRegistrationTest PROPERTIES ATTACHED_FILES_ON_FAIL ${ITK_TEST_OUTPUT_DIR}/itkSpatialObjectToImageRegistrationTest.txt)

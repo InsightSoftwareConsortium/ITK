@@ -188,17 +188,24 @@ itk_add_test(NAME itkDiffeomorphicDemonsRegistrationFilterTest01
       COMMAND ITKReviewTestDriver itkDiffeomorphicDemonsRegistrationFilterTest
               0 0 0.001 20.0 200 0.01 0.08 5 10)
 itk_add_test(NAME itkDiffeomorphicDemonsRegistrationFilterTest02
-      COMMAND ITKReviewTestDriver itkDiffeomorphicDemonsRegistrationFilterTest
+      COMMAND ITKReviewTestDriver --redirectOutput itkDiffeomorphicDemonsRegistrationFilterTest02 --redirectOutput ${TEMP}/itkDiffeomorphicDemonsRegistrationFilterTest02.txt
+          itkDiffeomorphicDemonsRegistrationFilterTest
               1 0 0.01 3.0 400 0.2 0.9 10 70)
+set_tests_properties(itkDiffeomorphicDemonsRegistrationFilterTest02 PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/itkDiffeomorphicDemonsRegistrationFilterTest02.txt)
+
 itk_add_test(NAME itkDiffeomorphicDemonsRegistrationFilterTest03
       COMMAND ITKReviewTestDriver itkDiffeomorphicDemonsRegistrationFilterTest
               2 0 0.001 20.0 200 0.01 0.08 5 10)
 itk_add_test(NAME itkDiffeomorphicDemonsRegistrationFilterTest04
       COMMAND ITKReviewTestDriver itkDiffeomorphicDemonsRegistrationFilterTest
               3 0 0.01 3.0 200 0.2 0.8 5 70)
+
 itk_add_test(NAME itkDiffeomorphicDemonsRegistrationFilterTest05
-      COMMAND ITKReviewTestDriver itkDiffeomorphicDemonsRegistrationFilterTest
+      COMMAND ITKReviewTestDriver --redirectOutput ${TEMP}/itkDiffeomorphicDemonsRegistrationFilterTest05.txt
+          itkDiffeomorphicDemonsRegistrationFilterTest
               0 1 0.01 3.0 400 0.2 0.08 5 70)
+set_tests_properties(itkDiffeomorphicDemonsRegistrationFilterTest05 PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/itkDiffeomorphicDemonsRegistrationFilterTest05.txt)
+
 itk_add_test(NAME itkDiffeomorphicDemonsRegistrationFilterTest06
       COMMAND ITKReviewTestDriver itkDiffeomorphicDemonsRegistrationFilterTest
               0 0 0.005 20.0 200 0.01 0.08 5 10)
@@ -578,19 +585,27 @@ itk_add_test(NAME itkN4MRIBiasFieldCorrectionImageFilterTest2
 itk_add_test(NAME itkNeuralNetworkIOTest
       COMMAND ITKReviewTestDriver itkNeuralNetworkIOTest
               DATA{${ITK_DATA_ROOT}/Input/xornet.txt} DATA{${ITK_DATA_ROOT}/Input/xortest.txt} ${ITK_TEST_OUTPUT_DIR})
+
 itk_add_test(NAME itkOptImageToImageMetricsTest01
-      COMMAND ITKReviewTestDriver itkOptImageToImageMetricsTest
-              ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png
-              ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png)
-itk_add_test(NAME itkOptImageToImageMetricsTest02
-      COMMAND ITKReviewTestDriver --with-threads 2
+      COMMAND ITKReviewTestDriver --redirectOutput ${TEMP}/itkOptImageToImageMetricsTest01.txt
               itkOptImageToImageMetricsTest
               ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png
               ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png)
+set_tests_properties(itkOptImageToImageMetricsTest01 PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/itkOptImageToImageMetricsTest01.txt)
+
+itk_add_test(NAME itkOptImageToImageMetricsTest02
+      COMMAND ITKReviewTestDriver --with-threads 2 --redirectOutput ${TEMP}/itkOptImageToImageMetricsTest02.txt
+              itkOptImageToImageMetricsTest
+              ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png
+              ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png)
+set_tests_properties(itkOptImageToImageMetricsTest02 PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/itkOptImageToImageMetricsTest02.txt)
+
 itk_add_test(NAME itkOptImageToImageMetricsTest03
-      COMMAND ITKReviewTestDriver --without-threads
+      COMMAND ITKReviewTestDriver --without-threads --redirectOutput ${TEMP}/itkOptImageToImageMetricsTest03.txt
               itkOptImageToImageMetricsTest
               ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png)
+set_tests_properties(itkOptImageToImageMetricsTest03 PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/itkOptImageToImageMetricsTest03.txt)
+
 itk_add_test(NAME itkOptImageToImageMetricsTest04
       COMMAND ITKReviewTestDriver
       itkOptImageToImageMetricsTest2

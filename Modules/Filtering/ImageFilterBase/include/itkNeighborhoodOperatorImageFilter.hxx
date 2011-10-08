@@ -110,7 +110,7 @@ NeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueType >
   ImageRegionIterator< OutputImageType > it;
 
   // support progress methods/callbacks
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
+  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() , 10);
 
   // Process non-boundary region and each of the boundary faces.
   // These are N-d regions which border the edge of the buffer.

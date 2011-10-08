@@ -22,6 +22,8 @@ itkLaplacianRecursiveGaussianImageFilterTest.cxx
 
 CreateTestDriver(ITKImageFeature  "${ITKImageFeature-Test_LIBRARIES}" "${ITKImageFeatureTests}")
 
+set(TEMP ${ITK_TEST_OUTPUT_DIR})
+
 itk_add_test(NAME itkZeroCrossingBasedEdgeDetectionImageFilterTest
       COMMAND ITKImageFeatureTestDriver itkZeroCrossingBasedEdgeDetectionImageFilterTest)
 itk_add_test(NAME itkLaplacianImageFilterTest
@@ -32,8 +34,12 @@ itk_add_test(NAME itkHessian3DToVesselnessMeasureImageFilterTest
       COMMAND ITKImageFeatureTestDriver itkHessian3DToVesselnessMeasureImageFilterTest)
 itk_add_test(NAME itkHessianRecursiveGaussianFilterScaleSpaceTest
       COMMAND ITKImageFeatureTestDriver itkHessianRecursiveGaussianFilterScaleSpaceTest)
+
 itk_add_test(NAME itkHessianRecursiveGaussianFilterTest
-      COMMAND ITKImageFeatureTestDriver itkHessianRecursiveGaussianFilterTest)
+      COMMAND ITKImageFeatureTestDriver --redirectOutput ${TEMP}/itkHessianRecursiveGaussianFilterTest.txt
+          itkHessianRecursiveGaussianFilterTest)
+set_tests_properties(itkHessianRecursiveGaussianFilterTest PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/itkHessianRecursiveGaussianFilterTest.txt)
+
 itk_add_test(NAME itkHoughTransform2DCirclesImageTest
       COMMAND ITKImageFeatureTestDriver itkHoughTransform2DCirclesImageTest)
 itk_add_test(NAME itkHoughTransform2DLinesImageTest

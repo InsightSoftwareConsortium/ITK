@@ -225,7 +225,12 @@ itk_add_test(NAME itkConstNeighborhoodIteratorTest
     itkConstNeighborhoodIteratorTest)
 set_tests_properties(itkConstNeighborhoodIteratorTest PROPERTIES ATTACHED_FILES_ON_FAIL ${ITK_TEST_OUTPUT_DIR}/itkConstNeighborhoodIteratorTest.txt)
 
-itk_add_test(NAME itkShapedNeighborhoodIteratorTest COMMAND ITKCommon2TestDriver itkShapedNeighborhoodIteratorTest)
+itk_add_test(NAME itkShapedNeighborhoodIteratorTest
+      COMMAND ITKCommon2TestDriver  --redirectOutput ${TEMP}/itkShapedNeighborhoodIteratorTest.txt
+    itkShapedNeighborhoodIteratorTest)
+set_tests_properties(itkShapedNeighborhoodIteratorTest PROPERTIES ATTACHED_FILES_ON_FAIL ${ITK_TEST_OUTPUT_DIR}/itkShapedNeighborhoodIteratorTest.txt)
+
+
 itk_add_test(NAME itkConstShapedNeighborhoodIteratorTest COMMAND ITKCommon2TestDriver itkConstShapedNeighborhoodIteratorTest)
 itk_add_test(NAME itkConstShapedNeighborhoodIteratorTest2 COMMAND ITKCommon2TestDriver itkConstShapedNeighborhoodIteratorTest2)
 itk_add_test(NAME itkEventObjectTest COMMAND ITKCommon1TestDriver itkEventObjectTest)

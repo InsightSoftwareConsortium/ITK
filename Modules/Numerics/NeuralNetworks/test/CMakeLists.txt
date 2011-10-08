@@ -16,7 +16,7 @@ itk_add_test(NAME NNetClassifierTest1
       COMMAND ITKNeuralNetworksTestDriver --redirectOutput ${ITK_TEST_OUTPUT_DIR}/NNetClassifierTest1.txt
     NNetClassifierTest1
         DATA{${ITK_DATA_ROOT}/Input/NeuralNetworks/train.txt} DATA{${ITK_DATA_ROOT}/Input/NeuralNetworks/test.txt})
-set_tests_properties(NNetClassifierTest1 PROPERTIES ATTACHED_FILES_ON_FAIL ${ITK_TEST_OUTPUT_DIR}/NNetClassifierTest1)
+set_tests_properties(NNetClassifierTest1 PROPERTIES ATTACHED_FILES_ON_FAIL ${ITK_TEST_OUTPUT_DIR}/NNetClassifierTest1.txt)
 
 
 itk_add_test(NAME NNetClassifierTest2
@@ -33,8 +33,11 @@ itk_add_test(NAME NNetClassifierTest4
       COMMAND ITKNeuralNetworksTestDriver NNetClassifierTest4
               DATA{${ITK_DATA_ROOT}/Input/NeuralNetworks/train.txt} DATA{${ITK_DATA_ROOT}/Input/NeuralNetworks/test.txt})
 itk_add_test(NAME RBFTest1
-      COMMAND ITKNeuralNetworksTestDriver RBFTest1
+      COMMAND ITKNeuralNetworksTestDriver --redirectOutput RBFTest1.txt
+          RBFTest1
               DATA{${ITK_DATA_ROOT}/Input/NeuralNetworks/rbf_multivar_gauss_train.txt} DATA{${ITK_DATA_ROOT}/Input/NeuralNetworks/rbf_multivar_gauss_test.txt})
+set_tests_properties(RBFTest1 PROPERTIES ATTACHED_FILES_ON_FAIL ${ITK_TEST_OUTPUT_DIR}/RBFTest1.txt)
+
 itk_add_test(NAME QPropXORTest1
       COMMAND ITKNeuralNetworksTestDriver QPropXORTest1
               DATA{${ITK_DATA_ROOT}/Input/NeuralNetworks/qpropxortest.txt})
