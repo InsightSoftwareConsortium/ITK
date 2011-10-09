@@ -70,6 +70,8 @@ itkNormalizeToConstantImageFilterTest.cxx
 
 CreateTestDriver(ITKImageIntensity  "${ITKImageIntensity-Test_LIBRARIES}" "${ITKImageIntensityTests}")
 
+set(TEMP ${ITK_TEST_OUTPUT_DIR})
+
 itk_add_test(NAME itkCosImageFilterAndAdaptorTest
       COMMAND ITKImageIntensityTestDriver itkCosImageFilterAndAdaptorTest)
 itk_add_test(NAME itkVectorRescaleIntensityImageFilterTest
@@ -136,8 +138,12 @@ itk_add_test(NAME itkWeightedAddImageFilterTest
       COMMAND ITKImageIntensityTestDriver itkWeightedAddImageFilterTest)
 itk_add_test(NAME itkRescaleIntensityImageFilterTest
       COMMAND ITKImageIntensityTestDriver itkRescaleIntensityImageFilterTest)
+
 itk_add_test(NAME itkNormalizeImageFilterTest
-      COMMAND ITKImageIntensityTestDriver itkNormalizeImageFilterTest)
+      COMMAND ITKImageIntensityTestDriver --redirectOutput ${TEMP}/itkNormalizeImageFilterTest.txt
+      itkNormalizeImageFilterTest)
+set_tests_properties(itkNormalizeImageFilterTest PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/itkNormalizeImageFilterTest.txt)
+
 itk_add_test(NAME itkNaryAddImageFilterTest
       COMMAND ITKImageIntensityTestDriver itkNaryAddImageFilterTest)
 itk_add_test(NAME itkShiftScaleImageFilterTest
