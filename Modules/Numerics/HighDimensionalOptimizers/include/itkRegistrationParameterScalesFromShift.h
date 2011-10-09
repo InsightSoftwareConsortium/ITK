@@ -64,13 +64,21 @@ public:
   typedef typename Superclass::FloatType                 FloatType;
 
   typedef typename Superclass::VirtualPointType          VirtualPointType;
+  typedef typename Superclass::VirtualIndexType          VirtualIndexType;
   typedef typename Superclass::MovingTransformType       MovingTransformType;
   typedef typename Superclass::FixedTransformType        FixedTransformType;
-  typedef typename Superclass::MovingJacobianType        MovingJacobianType;
-  typedef typename Superclass::FixedJacobianType         FixedJacobianType;
+  typedef typename Superclass::JacobianType              JacobianType;
+  typedef typename Superclass::VirtualImageConstPointer  VirtualImageConstPointer;
+
+  /** A switch for using physical space for shift computation or continuous index space */
+  itkSetMacro(UsePhysicalSpaceForShift, bool);
+  itkGetConstMacro(UsePhysicalSpaceForShift, bool);
 
   /** Estimate parameter scales */
   virtual void EstimateScales(ScalesType &scales);
+
+  /** Estimate the scale of a step */
+  virtual FloatType EstimateStepScale(const ParametersType &step);
 
 protected:
   RegistrationParameterScalesFromShift();
@@ -82,12 +90,19 @@ protected:
    * current parameters. */
   virtual FloatType ComputeMaximumVoxelShift(const ParametersType &deltaParameters);
 
-  /** The templated version of EstimateScalesFromMaximumShift.
-   *  The template argument may be either MovingTransformType
-   *  or FixedTransformType.
+  /** The templated method of compute the maximimum shift in continuous index.
+   *  The template argument TTransform may be either MovingTransformType or
+   *  FixedTransformType.
    */
-  template <class TTransform> FloatType ComputeMaximumVoxelShiftTemplated(
-                              const ParametersType &deltaParameters);
+  template <class TTransform> FloatType
+    ComputeMaximumIndexShiftTemplated(const ParametersType &deltaParameters);
+
+  /** The templated method of compute the maximimum shift in the phyiscal space.
+   *  The template argument TTransform may be either MovingTransformType or
+   *  FixedTransformType.
+   */
+  template <class TTransform> FloatType
+    ComputeMaximumPhysicalShiftTemplated(const ParametersType &deltaParameters);
 
 private:
   RegistrationParameterScalesFromShift(const Self&); //purposely not implemented
@@ -96,6 +111,8 @@ private:
   //A small variation of parameters
   typename ParametersType::ValueType   m_SmallParameterVariation;
 
+  //A switch for using physical space for shift computation or continuous index space
+  bool                                 m_UsePhysicalSpaceForShift;
 }; //class RegistrationParameterScalesFromShift
 
 

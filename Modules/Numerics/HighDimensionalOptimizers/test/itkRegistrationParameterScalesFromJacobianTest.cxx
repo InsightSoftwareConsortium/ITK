@@ -21,6 +21,7 @@
 #include "itkImage.h"
 #include "itkAffineTransform.h"
 #include "itkTranslationTransform.h"
+#include "itkDisplacementFieldTransform.h"
 
 /**
  *  \class RegistrationParameterScalesFromJacobianTestMetric for test.
@@ -83,6 +84,7 @@ public:
   typedef typename FixedImageType::ConstPointer   FixedImageConstPointer;
   typedef typename MovingImageType::ConstPointer  MovingImageConstPointer;
   typedef typename VirtualImageType::Pointer      VirtualImagePointer;
+  typedef typename VirtualImageType::RegionType   VirtualRegionType;
 
   /* Set/get images */
   /** Connect the Fixed Image.  */
@@ -96,7 +98,12 @@ public:
   /** Set all virtual domain image */
   itkSetObjectMacro(VirtualDomainImage, VirtualImageType);
   /** Get the virtual domain image */
-  itkGetObjectMacro(VirtualDomainImage, VirtualImageType);
+  itkGetConstObjectMacro(VirtualDomainImage, VirtualImageType);
+
+  const VirtualRegionType GetVirtualDomainRegion( void ) const
+  {
+    return this->m_VirtualDomainImage->GetBufferedRegion();
+  }
 
   /* Image dimension accessors */
   itkStaticConstMacro(FixedImageDimension, itk::SizeValueType,
@@ -118,8 +125,7 @@ public:
   typedef typename FixedTransformType::Pointer        FixedTransformPointer;
   typedef typename MovingTransformType::Pointer       MovingTransformPointer;
 
-  typedef typename FixedTransformType::JacobianType   FixedTransformJacobianType;
-  typedef typename MovingTransformType::JacobianType  MovingTransformJacobianType;
+  typedef typename FixedTransformType::JacobianType   JacobianType;
 
   /** Connect the fixed transform. */
   itkSetObjectMacro(FixedTransform, FixedTransformType);
@@ -151,7 +157,8 @@ int itkRegistrationParameterScalesFromJacobianTest(int , char* [])
 
   // Image begins
   const itk::SizeValueType    ImageDimension = 2;
-  typedef double         PixelType;
+  typedef double              PixelType;
+  typedef double              FloatType;
 
   // Image Types
   typedef itk::Image<PixelType,ImageDimension>           FixedImageType;
@@ -201,6 +208,7 @@ int itkRegistrationParameterScalesFromJacobianTest(int , char* [])
   jacobianScaleEstimator->SetMetric(metric);
   jacobianScaleEstimator->SetTransformForward(true); //by default
   jacobianScaleEstimator->Print( std::cout );
+  std::cout << std::endl;
 
   RegistrationParameterScalesFromJacobianType::ScalesType jacobianScales(
     movingTransform->GetNumberOfParameters());
@@ -242,19 +250,6 @@ int itkRegistrationParameterScalesFromJacobianTest(int , char* [])
       break;
       }
     }
-  bool nonUniformForJacobian = false;
-  for (itk::SizeValueType p = 1; p < jacobianScales.GetSize(); p++)
-    {
-    if (jacobianScales[p] != jacobianScales[0])
-      {
-      nonUniformForJacobian = true;
-      break;
-      }
-    }
-  // Check done
-
-  std::cout << std::endl;
-
   if (!jacobianPass)
     {
     std::cout << "Failed: the jacobian scales for the affine transform are not correct." << std::endl;
@@ -264,12 +259,140 @@ int itkRegistrationParameterScalesFromJacobianTest(int , char* [])
     std::cout << "Passed: the jacobian scales for the affine transform are correct." << std::endl;
     }
 
+  bool nonUniformForJacobian = false;
+  for (itk::SizeValueType p = 1; p < jacobianScales.GetSize(); p++)
+    {
+    if (jacobianScales[p] != jacobianScales[0])
+      {
+      nonUniformForJacobian = true;
+      break;
+      }
+    }
   if (!nonUniformForJacobian)
     {
     std::cout << "Error: the jacobian scales for an affine transform are equal for all parameters." << std::endl;
     }
 
-  if (jacobianPass && nonUniformForJacobian)
+  // Testing the step scale for the affine transform
+  MovingTransformType::ParametersType movingStep(movingTransform->GetNumberOfParameters());
+  movingStep = movingTransform->GetParameters();
+  FloatType stepScale = jacobianScaleEstimator->EstimateStepScale(movingStep);
+  std::cout << "The step scale of Jacobian for the affine transform = " << stepScale << std::endl;
+  FloatType learningRate = 1.0 / stepScale;
+  std::cout << "The learning rate of Jacobian for the affine transform = " << learningRate << std::endl;
+
+  FloatType theoreticalStepScale = 0.0;
+  itk::SizeValueType count = 0.0;
+  VirtualImageType::PointType lowerPoint;
+  virtualImage->TransformIndexToPhysicalPoint(virtualImage->
+    GetLargestPossibleRegion().GetIndex(), lowerPoint);
+
+  for (FloatType x=lowerPoint[0]; x<=upperPoint[0]; x+=1.0)
+    {
+    for (FloatType y=lowerPoint[1]; y<=upperPoint[1]; y+=1.0)
+      {
+      theoreticalStepScale += vcl_sqrt(x*x + y*y);
+      count++;
+      }
+    }
+  theoreticalStepScale /= count;
+
+  bool stepScalePass = false;
+  //due to random sampling, it is not exactly equal
+  if (vcl_abs( (stepScale - theoreticalStepScale)/theoreticalStepScale ) < 0.2)
+    {
+    stepScalePass = true;
+    }
+  if (!stepScalePass)
+    {
+    std::cout << "Failed: the step scale for the affine transform is not correct." << std::endl;
+    }
+  else
+    {
+    std::cout << "Passed: the step scale for the affine transform is correct." << std::endl;
+    }
+
+  // Testing local scales for a transform with local support, ex. DisplacementFieldTransform
+  typedef itk::DisplacementFieldTransform<double, ImageDimension>
+                                                            DisplacementTransformType;
+  typedef DisplacementTransformType::DisplacementFieldType  FieldType;
+  typedef itk::Vector<double, ImageDimension>               VectorType;
+
+  VectorType zero;
+  zero.Fill(0.0);
+
+  FieldType::Pointer field = FieldType::New();
+  field->SetRegions(virtualImage->GetLargestPossibleRegion());
+  field->SetSpacing(virtualImage->GetSpacing());
+  field->SetOrigin(virtualImage->GetOrigin());
+  field->SetDirection(virtualImage->GetDirection());
+  field->Allocate();
+  field->FillBuffer(zero);
+
+  DisplacementTransformType::Pointer displacementTransform = DisplacementTransformType::New();
+  displacementTransform->SetDisplacementField(field);
+
+  metric->SetMovingTransform( displacementTransform );
+  jacobianScaleEstimator->SetTransformForward(true);
+  RegistrationParameterScalesFromJacobianType::ScalesType localScales;
+  jacobianScaleEstimator->EstimateScales(localScales);
+  std::cout << "Shift scales for the displacement field transform = "
+    << localScales << std::endl;
+
+  // Check the correctness
+  RegistrationParameterScalesFromJacobianType::ScalesType theoreticalLocalScales(
+    displacementTransform->GetNumberOfLocalParameters());
+  theoreticalLocalScales.Fill(1.0);
+
+  bool displacementPass = true;
+  for (itk::SizeValueType p = 0; p < theoreticalLocalScales.GetSize(); p++)
+    {
+    if (vcl_abs((localScales[p] - theoreticalLocalScales[p])
+      / theoreticalLocalScales[p]) > 0.01 )
+      {
+      displacementPass = false;
+      break;
+      }
+    }
+  if (!displacementPass)
+    {
+    std::cout << "Failed: the shift scales for the displacement field transform are not correct." << std::endl;
+    }
+  else
+    {
+    std::cout << "Passed: the shift scales for the displacement field transform are correct." << std::endl;
+    }
+  // Testing scales with local support done
+
+  // Testing the step scale for the displacement field transform
+  DisplacementTransformType::ParametersType displacementStep(displacementTransform->GetNumberOfParameters());
+  displacementStep.Fill(1.0);
+  FloatType localStepScale = jacobianScaleEstimator->EstimateStepScale(displacementStep);
+  std::cout << "The step scale of Jacobian for the displacement field transform = " << localStepScale << std::endl;
+  FloatType localLearningRate = 1.0 / localStepScale;
+  std::cout << "The learning rate of Jacobian for the displacement field transform = " << localLearningRate << std::endl;
+
+  bool localStepScalePass = false;
+  FloatType theoreticalLocalStepScale = vcl_sqrt(2.0);
+  if (vcl_abs( (localStepScale - theoreticalLocalStepScale)
+    /theoreticalLocalStepScale ) < 0.01)
+    {
+    localStepScalePass = true;
+    }
+  if (!localStepScalePass)
+    {
+    std::cout << "Failed: the step scale for the displacement field transform is not correct." << std::endl;
+    }
+  else
+    {
+    std::cout << "Passed: the step scale for the displacement field transform is correct." << std::endl;
+    }
+  // Testing the step scale with local support done
+
+  // Check the correctness of all cases above
+  std::cout << std::endl;
+  if (jacobianPass && nonUniformForJacobian
+    && stepScalePass && displacementPass && localStepScalePass)
     {
     std::cout << "Test passed" << std::endl;
     return EXIT_SUCCESS;

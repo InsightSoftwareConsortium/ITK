@@ -53,8 +53,14 @@ public:
   /** Type of float */
   typedef double                                         FloatType;
 
-  /** Estimate parameter scales */
+  /** Estimate parameter scales. */
   virtual void EstimateScales(ScalesType &scales) = 0;
+
+  /** Estimate the scale of a step. */
+  virtual FloatType EstimateStepScale(const ParametersType &step) = 0;
+
+  /** Estimate the trusted scale for steps. */
+  virtual FloatType EstimateTrustedStepScale() = 0;
 
 protected:
   OptimizerParameterScalesEstimator(){};
