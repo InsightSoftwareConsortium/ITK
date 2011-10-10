@@ -149,6 +149,7 @@ public:
 protected:
   typedef typename Superclass::CoefficientVector CoefficientVector;
 
+public:
   /** Returns the value of the modified Bessel function I0(x) at a point x >= 0.
     */
   double ModifiedBesselI0(double);
@@ -161,6 +162,7 @@ protected:
    * where k>=2. */
   double ModifiedBesselI(int, double);
 
+protected:
   /** Calculates operator coefficients. */
   CoefficientVector GenerateCoefficients();
 
