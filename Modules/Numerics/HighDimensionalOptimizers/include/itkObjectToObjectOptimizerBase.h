@@ -95,8 +95,10 @@ public:
   /** Set the number of threads to use when threading. */
   virtual void SetNumberOfThreads( ThreadIdType number );
 
-  /** Get current position of the optimization. */
-  itkGetConstReferenceMacro(CurrentPosition, ParametersType);
+  /** Get a reference to the current position of the optimization.
+   * This returns the parameters from the assigned metric, since the optimizer
+   * itself does not store a position. */
+  const ParametersType & GetCurrentPosition();
 
   /** Run the optimization.
    * \note Derived classes must override and call this superclass method, then
@@ -119,11 +121,6 @@ protected:
    * for avoiding memory allocation of creating a scale array full
    * of 1, which could be costly when used with high-dimensional transforms. */
   ScalesType                    m_Scales;
-
-  // Keep m_CurrentPosition as a protected var so that subclasses can
-  // have fast access.  This is important when optimizing high-dimensional
-  // spaces, e.g. bspline transforms.
-  ParametersType                m_CurrentPosition;
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const;
 

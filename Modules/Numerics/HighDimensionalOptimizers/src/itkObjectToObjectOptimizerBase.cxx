@@ -100,4 +100,16 @@ ObjectToObjectOptimizerBase
     }
 }
 
+//-------------------------------------------------------------------
+const ObjectToObjectOptimizerBase::ParametersType &
+ObjectToObjectOptimizerBase
+::GetCurrentPosition()
+{
+  if( this->m_Metric.IsNull() )
+    {
+    itkExceptionMacro("m_Metric has not been assigned. Cannot get parameters.");
+    }
+  return this->m_Metric->GetParameters();
+}
+
 }//namespace itk

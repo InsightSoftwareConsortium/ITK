@@ -80,8 +80,6 @@ public:
 
     value = 0.5*(3*x*x+4*x*y+6*y*y) - 2*x + 8*y;
 
-    std::cout << "value: " << value << std::endl;
-
     /* The optimizer simply takes the derivative from the metric
      * and adds it to the transform after scaling. So instead of
      * setting a 'minimize' option in the gradient, we return
@@ -168,14 +166,15 @@ int itkGradientDescentObjectOptimizerTest(int, char* [] )
 
   try
     {
+    std::cout << "currentPosition: " << itkOptimizer->GetCurrentPosition() << std::endl;
     itkOptimizer->StartOptimization();
+    std::cout << "currentPosition: " << itkOptimizer->GetCurrentPosition() << std::endl;
     }
   catch( itk::ExceptionObject & e )
     {
     std::cout << "Exception thrown ! " << std::endl;
     std::cout << "An error ocurred during Optimization" << std::endl;
-    std::cout << "Location    = " << e.GetLocation()    << std::endl;
-    std::cout << "Description = " << e.GetDescription() << std::endl;
+    std::cout << e << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -213,6 +212,24 @@ int itkGradientDescentObjectOptimizerTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
+  OptimizerType::Pointer badOptimizer = OptimizerType::New();
+  bool caught;
+  try
+    {
+    badOptimizer->GetCurrentPosition();
+    }
+  catch( itk::ExceptionObject & e )
+    {
+    std::cout << "Caught expected exception!";
+    std::cout << e << std::endl;
+    caught = true;
+    }
+
+  if (!caught)
+    {
+    std::cout << "Failed to catch expected exception! " << std::endl;
+    return EXIT_FAILURE;
+    }
   std::cout <<  "Printing self.. " << std::endl;
   std::cout << itkOptimizer  << std::endl;
 
