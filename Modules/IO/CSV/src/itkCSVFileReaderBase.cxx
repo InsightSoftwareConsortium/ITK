@@ -224,10 +224,9 @@ CSVFileReaderBase
   bool OnANewLine = false;
   bool OnColumnHeadersLine = false;
   // Check that we are not at the end of the file
-  std::cout << "m_Line: " << m_Line << std::endl;
+  itkDebugMacro( << "m_Line: " << m_Line );
   if ( !this->m_InputStream.eof() )
     {
-    std::cout << "Not at eof" << std::endl;
     if ( this->m_Line.empty() )
       {
       std::getline(this->m_InputStream,this->m_Line);
