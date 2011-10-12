@@ -760,13 +760,11 @@ int HashTestImage( const char *testImageFilename,
 
 
   // print out all md5 baselines
-  for (   iter = baselineMD5Vector.begin(); iter != baselineMD5Vector.end() ; ++iter )
+  for ( iter = baselineMD5Vector.begin(); iter != baselineMD5Vector.end(); ++iter )
     {
-
     std::cout << "<DartMeasurement name=\"BaselineMD5\" type=\"text/string\">";
     std::cout << *iter;
     std::cout <<  "</DartMeasurement>" << std::endl;
-
     }
 
   typedef itk::Image< double, ITK_TEST_DIMENSION_MAX >                            ImageType;
