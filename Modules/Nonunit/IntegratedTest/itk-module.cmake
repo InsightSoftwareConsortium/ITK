@@ -47,7 +47,10 @@ itk_module(ITKIntegratedTest
     ITKIOPNG
     ITKIORAW
     ITKIOSiemens
-    ITKIOTransform
+    ITKIOTransformBase
+    ITKIOTransformMatlab
+    ITKIOTransformHDF5
+    ITKIOTransformInsightLegacy
     ITKIOSpatialObjects
     ITKIOStimulate
     ITKIOTIFF

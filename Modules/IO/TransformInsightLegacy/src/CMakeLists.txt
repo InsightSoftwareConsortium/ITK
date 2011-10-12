@@ -1,0 +1,8 @@
+set(ITKIOTransformInsightLegacy_SRC
+itkTxtTransformIO.cxx
+itkTxtTransformIOFactory.cxx
+)
+
+add_library(ITKIOTransformInsightLegacy ${ITKIOTransformInsightLegacy_SRC})
+target_link_libraries(ITKIOTransformInsightLegacy ${ITKIOTransformBase_LIBRARIES})
+itk_module_target(ITKIOTransformInsightLegacy)

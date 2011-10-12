@@ -48,7 +48,10 @@ itk_module(ITKReview
     ITKIOPNG
     ITKIORAW
     ITKIOSiemens
-    ITKIOTransform
+    ITKIOTransformBase
+    ITKIOTransformMatlab
+    ITKIOTransformHDF5
+    ITKIOTransformInsightLegacy
     ITKIOSpatialObjects
     ITKIOStimulate
     ITKIOTIFF
