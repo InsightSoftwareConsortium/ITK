@@ -55,7 +55,7 @@ public:
     }
 
   unsigned int GetNumberOfLocalParameters() const
-  { return 0; }
+  { return 3; }
 
   bool HasLocalSupport() const
   { return false; }
@@ -95,10 +95,11 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ObjectToObjectOptimizerBaseTestOptimizer, ObjectToObjectOptimizerBase);
 
-  /* Provide an override for the pure virtual StartOptimization */
+  /* Provide initialization for this class */
   void StartOptimization()
     {
-    std::cout << "StartOptimization called." << std::endl;
+    Superclass::StartOptimization();
+    std::cout << "StartOptimization called from derived class." << std::endl;
     }
 
 };
@@ -126,8 +127,10 @@ int itkObjectToObjectOptimizerBaseTest(int , char* [])
   std::cout << "value: " << optimizer->GetValue() << std::endl;
 
   /* Test set/get of scales */
-  ObjectToObjectOptimizerBaseTestOptimizer::ScalesType scales;
-  scales.Fill(3);
+  ObjectToObjectOptimizerBaseTestOptimizer::NumberOfParametersType
+    scalesSize = metric->GetNumberOfLocalParameters();
+  ObjectToObjectOptimizerBaseTestOptimizer::ScalesType scales(scalesSize);
+  scales.Fill(3.19);
   optimizer->SetScales( scales );
   const ObjectToObjectOptimizerBaseTestOptimizer::ScalesType& scalesReturn = optimizer->GetScales();
   if( scalesReturn != scales )
@@ -138,7 +141,13 @@ int itkObjectToObjectOptimizerBaseTest(int , char* [])
 
   optimizer->SetNumberOfThreads( 1 );
 
+  /* Test StartOptimization */
   TRY_EXPECT_NO_EXCEPTION( optimizer->StartOptimization() );
+
+  /* Test with incorrectly-sized scales. Expect exception */
+  scales.SetSize(scalesSize+1);
+  optimizer->SetScales( scales );
+  TRY_EXPECT_EXCEPTION( optimizer->StartOptimization() );
 
   std::cout << "Printing self.." << std::endl;
   std::cout << optimizer << std::endl;

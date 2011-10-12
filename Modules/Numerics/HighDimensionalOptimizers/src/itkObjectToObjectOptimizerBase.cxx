@@ -30,6 +30,7 @@ ObjectToObjectOptimizerBase
   // Initialize, but w/out calling SetNumberOfThreads, to avoid
   // valgrind warning.
   this->m_NumberOfThreads = MultiThreader::GetGlobalDefaultNumberOfThreads();
+  this->m_ScalesAreIdentity = false;
 }
 
 //-------------------------------------------------------------------
@@ -45,6 +46,7 @@ ObjectToObjectOptimizerBase
 
   os << indent << "Number of threads: " << this->m_NumberOfThreads << std::endl;
   os << indent << "Number of scales:  " << this->m_Scales.Size() << std::endl;
+  os << indent << "m_Scales: " << this->m_Scales << std::endl;
   os << indent << "Metric: " << std::endl;
   m_Metric->Print( os, indent.GetNextIndent() );
 }
@@ -77,27 +79,42 @@ ObjectToObjectOptimizerBase
     return;
     }
 
-  /* If m_Scales hasn't been set, we'll just ignore it. */
+  /* Verify m_Scales. If m_Scales hasn't been set, initialize to all 1's. */
+  typedef ScalesType::ValueType     ValueType;
   if( this->m_Scales.Size() > 0 )
     {
-    if( this->m_Scales.Size() != this->m_Metric->GetNumberOfParameters() )
+    if( this->m_Scales.Size() != this->m_Metric->GetNumberOfLocalParameters() )
       {
       itkExceptionMacro("Size of scales (" << this->m_Scales.Size()
-                        << ") must be 0 or match size of parameters (" <<
-                        this->m_Metric->GetNumberOfParameters() << ").");
+                        << ") must equal number of local parameters (" <<
+                        this->m_Metric->GetNumberOfLocalParameters() << ").");
       }
     /* Check that all values in m_Scales are > machine epsilon, to avoid
-     * division by zero/epsilon */
+     * division by zero/epsilon.
+     * Also check if all scale values are 1. */
     typedef ScalesType::size_type     SizeType;
-    typedef ScalesType::ValueType     ValueType;
+    this->m_ScalesAreIdentity = true;
     for( SizeType i=0; i < this->m_Scales.Size(); i++ )
       {
       if( this->m_Scales[i] <= NumericTraits<ValueType>::epsilon() )
         {
         itkExceptionMacro("m_Scales values must be > epsilon.");
         }
+      /* Check if the scales are identity. */
+      if( this->m_Scales[i] != NumericTraits<ValueType>::OneValue() )
+        {
+        this->m_ScalesAreIdentity = false;
+        }
       }
     }
+  else
+    {
+    m_Scales.SetSize( this->m_Metric->GetNumberOfLocalParameters() );
+    m_Scales.Fill( NumericTraits<ValueType>::OneValue() );
+    this->m_ScalesAreIdentity = true;
+    }
+
+
 }
 
 //-------------------------------------------------------------------

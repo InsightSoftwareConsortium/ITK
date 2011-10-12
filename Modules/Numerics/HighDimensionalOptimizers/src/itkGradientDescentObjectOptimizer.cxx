@@ -166,7 +166,7 @@ GradientDescentObjectOptimizer
   /* Loop over the range. It is inclusive. */
   for ( IndexValueType j = subrange[0]; j <= subrange[1]; j++ )
     {
-    if( scales.GetSize() == 0 )
+    if( this->m_ScalesAreIdentity )
       {
       this->m_Gradient[j] = this->m_Gradient[j] * this->m_LearningRate;
       }
@@ -174,8 +174,12 @@ GradientDescentObjectOptimizer
       {
       // scales is checked during StartOptmization for values <=
       // machine epsilon.
+      // Take the modulo of the index to handle gradients from transforms
+      // with local support. The gradient array stores the gradient of local
+      // parameters at each local index with linear packing.
+      IndexValueType scalesIndex = j % scales.Size();
       this->m_Gradient[j] =
-                this->m_Gradient[j] / scales[j] * this->m_LearningRate;
+                this->m_Gradient[j] / scales[scalesIndex] * this->m_LearningRate;
       }
     }
 }
