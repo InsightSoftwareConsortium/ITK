@@ -77,6 +77,7 @@ int itkImageToRectilinearFEMObjectFilter2DTest(int argc, char *argv[])
   meshFilter->SetInput( reader->GetOutput() );
   meshFilter->SetPixelsPerElement( pixelsPerElement );
   meshFilter->SetElement( e0.GetPointer() );
+  meshFilter->SetMaterial( m );
   meshFilter->Update();
 
   typedef itk::fem::FEMObject<2> FEMObjectType;
@@ -152,6 +153,40 @@ int itkImageToRectilinearFEMObjectFilter2DTest(int argc, char *argv[])
     std::cout << " [PASSED]" << std::endl;
     }
 
+  std::cout << "Number of Materials Test :";
+  if ( femObject->GetNumberOfMaterials() != 1 )
+    {
+    std::cout << " [FAILED]" << std::endl;
+    std::cout << "\tExpected  1" << " Obtained ";
+    std::cout << femObject->GetNumberOfMaterials() << std::endl;
+    foundError = true;
+    }
+  else
+    {
+    std::cout << " [PASSED]" << std::endl;
+    }
+
+
+  std::cout << "Material Property Test :";
+
+  ElasticityType * m1 = dynamic_cast<itk::fem::MaterialLinearElasticity *>( femObject->GetMaterial(0).GetPointer() );
+
+  if ( (m1->GetYoungsModulus() != 3000.0) ||
+      (m1->GetCrossSectionalArea() != 0.02) ||
+      (m1->GetMomentOfInertia() != 0.004) )
+    {
+    std::cout << " [FAILED]" << std::endl;
+    std::cout << "\tExpected  3000.0, 0.02, 0.004" << " Obtained ";
+    std::cout << m1->GetYoungsModulus() << ", ";
+    std::cout << m1->GetCrossSectionalArea() << ", ";
+    std::cout << m1->GetMomentOfInertia() << std::endl;
+    foundError = true;
+    }
+  else
+    {
+    std::cout << " [PASSED]" << std::endl;
+   }
+
   const unsigned int numberOfNodesToTest = static_cast<unsigned int>( atoi( argv[8] ) );
   for( unsigned int i = 0; i < numberOfNodesToTest; i++ )
     {
@@ -165,7 +200,7 @@ int itkImageToRectilinearFEMObjectFilter2DTest(int argc, char *argv[])
         ( vcl_fabs(femObject->GetNode(nodeNumber)->GetCoordinates()[1] - loc[1]) > tolerance) )
       {
       std::cout << "[FAILED]" << std::endl;
-      std::cout << "\tExpected (" << loc[0] << "," << loc[0] << "), Got (";
+      std::cout << "\tExpected (" << loc[0] << "," << loc[1] << "), Got (";
       std::cout << femObject->GetNode(nodeNumber)->GetCoordinates()[0] << ",";
       std::cout << femObject->GetNode(nodeNumber)->GetCoordinates()[1] << ")" << std::endl;
       foundError = true;
@@ -183,10 +218,10 @@ int itkImageToRectilinearFEMObjectFilter2DTest(int argc, char *argv[])
     unsigned int    elementNumber = static_cast<unsigned int>( atoi( argv[10 + numberOfNodesToTest * 3 + i * 5] ) );
     vnl_vector<int> nodes;
     nodes.set_size(4);
-    nodes[0] = static_cast<int>(atof( argv[10 + numberOfNodesToTest * 3 + i * 5 + 1] ) );
-    nodes[1] = static_cast<int>(atof( argv[10 + numberOfNodesToTest * 3 + i * 5 + 2] ) );
-    nodes[2] = static_cast<int>(atof( argv[10 + numberOfNodesToTest * 3 + i * 5 + 3] ) );
-    nodes[3] = static_cast<int>(atof( argv[10 + numberOfNodesToTest * 3 + i * 5 + 4] ) );
+    nodes[0] = atof( argv[10 + numberOfNodesToTest * 3 + i * 5 + 1] );
+    nodes[1] = atof( argv[10 + numberOfNodesToTest * 3 + i * 5 + 2] );
+    nodes[2] = atof( argv[10 + numberOfNodesToTest * 3 + i * 5 + 3] );
+    nodes[3] = atof( argv[10 + numberOfNodesToTest * 3 + i * 5 + 4] );
 
     std::cout << "Element (" << elementNumber << ") Test " << i << ": ";
     if( (femObject->GetElement(elementNumber)->GetNode(0)->GetGlobalNumber() != nodes[0]) ||

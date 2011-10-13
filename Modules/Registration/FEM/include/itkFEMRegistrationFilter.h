@@ -415,20 +415,6 @@ public:
   itkSetMacro(DoLineSearchOnImageEnergy, unsigned int);
   itkGetMacro(DoLineSearchOnImageEnergy, unsigned int);
 
-  /**
-   * Get/Set the use of multi-resolution strategy.
-   */
-  itkSetMacro(UseMultiResolution, bool);
-  itkGetMacro(UseMultiResolution, bool);
-  void SetUseMultiResolutionOff()
-  {
-    SetUseMultiResolution(false);
-  }
-
-  void SetUseMultiResolutionOn()
-  {
-    SetUseMultiResolution(true);
-  }
 
   /**
    * Get/Set the use of normalized gradient values in the image
@@ -646,7 +632,6 @@ private:
   Float             m_MinJacobian;     // minimum recorded energy
   Float             m_Alpha;           // difference parameter
 
-  bool          m_UseMultiResolution;         // Use multi-resolution registration
   bool          m_UseLandmarks;               // Use landmark points
   bool          m_UseMassMatrix;              // Use Mass matrix in FEM solution
   bool          m_UseNormalizedGradient;      // Use normalized gradient magnitude in the metric

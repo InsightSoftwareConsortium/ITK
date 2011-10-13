@@ -136,6 +136,27 @@ void LinearSystemWrapper::MultiplyMatrixVector(unsigned int resultVector,
     }
 }
 
+
+void LinearSystemWrapper::MultiplyMatrixSolution(unsigned int resultVector,
+                                                 unsigned int matrixIndex,
+                                                 unsigned int solutionIndex)
+{
+
+  unsigned int i;
+  unsigned int j;
+
+  this->InitializeVector(resultVector);
+  /* perform multiply */
+  for( i = 0; i < m_Order; i++ )
+    {
+    for( j = 0; j < m_Order; j++ )
+      {
+      this->AddVectorValue(i, this->GetMatrixValue(i, j, matrixIndex) * this->GetSolutionValue(j,
+                                                                                             solutionIndex), resultVector);
+      }
+    }
+}
+
 void LinearSystemWrapper::GetColumnsOfNonZeroMatrixElementsInRow(unsigned int, ColumnArray & cols, unsigned int)
 {
   // By default we assume full matrices and return indices of all columns

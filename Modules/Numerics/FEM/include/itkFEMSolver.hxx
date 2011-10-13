@@ -677,7 +677,7 @@ Solver<VDimension>
   Element::MatrixType LocalSolution;
 
   unsigned int numberOfElements = m_FEMObject->GetNumberOfElements();
-  for( unsigned int index = 0; index <= numberOfElements; index++ )
+  for( unsigned int index = 0; index < numberOfElements; index++ )
     {
     Element::Pointer e = m_FEMObject->GetElement( index );
     unsigned int     Ne = e->GetNumberOfDegreesOfFreedom();
@@ -854,11 +854,21 @@ Solver<VDimension>
   // Initialize all pointers in interpolation grid image to 0
   m_InterpolationGrid->FillBuffer(0);
 
+  FillInterpolationGrid();
+}
+
+template <unsigned int VDimension>
+void
+Solver<VDimension>
+::FillInterpolationGrid( )
+{
   VectorType v1, v2;
+
+  InterpolationGridSizeType imageSize = m_InterpolationGrid->GetBufferedRegion().GetSize();
 
   // Fill the interpolation grid with proper pointers to elements
   unsigned int numberOfElements = m_FEMObject->GetNumberOfElements();
-  for( unsigned int index = 0; index <= numberOfElements; index++ )
+  for( unsigned int index = 0; index < numberOfElements; index++ )
     {
     Element::Pointer e = m_FEMObject->GetElement( index );
     // Get square boundary box of an element
@@ -893,14 +903,35 @@ Solver<VDimension>
       }
 
     // Obtain the Index of BB corner and check whether it is within image.
-    // If it is not, we ignore the entire element.
-    if( !m_InterpolationGrid->TransformPhysicalPointToIndex(vp1, vi1) )
+    bool validLowerBound = m_InterpolationGrid->TransformPhysicalPointToIndex(vp1, vi1);
+    bool validUpperBound = m_InterpolationGrid->TransformPhysicalPointToIndex(vp2, vi2);
+    if( !validLowerBound && !validUpperBound )
       {
       continue;
       }
-    if( !m_InterpolationGrid->TransformPhysicalPointToIndex(vp2, vi2) )
+
+    // Adjust the Lower Bound if required
+    if (!validLowerBound)
       {
-      continue;
+      for( unsigned int i = 0; i < FEMDimension; i++ )
+        {
+        if ( vi1[i] < 0 )
+          {
+          vi1[i] = 0;
+          }
+        }
+      }
+
+    // Adjust the Upper Bound if required
+    if (!validUpperBound)
+      {
+      for( unsigned int i = 0; i < FEMDimension; i++ )
+        {
+        if ( vi2[i] >= static_cast<int>(imageSize[i]) )
+          {
+          vi2[i] = static_cast<int>( imageSize[i] ) - 1;
+          }
+        }
       }
 
     InterpolationGridSizeType region_size;
@@ -919,7 +950,7 @@ Solver<VDimension>
     //
     VectorType global_point(NumberOfDimensions); // Point in the image as a
                                                  // vector.
-    VectorType local_point;                      // Same point in local element
+    VectorType local_point(NumberOfDimensions);  // Same point in local element
                                                  // coordinate system
     // Step over all points within the region
     for( iter.GoToBegin(); !iter.IsAtEnd(); ++iter )
@@ -936,10 +967,43 @@ Solver<VDimension>
       // this point in the interpolation grid image.
       if( e->GetLocalFromGlobalCoordinates(global_point, local_point) )
         {
-        iter.Set(e);
+        iter.Set( e.GetPointer() );
         }
       } // next point in region
     }   // next element
+}
+
+/**
+ * Initialize the interpolation grid over the user defined region
+ */
+template <unsigned int VDimension>
+void
+Solver<VDimension>
+::InitializeInterpolationGrid(const InterpolationGridRegionType& region,
+                              const InterpolationGridPointType& origin,
+                              const InterpolationGridSpacingType& spacing,
+                              const InterpolationGridDirectionType& direction)
+{
+  InterpolationGridSizeType size = region.GetSize();
+  for( unsigned int i = 0; i < FEMDimension; i++ )
+    {
+    if( size[i] == 0 )
+      {
+      itkExceptionMacro("Size must be specified.");
+      }
+    }
+
+  m_InterpolationGrid = InterpolationGridType::New();
+  m_InterpolationGrid->SetOrigin( origin );
+  m_InterpolationGrid->SetSpacing( spacing );
+  m_InterpolationGrid->SetDirection( direction );
+  m_InterpolationGrid->SetRegions( region );
+  m_InterpolationGrid->Allocate();
+
+   // Initialize all pointers in interpolation grid image to 0
+  m_InterpolationGrid->FillBuffer(0);
+
+  FillInterpolationGrid();
 }
 
 template <unsigned int VDimension>

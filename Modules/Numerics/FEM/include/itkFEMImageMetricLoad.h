@@ -299,7 +299,6 @@ public:
   /**
    * Compute the image based load - implemented with ITK metric derivatives.
    */
-  VectorType Fe1(VectorType);
   VectorType Fe(VectorType, VectorType);
 
   static Baseclass * NewImageMetricLoad(void)

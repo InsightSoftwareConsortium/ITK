@@ -32,107 +32,86 @@ const unsigned int Dimension = 3;
 typedef itk::Image<unsigned char, Dimension>            FileImageType;
 typedef itk::Image<float, Dimension>                    ImageType;
 
-
 typedef itk::fem::Element3DC0LinearHexahedronMembrane   ElementType;
 typedef itk::fem::Element3DC0LinearTetrahedronMembrane  ElementType2;
+typedef itk::fem::FEMObject<Dimension>                  FEMObjectType;
 
-
-typedef itk::fem::FiniteDifferenceFunctionLoad<
-                                     ImageType,ImageType> ImageLoadType;
-
-template class itk::fem::ImageMetricLoadImplementation<ImageLoadType>;
-
-typedef ElementType::LoadImplementationFunctionPointer     LoadImpFP;
-typedef ElementType::LoadType                              ElementLoadType;
-
-typedef ElementType2::LoadImplementationFunctionPointer    LoadImpFP2;
-typedef ElementType2::LoadType                             ElementLoadType2;
-
-typedef itk::fem::VisitorDispatcher<ElementType,ElementLoadType, LoadImpFP>
-                                                           DispatcherType;
-
-typedef itk::fem::VisitorDispatcher<ElementType2,ElementLoadType2, LoadImpFP2>
-                                                           DispatcherType2;
-
-typedef itk::fem::FEMRegistrationFilter<ImageType,ImageType> RegistrationType;
+typedef itk::fem::FEMRegistrationFilter<ImageType,ImageType,FEMObjectType> RegistrationType;
 
 
 int main(int argc, char *argv[])
 {
-  char *paramname;
+  const char *fixedImageName, *movingImageName;
   if ( argc < 2 )
-    {
-    std::cout << "Parameter file name missing" << std::endl;
-    std::cout << "Usage: " << argv[0] << " param.file" << std::endl;
+  {
+    std::cout << "Image file names missing" << std::endl;
+    std::cout << "Usage: " << argv[0] << " fixedImageFile movingImageFile" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   else
-    {
-    paramname=argv[1];
-    }
-
-
-  // Register the correct load implementation with the element-typed visitor
-  // dispatcher.
-  typedef itk::fem::ImageMetricLoadImplementation<
-                                       ImageLoadType> LoadImplementationType;
   {
-  ElementType::LoadImplementationFunctionPointer fp =
-    &LoadImplementationType::ImplementImageMetricLoad;
-  DispatcherType::RegisterVisitor((ImageLoadType*)0,fp);
-  }
-  {
-  ElementType2::LoadImplementationFunctionPointer fp =
-    &LoadImplementationType::ImplementImageMetricLoad;
-  DispatcherType2::RegisterVisitor((ImageLoadType*)0,fp);
+    fixedImageName = argv[1];
+    movingImageName = argv[2];
   }
 
-
+  // Setup registration parameters
   RegistrationType::Pointer registrationFilter = RegistrationType::New();
+  registrationFilter->SetMaxLevel(1);
+  registrationFilter->SetUseNormalizedGradient( true );
+  registrationFilter->ChooseMetric( 0 );
 
-  // Attempt to read the parameter file, and exit if an error occurs
-  registrationFilter->SetConfigFileName(paramname);
-  if ( !registrationFilter->ReadConfigFile(
-           (registrationFilter->GetConfigFileName()).c_str() ) )
-    {
-    return EXIT_FAILURE;
-    }
+  unsigned int maxiters = 20;
+  float        E = 10;
+  float        p = 1;
+  registrationFilter->SetElasticity(E, 0);
+  registrationFilter->SetRho(p, 0);
+  registrationFilter->SetGamma(1., 0);
+  registrationFilter->SetAlpha(1.);
+  registrationFilter->SetMaximumIterations( maxiters, 0 );
+  registrationFilter->SetMeshPixelsPerElementAtEachResolution(4, 0);
+  registrationFilter->SetWidthOfMetricRegion(1, 0);
+  registrationFilter->SetNumberOfIntegrationPoints(2, 0);
+  registrationFilter->SetDescentDirectionMinimize();
+  registrationFilter->SetDoLineSearchOnImageEnergy( 0 );
+  registrationFilter->SetTimeStep(1.);
+  registrationFilter->SetEmployRegridding(false);
+  registrationFilter->SetUseLandmarks(false);
 
   // Read the image files
   typedef itk::ImageFileReader< FileImageType > FileSourceType;
   typedef FileImageType::PixelType              PixType;
 
   FileSourceType::Pointer movingfilter = FileSourceType::New();
-  movingfilter->SetFileName( (registrationFilter->GetMovingFile()).c_str() );
+  movingfilter->SetFileName( movingImageName );
   FileSourceType::Pointer fixedfilter = FileSourceType::New();
-  fixedfilter->SetFileName( (registrationFilter->GetFixedFile()).c_str() );
+  fixedfilter->SetFileName( fixedImageName );
 
   std::cout << " reading moving ";
-  std::cout << registrationFilter->GetMovingFile() << std::endl;
+  std::cout << movingImageName << std::endl;
   std::cout << " reading fixed ";
-  std::cout << registrationFilter->GetFixedFile() << std::endl;
+  std::cout << fixedImageName << std::endl;
 
 
   try
-    {
+  {
     movingfilter->Update();
-    }
+  }
   catch( itk::ExceptionObject & e )
-    {
+  {
     std::cerr << "Exception caught during reference file reading ";
     std::cerr << std::endl << e << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   try
-    {
+  {
     fixedfilter->Update();
-    }
+  }
   catch( itk::ExceptionObject & e )
-    {
+  {
     std::cerr << "Exception caught during target file reading ";
     std::cerr << std::endl << e << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   // Rescale the image intensities so that they fall between 0 and 255
@@ -188,37 +167,50 @@ int main(int argc, char *argv[])
   // Create the material properties
   itk::fem::MaterialLinearElasticity::Pointer m;
   m = itk::fem::MaterialLinearElasticity::New();
-  m->GN = 0;                  // Global number of the material
-  m->E = registrationFilter->GetElasticity();  // Young's modulus
-  m->A = 1.0;                 // Cross-sectional area
-  m->h = 1.0;                 // Thickness
-  m->I = 1.0;                 // Moment of inertia
-  m->nu = 0.;                 // Poisson's ratio -- DONT CHOOSE 1.0!!
-  m->RhoC = 1.0;              // Density
+  m->SetGlobalNumber(0);
+  m->SetYoungsModulus(registrationFilter->GetElasticity()); // Young's modulus used in the membrane
+  m->SetCrossSectionalArea(1.0);                            // Cross-sectional area
+  m->SetThickness(1.0);                                     // Thickness
+  m->SetMomentOfInertia(1.0);                               // Moment of inertia
+  m->SetPoissonsRatio(0.);                                  // Poisson's ratio -- DONT CHOOSE 1.0!!
+  m->SetDensityHeatProduct(1.0);                            // Density-Heat capacity product
 
   // Create the element type
   ElementType::Pointer e1=ElementType::New();
-  e1->m_mat=dynamic_cast<itk::fem::MaterialLinearElasticity*>( m );
-  registrationFilter->SetElement(e1);
+  e1->SetMaterial(m.GetPointer());
+  registrationFilter->SetElement(e1.GetPointer());
   registrationFilter->SetMaterial(m);
 
-
+  // Run registration
   registrationFilter->RunRegistration();
-
-  registrationFilter->WarpImage( registrationFilter->GetMovingImage() );
 
   // Warp the moving image and write it to a file.
   writer->SetFileName("warpedMovingImage.mhd");
   writer->SetInput( registrationFilter->GetWarpedImage() );
-  writer->Update();
+  try
+  {
+    writer->Update();
+  }
+  catch( itk::ExceptionObject & excp )
+  {
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+  }
 
-  registrationFilter->WriteDisplacementFieldMultiComponent();
-
-  //  This is a documented sample parameter file that can be used with
-  //  this deformable registration example.
-  //
-  //  ../Data/FiniteElementRegistrationParameters3.txt
-  //
+  // output the displacement field
+  typedef itk::ImageFileWriter<RegistrationType::FieldType> DispWriterType;
+  DispWriterType::Pointer dispWriter = DispWriterType::New();
+  dispWriter->SetInput( registrationFilter->GetDisplacementField() );
+  dispWriter->SetFileName("displacement.mha");
+  try
+  {
+    dispWriter->Update();
+  }
+  catch( itk::ExceptionObject & excp )
+  {
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+  }
 
   return EXIT_SUCCESS;
 }

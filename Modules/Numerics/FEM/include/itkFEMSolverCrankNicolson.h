@@ -127,26 +127,34 @@ public:
   itkGetMacro(SolutionTMinus1Index, unsigned int);
 
   /** Set stability step for the solution.  Initialized to 0.5 */
-  // inline void SetAlpha(Float a = 0.5) { m_alpha = a; }
   itkSetMacro(Alpha, Float);
   itkGetMacro(Alpha, Float);
-
-  /** Set time step for the solution. Should be 1/2. */
-  itkSetMacro(DeltaT, Float);
-  itkGetMacro(DeltaT, Float);
-  // inline void SetDeltatT(Float T) { m_deltaT = T; }
 
   /** Set density constant.  */
   itkSetMacro(Rho, Float);
   itkGetMacro(Rho, Float);
-  // inline void SetRho(Float rho) { m_rho = rho;  }
+
+  /** Returns the time step used for dynamic problems. */
+  virtual Float GetTimeStep(void) const
+  {
+    return m_TimeStep;
+  }
+
+  /**
+   * Sets the time step used for dynamic problems.
+   *
+   * \param dt New time step.
+   */
+  virtual void SetTimeStep(Float dt)
+  {
+    m_TimeStep = dt;
+  }
 
   /** compute the current state of the right hand side and store the current force
    *  for the next iteration.
    */
   void RecomputeForceVector(unsigned int index);
 
-// FIXME - Keep here or in FEMRegistration Filter???
 
   /* Finds a triplet that brackets the energy minimum.  From Numerical
     Recipes.*/
@@ -223,7 +231,7 @@ protected:
    */
   void AssembleFforTimeStep(int dim = 0);
 
-  Float m_DeltaT;
+  Float m_TimeStep;
   Float m_Rho;
   Float m_Alpha;
   Float m_CurrentMaxSolution;

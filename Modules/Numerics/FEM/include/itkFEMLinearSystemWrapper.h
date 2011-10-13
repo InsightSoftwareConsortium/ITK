@@ -400,6 +400,14 @@ public:
   virtual void MultiplyMatrixVector(unsigned int resultVectorIndex, unsigned int matrixIndex, unsigned int vectorIndex);
 
   /**
+   * Perform a matrix*solution operation and store the result in the linear system
+   * \param matrixIndex index of matrix to multiply
+   * \param solutionIndex index of solution to multiply
+   * \param resultVectorIndex index of vector where result is store
+   */
+  virtual void MultiplyMatrixSolution(unsigned int resultVectorIndex, unsigned int matrixIndex, unsigned int solutionIndex);
+
+  /**
    * Copy a solution vector to a vector
    * \param solutionIndex index of solution vector to copy
    * \param vectorIndex index of vector to copy solution to
