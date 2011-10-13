@@ -98,6 +98,7 @@ PipelineMonitorImageFilter<TImageType>
   if(input->GetLargestPossibleRegion() != m_UpdatedOutputLargestPossibleRegion)
     {
     itkWarningMacro(<<"The input filter's LargestPossibleRegion does not match UpdateOutputInformation");
+    itkWarningMacro(<<"input: " << input->GetLargestPossibleRegion() << "updated: " << m_UpdatedOutputLargestPossibleRegion );
     return false;
     }
   if(m_UpdatedBufferedRegions.size() && !m_UpdatedOutputLargestPossibleRegion.IsInside(m_UpdatedBufferedRegions.back()))
@@ -295,9 +296,8 @@ PipelineMonitorImageFilter<TImageType>
   InputImagePointer input =
     const_cast< TImageType * >( this->GetInput());
 
-  // because this is in place filter this will acutall copy the
-  // pixel containers
-  this->AllocateOutputs();
+  // Graft the input Onto the output, so that we run "in-place"
+  this->GraftOutput(input);
 
   itkDebugMacro("GenerateData Buffered: " << this->GetInput()->GetBufferedRegion() << " Requested:" << this->GetInput()->GetRequestedRegion());
 
@@ -305,6 +305,11 @@ PipelineMonitorImageFilter<TImageType>
   m_UpdatedRequestedRegions.push_back(this->GetInput()->GetRequestedRegion());
 
   ++m_NumberOfUpdates;
+
+  // We are finished with the input data, so release it. Whill this is
+  // ussually done in ReleaseInputs, it doesn't do any harm to release
+  // it early
+  input->ReleaseData();
 }
 
 

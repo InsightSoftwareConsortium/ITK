@@ -170,6 +170,8 @@ ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
     CropSizeType upperCropSize( radius );
     CropSizeType lowerCropSize( radius );
 
+    convolutionFilter->GraftOutput( this->GetOutput() );
+
     // For the lower crop, the crop size can be reduced by 1 in a
     // dimension when the kernel size is odd in that dimension.
     lowerCropSize -= this->GetKernelPadSize();
@@ -179,14 +181,14 @@ ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
     cropFilter->SetLowerBoundaryCropSize( lowerCropSize );
     cropFilter->SetUpperBoundaryCropSize( upperCropSize );
     cropFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
-    cropFilter->ReleaseDataFlagOn();
+    cropFilter->InPlaceOn();
     progress->RegisterInternalFilter( cropFilter, 0.1f );
     cropFilter->SetInput( convolutionFilter->GetOutput() );
 
     // Graft the minipipeline output to this filter.
     cropFilter->GetOutput()->SetRequestedRegion( this->GetOutput()->GetRequestedRegion() );
-    cropFilter->GraftOutput( this->GetOutput() );
     cropFilter->Update();
+
 
     // Graft the output of the crop filter back onto this
     // filter's output.

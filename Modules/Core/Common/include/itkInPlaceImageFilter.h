@@ -29,6 +29,7 @@
 #define __itkInPlaceImageFilter_h
 
 #include "itkImageToImageFilter.h"
+#include "itkIsSame.h"
 
 namespace itk
 {
@@ -55,9 +56,10 @@ namespace itk
  * output bulk data memory, the input image type must match the output
  * image type.  If the input and output image types are not identical,
  * the filter reverts to a traditional ImageToImageFilter behaviour
- * where an output image is allocated.  In place operation can also be
- * controlled (when the input and output image type match) via the
- * methods InPlaceOn() and InPlaceOff().
+ * where an output image is allocated. Additionally, the requested
+ * region of the output must match that of the input. In place
+ * operation can also be controlled (when the input and output image
+ * type match) via the methods InPlaceOn() and InPlaceOff().
  *
  * Subclasses of InPlaceImageFilter must take extra care in how they
  * manage memory using (and perhaps overriding) the implementations of
@@ -135,7 +137,10 @@ protected:
    * an InPlaceFilter is not threaded (i.e. it provides an
    * implementation of GenerateData()), then this method (or
    * equivalent) must be called in GenerateData(). */
-  virtual void AllocateOutputs();
+  virtual void AllocateOutputs()
+  {
+    this->InternalAllocateOutputs(IsSame<TInputImage, TOutputImage>());
+  }
 
   /** InPlaceImageFilter may transfer ownership of the input bulk data
    * to the output object.  Once the output object owns the bulk data
@@ -148,27 +153,28 @@ protected:
    * \sa ProcessObject::ReleaseInputs() */
   virtual void ReleaseInputs();
 
+  /** This methods should only be called during the GenerateData phase
+   *  of the pipeline. This method return true if the input image's
+   *  bulk data is the same as the output image's data.
+   */
+  itkGetConstMacro(RunningInPlace,bool);
+
 private:
   InPlaceImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);     //purposely not implemented
 
-  bool m_InPlace;
+  // the type are different we can't run in place
+  void InternalAllocateOutputs( const FalseType& )
+  {
+    this->m_RunningInPlace = false;
+    this->Superclass::AllocateOutputs();
+  }
 
-  /** \cond HIDE_META_PROGRAMMING */
-  /** borrowed from type_traits */
-  struct true_type { };
-  struct false_type{ };
-  template<typename, typename>
-    struct is_same
-      : public false_type { };
+  void InternalAllocateOutputs( const TrueType& );
 
-  template<typename _Tp>
-    struct is_same<_Tp, _Tp>
-      : public true_type { };
+  bool m_InPlace; // enable the possibility of in-place
+  bool m_RunningInPlace;
 
-  static bool CanRunInPlace(const true_type &) { return true; }
-  static bool CanRunInPlace(const false_type &) { return false; }
-  /** \endcond */
 };
 } // end namespace itk
 

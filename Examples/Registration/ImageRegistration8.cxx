@@ -576,6 +576,7 @@ int main( int argc, char *argv[] )
                           OutputSliceType > ExtractFilterType;
   ExtractFilterType::Pointer extractor = ExtractFilterType::New();
   extractor->SetDirectionCollapseToSubmatrix();
+  extractor->InPlaceOn();
 
   FixedImageType::RegionType inputRegion =
                                fixedImage->GetLargestPossibleRegion();
