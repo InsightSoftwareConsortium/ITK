@@ -235,7 +235,7 @@ public:
   typedef typename UpdateLevelSetFilterType::Pointer                                                UpdateLevelSetFilterPointer;
 
   /** Update the filter by computing the output level function
-   * by calling GenerateData() once the instantiation of necessary variables
+   * by calling RunOneIteration() once the instantiation of necessary variables
    * is verified */
   void Update();
 
@@ -362,7 +362,7 @@ protected:
 
   /** Run the iterative loops of calculating levelset function updates until
    *  the stopping criterion is satisfied */
-  void GenerateData();
+  void RunOneIteration();
 
   /** Initialize the iteration by computing parameters in the terms of the level set equation */
   void InitializeIteration();

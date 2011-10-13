@@ -58,9 +58,16 @@ void
 LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
 ::SetLevelSetContainer( LevelSetContainerType* iContainer )
 {
-  this->m_LevelSetContainer = iContainer;
-  this->m_Heaviside = iContainer->GetHeaviside();
-  this->Modified();
+  if( iContainer )
+    {
+    this->m_LevelSetContainer = iContainer;
+    this->m_Heaviside = iContainer->GetHeaviside();
+    this->Modified();
+    }
+  else
+    {
+    itkGenericExceptionMacro( << "iContainer is NULL" );
+    }
 }
 
 // ----------------------------------------------------------------------------
@@ -98,8 +105,11 @@ LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
 
   if( this->m_CurrentLevelSetPointer.IsNull() )
     {
-    this->m_CurrentLevelSetPointer =
-    this->m_LevelSetContainer->GetLevelSet( this->m_CurrentLevelSetId );
+    if( this->m_LevelSetContainer.IsNull() )
+      {
+      itkGenericExceptionMacro( <<"m_LevelSetContainer is NULL" );
+      }
+    this->m_CurrentLevelSetPointer = this->m_LevelSetContainer->GetLevelSet( this->m_CurrentLevelSetId );
 
     if( this->m_CurrentLevelSetPointer.IsNull() )
       {

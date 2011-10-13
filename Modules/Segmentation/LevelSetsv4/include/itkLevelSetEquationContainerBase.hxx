@@ -37,21 +37,6 @@ LevelSetEquationContainerBase< TTermContainer >
 }
 
 template< class TTermContainer >
-typename LevelSetEquationContainerBase< TTermContainer >::LevelSetContainerType*
-LevelSetEquationContainerBase< TTermContainer >
-::GetLevelSetContainer() const
-{
-  if( this->m_Container.empty() )
-    {
-    itkGenericExceptionMacro( << "m_Container is empty" );
-    }
-
-  MapContainerIterator it = this->m_Container.begin();
-
-  return it->second->GetLevelSetContainer();
-}
-
-template< class TTermContainer >
 void
 LevelSetEquationContainerBase< TTermContainer >
 ::AddEquation( const LevelSetIdentifierType& iId,
@@ -59,6 +44,17 @@ LevelSetEquationContainerBase< TTermContainer >
 {
   if ( iEquation )
     {
+    if( this->m_LevelSetContainer.IsNotNull() )
+      {
+      iEquation->SetLevelSetContainer( this->m_LevelSetContainer );
+      }
+    else
+      {
+      if( ! iEquation->GetLevelSetContainer() )
+        {
+        itkGenericExceptionMacro( << "m_LevelSetContainer and iEquation->GetLevelSetContainer() are NULL" );
+        }
+      }
     this->m_Container[iId] = iEquation;
     if( iEquation->GetInput() )
       {
