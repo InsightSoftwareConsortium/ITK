@@ -23,6 +23,8 @@ nm libitktiff.a |grep " R "
 #define _TIFFwarningHandler itk__TIFFwarningHandler
 #define _TIFFerrorHandlerExt itk__TIFFerrorHandlerExt
 #define _TIFFwarningHandlerExt itk__TIFFwarningHandlerExt
+#define _TIFFDataSize itk__TIFFDataSize
+#define _TIFFSwab24BitData itk__TIFFSwab24BitData
 #define tiffDataWidth itk_tiffDataWidth
 #define LogL10fromY itk_LogL10fromY
 #define LogL10toY itk_LogL10toY
@@ -48,9 +50,11 @@ nm libitktiff.a |grep " R "
 #define TIFFDefaultTileSize itk_TIFFDefaultTileSize
 #define TIFFError itk_TIFFError
 #define TIFFFdOpen itk_TIFFFdOpen
+#define TIFFFieldWithName itk_TIFFFieldWithName
 #define TIFFFileName itk_TIFFFileName
 #define TIFFFileno itk_TIFFFileno
 #define TIFFFindCODEC itk_TIFFFindCODEC
+#define TIFFFindFieldInfoByName itk_TIFFFindFieldInfoByName
 #define TIFFFlush itk_TIFFFlush
 #define TIFFFlushData itk_TIFFFlushData
 #define TIFFFlushData1 itk_TIFFFlushData1
@@ -110,6 +114,7 @@ nm libitktiff.a |grep " R "
 #define TIFFOpen itk_TIFFOpen
 #define TIFFOpenW itk_TIFFOpenW
 #define TIFFPredictorInit itk_TIFFPredictorInit
+#define TIFFPredictorCleanup itk_TIFFPredictorCleanup
 #define TIFFPrintDirectory itk_TIFFPrintDirectory
 #define TIFFRGBAImageBegin itk_TIFFRGBAImageBegin
 #define TIFFRGBAImageEnd itk_TIFFRGBAImageEnd
@@ -117,9 +122,11 @@ nm libitktiff.a |grep " R "
 #define TIFFRGBAImageOK itk_TIFFRGBAImageOK
 #define TIFFRasterScanlineSize itk_TIFFRasterScanlineSize
 #define TIFFReadBufferSetup itk_TIFFReadBufferSetup
+#define TIFFReadCustomDirectory itk_TIFFReadCustomDirectory
 #define TIFFReadDirectory itk_TIFFReadDirectory
 #define TIFFReadEncodedStrip itk_TIFFReadEncodedStrip
 #define TIFFReadEncodedTile itk_TIFFReadEncodedTile
+#define TIFFReadEXIFDirectory itk_TIFFReadEXIFDirectory
 #define TIFFReadRGBAImage itk_TIFFReadRGBAImage
 #define TIFFReadRGBAStrip itk_TIFFReadRGBAStrip
 #define TIFFReadRGBATile itk_TIFFReadRGBATile
@@ -144,6 +151,7 @@ nm libitktiff.a |grep " R "
 #define TIFFSwabArrayOfDouble itk_TIFFSwabArrayOfDouble
 #define TIFFSwabArrayOfLong itk_TIFFSwabArrayOfLong
 #define TIFFSwabArrayOfShort itk_TIFFSwabArrayOfShort
+#define TIFFSwabArrayOfTriples itk_TIFFSwabArrayOfTriples
 #define TIFFSwabDouble itk_TIFFSwabDouble
 #define TIFFSwabLong itk_TIFFSwabLong
 #define TIFFSwabShort itk_TIFFSwabShort
