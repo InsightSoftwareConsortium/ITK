@@ -7,7 +7,5 @@ set(ITKHighDimensionalOptimizers_SRC
 add_library(ITKHighDimensionalOptimizers ${ITKHighDimensionalOptimizers_SRC})
 target_link_libraries(ITKHighDimensionalOptimizers
   ${ITKHighDimensionalMetrics_LIBRARIES}
-  ${ITKRegistrationCommon_LIBRARIES}
-  ${ITKOptimizers_LIBRARIES}
   )
 itk_module_target(ITKHighDimensionalOptimizers)

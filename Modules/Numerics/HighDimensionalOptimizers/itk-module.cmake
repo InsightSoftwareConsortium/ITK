@@ -3,7 +3,6 @@ optimizers using a new hierarchy developed for the needs of registration with hi
 
 itk_module(ITKHighDimensionalOptimizers
   DEPENDS
-    ITKTransform
     ITKHighDimensionalMetrics
   TEST_DEPENDS
     ITKTestKernel
