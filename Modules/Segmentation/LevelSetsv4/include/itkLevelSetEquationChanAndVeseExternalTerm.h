@@ -26,10 +26,23 @@ namespace itk
 {
 /**
  *  \class LevelSetEquationChanAndVeseExternalTerm
- *  \brief Derived class to represent the external energy Chan And Vese term
+ *  \brief Class to represent the external energy Chan And Vese term
+ *
+ *  \f[
+ *    \delta_{\epsilon}\left( \phi_{k}\left( p \right) \right) \cdot
+ *    \prod_{i = 1, i \neq k}^{N} \left( 1 - H_{\epsilon} \left( \phi_i\left( p \right) \right) \right) \cdot
+      \left\| I(p) - \mu_{out} \right\|^2
+ *  \f]
+ *
+ *  \li \f$ \delta_{\epsilon} \f$ is a regularized dirac function,
+ *  \li \f$ k \f$ is the current level-set id,
+ *  \li \f$  I\left( p \right) \f$ is the pixel value at the given location \f$ p \f$,
+ *  \li \f$ H_{\epsilon}  \f$ is a regularized Heaviside function,
+ *  \li \f$ \mu_{out} \f$ is the external mean intensity
  *
  *  \tparam TInput Input Image Type
  *  \tparam TLevelSetContainer Level set function container type
+ *
  *  \ingroup ITKLevelSetsv4
  */
 template< class TInput, // Input image or mesh
