@@ -76,12 +76,12 @@ public:
 
   /** Superclass typedefs for Measurement vector, measurement,
    * Instance Identifier, frequency, size, size element value */
-  itkSuperclassTraitMacro(MeasurementType)
-  itkSuperclassTraitMacro(MeasurementVectorType)
-  itkSuperclassTraitMacro(AbsoluteFrequencyType)
-  itkSuperclassTraitMacro(TotalAbsoluteFrequencyType)
-  itkSuperclassTraitMacro(MeasurementVectorSizeType)
-  itkSuperclassTraitMacro(InstanceIdentifier)
+  typedef typename Superclass::MeasurementType            MeasurementType;
+  typedef typename Superclass::MeasurementVectorType      MeasurementVectorType;
+  typedef typename Superclass::AbsoluteFrequencyType      AbsoluteFrequencyType;
+  typedef typename Superclass::TotalAbsoluteFrequencyType TotalAbsoluteFrequencyType;
+  typedef typename Superclass::MeasurementVectorSizeType  MeasurementVectorSizeType;
+  typedef typename Superclass::InstanceIdentifier         InstanceIdentifier;
 
   typedef MeasurementVectorType ValueType;
 

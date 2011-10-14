@@ -83,16 +83,19 @@ public:
   typedef ImageRegionConstIterator< ImageType >     ImageConstIteratorType;
   typedef PixelTraits< typename TImage::PixelType > PixelTraitsType;
 
+
   /** Superclass typedefs for Measurement vector, measurement,
    * Instance Identifier, frequency, size, size element value */
-  typedef typename MeasurementVectorPixelTraits<
-    PixelType >::MeasurementVectorType MeasurementVectorType;
-  typedef typename MeasurementVectorTraitsTypes<
-    MeasurementVectorType >::ValueType MeasurementType;
-  itkSuperclassTraitMacro(AbsoluteFrequencyType)
-  itkSuperclassTraitMacro(TotalAbsoluteFrequencyType)
-  itkSuperclassTraitMacro(MeasurementVectorSizeType)
-  itkSuperclassTraitMacro(InstanceIdentifier)
+  typedef MeasurementVectorPixelTraits< PixelType >                   MeasurementPixelTraitsType;
+  typedef typename MeasurementPixelTraitsType::MeasurementVectorType  MeasurementVectorType;
+
+  typedef MeasurementVectorTraitsTypes< MeasurementVectorType > MeasurementVectorTraitsType;
+  typedef typename MeasurementVectorTraitsType::ValueType       MeasurementType;
+
+  typedef typename Superclass::AbsoluteFrequencyType      AbsoluteFrequencyType;
+  typedef typename Superclass::TotalAbsoluteFrequencyType TotalAbsoluteFrequencyType;
+  typedef typename Superclass::MeasurementVectorSizeType  MeasurementVectorSizeType;
+  typedef typename Superclass::InstanceIdentifier         InstanceIdentifier;
 
   typedef MeasurementVectorType ValueType;
 

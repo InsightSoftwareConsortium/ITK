@@ -59,13 +59,13 @@ public:
   itkTypeMacro( ExpectationBasedPointSetMetric, PointSetToPointSetMetric );
 
    /** Types transferred from the base class */
-  itkSuperclassTraitMacro( MeasureType );
-  itkSuperclassTraitMacro( DerivativeType );
-  itkSuperclassTraitMacro( LocalDerivativeType );
-  itkSuperclassTraitMacro( PointType );
-  itkSuperclassTraitMacro( CoordRepType );
-  itkSuperclassTraitMacro( PointIdentifier );
-  itkSuperclassTraitMacro( NeighborsIdentifierType );
+  typedef typename Superclass::MeasureType              MeasureType;
+  typedef typename Superclass::DerivativeType           DerivativeType;
+  typedef typename Superclass::LocalDerivativeType      LocalDerivativeType;
+  typedef typename Superclass::PointType                PointType;
+  typedef typename Superclass::CoordRepType             CoordRepType;
+  typedef typename Superclass::PointIdentifier          PointIdentifier;
+  typedef typename Superclass::NeighborsIdentifierType  NeighborsIdentifierType;
 
   /**
    * Calculates the local metric value for a single point.

@@ -111,13 +111,13 @@ public:
     itkGetStaticConstMacro( PointDimension )>      MovingTransformedPointSetType;
 
   /**  Type of the measure. */
-  itkSuperclassTraitMacro( MeasureType );
+  typedef typename Superclass::MeasureType MeasureType;
 
   /**  Type of the measure. */
-  itkSuperclassTraitMacro( ParametersType );
+  typedef typename Superclass::ParametersType ParametersType;
 
   /**  Type of the derivative. */
-  itkSuperclassTraitMacro( DerivativeType );
+  typedef typename Superclass::DerivativeType DerivativeType;
 
   typedef typename DerivativeType::ValueType           DerivativeValueType;
   typedef FixedArray<DerivativeValueType,
