@@ -35,8 +35,8 @@
 #include "itkScaleSkewVersor3DTransform.h"
 #include "itkTranslationTransform.h"
 #include "itkVersorTransform.h"
-
 #include "itkBSplineTransform.h"
+#include "itkCompositeTransform.h"
 
 #if defined( ITKV3_COMPATIBILITY )
 #include "itkBSplineDeformableTransform.h"
@@ -179,6 +179,25 @@ void TransformFactoryBase::RegisterDefaultTransforms()
     TransformFactory< TranslationTransform< float > >::RegisterTransform ();
     TransformFactory< VersorRigid3DTransform< float > >::RegisterTransform ();
     TransformFactory< VersorTransform< float > >::RegisterTransform ();
+    //
+    // register composite transform
+    TransformFactory<CompositeTransform<double, 2> >::RegisterTransform();
+    TransformFactory<CompositeTransform<double, 3> >::RegisterTransform();
+    TransformFactory<CompositeTransform<double, 4> >::RegisterTransform();
+    TransformFactory<CompositeTransform<double, 5> >::RegisterTransform();
+    TransformFactory<CompositeTransform<double, 6> >::RegisterTransform();
+    TransformFactory<CompositeTransform<double, 7> >::RegisterTransform();
+    TransformFactory<CompositeTransform<double, 8> >::RegisterTransform();
+    TransformFactory<CompositeTransform<double, 9> >::RegisterTransform();
+    TransformFactory<CompositeTransform<float, 2> >::RegisterTransform();
+    TransformFactory<CompositeTransform<float, 3> >::RegisterTransform();
+    TransformFactory<CompositeTransform<float, 4> >::RegisterTransform();
+    TransformFactory<CompositeTransform<float, 5> >::RegisterTransform();
+    TransformFactory<CompositeTransform<float, 6> >::RegisterTransform();
+    TransformFactory<CompositeTransform<float, 7> >::RegisterTransform();
+    TransformFactory<CompositeTransform<float, 8> >::RegisterTransform();
+    TransformFactory<CompositeTransform<float, 9> >::RegisterTransform();
+
     }
   TransformFactoryBasePrivate::DefaultTransformsRegistered = true;
 }

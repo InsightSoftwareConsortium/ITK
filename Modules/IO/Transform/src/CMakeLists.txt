@@ -9,6 +9,7 @@ itkTransformIOBase.cxx
 itkTransformIOFactory.cxx
 itkTxtTransformIO.cxx
 itkTxtTransformIOFactory.cxx
+itkCompositeTransformIOHelper.cxx
 )
 
 add_library(ITKIOTransform ${ITKIOTransform_SRC})

@@ -4,6 +4,7 @@ itkTransformIOTest.cxx
 itkCenteredRigid2DTransformTest.cxx
 itkEuler2DTransformTest.cxx
 itkTransformFileReaderWriterTest.cxx
+itkCompositeTransformReadWriteTest.cxx
 )
 
 CreateTestDriver(ITKIOTransform "${ITKIOTransform-Test_LIBRARIES}" "${ITKIOTransformTests}")
@@ -29,3 +30,5 @@ itk_add_test(NAME itkTransformFileReaderWriterTest2
 itk_add_test(NAME itkTransformFileReaderWriterTest3
       COMMAND ITKIOTransformTestDriver itkTransformFileReaderWriterTest
               DATA{Baseline/itkBSplineTransform00.txt} ${ITK_TEST_OUTPUT_DIR}/itkBSplineTransform00.mat)
+itk_add_test(NAME itkCompositeTransformReadWriteTest
+      COMMAND ITKIOTransformTestDriver itkCompositeTransformReadWriteTest ${ITK_TEST_OUTPUT_DIR})
