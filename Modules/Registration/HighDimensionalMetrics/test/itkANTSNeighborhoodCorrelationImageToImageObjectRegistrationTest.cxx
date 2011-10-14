@@ -208,7 +208,7 @@ int itkANTSNeighborhoodCorrelationImageToImageObjectRegistrationTest(int argc, c
   shiftScaleEstimator->SetMetric(metric);
   shiftScaleEstimator->SetTransformForward(true); //by default, scales for the moving transform
   RegistrationParameterScalesFromShiftType::ScalesType movingScales(
-    affineTransform->GetNumberOfParameters());
+    affineTransform->GetNumberOfLocalParameters());
   shiftScaleEstimator->EstimateScales(movingScales);
   std::cout << "Shift scales for the affine transform = " << movingScales << std::endl;
 
@@ -232,7 +232,7 @@ int itkANTSNeighborhoodCorrelationImageToImageObjectRegistrationTest(int argc, c
 
   // Optimizer
   RegistrationParameterScalesFromShiftType::ScalesType displacementScales(
-    displacementTransform->GetNumberOfParameters());
+    displacementTransform->GetNumberOfLocalParameters());
   displacementScales.Fill(1);
   optimizer->SetMetric( metric );
   optimizer->SetLearningRate( deformationLearningRate );

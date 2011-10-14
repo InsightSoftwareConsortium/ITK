@@ -239,8 +239,8 @@ int itkJointHistogramMutualInformationImageToImageObjectRegistrationTest(int arg
   shiftScaleEstimator->SetMetric(metric);
   shiftScaleEstimator->SetTransformForward(true); //by default, scales for the moving transform
   //  shiftScaleEstimator->SetSamplingStrategy( RegistrationParameterScalesFromShiftType::SamplingWithRandom);
-  RegistrationParameterScalesFromShiftType::ScalesType movingScales(
-    affineTransform->GetNumberOfParameters());
+  RegistrationParameterScalesFromShiftType::ScalesType
+    movingScales( affineTransform->GetNumberOfLocalParameters() );
   shiftScaleEstimator->EstimateScales(movingScales);
   std::cout << "Shift scales for the affine transform = " << movingScales << std::endl;
 
@@ -264,8 +264,8 @@ int itkJointHistogramMutualInformationImageToImageObjectRegistrationTest(int arg
   metric->Initialize();
 
   // Optimizer
-  RegistrationParameterScalesFromShiftType::ScalesType displacementScales(
-    displacementTransform->GetNumberOfParameters());
+  RegistrationParameterScalesFromShiftType::ScalesType
+    displacementScales( displacementTransform->GetNumberOfLocalParameters() );
   displacementScales.Fill(1);
   optimizer->SetMetric( metric );
   optimizer->SetLearningRate( deformationLearningRate );

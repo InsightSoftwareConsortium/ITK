@@ -56,7 +56,7 @@ public:
     }
 
   unsigned int GetNumberOfLocalParameters() const
-  { return 0; }
+  { return 3; }
 
   bool HasLocalSupport() const
   { return false; }
@@ -104,12 +104,13 @@ public:
   /* Provide an override for the pure virtual StartOptimization */
   void StartOptimization()
     {
+    Superclass::StartOptimization();
     std::cout << "StartOptimization called." << std::endl;
     }
 
   void ResumeOptimization()
     {
-    std::cout << "StartOptimization called." << std::endl;
+    std::cout << "ResumeOptimization called." << std::endl;
     }
 
   void ModifyGradient()
@@ -117,9 +118,10 @@ public:
     std::cout << "ModifyGradient called." << std::endl;
     }
 
-  void ModifyGradientOverSubRange (const IndexRangeType& )
+  void ModifyGradientOverSubRange (const IndexRangeType& index )
     {
-    std::cout << "ModifyGradientOverSubRange called." << std::endl;
+    std::cout << "ModifyGradientOverSubRange called with index:"
+              << index << std::endl;
     }
 
 protected:
@@ -154,7 +156,7 @@ int itkGradientDescentObjectOptimizerBaseTest(int , char* [])
 
   std::cout << "value: " << optimizer->GetValue() << std::endl;
 
-  optimizer->SetNumberOfThreads( 1 );
+  optimizer->SetNumberOfThreads( 2 );
 
   TRY_EXPECT_NO_EXCEPTION( optimizer->StartOptimization() );
 
