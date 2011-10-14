@@ -357,12 +357,10 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::ApplyLoad
     element->GetIntegrationPointAndWeight(i, ip, w, order);
 
     shapef = element->ShapeFunctions(ip);
-    float solval, posval;
     detJ = element->JacobianDeterminant(ip);
     for( unsigned int f = 0; f < NumDegreesOfFreedom; f++ )
       {
-      solval = 0.0;
-      posval = 0.0;
+      float posval = 0.0;
       for( unsigned int n = 0; n < NumNodes; n++ )
         {
         posval += shapef[n] * ( (element->GetNodeCoordinates(n) )[f]);
