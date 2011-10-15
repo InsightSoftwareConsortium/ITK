@@ -34,9 +34,11 @@ namespace itk
  * diffeomorphism, \phi, is generated from a time-varying velocity field, v, as
  * described by the first-order differential equation:
  *
- * v(\phi(x,t), t) = \frac{d\phi(x, t)}{dt}, \phi(x, 0) = x
+ *  \f[
+ *    v(\phi(x,t), t) = \frac{d\phi(x, t)}{dt}, \phi(x, 0) = x
+ *  \f]
  *
- * In this class, the input is the time-varying velocity field.  The output
+ * In this class, the input is the time-varying velocity field. The output
  * diffeomorphism is produced using fourth order Runge-Kutta.
  *
  * \warning The output deformation field needs to have dimensionality of 1
@@ -49,10 +51,6 @@ namespace itk
  *
  * \ingroup Transforms
  * \ingroup ITKDisplacementField
- *
- * \wiki
- * \wikiexample{}
- * \endwiki
  */
 template<class TScalar, unsigned int NDimensions>
 class ITK_EXPORT TimeVaryingVelocityFieldTransform :
