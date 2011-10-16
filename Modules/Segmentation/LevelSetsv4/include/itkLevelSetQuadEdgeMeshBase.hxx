@@ -44,7 +44,7 @@ LevelSetQuadEdgeMeshBase< TMesh >::Evaluate( const InputType& iP ) const
 
 template< class TMesh >
 typename LevelSetQuadEdgeMeshBase< TMesh >::GradientType
-LevelSetQuadEdgeMeshBase< TMesh >::EvaluateGradient( const InputType& iP ) const
+LevelSetQuadEdgeMeshBase< TMesh >::EvaluateGradient( const InputType& itkNotUsed(iP) ) const
 {
   itkWarningMacro( <<"to be implemented" );
   return this->GradientType();
@@ -52,7 +52,7 @@ LevelSetQuadEdgeMeshBase< TMesh >::EvaluateGradient( const InputType& iP ) const
 
 template< class TMesh >
 typename LevelSetQuadEdgeMeshBase< TMesh >::HessianType
-LevelSetQuadEdgeMeshBase< TMesh >::EvaluateHessian( const InputType& iP ) const
+LevelSetQuadEdgeMeshBase< TMesh >::EvaluateHessian( const InputType& itkNotUsed(iP) ) const
 {
   itkWarningMacro( <<"to be implemented" );
   return this->HessianType();
@@ -72,8 +72,9 @@ LevelSetQuadEdgeMeshBase< TMesh >::Evaluate( const InputType& iP, LevelSetDataTy
 
 template< class TMesh >
 void
-LevelSetQuadEdgeMeshBase< TMesh >::EvaluateGradient( const InputType& iP, LevelSetDataType& ioData ) const
+LevelSetQuadEdgeMeshBase< TMesh >::EvaluateGradient( const InputType& itkNotUsed(iP), LevelSetDataType& ioData ) const
 {
+
   // if it has not already been computed before
   if( !ioData.Gradient.first )
     {
@@ -86,15 +87,15 @@ LevelSetQuadEdgeMeshBase< TMesh >::EvaluateGradient( const InputType& iP, LevelS
 
 template< class TMesh >
 void
-LevelSetQuadEdgeMeshBase< TMesh >::EvaluateHessian( const InputType& iP, LevelSetDataType& ioData ) const
+LevelSetQuadEdgeMeshBase< TMesh >::EvaluateHessian( const InputType& itkNotUsed(iP), LevelSetDataType& ioData ) const
 {
-if( !ioData.Hessian.first )
-  {
-  ioData.Hessian.first = true;
+  if( !ioData.Hessian.first )
+    {
+    ioData.Hessian.first = true;
 
-  // compute the hessian
-  ///\todo implement the computation of the hessian
-  }
+    // compute the hessian
+    ///\todo implement the computation of the hessian
+    }
 }
 
 template< class TMesh >
