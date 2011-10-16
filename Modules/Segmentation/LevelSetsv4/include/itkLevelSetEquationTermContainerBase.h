@@ -35,6 +35,7 @@ namespace itk
  *
  *  \tparam TInputImage Input image or speed image or feature image for segmentation
  *  \tparam TLevelSetContainer Container holding the all the level set functions
+ *
  *  \ingroup ITKLevelSetsv4
  */
 template< class TInputImage,
@@ -81,6 +82,12 @@ public:
   /** Set/Get the input image to be segmented. */
   itkSetObjectMacro( Input, InputImageType );
   itkGetObjectMacro( Input, InputImageType );
+
+  itkSetMacro( CurrentLevelSetId, LevelSetIdentifierType );
+  itkGetMacro( CurrentLevelSetId, LevelSetIdentifierType );
+
+  itkSetObjectMacro( LevelSetContainer, LevelSetContainerType );
+  itkGetObjectMacro( LevelSetContainer, LevelSetContainerType );
 
   /** Add a term to the end of the container  */
   void PushTerm( TermType* iTerm );
@@ -203,44 +210,44 @@ public:
     Iterator * operator ->() { return this; }
 
     Iterator & operator++()
-    {
+      {
       ++m_Iterator;
       return *this;
-    }
+      }
     Iterator operator++(int)
-    {
+      {
        Iterator tmp( *this );
       ++(*this);
       return tmp;
-    }
+      }
     Iterator & operator--()
-    {
+      {
       --m_Iterator;
       return *this;
-    }
+      }
     Iterator operator--(int)
-    {
+      {
       Iterator tmp( *this );
       --(*this);
       return tmp;
-    }
+      }
 
     bool operator==(const Iterator& it) const
-    {
+      {
       return (m_Iterator==it.m_Iterator);
-    }
+      }
     bool operator!=(const Iterator& it) const
-    {
+      {
       return (m_Iterator!=it.m_Iterator);
-    }
+      }
     bool operator==(const ConstIterator& it)const
-    {
+      {
       return (m_Iterator == it.m_Iterator);
-    }
+      }
     bool operator!=(const ConstIterator& it)const
-    {
+      {
       return (m_Iterator != it.m_Iterator);
-    }
+      }
     TermIdType GetIdentifier() const
       {
       return m_Iterator->first;
@@ -266,7 +273,10 @@ protected:
 
   virtual ~LevelSetEquationTermContainerBase();
 
-  InputImagePointer     m_Input;
+  LevelSetIdentifierType    m_CurrentLevelSetId;
+  LevelSetContainerPointer  m_LevelSetContainer;
+
+  InputImagePointer         m_Input;
 
   typedef itksys::hash_map< std::string, TermPointer > HashMapStringTermContainerType;
 

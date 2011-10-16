@@ -61,9 +61,6 @@ public:
   typedef typename TermContainerType::LevelSetContainerType     LevelSetContainerType;
   typedef typename TermContainerType::LevelSetContainerPointer  LevelSetContainerPointer;
 
-  /** Return a pointer to the level set container */
-  LevelSetContainerType * GetLevelSetContainer() const;
-
   /** Add a equation to the system of equations in the EquationContainer map */
   void AddEquation( const LevelSetIdentifierType& iId, TermContainerType * iEquation );
 
@@ -88,6 +85,9 @@ public:
   /** Set/Get the input speed or feature image */
   itkSetObjectMacro( Input, InputImageType );
   itkGetConstObjectMacro( Input, InputImageType );
+
+  itkSetObjectMacro( LevelSetContainer, LevelSetContainerType );
+  itkGetObjectMacro( LevelSetContainer, LevelSetContainerType );
 
 protected:
   typedef std::map< LevelSetIdentifierType, TermContainerPointer >  MapContainerType;
@@ -171,44 +171,44 @@ public:
     Iterator * operator ->() { return this; }
 
     Iterator & operator++()
-    {
+      {
       ++m_Iterator;
       return *this;
-    }
+      }
     Iterator operator++(int)
-    {
+      {
       Iterator tmp( *this );
       ++(*this);
       return tmp;
-    }
+      }
     Iterator & operator--()
-    {
+      {
       --m_Iterator;
       return *this;
-    }
+      }
     Iterator operator--(int)
-    {
+      {
       Iterator tmp( *this );
       --(*this);
       return tmp;
-    }
+      }
 
     bool operator==(const Iterator& it) const
-    {
+      {
       return (m_Iterator==it.m_Iterator);
-    }
+      }
     bool operator!=(const Iterator& it) const
-    {
+      {
       return (m_Iterator!=it.m_Iterator);
-    }
+      }
     bool operator==(const ConstIterator& it)const
-    {
+      {
       return (m_Iterator == it.m_Iterator);
-    }
+      }
     bool operator!=(const ConstIterator& it)const
-    {
+      {
       return (m_Iterator != it.m_Iterator);
-    }
+      }
     LevelSetIdentifierType GetIdentifier() const
       {
       return m_Iterator->first;
@@ -234,8 +234,9 @@ protected:
   LevelSetEquationContainerBase();
   virtual ~LevelSetEquationContainerBase();
 
-  MapContainerType  m_Container;
-  InputImagePointer m_Input;
+  LevelSetContainerPointer  m_LevelSetContainer;
+  MapContainerType          m_Container;
+  InputImagePointer         m_Input;
 
 
 private:

@@ -134,6 +134,8 @@ protected:
   LevelSetOutputRealType      m_RMSChangeAccumulator;
   bool                        m_UserGloballyDefinedTimeStep;
 
+  void CheckSetUp();
+
 private:
   LevelSetEvolutionBase( const Self& ); // purposely not implemented
   void operator = ( const Self& );  // purposely not implemented

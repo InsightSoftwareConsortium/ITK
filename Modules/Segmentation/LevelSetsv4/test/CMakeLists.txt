@@ -46,7 +46,7 @@ itkLevelSetEvolutionNumberOfIterationsStoppingCriterionTest.cxx
 
 CreateTestDriver(ITKLevelSetsv4  "${ITKLevelSetsv4-Test_LIBRARIES}" "${ITKLevelSetsv4Tests}")
 
-itk_add_test(NAME itkLevelSetDenseImageBaseTest
+itk_add_test(NAME itkLevelSetsv4DenseImageBaseTest
       COMMAND ITKLevelSetsv4TestDriver itkLevelSetDenseImageBaseTest)
 itk_add_test(NAME itkWhitakerSparseLevelSetsv4BaseTest
       COMMAND ITKLevelSetsv4TestDriver itkWhitakerSparseLevelSetImageTest)
@@ -137,15 +137,15 @@ itk_add_test(NAME itkSingleLevelSetsv4WhitakerImage2DWithPropagationTest
       DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png}
 )
 
-itk_add_test(NAME LevelSetEquationCurvatureTermTest
+itk_add_test(NAME itkLevelSetsv4EquationCurvatureTermTest
       COMMAND ITKLevelSetsv4TestDriver itkLevelSetEquationCurvatureTermTest
       DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png} )
 
-itk_add_test(NAME itkLevelSetEquationPropagationTermTest
+itk_add_test(NAME itkLevelSetsv4EquationPropagationTermTest
       COMMAND ITKLevelSetsv4TestDriver itkLevelSetEquationPropagationTermTest
       DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png} )
 
-itk_add_test(NAME itkLevelSetEquationLaplacianTermTest
+itk_add_test(NAME itkLevelSetsv4EquationLaplacianTermTest
       COMMAND ITKLevelSetsv4TestDriver itkLevelSetEquationLaplacianTermTest
       DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png} )
 
@@ -187,11 +187,11 @@ itk_add_test(NAME itkTwoLevelSetsv4ShiImage2DTest
       ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_shi_two.mha
 )
 
-itk_add_test(NAME itkLevelSetEvolutionNumberOfIterationsStoppingCriterionTest
+itk_add_test(NAME itkLevelSetsv4EvolutionNumberOfIterationsStoppingCriterionTest
       COMMAND ITKLevelSetsv4TestDriver itkLevelSetEvolutionNumberOfIterationsStoppingCriterionTest)
-itk_add_test(NAME itkMultiLevelSetDenseImageTest
+itk_add_test(NAME itkMultiLevelSetsv4DenseImageTest
       COMMAND ITKLevelSetsv4TestDriver itkMultiLevelSetDenseImageTest)
 itk_add_test(NAME itkMultiLevelSetsv4ChanAndVeseInternalTermTest
       COMMAND ITKLevelSetsv4TestDriver itkMultiLevelSetChanAndVeseInternalTermTest)
-itk_add_test(NAME itkMultiLevelsv4SetEvolutionTest
+itk_add_test(NAME itkMultiLevelSetsv4SetEvolutionTest
       COMMAND ITKLevelSetsv4TestDriver itkMultiLevelSetEvolutionTest)

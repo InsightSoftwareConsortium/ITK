@@ -175,10 +175,9 @@ int itkMultiLevelSetChanAndVeseInternalTermTest( int , char* [] )
   cvTerm->SetLevelSetContainer( lscontainer );
   std::cout << "CV term created" << std::endl;
 
-  TermContainerType::TermPointer temp = dynamic_cast< TermContainerType::TermType* >( cvTerm.GetPointer() );
   // Create Term Container
   TermContainerType::Pointer termContainer = TermContainerType::New();
-  termContainer->AddTerm( 0, temp );
+  termContainer->AddTerm( 0, cvTerm );
   std::cout << "Term container created" << std::endl;
 
   typedef DomainMapImageFilterType::DomainIteratorType DomainIteratorType;
@@ -207,14 +206,14 @@ int itkMultiLevelSetChanAndVeseInternalTermTest( int , char* [] )
 
       for( IdListType::iterator lIt = lout.begin(); lIt != lout.end(); ++lIt )
         {
-          std::cout << *lIt << " ";
-          levelSet = lscontainer->GetLevelSet( *lIt - 1);
-          std::cout << levelSet->Evaluate( temp_it.GetIndex() ) << std::endl;
+        std::cout << *lIt << " ";
+        levelSet = lscontainer->GetLevelSet( *lIt - 1);
+        std::cout << levelSet->Evaluate( temp_it.GetIndex() ) << std::endl;
 
-          if ( *lIt - 1 == 0 )
+        if ( *lIt - 1 == 0 )
           {
-            eqTerm =  dynamic_cast< ChanAndVeseTermType* >( termContainer->GetTerm( *lIt - 1 ) );
-            std::cout << eqTerm->Evaluate( temp_it.GetIndex() ) << std::endl;
+          eqTerm =  dynamic_cast< ChanAndVeseTermType* >( termContainer->GetTerm( *lIt - 1 ) );
+          std::cout << eqTerm->Evaluate( temp_it.GetIndex() ) << std::endl;
           }
         }
       std::cout << std::endl;

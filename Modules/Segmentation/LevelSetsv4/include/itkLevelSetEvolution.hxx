@@ -38,6 +38,8 @@ template< class TEquationContainer, class TImage >
 void
 LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >::Update()
 {
+  this->CheckSetUp();
+
   //Run iteration
   this->RunOneIteration();
 }
@@ -56,19 +58,6 @@ void
 LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
 ::RunOneIteration()
 {
-  typename EquationContainerType::Iterator eqIt = this->m_EquationContainer->Begin();
-  TermContainerPointer termContainer = eqIt->GetEquation();
-
-  typename TermContainerType::Iterator termIt = termContainer->Begin();
-  if( termIt == termContainer->End() )
-    {
-    itkGenericExceptionMacro( << "TermContainer is empty" );
-    }
-  TermPointer term = termIt->GetTerm();
-
-  // Get the LevelSetContainer from the EquationContainer
-  this->m_LevelSetContainer = term->GetLevelSetContainer();
-
   this->AllocateUpdateBuffer();
 
   this->InitializeIteration();
@@ -331,46 +320,7 @@ void
 LevelSetEvolution< TEquationContainer, WhitakerSparseLevelSetImage< TOutput, VDimension > >
 ::Update()
 {
-  if( this->m_EquationContainer.IsNull() )
-    {
-    itkGenericExceptionMacro( << "m_EquationContainer is NULL" );
-    }
-
-  typename EquationContainerType::Iterator eqIt = this->m_EquationContainer->Begin();
-
-  if( eqIt == this->m_EquationContainer->End() )
-    {
-    itkGenericExceptionMacro( <<"this->m_EquationContainer is empty" );
-    }
-  if( !eqIt->GetEquation() )
-    {
-    itkGenericExceptionMacro( << "m_EquationContainer->GetEquation( 0 ) is NULL" );
-    }
-
-  // Get the image to be segmented
-  InputImageConstPointer inputImage = this->m_EquationContainer->GetInput();
-
-  if( inputImage.IsNull() )
-    {
-    itkGenericExceptionMacro( << "input Image is NULL" );
-    }
-
-  // Get the LevelSetContainer from the EquationContainer
-  TermContainerPointer termContainer = eqIt->GetEquation();
-  typename TermContainerType::Iterator termIt = termContainer->Begin();
-  if( termIt == termContainer->End() )
-    {
-    itkGenericExceptionMacro( << "TermContainer is empty" );
-    }
-
-  TermPointer term0 = termIt->GetTerm();
-
-  this->m_LevelSetContainer = term0->GetLevelSetContainer();
-
-  if( this->m_StoppingCriterion.IsNull() )
-    {
-    itkGenericExceptionMacro( << "m_StoppingCriterion is NULL" );
-    }
+  this->CheckSetUp();
 
   //Run iteration
   this->RunOneIteration();
@@ -609,59 +559,15 @@ template< class TEquationContainer, unsigned int VDimension >
 void LevelSetEvolution< TEquationContainer, ShiSparseLevelSetImage< VDimension > >
 ::Update()
 {
-  if( this->m_EquationContainer.IsNull() )
-    {
-    itkGenericExceptionMacro( << "m_EquationContainer is NULL" );
-    }
-
-  typename EquationContainerType::Iterator eqIt = this->m_EquationContainer->Begin();
-
-  if( eqIt == this->m_EquationContainer->End() )
-    {
-    itkGenericExceptionMacro( <<"this->m_EquationContainer is empty" );
-    }
-  if( !eqIt->GetEquation() )
-    {
-    itkGenericExceptionMacro( << "eqIt->GetEquation( ) is NULL" );
-    }
-
-  // Get the image to be segmented
-  InputImageConstPointer inputImage = this->m_EquationContainer->GetInput();
-
-  if( inputImage.IsNull() )
-    {
-    itkGenericExceptionMacro( << "Input Image is NULL" );
-    }
-
-  TermContainerPointer Equation0 = eqIt->GetEquation();
-  typename TermContainerType::Iterator termIt = Equation0->Begin();
-  if( termIt == Equation0->End() )
-    {
-    itkGenericExceptionMacro( << "TermContainer is empty" );
-    }
-
-  TermPointer term0 = termIt->GetTerm();
-
-  // Get the LevelSetContainer from the EquationContainer
-  this->m_LevelSetContainer = term0->GetLevelSetContainer();
-
-  if( term0.IsNull() )
-    {
-    itkGenericExceptionMacro( << "term0 is NULL" );
-    }
-
-  if( !term0->GetLevelSetContainer() )
-    {
-    itkGenericExceptionMacro( << "m_LevelSetContainer is NULL" );
-    }
+  this->CheckSetUp();
 
   //Run iteration
-  this->GenerateData();
+  this->RunOneIteration();
 }
 
 template< class TEquationContainer, unsigned int VDimension >
 void LevelSetEvolution< TEquationContainer, ShiSparseLevelSetImage< VDimension > >
-::GenerateData()
+::RunOneIteration()
 {
   this->AllocateUpdateBuffer();
 
@@ -808,56 +714,7 @@ template< class TEquationContainer, unsigned int VDimension >
 void LevelSetEvolution< TEquationContainer, MalcolmSparseLevelSetImage< VDimension > >
 ::Update()
 {
-  if( this->m_EquationContainer.IsNull() )
-    {
-    itkGenericExceptionMacro( << "m_EquationContainer is NULL" );
-    }
-
-  typename EquationContainerType::Iterator eqIt = this->m_EquationContainer->Begin();
-
-  if( eqIt == this->m_EquationContainer->End() )
-    {
-    itkGenericExceptionMacro( <<"this->m_EquationContainer is empty" );
-    }
-  if( !eqIt->GetEquation() )
-    {
-    itkGenericExceptionMacro( << "eqIt->GetEquation() is NULL" );
-    }
-
-  // Get the image to be segmented
-  InputImageConstPointer inputImage = this->m_EquationContainer->GetInput();
-
-  if( inputImage.IsNull() )
-    {
-    itkGenericExceptionMacro( << "Input Image is NULL" );
-    }
-
-  TermContainerPointer equation0 = eqIt->GetEquation( );
-  if( equation0.IsNull() )
-    {
-    itkGenericExceptionMacro( << "equation0 is null" );
-    }
-
-  typename TermContainerType::Iterator termIt = equation0->Begin();
-  if( termIt == equation0->End() )
-    {
-    itkGenericExceptionMacro( << "TermContainer is empty" );
-    }
-
-  TermPointer term0 = termIt->GetTerm();
-
-  // Get the LevelSetContainer from the EquationContainer
-  this->m_LevelSetContainer = term0->GetLevelSetContainer();
-
-  if( term0.IsNull() )
-    {
-    itkGenericExceptionMacro( << "term0 is NULL" );
-    }
-
-  if( !term0->GetLevelSetContainer() )
-    {
-    itkGenericExceptionMacro( << "m_LevelSetContainer is NULL" );
-    }
+  this->CheckSetUp();
 
   //Run iteration
   this->RunOneIteration();
