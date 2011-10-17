@@ -2,12 +2,6 @@ set(DOCUMENTATION "This module contains ITK metric classes using a new hierarchy
 
 itk_module(ITKHighDimensionalMetrics
   DEPENDS
-    ITKTransform
-    ITKOptimizers
-    ITKImageFunction
-    ITKImageGradient
-    ITKSpatialObjects
-    ITKDisplacementField
     ITKRegistrationCommon
   TEST_DEPENDS
     ITKTestKernel
