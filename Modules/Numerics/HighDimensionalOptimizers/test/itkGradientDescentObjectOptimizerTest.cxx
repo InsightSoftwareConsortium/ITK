@@ -240,7 +240,7 @@ int itkGradientDescentObjectOptimizerTest(int, char* [] )
             << itkOptimizer->GetStopConditionDescription() << std::endl;
 
   OptimizerType::Pointer badOptimizer = OptimizerType::New();
-  bool caught;
+  bool caught=false;
   try
     {
     badOptimizer->GetCurrentPosition();
