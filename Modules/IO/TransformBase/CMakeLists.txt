@@ -1,0 +1,3 @@
+project(ITKIOTransformBase)
+set(ITKIOTransformBase_LIBRARIES ITKIOTransformBase)
+itk_module_impl()

@@ -5,6 +5,8 @@ itkAffineTransformTest.cxx
 itkLandmarkBasedTransformInitializerTest.cxx
 itkScaleSkewVersor3DTransformTest.cxx
 itkEuler3DTransformTest.cxx
+itkCenteredRigid2DTransformTest.cxx
+itkEuler2DTransformTest.cxx
 itkRigid3DTransformTest.cxx
 itkScaleVersor3DTransformTest.cxx
 itkTransformTest.cxx
@@ -49,6 +51,10 @@ itk_add_test(NAME itkScaleSkewVersor3DTransformTest
       COMMAND ITKTransformTestDriver itkScaleSkewVersor3DTransformTest)
 itk_add_test(NAME itkEuler3DTransformTest
       COMMAND ITKTransformTestDriver itkEuler3DTransformTest)
+itk_add_test(NAME itkCenteredRigid2DTransformTest
+      COMMAND ITKTransformTestDriver itkCenteredRigid2DTransformTest)
+itk_add_test(NAME itkEuler2DTransformTest
+      COMMAND ITKTransformTestDriver itkEuler2DTransformTest)
 itk_add_test(NAME itkRigid3DTransformTest
       COMMAND ITKTransformTestDriver itkRigid3DTransformTest)
 itk_add_test(NAME itkScaleVersor3DTransformTest

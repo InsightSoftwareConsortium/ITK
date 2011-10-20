@@ -25,7 +25,7 @@ int itkImageFileReaderTest1(int ac, char* av[])
 
   if (ac < 1)
     {
-    std::cout << "usage: itkIOTests itkImageFileReaderTest" << std::endl;
+    std::cout << "usage: ITKImageIOBaseTestDriver itkImageFileReaderTest" << std::endl;
     return EXIT_FAILURE;
     }
 

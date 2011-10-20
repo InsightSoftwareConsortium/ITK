@@ -119,6 +119,22 @@ int itkTransformFactoryBaseTest (int, char*[])
   defaultTransforms.push_back("VersorRigid3DTransform_float_3_3");
   defaultTransforms.push_back("VersorTransform_float_3_3");
   defaultTransforms.push_back("Similarity2DTransform_float_2_2");
+  defaultTransforms.push_back("CompositeTransform_double_2_2");
+  defaultTransforms.push_back("CompositeTransform_double_3_3");
+  defaultTransforms.push_back("CompositeTransform_double_4_4");
+  defaultTransforms.push_back("CompositeTransform_double_5_5");
+  defaultTransforms.push_back("CompositeTransform_double_6_6");
+  defaultTransforms.push_back("CompositeTransform_double_7_7");
+  defaultTransforms.push_back("CompositeTransform_double_8_8");
+  defaultTransforms.push_back("CompositeTransform_double_9_9");
+  defaultTransforms.push_back("CompositeTransform_float_2_2");
+  defaultTransforms.push_back("CompositeTransform_float_3_3");
+  defaultTransforms.push_back("CompositeTransform_float_4_4");
+  defaultTransforms.push_back("CompositeTransform_float_5_5");
+  defaultTransforms.push_back("CompositeTransform_float_6_6");
+  defaultTransforms.push_back("CompositeTransform_float_7_7");
+  defaultTransforms.push_back("CompositeTransform_float_8_8");
+  defaultTransforms.push_back("CompositeTransform_float_9_9");
 
   // add composites
   defaultTransforms.push_back("CompositeTransform_double_2_2");
@@ -151,7 +167,7 @@ int itkTransformFactoryBaseTest (int, char*[])
     {
     if (strcmp((*namesIt).c_str(), (*defaultsIt).c_str()) != 0)
       {
-      std::cout << "[FAILED] " << *defaultsIt << " not registered properly with defaults" << std::endl;
+      std::cout << "[FAILED] " <<*namesIt<<"   "<< *defaultsIt << " not registered properly with defaults" << std::endl;
       return EXIT_FAILURE;
       }
     else

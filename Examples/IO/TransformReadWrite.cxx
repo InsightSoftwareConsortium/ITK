@@ -35,7 +35,6 @@
 #include "itkAffineTransform.h"
 #include "itkBSplineTransform.h"
 #include "itkTransformFactory.h"
-#include "itkTransformFileWriter.h"
 
 int main(int itkNotUsed(ac), char* itkNotUsed(av)[])
 {

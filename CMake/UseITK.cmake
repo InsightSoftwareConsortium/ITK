@@ -26,6 +26,8 @@ if(NOT ITK_NO_IO_FACTORY_REGISTER_MANAGER)
   #
   # Infrastructure for registering automatically the factories of commonly used IO formats
   #
+
+  #for Image IO
   set(LIST_OF_FACTORIES_REGISTRATION "")
   set(LIST_OF_FACTORY_NAMES "")
 
@@ -57,6 +59,23 @@ if(NOT ITK_NO_IO_FACTORY_REGISTER_MANAGER)
   unset(LIST_OF_FACTORIES_REGISTRATION)
   unset(LIST_OF_FACTORY_NAMES)
 
+  # for Transform IO
+  set(LIST_OF_FACTORIES_REGISTRATION "")
+  set(LIST_OF_FACTORY_NAMES "")
+
+  foreach (TransformFormat  Matlab Txt HDF5)
+      set (LIST_OF_FACTORIES_REGISTRATION "${LIST_OF_FACTORIES_REGISTRATION}void ${TransformFormat}TransformIOFactoryRegister__Private(void);")
+      set (LIST_OF_FACTORY_NAMES  "${LIST_OF_FACTORY_NAMES}${TransformFormat}TransformIOFactoryRegister__Private,")
+  endforeach()
+
+  get_filename_component(_selfdir "${CMAKE_CURRENT_LIST_FILE}" PATH)
+  configure_file(${_selfdir}/itkTransformIOFactoryRegisterManager.h.in
+   "${CMAKE_CURRENT_BINARY_DIR}/ITKIOFactoryRegistration/itkTransformIOFactoryRegisterManager.h" @ONLY)
+  unset(LIST_OF_FACTORIES_REGISTRATION)
+  unset(LIST_OF_FACTORY_NAMES)
+
+  #-------------------
   set_property(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS ITK_IO_FACTORY_REGISTER_MANAGER)
   include_directories(BEFORE ${CMAKE_CURRENT_BINARY_DIR}/ITKIOFactoryRegistration)
+
 endif()

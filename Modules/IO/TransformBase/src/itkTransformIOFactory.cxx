@@ -16,34 +16,33 @@
  *
  *=========================================================================*/
 
-#include "itkImageIOFactory.h"
-
+#include "itkTransformIOFactory.h"
 
 namespace itk
 {
-ImageIOBase::Pointer
-ImageIOFactory::CreateImageIO(const char *path, FileModeType mode)
+TransformIOBase::Pointer
+TransformIOFactory::CreateTransformIO(const char *path, FileModeType mode)
 {
-  std::list< ImageIOBase::Pointer > possibleImageIO;
-  std::list< LightObject::Pointer > allobjects =
-    ObjectFactoryBase::CreateAllInstance("itkImageIOBase");
+  std::list< TransformIOBase::Pointer > possibleTransformIO;
+  std::list< LightObject::Pointer >     allobjects =
+    ObjectFactoryBase::CreateAllInstance("itkTransformIOBase");
   for ( std::list< LightObject::Pointer >::iterator i = allobjects.begin();
         i != allobjects.end(); ++i )
     {
-    ImageIOBase *io = dynamic_cast< ImageIOBase * >( i->GetPointer() );
+    TransformIOBase *io = dynamic_cast< TransformIOBase * >( i->GetPointer() );
     if ( io )
       {
-      possibleImageIO.push_back(io);
+      possibleTransformIO.push_back(io);
       }
     else
       {
-      std::cerr << "Error ImageIO factory did not return an ImageIOBase: "
+      std::cerr << "Error TransformIO factory did not return an TransformIOBase: "
                 << ( *i )->GetNameOfClass()
                 << std::endl;
       }
     }
-  for ( std::list< ImageIOBase::Pointer >::iterator k = possibleImageIO.begin();
-        k != possibleImageIO.end(); ++k )
+  for ( std::list< TransformIOBase::Pointer >::iterator k = possibleTransformIO.begin();
+        k != possibleTransformIO.end(); ++k )
     {
     if ( mode == ReadMode )
       {
