@@ -101,12 +101,12 @@ const typename TransformParameters< TValueType >
 TransformParameters< TValueType >
 ::operator=(const Self & rhs)
 {
+  //Note: there's no need to copy the TransformParametersHelper.
+  
   if ( this == &rhs ) { return *this; }
 
-  // Call the superclass implementation
+  // Call the superclass implementation.
   this->ArrayType::operator=(rhs);
-
-  //TODO: Don't copy the TransformParametersHelper?
 
   return *this;
 }
@@ -137,6 +137,32 @@ TransformParameters< TValueType >
   this->ArrayType::operator=(rhs);
 
   return *this;
+}
+
+template< typename TValueType >
+void
+TransformParameters< TValueType >
+::MoveDataPointer( TValueType * pointer )
+{
+  if( m_Helper == NULL )
+    {
+    itkGenericExceptionMacro("TransformParameters::MoveDataPointer: "
+      "m_Helper must be set.");
+    }
+  this->m_Helper->MoveDataPointer( this, pointer );
+}
+
+template< typename TValueType >
+void
+TransformParameters< TValueType >
+::SetParametersObject( LightObject * object )
+{
+  if( m_Helper == NULL )
+    {
+    itkGenericExceptionMacro("TransformParameters::SetParameterObject: "
+      "m_Helper must be set.");
+    }
+    this->m_Helper->SetParametersObject( this, object );
 }
 
 }//namespace itk
