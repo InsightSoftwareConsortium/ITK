@@ -147,15 +147,23 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
     this->m_FixedImage->GetSource()->Update();
     }
 
-  /* If a virtual image has not been set or created, create one from fixed image */
+  /* If a virtual image has not been set or created,
+   * create one from fixed image settings */
   if( ! this->m_UserHasProvidedVirtualDomainImage )
     {
-    /* This instantiation will fail at compilation if user has provided
-     * a different type for VirtualImage in the template parameters. */
-    this->m_VirtualDomainImage = FixedImageType::New();
-    /* Graft the virtual image onto the fixed, to conserve memory. This
-     * copies the image information and shares the data buffer. */
-    this->m_VirtualDomainImage->Graft( this->m_FixedImage );
+    /* Instantiate a virtual image, but do not call Allocate to allocate
+     * the data, to save memory. We don't need data. We'll simply be iterating
+     * over the image to get indecies and transform to points.
+     * Note that it will be safer to have a dedicated VirtualImage class
+     * that prevents accidental access of data. */
+    /* Just copy information from fixed image */
+    this->m_VirtualDomainImage = VirtualImageType::New();
+    this->m_VirtualDomainImage->CopyInformation( this->m_FixedImage );
+    /* CopyInformation does not copy buffered region */
+    this->m_VirtualDomainImage->SetBufferedRegion(
+      this->m_FixedImage->GetBufferedRegion() );
+    this->m_VirtualDomainImage->SetRequestedRegion(
+      this->m_FixedImage->GetRequestedRegion() );
     }
 
   /* Map the fixed samples into the virtual domain and store in
@@ -684,8 +692,8 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
     try
       {
       OffsetValueType offset =
-        this->m_VirtualDomainImage->ComputeOffset(virtualIndex);
-      offset *= this->m_MovingTransform->GetNumberOfLocalParameters();
+        this->ComputeParameterOffsetFromVirtualDomainIndex( virtualIndex,
+          this->m_MovingTransform->GetNumberOfLocalParameters() );
       for (NumberOfParametersType i=0;
             i < this->m_MovingTransform->GetNumberOfLocalParameters(); i++)
         {
@@ -1178,6 +1186,16 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
     this->Modified();
     this->m_UserHasProvidedVirtualDomainImage = virtualImage != NULL;
     }
+}
+
+template<class TFixedImage,class TMovingImage,class TVirtualImage>
+OffsetValueType
+ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
+::ComputeParameterOffsetFromVirtualDomainIndex( const VirtualIndexType & index, NumberOfParametersType numberOfLocalParameters ) const
+{
+  OffsetValueType offset =
+    this->m_VirtualDomainImage->ComputeOffset(index) * numberOfLocalParameters;
+  return offset;
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
