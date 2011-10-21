@@ -43,7 +43,7 @@ ParametricPath<VDimension>
   ContinuousIndexType continuousIndex;
   IndexType           index;
   
-  continuousIndex = Evaluate( input );
+  continuousIndex = this->Evaluate( input );
   
   // Round each coordinate to the nearest integer value
   for( unsigned int i=0; i<VDimension; i++ )
@@ -134,7 +134,7 @@ ParametricPath<VDimension>
     inputStepSize = this->EndOfInput() - input;
     }
   
-  return ( Evaluate(input + inputStepSize) - Evaluate(input) ) / inputStepSize;
+  return ( this->Evaluate(input + inputStepSize) - this->Evaluate(input) ) / inputStepSize;
 }
 
 template<unsigned int VDimension>
