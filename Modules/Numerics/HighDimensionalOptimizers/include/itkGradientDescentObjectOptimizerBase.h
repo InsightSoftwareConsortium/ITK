@@ -115,6 +115,9 @@ protected:
   GradientDescentObjectOptimizerBase();
   virtual ~GradientDescentObjectOptimizerBase();
 
+  /** Estimate the learning rate */
+  virtual void EstimateLearningRate() = 0;
+
   /** Modify the gradient in place, to advance the optimization.
    * This call performs a threaded modification for transforms with
    * local support (assumed to be dense). Otherwise the modification
@@ -126,12 +129,19 @@ protected:
    */
   virtual void ModifyGradient();
 
-  /** Derived classes define this worker method to modify the gradient.
+  /** Derived classes define this worker method to modify the gradient by scales.
    * Modifications must be performed over the index range defined in
    * \c subrange.
    * Called from ModifyGradient(), either directly or via threaded
    * operation. */
-  virtual void ModifyGradientOverSubRange( const IndexRangeType& subrange ) = 0;
+  virtual void ModifyGradientByScalesOverSubRange( const IndexRangeType& subrange ) = 0;
+
+  /** Derived classes define this worker method to modify the gradient by learning rates.
+   * Modifications must be performed over the index range defined in
+   * \c subrange.
+   * Called from ModifyGradient(), either directly or via threaded
+   * operation. */
+  virtual void ModifyGradientByLearningRateOverSubRange( const IndexRangeType& subrange ) = 0;
 
   /* Common variables for optimization control and reporting */
   bool                          m_Stop;
@@ -158,13 +168,18 @@ private:
    * derived classes should put their class-specific modification code.
    * An instance of this optimizer class is referenced through
    * \c holder, which is passed in via the threader's user data. */
-  static void ModifyGradientThreaded(
+  static void ModifyGradientByScalesThreaded(
+                                  const IndexRangeType& rangeForThread,
+                                  ThreadIdType threadId,
+                                  Self *holder );
+  static void ModifyGradientByLearningRateThreaded(
                                   const IndexRangeType& rangeForThread,
                                   ThreadIdType threadId,
                                   Self *holder );
 
   /** Threader for grandient modification */
-  ModifyGradientThreaderType::Pointer      m_ModifyGradientThreader;
+  ModifyGradientThreaderType::Pointer      m_ModifyGradientByScalesThreader;
+  ModifyGradientThreaderType::Pointer      m_ModifyGradientByLearningRateThreader;
 
 };
 

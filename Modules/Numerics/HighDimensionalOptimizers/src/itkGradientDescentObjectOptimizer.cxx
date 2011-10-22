@@ -27,7 +27,11 @@ namespace itk
 GradientDescentObjectOptimizer
 ::GradientDescentObjectOptimizer()
 {
-  this->m_LearningRate = 1.0;
+  this->m_LearningRate = NumericTraits<InternalComputationValueType>::One;
+
+  // m_TrustedStepScale is used for automatic learning rate estimation.
+  // it will be initialized later either by user or by m_ScalesEstimator.
+  this->m_TrustedStepScale = NumericTraits<InternalComputationValueType>::Zero;
 }
 
 /**
@@ -57,6 +61,18 @@ GradientDescentObjectOptimizer
 ::StartOptimization()
 {
   itkDebugMacro("StartOptimization");
+
+  /* Estimate the parameter scales */
+  if ( this->m_ScalesEstimator.IsNotNull() )
+    {
+    this->m_ScalesEstimator->EstimateScales(this->m_Scales);
+
+    if ( this->m_TrustedStepScale <=
+      NumericTraits<InternalComputationValueType>::epsilon())
+      {
+      this->m_TrustedStepScale = this->m_ScalesEstimator->EstimateTrustedStepScale();
+      }
+    }
 
   /* Must call the superclass version for basic validation and setup */
   Superclass::StartOptimization();
@@ -155,32 +171,52 @@ GradientDescentObjectOptimizer
 }
 
 /**
- * Modify the gradient over a given index range.
+ * Modify the gradient by scales over a given index range.
  */
 void
 GradientDescentObjectOptimizer
-::ModifyGradientOverSubRange( const IndexRangeType& subrange )
+::ModifyGradientByScalesOverSubRange( const IndexRangeType& subrange )
 {
   const ScalesType& scales = this->GetScales();
 
   /* Loop over the range. It is inclusive. */
   for ( IndexValueType j = subrange[0]; j <= subrange[1]; j++ )
     {
-    if( this->m_ScalesAreIdentity )
-      {
-      this->m_Gradient[j] = this->m_Gradient[j] * this->m_LearningRate;
-      }
-    else
-      {
-      // scales is checked during StartOptmization for values <=
-      // machine epsilon.
-      // Take the modulo of the index to handle gradients from transforms
-      // with local support. The gradient array stores the gradient of local
-      // parameters at each local index with linear packing.
-      IndexValueType scalesIndex = j % scales.Size();
-      this->m_Gradient[j] =
-                this->m_Gradient[j] / scales[scalesIndex] * this->m_LearningRate;
-      }
+    // scales is checked during StartOptmization for values <=
+    // machine epsilon.
+    // Take the modulo of the index to handle gradients from transforms
+    // with local support. The gradient array stores the gradient of local
+    // parameters at each local index with linear packing.
+    IndexValueType scalesIndex = j % scales.Size();
+    this->m_Gradient[j] = this->m_Gradient[j] / scales[scalesIndex];
+    }
+}
+
+/**
+ * Modify the gradient by learning rate over a given index range.
+ */
+void
+GradientDescentObjectOptimizer
+::ModifyGradientByLearningRateOverSubRange( const IndexRangeType& subrange )
+{
+  /* Loop over the range. It is inclusive. */
+  for ( IndexValueType j = subrange[0]; j <= subrange[1]; j++ )
+    {
+    this->m_Gradient[j] = this->m_Gradient[j] * this->m_LearningRate;
+    }
+}
+
+/**
+ * Estimate the learning rate.
+ */
+void
+GradientDescentObjectOptimizer
+::EstimateLearningRate()
+{
+  if (this->m_ScalesEstimator.IsNotNull())
+    {
+    this->m_LearningRate = this->m_TrustedStepScale /
+      this->m_ScalesEstimator->EstimateStepScale(this->m_Gradient);
     }
 }
 

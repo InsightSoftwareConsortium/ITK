@@ -118,16 +118,26 @@ public:
     std::cout << "ModifyGradient called." << std::endl;
     }
 
-  void ModifyGradientOverSubRange (const IndexRangeType& index )
+  void ModifyGradientByScalesOverSubRange (const IndexRangeType& index )
     {
-    std::cout << "ModifyGradientOverSubRange called with index:"
+    std::cout << "ModifyGradientByScalesOverSubRange called with index:"
+              << index << std::endl;
+    }
+
+  void ModifyGradientByLearningRateOverSubRange (const IndexRangeType& index )
+    {
+    std::cout << "ModifyGradientByLearningRateOverSubRange called with index:"
               << index << std::endl;
     }
 
 protected:
-   GradientDescentObjectOptimizerBaseTestOptimizer(){}
-   ~GradientDescentObjectOptimizerBaseTestOptimizer(){}
+  void EstimateLearningRate()
+    {
+    std::cout << "EstimateLearningRate called" << std::endl;
+    }
 
+  GradientDescentObjectOptimizerBaseTestOptimizer(){}
+  ~GradientDescentObjectOptimizerBaseTestOptimizer(){}
 private:
   GradientDescentObjectOptimizerBaseTestOptimizer(const Self& ); //purposely not implemented
   void operator = (const Self&); //purposely not implemented

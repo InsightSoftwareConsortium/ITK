@@ -43,12 +43,13 @@ RegistrationParameterScalesFromJacobian< TMetric >
   this->CheckAndSetInputs();
   this->SampleImageDomain();
 
-  SizeValueType numPara = this->GetTransform()->GetNumberOfParameters();
+  const SizeValueType numPara = this->GetNumberOfScales();
+
   parameterScales.SetSize(numPara);
 
   ParametersType norms(numPara);
 
-  SizeValueType numSamples = this->m_ImageSamples.size();
+  const SizeValueType numSamples = this->m_ImageSamples.size();
 
   norms.Fill( NumericTraits< typename ParametersType::ValueType >::Zero );
   parameterScales.Fill( NumericTraits< typename ScalesType::ValueType >::One );
@@ -59,14 +60,8 @@ RegistrationParameterScalesFromJacobian< TMetric >
     const VirtualPointType point = this->m_ImageSamples[c];
 
     ParametersType squaredNorms(numPara);
-    if (this->GetTransformForward())
-      {
-      this->template ComputeSquaredJacobianNorms<MovingJacobianType>( point, squaredNorms );
-      }
-    else
-      {
-      this->template ComputeSquaredJacobianNorms<FixedJacobianType>( point, squaredNorms );
-      }
+    this->ComputeSquaredJacobianNorms( point, squaredNorms );
+
     norms = norms + squaredNorms;
     } //for numSamples
 
@@ -77,6 +72,72 @@ RegistrationParameterScalesFromJacobian< TMetric >
       parameterScales[p] = norms[p] / numSamples;
       }
     }
+}
+
+/**
+ *  Compute the scale for a STEP, the impact of a STEP on the transform.
+ */
+template< class TMetric >
+typename RegistrationParameterScalesFromJacobian< TMetric >::FloatType
+RegistrationParameterScalesFromJacobian< TMetric >
+::EstimateStepScale(const ParametersType &step)
+{
+  this->CheckAndSetInputs();
+  this->SampleImageDomain();
+
+  VirtualImageConstPointer image = this->GetVirtualImage();
+
+  const SizeValueType numSamples = this->m_ImageSamples.size();
+  const SizeValueType dim = this->GetImageDimension();
+  const SizeValueType numPara = this->GetNumberOfScales();
+
+  FloatType norm, normSum;
+  normSum = NumericTraits< FloatType >::Zero;
+
+  itk::Array<FloatType> dTdt(dim);
+
+  // checking each sample point
+  for (SizeValueType c=0; c<numSamples; c++)
+    {
+    const VirtualPointType point = this->m_ImageSamples[c];
+
+    JacobianType jacobian;
+    if (this->GetTransformForward())
+      {
+      this->GetMovingTransform()->ComputeJacobianWithRespectToParameters(point, jacobian);
+      }
+    else
+      {
+      this->GetFixedTransform()->ComputeJacobianWithRespectToParameters(point, jacobian);
+      }
+
+    if (!this->HasLocalSupport())
+      {
+      dTdt = jacobian * step;
+      }
+    else
+      {
+      VirtualIndexType index;
+      image->TransformPhysicalPointToIndex(point, index);
+      /* ImageBase::ComputeOffset returns the offset in linear continuous index
+       * regardless of the number of components in each voxel. The metric will
+       * offer a method to make sure the offset is consistent. */
+      SizeValueType offset = image->ComputeOffset(index) * numPara;
+
+      ParametersType localStep(numPara);
+      for (SizeValueType p=0; p<numPara; p++)
+        {
+        localStep[p] = step[offset + p];
+        }
+      dTdt = jacobian * localStep;
+      }
+
+    norm = dTdt.two_norm();
+    normSum += norm;
+    }
+
+  return normSum / numSamples;
+
 }
 
 /** Print the information about this class */

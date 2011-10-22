@@ -39,12 +39,37 @@ RegistrationParameterScalesEstimator< TMetric >
   // the metric object must be set before EstimateScales()
 }
 
+/** Estimate the trusted scale for steps. It returns the voxel spacing. */
+template< class TMetric >
+typename RegistrationParameterScalesEstimator< TMetric >::FloatType
+RegistrationParameterScalesEstimator< TMetric >
+::EstimateTrustedStepScale()
+{
+  const typename VirtualImageType::SpacingType & spacing
+    = this->m_VirtualImage->GetSpacing();
+
+  const SizeValueType dim = this->GetImageDimension();
+
+  FloatType minSpacing = NumericTraits<FloatType>::max();
+
+  for (SizeValueType d=0; d<dim; d++)
+    {
+    if (minSpacing > spacing[d])
+      {
+      minSpacing = spacing[d];
+      }
+    }
+
+  return minSpacing;
+}
+
+/** Validate and set metric and its transforms and images. */
 template< class TMetric >
 bool
 RegistrationParameterScalesEstimator< TMetric >
 ::CheckAndSetInputs()
 {
-if (m_Metric == (MetricPointer)NULL)
+if (m_Metric.IsNull())
     {
     itkExceptionMacro("RegistrationParameterScalesEstimator: the metric is NULL");
     }
@@ -114,6 +139,82 @@ RegistrationParameterScalesEstimator< TMetric >
     }
 }
 
+/** Check if the transform being optimized has local support. */
+template< class TMetric >
+bool
+RegistrationParameterScalesEstimator< TMetric >
+::HasLocalSupport()
+{
+  if (this->m_TransformForward)
+    {
+    return this->m_MovingTransform->HasLocalSupport();
+    }
+  else
+    {
+    return this->m_FixedTransform->HasLocalSupport();
+    }
+}
+
+/** Get the number of scales. */
+template< class TMetric >
+SizeValueType
+RegistrationParameterScalesEstimator< TMetric >
+::GetNumberOfScales()
+{
+  if (this->GetTransformForward())
+    {
+    return this->GetMovingTransform()->GetNumberOfLocalParameters();
+    }
+  else
+    {
+    return this->GetFixedTransform()->GetNumberOfLocalParameters();
+    }
+}
+
+/** Update the transform with a change in parameters. */
+template< class TMetric >
+void
+RegistrationParameterScalesEstimator< TMetric >
+::UpdateTransformParameters(const ParametersType &deltaParameters)
+{
+  // Apply the delta parameters to the transform
+  if (this->m_TransformForward)
+    {
+    typename MovingTransformType::Pointer movingTransform =
+      const_cast<MovingTransformType *>(this->GetMovingTransform());
+    ParametersType &step = const_cast<ParametersType &>(deltaParameters);
+    movingTransform->UpdateTransformParameters(step);
+    }
+  else
+    {
+    typename FixedTransformType::Pointer fixedTransform =
+      const_cast<FixedTransformType *>(this->GetFixedTransform());
+    ParametersType &step = const_cast<ParametersType &>(deltaParameters);
+    fixedTransform->UpdateTransformParameters(step);
+    }
+}
+
+/** Transform a physical point to a new physical point.
+ *  We want to compute shift in physical space so that the scales is not
+ *  sensitive to spacings and directions of image voxel sampling.
+ */
+template< class TMetric >
+template< class TTargetPointType >
+void
+RegistrationParameterScalesEstimator< TMetric >
+::TransformPoint(const VirtualPointType &point,
+                 TTargetPointType &mappedPoint)
+{
+  if (this->GetTransformForward())
+    {
+    mappedPoint = this->GetMovingTransform()->TransformPoint(point);
+    }
+  else
+    {
+    mappedPoint = this->GetFixedTransform()->TransformPoint(point);
+    }
+}
+
 /** Transform a physical point to its continuous index */
 template< class TMetric >
 template< class TContinuousIndexType >
@@ -138,14 +239,13 @@ RegistrationParameterScalesEstimator< TMetric >
 
 /** Get the squared norms of the transform Jacobians w.r.t parameters at a point */
 template< class TMetric >
-template< class TJacobianType >
 void
 RegistrationParameterScalesEstimator< TMetric >
 ::ComputeSquaredJacobianNorms( const VirtualPointType  & point,
                                      ParametersType & squareNorms )
 {
-  TJacobianType jacobian;
-  const SizeValueType numPara = this->GetTransform()->GetNumberOfParameters();
+  JacobianType jacobian;
+  const SizeValueType numPara = this->GetNumberOfScales();
   const SizeValueType dim = this->GetImageDimension();
 
   if (this->GetTransformForward())
@@ -184,6 +284,19 @@ void
 RegistrationParameterScalesEstimator< TMetric >
 ::SampleImageDomain()
 {
+  if (this->HasLocalSupport())
+    {
+    // Have to use FullDomainSampling for a transform with local support
+    this->SetSamplingStrategy(FullDomainSampling);
+    }
+
+  if ( !(this->m_SamplingTime < this->GetTimeStamp())
+    && !(this->m_SamplingTime < this->m_VirtualImage->GetTimeStamp()) )
+    {
+    // No modification since last sampling
+    return;
+    }
+
   if (m_SamplingStrategy == CornerSampling)
     {
     this->SampleImageDomainWithCorners();
@@ -197,6 +310,8 @@ RegistrationParameterScalesEstimator< TMetric >
     this->SampleImageDomainFully();
     }
 
+  this->Modified();
+  this->m_SamplingTime = this->GetTimeStamp();
 }
 
 /**
@@ -208,9 +323,9 @@ void
 RegistrationParameterScalesEstimator< TMetric >
 ::SampleImageDomainWithCorners()
 {
-  VirtualImagePointer image = this->m_VirtualImage;
+  VirtualImageConstPointer image = this->m_VirtualImage;
 
-  VirtualRegionType region = image->GetLargestPossibleRegion();
+  VirtualRegionType region = this->m_Metric->GetVirtualDomainRegion();
   VirtualIndexType firstCorner = region.GetIndex();
   VirtualIndexType corner;
   VirtualPointType point;
@@ -242,11 +357,11 @@ void
 RegistrationParameterScalesEstimator< TMetric >
 ::SampleImageDomainRandomly()
 {
-  VirtualImagePointer image = this->GetVirtualImage();
+  VirtualImageConstPointer image = this->GetVirtualImage();
 
   if (m_NumberOfRandomSamples == 0)
     {
-    const SizeValueType total = image->GetLargestPossibleRegion().GetNumberOfPixels();
+    const SizeValueType total = this->m_Metric->GetVirtualDomainRegion().GetNumberOfPixels();
     if (total <= SizeOfSmallDomain)
       {
       m_NumberOfRandomSamples = total;
@@ -266,9 +381,9 @@ RegistrationParameterScalesEstimator< TMetric >
 
   m_ImageSamples.resize(m_NumberOfRandomSamples);
 
-  // Set up a random interator within the user specified fixed image region.
+  // Set up a random iterator within the user specified virtual image region.
   typedef ImageRandomConstIteratorWithIndex<VirtualImageType> RandomIterator;
-  RandomIterator randIter( image, image->GetLargestPossibleRegion() );
+  RandomIterator randIter( image, this->m_Metric->GetVirtualDomainRegion() );
 
   VirtualPointType point;
 
@@ -291,13 +406,13 @@ RegistrationParameterScalesEstimator< TMetric >
 ::SampleImageDomainFully()
 {
 
-  VirtualImagePointer image = this->m_VirtualImage;
-  const SizeValueType total = image->GetLargestPossibleRegion().GetNumberOfPixels();
+  VirtualImageConstPointer image = this->m_VirtualImage;
+  const SizeValueType total = this->m_Metric->GetVirtualDomainRegion().GetNumberOfPixels();
   m_ImageSamples.resize(total);
 
-  // Set up a random interator within the user specified fixed image region.
+  /* Set up an iterator within the user specified virtual image region. */
   typedef ImageRegionConstIteratorWithIndex<VirtualImageType> RegionIterator;
-  RegionIterator regionIter( image, image->GetLargestPossibleRegion() );
+  RegionIterator regionIter( image, this->m_Metric->GetVirtualDomainRegion() );
 
   VirtualPointType point;
 
@@ -313,7 +428,9 @@ RegistrationParameterScalesEstimator< TMetric >
     }
 }
 
-/** Print the information about this class */
+/**
+ * Print the information about this class.
+ */
 template< class TMetric >
 void
 RegistrationParameterScalesEstimator< TMetric >

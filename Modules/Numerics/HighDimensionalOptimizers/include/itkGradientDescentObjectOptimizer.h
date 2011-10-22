@@ -19,6 +19,7 @@
 #define __itkGradientDescentObjectOptimizer_h
 
 #include "itkGradientDescentObjectOptimizerBase.h"
+#include "itkOptimizerParameterScalesEstimator.h"
 
 namespace itk
 {
@@ -39,11 +40,18 @@ namespace itk
  *
  * The learning rate defaults to 1.0, and can be set via \c SetLearningRate.
  *
+ * The user may set a member m_ScalesEstimator by calling SetScalesEstimator()
+ * before optimization to estimate scales and learning rates automatically.
+ *
+ * When m_ScalesEstimator is set, another member m_TrustedStepScale may also
+ * be set by the user to change the learning rate at each iteration. Learning
+ * rates are automatically restricted such that each step will produce physical
+ * shifts of voxels less than m_TrustedStepScale. m_TrustedStepScale defaults
+ * to the voxel spacing returned by m_ScalesEstimator.
+ *
  * \note Unlike the previous version of GradientDescentOptimizer, this version
  * does not have a "maximize/minimize" option to modify the effect of the metric
- * derivative.
- *
- * \note The assigned metric is assumed to return a parameter derivative
+ * derivative. The assigned metric is assumed to return a parameter derivative
  * result that "improves" the optimization when *added* to the current
  * parameters via the metric::UpateTransformParameters method, after the
  * optimizer applies scales and a learning rate.
@@ -79,6 +87,12 @@ public:
   /** Get the learning rate. */
   itkGetConstReferenceMacro(LearningRate, InternalComputationValueType);
 
+  /** Set the maximum step scale. */
+  itkSetMacro(TrustedStepScale, InternalComputationValueType);
+
+  /** Set the scales estimator. */
+  itkSetObjectMacro(ScalesEstimator, OptimizerParameterScalesEstimator);
+
   /** Start and run the optimization */
   virtual void StartOptimization();
 
@@ -93,9 +107,16 @@ protected:
   virtual void AdvanceOneStep(void);
 
   /** Modify the gradient over a given index range. */
-  virtual void ModifyGradientOverSubRange( const IndexRangeType& subrange );
+  virtual void ModifyGradientByScalesOverSubRange( const IndexRangeType& subrange );
+  virtual void ModifyGradientByLearningRateOverSubRange( const IndexRangeType& subrange );
 
   InternalComputationValueType  m_LearningRate;
+
+  /** The maximum step scale to restrict learning rates. */
+  InternalComputationValueType  m_TrustedStepScale;
+
+  /** Estimate the learning rate */
+  virtual void EstimateLearningRate();
 
   /** Default constructor */
   GradientDescentObjectOptimizer();
@@ -104,6 +125,9 @@ protected:
   virtual ~GradientDescentObjectOptimizer();
 
   virtual void PrintSelf( std::ostream & os, Indent indent ) const;
+
+  OptimizerParameterScalesEstimator::Pointer m_ScalesEstimator;
+
 private:
 
   //purposely not implemented

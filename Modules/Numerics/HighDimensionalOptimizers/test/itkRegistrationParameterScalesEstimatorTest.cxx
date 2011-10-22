@@ -86,6 +86,7 @@ public:
   typedef typename FixedImageType::ConstPointer   FixedImageConstPointer;
   typedef typename MovingImageType::ConstPointer  MovingImageConstPointer;
   typedef typename VirtualImageType::Pointer      VirtualImagePointer;
+  typedef typename VirtualImageType::RegionType   VirtualRegionType;
 
   /* Set/get images */
   /** Connect the Fixed Image.  */
@@ -99,7 +100,12 @@ public:
   /** Set all virtual domain image */
   itkSetObjectMacro(VirtualDomainImage, VirtualImageType);
   /** Get the virtual domain image */
-  itkGetObjectMacro(VirtualDomainImage, VirtualImageType);
+  itkGetConstObjectMacro(VirtualDomainImage, VirtualImageType);
+
+  const VirtualRegionType GetVirtualDomainRegion( void ) const
+  {
+    return this->m_VirtualDomainImage->GetBufferedRegion();
+  }
 
   /* Image dimension accessors */
   itkStaticConstMacro(FixedImageDimension, itk::SizeValueType,
@@ -121,8 +127,7 @@ public:
   typedef typename FixedTransformType::Pointer        FixedTransformPointer;
   typedef typename MovingTransformType::Pointer       MovingTransformPointer;
 
-  typedef typename FixedTransformType::JacobianType   FixedTransformJacobianType;
-  typedef typename MovingTransformType::JacobianType  MovingTransformJacobianType;
+  typedef typename FixedTransformType::JacobianType   JacobianType;
 
   /** Connect the fixed transform. */
   itkSetObjectMacro(FixedTransform, FixedTransformType);
@@ -174,10 +179,11 @@ public:
   typedef typename Superclass::FloatType                 FloatType;
 
   typedef typename Superclass::VirtualPointType          VirtualPointType;
+  typedef typename Superclass::VirtualIndexType          VirtualIndexType;
   typedef typename Superclass::MovingTransformType       MovingTransformType;
   typedef typename Superclass::FixedTransformType        FixedTransformType;
-  typedef typename Superclass::MovingJacobianType        MovingJacobianType;
-  typedef typename Superclass::FixedJacobianType         FixedJacobianType;
+  typedef typename Superclass::JacobianType              JacobianType;
+  typedef typename Superclass::VirtualImageConstPointer  VirtualImageConstPointer;
 
   /** Estimate parameter scales with maximum squared norms of Jacobians. */
   virtual void EstimateScales(ScalesType &parameterScales)
@@ -201,14 +207,8 @@ public:
       VirtualPointType point = this->m_ImageSamples[c];
 
       ParametersType squaredNorms(numPara);
-      if (this->GetTransformForward())
-        {
-        this->template ComputeSquaredJacobianNorms<MovingJacobianType>( point, squaredNorms );
-        }
-      else
-        {
-        this->template ComputeSquaredJacobianNorms<FixedJacobianType>( point, squaredNorms );
-        }
+      this->ComputeSquaredJacobianNorms( point, squaredNorms );
+
       for (itk::SizeValueType p=0; p<numPara; p++)
         {
         if (norms[p] < squaredNorms[p])
@@ -225,6 +225,12 @@ public:
         parameterScales[p] = norms[p];
         }
       }
+    }
+
+  virtual double EstimateStepScale(const ParametersType &step)
+    {
+    double norm = step.two_norm();
+    return 1.0/norm;
     }
 
 protected:
