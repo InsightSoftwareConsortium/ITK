@@ -136,24 +136,6 @@ int itkTransformFactoryBaseTest (int, char*[])
   defaultTransforms.push_back("CompositeTransform_float_8_8");
   defaultTransforms.push_back("CompositeTransform_float_9_9");
 
-  // add composites
-  defaultTransforms.push_back("CompositeTransform_double_2_2");
-  defaultTransforms.push_back("CompositeTransform_double_3_3");
-  defaultTransforms.push_back("CompositeTransform_double_4_4");
-  defaultTransforms.push_back("CompositeTransform_double_5_5");
-  defaultTransforms.push_back("CompositeTransform_double_6_6");
-  defaultTransforms.push_back("CompositeTransform_double_7_7");
-  defaultTransforms.push_back("CompositeTransform_double_8_8");
-  defaultTransforms.push_back("CompositeTransform_double_9_9");
-  defaultTransforms.push_back("CompositeTransform_float_2_2");
-  defaultTransforms.push_back("CompositeTransform_float_3_3");
-  defaultTransforms.push_back("CompositeTransform_float_4_4");
-  defaultTransforms.push_back("CompositeTransform_float_5_5");
-  defaultTransforms.push_back("CompositeTransform_float_6_6");
-  defaultTransforms.push_back("CompositeTransform_float_7_7");
-  defaultTransforms.push_back("CompositeTransform_float_8_8");
-  defaultTransforms.push_back("CompositeTransform_float_9_9");
-
   // check to make sure that all default transforms have been registered
   defaultTransforms.sort();
   // Print out the names of all the registered transforms
