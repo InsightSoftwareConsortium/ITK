@@ -30,7 +30,8 @@ template< class TInputImage, class TLevelSetContainer >
 LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
 ::LevelSetEquationTermBase()
 {
-  this->m_CurrentLevelSetId =  NumericTraits< LevelSetIdentifierType >::Zero;
+  this->m_CurrentLevelSetId = LevelSetIdentifierType();
+
   this->m_Coefficient = NumericTraits< LevelSetOutputRealType >::One;
   this->m_CFLContribution = NumericTraits< LevelSetOutputRealType >::Zero;
   this->m_TermName = "";

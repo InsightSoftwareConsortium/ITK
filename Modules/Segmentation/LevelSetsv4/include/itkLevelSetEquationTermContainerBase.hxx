@@ -29,6 +29,7 @@ template< class TInputImage, class TLevelSetContainer >
 LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
 ::LevelSetEquationTermContainerBase()
 {
+  this->m_CurrentLevelSetId = LevelSetIdentifierType();
 }
 
 // ----------------------------------------------------------------------------
