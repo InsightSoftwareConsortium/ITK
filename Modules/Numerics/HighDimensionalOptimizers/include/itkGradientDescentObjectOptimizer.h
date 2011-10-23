@@ -43,11 +43,12 @@ namespace itk
  * The user may set a member m_ScalesEstimator by calling SetScalesEstimator()
  * before optimization to estimate scales and learning rates automatically.
  *
- * When m_ScalesEstimator is set, another member m_TrustedStepScale may also
- * be set by the user to change the learning rate at each iteration. Learning
+ * When m_ScalesEstimator is set, m_MaximumStepSizeInPhysicalUnits may also
+ * be set by the user to change the maximum step size at each iteration. Learning
  * rates are automatically restricted such that each step will produce physical
- * shifts of voxels less than m_TrustedStepScale. m_TrustedStepScale defaults
- * to the voxel spacing returned by m_ScalesEstimator.
+ * impacts on voxels less than m_MaximumStepSizeInPhysicalUnits.
+ * m_MaximumStepSizeInPhysicalUnits defaults to the voxel spacing returned
+ * by m_ScalesEstimator.
  *
  * \note Unlike the previous version of GradientDescentOptimizer, this version
  * does not have a "maximize/minimize" option to modify the effect of the metric
@@ -87,8 +88,8 @@ public:
   /** Get the learning rate. */
   itkGetConstReferenceMacro(LearningRate, InternalComputationValueType);
 
-  /** Set the maximum step scale. */
-  itkSetMacro(TrustedStepScale, InternalComputationValueType);
+  /** Set the maximum step size. */
+  itkSetMacro(MaximumStepSizeInPhysicalUnits, InternalComputationValueType);
 
   /** Set the scales estimator. */
   itkSetObjectMacro(ScalesEstimator, OptimizerParameterScalesEstimator);
@@ -112,8 +113,8 @@ protected:
 
   InternalComputationValueType  m_LearningRate;
 
-  /** The maximum step scale to restrict learning rates. */
-  InternalComputationValueType  m_TrustedStepScale;
+  /** The maximum step size to restrict learning rates. */
+  InternalComputationValueType  m_MaximumStepSizeInPhysicalUnits;
 
   /** Estimate the learning rate */
   virtual void EstimateLearningRate();

@@ -46,8 +46,10 @@ RegistrationParameterScalesEstimator< TMetric >
 template< class TMetric >
 typename RegistrationParameterScalesEstimator< TMetric >::FloatType
 RegistrationParameterScalesEstimator< TMetric >
-::EstimateTrustedStepScale()
+::EstimateMaximumStepSize()
 {
+  this->CheckAndSetInputs();
+
   const typename VirtualImageType::SpacingType & spacing
     = this->m_VirtualImage->GetSpacing();
 
@@ -81,30 +83,29 @@ if (m_Metric.IsNull())
   this->m_MovingImage = m_Metric->GetMovingImage();
   this->m_VirtualImage = m_Metric->GetVirtualDomainImage();
 
-  if (this->m_FixedImage.GetPointer() == NULL
-    || this->m_MovingImage.GetPointer() == NULL
-    || this->m_VirtualImage.GetPointer() == NULL)
+  if (this->m_FixedImage.GetPointer() == NULL)
     {
-    itkExceptionMacro("RegistrationParameterScalesEstimator: the image(s) in the metric is NULL");
+    itkExceptionMacro("RegistrationParameterScalesEstimator: m_FixedImage in the metric is NULL");
+    }
+  if (this->m_MovingImage.GetPointer() == NULL)
+    {
+    itkExceptionMacro("RegistrationParameterScalesEstimator: m_MovingImage in the metric is NULL");
+    }
+  if (this->m_VirtualImage.GetPointer() == NULL)
+    {
+    itkExceptionMacro("RegistrationParameterScalesEstimator: m_VirtualDomainImage in the metric is NULL");
     }
 
   this->m_MovingTransform = m_Metric->GetMovingTransform();
   this->m_FixedTransform = m_Metric->GetFixedTransform();
 
-  if (this->m_MovingTransform.GetPointer() == NULL
-    || this->m_FixedTransform.GetPointer() == NULL)
+  if (this->m_MovingTransform.GetPointer() == NULL)
     {
-    itkExceptionMacro("RegistrationParameterScalesEstimator: the transform(s) in the metric is NULL.");
+    itkExceptionMacro("RegistrationParameterScalesEstimator: m_MovingTransform in the metric is NULL.");
     }
-
-  const ParametersType &parameters = this->GetTransform()->GetParameters();
-  for (SizeValueType p = 0; p < parameters.size(); p++)
+  if (this->m_FixedTransform.GetPointer() == NULL)
     {
-    // check for NaN
-    if (parameters[p] != parameters[p])
-      {
-      itkExceptionMacro("RegistrationParameterScalesEstimator: a transform parameter is not a number.");
-      }
+    itkExceptionMacro("RegistrationParameterScalesEstimator: m_FixedTransform in the metric is NULL.");
     }
 
   return true;
@@ -162,7 +163,7 @@ RegistrationParameterScalesEstimator< TMetric >
 template< class TMetric >
 SizeValueType
 RegistrationParameterScalesEstimator< TMetric >
-::GetNumberOfScales()
+::GetNumberOfLocalParameters()
 {
   if (this->GetTransformForward())
     {
@@ -248,7 +249,7 @@ RegistrationParameterScalesEstimator< TMetric >
                                      ParametersType & squareNorms )
 {
   JacobianType jacobian;
-  const SizeValueType numPara = this->GetNumberOfScales();
+  const SizeValueType numPara = this->GetNumberOfLocalParameters();
   const SizeValueType dim = this->GetImageDimension();
 
   if (this->GetTransformForward())

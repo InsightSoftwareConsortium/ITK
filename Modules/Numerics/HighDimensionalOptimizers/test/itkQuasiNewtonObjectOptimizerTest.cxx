@@ -15,14 +15,18 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkGradientDescentObjectOptimizer.h"
+#include "itkQuasiNewtonObjectOptimizer.h"
 #include "itkDemonsImageToImageObjectMetric.h"
 #include "itkRegistrationParameterScalesFromShift.h"
 #include "itkRegistrationParameterScalesFromJacobian.h"
 
 #include "itkImageToData.h"
+#include "itkExceptionObject.h"
 #include "itkImageRegistrationMethodImageSource.h"
 
+#include "itkIdentityTransform.h"
+#include "itkAffineTransform.h"
+#include "itkTranslationTransform.h"
 
 /**
  *  This is a test using GradientDescentObjectOptimizer and parameter scales
@@ -32,7 +36,7 @@
  */
 
 template< class TMovingTransform >
-int itkAutoScaledGradientDescentRegistrationTestTemplated(int numberOfIterations,
+int itkQuasiNewtonObjectOptimizerTestTemplated(int numberOfIterations,
                                                           double shiftOfStep,
                                                           std::string scalesOption,
                                                           bool usePhysicalSpaceForShift = true)
@@ -100,7 +104,7 @@ int itkAutoScaledGradientDescentRegistrationTestTemplated(int numberOfIterations
   metric->Initialize();
 
   // Optimizer
-  typedef itk::GradientDescentObjectOptimizer  OptimizerType;
+  typedef itk::QuasiNewtonObjectOptimizer  OptimizerType;
   OptimizerType::Pointer optimizer = OptimizerType::New();
 
   optimizer->SetMetric( metric );
@@ -123,7 +127,6 @@ int itkAutoScaledGradientDescentRegistrationTestTemplated(int numberOfIterations
     typename ShiftScalesEstimatorType::Pointer shiftScalesEstimator
       = ShiftScalesEstimatorType::New();
     shiftScalesEstimator->SetMetric(metric);
-    shiftScalesEstimator->SetTransformForward(true); //default
     shiftScalesEstimator->SetUsePhysicalSpaceForShift(usePhysicalSpaceForShift); //true by default
     scalesEstimator = shiftScalesEstimator;
     }
@@ -133,13 +136,13 @@ int itkAutoScaledGradientDescentRegistrationTestTemplated(int numberOfIterations
     typename JacobianScalesEstimatorType::Pointer jacobianScalesEstimator
       = JacobianScalesEstimatorType::New();
     jacobianScalesEstimator->SetMetric(metric);
-    jacobianScalesEstimator->SetTransformForward(true); //default
     scalesEstimator = jacobianScalesEstimator;
     }
 
   optimizer->SetScalesEstimator(scalesEstimator);
   // If SetTrustedStepScale is not called, it will use voxel spacing.
   optimizer->SetMaximumStepSizeInPhysicalUnits(shiftOfStep);
+  optimizer->SetMaximumNewtonStepSizeInPhysicalUnits(shiftOfStep*3.0);
 
   std::cout << "Start optimization..." << std::endl
             << "Number of iterations: " << numberOfIterations << std::endl;
@@ -209,17 +212,17 @@ int itkAutoScaledGradientDescentRegistrationTestTemplated(int numberOfIterations
     }
 }
 
-int itkAutoScaledGradientDescentRegistrationTest(int argc, char ** const argv)
+int itkQuasiNewtonObjectOptimizerTest(int argc, char ** const argv)
 {
   if( argc > 3 )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " [numberOfIterations=30 shiftOfStep=1.0] ";
+    std::cerr << " [numberOfIterations=50 shiftOfStep=1] ";
     std::cerr << std::endl;
     return EXIT_FAILURE;
     }
-  unsigned int numberOfIterations = 30;
+  unsigned int numberOfIterations = 50;
   double shiftOfStep = 1.0;
 
   if( argc >= 2 )
@@ -236,19 +239,20 @@ int itkAutoScaledGradientDescentRegistrationTest(int argc, char ** const argv)
 
   std::cout << std::endl << "Optimizing translation transform with shift scales" << std::endl;
   typedef itk::TranslationTransform<double, Dimension> TranslationTransformType;
-  bool usePhysicalSpaceForShift = false;
-  ret1 = itkAutoScaledGradientDescentRegistrationTestTemplated<TranslationTransformType>(numberOfIterations, shiftOfStep, "shift", usePhysicalSpaceForShift);
+  ret1 = itkQuasiNewtonObjectOptimizerTestTemplated<TranslationTransformType>(numberOfIterations, shiftOfStep, "shift");
 
   std::cout << std::endl << "Optimizing translation transform with Jacobian scales" << std::endl;
   typedef itk::TranslationTransform<double, Dimension> TranslationTransformType;
-  ret2 = itkAutoScaledGradientDescentRegistrationTestTemplated<TranslationTransformType>(numberOfIterations, 0.0, "jacobian");
+  ret2 = itkQuasiNewtonObjectOptimizerTestTemplated<TranslationTransformType>(numberOfIterations, shiftOfStep, "jacobian");
 
   if ( ret1 == EXIT_SUCCESS && ret2 == EXIT_SUCCESS )
     {
+    std::cout << std::endl << "Tests PASSED." << std::endl;
     return EXIT_SUCCESS;
     }
   else
     {
+    std::cout << std::endl << "Tests FAILED." << std::endl;
     return EXIT_FAILURE;
     }
 }

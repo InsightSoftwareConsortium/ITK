@@ -29,9 +29,11 @@ GradientDescentObjectOptimizer
 {
   this->m_LearningRate = NumericTraits<InternalComputationValueType>::One;
 
-  // m_TrustedStepScale is used for automatic learning rate estimation.
-  // it will be initialized later either by user or by m_ScalesEstimator.
-  this->m_TrustedStepScale = NumericTraits<InternalComputationValueType>::Zero;
+  // m_MaximumStepSizeInPhysicalUnits is used for automatic learning
+  // rate estimation. it may be initialized either by calling
+  // SetMaximumStepSizeInPhysicalUnits manually or by using m_ScalesEstimator
+  // automatically. and the former has higher priority than the latter.
+  this->m_MaximumStepSizeInPhysicalUnits = NumericTraits<InternalComputationValueType>::Zero;
 }
 
 /**
@@ -68,10 +70,10 @@ GradientDescentObjectOptimizer
     this->m_ScalesEstimator->EstimateScales(this->m_Scales);
     itkDebugMacro( "Estimated scales = " << this->m_Scales );
 
-    if ( this->m_TrustedStepScale <=
+    if ( this->m_MaximumStepSizeInPhysicalUnits <=
       NumericTraits<InternalComputationValueType>::epsilon())
       {
-      this->m_TrustedStepScale = this->m_ScalesEstimator->EstimateTrustedStepScale();
+      this->m_MaximumStepSizeInPhysicalUnits = this->m_ScalesEstimator->EstimateMaximumStepSize();
       }
     }
 
@@ -103,6 +105,7 @@ GradientDescentObjectOptimizer
       /* m_Gradient will be sized as needed by metric. If it's already
        * proper size, no new allocation is done. */
       this->m_Metric->GetValueAndDerivative( this->m_Value, this->m_Gradient );
+      std::cout << "Iteration " << this->GetCurrentIteration() << ": " << this->m_Value << std::endl;
       }
     catch ( ExceptionObject & err )
       {
@@ -225,7 +228,7 @@ GradientDescentObjectOptimizer
       }
     else
       {
-      this->m_LearningRate = this->m_TrustedStepScale / stepScale;
+      this->m_LearningRate = this->m_MaximumStepSizeInPhysicalUnits / stepScale;
       }
     //std::cout << "Estimated learning rate = " << this->m_LearningRate << std::endl;
     }

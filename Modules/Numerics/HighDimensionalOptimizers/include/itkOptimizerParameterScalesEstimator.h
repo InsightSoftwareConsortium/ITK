@@ -21,6 +21,7 @@
 #include "itkObject.h"
 #include "itkObjectFactory.h"
 #include "itkObjectToObjectOptimizerBase.h"
+#include "itkSingleValuedHighDimensionalCostFunction.h"
 
 namespace itk
 {
@@ -59,8 +60,12 @@ public:
   /** Estimate the scale of a step. */
   virtual FloatType EstimateStepScale(const ParametersType &step) = 0;
 
-  /** Estimate the trusted scale for steps. */
-  virtual FloatType EstimateTrustedStepScale() = 0;
+  /** Estimate the scales of local steps. */
+  virtual void EstimateLocalStepScales(const ParametersType &step,
+    ScalesType &localStepScales) = 0;
+
+  /** Estimate the maximum size for steps. */
+  virtual FloatType EstimateMaximumStepSize() = 0;
 
 protected:
   OptimizerParameterScalesEstimator(){};

@@ -434,8 +434,8 @@ JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage,TMovingImage
   this->UpdateHistograms();
 
   // Calculate value
-  this->m_Value = this->GetValue();
-  itkDebugMacro(" Mutual information value " << this->m_Value );
+  value = this->GetValue();
+  itkDebugMacro(" Mutual information value " << value );
 
   // Multithreaded initiate and process sample.
   // This will put results in 'derivative'.
@@ -444,8 +444,9 @@ JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage,TMovingImage
   // Post processing
   this->GetValueAndDerivativeThreadedPostProcess( true /*doAverage*/ );
 
-  // Return value.
-  value = this->m_Value;
+  // Attention: GetValueAndDerivativeThreadedPostProcess overwrites this->m_Value
+  // with an uninitialized value. We restore it to the value from this->GetValue().
+  this->m_Value = value;
 }
 
 

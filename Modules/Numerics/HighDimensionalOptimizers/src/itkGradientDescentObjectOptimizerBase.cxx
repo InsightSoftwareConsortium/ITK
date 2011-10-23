@@ -76,6 +76,8 @@ GradientDescentObjectOptimizerBase
 ::StopOptimization(void)
 {
   itkDebugMacro("StopOptimization");
+  std::cout << "StopOptimization called with a description - "
+    << this->GetStopConditionDescription() << std::endl;
   this->m_Stop = true;
   this->InvokeEvent( EndEvent() );
 }

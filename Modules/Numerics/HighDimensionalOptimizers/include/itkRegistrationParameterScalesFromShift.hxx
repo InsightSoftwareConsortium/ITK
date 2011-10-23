@@ -42,7 +42,7 @@ RegistrationParameterScalesFromShift< TMetric >
   this->SampleImageDomain();
 
   const SizeValueType numAllPara = this->GetTransform()->GetNumberOfParameters();
-  const SizeValueType numPara = this->GetNumberOfScales();
+  const SizeValueType numPara = this->GetNumberOfLocalParameters();
 
   parameterScales.SetSize(numPara);
 
@@ -117,7 +117,98 @@ RegistrationParameterScalesFromShift< TMetric >
   this->CheckAndSetInputs();
   this->SetStepScaleSamplingStrategy();
   this->SampleImageDomain();
-  return this->ComputeMaximumVoxelShift(step);
+
+  if (this->HasLocalSupport())
+    {
+    return this->ComputeMaximumVoxelShift(step);
+    }
+
+  // For global transforms, we want a linear approximation of the function
+  // of step scale w.r.t "step". This is true only when "step" is close to
+  // zero. Therefore, we need to scale "step" down.
+  FloatType maxStep = NumericTraits<FloatType>::Zero;
+  for (IndexValueType p=0; p<step.size(); p++)
+    {
+    if (maxStep < vcl_abs(step[p]))
+      {
+      maxStep = vcl_abs(step[p]);
+      }
+    }
+  if (maxStep <= NumericTraits<FloatType>::epsilon())
+    {
+    return NumericTraits<FloatType>::Zero;
+    }
+  else
+    {
+    FloatType factor = m_SmallParameterVariation / maxStep;
+    ParametersType smallStep(step.size());
+    //Use a small step to have a linear approximation.
+    smallStep = step * factor;
+    return this->ComputeMaximumVoxelShift(smallStep) / factor;
+    }
+}
+
+/**
+ * Estimate the scales of local steps.
+ */
+template< class TMetric >
+void
+RegistrationParameterScalesFromShift< TMetric >
+::EstimateLocalStepScales(const ParametersType &step, ScalesType &localStepScales)
+{
+  if (!this->HasLocalSupport())
+    {
+    itkExceptionMacro("EstimateLocalStepScales: the transform doesn't have local support.");
+    }
+
+  this->CheckAndSetInputs();
+  this->SetStepScaleSamplingStrategy();
+  this->SampleImageDomain();
+
+  ScalesType sampleShifts;
+  if (this->GetTransformForward())
+    {
+    if (this->m_UsePhysicalSpaceForShift)
+      {
+      this->template ComputeSamplePhysicalShifts<MovingTransformType>(step, sampleShifts);
+      }
+    else
+      {
+      this->template ComputeSampleIndexShifts<MovingTransformType>(step, sampleShifts);
+      }
+    }
+  else
+    {
+    if (this->m_UsePhysicalSpaceForShift)
+      {
+      this->template ComputeSamplePhysicalShifts<FixedTransformType>(step, sampleShifts);
+      }
+    else
+      {
+      this->template ComputeSampleIndexShifts<FixedTransformType>(step, sampleShifts);
+      }
+    }
+
+  const SizeValueType numAllPara = this->GetTransform()->GetNumberOfParameters();
+  const SizeValueType numPara = this->GetNumberOfLocalParameters();
+  const SizeValueType numLocals = numAllPara / numPara;
+
+  localStepScales.SetSize(numLocals);
+  localStepScales.Fill(NumericTraits<typename ScalesType::ValueType>::Zero);
+
+  VirtualIndexType index;
+  VirtualImageConstPointer image = this->GetVirtualImage();
+
+  const SizeValueType numSamples = this->m_ImageSamples.size();
+  for (SizeValueType c=0; c<numSamples; c++)
+    {
+    VirtualPointType &point = this->m_ImageSamples[c];
+    image->TransformPhysicalPointToIndex(point, index);
+    IndexValueType localId = this->m_Metric->
+      ComputeParameterOffsetFromVirtualDomainIndex(index, numPara) / numPara;
+
+    localStepScales[localId] = sampleShifts[c];
+    }
 }
 
 /**
@@ -128,56 +219,66 @@ typename RegistrationParameterScalesFromShift< TMetric >::FloatType
 RegistrationParameterScalesFromShift< TMetric >
 ::ComputeMaximumVoxelShift(const ParametersType &deltaParameters)
 {
-  FloatType shift;
+  ScalesType sampleShifts;
+
   if (this->GetTransformForward())
     {
     if (this->m_UsePhysicalSpaceForShift)
       {
-      shift = this->ComputeMaximumPhysicalShiftTemplated
-        <MovingTransformType>(deltaParameters);
+      this->ComputeSamplePhysicalShifts
+        <MovingTransformType>(deltaParameters, sampleShifts);
       }
     else
       {
-      shift = this->ComputeMaximumIndexShiftTemplated
-        <MovingTransformType>(deltaParameters);
+      this->ComputeSampleIndexShifts
+        <MovingTransformType>(deltaParameters, sampleShifts);
       }
     }
   else
     {
     if (this->m_UsePhysicalSpaceForShift)
       {
-      shift = this->ComputeMaximumPhysicalShiftTemplated
-        <FixedTransformType>(deltaParameters);
+      this->ComputeSamplePhysicalShifts
+        <FixedTransformType>(deltaParameters, sampleShifts);
       }
     else
       {
-      shift = this->ComputeMaximumIndexShiftTemplated
-        <FixedTransformType>(deltaParameters);
+      this->ComputeSampleIndexShifts
+        <FixedTransformType>(deltaParameters, sampleShifts);
       }
     }
-  return shift;
+
+  FloatType maxShift = NumericTraits< FloatType >::Zero;
+  for (SizeValueType s=0; s<sampleShifts.size(); s++)
+    {
+    if (maxShift < sampleShifts[s])
+      {
+      maxShift = sampleShifts[s];
+      }
+    }
+
+  return maxShift;
 }
 
-/** The templated method of compute the maximimum shift in continous index.
+/** The templated method of compute the sample shifts in continous index.
  *  The template argument TTransform may be either MovingTransformType or
  *  FixedTransformType.
  */
 template< class TMetric >
 template< class TTransform >
-typename RegistrationParameterScalesFromShift< TMetric >::FloatType
+void
 RegistrationParameterScalesFromShift< TMetric >
-::ComputeMaximumIndexShiftTemplated(const ParametersType &deltaParameters)
+::ComputeSampleIndexShifts(const ParametersType &deltaParameters,
+                           ScalesType &sampleShifts)
 {
   typedef itk::ContinuousIndex< FloatType, TTransform::OutputSpaceDimension >
     TransformOutputType;
-  FloatType voxelShift = NumericTraits< FloatType >::Zero;
 
   // We save the old parameters and apply the delta parameters to calculate the
   // voxel shift. After it is done, we will reset to the old parameters.
   TransformBase *transform = const_cast<TransformBase *>(this->GetTransform());
   const ParametersType oldParameters = transform->GetParameters();
 
-  FloatType distance;
   const SizeValueType numSamples = this->m_ImageSamples.size();
 
   VirtualPointType point;
@@ -185,6 +286,7 @@ RegistrationParameterScalesFromShift< TMetric >
 
   // Store the old mapped indices to reduce calls to Transform::SetParameters()
   std::vector<TransformOutputType> oldMappedVoxels(numSamples);
+  sampleShifts.SetSize(numSamples);
 
   // Compute the indices mapped by the old transform
   for (SizeValueType c=0; c<numSamples; c++)
@@ -203,38 +305,31 @@ RegistrationParameterScalesFromShift< TMetric >
     this->template TransformPointToContinuousIndex<TransformOutputType>(point, newMappedVoxel);
 
     // find max shift by checking each sample point
-    distance = newMappedVoxel.EuclideanDistanceTo(oldMappedVoxels[c]);
-    if ( voxelShift < distance )
-      {
-      voxelShift = distance;
-      }
+    sampleShifts[c] = newMappedVoxel.EuclideanDistanceTo(oldMappedVoxels[c]);
   } // end for numSamples
 
   // restore the parameters in the transform
   transform->SetParameters(oldParameters);
-
-  return voxelShift;
 }
 
-/** The templated method of compute the maximimum shift in the phyiscal space.
+/** The templated method of compute the sample shifts in the phyiscal space.
  *  The template argument TTransform may be either MovingTransformType or
  *  FixedTransformType.
  */
 template< class TMetric >
 template< class TTransform >
-typename RegistrationParameterScalesFromShift< TMetric >::FloatType
+void
 RegistrationParameterScalesFromShift< TMetric >
-::ComputeMaximumPhysicalShiftTemplated(const ParametersType &deltaParameters)
+::ComputeSamplePhysicalShifts(const ParametersType &deltaParameters,
+                              ScalesType &sampleShifts)
 {
   typedef typename TTransform::OutputPointType TransformOutputType;
-  FloatType voxelShift = NumericTraits< FloatType >::Zero;
 
   // We save the old parameters and apply the delta parameters to calculate the
   // voxel shift. After it is done, we will reset to the old parameters.
   TransformBase *transform = const_cast<TransformBase *>(this->GetTransform());
   const ParametersType oldParameters = transform->GetParameters();
 
-  FloatType distance;
   const SizeValueType numSamples = this->m_ImageSamples.size();
 
   VirtualPointType point;
@@ -242,6 +337,7 @@ RegistrationParameterScalesFromShift< TMetric >
 
   // store the old mapped indices to reduce calls to Transform::SetParameters()
   std::vector<TransformOutputType> oldMappedVoxels(numSamples);
+  sampleShifts.SetSize(numSamples);
 
   // compute the indices mapped by the old transform
   for (SizeValueType c=0; c<numSamples; c++)
@@ -259,18 +355,12 @@ RegistrationParameterScalesFromShift< TMetric >
     point = this->m_ImageSamples[c];
     this->template TransformPoint<TransformOutputType>(point, newMappedVoxel);
 
-    // find max shift by checking each sample point
-    distance = newMappedVoxel.EuclideanDistanceTo(oldMappedVoxels[c]);
-    if ( voxelShift < distance )
-      {
-      voxelShift = distance;
-      }
+    // find the local shift for each sample point
+    sampleShifts[c] = newMappedVoxel.EuclideanDistanceTo(oldMappedVoxels[c]);
   } // end for numSamples
 
   // restore the parameters in the transform
   transform->SetParameters(oldParameters);
-
-  return voxelShift;
 }
 
 /** Print the information about this class */
