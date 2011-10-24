@@ -294,6 +294,24 @@ public:
     return false;
     }
 
+  /** Determine if the ImageIO method uses an internal buffer to read
+   *   the file, and if that buffer can be exported and used in 
+   *   the pipeline. Default is false. */
+  virtual bool CanUseOwnBuffer()
+    {
+    return false;
+    }
+
+  virtual void ReadUsingOwnBuffer()
+    {
+    return;
+    }
+
+  virtual void * GetOwnBuffer()
+    {
+    return static_cast<void *>( 0 );
+    }
+
   /** Read the spacing and dimentions of the image.
    * Assumes SetFileName has been called with a valid file name. */
   virtual void ReadImageInformation() = 0;
