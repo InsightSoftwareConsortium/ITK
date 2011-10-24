@@ -81,11 +81,11 @@ public:
 
   bool operator> (const KLMDynamicBorderArray<TBorder>* rhs) const
     {
-    if( m_Pointer->GetLambda() == rhs.m_Pointer->GetLambda() )
+    if( m_Pointer->GetLambda() == rhs->m_Pointer->GetLambda() )
       {
       if( m_Pointer->GetLambda() < 0 )
         {
-        return ( m_Pointer > rhs.m_Pointer );
+        return ( m_Pointer > rhs->m_Pointer );
         }
       else
         {
@@ -100,13 +100,13 @@ public:
           static_cast< double>(m_Pointer->GetRegion2()->GetRegionBorderSize() ));
 
         double v2 = vnl_math_max(
-          static_cast< double>(rhs.m_Pointer->GetRegion1()->GetRegionBorderSize()),
-          static_cast< double>(rhs.m_Pointer->GetRegion2()->GetRegionBorderSize()) );
+          static_cast< double>(rhs->m_Pointer->GetRegion1()->GetRegionBorderSize()),
+          static_cast< double>(rhs->m_Pointer->GetRegion2()->GetRegionBorderSize()) );
 
         return ( v1 > v2 );
         }
       }
-    return(m_Pointer->GetLambda() > rhs.m_Pointer->GetLambda() );
+    return(m_Pointer->GetLambda() > rhs->m_Pointer->GetLambda() );
     }
 
   TBorder *m_Pointer;

@@ -20,6 +20,7 @@
 
 #include "itkStreamingImageIOBase.h"
 #include "itkMRCHeaderObject.h"
+#include "itkGenericUtilities.h"
 #include <numeric>
 
 namespace itk
