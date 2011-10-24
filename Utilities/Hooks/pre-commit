@@ -154,3 +154,7 @@ while read src_mode dst_mode src_obj dst_obj status file; do
 done
 )
 test -z "$bad" || die "$bad"
+
+#-----------------------------------------------------------------------------
+# Style hooks.
+. "$GIT_DIR/../Utilities/Hooks/pre-commit-style"
