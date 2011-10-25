@@ -88,7 +88,12 @@ InPlaceImageFilter< TInputImage, TOutputImage >
     // Graft this first input to the output.  Later, we'll need to
     // remove the input's hold on the bulk data.
     //
-    OutputImagePointer inputAsOutput = const_cast< TInputImage * >( inputPtr );
+    OutputImagePointer inputAsOutput = NULL;
+    if ( IsSame<TInputImage, TOutputImage>() )
+      {
+      inputAsOutput = reinterpret_cast<TOutputImage *>( const_cast< TInputImage * >( inputPtr ) );
+      }
+    itkAssertOrThrowMacro( inputAsOutput.IsNotNull(), "Unable to convert input image to output image as expected!" );
 
     this->GraftOutput(inputAsOutput);
     this->m_RunningInPlace = true;
