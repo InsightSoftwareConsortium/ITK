@@ -1,5 +1,6 @@
 itk_module_test()
 set(ITKImageAdaptorsTests
+itkComplexConjugateImageAdaptorTest.cxx
 itkImageAdaptorTest.cxx
 itkRGBToVectorImageAdaptorTest.cxx
 itkVectorImageTest.cxx
@@ -14,3 +15,5 @@ itk_add_test(NAME itkRGBToVectorImageAdaptorTest
 itk_add_test(NAME itkVectorImageTest
       COMMAND ITKImageAdaptorsTestDriver itkVectorImageTest
               ${ITK_TEST_OUTPUT_DIR}/VectorImage.nrrd ${ITK_TEST_OUTPUT_DIR}/VectorImage.mhd)
+itk_add_test(NAME itkComplexConjugateImageAdaptorTest
+      COMMAND ITKImageAdaptorsTestDriver itkComplexConjugateImageAdaptorTest)
