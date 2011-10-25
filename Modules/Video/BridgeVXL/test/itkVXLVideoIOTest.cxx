@@ -6,8 +6,6 @@
 #include "itkRGBPixel.h"
 #include "itkImageFileWriter.h"
 
-#include "vidl/vidl_ffmpeg_istream.h"
-
 
 // ITK typedefs
 typedef itk::RGBPixel<char> PixelType;
@@ -136,8 +134,8 @@ bool videosMatch(char* file1, char* file2)
   if (io1->GetFrameTotal() != io2->GetFrameTotal() ||
       io1->GetDimensions(1) != io2->GetDimensions(1) ||
       io1->GetDimensions(0) != io2->GetDimensions(0) ||
-      io1->GetFpS() + e < io2->GetFpS() ||
-      io1->GetFpS() - e > io2->GetFpS() ||
+      io1->GetFramesPerSecond() + e < io2->GetFramesPerSecond() ||
+      io1->GetFramesPerSecond() - e > io2->GetFramesPerSecond() ||
       io1->GetNumberOfComponents() != io2->GetNumberOfComponents())
     {
 
@@ -145,9 +143,9 @@ bool videosMatch(char* file1, char* file2)
     std::cerr << "  FrameTotal: " << io1->GetFrameTotal() << ", " << io2->GetFrameTotal() << std::endl;
     std::cerr << "  Height: " << io1->GetDimensions(1) << ", " << io2->GetDimensions(1) << std::endl;
     std::cerr << "  Width: " << io1->GetDimensions(0) << ", " << io2->GetDimensions(0) << std::endl;
-    std::cerr << "  FpS: " << io1->GetFpS() << ", " << io2->GetFpS() << std::endl;
+    std::cerr << "  FpS: " << io1->GetFramesPerSecond() << ", " << io2->GetFramesPerSecond() << std::endl;
     std::cerr << "  NChannels: " << io1->GetNumberOfComponents() << ", " << io2->GetNumberOfComponents() << std::endl;
-    
+
     return false;
     }
 
@@ -211,14 +209,14 @@ int test_VXLVideoIO ( char* input, char* nonVideoInput, char* output, char* came
   if (vxlIO->CanReadFile(nonExistantFile.c_str()))
     {
     std::cerr << "Should have failed to open \"" << nonExistantFile << "\"" << std::endl;
-    ret = EXIT_FAILURE; 
+    ret = EXIT_FAILURE;
     }
 
   // Test CanReadFile on non-video file
   if (vxlIO->CanReadFile(nonVideoInput))
     {
     std::cerr << "Should have failed to open \"" << nonVideoInput << "\"" << std::endl;
-    ret = EXIT_FAILURE; 
+    ret = EXIT_FAILURE;
     }
 
 
@@ -245,10 +243,10 @@ int test_VXLVideoIO ( char* input, char* nonVideoInput, char* output, char* came
       << vxlIO->GetDimensions(1) << std::endl;
     }
   double epsilon = 0.0001;
-  if (vxlIO->GetFpS() < inFpS - epsilon || vxlIO->GetFpS() > inFpS + epsilon)
+  if (vxlIO->GetFramesPerSecond() < inFpS - epsilon || vxlIO->GetFramesPerSecond() > inFpS + epsilon)
     {
     infoSet = false;
-    paramMessage << "FpS mismatch: (expected) " << inFpS << " != (got) " << vxlIO->GetFpS()
+    paramMessage << "FpS mismatch: (expected) " << inFpS << " != (got) " << vxlIO->GetFramesPerSecond()
       << std::endl;
     }
   if (vxlIO->GetFrameTotal() != inNumFrames)
@@ -348,7 +346,7 @@ int test_VXLVideoIO ( char* input, char* nonVideoInput, char* output, char* came
     }
 
   // Save the current parameters
-  double fps = vxlIO->GetFpS();
+  double fps = vxlIO->GetFramesPerSecond();
   unsigned int width = vxlIO->GetDimensions(0);
   unsigned int height = vxlIO->GetDimensions(1);
   const char* fourCC = "MP42";
@@ -433,13 +431,13 @@ int test_VXLVideoIO ( char* input, char* nonVideoInput, char* output, char* came
   std::cout << "VXLVIdeoIO::SetWriterParameters..." << std::endl;
 
   // Reset the saved parameters
-  std::vector<unsigned int> size;
+  std::vector<itk::SizeValueType> size;
   size.push_back(width);
   size.push_back(height);
   vxlIO->SetWriterParameters(fps, size, fourCC, nChannels, itk::ImageIOBase::UCHAR);
 
   // Make sure they set correctly
-  if (vxlIO->GetFpS() != fps || vxlIO->GetDimensions(0) != width ||
+  if (vxlIO->GetFramesPerSecond() != fps || vxlIO->GetDimensions(0) != width ||
       vxlIO->GetDimensions(1) != height || vxlIO->GetNumberOfComponents() != nChannels)
     {
     std::cerr << "Didn't set writer parmeters correctly" << std::endl;
@@ -484,10 +482,7 @@ int test_VXLVideoIO ( char* input, char* nonVideoInput, char* output, char* came
     {
 
     // Set up a buffer to read to
-    //size_t bufferSize = vxlIO2->GetDimensions(1)*vxlIO2->GetDimensions(0)*
-    //                      vxlIO2->GetNumberOfComponents()*vxlIO2->GetBytesPerPixel();
-    size_t bufferSize = vxlIO2->GetImageSizeInBytes();
-    PixelType buffer[bufferSize];
+    PixelType buffer[ vxlIO2->GetImageSizeInBytes() ];
 
     // Read into the buffer
     vxlIO2->Read(static_cast<void*>(buffer));
@@ -518,4 +513,3 @@ int itkVXLVideoIOTest ( int argc, char *argv[] )
   return test_VXLVideoIO(argv[1], argv[2], argv[3], argv[4], atoi(argv[5]), atoi(argv[6]),
                             atoi(argv[7]), atof(argv[8]));
 }
-

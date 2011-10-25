@@ -79,7 +79,7 @@ public:
   virtual bool CanReadFile(const char *);
 
   /** Return whether or not the VideoIO can read from a camera */
-  virtual bool CanReadCamera( CameraIDType cameraID );
+  virtual bool CanReadCamera( CameraIDType cameraID )const;
 
   /** Set the spacing and dimension information for the set filename. */
   virtual void ReadImageInformation();

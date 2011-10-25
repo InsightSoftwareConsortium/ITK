@@ -87,7 +87,7 @@ public:
 
   /** Return whether or not the VideoIO can read from a camera. The cameraID
    * can be a camera number for OpenCV or a guid for VXL */
-  virtual bool CanReadCamera( CameraIDType cameraID ) = 0;
+  virtual bool CanReadCamera( CameraIDType cameraID ) const = 0;
 
   /** Set the next frame that should be read. Return true if you operation
    * succesful */

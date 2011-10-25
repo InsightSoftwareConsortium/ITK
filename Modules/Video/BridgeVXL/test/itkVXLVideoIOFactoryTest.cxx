@@ -65,4 +65,3 @@ int itkVXLVideoIOFactoryTest ( int argc, char *argv[] )
 
   return test_VXLVideoIOFactory(argv[1], argv[2], atoi(argv[3]));
 }
-

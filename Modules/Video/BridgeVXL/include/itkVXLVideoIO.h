@@ -39,7 +39,7 @@ namespace itk
  *
  * \brief VideoIO object for reading and writing videos using VXL
  *
- * \ingroup Video-IO-VXL
+ * \ingroup ITKVideoBridgeVXL
  *
  */
 class ITK_EXPORT VXLVideoIO:public VideoIOBase
@@ -50,6 +50,10 @@ public:
   typedef VideoIOBase          Superclass;
   typedef SmartPointer< Self > Pointer;
 
+  typedef Superclass::TemporalOffsetType TemporalOffsetType;
+  typedef Superclass::FrameOffsetType    FrameOffsetType;
+  typedef Superclass::TemporalRatioType  TemporalRatioType;
+  typedef Superclass::CameraIDType       CameraIDType;
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
@@ -72,7 +76,7 @@ public:
   virtual bool CanReadFile(const char *);
 
   /** Return whether or not the VideoIO can read from a camera */
-  virtual bool CanReadCamera( unsigned long cameraID );
+  virtual bool CanReadCamera( CameraIDType cameraID ) const;
 
   /** Set the spacing and dimension information for the set filename. */
   virtual void ReadImageInformation();
@@ -83,29 +87,20 @@ public:
 
   /** Set the next frame that should be read. Return true if you operation
    * succesful */
-  virtual bool SetNextFrameToRead(unsigned long frameNumber);
+  virtual bool SetNextFrameToRead( FrameOffsetType frameNumber);
 
   /** Accessor functions for video specific information */
-  virtual double GetPositionInMSec();
-  virtual double GetRatio();
-  virtual unsigned long GetFrameTotal();
-  virtual double GetFpS();
-  virtual unsigned long GetCurrentFrame();
-  virtual unsigned int GetIFrameInterval();
-  virtual unsigned long GetLastIFrame();
+  virtual TemporalOffsetType GetPositionInMSec() const;
+  virtual TemporalRatioType GetRatio() const;
+  virtual FrameOffsetType GetFrameTotal() const;
+  virtual TemporalRatioType GetFramesPerSecond() const;
+  virtual FrameOffsetType  GetCurrentFrame() const;
+  virtual FrameOffsetType GetIFrameInterval() const;
+  virtual FrameOffsetType  GetLastIFrame() const;
 
   /** Get/Set the camera index */
   virtual void SetCameraIndex(int idx);
   virtual int GetCameraIndex();
-
-  /** Override Accessors to pass default values since VXL doesn't handle this
-   * type of meta data. */
-  virtual double GetSpacing(unsigned int i) const
-    { return 1.0; }
-  virtual double GetOrigin(unsigned int i) const
-    { return 0.0; }
-  virtual std::vector< double > GetDirection(unsigned int i) const
-    { return this->GetDefaultDirection(i); }
 
 
   /*-------- This part of the interfaces deals with writing data. ----- */
@@ -123,7 +118,7 @@ public:
   virtual void Write(const void *buffer);
 
   /** Set Writer Parameters */
-  virtual void SetWriterParameters(double fps, std::vector<SizeValueType> dim, const char* fourCC,
+  virtual void SetWriterParameters(TemporalRatioType fps, const std::vector<SizeValueType>& dim, const char* fourCC,
                                    unsigned int nChannels, IOComponentType componentType);
 
 protected:
@@ -172,8 +167,6 @@ private:
 
   /** device index for reading from a camera (may move to base class) */
   int                 m_CameraIndex;
-  
-
 };
 } // end namespace itk
 

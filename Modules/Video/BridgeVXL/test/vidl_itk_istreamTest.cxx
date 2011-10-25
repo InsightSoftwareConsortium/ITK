@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "vidl_itk_istream.h"
+#include "vidl_itk_istream.hxx"
 #include "itkRGBPixel.h"
 #include "itkRGBAPixel.h"
 #include "itkVideoStream.h"
@@ -38,7 +38,7 @@ bool TestFormat(vidl_pixel_format expectedFormat)
 // Templated test
 //
 template<class TPixelType>
-int vidl_itk_istreamTestWithPixelType(int argc, char* argv[], vidl_pixel_format expectedFormat)
+int vidl_itk_istreamTestWithPixelType(char* argv[], vidl_pixel_format expectedFormat)
 {
   // typedefs
   typedef TPixelType                        PixelType;
@@ -106,7 +106,7 @@ int vidl_itk_istreamTestWithPixelType(int argc, char* argv[], vidl_pixel_format 
 }
 
 #define TemplatedTestMacro(PixelType, expectedFormat)                               \
-  if (vidl_itk_istreamTestWithPixelType<PixelType>(argc, argv, expectedFormat) ==   \
+  if (vidl_itk_istreamTestWithPixelType<PixelType>( argv, expectedFormat) ==   \
       EXIT_FAILURE)                                                                 \
     {                                                                               \
     return EXIT_FAILURE;                                                            \
