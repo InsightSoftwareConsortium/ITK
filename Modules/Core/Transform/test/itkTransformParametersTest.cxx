@@ -17,6 +17,8 @@
  *=========================================================================*/
 
 #include "itkTransformParameters.h"
+#include "itkIntTypes.h"
+#include "itkTestingMacros.h"
 
 using namespace itk;
 
@@ -27,16 +29,17 @@ bool runTestByType()
 
   TransformParameters<TValueType> params;
   params.SetSize(10);
+  params.Fill(1.23);
   std::cout << "GetSize: " << params.GetSize() << std::endl;
 
   /* Test different ctors */
 
   //Construct by size
-  unsigned int dim = 20;
+  SizeValueType dim = 20;
   TransformParameters<TValueType> paramsSize(dim);
   if( paramsSize.GetSize() != dim )
     {
-    std::cout << "Constructor with dimension failed. Expected size of "
+    std::cerr << "Constructor with dimension failed. Expected size of "
               << dim << ", but got " << paramsSize.GetSize() << "." << std::endl;
     passed = false;
     }
@@ -44,11 +47,11 @@ bool runTestByType()
   //Copy constructor
   {
   TransformParameters<TValueType> paramsCopy( params );
-  for( unsigned int i=0; i < params.GetSize(); i++ )
+  for( SizeValueType i=0; i < params.GetSize(); i++ )
     {
     if( params[i] != paramsCopy[i] )
       {
-      std::cout << "Copy constructor failed. " << std::endl;
+      std::cerr << "Copy constructor failed. " << std::endl;
       passed = false;
       }
     }
@@ -56,15 +59,15 @@ bool runTestByType()
 
   //Constructor from array
   Array<TValueType> array(dim);
-  for( unsigned int i=0; i<dim; i++ )
+  for( SizeValueType i=0; i<dim; i++ )
     { array[i]=i*3.19; }
   {
   TransformParameters<TValueType> paramsCopy( array );
-  for( unsigned int i=0; i < params.GetSize(); i++ )
+  for( SizeValueType i=0; i < params.GetSize(); i++ )
     {
     if( array[i] != paramsCopy[i] )
       {
-      std::cout << "Constructor from Array failed. " << std::endl;
+      std::cerr << "Constructor from Array failed. " << std::endl;
       passed = false;
       }
     }
@@ -75,27 +78,27 @@ bool runTestByType()
   //Assign from Array
   TransformParameters<TValueType> paramsArray;
   paramsArray = array;
-  for( unsigned int i=0; i < array.GetSize(); i++ )
+  for( SizeValueType i=0; i < array.GetSize(); i++ )
     {
     if( paramsArray[i] != array[i] )
       {
-      std::cout << "Copy from Array via assignment failed. " << std::endl;
+      std::cerr << "Copy from Array via assignment failed. " << std::endl;
       passed = false;
       }
     }
 
   //Assign from VnlVector
   vnl_vector<TValueType> vector(dim);
-  for( unsigned int i=0; i<dim; i++ )
+  for( SizeValueType i=0; i<dim; i++ )
     { vector[i]=i*0.123; }
   {
   TransformParameters<TValueType> paramsVnl;
   paramsVnl = vector;
-  for( unsigned int i=0; i < paramsVnl.GetSize(); i++ )
+  for( SizeValueType i=0; i < paramsVnl.GetSize(); i++ )
     {
     if( vector[i] != paramsVnl[i] )
       {
-      std::cout << "Assignment from VnlVector failed. " << std::endl;
+      std::cerr << "Assignment from VnlVector failed. " << std::endl;
       passed = false;
       }
     }
@@ -108,11 +111,43 @@ bool runTestByType()
     {
     if( params[i] != 10-i )
       {
-      std::cout << "Failed reading memory after MoveDataPointer." << std::endl
+      std::cerr << "Failed reading memory after MoveDataPointer." << std::endl
                 << "Expected: " << 10-i << ", got: " << params[i] << std::endl;
       passed = false;
       }
     }
+    
+  /* Test SetParametersObject. Should throw exception with default helper. */
+  typename LightObject::Pointer dummyObj = LightObject::New();
+  TRY_EXPECT_EXCEPTION( params.SetParametersObject( dummyObj.GetPointer() ) );
+    
+  /* Test with null helper and expect exception */
+  params.SetHelper( NULL );
+  TRY_EXPECT_EXCEPTION( params.MoveDataPointer( block ) );
+  TRY_EXPECT_EXCEPTION( params.SetParametersObject( dummyObj.GetPointer() ) );
+
+  /* Test copy operator */
+  TransformParameters<TValueType> params1(4);
+  TransformParameters<TValueType> params2(4);
+  params1.Fill(1.23);
+  params2 = params1;
+  for( SizeValueType i=0; i < params1.GetSize(); i++ )
+    {
+    if( params1[i] != params2[i] )
+      {
+      std::cerr << "Copy operator failed:" << std::endl
+              << "params1 " << params1 << std::endl
+              << "params2 " << params2 << std::endl;
+      passed = false;
+      break;
+      }
+    }
+
+  /* Exercise set helper */
+  typedef typename TransformParameters<TValueType>::TransformParametersHelperType HelperType;
+  HelperType * helper = new HelperType;
+  params1.SetHelper( helper );
+
   return passed;
 }
 

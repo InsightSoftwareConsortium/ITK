@@ -37,6 +37,8 @@ itkVersorRigid3DTransformTest.cxx
 itkVersorTransformTest.cxx
 itkSplineKernelTransformTest.cxx
 itkCompositeTransformTest.cxx
+itkTransformParametersTest.cxx
+itkImageVectorTransformParametersHelperTest.cxx
 )
 
 CreateTestDriver(ITKTransform  "${ITKTransform-Test_LIBRARIES}" "${ITKTransformTests}")
@@ -173,3 +175,7 @@ itk_add_test(NAME itkSplineKernelTransformTest
       COMMAND ITKTransformTestDriver itkSplineKernelTransformTest)
 itk_add_test(NAME itkCompositeTransformTest
       COMMAND ITKTransformTestDriver itkCompositeTransformTest)
+itk_add_test(NAME itkTransformParametersTest
+      COMMAND ITKTransformTestDriver itkTransformParametersTest)
+itk_add_test(NAME itkImageVectorTransformParametersHelperTest
+      COMMAND ITKTransformTestDriver itkImageVectorTransformParametersHelperTest)

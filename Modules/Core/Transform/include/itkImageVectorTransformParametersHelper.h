@@ -76,7 +76,7 @@ public:
   virtual void SetParametersObject(CommonContainerType * container,
                                    LightObject * );
 
-  ~ImageVectorTransformParametersHelper(){}
+  virtual ~ImageVectorTransformParametersHelper(){}
 
 private:
   /** The parameter image used by the class */

@@ -18,14 +18,15 @@
 
 #include "itkTransformParameters.h"
 #include "itkImageVectorTransformParametersHelper.h"
+#include "itkTestingMacros.h"
 
 using namespace itk;
 
 namespace{
 
 typedef double                                        ValueType;
-const   unsigned int                                  ImageDimension = 2;
-const   unsigned int                                  VectorDimension = 4;
+const   SizeValueType                                 ImageDimension = 2;
+const   SizeValueType                                 VectorDimension = 4;
 typedef itk::Vector< ValueType, VectorDimension >     VectorPixelType;
 typedef itk::Image< VectorPixelType, ImageDimension > ImageVectorType;
 typedef ImageVectorType::Pointer                      ImageVectorPointer;
@@ -38,17 +39,16 @@ typedef ImageVectorTransformParametersHelper< ValueType,
                                         VectorDimension,
                                         ImageDimension >
                                       ImageVectorTransformParametersHelperType;
-}
 
 int testMemoryAccess( TransformParametersType& params,
                       ImageVectorPointer imageOfVectors,
-                      int dimLength )
+                      SizeValueType dimLength )
 {
   int result = EXIT_SUCCESS;
 
-  for (int y = 0; y < dimLength; y++)
+  for (SizeValueType y = 0; y < dimLength; y++)
     {
-    for (int x = 0; x < dimLength; x++)
+    for (SizeValueType x = 0; x < dimLength; x++)
       {
       IndexType index;
       index[0] = x;
@@ -56,9 +56,9 @@ int testMemoryAccess( TransformParametersType& params,
 
       // The image index returns a N-dim vector, so have to check each
       // element against the values returned by parameter object.
-      unsigned long offset = (x + y * dimLength) * VectorDimension;
+      OffsetValueType offset = (x + y * dimLength) * VectorDimension;
       VectorPixelType vectorpixel = imageOfVectors->GetPixel( index );
-      for(unsigned int ind=0; ind < VectorDimension; ind++)
+      for(SizeValueType ind=0; ind < VectorDimension; ind++)
         {
         ValueType paramsValue = params[offset+ind];
         if( vectorpixel[ind] != paramsValue )
@@ -74,6 +74,8 @@ int testMemoryAccess( TransformParametersType& params,
       }
     }
   return result;
+}
+
 }
 
 /******************************************************/
@@ -147,6 +149,20 @@ int itkImageVectorTransformParametersHelperTest(int, char *[])
   params.SetParametersObject( imageOfVectors );
 
   result = testMemoryAccess( params, imageOfVectors, dimLength );
+
+  //Test MoveDataPointer
+  Array<ValueType> array( imageOfVectors->GetPixelContainer()->Size() );
+  array.Fill(1.23);
+  params.MoveDataPointer( array.data_block() );
+
+  //Test null image pointer
+  params.SetParametersObject( NULL );
+  TRY_EXPECT_EXCEPTION( params.MoveDataPointer( array.data_block() ) );
+
+  //Test setting an image of wrong type
+  typedef Image<char, 2>  BadImageType;
+  BadImageType::Pointer badImage = BadImageType::New();
+  TRY_EXPECT_EXCEPTION( params.SetParametersObject( badImage ) );
 
   return result;
 }

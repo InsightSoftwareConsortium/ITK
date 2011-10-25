@@ -71,29 +71,13 @@ public:
    * size, in elements of TValueType.
    * This call is passed to the assigned TransformParametersHelper.
    * \warning Memory must be managed by caller after this call. */
-  virtual void MoveDataPointer( TValueType * pointer )
-    {
-    if( m_Helper == NULL )
-      {
-      itkGenericExceptionMacro("TransformParameters::MoveDataPointer: "
-        "m_Helper must be set.");
-      }
-    this->m_Helper->MoveDataPointer( this, pointer );
-    }
+  virtual void MoveDataPointer( TValueType * pointer );
 
   /** Set an object that holds the parameters. Used by the helper of
    * derived classes that use an object other than itkArray to hold parameter
    * data. The helper class must check that the object is the correct type.
    * The call is passed to the assigned TransformParametersHelper. */
-  virtual void SetParametersObject( LightObject * object )
-    {
-    if( m_Helper == NULL )
-      {
-      itkGenericExceptionMacro("TransformParameters::SetParameterObject: "
-        "m_Helper must be set.");
-      }
-      this->m_Helper->SetParametersObject( this, object );
-    }
+  virtual void SetParametersObject( LightObject * object );
 
   /** Assign a helper. TransformParameters manages the helper once
    *  its been assigned. The generic helper, TransformParametersHelper,
