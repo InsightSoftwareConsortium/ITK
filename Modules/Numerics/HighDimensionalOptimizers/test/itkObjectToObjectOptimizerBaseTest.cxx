@@ -149,6 +149,18 @@ int itkObjectToObjectOptimizerBaseTest(int , char* [])
   optimizer->SetScales( scales );
   TRY_EXPECT_EXCEPTION( optimizer->StartOptimization() );
 
+  /* Test with scales close to identity, within tolerance.
+   * The flag indicating identity scales should be set. */
+  scales.SetSize(scalesSize);
+  scales.Fill( 0.999 );
+  optimizer->SetScales( scales );
+  TRY_EXPECT_NO_EXCEPTION( optimizer->StartOptimization() );
+  if( ! optimizer->GetScalesAreIdentity() )
+    {
+    std::cerr << "Expected GetScalesAreIdentity to return true." << std::endl;
+    return EXIT_FAILURE;
+    }
+
   std::cout << "Printing self.." << std::endl;
   std::cout << optimizer << std::endl;
 

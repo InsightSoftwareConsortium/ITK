@@ -47,6 +47,7 @@ ObjectToObjectOptimizerBase
   os << indent << "Number of threads: " << this->m_NumberOfThreads << std::endl;
   os << indent << "Number of scales:  " << this->m_Scales.Size() << std::endl;
   os << indent << "m_Scales: " << this->m_Scales << std::endl;
+  os << indent << "m_ScalesAreIdentity: " << this->GetScalesAreIdentity() << std::endl;
   os << indent << "Metric: " << std::endl;
   m_Metric->Print( os, indent.GetNextIndent() );
 }
@@ -91,7 +92,7 @@ ObjectToObjectOptimizerBase
       }
     /* Check that all values in m_Scales are > machine epsilon, to avoid
      * division by zero/epsilon.
-     * Also check if all scale values are 1. */
+     * Also check if scales are identity. */
     typedef ScalesType::size_type     SizeType;
     this->m_ScalesAreIdentity = true;
     for( SizeType i=0; i < this->m_Scales.Size(); i++ )
@@ -100,10 +101,16 @@ ObjectToObjectOptimizerBase
         {
         itkExceptionMacro("m_Scales values must be > epsilon.");
         }
-      /* Check if the scales are identity. */
-      if( this->m_Scales[i] != NumericTraits<ValueType>::OneValue() )
+      /* Check if the scales are identity. Consider to be identity if
+       * within a tolerance, to allow for automatically estimated scales
+       * that may not be exactly 1.0 when in priciniple they should be. */
+      ValueType difference =
+        vcl_fabs( NumericTraits<ValueType>::OneValue() - this->m_Scales[i] );
+      ValueType tolerance = static_cast<ValueType>( 0.01 );
+      if( difference > tolerance  )
         {
         this->m_ScalesAreIdentity = false;
+        break;
         }
       }
     }

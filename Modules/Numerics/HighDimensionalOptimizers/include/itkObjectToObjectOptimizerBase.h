@@ -101,6 +101,9 @@ public:
   /** Get current parameters scaling. */
   itkGetConstReferenceMacro( Scales, ScalesType );
 
+  /** Get whether scales are identity. Cannot be set */
+  itkGetConstReferenceMacro( ScalesAreIdentity, bool );
+
   /** Set the number of threads to use when threading. */
   virtual void SetNumberOfThreads( ThreadIdType number );
 
