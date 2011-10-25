@@ -381,44 +381,45 @@ void
 Versor< T >
 ::Set(const MatrixType & mat)
 {
-  vnl_matrix< T > m( mat.GetVnlMatrix() );
-
   //const double epsilon = 1e-30;
   //Keep the epsilon value large enough so that the alternate routes of
-  // computing the
-  //quaternion are used to within floating point precision of the math to be
-  // used.
-  //Using 1e-30 results in degenerate matries for rotations near vnl_math::pi
-  // due
-  //to imprecision of the math.  0.5/vcl_sqrt(trace) is not accurate to 1e-30,
-  // so
-  //the resulting matrices would have very large errors.  By decreasing this
-  // epsilon value
-  //to a higher tolerance, the alternate stable methods for conversion are used.
-  const T epsilon = vcl_numeric_limits< T >::epsilon();
-  // Use a slightly less epsilon for detecting difference
-  const T epsilonDiff = vcl_numeric_limits< T >::epsilon() * 10.0;
+  //computing the quaternion are used to within floating point precision of the
+  //math to be used.  Using 1e-30 results in degenerate matries for rotations
+  //near vnl_math::pi due to imprecision of the math.  0.5/vcl_sqrt(trace) is
+  //not accurate to 1e-30, so the resulting matrices would have very large
+  //errors.  By decreasing this epsilon value to a higher tolerance, the
+  //alternate stable methods for conversion are used.
+  //
+  //The use of vcl_numeric_limits< T >::epsilon() was not consistent with
+  //the rest of the ITK toolkit with respect to epsilon values for
+  //determining rotational orthogonality, and it occasionally
+  //prevented the conversion between different rigid transform types.
 
-  vnl_matrix_fixed< T, 3, 3 > I;
-              //check for orthonormality and that it isn't a reflection
-  I = m*m.transpose();
+  const T epsilon = 1e-10; // vnl_sqrt( vcl_numeric_limits< T >::epsilon() );
+  // Use a slightly less epsilon for detecting difference
+  const T epsilonDiff = 1e-10; //vcl_numeric_limits< T >::epsilon() * 10.0;
+
+  const vnl_matrix< T > m( mat.GetVnlMatrix() );
+
+  //check for orthonormality and that it isn't a reflection
+  const vnl_matrix_fixed< T, 3, 3 > & I = m*m.transpose();
   if( vcl_abs( I[0][1] ) > epsilon || vcl_abs( I[0][2] ) > epsilon ||
-      vcl_abs( I[1][0] ) > epsilon || vcl_abs( I[1][2] ) > epsilon ||
-      vcl_abs( I[2][0] ) > epsilon || vcl_abs( I[2][1] ) > epsilon ||
-      vcl_abs( I[0][0] - itk::NumericTraits<T>::One ) > epsilonDiff ||
-      vcl_abs( I[1][1] - itk::NumericTraits<T>::One ) > epsilonDiff ||
-      vcl_abs( I[2][2] - itk::NumericTraits<T>::One ) > epsilonDiff ||
-      vnl_det( I ) < 0 )
+    vcl_abs( I[1][0] ) > epsilon || vcl_abs( I[1][2] ) > epsilon ||
+    vcl_abs( I[2][0] ) > epsilon || vcl_abs( I[2][1] ) > epsilon ||
+    vcl_abs( I[0][0] - itk::NumericTraits<T>::One ) > epsilonDiff ||
+    vcl_abs( I[1][1] - itk::NumericTraits<T>::One ) > epsilonDiff ||
+    vcl_abs( I[2][2] - itk::NumericTraits<T>::One ) > epsilonDiff ||
+    vnl_det( I ) < 0 )
     {
-    itkGenericExceptionMacro(<< "The following matrix does not represent rotation."
-                             << std::endl
-                             << m << std::endl
-                             << "det(m * m transpose) is: " << vnl_det(I) << std::endl
-                             << "m * m transpose is:" << std::endl
-                             << I << std::endl);
+    itkGenericExceptionMacro(<< "The following matrix does not represent rotation to within an epsion of "
+      << epsilon << "." << std::endl
+      << m << std::endl
+      << "det(m * m transpose) is: " << vnl_det(I) << std::endl
+      << "m * m transpose is:" << std::endl
+      << I << std::endl);
     }
 
-  double trace = m(0, 0) + m(1, 1) + m(2, 2) + 1.0;
+  const double trace = m(0, 0) + m(1, 1) + m(2, 2) + 1.0;
 
   if ( trace > epsilon )
     {
