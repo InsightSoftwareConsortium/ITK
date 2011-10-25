@@ -36,6 +36,9 @@ RegistrationParameterScalesEstimator< TMetric >
   // default sampling strategy
   m_SamplingStrategy = FullDomainSampling;
 
+  // the default radius of the central region for sampling
+  m_CentralRegionRadius = 2;
+
   // the metric object must be set before EstimateScales()
 }
 
@@ -284,12 +287,6 @@ void
 RegistrationParameterScalesEstimator< TMetric >
 ::SampleImageDomain()
 {
-  if (this->HasLocalSupport())
-    {
-    // Have to use FullDomainSampling for a transform with local support
-    this->SetSamplingStrategy(FullDomainSampling);
-    }
-
   if ( !(this->m_SamplingTime < this->GetTimeStamp())
     && !(this->m_SamplingTime < this->m_VirtualImage->GetTimeStamp()) )
     {
@@ -305,6 +302,10 @@ RegistrationParameterScalesEstimator< TMetric >
     {
     this->SampleImageDomainRandomly();
     }
+  else if (m_SamplingStrategy == CentralRegionSampling)
+    {
+    this->SampleImageDomainWithCentralRegion();
+    }
   else
     {
     this->SampleImageDomainFully();
@@ -315,8 +316,218 @@ RegistrationParameterScalesEstimator< TMetric >
 }
 
 /**
+ * Set the sampling strategy automatically for scales estimation.
+ */
+template< class TMetric >
+void
+RegistrationParameterScalesEstimator< TMetric >
+::SetScalesSamplingStrategy()
+{
+  if( this->HasLocalSupport() )
+    {
+    this->SetSamplingStrategy(CentralRegionSampling);
+    }
+  else if (this->CheckGeneralAffineTransform())
+    {
+    this->SetSamplingStrategy(CornerSampling);
+    }
+  else
+    {
+    this->SetSamplingStrategy(RandomSampling);
+    this->SetNumberOfRandomSamples( SizeOfSmallDomain );
+    }
+}
+
+/**
+ * Set the sampling strategy automatically for step scale estimation.
+ */
+template< class TMetric >
+void
+RegistrationParameterScalesEstimator< TMetric >
+::SetStepScaleSamplingStrategy()
+{
+  if (this->HasLocalSupport())
+    {
+    // Have to use FullDomainSampling for a transform with local support
+    this->SetSamplingStrategy(FullDomainSampling);
+    }
+  else if (this->CheckGeneralAffineTransform())
+    {
+    this->SetSamplingStrategy(CornerSampling);
+    }
+  else
+    {
+    this->SetSamplingStrategy(RandomSampling);
+    this->SetNumberOfRandomSamples( SizeOfSmallDomain );
+    }
+}
+
+/**
+ * Check if the transform is a general affine transform that maps a line
+ * segment to a line segment.
+ */
+template< class TMetric >
+bool
+RegistrationParameterScalesEstimator< TMetric >
+::CheckGeneralAffineTransform()
+{
+  if (this->GetTransformForward())
+    {
+    return this->template CheckGeneralAffineTransformTemplated<MovingTransformType>();
+    }
+  else
+    {
+    return this->template CheckGeneralAffineTransformTemplated<FixedTransformType>();
+    }
+}
+
+/**
+ * The templated version of CheckGeneralAffineTransform to check if the
+ * transform is a general affine transform that maps a line segment to
+ * a line segment.
+ *
+ * Examples are subclasses of MatrixOffsetTransformBaseType, TranslationTransform,
+ * Rigid3DPerspectiveTransform, IdentityTransform, etc.
+ */
+template< class TMetric >
+template< class TTransform >
+bool
+RegistrationParameterScalesEstimator< TMetric >
+::CheckGeneralAffineTransformTemplated()
+{
+  typedef typename TTransform::ScalarType ScalarType;
+  const SizeValueType InputSpaceDimension = TTransform::InputSpaceDimension;
+  const SizeValueType OutputSpaceDimension = TTransform::OutputSpaceDimension;
+
+  typedef MatrixOffsetTransformBase<ScalarType, InputSpaceDimension, OutputSpaceDimension>
+          MatrixOffsetTransformBaseType;
+  typedef TranslationTransform<ScalarType, InputSpaceDimension>
+          TranslationTransformType;
+  typedef IdentityTransform<ScalarType, InputSpaceDimension>
+          IdentityTransformType;
+  typedef Rigid3DPerspectiveTransform<ScalarType>
+          Rigid3DPerspectiveTransformType;
+
+  const TransformBase *transform = this->GetTransform();
+
+  if ( dynamic_cast< const MatrixOffsetTransformBaseType * >( transform ) != NULL
+    || dynamic_cast< const TranslationTransformType * >( transform ) != NULL
+    || dynamic_cast< const IdentityTransformType * >( transform ) != NULL
+    || dynamic_cast< const Rigid3DPerspectiveTransformType * >( transform ) != NULL
+    )
+    {
+    return true;
+    }
+
+  return false;
+}
+
+/**
+ *  Get the index of the virtual image center.
+ */
+template< class TMetric >
+typename RegistrationParameterScalesEstimator< TMetric >::VirtualIndexType
+RegistrationParameterScalesEstimator< TMetric >
+::GetVirtualImageCentralIndex()
+{
+  VirtualImageConstPointer image = this->GetVirtualImage();
+  VirtualRegionType region = this->m_Metric->GetVirtualDomainRegion();
+  const SizeValueType dim = this->GetImageDimension();
+
+  VirtualIndexType lowerIndex, upperIndex, centralIndex;
+  lowerIndex = region.GetIndex();
+  upperIndex = region.GetUpperIndex();
+
+  for (SizeValueType d=0; d<dim; d++)
+    {
+    centralIndex[d] = (IndexValueType)((lowerIndex[d] + upperIndex[d])/2.0);
+    }
+
+  return centralIndex;
+}
+
+/**
+ *  Get the region around the virtual image center.
+ */
+template< class TMetric >
+typename RegistrationParameterScalesEstimator< TMetric >::VirtualRegionType
+RegistrationParameterScalesEstimator< TMetric >
+::GetVirtualImageCentralRegion()
+{
+  VirtualIndexType centralIndex = this->GetVirtualImageCentralIndex();
+
+  VirtualImageConstPointer image = this->GetVirtualImage();
+  VirtualRegionType region = this->m_Metric->GetVirtualDomainRegion();
+  const SizeValueType dim = this->GetImageDimension();
+
+  VirtualIndexType lowerIndex, upperIndex;
+  lowerIndex = region.GetIndex();
+  upperIndex = region.GetUpperIndex();
+
+  for (SizeValueType d=0; d<dim; d++)
+    {
+    if (lowerIndex[d] < centralIndex[d] - this->m_CentralRegionRadius)
+      {
+      lowerIndex[d] = centralIndex[d] - this->m_CentralRegionRadius;
+      }
+    if (upperIndex[d] > centralIndex[d] + this->m_CentralRegionRadius)
+      {
+      upperIndex[d] = centralIndex[d] + this->m_CentralRegionRadius;
+      }
+    }
+
+  VirtualRegionType centralRegion;
+  centralRegion.SetIndex(lowerIndex);
+  centralRegion.SetUpperIndex(upperIndex);
+
+  return centralRegion;
+}
+
+/**
+ *  Sample the virtual domain with the voxels around the center.
+ */
+template< class TMetric >
+void
+RegistrationParameterScalesEstimator< TMetric >
+::SampleImageDomainWithCentralRegion()
+{
+  VirtualRegionType centralRegion = this->GetVirtualImageCentralRegion();
+  SampleImageDomainWithRegion(centralRegion);
+}
+
+/**
+ *  Sample the virtual domain with all voxels inside a region.
+ */
+template< class TMetric >
+void
+RegistrationParameterScalesEstimator< TMetric >
+::SampleImageDomainWithRegion(VirtualRegionType region)
+{
+  VirtualImageConstPointer image = this->m_VirtualImage;
+  const SizeValueType total = region.GetNumberOfPixels();
+  m_ImageSamples.resize(total);
+
+  /* Set up an iterator within the user specified virtual image region. */
+  typedef ImageRegionConstIteratorWithIndex<VirtualImageType> RegionIterator;
+  RegionIterator regionIter( image, region );
+
+  VirtualPointType point;
+
+  /* Iterate over the image */
+  SizeValueType count = 0;
+  regionIter.GoToBegin();
+  while( !regionIter.IsAtEnd() )
+    {
+    image->TransformIndexToPhysicalPoint( regionIter.GetIndex(), point );
+    m_ImageSamples[count] = point;
+    ++regionIter;
+    ++count;
+    }
+}
+
+/**
  *  Sample the virtual domain with the points at image corners.
- *  and store the results into m_ImageSamples.
+ *  And store the results into m_ImageSamples.
  */
 template< class TMetric >
 void
@@ -405,27 +616,8 @@ void
 RegistrationParameterScalesEstimator< TMetric >
 ::SampleImageDomainFully()
 {
-
-  VirtualImageConstPointer image = this->m_VirtualImage;
-  const SizeValueType total = this->m_Metric->GetVirtualDomainRegion().GetNumberOfPixels();
-  m_ImageSamples.resize(total);
-
-  /* Set up an iterator within the user specified virtual image region. */
-  typedef ImageRegionConstIteratorWithIndex<VirtualImageType> RegionIterator;
-  RegionIterator regionIter( image, this->m_Metric->GetVirtualDomainRegion() );
-
-  VirtualPointType point;
-
-  /* Iterate over the image */
-  SizeValueType count = 0;
-  regionIter.GoToBegin();
-  while( !regionIter.IsAtEnd() )
-    {
-    image->TransformIndexToPhysicalPoint( regionIter.GetIndex(), point );
-    m_ImageSamples[count] = point;
-    ++regionIter;
-    ++count;
-    }
+  VirtualRegionType region = this->m_Metric->GetVirtualDomainRegion();
+  this->SampleImageDomainWithRegion(region);
 }
 
 /**

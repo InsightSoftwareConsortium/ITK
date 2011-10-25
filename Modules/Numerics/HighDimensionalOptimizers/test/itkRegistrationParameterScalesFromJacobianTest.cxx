@@ -228,10 +228,15 @@ int itkRegistrationParameterScalesFromJacobianTest(int , char* [])
     {
     for (itk::SizeValueType col = 0; col < ImageDimension; col++)
       {
+      //previously uses random sampling
       //average of squares of consecutive integers [0,1,...,n]
       // = n*(n+1)*(2n+1)/6 / (n+1) = n*(2n+1)/6
-      theoreticalJacobianScales[param++] = (upperPoint[col] *
-        (2*upperPoint[col]+1)) / 6.0;
+      //theoreticalJacobianScales[param++] = (upperPoint[col] *
+      //  (2*upperPoint[col]+1)) / 6.0;
+
+      //now uses the corners for affine transform
+      // = (0 + 0 + n*n + n*n)/4 = n*n/2
+      theoreticalJacobianScales[param++] = upperPoint[col] * upperPoint[col] / 2.0;
       }
     }
   for (itk::SizeValueType row = 0; row < ImageDimension; row++)
@@ -242,9 +247,8 @@ int itkRegistrationParameterScalesFromJacobianTest(int , char* [])
   bool jacobianPass = true;
   for (itk::SizeValueType p = 0; p < jacobianScales.GetSize(); p++)
     {
-    //due to random sampling, it is not exactly equal
     if (vcl_abs((jacobianScales[p] - theoreticalJacobianScales[p])
-      / theoreticalJacobianScales[p]) > 0.2 )
+      / theoreticalJacobianScales[p]) > 0.01 )
       {
       jacobianPass = false;
       break;
@@ -287,9 +291,9 @@ int itkRegistrationParameterScalesFromJacobianTest(int , char* [])
   virtualImage->TransformIndexToPhysicalPoint(virtualImage->
     GetLargestPossibleRegion().GetIndex(), lowerPoint);
 
-  for (FloatType x=lowerPoint[0]; x<=upperPoint[0]; x+=1.0)
+  for (FloatType x=lowerPoint[0]; x<=upperPoint[0]; x+=upperPoint[0]-lowerPoint[0])
     {
-    for (FloatType y=lowerPoint[1]; y<=upperPoint[1]; y+=1.0)
+    for (FloatType y=lowerPoint[1]; y<=upperPoint[1]; y+=upperPoint[1]-lowerPoint[1])
       {
       theoreticalStepScale += vcl_sqrt(x*x + y*y);
       count++;
@@ -298,8 +302,7 @@ int itkRegistrationParameterScalesFromJacobianTest(int , char* [])
   theoreticalStepScale /= count;
 
   bool stepScalePass = false;
-  //due to random sampling, it is not exactly equal
-  if (vcl_abs( (stepScale - theoreticalStepScale)/theoreticalStepScale ) < 0.2)
+  if (vcl_abs( (stepScale - theoreticalStepScale)/theoreticalStepScale ) < 0.01)
     {
     stepScalePass = true;
     }

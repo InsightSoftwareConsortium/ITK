@@ -76,39 +76,30 @@ public:
 int itkJointHistogramMutualInformationImageToImageObjectRegistrationTest(int argc, char *argv[])
 {
 
-  if( argc < 4 || argc > 8)
+  if( argc < 4 )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile movingImageFile ";
     std::cerr << " outputImageFile ";
-    std::cerr << " [numberOfIterations] ";
-    std::cerr << " [learningRate] [deformationLearningRate] " << std::endl;
+    std::cerr << " [numberOfIterations numberOfDisplacementIterations] ";
+    std::cerr << std::endl;
     return EXIT_FAILURE;
     }
 
   std::cout << argc << std::endl;
   unsigned int numberOfIterations = 10;
   unsigned int numberOfDisplacementIterations = 10;
-  double learningRate = 0.1;
-  double deformationLearningRate = 1;
   if( argc >= 5 )
     {
     numberOfIterations = atoi( argv[4] );
     }
   if( argc >= 6 )
     {
-    learningRate = atof( argv[5] );
+    numberOfDisplacementIterations = atof( argv[5] );
     }
-  if( argc >= 7 )
-    {
-    deformationLearningRate = atof( argv[6] );
-    }
-  if( argc == 8 )
-    {
-    numberOfDisplacementIterations = atof( argv[7] );
-    }
-  std::cout << " iterations "<< numberOfIterations << " learningRate "<<learningRate << std::endl;
+  std::cout << " iterations "<< numberOfIterations
+    << " displacementIterations " << numberOfDisplacementIterations << std::endl;
 
   const unsigned int Dimension = 2;
   typedef double PixelType; //I assume png is unsigned short
@@ -237,20 +228,13 @@ int itkJointHistogramMutualInformationImageToImageObjectRegistrationTest(int arg
   RegistrationParameterScalesFromShiftType::Pointer shiftScaleEstimator
     = RegistrationParameterScalesFromShiftType::New();
   shiftScaleEstimator->SetMetric(metric);
-  shiftScaleEstimator->SetTransformForward(true); //by default, scales for the moving transform
-  //  shiftScaleEstimator->SetSamplingStrategy( RegistrationParameterScalesFromShiftType::SamplingWithRandom);
-  RegistrationParameterScalesFromShiftType::ScalesType
-    movingScales( affineTransform->GetNumberOfLocalParameters() );
-  shiftScaleEstimator->EstimateScales(movingScales);
-  std::cout << "Shift scales for the affine transform = " << movingScales << std::endl;
 
   std::cout << "First do an affine registration " << std::endl;
   typedef itk::GradientDescentObjectOptimizer  OptimizerType;
   OptimizerType::Pointer  optimizer = OptimizerType::New();
   optimizer->SetMetric( metric );
-  optimizer->SetLearningRate( learningRate );
   optimizer->SetNumberOfIterations( numberOfIterations );
-  optimizer->SetScales( movingScales );
+  optimizer->SetScalesEstimator( shiftScaleEstimator );
   optimizer->StartOptimization();
 
   std::cout << "Follow affine with deformable registration " << std::endl;
@@ -268,9 +252,8 @@ int itkJointHistogramMutualInformationImageToImageObjectRegistrationTest(int arg
     displacementScales( displacementTransform->GetNumberOfLocalParameters() );
   displacementScales.Fill(1);
   optimizer->SetMetric( metric );
-  optimizer->SetLearningRate( deformationLearningRate );
-  optimizer->SetScales( displacementScales );
   optimizer->SetNumberOfIterations( numberOfDisplacementIterations );
+  optimizer->SetScalesEstimator( shiftScaleEstimator );
   try
     {
     optimizer->StartOptimization();
