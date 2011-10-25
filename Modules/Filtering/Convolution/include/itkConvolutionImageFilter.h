@@ -18,7 +18,7 @@
 #ifndef __itkConvolutionImageFilter_h
 #define __itkConvolutionImageFilter_h
 
-#include "itkImageToImageFilter.h"
+#include "itkConvolutionImageFilterBase.h"
 
 #include "itkProgressAccumulator.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
@@ -63,19 +63,19 @@ namespace itk
  */
 template< class TInputImage, class TKernelImage = TInputImage, class TOutputImage = TInputImage >
 class ITK_EXPORT ConvolutionImageFilter :
-  public ImageToImageFilter< TInputImage, TOutputImage >
+  public ConvolutionImageFilterBase< TInputImage, TKernelImage, TOutputImage >
 {
 public:
-  typedef ConvolutionImageFilter                          Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  typedef ConvolutionImageFilter                                  Self;
+  typedef ConvolutionImageFilterBase< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                                    Pointer;
+  typedef SmartPointer< const Self >                              ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information ( and related methods ) */
-  itkTypeMacro(ConvolutionImageFilter, ImageToImageFilter);
+  itkTypeMacro(ConvolutionImageFilter, ConvolutionImageFilterBase);
 
   /** Dimensionality of input and output data is assumed to be the same. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -97,44 +97,9 @@ public:
   typedef typename OutputImageType::RegionType OutputRegionType;
   typedef typename KernelImageType::RegionType KernelRegionType;
 
-  /** Typedef to describe the boundary condition. */
-  typedef ImageBoundaryCondition< TInputImage >           BoundaryConditionType;
-  typedef BoundaryConditionType *                         BoundaryConditionPointerType;
-  typedef ZeroFluxNeumannBoundaryCondition< TInputImage > DefaultBoundaryConditionType;
-
-  /** Set/get the boundary condition. */
-  itkSetMacro(BoundaryCondition, BoundaryConditionPointerType);
-  itkGetConstMacro(BoundaryCondition, BoundaryConditionPointerType);
-
-  /** Set/get the image kernel. */
-  itkSetInputMacro(KernelImage, KernelImageType);
-  itkGetInputMacro(KernelImage, KernelImageType);
-
-  /** Normalize the output image by the sum of the kernel
-   * components. Defaults to off. */
-  itkSetMacro(Normalize, bool);
-  itkGetConstMacro(Normalize, bool);
-  itkBooleanMacro(Normalize);
-
-  typedef enum
-  {
-    SAME = 0,
-    VALID
-  } OutputRegionModeType;
-
-  /** Sets the output region mode. If set to SAME, the output region
-   * will be the same as the input region, and regions of the image
-   * near the boundaries will contain contributions from outside the
-   * input image as determined by the boundary condition set in
-   * SetBoundaryCondition(). If set to VALID, the output region
-   * consists of pixels computed only from pixels in the input image
-   * (no extrapolated contributions from the boundary condition are
-   * needed). The output is therefore smaller than the input
-   * region. Default output region mode is SAME. */
-  itkSetEnumMacro(OutputRegionMode, OutputRegionModeType);
-  itkGetEnumMacro(OutputRegionMode, OutputRegionModeType);
-  virtual void SetOutputRegionModeToSame();
-  virtual void SetOutputRegionModeToValid();
+protected:
+  ConvolutionImageFilter();
+  ~ConvolutionImageFilter() {}
 
   /** ConvolutionImageFilter needs the entire image kernel, which in
    * general is going to be a different size then the output requested
@@ -144,16 +109,6 @@ public:
    *
    * \sa ProcessObject::GenerateInputRequestedRegion()  */
   virtual void GenerateInputRequestedRegion();
-
-protected:
-  ConvolutionImageFilter();
-  ~ConvolutionImageFilter() {}
-
-  void PrintSelf(std::ostream & os, Indent indent) const;
-
-  /** The largest possible output region may differ from the largest
-   * possible input region. */
-  void GenerateOutputInformation();
 
   /** This filter uses a minipipeline to compute the output. */
   void GenerateData();
@@ -169,13 +124,6 @@ protected:
   template< class TImage >
   KernelSizeType GetKernelRadius(const TImage *kernelImage) const;
 
-  /** Get the valid region of the convolution. */
-  OutputRegionType GetValidRegion() const;
-
-  /** Default superclass implementation ensures that input images
-   * occupy same physical space. This is not needed for this filter. */
-  virtual void VerifyInputInformation() {};
-
 private:
   ConvolutionImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);         //purposely not implemented
@@ -183,13 +131,6 @@ private:
   template< class TImage >
   void ComputeConvolution( const TImage *kernelImage,
                            ProgressAccumulator *progress );
-
-  bool m_Normalize;
-
-  DefaultBoundaryConditionType m_DefaultBoundaryCondition;
-  BoundaryConditionPointerType m_BoundaryCondition;
-
-  OutputRegionModeType m_OutputRegionMode;
 };
 }
 
