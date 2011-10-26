@@ -102,7 +102,7 @@ BSplineTransform<TScalarType, NDimensions, VSplineOrder>
 
   for( unsigned int i = 0; i < SpaceDimension; i++ )
     {
-    numberOfParametersPerDimension *= ( this->m_FixedParameters[i] );
+    numberOfParametersPerDimension *= static_cast<NumberOfParametersType>( this->m_FixedParameters[i] );
     }
   return numberOfParametersPerDimension;
 }
