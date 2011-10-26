@@ -19,6 +19,11 @@
 #define __itkRegistrationParameterScalesEstimator_h
 
 #include "itkTransform.h"
+#include "itkMatrixOffsetTransformBase.h"
+#include "itkTranslationTransform.h"
+#include "itkIdentityTransform.h"
+#include "itkRigid3DPerspectiveTransform.h"
+
 #include "itkOptimizerParameterScalesEstimator.h"
 #include "itkImageRandomConstIteratorWithIndex.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
@@ -106,16 +111,14 @@ public:
           MovingImageType::ImageDimension >         MovingContinuousIndexType;
 
   /** The strategies to sample physical points in the virtual domain. */
-  typedef enum { FullDomainSampling, CornerSampling, RandomSampling}
+  typedef enum { FullDomainSampling, CornerSampling, RandomSampling,
+                 CentralRegionSampling }
           SamplingStrategyType;
 
   typedef std::vector<VirtualPointType>             ImageSampleContainerType;
 
   /** Type of Jacobian of transform. */
   typedef typename TMetric::JacobianType            JacobianType;
-
-  /** Set the sampling strategy */
-  itkSetMacro(SamplingStrategy, SamplingStrategyType);
 
   /** SetMetric sets the metric used in the estimation process.
    *  The images and transforms from the metric will be used for estimation.
@@ -129,8 +132,8 @@ public:
   itkSetMacro(TransformForward, bool);
   itkGetConstMacro(TransformForward, bool);
 
-  /* Set and get the number of image samples. */
-  itkSetMacro(NumberOfRandomSamples, SizeValueType);
+  /** the radius of the central region for sampling. */
+  itkSetMacro(CentralRegionRadius, IndexValueType);
 
   /** Estimate parameter scales */
   virtual void EstimateScales(ScalesType &scales) = 0;
@@ -149,6 +152,31 @@ protected:
 
   /** Check and set the images and transforms from the metric. */
   bool CheckAndSetInputs();
+
+  /** Set and get the number of image samples. */
+  itkSetMacro(NumberOfRandomSamples, SizeValueType);
+
+  /** Set the sampling strategy. */
+  itkSetMacro(SamplingStrategy, SamplingStrategyType);
+
+  /** Set the sampling strategy automatically for scales estimation. */
+  void SetScalesSamplingStrategy();
+
+  /** Set the sampling strategy automatically for step scale estimation. */
+  void SetStepScaleSamplingStrategy();
+
+  /**
+   * Check if the transform is a general affine transform that maps a line
+   * segment to a line segment.
+   */
+  bool CheckGeneralAffineTransform();
+
+  /**
+   * The templated version of CheckGeneralAffineTransform to check if the
+   * transform is a general affine transform that maps a line segment to
+   * a line segment.
+   */
+  template< class TTransform > bool CheckGeneralAffineTransformTemplated();
 
   /** Transform a physical point to a new physical point. */
   template< class TTargetPointType > void TransformPoint(
@@ -186,6 +214,18 @@ protected:
   /** Sample the virutal domain randomly in a uniform distribution. */
   void SampleImageDomainRandomly();
 
+  /** Sample the virutal domain with voxel in the central region. */
+  void SampleImageDomainWithCentralRegion();
+
+  /** Sample the virtual domain with all voxels inside a region. */
+  void SampleImageDomainWithRegion(VirtualRegionType region);
+
+  /** Get the central index of the virtual domain. */
+  VirtualIndexType GetVirtualImageCentralIndex();
+
+  /** Get the central region of the virtual domain. */
+  VirtualRegionType GetVirtualImageCentralRegion();
+
   /** Get the transform in use. */
   const TransformBase *GetTransform();
 
@@ -216,6 +256,10 @@ protected:
   // the number of image samples in the virtual image domain
   SizeValueType                 m_NumberOfRandomSamples;
 
+  // the radius of the central region for sampling
+  IndexValueType                m_CentralRegionRadius;
+
+  // the threadhold to decide if the number of random samples uses logarithm
   static const SizeValueType    SizeOfSmallDomain = 1000;
 
 private:

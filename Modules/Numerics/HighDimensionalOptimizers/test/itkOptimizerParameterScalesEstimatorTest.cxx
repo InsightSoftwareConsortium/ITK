@@ -45,7 +45,7 @@ public:
   virtual double EstimateStepScale(const ParametersType &step)
     {
     double norm = step.two_norm();
-    return 1.0/norm;
+    return norm;
     }
 
   /** Estimate the trusted scale for steps. */

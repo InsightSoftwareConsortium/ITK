@@ -207,8 +207,6 @@ int itkRegistrationParameterScalesFromShiftTest(int , char* [])
 
   shiftScaleEstimator->SetMetric(metric);
   shiftScaleEstimator->SetTransformForward(true); //by default, scales for the moving transform
-  shiftScaleEstimator->SetSamplingStrategy(
-    RegistrationParameterScalesFromShiftType::CornerSampling);
   shiftScaleEstimator->Print( std::cout );
   std::cout << std::endl;
 

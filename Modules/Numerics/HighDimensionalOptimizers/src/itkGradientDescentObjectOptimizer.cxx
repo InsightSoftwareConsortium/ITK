@@ -66,6 +66,7 @@ GradientDescentObjectOptimizer
   if ( this->m_ScalesEstimator.IsNotNull() )
     {
     this->m_ScalesEstimator->EstimateScales(this->m_Scales);
+    std::cout << "Estimated scales = " << this->m_Scales << std::endl;
 
     if ( this->m_TrustedStepScale <=
       NumericTraits<InternalComputationValueType>::epsilon())
@@ -215,8 +216,18 @@ GradientDescentObjectOptimizer
 {
   if (this->m_ScalesEstimator.IsNotNull())
     {
-    this->m_LearningRate = this->m_TrustedStepScale /
-      this->m_ScalesEstimator->EstimateStepScale(this->m_Gradient);
+    InternalComputationValueType stepScale
+      = this->m_ScalesEstimator->EstimateStepScale(this->m_Gradient);
+
+    if (stepScale <= NumericTraits<InternalComputationValueType>::epsilon())
+      {
+      this->m_LearningRate = NumericTraits<InternalComputationValueType>::One;
+      }
+    else
+      {
+      this->m_LearningRate = this->m_TrustedStepScale / stepScale;
+      }
+    //std::cout << "Estimated learning rate = " << this->m_LearningRate << std::endl;
     }
 }
 

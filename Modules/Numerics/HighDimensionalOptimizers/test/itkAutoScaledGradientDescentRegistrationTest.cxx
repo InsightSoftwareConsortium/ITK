@@ -130,7 +130,6 @@ int itkAutoScaledGradientDescentRegistrationTestTemplated(int numberOfIterations
     shiftScalesEstimator->SetMetric(metric);
     shiftScalesEstimator->SetTransformForward(true); //default
     shiftScalesEstimator->SetUsePhysicalSpaceForShift(usePhysicalSpaceForShift); //true by default
-    shiftScalesEstimator->SetSamplingStrategy(ShiftScalesEstimatorType::CornerSampling);
     scalesEstimator = shiftScalesEstimator;
     }
   else
@@ -140,7 +139,6 @@ int itkAutoScaledGradientDescentRegistrationTestTemplated(int numberOfIterations
       = JacobianScalesEstimatorType::New();
     jacobianScalesEstimator->SetMetric(metric);
     jacobianScalesEstimator->SetTransformForward(true); //default
-    jacobianScalesEstimator->SetSamplingStrategy(JacobianScalesEstimatorType::RandomSampling);
     scalesEstimator = jacobianScalesEstimator;
     }
 

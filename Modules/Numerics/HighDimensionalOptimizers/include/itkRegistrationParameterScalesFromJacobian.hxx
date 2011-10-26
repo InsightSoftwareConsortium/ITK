@@ -27,7 +27,6 @@ template< class TMetric >
 RegistrationParameterScalesFromJacobian< TMetric >
 ::RegistrationParameterScalesFromJacobian()
 {
-  this->SetSamplingStrategy(Superclass::RandomSampling);
 }
 
 /** Compute parameter scales from average jacobian norms.
@@ -41,6 +40,7 @@ RegistrationParameterScalesFromJacobian< TMetric >
 ::EstimateScales(ScalesType &parameterScales)
 {
   this->CheckAndSetInputs();
+  this->SetScalesSamplingStrategy();
   this->SampleImageDomain();
 
   const SizeValueType numPara = this->GetNumberOfScales();
@@ -83,6 +83,7 @@ RegistrationParameterScalesFromJacobian< TMetric >
 ::EstimateStepScale(const ParametersType &step)
 {
   this->CheckAndSetInputs();
+  this->SetStepScaleSamplingStrategy();
   this->SampleImageDomain();
 
   VirtualImageConstPointer image = this->GetVirtualImage();
