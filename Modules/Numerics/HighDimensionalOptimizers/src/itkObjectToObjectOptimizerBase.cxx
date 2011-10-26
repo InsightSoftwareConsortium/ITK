@@ -46,7 +46,10 @@ ObjectToObjectOptimizerBase
 
   os << indent << "Number of threads: " << this->m_NumberOfThreads << std::endl;
   os << indent << "Number of scales:  " << this->m_Scales.Size() << std::endl;
-  os << indent << "m_Scales: " << this->m_Scales << std::endl;
+  if( this->m_Scales.Size() > 0 )
+    {
+    os << indent << "m_Scales: " << this->m_Scales << std::endl;
+    }
   os << indent << "m_ScalesAreIdentity: " << this->GetScalesAreIdentity() << std::endl;
   os << indent << "Metric: " << std::endl;
   m_Metric->Print( os, indent.GetNextIndent() );

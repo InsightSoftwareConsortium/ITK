@@ -30,10 +30,14 @@ template<class TFixedImage, class TMovingImage, class TVirtualImage>
 ANTSNeighborhoodCorrelationImageToImageObjectMetric<TFixedImage, TMovingImage,TVirtualImage>
 ::ANTSNeighborhoodCorrelationImageToImageObjectMetric()
 {
-  //modify the callback function.
+  // modify the callback function.
   this->m_DenseValueAndDerivativeThreader->SetThreadedGenerateData(
       Self::NeighborhoodScanningWindowGetValueAndDerivativeThreadedCallback);
 
+  // initialize radius
+  RadiusType neighborhood_radius;
+  typedef typename RadiusType::SizeValueType RadiusValueType;
+  neighborhood_radius.Fill( NumericTraits<RadiusValueType>::One );
 }
 
 template<class TFixedImage, class TMovingImage, class TVirtualImage>
