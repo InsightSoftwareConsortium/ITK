@@ -12,8 +12,8 @@ if( WIN32 )
   if( n GREATER 50 )
     message(
       FATAL_ERROR
-      "Source tree directory of ITK is too deep (${n} > 50)."
-      "Please use a shorter root directory for the ITK source tree."
+      "ITK source code directory path length is too long (${n} > 50)."
+      "Please move the ITK source code directory to a directory with a shorter path."
       )
   endif()
 
@@ -21,8 +21,8 @@ if( WIN32 )
   if( n GREATER 50 )
     message(
       FATAL_ERROR
-      "Binary tree directory of ITK is too deep (${n} > 50)."
-      "Please use a shorter root directory for the ITK binary tree."
+      "ITK build directory path length is too long (${n} > 50)."
+      "Please set the ITK build directory to a directory with a shorter path."
       )
   endif()
 
