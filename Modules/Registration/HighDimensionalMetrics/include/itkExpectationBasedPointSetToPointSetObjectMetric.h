@@ -15,17 +15,17 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkExpectationBasedPointSetMetric_h
-#define __itkExpectationBasedPointSetMetric_h
+#ifndef __itkExpectationBasedPointSetToPointSetObjectMetric_h
+#define __itkExpectationBasedPointSetToPointSetObjectMetric_h
 
-#include "itkPointSetToPointSetMetric.h"
+#include "itkPointSetToPointSetObjectMetric.h"
 #include "itkPointSet.h"
 #include "itkImage.h"
 
 namespace itk
 {
 /**
- * \class ExpectationBasedPointSetMetric
+ * \class ExpectationBasedPointSetToPointSetObjectMetric
  * \brief Computes an expectation-based metric between two point sets.
  *
  * This information-theoretic point set measure models each point set
@@ -41,22 +41,22 @@ namespace itk
  * \ingroup ITKHighDimensionalMetrics
  */
 template<class TFixedPointSet, class TMovingPointSet = TFixedPointSet>
-class ITK_EXPORT ExpectationBasedPointSetMetric:
-  public PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>
+class ITK_EXPORT ExpectationBasedPointSetToPointSetObjectMetric:
+  public PointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>
 {
 public:
 
   /** Standard class typedefs. */
-  typedef ExpectationBasedPointSetMetric                            Self;
-  typedef PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet> Superclass;
-  typedef SmartPointer<Self>                                        Pointer;
-  typedef SmartPointer<const Self>                                  ConstPointer;
+  typedef ExpectationBasedPointSetToPointSetObjectMetric                   Self;
+  typedef PointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>  Superclass;
+  typedef SmartPointer<Self>                                               Pointer;
+  typedef SmartPointer<const Self>                                         ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( ExpectationBasedPointSetMetric, PointSetToPointSetMetric );
+  itkTypeMacro( ExpectationBasedPointSetToPointSetObjectMetric, PointSetToPointSetObjectMetric );
 
    /** Types transferred from the base class */
   typedef typename Superclass::MeasureType              MeasureType;
@@ -79,14 +79,14 @@ public:
     MeasureType &, LocalDerivativeType & ) const;
 
 protected:
-  ExpectationBasedPointSetMetric();
-  virtual ~ExpectationBasedPointSetMetric();
+  ExpectationBasedPointSetToPointSetObjectMetric();
+  virtual ~ExpectationBasedPointSetToPointSetObjectMetric();
 
   /** PrintSelf funtion */
   void PrintSelf( std::ostream & os, Indent indent ) const;
 
 private:
-  ExpectationBasedPointSetMetric( const Self & ); //purposely not implemented
+  ExpectationBasedPointSetToPointSetObjectMetric( const Self & ); //purposely not implemented
   void operator=( const Self & );               //purposely not implemented
 
   typedef typename PointType::VectorType                    VectorType;
@@ -99,7 +99,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkExpectationBasedPointSetMetric.hxx"
+#include "itkExpectationBasedPointSetToPointSetObjectMetric.hxx"
 #endif
 
 #endif

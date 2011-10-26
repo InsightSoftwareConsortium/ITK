@@ -15,14 +15,14 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkEuclideanDistancePointSetMetric_h
-#define __itkEuclideanDistancePointSetMetric_h
+#ifndef __itkEuclideanDistancePointSetToPointSetObjectMetric_h
+#define __itkEuclideanDistancePointSetToPointSetObjectMetric_h
 
-#include "itkPointSetToPointSetMetric.h"
+#include "itkPointSetToPointSetObjectMetric.h"
 
 namespace itk
 {
-/** \class EuclideanDistancePointSetMetric
+/** \class EuclideanDistancePointSetToPointSetObjectMetric
  * \brief Computes the Euclidan distance metric between two point sets.
  *
  *  Given two point sets the Euclidean distance metric (i.e. ICP) is
@@ -39,22 +39,22 @@ namespace itk
  * \ingroup ITKHighDimensionalMetrics
  */
 template<class TFixedPointSet, class TMovingPointSet = TFixedPointSet>
-class ITK_EXPORT EuclideanDistancePointSetMetric:
-  public PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>
+class ITK_EXPORT EuclideanDistancePointSetToPointSetObjectMetric:
+  public PointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>
 {
 public:
 
   /** Standard class typedefs. */
-  typedef EuclideanDistancePointSetMetric                           Self;
-  typedef PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet> Superclass;
-  typedef SmartPointer<Self>                                        Pointer;
-  typedef SmartPointer<const Self>                                  ConstPointer;
+  typedef EuclideanDistancePointSetToPointSetObjectMetric                  Self;
+  typedef PointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>  Superclass;
+  typedef SmartPointer<Self>                                               Pointer;
+  typedef SmartPointer<const Self>                                         ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( EuclideanDistancePointSetMetric, PointSetToPointSetMetric );
+  itkTypeMacro( EuclideanDistancePointSetToPointSetObjectMetric, PointSetToPointSetObjectMetric );
 
   /** Types transferred from the base class */
   typedef typename Superclass::MeasureType          MeasureType;
@@ -80,21 +80,21 @@ public:
     MeasureType &, LocalDerivativeType & ) const;
 
 protected:
-  EuclideanDistancePointSetMetric();
-  virtual ~EuclideanDistancePointSetMetric();
+  EuclideanDistancePointSetToPointSetObjectMetric();
+  virtual ~EuclideanDistancePointSetToPointSetObjectMetric();
 
   /** PrintSelf funtion */
   void PrintSelf( std::ostream & os, Indent indent ) const;
 
 
 private:
-  EuclideanDistancePointSetMetric(const Self &); //purposely not implemented
+  EuclideanDistancePointSetToPointSetObjectMetric(const Self &); //purposely not implemented
   void operator=(const Self &);               //purposely not implemented
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkEuclideanDistancePointSetMetric.hxx"
+#include "itkEuclideanDistancePointSetToPointSetObjectMetric.hxx"
 #endif
 
 #endif

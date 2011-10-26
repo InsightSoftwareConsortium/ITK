@@ -15,18 +15,18 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkExpectationBasedPointSetMetric_hxx
-#define __itkExpectationBasedPointSetMetric_hxx
+#ifndef __itkExpectationBasedPointSetToPointSetObjectMetric_hxx
+#define __itkExpectationBasedPointSetToPointSetObjectMetric_hxx
 
-#include "itkExpectationBasedPointSetMetric.h"
+#include "itkExpectationBasedPointSetToPointSetObjectMetric.h"
 #include "itkArray.h"
 
 namespace itk {
 
 /** Constructor */
 template<class TFixedPointSet, class TMovingPointSet>
-ExpectationBasedPointSetMetric<TFixedPointSet, TMovingPointSet>
-::ExpectationBasedPointSetMetric() :
+ExpectationBasedPointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>
+::ExpectationBasedPointSetToPointSetObjectMetric() :
   m_Sigma( 1.0 ),
   m_EvaluationKNeighborhood( 50 )
 {
@@ -34,16 +34,16 @@ ExpectationBasedPointSetMetric<TFixedPointSet, TMovingPointSet>
 
 /** Destructor */
 template<class TFixedPointSet, class TMovingPointSet>
-ExpectationBasedPointSetMetric<TFixedPointSet, TMovingPointSet>
-::~ExpectationBasedPointSetMetric()
+ExpectationBasedPointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>
+::~ExpectationBasedPointSetToPointSetObjectMetric()
 {
 }
 
 
 template<class TFixedPointSet, class TMovingPointSet>
-typename ExpectationBasedPointSetMetric<TFixedPointSet, TMovingPointSet>
+typename ExpectationBasedPointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>
 ::MeasureType
-ExpectationBasedPointSetMetric<TFixedPointSet, TMovingPointSet>
+ExpectationBasedPointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>
 ::GetLocalNeighborhoodValue( const PointType & point ) const
 {
   MeasureType localValue = NumericTraits<MeasureType>::Zero;
@@ -82,7 +82,7 @@ ExpectationBasedPointSetMetric<TFixedPointSet, TMovingPointSet>
 
 template<class TFixedPointSet, class TMovingPointSet>
 void
-ExpectationBasedPointSetMetric<TFixedPointSet, TMovingPointSet>
+ExpectationBasedPointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>
 ::GetLocalNeighborhoodValueAndDerivative( const PointType & point,
   MeasureType &measure, LocalDerivativeType &localDerivative ) const
 {
@@ -160,7 +160,7 @@ ExpectationBasedPointSetMetric<TFixedPointSet, TMovingPointSet>
 
 template<class TFixedPointSet, class TMovingPointSet>
 void
-ExpectationBasedPointSetMetric<TFixedPointSet, TMovingPointSet>
+ExpectationBasedPointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );
