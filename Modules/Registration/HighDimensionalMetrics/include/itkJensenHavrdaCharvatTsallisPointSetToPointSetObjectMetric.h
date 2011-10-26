@@ -15,16 +15,16 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkJensenHavrdaCharvatTsallisPointSetMetric_h
-#define __itkJensenHavrdaCharvatTsallisPointSetMetric_h
+#ifndef __itkJensenHavrdaCharvatTsallisPointSetToPointSetObjectMetric_h
+#define __itkJensenHavrdaCharvatTsallisPointSetToPointSetObjectMetric_h
 
-#include "itkPointSetToPointSetMetric.h"
+#include "itkPointSetToPointSetObjectMetric.h"
 
 #include "itkManifoldParzenWindowsPointSetFunction.h"
 
 namespace itk {
 
-/** \class JensenHavrdaCharvatTsallisPointSetMetric
+/** \class JensenHavrdaCharvatTsallisPointSetToPointSetObjectMetric
  *
  * \brief Implementation of the Jensen Havrda Charvat Tsallis Point Set metric.
  *
@@ -59,21 +59,21 @@ namespace itk {
  */
 
 template<class TPointSet>
-class ITK_EXPORT JensenHavrdaCharvatTsallisPointSetMetric :
-    public PointSetToPointSetMetric<TPointSet, TPointSet>
+class ITK_EXPORT JensenHavrdaCharvatTsallisPointSetToPointSetObjectMetric :
+    public PointSetToPointSetObjectMetric<TPointSet, TPointSet>
 {
 public:
   /** Standard class typedefs. */
-  typedef JensenHavrdaCharvatTsallisPointSetMetric             Self;
-  typedef PointSetToPointSetMetric<TPointSet, TPointSet>       Superclass;
-  typedef SmartPointer<Self>                                   Pointer;
-  typedef SmartPointer<const Self>                             ConstPointer;
+  typedef JensenHavrdaCharvatTsallisPointSetToPointSetObjectMetric    Self;
+  typedef PointSetToPointSetObjectMetric<TPointSet, TPointSet>        Superclass;
+  typedef SmartPointer<Self>                                          Pointer;
+  typedef SmartPointer<const Self>                                    ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( JensenHavrdaCharvatTsallisPointSetMetric, PointSetToPointSetMetric );
+  itkTypeMacro( JensenHavrdaCharvatTsallisPointSetToPointSetObjectMetric, PointSetToPointSetObjectMetric );
 
   typedef TPointSet                                 PointSetType;
   typedef typename PointSetType::PointsContainer    PointsContainer;
@@ -234,14 +234,14 @@ public:
   }
 
 protected:
-  JensenHavrdaCharvatTsallisPointSetMetric();
-  ~JensenHavrdaCharvatTsallisPointSetMetric();
+  JensenHavrdaCharvatTsallisPointSetToPointSetObjectMetric();
+  ~JensenHavrdaCharvatTsallisPointSetToPointSetObjectMetric();
 
   void PrintSelf( std::ostream& os, Indent indent ) const;
 
 private:
   //purposely not implemented
-  JensenHavrdaCharvatTsallisPointSetMetric( const Self& );
+  JensenHavrdaCharvatTsallisPointSetToPointSetObjectMetric( const Self& );
   void operator=( const Self& );
 
   DensityFunctionPointer                   m_MovingDensityFunction;
@@ -262,7 +262,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkJensenHavrdaCharvatTsallisPointSetMetric.hxx"
+#include "itkJensenHavrdaCharvatTsallisPointSetToPointSetObjectMetric.hxx"
 #endif
 
 #endif

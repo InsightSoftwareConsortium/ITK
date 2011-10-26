@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkEuclideanDistancePointSetMetric.h"
+#include "itkEuclideanDistancePointSetToPointSetObjectMetric.h"
 #include "itkPointSet.h"
 
 #include <fstream>
@@ -54,7 +54,7 @@ int itkEuclideanDistancePointSetMetricTest( int, char* [] )
     }
 
   // Instantiate the metric
-  typedef itk::EuclideanDistancePointSetMetric<PointSetType>
+  typedef itk::EuclideanDistancePointSetToPointSetObjectMetric<PointSetType>
     PointSetMetricType;
   PointSetMetricType::Pointer metric = PointSetMetricType::New();
   metric->SetFixedPointSet( fixedPoints );

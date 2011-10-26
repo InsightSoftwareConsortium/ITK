@@ -15,10 +15,10 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPointSetToPointSetMetric_hxx
-#define __itkPointSetToPointSetMetric_hxx
+#ifndef __itkPointSetToPointSetObjectMetric_hxx
+#define __itkPointSetToPointSetObjectMetric_hxx
 
-#include "itkPointSetToPointSetMetric.h"
+#include "itkPointSetToPointSetObjectMetric.h"
 #include "itkIdentityTransform.h"
 
 namespace itk
@@ -26,8 +26,8 @@ namespace itk
 
 /** Constructor */
 template<class TFixedPointSet, class TMovingPointSet>
-PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>
-::PointSetToPointSetMetric()
+PointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>
+::PointSetToPointSetObjectMetric()
 {
   this->m_FixedPointSet = NULL;    // has to be provided by the user.
   this->m_MovingPointSet = NULL;    // has to be provided by the user.
@@ -59,15 +59,15 @@ PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>
 
 /** Destructor */
 template<class TFixedPointSet, class TMovingPointSet>
-PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>
-::~PointSetToPointSetMetric()
+PointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>
+::~PointSetToPointSetObjectMetric()
 {
 }
 
 /** Initialize the metric */
 template<class TFixedPointSet, class TMovingPointSet>
 void
-PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>
+PointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>
 ::Initialize( void ) throw ( ExceptionObject )
 {
   if ( !this->m_FixedTransform )
@@ -110,7 +110,7 @@ PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>
 
 template<class TFixedPointSet, class TMovingPointSet>
 unsigned int
-PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>
+PointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>
 ::GetNumberOfComponents() const
 {
   unsigned long numberOfComponents = 0;
@@ -131,8 +131,8 @@ PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>
 }
 
 template<class TFixedPointSet, class TMovingPointSet>
-typename PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>::MeasureType
-PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>
+typename PointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>::MeasureType
+PointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>
 ::GetValue() const
 {
   MeasureType measure = 0.0;
@@ -168,7 +168,7 @@ PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>
 
 template<class TFixedPointSet, class TMovingPointSet>
 void
-PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>
+PointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>
 ::GetDerivative( DerivativeType & derivative ) const
 {
   derivative.SetSize( this->GetNumberOfComponents() * PointDimension );
@@ -213,7 +213,7 @@ PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>
 
 template<class TFixedPointSet, class TMovingPointSet>
 void
-PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>
+PointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>
 ::GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const
 {
   derivative.SetSize( this->GetNumberOfComponents() * PointDimension );
@@ -275,9 +275,9 @@ PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>
 
 
 template<class TFixedPointSet, class TMovingPointSet>
-typename PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>
+typename PointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>
 ::LocalDerivativeType
-PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>
+PointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>
 ::GetLocalNeighborhoodDerivative( const PointType & point ) const
 {
   MeasureType measure;
@@ -288,7 +288,7 @@ PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>
 
 template<class TFixedPointSet, class TMovingPointSet>
 void
-PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>
+PointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>
 ::TransformMovingPointSet()
 {
   if( ( this->m_MovingTransform->GetMTime() > this->GetMTime() ) ||
@@ -310,7 +310,7 @@ PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>
 
 template<class TFixedPointSet, class TMovingPointSet>
 void
-PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>
+PointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>
 ::TransformFixedPointSet()
 {
   if( ( this->m_FixedTransform->GetMTime() > this->GetMTime() ) ||
@@ -333,7 +333,7 @@ PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>
 
 template<class TFixedPointSet, class TMovingPointSet>
 void
-PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>
+PointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>
 ::InitializePointsLocators()
 {
   if( !this->m_FixedTransformedPointSet )
@@ -359,15 +359,15 @@ PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>
 
 template<class TFixedPointSet, class TMovingPointSet>
 unsigned int
-PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>
+PointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>
 ::GetNumberOfParameters() const
 {
   return this->m_MovingTransform->GetNumberOfParameters();
 }
 
 template<class TFixedPointSet, class TMovingPointSet>
-const typename PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>::ParametersType &
-PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>
+const typename PointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>::ParametersType &
+PointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>
 ::GetParameters() const
 {
   return this->m_MovingTransform->GetParameters();
@@ -375,7 +375,7 @@ PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>
 
 template<class TFixedPointSet, class TMovingPointSet>
 unsigned int
-PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>
+PointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>
 ::GetNumberOfLocalParameters() const
 {
   return this->m_MovingTransform->GetNumberOfLocalParameters();
@@ -383,7 +383,7 @@ PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>
 
 template<class TFixedPointSet, class TMovingPointSet>
 bool
-PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>
+PointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>
 ::HasLocalSupport() const
 {
   return this->m_MovingTransform->HasLocalSupport();
@@ -394,7 +394,7 @@ PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>
  */
 template<class TFixedPointSet, class TMovingPointSet>
 void
-PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>
+PointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>
 ::UpdateTransformParameters( DerivativeType & derivative, ParametersValueType factor )
 {
   /* Rely on transform::UpdateTransformParameters to verify proper
@@ -405,7 +405,7 @@ PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>
 /** PrintSelf */
 template<class TFixedPointSet, class TMovingPointSet>
 void
-PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>
+PointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>
 ::PrintSelf( std::ostream & os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );
