@@ -1,13 +1,13 @@
 #------------------------------------------------------------------------------
 # Set the wrapped module
-SET(itk_Module "itkPDEDeformableRegistrationFilter")
+set(itk_Module "itkPDEDeformableRegistrationFilter")
 # Set the class include
-SET(itk_Include
+set(itk_Include
    "PDEDeformableRegistrationFilter"
    "Image"
 )
 # Set the file name
-SET(itk_File "${WrapITK_PART_DIR}/wrap_${itk_Module}.cxx")
+set(itk_File "${WrapITK_PART_DIR}/wrap_${itk_Module}.cxx")
 
 #------------------------------------------------------------------------------
 #------------------------------------------------------------------------------
@@ -16,8 +16,8 @@ WRITE_WRAP_BEGIN(${itk_File} "${itk_Include}" ${itk_Module})
 
 #------------------------------------------------------------------------------
 # class
-SET(itk_Class "PDEDeformableRegistrationFilter")
-SET(itk_Wrap
+set(itk_Class "PDEDeformableRegistrationFilter")
+set(itk_Wrap
    "${ITKM_IF2}${ITKM_IF2}${ITKM_IVF22} # ${ITKT_IF2},${ITKT_IF2},${ITKT_IVF22}"
    "${ITKM_IUS2}${ITKM_IUS2}${ITKM_IVF22} # ${ITKT_IUS2},${ITKT_IUS2},${ITKT_IVF22}"
    "${ITKM_IF3}${ITKM_IF3}${ITKM_IVF33} # ${ITKT_IF3},${ITKT_IF3},${ITKT_IVF33}"
