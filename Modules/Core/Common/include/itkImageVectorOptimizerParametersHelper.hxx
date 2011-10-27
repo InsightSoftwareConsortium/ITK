@@ -16,10 +16,10 @@
  *
  *=========================================================================*/
 
-#ifndef __itkImageVectorTransformParametersHelper_hxx
-#define __itkImageVectorTransformParametersHelper_hxx
+#ifndef __itkImageVectorOptimizerParametersHelper_hxx
+#define __itkImageVectorOptimizerParametersHelper_hxx
 
-#include "itkImageVectorTransformParametersHelper.h"
+#include "itkImageVectorOptimizerParametersHelper.h"
 
 namespace itk
 {
@@ -27,8 +27,8 @@ namespace itk
 template< typename TValueType,
           unsigned int NVectorDimension,
           unsigned int VImageDimension >
-ImageVectorTransformParametersHelper< TValueType, NVectorDimension, VImageDimension >
-::ImageVectorTransformParametersHelper()
+ImageVectorOptimizerParametersHelper< TValueType, NVectorDimension, VImageDimension >
+::ImageVectorOptimizerParametersHelper()
 {
   m_ParameterImage = NULL;
 }
@@ -38,12 +38,12 @@ template< typename TValueType,
           unsigned int NVectorDimension,
           unsigned int VImageDimension >
 void
-ImageVectorTransformParametersHelper< TValueType, NVectorDimension, VImageDimension >
+ImageVectorOptimizerParametersHelper< TValueType, NVectorDimension, VImageDimension >
 ::MoveDataPointer( CommonContainerType* container, TValueType * pointer )
 {
   if( m_ParameterImage.IsNull() )
     {
-    itkGenericExceptionMacro("ImageVectorTransformParametersHelper::"
+    itkGenericExceptionMacro("ImageVectorOptimizerParametersHelper::"
       "MoveDataPointer: m_ParameterImage must be defined.");
     }
   // The buffer for Image<Vector> points to Vector type, not TValueType, so
@@ -63,7 +63,7 @@ template< typename TValueType,
           unsigned int NVectorDimension,
           unsigned int VImageDimension >
 void
-ImageVectorTransformParametersHelper< TValueType, NVectorDimension, VImageDimension >
+ImageVectorOptimizerParametersHelper< TValueType, NVectorDimension, VImageDimension >
 ::SetParametersObject(CommonContainerType * container, LightObject * object)
 {
   if( object == NULL )
@@ -78,7 +78,7 @@ ImageVectorTransformParametersHelper< TValueType, NVectorDimension, VImageDimens
     if( image == NULL )
       {
       itkGenericExceptionMacro(
-        "ImageVectorTransformParametersHelper::SetParametersObject: object is "
+        "ImageVectorOptimizerParametersHelper::SetParametersObject: object is "
         "not of proper image type. Expected VectorImage, received "
         << object->GetNameOfClass() )
       }

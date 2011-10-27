@@ -51,8 +51,8 @@ DisplacementFieldTransform<TScalar, NDimensions>::DisplacementFieldTransform()
   this->m_Interpolator = interpolator;
 
   // Setup and assign parameter helper. This will hold the displacement field
-  // for access through the common TransformParameters interface.
-  TransformParametersHelperType* helper = new TransformParametersHelperType;
+  // for access through the common OptimizerParameters interface.
+  OptimizerParametersHelperType* helper = new OptimizerParametersHelperType;
   // After assigning this, m_Parametes will manage this,
   // deleting when appropriate.
   this->m_Parameters.SetHelper( helper );

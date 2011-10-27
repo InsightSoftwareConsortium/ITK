@@ -16,39 +16,39 @@
  *
  *=========================================================================*/
 
-#ifndef __itkTransformParameters_hxx
-#define __itkTransformParameters_hxx
+#ifndef __itkOptimizerParameters_hxx
+#define __itkOptimizerParameters_hxx
 
-#include "itkTransformParameters.h"
+#include "itkOptimizerParameters.h"
 
 namespace itk
 {
 /** Default contstructor */
 template< typename TValueType >
-TransformParameters< TValueType >
-::TransformParameters() : Array< TValueType >()
+OptimizerParameters< TValueType >
+::OptimizerParameters() : Array< TValueType >()
 {
   this->Initialize();
 }
 
 /** Copy constructor */
 template< typename TValueType >
-TransformParameters< TValueType >
-::TransformParameters(const TransformParameters& rhs)
+OptimizerParameters< TValueType >
+::OptimizerParameters(const OptimizerParameters& rhs)
   : Array< TValueType >(rhs)
 {
-  //Note: don't copy the TransformParametersHelper.
+  //Note: don't copy the OptimizerParametersHelper.
   //The Array copy constructor will allocate new memory
   //and copy the data to it. So we end up here with a generic
-  //TransformParameters data object even if 'rhs' points to
+  //OptimizerParameters data object even if 'rhs' points to
   //something different.
   this->Initialize();
 }
 
 /** Constructor with size */
 template< typename TValueType >
-TransformParameters< TValueType >
-::TransformParameters(SizeValueType dimension)
+OptimizerParameters< TValueType >
+::OptimizerParameters(SizeValueType dimension)
   : Array< TValueType >(dimension)
 {
   this->Initialize();
@@ -56,8 +56,8 @@ TransformParameters< TValueType >
 
 /** Constructor with Array assignment */
 template< typename TValueType >
-TransformParameters< TValueType >
-::TransformParameters(const ArrayType& array)
+OptimizerParameters< TValueType >
+::OptimizerParameters(const ArrayType& array)
   : Array< TValueType >(array)
 {
   this->Initialize();
@@ -65,20 +65,20 @@ TransformParameters< TValueType >
 
 template< typename TValueType >
 void
-TransformParameters< TValueType >
+OptimizerParameters< TValueType >
 ::Initialize()
 {
   this->m_Helper = NULL;
-  // Set the default TransformParametersHelper
-  TransformParametersHelperType* helper = new TransformParametersHelperType;
-  // TransformParameters will manage this memory.
+  // Set the default OptimizerParametersHelper
+  OptimizerParametersHelperType* helper = new OptimizerParametersHelperType;
+  // OptimizerParameters will manage this memory.
   this->SetHelper( helper );
 }
 
 /** Destructor */
 template< typename TValueType >
-TransformParameters< TValueType >
-::~TransformParameters()
+OptimizerParameters< TValueType >
+::~OptimizerParameters()
 {
   if( this->m_Helper )
     {
@@ -88,8 +88,8 @@ TransformParameters< TValueType >
 
 template< typename TValueType >
 void
-TransformParameters< TValueType >
-::SetHelper( TransformParametersHelperType* helper )
+OptimizerParameters< TValueType >
+::SetHelper( OptimizerParametersHelperType* helper )
 {
   if( this->m_Helper )
     {
@@ -100,13 +100,13 @@ TransformParameters< TValueType >
 
 /** Copy operator for self */
 template< typename TValueType >
-const typename TransformParameters< TValueType >
+const typename OptimizerParameters< TValueType >
 ::Self &
-TransformParameters< TValueType >
+OptimizerParameters< TValueType >
 ::operator=(const Self & rhs)
 {
-  //Note: there's no need to copy the TransformParametersHelper.
-  
+  //Note: there's no need to copy the OptimizerParametersHelper.
+
   if ( this == &rhs ) { return *this; }
 
   // Call the superclass implementation.
@@ -116,9 +116,9 @@ TransformParameters< TValueType >
 }
 
 template< typename TValueType >
-const typename TransformParameters< TValueType >
+const typename OptimizerParameters< TValueType >
 ::Self &
-TransformParameters< TValueType >
+OptimizerParameters< TValueType >
 ::operator=(const ArrayType & rhs)
 {
   if ( this == &rhs ) { return *this; }
@@ -130,9 +130,9 @@ TransformParameters< TValueType >
 }
 
 template< typename TValueType >
-const typename TransformParameters< TValueType >
+const typename OptimizerParameters< TValueType >
 ::Self &
-TransformParameters< TValueType >
+OptimizerParameters< TValueType >
 ::operator=(const VnlVectorType & rhs)
 {
   if ( this == &rhs ) { return *this; }
@@ -145,12 +145,12 @@ TransformParameters< TValueType >
 
 template< typename TValueType >
 void
-TransformParameters< TValueType >
+OptimizerParameters< TValueType >
 ::MoveDataPointer( TValueType * pointer )
 {
   if( m_Helper == NULL )
     {
-    itkGenericExceptionMacro("TransformParameters::MoveDataPointer: "
+    itkGenericExceptionMacro("OptimizerParameters::MoveDataPointer: "
       "m_Helper must be set.");
     }
   this->m_Helper->MoveDataPointer( this, pointer );
@@ -158,12 +158,12 @@ TransformParameters< TValueType >
 
 template< typename TValueType >
 void
-TransformParameters< TValueType >
+OptimizerParameters< TValueType >
 ::SetParametersObject( LightObject * object )
 {
   if( m_Helper == NULL )
     {
-    itkGenericExceptionMacro("TransformParameters::SetParameterObject: "
+    itkGenericExceptionMacro("OptimizerParameters::SetParameterObject: "
       "m_Helper must be set.");
     }
     this->m_Helper->SetParametersObject( this, object );

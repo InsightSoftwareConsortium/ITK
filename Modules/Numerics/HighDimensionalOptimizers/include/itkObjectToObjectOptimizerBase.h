@@ -18,7 +18,7 @@
 #ifndef __itkObjectToObjectOptimizerBase_h
 #define __itkObjectToObjectOptimizerBase_h
 
-#include "itkTransformParameters.h"
+#include "itkOptimizerParameters.h"
 #include "itkObjectToObjectMetric.h"
 #include "itkIntTypes.h"
 
@@ -69,10 +69,10 @@ public:
   itkTypeMacro(ObjectToObjectOptimizerBase, Object);
 
   /**  Scale type. */
-  typedef TransformParameters< double >             ScalesType;
+  typedef OptimizerParameters< double >             ScalesType;
 
   /**  Parameters type. */
-  typedef TransformParameters< double >             ParametersType;
+  typedef OptimizerParameters< double >             ParametersType;
 
   /** Metric function type */
   typedef ObjectToObjectMetric                      MetricType;

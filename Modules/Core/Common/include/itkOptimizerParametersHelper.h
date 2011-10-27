@@ -15,44 +15,44 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTransformParametersHelper_h
-#define __itkTransformParametersHelper_h
+#ifndef __itkOptimizerParametersHelper_h
+#define __itkOptimizerParametersHelper_h
 
 #include "itkObject.h"
 #include "itkArray.h"
 
 namespace itk
 {
-/** \class TransformParametersHelper
+/** \class OptimizerParametersHelper
  *  \brief Basic helper class to manage parameter data as an Array type,
  *  the default type.
  *
- * \ingroup ITKTransform
+ * \ingroup ITKCommon
  */
 
 template< typename TValueType >
-class TransformParametersHelper
+class OptimizerParametersHelper
 {
 public:
 
   /** The element type stored at each location in the Array. */
   typedef TValueType                          ValueType;
-  typedef TransformParametersHelper           Self;
+  typedef OptimizerParametersHelper           Self;
 
-  /** Type of common data object used by TransformParameters. */
+  /** Type of common data object used by OptimizerParameters. */
   typedef Array< TValueType >                 CommonContainerType;
 
   /** Default constructor. Nothing to do. */
-  TransformParametersHelper(){}
+  OptimizerParametersHelper(){}
 
   /** Set a new data pointer for the parameter data, pointing it to a different
    * memory block. The size of the new memory block must equal the current
    * size, in elements of TValueType.
-   * This call is passed to the assigned TransformParametersHelper.
+   * This call is passed to the assigned OptimizerParametersHelper.
    * \warning Memory must be managed by caller after this call.
-   * \c container is the TransformParameters object to which this helper
+   * \c container is the OptimizerParameters object to which this helper
    * is assigned.
-   * Generally this will be called from the TransformParameters object to
+   * Generally this will be called from the OptimizerParameters object to
    * which this helper is assigned.
    */
   virtual void MoveDataPointer(CommonContainerType* container,
@@ -65,26 +65,22 @@ public:
   /** Set an object that holds the parameters. Used by
    * derived classes that use an object other than itkArray to hold parameter
    * data. The derived class must check that the object is the correct type.
-   * Generally this will be called from the TransformParameters object to
+   * Generally this will be called from the OptimizerParameters object to
    * which this helper is assigned.
-   * \c container is the TransformParameters object to which this helper
+   * \c container is the OptimizerParameters object to which this helper
    * is assigned.
    */
   virtual void SetParametersObject(CommonContainerType *,
                                    LightObject *)
     {
-    itkGenericExceptionMacro("TransformParamersHelper::SetParameterObject: "
+    itkGenericExceptionMacro("OptimizerParametersHelper::SetParametersObject: "
       "Not implemented for base class.");
     }
 
-  virtual ~TransformParametersHelper(){}
+  virtual ~OptimizerParametersHelper(){}
 
 };
 
 }//namespace itk
-
-//#if ITK_TEMPLATE_TXX
-//#include "itkTransformParametersHelper.hxx"
-//#endif
 
 #endif

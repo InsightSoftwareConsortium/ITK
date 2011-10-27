@@ -20,7 +20,7 @@
 
 #include "itkDisplacementFieldTransform.h"
 
-#include "itkImageVectorTransformParametersHelper.h"
+#include "itkImageVectorOptimizerParametersHelper.h"
 
 namespace itk
 {
@@ -119,9 +119,9 @@ public:
                                      TimeVaryingVelocityFieldInterpolatorPointer;
 
   /** Define the internal parameter helper used to access the field */
-  typedef ImageVectorTransformParametersHelper
+  typedef ImageVectorOptimizerParametersHelper
     <ScalarType, OutputVectorType::Dimension,
-    itkGetStaticConstMacro( Dimension ) + 1>      TransformParametersHelperType;
+    itkGetStaticConstMacro( Dimension ) + 1>      OptimizerParametersHelperType;
 
   /** Get the time-varying deformation field. */
   itkGetObjectMacro( TimeVaryingVelocityField, TimeVaryingVelocityFieldType );

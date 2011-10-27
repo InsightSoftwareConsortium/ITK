@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#include "itkTransformParameters.h"
-#include "itkImageVectorTransformParametersHelper.h"
+#include "itkOptimizerParameters.h"
+#include "itkImageVectorOptimizerParametersHelper.h"
 #include "itkTestingMacros.h"
 
 using namespace itk;
@@ -34,13 +34,13 @@ typedef ImageVectorType::RegionType                   RegionType;
 typedef RegionType::SizeType                          SizeType;
 typedef ImageVectorType::IndexType                    IndexType;
 typedef ImageVectorType::PixelContainer               VectorPixelContainer;
-typedef TransformParameters< ValueType >              TransformParametersType;
-typedef ImageVectorTransformParametersHelper< ValueType,
+typedef OptimizerParameters< ValueType >              OptimizerParametersType;
+typedef ImageVectorOptimizerParametersHelper< ValueType,
                                         VectorDimension,
                                         ImageDimension >
-                                      ImageVectorTransformParametersHelperType;
+                                      ImageVectorOptimizerParametersHelperType;
 
-int testMemoryAccess( TransformParametersType& params,
+int testMemoryAccess( OptimizerParametersType& params,
                       ImageVectorPointer imageOfVectors,
                       SizeValueType dimLength )
 {
@@ -80,7 +80,7 @@ int testMemoryAccess( TransformParametersType& params,
 
 /******************************************************/
 
-int itkImageVectorTransformParametersHelperTest(int, char *[])
+int itkImageVectorOptimizerParametersHelperTest(int, char *[])
 {
   int result = EXIT_SUCCESS;
 
@@ -138,11 +138,11 @@ int itkImageVectorTransformParametersHelperTest(int, char *[])
     }
 
   // Create a parameter object and assign the ImageVector helper.
-  TransformParametersType params;
-  ImageVectorTransformParametersHelperType* imageVectorParamsHelper =
-    new ImageVectorTransformParametersHelperType;
+  OptimizerParametersType params;
+  ImageVectorOptimizerParametersHelperType* imageVectorParamsHelper =
+    new ImageVectorOptimizerParametersHelperType;
   //Assign the helper to the parameter object.
-  //TransformParameters object will manage the helper once its been set.
+  //OptimizerParameters object will manage the helper once its been set.
   params.SetHelper( imageVectorParamsHelper );
   //Set the image in the helper. It will point the parameter data pointer
   // to the image data.

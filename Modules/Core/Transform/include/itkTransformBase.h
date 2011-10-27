@@ -23,7 +23,7 @@
 #include "itkCovariantVector.h"
 #include "vnl/vnl_vector_fixed.h"
 #include "itkArray2D.h"
-#include "itkTransformParameters.h"
+#include "itkOptimizerParameters.h"
 
 #include "itkObjectFactory.h"
 #include "itkIntTypes.h"
@@ -47,7 +47,7 @@ public:
 
   /** Type of the input parameters. */
   typedef  double                                     ParametersValueType;
-  typedef  TransformParameters< ParametersValueType > ParametersType;
+  typedef  OptimizerParameters< ParametersValueType > ParametersType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(TransformBase, Object);

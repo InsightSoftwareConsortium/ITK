@@ -42,8 +42,8 @@ TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
   this->m_TimeVaryingVelocityField = NULL;
 
   // Setup and assign parameter helper. This will hold the time varying velocity
-  // field for access through the common TransformParameters interface.
-  TransformParametersHelperType * helper = new TransformParametersHelperType;
+  // field for access through the common OptimizerParameters interface.
+  OptimizerParametersHelperType * helper = new OptimizerParametersHelperType;
 
   // After assigning this, parameters will manage this deleting when appropriate.
   this->m_Parameters.SetHelper( helper );

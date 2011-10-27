@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkTransformParameters.h"
+#include "itkOptimizerParameters.h"
 #include "itkIntTypes.h"
 #include "itkTestingMacros.h"
 
@@ -27,7 +27,7 @@ bool runTestByType()
 {
   bool passed = true;
 
-  TransformParameters<TValueType> params;
+  OptimizerParameters<TValueType> params;
   params.SetSize(10);
   params.Fill(1.23);
   std::cout << "GetSize: " << params.GetSize() << std::endl;
@@ -36,7 +36,7 @@ bool runTestByType()
 
   //Construct by size
   SizeValueType dim = 20;
-  TransformParameters<TValueType> paramsSize(dim);
+  OptimizerParameters<TValueType> paramsSize(dim);
   if( paramsSize.GetSize() != dim )
     {
     std::cerr << "Constructor with dimension failed. Expected size of "
@@ -46,7 +46,7 @@ bool runTestByType()
 
   //Copy constructor
   {
-  TransformParameters<TValueType> paramsCopy( params );
+  OptimizerParameters<TValueType> paramsCopy( params );
   for( SizeValueType i=0; i < params.GetSize(); i++ )
     {
     if( params[i] != paramsCopy[i] )
@@ -62,7 +62,7 @@ bool runTestByType()
   for( SizeValueType i=0; i<dim; i++ )
     { array[i]=i*3.19; }
   {
-  TransformParameters<TValueType> paramsCopy( array );
+  OptimizerParameters<TValueType> paramsCopy( array );
   for( SizeValueType i=0; i < params.GetSize(); i++ )
     {
     if( array[i] != paramsCopy[i] )
@@ -76,7 +76,7 @@ bool runTestByType()
   /* Test assignment operators from different types */
 
   //Assign from Array
-  TransformParameters<TValueType> paramsArray;
+  OptimizerParameters<TValueType> paramsArray;
   paramsArray = array;
   for( SizeValueType i=0; i < array.GetSize(); i++ )
     {
@@ -92,7 +92,7 @@ bool runTestByType()
   for( SizeValueType i=0; i<dim; i++ )
     { vector[i]=i*0.123; }
   {
-  TransformParameters<TValueType> paramsVnl;
+  OptimizerParameters<TValueType> paramsVnl;
   paramsVnl = vector;
   for( SizeValueType i=0; i < paramsVnl.GetSize(); i++ )
     {
@@ -116,19 +116,19 @@ bool runTestByType()
       passed = false;
       }
     }
-    
+
   /* Test SetParametersObject. Should throw exception with default helper. */
   typename LightObject::Pointer dummyObj = LightObject::New();
   TRY_EXPECT_EXCEPTION( params.SetParametersObject( dummyObj.GetPointer() ) );
-    
+
   /* Test with null helper and expect exception */
   params.SetHelper( NULL );
   TRY_EXPECT_EXCEPTION( params.MoveDataPointer( block ) );
   TRY_EXPECT_EXCEPTION( params.SetParametersObject( dummyObj.GetPointer() ) );
 
   /* Test copy operator */
-  TransformParameters<TValueType> params1(4);
-  TransformParameters<TValueType> params2(4);
+  OptimizerParameters<TValueType> params1(4);
+  OptimizerParameters<TValueType> params2(4);
   params1.Fill(1.23);
   params2 = params1;
   for( SizeValueType i=0; i < params1.GetSize(); i++ )
@@ -144,14 +144,14 @@ bool runTestByType()
     }
 
   /* Exercise set helper */
-  typedef typename TransformParameters<TValueType>::TransformParametersHelperType HelperType;
+  typedef typename OptimizerParameters<TValueType>::OptimizerParametersHelperType HelperType;
   HelperType * helper = new HelperType;
   params1.SetHelper( helper );
 
   return passed;
 }
 
-int itkTransformParametersTest(int, char *[])
+int itkOptimizerParametersTest(int, char *[])
 {
   bool passed = true;
 

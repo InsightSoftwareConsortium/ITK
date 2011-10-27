@@ -6,8 +6,8 @@ implementations of specific algorithms.")
 itk_module(ITKOptimizers
   DEPENDS
     ITKStatistics
-    ITKTransform
   TEST_DEPENDS
+    ITKTransform
     ITKTestKernel
   DESCRIPTION
     "${DOCUMENTATION}"

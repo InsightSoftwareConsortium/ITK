@@ -22,7 +22,7 @@
 
 #include "itkImage.h"
 #include "itkMatrixOffsetTransformBase.h"
-#include "itkImageVectorTransformParametersHelper.h"
+#include "itkImageVectorOptimizerParametersHelper.h"
 #include "itkVectorInterpolateImageFunction.h"
 
 namespace itk
@@ -60,8 +60,8 @@ namespace itk
  * using SetInterpolator.
  *
  * The displacement field data is stored using the common
- * \c TransformParameters type
- * in conjunction with the \c ImageVectorTransformParametersHelper class. This
+ * \c OptimizerParameters type
+ * in conjunction with the \c ImageVectorOptimizerParametersHelper class. This
  * allows access of the displacement field image as if it were an itkArray,
  * allowing transparent use with other classes.
  * \warning The \c SetParameters
@@ -180,11 +180,11 @@ public:
   typedef typename DisplacementFieldType::PixelType      PixelType;
 
   /** Define the internal parameter helper used to access the field */
-  typedef ImageVectorTransformParametersHelper<
+  typedef ImageVectorOptimizerParametersHelper<
     ScalarType,
     OutputVectorType::Dimension,
     Dimension>
-  TransformParametersHelperType;
+  OptimizerParametersHelperType;
 
   /** Get/Set the displacement field. */
   itkGetObjectMacro( DisplacementField, DisplacementFieldType );

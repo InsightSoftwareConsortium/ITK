@@ -149,6 +149,8 @@ itkMemoryProbesCollecterBaseTest.cxx
 itkImageAlgorithmCopyTest.cxx
 itkConstantBoundaryConditionTest.cxx
 itkDataObjectAndProcessObjectTest.cxx
+itkOptimizerParametersTest.cxx
+itkImageVectorOptimizerParametersHelperTest.cxx
 )
 
 CreateTestDriver(ITKCommon1 "${ITKCommon_LIBRARIES}" "${ITKCommon1Tests}")
@@ -390,6 +392,8 @@ if( "${ITK_COMPUTER_MEMORY_SIZE}" GREATER 4 )
 endif()
 
 itk_add_test(NAME itkImageAlgorithmCopyTest COMMAND ITKCommon2TestDriver itkImageAlgorithmCopyTest )
+itk_add_test(NAME itkOptimizerParametersTest COMMAND ITKCommon2TestDriver itkOptimizerParametersTest)
+itk_add_test(NAME itkImageVectorOptimizerParametersHelperTest COMMAND ITKCommon2TestDriver itkImageVectorOptimizerParametersHelperTest)
 
 
 
