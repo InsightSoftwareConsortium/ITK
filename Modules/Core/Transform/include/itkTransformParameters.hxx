@@ -37,8 +37,12 @@ TransformParameters< TValueType >
 ::TransformParameters(const TransformParameters& rhs)
   : Array< TValueType >(rhs)
 {
+  //Note: don't copy the TransformParametersHelper.
+  //The Array copy constructor will allocate new memory
+  //and copy the data to it. So we end up here with a generic
+  //TransformParameters data object even if 'rhs' points to
+  //something different.
   this->Initialize();
-  //TODO: Don't copy the TransformParametersHelper?
 }
 
 /** Constructor with size */
