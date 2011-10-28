@@ -37,6 +37,7 @@
 #include "itkImageToImageMetric.h"
 #include "itkTranslationTransform.h"
 #include "itkVectorExpandImageFilter.h"
+#include "itkFixedArray.h"
 
 #include "itkRecursiveMultiResolutionPyramidImageFilter.h"
 #include "itkFEMLoadLandmark.h"
@@ -175,9 +176,6 @@ public:
   typedef itk::VectorExpandImageFilter<FieldType, FieldType> ExpanderType;
   typedef typename ExpanderType::ExpandFactorsType           ExpandFactorsType;
 
-  typedef itk::RecursiveMultiResolutionPyramidImageFilter<FixedImageType, FixedImageType>
-  FixedPyramidType;
-
   typedef  typename FieldType::Pointer FieldPointer;
 
   /** Instantiate the load class with the correct image type. */
@@ -187,6 +185,7 @@ public:
   MetricBaseType;
 
   typedef typename MetricBaseType::Pointer MetricBaseTypePointer;
+  typedef FixedArray< double, ImageDimension > StandardDeviationsType;
 
   /*----------------------  Main functions ----------------------*/
 
@@ -246,7 +245,7 @@ public:
   }
 
   /** Compute the jacobian of the current deformation field. */
-  void ComputeJacobian(float sign = 1.0, FieldType* field = NULL, float smooth = 0.0);
+  void ComputeJacobian( );
 
   /** Get the image that gives the jacobian of the deformation field. */
   FloatImageType * GetJacobianImage()
@@ -503,7 +502,7 @@ public:
   /**
    * Get/Set the maximum number of levels for multi resolution
    */
-  itkSetMacro(MaxLevel, unsigned int);
+  void SetMaxLevel(unsigned int level);
   itkGetMacro(MaxLevel, unsigned int);
 
   /**
@@ -527,23 +526,41 @@ public:
   /** Get a pointer to the interpolator function. */
   itkGetObjectMacro( Interpolator, InterpolatorType );
 
-  /** de/constructor */
-  FEMRegistrationFilter();
-  ~FEMRegistrationFilter();
+  /** Set the Gaussian smoothing standard deviations for the
+   * displacement field. The values are set with respect to pixel
+   * coordinates. */
+  itkSetMacro(StandardDeviations, StandardDeviationsType);
+  virtual void SetStandardDeviations(double value);
+
+  /** Get the Gaussian smoothing standard deviations use for smoothing
+   * the displacement field. */
+  itkGetConstReferenceMacro(StandardDeviations, StandardDeviationsType);
+
+  /** Set/Get the desired limits of the Gaussian kernel width.
+   * \sa GaussianOperator. */
+  itkSetMacro(MaximumKernelWidth, unsigned int);
+  itkGetConstMacro(MaximumKernelWidth, unsigned int);
+
+  /** Set/Get the desired maximum error of the Guassian kernel approximate.
+   * \sa GaussianOperator. */
+  itkSetMacro(MaximumError, double);
+  itkGetConstMacro(MaximumError, double);
+
 
 // HELPER FUNCTIONS
 protected:
+  FEMRegistrationFilter();
+  ~FEMRegistrationFilter();
+
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** This function generates a regular mesh of ElementsPerSide^D size */
-  // void CreateMesh(double ElementsPerSide, FEMObjectType *femObject, SolverType *solver, ImageSizeType sz);
-  void CreateMesh(double ElementsPerSide, SolverType *solver, ImageSizeType sz);
+  void CreateMesh(unsigned int ElementsPerSide, SolverType *solver);
 
   /** The non-image loads are entered into the solver. */
-  // void ApplyLoads(FEMObjectType *femObject, ImageSizeType Isz, double* spacing=NULL);
   void ApplyLoads(ImageSizeType Isz, double* spacing = NULL);
 
   /** The image loads are entered into the solver. */
-  // void ApplyImageLoads(FEMObjectType *femObject, MovingImageType* i1, FixedImageType* i2);
   void ApplyImageLoads(MovingImageType* i1, FixedImageType* i2);
 
   // FIXME - Not implemented
@@ -590,7 +607,8 @@ protected:
   itkGetConstObjectMacro( Load, ImageMetricLoadType );
   itkSetObjectMacro( Load, ImageMetricLoadType );
 
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  /** Smooth the current displacement field */
+  void SmoothDisplacementField();
 
 private:
 
@@ -675,6 +693,14 @@ private:
 
   LandmarkArrayType   m_LandmarkArray;
   InterpolatorPointer m_Interpolator;
+
+  /** Maximum error for Gaussian operator approximation. */
+  double m_MaximumError;
+
+  /** Limits of Guassian kernel width. */
+  unsigned int m_MaximumKernelWidth;
+
+  StandardDeviationsType m_StandardDeviations;
 
 };
 
