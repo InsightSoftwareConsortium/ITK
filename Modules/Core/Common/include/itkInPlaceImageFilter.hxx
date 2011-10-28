@@ -80,10 +80,28 @@ InPlaceImageFilter< TInputImage, TOutputImage >
   // if told to run in place and the types support it,
   // additionally the buffered and requested regions of the input and
   // output must match.
+  bool rMatch = true;
+  if( inputPtr != NULL && (unsigned int)InputImageDimension == (unsigned int)OutputImageDimension )
+    {
+    for( unsigned int i=0; i<(unsigned int)InputImageDimension; i++ )
+      {
+      if( inputPtr->GetBufferedRegion().GetIndex(i) != outputPtr->GetRequestedRegion().GetIndex(i) )
+        {
+        rMatch = false;
+        }
+      if( inputPtr->GetBufferedRegion().GetSize(i) != outputPtr->GetRequestedRegion().GetSize(i) )
+        {
+        rMatch = false;
+        }
+      }
+    }
+  else
+    {
+    rMatch = false;
+    }
   if ( this->GetInPlace() &&
        this->CanRunInPlace() &&
-       inputPtr &&
-       inputPtr->GetBufferedRegion() == outputPtr->GetRequestedRegion() )
+       rMatch )
     {
     // Graft this first input to the output.  Later, we'll need to
     // remove the input's hold on the bulk data.
