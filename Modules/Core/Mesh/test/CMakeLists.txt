@@ -163,7 +163,7 @@ itk_add_test(NAME itkTriangleMeshToSimplexMeshFilter2Test
 
 
 
-SET_TESTS_PROPERTIES(itkVTKPolyDataReaderTest2
+set_tests_properties(itkVTKPolyDataReaderTest2
    itkVTKPolyDataReaderBadTest0
    itkVTKPolyDataReaderBadTest1
    itkVTKPolyDataReaderBadTest2

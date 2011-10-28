@@ -1,16 +1,16 @@
 project(ITKGPUCommon)
 
 
-IF (ITK_USE_GPU)
+if(ITK_USE_GPU)
 
-  FILE(GLOB itkGPUSRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/src *.cl)
-  FILE(GLOB itkGPUHDR RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/include *.h)
-  FILE(GLOB itkTxxSRC  RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/include *.txx)
+  file(GLOB itkGPUSRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/src *.cl)
+  file(GLOB itkGPUHDR RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/include *.h)
+  file(GLOB itkTxxSRC  RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/include *.txx)
 
-  SOURCE_GROUP("OpenCL Source Files" FILES ${itkGPUSRC})
+  source_group("OpenCL Source Files" FILES ${itkGPUSRC})
 
-  FILE(COPY ${itkGPUSRC} DESTINATION ${ITK_BINARY_DIR}/GPU/Common)
-  MESSAGE( "OpenCL files to copy " ${itkGPUSRC} )
+  file(COPY ${itkGPUSRC} DESTINATION ${ITK_BINARY_DIR}/GPU/Common)
+  message( "OpenCL files to copy " ${itkGPUSRC} )
 
   configure_file(
     src/pathToOpenCLSourceCode.h.in
@@ -18,4 +18,4 @@ IF (ITK_USE_GPU)
 
    itk_module_impl()
 
-ENDIF(ITK_USE_GPU)
+endif(ITK_USE_GPU)
