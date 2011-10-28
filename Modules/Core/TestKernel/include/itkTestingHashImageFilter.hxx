@@ -79,51 +79,63 @@ HashImageFilter<TImageType>::AfterThreadedGenerateData()
   itksysMD5 *md5 = itksysMD5_New();
   itksysMD5_Initialize( md5 );
 
-  typename ImageType::ConstPointer input = this->GetInput();
-
-
-  // make a good guess about the number of components in each pixel
-  size_t numberOfComponent =   sizeof(PixelType) / sizeof(ValueType );
-
-  if ( strcmp(input->GetNameOfClass(), "VectorImage") == 0 )
+  try
     {
-    // spacial case for VectorImages
-    numberOfComponent = ImageType::AccessorFunctorType::GetVectorLength(input);
+    typename ImageType::ConstPointer input = this->GetInput();
+
+
+    // make a good guess about the number of components in each pixel
+    size_t numberOfComponent =   sizeof(PixelType) / sizeof(ValueType );
+
+    if ( strcmp(input->GetNameOfClass(), "VectorImage") == 0 )
+      {
+      // spacial case for VectorImages
+      numberOfComponent = ImageType::AccessorFunctorType::GetVectorLength(input);
+      }
+    else if ( sizeof(PixelType) % sizeof(ValueType) != 0 )
+      {
+      itkExceptionMacro("Unsupported data type for hashing!");
+      }
+
+    // we feel bad about accessing the data this way
+    ValueType *buffer = static_cast<ValueType*>( (void *)input->GetBufferPointer() );
+
+    typename ImageType::RegionType largestRegion = input->GetBufferedRegion();
+    const size_t numberOfValues = largestRegion.GetNumberOfPixels()*numberOfComponent;
+
+
+    // Possible byte swap so we always calculate on little endian data
+    if ( Swapper::SystemIsBigEndian() )
+      {
+      Swapper::SwapRangeFromSystemToLittleEndian ( buffer, numberOfValues );
+      }
+
+    itksysMD5_Append( md5, (unsigned char*)buffer, numberOfValues*sizeof(ValueType) );
+
+    if ( Swapper::SystemIsBigEndian() )
+      {
+      Swapper::SwapRangeFromSystemToLittleEndian ( buffer, numberOfValues );
+      }
+
+    ////////
+    // NOTE: THIS IS NOT A NULL TERMINATED STRING!!!
+    ////////
+    const size_t DigestSize = 32u;
+    char Digest[DigestSize];
+
+    itksysMD5_FinalizeHex( md5, Digest );
+
+    this->GetHashOutput()->Set( std::string(Digest, DigestSize) );
     }
-  else if ( sizeof(PixelType) % sizeof(ValueType) != 0 )
+  catch (... )
     {
-    itkExceptionMacro("Unsupported data type for hashing!");
+    // free all resources when an exception occours
+    itksysMD5_Delete( md5 );
+    throw;
     }
 
-  // we feel bad about accessing the data this way
-  ValueType *buffer = static_cast<ValueType*>( (void *)input->GetBufferPointer() );
-
-  typename ImageType::RegionType largestRegion = input->GetBufferedRegion();
-  const size_t numberOfValues = largestRegion.GetNumberOfPixels()*numberOfComponent;
-
-
-  // Possible byte swap so we always calculate on little endian data
-  if ( Swapper::SystemIsBigEndian() )
-    {
-    Swapper::SwapRangeFromSystemToLittleEndian ( buffer, numberOfValues );
-    }
-
-  itksysMD5_Append( md5, (unsigned char*)buffer, numberOfValues*sizeof(ValueType) );
-
-  if ( Swapper::SystemIsBigEndian() )
-    {
-    Swapper::SwapRangeFromSystemToLittleEndian ( buffer, numberOfValues );
-    }
-
-  ////////
-  // NOTE: THIS IS NOT A NULL TERMINATED STRING!!!
-  ////////
-  const size_t DigestSize = 32u;
-  char Digest[DigestSize];
-
-  itksysMD5_FinalizeHex( md5, Digest );
-
-  this->GetHashOutput()->Set( std::string(Digest, DigestSize) );
+  // free resources
+  itksysMD5_Delete( md5 );
 }
 
 
