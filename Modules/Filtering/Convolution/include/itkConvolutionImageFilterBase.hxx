@@ -26,6 +26,7 @@ template< class TInputImage, class TKernelImage, class TOutputImage >
 ConvolutionImageFilterBase< TInputImage, TKernelImage, TOutputImage >
 ::ConvolutionImageFilterBase()
 {
+  this->AddRequiredInputName("KernelImage");
   m_Normalize = false;
   m_BoundaryCondition = &m_DefaultBoundaryCondition;
   m_OutputRegionMode = Self::SAME;

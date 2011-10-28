@@ -92,6 +92,11 @@ public:
   using Superclass::CacheInputReleaseDataFlags;
   using Superclass::RestoreInputReleaseDataFlags;
   using Superclass::NameComparator;
+  using Superclass::GetRequiredInputNames;
+  using Superclass::AddRequiredInputName;
+  using Superclass::RemoveRequiredInputName;
+  using Superclass::IsRequiredInputName;
+  using Superclass::SetRequiredInputNames;
 };
 
 }
@@ -283,6 +288,31 @@ int itkDataObjectAndProcessObjectTest(int, char* [] )
   TEST_SET_GET_VALUE( 2, process->GetNumberOfIndexedInputs() );
   process->PopBackInput();
   TEST_SET_GET_VALUE( 1, process->GetNumberOfIndexedInputs() );
+
+  itk::TestDataObject::Pointer output = itk::TestDataObject::New();
+  process->SetNthOutput( 0, output );
+
+  process->SetNumberOfRequiredInputs(1);
+  process->AddRequiredInputName( "Foo" );
+  process->Print( std::cout );
+  TRY_EXPECT_EXCEPTION( process->Update() );
+  process->SetInput( "Foo", input1 );
+  process->Print( std::cout );
+  TRY_EXPECT_NO_EXCEPTION( process->Update() );
+  process->AddRequiredInputName( "Bar" );
+  process->SetInput( "Bar", input1 );
+  process->SetNumberOfRequiredInputs(0);
+  process->Print( std::cout );
+  TRY_EXPECT_NO_EXCEPTION( process->Update() );
+
+  names = process->GetRequiredInputNames();
+  TEST_SET_GET_VALUE( 2, names.size() );
+  process->RemoveRequiredInputName( "Foo" );
+  process->RemoveRequiredInputName( "Bar" );
+  TEST_SET_GET_VALUE( 0, process->GetRequiredInputNames().size() );
+  process->SetRequiredInputNames( names );
+  process->Print( std::cout );
+  TEST_SET_GET_VALUE( 2, process->GetRequiredInputNames().size() );
 
   return (EXIT_SUCCESS);
 }
