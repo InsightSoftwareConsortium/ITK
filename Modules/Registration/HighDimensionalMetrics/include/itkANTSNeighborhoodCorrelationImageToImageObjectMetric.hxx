@@ -35,9 +35,8 @@ ANTSNeighborhoodCorrelationImageToImageObjectMetric<TFixedImage, TMovingImage,TV
       Self::NeighborhoodScanningWindowGetValueAndDerivativeThreadedCallback);
 
   // initialize radius
-  RadiusType neighborhood_radius;
   typedef typename RadiusType::SizeValueType RadiusValueType;
-  neighborhood_radius.Fill( NumericTraits<RadiusValueType>::One );
+  this->m_Radius.Fill( NumericTraits<RadiusValueType>::One );
 }
 
 template<class TFixedImage, class TMovingImage, class TVirtualImage>
