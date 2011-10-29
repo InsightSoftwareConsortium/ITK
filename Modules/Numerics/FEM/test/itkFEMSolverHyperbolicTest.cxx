@@ -149,9 +149,7 @@ void PrintSolution(FEMSolverType *S )
     }
 }
 
-
-
-int itkFEMSolverHyperbolicTest(int ac, char** av)
+int itkFEMSolverHyperbolicTest(int ac, char* av[])
 {
 
   if (ac < 4)
@@ -172,7 +170,7 @@ int itkFEMSolverHyperbolicTest(int ac, char** av)
     solution.resize( ac - 4 );
     for (int i=4;i<ac;i++)
       {
-      solution[i] = atof(av[i]);
+      solution[i-4] = atof(av[i]);
       }
     }
 
