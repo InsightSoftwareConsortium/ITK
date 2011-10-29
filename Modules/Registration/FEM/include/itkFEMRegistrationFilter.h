@@ -184,7 +184,7 @@ public:
   typedef PDEDeformableRegistrationFunction<FixedImageType, MovingImageType, FieldType>
   MetricBaseType;
 
-  typedef typename MetricBaseType::Pointer MetricBaseTypePointer;
+  typedef typename MetricBaseType::Pointer     MetricBaseTypePointer;
   typedef FixedArray< double, ImageDimension > StandardDeviationsType;
 
   /*----------------------  Main functions ----------------------*/
