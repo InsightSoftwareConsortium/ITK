@@ -15,28 +15,29 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTransformParameters_h
-#define __itkTransformParameters_h
+#ifndef __itkOptimizerParameters_h
+#define __itkOptimizerParameters_h
 
 #include "itkArray.h"
-#include "itkTransformParametersHelper.h"
+#include "itkOptimizerParametersHelper.h"
 
 namespace itk
 {
-/** \class TransformParameters
- *  \brief Class to hold and manage different parameter types used by Transforms.
+/** \class OptimizerParameters
+ *  \brief Class to hold and manage different parameter types used during
+ *  optimization.
  *
- * \ingroup ITKTransform
+ * \ingroup ITKCommon
  */
 
 template< typename TValueType >
-class TransformParameters : public Array< TValueType >
+class OptimizerParameters : public Array< TValueType >
 {
 public:
 
   /** The element type stored at each location in the Array. */
   typedef TValueType                               ValueType;
-  typedef TransformParameters                      Self;
+  typedef OptimizerParameters                      Self;
   typedef Array< TValueType >                      Superclass;
   typedef Superclass                               ArrayType;
   typedef typename Superclass::VnlVectorType       VnlVectorType;
@@ -44,24 +45,24 @@ public:
 
   /** Helper class for managing different types of parameter
    * data. */
-  typedef TransformParametersHelper< TValueType > TransformParametersHelperType;
+  typedef OptimizerParametersHelper< TValueType > OptimizerParametersHelperType;
 
   /** Default constructor. It is created with an empty array
    *  it has to be allocated later by assignment              */
-  TransformParameters();
+  OptimizerParameters();
 
   /** Copy constructor.  Uses VNL copy construtor with correct
    *  setting for memory management.
    *  The vnl vector copy constructor creates new memory
    *  no matter the setting of let array manage memory of rhs.
    */
-  TransformParameters(const TransformParameters& rhs);
+  OptimizerParameters(const OptimizerParameters& rhs);
 
   /** Constructor with size. Size can only be changed by assignment */
-  explicit TransformParameters(SizeValueType  dimension);
+  explicit OptimizerParameters(SizeValueType  dimension);
 
   /** Constructor with Array assignment */
-  TransformParameters( const ArrayType& array );
+  OptimizerParameters( const ArrayType& array );
 
   /** Initialize. Initialization called by constructors. */
   void Initialize();
@@ -69,25 +70,25 @@ public:
   /** Set a new data pointer for the parameter data, pointing it to a different
    * memory block. The size of the new memory block must equal the current
    * size, in elements of TValueType.
-   * This call is passed to the assigned TransformParametersHelper.
+   * This call is passed to the assigned OptimizerParametersHelper.
    * \warning Memory must be managed by caller after this call. */
   virtual void MoveDataPointer( TValueType * pointer );
 
   /** Set an object that holds the parameters. Used by the helper of
    * derived classes that use an object other than itkArray to hold parameter
    * data. The helper class must check that the object is the correct type.
-   * The call is passed to the assigned TransformParametersHelper. */
+   * The call is passed to the assigned OptimizerParametersHelper. */
   virtual void SetParametersObject( LightObject * object );
 
-  /** Assign a helper. TransformParameters manages the helper once
-   *  its been assigned. The generic helper, TransformParametersHelper,
+  /** Assign a helper. OptimizerParameters manages the helper once
+   *  its been assigned. The generic helper, OptimizerParametersHelper,
    *  is set in constructor.
-   *  Transform classes that need a specialized helper should allocate
+   *  Classes that need a specialized helper should allocate
    *  one themselves and assign it with this method. */
-  virtual void SetHelper( TransformParametersHelperType* helper );
+  virtual void SetHelper( OptimizerParametersHelperType* helper );
 
   /** Get the helper in use. */
-  TransformParametersHelperType* GetHelper()
+  OptimizerParametersHelperType* GetHelper()
     { return m_Helper; }
 
   /** Copy opertors
@@ -101,15 +102,15 @@ public:
 
   const Self & operator=(const VnlVectorType & rhs);
 
-  virtual ~TransformParameters();
+  virtual ~OptimizerParameters();
 private:
-   TransformParametersHelperType*           m_Helper;
+   OptimizerParametersHelperType*           m_Helper;
 };
 
 }//namespace itk
 
 #if ITK_TEMPLATE_TXX
-#include "itkTransformParameters.hxx"
+#include "itkOptimizerParameters.hxx"
 #endif
 
 #endif

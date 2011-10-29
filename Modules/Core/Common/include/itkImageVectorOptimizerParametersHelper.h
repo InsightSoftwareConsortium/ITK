@@ -15,20 +15,20 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageVectorTransformParametersHelper_h
-#define __itkImageVectorTransformParametersHelper_h
+#ifndef __itkImageVectorOptimizerParametersHelper_h
+#define __itkImageVectorOptimizerParametersHelper_h
 
-#include "itkTransformParametersHelper.h"
+#include "itkOptimizerParametersHelper.h"
 #include "itkImage.h"
 
 namespace itk
 {
-/** \class ImageVectorTransformParametersHelper
+/** \class ImageVectorOptimizerParametersHelper
  *  \brief Class to hold and manage parameters of type
- *          Image<Vector<...>,...>, used in Transforms.
+ *          Image<Vector<...>,...>, used in Transforms, etc.
  *
- *  \sa TransformParametersHelper
- *  \ingroup ITKTransform
+ *  \sa OptimizerParametersHelper
+ *  \ingroup ITKCommon
  */
 
 /* Can we template of Image type instead, but require that Image be of type
@@ -36,15 +36,15 @@ namespace itk
 template< typename TValueType,
           unsigned int NVectorDimension,
           unsigned int VImageDimension >
-class ImageVectorTransformParametersHelper
-  : public TransformParametersHelper< TValueType >
+class ImageVectorOptimizerParametersHelper
+  : public OptimizerParametersHelper< TValueType >
 {
 public:
 
   /** The element type stored at each location in the Array. */
   typedef TValueType                                ValueType;
-  typedef ImageVectorTransformParametersHelper      Self;
-  typedef TransformParametersHelper< TValueType >   Superclass;
+  typedef ImageVectorOptimizerParametersHelper      Self;
+  typedef OptimizerParametersHelper< TValueType >   Superclass;
 
   /** Image type that this class expects. */
   typedef Image< Vector<TValueType, NVectorDimension>,
@@ -52,11 +52,11 @@ public:
                                                 ParameterImageType;
   typedef typename ParameterImageType::Pointer  ParameterImagePointer;
 
-  /** Type of the common data object used in TransformParameters */
+  /** Type of the common data object used in OptimizerParameters */
   typedef typename Superclass::CommonContainerType CommonContainerType;
 
   /** Default constructor. */
-  ImageVectorTransformParametersHelper();
+  ImageVectorOptimizerParametersHelper();
 
   /** Set a new data pointer for *both* the Array and parameter image,
    * pointing both to a different memory block.
@@ -72,11 +72,11 @@ public:
    * manage memory, so the image still manages its memory.
    * A dynamic cast is performed on \c object to make sure its of proper type.
    * Generally this will be called from
-   * TransformParameters::SetParameterObject. */
+   * OptimizerParameters::SetParameterObject. */
   virtual void SetParametersObject(CommonContainerType * container,
                                    LightObject * );
 
-  virtual ~ImageVectorTransformParametersHelper(){}
+  virtual ~ImageVectorOptimizerParametersHelper(){}
 
 private:
   /** The parameter image used by the class */
@@ -87,7 +87,7 @@ private:
 }//namespace itk
 
 #if ITK_TEMPLATE_TXX
-#include "itkImageVectorTransformParametersHelper.hxx"
+#include "itkImageVectorOptimizerParametersHelper.hxx"
 #endif
 
 #endif
