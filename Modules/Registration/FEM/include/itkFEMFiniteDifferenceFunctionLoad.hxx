@@ -25,30 +25,12 @@ namespace itk
 namespace fem
 {
 
-// Explicit New() method, used here because we need to split the itkNewMacro()
-// in order to overload the CreateAnother() method.
-template <class TMoving, class TFixed>
-typename FiniteDifferenceFunctionLoad<TMoving, TFixed>::Pointer
-FiniteDifferenceFunctionLoad<TMoving, TFixed>::New(void)
-{
-  Pointer smartPtr = ::itk::ObjectFactory<Self>::Create();
-
-  if( smartPtr.IsNull() )
-    {
-    smartPtr = static_cast<Pointer>(new Self);
-    }
-  smartPtr->UnRegister();
-  return smartPtr;
-}
-
-// Explicit New() method, used here because we need to split the itkNewMacro()
-// in order to overload the CreateAnother() method.
 template <class TMoving, class TFixed>
 ::itk::LightObject::Pointer
 FiniteDifferenceFunctionLoad<TMoving, TFixed>::CreateAnother(void) const
 {
   ::itk::LightObject::Pointer smartPtr;
-  Pointer copyPtr = Self::New().GetPointer();
+  Pointer copyPtr = Self::New();
 
   copyPtr->m_MovingImage = this->m_MovingImage;
   copyPtr->m_FixedImage = this->m_FixedImage;
@@ -100,8 +82,8 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::InitializeIteration()
       = defaultRegistrationFunctionType::New();
     this->SetMetric(static_cast<FiniteDifferenceFunctionType *>(drfp) );
     }
-  std::cout << " load sizes " << m_DisplacementField->GetLargestPossibleRegion().GetSize()
-            << "  image " << m_FixedImage->GetLargestPossibleRegion().GetSize() << std::endl;
+  //std::cout << " load sizes " << m_DisplacementField->GetLargestPossibleRegion().GetSize()
+  //          << "  image " << m_FixedImage->GetLargestPossibleRegion().GetSize() << std::endl;
 
   m_DifferenceFunction->InitializeIteration();
 
@@ -148,29 +130,11 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::SetCurrentEnergy(double e)
     }
 }
 
-template <class TMoving, class TFixed>
-typename FiniteDifferenceFunctionLoad<TMoving, TFixed>::Float
-FiniteDifferenceFunctionLoad<TMoving, TFixed>::EvaluateMetricGivenSolution( Element::ArrayType * itkNotUsed(
-                                                                              el), Float itkNotUsed(step) )
-{
-  return 10.0;  // FIXME
-}
 
 template <class TMoving, class TFixed>
 typename FiniteDifferenceFunctionLoad<TMoving, TFixed>::Float
-FiniteDifferenceFunctionLoad<TMoving, TFixed>::EvaluateMetricGivenSolution1(
-  ElementContainerType *, Float)
+FiniteDifferenceFunctionLoad<TMoving, TFixed>::EvaluateMetricGivenSolution( ElementContainerType *el, Float step)
 {
-  return 10.0;  // FIXME
-}
-
-#if __DEFINED__FIXME__THIS_IS_NEVER_REACHED_BECAUSE_OF_OVERRIDING_RETURN_STATEMENT__
-
-template <class TMoving, class TFixed>
-typename FiniteDifferenceFunctionLoad<TMoving, TFixed>::Float
-FiniteDifferenceFunctionLoad<TMoving, TFixed>::EvaluateMetricGivenSolution( Element::ArrayType* el, Float step)
-{
-  return 10.0;  // FIXME
   Float energy = 0.0, defe = 0.0;
 
   vnl_vector_fixed<Float, 2 *ImageDimension> InVec(0.0);
@@ -179,36 +143,41 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::EvaluateMetricGivenSolution( Elem
   typename Element::MatrixType solmat;
   typename Element::Float w;
 
-  typedef typename Element::ArrayType ArrayType;
 
-  ArrayType::iterator elt = el->begin();
+  //ElementContainerType::Iterator elt;
+  if ( (el == NULL) || (el->Size() < 1) )
+    {
+    return 10.0;
+    }
 
-  const unsigned int Nnodes = (*elt)->GetNumberOfNodes();
+  Element::Pointer element = el->GetElement(0);
+  const unsigned int Nnodes = element->GetNumberOfNodes();
 
-  FEMVectorType Gpos, Gsol;
-  Gpos.set_size(ImageDimension); Gpos.fill(0.0);
-  Gsol.set_size(ImageDimension); Gsol.fill(0.0);
+  FEMVectorType Gpos;
+  Gpos.set_size(ImageDimension);
+  Gpos.fill(0.0);
 
   solmat.set_size(Nnodes * ImageDimension, 1);
-  for(; elt != el->end(); elt++ )
+  for(unsigned int elt = 0; elt < el->Size(); elt++ )
     {
+    element = el->GetElement( elt );
     for( unsigned int i = 0; i < m_NumberOfIntegrationPoints; i++ )
       {
-      dynamic_cast<Element *>(&*(*elt) )->GetIntegrationPointAndWeight(i, ip, w, m_NumberOfIntegrationPoints);
+      element->GetIntegrationPointAndWeight(i, ip, w, m_NumberOfIntegrationPoints);
       //FIXME REMOVE WHEN ELEMENT NEW IS BASE CLASS
-      shapef = (*elt)->ShapeFunctions(ip);
+      shapef = element->ShapeFunctions(ip);
 
       float solval, posval;
-      Float detJ = (*elt)->JacobianDeterminant(ip);
+      Float detJ = element->JacobianDeterminant(ip);
       for( unsigned int f = 0; f < ImageDimension; f++ )
         {
         solval = 0.0;
         posval = 0.0;
         for( unsigned int n = 0; n < Nnodes; n++ )
           {
-          posval += shapef[n] * ( ( (*elt)->GetNodeCoordinates(n) )[f]);
-          float nodeval = ( (m_Solution)->GetSolutionValue( (*elt)->GetNode(n)->GetDegreeOfFreedom(f), m_SolutionIndex)
-                            + (m_Solution)->GetSolutionValue( (*elt)->GetNode(n)->GetDegreeOfFreedom(f),
+          posval += shapef[n] * ( ( element->GetNodeCoordinates(n) )[f]);
+          float nodeval = ( (m_Solution)->GetSolutionValue( element->GetNode(n)->GetDegreeOfFreedom(f), m_SolutionIndex)
+                            + (m_Solution)->GetSolutionValue( element->GetNode(n)->GetDegreeOfFreedom(f),
                                                               m_SolutionIndex2) * step);
 
           solval += shapef[n] * nodeval;
@@ -217,19 +186,17 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::EvaluateMetricGivenSolution( Elem
         InVec[f] = posval;
         Gpos[f] = posval;
         InVec[f + ImageDimension] = solval;
-        Gsol[f] = solval;
         }
 
       float tempe = 0.0;
       try
         {
-        this->Fe(Gpos, Gsol); // FIXME
+        this->Fe( Gpos );
         tempe = vcl_fabs(0.0);
         }
       catch( ... )
         {
         // do nothing we dont care if the metric region is outside the image
-        // std::cerr << e << std::endl;
         }
       for( unsigned int n = 0; n < Nnodes; n++ )
         {
@@ -238,14 +205,14 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::EvaluateMetricGivenSolution( Elem
         }
       }
 
-    defe += 0.0; // (double)(*elt)->GetElementDeformationEnergy( solmat );
+    defe += element->GetElementDeformationEnergy( solmat );
     }
 
   // std::cout << " def e " << defe << " sim e " << energy*m_Gamma << std::endl;
   return vcl_fabs( (double)energy * (double)m_Gamma - (double)defe);
 }
 
-#endif
+
 
 template <class TMoving, class TFixed>
 typename FiniteDifferenceFunctionLoad<TMoving, TFixed>::FEMVectorType
@@ -273,11 +240,11 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::Fe( FEMVectorType  Gpos )
     this->InitializeIteration();
     if( !m_DisplacementField || !m_FixedImage || !m_MovingImage )
       {
-      std::cout << " input data {field,fixed/moving image} are not set " << std::endl;
+      //std::cout << " input data {field,fixed/moving image} are not set " << std::endl;
       return femVec;
       }
-    std::cout << " sizes " << m_DisplacementField->GetLargestPossibleRegion().GetSize() << std::endl;
-    std::cout << "  image " << m_FixedImage->GetLargestPossibleRegion().GetSize() << std::endl;
+    //std::cout << " sizes " << m_DisplacementField->GetLargestPossibleRegion().GetSize() << std::endl;
+    //std::cout << "  image " << m_FixedImage->GetLargestPossibleRegion().GetSize() << std::endl;
     }
 
   typedef typename TMoving::IndexType::IndexValueType OIndexValueType;
