@@ -35,7 +35,7 @@ int itkOtsuMultipleThresholdsImageFilterTest(int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef  short  InputPixelType;
+  typedef  short          InputPixelType;
   typedef  unsigned short InternalPixelType;
   typedef  unsigned char  OutputPixelType;
 

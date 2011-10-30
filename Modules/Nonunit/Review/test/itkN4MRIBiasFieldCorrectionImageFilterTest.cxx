@@ -161,7 +161,7 @@ int N4( int argc, char *argv[] )
     ThresholderType;
     typename ThresholderType::Pointer otsu = ThresholderType::New();
     otsu->SetInput( inputImage );
-    otsu->SetNumberOfHistogramBins( 200 );
+    // otsu->SetNumberOfHistogramBins( 200 );
     otsu->SetInsideValue( 0 );
     otsu->SetOutsideValue( 1 );
 

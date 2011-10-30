@@ -330,6 +330,9 @@ public:
    * max - ((pp - p) / pb) * interval  */
   double Quantile(unsigned int dimension, double p) const;
 
+  /** Get the mean value for a dimension */
+  double Mean(unsigned int dimension) const;
+
   /** Method to graft another histogram's output */
   virtual void Graft(const DataObject *);
 

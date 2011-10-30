@@ -7,6 +7,7 @@ set(ITKV3CompatibilityTests
   itkTransformToDeformationFieldSourceTest.cxx
   itkTransformToDeformationFieldSourceTest1.cxx
   itkDeformationFieldJacobianDeterminantFilterTest.cxx
+  itkOtsuThresholdImageCalculatorTest.cxx
 )
 
 CreateTestDriver(ITKV3Compatibility  "${ITKV3Compatibility-Test_LIBRARIES}" "${ITKV3CompatibilityTests}")
@@ -38,3 +39,5 @@ itk_add_test(NAME itkTransformToDeformationFieldSourceTest02
               BSpline ${ITK_TEST_OUTPUT_DIR}/itkTransformToDeformationFieldSourceTestField02.mha DATA{${ITK_DATA_ROOT}/Input/parametersBSpline.txt} ${ITK_TEST_OUTPUT_DIR}/itkTransformToDeformationFieldSourceTestImage02.mha)
 itk_add_test(NAME itkExponentialDeformationFieldImageFilterTest
       COMMAND ITKV3CompatibilityTestDriver itkExponentialDeformationFieldImageFilterTest)
+itk_add_test(NAME itkOtsuThresholdImageCalculatorTest
+      COMMAND ITKV3CompatibilityTestDriver itkOtsuThresholdImageCalculatorTest)

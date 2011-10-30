@@ -170,19 +170,6 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The method \code{SetNumberOfHistogramBins()} defines the number of bins
-  //  to be used for computing the histogram. This histogram will be used
-  //  internally in order to compute the Otsu threshold.
-  //
-  //  Software Guide : EndLatex
-
-  // Software Guide : BeginCodeSnippet
-  filter->SetNumberOfHistogramBins( 128 );
-  // Software Guide : EndCodeSnippet
-
-
-  //  Software Guide : BeginLatex
-  //
   //  The execution of the filter is triggered by invoking the \code{Update()}
   //  method.   If the filter's output has been passed as input to subsequent
   //  filters, the \code{Update()} call on any posterior filters in the
@@ -193,7 +180,6 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   filter->Update();
   // Software Guide : EndCodeSnippet
-
 
 
   //  Software Guide : BeginLatex
@@ -207,7 +193,6 @@ int main( int argc, char * argv[] )
   int threshold = filter->GetThreshold();
   std::cout << "Threshold = " << threshold << std::endl;
   // Software Guide : EndCodeSnippet
-
 
 
   //  Software Guide : BeginLatex
@@ -240,4 +225,3 @@ int main( int argc, char * argv[] )
 
   return EXIT_SUCCESS;
 }
-

@@ -699,6 +699,21 @@ Histogram< TMeasurement, TFrequencyContainer >
 }
 
 template< class TMeasurement, class TFrequencyContainer >
+double
+Histogram< TMeasurement, TFrequencyContainer >
+::Mean(unsigned int dimension) const
+{
+  const unsigned int size = this->GetSize(dimension);
+  double             totalFrequency = double( this->GetTotalFrequency() );
+  double             sum = 0;
+  for( unsigned int i = 0; i<size; i++ )
+    {
+    sum += this->GetFrequency( i, dimension );
+    }
+  return sum / totalFrequency;
+}
+
+template< class TMeasurement, class TFrequencyContainer >
 void
 Histogram< TMeasurement, TFrequencyContainer >
 ::PrintSelf(std::ostream & os, Indent indent) const

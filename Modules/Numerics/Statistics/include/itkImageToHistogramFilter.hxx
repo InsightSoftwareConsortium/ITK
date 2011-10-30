@@ -36,7 +36,7 @@ ImageToHistogramFilter< TImage >
 
   // same default values as in the HistogramGenerator
   this->SetMarginalScale(100);
-  if( NumericTraits< ValueType >::is_integer )
+  if( typeid(ValueType) == typeid(signed char) || typeid(ValueType) == typeid(unsigned char) )
     {
     this->SetAutoMinimumMaximum(false);
     }
