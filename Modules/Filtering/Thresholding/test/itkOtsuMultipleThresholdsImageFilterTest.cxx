@@ -91,7 +91,7 @@ int itkOtsuMultipleThresholdsImageFilterTest(int argc, char* argv[] )
   std::cout << "filter->GetThresholds(): ";
   for (unsigned int i = 0; i < thresholds.size(); i++)
     {
-    std::cout << thresholds[i] << " ";
+    std::cout << itk::NumericTraits<FilterType::InputPixelType>::PrintType(thresholds[i]) << " ";
     }
   std::cout << std::endl;
 
