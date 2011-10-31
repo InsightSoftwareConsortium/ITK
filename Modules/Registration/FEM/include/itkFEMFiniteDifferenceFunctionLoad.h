@@ -73,27 +73,15 @@ public:
   typedef SmartPointer<Self>           Pointer;
   typedef SmartPointer<const Self>     ConstPointer;
 
-  // itkNewMacro(Self);
   /** New macro for creation of through the object factory. */
-  // itkNewMacro(Self);
-  static Pointer New(void);
+  itkSimpleNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(FiniteDifferenceFunctionLoad, LoadElement);
 
-#ifdef USE_FEM_CLONE
-  /** Create a new object from the existing one */
-  virtual Baseclass::Pointer Clone() const
-  {
-    Pointer o = new Self(*this);
-
-    return o.GetPointer();
-  }
-
-#endif
 
   /** CreateAnother method will clone the existing instance of this type,
-   * including its internal member variables. */
+   *  including its internal member variables. */
   virtual::itk::LightObject::Pointer CreateAnother(void) const;
 
   // Necessary typedefs for dealing with images BEGIN
@@ -128,7 +116,7 @@ public:
   typedef typename FixedNeighborhoodIteratorType::RadiusType
   FixedRadiusType;
 
-// IMAGE DATA
+  // Typedefs for Image Data
   typedef   typename  MovingImageType::PixelType MovingPixelType;
   typedef   typename  FixedImageType::PixelType  FixedPixelType;
   typedef   Float                                PixelType;
@@ -145,7 +133,6 @@ public:
   typedef NeighborhoodIterator<DisplacementFieldType>
   FieldIteratorType;
 
-// Necessary typedefs for dealing with images END
 
   /** PDEDeformableRegistrationFilterFunction type. */
   typedef PDEDeformableRegistrationFunction<FixedImageType, MovingImageType,
@@ -169,7 +156,7 @@ public:
 
   typedef unsigned long                                        ElementIdentifier;
   typedef VectorContainer<ElementIdentifier, Element::Pointer> ElementContainerType;
-// FUNCTIONS
+
 
   /* This method sets the pointer to a FiniteDifferenceFunction object that
    * will be used by the filter to calculate updates at image pixels.
@@ -310,28 +297,21 @@ public:
     return m_Solution->GetSolutionValue(i, which);
   }
 
-  FiniteDifferenceFunctionLoad(); // cannot be private until we always use smart pointers
-  Float EvaluateMetricGivenSolution( Element::ArrayType* el, Float step = 1.0);
+  Float EvaluateMetricGivenSolution( ElementContainerType *el, Float step = 1.0);
 
-  Float EvaluateMetricGivenSolution1( ElementContainerType *el, Float step = 1.0);
 
   /**
    * Compute the image based load - implemented with ITK metric derivatives.
    */
   FEMVectorType Fe(FEMVectorType);
 
-  static Baseclass * NewFiniteDifferenceFunctionLoad(void)
-  {
-    return new FiniteDifferenceFunctionLoad;
-  }
-
-  /** Set the  */
+  /** Set the Displacement Field */
   void SetDisplacementField( DisplacementFieldTypePointer df)
   {
     m_DisplacementField = df;
   }
 
-  /** Get the  */
+  /** Get the Displacement Field */
   DisplacementFieldTypePointer GetDisplacementField()
   {
     return m_DisplacementField;
@@ -351,6 +331,8 @@ public:
 
 protected:
 private:
+  FiniteDifferenceFunctionLoad(); // cannot be private until we always use smart pointers
+
   MovingPointer    m_MovingImage;
   FixedPointer     m_FixedImage;
   MovingRadiusType m_MetricRadius;                                   /** used by the metric to set region size for fixed
