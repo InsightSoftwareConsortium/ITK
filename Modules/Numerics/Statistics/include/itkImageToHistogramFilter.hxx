@@ -35,15 +35,23 @@ ImageToHistogramFilter< TImage >
   this->ProcessObject::SetNthOutput( 0, this->MakeOutput(0) );
 
   // same default values as in the HistogramGenerator
-  this->SetMarginalScale(100);
+
+  typename SimpleDataObjectDecorator<HistogramMeasurementType>::Pointer marginalScale =
+    SimpleDataObjectDecorator<HistogramMeasurementType>::New();
+  marginalScale->Set(100);
+  this->ProcessObject::SetInput( "MarginalScale", marginalScale );
+
+  SimpleDataObjectDecorator<bool>::Pointer autoMinMax =
+    SimpleDataObjectDecorator<bool>::New();
   if( typeid(ValueType) == typeid(signed char) || typeid(ValueType) == typeid(unsigned char) )
     {
-    this->SetAutoMinimumMaximum(false);
+    autoMinMax->Set(false);
     }
   else
     {
-    this->SetAutoMinimumMaximum(true);
+    autoMinMax->Set(true);
     }
+   this->ProcessObject::SetInput( "AutoMinimumMaximum", autoMinMax );
 }
 
 template< class TImage >

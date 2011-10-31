@@ -39,11 +39,11 @@ HistogramThresholdImageFilter<TInputImage, TOutputImage>
 
   if( typeid(ValueType) == typeid(signed char) || typeid(ValueType) == typeid(unsigned char) )
     {
-    this->SetAutoMinimumMaximum(false);
+    m_AutoMinimumMaximum = false;
     }
   else
     {
-    this->SetAutoMinimumMaximum(true);
+    m_AutoMinimumMaximum = true;
     }
 
   m_NumberOfHistogramBins = 256;
