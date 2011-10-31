@@ -27,7 +27,6 @@ itkTransformsSetParametersTest.cxx
 itkBSplineDeformableTransformTest.cxx
 itkBSplineDeformableTransformTest2.cxx
 itkBSplineDeformableTransformTest3.cxx
-itkTransformFactoryBaseTest.cxx
 itkBSplineTransformTest.cxx
 itkBSplineTransformTest2.cxx
 itkBSplineTransformTest3.cxx
@@ -87,8 +86,6 @@ itk_add_test(NAME itkAzimuthElevationToCartesianTransformTest
       COMMAND ITKTransformTestDriver itkAzimuthElevationToCartesianTransformTest)
 itk_add_test(NAME itkCenteredEuler3DTransformTest
       COMMAND ITKTransformTestDriver itkCenteredEuler3DTransformTest)
-itk_add_test(NAME itkTransformFactoryBaseTest
-      COMMAND ITKTransformTestDriver itkTransformFactoryBaseTest)
 itk_add_test(NAME itkTransformsSetParametersTest
       COMMAND ITKTransformTestDriver itkTransformsSetParametersTest)
 
