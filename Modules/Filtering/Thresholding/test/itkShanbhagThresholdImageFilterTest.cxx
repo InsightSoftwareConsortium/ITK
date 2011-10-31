@@ -64,7 +64,9 @@ int itkShanbhagThresholdImageFilterTest(int argc, char* argv[] )
   writer->SetInput( filter->GetOutput() );
 
   filter->Update();
-  std::cout << "Computed Threshold is: " << filter->GetThreshold() << std::endl;
+  std::cout << "Computed Threshold is: "
+            << itk::NumericTraits<FilterType::InputPixelType>::PrintType(filter->GetThreshold())
+            << std::endl;
   writer->SetFileName( argv[2] );
   writer->Update();
 
