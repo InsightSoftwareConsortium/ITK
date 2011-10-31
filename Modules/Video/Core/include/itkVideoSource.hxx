@@ -225,7 +225,7 @@ VideoSource<TOutputVideoStream>::AllocateOutputs()
   for (unsigned long i = startFrame; i < startFrame + numFrames; ++i)
     {
     output->SetFrameBufferedSpatialRegion(i, output->GetFrameRequestedSpatialRegion(i) );
-    OutputFrameType* frame = output->GetFrame(i);
+    typename OutputFrameType::Pointer frame = output->GetFrame(i);
     frame->SetBufferedRegion(output->GetFrameRequestedSpatialRegion(i) );
     frame->Allocate();
     }

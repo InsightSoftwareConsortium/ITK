@@ -260,7 +260,7 @@ int itkVideoToVideoFilterTest( int, char* [] )
     // Make sure nothing set outside of requested spatial region
     OutputFrameType::IndexType idx;
     idx.Fill(0);
-    if (frame->GetPixel(idx) > expectedVal - epsilon && frame->GetPixel(idx) < expectedVal + epsilon)
+    if (frame->GetRequestedRegion().IsInside(idx))
       {
       std::cerr << "Filter set pixel outside of requested region" << std::endl;
       return EXIT_FAILURE;

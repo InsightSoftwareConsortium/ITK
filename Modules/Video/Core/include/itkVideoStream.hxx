@@ -323,6 +323,7 @@ VideoStream<TFrameType>::InitializeEmptyFrames()
       {
       FramePointer newFrame = FrameType::New();
       FrameType* newFrameRawPointer = newFrame.GetPointer();
+      newFrame->Register(); // Avoiding memory leakage
       typename BufferType::ElementPointer element =
         dynamic_cast<typename BufferType::ElementType*>(newFrameRawPointer);
       m_DataObjectBuffer->SetBufferContents(i, element);
