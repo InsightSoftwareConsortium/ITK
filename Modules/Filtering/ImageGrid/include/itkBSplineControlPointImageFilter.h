@@ -23,7 +23,6 @@
 #include "itkCoxDeBoorBSplineKernelFunction.h"
 #include "itkFixedArray.h"
 #include "itkPointSet.h"
-#include "itkSingleValuedCostFunction.h"
 #include "itkVariableSizeMatrix.h"
 #include "itkVector.h"
 #include "itkVectorContainer.h"
@@ -54,7 +53,7 @@ namespace itk
  * http://www.insight-journal.org/browse/publication/57
  *
  * \author Nicholas J. Tustison
- * \ingroup ITKReview
+ * \ingroup ITKImageGrid
  */
 
 template <class TInputImage, class TOutputImage = TInputImage>

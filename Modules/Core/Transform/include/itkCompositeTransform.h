@@ -175,6 +175,11 @@ public:
     this->PushBackTransform( t ); /* Also adds to TransformsToOptimize list */
   }
 
+  void RemoveTransform()
+  {
+    this->PopBackTransform(); /* Also removes to TransformsToOptimize list */
+  }
+
   /** See transforms at the front and the back of the queue */
   const
   TransformTypePointer GetFrontTransform()
@@ -411,6 +416,20 @@ protected:
     this->m_TransformQueue.push_back( t );
     /* Add element to list of flags, and set true by default */
     this->m_TransformsToOptimizeFlags.push_back( true );
+    this->Modified();
+  }
+
+  void PopFrontTransform()
+  {
+    this->m_TransformQueue.pop_front();
+    this->m_TransformsToOptimizeFlags.pop_front();
+    this->Modified();
+  }
+
+  void PopBackTransform()
+  {
+    this->m_TransformQueue.pop_back();
+    this->m_TransformsToOptimizeFlags.pop_back();
     this->Modified();
   }
 

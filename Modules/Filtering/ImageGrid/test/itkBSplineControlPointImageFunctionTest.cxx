@@ -161,30 +161,5 @@ int itkBSplineControlPointImageFunctionTest( int, char * [] )
     return EXIT_FAILURE;
     }
 
-  // Evaluate functionality related to finding the parameter values closest to
-  // a given data point.
-
-  data[0] = 0.05276717;
-  BSplinerType::PointType bsplinePoint;
-  bsplinePoint.Fill( 0.0 );
-
-  try
-    {
-    bspliner->CalculateParametersClosestToDataPoint( data, bsplinePoint );
-
-    if( vnl_math_abs( bsplinePoint[0] - 0.351 ) > 1e-5 )
-      {
-      std::cerr << "Parameters are further away from expected values."
-        << std::endl;
-      return EXIT_FAILURE;
-      }
-    }
-  catch(...)
-    {
-    std::cerr << "Error in CalculateParametersClosestToDataPoint" << std::endl;
-    return EXIT_FAILURE;
-    }
-
-
   return EXIT_SUCCESS;
 }

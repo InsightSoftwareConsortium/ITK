@@ -25,7 +25,6 @@
 #include "itkFixedArray.h"
 #include "itkImage.h"
 #include "itkPointSet.h"
-#include "itkSingleValuedCostFunction.h"
 #include "itkVariableSizeMatrix.h"
 #include "itkVector.h"
 #include "itkVectorContainer.h"
@@ -35,161 +34,6 @@
 
 namespace itk
 {
-
-/**
- * \class BSplineParametricDistanceCostFunction
- *
- * \brief Used to estimate the parameters of a B-spline object given an initial
- * guess
- *
- * This constitutes a helper class specifically for the function
- *
- * void CalculateParametersClosestToDataPoint( PointDataType, PointType & );
- *
- * in the main class.  This function allows one to find the closest parameter
- * values of the B-spline object corresponding to a single point.  For example,
- * suppose one has a series of points derived from white matter tractography
- * which represent a noisy single tract.  One can then use the companion
- * class itkBSplineScatteredDataPointSetToImageFilter to create a smooth
- * representation of this tract, i.e. a 3-D univariate B-spline curve.  Now
- * suppose the user has a point in space near this tract and s/he wants to
- * determine which point on the B-spline curve is closest to this query point.
- * The user can take the control points from the fitting operation (i.e. the
- * results of itkBSplineScatteredDataPointSetToImageFilter) using the function
- *
- * GetControlPointPhiLattice()
- *
- * and input that control point lattice into this class.  S/he can then
- * call CalculateParametersClosestToDataPoint( PointDataType, PointType & )
- * to get this parametric point on the curve.
- *
- *
- * This code was contributed in the Insight Journal paper:
- * "N-D C^k B-Spline Scattered Data Approximation"
- * by Nicholas J. Tustison, James C. Gee
- * http://hdl.handle.net/1926/140
- * http://www.insight-journal.org/browse/publication/57
- *
- *
- * \ingroup ITKReview
- */
-template<class TControlPointLattice>
-class ITK_EXPORT BSplineParametricDistanceCostFunction
-  : public SingleValuedCostFunction
-{
-public:
-  typedef BSplineParametricDistanceCostFunction    Self;
-  typedef SingleValuedCostFunction                 Superclass;
-  typedef SmartPointer<Self>                       Pointer;
-  typedef SmartPointer<const Self>                 ConstPointer;
-
-  /** Extract parametric dimension from input image. */
-  itkStaticConstMacro( ParametricDimension, unsigned int,
-                       TControlPointLattice::ImageDimension );
-
-  /** Run-time type information (and related methods). */
-  itkTypeMacro( BSplineParametricDistanceCostFunction,
-    SingleValuedCostFunction );
-
-  /** Method for creation through the object factory. */
-  itkNewMacro( Self );
-
-  typedef Superclass::MeasureType    MeasureType;
-  typedef Superclass::DerivativeType DerivativeType;
-  typedef Superclass::ParametersType ParametersType;
-
-  typedef FixedArray<unsigned,
-    itkGetStaticConstMacro( ParametricDimension )>    ArrayType;
-
-  //
-  // Define the parameters of the B-spline object.
-  //
-
-  /**
-   * Set the control point lattice defining the B-spline object.
-   */
-  itkSetObjectMacro( ControlPointLattice, TControlPointLattice );
-
-  /**
-   * Set the parametric origin of the B-spline object domain.
-   */
-  itkSetMacro( Origin, typename TControlPointLattice::PointType );
-
-  /**
-   * Set the parametric spacing of the B-spline object domain.
-   */
-  itkSetMacro( Spacing, typename TControlPointLattice::SpacingType );
-
-  /**
-   * Set the parametric size of the B-spline object domain.
-   */
-  itkSetMacro( Size, typename TControlPointLattice::SizeType );
-
-  /**
-   * Set the spline order of the B-spline object.
-   */
-  itkSetMacro( SplineOrder, ArrayType );
-
-  /**
-   * Set the boolean array indicating the periodicity of the B-spline object.
-   * This array of 0/1 values defines whether a particular dimension of the
-   * parametric space is to be considered periodic or not. For example, if you
-   * are using interpolating along a 1D closed curve, the array type will have
-   * size 1, and you should set the first element of this array to the value
-   * "1". In the case that you were interpolating in a planar surface with
-   * cylindrical topology, the array type will have two components, and you
-   * should set to "1" the component that goes around the cylinder, and set to
-   * "0" the component that goes from the top of the cylinder to the bottom.
-   * This will indicate the periodity of that parameter to the filter.
-   * Internally, in order to make periodic the domain of the parameter, the
-   * filter will reuse some of the points at the beginning of the domain as if
-   * they were also located at the end of the domain. The number of points to
-   * be reused will depend on the spline order. As a user, you don't need to
-   * replicate the points, the filter will do this for you. */
-  itkSetMacro( CloseDimension, ArrayType );
-
-  /**
-   * Set the query data point which will be used to find which parametric value
-   * is closest to the B-spline object.
-   */
-  itkSetMacro( DataPoint, typename TControlPointLattice::PixelType );
-
-  /**
-   * Get the value of the specified cost function.
-   */
-  virtual MeasureType GetValue( const ParametersType & parameters ) const;
-
-  /**
-   * Get the derivative of the specified cost function.
-   */
-  virtual void GetDerivative( const ParametersType & parameters,
-                              DerivativeType & derivative ) const;
-
-  /**
-   * Get the number of parameters the specified cost function.
-   */
-  virtual unsigned int GetNumberOfParameters() const;
-
-protected:
-  BSplineParametricDistanceCostFunction();
-  virtual ~BSplineParametricDistanceCostFunction();
-  void PrintSelf(std::ostream & os, Indent indent) const;
-
-private:
-  BSplineParametricDistanceCostFunction(const Self&); //purposely not implemented
-  void operator=(const Self&);        //purposely not implemented
-
-  typename TControlPointLattice::Pointer         m_ControlPointLattice;
-  typename TControlPointLattice::PointType       m_Origin;
-  typename TControlPointLattice::SpacingType     m_Spacing;
-  typename TControlPointLattice::SizeType        m_Size;
-
-  ArrayType m_SplineOrder;
-  ArrayType m_CloseDimension;
-
-  typename TControlPointLattice::PixelType       m_DataPoint;
-};
-
 /**
  * \class BSplineControlPointImageFunction
  *
@@ -216,11 +60,11 @@ private:
  *
  * \author Nicholas J. Tustison
  *
- * \ingroup ITKReview
+ * \ingroup ITKImageGrid
  */
 template <class TInputImage, class TCoordRep = double>
 class BSplineControlPointImageFunction
-  : public ImageFunction<TInputImage, typename TInputImage::PixelType, TCoordRep>
+: public ImageFunction<TInputImage, typename TInputImage::PixelType, TCoordRep>
 {
 public:
   typedef BSplineControlPointImageFunction              Self;
@@ -233,9 +77,7 @@ public:
   itkNewMacro(Self);
 
   /** Extract dimension from input image. */
-  itkStaticConstMacro( ImageDimension, unsigned int,
-                       TInputImage::ImageDimension );
-
+  itkStaticConstMacro( ImageDimension, unsigned int, TInputImage::ImageDimension );
 
   /** Image typedef support */
   typedef TInputImage                         ControlPointLatticeType;
@@ -257,12 +99,10 @@ public:
   typedef VariableSizeMatrix<CoordRepType>    HessianComponentType;
 
   /** Other typedef */
-  typedef FixedArray<unsigned,
-    itkGetStaticConstMacro( ImageDimension )>       ArrayType;
-  typedef Image<CoordRepType,
-    itkGetStaticConstMacro( ImageDimension )>       RealImageType;
-  typedef typename RealImageType::Pointer           RealImagePointer;
-  typedef typename Superclass::ContinuousIndexType  ContinuousIndexType;
+  typedef FixedArray<unsigned, ImageDimension>       ArrayType;
+  typedef Image<CoordRepType, ImageDimension>        RealImageType;
+  typedef typename RealImageType::Pointer            RealImagePointer;
+  typedef typename Superclass::ContinuousIndexType   ContinuousIndexType;
 
   /** Interpolation kernel type (default spline order = 3) */
   typedef CoxDeBoorBSplineKernelFunction<3> KernelType;
@@ -430,14 +270,6 @@ public:
    */
   HessianComponentType EvaluateHessian(
     const PointType &, const unsigned int ) const;
-
-  /**
-   * Given a B-spline object value and an initial parametric guess, use
-   * bounded optimization (LBFGSB) to find the parameters corresponding to the
-   * B-spline object value.
-   */
-  void CalculateParametersClosestToDataPoint(
-    const OutputType, PointType & ) const;
 
 protected:
   BSplineControlPointImageFunction();

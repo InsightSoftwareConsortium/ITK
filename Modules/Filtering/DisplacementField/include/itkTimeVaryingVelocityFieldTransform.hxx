@@ -35,7 +35,7 @@ TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
 {
   this->m_LowerTimeBound = 0.0;
   this->m_UpperTimeBound = 1.0;
-  this->m_NumberOfIntegrationSteps = 10;
+  this->m_NumberOfIntegrationSteps = 100;
   this->m_IntegrateTimeVaryingVelocityField = true;
   this->m_TimeVaryingVelocityFieldSetTime = 0;
 
@@ -63,17 +63,94 @@ TimeVaryingVelocityFieldTransform<TScalar, NDimensions>::
 {
 }
 
-/** Leave CreateAnother undefined. To fully implement here, it must be
- * sure to copy all members. It may be called from transform-cloning
- * that only copies parameters, so override here to prevent
- * its use without copying full members. */
-template<class TScalar, unsigned int NDimensions>
-::itk::LightObject::Pointer
+template <class TScalar, unsigned int NDimensions>
+void
 TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
-::CreateAnother() const
+::SetFixedParameters( const ParametersType & fixedParameters )
 {
-  itkExceptionMacro( "CreateAnother unimplemented. See source comments." );
+  if( fixedParameters.Size() != TimeVaryingVelocityFieldDimension * ( TimeVaryingVelocityFieldDimension + 3 ) )
+    {
+    itkExceptionMacro( "The fixed parameters are not the right size." );
+    }
+
+  SizeType size;
+  for( unsigned int d = 0; d < TimeVaryingVelocityFieldDimension; d++ )
+    {
+    size[d] = fixedParameters[d];
+    }
+
+  PointType origin;
+  for( unsigned int d = 0; d < TimeVaryingVelocityFieldDimension; d++ )
+    {
+    origin[d] = fixedParameters[d + TimeVaryingVelocityFieldDimension];
+    }
+
+  SpacingType spacing;
+  for( unsigned int d = 0; d < TimeVaryingVelocityFieldDimension; d++ )
+    {
+    spacing[d] = fixedParameters[d + 2 * TimeVaryingVelocityFieldDimension];
+    }
+
+  DirectionType direction;
+  for( unsigned int di = 0; di < TimeVaryingVelocityFieldDimension; di++ )
+    {
+    for( unsigned int dj = 0; dj < TimeVaryingVelocityFieldDimension; dj++ )
+      {
+      direction[di][dj] = fixedParameters[3 * TimeVaryingVelocityFieldDimension + ( di * TimeVaryingVelocityFieldDimension + dj )];
+      }
+    }
+
+  DisplacementVectorType zeroDisplacement;
+  zeroDisplacement.Fill( 0.0 );
+
+  TimeVaryingVelocityFieldPointer velocityField = TimeVaryingVelocityFieldType::New();
+  velocityField->SetSpacing( spacing );
+  velocityField->SetOrigin( origin );
+  velocityField->SetDirection( direction );
+  velocityField->SetRegions( size );
+  velocityField->Allocate();
+  velocityField->FillBuffer( zeroDisplacement );
+
+  this->SetTimeVaryingVelocityField( velocityField );
 }
+
+//template <class TScalar, unsigned int NDimensions>
+//typename TimeVaryingVelocityFieldTransform<TScalar, NDimensions>::ParametersType
+//TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
+//::GetFixedParameters() const
+//{
+//  ParametersType fixedParameters;
+//  fixedParameters.SetSize( TimeVaryingVelocityFieldDimension * ( TimeVaryingVelocityFieldDimension + 3 ) );
+//
+//  SizeType size = this->GetTimeVaryingVelocityField()->GetLargestPossibleRegion().GetSize();
+//  for( unsigned int d = 0; d < TimeVaryingVelocityFieldDimension; d++ )
+//    {
+//    fixedParameters[d] = static_cast<ParametersValueType>( size[d] );
+//    }
+//
+//  PointType origin = this->GetTimeVaryingVelocityField()->GetOrigin();
+//  for( unsigned int d = 0; d < TimeVaryingVelocityFieldDimension; d++ )
+//    {
+//    fixedParameters[d + TimeVaryingVelocityFieldDimension] = origin[d];
+//    }
+//
+//  SpacingType spacing = this->GetTimeVaryingVelocityField()->GetSpacing();
+//  for( unsigned int d = 0; d < TimeVaryingVelocityFieldDimension; d++ )
+//    {
+//    fixedParameters[d + 2 * TimeVaryingVelocityFieldDimension] = spacing[d];
+//    }
+//
+//  DirectionType direction = this->GetTimeVaryingVelocityField()->GetDirection();
+//  for( unsigned int di = 0; di < TimeVaryingVelocityFieldDimension; di++ )
+//    {
+//    for( unsigned int dj = 0; dj < TimeVaryingVelocityFieldDimension; dj++ )
+//      {
+//      fixedParameters[3 * TimeVaryingVelocityFieldDimension + ( di * TimeVaryingVelocityFieldDimension + dj )] = direction[di][dj];
+//      }
+//    }
+//
+//  return fixedParameters;
+//}
 
 /**
  * return an inverse transformation
@@ -171,7 +248,7 @@ TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
 template<class TScalar, unsigned int NDimensions>
 void
 TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
-::SetParameters(const ParametersType & params)
+::SetParameters( const ParametersType & params )
 {
   if( &(this->m_Parameters) != &params )
     {
@@ -187,7 +264,6 @@ TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
     }
 }
 
-
 template<class TScalar, unsigned int NDimensions>
 void
 TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
@@ -196,6 +272,8 @@ TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
   //This simply adds the values.
   //TODO: This should be multi-threaded probably, via image add filter.
   Superclass::UpdateTransformParameters( update, factor );
+
+  this->IntegrateVelocityField();
 }
 
 template<class TScalar, unsigned int NDimensions>
@@ -215,8 +293,6 @@ void TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
       }
     // Assign to parameters object
     this->m_Parameters.SetParametersObject( this->m_TimeVaryingVelocityField );
-
-
     }
 }
 

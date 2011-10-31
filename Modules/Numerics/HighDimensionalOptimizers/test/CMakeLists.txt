@@ -11,6 +11,7 @@ set(ITKHighDimensionalOptimizersTests
   itkRegistrationParameterScalesFromShiftTest.cxx
   itkRegistrationParameterScalesFromJacobianTest.cxx
   itkAutoScaledGradientDescentRegistrationTest.cxx
+  itkWindowConvergenceMonitoringFunctionTest.cxx
 )
 
 set(INPUTDATA ${ITK_DATA_ROOT}/Input)
@@ -21,6 +22,9 @@ CreateTestDriver(ITKHighDimensionalOptimizers  "${ITKHighDimensionalOptimizers-T
 
 itk_add_test(NAME itkArray1DToDataTest
          COMMAND ITKHighDimensionalOptimizersTestDriver itkArray1DToDataTest)
+
+itk_add_test(NAME itkWindowConvergenceMonitoringFunctionTest
+         COMMAND ITKHighDimensionalOptimizersTestDriver itkWindowConvergenceMonitoringFunctionTest)
 
 itk_add_test(NAME itkObjectToObjectOptimizerBaseTest
          COMMAND ITKHighDimensionalOptimizersTestDriver

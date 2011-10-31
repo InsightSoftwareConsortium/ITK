@@ -5,6 +5,8 @@ itkBSplineScatteredDataPointSetToImageFilterTest.cxx
 itkBSplineScatteredDataPointSetToImageFilterTest2.cxx
 itkBSplineScatteredDataPointSetToImageFilterTest3.cxx
 itkBSplineScatteredDataPointSetToImageFilterTest4.cxx
+itkBSplineControlPointImageFilterTest.cxx
+itkBSplineControlPointImageFunctionTest.cxx
 itkChangeInformationImageFilterTest.cxx
 itkConstantPadImageTest.cxx
 itkCoxDeBoorBSplineKernelFunctionTest.cxx
@@ -70,6 +72,18 @@ itk_add_test(NAME itkBSplineScatteredDataPointSetToImageFilterTest03
               DATA{${ITK_DATA_ROOT}/Input/BSplineScatteredApproximationDataPointsInput.txt})
 itk_add_test(NAME itkBSplineScatteredDataPointSetToImageFilterTest04
       COMMAND ITKImageGridTestDriver itkBSplineScatteredDataPointSetToImageFilterTest4)
+itk_add_test(NAME itkBSplineControlPointImageFilterTest1
+      COMMAND ITKImageGridTestDriver
+    --compare ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_2D_output.nii.gz
+              ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_2D_outputRefined.nii.gz
+    itkBSplineControlPointImageFilterTest 2 DATA{${ITK_DATA_ROOT}/Baseline/Review/N4ControlPoints_2D.nii.gz} ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_2D_output.nii.gz ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_2D_outputRefined.nii.gz)
+itk_add_test(NAME itkBSplineControlPointImageFilterTest2
+      COMMAND ITKImageGridTestDriver
+    --compare ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_3D_output.nii.gz
+              ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_3D_outputRefined.nii.gz
+    itkBSplineControlPointImageFilterTest 3 DATA{${ITK_DATA_ROOT}/Baseline/Review/N4ControlPoints_3D.nii.gz} ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_3D_output.nii.gz ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_3D_outputRefined.nii.gz)
+itk_add_test(NAME itkBSplineControlPointImageFunctionTest
+      COMMAND ITKImageGridTestDriver itkBSplineControlPointImageFunctionTest)
 itk_add_test(NAME itkChangeInformationImageFilterTest
       COMMAND ITKImageGridTestDriver itkChangeInformationImageFilterTest)
 itk_add_test(NAME itkConstantPadImageTest

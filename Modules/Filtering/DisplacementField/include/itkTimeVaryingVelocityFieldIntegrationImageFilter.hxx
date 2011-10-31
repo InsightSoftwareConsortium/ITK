@@ -36,7 +36,7 @@ TimeVaryingVelocityFieldIntegrationImageFilter
 {
   this->m_LowerTimeBound =  0.0,
   this->m_UpperTimeBound = 1.0,
-  this->m_NumberOfIntegrationSteps = 10;
+  this->m_NumberOfIntegrationSteps = 100;
 
   this->SetNumberOfRequiredInputs( 1 );
 
@@ -83,7 +83,6 @@ TimeVaryingVelocityFieldIntegrationImageFilter
     {
     return;
     }
-
 
   //
   // The ImageBase::CopyInformation() method ca not be used here
@@ -197,12 +196,12 @@ TimeVaryingVelocityFieldIntegrationImageFilter
 
   // Initial conditions
 
-  PointType spatialPoint = initialSpatialPoint;
+  PointType startingSpatialPoint = initialSpatialPoint;
   if( !this->m_InitialDiffeomorphism.IsNull() )
     {
-    if( this->m_DisplacementFieldInterpolator->IsInsideBuffer( spatialPoint ) )
+    if( this->m_DisplacementFieldInterpolator->IsInsideBuffer( startingSpatialPoint ) )
       {
-      spatialPoint += this->m_DisplacementFieldInterpolator->Evaluate( spatialPoint );
+      startingSpatialPoint += this->m_DisplacementFieldInterpolator->Evaluate( startingSpatialPoint );
       }
     }
 
@@ -225,96 +224,92 @@ TimeVaryingVelocityFieldIntegrationImageFilter
     {
     lastIndex[d] += ( size[d] - 1 );
     }
-
   typename TimeVaryingVelocityFieldType::PointType spaceTimeEnd;
-
   inputField->TransformIndexToPhysicalPoint( lastIndex, spaceTimeEnd );
 
-  const RealType timeOrigin = spaceTimeOrigin[InputImageDimension-1];
-  const RealType timeEnd = spaceTimeEnd[InputImageDimension-1];
-  const RealType timeSpan = timeEnd - timeOrigin;
-
   // Calculate the delta time used for integration
-  const RealType timeFraction = ( this->m_UpperTimeBound - this->m_LowerTimeBound ) /
-    static_cast<RealType>( this->m_NumberOfIntegrationSteps );
-
-  const RealType deltaTime = timeSpan * timeFraction;
+  const RealType deltaTime = vnl_math_abs( this->m_UpperTimeBound - this->m_LowerTimeBound ) /
+    static_cast<RealType>( this->m_NumberOfIntegrationSteps - 1 );
 
   if( deltaTime == 0.0 )
     {
     return zeroVector;
     }
 
+  const RealType timeOrigin = spaceTimeOrigin[InputImageDimension-1];
+  const RealType timeEnd = spaceTimeEnd[InputImageDimension-1];
+  const RealType timeSpan = timeEnd - timeOrigin;
+  const RealType timeFraction = timeSpan * deltaTime;
+
+  RealType timeSign = 1.0;
+  if( this->m_UpperTimeBound < this->m_LowerTimeBound )
+    {
+    timeSign = -1.0;
+    }
+
   RealType timePoint = timeOrigin + this->m_LowerTimeBound * timeSpan;
+
+  VectorType displacement = zeroVector;
 
   for( unsigned int n = 0; n < this->m_NumberOfIntegrationSteps; n++ )
     {
+    PointType spatialPoint = startingSpatialPoint + displacement;
+
     typename TimeVaryingVelocityFieldType::PointType x1;
     for( unsigned int d = 0; d < OutputImageDimension; d++ )
       {
-      x1[d] = spatialPoint[d];
+      x1[d] = spatialPoint[d] + displacement[d];
       }
-
-    x1[OutputImageDimension] = timePoint;
+    x1[OutputImageDimension] = timePoint - timeSign * timeFraction;
 
     VectorType f1 = zeroVector;
-
     if( this->m_VelocityFieldInterpolator->IsInsideBuffer( x1 ) )
       {
-      f1 = this->m_VelocityFieldInterpolator->Evaluate( x1 ) * timeFraction;
+      f1 = this->m_VelocityFieldInterpolator->Evaluate( x1 );
       }
 
     typename TimeVaryingVelocityFieldType::PointType x2;
     for( unsigned int d = 0; d < OutputImageDimension; d++ )
       {
-      x2[d] = spatialPoint[d] + f1[d] * 0.5;
+      x2[d] = spatialPoint[d] + displacement[d] + f1[d] * 0.5 * deltaTime;
       }
-
-    x2[OutputImageDimension] = timePoint + 0.5 * deltaTime;
+    x2[OutputImageDimension] = timePoint - timeSign * timeFraction * 0.5;
 
     VectorType f2 = zeroVector;
-
     if( this->m_VelocityFieldInterpolator->IsInsideBuffer( x2 ) )
       {
-      f2 = this->m_VelocityFieldInterpolator->Evaluate( x2 ) * timeFraction;
+      f2 = this->m_VelocityFieldInterpolator->Evaluate( x2 );
       }
 
     typename TimeVaryingVelocityFieldType::PointType x3;
     for( unsigned int d = 0; d < OutputImageDimension; d++ )
       {
-      x3[d] = spatialPoint[d] + f2[d] * 0.5;
+      x3[d] = spatialPoint[d] + displacement[d] + f2[d] * 0.5 * deltaTime;
       }
-
-    x3[OutputImageDimension] = timePoint + 0.5 * deltaTime;
+    x3[OutputImageDimension] = timePoint - timeSign * timeFraction * 0.5;
 
     VectorType f3 = zeroVector;
-
     if( this->m_VelocityFieldInterpolator->IsInsideBuffer( x3 ) )
       {
-      f3 = this->m_VelocityFieldInterpolator->Evaluate( x3 ) * timeFraction;
+      f3 = this->m_VelocityFieldInterpolator->Evaluate( x3 );
       }
 
     typename TimeVaryingVelocityFieldType::PointType x4;
     for( unsigned int d = 0; d < OutputImageDimension; d++ )
       {
-      x4[d] = spatialPoint[d] + f3[d];
+      x4[d] = spatialPoint[d] + displacement[d] + f3[d] * deltaTime;
       }
-
-    x4[OutputImageDimension] = timePoint + deltaTime;
+    x4[OutputImageDimension] = timePoint;
 
     VectorType f4 = zeroVector;
-
     if( this->m_VelocityFieldInterpolator->IsInsideBuffer( x4 ) )
       {
-      f4 = this->m_VelocityFieldInterpolator->Evaluate( x4 ) * timeFraction;
+      f4 = this->m_VelocityFieldInterpolator->Evaluate( x4 );
       }
 
-    spatialPoint += ( ( f1 + f2 * 2.0 + f3 * 2.0 + f4 ) / 6.0 );
-    timePoint += deltaTime;
+    displacement += ( timeSign * deltaTime * ( f1 + f2 * 2.0 + f3 * 2.0 + f4 ) / 6.0 );
+    timePoint += ( timeSign * timeFraction );
     }
-
-  const VectorType displacement = spatialPoint - initialSpatialPoint;
-
   return displacement;
 }
 
