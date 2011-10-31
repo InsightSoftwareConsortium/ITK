@@ -3,7 +3,6 @@ set(ITKHighDimensionalMetricsTests
   itkEuclideanDistancePointSetMetricTest.cxx
   itkExpectationBasedPointSetMetricTest.cxx
   itkJensenHavrdaCharvatTsallisPointSetMetricTest.cxx
-  itkObjectToObjectMetricTest.cxx
   itkImageToImageObjectMetricTest.cxx
   itkJointHistogramMutualInformationImageToImageObjectMetricTest.cxx
   itkJointHistogramMutualInformationImageToImageObjectRegistrationTest.cxx
@@ -20,12 +19,12 @@ CreateTestDriver(ITKHighDimensionalMetrics  "${ITKHighDimensionalMetrics-Test_LI
 
 itk_add_test(NAME itkEuclideanDistancePointSetMetricTest
       COMMAND ITKHighDimensionalMetricsTestDriver itkEuclideanDistancePointSetMetricTest)
+
 itk_add_test(NAME itkExpectationBasedPointSetMetricTest
       COMMAND ITKHighDimensionalMetricsTestDriver itkExpectationBasedPointSetMetricTest)
+
 itk_add_test(NAME itkJensenHavrdaCharvatTsallisPointSetMetricTest
       COMMAND ITKHighDimensionalMetricsTestDriver itkJensenHavrdaCharvatTsallisPointSetMetricTest)
-itk_add_test(NAME itkObjectToObjectMetricTest
-      COMMAND ITKHighDimensionalMetricsTestDriver itkObjectToObjectMetricTest)
 
 itk_add_test(NAME itkImageToImageObjectMetricTest
       COMMAND ITKHighDimensionalMetricsTestDriver
