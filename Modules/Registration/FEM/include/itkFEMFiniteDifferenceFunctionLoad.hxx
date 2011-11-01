@@ -213,7 +213,6 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::EvaluateMetricGivenSolution( Elem
 }
 
 
-
 template <class TMoving, class TFixed>
 typename FiniteDifferenceFunctionLoad<TMoving, TFixed>::FEMVectorType
 FiniteDifferenceFunctionLoad<TMoving, TFixed>::Fe( FEMVectorType  Gpos )

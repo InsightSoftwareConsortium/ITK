@@ -188,7 +188,7 @@ public:
       {
       this->m_DifferenceFunction->SetMovingImage(m_MovingImage);
       }
-  };
+  }
 
   /** Define the target (fixed) image. */
   void SetFixedImage(FixedImageType* T)
