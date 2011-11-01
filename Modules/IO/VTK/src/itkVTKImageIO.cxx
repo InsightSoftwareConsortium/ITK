@@ -194,7 +194,7 @@ void VTKImageIO::InternalReadImageInformation(std::ifstream & file)
        || text.find("dimensions") < text.length() )
     {
     unsigned int dims[3];
-    sscanf(line, "%*s %d %d %d", dims, dims + 1, dims + 2);
+    sscanf(line, "%*s %u %u %u", dims, dims + 1, dims + 2);
     if ( dims[1] <= 1 && dims[2] <= 1 )
       {
       this->SetNumberOfDimensions(2);

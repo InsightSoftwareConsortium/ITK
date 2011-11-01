@@ -22,11 +22,11 @@
 
 namespace itkSTLThreadTestImpl
 {
-int done = 0;
-int numberOfIterations = 10;
+static int done = 0;
+static int numberOfIterations = 10;
 
-ITK_THREAD_RETURN_TYPE Runner(void*);
-int Thread(int);
+static ITK_THREAD_RETURN_TYPE Runner(void*);
+static int Thread(int);
 } // namespace itkSTLThreadTestImpl
 
 int itkSTLThreadTest(int argc, char* argv[])
@@ -118,7 +118,7 @@ int itkSTLThreadTest(int argc, char* argv[])
 namespace itkSTLThreadTestImpl
 {
 
-ITK_THREAD_RETURN_TYPE Runner(void* infoIn)
+static ITK_THREAD_RETURN_TYPE Runner(void* infoIn)
 {
   // Get the thread id and result pointer and run the method for this
   // thread.
@@ -137,7 +137,7 @@ ITK_THREAD_RETURN_TYPE Runner(void* infoIn)
   return EXIT_SUCCESS;
 }
 
-int Thread(int tnum)
+static int Thread(int tnum)
 {
   // Implementation in individual thread.  We don't care about
   // mutexing the output because it doesn't matter for the test.

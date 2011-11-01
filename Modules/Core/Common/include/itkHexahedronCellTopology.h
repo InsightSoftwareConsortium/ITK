@@ -40,7 +40,7 @@ class ITKCommon_EXPORT HexahedronCellTopology
 {
 public:
   HexahedronCellTopology();
-  ~HexahedronCellTopology();
+  virtual ~HexahedronCellTopology();
 protected:
 
   /** Hexahedron topology data. */

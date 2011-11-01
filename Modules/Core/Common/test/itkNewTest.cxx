@@ -43,6 +43,8 @@
     void Visit ( int, Bogus* ) {};
     int GetCellTopologyId() { return 1; };
     int GetTopologyId() { return 1; };
+    Bogus() {}
+    virtual ~Bogus() {}
   };
 
 int itkNewTest ( int , char* [] )

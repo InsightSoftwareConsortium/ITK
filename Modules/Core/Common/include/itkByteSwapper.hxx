@@ -92,6 +92,10 @@ ByteSwapper< T >
 }
 
 #else
+
+#ifdef __INTEL_COMPILER
+#pragma warning disable 280 //remark #280: selector expression is constant
+#endif
 template< class T >
 void
 ByteSwapper< T >

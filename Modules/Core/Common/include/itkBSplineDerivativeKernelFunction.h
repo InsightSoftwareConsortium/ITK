@@ -79,7 +79,7 @@ private:
   /** Structures to control overloaded versions of Evaluate */
   struct DispatchBase {};
   template< unsigned int >
-  struct Dispatch: DispatchBase {};
+  struct Dispatch: public DispatchBase {};
 
   /** Evaluate the function:  zeroth order spline. */
   inline double Evaluate( const Dispatch<0>&, const double & itkNotUsed( u ) )

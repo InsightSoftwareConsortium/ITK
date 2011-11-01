@@ -103,7 +103,7 @@ private:
   // To control overloaded versions of ComputeThreshold
   struct DispatchBase {};
   template< signed int VDimension >
-  struct Dispatch: DispatchBase {};
+  struct Dispatch: public DispatchBase {};
 
   /** This method computes the threshold by averaging the intensity
    *  in direction perpendicular to the image gradient. */

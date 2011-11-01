@@ -81,7 +81,7 @@ class vnl_svd
   // zeroing is relative to |zero_out_tol| * sigma_max();
 
   vnl_svd(vnl_matrix<T> const &M, double zero_out_tol = 0.0);
- ~vnl_svd() {}
+ virtual ~vnl_svd() {}
 
   // Data Access---------------------------------------------------------------
 
