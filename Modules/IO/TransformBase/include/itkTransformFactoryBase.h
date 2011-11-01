@@ -34,7 +34,7 @@ namespace itk
 {
 /** \class TransformFactoryBase
  * \brief Create instances of Transforms
- * \ingroup ITKTransform
+ * \ingroup ITKIOTransformBase
  */
 
 class ITK_EXPORT TransformFactoryBase:public ObjectFactoryBase
