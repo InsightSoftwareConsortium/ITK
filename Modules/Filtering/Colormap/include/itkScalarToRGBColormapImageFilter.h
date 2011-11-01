@@ -131,6 +131,24 @@ protected:
 
   void PrintSelf(std::ostream & os, Indent indent) const;
 
+  virtual void GenerateOutputInformation()
+  {
+    // this methods is overloaded so that if the output image is a
+    // VectorImage then the correct number of components are set.
+
+    Superclass::GenerateOutputInformation();
+    OutputImageType* output = this->GetOutput();
+
+    if ( !output )
+      {
+      return;
+      }
+    if ( output->GetNumberOfComponentsPerPixel() != 3 )
+      {
+      output->SetNumberOfComponentsPerPixel( 3 );
+      }
+  }
+
   /** ScalarToRGBColormapImageFilter
    * can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData() routine

@@ -34,6 +34,7 @@ BlueColormapFunction< TScalar, TRGBPixel >
 
   // Set the rgb components after rescaling the values.
   RGBPixelType pixel;
+  NumericTraits<TRGBPixel>::SetLength(pixel, 3);
 
   pixel[0] = 0;
   pixel[1] = 0;
