@@ -10,6 +10,7 @@ itk_module(ITKFFT
     ITKCommon
     ITKImageGrid
   TEST_DEPENDS
+    ITKImageCompare
     ITKTestKernel
   DESCRIPTION
     "${DOCUMENTATION}"

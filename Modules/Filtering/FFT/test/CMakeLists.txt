@@ -5,6 +5,7 @@ itkHalfToFullHermitianImageFilterTest.cxx
 itkFullToHalfHermitianImageFilterTest.cxx
 itkVnlFFTTest.cxx
 itkVnlRealFFTTest.cxx
+itkForwardInverseFFTImageFilterTest.cxx
 )
 
 if (USE_FFTWF)
@@ -110,3 +111,9 @@ itk_add_test(NAME itkFullToHalfHermitianImageFilterTestOddEven
 itk_add_test(NAME itkFullToHalfHermitianImageFilterTestOddOdd
   COMMAND ITKFFTTestDriver
   itkFullToHalfHermitianImageFilterTest 15 15)
+itk_add_test(NAME itkForwardInverseFFTImageFilterTest1
+  COMMAND ITKFFTTestDriver
+  itkForwardInverseFFTImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png})
+itk_add_test(NAME itkForwardInverseFFTImageFilterTest2
+  COMMAND ITKFFTTestDriver
+  itkForwardInverseFFTImageFilterTest DATA{${ITK_DATA_ROOT}/Input/Shapes.png})
