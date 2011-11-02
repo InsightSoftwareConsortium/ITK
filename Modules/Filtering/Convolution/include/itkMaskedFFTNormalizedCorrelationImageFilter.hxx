@@ -66,6 +66,11 @@ public:
     m_RequiredNumberOfOverlappingVoxels = value;
   }
 
+  void SetPrecisionTolerance( double value )
+  {
+    m_PrecisionTolerance = value;
+  }
+
   bool operator!=(const PostProcessCorrelation &) const
   {
     return false;
@@ -79,7 +84,7 @@ public:
   inline TImage operator()( const TImage & NCC, const TImage & denominator, const TImage & numberOfOverlapVoxels ) const
   {
     TImage outputValue;
-    if( denominator == 0.0 || numberOfOverlapVoxels == 0.0 || numberOfOverlapVoxels < m_RequiredNumberOfOverlappingVoxels )
+    if( denominator < m_PrecisionTolerance || numberOfOverlapVoxels == 0.0 || numberOfOverlapVoxels < m_RequiredNumberOfOverlappingVoxels )
     {
       outputValue = 0.0;
     }
@@ -100,6 +105,7 @@ public:
 
 private:
   unsigned long m_RequiredNumberOfOverlappingVoxels;
+  double        m_PrecisionTolerance;
 };
 }
 
@@ -197,6 +203,9 @@ void MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage>
   fixedDenom = NULL;  // No longer needed
   rotatedMovingDenom = NULL; // No longer needed
 
+  // Determine a tolerance on the precision of the denominator values.
+  double precisionTolerance = CalculatePrecisionTolerance<RealImageType>( denominator );
+
   RealImagePointer NCC = this->ElementQuotient<RealImageType>(numerator,denominator);
   numerator = NULL; // No longer needed
 
@@ -219,6 +228,7 @@ void MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage>
   typedef itk::TernaryFunctorImageFilter< RealImageType,RealImageType,RealImageType,RealImageType,Functor::PostProcessCorrelation<RealPixelType> > PostProcessType;
   typename PostProcessType::Pointer postProcessor = PostProcessType::New();
   postProcessor->GetFunctor().SetRequiredNumberOfOverlappingVoxels( m_RequiredNumberOfOverlappingVoxels );
+  postProcessor->GetFunctor().SetPrecisionTolerance( precisionTolerance );
   postProcessor->SetInput1( NCC );
   postProcessor->SetInput2( denominator );
   postProcessor->SetInput3( numberOfOverlapVoxels );
@@ -312,7 +322,7 @@ typename LocalOutputImageType::Pointer
 MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage>
 ::CalculateForwardFFT( LocalInputImageType * inputImage, InputSizeType & FFTImageSize )
 {
-  RealPixelType constantPixel = 0;
+  typename LocalInputImageType::PixelType constantPixel = 0;
   typename LocalInputImageType::SizeType upperPad;
   upperPad = FFTImageSize - inputImage->GetLargestPossibleRegion().GetSize();
 
@@ -475,6 +485,35 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage,TOutputImage>
     result = this->FactorizeNumber(newNumber);
     }
   return newNumber;
+}
+
+// Find the precision tolerance.
+template< class TInputImage, class TOutputImage >
+template< class LocalInputImageType >
+double
+MaskedFFTNormalizedCorrelationImageFilter<TInputImage,TOutputImage>
+::CalculatePrecisionTolerance( LocalInputImageType * inputImage )
+{
+  // First find the maximum of the inputImage.
+  typedef itk::MinimumMaximumImageCalculator<LocalInputImageType> CalculatorType;
+  typename CalculatorType::Pointer calculator = CalculatorType::New();
+  calculator->SetImage( inputImage );
+  calculator->ComputeMaximum();
+
+  typename LocalInputImageType::IndexType index;
+  index.Fill(0);
+
+  double precisionTolerance;
+  if( typeid(inputImage->GetPixel(index)) == typeid(double) )
+    {
+    precisionTolerance = 1000.0 * vcl_pow(2.0,-52) * vcl_pow(2,vcl_floor(vcl_log(calculator->GetMaximum())/vcl_log(2.0)));
+    }
+  else if( typeid(inputImage->GetPixel(index)) == typeid(float) )
+    {
+    precisionTolerance = 1000.0 * vcl_pow(2.0,-23) * vcl_pow(2,vcl_floor(vcl_log(calculator->GetMaximum())/vcl_log(2.0)));
+    }
+
+  return precisionTolerance;
 }
 
 template< class TInputImage, class TOutputImage>

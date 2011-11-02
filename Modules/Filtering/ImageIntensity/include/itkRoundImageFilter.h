@@ -19,7 +19,7 @@
 #define __itkRoundImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -48,7 +48,7 @@ public:
 
   inline TOutput operator()(const TInput & A) const
   {
-    return (TOutput)vnl_math_rnd( A );
+    return itk::Math::Round<TOutput,TInput>( A );
   }
 };
 }
