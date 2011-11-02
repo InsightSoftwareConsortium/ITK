@@ -216,10 +216,9 @@ void FileListVideoIO::ReadImageInformation()
     m_LastIFrame = m_FrameTotal-1;
 
     // Fill Dimensions and Origin
-    m_Dimensions.clear();
-    m_Origin.clear();
     unsigned int numberOfDimensions = m_ImageIO->GetNumberOfDimensions();
     this->SetNumberOfDimensions( numberOfDimensions );
+
     for (unsigned int i = 0; i < numberOfDimensions; ++i)
       {
       m_Dimensions[i] = m_ImageIO->GetDimensions(i);
