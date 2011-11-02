@@ -20,13 +20,11 @@
 #include "itkImageVectorOptimizerParametersHelper.h"
 #include "itkTestingMacros.h"
 
-using namespace itk;
-
 namespace{
 
 typedef double                                        ValueType;
-const   SizeValueType                                 ImageDimension = 2;
-const   SizeValueType                                 VectorDimension = 4;
+const   itk::SizeValueType                            ImageDimension = 2;
+const   itk::SizeValueType                            VectorDimension = 4;
 typedef itk::Vector< ValueType, VectorDimension >     VectorPixelType;
 typedef itk::Image< VectorPixelType, ImageDimension > ImageVectorType;
 typedef ImageVectorType::Pointer                      ImageVectorPointer;
@@ -34,21 +32,21 @@ typedef ImageVectorType::RegionType                   RegionType;
 typedef RegionType::SizeType                          SizeType;
 typedef ImageVectorType::IndexType                    IndexType;
 typedef ImageVectorType::PixelContainer               VectorPixelContainer;
-typedef OptimizerParameters< ValueType >              OptimizerParametersType;
-typedef ImageVectorOptimizerParametersHelper< ValueType,
+typedef itk::OptimizerParameters< ValueType >         OptimizerParametersType;
+typedef itk::ImageVectorOptimizerParametersHelper< ValueType,
                                         VectorDimension,
                                         ImageDimension >
                                       ImageVectorOptimizerParametersHelperType;
 
 int testMemoryAccess( OptimizerParametersType& params,
                       ImageVectorPointer imageOfVectors,
-                      SizeValueType dimLength )
+                      itk::SizeValueType dimLength )
 {
   int result = EXIT_SUCCESS;
 
-  for (SizeValueType y = 0; y < dimLength; y++)
+  for (itk::SizeValueType y = 0; y < dimLength; y++)
     {
-    for (SizeValueType x = 0; x < dimLength; x++)
+    for (itk::SizeValueType x = 0; x < dimLength; x++)
       {
       IndexType index;
       index[0] = x;
@@ -56,9 +54,9 @@ int testMemoryAccess( OptimizerParametersType& params,
 
       // The image index returns a N-dim vector, so have to check each
       // element against the values returned by parameter object.
-      OffsetValueType offset = (x + y * dimLength) * VectorDimension;
+      itk::OffsetValueType offset = (x + y * dimLength) * VectorDimension;
       VectorPixelType vectorpixel = imageOfVectors->GetPixel( index );
-      for(SizeValueType ind=0; ind < VectorDimension; ind++)
+      for(itk::SizeValueType ind=0; ind < VectorDimension; ind++)
         {
         ValueType paramsValue = params[offset+ind];
         if( vectorpixel[ind] != paramsValue )
@@ -151,7 +149,7 @@ int itkImageVectorOptimizerParametersHelperTest(int, char *[])
   result = testMemoryAccess( params, imageOfVectors, dimLength );
 
   //Test MoveDataPointer
-  Array<ValueType> array( imageOfVectors->GetPixelContainer()->Size() );
+  itk::Array<ValueType> array( imageOfVectors->GetPixelContainer()->Size() );
   array.Fill(1.23);
   params.MoveDataPointer( array.data_block() );
 
@@ -160,7 +158,7 @@ int itkImageVectorOptimizerParametersHelperTest(int, char *[])
   TRY_EXPECT_EXCEPTION( params.MoveDataPointer( array.data_block() ) );
 
   //Test setting an image of wrong type
-  typedef Image<char, 2>  BadImageType;
+  typedef itk::Image<char, 2>  BadImageType;
   BadImageType::Pointer badImage = BadImageType::New();
   TRY_EXPECT_EXCEPTION( params.SetParametersObject( badImage ) );
 
