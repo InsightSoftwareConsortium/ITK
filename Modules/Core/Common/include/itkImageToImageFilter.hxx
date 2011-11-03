@@ -96,7 +96,7 @@ const typename ImageToImageFilter< TInputImage, TOutputImage >::InputImageType *
 ImageToImageFilter< TInputImage, TOutputImage >
 ::GetInput(unsigned int idx) const
 {
-  return static_cast< const TInputImage * >
+  return dynamic_cast< const TInputImage * >
          ( this->ProcessObject::GetInput(idx) );
 }
 
