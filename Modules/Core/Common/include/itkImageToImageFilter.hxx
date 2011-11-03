@@ -209,18 +209,27 @@ ImageToImageFilter< TInputImage, TOutputImage >
         std::ostringstream originString, spacingString, directionString;
         if ( !inputPtr1->GetOrigin().GetVnlVector().is_equal(inputPtrN->GetOrigin().GetVnlVector(), coordinateTol) )
           {
+          originString.setf( std::ios::scientific );
+          originString.precision( 7 );
           originString << "InputImage Origin: " << inputPtr1->GetOrigin()
                        << ", InputImage" << it.GetName() << " Origin: " << inputPtrN->GetOrigin() << std::endl;
+          originString << "\tTolerance: " << coordinateTol << std::endl;
           }
         if ( !inputPtr1->GetSpacing().GetVnlVector().is_equal(inputPtrN->GetSpacing().GetVnlVector(), coordinateTol) )
           {
+          spacingString.setf( std::ios::scientific );
+          spacingString.precision( 7 );
           spacingString << "InputImage Spacing: " << inputPtr1->GetSpacing()
                         << ", InputImage" << it.GetName() << " Spacing: " << inputPtrN->GetSpacing() << std::endl;
+          spacingString << "\tTolerance: " << coordinateTol << std::endl;
           }
         if ( !inputPtr1->GetDirection().GetVnlMatrix().as_ref().is_equal(inputPtrN->GetDirection().GetVnlMatrix(), directionTol) )
           {
+          directionString.setf( std::ios::scientific );
+          directionString.precision( 7 );
           directionString << "InputImage Direction: " << inputPtr1->GetDirection()
                           << ", InputImage" << it.GetName() << " Direction: " << inputPtrN->GetDirection() << std::endl;
+          directionString << "\tTolerance: " << directionTol << std::endl;
           }
         itkExceptionMacro(<< "Inputs do not occupy the same physical space! "
                           << std::endl
