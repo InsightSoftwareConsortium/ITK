@@ -28,6 +28,10 @@ class vtkImageData;
 
 namespace itk
 {
+/**
+ * \class WhitakerLevelSetTovtkImageData
+ * \ingroup ITKLevelSetsv4Visualization
+ */
 template< typename TOutput, unsigned int VDimension >
 class WhitakerLevelSetTovtkImageData : public ProcessObject
 {

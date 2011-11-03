@@ -42,6 +42,13 @@
 #include "vtkCaptureScreen.h"
 #include "vtkPNGWriter.h"
 
+/** \class vtkVisualize2DLevelSetImageBase
+ *
+ *  \tparam TInputImage Input Image Type
+ *  \tparam TLevelSetImage  Level Set type
+ *
+ *  \ingroup ITKLevelSetsv4Visualization
+ */
 template< class TInputImage, class TLevelSetImage >
 class vtkVisualize2DLevelSetImageBase : public itk::LightObject
 {
@@ -81,14 +88,11 @@ public:
       std::cout << e << std::endl;
       return;
       }
-
-    //m_Count = 0;
     }
 
   void SetLevelSet( LevelSetType *f )
     {
     m_LevelSetConverter->SetInput( f );
-    // m_Count = 0;
     }
 
   void SetScreenCapture( const bool& iCapture )
@@ -189,12 +193,7 @@ public:
 
       vtkCaptureScreen< vtkPNGWriter > capture ( m_RenWin );
       // begin mouse interaction
-      //      m_Iren->Start();
       capture( filename );
-      }
-    else
-      {
-      m_Iren->Start();
       }
     }
   ++m_Count;

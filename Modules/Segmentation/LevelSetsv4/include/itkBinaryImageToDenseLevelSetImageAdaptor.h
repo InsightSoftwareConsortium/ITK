@@ -59,11 +59,13 @@ public:
   typedef typename LevelSetType::Pointer    LevelSetPointer;
   typedef typename LevelSetType::ImageType  LevelSetImageType;
 
-  typedef ImageToImageFilter< InputImageType, LevelSetType >  InternalFilterType;
-  typedef typename InternalFilterType::Pointer                InternalFilterPointer;
+  typedef ImageToImageFilter< InputImageType, LevelSetImageType >  SignedDistanceTransformFilterType;
+  typedef typename SignedDistanceTransformFilterType::Pointer                                    SignedDistanceTransformFilterPointer;
 
-  itkSetObjectMacro( SignedDistanceTransformFilter, InternalFilterType );
-  itkGetObjectMacro( SignedDistanceTransformFilter, InternalFilterType );
+  /** Set the signed distance image filter.  Defaults to a
+   * SignedMaurerDistanceMapImageFilter. */
+  itkSetObjectMacro( SignedDistanceTransformFilter, SignedDistanceTransformFilterType );
+  itkGetObjectMacro( SignedDistanceTransformFilter, SignedDistanceTransformFilterType );
 
   /**
    * Input is a binary image m_InputImage
@@ -77,7 +79,7 @@ protected:
   /** Destructor */
   virtual ~BinaryImageToDenseLevelSetImageAdaptor();
 
-  InternalFilterPointer   m_SignedDistanceTransformFilter;
+  SignedDistanceTransformFilterPointer   m_SignedDistanceTransformFilter;
 
 private:
   BinaryImageToDenseLevelSetImageAdaptor( const Self& ); // purposely not implemented

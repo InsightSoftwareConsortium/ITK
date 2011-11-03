@@ -40,6 +40,13 @@
 #include "vtkCaptureScreen.h"
 #include "vtkPNGWriter.h"
 
+/**
+ * \class vtkVisualize3DLevelSetImageBase
+ * \tparam TInputImage Input Image Type
+ * \tparam TLevelSetImage Level Set type
+ *
+ * \ingroup ITKLevelSetsv4Visualization
+ */
 template< class TInputImage, class TLevelSetImage >
 class vtkVisualize3DLevelSetImageBase : public itk::LightObject
 {
