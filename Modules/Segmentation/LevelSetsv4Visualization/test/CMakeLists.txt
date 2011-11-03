@@ -11,6 +11,7 @@ vtkVisualize2DShiLevelSetLayersTest
 vtkVisualize2DMalcolmLevelSetLayersTest
 )
 
+set(ITKLevelSetsv4Visualization-Test_LIBRARIES ${ITKLevelSetsv4Visualization_LIBRARIES} )
 CreateTestDriver(ITKLevelSetsv4Visualization  "${ITKLevelSetsv4Visualization-Test_LIBRARIES}" "${ITKLevelSetsv4VisualizationTests}")
 
 itk_add_test(NAME vtkVisualize2DLevelSetImageBaseTest
