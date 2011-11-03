@@ -40,6 +40,7 @@ namespace itk
  *
  * \ingroup Operators
  * \ingroup ITKThresholding
+ * \ingroup ITKV3Compatibility
  */
 template< class TInputImage >
 class ITK_EXPORT OtsuThresholdImageCalculator:public Object
