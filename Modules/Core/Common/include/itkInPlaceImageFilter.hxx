@@ -74,7 +74,7 @@ void
 InPlaceImageFilter< TInputImage, TOutputImage >
 ::InternalAllocateOutputs( const TrueType& )
 {
-  const InputImageType *inputPtr = this->GetInput();
+  const InputImageType *inputPtr = this->GetInput(0);
   OutputImageType      *outputPtr = this->GetOutput();
 
   // if told to run in place and the types support it,
