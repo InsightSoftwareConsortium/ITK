@@ -21,6 +21,8 @@
 #include "itkTimeProbe.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
 #include "itkImageToImageMetric.h"
+#include "itkBSplineTransform.h"
+
 namespace itk {
 
 template <typename FixedImageType,

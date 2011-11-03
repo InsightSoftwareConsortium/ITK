@@ -18,16 +18,12 @@
 #ifndef __itkImageToImageMetric_h
 #define __itkImageToImageMetric_h
 
+#include "itkBSplineBaseTransform.h"
+#include "itkBSplineInterpolateImageFunction.h"
 #include "itkSingleValuedCostFunction.h"
-#include "itkImageBase.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"
 #include "itkSpatialObject.h"
-#include "itkBSplineTransform.h"
 #include "itkCentralDifferenceImageFunction.h"
-
-#include "itkMultiThreader.h"
-
-#include "itkBSplineInterpolateImageFunction.h"
 
 namespace itk
 {
@@ -295,9 +291,9 @@ public:
   void ReinitializeSeed(int seed);
 
   /** This boolean flag is only relevant when this metric is used along
-   * with a BSplineTransform. The flag enables/disables the
+   * with a BSplineBaseTransform. The flag enables/disables the
    * caching of values computed when a physical point is mapped through
-   * the BSplineTransform. In particular it will cache the
+   * the BSplineBaseTransform. In particular it will cache the
    * values of the BSpline weights for that points, and the indexes
    * indicating what BSpline-grid nodes are relevant for that specific
    * point. This caching is made optional due to the fact that the
@@ -407,7 +403,7 @@ public:
   int m_RandomSeed;
 
   /** Types and variables related to BSpline deformable transforms.
-    * If the transform is of type third order BSplineTransform,
+    * If the transform is of type third order BSplineBaseTransform,
     * then we can speed up the metric derivative calculation by
     * only inspecting the parameters within the support region
     * of a mapped point.  */
@@ -421,7 +417,7 @@ public:
 
   itkStaticConstMacro(DeformationSplineOrder, unsigned int, 3);
 
-  typedef BSplineTransform< CoordinateRepresentationType,
+  typedef BSplineBaseTransform< CoordinateRepresentationType,
                                       ::itk::GetImageDimension< FixedImageType >::ImageDimension,
                                       itkGetStaticConstMacro(DeformationSplineOrder) >             BSplineTransformType;
 
