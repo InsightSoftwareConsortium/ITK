@@ -36,6 +36,12 @@ void
 TransformIOBase::CreateTransform(TransformPointer & ptr,
                                  const std::string & ClassName)
 {
+  //
+  // call to GetFactory has side effect of initializing the
+  // TransformFactory overrides
+  TransformFactoryBase *theFactory =
+    TransformFactoryBase::GetFactory();
+
   // Instantiate the transform
   itkDebugMacro ("About to call ObjectFactory");
   LightObject::Pointer i;
@@ -49,7 +55,7 @@ TransformIOBase::CreateTransform(TransformPointer & ptr,
         << "The usual cause of this error is not registering the "
         << "transform with TransformFactory" << std::endl;
     msg << "Currently registered Transforms: " << std::endl;
-    std::list< std::string >           names = TransformFactoryBase::GetFactory()->GetClassOverrideWithNames();
+    std::list< std::string >           names = theFactory->GetClassOverrideWithNames();
     std::list< std::string >::iterator it;
     for ( it = names.begin(); it != names.end(); it++ )
       {
