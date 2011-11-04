@@ -20,14 +20,12 @@
 #include "itkIntTypes.h"
 #include "itkTestingMacros.h"
 
-using namespace itk;
-
 template< typename TValueType >
 bool runTestByType()
 {
   bool passed = true;
 
-  OptimizerParameters<TValueType> params;
+  itk::OptimizerParameters<TValueType> params;
   params.SetSize(10);
   params.Fill(1.23);
   std::cout << "GetSize: " << params.GetSize() << std::endl;
@@ -35,8 +33,8 @@ bool runTestByType()
   /* Test different ctors */
 
   //Construct by size
-  SizeValueType dim = 20;
-  OptimizerParameters<TValueType> paramsSize(dim);
+  itk::SizeValueType dim = 20;
+  itk::OptimizerParameters<TValueType> paramsSize(dim);
   if( paramsSize.GetSize() != dim )
     {
     std::cerr << "Constructor with dimension failed. Expected size of "
@@ -46,8 +44,8 @@ bool runTestByType()
 
   //Copy constructor
   {
-  OptimizerParameters<TValueType> paramsCopy( params );
-  for( SizeValueType i=0; i < params.GetSize(); i++ )
+  itk::OptimizerParameters<TValueType> paramsCopy( params );
+  for( itk::SizeValueType i=0; i < params.GetSize(); i++ )
     {
     if( params[i] != paramsCopy[i] )
       {
@@ -58,12 +56,12 @@ bool runTestByType()
   }
 
   //Constructor from array
-  Array<TValueType> array(dim);
-  for( SizeValueType i=0; i<dim; i++ )
+  itk::Array<TValueType> array(dim);
+  for( itk::SizeValueType i=0; i<dim; i++ )
     { array[i]=i*3.19; }
   {
-  OptimizerParameters<TValueType> paramsCopy( array );
-  for( SizeValueType i=0; i < params.GetSize(); i++ )
+  itk::OptimizerParameters<TValueType> paramsCopy( array );
+  for( itk::SizeValueType i=0; i < params.GetSize(); i++ )
     {
     if( array[i] != paramsCopy[i] )
       {
@@ -76,9 +74,9 @@ bool runTestByType()
   /* Test assignment operators from different types */
 
   //Assign from Array
-  OptimizerParameters<TValueType> paramsArray;
+  itk::OptimizerParameters<TValueType> paramsArray;
   paramsArray = array;
-  for( SizeValueType i=0; i < array.GetSize(); i++ )
+  for( itk::SizeValueType i=0; i < array.GetSize(); i++ )
     {
     if( paramsArray[i] != array[i] )
       {
@@ -89,12 +87,12 @@ bool runTestByType()
 
   //Assign from VnlVector
   vnl_vector<TValueType> vector(dim);
-  for( SizeValueType i=0; i<dim; i++ )
+  for( itk::SizeValueType i=0; i<dim; i++ )
     { vector[i]=i*0.123; }
   {
-  OptimizerParameters<TValueType> paramsVnl;
+  itk::OptimizerParameters<TValueType> paramsVnl;
   paramsVnl = vector;
-  for( SizeValueType i=0; i < paramsVnl.GetSize(); i++ )
+  for( itk::SizeValueType i=0; i < paramsVnl.GetSize(); i++ )
     {
     if( vector[i] != paramsVnl[i] )
       {
@@ -118,7 +116,7 @@ bool runTestByType()
     }
 
   /* Test SetParametersObject. Should throw exception with default helper. */
-  typename LightObject::Pointer dummyObj = LightObject::New();
+  typename itk::LightObject::Pointer dummyObj = itk::LightObject::New();
   TRY_EXPECT_EXCEPTION( params.SetParametersObject( dummyObj.GetPointer() ) );
 
   /* Test with null helper and expect exception */
@@ -127,11 +125,11 @@ bool runTestByType()
   TRY_EXPECT_EXCEPTION( params.SetParametersObject( dummyObj.GetPointer() ) );
 
   /* Test copy operator */
-  OptimizerParameters<TValueType> params1(4);
-  OptimizerParameters<TValueType> params2(4);
+  itk::OptimizerParameters<TValueType> params1(4);
+  itk::OptimizerParameters<TValueType> params2(4);
   params1.Fill(1.23);
   params2 = params1;
-  for( SizeValueType i=0; i < params1.GetSize(); i++ )
+  for( itk::SizeValueType i=0; i < params1.GetSize(); i++ )
     {
     if( params1[i] != params2[i] )
       {
@@ -144,7 +142,7 @@ bool runTestByType()
     }
 
   /* Exercise set helper */
-  typedef typename OptimizerParameters<TValueType>::OptimizerParametersHelperType HelperType;
+  typedef typename itk::OptimizerParameters<TValueType>::OptimizerParametersHelperType HelperType;
   HelperType * helper = new HelperType;
   params1.SetHelper( helper );
 
