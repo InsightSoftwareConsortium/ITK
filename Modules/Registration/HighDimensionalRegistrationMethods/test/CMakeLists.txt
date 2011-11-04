@@ -19,5 +19,6 @@ itk_add_test(NAME itkSimpleImageRegistrationTest
               DATA{Input/r16slice_rigid.nii.gz}
               DATA{Input/r64slice.nii.gz}
               ${TEMP}/itkSimpleImageRegistrationTest.nii.gz
-              10 # number of optimization iterations of the displacement field
+              100 # number of affine iterations
+              10 # number of deformable iterations
               )
