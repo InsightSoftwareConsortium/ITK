@@ -3,7 +3,6 @@ set(ITKImageFilterBaseTests
 itkNeighborhoodOperatorImageFilterTest.cxx
 itkImageToImageFilterTest.cxx
 itkVectorNeighborhoodOperatorImageFilterTest.cxx
-itkGaussianImageSourceTest.cxx
 itkMaskNeighborhoodOperatorImageFilterTest.cxx
 itkCastImageFilterTest.cxx
 itkClampImageFilterTest.cxx
@@ -31,8 +30,6 @@ itk_add_test(NAME itkImageToImageFilterTest
       COMMAND ITKImageFilterBaseTestDriver itkImageToImageFilterTest)
 itk_add_test(NAME itkVectorNeighborhoodOperatorImageFilterTest
       COMMAND ITKImageFilterBaseTestDriver itkVectorNeighborhoodOperatorImageFilterTest)
-itk_add_test(NAME itkGaussianImageSourceTest
-      COMMAND ITKImageFilterBaseTestDriver itkGaussianImageSourceTest)
 itk_add_test(NAME itkMaskNeighborhoodOperatorImageFilterTest
       COMMAND ITKImageFilterBaseTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/MaskNeighborhoodOperatorImageFilterTest.png}

@@ -12,6 +12,7 @@ itk_module(ITKBiasCorrection
     ITKOptimizers
   TEST_DEPENDS
     ITKTestKernel
+    ITKImageSource
   DESCRIPTION
     "${DOCUMENTATION}"
 )

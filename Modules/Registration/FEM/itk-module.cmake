@@ -12,6 +12,7 @@ itk_module(ITKFEMRegistration
     ITKSpatialObjects
   TEST_DEPENDS
     ITKTestKernel
+    ITKImageSource
   DESCRIPTION
     "${DOCUMENTATION}"
 )

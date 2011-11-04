@@ -1,7 +1,6 @@
 set(ITKReview_SRC
 itkBruker2DSEQImageIO.cxx
 itkBruker2DSEQImageIOFactory.cxx
-itkGaborKernelFunction.cxx
 itkJPEG2000ImageIO.cxx
 itkJPEG2000ImageIOFactory.cxx
 itkMRCHeaderObject.cxx

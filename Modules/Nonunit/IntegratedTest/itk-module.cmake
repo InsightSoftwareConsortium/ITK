@@ -31,6 +31,7 @@ itk_module(ITKIntegratedTest
     ITKImageGrid
     ITKImageIntensity
     ITKImageLabel
+    ITKImageSource
     ITKImageStatistics
     ITKIOImageBase
     ITKIOBioRad
