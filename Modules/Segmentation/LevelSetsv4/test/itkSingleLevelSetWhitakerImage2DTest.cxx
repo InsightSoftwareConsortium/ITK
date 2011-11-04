@@ -20,7 +20,6 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkLevelSetDomainMapImageFilter.h"
 #include "itkLevelSetContainer.h"
 #include "itkLevelSetEquationChanAndVeseInternalTerm.h"
 #include "itkLevelSetEquationChanAndVeseExternalTerm.h"
@@ -59,12 +58,6 @@ int itkSingleLevelSetWhitakerImage2DTest( int argc, char* argv[] )
 
   typedef itk::LevelSetContainer< IdentifierType, SparseLevelSetType >
                                                             LevelSetContainerType;
-
-  typedef std::list< IdentifierType >                       IdListType;
-  typedef itk::Image< IdListType, Dimension >               IdListImageType;
-  typedef itk::Image< short, Dimension >                    CacheImageType;
-  typedef itk::LevelSetDomainMapImageFilter< IdListImageType, CacheImageType >
-                                                            DomainMapImageFilterType;
 
   typedef itk::LevelSetEquationChanAndVeseInternalTerm< InputImageType, LevelSetContainerType >
                                                             ChanAndVeseInternalTermType;
@@ -123,19 +116,6 @@ int itkSingleLevelSetWhitakerImage2DTest( int argc, char* argv[] )
 
   SparseLevelSetType::Pointer level_set = adaptor->GetLevelSet();
 
-  IdListType list_ids;
-  list_ids.push_back( 1 );
-
-  IdListImageType::Pointer id_image = IdListImageType::New();
-  id_image->SetRegions( input->GetLargestPossibleRegion() );
-  id_image->Allocate();
-  id_image->FillBuffer( list_ids );
-
-  DomainMapImageFilterType::Pointer domainMapFilter = DomainMapImageFilterType::New();
-  domainMapFilter->SetInput( id_image );
-  domainMapFilter->Update();
-  std::cout << "Domain map computed" << std::endl;
-
   // Define the Heaviside function
   HeavisideFunctionBaseType::Pointer heaviside = HeavisideFunctionBaseType::New();
   heaviside->SetEpsilon( 1.0 );
@@ -143,7 +123,6 @@ int itkSingleLevelSetWhitakerImage2DTest( int argc, char* argv[] )
   // Insert the levelsets in a levelset container
   LevelSetContainerType::Pointer lscontainer = LevelSetContainerType::New();
   lscontainer->SetHeaviside( heaviside );
-  lscontainer->SetDomainMapFilter( domainMapFilter );
 
   bool LevelSetNotYetAdded = lscontainer->AddLevelSet( 0, level_set, false );
   if ( !LevelSetNotYetAdded )

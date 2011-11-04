@@ -94,88 +94,68 @@ LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
 template< class TEquationContainer, class TImage >
 void
 LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
-::InitializeIteration()
-{
-  // Get the image to be segmented
-  InputImageConstPointer inputImage = this->m_EquationContainer->GetInput();
-
-  DomainMapImageFilterPointer domainMapFilter = this->m_LevelSetContainer->GetDomainMapFilter();
-
-  DomainIteratorType map_it   = domainMapFilter->m_LevelSetMap.begin();
-  DomainIteratorType map_end  = domainMapFilter->m_LevelSetMap.end();
-
-  // Initialize parameters here
-  this->m_EquationContainer->InitializeParameters();
-
-  while( map_it != map_end )
-    {
-    InputImageConstIteratorType it( inputImage, map_it->second.m_Region );
-    it.GoToBegin();
-
-    while( !it.IsAtEnd() )
-      {
-      IdListType lout = map_it->second.m_List;
-
-      if( lout.empty() )
-        {
-        itkGenericExceptionMacro( <<"No level set exists at voxel" );
-        }
-
-      for( IdListIterator lIt = lout.begin(); lIt != lout.end(); ++lIt )
-        {
-        TermContainerPointer termContainer = this->m_EquationContainer->GetEquation( *lIt - 1 );
-        termContainer->Initialize( it.GetIndex() );
-        }
-        ++it;
-      }
-    ++map_it;
-    }
-  this->m_EquationContainer->UpdateInternalEquationTerms();
-}
-
-template< class TEquationContainer, class TImage >
-void
-LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
 ::ComputeIteration()
 {
   InputImageConstPointer inputImage = this->m_EquationContainer->GetInput();
 
   DomainMapImageFilterPointer domainMapFilter = this->m_LevelSetContainer->GetDomainMapFilter();
 
-  DomainIteratorType map_it   = domainMapFilter->m_LevelSetMap.begin();
-  DomainIteratorType map_end  = domainMapFilter->m_LevelSetMap.end();
-
-  while( map_it != map_end )
+  if( !domainMapFilter.IsNull() && domainMapFilter->GetDomainMap().size() > 0 )
     {
-    InputImageConstIteratorType it( inputImage, map_it->second.m_Region );
-    it.GoToBegin();
+    typedef typename DomainMapImageFilterType::DomainMapType DomainMapType;
+    const DomainMapType domainMap = domainMapFilter->GetDomainMap();
+    typename DomainMapType::const_iterator map_it   = domainMap.begin();
+    typename DomainMapType::const_iterator map_end  = domainMap.end();
 
+    while( map_it != map_end )
+      {
+      ImageRegionConstIteratorWithIndex< InputImageType > it( inputImage, map_it->second.m_Region );
+      it.GoToBegin();
+
+      while( !it.IsAtEnd() )
+        {
+        IdListType lout = map_it->second.m_List;
+
+        itkAssertInDebugAndIgnoreInReleaseMacro( !lout.empty() );
+
+        for( IdListIterator lIt = lout.begin(); lIt != lout.end(); ++lIt )
+          {
+          LevelSetPointer levelSetUpdate = this->m_UpdateBuffer->GetLevelSet( *lIt - 1);
+
+          LevelSetDataType characteristics;
+
+          TermContainerPointer termContainer = this->m_EquationContainer->GetEquation( *lIt - 1 );
+          termContainer->ComputeRequiredData( it.GetIndex(), characteristics );
+
+          LevelSetOutputRealType temp_update = termContainer->Evaluate( it.GetIndex(), characteristics );
+
+          LevelSetImageType* levelSetImage = levelSetUpdate->GetImage();
+          levelSetImage->SetPixel( it.GetIndex(), temp_update );
+          }
+        ++it;
+        }
+        ++map_it;
+      }
+    }
+  else // assume there is one level set that covers the RequestedRegion of the InputImage
+    {
+    ImageRegionConstIteratorWithIndex< InputImageType > it( inputImage, inputImage->GetRequestedRegion() );
+    it.GoToBegin();
     while( !it.IsAtEnd() )
       {
-      IdListType lout = map_it->second.m_List;
+      LevelSetPointer levelSetUpdate = this->m_UpdateBuffer->GetLevelSet( 0 );
 
-      if( lout.empty() )
-        {
-        itkGenericExceptionMacro( <<"No level set exists at voxel" );
-        }
+      LevelSetDataType characteristics;
 
-      for( IdListIterator lIt = lout.begin(); lIt != lout.end(); ++lIt )
-        {
-        LevelSetPointer levelSetUpdate = this->m_UpdateBuffer->GetLevelSet( *lIt - 1);
+      TermContainerPointer termContainer = this->m_EquationContainer->GetEquation( 0 );
+      termContainer->ComputeRequiredData( it.GetIndex(), characteristics );
 
-        LevelSetDataType characteristics;
+      LevelSetOutputRealType temp_update = termContainer->Evaluate( it.GetIndex(), characteristics );
 
-        TermContainerPointer termContainer = this->m_EquationContainer->GetEquation( *lIt - 1 );
-        termContainer->ComputeRequiredData( it.GetIndex(), characteristics );
-
-        LevelSetOutputRealType temp_update = termContainer->Evaluate( it.GetIndex(), characteristics );
-
-        LevelSetImageType* levelSetImage = levelSetUpdate->GetImage();
-        levelSetImage->SetPixel( it.GetIndex(), temp_update );
-        }
+      LevelSetImageType* levelSetImage = levelSetUpdate->GetImage();
+      levelSetImage->SetPixel( it.GetIndex(), temp_update );
       ++it;
       }
-      ++map_it;
     }
 }
 
@@ -392,47 +372,6 @@ LevelSetEvolution< TEquationContainer, WhitakerSparseLevelSetImage< TOutput, VDi
 template< class TEquationContainer, typename TOutput, unsigned int VDimension >
 void
 LevelSetEvolution< TEquationContainer, WhitakerSparseLevelSetImage< TOutput, VDimension > >
-::InitializeIteration()
-{
-  InputImageConstPointer inputImage = this->m_EquationContainer->GetInput();
-
-  DomainMapImageFilterPointer domainMapFilter = this->m_LevelSetContainer->GetDomainMapFilter();
-
-  DomainIteratorType map_it  = domainMapFilter->m_LevelSetMap.begin();
-  DomainIteratorType map_end = domainMapFilter->m_LevelSetMap.end();
-
-  // Initialize parameters here
-  this->m_EquationContainer->InitializeParameters();
-
-  while( map_it != map_end )
-    {
-    InputImageConstIteratorType it( inputImage, map_it->second.m_Region );
-    it.GoToBegin();
-
-    while( !it.IsAtEnd() )
-      {
-      IdListType lout = map_it->second.m_List;
-
-      if( lout.empty() )
-        {
-        itkGenericExceptionMacro( <<"No level set exists at voxel" );
-        }
-
-      for( IdListIterator lIt = lout.begin(); lIt != lout.end(); ++lIt )
-        {
-        TermContainerPointer termContainer = this->m_EquationContainer->GetEquation( *lIt - 1 );
-        termContainer->Initialize( it.GetIndex() );
-        }
-      ++it;
-      }
-    ++map_it;
-    }
-  this->m_EquationContainer->UpdateInternalEquationTerms();
-}
-
-template< class TEquationContainer, typename TOutput, unsigned int VDimension >
-void
-LevelSetEvolution< TEquationContainer, WhitakerSparseLevelSetImage< TOutput, VDimension > >
 ::ComputeIteration()
 {
   typename LevelSetContainerType::Iterator it = this->m_LevelSetContainer->Begin();
@@ -600,47 +539,6 @@ void LevelSetEvolution< TEquationContainer, ShiSparseLevelSetImage< VDimension >
 
 template< class TEquationContainer, unsigned int VDimension >
 void LevelSetEvolution< TEquationContainer, ShiSparseLevelSetImage< VDimension > >
-::InitializeIteration()
-{
-  // Get the image to be segmented
-  InputImageConstPointer inputImage = this->m_EquationContainer->GetInput();
-
-  DomainMapImageFilterPointer domainMapFilter = this->m_LevelSetContainer->GetDomainMapFilter();
-
-  DomainIteratorType map_it   = domainMapFilter->m_LevelSetMap.begin();
-  DomainIteratorType map_end  = domainMapFilter->m_LevelSetMap.end();
-
-  // Initialize parameters here
-  this->m_EquationContainer->InitializeParameters();
-
-  while( map_it != map_end )
-    {
-    InputImageConstIteratorType it( inputImage, map_it->second.m_Region );
-    it.GoToBegin();
-
-    while( !it.IsAtEnd() )
-      {
-      IdListType lout = map_it->second.m_List;
-
-      if( lout.empty() )
-        {
-        itkGenericExceptionMacro( <<"No level set exists at voxel" );
-        }
-
-      for( IdListIterator lIt = lout.begin(); lIt != lout.end(); ++lIt )
-        {
-        TermContainerPointer termContainer = this->m_EquationContainer->GetEquation( *lIt - 1 );
-        termContainer->Initialize( it.GetIndex() );
-        }
-      ++it;
-      }
-    ++map_it;
-    }
-  this->m_EquationContainer->UpdateInternalEquationTerms();
-}
-
-template< class TEquationContainer, unsigned int VDimension >
-void LevelSetEvolution< TEquationContainer, ShiSparseLevelSetImage< VDimension > >
 ::ComputeIteration()
 {
 }
@@ -751,47 +649,6 @@ void LevelSetEvolution< TEquationContainer, MalcolmSparseLevelSetImage< VDimensi
     this->m_StoppingCriterion->SetCurrentIteration( iter );
     this->InvokeEvent( IterationEvent() );
     }
-}
-
-template< class TEquationContainer, unsigned int VDimension >
-void LevelSetEvolution< TEquationContainer, MalcolmSparseLevelSetImage< VDimension > >
-::InitializeIteration()
-{
-  // Get the image to be segmented
-  InputImageConstPointer inputImage = this->m_EquationContainer->GetInput();
-
-  DomainMapImageFilterPointer domainMapFilter = this->m_LevelSetContainer->GetDomainMapFilter();
-
-  DomainIteratorType map_it   = domainMapFilter->m_LevelSetMap.begin();
-  DomainIteratorType map_end  = domainMapFilter->m_LevelSetMap.end();
-
-  // Initialize parameters here
-  this->m_EquationContainer->InitializeParameters();
-
-  while( map_it != map_end )
-    {
-    InputImageConstIteratorType it( inputImage, map_it->second.m_Region );
-    it.GoToBegin();
-
-    while( !it.IsAtEnd() )
-      {
-      IdListType lout = map_it->second.m_List;
-
-      if( lout.empty() )
-        {
-        itkGenericExceptionMacro( <<"No level set exists at voxel" );
-        }
-
-      for( IdListIterator lIt = lout.begin(); lIt != lout.end(); ++lIt )
-        {
-        TermContainerPointer termContainer = this->m_EquationContainer->GetEquation( *lIt - 1 );
-        termContainer->Initialize( it.GetIndex() );
-        }
-      ++it;
-      }
-    ++map_it;
-    }
-  this->m_EquationContainer->UpdateInternalEquationTerms();
 }
 
 template< class TEquationContainer, unsigned int VDimension >

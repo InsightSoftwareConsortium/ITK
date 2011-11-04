@@ -122,5 +122,64 @@ LevelSetEvolutionBase< TEquationContainer, TLevelSet >
     }
 }
 
+template< class TEquationContainer, class TLevelSet >
+void
+LevelSetEvolutionBase< TEquationContainer, TLevelSet >
+::InitializeIteration()
+{
+  // Get the image to be segmented
+  InputImageConstPointer inputImage = this->m_EquationContainer->GetInput();
+
+  // Initialize parameters here
+  this->m_EquationContainer->InitializeParameters();
+
+  DomainMapImageFilterPointer domainMapFilter = this->m_LevelSetContainer->GetDomainMapFilter();
+  if( !domainMapFilter.IsNull() && domainMapFilter->GetDomainMap().size() > 0 )
+    {
+    typedef typename DomainMapImageFilterType::DomainMapType DomainMapType;
+    const DomainMapType domainMap = domainMapFilter->GetDomainMap();
+    typename DomainMapType::const_iterator map_it   = domainMap.begin();
+    typename DomainMapType::const_iterator map_end  = domainMap.end();
+
+    while( map_it != map_end )
+      {
+      // Iterator over the region for the current levelset overlap identifier.
+      ImageRegionConstIteratorWithIndex< InputImageType > it( inputImage, map_it->second.m_Region );
+      it.GoToBegin();
+
+      while( !it.IsAtEnd() )
+        {
+        IdListType lout = map_it->second.m_List;
+
+        if( lout.empty() )
+          {
+          itkGenericExceptionMacro( <<"No level set exists at voxel" );
+          }
+
+        for( IdListIterator lIt = lout.begin(); lIt != lout.end(); ++lIt )
+          {
+          TermContainerPointer termContainer = this->m_EquationContainer->GetEquation( *lIt - 1 );
+          termContainer->Initialize( it.GetIndex() );
+          }
+          ++it;
+        }
+      ++map_it;
+      }
+    }
+  else // assume there is one level set that covers the RequestedRegion of the InputImage
+    {
+    TermContainerPointer termContainer = this->m_EquationContainer->GetEquation( 0 );
+    ImageRegionConstIteratorWithIndex< InputImageType > it( inputImage, inputImage->GetRequestedRegion() );
+    it.GoToBegin();
+    while( !it.IsAtEnd() )
+      {
+      termContainer->Initialize( it.GetIndex() );
+      ++it;
+      }
+    }
+
+  this->m_EquationContainer->UpdateInternalEquationTerms();
+}
+
 }
 #endif // __itkLevelSetEvolutionBase_hxx
