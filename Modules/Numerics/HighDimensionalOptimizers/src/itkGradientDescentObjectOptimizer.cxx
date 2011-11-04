@@ -66,7 +66,7 @@ GradientDescentObjectOptimizer
   if ( this->m_ScalesEstimator.IsNotNull() )
     {
     this->m_ScalesEstimator->EstimateScales(this->m_Scales);
-    std::cout << "Estimated scales = " << this->m_Scales << std::endl;
+    itkDebugMacro( "Estimated scales = " << this->m_Scales );
 
     if ( this->m_TrustedStepScale <=
       NumericTraits<InternalComputationValueType>::epsilon())

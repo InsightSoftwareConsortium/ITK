@@ -229,6 +229,8 @@ public:
 
   /** Jacobian type. This is the same for all transforms */
   typedef typename FixedTransformType::JacobianType     JacobianType;
+  typedef typename FixedTransformType::JacobianType     FixedTransformJacobianType;
+  typedef typename MovingTransformType::JacobianType    MovingTransformJacobianType;
 
   /**  Type for the mask of the fixed image. Only pixels that are "inside"
        this mask will be considered for the computation of the metric */
