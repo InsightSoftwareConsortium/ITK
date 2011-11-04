@@ -26,11 +26,32 @@ namespace itk
 {
 /**
  *  \class LevelSetEquationContainerBase
- *  \brief Class for holding a set of level set equation terms.
- *
- *  \todo Add full documentation
+ *  \brief Class for holding a set of level set equations (PDEs).
  *
  *  \tparam TTermContainer Container holding the terms in a level set equation
+ *
+ *  Evolving level-set functions \f$\left\{ \phi_j \right\}\limits_{j=1}{M}\f$
+ *  can be expressed as follows:
+ *  \f{eqnarray*}{
+ *  \frac{\partial \phi_1(p)}{\partial \tau} &=& \sum\limits_{i=1}^{N_1} \alpha_{i1}
+ *  \cdot \omega_{i1}(p) \\
+ *  \frac{\partial \phi_2(p)}{\partial \tau} &=& \sum\limits_{i=1}^{N_2} \alpha_{i2}
+ *  \cdot \omega_{i2}(p) \\
+ *  & \vdots & \\
+ *  \frac{\partial \phi_M(p)}{\partial \tau} &=& \sum\limits_{i=1}^{N_M} \alpha_{iM}
+ *  \cdot \omega_{iM}(p)
+ *  \f}
+ *  where \f$\omega_{iM}\f$ is a term which could depend on any of the level-set
+ *  functions \f$\left\{ \phi_j \right\}\limits_{j=1}{M}\f$ , the input image,
+ *  and \f$\alpha_{iM}\f$ is a weight to balance the contribution of each term
+ *  in the PDE.
+ *
+ *  Each equation of this system of equation (PDE) is referred as an equation in
+ *  the level-set framework. Each equation \f$ equation_{j} \f$ contributes to the
+ *  evolution of the level-set function \f$ \phi_j \f$.
+ *
+ *  \sa LevelSetEquationTermBase
+ *
  *  \ingroup ITKLevelSetsv4
  */
 template< class TTermContainer >
