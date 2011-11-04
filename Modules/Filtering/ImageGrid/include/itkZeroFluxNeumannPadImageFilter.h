@@ -59,14 +59,14 @@ namespace itk
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT ZeroFluxNeumannPadImageFilter :
-    public PadImageFilter< TInputImage,TOutputImage >
+    public PadImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef ZeroFluxNeumannPadImageFilter             Self;
-  typedef PadImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>                        Pointer;
-  typedef SmartPointer<const Self>                  ConstPointer;
+  typedef ZeroFluxNeumannPadImageFilter              Self;
+  typedef PadImageFilter<TInputImage, TOutputImage>  Superclass;
+  typedef SmartPointer<Self>                         Pointer;
+  typedef SmartPointer<const Self>                   ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -118,7 +118,7 @@ private:
   ZeroFluxNeumannPadImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  ZeroFluxNeumannBoundaryCondition< TInputImage > m_InternalBoundaryCondition;
+  ZeroFluxNeumannBoundaryCondition< TInputImage, TOutputImage > m_InternalBoundaryCondition;
 };
 } // end namespace itk
 

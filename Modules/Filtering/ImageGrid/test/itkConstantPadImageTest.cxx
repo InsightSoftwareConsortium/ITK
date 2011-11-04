@@ -27,35 +27,25 @@
 
 int itkConstantPadImageTest(int, char* [] )
 {
-  itk::FileOutputWindow::Pointer fow = itk::FileOutputWindow::New();
-  fow->SetInstance(fow);
-
-  int nextVal;
-
   // typedefs to simplify the syntax
-  typedef itk::Image<short, 2>   SimpleImage;
-  SimpleImage::Pointer simpleImage = SimpleImage::New();
-  std::cout << "Simple image spacing: " << simpleImage->GetSpacing()[0] << ", "
-            << simpleImage->GetSpacing()[1] << std::endl;
-
-  // typedefs to simplify the syntax
-  typedef itk::Image<short, 2>   ShortImage;
+  typedef itk::Image< short, 2 > ShortImage;
+  typedef itk::Image< float, 2 > FloatImage;
 
   // Test the creation of an image with native type
-  ShortImage::Pointer if2 = ShortImage::New();
+  ShortImage::Pointer image = ShortImage::New();
 
   // fill in an image
-  ShortImage::IndexType  index = {{0, 0}};
-  ShortImage::SizeType   size = {{8, 12}};
+  ShortImage::IndexType index = {{0, 0}};
+  ShortImage::SizeType  size  = {{8, 12}};
   ShortImage::RegionType region;
   int row, column;
   region.SetSize( size );
   region.SetIndex( index );
-  if2->SetLargestPossibleRegion( region );
-  if2->SetBufferedRegion( region );
-  if2->Allocate();
+  image->SetLargestPossibleRegion( region );
+  image->SetBufferedRegion( region );
+  image->Allocate();
 
-  itk::ImageRegionIterator<ShortImage> iterator(if2, region);
+  itk::ImageRegionIterator< ShortImage > iterator(image, region);
 
   short i=0;
   for (; !iterator.IsAtEnd(); ++iterator, ++i)
@@ -64,29 +54,30 @@ int itkConstantPadImageTest(int, char* [] )
     }
 
   // Create a filter
-  itk::ConstantPadImageFilter< ShortImage, ShortImage >::Pointer constantPad;
-  constantPad = itk::ConstantPadImageFilter< ShortImage, ShortImage >::New();
-  FilterWatcher watch(constantPad);
-  constantPad->SetInput( if2 );
+  typedef itk::ConstantPadImageFilter< ShortImage, FloatImage > PadFilterType;
+  PadFilterType::Pointer constantPad = PadFilterType::New();
+  FilterWatcher watch( constantPad );
+  constantPad->SetInput( image );
 
   typedef ShortImage::SizeValueType   SizeValueType;
   typedef ShortImage::IndexValueType  IndexValueType;
 
-  SizeValueType upperfactors[2] = { 0, 0};
-  SizeValueType lowerfactors[2] = { 0, 0};
+  SizeValueType upperFactors[2] = { 0, 0 };
+  SizeValueType lowerFactors[2] = { 0, 0 };
 
-  constantPad->SetConstant(13);
+  float constant = 13.3f;
+  constantPad->SetConstant( constant );
   // check the method using the SizeType rather than the simple table type.
   ShortImage::SizeType stfactors;
   stfactors.Fill( 0 );
-  constantPad->SetPadLowerBound(stfactors);
-  constantPad->SetPadUpperBound(stfactors);
-  constantPad->SetPadBound(stfactors);
+  constantPad->SetPadLowerBound( stfactors );
+  constantPad->SetPadUpperBound( stfactors );
+  constantPad->SetPadBound( stfactors );
   constantPad->UpdateLargestPossibleRegion();
 
   std::cout << constantPad << std::endl;
-  std::cout << "Input spacing: " << if2->GetSpacing()[0] << ", "
-            << if2->GetSpacing()[1] << std::endl;
+  std::cout << "Input spacing: " << image->GetSpacing()[0] << ", "
+            << image->GetSpacing()[1] << std::endl;
   std::cout << "Output spacing: " << constantPad->GetOutput()->GetSpacing()[0]
             << ", "
             << constantPad->GetOutput()->GetSpacing()[1] << std::endl;
@@ -96,23 +87,23 @@ int itkConstantPadImageTest(int, char* [] )
   bool passed;
 
   // CASE 1
-  lowerfactors[0] = 1; lowerfactors[1] = 2;
-  upperfactors[0] = 3; upperfactors[1] = 4;
-  constantPad->SetPadLowerBound(lowerfactors);
-  constantPad->SetPadUpperBound(upperfactors);
+  lowerFactors[0] = 1; lowerFactors[1] = 2;
+  upperFactors[0] = 3; upperFactors[1] = 4;
+  constantPad->SetPadLowerBound( lowerFactors );
+  constantPad->SetPadUpperBound( upperFactors );
   constantPad->UpdateLargestPossibleRegion();
   requestedRegion = constantPad->GetOutput()->GetRequestedRegion();
 
-  itk::ImageRegionIterator<ShortImage>
-    iteratorIn1(constantPad->GetOutput(), requestedRegion);
+  itk::ImageRegionIterator< FloatImage >
+    iteratorIn1( constantPad->GetOutput(), requestedRegion );
 
   passed = true;
   size = requestedRegion.GetSize();
   index = requestedRegion.GetIndex();
-  if ((index[0] != (0 - (IndexValueType) lowerfactors[0]))
-      || (index[1] != (0 - (IndexValueType) lowerfactors[1]))
-      || (size[0] != (8 + lowerfactors[0] + upperfactors[0]))
-      || (size[1] != (12 + lowerfactors[1] + upperfactors[1])))
+  if ((index[0] != (0 - (IndexValueType) lowerFactors[0]))
+      || (index[1] != (0 - (IndexValueType) lowerFactors[1]))
+      || (size[0] != (8 + lowerFactors[0] + upperFactors[0]))
+      || (size[1] != (12 + lowerFactors[1] + upperFactors[1])))
     {
     passed = false;
     }
@@ -124,14 +115,14 @@ int itkConstantPadImageTest(int, char* [] )
       column = iteratorIn1.GetIndex()[1];
       if ((row < 0) || (row>7) || (column < 0) || (column > 11))
         {
-        if ( iteratorIn1.Get() != 13 )
+        if ( iteratorIn1.Get() != constant )
           {
           passed = false;
           }
         }
       else
         {
-        nextVal = 8*column+row;
+        int nextVal = 8*column+row;
         if (iteratorIn1.Get() != nextVal)
           {
           std::cout << "Error: (" << row << ", " << column
@@ -155,22 +146,22 @@ int itkConstantPadImageTest(int, char* [] )
 
 
   // CASE 2
-  lowerfactors[0] = 10;
-  upperfactors[1] = 15;
-  constantPad->SetPadLowerBound(lowerfactors);
-  constantPad->SetPadUpperBound(upperfactors);
+  lowerFactors[0] = 10;
+  upperFactors[1] = 15;
+  constantPad->SetPadLowerBound( lowerFactors );
+  constantPad->SetPadUpperBound( upperFactors );
 
   // Create a stream
-  itk::StreamingImageFilter< ShortImage, ShortImage >::Pointer stream;
-  stream = itk::StreamingImageFilter< ShortImage, ShortImage >::New();
+  typedef itk::StreamingImageFilter< FloatImage, FloatImage > StreamingFilter;
+  StreamingFilter::Pointer stream = StreamingFilter::New();
   stream->SetInput( constantPad->GetOutput() );
-  stream->SetNumberOfStreamDivisions(2);
+  stream->SetNumberOfStreamDivisions( 2 );
 
 
-  if ((constantPad->GetPadUpperBound()[0] != upperfactors[0])
-      || (constantPad->GetPadUpperBound()[1] != upperfactors[1])
-      || (constantPad->GetPadLowerBound()[0] != lowerfactors[0])
-      || (constantPad->GetPadLowerBound()[1] != lowerfactors[1]))
+  if ((constantPad->GetPadUpperBound()[0] != upperFactors[0])
+      || (constantPad->GetPadUpperBound()[1] != upperFactors[1])
+      || (constantPad->GetPadLowerBound()[0] != lowerFactors[0])
+      || (constantPad->GetPadLowerBound()[1] != lowerFactors[1]))
     {
     passed = false;
     }
@@ -179,16 +170,16 @@ int itkConstantPadImageTest(int, char* [] )
     stream->UpdateLargestPossibleRegion();
     requestedRegion = stream->GetOutput()->GetRequestedRegion();
 
-    itk::ImageRegionIterator<ShortImage>
+    itk::ImageRegionIterator< FloatImage >
       iteratorIn2(stream->GetOutput(), requestedRegion);
 
     passed = true;
     size = requestedRegion.GetSize();
     index = requestedRegion.GetIndex();
-    if ((index[0] != (0 - (IndexValueType) lowerfactors[0]))
-        || (index[1] != (0 - (IndexValueType) lowerfactors[1]))
-        || (size[0] != (8 + lowerfactors[0] + upperfactors[0]))
-        || (size[1] != (12 + lowerfactors[1] + upperfactors[1])))
+    if ((index[0] != (0 - (IndexValueType) lowerFactors[0]))
+        || (index[1] != (0 - (IndexValueType) lowerFactors[1]))
+        || (size[0] != (8 + lowerFactors[0] + upperFactors[0]))
+        || (size[1] != (12 + lowerFactors[1] + upperFactors[1])))
       {
       passed = false;
       }
@@ -200,14 +191,14 @@ int itkConstantPadImageTest(int, char* [] )
         column = iteratorIn2.GetIndex()[1];
         if ((row < 0) || (row>7) || (column < 0) || (column > 11))
           {
-          if ( iteratorIn2.Get() != 13 )
+          if ( iteratorIn2.Get() != constant )
             {
             passed = false;
             }
           }
         else
           {
-          nextVal = 8*column+row;
+          int nextVal = 8*column+row;
           if (iteratorIn2.Get() != nextVal)
             {
             std::cout << "Error: (" << row << ", " << column
@@ -220,7 +211,7 @@ int itkConstantPadImageTest(int, char* [] )
       }
     }
 
-  if (passed)
+  if ( passed )
     {
     std::cout << "constantPadImageFilter case 2 passed." << std::endl;
     }
