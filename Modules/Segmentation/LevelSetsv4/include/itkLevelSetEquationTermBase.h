@@ -29,7 +29,10 @@ namespace itk
  *  \class LevelSetEquationTermBase
  *  \brief Abstract class to represents a term in the level-set evolution PDE
  *
- *  Evolving level-set function \f$ \phi \f$ can de expressed as follows:
+ *  \tparam TInput Input Image Type
+ *  \tparam TLevelSetContainer Level set function container type
+ *
+ *  Evolving single level-set function \f$ \phi \f$ can be expressed as follows:
  *  \f[
  *  \frac{\partial \phi(p)}{\partial \tau} = \sum\limits_{i=1}^{N} \alpha_{i} \cdot \omega_i(p)
  *  \f]
@@ -37,8 +40,8 @@ namespace itk
  *  the input image; and \f$\alpha_i\f$ is a weight to balance the contribution of
  *  each term in the PDE.
  *
- *  \tparam TInput Input Image Type
- *  \tparam TLevelSetContainer Level set function container type
+ *  \sa LevelSetEquationContainerBase
+ *
  *  \ingroup ITKLevelSetsv4
  */
 template< class TInputImage, // Input image
