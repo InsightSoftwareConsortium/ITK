@@ -179,7 +179,7 @@ int itkQuadEdgeMeshPointTest1( int , char* [] )
 
   // The following tests are commented out
   // because the point code is not safe yet.
-#if POINTMAKESAFE
+#if defined(POINTMAKESAFE)
   bool internal = p6.IsInternal();
 
   if( internal != true ) // FIXME: verify with a realistic case

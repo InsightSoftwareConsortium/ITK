@@ -291,7 +291,7 @@ public:
   itkConceptMacro( SameDimension,
                    ( Concept::SameDimension< itkGetStaticConstMacro(InputImageDimension),
                                              itkGetStaticConstMacro(OutputImageDimension) > ) );
-#if THIS_CONCEPT_FAILS_ON_GCC
+#if defined(THIS_CONCEPT_FAILS_ON_GCC)
   /** The input pixel type must be the same as that of the output image. */
   itkConceptMacro( SameVectorDimension,
                    ( Concept::SameDimension< itkGetStaticConstMacro(InputImageVectorDimension),
