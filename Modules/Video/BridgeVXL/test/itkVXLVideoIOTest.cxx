@@ -1,3 +1,20 @@
+/*=========================================================================
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #include <iostream>
 #include <fstream>
 
@@ -6,12 +23,11 @@
 #include "itkRGBPixel.h"
 #include "itkImageFileWriter.h"
 
-
 // ITK typedefs
-typedef itk::RGBPixel<char> PixelType;
+typedef itk::RGBPixel<char>                  PixelType;
 typedef itk::ImportImageFilter<PixelType, 2> ImportFilterType;
-typedef itk::Image<PixelType, 2> ImageType;
-typedef itk::ImageFileWriter<ImageType> WriterType;
+typedef itk::Image<PixelType, 2>             ImageType;
+typedef itk::ImageFileWriter<ImageType>      WriterType;
 
 //
 // Utility function to get an ITK image from an void* buffer
@@ -43,8 +59,6 @@ ImageType::Pointer itkImageFromBuffer( itk::VXLVideoIO::Pointer vxlIO, void* buf
 
   return frame;
 }
-
-
 
 //
 // Utility function for comparing output of Read buffer to VXL image
@@ -173,17 +187,15 @@ bool videosMatch(char* file1, char* file2)
 }
 */
 
-
-
 ///////////////////////////////////////////////////////////////////////////////
 // This tests all of the functionality of the VXLVideoIO
 //
 // Usage: [Video Input] [Non-Video Input] [Video Output] [Width] [Height]
 //            [Num Frames] [FpS]
 
-int test_VXLVideoIO ( char* input, char* nonVideoInput, char* output, char* cameraOutput,
-                         unsigned int inWidth, unsigned int inHeight,
-                         unsigned long inNumFrames, double inFpS )
+                   int test_VXLVideoIO ( char* input, char* nonVideoInput, char* output, char* cameraOutput,
+                                         unsigned int inWidth, unsigned int inHeight,
+                                         unsigned long inNumFrames, double inFpS )
 {
 
   int ret = EXIT_SUCCESS;
@@ -219,8 +231,6 @@ int test_VXLVideoIO ( char* input, char* nonVideoInput, char* output, char* came
     ret = EXIT_FAILURE;
     }
 
-
-
   //////
   // ReadImageInformation
   //////
@@ -234,26 +244,26 @@ int test_VXLVideoIO ( char* input, char* nonVideoInput, char* output, char* came
     {
     infoSet = false;
     paramMessage << "Width mismatch: (expected) " << inWidth << " != (got) "
-      << vxlIO->GetDimensions(0) << std::endl;
+                 << vxlIO->GetDimensions(0) << std::endl;
     }
   if (vxlIO->GetDimensions(1) != inHeight)
     {
     infoSet = false;
     paramMessage << "Height mismatch: (expected) " << inHeight << " != (got) "
-      << vxlIO->GetDimensions(1) << std::endl;
+                 << vxlIO->GetDimensions(1) << std::endl;
     }
   double epsilon = 0.0001;
   if (vxlIO->GetFramesPerSecond() < inFpS - epsilon || vxlIO->GetFramesPerSecond() > inFpS + epsilon)
     {
     infoSet = false;
     paramMessage << "FpS mismatch: (expected) " << inFpS << " != (got) " << vxlIO->GetFramesPerSecond()
-      << std::endl;
+                 << std::endl;
     }
   if (vxlIO->GetFrameTotal() != inNumFrames)
     {
     infoSet = false;
     paramMessage << "FrameTotal mismatch: (expected) " << inNumFrames << " != (got) "
-      << vxlIO->GetFrameTotal() << std::endl;
+                 << vxlIO->GetFrameTotal() << std::endl;
     }
 
   if (!infoSet)
@@ -421,84 +431,84 @@ int test_VXLVideoIO ( char* input, char* nonVideoInput, char* output, char* came
 
 
   /////////////////////////////////////////////////////////////////////////////
-  // Test Writing
-  //
+    // Test Writing
+    //
 
 
-  //////
-  // SetWriterParameters
-  //////
-  std::cout << "VXLVIdeoIO::SetWriterParameters..." << std::endl;
+    //////
+    // SetWriterParameters
+    //////
+    std::cout << "VXLVIdeoIO::SetWriterParameters..." << std::endl;
 
-  // Reset the saved parameters
-  std::vector<itk::SizeValueType> size;
-  size.push_back(width);
-  size.push_back(height);
-  vxlIO->SetWriterParameters(fps, size, fourCC, nChannels, itk::ImageIOBase::UCHAR);
+    // Reset the saved parameters
+    std::vector<itk::SizeValueType> size;
+    size.push_back(width);
+    size.push_back(height);
+    vxlIO->SetWriterParameters(fps, size, fourCC, nChannels, itk::ImageIOBase::UCHAR);
 
-  // Make sure they set correctly
-  if (vxlIO->GetFramesPerSecond() != fps || vxlIO->GetDimensions(0) != width ||
-      vxlIO->GetDimensions(1) != height || vxlIO->GetNumberOfComponents() != nChannels)
-    {
-    std::cerr << "Didn't set writer parmeters correctly" << std::endl;
-    ret = EXIT_FAILURE;
-    }
+    // Make sure they set correctly
+    if (vxlIO->GetFramesPerSecond() != fps || vxlIO->GetDimensions(0) != width ||
+        vxlIO->GetDimensions(1) != height || vxlIO->GetNumberOfComponents() != nChannels)
+      {
+      std::cerr << "Didn't set writer parmeters correctly" << std::endl;
+      ret = EXIT_FAILURE;
+      }
 
-  //////
-  // CanWriteFile
-  //////
-  std::cout << "VXLVideoIO::CanWriteFile..." << std::endl;
+    //////
+    // CanWriteFile
+    //////
+    std::cout << "VXLVideoIO::CanWriteFile..." << std::endl;
 
-  // Test CanWriteFile on good filename
-  if (!vxlIO->CanWriteFile(output))
-    {
-    std::cerr << "CanWriteFile didn't return true correctly" << std::endl;
-    ret = EXIT_FAILURE;
-    }
+    // Test CanWriteFile on good filename
+    if (!vxlIO->CanWriteFile(output))
+      {
+      std::cerr << "CanWriteFile didn't return true correctly" << std::endl;
+      ret = EXIT_FAILURE;
+      }
 
-  // Test CanWriteFile on bad filename
-  if (vxlIO->CanWriteFile("asdfasdfasdf"))
-    {
-    std::cerr << "CanWriteFile should have failed for bad filename" << std::endl;
-    ret = EXIT_FAILURE;
-    }
-
-
-  //////
-  // Write
-  //////
-  std::cout << "VXLVIdeoIO::Write..." << std::endl;
-
-  // Set output filename
-  vxlIO->SetFileName( output );
-
-  // Set up a second VideoIO to read while we're writing
-  itk::VXLVideoIO::Pointer vxlIO2 = itk::VXLVideoIO::New();
-  vxlIO2->SetFileName( input );
-  vxlIO2->ReadImageInformation();
-
-  // Loop through all frames to read with opencvIO2 and write with opencvIO
-  for (unsigned int i = 0; i < inNumFrames; ++i)
-    {
-
-    // Set up a buffer to read to
-    PixelType buffer[ vxlIO2->GetImageSizeInBytes() ];
-
-    // Read into the buffer
-    vxlIO2->Read(static_cast<void*>(buffer));
-
-    // Write out the frame from the buffer
-    vxlIO->Write(static_cast<void*>(buffer));
-
-    }
-
-  // Finish writing and reading
-  vxlIO2->FinishReadingOrWriting();
-  vxlIO->FinishReadingOrWriting();
+    // Test CanWriteFile on bad filename
+    if (vxlIO->CanWriteFile("asdfasdfasdf"))
+      {
+      std::cerr << "CanWriteFile should have failed for bad filename" << std::endl;
+      ret = EXIT_FAILURE;
+      }
 
 
-  std::cout<<"Done !"<<std::endl;
-  return ret;
+    //////
+    // Write
+    //////
+    std::cout << "VXLVIdeoIO::Write..." << std::endl;
+
+    // Set output filename
+    vxlIO->SetFileName( output );
+
+    // Set up a second VideoIO to read while we're writing
+    itk::VXLVideoIO::Pointer vxlIO2 = itk::VXLVideoIO::New();
+    vxlIO2->SetFileName( input );
+    vxlIO2->ReadImageInformation();
+
+    // Loop through all frames to read with opencvIO2 and write with opencvIO
+    for (unsigned int i = 0; i < inNumFrames; ++i)
+      {
+
+      // Set up a buffer to read to
+      PixelType buffer2[ vxlIO2->GetImageSizeInBytes() ];
+
+      // Read into the buffer
+      vxlIO2->Read(static_cast<void*>(buffer2));
+
+      // Write out the frame from the buffer
+      vxlIO->Write(static_cast<void*>(buffer2));
+
+      }
+
+    // Finish writing and reading
+    vxlIO2->FinishReadingOrWriting();
+    vxlIO->FinishReadingOrWriting();
+
+
+    std::cout<<"Done !"<<std::endl;
+    return ret;
 }
 
 int itkVXLVideoIOTest ( int argc, char *argv[] )
@@ -511,5 +521,5 @@ int itkVXLVideoIOTest ( int argc, char *argv[] )
     }
 
   return test_VXLVideoIO(argv[1], argv[2], argv[3], argv[4], atoi(argv[5]), atoi(argv[6]),
-                            atoi(argv[7]), atof(argv[8]));
+                         atoi(argv[7]), atof(argv[8]));
 }
