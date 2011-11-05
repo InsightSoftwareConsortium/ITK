@@ -104,7 +104,6 @@ public:
   typedef typename Superclass::CacheImageType               CacheImageType;
   typedef typename Superclass::DomainMapImageFilterType     DomainMapImageFilterType;
   typedef typename Superclass::DomainMapImageFilterPointer  DomainMapImageFilterPointer;
-  typedef typename Superclass::DomainIteratorType           DomainIteratorType;
 
   typedef typename Superclass::StoppingCriterionType    StoppingCriterionType;
   typedef typename Superclass::StoppingCriterionPointer StoppingCriterionPointer;
@@ -139,9 +138,6 @@ protected:
   /** Run the iterative loops of calculating levelset function updates until
    *  the stopping criterion is satisfied */
   void RunOneIteration();
-
-  /** Initialize the iteration by computing parameters in the terms of the level set equation */
-  void InitializeIteration();
 
   /** Computer the update at each pixel and store in the update buffer */
   void ComputeIteration();
@@ -224,7 +220,6 @@ public:
   typedef typename Superclass::CacheImageType               CacheImageType;
   typedef typename Superclass::DomainMapImageFilterType     DomainMapImageFilterType;
   typedef typename Superclass::DomainMapImageFilterPointer  DomainMapImageFilterPointer;
-  typedef typename Superclass::DomainIteratorType           DomainIteratorType;
 
   typedef typename Superclass::StoppingCriterionType    StoppingCriterionType;
   typedef typename Superclass::StoppingCriterionPointer StoppingCriterionPointer;
@@ -255,9 +250,6 @@ protected:
   /** Run the iterative loops of calculating levelset function updates until
    *  the stopping criterion is satisfied */
   void RunOneIteration();
-
-  /** Initialize the iteration by computing parameters in the terms of the level set equation */
-  void InitializeIteration();
 
   /** Compute the update at each pixel and store in the update buffer */
   void ComputeIteration();
@@ -340,7 +332,6 @@ public:
   typedef typename Superclass::CacheImageType               CacheImageType;
   typedef typename Superclass::DomainMapImageFilterType     DomainMapImageFilterType;
   typedef typename Superclass::DomainMapImageFilterPointer  DomainMapImageFilterPointer;
-  typedef typename Superclass::DomainIteratorType           DomainIteratorType;
 
   typedef typename Superclass::StoppingCriterionType    StoppingCriterionType;
   typedef typename Superclass::StoppingCriterionPointer StoppingCriterionPointer;
@@ -363,9 +354,6 @@ protected:
   /** Run the iterative loops of calculating levelset function updates until
    *  the stopping criterion is satisfied */
   void RunOneIteration();
-
-  /** Initialize the iteration by computing parameters in the terms of the level set equation */
-  void InitializeIteration();
 
   /** Computer the update at each pixel and store in the update buffer */
   void ComputeIteration();
@@ -446,7 +434,6 @@ public:
   typedef typename Superclass::CacheImageType               CacheImageType;
   typedef typename Superclass::DomainMapImageFilterType     DomainMapImageFilterType;
   typedef typename Superclass::DomainMapImageFilterPointer  DomainMapImageFilterPointer;
-  typedef typename Superclass::DomainIteratorType           DomainIteratorType;
 
   typedef typename Superclass::StoppingCriterionType    StoppingCriterionType;
   typedef typename Superclass::StoppingCriterionPointer StoppingCriterionPointer;
@@ -474,9 +461,6 @@ protected:
   /** Run the iterative loops of calculating levelset function updates until
    *  the stopping criterion is satisfied */
   void RunOneIteration();
-
-  /** Initialize the iteration by computing parameters in the terms of the level set equation */
-  void InitializeIteration();
 
   void UpdateLevelSets();
 

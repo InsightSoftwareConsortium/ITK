@@ -120,6 +120,10 @@ int itkMultiLevelSetDenseImageTest( int , char* [] )
   CacheImageType::IndexType out_index;
   CacheImageType::PixelType out_id;
 
+  typedef DomainMapImageFilterType::DomainMapType DomainMapType;
+  const DomainMapType domainMap  = filter->GetDomainMap();
+  DomainMapType::const_iterator mapIt;
+  const DomainMapType::const_iterator mapEnd = domainMap.end();
   while( !it.IsAtEnd() )
     {
     out_index = it.GetIndex();
@@ -143,35 +147,39 @@ int itkMultiLevelSetDenseImageTest( int , char* [] )
 
     if( out_id != 0 )
       {
-      IdListType lout = filter->m_LevelSetMap[out_id].m_List;
-      std::cout << filter->m_LevelSetMap[out_id].m_Region;
-      if( lout.empty() )
+      mapIt = domainMap.find(out_id);
+      if( mapIt != mapEnd )
         {
-        return EXIT_FAILURE;
-        }
-      else
-        {
-        for( IdListType::iterator lIt = lout.begin(); lIt != lout.end(); ++lIt )
+        IdListType lout = mapIt->second.m_List;
+        std::cout << mapIt->second.m_Region;
+        if( lout.empty() )
           {
-          std::cout << *lIt <<" " << level_set[*lIt]->Evaluate( out_index )
-                    << std::endl;
-          }
-        std::cout << std::endl;
-
-        lout.sort();
-        if( lout != solution )
-          {
-          std::cerr <<"FAILURE!!!" <<std::endl;
           return EXIT_FAILURE;
+          }
+        else
+          {
+          for( IdListType::iterator lIt = lout.begin(); lIt != lout.end(); ++lIt )
+            {
+            std::cout << *lIt <<" " << level_set[*lIt]->Evaluate( out_index )
+                      << std::endl;
+            }
+          std::cout << std::endl;
+
+          lout.sort();
+          if( lout != solution )
+            {
+            std::cerr <<"FAILURE!!!" <<std::endl;
+            return EXIT_FAILURE;
+            }
           }
         }
       }
     ++it;
     }
 
-  typedef DomainMapImageFilterType::DomainIteratorType DomainIteratorType;
-  DomainIteratorType map_it = filter->m_LevelSetMap.begin();
-  DomainIteratorType map_end = filter->m_LevelSetMap.end();
+  typedef DomainMapImageFilterType::DomainMapType::const_iterator DomainIteratorType;
+  DomainIteratorType map_it = domainMap.begin();
+  DomainIteratorType map_end = domainMap.end();
 
   while( map_it != map_end )
     {

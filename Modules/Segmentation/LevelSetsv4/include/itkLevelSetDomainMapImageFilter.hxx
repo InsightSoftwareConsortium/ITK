@@ -29,8 +29,6 @@ LevelSetDomainMapImageFilter< TInputImage, TOutputImage >
 {
   this->Superclass::SetNumberOfRequiredInputs ( 1 );
   this->Superclass::SetNumberOfRequiredOutputs ( 1 );
-
-  this->Superclass::SetNthOutput ( 0, OutputImageType::New() );
 }
 
 
@@ -42,9 +40,17 @@ LevelSetDomainMapImageFilter< TInputImage, TOutputImage >
 
 
 template < class TInputImage, class TOutputImage >
+const typename LevelSetDomainMapImageFilter< TInputImage, TOutputImage >::DomainMapType &
+LevelSetDomainMapImageFilter< TInputImage, TOutputImage >
+::GetDomainMap() const
+{
+  return this->m_DomainMap;
+}
+
+template < class TInputImage, class TOutputImage >
 typename LevelSetDomainMapImageFilter< TInputImage, TOutputImage >::InputImageRegionType
-LevelSetDomainMapImageFilter< TInputImage, TOutputImage >::
-ComputeConsistentRegion( const InputImageRegionType & inputRegion ) const
+LevelSetDomainMapImageFilter< TInputImage, TOutputImage >
+::ComputeConsistentRegion( const InputImageRegionType & inputRegion ) const
 {
   bool regionWasModified = false;
 
@@ -101,13 +107,15 @@ void
 LevelSetDomainMapImageFilter< TInputImage, TOutputImage >::
 GenerateData()
 {
+  // Clear any prior contents.
+  this->m_DomainMap.clear();
+
   InputImageConstPointer input = this->GetInput();
   const InputImageRegionType & region = input->GetLargestPossibleRegion();
   const InputImageSizeType size = region.GetSize();
 
   OutputImagePointer output = this->GetOutput();
-  output->CopyInformation( input );
-  output->SetRegions( region );
+  output->SetBufferedRegion( region );
   output->Allocate();
   output->FillBuffer( NumericTraits< OutputImagePixelType >::Zero );
 
@@ -128,9 +136,9 @@ GenerateData()
 
   while( !iIt.IsAtEnd() )
     {
-    const InputImageIndexType & startIdx = iIt.GetIndex();
-    InputImageIndexType stopIdx = startIdx;
-    const InputImagePixelType & inputPixel = iIt.Get();
+    const InputImageIndexType & startIdx     = iIt.GetIndex();
+    InputImageIndexType stopIdx              = startIdx;
+    const InputImagePixelType & inputPixel   = iIt.Get();
     const OutputImagePixelType & outputPixel = oIt.Get();
 
     // outputPixel is null when it has not been processed yet,
@@ -170,7 +178,7 @@ GenerateData()
       // Compute the consistent subregion
       subRegion = this->ComputeConsistentRegion( subRegion );
 
-      this->m_LevelSetMap[segmentId] = LevelSetDomain( subRegion, inputPixel );
+      this->m_DomainMap[segmentId] = LevelSetDomain( subRegion, inputPixel );
 
       OutputIndexIteratorType ooIt( output, subRegion );
       ooIt.GoToBegin();
@@ -185,8 +193,6 @@ GenerateData()
     ++iIt;
     ++oIt;
     }
-
-  this->GraftOutput ( output );
 }
 
 template < class TInputImage, class TOutputImage >
@@ -195,7 +201,7 @@ LevelSetDomainMapImageFilter< TInputImage, TOutputImage >::
 PrintSelf ( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf ( os,indent );
-  os << indent << "Class Name:        " << this->GetNameOfClass() << std::endl;
+  os << indent << "DomainMap size: " << this->m_DomainMap.size() << std::endl;
 }
 
 } /* end namespace itk */

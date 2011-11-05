@@ -29,13 +29,14 @@ namespace itk
 {
 /**
   \class LevelSetDomainMapImageFilter
-  \tparam TInputImage Image where the pixel type is a container of ids
-  \tparam TOutputImage Image where the pixel type is an integer to split the region
+  \tparam TInputImage  Image where the pixel type is a container (e.g. std::list) of level set ids
+  \tparam TOutputImage Image where the pixel type is an identifier integer to associate with each subdomain
+
+  Every subdomain (image region) has a consistent set of level sets ids associated with every pixel.
   \ingroup ITKLevelSetsv4
 */
 template < class TInputImage, class TOutputImage >
-class ITK_EXPORT LevelSetDomainMapImageFilter : public ImageToImageFilter<
-  TInputImage, TOutputImage >
+class ITK_EXPORT LevelSetDomainMapImageFilter : public ImageToImageFilter< TInputImage, TOutputImage >
 {
   public:
     typedef LevelSetDomainMapImageFilter                      Self;
@@ -85,10 +86,12 @@ class ITK_EXPORT LevelSetDomainMapImageFilter : public ImageToImageFilter<
       InputImagePixelType m_List;
       };
 
-    typedef std::map< IdentifierType, LevelSetDomain > DomainContainerType;
-    typedef typename DomainContainerType::iterator     DomainIteratorType;
+    typedef std::map< IdentifierType, LevelSetDomain > DomainMapType;
 
-    DomainContainerType m_LevelSetMap;
+    /** Get a map from the identifier for the domains with consistent level set ids
+     * * struct containing an (int, string, etc) identifier and the ImageRegion that
+     * specifies the domain. */
+    const DomainMapType & GetDomainMap() const;
 
   protected:
     LevelSetDomainMapImageFilter();
@@ -106,6 +109,8 @@ class ITK_EXPORT LevelSetDomainMapImageFilter : public ImageToImageFilter<
     virtual void PrintSelf ( std::ostream& os, Indent indent ) const;
 
   private:
+    DomainMapType m_DomainMap;
+
     LevelSetDomainMapImageFilter ( Self& );   // intentionally not implemented
     void operator= ( const Self& );   // intentionally not implemented
   };

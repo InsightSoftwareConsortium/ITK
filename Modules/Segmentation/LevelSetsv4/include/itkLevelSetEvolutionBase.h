@@ -93,8 +93,6 @@ public:
   typedef typename LevelSetContainerType::DomainMapImageFilterType
                                                          DomainMapImageFilterType;
   typedef typename DomainMapImageFilterType::Pointer     DomainMapImageFilterPointer;
-  typedef typename DomainMapImageFilterType::DomainIteratorType
-                                                         DomainIteratorType;
 
   typedef LevelSetEvolutionStoppingCriterionBase< LevelSetContainerType >
                                                   StoppingCriterionType;
@@ -135,6 +133,9 @@ protected:
   bool                        m_UserGloballyDefinedTimeStep;
 
   void CheckSetUp();
+
+  /** Initialize the iteration by computing parameters in the terms of the level set equation */
+  void InitializeIteration();
 
 private:
   LevelSetEvolutionBase( const Self& ); // purposely not implemented
