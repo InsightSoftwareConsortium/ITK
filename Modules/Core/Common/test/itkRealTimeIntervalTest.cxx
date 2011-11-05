@@ -60,13 +60,9 @@ int itkRealTimeIntervalTest( int, char * [] )
   CHECK_FOR_VALUE( timeInDays, 0.0 );
 
   itk::RealTimeInterval interval1;
-
-    itk::RealTimeInterval interval01 = interval1 - interval0;
-
   itk::RealTimeInterval intervalX = interval0;
 
   itk::RealTimeInterval oneSecond( 1, 0 );
-
   for( unsigned int i=0; i < 1000000L; i++)
     {
     intervalX += oneSecond;

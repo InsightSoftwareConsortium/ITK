@@ -35,7 +35,10 @@ int itkParametricSpaceToImageSpaceMeshFilterTest(int, char* [] )
 
   ParametricFilterType::Pointer
                       parametercFilter = ParametricFilterType::New();
-
+  if( parametercFilter.IsNull() )
+    {
+    return EXIT_FAILURE;
+    }
   return EXIT_SUCCESS;
 }
 

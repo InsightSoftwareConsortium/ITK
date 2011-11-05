@@ -113,7 +113,7 @@ int itkSampleClassifierFilterTest3( int, char * [] )
   estimator->SetKdTree(generator->GetOutput());
   estimator->SetCentroidPositionChangesThreshold(0.0);
   estimator->StartOptimization();
-  EstimatorType::ParametersType estimatedMeans = estimator->GetParameters();
+  //EstimatorType::ParametersType estimatedMeans = estimator->GetParameters();
 
   // Add class labels
   ClassLabelVectorType & classLabelVector  = classLabelsObject->Get();

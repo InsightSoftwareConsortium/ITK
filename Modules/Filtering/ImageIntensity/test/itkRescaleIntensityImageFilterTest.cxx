@@ -31,7 +31,6 @@ int itkRescaleIntensityImageFilterTest(int, char* [] )
   typedef itk::Image<float,3> TestInputImage;
   typedef itk::Image<float,3> TestOutputImage;
 
-  TestInputImage::Pointer    inputImage  = TestInputImage::New();
   TestInputImage::RegionType region;
   TestInputImage::SizeType   size; size.Fill(64);
   TestInputImage::IndexType  index; index.Fill(0);

@@ -97,9 +97,6 @@ void
 MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
 ::SetTransform(SpatialObjectType *so, MetaObject *meta)
 {
-  typename SpatialObjectType::TransformType::Pointer transform =
-    SpatialObjectType::TransformType::New();
-
   typename SpatialObjectType::TransformType::InputPointType center;
   typename SpatialObjectType::TransformType::MatrixType matrix;
   typename SpatialObjectType::TransformType::OffsetType offset;

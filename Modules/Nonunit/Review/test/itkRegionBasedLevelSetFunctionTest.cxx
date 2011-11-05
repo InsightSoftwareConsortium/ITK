@@ -48,7 +48,6 @@ public:
   typedef typename Superclass::FeaturePixelType    FeaturePixelType;
   typedef typename Superclass::FeatureIndexType    FeatureIndexType;
 
-
   virtual ScalarValueType ComputeInternalTerm(const FeaturePixelType& ,
     const FeatureIndexType& )
     {
@@ -70,7 +69,6 @@ public:
   virtual void ComputeParameters() {}
 
   virtual void UpdateSharedDataParameters() {}
-
 
 protected:
   RegionBasedLevelSetFunctionTestHelper() {}
@@ -124,11 +122,14 @@ int itkRegionBasedLevelSetFunctionTest( int, char* [] )
 
   typedef itk::RegionBasedLevelSetFunctionSharedDataHelper<Dimension>      DataHelperType;
 
-
   typedef itk::RegionBasedLevelSetFunctionTestHelper<
     ImageType, FeatureImageType, DataHelperType >      RegionBasedLevelSetFunctionType;
 
   RegionBasedLevelSetFunctionType::Pointer function = RegionBasedLevelSetFunctionType::New();
+  if( function.IsNull() )
+    {
+    return EXIT_FAILURE;
+    }
 
   return EXIT_SUCCESS;
 }

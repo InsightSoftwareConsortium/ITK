@@ -234,8 +234,6 @@ ParticleSwarmOptimizerBase
 {
   unsigned int j, k, n, index, prevIndex;
   bool converged = false;
-  itk::Statistics::MersenneTwisterRandomVariateGenerator::Pointer
-    randomGenerator = Statistics::MersenneTwisterRandomVariateGenerator::GetInstance();
   unsigned int bestValueMemorySize =
     this->m_NumberOfGenerationsWithMinimalImprovement+1;
   unsigned int percentileIndex =

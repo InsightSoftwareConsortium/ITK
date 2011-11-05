@@ -30,7 +30,6 @@
  *
  */
 
-
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
@@ -75,7 +74,6 @@ int itkImageReadMagnitudeAndPhaseWriteComplexTest( int argc, char * argv[] )
   MagnitudeAndPhase2Complex->SetInput2(readerImag->GetOutput());
 
   writer->SetInput(MagnitudeAndPhase2Complex->GetOutput());
-
   try
     {
     writer->Update();
@@ -90,7 +88,9 @@ int itkImageReadMagnitudeAndPhaseWriteComplexTest( int argc, char * argv[] )
   // check that the default template parameters work
   typedef itk::MagnitudeAndPhaseToComplexImageFilter < InputImageType > DefaultParametersFilterType;
   DefaultParametersFilterType::Pointer temp = DefaultParametersFilterType::New();
-
+  if( temp.IsNull() )
+    {
+    return EXIT_FAILURE;
+    }
   return EXIT_SUCCESS;
-
 }

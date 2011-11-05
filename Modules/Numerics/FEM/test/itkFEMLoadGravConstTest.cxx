@@ -41,10 +41,6 @@ int itkFEMLoadGravConstTest(int argc, char *argv[])
   typedef itk::fem::Solver<2> Solver2DType;
   Solver2DType::Pointer solver = Solver2DType::New();
 
-  typedef itk::SpatialObject<2>      SpatialObjectType;
-  typedef SpatialObjectType::Pointer SpatialObjectPointer;
-  SpatialObjectPointer Spatial = SpatialObjectType::New();
-
   typedef itk::FEMSpatialObjectReader<2>      FEMSpatialObjectReaderType;
   typedef FEMSpatialObjectReaderType::Pointer FEMSpatialObjectReaderPointer;
   FEMSpatialObjectReaderPointer SpatialReader = FEMSpatialObjectReaderType::New();

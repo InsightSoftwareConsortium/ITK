@@ -45,6 +45,10 @@ int itkFEMElement2DC0LinearQuadrilateralStrainItpackTest(int argc, char *argv[])
   typedef itk::SpatialObject<2>      SpatialObjectType;
   typedef SpatialObjectType::Pointer SpatialObjectPointer;
   SpatialObjectPointer Spatial = SpatialObjectType::New();
+  if(Spatial.IsNull())
+    {
+    return EXIT_FAILURE;
+    }
 
   typedef itk::FEMSpatialObjectReader<2>      FEMSpatialObjectReaderType;
   typedef FEMSpatialObjectReaderType::Pointer FEMSpatialObjectReaderPointer;

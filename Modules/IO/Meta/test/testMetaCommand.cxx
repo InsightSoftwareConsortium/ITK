@@ -55,20 +55,7 @@ int testMetaCommand(int argc, char * argv[])
   command.AddOptionField("OptionalField3_ri_oi","OptionalField3_ri", MetaCommand::INT,true);
   command.AddOptionField("OptionalField3_ri_oi","OptionalField3_oi", MetaCommand::INT,false,"100","A value of 100");
 
-  if(command.Parse(argc,argv) == false )
-    {
-    if(command.GetValueAsInt("ExpectedFailStatus","ExpectedFailStatus") == 1)
-      {
-      std::cout << "Expected parse failure, so test succeded" << std::endl;
-      return 0;
-      }
-    else
-      {
-      std::cout << "Unexpected parse failure, so test failed" << std::endl;
-      return 1;
-      }
-    }
-  else
+  if(command.Parse(argc,argv) == true )
     {
     const int SumValue=
       +( command.GetOptionWasSet("Required2_ri")         ? command.GetValueAsInt("Required2_ri","Required2_ri") : 0 )
@@ -90,6 +77,14 @@ int testMetaCommand(int argc, char * argv[])
       return ( command.GetValueAsInt("SumOfValues") - SumValue );
       }
     }
-  //Should never reach this point.
-  return -1;
+    else
+    {
+    if(command.GetValueAsInt("ExpectedFailStatus","ExpectedFailStatus") == 1)
+      {
+      std::cout << "Expected parse failure, so test succeded" << std::endl;
+      return 0;
+      }
+    }
+  std::cout << "Unexpected parse failure, so test failed" << std::endl;
+  return 1;
 }

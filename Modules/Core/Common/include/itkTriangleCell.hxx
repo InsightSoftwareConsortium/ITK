@@ -100,11 +100,6 @@ TriangleCell< TCellInterface >
         TransferAutoPointer(cellPointer, vertexPointer);
         return true;
         }
-      else
-        {
-        cellPointer.Reset();
-        return false;
-        }
       break;
       }
     case 1:
@@ -115,20 +110,12 @@ TriangleCell< TCellInterface >
         TransferAutoPointer(cellPointer, edgePointer);
         return true;
         }
-      else
-        {
-        cellPointer.Reset();
-        return false;
-        }
       break;
       }
-
     default:
-      {
-      cellPointer.Reset();
-      return false;
-      }
+      break; //just fall through and return false
     }
+  cellPointer.Reset();
   return false;
 }
 

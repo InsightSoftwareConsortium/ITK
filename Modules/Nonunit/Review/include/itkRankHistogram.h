@@ -306,41 +306,6 @@ public:
   TInputPixel GetValue(const TInputPixel &)
   {
     return GetValueBruteForce();
-    SizeValueType     target = (SizeValueType)( this->m_Rank * ( m_Entries - 1 ) ) + 1;
-    SizeValueType     total = m_Below;
-    SizeValueType     pos = (OffsetValueType)m_RankValue - NumericTraits< TInputPixel >::NonpositiveMin();
-
-    if ( total < target )
-      {
-      while ( pos < m_Size - 1 )
-        {
-        ++pos;
-        total += m_Vec[pos];
-        if ( total >= target )
-          {
-          break;
-          }
-        }
-      }
-    else
-      {
-      while ( pos > 0 )
-        {
-        SizeValueType tbelow = total - m_Vec[pos];
-        if ( tbelow < target ) // we've overshot
-          {
-          break;
-          }
-        total = tbelow;
-        --pos;
-        }
-      }
-
-    m_RankValue = (TInputPixel)( pos + NumericTraits< TInputPixel >::NonpositiveMin() );
-    m_Below = total;
-    // std::cout << m_RankValue+0.0 << "  " << GetValueBruteForce(0)+0.0 << std::endl;
-    itkAssertInDebugAndIgnoreInReleaseMacro( m_RankValue == GetValueBruteForce() );
-    return ( m_RankValue );
   }
 
   void AddPixel(const TInputPixel & p)

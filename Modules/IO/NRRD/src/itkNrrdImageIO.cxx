@@ -99,13 +99,10 @@ NrrdImageIO::NrrdToITKComponentType(const int nrrdComponentType) const
       return DOUBLE;
       break;
     default:
-      return UNKNOWNCOMPONENTTYPE;
       break;
     }
-
   // Strictly to avoid compiler warning regarding "control may reach end of
   // non-void function":
-  //
   return UNKNOWNCOMPONENTTYPE;
 }
 
@@ -151,13 +148,10 @@ NrrdImageIO::ITKToNrrdComponentType(const ImageIOBase::IOComponentType itkCompon
       return nrrdTypeDouble;
       break;
     default:
-      return nrrdTypeUnknown;
       break;
     }
-
   // Strictly to avoid compiler warning regarding "control may reach end of
   // non-void function":
-  //
   return nrrdTypeUnknown;
 }
 

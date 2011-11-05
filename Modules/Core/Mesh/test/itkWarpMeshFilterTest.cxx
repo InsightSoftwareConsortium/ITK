@@ -117,7 +117,6 @@ int itkWarpMeshFilterTest(int, char* [] )
     std::cerr << "Exception: " << excp << std::endl;
     return EXIT_FAILURE;
     }
-return EXIT_SUCCESS;
 
   MeshType::Pointer outputMesh = warpFilter->GetOutput();
   MeshType::ConstPointer inputMesh  = warpFilter->GetInput();

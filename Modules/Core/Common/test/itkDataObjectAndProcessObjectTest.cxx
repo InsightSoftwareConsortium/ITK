@@ -243,8 +243,6 @@ int itkDataObjectAndProcessObjectTest(int, char* [] )
   // create some data object that will be used as input and output
   itk::TestDataObject::Pointer input0 = itk::TestDataObject::New();
   itk::TestDataObject::Pointer input1 = itk::TestDataObject::New();
-  itk::TestDataObject::Pointer output0 = itk::TestDataObject::New();
-  itk::TestDataObject::Pointer output1 = itk::TestDataObject::New();
 
   // default input values
   TEST_SET_GET_NULL_VALUE( process->GetPrimaryInput() );

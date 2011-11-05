@@ -79,6 +79,10 @@ int itkMultiphaseSparseFiniteDifferenceImageFilterTest( int, char* [] )
     SharedDataHelperType >                        RegionBasedLevelSetFunctionType;
 
   RegionBasedLevelSetFunctionType::Pointer function = RegionBasedLevelSetFunctionType::New();
+  if( function.IsNull() )
+    {
+    return EXIT_FAILURE;
+    }
 
   typedef unsigned long IdCellType;
 

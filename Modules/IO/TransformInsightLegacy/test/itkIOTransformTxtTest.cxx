@@ -205,7 +205,6 @@ secondTest()
       (*lit)->Print ( std::cout );
       lit++;
       }
-    return EXIT_FAILURE;
     }
   catch( itk::ExceptionObject & excp )
     {
@@ -214,7 +213,7 @@ secondTest()
     std::cout << "[SUCCESS]" << std::endl;
     return EXIT_SUCCESS;
     }
-  return EXIT_SUCCESS;
+  return EXIT_FAILURE;
 }
 
 int itkIOTransformTxtTest(int argc, char* argv[])

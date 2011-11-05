@@ -143,6 +143,10 @@ int itkNiftiImageIOTest(int ac, char* av[])
   //Tests added to increase code coverage.
       {
       itk::NiftiImageIOFactory::Pointer MyFactoryTest=itk::NiftiImageIOFactory::New();
+      if(MyFactoryTest.IsNull())
+        {
+        return EXIT_FAILURE;
+        }
       //This was made a protected function.  MyFactoryTest->PrintSelf(std::cout,0);
       }
   return rval;

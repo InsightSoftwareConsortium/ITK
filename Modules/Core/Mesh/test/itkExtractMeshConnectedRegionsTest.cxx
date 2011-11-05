@@ -22,7 +22,6 @@
 #include <iostream>
 #include <string>
 
-
 /*
  * Test the mesh connectivity class.
  */
@@ -39,13 +38,10 @@ int itkExtractMeshConnectedRegionsTest(int, char* [])
   typedef itk::ConnectedRegionsMeshFilter<MeshType,MeshType> ConnectFilterType;
   typedef itk::Point<float,3> PointType;
 
-
-
   // Define a simple mesh of three connected pieces. The mesh consists
   // of several different cell types.
   //
   MeshType::Pointer inMesh  = MeshType::New();
-  MeshType::Pointer outMesh = MeshType::New();
 
   // Pass the mesh through the filter in a variety of ways.
   //
@@ -62,7 +58,6 @@ int itkExtractMeshConnectedRegionsTest(int, char* [])
   connect->DeleteSeed(1);
   connect->Update();
 
-
   // Create a Sphere for running the filter on real input data.
   typedef itk::SphereMeshSource< MeshType >  SphereMeshSourceType;
 
@@ -78,7 +73,6 @@ int itkExtractMeshConnectedRegionsTest(int, char* [])
   meshSource->SetScale(scale);
   meshSource->Modified();
   meshSource->Update();
-
 
   connect->SetInput( meshSource->GetOutput() );
 

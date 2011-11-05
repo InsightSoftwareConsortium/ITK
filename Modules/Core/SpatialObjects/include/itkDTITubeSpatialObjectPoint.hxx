@@ -62,18 +62,16 @@ DTITubeSpatialObjectPoint< TPointDimension >
   switch ( name )
     {
     case 0:
-      return "FA";
-      break;
+      return std::string("FA");
     case 1:
-      return "ADC";
-      break;
+      return std::string("ADC");
     case 2:
-      return "GA";
-      break;
+      return std::string("GA");
     default:
-      return "";
+    //Just fall through.
+      break;
     }
-  return "";
+  return std::string("");
 }
 
 /** Add a field to the point list */
@@ -172,18 +170,12 @@ DTITubeSpatialObjectPoint< TPointDimension >
 ::GetField(FieldEnumType name) const
 {
   std::string charname = this->TranslateEnumToChar(name);
-
   if ( charname.size() > 0 )
     {
     return this->GetField( itksys::SystemTools::LowerCase(charname).c_str() );
     }
-  else
-    {
-    std::cout << "DTITubeSpatialObjectPoint::GetField() : enum not defined"
-              << std::endl;
-    return -1;
-    }
-
+  std::cout << "DTITubeSpatialObjectPoint::GetField() : enum not defined"
+            << std::endl;
   return -1;
 }
 

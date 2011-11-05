@@ -527,19 +527,12 @@ TubeSpatialObject< TDimension, TTubePointType >
     value = this->GetDefaultInsideValue();
     return true;
     }
-  else
+  else if ( Superclass::IsEvaluableAt(point, depth, name) )
     {
-    if ( Superclass::IsEvaluableAt(point, depth, name) )
-      {
-      Superclass::ValueAt(point, value, depth, name);
-      return true;
-      }
-    else
-      {
-      value = this->GetDefaultOutsideValue();
-      return false;
-      }
+    Superclass::ValueAt(point, value, depth, name);
+    return true;
     }
+  value = this->GetDefaultOutsideValue();
   return false;
 }
 

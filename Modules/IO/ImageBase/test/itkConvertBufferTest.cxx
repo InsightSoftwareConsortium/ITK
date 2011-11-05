@@ -107,10 +107,5 @@ int itkConvertBufferTest(int, char* [])
     std::cerr << darray[i] << " " ;
     }
   std::cerr << "\n";
-
-
-  typedef itk::Image<unsigned char, 2> ushort3Image;
-  itk::ImageFileReader<ushort3Image>::Pointer reader
-    = itk::ImageFileReader<ushort3Image>::New();
-        return EXIT_SUCCESS;
+  return EXIT_SUCCESS;
 }

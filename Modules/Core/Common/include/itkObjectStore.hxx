@@ -107,22 +107,10 @@ SizeValueType
 ObjectStore< TObjectType >
 ::GetGrowthSize()
 {
-  switch ( m_GrowthStrategy )
+  if( (m_GrowthStrategy == EXPONENTIAL_GROWTH) && ( m_Size != 0 ) )
     {
-    case LINEAR_GROWTH:
-      return m_LinearGrowthSize;
-      break;
-    case EXPONENTIAL_GROWTH:
-      if ( m_Size == 0 ) { return m_LinearGrowthSize; }
-      else { return m_Size; }
-      break;
-    default:
-      return m_LinearGrowthSize;
+    return m_Size;
     }
-
-  // Strictly to avoid compiler warning regarding "control may reach end of
-  // non-void function":
-  //
   return m_LinearGrowthSize;
 }
 

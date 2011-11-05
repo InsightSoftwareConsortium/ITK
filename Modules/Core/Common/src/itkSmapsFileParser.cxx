@@ -95,7 +95,7 @@ ITKCommon_EXPORT std::istream &  operator>>(std::istream & in, SmapsRecord & rec
     {
     record.Reset();
     // propagate the exception
-    itkGenericExceptionMacro(<< "The smaps header is corrupted");
+    itkGenericExceptionMacro(<< "The smaps header is corrupted" << excp);
     }
   return in;
 }
@@ -152,7 +152,7 @@ ITKCommon_EXPORT std::istream & operator>>(std::istream & in, VMMapSummaryRecord
     {
     record.Reset();
     // propagate the exception
-    itkGenericExceptionMacro(<< "The smaps header is corrupted");
+    itkGenericExceptionMacro(<< "The smaps header is corrupted" << excp);
     }
   return in;
 }
@@ -276,7 +276,7 @@ ITKCommon_EXPORT std::istream & operator>>(std::istream & in, VMMapRecord & reco
     {
     record.Reset();
     // propagate the exception
-    itkGenericExceptionMacro(<< "The smaps header is corrupted");
+    itkGenericExceptionMacro(<< "The smaps header is corrupted" << excp);
     }
   return in;
 }
@@ -390,7 +390,7 @@ ITK_EXPORT std::istream & operator>>(std::istream & smapsStream, SmapsData_2_6 &
     // in case of error, erase the records.
     data.Reset();
     // propagate the exception
-    itkGenericExceptionMacro(<< "The Smaps stream contains errors, can't read the memory records.");
+    itkGenericExceptionMacro(<< "The Smaps stream contains errors, can't read the memory records." << excp);
     }
   delete record;
   return smapsStream;
@@ -513,7 +513,7 @@ ITK_EXPORT std::istream & operator>>(std::istream & stream, VMMapData_10_2 & dat
     // in case of error, erase the records.
     data.Reset();
     // propagate the exception
-    itkGenericExceptionMacro(<< "The VMMap stream contains errors, can't read the memory records.");
+    itkGenericExceptionMacro(<< "The VMMap stream contains errors, can't read the memory records." << excp);
     }
   //last record failed, it hasn't be added into data, delete it.
   delete record;

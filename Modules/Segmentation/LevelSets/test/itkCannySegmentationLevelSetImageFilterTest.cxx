@@ -243,11 +243,11 @@ int itkCannySegmentationLevelSetImageFilterTest(int, char * [] )
   //
   // simple test to see if itkCannySegmentationLevelSetFunction can
   // handle a different FeatureImageType
-  itk::CannySegmentationLevelSetImageFilter< ::CSIFTN::SeedImageType,
-                                             ::CSIFTN::ImageType,
-                                             double >::Pointer filter2 =
-    itk::CannySegmentationLevelSetImageFilter< ::CSIFTN::SeedImageType,
-                                               ::CSIFTN::ImageType,
-                                               double >::New();
+  itk::CannySegmentationLevelSetImageFilter< ::CSIFTN::SeedImageType, ::CSIFTN::ImageType, double >::Pointer filter2 =
+    itk::CannySegmentationLevelSetImageFilter< ::CSIFTN::SeedImageType, ::CSIFTN::ImageType, double >::New();
+  if(filter2.IsNull())
+    {
+    return EXIT_FAILURE;
+    }
   return EXIT_SUCCESS;
 }

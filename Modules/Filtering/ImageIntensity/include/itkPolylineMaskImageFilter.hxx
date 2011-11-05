@@ -227,7 +227,6 @@ void PolylineMaskImageFilter< TInputImage, TPolyline, TVector, TOutputImage >
 
   typedef NearestNeighborInterpolateImageFunction< TInputImage, double > InterpolatorType;
   typedef typename InterpolatorType::OutputType                          OutputType;
-  typename InterpolatorType::Pointer interpolator = InterpolatorType::New();
   typedef typename InterpolatorType::PointType InterpolatorPointType;
 
   /* Generate the transformation matrix */

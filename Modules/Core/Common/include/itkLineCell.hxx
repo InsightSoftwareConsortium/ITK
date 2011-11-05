@@ -87,29 +87,14 @@ LineCell< TCellInterface >
 ::GetBoundaryFeature(int dimension, CellFeatureIdentifier featureId,
                      CellAutoPointer & cellPointer)
 {
-  switch ( dimension )
+  VertexAutoPointer vertexPointer;
+  if( ( dimension == 0 ) && this->GetVertex(featureId, vertexPointer) )
     {
-    case 0:
-      {
-      VertexAutoPointer vertexPointer;
-      if ( this->GetVertex(featureId, vertexPointer) )
-        {
-        TransferAutoPointer(cellPointer, vertexPointer);
-        return true;
-        }
-      else
-        {
-        cellPointer.Reset();
-        return false;
-        }
-      break;
-      }
-    default:
-      {
-      cellPointer.Reset();
-      return false;
-      }
+      TransferAutoPointer(cellPointer, vertexPointer);
+      return true;
     }
+  /* else */
+  cellPointer.Reset();
   return false;
 }
 

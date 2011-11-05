@@ -56,11 +56,8 @@ int itkTobogganImageFilterTest(int ac, char* av[] )
   typedef itk::GradientMagnitudeRecursiveGaussianImageFilter<FloatImageType,FloatImageType> GMGaussianType;
 
   FilterType::Pointer toboggan = FilterType::New();
-  GaussianFilterType::Pointer gaussian = GaussianFilterType::New();
-  GradientMagnitudeFilterType::Pointer magnitude = GradientMagnitudeFilterType::New();
   CastType::Pointer cast = CastType::New();
   InCastType::Pointer incast = InCastType::New();
-  DGIFType::Pointer discretegaussian = DGIFType::New();
   GMGaussianType::Pointer gmgaussian = GMGaussianType::New();
 
   itk::ImageFileReader<InputImageType>::Pointer input

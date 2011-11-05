@@ -80,7 +80,6 @@ public:
     if ( VLength != VLength2 )
       {
       itkGenericExceptionMacro(<< errMsg);
-      return 0;
       }
     return 0;
   }
@@ -93,7 +92,6 @@ public:
     if ( VLength != VLength2 )
       {
       itkGenericExceptionMacro(<< errMsg);
-      return 0;
       }
     return 0;
   }
@@ -105,7 +103,6 @@ public:
     if ( b.Size() != a.Size() )
       {
       itkGenericExceptionMacro(<< errMsg);
-      return 0;
       }
     return 0;
   }
@@ -117,7 +114,6 @@ public:
     if ( b->Size() != a->Size() )
       {
       itkGenericExceptionMacro(<< errMsg);
-      return 0;
       }
     return 0;
   }
@@ -130,7 +126,6 @@ public:
     if ( b.Size() != a.Size() )
       {
       itkGenericExceptionMacro(<< errMsg);
-      return 0;
       }
     return 0;
   }
@@ -143,7 +138,6 @@ public:
     if ( b->Size() != a->Size() )
       {
       itkGenericExceptionMacro(<< errMsg);
-      return 0;
       }
     return 0;
   }
@@ -155,7 +149,6 @@ public:
     if ( b.size() != a.size() )
       {
       itkGenericExceptionMacro(<< errMsg);
-      return 0;
       }
     return 0;
   }
@@ -167,7 +160,6 @@ public:
     if ( b->size() != a->size() )
       {
       itkGenericExceptionMacro(<< errMsg);
-      return 0;
       }
     return 0;
   }
@@ -185,7 +177,6 @@ public:
       if ( b.Size() != VLength )
         {
         itkGenericExceptionMacro(<< errMsg);
-        return 0;
         }
       }
     return 0;
@@ -202,7 +193,6 @@ public:
     else if ( b->Size() != VLength )
       {
       itkGenericExceptionMacro(<< errMsg);
-      return 0;
       }
     return 0;
   }
@@ -221,7 +211,6 @@ public:
       if ( b.Size() != VLength )
         {
         itkGenericExceptionMacro(<< errMsg);
-        return 0;
         }
       }
     return 0;
@@ -239,7 +228,6 @@ public:
     else if ( b->Size() != VLength )
       {
       itkGenericExceptionMacro(<< errMsg);
-      return 0;
       }
     return 0;
   }
@@ -257,7 +245,6 @@ public:
       if ( b.size() != VLength )
         {
         itkGenericExceptionMacro(<< errMsg);
-        return 0;
         }
       }
     return 0;
@@ -274,7 +261,6 @@ public:
     else if ( b->size() != VLength )
       {
       itkGenericExceptionMacro(<< errMsg);
-      return 0;
       }
     return 0;
   }
@@ -290,7 +276,6 @@ public:
     else if ( l != VLength )
       {
       itkGenericExceptionMacro(<< errMsg);
-      return 0;
       }
     return 0;
   }
@@ -306,7 +291,6 @@ public:
     else if ( l != VLength )
       {
       itkGenericExceptionMacro(<< errMsg);
-      return 0;
       }
     return 0;
   }

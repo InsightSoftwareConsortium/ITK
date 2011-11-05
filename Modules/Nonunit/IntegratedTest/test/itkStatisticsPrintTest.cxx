@@ -108,7 +108,6 @@ int itkStatisticsPrintTest(int , char* [])
   typedef itk::Statistics::MaximumDecisionRule MaximumDecisionRuleType;
   typedef itk::Statistics::MinimumDecisionRule MinimumDecisionRuleType;
 
-
   typedef itk::Statistics::HistogramToTextureFeaturesFilter<
     HistogramType > HistogramToTextureFeaturesFilterType;
 
@@ -184,11 +183,9 @@ int itkStatisticsPrintTest(int , char* [])
   std::cout << "----------ScalarImageToCooccurrenceListSampleFilter ";
   std::cout << ScalarImageToCooccurrenceListSampleFilterObj;
 
-  ScalarImageToTextureFeaturesFilterType::Pointer ScalarImageToTextureFeaturesFilterObj =
-    ScalarImageToTextureFeaturesFilterType::New();
-  std::cout << "----------ScalarImageToCooccurrenceMatrixFilter ";
-  std::cout << ScalarImageToCooccurrenceMatrixFilterObj;
-
+  ScalarImageToTextureFeaturesFilterType::Pointer ScalarImageToTextureFeaturesFilterObj = ScalarImageToTextureFeaturesFilterType::New();
+  std::cout << "----------ScalarImageToTextureFeaturesFilter ";
+  std::cout << ScalarImageToTextureFeaturesFilterObj;
 
   HistogramToTextureFeaturesFilterType::Pointer HistogramToTextureFeaturesFilterObj=
     HistogramToTextureFeaturesFilterType::New();

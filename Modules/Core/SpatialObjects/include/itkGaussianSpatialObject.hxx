@@ -206,23 +206,16 @@ GaussianSpatialObject< TDimension >
   itkDebugMacro("Getting the value of the ellipse at " << point);
   if ( IsInside(point, 0, name) )
     {
-    double zsq = this->SquaredZScore(point);
+    const double zsq = this->SquaredZScore(point);
     value = m_Maximum * (ScalarType)vcl_exp(-zsq / 2.0);
     return true;
     }
-  else
+  else if ( Superclass::IsEvaluableAt(point, depth, name) )
     {
-    if ( Superclass::IsEvaluableAt(point, depth, name) )
-      {
-      Superclass::ValueAt(point, value, depth, name);
-      return true;
-      }
-    else
-      {
-      value = this->GetDefaultOutsideValue();
-      return false;
-      }
+    Superclass::ValueAt(point, value, depth, name);
+    return true;
     }
+  value = this->GetDefaultOutsideValue();
   return false;
 }
 

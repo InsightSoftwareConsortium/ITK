@@ -98,34 +98,26 @@ Element2DC0LinearLine
 {
   VectorType closestPoint(3);
 
-  pcoords[1] = pcoords[2] = 0.0;
+  pcoords[1] = 0.0;
+  pcoords[2] = 0.0;
 
   // get the length of the element
-  Float l = ( this->m_node[1]->GetCoordinates() - this->m_node[0]->GetCoordinates() ).magnitude();
+  const Float l = ( this->m_node[1]->GetCoordinates() - this->m_node[0]->GetCoordinates() ).magnitude();
 
   // tolerance is based on the length of the element
-  Float tol = l * l * 1e-8;
+  const Float tol = l * l * 1e-8;
 
-  VectorType a1 = this->m_node[0]->GetCoordinates();
-  VectorType a2 = this->m_node[1]->GetCoordinates();
+  const VectorType a1 = this->m_node[0]->GetCoordinates();
+  const VectorType a2 = this->m_node[1]->GetCoordinates();
 
   // DistanceToLine sets pcoords[0] to a value t, 0 <= t <= 1
-  Float dist2 = this->DistanceToLine(globalPt, a1, a2, pcoords[0], closestPoint);
+  const Float dist2 = this->DistanceToLine(globalPt, a1, a2, pcoords[0], closestPoint);
 
   // if the distance specified is more than the tolerance
-  if( dist2 > tol )
-    {
-    return false;
-    }
-  if( pcoords[0] < 0.0 || pcoords[0] > 1.0 )
-    {
-    return false;
-    }
-  else
+  if( ( dist2 <= tol ) && ( pcoords[0] >= 0.0 ) && ( pcoords[0] <= 1.0 ) )
     {
     return true;
     }
-
   return false;
 }
 

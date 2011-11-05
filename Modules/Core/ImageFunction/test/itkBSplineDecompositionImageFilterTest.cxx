@@ -131,6 +131,10 @@ int itkBSplineDecompositionImageFilterTest(int, char* [] )
   typedef itk::Image<ComplexPixelType,ImageDimension>                             ComplexImageType;
   typedef itk::BSplineDecompositionImageFilter<ComplexImageType,ComplexImageType> ComplexFilterType;
   ComplexFilterType::Pointer complexFilter = ComplexFilterType::New();
+  if(complexFilter.IsNull())
+    {
+    return EXIT_FAILURE;
+    }
 
   return EXIT_SUCCESS;
 

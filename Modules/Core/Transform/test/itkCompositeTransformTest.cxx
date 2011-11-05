@@ -813,8 +813,11 @@ int itkCompositeTransformTest(int, char *[] )
   bool caughtException = false;
   try
     {
-    itk::LightObject::Pointer anotherTransform =
-      compositeTransform->CreateAnother();
+    itk::LightObject::Pointer anotherTransform = compositeTransform->CreateAnother();
+    if( anotherTransform.IsNull() )
+      {
+      return EXIT_FAILURE;
+      }
     }
   catch( itk::ExceptionObject & excp )
     {

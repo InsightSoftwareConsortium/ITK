@@ -267,20 +267,18 @@ int itkDeformableTest(int , char *[])
   std::cout << "Deformable mesh fitting...";
   m_dfilter->Update();
 
-
   /** raise coverage */
   myGradientImageType::Pointer grad_tmp = m_dfilter->GetGradient();
-
+  std::cout << grad_tmp << std::endl;
   std::cout << m_dfilter->GetStepThreshold() << std::endl;
 
   double2DVector stiff_tmp = m_dfilter->GetStiffness();
-
   std::cout << stiff_tmp <<std::endl;
 
   std::cout << m_dfilter->GetTimeStep() << std::endl;
 
   DMesh::Pointer norm_tmp = m_dfilter->GetNormals();
-
+  std::cout << norm_tmp << std::endl;
   std::cout << m_dfilter;
 
   std::cout << "Mesh Source: " << m_bmmeshsource;

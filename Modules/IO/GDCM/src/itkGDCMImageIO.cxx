@@ -217,7 +217,6 @@ void GDCMImageIO::Read(void *pointer)
     }
 
   gdcm::Image & image = reader.GetImage();
-  gdcm::PixelFormat pixeltype_debug = image.GetPixelFormat();
   itkAssertInDebugAndIgnoreInReleaseMacro(image.GetNumberOfDimensions() == 2 || image.GetNumberOfDimensions() == 3);
   SizeValueType len = image.GetBufferLength();
 
@@ -247,7 +246,7 @@ void GDCMImageIO::Read(void *pointer)
     }
 
   const gdcm::PixelFormat & pixeltype = image.GetPixelFormat();
-  itkAssertInDebugAndIgnoreInReleaseMacro( pixeltype_debug == pixeltype ); (void)pixeltype_debug;
+  itkAssertInDebugAndIgnoreInReleaseMacro( pixeltype_debug == pixeltype );
 
   if ( m_RescaleSlope != 1.0 || m_RescaleIntercept != 0.0 )
     {

@@ -105,10 +105,6 @@ int itkBasicArchitectureTest(int, char* [] )
   // Uncomment the following if you want to see each message independently
   // itk::OutputWindow::GetInstance()->PromptUserOn();
 
-  // Test the creation of an image with native type
-  //
-  itk::Image<float,2>::Pointer if2 = itk::Image<float,2>::New();
-
   std::cout << std::endl
             << "Image dimension is " << itk::Image<float,5>::ImageDimension
             << std::endl;

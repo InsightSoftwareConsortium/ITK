@@ -22,7 +22,6 @@
 #include "itkImage.h"
 #include "itkTestingMacros.h"
 
-
 int itkScalarChanAndVeseDenseLevelSetImageFilterTest1( int, char* [] )
 {
   const unsigned int Dimension = 3;
@@ -37,11 +36,14 @@ int itkScalarChanAndVeseDenseLevelSetImageFilterTest1( int, char* [] )
   typedef itk::ConstrainedRegionBasedLevelSetFunctionSharedData< ImageType, FeatureImageType, DataHelperType >
     SharedDataHelperType;
 
-
   typedef itk::ScalarChanAndVeseLevelSetFunction<
     ImageType, FeatureImageType, SharedDataHelperType >     RegionBasedLevelSetFunctionType;
 
   RegionBasedLevelSetFunctionType::Pointer function = RegionBasedLevelSetFunctionType::New();
+  if( function.IsNull() )
+    {
+    return EXIT_FAILURE;
+    }
 
   typedef itk::ScalarChanAndVeseDenseLevelSetImageFilter<
     ImageType, FeatureImageType, OutputImageType,

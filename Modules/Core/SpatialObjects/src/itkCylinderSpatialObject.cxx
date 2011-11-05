@@ -186,7 +186,6 @@ bool CylinderSpatialObject
     else
       {
       value = this->GetDefaultOutsideValue();
-      return false;
       }
     }
   return false;

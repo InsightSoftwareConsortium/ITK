@@ -261,6 +261,7 @@ public:
 
     // Get the list of unbuffered frames
     TemporalRegion unbufferedRegion = this->GetOutput()->GetUnbufferedRequestedTemporalRegion();
+    std::cout << unbufferedRegion << std::endl;
 
     // Make sure that the requested output duration matches the unit output
     // duration

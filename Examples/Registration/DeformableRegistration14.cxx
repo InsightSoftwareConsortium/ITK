@@ -35,7 +35,6 @@
 #include "itkTimeProbesCollectorBase.h"
 #include "itkMemoryProbesCollectorBase.h"
 
-
 //  Software Guide : BeginLatex
 //
 //  The following are the most relevant headers to this example.
@@ -50,14 +49,12 @@
 #include "itkRegularStepGradientDescentOptimizer.h"
 // Software Guide : EndCodeSnippet
 
-
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
 #include "itkResampleImageFilter.h"
 #include "itkCastImageFilter.h"
 #include "itkSquaredDifferenceImageFilter.h"
-
 
 #include "itkTransformFileReader.h"
 
@@ -119,7 +116,6 @@ int main( int argc, char *argv[] )
   typedef itk::Image< PixelType, ImageDimension >  FixedImageType;
   typedef itk::Image< PixelType, ImageDimension >  MovingImageType;
 
-
   const unsigned int SpaceDimension = ImageDimension;
   const unsigned int SplineOrder = 3;
   typedef double CoordinateRepType;
@@ -130,7 +126,6 @@ int main( int argc, char *argv[] )
                             SplineOrder >     TransformType;
 
   typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
-
 
   typedef itk::MattesMutualInformationImageToImageMetric<
                                     FixedImageType,
@@ -149,18 +144,14 @@ int main( int argc, char *argv[] )
   InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
   RegistrationType::Pointer   registration  = RegistrationType::New();
 
-
   registration->SetMetric(        metric        );
   registration->SetOptimizer(     optimizer     );
   registration->SetInterpolator(  interpolator  );
-
 
   TransformType::Pointer  transform = TransformType::New();
   registration->SetTransform( transform );
 
   typedef itk::TransformFileReader        TransformReaderType;
-
-  TransformReaderType::Pointer transformReader = TransformReaderType::New();
 
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
   typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
@@ -226,13 +217,11 @@ int main( int argc, char *argv[] )
   registration->SetInitialTransformParameters( transform->GetParameters() );
   // Software Guide : EndCodeSnippet
 
-
   //  Software Guide : BeginLatex
   //
   //  Next we set the parameters of the RegularStepGradientDescentOptimizer object.
   //
   //  Software Guide : EndLatex
-
 
   // Software Guide : BeginCodeSnippet
   optimizer->SetMaximumStepLength( 10.0 );
@@ -241,7 +230,6 @@ int main( int argc, char *argv[] )
   optimizer->SetRelaxationFactor( 0.7 );
   optimizer->SetNumberOfIterations( 50 );
   // Software Guide : EndCodeSnippet
-
 
   // Optionally, get the step length from the command line arguments
   if( argc > 12 )
@@ -255,12 +243,10 @@ int main( int argc, char *argv[] )
     optimizer->SetNumberOfIterations( atoi( argv[13] ) );
     }
 
-
   // Create the Command observer and register it with the optimizer.
   //
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
   optimizer->AddObserver( itk::IterationEvent(), observer );
-
 
   metric->SetNumberOfHistogramBins( 50 );
 
@@ -269,7 +255,6 @@ int main( int argc, char *argv[] )
 
   metric->SetNumberOfSpatialSamples( numberOfSamples );
   metric->ReinitializeSeed( 76926294 );
-
 
   if( argc > 7 )
     {
@@ -289,7 +274,6 @@ int main( int argc, char *argv[] )
     // BSplineTransform.
     metric->SetUseCachingOfBSplineWeights( atoi( argv[8] ) );
     }
-
 
   // Add time and memory probes
   itk::TimeProbesCollectorBase chronometer;
@@ -321,13 +305,11 @@ int main( int argc, char *argv[] )
   OptimizerType::ParametersType finalParameters =
                     registration->GetLastTransformParameters();
 
-
   // Report the time and memory taken by the registration
   chronometer.Report( std::cout );
   memorymeter.Report( std::cout );
 
   transform->SetParameters( finalParameters );
-
 
   typedef itk::ResampleImageFilter<
                             MovingImageType,
@@ -359,17 +341,13 @@ int main( int argc, char *argv[] )
 
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
 
-
   WriterType::Pointer      writer =  WriterType::New();
   CastFilterType::Pointer  caster =  CastFilterType::New();
 
-
   writer->SetFileName( argv[3] );
-
 
   caster->SetInput( resample->GetOutput() );
   writer->SetInput( caster->GetOutput()   );
-
 
   try
     {
@@ -392,7 +370,6 @@ int main( int argc, char *argv[] )
   WriterType::Pointer writer2 = WriterType::New();
   writer2->SetInput( difference->GetOutput() );
 
-
   // Compute the difference image between the
   // fixed and resampled moving image.
   if( argc > 4 )
@@ -411,7 +388,6 @@ int main( int argc, char *argv[] )
       return EXIT_FAILURE;
       }
     }
-
 
   // Compute the difference image between the
   // fixed and moving image before registration.

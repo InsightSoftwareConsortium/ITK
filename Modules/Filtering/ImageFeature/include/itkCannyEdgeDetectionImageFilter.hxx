@@ -103,52 +103,6 @@ throw( InvalidRequestedRegionError )
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
   return;
-  // get pointers to the input and output
-  typename Superclass::InputImagePointer inputPtr =
-    const_cast< TInputImage * >( this->GetInput() );
-  typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
-
-  if ( !inputPtr || !outputPtr )
-    {
-    return;
-    }
-
-  //Set the kernel size.
-  // fix me this needs to be based on the variance of the gaussian filter
-  typename TInputImage::SizeValueType radius = 1;
-
-  // get a copy of the input requested region (should equal the output
-  // requested region)
-  typename TInputImage::RegionType inputRequestedRegion;
-  inputRequestedRegion = inputPtr->GetRequestedRegion();
-
-  // pad the input requested region by the operator radius
-  inputRequestedRegion.PadByRadius(radius);
-
-  // crop the input requested region at the input's largest possible region
-  if ( inputRequestedRegion.Crop( inputPtr->GetLargestPossibleRegion() ) )
-    {
-    inputPtr->SetRequestedRegion(inputRequestedRegion);
-    return;
-    }
-  else
-    {
-    // Couldn't crop the region (requested region is outside the largest
-    // possible region).  Throw an exception.
-
-    // store what we tried to request (prior to trying to crop)
-    inputPtr->SetRequestedRegion(inputRequestedRegion);
-
-    // build an exception
-    InvalidRequestedRegionError e(__FILE__, __LINE__);
-    std::ostringstream          msg;
-    msg << this->GetNameOfClass()
-        << "::GenerateInputRequestedRegion()";
-    e.SetLocation( msg.str().c_str() );
-    e.SetDescription("Requested region is (at least partially) outside the largest possible region.");
-    e.SetDataObject(inputPtr);
-    throw e;
-    }
 }
 
 template< class TInputImage, class TOutputImage >
@@ -316,12 +270,6 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 
   typename ZeroCrossingImageFilter< TOutputImage, TOutputImage >::Pointer
   zeroCrossFilter = ZeroCrossingImageFilter< TOutputImage, TOutputImage >::New();
-
-  typename GradientMagnitudeImageFilter< TOutputImage, TOutputImage >::Pointer
-  gradMag = GradientMagnitudeImageFilter< TOutputImage, TOutputImage >::New();
-
-  typename MultiplyImageFilter< TOutputImage, TOutputImage, TOutputImage >::Pointer multFilter =
-    MultiplyImageFilter< TOutputImage, TOutputImage, TOutputImage >::New();
 
   this->AllocateUpdateBuffer();
 

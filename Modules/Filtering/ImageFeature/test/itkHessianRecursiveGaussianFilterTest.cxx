@@ -141,6 +141,10 @@ int itkHessianRecursiveGaussianFilterTest(int, char* [] )
   typedef itk::Image<float,2>                                       my2DImageType;
   typedef itk::HessianRecursiveGaussianImageFilter<my2DImageType >  my2DFilterType;
   my2DFilterType::Pointer test = my2DFilterType::New();
+  if(test.IsNull())
+    {
+    return EXIT_FAILURE;
+    }
 
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;

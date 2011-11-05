@@ -53,22 +53,3 @@ itk::MetaDataObjectBase
   // std::endl;
   //Nothing to do here
 }
-
-#if __THIS_IS_UNNECESSARY_CODE__
-itk::MetaDataObjectBase::Pointer
-itk::MetaDataObjectBase
-::New(void)
-{
-  Pointer                  smartPtr;
-  itk::MetaDataObjectBase *rawPtr = ::itk::ObjectFactory< itk::MetaDataObjectBase >::Create();
-
-  if ( rawPtr == NULL )
-    {
-    rawPtr = new itk::MetaDataObjectBase;
-    }
-  smartPtr = rawPtr;
-  rawPtr->UnRegister();
-  return smartPtr;
-}
-
-#endif
