@@ -54,7 +54,6 @@ itk_add_test(NAME itkConvolutionImageFilterDeltaFunctionTest
              ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterDeltaFunctionTest.png
       itkConvolutionImageFilterDeltaFunctionTest DATA{${ITK_DATA_ROOT}/Input/level.png} ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterDeltaFunctionTest.png)
 
-if(0) ## Data did not get uploaded to MIDAS
 # Masked FFT NCC tests
 # Test with three different shapes
 itk_add_test(NAME itkMaskedFFTNormalizedCorrelationImageFilterTest1
@@ -90,4 +89,3 @@ itk_add_test(NAME itkMaskedFFTNormalizedCorrelationImageFilterTest6
     --compare DATA{Baseline/itkMaskedFFTNormalizedCorrelationImageFilterTest6.png}
               ${ITK_TEST_OUTPUT_DIR}/itkMaskedFFTNormalizedCorrelationImageFilterTest6.png
     itkMaskedFFTNormalizedCorrelationImageFilterTest DATA{Input/FixedRectangles.png} DATA{Input/MovingRectangles.png} ${ITK_TEST_OUTPUT_DIR}/itkMaskedFFTNormalizedCorrelationImageFilterTest6.png 400)
-endif(0)
