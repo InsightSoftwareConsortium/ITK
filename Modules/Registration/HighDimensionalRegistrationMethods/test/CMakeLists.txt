@@ -9,7 +9,6 @@ set(TEMP ${ITK_TEST_OUTPUT_DIR})
 
 CreateTestDriver(ITKHighDimensionalRegistrationMethods  "${ITKHighDimensionalRegistrationMethods-Test_LIBRARIES}" "${ITKHighDimensionalRegistrationMethodsTests}")
 
-if(0)  ##HACK:  Test data not uploaded
 itk_add_test(NAME itkSimpleImageRegistrationTest
       COMMAND ITKHighDimensionalRegistrationMethodsTestDriver
       --with-threads 2
@@ -23,4 +22,3 @@ itk_add_test(NAME itkSimpleImageRegistrationTest
               100 # number of affine iterations
               10 # number of deformable iterations
               )
-endif(0)
