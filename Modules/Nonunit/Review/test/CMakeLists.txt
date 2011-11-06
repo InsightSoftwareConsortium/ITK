@@ -23,10 +23,8 @@ itkDivideByConstantImageFilterTest.cxx
 itkExponentialDisplacementFieldImageFilterTest.cxx
 itkFastApproximateRankImageFilterTest.cxx
 itkFastSymmetricForcesDemonsRegistrationFilterTest.cxx
-itkGaborImageSourceTest.cxx
 itkGaussianDerivativeOperatorTest.cxx
 itkGridForwardWarpImageFilterTest.cxx
-itkGridImageSourceTest.cxx
 itkHessianToObjectnessMeasureImageFilterTest.cxx
 itkImageReadComplexWriteMagnitudeAndPhaseTest.cxx
 itkImageReadMagnitudeAndPhaseWriteComplexTest.cxx
@@ -299,40 +297,10 @@ itk_add_test(NAME itkFastApproximateRankImageFilterTest10
     itkFastApproximateRankImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkFastApproximateRankImageFilter10.png 10)
 itk_add_test(NAME itkFastSymmetricForcesDemonsRegistrationFilterTest
       COMMAND ITKReviewTestDriver itkFastSymmetricForcesDemonsRegistrationFilterTest)
-itk_add_test(NAME itkGaborImageSourceTest0
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/GaborImageSourceTest0.mha}
-              ${ITK_TEST_OUTPUT_DIR}/GaborImageSourceTest0.mha
-    itkGaborImageSourceTest ${ITK_TEST_OUTPUT_DIR}/GaborImageSourceTest0.mha 0)
-itk_add_test(NAME itkGaborImageSourceTest1
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/GaborImageSourceTest1.mha}
-              ${ITK_TEST_OUTPUT_DIR}/GaborImageSourceTest1.mha
-    itkGaborImageSourceTest ${ITK_TEST_OUTPUT_DIR}/GaborImageSourceTest1.mha 1)
 itk_add_test(NAME itkGaussianDerivativeOperatorTest
       COMMAND ITKReviewTestDriver itkGaussianDerivativeOperatorTest)
 itk_add_test(NAME itkGridForwardWarpImageFilterTest
       COMMAND ITKReviewTestDriver itkGridForwardWarpImageFilterTest)
-itk_add_test(NAME itkGridImageSourceTest1
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkGridImageSourceTest1.nhdr,itkGridImageSourceTest1.raw.gz}
-              ${ITK_TEST_OUTPUT_DIR}/itkGridImageSourceTest1.nhdr
-    itkGridImageSourceTest ${ITK_TEST_OUTPUT_DIR}/itkGridImageSourceTest1.nhdr 0)
-itk_add_test(NAME itkGridImageSourceTest2
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkGridImageSourceTest2.nhdr,itkGridImageSourceTest2.raw.gz}
-              ${ITK_TEST_OUTPUT_DIR}/itkGridImageSourceTest2.nhdr
-    itkGridImageSourceTest ${ITK_TEST_OUTPUT_DIR}/itkGridImageSourceTest2.nhdr 1)
-itk_add_test(NAME itkGridImageSourceTest3
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkGridImageSourceTest3.nhdr,itkGridImageSourceTest3.raw.gz}
-              ${ITK_TEST_OUTPUT_DIR}/itkGridImageSourceTest3.nhdr
-    itkGridImageSourceTest ${ITK_TEST_OUTPUT_DIR}/itkGridImageSourceTest3.nhdr 2)
-itk_add_test(NAME itkGridImageSourceTest4
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkGridImageSourceTest4.nhdr,itkGridImageSourceTest4.raw.gz}
-              ${ITK_TEST_OUTPUT_DIR}/itkGridImageSourceTest4.nhdr
-    itkGridImageSourceTest ${ITK_TEST_OUTPUT_DIR}/itkGridImageSourceTest4.nhdr 3)
 itk_add_test(NAME itkImageReadComplexWriteMagnitudeAndPhaseTest
       COMMAND ITKReviewTestDriver itkImageReadComplexWriteMagnitudeAndPhaseTest
               ${ITK_EXAMPLE_DATA_ROOT}/itkBrainSliceComplex.mha ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplexMagnitude.mha ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplexPhase.mha)

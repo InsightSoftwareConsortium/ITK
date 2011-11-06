@@ -11,6 +11,7 @@ itk_module(ITKImageGrid
     ITKTestKernel
     ITKRegistrationCommon
     ITKSmoothing
+    ITKImageSource
   DESCRIPTION
     "${DOCUMENTATION}"
 )

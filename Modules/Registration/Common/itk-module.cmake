@@ -26,6 +26,7 @@ itk_module(ITKRegistrationCommon
   TEST_DEPENDS
     ITKTestKernel
     ITKDistanceMap
+    ITKImageSource
   DESCRIPTION
     "${DOCUMENTATION}"
 )

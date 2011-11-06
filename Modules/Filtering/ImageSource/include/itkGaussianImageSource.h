@@ -38,7 +38,7 @@ namespace itk
  * The output image may be of any dimension.
  *
  * \ingroup DataSources
- * \ingroup ITKImageFilterBase
+ * \ingroup ITKImageSource
  */
 template< typename TOutputImage >
 class ITK_EXPORT GaussianImageSource :
