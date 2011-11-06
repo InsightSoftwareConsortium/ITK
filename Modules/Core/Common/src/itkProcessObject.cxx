@@ -818,7 +818,7 @@ ProcessObject
   if ( idx < 999 )
     {
     char buf[17+4];
-    sprintf(buf, "IndexedDataObject%i", idx);
+    sprintf(buf, "IndexedDataObject%u", idx);
     return buf;
     }
   else
