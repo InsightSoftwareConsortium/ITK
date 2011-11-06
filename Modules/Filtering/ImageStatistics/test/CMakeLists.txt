@@ -173,8 +173,10 @@ itk_add_test(NAME itkProjectionImageFilterTest1
               ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeProjection100.tif
     itkProjectionImageFilterTest DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeProjection100.tif 100 0)
 
+if(0) ## HACK:  Comment out until test data can be fixed.
 itk_add_test( NAME itkLabelOverlapMeasuresImageFilterTest
       COMMAND ITKImageStatisticsTestDriver
       itkLabelOverlapMeasuresImageFilterTest 2
           DATA{Input/sourceImage.nii.gz}
           DATA{Input/targetImage.nii.gz} )
+endif(0)
