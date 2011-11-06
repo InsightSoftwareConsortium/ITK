@@ -110,8 +110,6 @@ public:
         }
       localDerivativeReturn[par] = sum;
       }
-    //  std::cout << " localDerivativeReturn: " << localDerivativeReturn
-    //            << std::endl;
 
     // Return true if the point was used in evaluation
     return true;
@@ -212,11 +210,10 @@ void ImageToImageObjectMetricTestComputeIdentityTruthValues(
   ImageToImageObjectMetricTestMetricType::DerivativeType  tempDerivative;
 
   std::cout << "truth values: GetValueAndDerivative" << std::endl;
-  metric->GetValueAndDerivative( tempValue, tempDerivative );
-
   truthValue = 0;
   truthDerivative.SetSize( metric->GetNumberOfParameters() );
   truthDerivative.Fill( 0 );
+  metric->GetValueAndDerivative( tempValue, tempDerivative );
 
   itk::ImageRegionIterator<ImageToImageObjectMetricTestImageType>
                      itFixed( fixedImage, fixedImage->GetRequestedRegion() );
