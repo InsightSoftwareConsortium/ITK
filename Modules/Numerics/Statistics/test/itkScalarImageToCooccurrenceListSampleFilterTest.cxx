@@ -187,26 +187,6 @@ int itkScalarImageToCooccurrenceListSampleFilterTest( int , char *[] )
   val[1] = 5;
   baselineVectorList.push_back( val );
 
-  val[0] = 4;
-  val[1] = -1;
-  baselineVectorList.push_back( val );
-
-  val[0] = 5;
-  val[1] = -1;
-  baselineVectorList.push_back( val );
-
-  val[0] = 6;
-  val[1] = -1;
-  baselineVectorList.push_back( val );
-
-  val[0] = 7;
-  val[1] = -1;
-  baselineVectorList.push_back( val );
-
-  val[0] = 8;
-  val[1] = -1;
-  baselineVectorList.push_back( val );
-
   val[0] = 1;
   val[1] = 2;
   baselineVectorList.push_back( val );

@@ -87,10 +87,6 @@ ScalarImageToCooccurrenceListSampleFilter< TImage >
   typename ShapedNeighborhoodIteratorType::RadiusType radius;
   radius.Fill(1);
 
-  itk::ConstantBoundaryCondition< TImage > boundaryCondition;
-  // 0 is valid so I chose -1. Is this valid for all images ?
-  boundaryCondition.SetConstant(-1);
-
   typedef itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<
     ImageType > FaceCalculatorType;
 
@@ -123,10 +119,11 @@ ScalarImageToCooccurrenceListSampleFilter< TImage >
   OffsetType center_offset;
   center_offset.Fill(0);
 
+  bool isInside;
+
   for ( fit = faceList.begin(); fit != faceList.end(); ++fit )
     {
     ShapedNeighborhoodIteratorType it(radius, input, *fit);
-    it.OverrideBoundaryCondition(&boundaryCondition);
 
     OffsetIterator iter = m_OffsetTable.begin();
     while ( iter != m_OffsetTable.end() )
@@ -142,18 +139,25 @@ ScalarImageToCooccurrenceListSampleFilter< TImage >
       ShapeNeighborhoodIterator ci = it.Begin();
       while ( ci != it.End() )
         {
-        const PixelType pixel_intensity = ci.Get();
 
-        // We have the intensity values for the center pixel and one of it's
-        // neighbours.
-        // We can now place these in the SampleList
-        coords[0] = center_pixel_intensity;
-        coords[1] = pixel_intensity;
+        // Check if the point is inside and add the measurement vector
+        // only if its inside
+        const PixelType pixel_intensity = it.GetPixel(ci.GetNeighborhoodIndex(), isInside);
+        if (isInside)
+          {
 
-        output->PushBack(coords);
-        //std::cout << "Pushing: " << coords[0] << "\t" << coords[1] <<
-        // std::endl;
-        ci++;
+          // We have the intensity values for the center pixel and one of it's
+          // neighbours.
+          // We can now place these in the SampleList
+          coords[0] = center_pixel_intensity;
+          coords[1] = pixel_intensity;
+
+          output->PushBack(coords);
+          //std::cout << "Pushing: " << coords[0] << "\t" << coords[1] <<
+          // std::endl;
+          }
+
+        ++ci;
         }
       }
     }
