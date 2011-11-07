@@ -35,7 +35,7 @@ template <class T, class S> void vnl_c_vector_two_norm_squared(T const *p, unsig
 template <class T, class S> void vnl_c_vector_rms_norm(T const *p, unsigned n, S *out);
 
 //: vnl_c_vector interfaces to lowlevel memory-block operations.
-export template <class T>
+template <class T>
 class vnl_c_vector
 {
  public:

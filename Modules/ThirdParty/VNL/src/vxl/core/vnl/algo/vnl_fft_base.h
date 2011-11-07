@@ -14,7 +14,7 @@
 
 //: Base class for in-place ND fast Fourier transform.
 
-export template <int D, class T>
+template <int D, class T>
 struct vnl_fft_base
 {
   vnl_fft_base() { }

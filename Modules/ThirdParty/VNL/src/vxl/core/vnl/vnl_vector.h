@@ -35,8 +35,8 @@
 # include <vcl_deprecated.h>
 #endif
 
-export template <class T> class vnl_vector;
-export template <class T> class vnl_matrix;
+template <class T> class vnl_vector;
+template <class T> class vnl_matrix;
 
 //----------------------------------------------------------------------
 
@@ -544,9 +544,9 @@ inline T vnl_vector_ssd(vnl_vector<T> const& v1, vnl_vector<T> const& v2)
 
 //: Write vector to a vcl_ostream
 // \relatesalso vnl_vector
-export template <class T> vcl_ostream& operator<<(vcl_ostream &, vnl_vector<T> const&);
+template <class T> vcl_ostream& operator<<(vcl_ostream &, vnl_vector<T> const&);
 //: Read vector from a vcl_istream
 // \relatesalso vnl_vector
-export template <class T> vcl_istream& operator>>(vcl_istream &, vnl_vector<T>      &);
+template <class T> vcl_istream& operator>>(vcl_istream &, vnl_vector<T>      &);
 
 #endif // vnl_vector_h_

@@ -58,7 +58,7 @@
 // return by value in arithmetic expressions like: q1 * q2 * q3 *...
 //
 
-export template <class T>
+template <class T>
 class vnl_quaternion : public vnl_vector_fixed<T, 4>
 {
   typedef vnl_vector_fixed<T,4> Base;
