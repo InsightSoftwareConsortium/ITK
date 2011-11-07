@@ -31,12 +31,6 @@ template< class TOutputImage >
 GaussianImageSource< TOutputImage >
 ::GaussianImageSource()
 {
-  //Initial image is 64 wide in each direction.
-  m_Size.Fill(64);
-  m_Spacing.Fill(1.0);
-  m_Origin.Fill(0.0);
-  m_Direction.SetIdentity();
-
   // Gaussian parameters, defined so that the gaussian
   // is centered in the default image
   m_Mean.Fill(32.0);
@@ -48,12 +42,6 @@ GaussianImageSource< TOutputImage >
 
 //----------------------------------------------------------------------------
 template< class TOutputImage >
-GaussianImageSource< TOutputImage >
-::~GaussianImageSource()
-{}
-
-//----------------------------------------------------------------------------
-template< class TOutputImage >
 void
 GaussianImageSource< TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -61,25 +49,6 @@ GaussianImageSource< TOutputImage >
   Superclass::PrintSelf(os, indent);
 
   unsigned int i;
-
-  os << indent << "Size: [";
-  for ( i = 0; i < NDimensions - 1; i++ )
-    {
-    os << m_Size[i] << ", ";
-    }
-  os << m_Size[i] << "]" << std::endl;
-
-  os << indent << "Origin: [";
-  for ( i = 0; i < NDimensions - 1; i++ )
-    {
-    os << m_Origin[i] << ", ";
-    }
-  os << m_Origin[i] << "]" << std::endl;
-
-  os << indent << "Spacing: " << m_Spacing << std::endl;
-
-  os << indent << "Direction:" << std::endl;
-  os << m_Direction << std::endl;
 
   os << indent << "Gaussian sigma: [";
   for ( i = 0; i < NDimensions - 1; i++ )
@@ -148,31 +117,9 @@ GaussianImageSource< TOutputImage >
 template< typename TOutputImage >
 void
 GaussianImageSource< TOutputImage >
-::GenerateOutputInformation()
-{
-  TOutputImage *output;
-
-  typename TOutputImage::IndexType index = { { 0 } };
-
-  output = this->GetOutput(0);
-
-  typename TOutputImage::RegionType largestPossibleRegion;
-  largestPossibleRegion.SetSize(m_Size);
-  largestPossibleRegion.SetIndex(index);
-  output->SetLargestPossibleRegion(largestPossibleRegion);
-
-  output->SetSpacing(m_Spacing);
-  output->SetOrigin(m_Origin);
-  output->SetDirection(m_Direction);
-}
-
-//----------------------------------------------------------------------------
-template< typename TOutputImage >
-void
-GaussianImageSource< TOutputImage >
 ::GenerateData()
 {
-  typename TOutputImage::Pointer outputPtr = this->GetOutput();
+  TOutputImage * outputPtr = this->GetOutput();
 
   // allocate the output buffer
   outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );

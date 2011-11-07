@@ -18,7 +18,7 @@
 #ifndef __itkGaborImageSource_h
 #define __itkGaborImageSource_h
 
-#include "itkImageSource.h"
+#include "itkGenerateImageSource.h"
 #include "itkFixedArray.h"
 
 namespace itk
@@ -44,15 +44,16 @@ namespace itk
  * \ingroup ITKImageSource
  */
 template< typename TOutputImage >
-class ITK_EXPORT GaborImageSource:public ImageSource< TOutputImage >
+class ITK_EXPORT GaborImageSource
+  : public GenerateImageSource< TOutputImage >
 {
 public:
 
   /** Standard class typedefs. */
-  typedef GaborImageSource            Self;
-  typedef ImageSource< TOutputImage > Superclass;
-  typedef SmartPointer< Self >        Pointer;
-  typedef SmartPointer< const Self >  ConstPointer;
+  typedef GaborImageSource                    Self;
+  typedef GenerateImageSource< TOutputImage > Superclass;
+  typedef SmartPointer< Self >                Pointer;
+  typedef SmartPointer< const Self >          ConstPointer;
 
   /** Output image typedefs */
   typedef TOutputImage                            OutputImageType;
@@ -65,7 +66,7 @@ public:
   typedef typename RegionType::SizeType SizeType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GaborImageSource, ImageSource);
+  itkTypeMacro(GaborImageSource, GenerateImageSource);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -77,18 +78,6 @@ public:
   /** Type used to store gabor parameters. */
   typedef FixedArray< double,
                       itkGetStaticConstMacro(ImageDimension) >    ArrayType;
-
-  itkSetMacro(Size, SizeType);
-  itkGetConstReferenceMacro(Size, SizeType);
-
-  itkSetMacro(Spacing, SpacingType);
-  itkGetConstReferenceMacro(Spacing, SpacingType);
-
-  itkSetMacro(Origin, PointType);
-  itkGetConstReferenceMacro(Origin, PointType);
-
-  itkSetMacro(Direction, DirectionType);
-  itkGetConstReferenceMacro(Direction, DirectionType);
 
   itkSetMacro(Sigma, ArrayType);
   itkGetConstReferenceMacro(Sigma, ArrayType);
@@ -104,21 +93,14 @@ public:
   itkBooleanMacro(CalculateImaginaryPart);
 protected:
   GaborImageSource();
-  ~GaborImageSource();
+  // ~GaborImageSource(); default implementation ok
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   void GenerateData();
 
-  virtual void GenerateOutputInformation();
-
 private:
   GaborImageSource(const GaborImageSource &); //purposely not implemented
   void operator=(const GaborImageSource &);   //purposely not implemented
-
-  SizeType      m_Size;            //size of the output image
-  SpacingType   m_Spacing;         //spacing
-  PointType     m_Origin;          //origin
-  DirectionType m_Direction;       //direciton
 
   /** Parameters for the Gabor. */
 

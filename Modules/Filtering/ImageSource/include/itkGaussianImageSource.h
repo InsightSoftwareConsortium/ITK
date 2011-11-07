@@ -89,31 +89,6 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Specify the size of the output image. */
-  itkSetMacro(Size, SizeType);
-  itkSetVectorMacro(Size, SizeValueType, NDimensions);
-
-  /** Get the size of the output image. */
-  itkGetConstReferenceMacro(Size, SizeType);
-
-  /** Specify the spacing of the output image. */
-  itkSetMacro(Spacing, SpacingType);
-  itkSetVectorMacro(Spacing, const float, NDimensions);
-
-  /** Get the spacing of the output image. */
-  itkGetConstReferenceMacro(Spacing, SpacingType);
-
-  /** Specify the origin of the output image. */
-  itkSetMacro(Origin, PointType);
-  itkSetVectorMacro(Origin, const float, NDimensions);
-
-  /** Get the origin of the output image. */
-  itkGetConstReferenceMacro(Origin, PointType);
-
-  /** Specify the direction of the output image. */
-  itkSetMacro(Direction, DirectionType);
-  itkGetConstReferenceMacro(Direction, DirectionType);
-
   /** Gets and sets for Gaussian parameters */
   itkSetMacro(Scale, double);
   itkGetConstReferenceMacro(Scale, double);
@@ -139,12 +114,10 @@ public:
 
 protected:
   GaussianImageSource();
-  ~GaussianImageSource();
+  // ~GaussianImageSource(); default implementation ok
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   void GenerateData();
-
-  virtual void GenerateOutputInformation();
 
 private:
   GaussianImageSource(const GaussianImageSource &); //purposely not implemented

@@ -30,16 +30,6 @@ template< class TOutputImage >
 GaborImageSource< TOutputImage >
 ::GaborImageSource()
 {
-  //Initial image is 64 wide in each direction.
-  for ( unsigned int i = 0; i < ImageDimension; i++ )
-    {
-    this->m_Size[i] = 64;
-    this->m_Spacing[i] = 1.0;
-    this->m_Origin[i] = 0.0;
-    }
-
-  this->m_Direction.SetIdentity();
-
   // Gabor parameters, defined so that the gaussian
   // is centered in the default image
   this->m_Mean.Fill(32.0);
@@ -51,38 +41,11 @@ GaborImageSource< TOutputImage >
 }
 
 template< class TOutputImage >
-GaborImageSource< TOutputImage >
-::~GaborImageSource()
-{}
-
-//----------------------------------------------------------------------------
-template< class TOutputImage >
-void
-GaborImageSource< TOutputImage >
-::GenerateOutputInformation()
-{
-  OutputImageType *output;
-
-  typename OutputImageType::IndexType index = { { 0 } };
-
-  output = this->GetOutput(0);
-
-  typename OutputImageType::RegionType largestPossibleRegion;
-  largestPossibleRegion.SetSize(this->m_Size);
-  largestPossibleRegion.SetIndex(index);
-  output->SetLargestPossibleRegion(largestPossibleRegion);
-
-  output->SetSpacing(this->m_Spacing);
-  output->SetOrigin(this->m_Origin);
-  output->SetDirection(this->m_Direction);
-}
-
-template< class TOutputImage >
 void
 GaborImageSource< TOutputImage >
 ::GenerateData()
 {
-  typename OutputImageType::Pointer outputPtr = this->GetOutput();
+  OutputImageType* outputPtr = this->GetOutput();
 
   // allocate the output buffer
   outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
@@ -132,13 +95,6 @@ GaborImageSource< TOutputImage >
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Image parameters: " << std::endl;
-  os << indent << "  Size: " << this->GetSize() << std::endl;
-  os << indent << "  Origin: " << this->GetOrigin() << std::endl;
-  os << indent << "  Spacing: " << this->GetSpacing() << std::endl;
-  os << indent << "  Direction: " << this->GetDirection() << std::endl;
-
-  os << indent << "Gabor filter parameters: " << std::endl;
   os << indent << "  Sigma: " << this->GetSigma() << std::endl;
   os << indent << "  Mean: " << this->GetMean() << std::endl;
   os << indent << "  Frequency: " << this->GetFrequency() << std::endl;

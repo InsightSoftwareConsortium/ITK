@@ -30,11 +30,6 @@ template< class TOutputImage >
 GridImageSource< TOutputImage >
 ::GridImageSource()
 {
-  this->m_Size.Fill(64);
-  this->m_Spacing.Fill(1.0);
-  this->m_Origin.Fill(0.0);
-  this->m_Direction.SetIdentity();
-
   this->m_Sigma.Fill(0.5);
   this->m_GridSpacing.Fill(4.0);
   this->m_GridOffset.Fill(0.0);
@@ -50,7 +45,7 @@ void
 GridImageSource< TOutputImage >
 ::BeforeThreadedGenerateData()
 {
-  typename ImageType::Pointer output = this->GetOutput(0);
+  ImageType* output = this->GetOutput(0);
 
   this->m_PixelArrays = PixelArrayContainerType::New();
   m_PixelArrays->Initialize();
@@ -62,7 +57,7 @@ GridImageSource< TOutputImage >
       this->m_GridOffset[i] = this->m_GridSpacing[i];
       }
     PixelArrayType pixels = m_PixelArrays->CreateElementAt(i);
-    pixels.set_size(this->m_Size[i]);
+    pixels.set_size(this->GetSize()[i]);
     pixels.fill(1);
     if ( this->m_WhichDimensions[i] )
       {
@@ -72,7 +67,7 @@ GridImageSource< TOutputImage >
       /** Add two extra functions in the front and one in the back to ensure
         coverage */
       unsigned int numberOfGaussians = Math::Ceil< unsigned int >(
-        this->m_Size[i] * this->m_Spacing[i] / this->m_GridSpacing[i]) + 4u;
+        this->GetSize()[i] * output->GetSpacing()[i] / this->m_GridSpacing[i]) + 4u;
       for ( It.GoToBegin(); !It.IsAtEndOfLine(); ++It )
         {
         typename ImageType::IndexType index = It.GetIndex();
@@ -83,7 +78,7 @@ GridImageSource< TOutputImage >
         for ( unsigned int j = 0; j < numberOfGaussians; j++ )
           {
           RealType num = point[i] - static_cast< RealType >( j - 2 ) * this->m_GridSpacing[i]
-                         - this->m_Origin[i] - this->m_GridOffset[i];
+            - output->GetOrigin()[i] - this->m_GridOffset[i];
           val += this->m_KernelFunction->Evaluate(num / this->m_Sigma[i]);
           }
         pixels[index[i]] = val;
@@ -102,7 +97,7 @@ GridImageSource< TOutputImage >
   // Support progress methods/callbacks
   ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
-  typename ImageType::Pointer output = this->GetOutput(0);
+  ImageType* output = this->GetOutput(0);
 
   ImageRegionIteratorWithIndex< ImageType > It(output, outputRegionForThread);
 
@@ -127,10 +122,6 @@ GridImageSource< TOutputImage >
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Output image information: " << std::endl;
-  os << indent << "   Size       = " << this->GetSize() << std::endl;
-  os << indent << "   Spacing    = " << this->GetSpacing() << std::endl;
-  os << indent << "   Origin     = " << this->GetOrigin() << std::endl;
-  os << indent << "   Direction  = " << this->GetDirection() << std::endl;
   os << indent << "   Scale      = " << this->GetScale() << std::endl;
 
   os << indent << "Grid information: " << std::endl;
@@ -141,28 +132,6 @@ GridImageSource< TOutputImage >
   os << indent << "   Grid offset     = " << this->GetGridOffset() << std::endl;
 }
 
-//----------------------------------------------------------------------------
-template< typename TOutputImage >
-void
-GridImageSource< TOutputImage >
-::GenerateOutputInformation()
-{
-  ImageType *output;
-
-  output = this->GetOutput(0);
-
-  typename ImageType::IndexType index;
-  index.Fill(0);
-
-  typename ImageType::RegionType largestPossibleRegion;
-  largestPossibleRegion.SetSize(this->m_Size);
-  largestPossibleRegion.SetIndex(index);
-  output->SetLargestPossibleRegion(largestPossibleRegion);
-
-  output->SetSpacing(this->m_Spacing);
-  output->SetOrigin(this->m_Origin);
-  output->SetDirection(this->m_Direction);
-}
 } // end namespace itk
 
 #endif
