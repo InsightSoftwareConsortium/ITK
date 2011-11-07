@@ -40,7 +40,7 @@ namespace itk
  * Each method is templated over the type of itk::Image used.  The conversions
  * copy the data and convert between types if necessary.
  *
- * \ingroup Video-Core-OpenCV
+ * \ingroup ITKVideoBridgeOpenCV
  */
 class OpenCVImageBridge
 {
@@ -74,7 +74,7 @@ private:
 } // end namespace itk
 
 #if ITK_TEMPLATE_TXX
-#include "itkOpenCVImageBridge.txx"
+#include "itkOpenCVImageBridge.hxx"
 #endif
 
 #endif

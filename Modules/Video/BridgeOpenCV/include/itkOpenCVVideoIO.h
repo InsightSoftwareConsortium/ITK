@@ -18,14 +18,6 @@
 #ifndef __itkOpenCVVideoIO_h
 #define __itkOpenCVVideoIO_h
 
-// Define support for OpenCVVideo
-#ifndef ITK_VIDEO_USE_OPENCV
-#define ITK_VIDEO_USE_OPENCV
-#endif
-
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 #include "itkVideoIOBase.h"
 #include "cv.h"
@@ -38,15 +30,20 @@ namespace itk
  *
  * \brief VideoIO object for reading and writing videos using OpenCV
  *
- * \ingroup Video-IO-OpenCV
+ * \ingroup ITKVideoBridgeOpenCV
  */
 class ITK_EXPORT OpenCVVideoIO:public VideoIOBase
 {
 public:
   /** Standard class typedefs. */
-  typedef OpenCVVideoIO        Self;
-  typedef VideoIOBase          Superclass;
-  typedef SmartPointer< Self > Pointer;
+  typedef OpenCVVideoIO                  Self;
+  typedef VideoIOBase                    Superclass;
+  typedef SmartPointer< Self >           Pointer;
+
+  typedef Superclass::TemporalOffsetType TemporalOffsetType;
+  typedef Superclass::FrameOffsetType    FrameOffsetType;
+  typedef Superclass::TemporalRatioType  TemporalRatioType;
+  typedef Superclass::CameraIDType       CameraIDType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -70,7 +67,7 @@ public:
   virtual bool CanReadFile(const char *);
 
   /** Return whether or not the VideoIO can read from a camera */
-  virtual bool CanReadCamera( unsigned long cameraID );
+  virtual bool CanReadCamera( CameraIDType cameraID ) const;
 
   /** Set the spacing and dimension information for the set filename. */
   virtual void ReadImageInformation();
@@ -78,35 +75,33 @@ public:
   /** Reads the data from disk into the memory buffer provided. */
   virtual void Read(void *buffer);
 
-
   /** Set the next frame that should be read. Return true if you operation
    * succesful */
-  virtual bool SetNextFrameToRead(unsigned long frameNumber);
+  virtual bool SetNextFrameToRead( FrameOffsetType frameNumber );
 
-  /** Accessor functions for video specific information */
-  virtual double GetPositionInMSec();
-  virtual double GetRatio();
-  virtual unsigned long GetFrameTotal();
-  virtual double GetFpS();
-  virtual unsigned long GetCurrentFrame();
-  virtual unsigned int GetIFrameInterval();
-  virtual unsigned long GetLastIFrame();
+  /** Virtual accessor functions to be implemented in each derived class */
+  virtual TemporalOffsetType GetPositionInMSec() const;
+  virtual TemporalRatioType GetRatio() const;
+  virtual FrameOffsetType GetFrameTotal() const;
+  virtual TemporalRatioType GetFramesPerSecond() const;
+  virtual FrameOffsetType GetCurrentFrame() const;
+  virtual FrameOffsetType GetIFrameInterval() const;
+  virtual FrameOffsetType GetLastIFrame() const;
+
+  /*-------- This part of the interfaces deals with writing data. ----- */
 
   /** Get/Set the camera index */
-  virtual void SetCameraIndex(int idx);
-  virtual int GetCameraIndex();
+  virtual void SetCameraIndex(CameraIDType idx);
+  virtual CameraIDType GetCameraIndex() const;
 
   /** Override Accessors to pass default values since OpenCV doesn't handle
    * this type of meta data. */
-  virtual double GetSpacing(unsigned int i) const
+  virtual double GetSpacing(unsigned int itkNotUsed(i)) const
     { return 1.0; }
-  virtual double GetOrigin(unsigned int i) const
+  virtual double GetOrigin(unsigned int itkNotUsed(i)) const
     { return 0.0; }
   virtual std::vector< double > GetDirection(unsigned int i) const
     { return this->GetDefaultDirection(i); }
-
-
-  /*-------- This part of the interfaces deals with writing data. ----- */
 
   /** Determine the file type. Returns true if this ImageIO can write the
    * file specified. */
@@ -121,23 +116,11 @@ public:
   virtual void Write(const void *buffer);
 
   /** Set Writer Parameters */
-  virtual void SetWriterParameters(double fps, std::vector<SizeValueType> dim, const char* fourCC,
-                                   unsigned int nChannels, IOComponentType componentType);
-
-
-  /** Try to open a video
-   * Return true on success, false otherwise.
-   */
-  //virtual bool Open(const char* filename);
-
-  /** Try to close a video
-   * Return true if in case of a success, false for a faillure
-   * Intended to be overloaded by subclasses */
-  //virtual bool Close(const char* filename);
-
-  /** Return the state of the video (opened or not) **/
-  //virtual bool IsWriterOpen();
-
+  virtual void SetWriterParameters( TemporalRatioType fps,
+                                    const std::vector<SizeValueType>& dim,
+                                    const char* fourCC,
+                                    unsigned int nChannels,
+                                    IOComponentType componentType );
 
 protected:
   OpenCVVideoIO();

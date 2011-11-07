@@ -27,7 +27,6 @@ namespace itk
 // Constructor, Destructor, and Print
 //
 
-
 //
 // Constructor
 //
@@ -35,7 +34,6 @@ OpenCVVideoIO::OpenCVVideoIO()
 {
   this->ResetMembers();
 }
-
 
 //
 // Destructor
@@ -57,7 +55,8 @@ void OpenCVVideoIO::PrintSelf(std::ostream & os, Indent indent) const
     os << indent << "Image dimensions : ["<<this->m_CVImage->width<<","
         <<this->m_CVImage->height<<"]"<<std::endl;
     os << indent << "Origin : "<<this->m_CVImage->origin<<std::endl;
-    os << indent << "Image spacing (in bits) : "<<this->m_CVImage->depth<<std::endl;
+    os << indent << "Image spacing (in bits) : "<< this->m_CVImage->depth
+       << std::endl;
     os << indent << "Image Size : "<<this->m_CVImage->imageSize<<std::endl;
     os << indent << "Color model : "<<this->m_CVImage->colorModel
         <<" ("<<this->m_NumberOfComponents<<" channels)"<<std::endl;
@@ -95,7 +94,7 @@ void OpenCVVideoIO::FinishReadingOrWriting()
 //
 // GetPositionInMSec
 //
-double OpenCVVideoIO::GetPositionInMSec()
+OpenCVVideoIO::TemporalOffsetType OpenCVVideoIO::GetPositionInMSec() const
 {
   return this->m_PositionInMSec;
 }
@@ -103,7 +102,7 @@ double OpenCVVideoIO::GetPositionInMSec()
 //
 // GetRatio
 //
-double OpenCVVideoIO::GetRatio()
+OpenCVVideoIO::TemporalRatioType OpenCVVideoIO::GetRatio() const
 {
   return this->m_Ratio;
 }
@@ -111,7 +110,7 @@ double OpenCVVideoIO::GetRatio()
 //
 // GetFrameTotal
 //
-unsigned long OpenCVVideoIO::GetFrameTotal()
+OpenCVVideoIO::FrameOffsetType OpenCVVideoIO::GetFrameTotal() const
 {
   return this->m_FrameTotal;
 }
@@ -119,15 +118,15 @@ unsigned long OpenCVVideoIO::GetFrameTotal()
 //
 // GetFpS
 //
-double OpenCVVideoIO::GetFpS()
+OpenCVVideoIO::TemporalRatioType OpenCVVideoIO::GetFramesPerSecond() const
 {
-  return this->m_FpS;
+  return this->m_FramesPerSecond;
 }
 
 //
 // GetCurrentFrame
 //
-unsigned long OpenCVVideoIO::GetCurrentFrame()
+OpenCVVideoIO::FrameOffsetType OpenCVVideoIO::GetCurrentFrame() const
 {
   return this->m_CurrentFrame;
 }
@@ -135,7 +134,7 @@ unsigned long OpenCVVideoIO::GetCurrentFrame()
 //
 // GetIFrameInterval
 //
-unsigned int OpenCVVideoIO::GetIFrameInterval()
+OpenCVVideoIO::FrameOffsetType OpenCVVideoIO::GetIFrameInterval() const
 {
   return this->m_IFrameInterval;
 }
@@ -143,17 +142,15 @@ unsigned int OpenCVVideoIO::GetIFrameInterval()
 //
 // GetLastIFrame
 //
-unsigned long OpenCVVideoIO::GetLastIFrame()
+unsigned long OpenCVVideoIO::GetLastIFrame() const
 {
   return this->m_LastIFrame;
 }
 
-
-
 //
 // SetCameraIndex
 //
-void OpenCVVideoIO::SetCameraIndex(int idx)
+void OpenCVVideoIO::SetCameraIndex(CameraIDType idx)
 {
   this->m_CameraIndex = idx;
 }
@@ -161,7 +158,7 @@ void OpenCVVideoIO::SetCameraIndex(int idx)
 //
 // GetCameraIndex
 //
-int OpenCVVideoIO::GetCameraIndex()
+OpenCVVideoIO::CameraIDType OpenCVVideoIO::GetCameraIndex() const
 {
   return this->m_CameraIndex;
 }
@@ -252,7 +249,7 @@ bool OpenCVVideoIO::CanReadFile(const char* filename)
 //
 // CanReadCamera
 //
-bool OpenCVVideoIO::CanReadCamera( unsigned long cameraID )
+bool OpenCVVideoIO::CanReadCamera( CameraIDType cameraID ) const
 {
   // Try capture from current camera index
   CvCapture* localCapture = cvCaptureFromCAM( cameraID );
@@ -344,7 +341,7 @@ void OpenCVVideoIO::ReadImageInformation()
     }
 
   // Populate member variables
-  this->m_FpS = static_cast<double>
+  this->m_FramesPerSecond = static_cast<double>
     (cvGetCaptureProperty( localCapture, CV_CAP_PROP_FPS ));
 
   // Set width, height
@@ -453,12 +450,9 @@ bool OpenCVVideoIO::SetNextFrameToRead(unsigned long frameNumber)
   return false;
 }
 
-
-
 ///////////////////////////////////////////////////////////////////////////////
 // Write related methods
 //
-
 
 //
 // CanWriteFile
@@ -517,9 +511,11 @@ void OpenCVVideoIO::WriteImageInformation()
 //
 // SetWriterParameters
 //
-void OpenCVVideoIO::SetWriterParameters(double fps, std::vector<SizeValueType> dim,
-                                        const char* fourCC, unsigned int nChannels,
-                                        IOComponentType componentType)
+void OpenCVVideoIO::SetWriterParameters( TemporalRatioType fps,
+                                         const std::vector<SizeValueType>& dim,
+                                         const char* fourCC,
+                                         unsigned int nChannels,
+                                         IOComponentType componentType )
 {
   if (this->m_ReaderOpen || this->m_WriterOpen)
     {
@@ -540,7 +536,7 @@ void OpenCVVideoIO::SetWriterParameters(double fps, std::vector<SizeValueType> d
   this->m_Dimensions.push_back(dim[0]);
   this->m_Dimensions.push_back(dim[1]);
 
-  this->m_FpS = fps;
+  this->m_FramesPerSecond = fps;
   this->m_FourCC = CV_FOURCC(fourCC[0], fourCC[1], fourCC[2], fourCC[3]);
   this->m_NumberOfComponents = nChannels;
   if (nChannels == 1)
@@ -567,7 +563,7 @@ void OpenCVVideoIO::SetWriterParameters(double fps, std::vector<SizeValueType> d
 void OpenCVVideoIO::Write(const void *buffer)
 {
   // Make sure parameters are specified
-  if (this->m_FpS == 0 || this->m_Dimensions.size() == 0 || this->m_FourCC == 0)
+  if (this->m_FramesPerSecond == 0 || this->m_Dimensions.size() == 0 || this->m_FourCC == 0)
     {
     itkExceptionMacro("Can not write with empty parameters. You probably need to call SetWriterParameters");
     }
@@ -635,7 +631,7 @@ void OpenCVVideoIO::UpdateReaderProperties()
     cvGetCaptureProperty(this->m_Capture,CV_CAP_PROP_POS_FRAMES);
   this->m_PositionInMSec = 
     cvGetCaptureProperty(this->m_Capture,CV_CAP_PROP_POS_MSEC);
-  this->m_FpS = static_cast<double>
+  this->m_FramesPerSecond = static_cast<double>
     (cvGetCaptureProperty( this->m_Capture, CV_CAP_PROP_FPS ));
   this->m_Ratio = 
     cvGetCaptureProperty(this->m_Capture,CV_CAP_PROP_POS_AVI_RATIO);
@@ -702,7 +698,7 @@ void OpenCVVideoIO::OpenWriter()
 
   // If neither reader nor writer is currently open, open the writer
   this->m_Writer = cvCreateVideoWriter( this->GetFileName(), this->m_FourCC,
-    this->m_FpS, cvSize(this->m_Dimensions[0],this->m_Dimensions[1]) );
+    this->m_FramesPerSecond, cvSize(this->m_Dimensions[0],this->m_Dimensions[1]) );
   this->m_WriterOpen = true;
 }
 
@@ -717,7 +713,7 @@ void OpenCVVideoIO::ResetMembers()
   this->m_Writer = 0;
   this->m_WriterOpen = false;
   this->m_ReaderOpen = false;
-  this->m_FpS = 0;
+  this->m_FramesPerSecond = 0;
   this->m_Dimensions.clear();
   this->m_FourCC = 0;
   this->m_FrameTotal = 0;
