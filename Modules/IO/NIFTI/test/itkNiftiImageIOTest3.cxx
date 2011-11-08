@@ -38,8 +38,6 @@ TestImageOfVectors(const std::string &fname)
   typename VectorImageType::IndexType index;
   typename VectorImageType::SpacingType spacing;
   typename VectorImageType::PointType origin;
-  typename VectorImageType::DirectionType myDirection;
-  myDirection.Fill(0.0);
   // original test case was destined for failure.  NIfTI always writes out 3D
   // orientation.  The only sensible matrices you could pass in would be of the form
   // A B C 0
@@ -50,27 +48,7 @@ TestImageOfVectors(const std::string &fname)
   //NOTE: Nifti only reports upto 3D images correctly for direction cosigns.  It is implicitly assumed
   //      that the direction for dimensions 4 or greater come diagonal elements including a 1 in the
   //      direction matrix.
-  switch(TDimension)
-    {
-    case 1:
-      myDirection[0][0] = -1.0;
-      break;
-    case 2:
-      myDirection[0][1] = 1.0;
-      myDirection[1][0] = -1.0;
-      break;
-    case 3:
-      myDirection[0][2] = 1.0;
-      myDirection[1][0] = -1.0;
-      myDirection[2][1] = 1.0;
-      break;
-    case 4:
-      myDirection[0][2] = 1.0;
-      myDirection[1][0] = -1.0;
-      myDirection[2][1] = 1.0;
-      myDirection[3][3] = 1.0;
-      break;
-    }
+  const typename VectorImageType::DirectionType myDirection = PreFillDirection<TDimension>();
 
   std::cout << " === Testing VectorLength: " << TVecLength << " Image Dimension " << static_cast<int>(TDimension) << std::endl;
   std::cout << "======================== Initialized Direction" << std::endl;

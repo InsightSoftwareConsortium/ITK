@@ -54,6 +54,22 @@ const unsigned char LEFT=128;      /*Bit pattern 1 0 0  00000*/
 const unsigned char ANTERIOR=64;   /*Bit pattern 0 1 0  00000*/
 const unsigned char SUPERIOR=32;   /*Bit pattern 0 0 1  00000*/
 
+template<unsigned int TDimension>
+typename itk::ImageBase<TDimension>::DirectionType
+PreFillDirection()
+{
+  typename itk::ImageBase<TDimension>::DirectionType myDirection;
+  myDirection.Fill(0.0);
+  myDirection.SetIdentity();
+  itkGenericExceptionMacro("This template should never be used. Only valid values are given below.");
+  return myDirection;
+}
+
+template<> itk::ImageBase<1>::DirectionType PreFillDirection<1> ();
+template<> itk::ImageBase<2>::DirectionType PreFillDirection<2> ();
+template<> itk::ImageBase<3>::DirectionType PreFillDirection<3> ();
+template<> itk::ImageBase<4>::DirectionType PreFillDirection<4> ();
+
 template <typename T>
 int MakeNiftiImage(void)
 {
@@ -204,8 +220,6 @@ TestImageOfSymMats(const std::string &fname)
   typename DtiImageType::IndexType index;
   typename DtiImageType::SpacingType spacing;
   typename DtiImageType::PointType origin;
-  typename DtiImageType::DirectionType myDirection;
-  myDirection.Fill(0.0);
   // original test case was destined for failure.  NIfTI always writes out 3D
   // orientation.  The only sensible matrices you could pass in would be of the form
   // A B C 0
@@ -216,27 +230,7 @@ TestImageOfSymMats(const std::string &fname)
   //NOTE: Nifti only reports upto 3D images correctly for direction cosigns.  It is implicitly assumed
   //      that the direction for dimensions 4 or greater come diagonal elements including a 1 in the
   //      direction matrix.
-  switch(VDimension)
-    {
-    case 1:
-      myDirection[0][0] = -1.0;
-      break;
-    case 2:
-      myDirection[0][1] = 1.0;
-      myDirection[1][0] = -1.0;
-      break;
-    case 3:
-      myDirection[0][2] = 1.0;
-      myDirection[1][0] = -1.0;
-      myDirection[2][1] = 1.0;
-      break;
-    case 4:
-      myDirection[0][2] = 1.0;
-      myDirection[1][0] = -1.0;
-      myDirection[2][1] = 1.0;
-      myDirection[3][3] = 1.0;
-      break;
-    }
+  const typename DtiImageType::DirectionType myDirection = PreFillDirection<VDimension>();
 
   std::cout << " === Testing DtiImageType:  Image Dimension "
             << static_cast<int>(VDimension) << std::endl

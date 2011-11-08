@@ -1,6 +1,7 @@
 set(ITKSpatialObjects_SRC
 itkCylinderSpatialObject.cxx
 itkSpatialObjectFactoryBase.cxx
+itkArrowSpatialObject.cxx
 )
 
 add_library(ITKSpatialObjects ${ITKSpatialObjects_SRC})
