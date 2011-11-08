@@ -3,6 +3,7 @@ set(ITKConvolutionTests
   itkConvolutionImageFilterTest.cxx
   itkConvolutionImageFilterTestInt.cxx
   itkConvolutionImageFilterDeltaFunctionTest.cxx
+  itkNormalizedCorrelationImageFilterTest.cxx
   itkMaskedFFTNormalizedCorrelationImageFilterTest.cxx
 )
 
@@ -53,6 +54,13 @@ itk_add_test(NAME itkConvolutionImageFilterDeltaFunctionTest
    --compare DATA{${ITK_DATA_ROOT}/Input/level.png}
              ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterDeltaFunctionTest.png
       itkConvolutionImageFilterDeltaFunctionTest DATA{${ITK_DATA_ROOT}/Input/level.png} ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterDeltaFunctionTest.png)
+
+# NCC tests
+itk_add_test(NAME itkNormalizedCorrelationImageFilterTest
+      COMMAND ITKConvolutionTestDriver
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/NormalizedCorrelationImageFilterTest.png}
+              ${ITK_TEST_OUTPUT_DIR}/NormalizedCorrelationImageFilterTest.png
+    itkNormalizedCorrelationImageFilterTest DATA{${ITK_DATA_ROOT}/Input/sf4.png} DATA{${ITK_DATA_ROOT}/Input/circle.png} ${ITK_TEST_OUTPUT_DIR}/NormalizedCorrelationImageFilterTest.png)
 
 # Masked FFT NCC tests
 # Test with three different shapes

@@ -11,7 +11,6 @@ itk_module(ITKImageStatistics
     ITKSpatialObjects
     ITKImageCompose
   TEST_DEPENDS
-    ITKImageIntensity
     ITKTestKernel
     ITKThresholding
     ITKImageLabel
@@ -19,5 +18,4 @@ itk_module(ITKImageStatistics
     "${DOCUMENTATION}"
 )
 
-# Extra test dependency on Thresholding is introduced by itkNormalizedCorrelationImageFilterTest;
 # Extra test dependency on ImageLabel is introduced by itkBinaryProjectionImageFilterTest.

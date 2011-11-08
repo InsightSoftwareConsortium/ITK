@@ -27,7 +27,6 @@ itkHistogramToProbabilityImageFilterTest1.cxx
 itkHistogramToProbabilityImageFilterTest2.cxx
 itkAccumulateImageFilterTest.cxx
 itkAdaptiveHistogramEqualizationImageFilterTest.cxx
-itkNormalizedCorrelationImageFilterTest.cxx
 itkGetAverageSliceImageFilterTest.cxx
 itkBinaryProjectionImageFilterTest.cxx
 itkProjectionImageFilterTest.cxx
@@ -145,11 +144,6 @@ itk_add_test(NAME itkAdaptiveHistogramEqualizationImageFilterTest2
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/AdaptiveHistogramEqualizationImageFilterTest2.png}
               ${ITK_TEST_OUTPUT_DIR}/AdaptiveHistogramEqualizationImageFilterTest2.png
     itkAdaptiveHistogramEqualizationImageFilterTest DATA{${ITK_DATA_ROOT}/Input/sf4.png} ${ITK_TEST_OUTPUT_DIR}/AdaptiveHistogramEqualizationImageFilterTest2.png 10 1.0 0.25)
-itk_add_test(NAME itkNormalizedCorrelationImageFilterTest
-      COMMAND ITKImageStatisticsTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/NormalizedCorrelationImageFilterTest.png}
-              ${ITK_TEST_OUTPUT_DIR}/NormalizedCorrelationImageFilterTest.png
-    itkNormalizedCorrelationImageFilterTest DATA{${ITK_DATA_ROOT}/Input/sf4.png} DATA{${ITK_DATA_ROOT}/Input/circle.png} ${ITK_TEST_OUTPUT_DIR}/NormalizedCorrelationImageFilterTest.png)
 itk_add_test(NAME itkGetAverageSliceImageFilterTest
       COMMAND ITKImageStatisticsTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/AccumulateImageFilterTest.png}
