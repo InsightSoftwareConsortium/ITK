@@ -18,7 +18,7 @@
 #ifndef __itkParametricImageSource_h
 #define __itkParametricImageSource_h
 
-#include "itkImageSource.h"
+#include "itkGenerateImageSource.h"
 
 #include "itkArray.h"
 
@@ -41,14 +41,15 @@ namespace itk
  * \ingroup ITKImageSource
  */
 template <class TOutputImage>
-class ITK_EXPORT ParametricImageSource : public ImageSource< TOutputImage >
+class ITK_EXPORT ParametricImageSource
+  : public GenerateImageSource< TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef ParametricImageSource     Self;
-  typedef ProcessObject             Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef ParametricImageSource             Self;
+  typedef GenerateImageSource<TOutputImage> Superclass;
+  typedef SmartPointer<Self>                Pointer;
+  typedef SmartPointer<const Self>          ConstPointer;
 
   /** Smart Pointer type to a DataObject. */
   typedef DataObject::Pointer DataObjectPointer;
@@ -67,7 +68,7 @@ public:
                       TOutputImage::ImageDimension);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ParametricImageSource, ImageSource);
+  itkTypeMacro(ParametricImageSource, GenerateImageSource);
 
   /** Set the parameters for this source. Setting the parameters does
    * not mark the image source as modified; subclasses should override

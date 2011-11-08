@@ -18,7 +18,7 @@
 #ifndef __itkGridImageSource_h
 #define __itkGridImageSource_h
 
-#include "itkImageSource.h"
+#include "itkGenerateImageSource.h"
 #include "itkFixedArray.h"
 #include "itkKernelFunction.h"
 #include "itkVectorContainer.h"
@@ -54,17 +54,18 @@ namespace itk
  * \ingroup ITKImageSource
  */
 template< typename TOutputImage >
-class ITK_EXPORT GridImageSource:public ImageSource< TOutputImage >
+class ITK_EXPORT GridImageSource
+   :public GenerateImageSource< TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef GridImageSource             Self;
-  typedef ImageSource< TOutputImage > Superclass;
-  typedef SmartPointer< Self >        Pointer;
-  typedef SmartPointer< const Self >  ConstPointer;
+  typedef GridImageSource                     Self;
+  typedef GenerateImageSource< TOutputImage > Superclass;
+  typedef SmartPointer< Self >                Pointer;
+  typedef SmartPointer< const Self >          ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GridImageSource, ImageSource);
+  itkTypeMacro(GridImageSource, GenerateImageSource);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -92,19 +93,6 @@ public:
   typedef vnl_vector< RealType >                           PixelArrayType;
   typedef VectorContainer< SizeValueType, PixelArrayType > PixelArrayContainerType;
 
-  /** Gets and sets for the output image. */
-  itkSetMacro(Spacing, SpacingType);
-  itkGetConstReferenceMacro(Spacing, SpacingType);
-
-  itkSetMacro(Origin, OriginType);
-  itkGetConstReferenceMacro(Origin, OriginType);
-
-  itkSetMacro(Direction, DirectionType);
-  itkGetConstReferenceMacro(Direction, DirectionType);
-
-  itkSetMacro(Size, SizeType);
-  itkGetConstReferenceMacro(Size, SizeType);
-
   /** Gets and sets for grid parameters */
   itkSetObjectMacro(KernelFunction, KernelFunction);
   itkGetConstReferenceObjectMacro(KernelFunction, KernelFunction);
@@ -125,7 +113,7 @@ public:
   itkGetConstReferenceMacro(Scale, RealType);
 protected:
   GridImageSource();
-  ~GridImageSource(){}
+  // ~GridImageSource(){} default implementation ok
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   virtual void
@@ -134,18 +122,9 @@ protected:
 
   virtual void BeforeThreadedGenerateData();
 
-  virtual void GenerateOutputInformation();
-
 private:
   GridImageSource(const GridImageSource &); //purposely not implemented
   void operator=(const GridImageSource &);  //purposely not implemented
-
-  /** Parameters for the output image. */
-
-  SizeType      m_Size;        //size
-  SpacingType   m_Spacing;     //spacing
-  OriginType    m_Origin;      //origin
-  DirectionType m_Direction;   //direction
 
   /** Parameters for the grid. */
 
