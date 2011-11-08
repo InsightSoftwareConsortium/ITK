@@ -17,12 +17,14 @@
  *=========================================================================*/
 #ifndef __itkZeroFluxNeumannBoundaryCondition_hxx
 #define __itkZeroFluxNeumannBoundaryCondition_hxx
+
 #include "itkZeroFluxNeumannBoundaryCondition.h"
+
 namespace itk
 {
-template< class TImage >
-typename ZeroFluxNeumannBoundaryCondition< TImage >::PixelType
-ZeroFluxNeumannBoundaryCondition< TImage >
+template< class TInputImage, class TOutputImage >
+typename ZeroFluxNeumannBoundaryCondition< TInputImage, TOutputImage >::OutputPixelType
+ZeroFluxNeumannBoundaryCondition< TInputImage, TOutputImage >
 ::operator()(const OffsetType & point_index, const OffsetType & boundary_offset,
              const NeighborhoodType *data) const
 {
@@ -55,12 +57,13 @@ ZeroFluxNeumannBoundaryCondition< TImage >
   //    point_index, boundary_offset, data, m_ChosenBoundaryCondition );
   // \endcode
   //
-  return *( reinterpret_cast< PixelType * >( ( data->operator[](linear_index) ) ) );
+  return static_cast< OutputPixelType >
+    (*( reinterpret_cast< PixelType * >( ( data->operator[](linear_index) ) ) ) );
 }
 
-template< class TImage >
-typename ZeroFluxNeumannBoundaryCondition< TImage >::PixelType
-ZeroFluxNeumannBoundaryCondition< TImage >
+template< class TInputImage, class TOutputImage >
+typename ZeroFluxNeumannBoundaryCondition< TInputImage, TOutputImage >::OutputPixelType
+ZeroFluxNeumannBoundaryCondition< TInputImage, TOutputImage >
 ::operator()(const OffsetType & point_index, const OffsetType & boundary_offset,
              const NeighborhoodType *data,
              const NeighborhoodAccessorFunctorType & neighborhoodAccessorFunctor) const
@@ -73,13 +76,14 @@ ZeroFluxNeumannBoundaryCondition< TImage >
     linear_index += ( point_index[i] + boundary_offset[i] ) * data->GetStride(i);
     }
 
-  return neighborhoodAccessorFunctor.Get( data->operator[](linear_index) );
+  return static_cast< OutputPixelType >
+    ( neighborhoodAccessorFunctor.Get( data->operator[](linear_index) ) );
 }
 
 
-template< class TImage >
-typename ZeroFluxNeumannBoundaryCondition< TImage >::RegionType
-ZeroFluxNeumannBoundaryCondition< TImage >
+template< class TInputImage, class TOutputImage >
+typename ZeroFluxNeumannBoundaryCondition< TInputImage, TOutputImage >::RegionType
+ZeroFluxNeumannBoundaryCondition< TInputImage, TOutputImage >
 ::GetInputRequestedRegion( const RegionType & inputLargestPossibleRegion,
                            const RegionType & outputRequestedRegion ) const
 {
@@ -147,10 +151,10 @@ ZeroFluxNeumannBoundaryCondition< TImage >
 }
 
 
-template< class TImage >
-typename ZeroFluxNeumannBoundaryCondition< TImage >::PixelType
-ZeroFluxNeumannBoundaryCondition< TImage >
-::GetPixel( const IndexType & index, const TImage * image ) const
+template< class TInputImage, class TOutputImage >
+typename ZeroFluxNeumannBoundaryCondition< TInputImage, TOutputImage >::OutputPixelType
+ZeroFluxNeumannBoundaryCondition< TInputImage, TOutputImage >
+::GetPixel( const IndexType & index, const TInputImage * image ) const
 {
   RegionType imageRegion = image->GetLargestPossibleRegion();
   IndexType  imageIndex  = imageRegion.GetIndex();
@@ -176,7 +180,7 @@ ZeroFluxNeumannBoundaryCondition< TImage >
       }
     }
 
-  return image->GetPixel( lookupIndex );
+  return static_cast< OutputPixelType >( image->GetPixel( lookupIndex ) );
 }
 
 } // end namespace itk

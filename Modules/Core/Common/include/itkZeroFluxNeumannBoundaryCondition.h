@@ -54,18 +54,19 @@ namespace itk
  * \ingroup ImageObjects
  * \ingroup ITKCommon
  */
-template< class TImage >
+template< class TInputImage, class TOutputImage = TInputImage >
 class ITK_EXPORT ZeroFluxNeumannBoundaryCondition:
-  public ImageBoundaryCondition< TImage >
+    public ImageBoundaryCondition< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef ZeroFluxNeumannBoundaryCondition Self;
-  typedef ImageBoundaryCondition< TImage > Superclass;
+  typedef ZeroFluxNeumannBoundaryCondition                    Self;
+  typedef ImageBoundaryCondition< TInputImage, TOutputImage > Superclass;
 
   /** Extract information from the image type. */
   typedef typename Superclass::PixelType        PixelType;
   typedef typename Superclass::PixelPointerType PixelPointerType;
+  typedef typename Superclass::OutputPixelType  OutputPixelType;
   typedef typename Superclass::RegionType       RegionType;
   typedef typename Superclass::IndexType        IndexType;
   typedef typename Superclass::SizeType         SizeType;
@@ -89,13 +90,13 @@ public:
 
   /** Computes and returns a neighborhood of appropriate values from
    * neighborhood iterator data.. */
-  virtual PixelType operator()(const OffsetType & point_index,
-                               const OffsetType & boundary_offset,
-                               const NeighborhoodType *data) const;
+  virtual OutputPixelType operator()(const OffsetType & point_index,
+                                     const OffsetType & boundary_offset,
+                                     const NeighborhoodType *data) const;
 
   /** Computes and returns the appropriate pixel value from
    * neighborhood iterator data, using the functor. */
-  virtual PixelType operator()(
+  virtual OutputPixelType operator()(
     const OffsetType & point_index,
     const OffsetType & boundary_offset,
     const NeighborhoodType *data,
@@ -122,7 +123,7 @@ public:
    * \param index The index of the desired pixel.
    * \param image The image from which pixel values should be determined.
    */
-  PixelType GetPixel( const IndexType & index, const TImage * image ) const;
+  OutputPixelType GetPixel( const IndexType & index, const TInputImage * image ) const;
 
 };
 } // end namespace itk

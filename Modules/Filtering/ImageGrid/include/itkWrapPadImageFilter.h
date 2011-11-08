@@ -101,7 +101,7 @@ private:
   WrapPadImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);     //purposely not implemented
 
-  PeriodicBoundaryCondition< TInputImage > m_InternalBoundaryCondition;
+  PeriodicBoundaryCondition< TInputImage, TOutputImage > m_InternalBoundaryCondition;
 };
 } // end namespace itk
 

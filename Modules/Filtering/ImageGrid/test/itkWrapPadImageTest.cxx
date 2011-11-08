@@ -30,7 +30,7 @@
 // Check that val represents the correct pixel value.  This routine
 // allows the pad region to extend to twice the size of the input.
 //
-int VerifyPixel(int row, int col, short val, short & expected)
+int VerifyPixel(int row, int col, short val, float & expected)
 {
   if (row < 0) row += 8;
   if (row < 0) row += 8;
@@ -49,6 +49,7 @@ int itkWrapPadImageTest(int, char* [] )
 {
   // typedefs to simplify the syntax
   typedef itk::Image< short, 2 >       ShortImage;
+  typedef itk::Image< float, 2 >       FloatImage;
   typedef itk::VectorImage< short, 2 > VectorImage;
 
   // Test the creation of an image with native type
@@ -78,8 +79,8 @@ int itkWrapPadImageTest(int, char* [] )
     }
 
   // Create a filter
-  itk::WrapPadImageFilter< ShortImage, ShortImage >::Pointer wrapPad;
-  wrapPad = itk::WrapPadImageFilter< ShortImage, ShortImage >::New();
+  typedef itk::WrapPadImageFilter< ShortImage, FloatImage > PadFilterType;
+  PadFilterType::Pointer wrapPad = PadFilterType::New();
   wrapPad->SetInput( image );
 
   itk::WrapPadImageFilter< VectorImage, VectorImage >::Pointer vectorWrapPad;
@@ -121,7 +122,7 @@ int itkWrapPadImageTest(int, char* [] )
 
   requestedRegion = wrapPad->GetOutput()->GetRequestedRegion();
 
-  itk::ImageRegionIterator< ShortImage > itIn1( wrapPad->GetOutput(), requestedRegion );
+  itk::ImageRegionIterator< FloatImage > itIn1( wrapPad->GetOutput(), requestedRegion );
   itk::ImageRegionIterator< VectorImage > vitIn1( vectorWrapPad->GetOutput(), requestedRegion );
 
   passed = true;
@@ -140,7 +141,7 @@ int itkWrapPadImageTest(int, char* [] )
       {
       int row = itIn1.GetIndex()[0];
       int column = itIn1.GetIndex()[1];
-      ShortImage::PixelType expected = 0;
+      FloatImage::PixelType expected = 0.0f;
 
       if ( !VerifyPixel( row, column, itIn1.Get(), expected ) )
         {
@@ -160,11 +161,11 @@ int itkWrapPadImageTest(int, char* [] )
 
   if (passed)
     {
-    std::cout << "wrapPadImageFilter case 1 passed." << std::endl;
+    std::cout << "WrapPadImageFilter case 1 passed." << std::endl;
     }
   else
     {
-    std::cout << "wrapPadImageFilter case 1 failed." << std::endl;
+    std::cout << "WrapPadImageFilter case 1 failed." << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -190,7 +191,7 @@ int itkWrapPadImageTest(int, char* [] )
     vectorWrapPad->UpdateLargestPossibleRegion();
     requestedRegion = wrapPad->GetOutput()->GetRequestedRegion();
 
-    itk::ImageRegionIterator< ShortImage > itIn2( wrapPad->GetOutput(), requestedRegion );
+    itk::ImageRegionIterator< FloatImage > itIn2( wrapPad->GetOutput(), requestedRegion );
     itk::ImageRegionIterator< VectorImage > vitIn2( vectorWrapPad->GetOutput(), requestedRegion );
 
     passed = true;
@@ -209,7 +210,7 @@ int itkWrapPadImageTest(int, char* [] )
         {
         int row = itIn2.GetIndex()[0];
         int column = itIn2.GetIndex()[1];
-        ShortImage::PixelType expected = 0;
+        FloatImage::PixelType expected = 0.0f;
 
         if ( !VerifyPixel( row, column, itIn2.Get(), expected ) )
           {
@@ -228,13 +229,13 @@ int itkWrapPadImageTest(int, char* [] )
       }
     }
 
-  if (passed)
+  if ( passed )
     {
-    std::cout << "wrapPadImageFilter case 2 passed." << std::endl;
+    std::cout << "WrapPadImageFilter case 2 passed." << std::endl;
     }
   else
     {
-    std::cout << "wrapPadImageFilter case 2 failed." << std::endl;
+    std::cout << "WrapPadImageFilter case 2 failed." << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -248,8 +249,8 @@ int itkWrapPadImageTest(int, char* [] )
   vectorWrapPad->SetPadUpperBound( upperBound );
 
   // Create a stream
-  itk::StreamingImageFilter< ShortImage, ShortImage >::Pointer stream =
-    itk::StreamingImageFilter< ShortImage, ShortImage >::New();
+  typedef itk::StreamingImageFilter< FloatImage, FloatImage > StreamingFilter;
+  StreamingFilter::Pointer stream = StreamingFilter::New();
   stream->SetInput( wrapPad->GetOutput() );
   stream->SetNumberOfStreamDivisions( 3 );
 
@@ -271,7 +272,7 @@ int itkWrapPadImageTest(int, char* [] )
     vectorStream->UpdateLargestPossibleRegion();
     requestedRegion = stream->GetOutput()->GetRequestedRegion();
 
-    itk::ImageRegionIterator< ShortImage > itIn3(stream->GetOutput(), requestedRegion);
+    itk::ImageRegionIterator< FloatImage > itIn3(stream->GetOutput(), requestedRegion);
     itk::ImageRegionIterator< VectorImage > vitIn3(vectorStream->GetOutput(), requestedRegion);
 
     passed = true;
@@ -290,7 +291,7 @@ int itkWrapPadImageTest(int, char* [] )
         {
         int row = itIn3.GetIndex()[0];
         int column = itIn3.GetIndex()[1];
-        ShortImage::PixelType expected = 0;
+        FloatImage::PixelType expected = 0.0f;
 
         if ( !VerifyPixel( row, column, itIn3.Get(), expected ) )
           {
@@ -309,13 +310,13 @@ int itkWrapPadImageTest(int, char* [] )
       }
     }
 
-  if (passed)
+  if ( passed )
     {
-    std::cout << "wrapPadImageFilter case 3 passed." << std::endl;
+    std::cout << "WrapPadImageFilter case 3 passed." << std::endl;
     }
   else
     {
-    std::cout << "wrapPadImageFilter case 3 failed." << std::endl;
+    std::cout << "WrapPadImageFilter case 3 failed." << std::endl;
     return EXIT_FAILURE;
     }
 

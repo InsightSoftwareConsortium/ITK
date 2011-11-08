@@ -48,20 +48,21 @@ namespace itk
  * \ingroup ImageObjects
  * \ingroup ITKCommon
  */
-template< class TImageType >
+template< class TInputImage, class TOutputImage = TInputImage >
 class ITK_EXPORT ImageBoundaryCondition
 {
 public:
   /** Extract information from the image type */
   itkStaticConstMacro(ImageDimension, unsigned int,
-                      TImageType::ImageDimension);
+                      TInputImage::ImageDimension);
 
   /** Standard typedefs. */
   typedef ImageBoundaryCondition Self;
 
   /** Extract information from the image type */
-  typedef typename TImageType::PixelType                        PixelType;
-  typedef typename TImageType::InternalPixelType *              PixelPointerType;
+  typedef typename TInputImage::PixelType                       PixelType;
+  typedef typename TInputImage::InternalPixelType *             PixelPointerType;
+  typedef typename TOutputImage::PixelType                      OutputPixelType;
   typedef Index< itkGetStaticConstMacro(ImageDimension) >       IndexType;
   typedef Size< itkGetStaticConstMacro(ImageDimension) >        SizeType;
   typedef Offset< itkGetStaticConstMacro(ImageDimension) >      OffsetType;
@@ -72,7 +73,7 @@ public:
                         itkGetStaticConstMacro(ImageDimension) > NeighborhoodType;
 
   /** Functor used to access pixels from a neighborhood of pixel pointers */
-  typedef typename TImageType::NeighborhoodAccessorFunctorType
+  typedef typename TInputImage::NeighborhoodAccessorFunctorType
   NeighborhoodAccessorFunctorType;
 
   /** Default constructor. */
@@ -94,13 +95,13 @@ public:
    * phantom pixel (ND) index within the neighborhood, the pixel's offset from
    * the nearest image border pixel, and a neighborhood of pointers to pixel
    * values in the image.  */
-  virtual PixelType operator()(const OffsetType & point_index,
-                               const OffsetType & boundary_offset,
-                               const NeighborhoodType *data) const = 0;
+  virtual OutputPixelType operator()(const OffsetType & point_index,
+                                     const OffsetType & boundary_offset,
+                                     const NeighborhoodType *data) const = 0;
 
   /** Computes and returns the appropriate pixel value from
    * neighborhood iterator data, using the functor. */
-  virtual PixelType operator()(
+  virtual OutputPixelType operator()(
     const OffsetType & point_index,
     const OffsetType & boundary_offset,
     const NeighborhoodType *data,
@@ -140,8 +141,8 @@ public:
    * \param index The index of the desired pixel.
    * \param image The image from which pixel values should be determined.
    */
-  virtual PixelType GetPixel( const IndexType & index,
-                              const TImageType * image ) const = 0;
+  virtual OutputPixelType GetPixel( const IndexType & index,
+                                    const TInputImage * image ) const = 0;
 
 };
 } // end namespace itk

@@ -74,8 +74,8 @@ public:
   typedef typename TInputImage::SizeValueType SizeValueType;
 
   /** Typedef to describe the boundary condition. */
-  typedef ImageBoundaryCondition< TInputImage > BoundaryConditionType;
-  typedef BoundaryConditionType *               BoundaryConditionPointerType;
+  typedef ImageBoundaryCondition< TInputImage, TOutputImage > BoundaryConditionType;
+  typedef BoundaryConditionType *                             BoundaryConditionPointerType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(PadImageFilter, ImageToImageFilter);

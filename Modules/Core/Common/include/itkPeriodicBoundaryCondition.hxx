@@ -17,19 +17,21 @@
  *=========================================================================*/
 #ifndef __itkPeriodicBoundaryCondition_hxx
 #define __itkPeriodicBoundaryCondition_hxx
+
 #include "itkConstNeighborhoodIterator.h"
 #include "itkPeriodicBoundaryCondition.h"
+
 namespace itk
 {
-template< class TImage >
-typename PeriodicBoundaryCondition< TImage >::PixelType
-PeriodicBoundaryCondition< TImage >
+template< class TInputImage, class TOutputImage >
+typename PeriodicBoundaryCondition< TInputImage, TOutputImage >::OutputPixelType
+PeriodicBoundaryCondition< TInputImage, TOutputImage >
 ::operator()(const OffsetType & point_index, const OffsetType & boundary_offset,
              const NeighborhoodType *data) const
 {
-  const ConstNeighborhoodIterator< TImage > *iterator =
-    dynamic_cast< const ConstNeighborhoodIterator< TImage > * >( data );
-  typename TImage::PixelType * ptr;
+  const ConstNeighborhoodIterator< TInputImage > *iterator =
+    dynamic_cast< const ConstNeighborhoodIterator< TInputImage > * >( data );
+  typename TInputImage::PixelType * ptr;
   int          linear_index = 0;
   unsigned int i;
 
@@ -41,8 +43,8 @@ PeriodicBoundaryCondition< TImage >
     linear_index += ( point_index[i] + boundary_offset[i] ) * data->GetStride(i);
     }
   // (data->operator[](linear_index)) is guaranteed to be a pointer to
-  // TImage::PixelType except for VectorImage, in which case, it will be a
-  // pointer to TImage::InternalPixelType.
+  // TInputImage::PixelType except for VectorImage, in which case, it will be a
+  // pointer to TInputImage::InternalPixelType.
   ptr = reinterpret_cast< PixelType * >( ( data->operator[](linear_index) ) );
 
   // Wrap the pointer around the image in the necessary dimensions.  If we have
@@ -51,7 +53,7 @@ PeriodicBoundaryCondition< TImage >
   // actual memory boundary.
 
   // These are the step sizes for increments in each dimension of the image.
-  const typename TImage::OffsetValueType * offset_table =
+  const typename TInputImage::OffsetValueType * offset_table =
     iterator->GetImagePointer()->GetOffsetTable();
 
   for ( i = 0; i < ImageDimension; ++i )
@@ -72,19 +74,19 @@ PeriodicBoundaryCondition< TImage >
       }
     }
 
-  return *ptr;
+  return static_cast< OutputPixelType >( *ptr );
 }
 
-template< class TImage >
-typename PeriodicBoundaryCondition< TImage >::PixelType
-PeriodicBoundaryCondition< TImage >
+template< class TInputImage, class TOutputImage >
+typename PeriodicBoundaryCondition< TInputImage, TOutputImage >::OutputPixelType
+PeriodicBoundaryCondition< TInputImage, TOutputImage >
 ::operator()(const OffsetType & point_index, const OffsetType & boundary_offset,
              const NeighborhoodType *data,
              const NeighborhoodAccessorFunctorType & neighborhoodAccessorFunctor) const
 {
-  const ConstNeighborhoodIterator< TImage > *iterator =
-    dynamic_cast< const ConstNeighborhoodIterator< TImage > * >( data );
-  typename TImage::InternalPixelType * ptr;
+  const ConstNeighborhoodIterator< TInputImage > *iterator =
+    dynamic_cast< const ConstNeighborhoodIterator< TInputImage > * >( data );
+  typename TInputImage::InternalPixelType * ptr;
   int          linear_index = 0;
   unsigned int i;
 
@@ -105,7 +107,7 @@ PeriodicBoundaryCondition< TImage >
   // actual memory boundary.
 
   // These are the step sizes for increments in each dimension of the image.
-  const typename TImage::OffsetValueType * offset_table =
+  const typename TInputImage::OffsetValueType * offset_table =
     iterator->GetImagePointer()->GetOffsetTable();
 
   for ( i = 0; i < ImageDimension; ++i )
@@ -126,13 +128,13 @@ PeriodicBoundaryCondition< TImage >
       }
     }
 
-  return neighborhoodAccessorFunctor.Get(ptr);
+  return static_cast< OutputPixelType >( neighborhoodAccessorFunctor.Get(ptr) );
 }
 
 
-template< class TImage >
-typename PeriodicBoundaryCondition< TImage >::RegionType
-PeriodicBoundaryCondition< TImage >
+template< class TInputImage, class TOutputImage >
+typename PeriodicBoundaryCondition< TInputImage, TOutputImage >::RegionType
+PeriodicBoundaryCondition< TInputImage, TOutputImage >
 ::GetInputRequestedRegion( const RegionType & inputLargestPossibleRegion,
                            const RegionType & outputRequestedRegion ) const
 {
@@ -177,10 +179,10 @@ PeriodicBoundaryCondition< TImage >
 }
 
 
-template< class TImage >
-typename PeriodicBoundaryCondition< TImage >::PixelType
-PeriodicBoundaryCondition< TImage >
-::GetPixel( const IndexType & index, const TImage * image ) const
+template< class TInputImage, class TOutputImage >
+typename PeriodicBoundaryCondition< TInputImage, TOutputImage >::OutputPixelType
+PeriodicBoundaryCondition< TInputImage, TOutputImage >
+::GetPixel( const IndexType & index, const TInputImage * image ) const
 {
   RegionType imageRegion = image->GetLargestPossibleRegion();
   IndexType  imageIndex  = imageRegion.GetIndex();
@@ -201,7 +203,7 @@ PeriodicBoundaryCondition< TImage >
     lookupIndex[i] = modIndex + imageIndex[i];
     }
 
-  return image->GetPixel( lookupIndex );
+  return static_cast< OutputPixelType >( image->GetPixel( lookupIndex ) );
 }
 
 } // end namespace itk

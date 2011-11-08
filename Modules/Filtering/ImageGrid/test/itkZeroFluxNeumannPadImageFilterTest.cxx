@@ -27,21 +27,22 @@
 #include "itkFilterWatcher.h"
 
 typedef itk::Image< short, 2 >     ShortImage;
+typedef itk::Image< float, 2 >     FloatImage;
 typedef ShortImage::SizeValueType  SizeValueType;
 typedef ShortImage::IndexValueType IndexValueType;
 
-typedef itk::ZeroFluxNeumannPadImageFilter< ShortImage, ShortImage > FilterType;
+typedef itk::ZeroFluxNeumannPadImageFilter< ShortImage, FloatImage > FilterType;
 
 static bool VerifyFilterOutput(const ShortImage * inputImage,
-                               const ShortImage * outputImage)
+                               const FloatImage * outputImage)
 {
-  ShortImage::RegionType inputRegion  = inputImage->GetLargestPossibleRegion();
+  ShortImage::RegionType inputRegion = inputImage->GetLargestPossibleRegion();
   ShortImage::IndexType inputIndex = inputRegion.GetIndex();
   ShortImage::SizeType  inputSize  = inputRegion.GetSize();
 
   ShortImage::RegionType outputRegion = outputImage->GetLargestPossibleRegion();
-  itk::ImageRegionConstIteratorWithIndex< ShortImage > outputIterator =
-    itk::ImageRegionConstIteratorWithIndex< ShortImage >(outputImage, outputRegion);
+  itk::ImageRegionConstIteratorWithIndex< FloatImage >
+    outputIterator(outputImage, outputRegion);
 
   // Check pixel values
   for (; !outputIterator.IsAtEnd(); ++outputIterator)
@@ -163,10 +164,10 @@ static bool VerifyFilter(const ShortImage * inputImage,
   std::cout << "[PASSED]" << std::endl;
 
   // Create a streaming filter
-  itk::StreamingImageFilter< ShortImage, ShortImage >::Pointer stream =
-    itk::StreamingImageFilter< ShortImage, ShortImage >::New();
+  typedef itk::StreamingImageFilter< FloatImage, FloatImage > StreamingFilter;
+  StreamingFilter::Pointer stream = StreamingFilter::New();
   stream->SetInput( padFilter->GetOutput() );
-  stream->SetNumberOfStreamDivisions(3);
+  stream->SetNumberOfStreamDivisions( 3 );
   stream->UpdateLargestPossibleRegion();
 
   std::cout << "Verifying streaming filter output pixels." << std::endl;

@@ -84,7 +84,11 @@ public:
   /** Set/Get the pad value.  Default is Zero. */
   void SetConstant( OutputImagePixelType constant )
   {
-    m_InternalBoundaryCondition.SetConstant( constant );
+    if ( constant != m_InternalBoundaryCondition.GetConstant() )
+      {
+      m_InternalBoundaryCondition.SetConstant( constant );
+      this->Modified();
+      }
   }
   OutputImagePixelType GetConstant() const
   {
@@ -112,7 +116,7 @@ private:
   ConstantPadImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);         //purposely not implemented
 
-  ConstantBoundaryCondition< TInputImage > m_InternalBoundaryCondition;
+  ConstantBoundaryCondition< TInputImage, TOutputImage > m_InternalBoundaryCondition;
 };
 } // end namespace itk
 
