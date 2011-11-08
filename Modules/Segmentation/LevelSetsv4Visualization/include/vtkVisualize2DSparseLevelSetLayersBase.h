@@ -16,12 +16,10 @@
  *
  *=========================================================================*/
 
-#ifndef __vtkVisualize2DShiLevelSetLayers_h
-#define __vtkVisualize2DShiLevelSetLayers_h
+#ifndef __vtkVisualize2DSparseLevelSetLayersBase_h
+#define __vtkVisualize2DSparseLevelSetLayersBase_h
 
 #include "itkLightObject.h"
-
-#include "itkShiSparseLevelSetImage.h"
 
 #include "itkImageToRGBVTKImageFilter.h"
 
@@ -42,26 +40,23 @@
 #include "vtkCaptureScreen.h"
 #include "vtkPNGWriter.h"
 
-template< class TInputImage, unsigned int VDimension >
-class vtkVisualize2DShiLevelSetLayers : public itk::LightObject
+template< class TInputImage, class TLevelSet >
+class vtkVisualize2DSparseLevelSetLayersBase : public itk::LightObject
 {
 public:
-  typedef vtkVisualize2DShiLevelSetLayers   Self;
-  typedef LightObject                       Superclass;
-  typedef itk::SmartPointer< Self >         Pointer;
-  typedef itk::SmartPointer< const Self >   ConstPointer;
-
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);
+  typedef vtkVisualize2DSparseLevelSetLayersBase  Self;
+  typedef LightObject                             Superclass;
+  typedef itk::SmartPointer< Self >               Pointer;
+  typedef itk::SmartPointer< const Self >         ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(vtkVisualize2DShiLevelSetLayers, LightObject);
+  itkTypeMacro(vtkVisualize2DSparseLevelSetLayersBase, LightObject);
 
   typedef TInputImage                         InputImageType;
   typedef typename InputImageType::PixelType  InputPixelType;
 
-  typedef itk::ShiSparseLevelSetImage< VDimension > LevelSetType;
-  typedef typename LevelSetType::Pointer            LevelSetPointer;
+  typedef TLevelSet                       LevelSetType;
+  typedef typename LevelSetType::Pointer  LevelSetPointer;
 
   typedef itk::ImageToRGBVTKImageFilter< InputImageType >  ConverterType;
   typedef typename ConverterType::Pointer                  ConverterPointer;
@@ -78,14 +73,11 @@ public:
       std::cout << e << std::endl;
       return;
       }
-
-    //m_Count = 0;
     }
 
   void SetLevelSet( LevelSetType *f )
     {
     m_LevelSet = f;
-    // m_Count = 0;
     }
 
   void SetScreenCapture( const bool& iCapture )
@@ -102,59 +94,31 @@ public:
     {
     if( m_Count % m_Period == 0 )
       {
-      vtkSmartPointer< vtkImageData > VTKImage = m_ImageConverter->GetOutput();
+      m_VTKImage = m_ImageConverter->GetOutput();
 
-      typedef typename LevelSetType::LayerType          LayerType;
-      typedef typename LevelSetType::LayerConstIterator LayerConstIterator;
+      this->AddLayers();
 
-      LayerType layer = m_LevelSet->GetLayer( LevelSetType::MinusOneLayer() );
-
-      LayerConstIterator it = layer.begin();
-
-      while( it != layer.end() )
-        {
-        typename InputImageType::IndexType idx = it->first;
-        InputPixelType* vtkpixel =
-            static_cast< InputPixelType* >( VTKImage->GetScalarPointer( idx[0], idx[1], 0 ) );
-        vtkpixel[0] = 0;
-        vtkpixel[1] = 255;
-        vtkpixel[2] = 0;
-        ++it;
-        }
-
-      layer = m_LevelSet->GetLayer( LevelSetType::PlusOneLayer() );
-
-      it = layer.begin();
-
-      while( it != layer.end() )
-        {
-        typename InputImageType::IndexType idx = it->first;
-        InputPixelType* vtkpixel =
-            static_cast< InputPixelType* >( VTKImage->GetScalarPointer( idx[0], idx[1], 0 ) );
-        vtkpixel[0] = 255;
-        vtkpixel[1] = 0;
-        vtkpixel[2] = 0;
-        ++it;
-        }
-
-  //    vtkSmartPointer< vtkLookupTable > lut =
-  //        vtkSmartPointer< vtkLookupTable >::New();
-  //    lut->SetNumberOfTableValues( 2 );
-  //    lut->SetRange( -1., 1. );
-  //    lut->SetTableValue( 0, 1., 0., 0. );
-  //    lut->SetTableValue( 1, 0., 0., 1. );
-  //    lut->Build();
+//      vtkSmartPointer< vtkLookupTable > lut =
+//          vtkSmartPointer< vtkLookupTable >::New();
+//      lut->SetNumberOfTableValues( 5 );
+//      lut->SetRange( -2., 2. );
+//      lut->SetTableValue( 0, 0., 1., 0. );
+//      lut->SetTableValue( 1, 1., 1., 0. );
+//      lut->SetTableValue( 2, 1., 0., 0. );
+//      lut->SetTableValue( 3, 1., 0., 1. );
+//      lut->SetTableValue( 4, 0., 0., 1. );
+//      lut->Build();
 
 
-  //    vtkSmartPointer< vtkScalarBarActor > scalarbar =
-  //        vtkSmartPointer< vtkScalarBarActor >::New();
-  //    scalarbar->SetTitle( "Layers" );
-  //    scalarbar->SetNumberOfLabels( 2 );
-  //    scalarbar->SetLookupTable( lut );
+//      vtkSmartPointer< vtkScalarBarActor > scalarbar =
+//          vtkSmartPointer< vtkScalarBarActor >::New();
+//      scalarbar->SetTitle( "Layers" );
+//      scalarbar->SetNumberOfLabels( 5 );
+//      scalarbar->SetLookupTable( lut );
 
       vtkSmartPointer< vtkImageActor > input_Actor =
           vtkSmartPointer< vtkImageActor >::New();
-      input_Actor->SetInput( VTKImage );
+      input_Actor->SetInput( this->m_VTKImage );
       input_Actor->InterpolateOff();
 
       std::stringstream counter;
@@ -171,7 +135,8 @@ public:
         {
         std::string filename;
         std::stringstream yo;
-        yo << "snapshot_shi_" << std::setfill( '0' ) << std::setw( 5 ) << m_Count;
+        yo << "snapshot_" << this->GetLevelSetRepresentationName()
+           <<"_" << std::setfill( '0' ) << std::setw( 5 ) << m_Count;
         filename = yo.str();
         filename.append ( ".png" );
 
@@ -189,7 +154,7 @@ public:
     }
 
 protected:
-  vtkVisualize2DShiLevelSetLayers() : Superclass(),
+  vtkVisualize2DSparseLevelSetLayersBase() : Superclass(),
     m_Count( 0 ),
     m_Period( 20 ),
     m_ScreenCapture( false )
@@ -209,16 +174,13 @@ protected:
     m_Iren->SetRenderWindow( m_RenWin );
     }
 
-  ~vtkVisualize2DShiLevelSetLayers()
+  virtual ~vtkVisualize2DSparseLevelSetLayersBase()
     {}
-
-private:
-  vtkVisualize2DShiLevelSetLayers ( const Self& );
-  void operator = ( const Self& );
 
   ConverterPointer  m_ImageConverter;
   LevelSetPointer   m_LevelSet;
 
+  vtkSmartPointer< vtkImageData >               m_VTKImage;
   vtkSmartPointer< vtkCornerAnnotation >        m_Annotation;
   vtkSmartPointer< vtkRenderer >                m_Renderer;
   vtkSmartPointer< vtkRenderWindow >            m_RenWin;
@@ -228,5 +190,12 @@ private:
   itk::IdentifierType m_Period;
   bool                m_ScreenCapture;
 
+  virtual std::string GetLevelSetRepresentationName() const = 0;
+
+  virtual void AddLayers() = 0;
+
+private:
+  vtkVisualize2DSparseLevelSetLayersBase ( const Self& );
+  void operator = ( const Self& );
 };
 #endif

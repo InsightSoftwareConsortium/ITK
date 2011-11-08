@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include "vtkVisualize2DShiLevelSetLayers.h"
+#include "vtkVisualize2DSparseLevelSetLayers.h"
 
 #include "itkShiSparseLevelSetImage.h"
 #include "itkBinaryImageToSparseLevelSetImageAdaptor.h"
@@ -83,7 +83,7 @@ int vtkVisualize2DShiLevelSetLayersTest( int , char* [] )
   typedef BinaryToSparseAdaptorType::LevelSetType           SparseLevelSetType;
   SparseLevelSetType::Pointer LevelSet = adaptor->GetLevelSet();
 
-  typedef vtkVisualize2DShiLevelSetLayers< ImageType, Dimension > VisualizationType;
+  typedef vtkVisualize2DSparseLevelSetLayers< ImageType, LevelSetType > VisualizationType;
   VisualizationType::Pointer viewer = VisualizationType::New();
   viewer->SetInputImage( image );
   viewer->SetLevelSet( LevelSet );
