@@ -126,6 +126,8 @@ public:
   void GetValueAndDerivative( MeasureType & valueReturn,
                               DerivativeType & derivativeReturn) const
   {
+    derivativeReturn.SetSize( this->GetNumberOfParameters() );
+
     //1) Do any pre-processing required for your metric. To help with
     // threading, you can use ImageToData or Array1DToData classes,
     // or derive your own from ObjectToData.
@@ -209,11 +211,14 @@ void ImageToImageObjectMetricTestComputeIdentityTruthValues(
   ImageToImageObjectMetricTestMetricType::MeasureType     tempValue;
   ImageToImageObjectMetricTestMetricType::DerivativeType  tempDerivative;
 
+  metric->GetValueAndDerivative( tempValue, tempDerivative );
+
+  // Determine truth values
   std::cout << "truth values: GetValueAndDerivative" << std::endl;
   truthValue = 0;
   truthDerivative.SetSize( metric->GetNumberOfParameters() );
   truthDerivative.Fill( 0 );
-  metric->GetValueAndDerivative( tempValue, tempDerivative );
+
 
   itk::ImageRegionIterator<ImageToImageObjectMetricTestImageType>
                      itFixed( fixedImage, fixedImage->GetRequestedRegion() );
@@ -273,13 +278,6 @@ void ImageToImageObjectMetricTestComputeIdentityTruthValues(
       movingImageDerivative =
               movingGradientCalculator->EvaluateAtIndex( itMoving.GetIndex() );
       }
-
-    /*
-    std::cout << "Truth: " << itMoving.GetIndex() << ": movingImageDerivative:"
-              << movingImageDerivative << std::endl
-              << "Truth: " << itFixed.GetIndex() << ": fixedImageDerivative: "
-              << fixedImageDerivative << std::endl;
-    */
 
     for ( unsigned int par = 0;
           par < metric->GetNumberOfLocalParameters(); par++ )
