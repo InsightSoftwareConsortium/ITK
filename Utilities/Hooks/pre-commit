@@ -157,4 +157,4 @@ test -z "$bad" || die "$bad"
 
 #-----------------------------------------------------------------------------
 # Style hooks.
-. "$GIT_DIR/../Utilities/Hooks/pre-commit-style"
+. "${BASH_SOURCE%/*}/pre-commit-style.bash"
