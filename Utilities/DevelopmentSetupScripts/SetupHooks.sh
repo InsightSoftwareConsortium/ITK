@@ -55,6 +55,10 @@ fi &&
 git reset --hard FETCH_HEAD || die "Failed to install hooks"
 cd ../..
 
+# Disable the 'hooks' branch submodule check.
+# We have a check that blocks addition of submodules.
+git config hooks.submodule false
+
 # Set up uncrustify hook.
 echo "Setting up the uncrustify hook..."
 git config hooks.uncrustify.conf "Utilities/Maintenance/uncrustify_itk.cfg"
