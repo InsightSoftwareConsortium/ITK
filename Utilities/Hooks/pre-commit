@@ -87,6 +87,19 @@ ExternalData_non_content_link() {
 
 #-----------------------------------------------------------------------------
 
+# Check that developmer setup is up-to-date.
+lastSetupForDevelopment=$(git config --get hooks.SetupForDevelopment || echo 0)
+eval $(grep '^SetupForDevelopment_VERSION=' "${BASH_SOURCE%/*}/../SetupForDevelopment.sh")
+test -n "$SetupForDevelopment_VERSION" || SetupForDevelopment_VERSION=0
+if test $lastSetupForDevelopment -lt $SetupForDevelopment_VERSION; then
+  die 'Developer setup in this work tree is out of date.  Please re-run
+
+  Utilities/SetupForDevelopment.sh
+'
+fi
+
+#-----------------------------------------------------------------------------
+
 # Local ExternalData object repository.
 ExternalData_STORE=".ExternalData"
 
