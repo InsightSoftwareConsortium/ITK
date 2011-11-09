@@ -136,10 +136,12 @@ endif()
 
 if( "${ITK_COMPUTER_MEMORY_SIZE}" GREATER 12 )
 
+if(ITK_BUG_2822_IS_FIXED)
   # Image of 9.12 Gigabytes (pixels size is 16bits)
   itk_add_test(NAME itkLargeTIFFImageWriteReadTest4
       COMMAND ITKIOTIFFTestDriver
     itkLargeTIFFImageWriteReadTest ${ITK_TEST_OUTPUT_DIR}/LargeImage04.tif  70000L )
+endif()
 
   # Due to the large memory requirements this tests must be run one by one
   set_tests_properties(itkLargeTIFFImageWriteReadTest4
