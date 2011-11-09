@@ -78,10 +78,6 @@ elif test ${git_version_arr[0]} -eq $git_required_major_version; then
 fi
 echo -e "Git version $git_version is OK.\n"
 
-echo "Initializing and downloading submodules..."
-git submodule update --init || die "Failure downloading submodules."
-echo -e "Done.\n"
-
 # add an "upstream" remote to make easier to maintain a fork outside of itk.org,
 # with an origin which is not itk.org
 if [ "`git config remote.origin.url`" != "git://itk.org/ITK.git" ]; then
