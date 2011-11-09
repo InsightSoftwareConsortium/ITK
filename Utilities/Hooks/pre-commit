@@ -142,16 +142,26 @@ and manually validate the xml files at "http://validator.w3.org/".'
 fi || exit
 
 #-----------------------------------------------------------------------------
-# Do not allow adding of files with .txx extension.
+# Check files added by commit
 
-diffs_added=$(git diff-index --diff-filter=A --cached HEAD -- | grep '\.txx$')
-diffs_normal_added=$(echo "$diffs_added" | grep -v '^...... 160000')
+added=$(git diff-index --diff-filter=A --cached HEAD --)
+added_normal=$(echo "$added" | grep -v '^:...... 160000')
+added_module=$(echo "$added" | grep    '^:...... 160000')
+
+# Do not allow adding of files with .txx extension.
+added_txx=$(echo "$added_normal" | grep '\.txx$')
 bad=$(
-test -n "$diffs_normal_added" && echo "$diffs_normal_added" |
-while read src_mode dst_mode src_obj dst_obj status file; do
-  echo "Attempted to add file $file."
-  echo "Files with the .txx extension are deprecated -- please use .hxx instead."
-done
+  test -n "$added_txx" &&
+  echo "Files with the .txx extension are deprecated -- please use .hxx instead:" &&
+  echo "$added_txx" | awk '{printf("  %s\n",$6)}'
+)
+test -z "$bad" || die "$bad"
+
+# Do not allow addition of submodules.
+bad=$(
+  test -n "$added_module" &&
+  echo "Submodules may not be added to ITK at this time:" &&
+  echo "$added_module" | awk '{printf("  %s\n",$6)}'
 )
 test -z "$bad" || die "$bad"
 
