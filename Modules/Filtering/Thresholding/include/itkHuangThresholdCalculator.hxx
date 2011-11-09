@@ -20,6 +20,7 @@
 #define __itkHuangThresholdCalculator_hxx
 
 #include "itkHuangThresholdCalculator.h"
+#include "itkMath.h"
 #include "itkProgressReporter.h"
 #include "vnl/vnl_math.h"
 
