@@ -20,13 +20,16 @@
 #define __itkBinaryImageToDenseLevelSetImageAdaptor_hxx
 
 #include "itkBinaryImageToDenseLevelSetImageAdaptor.h"
+#include "itkSignedMaurerDistanceMapImageFilter.h"
 
 namespace itk
 {
 template< class TInput, class TLevelSet >
 BinaryImageToDenseLevelSetImageAdaptor< TInput, TLevelSet >
 ::BinaryImageToDenseLevelSetImageAdaptor()
-{}
+{
+  this->m_SignedDistanceTransformFilter = SignedMaurerDistanceMapImageFilter< InputImageType, LevelSetImageType >::New();
+}
 
 template< class TInput, class TLevelSet >
 BinaryImageToDenseLevelSetImageAdaptor< TInput, TLevelSet >

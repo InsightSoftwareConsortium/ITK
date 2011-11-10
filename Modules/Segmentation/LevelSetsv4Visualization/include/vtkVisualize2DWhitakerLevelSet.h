@@ -42,6 +42,9 @@
 #include "vtkCaptureScreen.h"
 #include "vtkPNGWriter.h"
 
+/** \class vtkVisualize2DWhitakerLevelSet
+ *  \ingroup ITKLevelSetsv4Visualization
+ */
 template< class TInputImage, typename TOutput, unsigned int VDimension >
 class vtkVisualize2DWhitakerLevelSet : public itk::LightObject
 {

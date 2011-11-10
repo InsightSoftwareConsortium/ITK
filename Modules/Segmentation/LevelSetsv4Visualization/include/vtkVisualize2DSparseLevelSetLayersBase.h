@@ -40,6 +40,12 @@
 #include "vtkCaptureScreen.h"
 #include "vtkPNGWriter.h"
 
+/**
+ *  \class vtkVisualize2DSparseLevelSetLayersBase
+ *  \tparam TInputImage Input Image Type
+ *  \tparam TLevelSet   Level Set Type
+ *  \ingroup ITKLevelSetsv4Visualization
+ */
 template< class TInputImage, class TLevelSet >
 class vtkVisualize2DSparseLevelSetLayersBase : public itk::LightObject
 {
@@ -198,4 +204,5 @@ private:
   vtkVisualize2DSparseLevelSetLayersBase ( const Self& );
   void operator = ( const Self& );
 };
+
 #endif

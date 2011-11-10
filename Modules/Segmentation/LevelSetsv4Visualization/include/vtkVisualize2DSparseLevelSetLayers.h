@@ -25,11 +25,21 @@
 #include "itkShiSparseLevelSetImage.h"
 #include "itkMalcolmSparseLevelSetImage.h"
 
+/**
+ *  \class vtkVisualize2DSparseLevelSetLayers
+ *  \tparam TInputImage Input Image Type
+ *  \tparam TLevelSetImage  Level Set type
+ *
+ *  \ingroup ITKLevelSetsv4Visualization
+ */
 template< class TInputImage, class TLevelSet >
 class vtkVisualize2DSparseLevelSetLayers
 {};
 
 // -----------------------------------------------------------------------------
+/**
+ *  \ingroup ITKLevelSetsv4Visualization
+ */
 template< class TInputImage, typename TOutput, unsigned int VDimension >
 class vtkVisualize2DSparseLevelSetLayers<
     TInputImage,
@@ -154,6 +164,9 @@ private:
 };
 
 // -----------------------------------------------------------------------------
+/**
+ *  \ingroup ITKLevelSetsv4Visualization
+ */
 template< class TInputImage, unsigned int VDimension >
 class vtkVisualize2DSparseLevelSetLayers<
     TInputImage,
@@ -233,6 +246,10 @@ private:
 };
 
 // -----------------------------------------------------------------------------
+
+/**
+ *  \ingroup ITKLevelSetsv4Visualization
+ */
 template< class TInputImage, unsigned int VDimension >
 class vtkVisualize2DSparseLevelSetLayers<
     TInputImage,
