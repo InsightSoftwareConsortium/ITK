@@ -33,7 +33,6 @@
 #include "itkFEMLoadGrav.h"
 #include "itkFEMLoadEdge.h"
 #include "itkFEMImageMetricLoad.h"
-// #include "itkFEMImageMetricLoadImplementation.h"
 
 #include "itkFEMLoadTest.h"
 #include "itkFEMLoadLandmark.h"

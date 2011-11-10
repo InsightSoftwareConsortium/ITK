@@ -19,7 +19,6 @@
 #define __itkScaleTransform_h
 
 #include <iostream>
-// #include "itkTransform.h"
 #include "itkMatrixOffsetTransformBase.h"
 #include "itkMacro.h"
 #include "itkMatrix.h"

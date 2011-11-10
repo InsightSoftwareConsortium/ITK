@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-//#include <iostream>
 #include <fstream>
 #include "itkRandomImageSource.h"
 #include "itkImageFileWriter.h"

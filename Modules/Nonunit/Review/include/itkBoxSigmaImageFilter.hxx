@@ -23,7 +23,6 @@
 #include "itkNumericTraits.h"
 #include "itkBoxUtilities.h"
 
-// #include "ioutils.h"
 
 /*
  *

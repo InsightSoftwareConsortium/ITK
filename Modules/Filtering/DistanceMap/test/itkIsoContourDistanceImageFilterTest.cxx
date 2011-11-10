@@ -27,7 +27,6 @@
 #include "vnl/vnl_math.h"
 
 // For debugging
-//#include "itkImageFileWriter.h"
 
 namespace{
 // The following class is used to support callbacks

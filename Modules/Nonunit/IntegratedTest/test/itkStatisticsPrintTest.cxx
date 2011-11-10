@@ -16,8 +16,6 @@
  *
  *=========================================================================*/
 
-// #include "itkSample.h"   // abstract class
-// #include "itkSampleToSubsampleFilter.h"   // abstract class
 #include "itkHistogram.h"
 #include "itkSampleClassifierFilter.h"
 #include "itkSampleToHistogramFilter.h"

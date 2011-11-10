@@ -29,7 +29,6 @@
 #include "itkConstantBoundaryCondition.h"
 #include "itkSize.h"
 #include "itkConnectedComponentAlgorithm.h"
-// #include "itkFillSides.h"
 
 /*
  * This code was contributed in the Insight Journal paper:

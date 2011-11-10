@@ -29,7 +29,6 @@
 #include "itkIdentityTransferFunction.h"
 #include "itkSumInputFunction.h"
 
-//#include "itkProductInputFunction.h"
 
 namespace itk
 {

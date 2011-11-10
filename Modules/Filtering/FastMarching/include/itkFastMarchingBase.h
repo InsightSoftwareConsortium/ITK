@@ -23,7 +23,6 @@
 #include "itkFastMarchingStoppingCriterionBase.h"
 #include "itkFastMarchingTraits.h"
 
-//#include "itkPriorityQueueContainer.h"
 #include <queue>
 
 namespace itk

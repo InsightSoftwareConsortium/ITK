@@ -26,7 +26,6 @@
 #undef _POSIX_C_SOURCE
 #include <Python.h>
 #include <arrayobject.h>
-//#include <libnumarray.h>
 
 
 namespace itk
