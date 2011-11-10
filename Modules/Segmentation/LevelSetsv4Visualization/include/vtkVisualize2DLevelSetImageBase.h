@@ -116,11 +116,6 @@ public:
       }
     }
 
-  void SetPeriod( const itk::IdentifierType& iPeriod )
-    {
-    m_Period = iPeriod;
-    }
-
   void Update()
     {
     try
@@ -132,8 +127,6 @@ public:
       std::cout << e << std::endl;
       return;
       }
-    if( m_Count % m_Period == 0 )
-      {
 
     vtkSmartPointer< vtkMarchingSquares > contours =
       vtkSmartPointer< vtkMarchingSquares >::New();
@@ -195,14 +188,12 @@ public:
       // begin mouse interaction
       capture( filename );
       }
-    }
   ++m_Count;
   }
 
 protected:
   vtkVisualize2DLevelSetImageBase() : Superclass(),
     m_Count( 0 ),
-    m_Period( 20 ),
     m_NumberOfLevels( 1 ),
     m_LevelLimit( 0 ),
     m_ScreenCapture( false )
@@ -240,7 +231,6 @@ private:
   vtkSmartPointer< vtkRenderWindowInteractor >  m_Iren;
 
   itk::IdentifierType m_Count;
-  itk::IdentifierType m_Period;
   unsigned int        m_NumberOfLevels;
   double              m_LevelLimit;
   bool                m_ScreenCapture;

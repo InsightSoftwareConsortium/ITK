@@ -24,7 +24,7 @@
 namespace itk
 {
 
-/** \class IterationUpdateCommand
+/** \class LevelSetIterationUpdateCommand
  * \brief Call update on one filter when another filter iterates.
  *
  * \tparam TIteratingFilter Filter that invokes iteration events.
@@ -34,10 +34,10 @@ namespace itk
  * \ingroup ITKLevelSetsv4Visualization
  */
 template< class TIteratingFilter, class TFilterToUpdate >
-class IterationUpdateCommand : public Command
+class LevelSetIterationUpdateCommand : public Command
 {
 public:
-  typedef IterationUpdateCommand      Self;
+  typedef LevelSetIterationUpdateCommand      Self;
   typedef Command                     Superclass;
   typedef SmartPointer< Self >        Pointer;
   typedef SmartPointer< const Self >  ConstPointer;
@@ -46,7 +46,7 @@ public:
   typedef TFilterToUpdate   FilterToUpdateType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( IterationUpdateCommand, Command );
+  itkTypeMacro( LevelSetIterationUpdateCommand, Command );
 
   itkNewMacro( Self );
 
@@ -58,21 +58,27 @@ public:
   itkSetObjectMacro( FilterToUpdate, FilterToUpdateType );
   itkGetConstObjectMacro( FilterToUpdate, FilterToUpdateType );
 
+  /** Set/Get the period that Update() is called on the FilterToUpdate.  It is
+   * in units of iterations. */
+  itkSetMacro( UpdatePeriod, IdentifierType );
+  itkGetConstMacro( UpdatePeriod, IdentifierType );
+
 protected:
-  IterationUpdateCommand() {}
-  virtual ~IterationUpdateCommand() {}
+  LevelSetIterationUpdateCommand();
+  virtual ~LevelSetIterationUpdateCommand();
 
 private:
-  IterationUpdateCommand( const Self& ); // purposely not implemented
+  LevelSetIterationUpdateCommand( const Self& ); // purposely not implemented
   void operator= ( const Self& ); // purposely not implemented
 
   WeakPointer< FilterToUpdateType >  m_FilterToUpdate;
+  IdentifierType                     m_UpdatePeriod;
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkIterationUpdateCommand.hxx"
+#include "itkLevelSetIterationUpdateCommand.hxx"
 #endif
 
 #endif

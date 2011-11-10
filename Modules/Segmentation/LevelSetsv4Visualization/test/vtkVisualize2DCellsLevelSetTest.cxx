@@ -18,7 +18,7 @@
 
 #include "itkBinaryImageToDenseLevelSetImageAdaptor.h"
 #include "itkImageFileReader.h"
-#include "itkIterationUpdateCommand.h"
+#include "itkLevelSetIterationUpdateCommand.h"
 #include "itkLevelSetContainer.h"
 #include "itkLevelSetEquationChanAndVeseInternalTerm.h"
 #include "itkLevelSetEquationChanAndVeseExternalTerm.h"
@@ -134,7 +134,6 @@ visualizeLevelSet( TInputImage * inputImage, const int numberOfIterations, const
   //! \todo the visualizer should get the input image from the level set
   visualizer->SetInputImage( inputImage );
   visualizer->SetLevelSet( levelSet );
-  visualizer->SetPeriod( 1 );
   std::cout << "Visualizer created" << std::endl;
 
   // Create evolution class
@@ -145,9 +144,10 @@ visualizeLevelSet( TInputImage * inputImage, const int numberOfIterations, const
   evolution->SetLevelSetContainer( levelSetContainer );
   std::cout << "Evolution class created" << std::endl;
 
-  typedef typename itk::IterationUpdateCommand< LevelSetEvolutionType, VisualizationType > IterationUpdateCommandType;
+  typedef typename itk::LevelSetIterationUpdateCommand< LevelSetEvolutionType, VisualizationType > IterationUpdateCommandType;
   typename IterationUpdateCommandType::Pointer iterationUpdateCommand = IterationUpdateCommandType::New();
   iterationUpdateCommand->SetFilterToUpdate( visualizer );
+  iterationUpdateCommand->SetUpdatePeriod( 4 );
   evolution->AddObserver( itk::IterationEvent(), iterationUpdateCommand );
   std::cout << "Visualization IterationUpdateCommand created" << std::endl;
 
