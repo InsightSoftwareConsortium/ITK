@@ -19,26 +19,7 @@
 #ifndef __vtkVisualize2DSparseLevelSetLayersBase_hxx
 #define __vtkVisualize2DSparseLevelSetLayersBase_hxx
 
-#include "itkLightObject.h"
-
-#include "itkImageToRGBVTKImageFilter.h"
-
-#include "vtkCornerAnnotation.h"
-#include "vtkImageData.h"
-#include "vtkLookupTable.h"
-#include "vtkMarchingSquares.h"
-#include "vtkPolyDataMapper.h"
-#include "vtkActor.h"
-#include "vtkImageActor.h"
-#include "vtkScalarBarActor.h"
-#include "vtkProperty.h"
-#include "vtkRenderer.h"
-#include "vtkRenderWindowInteractor.h"
-#include "vtkRenderWindow.h"
-#include "vtkImageShiftScale.h"
-
-#include "vtkCaptureScreen.h"
-#include "vtkPNGWriter.h"
+#include "vtkVisualize2DSparseLevelSetLayersBase.h"
 
 template< class TInputImage, class TLevelSet >
 vtkVisualize2DSparseLevelSetLayersBase< TInputImage, TLevelSet >

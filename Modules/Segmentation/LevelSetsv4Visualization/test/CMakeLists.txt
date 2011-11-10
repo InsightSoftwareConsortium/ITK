@@ -7,6 +7,7 @@ vtkVisualize2DWhitakerLevelSetTest
 #vtkVisualize2DMalcolmLevelSetTest
 itkImageToRGBVTKImageFilterTest
 vtkVisualize2DCellsLevelSetTest
+vtkVisualize2DCellsLevelSetSurfaceTest
 vtkVisualize2DWhitakerLevelSetLayersTest
 vtkVisualize2DShiLevelSetLayersTest
 vtkVisualize2DMalcolmLevelSetLayersTest
@@ -45,4 +46,10 @@ itk_add_test(NAME vtkVisualize2DCellsDenseLevelSetTest
   COMMAND ITKLevelSetsv4VisualizationTestDriver vtkVisualize2DCellsLevelSetTest
   DATA{Input/cells.png} 60 Dense
   ${TEMP}/vtkVisualize2DCellsDenseLevelSetTest.png
+  )
+
+itk_add_test(NAME vtkVisualize2DCellsDenseLevelSetSurfaceTest
+  COMMAND ITKLevelSetsv4VisualizationTestDriver vtkVisualize2DCellsLevelSetSurfaceTest
+  DATA{Input/cells.png} 60 Dense
+  ${TEMP}/vtkVisualize2DCellsDenseLevelSetSurfaceTest.png
   )
