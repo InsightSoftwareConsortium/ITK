@@ -141,12 +141,12 @@ if(ITK_BUG_2822_IS_FIXED)
   itk_add_test(NAME itkLargeTIFFImageWriteReadTest4
       COMMAND ITKIOTIFFTestDriver
     itkLargeTIFFImageWriteReadTest ${ITK_TEST_OUTPUT_DIR}/LargeImage04.tif  70000L )
-endif()
 
   # Due to the large memory requirements this tests must be run one by one
   set_tests_properties(itkLargeTIFFImageWriteReadTest4
     PROPERTIES
     RUN_SERIAL 1
     )
+endif()
 
 endif()
