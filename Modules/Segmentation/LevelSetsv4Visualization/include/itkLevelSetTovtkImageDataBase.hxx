@@ -16,56 +16,43 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetImageBaseTovtkImageData_hxx
-#define __itkLevelSetImageBaseTovtkImageData_hxx
+#ifndef __itkLevelSetTovtkImageDataBase_hxx
+#define __itkLevelSetTovtkImageDataBase_hxx
 
-#include "vtkImageData.h"
-#include "itkLevelSetImageBaseTovtkImageData.h"
+#include "itkLevelSetTovtkImageDataBase.h"
 
 namespace itk
 {
-template< class TImage >
-LevelSetImageBaseTovtkImageData< TImage >
-::LevelSetImageBaseTovtkImageData()
-{
-  m_Converter = ConverterType::New();
-}
+template< class TLevelSet >
+LevelSetTovtkImageDataBase< TLevelSet >
+::LevelSetTovtkImageDataBase()
+  {}
 
-template< class TImage >
-LevelSetImageBaseTovtkImageData< TImage >
-::~LevelSetImageBaseTovtkImageData()
-{}
+template< class TLevelSet >
+LevelSetTovtkImageDataBase< TLevelSet >
+::~LevelSetTovtkImageDataBase()
+  {}
 
-template< class TImage >
+template< class TLevelSet >
 void
-LevelSetImageBaseTovtkImageData< TImage >
+LevelSetTovtkImageDataBase< TLevelSet >
 ::SetInput( LevelSetType* iLevelSet )
 {
   if( !iLevelSet )
     {
     itkGenericExceptionMacro( <<"iLevelSet is NULL" );
     }
-  if( !iLevelSet->GetImage() )
-    {
-    itkGenericExceptionMacro( <<"iLevelSet->GetImage() is NULL" );
-    }
-  m_Converter->SetInput( iLevelSet->GetImage() );
+  m_LevelSet = iLevelSet;
 }
 
-template< class TImage >
-vtkImageData*
-LevelSetImageBaseTovtkImageData< TImage >
-::GetOutput() const
-{
-  return m_Converter->GetOutput();
-}
-
-template< class TImage >
+template< class TLevelSet >
 void
-LevelSetImageBaseTovtkImageData< TImage >
+LevelSetTovtkImageDataBase< TLevelSet >
 ::Update()
 {
-  m_Converter->Update();
+  this->GenerateData();
 }
+
 }
-#endif // __itkLevelSetImageBaseTovtkImageData_hxx
+
+#endif // __itkLevelSetTovtkImageDataBase_h

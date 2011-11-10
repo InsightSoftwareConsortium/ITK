@@ -24,7 +24,7 @@
 #include "itkWhitakerSparseLevelSetImage.h"
 
 #include "itkImageToVTKImageFilter.h"
-#include "itkWhitakerLevelSetTovtkImageData.h"
+#include "itkLevelSetTovtkImageData.h"
 
 #include "vtkCornerAnnotation.h"
 #include "vtkImageData.h"
@@ -68,10 +68,8 @@ public:
   typedef itk::ImageToVTKImageFilter< InputImageType >  ImageConverterType;
   typedef typename ImageConverterType::Pointer          ImageConverterPointer;
 
-  typedef itk::WhitakerLevelSetTovtkImageData< TOutput, VDimension >
-    LevelSetConverterType;
-  typedef typename LevelSetConverterType::Pointer
-    LevelSetConverterPointer;
+  typedef itk::LevelSetTovtkImageData< LevelSetType > LevelSetConverterType;
+  typedef typename LevelSetConverterType::Pointer     LevelSetConverterPointer;
 
 
   void SetInputImage( const InputImageType * iImage )

@@ -23,7 +23,7 @@
 
 #include "itkLevelSetImageBase.h"
 #include "itkImageToVTKImageFilter.h"
-#include "itkLevelSetImageBaseTovtkImageData.h"
+#include "itkLevelSetTovtkImageData.h"
 
 #include "vtkImageData.h"
 #include "vtkMarchingCubes.h"
@@ -70,8 +70,8 @@ public:
   typedef itk::ImageToVTKImageFilter< InputImageType >  ImageConverterType;
   typedef typename ImageConverterType::Pointer          ImageConverterPointer;
 
-  typedef itk::LevelSetImageBaseTovtkImageData< LevelSetImageType > LevelSetConverterType;
-  typedef typename LevelSetConverterType::Pointer                   LevelSetConverterPointer;
+  typedef itk::LevelSetTovtkImageData< LevelSetType > LevelSetConverterType;
+  typedef typename LevelSetConverterType::Pointer     LevelSetConverterPointer;
 
 
   void SetInputImage( const InputImageType * iImage )

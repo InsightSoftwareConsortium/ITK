@@ -16,60 +16,54 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetImageBaseTovtkImageData_h
-#define __itkLevelSetImageBaseTovtkImageData_h
+#ifndef __itkLevelSetTovtkImageDataBase_h
+#define __itkLevelSetTovtkImageDataBase_h
 
 #include "itkProcessObject.h"
-#include "itkLevelSetDenseImageBase.h"
-#include "itkImageToVTKImageFilter.h"
 
 class vtkImageData;
 
 namespace itk
 {
-/** \class LevelSetImageBaseTovtkImageData
+/** \class LevelSetTovtkImageDataBase
  *  \ingroup ITKLevelSetsv4Visualization
  */
-template< class TImage >
-class LevelSetImageBaseTovtkImageData : public ProcessObject
+template< class TLevelSet >
+class LevelSetTovtkImageDataBase : public ProcessObject
 {
 public:
-  typedef LevelSetImageBaseTovtkImageData Self;
+  typedef LevelSetTovtkImageDataBase      Self;
   typedef ProcessObject                   Superclass;
   typedef SmartPointer< Self >            Pointer;
   typedef SmartPointer< const Self >      ConstPointer;
 
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);
-
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageToVTKImageFilter, ProcessObject);
+  itkTypeMacro(LevelSetTovtkImageDataBase, ProcessObject);
 
-  typedef TImage                          ImageType;
-
-  typedef LevelSetDenseImageBase< ImageType >  LevelSetType;
-
-  typedef ImageToVTKImageFilter< ImageType >  ConverterType;
-  typedef typename ConverterType::Pointer     ConverterPointer;
+  typedef TLevelSet                       LevelSetType;
+  typedef typename LevelSetType::Pointer  LevelSetPointer;
 
   using Superclass::SetInput;
   virtual void SetInput( LevelSetType* iLevelSet );
 
-  vtkImageData* GetOutput() const;
+  virtual vtkImageData* GetOutput() const = 0;
 
   void Update();
 
 protected:
-  LevelSetImageBaseTovtkImageData();
-  ~LevelSetImageBaseTovtkImageData();
+  LevelSetTovtkImageDataBase();
+  virtual ~LevelSetTovtkImageDataBase();
+
+  LevelSetPointer m_LevelSet;
 
 private:
-  LevelSetImageBaseTovtkImageData( const Self& );
+  LevelSetTovtkImageDataBase( const Self& );
   void operator = ( const Self& );
 
-  ConverterPointer m_Converter;
 };
 }
 
-#include "itkLevelSetImageBaseTovtkImageData.hxx"
-#endif // __itkLevelSetImageBaseTovtkImageData_h
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkLevelSetTovtkImageDataBase.hxx"
+#endif
+#endif // __itkLevelSetTovtkImageDataBase_h
