@@ -1,7 +1,4 @@
 itk_module_test()
-# Find the top of the main ITK source tree.
-get_filename_component(ITK_TOP_DIR ${ITKFEM_SOURCE_DIR}/../../.. ABSOLUTE)
-include(${ITK_TOP_DIR}/CMake/ITKExternalData.cmake)
 
 set(ITKFEMTests
 itkFEMExceptionTest.cxx
