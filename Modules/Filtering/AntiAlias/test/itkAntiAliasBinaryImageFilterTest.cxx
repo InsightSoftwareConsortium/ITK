@@ -23,8 +23,6 @@
 // Uncomment the following lines if you are writing the output image.
 //
 
-//#include "itkRawImageIO.h"
-//#include "itkImageFileWriter.h"
 
 //
 // This is a simple test of the AntiAliasBinaryImageFilter class.  It creates a

@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-// #include "itkFEMElementTest.h"
 #include "itksys/SystemTools.hxx"
 
 #include "itkFEMSolver.h"

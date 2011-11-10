@@ -20,7 +20,6 @@
 
 #include "itkVanHerkGilWermanErodeDilateImageFilter.h"
 #include "itkImageRegionIterator.h"
-//#include "itkNeighborhoodAlgorithm.h"
 
 #include "itkVanHerkGilWermanUtilities.h"
 

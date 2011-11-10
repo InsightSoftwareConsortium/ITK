@@ -36,7 +36,6 @@
 #include <itkMattesMutualInformationImageToImageMetric.h>
 #include <itkMeanSquaresImageToImageMetric.h>
 #include <itkNormalizedCorrelationImageToImageMetric.h>
-// #include <itkMeanReciprocalSquareDifferenceImageToImageMetric.h>
 
 namespace itk
 {

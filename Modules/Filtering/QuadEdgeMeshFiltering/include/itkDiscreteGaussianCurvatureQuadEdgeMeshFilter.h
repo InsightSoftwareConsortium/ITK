@@ -21,7 +21,6 @@
 #include "itkDiscreteCurvatureQuadEdgeMeshFilter.h"
 #include "vnl/vnl_math.h"
 
-//#include "itkTriangleHelper.h"
 
 namespace itk
 {

@@ -20,7 +20,6 @@
 
 #include "itkAnchorErodeDilateImageFilter.h"
 
-//#include "itkNeighborhoodAlgorithm.h"
 
 #include "itkAnchorUtilities.h"
 namespace itk

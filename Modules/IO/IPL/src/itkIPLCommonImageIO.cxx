@@ -20,7 +20,6 @@
 #include "itkIPLCommonImageIO.h"
 #include "itkByteSwapper.h"
 #include "itkSpatialOrientationAdapter.h"
-//#include "idbm_hdr_def.h"
 #include "itkDirectory.h"
 #include "itkMetaDataObject.h"
 #include <iostream>

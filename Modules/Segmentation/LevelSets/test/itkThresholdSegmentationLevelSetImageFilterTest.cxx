@@ -17,8 +17,6 @@
  *=========================================================================*/
 
 #include "itkThresholdSegmentationLevelSetImageFilter.h"
-//#include "itkImageFileWriter.h"
-//#include "itkRawImageIO.h"
 #include "itkCastImageFilter.h"
 #include "itkCommand.h"
 #include "itkEventObject.h"

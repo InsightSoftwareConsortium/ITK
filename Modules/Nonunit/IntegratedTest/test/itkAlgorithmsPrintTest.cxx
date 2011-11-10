@@ -28,7 +28,6 @@
 #include "itkDeformableMesh3DFilter.h"
 #include "itkDemonsRegistrationFilter.h"
 #include "itkExtensionVelocitiesImageFilter.h"
-//#include "itkFEMRegistrationFilter.h"
 #include "itkFastMarchingImageFilter.h"
 
 int main (int , char* [])
