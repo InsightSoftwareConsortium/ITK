@@ -1,7 +1,7 @@
 itk_module_test()
 set(ITKLevelSetsv4VisualizationTests
 # visualization
-vtkVisualize2DLevelSetImageBaseTest
+itkVTKVisualize2DDenseImageLevelSetTest
 vtkVisualize2DWhitakerLevelSetTest
 #vtkVisualize2DShiLevelSetTest
 #vtkVisualize2DMalcolmLevelSetTest
@@ -17,8 +17,8 @@ CreateTestDriver(ITKLevelSetsv4Visualization  "${ITKLevelSetsv4Visualization-Tes
 
 set(TEMP ${ITK_TEST_OUTPUT_DIR})
 
-itk_add_test(NAME vtkVisualize2DLevelSetImageBaseTest
-  COMMAND ITKLevelSetsv4VisualizationTestDriver vtkVisualize2DLevelSetImageBaseTest)
+itk_add_test(NAME itkVTKVisualize2DDenseImageLevelSetTest
+  COMMAND ITKLevelSetsv4VisualizationTestDriver itkVTKVisualize2DDenseImageLevelSetTest)
 
 itk_add_test(NAME vtkVisualize2DWhitakerLevelSetTest
   COMMAND ITKLevelSetsv4VisualizationTestDriver vtkVisualize2DWhitakerLevelSetTest)

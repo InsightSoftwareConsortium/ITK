@@ -59,6 +59,7 @@ LevelSetIterationUpdateCommand< TIteratingFilter, TFilterToUpdate >
     {
     // Was the FilterToUpdate set?
     itkAssertInDebugAndIgnoreInReleaseMacro( this->m_FilterToUpdate );
+    this->m_FilterToUpdate->SetCurrentIteration( filter->GetNumberOfIterations() );
     this->m_FilterToUpdate->Update();
     }
 }
