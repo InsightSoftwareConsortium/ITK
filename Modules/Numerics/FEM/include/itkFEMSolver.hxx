@@ -35,9 +35,7 @@ namespace itk
 {
 namespace fem
 {
-/*
- * Default constructor for Solver class
- */
+
 template <unsigned int VDimension>
 Solver<VDimension>
 ::Solver()
@@ -50,6 +48,7 @@ Solver<VDimension>
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, this->MakeOutput(0) );
 }
+
 template <unsigned int VDimension>
 Solver<VDimension>
 ::~Solver()
@@ -71,9 +70,6 @@ Solver<VDimension>
   this->m_NMFC = fem->GetNumberOfMultiFreedomConstraints();
 }
 
-/**
- * Connect one of the operands for pixel-wise addition
- */
 template <unsigned int VDimension>
 void
 Solver<VDimension>
@@ -88,9 +84,6 @@ Solver<VDimension>
 
 }
 
-/**
- *
- */
 template <unsigned int VDimension>
 typename Solver<VDimension>::FEMObjectType *
 Solver<VDimension>
@@ -105,9 +98,6 @@ Solver<VDimension>
          (this->ProcessObject::GetInput(0) );
   }
 
-/**
- *
- */
 template <unsigned int VDimension>
 typename Solver<VDimension>::FEMObjectType *
 Solver<VDimension>
@@ -117,9 +107,29 @@ Solver<VDimension>
          (this->ProcessObject::GetInput(idx) );
   }
 
-/**
- *
- */
+template <unsigned int VDimension>
+typename Solver<VDimension>::Float
+Solver<VDimension>
+::GetTimeStep() const
+{
+  return NumericTraits< Float >::Zero;
+}
+
+template <unsigned int VDimension>
+void
+Solver<VDimension>
+::SetTimeStep(Float itkNotUsed(dt))
+{
+}
+
+template <unsigned int VDimension>
+typename Solver<VDimension>::Float
+Solver<VDimension>
+::GetSolution(unsigned int i, unsigned int which)
+{
+  return this->m_ls->GetSolutionValue(i, which);
+}
+
 template <unsigned int VDimension>
 typename Solver<VDimension>::DataObjectPointer
 Solver<VDimension>
@@ -128,9 +138,6 @@ Solver<VDimension>
   return static_cast<DataObject *>(FEMObjectType::New().GetPointer() );
 }
 
-/**
- *
- */
 template <unsigned int VDimension>
 typename Solver<VDimension>::FEMObjectType *
 Solver<VDimension>
@@ -145,9 +152,6 @@ Solver<VDimension>
          (this->ProcessObject::GetOutput(0) );
   }
 
-/**
- *
- */
 template <unsigned int VDimension>
 typename Solver<VDimension>::FEMObjectType *
 Solver<VDimension>
@@ -173,9 +177,6 @@ Solver<VDimension>
   this->RunSolver();
 }
 
-/**
- * PrintSelf
- */
 template <unsigned int VDimension>
 void
 Solver<VDimension>
@@ -187,10 +188,6 @@ Solver<VDimension>
   os << indent << "FEM Object: " << m_FEMObject << std::endl;
 }
 
-/**
- * Change the LinearSystemWrapper object used to solve
- * system of equations.
- */
 template <unsigned int VDimension>
 void
 Solver<VDimension>
@@ -213,9 +210,6 @@ Solver<VDimension>
   m_ls->SetNumberOfSolutions(1);
 }
 
-/**
- * Assemble the master stiffness matrix (also apply the MFCs to K)
- */
 template <unsigned int VDimension>
 void
 Solver<VDimension>
@@ -380,9 +374,6 @@ Solver<VDimension>
     }
 }
 
-/**
- * Assemble the master force vector
- */
 template <unsigned int VDimension>
 void
 Solver<VDimension>
@@ -588,20 +579,13 @@ Solver<VDimension>
     }
 }
 
-/**
- * Decompose matrix using svd, qr, whatever ... if needed
- */
 template <unsigned int VDimension>
 void
 Solver<VDimension>
 ::DecomposeK()
 {
-
 }
 
-/**
- * Solve for the displacement vector u
- */
 template <unsigned int VDimension>
 void
 Solver<VDimension>
@@ -642,10 +626,6 @@ Solver<VDimension>
   itkDebugMacro( << "FE Solution took " << timer1.GetMeanTime() << " seconds.\n" );
 }
 
-/**
- * Copy solution vector u to the corresponding nodal values, which are
- * stored in node objects). This is standard post processing of the solution.
- */
 template <unsigned int VDimension>
 void
 Solver<VDimension>
@@ -693,22 +673,19 @@ Solver<VDimension>
   return U;
 }
 
-/**
- * Apply the boundary conditions to the system.
- */
 template <unsigned int VDimension>
 void Solver<VDimension>
 ::ApplyBC(int dim, unsigned int matrix)
 {
   // Vector with index 1 is used to store force correctios for BCs
-  m_ls->DestroyVector(1);
+  this->m_ls->DestroyVector(1);
 
   /* Step over all Loads */
-  unsigned int numberOfLoads = m_FEMObject->GetNumberOfLoads();
+  unsigned int numberOfLoads = this->m_FEMObject->GetNumberOfLoads();
   for( unsigned int i = 0; i < numberOfLoads; i++ )
     {
 
-    Load::Pointer l0 = m_FEMObject->GetLoad( i );
+    Load::Pointer l0 = this->m_FEMObject->GetLoad( i );
 
     /**
      * Apply boundary conditions in form of MFC loads.
@@ -765,7 +742,7 @@ void Solver<VDimension>
 
       // Get the column indices of the nonzero elements in an array.
       LinearSystemWrapper::ColumnArray cols;
-      m_ls->GetColumnsOfNonZeroMatrixElementsInRow(fdof, cols, matrix);
+      this->m_ls->GetColumnsOfNonZeroMatrixElementsInRow(fdof, cols, matrix);
 
       // Force vector needs updating only if DOF was not fixed to 0.0.
       if( fixedvalue != 0.0 )
@@ -806,9 +783,6 @@ void Solver<VDimension>
     } // end for LoadArray::iterator l
 }
 
-/**
- * Initialize the interpolation grid
- */
 template <unsigned int VDimension>
 void
 Solver<VDimension>
@@ -973,9 +947,6 @@ Solver<VDimension>
     }   // next element
 }
 
-/**
- * Initialize the interpolation grid over the user defined region
- */
 template <unsigned int VDimension>
 void
 Solver<VDimension>
@@ -1039,6 +1010,6 @@ Solver<VDimension>
     }
 }
 
-}
-} // end namespace itk::fem
+} // end namespace itk
+} // end namespace fem
 #endif // __itkFEMSolver_hxx

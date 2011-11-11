@@ -135,27 +135,20 @@ public:
   itkGetMacro(Direction, InterpolationGridDirectionType);
 
   /** Returns the time step used for dynamic problems. */
-  virtual Float GetTimeStep(void) const
-  {
-    return 0.0;
-  }
+  virtual Float GetTimeStep(void) const;
 
   /**
    * Sets the time step used for dynamic problems.
    *
    * \param dt New time step.
    */
-  virtual void SetTimeStep(Float itkNotUsed(dt))
-  {
-  }
+  virtual void SetTimeStep(Float dt);
 
   /** Returns the Solution for the specified nodal point. */
-  Float GetSolution(unsigned int i, unsigned int which = 0)
-  {
-    return m_ls->GetSolutionValue(i, which);
-  }
+  Float GetSolution(unsigned int i, unsigned int which = 0);
 
-  /** Set/Get the image input of this process object.  */
+  /** Set/Get the image input of this process object.
+   * Connect one of the operands for pixel-wise addition. */
   using Superclass::SetInput;
   virtual void SetInput( FEMObjectType *fem);
 
@@ -368,7 +361,7 @@ protected:
   void AssembleF(int dim = 0);
 
   /**
-   * Decompose matrix using svd, qr, whatever ...
+   * Decompose matrix using svd, qr, whatever ... if needed
    */
   void DecomposeK(void);
 
@@ -379,7 +372,7 @@ protected:
 
   /**
    * Copy solution vector u to the corresponding nodal values, which are
-   * stored in node objects). This is standard post processing of the solution
+   * stored in node objects). This is standard post processing of the solution.
    */
   void UpdateDisplacements(void);
 
