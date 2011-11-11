@@ -28,7 +28,7 @@ namespace itk
  * This filter calculates the normalized correlation between an image
  * and the template.  Normalized correlation is frequently use in
  * feature detection because it is invariant to local changes in
- * constrast.
+ * contrast.
  *
  * The filter can be given a mask. When presented with an input image
  * and a mask, the normalized correlation is only calculated at those
@@ -40,7 +40,7 @@ namespace itk
  * \sa Neighborhood
  * \sa NeighborhoodOperator
  * \sa NeighborhoodIterator
- * \ingroup ITKImageStatistics
+ * \ingroup ITKConvolution
  *
  * \wiki
  * \wikiexample{Images/NormalizedCorrelationImageFilter,Normalized correlation}
