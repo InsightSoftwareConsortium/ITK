@@ -73,7 +73,7 @@ public:
 
   void SetScreenCapture( const bool& iCapture );
 
-  void SetPeriod( const itk::IdentifierType& iPeriod );
+  void SetCurrentIteration( const itk::IdentifierType& iIteration );
 
   void Update();
 
@@ -86,13 +86,13 @@ protected:
   LevelSetPointer   m_LevelSet;
 
   vtkSmartPointer< vtkImageData >               m_VTKImage;
+  vtkSmartPointer< vtkImageActor >              m_VTKImageActor;
   vtkSmartPointer< vtkCornerAnnotation >        m_Annotation;
   vtkSmartPointer< vtkRenderer >                m_Renderer;
   vtkSmartPointer< vtkRenderWindow >            m_RenWin;
   vtkSmartPointer< vtkRenderWindowInteractor >  m_Iren;
 
-  itk::IdentifierType m_Count;
-  itk::IdentifierType m_Period;
+  itk::IdentifierType m_CurrentIteration;
   bool                m_ScreenCapture;
 
   virtual std::string GetLevelSetRepresentationName() const = 0;

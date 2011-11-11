@@ -6,6 +6,7 @@ vtkVisualize2DWhitakerLevelSetTest
 itkImageToRGBVTKImageFilterTest
 vtkVisualize2DCellsLevelSetTest
 vtkVisualize2DCellsLevelSetSurfaceTest
+vtkVisualize2DCellsLevelSetLayersTest
 vtkVisualize2DWhitakerLevelSetLayersTest
 vtkVisualize2DShiLevelSetLayersTest
 vtkVisualize2DMalcolmLevelSetLayersTest
@@ -47,35 +48,47 @@ itk_add_test(NAME vtkVisualize2DCellsDenseLevelSetSurfaceTest
 
 itk_add_test(NAME vtkVisualize2DCellsWhitakerLevelSetTest
   COMMAND ITKLevelSetsv4VisualizationTestDriver vtkVisualize2DCellsLevelSetTest
-  DATA{Input/cells.png} 60 Whitaker
+  DATA{Input/cells.png} 200 Whitaker
   ${TEMP}/vtkVisualize2DCellsWhitakerLevelSetTest.png
   )
 itk_add_test(NAME vtkVisualize2DCellsWhitakerLevelSetSurfaceTest
   COMMAND ITKLevelSetsv4VisualizationTestDriver vtkVisualize2DCellsLevelSetSurfaceTest
-  DATA{Input/cells.png} 60 Whitaker
+  DATA{Input/cells.png} 200 Whitaker
   ${TEMP}/vtkVisualize2DCellsWhitakerLevelSetSurfaceTest.png
+  )
+itk_add_test(NAME vtkVisualize2DCellsWhitakerLevelSetLayersTest
+  COMMAND ITKLevelSetsv4VisualizationTestDriver vtkVisualize2DCellsLevelSetLayersTest
+  DATA{Input/cells.png} 200 Whitaker
   )
 
 itk_add_test(NAME vtkVisualize2DCellsShiLevelSetTest
   COMMAND ITKLevelSetsv4VisualizationTestDriver vtkVisualize2DCellsLevelSetTest
-  DATA{Input/cells.png} 60 Shi
+  DATA{Input/cells.png} 200 Shi
   ${TEMP}/vtkVisualize2DCellsShiLevelSetTest.png
   )
 itk_add_test(NAME vtkVisualize2DCellsShiLevelSetSurfaceTest
   COMMAND ITKLevelSetsv4VisualizationTestDriver vtkVisualize2DCellsLevelSetSurfaceTest
-  DATA{Input/cells.png} 60 Shi
+  DATA{Input/cells.png} 200 Shi
   ${TEMP}/vtkVisualize2DCellsShiLevelSetSurfaceTest.png
   )
+itk_add_test(NAME vtkVisualize2DCellsShiLevelSetLayersTest
+  COMMAND ITKLevelSetsv4VisualizationTestDriver vtkVisualize2DCellsLevelSetLayersTest
+  DATA{Input/cells.png} 200 Shi
+  )
 
+itk_add_test(NAME vtkVisualize2DCellsMalcolmLevelSetTest
+  COMMAND ITKLevelSetsv4VisualizationTestDriver vtkVisualize2DCellsLevelSetTest
+  DATA{Input/cells.png} 60 Malcolm
+  ${TEMP}/vtkVisualize2DCellsMalcolmLevelSetTest.png
+  )
 itk_add_test(NAME vtkVisualize2DCellsMalcolmLevelSetSurfaceTest
   COMMAND ITKLevelSetsv4VisualizationTestDriver vtkVisualize2DCellsLevelSetSurfaceTest
   DATA{Input/cells.png} 60 Malcolm
   ${TEMP}/vtkVisualize2DCellsMalcolmLevelSetSurfaceTest.png
   )
-itk_add_test(NAME vtkVisualize2DCellsMalcolmLevelSetTest
-  COMMAND ITKLevelSetsv4VisualizationTestDriver vtkVisualize2DCellsLevelSetTest
+itk_add_test(NAME vtkVisualize2DCellsMalcolmLevelSetLayersTest
+  COMMAND ITKLevelSetsv4VisualizationTestDriver vtkVisualize2DCellsLevelSetLayersTest
   DATA{Input/cells.png} 60 Malcolm
-  ${TEMP}/vtkVisualize2DCellsMalcolmLevelSetTest.png
   )
 
 itk_add_test(NAME itkVTKVisualizeLevelSetsInteractivePauseTest

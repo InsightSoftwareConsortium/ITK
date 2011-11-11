@@ -27,12 +27,14 @@
 #include "itkLevelSetEvolution.h"
 #include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"
 #include "itkLevelSetDenseImageBase.h"
-#include "itkVTKVisualizeDenseImageLevelSet.h"
+#include "vtkVisualize2DSparseLevelSetLayers.h"
 #include "itkSinRegularizedHeavisideStepFunction.h"
 
 template< class TInputImage, class TLevelSetType >
 void
-visualizeLevelSet( TInputImage * inputImage, const int numberOfIterations, const char * )
+visualizeLevelSet( TInputImage * inputImage,
+                   const int numberOfIterations,
+                   double epsilon )
 {
   // Basic typedefs
   typedef TInputImage InputImageType;
@@ -81,7 +83,7 @@ visualizeLevelSet( TInputImage * inputImage, const int numberOfIterations, const
   // The Heaviside function
   typedef typename itk::SinRegularizedHeavisideStepFunction< LevelSetRealType, LevelSetRealType > HeavisideFunctionType;
   typename HeavisideFunctionType::Pointer heaviside = HeavisideFunctionType::New();
-  heaviside->SetEpsilon( 1.0 );
+  heaviside->SetEpsilon( epsilon );
   std::cout << "Heaviside function created" << std::endl;
 
   // Create the level set container
@@ -129,11 +131,12 @@ visualizeLevelSet( TInputImage * inputImage, const int numberOfIterations, const
   std::cout << "Stopping criteria created" << std::endl;
 
   // Create the visualizer
-  typedef typename itk::VTKVisualizeDenseImageLevelSet< typename InputImageType::PixelType, InputImageType::ImageDimension, BinaryImageType > VisualizationType;
+  typedef vtkVisualize2DSparseLevelSetLayers< InputImageType, LevelSetType > VisualizationType;
   typename VisualizationType::Pointer visualizer = VisualizationType::New();
   //! \todo the visualizer should get the input image from the level set
   visualizer->SetInputImage( inputImage );
   visualizer->SetLevelSet( levelSet );
+  visualizer->SetScreenCapture( true );
   std::cout << "Visualizer created" << std::endl;
 
   // Create evolution class
@@ -157,16 +160,15 @@ visualizeLevelSet( TInputImage * inputImage, const int numberOfIterations, const
   //! \todo Write out the final visualization image.
 }
 
-int vtkVisualize2DCellsLevelSetTest( int argc, char* argv[] )
+int vtkVisualize2DCellsLevelSetLayersTest( int argc, char* argv[] )
 {
-  if( argc < 5 )
+  if( argc != 4 )
     {
     std::cerr << "Missing Arguments" << std::endl;
     std::cerr << argv[0] << std::endl;
     std::cerr << "1- Input Image" << std::endl;
     std::cerr << "2- Number of Iterations" << std::endl;
     std::cerr << "3- LevelSet Representation (Dense, Whitaker, Shi, Malcolm)" << std::endl;
-    std::cerr << "4- Output Image" << std::endl;
 
     return EXIT_FAILURE;
     }
@@ -197,12 +199,14 @@ int vtkVisualize2DCellsLevelSetTest( int argc, char* argv[] )
   istrm >> numberOfIterations;
 
   std::string levelSetRepresentation = argv[3];
-  if( levelSetRepresentation.compare( "Dense" ) == 0 )
+  if( levelSetRepresentation.compare( "Whitaker" ) == 0 )
     {
-    typedef itk::LevelSetDenseImageBase< LevelSetImageType > LevelSetType;
+    typedef itk::WhitakerSparseLevelSetImage< double, 2 > LevelSetType;
     try
       {
-      visualizeLevelSet< InputImageType, LevelSetType >( input, numberOfIterations, argv[4] );
+      visualizeLevelSet< InputImageType, LevelSetType >( input,
+                                                         numberOfIterations,
+                                                         1.5 );
       }
     catch ( itk::ExceptionObject& err )
       {
@@ -210,50 +214,35 @@ int vtkVisualize2DCellsLevelSetTest( int argc, char* argv[] )
       return EXIT_FAILURE;
       }
     }
-  else if( levelSetRepresentation.compare( "Whitaker" ) == 0 )
-    {
-//    typedef itk::WhitakerSparseLevelSetImage< double, 2 > LevelSetType;
-//    try
-//      {
-//      visualizeLevelSet< InputImageType, LevelSetType >( input,
-//                                                         numberOfIterations,
-//                                                         argv[4] );
-//      }
-//    catch ( itk::ExceptionObject& err )
-//      {
-//      std::cerr << err << std::endl;
-//      return EXIT_FAILURE;
-//      }
-    }
   else if( levelSetRepresentation.compare( "Shi" ) == 0 )
     {
-//    typedef itk::ShiSparseLevelSetImage< 2 > LevelSetType;
-//    try
-//      {
-//      visualizeLevelSet< InputImageType, LevelSetType >( input,
-//                                                         numberOfIterations,
-//                                                         argv[4] );
-//      }
-//    catch ( itk::ExceptionObject& err )
-//      {
-//      std::cerr << err << std::endl;
-//      return EXIT_FAILURE;
-//      }
+    typedef itk::ShiSparseLevelSetImage< 2 > LevelSetType;
+    try
+      {
+      visualizeLevelSet< InputImageType, LevelSetType >( input,
+                                                         numberOfIterations,
+                                                         1.5 );
+      }
+    catch ( itk::ExceptionObject& err )
+      {
+      std::cerr << err << std::endl;
+      return EXIT_FAILURE;
+      }
     }
   else if( levelSetRepresentation.compare( "Malcolm" ) == 0 )
     {
-//    typedef itk::MalcolmSparseLevelSetImage< 2 > LevelSetType;
-//    try
-//      {
-//      visualizeLevelSet< InputImageType, LevelSetType >( input,
-//                                                         numberOfIterations,
-//                                                         argv[4] );
-//      }
-//    catch ( itk::ExceptionObject& err )
-//      {
-//      std::cerr << err << std::endl;
-//      return EXIT_FAILURE;
-//      }
+    typedef itk::MalcolmSparseLevelSetImage< 2 > LevelSetType;
+    try
+      {
+      visualizeLevelSet< InputImageType, LevelSetType >( input,
+                                                         numberOfIterations,
+                                                         1.5);
+      }
+    catch ( itk::ExceptionObject& err )
+      {
+      std::cerr << err << std::endl;
+      return EXIT_FAILURE;
+      }
     }
   else
     {
