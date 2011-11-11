@@ -94,20 +94,26 @@ load_data_objects() {
 }
 
 git_archive_tgz() {
+  out="$2.tar.gz" && tmp="$out.tmp$$" &&
   git -c core.autocrlf=false archive $verbose --format=tar --prefix=$2/ $1 |
-  gzip -9 > $2.tar.gz &&
-  info "Wrote $2.tar.gz"
+  gzip -9 > "$tmp" &&
+  mv "$tmp" "$out" &&
+  info "Wrote $out"
 }
 
 git_archive_txz() {
+  out="$2.tar.xz" && tmp="$out.tmp$$" &&
   git -c core.autocrlf=false archive $verbose --format=tar --prefix=$2/ $1 |
-  xz -9 > $2.tar.xz &&
-  info "Wrote $2.tar.xz"
+  xz -9 > "$tmp" &&
+  mv "$tmp" "$out" &&
+  info "Wrote $out"
 }
 
 git_archive_zip() {
-  git -c core.autocrlf=true archive $verbose --format=zip --prefix=$2/ $1 > $2.zip &&
-  info "Wrote $2.zip"
+  out="$2.zip" && tmp="$out.tmp$$" &&
+  git -c core.autocrlf=true archive $verbose --format=zip --prefix=$2/ $1 > "$tmp" &&
+  mv "$tmp" "$out" &&
+  info "Wrote $out"
 }
 
 #-----------------------------------------------------------------------------
