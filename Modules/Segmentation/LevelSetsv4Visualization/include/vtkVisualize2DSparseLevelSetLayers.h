@@ -69,94 +69,12 @@ public:
   typedef typename Superclass::LevelSetPointer  LevelSetPointer;
 
 protected:
-  vtkVisualize2DSparseLevelSetLayers() : Superclass() {}
-  virtual ~vtkVisualize2DSparseLevelSetLayers() {}
+  vtkVisualize2DSparseLevelSetLayers();
+  virtual ~vtkVisualize2DSparseLevelSetLayers();
 
-  void AddLayers()
-    {
-    typedef typename LevelSetType::LayerType          LayerType;
-    typedef typename LevelSetType::LayerConstIterator LayerConstIterator;
+  void AddLayers();
 
-    LayerType layer = this->m_LevelSet->GetLayer( LevelSetType::MinusTwoLayer() );
-
-    LayerConstIterator it = layer.begin();
-
-    while( it != layer.end() )
-      {
-      typename InputImageType::IndexType idx = it->first;
-      InputPixelType* vtkpixel =
-          static_cast< InputPixelType* >( this->m_VTKImage->GetScalarPointer( idx[0], idx[1], 0 ) );
-      vtkpixel[0] = 0;
-      vtkpixel[1] = 255;
-      vtkpixel[2] = 0;
-      ++it;
-      }
-
-    layer = this->m_LevelSet->GetLayer( LevelSetType::MinusOneLayer() );
-
-    it = layer.begin();
-
-    while( it != layer.end() )
-      {
-      typename InputImageType::IndexType idx = it->first;
-      InputPixelType* vtkpixel =
-          static_cast< InputPixelType* >( this->m_VTKImage->GetScalarPointer( idx[0], idx[1], 0 ) );
-      vtkpixel[0] = 255;
-      vtkpixel[1] = 255;
-      vtkpixel[2] = 0;
-      ++it;
-      }
-
-    layer = this->m_LevelSet->GetLayer( LevelSetType::ZeroLayer() );
-
-    it = layer.begin();
-
-    while( it != layer.end() )
-      {
-      typename InputImageType::IndexType idx = it->first;
-      InputPixelType* vtkpixel =
-          static_cast< InputPixelType* >( this->m_VTKImage->GetScalarPointer( idx[0], idx[1], 0 ) );
-      vtkpixel[0] = 255;
-      vtkpixel[1] = 0;
-      vtkpixel[2] = 0;
-      ++it;
-      }
-
-    layer = this->m_LevelSet->GetLayer( LevelSetType::PlusOneLayer() );
-
-    it = layer.begin();
-
-    while( it != layer.end() )
-      {
-      typename InputImageType::IndexType idx = it->first;
-      InputPixelType* vtkpixel =
-          static_cast< InputPixelType* >( this->m_VTKImage->GetScalarPointer( idx[0], idx[1], 0 ) );
-      vtkpixel[0] = 0;
-      vtkpixel[1] = 255;
-      vtkpixel[2] = 255;
-      ++it;
-      }
-
-    layer = this->m_LevelSet->GetLayer( LevelSetType::PlusTwoLayer() );
-
-    it = layer.begin();
-
-    while( it != layer.end() )
-      {
-      typename InputImageType::IndexType idx = it->first;
-      InputPixelType* vtkpixel =
-          static_cast< InputPixelType* >( this->m_VTKImage->GetScalarPointer( idx[0], idx[1], 0 ) );
-      vtkpixel[0] = 0;
-      vtkpixel[1] = 0;
-      vtkpixel[2] = 255;
-      ++it;
-      }
-    }
-
-  std::string GetLevelSetRepresentationName() const
-    {
-    return std::string( "Whitaker" );
-    }
+  std::string GetLevelSetRepresentationName() const;
 
 private:
   vtkVisualize2DSparseLevelSetLayers ( const Self& );
@@ -196,49 +114,12 @@ public:
   typedef typename Superclass::LevelSetPointer  LevelSetPointer;
 
 protected:
-  vtkVisualize2DSparseLevelSetLayers() : Superclass() {}
-  virtual ~vtkVisualize2DSparseLevelSetLayers() {}
+  vtkVisualize2DSparseLevelSetLayers();
+  virtual ~vtkVisualize2DSparseLevelSetLayers();
 
-  void AddLayers()
-    {
-    typedef typename LevelSetType::LayerType          LayerType;
-    typedef typename LevelSetType::LayerConstIterator LayerConstIterator;
+  void AddLayers();
 
-    LayerType layer = this->m_LevelSet->GetLayer( LevelSetType::MinusOneLayer() );
-
-    LayerConstIterator it = layer.begin();
-
-    while( it != layer.end() )
-      {
-      typename InputImageType::IndexType idx = it->first;
-      InputPixelType* vtkpixel =
-          static_cast< InputPixelType* >( this->m_VTKImage->GetScalarPointer( idx[0], idx[1], 0 ) );
-      vtkpixel[0] = 0;
-      vtkpixel[1] = 255;
-      vtkpixel[2] = 0;
-      ++it;
-      }
-
-    layer = this->m_LevelSet->GetLayer( LevelSetType::PlusOneLayer() );
-
-    it = layer.begin();
-
-    while( it != layer.end() )
-      {
-      typename InputImageType::IndexType idx = it->first;
-      InputPixelType* vtkpixel =
-          static_cast< InputPixelType* >( this->m_VTKImage->GetScalarPointer( idx[0], idx[1], 0 ) );
-      vtkpixel[0] = 255;
-      vtkpixel[1] = 0;
-      vtkpixel[2] = 0;
-      ++it;
-      }
-    }
-
-  std::string GetLevelSetRepresentationName() const
-    {
-    return std::string( "Shi" );
-    }
+  std::string GetLevelSetRepresentationName() const;
 
 private:
   vtkVisualize2DSparseLevelSetLayers ( const Self& );
@@ -279,38 +160,19 @@ public:
   typedef typename Superclass::LevelSetPointer  LevelSetPointer;
 
 protected:
-  vtkVisualize2DSparseLevelSetLayers() : Superclass() {}
-  virtual ~vtkVisualize2DSparseLevelSetLayers() {}
+  vtkVisualize2DSparseLevelSetLayers();
+  virtual ~vtkVisualize2DSparseLevelSetLayers();
 
-  void AddLayers()
-    {
-    typedef typename LevelSetType::LayerType          LayerType;
-    typedef typename LevelSetType::LayerConstIterator LayerConstIterator;
+  void AddLayers();
 
-    LayerType layer = this->m_LevelSet->GetLayer( LevelSetType::ZeroLayer() );
-
-    LayerConstIterator it = layer.begin();
-
-    while( it != layer.end() )
-      {
-      typename InputImageType::IndexType idx = it->first;
-      InputPixelType* vtkpixel =
-          static_cast< InputPixelType* >( this->m_VTKImage->GetScalarPointer( idx[0], idx[1], 0 ) );
-      vtkpixel[0] = 255;
-      vtkpixel[1] = 0;
-      vtkpixel[2] = 0;
-      ++it;
-      }
-    }
-
-  std::string GetLevelSetRepresentationName() const
-    {
-    return std::string( "Malcolm" );
-    }
+  std::string GetLevelSetRepresentationName() const;
 
 private:
   vtkVisualize2DSparseLevelSetLayers ( const Self& );
   void operator = ( const Self& );
 };
 
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "vtkVisualize2DSparseLevelSetLayers.hxx"
+#endif
 #endif
