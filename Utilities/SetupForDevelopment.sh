@@ -142,3 +142,7 @@ echo
 echo "Suggesting git tips..."
 ./GitTips.sh || exit 1
 echo
+
+# Record the version of this setup so Hooks/pre-commit can check it.
+SetupForDevelopment_VERSION=1
+git config hooks.SetupForDevelopment ${SetupForDevelopment_VERSION}
