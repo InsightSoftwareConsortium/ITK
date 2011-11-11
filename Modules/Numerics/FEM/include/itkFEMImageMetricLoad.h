@@ -265,6 +265,9 @@ public:
   {
     m_Solution = ptr;
   }
+  /** Get the pointer to the solution vector.
+   * \return Pointer to the object of Solution class.
+   */
   Solution::ConstPointer GetSolution()
   {
     return m_Solution;

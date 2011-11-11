@@ -31,7 +31,7 @@ namespace itk
  *
  * Diffeomorphisms are topology-preserving mappings that are useful for
  * describing biologically plausible deformations.  Mathematically, a
- * diffeomorphism, \phi, is generated from a time-varying velocity field, v, as
+ * diffeomorphism, \f$\phi\f$, is generated from a time-varying velocity field, v, as
  * described by the first-order differential equation:
  *
  *  \f[
