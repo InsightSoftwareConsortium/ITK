@@ -18,7 +18,7 @@
 #==========================================================================*/
 
 usage() {
-  die 'USAGE: SourceTarball.bash [(--tgz|--zip)...] \
+  die 'USAGE: SourceTarball.bash [(--tgz|--txz|--zip)...] \
         [-v <version>] [<tag>|<commit>]'
 }
 
@@ -99,6 +99,12 @@ git_archive_tgz() {
   info "Wrote $2.tar.gz"
 }
 
+git_archive_txz() {
+  git -c core.autocrlf=false archive -v --format=tar --prefix=$2/ $1 |
+  xz -9 > $2.tar.xz &&
+  info "Wrote $2.tar.xz"
+}
+
 git_archive_zip() {
   git -c core.autocrlf=true archive -v --format=zip --prefix=$2/ $1 > $2.zip &&
   info "Wrote $2.zip"
@@ -114,6 +120,7 @@ version=
 while test $# != 0; do
   case "$1" in
     --tgz) formats="$formats tgz" ;;
+    --txz) formats="$formats txz" ;;
     --zip) formats="$formats zip" ;;
     --) shift; break ;;
     -v) shift; version="$1" ;;
