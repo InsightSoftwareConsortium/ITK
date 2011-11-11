@@ -25,7 +25,7 @@ namespace itk
 {
 /**
  * \class QuadricDecimationQuadEdgeMeshFilter
- * \brief
+ * \brief Quadric decimation
  * \ingroup ITKQuadEdgeMeshFiltering
  */
 template< class TInput, class TOutput, class TCriterion >
@@ -82,41 +82,18 @@ public:
   QuadricElementMapType;
 
   typedef typename QuadricElementMapType::iterator QuadricElementMapIterator;
+
 protected:
+  /** \brief Constructor */
+  QuadricDecimationQuadEdgeMeshFilter();
 
-  QuadricDecimationQuadEdgeMeshFilter() {}
-  virtual ~QuadricDecimationQuadEdgeMeshFilter() {}
+  /** \brief Destructor */
+  virtual ~QuadricDecimationQuadEdgeMeshFilter();
 
-  QuadricElementMapType m_Quadric;
-
-  virtual void Initialize()
-  {
-    OutputMeshPointer             output = this->GetOutput();
-    OutputPointsContainerPointer  points = output->GetPoints();
-    OutputPointsContainerIterator it = points->Begin();
-    OutputPointIdentifier         p_id;
-    OutputQEType *                qe;
-    OutputQEType *                qe_it;
-
-    while ( it != points->End() )
-      {
-      p_id = it->Index();
-
-      qe = output->FindEdge(p_id);
-      if ( qe != 0 )
-        {
-        qe_it = qe;
-        do
-          {
-          QuadricAtOrigin(qe_it, m_Quadric[p_id]);
-          qe_it = qe_it->GetOnext();
-          }
-        while ( qe_it != qe );
-        }
-      it++;
-      }
-  }
-
+  /** \brief Compute the quadric error at the origin of the edge
+   *  \param[in] iEdge input edge
+   *  \param[in,out] oQ quadric element to be modified
+   */
   inline void QuadricAtOrigin(OutputQEType *iEdge, QuadricElementType & oQ)
   {
     OutputMeshPointer output = this->GetOutput();
@@ -137,10 +114,9 @@ protected:
     oQ.AddTriangle(p[0], p[1], p[2]);
   }
 
-  /**
-   * Compute the measure value for iEdge
-   * \param[in] iEdge
-   * \return measure value, here the squared edge length
+  /** \brief Compute the measure value for iEdge
+   * \param[in] iEdge input edge
+   * \return measure value, here the corresponding quadric error
    */
   inline MeasureType MeasureEdge(OutputQEType *iEdge)
   {
@@ -161,46 +137,30 @@ protected:
     return static_cast< MeasureType >( Q.ComputeError(p) );
   }
 
-  /** Delete point
-   * \param[in] iIdToBeDeleted
-   * \param[in] iRemaining
+  /** \brief Delete point
+   * \param[in] iIdToBeDeleted id of the point to be deleted
+   * \param[in] iRemaining  id of the point to be kept
    */
   virtual void DeletePoint(const OutputPointIdentifier & iIdToBeDeleted,
-                           const OutputPointIdentifier & iRemaining)
-  {
-    Superclass::DeletePoint(iIdToBeDeleted, iRemaining);
+                           const OutputPointIdentifier & iRemaining);
 
-    QuadricElementMapIterator it = m_Quadric.find(iIdToBeDeleted);
-    m_Quadric[iRemaining] += it->second;
-    m_Quadric.erase(it);
-  }
-
-  /** Compute the optimal position for a given edge iEdge
+  /** \brief Compute the optimal position for a given edge iEdge
   * \param[in] iEdge
   * \return the optimal point location
   */
-  OutputPointType Relocate(OutputQEType *iEdge)
-  {
-    OutputPointIdentifier id_org = iEdge->GetOrigin();
-    OutputPointIdentifier id_dest = iEdge->GetDestination();
-    QuadricElementType    Q = m_Quadric[id_org] + m_Quadric[id_dest];
+  OutputPointType Relocate(OutputQEType *iEdge);
 
-    OutputMeshPointer output = this->GetOutput();
-
-    OutputPointType org = output->GetPoint(id_org);
-    OutputPointType dest = output->GetPoint(id_dest);
-
-    OutputPointType mid;
-
-    mid.SetToMidPoint(org, dest);
-
-    return Q.ComputeOptimalLocation(mid);
-  }
+  /** \brief Compute Quadric error for all edges */
+  virtual void Initialize();
 
 private:
-
   QuadricDecimationQuadEdgeMeshFilter(const Self &); // purposely not implemented
   void operator=(const Self &); // purposely not implemented
+
+  QuadricElementMapType m_Quadric;
 };
 }
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkQuadricDecimationQuadEdgeMeshFilter.hxx"
+#endif
 #endif
