@@ -118,6 +118,9 @@ public:
   /** Return the computed Mean distance. */
   itkGetConstMacro(MeanDistance, RealType);
 
+  /** Set if image spacing should be used in computing distances. */
+  itkSetMacro( UseImageSpacing, bool );
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro( InputHasNumericTraitsCheck,
@@ -142,7 +145,8 @@ private:
   ContourMeanDistanceImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                 //purposely not implemented
 
-  RealType m_MeanDistance;
+  RealType  m_MeanDistance;
+  bool      m_UseImageSpacing;
 }; // end of class
 } // end namespace itk
 
