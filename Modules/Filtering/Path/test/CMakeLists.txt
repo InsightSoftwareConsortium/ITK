@@ -3,6 +3,7 @@ set(ITKPathTests
 itkPathIteratorTest.cxx
 itkChainCodePathTest.cxx
 itkChainCodePath2DTest.cxx
+itkHilbertPathTest.cxx
 itkOrthogonallyCorrected2DParametricPathTest.cxx
 itkPathToImageFilterTest.cxx
 itkPathToChainCodePathFilterTest.cxx
@@ -22,6 +23,8 @@ itk_add_test(NAME itkChainCodePathTest
       COMMAND ITKPathTestDriver itkChainCodePathTest)
 itk_add_test(NAME itkChainCodePath2DTest
       COMMAND ITKPathTestDriver itkChainCodePath2DTest)
+itk_add_test(NAME itkHilbertPathTest
+      COMMAND ITKPathTestDriver itkHilbertPathTest)
 itk_add_test(NAME itkOrthogonallyCorrected2DParametricPathTest
       COMMAND ITKPathTestDriver itkOrthogonallyCorrected2DParametricPathTest)
 itk_add_test(NAME itkPathToImageFilterTest
