@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include "vtkVisualize2DLevelSetImageBase.h"
+#include "itkVTKVisualizeDenseImageLevelSet.h"
 
 #include "itkLevelSetImageBase.h"
 
@@ -61,7 +61,7 @@ void GenerateImage( typename TImage::Pointer ioImage )
 
 }
 
-int vtkVisualize2DLevelSetImageBaseTest( int , char* [] )
+int itkVTKVisualize2DDenseImageLevelSetTest( int , char* [] )
 {
   typedef unsigned char PixelType;
   const unsigned int Dimension = 2;
@@ -97,7 +97,7 @@ int vtkVisualize2DLevelSetImageBaseTest( int , char* [] )
   LevelSetType::Pointer levelset = LevelSetType::New();
   levelset->SetImage( LevelSetImage );
 
-  typedef vtkVisualize2DLevelSetImageBase< ImageType, LevelSetImageType > VisualizationType;
+  typedef itk::VTKVisualizeDenseImageLevelSet< PixelType, Dimension, LevelSetImageType > VisualizationType;
   VisualizationType::Pointer viewer = VisualizationType::New();
   viewer->SetInputImage( image );
   viewer->SetLevelSet( levelset );
