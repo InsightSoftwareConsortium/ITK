@@ -116,6 +116,9 @@ public:
   /** Return the computed directed Mean distance. */
   itkGetConstMacro(ContourDirectedMeanDistance, RealType);
 
+  /** Set if image spacing should be used in computing distances. */
+  itkSetMacro( UseImageSpacing, bool );
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro( InputHasNumericTraitsCheck,
@@ -163,6 +166,7 @@ private:
   Array< RealType >       m_MeanDistance;
   Array< IdentifierType > m_Count;
   RealType                m_ContourDirectedMeanDistance;
+  bool                    m_UseImageSpacing;
 }; // end of class
 } // end namespace itk
 

@@ -34,6 +34,7 @@ ContourMeanDistanceImageFilter< TInputImage1, TInputImage2 >
   this->SetNumberOfRequiredInputs(2);
 
   m_MeanDistance = NumericTraits< RealType >::Zero;
+  m_UseImageSpacing = true;
 }
 
 template< class TInputImage1, class TInputImage2 >
@@ -130,6 +131,8 @@ ContourMeanDistanceImageFilter< TInputImage1, TInputImage2 >
   filter12->SetInput1( this->GetInput1() );
   filter12->SetInput2( this->GetInput2() );
 
+ filter12->SetUseImageSpacing( m_UseImageSpacing );
+
   typedef ContourDirectedMeanDistanceImageFilter< InputImage2Type, InputImage1Type >
   Filter21Type;
 
@@ -137,6 +140,8 @@ ContourMeanDistanceImageFilter< TInputImage1, TInputImage2 >
 
   filter21->SetInput1( this->GetInput2() );
   filter21->SetInput2( this->GetInput1() );
+
+  filter21->SetUseImageSpacing( m_UseImageSpacing );
 
   // Register the filter with the with progress accumulator using
   // equal weight proportion
@@ -165,6 +170,8 @@ ContourMeanDistanceImageFilter< TInputImage1, TInputImage2 >
 {
   Superclass::PrintSelf(os, indent);
 
+  os << indent << "UseImageSpacing: "
+     << m_UseImageSpacing << std::endl;
   os << indent << "MeanDistance: "
      << m_MeanDistance << std::endl;
 }
