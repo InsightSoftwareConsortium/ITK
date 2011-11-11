@@ -87,6 +87,7 @@ LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
     this->m_StoppingCriterion->SetRMSChangeAccumulator( this->m_RMSChangeAccumulator );
     this->m_StoppingCriterion->SetCurrentIteration( iter );
 
+    this->m_NumberOfIterations++;
     this->InvokeEvent( IterationEvent() );
     }
 }
@@ -365,6 +366,8 @@ LevelSetEvolution< TEquationContainer, WhitakerSparseLevelSetImage< TOutput, VDi
 
     this->m_StoppingCriterion->SetRMSChangeAccumulator( this->m_RMSChangeAccumulator );
     this->m_StoppingCriterion->SetCurrentIteration( iter );
+
+    this->m_NumberOfIterations++;
     this->InvokeEvent( IterationEvent() );
     }
 }
@@ -533,6 +536,8 @@ void LevelSetEvolution< TEquationContainer, ShiSparseLevelSetImage< VDimension >
 
     this->m_StoppingCriterion->SetRMSChangeAccumulator( this->m_RMSChangeAccumulator );
     this->m_StoppingCriterion->SetCurrentIteration( iter );
+
+    this->m_NumberOfIterations++;
     this->InvokeEvent( IterationEvent() );
     }
 }
@@ -647,6 +652,8 @@ void LevelSetEvolution< TEquationContainer, MalcolmSparseLevelSetImage< VDimensi
 
     this->m_StoppingCriterion->SetRMSChangeAccumulator( this->m_RMSChangeAccumulator );
     this->m_StoppingCriterion->SetCurrentIteration( iter );
+
+    this->m_NumberOfIterations++;
     this->InvokeEvent( IterationEvent() );
     }
 }

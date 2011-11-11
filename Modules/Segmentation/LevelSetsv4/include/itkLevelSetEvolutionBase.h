@@ -116,6 +116,9 @@ public:
   itkGetObjectMacro( StoppingCriterion, StoppingCriterionType );
   itkSetObjectMacro( StoppingCriterion, StoppingCriterionType );
 
+  /** Set/Get the number of iterations that have occured. */
+  itkSetMacro( NumberOfIterations, IdentifierType );
+  itkGetConstMacro( NumberOfIterations, IdentifierType );
 
 protected:
   LevelSetEvolutionBase();
@@ -131,6 +134,7 @@ protected:
   LevelSetOutputRealType      m_Dt;
   LevelSetOutputRealType      m_RMSChangeAccumulator;
   bool                        m_UserGloballyDefinedTimeStep;
+  IdentifierType              m_NumberOfIterations;
 
   void CheckSetUp();
 

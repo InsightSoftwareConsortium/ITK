@@ -120,6 +120,8 @@ LevelSetEvolutionBase< TEquationContainer, TLevelSet >
     {
     itkGenericExceptionMacro( << "m_StoppingCriterion is NULL" );
     }
+
+  this->m_NumberOfIterations = 0;
 }
 
 template< class TEquationContainer, class TLevelSet >
