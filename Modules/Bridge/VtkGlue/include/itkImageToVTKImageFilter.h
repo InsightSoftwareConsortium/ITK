@@ -72,6 +72,7 @@ public:
   /** Set the input in the form of an itk::Image */
   using Superclass::SetInput;
   void SetInput( const InputImageType * );
+  InputImageType * GetInput();
 
   /** Return the internal VTK image importer filter.
       This is intended to facilitate users the access

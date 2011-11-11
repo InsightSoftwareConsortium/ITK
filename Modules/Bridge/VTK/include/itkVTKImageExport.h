@@ -79,6 +79,7 @@ public:
   /** Set the input image of this image exporter. */
   using Superclass::SetInput;
   void SetInput(const InputImageType *);
+  InputImageType * GetInput(void);
 
 protected:
   VTKImageExport();
@@ -89,7 +90,6 @@ protected:
   typedef typename InputImageType::RegionType InputRegionType;
   typedef typename InputRegionType::SizeType  InputSizeType;
   typedef typename InputRegionType::IndexType InputIndexType;
-  InputImageType * GetInput(void);
 
   int * WholeExtentCallback();
 

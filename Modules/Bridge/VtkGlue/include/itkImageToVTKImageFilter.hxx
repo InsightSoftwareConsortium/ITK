@@ -73,6 +73,14 @@ ImageToVTKImageFilter<TInputImage>
   m_Exporter->SetInput( inputImage );
 }
 
+template <class TInputImage>
+typename ImageToVTKImageFilter<TInputImage>::InputImageType *
+ImageToVTKImageFilter<TInputImage>
+::GetInput()
+{
+  return m_Exporter->GetInput();
+}
+
 /**
  * Get a vtkImage as output
  */
