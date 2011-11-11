@@ -18,7 +18,8 @@
 #==========================================================================*/
 
 usage() {
-  die "USAGE: SourceTarball.bash [--tgz|--zip] [-v <version>] [<tag>|<commit>]"
+  die 'USAGE: SourceTarball.bash [(--tgz|--zip)...] \
+        [-v <version>] [<tag>|<commit>]'
 }
 
 info() {
@@ -105,15 +106,15 @@ git_archive_zip() {
 
 #-----------------------------------------------------------------------------
 
-format=tgz
+formats=
 commit=
 version=
 
 # Parse command line options.
 while test $# != 0; do
   case "$1" in
-    --tgz) format=tgz ;;
-    --zip) format=zip ;;
+    --tgz) formats="$formats tgz" ;;
+    --zip) formats="$formats zip" ;;
     --) shift; break ;;
     -v) shift; version="$1" ;;
     -*) usage ;;
@@ -123,6 +124,7 @@ while test $# != 0; do
 done
 test $# = 0 || usage
 test -n "$commit" || commit=HEAD
+test -n "$formats" || formats=tgz
 
 if ! git rev-parse --verify -q "$commit" >/dev/null ; then
   die "'$commit' is not a valid commit"
@@ -148,4 +150,8 @@ load_data_objects $commit &&
 
 info "Generating source archive..." &&
 tree=$(git write-tree) &&
-git_archive_$format $tree "InsightToolkit-$version"
+result=0 &&
+for fmt in $formats; do
+  git_archive_$fmt $tree "InsightToolkit-$version" || result=1
+done &&
+exit $result
