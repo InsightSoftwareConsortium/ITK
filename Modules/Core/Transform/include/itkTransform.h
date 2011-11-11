@@ -127,6 +127,12 @@ public:
   typedef VariableLengthVector<TScalarType> InputVectorPixelType;
   typedef VariableLengthVector<TScalarType> OutputVectorPixelType;
 
+  /* Standard symmetric second rank tenosr type for this class */
+  typedef SymmetricSecondRankTensor<TScalarType,NInputDimensions>
+    InputSymmetricSecondRankTensorType;
+  typedef SymmetricSecondRankTensor<TScalarType,NOutputDimensions>
+    OutputSymmetricSecondRankTensorType;
+
   /* Standard tensor type for this class */
   typedef DiffusionTensor3D<TScalarType> InputDiffusionTensor3DType;
   typedef DiffusionTensor3D<TScalarType> OutputDiffusionTensor3DType;
@@ -196,7 +202,11 @@ public:
   virtual OutputPointType TransformPoint(const InputPointType  &) const = 0;
 
   /**  Method to transform a vector. */
-  virtual OutputVectorType  TransformVector(const InputVectorType &) const = 0;
+  virtual OutputVectorType  TransformVector(const InputVectorType &) const
+  {
+    itkExceptionMacro( "TransformVector(const InputVectorType &)"
+                       "is unimplemented for " << this->GetNameOfClass() );
+  }
 
   /** Method to transform a vector at a given location.
    * For global transforms, \c point is ignored and \c TransformVector( vector )
@@ -204,14 +214,14 @@ public:
    * field transform) must override and provide required behavior. */
   virtual OutputVectorType    TransformVector(
     const InputVectorType & vector,
-    const InputPointType & itkNotUsed(point) ) const
-  {
-    return TransformVector( vector );
-  }
+    const InputPointType & point ) const;
 
   /**  Method to transform a vnl_vector. */
-  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType &)
-  const = 0;
+  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType &) const
+  {
+    itkExceptionMacro( "TransformVector( const InputVnlVectorType & ) is "
+                       "unimplemented for " << this->GetNameOfClass() );
+  }
 
   /** Method to transform a vnl_vector, at a point.
    * For global transforms, \c point is ignored and \c TransformVector( vector )
@@ -219,10 +229,7 @@ public:
    * field transform) must override and provide required behavior. */
   virtual OutputVnlVectorType TransformVector(
     const InputVnlVectorType & vector,
-    const InputPointType & itkNotUsed(point) ) const
-  {
-    return TransformVector( vector );
-  }
+    const InputPointType & point ) const;
 
   /** Method to transform a vector stored in a VectorImage.  */
   virtual OutputVectorPixelType TransformVector(
@@ -238,14 +245,14 @@ public:
    * field transform) must override and provide required behavior. */
   virtual OutputVectorPixelType TransformVector(
     const InputVectorPixelType & vector,
-    const InputPointType & itkNotUsed(point) ) const
-  {
-    return TransformVector( vector );
-  }
+    const InputPointType & point ) const;
 
   /**  Method to transform a CovariantVector. */
-  virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType &) const = 0;
-
+  virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType &) const
+  {
+    itkExceptionMacro( "TransformCovariantVector( const InputCovariantVectorType & ) is "
+                       "unimplemented for " << this->GetNameOfClass() );
+  }
   /** Method to transform a CovariantVector, using a point. Global transforms
    * can ignore the \c point parameter. Local transforms (e.g. deformation
    * field transform) must override and provide required behavior.
@@ -253,11 +260,8 @@ public:
    * \c TransformCovariantVector(vector) is called */
   virtual OutputCovariantVectorType TransformCovariantVector(
     const InputCovariantVectorType & vector,
-    const InputPointType & itkNotUsed(point) )
-  const
-  {
-    return TransformCovariantVector( vector );
-  }
+    const InputPointType & point ) const;
+
 
   /**  Method to transform a CovariantVector stored in a VectorImage. */
   virtual OutputVectorPixelType TransformCovariantVector(
@@ -274,19 +278,15 @@ public:
    * called */
   virtual OutputVectorPixelType TransformCovariantVector(
     const InputVectorPixelType & vector,
-    const InputPointType & itkNotUsed(point) )
-  const
-  {
-    return TransformCovariantVector( vector );
-  }
+    const InputPointType & point ) const;
 
   /** Method to transform a diffusion tensor */
-  virtual OutputDiffusionTensor3DType TransformDiffusionTensor(
+  virtual OutputDiffusionTensor3DType TransformDiffusionTensor3D(
     const InputDiffusionTensor3DType & itkNotUsed(tensor) )
   const
   {
     itkExceptionMacro(
-      "TransformDiffusionTensor( const InputDiffusionTensor3DType & ) is "
+      "TransformDiffusionTensor3D( const InputDiffusionTensor3DType & ) is "
       "unimplemented for " << this->GetNameOfClass() );
   }
 
@@ -295,21 +295,47 @@ public:
    * field transform) must override and provide required behavior.
    * By default, \c point is ignored and \c TransformDiffusionTensor(tensor) is
    * called */
-  virtual OutputDiffusionTensor3DType TransformDiffusionTensor(
-    const InputDiffusionTensor3DType & itkNotUsed(tensor),
-    const InputPointType & itkNotUsed(point) ) const
-  {
-    itkExceptionMacro(
-      "TransformDiffusionTensor( const InputDiffusionTensor3DType &, const "
-      "InputPointType & ) is unimplemented for " << this->GetNameOfClass() );
-  }
+  virtual OutputDiffusionTensor3DType TransformDiffusionTensor3D(
+    const InputDiffusionTensor3DType & tensor,
+    const InputPointType & point ) const;
 
   /** Method to transform a diffusion tensor stored in a VectorImage */
-  virtual OutputVectorPixelType TransformDiffusionTensor(
+  virtual OutputVectorPixelType TransformDiffusionTensor3D(
     const InputVectorPixelType & itkNotUsed(tensor) ) const
   {
     itkExceptionMacro(
       "TransformDiffusionTensor( const InputVectorPixelType & ) is "
+      "unimplemented for " << this->GetNameOfClass() );
+  }
+
+  virtual OutputVectorPixelType TransformDiffusionTensor3D(
+    const InputVectorPixelType & tensor,
+    const InputPointType & point ) const;
+
+  /** Method to transform a diffusion tensor at a point. Global transforms
+   * can ignore the \c point parameter. Local transforms (e.g. deformation
+   * field transform) must override and provide required behavior.
+   * By default, \c point is ignored and \c TransformSymmetricSecondRankTensor(tensor) is
+   * called */
+  virtual OutputSymmetricSecondRankTensorType TransformSymmetricSecondRankTensor(
+    const InputSymmetricSecondRankTensorType & tensor,
+    const InputPointType & point ) const;
+
+  /** Method to transform a ssr tensor stored in a VectorImage */
+  virtual OutputSymmetricSecondRankTensorType TransformSymmetricSecondRankTensor(
+    const InputSymmetricSecondRankTensorType & itkNotUsed(tensor) ) const
+  {
+    itkExceptionMacro(
+      "TransformSymmetricSecondRankTensor( const InputSymmetricSecondRankTensorType & ) is "
+      "unimplemented for " << this->GetNameOfClass() );
+  }
+
+  /** Method to transform a ssr tensor stored in a VectorImage */
+  virtual OutputVectorPixelType TransformSymmetricSecondRankTensor(
+    const InputVectorPixelType & itkNotUsed(tensor) ) const
+  {
+    itkExceptionMacro(
+      "TransformSymmetricSecondRankTensor( const InputVectorPixelType & ) is "
       "unimplemented for " << this->GetNameOfClass() );
   }
 
@@ -319,14 +345,9 @@ public:
    * field transform) must override and provide required behavior.
    * By default, \c point is ignored and \c TransformDiffusionTensor(tensor) is
    * called */
-  virtual OutputVectorPixelType TransformDiffusionTensor(
-    const InputVectorPixelType & itkNotUsed(tensor),
-    const InputPointType & itkNotUsed(point) ) const
-  {
-    itkExceptionMacro(
-      "TransformDiffusionTensor( const InputVectorPixelType &, const "
-      "InputPointType & ) is unimplemented for " << this->GetNameOfClass() );
-  }
+  virtual OutputVectorPixelType TransformSymmetricSecondRankTensor(
+    const InputVectorPixelType & tensor,
+    const InputPointType & point ) const;
 
   /** Set the transformation parameters and update internal transformation.
    * SetParameters gives the transform the option to set it's
@@ -363,69 +384,6 @@ public:
   {
     return m_FixedParameters;
   }
-
-#ifdef ITKV3_COMPATIBILITY
-  /**
-   * This function is only here for ITKv3 backwards compatibility.
-   *
-   * This is not a thread-safe version for GetJacobian(), because the internal
-   * class member variable m_Jacobian could be changed for different values
-   * in different threads.
-   *
-   * All derived classes should move the computations of computing a jacobian
-   * from GetJacobian to ComputeJacobianWithRespectToParameters and then
-   * use this forwarding function for backwards compatibility.
-   */
-  virtual const JacobianType & GetJacobian(const InputPointType  & x) const
-  {
-    this->ComputeJacobianWithRespectToParameters(x, m_SharedLocalJacobian);
-    return m_SharedLocalJacobian;
-  }
-
-#endif
-
-  /**
-   * Compute the Jacobian of the transformation
-   *
-   * This method computes the Jacobian matrix of the transformation
-   * at a given input point. The rank of the Jacobian will also indicate
-   * if the transform is invertible at this point.
-   *
-   * The Jacobian is be expressed as a matrix of partial derivatives of the
-   * output point components with respect to the parameters that defined
-   * the transform:
-   *
-   * \f[
-   *
-  J=\left[ \begin{array}{cccc}
-  \frac{\partial x_{1}}{\partial p_{1}} &
-  \frac{\partial x_{1}}{\partial p_{2}} &
-  \cdots  & \frac{\partial x_{1}}{\partial p_{m}}\\
-  \frac{\partial x_{2}}{\partial p_{1}} &
-  \frac{\partial x_{2}}{\partial p_{2}} &
-  \cdots  & \frac{\partial x_{2}}{\partial p_{m}}\\
-  \vdots  & \vdots  & \ddots  & \vdots \\
-  \frac{\partial x_{n}}{\partial p_{1}} &
-  \frac{\partial x_{n}}{\partial p_{2}} &
-  \cdots  & \frac{\partial x_{n}}{\partial p_{m}}
-  \end{array}\right]
-   *
-   * \f]
-   *
-   *  This is also used for efficient computation of a point-local jacobian
-   *  for dense transforms.
-   *  \c jacobian is assumed to be thread-local variable, otherwise memory corruption
-   *  will most likely occur during multi-threading.
-   *  To avoid repeatitive memory allocation, pass in 'jacobian' with its size
-   *  already set. */
-  virtual void ComputeJacobianWithRespectToParameters(const InputPointType  & p, JacobianType & jacobian) const = 0;
-
-  /** This provides the ability to get a local jacobian value
-   *  in a dense/local transform, e.g. DisplacementFieldTransform. For such
-   *  transforms it would be unclear what parameters would refer to.
-   *  Generally, global transforms should return an indentity jacobian
-   *  since there is no change with respect to position. */
-  virtual void ComputeJacobianWithRespectToPosition(const InputPointType & x, JacobianType & jacobian ) const = 0;
 
   /** Update the transform's parameters by the adding values in \c update
    * to current parameter values.
@@ -512,6 +470,88 @@ public:
   {
     return false;
   }
+#ifdef ITKV3_COMPATIBILITY
+  /**
+   * This function is only here for ITKv3 backwards compatibility.
+   *
+   * This is not a thread-safe version for GetJacobian(), because the internal
+   * class member variable m_Jacobian could be changed for different values
+   * in different threads.
+   *
+   * All derived classes should move the computations of computing a jacobian
+   * from GetJacobian to ComputeJacobianWithRespectToParameters and then
+   * use this forwarding function for backwards compatibility.
+   */
+  virtual const JacobianType & GetJacobian(const InputPointType  & x) const
+  {
+    this->ComputeJacobianWithRespectToParameters(x, m_SharedLocalJacobian);
+    return m_SharedLocalJacobian;
+  }
+
+#endif
+
+  /**
+   * Compute the Jacobian of the transformation
+   *
+   * This method computes the Jacobian matrix of the transformation
+   * at a given input point. The rank of the Jacobian will also indicate
+   * if the transform is invertible at this point.
+   *
+   * The Jacobian is be expressed as a matrix of partial derivatives of the
+   * output point components with respect to the parameters that defined
+   * the transform:
+   *
+   * \f[
+   *
+  J=\left[ \begin{array}{cccc}
+  \frac{\partial x_{1}}{\partial p_{1}} &
+  \frac{\partial x_{1}}{\partial p_{2}} &
+  \cdots  & \frac{\partial x_{1}}{\partial p_{m}}\\
+  \frac{\partial x_{2}}{\partial p_{1}} &
+  \frac{\partial x_{2}}{\partial p_{2}} &
+  \cdots  & \frac{\partial x_{2}}{\partial p_{m}}\\
+  \vdots  & \vdots  & \ddots  & \vdots \\
+  \frac{\partial x_{n}}{\partial p_{1}} &
+  \frac{\partial x_{n}}{\partial p_{2}} &
+  \cdots  & \frac{\partial x_{n}}{\partial p_{m}}
+  \end{array}\right]
+   *
+   * \f]
+   *
+   *  This is also used for efficient computation of a point-local jacobian
+   *  for dense transforms.
+   *  \c jacobian is assumed to be thread-local variable, otherwise memory corruption
+   *  will most likely occur during multi-threading.
+   *  To avoid repeatitive memory allocation, pass in 'jacobian' with its size
+   *  already set. */
+  virtual void ComputeJacobianWithRespectToParameters(const InputPointType  & itkNotUsed(p), JacobianType & itkNotUsed(jacobian) ) const
+  {
+    itkExceptionMacro(
+      "ComputeJacobianWithRespectToParamters( InputPointType, JacobianType"
+      " is unimplemented for " << this->GetNameOfClass() );
+  }
+
+
+  /** This provides the ability to get a local jacobian value
+   *  in a dense/local transform, e.g. DisplacementFieldTransform. For such
+   *  transforms it would be unclear what parameters would refer to.
+   *  Generally, global transforms should return an indentity jacobian
+   *  since there is no change with respect to position. */
+  virtual void ComputeJacobianWithRespectToPosition(const InputPointType & itkNotUsed(x), JacobianType & itkNotUsed(jacobian) ) const
+  {
+    itkExceptionMacro(
+      "ComputeJacobianWithRespectToPosition( InputPointType, JacobianType"
+      " is unimplemented for " << this->GetNameOfClass() );
+  }
+
+
+  /** This provides the ability to get a local jacobian value
+   *  in a dense/local transform, e.g. DisplacementFieldTransform. For such
+   *  transforms it would be unclear what parameters would refer to.
+   *  Generally, global transforms should return an indentity jacobian
+   *  since there is no change with respect to position. */
+  virtual void ComputeInverseJacobianWithRespectToPosition(const InputPointType & x, JacobianType & jacobian ) const;
+
 protected:
   Transform();
   Transform(NumberOfParametersType NumberOfParameters);
@@ -521,6 +561,9 @@ protected:
 
   mutable ParametersType m_Parameters;
   mutable ParametersType m_FixedParameters;
+
+  OutputDiffusionTensor3DType PreservationOfPrincipalDirectionDiffusionTensor3DReorientation(
+    const InputDiffusionTensor3DType, const JacobianType ) const;
 
 #ifdef ITKV3_COMPATIBILITY
   // This is only needed to provide the old interface that returns a reference to the Jacobian.

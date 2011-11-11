@@ -338,13 +338,11 @@ int itkDisplacementFieldTransformTest(int, char *[] )
     return EXIT_FAILURE;
     }
 
-  /** Test VectorTransform for variable length vector which does not
-   *  need do have the dimensionality as the transform */
-  DisplacementTransformType::InputVectorPixelType  testVVector(3);
-  DisplacementTransformType::OutputVectorPixelType deformVVector, deformVVectorTruth(3);
+  /** Test VectorTransform for variable length vector  */
+  DisplacementTransformType::InputVectorPixelType  testVVector(2);
+  DisplacementTransformType::OutputVectorPixelType deformVVector, deformVVectorTruth(2);
   testVVector[0] = 0.5;
   testVVector[1] = 0.5;
-  testVVector[2] = 1.0;
 
   deformVVectorTruth = affineTransform->TransformVector( testVVector );
   deformVVector = displacementTransform->TransformVector( testVVector, testPoint );
@@ -405,11 +403,10 @@ int itkDisplacementFieldTransformTest(int, char *[] )
     return EXIT_FAILURE;
     }
 
-  DisplacementTransformType::InputVectorPixelType  testcVVector(3);
-  DisplacementTransformType::OutputVectorPixelType deformcVVector, deformcVVectorTruth(3);
+  DisplacementTransformType::InputVectorPixelType  testcVVector(2);
+  DisplacementTransformType::OutputVectorPixelType deformcVVector, deformcVVectorTruth(2);
   testcVVector[0] = 0.5;
   testcVVector[1] = 0.5;
-  testcVVector[2] = 1.0;
 
   deformcVVectorTruth = affineTransform->TransformCovariantVector( testcVVector );
   deformcVVector = displacementTransform->TransformCovariantVector( testcVVector, testPoint );
@@ -452,9 +449,9 @@ int itkDisplacementFieldTransformTest(int, char *[] )
   testTensor[5] = 1;
 
   // pass thru functionality only for now
-  deformTensorTruth = affineTransform->TransformDiffusionTensor( testTensor );
+  deformTensorTruth = affineTransform->TransformDiffusionTensor3D( testTensor );
   std::cout << "tensor 1:             " << testTensor << std::endl;
-  deformTensor = displacementTransform->TransformDiffusionTensor(
+  deformTensor = displacementTransform->TransformDiffusionTensor3D(
       testTensor, testPoint );
   std::cout << "tensor 1 transformed: " << deformTensor << std::endl;
   if( !sameTensor( deformTensor, deformTensorTruth, 0.0001 ) )
@@ -556,6 +553,8 @@ int itkDisplacementFieldTransformTest(int, char *[] )
 
   /** Set the inverse displacement field */
   displacementTransform->SetInverseDisplacementField( field );
+
+  std::cout << "PASSED" << std::endl;
 
   return EXIT_SUCCESS;
 }

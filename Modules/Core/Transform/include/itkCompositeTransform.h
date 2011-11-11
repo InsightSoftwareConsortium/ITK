@@ -153,6 +153,17 @@ public:
   /** Standard vnl_vector type for this class. */
   typedef typename Superclass::InputVnlVectorType  InputVnlVectorType;
   typedef typename Superclass::OutputVnlVectorType OutputVnlVectorType;
+  /** Standard Vectorpixel type for this class */
+  typedef typename Superclass::InputVectorPixelType  InputVectorPixelType;
+  typedef typename Superclass::OutputVectorPixelType OutputVectorPixelType;
+  /** Standard DiffusionTensor3D typedef for this class */
+  typedef typename Superclass::InputDiffusionTensor3DType  InputDiffusionTensor3DType;
+  typedef typename Superclass::OutputDiffusionTensor3DType OutputDiffusionTensor3DType;
+  /** Standard SymmetricSecondRankTensor typedef for this class */
+  typedef typename Superclass::InputSymmetricSecondRankTensorType
+    InputSymmetricSecondRankTensorType;
+  typedef typename Superclass::OutputSymmetricSecondRankTensorType
+    OutputSymmetricSecondRankTensorType;
   /** Transform queue type */
   typedef std::deque<TransformTypePointer> TransformQueueType;
   /** Optimization flags queue type */
@@ -314,38 +325,66 @@ public:
   */
   /**  Method to transform a vector. */
   using Superclass::TransformVector;
-  virtual OutputVectorType TransformVector(const InputVectorType &) const
-  {
-    itkExceptionMacro( "TransformVector unimplemented" );
-  }
+  virtual OutputVectorType TransformVector(const InputVectorType &) const;
 
-  /**  Method to transform a vnl_vector. */
-  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType &) const
-  {
-    itkExceptionMacro( "TransformVector unimplemented" );
-  }
+  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType & inputVector) const;
+
+  virtual OutputVectorPixelType TransformVector(const InputVectorPixelType & inputVector ) const;
+
+  virtual OutputVectorType TransformVector(const InputVectorType & inputVector,
+                                           const InputPointType & inputPoint ) const;
+
+  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType & inputVector,
+                                              const InputPointType & inputPoint ) const;
+
+  virtual OutputVectorPixelType TransformVector(const InputVectorPixelType & inputVector,
+                                                const InputPointType & inputPoint ) const;
 
   /**  Method to transform a CovariantVector. */
   using Superclass::TransformCovariantVector;
-  virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType &) const
-  {
-    itkExceptionMacro( "TransformCovariantVector unimplemented" );
-  }
+  virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType &) const;
+
+  virtual OutputVectorPixelType TransformCovariantVector(const InputVectorPixelType &) const;
+
+  virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType & inputVector,
+                                                             const InputPointType & inputPoint ) const;
+
+  virtual OutputVectorPixelType TransformCovariantVector(const InputVectorPixelType & inputVector,
+                                                         const InputPointType & inputPoint ) const;
+
+  /** Method to transform a DiffusionTensor3D */
+  using Superclass::TransformDiffusionTensor3D;
+  virtual OutputDiffusionTensor3DType TransformDiffusionTensor3D(
+    const InputDiffusionTensor3DType & inputTensor) const;
+
+  virtual OutputVectorPixelType TransformDiffusionTensor3D(
+    const InputVectorPixelType & inputTensor) const;
+
+  virtual OutputDiffusionTensor3DType TransformDiffusionTensor3D(
+    const InputDiffusionTensor3DType & inputTensor,
+    const InputPointType & inputPoint ) const;
+
+  virtual OutputVectorPixelType TransformDiffusionTensor3D(
+    const InputVectorPixelType & inputTensor,
+    const InputPointType & inputPoint ) const;
+
+  /** Method to transform a SymmetricSecondRankTensor */
+  using Superclass::TransformSymmetricSecondRankTensor;
+  virtual OutputSymmetricSecondRankTensorType TransformSymmetricSecondRankTensor(
+    const InputSymmetricSecondRankTensorType & inputTensor) const;
+
+  virtual OutputVectorPixelType TransformSymmetricSecondRankTensor(
+    const InputVectorPixelType & inputTensor) const;
+
+  virtual OutputSymmetricSecondRankTensorType TransformSymmetricSecondRankTensor(
+    const InputSymmetricSecondRankTensorType & inputTensor,
+    const InputPointType & inputPoint ) const;
+
+  virtual OutputVectorPixelType TransformSymmetricSecondRankTensor(
+    const InputVectorPixelType & inputTensor,
+    const InputPointType & inputPoint ) const;
 
   virtual bool IsLinear() const;
-
-  /**
-   * Compute the Jacobian with respect to the parameters for the compositie
-   * transform using Jacobian rule. See comments in the implementation.
-   */
-  virtual void ComputeJacobianWithRespectToParameters(const InputPointType  & p, JacobianType & j) const;
-
-  virtual void ComputeJacobianWithRespectToPosition(const InputPointType &,
-                                                    JacobianType &) const
-  {
-    itkExceptionMacro( "ComputeJacobianWithRespectToPosition not yet implemented "
-                       "for " << this->GetNameOfClass() );
-  }
 
   /** Get/Set Parameter functions work on the current list of transforms
       that are set to be optimized (active) using the
@@ -397,6 +436,19 @@ public:
    *  optimized return true.
    */
   virtual bool HasLocalSupport() const;
+
+  /**
+   * Compute the Jacobian with respect to the parameters for the compositie
+   * transform using Jacobian rule. See comments in the implementation.
+   */
+  virtual void ComputeJacobianWithRespectToParameters(const InputPointType  & p, JacobianType & j) const;
+
+  virtual void ComputeJacobianWithRespectToPosition(const InputPointType &,
+                                                    JacobianType &) const
+  {
+    itkExceptionMacro( "ComputeJacobianWithRespectToPosition not yet implemented "
+                       "for " << this->GetNameOfClass() );
+  }
 
 protected:
   CompositeTransform();

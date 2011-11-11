@@ -91,6 +91,494 @@ CompositeTransform<TScalar, NDimensions>
 }
 
 /**
+ * Transform vector
+ */
+template
+<class TScalar, unsigned int NDimensions>
+typename CompositeTransform<TScalar, NDimensions>
+::OutputVectorType
+CompositeTransform<TScalar, NDimensions>
+::TransformVector( const InputVectorType & inputVector ) const
+{
+  OutputVectorType outputVector( inputVector );
+
+  typename TransformQueueType::const_iterator it;
+  /* Apply in reverse queue order.  */
+  it = this->m_TransformQueue.end();
+
+  do
+    {
+    it--;
+    outputVector = (*it)->TransformVector( outputVector );
+    }
+  while( it != this->m_TransformQueue.begin() );
+
+  return outputVector;
+}
+
+
+/**
+ * Transform vector with position
+ */
+template
+<class TScalar, unsigned int NDimensions>
+typename CompositeTransform<TScalar, NDimensions>
+::OutputVectorType
+CompositeTransform<TScalar, NDimensions>
+::TransformVector( const InputVectorType & inputVector, const InputPointType & inputPoint ) const
+{
+  OutputVectorType outputVector( inputVector );
+  OutputPointType outputPoint( inputPoint );
+
+  typename TransformQueueType::const_iterator it;
+  /* Apply in reverse queue order.  */
+  it = this->m_TransformQueue.end();
+
+  do
+    {
+    it--;
+    outputVector = (*it)->TransformVector( outputVector, outputPoint );
+    outputPoint = (*it)->TransformPoint( outputPoint );
+    }
+  while( it != this->m_TransformQueue.begin() );
+
+  return outputVector;
+}
+
+/**
+ * Transform vector
+ */
+template
+<class TScalar, unsigned int NDimensions>
+typename CompositeTransform<TScalar, NDimensions>
+::OutputVnlVectorType
+CompositeTransform<TScalar, NDimensions>
+::TransformVector( const InputVnlVectorType & inputVector, const InputPointType & inputPoint ) const
+{
+  OutputVnlVectorType outputVector( inputVector );
+  OutputPointType outputPoint( inputPoint );
+
+  typename TransformQueueType::const_iterator it;
+  /* Apply in reverse queue order.  */
+  it = this->m_TransformQueue.end();
+
+  do
+    {
+    it--;
+    outputVector = (*it)->TransformVector( outputVector, outputPoint );
+    outputPoint = (*it)->TransformPoint( outputPoint );
+    }
+  while( it != this->m_TransformQueue.begin() );
+
+  return outputVector;
+}
+
+/**
+ * Transform vector
+ */
+template
+<class TScalar, unsigned int NDimensions>
+typename CompositeTransform<TScalar, NDimensions>
+::OutputVnlVectorType
+CompositeTransform<TScalar, NDimensions>
+::TransformVector( const InputVnlVectorType & inputVector) const
+{
+  OutputVnlVectorType outputVector( inputVector );
+
+  typename TransformQueueType::const_iterator it;
+  /* Apply in reverse queue order.  */
+  it = this->m_TransformQueue.end();
+
+  do
+    {
+    it--;
+    outputVector = (*it)->TransformVector( outputVector );
+    }
+  while( it != this->m_TransformQueue.begin() );
+
+  return outputVector;
+}
+
+/**
+ * Transform vector with position
+ */
+template
+<class TScalar, unsigned int NDimensions>
+typename CompositeTransform<TScalar, NDimensions>
+::OutputVectorPixelType
+CompositeTransform<TScalar, NDimensions>
+::TransformVector( const InputVectorPixelType & inputVector ) const
+{
+  OutputVectorPixelType outputVector( inputVector );
+
+  typename TransformQueueType::const_iterator it;
+  /* Apply in reverse queue order.  */
+  it = this->m_TransformQueue.end();
+
+  do
+    {
+    it--;
+    outputVector = (*it)->TransformVector( outputVector );
+    }
+  while( it != this->m_TransformQueue.begin() );
+
+  return outputVector;
+}
+
+/**
+ * Transform vector with position
+ */
+template
+<class TScalar, unsigned int NDimensions>
+typename CompositeTransform<TScalar, NDimensions>
+::OutputVectorPixelType
+CompositeTransform<TScalar, NDimensions>
+::TransformVector( const InputVectorPixelType & inputVector, const InputPointType & inputPoint ) const
+{
+  OutputVectorPixelType outputVector( inputVector );
+  OutputPointType outputPoint( inputPoint );
+
+  typename TransformQueueType::const_iterator it;
+  /* Apply in reverse queue order.  */
+  it = this->m_TransformQueue.end();
+
+  do
+    {
+    it--;
+    outputVector = (*it)->TransformVector( outputVector, outputPoint );
+    outputPoint = (*it)->TransformPoint( outputPoint );
+    }
+  while( it != this->m_TransformQueue.begin() );
+
+  return outputVector;
+}
+
+
+/**
+ * Transform covariant vector
+ */
+template
+<class TScalar, unsigned int NDimensions>
+typename CompositeTransform<TScalar, NDimensions>
+::OutputCovariantVectorType
+CompositeTransform<TScalar, NDimensions>
+::TransformCovariantVector( const InputCovariantVectorType & inputVector ) const
+{
+  OutputCovariantVectorType outputVector( inputVector );
+
+  typename TransformQueueType::const_iterator it;
+  /* Apply in reverse queue order.  */
+  it = this->m_TransformQueue.end();
+
+  do
+    {
+    it--;
+    outputVector = (*it)->TransformCovariantVector( outputVector );
+    }
+  while( it != this->m_TransformQueue.begin() );
+
+  return outputVector;
+}
+
+/**
+ * Transform covariant vector with position
+ */
+template
+<class TScalar, unsigned int NDimensions>
+typename CompositeTransform<TScalar, NDimensions>
+::OutputCovariantVectorType
+CompositeTransform<TScalar, NDimensions>
+::TransformCovariantVector( const InputCovariantVectorType & inputVector, const InputPointType & inputPoint ) const
+{
+  OutputCovariantVectorType outputVector( inputVector );
+  OutputPointType outputPoint( inputPoint );
+
+  typename TransformQueueType::const_iterator it;
+  /* Apply in reverse queue order.  */
+  it = this->m_TransformQueue.end();
+
+  do
+    {
+    it--;
+    outputVector = (*it)->TransformCovariantVector( outputVector, outputPoint );
+    outputPoint = (*it)->TransformPoint( outputPoint );
+    }
+  while( it != this->m_TransformQueue.begin() );
+
+  return outputVector;
+}
+
+/**
+ * Transform covariant vector
+ */
+template
+<class TScalar, unsigned int NDimensions>
+typename CompositeTransform<TScalar, NDimensions>
+::OutputVectorPixelType
+CompositeTransform<TScalar, NDimensions>
+::TransformCovariantVector( const InputVectorPixelType & inputVector ) const
+{
+  OutputVectorPixelType outputVector( inputVector );
+
+  typename TransformQueueType::const_iterator it;
+  /* Apply in reverse queue order.  */
+  it = this->m_TransformQueue.end();
+
+  do
+    {
+    it--;
+    outputVector = (*it)->TransformCovariantVector( outputVector );
+    }
+  while( it != this->m_TransformQueue.begin() );
+
+  return outputVector;
+}
+
+/**
+ * Transform covariant vector with position
+ */
+template
+<class TScalar, unsigned int NDimensions>
+typename CompositeTransform<TScalar, NDimensions>
+::OutputVectorPixelType
+CompositeTransform<TScalar, NDimensions>
+::TransformCovariantVector( const InputVectorPixelType & inputVector, const InputPointType & inputPoint ) const
+{
+  OutputVectorPixelType outputVector( inputVector );
+  OutputPointType outputPoint( inputPoint );
+
+  typename TransformQueueType::const_iterator it;
+  /* Apply in reverse queue order.  */
+  it = this->m_TransformQueue.end();
+
+  do
+    {
+    it--;
+    outputVector = (*it)->TransformCovariantVector( outputVector, outputPoint );
+    outputPoint = (*it)->TransformPoint( outputPoint );
+    }
+  while( it != this->m_TransformQueue.begin() );
+
+  return outputVector;
+}
+
+/**
+ * Transform diffusion tensor 3d
+ */
+template
+<class TScalar, unsigned int NDimensions>
+typename CompositeTransform<TScalar, NDimensions>
+::OutputDiffusionTensor3DType
+CompositeTransform<TScalar, NDimensions>
+::TransformDiffusionTensor3D( const InputDiffusionTensor3DType & inputTensor, const InputPointType & inputPoint ) const
+{
+  OutputDiffusionTensor3DType outputTensor( inputTensor );
+  OutputPointType outputPoint( inputPoint );
+
+  typename TransformQueueType::const_iterator it;
+  /* Apply in reverse queue order.  */
+  it = this->m_TransformQueue.end();
+
+  do
+    {
+    it--;
+    outputTensor = (*it)->TransformDiffusionTensor3D( outputTensor, outputPoint );
+    outputPoint = (*it)->TransformPoint( outputPoint );
+    }
+  while( it != this->m_TransformQueue.begin() );
+
+  return outputTensor;
+}
+
+/**
+ * Transform diffusion tensor 3d
+ */
+template
+<class TScalar, unsigned int NDimensions>
+typename CompositeTransform<TScalar, NDimensions>
+::OutputVectorPixelType
+CompositeTransform<TScalar, NDimensions>
+::TransformDiffusionTensor3D( const InputVectorPixelType & inputTensor, const InputPointType & inputPoint ) const
+{
+  OutputVectorPixelType outputTensor( inputTensor );
+  OutputPointType outputPoint( inputPoint );
+
+  typename TransformQueueType::const_iterator it;
+  /* Apply in reverse queue order.  */
+  it = this->m_TransformQueue.end();
+
+  do
+    {
+    it--;
+    outputTensor = (*it)->TransformDiffusionTensor3D( outputTensor, outputPoint );
+    outputPoint = (*it)->TransformPoint( outputPoint );
+    }
+  while( it != this->m_TransformQueue.begin() );
+
+  return outputTensor;
+}
+
+/**
+ * Transform diffusion tensor 3d
+ */
+template
+<class TScalar, unsigned int NDimensions>
+typename CompositeTransform<TScalar, NDimensions>
+::OutputDiffusionTensor3DType
+CompositeTransform<TScalar, NDimensions>
+::TransformDiffusionTensor3D( const InputDiffusionTensor3DType & inputTensor ) const
+{
+  OutputDiffusionTensor3DType outputTensor( inputTensor );
+
+  typename TransformQueueType::const_iterator it;
+  /* Apply in reverse queue order.  */
+  it = this->m_TransformQueue.end();
+
+  do
+    {
+    it--;
+    outputTensor = (*it)->TransformDiffusionTensor3D( outputTensor );
+    }
+  while( it != this->m_TransformQueue.begin() );
+
+  return outputTensor;
+}
+
+/**
+ * Transform diffusion tensor 3d
+ */
+template
+<class TScalar, unsigned int NDimensions>
+typename CompositeTransform<TScalar, NDimensions>
+::OutputVectorPixelType
+CompositeTransform<TScalar, NDimensions>
+::TransformDiffusionTensor3D( const InputVectorPixelType & inputTensor ) const
+{
+  OutputVectorPixelType outputTensor( inputTensor );
+
+  typename TransformQueueType::const_iterator it;
+  /* Apply in reverse queue order.  */
+  it = this->m_TransformQueue.end();
+
+  do
+    {
+    it--;
+    outputTensor = (*it)->TransformDiffusionTensor3D( outputTensor );
+    }
+  while( it != this->m_TransformQueue.begin() );
+
+  return outputTensor;
+}
+
+/**
+ * Transform ssr tensor
+ */
+template
+<class TScalar, unsigned int NDimensions>
+typename CompositeTransform<TScalar, NDimensions>
+::OutputSymmetricSecondRankTensorType
+CompositeTransform<TScalar, NDimensions>
+::TransformSymmetricSecondRankTensor( const InputSymmetricSecondRankTensorType & inputTensor, const InputPointType & inputPoint ) const
+{
+  OutputSymmetricSecondRankTensorType outputTensor( inputTensor );
+  OutputPointType outputPoint( inputPoint );
+
+  typename TransformQueueType::const_iterator it;
+  /* Apply in reverse queue order.  */
+  it = this->m_TransformQueue.end();
+
+  do
+    {
+    it--;
+    outputTensor = (*it)->TransformSymmetricSecondRankTensor( outputTensor, outputPoint );
+    outputPoint = (*it)->TransformPoint( outputPoint );
+    }
+  while( it != this->m_TransformQueue.begin() );
+
+  return outputTensor;
+}
+
+/**
+ * Transform ssr tensor
+ */
+template
+<class TScalar, unsigned int NDimensions>
+typename CompositeTransform<TScalar, NDimensions>
+::OutputVectorPixelType
+CompositeTransform<TScalar, NDimensions>
+::TransformSymmetricSecondRankTensor( const InputVectorPixelType & inputTensor, const InputPointType & inputPoint ) const
+{
+  OutputVectorPixelType outputTensor( inputTensor );
+  OutputPointType outputPoint( inputPoint );
+
+  typename TransformQueueType::const_iterator it;
+  /* Apply in reverse queue order.  */
+  it = this->m_TransformQueue.end();
+
+  do
+    {
+    it--;
+    outputTensor = (*it)->TransformSymmetricSecondRankTensor( outputTensor, outputPoint );
+    outputPoint = (*it)->TransformPoint( outputPoint );
+    }
+  while( it != this->m_TransformQueue.begin() );
+
+  return outputTensor;
+}
+
+/**
+ * Transform ssr tensor
+ */
+template
+<class TScalar, unsigned int NDimensions>
+typename CompositeTransform<TScalar, NDimensions>
+::OutputSymmetricSecondRankTensorType
+CompositeTransform<TScalar, NDimensions>
+::TransformSymmetricSecondRankTensor( const InputSymmetricSecondRankTensorType & inputTensor ) const
+{
+  OutputSymmetricSecondRankTensorType outputTensor( inputTensor );
+
+  typename TransformQueueType::const_iterator it;
+  /* Apply in reverse queue order.  */
+  it = this->m_TransformQueue.end();
+
+  do
+    {
+    it--;
+    outputTensor = (*it)->TransformSymmetricSecondRankTensor( outputTensor );
+    }
+  while( it != this->m_TransformQueue.begin() );
+
+  return outputTensor;
+}
+
+/**
+ * Transform ssr tensor
+ */
+template
+<class TScalar, unsigned int NDimensions>
+typename CompositeTransform<TScalar, NDimensions>
+::OutputVectorPixelType
+CompositeTransform<TScalar, NDimensions>
+::TransformSymmetricSecondRankTensor( const InputVectorPixelType & inputTensor ) const
+{
+  OutputVectorPixelType outputTensor( inputTensor );
+
+  typename TransformQueueType::const_iterator it;
+  /* Apply in reverse queue order.  */
+  it = this->m_TransformQueue.end();
+
+  do
+    {
+    it--;
+    outputTensor = (*it)->TransformSymmetricSecondRankTensor( outputTensor );
+    }
+  while( it != this->m_TransformQueue.begin() );
+
+  return outputTensor;
+}
+
+/**
  * return an inverse transformation
  */
 template

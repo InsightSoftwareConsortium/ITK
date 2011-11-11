@@ -249,6 +249,16 @@ int itkCompositeTransformTest(int, char *[] )
   affineTruth[0] = 13;
   affineTruth[1] = 24;
 
+  CompositeType::InputVectorType inputVector;
+  CompositeType::OutputVectorType outputVector;
+  inputVector[0] = 0.4;
+  inputVector[1] = 0.6;
+
+  CompositeType::InputCovariantVectorType inputCVector;
+  CompositeType::OutputCovariantVectorType outputCVector;
+  inputCVector[0] = 0.4;
+  inputCVector[1] = 0.6;
+
   /* Test transforming the point with just the single affine transform */
   outputPoint = compositeTransform->TransformPoint( inputPoint );
   if( !testPoint( outputPoint, affineTruth) )
@@ -281,6 +291,7 @@ int itkCompositeTransformTest(int, char *[] )
     }
 
   /* Test ComputeJacobianWithRespectToParameters */
+
   CompositeType::JacobianType   jacComposite, jacSingle;
   CompositeType::InputPointType jacPoint;
   jacPoint[0] = 1;
@@ -341,6 +352,61 @@ int itkCompositeTransformTest(int, char *[] )
               << std::endl;
     return EXIT_FAILURE;
     }
+
+  CompositeType::OutputVectorType compositeTruthVector;
+  compositeTruthVector = affine2->TransformVector( inputVector );
+  compositeTruthVector = affine->TransformVector( compositeTruthVector );
+  outputVector = compositeTransform->TransformVector( inputVector );
+  std::cout << "Transform vector with two-component composite transform: "
+            << std::endl
+            << "  Test vector: " << inputVector << std::endl
+            << "  Truth: " << compositeTruthVector << std::endl
+            << "  Output: " << outputVector << std::endl;
+
+  CompositeType::OutputCovariantVectorType compositeTruthCVector;
+  compositeTruthCVector = affine2->TransformCovariantVector( inputCVector );
+  compositeTruthCVector = affine->TransformCovariantVector( compositeTruthCVector );
+  outputCVector = compositeTransform->TransformCovariantVector( inputCVector );
+  std::cout << "Transform covariant vector with two-component composite transform: "
+            << std::endl
+            << "  Test vector: " << inputCVector << std::endl
+            << "  Truth: " << compositeTruthCVector << std::endl
+            << "  Output: " << outputCVector << std::endl;
+
+
+  CompositeType::InputDiffusionTensor3DType inputTensor;
+  CompositeType::OutputDiffusionTensor3DType outputTensor;
+  inputTensor[0] = 3.0;
+  inputTensor[1] = 0.3;
+  inputTensor[2] = 0.2;
+  inputTensor[3] = 2.0;
+  inputTensor[4] = 0.1;
+  inputTensor[5] = 1.0;
+  CompositeType::OutputDiffusionTensor3DType compositeTruthTensor;
+  compositeTruthTensor = affine2->TransformDiffusionTensor3D( inputTensor );
+  compositeTruthTensor = affine->TransformDiffusionTensor3D( compositeTruthTensor );
+  outputTensor = compositeTransform->TransformDiffusionTensor3D( inputTensor );
+  std::cout << "Transform tensor with two-component composite transform: "
+            << std::endl
+            << "  Test tensor: " << inputTensor << std::endl
+            << "  Truth: " << compositeTruthTensor << std::endl
+            << "  Output: " << outputTensor << std::endl;
+
+  CompositeType::InputSymmetricSecondRankTensorType inputSTensor;
+  CompositeType::OutputSymmetricSecondRankTensorType outputSTensor;
+  inputSTensor(1,0) = 0.5;
+  inputSTensor(0,0) = 3.0;
+  inputSTensor(1,1) = 2.0;
+
+  CompositeType::OutputSymmetricSecondRankTensorType compositeTruthSTensor;
+  compositeTruthSTensor = affine2->TransformSymmetricSecondRankTensor( inputSTensor );
+  compositeTruthSTensor = affine->TransformSymmetricSecondRankTensor( compositeTruthSTensor );
+  outputSTensor = compositeTransform->TransformSymmetricSecondRankTensor( inputSTensor );
+  std::cout << "Transform tensor with two-component composite transform: "
+            << std::endl
+            << "  Test tensor: " << inputSTensor << std::endl
+            << "  Truth: " << compositeTruthSTensor << std::endl
+            << "  Output: " << outputSTensor << std::endl;
 
   /* Test inverse with two transforms, with only one set to optimize. */
   compositeTransform->SetAllTransformsToOptimize( false );
