@@ -20,6 +20,8 @@
 
 #include "itkVTKVisualize2DLevelSetAsElevationMap.h"
 
+#include "vtkScalarsToColors.h"
+
 namespace itk
 {
 
@@ -34,8 +36,19 @@ VTKVisualize2DLevelSetAsElevationMap< TInputImage, TLevelSet >
 
   this->m_Mesh = vtkSmartPointer< vtkPolyData >::New();
 
+  this->m_ScalarBarActor = vtkSmartPointer< vtkScalarBarActor >::New();
+  this->m_ScalarBarActor->SetTitle( "Level Set" );
+  this->m_ScalarBarActor->GetPositionCoordinate( )->SetCoordinateSystemToNormalizedViewport( );
+  this->m_ScalarBarActor->GetPositionCoordinate( )->SetValue( 0.1, 0.01 );
+  this->m_ScalarBarActor->GetTitleTextProperty( )->SetColor( 0., 0., 0. );
+  this->m_ScalarBarActor->GetLabelTextProperty( )->SetColor( 0., 0., 0. );
+  this->m_ScalarBarActor->SetOrientationToHorizontal( );
+  this->m_ScalarBarActor->SetWidth( 0.8 );
+  this->m_ScalarBarActor->SetHeight( 0.17 );
+  this->m_Renderer->AddActor2D( this->m_ScalarBarActor );
+
   this->m_Annotation = vtkSmartPointer< vtkCornerAnnotation >::New();
-  this->m_Renderer->AddActor2D( m_Annotation );
+  this->m_Renderer->AddActor2D( this->m_Annotation );
 }
 
 template< class TInputImage, class TLevelSet >
@@ -79,28 +92,16 @@ VTKVisualize2DLevelSetAsElevationMap< TInputImage, TLevelSet >
   else
     {
     meshmapper->SetScalarRange( this->m_MinValue, this->m_MaxValue );
+    vtkScalarsToColors * lookupTable = meshmapper->GetLookupTable();
+    lookupTable->SetRange( this->m_MinValue, this->m_MaxValue );
+    lookupTable->Build();
+
+    this->m_ScalarBarActor->SetLookupTable( lookupTable );
     }
 
   vtkActor *SurfaceActor = vtkActor::New( );
   SurfaceActor->SetMapper( meshmapper );
   SurfaceActor->GetProperty( )->SetColor( 0.7, 0.7, 0.7 );
-
-  if( this->m_ColorValue )
-    {
-    vtkSmartPointer< vtkScalarBarActor > scalarBar =
-        vtkSmartPointer< vtkScalarBarActor >::New( );
-    scalarBar->SetLookupTable( meshmapper->GetLookupTable( )  );
-    scalarBar->SetTitle( "Level Set" );
-    scalarBar->GetPositionCoordinate( )->SetCoordinateSystemToNormalizedViewport( );
-    scalarBar->GetPositionCoordinate( )->SetValue( 0.1, 0.01 );
-    scalarBar->GetTitleTextProperty( )->SetColor( 0., 0., 0. );
-    scalarBar->GetLabelTextProperty( )->SetColor( 0., 0., 0. );
-    scalarBar->SetOrientationToHorizontal( );
-    scalarBar->SetWidth( 0.8 );
-    scalarBar->SetHeight( 0.17 );
-
-    this->m_Renderer->AddActor2D( scalarBar );
-    }
 
   this->m_Renderer->AddActor ( input_Actor );
   this->m_Renderer->AddActor ( SurfaceActor );
@@ -145,6 +146,9 @@ VTKVisualize2DLevelSetAsElevationMap< TInputImage, TLevelSet >
   this->m_Mesh->SetPoints( vtkpoints );
   this->m_Mesh->GetPointData( )->SetScalars( vtkpointdata );
   this->m_Mesh->SetPolys( cells );
+
+  this->m_MinValue = itk::NumericTraits< double >::max( );
+  this->m_MaxValue = itk::NumericTraits< double >::min( );
 
   InputImageSizeValueType k = 0;
 

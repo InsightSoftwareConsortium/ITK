@@ -88,6 +88,7 @@ private:
 
   vtkSmartPointer< vtkPolyData >                m_Mesh;
   vtkSmartPointer< vtkCornerAnnotation >        m_Annotation;
+  vtkSmartPointer< vtkScalarBarActor >          m_ScalarBarActor;
 
   InputImageSizeType m_NumberOfSamples;
 
