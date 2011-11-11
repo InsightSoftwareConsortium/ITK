@@ -28,7 +28,7 @@
 #include "itkSinRegularizedHeavisideStepFunction.h"
 #include "itkHeavisideStepFunction.h"
 #include "itkLevelSetEvolution.h"
-#include "itkBinaryImageToSparseLevelSetImageAdaptor.h"
+#include "itkBinaryImageToLevelSetImageAdaptor.h"
 #include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"
 #include "itkNumericTraits.h"
 
@@ -49,7 +49,7 @@ int itkSingleLevelSetMalcolmImage2DTest( int argc, char* argv[] )
   typedef itk::ImageFileReader< InputImageType >            ReaderType;
 
   typedef itk::MalcolmSparseLevelSetImage< Dimension >      SparseLevelSetType;
-  typedef itk::BinaryImageToSparseLevelSetImageAdaptor< InputImageType, SparseLevelSetType >
+  typedef itk::BinaryImageToLevelSetImageAdaptor< InputImageType, SparseLevelSetType >
                                                             BinaryToSparseAdaptorType;
 
   typedef itk::IdentifierType                               IdentifierType;

@@ -27,7 +27,7 @@
 #include "itkLevelSetEquationContainerBase.h"
 #include "itkSinRegularizedHeavisideStepFunction.h"
 #include "itkLevelSetEvolution.h"
-#include "itkBinaryImageToSparseLevelSetImageAdaptor.h"
+#include "itkBinaryImageToLevelSetImageAdaptor.h"
 #include "itkLevelSetEquationCurvatureTerm.h"
 #include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"
 #include "itkNumericTraits.h"
@@ -52,7 +52,7 @@ int itkSingleLevelSetWhitakerImage2DWithCurvatureTest( int argc, char* argv[] )
 
   typedef itk::WhitakerSparseLevelSetImage< PixelType, Dimension >
                                                             SparseLevelSetType;
-  typedef itk::BinaryImageToSparseLevelSetImageAdaptor< InputImageType, SparseLevelSetType >
+  typedef itk::BinaryImageToLevelSetImageAdaptor< InputImageType, SparseLevelSetType >
                                                             BinaryToSparseAdaptorType;
 
   typedef itk::IdentifierType                               IdentifierType;

@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkBinaryImageToDenseLevelSetImageAdaptor.h"
+#include "itkBinaryImageToLevelSetImageAdaptor.h"
 #include "itkImageFileReader.h"
 #include "itkLevelSetIterationUpdateCommand.h"
 #include "itkLevelSetContainer.h"
@@ -69,7 +69,7 @@ VisualizeLevelSetSurface( TInputImage * inputImage, const int numberOfIterations
     ++iIt;
     }
 
-  typedef itk::BinaryImageToDenseLevelSetImageAdaptor< BinaryImageType,
+  typedef itk::BinaryImageToLevelSetImageAdaptor< BinaryImageType,
     LevelSetType > BinaryImageToLevelSetType;
 
   typename BinaryImageToLevelSetType::Pointer adaptor = BinaryImageToLevelSetType::New();
@@ -214,48 +214,48 @@ int vtkVisualize2DCellsLevelSetSurfaceTest( int argc, char* argv[] )
     }
   else if( levelSetRepresentation.compare( "Whitaker" ) == 0 )
     {
-//    typedef itk::WhitakerSparseLevelSetImage< double, 2 > LevelSetType;
-//    try
-//      {
-//      VisualizeLevelSetSurface< InputImageType, LevelSetType >( input,
-//                                                                numberOfIterations,
-//                                                                argv[4] );
-//      }
-//    catch ( itk::ExceptionObject& err )
-//      {
-//      std::cerr << err << std::endl;
-//      return EXIT_FAILURE;
-//      }
+    typedef itk::WhitakerSparseLevelSetImage< double, 2 > LevelSetType;
+    try
+      {
+      VisualizeLevelSetSurface< InputImageType, LevelSetType >( input,
+                                                                numberOfIterations,
+                                                                argv[4] );
+      }
+    catch ( itk::ExceptionObject& err )
+      {
+      std::cerr << err << std::endl;
+      return EXIT_FAILURE;
+      }
     }
   else if( levelSetRepresentation.compare( "Shi" ) == 0 )
     {
-//    typedef itk::ShiSparseLevelSetImage< 2 > LevelSetType;
-//    try
-//      {
-//      VisualizeLevelSetSurface< InputImageType, LevelSetType >( input,
-//                                                                numberOfIterations,
-//                                                                argv[4] );
-//      }
-//    catch ( itk::ExceptionObject& err )
-//      {
-//      std::cerr << err << std::endl;
-//      return EXIT_FAILURE;
-//      }
+    typedef itk::ShiSparseLevelSetImage< 2 > LevelSetType;
+    try
+      {
+      VisualizeLevelSetSurface< InputImageType, LevelSetType >( input,
+                                                                numberOfIterations,
+                                                                argv[4] );
+      }
+    catch ( itk::ExceptionObject& err )
+      {
+      std::cerr << err << std::endl;
+      return EXIT_FAILURE;
+      }
     }
   else if( levelSetRepresentation.compare( "Malcolm" ) == 0 )
     {
-//    typedef itk::MalcolmSparseLevelSetImage< 2 > LevelSetType;
-//    try
-//      {
-//      VisualizeLevelSetSurface< InputImageType, LevelSetType >( input,
-//                                                                numberOfIterations,
-//                                                                argv[4] );
-//      }
-//    catch ( itk::ExceptionObject& err )
-//      {
-//      std::cerr << err << std::endl;
-//      return EXIT_FAILURE;
-//      }
+    typedef itk::MalcolmSparseLevelSetImage< 2 > LevelSetType;
+    try
+      {
+      VisualizeLevelSetSurface< InputImageType, LevelSetType >( input,
+                                                                numberOfIterations,
+                                                                argv[4] );
+      }
+    catch ( itk::ExceptionObject& err )
+      {
+      std::cerr << err << std::endl;
+      return EXIT_FAILURE;
+      }
     }
   else
     {

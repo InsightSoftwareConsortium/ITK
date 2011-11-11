@@ -23,7 +23,7 @@
 #include "itkLevelSetEquationLaplacianTerm.h"
 #include "itkLevelSetEquationTermContainerBase.h"
 #include "itkSinRegularizedHeavisideStepFunction.h"
-#include "itkBinaryImageToSparseLevelSetImageAdaptor.h"
+#include "itkBinaryImageToLevelSetImageAdaptor.h"
 #include "itkNumericTraits.h"
 
 int itkLevelSetEquationTermContainerBaseTest( int argc, char* argv[] )
@@ -47,7 +47,7 @@ int itkLevelSetEquationTermContainerBaseTest( int argc, char* argv[] )
   typedef float                                             PixelType;
   typedef itk::WhitakerSparseLevelSetImage< PixelType, Dimension >
                                                             SparseLevelSetType;
-  typedef itk::BinaryImageToSparseLevelSetImageAdaptor< InputImageType, SparseLevelSetType >
+  typedef itk::BinaryImageToLevelSetImageAdaptor< InputImageType, SparseLevelSetType >
                                                             BinaryToSparseAdaptorType;
 
   typedef itk::LevelSetContainer< IdentifierType, SparseLevelSetType >
