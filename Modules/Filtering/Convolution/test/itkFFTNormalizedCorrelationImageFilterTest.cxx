@@ -20,17 +20,17 @@
 #endif
 
 #include "itkImage.h"
-#include "itkMaskedFFTNormalizedCorrelationImageFilter.h"
+#include "itkFFTNormalizedCorrelationImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkShiftScaleImageFilter.h"
 
-int itkMaskedFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[] )
+int itkFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[] )
 {
   if( argc < 4 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " fixedImageName movingImageName outputImageName [requiredNumberOfOverlappingPixels] [fixedMaskName] [movingMaskName]" << std::endl;
+    std::cerr << argv[0] << " fixedImageName movingImageName outputImageName [requiredNumberOfOverlappingPixels]" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -43,6 +43,7 @@ int itkMaskedFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[] )
   char * fixedImageFileName = argv[1];
   char * movingImageFileName = argv[2];
   const char * outputImageFileName = argv[3];
+
   unsigned long requiredNumberOfOverlappingPixels = 0;
   if( argc > 4 )
     {
@@ -56,31 +57,13 @@ int itkMaskedFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[] )
   ReaderType::Pointer movingImageReader = ReaderType::New();
   movingImageReader->SetFileName( movingImageFileName );
 
-  typedef itk::MaskedFFTNormalizedCorrelationImageFilter< InputImageType, RealImageType > FilterType;
+  typedef itk::FFTNormalizedCorrelationImageFilter< InputImageType, RealImageType > FilterType;
   FilterType::Pointer filter = FilterType::New();
   filter->SetFixedImage( fixedImageReader->GetOutput() );
   filter->SetMovingImage( movingImageReader->GetOutput() );
   // Larger values zero-out pixels on a larger border around the correlation image.
   // Thus, larger values remove less stable computations but also limit the capture range.
   filter->SetRequiredNumberOfOverlappingVoxels( requiredNumberOfOverlappingPixels );
-
-  if( argc > 5 )
-  {
-    char * fixedMaskFileName = argv[5];
-    ReaderType::Pointer fixedMaskReader = ReaderType::New();
-    fixedMaskReader->SetFileName(fixedMaskFileName);
-    fixedMaskReader->Update();
-    filter->SetFixedImageMask(fixedMaskReader->GetOutput());
-  }
-
-  if( argc > 6 )
-  {
-    char * movingMaskFileName = argv[6];
-    ReaderType::Pointer movingMaskReader = ReaderType::New();
-    movingMaskReader->SetFileName(movingMaskFileName);
-    movingMaskReader->Update();
-    filter->SetMovingImageMask(movingMaskReader->GetOutput());
-  }
 
   // Shift the correlation values so they can be written out as a png.
   // The original range is [-1,1], and the new range is [0,255].

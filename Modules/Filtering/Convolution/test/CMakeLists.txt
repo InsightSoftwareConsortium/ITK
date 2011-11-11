@@ -4,6 +4,7 @@ set(ITKConvolutionTests
   itkConvolutionImageFilterTestInt.cxx
   itkConvolutionImageFilterDeltaFunctionTest.cxx
   itkMaskedFFTNormalizedCorrelationImageFilterTest.cxx
+  itkFFTNormalizedCorrelationImageFilterTest.cxx
 )
 
 CreateTestDriver(ITKConvolution  "${ITKConvolution-Test_LIBRARIES}" "${ITKConvolutionTests}")
@@ -89,3 +90,39 @@ itk_add_test(NAME itkMaskedFFTNormalizedCorrelationImageFilterTest6
     --compare DATA{Baseline/itkMaskedFFTNormalizedCorrelationImageFilterTest6.png}
               ${ITK_TEST_OUTPUT_DIR}/itkMaskedFFTNormalizedCorrelationImageFilterTest6.png
     itkMaskedFFTNormalizedCorrelationImageFilterTest DATA{Input/FixedRectangles.png} DATA{Input/MovingRectangles.png} ${ITK_TEST_OUTPUT_DIR}/itkMaskedFFTNormalizedCorrelationImageFilterTest6.png 400)
+
+# Standard FFT NCC tests
+# Test with three different shapes.
+# These are the shapes from FixedRectangles.png used in the MaskedFFTNormalizedCorrelation.
+# In this case, FixedRectangles has first been masked with the three masks used.
+# Thus, the output of masking first and then correlation can be directly compared with masked correlation.
+# It is clear from the resulting images that these results are different and that masked correlation
+# outputs the correct results.
+itk_add_test(NAME itkFFTNormalizedCorrelationImageFilterTest1
+      COMMAND ITKConvolutionTestDriver
+    --compare DATA{Baseline/itkFFTNormalizedCorrelationImageFilterTest1.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkFFTNormalizedCorrelationImageFilterTest1.png
+    itkFFTNormalizedCorrelationImageFilterTest DATA{Input/FixedRectangle1.png} DATA{Input/MovingRectangles.png} ${ITK_TEST_OUTPUT_DIR}/itkFFTNormalizedCorrelationImageFilterTest1.png 20)
+itk_add_test(NAME itkFFTNormalizedCorrelationImageFilterTest2
+      COMMAND ITKConvolutionTestDriver
+    --compare DATA{Baseline/itkFFTNormalizedCorrelationImageFilterTest2.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkFFTNormalizedCorrelationImageFilterTest2.png
+    itkFFTNormalizedCorrelationImageFilterTest DATA{Input/FixedRectangle2.png} DATA{Input/MovingRectangles.png} ${ITK_TEST_OUTPUT_DIR}/itkFFTNormalizedCorrelationImageFilterTest2.png 20)
+itk_add_test(NAME itkFFTNormalizedCorrelationImageFilterTest3
+      COMMAND ITKConvolutionTestDriver
+    --compare DATA{Baseline/itkFFTNormalizedCorrelationImageFilterTest3.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkFFTNormalizedCorrelationImageFilterTest3.png
+    itkFFTNormalizedCorrelationImageFilterTest DATA{Input/FixedRectangle3.png} DATA{Input/MovingRectangles.png} ${ITK_TEST_OUTPUT_DIR}/itkFFTNormalizedCorrelationImageFilterTest3.png 20)
+# Test with different size images
+itk_add_test(NAME itkFFTNormalizedCorrelationImageFilterTest4
+      COMMAND ITKConvolutionTestDriver
+    --compare DATA{Baseline/itkFFTNormalizedCorrelationImageFilterTest4.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkFFTNormalizedCorrelationImageFilterTest4.png
+    itkMaskedFFTNormalizedCorrelationImageFilterTest DATA{Input/FixedRectangle3.png} DATA{Input/MovingRectanglesCropped.png} ${ITK_TEST_OUTPUT_DIR}/itkFFTNormalizedCorrelationImageFilterTest4.png 20)
+# Test NCC of the original fixed and moving images, without masking the fixed image first.
+# The result should be the same as Test6 of MaskedFFTNormalizedCorrelation
+itk_add_test(NAME itkFFTNormalizedCorrelationImageFilterTest5
+      COMMAND ITKConvolutionTestDriver
+    --compare DATA{Baseline/itkMaskedFFTNormalizedCorrelationImageFilterTest6.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkFFTNormalizedCorrelationImageFilterTest5.png
+    itkMaskedFFTNormalizedCorrelationImageFilterTest DATA{Input/FixedRectangles.png} DATA{Input/MovingRectangles.png} ${ITK_TEST_OUTPUT_DIR}/itkFFTNormalizedCorrelationImageFilterTest5.png 400)

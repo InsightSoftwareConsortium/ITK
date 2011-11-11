@@ -272,6 +272,9 @@ protected:
   // will be a combination of 2s, 3s, and 5s.
   int FindClosestValidDimension( int n );
 
+  template< class LocalInputImageType >
+  double CalculatePrecisionTolerance( LocalInputImageType * inputImage );
+
 private:
   MaskedFFTNormalizedCorrelationImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
