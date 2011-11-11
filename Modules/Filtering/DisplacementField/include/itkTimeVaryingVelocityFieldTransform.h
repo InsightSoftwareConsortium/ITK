@@ -69,9 +69,6 @@ public:
   /** New macro for creation of through a Smart Pointer */
   itkSimpleNewMacro( Self );
 
-  /** Create another transform of the same type. */
-  virtual::itk::LightObject::Pointer CreateAnother(void) const;
-
   /** InverseTransform type. */
   typedef typename Superclass:: InverseTransformBasePointer InverseTransformBasePointer;
 
@@ -79,8 +76,9 @@ public:
   typedef typename Superclass::ScalarType          ScalarType;
 
   /** Type of the input parameters. */
-  typedef  typename Superclass::ParametersType          ParametersType;
-  typedef  typename Superclass::NumberOfParametersType  NumberOfParametersType;
+  typedef typename Superclass::ParametersType          ParametersType;
+  typedef typename ParametersType::ValueType           ParametersValueType;
+  typedef typename Superclass::NumberOfParametersType  NumberOfParametersType;
 
   /** Jacobian type. */
   typedef typename Superclass::JacobianType        JacobianType;
@@ -106,17 +104,19 @@ public:
    * Define the time-varying velocity field type and corresponding interpolator
    * type.
    */
-  typedef typename Superclass::DisplacementFieldType   DisplacementFieldType;
-  typedef typename DisplacementFieldType::PixelType    VectorType;
-  typedef typename DisplacementFieldType::PointType    PointType;
+  typedef Image<OutputVectorType, TimeVaryingVelocityFieldDimension>  TimeVaryingVelocityFieldType;
+  typedef typename TimeVaryingVelocityFieldType::Pointer              TimeVaryingVelocityFieldPointer;
 
-  typedef Image<OutputVectorType,
-    itkGetStaticConstMacro( TimeVaryingVelocityFieldDimension )>
-                                     TimeVaryingVelocityFieldType;
-  typedef VectorInterpolateImageFunction<TimeVaryingVelocityFieldType,
-    ScalarType>                      TimeVaryingVelocityFieldInterpolatorType;
-  typedef typename TimeVaryingVelocityFieldInterpolatorType::Pointer
-                                     TimeVaryingVelocityFieldInterpolatorPointer;
+  typedef VectorInterpolateImageFunction<TimeVaryingVelocityFieldType, ScalarType>  TimeVaryingVelocityFieldInterpolatorType;
+  typedef typename TimeVaryingVelocityFieldInterpolatorType::Pointer                TimeVaryingVelocityFieldInterpolatorPointer;
+
+  typedef typename TimeVaryingVelocityFieldType::SizeType          SizeType;
+  typedef typename TimeVaryingVelocityFieldType::PointType         PointType;
+  typedef typename TimeVaryingVelocityFieldType::SpacingType       SpacingType;
+  typedef typename TimeVaryingVelocityFieldType::DirectionType     DirectionType;
+
+  typedef typename Superclass::DisplacementFieldType               DisplacementFieldType;
+  typedef typename DisplacementFieldType::PixelType                DisplacementVectorType;
 
   /** Define the internal parameter helper used to access the field */
   typedef ImageVectorOptimizerParametersHelper
@@ -172,23 +172,16 @@ public:
    * Set the transformation parameters. This sets the time-varying velocity
    * field image directly.
    */
-  virtual void SetParameters(const ParametersType & params);
+  virtual void SetParameters( const ParametersType & );
 
   /** Trigger the computation of the displacement field by integrating
    * the time-varying velocity field. */
   virtual void IntegrateVelocityField();
 
   /** Set the fixed parameters and update internal transformation. */
-  virtual void SetFixedParameters( const ParametersType & )
-    {
-    itkExceptionMacro( "SetFixedParameters unimplemented." );
-    }
+  virtual void SetFixedParameters( const ParametersType & );
 
   /** Get the Fixed Parameters. */
-  virtual const ParametersType & GetFixedParameters() const
-    {
-    itkExceptionMacro( "GetFixedParameters unimplemented." );
-    }
 
   virtual void UpdateTransformParameters( DerivativeType &,
     ScalarType factor = 1.0 );
@@ -240,13 +233,13 @@ public:
 
   /**
    * Set the number of integration steps used in the Runge-Kutta solution of the
-   * initial value problem.  Default = 10;
+   * initial value problem.  Default = 100;
    */
   itkSetMacro( NumberOfIntegrationSteps, unsigned int );
 
   /**
    * Get the number of integration steps used in the Runge-Kutta solution of the
-   * initial value problem.  Default = 10;
+   * initial value problem.  Default = 100;
    */
   itkGetConstMacro( NumberOfIntegrationSteps, unsigned int );
 

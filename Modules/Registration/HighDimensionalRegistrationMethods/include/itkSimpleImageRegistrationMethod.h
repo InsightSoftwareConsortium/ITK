@@ -64,7 +64,7 @@ class Array1DToData;
  *   \li the coarseness of the current transform via transform adaptors
  *       (see below)
  *
- * Multiple stages are handles by linking multiple instantiations of
+ * Multiple stages are handled by linking multiple instantiations of
  * this class where the output transform is added to the optional
  * composite transform input.
  *
@@ -134,7 +134,6 @@ public:
   typedef typename TransformType::DerivativeType                      DerivativeType;
   typedef typename DerivativeType::ValueType                          DerivativeValueType;
 
-
   typedef CompositeTransform<RealType, ImageDimension>                CompositeTransformType;
   typedef typename CompositeTransformType::Pointer                    CompositeTransformPointer;
 
@@ -145,7 +144,7 @@ public:
   typedef DataObjectDecorator<TransformType>                          TransformOutputType;
   typedef typename TransformOutputType::Pointer                       TransformOutputPointer;
 
-  /** Real typedef **/
+  /** array typedef **/
   typedef Array<SizeValueType>                                        ShrinkFactorsArrayType;
   typedef Array<RealType>                                             SmoothingSigmasArrayType;
 
@@ -165,12 +164,12 @@ public:
   typedef typename OptimizerType::Pointer                             OptimizerPointer;
 
   /** Set/Get the fixed image. */
-  itkSetObjectMacro( FixedImage, FixedImageType );
-  itkGetConstObjectMacro( FixedImage, FixedImageType );
+  itkSetInputMacro( FixedImage, FixedImageType );
+  itkGetInputMacro( FixedImage, FixedImageType );
 
   /** Set/Get the moving image. */
-  itkSetObjectMacro( MovingImage, MovingImageType );
-  itkGetConstObjectMacro( MovingImage, MovingImageType );
+  itkSetInputMacro( MovingImage, MovingImageType );
+  itkGetInputMacro( MovingImage, MovingImageType );
 
   /** Set/Get the fixed interpolator. */
   itkSetObjectMacro( FixedInterpolator, FixedInterpolatorType );
@@ -192,7 +191,7 @@ public:
   itkSetObjectMacro( Optimizer, OptimizerType );
   itkGetObjectMacro( Optimizer, OptimizerType );
 
-  /** Set/Get the composite transform (optionalm---useful for multi-stage registration). */
+  /** Set/Get the composite transform (optional---useful for multi-stage registration). */
   itkSetObjectMacro( CompositeTransform, CompositeTransformType );
   itkGetObjectMacro( CompositeTransform, CompositeTransformType );
 
@@ -210,11 +209,19 @@ public:
   void SetNumberOfLevels( const SizeValueType );
   itkGetConstMacro( NumberOfLevels, SizeValueType );
 
-  /** Set/Get the shrink factors for each level. */
+  /**
+   * Set/Get the shrink factors for each level. At each resolution level, the
+   * \c itkShrinkImageFilter is called.  For a 256x256 image, a shrink factor
+   * of 2 reduces the image to 128x128.
+   */
   itkSetMacro( ShrinkFactorsPerLevel, ShrinkFactorsArrayType );
   itkGetConstMacro( ShrinkFactorsPerLevel, ShrinkFactorsArrayType );
 
-  /** Set/Get the smoothing sigmas for each level. */
+  /**
+   * Set/Get the smoothing sigmas for each level.  At each resolution level, a gaussian smoothing
+   * filter (specifically, the \c itkDiscreteGaussianImageFilter) is applied.  Sigma values are
+   * specified in physical units.
+   */
   itkSetMacro( SmoothingSigmasPerLevel, SmoothingSigmasArrayType );
   itkGetConstMacro( SmoothingSigmasPerLevel, SmoothingSigmasArrayType );
 
@@ -242,16 +249,11 @@ protected:
   /** Initialize by setting the interconnects between the components. */
   virtual void InitializeRegistrationAtEachLevel( const SizeValueType );
 
-private:
-  SimpleImageRegistrationMethod( const Self & );   //purposely not
-                                                             // implemented
-  void operator=( const Self & );                            //purposely not
-
   SizeValueType                                                   m_CurrentLevel;
   SizeValueType                                                   m_NumberOfLevels;
 
-  MovingImagePointer                                              m_MovingImage;
-  FixedImagePointer                                               m_FixedImage;
+  MovingImagePointer                                              m_MovingSmoothImage;
+  FixedImagePointer                                               m_FixedSmoothImage;
 
   FixedInterpolatorPointer                                        m_FixedInterpolator;
   MovingInterpolatorPointer                                       m_MovingInterpolator;
@@ -268,6 +270,10 @@ private:
   CompositeTransformPointer                                       m_CompositeTransform;
 
   TransformPointer                                                m_Transform;
+
+private:
+  SimpleImageRegistrationMethod( const Self & );   //purposely not implemented
+  void operator=( const Self & );                  //purposely not implemented
 };
 } // end namespace itk
 

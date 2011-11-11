@@ -76,7 +76,8 @@ TMovingImage, TVirtualImage>
   // Derivative results are written directly to \c derivative.
   this->GetValueAndDerivativeThreadedPostProcess(true /*doAverage*/);
 
-  value = this->GetValueResult();
+  // Enforce optimization to minimize the metric
+  value = this->GetValueResult() * ( -1 );
 }
 
 template<class TFixedImage, class TMovingImage, class TVirtualImage>

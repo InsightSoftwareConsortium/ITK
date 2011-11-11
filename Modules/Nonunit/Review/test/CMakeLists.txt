@@ -6,8 +6,6 @@ itkAreaOpeningImageFilterTest.cxx
 itkBoxMeanImageFilterTest.cxx
 itkBoxSigmaImageFilterTest.cxx
 itkBruker2DSEQImageIOTest.cxx
-itkBSplineControlPointImageFilterTest.cxx
-itkBSplineControlPointImageFunctionTest.cxx
 itkConformalFlatteningMeshFilterTest.cxx
 itkConformalFlatteningQuadEdgeMeshFilterTest.cxx
 itkContourExtractor2DImageFilterTest.cxx
@@ -146,18 +144,6 @@ itk_add_test(NAME itkBoxSigmaImageFilterTest10
 itk_add_test(NAME itkBruker2DSEQImageIOTest1
       COMMAND ITKReviewTestDriver itkBruker2DSEQImageIOTest
               ${ITK_DATA_ROOT}/Input/DCB120604.t61/11/pdata/1/2dseq ${ITK_TEST_OUTPUT_DIR}/itkBruker2DSEQImageIOTest1.mha)
-itk_add_test(NAME itkBSplineControlPointImageFilterTest1
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_2D_output.nii.gz
-              ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_2D_outputRefined.nii.gz
-    itkBSplineControlPointImageFilterTest 2 DATA{${ITK_DATA_ROOT}/Baseline/Review/N4ControlPoints_2D.nii.gz} ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_2D_output.nii.gz ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_2D_outputRefined.nii.gz)
-itk_add_test(NAME itkBSplineControlPointImageFilterTest2
-      COMMAND ITKReviewTestDriver
-    --compare ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_3D_output.nii.gz
-              ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_3D_outputRefined.nii.gz
-    itkBSplineControlPointImageFilterTest 3 DATA{${ITK_DATA_ROOT}/Baseline/Review/N4ControlPoints_3D.nii.gz} ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_3D_output.nii.gz ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_3D_outputRefined.nii.gz)
-itk_add_test(NAME itkBSplineControlPointImageFunctionTest
-      COMMAND ITKReviewTestDriver itkBSplineControlPointImageFunctionTest)
 itk_add_test(NAME itkTransformToDisplacementFieldSourceTest03
       COMMAND ITKReviewTestDriver
     --compare ${TEMP}/transformedImage.nii
