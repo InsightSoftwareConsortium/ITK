@@ -19,7 +19,7 @@
 #ifndef __itkLevelSetTovtkImageData_hxx
 #define __itkLevelSetTovtkImageData_hxx
 
-#include "itkLevelSetTovtkImageDataBase.h"
+#include "itkLevelSetTovtkImageData.h"
 
 #include "itkLevelSetDenseImageBase.h"
 #include "itkWhitakerSparseLevelSetImage.h"
@@ -38,7 +38,7 @@ template< class TImage >
 LevelSetTovtkImageData< LevelSetDenseImageBase< TImage > >
 ::LevelSetTovtkImageData()
 {
-  m_Converter = ConverterType::New();
+  this->m_Converter = ConverterType::New();
 }
 
 template< class TImage >
@@ -51,7 +51,7 @@ vtkImageData*
 LevelSetTovtkImageData< LevelSetDenseImageBase< TImage > >
 ::GetOutput() const
   {
-  return m_Converter->GetOutput();
+  return this->m_Converter->GetOutput();
   }
 
 template< class TImage >
