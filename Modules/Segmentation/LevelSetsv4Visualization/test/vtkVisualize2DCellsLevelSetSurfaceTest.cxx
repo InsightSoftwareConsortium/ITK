@@ -18,7 +18,7 @@
 
 #include "itkBinaryImageToDenseLevelSetImageAdaptor.h"
 #include "itkImageFileReader.h"
-#include "itkIterationUpdateCommand.h"
+#include "itkLevelSetIterationUpdateCommand.h"
 #include "itkLevelSetContainer.h"
 #include "itkLevelSetEquationChanAndVeseInternalTerm.h"
 #include "itkLevelSetEquationChanAndVeseExternalTerm.h"
@@ -27,7 +27,7 @@
 #include "itkLevelSetEvolution.h"
 #include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"
 #include "itkLevelSetDenseImageBase.h"
-#include "vtkVisualize2DLevelSetAsElevationMap.h"
+#include "itkVTKVisualize2DLevelSetAsElevationMap.h"
 #include "itkSinRegularizedHeavisideStepFunction.h"
 
 template< class TInputImage, class TLevelSetType >
@@ -129,12 +129,11 @@ VisualizeLevelSetSurface( TInputImage * inputImage, const int numberOfIterations
   std::cout << "Stopping criteria created" << std::endl;
 
   // Create the visualizer
-  typedef vtkVisualize2DLevelSetAsElevationMap< InputImageType, LevelSetType > VisualizationType;
+  typedef itk::VTKVisualize2DLevelSetAsElevationMap< InputImageType, LevelSetType > VisualizationType;
   typename VisualizationType::Pointer visualizer = VisualizationType::New();
   //! \todo the visualizer should get the input image from the level set
   visualizer->SetInputImage( inputImage );
   visualizer->SetLevelSet( levelSet );
-  visualizer->SetPeriod( 5 );
   std::cout << "Visualizer created" << std::endl;
 
   // Create evolution class
@@ -145,9 +144,10 @@ VisualizeLevelSetSurface( TInputImage * inputImage, const int numberOfIterations
   evolution->SetLevelSetContainer( levelSetContainer );
   std::cout << "Evolution class created" << std::endl;
 
-  typedef typename itk::IterationUpdateCommand< LevelSetEvolutionType, VisualizationType > IterationUpdateCommandType;
+  typedef typename itk::LevelSetIterationUpdateCommand< LevelSetEvolutionType, VisualizationType > IterationUpdateCommandType;
   typename IterationUpdateCommandType::Pointer iterationUpdateCommand = IterationUpdateCommandType::New();
   iterationUpdateCommand->SetFilterToUpdate( visualizer );
+  iterationUpdateCommand->SetUpdatePeriod( 5 );
   evolution->AddObserver( itk::IterationEvent(), iterationUpdateCommand );
   std::cout << "Visualization IterationUpdateCommand created" << std::endl;
 
