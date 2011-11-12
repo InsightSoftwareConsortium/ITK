@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkIterationUpdateCommand_h
-#define __itkIterationUpdateCommand_h
+#ifndef __itkLevelSetIterationUpdateCommand_h
+#define __itkLevelSetIterationUpdateCommand_h
 
 #include "itkCommand.h"
 #include "itkWeakPointer.h"
@@ -37,10 +37,10 @@ template< class TIteratingFilter, class TFilterToUpdate >
 class LevelSetIterationUpdateCommand : public Command
 {
 public:
-  typedef LevelSetIterationUpdateCommand      Self;
-  typedef Command                     Superclass;
-  typedef SmartPointer< Self >        Pointer;
-  typedef SmartPointer< const Self >  ConstPointer;
+  typedef LevelSetIterationUpdateCommand  Self;
+  typedef Command                         Superclass;
+  typedef SmartPointer< Self >            Pointer;
+  typedef SmartPointer< const Self >      ConstPointer;
 
   typedef TIteratingFilter  IteratingFilterType;
   typedef TFilterToUpdate   FilterToUpdateType;
