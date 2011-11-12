@@ -467,8 +467,11 @@ int itkBSplineTransformTest1()
 
   typedef itk::BSplineTransform<CoordinateRepType, SpaceDimension, 2>
   EvenOrderTransformType;
-  EvenOrderTransformType::Pointer evenOrderTransform =
-    EvenOrderTransformType::New();
+  EvenOrderTransformType::Pointer evenOrderTransform = EvenOrderTransformType::New();
+  if( evenOrderTransform.IsNull() )
+    {
+    return EXIT_FAILURE;
+    }
 
   /**
    * Parameters should remain even when the transform has been destroyed

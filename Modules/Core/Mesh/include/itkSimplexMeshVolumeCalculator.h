@@ -109,6 +109,7 @@ public:
     {
       m_CenterMap = PointMapType::New();
     }
+    virtual ~SimplexCellVisitor() {}
 
     /**
      * \brief visits all polygon cells and compute the cell centers

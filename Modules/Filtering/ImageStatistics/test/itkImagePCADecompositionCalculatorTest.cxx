@@ -359,14 +359,8 @@ int itkImagePCADecompositionCalculatorTest(int, char* [] )
     std::cerr << "Test Passed" << std::endl;
     return EXIT_SUCCESS;
     }
-  else
-    {
-    std::cerr << "Test failed" << std::endl;
-    std::cerr << "The project is out of the range of Matlab precomputed values" << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  return EXIT_SUCCESS;
-
+  std::cerr << "Test failed" << std::endl;
+  std::cerr << "The project is out of the range of Matlab precomputed values" << std::endl;
+  return EXIT_FAILURE;
 }
 

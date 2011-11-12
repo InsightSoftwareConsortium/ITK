@@ -149,6 +149,9 @@ public:
   ImageConstIteratorWithIndex(const TImage *ptr,
                               const RegionType & region);
 
+  /** Default Destructor. */
+  virtual ~ImageConstIteratorWithIndex() {};
+
   /** operator= is provided to make sure the handle to the image is properly
    * reference counted. */
   Self & operator=(const Self & it);

@@ -152,6 +152,10 @@ int itkSmartPointerTest(int, char* [] )
   std::cout <<"first test" << std::endl;
   {
   itkTestObject::Pointer o1 = itkTestObject::New();
+  if(o1.IsNull())
+    {
+    return EXIT_FAILURE;
+    }
   }
   std::cout <<"end first test" << std::endl << std::endl;
   return EXIT_SUCCESS;

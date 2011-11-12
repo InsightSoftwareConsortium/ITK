@@ -81,7 +81,6 @@ int itkImageRegistrationMethodTest_12(int argc, char* argv[] )
   MetricType::Pointer         metric        = MetricType::New();
   TransformType::Pointer      transform     = TransformType::New();
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
-  TransformType::Pointer      trasform      = TransformType::New();
   InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
   RegistrationType::Pointer   registration  = RegistrationType::New();
 

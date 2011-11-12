@@ -63,6 +63,10 @@ int itkNormalizedCorrelationImageFilterTest(int ac, char* av[] )
   // resample the mask to be the size of the input
   typedef itk::NearestNeighborInterpolateImageFunction<InputImageType> InterpolatorType;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  if( interpolator.IsNull() )
+    {
+    return EXIT_FAILURE;
+    }
 
   typedef itk::ResampleImageFilter<InputImageType, InputImageType> ResampleType;
   ResampleType::Pointer resample = ResampleType::New();

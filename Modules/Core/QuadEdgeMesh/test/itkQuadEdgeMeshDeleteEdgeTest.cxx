@@ -72,11 +72,6 @@ int itkQuadEdgeMeshDeleteEdgeTest( int , char* [] )
     std::cout << "OK." << std::endl;
     return( EXIT_SUCCESS );
     }
-  else
-    {
-    std::cout << "FAILED." << std::endl;
-    return( EXIT_FAILURE );
-    }
-
-  return( EXIT_SUCCESS );
+  std::cout << "FAILED." << std::endl;
+  return( EXIT_FAILURE );
 }

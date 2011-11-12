@@ -41,10 +41,6 @@ int itkFEMElement3DC0LinearTetrahedronMembraneTest(int argc, char *argv[])
   typedef itk::fem::Solver<3> Solver3DType;
   Solver3DType::Pointer solver = Solver3DType::New();
 
-  typedef itk::SpatialObject<3>      SpatialObjectType;
-  typedef SpatialObjectType::Pointer SpatialObjectPointer;
-  SpatialObjectPointer Spatial = SpatialObjectType::New();
-
   typedef itk::FEMSpatialObjectReader<3>      FEMSpatialObjectReaderType;
   typedef FEMSpatialObjectReaderType::Pointer FEMSpatialObjectReaderPointer;
   FEMSpatialObjectReaderPointer SpatialReader = FEMSpatialObjectReaderType::New();

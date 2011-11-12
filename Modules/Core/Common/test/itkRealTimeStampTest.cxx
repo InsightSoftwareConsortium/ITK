@@ -61,11 +61,7 @@ int itkRealTimeStampTest( int, char * [] )
   CHECK_FOR_VALUE( timeInDays, 0.0 );
 
   itk::RealTimeStamp stamp1;
-
-  itk::RealTimeInterval interval01 = stamp1 - stamp0;
-
   itk::RealTimeStamp stamp2 = stamp0;
-
   itk::RealTimeInterval oneSecond( 1, 0 );
 
   for( unsigned int i=0; i < 1000000L; i++)

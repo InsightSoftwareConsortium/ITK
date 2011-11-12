@@ -183,6 +183,10 @@ int itkBayesianClassifierImageFilterTest(int argc, char* argv[] )
     typedef itk::BayesianClassifierImageFilter<
       TestInitialLabelImageType, TestLabelType, TestPosteriorType, TestPriorType >   TestClassifierFilterType;
     TestClassifierFilterType::Pointer test=TestClassifierFilterType::New();
+    if(test.IsNull())
+      {
+      return EXIT_FAILURE;
+      }
     }
 
     {
@@ -196,6 +200,10 @@ int itkBayesianClassifierImageFilterTest(int argc, char* argv[] )
     typedef itk::BayesianClassifierImageFilter<
       TestInitialLabelImageType, TestLabelType, TestPosteriorType, TestPriorType >   TestClassifierFilterType;
     TestClassifierFilterType::Pointer test=TestClassifierFilterType::New();
+    if(test.IsNull())
+      {
+      return EXIT_FAILURE;
+      }
     }
 
     {
@@ -209,8 +217,10 @@ int itkBayesianClassifierImageFilterTest(int argc, char* argv[] )
     typedef itk::BayesianClassifierImageFilter<
       TestInitialLabelImageType, TestLabelType, TestPosteriorType, TestPriorType >   TestClassifierFilterType;
     TestClassifierFilterType::Pointer test=TestClassifierFilterType::New();
+    if(test.IsNull())
+      {
+      return EXIT_FAILURE;
+      }
     }
-
-
   return EXIT_SUCCESS;
 }

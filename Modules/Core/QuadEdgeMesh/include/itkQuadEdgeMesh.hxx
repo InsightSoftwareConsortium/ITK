@@ -254,9 +254,10 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
      * splicing when their geometry matches. We could fix
      * an epsilon threshold distance above which the two points
      * are considered distinct.
+     * PointType org = this->GetPoint(orgId);
      */
     PointType oldOrigin = this->GetPoint(oldOriginId);
-    PointType org = this->GetPoint(orgId);
+    
 
     /////////////////////////////////////////////////////////////
     /* We are done with the vertices and we might need to consider the

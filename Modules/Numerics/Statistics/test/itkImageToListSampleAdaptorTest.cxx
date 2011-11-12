@@ -77,10 +77,8 @@ int itkImageToListSampleAdaptorTest(int, char* [] )
   try
     {
     ImageToListSampleAdaptorType::MeasurementVectorType m = sample->GetMeasurementVector( 0 );
-    (void) m;
-
     std::cerr << "Exception should have been thrown since the input image \
-                  is not set yet" << std::endl;
+                  is not set yet " << m << std::endl;
     }
   catch ( itk::ExceptionObject & excp )
     {

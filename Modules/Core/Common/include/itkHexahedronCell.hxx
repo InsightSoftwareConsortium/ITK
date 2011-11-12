@@ -103,11 +103,6 @@ HexahedronCell< TCellInterface >
         TransferAutoPointer(cellPointer, vertexPointer);
         return true;
         }
-      else
-        {
-        cellPointer.Reset();
-        return false;
-        }
       break;
       }
     case 1:
@@ -117,11 +112,6 @@ HexahedronCell< TCellInterface >
         {
         TransferAutoPointer(cellPointer, edgePointer);
         return true;
-        }
-      else
-        {
-        cellPointer.Reset();
-        return false;
         }
       break;
       }
@@ -133,19 +123,12 @@ HexahedronCell< TCellInterface >
         TransferAutoPointer(cellPointer, facePointer);
         return true;
         }
-      else
-        {
-        cellPointer.Reset();
-        return false;
-        }
       break;
       }
     default:
-      {
-      cellPointer.Reset();
-      return false;
-      }
+      break; //just fall through
     }
+  cellPointer.Reset();
   return false;
 }
 

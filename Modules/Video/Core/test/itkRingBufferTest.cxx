@@ -103,7 +103,7 @@ int itkRingBufferTest( int , char* [] )
     }
 
   // Test looping buffer offset backward
-  ringBuffer->MoveHead(-2*ringBuffer->GetNumberOfBuffers() );
+  ringBuffer->MoveHead(-2 * static_cast<int>(ringBuffer->GetNumberOfBuffers()) );
   if (ringBuffer->GetHeadIndex() != oldHeadIndex)
     {
     //DEBUG

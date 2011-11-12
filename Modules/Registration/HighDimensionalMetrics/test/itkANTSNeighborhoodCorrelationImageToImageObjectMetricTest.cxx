@@ -154,8 +154,11 @@ int itkANTSNeighborhoodCorrelationImageToImageObjectMetricTest( int, char ** con
     IdentityTransformType::Pointer transformFId = IdentityTransformType::New();
 
     IdentityTransformType::Pointer transformMId = IdentityTransformType::New();
-    DisplacementTransformType::Pointer transformMdisplacement =
-            DisplacementTransformType::New();
+    if(transformMId.IsNull())
+      {
+      return EXIT_FAILURE;
+      }
+    DisplacementTransformType::Pointer transformMdisplacement = DisplacementTransformType::New();
     TranslationTransformType::Pointer transformMtranslation =
             TranslationTransformType::New();
     TranslationTransformType::Pointer transformMtranslation2 =

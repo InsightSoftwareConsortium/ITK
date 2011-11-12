@@ -37,8 +37,8 @@
 #include <vnl/vnl_matrix.h> // outerproduct
 #include <vnl/vnl_config.h> // for VNL_CONFIG_CHECK_BOUNDS
 
-export template <class T, unsigned int n> class vnl_vector_fixed;
-export template <class T, unsigned int num_rows, unsigned int num_cols> class vnl_matrix_fixed;
+template <class T, unsigned int n> class vnl_vector_fixed;
+template <class T, unsigned int num_rows, unsigned int num_cols> class vnl_matrix_fixed;
 
 //: Fixed length stack-stored, space-efficient vector.
 // vnl_vector_fixed is a fixed-length, stack storage vector. It has

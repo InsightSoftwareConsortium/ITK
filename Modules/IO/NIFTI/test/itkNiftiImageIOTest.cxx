@@ -18,8 +18,53 @@
 
 #include "itkNiftiImageIOTest.h"
 
-
 #define SPECIFIC_IMAGEIO_MODULE_TEST
+
+template<>
+itk::ImageBase<1>::DirectionType
+PreFillDirection<1> ()
+{
+  itk::ImageBase<1>::DirectionType myDirection;
+  myDirection.Fill(0.0);
+  myDirection[0][0] = -1.0;
+  return myDirection;
+}
+
+template<>
+itk::ImageBase<2>::DirectionType
+PreFillDirection<2> ()
+{
+  itk::ImageBase<2>::DirectionType myDirection;
+  myDirection.Fill(0.0);
+  myDirection[0][1] = 1.0;
+  myDirection[1][0] = -1.0;
+  return myDirection;
+}
+
+template<>
+itk::ImageBase<3>::DirectionType
+PreFillDirection<3> ()
+{
+  itk::ImageBase<3>::DirectionType myDirection;
+  myDirection.Fill(0.0);
+  myDirection[0][2] = 1.0;
+  myDirection[1][0] = -1.0;
+  myDirection[2][1] = 1.0;
+  return myDirection;
+}
+
+template<>
+itk::ImageBase<4>::DirectionType
+PreFillDirection<4> ()
+{
+  itk::ImageBase<4>::DirectionType myDirection;
+  myDirection.Fill(0.0);
+  myDirection[0][2] = 1.0;
+  myDirection[1][0] = -1.0;
+  myDirection[2][1] = 1.0;
+  myDirection[3][3] = 1.0;
+  return myDirection;
+}
 
 bool Equal(const double a, const double b)
 {
@@ -143,6 +188,10 @@ int itkNiftiImageIOTest(int ac, char* av[])
   //Tests added to increase code coverage.
       {
       itk::NiftiImageIOFactory::Pointer MyFactoryTest=itk::NiftiImageIOFactory::New();
+      if(MyFactoryTest.IsNull())
+        {
+        return EXIT_FAILURE;
+        }
       //This was made a protected function.  MyFactoryTest->PrintSelf(std::cout,0);
       }
   return rval;

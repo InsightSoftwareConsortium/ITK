@@ -23,7 +23,6 @@
 //
 //
 
-
 // Software Guide : BeginLatex
 //
 // This example illustrates how to compute the direct Fourier transform
@@ -62,13 +61,11 @@ int main( int argc, char * argv[] )
   typedef itk::Image< WorkPixelType, Dimension > WorkImageType;
   // Software Guide : EndCodeSnippet
 
-
   // File handling
   typedef itk::ImageFileReader< IOImageType > ReaderType;
   typedef itk::ImageFileWriter< IOImageType > WriterType;
 
   ReaderType::Pointer inputreader = ReaderType::New();
-  ReaderType::Pointer kernelreader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
 
   inputreader->SetFileName( argv[1] );

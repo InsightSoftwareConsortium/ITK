@@ -70,7 +70,7 @@ void itkSystemInformationPrintFile(const char* name, std::ostream& os)
     }
 }
 
-int main(int argc, const char* argv[])
+int main(int argc, char* argv[])
 {
   if(argc != 2)
     {

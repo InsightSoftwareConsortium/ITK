@@ -59,7 +59,6 @@ int itkSparseFieldLayerTest(int , char *[] )
       rlist=layer->SplitRegions(5);
       for (int k=0;k<5;k++)
         {
-          itk::SparseFieldLayer<node_type>::ConstIterator ptr=rlist[k].last;
           std::cout<<"Region begin:"<<(rlist[k].first)->value<<std::endl;
         }
 

@@ -32,8 +32,6 @@ int itkNormalizeToConstantImageFilterTest( int, char* [] )
   typedef itk::Image< int, 3 >    IntImage;
   typedef itk::Image< double, 3 > DoubleImage;
 
-  IntImage::Pointer image = IntImage::New();
-
   // Generate a real image
   typedef itk::RandomImageSource< IntImage > SourceType;
   SourceType::Pointer source = SourceType::New();

@@ -32,10 +32,7 @@ int itkNormalizeImageFilterTest(int, char* [] )
   typedef itk::Image<short,3> ShortImage;
   typedef itk::Image<float,3> FloatImage;
 
-  ShortImage::Pointer    image  = ShortImage::New();
-
   // Generate a real image
-
   typedef itk::RandomImageSource<ShortImage> SourceType;
   SourceType::Pointer source = SourceType::New();
   ShortImage::SizeValueType randomSize[3] = {18, 17, 67};

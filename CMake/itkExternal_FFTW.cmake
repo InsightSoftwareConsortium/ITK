@@ -1,6 +1,6 @@
 #
 # Encapsulates building FFTW as an External Project.
-include(CheckCCompilerFlag)
+include(ITK_CheckCCompilerFlag)
 
 
 set(msg "ATTENTION: You have enabled the use of fftw,")

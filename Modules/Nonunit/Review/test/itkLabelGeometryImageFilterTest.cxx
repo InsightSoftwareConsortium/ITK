@@ -187,7 +187,7 @@ int LabelGeometryImageFilterTest(const char * labelImageName,const char * output
 
     std::ostringstream filename;
     char buffer[50];
-    sprintf(buffer,"%3.3d",label);
+    sprintf(buffer,"%3.3u",label);
     filename << outputOrientedImagePath << "/OrientedLabelImage" << buffer << ".mhd";
 
     labelWriter->SetFileName( filename.str().c_str() );

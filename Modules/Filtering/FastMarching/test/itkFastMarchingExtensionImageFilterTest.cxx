@@ -312,11 +312,6 @@ int itkFastMarchingExtensionImageFilterTest(int, char* [] )
     std::cout << "Fast Marching test passed" << std::endl;
     return EXIT_SUCCESS;
     }
-  else
-    {
-    std::cout << "Fast Marching test failed" << std::endl;
-    return EXIT_FAILURE;
-    }
-
-return EXIT_SUCCESS;
+  std::cout << "Fast Marching test failed" << std::endl;
+  return EXIT_FAILURE;
 }

@@ -220,6 +220,7 @@ int itkKmeansModelEstimatorTest(int, char* [] )
 
   //Validation with no codebook/initial Kmeans estimate
   vnl_matrix<double> kmeansResult = applyKmeansEstimator->GetKmeansResults();
+  std::cout << "KMeansResults\n" << kmeansResult << std::endl;
 
   applyKmeansEstimator->SetCodebook(inCDBK);
   applyKmeansEstimator->Update();

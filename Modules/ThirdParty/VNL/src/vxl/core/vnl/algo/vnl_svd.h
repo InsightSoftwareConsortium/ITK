@@ -58,7 +58,7 @@
 //  It extends readily to n-ary operations, such as generalized
 //  eigensystems, which cannot be members of just one matrix.
 
-export template <class T>
+template <class T>
 class vnl_svd
 {
  public:
@@ -81,7 +81,7 @@ class vnl_svd
   // zeroing is relative to |zero_out_tol| * sigma_max();
 
   vnl_svd(vnl_matrix<T> const &M, double zero_out_tol = 0.0);
- ~vnl_svd() {}
+ virtual ~vnl_svd() {}
 
   // Data Access---------------------------------------------------------------
 
@@ -201,7 +201,7 @@ vnl_matrix<T> vnl_svd_inverse(vnl_matrix<T> const& m)
   return vnl_svd<T>(m).inverse();
 }
 
-export template <class T>
+template <class T>
 vcl_ostream& operator<<(vcl_ostream&, vnl_svd<T> const& svd);
 
 #endif // vnl_svd_h_

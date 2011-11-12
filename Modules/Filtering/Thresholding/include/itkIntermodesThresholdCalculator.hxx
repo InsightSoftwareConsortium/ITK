@@ -114,7 +114,7 @@ IntermodesThresholdCalculator<THistogram, TOutput>
     }
   else
     {
-    unsigned firstpeak=0, lastpeak=0;
+    unsigned firstpeak=0;
     for (unsigned i=1; i<smoothedHist.size() - 1; i++)
       {
       if (smoothedHist[i-1] < smoothedHist[i] && smoothedHist[i+1] < smoothedHist[i])
@@ -135,7 +135,6 @@ IntermodesThresholdCalculator<THistogram, TOutput>
         }
       if (smoothedHist[i-1] < smoothedHist[i] && smoothedHist[i+1] < smoothedHist[i])
         {
-        lastpeak = i;
         break;
         }
       }

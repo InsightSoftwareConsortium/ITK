@@ -102,6 +102,11 @@ public:
     }
 
     /**
+     * default destructor
+     */
+    virtual ~SimplexCellVisitor() {}
+
+    /**
      * \brief visits all polygon cells and compute the cell centers
      */
     void Visit(CellIdentifier cellId, SimplexPolygonType *poly)
@@ -155,7 +160,7 @@ protected:
 protected:
 
   SimplexMeshToTriangleMeshFilter();
-  ~SimplexMeshToTriangleMeshFilter();
+  virtual ~SimplexMeshToTriangleMeshFilter();
   SimplexMeshToTriangleMeshFilter(const Self &) {}
   void operator=(const Self &) {}
 

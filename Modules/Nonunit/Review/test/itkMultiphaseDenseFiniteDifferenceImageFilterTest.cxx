@@ -59,7 +59,6 @@ public:
 
 };
 
-
 }
 
 int itkMultiphaseDenseFiniteDifferenceImageFilterTest( int, char* [] )
@@ -79,6 +78,10 @@ int itkMultiphaseDenseFiniteDifferenceImageFilterTest( int, char* [] )
     SharedDataHelperType >                        RegionBasedLevelSetFunctionType;
 
   RegionBasedLevelSetFunctionType::Pointer function = RegionBasedLevelSetFunctionType::New();
+  if( function.IsNull() )
+    {
+    return EXIT_FAILURE;
+    }
 
   typedef unsigned long IdCellType;
 
@@ -90,7 +93,6 @@ int itkMultiphaseDenseFiniteDifferenceImageFilterTest( int, char* [] )
 
   std::cout << "GetNameOfClass() = " << filter->GetNameOfClass() << std::endl;
   filter->Print( std::cout );
-
 
   return EXIT_SUCCESS;
 }

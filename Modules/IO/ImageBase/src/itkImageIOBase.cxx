@@ -377,68 +377,61 @@ unsigned int ImageIOBase::GetComponentSize() const
 
 std::string ImageIOBase::GetFileTypeAsString(FileType t) const
 {
-  std::string s;
-
   switch ( t )
     {
     case ASCII:
-      return s = "ASCII";
+      return std::string( "ASCII");
     case Binary:
-      return s = "Binary";
+      return std::string( "Binary");
     case TypeNotApplicable:
     default:
-      return s = "TypeNotApplicable";
+      return std::string( "TypeNotApplicable");
     }
-  return s = "TypeNotApplicable";
+  //Not reachable return s = "TypeNotApplicable";
 }
 
 std::string ImageIOBase::GetByteOrderAsString(ByteOrder t) const
 {
-  std::string s;
-
   switch ( t )
     {
     case BigEndian:
-      return s = "BigEndian";
+      return std::string( "BigEndian");
     case LittleEndian:
-      return s = "LittleEndian";
+      return std::string( "LittleEndian");
     case OrderNotApplicable:
     default:
-      return s = "OrderNotApplicable";
+      return std::string( "OrderNotApplicable");
     }
-  return s = "OrderNotApplicable";
 }
 
 std::string ImageIOBase::GetComponentTypeAsString(IOComponentType t)
 {
-  std::string s;
-
   switch ( t )
     {
     case UCHAR:
-      return ( s = "unsigned_char" );
+      return std::string( "unsigned_char" );
     case CHAR:
-      return ( s = "char" );
+      return std::string( "char" );
     case USHORT:
-      return ( s = "unsigned_short" );
+      return std::string( "unsigned_short" );
     case SHORT:
-      return ( s = "short" );
+      return std::string( "short" );
     case UINT:
-      return ( s = "unsigned_int" );
+      return std::string( "unsigned_int" );
     case INT:
-      return ( s = "int" );
+      return std::string( "int" );
     case ULONG:
-      return ( s = "unsigned_long" );
+      return std::string( "unsigned_long" );
     case LONG:
-      return ( s = "long" );
+      return std::string( "long" );
     case FLOAT:
-      return ( s = "float" );
+      return std::string( "float" );
     case DOUBLE:
-      return ( s = "double" );
+      return std::string( "double" );
     case UNKNOWNCOMPONENTTYPE:
-      return ( s = "unknown" );
+      return std::string( "unknown" );
     default:
-      return ( s = "unknown" );
+      return std::string( "unknown" );
     }
 }
 
@@ -492,34 +485,32 @@ ImageIOBase::IOComponentType ImageIOBase::GetComponentTypeFromString(const std::
 
 std::string ImageIOBase::GetPixelTypeAsString(IOPixelType t)
 {
-  std::string s;
-
   switch ( t )
     {
     case SCALAR:
-      return ( s = "scalar" );
+      return std::string( "scalar" );
     case VECTOR:
-      return ( s = "vector" );
+      return std::string( "vector" );
     case COVARIANTVECTOR:
-      return ( s = "covariant_vector" );
+      return std::string( "covariant_vector" );
     case POINT:
-      return ( s = "point" );
+      return std::string( "point" );
     case OFFSET:
-      return ( s = "offset" );
+      return std::string( "offset" );
     case RGB:
-      return ( s = "rgb" );
+      return std::string( "rgb" );
     case RGBA:
-      return ( s = "rgba" );
+      return std::string( "rgba" );
     case SYMMETRICSECONDRANKTENSOR:
-      return ( s = "symmetric_second_rank_tensor" );
+      return std::string( "symmetric_second_rank_tensor" );
     case DIFFUSIONTENSOR3D:
-      return ( s = "diffusion_tensor_3D" );
+      return std::string( "diffusion_tensor_3D" );
     case COMPLEX:
-      return ( s = "complex" );
+      return std::string( "complex" );
     case UNKNOWNPIXELTYPE:
-      return ( s = "unknown" );
+      return std::string( "unknown" );
     default:
-      return ( s = "unknown" );
+      return std::string( "unknown" );
     }
 }
 

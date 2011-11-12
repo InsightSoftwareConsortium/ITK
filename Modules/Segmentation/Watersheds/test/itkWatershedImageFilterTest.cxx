@@ -65,7 +65,6 @@ int itkWatershedImageFilterTest(int, char* [] )
     q = q + 0.10f;
     }
 
-
   println("Testing various associated objects");
   println("Testing EquivalenceRelabeler");
   itk::EquivalencyTable::Pointer t= itk::EquivalencyTable::New();
@@ -90,16 +89,22 @@ int itkWatershedImageFilterTest(int, char* [] )
   wmppc->Execute(constp, itk::ProgressEvent());
   wmppc->Execute(eq.GetPointer(), itk::ProgressEvent());
 
-
   println("Testing watershed::BoundaryResolver");
-  itk::watershed::BoundaryResolver<float, 2>::Pointer br
-    = itk::watershed::BoundaryResolver<float, 2>::New();
-  itk::watershed::Boundary<float, 1>::Pointer boundaryA
-    = itk::watershed::Boundary<float, 1>::New();
-  itk::watershed::Boundary<float, 1>::Pointer boundaryB
-    = itk::watershed::Boundary<float, 1>::New();
-
-
+  itk::watershed::BoundaryResolver<float, 2>::Pointer br = itk::watershed::BoundaryResolver<float, 2>::New();
+  if( br.IsNull() )
+    {
+    return EXIT_FAILURE;
+    }
+  itk::watershed::Boundary<float, 1>::Pointer boundaryA = itk::watershed::Boundary<float, 1>::New();
+  if( boundaryA.IsNull() )
+    {
+    return EXIT_FAILURE;
+    }
+  itk::watershed::Boundary<float, 1>::Pointer boundaryB = itk::watershed::Boundary<float, 1>::New();
+  if( boundaryB.IsNull() )
+    {
+    return EXIT_FAILURE;
+    }
 
   println("Creating the watershed filter");
   itk::WatershedImageFilter<ImageType2D>::Pointer ws_filter =

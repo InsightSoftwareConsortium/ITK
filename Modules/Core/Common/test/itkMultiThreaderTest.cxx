@@ -77,6 +77,10 @@ int itkMultiThreaderTest(int argc, char* argv[])
     }
 
   itk::MultiThreader::Pointer    threader = itk::MultiThreader::New();
+  if(threader.IsNull())
+    {
+    return EXIT_FAILURE;
+    }
 
   itk::MultiThreader::SetGlobalDefaultNumberOfThreads( numberOfThreads );
 

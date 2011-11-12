@@ -43,6 +43,8 @@
     void Visit ( int, Bogus* ) {};
     int GetCellTopologyId() { return 1; };
     int GetTopologyId() { return 1; };
+    Bogus() {}
+    virtual ~Bogus() {}
   };
 
 int itkNewTest ( int , char* [] )
@@ -50,7 +52,12 @@ int itkNewTest ( int , char* [] )
   // Call New and Print on as many classes as possible
 
   // CellInterfaceVisitorImplementation
-  itk::CellInterfaceVisitorImplementation<float, itk::Mesh<float>::CellTraits, Bogus, Bogus>::Pointer CIVI = itk::CellInterfaceVisitorImplementation<float, itk::Mesh<float>::CellTraits, Bogus, Bogus>::New();
+  itk::CellInterfaceVisitorImplementation<float, itk::Mesh<float>::CellTraits, Bogus, Bogus>::Pointer CIVI
+    = itk::CellInterfaceVisitorImplementation<float, itk::Mesh<float>::CellTraits, Bogus, Bogus>::New();
+  if(CIVI.IsNull())
+    {
+    return EXIT_FAILURE;
+    }
 
   // CreateObjectFunction
   // itk::CreateObjectFunction<itk::Mesh<int> >::Pointer COF = itk::CreateObjectFunction<itk::Mesh<int> >::New();
@@ -73,11 +80,17 @@ int itkNewTest ( int , char* [] )
   // AddImageFilter
   typedef itk::AddImageFilter<itk::Image<double>, itk::Image<double>, itk::Image<double> > iFIA;
   iFIA::Pointer FIA = iFIA::New();
+  if(FIA.IsNull())
+    {
+    return EXIT_FAILURE;
+    }
 
   // BinaryImageFilter
   typedef itk::BinaryFunctorImageFilter<itk::Image<double>, itk::Image<double>, itk::Image<double>, Bogus > iFIB;
   iFIB::Pointer FIB = iFIB::New();
-
+  if(FIB.IsNull())
+    {
+    return EXIT_FAILURE;
+    }
   return EXIT_SUCCESS;
-
 }

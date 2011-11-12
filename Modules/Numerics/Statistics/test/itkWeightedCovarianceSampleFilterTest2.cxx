@@ -21,7 +21,6 @@
 #include "itkArray.h"
 
 const unsigned int                  MeasurementVectorSize2 = 3;
-const unsigned int                  numberOfMeasurementVectors2 = 3;
 unsigned int                        counter2 = 0;
 
 typedef itk::Array< float >         MeasurementVectorType2;

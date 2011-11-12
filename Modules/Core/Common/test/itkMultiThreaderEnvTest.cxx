@@ -31,6 +31,10 @@ int itkMultiThreaderEnvTest(int argc, char* argv[])
   const unsigned int requiredValue = static_cast<unsigned int>( atoi( argv[1] ) );
 
   itk::MultiThreader::Pointer    threader = itk::MultiThreader::New();
+  if(threader.IsNull())
+    {
+    return EXIT_FAILURE;
+    }
   if( itk::MultiThreader::GetGlobalDefaultNumberOfThreads() != requiredValue )
     {
     std::cout << "ERROR: Wrong number of maximum number of threads set from environment. "

@@ -56,27 +56,28 @@ namespace itk
     };
 }
 
-int itkFastMarchingStoppingCriterionBaseTest( int argc, char* argv[] )
-  {
-  (void) argc;
-  (void) argv;
-
+int itkFastMarchingStoppingCriterionBaseTest( int , char *[] )
+{
   typedef itk::Image< float, 2> ImageType;
 
   typedef itk::FastMarchingStoppingCriterionBaseHelperTest< ImageType, ImageType >
     ImageStoppingCriterionType;
 
-  ImageStoppingCriterionType::Pointer image_criterion =
-      ImageStoppingCriterionType::New();
+  ImageStoppingCriterionType::Pointer image_criterion = ImageStoppingCriterionType::New();
+  if( image_criterion.IsNull() )
+    {
+    return EXIT_FAILURE;
+    }
 
-  typedef itk::QuadEdgeMesh< float, 3 >
-      MeshType;
+  typedef itk::QuadEdgeMesh< float, 3 > MeshType;
 
   typedef itk::FastMarchingStoppingCriterionBaseHelperTest< MeshType, MeshType >
       MeshStoppingCriterionType;
 
-  MeshStoppingCriterionType::Pointer mesh_criterion =
-      MeshStoppingCriterionType::New();
-
+  MeshStoppingCriterionType::Pointer mesh_criterion = MeshStoppingCriterionType::New();
+  if( mesh_criterion.IsNull() )
+    {
+    return EXIT_FAILURE;
+    }
   return EXIT_SUCCESS;
-  }
+}

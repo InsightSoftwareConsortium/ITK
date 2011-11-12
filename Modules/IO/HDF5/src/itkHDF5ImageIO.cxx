@@ -648,16 +648,16 @@ HDF5ImageIO
     {
     this->m_H5File = new H5::H5File(this->GetFileName(),
                                     H5F_ACC_RDONLY);
-    std::string fileVersion =
-      this->ReadString(ItkVersion);
+
     // not sure what to do with this initially
-    std::string hdfVersion =
-      this->ReadString(HDFVersion);
+    //eventually it will be needed if the file versions change
+    //std::string fileVersion = this->ReadString(ItkVersion);
+    //std::string hdfVersion = this->ReadString(HDFVersion);
 
     std::string groupName(ImageGroup);
-    H5::Group imageGroup(this->m_H5File->openGroup(groupName));
+    //H5::Group imageGroup(this->m_H5File->openGroup(groupName));
     groupName += "/0";
-    H5::Group instanceGroup(this->m_H5File->openGroup(groupName));
+    //H5::Group instanceGroup(this->m_H5File->openGroup(groupName));
     std::string OriginName(groupName);
     OriginName += Origin;
     this->m_Origin =
@@ -698,7 +698,7 @@ HDF5ImageIO
     }
     std::string VoxelTypeName(groupName);
     VoxelTypeName += VoxelType;
-    std::string typeVal = this->ReadString(VoxelTypeName);
+    //std::string typeVal = this->ReadString(VoxelTypeName);
 
 
     std::string VoxelDataName(groupName);
@@ -1008,9 +1008,9 @@ HDF5ImageIO
     this->WriteString(HDFVersion,
                                 H5_VERS_INFO);
     std::string groupName(ImageGroup);
-    H5::Group imageGroup(this->m_H5File->createGroup(groupName));
+    this->m_H5File->createGroup(groupName);
     groupName += "/0";
-    H5::Group instanceGroup(this->m_H5File->createGroup(groupName));
+    this->m_H5File->createGroup(groupName);
     std::string OriginName(groupName);
     OriginName += Origin;
     this->WriteVector(OriginName,this->m_Origin);
@@ -1034,8 +1034,7 @@ HDF5ImageIO
 
     std::string MetaDataGroupName(groupName);
     MetaDataGroupName += MetaDataName;
-    H5::Group metaDataGroup =
-      this->m_H5File->createGroup(MetaDataGroupName);
+    this->m_H5File->createGroup(MetaDataGroupName);
     //
     // MetaData.
     MetaDataDictionary & metaDict = this->GetMetaDataDictionary();

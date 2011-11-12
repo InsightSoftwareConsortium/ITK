@@ -304,12 +304,12 @@ void StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
 
     if ( text.find("numDim") < text.length() )
       {
-      sscanf(line, "%*s %d", &dim);
+      sscanf(line, "%*s %u", &dim);
       this->SetNumberOfDimensions(dim);
       }
     else if ( text.find("dim") < text.length() )
       {
-      sscanf(line, "%*s %d %d %d %d", dims, dims + 1, dims + 2, dims + 3);
+      sscanf(line, "%*s %u %u %u %u", dims, dims + 1, dims + 2, dims + 3);
       if ( m_NumberOfDimensions > 3 && dims[3] <= 1 )
         {
         this->SetNumberOfDimensions(3);

@@ -89,7 +89,6 @@ bool DoRegistration ()
   typename MetricType::Pointer         metric        = MetricType::New();
   typename TransformType::Pointer      transform     = TransformType::New();
   typename OptimizerType::Pointer      optimizer     = OptimizerType::New();
-  typename TransformType::Pointer      trasform      = TransformType::New();
   typename InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
   typename RegistrationType::Pointer   registration  = RegistrationType::New();
 

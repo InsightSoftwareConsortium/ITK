@@ -111,7 +111,7 @@ private:
 
   struct DispatchBase {};
   template< unsigned int >
-  struct Dispatch: DispatchBase {};
+  struct Dispatch: public DispatchBase {};
 
   inline OutputType EvaluateOptimized(const Dispatch< 0 > &,
                                       const ContinuousIndexType & ) const

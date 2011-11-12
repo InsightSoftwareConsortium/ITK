@@ -231,6 +231,8 @@ int itk2DDeformableTest(int, char* [])
   DMesh::Pointer displacements = m_dfilter->GetDisplacements();
   DMesh::Pointer derives = m_dfilter->GetDerives();
   DMesh::Pointer forces = m_dfilter->GetForces();
+  std::cout << normals << " " << locations << " "
+            << displacements << " " << derives << " " << forces << std::endl;
 
   DMesh::PointsContainerPointer     points;
   DMesh::CellsContainerPointer      cells;
@@ -240,5 +242,4 @@ int itk2DDeformableTest(int, char* [])
 
 // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;
-
 }

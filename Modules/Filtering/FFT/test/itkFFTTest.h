@@ -46,6 +46,8 @@ test_fft(unsigned int *SizeOfDimensions)
   typename RealImageType::SizeType  imageSize;
   typename RealImageType::IndexType imageIndex;
 
+  typedef typename RealImageType::IndexType::IndexValueType indexValueType;
+
   // We are testing the FFT for 1D, 2D, and 3D images. An array
   // (SizeOfDimensions) containing the sizes of each dimension is
   // passed as an argument to this function. Based on the template
@@ -54,7 +56,7 @@ test_fft(unsigned int *SizeOfDimensions)
   for (unsigned int i = 0; i < VImageDimensions; i++)
     {
     imageSize.SetElement( i, SizeOfDimensions[i] );
-    imageIndex.SetElement( i, -2*i ); // Test for handling non-zero
+    imageIndex.SetElement( i, -2*static_cast<indexValueType>(i) ); // Test for handling non-zero
                                       // image indices correctly
     }
 

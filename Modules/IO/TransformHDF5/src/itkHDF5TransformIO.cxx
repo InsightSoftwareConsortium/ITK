@@ -299,7 +299,7 @@ HDF5TransformIO
                     const TransformBase *curTransform)
 {
   std::string transformName(GetTransformName(transformIndex));
-  H5::Group transform = this->m_H5File->createGroup(transformName);
+  this->m_H5File->createGroup(transformName);
   const std::string transformType = curTransform->GetTransformTypeAsString();
   //
   // write out transform type.
@@ -349,7 +349,7 @@ HDF5TransformIO
     this->WriteString(OSName,sysInfo.GetOSName());
     this->WriteString(OSVersion,sysInfo.GetOSRelease());
 
-    H5::Group transformGroup = this->m_H5File->createGroup(transformGroupName);
+    this->m_H5File->createGroup(transformGroupName);
 
     ConstTransformListType &transformList =
       this->GetWriteTransformList();

@@ -48,11 +48,9 @@
 //
 // Software Guide : EndLatex
 
-
 // Software Guide : BeginCodeSnippet
 #include "itkAffineTransform.h"
 // Software Guide : EndCodeSnippet
-
 
 #include "itkCenteredTransformInitializer.h"
 #include "itkMultiResolutionImageRegistrationMethod.h"
@@ -60,7 +58,6 @@
 #include "itkRegularStepGradientDescentOptimizer.h"
 #include "itkRecursiveMultiResolutionPyramidImageFilter.h"
 #include "itkImage.h"
-
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
@@ -107,7 +104,6 @@ public:
 private:
   unsigned int m_CumulativeIterationIndex;
 };
-
 
 //  The following section of code implements a Command observer
 //  that will control the modification of optimizer parameters
@@ -182,7 +178,6 @@ int main( int argc, char *argv[] )
   typedef   float                                    InternalPixelType;
   typedef itk::Image< InternalPixelType, Dimension > InternalImageType;
 
-
   //  Software Guide : BeginLatex
   //
   //  The configuration of the registration method in this example closely
@@ -198,7 +193,6 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   typedef itk::AffineTransform< double, Dimension > TransformType;
   // Software Guide : EndCodeSnippet
-
 
   typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
   typedef itk::LinearInterpolateImageFunction<
@@ -229,7 +223,6 @@ int main( int argc, char *argv[] )
   registration->SetInterpolator(  interpolator  );
   registration->SetMetric( metric  );
 
-
   //  Software Guide : BeginLatex
   //
   //  The transform is constructed using the standard \code{New()} method and
@@ -245,13 +238,6 @@ int main( int argc, char *argv[] )
   TransformType::Pointer   transform  = TransformType::New();
   registration->SetTransform( transform );
   // Software Guide : EndCodeSnippet
-
-
-  FixedImagePyramidType::Pointer fixedImagePyramid =
-      FixedImagePyramidType::New();
-  MovingImagePyramidType::Pointer movingImagePyramid =
-      MovingImagePyramidType::New();
-
 
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
   typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
@@ -279,7 +265,6 @@ int main( int argc, char *argv[] )
 
   registration->SetFixedImageRegion(
        fixedCaster->GetOutput()->GetBufferedRegion() );
-
 
   //  Software Guide : BeginLatex
   //
@@ -309,7 +294,6 @@ int main( int argc, char *argv[] )
 
   registration->SetInitialTransformParameters( transform->GetParameters() );
   // Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //
@@ -344,7 +328,6 @@ int main( int argc, char *argv[] )
   optimizerScales[5] = 1.0 / 1e7; // scale for translation on Y
   // Software Guide : EndCodeSnippet
 
-
   //  Software Guide : BeginLatex
   //
   //  Here the affine transform is represented by the matrix $\bf{M}$ and the
@@ -376,7 +359,6 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-
   //  Software Guide : BeginLatex
   //
   //  The array of scales is then passed to the optimizer using the
@@ -393,7 +375,6 @@ int main( int argc, char *argv[] )
   metric->SetNumberOfHistogramBins( 128 );
   metric->SetNumberOfSpatialSamples( 50000 );
 
-
   if( argc > 8 )
     {
     // optionally, override the values with numbers taken from the command line arguments.
@@ -405,7 +386,6 @@ int main( int argc, char *argv[] )
     // optionally, override the values with numbers taken from the command line arguments.
     metric->SetNumberOfSpatialSamples( atoi( argv[9] ) );
     }
-
 
  //  Software Guide : BeginLatex
   //
@@ -430,7 +410,6 @@ int main( int argc, char *argv[] )
     metric->SetUseExplicitPDFDerivatives( atoi( argv[7] ) );
     }
 
-
   //  Software Guide : BeginLatex
   //
   //  The step length has to be proportional to the expected values of the
@@ -450,12 +429,10 @@ int main( int argc, char *argv[] )
   optimizer->SetNumberOfIterations(  200  );
   optimizer->SetRelaxationFactor( 0.8 );
 
-
   // Create the Command observer and register it with the optimizer.
   //
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
   optimizer->AddObserver( itk::IterationEvent(), observer );
-
 
   // Create the Command interface observer and register it with the optimizer.
   //
@@ -491,7 +468,6 @@ int main( int argc, char *argv[] )
 
   double bestValue = optimizer->GetValue();
 
-
   // Print out results
   //
   std::cout << "Result = " << std::endl;
@@ -499,7 +475,6 @@ int main( int argc, char *argv[] )
   std::cout << " Translation Y = " << TranslationAlongY  << std::endl;
   std::cout << " Iterations    = " << numberOfIterations << std::endl;
   std::cout << " Metric value  = " << bestValue          << std::endl;
-
 
   //  Software Guide : BeginLatex
   //
@@ -544,7 +519,6 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-
   typedef itk::ResampleImageFilter<
                             MovingImageType,
                             FixedImageType >    ResampleFilterType;
@@ -573,7 +547,6 @@ int main( int argc, char *argv[] )
   resample->SetOutputDirection( fixedImage->GetDirection() );
   resample->SetDefaultPixelValue( backgroundGrayLevel );
 
-
   typedef  unsigned char                           OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
   typedef itk::CastImageFilter<
@@ -589,7 +562,6 @@ int main( int argc, char *argv[] )
   caster->SetInput( resample->GetOutput() );
   writer->SetInput( caster->GetOutput()   );
   writer->Update();
-
 
   //  Software Guide : BeginLatex
   //
@@ -657,7 +629,6 @@ int main( int argc, char *argv[] )
     writer->Update();
     }
 
-
   // After registration
   resample->SetTransform( finalTransform );
   if( argc > 6 )
@@ -665,7 +636,6 @@ int main( int argc, char *argv[] )
     writer->SetFileName( argv[6] );
     writer->Update();
     }
-
 
   return EXIT_SUCCESS;
 }

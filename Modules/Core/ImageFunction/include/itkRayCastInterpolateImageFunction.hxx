@@ -76,24 +76,6 @@ public:
   bool SetRay(OutputPointType RayPosn, DirectionType RayDirn);
 
   /** \brief
-   *  Integrate the interpolated intensities along the ray and
-   *  return the result.
-   *
-   *  This routine can be called after instantiating the ray and
-   *  calling SetProjectionCoord2D() or Reset(). It may then be called
-   *  as many times thereafter for different 2D projection
-   *  coordinates.
-   *
-   *  \param integral      The integrated intensities along the ray.
-   *
-   * \return True if a valid ray was specified.
-   */
-  bool Integrate(double & integral)
-  {
-    return IntegrateAboveThreshold(integral, 0);
-  }
-
-  /** \brief
    * Integrate the interpolated intensities above a given threshold,
    * along the ray and return the result.
    *
@@ -108,14 +90,6 @@ public:
    * \return True if a valid ray was specified.
    */
   bool IntegrateAboveThreshold(double & integral, double threshold);
-
-  /** \brief
-   * Increment each of the intensities of the 4 planar voxels
-   * surrounding the current ray point.
-   *
-   * \parameter increment      Intensity increment for each of the current 4 voxels
-   */
-  void IncrementIntensities(double increment = 1);
 
   /// Reset the iterator to the start of the ray.
   void Reset(void);
@@ -1312,29 +1286,6 @@ RayCastHelper< TInputImage, TCoordRep >
     }
 
   return a + b * y + c * z + d * y * z;
-}
-
-/* -----------------------------------------------------------------------
-   IncrementIntensities() - Increment the intensities of the current ray point
-   ----------------------------------------------------------------------- */
-
-template< class TInputImage, class TCoordRep >
-void
-RayCastHelper< TInputImage, TCoordRep >
-::IncrementIntensities(double increment)
-{
-  short inc = (short)vcl_floor(increment + 0.5);
-
-  if ( !m_ValidRay )
-    {
-    return;
-    }
-  *m_RayIntersectionVoxels[0] += inc;
-  *m_RayIntersectionVoxels[1] += inc;
-  *m_RayIntersectionVoxels[2] += inc;
-  *m_RayIntersectionVoxels[3] += inc;
-
-  return;
 }
 
 /* -----------------------------------------------------------------------

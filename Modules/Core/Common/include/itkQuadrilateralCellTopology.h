@@ -37,7 +37,7 @@ class ITKCommon_EXPORT QuadrilateralCellTopology
 {
 public:
   QuadrilateralCellTopology();
-  ~QuadrilateralCellTopology();
+  virtual ~QuadrilateralCellTopology();
 protected:
   /** Quadrilateral topology data. */
   static const int m_Edges[4][2];

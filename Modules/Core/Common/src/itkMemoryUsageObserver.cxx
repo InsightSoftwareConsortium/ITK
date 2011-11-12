@@ -271,7 +271,7 @@ WindowsMemoryUsageObserver::GetMemoryUsage()
 
 #endif // WIN32
 
-#if linux
+#if defined(linux)
 
 /**         ----         Linux Memory Usage Observer       ----       */
 

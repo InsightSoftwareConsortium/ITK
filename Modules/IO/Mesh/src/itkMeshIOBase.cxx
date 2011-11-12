@@ -117,118 +117,111 @@ std::string
 MeshIOBase
 ::GetFileTypeAsString(FileType t) const
 {
-  std::string s;
-
   switch ( t )
     {
     case ASCII:
-      return s = "ASCII";
+      return std::string("ASCII");
     case BINARY:
-      return s = "BINARY";
+      return std::string("BINARY");
     case TYPENOTAPPLICABLE:
+      break;
     default:
-      return s = "TYPENOTAPPLICABLE";
+      break;
     }
-
-  return s = "TYPENOTAPPLICABLE";
+  return std::string("TYPENOTAPPLICABLE");
 }
 
 std::string
 MeshIOBase::
 GetByteOrderAsString(ByteOrder t) const
 {
-  std::string s;
-
   switch ( t )
     {
     case BigEndian:
-      return s = "BigEndian";
+      return std::string("BigEndian");
     case LittleEndian:
-      return s = "LittleEndian";
+      return std::string("LittleEndian");
     case OrderNotApplicable:
+      break;
     default:
-      return s = "OrderNotApplicable";
+      break;
     }
-
-  return s = "OrderNotApplicable";
+  return std::string("OrderNotApplicable");
 }
 
 std::string
 MeshIOBase
 ::GetComponentTypeAsString(IOComponentType t) const
 {
-  std::string s;
-
   switch ( t )
     {
     case UCHAR:
-      return ( s = "unsigned_char" );
+      return std::string( "unsigned_char" );
     case CHAR:
-      return ( s = "char" );
+      return std::string( "char" );
     case USHORT:
-      return ( s = "unsigned_short" );
+      return std::string( "unsigned_short" );
     case SHORT:
-      return ( s = "short" );
+      return std::string( "short" );
     case UINT:
-      return ( s = "unsigned_int" );
+      return std::string( "unsigned_int" );
     case INT:
-      return ( s = "int" );
+      return std::string( "int" );
     case ULONG:
-      return ( s = "unsigned_long" );
+      return std::string( "unsigned_long" );
     case LONG:
-      return ( s = "long" );
+      return std::string( "long" );
     case LONGLONG:
-      return ( s = "long_long" );
+      return std::string( "long_long" );
     case ULONGLONG:
-      return ( s = "unsigned_long_long" );
+      return std::string( "unsigned_long_long" );
     case FLOAT:
-      return ( s = "float" );
+      return std::string( "float" );
     case DOUBLE:
-      return ( s = "double" );
+      return std::string( "double" );
     case LDOUBLE:
-      return ( s = "long_doulbe" );
+      return std::string( "long_doulbe" );
     case UNKNOWNCOMPONENTTYPE:
+      break;
     default:
-      return ( s = "unknown" );
+      break;
     }
-
-  return ( s = "unknown" );
+  return std::string( "unknown" );
 }
 
 std::string
 MeshIOBase
 ::GetPixelTypeAsString(IOPixelType t) const
 {
-  std::string s;
-
   switch ( t )
     {
     case SCALAR:
-      return ( s = "scalar" );
+      return std::string( "scalar" );
     case VECTOR:
-      return ( s = "vector" );
+      return std::string( "vector" );
     case COVARIANTVECTOR:
-      return ( s = "covariant_vector" );
+      return std::string( "covariant_vector" );
     case POINT:
-      return ( s = "point" );
+      return std::string( "point" );
     case OFFSET:
-      return ( s = "offset" );
+      return std::string( "offset" );
     case RGB:
-      return ( s = "rgb" );
+      return std::string( "rgb" );
     case RGBA:
-      return ( s = "rgba" );
+      return std::string( "rgba" );
     case SYMMETRICSECONDRANKTENSOR:
-      return ( s = "symmetric_second_rank_tensor" );
+      return std::string( "symmetric_second_rank_tensor" );
     case DIFFUSIONTENSOR3D:
-      return ( s = "diffusion_tensor_3D" );
+      return std::string( "diffusion_tensor_3D" );
     case COMPLEX:
-      return ( s = "complex" );
+      return std::string( "complex" );
     case UNKNOWNPIXELTYPE:
+      break;
     default:
-      itkExceptionMacro ("Unknown pixel type: " << t);
+      break;
     }
-
-  return ( s = "unknown" );
+  itkExceptionMacro ("Unknown pixel type: " << t);
+  return std::string( "unknown" );
 }
 
 void

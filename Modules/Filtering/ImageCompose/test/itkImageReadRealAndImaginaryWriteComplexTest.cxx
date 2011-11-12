@@ -88,8 +88,9 @@ int itkImageReadRealAndImaginaryWriteComplexTest( int argc, char * argv[] )
   // check that the default template parameters work
   typedef itk::ComposeImageFilter < InputImageType > DefaultParametersFilterType;
   DefaultParametersFilterType::Pointer temp = DefaultParametersFilterType::New();
-
-
+  if( temp.IsNull() )
+    {
+    return EXIT_FAILURE;
+    }
   return EXIT_SUCCESS;
-
 }
