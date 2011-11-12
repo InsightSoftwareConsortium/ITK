@@ -21,6 +21,9 @@
 #include "itkVTKVisualize2DLevelSetAsElevationMap.h"
 
 #include "vtkScalarsToColors.h"
+#include "vtkDoubleArray.h"
+#include "vtkPointData.h"
+#include "vtkCellArray.h"
 
 namespace itk
 {
@@ -49,6 +52,21 @@ VTKVisualize2DLevelSetAsElevationMap< TInputImage, TLevelSet >
 
   this->m_Annotation = vtkSmartPointer< vtkCornerAnnotation >::New();
   this->m_Renderer->AddActor2D( this->m_Annotation );
+
+  this->m_ImageShiftScale = vtkSmartPointer< vtkImageShiftScale >::New();
+  this->m_ImageShiftScale->SetOutputScalarTypeToUnsignedChar();
+
+  this->m_ImageActor = vtkSmartPointer< vtkImageActor >::New();
+  this->m_ImageActor->SetInput( this->m_ImageShiftScale->GetOutput() );
+  this->m_Renderer->AddActor( this->m_ImageActor );
+
+  this->m_MeshMapper = vtkSmartPointer< vtkPolyDataMapper >::New();
+  this->m_MeshMapper->SetInput( this->m_Mesh );
+
+  this->m_SurfaceActor = vtkSmartPointer< vtkActor >::New();
+  this->m_SurfaceActor->SetMapper( this->m_MeshMapper );
+  this->m_SurfaceActor->GetProperty( )->SetColor( 0.7, 0.7, 0.7 );
+  this->m_Renderer->AddActor( this->m_SurfaceActor );
 }
 
 template< class TInputImage, class TLevelSet >
@@ -68,51 +86,40 @@ VTKVisualize2DLevelSetAsElevationMap< TInputImage, TLevelSet >
 template< class TInputImage, class TLevelSet >
 void
 VTKVisualize2DLevelSetAsElevationMap< TInputImage, TLevelSet >
+::SetInputImage( const InputImageType * inputImage )
+{
+  Superclass::SetInputImage( inputImage );
+  this->m_ImageShiftScale->SetInput( this->m_InputImageConverter->GetOutput() );
+  this->m_ImageShiftScale->Update();
+}
+
+template< class TInputImage, class TLevelSet >
+void
+VTKVisualize2DLevelSetAsElevationMap< TInputImage, TLevelSet >
 ::PrepareVTKPipeline()
 {
-  vtkSmartPointer< vtkImageShiftScale > shift =
-      vtkSmartPointer< vtkImageShiftScale >::New();
-  shift->SetInput( this->m_InputImageConverter->GetOutput() );
-  shift->SetOutputScalarTypeToUnsignedChar();
-  shift->Update();
-
-  vtkSmartPointer< vtkImageActor > input_Actor =
-      vtkSmartPointer< vtkImageActor >::New();
-  input_Actor->SetInput( shift->GetOutput() );
-
   this->GenerateElevationMap();
 
-  vtkPolyDataMapper* meshmapper = vtkPolyDataMapper::New( );
-  meshmapper->SetInput( this->m_Mesh );
 
   if( !this->m_ColorValue )
     {
-    meshmapper->ScalarVisibilityOff( );
+    this->m_MeshMapper->ScalarVisibilityOff( );
     }
   else
     {
-    meshmapper->SetScalarRange( this->m_MinValue, this->m_MaxValue );
-    vtkScalarsToColors * lookupTable = meshmapper->GetLookupTable();
+    this->m_MeshMapper->ScalarVisibilityOn( );
+    this->m_MeshMapper->SetScalarRange( this->m_MinValue, this->m_MaxValue );
+    vtkScalarsToColors * lookupTable = this->m_MeshMapper->GetLookupTable();
     lookupTable->SetRange( this->m_MinValue, this->m_MaxValue );
     lookupTable->Build();
 
     this->m_ScalarBarActor->SetLookupTable( lookupTable );
     }
 
-  vtkActor *SurfaceActor = vtkActor::New( );
-  SurfaceActor->SetMapper( meshmapper );
-  SurfaceActor->GetProperty( )->SetColor( 0.7, 0.7, 0.7 );
-
-  this->m_Renderer->AddActor ( input_Actor );
-  this->m_Renderer->AddActor ( SurfaceActor );
-
   std::stringstream counter;
   counter << this->GetCurrentIteration();
 
   m_Annotation->SetText( 0, counter.str().c_str() );
-
-  this->m_Renderer->AddActor2D( input_Actor );
-  //      m_Ren->AddActor2D( scalarbar );
 }
 
 template< class TInputImage, class TLevelSet >

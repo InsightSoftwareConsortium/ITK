@@ -59,7 +59,6 @@ void GenerateImage( typename TImage::Pointer ioImage )
     it.Set( itk::NumericTraits< PixelType >::max() );
     ++it;
     }
-
 }
 
 int vtkVisualize2DShiLevelSetLayersTest( int , char* [] )

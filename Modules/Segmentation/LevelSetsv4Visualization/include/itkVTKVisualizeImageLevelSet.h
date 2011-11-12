@@ -55,6 +55,7 @@ public:
   /** Type of the ITK filter to convert the input image to a VTK object. */
   typedef TInputImageConverter InputImageConverterType;
 
+  /** Set the input image the level set is being evolved over. */
   virtual void SetInputImage( const InputImageType * inputImage );
 
   /** Do a screen capture at every iteration. */
