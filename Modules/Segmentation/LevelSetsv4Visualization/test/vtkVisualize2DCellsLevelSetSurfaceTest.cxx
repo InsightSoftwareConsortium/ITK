@@ -81,7 +81,7 @@ VisualizeLevelSetSurface( TInputImage * inputImage, const int numberOfIterations
   // The Heaviside function
   typedef typename itk::SinRegularizedHeavisideStepFunction< LevelSetRealType, LevelSetRealType > HeavisideFunctionType;
   typename HeavisideFunctionType::Pointer heaviside = HeavisideFunctionType::New();
-  heaviside->SetEpsilon( 1.0 );
+  heaviside->SetEpsilon( 1.5 );
   std::cout << "Heaviside function created" << std::endl;
 
   // Create the level set container
