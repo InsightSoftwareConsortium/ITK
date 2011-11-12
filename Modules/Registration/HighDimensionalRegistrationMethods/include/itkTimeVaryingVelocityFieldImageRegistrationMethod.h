@@ -44,8 +44,8 @@ class Array1DToData;
  * is specialized to handle time-varying velocity field transforms
  * of which there are currently 2:
  *
- * 1) TimeVaryingDisplacementFieldTransform
- * 2) GaussianSmoothingOnUpdateTimeVaryingDisplacementFieldTransform
+ * -# TimeVaryingDisplacementFieldTransform
+ * -# GaussianSmoothingOnUpdateTimeVaryingDisplacementFieldTransform
  *
  * The latter is derived from the former and performs an optional
  * spatial and temporal smoothing on the update and total velocity
@@ -66,15 +66,16 @@ class Array1DToData;
  * field at each iteration after being multiplied by the
  * learning rate and optionally smoothed.  Mathematically,
  * this can be described as
-
- * v_{total} = G_1( v_{total} + \lambda * G_2( v_{update} ) )
  *
+ * \f[
+ * v_{total} = G_1( v_{total} + \lambda * G_2( v_{update} ) )
+ * \f]
  * where
 
- * G_1 = gaussian smoothing on the total field
- * G_2 = gaussian smoothing on the update field
- * \lambda = learning rate
- * v_{update} = the normalized velocity field where we
+ * \f$ G_1 = \f$ gaussian smoothing on the total field
+ * \f$ G_2 = \f$ gaussian smoothing on the update field
+ * \f$ \lambda = \f$ learning rate
+ * \f$ v_{update} = \f$ the normalized velocity field where we
  * normalize the velocity field at each time point
  * separately by the max norm of the field at that time
  * point. This is done due to a weakly necessary

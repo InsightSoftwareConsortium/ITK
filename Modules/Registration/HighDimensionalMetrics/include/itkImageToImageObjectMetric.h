@@ -381,7 +381,10 @@ public:
    * This method will allocate \c m_VirtualDomainImage with the passed
    * information. Metric evaluation will be performed over
    * the image's buffered region.
-   * \param region is used to set all image regions.
+   * \param spacing   spacing
+   * \param origin    origin
+   * \param direction direction
+   * \param region    region is used to set all image regions.
    * If the user does not set this explicitly then it is taken from the fixed
    * image in \c Initialize method.
    * To define the virtual domain from an existing image,
@@ -603,9 +606,11 @@ protected:
    * Derived classes that use \c GetValueAndDerivativeThreadedExecute
    * to initiate process must override this method, otherwise an exception
    * is thrown.
+   *
    * \note This method is not pure virtual because some derived classes
    * do not use \c GetValueAndDerivativeThreadedExecute, and instead
    * provide their own processing control.
+   *
    * \param virtualPoint is the point within the virtual domain from which
    * the passed parameters have been calculated.
    * \param mappedFixedPoint is a valid point within the moving image space
@@ -623,13 +628,15 @@ protected:
    *  These three parameters hold the point, pixel value and image gradient for
    *  the moving image space, as described above for the fixed image space.
    * Results must be returned by derived classes in:
-   *   \param metricValueReturn, and
-   *   \param localDerivativeReturn
-   * \param threadID may be used as needed, for example to access any per-thread
+   * \param[out] metricValueReturn
+   * \param[out] localDerivativeReturn
+   * \param[out] threadID may be used as needed, for example to access any per-thread
    * data cached during pre-processing by the derived class.
+   *
    * \warning The derived class should use \c GetNumberOfThreads from this base
-   * class only after ImageToImageObjectMetric:: Initialize has been called, to
+   * class only after ImageToImageObjectMetric\:: Initialize has been called, to
    * assure that the same number of threads are used.
+   *
    * \warning  This is called from the threader, and thus must be thread-safe.
    */
   virtual bool GetValueAndDerivativeProcessPoint(

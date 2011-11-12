@@ -242,8 +242,8 @@ inline bool ExposeMetaData(const MetaDataDictionary & Dictionary, const char *co
 } // end namespace itk
 
 /**
- * NATIVE_TYPE_METADATAPRINT
- * An ugly macro to facilitate creating a simple implementation of
+ * \def NATIVE_TYPE_METADATAPRINT( TYPE_NAME )
+ * \brief An ugly macro to facilitate creating a simple implementation of
  * the MetaDataObject<Type>::Print() function for types that
  * have operator<< defined.
  * \param TYPE_NAME the native type parameter type
@@ -265,8 +265,8 @@ inline bool ExposeMetaData(const MetaDataDictionary & Dictionary, const char *co
     }
 
 /**
- * ITK_OBJECT_TYPE_METADATAPRINT_1COMMA
- * An ugly macro to facilitate creating a simple implementation of
+ * \def ITK_OBJECT_TYPE_METADATAPRINT_1COMMA( TYPE_NAME_PART1, TYPE_NAME_PART2 )
+ * \brief An ugly macro to facilitate creating a simple implementation of
  * the MetaDataObject< Type >::Print() function for
  * itk::Objects that have 1 comma in their type definition
  * \param TYPE_NAME_PART1
@@ -289,10 +289,10 @@ inline bool ExposeMetaData(const MetaDataDictionary & Dictionary, const char *co
     }
 
 /**
- * ITK_IMAGE_TYPE_METADATAPRINT
+ * \def ITK_IMAGE_TYPE_METADATAPRINT( STORAGE_TYPE )
  * An ugly macro to facilitate creating a simple implementation of
  * the MetaDataObject<Type>::Print() function for
- * itk::Image<STORAGE_TYPE,[1-8]>::Pointer
+ * itk::Image\<STORAGE_TYPE,[1-8]\>\::Pointer
  * \param STORAGE_TYPE The storage type of the image type to print.
  */
 #define ITK_IMAGE_TYPE_METADATAPRINT(STORAGE_TYPE)                             \
