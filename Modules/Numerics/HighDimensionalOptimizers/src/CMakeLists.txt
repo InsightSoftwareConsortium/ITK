@@ -1,4 +1,5 @@
 set(ITKHighDimensionalOptimizers_SRC
+  itkObjectToObjectMetric.cxx
   itkObjectToObjectOptimizerBase.cxx
   itkGradientDescentObjectOptimizerBase.cxx
   itkGradientDescentObjectOptimizer.cxx

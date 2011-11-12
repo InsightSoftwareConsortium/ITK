@@ -3,6 +3,7 @@ set(DOCUMENTATION "This module contains typical examples of regitration methods 
 itk_module(ITKHighDimensionalRegistrationMethods
   DEPENDS
     ITKHighDimensionalOptimizers
+    ITKHighDimensionalMetrics
   TEST_DEPENDS
     ITKTestKernel
   DESCRIPTION

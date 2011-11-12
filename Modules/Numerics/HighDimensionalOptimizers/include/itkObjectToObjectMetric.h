@@ -48,7 +48,7 @@ namespace itk
  * The eventual goal however is to allow for either moving, fixed or both
  * transforms to be optimized within a single metric.
  *
- * \ingroup ITKHighDimensionalMetrics
+ * \ingroup ITKHighDimensionalOptimizers
  */
 
 class ITK_EXPORT ObjectToObjectMetric:

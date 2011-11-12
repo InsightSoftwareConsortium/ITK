@@ -43,7 +43,7 @@ namespace itk
  *  GetValueAndDerivative
  *
  * \ingroup Numerics Optimizers
- * \ingroup ITKOptimizers
+ * \ingroup ITKHighDimensionalOptimizers
  */
 class ITK_EXPORT SingleValuedHighDimensionalCostFunction:
   public CostFunction

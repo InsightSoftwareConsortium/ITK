@@ -3,9 +3,15 @@ optimizers using a new hierarchy developed for the needs of registration with hi
 
 itk_module(ITKHighDimensionalOptimizers
   DEPENDS
-    ITKHighDimensionalMetrics
+    ITKCommon
+    ITKOptimizers
+    ITKTransform
+    ITKImageGrid
   TEST_DEPENDS
     ITKTestKernel
+    ITKHighDimensionalMetrics
   DESCRIPTION
     "${DOCUMENTATION}"
 )
+
+# ITKOptimizers dependency added to get itkCostFunction for itkSingleValuedHighDimensionalCostFunction

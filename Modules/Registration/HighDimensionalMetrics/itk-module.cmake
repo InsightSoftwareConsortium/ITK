@@ -3,9 +3,9 @@ set(DOCUMENTATION "This module contains ITK metric classes using a new hierarchy
 itk_module(ITKHighDimensionalMetrics
   DEPENDS
     ITKRegistrationCommon
+    ITKHighDimensionalOptimizers
   TEST_DEPENDS
     ITKTestKernel
-    ITKHighDimensionalOptimizers
   DESCRIPTION
     "${DOCUMENTATION}"
 )
