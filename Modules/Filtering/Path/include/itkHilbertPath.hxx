@@ -135,7 +135,7 @@ typename HilbertPath<TIndexValue, VDimension>::PathIndexType
 HilbertPath<TIndexValue, VDimension>
 ::GetLeftBitRotation( PathIndexType x, PathIndexType i, const PathIndexType width )
 {
-  return ( ( ( x << ( i % width ) ) | ( x >> width - ( i % width ) ) ) & ( ( 1 << width ) - 1 ) );
+  return ( ( ( x << ( i % width ) ) | ( x >> ( width - ( i % width ) ) ) ) & ( ( 1 << width ) - 1 ) );
 }
 
 template<class TIndexValue, unsigned int VDimension>
@@ -143,7 +143,7 @@ typename HilbertPath<TIndexValue, VDimension>::PathIndexType
 HilbertPath<TIndexValue, VDimension>
 ::GetRightBitRotation( PathIndexType x, PathIndexType i, const PathIndexType width )
 {
-  return ( ( ( x >> ( i % width ) ) | ( x << width - ( i % width ) ) ) & ( ( 1 << width ) - 1 ) );
+  return ( ( ( x >> ( i % width ) ) | ( x << ( width - ( i % width ) ) ) ) & ( ( 1 << width ) - 1 ) );
 }
 
 template<class TIndexValue, unsigned int VDimension>
