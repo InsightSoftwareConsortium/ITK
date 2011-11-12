@@ -3,8 +3,6 @@ set(ITKLevelSetsv4VisualizationTests
 # visualization
 itkVTKVisualize2DDenseImageLevelSetTest
 vtkVisualize2DWhitakerLevelSetTest
-#vtkVisualize2DShiLevelSetTest
-#vtkVisualize2DMalcolmLevelSetTest
 itkImageToRGBVTKImageFilterTest
 vtkVisualize2DCellsLevelSetTest
 vtkVisualize2DCellsLevelSetSurfaceTest
@@ -23,12 +21,6 @@ itk_add_test(NAME itkVTKVisualize2DDenseImageLevelSetTest
 
 itk_add_test(NAME vtkVisualize2DWhitakerLevelSetTest
   COMMAND ITKLevelSetsv4VisualizationTestDriver vtkVisualize2DWhitakerLevelSetTest)
-
-#itk_add_test(NAME vtkVisualize2DShiLevelSetTest
-#  COMMAND ITKLevelSetsv4VisualizationTestDriver vtkVisualize2DShiLevelSetTest)
-
-#itk_add_test(NAME vtkVisualize2DMalcolmLevelSetTest
-#  COMMAND ITKLevelSetsv4VisualizationTestDriver vtkVisualize2DMalcolmLevelSetTest)
 
 itk_add_test(NAME itkImageToRGBVTKImageFilterTest
   COMMAND ITKLevelSetsv4VisualizationTestDriver itkImageToRGBVTKImageFilterTest)

@@ -74,13 +74,13 @@ int vtkVisualize2DShiLevelSetLayersTest( int , char* [] )
   typedef itk::ShiSparseLevelSetImage< Dimension > LevelSetType;
 
   typedef itk::BinaryImageToLevelSetImageAdaptor< ImageType,
-      LevelSetType > BinaryToSparseAdaptorType;
+      LevelSetType > BinaryToLevelSetAdaptorType;
 
-  BinaryToSparseAdaptorType::Pointer adaptor = BinaryToSparseAdaptorType::New();
+  BinaryToLevelSetAdaptorType::Pointer adaptor = BinaryToLevelSetAdaptorType::New();
   adaptor->SetInputImage( image );
   adaptor->Initialize();
 
-  typedef BinaryToSparseAdaptorType::LevelSetType           SparseLevelSetType;
+  typedef BinaryToLevelSetAdaptorType::LevelSetType           SparseLevelSetType;
   SparseLevelSetType::Pointer LevelSet = adaptor->GetLevelSet();
 
   typedef vtkVisualize2DSparseLevelSetLayers< ImageType, LevelSetType > VisualizationType;
