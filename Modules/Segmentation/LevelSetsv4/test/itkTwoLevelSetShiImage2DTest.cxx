@@ -28,7 +28,7 @@
 #include "itkLevelSetEquationContainerBase.h"
 #include "itkSinRegularizedHeavisideStepFunction.h"
 #include "itkLevelSetEvolution.h"
-#include "itkBinaryImageToSparseLevelSetImageAdaptor.h"
+#include "itkBinaryImageToLevelSetImageAdaptor.h"
 #include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"
 #include "itkNumericTraits.h"
 
@@ -49,7 +49,7 @@ int itkTwoLevelSetShiImage2DTest( int argc, char* argv[] )
   typedef itk::ImageFileReader< InputImageType >            ReaderType;
 
   typedef itk::ShiSparseLevelSetImage< Dimension >          SparseLevelSetType;
-  typedef itk::BinaryImageToSparseLevelSetImageAdaptor< InputImageType, SparseLevelSetType >
+  typedef itk::BinaryImageToLevelSetImageAdaptor< InputImageType, SparseLevelSetType >
                                                             BinaryToSparseAdaptorType;
 
   typedef itk::IdentifierType                               IdentifierType;

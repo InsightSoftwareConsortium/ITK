@@ -19,7 +19,7 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkBinaryImageToSparseLevelSetImageAdaptor.h"
+#include "itkBinaryImageToLevelSetImageAdaptor.h"
 
 int itkBinaryImageToWhitakerSparseLevelSetAdaptorTest( int argc, char* argv[] )
 {
@@ -56,7 +56,7 @@ int itkBinaryImageToWhitakerSparseLevelSetAdaptorTest( int argc, char* argv[] )
   typedef itk::WhitakerSparseLevelSetImage< OutputPixelType, Dimension >
       LevelSetType;
 
-  typedef itk::BinaryImageToSparseLevelSetImageAdaptor< InputImageType,
+  typedef itk::BinaryImageToLevelSetImageAdaptor< InputImageType,
       LevelSetType > BinaryToSparseAdaptorType;
 
   BinaryToSparseAdaptorType::Pointer adaptor = BinaryToSparseAdaptorType::New();

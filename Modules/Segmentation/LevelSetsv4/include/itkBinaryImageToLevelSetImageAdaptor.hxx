@@ -16,32 +16,69 @@
  *
  *=========================================================================*/
 
-#ifndef __itkBinaryImageToSparseLevelSetImageAdaptor_hxx
-#define __itkBinaryImageToSparseLevelSetImageAdaptor_hxx
+#ifndef __itkBinaryImageToLevelSetImageAdaptor_hxx
+#define __itkBinaryImageToLevelSetImageAdaptor_hxx
 
-#include "itkBinaryImageToSparseLevelSetImageAdaptor.h"
-
+#include "itkBinaryImageToLevelSetImageAdaptor.h"
+#include "itkSignedMaurerDistanceMapImageFilter.h"
 
 namespace itk
 {
+template< class TInputImage, class TLevelSetImage >
+BinaryImageToLevelSetImageAdaptor< TInputImage, LevelSetDenseImageBase< TLevelSetImage > >
+::BinaryImageToLevelSetImageAdaptor()
+{
+  this->m_SignedDistanceTransformFilter = SignedMaurerDistanceMapImageFilter< InputImageType, LevelSetImageType >::New();
+}
+
+template< class TInputImage, class TLevelSetImage >
+BinaryImageToLevelSetImageAdaptor< TInputImage, LevelSetDenseImageBase< TLevelSetImage > >
+::~BinaryImageToLevelSetImageAdaptor()
+{}
+
+template< class TInputImage, class TLevelSetImage >
+void
+BinaryImageToLevelSetImageAdaptor< TInputImage, LevelSetDenseImageBase< TLevelSetImage > >
+::Initialize()
+{
+  if( this->m_InputImage.IsNull() )
+    {
+    itkGenericExceptionMacro( "m_InputImage is NULL" );
+    }
+
+  if( m_SignedDistanceTransformFilter.IsNull() )
+    {
+    itkGenericExceptionMacro( "m_SignedDistanceTransformFilter is NULL" );
+    }
+  m_SignedDistanceTransformFilter->SetInput( this->m_InputImage );
+  m_SignedDistanceTransformFilter->Update();
+
+  typename LevelSetImageType::Pointer tempImage = LevelSetImageType::New();
+  tempImage->Graft( m_SignedDistanceTransformFilter->GetOutput() );
+
+  this->m_LevelSet = LevelSetType::New();
+  this->m_LevelSet->SetImage( tempImage );
+}
+
+
 template< class TInput, typename TOutput >
-BinaryImageToSparseLevelSetImageAdaptor<
+BinaryImageToLevelSetImageAdaptor<
   TInput,
   WhitakerSparseLevelSetImage< TOutput, TInput::ImageDimension > >
-::BinaryImageToSparseLevelSetImageAdaptor()
+::BinaryImageToLevelSetImageAdaptor()
 {}
 
 template< class TInput, typename TOutput >
-BinaryImageToSparseLevelSetImageAdaptor<
+BinaryImageToLevelSetImageAdaptor<
   TInput,
   WhitakerSparseLevelSetImage< TOutput, TInput::ImageDimension > >
-::~BinaryImageToSparseLevelSetImageAdaptor()
+::~BinaryImageToLevelSetImageAdaptor()
 {
 }
 
 template< class TInput, typename TOutput >
 void
-BinaryImageToSparseLevelSetImageAdaptor<
+BinaryImageToLevelSetImageAdaptor<
   TInput,
   WhitakerSparseLevelSetImage< TOutput, TInput::ImageDimension > >
 ::Initialize()
@@ -107,7 +144,7 @@ BinaryImageToSparseLevelSetImageAdaptor<
 
 template< class TInput, typename TOutput >
 void
-BinaryImageToSparseLevelSetImageAdaptor<
+BinaryImageToLevelSetImageAdaptor<
   TInput,
   WhitakerSparseLevelSetImage< TOutput, TInput::ImageDimension > >
 ::PropagateToOuterLayers( LayerIdType layerToBeScanned, LayerIdType outputLayer, LayerIdType testValue )
@@ -188,7 +225,7 @@ BinaryImageToSparseLevelSetImageAdaptor<
 
 template< class TInput, typename TOutput >
 void
-BinaryImageToSparseLevelSetImageAdaptor<
+BinaryImageToLevelSetImageAdaptor<
   TInput,
   WhitakerSparseLevelSetImage< TOutput, TInput::ImageDimension > >
 ::FindActiveLayer()
@@ -267,7 +304,7 @@ BinaryImageToSparseLevelSetImageAdaptor<
 
 template< class TInput, typename TOutput >
 void
-BinaryImageToSparseLevelSetImageAdaptor<
+BinaryImageToLevelSetImageAdaptor<
   TInput,
   WhitakerSparseLevelSetImage< TOutput, TInput::ImageDimension > >
 ::FindPlusOneMinusOneLayer()
@@ -369,18 +406,18 @@ BinaryImageToSparseLevelSetImageAdaptor<
 ////////////////////////////////////////////////////////////////////////////////
 
 template< class TInput >
-BinaryImageToSparseLevelSetImageAdaptor< TInput, ShiSparseLevelSetImage< TInput::ImageDimension > >
-::BinaryImageToSparseLevelSetImageAdaptor()
+BinaryImageToLevelSetImageAdaptor< TInput, ShiSparseLevelSetImage< TInput::ImageDimension > >
+::BinaryImageToLevelSetImageAdaptor()
 {}
 
 template< class TInput >
-BinaryImageToSparseLevelSetImageAdaptor< TInput, ShiSparseLevelSetImage< TInput::ImageDimension > >
-::~BinaryImageToSparseLevelSetImageAdaptor()
+BinaryImageToLevelSetImageAdaptor< TInput, ShiSparseLevelSetImage< TInput::ImageDimension > >
+::~BinaryImageToLevelSetImageAdaptor()
 {
 }
 
 template< class TInput >
-void BinaryImageToSparseLevelSetImageAdaptor< TInput, ShiSparseLevelSetImage< TInput::ImageDimension > >
+void BinaryImageToLevelSetImageAdaptor< TInput, ShiSparseLevelSetImage< TInput::ImageDimension > >
 ::Initialize()
 {
   if( this->m_InputImage.IsNull() )
@@ -431,7 +468,7 @@ void BinaryImageToSparseLevelSetImageAdaptor< TInput, ShiSparseLevelSetImage< TI
 
 
 template< class TInput >
-void BinaryImageToSparseLevelSetImageAdaptor< TInput, ShiSparseLevelSetImage< TInput::ImageDimension > >
+void BinaryImageToLevelSetImageAdaptor< TInput, ShiSparseLevelSetImage< TInput::ImageDimension > >
 ::FindActiveLayer()
 {
   LevelSetLabelObjectPointer labelObject = this->m_LabelMap->GetLabelObject( LevelSetType::MinusThreeLayer() );
@@ -526,18 +563,18 @@ void BinaryImageToSparseLevelSetImageAdaptor< TInput, ShiSparseLevelSetImage< TI
 ////////////////////////////////////////////////////////////////////////////////
 
 template< class TInput >
-BinaryImageToSparseLevelSetImageAdaptor< TInput,MalcolmSparseLevelSetImage< TInput::ImageDimension > >
-::BinaryImageToSparseLevelSetImageAdaptor() : Superclass()
+BinaryImageToLevelSetImageAdaptor< TInput,MalcolmSparseLevelSetImage< TInput::ImageDimension > >
+::BinaryImageToLevelSetImageAdaptor() : Superclass()
 {}
 
 template< class TInput >
-BinaryImageToSparseLevelSetImageAdaptor< TInput,MalcolmSparseLevelSetImage< TInput::ImageDimension > >
-::~BinaryImageToSparseLevelSetImageAdaptor()
+BinaryImageToLevelSetImageAdaptor< TInput,MalcolmSparseLevelSetImage< TInput::ImageDimension > >
+::~BinaryImageToLevelSetImageAdaptor()
 {
 }
 
 template< class TInput >
-void BinaryImageToSparseLevelSetImageAdaptor< TInput,MalcolmSparseLevelSetImage< TInput::ImageDimension > >
+void BinaryImageToLevelSetImageAdaptor< TInput,MalcolmSparseLevelSetImage< TInput::ImageDimension > >
 ::Initialize()
 {
   if( this->m_InputImage.IsNull() )
@@ -589,7 +626,7 @@ void BinaryImageToSparseLevelSetImageAdaptor< TInput,MalcolmSparseLevelSetImage<
 }
 
 template< class TInput >
-void BinaryImageToSparseLevelSetImageAdaptor< TInput,MalcolmSparseLevelSetImage< TInput::ImageDimension > >
+void BinaryImageToLevelSetImageAdaptor< TInput,MalcolmSparseLevelSetImage< TInput::ImageDimension > >
 ::FindActiveLayer()
 {
   LevelSetLabelObjectPointer labelObject = this->m_LabelMap->GetLabelObject( LevelSetType::MinusOneLayer() );
@@ -666,7 +703,7 @@ void BinaryImageToSparseLevelSetImageAdaptor< TInput,MalcolmSparseLevelSetImage<
 }
 
 template< class TInput >
-void BinaryImageToSparseLevelSetImageAdaptor< TInput,MalcolmSparseLevelSetImage< TInput::ImageDimension > >
+void BinaryImageToLevelSetImageAdaptor< TInput,MalcolmSparseLevelSetImage< TInput::ImageDimension > >
 ::CreateMinimalInterface()
 {
   LevelSetLayerType & list_0 = this->m_LevelSet->GetLayer( LevelSetType::ZeroLayer() );
@@ -760,4 +797,4 @@ void BinaryImageToSparseLevelSetImageAdaptor< TInput,MalcolmSparseLevelSetImage<
   }
 }
 
-#endif // __itkBinaryImageToSparseLevelSetImageAdaptor_hxx
+#endif // __itkBinaryImageToLevelSetImageAdaptor_hxx

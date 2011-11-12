@@ -19,7 +19,7 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkBinaryImageToSparseLevelSetImageAdaptor.h"
+#include "itkBinaryImageToLevelSetImageAdaptor.h"
 
 int itkBinaryImageToMalcolmSparseLevelSetAdaptorTest( int argc, char* argv[] )
 {
@@ -51,7 +51,7 @@ int itkBinaryImageToMalcolmSparseLevelSetAdaptorTest( int argc, char* argv[] )
   std::cout << "Input image read" << std::endl;
 
   typedef itk::MalcolmSparseLevelSetImage< Dimension >  LevelSetType;
-  typedef itk::BinaryImageToSparseLevelSetImageAdaptor<
+  typedef itk::BinaryImageToLevelSetImageAdaptor<
       InputImageType, LevelSetType >                    BinaryToSparseAdaptorType;
 
   BinaryToSparseAdaptorType::Pointer adaptor = BinaryToSparseAdaptorType::New();

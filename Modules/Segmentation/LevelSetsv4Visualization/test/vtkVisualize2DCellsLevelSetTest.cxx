@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkBinaryImageToDenseLevelSetImageAdaptor.h"
+#include "itkBinaryImageToLevelSetImageAdaptor.h"
 #include "itkImageFileReader.h"
 #include "itkLevelSetIterationUpdateCommand.h"
 #include "itkLevelSetContainer.h"
@@ -69,7 +69,7 @@ visualizeLevelSet( TInputImage * inputImage, const int numberOfIterations, const
     ++iIt;
     }
 
-  typedef itk::BinaryImageToDenseLevelSetImageAdaptor< BinaryImageType,
+  typedef itk::BinaryImageToLevelSetImageAdaptor< BinaryImageType,
     LevelSetType > BinaryImageToLevelSetType;
 
   typename BinaryImageToLevelSetType::Pointer adaptor = BinaryImageToLevelSetType::New();

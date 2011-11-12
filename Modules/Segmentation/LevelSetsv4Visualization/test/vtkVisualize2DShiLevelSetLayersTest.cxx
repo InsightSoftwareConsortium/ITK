@@ -19,7 +19,7 @@
 #include "vtkVisualize2DSparseLevelSetLayers.h"
 
 #include "itkShiSparseLevelSetImage.h"
-#include "itkBinaryImageToSparseLevelSetImageAdaptor.h"
+#include "itkBinaryImageToLevelSetImageAdaptor.h"
 
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
@@ -73,7 +73,7 @@ int vtkVisualize2DShiLevelSetLayersTest( int , char* [] )
 
   typedef itk::ShiSparseLevelSetImage< Dimension > LevelSetType;
 
-  typedef itk::BinaryImageToSparseLevelSetImageAdaptor< ImageType,
+  typedef itk::BinaryImageToLevelSetImageAdaptor< ImageType,
       LevelSetType > BinaryToSparseAdaptorType;
 
   BinaryToSparseAdaptorType::Pointer adaptor = BinaryToSparseAdaptorType::New();

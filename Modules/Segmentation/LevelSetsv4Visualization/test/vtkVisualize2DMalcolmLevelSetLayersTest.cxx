@@ -19,7 +19,7 @@
 #include "vtkVisualize2DSparseLevelSetLayers.h"
 
 #include "itkMalcolmSparseLevelSetImage.h"
-#include "itkBinaryImageToSparseLevelSetImageAdaptor.h"
+#include "itkBinaryImageToLevelSetImageAdaptor.h"
 
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
@@ -72,7 +72,7 @@ int vtkVisualize2DMalcolmLevelSetLayersTest( int , char* [] )
   GenerateImage< ImageType >( image );
 
   typedef itk::MalcolmSparseLevelSetImage< Dimension >  LevelSetType;
-  typedef itk::BinaryImageToSparseLevelSetImageAdaptor<
+  typedef itk::BinaryImageToLevelSetImageAdaptor<
       ImageType, LevelSetType >                    BinaryToSparseAdaptorType;
 
   BinaryToSparseAdaptorType::Pointer adaptor = BinaryToSparseAdaptorType::New();
