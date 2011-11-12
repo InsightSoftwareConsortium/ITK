@@ -18,7 +18,8 @@
 #==========================================================================*/
 
 usage() {
-  die "USAGE: SourceTarball.bash [--tgz|--zip] [-v <version>] [<tag>|<commit>]"
+  die 'USAGE: SourceTarball.bash [(--tgz|--txz|--zip)...] \
+        [--verbose] [-v <version>] [<tag>|<commit>]'
 }
 
 info() {
@@ -93,27 +94,42 @@ load_data_objects() {
 }
 
 git_archive_tgz() {
-  git -c core.autocrlf=false archive -v --format=tar --prefix=$2/ $1 |
-  gzip -9 > $2.tar.gz &&
-  info "Wrote $2.tar.gz"
+  out="$2.tar.gz" && tmp="$out.tmp$$" &&
+  git -c core.autocrlf=false archive $verbose --format=tar --prefix=$2/ $1 |
+  gzip -9 > "$tmp" &&
+  mv "$tmp" "$out" &&
+  info "Wrote $out"
+}
+
+git_archive_txz() {
+  out="$2.tar.xz" && tmp="$out.tmp$$" &&
+  git -c core.autocrlf=false archive $verbose --format=tar --prefix=$2/ $1 |
+  xz -9 > "$tmp" &&
+  mv "$tmp" "$out" &&
+  info "Wrote $out"
 }
 
 git_archive_zip() {
-  git -c core.autocrlf=true archive -v --format=zip --prefix=$2/ $1 > $2.zip &&
-  info "Wrote $2.zip"
+  out="$2.zip" && tmp="$out.tmp$$" &&
+  git -c core.autocrlf=true archive $verbose --format=zip --prefix=$2/ $1 > "$tmp" &&
+  mv "$tmp" "$out" &&
+  info "Wrote $out"
 }
 
 #-----------------------------------------------------------------------------
 
-format=tgz
+formats=
 commit=
 version=
+verbose=
 
 # Parse command line options.
 while test $# != 0; do
   case "$1" in
-    --tgz) format=tgz ;;
-    --zip) format=zip ;;
+    --tgz) formats="$formats tgz" ;;
+    --txz) formats="$formats txz" ;;
+    --zip) formats="$formats zip" ;;
+    --verbose) verbose=-v ;;
     --) shift; break ;;
     -v) shift; version="$1" ;;
     -*) usage ;;
@@ -123,6 +139,7 @@ while test $# != 0; do
 done
 test $# = 0 || usage
 test -n "$commit" || commit=HEAD
+test -n "$formats" || formats=tgz
 
 if ! git rev-parse --verify -q "$commit" >/dev/null ; then
   die "'$commit' is not a valid commit"
@@ -148,4 +165,8 @@ load_data_objects $commit &&
 
 info "Generating source archive..." &&
 tree=$(git write-tree) &&
-git_archive_$format $tree "InsightToolkit-$version"
+result=0 &&
+for fmt in $formats; do
+  git_archive_$fmt $tree "InsightToolkit-$version" || result=1
+done &&
+exit $result
