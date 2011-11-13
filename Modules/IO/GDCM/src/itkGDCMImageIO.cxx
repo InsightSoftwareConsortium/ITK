@@ -217,7 +217,10 @@ void GDCMImageIO::Read(void *pointer)
     }
 
   gdcm::Image & image = reader.GetImage();
+#ifndef NDEBUG
+  gdcm::PixelFormat pixeltype_debug = image.GetPixelFormat();
   itkAssertInDebugAndIgnoreInReleaseMacro(image.GetNumberOfDimensions() == 2 || image.GetNumberOfDimensions() == 3);
+#endif
   SizeValueType len = image.GetBufferLength();
 
   // I think ITK only allow RGB image by pixel (and not by plane)
