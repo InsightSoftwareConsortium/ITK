@@ -90,6 +90,15 @@ VTKVisualizeImageLevelSet< TInputImage, TInputImageConverter >
 template < class TInputImage, class TInputImageConverter >
 void
 VTKVisualizeImageLevelSet< TInputImage, TInputImageConverter >
+::SetRenderWindow( vtkRenderWindow * renderWindow )
+{
+  this->m_RenderWindow = renderWindow;
+  this->m_RenderWindow->AddRenderer( this->m_Renderer );
+}
+
+template < class TInputImage, class TInputImageConverter >
+void
+VTKVisualizeImageLevelSet< TInputImage, TInputImageConverter >
 ::SetCurrentIteration( const IdentifierType iteration )
 {
   this->m_CurrentIteration = iteration;

@@ -66,11 +66,12 @@ public:
    * set. */
   virtual void Update();
 
-  /** Set/Get the renderer. */
+  /** Get the renderer. */
   vtkRenderer * GetRenderer();
 
   /** Set/Get the render window. */
   vtkRenderWindow * GetRenderWindow();
+  void SetRenderWindow( vtkRenderWindow * renderWindow );
 
   /** Set/Get the current iteration.  Used for the filename during screen
    * capture. */
@@ -90,15 +91,15 @@ protected:
   typename InputImageConverterType::Pointer m_InputImageConverter;
 
   vtkSmartPointer< vtkRenderer >      m_Renderer;
-  vtkSmartPointer< vtkRenderWindow >  m_RenderWindow;
 
 private:
   VTKVisualizeImageLevelSet( const Self & ); // purposely not implemented
   void operator=( const Self & ); // purposely not implemented
 
-  bool           m_ScreenCapture;
-  IdentifierType m_CurrentIteration;
-  std::string    m_ScreenCapturePrefix;
+  bool                               m_ScreenCapture;
+  IdentifierType                     m_CurrentIteration;
+  std::string                        m_ScreenCapturePrefix;
+  vtkSmartPointer< vtkRenderWindow > m_RenderWindow;
 };
 
 } // end namespace itk

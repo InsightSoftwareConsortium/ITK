@@ -66,7 +66,6 @@ void MultiThreader::MultipleMethodExecute()
   ( m_MultipleMethod[0] )( (void *)( &m_ThreadInfoArray[0] ) );
 }
 
-// FIXME: Doesn't seem to be called anywhere...
 int MultiThreader::SpawnThread(ThreadFunctionType f, void *UserData)
 {
   int id = 0;

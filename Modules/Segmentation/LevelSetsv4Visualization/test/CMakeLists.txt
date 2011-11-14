@@ -1,6 +1,6 @@
 itk_module_test()
 set(ITKLevelSetsv4VisualizationTests
-# visualization
+itkVTKVisualizeLevelSetsInteractivePauseTest
 itkVTKVisualize2DDenseImageLevelSetTest
 vtkVisualize2DWhitakerLevelSetTest
 itkImageToRGBVTKImageFilterTest
@@ -76,4 +76,9 @@ itk_add_test(NAME vtkVisualize2DCellsMalcolmLevelSetTest
   COMMAND ITKLevelSetsv4VisualizationTestDriver vtkVisualize2DCellsLevelSetTest
   DATA{Input/cells.png} 60 Malcolm
   ${TEMP}/vtkVisualize2DCellsMalcolmLevelSetTest.png
+  )
+
+itk_add_test(NAME itkVTKVisualizeLevelSetsInteractivePauseTest
+  COMMAND ITKLevelSetsv4VisualizationTestDriver itkVTKVisualizeLevelSetsInteractivePauseTest
+  DATA{Input/cells.png} 30
   )
