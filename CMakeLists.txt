@@ -58,6 +58,9 @@ endif()
 if(NOT ITK_INSTALL_DATA_DIR)
   set(ITK_INSTALL_DATA_DIR share/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR})
 endif()
+if(NOT ITK_INSTALL_DOC_DIR)
+  set(ITK_INSTALL_DOC_DIR share/doc/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR})
+endif()
 if(NOT ITK_INSTALL_PACKAGE_DIR)
   set(ITK_INSTALL_PACKAGE_DIR "lib/cmake/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}")
 endif()
@@ -596,6 +599,8 @@ else()
   install(FILES ${ITK_BINARY_DIR}/CMakeFiles/ITKTargets.cmake
           DESTINATION ${ITK_INSTALL_PACKAGE_DIR})
 endif()
+
+install(FILES "LICENSE" "NOTICE" "README.txt" DESTINATION ${ITK_INSTALL_DOC_DIR})
 
 if(BUILD_TESTING)
   add_subdirectory(Utilities/InstallTest)
