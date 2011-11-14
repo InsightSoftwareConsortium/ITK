@@ -59,6 +59,18 @@ LevelSetEvolutionBase< TEquationContainer, TLevelSet >
 template< class TEquationContainer, class TLevelSet >
 void
 LevelSetEvolutionBase< TEquationContainer, TLevelSet >
+::Update()
+{
+  this->CheckSetUp();
+
+  this->InvokeEvent( StartEvent() );
+  this->RunOneIteration();
+  this->InvokeEvent( EndEvent() );
+}
+
+template< class TEquationContainer, class TLevelSet >
+void
+LevelSetEvolutionBase< TEquationContainer, TLevelSet >
 ::CheckSetUp()
 {
   if( this->m_LevelSetContainer.IsNull() )
