@@ -63,7 +63,9 @@ LevelSetEvolutionBase< TEquationContainer, TLevelSet >
 {
   this->CheckSetUp();
 
+  this->InvokeEvent( StartEvent() );
   this->RunOneIteration();
+  this->InvokeEvent( EndEvent() );
 }
 
 template< class TEquationContainer, class TLevelSet >
