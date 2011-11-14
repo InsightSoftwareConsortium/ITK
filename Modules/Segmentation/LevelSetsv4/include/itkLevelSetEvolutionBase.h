@@ -120,6 +120,11 @@ public:
   itkSetMacro( NumberOfIterations, IdentifierType );
   itkGetConstMacro( NumberOfIterations, IdentifierType );
 
+  /** Update the filter by computing the output level function
+   * by calling RunOneIteration() once the instantiation of necessary variables
+   * is verified */
+  void Update();
+
 protected:
   LevelSetEvolutionBase();
 
@@ -137,6 +142,10 @@ protected:
   IdentifierType              m_NumberOfIterations;
 
   void CheckSetUp();
+
+  /** Run the iterative loops of calculating levelset function updates until
+   *  the stopping criterion is satisfied */
+  virtual void RunOneIteration() = 0;
 
   /** Initialize the iteration by computing parameters in the terms of the level set equation */
   void InitializeIteration();

@@ -120,11 +120,6 @@ public:
 
   typedef ImageRegionConstIteratorWithIndex< InputImageType > InputImageConstIteratorType;
 
-  /** Update the filter by computing the output level function
-   * by calling RunOneIteration() once the instantiation of necessary variables
-   * is verified */
-  void Update();
-
 protected:
   LevelSetEvolution();
   ~LevelSetEvolution();
@@ -137,7 +132,7 @@ protected:
 
   /** Run the iterative loops of calculating levelset function updates until
    *  the stopping criterion is satisfied */
-  void RunOneIteration();
+  virtual void RunOneIteration();
 
   /** Computer the update at each pixel and store in the update buffer */
   void ComputeIteration();
@@ -229,11 +224,6 @@ public:
   typedef UpdateWhitakerSparseLevelSet< ImageDimension, LevelSetOutputType, EquationContainerType > UpdateLevelSetFilterType;
   typedef typename UpdateLevelSetFilterType::Pointer                                                UpdateLevelSetFilterPointer;
 
-  /** Update the filter by computing the output level function
-   * by calling RunOneIteration() once the instantiation of necessary variables
-   * is verified */
-  void Update();
-
 protected:
   LevelSetEvolution();
   ~LevelSetEvolution();
@@ -249,7 +239,7 @@ protected:
 
   /** Run the iterative loops of calculating levelset function updates until
    *  the stopping criterion is satisfied */
-  void RunOneIteration();
+  virtual void RunOneIteration();
 
   /** Compute the update at each pixel and store in the update buffer */
   void ComputeIteration();
@@ -341,8 +331,6 @@ public:
   typedef UpdateShiSparseLevelSet< ImageDimension, EquationContainerType >  UpdateLevelSetFilterType;
   typedef typename UpdateLevelSetFilterType::Pointer                        UpdateLevelSetFilterPointer;
 
-  void Update();
-
 protected:
   LevelSetEvolution();
   ~LevelSetEvolution();
@@ -353,7 +341,7 @@ protected:
 
   /** Run the iterative loops of calculating levelset function updates until
    *  the stopping criterion is satisfied */
-  void RunOneIteration();
+  virtual void RunOneIteration();
 
   /** Computer the update at each pixel and store in the update buffer */
   void ComputeIteration();
@@ -442,7 +430,6 @@ public:
 
   typedef UpdateMalcolmSparseLevelSet< ImageDimension, EquationContainerType > UpdateLevelSetFilterType;
   typedef typename UpdateLevelSetFilterType::Pointer UpdateLevelSetFilterPointer;
-  void Update();
 
 protected:
   LevelSetEvolution();
@@ -460,7 +447,7 @@ protected:
 
   /** Run the iterative loops of calculating levelset function updates until
    *  the stopping criterion is satisfied */
-  void RunOneIteration();
+  virtual void RunOneIteration();
 
   void UpdateLevelSets();
 

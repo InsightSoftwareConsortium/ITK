@@ -36,16 +36,6 @@ LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
 
 template< class TEquationContainer, class TImage >
 void
-LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >::Update()
-{
-  this->CheckSetUp();
-
-  //Run iteration
-  this->RunOneIteration();
-}
-
-template< class TEquationContainer, class TImage >
-void
 LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
 ::AllocateUpdateBuffer()
 {
@@ -299,17 +289,6 @@ LevelSetEvolution< TEquationContainer, WhitakerSparseLevelSetImage< TOutput, VDi
 template< class TEquationContainer, typename TOutput, unsigned int VDimension >
 void
 LevelSetEvolution< TEquationContainer, WhitakerSparseLevelSetImage< TOutput, VDimension > >
-::Update()
-{
-  this->CheckSetUp();
-
-  //Run iteration
-  this->RunOneIteration();
-}
-
-template< class TEquationContainer, typename TOutput, unsigned int VDimension >
-void
-LevelSetEvolution< TEquationContainer, WhitakerSparseLevelSetImage< TOutput, VDimension > >
 ::AllocateUpdateBuffer()
 {
   typename LevelSetContainerType::Iterator it = this->m_LevelSetContainer->Begin();
@@ -499,16 +478,6 @@ void LevelSetEvolution< TEquationContainer, ShiSparseLevelSetImage< VDimension >
 
 template< class TEquationContainer, unsigned int VDimension >
 void LevelSetEvolution< TEquationContainer, ShiSparseLevelSetImage< VDimension > >
-::Update()
-{
-  this->CheckSetUp();
-
-  //Run iteration
-  this->RunOneIteration();
-}
-
-template< class TEquationContainer, unsigned int VDimension >
-void LevelSetEvolution< TEquationContainer, ShiSparseLevelSetImage< VDimension > >
 ::RunOneIteration()
 {
   this->AllocateUpdateBuffer();
@@ -612,16 +581,6 @@ template< class TEquationContainer, unsigned int VDimension >
 void LevelSetEvolution< TEquationContainer, MalcolmSparseLevelSetImage< VDimension > >
 ::ComputeTimeStepForNextIteration()
 {}
-
-template< class TEquationContainer, unsigned int VDimension >
-void LevelSetEvolution< TEquationContainer, MalcolmSparseLevelSetImage< VDimension > >
-::Update()
-{
-  this->CheckSetUp();
-
-  //Run iteration
-  this->RunOneIteration();
-}
 
 template< class TEquationContainer, unsigned int VDimension >
 void LevelSetEvolution< TEquationContainer, MalcolmSparseLevelSetImage< VDimension > >
