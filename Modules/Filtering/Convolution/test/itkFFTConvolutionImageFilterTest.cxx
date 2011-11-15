@@ -17,12 +17,12 @@
  *=========================================================================*/
 
 #include "itkConstantBoundaryCondition.h"
-#include "itkConvolutionImageFilter.h"
+#include "itkFFTConvolutionImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
 
-int itkConvolutionImageFilterTest(int argc, char * argv[])
+int itkFFTConvolutionImageFilterTest(int argc, char * argv[])
 {
 
   if ( argc < 4 )
@@ -46,7 +46,7 @@ int itkConvolutionImageFilterTest(int argc, char * argv[])
   reader2->SetFileName( argv[2] );
   reader2->Update();
 
-  typedef itk::ConvolutionImageFilter<ImageType> ConvolutionFilterType;
+  typedef itk::FFTConvolutionImageFilter<ImageType> ConvolutionFilterType;
   ConvolutionFilterType::Pointer convoluter
     = ConvolutionFilterType::New();
   convoluter->SetInput( reader1->GetOutput() );

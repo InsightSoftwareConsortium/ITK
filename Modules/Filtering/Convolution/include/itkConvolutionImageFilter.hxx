@@ -35,9 +35,6 @@ template< class TInputImage, class TKernelImage, class TOutputImage >
 ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
 ::ConvolutionImageFilter()
 {
-  m_Normalize = false;
-  m_BoundaryCondition = &m_DefaultBoundaryCondition;
-  m_OutputRegionMode = Self::SAME;
 }
 
 template< class TInputImage, class TKernelImage, class TOutputImage >
@@ -56,7 +53,7 @@ ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
   // NeighborhoodOperatorImageFilter to compute the convolution, a
   // normalization filter for the kernel, and a pad filter for making
   // the kernel an odd size.
-  if ( m_Normalize )
+  if ( this->GetNormalize() )
     {
     typedef typename NumericTraits< InputPixelType >::RealType RealPixelType;
     typedef Image< RealPixelType, ImageDimension >             RealImageType;
@@ -92,7 +89,7 @@ ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
   bool kernelNeedsPadding = this->GetKernelNeedsPadding();
 
   float optionalFilterWeights = 0.0f;
-  if ( m_Normalize )
+  if ( this->GetNormalize() )
     {
     optionalFilterWeights += 0.1f;
     }
@@ -100,7 +97,7 @@ ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
     {
     optionalFilterWeights += 0.1f;
     }
-  if ( m_OutputRegionMode == Self::VALID )
+  if ( this->GetOutputRegionMode() == Self::VALID )
     {
     optionalFilterWeights += 0.1f;
     }
@@ -145,13 +142,13 @@ ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
     ConvolutionFilterType;
   typename ConvolutionFilterType::Pointer convolutionFilter = ConvolutionFilterType::New();
   convolutionFilter->SetOperator( kernelOperator );
-  convolutionFilter->OverrideBoundaryCondition( m_BoundaryCondition );
+  convolutionFilter->OverrideBoundaryCondition( this->GetBoundaryCondition() );
   convolutionFilter->SetInput( localInput );
   convolutionFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
   convolutionFilter->ReleaseDataFlagOn();
   progress->RegisterInternalFilter( convolutionFilter, 1.0f - optionalFilterWeights );
 
-  if ( m_OutputRegionMode == Self::SAME )
+  if ( this->GetOutputRegionMode() == Self::SAME )
     {
     // Graft the output of the convolution filter onto this filter's
     // output.
@@ -160,7 +157,7 @@ ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
     convolutionFilter->Update();
     this->GraftOutput( convolutionFilter->GetOutput() );
     }
-  else // m_OutputRegionMode == Self::VALID
+  else // OutputRegionMode == Self::VALID
     {
     typedef CropImageFilter< OutputImageType, OutputImageType > CropFilterType;
     typedef typename CropFilterType::Pointer                    CropFilterPointer;
@@ -193,24 +190,6 @@ ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
     // Graft the output of the crop filter back onto this
     // filter's output.
     this->GraftOutput( cropFilter->GetOutput() );
-    }
-}
-
-template< class TInputImage, class TKernelImage, class TOutputImage >
-void
-ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
-::GenerateOutputInformation()
-{
-  // Call the superclass' implementation of this method. Default
-  // behavior corresponds to SAME output region mode.
-  Superclass::GenerateOutputInformation();
-
-  if ( m_OutputRegionMode == Self::VALID )
-    {
-    OutputRegionType validRegion = this->GetValidRegion();
-
-    typename OutputImageType::Pointer outputPtr  = this->GetOutput();
-    outputPtr->SetLargestPossibleRegion( validRegion );
     }
 }
 
@@ -270,73 +249,10 @@ ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
 }
 
 template< class TInputImage, class TKernelImage, class TOutputImage >
-typename ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >::OutputRegionType
-ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
-::GetValidRegion() const
-{
-  typename InputImageType::ConstPointer inputPtr  = this->GetInput();
-
-  InputRegionType inputLargestPossibleRegion = inputPtr->GetLargestPossibleRegion();
-
-  OutputIndexType validIndex = inputLargestPossibleRegion.GetIndex();
-  OutputSizeType validSize = inputLargestPossibleRegion.GetSize();
-
-  // Shrink the output largest possible region by the kernel radius.
-  KernelSizeType kernelSize = this->GetKernelImage()->GetLargestPossibleRegion().GetSize();
-  KernelSizeType radius = this->GetKernelRadius( this->GetKernelImage() );
-  for ( unsigned int i = 0; i < ImageDimension; ++i )
-    {
-    if ( validSize[i] < 2*radius[i] )
-      {
-      validIndex[i] = 0;
-      validSize[i] = 0;
-      }
-    else
-      {
-      validIndex[i] = validIndex[i] + static_cast< typename OutputIndexType::IndexValueType >
-        ( radius[i] );
-      validSize[i] = validSize[i] - 2*radius[i];
-
-      // If the kernel is has an even size in one dimension, then we
-      // need to expand the image size by one and subtract one from
-      // the index in that dimension to account for the zero-padding
-      // on the low-index side of the image.
-      if ( kernelSize[i] % 2 == 0 )
-        {
-        validIndex[i] -= 1;
-        validSize[i] += 1;
-        }
-      }
-    }
-
-  OutputRegionType validRegion( validIndex, validSize );
-
-  return validRegion;
-}
-
-template< class TInputImage, class TKernelImage, class TOutputImage >
-void
-ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
-::SetOutputRegionModeToSame()
-{
-  this->SetOutputRegionMode( Self::SAME );
-}
-
-template< class TInputImage, class TKernelImage, class TOutputImage >
-void
-ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
-::SetOutputRegionModeToValid()
-{
-  this->SetOutputRegionMode( Self::VALID );
-}
-
-template< class TInputImage, class TKernelImage, class TOutputImage >
 void
 ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
 ::GenerateInputRequestedRegion()
 {
-  typedef ImageBase< ImageDimension > ImageBaseType;
-
   // Pad the input image with the radius of the kernel.
   if ( this->GetInput() )
     {
@@ -374,32 +290,6 @@ ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
       const_cast< KernelImageType * >( this->GetKernelImage() );
     kernelPtr->SetRequestedRegionToLargestPossibleRegion();
     }
-}
-
-template< class TInputImage, class TKernelImage, class TOutputImage >
-void
-ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
-{
-  Superclass::PrintSelf( os, indent );
-
-  os << indent << "Normalize: "  << m_Normalize << std::endl;
-  os << indent << "OutputRegionMode: ";
-  switch ( m_OutputRegionMode )
-    {
-    case SAME:
-      os << "SAME";
-      break;
-
-    case VALID:
-      os << "VALID";
-      break;
-
-    default:
-      os << "unknown";
-      break;
-    }
-  os << std::endl;
 }
 }
 #endif
