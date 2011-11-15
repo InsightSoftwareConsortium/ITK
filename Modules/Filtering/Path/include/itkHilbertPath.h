@@ -40,7 +40,7 @@ namespace itk
  * found in various places on the web.
  *
  * The implementation is based on
- * \ref Chris Hamilton, "Compact Hilbert Indices", Technical Report CS-2006-07,
+ * Chris Hamilton, "Compact Hilbert Indices", Technical Report CS-2006-07,
  * July 24, 2006.
  * and a direct porting of the Aldo Cortesi's python code found at
  * https://github.com/cortesi/scurve
