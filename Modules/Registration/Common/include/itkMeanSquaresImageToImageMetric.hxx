@@ -138,7 +138,6 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>
 
   // Set up the parameters in the transform
   this->m_Transform->SetParameters(parameters);
-  this->m_Parameters = parameters;
 
   // MUST BE CALLED TO INITIATE PROCESSING
   this->GetValueMultiThreadedInitiate();
@@ -233,7 +232,6 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>
 
   // Set up the parameters in the transform
   this->m_Transform->SetParameters(parameters);
-  this->m_Parameters = parameters;
 
   // Reset the joint pdfs to zero
   memset( m_ThreaderMSE,

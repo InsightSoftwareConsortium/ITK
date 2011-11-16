@@ -24,7 +24,6 @@
 #include "itkBSplineDerivativeKernelFunction.h"
 #include "itkArray2D.h"
 
-
 namespace itk
 {
 /** \class MattesMutualInformationImageToImageMetric
@@ -108,17 +107,17 @@ namespace itk
  * \ingroup RegistrationMetrics
  * \ingroup ITKRegistrationCommon
  */
-template< class TFixedImage, class TMovingImage >
-class ITK_EXPORT MattesMutualInformationImageToImageMetric:
-  public ImageToImageMetric< TFixedImage, TMovingImage >
+template <class TFixedImage, class TMovingImage>
+class ITK_EXPORT MattesMutualInformationImageToImageMetric :
+  public ImageToImageMetric<TFixedImage, TMovingImage>
 {
 public:
 
   /** Standard class typedefs. */
-  typedef MattesMutualInformationImageToImageMetric       Self;
-  typedef ImageToImageMetric< TFixedImage, TMovingImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  typedef MattesMutualInformationImageToImageMetric     Self;
+  typedef ImageToImageMetric<TFixedImage, TMovingImage> Superclass;
+  typedef SmartPointer<Self>                            Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -169,13 +168,10 @@ public:
   MeasureType GetValue(const ParametersType & parameters) const;
 
   /** Get the derivatives of the match measure. */
-  void GetDerivative(const ParametersType & parameters,
-                     DerivativeType & Derivative) const;
+  void GetDerivative(const ParametersType & parameters, DerivativeType & Derivative) const;
 
   /**  Get the value and derivatives for single valued optimizers. */
-  void GetValueAndDerivative(const ParametersType & parameters,
-                             MeasureType & Value,
-                             DerivativeType & Derivative) const;
+  void GetValueAndDerivative(const ParametersType & parameters, MeasureType & Value, DerivativeType & Derivative) const;
 
   /** Number of bins to used in the histogram. Typical value is
    * 50. The minimum value is 5 due to the padding required by the Parzen
@@ -183,7 +179,7 @@ public:
    * is used on binary images, the number of bins should at least be
    * equal to five. */
   itkSetClampMacro( NumberOfHistogramBins, SizeValueType,
-                    5, NumericTraits< SizeValueType >::max() );
+                    5, NumericTraits<SizeValueType>::max() );
   itkGetConstReferenceMacro(NumberOfHistogramBins, SizeValueType);
 
   /** This variable selects the method to be used for computing the Metric
@@ -218,10 +214,25 @@ public:
   typedef float PDFValueType;
 
   /** Typedef for the joint PDF and PDF derivatives are stored as ITK Images. */
-  typedef Image< PDFValueType, 2 >            JointPDFType;
-  typedef Image< PDFValueType, 3 >            JointPDFDerivativesType;
-  itkGetConstReferenceMacro(JointPDF,typename JointPDFType::Pointer);
-  itkGetConstReferenceMacro(JointPDFDerivatives,typename JointPDFDerivativesType::Pointer);
+  typedef Image<PDFValueType, 2> JointPDFType;
+  typedef Image<PDFValueType, 3> JointPDFDerivativesType;
+
+  const typename JointPDFType::Pointer GetJointPDF () const
+    {
+    if( this->m_ThreaderJointPDF.size() == 0 )
+      {
+      return JointPDFType::Pointer(NULL);
+      }
+    return this->m_ThreaderJointPDF[0];
+    }
+  const typename JointPDFDerivativesType::Pointer GetJointPDFDerivatives () const
+    {
+    if( this->m_m_ThreaderJointPDFDerivatives.size() == 0 )
+      {
+      return JointPDFDerivativesType::Pointer(NULL);
+      }
+    return this->m_ThreaderJointPDFDerivatives[0];
+    }
 protected:
 
   MattesMutualInformationImageToImageMetric();
@@ -230,26 +241,10 @@ protected:
 
 private:
 
-  //purposely not implemented
+  // purposely not implemented
   MattesMutualInformationImageToImageMetric(const Self &);
-  //purposely not implemented
+  // purposely not implemented
   void operator=(const Self &);
-
-  typedef float *MarginalPDFType;
-
-  mutable MarginalPDFType m_FixedImageMarginalPDF;
-
-  /** The moving image marginal PDF. */
-  mutable MarginalPDFType m_MovingImageMarginalPDF;
-
-  /** Helper array for storing the values of the JointPDF ratios. */
-  typedef double                PRatioType;
-  typedef Array2D< PRatioType > PRatioArrayType;
-  mutable PRatioArrayType m_PRatioArray;
-
-  /** Helper variable for accumulating the derivative of the metric. */
-  mutable DerivativeType  m_MetricDerivative;
-  mutable DerivativeType *m_ThreaderMetricDerivative;
 
   typedef JointPDFType::IndexType             JointPDFIndexType;
   typedef JointPDFType::PixelType             JointPDFValueType;
@@ -260,14 +255,35 @@ private:
   typedef JointPDFDerivativesType::RegionType JointPDFDerivativesRegionType;
   typedef JointPDFDerivativesType::SizeType   JointPDFDerivativesSizeType;
 
-  /** The joint PDF and PDF derivatives. */
-  typename JointPDFType::Pointer m_JointPDF;
+  /** Typedefs for BSpline kernel and derivative functions. */
+  typedef BSplineKernelFunction<3>           CubicBSplineFunctionType;
+  typedef BSplineDerivativeKernelFunction<3> CubicBSplineDerivativeFunctionType;
 
-  SizeValueType m_JointPDFBufferSize;
+  /** Precompute fixed image parzen window indices. */
+  void ComputeFixedImageParzenWindowIndices( FixedImageSampleContainer & samples);
 
-  typename JointPDFDerivativesType::Pointer m_JointPDFDerivatives;
+  /** Compute PDF derivative contribution for each parameter. */
+  void ComputePDFDerivatives(ThreadIdType threadID, unsigned int sampleNumber, int movingImageParzenWindowIndex,
+                                     const ImageDerivativesType
+                                     &  movingImageGradientValue,
+                                     double cubicBSplineDerivativeValue) const;
 
-  SizeValueType m_JointPDFDerivativesBufferSize;
+  void GetValueThreadPreProcess(ThreadIdType threadID, bool withinSampleThread) const;
+
+  bool GetValueThreadProcessSample(ThreadIdType threadID, SizeValueType fixedImageSample,
+                                                  const MovingImagePointType & mappedPoint,
+                                                  double movingImageValue) const;
+
+  void GetValueThreadPostProcess(ThreadIdType threadID, bool withinSampleThread) const;
+
+  void GetValueAndDerivativeThreadPreProcess( ThreadIdType threadID, bool withinSampleThread) const;
+
+  bool GetValueAndDerivativeThreadProcessSample(ThreadIdType threadID, SizeValueType fixedImageSample,
+                                                               const MovingImagePointType & mappedPoint,
+                                                               double movingImageValue, const ImageDerivativesType &
+                                                               movingImageGradientValue) const;
+
+  void GetValueAndDerivativeThreadPostProcess( ThreadIdType threadID, bool withinSampleThread) const;
 
   /** Variables to define the marginal and joint histograms. */
   SizeValueType m_NumberOfHistogramBins;
@@ -280,68 +296,34 @@ private:
   double        m_FixedImageBinSize;
   double        m_MovingImageBinSize;
 
-  /** Typedefs for BSpline kernel and derivative functions. */
-  typedef BSplineKernelFunction< 3 >           CubicBSplineFunctionType;
-  typedef BSplineDerivativeKernelFunction< 3 > CubicBSplineDerivativeFunctionType;
-
   /** Cubic BSpline kernel for computing Parzen histograms. */
-  typename CubicBSplineFunctionType::Pointer m_CubicBSplineKernel;
-  typename CubicBSplineDerivativeFunctionType::Pointer
-  m_CubicBSplineDerivativeKernel;
+  typename CubicBSplineFunctionType::Pointer           m_CubicBSplineKernel;
+  typename CubicBSplineDerivativeFunctionType::Pointer m_CubicBSplineDerivativeKernel;
 
-  /** Precompute fixed image parzen window indices. */
-  virtual void ComputeFixedImageParzenWindowIndices(
-    FixedImageSampleContainer & samples);
+  /** Helper array for storing the values of the JointPDF ratios. */
+  typedef double              PRatioType;
+  typedef Array2D<PRatioType> PRatioArrayType;
 
-  /** Compute PDF derivative contribution for each parameter. */
-  virtual void ComputePDFDerivatives(unsigned int threadID,
-                                     unsigned int sampleNumber,
-                                     int movingImageParzenWindowIndex,
-                                     const ImageDerivativesType
-                                     &  movingImageGradientValue,
-                                     double cubicBSplineDerivativeValue
-                                     ) const;
+  mutable PRatioArrayType m_PRatioArray;
 
-  PDFValueType *m_ThreaderFixedImageMarginalPDF;
+  /** Helper variable for accumulating the derivative of the metric. */
+  mutable std::vector<DerivativeType> m_ThreaderMetricDerivative;
 
-  typename JointPDFType::Pointer              * m_ThreaderJointPDF;
-  typename JointPDFDerivativesType::Pointer   * m_ThreaderJointPDFDerivatives;
+  /** The moving image marginal PDF. */
+  mutable std::vector<PDFValueType>               m_MovingImageMarginalPDF;
+  mutable std::vector<std::vector<PDFValueType> > m_ThreaderFixedImageMarginalPDF;
 
-  int *m_ThreaderJointPDFStartBin;
-  int *m_ThreaderJointPDFEndBin;
+  /** The joint PDF and PDF derivatives. */
+  typename std::vector<JointPDFType::Pointer>            m_ThreaderJointPDF;
+  typename std::vector<JointPDFDerivativesType::Pointer> m_ThreaderJointPDFDerivatives;
 
-  mutable double *m_ThreaderJointPDFSum;
+  std::vector<int> m_ThreaderJointPDFStartBin;
+  std::vector<int> m_ThreaderJointPDFEndBin;
 
-  mutable double m_JointPDFSum;
+  mutable std::vector<double> m_ThreaderJointPDFSum;
 
   bool         m_UseExplicitPDFDerivatives;
   mutable bool m_ImplicitDerivativesSecondPass;
-
-  virtual inline void GetValueThreadPreProcess(unsigned int threadID,
-                                               bool withinSampleThread) const;
-
-  virtual inline bool GetValueThreadProcessSample(unsigned int threadID,
-                                                  SizeValueType fixedImageSample,
-                                                  const MovingImagePointType & mappedPoint,
-                                                  double movingImageValue) const;
-
-  virtual inline void GetValueThreadPostProcess(unsigned int threadID,
-                                                bool withinSampleThread) const;
-
-  virtual inline void GetValueAndDerivativeThreadPreProcess(
-    unsigned int threadID,
-    bool withinSampleThread) const;
-
-  virtual inline bool GetValueAndDerivativeThreadProcessSample(unsigned int threadID,
-                                                               SizeValueType fixedImageSample,
-                                                               const MovingImagePointType & mappedPoint,
-                                                               double movingImageValue,
-                                                               const ImageDerivativesType &
-                                                               movingImageGradientValue) const;
-
-  virtual inline void GetValueAndDerivativeThreadPostProcess(
-    unsigned int threadID,
-    bool withinSampleThread) const;
 };
 } // end namespace itk
 
