@@ -48,31 +48,93 @@ public:
   typedef typename Superclass::OutputPointType           OutputPointType;
   typedef typename Superclass::InputVectorType           InputVectorType;
   typedef typename Superclass::OutputVectorType          OutputVectorType;
+  typedef typename Superclass::InputVectorPixelType      InputVectorPixelType;
+  typedef typename Superclass::OutputVectorPixelType     OutputVectorPixelType;
   typedef typename Superclass::InputVnlVectorType        InputVnlVectorType;
   typedef typename Superclass::OutputVnlVectorType       OutputVnlVectorType;
   typedef typename Superclass::InputCovariantVectorType  InputCovariantVectorType;
   typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
 
-  virtual OutputPointType TransformPoint(const InputPointType  & inputPoint ) const
+  typedef typename Superclass::InputDiffusionTensor3DType  InputDiffusionTensor3DType;
+  typedef typename Superclass::OutputDiffusionTensor3DType OutputDiffusionTensor3DType;
+
+  typedef typename Superclass::InputSymmetricSecondRankTensorType
+  InputSymmetricSecondRankTensorType;
+  typedef typename Superclass::OutputSymmetricSecondRankTensorType
+  OutputSymmetricSecondRankTensorType;
+
+  virtual OutputPointType TransformPoint(const InputPointType  & itkNotUsed(inputPoint) ) const
   {
-    return inputPoint;
+    OutputPointType outPoint;
+    return outPoint;
   }
 
   using Superclass::TransformVector;
-  virtual OutputVectorType TransformVector(const InputVectorType  & inputVector ) const
+  virtual OutputVectorType TransformVector(const InputVectorType  & itkNotUsed(inputVector) ) const
   {
-    return inputVector;
+    OutputVectorType outVector;
+    return outVector;
   }
 
-  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType  & inputVector ) const
+  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType  & itkNotUsed(inputVector) ) const
   {
-    return inputVector;
+    OutputVnlVectorType outVector;
+    return outVector;
+  }
+
+  virtual OutputVectorPixelType TransformVector(const InputVectorPixelType  & itkNotUsed(inputVector) ) const
+  {
+    OutputVectorPixelType outVector;
+    return outVector;
   }
 
   using Superclass::TransformCovariantVector;
-  virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType  & inputVector ) const
+  virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType  & itkNotUsed(inputVector) ) const
   {
-    return inputVector;
+    OutputCovariantVectorType outVector;
+    return outVector;
+  }
+
+  virtual OutputVectorPixelType TransformCovariantVector(const InputVectorPixelType  & itkNotUsed(inputVector) ) const
+  {
+    OutputVectorPixelType outVector;
+    return outVector;
+  }
+
+  using Superclass::TransformDiffusionTensor3D;
+  virtual OutputDiffusionTensor3DType TransformDiffusionTensor3D( const InputDiffusionTensor3DType & itkNotUsed( tensor ) ) const
+  {
+    OutputDiffusionTensor3DType outTensor;
+    return outTensor;
+  }
+
+  virtual OutputVectorPixelType TransformDiffusionTensor3D( const InputVectorPixelType & itkNotUsed( tensor ) ) const
+  {
+    OutputVectorPixelType outTensor;
+    return outTensor;
+  }
+
+  using Superclass::TransformSymmetricSecondRankTensor;
+  virtual OutputSymmetricSecondRankTensorType TransformSymmetricSecondRankTensor(
+    const InputSymmetricSecondRankTensorType & itkNotUsed( tensor ) ) const
+  {
+    OutputSymmetricSecondRankTensorType outTensor;
+    return outTensor;
+  }
+
+  virtual OutputVectorPixelType TransformSymmetricSecondRankTensor(
+    const InputVectorPixelType & itkNotUsed( tensor ) ) const
+  {
+    OutputVectorPixelType outTensor;
+    return outTensor;
+  }
+
+  virtual void SetParameters(const ParametersType &)
+  {
+  }
+
+  virtual void SetFixedParameters(const ParametersType &)
+  {
   }
 
   virtual void ComputeJacobianWithRespectToParameters(const InputPointType &,
@@ -85,81 +147,176 @@ public:
     const InputPointType &,
     JacobianType & j ) const
   {
-    j.SetSize(NOutputDimensions, NInputDimensions); j.Fill(1);
+    j.SetSize(NOutputDimensions, NInputDimensions);
+    j.Fill(1);
   }
 
-  virtual void SetParameters(const ParametersType &)
-  {
-  }
-  virtual void SetFixedParameters(const ParametersType &)
-  {
-  }
 };
+
+template <
+  class TScalarType,
+  unsigned int NInputDimensions,
+  unsigned int NOutputDimensions>
+class TransformTester
+{
+public:
+  typedef TransformTester                                             Self;
+
+  typedef TransformTestHelper<double, NInputDimensions, NOutputDimensions> TransformType;
+
+  typedef typename TransformType::JacobianType              JacobianType;
+  typedef typename TransformType::ParametersType            ParametersType;
+  typedef typename TransformType::InputPointType            InputPointType;
+  typedef typename TransformType::OutputPointType           OutputPointType;
+  typedef typename TransformType::InputVectorType           InputVectorType;
+  typedef typename TransformType::OutputVectorType          OutputVectorType;
+  typedef typename TransformType::InputVectorPixelType      InputVectorPixelType;
+  typedef typename TransformType::OutputVectorPixelType     OutputVectorPixelType;
+  typedef typename TransformType::InputVnlVectorType        InputVnlVectorType;
+  typedef typename TransformType::OutputVnlVectorType       OutputVnlVectorType;
+  typedef typename TransformType::InputCovariantVectorType  InputCovariantVectorType;
+  typedef typename TransformType::OutputCovariantVectorType OutputCovariantVectorType;
+
+  typedef typename TransformType::InputDiffusionTensor3DType  InputDiffusionTensor3DType;
+  typedef typename TransformType::OutputDiffusionTensor3DType OutputDiffusionTensor3DType;
+
+  typedef typename TransformType::InputSymmetricSecondRankTensorType
+  InputSymmetricSecondRankTensorType;
+  typedef typename TransformType::OutputSymmetricSecondRankTensorType
+  OutputSymmetricSecondRankTensorType;
+
+  bool RunTests( void )
+  {
+    std::cout << "Testing itkTransform<" << NInputDimensions << "," << NOutputDimensions << ">" << std::endl;
+    typename TransformType::Pointer transform = TransformType::New();
+
+    InputPointType pnt;
+    transform->TransformPoint(pnt);
+    std::cout << "TransformPoint()                              OK" << std::endl;
+
+    InputVectorType vec;
+    transform->TransformVector(vec);
+    transform->TransformVector(vec,pnt);
+
+    InputVectorPixelType vecpix;
+    vecpix.SetSize( NInputDimensions );
+    transform->TransformVector(vecpix);
+    transform->TransformVector(vecpix,pnt);
+
+    InputVnlVectorType vec_vnl;
+    transform->TransformVector(vec_vnl);
+    transform->TransformVector(vec_vnl,pnt);
+    std::cout << "TransformVector()                             OK" << std::endl;
+
+    InputCovariantVectorType covec;
+    transform->TransformCovariantVector(covec);
+    transform->TransformCovariantVector(vecpix);
+    transform->TransformCovariantVector(covec,pnt);
+    transform->TransformCovariantVector(vecpix,pnt);
+    std::cout << "TransformCovariantVector()                    OK" << std::endl;
+
+    InputDiffusionTensor3DType difften;
+    vecpix.SetSize( 6 );
+    transform->TransformDiffusionTensor3D(difften);
+    transform->TransformDiffusionTensor3D(difften,pnt);
+    transform->TransformDiffusionTensor3D(vecpix);
+    transform->TransformDiffusionTensor3D(vecpix,pnt);
+    std::cout << "TransformDiffusionTensor3D()                  OK" << std::endl;
+
+    InputSymmetricSecondRankTensorType ssrten;
+    vecpix.SetSize(NInputDimensions*NInputDimensions);
+    vecpix.Fill(0);
+    transform->TransformSymmetricSecondRankTensor(ssrten);
+    transform->TransformSymmetricSecondRankTensor(ssrten,pnt);
+    transform->TransformSymmetricSecondRankTensor(vecpix);
+    transform->TransformSymmetricSecondRankTensor(vecpix,pnt);
+    std::cout << "TransformSymmetricSecondRankTensor()          OK" << std::endl;
+
+    typename TransformType::ParametersType parameters(6);
+    try
+      {
+      transform->SetParameters(parameters);
+      }
+    catch( itk::ExceptionObject & e )
+      {
+      std::cerr << e << std::endl;
+      }
+
+    try
+      {
+      transform->GetParameters();
+      }
+    catch( itk::ExceptionObject & e )
+      {
+      std::cerr << e << std::endl;
+      }
+
+    typename TransformType::JacobianType jacobian;
+    try
+      {
+      transform->ComputeJacobianWithRespectToParameters(pnt, jacobian);
+      }
+    catch( itk::ExceptionObject & e )
+      {
+      std::cerr << e << std::endl;
+      }
+
+    try
+      {
+      transform->ComputeJacobianWithRespectToPosition(pnt, jacobian);
+      }
+    catch( itk::ExceptionObject & e )
+      {
+      std::cerr << e << std::endl;
+      }
+
+    try
+      {
+      transform->ComputeInverseJacobianWithRespectToPosition(pnt, jacobian);
+      }
+    catch( itk::ExceptionObject & e )
+      {
+      std::cerr << e << std::endl;
+      }
+
+    typename TransformType::DerivativeType update( transform->GetNumberOfParameters() );
+    update.Fill(1);
+    try
+      {
+    transform->UpdateTransformParameters( update );
+      }
+    catch( itk::ExceptionObject & e )
+      {
+      std::cerr << e << std::endl;
+      }
+
+    // Exercise some methods
+    transform->Print( std::cout );
+    std::cout <<  transform->GetNameOfClass() << std::endl;
+
+    return true;
+  }
+
+};
+
 
 }
 }
 
 int itkTransformTest(int, char * [] )
 {
+  itk::itkTransformTestHelpers::TransformTester<double,3,3> tester33;
+  tester33.RunTests();
+  std::cout << "passed 3 3" << std::endl;
 
-  typedef  itk::itkTransformTestHelpers::TransformTestHelper<double, 3, 3> TransformType;
-  TransformType::Pointer transform = TransformType::New();
+  itk::itkTransformTestHelpers::TransformTester<double,3,2> tester32;
+  tester32.RunTests();
+  std::cout << "passed 3 2" << std::endl;
 
-  TransformType::InputPointType pnt;
-  transform->TransformPoint(pnt);
+  itk::itkTransformTestHelpers::TransformTester<double,2,3> tester23;
+  tester23.RunTests();
+  std::cout << "passed 2 3" << std::endl;
 
-  TransformType::InputVectorType vec;
-  transform->TransformVector(vec);
-
-  TransformType::InputVnlVectorType vec_vnl;
-  transform->TransformVector(vec_vnl);
-
-  TransformType::InputCovariantVectorType covec;
-  transform->TransformCovariantVector(covec);
-
-  TransformType::ParametersType parameters(6);
-  try
-    {
-    transform->SetParameters(parameters);
-    }
-  catch( itk::ExceptionObject & e )
-    {
-    std::cerr << e << std::endl;
-    }
-
-  try
-    {
-    transform->GetParameters();
-    }
-  catch( itk::ExceptionObject & e )
-    {
-    std::cerr << e << std::endl;
-    }
-
-  TransformType::JacobianType jacobian;
-  try
-    {
-    transform->ComputeJacobianWithRespectToParameters(pnt, jacobian);
-    }
-  catch( itk::ExceptionObject & e )
-    {
-    std::cerr << e << std::endl;
-    }
-
-  TransformType::DerivativeType update( transform->GetNumberOfParameters() );
-  update.Fill(1);
-  try
-    {
-    transform->UpdateTransformParameters( update );
-    }
-  catch( itk::ExceptionObject & e )
-    {
-    std::cerr << e << std::endl;
-    }
-
-  // Exercise some methods
-  transform->Print( std::cout );
-  std::cout <<  transform->GetNameOfClass() << std::endl;
 
   std::cout << "[ PASSED ]" << std::endl;
   return EXIT_SUCCESS;

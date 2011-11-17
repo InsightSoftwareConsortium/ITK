@@ -211,6 +211,7 @@ public:
   const;
 
   /**  Method to transform a vector. */
+  using Superclass::TransformVector;
   virtual OutputVectorType TransformVector(const InputVectorType &) const
   {
     itkExceptionMacro( "TransformVector(Vector) unimplemented, use "
@@ -230,13 +231,8 @@ public:
                        "TransformVector(Vector,Point)" );
   }
 
-  virtual OutputVectorType TransformVector(const InputVectorType &, const InputPointType & ) const;
-
-  virtual OutputVectorPixelType TransformVector(const InputVectorPixelType &, const InputPointType & ) const;
-
-  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType &, const InputPointType & ) const;
-
   /** Method to transform a tensor */
+  using Superclass::TransformDiffusionTensor3D;
   OutputDiffusionTensor3DType TransformDiffusionTensor(
     const InputDiffusionTensor3DType & ) const
   {
@@ -251,12 +247,8 @@ public:
                        "TransformDiffusionTensor(Tensor,Point)" );
   }
 
-  OutputDiffusionTensor3DType TransformDiffusionTensor(const InputDiffusionTensor3DType &,
-                                                       const InputPointType &) const;
-
-  OutputVectorPixelType TransformDiffusionTensor(const InputVectorPixelType &, const InputPointType &) const;
-
   /**  Method to transform a CovariantVector. */
+  using Superclass::TransformCovariantVector;
   virtual OutputCovariantVectorType TransformCovariantVector(
     const InputCovariantVectorType &) const
   {
@@ -270,13 +262,6 @@ public:
     itkExceptionMacro( "TransformCovariantVector(CovariantVector) "
                        "unimplemented, use TransformCovariantVector(CovariantVector,Point)" );
   }
-
-  /** Transform a CovariantVector of type InputCovariantVectorType, at point. */
-  virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType &,
-                                                             const InputPointType &) const;
-
-  /** Transform a CovariantVector of type InputVectorPixelType, at point. */
-  virtual OutputVectorPixelType TransformCovariantVector(const InputVectorPixelType &, const InputPointType & ) const;
 
   /** Set the transformation parameters. This sets the displacement
    * field image directly. */
@@ -351,6 +336,12 @@ public:
    * \c j will be resized as needed.
    */
   virtual void ComputeJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & j ) const;
+
+  /**
+   * Compute the jacobian with respect to the position, by point.
+   * \c j will be resized as needed.
+   */
+  virtual void ComputeInverseJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & j ) const;
 
   /**
    * Compute the jacobian with respect to the position, by index.

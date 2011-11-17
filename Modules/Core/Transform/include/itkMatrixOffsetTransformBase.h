@@ -125,11 +125,17 @@ public:
   typedef typename Superclass::InputVectorPixelType  InputVectorPixelType;
   typedef typename Superclass::OutputVectorPixelType OutputVectorPixelType;
 
-  /** Standard tensor type for this class */
+  /** Standard diffusion tensor type for this class */
   typedef typename Superclass::InputDiffusionTensor3DType
   InputDiffusionTensor3DType;
   typedef typename Superclass::OutputDiffusionTensor3DType
   OutputDiffusionTensor3DType;
+
+  /** Standard tensor type for this class */
+  typedef typename Superclass::InputSymmetricSecondRankTensorType
+  InputSymmetricSecondRankTensorType;
+  typedef typename Superclass::OutputSymmetricSecondRankTensorType
+  OutputSymmetricSecondRankTensorType;
 
   typedef CovariantVector<TScalarType, InputDiffusionTensor3DType::Dimension>
   InputTensorEigenVectorType;
@@ -337,68 +343,29 @@ public:
   OutputPointType       TransformPoint(const InputPointType & point) const;
 
   using Superclass::TransformVector;
-  OutputVectorType      TransformVector(const InputVectorType & vector) const;
 
-  using Superclass::TransformCovariantVector;
-  OutputVectorType      TransformVector(const InputVectorType & vector,
-                                        const InputPointType & itkNotUsed(point) ) const
-  {
-    return TransformVector( vector );
-  }
+  OutputVectorType      TransformVector(const InputVectorType & vector) const;
 
   OutputVnlVectorType   TransformVector(const InputVnlVectorType & vector) const;
 
-  OutputVnlVectorType   TransformVector(const InputVnlVectorType & vector,
-                                        const InputPointType & itkNotUsed(point) ) const
-  {
-    return TransformVector( vector );
-  }
-
   OutputVectorPixelType TransformVector(const InputVectorPixelType & vector) const;
 
-  OutputVectorPixelType TransformVector(const InputVectorPixelType & vector,
-                                        const InputPointType & itkNotUsed(point) ) const
-  {
-    return TransformVector( vector );
-  }
+  using Superclass::TransformCovariantVector;
 
   OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType & vector) const;
 
-  OutputCovariantVectorType TransformCovariantVector(
-    const InputCovariantVectorType & vector,
-    const InputPointType & itkNotUsed(point) ) const
-  {
-    return TransformCovariantVector( vector );
-  }
-
   OutputVectorPixelType TransformCovariantVector(const InputVectorPixelType & vector) const;
 
-  OutputVectorPixelType TransformCovariantVector(
-    const InputVectorPixelType & vector,
-    const InputPointType & itkNotUsed(point) ) const
-  {
-    return TransformCovariantVector( vector );
-  }
+  using Superclass::TransformDiffusionTensor3D;
 
-  OutputDiffusionTensor3DType TransformDiffusionTensor(const InputDiffusionTensor3DType & tensor) const;
+  OutputDiffusionTensor3DType TransformDiffusionTensor3D(const InputDiffusionTensor3DType & tensor) const;
 
-  OutputDiffusionTensor3DType TransformDiffusionTensor(
-    const InputDiffusionTensor3DType & tensor,
-    const InputPointType & itkNotUsed(point) )
-  const
-  {
-    return TransformDiffusionTensor( tensor );
-  }
+  OutputVectorPixelType TransformDiffusionTensor3D(const InputVectorPixelType & tensor ) const;
 
-  OutputVectorPixelType TransformDiffusionTensor(const InputVectorPixelType & tensor ) const;
+  using Superclass::TransformSymmetricSecondRankTensor;
+  OutputSymmetricSecondRankTensorType TransformSymmetricSecondRankTensor( const InputSymmetricSecondRankTensorType & tensor ) const;
 
-  OutputVectorPixelType TransformDiffusionTensor(
-    const InputVectorPixelType & tensor,
-    const InputPointType & itkNotUsed(tensor) )
-  const
-  {
-    return TransformDiffusionTensor( tensor );
-  }
+  OutputVectorPixelType TransformSymmetricSecondRankTensor( const InputVectorPixelType & tensor ) const;
 
   /** Compute the Jacobian of the transformation
    *
@@ -415,6 +382,11 @@ public:
    * the current Matrix. jac will be resized as needed, but it's
    * more efficient if it's already properly sized. */
   virtual void ComputeJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & jac) const;
+
+  /** Get the jacobian with respect to position. This simply returns
+   * the inverse of the current Matrix. jac will be resized as needed, but it's
+   * more efficient if it's already properly sized. */
+  virtual void ComputeInverseJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & jac) const;
 
   /** Create inverse of an affine transformation
    *
