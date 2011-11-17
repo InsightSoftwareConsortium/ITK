@@ -68,7 +68,7 @@ CovarianceSampleFilter< TSample >
 template< class TSample >
 typename CovarianceSampleFilter< TSample >::DataObjectPointer
 CovarianceSampleFilter< TSample >
-::MakeOutput(unsigned int index)
+::MakeOutput(DataObjectPointerArraySizeType index)
 {
   MeasurementVectorSizeType measurementVectorSize = this->GetMeasurementVectorSize();
 

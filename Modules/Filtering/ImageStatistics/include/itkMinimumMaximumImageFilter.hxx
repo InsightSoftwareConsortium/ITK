@@ -50,7 +50,7 @@ MinimumMaximumImageFilter< TInputImage >
 template< class TInputImage >
 DataObject::Pointer
 MinimumMaximumImageFilter< TInputImage >
-::MakeOutput(unsigned int output)
+::MakeOutput(DataObjectPointerArraySizeType output)
 {
   switch ( output )
     {

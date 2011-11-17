@@ -495,7 +495,7 @@ MultiResolutionImageRegistrationMethod< TFixedImage, TMovingImage >
 template< typename TFixedImage, typename TMovingImage >
 DataObject::Pointer
 MultiResolutionImageRegistrationMethod< TFixedImage, TMovingImage >
-::MakeOutput(unsigned int output)
+::MakeOutput(DataObjectPointerArraySizeType output)
 {
   switch ( output )
     {

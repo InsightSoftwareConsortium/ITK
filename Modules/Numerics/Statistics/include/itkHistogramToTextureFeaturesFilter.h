@@ -207,8 +207,9 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Make a DataObject to be used for output output. */
+  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput(unsigned int);
+  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType);
 
   void GenerateData();
 

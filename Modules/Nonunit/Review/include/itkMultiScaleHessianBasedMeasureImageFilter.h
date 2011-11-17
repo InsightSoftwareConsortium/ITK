@@ -176,8 +176,9 @@ public:
   itkBooleanMacro(GenerateHessianOutput);
 
   /** This is overloaded to create the Scales and Hessian output images */
+  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput(unsigned int idx);
+  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx);
 
 protected:
   MultiScaleHessianBasedMeasureImageFilter();

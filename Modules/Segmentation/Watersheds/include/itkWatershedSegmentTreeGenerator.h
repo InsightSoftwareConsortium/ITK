@@ -186,8 +186,9 @@ public:
                                  ScalarType);
 
   /** Standard itk::ProcessObject subclass method. */
+  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput(unsigned int idx);
+  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx);
 
 protected:
   SegmentTreeGenerator();

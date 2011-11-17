@@ -73,7 +73,8 @@ public:
   /** Smart Pointer type to a DataObject. */
   typedef DataObject::Pointer DataObjectPointer;
 
-  typedef Superclass::DataObjectIdentifierType DataObjectIdentifierType;
+  typedef Superclass::DataObjectIdentifierType       DataObjectIdentifierType;
+  typedef Superclass::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageSource, ProcessObject);
@@ -206,7 +207,7 @@ public:
    * multiple outputs of different types, then that class must provide
    * an implementation of MakeOutput(). */
   using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput(unsigned int idx);
+  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx);
 
 protected:
   ImageSource();

@@ -88,7 +88,7 @@ ImageToListSampleFilter< TImage, TMaskImage >
 template< class TImage, class TMaskImage >
 typename ImageToListSampleFilter< TImage, TMaskImage >::DataObjectPointer
 ImageToListSampleFilter< TImage, TMaskImage >
-::MakeOutput( unsigned int itkNotUsed(idx) )
+::MakeOutput( DataObjectPointerArraySizeType itkNotUsed(idx) )
 {
   typename ListSampleType::Pointer output = ListSampleType::New();
   return static_cast< DataObject * >( output );

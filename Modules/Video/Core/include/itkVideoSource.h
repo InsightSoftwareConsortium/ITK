@@ -97,8 +97,9 @@ public:
   /** Make a DataObject of the correct type for the specified output port. The
    * default always creates an OutputVideoStreamType object, so subclasses with
    * multiple types of output must override this to return the proper type. */
+  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput(unsigned int idx);
+  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx);
 
 protected:
 

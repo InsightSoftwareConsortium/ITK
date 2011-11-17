@@ -236,7 +236,7 @@ PointSetToImageRegistrationMethod< TFixedPointSet, TMovingImage >
 template< typename TFixedPointSet, typename TMovingImage >
 DataObject::Pointer
 PointSetToImageRegistrationMethod< TFixedPointSet, TMovingImage >
-::MakeOutput(unsigned int output)
+::MakeOutput(DataObjectPointerArraySizeType output)
 {
   switch ( output )
     {

@@ -93,8 +93,9 @@ protected:
   /** DataObject pointer */
   typedef DataObject::Pointer DataObjectPointer;
 
+  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput(unsigned int idx);
+  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx);
 
   void GenerateData();
 

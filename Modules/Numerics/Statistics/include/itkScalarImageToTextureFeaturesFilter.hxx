@@ -80,7 +80,7 @@ template< class TImage, class THistogramFrequencyContainer >
 typename
 ScalarImageToTextureFeaturesFilter< TImage, THistogramFrequencyContainer >::DataObjectPointer
 ScalarImageToTextureFeaturesFilter< TImage, THistogramFrequencyContainer >
-::MakeOutput( unsigned int itkNotUsed(idx) )
+::MakeOutput( DataObjectPointerArraySizeType itkNotUsed(idx) )
 {
   return static_cast< DataObject * >( FeatureValueVectorDataObjectType::New().GetPointer() );
 }

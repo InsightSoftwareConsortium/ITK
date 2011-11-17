@@ -80,7 +80,7 @@ ProcessObject
 
 DataObject::Pointer
 ProcessObject
-::MakeOutput(unsigned int)
+::MakeOutput(DataObjectPointerArraySizeType)
 {
   return static_cast< DataObject * >( DataObject::New().GetPointer() );
 }
@@ -115,12 +115,12 @@ ProcessObject
  */
 void
 ProcessObject
-::SetNumberOfIndexedInputs(unsigned int num)
+::SetNumberOfIndexedInputs(DataObjectPointerArraySizeType num)
 {
   if( this->GetNumberOfIndexedInputs() != num )
     {
     // remove the extra inputs
-    for( unsigned int i=num; i<this->GetNumberOfIndexedInputs(); i++ )
+    for( DataObjectPointerArraySizeType i=num; i<this->GetNumberOfIndexedInputs(); i++ )
       {
       this->RemoveInput( this->MakeNameFromIndex( i ) );
       }
@@ -134,7 +134,7 @@ ProcessObject
  */
 void
 ProcessObject
-::SetNumberOfInputs(unsigned int num)
+::SetNumberOfInputs(DataObjectPointerArraySizeType num)
 {
   this->SetNumberOfIndexedInputs(num);
 }
@@ -147,7 +147,7 @@ ProcessObject
 ::GetNumberOfValidRequiredInputs() const
 {
   DataObjectPointerArraySizeType count = 0;
-  for( unsigned int i = 0; i < m_NumberOfRequiredInputs; i++ )
+  for( DataObjectPointerArraySizeType i = 0; i < m_NumberOfRequiredInputs; i++ )
     {
     if( this->GetInput( i ) )
       {
@@ -202,8 +202,8 @@ ProcessObject
     {
     return;
     }
-  unsigned int nb = this->GetNumberOfIndexedInputs();
-  for( unsigned int i = 0; i < nb; i++ )
+  DataObjectPointerArraySizeType nb = this->GetNumberOfIndexedInputs();
+  for( DataObjectPointerArraySizeType i = 0; i < nb; i++ )
     {
     if( this->GetInput(i) == input )
       {
@@ -220,7 +220,7 @@ ProcessObject
  */
 void
 ProcessObject
-::RemoveInput(unsigned int idx)
+::RemoveInput(DataObjectPointerArraySizeType idx)
 {
   if( idx == this->GetNumberOfIndexedInputs() - 1 )
     {
@@ -263,7 +263,7 @@ ProcessObject
  */
 void
 ProcessObject
-::SetNthInput(unsigned int idx, DataObject *input)
+::SetNthInput(DataObjectPointerArraySizeType idx, DataObject *input)
 {
   if ( idx >= this->GetNumberOfIndexedInputs() )
     {
@@ -302,7 +302,7 @@ void
 ProcessObject
 ::PushFrontInput(const DataObject *input)
 {
-  int nb = this->GetNumberOfIndexedInputs();
+  int nb = static_cast<int>(this->GetNumberOfIndexedInputs());
   for( int i = nb-1; i >= 0; i-- )
     {
     this->SetNthInput( i+1, this->GetInput(i) );
@@ -317,10 +317,10 @@ void
 ProcessObject
 ::PopFrontInput()
 {
-  unsigned int nb = this->GetNumberOfIndexedInputs();
+  DataObjectPointerArraySizeType nb = this->GetNumberOfIndexedInputs();
   if( nb > 0 )
     {
-    for( unsigned int i = 1; i < nb; i++ )
+    for( DataObjectPointerArraySizeType i = 1; i < nb; i++ )
       {
       this->SetNthInput( i-1, this->GetInput( i ) );
       }
@@ -359,8 +359,8 @@ ProcessObject
     {
     return;
     }
-  unsigned int nb = this->GetNumberOfIndexedOutputs();
-  for( unsigned int i = 0; i < nb; i++ )
+  DataObjectPointerArraySizeType nb = this->GetNumberOfIndexedOutputs();
+  for( DataObjectPointerArraySizeType i = 0; i < nb; i++ )
     {
     if( this->GetOutput(i) == output )
       {
@@ -373,7 +373,7 @@ ProcessObject
 
 void
 ProcessObject
-::RemoveOutput(unsigned int idx)
+::RemoveOutput(DataObjectPointerArraySizeType idx)
 {
   if( idx == this->GetNumberOfIndexedOutputs() - 1 )
     {
@@ -449,7 +449,7 @@ ProcessObject
  */
 void
 ProcessObject
-::SetNthOutput(unsigned int idx, DataObject *output)
+::SetNthOutput(DataObjectPointerArraySizeType idx, DataObject *output)
 {
   if ( idx >= this->GetNumberOfIndexedOutputs() )
     {
@@ -466,7 +466,7 @@ void
 ProcessObject
 ::AddOutput(DataObject *output)
 {
-  for ( unsigned int idx = 0; idx < this->GetNumberOfIndexedOutputs(); ++idx )
+  for ( DataObjectPointerArraySizeType idx = 0; idx < this->GetNumberOfIndexedOutputs(); ++idx )
     {
     if ( !this->GetOutput( idx ) )
       {
@@ -482,12 +482,12 @@ ProcessObject
  */
 void
 ProcessObject
-::SetNumberOfIndexedOutputs(unsigned int num)
+::SetNumberOfIndexedOutputs(DataObjectPointerArraySizeType num)
 {
   if( this->GetNumberOfIndexedOutputs() != num )
     {
     // remove the extra outputs
-    for( unsigned int i=num; i<this->GetNumberOfIndexedOutputs(); i++ )
+    for( DataObjectPointerArraySizeType i=num; i<this->GetNumberOfIndexedOutputs(); i++ )
       {
       this->RemoveOutput( this->MakeNameFromIndex( i ) );
       }
@@ -501,7 +501,7 @@ ProcessObject
  */
 void
 ProcessObject
-::SetNumberOfOutputs(unsigned int num)
+::SetNumberOfOutputs(DataObjectPointerArraySizeType num)
 {
   this->SetNumberOfIndexedOutputs(num);
 }
@@ -538,14 +538,14 @@ ProcessObject
  */
 DataObject *
 ProcessObject
-::GetOutput(unsigned int i)
+::GetOutput(DataObjectPointerArraySizeType i)
 {
   return this->GetOutput( this->MakeNameFromIndex(i) );
 }
 
 const DataObject *
 ProcessObject
-::GetOutput(unsigned int i) const
+::GetOutput(DataObjectPointerArraySizeType i) const
 {
   return this->GetOutput( this->MakeNameFromIndex(i) );
 }
@@ -650,7 +650,7 @@ ProcessObject
 ::GetIndexedOutputs()
 {
   DataObjectPointerArray res(this->GetNumberOfIndexedOutputs());
-  for ( unsigned int i = 0; i < this->GetNumberOfIndexedOutputs(); i++ )
+  for ( DataObjectPointerArraySizeType i = 0; i < this->GetNumberOfIndexedOutputs(); i++ )
     {
     res[i] = this->GetOutput(i);
     }
@@ -689,14 +689,14 @@ ProcessObject
  */
 DataObject *
 ProcessObject
-::GetInput(unsigned int i)
+::GetInput(DataObjectPointerArraySizeType i)
 {
   return this->GetInput( this->MakeNameFromIndex(i) );
 }
 
 const DataObject *
 ProcessObject
-::GetInput(unsigned int i) const
+::GetInput(DataObjectPointerArraySizeType i) const
 {
   return this->GetInput( this->MakeNameFromIndex(i) );
 }
@@ -788,7 +788,7 @@ ProcessObject
 // ::GetIndexedInputs() const
 // {
 //   ConstDataObjectPointerArray res(this->GetNumberOfIndexedInputs());
-//   for ( unsigned int i = 0; i < this->GetNumberOfIndexedInputs(); i++ )
+//   for ( DataObjectPointerArraySizeType i = 0; i < this->GetNumberOfIndexedInputs(); i++ )
 //     {
 //     res[i] = this->GetInput(i);
 //     }
@@ -800,7 +800,7 @@ ProcessObject
 ::GetIndexedInputs()
 {
   DataObjectPointerArray res(this->GetNumberOfIndexedInputs());
-  for ( unsigned int i = 0; i < this->GetNumberOfIndexedInputs(); i++ )
+  for ( DataObjectPointerArraySizeType i = 0; i < this->GetNumberOfIndexedInputs(); i++ )
     {
     res[i] = this->GetInput(i);
     }
@@ -809,7 +809,7 @@ ProcessObject
 
 ProcessObject::DataObjectIdentifierType
 ProcessObject
-::MakeNameFromIndex(unsigned int idx) const
+::MakeNameFromIndex(DataObjectPointerArraySizeType idx) const
 {
   if( idx == 0 )
     {
@@ -818,7 +818,7 @@ ProcessObject
   if ( idx < 999 )
     {
     char buf[17+4];
-    sprintf(buf, "IndexedDataObject%u", idx);
+    sprintf(buf, "IndexedDataObject%u", static_cast<unsigned int>(idx));
     return buf;
     }
   else
@@ -830,7 +830,7 @@ ProcessObject
     }
 }
 
-unsigned int
+ProcessObject::DataObjectPointerArraySizeType
 ProcessObject
 ::MakeIndexFromName(const DataObjectIdentifierType & name) const
 {
@@ -840,14 +840,14 @@ ProcessObject
     return 0;
     }
   DataObjectIdentifierType baseName = "IndexedDataObject";
-  unsigned int baseSize = baseName.size();
+  DataObjectPointerArraySizeType baseSize = baseName.size();
   if( name.size() <= baseSize || name.substr(0, baseSize) != baseName )
     {
     itkDebugMacro("MakeIndexFromName("<<name<<") -> exception bad base name");
     itkExceptionMacro(<<"Not an indexed data object: " << name);
     }
   DataObjectIdentifierType idxStr = name.substr(baseSize);
-  unsigned int idx;
+  DataObjectPointerArraySizeType idx;
   if( !(std::istringstream(idxStr) >> idx) )
     {
     itkDebugMacro("MakeIndexFromName("<<name<<") -> exception not an index");
@@ -866,13 +866,13 @@ ProcessObject
     return true;
     }
   DataObjectIdentifierType baseName = "IndexedDataObject";
-  unsigned int baseSize = baseName.size();
+  DataObjectPointerArraySizeType baseSize = baseName.size();
   if( name.size() <= baseSize || name.substr(0, baseSize) != baseName )
     {
     return false;
     }
   DataObjectIdentifierType idxStr = name.substr(baseSize);
-  unsigned int idx;
+  DataObjectPointerArraySizeType idx;
   return (std::istringstream(idxStr) >> idx);
 }
 

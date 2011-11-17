@@ -63,7 +63,7 @@ template< class THistogram >
 typename
 HistogramToTextureFeaturesFilter< THistogram >::DataObjectPointer
 HistogramToTextureFeaturesFilter< THistogram >
-::MakeOutput( unsigned int itkNotUsed(idx) )
+::MakeOutput( DataObjectPointerArraySizeType itkNotUsed(idx) )
 {
   return static_cast< DataObject * >( MeasurementObjectType::New().GetPointer() );
 }

@@ -147,8 +147,9 @@ public:
 
   /** Make a DataObject of the correct type to be used as the specified
    * output. */
+  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput(unsigned int idx);
+  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx);
 
   /** Method to return the latest modified time of this object or
    * any of its cached ivars */

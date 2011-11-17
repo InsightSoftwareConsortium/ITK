@@ -99,7 +99,7 @@ MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel
 template< class TInputImage, class TMaskImage, class TOutputImage, class TKernel, class THistogram >
 DataObject::Pointer
 MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel, THistogram >
-::MakeOutput(unsigned int idx)
+::MakeOutput(DataObjectPointerArraySizeType idx)
 {
   DataObject::Pointer output;
 

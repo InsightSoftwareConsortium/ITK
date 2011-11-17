@@ -47,7 +47,7 @@ MeshSource< TOutputMesh >
 template< class TOutputMesh >
 typename MeshSource< TOutputMesh >::DataObjectPointer
 MeshSource< TOutputMesh >
-::MakeOutput(unsigned int)
+::MakeOutput(DataObjectPointerArraySizeType)
 {
   return static_cast< DataObject * >( TOutputMesh::New().GetPointer() );
 }

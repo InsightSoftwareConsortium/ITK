@@ -46,8 +46,9 @@ public:
   itkTypeMacro(ImageToMeshFilter, MeshSource);
 
   /** Create a valid output. */
+  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  DataObject::Pointer  MakeOutput(unsigned int idx);
+  DataObject::Pointer  MakeOutput(DataObjectPointerArraySizeType idx);
 
   /** Some Image related typedefs. */
   typedef   TInputImage                           InputImageType;

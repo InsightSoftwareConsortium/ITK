@@ -51,7 +51,7 @@ ImageToMeshFilter< TInputImage, TOutputMesh >
 template< class TInputImage, class TOutputMesh >
 DataObject::Pointer
 ImageToMeshFilter< TInputImage, TOutputMesh >
-::MakeOutput(unsigned int)
+::MakeOutput(DataObjectPointerArraySizeType)
 {
   OutputMeshPointer outputMesh = OutputMeshType::New();
 

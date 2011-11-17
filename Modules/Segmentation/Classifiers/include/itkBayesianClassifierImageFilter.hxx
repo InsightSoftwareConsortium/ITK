@@ -128,7 +128,7 @@ typename BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
 ::DataObjectPointer
 BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
                                TPosteriorsPrecisionType, TPriorsPrecisionType >
-::MakeOutput(unsigned int idx)
+::MakeOutput(DataObjectPointerArraySizeType idx)
 {
   if  ( idx == 1 )
     {

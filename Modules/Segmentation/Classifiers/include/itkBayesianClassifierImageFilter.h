@@ -181,8 +181,9 @@ public:
   itkGetConstMacro(NumberOfSmoothingIterations, unsigned int);
 
   /** This is overloaded to create the Posteriors output image */
+  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput(unsigned int idx);
+  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */

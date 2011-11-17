@@ -86,8 +86,9 @@ protected:
    * called.
    * \sa ProcessObject
    */
+  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput(unsigned int idx);
+  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx);
 
 private:
   SampleToSubsampleFilter(const Self &); //purposely not implemented

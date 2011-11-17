@@ -217,7 +217,7 @@ public:
    * this method to create the correct type of image and mesh respectively.
    * If a filter has multiple outputs of different types, then that
    * filter must provide an implementation of MakeOutput(). */
-  virtual DataObjectPointer MakeOutput(unsigned int idx);
+  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx);
 
   /** Set the AbortGenerateData flag for the process object. Process objects
    *  may handle premature termination of execution in different ways.  */
@@ -380,21 +380,21 @@ protected:
   const DataObject * GetInput(const DataObjectIdentifierType & key) const;
 
   /** Method used internally for getting an indexed input. */
-  DataObject * GetInput(unsigned int);
-  const DataObject * GetInput(unsigned int idx) const;
+  DataObject * GetInput(DataObjectPointerArraySizeType);
+  const DataObject * GetInput(DataObjectPointerArraySizeType idx) const;
 
   /** Set an input */
   virtual void SetInput(const DataObjectIdentifierType & key, DataObject *input);
 
   /** Protected methods for setting indexed inputs.
    * Subclasses make use of them for setting input. */
-  virtual void SetNthInput(unsigned int num, DataObject *input);
+  virtual void SetNthInput(DataObjectPointerArraySizeType num, DataObject *input);
 
   /** Remove an input */
   virtual void RemoveInput(const DataObjectIdentifierType & key);
 
   /** Remove an indexed input */
-  virtual void RemoveInput(unsigned int);
+  virtual void RemoveInput(DataObjectPointerArraySizeType);
 
   /** Remove an indexed input.
    *\deprecated use RemoveOutput(unsigned int) instead
@@ -413,8 +413,8 @@ protected:
   const DataObject * GetOutput(const DataObjectIdentifierType & key) const;
 
   /** Method used internally for getting an indexed output. */
-  DataObject * GetOutput(unsigned int idx);
-  const DataObject * GetOutput(unsigned int idx) const;
+  DataObject * GetOutput(DataObjectPointerArraySizeType idx);
+  const DataObject * GetOutput(DataObjectPointerArraySizeType idx) const;
 
   /** Set an output */
   virtual void SetOutput(const DataObjectIdentifierType & key, DataObject *output);
@@ -432,8 +432,8 @@ protected:
   /** Set the main output */
   virtual void SetPrimaryOutput(DataObject *output);
 
-  DataObjectIdentifierType MakeNameFromIndex( unsigned int ) const;
-  unsigned int MakeIndexFromName( const DataObjectIdentifierType & ) const;
+  DataObjectIdentifierType MakeNameFromIndex( DataObjectPointerArraySizeType ) const;
+  DataObjectPointerArraySizeType MakeIndexFromName( const DataObjectIdentifierType & ) const;
   bool IsIndexedName( const DataObjectIdentifierType & ) const;
 
   /** \brief Verifies that the process object has been configured
@@ -463,8 +463,8 @@ protected:
 
   virtual void AddInput(DataObject *input);
 
-  itkSetMacro(NumberOfRequiredInputs, unsigned int);
-  itkGetConstReferenceMacro(NumberOfRequiredInputs, unsigned int);
+  itkSetMacro(NumberOfRequiredInputs, DataObjectPointerArraySizeType);
+  itkGetConstReferenceMacro(NumberOfRequiredInputs, DataObjectPointerArraySizeType);
 
   /** Push/Pop an indexed input of this process object. These methods allow a
    * filter to model its input vector as a queue or stack.  These
@@ -479,27 +479,27 @@ protected:
   /** Define the number of indexed inputs defined for this process. The new indexed inputs are
    * considered to be NULL.
    */
-  void SetNumberOfIndexedInputs(unsigned int num);
+  void SetNumberOfIndexedInputs(DataObjectPointerArraySizeType num);
 
   /** \deprecated use SetNumberOfIndexedInputs() instead */
-  void SetNumberOfInputs(unsigned int num);
+  void SetNumberOfInputs(DataObjectPointerArraySizeType num);
 
   /** Protected methods for setting outputs.
    * Subclasses make use of them for getting output. */
-  virtual void SetNthOutput(unsigned int num, DataObject *output);
+  virtual void SetNthOutput(DataObjectPointerArraySizeType num, DataObject *output);
 
   virtual void AddOutput(DataObject *output);
 
-  virtual void RemoveOutput(unsigned int idx);
+  virtual void RemoveOutput(DataObjectPointerArraySizeType idx);
 
-  itkSetMacro(NumberOfRequiredOutputs, unsigned int);
-  itkGetConstReferenceMacro(NumberOfRequiredOutputs, unsigned int);
+  itkSetMacro(NumberOfRequiredOutputs, DataObjectPointerArraySizeType);
+  itkGetConstReferenceMacro(NumberOfRequiredOutputs, DataObjectPointerArraySizeType);
 
   /** Called to allocate the output array.  Copies old outputs. */
-  void SetNumberOfIndexedOutputs(unsigned int num);
+  void SetNumberOfIndexedOutputs(DataObjectPointerArraySizeType num);
 
   /** \deprecated use SetNumberOfIndexedInputs() instead */
-  void SetNumberOfOutputs(unsigned int num);
+  void SetNumberOfOutputs(DataObjectPointerArraySizeType num);
 
   /** What is the input requested region that is required to produce the
    * output requested region? By default, the largest possible region is
@@ -616,11 +616,11 @@ private:
   /** An array that caches the ReleaseDataFlags of the inputs */
   std::map< DataObjectIdentifierType, bool > m_CachedInputReleaseDataFlags;
 
-  unsigned int           m_NumberOfIndexedInputs;
-  unsigned int           m_NumberOfIndexedOutputs;
+  DataObjectPointerArraySizeType  m_NumberOfIndexedInputs;
+  DataObjectPointerArraySizeType  m_NumberOfIndexedOutputs;
 
-  unsigned int           m_NumberOfRequiredInputs;
-  unsigned int           m_NumberOfRequiredOutputs;
+  DataObjectPointerArraySizeType  m_NumberOfRequiredInputs;
+  DataObjectPointerArraySizeType  m_NumberOfRequiredOutputs;
 
   /** These support the progress method and aborting filter execution. */
   bool  m_AbortGenerateData;

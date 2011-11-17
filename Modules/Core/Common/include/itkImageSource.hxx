@@ -61,7 +61,7 @@ ImageSource< TOutputImage >
 template< class TOutputImage >
 typename ImageSource< TOutputImage >::DataObjectPointer
 ImageSource< TOutputImage >
-::MakeOutput(unsigned int)
+::MakeOutput(DataObjectPointerArraySizeType)
 {
   return static_cast< DataObject * >( TOutputImage::New().GetPointer() );
 }

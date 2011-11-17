@@ -67,7 +67,7 @@ MeanSampleFilter< TSample >
 template< class TSample >
 typename MeanSampleFilter< TSample >::DataObjectPointer
 MeanSampleFilter< TSample >
-::MakeOutput( unsigned int itkNotUsed(idx) )
+::MakeOutput( DataObjectPointerArraySizeType itkNotUsed(idx) )
 {
   MeasurementVectorRealType mean;
   (void)mean; // for complainty pants : valgrind

@@ -95,7 +95,7 @@ typename
 ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
 ::DataObjectPointer
 ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
-::MakeOutput( unsigned int itkNotUsed(idx) )
+::MakeOutput( DataObjectPointerArraySizeType itkNotUsed(idx) )
 {
   return static_cast<DataObject *>(
     FeatureValueVectorDataObjectType::New().GetPointer() );

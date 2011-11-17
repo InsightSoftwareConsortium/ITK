@@ -219,7 +219,7 @@ ImageToSpatialObjectRegistrationMethod< TFixedImage, TMovingSpatialObject >
 template< typename TFixedImage, typename TMovingSpatialObject >
 DataObject::Pointer
 ImageToSpatialObjectRegistrationMethod< TFixedImage, TMovingSpatialObject >
-::MakeOutput(unsigned int output)
+::MakeOutput(DataObjectPointerArraySizeType output)
 {
   switch ( output )
     {

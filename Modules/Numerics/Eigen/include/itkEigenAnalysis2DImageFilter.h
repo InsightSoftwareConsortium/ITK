@@ -103,8 +103,9 @@ public:
   EigenVectorImageType * GetMaxEigenVector(void);
 
   /**  Create the Output */
+  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  DataObject::Pointer MakeOutput(unsigned int idx);
+  DataObject::Pointer MakeOutput(DataObjectPointerArraySizeType idx);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */

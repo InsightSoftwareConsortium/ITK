@@ -101,7 +101,7 @@ ImageToRectilinearFEMObjectFilter<TInputImage>
 template <class TInputImage>
 typename ImageToRectilinearFEMObjectFilter<TInputImage>::DataObjectPointer
 ImageToRectilinearFEMObjectFilter<TInputImage>
-::MakeOutput(unsigned int itkNotUsed(idx))
+::MakeOutput(DataObjectPointerArraySizeType itkNotUsed(idx))
 {
   return static_cast<DataObject *>(FEMObjectType::New().GetPointer() );
 }
