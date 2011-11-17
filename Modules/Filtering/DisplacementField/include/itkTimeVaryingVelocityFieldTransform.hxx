@@ -22,6 +22,7 @@
 
 #include "itkTimeVaryingVelocityFieldIntegrationImageFilter.h"
 #include "itkVectorLinearInterpolateImageFunction.h"
+#include "itkImageRegionIterator.h"
 
 namespace itk
 {
@@ -33,12 +34,13 @@ template<class TScalar, unsigned int NDimensions>
 TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
 ::TimeVaryingVelocityFieldTransform()
 {
+  this->m_FixedParameters.SetSize
+    (TimeVaryingVelocityFieldDimension * ( TimeVaryingVelocityFieldDimension + 3 ));
   this->m_LowerTimeBound = 0.0;
   this->m_UpperTimeBound = 1.0;
   this->m_NumberOfIntegrationSteps = 100;
 
   this->m_TimeVaryingVelocityField = NULL;
-
   // Setup and assign parameter helper. This will hold the time varying velocity
   // field for access through the common OptimizerParameters interface.
   OptimizerParametersHelperType * helper = new OptimizerParametersHelperType;
@@ -254,7 +256,141 @@ void TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
       }
     // Assign to parameters object
     this->m_Parameters.SetParametersObject( this->m_TimeVaryingVelocityField );
+    this->SetFixedParametersFromTimeVaryingVelocityField();
     }
+}
+
+template <class TScalar, unsigned int NDimensions>
+void
+TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
+::SetFixedParametersFromTimeVaryingVelocityField()
+{
+  this->m_FixedParameters.SetSize
+    (TimeVaryingVelocityFieldDimension * ( TimeVaryingVelocityFieldDimension + 3 ));
+
+  const typename TimeVaryingVelocityFieldType::RegionType & fieldRegion =
+    this->m_TimeVaryingVelocityField->GetLargestPossibleRegion();
+
+  // Set the field size parameters
+  SizeType fieldSize = fieldRegion.GetSize();
+  for( unsigned int i = 0; i < TimeVaryingVelocityFieldDimension; i++ )
+    {
+    this->m_FixedParameters[i] = static_cast<ParametersValueType>( fieldSize[i] );
+    }
+
+  // Set the origin parameters
+  TimeVaryingVelocityFieldPointType fieldOrigin = this->m_TimeVaryingVelocityField->GetOrigin();
+  for( unsigned int i = 0; i < TimeVaryingVelocityFieldDimension; i++ )
+    {
+    this->m_FixedParameters[TimeVaryingVelocityFieldDimension + i] = fieldOrigin[i];
+    }
+
+  // Set the spacing parameters
+  TimeVaryingVelocityFieldSpacingType fieldSpacing = this->m_TimeVaryingVelocityField->GetSpacing();
+  for( unsigned int i = 0; i < TimeVaryingVelocityFieldDimension; i++ )
+    {
+    this->m_FixedParameters[2 * TimeVaryingVelocityFieldDimension + i] = static_cast<ParametersValueType>( fieldSpacing[i] );
+    }
+
+  // Set the direction parameters
+  TimeVaryingVelocityFieldDirectionType fieldDirection = this->m_TimeVaryingVelocityField->GetDirection();
+  for( unsigned int di = 0; di < TimeVaryingVelocityFieldDimension; di++ )
+    {
+    for( unsigned int dj = 0; dj < TimeVaryingVelocityFieldDimension; dj++ )
+      {
+      this->m_FixedParameters[3 * TimeVaryingVelocityFieldDimension + ( di * TimeVaryingVelocityFieldDimension + dj )] =
+        static_cast<ParametersValueType>( fieldDirection[di][dj] );
+      }
+    }
+}
+
+template <class TScalar, unsigned int NDimensions>
+typename TimeVaryingVelocityFieldTransform<TScalar, NDimensions>::DisplacementFieldType::Pointer
+TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
+::CopyDisplacementField(const DisplacementFieldType *toCopy) const
+{
+  typename DisplacementFieldType::Pointer rval = DisplacementFieldType::New();
+  rval->SetOrigin(toCopy->GetOrigin());
+  rval->SetSpacing(toCopy->GetSpacing());
+  rval->SetDirection(toCopy->GetDirection());
+  rval->SetRegions(toCopy->GetLargestPossibleRegion());
+  rval->Allocate();
+
+  ImageRegionConstIterator<DisplacementFieldType>
+    dispIt(toCopy,toCopy->GetLargestPossibleRegion());
+  ImageRegionIterator<DisplacementFieldType>
+    cloneDispIt(rval,rval->GetLargestPossibleRegion());
+  for(dispIt.Begin(), cloneDispIt.Begin(); !dispIt.IsAtEnd() && !cloneDispIt.IsAtEnd();
+      ++dispIt, ++cloneDispIt)
+    {
+    cloneDispIt.Set(dispIt.Get());
+    }
+  return rval;
+}
+
+template <class TScalar, unsigned int NDimensions>
+typename TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
+::TransformPointer
+TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
+::InternalClone() const
+{
+  // create a new instance
+  LightObject::Pointer loPtr =
+    this->CreateAnother();
+  typename Self::Pointer rval =
+    dynamic_cast<Self *>(loPtr.GetPointer());
+  if(rval.IsNull())
+    {
+    itkExceptionMacro(<< "downcast to type "
+                      << this->GetNameOfClass()
+                      << " failed.");
+    }
+
+  // set the fixed/moving parameters.
+  // Not sure these do anything at all useful!
+  rval->SetFixedParameters(this->GetFixedParameters());
+  rval->SetParameters(this->GetParameters());
+
+  // need the displacement field but GetDisplacementField is non-const.
+  Self *nonConstThis = const_cast<Self *>(this);
+  typename DisplacementFieldType::ConstPointer dispField = nonConstThis->GetDisplacementField();
+  typename DisplacementFieldType::Pointer cloneDispField =
+    this->CopyDisplacementField(dispField.GetPointer());
+  rval->GetInterpolator()->SetInputImage(cloneDispField);
+  rval->SetDisplacementField(cloneDispField);
+
+  // now do the inverse -- it actually gets created as a side effect?
+  typename DisplacementFieldType::ConstPointer invDispField = nonConstThis->GetInverseDisplacementField();
+  typename DisplacementFieldType::Pointer cloneInvDispField =
+    this->CopyDisplacementField(invDispField.GetPointer());
+  rval->SetInverseDisplacementField(cloneInvDispField);
+
+  // copy the TimeVaryingVelocityField
+  // SetFixedParameters allocates the TimeVaryingVelocityField
+  ImageRegionConstIterator<TimeVaryingVelocityFieldType>
+    thisIt(this->m_TimeVaryingVelocityField,this->m_TimeVaryingVelocityField->GetLargestPossibleRegion());
+  ImageRegionIterator<TimeVaryingVelocityFieldType>
+    cloneIt(rval->GetTimeVaryingVelocityField(),
+            rval->GetTimeVaryingVelocityField()->GetLargestPossibleRegion());
+  for(thisIt.Begin(),cloneIt.Begin(); !thisIt.IsAtEnd() && !cloneIt.IsAtEnd();
+      ++thisIt, ++cloneIt)
+    {
+    cloneIt.Set(thisIt.Get());
+    }
+
+  // set config parameters
+  rval->SetLowerTimeBound(this->GetLowerTimeBound());
+  rval->SetUpperTimeBound(this->GetUpperTimeBound());
+  rval->SetNumberOfIntegrationSteps(this->GetNumberOfIntegrationSteps());
+
+  // copy the interpolator
+  TimeVaryingVelocityFieldInterpolatorPointer newInterp =
+    dynamic_cast<TimeVaryingVelocityFieldInterpolatorType *>
+    (this->GetTimeVaryingVelocityFieldInterpolator()->CreateAnother().GetPointer());
+  // interpolator needs to know about the velocity field
+  newInterp->SetInputImage(rval->GetTimeVaryingVelocityField());
+  rval->SetTimeVaryingVelocityFieldInterpolator(newInterp);
+  return rval.GetPointer();
 }
 
 template <class TScalar, unsigned int NDimensions>

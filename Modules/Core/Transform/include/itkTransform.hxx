@@ -79,37 +79,33 @@ std::string Transform<TScalarType, NInputDimensions, NOutputDimensions>
   return n.str();
 }
 
-#if 0
 /**
- * SetDirectionChange
+ * Clone
  */
 template <class TScalarType,
           unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
-void
+typename Transform<TScalarType, NInputDimensions, NOutputDimensions>::Pointer
 Transform<TScalarType, NInputDimensions, NOutputDimensions>
-::SetDirectionChange( const OutputDirectionMatrix fixedDir,
-                      const InputDirectionMatrix movingDir )
+::InternalClone() const
 {
+  // Default implementation just copies the parameters from
+  // this to new transform.
+  LightObject::Pointer loPtr =
+    this->CreateAnother();
 
-  OutputDirectionMatrix movingDir2;
-
-  movingDir2.SetIdentity();
-  for( unsigned int i = 0; i < NOutputDimensions; i++ )
+  typename Self::Pointer rval =
+    dynamic_cast<Self *>(loPtr.GetPointer());
+  if(rval.IsNull())
     {
-    for( unsigned int j = 0; j < NOutputDimensions; j++ )
-      {
-      if( ( i < NInputDimensions ) && ( j < NInputDimensions ) )
-        {
-        movingDir2(i, j) = movingDir(i, j);
-        }
-      }
+    itkExceptionMacro(<< "downcast to type "
+                      << this->GetNameOfClass()
+                      << " failed.");
     }
-  // TODO: this line can't work when NInputDimensions and NOutputDimensions are not the same
-  // m_DirectionChange = movingDir2 * fixedDir;
-  this->Modified();
+  rval->SetFixedParameters(this->GetFixedParameters());
+  rval->SetParameters(this->GetParameters());
+  return rval;
 }
-#endif
 
 /**
  * UpdateTransformParameters

@@ -79,6 +79,9 @@ public:
   /** Dimension of the domain space. */
   itkStaticConstMacro(SpaceDimension, unsigned int, NDimensions);
 
+  /** implement type-specific clone method*/
+  itkTransformCloneMacro();
+
   /** Scalar type. */
   typedef typename Superclass::ScalarType ScalarType;
 

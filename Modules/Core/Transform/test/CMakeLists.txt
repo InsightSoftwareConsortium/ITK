@@ -36,10 +36,10 @@ itkVersorRigid3DTransformTest.cxx
 itkVersorTransformTest.cxx
 itkSplineKernelTransformTest.cxx
 itkCompositeTransformTest.cxx
+itkTransformCloneTest.cxx
 )
 
 CreateTestDriver(ITKTransform  "${ITKTransform-Test_LIBRARIES}" "${ITKTransformTests}")
-
 itk_add_test(NAME itkFixedCenterOfRotationAffineTransformTest
       COMMAND ITKTransformTestDriver itkFixedCenterOfRotationAffineTransformTest)
 itk_add_test(NAME itkAffineTransformTest
@@ -170,3 +170,5 @@ itk_add_test(NAME itkSplineKernelTransformTest
       COMMAND ITKTransformTestDriver itkSplineKernelTransformTest)
 itk_add_test(NAME itkCompositeTransformTest
       COMMAND ITKTransformTestDriver itkCompositeTransformTest)
+itk_add_test(NAME itkTransformCloneTest
+      COMMAND ITKTransformTestDriver itkTransformCloneTest)

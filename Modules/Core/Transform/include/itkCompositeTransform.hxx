@@ -1184,6 +1184,40 @@ CompositeTransform<TScalarType, NDimensions>
   os << indent <<  "End of CompositeTransform." << std::endl << "<<<<<<<<<<" << std::endl;
 }
 
+template
+<class TScalarType, unsigned int NDimensions>
+typename CompositeTransform<TScalarType, NDimensions>
+::TransformTypePointer
+CompositeTransform<TScalarType, NDimensions>
+::InternalClone() const
+{
+  LightObject::Pointer loPtr =
+    this->CreateAnother();
+  typename Self::Pointer clone =
+    dynamic_cast<Self *>(loPtr.GetPointer());
+  if(clone.IsNull())
+    {
+    itkExceptionMacro(<< "downcast to type "
+                      << this->GetNameOfClass()
+                      << " failed.");
+    }
+
+  typename TransformQueueType::iterator tqIt =
+    this->m_TransformQueue.begin();
+
+  typename TransformsToOptimizeFlagsType::iterator tfIt =
+    this->m_TransformsToOptimizeFlags.begin();
+
+  for(int i = 0; tqIt != this->m_TransformQueue.end() &&
+        tfIt != this->m_TransformsToOptimizeFlags.end();
+      ++tqIt, ++tfIt, ++i)
+    {
+    clone->AddTransform((*tqIt)->Clone().GetPointer());
+    clone->SetNthTransformToOptimize(i,(*tfIt));
+    }
+  return clone.GetPointer();
+}
+
 } // namespace itk
 
 #endif

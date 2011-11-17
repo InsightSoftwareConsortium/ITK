@@ -56,6 +56,9 @@ public:
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro(Self);
 
+  /** implement type-specific clone method*/
+  itkTransformCloneMacro();
+
   /** Scalar type. */
   typedef typename Superclass::ScalarType ScalarType;
 

@@ -100,6 +100,9 @@ public:
   /** New macro for creation of through a Smart Pointer.   */
   itkNewMacro(Self);
 
+  /** implement type-specific clone method*/
+  itkTransformCloneMacro();
+
   /** Parameters type.   */
   typedef typename Superclass::ParametersType ParametersType;
 

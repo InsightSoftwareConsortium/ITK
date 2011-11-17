@@ -65,6 +65,9 @@ public:
   itkStaticConstMacro(SpaceDimension, unsigned int, NDimensions);
   itkStaticConstMacro(ParametersDimension, unsigned int, NDimensions);
 
+  /** implement type-specific clone method*/
+  itkTransformCloneMacro();
+
   /** Standard scalar type for this class. */
   typedef typename Superclass::ScalarType ScalarType;
 

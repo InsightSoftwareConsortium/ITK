@@ -872,31 +872,6 @@ int itkCompositeTransformTest(int, char *[] )
     return EXIT_FAILURE;
     }
 
-  /* Test that the CreateAnother routine throws an exception.
-   * See comments in .h */
-  std::cout << "Test CreateAnother." << std::endl;
-  bool caughtException = false;
-  try
-    {
-    itk::LightObject::Pointer anotherTransform = compositeTransform->CreateAnother();
-    if( anotherTransform.IsNull() )
-      {
-      return EXIT_FAILURE;
-      }
-    }
-  catch( itk::ExceptionObject & excp )
-    {
-    caughtException = true;
-    std::cout << "\nCaught expected exception:" << std::endl;
-    std::cout << excp << std::endl;
-    }
-  if( !caughtException )
-    {
-    std::cerr << "Expected CreateAnother to throw exception." << std::endl;
-    return EXIT_FAILURE;
-    }
-  std::cout << "CreateAnother test passed." << std::endl;
-
   /* Test printing */
   compositeTransform->Print(std::cout);
 

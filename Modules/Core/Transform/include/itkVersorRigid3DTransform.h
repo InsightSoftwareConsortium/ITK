@@ -66,6 +66,9 @@ public:
   itkStaticConstMacro(OutputSpaceDimension, unsigned int, 3);
   itkStaticConstMacro(ParametersDimension, unsigned int, 6);
 
+  /** implement type-specific clone method*/
+  itkTransformCloneMacro();
+
   /** Parameters Type   */
   typedef typename Superclass::ParametersType            ParametersType;
   typedef typename Superclass::JacobianType              JacobianType;

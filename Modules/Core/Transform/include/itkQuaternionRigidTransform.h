@@ -68,6 +68,9 @@ public:
   itkStaticConstMacro(SpaceDimension, unsigned int, 3);
   itkStaticConstMacro(ParametersDimension, unsigned int, 7);
 
+  /** implement type-specific clone method*/
+  itkTransformCloneMacro();
+
   /** Parameters Type   */
   typedef typename Superclass::ParametersType            ParametersType;
   typedef typename Superclass::ParametersValueType       ParametersValueType;
