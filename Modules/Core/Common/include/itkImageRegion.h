@@ -282,6 +282,16 @@ public:
 
   void PadByRadius(const SizeType & radius);
 
+  /** Shrink an image region by the specified radius.  The region can be shrunk
+   * uniformly in all dimension or can be shink by different amounts in each
+   * direction.  If the shink operation fails because the radius is too large,
+   * this method returns false. */
+  bool ShrinkByRadius(OffsetValueType radius);
+
+  bool ShrinkByRadius(const IndexValueArrayType radius);
+
+  bool ShrinkByRadius(const SizeType & radius);
+
   /** Crop a region by another region. If this region is outside of the
    * crop, this method returns false and does not modify the
    * region. Otherwise, this method returns true and the region is

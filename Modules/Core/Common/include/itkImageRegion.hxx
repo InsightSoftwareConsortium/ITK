@@ -145,6 +145,63 @@ ImageRegion< VImageDimension >
 template< unsigned int VImageDimension >
 bool
 ImageRegion< VImageDimension >
+::ShrinkByRadius(OffsetValueType radius)
+{
+  SizeType radiusVector;
+
+  for ( unsigned int i = 0; i < VImageDimension; ++i )
+    {
+    radiusVector[i] = radius;
+    }
+
+  return this->ShrinkByRadius(radiusVector);
+}
+
+template< unsigned int VImageDimension >
+bool
+ImageRegion< VImageDimension >
+::ShrinkByRadius(const SizeType & radius)
+{
+  bool shrunkSuccessfully = true;
+  for ( unsigned int i = 0; i < VImageDimension; i++ )
+    {
+    if( m_Size[i] <= 2 * radius[i] )
+      {
+      shrunkSuccessfully = false;
+      }
+    else
+      {
+      m_Size[i] -= 2 * radius[i];
+      m_Index[i] += static_cast< OffsetValueType >( radius[i] );
+      }
+    }
+  return shrunkSuccessfully;
+}
+
+template< unsigned int VImageDimension >
+bool
+ImageRegion< VImageDimension >
+::ShrinkByRadius(const IndexValueArrayType radius)
+{
+  bool shrunkSuccessfully = true;
+  for ( unsigned int i = 0; i < VImageDimension; i++ )
+    {
+    if( static_cast< IndexValueType >( m_Size[i] ) <= 2 * radius[i] )
+      {
+      shrunkSuccessfully = false;
+      }
+    else
+      {
+      m_Size[i] -= 2 * radius[i];
+      m_Index[i] += static_cast< OffsetValueType >( radius[i] );
+      }
+    }
+  return shrunkSuccessfully;
+}
+
+template< unsigned int VImageDimension >
+bool
+ImageRegion< VImageDimension >
 ::Crop(const Self & region)
 {
   OffsetValueType crop;
