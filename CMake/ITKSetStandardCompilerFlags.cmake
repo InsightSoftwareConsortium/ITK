@@ -150,6 +150,13 @@ macro(check_compiler_platform_flags)
              -D_SCL_SECURE_NO_DEPRECATE
              )
          endif(NOT ITK_ENABLE_VISUAL_STUDIO_DEPRECATED_C_WARNINGS)
+         # With MS compilers on Win64, we need the /bigobj switch, else generated
+         # code results in objects with number of sections exceeding object file
+         # format.
+         # see http://msdn.microsoft.com/en-us/library/ms173499.aspx
+         if(CMAKE_CL_64 OR CMAKE_COMPILER_2005)
+           set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} /bigobj")
+         endif()
        endif(NOT MINGW)
   endif(WIN32)
 
