@@ -89,7 +89,7 @@ public:
     return static_cast< DecoratedOutputType * >( this->ProcessObject::GetOutput(0) );
   }
 
-  virtual typename DataObject::Pointer MakeOutput(unsigned int)
+  virtual typename DataObject::Pointer MakeOutput(DataObjectPointerArraySizeType)
   {
     return DecoratedOutputType::New().GetPointer();
   }

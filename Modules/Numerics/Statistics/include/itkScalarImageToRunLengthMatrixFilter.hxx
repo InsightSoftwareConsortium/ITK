@@ -125,7 +125,7 @@ template<class TImageType, class THistogramFrequencyContainer>
 typename ScalarImageToRunLengthMatrixFilter<TImageType,
   THistogramFrequencyContainer>::DataObjectPointer
 ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
-::MakeOutput( unsigned int itkNotUsed( idx ) )
+::MakeOutput( DataObjectPointerArraySizeType itkNotUsed( idx ) )
 {
   typename HistogramType::Pointer output = HistogramType::New();
   return static_cast<DataObject *>( output );

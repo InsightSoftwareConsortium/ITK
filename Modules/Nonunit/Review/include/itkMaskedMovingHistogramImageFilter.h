@@ -120,8 +120,9 @@ public:
 
   void AllocateOutputs();
 
+  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  DataObject::Pointer MakeOutput(unsigned int idx);
+  DataObject::Pointer MakeOutput(DataObjectPointerArraySizeType idx);
 
   itkSetMacro(FillValue, OutputPixelType);
   itkGetConstMacro(FillValue, OutputPixelType);

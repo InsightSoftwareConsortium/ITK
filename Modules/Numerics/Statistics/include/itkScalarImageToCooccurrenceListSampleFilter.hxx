@@ -74,7 +74,7 @@ ScalarImageToCooccurrenceListSampleFilter< TImage >
 template< class TImage >
 typename ScalarImageToCooccurrenceListSampleFilter< TImage >::DataObjectPointer
 ScalarImageToCooccurrenceListSampleFilter< TImage >
-::MakeOutput(unsigned int)
+::MakeOutput(DataObjectPointerArraySizeType)
 {
   return static_cast< DataObject * >( SampleType::New().GetPointer() );
 }

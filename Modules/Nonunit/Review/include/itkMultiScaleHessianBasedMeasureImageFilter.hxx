@@ -88,7 +88,7 @@ typename MultiScaleHessianBasedMeasureImageFilter
 < TInputImage, THessianImage, TOutputImage >::DataObjectPointer
 MultiScaleHessianBasedMeasureImageFilter
 < TInputImage, THessianImage, TOutputImage >
-::MakeOutput(unsigned int idx)
+::MakeOutput(DataObjectPointerArraySizeType idx)
 {
   if ( idx == 1 )
     {

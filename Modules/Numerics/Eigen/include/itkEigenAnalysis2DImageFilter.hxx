@@ -133,7 +133,7 @@ EigenAnalysis2DImageFilter< TInputImage, TEigenValueImage, TEigenVectorImage >
 template< class TInputImage, class TEigenValueImage, class TEigenVectorImage >
 DataObject::Pointer
 EigenAnalysis2DImageFilter< TInputImage, TEigenValueImage, TEigenVectorImage >
-::MakeOutput(unsigned int idx)
+::MakeOutput(DataObjectPointerArraySizeType idx)
 {
   DataObject::Pointer output;
 

@@ -127,8 +127,9 @@ protected:
   void AfterThreadedGenerateData(void);
 
   /** Method that construct the outputs */
+  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  DataObject::Pointer  MakeOutput(unsigned int);
+  DataObject::Pointer  MakeOutput(DataObjectPointerArraySizeType);
 
   virtual void ThreadedComputeMinimumAndMaximum( const RegionType & inputRegionForThread, ThreadIdType threadId, ProgressReporter & progress );
   virtual void ThreadedComputeHistogram( const RegionType & inputRegionForThread, ThreadIdType threadId, ProgressReporter & progress );

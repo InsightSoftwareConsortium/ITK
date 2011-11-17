@@ -130,7 +130,7 @@ typename ScalarImageToCooccurrenceMatrixFilter< TImageType,
                                                 THistogramFrequencyContainer >::DataObjectPointer
 ScalarImageToCooccurrenceMatrixFilter< TImageType,
                                        THistogramFrequencyContainer >
-::MakeOutput( unsigned int itkNotUsed(idx) )
+::MakeOutput( DataObjectPointerArraySizeType itkNotUsed(idx) )
 {
   typename HistogramType::Pointer output = HistogramType::New();
   return static_cast< DataObject * >( output );

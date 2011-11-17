@@ -59,7 +59,7 @@ template< class TInputImage, class TOutputImage, class TVoronoiImage >
 typename
 SignedDanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >::DataObjectPointer
 SignedDanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
-::MakeOutput(unsigned int idx)
+::MakeOutput(DataObjectPointerArraySizeType idx)
 {
   if ( idx == 1 )
     {

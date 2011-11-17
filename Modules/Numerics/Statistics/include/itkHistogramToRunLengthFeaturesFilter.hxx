@@ -67,7 +67,7 @@ template<class THistogram>
 typename
 HistogramToRunLengthFeaturesFilter<THistogram>::DataObjectPointer
 HistogramToRunLengthFeaturesFilter<THistogram>
-::MakeOutput( unsigned int itkNotUsed( idx ) )
+::MakeOutput( DataObjectPointerArraySizeType itkNotUsed( idx ) )
 {
   return static_cast<DataObject*>(MeasurementObjectType::New().GetPointer());
 }

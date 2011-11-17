@@ -121,7 +121,7 @@ PathSource< TOutputPath >
 template< class TOutputPath >
 typename PathSource< TOutputPath >::DataObjectPointer
 PathSource< TOutputPath >
-::MakeOutput(unsigned int)
+::MakeOutput(DataObjectPointerArraySizeType)
 {
   return static_cast< DataObject * >( TOutputPath::New().GetPointer() );
 }

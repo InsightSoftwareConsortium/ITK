@@ -135,7 +135,7 @@ GraftNthOutput(unsigned int idx, TOutputVideoStream* graft)
 //
 template<class TOutputVideoStream>
 DataObject::Pointer
-VideoSource<TOutputVideoStream>::MakeOutput(unsigned int itkNotUsed(idx) )
+VideoSource<TOutputVideoStream>::MakeOutput(DataObjectPointerArraySizeType itkNotUsed(idx) )
 {
   return static_cast< DataObject* >( OutputVideoStreamType::New().GetPointer() );
 }

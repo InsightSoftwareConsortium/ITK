@@ -229,8 +229,9 @@ public:
   void StartRegistration() { this->GenerateData(); };
 
   /** Make a DataObject of the correct type to be used as the specified output. */
+  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput( unsigned int );
+  virtual DataObjectPointer MakeOutput( DataObjectPointerArraySizeType );
 
   /** Returns the transform resulting from the registration process  */
   virtual const TransformOutputType * GetOutput() const;

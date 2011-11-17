@@ -355,7 +355,7 @@ SimpleImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>
 template<typename TFixedImage, typename TMovingImage, typename TTransform>
 DataObject::Pointer
 SimpleImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>
-::MakeOutput( unsigned int output )
+::MakeOutput( DataObjectPointerArraySizeType output )
 {
   switch ( output )
     {

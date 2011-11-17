@@ -205,8 +205,9 @@ protected:
   virtual void GenerateData();
 
   /** Make a DataObject to be used for output output. */
+  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput(unsigned int);
+  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType);
 
 private:
   typename RunLengthMatrixFilterType::Pointer m_RunLengthMatrixGenerator;

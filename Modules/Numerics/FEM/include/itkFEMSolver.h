@@ -255,8 +255,9 @@ public:
 
   /** Make a DataObject of the correct type to be used as the specified
    * output. */
+  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput(unsigned int);
+  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType);
 
   /** Get the output data of this process object.  The output of this
    * function is not valid until an appropriate Update() method has

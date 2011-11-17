@@ -41,7 +41,7 @@ SegmentTreeGenerator< TScalarType >
 template< class TScalarType >
 typename SegmentTreeGenerator< TScalarType >::DataObjectPointer
 SegmentTreeGenerator< TScalarType >
-::MakeOutput( unsigned int itkNotUsed(idx) )
+::MakeOutput( DataObjectPointerArraySizeType itkNotUsed(idx) )
 {
   return static_cast< DataObject * >( SegmentTreeType::New().GetPointer() );
 }

@@ -116,9 +116,10 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Standard itk::ProcessObject subclass method. */
-  typedef DataObject::Pointer DataObjectPointer;
+  typedef DataObject::Pointer                           DataObjectPointer;
+  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput(unsigned int idx);
+  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx);
 
   /** This method causes the filter to generate its output. */
   virtual void GenerateData();

@@ -1249,7 +1249,7 @@ void Segmenter< TInputImage >::Threshold(InputImageTypePointer destination,
 template< class TInputImage >
 typename Segmenter< TInputImage >::DataObjectPointer
 Segmenter< TInputImage >
-::MakeOutput(unsigned int idx)
+::MakeOutput(DataObjectPointerArraySizeType idx)
 {
   if ( idx == 0 )
           {  return static_cast< DataObject * >( OutputImageType::New().GetPointer() ); }

@@ -59,7 +59,7 @@ StatisticsImageFilter< TInputImage >
 template< class TInputImage >
 DataObject::Pointer
 StatisticsImageFilter< TInputImage >
-::MakeOutput(unsigned int output)
+::MakeOutput(DataObjectPointerArraySizeType output)
 {
   switch ( output )
     {

@@ -133,7 +133,7 @@ Solver<VDimension>
 template <unsigned int VDimension>
 typename Solver<VDimension>::DataObjectPointer
 Solver<VDimension>
-::MakeOutput(unsigned int itkNotUsed(idx))
+::MakeOutput(DataObjectPointerArraySizeType itkNotUsed(idx))
 {
   return static_cast<DataObject *>(FEMObjectType::New().GetPointer() );
 }

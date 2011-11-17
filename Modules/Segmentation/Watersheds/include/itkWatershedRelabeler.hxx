@@ -37,7 +37,7 @@ Relabeler< TScalarType, TImageDimension >::Relabeler():m_FloodLevel(0.0)
 template< class TScalarType, unsigned int TImageDimension >
 typename Relabeler< TScalarType, TImageDimension >::DataObjectPointer
 Relabeler< TScalarType, TImageDimension >
-::MakeOutput( unsigned int itkNotUsed(idx) )
+::MakeOutput( DataObjectPointerArraySizeType itkNotUsed(idx) )
 {
   return static_cast< DataObject * >( ImageType::New().GetPointer() );
 }

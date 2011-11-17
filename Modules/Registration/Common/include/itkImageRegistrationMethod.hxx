@@ -333,7 +333,7 @@ ImageRegistrationMethod< TFixedImage, TMovingImage >
 template< typename TFixedImage, typename TMovingImage >
 DataObject::Pointer
 ImageRegistrationMethod< TFixedImage, TMovingImage >
-::MakeOutput(unsigned int output)
+::MakeOutput(DataObjectPointerArraySizeType output)
 {
   switch ( output )
     {

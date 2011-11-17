@@ -69,7 +69,7 @@ StandardDeviationPerComponentSampleFilter< TSample >
 template< class TSample >
 typename StandardDeviationPerComponentSampleFilter< TSample >::DataObjectPointer
 StandardDeviationPerComponentSampleFilter< TSample >
-::MakeOutput(unsigned int index)
+::MakeOutput(DataObjectPointerArraySizeType index)
 {
   if ( index == 0 )
     {

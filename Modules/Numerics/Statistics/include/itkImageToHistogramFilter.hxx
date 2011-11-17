@@ -57,7 +57,7 @@ ImageToHistogramFilter< TImage >
 template< class TImage >
 DataObject::Pointer
 ImageToHistogramFilter< TImage >
-::MakeOutput( unsigned int itkNotUsed(idx) )
+::MakeOutput( DataObjectPointerArraySizeType itkNotUsed(idx) )
 {
   typename HistogramType::Pointer output = HistogramType::New();
   return static_cast< DataObject * >( output );

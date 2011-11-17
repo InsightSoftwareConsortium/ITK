@@ -104,7 +104,7 @@ SampleClassifierFilter< TSample >
 template< class TSample >
 typename SampleClassifierFilter< TSample >::DataObjectPointer
 SampleClassifierFilter< TSample >
-::MakeOutput(unsigned int)
+::MakeOutput(DataObjectPointerArraySizeType)
 {
   return static_cast< DataObject * >( MembershipSampleType::New().GetPointer() );
 }
