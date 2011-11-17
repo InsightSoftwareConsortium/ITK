@@ -66,6 +66,7 @@ public:
   virtual OutputPointType TransformPoint(const InputPointType  & itkNotUsed(inputPoint) ) const
   {
     OutputPointType outPoint;
+    outPoint.Fill( 22.0 );
     return outPoint;
   }
 
@@ -73,18 +74,20 @@ public:
   virtual OutputVectorType TransformVector(const InputVectorType  & itkNotUsed(inputVector) ) const
   {
     OutputVectorType outVector;
+    outVector.Fill( 12.2 );
     return outVector;
   }
 
   virtual OutputVnlVectorType TransformVector(const InputVnlVectorType  & itkNotUsed(inputVector) ) const
   {
-    OutputVnlVectorType outVector;
+    OutputVnlVectorType outVector( 15.0 );
     return outVector;
   }
 
   virtual OutputVectorPixelType TransformVector(const InputVectorPixelType  & itkNotUsed(inputVector) ) const
   {
     OutputVectorPixelType outVector;
+    outVector.Fill( 88.8 );
     return outVector;
   }
 
@@ -92,12 +95,14 @@ public:
   virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType  & itkNotUsed(inputVector) ) const
   {
     OutputCovariantVectorType outVector;
+    outVector.Fill( 8.9 );
     return outVector;
   }
 
   virtual OutputVectorPixelType TransformCovariantVector(const InputVectorPixelType  & itkNotUsed(inputVector) ) const
   {
     OutputVectorPixelType outVector;
+    outVector.Fill( 6.9 );
     return outVector;
   }
 
@@ -105,12 +110,14 @@ public:
   virtual OutputDiffusionTensor3DType TransformDiffusionTensor3D( const InputDiffusionTensor3DType & itkNotUsed( tensor ) ) const
   {
     OutputDiffusionTensor3DType outTensor;
+    outTensor.Fill( 2.1 );
     return outTensor;
   }
 
   virtual OutputVectorPixelType TransformDiffusionTensor3D( const InputVectorPixelType & itkNotUsed( tensor ) ) const
   {
     OutputVectorPixelType outTensor;
+    outTensor.Fill( 29.1 );
     return outTensor;
   }
 
@@ -119,6 +126,7 @@ public:
     const InputSymmetricSecondRankTensorType & itkNotUsed( tensor ) ) const
   {
     OutputSymmetricSecondRankTensorType outTensor;
+    outTensor.Fill( 10.0 );
     return outTensor;
   }
 
@@ -126,6 +134,7 @@ public:
     const InputVectorPixelType & itkNotUsed( tensor ) ) const
   {
     OutputVectorPixelType outTensor;
+    outTensor.Fill( 55.9 );
     return outTensor;
   }
 
