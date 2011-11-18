@@ -20,7 +20,6 @@
 #include "itkQuadrilateralCell.h"
 
 #include <iostream>
-#include <string>
 
 
 int itkQuadrilateralCellTest(int, char* [] )

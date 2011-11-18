@@ -15,7 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkFEMFactoryBase.h"
 #include "itkFEMFactory.h"
 #include "itkVersion.h"
 #include "itkFEMElement2DC0LinearLineStress.h"
@@ -35,19 +34,9 @@
 #include "itkFEMElement3DC0LinearTriangularLaplaceBeltrami.h"
 #include "itkFEMElement3DC0LinearTriangularMembrane.h"
 
-#include "itkFEMLoadBC.h"
-#include "itkFEMLoadBCMFC.h"
-#include "itkFEMLoadEdge.h"
-#include "itkFEMLoadElementBase.h"
-#include "itkFEMLoadGrav.h"
-#include "itkFEMLoadLandmark.h"
-#include "itkFEMLoadNode.h"
 #include "itkFEMLoadPoint.h"
 
-#include "itkFEMMaterialLinearElasticity.h"
 
-#include "itkFEMUtility.h"
-#include "metaFEMObject.h"
 #include "itkMetaFEMObjectConverter.h"
 
 namespace itk

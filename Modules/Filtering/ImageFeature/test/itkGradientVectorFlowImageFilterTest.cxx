@@ -17,10 +17,8 @@
  *=========================================================================*/
 
 #include "itkGradientRecursiveGaussianImageFilter.h"
-#include "itkImageRegionIteratorWithIndex.h"
 #include "itkGradientImageFilter.h"
 #include "itkVectorMagnitudeImageFilter.h"
-#include "itkDerivativeImageFilter.h"
 #include "itkGradientVectorFlowImageFilter.h"
 
 int itkGradientVectorFlowImageFilterTest(int , char *[])

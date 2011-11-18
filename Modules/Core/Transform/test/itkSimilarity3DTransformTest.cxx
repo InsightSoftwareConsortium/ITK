@@ -25,9 +25,6 @@
  */
 
 #include "itkSimilarity3DTransform.h"
-#include "itkNumericTraits.h"
-#include <math.h>
-#include "vnl/vnl_math.h"
 // -------------------------
 //
 //   Main code

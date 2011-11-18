@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include <iostream>
-#include <vector>
 #include <cstddef>
 
 // Better name demanging for gcc
@@ -30,17 +29,11 @@
 #include <cxxabi.h>
 #endif
 
-#include "itkNumericTraits.h"
 #include "itkNumericTraitsArrayPixel.h"
-#include "itkNumericTraitsCovariantVectorPixel.h"
-#include "itkNumericTraitsDiffusionTensor3DPixel.h"
-#include "itkNumericTraitsFixedArrayPixel.h"
-#include "itkNumericTraitsPointPixel.h"
 #include "itkNumericTraitsRGBAPixel.h"
 #include "itkNumericTraitsRGBPixel.h"
 #include "itkNumericTraitsTensorPixel.h"
 #include "itkNumericTraitsVariableLengthVectorPixel.h"
-#include "itkNumericTraitsVectorPixel.h"
 
 
 template<class T> void CheckVariableLengthArrayTraits(T t)

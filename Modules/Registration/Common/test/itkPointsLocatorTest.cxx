@@ -16,10 +16,8 @@
  *
  *=========================================================================*/
 
-#include "itkPoint.h"
 #include "itkPointsLocator.h"
 
-#include "itkVectorContainer.h"
 
 int itkPointsLocatorTest( int, char*[] )
 {

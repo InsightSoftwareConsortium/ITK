@@ -17,10 +17,6 @@
  *=========================================================================*/
 
 #include "itkScalarChanAndVeseDenseLevelSetImageFilter.h"
-#include "itkScalarChanAndVeseLevelSetFunctionData.h"
-#include "itkConstrainedRegionBasedLevelSetFunctionSharedData.h"
-#include "itkImage.h"
-#include "itkTestingMacros.h"
 
 int itkScalarChanAndVeseDenseLevelSetImageFilterTest1( int, char* [] )
 {

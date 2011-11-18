@@ -21,7 +21,6 @@
 #include "itkConformalFlatteningMeshFilter.h"
 
 #include "itkQuadEdgeMesh.h"
-#include <stdlib.h>
 
 
 int itkConformalFlatteningQuadEdgeMeshFilterTest(int argc, char *argv[])

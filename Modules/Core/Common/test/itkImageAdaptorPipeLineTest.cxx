@@ -25,7 +25,6 @@
 //-------------------------------------------
 
 
-#include "itkIndex.h"
 #include "itkImageAdaptor.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkRedPixelAccessor.h"

@@ -17,8 +17,6 @@
  *=========================================================================*/
 
 #include "itkMesh.h"
-#include "itkVariableLengthVector.h"
-#include "itksys/SystemTools.hxx"
 
 #include "itkMeshFileTestHelper.h"
 

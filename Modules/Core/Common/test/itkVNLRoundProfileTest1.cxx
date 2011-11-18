@@ -18,7 +18,6 @@
 
 #include "vnl/vnl_math.h"
 #include "itkTimeProbesCollectorBase.h"
-#include <math.h>
 
 double itkVNLRoundTestHelperFunction( double x )
 {

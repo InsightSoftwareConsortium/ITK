@@ -17,10 +17,8 @@
  *=========================================================================*/
 
 #include "itkLaplacianRecursiveGaussianImageFilter.h"
-#include "itkZeroCrossingBasedEdgeDetectionImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkCastImageFilter.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkZeroCrossingImageFilter.h"
 

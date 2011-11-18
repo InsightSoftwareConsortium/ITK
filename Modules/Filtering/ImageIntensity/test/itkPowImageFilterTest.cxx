@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkPowImageFilter.h"
 #include "itkTestingMacros.h"
 

@@ -16,9 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkConfigure.h"
 #include "itkMultiThreader.h"
-#include <stdlib.h>
 
 int itkMultiThreaderEnvTest(int argc, char* argv[])
 {

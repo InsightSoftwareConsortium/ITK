@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkCenteredVersorTransformInitializer.h"
-#include "itkImage.h"
 
 #include "itkImageRegionIterator.h"
 

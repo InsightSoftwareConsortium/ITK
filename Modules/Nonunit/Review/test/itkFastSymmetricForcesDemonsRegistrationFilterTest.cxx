@@ -18,12 +18,8 @@
 
 #include "itkFastSymmetricForcesDemonsRegistrationFilter.h"
 
-#include "itkIndex.h"
-#include "itkImageRegionIteratorWithIndex.h"
-#include "itkWarpImageFilter.h"
 #include "itkNearestNeighborInterpolateImageFunction.h"
 #include "itkCommand.h"
-#include "vnl/vnl_math.h"
 #include "itkVectorCastImageFilter.h"
 
 

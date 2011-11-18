@@ -16,12 +16,8 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkImageFileReader.h"
-#include "itkImageFileWriter.h"
-#include "itkImageRegionIteratorWithIndex.h"
 #include "itkLevelSetContainer.h"
-#include "itkLevelSetEquationChanAndVeseInternalTerm.h"
 #include "itkLevelSetEquationChanAndVeseExternalTerm.h"
 #include "itkLevelSetEquationTermContainerBase.h"
 #include "itkLevelSetEquationContainerBase.h"
@@ -30,7 +26,6 @@
 #include "itkBinaryImageToLevelSetImageAdaptor.h"
 #include "itkLevelSetEquationCurvatureTerm.h"
 #include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"
-#include "itkNumericTraits.h"
 
 int itkSingleLevelSetWhitakerImage2DWithCurvatureTest( int argc, char* argv[] )
 {

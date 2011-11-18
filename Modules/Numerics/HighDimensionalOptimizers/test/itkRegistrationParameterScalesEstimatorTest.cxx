@@ -16,11 +16,8 @@
  *
  *=========================================================================*/
 #include "itkRegistrationParameterScalesEstimator.h"
-#include "itkObjectToObjectMetric.h"
 
-#include "itkImage.h"
 #include "itkAffineTransform.h"
-#include "itkTranslationTransform.h"
 
 /**
  *  \class RegistrationParameterScalesEstimatorTestMetric for test.

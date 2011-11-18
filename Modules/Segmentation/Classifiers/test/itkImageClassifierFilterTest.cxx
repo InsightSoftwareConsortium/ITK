@@ -16,10 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkImageToListSampleAdaptor.h"
 #include "itkImageClassifierFilter.h"
-#include "itkImageRegionIteratorWithIndex.h"
-#include "itkFixedArray.h"
 #include "itkGaussianMixtureModelComponent.h"
 #include "itkExpectationMaximizationMixtureModelEstimator.h"
 #include "itkMaximumDecisionRule.h"

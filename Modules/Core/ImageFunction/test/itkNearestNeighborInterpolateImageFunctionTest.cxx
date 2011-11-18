@@ -18,10 +18,8 @@
 
 #include <iostream>
 
-#include "itkMath.h"
 #include "itkImage.h"
 #include "itkVectorImage.h"
-#include "itkTranslationTransform.h"
 #include "itkNearestNeighborInterpolateImageFunction.h"
 
 

@@ -19,11 +19,8 @@
 
 #include "itkFastMarchingExtensionImageFilterBase.h"
 #include "itkFastMarchingThresholdStoppingCriterion.h"
-#include "itkImage.h"
-#include "itkImageRegionIterator.h"
 #include "itkCommand.h"
 
-#include "vnl/vnl_math.h"
 
 namespace{
 // The following class is used to support callbacks

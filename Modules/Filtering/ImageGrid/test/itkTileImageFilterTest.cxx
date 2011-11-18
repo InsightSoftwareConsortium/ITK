@@ -17,10 +17,8 @@
  *=========================================================================*/
 
 #include "itkTileImageFilter.h"
-#include "itkRGBPixel.h"
 #include "itkImageFileReader.h"
 #include "itkImageSeriesWriter.h"
-#include "itkImage.h"
 
 int itkTileImageFilterTest(int argc, char *argv[] )
 {

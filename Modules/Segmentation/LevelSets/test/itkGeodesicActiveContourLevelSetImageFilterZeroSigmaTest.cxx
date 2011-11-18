@@ -18,7 +18,6 @@
 
 #include "itkGeodesicActiveContourLevelSetImageFilter.h"
 
-#include "itkImageRegionIterator.h"
 #include "itkCastImageFilter.h"
 #include "itkGradientMagnitudeRecursiveGaussianImageFilter.h"
 #include "itkSigmoidImageFilter.h"
@@ -28,8 +27,6 @@
 
 /* Uncomment to write out image files */
 /*
-#include "itkRescaleIntensityImageFilter.h"
-#include "itkImageFileWriter.h"
 */
 
 int itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest(int, char* [] )

@@ -18,7 +18,6 @@
 
 #include "itkVideoToVideoFilter.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 
 // typedefs for test
 const unsigned int Dimension =                          2;

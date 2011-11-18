@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include "itkBMPImageIOFactory.h"
-#include "itkCreateObjectFunction.h"
 #include "itkBMPImageIO.h"
 #include "itkVersion.h"
 

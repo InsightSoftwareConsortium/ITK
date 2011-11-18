@@ -16,12 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkVectorResampleImageFilter.h"
-#include "itkIdentityTransform.h"
-#include "itkVectorLinearInterpolateImageFunction.h"
-#include "itkRGBPixel.h"
-#include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageFileWriter.h"
 #include "itkFilterWatcher.h"
 

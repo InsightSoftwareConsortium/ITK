@@ -16,15 +16,11 @@
  *
  *=========================================================================*/
 
-#include <math.h>
 #include <iostream>
-#include <time.h>
 
-#include "itkSimplexMeshGeometry.h"
 #include "itkRegularSphereMeshSource.h"
 #include "itkTriangleMeshToSimplexMeshFilter.h"
 #include "itkDefaultDynamicMeshTraits.h"
-#include "itkTimeProbe.h"
 
 int itkTriangleMeshToSimplexMeshFilterTest(int , char * [] )
 {

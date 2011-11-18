@@ -17,14 +17,11 @@
  *=========================================================================*/
 
 #include "itkIsoContourDistanceImageFilter.h"
-#include "itkImageRegionIteratorWithIndex.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkShiftScaleImageFilter.h"
-#include "itkMinimumMaximumImageCalculator.h"
 #include "itkMultiplyImageFilter.h"
 
 #include "itkCommand.h"
-#include "vnl/vnl_math.h"
 
 // For debugging
 

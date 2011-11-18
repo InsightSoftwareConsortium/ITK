@@ -16,8 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkCovariantVector.h"
-#include "itkImageRegionIterator.h"
 #include "itkGradientToMagnitudeImageFilter.h"
 
 

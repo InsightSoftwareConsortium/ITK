@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include "itkTIFFImageIOFactory.h"
-#include "itkCreateObjectFunction.h"
 #include "itkTIFFImageIO.h"
 #include "itkVersion.h"
 

@@ -18,7 +18,6 @@
 
 #include "itkJensenHavrdaCharvatTsallisPointSetToPointSetObjectMetric.h"
 
-#include "itkPointSet.h"
 
 #include <fstream>
 

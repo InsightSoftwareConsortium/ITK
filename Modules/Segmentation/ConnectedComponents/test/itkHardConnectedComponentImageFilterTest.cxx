@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkHardConnectedComponentImageFilter.h"
-#include "itkImageRegionIterator.h"
 #include "itkFilterWatcher.h"
 
 const int HEIGHT = 20;

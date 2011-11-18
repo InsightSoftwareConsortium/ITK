@@ -16,12 +16,8 @@
  *
  *=========================================================================*/
 #include "itkGiplImageIO.h"
-#include "itkMacro.h"
 #include "itkByteSwapper.h"
 #include <iostream>
-#include <list>
-#include <string.h>
-#include <math.h>
 #include "itk_zlib.h"
 
 namespace itk

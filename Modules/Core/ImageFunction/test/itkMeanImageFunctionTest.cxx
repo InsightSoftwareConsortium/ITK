@@ -16,10 +16,8 @@
  *
  *=========================================================================*/
 
-#include <stdio.h>
 
 #include "itkMeanImageFunction.h"
-#include "itkImage.h"
 
 int itkMeanImageFunctionTest(int, char* [] )
 {

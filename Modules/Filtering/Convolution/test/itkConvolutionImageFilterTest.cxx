@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkConstantBoundaryCondition.h"
 #include "itkConvolutionImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"

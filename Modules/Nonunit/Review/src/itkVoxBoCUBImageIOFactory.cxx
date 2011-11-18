@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include "itkVoxBoCUBImageIOFactory.h"
-#include "itkCreateObjectFunction.h"
 #include "itkVoxBoCUBImageIO.h"
 #include "itkVersion.h"
 

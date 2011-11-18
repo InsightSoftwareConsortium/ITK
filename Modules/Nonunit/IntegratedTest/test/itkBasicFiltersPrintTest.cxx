@@ -16,21 +16,17 @@
  *
  *=========================================================================*/
 
-#include "itkPoint.h"
 #include "itkMesh.h"
-#include "itkBinaryBallStructuringElement.h"
 #include "itkAcosImageFilter.h"
 #include "itkAddImageFilter.h"
 #include "itkAdaptiveHistogramEqualizationImageFilter.h"
 #include "itkAsinImageFilter.h"
 #include "itkAtan2ImageFilter.h"
 #include "itkAtanImageFilter.h"
-#include "itkBSplineCenteredResampleImageFilterBase.h"
 #include "itkBSplineDownsampleImageFilter.h"
 #include "itkBSplineResampleImageFunction.h"
 #include "itkBSplineUpsampleImageFilter.h"
 #include "itkBilateralImageFilter.h"
-#include "itkBinaryDilateImageFilter.h"
 #include "itkBinaryErodeImageFilter.h"
 #include "itkBinaryMagnitudeImageFilter.h"
 #include "itkBinaryMedianImageFilter.h"
@@ -50,7 +46,6 @@
 #include "itkDifferenceOfGaussiansGradientImageFilter.h"
 #include "itkDiffusionTensor3DReconstructionImageFilter.h"
 #include "itkDilateObjectMorphologyImageFilter.h"
-#include "itkDirectedHausdorffDistanceImageFilter.h"
 #include "itkDivideImageFilter.h"
 #include "itkEdgePotentialImageFilter.h"
 #include "itkEigenAnalysis2DImageFilter.h"
@@ -59,10 +54,8 @@
 #include "itkExpNegativeImageFilter.h"
 #include "itkExpandImageFilter.h"
 #include "itkFlipImageFilter.h"
-#include "itkGaussianImageSource.h"
 #include "itkGradientAnisotropicDiffusionImageFilter.h"
 #include "itkGradientImageFilter.h"
-#include "itkGradientMagnitudeImageFilter.h"
 #include "itkGradientMagnitudeRecursiveGaussianImageFilter.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"
 #include "itkGradientToMagnitudeImageFilter.h"
@@ -72,11 +65,8 @@
 #include "itkGrayscaleFunctionErodeImageFilter.h"
 #include "itkHardConnectedComponentImageFilter.h"
 #include "itkHausdorffDistanceImageFilter.h"
-#include "itkHoughTransform2DCirclesImageFilter.h"
-#include "itkHoughTransform2DLinesImageFilter.h"
 
 #include "itkSphereSpatialFunction.h"
-#include "itkGaussianSpatialFunction.h"
 
 
 struct node_type

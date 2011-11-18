@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include "itkGDCMImageIOFactory.h"
-#include "itkCreateObjectFunction.h"
 #include "itkGDCMImageIO.h"
 #include "itkVersion.h"
 

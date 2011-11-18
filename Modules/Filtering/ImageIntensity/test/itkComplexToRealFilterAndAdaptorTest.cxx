@@ -16,10 +16,8 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkComplexToRealImageFilter.h"
 #include "itkComplexToRealImageAdaptor.h"
-#include "itkImageRegionIteratorWithIndex.h"
 #include "itkSubtractImageFilter.h"
 
 

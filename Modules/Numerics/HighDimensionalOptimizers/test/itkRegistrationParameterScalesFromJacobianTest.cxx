@@ -16,11 +16,8 @@
  *
  *=========================================================================*/
 #include "itkRegistrationParameterScalesFromJacobian.h"
-#include "itkObjectToObjectMetric.h"
 
-#include "itkImage.h"
 #include "itkAffineTransform.h"
-#include "itkTranslationTransform.h"
 #include "itkDisplacementFieldTransform.h"
 
 /**

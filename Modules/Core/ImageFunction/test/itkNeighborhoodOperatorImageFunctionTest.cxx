@@ -16,11 +16,9 @@
  *
  *=========================================================================*/
 
-#include <stdio.h>
 
 #include "itkNeighborhoodOperatorImageFunction.h"
 
-#include "itkImage.h"
 #include "itkGaussianOperator.h"
 
 int itkNeighborhoodOperatorImageFunctionTest(int, char* [] )

@@ -18,8 +18,6 @@
 
 #include "itkImageToListSampleAdaptor.h"
 #include "itkRandomImageSource.h"
-#include "itkComposeImageFilter.h"
-#include "itkFixedArray.h"
 
 int itkImageToListSampleAdaptorTest(int, char* [] )
 {

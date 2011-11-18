@@ -29,14 +29,12 @@
 #include "itkSimilarity3DTransform.h"
 #include "itkTranslationTransform.h"
 #include "itkAzimuthElevationToCartesianTransform.h"
-#include "itkBSplineTransform.h"
 #include "itkElasticBodyReciprocalSplineKernelTransform.h"
 #include "itkElasticBodySplineKernelTransform.h"
 #include "itkThinPlateR2LogRSplineKernelTransform.h"
 #include "itkThinPlateSplineKernelTransform.h"
 #include "itkVolumeSplineKernelTransform.h"
 
-#include "vnl/vnl_sample.h"
 
 // Generic Kernel Transform Tester
 template<class KernelType> int TestKernelTransform(const char *name, KernelType *)

@@ -15,7 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkWin32Header.h"
 
 #include "itkOtsuMultipleThresholdsCalculator.h"
 

@@ -21,7 +21,6 @@
 #include "itkTemporalProcessObject.h"
 #include "itkTemporalDataObject.h"
 
-#include <math.h>
 
 namespace itk
 {

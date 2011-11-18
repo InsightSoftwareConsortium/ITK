@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkAntiAliasBinaryImageFilter.h"
-#include "itkImage.h"
 
 //
 // Uncomment the following lines if you are writing the output image.

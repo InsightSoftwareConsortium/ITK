@@ -18,7 +18,6 @@
 
 #include "itkVoronoiDiagram2DGenerator.h"
 #include "itkMeshFileWriter.h"
-#include <stdio.h>
 
 
 int itkVoronoiDiagram2DTest(int argc, char* argv[] ){

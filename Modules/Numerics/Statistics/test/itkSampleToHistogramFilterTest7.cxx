@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkVariableLengthVector.h"
 #include "itkListSample.h"
 #include "itkHistogram.h"
 #include "itkSampleToHistogramFilter.h"

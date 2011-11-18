@@ -19,7 +19,6 @@
 #include "itkRandomImageSource.h"
 #include "itkMeanImageFilter.h"
 #include "itkTextOutput.h"
-#include "itkImageRegionIterator.h"
 #include "itkShiftScaleImageFilter.h"
 #include "itkShrinkImageFilter.h"
 #include "itkStreamingImageFilter.h"

@@ -16,12 +16,8 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkImageFileReader.h"
-#include "itkImageFileWriter.h"
-#include "itkImageRegionIteratorWithIndex.h"
 #include "itkLevelSetContainer.h"
-#include "itkLevelSetEquationChanAndVeseInternalTerm.h"
 #include "itkLevelSetEquationChanAndVeseExternalTerm.h"
 #include "itkLevelSetEquationTermContainerBase.h"
 #include "itkLevelSetEquationContainerBase.h"
@@ -32,7 +28,6 @@
 #include "itkLevelSetEquationPropagationTerm.h"
 #include "itkLevelSetEquationLaplacianTerm.h"
 #include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"
-#include "itkNumericTraits.h"
 
 int itkSingleLevelSetWhitakerImage2DWithLaplacianTest( int argc, char* argv[] )
 {

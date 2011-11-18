@@ -27,10 +27,7 @@
  *=========================================================================*/
 
 #include "itkBSplineResampleImageFunction.h"
-#include "itkBSplineDecompositionImageFilter.h"
 #include "itkFilterWatcher.h"
-#include "itkImage.h"
-#include "itkSize.h"
 #include "itkRandomImageSource.h"
 #include "vnl/vnl_sample.h"
 

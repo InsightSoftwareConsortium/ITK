@@ -16,12 +16,10 @@
  *
  *=========================================================================*/
 
-#include "itkImageRegionIterator.h"
 #include "itkTranslationTransform.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkNormalizedCorrelationPointSetToImageMetric.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
-#include "itkGaussianImageSource.h"
 #include "itkPointSet.h"
 #include "itkPointSetToImageRegistrationMethod.h"
 #include "itkImageRegistrationMethodImageSource.h"

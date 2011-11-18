@@ -20,7 +20,6 @@
 #include "itkSphereSignedDistanceFunction.h"
 
 #include "itkFloodFilledSpatialFunctionConditionalConstIterator.h"
-#include "itkImage.h"
 
 /**
  * This module tests the sphereality of the

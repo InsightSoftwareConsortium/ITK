@@ -18,8 +18,6 @@
 
 #include <iostream>
 
-#include "itkImage.h"
-#include "itkNumericTraits.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
 

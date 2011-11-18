@@ -17,9 +17,7 @@
  *=========================================================================*/
 
 #include <iostream>
-#include <cstdlib>
 #include "itkRealTimeStamp.h"
-#include "itkRealTimeInterval.h"
 #include "itkNumericTraits.h"
 #include "vcl_cmath.h"
 

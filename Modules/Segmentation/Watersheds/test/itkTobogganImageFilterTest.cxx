@@ -24,7 +24,6 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkTextOutput.h"
-#include "itkImageRegionIterator.h"
 
 
 int itkTobogganImageFilterTest(int ac, char* av[] )

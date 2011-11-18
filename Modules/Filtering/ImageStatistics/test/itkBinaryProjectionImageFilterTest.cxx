@@ -22,7 +22,6 @@
 #include "itkChangeLabelImageFilter.h"
 
 #include "itkBinaryProjectionImageFilter.h"
-#include "itkNumericTraits.h"
 
 int itkBinaryProjectionImageFilterTest(int argc, char * argv[])
 {

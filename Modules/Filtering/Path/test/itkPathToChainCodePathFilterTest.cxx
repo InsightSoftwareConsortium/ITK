@@ -20,7 +20,6 @@
 #include "itkPolyLineParametricPath.h"
 #include "itkChainCodePath2D.h"
 #include "itkPathToChainCodePathFilter.h"
-#include "itkPathIterator.h"
 
 int itkPathToChainCodePathFilterTest(int, char*[])
 {

@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkImageRegistrationMethod.h"
-#include "itkAffineTransform.h"
 #include "itkMeanSquaresImageToImageMetric.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkGradientDescentOptimizer.h"

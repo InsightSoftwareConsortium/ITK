@@ -25,7 +25,6 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#include "itkIndent.h"
 #include "itkObjectFactory.h"
 
 #define ITK_STD_INDENT 2

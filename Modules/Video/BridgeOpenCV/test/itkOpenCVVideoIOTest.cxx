@@ -21,7 +21,6 @@
 
 #include "itkOpenCVVideoIO.h"
 #include "itkImportImageFilter.h"
-#include "itkRGBPixel.h"
 #include "itkImageFileWriter.h"
 #include "itkOpenCVVideoIOFactory.h"
 

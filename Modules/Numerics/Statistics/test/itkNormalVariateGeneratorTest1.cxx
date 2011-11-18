@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkFixedArray.h"
 #include "itkNormalVariateGenerator.h"
 
 int itkNormalVariateGeneratorTest1( int, char * [] )

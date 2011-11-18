@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkCreateObjectFunction.h"
 #include "itkVTKPolyDataMeshIO.h"
 #include "itkVTKPolyDataMeshIOFactory.h"
 #include "itkVersion.h"

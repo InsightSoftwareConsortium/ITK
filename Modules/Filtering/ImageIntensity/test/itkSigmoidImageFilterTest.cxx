@@ -16,10 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkSigmoidImageFilter.h"
-#include "itkImageRegionIteratorWithIndex.h"
-#include "itkSubtractImageFilter.h"
 
 
 int itkSigmoidImageFilterTest(int, char* [] )

@@ -19,8 +19,6 @@
 #include <fstream>
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkImage.h"
-#include "itkRGBPixel.h"
 
 //
 // This test needs to use more than one file format,

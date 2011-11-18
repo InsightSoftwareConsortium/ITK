@@ -1,9 +1,6 @@
 #include <iostream>
 
 #include "vidl_itk_istream.hxx"
-#include "itkRGBPixel.h"
-#include "itkRGBAPixel.h"
-#include "itkVideoStream.h"
 #include "itkVideoFileReader.h"
 #include "itkVXLVideoIOFactory.h"
 #include "vidl/vidl_ffmpeg_ostream.h"

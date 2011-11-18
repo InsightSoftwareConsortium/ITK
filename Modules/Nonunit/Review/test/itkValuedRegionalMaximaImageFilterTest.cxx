@@ -18,8 +18,6 @@
 // a test routine for regional extrema using flooding
 #include "itkValuedRegionalMaximaImageFilter.h"
 #include "itkHConvexImageFilter.h"
-#include "itkMaximumImageFilter.h"
-#include "itkInvertIntensityImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkRescaleIntensityImageFilter.h"

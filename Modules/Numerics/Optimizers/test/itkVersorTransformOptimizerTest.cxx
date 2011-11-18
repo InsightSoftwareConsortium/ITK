@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkVersorTransformOptimizer.h"
-#include "itkCovariantVector.h"
 #include "itkVersorTransform.h"
 
 

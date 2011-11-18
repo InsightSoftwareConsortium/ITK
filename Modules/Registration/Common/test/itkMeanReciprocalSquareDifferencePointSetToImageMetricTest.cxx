@@ -16,14 +16,11 @@
  *
  *=========================================================================*/
 
-#include "itkImageRegionIterator.h"
 #include "itkTranslationTransform.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkMeanReciprocalSquareDifferencePointSetToImageMetric.h"
 #include "itkGaussianImageSource.h"
-#include "itkImage.h"
 #include "itkPointSet.h"
-#include "itkImageRegionIterator.h"
 
 #include <iostream>
 

@@ -20,9 +20,7 @@
 #include "itkRelabelComponentImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkImageRegionIterator.h"
 #include "itkSimpleFilterWatcher.h"
-#include "itkImageRegionIterator.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
 
 int itkScalarConnectedComponentImageFilterTest(int argc, char* argv[] )

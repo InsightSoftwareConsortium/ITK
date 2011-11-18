@@ -16,12 +16,9 @@
  *
  *=========================================================================*/
 
-#include <stdio.h>
 #include <fstream>
-#include <ctype.h>
 
 #include <metaObject.h>
-#include <metaUtils.h>
 #include "itkNumericTraits.h"
 #include "itksys/SystemTools.hxx"
 

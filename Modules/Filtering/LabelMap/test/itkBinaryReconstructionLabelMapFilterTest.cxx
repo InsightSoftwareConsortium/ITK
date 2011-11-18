@@ -19,7 +19,6 @@
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
 
-#include "itkLabelMap.h"
 
 #include "itkLabelImageToLabelMapFilter.h"
 #include "itkBinaryReconstructionLabelMapFilter.h"

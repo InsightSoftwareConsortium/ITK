@@ -18,7 +18,6 @@
 
 #include "itkGaussianDistribution.h"
 #include "itkTestingMacros.h"
-#include <math.h>
 
 int itkGaussianDistributionTest(int, char* [] )
 {

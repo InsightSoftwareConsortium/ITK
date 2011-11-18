@@ -20,7 +20,6 @@
 
 #include <iostream>
 #include <fstream>
-#include "itkImage.h"
 #include "itkLineIterator.h"
 #include "itkTimeProbe.h"
 

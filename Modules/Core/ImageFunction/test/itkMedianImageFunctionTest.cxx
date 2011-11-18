@@ -16,10 +16,8 @@
  *
  *=========================================================================*/
 
-#include <stdio.h>
 
 #include "itkMedianImageFunction.h"
-#include "itkImage.h"
 
 int itkMedianImageFunctionTest(int, char* [] )
 {

@@ -25,7 +25,6 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#include "itkSimpleFastMutexLock.h"
 
 #if defined(ITK_USE_PTHREADS)
 #include "itkSimpleFastMutexLockPThreads.cxx"

@@ -15,10 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkImage.h"
 #include "itkDivideByConstantImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkSubtractImageFilter.h"
 
 
 int itkDivideByConstantImageFilterTest(int, char* [] )

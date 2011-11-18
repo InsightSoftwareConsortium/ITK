@@ -16,8 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itksys/SystemTools.hxx"
-#include "itkNiftiImageIO.h"
 #include "itkNiftiImageIOTest.h"
 
 template <class ScalarType, unsigned TVecLength, unsigned TDimension>

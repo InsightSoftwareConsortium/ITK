@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkImageFileReader.h"
-#include "itkImage.h"
 #include "itkCentralDifferenceImageFunction.h"
 
 int itkOrientedImage3DTest( int ac, char * av[] )

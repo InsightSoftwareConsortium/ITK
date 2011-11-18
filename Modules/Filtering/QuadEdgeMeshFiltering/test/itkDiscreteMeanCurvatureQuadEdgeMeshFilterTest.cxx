@@ -15,7 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkQuadEdgeMesh.h"
 #include "itkMeshFileReader.h"
 #include "itkMeshFileWriter.h"
 

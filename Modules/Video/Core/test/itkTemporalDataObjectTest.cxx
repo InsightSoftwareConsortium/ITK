@@ -15,12 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkRealTimeStamp.h"
-#include "itkRealTimeInterval.h"
-#include "itkTemporalRegion.h"
 #include "itkTemporalDataObject.h"
-#include "itkDataObject.h"
-#include "itkTestingMacros.h"
 
 /**
  * Test the basic functionality of temporal data objects

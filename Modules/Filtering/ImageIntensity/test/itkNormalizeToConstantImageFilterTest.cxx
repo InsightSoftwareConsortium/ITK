@@ -16,13 +16,10 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include <iostream>
-#include "itkImageRegionIterator.h"
 
 #include "itkNormalizeToConstantImageFilter.h"
 #include "itkRandomImageSource.h"
-#include "itkStreamingImageFilter.h"
 #include "itkFilterWatcher.h"
 
 int itkNormalizeToConstantImageFilterTest( int, char* [] )

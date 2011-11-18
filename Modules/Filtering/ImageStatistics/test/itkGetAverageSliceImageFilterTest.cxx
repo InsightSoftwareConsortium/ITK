@@ -17,12 +17,10 @@
  *=========================================================================*/
 
 #include "itkGetAverageSliceImageFilter.h"
-#include "itkRGBPixel.h"
 #include "itkImageSeriesReader.h"
 #include "itkImageSeriesWriter.h"
 #include "itkGDCMImageIO.h"
 #include "itkGDCMSeriesFileNames.h"
-#include "itksys/SystemTools.hxx"
 
 int itkGetAverageSliceImageFilterTest(int argc, char *argv[] )
 {

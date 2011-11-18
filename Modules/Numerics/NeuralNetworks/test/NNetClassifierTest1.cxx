@@ -26,9 +26,7 @@
 #include "itkOneHiddenLayerBackPropagationNeuralNetwork.h"
 
 #include "itkVector.h"
-#include "itkArray.h"
 #include "itkListSample.h"
-#include <vector>
 #include <fstream>
 
 #define ROUND(x) (floor(x+0.5))

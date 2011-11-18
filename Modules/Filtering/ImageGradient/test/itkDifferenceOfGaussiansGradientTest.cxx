@@ -16,11 +16,8 @@
  *
  *=========================================================================*/
 
-#include <stdio.h>
 
 // Native ITK stuff
-#include "itkIndex.h"
-#include "itkImage.h"
 #include "itkFilterWatcher.h"
 
 // Spatial function stuff

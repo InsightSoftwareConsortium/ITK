@@ -21,13 +21,9 @@
 * like Add/RemoveSpatialObject(...), Get/SetChildren(...), etc...
 */
 
-#include "itkPoint.h"
-#include "itkAffineTransform.h"
 #include "itkTubeSpatialObject.h"
 #include "itkGroupSpatialObject.h"
-#include "itkMacro.h"
 
-#include "vnl/vnl_math.h"
 
 int itkTubeSpatialObjectTest(int, char * [] )
 {

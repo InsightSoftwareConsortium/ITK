@@ -23,7 +23,6 @@
 #include "itkQuaternionRigidTransformGradientDescentOptimizer.h"
 
 #include "itkTextOutput.h"
-#include "itkImageRegionIterator.h"
 #include "itkCommandIterationUpdate.h"
 
 namespace

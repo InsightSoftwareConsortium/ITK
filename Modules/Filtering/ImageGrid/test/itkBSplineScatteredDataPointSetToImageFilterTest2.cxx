@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkPointSet.h"
 
 #include "itkBSplineScatteredDataPointSetToImageFilter.h"

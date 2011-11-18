@@ -17,8 +17,6 @@
  *=========================================================================*/
 
 // Insight classes
-#include "itkImage.h"
-#include "itkImageRegionIterator.h"
 #include "itkLightProcessObject.h"
 #include "itkTextOutput.h"
 

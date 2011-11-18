@@ -18,7 +18,6 @@
 
 #include "itkWeightedCovarianceSampleFilter.h"
 #include "itkListSample.h"
-#include "itkArray.h"
 
 const unsigned int                  MeasurementVectorSize2 = 3;
 unsigned int                        counter2 = 0;

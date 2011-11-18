@@ -18,12 +18,9 @@
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkImage.h"
 #include "itkRescaleIntensityImageFilter.h"
-#include "itkMetaDataObject.h"
 #include "itkGDCMImageIO.h"
 
-#include <list>
 #include <fstream>
 
 

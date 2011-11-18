@@ -17,8 +17,6 @@
  *=========================================================================*/
 
 #include "itkLevelSetDomainMapImageFilter.h"
-#include <list>
-#include <vector>
 
 int itkLevelSetDomainMapImageFilterTest( int, char* [] )
 {

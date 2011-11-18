@@ -23,8 +23,6 @@
 #include "itkMahalanobisDistanceMembershipFunction.h"
 #include "itkMinimumDecisionRule.h"
 
-#include "itkVector.h"
-#include "vnl/vnl_matrix_fixed.h"
 
 //Data definitons
 #define   IMGWIDTH            6

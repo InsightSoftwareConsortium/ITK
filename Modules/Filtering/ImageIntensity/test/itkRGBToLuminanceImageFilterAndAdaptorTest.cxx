@@ -16,11 +16,9 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkRGBPixel.h"
 #include "itkRGBToLuminanceImageFilter.h"
 #include "itkRGBToLuminanceImageAdaptor.h"
-#include "itkImageRegionIteratorWithIndex.h"
 #include "itkSubtractImageFilter.h"
 
 

@@ -17,8 +17,6 @@
  *=========================================================================*/
 
 #include "itkHistogramMatchingImageFilter.h"
-#include "itkImage.h"
-#include "itkImageRegionIterator.h"
 #include "itkCommand.h"
 
 /**

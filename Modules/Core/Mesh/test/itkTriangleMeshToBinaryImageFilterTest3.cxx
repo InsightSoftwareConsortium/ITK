@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkTriangleMeshToBinaryImageFilter.h"
 #include "itkImageFileWriter.h"
 #include "itkMeshFileReader.h"

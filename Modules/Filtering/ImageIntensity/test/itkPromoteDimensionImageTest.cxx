@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkPNGImageIO.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkCastImageFilter.h"

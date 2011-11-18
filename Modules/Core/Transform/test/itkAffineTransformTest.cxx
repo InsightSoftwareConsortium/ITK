@@ -17,12 +17,8 @@
  *=========================================================================*/
 
 #include <iostream>
-#include <iomanip>
 
 #include "itkAffineTransform.h"
-#include "itkImage.h"
-#include "vnl/vnl_vector_fixed.h"
-#include "vnl/vnl_matrix.h"
 
 typedef  itk::Matrix<double, 2, 2> Matrix2Type;
 typedef  itk::Vector<double, 2>    Vector2Type;

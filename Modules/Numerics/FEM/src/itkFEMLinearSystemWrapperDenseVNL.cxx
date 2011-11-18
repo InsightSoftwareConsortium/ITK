@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkFEMLinearSystemWrapperDenseVNL.h"
-#include "itkFEMException.h"
 
 namespace itk
 {

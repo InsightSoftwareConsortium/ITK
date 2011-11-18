@@ -16,9 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkMacro.h"
 #include "itkFEMLinearSystemWrapperVNL.h"
-#include "vxl_version.h"
 #include <iostream>
 
 namespace itk

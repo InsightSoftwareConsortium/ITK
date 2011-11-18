@@ -19,8 +19,6 @@
 #include "itkComplexConjugateImageAdaptor.h"
 #include "itkImageRegionIterator.h"
 
-#include <complex>
-#include <cstdlib>
 
 typedef std::complex< float >                          PixelType;
 typedef itk::Image< PixelType, 2 >                     ImageType;

@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include "itkVTKImageExportBase.h"
-#include "itkCommand.h"
 
 namespace itk
 {

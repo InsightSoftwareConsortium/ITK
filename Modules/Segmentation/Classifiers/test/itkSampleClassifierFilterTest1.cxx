@@ -16,12 +16,10 @@
  *
  *=========================================================================*/
 
-#include "itkArray.h"
 #include "itkListSample.h"
 #include "itkSampleClassifierFilter.h"
 #include "itkMaximumDecisionRule.h"
 #include "itkDistanceToCentroidMembershipFunction.h"
-#include "itkMeasurementVectorTraits.h"
 
 
 // ADD DistanceToCentroidMembershipFunction (with the added SetDistanceMetric() method

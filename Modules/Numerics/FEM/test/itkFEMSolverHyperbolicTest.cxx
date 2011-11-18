@@ -15,22 +15,10 @@
 
 =========================================================================*/
 
-#include "itkMacro.h"
-#include "itkImage.h"
-#include "itkVector.h"
-#include "itkImageFileReader.h"
 #include "itkFEMSolverHyperbolic.h"
-#include "itkFEMObject.h"
-#include "itkFEMObjectSpatialObject.h"
-#include "itkGroupSpatialObject.h"
-#include "itkSpatialObject.h"
 #include "itkFEMSpatialObjectReader.h"
-#include "itkFEMSpatialObjectWriter.h"
-#include "itkFEMLinearSystemWrapper.h"
 #include "itkFEMLinearSystemWrapperDenseVNL.h"
 #include "itkFEMLinearSystemWrapperItpack.h"
-#include "itkFEMLinearSystemWrapperVNL.h"
-#include "itkFEMFactory.h"
 
 
 typedef itk::fem::SolverHyperbolic<2> FEMSolverType;

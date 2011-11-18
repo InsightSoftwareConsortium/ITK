@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkFastMarchingBase.h"
-#include "itkDefaultStaticMeshTraits.h"
 
 namespace itk
 {

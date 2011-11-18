@@ -17,9 +17,6 @@
  *=========================================================================*/
 
 #include "itkEdgePotentialImageFilter.h"
-#include "itkImage.h"
-#include "itkCovariantVector.h"
-#include "itkImageRegionIterator.h"
 #include "itkFilterWatcher.h"
 
 int itkEdgePotentialImageFilterTest(int, char* [] )

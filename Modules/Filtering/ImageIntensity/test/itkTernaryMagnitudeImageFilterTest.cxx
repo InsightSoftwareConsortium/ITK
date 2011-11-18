@@ -16,9 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkTernaryMagnitudeImageFilter.h"
-#include "itkImageRegionIteratorWithIndex.h"
 
 
 int itkTernaryMagnitudeImageFilterTest(int, char* [] )

@@ -16,9 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkMinimumMaximumImageCalculator.h"
-#include "itkSize.h"
 
 int
 itkMinimumMaximumImageCalculatorTest(int ,char *[] )

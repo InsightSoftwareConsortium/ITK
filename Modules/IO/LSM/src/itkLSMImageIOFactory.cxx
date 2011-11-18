@@ -26,7 +26,6 @@
  *
  *=========================================================================*/
 #include "itkLSMImageIOFactory.h"
-#include "itkCreateObjectFunction.h"
 #include "itkLSMImageIO.h"
 #include "itkVersion.h"
 

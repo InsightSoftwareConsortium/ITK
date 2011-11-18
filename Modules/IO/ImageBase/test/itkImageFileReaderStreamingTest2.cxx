@@ -19,7 +19,6 @@
 #include <fstream>
 #include "itkImageFileReader.h"
 #include "itkPipelineMonitorImageFilter.h"
-#include "itkStreamingImageFilter.h"
 
 
 #include "itkTestingComparisonImageFilter.h"

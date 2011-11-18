@@ -16,14 +16,9 @@
  *
  *=========================================================================*/
 
-#include "itkAffineTransform.h"
 #include "itkMutualInformationImageToImageMetric.h"
-#include "itkLinearInterpolateImageFunction.h"
-#include "itkRecursiveMultiResolutionPyramidImageFilter.h"
 
 #include "itkTextOutput.h"
-#include "itkImageRegionIterator.h"
-#include "itkCommandIterationUpdate.h"
 #include "itkSimpleMultiResolutionImageRegistrationUI.h"
 namespace
 {

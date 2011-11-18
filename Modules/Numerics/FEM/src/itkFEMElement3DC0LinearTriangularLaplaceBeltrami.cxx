@@ -16,7 +16,6 @@
 *
 *=========================================================================*/
 
-#include <math.h>
 #include "itkFEMElement3DC0LinearTriangularLaplaceBeltrami.h"
 
 namespace itk

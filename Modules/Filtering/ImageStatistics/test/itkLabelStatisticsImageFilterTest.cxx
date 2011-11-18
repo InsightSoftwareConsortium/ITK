@@ -18,13 +18,11 @@
 
 #include <iostream>
 
-#include "itkImage.h"
 #include "itkLabelStatisticsImageFilter.h"
 #include "itkImageFileReader.h"
 
 #include "itkFilterWatcher.h"
 
-#include "vnl/vnl_math.h"
 
 int itkLabelStatisticsImageFilterTest(int argc, char* argv [] )
 {

@@ -18,9 +18,6 @@
 
 #include <iostream>
 
-#include "itkImage.h"
-#include "itkImageRegionIterator.h"
-#include "itkMinimumMaximumImageCalculator.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkRandomImageSource.h"
 

@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include <iostream>
-#include <sstream>
 
 #include "itkVideoIOFactory.h"
 #include "itkVXLVideoIOFactory.h"

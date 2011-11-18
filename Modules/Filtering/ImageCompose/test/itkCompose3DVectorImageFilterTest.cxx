@@ -17,10 +17,7 @@
  *=========================================================================*/
 
 #include <iostream>
-#include "itkImage.h"
-#include "itkVector.h"
 #include "itkComposeImageFilter.h"
-#include "itkImageRegionIterator.h"
 
 
 

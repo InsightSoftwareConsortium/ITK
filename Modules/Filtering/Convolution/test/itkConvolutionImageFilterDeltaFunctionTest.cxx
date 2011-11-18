@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkConvolutionImageFilter.h"
-#include "itkFlipImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 

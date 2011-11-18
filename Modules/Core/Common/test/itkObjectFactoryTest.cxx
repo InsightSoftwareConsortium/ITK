@@ -18,7 +18,6 @@
 
 #include "itkVersion.h"
 #include "itkImage.h"
-#include <string>
 #include <list>
 
 #define CHECK_FOR_VALUE(a,b) \

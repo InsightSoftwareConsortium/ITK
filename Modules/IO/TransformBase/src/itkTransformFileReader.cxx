@@ -16,9 +16,7 @@
  *
  *=========================================================================*/
 #include "itkTransformFileReader.h"
-#include "itkTransformFactoryBase.h"
 #include "itkTransformIOFactory.h"
-#include "itkCompositeTransform.h"
 #include "itkCompositeTransformIOHelper.h"
 
 namespace itk

@@ -26,10 +26,7 @@
  *
  *=========================================================================*/
 #include "itkProcessObject.h"
-#include "itkCommand.h"
 
-#include <functional>
-#include <algorithm>
 #include <stdio.h>
 
 namespace itk

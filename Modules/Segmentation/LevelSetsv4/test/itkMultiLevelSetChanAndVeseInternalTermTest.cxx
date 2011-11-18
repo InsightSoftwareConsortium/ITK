@@ -16,10 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
-#include "itkLevelSetDenseImageBase.h"
-#include "itkImageRegionIteratorWithIndex.h"
-#include "itkLevelSetDomainMapImageFilter.h"
 #include "itkLevelSetContainer.h"
 #include "itkLevelSetEquationChanAndVeseInternalTerm.h"
 #include "itkLevelSetEquationTermContainerBase.h"

@@ -16,9 +16,7 @@
  *
  *=========================================================================*/
 
-#include <string>
 
-#include "itkQuadEdgeMesh.h"
 
 #include "itkQuadEdgeMeshEulerOperatorSplitFacetFunction.h"
 #include "itkQuadEdgeMeshEulerOperatorJoinFacetFunction.h"

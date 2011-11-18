@@ -17,8 +17,6 @@
  *=========================================================================*/
 
 
-#include "itksys/SystemTools.hxx"
-#include "itkNiftiImageIO.h"
 #include "itkNiftiImageIOTest.h"
 
 typedef itk::Image<unsigned char,3> Test4ImageType;

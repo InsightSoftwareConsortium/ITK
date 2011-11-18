@@ -20,7 +20,6 @@
 #include "itkBinaryThinningImageFilter.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkImageFileWriter.h"
-#include "itkFilterWatcher.h"
 
 int itkBinaryThinningImageFilterTest(int argc, char* argv[] )
 {

@@ -17,12 +17,9 @@
  *=========================================================================*/
 
 #include <iostream>
-#include "itkImage.h"
 #include "itkCannyEdgeDetectionImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkVector.h"
-#include "itkSimpleFilterWatcher.h"
 #include "itkRescaleIntensityImageFilter.h"
 
 // This test is was written to test bug 9431

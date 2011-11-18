@@ -16,9 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkDisplacementFieldJacobianDeterminantFilter.h"
-#include "itkImageRegionIteratorWithIndex.h"
 
 
 int itkWarpJacobianDeterminantFilterTest(int, char* [] )

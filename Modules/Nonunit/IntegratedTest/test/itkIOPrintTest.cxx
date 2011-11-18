@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkAnalyzeImageIO.h"
 #include "itkBioRadImageIO.h"
 #include "itkGE4ImageIO.h"
@@ -24,7 +23,6 @@
 #include "itkGEAdwImageIO.h"
 #include "itkGiplImageIO.h"
 #include "itkImageFileReader.h"
-#include "itkImageFileWriter.h"
 #include "itkJPEGImageIO.h"
 #include "itkLSMImageIO.h"
 #include "itkMetaImageIO.h"

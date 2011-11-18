@@ -16,17 +16,12 @@
  *
  *=========================================================================*/
 
-#include "itkWin32Header.h"
 
 #include <fstream>
 
-#include "itkPoint.h"
-#include "itkArray.h"
 #include "itkPointSetToListSampleAdaptor.h"
-#include "itkSubsample.h"
 
 #include "itkGaussianMixtureModelComponent.h"
-#include "itkExpectationMaximizationMixtureModelEstimator.h"
 
 int itkGaussianMixtureModelComponentTest(int argc, char* argv[] )
 {

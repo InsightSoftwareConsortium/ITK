@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include "itkAnalyzeImageIOFactory.h"
-#include "itkCreateObjectFunction.h"
 #include "itkAnalyzeImageIO.h"
 #include "itkVersion.h"
 

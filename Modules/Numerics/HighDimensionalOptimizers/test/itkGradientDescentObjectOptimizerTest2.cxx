@@ -15,9 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkObjectToObjectMetric.h"
 #include "itkGradientDescentObjectOptimizer.h"
-#include "vnl/vnl_math.h"
 
 /* This test simulates the use of a metric with a transform
  * with local support, testing the proper handling of scales for such a case.

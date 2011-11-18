@@ -28,7 +28,6 @@
 
 #include <iostream>
 
-#include "itkImage.h"
 #include "itkBSplineDownsampleImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"

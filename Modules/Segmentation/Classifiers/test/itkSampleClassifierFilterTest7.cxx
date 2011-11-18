@@ -18,10 +18,7 @@
 
 #include <fstream>
 
-#include "itkPoint.h"
-#include "itkArray.h"
 #include "itkPointSetToListSampleAdaptor.h"
-#include "itkSubsample.h"
 #include "itkSampleClassifierFilter.h"
 #include "itkMaximumDecisionRule.h"
 

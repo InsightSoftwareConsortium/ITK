@@ -25,7 +25,6 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#include "itkTimeStamp.h"
 #include "itkFastMutexLock.h"
 
 #if defined( _WIN32 )

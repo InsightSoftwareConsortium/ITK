@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include "itkPhilipsRECImageIOFactory.h"
-#include "itkCreateObjectFunction.h"
 #include "itkPhilipsRECImageIO.h"
 #include "itkVersion.h"
 

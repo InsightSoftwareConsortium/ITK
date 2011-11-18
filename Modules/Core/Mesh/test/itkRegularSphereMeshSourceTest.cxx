@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkRegularSphereMeshSource.h"
-#include "itkDefaultStaticMeshTraits.h"
 
 #include <iostream>
 

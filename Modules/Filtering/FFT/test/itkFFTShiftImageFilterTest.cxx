@@ -21,7 +21,6 @@
 
 #include "itkSimpleFilterWatcher.h"
 #include "itkFFTShiftImageFilter.h"
-#include "itkRGBPixel.h"
 
 int itkFFTShiftImageFilterTest(int argc, char * argv[])
 {

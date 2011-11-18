@@ -16,14 +16,10 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
-#include "itkRGBPixel.h"
 #include "itkImageFileReader.h"
 #include "itkVoronoiSegmentationRGBImageFilter.h"
 #include "itkImageRegionIterator.h"
-#include "vnl/vnl_sample.h"
 #include <iostream>
-#include <string.h>
 
 // typedefs for all functions
 typedef itk::RGBPixel<unsigned char> PixelType;

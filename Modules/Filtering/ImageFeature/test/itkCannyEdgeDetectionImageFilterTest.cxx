@@ -17,11 +17,9 @@
  *=========================================================================*/
 
 #include <iostream>
-#include "itkImage.h"
 #include "itkCannyEdgeDetectionImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkVector.h"
 #include "itkSimpleFilterWatcher.h"
 #include "itkRescaleIntensityImageFilter.h"
 

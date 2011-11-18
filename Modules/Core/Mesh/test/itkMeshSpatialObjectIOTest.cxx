@@ -16,16 +16,10 @@
  *
  *=========================================================================*/
 
-#include "itkImageHelper.h"
-#include "itkMeshSpatialObject.h"
 #include "itkSpatialObjectWriter.h"
 #include "itkSpatialObjectReader.h"
-#include "itkTetrahedronCell.h"
-#include "itkHexahedronCell.h"
-#include "itkQuadraticTriangleCell.h"
 #include "itkDefaultDynamicMeshTraits.h"
 #include <iostream>
-#include <string>
 
 
 int itkMeshSpatialObjectIOTest(int argc, char* argv[])

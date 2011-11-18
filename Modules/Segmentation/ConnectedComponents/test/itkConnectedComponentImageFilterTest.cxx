@@ -21,9 +21,7 @@
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkImageRegionIterator.h"
 #include "itkSimpleFilterWatcher.h"
-#include "itkImageRegionIterator.h"
 #include "vnl/vnl_sample.h"
 
 int itkConnectedComponentImageFilterTest(int argc, char* argv[] )

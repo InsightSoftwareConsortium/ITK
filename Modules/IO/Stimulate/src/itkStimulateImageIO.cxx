@@ -26,8 +26,6 @@
  *
  *=========================================================================*/
 #include "itkStimulateImageIO.h"
-#include <stdio.h>
-#include <string.h>
 #include "itksys/SystemTools.hxx"
 #include "itksys/RegularExpression.hxx"
 #include "itkByteSwapper.h"

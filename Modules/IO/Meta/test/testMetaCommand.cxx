@@ -16,9 +16,7 @@
  *
  *=========================================================================*/
 
-#include <stdio.h>
 #include <fstream>
-#include <ctype.h>
 
 
 #include <metaCommand.h>

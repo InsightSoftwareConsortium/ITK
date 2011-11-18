@@ -15,8 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkMetaDataObjectBase.h"
-#include "itkCommand.h"
 #include "itkFastMutexLock.h"
 
 void

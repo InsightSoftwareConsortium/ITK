@@ -16,26 +16,22 @@
  *
  *=========================================================================*/
 
-#include "itkPoint.h"
 #include "itkEllipseSpatialObject.h"
 
 #include "itkMRIBiasFieldCorrectionFilter.h"
 #include "itkShapeDetectionLevelSetImageFilter.h"
 #include "itkSphereMeshSource.h"
 #include "itkThresholdSegmentationLevelSetImageFilter.h"
-#include "itkVoronoiDiagram2DGenerator.h"
 #include "itkVoronoiPartitioningImageFilter.h"
 #include "itkVoronoiSegmentationImageFilter.h"
 #include "itkVoronoiSegmentationRGBImageFilter.h"
 #include "itkWatershedBoundaryResolver.h"
 #include "itkWatershedEquivalenceRelabeler.h"
 #include "itkWatershedImageFilter.h"
-#include "itkWatershedSegmentTree.h"
 
 #include "itkDistanceToCentroidMembershipFunction.h"
 #include "itkMahalanobisDistanceMembershipFunction.h"
 #include "itkGroupSpatialObject.h"
-#include "itkRGBPixel.h"
 
 int main(int , char* [])
 {

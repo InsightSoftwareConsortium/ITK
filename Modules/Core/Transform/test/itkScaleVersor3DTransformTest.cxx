@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkMacro.h"
 #include "itkScaleVersor3DTransform.h"
 #include <iostream>
 

@@ -16,9 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkMinimumMaximumImageFilter.h"
-#include "itkSize.h"
 #include "itkFilterWatcher.h"
 
 int

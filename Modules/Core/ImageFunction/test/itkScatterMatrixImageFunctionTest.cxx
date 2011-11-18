@@ -16,11 +16,8 @@
  *
  *=========================================================================*/
 
-#include <stdio.h>
 
 #include "itkScatterMatrixImageFunction.h"
-#include "itkMatrix.h"
-#include "itkImage.h"
 
 int itkScatterMatrixImageFunctionTest(int, char* [] )
 {

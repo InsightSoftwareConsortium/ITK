@@ -16,8 +16,6 @@
  *
  *=========================================================================*/
 #include "itkTemporalRegion.h"
-#include "itkRealTimeStamp.h"
-#include "itkRealTimeInterval.h"
 
 /**
  * Test the basic functionality of Temporal Regions

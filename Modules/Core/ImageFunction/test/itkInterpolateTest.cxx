@@ -19,11 +19,9 @@
 #include <iostream>
 
 #include "itkImage.h"
-#include "itkSize.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkNearestNeighborInterpolateImageFunction.h"
 
-#include "vnl/vnl_math.h"
 
 
 typedef itk::Size<3>                               SizeType;

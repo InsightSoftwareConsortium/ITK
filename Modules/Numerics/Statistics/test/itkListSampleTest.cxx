@@ -16,8 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkArray.h"
-#include "itkVariableLengthVector.h"
 #include "itkListSample.h"
 
 int itkListSampleTest(int argc, char *argv[] )

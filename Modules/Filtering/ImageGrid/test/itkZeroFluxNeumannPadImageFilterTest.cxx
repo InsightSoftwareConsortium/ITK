@@ -17,14 +17,8 @@
  *=========================================================================*/
 
 #include <fstream>
-#include "itkImage.h"
-#include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkZeroFluxNeumannPadImageFilter.h"
-#include "itkFileOutputWindow.h"
-#include "itkMultiThreader.h"
 #include "itkStreamingImageFilter.h"
-#include "itkFilterWatcher.h"
 
 typedef itk::Image< short, 2 >     ShortImage;
 typedef itk::Image< float, 2 >     FloatImage;

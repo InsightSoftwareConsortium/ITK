@@ -19,7 +19,6 @@
 #define _itkCumulativeGaussianCostFunction_cxx
 
 #include "itkCumulativeGaussianCostFunction.h"
-#include <assert.h>
 
 namespace itk
 {

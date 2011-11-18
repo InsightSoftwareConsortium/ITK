@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkFEMLightObject.h"
-#include "itkNumericTraits.h"
 
 namespace itk
 {

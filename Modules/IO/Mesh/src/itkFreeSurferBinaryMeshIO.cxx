@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkFreeSurferBinaryMeshIO.h"
-#include "itkNumericTraits.h"
 
 #include <itksys/SystemTools.hxx>
 

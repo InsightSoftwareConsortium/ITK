@@ -17,8 +17,6 @@
  *=========================================================================*/
 
 
-#include "itkImage.h"
-#include "itkImageRegionIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
 
 template<class TImage>

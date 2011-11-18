@@ -17,7 +17,6 @@
  *=========================================================================*/
 #include "itkInternationalizationIOHelpers.h"
 
-#include <cstdlib> // for EXIT_FAILURE and EXIT_SUCCESS
 #include <string.h> // for strcmp (cstring cannot be used on both Sun and VS6)
 
 // Some utility functions for the test

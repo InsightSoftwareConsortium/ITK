@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkImageRegionIterator.h"
 #include "itkUnsharpMaskLevelSetImageFilter.h"
 #include <iostream>
 

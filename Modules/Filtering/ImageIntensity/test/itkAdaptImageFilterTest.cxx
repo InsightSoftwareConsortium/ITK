@@ -32,7 +32,6 @@
 
 
 #include "itkAdaptImageFilter.h"
-#include "itkImageRegionIteratorWithIndex.h"
 #include "itkRedPixelAccessor.h"
 #include "itkGreenPixelAccessor.h"
 #include "itkBluePixelAccessor.h"

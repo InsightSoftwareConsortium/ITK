@@ -11,7 +11,6 @@ itkSimpleFilterWatcher.cxx
 itkKernelFunction.cxx
 itkGaussianKernelFunction.cxx
 itkNumericTraitsVectorPixel.cxx
-itkNumericTraitsVariableLengthVectorPixel.cxx
 itkObject.cxx
 itkDynamicLoader.cxx
 itkQuadrilateralCellTopology.cxx
@@ -28,7 +27,6 @@ itkRealTimeInterval.cxx
 itkOctreeNode.cxx
 itkNumericTraitsFixedArrayPixel.cxx
 itkMultiThreader.cxx
-itkNumericTraitsArrayPixel.cxx
 itkMetaDataDictionary.cxx
 itkDataObject.cxx
 itkThreadLogger.cxx

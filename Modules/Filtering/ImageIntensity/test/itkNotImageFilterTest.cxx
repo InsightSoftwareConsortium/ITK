@@ -16,9 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkNotImageFilter.h"
-#include "itkImageRegionIteratorWithIndex.h"
 
 
 int itkNotImageFilterTest(int, char* [] )

@@ -17,8 +17,6 @@
  *=========================================================================*/
 #include "itkChiSquareDistribution.h"
 #include "itkGaussianDistribution.h"
-#include "vnl/vnl_math.h"
-#include "vnl/vnl_erf.h"
 
 extern "C" double dgami_(double *a, double *x);
 

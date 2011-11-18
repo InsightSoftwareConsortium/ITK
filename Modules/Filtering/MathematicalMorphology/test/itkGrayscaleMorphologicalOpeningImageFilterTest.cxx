@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkGrayscaleMorphologicalOpeningImageFilter.h"
 #include "itkBinaryBallStructuringElement.h"
 #include "itkFilterWatcher.h"

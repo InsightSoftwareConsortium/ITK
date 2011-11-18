@@ -16,10 +16,8 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkRandomImageSource.h"
 #include "itkBinaryThresholdImageFilter.h"
-#include "itkImageRegionIteratorWithIndex.h"
 
 
 int itkBinaryThresholdImageFilterTest(int, char* [] )

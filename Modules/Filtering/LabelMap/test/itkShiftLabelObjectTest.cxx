@@ -18,7 +18,6 @@
 
 #include <iostream>
 #include "itkLabelImageToLabelMapFilter.h"
-#include "itkImage.h"
 
 int itkShiftLabelObjectTest(int argc, char * argv[])
 {

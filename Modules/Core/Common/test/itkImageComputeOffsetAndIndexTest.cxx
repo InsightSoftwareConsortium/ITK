@@ -19,7 +19,6 @@
 #include <iostream>
 
 #include "itkImage.h"
-#include "itkImageHelper.h"
 #include "itkTimeProbesCollectorBase.h"
 
 template <class TImage>

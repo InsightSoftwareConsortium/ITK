@@ -15,12 +15,9 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkImage.h"
 #include "itkTranslationTransform.h"
-#include "itkAffineTransform.h"
 #include "itkRigid2DTransform.h"
 #include "itkImageFileReader.h"
-#include "itkImageFileWriter.h"
 
 #include "itkLinearInterpolateImageFunction.h"
 

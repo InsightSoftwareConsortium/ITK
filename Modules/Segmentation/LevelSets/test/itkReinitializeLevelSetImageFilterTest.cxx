@@ -23,8 +23,6 @@
 #include "itkMinimumMaximumImageCalculator.h"
 #include "itkMultiplyImageFilter.h"
 
-#include "itkCommand.h"
-#include "vnl/vnl_math.h"
 
 // For debugging
 #include "itkImageFileWriter.h"

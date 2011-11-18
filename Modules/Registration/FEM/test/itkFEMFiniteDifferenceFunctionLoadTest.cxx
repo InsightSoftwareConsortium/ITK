@@ -25,11 +25,6 @@
 #include "itkFEMSolver.h"
 
 #include "itkImageFileWriter.h"
-#include "itkIndex.h"
-#include "itkImageRegionIteratorWithIndex.h"
-#include "itkCommand.h"
-#include "itkFEMObject.h"
-#include "vnl/vnl_math.h"
 
 // tyepdefs used for registration
 const unsigned int ImageDimension = 3;

@@ -16,21 +16,13 @@
  *
  *=========================================================================*/
 
-#include "itkGaussianRadialBasisFunction.h"
-#include "itkMultiquadricRadialBasisFunction.h"
 #include "itkIterativeSupervisedTrainingFunction.h"
-#include "itkBatchSupervisedTrainingFunction.h"
 #include "itkRBFNetwork.h"
-#include "itkVector.h"
 #include "itkListSample.h"
-#include <vector>
 #include <fstream>
 
-#include "itkSampleClassifierFilter.h"
-#include "itkKdTree.h"
 #include "itkWeightedCentroidKdTreeGenerator.h"
 #include "itkKdTreeBasedKmeansEstimator.h"
-#include "itkMinimumDecisionRule.h"
 #include "itkRBFBackPropagationLearningFunction.h"
 
 #define ROUND(x) (floor(x+0.5))

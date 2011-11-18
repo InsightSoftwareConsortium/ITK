@@ -18,7 +18,6 @@
 
 #include "itkQuadEdgeMesh.h"
 #include "itkVTKPolyDataReader.h"
-#include "itkDefaultStaticMeshTraits.h"
 
 #include <iostream>
 

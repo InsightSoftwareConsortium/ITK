@@ -16,9 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkLevelSetDenseImageBase.h"
-#include "itkImageRegionIteratorWithIndex.h"
 #include "itkLevelSetDomainMapImageFilter.h"
 
 int itkMultiLevelSetDenseImageTest( int , char* [] )

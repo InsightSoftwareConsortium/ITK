@@ -16,10 +16,7 @@
  *
  *=========================================================================*/
 #include "itkCSVArray2DFileReader.h"
-#include "itkCSVArray2DDataObject.h"
 #include "itkCSVNumericObjectFileWriter.h"
-#include "itkArray2D.h"
-#include "itksys/SystemTools.hxx"
 #include <iostream>
 
 const double epsilon = 1e-20;

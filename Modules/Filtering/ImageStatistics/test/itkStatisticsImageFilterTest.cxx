@@ -18,14 +18,11 @@
 
 #include <iostream>
 
-#include "itkImage.h"
-#include "itkImageRegionIterator.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
 
 #include "itkStatisticsImageFilter.h"
 #include "itkRandomImageSource.h"
 #include "itkFilterWatcher.h"
-#include "vnl/vnl_math.h"
 
 int itkStatisticsImageFilterTest(int, char* [] )
 {

@@ -17,8 +17,6 @@
  *=========================================================================*/
 
 #include "itkImageToHistogramFilter.h"
-#include "itkImage.h"
-#include "itkRGBPixel.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkSimpleFilterWatcher.h"
 

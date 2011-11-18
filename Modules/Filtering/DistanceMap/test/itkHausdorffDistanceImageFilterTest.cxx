@@ -16,9 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkDirectedHausdorffDistanceImageFilter.h"
 #include "itkHausdorffDistanceImageFilter.h"
-#include "itkImageRegionIterator.h"
 #include "itkFilterWatcher.h"
 
 int itkHausdorffDistanceImageFilterTest(int, char* [] )

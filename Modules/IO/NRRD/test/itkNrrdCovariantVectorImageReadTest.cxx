@@ -18,9 +18,7 @@
 
 #include <fstream>
 #include "itkImageFileReader.h"
-#include "itkImage.h"
 #include "itkNrrdImageIO.h"
-#include "itkCovariantVector.h"
 
 #define SPECIFIC_IMAGEIO_MODULE_TEST
 

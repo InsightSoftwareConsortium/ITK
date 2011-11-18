@@ -18,7 +18,6 @@
 
 #include "itkCurvesLevelSetImageFilter.h"
 
-#include "itkImageRegionIterator.h"
 #include "itkCastImageFilter.h"
 #include "itkGradientMagnitudeRecursiveGaussianImageFilter.h"
 #include "itkSigmoidImageFilter.h"

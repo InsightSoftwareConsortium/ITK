@@ -19,10 +19,6 @@
 #include <iostream>
 
 #include "itkRigid3DTransform.h"
-#include "vnl/vnl_vector_fixed.h"
-#include "vnl/vnl_det.h"
-#include "vnl/vnl_math.h"
-#include "itkVector.h"
 
 namespace itk
 {

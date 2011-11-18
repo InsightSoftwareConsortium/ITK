@@ -17,13 +17,9 @@
  *=========================================================================*/
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkSimpleFilterWatcher.h"
 
-#include "itkLabelObject.h"
-#include "itkLabelMap.h"
 #include "itkLabelImageToShapeLabelMapFilter.h"
 #include "itkConvertLabelMapFilter.h"
-#include "itkLabelMapToLabelImageFilter.h"
 #include "itkTestingMacros.h"
 #include "itkSimpleFilterWatcher.h"
 

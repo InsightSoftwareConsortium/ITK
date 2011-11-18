@@ -28,8 +28,6 @@
 
 #include "itkTestDriverIncludeRequiredIOFactories.h"
 
-#include "itksys/Process.h"
-#include "itksys/SystemTools.hxx"
 
 /* Select the environment variable holding the shared library runtime
    search path for this platform.  */

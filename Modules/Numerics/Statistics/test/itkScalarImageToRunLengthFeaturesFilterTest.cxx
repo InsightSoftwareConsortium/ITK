@@ -17,9 +17,7 @@
  *=========================================================================*/
 
 // Insight classes
-#include "itkImage.h"
 #include "itkImageRegionIterator.h"
-#include "vnl/vnl_math.h"
 
 #include "itkScalarImageToRunLengthFeaturesFilter.h"
 

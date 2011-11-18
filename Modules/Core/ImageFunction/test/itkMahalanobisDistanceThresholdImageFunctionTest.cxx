@@ -16,11 +16,9 @@
  *
  *=========================================================================*/
 
-#include <stdio.h>
 
 #include "itkMahalanobisDistanceThresholdImageFunction.h"
 #include "itkImage.h"
-#include "itkRGBPixel.h"
 
 int itkMahalanobisDistanceThresholdImageFunctionTest(int, char* [] )
 {

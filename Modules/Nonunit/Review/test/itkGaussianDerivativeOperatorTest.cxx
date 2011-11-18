@@ -15,11 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkGaussianOperator.h"
 #include "itkGaussianDerivativeOperator.h"
 
-#include <iterator>
-#include <numeric>
 
 
 namespace

@@ -19,7 +19,6 @@
 #include "itkVectorGradientMagnitudeImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkRGBPixel.h"
 #include "itkPipelineMonitorImageFilter.h"
 
 int itkVectorGradientMagnitudeImageFilterTest3(int ac, char* av[] )

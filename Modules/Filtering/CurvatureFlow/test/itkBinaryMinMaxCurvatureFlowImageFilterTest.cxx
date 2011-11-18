@@ -17,13 +17,8 @@
  *=========================================================================*/
 
 #include "itkBinaryMinMaxCurvatureFlowImageFilter.h"
-#include "itkOutputWindow.h"
 #include "itkCommand.h"
-#include "itkImage.h"
-#include "itkImageRegionIterator.h"
-#include "vnl/vnl_math.h"
 #include "vnl/vnl_sample.h"
-#include "vcl_ctime.h"
 
 
 // The following class is used to support callbacks

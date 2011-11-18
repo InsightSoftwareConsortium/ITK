@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include "itkCylinderSpatialObject.h"
-#include <string.h>
 
 namespace itk
 {

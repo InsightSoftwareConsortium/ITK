@@ -16,13 +16,9 @@
  *
  *=========================================================================*/
 #include "itkOneHiddenLayerBackPropagationNeuralNetwork.h"
-#include "itkIterativeSupervisedTrainingFunction.h"
 #include "itkBatchSupervisedTrainingFunction.h"
-#include "itkVector.h"
 #include "itkListSample.h"
-#include "itkArray.h"
 
-#include <vector>
 #include <fstream>
 
 #define ROUND(x) (floor(x+0.5))

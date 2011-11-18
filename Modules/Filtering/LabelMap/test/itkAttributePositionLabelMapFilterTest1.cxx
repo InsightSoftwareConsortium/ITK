@@ -21,8 +21,6 @@
 
 #include "itkLabelImageToShapeLabelMapFilter.h"
 #include "itkAttributePositionLabelMapFilter.h"
-#include "itkLabelMapToLabelImageFilter.h"
-#include "itkShapeLabelObjectAccessors.h"
 
 /** \class TestLabelObjectAccessor
   * \brief a test accessor - to make kwstyle happy

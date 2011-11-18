@@ -18,13 +18,10 @@
 
 #include <iostream>
 
-#include "itkIdentityTransform.h"
-#include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkChangeInformationImageFilter.h"
 #include "itkResampleImageFilter.h"
-#include "itkLinearInterpolateImageFunction.h"
 
 /* Further testing of itkResampleImageFilter
  * Test that ResampleImageFilter can handle a ReferenceImage with

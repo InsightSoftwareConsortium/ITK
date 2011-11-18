@@ -21,10 +21,7 @@
 #include "itkImageSeriesWriter.h"
 #include "itkGDCMSeriesFileNames.h"
 #include "itkImageSeriesReader.h"
-#include "itkMetaDataObject.h"
 
-#include <vector>
-#include "itksys/SystemTools.hxx"
 
 int itkImageReadDICOMSeriesWriteTest( int argc, char* argv[] )
 {

@@ -18,7 +18,6 @@
 
 #include <iostream>
 #include "itkChangeInformationImageFilter.h"
-#include "itkImage.h"
 
 const unsigned int ImageDimension = 3;
 typedef itk::Image<float, ImageDimension>  ImageType;

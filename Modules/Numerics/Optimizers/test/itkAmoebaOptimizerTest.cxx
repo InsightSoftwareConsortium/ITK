@@ -22,7 +22,6 @@
 #include "vnl/vnl_matrix.h"
 #include "vnl/vnl_math.h"
 #include <iostream>
-#include <cstdlib>
 
 
 

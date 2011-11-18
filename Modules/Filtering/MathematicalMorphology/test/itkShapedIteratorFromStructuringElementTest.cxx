@@ -15,9 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkImage.h"
 #include "itkShapedNeighborhoodIterator.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkBinaryBallStructuringElement.h"
 
 typedef itk::Image<int, 2>  LocalImageType;

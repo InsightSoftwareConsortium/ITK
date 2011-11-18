@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include "itkBYUMeshIOFactory.h"
-#include "itkCreateObjectFunction.h"
 #include "itkBYUMeshIO.h"
 #include "itkVersion.h"
 

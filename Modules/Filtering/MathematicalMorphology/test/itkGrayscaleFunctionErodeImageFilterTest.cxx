@@ -16,11 +16,8 @@
  *
  *=========================================================================*/
 
-#include <stdlib.h>
-#include "itkImage.h"
 #include "itkGrayscaleFunctionErodeImageFilter.h"
 #include "itkBinaryBallStructuringElement.h"
-#include "itkImageRegionIterator.h"
 #include "itkFilterWatcher.h"
 #include "itkImageFileWriter.h"
 

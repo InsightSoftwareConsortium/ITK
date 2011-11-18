@@ -17,13 +17,10 @@
  *=========================================================================*/
 
 #include "itkImageRegistrationMethod.h"
-#include "itkAffineTransform.h"
 #include "itkMattesMutualInformationImageToImageMetric.h"
-#include "itkBSplineInterpolateImageFunction.h"
 #include "itkGradientDescentOptimizer.h"
 
 #include "itkTextOutput.h"
-#include "itkImageRegionIterator.h"
 #include "itkCommandIterationUpdate.h"
 #include "vnl/vnl_sample.h"
 namespace

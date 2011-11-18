@@ -16,9 +16,7 @@
  *
  *=========================================================================*/
 #include "itkSPSAOptimizer.h"
-#include "vnl/vnl_math.h"
 
-#include "vnl/vnl_sample.h"
 
 /**
  * \class

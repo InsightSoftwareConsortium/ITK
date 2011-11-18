@@ -18,15 +18,11 @@
 
 #include "itkCurvatureFlowImageFilter.h"
 #include "itkRandomImageSource.h"
-#include "itkImage.h"
 #include "itkImageFileWriter.h"
 #include "itkVTKImageIO.h"
 #include "itkTextOutput.h"
-#include "itkCommand.h"
 #include "itkCastImageFilter.h"
 #include "itkStreamingImageFilter.h"
-#include "itkImageRegionIterator.h"
-#include "itkFiniteDifferenceFunction.h"
 
 
 namespace

@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkVersion.h"
-#include "itkObjectFactoryBase.h"
 
 class FakeObject3 : public itk::Object
 {

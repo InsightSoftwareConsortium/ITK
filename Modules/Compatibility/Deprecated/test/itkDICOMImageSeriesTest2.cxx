@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkDICOMImageIO2Factory.h"
 #include "itkDICOMImageIO2.h"
 #include "itkImageSeriesReader.h"
 #include "itkDICOMSeriesFileNames.h"

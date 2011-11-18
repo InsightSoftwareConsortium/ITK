@@ -16,9 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkMesh.h"
 #include "itkQuadEdgeMesh.h"
-#include "itksys/SystemTools.hxx"
 
 #include "itkMeshFileTestHelper.h"
 

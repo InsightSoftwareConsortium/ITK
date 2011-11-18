@@ -18,17 +18,9 @@
 #ifndef _itkDICOMSeriesFileNames_h
 #define _itkDICOMSeriesFileNames_h
 
-
-#include "DICOMParser.h"
-#include "DICOMAppHelper.h"
-
-#include <vector>
-#include <string>
-
 #include "itksys/SystemTools.hxx"
 #include "itksys/Directory.hxx"
 #include "itkDICOMSeriesFileNames.h"
-#include <stdio.h>
 
 namespace itk
 {

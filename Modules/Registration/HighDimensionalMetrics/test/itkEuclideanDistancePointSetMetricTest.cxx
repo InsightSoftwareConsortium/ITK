@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkEuclideanDistancePointSetToPointSetObjectMetric.h"
-#include "itkPointSet.h"
 
 #include <fstream>
 

@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkSparseFrequencyContainer2.h"
-#include "vnl/vnl_math.h"
 
 
 int itkSparseFrequencyContainer2Test(int, char* [] )

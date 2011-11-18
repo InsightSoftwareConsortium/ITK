@@ -18,12 +18,9 @@
 
 
 #include "itkPhilipsPAR.h"
-#include "itkExceptionObject.h"
 #include <fstream>
-#include <sstream>
 #include <iostream>
 #include <algorithm>
-#include <string.h>
 
 /**
  * \author Don C. Bigler

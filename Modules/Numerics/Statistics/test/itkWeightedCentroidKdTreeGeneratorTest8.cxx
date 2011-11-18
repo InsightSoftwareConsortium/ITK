@@ -16,10 +16,8 @@
  *
  *=========================================================================*/
 
-#include "itkVector.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
 #include "itkListSample.h"
-#include "itkKdTree.h"
 #include "itkWeightedCentroidKdTreeGenerator.h"
 #include <fstream>
 

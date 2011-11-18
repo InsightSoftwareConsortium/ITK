@@ -20,7 +20,6 @@
 #include "itkBilateralImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkImageRegionIterator.h"
 
 
 int itkBilateralImageFilterTest3(int ac, char* av[] )

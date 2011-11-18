@@ -17,12 +17,7 @@
  *=========================================================================*/
 
 #include "itkLevenbergMarquardtOptimizer.h"
-#include "vnl/vnl_vector.h"
-#include "vnl/vnl_matrix.h"
 #include "vnl/vnl_math.h"
-#include "itkArray.h"
-#include "itkArray2D.h"
-#include <stdlib.h>
 
 
 

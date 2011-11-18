@@ -20,8 +20,6 @@
 
 #include "itkImageToListSampleAdaptor.h"
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkVariableLengthVector.h"
-#include "itkRGBPixel.h"
 
 int itkImageToListSampleAdaptorTest2(int, char* [] )
 {

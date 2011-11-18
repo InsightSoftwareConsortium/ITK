@@ -17,16 +17,12 @@
  *=========================================================================*/
 #include "QuickView.h"
 
-#include "itkImage.h"
-#include "itkRGBPixel.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkVectorRescaleIntensityImageFilter.h"
 #include "itkRGBToVectorImageAdaptor.h"
 #include "itkFlipImageFilter.h"
 
-#include "vtkImageViewer.h"
 #include "vtkRenderWindowInteractor.h"
-#include "vtkSmartPointer.h"
 #include "vtkImageActor.h"
 #include "vtkActor2D.h"
 #include "vtkInteractorStyleImage.h"
@@ -43,7 +39,6 @@
 
 #include "itkImageToVTKImageFilter.h"
 
-#include <algorithm>
 
 typedef itk::Image<itk::RGBPixel<unsigned char>, 2>  UnsignedCharRGBImageType;
 typedef itk::Image<itk::RGBPixel<float>, 2>          FloatRGBImageType;

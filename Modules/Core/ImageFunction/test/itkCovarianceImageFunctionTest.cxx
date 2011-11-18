@@ -16,10 +16,8 @@
  *
  *=========================================================================*/
 
-#include <stdio.h>
 
 #include "itkCovarianceImageFunction.h"
-#include "itkImage.h"
 
 int itkCovarianceImageFunctionTest(int, char* [] )
 {

@@ -17,19 +17,10 @@
  *=========================================================================*/
 #include "itkGE4ImageIO.h"
 #include "itkByteSwapper.h"
-#include "itkMetaDataObject.h"
-#include "itkGEImageHeader.h"
 #include "Ge4xHdr.h"
-#include "itkMvtSunf.h"
-#include "itkDirectory.h"
 #include "itksys/SystemTools.hxx"
-#include <string.h>
-#include <string>
 #include <iostream>
 #include <fstream>
-#include <vector>
-#include <stdio.h>
-#include <stdlib.h>
 //From uiig library "The University of Iowa Imaging Group-UIIG"
 
 namespace itk

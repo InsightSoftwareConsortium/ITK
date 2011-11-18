@@ -19,9 +19,6 @@
 #include <fstream>
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkImage.h"
-#include "itkSymmetricSecondRankTensor.h"
-#include "itkImageRegionIterator.h"
 
 
 int itkSymmetricSecondRankTensorImageReadTest( int ac, char* av[] )

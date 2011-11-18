@@ -17,8 +17,6 @@
  *=========================================================================*/
 
 #include "itkFEMElement2DC0LinearLineStress.h"
-#include "itkFEMMaterialLinearElasticity.h"
-#include "itkFEMMaterialBase.h"
 
 namespace itk
 {

@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkHeavisideStepFunction.h"
-#include "itkTestingMacros.h"
 
 int itkHeavisideStepFunctionTest1( int, char* [] )
 {

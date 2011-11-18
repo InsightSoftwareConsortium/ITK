@@ -19,8 +19,6 @@
 #include <iostream>
 
 #include "itkFixedCenterOfRotationAffineTransform.h"
-#include "itkImage.h"
-#include "vnl/vnl_vector_fixed.h"
 
 
 int itkFixedCenterOfRotationAffineTransformTest(int, char *[])

@@ -22,7 +22,6 @@
 #include "itkChangeLabelImageFilter.h"
 
 #include "itkProjectionImageFilter.h"
-#include "itkNumericTraits.h"
 
 namespace itk
 {

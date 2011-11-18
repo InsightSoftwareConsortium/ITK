@@ -17,8 +17,6 @@
  *=========================================================================*/
 #include "itkFileListVideoIO.h"
 
-#include "itkImage.h"
-#include "itkImportImageFilter.h"
 #include "itkImageIOFactory.h"
 
 namespace itk

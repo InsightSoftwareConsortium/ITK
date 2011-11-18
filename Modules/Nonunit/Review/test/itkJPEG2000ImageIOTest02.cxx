@@ -19,7 +19,6 @@
 #include "itkJPEG2000ImageIOFactory.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkImage.h"
 
 
 int itkJPEG2000ImageIOTest02( int argc, char * argv[] )

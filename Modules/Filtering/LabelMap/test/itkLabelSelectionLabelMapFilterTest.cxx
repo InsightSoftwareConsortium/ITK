@@ -19,8 +19,6 @@
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
 
-#include "itkLabelObject.h"
-#include "itkLabelMap.h"
 #include "itkLabelImageToLabelMapFilter.h"
 #include "itkLabelSelectionLabelMapFilter.h"
 #include "itkLabelMapToLabelImageFilter.h"

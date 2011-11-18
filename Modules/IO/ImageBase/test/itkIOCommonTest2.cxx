@@ -20,7 +20,6 @@
 #endif
 
 #include "itkIOCommon.h"
-#include <string>
 
 int itkIOCommonTest2(int, char *[])
 {

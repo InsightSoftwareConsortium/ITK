@@ -19,10 +19,6 @@
 #define __itkSPSAOptimizer_cxx
 
 #include "itkSPSAOptimizer.h"
-#include "itkCommand.h"
-#include "itkEventObject.h"
-#include "itkMacro.h"
-#include "itkMath.h"
 
 #include "itkMath.h"
 

@@ -16,10 +16,8 @@
  *
  *=========================================================================*/
 
-#include "itkVector.h"
 #include "itkListSample.h"
 #include "itkKdTreeGenerator.h"
-#include "itkEuclideanDistanceMetric.h"
 
 int itkKdTreeGeneratorTest(int, char* [])
 {

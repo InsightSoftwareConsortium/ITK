@@ -16,14 +16,12 @@
  *
  *=========================================================================*/
 
-#include "vnl/vnl_vector.h"
 #include "itkDerivativeOperator.h"
 #include "itkForwardDifferenceOperator.h"
 #include "itkBackwardDifferenceOperator.h"
 #include "itkGaussianOperator.h"
 #include "itkLaplacianOperator.h"
 #include "itkSobelOperator.h"
-#include "itkSize.h"
 namespace
 {
   void println(const char *c) { std::cout << std::endl << c << std::endl; }

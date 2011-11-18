@@ -16,10 +16,8 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkAcosImageFilter.h"
 #include "itkAcosImageAdaptor.h"
-#include "itkImageRegionIteratorWithIndex.h"
 #include "itkSubtractImageFilter.h"
 #include "itkFilterWatcher.h"
 

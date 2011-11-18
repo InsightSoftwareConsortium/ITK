@@ -18,8 +18,6 @@
 
 #include <iostream>
 
-#include "itkImage.h"
-#include "itkImageRegionIterator.h"
 
 #include "itkShiftScaleImageFilter.h"
 #include "itkRandomImageSource.h"

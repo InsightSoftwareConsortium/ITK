@@ -16,8 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
-#include "itkLevelSetDomainMapImageFilter.h"
 #include "itkLevelSetContainer.h"
 #include "itkLevelSetEquationCurvatureTerm.h"
 #include "itkSinRegularizedHeavisideStepFunction.h"

@@ -24,7 +24,6 @@
 #include "itkStreamingImageFilter.h"
 
 
-#include "itkSymmetricSecondRankTensor.h"
 
 
 int itkVTKImageIO2Test2(int argc, char* argv[])

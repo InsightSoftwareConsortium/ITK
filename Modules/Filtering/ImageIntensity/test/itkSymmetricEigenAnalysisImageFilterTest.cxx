@@ -16,9 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkSymmetricSecondRankTensor.h"
-#include "itkImageRegionIteratorWithIndex.h"
 #include "itkSymmetricEigenAnalysisImageFilter.h"
 
 

@@ -17,10 +17,7 @@
  *=========================================================================*/
 
 // Insight classes
-#include "itkVector.h"
-#include "vnl/vnl_matrix_fixed.h"
 #include "itkTextOutput.h"
-#include "itkRGBPixel.h"
 
 #include "itkKLMRegionGrowImageFilter.h"
 #include "itkScalarImageToHistogramGenerator.h"

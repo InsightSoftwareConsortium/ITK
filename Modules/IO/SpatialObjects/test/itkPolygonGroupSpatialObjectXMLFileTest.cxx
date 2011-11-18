@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkPolygonSpatialObject.h"
 #include <iostream>
 #include "itkPolygonGroupSpatialObjectXMLFile.h"
 #include "itksys/SystemTools.hxx"

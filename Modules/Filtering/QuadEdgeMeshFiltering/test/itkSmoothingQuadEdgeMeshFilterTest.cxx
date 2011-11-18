@@ -18,7 +18,6 @@
 #include "itkMeshFileReader.h"
 #include "itkMeshFileWriter.h"
 
-#include <sstream>
 
 #include "itkSmoothingQuadEdgeMeshFilter.h"
 

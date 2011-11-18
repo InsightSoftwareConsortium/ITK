@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkBlackTopHatImageFilter.h"
 #include "itkWhiteTopHatImageFilter.h"
 #include "itkBinaryBallStructuringElement.h"

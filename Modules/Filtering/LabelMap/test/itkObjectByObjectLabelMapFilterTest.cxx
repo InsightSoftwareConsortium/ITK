@@ -19,14 +19,9 @@
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
 
-#include "itkLabelObject.h"
-#include "itkLabelMap.h"
-#include "itkLabelImageToLabelMapFilter.h"
 #include "itkObjectByObjectLabelMapFilter.h"
-#include "itkLabelMapToLabelImageFilter.h"
 
 #include "itkBinaryDilateImageFilter.h"
-#include "itkFlatStructuringElement.h"
 
 
 int itkObjectByObjectLabelMapFilterTest(int argc, char * argv[])

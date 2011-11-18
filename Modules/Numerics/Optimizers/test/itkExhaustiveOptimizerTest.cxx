@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include <vector>
 #include <algorithm>
 
 #include "itkCommand.h"

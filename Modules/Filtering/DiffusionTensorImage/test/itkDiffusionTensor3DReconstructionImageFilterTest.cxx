@@ -17,7 +17,6 @@
  *=========================================================================*/
 #include "itkDiffusionTensor3DReconstructionImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkImageMaskSpatialObject.h"
 #include <iostream>
 
 int itkDiffusionTensor3DReconstructionImageFilterTest(int, char*[])

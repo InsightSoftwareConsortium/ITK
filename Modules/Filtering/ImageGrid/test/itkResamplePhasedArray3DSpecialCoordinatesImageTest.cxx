@@ -21,8 +21,6 @@
 
 #include "itkPhasedArray3DSpecialCoordinatesImage.h"
 #include "itkResampleImageFilter.h"
-#include "itkImage.h"
-#include "itkImageRegionIteratorWithIndex.h"
 
 
 enum {NDimensions = 3};

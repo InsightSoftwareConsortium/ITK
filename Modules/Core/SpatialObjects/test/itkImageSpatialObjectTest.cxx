@@ -26,8 +26,6 @@
 
 
 #include "itkImageRegionIterator.h"
-#include "itkAffineTransform.h"
-#include "itkPoint.h"
 
 #include "itkImageSpatialObject.h"
 #include "itkLinearInterpolateImageFunction.h"

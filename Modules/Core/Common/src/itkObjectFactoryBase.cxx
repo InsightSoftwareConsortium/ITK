@@ -26,15 +26,10 @@
  *
  *=========================================================================*/
 
-#include "itkObjectFactoryBase.h"
 #include "itkDynamicLoader.h"
 #include "itkDirectory.h"
 #include "itkVersion.h"
-#include <stdlib.h>
-#include <ctype.h>
 #include <string.h>
-#include <algorithm>
-#include <map>
 
 namespace
 {

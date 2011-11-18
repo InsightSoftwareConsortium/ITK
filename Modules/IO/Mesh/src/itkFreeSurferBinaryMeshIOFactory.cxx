@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkCreateObjectFunction.h"
 #include "itkFreeSurferBinaryMeshIO.h"
 #include "itkFreeSurferBinaryMeshIOFactory.h"
 #include "itkVersion.h"

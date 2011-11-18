@@ -19,8 +19,6 @@
 #include <iostream>
 
 #include "itkRigid3DPerspectiveTransform.h"
-#include "vnl/vnl_vector_fixed.h"
-#include "itkVector.h"
 
 
 int itkRigid3DPerspectiveTransformTest(int ,char * [] )

@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkGDCMImageIOFactory.h"
 #include "itkGDCMImageIO.h"
 #include "itkImageSeriesReader.h"
 #include "itkGDCMSeriesFileNames.h"

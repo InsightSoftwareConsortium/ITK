@@ -18,7 +18,6 @@
 
 #include <iostream>
 
-#include "itkZeroFluxNeumannBoundaryCondition.h"
 #include "itkConstNeighborhoodIterator.h"
 #include "itkVectorImage.h"
 

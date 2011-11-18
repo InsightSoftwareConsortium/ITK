@@ -16,8 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
-#include "itkImageRegionIterator.h"
 #include "itkTranslationTransform.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkNormalizedCorrelationImageToImageMetric.h"

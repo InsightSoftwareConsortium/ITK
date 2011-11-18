@@ -17,9 +17,6 @@
  *=========================================================================*/
 #include "itkImageFileWriter.h"
 #include "itkImageFileReader.h"
-#include "itkRGBPixel.h"
-#include "itkImageRegionIterator.h"
-#include "itkNumericTraits.h"
 #include "itkMRCImageIO.h"
 #include "itkTestingMacros.h"
 

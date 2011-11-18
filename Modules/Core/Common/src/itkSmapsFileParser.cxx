@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include "itkSmapsFileParser.h"
-#include <stdlib.h>
 
 namespace itk
 {

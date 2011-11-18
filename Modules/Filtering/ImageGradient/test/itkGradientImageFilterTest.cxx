@@ -17,10 +17,8 @@
  *=========================================================================*/
 
 #include <iostream>
-#include "itkImage.h"
 #include "itkGradientImageFilter.h"
 #include "itkNullImageToImageFilterDriver.hxx"
-#include "itkVector.h"
 
 inline std::ostream& operator<<(std::ostream &o, const itk::CovariantVector<float, 3> &v)
 {

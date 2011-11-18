@@ -19,7 +19,6 @@
 /**
  * This is a test file for the itkBoxSpatialObject class.
  */
-#include "itkImage.h"
 #include "itkImageFileWriter.h"
 #include "itkGroupSpatialObject.h"
 #include "itkSpatialObjectToImageFilter.h"

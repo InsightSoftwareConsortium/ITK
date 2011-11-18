@@ -19,7 +19,6 @@
 #include <iostream>
 
 #include "itkTransform.h"
-#include "itkMatrix.h"
 
 namespace itk
 {

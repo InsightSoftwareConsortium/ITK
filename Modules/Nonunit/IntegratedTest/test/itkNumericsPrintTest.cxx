@@ -19,13 +19,11 @@
 #include "itkAmoebaOptimizer.h"
 #include "itkCompositeValleyFunction.h"
 #include "itkConjugateGradientOptimizer.h"
-#include "itkCostFunction.h"
 #include "itkCumulativeGaussianOptimizer.h"
 #include "itkLBFGSOptimizer.h"
 #include "itkLevenbergMarquardtOptimizer.h"
 #include "itkMultivariateLegendrePolynomial.h"
 #include "itkOnePlusOneEvolutionaryOptimizer.h"
-#include "itkOptimizer.h"
 #include "itkQuaternionRigidTransformGradientDescentOptimizer.h"
 #include "itkVersorTransformOptimizer.h"
 

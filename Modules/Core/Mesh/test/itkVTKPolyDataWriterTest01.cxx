@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkLineCell.h"
 #include "itkVTKPolyDataWriter.h"
 
 int itkVTKPolyDataWriterTest01(int argc, char* argv[])

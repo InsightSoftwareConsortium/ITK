@@ -16,10 +16,8 @@
  *
  *=========================================================================*/
 
-#include "itkQuadEdgeMesh.h"
 #include "itkQuadEdgeMeshBoundaryEdgesMeshFunction.h"
 
-#include <stdlib.h>
 
 int itkQuadEdgeMeshAddFaceTest1( int argc, char* argv[] )
 {

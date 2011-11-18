@@ -18,8 +18,6 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkLSMImageIO.h"
-#include "itkRGBPixel.h"
-#include "itkImage.h"
 
 
 #define SPECIFIC_IMAGEIO_MODULE_TEST

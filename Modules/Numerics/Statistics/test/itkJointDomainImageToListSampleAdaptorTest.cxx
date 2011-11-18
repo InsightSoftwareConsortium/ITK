@@ -20,7 +20,6 @@
 
 #include "itkJointDomainImageToListSampleAdaptor.h"
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkVariableLengthVector.h"
 
 int itkJointDomainImageToListSampleAdaptorTest(int, char* [] )
 {

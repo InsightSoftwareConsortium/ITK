@@ -17,8 +17,6 @@
  *=========================================================================*/
 
 #include "itkMatchCardinalityImageToImageMetric.h"
-#include "itkImage.h"
-#include "itkArray.h"
 #include "itkTranslationTransform.h"
 #include "itkNearestNeighborInterpolateImageFunction.h"
 #include "itkImageFileReader.h"

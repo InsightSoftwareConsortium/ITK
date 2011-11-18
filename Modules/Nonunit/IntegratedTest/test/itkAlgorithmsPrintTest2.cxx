@@ -16,12 +16,10 @@
  *
  *=========================================================================*/
 
-#include "itkVector.h"
 #include "itkMesh.h"
 #include "itkHistogram.h"
 
 #include "itkMattesMutualInformationImageToImageMetric.h"
-#include "itkMeanSquaresPointSetToImageMetric.h"
 #include "itkMeanSquaresImageToImageMetric.h"
 #include "itkMinMaxCurvatureFlowImageFilter.h"
 #include "itkMultiResolutionImageRegistrationMethod.h"
@@ -30,15 +28,9 @@
 #include "itkNormalizedCorrelationImageToImageMetric.h"
 #include "itkNormalizedCorrelationPointSetToImageMetric.h"
 #include "itkOtsuThresholdCalculator.h"
-#include "itkPDEDeformableRegistrationFilter.h"
 #include "itkRGBGibbsPriorFilter.h"
-#include "itkRecursiveMultiResolutionPyramidImageFilter.h"
 #include "itkReinitializeLevelSetImageFilter.h"
 
-#include "itkDistanceToCentroidMembershipFunction.h"
-#include "itkMahalanobisDistanceMembershipFunction.h"
-#include "itkGroupSpatialObject.h"
-#include "itkRGBPixel.h"
 
 int main(int , char* [])
 {

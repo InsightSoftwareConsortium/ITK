@@ -16,10 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkJoinImageFilter.h"
-#include "itkImageRegionIterator.h"
-#include "itkVector.h"
 #include "itkRGBAPixel.h"
 #include "vnl/vnl_sample.h"
 

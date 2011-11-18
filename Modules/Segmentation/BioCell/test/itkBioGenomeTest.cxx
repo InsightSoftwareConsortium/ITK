@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include <iostream>
-#include <cstdlib>
 
 #include "itkBioGenome.h"
 #include "vnl/vnl_math.h"

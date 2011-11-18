@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include "itkOpenCVVideoIOFactory.h"
-#include "itkCreateObjectFunction.h"
 #include "itkOpenCVVideoIO.h"
 #include "itkVersion.h"
 

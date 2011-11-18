@@ -15,12 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkImage.h"
 #include "itkImageToImageObjectMetric.h"
-#include "itkDisplacementFieldTransform.h"
 #include "itkTranslationTransform.h"
-#include "vnl/vnl_math.h"
-#include "itkIntTypes.h"
 #include "itkTestingMacros.h"
 
 //FIXME We need these as long as we have to define ImageToData and

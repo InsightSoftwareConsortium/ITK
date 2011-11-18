@@ -29,12 +29,9 @@
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkSimilarityIndexImageFilter.h"
 
-#include "itkCommand.h"
 
 /* Uncomment to write out image files */
 /*
-#include "itkRescaleIntensityImageFilter.h"
-#include "itkImageFileWriter.h"
 */
 
 /** This class is used to support callbacks

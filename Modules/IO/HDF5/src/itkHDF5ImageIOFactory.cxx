@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include "itkHDF5ImageIOFactory.h"
-#include "itkCreateObjectFunction.h"
 #include "itkHDF5ImageIO.h"
 #include "itkVersion.h"
 

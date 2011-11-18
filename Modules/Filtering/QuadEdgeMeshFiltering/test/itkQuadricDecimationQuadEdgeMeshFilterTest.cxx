@@ -19,7 +19,6 @@
 #include "itkMeshFileReader.h"
 #include "itkMeshFileWriter.h"
 
-#include <sstream>
 
 #include "itkQuadEdgeMeshDecimationCriteria.h"
 #include "itkQuadricDecimationQuadEdgeMeshFilter.h"

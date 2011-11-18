@@ -18,7 +18,6 @@
 
 #include <iostream>
 
-#include "itkImage.h"
 #include "itkImageToImageFilter.h"
 
 namespace itk

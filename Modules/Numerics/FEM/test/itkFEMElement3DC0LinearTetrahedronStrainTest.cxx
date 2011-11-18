@@ -18,8 +18,6 @@
 
 
 #include "itkFEMSolver.h"
-#include "itkFEMObject.h"
-#include "itkFEMObjectSpatialObject.h"
 #include "itkGroupSpatialObject.h"
 #include "itkSpatialObject.h"
 #include "itkFEMSpatialObjectReader.h"

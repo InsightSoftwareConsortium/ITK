@@ -15,14 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include <stdlib.h>
 #include "itkIPLFileNameList.h"
-#include <assert.h>
-#include <string.h>
-#include <ctype.h>
 
-#include <list>
-#include <functional>
 #include <algorithm>
 namespace itk
 {

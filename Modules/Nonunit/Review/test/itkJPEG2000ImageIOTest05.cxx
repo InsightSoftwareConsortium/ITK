@@ -19,7 +19,6 @@
 #include "itkImageSeriesWriter.h"
 #include "itkNumericSeriesFileNames.h"
 #include "itkJPEG2000ImageIOFactory.h"
-#include "itkJPEG2000ImageIO.h"
 
 #include <fstream>
 

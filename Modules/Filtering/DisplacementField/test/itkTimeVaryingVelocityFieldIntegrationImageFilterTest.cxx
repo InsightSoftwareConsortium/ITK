@@ -16,9 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkTimeVaryingVelocityFieldIntegrationImageFilter.h"
-#include "itkVector.h"
 
 int itkTimeVaryingVelocityFieldIntegrationImageFilterTest( int, char* [] )
 {

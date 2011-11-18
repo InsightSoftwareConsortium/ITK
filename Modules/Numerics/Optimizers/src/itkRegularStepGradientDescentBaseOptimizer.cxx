@@ -19,9 +19,6 @@
 #define _itkRegularStepGradientDescentBaseOptimizer_hxx
 
 #include "itkRegularStepGradientDescentBaseOptimizer.h"
-#include "itkCommand.h"
-#include "itkEventObject.h"
-#include "vnl/vnl_math.h"
 
 namespace itk
 {

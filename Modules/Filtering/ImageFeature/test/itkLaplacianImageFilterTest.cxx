@@ -16,11 +16,9 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include <iostream>
 #include "itkLaplacianImageFilter.h"
 #include "itkNullImageToImageFilterDriver.hxx"
-#include "itkVector.h"
 #include "itkFilterWatcher.h"
 
 inline std::ostream& operator<<(std::ostream &o, const itk::Vector<float, 3> &v)

@@ -18,7 +18,6 @@
 
 #include <iostream>
 #include "itkMembershipSample.h"
-#include "itkArray.h"
 #include "itkListSample.h"
 
 // MembershipSample test using Array type measurement vector

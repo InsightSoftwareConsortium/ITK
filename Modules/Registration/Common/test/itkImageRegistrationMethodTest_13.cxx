@@ -17,13 +17,11 @@
  *=========================================================================*/
 
 #include "itkImageRegistrationMethod.h"
-#include "itkAffineTransform.h"
 #include "itkMutualInformationImageToImageMetric.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkGradientDescentOptimizer.h"
 
 #include "itkTextOutput.h"
-#include "itkImageRegionIterator.h"
 
 namespace
 {

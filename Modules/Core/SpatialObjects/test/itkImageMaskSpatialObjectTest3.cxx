@@ -30,11 +30,7 @@
  *
  */
 
-#include "itkImage.h"
-#include "itkImageRegionIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkAffineTransform.h"
-#include "vnl/vnl_math.h"
 #include "itkImageMaskSpatialObject.h"
 
 int itkImageMaskSpatialObjectTest3(int, char* [])

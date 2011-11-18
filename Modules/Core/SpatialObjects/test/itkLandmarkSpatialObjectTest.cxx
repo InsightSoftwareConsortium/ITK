@@ -21,7 +21,6 @@
  */
 
 #include "itkLandmarkSpatialObject.h"
-#include "itkSpatialObjectPoint.h"
 
 int itkLandmarkSpatialObjectTest(int, char* [])
 {

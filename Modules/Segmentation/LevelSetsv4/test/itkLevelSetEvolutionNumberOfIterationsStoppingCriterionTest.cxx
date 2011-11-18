@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include <string>
 #include "itkWhitakerSparseLevelSetImage.h"
 #include "itkLevelSetContainer.h"
 #include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"

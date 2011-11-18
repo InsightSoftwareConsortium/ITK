@@ -17,14 +17,7 @@
  *=========================================================================*/
 
 
-#include "itkFEMObject.h"
-#include "itkFEMFactory.h"
-#include "itkFEMElement2DC0LinearLineStress.h"
-#include "itkFEMObjectSpatialObject.h"
-#include "itkGroupSpatialObject.h"
-#include "itkSpatialObject.h"
 #include "itkFEMSpatialObjectReader.h"
-#include "itkFEMSpatialObjectWriter.h"
 
 
 int itkFEMSpatialObjectTest(int argc, char *argv[])

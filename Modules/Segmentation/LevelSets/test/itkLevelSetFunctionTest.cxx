@@ -16,11 +16,9 @@
  *
  *=========================================================================*/
 
-#include "itkImageRegionIterator.h"
 #include "itkLevelSetFunction.h"
 #include "itkDenseFiniteDifferenceImageFilter.h"
 
-#include "itkImageFileWriter.h"
 
 /*
  * This test exercises the dense p.d.e. solver framework

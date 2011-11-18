@@ -17,9 +17,7 @@
  *=========================================================================*/
 
 #include "itkApproximateSignedDistanceMapImageFilter.h"
-#include "itkImageRegionIteratorWithIndex.h"
 #include "itkRescaleIntensityImageFilter.h"
-#include "vnl/vnl_math.h"
 
 #include "itkImageFileWriter.h"
 

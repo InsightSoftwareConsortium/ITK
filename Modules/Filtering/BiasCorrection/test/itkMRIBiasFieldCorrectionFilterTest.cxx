@@ -17,14 +17,9 @@
  *=========================================================================*/
 
 #include <iostream>
-#include "vnl/vnl_vector.h"
 
 #include "itkMRIBiasFieldCorrectionFilter.h"
-#include "itkImage.h"
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkGaussianImageSource.h"
-#include "itkNormalVariateGenerator.h"
-#include "itkArray.h"
 #include "itkImageFileWriter.h"
 #include "itkSphereSpatialFunction.h"
 

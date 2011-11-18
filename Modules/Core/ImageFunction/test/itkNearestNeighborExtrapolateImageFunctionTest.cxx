@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkNearestNeighborExtrapolateImageFunction.h"
-#include "itkImage.h"
 #include "itkImageRegionIterator.h"
 
 /**

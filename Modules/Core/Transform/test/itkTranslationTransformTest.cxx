@@ -19,8 +19,6 @@
 #include <iostream>
 
 #include "itkTranslationTransform.h"
-#include "itkImage.h"
-#include "vnl/vnl_vector_fixed.h"
 
 typedef  itk::Vector<double,2>     VectorType;
 

@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkImageSliceConstIteratorWithIndex.h"
 #include "itkDanielssonDistanceMapImageFilter.h"
 

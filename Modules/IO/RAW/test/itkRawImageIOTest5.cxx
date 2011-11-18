@@ -20,8 +20,6 @@
 #include "itkRawImageIO.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkImage.h"
-#include "itkImageRegionIterator.h"
 
 
 #define SPECIFIC_IMAGEIO_MODULE_TEST

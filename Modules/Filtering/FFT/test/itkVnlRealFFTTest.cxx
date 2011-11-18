@@ -17,10 +17,8 @@
  *=========================================================================*/
 
 
-#include "itkImage.h"
 #include "itkRealFFTTest.h"
 
-#include "itkVnlHalfHermitianToRealInverseFFTImageFilter.h"
 
 // Test FFT using VNL Libraries. The test is performed for two 3D
 // arrays, one of them having the same dimension(4,4,4) and the other

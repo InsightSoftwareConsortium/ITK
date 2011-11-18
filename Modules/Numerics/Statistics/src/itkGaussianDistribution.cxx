@@ -16,8 +16,6 @@
  *
  *=========================================================================*/
 #include "itkGaussianDistribution.h"
-#include "itkNumericTraits.h"
-#include "vnl/vnl_math.h"
 #include "vnl/vnl_erf.h"
 
 namespace itk

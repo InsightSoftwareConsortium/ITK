@@ -19,7 +19,6 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageToParametricSpaceFilter.h"
 #include "itkMesh.h"
-#include "itkImage.h"
 
 int itkImageToParametricSpaceFilterTest(int, char* [] )
 {

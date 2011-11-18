@@ -18,12 +18,8 @@
 
 #include "itkVersorRigid3DTransform.h"
 #include "itkCenteredTransformInitializer.h"
-#include "itkImage.h"
-#include "itkImage.h"
-#include "itkVersor.h"
 #include "itkImageRegionIterator.h"
 
-#include <cassert>
 
 namespace
 {

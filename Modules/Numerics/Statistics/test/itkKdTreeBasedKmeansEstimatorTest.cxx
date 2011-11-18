@@ -16,17 +16,12 @@
  *
  *=========================================================================*/
 
-#include "itkWin32Header.h"
 
 #include <fstream>
 
-#include "itkImage.h"
-#include "itkImageRegionIteratorWithIndex.h"
 
-#include "vnl/vnl_matrix.h"
 
 #include "itkPointSetToListSampleAdaptor.h"
-#include "itkKdTree.h"
 #include "itkWeightedCentroidKdTreeGenerator.h"
 #include "itkKdTreeBasedKmeansEstimator.h"
 

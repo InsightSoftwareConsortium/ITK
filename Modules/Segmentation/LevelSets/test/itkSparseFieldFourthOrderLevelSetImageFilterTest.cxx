@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkImageRegionIterator.h"
 #include "itkSparseFieldFourthOrderLevelSetImageFilter.h"
 #include <iostream>
 

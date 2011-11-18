@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include "itkSiemensVisionImageIOFactory.h"
-#include "itkCreateObjectFunction.h"
 #include "itkSiemensVisionImageIO.h"
 #include "itkVersion.h"
 

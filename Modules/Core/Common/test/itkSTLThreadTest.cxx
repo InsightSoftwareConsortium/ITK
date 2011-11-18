@@ -17,8 +17,6 @@
  *=========================================================================*/
 
 #include "itkMultiThreader.h"
-#include <list>
-#include <stdlib.h>
 
 namespace itkSTLThreadTestImpl
 {

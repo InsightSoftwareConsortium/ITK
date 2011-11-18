@@ -38,7 +38,6 @@
  * filter instantiation.
  */
 
-#include "itkImage.h"
 #include "itkImageToImageFilter.h"
 #include "itksys/ios/sstream"
 

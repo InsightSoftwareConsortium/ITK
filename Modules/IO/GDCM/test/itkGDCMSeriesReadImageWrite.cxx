@@ -28,7 +28,6 @@
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkGDCMImageIO.h"
 #include "itkGDCMSeriesFileNames.h"
-#include <vector>
 
 int itkGDCMSeriesReadImageWrite( int argc, char* argv[] )
 {

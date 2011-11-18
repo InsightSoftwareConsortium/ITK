@@ -16,9 +16,7 @@
  *
  *=========================================================================*/
 
-#include "vnl/vnl_math.h"
 
-#include "itkImage.h"
 #include "itkLevelSetDenseImageBase.h"
 #include "itkImageRegionIteratorWithIndex.h"
 

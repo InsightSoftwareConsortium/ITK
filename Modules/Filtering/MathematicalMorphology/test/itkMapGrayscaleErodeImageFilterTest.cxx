@@ -21,8 +21,6 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkTextOutput.h"
-#include "itkNumericTraits.h"
-#include "itkFilterWatcher.h"
 #include "itkSimpleFilterWatcher.h"
 
 int itkMapGrayscaleErodeImageFilterTest(int ac, char* av[] )

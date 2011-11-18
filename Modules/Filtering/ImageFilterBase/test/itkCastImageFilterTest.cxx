@@ -18,9 +18,7 @@
 
 #include <iostream>
 
-#include "itkImage.h"
 #include "itkCastImageFilter.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkRandomImageSource.h"
 #include "itkVectorImage.h"
 

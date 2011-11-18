@@ -28,13 +28,9 @@
 
 #include <iostream>
 
-#include "itkImage.h"
-#include "itkSize.h"
 #include "itkBSplineInterpolateImageFunction.h"
-#include "itkImageRegionIterator.h"
 
 
-#include "vnl/vnl_math.h"
 
   typedef double InputPixelType;
   typedef double CoordRepType;

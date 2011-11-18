@@ -17,9 +17,6 @@
  *=========================================================================*/
 
 #include "itkScalarRegionBasedLevelSetFunction.h"
-#include "itkVector.h"
-#include "itkImage.h"
-#include "itkTestingMacros.h"
 
 namespace itk
 {

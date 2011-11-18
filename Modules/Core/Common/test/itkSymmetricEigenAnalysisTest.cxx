@@ -18,7 +18,6 @@
 
 #include <iostream>
 
-#include "vnl/vnl_matrix.h"
 #include "itkSymmetricSecondRankTensor.h"
 
 

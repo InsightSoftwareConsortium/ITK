@@ -18,10 +18,8 @@
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkImage.h"
 
 #include "itkVoxBoCUBImageIOFactory.h"
-#include "itkVoxBoCUBImageIO.h"
 
 int itkVoxBoCUBImageIOTest( int argc, char * argv [] )
 {

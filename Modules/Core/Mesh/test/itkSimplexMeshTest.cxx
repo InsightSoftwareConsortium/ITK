@@ -16,9 +16,7 @@
  *
  *=========================================================================*/
 
-#include <math.h>
 #include <iostream>
-#include <time.h>
 
 #include "itkSimplexMesh.h"
 #include "itkDefaultDynamicMeshTraits.h"

@@ -16,12 +16,6 @@
  *
  *=========================================================================*/
 #include "itkRecursiveMultiResolutionPyramidImageFilter.h"
-#include "itkImage.h"
-#include "itkVector.h"
-#include "itkImageRegionIterator.h"
-#include "itkCommand.h"
-#include "itkCastImageFilter.h"
-#include "itkStreamingImageFilter.h"
 
 #include <iostream>
 namespace

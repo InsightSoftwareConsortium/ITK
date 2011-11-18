@@ -16,11 +16,8 @@
  *
  *=========================================================================*/
 #include "itkBioCellBase.h"
-#include <new>
 
-#include "vnl/vnl_math.h"
 #include "vnl/vnl_sample.h"
-#include "itkMath.h"
 
 namespace itk
 {

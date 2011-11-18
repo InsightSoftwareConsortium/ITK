@@ -19,9 +19,7 @@
 #include "itkMultiResolutionImageRegistrationMethod.h"
 #include "itkTranslationTransform.h"
 #include "itkMeanSquaresImageToImageMetric.h"
-#include "itkLinearInterpolateImageFunction.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
-#include "itkRecursiveMultiResolutionPyramidImageFilter.h"
 
 #include "itkTextOutput.h"
 

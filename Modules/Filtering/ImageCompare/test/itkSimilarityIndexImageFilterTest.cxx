@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkSimilarityIndexImageFilter.h"
-#include "itkImageRegionIterator.h"
 
 int itkSimilarityIndexImageFilterTest(int, char* [] )
 {

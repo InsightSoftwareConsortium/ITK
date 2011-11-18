@@ -27,7 +27,6 @@
  *=========================================================================*/
 
 #include "itkBSplineDeformableTransform.h"
-#include "itkBSplineInterpolateImageFunction.h"
 
 #include "itkVersorRigid3DTransform.h"
 

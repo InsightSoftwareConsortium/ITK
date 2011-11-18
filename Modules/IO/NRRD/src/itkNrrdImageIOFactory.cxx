@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include "itkNrrdImageIOFactory.h"
-#include "itkCreateObjectFunction.h"
 #include "itkNrrdImageIO.h"
 #include "itkVersion.h"
 

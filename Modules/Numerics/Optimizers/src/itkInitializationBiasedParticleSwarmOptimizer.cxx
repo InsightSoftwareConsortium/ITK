@@ -15,7 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkMersenneTwisterRandomVariateGenerator.h"
 #include "itkInitializationBiasedParticleSwarmOptimizer.h"
 
 namespace itk

@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include <iostream>
-#include "itkImage.h"
 #include "itkDerivativeImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"

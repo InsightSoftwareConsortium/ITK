@@ -18,9 +18,7 @@
 
 #include <iostream>
 #include "itkMembershipSample.h"
-#include <vector>
 #include "itkListSample.h"
-#include "itkNumericTraitsStdVector.h"
 
 // MembershipSample test using std::vector type measurement vector
 int itkMembershipSampleTest4(int, char* [] )

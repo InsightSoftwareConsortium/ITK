@@ -20,9 +20,6 @@
 #include <iostream>
 
 // ITK includes
-#include "itkNumericTraits.h"
-#include "itkRGBAPixel.h"
-#include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkComposeImageFilter.h"

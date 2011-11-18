@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkTubeSpatialObject.h"
-#include "itkGroupSpatialObject.h"
 #include "itkLineSpatialObject.h"
 #include "itkSpatialObjectToPointSetFilter.h"
 

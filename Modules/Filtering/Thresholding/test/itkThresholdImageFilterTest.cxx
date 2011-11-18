@@ -16,10 +16,8 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkRandomImageSource.h"
 #include "itkThresholdImageFilter.h"
-#include "itkCommand.h"
 #include "itkTextOutput.h"
 
 #include "itksys/ios/sstream"

@@ -16,10 +16,8 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkRandomImageSource.h"
 #include "itkTwoOutputExampleImageFilter.h"
-#include "itkCommand.h"
 #include "itkTextOutput.h"
 
 

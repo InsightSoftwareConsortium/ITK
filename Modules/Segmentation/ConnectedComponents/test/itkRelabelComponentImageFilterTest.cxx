@@ -21,12 +21,10 @@
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkImageRegionIterator.h"
 #include "itkFilterWatcher.h"
 #include "itkChangeInformationImageFilter.h"
 #include "itkLabelStatisticsImageFilter.h"
 
-#include "itkMultiThreader.h"
 
 int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
 {

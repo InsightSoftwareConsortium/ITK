@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include "itkNumericTraits.h"
-#include "itkFEMException.h"
 #include "itpack.h"
 #include "itkFEMLinearSystemWrapperItpack.h"
 

@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkEllipsoidInteriorExteriorSpatialFunction.h"
-#include "vnl/vnl_matrix.h"
 
 int itkEllipsoidInteriorExteriorSpatialFunctionTest(int, char* [] )
 {

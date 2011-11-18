@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkBYUMeshIO.h"
-#include "itkNumericTraits.h"
 
 #include <itksys/SystemTools.hxx>
 

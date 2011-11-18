@@ -16,9 +16,7 @@
  *
  *=========================================================================*/
 
-#include <math.h>
 #include <iostream>
-#include <time.h>
 
 #include "itkRegularSphereMeshSource.h"
 #include "itkDefaultDynamicMeshTraits.h"
@@ -27,7 +25,6 @@
 
 #include "itkSobelEdgeDetectionImageFilter.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"
-#include "itkTimeProbe.h"
 
 int itkDeformableSimplexMesh3DBalloonForceFilterTest(int , char * [] )
 {

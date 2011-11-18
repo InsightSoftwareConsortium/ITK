@@ -22,7 +22,6 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkSobelOperator.h"
-#include "itkImageRegionIterator.h"
 
 int itkMaskNeighborhoodOperatorImageFilterTest(int ac, char* av[] )
 {

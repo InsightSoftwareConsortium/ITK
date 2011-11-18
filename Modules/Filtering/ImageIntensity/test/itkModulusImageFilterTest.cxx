@@ -22,7 +22,6 @@
 #include "itkDanielssonDistanceMapImageFilter.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkSimpleFilterWatcher.h"
-#include "itkNumericTraits.h"
 
 int itkModulusImageFilterTest(int argc, char * argv[])
 {

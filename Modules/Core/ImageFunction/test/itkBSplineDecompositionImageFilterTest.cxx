@@ -27,9 +27,6 @@
  *=========================================================================*/
 
 #include "itkBSplineResampleImageFunction.h"
-#include "itkBSplineDecompositionImageFilter.h"
-#include "itkImage.h"
-#include "itkSize.h"
 #include "itkRandomImageSource.h"
 #include "itkFilterWatcher.h"
 

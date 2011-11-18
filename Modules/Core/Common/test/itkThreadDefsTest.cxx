@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkObject.h"
-#include <vector>
 
 int itkThreadDefsTest (int, char* [] )
 {

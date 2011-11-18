@@ -19,11 +19,8 @@
 #include <fstream>
 #include "itkConfidenceConnectedImageFilter.h"
 #include "itkImageFileReader.h"
-#include "itkPNGImageIO.h"
 #include "itkImageFileWriter.h"
 #include "itkTextOutput.h"
-#include "itkImageRegionIterator.h"
-#include "itkNumericTraits.h"
 #include "itkSimpleFilterWatcher.h"
 
 int itkConfidenceConnectedImageFilterTest(int ac, char* av[] )

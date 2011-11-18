@@ -17,7 +17,6 @@
  *=========================================================================*/
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkImage.h"
 
 int itkTIFFImageIOTest2( int argc, char* argv[] )
 {

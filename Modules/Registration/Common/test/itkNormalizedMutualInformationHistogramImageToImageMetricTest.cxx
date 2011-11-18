@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkGaussianImageSource.h"
-#include "itkImage.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkNormalizedMutualInformationHistogramImageToImageMetric.h"
 #include "itkTranslationTransform.h"

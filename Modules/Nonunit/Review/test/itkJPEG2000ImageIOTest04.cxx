@@ -16,12 +16,10 @@
  *
  *=========================================================================*/
 
-#include "itkRGBPixel.h"
 #include "itkJPEG2000ImageIOFactory.h"
 #include "itkJPEG2000ImageIO.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkImage.h"
 
 
 int itkJPEG2000ImageIOTest04( int argc, char * argv[] )

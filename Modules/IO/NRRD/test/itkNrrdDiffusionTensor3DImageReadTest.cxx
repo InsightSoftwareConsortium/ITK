@@ -18,8 +18,6 @@
 
 #include <fstream>
 #include "itkImageFileReader.h"
-#include "itkImage.h"
-#include "itkDiffusionTensor3D.h"
 #include "itkNrrdImageIO.h"
 
 #define SPECIFIC_IMAGEIO_MODULE_TEST

@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkNarrowBand.h"
-#include <vector>
 
 
 int itkNarrowBandTest (int, char*[])

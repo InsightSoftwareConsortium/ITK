@@ -20,7 +20,6 @@
 #include "itkImageFileWriter.h"
 #include "itkVoronoiPartitioningImageFilter.h"
 #include "itkDiscreteGaussianImageFilter.h"
-#include "itkFixedArray.h"
 #include "itkFilterWatcher.h"
 #include "itkUnaryFunctorImageFilter.h"
 #include "itkScalarToRGBPixelFunctor.h"

@@ -15,7 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkQuadEdgeMesh.h"
 #include "itkQuadEdgeMeshEulerOperatorsTestHelper.h"
 
 int itkQuadEdgeMeshCountingCellsTest(int argc, char * argv[])

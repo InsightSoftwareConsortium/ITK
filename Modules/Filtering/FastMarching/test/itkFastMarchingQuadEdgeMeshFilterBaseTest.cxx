@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkFastMarchingQuadEdgeMeshFilterBase.h"
-#include "itkQuadEdgeMesh.h"
 #include "itkQuadEdgeMeshExtendedTraits.h"
 #include "itkRegularSphereMeshSource.h"
 #include "itkFastMarchingThresholdStoppingCriterion.h"

@@ -25,15 +25,11 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#include "gdcmFile.h"
 
 #include "itkVersion.h"
 #include "itkGDCMImageIO.h"
 #include "itkIOCommon.h"
 #include "itkArray.h"
-#include "itkMatrix.h"
-#include "vnl/vnl_vector.h"
-#include "vnl/vnl_matrix.h"
 #include "vnl/vnl_cross.h"
 
 #include "itkMetaDataObject.h"
@@ -41,7 +37,6 @@
 #include "itksys/SystemTools.hxx"
 #include "itksys/Base64.h"
 
-#include "gdcmFile.h"
 #include "gdcmImageHelper.h"
 #include "gdcmFileExplicitFilter.h"
 #include "gdcmImageChangeTransferSyntax.h"
@@ -50,17 +45,13 @@
 #include "gdcmImageApplyLookupTable.h"
 #include "gdcmImageChangePlanarConfiguration.h"
 #include "gdcmRescaler.h"
-#include "gdcmFileMetaInformation.h"
 #include "gdcmImageReader.h"
 #include "gdcmImageWriter.h"
 #include "gdcmUIDGenerator.h"
 #include "gdcmAttribute.h"
 #include "gdcmGlobal.h"
-#include "gdcmDicts.h"
-#include "gdcmDictEntry.h"
 
 #include <fstream>
-#include "itksys/ios/sstream"
 
 namespace itk
 {
