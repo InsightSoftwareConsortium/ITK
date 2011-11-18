@@ -297,7 +297,7 @@ DataObject
   return m_SourceOutputName;
 }
 
-unsigned int
+DataObject::DataObjectPointerArraySizeType
 DataObject
 ::GetSourceOutputIndex() const
 {
