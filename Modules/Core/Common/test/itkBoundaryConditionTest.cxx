@@ -16,11 +16,9 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkImageRegionIterator.h"
 #include "itkConstantBoundaryCondition.h"
 #include "itkNeighborhoodIterator.h"
-#include "itkZeroFluxNeumannBoundaryCondition.h"
 namespace
 {
   void println(const char *c) { std::cout << std::endl << c << std::endl; }

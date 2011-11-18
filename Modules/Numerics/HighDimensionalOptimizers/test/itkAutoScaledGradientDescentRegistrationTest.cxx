@@ -20,14 +20,9 @@
 #include "itkRegistrationParameterScalesFromShift.h"
 #include "itkRegistrationParameterScalesFromJacobian.h"
 
-#include "itkSize.h"
 #include "itkImageToData.h"
-#include "itkExceptionObject.h"
 #include "itkImageRegistrationMethodImageSource.h"
 
-#include "itkIdentityTransform.h"
-#include "itkAffineTransform.h"
-#include "itkTranslationTransform.h"
 
 /**
  *  This is a test using GradientDescentObjectOptimizer and parameter scales

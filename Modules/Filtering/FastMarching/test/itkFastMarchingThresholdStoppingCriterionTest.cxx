@@ -17,8 +17,6 @@
  *=========================================================================*/
 
 #include "itkFastMarchingThresholdStoppingCriterion.h"
-#include "itkImage.h"
-#include "itkMesh.h"
 
 int itkFastMarchingThresholdStoppingCriterionTest( int , char * [] )
 {

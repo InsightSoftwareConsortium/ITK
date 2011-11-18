@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include "itkSimplexMeshGeometry.h"
-#include "itkNumericTraits.h"
 
 #include "vxl_version.h"
 #if VXL_VERSION_DATE_FULL > 20040406

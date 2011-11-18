@@ -18,11 +18,8 @@
 #include "itkArray.h"
 #include "itkHDF5ImageIO.h"
 #include "itkHDF5ImageIOFactory.h"
-#include "itkRGBPixel.h"
 #include "itkIOTestHelper.h"
-#include "itkMetaDataDictionary.h"
 #include "itkMetaDataObject.h"
-#include "itkMatrix.h"
 
 template <typename TPixel>
 int HDF5ReadWriteTest(const char *fileName)

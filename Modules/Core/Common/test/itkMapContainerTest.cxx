@@ -20,7 +20,6 @@
 #include "itkPoint.h"
 
 #include <iostream>
-#include <string>
 
 /**
  * Some typedefs to make things easier.

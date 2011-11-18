@@ -17,13 +17,9 @@
  *=========================================================================*/
 
 #include "itkMesh.h"
-#include "itkTetrahedronCell.h"
-#include "itkHexahedronCell.h"
-#include "itkBoundingBox.h"
 #include "itkDefaultDynamicMeshTraits.h"
 
 #include <iostream>
-#include <string>
 
 /**
  * Some typedefs to make things easier.

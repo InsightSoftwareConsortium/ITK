@@ -20,8 +20,6 @@
 #endif
 
 #include "itkVideoIOFactory.h"
-#include "itkMutexLock.h"
-#include "itkMutexLockHolder.h"
 
 
 namespace itk

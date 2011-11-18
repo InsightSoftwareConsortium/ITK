@@ -16,16 +16,11 @@
  *
  *=========================================================================*/
 
-#include "itkMacro.h"
-#include "itkIOCommon.h"
 #include "itkJPEG2000ImageIO.h"
 #include "itksys/SystemTools.hxx"
 
 // for memset
-#include <stdio.h>
-#include <string.h>
 // for malloc
-#include <stdlib.h>
 
 #define USE_OPJ_DEPRECATED
 

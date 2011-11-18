@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkGradientMagnitudeRecursiveGaussianImageFilter.h"
-#include "itkImageRegionIteratorWithIndex.h"
 #include "itkSimpleFilterWatcher.h"
 
 template<class TImage1Type,class TImage2Type>

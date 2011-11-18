@@ -17,9 +17,7 @@
  *=========================================================================*/
 #include <iostream>
 #include <fstream>
-#include <string>
 #include <cstdlib>
-#include <cstring>
 #include "itksys/SystemInformation.hxx"
 
 int main(int,char *[])

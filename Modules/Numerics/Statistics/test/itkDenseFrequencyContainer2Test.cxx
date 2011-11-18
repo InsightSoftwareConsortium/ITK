@@ -17,8 +17,6 @@
  *=========================================================================*/
 
 #include "itkDenseFrequencyContainer2.h"
-#include "vnl/vnl_math.h"
-#include "itkNumericTraits.h"
 
 
 int itkDenseFrequencyContainer2Test(int, char* [] )

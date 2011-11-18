@@ -17,11 +17,8 @@
  *=========================================================================*/
 
 #include <iostream>
-#include "itkVariableLengthVector.h"
-#include "itkFixedArray.h"
 #include "itkTimeProbe.h"
 #include "itkVectorImageToImageAdaptor.h"
-#include "itkImageRegionIterator.h"
 #include "itkImageLinearIteratorWithIndex.h"
 #include "itkShapedNeighborhoodIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"

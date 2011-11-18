@@ -26,7 +26,6 @@
  *
  *=========================================================================*/
 #include "itkSpatialOrientationAdapter.h"
-#include "itkImageBase.h"
 
 namespace itk
 {

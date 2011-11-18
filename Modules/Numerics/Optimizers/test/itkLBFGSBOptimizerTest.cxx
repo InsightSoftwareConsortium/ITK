@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkCommand.h"
 #include "itkLBFGSBOptimizer.h"
 #include "itkTextOutput.h"
 #include "vnl/vnl_math.h"

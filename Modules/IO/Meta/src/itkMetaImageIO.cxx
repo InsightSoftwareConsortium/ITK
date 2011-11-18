@@ -16,9 +16,6 @@
  *
  *=========================================================================*/
 
-#include <string>
-#include <sstream>
-#include <stdlib.h>
 #include "itkMetaImageIO.h"
 #include "itkSpatialOrientationAdapter.h"
 #include "itkMetaDataObject.h"

@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkLevelSetEquationRegionTermBase.h"
 
 int itkLevelSetEquationRegionTermBaseTest( int argc, char* argv[] )

@@ -15,13 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkArray.h"
-#include "itkHDF5ImageIO.h"
 #include "itkHDF5ImageIOFactory.h"
-#include "itkRGBPixel.h"
 #include "itkIOTestHelper.h"
-#include "itkMetaDataDictionary.h"
-#include "itkMetaDataObject.h"
 #include "itkPipelineMonitorImageFilter.h"
 #include "itkStreamingImageFilter.h"
 

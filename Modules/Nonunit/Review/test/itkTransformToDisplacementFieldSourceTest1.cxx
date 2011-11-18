@@ -23,14 +23,11 @@
  */
 
 #include <fstream>
-#include "itkImage.h"
-#include "itkAffineTransform.h"
 #include "itkTransformToDisplacementFieldSource.h"
 #include "itkImageFileWriter.h"
 #include "itkEuler3DTransform.h"
 #include "itkResampleImageFilter.h"
 #include "itkWarpImageFilter.h"
-#include "itkImageRegionConstIterator.h"
 
 int itkTransformToDisplacementFieldSourceTest1( int argc, char *argv[] )
 {

@@ -16,10 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
-#include "itkVector.h"
 #include "itkInverseDisplacementFieldImageFilter.h"
-#include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageFileWriter.h"
 #include "itkFilterWatcher.h"
 

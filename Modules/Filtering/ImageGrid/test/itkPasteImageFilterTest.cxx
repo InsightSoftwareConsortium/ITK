@@ -22,7 +22,6 @@
 #include "itkImageRegionMultidimensionalSplitter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkImageRegionIterator.h"
 
 int itkPasteImageFilterTest(int ac, char* av[] )
 {

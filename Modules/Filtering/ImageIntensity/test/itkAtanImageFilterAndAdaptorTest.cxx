@@ -16,10 +16,8 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkAtanImageFilter.h"
 #include "itkAtanImageAdaptor.h"
-#include "itkImageRegionIteratorWithIndex.h"
 #include "itkSubtractImageFilter.h"
 
 

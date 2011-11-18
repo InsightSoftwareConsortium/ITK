@@ -17,11 +17,9 @@
  *=========================================================================*/
 
 #include <iostream>
-#include "itkImage.h"
 #include "itkImageRegionIterator.h"
 #include "itkNonThreadedShrinkImageFilter.h"
 #include "itkFileOutputWindow.h"
-#include "itkMath.h"
 
 int itkNonThreadedShrinkImageTest(int, char* [] )
 {

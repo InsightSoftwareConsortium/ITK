@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include <iostream>
-#include "itkImage.h"
 #include "itkDisplacementFieldJacobianDeterminantFilter.h"
 #include "itkNullImageToImageFilterDriver.hxx"
 

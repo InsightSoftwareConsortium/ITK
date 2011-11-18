@@ -17,10 +17,6 @@
  *=========================================================================*/
 
 #include "itkCSVNumericObjectFileWriter.h"
-#include "itkArray2D.h"
-#include "vnl/vnl_matrix.h"
-#include "itkMatrix.h"
-#include <vector>
 
 int itkCSVNumericObjectFileWriterTest (int argc, char *argv[])
 {

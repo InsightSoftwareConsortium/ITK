@@ -16,13 +16,11 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkJoinSeriesImageFilter.h"
 #include "itkExtractImageFilter.h"
-#include "itkImageRegionIterator.h"
 #include "itkPipelineMonitorImageFilter.h"
 
 int itkJoinSeriesImageFilterStreamingTest(int argc, char* argv[] )

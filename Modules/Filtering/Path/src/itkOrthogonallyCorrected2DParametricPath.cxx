@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include "itkOrthogonallyCorrected2DParametricPath.h"
-#include <math.h>
 
 namespace itk
 {

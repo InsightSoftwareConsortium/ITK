@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkPowellOptimizer.h"
-#include "vnl/vnl_math.h"
 
 int POWELL_CALLS_TO_GET_VALUE = 0;
 

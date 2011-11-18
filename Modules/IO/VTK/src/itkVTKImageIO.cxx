@@ -18,11 +18,8 @@
 #include "itkVTKImageIO.h"
 #include "itkByteSwapper.h"
 
-#include "itksys/ios/sstream"
 #include "itksys/SystemTools.hxx"
 
-#include <stdio.h>
-#include <string.h>
 
 namespace itk
 {

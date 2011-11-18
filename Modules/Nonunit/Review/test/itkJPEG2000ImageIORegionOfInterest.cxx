@@ -20,7 +20,6 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkRegionOfInterestImageFilter.h"
-#include "itkImage.h"
 
 int itkJPEG2000ImageIORegionOfInterest( int argc, char * argv[] )
 {

@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkNiftiImageIOTest.h"
-#include "itkNumericTraits.h"
 
 
 #define SPECIFIC_IMAGEIO_MODULE_TEST

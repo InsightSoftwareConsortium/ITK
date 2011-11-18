@@ -16,12 +16,9 @@
  *
  *=========================================================================*/
 
-#include "itkWin32Header.h"
 
 #include <fstream>
 
-#include "itkPoint.h"
-#include "itkArray.h"
 #include "itkPointSetToListSampleAdaptor.h"
 
 int itkPointSetToListSampleAdaptorTest( int, char * [] )

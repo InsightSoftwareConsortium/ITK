@@ -19,9 +19,6 @@
 #include <iostream>
 
 // Native ITK stuff
-#include "itkSize.h"
-#include "itkIndex.h"
-#include "itkImage.h"
 #include "itkImageRegionIterator.h"
 
 // Spatial function stuff

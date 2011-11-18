@@ -18,14 +18,10 @@
 
 #include <fstream>
 #include "itkVectorConfidenceConnectedImageFilter.h"
-#include "itkPNGImageIO.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkTextOutput.h"
-#include "itkImageRegionIterator.h"
-#include "itkNumericTraits.h"
 #include "itkFilterWatcher.h"
-#include "itkRGBPixel.h"
 
 int itkVectorConfidenceConnectedImageFilterTest(int ac, char* av[] )
 {

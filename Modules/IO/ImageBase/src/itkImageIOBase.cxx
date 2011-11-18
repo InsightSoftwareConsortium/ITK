@@ -17,13 +17,6 @@
  *=========================================================================*/
 
 #include "itkImageIOBase.h"
-#include "itkRGBPixel.h"
-#include "itkRGBAPixel.h"
-#include "itkOffset.h"
-#include "itkPoint.h"
-#include "itkCovariantVector.h"
-#include "itkDiffusionTensor3D.h"
-#include "itkImageRegionSplitter.h"
 
 namespace itk
 {

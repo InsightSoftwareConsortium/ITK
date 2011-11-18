@@ -25,7 +25,6 @@
 #include "itkImageClassifierBase.h"
 #include "itkImageGaussianModelEstimator.h"
 #include "itkImageKmeansModelEstimator.h"
-#include "itkImagePCAShapeModelEstimator.h"
 #include "itkImageRegistrationMethod.h"
 #include "itkImageToSpatialObjectRegistrationMethod.h"
 #include "itkKLMRegionGrowImageFilter.h"

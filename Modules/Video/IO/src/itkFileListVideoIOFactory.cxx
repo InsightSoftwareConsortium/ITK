@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include "itkFileListVideoIOFactory.h"
-#include "itkCreateObjectFunction.h"
 #include "itkFileListVideoIO.h"
 #include "itkVersion.h"
 

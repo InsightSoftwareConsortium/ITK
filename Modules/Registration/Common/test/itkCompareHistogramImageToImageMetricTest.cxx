@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkGaussianImageSource.h"
-#include "itkImage.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkKullbackLeiblerCompareHistogramImageToImageMetric.h"
 #include "itkTranslationTransform.h"

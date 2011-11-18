@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include "itkHessianRecursiveGaussianImageFilter.h"
-#include "itkImageRegionIteratorWithIndex.h"
 
 
 int itkHessianRecursiveGaussianFilterTest(int, char* [] )

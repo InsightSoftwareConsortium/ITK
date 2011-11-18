@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include "itkSingleValuedVnlCostFunctionAdaptor.h"
-#include "itkMacro.h"
 
 namespace itk
 {

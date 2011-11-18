@@ -17,9 +17,7 @@
  *=========================================================================*/
 
 #include "itkMath.h"
-#include <string>
 #include <iostream>
-#include <cstdlib>
 
 #define RoundTestHelperMacro( rndname, input, output )             \
   if ( rndname( (input) ) != (output))                              \

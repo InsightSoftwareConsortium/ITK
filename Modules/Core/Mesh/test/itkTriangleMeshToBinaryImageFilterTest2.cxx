@@ -16,12 +16,9 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkRegularSphereMeshSource.h"
 #include "itkTriangleMeshToSimplexMeshFilter.h"
 #include "itkSimplexMeshToTriangleMeshFilter.h"
-#include "itkDefaultDynamicMeshTraits.h"
-#include "itkDefaultStaticMeshTraits.h"
 #include "itkTriangleMeshToBinaryImageFilter.h"
 #include "itkImageFileWriter.h"
 

@@ -19,7 +19,6 @@
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
 
-#include "itkLabelImageToLabelMapFilter.h"
 #include "itkLabelMapContourOverlayImageFilter.h"
 
 

@@ -20,7 +20,6 @@
 
 #include "itkVXLVideoIO.h"
 #include "itkImportImageFilter.h"
-#include "itkRGBPixel.h"
 #include "itkImageFileWriter.h"
 
 // ITK typedefs

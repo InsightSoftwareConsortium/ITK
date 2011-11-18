@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include "itkDicomImageIOFactory.h"
-#include "itkCreateObjectFunction.h"
 #include "itkDicomImageIO.h"
 #include "itkVersion.h"
 

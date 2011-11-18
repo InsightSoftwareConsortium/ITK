@@ -17,8 +17,6 @@
  *=========================================================================*/
 
 #include <iostream>
-#include "itkImage.h"
-#include "itkImageRegionIterator.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkShiftScaleImageFilter.h"

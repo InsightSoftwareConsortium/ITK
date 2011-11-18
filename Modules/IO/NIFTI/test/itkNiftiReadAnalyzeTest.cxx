@@ -20,8 +20,6 @@
 #include "itkByteSwapper.h"
 #include "itkNiftiImageIO.h"
 #include "itkImageFileReader.h"
-#include "itkImageFileWriter.h"
-#include "itkImage.h"
 #include "itkImageRegionConstIterator.h"
 
 namespace
@@ -239,7 +237,6 @@ ReadImage( const std::string &fileName )
 }
 
 }
-#include <stdio.h>
 
 int itkNiftiReadAnalyzeTest(int ac, char *av[])
 {

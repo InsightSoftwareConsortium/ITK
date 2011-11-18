@@ -16,8 +16,6 @@
  *
  *=========================================================================*/
 
-#include <stdio.h>
-#include <ctype.h>
 #include <cstdlib>
 #include <metaSurface.h>
 #include "itksys/SystemTools.hxx"

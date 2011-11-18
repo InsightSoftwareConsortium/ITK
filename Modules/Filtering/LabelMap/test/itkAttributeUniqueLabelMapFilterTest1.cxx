@@ -19,16 +19,12 @@
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
 
-#include "itkLabelObject.h"
-#include "itkLabelMap.h"
 #include "itkLabelImageToShapeLabelMapFilter.h"
 #include "itkObjectByObjectLabelMapFilter.h"
 #include "itkAttributeUniqueLabelMapFilter.h"
-#include "itkLabelMapToLabelImageFilter.h"
 #include "itkShapeLabelObjectAccessors.h"
 
 #include "itkBinaryDilateImageFilter.h"
-#include "itkFlatStructuringElement.h"
 
 
 int itkAttributeUniqueLabelMapFilterTest1(int argc, char * argv[])

@@ -18,7 +18,6 @@
 
 // Program test for the basic QE layer.
 #include <iostream>
-#include "itkQuadEdgeMeshBaseIterator.h"
 #include "itkGeometricalQuadEdge.h"
 
 class itkQuadEdgeMeshBasicLayerTestHelper

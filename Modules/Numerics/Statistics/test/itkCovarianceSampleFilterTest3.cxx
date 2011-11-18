@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkCovarianceSampleFilter.h"
-#include "itkFixedArray.h"
 #include "itkHistogram.h"
 #include "itkMahalanobisDistanceMetric.h"
 

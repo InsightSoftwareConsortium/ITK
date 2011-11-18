@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkDICOMImageIO2Factory.h"
 #include "itkDICOMSeriesFileNames.h"
 
 int itkDICOMSeriesFileNamesTest(int ac, char* av[])

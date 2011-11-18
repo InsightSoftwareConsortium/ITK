@@ -20,9 +20,7 @@
 
 #include "itkRandomImageSource.h"
 #include "itkComposeImageFilter.h"
-#include <string>
 
-#include "itkRGBPixel.h"
 
 template<class T> void View(const char *name, T,
                             bool sharedCamera=false,

@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkFEMElementBase.h"
-#include "vnl/algo/vnl_svd.h"
 #include "vnl/algo/vnl_qr.h"
 
 namespace itk

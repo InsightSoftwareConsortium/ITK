@@ -19,7 +19,6 @@
 #include "itkImageToListSampleFilter.h"
 #include "itkSubsample.h"
 #include "itkRandomImageSource.h"
-#include "itkImageRegionIterator.h"
 #include "itkComposeImageFilter.h"
 
 int itkSubsampleTest(int, char* [] )

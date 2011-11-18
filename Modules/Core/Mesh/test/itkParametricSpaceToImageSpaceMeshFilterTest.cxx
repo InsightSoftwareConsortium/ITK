@@ -18,7 +18,6 @@
 
 #include "itkParametricSpaceToImageSpaceMeshFilter.h"
 #include "itkMesh.h"
-#include "itkImage.h"
 
 
 int itkParametricSpaceToImageSpaceMeshFilterTest(int, char* [] )

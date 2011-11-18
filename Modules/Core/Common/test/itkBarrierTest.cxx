@@ -18,7 +18,6 @@
 
 #include "itkBarrier.h"
 #include "itkMultiThreader.h"
-#include <stdlib.h>
 
 
 class BarrierTestUserData

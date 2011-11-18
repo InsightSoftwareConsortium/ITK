@@ -20,11 +20,8 @@
 #include "itkRelabelComponentImageFilter.h"
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkImageFileReader.h"
-#include "itkVTKImageIO.h"
 #include "itkImageFileWriter.h"
-#include "itkImageRegionIterator.h"
 #include "itkFilterWatcher.h"
-#include "itkImageRegionIterator.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
 
 int itkMaskConnectedComponentImageFilterTest(int argc, char* argv[] )

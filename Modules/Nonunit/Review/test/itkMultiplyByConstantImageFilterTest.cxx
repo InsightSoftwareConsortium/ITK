@@ -16,10 +16,8 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkMultiplyImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkSubtractImageFilter.h"
 
 
 int itkMultiplyByConstantImageFilterTest(int, char* [] )

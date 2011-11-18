@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkComposeImageFilter.h"
-#include "itkImage.h"
 
 #include "itkImageFileReader.h"
 #include "itkImageSeriesWriter.h"

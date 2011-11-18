@@ -28,27 +28,16 @@
 #include "itkGradientDescentObjectOptimizer.h"
 #include "itkRegistrationParameterScalesFromShift.h"
 
-#include "itkIdentityTransform.h"
-#include "itkTranslationTransform.h"
-#include "itkAffineTransform.h"
-#include "itkEuler2DTransform.h"
-#include "itkCompositeTransform.h"
 #include "itkGaussianSmoothingOnUpdateDisplacementFieldTransform.h"
-#include "itkRegistrationParameterScalesFromJacobian.h"
 
 #include "itkCastImageFilter.h"
-#include "itkLinearInterpolateImageFunction.h"
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkCommand.h"
-#include "itksys/SystemTools.hxx"
-#include "itkResampleImageFilter.h"
 
 //FIXME We need these as long as we have to define ImageToData and
 // Array1DToData as a fwd-declare in itkImageToImageObjectMetric.h
 #include "itkImageToData.h"
-#include "itkArray1DToData.h"
 
 namespace{
 // The following class is used to support callbacks

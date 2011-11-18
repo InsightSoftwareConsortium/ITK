@@ -16,13 +16,8 @@
  *
  *=========================================================================*/
 
-#include "itkImageHelper.h"
-#include "itkDTITubeSpatialObject.h"
-#include "itkVesselTubeSpatialObject.h"
-#include "itkContourSpatialObject.h"
 #include "itkSpatialObjectWriter.h"
 #include "itkSpatialObjectReader.h"
-#include "itkImageMaskSpatialObject.h"
 
 int itkReadWriteSpatialObjectTest(int argc, char* argv[])
 {

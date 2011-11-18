@@ -19,7 +19,6 @@
 #include <iostream>
 
 #include "itkDiffusionTensor3D.h"
-#include "itkImage.h"
 #include "itkImageRegionIterator.h"
 
 int itkDiffusionTensor3DTest(int, char* [] )

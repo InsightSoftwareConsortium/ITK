@@ -17,11 +17,7 @@
  *=========================================================================*/
 
 #include "itkMinMaxCurvatureFlowImageFilter.h"
-#include "itkOutputWindow.h"
 #include "itkCommand.h"
-#include "itkImage.h"
-#include "itkImageRegionIterator.h"
-#include "vnl/vnl_math.h"
 #include "vnl/vnl_sample.h"
 
 namespace

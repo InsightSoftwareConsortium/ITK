@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include "itkMemoryProbesCollectorBase.h"
-#include "itkMemoryProbe.h"
 
 #if defined(TEST_WITH_SLEEP)
 #if defined(_WIN32) && !defined(__CYGWIN__)
@@ -33,7 +32,6 @@ void Sleep(unsigned int milleseconds)
 #define Sleep(x) // Empty
 #endif //defined(TEST_WITH_SLEEP)
 
-#include <stdlib.h>
 
 int itkMemoryProbesCollecterBaseTest(int, char *[])
 {

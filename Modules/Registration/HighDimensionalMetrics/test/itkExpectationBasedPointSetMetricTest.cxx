@@ -18,7 +18,6 @@
 
 #include "itkExpectationBasedPointSetToPointSetObjectMetric.h"
 
-#include "itkPointSet.h"
 
 #include <fstream>
 

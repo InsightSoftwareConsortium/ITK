@@ -19,13 +19,8 @@
 
 #include "itkImageFileWriter.h"
 #include "itkImageFileReader.h"
-#include "itkRGBPixel.h"
-#include "itkRGBAPixel.h"
-#include "itkImageRegionIterator.h"
-#include "itkSymmetricSecondRankTensor.h"
 #include "itkTestingMacros.h"
 
-#include <cstring>
 
 static unsigned int m_CallNumber;
 

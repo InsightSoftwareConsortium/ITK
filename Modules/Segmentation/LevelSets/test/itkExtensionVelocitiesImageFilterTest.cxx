@@ -22,8 +22,6 @@
 #include "itkTestingComparisonImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"
 
-#include "itkCommand.h"
-#include "vnl/vnl_math.h"
 
 // For debugging
 #include "itkImageFileWriter.h"

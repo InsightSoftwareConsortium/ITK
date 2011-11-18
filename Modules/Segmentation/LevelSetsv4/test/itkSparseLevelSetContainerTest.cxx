@@ -16,8 +16,6 @@
  *
  *=========================================================================*/
 
-#include <string>
-#include "itkImage.h"
 #include "itkWhitakerSparseLevelSetImage.h"
 #include "itkLevelSetContainer.h"
 

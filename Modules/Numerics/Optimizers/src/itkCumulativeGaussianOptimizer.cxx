@@ -19,9 +19,7 @@
 #define _itkCumulativeGaussianOptimizer_cxx
 
 #include "itkCumulativeGaussianOptimizer.h"
-#include <assert.h>
 #include "itkMath.h"
-#include "itkMacro.h"
 
 namespace itk
 {

@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include <string>
 #include "itkNrrdImageIO.h"
 #include "itkMetaDataObject.h"
 #include "itkIOCommon.h"

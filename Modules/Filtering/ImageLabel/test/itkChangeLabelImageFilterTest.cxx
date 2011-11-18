@@ -16,10 +16,8 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkRandomImageSource.h"
 #include "itkChangeLabelImageFilter.h"
-#include "itkImageRegionIteratorWithIndex.h"
 
 
 int itkChangeLabelImageFilterTest(int, char* [] )

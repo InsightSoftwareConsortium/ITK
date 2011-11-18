@@ -16,8 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
-#include "itkNeighborhood.h"
 #include "itkConstSliceIterator.h"
 #include "itkImageRegionIterator.h"
 #include "itkNeighborhoodIterator.h"

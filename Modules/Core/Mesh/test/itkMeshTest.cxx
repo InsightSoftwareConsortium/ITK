@@ -20,11 +20,9 @@
 #include "itkTetrahedronCell.h"
 #include "itkHexahedronCell.h"
 #include "itkQuadraticTriangleCell.h"
-#include "itkBoundingBox.h"
 #include "itkFileOutputWindow.h"
 
 #include <iostream>
-#include <string>
 
 namespace itkMeshTestTypes {
   // this namespace helps to isolate the types defined blow

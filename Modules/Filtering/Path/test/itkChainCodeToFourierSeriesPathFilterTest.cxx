@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include <iostream>
-#include <math.h>
 #include "itkPolyLineParametricPath.h"
 #include "itkChainCodePath.h"
 #include "itkFourierSeriesPath.h"

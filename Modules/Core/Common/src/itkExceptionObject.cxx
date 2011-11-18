@@ -15,10 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkMacro.h"
 #include "itkLightObject.h"
 
-#include <string>
 
 namespace itk
 {

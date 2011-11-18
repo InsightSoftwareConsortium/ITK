@@ -16,8 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
-#include "itkImageRegionIterator.h"
 #include "itkWatershedImageFilter.h"
 #include "itkWatershedEquivalenceRelabeler.h"
 #include "itkWatershedBoundaryResolver.h"

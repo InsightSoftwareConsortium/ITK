@@ -16,9 +16,6 @@
  *
  *=========================================================================*/
 
-#include <string>
-#include "itkImage.h"
-#include "itkLevelSetDenseImageBase.h"
 #include "itkLevelSetContainer.h"
 
 int itkDenseLevelSetContainerTest( int , char* [] )

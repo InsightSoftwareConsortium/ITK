@@ -16,10 +16,8 @@
  *
  *=========================================================================*/
 #include "itkGDCMImageIO.h"
-#include "itkMetaDataObject.h"
 #include "itkImageSeriesReader.h"
 #include "itkImageSeriesWriter.h"
-#include "itkNumericSeriesFileNames.h"
 
 
 #define SPECIFIC_IMAGEIO_MODULE_TEST

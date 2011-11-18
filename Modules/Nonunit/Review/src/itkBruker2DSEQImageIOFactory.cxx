@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include "itkBruker2DSEQImageIOFactory.h"
-#include "itkCreateObjectFunction.h"
 #include "itkBruker2DSEQImageIO.h"
 #include "itkVersion.h"
 

@@ -17,15 +17,8 @@
  *=========================================================================*/
 
 
-#include "itkFEMObject.h"
-#include "itkFEMObjectSpatialObject.h"
-#include "itkGroupSpatialObject.h"
-#include "itkSpatialObject.h"
-#include "itkFEMSpatialObjectReader.h"
-#include "itkFEMSpatialObjectWriter.h"
 #include "itkImageToRectilinearFEMObjectFilter.h"
 #include "itkImageFileReader.h"
-#include "itkImage.h"
 #include "itkFEMElement2DC0LinearQuadrilateralMembrane.h"
 
 int itkImageToRectilinearFEMObjectFilter2DTest(int argc, char *argv[])

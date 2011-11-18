@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkImageToHistogramFilter.h"
 #include "itkMinimumMaximumImageFilter.h"
 #include "itkImageFileReader.h"

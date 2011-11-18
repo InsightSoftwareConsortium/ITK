@@ -25,7 +25,6 @@
 #include "itkQuadraticTriangleCell.h"
 #include "itkPolygonCell.h"
 
-#include "itkCellInterfaceVisitor.h"
 
 /**
  * Define a mesh type that stores a PixelType of "int".  Use the defaults

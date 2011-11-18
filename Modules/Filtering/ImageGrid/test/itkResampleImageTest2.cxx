@@ -19,11 +19,9 @@
 #include <iostream>
 
 #include "itkAffineTransform.h"
-#include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkResampleImageFilter.h"
-#include "itkImageRegionIteratorWithIndex.h"
 #include "itkNearestNeighborExtrapolateImageFunction.h"
 
 /* Further testing of itkResampleImageFilter

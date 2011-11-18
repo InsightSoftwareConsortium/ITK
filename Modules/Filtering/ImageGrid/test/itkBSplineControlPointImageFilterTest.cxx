@@ -17,12 +17,8 @@
  *=========================================================================*/
 #include "itkBSplineControlPointImageFilter.h"
 
-#include "itkBSplineScatteredDataPointSetToImageFilter.h"
-#include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkPointSet.h"
-#include "itkVector.h"
 
 template<unsigned int ImageDimension>
 int BSpline( int argc, char *argv[] )

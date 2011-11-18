@@ -18,15 +18,9 @@
 
 #include <iostream>
 
-#include "itkVector.h"
-#include "itkIndex.h"
-#include "itkImage.h"
-#include "itkImageRegionIteratorWithIndex.h"
 #include "itkWarpVectorImageFilter.h"
 #include "itkVectorCastImageFilter.h"
 #include "itkStreamingImageFilter.h"
-#include "vnl/vnl_math.h"
-#include "itkCommand.h"
 
 // class to produce a linear image pattern
 template <int VDimension>

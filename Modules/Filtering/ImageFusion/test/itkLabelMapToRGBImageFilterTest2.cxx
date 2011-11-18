@@ -18,7 +18,6 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
-#include "itkVectorImage.h"
 
 #include "itkLabelImageToLabelMapFilter.h"
 #include "itkLabelMapToRGBImageFilter.h"

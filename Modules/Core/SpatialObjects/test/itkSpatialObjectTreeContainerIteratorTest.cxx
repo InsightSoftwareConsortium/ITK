@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkSpatialObject.h"
 #include "itkSpatialObjectTreeContainer.h"
 #include "itkPostOrderTreeIterator.h"
 

@@ -27,7 +27,6 @@
  * on a \ref itk::QuadEdgeMesh::FrontDualIterator. Hence we shall have tested
  * both primal and dual version of the front iterator.
  */
-#include <set>
 
 #include "itkQuadEdgeMesh.h"
 

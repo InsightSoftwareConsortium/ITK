@@ -16,10 +16,8 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkImageRegionIterator.h"
 #include "itkDiscreteGradientMagnitudeGaussianImageFunction.h"
 #include "itkRescaleIntensityImageFilter.h"
 

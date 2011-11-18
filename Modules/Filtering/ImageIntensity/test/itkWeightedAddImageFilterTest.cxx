@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkWeightedAddImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 

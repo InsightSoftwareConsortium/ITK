@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkQuadEdgeMesh.h"
 #include "itkQuadEdgeMeshTopologyChecker.h"
 
 

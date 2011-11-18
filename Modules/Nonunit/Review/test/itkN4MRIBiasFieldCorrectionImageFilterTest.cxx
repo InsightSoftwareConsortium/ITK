@@ -15,12 +15,9 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkBSplineControlPointImageFilter.h"
 #include "itkConstantPadImageFilter.h"
-#include "itkExpImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkImageRegionIterator.h"
 #include "itkN4MRIBiasFieldCorrectionImageFilter.h"
 #include "itkOtsuThresholdImageFilter.h"
 #include "itkShrinkImageFilter.h"
@@ -67,8 +64,6 @@ public:
 
 };
 
-#include <string>
-#include <vector>
 
 template<class TValue>
 TValue Convert( std::string optionString )

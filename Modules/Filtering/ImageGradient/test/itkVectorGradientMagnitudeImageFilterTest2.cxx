@@ -20,11 +20,7 @@
 #include "itkVectorGradientMagnitudeImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkImageRegionIterator.h"
-#include "itkRGBPixel.h"
-#include "itkImageRegionIterator.h"
 #include "itkRescaleIntensityImageFilter.h"
-#include "vnl/vnl_math.h"
 
 
 int itkVectorGradientMagnitudeImageFilterTest2(int ac, char* av[] )

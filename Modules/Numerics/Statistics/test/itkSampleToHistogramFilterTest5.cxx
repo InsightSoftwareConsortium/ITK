@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkRGBPixel.h"
 #include "itkHistogram.h"
 #include "itkSampleToHistogramFilter.h"
 #include "itkImageToListSampleFilter.h"

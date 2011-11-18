@@ -17,8 +17,6 @@
  *=========================================================================*/
 
 #include <iostream>
-#include "itkImage.h"
-#include "itkImageRegionIterator.h"
 #include "itkShrinkImageFilter.h"
 #include "itkStreamingImageFilter.h"
 #include "itkImageRegionMultidimensionalSplitter.h"

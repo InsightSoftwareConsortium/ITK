@@ -18,9 +18,6 @@
 
 #include "itkGradientDifferenceImageToImageMetric.h"
 #include "itkGaussianImageSource.h"
-#include "itkImage.h"
-#include "itkLinearInterpolateImageFunction.h"
-#include "itkMeanSquaresHistogramImageToImageMetric.h"
 #include "itkTranslationTransform.h"
 
 

@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkImageFileReader.h"
-#include "itkImageFileWriter.h"
 
 #include "itkBSplineTransform.h"
 #include "itkBSplineTransformInitializer.h"

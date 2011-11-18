@@ -20,7 +20,6 @@
 #include "itkSphereMeshSource.h"
 
 #include <iostream>
-#include <string>
 
 /*
  * Test the mesh connectivity class.

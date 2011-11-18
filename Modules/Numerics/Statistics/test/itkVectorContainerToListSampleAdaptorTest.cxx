@@ -17,8 +17,6 @@
  *=========================================================================*/
 
 #include "itkVectorContainerToListSampleAdaptor.h"
-#include "itkVectorContainer.h"
-#include "itkFixedArray.h"
 
 int itkVectorContainerToListSampleAdaptorTest(int, char* [] )
 {

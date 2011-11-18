@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkMIRegistrationFunction.h"
 #include "itkGaussianImageSource.h"
 

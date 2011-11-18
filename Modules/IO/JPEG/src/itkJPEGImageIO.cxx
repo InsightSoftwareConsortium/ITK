@@ -17,9 +17,6 @@
  *=========================================================================*/
 
 #include "itkJPEGImageIO.h"
-#include "itkRGBPixel.h"
-#include "itkRGBAPixel.h"
-#include <stdio.h>
 #include "itksys/SystemTools.hxx"
 
 #include "itk_jpeg.h"

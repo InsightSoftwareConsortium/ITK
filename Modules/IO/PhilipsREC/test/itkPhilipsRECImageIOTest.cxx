@@ -18,10 +18,8 @@
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkImage.h"
 
 #include "itkPhilipsRECImageIOFactory.h"
-#include "itkPhilipsRECImageIO.h"
 
 int itkPhilipsRECImageIOTest( int argc, char * argv [] )
 {

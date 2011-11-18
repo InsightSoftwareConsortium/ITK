@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkFEMElement2DC0QuadraticTriangularStrain.h"
-#include "itkFEMElementBase.h"
 
 #include <iostream>
 

@@ -17,10 +17,8 @@
  *=========================================================================*/
 
 #include "itkPermuteAxesImageFilter.h"
-#include "itkImage.h"
 #include "itkTextOutput.h"
 #include "itkCommand.h"
-#include "itkImageRegionIteratorWithIndex.h"
 
 
 // The following classe is used to support callbacks

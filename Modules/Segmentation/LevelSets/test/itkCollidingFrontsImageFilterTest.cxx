@@ -18,8 +18,6 @@
 
 #include "itkCollidingFrontsImageFilter.h"
 
-#include "itkImage.h"
-#include "itkImageRegionIterator.h"
 #include "itkCastImageFilter.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkImageFileWriter.h"

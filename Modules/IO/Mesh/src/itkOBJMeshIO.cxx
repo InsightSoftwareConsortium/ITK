@@ -18,11 +18,10 @@
 
 #include "itkOBJMeshIO.h"
 #include "itkNumericTraits.h"
-
 #include <itksys/SystemTools.hxx>
-
-#include <locale>
+#include  <locale>
 #include <vector>
+
 
 namespace itk
 {

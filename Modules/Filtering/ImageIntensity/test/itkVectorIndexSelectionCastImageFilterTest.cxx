@@ -18,8 +18,6 @@
 
 #include <iostream>
 
-#include "itkImage.h"
-#include "itkVectorImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 

@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkDataObject.h"
-#include "itkObjectFactory.h"
 #include "itkRealTimeClock.h"
 
 namespace itk {

@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkFEMElement2DC0LinearTriangular.h"
-#include "vnl/vnl_math.h"
 
 namespace itk
 {

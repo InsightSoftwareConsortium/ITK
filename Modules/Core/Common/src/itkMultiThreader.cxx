@@ -25,16 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#include "itkMultiThreader.h"
-#include "itkObjectFactory.h"
 #include "itkNumericTraits.h"
-#include "itksys/SystemTools.hxx"
-#include <stdlib.h>
-#include <algorithm>
 #include <iostream>
-#include <string>
-#include <sstream>
-#include <iterator>
 
 
 #if defined(ITK_USE_PTHREADS)

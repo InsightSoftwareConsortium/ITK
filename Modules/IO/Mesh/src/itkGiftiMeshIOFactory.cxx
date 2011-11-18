@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkCreateObjectFunction.h"
 #include "itkGiftiMeshIO.h"
 #include "itkGiftiMeshIOFactory.h"
 #include "itkVersion.h"

@@ -17,10 +17,7 @@
  *=========================================================================*/
 
 #include "itkKullbackLeiblerCompareHistogramImageToImageMetric.h"
-#include "itkImage.h"
-#include "itkImageRegionIterator.h"
 
-#include "itkAffineTransform.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkTimeProbesCollectorBase.h"
 #include "vnl/vnl_sample.h"

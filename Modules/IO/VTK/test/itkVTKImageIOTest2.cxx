@@ -18,7 +18,6 @@
 
 #include "itkImageFileWriter.h"
 #include "itkImageFileReader.h"
-#include "itkVTKImageIO.h"
 
 
 #define SPECIFIC_IMAGEIO_MODULE_TEST

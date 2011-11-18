@@ -17,12 +17,9 @@
  *=========================================================================*/
 
 #include "itkScalarChanAndVeseDenseLevelSetImageFilter.h"
-#include "itkScalarChanAndVeseLevelSetFunctionData.h"
 #include "itkUnconstrainedRegionBasedLevelSetFunctionSharedData.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkImage.h"
-#include "itkTestingMacros.h"
 #include "itkAtanRegularizedHeavisideStepFunction.h"
 
 int itkScalarChanAndVeseDenseLevelSetImageFilterTest4( int argc, char * argv [] )

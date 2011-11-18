@@ -18,10 +18,7 @@
 
 #include <iostream>
 #include "itkImageRegion.h"
-#include "itkContinuousIndex.h"
-#include "vcl_limits.h"
 #include "itkFloatingPointExceptions.h"
-#include "itkMath.h"
 
 int itkImageRegionTest(int, char* [] )
 {

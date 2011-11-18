@@ -15,13 +15,11 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkVector.h"
 #include "itkQuadEdgeMesh.h"
 #include "itkMeshFileReader.h"
 
 #include "itkQuadEdgeMeshExtendedTraits.h"
 #include "itkNormalQuadEdgeMeshFilter.h"
-#include <stdlib.h>
 
 int itkNormalQuadEdgeMeshFilterTest( int argc, char* argv[] )
 {

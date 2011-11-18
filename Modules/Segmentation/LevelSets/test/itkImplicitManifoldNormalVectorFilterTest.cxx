@@ -19,7 +19,6 @@
 #include <iostream>
 #include "itkImplicitManifoldNormalVectorFilter.h"
 #include "itkNormalVectorDiffusionFunction.h"
-#include "itkSparseImage.h"
 
 namespace itk
 {

@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkFEMElement3DC0LinearTetrahedronStrain.h"
-#include "vnl/vnl_math.h"
 
 namespace itk
 {

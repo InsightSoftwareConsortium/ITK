@@ -19,27 +19,10 @@
 #include "itkTestingHashImageFilter.h"
 #include "itkTestingMacros.h"
 
-#include "itkImage.h"
-#include "itkVectorImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkRGBPixel.h"
 
-#include "itkRedColormapFunction.h"
-#include "itkGreenColormapFunction.h"
-#include "itkBlueColormapFunction.h"
-#include "itkGreyColormapFunction.h"
-#include "itkHotColormapFunction.h"
-#include "itkCoolColormapFunction.h"
-#include "itkSpringColormapFunction.h"
-#include "itkSummerColormapFunction.h"
-#include "itkAutumnColormapFunction.h"
-#include "itkWinterColormapFunction.h"
-#include "itkCopperColormapFunction.h"
-#include "itkHSVColormapFunction.h"
-#include "itkJetColormapFunction.h"
 #include "itkCustomColormapFunction.h"
-#include "itkOverUnderColormapFunction.h"
 
 #include "itkScalarToRGBColormapImageFilter.h"
 

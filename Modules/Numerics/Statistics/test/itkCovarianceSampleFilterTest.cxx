@@ -19,9 +19,6 @@
 #include "itkImageToListSampleFilter.h"
 #include "itkCovarianceSampleFilter.h"
 #include "itkImageRegionIterator.h"
-#include "itkVector.h"
-#include "itkMeanSampleFilter.h"
-#include "itkNumericTraitsFixedArrayPixel.h"
 
 int itkCovarianceSampleFilterTest(int, char* [] )
 {

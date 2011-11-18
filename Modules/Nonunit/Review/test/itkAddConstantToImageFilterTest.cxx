@@ -16,10 +16,8 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkAddImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkSubtractImageFilter.h"
 
 
 int itkAddConstantToImageFilterTest(int, char* [] )

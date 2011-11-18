@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include <iostream>
-#include <cstdlib>
 
 #include "itkBioGeneNetwork.h"
 

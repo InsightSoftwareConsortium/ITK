@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkFEMElement2DC0LinearLine.h"
-#include "vnl/vnl_math.h"
 
 namespace itk
 {

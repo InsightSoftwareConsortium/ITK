@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include "itkNiftiImageIOFactory.h"
-#include "itkCreateObjectFunction.h"
 #include "itkNiftiImageIO.h"
 #include "itkVersion.h"
 

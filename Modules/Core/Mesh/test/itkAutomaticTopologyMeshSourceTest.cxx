@@ -16,11 +16,8 @@
  *
  *=========================================================================*/
 
-#include <math.h>
-#include <time.h>
 
 #include <iostream>
-#include <set>
 
 #include "itkAutomaticTopologyMeshSource.h"
 

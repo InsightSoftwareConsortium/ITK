@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include <iostream>
-#include "itkVector.h"
 #include "itkAffineTransform.h"
 #include "itkSimpleDataObjectDecorator.h"
 #include "itkDataObjectDecorator.h"

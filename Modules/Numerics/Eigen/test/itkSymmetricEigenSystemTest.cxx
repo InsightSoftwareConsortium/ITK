@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkWin32Header.h"
 #include <fstream>
 
 #include "itkSymmetricEigenSystem.h"

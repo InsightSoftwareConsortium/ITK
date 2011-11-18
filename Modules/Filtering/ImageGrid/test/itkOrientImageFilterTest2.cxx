@@ -16,9 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkOrientImageFilter.h"
-#include "vnl/vnl_sample.h"
 
 typedef itk::Image<std::string,3> ImageType;
 

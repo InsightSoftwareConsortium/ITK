@@ -15,7 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkRealTimeStamp.h"
 #include "itkRealTimeInterval.h"
 #include "itkNumericTraits.h"
 

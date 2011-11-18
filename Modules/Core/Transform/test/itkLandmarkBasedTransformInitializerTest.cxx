@@ -17,7 +17,6 @@
  *=========================================================================*/
 #include "itkLandmarkBasedTransformInitializer.h"
 #include "itkImage.h"
-#include <math.h>
 #include <iostream>
 
 template <typename TTransformInitializer>

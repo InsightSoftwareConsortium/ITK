@@ -16,8 +16,6 @@
  *
  *=========================================================================*/
 #include "itkTimeProbe.h"
-#include "itkImage.h"
-#include "itkImageRegionIterator.h"
 #include "itkImageAlgorithm.h"
 
 

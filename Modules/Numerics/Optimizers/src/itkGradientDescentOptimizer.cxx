@@ -19,9 +19,6 @@
 #define _itkGradientDescentOptimizer_hxx
 
 #include "itkGradientDescentOptimizer.h"
-#include "itkCommand.h"
-#include "itkEventObject.h"
-#include "itkMacro.h"
 
 namespace itk
 {

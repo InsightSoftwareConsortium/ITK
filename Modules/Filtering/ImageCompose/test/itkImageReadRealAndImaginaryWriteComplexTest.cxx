@@ -30,7 +30,6 @@
  *
  */
 
-#include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkComposeImageFilter.h"

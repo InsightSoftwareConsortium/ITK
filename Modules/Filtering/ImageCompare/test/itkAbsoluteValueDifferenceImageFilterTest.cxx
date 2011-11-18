@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkAbsoluteValueDifferenceImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 

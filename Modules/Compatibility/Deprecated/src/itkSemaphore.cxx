@@ -24,13 +24,6 @@ extern "C" {
 }
 #endif
 
-/// DEBUG
-extern "C" {
-#include <stdio.h>
-#include <errno.h>
-}
-///
-
 namespace itk
 {
 #ifdef __APPLE__

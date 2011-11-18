@@ -16,9 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkOtsuThresholdCalculator.h"
-#include "itkSize.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageToHistogramFilter.h"
 

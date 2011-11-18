@@ -16,13 +16,11 @@
  *
  *=========================================================================*/
 
-#include "itkHistogram.h"
 #include "itkSampleClassifierFilter.h"
 #include "itkSampleToHistogramFilter.h"
 #include "itkNeighborhoodSampler.h"
 #include "itkScalarImageToCooccurrenceListSampleFilter.h"
 #include "itkScalarImageToTextureFeaturesFilter.h"
-#include "itkWeightedMeanSampleFilter.h"
 #include "itkWeightedCovarianceSampleFilter.h"
 #include "itkImageToListSampleAdaptor.h"
 #include "itkPointSetToListSampleAdaptor.h"
@@ -33,11 +31,9 @@
 #include "itkMahalanobisDistanceMetric.h"
 #include "itkManhattanDistanceMetric.h"
 #include "itkImageClassifierFilter.h"
-#include "itkImageClassifierFilter.h"
 #include "itkKdTreeBasedKmeansEstimator.h"
 #include "itkExpectationMaximizationMixtureModelEstimator.h"
 #include "itkWeightedCentroidKdTreeGenerator.h"
-#include "itkKdTree.h"
 
 int itkStatisticsPrintTest(int , char* [])
 {

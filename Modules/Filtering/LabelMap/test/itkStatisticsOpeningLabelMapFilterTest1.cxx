@@ -19,12 +19,9 @@
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
 
-#include "itkLabelObject.h"
-#include "itkLabelMap.h"
 
 #include "itkLabelImageToStatisticsLabelMapFilter.h"
 #include "itkStatisticsOpeningLabelMapFilter.h"
-#include "itkLabelMapToLabelImageFilter.h"
 
 #include "itkTestingMacros.h"
 

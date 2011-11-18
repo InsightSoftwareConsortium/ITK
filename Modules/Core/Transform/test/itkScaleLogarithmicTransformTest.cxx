@@ -19,8 +19,6 @@
 #include <iostream>
 
 #include "itkScaleLogarithmicTransform.h"
-#include "vnl/vnl_vector_fixed.h"
-#include "itkVector.h"
 
 
 

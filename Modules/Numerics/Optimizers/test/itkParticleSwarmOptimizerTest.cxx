@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include <iostream>
-#include <cstdlib>
 #include "itkParticleSwarmOptimizer.h"
 #include "itkParticleSwarmOptimizerTestFunctions.h"
 

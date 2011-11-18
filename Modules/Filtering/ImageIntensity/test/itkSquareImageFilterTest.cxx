@@ -16,10 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkSquareImageFilter.h"
-#include "itkImageRegionIteratorWithIndex.h"
-#include "itkSubtractImageFilter.h"
 
 
 int itkSquareImageFilterTest(int, char* [] )

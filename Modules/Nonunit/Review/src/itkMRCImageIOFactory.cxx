@@ -26,7 +26,6 @@
  *
  *=========================================================================*/
 #include "itkMRCImageIOFactory.h"
-#include "itkCreateObjectFunction.h"
 #include "itkMRCImageIO.h"
 #include "itkVersion.h"
 

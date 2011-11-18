@@ -20,7 +20,6 @@
 
 
 #include "itkGradientRecursiveGaussianImageFilter.h"
-#include "itkImageRegionIteratorWithIndex.h"
 
 
 int itkGradientRecursiveGaussianFilterTest2(int, char* [] )

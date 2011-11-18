@@ -19,8 +19,6 @@
 #define _itkNumericSeriesFileNames_h
 
 
-#include <vector>
-#include <string>
 
 #include "itkNumericSeriesFileNames.h"
 #include <stdio.h>

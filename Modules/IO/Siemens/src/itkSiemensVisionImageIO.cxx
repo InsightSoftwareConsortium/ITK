@@ -17,19 +17,8 @@
  *=========================================================================*/
 #include "itkSiemensVisionImageIO.h"
 #include "itksys/SystemTools.hxx"
-#include "itkMacro.h"
-#include "itkByteSwapper.h"
-#include "itkGEImageHeader.h"
 #include <iostream>
 #include <fstream>
-#include <string.h>
-#include <limits.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <math.h>
-#include <vector>
-#include <string>
 
 //From uiig library "The University of Iowa Imaging Group-UIIG"
 

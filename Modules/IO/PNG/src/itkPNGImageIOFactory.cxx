@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include "itkPNGImageIOFactory.h"
-#include "itkCreateObjectFunction.h"
 #include "itkPNGImageIO.h"
 #include "itkVersion.h"
 

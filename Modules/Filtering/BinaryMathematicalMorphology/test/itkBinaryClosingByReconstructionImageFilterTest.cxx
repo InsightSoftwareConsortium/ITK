@@ -17,11 +17,8 @@
  *=========================================================================*/
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkCommand.h"
 #include "itkSimpleFilterWatcher.h"
 
-#include "itkLabelObject.h"
-#include "itkLabelMap.h"
 #include "itkBinaryBallStructuringElement.h"
 #include "itkBinaryClosingByReconstructionImageFilter.h"
 

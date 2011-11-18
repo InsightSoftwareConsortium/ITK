@@ -18,7 +18,6 @@
 
 #include "itkObjectStore.h"
 #include <iostream>
-#include <list>
 
 struct TestObject
 {

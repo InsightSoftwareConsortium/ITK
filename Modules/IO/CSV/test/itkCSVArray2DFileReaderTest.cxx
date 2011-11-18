@@ -17,9 +17,6 @@
  *=========================================================================*/
 
 #include "itkCSVArray2DFileReader.h"
-#include "itkCSVArray2DDataObject.h"
-#include "itkArray2D.h"
-#include <vector>
 
 const double epsilon = 1e-10;
 

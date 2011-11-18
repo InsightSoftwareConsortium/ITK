@@ -18,9 +18,7 @@
 
 //
 
-#include "itkImage.h"
 #include "itkThresholdLabelerImageFilter.h"
-#include "itkImageRegionIterator.h"
 
 int itkThresholdLabelerImageFilterTest( int, char *[] )
 {

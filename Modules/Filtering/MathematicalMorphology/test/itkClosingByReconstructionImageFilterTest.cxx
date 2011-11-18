@@ -19,7 +19,6 @@
 #include "itkClosingByReconstructionImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkImage.h"
 #include "itkBinaryBallStructuringElement.h"
 #include "itkSubtractImageFilter.h"
 

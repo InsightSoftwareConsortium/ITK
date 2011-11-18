@@ -26,7 +26,6 @@
  *
  *=========================================================================*/
 #include "itkBioRadImageIOFactory.h"
-#include "itkCreateObjectFunction.h"
 #include "itkBioRadImageIO.h"
 #include "itkVersion.h"
 

@@ -18,9 +18,7 @@
 
 #include "itkFEMElement3DC0LinearTriangular.h"
 
-#include "vnl/vnl_math.h"
 #include "vnl/algo/vnl_qr.h"
-#include "vnl/algo/vnl_svd.h"
 
 namespace itk
 {

@@ -16,8 +16,6 @@
  *
  *=========================================================================*/
 #include "itkExhaustiveOptimizer.h"
-#include "itkCommand.h"
-#include "itkEventObject.h"
 
 namespace itk
 {

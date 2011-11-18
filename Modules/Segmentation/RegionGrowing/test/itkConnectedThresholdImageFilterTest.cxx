@@ -20,8 +20,6 @@
 #include "itkConnectedThresholdImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkPNGImageIO.h"
-#include "itkImageRegionIterator.h"
 #include "itkFilterWatcher.h"
 
 int itkConnectedThresholdImageFilterTest(int ac, char* av[] )

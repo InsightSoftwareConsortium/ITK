@@ -16,9 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkConfigure.h"
 #include "itkMultiThreader.h"
-#include <stdlib.h>
 
 bool VerifyRange(int value, int min, int max, const char * msg)
 {

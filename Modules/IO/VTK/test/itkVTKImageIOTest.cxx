@@ -21,7 +21,6 @@
 #include "itkVTKImageIO.h"
 #include "itkRandomImageSource.h"
 
-#include <cstring>
 #include <fstream>
 #include <iostream>
 

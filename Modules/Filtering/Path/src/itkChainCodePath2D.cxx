@@ -16,9 +16,7 @@
  *
  *=========================================================================*/
 #include "itkChainCodePath2D.h"
-#include "itkNumericTraits.h"
 
-#include <string>
 
 namespace itk
 {

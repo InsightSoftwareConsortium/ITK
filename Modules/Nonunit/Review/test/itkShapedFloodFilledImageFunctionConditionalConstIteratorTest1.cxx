@@ -20,8 +20,6 @@
 
 #include "itkImageFileReader.h"
 #include "itkBinaryThresholdImageFunction.h"
-#include "itkImageLinearIteratorWithIndex.h"
-#include "itkFloodFilledImageFunctionConditionalConstIterator.h"
 
 #include "itkShapedFloodFilledImageFunctionConditionalConstIterator.h"
 

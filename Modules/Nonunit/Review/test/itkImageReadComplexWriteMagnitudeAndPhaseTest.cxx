@@ -31,7 +31,6 @@
  */
 
 // Software Guide : BeginCodeSnippet
-#include "itkImage.h"
 #include "itkComplexToModulusImageFilter.h"
 #include "itkComplexToPhaseImageFilter.h"
 // Software Guide : EndCodeSnippet

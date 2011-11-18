@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include "itkBioGene.h"
-#include <algorithm>
 
 namespace itk
 {

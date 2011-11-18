@@ -20,7 +20,6 @@
 
 #include "itkQuaternionRigidTransformGradientDescentOptimizer.h"
 #include "vnl/vnl_quaternion.h"
-#include "itkEventObject.h"
 
 namespace itk
 {

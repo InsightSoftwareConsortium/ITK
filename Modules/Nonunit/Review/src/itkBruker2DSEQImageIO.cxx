@@ -17,16 +17,10 @@
  *=========================================================================*/
 #include "itkBruker2DSEQImageIO.h"
 #include "itkIOCommon.h"
-#include "itkExceptionObject.h"
 #include "itkByteSwapper.h"
 #include "itkMetaDataObject.h"
 #include "itksys/SystemTools.hxx"
 #include <fstream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <vector>
-#include <algorithm>
-#include <locale>
 
 /**
  * \author Don C. Bigler

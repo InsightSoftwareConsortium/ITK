@@ -26,7 +26,6 @@
 
 #include "itkRegularSphereMeshSource.h"
 #include "itkDefaultDynamicMeshTraits.h"
-#include "itkImage.h"
 #include "itkImageFileWriter.h"
 #include "itkTriangleMeshToBinaryImageFilter.h"
 

@@ -19,10 +19,7 @@
 #define __itkCSVFileReaderBase_cxx
 
 #include "itkCSVFileReaderBase.h"
-#include "itksys/SystemTools.hxx"
-#include "itkSize.h"
 
-#include <vcl_limits.h>
 #include <fstream>
 
 namespace itk

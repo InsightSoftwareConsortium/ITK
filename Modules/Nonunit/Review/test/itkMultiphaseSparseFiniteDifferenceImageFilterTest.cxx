@@ -18,8 +18,6 @@
 
 #include "itkMultiphaseSparseFiniteDifferenceImageFilter.h"
 #include "itkScalarChanAndVeseLevelSetFunction.h"
-#include "itkImage.h"
-#include "itkTestingMacros.h"
 
 namespace itk
 {

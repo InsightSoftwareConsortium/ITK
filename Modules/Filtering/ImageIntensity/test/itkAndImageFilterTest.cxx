@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkAndImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 

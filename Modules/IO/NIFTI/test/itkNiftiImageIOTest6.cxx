@@ -16,8 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itksys/SystemTools.hxx"
-#include "itkNiftiImageIO.h"
 #include "itkNiftiImageIOTest.h"
 
 int itkNiftiImageIOTest6(int ac, char *av[])

@@ -19,8 +19,6 @@
 #include "itkRegularSphereMeshSource.h"
 #include "itkTriangleMeshToSimplexMeshFilter.h"
 #include "itkSimplexMeshToTriangleMeshFilter.h"
-#include "itkDefaultDynamicMeshTraits.h"
-#include "itkDefaultStaticMeshTraits.h"
 
 int itkSimplexMeshToTriangleMeshFilterTest( int , char * [] )
 {

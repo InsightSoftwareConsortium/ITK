@@ -17,8 +17,6 @@
  *=========================================================================*/
 
 #include <iostream>
-#include <math.h>
-#include "itkImage.h"
 #include "itkImageRegionIterator.h"
 #include "itkPolyLineParametricPath.h"
 #include "itkPathFunctions.h"

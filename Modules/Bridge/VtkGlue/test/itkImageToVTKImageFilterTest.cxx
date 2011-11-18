@@ -18,7 +18,6 @@
 
 #include "itkImageToVTKImageFilter.h"
 
-#include "itkImage.h"
 #include "itkRandomImageSource.h"
 
 int itkImageToVTKImageFilterTest(int, char *[])

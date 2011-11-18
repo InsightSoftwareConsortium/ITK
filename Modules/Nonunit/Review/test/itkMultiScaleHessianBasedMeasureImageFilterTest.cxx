@@ -20,7 +20,6 @@
 #include "itkMultiScaleHessianBasedMeasureImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkImage.h"
 
 int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
 {

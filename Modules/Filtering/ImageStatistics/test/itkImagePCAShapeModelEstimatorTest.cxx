@@ -17,9 +17,6 @@
  *=========================================================================*/
 
 // Insight classes
-#include "itkVector.h"
-#include "vnl/vnl_matrix_fixed.h"
-#include "vnl/vnl_math.h"
 #include "itkLightProcessObject.h"
 #include "itkTextOutput.h"
 

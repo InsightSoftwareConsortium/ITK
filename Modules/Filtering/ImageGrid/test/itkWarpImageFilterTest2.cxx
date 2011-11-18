@@ -16,8 +16,6 @@
  *
  *=========================================================================*/
 #include <iostream>
-#include <string>
-#include <math.h>
 #include "itkWarpImageFilter.h"
 #include "itkStreamingImageFilter.h"
 

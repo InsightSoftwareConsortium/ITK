@@ -16,12 +16,9 @@
  *
  *=========================================================================*/
 
-#include "itkVector.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
 #include "itkListSample.h"
-#include "itkKdTree.h"
 #include "itkWeightedCentroidKdTreeGenerator.h"
-#include "itkVariableLengthVector.h"
 #include <fstream>
 
 //Testing the weighed centroid Kd tree generator using varaiable length vector

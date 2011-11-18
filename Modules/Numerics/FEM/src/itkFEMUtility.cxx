@@ -17,12 +17,6 @@
  *=========================================================================*/
 
 #include "itkFEMUtility.h"
-#include "itkMetaFEMObjectConverter.h"
-#include "itkMacro.h"
-#include "metaObject.h"
-#include "metaFEMObject.h"
-#include "itkFEMObjectSpatialObject.h"
-#include "itkSpatialObject.h"
 
 namespace itk
 {

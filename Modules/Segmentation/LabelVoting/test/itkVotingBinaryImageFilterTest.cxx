@@ -16,12 +16,10 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkRandomImageSource.h"
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkVotingBinaryImageFilter.h"
 #include "itkTextOutput.h"
-#include "itkImageRegionIterator.h"
 
 
 int itkVotingBinaryImageFilterTest(int, char* [] )

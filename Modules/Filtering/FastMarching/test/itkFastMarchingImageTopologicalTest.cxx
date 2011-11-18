@@ -16,16 +16,12 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkFastMarchingImageFilterBase.h"
 #include "itkFastMarchingThresholdStoppingCriterion.h"
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkImageRegionIterator.h"
-#include "itkImageRegionIteratorWithIndex.h"
 #include "itkLabelContourImageFilter.h"
-#include "itkRescaleIntensityImageFilter.h"
 
 
 template <unsigned int VDimension>

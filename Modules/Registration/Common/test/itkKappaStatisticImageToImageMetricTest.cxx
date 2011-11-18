@@ -17,10 +17,7 @@
  *=========================================================================*/
 
 #include "itkKappaStatisticImageToImageMetric.h"
-#include "itkImage.h"
-#include "itkImageRegionIterator.h"
 #include "itkNearestNeighborInterpolateImageFunction.h"
-#include "itkImageRegionIteratorWithIndex.h"
 #include "itkTranslationTransform.h"
 
 /**

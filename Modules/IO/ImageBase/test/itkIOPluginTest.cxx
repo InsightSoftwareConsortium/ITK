@@ -16,11 +16,8 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itksys/SystemTools.hxx"
-#include <string>
 
 int itkIOPluginTest(int argc, char *argv[])
 {

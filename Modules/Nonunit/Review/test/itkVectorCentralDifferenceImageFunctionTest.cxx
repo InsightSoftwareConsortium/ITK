@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkVectorCentralDifferenceImageFunction.h"
-#include "itkImage.h"
 #include "itkImageRegionIterator.h"
 
 int itkVectorCentralDifferenceImageFunctionTest(int, char* [] )

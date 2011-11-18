@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkGaussianBlurImageFunction.h"
-#include "itkImage.h"
 
 int itkGaussianBlurImageFunctionTest(int, char* [] )
 {

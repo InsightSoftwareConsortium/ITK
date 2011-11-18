@@ -27,17 +27,12 @@
 #include "itkPhilipsRECImageIO.h"
 #include "itkPhilipsPAR.h"
 #include "itkIOCommon.h"
-#include "itkExceptionObject.h"
 #include "itkByteSwapper.h"
 #include "itkMetaDataObject.h"
 #include "itkSpatialOrientationAdapter.h"
 #include "itksys/SystemTools.hxx"
 #include "itk_zlib.h"
-#include "vnl/vnl_math.h"
 #include <fstream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <vector>
 
 namespace itk
 {

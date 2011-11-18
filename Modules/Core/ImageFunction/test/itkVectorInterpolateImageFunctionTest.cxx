@@ -17,8 +17,6 @@
  *=========================================================================*/
 
 #include <iostream>
-#include "itkImage.h"
-#include "itkVector.h"
 #include "itkVectorLinearInterpolateImageFunction.h"
 #include "itkImageRegionIteratorWithIndex.h"
 

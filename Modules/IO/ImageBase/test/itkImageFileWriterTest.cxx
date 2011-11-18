@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkImageFileWriter.h"
 
 int itkImageFileWriterTest(int ac, char* av[])

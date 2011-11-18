@@ -18,10 +18,8 @@
 
 
 #include <iostream>
-#include <cstdlib>
 #include "itkInitializationBiasedParticleSwarmOptimizer.h"
 #include "itkParticleSwarmOptimizerTestFunctions.h"
-#include "itkMersenneTwisterRandomVariateGenerator.h"
 
 typedef  itk::InitializationBiasedParticleSwarmOptimizer OptimizerType;
 static OptimizerType::RandomVariateGeneratorType::IntegerType seedOffset = 0;

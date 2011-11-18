@@ -17,13 +17,8 @@
  *=========================================================================*/
 
 #include "itkHoughTransform2DLinesImageFilter.h"
-#include "itkImageRegionIterator.h"
 #include "itkThresholdImageFilter.h"
-#include "itkMinimumMaximumImageCalculator.h"
 #include "itkGradientMagnitudeImageFilter.h"
-#include "itkDiscreteGaussianImageFilter.h"
-#include "itkCastImageFilter.h"
-#include <list>
 
 /**
  * This program looks for straight lines whithin an image

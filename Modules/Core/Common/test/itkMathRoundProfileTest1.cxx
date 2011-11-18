@@ -16,10 +16,8 @@
  *
  *=========================================================================*/
 
-#include "itkMath.h"
 #include "itkTimeProbesCollectorBase.h"
 #include "itkMath.h"
-#include <math.h>
 
 int itkMathRoundTestHelperFunction( double x )
 {

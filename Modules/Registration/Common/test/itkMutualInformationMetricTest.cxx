@@ -17,10 +17,7 @@
  *=========================================================================*/
 
 #include "itkMutualInformationImageToImageMetric.h"
-#include "itkImage.h"
-#include "itkImageRegionIterator.h"
 
-#include "itkAffineTransform.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkTimeProbesCollectorBase.h"
 

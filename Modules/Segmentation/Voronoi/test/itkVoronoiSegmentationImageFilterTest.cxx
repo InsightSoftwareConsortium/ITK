@@ -17,10 +17,6 @@
  *=========================================================================*/
 
 #include "itkVoronoiSegmentationImageFilter.h"
-#include "itkImageRegionIteratorWithIndex.h"
-#include "itkImage.h"
-#include "vnl/vnl_sample.h"
-#include <stdio.h>
 
 int itkVoronoiSegmentationImageFilterTest(int, char* [] ){
   const int WIDTH = 256;

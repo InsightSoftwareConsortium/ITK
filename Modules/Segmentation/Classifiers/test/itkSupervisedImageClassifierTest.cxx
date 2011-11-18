@@ -16,10 +16,6 @@
  *
  *=========================================================================*/
 // Insight classes
-#include "itkImage.h"
-#include "itkVector.h"
-#include "vnl/vnl_matrix_fixed.h"
-#include "itkLightProcessObject.h"
 
 #include "itkImageGaussianModelEstimator.h"
 #include "itkMahalanobisDistanceMembershipFunction.h"

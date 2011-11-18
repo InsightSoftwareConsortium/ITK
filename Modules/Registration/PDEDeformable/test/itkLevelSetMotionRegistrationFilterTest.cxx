@@ -18,14 +18,10 @@
 
 #include "itkLevelSetMotionRegistrationFilter.h"
 
-#include "itkIndex.h"
-#include "itkImageRegionIteratorWithIndex.h"
 #include "itkWarpImageFilter.h"
 #include "itkNearestNeighborInterpolateImageFunction.h"
-#include "vnl/vnl_math.h"
 #include "itkVectorCastImageFilter.h"
 #include "itkImageFileWriter.h"
-#include "itkSmoothingRecursiveGaussianImageFilter.h"
 
 
 namespace{

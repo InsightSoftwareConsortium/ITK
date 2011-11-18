@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkGaussianDerivativeImageFunction.h"
-#include "itkImage.h"
 
 int itkGaussianDerivativeImageFunctionTest(int, char* [] )
 {

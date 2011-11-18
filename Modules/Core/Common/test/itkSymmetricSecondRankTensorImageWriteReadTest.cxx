@@ -19,9 +19,6 @@
 #include <fstream>
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkImage.h"
-#include "itkSymmetricSecondRankTensor.h"
-#include "itkImageRegionIterator.h"
 
 
 // Write a 2D SymmetricSecondRankTensor image to file and read it back again.

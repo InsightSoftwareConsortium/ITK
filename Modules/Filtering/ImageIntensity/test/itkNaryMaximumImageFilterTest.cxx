@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkNaryMaximumImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 

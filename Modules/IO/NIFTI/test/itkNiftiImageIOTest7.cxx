@@ -16,8 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itksys/SystemTools.hxx"
-#include "itkNiftiImageIO.h"
 #include "itkNiftiImageIOTest.h"
 
 /** Test writing and reading a Vector Image

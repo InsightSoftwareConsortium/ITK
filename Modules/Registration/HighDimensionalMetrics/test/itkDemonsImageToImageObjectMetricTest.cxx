@@ -15,14 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkImageFileReader.h"
-#include "itkImageFileWriter.h"
-#include "itkImage.h"
-#include "itkVector.h"
 #include "itkDemonsImageToImageObjectMetric.h"
-#include "itkIdentityTransform.h"
-#include "itkDisplacementFieldTransform.h"
-#include "itkCompositeTransform.h"
 #include "itkTranslationTransform.h"
 
 //FIXME We need these as long as we have to define ImageToData and

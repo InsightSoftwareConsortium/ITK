@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include <algorithm>
-#include "itkMersenneTwisterRandomVariateGenerator.h"
 #include "itkParticleSwarmOptimizerBase.h"
 
 namespace itk

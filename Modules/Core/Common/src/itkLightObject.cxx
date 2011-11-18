@@ -15,12 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkLightObject.h"
 #include "itkFastMutexLock.h"
 
-#include <list>
-#include <memory>
-#include <exception>
 
 // Better name demanging for gcc
 #if __GNUC__ > 3 || ( __GNUC__ == 3 && __GNUC_MINOR__ > 0 )

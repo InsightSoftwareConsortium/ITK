@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include "itkGradientDescentObjectOptimizerBase.h"
-#include "itkObjectToObjectMetric.h"
 #include "itkImage.h"
 #include "itkTestingMacros.h"
 

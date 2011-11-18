@@ -18,10 +18,8 @@
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkImage.h"
 
 #include "itkBruker2DSEQImageIOFactory.h"
-#include "itkBruker2DSEQImageIO.h"
 
 int itkBruker2DSEQImageIOTest( int argc, char * argv [] )
 {

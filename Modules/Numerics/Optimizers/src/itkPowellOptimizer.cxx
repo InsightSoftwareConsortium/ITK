@@ -19,7 +19,6 @@
 #define _itkPowellOptimizer_cxx
 
 #include "itkPowellOptimizer.h"
-#include "vnl/vnl_math.h"
 
 namespace itk
 {

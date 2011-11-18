@@ -21,11 +21,7 @@ This file test the various inclusion strategies available
 to itkFloodFilledSpatialFunctionConditionalIterator.
 */
 
-#include <stdio.h>
 
-#include "itkSize.h"
-#include "itkIndex.h"
-#include "itkImage.h"
 #include "itkImageRegionIterator.h"
 #include "itkSphereSpatialFunction.h"
 #include "itkFloodFilledSpatialFunctionConditionalIterator.h"

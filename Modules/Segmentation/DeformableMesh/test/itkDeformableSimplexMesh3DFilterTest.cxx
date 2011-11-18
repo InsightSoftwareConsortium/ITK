@@ -16,9 +16,7 @@
  *
  *=========================================================================*/
 
-#include <math.h>
 #include <iostream>
-#include <time.h>
 
 #include "itkRegularSphereMeshSource.h"
 #include "itkDefaultDynamicMeshTraits.h"
@@ -29,7 +27,6 @@
 #include "itkSigmoidImageFilter.h"
 #include "itkTriangleMeshToSimplexMeshFilter.h"
 #include "itkSimplexMeshVolumeCalculator.h"
-#include "itkTimeProbe.h"
 
 int itkDeformableSimplexMesh3DFilterTest(int , char * [] )
 {

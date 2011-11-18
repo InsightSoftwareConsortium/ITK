@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkTileImageFilter.h"
-#include "itkRGBPixel.h"
 #include "itkImageFileReader.h"
 #include "itkImageSeriesWriter.h"
 

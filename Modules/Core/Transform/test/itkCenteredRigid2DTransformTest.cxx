@@ -19,8 +19,6 @@
 #include <iostream>
 
 #include "itkCenteredRigid2DTransform.h"
-#include "vnl/vnl_vector_fixed.h"
-#include "itkVector.h"
 
 
 namespace

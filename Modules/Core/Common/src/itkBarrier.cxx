@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include "itkBarrier.h"
-#include "itkMacro.h"
 
 namespace itk
 {

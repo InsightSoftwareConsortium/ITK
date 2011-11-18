@@ -18,10 +18,8 @@
 
 #include <iostream>
 #include <time.h>
-#include "itkImage.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
-#include "itkVector.h"
 
 void AdaptorSupportedIteratorSpeed(itk::Image<float, 3> *img)
 {

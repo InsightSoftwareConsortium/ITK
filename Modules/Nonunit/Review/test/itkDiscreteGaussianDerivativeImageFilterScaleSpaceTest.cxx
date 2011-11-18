@@ -17,10 +17,7 @@
  *=========================================================================*/
 // Disable warning for long symbol names in this file only
 
-#include "itkImage.h"
 #include "itkDiscreteGaussianDerivativeImageFilter.h"
-#include "itkImageRegionIteratorWithIndex.h"
-#include "itkImageRegionIterator.h"
 
 namespace
 {

@@ -17,8 +17,6 @@
  *=========================================================================*/
 #include "itkFloatingPointExceptions.h"
 #include <iostream>
-#include <sstream>
-#include <cstring>
 
 //
 // invariant over all targets -- set a preference for what
@@ -56,7 +54,6 @@ http://graphviz.sourcearchive.com/documentation/2.16/gvrender__pango_8c-source.h
 /* END quote */
 #endif // LINUX
 
-#include <float.h>
 
 #ifdef ITK_HAVE_FENV_H
 #include <stdio.h> // needed on Solaris
@@ -255,7 +252,6 @@ typedef union {
 #endif  // DEFINED_INTEL
 
 #include <signal.h>
-#include <stdlib.h>  // abort(), exit()
 
 
 static const char *fe_code_name[] = {

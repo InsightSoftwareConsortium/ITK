@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include "itkGiplImageIOFactory.h"
-#include "itkCreateObjectFunction.h"
 #include "itkGiplImageIO.h"
 #include "itkVersion.h"
 

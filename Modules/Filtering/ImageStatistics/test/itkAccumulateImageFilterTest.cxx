@@ -17,12 +17,10 @@
  *=========================================================================*/
 
 #include "itkAccumulateImageFilter.h"
-#include "itkRGBPixel.h"
 #include "itkImageSeriesReader.h"
 #include "itkImageSeriesWriter.h"
 #include "itkGDCMImageIO.h"
 #include "itkGDCMSeriesFileNames.h"
-#include "itksys/SystemTools.hxx"
 
 int itkAccumulateImageFilterTest(int argc, char *argv[] )
 {

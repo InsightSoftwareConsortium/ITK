@@ -15,8 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkVector.h"
-#include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkImageLinearIteratorWithIndex.h"

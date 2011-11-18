@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include <stdio.h>
 #include <fstream>
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"

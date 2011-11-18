@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkCreateObjectFunction.h"
 #include "itkFreeSurferAsciiMeshIO.h"
 #include "itkFreeSurferAsciiMeshIOFactory.h"
 #include "itkVersion.h"

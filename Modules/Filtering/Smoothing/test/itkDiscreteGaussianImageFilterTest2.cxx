@@ -23,8 +23,6 @@
 #include <iostream>
 
 #include "itkDiscreteGaussianImageFilter.h"
-#include "itkVector.h"
-#include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 

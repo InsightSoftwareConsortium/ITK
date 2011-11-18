@@ -16,8 +16,6 @@
  *
  *=========================================================================*/
 
-#include <stdio.h>
-#include <ctype.h>
 #include <metaBlob.h>
 #include <cstdlib>
 #include "itksys/SystemTools.hxx"

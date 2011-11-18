@@ -17,10 +17,6 @@
  *=========================================================================*/
 
 #include "itkImageFileReader.h"
-#include "itkRGBPixel.h"
-#include "itkRGBAPixel.h"
-#include "itkConvertPixelBuffer.h"
-#include "itkImage.h"
 #include <iostream>
 
 int itkConvertBufferTest2(int, char* [])

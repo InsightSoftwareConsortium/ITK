@@ -19,10 +19,7 @@
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
 
-#include "itkLabelObject.h"
-#include "itkShapeLabelObject.h"
 #include "itkShapeLabelObjectAccessors.h"
-#include "itkLabelMap.h"
 
 #include "itkLabelImageToShapeLabelMapFilter.h"
 #include "itkLabelMapToAttributeImageFilter.h"

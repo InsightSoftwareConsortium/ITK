@@ -16,8 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
-#include "itkVector.h"
 #include "itkGridForwardWarpImageFilter.h"
 
 

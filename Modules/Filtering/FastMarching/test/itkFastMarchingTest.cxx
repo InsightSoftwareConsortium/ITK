@@ -17,12 +17,9 @@
  *=========================================================================*/
 
 #include "itkFastMarchingImageFilter.h"
-#include "itkImage.h"
-#include "itkImageRegionIterator.h"
 #include "itkTextOutput.h"
 #include "itkCommand.h"
 
-#include "vnl/vnl_math.h"
 
 namespace{
 // The following class is used to support callbacks

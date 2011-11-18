@@ -19,7 +19,6 @@
 #include <iostream>
 #include "itkImageFileWriter.h"
 #include "itkNarrowBandImageFilterBase.h"
-#include "itkCastImageFilter.h"
 #include "itkCurvatureFlowFunction.h"
 #include "itkRandomImageSource.h"
 #include "itkAddImageFilter.h"

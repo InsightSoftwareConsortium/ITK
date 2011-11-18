@@ -21,7 +21,6 @@
 
 #include "itkLabelImageToShapeLabelMapFilter.h"
 #include "itkShapePositionLabelMapFilter.h"
-#include "itkLabelMapToLabelImageFilter.h"
 
 
 int itkShapePositionLabelMapFilterTest1(int argc, char * argv[])

@@ -19,9 +19,7 @@
 #include "itkOpeningByReconstructionImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkImage.h"
 #include "itkBinaryBallStructuringElement.h"
-#include "itkSubtractImageFilter.h"
 #include "itkSimpleFilterWatcher.h"
 
 int itkOpeningByReconstructionImageFilterTest(int argc, char* argv [] )

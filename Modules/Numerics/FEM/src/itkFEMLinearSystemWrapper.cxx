@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkFEMLinearSystemWrapper.h"
-#include <vector>
 
 namespace itk
 {

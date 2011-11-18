@@ -16,11 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkMultiThreader.h"
-#include "itkMetaDataObject.h"
-#include "itkImage.h"
 #include "itkOrientImageFilter.h"
-#include "itkImageRegionIterator.h"
 #include "vnl/vnl_sample.h"
 
 typedef itk::Image<unsigned int,3> ImageType;

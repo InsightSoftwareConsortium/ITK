@@ -19,9 +19,6 @@
 #define _itkRegularExpressionSeriesFileNames_cxx
 
 
-#include <vector>
-#include <string.h>
-#include <stdlib.h>
 #include <algorithm>
 
 #include "itksys/SystemTools.hxx"

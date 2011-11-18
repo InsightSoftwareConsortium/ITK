@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkFEMElement2DC0LinearQuadrilateral.h"
-#include "vnl/vnl_math.h"
 
 namespace itk
 {

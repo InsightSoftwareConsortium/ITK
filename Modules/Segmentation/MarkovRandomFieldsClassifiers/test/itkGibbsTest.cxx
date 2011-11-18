@@ -16,22 +16,14 @@
  *
  *=========================================================================*/
 #include <iostream>
-#include <string>
-#include <math.h>
 
 
 #include "itkRGBGibbsPriorFilter.h"
 
-#include "itkImageClassifierBase.h"
 #include "itkImageGaussianModelEstimator.h"
 #include "itkMahalanobisDistanceMembershipFunction.h"
 #include "itkMinimumDecisionRule.h"
 
-#include "itkSize.h"
-#include "itkVector.h"
-#include "vnl/vnl_matrix_fixed.h"
-#include "itkConstNeighborhoodIterator.h"
-#include "itkNeighborhoodAlgorithm.h"
 
 int itkGibbsTest(int, char*[] )
 //int main()

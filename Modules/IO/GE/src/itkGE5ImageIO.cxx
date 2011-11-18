@@ -16,24 +16,13 @@
  *
  *=========================================================================*/
 #include "itkGE5ImageIO.h"
-#include "itkMacro.h"
 #include "itkByteSwapper.h"
-#include "itkDirectory.h"
 #include "itksys/SystemTools.hxx"
 #include <iostream>
 #include <fstream>
-#include <string.h>
-#include <limits.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <vector>
-#include <string>
 
-#include "vnl/vnl_vector.h"
-#include "vnl/vnl_matrix.h"
 #include "vnl/vnl_cross.h"
 
-#include "itkGEImageHeader.h"
 
 //From uiig library "The University of Iowa Imaging Group-UIIG"
 

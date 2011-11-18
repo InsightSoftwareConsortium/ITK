@@ -18,13 +18,7 @@
 
 
 #include "itkFEMSolver.h"
-#include "itkFEMObject.h"
-#include "itkFEMObjectSpatialObject.h"
-#include "itkGroupSpatialObject.h"
-#include "itkSpatialObject.h"
-#include "itkFEMSpatialObjectReader.h"
 #include "itkFEMSpatialObjectWriter.h"
-#include "itkFEMFactoryBase.h"
 #include "itkFEMElement2DC0LinearQuadrilateralStress.h"
 
 int itkFEMElement2DC0LinearQuadrilateralStressTest(int argc, char *argv[])

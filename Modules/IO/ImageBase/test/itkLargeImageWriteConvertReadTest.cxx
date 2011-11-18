@@ -16,10 +16,8 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkImageFileWriter.h"
 #include "itkImageFileReader.h"
-#include "itkImageRegionIterator.h"
 #include "itkTimeProbesCollectorBase.h"
 
 int itkLargeImageWriteConvertReadTest(int ac, char* av[])

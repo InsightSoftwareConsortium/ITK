@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkFEMElement2DC0LinearQuadrilateralStrain.h"
-#include "itkFEMElementBase.h"
 
 #include <iostream>
 

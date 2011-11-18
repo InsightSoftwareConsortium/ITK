@@ -19,7 +19,6 @@
 #include "itkMeshFileReader.h"
 #include "itkMeshFileWriter.h"
 #include "itkConformalFlatteningMeshFilter.h"
-#include <stdlib.h>
 
 int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
 {

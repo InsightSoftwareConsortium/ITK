@@ -16,11 +16,8 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
-#include "itkImageRegionIterator.h"
 #include "itkTranslationTransform.h"
 #include "itkLinearInterpolateImageFunction.h"
-#include "itkMath.h"
 #include "itkMeanSquaresImageToImageMetric.h"
 #include "itkGaussianImageSource.h"
 

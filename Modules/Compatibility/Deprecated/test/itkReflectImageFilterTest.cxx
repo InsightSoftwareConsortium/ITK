@@ -16,10 +16,8 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkReflectImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkImageLinearIteratorWithIndex.h"
 
 
 int itkReflectImageFilterTest(int, char* [] )

@@ -18,17 +18,9 @@
 
 #include "itkArray.h"
 #include "itkDICOMImageIO2.h"
-#include "itkByteSwapper.h"
 #include "itkMetaDataObject.h"
 
 #include <iostream>
-#include <list>
-
-#include <math.h>
-#include <stdio.h>
-#include <string.h>
-
-#include "DICOMCallback.h"
 
 namespace itk
 {

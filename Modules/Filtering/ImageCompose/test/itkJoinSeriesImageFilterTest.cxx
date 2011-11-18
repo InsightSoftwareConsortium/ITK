@@ -16,16 +16,11 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 
 #include "itkJoinSeriesImageFilter.h"
-#include "itkImageRegionIterator.h"
 #include "itkStreamingImageFilter.h"
-#include "itkCommand.h"
-#include "itkFileOutputWindow.h"
 
 #include <iostream>
-#include <vector>
 
 class ShowProgressObject
 {

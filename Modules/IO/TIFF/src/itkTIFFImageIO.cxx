@@ -17,12 +17,7 @@
  *=========================================================================*/
 
 #include "itkTIFFImageIO.h"
-#include "itkRGBPixel.h"
-#include "itkRGBAPixel.h"
 #include "itksys/SystemTools.hxx"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 #include <sys/stat.h>
 

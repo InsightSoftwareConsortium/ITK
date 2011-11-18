@@ -16,17 +16,11 @@
  *
  *=========================================================================*/
 
-#include <complex>
-#include <cstdlib>
 #include <iostream>
 
 #include "itkChangeInformationImageFilter.h"
 #include "itkHalfToFullHermitianImageFilter.h"
 #include "itkFullToHalfHermitianImageFilter.h"
-#include "itkImage.h"
-#include "itkImageFileReader.h"
-#include "itkImageRegion.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkRandomImageSource.h"
 #include "itkRealToHalfHermitianForwardFFTImageFilter.h"
 

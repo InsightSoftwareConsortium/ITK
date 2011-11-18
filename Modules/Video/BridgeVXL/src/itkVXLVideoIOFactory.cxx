@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include "itkVXLVideoIOFactory.h"
-#include "itkCreateObjectFunction.h"
 #include "itkVXLVideoIO.h"
 #include "itkVersion.h"
 

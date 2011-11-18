@@ -18,7 +18,6 @@
 
 #include "itkFastMarchingImageFilterBase.h"
 #include "itkFastMarchingThresholdStoppingCriterion.h"
-#include "itkImage.h"
 
 template< unsigned int VDimension >
 int FastMarchingImageFilterBase( )

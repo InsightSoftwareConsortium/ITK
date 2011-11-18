@@ -15,9 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkObjectToObjectMetric.h"
 #include "itkGradientDescentObjectOptimizer.h"
-#include "vnl/vnl_math.h"
 
 /* Cribbed from itkGradientDescentOptimizerTest */
 

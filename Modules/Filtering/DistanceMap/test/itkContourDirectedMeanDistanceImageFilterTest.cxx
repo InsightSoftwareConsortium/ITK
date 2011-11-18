@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkContourDirectedMeanDistanceImageFilter.h"
-#include "itkImageRegionIterator.h"
 #include "itkFilterWatcher.h"
 
 int itkContourDirectedMeanDistanceImageFilterTest(int, char* [] )

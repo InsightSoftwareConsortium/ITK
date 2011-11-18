@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include "itkGE4ImageIOFactory.h"
-#include "itkCreateObjectFunction.h"
 #include "itkGE4ImageIO.h"
 #include "itkVersion.h"
 

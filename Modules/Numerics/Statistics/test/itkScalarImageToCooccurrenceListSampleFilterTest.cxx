@@ -16,11 +16,8 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 
-#include "itkImageFileReader.h"
 #include "itkScalarImageToCooccurrenceListSampleFilter.h"
-#include <vector>
 
 int itkScalarImageToCooccurrenceListSampleFilterTest( int , char *[] )
 {

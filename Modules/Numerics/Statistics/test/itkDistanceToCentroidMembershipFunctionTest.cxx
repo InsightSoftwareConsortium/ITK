@@ -18,8 +18,6 @@
 
 #include <iostream>
 #include "itkDistanceToCentroidMembershipFunction.h"
-#include "itkObjectFactory.h"
-#include "itkEuclideanDistanceMetric.h"
 
 int itkDistanceToCentroidMembershipFunctionTest(int, char* [] )
 {

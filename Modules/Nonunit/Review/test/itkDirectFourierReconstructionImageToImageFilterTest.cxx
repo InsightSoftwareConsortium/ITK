@@ -21,7 +21,6 @@
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkRegionOfInterestImageFilter.h"
 #include "itkImageFileWriter.h"
-#include "itkCommand.h"
 
 #include "itkDirectFourierReconstructionImageToImageFilter.h"
 

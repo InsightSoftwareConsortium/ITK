@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkVariableLengthVector.h"
 #include "itkListSample.h"
 #include "itkSampleClassifierFilter.h"
 #include "itkMaximumDecisionRule.h"

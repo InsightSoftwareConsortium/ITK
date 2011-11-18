@@ -17,9 +17,6 @@
  *=========================================================================*/
 
 #include "itkNarrowBandThresholdSegmentationLevelSetImageFilter.h"
-#include "itkCastImageFilter.h"
-#include "itkCommand.h"
-#include "itkEventObject.h"
 
 namespace NBTS {
 

@@ -25,9 +25,7 @@
 */
 
 
-#include "itkImage.h"
 #include "itkImageRegionIterator.h"
-#include "itkAffineTransform.h"
 
 #include "itkImageMaskSpatialObject.h"
 

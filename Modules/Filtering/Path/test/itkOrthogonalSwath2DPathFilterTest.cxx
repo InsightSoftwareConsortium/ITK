@@ -22,7 +22,6 @@
 #include "itkPathToChainCodePathFilter.h"
 #include "itkChainCodeToFourierSeriesPathFilter.h"
 
-#include "itkImageRegionIterator.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkDiscreteGaussianImageFilter.h"
 #include "itkExtractOrthogonalSwath2DImageFilter.h"
@@ -31,7 +30,6 @@
 #include "itkOrthogonalSwath2DPathFilter.h"
 
 #include "itkPathToImageFilter.h"
-#include "itkImageFileWriter.h"
 
 
 int itkOrthogonalSwath2DPathFilterTest(int, char*[])

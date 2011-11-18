@@ -19,8 +19,6 @@
 #include <iostream>
 
 #include "itkEuler3DTransform.h"
-#include "vnl/vnl_vector_fixed.h"
-#include "itkVector.h"
 
 int itkEuler3DTransformTest(int, char *[] )
 {

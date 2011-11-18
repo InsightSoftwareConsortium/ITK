@@ -17,19 +17,10 @@
  *=========================================================================*/
 #include "itkVersion.h"
 #include "itkHDF5ImageIO.h"
-#include "itkIOCommon.h"
-#include "itkByteSwapper.h"
-#include "itkMetaDataDictionary.h"
 #include "itkMetaDataObject.h"
 #include "itkArray.h"
-#include "itkNumericTraits.h"
 #include "itksys/SystemTools.hxx"
 #include "itk_H5Cpp.h"
-#include "itk_hdf5.h"
-#include <typeinfo>
-#include <stdio.h>
-#include <stdlib.h>
-#include <vector>
 
 namespace itk
 {

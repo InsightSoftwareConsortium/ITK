@@ -19,7 +19,6 @@
 #include <iostream>
 #include "itkSample.h"
 #include "itkObjectFactory.h"
-#include "itkVariableLengthVector.h"
 
 namespace itk {
 namespace Statistics {

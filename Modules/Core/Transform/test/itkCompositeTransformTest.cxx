@@ -20,7 +20,6 @@
 
 #include "itkAffineTransform.h"
 #include "itkCompositeTransform.h"
-#include "itkArray2D.h"
 
 namespace
 {

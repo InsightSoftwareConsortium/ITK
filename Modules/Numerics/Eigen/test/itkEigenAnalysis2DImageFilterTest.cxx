@@ -16,10 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkImage.h"
 #include "itkEigenAnalysis2DImageFilter.h"
-#include "itkImageRegionIteratorWithIndex.h"
-#include "itkCovariantVector.h"
 #include "itkFilterWatcher.h"
 
 

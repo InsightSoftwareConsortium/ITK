@@ -16,16 +16,12 @@
  *
  *=========================================================================*/
 
-#include <vector>
-#include "itkVariableLengthVector.h"
 #include "itkListSample.h"
 #include "itkSampleClassifierFilter.h"
 #include "itkMinimumDecisionRule.h"
 #include "itkNormalVariateGenerator.h"
-#include "itkKdTree.h"
 #include "itkKdTreeBasedKmeansEstimator.h"
 #include "itkWeightedCentroidKdTreeGenerator.h"
-#include "itkNumericTraitsStdVector.h"
 
 
 //run sample classifer using std::vector type measurment vector

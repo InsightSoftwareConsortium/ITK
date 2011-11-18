@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 // Insight classes
-#include "vnl/vnl_math.h"
 
 #include "itkHistogramToTextureFeaturesFilter.h"
 

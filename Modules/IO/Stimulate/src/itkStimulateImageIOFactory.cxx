@@ -26,7 +26,6 @@
  *
  *=========================================================================*/
 #include "itkStimulateImageIOFactory.h"
-#include "itkCreateObjectFunction.h"
 #include "itkStimulateImageIO.h"
 #include "itkVersion.h"
 

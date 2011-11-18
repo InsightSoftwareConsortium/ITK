@@ -17,11 +17,8 @@
  *=========================================================================*/
 
 #include "itkMattesMutualInformationImageToImageMetric.h"
-#include "itkImageRegionIterator.h"
 
-#include "itkAffineTransform.h"
 #include "itkLinearInterpolateImageFunction.h"
-#include "itkBSplineInterpolateImageFunction.h"
 #include "itkTextOutput.h"
 #include "itkBSplineTransform.h"
 #include "itkImageMaskSpatialObject.h"

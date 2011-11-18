@@ -17,7 +17,6 @@
  *=========================================================================*/
 #include "itkTDistribution.h"
 #include "itkGaussianDistribution.h"
-#include "vnl/vnl_math.h"
 #include "vnl/vnl_erf.h"
 
 extern "C" double dbetai_(double *x, double *pin, double *qin);

@@ -19,8 +19,6 @@
 #include <fstream>
 #include "itkMatrixIndexSelectionImageFilter.h"
 #include "itkImageFileWriter.h"
-#include "itkImageRegionIterator.h"
-#include "itkMatrix.h"
 
 int itkMatrixIndexSelectionImageFilterTest(int argc, char* argv[] )
 {

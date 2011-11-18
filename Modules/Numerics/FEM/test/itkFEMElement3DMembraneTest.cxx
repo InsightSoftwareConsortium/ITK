@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkFEMElement3DC0LinearHexahedronMembrane.h"
-#include "itkFEMElementBase.h"
 
 #include <iostream>
 

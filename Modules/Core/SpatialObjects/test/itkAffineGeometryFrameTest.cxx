@@ -16,10 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkAffineGeometryFrame.h"
 #include "itkSpatialObjectTreeContainer.h"
-#include "itkInOrderTreeIterator.h"
-#include "itkLevelOrderTreeIterator.h"
 #include <iostream>
 
 /**

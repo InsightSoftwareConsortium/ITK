@@ -21,7 +21,6 @@
  */
 
 #include "itkBlobSpatialObject.h"
-#include "itkSpatialObjectPoint.h"
 
 int itkBlobSpatialObjectTest(int, char* [])
 {

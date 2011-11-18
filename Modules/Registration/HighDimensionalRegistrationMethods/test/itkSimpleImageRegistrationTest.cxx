@@ -22,17 +22,8 @@
 #include "itkSimpleImageRegistrationMethod.h"
 
 #include "itkANTSNeighborhoodCorrelationImageToImageObjectMetric.h"
-#include "itkCompositeTransform.h"
 #include "itkGaussianSmoothingOnUpdateDisplacementFieldTransform.h"
 #include "itkGaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor.h"
-#include "itkGradientDescentObjectOptimizer.h"
-#include "itkIdentityTransform.h"
-#include "itkMacro.h"
-#include "itkRegistrationParameterScalesFromShift.h"
-#include "itkResampleImageFilter.h"
-#include "itkShrinkImageFilter.h"
-#include "itkTransform.h"
-#include "itkVector.h"
 
 template<class TFilter>
 class CommandIterationUpdate : public itk::Command

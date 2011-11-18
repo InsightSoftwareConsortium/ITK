@@ -20,9 +20,7 @@
 #include "itkConnectedComponentImageFilter.h"
 #include "itkLabelGeometryImageFilter.h"
 #include "itkRelabelComponentImageFilter.h"
-#include "itkCastImageFilter.h"
 
-#include <stdio.h>
 
 template < const unsigned int NDimension >
 int LabelGeometryImageFilterTest(const char * labelImageName,const char * outputImageName,const char * intensityImageName, const char * outputOrientedImagePath)

@@ -20,8 +20,6 @@
 #include "itkImageFileWriter.h"
 
 #include "itkResampleImageFilter.h"
-#include "itkImage.h"
-#include "itkLinearInterpolateImageFunction.h"
 
 #include "itkBSplineDeformableTransform.h"
 #include "itkSimilarity2DTransform.h"
@@ -31,7 +29,6 @@
 //  The following section of code implements a Command observer
 //  used to monitor the evolution of the registration process.
 //
-#include "itkCommand.h"
 class CommandProgressUpdate : public itk::Command
 {
 public:

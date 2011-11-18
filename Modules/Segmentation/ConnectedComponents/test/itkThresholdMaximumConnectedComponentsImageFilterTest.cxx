@@ -28,13 +28,10 @@
  *
  * Dspace handle: http://hdl.handle.net/1926/48 */
 
-#include <stdio.h>
-#include <stdlib.h>
 
 // itk header files
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkImage.h"
 #include "itkThresholdMaximumConnectedComponentsImageFilter.h"
 
 int itkThresholdMaximumConnectedComponentsImageFilterTest( int argc,

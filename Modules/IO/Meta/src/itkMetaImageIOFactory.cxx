@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include "itkMetaImageIOFactory.h"
-#include "itkCreateObjectFunction.h"
 #include "itkMetaImageIO.h"
 #include "itkVersion.h"
 

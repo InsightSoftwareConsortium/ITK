@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include "itkJPEGImageIOFactory.h"
-#include "itkCreateObjectFunction.h"
 #include "itkJPEGImageIO.h"
 #include "itkVersion.h"
 

@@ -17,11 +17,6 @@
  *=========================================================================*/
 
 #include <iostream>
-#include "itkFileOutputWindow.h"
-#include "itkImage.h"
-#include "itkImage.h"
-#include "itkImageRegionIterator.h"
-#include "itkMultiThreader.h"
 #include "itkStreamingImageFilter.h"
 #include "itkWrapPadImageFilter.h"
 #include "itkVectorImage.h"

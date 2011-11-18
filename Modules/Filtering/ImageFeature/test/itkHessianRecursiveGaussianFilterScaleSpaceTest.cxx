@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkHessianRecursiveGaussianImageFilter.h"
-#include "itkImageRegionIteratorWithIndex.h"
 
 // This test creates an image varying as a 1D Gaussian in the X direction
 // for different values of sigma, and checks the scale-space response of

@@ -22,12 +22,6 @@
 #include "itksys/SystemTools.hxx"
 #include "itkProgressReporter.h"
 
-#include "gdcmSerieHelper.h"
-#include "gdcmFile.h"
-
-#include <vector>
-#include <string>
-
 namespace itk
 {
 GDCMSeriesFileNames::GDCMSeriesFileNames()

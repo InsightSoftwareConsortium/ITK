@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include <string>
 #include "itkGEAdwImageIO.h"
 #include "itkGE4ImageIO.h"
 #include "itkGE5ImageIO.h"
@@ -25,11 +24,8 @@
 #include "itkGE4ImageIOFactory.h"
 #include "itkGE5ImageIOFactory.h"
 #include "itkSiemensVisionImageIOFactory.h"
-#include "itkImageIOFactory.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkImage.h"
-#include "itksys/SystemTools.hxx"
 
 
 #define SPECIFIC_IMAGEIO_MODULE_TEST

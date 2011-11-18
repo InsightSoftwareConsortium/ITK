@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include "itkMultipleValuedVnlCostFunctionAdaptor.h"
-#include "itkMacro.h"
 
 namespace itk
 {

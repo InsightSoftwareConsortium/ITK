@@ -18,11 +18,8 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
-#include "itkThresholdLabelerImageFilter.h"
-#include "itkChangeLabelImageFilter.h"
 
 #include "itkBinaryThresholdProjectionImageFilter.h"
-#include "itkNumericTraits.h"
 
 int itkBinaryThresholdProjectionImageFilterTest(int argc, char * argv[])
 {

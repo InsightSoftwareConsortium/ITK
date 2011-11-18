@@ -24,8 +24,6 @@
 #include "itkPlaneSpatialObject.h"
 #include "itkPolygonGroupSpatialObject.h"
 #include "itkSceneSpatialObject.h"
-#include "itkSpatialObjectPoint.h"
-#include "itkSpatialObjectProperty.h"
 #include "itkSurfaceSpatialObject.h"
 #include "itkTubeSpatialObject.h"
 

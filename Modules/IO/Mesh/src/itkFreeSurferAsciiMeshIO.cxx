@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkFreeSurferAsciiMeshIO.h"
-#include "itkNumericTraits.h"
 
 #include <itksys/SystemTools.hxx>
 

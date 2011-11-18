@@ -15,13 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkImageRegionIteratorWithIndex.h"
-#include "itkImageFileReader.h"
-#include "itkImageFileWriter.h"
-#include "itkImageLinearIteratorWithIndex.h"
 #include "itkRecursiveGaussianImageFilter.h"
 #include "itkSymmetricSecondRankTensor.h"
-#include "vnl/vnl_math.h"
 
 int itkRecursiveGaussianImageFiltersOnTensorsTest(int, char* [] )
 {

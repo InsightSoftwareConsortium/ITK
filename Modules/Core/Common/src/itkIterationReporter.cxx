@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include "itkIterationReporter.h"
-#include "itkNumericTraits.h"
 
 namespace itk
 {

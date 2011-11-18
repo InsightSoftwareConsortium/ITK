@@ -19,7 +19,6 @@
 #include "itkSimpleFilterWatcher.h"
 #include "itkGrayscaleGeodesicDilateImageFilter.h"
 #include "itkGrayscaleGeodesicErodeImageFilter.h"
-#include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkShiftScaleImageFilter.h"

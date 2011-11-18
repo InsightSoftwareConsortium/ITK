@@ -21,8 +21,6 @@
  */
 
 #include "itkLineSpatialObject.h"
-#include "itkSpatialObjectPoint.h"
-#include "itkCovariantVector.h"
 
 int itkLineSpatialObjectTest(int, char* [])
 {

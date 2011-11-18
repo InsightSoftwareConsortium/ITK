@@ -18,7 +18,6 @@
 
 #include "itkIOCommon.h"
 #include <cstring>
-#include <string>
 #include "itksys/SystemTools.hxx"
 
 bool CheckFileNameParsing(const std::string fileName,

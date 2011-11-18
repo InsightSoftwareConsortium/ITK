@@ -18,7 +18,6 @@
 
 #include "itkCompositeTransformIOHelper.h"
 #include "itkCompositeTransform.h"
-#include "itkMacro.h"
 
 namespace itk
 {

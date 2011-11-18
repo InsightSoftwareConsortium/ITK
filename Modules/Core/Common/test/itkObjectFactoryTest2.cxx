@@ -18,9 +18,6 @@
 
 #include "itkImage.h"
 #include "itkRGBPixel.h"
-#include "itksys/SystemTools.hxx"
-#include <string>
-#include <list>
 
 typedef itk::ImportImageContainer<unsigned long,short>::Pointer myPointer;
 bool TestNew2(myPointer v, const char* expectedClassName)

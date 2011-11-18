@@ -17,8 +17,6 @@
  *=========================================================================*/
 
 #include "itkFastMarchingStoppingCriterionBase.h"
-#include "itkImage.h"
-#include "itkQuadEdgeMesh.h"
 
 namespace itk
 {

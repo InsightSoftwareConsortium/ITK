@@ -18,7 +18,6 @@
 
 #include <iostream>
 
-#include "itkImage.h"
 #include "itkImageSliceIteratorWithIndex.h"
 
 

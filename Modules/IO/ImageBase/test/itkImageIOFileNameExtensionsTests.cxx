@@ -18,7 +18,6 @@
 
 #include "itkImageIOBase.h"
 
-#include <list>
 
 #define SPECIFIC_IMAGEIO_MODULE_TEST
 

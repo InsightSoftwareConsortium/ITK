@@ -16,16 +16,8 @@
  *
  *=========================================================================*/
 
-#include "itkImageFileReader.h"
-#include "itkImageFileWriter.h"
-#include "itkImage.h"
-#include "itkVector.h"
-#include "itkIdentityTransform.h"
-#include "itkDisplacementFieldTransform.h"
-#include "itkCompositeTransform.h"
 #include "itkTranslationTransform.h"
 
-#include "itkImageRegionConstIterator.h"
 #include "itkANTSNeighborhoodCorrelationImageToImageObjectMetric.h"
 
 //FIXME We need these as long as we have to define ImageToData and

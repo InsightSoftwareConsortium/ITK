@@ -15,10 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "metaObject.h"
-#include "itkSpatialObject.h"
-#include "itkSceneSpatialObject.h"
-#include "itkMetaConverterBase.h"
 #include "itkMetaSceneConverter.h"
 
 /** \class MetaDummy

@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkFEMElement3DC0LinearTetrahedronMembrane.h"
-#include "vnl/vnl_math.h"
 
 namespace itk
 {
