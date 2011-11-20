@@ -31,9 +31,9 @@ namespace Statistics
  *  \brief This class computes texture descriptions from an image.
  *
  * This class computes features that summarize the texture of a given image.
- * The texture features are compute a la Haralick, and have proven to be useful
+ * The texture features are computed a la Haralick, and have proven to be useful
  * in image classification for biological and medical imaging.
- * This class computes the texture features of an image (optionally in a masked
+ * This class computes the texture features of an image (optionally in a
  * masked region), averaged across several spatial directions so that they are
  * invariant to rotation.
  *
