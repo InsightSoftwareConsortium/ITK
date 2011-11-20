@@ -19,8 +19,10 @@
 #include <iostream>
 #include "itkParticleSwarmOptimizer.h"
 #include "itkParticleSwarmOptimizerTestFunctions.h"
+#include "itkMersenneTwisterRandomVariateGenerator.h"
 
 typedef  itk::ParticleSwarmOptimizer  OptimizerType;
+static OptimizerType::RandomVariateGeneratorType::IntegerType seedOffset = 0;
 
 /**
  * Test using a 1D function with two minima, two parabolas. Check that the
@@ -106,6 +108,8 @@ int PSOTest1()
     ParticleSwarmTestF1::New();
 
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
+  itkOptimizer->UseSeedOn();
+  itkOptimizer->SetSeed(8775070 + seedOffset++);
 
          // set optimizer parameters
   OptimizerType::ParameterBoundsType bounds;
@@ -204,6 +208,8 @@ int PSOTest2()
     ParticleSwarmTestF2::New();
 
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
+  itkOptimizer->UseSeedOn();
+  itkOptimizer->SetSeed(8775070 + seedOffset++);
 
          // set optimizer parameters
   OptimizerType::ParameterBoundsType bounds;
