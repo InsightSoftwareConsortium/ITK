@@ -79,6 +79,7 @@ SimpleImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>
 
   // By default we set up an affine transform for a 3-level image registration.
 
+  m_NumberOfLevels = 0;
   this->SetNumberOfLevels( 3 );
 
   this->m_Transform = TransformType::New();
