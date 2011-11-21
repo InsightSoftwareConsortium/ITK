@@ -219,7 +219,8 @@ int itkVideoSourceTest( int, char* [] )
   for (unsigned long i = frameStart; i < frameStart + numFrames; ++i)
     {
     frame = videoSource->GetOutput()->GetFrame(i);
-    itk::ImageRegionIterator<FrameType> iter( frame, frame->GetRequestedRegion() );
+    FrameType::RegionType region = frame->GetRequestedRegion();
+    itk::ImageRegionIterator<FrameType> iter( frame, region);
     while (!iter.IsAtEnd() )
       {
       if (iter.Get() != 1)
@@ -230,16 +231,19 @@ int itkVideoSourceTest( int, char* [] )
       ++iter;
       }
 
-    // Make sure (0,0) which was outside the requested spatial region didn't
-    // get set
-    FrameType::IndexType idx;
-    idx.Fill(0);
-    if (frame->GetPixel(idx) == 1)
-      {
-      std::cerr << "Pixel outside requested spatial region set to 1" << std::endl;
-      return EXIT_FAILURE;
-      }
-    }
+      // Make sure (0,0) which was outside the requested spatial region didn't
+      // get set
+      if (region.GetNumberOfPixels() > 0)
+       {
+       FrameType::IndexType idx;
+       idx.Fill(0);
+       if (frame->GetPixel(idx) == 1)
+          {
+          std::cerr << "Pixel outside requested spatial region set to 1" << std::endl;
+          return EXIT_FAILURE;
+          }
+       }
+     }
 
   //////
   // Test that the output has the proper number of buffers when no requested
