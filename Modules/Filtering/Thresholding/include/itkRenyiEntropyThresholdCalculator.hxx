@@ -68,11 +68,7 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>
   std::vector<double> P1(size);  /* cumulative normalized histogram */
   std::vector<double> P2(size);
 
-  int total =0;
-  for (ih = 0; (unsigned)ih < size; ih++ )
-    {
-    total += histogram->GetFrequency(ih, 0);
-    }
+  const int total = histogram->GetTotalFrequency();
 
   for (ih = 0; (unsigned)ih < size; ih++ )
     norm_histo[ih] = (double)histogram->GetFrequency(ih, 0)/total;

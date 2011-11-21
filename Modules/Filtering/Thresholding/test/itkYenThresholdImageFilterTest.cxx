@@ -33,8 +33,8 @@ int itkYenThresholdImageFilterTest(int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef  unsigned char  InputPixelType;
-  typedef  unsigned char  OutputPixelType;
+  typedef  short         InputPixelType;
+  typedef  unsigned char OutputPixelType;
 
   typedef itk::Image< InputPixelType,  2 >   InputImageType;
   typedef itk::Image< OutputPixelType, 2 >   OutputImageType;

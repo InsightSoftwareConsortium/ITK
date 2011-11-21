@@ -48,11 +48,11 @@ LiThresholdCalculator<THistogram, TOutput>
 
   unsigned int size = histogram->GetSize(0);
 
-  int threshold;
+  long int histthresh;
   int ih;
   int num_pixels;
-  int sum_back; /* sum of the background pixels at a given threshold */
-  int sum_obj;  /* sum of the object pixels at a given threshold */
+  double sum_back; /* sum of the background pixels at a given threshold */
+  double sum_obj;  /* sum of the object pixels at a given threshold */
   int num_back; /* number of background pixels at a given threshold */
   int num_obj;  /* number of object pixels at a given threshold */
   double old_thresh;
@@ -64,9 +64,7 @@ LiThresholdCalculator<THistogram, TOutput>
   double temp;
 
   tolerance=0.5;
-  num_pixels = 0;
-  for (ih = 0; (unsigned)ih < size; ih++ )
-    num_pixels += histogram->GetFrequency(ih, 0);
+  num_pixels = histogram->GetTotalFrequency();
 
   /* Calculate the mean gray-level */
   mean = 0.0;
@@ -78,12 +76,14 @@ LiThresholdCalculator<THistogram, TOutput>
 
   do{
   old_thresh = new_thresh;
-  threshold = (int) (old_thresh + 0.5);        /* range */
+  typename HistogramType::MeasurementVectorType ot(1);
+  ot.Fill((int) (old_thresh+0.5));
+  histthresh = histogram->GetIndex(ot)[0];
   /* Calculate the means of background and object pixels */
   /* Background */
   sum_back = 0;
   num_back = 0;
-  for ( ih = 0; ih <= threshold; ih++ )
+  for ( ih = 0; ih <= histthresh; ih++ )
     {
     sum_back += histogram->GetMeasurement(ih, 0) * histogram->GetFrequency(ih, 0);
     num_back += histogram->GetFrequency(ih, 0);
@@ -92,7 +92,7 @@ LiThresholdCalculator<THistogram, TOutput>
   /* Object */
   sum_obj = 0;
   num_obj = 0;
-  for ( ih = threshold + 1; (unsigned)ih < size; ih++ )
+  for ( ih = histthresh + 1; (unsigned)ih < size; ih++ )
     {
     sum_obj += histogram->GetMeasurement(ih, 0) * histogram->GetFrequency(ih, 0);
     num_obj += histogram->GetFrequency(ih, 0);
@@ -118,7 +118,7 @@ LiThresholdCalculator<THistogram, TOutput>
   }
   while ( vcl_abs ( new_thresh - old_thresh ) > tolerance );
 
-  this->GetOutput()->Set( static_cast<OutputType>( histogram->GetMeasurement( threshold, 0 ) ) );
+  this->GetOutput()->Set( static_cast<OutputType>( histogram->GetMeasurement( histthresh, 0 ) ) );
 }
 
 } // end namespace itk

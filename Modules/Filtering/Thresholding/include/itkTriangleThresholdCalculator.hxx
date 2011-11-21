@@ -49,13 +49,8 @@ TriangleThresholdCalculator<THistogram, TOutput>
   unsigned int size = histogram->GetSize(0);
 
   // create a histogram
-  std::vector<double> cumSum;
-  std::vector<double> triangle;
-  cumSum.resize( size );
-  triangle.resize( size );
-
-  std::fill(cumSum.begin(), cumSum.end(), 0.0);
-  std::fill(triangle.begin(), triangle.end(), 0.0);
+  std::vector<double> cumSum(size, 0.0);
+  std::vector<double> triangle(size, 0.0);
 
   // Triangle method needs the maximum and minimum indexes
   // Minimum indexes for this purpose are poorly defined - can't just
@@ -80,30 +75,11 @@ TriangleThresholdCalculator<THistogram, TOutput>
     cumSum[j] = histogram->GetFrequency(j, 0) + cumSum[j-1];
     }
 
-
-  double total = cumSum[size - 1];
-  // find 1% and 99% levels
-  double onePC = total * 0.01;
-  unsigned onePCIdx=0;
-  for ( unsigned int j=0; j < size; j++ )
-    {
-    if (cumSum[j] > onePC)
-      {
-      onePCIdx = j;
-      break;
-      }
-    }
-
-  double nnPC = total * 0.99;
-  unsigned nnPCIdx=size;
-  for (unsigned int j=0; j < size; j++ )
-    {
-    if (cumSum[j] > nnPC)
-      {
-      nnPCIdx = j;
-      break;
-      }
-    }
+  typename HistogramType::MeasurementVectorType onePC(1), nnPC(1);
+  onePC.Fill(histogram->Quantile(0, 0.01));
+  itk::IndexValueType onePCIdx = histogram->GetIndex(onePC)[0];
+  nnPC.Fill(histogram->Quantile(0, 0.99));
+  itk::IndexValueType nnPCIdx = histogram->GetIndex(nnPC)[0];
 
   // figure out which way we are looking - we want to construct our
   // line between the max index and the further of 1% and 99%

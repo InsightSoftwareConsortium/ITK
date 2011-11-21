@@ -66,8 +66,8 @@ HuangThresholdCalculator<THistogram, TOutput>
     }
 
   // calculate the cumulative density and the weighted cumulative density
-  std::vector<double> S(last+1);
-  std::vector<double> W(last+1);
+  std::vector<double> S(last+1, 0.0);
+  std::vector<double> W(last+1, 0.0);
 
   S[0] = histogram->GetFrequency(0, 0);
 
@@ -79,7 +79,7 @@ HuangThresholdCalculator<THistogram, TOutput>
 
   // precalculate the summands of the entropy given the absolute difference x - mu (integral)
   double C = last - first;
-  std::vector<double> Smu(last + 1 - first);
+  std::vector<double> Smu(last + 1 - first, 0);
 
   for( unsigned int i = 1; i < Smu.size(); i++)
     {
@@ -94,16 +94,20 @@ HuangThresholdCalculator<THistogram, TOutput>
     {
     double entropy = 0;
     int mu = Math::Round<int>(W[threshold] / S[threshold]);
+    typename HistogramType::MeasurementVectorType v(1);
+    v[0]=mu;
+    itk::IndexValueType muIdx = histogram->GetIndex(v)[0];
     for( int i = first; i <= threshold; i++ )
       {
-      entropy += Smu[vcl_abs(i - mu)] * histogram->GetFrequency(i, 0);
+      entropy += Smu[vcl_abs(i - muIdx)] * histogram->GetFrequency(i, 0);
       }
     mu = Math::Round<int>((W[last] - W[threshold]) / (S[last] - S[threshold]));
+    v[0]=mu;
+    muIdx = histogram->GetIndex(v)[0];
     for( int i = threshold + 1; i <= last; i++ )
       {
-      entropy += Smu[vcl_abs(i - mu)] * histogram->GetFrequency(i, 0);
+      entropy += Smu[vcl_abs(i - muIdx)] * histogram->GetFrequency(i, 0);
       }
-
     if (bestEntropy > entropy)
       {
       bestEntropy = entropy;
