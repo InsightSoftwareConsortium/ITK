@@ -36,6 +36,7 @@
 #include "itkCompositeTransform.h"
 
 #if defined( ITKV3_COMPATIBILITY )
+#include "itkBSplineDeformableTransform.h"
 #endif
 
 namespace itk
