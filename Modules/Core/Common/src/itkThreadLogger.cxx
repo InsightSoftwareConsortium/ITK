@@ -93,11 +93,19 @@ void ThreadLogger::Write(PriorityLevelType level, std::string const & content)
   this->m_Mutex.Unlock();
   if ( this->m_LevelForFlushing >= level )
     {
-    this->Flush();
+    this->InternalFlush();
     }
 }
 
 void ThreadLogger::Flush()
+{
+  this->m_Mutex.Lock();
+  this->m_OperationQ.push(FLUSH);
+  this->m_Mutex.Unlock();
+  this->InternalFlush();
+}
+
+void ThreadLogger::InternalFlush()
 {
   this->m_Mutex.Lock();
 
