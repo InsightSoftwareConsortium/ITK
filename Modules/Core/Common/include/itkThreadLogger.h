@@ -115,6 +115,8 @@ protected:
 
 private:
 
+  void InternalFlush();
+
   typedef std::queue< OperationType > OperationContainerType;
 
   typedef std::queue< std::string > MessageContainerType;
