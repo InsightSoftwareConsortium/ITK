@@ -82,10 +82,14 @@ itk_add_test(NAME itkImageRegistrationMethodTest_12
 itk_add_test(NAME itkImageRegistrationMethodTest_13
       COMMAND ITKRegistrationCommonTestDriver itkImageRegistrationMethodTest_13)
 
+#Temporarily output full results for debugging of experimental builds
+#itk_add_test(NAME itkImageRegistrationMethodTest_14
+#      COMMAND ITKRegistrationCommonTestDriver --redirectOutput ${TEMP}/#itkImageRegistrationMethodTest_14.txt
+#    itkImageRegistrationMethodTest_14)
+#set_tests_properties(itkImageRegistrationMethodTest_14 PROPERTIES #ATTACHED_FILES_ON_FAIL ${TEMP}/itkImageRegistrationMethodTest_14.txt)
 itk_add_test(NAME itkImageRegistrationMethodTest_14
-      COMMAND ITKRegistrationCommonTestDriver --redirectOutput ${TEMP}/itkImageRegistrationMethodTest_14.txt
+      COMMAND ITKRegistrationCommonTestDriver --full-output
     itkImageRegistrationMethodTest_14)
-set_tests_properties(itkImageRegistrationMethodTest_14 PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/itkImageRegistrationMethodTest_14.txt)
 
 
 itk_add_test(NAME itkImageRegistrationMethodTest_15

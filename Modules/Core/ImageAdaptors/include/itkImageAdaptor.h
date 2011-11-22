@@ -370,6 +370,14 @@ public:
     m_Image->TransformLocalVectorToPhysicalVector(inputGradient, outputGradient);
   }
 
+  template< class TCoordRep >
+  void TransformPhysicalVectorToLocalVector(
+    const FixedArray< TCoordRep, itkGetStaticConstMacro(ImageDimension) > & inputGradient,
+    FixedArray< TCoordRep, itkGetStaticConstMacro(ImageDimension) > & outputGradient) const
+  {
+    m_Image->TransformPhysicalVectorToLocalVector(inputGradient, outputGradient);
+  }
+
 protected:
 
   ImageAdaptor();

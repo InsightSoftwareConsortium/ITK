@@ -48,6 +48,7 @@ ImageBase< VImageDimension >
   m_Spacing.Fill(1.0);
   m_Origin.Fill(0.0);
   m_Direction.SetIdentity();
+  m_InverseDirection.SetIdentity();
   m_IndexToPhysicalPoint.SetIdentity();
   m_PhysicalPointToIndex.SetIdentity();
 }
@@ -169,6 +170,7 @@ ImageBase< VImageDimension >
   if ( modified )
     {
     this->ComputeIndexToPhysicalPointMatrices();
+    this->m_InverseDirection = m_Direction.GetInverse();
     }
 }
 
@@ -548,6 +550,9 @@ ImageBase< VImageDimension >
 
   os << indent << "PointToIndexMatrix: " << std::endl;
   os << indent << this->m_PhysicalPointToIndex << std::endl;
+
+  os << indent << "Inverse Direction: " << std::endl;
+  os << indent << this->GetInverseDirection() << std::endl;
 }
 } // end namespace itk
 
