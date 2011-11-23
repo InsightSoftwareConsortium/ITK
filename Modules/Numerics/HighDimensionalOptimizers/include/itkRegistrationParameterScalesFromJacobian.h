@@ -90,11 +90,21 @@ public:
    */
   virtual FloatType EstimateStepScale(const ParametersType &step);
 
+  /** Estimate the scales of local steps. */
+  virtual void EstimateLocalStepScales(const ParametersType &step,
+    ScalesType &localStepScales);
+
 protected:
   RegistrationParameterScalesFromJacobian();
   ~RegistrationParameterScalesFromJacobian(){};
 
   virtual void PrintSelf(std::ostream &os, Indent indent) const;
+
+  /**
+   *  Compute the step scales for samples, i.e. the impacts on each sampled
+   *  voxel from a change on the transform.
+   */
+  void ComputeSampleStepScales(const ParametersType &step, ScalesType &sampleScales);
 
 private:
   RegistrationParameterScalesFromJacobian(const Self&); //purposely not implemented

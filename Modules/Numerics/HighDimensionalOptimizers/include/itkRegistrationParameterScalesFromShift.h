@@ -80,6 +80,10 @@ public:
   /** Estimate the scale of a step */
   virtual FloatType EstimateStepScale(const ParametersType &step);
 
+  /** Estimate the scales of local steps. */
+  virtual void EstimateLocalStepScales(const ParametersType &step,
+    ScalesType &localStepScales);
+
 protected:
   RegistrationParameterScalesFromShift();
   ~RegistrationParameterScalesFromShift(){};
@@ -90,19 +94,21 @@ protected:
    * current parameters. */
   virtual FloatType ComputeMaximumVoxelShift(const ParametersType &deltaParameters);
 
-  /** The templated method of compute the maximimum shift in continuous index.
+  /** The templated method of compute the sample shifts in continuous index.
    *  The template argument TTransform may be either MovingTransformType or
    *  FixedTransformType.
    */
-  template <class TTransform> FloatType
-    ComputeMaximumIndexShiftTemplated(const ParametersType &deltaParameters);
+  template <class TTransform> void
+    ComputeSampleIndexShifts(const ParametersType &deltaParameters,
+                                        ScalesType &localShifts);
 
-  /** The templated method of compute the maximimum shift in the phyiscal space.
+  /** The templated method of compute the sample shifts in the phyiscal space.
    *  The template argument TTransform may be either MovingTransformType or
    *  FixedTransformType.
    */
-  template <class TTransform> FloatType
-    ComputeMaximumPhysicalShiftTemplated(const ParametersType &deltaParameters);
+  template <class TTransform> void
+    ComputeSamplePhysicalShifts(const ParametersType &deltaParameters,
+                                        ScalesType &localShifts);
 
 private:
   RegistrationParameterScalesFromShift(const Self&); //purposely not implemented
