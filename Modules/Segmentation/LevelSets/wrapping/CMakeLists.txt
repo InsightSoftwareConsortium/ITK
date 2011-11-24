@@ -7,12 +7,5 @@ set(WRAPPER_LIBRARY_GROUPS
   itkSegmentationLevelSetImageFilter
   itkShapePriorSegmentationLevelSetImageFilter
 )
-
-set(WRAPPER_LIBRARY_DEPENDS ITKImageFeature ITKFiniteDifference
-ITKDistanceMap ITKAnisotropicSmoothing ITKThresholding ITKImageCompare
-ITKFastMarching ITKOptimizers ITKNarrowBand)
-
-set(WRAPPER_LIBRARY_LINK_LIBRARIES ${ITK_LIBRARIES})
-
 AUTO_INCLUDE_MODULES()
 END_WRAP_LIBRARY()

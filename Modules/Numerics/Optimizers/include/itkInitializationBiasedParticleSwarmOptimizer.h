@@ -27,7 +27,7 @@ namespace itk
  * \brief Implementation of a biased/regularized Particle Swarm Optimization
  *        (PSO) algorithm.
  *
- * This PSO algorithm was originally described in:<br>
+ * This PSO algorithm was originally described in:
  * M. P. Wachowiak, R. Smolikova, Y. Zheng, J. M. Zurada, A. S. Elmaghraby,
  * "An approach to multimodal biomedical image registration utilizing particle
  * swarm optimization", IEEE Trans. Evol. Comput., vol. 8(3): 289-301, 2004.
@@ -45,14 +45,15 @@ namespace itk
  * The assumption is that the user's initial parameter settings are close to the
  * minimum, which is often the case for registration. The initial parameter
  * values are incorporated into the PSO's update rules, biasing the search in
- * their direction. The swarms update equations are thus:<br>
- * \f[v_i(t+1) = wv_i(t) + c_1u_1(p_i-x_i(t)) + c_2u_2(p_g-x_i(t)) +
- *               c_3u_3(x_{init} - x_i(t))\f]
- * \f[x_i(t+1) = clampToBounds(x_i(t) + v_i(t+1))\f]
+ * their direction. The swarms update equations are thus:
+ *
+ * \f$v_i(t+1) = wv_i(t) + c_1u_1(p_i-x_i(t)) + c_2u_2(p_g-x_i(t)) +
+ *               c_3u_3(x_{init} - x_i(t))\f$
+ * \f$x_i(t+1) = clampToBounds(x_i(t) + v_i(t+1))\f$
  *
  * where \f$u_i\f$ are \f$~U(0,1)\f$ and \f$w,c_1,c_2, c_3\f$ are user selected
  * weights, and c_3 is linearly decreased per iteration so that it is in
- * \f[c_3=initial, 0]\f.
+ * \f$c_3=initial, 0\f$.
  *
  * Swarm initialization is performed within the user supplied parameter bounds
  * using a uniform distribution or a normal distribution centered on
