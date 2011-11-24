@@ -217,6 +217,15 @@ SimpleImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>
   // Update the optimizer
 
   this->m_Optimizer->SetMetric( this->m_Metric );
+
+  if( ( this->m_Optimizer->GetScales() ).Size() != this->m_Transform->GetNumberOfLocalParameters() )
+    {
+    typedef typename OptimizerType::ScalesType ScalesType;
+    ScalesType scales;
+    scales.SetSize( this->m_Transform->GetNumberOfLocalParameters() );
+    scales.Fill( NumericTraits<typename ScalesType::ValueType>::OneValue() );
+    this->m_Optimizer->SetScales( scales );
+    }
 }
 
 /*
