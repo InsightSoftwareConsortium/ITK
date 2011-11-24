@@ -4,10 +4,5 @@ set(WRAPPER_LIBRARY_GROUPS
   itkCurvatureFlowImageFilter
   itkMinMaxCurvatureFlowImageFilter
 )
-
-set(WRAPPER_LIBRARY_DEPENDS ITKImageFilterBase ITKFiniteDifference)
-
-set(WRAPPER_LIBRARY_LINK_LIBRARIES ${ITK_LIBRARIES})
-
 AUTO_INCLUDE_MODULES()
 END_WRAP_LIBRARY()

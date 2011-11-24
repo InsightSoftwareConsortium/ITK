@@ -1,7 +1,6 @@
-WRAP_LIBRARY(ITKReview)
-
+WRAP_LIBRARY(ITKConvolution)
 set(WRAPPER_LIBRARY_GROUPS
-  itkImageToPathFilter
+  itkConvolutionImageFilterBase
 )
 AUTO_INCLUDE_MODULES()
 END_WRAP_LIBRARY()

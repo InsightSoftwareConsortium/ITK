@@ -4,11 +4,5 @@ set(WRAPPER_LIBRARY_GROUPS
   itkHistogramThresholdCalculator
   itkHistogramThresholdImageFilter
 )
-
-set(WRAPPER_LIBRARY_DEPENDS ITKImageIntensity ITKImageStatistics)
-
-set(WRAPPER_LIBRARY_LINK_LIBRARIES ${ITK_LIBRARIES})
-
 AUTO_INCLUDE_MODULES()
-
 END_WRAP_LIBRARY()
