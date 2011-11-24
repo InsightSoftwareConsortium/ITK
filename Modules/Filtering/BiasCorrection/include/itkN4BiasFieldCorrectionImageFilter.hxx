@@ -15,10 +15,10 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkN4MRIBiasFieldCorrectionImageFilter_hxx
-#define __itkN4MRIBiasFieldCorrectionImageFilter_hxx
+#ifndef __itkN4BiasFieldCorrectionImageFilter_hxx
+#define __itkN4BiasFieldCorrectionImageFilter_hxx
 
-#include "itkN4MRIBiasFieldCorrectionImageFilter.h"
+#include "itkN4BiasFieldCorrectionImageFilter.h"
 
 #include "itkAddImageFilter.h"
 #include "itkBSplineControlPointImageFilter.h"
@@ -38,8 +38,8 @@
 namespace itk {
 
 template <class TInputImage, class TMaskImage, class TOutputImage>
-N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
-::N4MRIBiasFieldCorrectionImageFilter() :
+N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
+::N4BiasFieldCorrectionImageFilter() :
   m_MaskLabel( NumericTraits<MaskPixelType>::One ),
   m_NumberOfHistogramBins( 200 ),
   m_WienerFilterNoise( 0.01 ),
@@ -60,7 +60,7 @@ N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 
 template<class TInputImage, class TMaskImage, class TOutputImage>
 void
-N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
+N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 ::GenerateData()
 {
   this->AllocateOutputs();
@@ -226,8 +226,8 @@ N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 
 template<class TInputImage, class TMaskImage, class TOutputImage>
 typename
-N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::RealImagePointer
-N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
+N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::RealImagePointer
+N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 ::SharpenImage( const RealImageType *unsharpenedImage ) const
 {
   // Build the histogram for the uncorrected image.  Store copy
@@ -461,8 +461,8 @@ N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 
 template<class TInputImage, class TMaskImage, class TOutputImage>
 typename
-N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::RealImagePointer
-N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
+N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::RealImagePointer
+N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 ::UpdateBiasFieldEstimate( RealImageType* fieldEstimate )
 {
   // Temporarily set the direction cosine to identity since the B-spline
@@ -612,8 +612,8 @@ N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 
 template<class TInputImage, class TMaskImage, class TOutputImage>
 typename
-N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::RealType
-N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
+N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::RealType
+N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 ::CalculateConvergenceMeasurement( const RealImageType *fieldEstimate1,
                                    const RealImageType *fieldEstimate2 ) const
 {
@@ -659,7 +659,7 @@ N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 
 template<class TInputImage, class TMaskImage, class TOutputImage>
 void
-N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
+N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 ::PrintSelf(std::ostream &os, Indent indent) const
 {
   Superclass::PrintSelf( os, indent );

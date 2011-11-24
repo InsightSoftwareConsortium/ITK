@@ -18,7 +18,7 @@
 #include "itkConstantPadImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkN4MRIBiasFieldCorrectionImageFilter.h"
+#include "itkN4BiasFieldCorrectionImageFilter.h"
 #include "itkOtsuThresholdImageFilter.h"
 #include "itkShrinkImageFilter.h"
 
@@ -166,8 +166,8 @@ int N4( int argc, char *argv[] )
     }
 
   // instantiate N4 and assign variables not exposed to the user in this test.
-  typedef itk::N4MRIBiasFieldCorrectionImageFilter<ImageType, MaskImageType,
-                                                   ImageType> CorrecterType;
+  typedef itk::N4BiasFieldCorrectionImageFilter<ImageType, MaskImageType,
+                                                ImageType> CorrecterType;
   typename CorrecterType::Pointer correcter = CorrecterType::New();
   correcter->SetMaskLabel( 1 );
   correcter->SetSplineOrder( 3 );
@@ -327,7 +327,7 @@ int N4( int argc, char *argv[] )
   return EXIT_SUCCESS;
 }
 
-int itkN4MRIBiasFieldCorrectionImageFilterTest( int argc, char *argv[] )
+int itkN4BiasFieldCorrectionImageFilterTest( int argc, char *argv[] )
 {
   if ( argc < 4 )
     {
