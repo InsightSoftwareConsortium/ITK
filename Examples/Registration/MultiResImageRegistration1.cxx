@@ -20,6 +20,7 @@
 //    INPUTS:  {BrainT1SliceBorder20.png}
 //    INPUTS:  {BrainProtonDensitySliceShifted13x17y.png}
 //    OUTPUTS: {MultiResImageRegistration1Output.png}
+//    ARGUMENTS: 128
 //    OUTPUTS: {MultiResImageRegistration1CheckerboardBefore.png}
 //    OUTPUTS: {MultiResImageRegistration1CheckerboardAfter.png}
 //  Software Guide : EndCommandLineArgs
@@ -296,6 +297,16 @@ int main( int argc, char *argv[] )
   const    unsigned int    Dimension = 2;
   typedef  unsigned short  PixelType;
 
+  const std::string fixedImageFile  = argv[1];
+  const std::string movingImageFile = argv[2];
+  const std::string outImagefile    = argv[3];
+  const PixelType backgroundGrayLevel  = (argc >4 )? atoi(argv[4]): 100;
+  const std::string checkerBoardBefore = (argc >5 )?      argv[5]: "";
+  const std::string checkerBoardAfter  = (argc >6 )?      argv[6]: "";
+  const bool useExplicitPDFderivatives = (argc >7 )? static_cast<bool>(atoi(argv[7])): false;
+  const int numberOfBins               = (argc >8 )? atoi(argv[8]): 0;
+  const int numberOfSamples            = (argc >9 )? atoi(argv[9]): 0;
+
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
   typedef itk::Image< PixelType, Dimension >  MovingImageType;
 
@@ -439,13 +450,13 @@ int main( int argc, char *argv[] )
   if( argc > 8 )
     {
     // optionally, override the values with numbers taken from the command line arguments.
-    metric->SetNumberOfHistogramBins( atoi( argv[8] ) );
+    metric->SetNumberOfHistogramBins( numberOfBins );
     }
 
   if( argc > 9 )
     {
     // optionally, override the values with numbers taken from the command line arguments.
-    metric->SetNumberOfSpatialSamples( atoi( argv[9] ) );
+    metric->SetNumberOfSpatialSamples( numberOfSamples );
     }
 
 
@@ -470,7 +481,7 @@ int main( int argc, char *argv[] )
     // computing the derivatives of the joint PDF with respect to the Transform
     // parameters, or doing it by progressively accumulating contributions from
     // each bin in the joint PDF.
-    metric->SetUseExplicitPDFDerivatives( atoi( argv[7] ) );
+    metric->SetUseExplicitPDFDerivatives( useExplicitPDFderivatives );
     }
 
 
@@ -605,11 +616,6 @@ int main( int argc, char *argv[] )
 
   FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
-  PixelType backgroundGrayLevel = 100;
-  if( argc > 4 )
-    {
-    backgroundGrayLevel = atoi( argv[4] );
-    }
 
   resample->SetSize(    fixedImage->GetLargestPossibleRegion().GetSize() );
   resample->SetOutputOrigin(  fixedImage->GetOrigin() );
@@ -660,18 +666,22 @@ int main( int argc, char *argv[] )
   identityTransform->SetIdentity();
   resample->SetTransform( identityTransform );
 
-  if( argc > 5 )
+  for (int q=0; q< argc; ++q)
     {
-    writer->SetFileName( argv[5] );
+    std::cout << q << " " << argv[q] << std::endl;
+    }
+  if( checkerBoardBefore != std::string("") )
+    {
+    writer->SetFileName( checkerBoardBefore );
     writer->Update();
     }
 
 
   // After registration
   resample->SetTransform( finalTransform );
-  if( argc > 6 )
+  if( checkerBoardAfter != std::string("") )
     {
-    writer->SetFileName( argv[6] );
+    writer->SetFileName( checkerBoardAfter );
     writer->Update();
     }
 

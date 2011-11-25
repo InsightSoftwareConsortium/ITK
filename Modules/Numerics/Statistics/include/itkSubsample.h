@@ -184,7 +184,7 @@ protected:
       m_Iter(iter), m_Subsample(classSample), m_Sample( classSample->GetSample() )
     {}
 
-    // ConstIterator pointing to ImageToListAdaptor
+    // ConstIterator pointing to ImageToListSampleAdaptor
     typename InstanceIdentifierHolder::const_iterator m_Iter;
 
     // Pointer to Subsample object

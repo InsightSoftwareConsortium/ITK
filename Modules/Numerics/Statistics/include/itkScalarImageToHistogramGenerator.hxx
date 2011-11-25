@@ -28,9 +28,9 @@ template< class TImage >
 ScalarImageToHistogramGenerator< TImage >
 ::ScalarImageToHistogramGenerator()
 {
-  m_ImageToListAdaptor = AdaptorType::New();
+  m_ImageToListSampleAdaptor = AdaptorType::New();
   m_HistogramGenerator = GeneratorType::New();
-  m_HistogramGenerator->SetInput(m_ImageToListAdaptor);
+  m_HistogramGenerator->SetInput(m_ImageToListSampleAdaptor);
 }
 
 template< class TImage >
@@ -38,7 +38,7 @@ void
 ScalarImageToHistogramGenerator< TImage >
 ::SetInput(const ImageType *image)
 {
-  m_ImageToListAdaptor->SetImage(image);
+  m_ImageToListSampleAdaptor->SetImage(image);
 }
 
 template< class TImage >
@@ -106,7 +106,7 @@ ScalarImageToHistogramGenerator< TImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << "ImageToListSample adaptor = " << m_ImageToListAdaptor << std::endl;
+  os << "ImageToListSample adaptor = " << m_ImageToListSampleAdaptor << std::endl;
   os << "HistogramGenerator = " << m_HistogramGenerator << std::endl;
 }
 } // end of namespace Statistics

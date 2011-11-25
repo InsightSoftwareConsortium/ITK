@@ -21,25 +21,25 @@
 // We will describe how to use \doxygen{PointSet} as a \code{Sample}
 // using an adaptor in this example.
 //
-// \index{itk::Sample!PointSetToListAdaptor}
+// \index{itk::Sample!PointSetToListSampleAdaptor}
 //
-// \subdoxygen{Statistics}{PointSetToListAdaptor} class requires the type
+// \subdoxygen{Statistics}{PointSetToListSampleAdaptor} class requires the type
 // of input \doxygen{PointSet} object. The \doxygen{PointSet} class is an
 // associative data container. Each point in a \code{PointSet} object can have
 // its associated data value (optional). For the statistics subsystem, current
-// implementation of \code{PointSetToListAdaptor} takes only the point part
+// implementation of \code{PointSetToListSampleAdaptor} takes only the point part
 // into consideration. In other words, the measurement vectors from a
-// \code{PointSetToListAdaptor} object are points from the \code{PointSet}
+// \code{PointSetToListSampleAdaptor} object are points from the \code{PointSet}
 // object that is plugged-into the adaptor object.
 //
-// To use, an \doxygen{PointSetToListAdaptor} object, we include the
+// To use, an \doxygen{PointSetToListSampleAdaptor} object, we include the
 // header file for the class.
 //
 // Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
-#include "itkPointSetToListAdaptor.h"
+#include "itkPointSetToListSampleAdaptor.h"
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
@@ -107,7 +107,7 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::PointSetToListAdaptor< ArrayPointSetType > SampleType ;
+  typedef itk::Statistics::PointSetToListSampleAdaptor< ArrayPointSetType > SampleType ;
   SampleType::Pointer sample = SampleType::New() ;
   // Software Guide : EndCodeSnippet
 

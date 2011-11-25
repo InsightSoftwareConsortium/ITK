@@ -23,7 +23,7 @@
 //
 // Sometimes we want to work with a histogram instead of a list of
 // measurement vectors (e.g. \subdoxygen{Statistics}{ListSample},
-// \subdoxygen{Statistics}{ImageToListAdaptor}, or
+// \subdoxygen{Statistics}{ImageToListSampleAdaptor}, or
 // \subdoxygen{Statistics}{PointSetToListSample}) to use less memory or to
 // perform a particular type od analysis. In such cases, we can import data
 // from a sample type to a \subdoxygen{Statistics}{Histogram} object

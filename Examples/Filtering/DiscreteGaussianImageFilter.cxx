@@ -28,7 +28,7 @@
 //    \centering
 //    \includegraphics[width=6cm]{DiscreteGaussian.eps}
 //    \caption[DiscreteGaussianImageFilter Gaussian diagram.]
-//            {Discretized Gaussian.\label{fig:DiscretizedGaussian}
+//            {Discretized Gaussian.\label{fig:DiscretizedGaussian}}
 //  \end{floatingfigure}
 //
 //  The \doxygen{DiscreteGaussianImageFilter} computes the convolution of the

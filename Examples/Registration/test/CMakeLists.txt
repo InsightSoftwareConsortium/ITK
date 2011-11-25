@@ -106,6 +106,14 @@ itk_add_test(NAME ImageRegistration7Test COMMAND ${ITK_TEST_DRIVER}
 )
 
 if(ITK_USE_BRAINWEB_DATA)
+
+## A test needed to prepare for making the latex documentation.
+itk_add_test(NAME ConfidenceConnected3DTest COMMAND ${ITK_TEST_DRIVER}
+  $<TARGET_FILE:ConfidenceConnected3D>
+        DATA{../../Data/BrainWeb/brainweb165a10f17.mha}
+        ${TEMP}/WhiteMatterSegmentation.mhd
+)
+
 itk_add_test(NAME ImageRegistration8Test COMMAND ${ITK_TEST_DRIVER}
   --compare DATA{${BASELINE}/ImageRegistration8RegisteredSlice.png}
             ${TEMP}/ImageRegistration8RegisteredSlice.png
@@ -120,6 +128,7 @@ itk_add_test(NAME ImageRegistration8Test COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/ImageRegistration8DifferenceAfter.png
         ${TEMP}/ImageRegistration8RegisteredSlice.png
 )
+
 
 if( ${CMAKE_BUILD_TYPE} MATCHES "Release")
   # This test is computationally demanding.

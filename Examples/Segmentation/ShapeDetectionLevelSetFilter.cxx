@@ -34,9 +34,9 @@
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS:  {BrainProtonDensitySlice.png}
 //    OUTPUTS: {ShapeDetectionLevelSetFilterOutput8.png}
-//    OUTPUTS: [ShapeDetectionLevelSetFilterOutput1.png]
-//    OUTPUTS: [ShapeDetectionLevelSetFilterOutput2.png]
-//    OUTPUTS: [ShapeDetectionLevelSetFilterOutput3.png]
+//    OUTPUTS: {ShapeDetectionLevelSetFilterOutput1.png}
+//    OUTPUTS: {ShapeDetectionLevelSetFilterOutput2.png}
+//    OUTPUTS: {ShapeDetectionLevelSetFilterOutput3.png}
 //    ARGUMENTS:    40 90 5 0.5  -0.3  2.0   .05 1
 //  Software Guide : EndCommandLineArgs
 

@@ -19,9 +19,9 @@
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS: brainweb1e1a10f20.mha
 //    INPUTS: brainweb1e1a10f20Rot10Tx15.mha
-//    INPUTS: ImageRegistration8Output.mhd
-//    INPUTS: ImageRegistration8DifferenceBefore.mhd
-//    INPUTS: ImageRegistration8DifferenceAfter.mhd
+//    OUTPUTS: ImageRegistration8Output.mhd
+//    OUTPUTS: ImageRegistration8DifferenceBefore.mhd
+//    OUTPUTS: ImageRegistration8DifferenceAfter.mhd
 //    OUTPUTS: {ImageRegistration8Output.png}
 //    OUTPUTS: {ImageRegistration8DifferenceBefore.png}
 //    OUTPUTS: {ImageRegistration8DifferenceAfter.png}
@@ -358,8 +358,8 @@ int main( int argc, char *argv[] )
   //  volumes, for example the pair:
   //
   //  \begin{itemize}
-  //  \item \code{brainweb165a10f17.mha}
-  //  \item \code{brainweb165a10f17Rot10Tx15.mha}
+  //  \item \code{brainweb1e1a10f20.mha}
+  //  \item \code{brainweb1e1a10f20Rot10Tx15.mha}
   //  \end{itemize}
   //
   //  The second image is the result of intentionally rotating the first image

@@ -26,8 +26,8 @@
 // We call an instance in a \code{Histogram} object a \emph{bin}.  The
 // Histogram differs from the
 // \subdoxygen{Statistics}{ListSample},
-// \subdoxygen{Statistics}{ImageToListAdaptor}, or
-// \subdoxygen{Statistics}{PointSetToListAdaptor} in significant ways.
+// \subdoxygen{Statistics}{ImageToListSampleAdaptor}, or
+// \subdoxygen{Statistics}{PointSetToListSampleAdaptor} in significant ways.
 // Histogram can have a variable number of values (\code{float}
 // type) for each measurement vector, while the three other classes
 // have a fixed value (one) for all measurement vectors. Also
