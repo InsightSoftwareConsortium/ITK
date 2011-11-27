@@ -393,7 +393,7 @@ bool
 FastMarchingImageFilterBase< TInput, TOutput >::
 CheckTopology( OutputImageType* oImage, const NodeType& iNode )
   {
-  if( this->m_TopologyCheck != Superclass::None )
+  if( this->m_TopologyCheck != Superclass::Nothing )
     {
     if( ( ImageDimension == 2 ) || ( ImageDimension == 3 ) )
       {
@@ -484,9 +484,9 @@ CheckTopology( OutputImageType* oImage, const NodeType& iNode )
     else
       {
       itkWarningMacro( << "CheckTopology has not be implemented for Dimension != 2 and != 3."
-                    << "m_TopologyCheck should be set to None." );
+                    << "m_TopologyCheck should be set to Nothing." );
       }
-    } // if( this->m_TopologyCheck != Superclass::None )
+    } // if( this->m_TopologyCheck != Superclass::Nothing )
   return true;
 }
 // -----------------------------------------------------------------------------
@@ -642,7 +642,7 @@ InitializeOutput( OutputImageType* oImage )
       }
     }
   // initialize indices if this->m_TopologyCheck is activated
-  if( this->m_TopologyCheck != Superclass::None )
+  if( this->m_TopologyCheck != Superclass::Nothing )
     {
     if( ImageDimension == 2 )
       {

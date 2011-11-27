@@ -151,8 +151,8 @@ public:
 
   /** \enum TopologyCheckType */
   enum TopologyCheckType {
-    /** \c None */
-    None = 0,
+    /** \c Nothing */
+    Nothing = 0,
     /** \c NoHandles */
     NoHandles,
     /** \c Strict */
