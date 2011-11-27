@@ -34,9 +34,9 @@
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS:  {BrainProtonDensitySlice.png}
 //    OUTPUTS: {FastMarchingImageFilterOutput8.png}
-//    OUTPUTS: [FastMarchingFilterOutput1.png]
-//    OUTPUTS: [FastMarchingFilterOutput2.png]
-//    OUTPUTS: [FastMarchingFilterOutput3.png]
+//    OUTPUTS: {FastMarchingFilterOutput1.png}
+//    OUTPUTS: {FastMarchingFilterOutput2.png}
+//    OUTPUTS: {FastMarchingFilterOutput3.png}
 //    ARGUMENTS:    40 90 0.5  -0.3  2.0   200 100
 //  Software Guide : EndCommandLineArgs
 

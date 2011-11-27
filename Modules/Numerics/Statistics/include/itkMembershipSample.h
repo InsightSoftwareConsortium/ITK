@@ -31,7 +31,7 @@ namespace Statistics
  *
  * This class does not store any measurement data. In a sense, you can
  * think it as an additional information to basic samples (such as Histogram,
- * PointSetListSampleAdaptor, and ImageToListAdaptor). The additional
+ * PointSetListSampleAdaptor, and ImageToListSampleAdaptor). The additional
  * information is a class label for a measurement vector. Obviously without
  * such basic types of sample, this one is meaningless. You can call any
  * basic methods that has been defined in the Sample class such as

@@ -94,7 +94,7 @@ protected:
 
 private:
 
-  AdaptorPointer m_ImageToListAdaptor;
+  AdaptorPointer m_ImageToListSampleAdaptor;
 
   GeneratorPointer m_HistogramGenerator;
 

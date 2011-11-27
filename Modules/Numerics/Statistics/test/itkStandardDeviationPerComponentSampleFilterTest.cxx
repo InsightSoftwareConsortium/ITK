@@ -65,7 +65,7 @@ int itkStandardDeviationPerComponentSampleFilterTest(int, char* [] )
     ++count;
     }
 
-  // creates an ImageToListAdaptor object
+  // creates an ImageToListSampleAdaptor object
   typedef  itk::Statistics::ImageToListSampleFilter< ImageType, MaskImageType >
                                      ImageToListSampleFilterType;
 
