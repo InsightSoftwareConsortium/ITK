@@ -181,7 +181,7 @@ DisplacementFieldTransformParametersAdaptor<TTransform>
     {
     for( SizeValueType dj = 0; dj < SpaceDimension; dj++ )
       {
-      direction[di][dj] = this->m_RequiredFixedParameters[3 * SpaceDimension + ( di * SpaceDimension + dj )] != direction[di][dj];
+      direction[di][dj] = this->m_RequiredFixedParameters[3 * SpaceDimension + ( di * SpaceDimension + dj )];
       }
     }
   return direction;

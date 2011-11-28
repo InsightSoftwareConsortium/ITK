@@ -92,7 +92,7 @@ class ITK_EXPORT ImageRegistrationMethodv4
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageRegistrationMethodv4             Self;
+  typedef ImageRegistrationMethodv4                 Self;
   typedef ProcessObject                             Superclass;
   typedef SmartPointer<Self>                        Pointer;
   typedef SmartPointer<const Self>                  ConstPointer;
@@ -113,7 +113,7 @@ public:
   typedef typename MovingImageType::Pointer                           MovingImagePointer;
 
   /** Metric and transform typedefs */
-  typedef ImageToImageMetricv4<FixedImageType, MovingImageType>   MetricType;
+  typedef ImageToImageMetricv4<FixedImageType, MovingImageType>       MetricType;
   typedef typename MetricType::Pointer                                MetricPointer;
 
   typedef TTransform                                                  TransformType;
@@ -151,6 +151,12 @@ public:
   typedef ObjectToObjectOptimizerBase                                 OptimizerType;
   typedef typename OptimizerType::Pointer                             OptimizerPointer;
 
+  /** enum type for metric sampling strategy */
+  enum MetricSamplingStrategyType { NONE, REGULAR, RANDOM };
+
+  typedef typename MetricType::FixedSampledPointSetType               MetricSamplePointSetType;
+
+
   /** Set/Get the fixed image. */
   itkSetInputMacro( FixedImage, FixedImageType );
   itkGetInputMacro( FixedImage, FixedImageType );
@@ -170,6 +176,14 @@ public:
   /** Set/Get the metric. */
   itkSetObjectMacro( Metric, MetricType );
   itkGetObjectMacro( Metric, MetricType );
+
+  /** Set/Get the metric sampling strategy. */
+  itkSetMacro( MetricSamplingStrategy, MetricSamplingStrategyType );
+  itkGetConstMacro( MetricSamplingStrategy, MetricSamplingStrategyType );
+
+  /** Set/Get the metric sampling percentage. */
+  itkSetClampMacro( MetricSamplingPercentage, RealType, 0.0, 1.0 );
+  itkGetConstMacro( MetricSamplingPercentage, RealType );
 
   /** Set/Get the transform. */
   itkSetObjectMacro( Transform, TransformType );
@@ -214,7 +228,7 @@ public:
   itkGetConstMacro( SmoothingSigmasPerLevel, SmoothingSigmasArrayType );
 
   /** Method that initiates the registration */
-  void StartRegistration() { this->GenerateData(); };
+  void StartRegistration() { this->GenerateData(); }
 
   /** Make a DataObject of the correct type to be used as the specified output. */
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
@@ -238,6 +252,9 @@ protected:
   /** Initialize by setting the interconnects between the components. */
   virtual void InitializeRegistrationAtEachLevel( const SizeValueType );
 
+  /** Get metric samples. */
+  virtual void SetMetricSamplePoints();
+
   SizeValueType                                                   m_CurrentLevel;
   SizeValueType                                                   m_NumberOfLevels;
 
@@ -250,6 +267,8 @@ protected:
   OptimizerPointer                                                m_Optimizer;
 
   MetricPointer                                                   m_Metric;
+  MetricSamplingStrategyType                                      m_MetricSamplingStrategy;
+  RealType                                                        m_MetricSamplingPercentage;
 
   ShrinkFactorsArrayType                                          m_ShrinkFactorsPerLevel;
   SmoothingSigmasArrayType                                        m_SmoothingSigmasPerLevel;

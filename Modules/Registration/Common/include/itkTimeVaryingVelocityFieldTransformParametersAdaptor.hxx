@@ -181,7 +181,7 @@ TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
     {
     for( SizeValueType dj = 0; dj < TotalDimension; dj++ )
       {
-      direction[di][dj] = this->m_RequiredFixedParameters[3 * TotalDimension + ( di * TotalDimension + dj )] != direction[di][dj];
+      direction[di][dj] = this->m_RequiredFixedParameters[3 * TotalDimension + ( di * TotalDimension + dj )];
       }
     }
   return direction;

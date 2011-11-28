@@ -136,14 +136,6 @@ TimeVaryingVelocityFieldIntegrationImageFilter
   <TTimeVaryingVelocityField, TDisplacementField>
 ::BeforeThreadedGenerateData()
 {
-  VectorType zeroVector( 0.0 );
-
-  this->AllocateOutputs();
-
-  DisplacementFieldType * outputField =  this->GetOutput();
-
-  outputField->FillBuffer( zeroVector );
-
   this->m_VelocityFieldInterpolator->SetInputImage( this->GetInput() );
 
   if( !this->m_InitialDiffeomorphism.IsNull() )
