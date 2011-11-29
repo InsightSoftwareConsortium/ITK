@@ -25,6 +25,7 @@ nm libitktiff.a |grep " R "
 #define _TIFFwarningHandlerExt itk__TIFFwarningHandlerExt
 #define _TIFFDataSize itk__TIFFDataSize
 #define _TIFFSwab24BitData itk__TIFFSwab24BitData
+#define _TIFFCheckMalloc itk__TIFFCheckMalloc
 #define tiffDataWidth itk_tiffDataWidth
 #define LogL10fromY itk_LogL10fromY
 #define LogL10toY itk_LogL10toY
@@ -49,6 +50,7 @@ nm libitktiff.a |grep " R "
 #define TIFFDefaultStripSize itk_TIFFDefaultStripSize
 #define TIFFDefaultTileSize itk_TIFFDefaultTileSize
 #define TIFFError itk_TIFFError
+#define TIFFErrorExt itk_TIFFErrorExt
 #define TIFFFdOpen itk_TIFFFdOpen
 #define TIFFFieldWithName itk_TIFFFieldWithName
 #define TIFFFileName itk_TIFFFileName
@@ -142,10 +144,12 @@ nm libitktiff.a |grep " R "
 #define TIFFSetCompressionScheme itk_TIFFSetCompressionScheme
 #define TIFFSetDirectory itk_TIFFSetDirectory
 #define TIFFSetErrorHandler itk_TIFFSetErrorHandler
+#define TIFFSetErrorHandlerExt itk_TIFFSetErrorHandlerExt
 #define TIFFSetField itk_TIFFSetField
 #define TIFFSetSubDirectory itk_TIFFSetSubDirectory
 #define TIFFSetTagExtender itk_TIFFSetTagExtender
 #define TIFFSetWarningHandler itk_TIFFSetWarningHandler
+#define TIFFSetWarningHandlerExt itk_TIFFSetWarningHandlerExt
 #define TIFFSetWriteOffset itk_TIFFSetWriteOffset
 #define TIFFStripSize itk_TIFFStripSize
 #define TIFFSwabArrayOfDouble itk_TIFFSwabArrayOfDouble
@@ -165,6 +169,7 @@ nm libitktiff.a |grep " R "
 #define TIFFVStripSize itk_TIFFVStripSize
 #define TIFFVTileSize itk_TIFFVTileSize
 #define TIFFWarning itk_TIFFWarning
+#define TIFFWarningExt itk_TIFFWarningExt
 #define TIFFWriteBufferSetup itk_TIFFWriteBufferSetup
 #define TIFFWriteCheck itk_TIFFWriteCheck
 #define TIFFWriteDirectory itk_TIFFWriteDirectory
