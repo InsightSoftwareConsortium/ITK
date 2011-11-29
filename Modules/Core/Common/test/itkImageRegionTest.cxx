@@ -309,6 +309,53 @@ int itkImageRegionTest(int, char* [] )
     passed = false;
     }
 
+  // Test ShrinkByRadius
+  IndexType shrinkIndex;
+  shrinkIndex[0] = 22;
+  shrinkIndex[1] = 343;
+  shrinkIndex[2] = 5;
+  SizeType  shrinkSize;
+  shrinkSize[0]  = 33;
+  shrinkSize[1]  = 21;
+  shrinkSize[2]  = 3;
+  RegionType shrinkRegion;
+  shrinkRegion.SetIndex( shrinkIndex );
+  shrinkRegion.SetSize ( shrinkSize );
+  RegionType padAndShrinkRegion = shrinkRegion;
+
+  itk::OffsetValueType offsetValueRadius = 4;
+  padAndShrinkRegion.PadByRadius( offsetValueRadius );
+  padAndShrinkRegion.ShrinkByRadius( offsetValueRadius );
+  if( shrinkRegion != padAndShrinkRegion )
+    {
+    passed = false;
+    std::cerr << "Pad and shrink by an OffSetValueType radius failed." << std::endl;
+    }
+
+  SizeType sizeRadius;
+  sizeRadius[0] = 0;
+  sizeRadius[1] = 1;
+  sizeRadius[2] = 2;
+  padAndShrinkRegion.PadByRadius( sizeRadius );
+  padAndShrinkRegion.ShrinkByRadius( sizeRadius );
+  if( shrinkRegion != padAndShrinkRegion )
+    {
+    passed = false;
+    std::cerr << "Pad and shrink by an SizeType radius failed." << std::endl;
+    }
+
+  RegionType::IndexValueArrayType indexValueArrayRadius;
+  indexValueArrayRadius[0] = 0;
+  indexValueArrayRadius[1] = 1;
+  indexValueArrayRadius[2] = 2;
+  padAndShrinkRegion.PadByRadius( indexValueArrayRadius );
+  padAndShrinkRegion.ShrinkByRadius( indexValueArrayRadius );
+  if( shrinkRegion != padAndShrinkRegion )
+    {
+    passed = false;
+    std::cerr << "Pad and shrink by an IndexValueArrayType radius failed." << std::endl;
+    }
+
   if (passed)
     {
     std::cout << "ImageRegion test passed." << std::endl;
