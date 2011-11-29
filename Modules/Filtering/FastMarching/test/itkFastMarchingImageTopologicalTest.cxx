@@ -146,7 +146,7 @@ int FastMarchingImageFilter( unsigned int argc, char *argv[] )
   fastMarching->SetTrialPoints(  TrialPoints  );
   fastMarching->SetAlivePoints(  AlivePoints  );
 
-  fastMarching->SetTopologyCheck( FastMarchingType::None );
+  fastMarching->SetTopologyCheck( FastMarchingType::Nothing );
 
   if( argc > 6 && atoi( argv[6] ) == 1 )
     {
