@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkN4MRIBiasFieldCorrectionImageFilter_h
-#define __itkN4MRIBiasFieldCorrectionImageFilter_h
+#ifndef __itkN4BiasFieldCorrectionImageFilter_h
+#define __itkN4BiasFieldCorrectionImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
@@ -30,8 +30,8 @@
 namespace itk {
 
 /**
- * \class N4MRIBiasFieldCorrectionImageFilter
- * \brief Implementation of the N4 MRI bias field correction algorithm.
+ * \class N4BiasFieldCorrectionImageFilter
+ * \brief Implementation of the N4  bias field correction algorithm.
  *
  * The nonparametric nonuniform intensity normalization (N3) algorithm, as
  * introduced by Sled et al. in 1998 is a method for correcting nonuniformity
@@ -77,30 +77,31 @@ namespace itk {
  * \par REFERENCE
  *
  * J.G. Sled, A.P. Zijdenbos and A.C. Evans.  "A Nonparametric Method for
- * Automatic Correction of Intensity Nonuniformity in MRI Data"
+ * Automatic Correction of Intensity Nonuniformity in  Data"
  * IEEE Transactions on Medical Imaging, Vol 17, No 1. Feb 1998.
  *
  * N.J. Tustison, B.B. Avants, P.A. Cook, Y. Zheng, A. Egan, P.A. Yushkevich,
  * and J.C. Gee. "N4ITK:  Improved N3 Bias Correction"
  * IEEE Transactions on Medical Imaging, 29(6):1310-1320, June 2010.
- * \ingroup ITKReview
+ *
+ * \ingroup ITKBiasCorrection
  */
 
 template<class TInputImage, class TMaskImage =
   Image<unsigned char, ::itk::GetImageDimension<TInputImage>::ImageDimension>,
   class TOutputImage = TInputImage>
-class ITK_EXPORT N4MRIBiasFieldCorrectionImageFilter :
+class ITK_EXPORT N4BiasFieldCorrectionImageFilter :
   public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   /** Standard class typedefs. */
-  typedef N4MRIBiasFieldCorrectionImageFilter           Self;
+  typedef N4BiasFieldCorrectionImageFilter              Self;
   typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
   typedef SmartPointer<Self>                            Pointer;
   typedef SmartPointer<const Self>                      ConstPointer;
 
   /** Runtime information support. */
-  itkTypeMacro( N4MRIBiasFieldCorrectionImageFilter, ImageToImageFilter );
+  itkTypeMacro( N4BiasFieldCorrectionImageFilter, ImageToImageFilter );
 
   /** Standard New method. */
   itkNewMacro( Self );
@@ -164,7 +165,7 @@ public:
    * Set confidence image function.  If a confidence image is specified,
    * estimation of the bias field weights the contribution of each voxel
    * according the value of the corresponding voxel in the confidence image.
-   * For example, when estimating the bias field using brain MRI, one can use
+   * For example, when estimating the bias field using brain , one can use
    * a soft segmentation of the white matter as the confidence image instead of
    * using a hard segmentation of the white matter as the mask image (as has
    * been done in the literature) as an alternative strategy to estimating the
@@ -180,7 +181,7 @@ public:
    * Get confidence image function.  If a confidence image is specified,
    * estimation of the bias field weights the contribution of each voxel
    * according the value of the corresponding voxel in the confidence image.
-   * For example, when estimating the bias field using brain MRI, one can use
+   * For example, when estimating the bias field using brain , one can use
    * a soft segmentation of the white matter as the confidence image instead of
    * using a hard segmentation of the white matter as the mask image (as has
    * been done in the literature) as an alternative strategy to estimating the
@@ -365,14 +366,14 @@ public:
   itkGetConstMacro( CurrentLevel, unsigned int );
 
 protected:
-  N4MRIBiasFieldCorrectionImageFilter();
-  ~N4MRIBiasFieldCorrectionImageFilter() {}
+  N4BiasFieldCorrectionImageFilter();
+  ~N4BiasFieldCorrectionImageFilter() {}
   void PrintSelf( std::ostream& os, Indent indent ) const;
 
   void GenerateData();
 
 private:
-  N4MRIBiasFieldCorrectionImageFilter( const Self& ); //purposely not
+  N4BiasFieldCorrectionImageFilter( const Self& ); //purposely not
                                                       // implemented
   void operator=( const Self& );                      //purposely not
                                                       // implemented
@@ -436,7 +437,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkN4MRIBiasFieldCorrectionImageFilter.hxx"
+#include "itkN4BiasFieldCorrectionImageFilter.hxx"
 #endif
 
 #endif

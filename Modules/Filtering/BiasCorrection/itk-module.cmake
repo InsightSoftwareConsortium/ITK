@@ -7,12 +7,17 @@ uniform across the field of view.")
 itk_module(ITKBiasCorrection
   DEPENDS
     ITKImageFilterBase
+    ITKImageGrid
+    ITKImageIntensity
     ITKPolynomials
     ITKStatistics
     ITKOptimizers
   TEST_DEPENDS
     ITKTestKernel
     ITKImageSource
+    ITKImageIntensity
+    ITKImageGrid
+    ITKThresholding
   DESCRIPTION
     "${DOCUMENTATION}"
 )
