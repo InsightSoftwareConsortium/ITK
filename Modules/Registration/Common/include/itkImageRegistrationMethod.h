@@ -119,19 +119,6 @@ public:
   /** Smart Pointer type to a DataObject. */
   typedef typename DataObject::Pointer DataObjectPointer;
 
-  /** Method that initiates the registration. This will Initialize and ensure
-   * that all inputs the registration needs are in place, via a call to
-   * Initialize() will then start the optimization process via a call to
-   * StartOptimization()  */
-  void StartRegistration(void);
-
-  /** Method that initiates the optimization process. This method should not be
-   * called directly by the users. Instead, this method is intended to be
-   * invoked internally by the StartRegistration() which is in turn invoked by
-   * the Update() method.
-   * FIXME: This method should be declared protected. */
-  void StartOptimization(void);
-
   /** Set/Get the Fixed image. */
   void SetFixedImage(const FixedImageType *fixedImage);
 
@@ -211,13 +198,41 @@ protected:
   ImageRegistrationMethod();
   virtual ~ImageRegistrationMethod() {}
   void PrintSelf(std::ostream & os, Indent indent) const;
-
   /** Method invoked by the pipeline in order to trigger the computation of
    * the registration. */
   void  GenerateData();
 
   /** Provides derived classes with the ability to set this private var */
   itkSetMacro(LastTransformParameters, ParametersType);
+#ifdef ITKV3_COMPATIBILITY
+public:
+#else
+protected:
+#endif
+  /** Method that initiates the registration. This will Initialize and ensure
+   * that all inputs the registration needs are in place, via a call to
+   * Initialize() will then start the optimization process via a call to
+   * StartOptimization()
+   * StartRegistration is an old API from before
+   * ImageRegistrationMethod was a subclass of ProcessObject.
+   * Historically, one could call StartRegistration() instead of
+   * calling Update().  However, when called directly by the user, the
+   * inputs to ImageRegistrationMethod may not be up to date.  This
+   * may cause an unexpected behavior.
+   *
+   * Since we cannot eliminate StartRegistration for backward
+   * compability reasons, we check whether StartRegistration was
+   * called directly or whether Update() (which in turn called
+   * StartRegistration()). */
+  void StartRegistration(void);
+
+  /** Method that initiates the optimization process. This method should not be
+   * called directly by the users. Instead, this method is intended to be
+   * invoked internally by the StartRegistration() which is in turn invoked by
+   * the Update() method.
+   * This method should be declared protected. */
+  void StartOptimization(void);
+
 private:
   ImageRegistrationMethod(const Self &); //purposely not implemented
   void operator=(const Self &);          //purposely not implemented

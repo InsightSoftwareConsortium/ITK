@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Change SYSTEM "http://ij.itk.org/itkfaq/ITKMigration.dtd">
+
+<!--**
+**
+** RemoveStartRegistration.xml
+**
+** Please, make sure this file validates the following w3c test before committing it: http://validator.w3.org
+**-->
+<Change>
+    <!--**
+    ** Title for the online migration page
+    **-->
+    <Title>
+      Remove Start Registration
+    </Title>
+
+    <!--**
+    ** The author of the change
+    **-->
+    <Author>
+      Hans Johnson
+    </Author>
+
+    <!--**
+    ** Date of creation for the XML document
+    **-->
+    <Date>
+      2011-11-28
+    </Date>
+
+    <!--**
+    ** Plain text description of the change
+    ** Extracted from git commit messages
+    **-->
+    <Description>
+      <![CDATA[
+      STYLE: Remove old backwards compatibility
+      This patch implements a suggestion commented
+      on in June 2006.
+
+      Code/Algorithms/itkImageRegistrationMethod.txx (Jim Miller 2006-06-08 16:30:47 -0400 227)
+      StartRegistration is an old API from be
+      ImageRegistrationMethod was a subclass
+      Historically, one could call StartRegis
+      calling Update(). However, when called
+      inputs to ImageRegistrationMethod may n
+      may cause an unexpected behavior.
+
+      Since we cannot eliminate StartRegistration for backwards
+      compability reasons, we check whether StartRegistation is
+      called directly or whether Update()
+      (which in turn called StartRegistation)
+
+      ]]>
+    </Description>
+
+    <!--**
+    ** Sample code snippets
+    ** Extracted from git diff of changed files in Examples and Testing
+    **-->
+    <SampleCode>
+      <Old>
+        <![CDATA[
+        registration-&gt;StartRegistration();
+        ]]>
+      </Old>
+
+      <New>
+        <![CDATA[
+        registration-&gt;Update();
+        ]]>
+      </New>
+
+    </SampleCode>
+
+    <!--**
+    ** The change-ids for all commits in the topic branch
+    **-->
+    <Gerrit-ChangeId>
+    </Gerrit-ChangeId>
+
+    <!--**
+    ** List of all changed files from the topic branch
+    **-->
+    <FileList>
+      Examples/Registration/DeformableRegistration12.cxx
+      Examples/Registration/DeformableRegistration13.cxx
+      Examples/Registration/DeformableRegistration14.cxx
+      Examples/Registration/DeformableRegistration15.cxx
+      Examples/Registration/DeformableRegistration4.cxx
+      Examples/Registration/DeformableRegistration6.cxx
+      Examples/Registration/DeformableRegistration7.cxx
+      Examples/Registration/DeformableRegistration8.cxx
+      Examples/Registration/ImageRegistration10.cxx
+      Examples/Registration/ImageRegistration11.cxx
+      Examples/Registration/ImageRegistration12.cxx
+      Examples/Registration/ImageRegistration13.cxx
+      Examples/Registration/ImageRegistration14.cxx
+      Examples/Registration/ImageRegistration15.cxx
+      Examples/Registration/ImageRegistration16.cxx
+      Examples/Registration/ImageRegistration17.cxx
+      Examples/Registration/ImageRegistration18.cxx
+      Examples/Registration/ImageRegistration19.cxx
+      Examples/Registration/ImageRegistration2.cxx
+      Examples/Registration/ImageRegistration20.cxx
+      Examples/Registration/ImageRegistration3.cxx
+      Examples/Registration/ImageRegistration4.cxx
+      Examples/Registration/ImageRegistration5.cxx
+      Examples/Registration/ImageRegistration6.cxx
+      Examples/Registration/ImageRegistration7.cxx
+      Examples/Registration/ImageRegistration8.cxx
+      Examples/Registration/ImageRegistration9.cxx
+      Modules/Registration/Common/include/itkImageRegistrationMethod.h
+    </FileList>
+
+    <!--**
+    ** If the migration can be accomplished by a simple string
+    ** substitution, then use the following construct to define
+    ** the substitution rule.
+    **
+    ** <MigrationFix-Automatic>
+    **   <Old>
+    **     <![CDATA[MipsleledName]]>
+    **   </Old>
+    **   <New>
+    **     <![CDATA[MisspelledName]]>
+    **   </New>
+    ** </MigrationFix-Automatic>
+    **-->
+
+    <!--**
+    ** If the migration can NOT be accomplished by a simple string
+    ** substitution, but potential problem spots can be identified,
+    ** use the following construct to define a migration flag rule.
+    **
+    ** <MigrationFix-Manual>
+    **   OldFunctionName
+    ** </MigrationFix-Manual>
+    **-->
+
+</Change>
