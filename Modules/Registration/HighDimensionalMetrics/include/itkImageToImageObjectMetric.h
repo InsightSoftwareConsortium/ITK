@@ -78,7 +78,7 @@ class Array1DToData;
  *  1) Set images using \c SetFixedImage and \c SetMovingImage.
  *  2) Call \c Initialize.
  *
- * Pre-warping:
+ * Pre-warping
  * The \c SetDoFixedImagePreWarp and \c SetDoMovingImagePreWarp options can be set
  * for better speed. When set, these create a warped version for each image at
  * the beginning of each iteration, warping each image into the virtual domain.
@@ -89,7 +89,7 @@ class Array1DToData;
  * moving transform is changing (e.g. during registration).
  * By default, pre-warping is enabled for both fixed and moving images.
  *
- * Image gradient calculations:
+ * Image gradient calculations
  * Image gradients can be calculated in one of two ways:
  * 1) Using a gradient image filter, by setting
  *  \c Use[Fixed|Moving]ImageGradientFilter to true. By default this is set
@@ -100,27 +100,42 @@ class Array1DToData;
  *  calculated once, and for metrics that need to access image gradients more
  *  than once for a particular point. The fixed image gradients are only
  *  calculated once when this option is set, during \c Initialize.
- *TODO: Update:
- * 2) Otherwise, the CentralDifferenceImageFunction is used. This calculation
+ * 2) Otherwise, an image gradient calculator based on ImageFunction is used.
+ *  By default the CentralDifferenceImageFunction is used. This calculation
  *  is not smoothed and gives different results than
  *  GradientRecursiveGaussianImageFilter. The advantage is that less memory is
  *  used. However for the fixed image, it means needlessly computing the image
  *  gradients at each iteration of a registration instead of just computing
- *  once at the beginning.
+ *  once at the beginning. The user can supply a different function by calling
+ *  SetFixedImageGradientCalculator and/or SetMovingImageGradientCalculator.
  *
  * Both image gradient calculation methods are threaded.
  * Generally it is not recommended to use different image gradient methods for
  * the fixed and moving images because the methods return different results.
  *
+ * Image Masks
  * Image masks are supported using SetMovingImageMask or SetFixedImageMask.
+ * If the image mask is sparse, see the comments for use of sparse point sets.
  *
- * Random sampling or user-supplied point lists are not yet supported, except
- * via an image mask. If the mask is sparse, the
- * SetPreWarp[Fixed|Moving]Image and Use[Fixed|Moving]ImageGradientFilter
- * options typically should be disabled to avoid excessive computation. However,
- * depending on the number of iterations and the level of sparsity, it may
- * be more efficient to pre-warp the fixed image and use a gradient image filter
- * for it because they will only be calculated once.
+ * Sparse Sampling
+ * Sparse sampling is performed by supplying an arbitrary point list over
+ * which to evaluate the
+ * metric. It's presumed that the user will be working in terms of the fixed
+ * image domain, and thus the point list is expected to be in the fixed domain.
+ * Internally, the points are transformed into the virtual domain as needed.
+ * \note The attributes/data of each point in the set are not used, but rather
+ * the point's geometric coordinates.
+ * Point sets are set via SetFixedSampledPointSet, and the point set is enabled
+ * for use by calling SetUseFixedSampledPointSet.
+ * \note If the point set is sparse, the options
+ * SetDo[Fixed|Moving]ImagePreWarp and SetUse[Fixed|Moving]ImageGradientFilter
+ * typically should be disabled to avoid excessive computation. However,
+ * the warped position and gradient values of the fixed image are not cached
+ * when using a point set (there are plans for this in the future), so
+ * depending on the number of iterations (when used during optimization)
+ * and the level of sparsity, it may be more efficient to pre-warp the fixed
+ * image and use a gradient image filter for it because they will only be
+ * calculated once.
  *
  * This class is threaded.
  *
@@ -248,11 +263,7 @@ public:
   typedef typename MovingImageMaskType::ConstPointer
                                                    MovingImageMaskConstPointer;
 
-  /** Type of the point set used for sparse sampling. The user can pass
-   * an arbitrary point set to designate point for sampling. It's presumed that
-   * the user will be working in terms of the fixed image domain, and thus the
-   * sampling domain is the same. Internally, the points are transformed
-   * into the virtual domain as needed. */
+  /** Type of the point set used for sparse sampling. */
   typedef PointSet<typename FixedImageType::PixelType,
                    itkGetStaticConstMacro(FixedImageDimension)>
                                                      FixedSampledPointSetType;
