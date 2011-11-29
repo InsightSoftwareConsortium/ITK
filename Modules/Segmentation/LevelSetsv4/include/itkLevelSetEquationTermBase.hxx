@@ -79,7 +79,14 @@ LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
 LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
 ::Evaluate( const LevelSetInputIndexType& iP )
 {
-  return this->m_Coefficient * this->Value( iP );
+  if( vnl_math_abs( this->m_Coefficient ) > NumericTraits< LevelSetOutputRealType >::epsilon() )
+    {
+    return this->m_Coefficient * this->Value( iP );
+    }
+  else
+    {
+    return NumericTraits< LevelSetOutputRealType >::Zero;
+    }
 }
 // ----------------------------------------------------------------------------
 
@@ -92,7 +99,14 @@ LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
 ::Evaluate( const LevelSetInputIndexType& iP,
             const LevelSetDataType& iData )
 {
-  return this->m_Coefficient * this->Value( iP, iData );
+  if( vnl_math_abs( this->m_Coefficient ) > NumericTraits< LevelSetOutputRealType >::epsilon() )
+    {
+    return this->m_Coefficient * this->Value( iP, iData );
+    }
+  else
+    {
+    return NumericTraits< LevelSetOutputRealType >::Zero;
+    }
 }
 // ----------------------------------------------------------------------------
 
