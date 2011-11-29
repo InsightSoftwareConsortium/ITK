@@ -10,13 +10,16 @@ itkFastMarchingBaseTest.cxx
 itkFastMarchingImageFilterBaseTest.cxx
 itkFastMarchingImageFilterRealTest1.cxx
 itkFastMarchingImageFilterRealTest2.cxx
+itkFastMarchingImageFilterRealWithNumberOfElementsTest.cxx
 itkFastMarchingImageTopologicalTest.cxx
 itkFastMarchingQuadEdgeMeshFilterBaseTest2.cxx
 itkFastMarchingQuadEdgeMeshFilterBaseTest3.cxx
 itkFastMarchingQuadEdgeMeshFilterBaseTest4.cxx
 itkFastMarchingQuadEdgeMeshFilterBaseTest.cxx
+itkFastMarchingQuadEdgeMeshFilterWithNumberOfElementsTest.cxx
 itkFastMarchingStoppingCriterionBaseTest.cxx
 itkFastMarchingThresholdStoppingCriterionTest.cxx
+itkFastMarchingNumberOfElementsStoppingCriterionTest.cxx
 itkFastMarchingUpwindGradientBaseTest.cxx
 )
 
@@ -45,6 +48,10 @@ itk_add_test(NAME itkFastMarchingImageFilterRealTest1
 itk_add_test(NAME itkFastMarchingImageFilterRealTest2
       COMMAND ITKFastMarchingTestDriver itkFastMarchingImageFilterRealTest2)
 
+itk_add_test(NAME itkFastMarchingImageFilterRealWithNumberOfElementsTest
+      COMMAND ITKFastMarchingTestDriver
+      itkFastMarchingImageFilterRealWithNumberOfElementsTest )
+
 itk_add_test(NAME itkFastMarchingUpwindGradientBaseTest
       COMMAND ITKFastMarchingTestDriver itkFastMarchingUpwindGradientBaseTest )
 
@@ -60,11 +67,17 @@ itk_add_test(NAME itkFastMarchingQuadEdgeMeshFilterBaseTest3
 itk_add_test(NAME itkFastMarchingQuadEdgeMeshFilterBaseTest4
       COMMAND ITKFastMarchingTestDriver itkFastMarchingQuadEdgeMeshFilterBaseTest4 )
 
+itk_add_test(NAME itkFastMarchingQuadEdgeMeshFilterWithNumberOfElementsTest
+      COMMAND ITKFastMarchingTestDriver itkFastMarchingQuadEdgeMeshFilterWithNumberOfElementsTest )
+
 itk_add_test(NAME itkFastMarchingStoppingCriterionBaseTest
       COMMAND ITKFastMarchingTestDriver itkFastMarchingStoppingCriterionBaseTest )
 
 itk_add_test(NAME itkFastMarchingThresholdStoppingCriterionTest
       COMMAND ITKFastMarchingTestDriver itkFastMarchingThresholdStoppingCriterionTest )
+
+itk_add_test(NAME itkFastMarchingNumberOfElementsStoppingCriterionTest
+      COMMAND ITKFastMarchingTestDriver itkFastMarchingNumberOfElementsStoppingCriterionTest )
 
 # -------------------------------------------------------------------------
 # Topology constrained front propagation
