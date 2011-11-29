@@ -157,6 +157,60 @@ BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>
   this->Modified();
 }
 
+/**
+ * UpdateTransformParameters
+ */
+template <class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
+void
+BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>
+::UpdateTransformParameters( DerivativeType & update, TScalarType factor )
+{
+  NumberOfParametersType numberOfParameters = this->GetNumberOfParameters();
+
+  if( update.Size() != numberOfParameters )
+    {
+    itkExceptionMacro("Parameter update size, " << update.Size() << ", must "
+                      " be same as transform parameter size, "
+                                                << numberOfParameters << std::endl);
+    }
+
+  /* Make sure m_Parameters is updated to reflect the current values in
+   * the transform's other parameter-related variables. This is effective for
+   * managing the parallel variables used for storing parameter data,
+   * but inefficient. However for small global transforms, shouldn't be
+   * too bad. Dense-field transform will want to make sure m_Parameters
+   * is always updated whenever the transform is changed, so GetParameters
+   * can be skipped in their implementations of UpdateTransformParameters. */
+
+  if( factor == 1.0 )
+    {
+    for( NumberOfParametersType k = 0; k < numberOfParameters; k++ )
+      {
+      this->m_InternalParametersBuffer[k] += update[k];
+      }
+    }
+  else
+    {
+    for( NumberOfParametersType k = 0; k < numberOfParameters; k++ )
+      {
+      this->m_InternalParametersBuffer[k] += update[k] * factor;
+      }
+    }
+
+  /* Call SetParameters with the updated parameters.
+   * SetParameters in most transforms is used to assign the input params
+   * to member variables, possibly with some processing. The member variables
+   * are then used in TransformPoint.
+   * In the case of dense-field transforms that are updated in blocks from
+   * a threaded implementation, SetParameters doesn't do this, and is
+   * optimized to not copy the input parameters when == m_Parameters.
+   */
+  this->SetParameters( this->m_InternalParametersBuffer );
+
+  /* Call Modified, following behavior of other transform when their
+   * parameters change, e.g. MatrixOffsetTransformBase */
+  this->Modified();
+}
 
 // Wrap flat parameters as images
 template <class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>

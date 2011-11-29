@@ -624,9 +624,10 @@ BSplineTransform<TScalarType, NDimensions, VSplineOrder>
   cumulativeGridSizes[0] = ( this->m_TransformDomainMeshSize[0] + SplineOrder );
   for( unsigned int d = 1; d < SpaceDimension; d++ )
     {
-    cumulativeGridSizes[d] = cumulativeGridSizes[d-1] *
-      ( this->m_TransformDomainMeshSize[d] + SplineOrder );
+    cumulativeGridSizes[d] = cumulativeGridSizes[d-1] * ( this->m_TransformDomainMeshSize[d] + SplineOrder );
     }
+
+  SizeValueType numberOfParametersPerDimension = this->GetNumberOfParametersPerDimension();
 
   ImageRegionConstIteratorWithIndex<ImageType> It( this->m_CoefficientImages[0], supportRegion );
   unsigned long counter = 0;
@@ -642,12 +643,13 @@ BSplineTransform<TScalarType, NDimensions, VSplineOrder>
 
     for( unsigned int d = 0; d < SpaceDimension; d++ )
       {
-      jacobian( d, number ) = weights[counter];
+      jacobian( d, number + d * numberOfParametersPerDimension ) = weights[counter];
       }
     counter++;
     }
 }
 
 } // namespace
+
 
 #endif

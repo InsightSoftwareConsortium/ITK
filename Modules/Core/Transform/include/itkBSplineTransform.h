@@ -270,7 +270,7 @@ public:
 
   virtual bool HasLocalSupport() const
   {
-    return true;
+    return false;
   }
 
 protected:
