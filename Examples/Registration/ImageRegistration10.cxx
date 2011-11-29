@@ -344,7 +344,7 @@ int main( int argc, char *argv[] )
               << std::endl;
 
     // run the registration
-    registration->StartRegistration();
+    registration->Update();
     std::cout << "Optimizer stop condition = "
               << registration->GetOptimizer()->GetStopConditionDescription()
               << std::endl;

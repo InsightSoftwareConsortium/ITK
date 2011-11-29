@@ -324,7 +324,7 @@ int main( int argc, char *argv[] )
     memorymeter.Start( "Rigid Registration" );
     chronometer.Start( "Rigid Registration" );
 
-    registration->StartRegistration();
+    registration->Update();
 
     chronometer.Stop( "Rigid Registration" );
     memorymeter.Stop( "Rigid Registration" );
@@ -398,7 +398,7 @@ int main( int argc, char *argv[] )
     memorymeter.Start( "Affine Registration" );
     chronometer.Start( "Affine Registration" );
 
-    registration->StartRegistration();
+    registration->Update();
 
     chronometer.Stop( "Affine Registration" );
     memorymeter.Stop( "Affine Registration" );
@@ -510,7 +510,7 @@ int main( int argc, char *argv[] )
     memorymeter.Start( "Deformable Registration Coarse" );
     chronometer.Start( "Deformable Registration Coarse" );
 
-    registration->StartRegistration();
+    registration->Update();
 
     chronometer.Stop( "Deformable Registration Coarse" );
     memorymeter.Stop( "Deformable Registration Coarse" );
@@ -654,7 +654,7 @@ int main( int argc, char *argv[] )
     memorymeter.Start( "Deformable Registration Fine" );
     chronometer.Start( "Deformable Registration Fine" );
 
-    registration->StartRegistration();
+    registration->Update();
 
     chronometer.Stop( "Deformable Registration Fine" );
     memorymeter.Stop( "Deformable Registration Fine" );

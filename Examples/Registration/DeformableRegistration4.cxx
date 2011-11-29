@@ -253,7 +253,7 @@ int main( int argc, char *argv[] )
     memorymeter.Start( "Registration" );
     chronometer.Start( "Registration" );
 
-    registration->StartRegistration();
+    registration->Update();
 
     chronometer.Stop( "Registration" );
     memorymeter.Stop( "Registration" );

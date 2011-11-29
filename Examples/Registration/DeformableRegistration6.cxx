@@ -227,7 +227,7 @@ int main( int argc, char *argv[] )
 
   try
     {
-    registration->StartRegistration();
+    registration->Update();
     std::cout << "Optimizer stop condition = "
               << registration->GetOptimizer()->GetStopConditionDescription()
               << std::endl;
@@ -355,7 +355,7 @@ int main( int argc, char *argv[] )
 
   try
     {
-    registration->StartRegistration();
+    registration->Update();
     }
   catch( itk::ExceptionObject & err )
     {
