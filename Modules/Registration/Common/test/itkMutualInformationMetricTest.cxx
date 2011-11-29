@@ -113,9 +113,8 @@ int itkMutualInformationMetricTest(int, char* [] )
 //-----------------------------------------------------------
 // Set up a transformer
 //-----------------------------------------------------------
-  typedef itk::AffineTransform<
-    double, ImageDimension > TransformType;
-  typedef TransformType::ParametersType ParametersType;
+  typedef itk::AffineTransform< double, ImageDimension > TransformType;
+  typedef TransformType::ParametersType                  ParametersType;
 
   TransformType::Pointer transformer = TransformType::New();
 
@@ -231,7 +230,7 @@ int itkMutualInformationMetricTest(int, char* [] )
 
   metric->Print( std::cout );
 
-  itk::KernelFunction::Pointer theKernel = metric->GetKernelFunction();
+  itk::KernelFunctionBase<double>::Pointer theKernel = metric->GetKernelFunction();
   metric->SetKernelFunction( theKernel );
   theKernel->Print( std::cout );
 

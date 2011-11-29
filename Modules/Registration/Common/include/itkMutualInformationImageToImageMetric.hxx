@@ -35,8 +35,8 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>
   m_NumberOfSpatialSamples = 0;
   this->SetNumberOfSpatialSamples(50);
 
-  m_KernelFunction  = dynamic_cast<KernelFunction *>(
-      GaussianKernelFunction::New().GetPointer() );
+  m_KernelFunction  = dynamic_cast<KernelFunctionType *>(
+      GaussianKernelFunction<double>::New().GetPointer() );
 
   m_FixedImageStandardDeviation = 0.4;
   m_MovingImageStandardDeviation = 0.4;

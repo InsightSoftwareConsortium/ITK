@@ -18,9 +18,7 @@
 #ifndef __itkCoxDeBoorBSplineKernelFunction_h
 #define __itkCoxDeBoorBSplineKernelFunction_h
 
-#include "itkKernelFunction.h"
-#include "itkNumericTraits.h"
-#include "vnl/vnl_math.h"
+#include "itkKernelFunctionBase.h"
 #include "vnl/vnl_real_polynomial.h"
 #include "vnl/vnl_matrix.h"
 
@@ -32,7 +30,7 @@ namespace itk
  *
  * This class enscapsulates BSpline kernel for
  * density estimation or nonparameteric regression.
- * See documentation for KernelFunction for more details.
+ * See documentation for KernelFunctionBase for more details.
  *
  * This class is templated over the spline order to cohere with
  * the previous incarnation of this class. One can change the
@@ -51,31 +49,32 @@ namespace itk
  * http://www.insight-journal.org/browse/publication/57
  *
  *
- * \sa KernelFunction
+ * \sa KernelFunctionBase
  *
  * \ingroup ITKImageGrid
  */
-template<unsigned int VSplineOrder = 3>
+template<unsigned int VSplineOrder = 3, typename TRealValueType = double>
 class ITK_EXPORT CoxDeBoorBSplineKernelFunction:
-  public KernelFunction
+  public KernelFunctionBase<TRealValueType>
 {
 public:
   /** Standard class typedefs. */
-  typedef CoxDeBoorBSplineKernelFunction Self;
-  typedef KernelFunction                 Superclass;
-  typedef SmartPointer<Self>             Pointer;
-  typedef SmartPointer<const Self>       ConstPointer;
+  typedef CoxDeBoorBSplineKernelFunction     Self;
+  typedef KernelFunctionBase<TRealValueType> Superclass;
+  typedef SmartPointer<Self>                 Pointer;
+  typedef SmartPointer<const Self>           ConstPointer;
+
+  typedef typename Superclass::RealType  RealType;
 
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( CoxDeBoorBSplineKernelFunction, KernelFunction );
+  itkTypeMacro( CoxDeBoorBSplineKernelFunction, KernelFunctionBase );
 
-  typedef double                   RealType;
-  typedef vnl_vector<RealType>     VectorType;
-  typedef vnl_real_polynomial      PolynomialType;
-  typedef vnl_matrix<RealType>     MatrixType;
+  typedef vnl_vector<TRealValueType> VectorType;
+  typedef vnl_real_polynomial        PolynomialType;
+  typedef vnl_matrix<TRealValueType> MatrixType;
 
   /** Set the spline order. */
   void SetSplineOrder( const unsigned int );
@@ -84,13 +83,13 @@ public:
   itkGetConstMacro( SplineOrder, unsigned int );
 
   /** Evaluate the function. */
-  RealType Evaluate( const RealType & u ) const;
+  TRealValueType Evaluate( const TRealValueType & ) const;
 
   /** Evaluate the first derivative. */
-  RealType EvaluateDerivative( const double & ) const;
+  TRealValueType EvaluateDerivative( const TRealValueType & ) const;
 
   /** Evaluate the Nth derivative. */
-  RealType EvaluateNthDerivative( const double &, const unsigned int ) const;
+  TRealValueType EvaluateNthDerivative( const TRealValueType &, const unsigned int ) const;
 
   /**
    * For a specific order, return the ceil( 0.5*(m_SplineOrder+1) )
@@ -107,7 +106,7 @@ public:
 
 protected:
   CoxDeBoorBSplineKernelFunction();
-  ~CoxDeBoorBSplineKernelFunction();
+  virtual ~CoxDeBoorBSplineKernelFunction();
   void PrintSelf( std::ostream & os, Indent indent ) const;
 
 private:

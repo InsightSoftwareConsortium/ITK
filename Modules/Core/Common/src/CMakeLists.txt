@@ -8,8 +8,6 @@ itkIndent.cxx
 itkEventObject.cxx
 itkFileOutputWindow.cxx
 itkSimpleFilterWatcher.cxx
-itkKernelFunction.cxx
-itkGaussianKernelFunction.cxx
 itkNumericTraitsVectorPixel.cxx
 itkObject.cxx
 itkDynamicLoader.cxx

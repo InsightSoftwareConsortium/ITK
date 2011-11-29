@@ -18,8 +18,7 @@
 #ifndef __itkBSplineKernelFunction_h
 #define __itkBSplineKernelFunction_h
 
-#include "itkKernelFunction.h"
-#include "vnl/vnl_math.h"
+#include "itkKernelFunctionBase.h"
 
 namespace itk
 {
@@ -29,43 +28,44 @@ namespace itk
  *
  * This class enscapsulates BSpline kernel for
  * density estimation or nonparameteric regression.
- * See documentation for KernelFunction for more details.
+ * See documentation for KernelFunctionBase for more details.
  *
  * This class is templated over the spline order.
  * \warning Evaluate is only implemented for spline order 0 to 3
  *
- * \sa KernelFunction
+ * \sa KernelFunctionBase
  *
  * \ingroup Functions
  * \ingroup ITKCommon
  */
-template< unsigned int VSplineOrder = 3 >
-class ITK_EXPORT BSplineKernelFunction:public KernelFunction
+template< unsigned int VSplineOrder = 3, typename TRealValueType = double >
+class ITK_EXPORT BSplineKernelFunction:public KernelFunctionBase<TRealValueType>
 {
 public:
   /** Standard class typedefs. */
-  typedef BSplineKernelFunction Self;
-  typedef KernelFunction        Superclass;
-  typedef SmartPointer< Self >  Pointer;
+  typedef BSplineKernelFunction              Self;
+  typedef KernelFunctionBase<TRealValueType> Superclass;
+  typedef SmartPointer< Self >               Pointer;
 
+  typedef typename Superclass::RealType  RealType;
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BSplineKernelFunction, KernelFunction);
+  itkTypeMacro(BSplineKernelFunction, KernelFunctionBase);
 
   /** Enum of for spline order. */
   itkStaticConstMacro(SplineOrder, unsigned int, VSplineOrder);
 
   /** Evaluate the function. */
-  inline double Evaluate(const double & u) const
+  inline TRealValueType Evaluate(const TRealValueType & u) const
   {
     return this->Evaluate(Dispatch< VSplineOrder >(), u);
   }
 
 protected:
   BSplineKernelFunction(){}
-  ~BSplineKernelFunction(){}
+  virtual ~BSplineKernelFunction(){}
   void PrintSelf(std::ostream & os, Indent indent) const
   {
     Superclass::PrintSelf(os, indent);
@@ -82,87 +82,87 @@ private:
   struct Dispatch: public DispatchBase {};
 
   /** Zeroth order spline. */
-  inline double Evaluate(const Dispatch< 0 > &, const double & u) const
+  inline TRealValueType Evaluate(const Dispatch< 0 > &, const TRealValueType & u) const
   {
-    double absValue = vnl_math_abs(u);
-
-    if ( absValue  < 0.5 )
+    const TRealValueType absValue = vnl_math_abs(u);
+    if ( absValue  < static_cast< TRealValueType >(0.5) )
       {
-      return 1.0;
+      return NumericTraits< TRealValueType >::One;
       }
-    else if ( absValue == 0.5 )
+    else if ( absValue == static_cast< TRealValueType >(0.5) )
       {
-      return 0.5;
+      return static_cast< TRealValueType >(0.5);
       }
     else
       {
-      return 0.0;
+      return NumericTraits< TRealValueType >::Zero;
       }
   }
 
   /** First order spline */
-  inline double Evaluate(const Dispatch< 1 > &, const double & u) const
+  inline TRealValueType Evaluate(const Dispatch< 1 > &, const TRealValueType & u) const
   {
-    double absValue = vnl_math_abs(u);
-
-    if ( absValue  < 1.0 )
+    const TRealValueType absValue = vnl_math_abs(u);
+    if ( absValue  < NumericTraits< TRealValueType >::One )
       {
-      return 1.0 - absValue;
+      return NumericTraits< TRealValueType >::One - absValue;
       }
     else
       {
-      return 0.0;
+      return NumericTraits< TRealValueType >::Zero;
       }
   }
 
   /** Second order spline. */
-  inline double Evaluate(const Dispatch< 2 > &, const double & u) const
+  inline TRealValueType Evaluate(const Dispatch< 2 > &, const TRealValueType & u) const
   {
-    double absValue = vnl_math_abs(u);
-
-    if ( absValue  < 0.5 )
+    const TRealValueType absValue = vnl_math_abs(u);
+    if ( absValue  < static_cast< TRealValueType >(0.5) )
       {
-      return 0.75 - vnl_math_sqr(absValue);
+      const TRealValueType sqrValue = vnl_math_sqr(absValue);
+      return static_cast< TRealValueType >(0.75) - sqrValue;
       }
-    else if ( absValue < 1.5 )
+    else if ( absValue < static_cast< TRealValueType >(1.5) )
       {
-      return ( 9.0 - 12.0 * absValue + 4.0 * vnl_math_sqr(absValue) ) / 8.0;
+      const TRealValueType sqrValue = vnl_math_sqr(absValue);
+      // NOTE: 1.0/8.0 == static_cast< TRealValueType >( 0.125 )
+      return ( static_cast< TRealValueType >(9.0) - static_cast< TRealValueType >(12.0) * absValue
+        + static_cast< TRealValueType >(4.0) * sqrValue ) * static_cast< TRealValueType >(0.125);
       }
     else
       {
-      return 0.0;
+      return NumericTraits< TRealValueType >::Zero;
       }
   }
 
   /**  Third order spline. */
-  inline double Evaluate(const Dispatch< 3 > &, const double & u) const
+  inline TRealValueType Evaluate(const Dispatch< 3 > &, const TRealValueType & u) const
   {
-    double absValue = vnl_math_abs(u);
-    double sqrValue = vnl_math_sqr(u);
-
-    if ( absValue  < 1.0 )
+    const TRealValueType absValue = vnl_math_abs(u);
+    if ( absValue  < NumericTraits< TRealValueType >::One )
       {
-      return ( 4.0 - 6.0 * sqrValue + 3.0 * sqrValue * absValue ) / 6.0;
+      const TRealValueType sqrValue = vnl_math_sqr(absValue);
+      return ( static_cast< TRealValueType >(4.0) - static_cast< TRealValueType >(6.0) * sqrValue
+        + static_cast< TRealValueType >(3.0) * sqrValue * absValue ) / static_cast< TRealValueType >(6.0);
       }
-    else if ( absValue < 2.0 )
+    else if ( absValue < static_cast< TRealValueType >(2.0) )
       {
-      return ( 8.0 - 12 * absValue + 6.0 * sqrValue
-               - sqrValue * absValue ) / 6.0;
+      const TRealValueType sqrValue = vnl_math_sqr(absValue);
+      return ( static_cast< TRealValueType >(8.0) - static_cast< TRealValueType >(12.0) * absValue + static_cast< TRealValueType >(6.0) * sqrValue
+               - sqrValue * absValue ) / static_cast< TRealValueType >(6.0);
       }
     else
       {
-      return 0.0;
+      return NumericTraits< TRealValueType >::Zero;
       }
   }
 
   /** Unimplemented spline order */
-  inline double Evaluate(const DispatchBase &, const double &) const
+  inline TRealValueType Evaluate(const DispatchBase &, const TRealValueType &) const
   {
-    itkExceptionMacro(
-      "Evaluate not implemented for spline\
-                                                      order "
+    itkExceptionMacro( "Evaluate not implemented for spline order "
       << SplineOrder);
-    return 0.0; // This is to avoid compiler warning about missing
+    return NumericTraits< TRealValueType >::Zero; // This is to avoid compiler warning about missing
                 // return statement.  It should never be evaluated.
   }
 };

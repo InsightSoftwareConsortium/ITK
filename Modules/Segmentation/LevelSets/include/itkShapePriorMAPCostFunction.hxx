@@ -29,7 +29,7 @@ template< class TFeatureImage, class TOutputPixel >
 ShapePriorMAPCostFunction< TFeatureImage, TOutputPixel >
 ::ShapePriorMAPCostFunction()
 {
-  m_GaussianFunction = GaussianKernelFunction::New();
+  m_GaussianFunction = GaussianKernelFunction<double>::New();
   m_ShapeParameterMeans = ArrayType(1);
   m_ShapeParameterMeans.Fill(0.0);
   m_ShapeParameterStandardDeviations = ArrayType(1);

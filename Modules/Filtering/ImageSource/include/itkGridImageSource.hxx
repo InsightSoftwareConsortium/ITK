@@ -36,8 +36,8 @@ GridImageSource< TOutputImage >
   this->m_WhichDimensions.Fill(true);
   this->m_Scale = 255.0;
 
-  this->m_KernelFunction  = dynamic_cast< KernelFunction * >(
-    GaussianKernelFunction::New().GetPointer() );
+  this->m_KernelFunction  = dynamic_cast< KernelFunctionType * >(
+    GaussianKernelFunction<double>::New().GetPointer() );
 }
 
 template< typename TOutputImage >

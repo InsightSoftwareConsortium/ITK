@@ -18,8 +18,7 @@
 #ifndef __itkGaborKernelFunction_h
 #define __itkGaborKernelFunction_h
 
-#include "itkKernelFunction.h"
-#include "vnl/vnl_math.h"
+#include "itkKernelFunctionBase.h"
 #include <math.h>
 
 namespace itk
@@ -42,31 +41,32 @@ namespace itk
  * This implementation was contributed as a paper to the Insight Journal
  * http://hdl.handle.net/1926/500
  *
- * \sa KernelFunction
+ * \sa KernelFunctionBase
  *
  * \ingroup Functions
  * \ingroup ITKImageSource
  */
-class ITK_EXPORT GaborKernelFunction:public KernelFunction
+template< typename TRealValueType>
+class ITK_EXPORT GaborKernelFunction:public KernelFunctionBase<TRealValueType>
 {
 public:
   /** Standard class typedefs. */
-  typedef GaborKernelFunction  Self;
-  typedef KernelFunction       Superclass;
-  typedef SmartPointer< Self > Pointer;
+  typedef GaborKernelFunction                Self;
+  typedef KernelFunctionBase<TRealValueType> Superclass;
+  typedef SmartPointer< Self >               Pointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GaborKernelFunction, KernelFunction);
+  itkTypeMacro(GaborKernelFunction, KernelFunctionBase);
 
   /** Evaluate the function. */
-  inline double Evaluate(const double & u) const
+  inline TRealValueType Evaluate(const TRealValueType & u) const
   {
-    double parameter = vnl_math_sqr(u / this->m_Sigma);
-    double envelope = vcl_exp(-0.5 * parameter);
-    double phase = 2.0 * vnl_math::pi * this->m_Frequency * u
+    TRealValueType parameter = vnl_math_sqr(u / this->m_Sigma);
+    TRealValueType envelope = vcl_exp(static_cast< TRealValueType >(-0.5) * parameter);
+    TRealValueType phase = static_cast< TRealValueType >(2.0 * vnl_math::pi) * this->m_Frequency * u
                    + this->m_PhaseOffset;
 
     if ( this->m_CalculateImaginaryPart )
@@ -79,35 +79,49 @@ public:
       }
   }
 
-  itkSetMacro(Sigma, double);
-  itkGetConstMacro(Sigma, double);
+  itkSetMacro(Sigma, TRealValueType);
+  itkGetConstMacro(Sigma, TRealValueType);
 
-  itkSetMacro(Frequency, double);
-  itkGetConstMacro(Frequency, double);
+  itkSetMacro(Frequency, TRealValueType);
+  itkGetConstMacro(Frequency, TRealValueType);
 
-  itkSetMacro(PhaseOffset, double);
-  itkGetConstMacro(PhaseOffset, double);
+  itkSetMacro(PhaseOffset, TRealValueType);
+  itkGetConstMacro(PhaseOffset, TRealValueType);
 
   itkSetMacro(CalculateImaginaryPart, bool);
   itkGetConstMacro(CalculateImaginaryPart, bool);
   itkBooleanMacro(CalculateImaginaryPart);
 protected:
-  GaborKernelFunction();
-  ~GaborKernelFunction();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  GaborKernelFunction()
+    {
+    this->m_CalculateImaginaryPart = false;
+    this->m_Sigma = NumericTraits< TRealValueType >::One;
+    this->m_Frequency = static_cast<TRealValueType>(0.4);
+    this->m_PhaseOffset = NumericTraits< TRealValueType >::Zero;
+    }
+  ~GaborKernelFunction() {};
+  void PrintSelf(std::ostream & os, Indent indent) const
+    {
+    Superclass::PrintSelf(os, indent);
+
+    os << indent << "Sigma: " << this->GetSigma() << std::endl;
+    os << indent << "Frequency: " << this->GetFrequency() << std::endl;
+    os << indent << "PhaseOffset: " << this->GetPhaseOffset() << std::endl;
+    os << indent << "CalculateImaginaryPart: " << this->GetCalculateImaginaryPart() << std::endl;
+    }
 
 private:
   GaborKernelFunction(const Self &); //purposely not implemented
   void operator=(const Self &);      //purposely not implemented
 
   /** Standard deviation of the Gaussian envelope */
-  double m_Sigma;
+  TRealValueType m_Sigma;
 
   /** Modulation frequency of the sine or cosine component */
-  double m_Frequency;
+  TRealValueType m_Frequency;
 
   /** Phase offset of the sine or cosine component */
-  double m_PhaseOffset;
+  TRealValueType m_PhaseOffset;
 
   /** Evaluate using the complex part */
   bool m_CalculateImaginaryPart;

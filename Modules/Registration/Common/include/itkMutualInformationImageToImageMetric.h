@@ -22,7 +22,7 @@
 #include "itkPoint.h"
 
 #include "itkIndex.h"
-#include "itkKernelFunction.h"
+#include "itkKernelFunctionBase.h"
 
 namespace itk
 {
@@ -56,7 +56,7 @@ namespace itk
  *
  * By default a Gaussian kernel is used in the density estimation.
  * Other option include Cauchy and spline-based. A user can specify
- * the kernel passing in a pointer a KernelFunction using the
+ * the kernel passing in a pointer a KernelFunctionBase using the
  * SetKernelFunction() method.
  *
  * Mutual information is estimated using two sample sets: one to calculate
@@ -79,7 +79,7 @@ namespace itk
  * "Alignment by Maximization of Mutual Information"
  * International Journal of Computer Vision, 24(2):137-154
  *
- * \sa KernelFunction
+ * \sa KernelFunctionBase
  * \sa GaussianKernelFunction
  *
  * \ingroup RegistrationMetrics
@@ -128,6 +128,8 @@ public:
   typedef typename TransformType::InputPointType       FixedImagePointType;
   typedef typename TransformType::OutputPointType      MovingImagePointType;
 
+  typedef KernelFunctionBase<double>                       KernelFunctionType;
+
   /** Enum of the moving image dimension. */
   itkStaticConstMacro(MovingImageDimension, unsigned int,
                       MovingImageType::ImageDimension);
@@ -173,8 +175,8 @@ public:
 
   /** Set/Get the kernel function. This is used to calculate the joint
    * probability distribution. Default is the GaussianKernelFunction. */
-  itkSetObjectMacro(KernelFunction, KernelFunction);
-  itkGetObjectMacro(KernelFunction, KernelFunction);
+  itkSetObjectMacro(KernelFunction, KernelFunctionType);
+  itkGetObjectMacro(KernelFunction, KernelFunctionType);
 
   /** Reinitialize the seed of the random number generator that selects the
    * sample of pixels used for estimating the image histograms and the joint
@@ -231,7 +233,7 @@ public:
   double       m_FixedImageStandardDeviation;
   double       m_MinProbability;
 
-  typename KernelFunction::Pointer m_KernelFunction;
+  typename KernelFunctionType::Pointer m_KernelFunction;
 
   /** Uniformly select samples from the fixed image buffer.
    * \warning Note that this method has a different signature than the one in
