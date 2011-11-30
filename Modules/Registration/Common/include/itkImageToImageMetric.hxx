@@ -37,7 +37,6 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 
   m_FixedImageSamples(0),
   m_NumberOfParameters(0),
-  m_Parameters(0),
 
   m_NumberOfFixedImageSamples(50000),
 
@@ -159,7 +158,6 @@ ImageToImageMetric< TFixedImage, TMovingImage >
     }
   m_Transform->SetParameters(parameters);
 
-  m_Parameters = parameters;
 }
 
 template< class TFixedImage, class TMovingImage >
@@ -969,11 +967,12 @@ ImageToImageMetric< TFixedImage, TMovingImage >
           mappedPoint[j] = m_BSplinePreTransformPointsArray[sampleNumber][j];
           }
 
+        const ParametersType &LocalParameters = m_Transform->GetParameters();
         for ( unsigned int k = 0; k < m_NumBSplineWeights; k++ )
           {
           for ( unsigned int j = 0; j < FixedImageDimension; j++ )
             {
-            mappedPoint[j] += weights[k] * m_Parameters[indices[k]
+            mappedPoint[j] += weights[k] * LocalParameters[indices[k]
                                                         + m_BSplineParametersOffset[j]];
             }
           }
@@ -1082,6 +1081,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
         const IndexValueType *indices =
           m_BSplineTransformIndicesArray[sampleNumber];
 
+        const ParametersType &Local_Parameters=this->m_Transform->GetParameters();
         for ( unsigned int j = 0; j < FixedImageDimension; j++ )
           {
           mappedPoint[j] = m_BSplinePreTransformPointsArray[sampleNumber][j];
@@ -1091,7 +1091,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
           {
           for ( unsigned int j = 0; j < FixedImageDimension; j++ )
             {
-            mappedPoint[j] += weights[k] * m_Parameters[indices[k]
+            mappedPoint[j] += weights[k] * Local_Parameters[indices[k]
                                                         + m_BSplineParametersOffset[j]];
             }
           }

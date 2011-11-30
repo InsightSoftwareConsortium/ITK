@@ -106,17 +106,17 @@ int itkOptMattesMutualInformationImageToImageMetricThreadsTest1( int argc, char*
   typedef MetricType::MeasureType      MeasureType;
   typedef MetricType::DerivativeType   DerivativeType;
 
-  MeasureType value;
-  DerivativeType derivative;
+  MeasureType value_combined;
+  DerivativeType derivative_combined;
 
-  MeasureType value1;
-  DerivativeType derivative1;
+  MeasureType value_separate;
+  DerivativeType derivative_separate;
 
   std::vector< MeasureType > values;
   std::vector< DerivativeType > derivatives;
 
   // By now restrict the number of threads to test to the range 1 to 4.
-  const unsigned int maximumNumberOfThreadsToTest = 5;
+  const unsigned int maximumNumberOfThreadsToTest = defaultNumberOfThreads;
 
   for( unsigned int numberOfThreads = 1; numberOfThreads < maximumNumberOfThreadsToTest; numberOfThreads++ )
     {
@@ -126,10 +126,10 @@ int itkOptMattesMutualInformationImageToImageMetricThreadsTest1( int argc, char*
       metric->ReinitializeSeed( 76926294 );
       metric->Initialize();
 
-      metric->GetValueAndDerivative( displacement, value, derivative );
 
-      value1 = metric->GetValue( displacement );
-      metric->GetDerivative( displacement, derivative1 );
+      value_separate = metric->GetValue( displacement );
+      metric->GetDerivative( displacement, derivative_separate );
+      metric->GetValueAndDerivative( displacement, value_combined, derivative_combined );
       }
     catch( itk::ExceptionObject & excep )
       {
@@ -137,16 +137,16 @@ int itkOptMattesMutualInformationImageToImageMetricThreadsTest1( int argc, char*
       return EXIT_FAILURE;
       }
 
-    values.push_back( value );
-    derivatives.push_back( derivative );
+    values.push_back( value_combined );
+    derivatives.push_back( derivative_combined );
 
     if( verbose )
       {
       std::cout << numberOfThreads;
-      std::cout << " : " << value;
-      std::cout << " : " << value1;
-      std::cout << " : " << derivative;
-      std::cout << " : " << derivative1 << std::endl;
+      std::cout << " : " << value_combined;
+      std::cout << " : " << value_separate;
+      std::cout << " : " << derivative_combined;
+      std::cout << " : " << derivative_separate << std::endl;
       std::cout << std::endl << std::endl;
       }
     }
@@ -165,10 +165,11 @@ int itkOptMattesMutualInformationImageToImageMetricThreadsTest1( int argc, char*
         {
         if( verbose )
           {
-          std::cerr << i << " : " << j;
-          std::cerr << " Differ by " << difference;
+          std::cerr << i+1  << "thread vs. " << j+1;
+          std::cerr << " thread differ by " << difference;
           std::cerr << " from " << values[i];
           std::cerr << " to " << values[j];
+          std::cerr << "   ## Derivatives " << derivatives[i] << " vs. " << derivatives[j];
           std::cerr << std::endl;
           }
         testFailed = true;
