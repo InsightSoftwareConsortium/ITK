@@ -110,7 +110,8 @@ public:
   typedef typename JointPDFType::PointType      JointPDFPointType;
   typedef typename JointPDFType::IndexValueType JointPDFIndexValueType;
 
-  itkGetConstReferenceMacro(JointPDF,typename JointPDFType::Pointer);
+  /** Get the JointPDF.  Valid after GetValueAndDerivative has been called. */
+  itkGetConstObjectMacro( JointPDF, JointPDFType );
 
   // Declare the type for the derivative calculation
   typedef itk::GradientRecursiveGaussianImageFilter< JointPDFType >
@@ -163,15 +164,13 @@ protected:
   virtual ~JointHistogramMutualInformationImageToImageObjectMetric();
 
   /** Update the histograms for use in GetValueAndDerivative
-   *  This implementation single-threads the JH computation but it
-   *  could be multi-threaded in the future.
    *  Results are returned in \c value and \c derivative.
    */
   virtual void InitializeForIteration() const;
 
   /** Compute the point location with the JointPDF image.  Returns false if the
    * point is not inside the image. */
-  inline bool  ComputeJointPDFPoint( const FixedImagePixelType fixedImageValue,
+  inline void ComputeJointPDFPoint( const FixedImagePixelType fixedImageValue,
                                const MovingImagePixelType movingImageValue,
                                JointPDFPointType & jointPDFpoint ) const;
 
@@ -212,7 +211,6 @@ private:
 
   /** The joint PDF and PDF derivatives. */
   mutable typename JointPDFType::Pointer            m_JointPDF;
-  JointPDFInterpolatorPointer                       m_JointPDFInterpolator;
 
   /** Flag to control smoothing of joint pdf */
   InternalComputationValueType        m_VarianceForJointPDFSmoothing;

@@ -99,8 +99,9 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner
   InternalComputationValueType scalingfactor = NumericTraits< InternalComputationValueType >::Zero; // for scaling the jacobian terms
 
   JointPDFPointType jointPDFpoint;
-  bool pointok = associate->ComputeJointPDFPoint( fixedImageValue, movingImageValue, jointPDFpoint );
-  if ( !pointok )
+  associate->ComputeJointPDFPoint( fixedImageValue, movingImageValue, jointPDFpoint );
+  // Make sure the point is inside th joint pdf.
+  if ( ! this->m_JointPDFInterpolatorPerThread[threadId]->IsInsideBuffer( jointPDFpoint ) )
     {
     return false;
     }

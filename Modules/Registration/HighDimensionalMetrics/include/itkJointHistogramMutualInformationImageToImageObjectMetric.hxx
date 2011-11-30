@@ -50,7 +50,7 @@ JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage,TMovingImage
 
   this->m_JointHistogramMutualInformationDenseComputeJointPDFThreader  = JointHistogramMutualInformationDenseComputeJointPDFThreaderType::New();
   this->m_JointHistogramMutualInformationSparseComputeJointPDFThreader = JointHistogramMutualInformationSparseComputeJointPDFThreaderType::New();
-  this->m_JointPDFInterpolator = JointPDFInterpolatorType::New();
+  this->m_JointPDF             = JointPDFType::New();
 }
 
 template <class TFixedImage, class TMovingImage, class TVirtualImage>
@@ -141,7 +141,6 @@ JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage,TMovingImage
 
 
   // Allocate memory for the joint PDF.
-  this->m_JointPDF = JointPDFType::New();
 
   // Instantiate a region, index, size
   JointPDFRegionType jointPDFRegion;
@@ -168,7 +167,6 @@ JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage,TMovingImage
   origin[1]=origin[0];
   this->m_JointPDF->SetOrigin(origin);
   this->m_JointPDF->Allocate();
-  this->m_JointPDFInterpolator->SetInputImage( this->m_JointPDF );
 
   // do the same thing for the marginal pdfs
   this->m_FixedImageMarginalPDF = MarginalPDFType::New();
@@ -336,7 +334,7 @@ JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage,TMovingImage
 }
 
 template <class TFixedImage, class TMovingImage, class TVirtualImage>
-bool
+void
 JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
 ::ComputeJointPDFPoint( const FixedImagePixelType fixedImageValue,
                         const MovingImagePixelType movingImageValue,
@@ -350,7 +348,6 @@ JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage, TMovingImag
            ( this->m_MovingImageTrueMax - this->m_MovingImageTrueMin );
     jointPDFpoint[0] = a;
     jointPDFpoint[1] = b;
-    return this->m_JointPDFInterpolator->IsInsideBuffer( jointPDFpoint );
 }
 
 template <class TFixedImage, class TMovingImage, class TVirtualImage>
