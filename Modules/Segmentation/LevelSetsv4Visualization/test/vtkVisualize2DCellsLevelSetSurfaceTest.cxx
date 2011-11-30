@@ -185,13 +185,6 @@ int vtkVisualize2DCellsLevelSetSurfaceTest( int argc, char* argv[] )
   InputImageType::Pointer input = reader->GetOutput();
   std::cout << "Input image read" << std::endl;
 
-  // Convert the binary mask into a level set function.
-  // Here the output level-set will be a "Whitaker" sparse level-set;
-  // i.e. only few layers {-2, -1, 0, +1, +2 } around the zero-set are
-  // maintained, the rest of the domain is either -3 or +3.
-  typedef float                                      LevelSetPixelType;
-  typedef itk::Image< LevelSetPixelType, Dimension > LevelSetImageType;
-
   int numberOfIterations;
   std::istringstream istrm( argv[2] );
   istrm >> numberOfIterations;
@@ -199,7 +192,9 @@ int vtkVisualize2DCellsLevelSetSurfaceTest( int argc, char* argv[] )
   std::string levelSetRepresentation = argv[3];
   if( levelSetRepresentation.compare( "Dense" ) == 0 )
     {
-    typedef itk::LevelSetDenseImageBase< LevelSetImageType > LevelSetType;
+    typedef float                                             LevelSetPixelType;
+    typedef itk::Image< LevelSetPixelType, Dimension >        LevelSetImageType;
+    typedef itk::LevelSetDenseImageBase< LevelSetImageType >  LevelSetType;
     try
       {
       VisualizeLevelSetSurface< InputImageType, LevelSetType >( input,
@@ -214,7 +209,7 @@ int vtkVisualize2DCellsLevelSetSurfaceTest( int argc, char* argv[] )
     }
   else if( levelSetRepresentation.compare( "Whitaker" ) == 0 )
     {
-    typedef itk::WhitakerSparseLevelSetImage< double, 2 > LevelSetType;
+    typedef itk::WhitakerSparseLevelSetImage< double, Dimension > LevelSetType;
     try
       {
       VisualizeLevelSetSurface< InputImageType, LevelSetType >( input,
@@ -229,7 +224,7 @@ int vtkVisualize2DCellsLevelSetSurfaceTest( int argc, char* argv[] )
     }
   else if( levelSetRepresentation.compare( "Shi" ) == 0 )
     {
-    typedef itk::ShiSparseLevelSetImage< 2 > LevelSetType;
+    typedef itk::ShiSparseLevelSetImage< Dimension > LevelSetType;
     try
       {
       VisualizeLevelSetSurface< InputImageType, LevelSetType >( input,
@@ -244,7 +239,7 @@ int vtkVisualize2DCellsLevelSetSurfaceTest( int argc, char* argv[] )
     }
   else if( levelSetRepresentation.compare( "Malcolm" ) == 0 )
     {
-    typedef itk::MalcolmSparseLevelSetImage< 2 > LevelSetType;
+    typedef itk::MalcolmSparseLevelSetImage< Dimension > LevelSetType;
     try
       {
       VisualizeLevelSetSurface< InputImageType, LevelSetType >( input,

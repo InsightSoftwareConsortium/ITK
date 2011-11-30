@@ -29,7 +29,7 @@
 #include "itkLevelSetDenseImageBase.h"
 #include "itkMultiThreader.h"
 #include "itkMutexLock.h"
-#include "itkVTKVisualizeDenseImageLevelSet.h"
+#include "itkVTKVisualizeImageLevelSetIsoValues.h"
 #include "itkSinRegularizedHeavisideStepFunction.h"
 
 #include "vtkCommand.h"
@@ -106,7 +106,7 @@ private:
 class KeypressPauseCommand: public vtkCommand
 {
 public:
-  typedef itk::VTKVisualizeDenseImageLevelSet< InputPixelType, Dimension, LevelSetImageType > VisualizationType;
+  typedef itk::VTKVisualizeImageLevelSetIsoValues< InputImageType, LevelSetType > VisualizationType;
 
   static KeypressPauseCommand * New()
     {
