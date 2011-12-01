@@ -41,7 +41,7 @@ public:
   typedef SmartPointer< Self >         Pointer;
   typedef SmartPointer< const Self >   ConstPointer;
 
-  typedef typename Superclass::RealType RealType;
+  typedef Superclass::RealType RealType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(KernelFunction, FunctionBase);
