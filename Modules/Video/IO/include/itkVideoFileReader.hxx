@@ -304,10 +304,10 @@ VideoFileReader< TOutputVideoStream >
   typename VideoStreamType::TemporalRegionType requestedTemporalRegion;
   output = this->GetOutput();
   requestedTemporalRegion = output->GetRequestedTemporalRegion();
-  unsigned long frameNum = requestedTemporalRegion.GetFrameStart();
+  FrameOffsetType frameNum = requestedTemporalRegion.GetFrameStart();
 
   // Figure out if we need to skip frames
-  unsigned long currentIOFrame = m_VideoIO->GetCurrentFrame();
+  FrameOffsetType currentIOFrame = m_VideoIO->GetCurrentFrame();
   if (frameNum != currentIOFrame)
     {
     m_VideoIO->SetNextFrameToRead(frameNum);
@@ -407,7 +407,7 @@ DoConvertBuffer(void* inputData, FrameOffsetType frameNumber)
         << std::endl << "    " << TYPENAME_VideoFileReader( short )
         << std::endl << "    " << TYPENAME_VideoFileReader( unsigned int )
         << std::endl << "    " << TYPENAME_VideoFileReader( int )
-        << std::endl << "    " << TYPENAME_VideoFileReader( unsigned long )
+        << std::endl << "    " << TYPENAME_VideoFileReader( FrameOffsetType )
         << std::endl << "    " << TYPENAME_VideoFileReader( long )
         << std::endl << "    " << TYPENAME_VideoFileReader( float )
         << std::endl << "    " << TYPENAME_VideoFileReader( double )

@@ -27,7 +27,7 @@
 // Usage: [Video Input] [Non-Video Input] [Video Output] [Width] [Height]
 //            [Num Frames] [FpS]
 
-int test_VXLVideoIOFactory ( char* input, char* output, unsigned long itkNotUsed(cameraNumber) )
+int test_VXLVideoIOFactory ( char* input, char* output, itk::SizeValueType itkNotUsed(cameraNumber) )
 {
 
   int ret = EXIT_SUCCESS;

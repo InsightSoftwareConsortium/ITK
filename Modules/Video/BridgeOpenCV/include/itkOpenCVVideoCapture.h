@@ -50,7 +50,6 @@ public:
   typedef typename VideoStreamType::FrameType FrameType;
   typedef typename FrameType::PixelType       PixelType;
   static const unsigned int Dimensions =        FrameType::ImageDimension;
-
   /** Constructor that initializes internal VideoStream to null */
   OpenCVVideoCapture();
 

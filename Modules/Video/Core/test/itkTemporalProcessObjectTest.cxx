@@ -28,6 +28,8 @@ namespace itk
 namespace TemporalProcessObjectTest
 {
 
+typedef ::itk::SizeValueType       SizeValueType;
+typedef ::itk::OffsetValueType     OffsetValueType;
 /** \class CallRecord
  * Record of a start or end of a GenerateDataCall from a
  * DummyTemporalProcessObject instance
@@ -39,7 +41,7 @@ public:
   enum MethodTypeEnum {GENERATE_DATA, STREAMING_GENERATE_DATA, MAX_METHOD_TYPE};
 
   /** Constructor that takes necessary info */
-  CallRecord(unsigned int callerId, unsigned int recordType, unsigned int methodType)
+  CallRecord(SizeValueType callerId, SizeValueType recordType, SizeValueType methodType)
   {
     if (recordType >= MAX_RECORD_TYPE || methodType >= MAX_METHOD_TYPE)
       {
@@ -51,15 +53,15 @@ public:
   }
 
   /** Access members */
-  unsigned int GetCallerId() const
+  SizeValueType GetCallerId() const
   {
     return m_CallerId;
   }
-  unsigned int GetRecordType() const
+  SizeValueType GetRecordType() const
   {
     return m_RecordType;
   }
-  unsigned int GetMethodType() const
+  SizeValueType GetMethodType() const
   {
     return m_MethodType;
   }
@@ -102,9 +104,9 @@ public:
   }
 
 protected:
-  unsigned int m_CallerId;
-  unsigned int m_RecordType;
-  unsigned int m_MethodType;
+  SizeValueType m_CallerId;
+  SizeValueType m_RecordType;
+  SizeValueType m_MethodType;
 };
 
 /**
@@ -164,12 +166,12 @@ public:
   }
 
   /** Fill buffer with X new frames */
-  void SetBufferToXNewFrames(unsigned int x)
+  void SetBufferToXNewFrames(SizeValueType  x)
   {
     // Set the internal number of buffers
     m_DataObjectBuffer->SetNumberOfBuffers(x);
 
-    for (unsigned int i = 0; i < x; ++i)
+    for (SizeValueType i = 0; i < x; ++i)
       {
       // Create a new DataObject
       DataObject::Pointer obj = dynamic_cast<DataObject*>(DataObject::New().GetPointer() );
@@ -185,13 +187,13 @@ public:
   }
 
   /** Append the supplied data object */
-  void SetObjectAtFrame(unsigned long frameNumber, DataObject* obj)
+  void SetObjectAtFrame(SizeValueType frameNumber, DataObject* obj)
   {
     m_DataObjectBuffer->SetBufferContents(frameNumber, obj);
   }
 
   /** Get a bufferd frame */
-  DataObject::Pointer GetFrame(unsigned long frameNumber)
+  DataObject::Pointer GetFrame(SizeValueType frameNumber)
   {
     // if nothing buffered, just fail
     if (m_BufferedTemporalRegion.GetFrameDuration() == 0)
@@ -200,15 +202,15 @@ public:
       }
 
     // make sure we have the desired frame buffered
-    unsigned long bufStart = m_BufferedTemporalRegion.GetFrameStart();
-    unsigned long bufEnd = bufStart + m_BufferedTemporalRegion.GetFrameDuration() - 1;
+    SizeValueType bufStart = m_BufferedTemporalRegion.GetFrameStart();
+    SizeValueType bufEnd = bufStart + m_BufferedTemporalRegion.GetFrameDuration() - 1;
     if (frameNumber < bufStart || frameNumber > bufEnd)
       {
       return NULL;
       }
 
     // If we can, fetch the desired frame
-    long frameOffset = frameNumber - bufEnd;  // Should be negative
+    OffsetValueType frameOffset = frameNumber - bufEnd;  // Should be negative
     return m_DataObjectBuffer->GetBufferContents(frameOffset);
   }
 
@@ -241,15 +243,15 @@ public:
                                      CallRecord::START_CALL, CallRecord::STREAMING_GENERATE_DATA) );
 
     // Report
-    unsigned long outputStart = this->GetOutput()->GetRequestedTemporalRegion().GetFrameStart();
+    SizeValueType outputStart = this->GetOutput()->GetRequestedTemporalRegion().GetFrameStart();
     std::cout << "**(ID = " << m_IdNumber << ") - TemporalStreamingGenerateData" << std::endl;
     std::cout << "  -> output requested from: " << outputStart << " to "
               << this->GetOutput()->GetRequestedTemporalRegion().GetFrameDuration() +
     outputStart - 1
               << std::endl;
 
-    unsigned long inputStart = this->GetInput()->GetRequestedTemporalRegion().GetFrameStart();
-    unsigned long inputEnd = inputStart +
+    SizeValueType inputStart = this->GetInput()->GetRequestedTemporalRegion().GetFrameStart();
+    SizeValueType inputEnd = inputStart +
       this->GetInput()->GetRequestedTemporalRegion().GetFrameDuration() - 1;
     std::cout << "  -> input requested from " << inputStart << " to " << inputEnd << std::endl;
     std::cout << "  -> input buffered from "
@@ -264,7 +266,7 @@ public:
 
     // Make sure that the requested output duration matches the unit output
     // duration
-    unsigned long numFramesOut =
+    SizeValueType numFramesOut =
       this->GetOutput()->GetRequestedTemporalRegion().GetFrameDuration();
     if (numFramesOut != m_UnitOutputNumberOfFrames)
       {
@@ -272,7 +274,7 @@ public:
       }
 
     // Just pass frames from the input through to the output and add debug info
-    for (unsigned int i = outputStart; i < outputStart + numFramesOut; ++i)
+    for (SizeValueType i = outputStart; i < outputStart + numFramesOut; ++i)
       {
       DataObject::Pointer newObj = dynamic_cast<DataObject*>(DataObject::New().GetPointer() );
 
@@ -290,10 +292,10 @@ public:
   }
 
   /** Allow the UnitIinputNumberOfFrames to be set */
-  itkSetMacro(UnitInputNumberOfFrames, unsigned long);
+  itkSetMacro(UnitInputNumberOfFrames, SizeValueType);
 
   /** Allow the UnitOutputNumberOfFrames to be set */
-  itkSetMacro(UnitOutputNumberOfFrames, unsigned long);
+  itkSetMacro(UnitOutputNumberOfFrames, SizeValueType);
 
   /** GetOutput will return the output on port 0 */
   DummyTemporalDataObject::Pointer GetOutput()
@@ -315,16 +317,16 @@ public:
   }
 
   /** Get/Set IdNumber */
-  itkSetMacro(IdNumber, unsigned int);
-  itkGetMacro(IdNumber, unsigned int);
+  itkSetMacro(IdNumber, SizeValueType);
+  itkGetMacro(IdNumber, SizeValueType);
 
   /** Provide access to m_FrameSkipPerOutput */
-  itkSetMacro(FrameSkipPerOutput, long);
-  itkGetMacro(FrameSkipPerOutput, long);
+  itkSetMacro(FrameSkipPerOutput, OffsetValueType);
+  itkGetMacro(FrameSkipPerOutput, OffsetValueType);
 
   /** Provide access to m_InputStencilCurrentFrameIndex */
-  itkSetMacro(InputStencilCurrentFrameIndex, long);
-  itkGetMacro(InputStencilCurrentFrameIndex, long);
+  itkSetMacro(InputStencilCurrentFrameIndex, SizeValueType);
+  itkGetMacro(InputStencilCurrentFrameIndex, SizeValueType);
 
   /*-DEBUG OVERRIDES---------------------------------------------------------*/
 
@@ -386,7 +388,7 @@ protected:
 private:
 
   /** ID number used for debugging */
-  unsigned int m_IdNumber;
+  SizeValueType m_IdNumber;
 
 };
 
@@ -400,6 +402,8 @@ int itkTemporalProcessObjectTest( int ,
                                   char* [] )
 {
 
+  typedef ::itk::SizeValueType       SizeValueType;
+  typedef ::itk::OffsetValueType     OffsetValueType;
   //////
   // Set up pipeline
   //////
@@ -567,9 +571,9 @@ int itkTemporalProcessObjectTest( int ,
 
   // Print out duration of buffered output region
   itk::TemporalProcessObjectTest::DummyTemporalDataObject::Pointer outputObject = tpo3->GetOutput();
-  unsigned long                                                    outputStart =
+  OffsetValueType                                                    outputStart =
     outputObject->GetBufferedTemporalRegion().GetFrameStart();
-  unsigned long outputDuration =
+  SizeValueType outputDuration =
     outputObject->GetBufferedTemporalRegion().GetFrameDuration();
   std::cout << "Buffered Output Region: "
             << outputStart << "->" << outputStart + outputDuration - 1 << std::endl;
@@ -652,7 +656,7 @@ int itkTemporalProcessObjectTest( int ,
 
   // Check that call lists match
   std::cout << std::endl;
-  for (unsigned int i = 0; i < itk::TemporalProcessObjectTest::m_CallStack.size(); ++i)
+  for (SizeValueType i = 0; i < itk::TemporalProcessObjectTest::m_CallStack.size(); ++i)
     {
     std::cout << "Got: ";
     itk::TemporalProcessObjectTest::m_CallStack[i].Print();
@@ -694,7 +698,7 @@ int itkTemporalProcessObjectTest( int ,
 
   // Check that call lists match
   std::cout << std::endl;
-  for (unsigned int i = 0; i < itk::TemporalProcessObjectTest::m_CallStack.size(); ++i)
+  for (SizeValueType i = 0; i < itk::TemporalProcessObjectTest::m_CallStack.size(); ++i)
     {
     std::cout << "Got: ";
     itk::TemporalProcessObjectTest::m_CallStack[i].Print();
@@ -737,7 +741,7 @@ int itkTemporalProcessObjectTest( int ,
 
   // Check that call lists match
   std::cout << std::endl;
-  for (unsigned int i = 0; i < itk::TemporalProcessObjectTest::m_CallStack.size(); ++i)
+  for (SizeValueType i = 0; i < itk::TemporalProcessObjectTest::m_CallStack.size(); ++i)
     {
     std::cout << "Got: ";
     itk::TemporalProcessObjectTest::m_CallStack[i].Print();

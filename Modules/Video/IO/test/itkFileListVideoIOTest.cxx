@@ -23,6 +23,9 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
+
+typedef itk::SizeValueType SizeValueType;
+
 ///////////////////////////////////////////////////////////////////////////////
 // This tests all of the functionality of the FileListVideoIO
 //
@@ -35,7 +38,7 @@ int test_FileListVideoIO ( const char* input,
                            char* itkNotUsed(cameraOutput),
                            unsigned int inWidth,
                            unsigned int inHeight,
-                           unsigned long inNumFrames,
+                           SizeValueType inNumFrames,
                            double inFpS )
 {
 
@@ -141,7 +144,7 @@ int test_FileListVideoIO ( const char* input,
 
   // Loop through all frames
   std::vector<std::string> filenames = fileListIO->SplitFileNames(input);
-  for (unsigned long i = 0; i < fileListIO->GetFrameTotal(); ++i)
+  for (SizeValueType i = 0; i < fileListIO->GetFrameTotal(); ++i)
     {
     // Read the image file directly
     reader->SetFileName(filenames[i]);
@@ -189,7 +192,7 @@ int test_FileListVideoIO ( const char* input,
   std::cout << "FileListVideoIO::SetNextFrameToRead" << std::endl;
 
   // try seeking to the end
-  unsigned long seekFrame = fileListIO->GetFrameTotal()-1;
+  SizeValueType seekFrame = fileListIO->GetFrameTotal()-1;
   if (!fileListIO->SetNextFrameToRead(seekFrame))
     {
     std::cerr << "Failed to seek to second I-Frame..." << std::endl;

@@ -29,6 +29,7 @@ typedef itk::RGBPixel<char>                  PixelType;
 typedef itk::ImportImageFilter<PixelType, 2> ImportFilterType;
 typedef itk::Image<PixelType, 2>             ImageType;
 typedef itk::ImageFileWriter<ImageType>      WriterType;
+typedef itk::SizeValueType                   FrameOffsetType;
 
 //
 // Utility function to get an ITK image from an void* buffer
@@ -67,7 +68,7 @@ ImageType::Pointer itkImageFromBuffer( itk::OpenCVVideoIO::Pointer opencvIO, voi
 //
 // Note: opencvIO should already have called ReadImageInformation
 //
-bool readCorrectly( itk::OpenCVVideoIO::Pointer opencvIO, CvCapture* capture, unsigned long frameNumber )
+bool readCorrectly( itk::OpenCVVideoIO::Pointer opencvIO, CvCapture* capture, FrameOffsetType frameNumber )
 {
   bool ret = true;
   // Check meta data
@@ -198,7 +199,7 @@ bool videosMatch(char* file1, char* file2)
 //            [Num Frames] [FpS]
 
 int test_OpenCVVideoIO( char* input, char* nonVideoInput, char* output, char* cameraOutput,
-                        unsigned int inWidth, unsigned int inHeight, unsigned long inNumFrames,
+                        unsigned int inWidth, unsigned int inHeight, FrameOffsetType inNumFrames,
                         double inFpS )
 {
 
@@ -284,7 +285,7 @@ int test_OpenCVVideoIO( char* input, char* nonVideoInput, char* output, char* ca
   // Set up OpenCV capture
   CvCapture* capture = cvCaptureFromFile( opencvIO->GetFileName() );
   // Loop through all frames
-  for( unsigned long i = 0; i < opencvIO->GetFrameTotal(); ++i )
+  for( FrameOffsetType i = 0; i < opencvIO->GetFrameTotal(); ++i )
     {
     if( !readCorrectly(opencvIO, capture, i) )
       {
@@ -307,7 +308,7 @@ int test_OpenCVVideoIO( char* input, char* nonVideoInput, char* output, char* ca
   PixelType buffer[bufferSize];
 
   // try seeking to an I-Frame
-  unsigned long seekFrame = opencvIO->GetIFrameInterval();
+  FrameOffsetType seekFrame = opencvIO->GetIFrameInterval();
   if( !opencvIO->SetNextFrameToRead(seekFrame) )
     {
     std::cerr << "Failed to seek to second I-Frame..." << std::endl;

@@ -167,7 +167,7 @@ GenerateOutputRequestedTemporalRegion(TemporalDataObject* output)
   // region. This should only happen for filters at the end of the pipeline
   // since mid-pipeline filters will have their outputs' requested temporal
   // regions set automatically.
-  unsigned long requestDuration =
+  SizeValueType requestDuration =
     this->GetOutput()->GetRequestedTemporalRegion().GetFrameDuration();
   if (resetNumFrames && this->GetOutput()->GetNumberOfBuffers() < requestDuration)
     {
@@ -178,11 +178,11 @@ GenerateOutputRequestedTemporalRegion(TemporalDataObject* output)
   // spatial regions for every frame to the largest possible as well
   if (resetNumFrames)
     {
-    unsigned long frameStart =
+    SizeValueType frameStart =
       this->GetOutput()->GetRequestedTemporalRegion().GetFrameStart();
-    unsigned long numFrames =
+    SizeValueType numFrames =
       this->GetOutput()->GetRequestedTemporalRegion().GetFrameDuration();
-    for (unsigned long i = frameStart; i < frameStart + numFrames; ++i)
+    for (SizeValueType i = frameStart; i < frameStart + numFrames; ++i)
       {
       //this->GetOutput()->SetFrameRequestedSpatialRegion(i,
       //  this->GetOutput()->GetFrameLargestPossibleSpatialRegion(i));
@@ -209,7 +209,7 @@ VideoSource<TOutputVideoStream>::AllocateOutputs()
   // by the default implementation of GenerateData in TemporalProcessObject
 
   // If there are no unbuffered frames, return now
-  unsigned long numFrames = unbufferedRegion.GetFrameDuration();
+  SizeValueType numFrames = unbufferedRegion.GetFrameDuration();
 
   if (numFrames == 0)
     {
@@ -221,8 +221,8 @@ VideoSource<TOutputVideoStream>::AllocateOutputs()
 
   // Loop through the unbuffered frames and set the buffered spatial region to
   // match the requested spatial region then allocate the data
-  unsigned long startFrame = unbufferedRegion.GetFrameStart();
-  for (unsigned long i = startFrame; i < startFrame + numFrames; ++i)
+  SizeValueType startFrame = unbufferedRegion.GetFrameStart();
+  for (SizeValueType i = startFrame; i < startFrame + numFrames; ++i)
     {
     output->SetFrameBufferedSpatialRegion(i, output->GetFrameRequestedSpatialRegion(i) );
     typename OutputFrameType::Pointer frame = output->GetFrame(i);
@@ -293,7 +293,7 @@ SplitRequestedSpatialRegion(int i, int num,
 {
   // Get the output pointer and a pointer to the first output frame
   OutputVideoStreamType* outputPtr = this->GetOutput();
-  unsigned long          currentFrame = outputPtr->GetRequestedTemporalRegion().GetFrameStart();
+  SizeValueType          currentFrame = outputPtr->GetRequestedTemporalRegion().GetFrameStart();
   OutputFrameType*       framePtr = outputPtr->GetFrame(currentFrame);
 
   const typename TOutputVideoStream::SizeType & requestedRegionSize =

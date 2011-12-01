@@ -33,8 +33,8 @@ int itkTemporalRegionTest( int , char* [] )
     }
 
   // Test arrays for frame durations
-  unsigned long testFrameStart = 0;
-  unsigned long testFrameDuration = 20;
+  itk::SizeValueType testFrameStart = 0;
+  itk::SizeValueType   testFrameDuration = 20;
 
   // Test time stamps and intervals
   itk::RealTimeStamp    stamp0;

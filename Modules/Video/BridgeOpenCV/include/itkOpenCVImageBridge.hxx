@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkOpenCVImageBridge_txx
-#define __itkOpenCVImageBridge_txx
+#ifndef __itkOpenCVImageBridge_hxx
+#define __itkOpenCVImageBridge_hxx
 
 #include "itkOpenCVImageBridge.h"
 #include "itkDefaultConvertPixelTraits.h"
@@ -35,8 +35,8 @@ OpenCVImageBridge::IplImageToITKImage(const IplImage* in)
 {
 
   // Typedefs
-  typedef TOutputImageType ImageType;
-  typedef typename ImageType::PixelType OutputPixelType;
+  typedef TOutputImageType                           ImageType;
+  typedef typename ImageType::PixelType              OutputPixelType;
   typedef DefaultConvertPixelTraits<OutputPixelType> ConvertPixelTraits;
 
   //
@@ -209,8 +209,8 @@ IplImage*
 OpenCVImageBridge::ITKImageToIplImage(const TInputImageType* in, bool force3Channels)
 {
   // Typedefs
-  typedef TInputImageType ImageType;
-  typedef typename ImageType::PixelType InputPixelType;
+  typedef TInputImageType                                        ImageType;
+  typedef typename ImageType::PixelType                          InputPixelType;
   typedef typename itk::NumericTraits<InputPixelType>::ValueType ValueType;
 
   //

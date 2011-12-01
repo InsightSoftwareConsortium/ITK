@@ -178,7 +178,7 @@ bool FileListVideoIO::CanReadFile(const char* filename)
 //
 // CanReadCamera
 //
-bool FileListVideoIO::CanReadCamera( unsigned long itkNotUsed(cameraID) )const
+bool FileListVideoIO::CanReadCamera( itk::SizeValueType itkNotUsed(cameraID) )const
 {
   return false;
 }

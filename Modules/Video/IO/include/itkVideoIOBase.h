@@ -61,7 +61,7 @@ public:
   typedef double               TemporalRatioType;
 
   /** Video-specific typedefs */
-  typedef unsigned long        CameraIDType;
+  typedef SizeValueType CameraIDType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(VideoIOBase, Superclass);

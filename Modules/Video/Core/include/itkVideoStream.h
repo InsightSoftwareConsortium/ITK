@@ -61,12 +61,13 @@ public:
   typedef typename FrameType::SpacingType   SpacingType;
   typedef typename FrameType::SizeType      SizeType;
   typedef typename FrameType::DirectionType DirectionType;
+  typedef Superclass::SizeValueType         SizeValueType;
 
   /** Types used to store map between frame numbers and frame meta data */
-  typedef typename std::map<unsigned long, SpatialRegionType> SpatialRegionMapType;
-  typedef typename std::map<unsigned long, PointType>         PointMapType;
-  typedef typename std::map<unsigned long, DirectionType>     DirectionMapType;
-  typedef typename std::map<unsigned long, SpacingType>       SpacingMapType;
+  typedef typename std::map<SizeValueType, SpatialRegionType> SpatialRegionMapType;
+  typedef typename std::map<SizeValueType, PointType>         PointMapType;
+  typedef typename std::map<SizeValueType, DirectionType>     DirectionMapType;
+  typedef typename std::map<SizeValueType, SpacingType>       SpacingMapType;
 
   /** Access the spacial dimensionality of the frames */
   itkStaticConstMacro(FrameDimension, unsigned int, FrameType::ImageDimension);
@@ -81,7 +82,7 @@ public:
   itkTypeMacro(VideoStream, TemporalDataObject);
 
   /** Safely expand the internal ring buffer. */
-  void SetMinimumBufferSize(unsigned long minimumNumberOfFrames);
+  void SetMinimumBufferSize(SizeValueType minimumNumberOfFrames);
 
   /** Initialize any empty frames. This method makes sure that the frame buffer
    * is large enough to hold the number of frames needed for the buffered
@@ -160,50 +161,50 @@ public:
   }
 
   /** Set the contents of the frame at a given frame number */
-  void SetFrame(unsigned long frameNumber, FramePointer frame);
+  void SetFrame(SizeValueType frameNumber, FramePointer frame);
 
   /** Get the frame for the given frame number. Internally, we always leave the
    * Head of the ring buffer in place and just use the frame number as an
    * offset. This allows all references to frames to be processed by an
    * explicit frame number rather than a potentially confusing offset. */
-  FramePointer GetFrame(unsigned long frameNumber);
-  FrameConstPointer GetFrame(unsigned long frameNumber) const;
+  FramePointer GetFrame(SizeValueType frameNumber);
+  FrameConstPointer GetFrame(SizeValueType frameNumber) const;
 
   /** Get/Set the LargestPossibleRegion of a frame */
-  void SetFrameLargestPossibleSpatialRegion(unsigned long frameNumber,
+  void SetFrameLargestPossibleSpatialRegion(SizeValueType frameNumber,
                                             SpatialRegionType region);
 
   const SpatialRegionType &
-  GetFrameLargestPossibleSpatialRegion(unsigned long frameNumber) const;
+  GetFrameLargestPossibleSpatialRegion(SizeValueType frameNumber) const;
 
   /** Get/Set the RequestedRegion of a frame */
-  void SetFrameRequestedSpatialRegion(unsigned long frameNumber,
+  void SetFrameRequestedSpatialRegion(SizeValueType frameNumber,
                                       SpatialRegionType region);
 
   const SpatialRegionType &
-  GetFrameRequestedSpatialRegion(unsigned long frameNumber) const;
+  GetFrameRequestedSpatialRegion(SizeValueType frameNumber) const;
 
   /** Get/Set the BufferedRegion of a frame */
-  void SetFrameBufferedSpatialRegion(unsigned long frameNumber,
+  void SetFrameBufferedSpatialRegion(SizeValueType frameNumber,
                                      SpatialRegionType region);
 
   const SpatialRegionType &
-  GetFrameBufferedSpatialRegion(unsigned long frameNumber) const;
+  GetFrameBufferedSpatialRegion(SizeValueType frameNumber) const;
 
   /** Get/Set the Spacing of a frame */
-  void SetFrameSpacing(unsigned long frameNumber, SpacingType spacing);
+  void SetFrameSpacing(SizeValueType frameNumber, SpacingType spacing);
 
-  const SpacingType & GetFrameSpacing(unsigned long frameNumber) const;
+  const SpacingType & GetFrameSpacing(SizeValueType frameNumber) const;
 
   /** Get/Set the Origin of a frame */
-  void SetFrameOrigin(unsigned long frameNumber, PointType origin);
+  void SetFrameOrigin(SizeValueType frameNumber, PointType origin);
 
-  const PointType & GetFrameOrigin(unsigned long frameNumber) const;
+  const PointType & GetFrameOrigin(SizeValueType frameNumber) const;
 
   /** Get/Set the Direction of a frame */
-  void SetFrameDirection(unsigned long frameNumber, DirectionType direction);
+  void SetFrameDirection(SizeValueType frameNumber, DirectionType direction);
 
-  const DirectionType & GetFrameDirection(unsigned long frameNumber) const;
+  const DirectionType & GetFrameDirection(SizeValueType frameNumber) const;
 
   /** Set the LargestPossibleRegion on all frames. This assumes that all frames
    * in the buffered temporal region have been initialized (should be called

@@ -90,12 +90,12 @@ public:
   /** Get the number of frames of input required to produce output. We don't
    * provide a Set method because we want some filters to be able to hold this
    * as a constant. */
-  itkGetMacro(UnitInputNumberOfFrames, unsigned long);
+  itkGetMacro(UnitInputNumberOfFrames, SizeValueType);
 
   /** Get the number of frames of output produced for a single set of input
    * frames. We don't provide a Set method because we want some filters to be
    * able to hold this as a constant. */
-  itkGetMacro(UnitOutputNumberOfFrames, unsigned long);
+  itkGetMacro(UnitOutputNumberOfFrames, SizeValueType);
 
   /** The default implementation of UpdateOutputInformation to handle temporal
    * regions will compute the proper size of the output largest possible
@@ -208,30 +208,30 @@ protected:
    * frame 0 and has infinite duration. */
   virtual TemporalRegion GenerateDefaultLargestPossibleTemporalRegion();
 
-  itkSetMacro(UnitInputNumberOfFrames, unsigned long);
-  itkSetMacro(UnitOutputNumberOfFrames, unsigned long);
-  itkSetMacro(FrameSkipPerOutput, long);
-  itkSetMacro(InputStencilCurrentFrameIndex, long);
-  itkGetMacro(InputStencilCurrentFrameIndex, long);
+  itkSetMacro(UnitInputNumberOfFrames, SizeValueType);
+  itkSetMacro(UnitOutputNumberOfFrames, SizeValueType);
+  itkSetMacro(FrameSkipPerOutput, OffsetValueType);
+  itkSetMacro(InputStencilCurrentFrameIndex, SizeValueType);
+  itkGetMacro(InputStencilCurrentFrameIndex, SizeValueType);
 
   /*-PROTECTED MEMBERS-------------------------------------------------------*/
 
   /** Members to indicate the number of input frames and output frames requred
    * to perform a single pass through the processing. */
-  unsigned long m_UnitInputNumberOfFrames;
-  unsigned long m_UnitOutputNumberOfFrames;
+  SizeValueType  m_UnitInputNumberOfFrames;
+  SizeValueType  m_UnitOutputNumberOfFrames;
 
   /** Number of frames to move in order to produce each set of output frames.
    * There is no public API for this member, but subclasses can set it
    * internally (or provide access to it) if they wish. */
-  long m_FrameSkipPerOutput;
+  OffsetValueType  m_FrameSkipPerOutput;
 
   /** Member to indicate the location of the "current frame" in the minimum set
    * of input frames. For example, if the unit number of input frames is 6 and
    * m_InputStencilCurrentFrameIndex = 4, this indicates that for output frame
    * n, frames n-4 through n+1 are required, whereas if
    * m_InputStencilCurrentFrameIndex = 0, frames n through n+5 are required. */
-  long m_InputStencilCurrentFrameIndex;
+  SizeValueType  m_InputStencilCurrentFrameIndex;
 
 private:
   TemporalProcessObject(const Self &); //purposely not implemented

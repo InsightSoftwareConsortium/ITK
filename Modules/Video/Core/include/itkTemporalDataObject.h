@@ -49,8 +49,8 @@ public:
   typedef SmartPointer< const Self > ConstPointer;
   typedef WeakPointer< const Self >  ConstWeakPointer;
 
-  typedef RingBuffer<DataObject>     BufferType;
-  typedef TemporalRegion             TemporalRegionType;
+  typedef RingBuffer<DataObject>        BufferType;
+  typedef TemporalRegion                TemporalRegionType;
 
   /** Enum for defining the way in which to compare temporal regions */
   typedef enum {Frame, RealTime, FrameAndRealTime} TemporalUnitType;
@@ -69,8 +69,8 @@ public:
   virtual void SetTemporalUnitToFrameAndRealTime();
 
   /** Get/Set the number of frames that the internal buffer can hold */
-  unsigned long GetNumberOfBuffers();
-  void SetNumberOfBuffers(unsigned long num);
+  SizeValueType GetNumberOfBuffers();
+  void SetNumberOfBuffers(SizeValueType num);
 
   virtual void SetLargestPossibleTemporalRegion(
     const TemporalRegionType & region);

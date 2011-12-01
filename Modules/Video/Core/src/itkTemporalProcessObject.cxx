@@ -80,11 +80,11 @@ TemporalProcessObject::EnlargeOutputRequestedTemporalRegion(TemporalDataObject* 
   // Get information on output request and current output buffer
   TemporalRegion outReqTempRegion = output->GetRequestedTemporalRegion();
   TemporalRegion outBufTempRegion = output->GetBufferedTemporalRegion();
-  unsigned long outReqStart = outReqTempRegion.GetFrameStart();
-  unsigned long outReqDuration = outReqTempRegion.GetFrameDuration();
-  unsigned long outReqEnd = outReqDuration + outReqStart;
-  unsigned long outBufStart = outBufTempRegion.GetFrameStart();
-  unsigned long outBufEnd = outBufTempRegion.GetFrameDuration() + outBufStart;
+  SizeValueType outReqStart = outReqTempRegion.GetFrameStart();
+  SizeValueType outReqDuration = outReqTempRegion.GetFrameDuration();
+  SizeValueType outReqEnd = outReqDuration + outReqStart;
+  SizeValueType outBufStart = outBufTempRegion.GetFrameStart();
+  SizeValueType outBufEnd = outBufTempRegion.GetFrameDuration() + outBufStart;
 
   // If the requested output region is contained in the buffered temporal
   // region, just return
@@ -96,7 +96,7 @@ TemporalProcessObject::EnlargeOutputRequestedTemporalRegion(TemporalDataObject* 
   // Make sure the requested output temporal region duration is a multiple of
   // the unit number of output frames
 
-  unsigned int remainder = outReqDuration % m_UnitOutputNumberOfFrames;
+  SizeValueType remainder = outReqDuration % m_UnitOutputNumberOfFrames;
   if (remainder > 0)
     {
     outReqDuration += (m_UnitOutputNumberOfFrames - remainder);
@@ -212,20 +212,20 @@ TemporalProcessObject::GenerateInputRequestedTemporalRegion()
 
   // This should always be a whole number because of EnlargeOutputRequestedTemporalRegion
   // but do it safely in case the subclass overrides it
-  unsigned long numInputRequests =
-    (unsigned long)ceil((double)outReqTempRegion.GetFrameDuration() /
+  SizeValueType numInputRequests =
+    (SizeValueType)ceil((double)outReqTempRegion.GetFrameDuration() /
                         (double)m_UnitOutputNumberOfFrames);
 
   // The number of input requests indicates the number of times the process
   // will have to request a temporal region of size m_UnitInputNumberOfFrames.
   // Each request besides the last will require m_FrameSkipPerOutput new frames
   // to be loaded.
-  unsigned long inputDuration = m_FrameSkipPerOutput * (numInputRequests - 1) +
+  SizeValueType inputDuration = m_FrameSkipPerOutput * (numInputRequests - 1) +
                                   m_UnitInputNumberOfFrames;
 
   // Compute the start of the input requested temporal region based on
   // m_InputStencilCurrentFrameIndex and FrameSkipPerOutput
-  long inputStart = outReqTempRegion.GetFrameStart() * m_FrameSkipPerOutput
+  OffsetValueType inputStart = outReqTempRegion.GetFrameStart() * m_FrameSkipPerOutput
                       - m_InputStencilCurrentFrameIndex;
 
   // Make sure we're not requesting a negative frame (this may be replaced by
@@ -287,13 +287,13 @@ TemporalProcessObject::UpdateOutputInformation()
     {
     inputLargestRegion = input->GetLargestPossibleTemporalRegion();
     }
-  long scannableDuration = inputLargestRegion.GetFrameDuration() -
+  OffsetValueType scannableDuration = inputLargestRegion.GetFrameDuration() -
                             m_UnitInputNumberOfFrames + 1;
-  long outputDuration = m_UnitOutputNumberOfFrames *
+  SizeValueType  outputDuration = m_UnitOutputNumberOfFrames *
     ((double)(scannableDuration - 1) / (double)(m_FrameSkipPerOutput) + 1);
 
   // Compute the start of the output region
-  long outputStart = ceil((double)inputLargestRegion.GetFrameStart() / (double)m_FrameSkipPerOutput)
+  OffsetValueType outputStart = ceil((double)inputLargestRegion.GetFrameStart() / (double)m_FrameSkipPerOutput)
                       + m_InputStencilCurrentFrameIndex;
 
   // Set up output largest possible region
@@ -390,7 +390,7 @@ TemporalProcessObject::UpdateOutputData(DataObject* itkNotUsed(output))
   // Release any inputs if marked for release
   this->ReleaseInputs();
 
-  // Mark that we are no longer updating the data in this filter
+  // Mark that we are no OffsetValueTypeer updating the data in this filter
   m_Updating = false;
 
 }
@@ -416,13 +416,13 @@ TemporalProcessObject::GenerateData()
                       << "cannot cast " << typeid(output).name() << " to "
                       << typeid(TemporalDataObject*).name() );
     }
-  unsigned long outputStartFrame = output->GetUnbufferedRequestedTemporalRegion().GetFrameStart();
+  SizeValueType outputStartFrame = output->GetUnbufferedRequestedTemporalRegion().GetFrameStart();
 
   // Save the full requested and buffered output regions
   TemporalRegion fullOutputRequest = output->GetRequestedTemporalRegion();
 
   // Process each of the temporal sub-regions in sequence
-  for (unsigned int i = 0; i < inputTemporalRegionRequests.size(); ++i)
+  for (SizeValueType i = 0; i < inputTemporalRegionRequests.size(); ++i)
     {
     // If we have an input, set the requested region and make sure its data is ready
     if (this->GetNumberOfInputs())
@@ -453,8 +453,8 @@ TemporalProcessObject::GenerateData()
 
     // Update the bufferd region information
     TemporalRegion outputBufferedRegion = output->GetBufferedTemporalRegion();
-    unsigned long bufferedStart = outputBufferedRegion.GetFrameStart();
-    unsigned long bufferedDuration = outputBufferedRegion.GetFrameDuration();
+    SizeValueType bufferedStart = outputBufferedRegion.GetFrameStart();
+    SizeValueType bufferedDuration = outputBufferedRegion.GetFrameDuration();
 
     // If there is nothing buffered, set the start as well as the duration
     if (bufferedDuration == 0)
@@ -462,8 +462,8 @@ TemporalProcessObject::GenerateData()
       bufferedStart = outputStartFrame;
       }
 
-    long spareFrames = output->GetNumberOfBuffers() - (long)bufferedDuration;
-    if (spareFrames >= (long)m_UnitOutputNumberOfFrames)
+    OffsetValueType spareFrames = output->GetNumberOfBuffers() - (OffsetValueType)bufferedDuration;
+    if (spareFrames >= (OffsetValueType)m_UnitOutputNumberOfFrames)
       {
       bufferedDuration += m_UnitOutputNumberOfFrames;
       }
@@ -528,7 +528,7 @@ TemporalProcessObject::SplitRequestedTemporalRegion()
   TemporalRegion unbufferedRegion = outputObject->GetUnbufferedRequestedTemporalRegion();
 
   // Calculate the number of input requests that will be needed
-  unsigned long numRequests = (unsigned long)(ceil(
+  SizeValueType numRequests = (SizeValueType)(ceil(
                                               (double)(unbufferedRegion.GetFrameDuration() /
                                               (double)(m_UnitOutputNumberOfFrames)) ));
 
@@ -541,7 +541,7 @@ TemporalProcessObject::SplitRequestedTemporalRegion()
     return inputTemporalRegionRequests;
     }
 
-  long regionStartFrame = 1;
+  OffsetValueType regionStartFrame = 1;
   if (this->m_FrameSkipPerOutput > 0)
     {
     regionStartFrame = unbufferedRegion.GetFrameStart() * m_FrameSkipPerOutput
@@ -561,7 +561,7 @@ TemporalProcessObject::SplitRequestedTemporalRegion()
                       << "cannot start at frame number " << regionStartFrame);
     }
 
-  for (unsigned int i = 0; i < numRequests; ++i)
+  for (SizeValueType i = 0; i < numRequests; ++i)
     {
     // Create the requested region
     TemporalRegion r;

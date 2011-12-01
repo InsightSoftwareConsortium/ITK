@@ -24,6 +24,7 @@ const unsigned int Dimension =                   2;
 typedef unsigned char                      PixelType;
 typedef itk::Image< PixelType, Dimension > FrameType;
 typedef itk::VideoStream< FrameType >      VideoType;
+typedef itk::SizeValueType                 SizeValueType;
 
 namespace itk
 {
@@ -75,8 +76,8 @@ protected:
     OutputVideoStreamType* video = this->GetOutput();
     typename OutputVideoStreamType::TemporalRegionType requestedTemporalRegion =
       video->GetRequestedTemporalRegion();
-    unsigned long startFrame = requestedTemporalRegion.GetFrameStart();
-    unsigned long frameDuration = requestedTemporalRegion.GetFrameDuration();
+    SizeValueType startFrame = requestedTemporalRegion.GetFrameStart();
+    SizeValueType frameDuration = requestedTemporalRegion.GetFrameDuration();
 
     // Just as a check, throw an exception if the duration isn't equal to the
     // unit output size
@@ -87,7 +88,7 @@ protected:
                         << this->TemporalProcessObject::m_UnitOutputNumberOfFrames);
       }
 
-    for (unsigned long i = startFrame; i < startFrame + frameDuration; ++i)
+    for (SizeValueType i = startFrame; i < startFrame + frameDuration; ++i)
       {
       OutputFrameType*                          frame = video->GetFrame(i);
       itk::ImageRegionIterator<OutputFrameType> iter(frame, outputRegionForThread);
@@ -169,7 +170,7 @@ int itkVideoSourceTest( int, char* [] )
   video->SetRequestedTemporalRegion(requestedRegion);
   video->SetBufferedTemporalRegion(bufferedRegion);
   FrameType::Pointer frame;
-  for (unsigned long i = bufferedRegion.GetFrameStart();
+  for (SizeValueType i = bufferedRegion.GetFrameStart();
        i < bufferedRegion.GetFrameStart() + bufferedRegion.GetFrameDuration();
        ++i)
     {
@@ -214,9 +215,9 @@ int itkVideoSourceTest( int, char* [] )
   videoSource->Update();
 
   // Check the pixel values of the output
-  unsigned long frameStart = requestedRegion.GetFrameStart();
-  unsigned long numFrames = requestedRegion.GetFrameDuration();
-  for (unsigned long i = frameStart; i < frameStart + numFrames; ++i)
+  SizeValueType frameStart = requestedRegion.GetFrameStart();
+  SizeValueType numFrames = requestedRegion.GetFrameDuration();
+  for (SizeValueType i = frameStart; i < frameStart + numFrames; ++i)
     {
     frame = videoSource->GetOutput()->GetFrame(i);
     FrameType::RegionType region = frame->GetRequestedRegion();

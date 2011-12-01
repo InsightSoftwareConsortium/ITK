@@ -23,13 +23,15 @@
 
 #include "highgui.h"
 
+typedef itk::SizeValueType SizeValueType;
+
 ///////////////////////////////////////////////////////////////////////////////
 // This tests all of the functionality of the OpenCVVideoIO
 //
 // Usage: [Video Input] [Non-Video Input] [Video Output] [Width] [Height]
 //            [Num Frames] [FpS]
 
-int test_OpenCVVideoIOFactory ( char* input, char* output, unsigned long cameraNumber )
+int test_OpenCVVideoIOFactory ( char* input, char* output, SizeValueType cameraNumber )
 {
 
   int ret = EXIT_SUCCESS;

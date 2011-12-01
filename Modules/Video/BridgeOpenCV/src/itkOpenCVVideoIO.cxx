@@ -140,7 +140,7 @@ OpenCVVideoIO::FrameOffsetType OpenCVVideoIO::GetIFrameInterval() const
 //
 // GetLastIFrame
 //
-unsigned long OpenCVVideoIO::GetLastIFrame() const
+OpenCVVideoIO::FrameOffsetType OpenCVVideoIO::GetLastIFrame() const
 {
   return this->m_LastIFrame;
 }
@@ -289,7 +289,7 @@ void OpenCVVideoIO::ReadImageInformation()
 
     // Query the frame and get frame total (since this is only valid for reading from files)
     tempImage = cvQueryFrame(localCapture);
-    this->m_FrameTotal = static_cast<unsigned long>
+    this->m_FrameTotal = static_cast<OpenCVVideoIO::FrameOffsetType>
       (cvGetCaptureProperty( localCapture, CV_CAP_PROP_FRAME_COUNT ));
 
     // Try to figure out if there are I-Frame issues we need to worry about
@@ -301,7 +301,7 @@ void OpenCVVideoIO::ReadImageInformation()
       tempImage = cvQueryFrame(localCapture);
       this->m_IFrameInterval = cvGetCaptureProperty(localCapture, CV_CAP_PROP_POS_FRAMES);
       this->m_LastIFrame =
-        (unsigned long)((float)this->m_FrameTotal / (float)this->m_IFrameInterval)
+        (OpenCVVideoIO::FrameOffsetType)((float)this->m_FrameTotal / (float)this->m_IFrameInterval)
         * this->m_IFrameInterval;
 
       // If the I-Frame spacing is not 1, warn the user
@@ -422,7 +422,7 @@ void OpenCVVideoIO::Read(void *buffer)
 //
 // SetNextFrameToRead
 //
-bool OpenCVVideoIO::SetNextFrameToRead(unsigned long frameNumber)
+bool OpenCVVideoIO::SetNextFrameToRead(OpenCVVideoIO::FrameOffsetType frameNumber)
 {
   // If the capture isn't open, open it
   if (!this->m_ReaderOpen)

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkOpenCVVideoCapture_txx
-#define __itkOpenCVVideoCapture_txx
+#ifndef __itkOpenCVVideoCapture_hxx
+#define __itkOpenCVVideoCapture_hxx
 
 #include "itkOpenCVVideoCapture.h"
 #include "itkNumericTraits.h"
@@ -107,7 +107,7 @@ bool OpenCVVideoCapture<TVideoStream>::grab()
     }
 
   // Move the current frame forward by 1
-  unsigned long currentFrame = m_VideoStream->GetRequestedTemporalRegion().GetFrameStart();
+  SizeValueType currentFrame = m_VideoStream->GetRequestedTemporalRegion().GetFrameStart();
   return set(CV_CAP_PROP_POS_FRAMES, currentFrame + 1);
 }
 
@@ -132,7 +132,7 @@ bool OpenCVVideoCapture<TVideoStream>::retrieve(cv::Mat& image, int channel)
     }
 
   // Get the requested frame
-  unsigned long frameNum = m_VideoStream->GetRequestedTemporalRegion().GetFrameStart();
+  SizeValueType frameNum = m_VideoStream->GetRequestedTemporalRegion().GetFrameStart();
   FrameType* frame = m_VideoStream->GetFrame(frameNum);
 
   // Make sure frame isn't null
@@ -233,10 +233,10 @@ bool OpenCVVideoCapture<TVideoStream>::set(int propId, double value)
     }
 
   // Variables for use in cases
-  unsigned long maxFrame;
-  unsigned long nextFrame;
-  unsigned long ratioFrameOffset;
-  unsigned long newFrame;
+  SizeValueType maxFrame;
+  SizeValueType nextFrame;
+  SizeValueType ratioFrameOffset;
+  SizeValueType newFrame;
   TemporalRegion largestPossible;
   TemporalRegion newRequest;
 
@@ -288,7 +288,7 @@ bool OpenCVVideoCapture<TVideoStream>::set(int propId, double value)
       // Compute the new frame
       m_VideoStream->UpdateOutputInformation();
       largestPossible = m_VideoStream->GetLargestPossibleTemporalRegion();
-      ratioFrameOffset = (unsigned long)((double)largestPossible.GetFrameDuration() * value);
+      ratioFrameOffset = (SizeValueType)((double)largestPossible.GetFrameDuration() * value);
       newFrame = largestPossible.GetFrameStart() + ratioFrameOffset;
 
       // Use the CV_CAP_PROP_POS_FRAMES property to update
@@ -327,8 +327,8 @@ double OpenCVVideoCapture<TVideoStream>::get(int propId)
     }
 
   // Variables for use in cases
-  unsigned long frameNum = m_VideoStream->GetRequestedTemporalRegion().GetFrameStart();
-  unsigned long currentOffset;
+  SizeValueType frameNum = m_VideoStream->GetRequestedTemporalRegion().GetFrameStart();
+  SizeValueType currentOffset;
   TemporalRegion largest;
   TemporalRegion requested;
 
