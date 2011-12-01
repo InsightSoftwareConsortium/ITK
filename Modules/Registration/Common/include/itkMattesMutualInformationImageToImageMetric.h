@@ -217,6 +217,10 @@ public:
   typedef Image<PDFValueType, 2> JointPDFType;
   typedef Image<PDFValueType, 3> JointPDFDerivativesType;
 
+  /**
+   * Get the internal JointPDF image that was used in
+   * creating the metric value.
+   */
   const typename JointPDFType::Pointer GetJointPDF () const
     {
     if( this->m_ThreaderJointPDF.size() == 0 )
@@ -225,9 +229,16 @@ public:
       }
     return this->m_ThreaderJointPDF[0];
     }
+
+  /**
+   * Get the internal JointPDFDeriviative image that was used in
+   * creating the metric derivative value.
+   * This is only created when UseExplicitPDFDerivatives is ON, and
+   * derivatives are requested.
+   */
   const typename JointPDFDerivativesType::Pointer GetJointPDFDerivatives () const
     {
-    if( this->m_m_ThreaderJointPDFDerivatives.size() == 0 )
+    if( this->m_ThreaderJointPDFDerivatives.size() == 0 )
       {
       return JointPDFDerivativesType::Pointer(NULL);
       }

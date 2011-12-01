@@ -53,14 +53,14 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 
   // Initialize memory
   m_MovingImageMarginalPDF(),
-  m_ThreaderFixedImageMarginalPDF(),
+  m_ThreaderFixedImageMarginalPDF(0),
 
   // For multi-threading the metric
-  m_ThreaderJointPDF(),
-  m_ThreaderJointPDFDerivatives(),
-  m_ThreaderJointPDFStartBin(),
-  m_ThreaderJointPDFEndBin(),
-  m_ThreaderJointPDFSum(),
+  m_ThreaderJointPDF(0),
+  m_ThreaderJointPDFDerivatives(0),
+  m_ThreaderJointPDFStartBin(0),
+  m_ThreaderJointPDFEndBin(0),
+  m_ThreaderJointPDFSum(0),
 
   m_UseExplicitPDFDerivatives(true),
   m_ImplicitDerivativesSecondPass(false)
