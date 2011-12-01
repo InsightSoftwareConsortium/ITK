@@ -119,7 +119,6 @@ int TestMattesMetricWithAffineTransform(
     ++ri;
     }
 
-
   ti.Begin();
   while(!ti.IsAtEnd())
     {
@@ -177,12 +176,10 @@ int TestMattesMetricWithAffineTransform(
 //-----------------------------------------------------------
 // Set up a transformer
 //-----------------------------------------------------------
-  typedef itk::AffineTransform<
-    double, ImageDimension > TransformType;
-  typedef typename TransformType::ParametersType ParametersType;
+  typedef itk::AffineTransform< double, ImageDimension > TransformType;
+  typedef typename TransformType::ParametersType         ParametersType;
 
   typename TransformType::Pointer transformer = TransformType::New();
-
 
 //------------------------------------------------------------
 // Set up the metric
@@ -191,6 +188,16 @@ int TestMattesMetricWithAffineTransform(
     FixedImageType, MovingImageType > MetricType;
 
   typename MetricType::Pointer metric = MetricType::New();
+
+  // Sanity check before metric is run, these should be NULL;
+  if( metric->GetJointPDFDerivatives().IsNotNull() )
+    {
+    return EXIT_FAILURE;
+    }
+  if( metric->GetJointPDF().IsNotNull() )
+    {
+    return EXIT_FAILURE;
+    }
 
   // connect the interpolator
   metric->SetInterpolator( interpolator );
@@ -285,7 +292,6 @@ int TestMattesMetricWithAffineTransform(
     ++count;
     }
 
-
 //---------------------------------------------------------
 // Print out mutual information values
 // for parameters[4] = {-10,10} (arbitrary choice)
@@ -309,7 +315,6 @@ int TestMattesMetricWithAffineTransform(
     metric->GetDerivative( parameters, derivative );
 
     }
-
 
 //---------------------------------------------------------
 // Check output gradients for numerical accuracy
@@ -378,6 +383,16 @@ int TestMattesMetricWithAffineTransform(
     metric->GetNumberOfSpatialSamples() << std::endl;
   std::cout << "No. of histogram bin used = " <<
     metric->GetNumberOfHistogramBins() << std::endl;
+  if( metric->GetJointPDF().IsNotNull() )
+    {
+    std::cout << "JointPDF image info: " <<
+      metric->GetJointPDF() << std::endl;
+    }
+  if( metric->GetJointPDFDerivatives().IsNotNull() )
+    {
+    std::cout << "JointPDFDerivative image info: " <<
+      metric->GetJointPDFDerivatives() << std::endl;
+    }
 
   metric->Print(std::cout);
 
@@ -477,7 +492,6 @@ int TestMattesMetricWithBSplineTransform(
     ++ri;
     }
 
-
   ti.Begin();
   while(!ti.IsAtEnd())
     {
@@ -493,9 +507,8 @@ int TestMattesMetricWithBSplineTransform(
 //-----------------------------------------------------------
 // Set up a transformer
 //-----------------------------------------------------------
-  typedef itk::BSplineTransform<
-    double, ImageDimension, 3 > TransformType;
-  typedef typename TransformType::ParametersType ParametersType;
+  typedef itk::BSplineTransform< double, ImageDimension, 3 > TransformType;
+  typedef typename TransformType::ParametersType             ParametersType;
   typename TransformType::PhysicalDimensionsType dimensions;
   for( unsigned int dim = 0; dim < ImageDimension; dim++ )
     {
@@ -547,7 +560,6 @@ int TestMattesMetricWithBSplineTransform(
     {
     metric->UseAllPixelsOn();
     }
-
 
   // set the region over which to compute metric
   metric->SetFixedImageRegion( imgFixed->GetBufferedRegion() );
@@ -621,7 +633,6 @@ int TestMattesMetricWithBSplineTransform(
         }
       }
 
-
     measurePlus = metric->GetValue( parametersPlus );
     const unsigned long numberPlusSamples= metric->GetNumberOfMovingImageSamples();
     measureMinus = metric->GetValue( parametersMinus );
@@ -662,7 +673,6 @@ int TestMattesMetricWithBSplineTransform(
 
 }
 
-
 int itkMattesMutualInformationImageToImageMetricTest(int argc, char * argv [] )
 {
 
@@ -685,7 +695,6 @@ int itkMattesMutualInformationImageToImageMetricTest(int argc, char * argv [] )
   bool useSampling = true;
 
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
-
 
   // Test metric with a linear interpolator
   typedef itk::LinearInterpolateImageFunction< ImageType, double >
@@ -712,7 +721,6 @@ int itkMattesMutualInformationImageToImageMetricTest(int argc, char * argv [] )
     std::cout << "Test failed when using all the pixels instead of sampling" << std::endl;
     return EXIT_FAILURE;
     }
-
 
   // Test metric with a BSpline interpolator
   typedef itk::BSplineInterpolateImageFunction< ImageType, double >
@@ -743,7 +751,6 @@ int itkMattesMutualInformationImageToImageMetricTest(int argc, char * argv [] )
     return EXIT_FAILURE;
     }
 
-
   // Test metric with BSpline deformable transform
   useSampling = true;
   failed = TestMattesMetricWithBSplineTransform<
@@ -755,8 +762,6 @@ int itkMattesMutualInformationImageToImageMetricTest(int argc, char * argv [] )
     std::cout << "Test failed" << std::endl;
     return EXIT_FAILURE;
     }
-
-
 
   // Test metric with BSpline deformable transform and using all the pixels
   //
@@ -778,5 +783,4 @@ int itkMattesMutualInformationImageToImageMetricTest(int argc, char * argv [] )
 
   std::cout << "Test passed" << std::endl;
   return EXIT_SUCCESS;
-
 }
