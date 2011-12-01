@@ -63,10 +63,12 @@ public:
     }
 };
 
-template <unsigned int ImageDimension>
+template<unsigned int TDimension>
 int PerformTimeVaryingVelocityFieldImageRegistration( int itkNotUsed( argc ), char *argv[] )
 {
-  typedef float PixelType;
+  const unsigned int ImageDimension = TDimension;
+
+  typedef float                                 PixelType;
   typedef itk::Image<PixelType, ImageDimension> FixedImageType;
   typedef itk::Image<PixelType, ImageDimension> MovingImageType;
 
@@ -99,6 +101,12 @@ int PerformTimeVaryingVelocityFieldImageRegistration( int itkNotUsed( argc ), ch
   affineShrinkFactorsPerLevel[1] = 4;
   affineShrinkFactorsPerLevel[2] = 4;
   affineSimple->SetShrinkFactorsPerLevel( affineShrinkFactorsPerLevel );
+
+  // Set the number of iterations
+  typedef itk::GradientDescentObjectOptimizer GradientDescentObjectOptimizerType;
+  GradientDescentObjectOptimizerType * optimizer = reinterpret_cast<GradientDescentObjectOptimizerType *>(
+    const_cast<typename AffineRegistrationType::OptimizerType *>( affineSimple->GetOptimizer() ) );
+  optimizer->SetNumberOfIterations( 100 );
 
   typedef CommandIterationUpdate<AffineRegistrationType> AffineCommandType;
   typename AffineCommandType::Pointer affineObserver = AffineCommandType::New();
@@ -225,8 +233,8 @@ int PerformTimeVaryingVelocityFieldImageRegistration( int itkNotUsed( argc ), ch
   typename VelocityFieldRegistrationType::ShrinkFactorsArrayType numberOfIterationsPerLevel;
   numberOfIterationsPerLevel.SetSize( 3 );
   numberOfIterationsPerLevel[0] = atoi( argv[5] );
-  numberOfIterationsPerLevel[1] = static_cast<unsigned int>( 0.25 * atoi( argv[5] ) ) ;
-  numberOfIterationsPerLevel[2] = static_cast<unsigned int>( 0.5 * atoi( argv[5] ) ) ;
+  numberOfIterationsPerLevel[1] = 2;
+  numberOfIterationsPerLevel[2] = 1;
   velocityFieldRegistration->SetNumberOfIterationsPerLevel( numberOfIterationsPerLevel );
 
   typename VelocityFieldRegistrationType::ShrinkFactorsArrayType shrinkFactorsPerLevel;
