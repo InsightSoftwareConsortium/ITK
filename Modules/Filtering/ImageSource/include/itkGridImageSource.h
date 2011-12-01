@@ -20,7 +20,7 @@
 
 #include "itkGenerateImageSource.h"
 #include "itkFixedArray.h"
-#include "itkKernelFunction.h"
+#include "itkKernelFunctionBase.h"
 #include "itkVectorContainer.h"
 
 #include "vnl/vnl_vector.h"
@@ -85,6 +85,7 @@ public:
   typedef typename TOutputImage::DirectionType DirectionType;
   typedef typename TOutputImage::SizeType      SizeType;
 
+  typedef KernelFunctionBase<double>           KernelFunctionType;
   /** Other convenient types. */
   typedef FixedArray< RealType, itkGetStaticConstMacro(ImageDimension) >
   ArrayType;
@@ -94,8 +95,8 @@ public:
   typedef VectorContainer< SizeValueType, PixelArrayType > PixelArrayContainerType;
 
   /** Gets and sets for grid parameters */
-  itkSetObjectMacro(KernelFunction, KernelFunction);
-  itkGetConstReferenceObjectMacro(KernelFunction, KernelFunction);
+  itkSetObjectMacro(KernelFunction, KernelFunctionType);
+  itkGetConstReferenceObjectMacro(KernelFunction, KernelFunctionType);
 
   itkSetMacro(Sigma, ArrayType);
   itkGetConstReferenceMacro(Sigma, ArrayType);
@@ -132,7 +133,7 @@ private:
   typename PixelArrayContainerType::Pointer m_PixelArrays;
 
   /** The kernel function used to create the grid */
-  typename KernelFunction::Pointer m_KernelFunction;
+  typename KernelFunctionType::Pointer m_KernelFunction;
 
   /** The standard deviation of the gaussians
     * or width of the box functions. */

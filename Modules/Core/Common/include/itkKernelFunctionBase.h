@@ -15,15 +15,16 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkKernelFunction_h
-#define __itkKernelFunction_h
+#ifndef __itkKernelFunctionBase_h
+#define __itkKernelFunctionBase_h
 
 #include "itkFunctionBase.h"
+#include "itkNumericTraits.h"
 #include "vnl/vnl_math.h"
 
 namespace itk
 {
-/** \class KernelFunction
+/** \class KernelFunctionBase
  * \brief Kernel used for density estimation and nonparameteric regression.
  *
  * This class encapsulates the smoothing kernel used for statistical density
@@ -37,27 +38,37 @@ namespace itk
  * \ingroup Functions
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT KernelFunction:public FunctionBase< double, double >
+template< typename TRealValueType = double >
+class ITKCommon_EXPORT KernelFunctionBase:public FunctionBase< TRealValueType, TRealValueType >
 {
 public:
   /** Standard class typedefs. */
-  typedef KernelFunction                 Self;
-  typedef FunctionBase< double, double > Superclass;
-  typedef SmartPointer< Self >           Pointer;
-  typedef SmartPointer< const Self >     ConstPointer;
+  typedef KernelFunctionBase                             Self;
+  typedef FunctionBase< TRealValueType, TRealValueType > Superclass;
+  typedef SmartPointer< Self >                           Pointer;
+  typedef SmartPointer< const Self >                     ConstPointer;
+
+  typedef TRealValueType                             RealType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(KernelFunction, FunctionBase);
+  itkTypeMacro(KernelFunctionBase, FunctionBase);
 
   /** Evaluate the function. Subclasses must implement this. */
-  virtual double Evaluate(const double & u) const = 0;
+  virtual TRealValueType Evaluate(const TRealValueType & u) const = 0;
+
+#ifdef ITK_USE_STRICT_CONCEPT_CHECKING
+    /** Begin concept checking */
+    itkConceptMacro( TRealValueTypeIsFloatingPointCheck,
+                         ( Concept::IsFloatingPoint< TRealValueType > ) );
+      /** End concept checking */
+#endif
 
 protected:
-  KernelFunction();
-  ~KernelFunction();
+  KernelFunctionBase() {};
+  virtual ~KernelFunctionBase() {};
   void PrintSelf(std::ostream & os, Indent indent) const
   { Superclass::PrintSelf(os, indent); }
 };
 } // end namespace itk
 
-#endif
+#endif // __itkKernelFunctionBase_h

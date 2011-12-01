@@ -262,8 +262,8 @@ int itkCommonPrintTest(int , char* [])
     itk::FrustumSpatialFunction<2,PointType>::New();
   std::cout << "------------FrustumSpatialFunction" << FrustumSpatialFunctionObj;
 
-  itk::GaussianKernelFunction::Pointer GaussianKernelFunctionObj =
-    itk::GaussianKernelFunction::New();
+  itk::GaussianKernelFunction<double>::Pointer GaussianKernelFunctionObj =
+    itk::GaussianKernelFunction<double>::New();
   std::cout << "------------GaussianKernelFunction" << GaussianKernelFunctionObj;
 
   itk::GaussianSpatialFunction<float,2,PointType>::Pointer GaussianSpatialFunctionObj =

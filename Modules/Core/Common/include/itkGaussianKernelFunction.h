@@ -18,7 +18,7 @@
 #ifndef __itkGaussianKernelFunction_h
 #define __itkGaussianKernelFunction_h
 
-#include "itkKernelFunction.h"
+#include "itkKernelFunctionBase.h"
 #include "vnl/vnl_math.h"
 #include <math.h>
 
@@ -30,40 +30,42 @@ namespace itk
  *
  * This class encapsulates a Gaussian smoothing kernel for
  * density estimation or nonparameteric regression.
- * See documentation for KernelFunction for more details.
+ * See documentation for KernelFunctionBase for more details.
  *
- * \sa KernelFunction
+ * \sa KernelFunctionBase
  *
  * \ingroup Functions
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT GaussianKernelFunction:public KernelFunction
+template< typename TRealValueType = double >
+class ITKCommon_EXPORT GaussianKernelFunction:public KernelFunctionBase<TRealValueType>
 {
 public:
   /** Standard class typedefs. */
-  typedef GaussianKernelFunction Self;
-  typedef KernelFunction         Superclass;
-  typedef SmartPointer< Self >   Pointer;
+  typedef GaussianKernelFunction             Self;
+  typedef KernelFunctionBase<TRealValueType> Superclass;
+  typedef SmartPointer< Self >               Pointer;
 
+  typedef typename Superclass::RealType  RealType;
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GaussianKernelFunction, KernelFunction);
+  itkTypeMacro(GaussianKernelFunction, KernelFunctionBase);
 
   /** Evaluate the function. */
-  inline double Evaluate(const double & u) const
-  { return ( vcl_exp( -0.5 * vnl_math_sqr(u) ) * m_Factor ); }
+  inline TRealValueType Evaluate(const TRealValueType & u) const
+  { return ( vcl_exp( static_cast< TRealValueType >(-0.5) * vnl_math_sqr(u) ) * m_Factor ); }
 protected:
-  GaussianKernelFunction();
-  ~GaussianKernelFunction();
+  GaussianKernelFunction(): m_Factor(  NumericTraits< TRealValueType >::One / vcl_sqrt(static_cast< TRealValueType >(2.0 * vnl_math::pi )) ) {};
+  virtual ~GaussianKernelFunction() {};
   void PrintSelf(std::ostream & os, Indent indent) const
   { Superclass::PrintSelf(os, indent); }
 private:
   GaussianKernelFunction(const Self &); //purposely not implemented
   void operator=(const Self &);         //purposely not implemented
 
-  static const double m_Factor;
+  const TRealValueType m_Factor;
 };
 } // end namespace itk
 

@@ -126,7 +126,7 @@ int itkGaborImageSourceTest( int argc, char *argv[] )
     }
 
   // The following is just to improve coverate
-  typedef itk::GaborKernelFunction KernelFunctionType;
+  typedef itk::GaborKernelFunction<double> KernelFunctionType;
   KernelFunctionType::Pointer gabor = KernelFunctionType::New();
   std::cout << gabor;
 
