@@ -26,68 +26,81 @@
 namespace itk
 {
 
- /** \class FastMarchingStoppingCriterionBase
-   \brief Abstract Stopping Criterion dedicated for Fast Marching Methods
+/** \class FastMarchingStoppingCriterionBase
+  \brief Abstract Stopping Criterion dedicated for Fast Marching Methods
 
   \ingroup ITKFastMarching
   */
- template< class TInput, class TOutput >
- class FastMarchingStoppingCriterionBase : public StoppingCriterionBase
- {
- public:
-   typedef FastMarchingStoppingCriterionBase      Self;
-   typedef StoppingCriterionBase                  Superclass;
-   typedef SmartPointer< Self >                   Pointer;
-   typedef SmartPointer< const Self >             ConstPointer;
-   typedef FastMarchingTraits< TInput, TOutput >  Traits;
+template< class TInput, class TOutput >
+class FastMarchingStoppingCriterionBase : public StoppingCriterionBase
+{
+public:
+  typedef FastMarchingStoppingCriterionBase      Self;
+  typedef StoppingCriterionBase                  Superclass;
+  typedef SmartPointer< Self >                   Pointer;
+  typedef SmartPointer< const Self >             ConstPointer;
+  typedef FastMarchingTraits< TInput, TOutput >  Traits;
 
-   typedef typename Traits::NodeType            NodeType;
-   typedef typename Traits::OutputPixelType     OutputPixelType;
-   typedef typename Traits::NodePairType        NodePairType;
-   typedef typename Traits::OutputDomainType    OutputDomainType;
-   typedef typename Traits::OutputDomainPointer OutputDomainPointer;
+  typedef typename Traits::NodeType            NodeType;
+  typedef typename Traits::OutputPixelType     OutputPixelType;
+  typedef typename Traits::NodePairType        NodePairType;
+  typedef typename Traits::OutputDomainType    OutputDomainType;
+  typedef typename Traits::OutputDomainPointer OutputDomainPointer;
 
-   /** Run-time type information (and related methods). */
-   itkTypeMacro(FastMarchingStoppingCriterionBase, StoppingCriterionBase);
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(FastMarchingStoppingCriterionBase, StoppingCriterionBase);
 
-   void SetCurrentNodePair( const NodePairType& iNodePair )
-     {
-     this->SetCurrentNode( iNodePair.GetNode() );
-     this->SetCurrentValue( iNodePair.GetValue() );
-     }
+  /** Reinitialize internal values. */
+  void Reinitialize()
+    {
+    m_CurrentValue  = NumericTraits< OutputPixelType >::Zero;
+    m_PreviousValue = NumericTraits< OutputPixelType >::Zero;
 
-   itkSetObjectMacro( Domain, OutputDomainType );
-   itkGetObjectMacro( Domain, OutputDomainType );
+    this->Reset();
+    }
+
+  void SetCurrentNodePair( const NodePairType& iNodePair )
+    {
+    this->SetCurrentNode( iNodePair.GetNode() );
+    this->SetCurrentValue( iNodePair.GetValue() );
+    }
+
+  itkSetObjectMacro( Domain, OutputDomainType );
+  itkGetObjectMacro( Domain, OutputDomainType );
 
  protected:
-   /** Constructor */
-   FastMarchingStoppingCriterionBase() : Superclass(), m_Domain( NULL )
-   {
-     m_CurrentValue = NumericTraits< OutputPixelType >::Zero;
-     m_PreviousValue = NumericTraits< OutputPixelType >::Zero;
-   }
+  /** Constructor */
+  FastMarchingStoppingCriterionBase() : Superclass(), m_Domain( NULL )
+  {
+    m_CurrentValue = NumericTraits< OutputPixelType >::Zero;
+    m_PreviousValue = NumericTraits< OutputPixelType >::Zero;
+  }
 
-   /** Destructor */
-   virtual ~FastMarchingStoppingCriterionBase() {}
+  /** Destructor */
+  virtual ~FastMarchingStoppingCriterionBase() {}
 
-   OutputDomainPointer m_Domain;
+  OutputDomainPointer m_Domain;
 
-   OutputPixelType m_PreviousValue;
-   OutputPixelType m_CurrentValue;
+  OutputPixelType m_PreviousValue;
+  OutputPixelType m_CurrentValue;
 
-   /** Set the Current Node */
-   virtual void SetCurrentNode( const NodeType& iNode ) = 0;
+  /** Inherited classes must implement this method and make sure member variables
+  got reinitialized. */
+  virtual void Reset() = 0;
 
-   /** Set the Current Value */
-   virtual void SetCurrentValue( const OutputPixelType& iValue )
-     {
-     m_PreviousValue = m_CurrentValue;
-     m_CurrentValue = iValue;
-     }
+  /** Set the Current Node */
+  virtual void SetCurrentNode( const NodeType& iNode ) = 0;
 
- private:
-   FastMarchingStoppingCriterionBase( const Self& );
-    void operator = ( const Self& );
- };
- }
- #endif
+  /** Set the Current Value */
+  virtual void SetCurrentValue( const OutputPixelType& iValue )
+    {
+    m_PreviousValue = m_CurrentValue;
+    m_CurrentValue = iValue;
+    }
+
+private:
+  FastMarchingStoppingCriterionBase( const Self& );
+  void operator = ( const Self& );
+};
+}
+#endif

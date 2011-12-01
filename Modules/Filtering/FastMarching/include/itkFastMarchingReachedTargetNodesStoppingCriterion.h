@@ -167,6 +167,11 @@ namespace itk
     bool                    m_Satisfied;
     bool                    m_Initialized;
 
+    void Reset()
+      {
+      this->Initialize();
+      }
+
     void Initialize()
       {
       if( m_TargetCondition == OneTarget )

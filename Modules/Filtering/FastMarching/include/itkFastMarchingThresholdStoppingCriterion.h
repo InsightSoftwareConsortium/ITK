@@ -76,6 +76,8 @@ namespace itk
 
     void SetCurrentNode( const NodeType& ) {}
 
+    void Reset() {}
+
   private:
     FastMarchingThresholdStoppingCriterion( const Self& );
     void operator = ( const Self& );
