@@ -22,6 +22,7 @@
 #include "itkImageRandomConstIteratorWithIndex.h"
 #include "vnl/vnl_math.h"
 #include "itkGaussianKernelFunction.h"
+#include "itkCompensatedSummation.h"
 
 namespace itk
 {
@@ -215,9 +216,14 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>
   this->SampleFixedImageDomain(m_SampleB);
 
   // calculate the mutual information
-  double dLogSumFixed = 0.0;
-  double dLogSumMoving    = 0.0;
-  double dLogSumJoint  = 0.0;
+
+  typedef CompensatedSummation< double > SumType;
+  SumType dLogSumFixed;
+  SumType dLogSumMoving;
+  SumType dLogSumJoint;
+  SumType dSumFixed;
+  SumType dSumMoving;
+  SumType dSumJoint;
 
   typename SpatialSampleContainer::const_iterator aiter;
   typename SpatialSampleContainer::const_iterator aend = m_SampleA.end();
@@ -225,9 +231,12 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>
   typename SpatialSampleContainer::const_iterator bend = m_SampleB.end();
   for( biter = m_SampleB.begin(); biter != bend; ++biter )
     {
-    double dSumFixed  = m_MinProbability;
-    double dSumMoving     = m_MinProbability;
-    double dSumJoint   = m_MinProbability;
+    dSumFixed.ResetToZero();
+    dSumMoving.ResetToZero();
+    dSumJoint.ResetToZero();
+    dSumFixed += m_MinProbability;
+    dSumMoving += m_MinProbability;
+    dSumJoint += m_MinProbability;
     for( aiter = m_SampleA.begin(); aiter != aend; ++aiter )
       {
       double valueFixed;
@@ -246,23 +255,32 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>
       dSumJoint += valueFixed * valueMoving;
       } // end of sample A loop
 
-    dLogSumFixed -= ( dSumFixed > 0.0 ) ? vcl_log(dSumFixed) : 0.0;
-    dLogSumMoving -= ( dSumMoving > 0.0 ) ? vcl_log(dSumMoving) : 0.0;
-    dLogSumJoint -= ( dSumJoint > 0.0 ) ? vcl_log(dSumJoint) : 0.0;
+    if( dSumFixed.GetSum() > 0.0 )
+      {
+      dLogSumFixed -= vcl_log( dSumFixed.GetSum() );
+      }
+    if( dSumMoving.GetSum() > 0.0 )
+      {
+      dLogSumMoving -= vcl_log( dSumMoving.GetSum() );
+      }
+    if( dSumJoint.GetSum() > 0.0 )
+      {
+      dLogSumJoint -= vcl_log( dSumJoint.GetSum() );
+      }
     } // end of sample B loop
 
   double nsamp   = double(m_NumberOfSpatialSamples);
 
   double threshold = -0.5 *nsamp *vcl_log(m_MinProbability);
-  if( dLogSumMoving > threshold || dLogSumFixed > threshold
-      || dLogSumJoint > threshold  )
+  if( dLogSumMoving.GetSum() > threshold || dLogSumFixed.GetSum() > threshold
+      || dLogSumJoint.GetSum() > threshold  )
     {
     // at least half the samples in B did not occur within
     // the Parzen window width of samples in A
     itkExceptionMacro(<< "Standard deviation is too small");
     }
 
-  MeasureType measure = dLogSumFixed + dLogSumMoving - dLogSumJoint;
+  MeasureType measure = dLogSumFixed.GetSum() + dLogSumMoving.GetSum() - dLogSumJoint.GetSum();
   measure /= nsamp;
   measure += vcl_log(nsamp);
 
@@ -299,9 +317,13 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>
   this->SampleFixedImageDomain(m_SampleB);
 
   // calculate the mutual information
-  double dLogSumFixed = 0.0;
-  double dLogSumMoving    = 0.0;
-  double dLogSumJoint  = 0.0;
+  typedef CompensatedSummation< double > SumType;
+  SumType dLogSumFixed;
+  SumType dLogSumMoving;
+  SumType dLogSumJoint;
+  SumType dSumFixed;
+  SumType dDenominatorMoving;
+  SumType dDenominatorJoint;
 
   typename SpatialSampleContainer::iterator aiter;
   typename SpatialSampleContainer::const_iterator aend = m_SampleA.end();
@@ -326,10 +348,12 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>
   DerivativeType derivB(numberOfParameters);
   for( biter = m_SampleB.begin(); biter != bend; ++biter )
     {
-    double dDenominatorMoving = m_MinProbability;
-    double dDenominatorJoint = m_MinProbability;
-
-    double dSumFixed = m_MinProbability;
+    dDenominatorMoving.ResetToZero();
+    dDenominatorMoving += m_MinProbability;
+    dDenominatorJoint.ResetToZero();
+    dDenominatorJoint += m_MinProbability;
+    dSumFixed.ResetToZero();
+    dSumFixed += m_MinProbability;
     for( aiter = m_SampleA.begin(); aiter != aend; ++aiter )
       {
       double valueFixed;
@@ -349,23 +373,23 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>
       dSumFixed += valueFixed;
       } // end of sample A loop
 
-    if( dSumFixed > 0.0 )
+    if( dSumFixed.GetSum() > 0.0 )
       {
-      dLogSumFixed -= vcl_log(dSumFixed);
+      dLogSumFixed -= vcl_log( dSumFixed.GetSum() );
       }
-    if( dDenominatorMoving > 0.0 )
+    if( dDenominatorMoving.GetSum() > 0.0 )
       {
-      dLogSumMoving -= vcl_log(dDenominatorMoving);
+      dLogSumMoving -= vcl_log( dDenominatorMoving.GetSum() );
       }
-    if( dDenominatorJoint > 0.0 )
+    if( dDenominatorJoint.GetSum() > 0.0 )
       {
-      dLogSumJoint -= vcl_log(dDenominatorJoint);
+      dLogSumJoint -= vcl_log( dDenominatorJoint.GetSum() );
       }
 
     /** get the image derivative for this B sample */
     this->CalculateDerivatives( ( *biter ).FixedImagePointValue, derivB );
 
-    double totalWeight = 0.0;
+    SumType totalWeight;
     for( aiter = m_SampleA.begin(), aditer = sampleADerivatives.begin();
          aiter != aend; ++aiter, ++aditer )
       {
@@ -383,8 +407,8 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>
         / m_MovingImageStandardDeviation;
       valueMoving = m_KernelFunction->Evaluate(valueMoving);
 
-      weightMoving = valueMoving / dDenominatorMoving;
-      weightJoint = valueMoving * valueFixed / dDenominatorJoint;
+      weightMoving = valueMoving / dDenominatorMoving.GetSum();
+      weightJoint = valueMoving * valueFixed / dDenominatorJoint.GetSum();
 
       weight = ( weightMoving - weightJoint );
       weight *= ( *biter ).MovingImageValue - ( *aiter ).MovingImageValue;
@@ -393,21 +417,21 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>
       derivative -= ( *aditer ) * weight;
       } // end of sample A loop
 
-    derivative += derivB * totalWeight;
+    derivative += derivB * totalWeight.GetSum();
     } // end of sample B loop
 
   double nsamp    = double(m_NumberOfSpatialSamples);
 
   double threshold = -0.5 *nsamp *vcl_log(m_MinProbability);
-  if( dLogSumMoving > threshold || dLogSumFixed > threshold
-      || dLogSumJoint > threshold  )
+  if( dLogSumMoving.GetSum() > threshold || dLogSumFixed.GetSum() > threshold
+      || dLogSumJoint.GetSum() > threshold  )
     {
     // at least half the samples in B did not occur within
     // the Parzen window width of samples in A
     itkExceptionMacro(<< "Standard deviation is too small");
     }
 
-  value  = dLogSumFixed + dLogSumMoving - dLogSumJoint;
+  value  = dLogSumFixed.GetSum() + dLogSumMoving.GetSum() - dLogSumJoint.GetSum();
   value /= nsamp;
   value += vcl_log(nsamp);
 

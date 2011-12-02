@@ -327,9 +327,7 @@ int itkImageRegistrationMethodTest_14(int, char* [] )
 
   for( j = 0; j < 4; j++ )
     {
-    // Increased tolerance to allow for changed output
-    // after modifications to CentralDifferenceImageFunction.
-    if( vnl_math_abs( solution[j] - trueParameters[j] ) > 0.04 )
+    if( vnl_math_abs( solution[j] - trueParameters[j] ) > 0.025 )
       {
       pass = false;
       }
