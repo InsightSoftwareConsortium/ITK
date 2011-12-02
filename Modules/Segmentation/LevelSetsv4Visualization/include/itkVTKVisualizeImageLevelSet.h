@@ -24,6 +24,9 @@
 #include "vtkRenderer.h"
 #include "vtkRenderWindow.h"
 #include "vtkSmartPointer.h"
+#include "vtkImageShiftScale.h"
+#include "vtkImageActor.h"
+#include "vtkCornerAnnotation.h"
 
 namespace itk
 {
@@ -90,7 +93,7 @@ protected:
 
   typename InputImageConverterType::Pointer m_InputImageConverter;
 
-  vtkSmartPointer< vtkRenderer >      m_Renderer;
+  vtkSmartPointer< vtkRenderer >          m_Renderer;
 
 private:
   VTKVisualizeImageLevelSet( const Self & ); // purposely not implemented
@@ -99,7 +102,9 @@ private:
   bool                               m_ScreenCapture;
   IdentifierType                     m_CurrentIteration;
   std::string                        m_ScreenCapturePrefix;
-  vtkSmartPointer< vtkRenderWindow > m_RenderWindow;
+
+  vtkSmartPointer< vtkRenderWindow >      m_RenderWindow;
+  vtkSmartPointer< vtkCornerAnnotation >  m_Annotation;
 };
 
 } // end namespace itk

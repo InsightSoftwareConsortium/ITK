@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include "vtkVisualize2DWhitakerLevelSet.h"
+#include "itkVTKVisualizeImageLevelSetIsoValues.h"
 
 #include "itkWhitakerSparseLevelSetImage.h"
 #include "itkBinaryImageToLevelSetImageAdaptor.h"
@@ -85,7 +85,7 @@ int vtkVisualize2DWhitakerLevelSetTest( int , char* [] )
 
   LevelSetType::Pointer LevelSet = adaptor->GetLevelSet();
 
-  typedef vtkVisualize2DWhitakerLevelSet< ImageType, LevelSetOutputType, Dimension >
+  typedef itk::VTKVisualizeImageLevelSetIsoValues< ImageType, LevelSetType >
       VisualizationType;
   VisualizationType::Pointer viewer = VisualizationType::New();
   viewer->SetInputImage( image );

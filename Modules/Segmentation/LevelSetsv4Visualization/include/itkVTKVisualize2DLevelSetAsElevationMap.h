@@ -25,22 +25,20 @@
 
 #include "vnl/vnl_math.h"
 
-#include "vtkCornerAnnotation.h"
 #include "vtkImageData.h"
 #include "vtkMarchingSquares.h"
 #include "vtkPolyDataMapper.h"
 #include "vtkActor.h"
-#include "vtkImageActor.h"
 #include "vtkScalarBarActor.h"
 #include "vtkProperty.h"
 #include "vtkTextProperty.h"
-#include "vtkImageShiftScale.h"
 
 namespace itk
 {
 
 template< class TInputImage, class TLevelSet >
-class VTKVisualize2DLevelSetAsElevationMap : public VTKVisualizeImageLevelSet< TInputImage, ImageToVTKImageFilter< TInputImage > >
+class VTKVisualize2DLevelSetAsElevationMap :
+    public VTKVisualizeImageLevelSet< TInputImage, ImageToVTKImageFilter< TInputImage > >
 {
 public:
   typedef VTKVisualize2DLevelSetAsElevationMap                                           Self;
@@ -60,8 +58,6 @@ public:
   typedef TLevelSet                         LevelSetType;
   typedef typename LevelSetType::Pointer    LevelSetPointer;
 
-  virtual void SetInputImage( const InputImageType * inputImage );
-
   void SetLevelSet( LevelSetType * levelSet );
 
 protected:
@@ -79,10 +75,7 @@ private:
   LevelSetPointer           m_LevelSet;
 
   vtkSmartPointer< vtkPolyData >          m_Mesh;
-  vtkSmartPointer< vtkCornerAnnotation >  m_Annotation;
   vtkSmartPointer< vtkScalarBarActor >    m_ScalarBarActor;
-  vtkSmartPointer< vtkImageShiftScale >   m_ImageShiftScale;
-  vtkSmartPointer< vtkImageActor >        m_ImageActor;
   vtkSmartPointer< vtkPolyDataMapper >    m_MeshMapper;
   vtkSmartPointer< vtkActor >             m_SurfaceActor;
 

@@ -162,9 +162,11 @@ LevelSetTovtkImageData< ShiSparseLevelSetImage< VDimension > >
   LabelMapPointer labelmap = this->m_LevelSet->GetLabelMap();
 
   this->m_LabelMapToLabelImageFilter->SetInput( labelmap );
+  this->m_LabelMapToLabelImageFilter->Modified();
   this->m_LabelMapToLabelImageFilter->Update();
 
   this->m_Converter->SetInput( m_LabelMapToLabelImageFilter->GetOutput() );
+  this->m_Converter->Modified();
   this->m_Converter->Update();
   }
 
@@ -203,9 +205,11 @@ LevelSetTovtkImageData< MalcolmSparseLevelSetImage< VDimension > >
   LabelMapPointer labelmap = this->m_LevelSet->GetLabelMap();
 
   this->m_LabelMapToLabelImageFilter->SetInput( labelmap );
+  this->m_LabelMapToLabelImageFilter->Modified();
   this->m_LabelMapToLabelImageFilter->Update();
 
   this->m_Converter->SetInput( m_LabelMapToLabelImageFilter->GetOutput() );
+  this->m_Converter->Modified();
   this->m_Converter->Update();
   }
 }

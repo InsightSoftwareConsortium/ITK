@@ -15,41 +15,40 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVTKVisualizeDenseImageLevelSet_h
-#define __itkVTKVisualizeDenseImageLevelSet_h
+#ifndef __itkVTKVisualizeImageLevelSetIsoValues_h
+#define __itkVTKVisualizeImageLevelSetIsoValues_h
 
 #include "itkVTKVisualizeImageLevelSet.h"
 
 #include "itkImageToVTKImageFilter.h"
 #include "itkLevelSetTovtkImageData.h"
 
-#include "vtkCornerAnnotation.h"
 #include "vtkImageData.h"
 #include "vtkLookupTable.h"
 #include "vtkMarchingSquares.h"
 #include "vtkPolyDataMapper.h"
 #include "vtkActor.h"
-#include "vtkImageActor.h"
 #include "vtkScalarBarActor.h"
 #include "vtkProperty.h"
 #include "vtkRenderWindowInteractor.h"
-#include "vtkImageShiftScale.h"
 
 namespace itk
 {
 
-template< class TInputPixel, unsigned int VInputImageDimension, class TLevelSetImage >
-class VTKVisualizeDenseImageLevelSet
+template< class TImage, class TLevelSet >
+class VTKVisualizeImageLevelSetIsoValues
 {};
 
-template< class TInputPixel, class TLevelSetImage >
-class VTKVisualizeDenseImageLevelSet< TInputPixel, 2, TLevelSetImage >
-  : public VTKVisualizeImageLevelSet< Image< TInputPixel, 2 >, ImageToVTKImageFilter< Image< TInputPixel, 2 > > >
+template< typename TInputPixel, class TLevelSet >
+class VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 2 >, TLevelSet >
+  : public VTKVisualizeImageLevelSet<
+      Image< TInputPixel, 2 >,
+      ImageToVTKImageFilter< Image< TInputPixel, 2 > > >
 {
 public:
-  typedef VTKVisualizeDenseImageLevelSet                                                 Self;
-  typedef VTKVisualizeImageLevelSet< Image< TInputPixel, 2 >, ImageToVTKImageFilter< Image< TInputPixel, 2 > > >
-                                                                                         Superclass;
+  typedef VTKVisualizeImageLevelSetIsoValues                                             Self;
+  typedef VTKVisualizeImageLevelSet<  Image< TInputPixel, 2 >,
+                                      ImageToVTKImageFilter< Image< TInputPixel, 2 > > > Superclass;
   typedef SmartPointer< Self >                                                           Pointer;
   typedef SmartPointer< const Self >                                                     ConstPointer;
 
@@ -57,16 +56,11 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VTKVisualizeDenseImageLevelSet, VTKVisualizeImageLevelSet);
+  itkTypeMacro(VTKVisualizeImageLevelSetIsoValues, VTKVisualizeImageLevelSet);
 
   typedef typename Superclass::InputImageType     InputImageType;
 
-  typedef TLevelSetImage                          LevelSetImageType;
-
-  typedef LevelSetDenseImageBase< LevelSetImageType > LevelSetType;
-
-  typedef LevelSetTovtkImageData< LevelSetType >  LevelSetConverterType;
-  typedef typename LevelSetConverterType::Pointer LevelSetConverterPointer;
+  typedef TLevelSet LevelSetType;
 
   void SetLevelSet( LevelSetType * levelSet );
 
@@ -80,19 +74,25 @@ public:
   double GetLevelLimit() const;
 
 protected:
-  VTKVisualizeDenseImageLevelSet();
-  virtual ~VTKVisualizeDenseImageLevelSet();
+  VTKVisualizeImageLevelSetIsoValues();
+  virtual ~VTKVisualizeImageLevelSetIsoValues();
 
   /** Render the visualization. */
   virtual void PrepareVTKPipeline();
 
 private:
-  VTKVisualizeDenseImageLevelSet( const Self& ); // purposely not implemented
+  VTKVisualizeImageLevelSetIsoValues( const Self& ); // purposely not implemented
   void operator= ( const Self& ); // purposely not implemented
+
+  typedef LevelSetTovtkImageData< LevelSetType >  LevelSetConverterType;
+  typedef typename LevelSetConverterType::Pointer LevelSetConverterPointer;
 
   LevelSetConverterPointer  m_LevelSetConverter;
 
-  vtkSmartPointer< vtkCornerAnnotation >  m_Annotation;
+  vtkSmartPointer< vtkMarchingSquares > m_MarchingSquare;
+  vtkSmartPointer< vtkPolyDataMapper >  m_ContourMapper;
+  vtkSmartPointer< vtkActor >           m_ContourActor;
+  vtkSmartPointer< vtkScalarBarActor >  m_ScalarBar;
 
   itk::IdentifierType m_Count;
   SizeValueType       m_NumberOfLevels;
@@ -102,7 +102,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVTKVisualizeDenseImageLevelSet.hxx"
+#include "itkVTKVisualizeImageLevelSetIsoValues.hxx"
 #endif
 
 #endif

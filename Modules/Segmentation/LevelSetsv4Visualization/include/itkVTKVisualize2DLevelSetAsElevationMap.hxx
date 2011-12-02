@@ -50,16 +50,6 @@ VTKVisualize2DLevelSetAsElevationMap< TInputImage, TLevelSet >
   this->m_ScalarBarActor->SetHeight( 0.17 );
   this->m_Renderer->AddActor2D( this->m_ScalarBarActor );
 
-  this->m_Annotation = vtkSmartPointer< vtkCornerAnnotation >::New();
-  this->m_Renderer->AddActor2D( this->m_Annotation );
-
-  this->m_ImageShiftScale = vtkSmartPointer< vtkImageShiftScale >::New();
-  this->m_ImageShiftScale->SetOutputScalarTypeToUnsignedChar();
-
-  this->m_ImageActor = vtkSmartPointer< vtkImageActor >::New();
-  this->m_ImageActor->SetInput( this->m_ImageShiftScale->GetOutput() );
-  this->m_Renderer->AddActor( this->m_ImageActor );
-
   this->m_MeshMapper = vtkSmartPointer< vtkPolyDataMapper >::New();
   this->m_MeshMapper->SetInput( this->m_Mesh );
 
@@ -86,20 +76,9 @@ VTKVisualize2DLevelSetAsElevationMap< TInputImage, TLevelSet >
 template< class TInputImage, class TLevelSet >
 void
 VTKVisualize2DLevelSetAsElevationMap< TInputImage, TLevelSet >
-::SetInputImage( const InputImageType * inputImage )
-{
-  Superclass::SetInputImage( inputImage );
-  this->m_ImageShiftScale->SetInput( this->m_InputImageConverter->GetOutput() );
-  this->m_ImageShiftScale->Update();
-}
-
-template< class TInputImage, class TLevelSet >
-void
-VTKVisualize2DLevelSetAsElevationMap< TInputImage, TLevelSet >
 ::PrepareVTKPipeline()
 {
   this->GenerateElevationMap();
-
 
   if( !this->m_ColorValue )
     {
@@ -115,11 +94,6 @@ VTKVisualize2DLevelSetAsElevationMap< TInputImage, TLevelSet >
 
     this->m_ScalarBarActor->SetLookupTable( lookupTable );
     }
-
-  std::stringstream counter;
-  counter << this->GetCurrentIteration();
-
-  m_Annotation->SetText( 0, counter.str().c_str() );
 }
 
 template< class TInputImage, class TLevelSet >

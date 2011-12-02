@@ -32,12 +32,17 @@ VTKVisualizeImageLevelSet< TInputImage, TInputImageConverter >
   m_ScreenCapture( false ),
   m_ScreenCapturePrefix( "levelset_" )
 {
+  this->m_CurrentIteration = 0;
+
   this->m_InputImageConverter = InputImageConverterType::New();
 
   this->m_Renderer = vtkSmartPointer< vtkRenderer >::New();
   this->m_Renderer->SetBackground( 0.5, 0.5, 0.5 );
   this->m_RenderWindow = vtkSmartPointer< vtkRenderWindow >::New();
   this->m_RenderWindow->AddRenderer( this->m_Renderer );
+
+  this->m_Annotation = vtkSmartPointer< vtkCornerAnnotation >::New();
+  this->m_Renderer->AddActor2D( this->m_Annotation );
 }
 
 template < class TInputImage, class TInputImageConverter >
@@ -53,6 +58,17 @@ VTKVisualizeImageLevelSet< TInputImage, TInputImageConverter >
 {
   this->m_InputImageConverter->SetInput( inputImage );
   this->m_InputImageConverter->Update();
+
+  vtkSmartPointer< vtkImageShiftScale >   ImageShiftScale = vtkSmartPointer< vtkImageShiftScale >::New();
+  ImageShiftScale->SetOutputScalarTypeToUnsignedChar();
+  ImageShiftScale->SetInput( this->m_InputImageConverter->GetOutput() );
+  ImageShiftScale->Update();
+
+  vtkSmartPointer< vtkImageActor > ImageActor = vtkSmartPointer< vtkImageActor >::New();
+  ImageActor->InterpolateOff();
+  ImageActor->SetInput( ImageShiftScale->GetOutput() );
+
+  this->m_Renderer->AddActor2D( ImageActor );
 }
 
 template < class TInputImage, class TInputImageConverter >
@@ -126,6 +142,13 @@ VTKVisualizeImageLevelSet< TInputImage, TInputImageConverter >
 ::Update()
 {
   this->PrepareVTKPipeline();
+
+  std::stringstream counter;
+  counter << this->m_CurrentIteration;
+
+  std::string counterString = counter.str();
+
+  this->m_Annotation->SetText( 0, counterString.c_str() );
 
   this->m_RenderWindow->Render();
 
