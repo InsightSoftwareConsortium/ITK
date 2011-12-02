@@ -1,7 +1,7 @@
 ###############################################################################
 
 if(APPLE)
-  set( WRAP_ITK_JAVAC_ARGS "-J-mx1024m" CACHE STRING "Extra arguments for javac")
+  set( WRAP_ITK_JAVAC_ARGS "-J-mx2048m" CACHE STRING "Extra arguments for javac")
 else(APPLE)
   set( WRAP_ITK_JAVAC_ARGS "" CACHE STRING "Extra arguments for javac")
 endif(APPLE)
