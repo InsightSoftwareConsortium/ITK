@@ -19,6 +19,7 @@
 #define __itkKernelFunctionBase_h
 
 #include "itkFunctionBase.h"
+#include "itkConceptChecking.h"
 #include "itkNumericTraits.h"
 #include "vnl/vnl_math.h"
 
