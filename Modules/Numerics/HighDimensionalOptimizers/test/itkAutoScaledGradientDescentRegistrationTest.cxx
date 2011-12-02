@@ -20,7 +20,8 @@
 #include "itkRegistrationParameterScalesFromShift.h"
 #include "itkRegistrationParameterScalesFromJacobian.h"
 
-#include "itkImageToData.h"
+#include "itkSize.h"
+#include "itkExceptionObject.h"
 #include "itkImageRegistrationMethodImageSource.h"
 
 

@@ -16,8 +16,6 @@
  *
  *=========================================================================*/
 #include "itkRegistrationParameterScalesEstimator.h"
-#include "itkImageToData.h"
-#include "itkArray1DToData.h"
 #include "itkImageToImageObjectMetric.h"
 
 #include "itkAffineTransform.h"

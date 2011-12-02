@@ -48,7 +48,7 @@ public:
     return 1.0;
     }
 
-  void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const
+  virtual void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const
     {
     value = 1.0; derivative.Fill(0.0);
     }

@@ -19,7 +19,8 @@
 #define __itkGradientDescentObjectOptimizerBase_h
 
 #include "itkObjectToObjectOptimizerBase.h"
-#include "itkArray1DToData.h"
+#include "itkGradientDescentObjectOptimizerBaseModifyGradientByScalesThreader.h"
+#include "itkGradientDescentObjectOptimizerBaseModifyGradientByLearningRateThreader.h"
 
 namespace itk
 {
@@ -76,12 +77,6 @@ public:
   /** Internal computation type, for maintaining a desired precision */
   typedef Superclass::InternalComputationValueType InternalComputationValueType;
 
-  /** Threader for gradient update */
-  typedef Array1DToData<Self>                        ModifyGradientThreaderType;
-
-  /** Type of index range for threading */
-  typedef ModifyGradientThreaderType::IndexRangeType IndexRangeType;
-
   /** Get the most recent gradient values. */
   itkGetConstReferenceMacro( Gradient, DerivativeType );
 
@@ -115,6 +110,14 @@ protected:
   GradientDescentObjectOptimizerBase();
   virtual ~GradientDescentObjectOptimizerBase();
 
+  friend class GradientDescentObjectOptimizerBaseModifyGradientByScalesThreader;
+  friend class GradientDescentObjectOptimizerBaseModifyGradientByLearningRateThreader;
+
+  typedef GradientDescentObjectOptimizerBaseModifyGradientByScalesThreader::IndexRangeType IndexRangeType;
+
+  GradientDescentObjectOptimizerBaseModifyGradientByScalesThreader::Pointer       m_ModifyGradientByScalesThreader;
+  GradientDescentObjectOptimizerBaseModifyGradientByLearningRateThreader::Pointer m_ModifyGradientByLearningRateThreader;
+
   /** Estimate the learning rate */
   virtual void EstimateLearningRate() = 0;
 
@@ -122,7 +125,6 @@ protected:
    * This call performs a threaded modification for transforms with
    * local support (assumed to be dense). Otherwise the modification
    * is performed w/out threading.
-   * The work is done in ModifyGradientOverSubRange in both cases.
    * At completion, m_Gradient can be used to update the transform
    * parameters. Derived classes may hold additional results in
    * other member variables.
@@ -155,31 +157,8 @@ protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-
-  //purposely not implemented
-  GradientDescentObjectOptimizerBase( const Self & );
-  //purposely not implemented
-  void operator=( const Self& );
-
-  /** Callback used during threaded gradient modification.
-   * Gets assigned to the modify-gradient threader's
-   * ThreadedGenerateData. Must be static so it can be used as a callback.
-   * It simply calls ModifyGradientOverSubRange, which is where
-   * derived classes should put their class-specific modification code.
-   * An instance of this optimizer class is referenced through
-   * \c holder, which is passed in via the threader's user data. */
-  static void ModifyGradientByScalesThreaded(
-                                  const IndexRangeType& rangeForThread,
-                                  ThreadIdType threadId,
-                                  Self *holder );
-  static void ModifyGradientByLearningRateThreaded(
-                                  const IndexRangeType& rangeForThread,
-                                  ThreadIdType threadId,
-                                  Self *holder );
-
-  /** Threader for grandient modification */
-  ModifyGradientThreaderType::Pointer      m_ModifyGradientByScalesThreader;
-  ModifyGradientThreaderType::Pointer      m_ModifyGradientByLearningRateThreader;
+  GradientDescentObjectOptimizerBase( const Self & ); //purposely not implemented
+  void operator=( const Self& ); //purposely not implemented
 
 };
 

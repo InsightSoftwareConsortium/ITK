@@ -29,6 +29,7 @@
 #define __itkProcessObject_h
 
 #include "itkDataObject.h"
+#include "itkDomainThreader.h"
 #include "itkMultiThreader.h"
 #include "itkObjectFactory.h"
 #include <vector>
@@ -358,7 +359,7 @@ public:
   itkGetConstReferenceMacro(NumberOfThreads, ThreadIdType);
 
   /** Return the multithreader used by this class. */
-  MultiThreader * GetMultiThreader()
+  MultiThreader * GetMultiThreader() const
   { return m_Threader; }
 
   /** An opportunity to deallocate a ProcessObject's bulk data
@@ -372,6 +373,45 @@ public:
 protected:
   ProcessObject();
   ~ProcessObject();
+
+  /** \class ProcessObjectDomainThreader
+   *  \brief Multi-threaded processing on a domain by processing sub-domains per
+   *  thread.
+   *
+   * This class is the same as DomainThreader, but it uses the MultiThreader and
+   * NumberOfThreads defined on the enclosing ProcessObject.
+   *
+   * \sa DomainThreader
+   * \ingroup ITKCommon
+   */
+  template< class TDomainPartitioner, class TAssociate >
+  class ProcessObjectDomainThreader: public DomainThreader< TDomainPartitioner, TAssociate >
+  {
+  public:
+    /** Standard class typedefs. */
+    typedef ProcessObjectDomainThreader                               Self;
+    typedef DomainThreader< TDomainPartitioner, ProcessObject::Self > Superclass;
+    typedef SmartPointer< Self >                                      Pointer;
+    typedef SmartPointer< const Self >                                ConstPointer;
+
+    typedef typename Superclass::DomainPartitionerType            DomainPartitionerType;
+    typedef typename Superclass::DomainType                       DomainType;
+
+    /** Run-time type information (and related methods). */
+    itkTypeMacro( ProcessObject::ProcessObjectDomainThreader, DomainThreader );
+
+  protected:
+    ProcessObjectDomainThreader();
+    virtual ~ProcessObjectDomainThreader();
+
+    /** This is overridden to set the MultiThreader and number of threads used
+     * the same as the ProcessObject. */
+    virtual void DetermineNumberOfThreadsUsed();
+
+  private:
+    ProcessObjectDomainThreader( const Self & ); // purposely not implemented
+    void operator=( const Self & ); // purposely not implemented
+   };
 
   void PrintSelf(std::ostream & os, Indent indent) const;
 

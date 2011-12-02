@@ -15,34 +15,18 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkImageToData.h"
+#include "itkQuasiNewtonObjectOptimizerEstimateNewtonStepThreader.h"
+#include "itkQuasiNewtonObjectOptimizer.h"
 
-/*
- * Main test entry function
- */
-int itkImageToDataTest(int , char* [])
+namespace itk
 {
-  typedef itk::ImageToData<2, itk::Object> ImageToDataType;
 
-  ImageToDataType::Pointer imageToDataThreader = ImageToDataType::New();
-
-  typedef ImageToDataType::ImageRegionType ImageRegionType;
-
-  typedef ImageRegionType::SizeType   SizeType;
-  typedef ImageRegionType::IndexType  IndexType;
-
-  SizeType size;
-  IndexType start;
-
-  size.Fill(100);
-  start.Fill(0);
-
-  ImageRegionType region;
-
-  region.SetSize( size );
-  region.SetIndex( start );
-
-  imageToDataThreader->SetOverallRegion( region );
-
-  return EXIT_SUCCESS;
+void
+QuasiNewtonObjectOptimizerEstimateNewtonStepThreader
+::ThreadedExecution( const IndexRangeType & subrange,
+                     const ThreadIdType itkNotUsed(threadId) )
+{
+  this->m_Associate->EstimateNewtonStepOverSubRange( subrange );
 }
+
+} // end namespace itk

@@ -15,17 +15,17 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageToData_h
-#define __itkImageToData_h
+#ifndef __itkThreadedImageRegionPartitioner_h
+#define __itkThreadedImageRegionPartitioner_h
 
-#include "itkObjectToDataBase.h"
+#include "itkThreadedDomainPartitioner.h"
 #include "itkImageRegion.h"
 
 namespace itk
 {
 
-/** \class ImageToData
- *  \brief Class for custom threading setup and dispatch of Image data.
+/** \class ThreadedImageRegionPartitioner
+ *  \brief Class for partitioning of an ImageRegion.
  *
  * This class provides threading over an ImageRegion. It provides a
  * \c SplitRequestedObject method that splits the provided ImageRegion into
@@ -44,7 +44,7 @@ namespace itk
  * Call GenerateData to begin threaded processing.
  *
  * This class is templated over image dimension and DataHolder type.
- * The third template parameter \c TInputObject should always be
+ * The third template parameter \c TDomain should always be
  * left as default.
  *
  * \warning The actual number of threads used may be less than the
@@ -55,29 +55,29 @@ namespace itk
  * See \c DetermineNumberOfThreadsToUse to get the number of threads
  * before running.
  *
- * \sa ObjectToDataBase
- * \ingroup ITKHighDimensionalOptimizers
+ * \sa ThreadedDomainPartitioner
+ * \ingroup ITKCommon
  */
 
-template <unsigned int VDimension, class TDataHolder>
-class ITK_EXPORT ImageToData
-  : public ObjectToDataBase<ImageRegion<VDimension>, TDataHolder>
+template <unsigned int VDimension>
+class ITKCommon_EXPORT ThreadedImageRegionPartitioner
+  : public ThreadedDomainPartitioner< ImageRegion<VDimension> >
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageToData                                             Self;
-  typedef ObjectToDataBase<ImageRegion<VDimension>, TDataHolder>  Superclass;
-  typedef SmartPointer<Self>                                      Pointer;
-  typedef SmartPointer<const Self>                                ConstPointer;
+  typedef ThreadedImageRegionPartitioner                                   Self;
+  typedef ThreadedDomainPartitioner<ImageRegion<VDimension> >              Superclass;
+  typedef SmartPointer<Self>                                               Pointer;
+  typedef SmartPointer<const Self>                                         ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageToData,ObjectToDataBase);
+  itkTypeMacro(ThreadedImageRegionPartitioner, ThreadedDomainPartitioner);
 
   /** Type of the object being threaded over */
-  typedef typename Superclass::InputObjectType  InputObjectType;
+  typedef typename Superclass::DomainType  DomainType;
 
   /** Some convenient typedefs. */
   // typedef TImageRegion ImageRegionType;
@@ -87,15 +87,6 @@ public:
   typedef Size<VDimension>          SizeType;
   typedef Index<VDimension>         IndexType;
 
-  /** Set the overall image region over which to operate.
-   * This is equivalent to SetOverallObject, but named more intuitively
-   * for this derived class. */
-  virtual void SetOverallRegion(  const ImageRegionType& region );
-
-protected:
-  ImageToData();
-  virtual ~ImageToData();
-
   /** Split the ImageRegion \c overallRegion into \c requestedTotal subregions,
    * returning subregion \c i as \c splitRegion.
    * This method is called \c requestedTotal times. The
@@ -103,22 +94,24 @@ protected:
    * the routine is capable of splitting the output RequestedObject,
    * i.e. return value is less than or equal to \c requestedTotal. */
   virtual
-  ThreadIdType SplitRequestedObject(const ThreadIdType i,
+  ThreadIdType PartitionDomain(const ThreadIdType i,
                            const ThreadIdType requestedTotal,
-                           const InputObjectType& overallRegion,
-                           InputObjectType& splitRegion) const;
+                           const DomainType& completeRegion,
+                           DomainType& subRegion) const;
+
+protected:
+  ThreadedImageRegionPartitioner();
+  virtual ~ThreadedImageRegionPartitioner();
 
 private:
-
-  ImageToData(const Self&); //purposely not implemented
+  ThreadedImageRegionPartitioner(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-# include "itkImageToData.hxx"
+# include "itkThreadedImageRegionPartitioner.hxx"
 #endif
 
 #endif

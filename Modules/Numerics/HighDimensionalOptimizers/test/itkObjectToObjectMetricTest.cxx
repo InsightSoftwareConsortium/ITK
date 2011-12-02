@@ -21,7 +21,7 @@
 
 /* Test basic operation of ObjectToObjectMetric.
  *
- * TODO Finsish exercising all methods.
+ * TODO Finish exercising all methods.
  */
 
 template< class TFixedObject,  class TMovingObject >

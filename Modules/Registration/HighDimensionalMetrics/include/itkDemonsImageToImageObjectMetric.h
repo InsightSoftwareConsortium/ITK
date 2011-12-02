@@ -20,6 +20,8 @@
 
 #include "itkImageToImageObjectMetric.h"
 
+#include "itkDemonsImageToImageObjectMetricGetValueAndDerivativeThreader.h"
+
 namespace itk
 {
 
@@ -27,13 +29,12 @@ namespace itk
  *
  *  \brief Class implementing rudimentary demons metric.
  *
- *  See \c GetValueAndDerivativeProcessPoint for algorithm implementation.
+ *  See
+ *  DemonsImageToImageObjectMetricGetValueAndDerivativeThreader::ProcessPoint for algorithm implementation.
  *
  * \ingroup ITKHighDimensionalMetrics
  */
-template <class TFixedImage,
-          class TMovingImage,
-          class TVirtualImage = TFixedImage >
+template <class TFixedImage, class TMovingImage, class TVirtualImage = TFixedImage >
 class ITK_EXPORT DemonsImageToImageObjectMetric :
 public ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
 {
@@ -52,55 +53,52 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(DemonsImageToImageObjectMetric, ImageToImageObjectMetric);
 
-  /** superclass types */
+  /** Superclass types */
   typedef typename Superclass::MeasureType             MeasureType;
   typedef typename Superclass::DerivativeType          DerivativeType;
-  typedef typename Superclass::VirtualPointType        VirtualPointType;
+
   typedef typename Superclass::FixedImagePointType     FixedImagePointType;
   typedef typename Superclass::FixedImagePixelType     FixedImagePixelType;
-  typedef typename Superclass::FixedImageGradientType
-                                                       FixedImageGradientType;
+  typedef typename Superclass::FixedImageGradientType  FixedImageGradientType;
 
   typedef typename Superclass::MovingImagePointType    MovingImagePointType;
   typedef typename Superclass::MovingImagePixelType    MovingImagePixelType;
-  typedef typename Superclass::MovingImageGradientType
-                                                       MovingImageGradientType;
+  typedef typename Superclass::MovingImageGradientType MovingImageGradientType;
 
   typedef typename Superclass::MovingTransformType     MovingTransformType;
   typedef typename Superclass::JacobianType            JacobianType;
+  typedef typename Superclass::VirtualImageType        VirtualImageType;
+  typedef typename Superclass::VirtualIndexType        VirtualIndexType;
+  typedef typename Superclass::VirtualPointType        VirtualPointType;
+  typedef typename Superclass::VirtualSampledPointSetType
+                                                       VirtualSampledPointSetType;
 
-  /** Initialize. Must be called before first call to GetValue or
-   *  GetValueAndDerivative, after metric settings are changed. */
-  virtual void Initialize(void) throw ( itk::ExceptionObject );
-
-  void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative) const;
+  /* Image dimension accessors */
+  itkStaticConstMacro(VirtualImageDimension, ImageDimensionType,
+      ::itk::GetImageDimension<TVirtualImage>::ImageDimension);
+  itkStaticConstMacro(FixedImageDimension, ImageDimensionType,
+      ::itk::GetImageDimension<TFixedImage>::ImageDimension);
+  itkStaticConstMacro(MovingImageDimension, ImageDimensionType,
+      ::itk::GetImageDimension<TMovingImage>::ImageDimension);
 
   /** Evaluate and return the metric value.
    * \warning Not yet implemented. */
-  MeasureType GetValue() const;
+  virtual MeasureType GetValue() const;
 
 protected:
-
-  /* Worker routine to process each point */
-  bool GetValueAndDerivativeProcessPoint(
-                    const VirtualPointType &           virtualPoint,
-                    const FixedImagePointType &        mappedFixedPoint,
-                    const FixedImagePixelType &        fixedImageValue,
-                    const FixedImageGradientType &     fixedImageGradient,
-                    const MovingImagePointType &       mappedMovingPoint,
-                    const MovingImagePixelType &       movingImageValue,
-                    const MovingImageGradientType &    movingImageGradient,
-                    MeasureType &                      metricValueResult,
-                    DerivativeType &                   localDerivativeReturn,
-                    const ThreadIdType                 threadID) const;
-
   DemonsImageToImageObjectMetric();
   virtual ~DemonsImageToImageObjectMetric();
+
+  friend class DemonsImageToImageObjectMetricGetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< Superclass::VirtualImageDimension >, Superclass, Self >;
+  friend class DemonsImageToImageObjectMetricGetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >;
+  typedef DemonsImageToImageObjectMetricGetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< Superclass::VirtualImageDimension >, Superclass, Self >
+    DemonsDenseGetValueAndDerivativeThreaderType;
+  typedef DemonsImageToImageObjectMetricGetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >
+    DemonsSparseGetValueAndDerivativeThreaderType;
+
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
-
-
   DemonsImageToImageObjectMetric(const Self &); //purposely not implemented
   void operator = (const Self &); //purposely not implemented
 };

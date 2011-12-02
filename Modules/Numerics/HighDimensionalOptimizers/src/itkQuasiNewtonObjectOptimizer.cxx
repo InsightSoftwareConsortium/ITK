@@ -19,9 +19,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 QuasiNewtonObjectOptimizer
 ::QuasiNewtonObjectOptimizer()
 {
@@ -35,16 +33,9 @@ QuasiNewtonObjectOptimizer
   this->m_MaximumNewtonStepSizeInPhysicalUnits = NumericTraits<InternalComputationValueType>::Zero;
 
   /** Threader for Quasi-Newton method */
-  this->m_EstimateNewtonStepThreader = QuasiNewtonThreaderType::New();
-  this->m_EstimateNewtonStepThreader->SetThreadedGenerateData(
-                                                Self::EstimateNewtonStepThreaded );
-  this->m_EstimateNewtonStepThreader->SetHolder( this );
-
+  this->m_EstimateNewtonStepThreader = QuasiNewtonObjectOptimizerEstimateNewtonStepThreader::New();
 }
 
-/**
- * Destructor
- */
 QuasiNewtonObjectOptimizer
 ::~QuasiNewtonObjectOptimizer()
 {
@@ -57,9 +48,6 @@ QuasiNewtonObjectOptimizer
   Superclass::PrintSelf(os, indent);
 }
 
-/**
- * Start and run the optimization
- */
 void
 QuasiNewtonObjectOptimizer
 ::StartOptimization()
@@ -97,10 +85,6 @@ QuasiNewtonObjectOptimizer
   Superclass::StartOptimization();
 }
 
-/**
- * Advance one step using the Quasi-Newton step. When the Newton step
- * is invalid, the gradient step will be used.
- */
 void
 QuasiNewtonObjectOptimizer
 ::AdvanceOneStep(void)
@@ -196,10 +180,6 @@ QuasiNewtonObjectOptimizer
   this->InvokeEvent( IterationEvent() );
 }
 
-/**
- * Combine a gradient step with a Newton step. The Newton step will be used
- * when it is valid. Otherwise the gradient step will be used.
- */
 void
 QuasiNewtonObjectOptimizer
 ::CombineGradientNewtonStep()
@@ -244,14 +224,6 @@ QuasiNewtonObjectOptimizer
     }
 }
 
-/**
- *  Estimate and apply the learning rate(s) for a combined Newton step.
- *  A combined Newton step uses the Newton step by default and the gradient
- *  step when the Newton step is not valid.
- *
- *  The learning rate is less than 1.0 and is restricted by
- *  m_MaximumNewtonStepSizeInPhysicalUnits.
- */
 void QuasiNewtonObjectOptimizer
 ::ModifyCombinedNewtonStep()
 {
@@ -307,9 +279,6 @@ void QuasiNewtonObjectOptimizer
     }
 }
 
-/**
- * Estimate the quasi-newton step.
- */
 void
 QuasiNewtonObjectOptimizer
 ::EstimateNewtonStep()
@@ -320,9 +289,8 @@ QuasiNewtonObjectOptimizer
   /* Perform the modification either with or without threading */
   if( this->m_Metric->HasLocalSupport() )
     {
-    this->m_EstimateNewtonStepThreader->SetOverallIndexRange( fullrange );
-    /* This ends up calling EstimateNewtonStepThreaded from each thread */
-    this->m_EstimateNewtonStepThreader->StartThreadedExecution();
+    /* This ends up calling EstimateNewtonStepOverSubRange from each thread */
+    this->m_EstimateNewtonStepThreader->Execute( this, fullrange );
     }
   else
     {
@@ -330,21 +298,6 @@ QuasiNewtonObjectOptimizer
     }
 }
 
-/**
- * Estimate the quasi-newton step in a thread.
- */
-void
-QuasiNewtonObjectOptimizer
-::EstimateNewtonStepThreaded( const IndexRangeType& rangeForThread,
-                          ThreadIdType,
-                          Self *holder )
-{
-  holder->EstimateNewtonStepOverSubRange( rangeForThread );
-}
-
-/**
- * Estimate the Quasi-Newton step over a given index range.
- */
 void QuasiNewtonObjectOptimizer
 ::EstimateNewtonStepOverSubRange( const IndexRangeType& subrange )
 {
@@ -382,10 +335,7 @@ void QuasiNewtonObjectOptimizer
 
     } // end for loc
 }
-/**
- * Estimate Hessian matrix with BFGS method described
- * at http://en.wikipedia.org/wiki/BFGS_method
- */
+
 bool QuasiNewtonObjectOptimizer
 ::ComputeHessianAndStepWithBFGS(IndexValueType loc)
 {

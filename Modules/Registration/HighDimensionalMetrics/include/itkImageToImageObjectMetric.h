@@ -24,21 +24,15 @@
 #include "itkInterpolateImageFunction.h"
 #include "itkSpatialObject.h"
 #include "itkResampleImageFilter.h"
+#include "itkThreadedIndexedContainerPartitioner.h"
+#include "itkThreadedImageRegionPartitioner.h"
 #include "itkImageToImageFilter.h"
+#include "itkImageToImageObjectMetricGetValueAndDerivativeThreader.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"
 #include "itkPointSet.h"
 
 namespace itk
 {
-
-//Forward-declare these because of module dependency conflict.
-//They will soon be moved to a different module, at which
-// time this can be removed.
-template <unsigned int VDimension, class TDataHolder>
-class ImageToData;
-template <class TDataHolder>
-class Array1DToData;
-
 /** \class ImageToImageObjectMetric
  *
  * Computes similarity between regions of two images, using two
@@ -141,12 +135,14 @@ class Array1DToData;
  *
  * Derived classes:
  *
- *  Derived classes need to override at least:
- *  \c GetValueAndDerivative
- *  Pure virtual methods declared in the base class.
+ *  \c GetValueAndDerivativeThreader::ProcessPoint must be overridden by derived
+ *  classes.
  *
- *  \c GetValueAndDerivativeProcessPoint must be overridden by derived
- *  classes that use \c GetValueAndDerivativeThreadedExecute.
+ *  A DenseGetValueAndDerivativeThreader and SparseGetValueAndDerivativeThreader
+ *  must be defined.  then
+ *    this->m_DenseGetValueAndDerivativeThreader   = DenseGetValueAndDerivativeThreader::New();
+ *    this->m_SparseGetValueAndDerivativeThreader  = SparseGetValueAndDerivativeThreader::New();
+ *  must be called in the constructor.
  *
  *  See \c ImageToImageObjectMetricTest for a clear example of what a
  *  derived class must implement and do. Pre- and Post-processing are
@@ -375,6 +371,7 @@ public:
 
   /**  Type of the metric derivative. */
   typedef typename Superclass::DerivativeType DerivativeType;
+  typedef typename DerivativeType::ValueType  DerivativeValueType;
 
   /* Set/get images */
   /** Connect the Fixed Image.  */
@@ -512,20 +509,15 @@ public:
   itkGetConstObjectMacro( MovingWarpedImage, MovingImageType );
   itkGetConstObjectMacro( FixedWarpedImage, FixedImageType );
 
-  /** Get number of threads to use.
-   * \warning This value can change during Initialize, if the threader
-   * determines that fewer threads would be more efficient. The default
-   * is the default value returned by the
-   * assigned threader object, and will never be changed in Initialize to
-   * a larger value. This method will throw an exception if it is used
-   * before \c Initialize() has been called.
-   */
-  ThreadIdType GetNumberOfThreads( void ) const;
+  /** Get number of threads to used in the the \c GetValueAndDerivative
+   * calculation.  Only valid after \c GetValueAndDerivative has been called. */
+  ThreadIdType GetNumberOfThreadsUsed() const;
 
-  /** Set number of threads to use. The default is the number of threads
-   * available as reported by MultiThreader.
-   * \warning See discussion for GetNumberOfThreads. */
-  void SetNumberOfThreads( ThreadIdType );
+  /** Set number of threads to use. This the maximum number of threads to use
+   * when multithreaded.  The actual number of threads used (may be less than
+   * this value) can be obtained with \c GetNumberOfThreadsUsed. */
+  void SetMaximumNumberOfThreads( const ThreadIdType threads );
+  ThreadIdType GetMaximumNumberOfThreads() const;
 
   /** Get Fixed Gradient Image. */
   itkGetConstObjectMacro(FixedImageGradientImage, FixedImageGradientImageType);
@@ -535,9 +527,12 @@ public:
   /** Get number of valid points from most recent update */
   itkGetConstMacro( NumberOfValidPoints, SizeValueType );
 
-  /** Get the measure value in m_Value, as computed by most recent evaluation.
-   * Need to differentiate it from GetValue method in base class. */
-  MeasureType GetValueResult() const;
+  /** Set/Get the floating point resolution used by the derivatives.  This
+   * If this is set to 1e5, then the derivative will have precision up to 5
+   * points beyond the decimal point. And precision beyond that will be
+   * truncated. */
+  itkSetMacro( FloatingPointCorrectionResolution, DerivativeValueType );
+  itkGetConstMacro( FloatingPointCorrectionResolution, DerivativeValueType );
 
   /** Type to represent the number of parameters that are being optimized at
    * any given iteration of the optimizer. */
@@ -562,7 +557,7 @@ public:
    * \c derivative must be the proper size, as retrieved
    * from GetNumberOfParameters. */
   virtual void UpdateTransformParameters( DerivativeType & derivative,
-                                          ParametersValueType factor = 1.0);
+                                          ParametersValueType factor = NumericTraits< ParametersValueType >::One );
 
   /** Get the number of local parameters from the moving transform. */
   virtual NumberOfParametersType GetNumberOfLocalParameters() const;
@@ -588,93 +583,40 @@ public:
    * local parameters. */
   OffsetValueType ComputeParameterOffsetFromVirtualDomainIndex( const VirtualIndexType & index, const NumberOfParametersType numberOfLocalParameters ) const;
 
+  /** Get both the value for the metric and its derivative.
+   * This calls the SparseGetValueAndDerivativeThreader if \c UsedFixedSampledPointSet
+   * is true, and DenseGetValueAndDerivativeThreader otherwise.  The threaders
+   * in turn call \c ProcessPoint on each point in the
+   * domain to be examined. */
+  virtual void GetValueAndDerivative( MeasureType & value,
+                                      DerivativeType & derivative ) const;
+
 protected:
-
-  /** \class SamplingIteratorHelper
-   * \brief Simple helper class for working with both dense sampling via
-   * an image iterator, and sparse sampling for a point set.
-   * Fully-declared in defined in .hxx file.
-   *
-   * \ingroup ITKHighDimensionalMetrics
-   */
-  class SamplingIteratorHelper;
-
-  /* Worker method to iterate over an image sub region or list of sample
-   * points. It calculates fixed and moving point values and image derivatives
-   * and calls the derived class' user worker method to calculate
-   * value and derivative.
-   * Iterates over a range of samples and calls derived class for calculations.
-   */
-  void GetValueAndDerivativeProcessPointRange(
-                                      SamplingIteratorHelper & samplingIterator,
-                                      ThreadIdType threadID,
-                                      Self * self);
-
-  /** Method to calculate the metric value and derivative
-   * given a point, value and image derivative for both fixed and moving
-   * spaces. The provided values have been calculated from \c virtualPoint,
-   * which is provided in case it's needed.
-   * Derived classes that use \c GetValueAndDerivativeThreadedExecute
-   * to initiate process must override this method, otherwise an exception
-   * is thrown.
-   *
-   * \note This method is not pure virtual because some derived classes
-   * do not use \c GetValueAndDerivativeThreadedExecute, and instead
-   * provide their own processing control.
-   *
-   * \param virtualPoint is the point within the virtual domain from which
-   * the passed parameters have been calculated.
-   * \param mappedFixedPoint is a valid point within the moving image space
-   *  that has passed bounds checking, and lies within any mask that may
-   *  be assigned.
-   * \param mappedFixedPixelValue holds the pixel value at the mapped fixed
-   *  point.
-   * \param mappedFixedImageGradient holds the image gradient at the fixed point,
-   *  but only when \c m_GradientSource is set to calculate fixed image gradients
-   *  (either when it's set to calculate only fixed gradients, or both fixed and
-   *  moving). Otherwise, the value is meaningless and should be ignored.
-   * \param mappedMovingPoint
-   * \param mappedMovingPixelValue
-   * \param mappedMovingImageGradient
-   *  These three parameters hold the point, pixel value and image gradient for
-   *  the moving image space, as described above for the fixed image space.
-   * Results must be returned by derived classes in:
-   * \param[out] metricValueReturn
-   * \param[out] localDerivativeReturn
-   * \param[out] threadID may be used as needed, for example to access any per-thread
-   * data cached during pre-processing by the derived class.
-   *
-   * \warning The derived class should use \c GetNumberOfThreads from this base
-   * class only after ImageToImageObjectMetric\:: Initialize has been called, to
-   * assure that the same number of threads are used.
-   *
-   * \warning  This is called from the threader, and thus must be thread-safe.
-   */
-  virtual bool GetValueAndDerivativeProcessPoint(
-        const VirtualPointType &          virtualPoint,
-        const FixedImagePointType &       mappedFixedPoint,
-        const FixedImagePixelType &       mappedFixedPixelValue,
-        const FixedImageGradientType &    mappedFixedImageGradient,
-        const MovingImagePointType &      mappedMovingPoint,
-        const MovingImagePixelType &      mappedMovingPixelValue,
-        const MovingImageGradientType &   mappedMovingImageGradient,
-        MeasureType &                     metricValueReturn,
-        DerivativeType &                  localDerivativeReturn,
-        const ThreadIdType                threadID ) const;
-
   /** Perform any initialization required before each evaluation of
-   * value and derivative. This is distinct from Initialize, which
+   * \c GetValueAndDerivative. This is distinct from Initialize, which
    * is called only once before a number of iterations, e.g. before
-   * a registration loop.
-   * Called from \c GetValueAndDerivativeThreadedExecute before
-   * threading starts. */     //NOTE: make this private or protected?
-  virtual void InitializeForIteration(void) const;
+   * a registration loop. */
+  virtual void InitializeForIteration() const;
+
+  friend class ImageToImageObjectMetricGetValueAndDerivativeThreaderBase< ThreadedImageRegionPartitioner< VirtualImageDimension >, Self >;
+  friend class ImageToImageObjectMetricGetValueAndDerivativeThreaderBase< ThreadedIndexedContainerPartitioner, Self >;
+  friend class ImageToImageObjectMetricGetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< VirtualImageDimension >, Self >;
+  friend class ImageToImageObjectMetricGetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Self >;
+
+  /* A DenseGetValueAndDerivativeThreader
+   * Derived classes must define this class and assign it in their constructor
+   * if threaded processing in GetValueAndDerivative is performed. */
+  typename ImageToImageObjectMetricGetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< VirtualImageDimension >, Self >::Pointer m_DenseGetValueAndDerivativeThreader;
+  /* A SparseGetValueAndDerivativeThreader
+   * Derived classes must define this class and assign it in their constructor
+   * if threaded processing in GetValueAndDerivative is performed. */
+  typename ImageToImageObjectMetricGetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Self >::Pointer m_SparseGetValueAndDerivativeThreader;
 
   /**
    * Transform a point from VirtualImage domain to FixedImage domain.
    * This function also checks if mapped point is within the mask if
    * one is set, and that is within the fixed image buffer, in which
-   * case \c pointIsValid will be true on return.
+   * case the return value will be true.
    * \c mappedFixedPoint and \c mappedFixedPixelValue are  returned, and
    * \c mappedFixedImageGradient is returned if \c computeImageGradient is set.
    * All return values are in the virtual domain.
@@ -682,26 +624,24 @@ protected:
    * that could work for either fixed or moving domains. However setting
    * that up is complicated because dimensionality and pixel type may
    * be different between the two. */
-  virtual void TransformAndEvaluateFixedPoint(
+  bool TransformAndEvaluateFixedPoint(
                            const VirtualIndexType & index,
                            const VirtualPointType & point,
                            const bool computeImageGradient,
                            FixedImagePointType & mappedFixedPoint,
                            FixedImagePixelType & mappedFixedPixelValue,
-                           FixedImageGradientType & mappedFixedImageGradient,
-                           bool & pointIsValid ) const;
+                           FixedImageGradientType & mappedFixedImageGradient ) const;
   /** Transform a point from VirtualImage domain to MovingImage domain. */
-  virtual void TransformAndEvaluateMovingPoint(
+  bool TransformAndEvaluateMovingPoint(
                            const VirtualIndexType & index,
                            const VirtualPointType & point,
                            const bool computeImageGradient,
                            MovingImagePointType & mappedMovingPoint,
                            MovingImagePixelType & mappedMovingPixelValue,
-                           MovingImageGradientType & mappedMovingImageGradient,
-                           bool & pointIsValid ) const;
+                           MovingImageGradientType & mappedMovingImageGradient ) const;
 
   /** Compute image derivatives for a Fixed point.
-   * NOTE: This doesn't transform result into virtual space. For that,
+   * \warning This doesn't transform result into virtual space. For that,
    * see TransformAndEvaluateFixedPoint
    */
   virtual void ComputeFixedImageGradientAtPoint(
@@ -714,7 +654,7 @@ protected:
 
   /**
    * Compute fixed warped image derivatives for an index at virtual domain.
-   * NOTE: This doesn't transform result into virtual space. For that,
+   * \warning This doesn't transform result into virtual space. For that,
    * see TransformAndEvaluateFixedPoint
    */
   virtual void ComputeFixedImageGradientAtIndex(
@@ -730,32 +670,19 @@ protected:
    * to m_FixedImageGradientImage. It will use either the original
    * fixed image, or the pre-warped version, depending on the setting
    * of DoFixedImagePreWarp. */
-  virtual void ComputeFixedImageGradientFilterImage(void);
+  virtual void ComputeFixedImageGradientFilterImage();
 
   /** Computes the gradients of the moving image, using the
    * GradientFilter, assigning the output to
    * to m_MovingImageGradientImage. It will use either the original
    * moving image, or the pre-warped version, depending on the setting
    * of DoMovingImagePreWarp. */
-  virtual void ComputeMovingImageGradientFilterImage(void) const;
+  virtual void ComputeMovingImageGradientFilterImage() const;
 
   /** Initialize the default image gradient filters. This must only
    * be called once the fixed and moving images have been set. */
   virtual void InitializeDefaultFixedImageGradientFilter(void);
   virtual void InitializeDefaultMovingImageGradientFilter(void);
-
-  /** Store derivative result from a single point calculation.
-   * \warning If this method is overridden or otherwise not used
-   * in a derived class, be sure to *accumulate* results in
-   * \c derivative, and not assign them. */
-  virtual void StoreDerivativeResult(  DerivativeType & derivative,
-                                        const VirtualIndexType & virtualIndex,
-                                        ThreadIdType threadID );
-
-  /** Called from \c GetValueAndDerivativeThreadedExecute after
-   * threading is complete, to count the total number of valid points
-   * used during calculations, storing it in \c m_NumberOfValidPoints */
-  virtual void CollectNumberOfValidPoints(void) const;
 
   FixedImageConstPointer  m_FixedImage;
   FixedTransformPointer   m_FixedTransform;
@@ -827,95 +754,11 @@ protected:
   FixedSampledPointSetConstPointer            m_FixedSampledPointSet;
   VirtualSampledPointSetPointer               m_VirtualSampledPointSet;
 
-  /** Flag to use FixedSampledPointSet */
+  /** Flag to use FixedSampledPointSet, i.e. Sparse sampling. */
   bool                                        m_UseFixedSampledPointSet;
 
   /** Metric value, stored after evaluating */
   mutable MeasureType             m_Value;
-
-  /*
-   * Multi-threading variables and methods
-   */
-
-  /** Initialize memory for threading.
-   * \c derivativeReturn will be used to store the derivative results.
-   * Typically this will be the user-supplied object from a call to
-   * GetValueAndDerivative.
-   *
-   * We have a separate method that's called during the first call to evaluate
-   * the metric after Initialize has been called. This is so we can handle
-   * m_DerivativeResult as a raw pointer, obtained from user input.
-   *
-   */ //NOTE: make this private, or will a derived class want to override?
-  virtual void InitializeThreadingMemory( DerivativeType & derivativeReturn ) const;
-
-  /** Initiates multi-threading to evaluate the current metric value
-   * and derivatives.
-   * Derived classes should call this in their GetValueAndDerivative method.
-   * This will end up calling the derived class'
-   * GetValueAndDerivativeProcessPoint for each valid point in
-   * VirtualDomainRegion.
-   * Pass in \c derivativeReturn from user. Results are written directly
-   * into this parameter.
-   * \sa GetValueAndDerivativeThreadedPostProcess
-   */
-  virtual void GetValueAndDerivativeThreadedExecute( DerivativeType & derivativeReturn ) const;
-
-  /** Default post-processing after multi-threaded calculation of
-   * value and derivative. Typically called by derived classes after
-   * GetValueAndDerivativeThreadedExecute. Collects the results
-   * from each thread and sums them.
-   * Results are stored in \c m_Value and \c m_DerivativeResult.
-   * \c m_DerivativeResult is set during initialization to point to the
-   * user-supplied derivative parameter in GetValueAndDerivative. Thus,
-   * the derivative results are written directly to this parameter.
-   * Pass true for \c doAverage to use the number of valid points, \c
-   * m_NumberOfValidPoints, to average the value sum, and to average derivative
-   * sums for global transforms only (i.e. transforms without local support).
-   * Derived classes need not call this if they require special handling.
-   */
-  virtual void GetValueAndDerivativeThreadedPostProcess( bool doAverage ) const;
-
-  /** Type of the default threader used for dense (full-image) evaulation
-   * in GetValue and GetDerivative.
-   * This splits an image region in per-thread sub-regions over the outermost
-   * image dimension. */
-  typedef ImageToData<VirtualImageDimension, Self>
-                                             DenseValueAndDerivativeThreaderType;
-  typedef typename DenseValueAndDerivativeThreaderType::InputObjectType
-                                             DenseThreaderInputObjectType;
-
-  /** Type of the default threader used for sampled evaulation
-   * in GetValue and GetDerivative.
-   * This splits the list of sample points into equal blocks. */
-  typedef Array1DToData<Self> SampledValueAndDerivativeThreaderType;
-  typedef typename SampledValueAndDerivativeThreaderType::InputObjectType
-                                             SampledThreaderInputObjectType;
-  typedef typename SampledValueAndDerivativeThreaderType::InputObjectValueType
-                                             SampledThreaderInputObjectValueType;
-
-  /* Optinally set the threader type to use. This performs the splitting of the
-   * virtual region over threads, and user may wish to provide a different
-   * one that does a different split. The default is ImageToData. */
-  itkSetObjectMacro(DenseValueAndDerivativeThreader,DenseValueAndDerivativeThreaderType);
-
-  /** Threader used for dense evaluation of value and deriviative. */
-  typename DenseValueAndDerivativeThreaderType::Pointer
-                                              m_DenseValueAndDerivativeThreader;
-
-  /** Threader used for sampled evaluation of value and deriviative. */
-  typename SampledValueAndDerivativeThreaderType::Pointer
-                                              m_SampledValueAndDerivativeThreader;
-
-  /** Intermediary threaded metric value storage. */
-  mutable std::vector<InternalComputationValueType>  m_MeasurePerThread;
-  mutable std::vector< DerivativeType >              m_DerivativesPerThread;
-  mutable std::vector< DerivativeType >              m_LocalDerivativesPerThread;
-  mutable std::vector< SizeValueType >               m_NumberOfValidPointsPerThread;
-
-  /** Pre-allocated transform jacobian objects, for use as needed by dervied
-   * classes for efficiency. */
-  mutable std::vector<JacobianType>           m_MovingTransformJacobianPerThread;
 
   ImageToImageObjectMetric();
   virtual ~ImageToImageObjectMetric();
@@ -927,29 +770,6 @@ protected:
   virtual void VerifyDisplacementFieldSizeAndPhysicalSpace();
 
 private:
-
-  /** Multi-threader callback used to initiate processing over images.
-   * If a derived class needs to implement its own callback to replace this,
-   * define a static method with a different name, and assign it to the
-   * threader in the class' constructor by calling
-   *
-   * Create an iterator object and pass it to worker method to
-   * iterate over image region and call derived class for calculations.
-   * \c m_ValueAndDerivativeThreader->SetThreadedGenerateData( mycallback ) */
-  static void DenseGetValueAndDerivativeThreadedCallback(
-                        const DenseThreaderInputObjectType& virtualImageSubRegion,
-                        ThreadIdType threadId,
-                        Self * dataHolder);
-  /**
-   * Sampled threader callback.
-   * Create an iterator object and pass it to worker method to
-   * iterate over sample point-set and call derived class for calculations.
-   */
-  static void SampledGetValueAndDerivativeThreadedCallback(
-                        const SampledThreaderInputObjectType& sampledRange,
-                        ThreadIdType threadId,
-                        Self * dataHolder);
-
   /** Map the fixed point set samples to the virtual domain */
   void MapFixedSampledPointSetToVirtual( void );
 
@@ -958,22 +778,13 @@ private:
   void DoFixedImagePreWarp( void ) const;
   void DoMovingImagePreWarp( void ) const;
 
-  /** Flag to track if threading memory has been initialized since last
-   * call to Initialize. */
-  mutable bool            m_ThreadingMemoryHasBeenInitialized;
-
-  /** Flag to track if the number of threads has been initialized in
-   * the Initialize routine. We don't want GetNumberOfThreads to be
-   * called until this has been initialized. */
-  mutable bool            m_NumberOfThreadsHasBeenInitialized;
-
-  //purposely not implemented
-  ImageToImageObjectMetric(const Self &);
-  //purposely not implemented
-  void operator=(const Self &);
+  ImageToImageObjectMetric(const Self &); //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 
   //Sample point coordinates from the virtual image domain
   std::vector<VirtualPointType> m_VirtualImageCornerPoints;
+
+  DerivativeValueType m_FloatingPointCorrectionResolution;
 };
 }//namespace itk
 

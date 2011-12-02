@@ -15,63 +15,34 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkArray1DToData_hxx
-#define __itkArray1DToData_hxx
-
-#include "itkArray1DToData.h"
+#include "itkThreadedIndexedContainerPartitioner.h"
 #include "vnl/vnl_math.h"
 
 namespace itk
 {
 
-/**
- * Default constructor
- */
-template<class TDataHolder>
-Array1DToData<TDataHolder>::Array1DToData()
+ThreadedIndexedContainerPartitioner
+::ThreadedIndexedContainerPartitioner()
 {
-  this->m_OverallObject.Fill(0);
 }
 
-/**
- * Destructor
- */
-template<class TDataHolder>
-Array1DToData<TDataHolder>::~Array1DToData()
-{}
-
-/**
- * Set the overall range over which to thread.
- */
-template<class TDataHolder>
-void
-Array1DToData<TDataHolder>
-::SetOverallIndexRange(  const IndexRangeType & range )
+ThreadedIndexedContainerPartitioner
+::~ThreadedIndexedContainerPartitioner()
 {
-  if( range[0] > range[1] )
-    {
-    itkExceptionMacro("Error in range.  Begin is less than End: "
-                      << range << ".");
-    }
-  this->SetOverallObject( range );
 }
 
-/**
- * Split the requested range into a subrange.
- */
-template<class TDataHolder>
 ThreadIdType
-Array1DToData<TDataHolder>
-::SplitRequestedObject( const ThreadIdType threadID,
+ThreadedIndexedContainerPartitioner
+::PartitionDomain( const ThreadIdType threadID,
                         const ThreadIdType requestedTotal,
-                        const InputObjectType& overallIndexRange,
-                        InputObjectType& splitIndexRange) const
+                        const DomainType& completeIndexRange,
+                        DomainType& subIndexRange) const
 {
   // overallIndexRange is expected to be inclusive
 
   // determine the actual number of pieces that will be generated
   IndexRangeType::IndexValueType count =
-    overallIndexRange[1] - overallIndexRange[0] + 1;
+    completeIndexRange[1] - completeIndexRange[0] + 1;
   ThreadIdType valuesPerThread =
     Math::Ceil<ThreadIdType>( count/static_cast<double>(requestedTotal) );
   ThreadIdType maxThreadIdUsed =
@@ -80,21 +51,19 @@ Array1DToData<TDataHolder>
   // Split the index range
   if (threadID < maxThreadIdUsed)
     {
-    splitIndexRange[0] = overallIndexRange[0] + threadID * valuesPerThread;
-    splitIndexRange[1] = splitIndexRange[0] + valuesPerThread - 1;
+    subIndexRange[0] = completeIndexRange[0] + threadID * valuesPerThread;
+    subIndexRange[1] = subIndexRange[0] + valuesPerThread - 1;
     }
   if (threadID == maxThreadIdUsed)
     {
-    splitIndexRange[0] = overallIndexRange[0] + threadID * valuesPerThread;
+    subIndexRange[0] = completeIndexRange[0] + threadID * valuesPerThread;
     // last thread needs to process the "rest" of the range
-    splitIndexRange[1] = overallIndexRange[1];
+    subIndexRange[1] = completeIndexRange[1];
     }
 
-  itkDebugMacro("Array1DToData:  Split : " << splitIndexRange );
+  itkDebugMacro("ThreadedIndexedContainerPartitioner:  Split : " << subIndexRange );
 
   return maxThreadIdUsed + 1;
 }
 
 } // end namespace itk
-
-#endif
