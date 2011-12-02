@@ -20,6 +20,7 @@
 
 #include "itkImageFunction.h"
 #include "itkCovariantVector.h"
+#include "itkInterpolateImageFunction.h"
 
 namespace itk
 {
@@ -80,48 +81,77 @@ public:
   /** Point typedef support. */
   typedef typename Superclass::PointType PointType;
 
+  /** Spacing typedef support. */
+  typedef typename TInputImage::SpacingType SpacingType;
+
+  /** Interpolator typedef support. */
+  typedef InterpolateImageFunction< TInputImage, TCoordRep > InterpolatorType;
+  typedef typename InterpolatorType::Pointer                 InterpolatorPointer;
+
+  /** Set the input image.  This must be set by the user. */
+  virtual void SetInputImage(const TInputImage *inputData);
+
+  /** Set interpolator. The interpolator is used in the methods
+   * \c Evaluate and \c EvaluateAtContinuousIndex. */
+  virtual void SetInterpolator(InterpolatorType *interpolator);
+
+  /** Get the interpolator. */
+  itkGetConstObjectMacro( Interpolator, InterpolatorType );
+
   /** Evalulate the image derivative by central differencing at specified index.
    *
    *  No bounds checking is done.
-   *  The point is assume to lie within the image buffer.
+   *  The point is assume to lie within the image buffer. If not, 0 is
+   *  returned for the derivative without any error return.
+   *
+   *  If \param index lies on a boundary in a given dimension, 0 is returned for
+   *  that dimension.
    *
    *  ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
   virtual OutputType EvaluateAtIndex(const IndexType & index) const;
 
   /** Evalulate the image derivative by central differencing at non-integer
-   *  positions.
+   *  point.
    *
    *  No bounds checking is done.
-   *  The point is assume to lie within the image buffer.
+   *  The point is assumed to lie within the image buffer. If not, 0 is
+   *  returned for the derivative without any error return.
+   *
+   *  If \param index lies on a boundary in a given dimension, 0 is returned for
+   *  that dimension.
    *
    *  ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  virtual OutputType Evaluate(const PointType & point) const
-  {
-    IndexType index;
+  virtual OutputType Evaluate(const PointType & point) const;
 
-    this->ConvertPointToNearestIndex(point, index);
-    return this->EvaluateAtIndex(index);
-  }
-
+  /** Evalulate the image derivative by central differencing at non-integer
+   *  index.
+   *
+   *  No bounds checking is done.
+   *  The point is assume to lie within the image buffer. If not, 0 is
+   *  returned for the derivative without any error return.
+   *
+   *  If \param index lies on a boundary in a given dimension, 0 is returned for
+   *  that dimension.
+   *
+   *  ImageFunction::IsInsideBuffer() can be used to check bounds before
+   * calling the method. */
   virtual OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & cindex) const
-  {
-    IndexType index;
-
-    this->ConvertContinuousIndexToNearestIndex(cindex, index);
-    return this->EvaluateAtIndex(index);
-  }
+    const ContinuousIndexType & cindex) const;
 
   /** The UseImageDirection flag determines whether image derivatives are
    * computed with respect to the image grid or with respect to the physical
    * space. When this flag is ON the derivatives are computed with respect to
    * the coordinate system of physical space. The difference is whether we take
-   * into account the image Direction or not. The flag ON will take into
-   * account the image direction and will result in an extra matrix
+   * into account the image Direction or not.
+   * For \c EvaluateAtIndex and \c EvaluateAtContinuousIndex, the flag ON will
+   * take into account the image direction and will result in an extra matrix
    * multiplication compared to the amount of computation performed when the
    * flag is OFF.
+   * For \c Evaluate, the opposite is true: the flag OFF will ignore the image
+   * direction and will result in an extra matrix multiplication compared to the
+   * amount of computation performed when the flag is ON.
    * The default value of this flag is On.
    */
   itkSetMacro(UseImageDirection, bool);
@@ -139,6 +169,9 @@ private:
   // flag to take or not the image direction into account
   // when computing the derivatives.
   bool m_UseImageDirection;
+
+  // interpolator
+  InterpolatorPointer   m_Interpolator;
 };
 } // end namespace itk
 

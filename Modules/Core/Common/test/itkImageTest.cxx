@@ -18,6 +18,7 @@
 
 #include <iostream>
 #include "itkImage.h"
+#include "itkFixedArray.h"
 
 int itkImageTest(int, char* [] )
 {
@@ -49,6 +50,38 @@ int itkImageTest(int, char* [] )
   image->SetSpacing (fspacing);
   image->SetOrigin (forigin);
 
+  // test inverse direction
+  std::cout << "Test inverse direction." << std::endl;
+  Image::DirectionType product;
+  product = direction * image->GetInverseDirection();
+  double eps = 1e-06;
+  if( vcl_fabs( product[0][0] - 1.0 ) > eps ||
+      vcl_fabs( product[1][1] - 1.0 ) > eps ||
+      vcl_fabs( product[0][1] ) > eps ||
+      vcl_fabs( product[1][0] ) > eps )
+    {
+    std::cerr << "Inverse direction test failed: "
+              << "direction * inverse: " << product << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  std::cout << "Test transform to/from physical vector." << std::endl;
+  typedef itk::FixedArray<float, 2> GradientType;
+  GradientType truthGradient, outputGradient, testGradient;
+  truthGradient[0] = 1.0;
+  truthGradient[1] = 1.0;
+  image->TransformLocalVectorToPhysicalVector( truthGradient, outputGradient );
+  image->TransformPhysicalVectorToLocalVector( outputGradient, testGradient );
+  if( vcl_fabs( truthGradient[0] - testGradient[0] ) > eps ||
+      vcl_fabs( truthGradient[1] - testGradient[1] ) > eps )
+    {
+    std::cerr << "Transform to/from PhysicalVector test failed: "
+              << "truthGradient: " << truthGradient << std::endl
+              << "testGradient:  " << testGradient << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  std::cout << "Print: " << std::endl;
   image->Print(std::cout);
 
   return (EXIT_SUCCESS);

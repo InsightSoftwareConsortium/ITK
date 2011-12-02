@@ -27,9 +27,6 @@
 
 namespace
 {
-
-
-
 double F( itk::Vector<double,3> & v );
 }
 
@@ -101,7 +98,6 @@ double F( itk::Vector<double,3> & v );
 
 int itkImageRegistrationMethodTest_14(int, char* [] )
 {
-
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
 
   bool pass = true;
@@ -171,9 +167,8 @@ int itkImageRegistrationMethodTest_14(int, char* [] )
   movingImage->SetRequestedRegion( region );
   movingImage->Allocate();
 
-
   typedef itk::ImageRegionIterator<MovingImageType> MovingImageIterator;
-  typedef itk::ImageRegionIterator<FixedImageType> FixedImageIterator;
+  typedef itk::ImageRegionIterator<FixedImageType>  FixedImageIterator;
 
   itk::Point<double,dimension> center;
   for ( j = 0; j < dimension; j++ )
@@ -323,7 +318,7 @@ int itkImageRegistrationMethodTest_14(int, char* [] )
   trueParameters[2] =   vcl_sin( angle / 2.0 );
   trueParameters[3] =   vcl_cos( angle / 2.0 );
   trueParameters[4] = -1.0 * ( displacement[0] * vcl_cos(angle) -
-                               displacement[1] * vcl_sin(angle) ) ;
+                               displacement[1] * vcl_sin(angle) );
   trueParameters[5] = -1.0 * ( displacement[0] * vcl_sin(angle) +
                                displacement[1] * vcl_cos(angle) );
   trueParameters[6] = -1.0 * displacement[2];
@@ -332,7 +327,9 @@ int itkImageRegistrationMethodTest_14(int, char* [] )
 
   for( j = 0; j < 4; j++ )
     {
-    if( vnl_math_abs( solution[j] - trueParameters[j] ) > 0.025 )
+    // Increased tolerance to allow for changed output
+    // after modifications to CentralDifferenceImageFunction.
+    if( vnl_math_abs( solution[j] - trueParameters[j] ) > 0.04 )
       {
       pass = false;
       }

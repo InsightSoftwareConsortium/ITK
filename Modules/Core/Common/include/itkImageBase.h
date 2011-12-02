@@ -196,6 +196,11 @@ public:
    * For ImageBase and Image, the default direction is identity. */
   itkGetConstReferenceMacro(Direction, DirectionType);
 
+  /** Get the inverse direction cosines of the image.
+   * These are calculated automatically in SetDirection, thus there
+   * is no Set accessor. */
+  itkGetConstReferenceMacro(InverseDirection, DirectionType);
+
   /** Get the spacing (size of a pixel) `of the image. The
    * spacing is the geometric distance between image samples.
    * The value returned is a pointer to a double array.
@@ -519,6 +524,37 @@ public:
       }
   }
 
+  /** Take a vector or covariant vector that has been computed in terms of the
+   * coordinate system of the image acquisition device, and rotate it by the
+   * inverse direction cosines in order to get it in the coordinate system
+   * parallel to the image grid. This implementation in the Image
+   * multiply the array (vector or covariant vector) by the inverse of Direction
+   * Cosines. The arguments of the method are of type FixedArray to make
+   * possible to use this method with both Vector and CovariantVector.
+   */
+  template< class TCoordRep >
+  void TransformPhysicalVectorToLocalVector(
+    const FixedArray< TCoordRep, VImageDimension > & inputGradient,
+    FixedArray< TCoordRep, VImageDimension > & outputGradient) const
+  {
+    //
+    //TODO: This temporary implementation should be replaced with Template
+    // MetaProgramming.
+    //
+    const DirectionType & inverseDirection = this->GetInverseDirection();
+
+    for ( unsigned int i = 0; i < VImageDimension; i++ )
+      {
+      typedef typename NumericTraits< TCoordRep >::AccumulateType CoordSumType;
+      CoordSumType sum = NumericTraits< CoordSumType >::Zero;
+      for ( unsigned int j = 0; j < VImageDimension; j++ )
+        {
+        sum += inverseDirection[i][j] * inputGradient[j];
+        }
+      outputGradient[i] = static_cast< TCoordRep >( sum );
+      }
+  }
+
   /** Copy information from the specified data set.  This method is
    * part of the pipeline execution model. By default, a ProcessObject
    * will copy meta-data from the first input to all of its
@@ -633,6 +669,7 @@ protected:
   PointType m_Origin;
 
   DirectionType m_Direction;
+  DirectionType m_InverseDirection;
 
   /** Matrices intended to help with the conversion of Index coordinates
    *  to PhysicalPoint coordinates */

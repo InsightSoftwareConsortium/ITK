@@ -401,7 +401,7 @@ itk_add_test(NAME BSplineWarping1Test COMMAND ${ITK_TEST_DRIVER}
 itk_add_test(NAME DeformableRegistration12Test1 COMMAND ${ITK_TEST_DRIVER}
   --compare DATA{Baseline/DeformableRegistration12Test.png}
             ${TEMP}/DeformableRegistration12Test1.png
-  --compareNumberOfPixelsTolerance 400
+  --compareNumberOfPixelsTolerance 600
   $<TARGET_FILE:DeformableRegistration12>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         DATA{Baseline/BSplineWarping1Test.png}
@@ -416,7 +416,7 @@ itk_add_test(NAME DeformableRegistration12Test1 COMMAND ${ITK_TEST_DRIVER}
 itk_add_test(NAME DeformableRegistration12Test2 COMMAND ${ITK_TEST_DRIVER}
   --compare DATA{Baseline/DeformableRegistration12Test.png}
             ${TEMP}/DeformableRegistration12Test2.png
-  --compareNumberOfPixelsTolerance 400
+  --compareNumberOfPixelsTolerance 600
   $<TARGET_FILE:DeformableRegistration12>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         DATA{Baseline/BSplineWarping1Test.png}
@@ -431,7 +431,7 @@ itk_add_test(NAME DeformableRegistration12Test2 COMMAND ${ITK_TEST_DRIVER}
 itk_add_test(NAME DeformableRegistration12Test3 COMMAND ${ITK_TEST_DRIVER}
   --compare DATA{Baseline/DeformableRegistration12Test.png}
             ${TEMP}/DeformableRegistration12Test3.png
-  --compareNumberOfPixelsTolerance 400
+  --compareNumberOfPixelsTolerance 600
   $<TARGET_FILE:DeformableRegistration12>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         DATA{Baseline/BSplineWarping1Test.png}
@@ -446,7 +446,7 @@ itk_add_test(NAME DeformableRegistration12Test3 COMMAND ${ITK_TEST_DRIVER}
 itk_add_test(NAME DeformableRegistration12Test4 COMMAND ${ITK_TEST_DRIVER}
   --compare DATA{Baseline/DeformableRegistration12Test.png}
             ${TEMP}/DeformableRegistration12Test4.png
-  --compareNumberOfPixelsTolerance 400
+  --compareNumberOfPixelsTolerance 600
   $<TARGET_FILE:DeformableRegistration12>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         DATA{Baseline/BSplineWarping1Test.png}

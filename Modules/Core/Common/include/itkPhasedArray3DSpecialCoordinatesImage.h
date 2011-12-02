@@ -328,6 +328,12 @@ public:
     FixedArray< TCoordRep, 3 > & outputGradient) const
     {}
 
+  template< class TCoordRep >
+  void TransformPhysicalVectorToLocalVector(
+    const FixedArray< TCoordRep, 3 > & inputGradient,
+    FixedArray< TCoordRep, 3 > & outputGradient) const
+    {}
+
 protected:
   PhasedArray3DSpecialCoordinatesImage()
   {
