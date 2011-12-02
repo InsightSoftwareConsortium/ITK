@@ -48,6 +48,8 @@ namespace itk
 
     void SetCurrentNode( const NodeType& ) {}
 
+    void Reset() {}
+
   private:
     FastMarchingStoppingCriterionBaseHelperTest( const Self& );
     void operator = ( const Self& );

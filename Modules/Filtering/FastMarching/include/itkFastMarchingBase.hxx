@@ -136,6 +136,8 @@ GenerateData()
 
   ProgressReporter progress( this, 0, this->GetTotalNumberOfNodes() );
 
+  m_StoppingCriterion->Reinitialize();
+
   try
     {
     //while( !m_Heap->Empty() )
