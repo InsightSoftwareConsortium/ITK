@@ -55,7 +55,7 @@ namespace itk
  * colormap->SetRedChannel( channel );
  * \endcode
  *
- * The input image's scalar range is used as the range to map to the entire
+ * The range of values present in the input image is the range that is mapped to the entire
  * range of colors.
  *
  * This code was contributed in the Insight Journal paper:
