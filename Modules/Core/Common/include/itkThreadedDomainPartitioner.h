@@ -70,7 +70,7 @@ namespace itk
  */
 
 template <class TDomain >
-class ITKCommon_EXPORT ThreadedDomainPartitioner : public Object
+class ITK_EXPORT ThreadedDomainPartitioner : public Object
 {
 public:
   /** Standard class typedefs. */
