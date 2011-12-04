@@ -39,7 +39,7 @@ HilbertPath<TIndexValue, VDimension>
   SizeValueType numberOfPathVertices = ( 1 << this->m_HilbertOrder );
   for( unsigned int d = 1; d < Dimension; d++ )
     {
-    numberOfPathVertices *= ( 1 << this->m_HilbertOrder );
+    numberOfPathVertices *= static_cast<SizeValueType>( 1 << this->m_HilbertOrder );
     }
   this->m_HilbertPath.resize( numberOfPathVertices );
 
