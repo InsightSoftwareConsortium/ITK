@@ -19,6 +19,7 @@
 #define __itkImageToImageObjectMetricGetValueAndDerivativeThreaderBase_hxx
 
 #include "itkImageToImageObjectMetricGetValueAndDerivativeThreaderBase.h"
+#include "itkNumericTraits.h"
 
 namespace itk
 {
