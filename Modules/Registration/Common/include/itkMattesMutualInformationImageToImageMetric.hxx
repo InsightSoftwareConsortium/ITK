@@ -287,8 +287,8 @@ throw ( ExceptionObject )
     // Deallocate the memory that may have been allocated for
     // previous runs of the metric.
     // and by allocating very small the static ones
-    this->m_PRatioArray.SetSize(1, 1);            // Not needed if this->m_UseExplicitPDFDerivatives
-    this->m_ThreaderMetricDerivative.resize(1);
+    this->m_PRatioArray.SetSize(0, 0);            // Not needed if this->m_UseExplicitPDFDerivatives
+    this->m_ThreaderMetricDerivative.resize(0);
 
       {
       JointPDFDerivativesRegionType jointPDFDerivativesRegion;
@@ -1081,8 +1081,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 
       /** Get Jacobian at a point. A very specialized function just for BSplines */
       this->m_BSplineTransform->ComputeJacobianFromBSplineWeightsWithRespectToPosition(
-        this->m_FixedImageSamples[sampleNumber].point,
-        *weightsHelper, *indicesHelper);
+        this->m_FixedImageSamples[sampleNumber].point, *weightsHelper, *indicesHelper);
       }
     for( unsigned int dim = 0; dim < Superclass::FixedImageDimension; dim++ )
       {
