@@ -127,7 +127,7 @@ RegistrationParameterScalesFromShift< TMetric >
   // of step scale w.r.t "step". This is true only when "step" is close to
   // zero. Therefore, we need to scale "step" down.
   FloatType maxStep = NumericTraits<FloatType>::Zero;
-  for (IndexValueType p=0; p<step.size(); p++)
+  for (typename ParametersType::SizeValueType p = 0; p < step.GetSize(); p++)
     {
     if (maxStep < vcl_abs(step[p]))
       {
