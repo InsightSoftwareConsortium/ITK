@@ -60,7 +60,7 @@ namespace itk
  */
 
 template <unsigned int VDimension>
-class ITKCommon_EXPORT ThreadedImageRegionPartitioner
+class ITK_EXPORT ThreadedImageRegionPartitioner
   : public ThreadedDomainPartitioner< ImageRegion<VDimension> >
 {
 public:

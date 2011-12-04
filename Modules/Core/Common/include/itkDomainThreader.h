@@ -63,7 +63,7 @@ namespace itk
  *  \ingroup ITKCommon
  */
 template< class TDomainPartitioner, class TAssociate >
-class ITKCommon_EXPORT DomainThreader: public Object
+class ITK_EXPORT DomainThreader: public Object
 {
 public:
   /** Standard class typedefs. */
