@@ -17,7 +17,9 @@
  *=========================================================================*/
 #ifndef __itkRawImageIO_hxx
 #define __itkRawImageIO_hxx
+
 #include "itkRawImageIO.h"
+#include "itkIntTypes.h"
 
 namespace itk
 {
