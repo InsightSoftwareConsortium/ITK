@@ -50,30 +50,14 @@ namespace itk
  */
 template< class TInputImage, class TKernelImage = TInputImage, class TOutputImage = TInputImage, class TInternalPrecision=double >
 class ITK_EXPORT FFTConvolutionImageFilter :
-  public ConvolutionImageFilterBase< TInputImage,
-                                     TKernelImage,
-                                     TOutputImage,
-                                     Image< TInternalPrecision, TInputImage::ImageDimension > >
+  public ConvolutionImageFilterBase< TInputImage, TKernelImage, TOutputImage >
+
 {
 public:
-  /** Internal types used by the FFT filters. */
-  typedef Image< TInternalPrecision, TInputImage::ImageDimension >
-    InternalImageType;
-  typedef typename InternalImageType::Pointer
-    InternalImagePointerType;
-  typedef std::complex< TInternalPrecision >
-    InternalComplexType;
-  typedef Image< InternalComplexType, TInputImage::ImageDimension >
-    InternalComplexImageType;
-  typedef typename InternalComplexImageType::Pointer
-    InternalComplexImagePointerType;
-
-  /** Standard types. */
   typedef FFTConvolutionImageFilter                       Self;
   typedef ConvolutionImageFilterBase< TInputImage,
                                       TKernelImage,
-                                      TOutputImage,
-                                      InternalImageType >
+                                      TOutputImage >
                                                           Superclass;
   typedef SmartPointer< Self >                            Pointer;
   typedef SmartPointer< const Self >                      ConstPointer;
@@ -104,6 +88,13 @@ public:
   typedef typename InputImageType::RegionType   InputRegionType;
   typedef typename OutputImageType::RegionType  OutputRegionType;
   typedef typename KernelImageType::RegionType  KernelRegionType;
+
+  /** Internal types used by the FFT filters. */
+  typedef Image< TInternalPrecision, TInputImage::ImageDimension >  InternalImageType;
+  typedef typename InternalImageType::Pointer                       InternalImagePointerType;
+  typedef std::complex< TInternalPrecision >                        InternalComplexType;
+  typedef Image< InternalComplexType, TInputImage::ImageDimension > InternalComplexImageType;
+  typedef typename InternalComplexImageType::Pointer                InternalComplexImagePointerType;
 
   /** Typedef to describe the boundary condition. */
   typedef typename Superclass::BoundaryConditionType        BoundaryConditionType;

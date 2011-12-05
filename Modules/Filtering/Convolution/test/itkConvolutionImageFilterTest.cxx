@@ -150,9 +150,7 @@ int itkConvolutionImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
     }
 
-  typedef ConvolutionFilterType::InternalImageType InternalImageType;
-  itk::ConstantBoundaryCondition< ImageType, InternalImageType >
-    constantBoundaryCondition;
+  itk::ConstantBoundaryCondition< ImageType > constantBoundaryCondition;
   convoluter->SetBoundaryCondition( &constantBoundaryCondition );
   if ( convoluter->GetBoundaryCondition() != &constantBoundaryCondition )
     {

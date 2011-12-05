@@ -31,8 +31,7 @@ namespace itk
  */
 template< class TInputImage,
           class TKernelImage = TInputImage,
-          class TOutputImage = TInputImage,
-          class TInternalImage = TInputImage >
+          class TOutputImage = TInputImage >
 class ITK_EXPORT ConvolutionImageFilterBase :
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
@@ -52,7 +51,6 @@ public:
   typedef TInputImage                           InputImageType;
   typedef TOutputImage                          OutputImageType;
   typedef TKernelImage                          KernelImageType;
-  typedef TInternalImage                        InternalImageType;
   typedef typename InputImageType::PixelType    InputPixelType;
   typedef typename OutputImageType::PixelType   OutputPixelType;
   typedef typename KernelImageType::PixelType   KernelPixelType;
@@ -68,12 +66,9 @@ public:
   typedef typename KernelImageType::RegionType  KernelRegionType;
 
   /** Typedef to describe the boundary condition. */
-  typedef ImageBoundaryCondition< TInputImage, TInternalImage >
-    BoundaryConditionType;
-  typedef BoundaryConditionType *
-    BoundaryConditionPointerType;
-  typedef ZeroFluxNeumannBoundaryCondition< TInputImage, TInternalImage >
-    DefaultBoundaryConditionType;
+  typedef ImageBoundaryCondition< TInputImage >           BoundaryConditionType;
+  typedef BoundaryConditionType *                         BoundaryConditionPointerType;
+  typedef ZeroFluxNeumannBoundaryCondition< TInputImage > DefaultBoundaryConditionType;
 
   /** Set/get the boundary condition. */
   itkSetMacro(BoundaryCondition, BoundaryConditionPointerType);

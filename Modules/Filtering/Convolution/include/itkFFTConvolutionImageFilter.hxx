@@ -21,6 +21,7 @@
 
 #include "itkFFTConvolutionImageFilter.h"
 
+#include "itkCastImageFilter.h"
 #include "itkChangeInformationImageFilter.h"
 #include "itkConstantPadImageFilter.h"
 #include "itkCyclicShiftImageFilter.h"
@@ -176,7 +177,7 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
   InputRegionType inputRegion = localInput->GetLargestPossibleRegion();
   InputSizeType inputSize = inputRegion.GetSize();
 
-  typedef PadImageFilter< InputImageType, InternalImageType > InputPadFilterType;
+  typedef PadImageFilter< InputImageType, InputImageType > InputPadFilterType;
   typename InputPadFilterType::Pointer inputPadder = InputPadFilterType::New();
   inputPadder->SetBoundaryCondition( this->GetBoundaryCondition() );
   typename InputPadFilterType::SizeType inputLowerBound;
@@ -197,14 +198,27 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
   inputPadder->ReleaseDataFlagOn();
   progress->RegisterInternalFilter( inputPadder, 0.099f * progressWeight );
 
+  // We could avoid a separate cast here by setting the output type of
+  // the padder to the InternalImageType, but doing so complicates the
+  // definition of the boundary condition passed into this class and
+  // requires the InternalImageType to be exposed publicly.
+  typedef CastImageFilter< InputImageType, InternalImageType > InputCastFilterType;
+  typename InputCastFilterType::Pointer inputCaster = InputCastFilterType::New();
+  // See if we can avoid unnecessary casting and copying of memory
+  inputCaster->InPlaceOn();
+  inputCaster->SetNumberOfThreads( this->GetNumberOfThreads() );
+  inputCaster->SetInput( inputPadder->GetOutput() );
+  inputCaster->ReleaseDataFlagOn();
+  progress->RegisterInternalFilter( inputCaster, 0.1f * progressWeight );
+
   // Set up the forward and inverse FFT minipipeline.
   typedef RealToHalfHermitianForwardFFTImageFilter< InternalImageType,
                                                     InternalComplexImageType >
     FFTFilterType;
   typename FFTFilterType::Pointer imageFFTFilter = FFTFilterType::New();
   imageFFTFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
-  imageFFTFilter->SetInput( inputPadder->GetOutput() );
-  progress->RegisterInternalFilter( imageFFTFilter, 0.3f * progressWeight );
+  imageFFTFilter->SetInput( inputCaster->GetOutput() );
+  progress->RegisterInternalFilter( imageFFTFilter, 0.2f * progressWeight );
 
   preparedInput = imageFFTFilter->GetOutput();
 
