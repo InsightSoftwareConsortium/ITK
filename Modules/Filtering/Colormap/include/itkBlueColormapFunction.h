@@ -31,6 +31,7 @@ namespace Function
  * \author Nicholas Tustison, Hui Zhang, Gaetan Lehmann, Paul Yushkevich
  * and James C. Gee
  *
+ * \image html BlueColormapFunction.png "Blue colormap."
  * This code was contributed in the Insight Journal paper:
  *
  * "Meeting Andy Warhol Somewhere Over the Rainbow: RGB Colormapping and ITK"

@@ -28,6 +28,8 @@ namespace Function
  * \class OverUnderColormapFunction
  * \brief Function object which maps a scalar value into an RGB colormap value.
  *
+ * \image html OverUnderColormapFunction.png "OverUnder colormap."
+ *
  * \author Nicholas Tustison, Hui Zhang, Gaetan Lehmann, Paul Yushkevich
  * and James C. Gee
  *
