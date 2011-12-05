@@ -40,7 +40,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TRealValueType = double >
-class ITKCommon_EXPORT KernelFunctionBase:public FunctionBase< TRealValueType, TRealValueType >
+class ITK_EXPORT KernelFunctionBase:public FunctionBase< TRealValueType, TRealValueType >
 {
 public:
   /** Standard class typedefs. */
