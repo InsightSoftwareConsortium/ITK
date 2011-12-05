@@ -136,7 +136,7 @@ protected:
    * accessible at the requested spatial region. */
   virtual void ThreadedGenerateData(
     const OutputFrameSpatialRegionType& outputRegionForThread,
-    int threadId) ITK_NO_RETURN;
+    int threadId);
 
   /** The GenerateData method normally allocates the buffers for all of the
    * outputs of a filter. Some filters may want to override this default
