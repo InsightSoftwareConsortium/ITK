@@ -173,7 +173,7 @@ protected:
    * \sa GenerateData(), SplitRequestedRegion() */
   virtual
   void ThreadedGenerateData(const InputImageRegionType & inputRegionForThread,
-                            ThreadIdType threadId) ITK_NO_RETURN;
+                            ThreadIdType threadId);
 
   /** The GenerateData method normally allocates the buffers for all of the
    * outputs of a filter. Some filters may want to override this default
