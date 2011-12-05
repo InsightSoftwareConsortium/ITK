@@ -104,7 +104,7 @@ public:
    *  The point is assume to lie within the image buffer. If not, 0 is
    *  returned for the derivative without any error return.
    *
-   *  If \param index lies on a boundary in a given dimension, 0 is returned for
+   *  If \c index lies on a boundary in a given dimension, 0 is returned for
    *  that dimension.
    *
    *  ImageFunction::IsInsideBuffer() can be used to check bounds before
@@ -118,7 +118,7 @@ public:
    *  The point is assumed to lie within the image buffer. If not, 0 is
    *  returned for the derivative without any error return.
    *
-   *  If \param index lies on a boundary in a given dimension, 0 is returned for
+   *  If \c point lies on a boundary in a given dimension, 0 is returned for
    *  that dimension.
    *
    *  ImageFunction::IsInsideBuffer() can be used to check bounds before
@@ -132,7 +132,7 @@ public:
    *  The point is assume to lie within the image buffer. If not, 0 is
    *  returned for the derivative without any error return.
    *
-   *  If \param index lies on a boundary in a given dimension, 0 is returned for
+   *  If \c cindex lies on a boundary in a given dimension, 0 is returned for
    *  that dimension.
    *
    *  ImageFunction::IsInsideBuffer() can be used to check bounds before
