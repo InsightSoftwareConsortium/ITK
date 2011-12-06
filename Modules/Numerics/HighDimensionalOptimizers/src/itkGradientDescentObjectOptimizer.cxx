@@ -105,7 +105,6 @@ GradientDescentObjectOptimizer
       /* m_Gradient will be sized as needed by metric. If it's already
        * proper size, no new allocation is done. */
       this->m_Metric->GetValueAndDerivative( this->m_Value, this->m_Gradient );
-      std::cout << "Iteration " << this->GetCurrentIteration() << ": " << this->m_Value << std::endl;
       }
     catch ( ExceptionObject & err )
       {

@@ -76,7 +76,7 @@ ANTSNeighborhoodCorrelationImageToImageObjectMetricDenseGetValueAndDerivativeThr
     if ( pointIsValid )
       {
       this->m_NumberOfValidPointsPerThread[threadId]++;
-      metricValueSum += metricValueResult;
+      metricValueSum -= metricValueResult;
       /* Store the result. This depends on what type of
        * transform is being used. */
       this->StorePointDerivativeResult( scanIt.GetIndex(), threadId );
@@ -497,18 +497,6 @@ ANTSNeighborhoodCorrelationImageToImageObjectMetricDenseGetValueAndDerivativeThr
     deriv[par] = static_cast< DerivativeValueType >( floatingPointCorrection_int / floatingPointCorrectionResolution );
     }
   return;
-}
-
-template < class TImageToImageMetric, class TNeighborhoodCorrelationMetric >
-void
-ANTSNeighborhoodCorrelationImageToImageObjectMetricDenseGetValueAndDerivativeThreader< TImageToImageMetric, TNeighborhoodCorrelationMetric >
-::AfterThreadedExecution()
-{
-  Superclass::Superclass::AfterThreadedExecution();
-
-  TNeighborhoodCorrelationMetric * associate = dynamic_cast< TNeighborhoodCorrelationMetric * >( this->m_Associate );
-  // Enforce optimization to minimize the metric
-  associate->m_Value *= -1;
 }
 
 } // end namespace itk

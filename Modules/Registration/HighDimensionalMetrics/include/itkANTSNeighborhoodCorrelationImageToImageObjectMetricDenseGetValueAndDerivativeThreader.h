@@ -95,8 +95,6 @@ protected:
   virtual void ThreadedExecution( const DomainType& domain,
                                   const ThreadIdType threadId );
 
-  virtual void AfterThreadedExecution();
-
   /** Update the queues for the next point.  Calls either \c
    * UpdateQueuesAtBeginningOfLine or \c UpdateQueuesToNextScanWindow. */
   void UpdateQueues(const ScanIteratorType &scanIt,
