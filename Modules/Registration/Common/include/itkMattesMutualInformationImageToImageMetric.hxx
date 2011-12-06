@@ -47,12 +47,12 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
   m_CubicBSplineKernel(NULL),
   m_CubicBSplineDerivativeKernel(NULL),
 
-  m_PRatioArray(),
+  m_PRatioArray(0,0),
 
-  m_ThreaderMetricDerivative(),
+  m_ThreaderMetricDerivative(0),
 
   // Initialize memory
-  m_MovingImageMarginalPDF(),
+  m_MovingImageMarginalPDF(0),
   m_ThreaderFixedImageMarginalPDF(0),
 
   // For multi-threading the metric
@@ -232,6 +232,7 @@ throw ( ExceptionObject )
     {
     this->m_ThreaderJointPDFStartBin.resize( this->m_NumberOfThreads );
     this->m_ThreaderJointPDFEndBin.resize(this->m_NumberOfThreads );
+
     const int binRange = this->m_NumberOfHistogramBins / this->m_NumberOfThreads;
     for( ThreadIdType threadID = 0; threadID < this->m_NumberOfThreads; threadID++ )
       {
@@ -239,6 +240,7 @@ throw ( ExceptionObject )
       this->m_ThreaderJointPDFEndBin[threadID] = ( threadID + 1 ) * binRange - 1;
       }
     // Ensure that the last EndBin range contains the last histogram bin
+    this->m_ThreaderJointPDFStartBin[this->m_NumberOfThreads - 1] = ( this->m_NumberOfThreads - 1 ) * binRange;
     this->m_ThreaderJointPDFEndBin[this->m_NumberOfThreads - 1] = this->m_NumberOfHistogramBins - 1;
     }
 
@@ -282,13 +284,16 @@ throw ( ExceptionObject )
       }
     }
 
+  //
+  // Now allocate memory according to the user-selected method.
+  //
   if( this->m_UseExplicitPDFDerivatives )
     {
     // Deallocate the memory that may have been allocated for
     // previous runs of the metric.
     // and by allocating very small the static ones
-    this->m_PRatioArray.SetSize(0, 0);            // Not needed if this->m_UseExplicitPDFDerivatives
-    this->m_ThreaderMetricDerivative.resize(0);
+    this->m_PRatioArray.SetSize(0, 0);          // Not needed if this->m_UseExplicitPDFDerivatives
+    this->m_ThreaderMetricDerivative.resize(0); // Not needed if this->m_UseExplicitPDFDerivatives
 
       {
       JointPDFDerivativesRegionType jointPDFDerivativesRegion;
@@ -536,7 +541,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
     {
     this->m_ThreaderJointPDFSum[0] += this->m_ThreaderJointPDFSum[threadID];
     }
-  if( this->m_ThreaderJointPDFSum[0] == 0.0 )
+  if( this->m_ThreaderJointPDFSum[0] < itk::NumericTraits< PDFValueType >::epsilon() )
     {
     itkExceptionMacro("Joint PDF summed to zero\n" << this->m_ThreaderJointPDF[0] );
     }
@@ -824,7 +829,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
     {
     this->m_ThreaderJointPDFSum[0] += this->m_ThreaderJointPDFSum[threadID];
     }
-  if( this->m_ThreaderJointPDFSum[0] == 0.0 )
+  if( this->m_ThreaderJointPDFSum[0] < itk::NumericTraits< PDFValueType >::epsilon() )
     {
     itkExceptionMacro("Joint PDF summed to zero");
     }

@@ -108,7 +108,7 @@ namespace itk
  * \ingroup ITKRegistrationCommon
  */
 template <class TFixedImage, class TMovingImage>
-class ITK_EXPORT MattesMutualInformationImageToImageMetric :
+class ITK_EXPORT MattesMutualInformationImageToImageMetric:
   public ImageToImageMetric<TFixedImage, TMovingImage>
 {
 public:
@@ -291,8 +291,7 @@ private:
 
   bool GetValueAndDerivativeThreadProcessSample(ThreadIdType threadID, SizeValueType fixedImageSample,
                                                                const MovingImagePointType & mappedPoint,
-                                                               double movingImageValue, const ImageDerivativesType &
-                                                               movingImageGradientValue) const;
+                                                               double movingImageValue, const ImageDerivativesType & movingImageGradientValue) const;
 
   void GetValueAndDerivativeThreadPostProcess( ThreadIdType threadID, bool withinSampleThread) const;
 
