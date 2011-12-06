@@ -70,7 +70,7 @@ public:
   {
     ConstSliceIterator ans = *this;
 
-    ans.m_Pos = m_Slice.size();
+    ans.m_Pos = static_cast< SizeValueType >( m_Slice.size() );
     return ans;
   }
 
@@ -133,7 +133,7 @@ private:
   /** Returns the value located at position n of the slice. */
   const TPixel & Loc(SizeValueType n) const
   {
-    return ( *m_ContainerPointer )[static_cast< SizeValueType >( m_Slice.start() + n * m_Slice.stride() )];
+    return ( *m_ContainerPointer )[static_cast< SizeValueType >( m_Slice.start() + n * m_Slice.stride())];
   }
 
   /** Pointer to the container referenced by the slice iterator. */
