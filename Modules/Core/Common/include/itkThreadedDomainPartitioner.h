@@ -31,35 +31,11 @@ namespace itk
  *
  * The class is templated over the type of domain over which threading
  * is performed, e.g. an image region. And it is templated over the
- * type of the data holder. The data holder is supplied to the threading
- * callback for the user, i.e. as user data.
  *
- * SplitDomain is a method to split the domain into
+ * PartitionDomain is a method to split the domain into
  * non-overlapping pieces for threading. Must be overridden by derived
  * classes to provide the particular functionality required for
  * TDomain type.
- *
- * Call SetHolder to assign a user data object.
- *
- * Call SetDomain to assign the domain object to split into per-thread
- * regions.
- *
- * Call SetThreadedGenerateData to define the worker callback function,
- *  which is called from each thread with a unique region to process.
- * \warning This callback function must be \c static if it is a class method.
- *
- * Call GenerateData to begin threaded processing.
- *
- * \warning The actual number of threads used may be less than the
- * requested number of threads. Either because the requested number is
- * greater than the number available, or the PartitionDomain method
- * decides that fewer threads would be more efficient. After the threader
- * has run, m_NumberOfThreadsUsed holds the actual number used.
- * See \c DetermineNumberOfThreadsToUse to get the number of threads
- * before running.
- *
- * \note There is no test for this class yet. See ThreadedArrayPartitioner.
- * \todo Make test.
  *
  * \sa ThreadedImageRegionPartitioner
  *
@@ -84,13 +60,6 @@ public:
 
   /** Type of the input object that's split for threading */
   typedef TDomain                   DomainType;
-
-  /** Determine the number of threads that will be used by calling
-   * PartitionDomain once and getting the return value. This uses
-   * m_NumberOfThreads and requires that \c m_Domain has been set.
-   * The number may be less than m_NumberOfThreads if PartitionDomain
-   * determines that fewer threads would be more efficient. */
-  ThreadIdType DetermineNumberOfThreadsToUse() const;
 
   /** Split the output's RequestedObject into \c requestedTotal "pieces",
    * returning piece \c i as \c splitObject. "Pieces" may represent
