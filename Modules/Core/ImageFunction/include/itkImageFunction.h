@@ -187,19 +187,6 @@ public:
   }
 
   /** Convert point to continuous index */
-  void ConvertPointToContinousIndex(const PointType & point,
-                                    ContinuousIndexType & cindex) const
-  {
-    itkWarningMacro(
-      "Please change your code to use ConvertPointToContinuousIndex "
-      << "rather than ConvertPointToContinousIndex. The latter method name was "
-      << "mispelled and the ITK developers failed to correct it before it was "
-      << "released. The mispelled method name is retained in order to "
-      << "maintain backward compatibility.");
-    this->ConvertPointToContinuousIndex(point, cindex);
-  }
-
-  /** Convert point to continuous index */
   void ConvertPointToContinuousIndex(const PointType & point,
                                      ContinuousIndexType & cindex) const
   {
