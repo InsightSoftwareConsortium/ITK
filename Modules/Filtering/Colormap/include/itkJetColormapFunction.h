@@ -28,6 +28,8 @@ namespace Function
  * \class JetColormapFunction
  * \brief Function object which maps a scalar value into an RGB colormap value.
  *
+ * \image html JetColormapFunction.png "Jet colormap."
+ *
  * \author Nicholas Tustison, Hui Zhang, Gaetan Lehmann, Paul Yushkevich
  * and James C. Gee
  *
