@@ -104,17 +104,11 @@ protected:
   virtual ~GaussianSmoothingOnUpdateDisplacementFieldTransform();
   void PrintSelf( std::ostream& os, Indent indent ) const;
 
-  /** Track when the temporary displacement field used during smoothing
-   * was last modified/initialized. We only want to change it if the
-   * main displacement field is also changed, i.e. assigned to a new object */
-  unsigned long                       m_GaussianSmoothingTempFieldModifiedTime;
-
   /** Used in GaussianSmoothDisplacementField as variance for the
    * GaussianOperator */
   ScalarType                        m_GaussianSmoothingVarianceForTheUpdateField;
   ScalarType                        m_GaussianSmoothingVarianceForTheTotalField;
 
-  typename DisplacementFieldType::Pointer    m_GaussianSmoothingTempField;
   /** Type of Gaussian Operator used during smoothing. Define here
    * so we can use a member var during the operation. */
   typedef GaussianOperator<ScalarType, Superclass::Dimension>
@@ -123,7 +117,6 @@ protected:
                                                  DisplacementFieldType >
                                                   GaussianSmoothingSmootherType;
   GaussianSmoothingOperatorType                    m_GaussianSmoothingOperator;
-  typename GaussianSmoothingSmootherType::Pointer  m_GaussianSmoothingSmoother;
 
 private:
   GaussianSmoothingOnUpdateDisplacementFieldTransform( const Self& ); //purposely not implemented
