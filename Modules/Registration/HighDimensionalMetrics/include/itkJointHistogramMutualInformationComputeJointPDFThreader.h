@@ -26,7 +26,7 @@ namespace itk
 {
 
 /** \class JointHistogramMutualInformationComputeJointPDFThreader
- * \briefe Provide a threaded computation of the joint PDF for
+ * \brief Provide a threaded computation of the joint PDF for
  * JointHistogramMutualInformationImageToImageObjectMetric.
  *
  * \tparam TDomainPartitioner    Type of the Domain,

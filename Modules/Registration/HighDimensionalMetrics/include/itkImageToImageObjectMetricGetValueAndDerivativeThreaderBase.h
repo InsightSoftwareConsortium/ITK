@@ -127,7 +127,7 @@ protected:
    *  These three parameters hold the point, pixel value and image gradient for
    *  the moving image space, as described above for the fixed image space.
    * Results must be returned by derived classes in:
-   *   \param metricValueReturn, and
+   *   \param metricValueReturn
    *   \param localDerivativeReturn
    * \param threadID may be used as needed, for example to access any per-thread
    * data cached during pre-processing by the derived class.
