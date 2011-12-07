@@ -122,12 +122,14 @@ int itkJointHistogramMutualInformationImageToImageObjectMetricTest( int , char *
     }
 
   // Evaluate
-  MetricType::MeasureType valueReturn;
+  MetricType::MeasureType valueReturn1, valueReturn2;
   MetricType::DerivativeType derivativeReturn;
   try
     {
+    std::cout << "Calling GetValue..." << std::endl;
+    valueReturn1 = metric->GetValue();
     std::cout << "Calling GetValueAndDerivative..." << std::endl;
-    metric->GetValueAndDerivative( valueReturn, derivativeReturn );
+    metric->GetValueAndDerivative( valueReturn2, derivativeReturn );
     }
   catch( itk::ExceptionObject & exc )
     {
@@ -135,6 +137,13 @@ int itkJointHistogramMutualInformationImageToImageObjectMetricTest( int , char *
               << exc;
     return EXIT_FAILURE;
     }
+
+  if( valueReturn1 != valueReturn2 )
+    {
+    std::cerr << "Value return results are not identical: " << valueReturn1
+              << ", " << valueReturn2 << std::endl;
+    }
+
   std::cout << "Test passed." << std::endl;
 
   //exercise methods

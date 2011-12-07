@@ -156,8 +156,7 @@ public:
   /** Initialize the metric. Make sure all essential inputs are plugged in. */
   virtual void Initialize() throw (itk::ExceptionObject);
 
-  /** Get the value */
-  MeasureType GetValue() const;
+  virtual MeasureType GetValue() const;
 
 protected:
   JointHistogramMutualInformationImageToImageObjectMetric();
@@ -167,6 +166,9 @@ protected:
    *  Results are returned in \c value and \c derivative.
    */
   virtual void InitializeForIteration() const;
+
+  /** Compute the metric value. For internal use. */
+  MeasureType ComputeValue() const;
 
   /** Compute the point location with the JointPDF image.  Returns false if the
    * point is not inside the image. */

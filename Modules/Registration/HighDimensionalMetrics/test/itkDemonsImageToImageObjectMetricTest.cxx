@@ -119,20 +119,52 @@ int itkDemonsImageToImageObjectMetricTest(int, char ** const)
     return EXIT_FAILURE;
     }
 
-  // Evaluate
-  MetricType::MeasureType valueReturn;
+  // Evaluate with GetValueAndDerivative
+  MetricType::MeasureType valueReturn1, valueReturn2;
   MetricType::DerivativeType derivativeReturn;
 
   try
     {
     std::cout << "Calling GetValueAndDerivative..." << std::endl;
-    metric->GetValueAndDerivative( valueReturn, derivativeReturn );
+    metric->GetValueAndDerivative( valueReturn1, derivativeReturn );
     }
   catch( itk::ExceptionObject & exc )
     {
     std::cout << "Caught unexpected exception during GetValueAndDerivative: "
               << exc;
     return EXIT_FAILURE;
+    }
+
+  /* Re-initialize. */
+  try
+    {
+    std::cout << "Calling Initialize..." << std::endl;
+    metric->Initialize();
+    }
+  catch( itk::ExceptionObject & exc )
+    {
+    std::cerr << "Caught unexpected exception during re-initialize: " << exc << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  try
+    {
+    std::cout << "Calling GetValue..." << std::endl;
+    valueReturn2 = metric->GetValue();
+    }
+  catch( itk::ExceptionObject & exc )
+    {
+    std::cout << "Caught unexpected exception during GetValue: "
+              << exc;
+    return EXIT_FAILURE;
+    }
+
+  // Test same value returned by different methods
+  std::cout << "Check Value return values..." << std::endl;
+  if( valueReturn1 != valueReturn2 )
+    {
+    std::cerr << "Results for Value don't match: " << valueReturn1
+              << ", " << valueReturn2 << std::endl;
     }
 
   std::cout << "Test passed." << std::endl;

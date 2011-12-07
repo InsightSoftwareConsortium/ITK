@@ -38,9 +38,10 @@ namespace itk
  * Computes similarity between regions of two images, using two
  * user-supplied transforms, a 'fixed' transform and a 'moving' transform.
  *
- * \note Currently support for using only \c GetValueAndDerivative is
- * implemented. \c GetValue will follow after final implementation details
- * are worked out.
+ * \note Currently GetValue is implemented in this base simply by calling
+ * GetValueAndDerivative and discarding the derivative. This is inefficient
+ * but sufficient to match API requirements. Derived classes may
+ * override and implement differently.
  *
  * Templated over the fixed and moving image types, as well as an optional
  * VirtualImage type to define the virtual domain. The VirtualImage type
@@ -66,13 +67,14 @@ namespace itk
  * separately to a non-VectorImage type, e.g. Image<unsigned char, dim>.
  *
  * Both transforms are initialized to an IdentityTransform, and can be
- * set by the user using \c SetFixedTranform and \c SetMovingTransform.
+ * set by the user using SetFixedTranform and SetMovingTransform.
  *
  * At a minimum, the user must:
- *  1) Set images using \c SetFixedImage and \c SetMovingImage.
- *  2) Call \c Initialize.
+ *  1) Set images using SetFixedImage and SetMovingImage.
+ *  2) Call Initialize.
  *
  * Pre-warping
+ *
  * The \c SetDoFixedImagePreWarp and \c SetDoMovingImagePreWarp options can be set
  * for better speed. When set, these create a warped version for each image at
  * the beginning of each iteration, warping each image into the virtual domain.
@@ -84,6 +86,7 @@ namespace itk
  * By default, pre-warping is enabled for both fixed and moving images.
  *
  * Image gradient calculations
+ *
  * Image gradients can be calculated in one of two ways:
  * 1) Using a gradient image filter, by setting
  *  \c Use[Fixed|Moving]ImageGradientFilter to true. By default this is set
@@ -108,10 +111,12 @@ namespace itk
  * the fixed and moving images because the methods return different results.
  *
  * Image Masks
+ *
  * Image masks are supported using SetMovingImageMask or SetFixedImageMask.
  * If the image mask is sparse, see the comments for use of sparse point sets.
  *
  * Sparse Sampling
+ *
  * Sparse sampling is performed by supplying an arbitrary point list over
  * which to evaluate the
  * metric. It's presumed that the user will be working in terms of the fixed
@@ -131,23 +136,49 @@ namespace itk
  * image and use a gradient image filter for it because they will only be
  * calculated once.
  *
- * This class is threaded.
+ * Threading
+ *
+ * This class is threaded. Threading is handled by friend classes
+ * ImageToImageObjectMetricGetValueAndDerivativeThreaderBase and
+ * ImageToImageObjectMetricGetValueAndDerivativeThreader. Dense and sparse
+ * evaluation are handled by template specialization of the
+ * ImageToImageObjectMetricGetValueAndDerivativeThreader::ThreadedExecution
+ * method, in order to iterate over either all points in the virutal space in
+ * the case of dense evaluation, or a list of points in the sparse case.
+ *
+ * Methods and members of ImageToImageObjectMetric are accessed by
+ * the threading class using its m_Associate member, which points
+ * to the containing instance of ImageToImageObjectMetric.
+ *
+ * Pre- and post-processing for threaded operation is handled in
+ *  ImageToImageObjectMetricGetValueAndDerivativeThreaderBase::BeforeThreadedExecution, and
+ * ImageToImageObjectMetricGetValueAndDerivativeThreaderBase::AfterThreadedExecution,
+ * respectively.
  *
  * Derived classes:
  *
- *  \c GetValueAndDerivativeThreader::ProcessPoint must be overridden by derived
- *  classes.
+ *  The GetValue method may be overridden to provide better-optimized or
+ *  otherwise different behavior as needed.
  *
- *  A DenseGetValueAndDerivativeThreader and SparseGetValueAndDerivativeThreader
- *  must be defined.  then
- *    this->m_DenseGetValueAndDerivativeThreader   = DenseGetValueAndDerivativeThreader::New();
- *    this->m_SparseGetValueAndDerivativeThreader  = SparseGetValueAndDerivativeThreader::New();
+ *  Derived classes must derive a threader class from
+ *  ImageToImageObjectMetricGetValueAndDerivativeThreader, from which
+ *  a DenseGetValueAndDerivativeThreader and SparseGetValueAndDerivativeThreader
+ *  must be defined. Then,
+ *  \code
+ *    this->m_DenseGetValueAndDerivativeThreader   = DenseDerivedClassGetValueAndDerivativeThreader::New();
+ *    this->m_SparseGetValueAndDerivativeThreader  = SparseDerivedClassGetValueAndDerivativeThreader::New();
+ *  \endcode
  *  must be called in the constructor.
  *
+ *  The ProcessPoint method of the derived threader must be overriden to
+ *  provide the metric-specific evaluation.
+ *
+ *  To access methods and members within the derived metric class from the
+ *  derived threader class, the user must cast m_Associate to the type of the
+ *  derived metric class.
+ *
  *  See \c ImageToImageObjectMetricTest for a clear example of what a
- *  derived class must implement and do. Pre- and Post-processing are
- *  handled by the derived class in its \c GetValueAndDerivative method, as
- *  described in \c ImageToImageObjectMetricTest.
+ *  derived class must implement and do.
  *
  * \ingroup ITKHighDimensionalMetrics
  */
@@ -583,7 +614,11 @@ public:
    * local parameters. */
   OffsetValueType ComputeParameterOffsetFromVirtualDomainIndex( const VirtualIndexType & index, const NumberOfParametersType numberOfLocalParameters ) const;
 
-  /** Get both the value for the metric and its derivative.
+  /** Calculate and return the value for the metric based on the current
+   * transformation(s). */
+  virtual MeasureType GetValue() const;
+
+  /** Calculate and return both the value for the metric and its derivative.
    * This calls the SparseGetValueAndDerivativeThreader if \c UsedFixedSampledPointSet
    * is true, and DenseGetValueAndDerivativeThreader otherwise.  The threaders
    * in turn call \c ProcessPoint on each point in the
@@ -777,6 +812,10 @@ private:
    * See main class documentation for important considerations. */
   void DoFixedImagePreWarp( void ) const;
   void DoMovingImagePreWarp( void ) const;
+
+  /** Flag for warning about use of GetValue. Will be removed when
+   *  GetValue implementation is improved. */
+  mutable bool m_HaveMadeGetValueWarning;
 
   ImageToImageObjectMetric(const Self &); //purposely not implemented
   void operator=(const Self &); //purposely not implemented

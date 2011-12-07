@@ -251,8 +251,7 @@ ImageToImageObjectMetricGetValueAndDerivativeThreaderBase< TDomainPartitioner, T
     try
       {
       OffsetValueType offset =
-        this->m_Associate->m_VirtualDomainImage->ComputeOffset(virtualIndex);
-      offset *= this->m_Associate->m_MovingTransform->GetNumberOfLocalParameters();
+        this->m_Associate->ComputeParameterOffsetFromVirtualDomainIndex( virtualIndex, this->m_Associate->m_MovingTransform->GetNumberOfLocalParameters() );
       for (NumberOfParametersType i=0;
             i < this->m_Associate->m_MovingTransform->GetNumberOfLocalParameters(); i++)
         {

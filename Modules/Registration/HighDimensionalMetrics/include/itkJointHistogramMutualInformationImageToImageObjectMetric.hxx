@@ -294,6 +294,18 @@ typename JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage,TMo
 JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage,TMovingImage,TVirtualImage>
 ::GetValue() const
 {
+  DerivativeType dummyDeriviative;
+  this->m_DerivativeResult = &dummyDeriviative;
+  this->InitializeForIteration();
+  this->m_Value = this->ComputeValue();
+  return this->m_Value;
+}
+
+template <class TFixedImage, class TMovingImage, class TVirtualImage>
+typename JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage,TMovingImage,TVirtualImage>::MeasureType
+JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage,TMovingImage,TVirtualImage>
+::ComputeValue() const
+{
   /**
   1- The padding is 2 in this implementation.
   2- The MI energy is bounded in the range of [0  min(H(x),H(y))].

@@ -45,14 +45,6 @@ ANTSNeighborhoodCorrelationImageToImageObjectMetric<TFixedImage, TMovingImage, T
 }
 
 template<class TFixedImage, class TMovingImage, class TVirtualImage>
-typename ANTSNeighborhoodCorrelationImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>::MeasureType
-ANTSNeighborhoodCorrelationImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
-::GetValue() const
-{
-  itkExceptionMacro("GetValue not yet implemented.");
-}
-
-template<class TFixedImage, class TMovingImage, class TVirtualImage>
 void
 ANTSNeighborhoodCorrelationImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
 ::InitializeScanning( const ImageRegionType &scanRegion, ScanIteratorType &scanIt,

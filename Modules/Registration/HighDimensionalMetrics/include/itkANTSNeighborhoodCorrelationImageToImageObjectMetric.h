@@ -157,9 +157,6 @@ public:
   itkStaticConstMacro(VirtualImageDimension, ImageDimensionType,
         ::itk::GetImageDimension<VirtualImageType>::ImageDimension);
 
-  /** Evaluate and return the metric value */
-  virtual MeasureType GetValue() const;
-
   // Set the radius of the neighborhood window centered at each pixel
   itkSetMacro(Radius, RadiusType);
 

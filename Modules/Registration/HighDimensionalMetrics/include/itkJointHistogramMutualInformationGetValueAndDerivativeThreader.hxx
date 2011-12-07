@@ -66,7 +66,7 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner
   TJointHistogramMetric * associate = dynamic_cast< TJointHistogramMetric * >( this->m_Associate );
   // The Superclass does not generate a valid m_Value.  We have to calculate it
   // here.
-  associate->m_Value = associate->GetValue();
+  associate->m_Value = associate->ComputeValue();
 }
 
 template< class TDomainPartitioner, class TImageToImageMetric, class TJointHistogramMetric >
