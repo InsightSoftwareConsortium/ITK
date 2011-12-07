@@ -61,7 +61,6 @@ public:
   typedef typename FrameType::SpacingType   SpacingType;
   typedef typename FrameType::SizeType      SizeType;
   typedef typename FrameType::DirectionType DirectionType;
-  typedef Superclass::SizeValueType         SizeValueType;
 
   /** Types used to store map between frame numbers and frame meta data */
   typedef typename std::map<SizeValueType, SpatialRegionType> SpatialRegionMapType;
