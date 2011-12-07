@@ -1,10 +1,10 @@
-WRAP_CLASS("itk::Statistics::ImageToHistogramFilter" POINTER)
-  WRAP_IMAGE_FILTER_ALL_TYPES(1)
+itk_wrap_class("itk::Statistics::ImageToHistogramFilter" POINTER)
+  itk_wrap_image_filter("${WRAP_ITK_ALL_TYPES}" 1)
 
   # VectorImage types
-  foreach(d ${WRAP_ITK_DIMS})
+  foreach(d ${ITK_WRAP_DIMS})
     foreach(t ${WRAP_ITK_SCALAR})
-      WRAP_TEMPLATE("${ITKM_VI${t}${d}}" "${ITKT_VI${t}${d}}")
+      itk_wrap_template("${ITKM_VI${t}${d}}" "${ITKT_VI${t}${d}}")
     endforeach(t)
   endforeach(d)
-END_WRAP_CLASS()
+itk_end_wrap_class()

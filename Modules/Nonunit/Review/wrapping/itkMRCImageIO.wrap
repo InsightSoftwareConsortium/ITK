@@ -1,2 +1,2 @@
-WRAP_NON_TEMPLATE_CLASS("itk::MRCImageIO" POINTER)
-WRAP_NON_TEMPLATE_CLASS("itk::MRCImageIOFactory" POINTER)
+itk_wrap_simple_class("itk::MRCImageIO" POINTER)
+itk_wrap_simple_class("itk::MRCImageIOFactory" POINTER)

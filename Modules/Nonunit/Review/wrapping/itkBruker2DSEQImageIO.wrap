@@ -1,2 +1,2 @@
-WRAP_NON_TEMPLATE_CLASS("itk::Bruker2DSEQImageIO" POINTER)
-WRAP_NON_TEMPLATE_CLASS("itk::Bruker2DSEQImageIOFactory" POINTER)
+itk_wrap_simple_class("itk::Bruker2DSEQImageIO" POINTER)
+itk_wrap_simple_class("itk::Bruker2DSEQImageIOFactory" POINTER)

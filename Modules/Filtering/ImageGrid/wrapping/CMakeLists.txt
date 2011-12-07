@@ -1,7 +1,7 @@
-WRAP_LIBRARY(ITKImageGrid)
+itk_wrap_module(ITKImageGrid)
 
 set(WRAPPER_LIBRARY_GROUPS
   itkPadImageFilter
 )
-AUTO_INCLUDE_MODULES()
-END_WRAP_LIBRARY()
+itk_auto_load_submodules()
+itk_end_wrap_module()

@@ -4,6 +4,6 @@
 # and so we can't use POINTER_WITH_SUPERCLASS to wrap
 # VoronoiSegmentationImageFilterBase
 
-WRAP_CLASS("itk::VoronoiSegmentationImageFilter" POINTER_WITH_SUPERCLASS)
-  WRAP_IMAGE_FILTER_USIGN_INT(3 2)
-END_WRAP_CLASS()
+itk_wrap_class("itk::VoronoiSegmentationImageFilter" POINTER_WITH_SUPERCLASS)
+  itk_wrap_image_filter("${WRAP_ITK_USIGN_INT}" 3 2)
+itk_end_wrap_class()

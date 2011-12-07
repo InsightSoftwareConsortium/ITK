@@ -1,12 +1,12 @@
-WRAP_NON_TEMPLATE_CLASS("itk::VTKImageExportBase" POINTER)
+itk_wrap_simple_class("itk::VTKImageExportBase" POINTER)
 
-WRAP_CLASS("itk::VTKImageExport" POINTER)
+itk_wrap_class("itk::VTKImageExport" POINTER)
   UNIQUE(types "${WRAP_ITK_SCALAR};UC;UL")
-  FILTER_DIMS(dims "2;3")
+  itk_wrap_filter_dims(dims "2;3")
 
   foreach(t ${types})
     foreach(d ${dims})
-      WRAP_TEMPLATE("${ITKM_I${t}${d}}" "${ITKT_I${t}${d}}")
+      itk_wrap_template("${ITKM_I${t}${d}}" "${ITKT_I${t}${d}}")
     endforeach(d)
   endforeach(t)
-END_WRAP_CLASS()
+itk_end_wrap_class()

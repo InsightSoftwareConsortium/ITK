@@ -1,2 +1,2 @@
-WRAP_NON_TEMPLATE_CLASS("itk::GE5ImageIO" POINTER)
-WRAP_NON_TEMPLATE_CLASS("itk::GE5ImageIOFactory" POINTER)
+itk_wrap_simple_class("itk::GE5ImageIO" POINTER)
+itk_wrap_simple_class("itk::GE5ImageIOFactory" POINTER)

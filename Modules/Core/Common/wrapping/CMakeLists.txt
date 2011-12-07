@@ -1,4 +1,4 @@
-WRAP_LIBRARY(ITKCommon)
+itk_wrap_module(ITKCommon)
 
 set(WRAPPER_LIBRARY_GROUPS
   vcl_complex
@@ -40,6 +40,6 @@ set(WRAPPER_LIBRARY_GROUPS
 #  itkVertexCell
 #  itkLineCell
 )
-AUTO_INCLUDE_MODULES()
+itk_auto_load_submodules()
 
-END_WRAP_LIBRARY()
+itk_end_wrap_module()

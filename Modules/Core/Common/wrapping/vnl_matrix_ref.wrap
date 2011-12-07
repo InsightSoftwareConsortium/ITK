@@ -1,9 +1,9 @@
 # auto include feature must be disable because the class is not in the file
 # with the same name
 set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
-WRAP_INCLUDE("vnl/vnl_matrix_ref.h")
+itk_wrap_include("vnl/vnl_matrix_ref.h")
 
-WRAP_CLASS("vnl_matrix_ref" EXPLICIT_SPECIALIZATION)
-  WRAP_TEMPLATE("${ITKM_D}" "${ITKT_D}")
-  WRAP_TEMPLATE("${ITKM_F}" "${ITKT_F}")
-END_WRAP_CLASS()
+itk_wrap_class("vnl_matrix_ref" EXPLICIT_SPECIALIZATION)
+  itk_wrap_template("${ITKM_D}" "${ITKT_D}")
+  itk_wrap_template("${ITKM_F}" "${ITKT_F}")
+itk_end_wrap_class()

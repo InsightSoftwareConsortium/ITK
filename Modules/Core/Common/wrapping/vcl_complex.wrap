@@ -1,7 +1,7 @@
-WRAP_CLASS("vcl_complex" EXPLICIT_SPECIALIZATION)
+itk_wrap_class("vcl_complex" EXPLICIT_SPECIALIZATION)
 
   foreach(t F D LD)
-    WRAP_TEMPLATE("${ITKM_${t}}" "${ITKT_${t}}")
+    itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
   endforeach(t)
 
-END_WRAP_CLASS()
+itk_end_wrap_class()

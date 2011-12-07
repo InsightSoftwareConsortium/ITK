@@ -1,5 +1,0 @@
-WRAP_CLASS("itk::MatrixOffsetTransformBase" POINTER)
-  foreach(d ${EXPLICIT_ITK_DIMS})
-    WRAP_TEMPLATE("${ITKM_D}${d}${d}" "${ITKT_D},${d},${d}")
-  endforeach(d)
-END_WRAP_CLASS()

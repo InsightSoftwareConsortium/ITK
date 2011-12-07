@@ -1,1 +1,1 @@
-WRAP_NON_TEMPLATE_CLASS("itk::ObjectToObjectMetric" POINTER)
+itk_wrap_simple_class("itk::ObjectToObjectMetric" POINTER)

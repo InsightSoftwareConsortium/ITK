@@ -21,7 +21,7 @@ set(itk_Wrap
    "${ITKM_IVF22}${ITKM_IVF22} # ${ITKT_IVF22},${ITKT_IVF22}"
    "${ITKM_IVF33}${ITKM_IVF33} # ${ITKT_IVF33},${ITKT_IVF33}"
 )
-WRITE_WRAP_CLASS_POINTER(${itk_File} ${itk_Class} "${itk_Wrap}")
+WRITE_itk_wrap_class_POINTER(${itk_File} ${itk_Class} "${itk_Wrap}")
 
 #------------------------------------------------------------------------------
 # Write file footer

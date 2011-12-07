@@ -1,0 +1,17 @@
+import org.itk.itkioimagebase.*;
+
+// This example illustrates how C++ classes can be used from Java using SWIG.
+// The Java class gets mapped onto the C++ class and behaves as if it is a Java class.
+
+public class simplePipeline@ITK_WRAP_JAVA_TEST_PIXEL_TYPE@@ITK_WRAP_JAVA_TEST_IMAGE_DIMENSION@ {
+  public static void main(String argv[])
+  {
+    itkImageFileReaderI@ITK_WRAP_JAVA_TEST_PIXEL_TYPE@@ITK_WRAP_JAVA_TEST_IMAGE_DIMENSION@ reader = new itkImageFileReaderI@ITK_WRAP_JAVA_TEST_PIXEL_TYPE@@ITK_WRAP_JAVA_TEST_IMAGE_DIMENSION@();
+    reader.SetFileName(argv[0]);
+
+    itkImageFileWriterI@ITK_WRAP_JAVA_TEST_PIXEL_TYPE@@ITK_WRAP_JAVA_TEST_IMAGE_DIMENSION@ writer = new itkImageFileWriterI@ITK_WRAP_JAVA_TEST_PIXEL_TYPE@@ITK_WRAP_JAVA_TEST_IMAGE_DIMENSION@();
+    writer.SetInput(reader.GetOutput());
+    writer.SetFileName(argv[1]);
+    writer.Update();
+  }
+}

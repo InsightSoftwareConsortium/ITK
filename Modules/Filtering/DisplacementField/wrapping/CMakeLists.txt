@@ -1,3 +1,3 @@
-WRAP_LIBRARY(ITKDisplacementField)
-AUTO_INCLUDE_MODULES()
-END_WRAP_LIBRARY()
+itk_wrap_module(ITKDisplacementField)
+itk_auto_load_submodules()
+itk_end_wrap_module()

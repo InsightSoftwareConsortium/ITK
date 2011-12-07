@@ -1,0 +1,14 @@
+# Insight Toolkit (ITK) Tcl package configuration.
+
+package provide InsightToolkit @ITK_VERSION_MAJOR@.@ITK_VERSION_MINOR@.@ITK_VERSION_PATCH@
+
+set modules [split "@WRAP_ITK_MODULES@" ";"]
+
+set libPrefix "@WRAP_ITK_LIBNAME_PREFIX@"
+set libPath "@ITK_WRAP_TCL_PACKAGE_DIR@"
+set libSuffix "Tcl[info sharedlibextension]"
+
+foreach module $modules {
+  set libFile [file join $libPath "$libPrefix$module$libSuffix"]
+  load "$libFile"
+}

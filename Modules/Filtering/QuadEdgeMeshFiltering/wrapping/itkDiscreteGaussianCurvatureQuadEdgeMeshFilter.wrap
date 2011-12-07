@@ -1,7 +1,7 @@
-WRAP_INCLUDE("itkQuadEdgeMesh.h")
+itk_wrap_include("itkQuadEdgeMesh.h")
 
-WRAP_CLASS("itk::DiscreteGaussianCurvatureQuadEdgeMeshFilter" POINTER)
-  foreach(d ${WRAP_ITK_DIMS})
-    WRAP_TEMPLATE("QEM${ITKM_D}${d}" "itk::QuadEdgeMesh< ${ITKT_D},${d} >")
+itk_wrap_class("itk::DiscreteGaussianCurvatureQuadEdgeMeshFilter" POINTER)
+  foreach(d ${ITK_WRAP_DIMS})
+    itk_wrap_template("QEM${ITKM_D}${d}" "itk::QuadEdgeMesh< ${ITKT_D},${d} >")
   endforeach(d)
-END_WRAP_CLASS()
+itk_end_wrap_class()

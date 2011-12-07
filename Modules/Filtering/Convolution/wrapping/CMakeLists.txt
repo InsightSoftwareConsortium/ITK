@@ -1,6 +1,6 @@
-WRAP_LIBRARY(ITKConvolution)
+itk_wrap_module(ITKConvolution)
 set(WRAPPER_LIBRARY_GROUPS
   itkConvolutionImageFilterBase
 )
-AUTO_INCLUDE_MODULES()
-END_WRAP_LIBRARY()
+itk_auto_load_submodules()
+itk_end_wrap_module()

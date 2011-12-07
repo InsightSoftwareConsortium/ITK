@@ -1,2 +1,2 @@
-WRAP_NON_TEMPLATE_CLASS("itk::PNGImageIO" POINTER)
-WRAP_NON_TEMPLATE_CLASS("itk::PNGImageIOFactory" POINTER)
+itk_wrap_simple_class("itk::PNGImageIO" POINTER)
+itk_wrap_simple_class("itk::PNGImageIOFactory" POINTER)

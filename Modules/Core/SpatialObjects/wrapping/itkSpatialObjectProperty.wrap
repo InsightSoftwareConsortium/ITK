@@ -1,3 +1,3 @@
-WRAP_CLASS("itk::SpatialObjectProperty" POINTER)
-  WRAP_TEMPLATE("${ITKM_F}" "${ITKT_F}")
-END_WRAP_CLASS()
+itk_wrap_class("itk::SpatialObjectProperty" POINTER)
+  itk_wrap_template("${ITKM_F}" "${ITKT_F}")
+itk_end_wrap_class()

@@ -1,0 +1,7 @@
+%{
+@ITK_WRAP_TCL_LIBRARY_DECLS@
+%}
+
+%init %{
+@ITK_WRAP_TCL_LIBRARY_CALLS@
+%}

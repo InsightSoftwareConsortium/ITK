@@ -1,0 +1,178 @@
+## 0:only return value
+## 1:minimal output
+## 2:full output
+set DEBUG 2
+
+
+####################
+##swig and tcl directories
+##
+####################
+set SWIG_DIR "@CONFIG_ITK_WRAP_TCL_SWIG_DIR@"
+set TCL_DIR "@CONFIG_ITK_WRAP_TCL_DIR@"
+
+
+####################
+##Define executables
+##-Currently this is a full path.
+##-Careful with win platforms to get this right
+####################
+
+####################
+##Could eventually be replaced with cmake variables??
+####################
+set TCL_EXEC "@CONFIG_WRAP_ITK_ITKWISH_DIR@/itkwish"
+set IMG_COMPARE_EXEC "@IMAGE_COMPARE@"
+
+####################
+##This assumes full paths - could be rewritten if needed.
+####################
+if {![file exists $TCL_EXEC]} {
+        if {$DEBUG} {
+                puts "Tcl Exec -- $TCL_EXEC -- is not valid"
+        }
+        exit 1
+}
+
+if {![file exists $IMG_COMPARE_EXEC]} {
+        if {$DEBUG} {
+                puts "Image Comapre Exec -- $IMG_COMPARE_EXEC -- is not valid"
+        }
+        exit 1
+}
+
+
+####################
+##Setup paths
+##
+####################
+
+switch -glob $tcl_platform(os) {
+        Darwin* {
+                if {[info exists env(DYLD_LIBRARY_PATH)]} {
+                        set env(DYLD_LIBRARY_PATH) "$SWIG_DIR:$env(DYLD_LIBRARY_PATH)"
+                } else {
+                        set env(DYLD_LIBRARY_PATH) "$SWIG_DIR"
+                }
+        }
+        Win* {
+                if {[info exists env(PATH)]} {
+                        set env(PATH) "$SWIG_DIR;$env(PATH)"
+                } else {
+                        set env(PATH) "$SWIG_DIR"
+                }
+        }
+        default {
+                if {[info exists env(LD_LIBRARY_PATH)]} {
+                        set env(LD_LIBRARY_PATH) "$SWIG_DIR:$env(LD_LIBRARY_PATH)"
+                } else {
+                        set env(LD_LIBRARY_PATH) "$SWIG_DIR"
+                }
+        }
+}
+
+
+if {[info exists env(TCLLIBPATH)]} {
+        set env(TCLLIBPATH) "$TCL_DIR $env(TCLLIBPATH)"
+} else {
+        set env(TCLLIBPATH) "$TCL_DIR"
+}
+
+
+
+
+##Skip -- if it exists
+if {[lindex $argv 0] == "--"} {
+        set argv [lrange $argv 1 end]
+        incr argc -1
+}
+
+##Find all of the comparisons and store them
+set compareList {}
+set argList {}
+for {set i 0} {$i < $argc} {incr i} {
+
+        if {[lindex $argv $i] == "--compare"} {
+                if {[expr $i+2] >= $argc} {
+                        if {$DEBUG} {
+                                puts "Syntax error: Consider rewriting"
+                        }
+                        exit 1
+                }
+                incr i
+                set inputImage [lindex $argv $i]
+                incr i
+                set outputImage [lindex $argv $i]
+                lappend compareList [list $inputImage $outputImage]
+        } else {
+                lappend argList [lindex $argv $i]
+        }
+}
+
+if {[llength $argList] < 1} {
+        if {$DEBUG} {
+                puts "You must give a command to run"
+        }
+        exit 1
+}
+
+
+if {![file exists [lindex $argList 0]]} {
+        if {$DEBUG} {
+                puts "Tcl script -- [lindex $argList 0] -- is not valid"
+        }
+        exit 1
+}
+
+if {$DEBUG} {
+        puts -nonewline "Running test...."
+}
+if {[catch {eval "exec $TCL_EXEC [lindex $argList " "]"} err]} {
+        if {$DEBUG} {
+                puts "Failed with Error:"
+        }
+        if {$DEBUG > 1} {
+                puts "=================="
+                puts $err
+                puts "=================="
+        }
+        exit 1
+} else {
+        if {$DEBUG} {
+                puts "Succesful with Result:"
+        }
+        if {$DEBUG > 1} {
+                puts "=================="
+                puts $err
+                puts "=================="
+        }
+}
+
+
+foreach compare $compareList {
+        if {$DEBUG} {
+                puts -nonewline "Running comparisons..."
+        }
+        if {[catch {eval "exec $IMG_COMPARE_EXEC [join $compare " "]"} err]} {
+                if {$DEBUG} {
+                        puts "Failed with Error:"
+                }
+        if {$DEBUG > 1} {
+                puts "=================="
+                puts $err
+                puts "=================="
+        }
+                exit 1
+        } else {
+                if {$DEBUG} {
+                        puts "Succesful with Result:"
+                }
+                if {$DEBUG > 1} {
+                        puts "=================="
+                        puts $err
+                        puts "=================="
+                }
+        }
+}
+
+exit 0

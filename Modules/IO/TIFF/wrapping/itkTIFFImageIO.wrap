@@ -1,2 +1,2 @@
-WRAP_NON_TEMPLATE_CLASS("itk::TIFFImageIO" POINTER)
-WRAP_NON_TEMPLATE_CLASS("itk::TIFFImageIOFactory" POINTER)
+itk_wrap_simple_class("itk::TIFFImageIO" POINTER)
+itk_wrap_simple_class("itk::TIFFImageIOFactory" POINTER)

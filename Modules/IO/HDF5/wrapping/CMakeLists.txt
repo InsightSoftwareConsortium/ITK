@@ -1,3 +1,3 @@
-WRAP_LIBRARY(ITKIOHDF5)
-AUTO_INCLUDE_MODULES()
-END_WRAP_LIBRARY()
+itk_wrap_module(ITKIOHDF5)
+itk_auto_load_submodules()
+itk_end_wrap_module()

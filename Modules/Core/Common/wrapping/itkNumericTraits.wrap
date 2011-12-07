@@ -1,37 +1,37 @@
 
 set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
-WRAP_INCLUDE("itkNumericTraits.h")
-WRAP_INCLUDE("itkNumericTraitsRGBPixel.h")
-WRAP_INCLUDE("itkNumericTraitsRGBAPixel.h")
-WRAP_INCLUDE("itkNumericTraitsTensorPixel.h")
-WRAP_INCLUDE("itkNumericTraitsVariableLengthVectorPixel.h")
-WRAP_INCLUDE("itkNumericTraitsFixedArrayPixel.h")
-WRAP_INCLUDE("itkNumericTraitsVectorPixel.h")
-WRAP_INCLUDE("itkNumericTraitsCovariantVectorPixel.h")
+itk_wrap_include("itkNumericTraits.h")
+itk_wrap_include("itkNumericTraitsRGBPixel.h")
+itk_wrap_include("itkNumericTraitsRGBAPixel.h")
+itk_wrap_include("itkNumericTraitsTensorPixel.h")
+itk_wrap_include("itkNumericTraitsVariableLengthVectorPixel.h")
+itk_wrap_include("itkNumericTraitsFixedArrayPixel.h")
+itk_wrap_include("itkNumericTraitsVectorPixel.h")
+itk_wrap_include("itkNumericTraitsCovariantVectorPixel.h")
 
 if(WIN32)
-  WRAP_NON_TEMPLATE_CLASS("std::_Num_base")
-  WRAP_NON_TEMPLATE_CLASS("std::_Num_int_base")
-  WRAP_NON_TEMPLATE_CLASS("std::_Num_float_base")
+  itk_wrap_simple_class("std::_Num_base")
+  itk_wrap_simple_class("std::_Num_int_base")
+  itk_wrap_simple_class("std::_Num_float_base")
 endif(WIN32)
 
 # the superclass
-WRAP_CLASS(vcl_numeric_limits EXPLICIT_SPECIALIZATION)
+itk_wrap_class(vcl_numeric_limits EXPLICIT_SPECIALIZATION)
   # the basic types
   foreach(t UC US UI UL SC SS SI SL F D LD B)
-    WRAP_TEMPLATE("${ITKM_${t}}" "${ITKT_${t}}")
+    itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
   endforeach(t)
-END_WRAP_CLASS()
+itk_end_wrap_class()
 
 
-WRAP_CLASS("itk::NumericTraits" EXPLICIT_SPECIALIZATION)
+itk_wrap_class("itk::NumericTraits" EXPLICIT_SPECIALIZATION)
   # the basic types
   foreach(t UC US UI UL SC SS SI SL F D LD B)
-    WRAP_TEMPLATE("${ITKM_${t}}" "${ITKT_${t}}")
+    itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
   endforeach(t)
 
 #  foreach(t ${WRAP_ITK_COMPLEX_REAL})
-#    WRAP_TEMPLATE("${ITKM_${t}}" "${ITKT_${t}}")
+#    itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
 #  endforeach(t)
 
   # the ITK types
@@ -39,18 +39,18 @@ WRAP_CLASS("itk::NumericTraits" EXPLICIT_SPECIALIZATION)
   # rgb, rgba
   UNIQUE(rgbs "RGBUC;RGBAUC;RGBAF;${WRAP_ITK_RGB};${WRAP_ITK_RGBA}")
   foreach(t ${WRAP_ITK_RGB} ${WRAP_ITK_RGBA})
-    WRAP_TEMPLATE("${ITKM_${t}}" "${ITKT_${t}}")
+    itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
   endforeach(t)
 
   # covariant vector
-  foreach(d ${WRAP_ITK_DIMS})
+  foreach(d ${ITK_WRAP_DIMS})
     foreach(t ${WRAP_ITK_COV_VECTOR_REAL})
-      WRAP_TEMPLATE("${ITKM_${t}${d}}" "${ITKT_${t}${d}}")
+      itk_wrap_template("${ITKM_${t}${d}}" "${ITKT_${t}${d}}")
     endforeach(t)
   endforeach(d)
 
   # vector, as in WrapITKTypes.cmake
-  UNIQUE(vector_sizes "1;${WRAP_ITK_DIMS};6")
+  UNIQUE(vector_sizes "1;${ITK_WRAP_DIMS};6")
   UNIQUE(vector_types "UC;F;D;${WRAP_ITK_SCALAR}")
   foreach(d ${vector_sizes})
     foreach(t ${vector_types})
@@ -59,8 +59,8 @@ WRAP_CLASS("itk::NumericTraits" EXPLICIT_SPECIALIZATION)
   endforeach(d)
 
   # fixed array, as in WrapITKTypes.cmake
-  set(dims ${WRAP_ITK_DIMS})
-  foreach(d ${WRAP_ITK_DIMS})
+  set(dims ${ITK_WRAP_DIMS})
+  foreach(d ${ITK_WRAP_DIMS})
     math(EXPR d2 "${d} * 2")
     # for itk::SymmetricSecondRankTensor
     math(EXPR d3 "${d} * (${d} + 1) / 2")
@@ -92,4 +92,4 @@ WRAP_CLASS("itk::NumericTraits" EXPLICIT_SPECIALIZATION)
     ADD_TEMPLATE("${ITKM_VLV${type}}"  "${ITKT_VLV${type}}")
   endforeach(type)
 
-END_WRAP_CLASS()
+itk_end_wrap_class()
