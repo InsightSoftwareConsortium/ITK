@@ -132,7 +132,7 @@ protected:
 
   /** Run the iterative loops of calculating levelset function updates until
    *  the stopping criterion is satisfied */
-  virtual void RunOneIteration();
+  virtual void Evolve();
 
   /** Computer the update at each pixel and store in the update buffer */
   void ComputeIteration();
@@ -239,7 +239,7 @@ protected:
 
   /** Run the iterative loops of calculating levelset function updates until
    *  the stopping criterion is satisfied */
-  virtual void RunOneIteration();
+  virtual void Evolve();
 
   /** Compute the update at each pixel and store in the update buffer */
   void ComputeIteration();
@@ -341,7 +341,7 @@ protected:
 
   /** Run the iterative loops of calculating levelset function updates until
    *  the stopping criterion is satisfied */
-  virtual void RunOneIteration();
+  virtual void Evolve();
 
   /** Computer the update at each pixel and store in the update buffer */
   void ComputeIteration();
@@ -447,7 +447,7 @@ protected:
 
   /** Run the iterative loops of calculating levelset function updates until
    *  the stopping criterion is satisfied */
-  virtual void RunOneIteration();
+  virtual void Evolve();
 
   void UpdateLevelSets();
 

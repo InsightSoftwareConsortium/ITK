@@ -46,7 +46,7 @@ LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
 template< class TEquationContainer, class TImage >
 void
 LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
-::RunOneIteration()
+::Evolve()
 {
   this->AllocateUpdateBuffer();
 
@@ -318,7 +318,7 @@ LevelSetEvolution< TEquationContainer, WhitakerSparseLevelSetImage< TOutput, VDi
 template< class TEquationContainer, typename TOutput, unsigned int VDimension >
 void
 LevelSetEvolution< TEquationContainer, WhitakerSparseLevelSetImage< TOutput, VDimension > >
-::RunOneIteration()
+::Evolve()
 {
   this->AllocateUpdateBuffer();
 
@@ -478,7 +478,7 @@ void LevelSetEvolution< TEquationContainer, ShiSparseLevelSetImage< VDimension >
 
 template< class TEquationContainer, unsigned int VDimension >
 void LevelSetEvolution< TEquationContainer, ShiSparseLevelSetImage< VDimension > >
-::RunOneIteration()
+::Evolve()
 {
   this->AllocateUpdateBuffer();
 
@@ -584,7 +584,7 @@ void LevelSetEvolution< TEquationContainer, MalcolmSparseLevelSetImage< VDimensi
 
 template< class TEquationContainer, unsigned int VDimension >
 void LevelSetEvolution< TEquationContainer, MalcolmSparseLevelSetImage< VDimension > >
-::RunOneIteration()
+::Evolve()
 {
   this->AllocateUpdateBuffer();
 
