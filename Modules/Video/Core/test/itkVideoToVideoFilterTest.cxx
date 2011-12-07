@@ -27,6 +27,7 @@ typedef itk::VideoStream< InputFrameType >       InputVideoType;
 typedef float                                    OutputPixelType;
 typedef itk::Image< OutputPixelType, Dimension > OutputFrameType;
 typedef itk::VideoStream< OutputFrameType >      OutputVideoType;
+typedef itk::SizeValueType                       SizeValueType;
 
 namespace itk
 {
@@ -112,13 +113,13 @@ protected:
 
     typename OutputVideoStreamType::TemporalRegionType outReqTempRegion =
       output->GetRequestedTemporalRegion();
-    unsigned long outputStart = outReqTempRegion.GetFrameStart();
-    unsigned long outputDuration = outReqTempRegion.GetFrameDuration();
+    SizeValueType outputStart = outReqTempRegion.GetFrameStart();
+    SizeValueType outputDuration = outReqTempRegion.GetFrameDuration();
 
     typename InputVideoStreamType::TemporalRegionType inReqTempRegion =
       input->GetRequestedTemporalRegion();
-    unsigned long inputStart = inReqTempRegion.GetFrameStart();
-    unsigned long inputDuration = inReqTempRegion.GetFrameDuration();
+    SizeValueType inputStart = inReqTempRegion.GetFrameStart();
+    SizeValueType inputDuration = inReqTempRegion.GetFrameDuration();
 
     // Print out your threadId
     std::cout << "Working on thread " << threadId << std::endl;
@@ -183,15 +184,15 @@ int itkVideoToVideoFilterTest( int, char* [] )
   // Set up an input video stream
   InputVideoType::Pointer inputVideo = InputVideoType::New();
   itk::TemporalRegion     inputLargestTemporalRegion;
-  unsigned long           inputStart = 0;
-  unsigned long           inputDuration = 10;
+  SizeValueType           inputStart = 0;
+  SizeValueType           inputDuration = 10;
   inputLargestTemporalRegion.SetFrameStart(inputStart);
   inputLargestTemporalRegion.SetFrameDuration(inputDuration);
   inputVideo->SetLargestPossibleTemporalRegion(inputLargestTemporalRegion);
 
   // Fill the input with frames
   inputVideo->SetNumberOfBuffers(inputDuration);
-  for (unsigned long i = inputStart; i < inputStart + inputDuration; ++i)
+  for (SizeValueType i = inputStart; i < inputStart + inputDuration; ++i)
     {
     inputVideo->SetFrame(i, itk::VideoToVideoFilterTest::CreateInputFrame(i) );
     }
@@ -232,11 +233,11 @@ int itkVideoToVideoFilterTest( int, char* [] )
   std::cout << "Number of output buffers: " << filter->GetOutput()->GetNumberOfBuffers() << std::endl;
 
   // Make sure results are correct in the requested spatial region
-  unsigned long outputStart =
+  SizeValueType outputStart =
     filter->GetOutput()->GetRequestedTemporalRegion().GetFrameStart();
-  unsigned long outputDuration =
+  SizeValueType outputDuration =
     filter->GetOutput()->GetRequestedTemporalRegion().GetFrameDuration();
-  for (unsigned long i = outputStart; i < outputStart + outputDuration; ++i)
+  for (SizeValueType i = outputStart; i < outputStart + outputDuration; ++i)
     {
     std::cout << "Checking frame: " << i << std::endl;
 
@@ -277,15 +278,15 @@ int itkVideoToVideoFilterTest( int, char* [] )
   filter->UpdateOutputInformation();
 
   // Make sure the requested spatial regions are empty
-  unsigned long startFrame =
+  SizeValueType startFrame =
     filter->GetOutput()->GetLargestPossibleTemporalRegion().GetFrameStart();
-  unsigned long numFrames =
+  SizeValueType numFrames =
     filter->GetOutput()->GetLargestPossibleTemporalRegion().GetFrameDuration();
   if (numFrames == 0)
     {
     std::cerr << "Output's largest possible temporal region not set correctly" << std::endl;
     }
-  for (unsigned long i = startFrame; i < startFrame + numFrames; ++i)
+  for (SizeValueType i = startFrame; i < startFrame + numFrames; ++i)
     {
     for (unsigned int j = 0; j < Dimension; ++j)
       {
@@ -301,7 +302,7 @@ int itkVideoToVideoFilterTest( int, char* [] )
   // Now, propagate the requested region and make sure the requested spatial
   // regions match the largest possible
   filter->PropagateRequestedRegion(filter->GetOutput() );
-  for (unsigned long i = startFrame; i < startFrame + numFrames; ++i)
+  for (SizeValueType i = startFrame; i < startFrame + numFrames; ++i)
     {
     if (filter->GetOutput()->GetFrameRequestedSpatialRegion(i) !=
         filter->GetOutput()->GetFrameLargestPossibleSpatialRegion(i) ||

@@ -28,7 +28,7 @@
 
 int test_FileListVideoIOFactory( const char* input,
                                  char* output,
-                                 unsigned long itkNotUsed(cameraNumber) )
+                                 itk::SizeValueType itkNotUsed(cameraNumber) )
 {
 
   int ret = EXIT_SUCCESS;

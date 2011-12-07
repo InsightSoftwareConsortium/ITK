@@ -18,7 +18,6 @@
 #ifndef __itkOpenCVVideoIO_h
 #define __itkOpenCVVideoIO_h
 
-
 #include "itkVideoIOBase.h"
 #include "cv.h"
 #include "highgui.h"

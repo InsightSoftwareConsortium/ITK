@@ -79,7 +79,7 @@ TemporalDataObject
 }
 
 //----------------------------------------------------------------------------
-unsigned long
+SizeValueType
 TemporalDataObject
 ::GetNumberOfBuffers()
 {
@@ -89,7 +89,7 @@ TemporalDataObject
 //----------------------------------------------------------------------------
 void
 TemporalDataObject
-::SetNumberOfBuffers(unsigned long num)
+::SetNumberOfBuffers(SizeValueType num)
 {
   m_DataObjectBuffer->SetNumberOfBuffers(num);
 }
@@ -158,12 +158,12 @@ TemporalDataObject
     }
 
   // Get the start and end of the buffered and requested temporal regions
-  unsigned long reqStart = m_RequestedTemporalRegion.GetFrameStart();
-  unsigned long reqEnd = m_RequestedTemporalRegion.GetFrameStart() +
+  SizeValueType reqStart = m_RequestedTemporalRegion.GetFrameStart();
+  SizeValueType reqEnd = m_RequestedTemporalRegion.GetFrameStart() +
                           m_RequestedTemporalRegion.GetFrameDuration() - 1;
 
-  unsigned long bufStart = m_BufferedTemporalRegion.GetFrameStart();
-  unsigned long bufEnd = m_BufferedTemporalRegion.GetFrameStart() +
+  SizeValueType bufStart = m_BufferedTemporalRegion.GetFrameStart();
+  SizeValueType bufEnd = m_BufferedTemporalRegion.GetFrameStart() +
                           m_BufferedTemporalRegion.GetFrameDuration() - 1;
 
   // If the request starts after the buffered region, return the whole request

@@ -23,6 +23,7 @@ static const unsigned int Dimension =      2;
 typedef unsigned char                      PixelType;
 typedef itk::Image< PixelType, Dimension > FrameType;
 typedef itk::VideoStream< FrameType >      VideoType;
+typedef itk::SizeValueType                 SizeValueType;
 
 /** Set up a spatial region with the given dimensions */
 FrameType::RegionType SetUpSpatialRegion(unsigned int x, unsigned int y)
@@ -162,8 +163,8 @@ int itkVideoStreamTest( int, char* [] )
 
   // Set the buffered temporal region
   VideoType::TemporalRegionType temporalRegion;
-  unsigned long                 startFrame = 0;
-  unsigned long                 numFrames = 5;
+  SizeValueType                 startFrame = 0;
+  SizeValueType                 numFrames = 5;
   temporalRegion.SetFrameStart( startFrame );
   temporalRegion.SetFrameDuration( numFrames );
   video1->SetLargestPossibleTemporalRegion( temporalRegion );
@@ -182,7 +183,7 @@ int itkVideoStreamTest( int, char* [] )
   video1->SetAllBufferedSpatialRegions( bufferedSpatialRegion );
 
   // Make sure regions were set correctly
-  for (unsigned long i = startFrame; i < startFrame + numFrames; ++i)
+  for (SizeValueType i = startFrame; i < startFrame + numFrames; ++i)
     {
     if (video1->GetFrameLargestPossibleSpatialRegion(i) != largestSpatialRegion)
       {
@@ -211,12 +212,12 @@ int itkVideoStreamTest( int, char* [] )
   FrameType::IndexType idx;
   idx[0] = 49;
   idx[1] = 39;
-  for (unsigned long i = startFrame; i < startFrame + numFrames; ++i)
+  for (SizeValueType i = startFrame; i < startFrame + numFrames; ++i)
     {
     FrameType* frame = video1->GetFrame(i);
     frame->SetPixel(idx, i);
     }
-  for (unsigned long i = startFrame; i < startFrame + numFrames; ++i)
+  for (SizeValueType i = startFrame; i < startFrame + numFrames; ++i)
     {
     FrameType* frame = video1->GetFrame(i);
     if (frame->GetPixel(idx) != i)
@@ -236,7 +237,7 @@ int itkVideoStreamTest( int, char* [] )
   video1->SetRequestedTemporalRegion(temporalRegion);
   video1->InitializeEmptyFrames();
 
-  for (unsigned long i = startFrame; i < startFrame + numFrames; ++i)
+  for (SizeValueType i = startFrame; i < startFrame + numFrames; ++i)
     {
     FrameType* frame = video1->GetFrame(i);
     if (frame->GetPixel(idx) != i)

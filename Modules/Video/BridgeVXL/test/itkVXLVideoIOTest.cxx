@@ -27,6 +27,7 @@ typedef itk::RGBPixel<char>                  PixelType;
 typedef itk::ImportImageFilter<PixelType, 2> ImportFilterType;
 typedef itk::Image<PixelType, 2>             ImageType;
 typedef itk::ImageFileWriter<ImageType>      WriterType;
+typedef itk::SizeValueType                   SizeValueType;
 
 //
 // Utility function to get an ITK image from an void* buffer
@@ -64,7 +65,7 @@ ImageType::Pointer itkImageFromBuffer( itk::VXLVideoIO::Pointer vxlIO, void* buf
 //
 // Note: vxlIO should already have called ReadImageInformation
 //
-bool readCorrectly( itk::VXLVideoIO::Pointer vxlIO, vidl_ffmpeg_istream* stream, unsigned long frameNumber )
+bool readCorrectly( itk::VXLVideoIO::Pointer vxlIO, vidl_ffmpeg_istream* stream, SizeValueType frameNumber )
 {
   bool ret = true;
 
@@ -194,7 +195,7 @@ bool videosMatch(char* file1, char* file2)
 
                    int test_VXLVideoIO ( char* input, char* nonVideoInput, char* output, char* cameraOutput,
                                          unsigned int inWidth, unsigned int inHeight,
-                                         unsigned long inNumFrames, double inFpS )
+                                         SizeValueType inNumFrames, double inFpS )
 {
 
   int ret = EXIT_SUCCESS;
@@ -283,7 +284,7 @@ bool videosMatch(char* file1, char* file2)
   stream->open(vxlIO->GetFileName());
 
   // Loop through all frames
-  for (unsigned long i = 0; i < vxlIO->GetFrameTotal(); ++i)
+  for (SizeValueType i = 0; i < vxlIO->GetFrameTotal(); ++i)
     {
     if (!readCorrectly(vxlIO, stream, i))
       {
@@ -309,7 +310,7 @@ bool videosMatch(char* file1, char* file2)
 
 
   // try seeking to an I-Frame
-  unsigned long seekFrame = vxlIO->GetIFrameInterval();
+  SizeValueType seekFrame = vxlIO->GetIFrameInterval();
   if (!vxlIO->SetNextFrameToRead(seekFrame))
     {
     std::cerr << "Failed to seek to second I-Frame..." << std::endl;

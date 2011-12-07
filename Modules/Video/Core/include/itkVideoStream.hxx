@@ -31,13 +31,13 @@ namespace itk
 template<class TFrameType>
 void
 VideoStream<TFrameType>::SetFrameLargestPossibleSpatialRegion(
-  unsigned long frameNumber, typename TFrameType::RegionType region)
+  SizeValueType frameNumber, typename TFrameType::RegionType region)
 {
   m_LargestPossibleSpatialRegionCache[frameNumber] = region;
 
   // If the frame is currently buffered, set the actual frame's region
-  unsigned long bufStart = m_BufferedTemporalRegion.GetFrameStart();
-  unsigned long bufDur = m_BufferedTemporalRegion.GetFrameDuration();
+  SizeValueType bufStart = m_BufferedTemporalRegion.GetFrameStart();
+  SizeValueType bufDur = m_BufferedTemporalRegion.GetFrameDuration();
   if (frameNumber >= bufStart && frameNumber < bufStart + bufDur)
     {
     FrameType* frame = this->GetFrame(frameNumber);
@@ -51,7 +51,7 @@ VideoStream<TFrameType>::SetFrameLargestPossibleSpatialRegion(
 template<class TFrameType>
 const typename TFrameType::RegionType &
 VideoStream<TFrameType>::
-GetFrameLargestPossibleSpatialRegion(unsigned long frameNumber) const
+GetFrameLargestPossibleSpatialRegion(SizeValueType frameNumber) const
 {
   // It seems that std::map's [] operator isn't const correct, so we need to
   // access this member from an non-const version of ourselves
@@ -64,13 +64,13 @@ GetFrameLargestPossibleSpatialRegion(unsigned long frameNumber) const
 template<class TFrameType>
 void
 VideoStream<TFrameType>::SetFrameRequestedSpatialRegion(
-  unsigned long frameNumber, typename TFrameType::RegionType region)
+  SizeValueType frameNumber, typename TFrameType::RegionType region)
 {
   m_RequestedSpatialRegionCache[frameNumber] = region;
 
   // If the frame is currently buffered, set the actual frame's region
-  unsigned long bufStart = m_BufferedTemporalRegion.GetFrameStart();
-  unsigned long bufDur = m_BufferedTemporalRegion.GetFrameDuration();
+  SizeValueType bufStart = m_BufferedTemporalRegion.GetFrameStart();
+  SizeValueType bufDur = m_BufferedTemporalRegion.GetFrameDuration();
   if (frameNumber >= bufStart && frameNumber < bufStart + bufDur)
     {
     FrameType* frame = this->GetFrame(frameNumber);
@@ -84,7 +84,7 @@ VideoStream<TFrameType>::SetFrameRequestedSpatialRegion(
 template<class TFrameType>
 const typename TFrameType::RegionType &
 VideoStream<TFrameType>::
-GetFrameRequestedSpatialRegion(unsigned long frameNumber) const
+GetFrameRequestedSpatialRegion(SizeValueType frameNumber) const
 {
   // It seems that std::map's [] operator isn't const correct, so we need to
   // access this member from an non-const version of ourselves
@@ -97,13 +97,13 @@ GetFrameRequestedSpatialRegion(unsigned long frameNumber) const
 template<class TFrameType>
 void
 VideoStream<TFrameType>::SetFrameBufferedSpatialRegion(
-  unsigned long frameNumber, typename TFrameType::RegionType region)
+  SizeValueType frameNumber, typename TFrameType::RegionType region)
 {
   m_BufferedSpatialRegionCache[frameNumber] = region;
 
   // If the frame is currently buffered, set the actual frame's region
-  unsigned long bufStart = m_BufferedTemporalRegion.GetFrameStart();
-  unsigned long bufDur = m_BufferedTemporalRegion.GetFrameDuration();
+  SizeValueType bufStart = m_BufferedTemporalRegion.GetFrameStart();
+  SizeValueType bufDur = m_BufferedTemporalRegion.GetFrameDuration();
   if (frameNumber >= bufStart && frameNumber < bufStart + bufDur)
     {
     FrameType* frame = this->GetFrame(frameNumber);
@@ -117,7 +117,7 @@ VideoStream<TFrameType>::SetFrameBufferedSpatialRegion(
 template<class TFrameType>
 const typename TFrameType::RegionType &
 VideoStream<TFrameType>::
-GetFrameBufferedSpatialRegion(unsigned long frameNumber) const
+GetFrameBufferedSpatialRegion(SizeValueType frameNumber) const
 {
   // It seems that std::map's [] operator isn't const correct, so we need to
   // access this member from an non-const version of ourselves
@@ -130,7 +130,7 @@ GetFrameBufferedSpatialRegion(unsigned long frameNumber) const
 template<class TFrameType>
 void
 VideoStream<TFrameType>::SetFrameSpacing(
-  unsigned long frameNumber, typename TFrameType::SpacingType spacing)
+  SizeValueType frameNumber, typename TFrameType::SpacingType spacing)
 {
   // Make sure spacing is non-zero
   for (unsigned int i = 0; i < FrameType::ImageDimension; ++i)
@@ -144,8 +144,8 @@ VideoStream<TFrameType>::SetFrameSpacing(
   m_SpacingCache[frameNumber] = spacing;
 
   // If the frame is currently buffered, set the actual frame's spacing
-  unsigned long bufStart = m_BufferedTemporalRegion.GetFrameStart();
-  unsigned long bufDur = m_BufferedTemporalRegion.GetFrameDuration();
+  SizeValueType bufStart = m_BufferedTemporalRegion.GetFrameStart();
+  SizeValueType bufDur = m_BufferedTemporalRegion.GetFrameDuration();
   if (frameNumber >= bufStart && frameNumber < bufStart + bufDur)
     {
     FrameType* frame = this->GetFrame(frameNumber);
@@ -159,7 +159,7 @@ VideoStream<TFrameType>::SetFrameSpacing(
 template<class TFrameType>
 const typename TFrameType::SpacingType &
 VideoStream<TFrameType>::
-GetFrameSpacing(unsigned long frameNumber) const
+GetFrameSpacing(SizeValueType frameNumber) const
 {
   // It seems that std::map's [] operator isn't const correct, so we need to
   // access this member from an non-const version of ourselves
@@ -172,13 +172,13 @@ GetFrameSpacing(unsigned long frameNumber) const
 template<class TFrameType>
 void
 VideoStream<TFrameType>::SetFrameOrigin(
-  unsigned long frameNumber, typename TFrameType::PointType origin)
+  SizeValueType frameNumber, typename TFrameType::PointType origin)
 {
   m_OriginCache[frameNumber] = origin;
 
   // If the frame is currently buffered, set the actual frame's spacing
-  unsigned long bufStart = m_BufferedTemporalRegion.GetFrameStart();
-  unsigned long bufDur = m_BufferedTemporalRegion.GetFrameDuration();
+  SizeValueType bufStart = m_BufferedTemporalRegion.GetFrameStart();
+  SizeValueType bufDur = m_BufferedTemporalRegion.GetFrameDuration();
   if (frameNumber >= bufStart && frameNumber < bufStart + bufDur)
     {
     FrameType* frame = this->GetFrame(frameNumber);
@@ -192,7 +192,7 @@ VideoStream<TFrameType>::SetFrameOrigin(
 template<class TFrameType>
 const typename TFrameType::PointType &
 VideoStream<TFrameType>::
-GetFrameOrigin(unsigned long frameNumber) const
+GetFrameOrigin(SizeValueType frameNumber) const
 {
   // It seems that std::map's [] operator isn't const correct, so we need to
   // access this member from an non-const version of ourselves
@@ -205,7 +205,7 @@ GetFrameOrigin(unsigned long frameNumber) const
 template<class TFrameType>
 void
 VideoStream<TFrameType>::SetFrameDirection(
-  unsigned long frameNumber, typename TFrameType::DirectionType direction)
+  SizeValueType frameNumber, typename TFrameType::DirectionType direction)
 {
   // Determinant is non-zero
   if (vnl_math_abs(vnl_determinant(direction.GetVnlMatrix())) <= vnl_math::eps)
@@ -216,8 +216,8 @@ VideoStream<TFrameType>::SetFrameDirection(
   m_DirectionCache[frameNumber] = direction;
 
   // If the frame is currently buffered, set the actual frame's spacing
-  unsigned long bufStart = m_BufferedTemporalRegion.GetFrameStart();
-  unsigned long bufDur = m_BufferedTemporalRegion.GetFrameDuration();
+  SizeValueType bufStart = m_BufferedTemporalRegion.GetFrameStart();
+  SizeValueType bufDur = m_BufferedTemporalRegion.GetFrameDuration();
   if (frameNumber >= bufStart && frameNumber < bufStart + bufDur)
     {
     FrameType* frame = this->GetFrame(frameNumber);
@@ -231,7 +231,7 @@ VideoStream<TFrameType>::SetFrameDirection(
 template<class TFrameType>
 const typename TFrameType::DirectionType &
 VideoStream<TFrameType>::
-GetFrameDirection(unsigned long frameNumber) const
+GetFrameDirection(SizeValueType frameNumber) const
 {
   // It seems that std::map's [] operator isn't const correct, so we need to
   // access this member from an non-const version of ourselves
@@ -264,7 +264,7 @@ VideoStream<TFrameType>::SetFrameBuffer(
 //
 template<class TFrameType>
 void
-VideoStream<TFrameType>::SetMinimumBufferSize(unsigned long minimumNumberOfFrames)
+VideoStream<TFrameType>::SetMinimumBufferSize(SizeValueType minimumNumberOfFrames)
 {
   // If we don't have enough buffer space to handle the number of requested
   // frames, we need to resize the ring buffer. Just resizing can cause data to
@@ -278,10 +278,10 @@ VideoStream<TFrameType>::SetMinimumBufferSize(unsigned long minimumNumberOfFrame
   if (m_DataObjectBuffer->GetNumberOfBuffers() < minimumNumberOfFrames)
     {
     // Save the indices of all frames in the currently buffered region
-    unsigned long bufferedStart = m_BufferedTemporalRegion.GetFrameStart();
-    unsigned long bufferedDuration = m_BufferedTemporalRegion.GetFrameDuration();
-    std::map<unsigned long, DataObject*> frameNumPtrMap;
-    for (unsigned long i = bufferedStart; i < bufferedStart + bufferedDuration; ++i)
+    SizeValueType bufferedStart = m_BufferedTemporalRegion.GetFrameStart();
+    SizeValueType bufferedDuration = m_BufferedTemporalRegion.GetFrameDuration();
+    std::map<SizeValueType, DataObject*> frameNumPtrMap;
+    for (SizeValueType i = bufferedStart; i < bufferedStart + bufferedDuration; ++i)
       {
       frameNumPtrMap[i] = m_DataObjectBuffer->GetBufferContents(i);
       }
@@ -290,7 +290,7 @@ VideoStream<TFrameType>::SetMinimumBufferSize(unsigned long minimumNumberOfFrame
     m_DataObjectBuffer->SetNumberOfBuffers(minimumNumberOfFrames);
 
     // Move previously buffered data to the locations where their frame numbers now map
-    for (unsigned long i = bufferedStart; i < bufferedStart + bufferedDuration; ++i)
+    for (SizeValueType i = bufferedStart; i < bufferedStart + bufferedDuration; ++i)
       {
       m_DataObjectBuffer->SetBufferContents(i, frameNumPtrMap[i]);
       }
@@ -305,7 +305,7 @@ void
 VideoStream<TFrameType>::InitializeEmptyFrames()
 {
   // If we don't have any frames requested, just return
-  unsigned long numFrames = m_RequestedTemporalRegion.GetFrameDuration();
+  SizeValueType numFrames = m_RequestedTemporalRegion.GetFrameDuration();
   if (numFrames == 0)
     {
     return;
@@ -316,8 +316,8 @@ VideoStream<TFrameType>::InitializeEmptyFrames()
   this->SetMinimumBufferSize(numFrames);
 
   // Go through the number of required frames and make sure none are empty
-  unsigned long startFrame = m_RequestedTemporalRegion.GetFrameStart();
-  for (unsigned long i = startFrame; i < startFrame + numFrames; ++i)
+  SizeValueType startFrame = m_RequestedTemporalRegion.GetFrameStart();
+  for (SizeValueType i = startFrame; i < startFrame + numFrames; ++i)
     {
     if (!m_DataObjectBuffer->BufferIsFull(i))
       {
@@ -364,7 +364,7 @@ VideoStream<TFrameType>::InitializeEmptyFrames()
 //
 template<class TFrameType>
 void
-VideoStream<TFrameType>::SetFrame(unsigned long frameNumber,
+VideoStream<TFrameType>::SetFrame(SizeValueType frameNumber,
                                   FramePointer frame)
 {
   typename BufferType::ElementType* dataObjectRawPointer =
@@ -386,7 +386,7 @@ VideoStream<TFrameType>::SetFrame(unsigned long frameNumber,
 //
 template<class TFrameType>
 typename VideoStream<TFrameType>::FramePointer
-VideoStream<TFrameType>::GetFrame(unsigned long frameNumber)
+VideoStream<TFrameType>::GetFrame(SizeValueType frameNumber)
 {
 
   // Fetch the frame
@@ -401,7 +401,7 @@ VideoStream<TFrameType>::GetFrame(unsigned long frameNumber)
 //
 template<class TFrameType>
 typename VideoStream<TFrameType>::FrameConstPointer
-VideoStream<TFrameType>::GetFrame(unsigned long frameNumber) const
+VideoStream<TFrameType>::GetFrame(SizeValueType frameNumber) const
 {
   typename BufferType::ElementPointer element =
     m_DataObjectBuffer->GetBufferContents(frameNumber);
@@ -454,23 +454,23 @@ void
 VideoStream<TFrameType>::
 SetAllLargestPossibleSpatialRegions(typename TFrameType::RegionType region)
 {
-  unsigned long numFrames = m_LargestPossibleTemporalRegion.GetFrameDuration();
-  unsigned long startFrame = m_LargestPossibleTemporalRegion.GetFrameStart();
+  SizeValueType numFrames = m_LargestPossibleTemporalRegion.GetFrameDuration();
+  SizeValueType startFrame = m_LargestPossibleTemporalRegion.GetFrameStart();
 
   // If the largest region is infinite, use the largest of the requested or
   // buffered region
   if (numFrames == ITK_INFINITE_FRAME_DURATION)
       {
-      unsigned long bufEnd = m_BufferedTemporalRegion.GetFrameStart() +
+      SizeValueType bufEnd = m_BufferedTemporalRegion.GetFrameStart() +
                               m_BufferedTemporalRegion.GetFrameDuration();
-      unsigned long reqEnd = m_RequestedTemporalRegion.GetFrameStart() +
+      SizeValueType reqEnd = m_RequestedTemporalRegion.GetFrameStart() +
                               m_RequestedTemporalRegion.GetFrameDuration();
       (bufEnd > reqEnd) ? (numFrames = bufEnd) : (numFrames = reqEnd);
       }
 
   // Go through the number of required frames, making sure none are empty and
   // setting the region
-  for (unsigned long i = startFrame; i < startFrame + numFrames; ++i)
+  for (SizeValueType i = startFrame; i < startFrame + numFrames; ++i)
     {
     this->SetFrameLargestPossibleSpatialRegion(i, region);
     }
@@ -484,23 +484,23 @@ void
 VideoStream<TFrameType>::
 SetAllRequestedSpatialRegions(typename TFrameType::RegionType region)
 {
-  unsigned long numFrames = m_LargestPossibleTemporalRegion.GetFrameDuration();
-  unsigned long startFrame = m_LargestPossibleTemporalRegion.GetFrameStart();
+  SizeValueType numFrames = m_LargestPossibleTemporalRegion.GetFrameDuration();
+  SizeValueType startFrame = m_LargestPossibleTemporalRegion.GetFrameStart();
 
   // If the largest region is infinite, use the largest of the requested or
   // buffered region
   if (numFrames == ITK_INFINITE_FRAME_DURATION)
       {
-      unsigned long bufEnd = m_BufferedTemporalRegion.GetFrameStart() +
+      SizeValueType bufEnd = m_BufferedTemporalRegion.GetFrameStart() +
                               m_BufferedTemporalRegion.GetFrameDuration();
-      unsigned long reqEnd = m_RequestedTemporalRegion.GetFrameStart() +
+      SizeValueType reqEnd = m_RequestedTemporalRegion.GetFrameStart() +
                               m_RequestedTemporalRegion.GetFrameDuration();
       (bufEnd > reqEnd) ? (numFrames = bufEnd) : (numFrames = reqEnd);
       }
 
   // Go through the number of required frames, making sure none are empty and
   // setting the region
-  for (unsigned long i = startFrame; i < startFrame + numFrames; ++i)
+  for (SizeValueType i = startFrame; i < startFrame + numFrames; ++i)
     {
     this->SetFrameRequestedSpatialRegion(i, region);
     }
@@ -514,23 +514,23 @@ void
 VideoStream<TFrameType>::
 SetAllBufferedSpatialRegions(typename TFrameType::RegionType region)
 {
-  unsigned long numFrames = m_LargestPossibleTemporalRegion.GetFrameDuration();
-  unsigned long startFrame = m_LargestPossibleTemporalRegion.GetFrameStart();
+  SizeValueType numFrames = m_LargestPossibleTemporalRegion.GetFrameDuration();
+  SizeValueType startFrame = m_LargestPossibleTemporalRegion.GetFrameStart();
 
   // If the largest region is infinite, use the largest of the requested or
   // buffered region
   if (numFrames == ITK_INFINITE_FRAME_DURATION)
       {
-      unsigned long bufEnd = m_BufferedTemporalRegion.GetFrameStart() +
+      SizeValueType bufEnd = m_BufferedTemporalRegion.GetFrameStart() +
                               m_BufferedTemporalRegion.GetFrameDuration();
-      unsigned long reqEnd = m_RequestedTemporalRegion.GetFrameStart() +
+      SizeValueType reqEnd = m_RequestedTemporalRegion.GetFrameStart() +
                               m_RequestedTemporalRegion.GetFrameDuration();
       (bufEnd > reqEnd) ? (numFrames = bufEnd) : (numFrames = reqEnd);
       }
 
   // Go through the number of required frames, making sure none are empty and
   // setting the region
-  for (unsigned long i = startFrame; i < startFrame + numFrames; ++i)
+  for (SizeValueType i = startFrame; i < startFrame + numFrames; ++i)
     {
     this->SetFrameBufferedSpatialRegion(i, region);
     }
@@ -544,23 +544,23 @@ void
 VideoStream<TFrameType>::
 SetAllFramesSpacing(typename TFrameType::SpacingType spacing)
 {
-  unsigned long numFrames = m_LargestPossibleTemporalRegion.GetFrameDuration();
-  unsigned long startFrame = m_LargestPossibleTemporalRegion.GetFrameStart();
+  SizeValueType numFrames = m_LargestPossibleTemporalRegion.GetFrameDuration();
+  SizeValueType startFrame = m_LargestPossibleTemporalRegion.GetFrameStart();
 
   // If the largest region is infinite, use the largest of the requested or
   // buffered region
   if (numFrames == ITK_INFINITE_FRAME_DURATION)
       {
-      unsigned long bufEnd = m_BufferedTemporalRegion.GetFrameStart() +
+      SizeValueType bufEnd = m_BufferedTemporalRegion.GetFrameStart() +
                               m_BufferedTemporalRegion.GetFrameDuration();
-      unsigned long reqEnd = m_RequestedTemporalRegion.GetFrameStart() +
+      SizeValueType reqEnd = m_RequestedTemporalRegion.GetFrameStart() +
                               m_RequestedTemporalRegion.GetFrameDuration();
       (bufEnd > reqEnd) ? (numFrames = bufEnd) : (numFrames = reqEnd);
       }
 
   // Go through the number of required frames, making sure none are empty and
   // setting the region
-  for (unsigned long i = startFrame; i < startFrame + numFrames; ++i)
+  for (SizeValueType i = startFrame; i < startFrame + numFrames; ++i)
     {
     this->SetFrameSpacing(i, spacing);
     }
@@ -574,23 +574,23 @@ void
 VideoStream<TFrameType>::
 SetAllFramesOrigin(typename TFrameType::PointType origin)
 {
-  unsigned long numFrames = m_LargestPossibleTemporalRegion.GetFrameDuration();
-  unsigned long startFrame = m_LargestPossibleTemporalRegion.GetFrameStart();
+  SizeValueType numFrames = m_LargestPossibleTemporalRegion.GetFrameDuration();
+  SizeValueType startFrame = m_LargestPossibleTemporalRegion.GetFrameStart();
 
   // If the largest region is infinite, use the largest of the requested or
   // buffered region
   if (numFrames == ITK_INFINITE_FRAME_DURATION)
       {
-      unsigned long bufEnd = m_BufferedTemporalRegion.GetFrameStart() +
+      SizeValueType bufEnd = m_BufferedTemporalRegion.GetFrameStart() +
                               m_BufferedTemporalRegion.GetFrameDuration();
-      unsigned long reqEnd = m_RequestedTemporalRegion.GetFrameStart() +
+      SizeValueType reqEnd = m_RequestedTemporalRegion.GetFrameStart() +
                               m_RequestedTemporalRegion.GetFrameDuration();
       (bufEnd > reqEnd) ? (numFrames = bufEnd) : (numFrames = reqEnd);
       }
 
   // Go through the number of required frames, making sure none are empty and
   // setting the region
-  for (unsigned long i = startFrame; i < startFrame + numFrames; ++i)
+  for (SizeValueType i = startFrame; i < startFrame + numFrames; ++i)
     {
     this->SetFrameOrigin(i, origin);
     }
@@ -604,23 +604,23 @@ void
 VideoStream<TFrameType>::
 SetAllFramesDirection(typename TFrameType::DirectionType direction)
 {
-  unsigned long numFrames = m_LargestPossibleTemporalRegion.GetFrameDuration();
-  unsigned long startFrame = m_LargestPossibleTemporalRegion.GetFrameStart();
+  SizeValueType numFrames = m_LargestPossibleTemporalRegion.GetFrameDuration();
+  SizeValueType startFrame = m_LargestPossibleTemporalRegion.GetFrameStart();
 
   // If the largest region is infinite, use the largest of the requested or
   // buffered region
   if (numFrames == ITK_INFINITE_FRAME_DURATION)
       {
-      unsigned long bufEnd = m_BufferedTemporalRegion.GetFrameStart() +
+      SizeValueType bufEnd = m_BufferedTemporalRegion.GetFrameStart() +
                               m_BufferedTemporalRegion.GetFrameDuration();
-      unsigned long reqEnd = m_RequestedTemporalRegion.GetFrameStart() +
+      SizeValueType reqEnd = m_RequestedTemporalRegion.GetFrameStart() +
                               m_RequestedTemporalRegion.GetFrameDuration();
       (bufEnd > reqEnd) ? (numFrames = bufEnd) : (numFrames = reqEnd);
       }
 
   // Go through the number of required frames, making sure none are empty and
   // setting the region
-  for (unsigned long i = startFrame; i < startFrame + numFrames; ++i)
+  for (SizeValueType i = startFrame; i < startFrame + numFrames; ++i)
     {
     this->SetFrameDirection(i, direction);
     }
@@ -633,7 +633,7 @@ template<class TFrameType>
 void
 VideoStream<TFrameType>::Allocate()
 {
-  unsigned long numFrames = m_BufferedTemporalRegion.GetFrameDuration();
+  SizeValueType numFrames = m_BufferedTemporalRegion.GetFrameDuration();
   if (m_DataObjectBuffer->GetNumberOfBuffers() < numFrames)
     {
     itkExceptionMacro("itk::VideoStream::SetAllLargestPossibleSpatialRegions "
@@ -645,7 +645,7 @@ VideoStream<TFrameType>::Allocate()
   // allocating them. We start at 1 and move forwards because frames will be
   // added using AppendFrame which first moves the Head forward, then adds the
   // frame
-  for (unsigned long i = 1; i <= numFrames; ++i)
+  for (SizeValueType i = 1; i <= numFrames; ++i)
     {
     if (!m_DataObjectBuffer->BufferIsFull(i))
       {
