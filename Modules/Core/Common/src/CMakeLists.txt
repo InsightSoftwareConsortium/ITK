@@ -69,11 +69,26 @@ itkNumericTraitsDiffusionTensor3DPixel.cxx
 itkEquivalencyTable.cxx
 itkXMLFileOutputWindow.cxx
 itkStoppingCriterionBase.cxx
+itkCompensatedSummation.cxx
 )
 
 if(WIN32)
    set(ITKCommon_SRCS ${ITKCommon_SRCS};itkWin32OutputWindow.cxx;itkSmartPointerForwardReferenceProcessObject.cxx)
 endif(WIN32)
+
+# Prevent optimization from affecting the floating point calculation.
+if( CMAKE_CXX_COMPILER MATCHES "^icc" )
+  if( WIN32 )
+    set_source_files_properties( itkCompensatedSummation.cxx PROPERTIES COMPILE_FLAGS /fp precise )
+  else()
+    set_source_files_properties( itkCompensatedSummation.cxx PROPERTIES COMPILE_FLAGS -fp-model precise )
+  endif()
+elseif( CMAKE_COMPILER_IS_GNUCXX )
+  set_source_files_properties( itkCompensatedSummation.cxx PROPERTIES COMPILE_FLAGS -fno-associative-math )
+elseif( MSVC )
+  set_source_files_properties( itkCompensatedSummation.cxx PROPERTIES COMPILE_FLAGS -fp:precise )
+endif()
+
 
 ### generating libraries
 add_library( ITKCommon ${ITK_LIBRARY_BUILD_TYPE} ${ITKCommon_SRCS})

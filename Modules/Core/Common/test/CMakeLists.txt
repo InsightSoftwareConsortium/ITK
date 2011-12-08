@@ -153,6 +153,7 @@ itkConstantBoundaryConditionTest.cxx
 itkDataObjectAndProcessObjectTest.cxx
 itkOptimizerParametersTest.cxx
 itkImageVectorOptimizerParametersHelperTest.cxx
+itkCompensatedSummationTest.cxx
 )
 
 CreateTestDriver(ITKCommon1 "${ITKCommon_LIBRARIES}" "${ITKCommon1Tests}")
@@ -399,6 +400,7 @@ endif()
 itk_add_test(NAME itkImageAlgorithmCopyTest COMMAND ITKCommon2TestDriver itkImageAlgorithmCopyTest )
 itk_add_test(NAME itkOptimizerParametersTest COMMAND ITKCommon2TestDriver itkOptimizerParametersTest)
 itk_add_test(NAME itkImageVectorOptimizerParametersHelperTest COMMAND ITKCommon2TestDriver itkImageVectorOptimizerParametersHelperTest)
+itk_add_test(NAME itkCompensatedSummationTest COMMAND ITKCommon2TestDriver itkCompensatedSummationTest)
 
 
 
