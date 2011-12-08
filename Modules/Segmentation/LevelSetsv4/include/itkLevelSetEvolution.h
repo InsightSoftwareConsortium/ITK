@@ -33,6 +33,7 @@
 #include "itkUpdateMalcolmSparseLevelSet.h"
 
 #include "itkLevelSetEvolutionComputeIterationThreader.h"
+#include "itkLevelSetEvolutionUpdateLevelSetsThreader.h"
 
 namespace itk
 {
@@ -92,13 +93,10 @@ public:
   typedef typename Superclass::LevelSetContainerIteratorType      LevelSetContainerIteratorType;
 
   typedef typename LevelSetType::ImageType        LevelSetImageType;
-  typedef typename LevelSetImageType::Pointer     LevelSetImagePointer;
 
-  typedef typename Superclass::LevelSetPointer        LevelSetPointer;
   typedef typename Superclass::LevelSetOutputType     LevelSetOutputType;
   typedef typename Superclass::LevelSetOutputRealType LevelSetOutputRealType;
   typedef typename Superclass::LevelSetDataType       LevelSetDataType;
-
 
   typedef typename Superclass::IdListType                   IdListType;
   typedef typename Superclass::IdListIterator               IdListIterator;
@@ -151,6 +149,9 @@ protected:
   typedef LevelSetEvolutionComputeIterationThreader< LevelSetType, ThreadedImageRegionPartitioner< TImage::ImageDimension >, Self > SingleLevelSetComputeIterationThreaderType;
   typename SingleLevelSetComputeIterationThreaderType::Pointer m_SingleLevelSetComputeIterationThreader;
 
+  friend class LevelSetEvolutionUpdateLevelSetsThreader< LevelSetType, ThreadedImageRegionPartitioner< TImage::ImageDimension >, Self >;
+  typedef LevelSetEvolutionUpdateLevelSetsThreader< LevelSetType, ThreadedImageRegionPartitioner< TImage::ImageDimension >, Self > SingleLevelSetUpdateLevelSetsThreaderType;
+  typename SingleLevelSetUpdateLevelSetsThreaderType::Pointer m_SingleLevelSetUpdateLevelSetsThreader;
 };
 
 

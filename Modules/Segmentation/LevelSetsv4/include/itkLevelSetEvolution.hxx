@@ -30,6 +30,7 @@ LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
 ::LevelSetEvolution()
 {
   this->m_SingleLevelSetComputeIterationThreader = SingleLevelSetComputeIterationThreaderType::New();
+  this->m_SingleLevelSetUpdateLevelSetsThreader = SingleLevelSetUpdateLevelSetsThreaderType::New();
 }
 
 template< class TEquationContainer, class TImage >
@@ -75,7 +76,7 @@ LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
 
         for( IdListIterator lIt = lout.begin(); lIt != lout.end(); ++lIt )
           {
-          LevelSetPointer levelSetUpdate = this->m_UpdateBuffer->GetLevelSet( *lIt - 1);
+          typename LevelSetType::Pointer levelSetUpdate = this->m_UpdateBuffer->GetLevelSet( *lIt - 1);
 
           LevelSetDataType characteristics;
 
@@ -139,37 +140,48 @@ void
 LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
 ::UpdateLevelSets()
 {
-  typename LevelSetContainerType::Iterator it1 = this->m_LevelSetContainer->Begin();
-  typename LevelSetContainerType::ConstIterator it2 = this->m_UpdateBuffer->Begin();
+  typename LevelSetContainerType::Iterator levelSetContainerIt = this->m_LevelSetContainer->Begin();
+  typename LevelSetContainerType::ConstIterator levelSetUpdateContainerIt = this->m_UpdateBuffer->Begin();
+
+  DomainMapImageFilterPointer domainMapFilter = this->m_LevelSetContainer->GetDomainMapFilter();
 
   LevelSetOutputRealType p;
 
-  while( it1 != this->m_LevelSetContainer->End() )
+  if( !domainMapFilter.IsNull() && domainMapFilter->GetDomainMap().size() > 0 )
     {
-    LevelSetPointer ls1 = it1->GetLevelSet();
-    LevelSetPointer ls2 = it2->GetLevelSet();
-
-    LevelSetImagePointer image1 = ls1->GetImage();
-    LevelSetImagePointer image2 = ls2->GetImage();
-
-    LevelSetImageIteratorType imIt1( image1, image1->GetBufferedRegion() );
-    LevelSetImageIteratorType imIt2( image2, image2->GetBufferedRegion() );
-    imIt1.GoToBegin();
-    imIt2.GoToBegin();
-
-    while( !imIt1.IsAtEnd() )
+    while( levelSetContainerIt != this->m_LevelSetContainer->End() )
       {
-      p = this->m_Dt * imIt2.Get();
-      imIt1.Set( imIt1.Get() + p );
+      typename LevelSetType::Pointer levelSet = levelSetContainerIt->GetLevelSet();
+      typename LevelSetType::Pointer levelSetUpdate = levelSetUpdateContainerIt->GetLevelSet();
 
-      this->m_RMSChangeAccumulator += p*p;
+      typename LevelSetImageType::Pointer levelSetImage = levelSet->GetImage();
+      typename LevelSetImageType::Pointer levelSetUpdateImage = levelSetUpdate->GetImage();
 
-      ++imIt1;
-      ++imIt2;
+      ImageRegionIterator< LevelSetImageType > levelSetImageIt( levelSetImage, levelSetImage->GetBufferedRegion() );
+      ImageRegionConstIterator< LevelSetImageType > levelSetUpdateImageIt( levelSetUpdateImage, levelSetUpdateImage->GetBufferedRegion() );
+      levelSetImageIt.GoToBegin();
+      levelSetUpdateImageIt.GoToBegin();
+
+      while( !levelSetImageIt.IsAtEnd() )
+        {
+        p = this->m_Dt * levelSetUpdateImageIt.Get();
+        levelSetImageIt.Set( levelSetImageIt.Get() + p );
+
+        this->m_RMSChangeAccumulator += p*p;
+
+        ++levelSetImageIt;
+        ++levelSetUpdateImageIt;
+        }
+
+      ++levelSetContainerIt;
+      ++levelSetUpdateContainerIt;
       }
-
-    ++it1;
-    ++it2;
+    }
+  else // assume there is one level set that covers the RequestedRegion of the InputImage
+    {
+    typename LevelSetType::Pointer levelSet = levelSetContainerIt->GetLevelSet();
+    typename LevelSetImageType::Pointer levelSetImage = levelSet->GetImage();
+    this->m_SingleLevelSetUpdateLevelSetsThreader->Execute( this, levelSetImage->GetRequestedRegion() );
     }
 
   this->ReinitializeToSignedDistance();
@@ -192,7 +204,7 @@ LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
 
   while( it != this->m_LevelSetContainer->End() )
     {
-    LevelSetImagePointer image = it->GetLevelSet()->GetImage();
+    typename LevelSetImageType::Pointer image = it->GetLevelSet()->GetImage();
 
     ThresholdFilterPointer thresh = ThresholdFilterType::New();
     thresh->SetLowerThreshold( NumericTraits< LevelSetOutputType >::NonpositiveMin() );
