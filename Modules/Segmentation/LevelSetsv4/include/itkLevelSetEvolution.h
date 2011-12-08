@@ -32,6 +32,8 @@
 #include "itkMalcolmSparseLevelSetImage.h"
 #include "itkUpdateMalcolmSparseLevelSet.h"
 
+#include "itkLevelSetEvolutionComputeIterationThreader.h"
+
 namespace itk
 {
 /**
@@ -124,8 +126,6 @@ protected:
   LevelSetEvolution();
   ~LevelSetEvolution();
 
-  LevelSetContainerPointer    m_UpdateBuffer;
-
   /** Initialize the update buffers for all level sets to hold the updates of
    *  equations in each iteration */
   virtual void AllocateUpdateBuffer();
@@ -144,6 +144,13 @@ protected:
 
   /** Reinitialize the level set functions to a signed distance function */
   void ReinitializeToSignedDistance();
+
+  LevelSetContainerPointer    m_UpdateBuffer;
+
+  friend class LevelSetEvolutionComputeIterationThreader< LevelSetType, ThreadedImageRegionPartitioner< TImage::ImageDimension >, Self >;
+  typedef LevelSetEvolutionComputeIterationThreader< LevelSetType, ThreadedImageRegionPartitioner< TImage::ImageDimension >, Self > SingleLevelSetComputeIterationThreaderType;
+  typename SingleLevelSetComputeIterationThreaderType::Pointer m_SingleLevelSetComputeIterationThreader;
+
 };
 
 

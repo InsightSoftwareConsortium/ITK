@@ -28,7 +28,9 @@ namespace itk
 template< class TEquationContainer, class TImage >
 LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
 ::LevelSetEvolution()
-{}
+{
+  this->m_SingleLevelSetComputeIterationThreader = SingleLevelSetComputeIterationThreaderType::New();
+}
 
 template< class TEquationContainer, class TImage >
 LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
@@ -92,23 +94,7 @@ LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
     }
   else // assume there is one level set that covers the RequestedRegion of the InputImage
     {
-    ImageRegionConstIteratorWithIndex< InputImageType > it( inputImage, inputImage->GetRequestedRegion() );
-    it.GoToBegin();
-    while( !it.IsAtEnd() )
-      {
-      LevelSetPointer levelSetUpdate = this->m_UpdateBuffer->GetLevelSet( 0 );
-
-      LevelSetDataType characteristics;
-
-      TermContainerPointer termContainer = this->m_EquationContainer->GetEquation( 0 );
-      termContainer->ComputeRequiredData( it.GetIndex(), characteristics );
-
-      LevelSetOutputRealType temp_update = termContainer->Evaluate( it.GetIndex(), characteristics );
-
-      LevelSetImageType* levelSetImage = levelSetUpdate->GetImage();
-      levelSetImage->SetPixel( it.GetIndex(), temp_update );
-      ++it;
-      }
+    this->m_SingleLevelSetComputeIterationThreader->Execute( this, inputImage->GetRequestedRegion() );
     }
 }
 
