@@ -195,5 +195,62 @@ LevelSetEvolutionBase< TEquationContainer, TLevelSet >
   this->m_EquationContainer->UpdateInternalEquationTerms();
 }
 
+template< class TEquationContainer, class TLevelSet >
+void
+LevelSetEvolutionBase< TEquationContainer, TLevelSet >
+::Evolve()
+{
+  this->AllocateUpdateBuffer();
+
+  this->InitializeIteration();
+
+  typename StoppingCriterionType::IterationIdType iter = 0;
+  this->m_StoppingCriterion->SetCurrentIteration( iter );
+  this->m_StoppingCriterion->SetLevelSetContainer( this->m_LevelSetContainer );
+
+  while( !this->m_StoppingCriterion->IsSatisfied() )
+    {
+    this->m_RMSChangeAccumulator = NumericTraits< LevelSetOutputRealType >::Zero;
+
+    // one iteration over all container
+    // update each level set based on the different equations provided
+    this->ComputeIteration();
+
+    this->ComputeTimeStepForNextIteration();
+
+    this->UpdateLevelSets();
+    this->UpdateEquations();
+
+    ++iter;
+
+    this->m_StoppingCriterion->SetRMSChangeAccumulator( this->m_RMSChangeAccumulator );
+    this->m_StoppingCriterion->SetCurrentIteration( iter );
+
+    this->m_NumberOfIterations++;
+    this->InvokeEvent( IterationEvent() );
+    }
+}
+
+template< class TEquationContainer, class TLevelSet >
+void
+LevelSetEvolutionBase< TEquationContainer, TLevelSet >
+::AllocateUpdateBuffer()
+{
+}
+
+template< class TEquationContainer, class TLevelSet >
+void
+LevelSetEvolutionBase< TEquationContainer, TLevelSet >
+::ComputeIteration()
+{
+}
+
+template< class TEquationContainer, class TLevelSet >
+void
+LevelSetEvolutionBase< TEquationContainer, TLevelSet >
+::ComputeTimeStepForNextIteration()
+{
+}
+
 }
 #endif // __itkLevelSetEvolutionBase_hxx

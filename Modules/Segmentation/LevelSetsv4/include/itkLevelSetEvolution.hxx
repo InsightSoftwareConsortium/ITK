@@ -24,6 +24,7 @@
 
 namespace itk
 {
+
 template< class TEquationContainer, class TImage >
 LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
 ::LevelSetEvolution()
@@ -41,45 +42,6 @@ LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
 {
   this->m_UpdateBuffer = LevelSetContainerType::New();
   this->m_UpdateBuffer->CopyInformationAndAllocate( this->m_LevelSetContainer, true );
-}
-
-template< class TEquationContainer, class TImage >
-void
-LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
-::Evolve()
-{
-  this->AllocateUpdateBuffer();
-
-  this->InitializeIteration();
-
-  typename StoppingCriterionType::IterationIdType iter = 0;
-  this->m_StoppingCriterion->SetCurrentIteration( iter );
-  this->m_StoppingCriterion->SetLevelSetContainer( this->m_LevelSetContainer );
-
-  while( !this->m_StoppingCriterion->IsSatisfied() )
-    {
-    this->m_RMSChangeAccumulator = 0;
-
-    // one iteration over all container
-    // update each level set based on the different equations provided
-    this->ComputeIteration();
-
-    //       ComputeCFL();
-
-    this->ComputeTimeStepForNextIteration();
-
-    this->UpdateLevelSets();
-    this->Reinitialize();
-    this->UpdateEquations();
-
-    ++iter;
-
-    this->m_StoppingCriterion->SetRMSChangeAccumulator( this->m_RMSChangeAccumulator );
-    this->m_StoppingCriterion->SetCurrentIteration( iter );
-
-    this->m_NumberOfIterations++;
-    this->InvokeEvent( IterationEvent() );
-    }
 }
 
 template< class TEquationContainer, class TImage >
@@ -223,6 +185,8 @@ LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
     ++it1;
     ++it2;
     }
+
+  this->ReinitializeToSignedDistance();
 }
 
 template< class TEquationContainer, class TImage >
@@ -236,7 +200,7 @@ LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
 template< class TEquationContainer, class TImage >
 void
 LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
-::Reinitialize()
+::ReinitializeToSignedDistance()
 {
   typename LevelSetContainerType::Iterator it = this->m_LevelSetContainer->Begin();
 
@@ -312,42 +276,6 @@ LevelSetEvolution< TEquationContainer, WhitakerSparseLevelSetImage< TOutput, VDi
         }
       }
     ++it;
-    }
-}
-
-template< class TEquationContainer, typename TOutput, unsigned int VDimension >
-void
-LevelSetEvolution< TEquationContainer, WhitakerSparseLevelSetImage< TOutput, VDimension > >
-::Evolve()
-{
-  this->AllocateUpdateBuffer();
-
-  this->InitializeIteration();
-
-  typename StoppingCriterionType::IterationIdType iter = 0;
-  this->m_StoppingCriterion->SetCurrentIteration( iter );
-  this->m_StoppingCriterion->SetLevelSetContainer( this->m_LevelSetContainer );
-
-  while( !this->m_StoppingCriterion->IsSatisfied() )
-    {
-    this->m_RMSChangeAccumulator = NumericTraits< LevelSetOutputRealType >::Zero;
-
-    // one iteration over all container
-    // update each level set based on the different equations provided
-    this->ComputeIteration();
-
-    this->ComputeTimeStepForNextIteration();
-
-    this->UpdateLevelSets();
-    this->UpdateEquations();
-
-    ++iter;
-
-    this->m_StoppingCriterion->SetRMSChangeAccumulator( this->m_RMSChangeAccumulator );
-    this->m_StoppingCriterion->SetCurrentIteration( iter );
-
-    this->m_NumberOfIterations++;
-    this->InvokeEvent( IterationEvent() );
     }
 }
 
@@ -433,17 +361,17 @@ LevelSetEvolution< TEquationContainer, WhitakerSparseLevelSetImage< TOutput, VDi
     {
     LevelSetPointer levelSet = it->GetLevelSet();
 
-    UpdateLevelSetFilterPointer update_levelset = UpdateLevelSetFilterType::New();
-    update_levelset->SetInputLevelSet( levelSet );
-    update_levelset->SetUpdate( * this->m_UpdateBuffer[it->GetIdentifier()] );
-    update_levelset->SetEquationContainer( this->m_EquationContainer );
-    update_levelset->SetTimeStep( this->m_Dt );
-    update_levelset->SetCurrentLevelSetId( it->GetIdentifier() );
-    update_levelset->Update();
+    UpdateLevelSetFilterPointer updateLevelSet = UpdateLevelSetFilterType::New();
+    updateLevelSet->SetInputLevelSet( levelSet );
+    updateLevelSet->SetUpdate( * this->m_UpdateBuffer[it->GetIdentifier()] );
+    updateLevelSet->SetEquationContainer( this->m_EquationContainer );
+    updateLevelSet->SetTimeStep( this->m_Dt );
+    updateLevelSet->SetCurrentLevelSetId( it->GetIdentifier() );
+    updateLevelSet->Update();
 
-    levelSet->Graft( update_levelset->GetOutputLevelSet() );
+    levelSet->Graft( updateLevelSet->GetOutputLevelSet() );
 
-    this->m_RMSChangeAccumulator = update_levelset->GetRMSChangeAccumulator();
+    this->m_RMSChangeAccumulator = updateLevelSet->GetRMSChangeAccumulator();
 
     this->m_UpdateBuffer[it->GetIdentifier()]->clear();
     ++it;
@@ -470,60 +398,6 @@ LevelSetEvolution< TEquationContainer, ShiSparseLevelSetImage< VDimension > >
 ::~LevelSetEvolution()
 {}
 
-
-template< class TEquationContainer, unsigned int VDimension >
-void LevelSetEvolution< TEquationContainer, ShiSparseLevelSetImage< VDimension > >
-::AllocateUpdateBuffer()
-{}
-
-template< class TEquationContainer, unsigned int VDimension >
-void LevelSetEvolution< TEquationContainer, ShiSparseLevelSetImage< VDimension > >
-::Evolve()
-{
-  this->AllocateUpdateBuffer();
-
-  this->InitializeIteration();
-
-  typename StoppingCriterionType::IterationIdType iter = 0;
-  this->m_StoppingCriterion->SetCurrentIteration( iter );
-  this->m_StoppingCriterion->SetLevelSetContainer( this->m_LevelSetContainer );
-
-  while( !this->m_StoppingCriterion->IsSatisfied() )
-    {
-    this->m_RMSChangeAccumulator = NumericTraits< LevelSetOutputRealType >::Zero;
-
-    // one iteration over all container
-    // update each level set based on the different equations provided
-    this->ComputeIteration();
-
-    this->ComputeTimeStepForNextIteration();
-
-    this->UpdateLevelSets();
-    this->UpdateEquations();
-
-    ++iter;
-
-    this->m_StoppingCriterion->SetRMSChangeAccumulator( this->m_RMSChangeAccumulator );
-    this->m_StoppingCriterion->SetCurrentIteration( iter );
-
-    this->m_NumberOfIterations++;
-    this->InvokeEvent( IterationEvent() );
-    }
-}
-
-template< class TEquationContainer, unsigned int VDimension >
-void LevelSetEvolution< TEquationContainer, ShiSparseLevelSetImage< VDimension > >
-::ComputeIteration()
-{
-}
-
-template< class TEquationContainer, unsigned int VDimension >
-void LevelSetEvolution< TEquationContainer, ShiSparseLevelSetImage< VDimension > >
-::ComputeTimeStepForNextIteration()
-{
-}
-
-
 template< class TEquationContainer, unsigned int VDimension >
 void LevelSetEvolution< TEquationContainer, ShiSparseLevelSetImage< VDimension > >
 ::UpdateLevelSets()
@@ -534,15 +408,15 @@ void LevelSetEvolution< TEquationContainer, ShiSparseLevelSetImage< VDimension >
     {
     LevelSetPointer levelSet = it->GetLevelSet();
 
-    UpdateLevelSetFilterPointer update_levelset = UpdateLevelSetFilterType::New();
-    update_levelset->SetInputLevelSet( levelSet );
-    update_levelset->SetCurrentLevelSetId( it->GetIdentifier() );
-    update_levelset->SetEquationContainer( this->m_EquationContainer );
-    update_levelset->Update();
+    UpdateLevelSetFilterPointer updateLevelSet = UpdateLevelSetFilterType::New();
+    updateLevelSet->SetInputLevelSet( levelSet );
+    updateLevelSet->SetCurrentLevelSetId( it->GetIdentifier() );
+    updateLevelSet->SetEquationContainer( this->m_EquationContainer );
+    updateLevelSet->Update();
 
-    levelSet->Graft( update_levelset->GetOutputLevelSet() );
+    levelSet->Graft( updateLevelSet->GetOutputLevelSet() );
 
-    this->m_RMSChangeAccumulator = update_levelset->GetRMSChangeAccumulator();
+    this->m_RMSChangeAccumulator = updateLevelSet->GetRMSChangeAccumulator();
 
     ++it;
     }
@@ -569,56 +443,6 @@ LevelSetEvolution< TEquationContainer, MalcolmSparseLevelSetImage< VDimension > 
 
 template< class TEquationContainer, unsigned int VDimension >
 void LevelSetEvolution< TEquationContainer, MalcolmSparseLevelSetImage< VDimension > >
-::AllocateUpdateBuffer()
-{}
-
-template< class TEquationContainer, unsigned int VDimension >
-void LevelSetEvolution< TEquationContainer, MalcolmSparseLevelSetImage< VDimension > >
-::ComputeIteration()
-{}
-
-template< class TEquationContainer, unsigned int VDimension >
-void LevelSetEvolution< TEquationContainer, MalcolmSparseLevelSetImage< VDimension > >
-::ComputeTimeStepForNextIteration()
-{}
-
-template< class TEquationContainer, unsigned int VDimension >
-void LevelSetEvolution< TEquationContainer, MalcolmSparseLevelSetImage< VDimension > >
-::Evolve()
-{
-  this->AllocateUpdateBuffer();
-
-  this->InitializeIteration();
-
-  typename StoppingCriterionType::IterationIdType iter = 0;
-  this->m_StoppingCriterion->SetCurrentIteration( iter );
-  this->m_StoppingCriterion->SetLevelSetContainer( this->m_LevelSetContainer );
-
-  while( !this->m_StoppingCriterion->IsSatisfied() )
-    {
-    this->m_RMSChangeAccumulator = NumericTraits< LevelSetOutputRealType >::Zero;
-
-    // one iteration over all container
-    // update each level set based on the different equations provided
-    this->ComputeIteration();
-
-    this->ComputeTimeStepForNextIteration();
-
-    this->UpdateLevelSets();
-    this->UpdateEquations();
-
-    ++iter;
-
-    this->m_StoppingCriterion->SetRMSChangeAccumulator( this->m_RMSChangeAccumulator );
-    this->m_StoppingCriterion->SetCurrentIteration( iter );
-
-    this->m_NumberOfIterations++;
-    this->InvokeEvent( IterationEvent() );
-    }
-}
-
-template< class TEquationContainer, unsigned int VDimension >
-void LevelSetEvolution< TEquationContainer, MalcolmSparseLevelSetImage< VDimension > >
 ::UpdateLevelSets()
 {
   typename LevelSetContainerType::Iterator it = this->m_LevelSetContainer->Begin();
@@ -628,15 +452,15 @@ void LevelSetEvolution< TEquationContainer, MalcolmSparseLevelSetImage< VDimensi
     LevelSetPointer         levelSet    = it->GetLevelSet();
     LevelSetIdentifierType  levelSetId  = it->GetIdentifier();
 
-    UpdateLevelSetFilterPointer update_levelset = UpdateLevelSetFilterType::New();
-    update_levelset->SetInputLevelSet( levelSet );
-    update_levelset->SetCurrentLevelSetId( levelSetId );
-    update_levelset->SetEquationContainer( this->m_EquationContainer );
-    update_levelset->Update();
+    UpdateLevelSetFilterPointer updateLevelSet = UpdateLevelSetFilterType::New();
+    updateLevelSet->SetInputLevelSet( levelSet );
+    updateLevelSet->SetCurrentLevelSetId( levelSetId );
+    updateLevelSet->SetEquationContainer( this->m_EquationContainer );
+    updateLevelSet->Update();
 
-    levelSet->Graft( update_levelset->GetOutputLevelSet() );
+    levelSet->Graft( updateLevelSet->GetOutputLevelSet() );
 
-    this->m_RMSChangeAccumulator = update_levelset->GetRMSChangeAccumulator();
+    this->m_RMSChangeAccumulator = updateLevelSet->GetRMSChangeAccumulator();
 
     ++it;
     }

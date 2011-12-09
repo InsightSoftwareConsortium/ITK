@@ -128,26 +128,22 @@ protected:
 
   /** Initialize the update buffers for all level sets to hold the updates of
    *  equations in each iteration */
-  void AllocateUpdateBuffer();
-
-  /** Run the iterative loops of calculating levelset function updates until
-   *  the stopping criterion is satisfied */
-  virtual void Evolve();
+  virtual void AllocateUpdateBuffer();
 
   /** Computer the update at each pixel and store in the update buffer */
-  void ComputeIteration();
+  virtual void ComputeIteration();
 
   /** Compute the time-step for the next iteration */
-  void ComputeTimeStepForNextIteration();
+  virtual void ComputeTimeStepForNextIteration();
 
   /** Update the levelset by 1 iteration from the computed updates */
   virtual void UpdateLevelSets();
 
   /** Update the equations at the end of 1 iteration */
-  void UpdateEquations();
+  virtual void UpdateEquations();
 
   /** Reinitialize the level set functions to a signed distance function */
-  void Reinitialize();
+  void ReinitializeToSignedDistance();
 };
 
 
@@ -235,23 +231,19 @@ protected:
 
   /** Initialize the update buffers for all level sets to hold the updates of
    *  equations in each iteration */
-  void AllocateUpdateBuffer();
-
-  /** Run the iterative loops of calculating levelset function updates until
-   *  the stopping criterion is satisfied */
-  virtual void Evolve();
+  virtual void AllocateUpdateBuffer();
 
   /** Compute the update at each pixel and store in the update buffer */
-  void ComputeIteration();
+  virtual void ComputeIteration();
 
   /** Compute the time-step for the next iteration */
-  void ComputeTimeStepForNextIteration();
+  virtual void ComputeTimeStepForNextIteration();
 
   /** Update the levelset by 1 iteration from the computed updates */
   virtual void UpdateLevelSets();
 
   /** Update the equations at the end of 1 iteration */
-  void UpdateEquations();
+  virtual void UpdateEquations();
 
 private:
   LevelSetEvolution( const Self& );
@@ -335,25 +327,11 @@ protected:
   LevelSetEvolution();
   ~LevelSetEvolution();
 
-  /** Initialize the update buffers for all level sets to hold the updates of
-   *  equations in each iteration */
-  void AllocateUpdateBuffer();
-
-  /** Run the iterative loops of calculating levelset function updates until
-   *  the stopping criterion is satisfied */
-  virtual void Evolve();
-
-  /** Computer the update at each pixel and store in the update buffer */
-  void ComputeIteration();
-
-  /** Compute the time-step for the next iteration */
-  void ComputeTimeStepForNextIteration();
-
   /** Update the levelset by 1 iteration from the computed updates */
   virtual void UpdateLevelSets();
 
   /** Update the equations at the end of 1 iteration */
-  void UpdateEquations();
+  virtual void UpdateEquations();
 
 private:
   LevelSetEvolution( const Self& );
@@ -433,25 +411,11 @@ public:
 
 protected:
   LevelSetEvolution();
-  ~LevelSetEvolution();
+  virtual ~LevelSetEvolution();
 
-  /** Initialize the update buffers for all level sets to hold the updates of
-   *  equations in each iteration */
-  void AllocateUpdateBuffer();
+  virtual void UpdateLevelSets();
 
-  /** Computer the update at each pixel and store in the update buffer */
-  void ComputeIteration();
-
-  /** Compute the time-step for the next iteration */
-  void ComputeTimeStepForNextIteration();
-
-  /** Run the iterative loops of calculating levelset function updates until
-   *  the stopping criterion is satisfied */
-  virtual void Evolve();
-
-  void UpdateLevelSets();
-
-  void UpdateEquations();
+  virtual void UpdateEquations();
 
 private:
   LevelSetEvolution( const Self& ); // purposely not implemented

@@ -130,7 +130,33 @@ protected:
 
   virtual ~LevelSetEvolutionBase();
 
-  StoppingCriterionPointer  m_StoppingCriterion;
+  void CheckSetUp();
+
+  /** Initialize the iteration by computing parameters in the terms of the level set equation */
+  void InitializeIteration();
+
+  /** Run the iterative loops of calculating levelset function updates until
+   *  the stopping criterion is satisfied.  Calls AllocateUpdateBuffer,
+   *  ComputeIteration, ComputeTimeStepForNextIteration, UpdateLevelSets,
+   *  UpdateEquations.  */
+  void Evolve();
+
+  /** Initialize the update buffers for all level sets to hold the updates of
+   *  equations in each iteration. No-op by default. */
+  virtual void AllocateUpdateBuffer();
+
+  /** Computer the update at each pixel and store in the update buffer. No-op by
+   * default. */
+  virtual void ComputeIteration();
+
+  /** Compute the time-step for the next iteration. No-op by default. */
+  virtual void ComputeTimeStepForNextIteration();
+
+  virtual void UpdateLevelSets() = 0;
+
+  virtual void UpdateEquations() = 0;
+
+  StoppingCriterionPointer    m_StoppingCriterion;
 
   EquationContainerPointer    m_EquationContainer;
   LevelSetContainerPointer    m_LevelSetContainer;
@@ -140,15 +166,6 @@ protected:
   LevelSetOutputRealType      m_RMSChangeAccumulator;
   bool                        m_UserGloballyDefinedTimeStep;
   IdentifierType              m_NumberOfIterations;
-
-  void CheckSetUp();
-
-  /** Run the iterative loops of calculating levelset function updates until
-   *  the stopping criterion is satisfied */
-  virtual void Evolve() = 0;
-
-  /** Initialize the iteration by computing parameters in the terms of the level set equation */
-  void InitializeIteration();
 
 private:
   LevelSetEvolutionBase( const Self& ); // purposely not implemented
