@@ -32,6 +32,9 @@
 #include "itkMalcolmSparseLevelSetImage.h"
 #include "itkUpdateMalcolmSparseLevelSet.h"
 
+#include "itkLevelSetEvolutionComputeIterationThreader.h"
+#include "itkLevelSetEvolutionUpdateLevelSetsThreader.h"
+
 namespace itk
 {
 /**
@@ -90,13 +93,10 @@ public:
   typedef typename Superclass::LevelSetContainerIteratorType      LevelSetContainerIteratorType;
 
   typedef typename LevelSetType::ImageType        LevelSetImageType;
-  typedef typename LevelSetImageType::Pointer     LevelSetImagePointer;
 
-  typedef typename Superclass::LevelSetPointer        LevelSetPointer;
   typedef typename Superclass::LevelSetOutputType     LevelSetOutputType;
   typedef typename Superclass::LevelSetOutputRealType LevelSetOutputRealType;
   typedef typename Superclass::LevelSetDataType       LevelSetDataType;
-
 
   typedef typename Superclass::IdListType                   IdListType;
   typedef typename Superclass::IdListIterator               IdListIterator;
@@ -124,8 +124,6 @@ protected:
   LevelSetEvolution();
   ~LevelSetEvolution();
 
-  LevelSetContainerPointer    m_UpdateBuffer;
-
   /** Initialize the update buffers for all level sets to hold the updates of
    *  equations in each iteration */
   virtual void AllocateUpdateBuffer();
@@ -144,6 +142,16 @@ protected:
 
   /** Reinitialize the level set functions to a signed distance function */
   void ReinitializeToSignedDistance();
+
+  LevelSetContainerPointer    m_UpdateBuffer;
+
+  friend class LevelSetEvolutionComputeIterationThreader< LevelSetType, ThreadedImageRegionPartitioner< TImage::ImageDimension >, Self >;
+  typedef LevelSetEvolutionComputeIterationThreader< LevelSetType, ThreadedImageRegionPartitioner< TImage::ImageDimension >, Self > SingleLevelSetComputeIterationThreaderType;
+  typename SingleLevelSetComputeIterationThreaderType::Pointer m_SingleLevelSetComputeIterationThreader;
+
+  friend class LevelSetEvolutionUpdateLevelSetsThreader< LevelSetType, ThreadedImageRegionPartitioner< TImage::ImageDimension >, Self >;
+  typedef LevelSetEvolutionUpdateLevelSetsThreader< LevelSetType, ThreadedImageRegionPartitioner< TImage::ImageDimension >, Self > SingleLevelSetUpdateLevelSetsThreaderType;
+  typename SingleLevelSetUpdateLevelSetsThreaderType::Pointer m_SingleLevelSetUpdateLevelSetsThreader;
 };
 
 
