@@ -69,7 +69,6 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   typedef typename InputImageType::RegionType RegionType;
   const RegionType inputRegion = inputImage->GetBufferedRegion();
 
-
   // Calculate the log of the input image.
   RealImagePointer logInputImage = RealImageType::New();
   logInputImage->CopyInformation( inputImage );
@@ -89,14 +88,17 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
     ++outItr;
     }
 
+  const MaskImageType * maskImage = this->GetMaskImage();
+  const RealImageType * confidenceImage = this->GetConfidenceImage();
+
   ImageRegionIteratorWithIndex<RealImageType> It( logInputImage, inputRegion );
 
   for( It.GoToBegin(); !It.IsAtEnd(); ++It )
     {
-    if( ( !this->GetMaskImage() ||
-          this->GetMaskImage()->GetPixel( It.GetIndex() ) == this->m_MaskLabel )
-        && ( !this->GetConfidenceImage() ||
-             this->GetConfidenceImage()->GetPixel( It.GetIndex() ) > 0.0 ) )
+    if( ( !maskImage ||
+          maskImage->GetPixel( It.GetIndex() ) == this->m_MaskLabel )
+        && ( !confidenceImage ||
+             confidenceImage->GetPixel( It.GetIndex() ) > 0.0 ) )
       {
       if( It.Get() > NumericTraits<typename InputImageType::PixelType>::Zero )
         {
@@ -230,6 +232,9 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::RealIma
 N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 ::SharpenImage( const RealImageType *unsharpenedImage ) const
 {
+  const MaskImageType * maskImage = this->GetMaskImage();
+  const RealImageType * confidenceImage = this->GetConfidenceImage();
+
   // Build the histogram for the uncorrected image.  Store copy
   // in a vnl_vector to utilize vnl FFT routines.  Note that variables
   // in real space are denoted by a single uppercase letter whereas their
@@ -243,10 +248,10 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 
   for( ItU.GoToBegin(); !ItU.IsAtEnd(); ++ItU )
     {
-    if( ( !this->GetMaskImage() ||
-          this->GetMaskImage()->GetPixel( ItU.GetIndex() ) == this->m_MaskLabel )
-        && ( !this->GetConfidenceImage() ||
-             this->GetConfidenceImage()->GetPixel( ItU.GetIndex() ) > 0.0 ) )
+    if( ( !maskImage ||
+          maskImage->GetPixel( ItU.GetIndex() ) == this->m_MaskLabel )
+        && ( !confidenceImage ||
+             confidenceImage->GetPixel( ItU.GetIndex() ) > 0.0 ) )
       {
       RealType pixel = ItU.Get();
       if( pixel > binMaximum )
@@ -269,10 +274,10 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 
   for( ItU.GoToBegin(); !ItU.IsAtEnd(); ++ItU )
     {
-    if( ( !this->GetMaskImage() ||
-          this->GetMaskImage()->GetPixel( ItU.GetIndex() ) == this->m_MaskLabel )
-        && ( !this->GetConfidenceImage() ||
-             this->GetConfidenceImage()->GetPixel( ItU.GetIndex() ) > 0.0 ) )
+    if( ( !maskImage ||
+          maskImage->GetPixel( ItU.GetIndex() ) == this->m_MaskLabel )
+        && ( !confidenceImage ||
+             confidenceImage->GetPixel( ItU.GetIndex() ) > 0.0 ) )
       {
       RealType pixel = ItU.Get();
 
@@ -434,10 +439,10 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 
   for( ItU.GoToBegin(), ItC.GoToBegin(); !ItU.IsAtEnd(); ++ItU, ++ItC )
     {
-    if( ( !this->GetMaskImage() ||
-          this->GetMaskImage()->GetPixel( ItU.GetIndex() ) == this->m_MaskLabel )
-        && ( !this->GetConfidenceImage() ||
-             this->GetConfidenceImage()->GetPixel( ItU.GetIndex() ) > 0.0 ) )
+    if( ( !maskImage ||
+          maskImage->GetPixel( ItU.GetIndex() ) == this->m_MaskLabel )
+        && ( !confidenceImage ||
+             confidenceImage->GetPixel( ItU.GetIndex() ) > 0.0 ) )
       {
       RealType     cidx = ( ItU.Get() - binMinimum ) / histogramSlope;
       unsigned int idx = vnl_math_floor( cidx );
@@ -492,16 +497,20 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   typename BSplineFilterType::WeightsContainerType::Pointer weights =
     BSplineFilterType::WeightsContainerType::New();
   weights->Initialize();
+
+  const MaskImageType * maskImage = this->GetMaskImage();
+  const RealImageType * confidenceImage = this->GetConfidenceImage();
+
   ImageRegionConstIteratorWithIndex<RealImageType>
     It( parametricFieldEstimate, parametricFieldEstimate->GetRequestedRegion() );
 
   unsigned int index = 0;
   for ( It.GoToBegin(); !It.IsAtEnd(); ++It )
     {
-    if( ( !this->GetMaskImage() ||
-          this->GetMaskImage()->GetPixel( It.GetIndex() ) == this->m_MaskLabel )
-        && ( !this->GetConfidenceImage() ||
-             this->GetConfidenceImage()->GetPixel( It.GetIndex() ) > 0.0 ) )
+    if( ( !maskImage ||
+          maskImage->GetPixel( It.GetIndex() ) == this->m_MaskLabel )
+        && ( !confidenceImage ||
+             confidenceImage->GetPixel( It.GetIndex() ) > 0.0 ) )
       {
       PointType point;
       parametricFieldEstimate->TransformIndexToPhysicalPoint( It.GetIndex(), point );
@@ -513,10 +522,9 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
       fieldPoints->SetPoint( index, point );
 
       RealType confidenceWeight = 1.0;
-      if( this->GetConfidenceImage() )
+      if( confidenceImage )
         {
-        confidenceWeight =
-          this->GetConfidenceImage()->GetPixel( It.GetIndex() );
+        confidenceWeight = confidenceImage->GetPixel( It.GetIndex() );
         }
       weights->InsertElement( index, confidenceWeight );
       index++;
@@ -631,16 +639,19 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   RealType sigma = 0.0;
   RealType N = 0.0;
 
+  const MaskImageType * maskImage = this->GetMaskImage();
+  const RealImageType * confidenceImage = this->GetConfidenceImage();
+
   ImageRegionConstIteratorWithIndex<RealImageType> It(
     subtracter->GetOutput(),
     subtracter->GetOutput()->GetLargestPossibleRegion() );
 
   for( It.GoToBegin(); !It.IsAtEnd(); ++It )
     {
-    if( ( !this->GetMaskImage() ||
-          this->GetMaskImage()->GetPixel( It.GetIndex() ) == this->m_MaskLabel )
-        && ( !this->GetConfidenceImage() ||
-             this->GetConfidenceImage()->GetPixel( It.GetIndex() ) > 0.0 ) )
+    if( ( !maskImage ||
+          maskImage->GetPixel( It.GetIndex() ) == this->m_MaskLabel )
+        && ( !confidenceImage ||
+             confidenceImage->GetPixel( It.GetIndex() ) > 0.0 ) )
       {
       RealType pixel = vcl_exp( It.Get() );
       N += 1.0;
