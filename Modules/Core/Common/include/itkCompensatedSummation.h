@@ -63,7 +63,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template < class TFloat >
-class ITKCommon_EXPORT CompensatedSummation
+class CompensatedSummation
 {
 public:
   /** Type of the input elements. */
@@ -110,6 +110,9 @@ private:
   itkConceptMacro( OnlyDefinedForFloatingPointTypes, ( itk::Concept::IsFloatingPoint< TFloat > ) );
 #endif // ITK_USE_CONCEPT_CHECKING
 };
+
+void ITKCommon_EXPORT CompensatedSummationAddElement( float& compensation, float& sum, const float& element );
+void ITKCommon_EXPORT CompensatedSummationAddElement( double& compensation, double& sum, const double& element );
 
 } // end namespace itk
 
