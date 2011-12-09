@@ -567,7 +567,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::CommonVertexNeigh
                          sym_list.begin(), sym_list.end(),
                          std::back_inserter(intersection_list) );
 
-  return intersection_list.size();
+  return static_cast< PointIdentifier >( intersection_list.size() );
 }
 
 //--------------------------------------------------------------------------
