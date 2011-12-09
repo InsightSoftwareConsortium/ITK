@@ -32,8 +32,10 @@ void ITKCommon_EXPORT CompensatedSummationAddElement( double& compensation, doub
 #pragma optimize("", "off")
 #endif // __INTEL_COMPILER
 #ifdef __GNUC__
+#if __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ > 3)
 #pragma GCC push_options
 #pragma GCC optimize ("O0")
+#endif // >= GCC v4.4
 #endif // __GNUC__ i.e. GCC
 #ifdef _MSC_VER
 #pragma float_control(push)
@@ -56,7 +58,9 @@ void ITKCommon_EXPORT CompensatedSummationAddElement( TFloat& compensation, TFlo
 #pragma optimize("", "on")
 #endif // __INTEL_COMPILER
 #ifdef __GNUC__
+#if __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ > 3)
 #pragma GCC pop_options
+#endif // >= GCC v4.4
 #endif // __GNUC_
 #ifdef _MSC_VER
 #pragma float_control(pop)
