@@ -42,7 +42,7 @@ void ITKCommon_EXPORT CompensatedSummationAddElement( double& compensation, doub
 #endif // not __itkCompensatedSummation_cxx
 template <typename TFloat>
 /** A helper for the CompensatedSummation class. */
-void ITKCommon_EXPORT CompensatedSummationAddElement( TFloat& compensation, TFloat& sum, const TFloat& element, int=0)
+void CompensatedSummationAddElement( TFloat& compensation, TFloat& sum, const TFloat& element, int=0)
 {
   typedef typename NumericTraits< TFloat >::AccumulateType AccumulateType;
   const AccumulateType compensatedInput = static_cast< AccumulateType >( element - compensation );
