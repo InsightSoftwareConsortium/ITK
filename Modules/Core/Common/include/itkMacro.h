@@ -64,6 +64,8 @@ namespace itk
 
 /*
  * ITK only supports MSVC++ 7.1 and greater
+ * MSVC++ 11.0 _MSC_VER = 1700
+ * MSVC++ 10.0 _MSC_VER = 1600
  * MSVC++ 9.0 _MSC_VER = 1500
  * MSVC++ 8.0 _MSC_VER = 1400
  * MSVC++ 7.1 _MSC_VER = 1310
