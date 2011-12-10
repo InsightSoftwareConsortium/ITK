@@ -20,8 +20,10 @@
 
 #include "itkDomainThreader.h"
 #include "itkThreadedImageRegionPartitioner.h"
+#include "itkThreadedIteratorRangePartitioner.h"
 
 #include "itkLevelSetDenseImageBase.h"
+#include "itkWhitakerSparseLevelSetImage.h"
 
 namespace itk
 {
@@ -76,6 +78,60 @@ protected:
   LevelSetEvolutionComputeIterationThreader();
 
   virtual void ThreadedExecution( const DomainType & imageSubRegion, const ThreadIdType threadId );
+
+private:
+  LevelSetEvolutionComputeIterationThreader( const Self & ); // purposely not implemented
+  void operator=( const Self & ); // purposely not implemented
+};
+
+// For dense image level set with a single evolving level set.
+template< class TOutput, unsigned int VDimension, class TLevelSetEvolution >
+class LevelSetEvolutionComputeIterationThreader<
+      WhitakerSparseLevelSetImage< TOutput, VDimension >,
+      ThreadedIteratorRangePartitioner< typename WhitakerSparseLevelSetImage< TOutput, VDimension >::LayerConstIterator >,
+      TLevelSetEvolution
+      >
+  : public DomainThreader< ThreadedIteratorRangePartitioner< typename WhitakerSparseLevelSetImage< TOutput, VDimension >::LayerConstIterator >, TLevelSetEvolution >
+{
+public:
+  /** Standard class typedefs. */
+  typedef LevelSetEvolutionComputeIterationThreader                                                                                                                 Self;
+  typedef DomainThreader< ThreadedIteratorRangePartitioner< typename WhitakerSparseLevelSetImage< TOutput, VDimension >::LayerConstIterator >, TLevelSetEvolution > Superclass;
+  typedef SmartPointer< Self >                                                                                                                                      Pointer;
+  typedef SmartPointer< const Self >                                                                                                                                ConstPointer;
+
+  /** Run time type information. */
+  itkTypeMacro( LevelSetEvolutionComputeIterationThreader, DomainThreader );
+
+  /** Standard New macro. */
+  itkNewMacro( Self );
+
+  /** Superclass types. */
+  typedef typename Superclass::DomainType    DomainType;
+  typedef typename Superclass::AssociateType AssociateType;
+
+  /** Types of the associate class. */
+  typedef TLevelSetEvolution                                     LevelSetEvolutionType;
+  typedef typename LevelSetEvolutionType::LevelSetType           LevelSetType;
+  typedef typename LevelSetEvolutionType::LevelSetContainerType  LevelSetContainerType;
+  typedef typename LevelSetEvolutionType::LevelSetIdentifierType LevelSetIdentifierType;
+  typedef typename LevelSetEvolutionType::LevelSetInputType      LevelSetInputType;
+  typedef typename LevelSetEvolutionType::LevelSetOutputType     LevelSetOutputType;
+  typedef typename LevelSetEvolutionType::LevelSetDataType       LevelSetDataType;
+  typedef typename LevelSetEvolutionType::TermContainerType      TermContainerType;
+  typedef typename LevelSetEvolutionType::NodePairType           NodePairType;
+
+protected:
+  LevelSetEvolutionComputeIterationThreader();
+
+  virtual void BeforeThreadedExecution();
+
+  virtual void ThreadedExecution( const DomainType & iteratorSubRange, const ThreadIdType threadId );
+
+  virtual void AfterThreadedExecution();
+
+  typedef std::vector< std::vector< NodePairType > > NodePairsPerThreadType;
+  NodePairsPerThreadType m_NodePairsPerThread;
 
 private:
   LevelSetEvolutionComputeIterationThreader( const Self & ); // purposely not implemented
