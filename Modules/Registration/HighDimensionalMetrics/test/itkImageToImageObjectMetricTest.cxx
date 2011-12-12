@@ -140,21 +140,17 @@ public:
       ::itk::GetImageDimension<TMovingImage>::ImageDimension);
 
 protected:
-  friend class ImageToImageTestGetValueAndDerivativeThreader< itk::ThreadedImageRegionPartitioner< VirtualImageDimension >, Superclass >;
-  friend class ImageToImageTestGetValueAndDerivativeThreader< itk::ThreadedIndexedContainerPartitioner, Superclass >;
+  friend class ImageToImageTestGetValueAndDerivativeThreader<itk::ThreadedImageRegionPartitioner< VirtualImageDimension >, Superclass >;
+  friend class ImageToImageTestGetValueAndDerivativeThreader<itk::ThreadedIndexedContainerPartitioner, Superclass >;
 
-  //This is of one two evaluation methods that the user may call.
-  MeasureType GetValue() const
-  {
-    //TODO
-    itkExceptionMacro("GetValue not yet implemented.");
-  }
+  typedef ImageToImageTestGetValueAndDerivativeThreader<itk::ThreadedImageRegionPartitioner< VirtualImageDimension >, Superclass > DenseThreaderType;
+  typedef ImageToImageTestGetValueAndDerivativeThreader<itk::ThreadedIndexedContainerPartitioner, Superclass >  SparseThreaderType;
 
   ImageToImageObjectMetricTestMetric()
     {
     /* We need threader object instances. */
-    this->m_DenseGetValueAndDerivativeThreader  = ImageToImageTestGetValueAndDerivativeThreader< itk::ThreadedImageRegionPartitioner< VirtualImageDimension >, Superclass >::New();
-    this->m_SparseGetValueAndDerivativeThreader = ImageToImageTestGetValueAndDerivativeThreader< itk::ThreadedIndexedContainerPartitioner, Superclass >::New();
+    this->m_DenseGetValueAndDerivativeThreader  = DenseThreaderType::New();
+    this->m_SparseGetValueAndDerivativeThreader = SparseThreaderType::New();
     }
   virtual ~ImageToImageObjectMetricTestMetric() {}
 
@@ -336,31 +332,62 @@ int ImageToImageObjectMetricTestRunSingleTest(
     }
   catch( itk::ExceptionObject & exc )
     {
-    std::cout << "Caught unexpected exception during Initialize: "
+    std::cerr << "Caught unexpected exception during Initialize: "
               << exc;
     return EXIT_FAILURE;
     }
 
-  // Evaluate
-  ImageToImageObjectMetricTestMetricType::MeasureType valueReturn;
+  // Evaluate using GetValue
+  ImageToImageObjectMetricTestMetricType::MeasureType valueReturn1, valueReturn2;
   ImageToImageObjectMetricTestMetricType::DerivativeType derivativeReturn;
   try
     {
-    metric->GetValueAndDerivative( valueReturn, derivativeReturn );
+    valueReturn1 = metric->GetValue();
     }
   catch( itk::ExceptionObject & exc )
     {
-    std::cout << "Caught unexpected exception during GetValueAndDerivative: "
+    std::cerr << "Caught unexpected exception during GetValue: "
               << exc;
     return EXIT_FAILURE;
     }
 
-  //Check number of threads and valid points
+  // Re-initialize.
+  try
+    {
+    metric->Initialize();
+    }
+  catch( itk::ExceptionObject & exc )
+    {
+    std::cerr << "Caught unexpected exception during re-initialize: "
+              << exc;
+    return EXIT_FAILURE;
+    }
+  // Evaluate using GetValueAndDerivative
+  try
+    {
+    metric->GetValueAndDerivative( valueReturn2, derivativeReturn );
+    }
+  catch( itk::ExceptionObject & exc )
+    {
+    std::cerr << "Caught unexpected exception during GetValueAndDerivative: "
+              << exc;
+    return EXIT_FAILURE;
+    }
+
+  // Test same value returned by different methods
+  std::cout << "Check Value return values..." << std::endl;
+  if( valueReturn1 != valueReturn2 )
+    {
+    std::cerr << "Results for Value don't match: " << valueReturn1
+              << ", " << valueReturn2 << std::endl;
+    }
+
+  // Check number of threads and valid points
   std::cout << "--Number of threads used: "
             << metric->GetNumberOfThreadsUsed() << std::endl;
   if( metric->GetNumberOfValidPoints() != ( expectedNumberOfPoints ) )
     {
-    std::cout << "Expected number of valid points to be "
+    std::cerr << "Expected number of valid points to be "
               << expectedNumberOfPoints
               << " but instead got " << metric->GetNumberOfValidPoints()
               << std::endl;
@@ -371,25 +398,25 @@ int ImageToImageObjectMetricTestRunSingleTest(
   int result = EXIT_SUCCESS;
   if( setTruthValues )
     {
-    truthValue = valueReturn;
+    truthValue = valueReturn2;
     truthDerivative = derivativeReturn;
     }
   else
     {
     // Verify results
     const double epsilon = 1e-10;
-    if( vcl_fabs( truthValue - valueReturn ) > epsilon )
+    if( vcl_fabs( truthValue - valueReturn2 ) > epsilon )
       {
-      std::cout << "-FAILED- truthValue does not equal value: " << std::endl
+      std::cerr << "-FAILED- truthValue does not equal value: " << std::endl
                 << "truthValue: " << truthValue << std::endl
-                << "value: " << valueReturn << std::endl;
+                << "value: " << valueReturn2 << std::endl;
       result = EXIT_FAILURE;
 
       }
     if( ! ImageToImageObjectMetricTestTestArray(
                                           truthDerivative, derivativeReturn ) )
       {
-      std::cout << "-FAILED- truthDerivative does not equal derivatives:"
+      std::cerr << "-FAILED- truthDerivative does not equal derivatives:"
                 << std::endl
                 << "truthDerivative: " << truthDerivative << std::endl
                 << "derivatives: " << derivativeReturn << std::endl;
@@ -487,7 +514,7 @@ int itkImageToImageObjectMetricTest(int, char ** const)
                 ImageToImageObjectMetricTestMetricType::GRADIENT_SOURCE_BOTH );
 
   // Enable ITK debugging output
-  metric->SetDebug( true );
+  metric->SetDebug( false );
 
   // Evaluate the metric and verify results, using identity transforms.
   // Test with different numbers of threads.
@@ -529,7 +556,7 @@ int itkImageToImageObjectMetricTest(int, char ** const)
                                 imageSize * imageSize, false )
                                                               != EXIT_SUCCESS )
               {
-              std::cout << "Failed for these settings: " << std::endl
+              std::cerr << "Failed for these settings: " << std::endl
                         << "Pre-warp image: fixed, moving: "
                         << metric->GetDoFixedImagePreWarp() << ", "
                         << metric->GetDoMovingImagePreWarp() << std::endl

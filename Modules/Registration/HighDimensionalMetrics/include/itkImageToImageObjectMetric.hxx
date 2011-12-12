@@ -86,6 +86,8 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
   this->m_UserHasProvidedVirtualDomainImage = false;
 
   this->m_FloatingPointCorrectionResolution = 1e4;
+
+  this->m_HaveMadeGetValueWarning = false;
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
@@ -275,6 +277,28 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
     itkDebugMacro("Initialize: ComputeMovingImageGradientFilterImage");
     this->ComputeMovingImageGradientFilterImage();
     }
+}
+
+template<class TFixedImage,class TMovingImage,class TVirtualImage>
+typename ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>::MeasureType
+ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
+::GetValue() const
+{
+  /* As long as this is done as a simple inefficient implementation, give
+   * the user a warning. The intention is to provide a more efficient
+   * implementation here eventually, that avoids derivative calcualtions.
+   * Derived classes may override this method and provide their own
+   * efficient implementations as appropriate. */
+  if( ! this->m_HaveMadeGetValueWarning )
+    {
+    itkWarningMacro("Using ImageToImageObjectMetric::GetValue which is a "
+                    "temporary, inefficient implementation. " );
+    this->m_HaveMadeGetValueWarning = true;
+    }
+  DerivativeType derivative;
+  MeasureType value;
+  this->GetValueAndDerivative( value, derivative );
+  return value;
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>

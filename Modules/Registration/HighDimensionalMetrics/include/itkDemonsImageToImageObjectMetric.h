@@ -81,10 +81,6 @@ public:
   itkStaticConstMacro(MovingImageDimension, ImageDimensionType,
       ::itk::GetImageDimension<TMovingImage>::ImageDimension);
 
-  /** Evaluate and return the metric value.
-   * \warning Not yet implemented. */
-  virtual MeasureType GetValue() const;
-
 protected:
   DemonsImageToImageObjectMetric();
   virtual ~DemonsImageToImageObjectMetric();

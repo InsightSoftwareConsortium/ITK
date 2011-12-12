@@ -143,6 +143,7 @@ int itkANTSNeighborhoodCorrelationImageToImageObjectMetricTest( int, char ** con
     IdentityTransformType::Pointer transformMId = IdentityTransformType::New();
     if(transformMId.IsNull())
       {
+      std::cerr << "transformMId == NULL" << std::endl;
       return EXIT_FAILURE;
       }
     DisplacementTransformType::Pointer transformMdisplacement = DisplacementTransformType::New();
@@ -266,7 +267,6 @@ int itkANTSNeighborhoodCorrelationImageToImageObjectMetricTest( int, char ** con
     std::cout << "movingImage:" << std::endl;
     ANTSNeighborhoodCorrelationImageToImageObjectMetricTest_PrintImage(movingImage);
 
-
     /* Initialize. */
     try
       {
@@ -275,26 +275,62 @@ int itkANTSNeighborhoodCorrelationImageToImageObjectMetricTest( int, char ** con
       }
     catch (itk::ExceptionObject & exc)
       {
-      std::cout << "Caught unexpected exception during Initialize: " << exc;
-      std::cout << "Test FAILED." << std::endl;
+      std::cerr << "Caught unexpected exception during Initialize: " << exc;
+      std::cerr << "Test FAILED." << std::endl;
       return EXIT_FAILURE;
       }
 
     // Evaluate
-    MetricType::MeasureType valueReturn;
+    MetricType::MeasureType valueReturn1;
     MetricType::DerivativeType derivativeReturn;
     try
       {
       std::cout << "Calling GetValueAndDerivative..." << std::endl;
-      metric->GetValueAndDerivative(valueReturn, derivativeReturn);
+      metric->GetValueAndDerivative(valueReturn1, derivativeReturn);
       }
     catch (itk::ExceptionObject & exc)
       {
-      std::cout << "Caught unexpected exception during GetValueAndDerivative: "
+      std::cerr << "Caught unexpected exception during GetValueAndDerivative: "
                 << exc;
-      std::cout << "Test FAILED." << std::endl;
+      std::cerr << "Test FAILED." << std::endl;
       return EXIT_FAILURE;
       }
+
+    /* Re-initialize. */
+    try
+      {
+      std::cout << "Calling Initialize..." << std::endl;
+      metric->Initialize();
+      }
+    catch (itk::ExceptionObject & exc)
+      {
+      std::cerr << "Caught unexpected exception during re-initialize: " << exc;
+      std::cerr << "Test FAILED." << std::endl;
+      return EXIT_FAILURE;
+      }
+
+    // Evaluate with GetValue
+    MetricType::MeasureType valueReturn2;
+    try
+      {
+      std::cout << "Calling GetValue..." << std::endl;
+      valueReturn2 = metric->GetValue();
+      }
+    catch (itk::ExceptionObject & exc)
+      {
+      std::cerr << "Caught unexpected exception during GetValue: "
+                << exc;
+      std::cerr << "Test FAILED." << std::endl;
+      return EXIT_FAILURE;
+      }
+
+  // Test same value returned by different methods
+  std::cout << "Check Value return values..." << std::endl;
+  if( valueReturn1 != valueReturn2 )
+    {
+    std::cerr << "Results for Value don't match: " << valueReturn1
+              << ", " << valueReturn2 << std::endl;
+    }
 
     std::cout << "Test passed." << std::endl;
     std::cout << "transformMdisplacement parameters" << std::endl;

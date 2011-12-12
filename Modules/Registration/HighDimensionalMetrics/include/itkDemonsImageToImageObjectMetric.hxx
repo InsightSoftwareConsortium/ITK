@@ -39,14 +39,6 @@ DemonsImageToImageObjectMetric<TFixedImage,TMovingImage,TVirtualImage>
 {
 }
 
-template < class TFixedImage, class TMovingImage, class TVirtualImage >
-typename DemonsImageToImageObjectMetric<TFixedImage,TMovingImage,TVirtualImage>::MeasureType
-DemonsImageToImageObjectMetric<TFixedImage,TMovingImage,TVirtualImage>
-::GetValue() const
-{
-  itkExceptionMacro("GetValue not yet implemented.");
-}
-
 template < class TFixedImage, class TMovingImage, class TVirtualImage  >
 void
 DemonsImageToImageObjectMetric<TFixedImage,TMovingImage,TVirtualImage>
