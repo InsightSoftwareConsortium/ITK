@@ -229,7 +229,7 @@ protected:
    * \sa GenerateData(), SplitRequestedRegion() */
   virtual
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                            int threadId ) ITK_NO_RETURN;
+                            int threadId );
 
 
   /** The GenerateData method normally allocates the buffers for all of the
