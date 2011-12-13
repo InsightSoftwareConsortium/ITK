@@ -50,10 +50,8 @@ LevelSetEvolutionUpdateLevelSetsThreader< LevelSetDenseImageBase< TImage >, Thre
 ::ThreadedExecution( const DomainType & imageSubRegion,
                      const ThreadIdType threadId )
 {
-  typename LevelSetContainerType::Iterator levelSetContainerIt = this->m_Associate->m_LevelSetContainer->Begin();
-  typename LevelSetContainerType::ConstIterator levelSetUpdateContainerIt = this->m_Associate->m_UpdateBuffer->Begin();
-
-  LevelSetOutputRealType p;
+  typename LevelSetContainerType::Iterator levelSetContainerIt = this->m_Associate->m_LevelSetContainerIteratorToProcessWhenThreading;
+  typename LevelSetContainerType::ConstIterator levelSetUpdateContainerIt = this->m_Associate->m_LevelSetUpdateContainerIteratorToProcessWhenThreading;
 
   // This is for single level set analysis, so we only process the first level
   // set.
@@ -68,6 +66,7 @@ LevelSetEvolutionUpdateLevelSetsThreader< LevelSetDenseImageBase< TImage >, Thre
   levelSetImageIt.GoToBegin();
   levelSetUpdateImageIt.GoToBegin();
 
+  LevelSetOutputRealType p;
   while( !levelSetImageIt.IsAtEnd() )
     {
     p = this->m_Associate->m_Dt * levelSetUpdateImageIt.Get();

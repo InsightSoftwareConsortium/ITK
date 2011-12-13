@@ -90,17 +90,17 @@ int itkLevelSetDomainMapImageFilterTest( int, char* [] )
       mapIt = domainMap.find( out_id );
       if( mapIt != mapEnd )
         {
-        const InputImageType::RegionType domainMapRegion = mapIt->second.m_Region;
+        const InputImageType::RegionType domainMapRegion = *(mapIt->second.GetRegion());
         std::cout << domainMapRegion;
 
-        const ListPixelType lout = mapIt->second.m_List;
-        if( lout.empty() )
+        const ListPixelType * lout = mapIt->second.GetIdList();
+        if( lout->empty() )
           {
           return EXIT_FAILURE;
           }
         else
           {
-          for( ListIteratorType lIt = lout.begin(); lIt != lout.end(); ++lIt )
+          for( ListIteratorType lIt = lout->begin(); lIt != lout->end(); ++lIt )
             {
             std::cout << *lIt << " ";
             }

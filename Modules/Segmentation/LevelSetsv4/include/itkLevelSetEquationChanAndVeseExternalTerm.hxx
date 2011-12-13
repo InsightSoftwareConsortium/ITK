@@ -54,20 +54,9 @@ void LevelSetEquationChanAndVeseExternalTerm< TInput, TLevelSetContainer >
 {
   prod = -1 * NumericTraits< LevelSetOutputRealType >::One;
 
-  DomainMapImageFilterType * domainMapFilter = this->m_LevelSetContainer->GetDomainMapFilter();
-
-  bool isDomainMapProvided = false;
-
-  if( domainMapFilter != NULL )
+  if( this->m_LevelSetContainer->HasDomainMap() )
     {
-    if( domainMapFilter->GetDomainMap().size() > 0 )
-      {
-      isDomainMapProvided = true;
-      }
-    }
-
-  if( isDomainMapProvided )
-    {
+    DomainMapImageFilterType * domainMapFilter = this->m_LevelSetContainer->GetDomainMapFilter();
     CacheImageType * cacheImage = domainMapFilter->GetOutput();
     const LevelSetIdentifierType id = cacheImage->GetPixel( iP );
 
@@ -77,21 +66,24 @@ void LevelSetEquationChanAndVeseExternalTerm< TInput, TLevelSetContainer >
 
     if( levelSetMapItr != domainMap.end() )
       {
-      const IdListType lout = levelSetMapItr->second.m_List;
+      const IdListType * idList = levelSetMapItr->second.GetIdList();
 
       LevelSetIdentifierType kk;
       LevelSetPointer levelSet;
       LevelSetOutputRealType value;
 
-      for( IdListConstIterator lIt = lout.begin(); lIt != lout.end(); ++lIt )
+      IdListConstIterator idListIt = idList->begin();
+      while( idListIt != idList->end() )
         {
-        kk = *lIt - 1;
+        //! \todo Fix me for string identifiers
+        kk = *idListIt - 1;
         if( kk != this->m_CurrentLevelSetId )
           {
           levelSet = this->m_LevelSetContainer->GetLevelSet( kk );
           value = levelSet->Evaluate( iP );
           prod *= ( NumericTraits< LevelSetOutputRealType >::One - this->m_Heaviside->Evaluate( -value ) );
           }
+        ++idListIt;
         }
       }
     }

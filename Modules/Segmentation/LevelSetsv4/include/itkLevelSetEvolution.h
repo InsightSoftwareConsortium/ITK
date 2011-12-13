@@ -86,11 +86,8 @@ public:
   itkStaticConstMacro ( ImageDimension, unsigned int, Superclass::ImageDimension );
 
   typedef typename Superclass::LevelSetContainerType    LevelSetContainerType;
-  typedef typename Superclass::LevelSetContainerPointer LevelSetContainerPointer;
 
-  typedef typename Superclass::LevelSetIdentifierType             LevelSetIdentifierType;
-  typedef typename Superclass::LevelSetContainerConstIteratorType LevelSetContainerConstIteratorType;
-  typedef typename Superclass::LevelSetContainerIteratorType      LevelSetContainerIteratorType;
+  typedef typename Superclass::LevelSetIdentifierType   LevelSetIdentifierType;
 
   typedef typename LevelSetType::ImageType        LevelSetImageType;
 
@@ -100,10 +97,10 @@ public:
 
   typedef typename Superclass::IdListType                   IdListType;
   typedef typename Superclass::IdListIterator               IdListIterator;
+  typedef typename Superclass::IdListConstIterator          IdListConstIterator;
   typedef typename Superclass::IdListImageType              IdListImageType;
   typedef typename Superclass::CacheImageType               CacheImageType;
   typedef typename Superclass::DomainMapImageFilterType     DomainMapImageFilterType;
-  typedef typename Superclass::DomainMapImageFilterPointer  DomainMapImageFilterPointer;
 
   typedef typename Superclass::StoppingCriterionType    StoppingCriterionType;
   typedef typename Superclass::StoppingCriterionPointer StoppingCriterionPointer;
@@ -143,25 +140,28 @@ protected:
   /** Reinitialize the level set functions to a signed distance function */
   void ReinitializeToSignedDistance();
 
-  LevelSetContainerPointer    m_UpdateBuffer;
+  typename LevelSetContainerType::Pointer    m_UpdateBuffer;
 
   friend class LevelSetEvolutionComputeIterationThreader< LevelSetType, ThreadedImageRegionPartitioner< TImage::ImageDimension >, Self >;
-  typedef LevelSetEvolutionComputeIterationThreader< LevelSetType, ThreadedImageRegionPartitioner< TImage::ImageDimension >, Self > SingleLevelSetComputeIterationThreaderType;
-  typename SingleLevelSetComputeIterationThreaderType::Pointer m_SingleLevelSetComputeIterationThreader;
+  typedef LevelSetEvolutionComputeIterationThreader< LevelSetType, ThreadedImageRegionPartitioner< TImage::ImageDimension >, Self > SplitLevelSetComputeIterationThreaderType;
+  typename SplitLevelSetComputeIterationThreaderType::Pointer m_SplitLevelSetComputeIterationThreader;
 
   friend class LevelSetEvolutionUpdateLevelSetsThreader< LevelSetType, ThreadedImageRegionPartitioner< TImage::ImageDimension >, Self >;
-  typedef LevelSetEvolutionUpdateLevelSetsThreader< LevelSetType, ThreadedImageRegionPartitioner< TImage::ImageDimension >, Self > SingleLevelSetUpdateLevelSetsThreaderType;
-  typename SingleLevelSetUpdateLevelSetsThreaderType::Pointer m_SingleLevelSetUpdateLevelSetsThreader;
+  typedef LevelSetEvolutionUpdateLevelSetsThreader< LevelSetType, ThreadedImageRegionPartitioner< TImage::ImageDimension >, Self > SplitLevelSetUpdateLevelSetsThreaderType;
+  typename SplitLevelSetUpdateLevelSetsThreaderType::Pointer m_SplitLevelSetUpdateLevelSetsThreader;
+
+  /** Helper variable for threading. */
+  const IdListType * m_IdListToProcessWhenThreading;
 };
 
 
 template< class TEquationContainer, typename TOutput, unsigned int VDimension >
 class LevelSetEvolution<
-    TEquationContainer,
-    WhitakerSparseLevelSetImage< TOutput, VDimension > > :
+TEquationContainer,
+  WhitakerSparseLevelSetImage< TOutput, VDimension > > :
   public LevelSetEvolutionBase<
-    TEquationContainer,
-    WhitakerSparseLevelSetImage< TOutput, VDimension > >
+  TEquationContainer,
+  WhitakerSparseLevelSetImage< TOutput, VDimension > >
 {
 public:
   typedef WhitakerSparseLevelSetImage< TOutput, VDimension > LevelSetType;
@@ -194,13 +194,8 @@ public:
   itkStaticConstMacro ( ImageDimension, unsigned int, Superclass::ImageDimension );
 
   typedef typename Superclass::LevelSetContainerType    LevelSetContainerType;
-  typedef typename Superclass::LevelSetContainerPointer LevelSetContainerPointer;
+  typedef typename Superclass::LevelSetIdentifierType   LevelSetIdentifierType;
 
-  typedef typename Superclass::LevelSetIdentifierType             LevelSetIdentifierType;
-  typedef typename Superclass::LevelSetContainerConstIteratorType LevelSetContainerConstIteratorType;
-  typedef typename Superclass::LevelSetContainerIteratorType      LevelSetContainerIteratorType;
-
-  typedef typename Superclass::LevelSetPointer        LevelSetPointer;
   typedef typename Superclass::LevelSetInputType      LevelSetInputType;
   typedef typename Superclass::LevelSetOutputType     LevelSetOutputType;
   typedef typename Superclass::LevelSetOutputRealType LevelSetOutputRealType;
@@ -218,7 +213,6 @@ public:
   typedef typename Superclass::IdListImageType              IdListImageType;
   typedef typename Superclass::CacheImageType               CacheImageType;
   typedef typename Superclass::DomainMapImageFilterType     DomainMapImageFilterType;
-  typedef typename Superclass::DomainMapImageFilterPointer  DomainMapImageFilterPointer;
 
   typedef typename Superclass::StoppingCriterionType    StoppingCriterionType;
   typedef typename Superclass::StoppingCriterionPointer StoppingCriterionPointer;
@@ -297,13 +291,8 @@ public:
   itkStaticConstMacro ( ImageDimension, unsigned int, Superclass::ImageDimension );
 
   typedef typename Superclass::LevelSetContainerType    LevelSetContainerType;
-  typedef typename Superclass::LevelSetContainerPointer LevelSetContainerPointer;
+  typedef typename Superclass::LevelSetIdentifierType   LevelSetIdentifierType;
 
-  typedef typename Superclass::LevelSetIdentifierType             LevelSetIdentifierType;
-  typedef typename Superclass::LevelSetContainerConstIteratorType LevelSetContainerConstIteratorType;
-  typedef typename Superclass::LevelSetContainerIteratorType      LevelSetContainerIteratorType;
-
-  typedef typename Superclass::LevelSetPointer        LevelSetPointer;
   typedef typename Superclass::LevelSetInputType      LevelSetInputType;
   typedef typename Superclass::LevelSetOutputType     LevelSetOutputType;
   typedef typename Superclass::LevelSetOutputRealType LevelSetOutputRealType;
@@ -321,7 +310,6 @@ public:
   typedef typename Superclass::IdListImageType              IdListImageType;
   typedef typename Superclass::CacheImageType               CacheImageType;
   typedef typename Superclass::DomainMapImageFilterType     DomainMapImageFilterType;
-  typedef typename Superclass::DomainMapImageFilterPointer  DomainMapImageFilterPointer;
 
   typedef typename Superclass::StoppingCriterionType    StoppingCriterionType;
   typedef typename Superclass::StoppingCriterionPointer StoppingCriterionPointer;
@@ -383,13 +371,8 @@ public:
   itkStaticConstMacro ( ImageDimension, unsigned int, Superclass::ImageDimension );
 
   typedef typename Superclass::LevelSetContainerType    LevelSetContainerType;
-  typedef typename Superclass::LevelSetContainerPointer LevelSetContainerPointer;
+  typedef typename Superclass::LevelSetIdentifierType   LevelSetIdentifierType;
 
-  typedef typename Superclass::LevelSetIdentifierType             LevelSetIdentifierType;
-  typedef typename Superclass::LevelSetContainerConstIteratorType LevelSetContainerConstIteratorType;
-  typedef typename Superclass::LevelSetContainerIteratorType      LevelSetContainerIteratorType;
-
-  typedef typename Superclass::LevelSetPointer        LevelSetPointer;
   typedef typename Superclass::LevelSetInputType      LevelSetInputType;
   typedef typename Superclass::LevelSetOutputType     LevelSetOutputType;
   typedef typename Superclass::LevelSetOutputRealType LevelSetOutputRealType;
@@ -407,7 +390,6 @@ public:
   typedef typename Superclass::IdListImageType              IdListImageType;
   typedef typename Superclass::CacheImageType               CacheImageType;
   typedef typename Superclass::DomainMapImageFilterType     DomainMapImageFilterType;
-  typedef typename Superclass::DomainMapImageFilterPointer  DomainMapImageFilterPointer;
 
   typedef typename Superclass::StoppingCriterionType    StoppingCriterionType;
   typedef typename Superclass::StoppingCriterionPointer StoppingCriterionPointer;

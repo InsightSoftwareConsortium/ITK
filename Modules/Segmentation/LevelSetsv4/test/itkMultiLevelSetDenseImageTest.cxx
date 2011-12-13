@@ -148,23 +148,23 @@ int itkMultiLevelSetDenseImageTest( int , char* [] )
       mapIt = domainMap.find(out_id);
       if( mapIt != mapEnd )
         {
-        IdListType lout = mapIt->second.m_List;
-        std::cout << mapIt->second.m_Region;
-        if( lout.empty() )
+        const IdListType * lout = mapIt->second.GetIdList();
+        std::cout << *(mapIt->second.GetRegion());
+        if( lout->empty() )
           {
           return EXIT_FAILURE;
           }
         else
           {
-          for( IdListType::iterator lIt = lout.begin(); lIt != lout.end(); ++lIt )
+          for( IdListType::const_iterator lIt = lout->begin(); lIt != lout->end(); ++lIt )
             {
             std::cout << *lIt <<" " << level_set[*lIt]->Evaluate( out_index )
                       << std::endl;
             }
           std::cout << std::endl;
 
-          lout.sort();
-          if( lout != solution )
+          //lout->sort();
+          if( *lout != solution )
             {
             std::cerr <<"FAILURE!!!" <<std::endl;
             return EXIT_FAILURE;
@@ -181,7 +181,7 @@ int itkMultiLevelSetDenseImageTest( int , char* [] )
 
   while( map_it != map_end )
     {
-    IdListImageType::RegionType temp_region = map_it->second.m_Region;
+    const IdListImageType::RegionType temp_region = *(map_it->second.GetRegion());
 
     itk::ImageRegionConstIteratorWithIndex<IdListImageType >
         temp_it( id_image, temp_region );
@@ -191,15 +191,15 @@ int itkMultiLevelSetDenseImageTest( int , char* [] )
     while( !temp_it.IsAtEnd() )
       {
       std::cout << temp_it.GetIndex() << std::endl;
-      IdListType lout = map_it->second.m_List;
+      const IdListType * lout = map_it->second.GetIdList();
 
-      if( lout.empty() )
+      if( lout->empty() )
         {
         return EXIT_FAILURE;
         }
 
       // Iterate through all the levelsets at a given pixel location
-      for( IdListType::iterator lIt = lout.begin(); lIt != lout.end(); ++lIt )
+      for( IdListType::const_iterator lIt = lout->begin(); lIt != lout->end(); ++lIt )
         {
         std::cout << *lIt <<" " << level_set[*lIt]->Evaluate( temp_it.GetIndex() )
                   << std::endl;

@@ -70,29 +70,22 @@ public:
   itkStaticConstMacro ( ImageDimension, unsigned int, InputImageType::ImageDimension );
 
   typedef typename TermContainerType::LevelSetContainerType       LevelSetContainerType;
-  typedef typename LevelSetContainerType::Pointer                 LevelSetContainerPointer;
 
   typedef typename LevelSetContainerType::LevelSetIdentifierType  LevelSetIdentifierType;
-  typedef typename LevelSetContainerType::LevelSetContainerConstIteratorType
-                                                                  LevelSetContainerConstIteratorType;
-  typedef typename LevelSetContainerType::LevelSetContainerIteratorType
-                                                                  LevelSetContainerIteratorType;
 
   typedef TLevelSet                               LevelSetType;
-  typedef typename LevelSetType::Pointer          LevelSetPointer;
   typedef typename LevelSetType::InputType        LevelSetInputType;
   typedef typename LevelSetType::OutputType       LevelSetOutputType;
   typedef typename LevelSetType::OutputRealType   LevelSetOutputRealType;
   typedef typename LevelSetType::LevelSetDataType LevelSetDataType;
 
+  typedef typename LevelSetContainerType::IdListType          IdListType;
+  typedef typename LevelSetContainerType::IdListIterator      IdListIterator;
+  typedef typename LevelSetContainerType::IdListConstIterator IdListConstIterator;
+  typedef typename LevelSetContainerType::IdListImageType     IdListImageType;
+  typedef typename LevelSetContainerType::CacheImageType      CacheImageType;
 
-  typedef std::list< IdentifierType >                    IdListType;
-  typedef typename IdListType::iterator                  IdListIterator;
-  typedef Image< IdListType, ImageDimension >            IdListImageType;
-  typedef Image< short, ImageDimension >                 CacheImageType;
-  typedef typename LevelSetContainerType::DomainMapImageFilterType
-                                                         DomainMapImageFilterType;
-  typedef typename DomainMapImageFilterType::Pointer     DomainMapImageFilterPointer;
+  typedef typename LevelSetContainerType::DomainMapImageFilterType DomainMapImageFilterType;
 
   typedef LevelSetEvolutionStoppingCriterionBase< LevelSetContainerType >
                                                   StoppingCriterionType;
@@ -158,14 +151,18 @@ protected:
 
   StoppingCriterionPointer    m_StoppingCriterion;
 
-  EquationContainerPointer    m_EquationContainer;
-  LevelSetContainerPointer    m_LevelSetContainer;
+  EquationContainerPointer                 m_EquationContainer;
+  typename LevelSetContainerType::Pointer  m_LevelSetContainer;
 
   LevelSetOutputRealType      m_Alpha;
   LevelSetOutputRealType      m_Dt;
   LevelSetOutputRealType      m_RMSChangeAccumulator;
   bool                        m_UserGloballyDefinedTimeStep;
   IdentifierType              m_NumberOfIterations;
+
+  /** Helper members for threading. */
+  typename LevelSetContainerType::Iterator m_LevelSetContainerIteratorToProcessWhenThreading;
+  typename LevelSetContainerType::Iterator m_LevelSetUpdateContainerIteratorToProcessWhenThreading;
 
 private:
   LevelSetEvolutionBase( const Self& ); // purposely not implemented

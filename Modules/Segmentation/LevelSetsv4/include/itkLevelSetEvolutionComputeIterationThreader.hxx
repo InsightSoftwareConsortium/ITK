@@ -38,31 +38,65 @@ LevelSetEvolutionComputeIterationThreader< LevelSetDenseImageBase< TImage >, Thr
                      const ThreadIdType itkNotUsed(threadId) )
 {
   typename LevelSetContainerType::Iterator levelSetContainerIt = this->m_Associate->m_LevelSetContainer->Begin();
-  typename LevelSetContainerType::ConstIterator levelSetUpdateContainerIt = this->m_Associate->m_UpdateBuffer->Begin();
-  typename EquationContainerType::Iterator equationContainerIt = this->m_Associate->m_EquationContainer->Begin();
-
-  // This is for single level set analysis, so we only process the first level
-  // set.
   typename LevelSetType::Pointer levelSet = levelSetContainerIt->GetLevelSet();
-  typename LevelSetType::Pointer levelSetUpdate = levelSetUpdateContainerIt->GetLevelSet();
-
   typename LevelSetImageType::ConstPointer levelSetImage = levelSet->GetImage();
-  typename LevelSetImageType::Pointer levelSetUpdateImage = levelSetUpdate->GetImage();
+  ImageRegionConstIteratorWithIndex< LevelSetImageType > imageIt( levelSetImage, imageSubRegion );
+  imageIt.GoToBegin();
 
-  typename TermContainerType::Pointer termContainer = equationContainerIt->GetEquation();
-
-  ImageRegionConstIteratorWithIndex< LevelSetImageType > it( levelSetImage, imageSubRegion );
-  it.GoToBegin();
-  while( !it.IsAtEnd() )
+  if( this->m_Associate->m_LevelSetContainer->HasDomainMap() )
     {
-    LevelSetDataType characteristics;
+    const IdListType * idList = this->m_Associate->m_IdListToProcessWhenThreading;
 
-    termContainer->ComputeRequiredData( it.GetIndex(), characteristics );
+    // Avoid repeated map lookups.
+    const size_t numberOfLevelSets = idList->size();
+    std::vector< LevelSetImageType * > levelSetUpdateImages( numberOfLevelSets );
+    std::vector< TermContainerType * > termContainers( numberOfLevelSets );
+    IdListConstIterator idListIt = idList->begin();
+    unsigned int idListIdx = 0;
+    while( idListIt != idList->end() )
+      {
+      //! \todo Fix me for string identifiers
+      LevelSetType * levelSetUpdate = this->m_Associate->m_UpdateBuffer->GetLevelSet( *idListIt - 1 );
+      levelSetUpdateImages[idListIdx] = levelSetUpdate->GetImage();
+      termContainers[idListIdx] = this->m_Associate->m_EquationContainer->GetEquation( *idListIt - 1 );
+      ++idListIt;
+      ++idListIdx;
+      }
 
-    LevelSetOutputRealType temp_update = termContainer->Evaluate( it.GetIndex(), characteristics );
+    while( !imageIt.IsAtEnd() )
+      {
+      const typename InputImageType::IndexType index = imageIt.GetIndex();
+      for( idListIdx = 0; idListIdx < numberOfLevelSets; ++idListIdx )
+        {
+        LevelSetDataType characteristics;
+        termContainers[idListIdx]->ComputeRequiredData( index, characteristics );
+        LevelSetOutputRealType temp_update = termContainers[idListIdx]->Evaluate( index, characteristics );
+        levelSetUpdateImages[idListIdx]->SetPixel( index, temp_update );
+        }
+      ++imageIt;
+      }
+    }
+  else
+    {
+    // This is for single level set analysis, so we only process the first level
+    // set.
+    typename LevelSetContainerType::ConstIterator levelSetUpdateContainerIt = this->m_Associate->m_UpdateBuffer->Begin();
+    typename LevelSetType::Pointer levelSetUpdate = levelSetUpdateContainerIt->GetLevelSet();
+    typename LevelSetImageType::Pointer levelSetUpdateImage = levelSetUpdate->GetImage();
 
-    levelSetUpdateImage->SetPixel( it.GetIndex(), temp_update );
-    ++it;
+    typename EquationContainerType::Iterator equationContainerIt = this->m_Associate->m_EquationContainer->Begin();
+    typename TermContainerType::Pointer termContainer = equationContainerIt->GetEquation();
+
+    imageIt.GoToBegin();
+    while( !imageIt.IsAtEnd() )
+      {
+      const typename InputImageType::IndexType index = imageIt.GetIndex();
+      LevelSetDataType characteristics;
+      termContainer->ComputeRequiredData( index, characteristics );
+      LevelSetOutputRealType temp_update = termContainer->Evaluate( index, characteristics );
+      levelSetUpdateImage->SetPixel( index, temp_update );
+      ++imageIt;
+      }
     }
 }
 

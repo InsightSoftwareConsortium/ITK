@@ -147,37 +147,42 @@ LevelSetEvolutionBase< TEquationContainer, TLevelSet >
   // Initialize parameters here
   this->m_EquationContainer->InitializeParameters();
 
-  DomainMapImageFilterPointer domainMapFilter = this->m_LevelSetContainer->GetDomainMapFilter();
-  if( !domainMapFilter.IsNull() && domainMapFilter->GetDomainMap().size() > 0 )
+  if( this->m_LevelSetContainer->HasDomainMap() )
     {
+    typename DomainMapImageFilterType::ConstPointer domainMapFilter = this->m_LevelSetContainer->GetDomainMapFilter();
     typedef typename DomainMapImageFilterType::DomainMapType DomainMapType;
     const DomainMapType domainMap = domainMapFilter->GetDomainMap();
-    typename DomainMapType::const_iterator map_it   = domainMap.begin();
-    typename DomainMapType::const_iterator map_end  = domainMap.end();
+    typename DomainMapType::const_iterator mapIt   = domainMap.begin();
+    typename DomainMapType::const_iterator mapEnd  = domainMap.end();
 
-    while( map_it != map_end )
+    while( mapIt != mapEnd )
       {
       // Iterator over the region for the current levelset overlap identifier.
-      ImageRegionConstIteratorWithIndex< InputImageType > it( inputImage, map_it->second.m_Region );
+      typedef typename DomainMapImageFilterType::LevelSetDomain LevelSetListImageDomainType;
+      const LevelSetListImageDomainType & levelSetListImageDomain = mapIt->second;
+      ImageRegionConstIteratorWithIndex< InputImageType > it( inputImage, *(levelSetListImageDomain.GetRegion()) );
       it.GoToBegin();
 
       while( !it.IsAtEnd() )
         {
-        IdListType lout = map_it->second.m_List;
+        const IdListType * idList = levelSetListImageDomain.GetIdList();
 
-        if( lout.empty() )
+        if( idList->empty() )
           {
           itkGenericExceptionMacro( <<"No level set exists at voxel" );
           }
 
-        for( IdListIterator lIt = lout.begin(); lIt != lout.end(); ++lIt )
+        IdListConstIterator idListIt = idList->begin();
+        while( idListIt != idList->end() )
           {
-          TermContainerPointer termContainer = this->m_EquationContainer->GetEquation( *lIt - 1 );
+          //! \todo Fix me for string identifiers
+          TermContainerPointer termContainer = this->m_EquationContainer->GetEquation( *idListIt - 1 );
           termContainer->Initialize( it.GetIndex() );
+          ++idListIt;
           }
-          ++it;
+        ++it;
         }
-      ++map_it;
+      ++mapIt;
       }
     }
   else // assume there is one level set that covers the RequestedRegion of the InputImage

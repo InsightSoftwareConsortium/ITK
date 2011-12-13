@@ -61,6 +61,9 @@ public:
 
   /** Types of the associate class. */
   typedef TLevelSetEvolution                                     LevelSetEvolutionType;
+  typedef typename LevelSetEvolutionType::IdListType             IdListType;
+  typedef typename LevelSetEvolutionType::IdListConstIterator    IdListConstIterator;
+  typedef typename LevelSetEvolutionType::InputImageType         InputImageType;
   typedef typename LevelSetEvolutionType::LevelSetType           LevelSetType;
   typedef typename LevelSetEvolutionType::LevelSetImageType      LevelSetImageType;
   typedef typename LevelSetEvolutionType::LevelSetDataType       LevelSetDataType;

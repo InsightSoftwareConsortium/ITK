@@ -74,18 +74,34 @@ class ITK_EXPORT LevelSetDomainMapImageFilter : public ImageToImageFilter< TInpu
     typedef ImageRegionIteratorWithIndex< OutputImageType >       OutputIndexIteratorType;
     typedef ImageRegionIterator< OutputImageType >                OutputIteratorType;
 
-    struct LevelSetDomain // ~ kind of cache to speed up computations
+    /** \class LevelSetDomain
+     * \brief Specifies an image region where an unique std::list of level sets Id's are defined.
+     * \ingroup ITKLevelSetsv4 */
+    class LevelSetDomain
       {
-      LevelSetDomain() {}
+      public:
+        LevelSetDomain() {}
 
-      LevelSetDomain( const InputImageRegionType& reg,
-                      const InputImagePixelType& iList ) :
-        m_Region( reg ), m_List( iList ) {}
+        LevelSetDomain( const InputImageRegionType& reg,
+                        const InputImagePixelType& iList ) :
+          m_Region( reg ), m_IdList( iList ) {}
 
-      InputImageRegionType m_Region;
-      InputImagePixelType m_List;
+        const InputImageRegionType * GetRegion() const
+          {
+          return &(this->m_Region);
+          }
+
+        const InputImagePixelType * GetIdList() const
+          {
+          return &(this->m_IdList);
+          }
+
+      private:
+        InputImageRegionType m_Region;
+        InputImagePixelType m_IdList;
       };
 
+    /** Map from a integer identifier to the level set list image domain. */
     typedef std::map< IdentifierType, LevelSetDomain > DomainMapType;
 
     /** Get a map from the identifier for the domains with consistent level set ids
