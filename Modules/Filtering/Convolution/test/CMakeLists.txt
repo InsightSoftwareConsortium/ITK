@@ -68,7 +68,7 @@ itk_add_test(NAME itkFFTConvolutionImageFilterTestSobelX
 itk_add_test(NAME itkFFTConvolutionImageFilterTestSobelY
       COMMAND ITKConvolutionTestDriver
     --compare DATA{Baseline/itkConvolutionImageFilterTestSobelY.nrrd}
-              ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTestSobelY.nrrd
+              ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterTestSobelY.nrrd
     itkFFTConvolutionImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} DATA{${ITK_DATA_ROOT}/Input/sobel_y.nii.gz} ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterTestSobelY.nrrd)
 itk_add_test(NAME itkFFTConvolutionImageFilterTest4x4Mean
       COMMAND ITKConvolutionTestDriver
