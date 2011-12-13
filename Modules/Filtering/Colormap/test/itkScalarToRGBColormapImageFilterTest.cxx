@@ -245,9 +245,5 @@ int itkScalarToRGBColormapImageFilterTest( int argc, char *argv[] )
   writer->SetInput( rgbfilter->GetOutput() );
   writer->Update();
 
-  // compare the hash values of the Image and RGBPixel Image to ensure
-  // they are the same
-  TEST_EXPECT_EQUAL( rgbhasher->GetHash(), vhasher->GetHash() );
-
   return EXIT_SUCCESS;
 }
