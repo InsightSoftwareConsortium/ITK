@@ -127,6 +127,9 @@ public:
                    ( Concept::HasNumericTraits< OutputPixelType > ) );
   itkConceptMacro( OperatorHasNumericTraitsCheck,
                    ( Concept::HasNumericTraits< OperatorValueType > ) );
+  // This filter can only operate on data types that are signed.
+  itkConceptMacro( SignedOutputPixelType,
+                   ( Concept::Signed< OutputPixelType > ) );
   /** End concept checking */
 #endif
 protected:

@@ -96,11 +96,6 @@ NormalizedCorrelationImageFilter< TInputImage, TMaskImage, TOutputImage, TOperat
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                        ThreadIdType threadId)
 {
-  // This filter can only operate on data types that are signed.
-  if ( !NumericTraits< OutputPixelType >::is_signed )
-    {
-    itkExceptionMacro(<< "This filter can only create images of signed data type.");
-    }
 
   // Normalize the template in a local variable. This will simplify
   // the calculations later.
