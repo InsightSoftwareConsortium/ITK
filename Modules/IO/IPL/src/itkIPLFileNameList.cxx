@@ -18,6 +18,8 @@
 #include "itkIPLFileNameList.h"
 
 #include <algorithm>
+#include <functional>
+
 namespace itk
 {
 struct IPLFileSortInfo_ascend_compare:
