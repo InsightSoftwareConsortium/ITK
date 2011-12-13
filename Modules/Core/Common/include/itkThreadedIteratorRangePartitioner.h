@@ -122,7 +122,7 @@ public:
 
   typedef TIterator IteratorType;
 
-  /** Split the Domain \into
+  /** Split the Domain into
    * \c requestedTotal sub-domains, returning sub-domain \c i as \c subdomain.
    * This method is called \c requestedTotal times. The
    * pieces will not overlap. The method returns the number of pieces that
