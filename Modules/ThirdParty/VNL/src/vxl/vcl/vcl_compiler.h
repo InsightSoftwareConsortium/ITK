@@ -140,7 +140,9 @@
 #  endif
 
 // In future use VCL_VC_13_1 for 13.1, etc.
-#  if _MSC_VER >= 1600     // Visual Studio 2010 = Version 10.x
+#  if _MSC_VER >= 1700     // Visual Studio 2011 = Version 11.x
+#   define VCL_VC_11
+#  elif _MSC_VER >= 1600     // Visual Studio 2010 = Version 10.x
 #   define VCL_VC_10
 #  elif _MSC_VER >= 1500     // Visual Studio 2008 = Version 9.x
 #   define VCL_VC_9
@@ -274,12 +276,6 @@
 #endif
 
    //-------------------- template instantiation ------------------------------
-
-// if the compiler doesn't understand "export", we just leave it out.
-// gcc and SunPro 5.0 understand it, but they ignore it noisily.
-#if !VCL_HAS_EXPORT||defined(VCL_EGCS)||defined(VCL_GCC_295)||defined(VCL_GCC_3)||defined(VCL_GCC_4)||defined(VCL_SUNPRO_CC_5)
-# define export /* ignore */
-#endif
 
 #if VCL_NEEDS_INLINE_INSTANTIATION
 # define VCL_INSTANTIATE_INLINE(symbol) template symbol
