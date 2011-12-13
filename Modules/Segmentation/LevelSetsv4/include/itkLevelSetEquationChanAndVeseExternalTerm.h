@@ -85,9 +85,9 @@ public:
 
   typedef typename DomainMapImageFilterType::DomainMapType::const_iterator  DomainIteratorType;
 
-  typedef std::list< LevelSetIdentifierType >            IdListType;
-  typedef typename IdListType::iterator                  IdListIterator;
-  typedef typename IdListType::const_iterator            IdListConstIterator;
+  typedef typename LevelSetContainerType::IdListType          IdListType;
+  typedef typename LevelSetContainerType::IdListIterator      IdListIterator;
+  typedef typename LevelSetContainerType::IdListConstIterator IdListConstIterator;
 
   typedef typename Superclass::HeavisideType         HeavisideType;
   typedef typename Superclass::HeavisideConstPointer HeavisideConstPointer;

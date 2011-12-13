@@ -74,10 +74,11 @@ public:
 
   typedef std::list< LevelSetIdentifierType >           IdListType;
   typedef typename IdListType::iterator                 IdListIterator;
+  typedef typename IdListType::const_iterator           IdListConstIterator;
   typedef Image< IdListType, Dimension >                IdListImageType;
   typedef Image< short, Dimension >                     CacheImageType;
-  typedef LevelSetDomainMapImageFilter< IdListImageType, CacheImageType >
-                                                        DomainMapImageFilterType;
+
+  typedef LevelSetDomainMapImageFilter< IdListImageType, CacheImageType > DomainMapImageFilterType;
 
   typedef std::pair< LevelSetIdentifierType, LevelSetPointer > LevelSetPairType;
 
@@ -262,9 +263,12 @@ public:
   itkSetObjectMacro( Heaviside, HeavisideType );
   itkGetConstObjectMacro( Heaviside, HeavisideType );
 
-  // set the domain map image filter
+  /** Set/Get the domain map image filter. */
   itkSetObjectMacro( DomainMapFilter, DomainMapImageFilterType );
   itkGetObjectMacro( DomainMapFilter, DomainMapImageFilterType );
+
+  /** Does the level set container have a domain map? */
+  bool HasDomainMap() const;
 
 protected:
   /** \brief Default Constructor */

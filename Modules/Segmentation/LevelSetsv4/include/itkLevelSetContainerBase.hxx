@@ -164,6 +164,18 @@ LevelSetContainerBase< TIdentifier, TLevelSet >
     }
 }
 
+template< class TIdentifier, class TLevelSet >
+bool
+LevelSetContainerBase< TIdentifier, TLevelSet >
+::HasDomainMap() const
+{
+  if( !this->m_DomainMapFilter.IsNull() && this->m_DomainMapFilter->GetDomainMap().size() > 0 )
+    {
+    return true;
+    }
+  return false;
+}
+
 }
 
 #endif // __itkLevelSetContainerBase_hxx

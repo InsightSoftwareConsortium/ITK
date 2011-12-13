@@ -29,8 +29,8 @@ template< class TEquationContainer, class TImage >
 LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
 ::LevelSetEvolution()
 {
-  this->m_SingleLevelSetComputeIterationThreader = SingleLevelSetComputeIterationThreaderType::New();
-  this->m_SingleLevelSetUpdateLevelSetsThreader = SingleLevelSetUpdateLevelSetsThreaderType::New();
+  this->m_SplitLevelSetComputeIterationThreader = SplitLevelSetComputeIterationThreaderType::New();
+  this->m_SplitLevelSetUpdateLevelSetsThreader = SplitLevelSetUpdateLevelSetsThreaderType::New();
 }
 
 template< class TEquationContainer, class TImage >
@@ -54,48 +54,26 @@ LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
 {
   InputImageConstPointer inputImage = this->m_EquationContainer->GetInput();
 
-  DomainMapImageFilterPointer domainMapFilter = this->m_LevelSetContainer->GetDomainMapFilter();
-
-  if( !domainMapFilter.IsNull() && domainMapFilter->GetDomainMap().size() > 0 )
+  if( this->m_LevelSetContainer->HasDomainMap() )
     {
+    typename DomainMapImageFilterType::ConstPointer domainMapFilter = this->m_LevelSetContainer->GetDomainMapFilter();
     typedef typename DomainMapImageFilterType::DomainMapType DomainMapType;
     const DomainMapType domainMap = domainMapFilter->GetDomainMap();
-    typename DomainMapType::const_iterator map_it   = domainMap.begin();
-    typename DomainMapType::const_iterator map_end  = domainMap.end();
+    typename DomainMapType::const_iterator mapIt   = domainMap.begin();
+    typename DomainMapType::const_iterator mapEnd  = domainMap.end();
 
-    while( map_it != map_end )
+    while( mapIt != mapEnd )
       {
-      ImageRegionConstIteratorWithIndex< InputImageType > it( inputImage, map_it->second.m_Region );
-      it.GoToBegin();
-
-      while( !it.IsAtEnd() )
-        {
-        IdListType lout = map_it->second.m_List;
-
-        itkAssertInDebugAndIgnoreInReleaseMacro( !lout.empty() );
-
-        for( IdListIterator lIt = lout.begin(); lIt != lout.end(); ++lIt )
-          {
-          typename LevelSetType::Pointer levelSetUpdate = this->m_UpdateBuffer->GetLevelSet( *lIt - 1);
-
-          LevelSetDataType characteristics;
-
-          TermContainerPointer termContainer = this->m_EquationContainer->GetEquation( *lIt - 1 );
-          termContainer->ComputeRequiredData( it.GetIndex(), characteristics );
-
-          LevelSetOutputRealType temp_update = termContainer->Evaluate( it.GetIndex(), characteristics );
-
-          LevelSetImageType* levelSetImage = levelSetUpdate->GetImage();
-          levelSetImage->SetPixel( it.GetIndex(), temp_update );
-          }
-        ++it;
-        }
-        ++map_it;
+      typedef typename DomainMapImageFilterType::LevelSetDomain LevelSetListImageDomainType;
+      const LevelSetListImageDomainType & levelSetListImageDomain = mapIt->second;
+      this->m_IdListToProcessWhenThreading = levelSetListImageDomain.GetIdList();
+      this->m_SplitLevelSetComputeIterationThreader->Execute( this, *(levelSetListImageDomain.GetRegion()) );
+      ++mapIt;
       }
     }
   else // assume there is one level set that covers the RequestedRegion of the InputImage
     {
-    this->m_SingleLevelSetComputeIterationThreader->Execute( this, inputImage->GetRequestedRegion() );
+    this->m_SplitLevelSetComputeIterationThreader->Execute( this, inputImage->GetRequestedRegion() );
     }
 }
 
@@ -140,48 +118,17 @@ void
 LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
 ::UpdateLevelSets()
 {
-  typename LevelSetContainerType::Iterator levelSetContainerIt = this->m_LevelSetContainer->Begin();
-  typename LevelSetContainerType::ConstIterator levelSetUpdateContainerIt = this->m_UpdateBuffer->Begin();
+  this->m_LevelSetContainerIteratorToProcessWhenThreading = this->m_LevelSetContainer->Begin();
+  this->m_LevelSetUpdateContainerIteratorToProcessWhenThreading = this->m_UpdateBuffer->Begin();
 
-  DomainMapImageFilterPointer domainMapFilter = this->m_LevelSetContainer->GetDomainMapFilter();
-
-  LevelSetOutputRealType p;
-
-  if( !domainMapFilter.IsNull() && domainMapFilter->GetDomainMap().size() > 0 )
+  while( this->m_LevelSetContainerIteratorToProcessWhenThreading != this->m_LevelSetContainer->End() )
     {
-    while( levelSetContainerIt != this->m_LevelSetContainer->End() )
-      {
-      typename LevelSetType::Pointer levelSet = levelSetContainerIt->GetLevelSet();
-      typename LevelSetType::Pointer levelSetUpdate = levelSetUpdateContainerIt->GetLevelSet();
-
-      typename LevelSetImageType::Pointer levelSetImage = levelSet->GetImage();
-      typename LevelSetImageType::Pointer levelSetUpdateImage = levelSetUpdate->GetImage();
-
-      ImageRegionIterator< LevelSetImageType > levelSetImageIt( levelSetImage, levelSetImage->GetBufferedRegion() );
-      ImageRegionConstIterator< LevelSetImageType > levelSetUpdateImageIt( levelSetUpdateImage, levelSetUpdateImage->GetBufferedRegion() );
-      levelSetImageIt.GoToBegin();
-      levelSetUpdateImageIt.GoToBegin();
-
-      while( !levelSetImageIt.IsAtEnd() )
-        {
-        p = this->m_Dt * levelSetUpdateImageIt.Get();
-        levelSetImageIt.Set( levelSetImageIt.Get() + p );
-
-        this->m_RMSChangeAccumulator += p*p;
-
-        ++levelSetImageIt;
-        ++levelSetUpdateImageIt;
-        }
-
-      ++levelSetContainerIt;
-      ++levelSetUpdateContainerIt;
-      }
-    }
-  else // assume there is one level set that covers the RequestedRegion of the InputImage
-    {
-    typename LevelSetType::Pointer levelSet = levelSetContainerIt->GetLevelSet();
+    typename LevelSetType::Pointer levelSet = this->m_LevelSetContainerIteratorToProcessWhenThreading->GetLevelSet();
     typename LevelSetImageType::Pointer levelSetImage = levelSet->GetImage();
-    this->m_SingleLevelSetUpdateLevelSetsThreader->Execute( this, levelSetImage->GetRequestedRegion() );
+    this->m_SplitLevelSetUpdateLevelSetsThreader->Execute( this, levelSetImage->GetRequestedRegion() );
+
+    ++(this->m_LevelSetContainerIteratorToProcessWhenThreading);
+    ++(this->m_LevelSetUpdateContainerIteratorToProcessWhenThreading);
     }
 
   this->ReinitializeToSignedDistance();
@@ -286,7 +233,7 @@ LevelSetEvolution< TEquationContainer, WhitakerSparseLevelSetImage< TOutput, VDi
 
   while( it != this->m_LevelSetContainer->End() )
     {
-    LevelSetPointer levelSet = it->GetLevelSet();
+    typename LevelSetType::Pointer levelSet = it->GetLevelSet();
 
     LevelSetIdentifierType levelSetId = it->GetIdentifier();
     TermContainerPointer termContainer = this->m_EquationContainer->GetEquation( levelSetId );
@@ -357,7 +304,7 @@ LevelSetEvolution< TEquationContainer, WhitakerSparseLevelSetImage< TOutput, VDi
   typename LevelSetContainerType::Iterator it = this->m_LevelSetContainer->Begin();
   while( it != this->m_LevelSetContainer->End() )
     {
-    LevelSetPointer levelSet = it->GetLevelSet();
+    typename LevelSetType::Pointer levelSet = it->GetLevelSet();
 
     UpdateLevelSetFilterPointer updateLevelSet = UpdateLevelSetFilterType::New();
     updateLevelSet->SetInputLevelSet( levelSet );
@@ -404,7 +351,7 @@ void LevelSetEvolution< TEquationContainer, ShiSparseLevelSetImage< VDimension >
 
   while( it != this->m_LevelSetContainer->End() )
     {
-    LevelSetPointer levelSet = it->GetLevelSet();
+    typename LevelSetType::Pointer levelSet = it->GetLevelSet();
 
     UpdateLevelSetFilterPointer updateLevelSet = UpdateLevelSetFilterType::New();
     updateLevelSet->SetInputLevelSet( levelSet );
@@ -447,8 +394,8 @@ void LevelSetEvolution< TEquationContainer, MalcolmSparseLevelSetImage< VDimensi
 
   while( it != this->m_LevelSetContainer->End() )
     {
-    LevelSetPointer         levelSet    = it->GetLevelSet();
-    LevelSetIdentifierType  levelSetId  = it->GetIdentifier();
+    typename LevelSetType::Pointer levelSet = it->GetLevelSet();
+    LevelSetIdentifierType       levelSetId = it->GetIdentifier();
 
     UpdateLevelSetFilterPointer updateLevelSet = UpdateLevelSetFilterType::New();
     updateLevelSet->SetInputLevelSet( levelSet );

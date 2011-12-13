@@ -186,7 +186,7 @@ int itkMultiLevelSetChanAndVeseInternalTermTest( int , char* [] )
   ChanAndVeseTermType::Pointer eqTerm;
   while( map_it != map_end )
     {
-    IdListImageType::RegionType temp_region = map_it->second.m_Region;
+    const IdListImageType::RegionType temp_region = *(map_it->second.GetRegion());
 
     itk::ImageRegionConstIteratorWithIndex<IdListImageType >
         temp_it( id_image, temp_region );
@@ -195,14 +195,14 @@ int itkMultiLevelSetChanAndVeseInternalTermTest( int , char* [] )
     while( !temp_it.IsAtEnd() )
       {
       std::cout << temp_it.GetIndex() << std::endl;
-      IdListType lout = map_it->second.m_List;
+      const IdListType * lout = map_it->second.GetIdList();
 
-      if( lout.empty() )
+      if( lout->empty() )
         {
         return EXIT_FAILURE;
         }
 
-      for( IdListType::iterator lIt = lout.begin(); lIt != lout.end(); ++lIt )
+      for( IdListType::const_iterator lIt = lout->begin(); lIt != lout->end(); ++lIt )
         {
         std::cout << *lIt << " ";
         levelSet = lscontainer->GetLevelSet( *lIt - 1);
