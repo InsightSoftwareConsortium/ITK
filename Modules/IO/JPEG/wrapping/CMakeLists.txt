@@ -1,3 +1,3 @@
-WRAP_LIBRARY(ITKIOJPEG)
-AUTO_INCLUDE_MODULES()
-END_WRAP_LIBRARY()
+itk_wrap_module(ITKIOJPEG)
+itk_auto_load_submodules()
+itk_end_wrap_module()

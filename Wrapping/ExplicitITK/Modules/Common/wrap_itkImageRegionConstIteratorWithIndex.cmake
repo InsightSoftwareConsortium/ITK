@@ -1,5 +1,0 @@
-WRAP_CLASS("itk::ImageRegionConstIteratorWithIndex")
-WRAP_TEMPLATE("IF3" "Templates::ImageF3")
-WRAP_TEMPLATE("ISC2" "Templates::ImageSC2")
-WRAP_TEMPLATE("ISC3" "Templates::ImageSC3")
-END_WRAP_CLASS()

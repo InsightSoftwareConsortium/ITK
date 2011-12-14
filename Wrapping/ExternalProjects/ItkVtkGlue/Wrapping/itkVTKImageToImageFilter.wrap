@@ -1,0 +1,4 @@
+itk_wrap_class("itk::VTKImageToImageFilter" POINTER)
+  UNIQUE(image_types "UC;UL;${WRAP_ITK_SCALAR}")
+  itk_wrap_image_filter("${image_types}" 1)
+itk_end_wrap_class()

@@ -1,4 +1,4 @@
-WRAP_LIBRARY(ITKLevelSets)
+itk_wrap_module(ITKLevelSets)
 
 set(WRAPPER_LIBRARY_GROUPS
   itkLevelSetFunction
@@ -7,5 +7,5 @@ set(WRAPPER_LIBRARY_GROUPS
   itkSegmentationLevelSetImageFilter
   itkShapePriorSegmentationLevelSetImageFilter
 )
-AUTO_INCLUDE_MODULES()
-END_WRAP_LIBRARY()
+itk_auto_load_submodules()
+itk_end_wrap_module()

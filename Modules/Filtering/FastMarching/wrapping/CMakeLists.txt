@@ -1,4 +1,4 @@
-WRAP_LIBRARY(ITKFastMarching)
+itk_wrap_module(ITKFastMarching)
 
 set(WRAPPER_LIBRARY_GROUPS
   itkLevelSetNode
@@ -7,5 +7,5 @@ set(WRAPPER_LIBRARY_GROUPS
   ITKFastMarchingBase
   itkFastMarchingImageFilterBase
 )
-AUTO_INCLUDE_MODULES()
-END_WRAP_LIBRARY()
+itk_auto_load_submodules()
+itk_end_wrap_module()

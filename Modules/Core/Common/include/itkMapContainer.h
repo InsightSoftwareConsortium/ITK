@@ -44,7 +44,7 @@ namespace itk
 template< typename TElementIdentifier, typename TElement >
 class MapContainer:
   public Object,
-  public std::map< TElementIdentifier, TElement >
+  private std::map< TElementIdentifier, TElement >
 {
 public:
   /** Standard class typedefs. */
@@ -96,6 +96,50 @@ public:
   {
     return dynamic_cast< const STLContainerType & >( *this );
   }
+
+  using STLContainerType::begin;
+  using STLContainerType::end;
+  using STLContainerType::rbegin;
+  using STLContainerType::rend;
+
+  using STLContainerType::empty;
+  using STLContainerType::size;
+  using STLContainerType::max_size;
+
+  using STLContainerType::operator[];
+
+  using STLContainerType::insert;
+  using STLContainerType::erase;
+  using STLContainerType::swap;
+  using STLContainerType::clear;
+
+  using STLContainerType::key_comp;
+  using STLContainerType::value_comp;
+
+  using STLContainerType::find;
+  using STLContainerType::count;
+  using STLContainerType::lower_bound;
+  using STLContainerType::upper_bound;
+  using STLContainerType::equal_range;
+
+  using STLContainerType::get_allocator;
+
+  using typename STLContainerType::key_type;
+  using typename STLContainerType::mapped_type;
+  using typename STLContainerType::value_type;
+  using typename STLContainerType::key_compare;
+  using typename STLContainerType::value_compare;
+  using typename STLContainerType::allocator_type;
+  using typename STLContainerType::reference;
+  using typename STLContainerType::const_reference;
+  using typename STLContainerType::iterator;
+  using typename STLContainerType::const_iterator;
+  using typename STLContainerType::size_type;
+  using typename STLContainerType::difference_type;
+  using typename STLContainerType::pointer;
+  using typename STLContainerType::const_pointer;
+  using typename STLContainerType::reverse_iterator;
+  using typename STLContainerType::const_reverse_iterator;
 
   /** Declare iterators to container. */
   class Iterator;

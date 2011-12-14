@@ -1,2 +1,2 @@
-WRAP_NON_TEMPLATE_CLASS("itk::MetaImageIO" POINTER)
-WRAP_NON_TEMPLATE_CLASS("itk::MetaImageIOFactory" POINTER)
+itk_wrap_simple_class("itk::MetaImageIO" POINTER)
+itk_wrap_simple_class("itk::MetaImageIOFactory" POINTER)

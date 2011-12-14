@@ -1,0 +1,5 @@
+// stl.i must be included in every modules, to avoid the
+// gcc error: ‘GC_VALUE’ does not name a type
+%import <std_common.i>
+
+@ITK_WRAP_RUBY_SWIG_EXT@

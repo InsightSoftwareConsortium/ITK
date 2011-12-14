@@ -1,4 +1,0 @@
-#ifndef __explicit___h_
-#define __explicit___h_
-@CONFIG_WRAPPER_INCLUDES@
-#endif //__explicit___h_

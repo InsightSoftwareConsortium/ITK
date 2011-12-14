@@ -1,1 +1,1 @@
-WRAP_NON_TEMPLATE_CLASS("itk::OptimizerParameterScalesEstimator" POINTER)
+itk_wrap_simple_class("itk::OptimizerParameterScalesEstimator" POINTER)

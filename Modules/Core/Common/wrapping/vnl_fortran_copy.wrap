@@ -1,11 +1,11 @@
 # auto include feature must be disable because the class is not in the file
 # with the same name
 set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
-WRAP_INCLUDE("vnl/vnl_fortran_copy.h")
+itk_wrap_include("vnl/vnl_fortran_copy.h")
 
-WRAP_CLASS("vnl_fortran_copy" EXPLICIT_SPECIALIZATION)
-  WRAP_TEMPLATE("${ITKM_D}" "${ITKT_D}")
-  WRAP_TEMPLATE("_vcl_complex${ITKM_D}" "vcl_complex<${ITKT_D}>")
-  WRAP_TEMPLATE("${ITKM_F}" "${ITKT_F}")
-  WRAP_TEMPLATE("_vcl_complex${ITKM_F}" "vcl_complex<${ITKT_F}>")
-END_WRAP_CLASS()
+itk_wrap_class("vnl_fortran_copy" EXPLICIT_SPECIALIZATION)
+  itk_wrap_template("${ITKM_D}" "${ITKT_D}")
+  itk_wrap_template("_vcl_complex${ITKM_D}" "vcl_complex<${ITKT_D}>")
+  itk_wrap_template("${ITKM_F}" "${ITKT_F}")
+  itk_wrap_template("_vcl_complex${ITKM_F}" "vcl_complex<${ITKT_F}>")
+itk_end_wrap_class()

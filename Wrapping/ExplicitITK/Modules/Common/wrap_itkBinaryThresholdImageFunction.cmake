@@ -1,7 +1,0 @@
-WRAP_CLASS("itk::BinaryThresholdImageFunction")
-WRAP_TEMPLATE("IF2D" "Templates::ImageF2,double")
-WRAP_TEMPLATE("IF2F" "Templates::ImageF2,float")
-WRAP_TEMPLATE("IF3F" "Templates::ImageF3,float")
-WRAP_TEMPLATE("IUC2D" "Templates::ImageUC2,double")
-WRAP_TEMPLATE("IUC2F" "Templates::ImageUC2,float")
-END_WRAP_CLASS()

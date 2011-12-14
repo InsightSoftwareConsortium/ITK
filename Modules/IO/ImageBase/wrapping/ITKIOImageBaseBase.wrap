@@ -1,11 +1,11 @@
 
 # non templated IO classes and factories
-WRAP_NON_TEMPLATE_CLASS("itk::ImageIOBase" POINTER)
-WRAP_NON_TEMPLATE_CLASS("itk::StreamingImageIOBase" POINTER)
-WRAP_NON_TEMPLATE_CLASS("itk::ImageIORegion")
-WRAP_NON_TEMPLATE_CLASS("itk::ImageIOFactory")
+itk_wrap_simple_class("itk::ImageIOBase" POINTER)
+itk_wrap_simple_class("itk::StreamingImageIOBase" POINTER)
+itk_wrap_simple_class("itk::ImageIORegion")
+itk_wrap_simple_class("itk::ImageIOFactory")
 
 # *SeriesFileNames
-WRAP_NON_TEMPLATE_CLASS("itk::ArchetypeSeriesFileNames" POINTER)
-WRAP_NON_TEMPLATE_CLASS("itk::NumericSeriesFileNames" POINTER)
-WRAP_NON_TEMPLATE_CLASS("itk::RegularExpressionSeriesFileNames" POINTER)
+itk_wrap_simple_class("itk::ArchetypeSeriesFileNames" POINTER)
+itk_wrap_simple_class("itk::NumericSeriesFileNames" POINTER)
+itk_wrap_simple_class("itk::RegularExpressionSeriesFileNames" POINTER)

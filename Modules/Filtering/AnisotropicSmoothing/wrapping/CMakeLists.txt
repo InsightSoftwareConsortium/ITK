@@ -1,3 +1,3 @@
-WRAP_LIBRARY(ITKAnisotropicSmoothing)
-AUTO_INCLUDE_MODULES()
-END_WRAP_LIBRARY()
+itk_wrap_module(ITKAnisotropicSmoothing)
+itk_auto_load_submodules()
+itk_end_wrap_module()

@@ -1,34 +1,34 @@
-WRAP_CLASS("itk::InPlaceImageFilter" POINTER)
+itk_wrap_class("itk::InPlaceImageFilter" POINTER)
   # VectorImage <-> scalar
   UNIQUE(to_types "UC;${WRAP_ITK_SCALAR}")
-  foreach(d ${WRAP_ITK_DIMS})
+  foreach(d ${ITK_WRAP_DIMS})
     foreach(t ${to_types})
-      WRAP_TEMPLATE("${ITKM_VI${t}${d}}${ITKM_I${t}${d}}" "${ITKT_VI${t}${d}},${ITKT_I${t}${d}}")
-      WRAP_TEMPLATE("${ITKM_I${t}${d}}${ITKM_VI${t}${d}}" "${ITKT_I${t}${d}},${ITKT_VI${t}${d}}")
+      itk_wrap_template("${ITKM_VI${t}${d}}${ITKM_I${t}${d}}" "${ITKT_VI${t}${d}},${ITKT_I${t}${d}}")
+      itk_wrap_template("${ITKM_I${t}${d}}${ITKM_VI${t}${d}}" "${ITKT_I${t}${d}},${ITKT_VI${t}${d}}")
     endforeach(t)
   endforeach(d)
 
   # *Vector <-> scalar
-  WRAP_IMAGE_FILTER_COMBINATIONS("${WRAP_ITK_VECTOR}" "${WRAP_ITK_SCALAR}")
-  WRAP_IMAGE_FILTER_COMBINATIONS("${WRAP_ITK_SCALAR}" "${WRAP_ITK_VECTOR}")
+  itk_wrap_image_filter_combinations("${WRAP_ITK_VECTOR}" "${WRAP_ITK_SCALAR}")
+  itk_wrap_image_filter_combinations("${WRAP_ITK_SCALAR}" "${WRAP_ITK_VECTOR}")
 
   # complex types
-  WRAP_IMAGE_FILTER_COMPLEX_REAL(2)
+  itk_wrap_image_filter("${WRAP_ITK_COMPLEX_REAL}" 2)
 
   # complex <-> scalar
-  WRAP_IMAGE_FILTER_COMBINATIONS("${WRAP_ITK_REAL}" "${WRAP_ITK_COMPLEX_REAL}")
-  WRAP_IMAGE_FILTER_COMBINATIONS("${WRAP_ITK_COMPLEX_REAL}" "${WRAP_ITK_REAL}")
+  itk_wrap_image_filter_combinations("${WRAP_ITK_REAL}" "${WRAP_ITK_COMPLEX_REAL}")
+  itk_wrap_image_filter_combinations("${WRAP_ITK_COMPLEX_REAL}" "${WRAP_ITK_REAL}")
 
   # Wrap dim=3 -> dim=2, dim=3 -> dim=2, etc.
-  foreach(d ${WRAP_ITK_DIMS})
-    foreach(d2 ${WRAP_ITK_DIMS})
+  foreach(d ${ITK_WRAP_DIMS})
+    foreach(d2 ${ITK_WRAP_DIMS})
       if(NOT "${d}" EQUAL "${d2}") # this was already taken care of elsewhere
         foreach(t ${WRAP_ITK_SCALAR} ${WRAP_ITK_RGB} ${WRAP_ITK_COMPLEX_REAL})
-          WRAP_TEMPLATE("${ITKM_I${t}${d}}${ITKM_I${t}${d2}}"
+          itk_wrap_template("${ITKM_I${t}${d}}${ITKM_I${t}${d2}}"
                         "${ITKT_I${t}${d}},${ITKT_I${t}${d2}}")
         endforeach(t)
       endif(NOT "${d}" EQUAL "${d2}")
     endforeach(d2)
   endforeach(d)
 
-END_WRAP_CLASS()
+itk_end_wrap_class()

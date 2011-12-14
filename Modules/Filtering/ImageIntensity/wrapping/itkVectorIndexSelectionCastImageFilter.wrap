@@ -1,36 +1,36 @@
-WRAP_CLASS("itk::VectorIndexSelectionCastImageFilter" POINTER_WITH_SUPERCLASS)
+itk_wrap_class("itk::VectorIndexSelectionCastImageFilter" POINTER_WITH_SUPERCLASS)
 
   # begin with VectorImages
   UNIQUE(to_types "UC;${WRAP_ITK_SCALAR}")
-  foreach(d ${WRAP_ITK_DIMS})
+  foreach(d ${ITK_WRAP_DIMS})
     foreach(t ${to_types})
-      WRAP_TEMPLATE("${ITKM_VI${t}${d}}${ITKM_I${t}${d}}" "${ITKT_VI${t}${d}},${ITKT_I${t}${d}}")
+      itk_wrap_template("${ITKM_VI${t}${d}}${ITKM_I${t}${d}}" "${ITKT_VI${t}${d}},${ITKT_I${t}${d}}")
     endforeach(t)
   endforeach(d)
 
   # continue with vector and rgb pixel types
-  if(WRAP_rgb_unsigned_short AND WRAP_unsigned_short)
-    WRAP_IMAGE_FILTER_TYPES(RGBUS US)
-  endif(WRAP_rgb_unsigned_short AND WRAP_unsigned_short)
+  if(ITK_WRAP_rgb_unsigned_short AND ITK_WRAP_unsigned_short)
+    itk_wrap_image_filter_types(RGBUS US)
+  endif(ITK_WRAP_rgb_unsigned_short AND ITK_WRAP_unsigned_short)
 
-  if(WRAP_rgb_unsigned_char AND WRAP_unsigned_char)
-    WRAP_IMAGE_FILTER_TYPES(RGBUC UC)
-  endif(WRAP_rgb_unsigned_char AND WRAP_unsigned_char)
+  if(ITK_WRAP_rgb_unsigned_char AND ITK_WRAP_unsigned_char)
+    itk_wrap_image_filter_types(RGBUC UC)
+  endif(ITK_WRAP_rgb_unsigned_char AND ITK_WRAP_unsigned_char)
 
-  if(WRAP_vector_double AND WRAP_double)
-    WRAP_IMAGE_FILTER_TYPES(VD D)
-  endif(WRAP_vector_double AND WRAP_double)
+  if(ITK_WRAP_vector_double AND ITK_WRAP_double)
+    itk_wrap_image_filter_types(VD D)
+  endif(ITK_WRAP_vector_double AND ITK_WRAP_double)
 
-  if(WRAP_vector_float AND WRAP_float)
-    WRAP_IMAGE_FILTER_TYPES(VF F)
-  endif(WRAP_vector_float AND WRAP_float)
+  if(ITK_WRAP_vector_float AND ITK_WRAP_float)
+    itk_wrap_image_filter_types(VF F)
+  endif(ITK_WRAP_vector_float AND ITK_WRAP_float)
 
   # Wrap RGBA image types
-  if(WRAP_rgba_unsigned_short AND WRAP_unsigned_short)
-    WRAP_IMAGE_FILTER_TYPES(RGBAUS US)
-  endif(WRAP_rgba_unsigned_short AND WRAP_unsigned_short)
-  if(WRAP_rgba_unsigned_char AND WRAP_unsigned_char)
-    WRAP_IMAGE_FILTER_TYPES(RGBAUC UC)
-  endif(WRAP_rgba_unsigned_char AND WRAP_unsigned_char)
+  if(ITK_WRAP_rgba_unsigned_short AND ITK_WRAP_unsigned_short)
+    itk_wrap_image_filter_types(RGBAUS US)
+  endif(ITK_WRAP_rgba_unsigned_short AND ITK_WRAP_unsigned_short)
+  if(ITK_WRAP_rgba_unsigned_char AND ITK_WRAP_unsigned_char)
+    itk_wrap_image_filter_types(RGBAUC UC)
+  endif(ITK_WRAP_rgba_unsigned_char AND ITK_WRAP_unsigned_char)
 
-END_WRAP_CLASS()
+itk_end_wrap_class()

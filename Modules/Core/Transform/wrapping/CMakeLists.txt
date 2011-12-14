@@ -1,4 +1,4 @@
-WRAP_LIBRARY(ITKTransform)
+itk_wrap_module(ITKTransform)
 
 set(WRAPPER_LIBRARY_GROUPS
   itkTransformBase
@@ -14,5 +14,5 @@ set(WRAPPER_LIBRARY_GROUPS
   itkScaleTransform
   itkKernelTransform
 )
-AUTO_INCLUDE_MODULES()
-END_WRAP_LIBRARY()
+itk_auto_load_submodules()
+itk_end_wrap_module()

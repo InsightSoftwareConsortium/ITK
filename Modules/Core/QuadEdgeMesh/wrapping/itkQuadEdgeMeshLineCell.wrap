@@ -1,14 +1,14 @@
-WRAP_INCLUDE("itkQuadEdgeCellTraitsInfo.h")
+itk_wrap_include("itkQuadEdgeCellTraitsInfo.h")
 
 # CellInterface is in ITKCommon
-WRAP_CLASS("itk::CellInterface" AUTOPOINTER)
-  foreach(d ${WRAP_ITK_DIMS})
-    WRAP_TEMPLATE("DQEMCTI${d}" "double, itk::QuadEdgeMeshCellTraitsInfo< ${d} >")
+itk_wrap_class("itk::CellInterface" AUTOPOINTER)
+  foreach(d ${ITK_WRAP_DIMS})
+    itk_wrap_template("DQEMCTI${d}" "double, itk::QuadEdgeMeshCellTraitsInfo< ${d} >")
   endforeach(d)
-END_WRAP_CLASS()
+itk_end_wrap_class()
 
-WRAP_CLASS("itk::QuadEdgeMeshLineCell" AUTOPOINTER)
-  foreach(d ${WRAP_ITK_DIMS})
-    WRAP_TEMPLATE("CIDQEMCTIF${d}" "itk::CellInterface< double, itk::QuadEdgeMeshCellTraitsInfo< ${d} > >")
+itk_wrap_class("itk::QuadEdgeMeshLineCell" AUTOPOINTER)
+  foreach(d ${ITK_WRAP_DIMS})
+    itk_wrap_template("CIDQEMCTIF${d}" "itk::CellInterface< double, itk::QuadEdgeMeshCellTraitsInfo< ${d} > >")
   endforeach(d)
-END_WRAP_CLASS()
+itk_end_wrap_class()

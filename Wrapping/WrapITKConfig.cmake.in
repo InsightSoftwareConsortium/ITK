@@ -1,0 +1,108 @@
+# Set up options needed for ConfigureWrapping
+# Useful Variables:
+# The user should set JAVA_OUTPUT_DIR if they want generated Java classes to go
+# anywhere other than ${PROJECT_BINARY_DIR}/Java.
+# If SWIG needs to include any files in nonstandard locations, the directories
+# must be added to with INCLUDE_DIRECTORIES().
+
+# Be careful setting up the paths to the ITK and gccxml dirs that WrapITK
+# already found -- they might not be valid.
+SET(possible_itk_dir "@ITK_DIR@")
+IF(EXISTS "${possible_itk_dir}")
+SET(ITK_DIR "${possible_itk_dir}" CACHE PATH "Path to ITK build or install.")
+ENDIF(EXISTS "${possible_itk_dir}")
+
+SET(possible_gccxml "@GCCXML@")
+IF(EXISTS "${possible_gccxml}")
+SET(GCCXML "${possible_gccxml}"  CACHE FILEPATH "Path to gccxml.")
+ENDIF(EXISTS "${possible_gccxml}")
+
+SET(possible_swig_dir "@SWIG_DIR@")
+IF(EXISTS "${possible_swig_dir}")
+SET(SWIG_DIR "${possible_swig_dir}"  CACHE PATH "Path to Swig build or install")
+ENDIF(EXISTS "${possible_swig_dir}")
+
+# set WrapITK version
+SET(WrapITK_VERSION_MAJOR @WrapITK_VERSION_MAJOR@)
+SET(WrapITK_VERSION_MINOR @WrapITK_VERSION_MINOR@)
+SET(WrapITK_VERSION_PATCH @WrapITK_VERSION_PATCH@)
+
+# Set up the rest of the variables that WrapITK was built with.
+SET(ITK_WRAP_unsigned_char @ITK_WRAP_unsigned_char@ CACHE BOOL "Wrap unsigned char type")
+SET(ITK_WRAP_unsigned_short @ITK_WRAP_unsigned_short@ CACHE BOOL "Wrap unsigned short type")
+SET(ITK_WRAP_unsigned_long @ITK_WRAP_unsigned_long@ CACHE BOOL "Wrap unsigned long type")
+SET(ITK_WRAP_signed_char @ITK_WRAP_signed_char@ CACHE BOOL "Wrap signed char type")
+SET(ITK_WRAP_signed_short @ITK_WRAP_signed_short@ CACHE BOOL "Wrap signed short type")
+SET(ITK_WRAP_signed_long @ITK_WRAP_signed_long@ CACHE BOOL "Wrap signed long type")
+SET(ITK_WRAP_float @ITK_WRAP_float@ CACHE BOOL "Wrap float type")
+SET(ITK_WRAP_double @ITK_WRAP_double@ CACHE BOOL "Wrap double type")
+SET(ITK_WRAP_vector_float @ITK_WRAP_vector_float@ CACHE BOOL "Wrap vector float type")
+SET(ITK_WRAP_vector_double @ITK_WRAP_vector_double@ CACHE BOOL "Wrap vector double type")
+SET(ITK_WRAP_covariant_vector_float @ITK_WRAP_covariant_vector_float@ CACHE BOOL "Wrap covariant vector float type")
+SET(ITK_WRAP_covariant_vector_double @ITK_WRAP_covariant_vector_double@ CACHE BOOL "Wrap covariant vector double type")
+SET(ITK_WRAP_rgb_unsigned_char @ITK_WRAP_rgb_unsigned_char@ CACHE BOOL "Wrap RGB< unsigned char > type")
+SET(ITK_WRAP_rgb_unsigned_short @ITK_WRAP_rgb_unsigned_short@ CACHE BOOL "Wrap RGB< unsigned short > type")
+SET(ITK_WRAP_complex_float @ITK_WRAP_complex_float@ CACHE BOOL "Wrap complex<float> type")
+SET(ITK_WRAP_complex_double @ITK_WRAP_complex_double@ CACHE BOOL "Wrap complex<double> type")
+SET(ITK_WRAP_DIMS "@ITK_WRAP_DIMS@" CACHE STRING "dimensions available separated by semicolons (;)")
+
+@CONFIG_WRAP_ITK_MORE_OPTIONS@
+
+FOREACH(var ITK_DIR GCCXML
+    ITK_WRAP_unsigned_char ITK_WRAP_unsigned_short ITK_WRAP_unsigned_long ITK_WRAP_signed_char
+    ITK_WRAP_signed_short ITK_WRAP_signed_long ITK_WRAP_float ITK_WRAP_double ITK_WRAP_vector_float
+    ITK_WRAP_vector_double ITK_WRAP_covariant_vector_float ITK_WRAP_covariant_vector_double
+    ITK_WRAP_rgb_unsigned_char ITK_WRAP_rgb_unsigned_short ITK_WRAP_complex_float ITK_WRAP_complex_double
+    ITK_WRAP_rgba_unsigned_char ITK_WRAP_rgba_unsigned_short
+    ITK_WRAP_DIMS)
+  MARK_AS_ADVANCED(${var})
+ENDFOREACH(var)
+
+SET(WRAP_ITK_CONFIG_DIR "@CONFIG_CONFIG_DIR@")
+SET(WRAP_ITK_CMAKE_DIR "@CONFIG_CMAKE_DIR@")
+IF("${WrapITK_DIR}" MATCHES "^${CMAKE_INSTALL_PREFIX}")
+  STRING(REGEX REPLACE "^${CMAKE_INSTALL_PREFIX}/*" "" prefix "${WrapITK_DIR}")
+  SET(WRAP_ITK_INSTALL_PREFIX "${prefix}" CACHE PATH "subpath where where most of WrapITK files will be installed")
+ELSE("${WrapITK_DIR}" MATCHES "^${CMAKE_INSTALL_PREFIX}")
+  MESSAGE("Warning: the CMAKE_INSTALL_PREFIX doesn't match the WrapITK one. Your installation may not be usable.")
+  SET(WRAP_ITK_INSTALL_PREFIX "@WRAP_ITK_INSTALL_PREFIX@" CACHE PATH "subpath where where most of WrapITK files will be installed")
+ENDIF("${WrapITK_DIR}" MATCHES "^${CMAKE_INSTALL_PREFIX}")
+
+IF(JAVA_OUTPUT_DIR)
+  SET(ITK_WRAP_JAVA_DIR "${JAVA_OUTPUT_DIR}")
+ELSE(JAVA_OUTPUT_DIR)
+  SET(ITK_WRAP_JAVA_DIR "${PROJECT_BINARY_DIR}/Java")
+  IF(ITK_WRAP_JAVA)
+    FILE(MAKE_DIRECTORY "${ITK_WRAP_JAVA_DIR}")
+  ENDIF(ITK_WRAP_JAVA)
+ENDIF(JAVA_OUTPUT_DIR)
+
+SET(WRAP_ITK_INSTALL_LOCATION "@CONFIG_WRAP_ITK_INSTALL_LOCATION@")
+SET(WRAP_ITK_TYPEDEFS_DIRECTORY "@CONFIG_WRAP_ITK_TYPEDEFS_DIRECTORY@")
+SET(WRAP_ITK_LIB_DIRECTORY "@CONFIG_WRAP_ITK_LIB_DIR@")
+SET(WRAP_ITK_MODULES "@CONFIG_WRAP_ITK_MODULES@")
+
+# Tell the world that this is an external project using WrapITK:
+SET(EXTERNAL_WRAP_ITK_PROJECT ON)
+
+# libraries are all in the same dir
+SET (CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/lib" CACHE INTERNAL "Single output directory for building all libraries.")
+
+# Now include ConfigureWrapping
+INCLUDE("${WRAP_ITK_CMAKE_DIR}/ConfigureWrapping.cmake")
+
+# include must be there to add the path *after* the local path
+INCLUDE_DIRECTORIES("@CONFIG_WRAP_ITK_TYPEDEFS_DIRECTORY@")
+
+# If WrapITK has been installed, we need to point the linker at the various
+# language directories, where libSwigRuntime has been installed.
+# Otherwise, we need to point the linker at the bin directory of the build dir.
+MACRO(LINK_IF_EXISTS dir)
+  IF(EXISTS "${dir}")
+    LINK_DIRECTORIES("${dir}")
+  ENDIF(EXISTS "${dir}")
+ENDMACRO(LINK_IF_EXISTS)
+
+LINK_DIRECTORIES("@CONFIG_WRAP_ITK_LIB_DIR@")
+
+FIND_PROGRAM(ITK_TEST_DRIVER itkTestDriver)

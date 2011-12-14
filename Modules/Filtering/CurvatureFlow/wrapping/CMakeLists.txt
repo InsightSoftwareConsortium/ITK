@@ -1,8 +1,8 @@
-WRAP_LIBRARY(ITKCurvatureFlow)
+itk_wrap_module(ITKCurvatureFlow)
 
 set(WRAPPER_LIBRARY_GROUPS
   itkCurvatureFlowImageFilter
   itkMinMaxCurvatureFlowImageFilter
 )
-AUTO_INCLUDE_MODULES()
-END_WRAP_LIBRARY()
+itk_auto_load_submodules()
+itk_end_wrap_module()

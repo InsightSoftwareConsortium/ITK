@@ -1,7 +1,0 @@
-WRAP_CLASS("itk::AffineTransform")
-WRAP_TEMPLATE("D2" "double,2")
-WRAP_TEMPLATE("D3" "double,3")
-WRAP_TEMPLATE("D4" "double,4")
-WRAP_TEMPLATE("D6" "double,6")
-WRAP_TEMPLATE("F3" "float,3")
-END_WRAP_CLASS()

@@ -1,10 +1,10 @@
-WRAP_LIBRARY(ITKPath)
+itk_wrap_module(ITKPath)
 
 set(WRAPPER_LIBRARY_GROUPS
   itkPathBase
   itkParametricPath
   itkPolyLineParametricPath
 )
-AUTO_INCLUDE_MODULES()
+itk_auto_load_submodules()
 
-END_WRAP_LIBRARY()
+itk_end_wrap_module()

@@ -612,7 +612,9 @@ endif()
 set(ITK_DIR "${ITK_BINARY_DIR}")
 
 include(Wrapping/itkWrapSetup.cmake)
-add_subdirectory(Wrapping)
+if(ITK_WRAPPING)
+  add_subdirectory(Wrapping)
+endif(ITK_WRAPPING)
 
 if(BUILD_EXAMPLES)
   add_subdirectory(Examples)

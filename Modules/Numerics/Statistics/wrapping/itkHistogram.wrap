@@ -1,10 +1,10 @@
-WRAP_CLASS("itk::Statistics::Histogram" POINTER)
+itk_wrap_class("itk::Statistics::Histogram" POINTER)
   set(WRAPPER_TEMPLATES "${itk_Wrap_Histogram}")
-END_WRAP_CLASS()
+itk_end_wrap_class()
 
 # also wrap the decorator in the same file to avoid file collision with the
 # one in Base
-WRAP_CLASS("itk::SimpleDataObjectDecorator" POINTER)
-  WRAP_TEMPLATE("${ITKM_HF}"  "${ITKT_HF} *")
-  WRAP_TEMPLATE("${ITKM_HD}"  "${ITKT_HD} *")
-END_WRAP_CLASS()
+itk_wrap_class("itk::SimpleDataObjectDecorator" POINTER)
+  itk_wrap_template("${ITKM_HF}"  "${ITKT_HF} *")
+  itk_wrap_template("${ITKM_HD}"  "${ITKT_HD} *")
+itk_end_wrap_class()

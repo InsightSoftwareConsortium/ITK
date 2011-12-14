@@ -1,4 +1,4 @@
-WRAP_LIBRARY(ITKMesh)
+itk_wrap_module(ITKMesh)
 
 set(WRAPPER_LIBRARY_GROUPS
   itkMeshBase
@@ -6,5 +6,5 @@ set(WRAPPER_LIBRARY_GROUPS
   itkImageToMeshFilter
   itkMeshToMeshFilter
 )
-AUTO_INCLUDE_MODULES()
-END_WRAP_LIBRARY()
+itk_auto_load_submodules()
+itk_end_wrap_module()
