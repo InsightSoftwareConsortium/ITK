@@ -59,7 +59,6 @@ int itkKdTreeTest3( int argc , char * argv [] )
     mv[0] = randomNumberGenerator->GetNormalVariate( 0.0, 1.0 );
     mv[1] = randomNumberGenerator->GetNormalVariate( 0.0, 1.0 );
     sample->PushBack( mv );
-    std::cout << "Add measurement vector: " << mv << std::endl;
     }
 
   typedef itk::Statistics::KdTreeGenerator< SampleType > TreeGeneratorType;
@@ -80,6 +79,10 @@ int itkKdTreeTest3( int argc , char * argv [] )
   MeasurementVectorType queryPoint( measurementVectorSize );
 
   unsigned int numberOfNeighbors = atoi( argv[3] );
+  if (numberOfNeighbors > numberOfDataPoints)
+    {
+    numberOfNeighbors = numberOfDataPoints;
+    }
   TreeType::InstanceIdentifierVectorType neighbors1;
   TreeType::InstanceIdentifierVectorType neighbors2;
 
@@ -117,7 +120,7 @@ int itkKdTreeTest3( int argc , char * argv [] )
     tree->Search( queryPoint, numberOfNeighbors, neighbors1 );
     double max_distance = 0.;
 
-    for ( unsigned int i = 0; i < numberOfNeighbors; ++i )
+    for ( size_t i = 0; i < neighbors1.size(); ++i )
       {
       const double distance =
         distanceMetric->Evaluate( tree->GetMeasurementVector( neighbors1[i] ) );
@@ -125,6 +128,7 @@ int itkKdTreeTest3( int argc , char * argv [] )
       max_distance = vnl_math_max( distance, max_distance );
       }
 
+    max_distance += itk::NumericTraits<double>::epsilon() * 10.0;
     tree->Search( queryPoint, max_distance, neighbors2 );
 
     for( size_t i = 0; i < neighbors2.size(); ++i )
@@ -174,7 +178,7 @@ int itkKdTreeTest3( int argc , char * argv [] )
 
     tree->Search( queryPoint, numberOfNeighbors, neighbors1 );
 
-    for ( unsigned int i = 0; i < numberOfNeighbors; ++i )
+    for ( size_t i = 0; i < neighbors1.size(); ++i )
       {
       const double distance =
         distanceMetric->Evaluate( tree->GetMeasurementVector( neighbors1[i] ) );
@@ -182,6 +186,7 @@ int itkKdTreeTest3( int argc , char * argv [] )
       max_distance = vnl_math_max( distance, max_distance );
       }
 
+    max_distance += itk::NumericTraits<double>::epsilon() * 10.0;
     tree->Search( queryPoint, max_distance, neighbors2 );
 
     for( size_t i = 0; i < neighbors2.size(); ++i )
