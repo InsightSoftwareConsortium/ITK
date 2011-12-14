@@ -175,9 +175,9 @@
 @ITK_SOURCE_DIR@/Modules/Numerics/FEM/include/itk*.h
 @ITK_SOURCE_DIR@/Modules/Numerics/FEM/include/itk*.hxx
 @ITK_SOURCE_DIR@/Modules/Numerics/FEM/src/itk*.cxx
-@ITK_SOURCE_DIR@/Modules/Numerics/HighDimensionalOptimizers/include/itk*.h
-@ITK_SOURCE_DIR@/Modules/Numerics/HighDimensionalOptimizers/include/itk*.hxx
-@ITK_SOURCE_DIR@/Modules/Numerics/HighDimensionalOptimizers/src/itk*.cxx
+@ITK_SOURCE_DIR@/Modules/Numerics/Optimizersv4/include/itk*.h
+@ITK_SOURCE_DIR@/Modules/Numerics/Optimizersv4/include/itk*.hxx
+@ITK_SOURCE_DIR@/Modules/Numerics/Optimizersv4/src/itk*.cxx
 @ITK_SOURCE_DIR@/Modules/Numerics/NarrowBand/include/itk*.h
 @ITK_SOURCE_DIR@/Modules/Numerics/NarrowBand/include/itk*.hxx
 @ITK_SOURCE_DIR@/Modules/Numerics/NeuralNetworks/include/itk*.h
@@ -195,9 +195,9 @@
 @ITK_SOURCE_DIR@/Modules/Registration/Common/include/itk*.hxx
 @ITK_SOURCE_DIR@/Modules/Registration/FEM/include/itk*.h
 @ITK_SOURCE_DIR@/Modules/Registration/FEM/include/itk*.hxx
-@ITK_SOURCE_DIR@/Modules/Registration/HighDimensionalMetrics/include/itk*.h
-@ITK_SOURCE_DIR@/Modules/Registration/HighDimensionalMetrics/include/itk*.hxx
-@ITK_SOURCE_DIR@/Modules/Registration/HighDimensionalMetrics/src/itk*.cxx
+@ITK_SOURCE_DIR@/Modules/Registration/Metricsv4/include/itk*.h
+@ITK_SOURCE_DIR@/Modules/Registration/Metricsv4/include/itk*.hxx
+@ITK_SOURCE_DIR@/Modules/Registration/Metricsv4/src/itk*.cxx
 @ITK_SOURCE_DIR@/Modules/Registration/PDEDeformable/include/itk*.h
 @ITK_SOURCE_DIR@/Modules/Registration/PDEDeformable/include/itk*.hxx
 @ITK_SOURCE_DIR@/Modules/Segmentation/BioCell/include/itk*.h

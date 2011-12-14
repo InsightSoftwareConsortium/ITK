@@ -1,3 +1,0 @@
-itk_wrap_simple_class("itk::ObjectToObjectOptimizerBase" POINTER)
-itk_wrap_simple_class("itk::GradientDescentObjectOptimizerBase" POINTER)
-itk_wrap_simple_class("itk::GradientDescentObjectOptimizer" POINTER)

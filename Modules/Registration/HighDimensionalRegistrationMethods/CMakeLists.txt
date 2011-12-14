@@ -1,2 +1,0 @@
-project(ITKHighDimensionalRegistrationMethods)
-itk_module_impl()
