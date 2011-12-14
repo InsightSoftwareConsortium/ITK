@@ -89,6 +89,7 @@ public:
     return static_cast< DecoratedOutputType * >( this->ProcessObject::GetOutput(0) );
   }
 
+  using Superclass::MakeOutput;
   virtual typename DataObject::Pointer MakeOutput(DataObjectPointerArraySizeType)
   {
     return DecoratedOutputType::New().GetPointer();
@@ -111,7 +112,6 @@ protected:
   }
   virtual ~HistogramThresholdCalculator() {};
   using ProcessObject::SetInput;
-  using ProcessObject::MakeOutput;
 
 private:
   HistogramThresholdCalculator(const Self&); //purposely not implemented
