@@ -17,15 +17,15 @@
 *=========================================================================*/
 
 /**
- * Test program for ANTSNeighborhoodCorrelationImageToImageObjectMetric and
- * GradientDescentObjectOptimizer classes.
+ * Test program for ANTSNeighborhoodCorrelationImageToImageMetricv4 and
+ * GradientDescentOptimizerv4 classes.
  *
  * Perform a registration using user-supplied images.
  * No numerical verification is performed. Test passes as long
  * as no exception occurs.
  */
-#include "itkANTSNeighborhoodCorrelationImageToImageObjectMetric.h"
-#include "itkGradientDescentObjectOptimizer.h"
+#include "itkANTSNeighborhoodCorrelationImageToImageMetricv4.h"
+#include "itkGradientDescentOptimizerv4.h"
 #include "itkRegistrationParameterScalesFromShift.h"
 
 #include "itkGaussianSmoothingOnUpdateDisplacementFieldTransform.h"
@@ -58,7 +58,7 @@ public:
 };
 }
 
-int itkANTSNeighborhoodCorrelationImageToImageObjectRegistrationTest(int argc, char *argv[])
+int itkANTSNeighborhoodCorrelationImageToImageRegistrationTest(int argc, char *argv[])
 {
 
   if( argc < 4 || argc > 8)
@@ -164,7 +164,7 @@ int itkANTSNeighborhoodCorrelationImageToImageObjectRegistrationTest(int argc, c
   identityTransform->SetIdentity();
 
   // The metric
-  typedef itk::ANTSNeighborhoodCorrelationImageToImageObjectMetric
+  typedef itk::ANTSNeighborhoodCorrelationImageToImageMetricv4
     < FixedImageType, MovingImageType > MetricType;
   MetricType::Pointer metric = MetricType::New();
   itk::Size<Dimension> radSize;
@@ -198,7 +198,7 @@ int itkANTSNeighborhoodCorrelationImageToImageObjectRegistrationTest(int argc, c
   std::cout << "Shift scales for the affine transform = " << movingScales << std::endl;
 
   std::cout << "First do an affine registration " << std::endl;
-  typedef itk::GradientDescentObjectOptimizer  OptimizerType;
+  typedef itk::GradientDescentOptimizerv4  OptimizerType;
   OptimizerType::Pointer  optimizer = OptimizerType::New();
   optimizer->SetMetric( metric );
   optimizer->SetLearningRate( learningRate );

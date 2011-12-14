@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuasiNewtonObjectOptimizerEstimateNewtonStepThreader_h
-#define __itkQuasiNewtonObjectOptimizerEstimateNewtonStepThreader_h
+#ifndef __itkQuasiNewtonOptimizerv4EstimateNewtonStepThreader_h
+#define __itkQuasiNewtonOptimizerv4EstimateNewtonStepThreader_h
 
 #include "itkDomainThreader.h"
 #include "itkThreadedIndexedContainerPartitioner.h"
@@ -24,23 +24,23 @@
 namespace itk
 {
 
-class QuasiNewtonObjectOptimizer;
+class QuasiNewtonOptimizerv4;
 
-/** \class QuasiNewtonObjectOptimizerEstimateNewtonStepThreader
+/** \class QuasiNewtonOptimizerv4EstimateNewtonStepThreader
  * \brief Estimate the quasi-Newton step in a thread.
- * \ingroup ITKHighDimensionalOptimizers
+ * \ingroup ITKOptimizersv4
  * */
-class QuasiNewtonObjectOptimizerEstimateNewtonStepThreader
-  : public DomainThreader< ThreadedIndexedContainerPartitioner, QuasiNewtonObjectOptimizer >
+class QuasiNewtonOptimizerv4EstimateNewtonStepThreader
+  : public DomainThreader< ThreadedIndexedContainerPartitioner, QuasiNewtonOptimizerv4 >
 {
 public:
   /** Standard class typedefs. */
-  typedef QuasiNewtonObjectOptimizerEstimateNewtonStepThreader                              Self;
-  typedef DomainThreader< ThreadedIndexedContainerPartitioner, QuasiNewtonObjectOptimizer > Superclass;
-  typedef SmartPointer< Self >                                                              Pointer;
-  typedef SmartPointer< const Self >                                                        ConstPointer;
+  typedef QuasiNewtonOptimizerv4EstimateNewtonStepThreader                              Self;
+  typedef DomainThreader< ThreadedIndexedContainerPartitioner, QuasiNewtonOptimizerv4 > Superclass;
+  typedef SmartPointer< Self >                                                          Pointer;
+  typedef SmartPointer< const Self >                                                    ConstPointer;
 
-  itkTypeMacro( QuasiNewtonObjectOptimizerEstimateNewtonStepThreader, DomainThreader );
+  itkTypeMacro( QuasiNewtonOptimizerv4EstimateNewtonStepThreader, DomainThreader );
 
   itkNewMacro( Self );
 
@@ -52,11 +52,11 @@ protected:
   virtual void ThreadedExecution( const IndexRangeType & subrange,
                                   const ThreadIdType threadId );
 
-  QuasiNewtonObjectOptimizerEstimateNewtonStepThreader() {}
-  virtual ~QuasiNewtonObjectOptimizerEstimateNewtonStepThreader() {}
+  QuasiNewtonOptimizerv4EstimateNewtonStepThreader() {}
+  virtual ~QuasiNewtonOptimizerv4EstimateNewtonStepThreader() {}
 
 private:
-  QuasiNewtonObjectOptimizerEstimateNewtonStepThreader( const Self & ); // purposely not implemented
+  QuasiNewtonOptimizerv4EstimateNewtonStepThreader( const Self & ); // purposely not implemented
   void operator=( const Self & ); // purposely not implemented
 };
 

@@ -15,10 +15,10 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageToImageObjectMetric_hxx
-#define __itkImageToImageObjectMetric_hxx
+#ifndef __itkImageToImageMetricv4_hxx
+#define __itkImageToImageMetricv4_hxx
 
-#include "itkImageToImageObjectMetric.h"
+#include "itkImageToImageMetricv4.h"
 #include "itkPixelTraits.h"
 #include "itkDisplacementFieldTransform.h"
 #include "itkCompositeTransform.h"
@@ -30,8 +30,8 @@ namespace itk
 {
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
-::ImageToImageObjectMetric()
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
+::ImageToImageMetricv4()
 {
   /* Both transforms default to an identity transform */
   typedef IdentityTransform<CoordinateRepresentationType,
@@ -91,14 +91,14 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
-::~ImageToImageObjectMetric()
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
+::~ImageToImageMetricv4()
 {
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::Initialize() throw ( itk::ExceptionObject )
 {
   itkDebugMacro("Initialize entered");
@@ -280,8 +280,8 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
-typename ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>::MeasureType
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
+typename ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>::MeasureType
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
 ::GetValue() const
 {
   /* As long as this is done as a simple inefficient implementation, give
@@ -291,7 +291,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
    * efficient implementations as appropriate. */
   if( ! this->m_HaveMadeGetValueWarning )
     {
-    itkWarningMacro("Using ImageToImageObjectMetric::GetValue which is a "
+    itkWarningMacro("Using ImageToImageMetricv4::GetValue which is a "
                     "temporary, inefficient implementation. " );
     this->m_HaveMadeGetValueWarning = true;
     }
@@ -303,7 +303,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
 ::GetValueAndDerivative( MeasureType & value,
                          DerivativeType & derivative ) const
 {
@@ -316,7 +316,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
       {
       itkExceptionMacro("FixedSampledPointSet must have 1 or more points.");
       }
-    typename ImageToImageObjectMetricGetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Self >::DomainType range;
+    typename ImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Self >::DomainType range;
     range[0] = 0;
     range[1] = this->m_FixedSampledPointSet->GetNumberOfPoints() - 1;
     this->m_SparseGetValueAndDerivativeThreader->Execute( const_cast< Self* >(this), range );
@@ -331,7 +331,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::InitializeForIteration() const
 {
   /* This size always comes from the moving image */
@@ -364,7 +364,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 bool
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::TransformAndEvaluateFixedPoint(
                          const VirtualIndexType & index,
                          const VirtualPointType & virtualPoint,
@@ -428,7 +428,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 bool
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::TransformAndEvaluateMovingPoint(
                          const VirtualIndexType & index,
                          const VirtualPointType & virtualPoint,
@@ -491,7 +491,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::ComputeFixedImageGradientAtPoint( const FixedImagePointType & mappedPoint,
                              FixedImageGradientType & gradient ) const
 {
@@ -513,7 +513,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::ComputeMovingImageGradientAtPoint(
                               const MovingImagePointType & mappedPoint,
                               MovingImageGradientType & gradient ) const
@@ -536,7 +536,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::ComputeFixedImageGradientAtIndex(
                               const VirtualIndexType & index,
                               FixedImageGradientType & gradient ) const
@@ -554,7 +554,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::ComputeMovingImageGradientAtIndex(
                               const VirtualIndexType & index,
                               MovingImageGradientType & gradient ) const
@@ -572,7 +572,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::DoFixedImagePreWarp() const
 {
   /* Call Modified to make sure the filter recalculates the output. We haven't
@@ -597,7 +597,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::DoMovingImagePreWarp() const
 {
   /* Call Modified to make sure the filter recalculates the output. We haven't
@@ -617,7 +617,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::ComputeFixedImageGradientFilterImage()
 {
   FixedImageConstPointer  image;
@@ -637,7 +637,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::ComputeMovingImageGradientFilterImage() const
 {
   MovingImageConstPointer  image;
@@ -657,7 +657,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::InitializeDefaultFixedImageGradientFilter()
 {
   FixedImageConstPointer  image;
@@ -687,7 +687,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::InitializeDefaultMovingImageGradientFilter()
 {
   MovingImageConstPointer  image;
@@ -717,15 +717,15 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::SetTransform( MovingTransformType* transform )
 {
   this->SetMovingTransform( transform );
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
-const typename ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >::MovingTransformType *
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
+const typename ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >::MovingTransformType *
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::GetTransform()
 {
   return this->GetMovingTransform();
@@ -733,7 +733,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::UpdateTransformParameters( DerivativeType & derivative,
                              ParametersValueType factor )
 {
@@ -744,7 +744,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::SetMaximumNumberOfThreads( const ThreadIdType number )
 {
   if( number != this->m_SparseGetValueAndDerivativeThreader->GetMaximumNumberOfThreads() )
@@ -761,7 +761,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 ThreadIdType
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::GetMaximumNumberOfThreads() const
 {
   if( this->m_UseFixedSampledPointSet )
@@ -773,7 +773,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 ThreadIdType
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::GetNumberOfThreadsUsed() const
 {
   if( this->m_UseFixedSampledPointSet )
@@ -788,7 +788,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::CreateVirtualDomainImage( VirtualSpacingType & spacing,
                             VirtualOriginType & origin,
                             VirtualDirectionType & direction,
@@ -807,7 +807,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::SetVirtualDomainImage( VirtualImageType * virtualImage )
 {
   itkDebugMacro("setting VirtualDomainImage to " << virtualImage);
@@ -821,7 +821,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 OffsetValueType
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::ComputeParameterOffsetFromVirtualDomainIndex( const VirtualIndexType & index, NumberOfParametersType numberOfLocalParameters ) const
 {
   OffsetValueType offset =
@@ -830,8 +830,8 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
-const typename ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >::VirtualSpacingType
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
+const typename ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >::VirtualSpacingType
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::GetVirtualDomainSpacing( void ) const
 {
   if( this->m_VirtualDomainImage )
@@ -846,8 +846,8 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
-const typename ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >::VirtualDirectionType
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
+const typename ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >::VirtualDirectionType
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::GetVirtualDomainDirection( void ) const
 {
   if( this->m_VirtualDomainImage )
@@ -862,8 +862,8 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
-const typename ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >::VirtualOriginType
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
+const typename ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >::VirtualOriginType
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::GetVirtualDomainOrigin( void ) const
 {
   if( this->m_VirtualDomainImage )
@@ -878,8 +878,8 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
-const typename ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >::VirtualRegionType
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
+const typename ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >::VirtualRegionType
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::GetVirtualDomainRegion( void ) const
 {
   if( this->m_VirtualDomainImage )
@@ -895,7 +895,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
 ::MapFixedSampledPointSetToVirtual()
 {
   this->m_VirtualSampledPointSet = VirtualSampledPointSetType::New();
@@ -925,16 +925,16 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 typename
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>::NumberOfParametersType
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>::NumberOfParametersType
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
 ::GetNumberOfParameters() const
 {
   return this->m_MovingTransform->GetNumberOfParameters();
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
-const typename ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>::ParametersType &
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
+const typename ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>::ParametersType &
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
 ::GetParameters() const
 {
   return this->m_MovingTransform->GetParameters();
@@ -942,8 +942,8 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 typename
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >::NumberOfParametersType
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >::NumberOfParametersType
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::GetNumberOfLocalParameters() const
 {
   return this->m_MovingTransform->GetNumberOfLocalParameters();
@@ -951,7 +951,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 bool
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::HasLocalSupport() const
 {
   return this->m_MovingTransform->HasLocalSupport();
@@ -959,7 +959,7 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::VerifyDisplacementFieldSizeAndPhysicalSpace()
 {
 
@@ -1061,12 +1061,12 @@ ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
-ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage >
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ImageToImageObjectMetric: " << std::endl
+  os << indent << "ImageToImageMetricv4: " << std::endl
                << "GetUseFixedImageGradientFilter: "
                << this->GetUseFixedImageGradientFilter()
                << std::endl

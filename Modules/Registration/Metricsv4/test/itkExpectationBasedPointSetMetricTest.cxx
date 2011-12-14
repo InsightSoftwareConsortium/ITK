@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkExpectationBasedPointSetToPointSetObjectMetric.h"
+#include "itkExpectationBasedPointSetToPointSetMetricv4.h"
 
 
 #include <fstream>
@@ -55,7 +55,7 @@ int itkExpectationBasedPointSetMetricTest( int, char* [] )
 
   // Instantiate the metric
 
-  typedef itk::ExpectationBasedPointSetToPointSetObjectMetric<PointSetType>
+  typedef itk::ExpectationBasedPointSetToPointSetMetricv4<PointSetType>
     PointSetMetricType;
   PointSetMetricType::Pointer metric = PointSetMetricType::New();
   metric->SetFixedPointSet( fixedPoints );

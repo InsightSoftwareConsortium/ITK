@@ -15,17 +15,17 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkANTSNeighborhoodCorrelationImageToImageObjectMetricDenseGetValueAndDerivativeThreader_hxx
-#define __itkANTSNeighborhoodCorrelationImageToImageObjectMetricDenseGetValueAndDerivativeThreader_hxx
+#ifndef __itkANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreader_hxx
+#define __itkANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreader_hxx
 
-#include "itkANTSNeighborhoodCorrelationImageToImageObjectMetricDenseGetValueAndDerivativeThreader.h"
+#include "itkANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreader.h"
 
 namespace itk
 {
 
 template < class TImageToImageMetric, class TNeighborhoodCorrelationMetric >
 void
-ANTSNeighborhoodCorrelationImageToImageObjectMetricDenseGetValueAndDerivativeThreader< TImageToImageMetric, TNeighborhoodCorrelationMetric >
+ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreader< TImageToImageMetric, TNeighborhoodCorrelationMetric >
 ::ThreadedExecution( const DomainType & virtualImageSubRegion,
                      const ThreadIdType threadId )
 {
@@ -92,7 +92,7 @@ ANTSNeighborhoodCorrelationImageToImageObjectMetricDenseGetValueAndDerivativeThr
 
 template < class TImageToImageMetric, class TNeighborhoodCorrelationMetric >
 void
-ANTSNeighborhoodCorrelationImageToImageObjectMetricDenseGetValueAndDerivativeThreader< TImageToImageMetric, TNeighborhoodCorrelationMetric >
+ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreader< TImageToImageMetric, TNeighborhoodCorrelationMetric >
 ::UpdateQueuesAtBeginningOfLine(
     const ScanIteratorType &scanIt, ScanMemType &scanMem,
     const ScanParametersType &scanParameters, const ThreadIdType ) const
@@ -204,7 +204,7 @@ ANTSNeighborhoodCorrelationImageToImageObjectMetricDenseGetValueAndDerivativeThr
 
 template < class TImageToImageMetric, class TNeighborhoodCorrelationMetric >
 void
-ANTSNeighborhoodCorrelationImageToImageObjectMetricDenseGetValueAndDerivativeThreader< TImageToImageMetric, TNeighborhoodCorrelationMetric >
+ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreader< TImageToImageMetric, TNeighborhoodCorrelationMetric >
 ::UpdateQueuesToNextScanWindow(
     const ScanIteratorType &scanIt, ScanMemType &scanMem,
     const ScanParametersType &scanParameters, const ThreadIdType ) const
@@ -302,7 +302,7 @@ ANTSNeighborhoodCorrelationImageToImageObjectMetricDenseGetValueAndDerivativeThr
 
 template < class TImageToImageMetric, class TNeighborhoodCorrelationMetric >
 void
-ANTSNeighborhoodCorrelationImageToImageObjectMetricDenseGetValueAndDerivativeThreader< TImageToImageMetric, TNeighborhoodCorrelationMetric >
+ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreader< TImageToImageMetric, TNeighborhoodCorrelationMetric >
 ::UpdateQueues( const ScanIteratorType &scanIt, ScanMemType &scanMem,
                 const ScanParametersType &scanParameters, const ThreadIdType threadId) const
 {
@@ -318,7 +318,7 @@ ANTSNeighborhoodCorrelationImageToImageObjectMetricDenseGetValueAndDerivativeThr
 
 template < class TImageToImageMetric, class TNeighborhoodCorrelationMetric >
 bool
-ANTSNeighborhoodCorrelationImageToImageObjectMetricDenseGetValueAndDerivativeThreader< TImageToImageMetric, TNeighborhoodCorrelationMetric >
+ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreader< TImageToImageMetric, TNeighborhoodCorrelationMetric >
 ::ComputeInformationFromQueues( const ScanIteratorType &scanIt, ScanMemType &scanMem, const ScanParametersType &, const ThreadIdType ) const
 {
   TNeighborhoodCorrelationMetric * associate = dynamic_cast< TNeighborhoodCorrelationMetric * >( this->m_Associate );
@@ -438,7 +438,7 @@ ANTSNeighborhoodCorrelationImageToImageObjectMetricDenseGetValueAndDerivativeThr
 
 template < class TImageToImageMetric, class TNeighborhoodCorrelationMetric >
 void
-ANTSNeighborhoodCorrelationImageToImageObjectMetricDenseGetValueAndDerivativeThreader< TImageToImageMetric, TNeighborhoodCorrelationMetric >
+ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreader< TImageToImageMetric, TNeighborhoodCorrelationMetric >
 ::ComputeMovingTransformDerivative(
   const ScanIteratorType &, ScanMemType &scanMem,
   const ScanParametersType &, DerivativeType &deriv,

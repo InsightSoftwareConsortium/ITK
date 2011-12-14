@@ -16,10 +16,10 @@
  *
  *=========================================================================*/
 
-#ifndef __itkJointHistogramMutualInformationImageToImageObjectMetric_h
-#define __itkJointHistogramMutualInformationImageToImageObjectMetric_h
+#ifndef __itkJointHistogramMutualInformationImageToImageMetricv4_h
+#define __itkJointHistogramMutualInformationImageToImageMetricv4_h
 
-#include "itkImageToImageObjectMetric.h"
+#include "itkImageToImageMetricv4.h"
 #include "itkImage.h"
 #include "itkBSplineDerivativeKernelFunction.h"
 
@@ -38,18 +38,18 @@ namespace itk
  *      P. Thevenaz and M. Unser
  *      IEEE Transactions in Image Processing, 9(12) December 2000.
  *
- * \ingroup ITKHighDimensionalMetrics
+ * \ingroup ITKMetricsv4
  */
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage = TFixedImage>
-class ITK_EXPORT JointHistogramMutualInformationImageToImageObjectMetric :
-  public ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
+class ITK_EXPORT JointHistogramMutualInformationImageToImageMetricv4 :
+  public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
 {
 public:
 
   /** Standard class typedefs. */
-  typedef JointHistogramMutualInformationImageToImageObjectMetric            Self;
-  typedef ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage> Superclass;
+  typedef JointHistogramMutualInformationImageToImageMetricv4            Self;
+  typedef ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage> Superclass;
   typedef SmartPointer<Self>                                                 Pointer;
   typedef SmartPointer<const Self>                                           ConstPointer;
 
@@ -57,8 +57,8 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(JointHistogramMutualInformationImageToImageObjectMetric,
-                ImageToImageObjectMetric);
+  itkTypeMacro(JointHistogramMutualInformationImageToImageMetricv4,
+                ImageToImageMetricv4);
 
   /** Type used for representing parameter values  */
   typedef typename Superclass::CoordinateRepresentationType
@@ -159,8 +159,8 @@ public:
   virtual MeasureType GetValue() const;
 
 protected:
-  JointHistogramMutualInformationImageToImageObjectMetric();
-  virtual ~JointHistogramMutualInformationImageToImageObjectMetric();
+  JointHistogramMutualInformationImageToImageMetricv4();
+  virtual ~JointHistogramMutualInformationImageToImageMetricv4();
 
   /** Update the histograms for use in GetValueAndDerivative
    *  Results are returned in \c value and \c derivative.
@@ -202,7 +202,7 @@ protected:
 
 
 private:
-  JointHistogramMutualInformationImageToImageObjectMetric(const Self &); //purposely not implemented
+  JointHistogramMutualInformationImageToImageMetricv4(const Self &); //purposely not implemented
   void operator=(const Self &); //purposely not implemented
 
   /** The fixed image marginal PDF */
@@ -237,7 +237,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkJointHistogramMutualInformationImageToImageObjectMetric.hxx"
+#include "itkJointHistogramMutualInformationImageToImageMetricv4.hxx"
 #endif
 
 #endif

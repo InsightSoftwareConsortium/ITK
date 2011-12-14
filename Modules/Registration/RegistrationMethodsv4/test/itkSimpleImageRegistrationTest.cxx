@@ -19,9 +19,9 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
-#include "itkSimpleImageRegistrationMethod.h"
+#include "itkImageRegistrationMethodv4.h"
 
-#include "itkANTSNeighborhoodCorrelationImageToImageObjectMetric.h"
+#include "itkANTSNeighborhoodCorrelationImageToImageMetricv4.h"
 #include "itkGaussianSmoothingOnUpdateDisplacementFieldTransform.h"
 #include "itkGaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor.h"
 
@@ -90,15 +90,15 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
   movingImage->Update();
   movingImage->DisconnectPipeline();
 
-  typedef itk::SimpleImageRegistrationMethod<FixedImageType, MovingImageType> AffineRegistrationType;
-  typedef itk::GradientDescentObjectOptimizer GradientDescentObjectOptimizerType;
+  typedef itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType> AffineRegistrationType;
+  typedef itk::GradientDescentOptimizerv4 GradientDescentOptimizerv4Type;
   typename AffineRegistrationType::Pointer affineSimple = AffineRegistrationType::New();
   affineSimple->SetFixedImage( fixedImage );
   affineSimple->SetMovingImage( movingImage );
 
-  typedef itk::GradientDescentObjectOptimizer GradientDescentObjectOptimizerType;
-  typename GradientDescentObjectOptimizerType::Pointer affineOptimizer =
-    dynamic_cast<GradientDescentObjectOptimizerType * >( affineSimple->GetOptimizer() );
+  typedef itk::GradientDescentOptimizerv4 GradientDescentOptimizerv4Type;
+  typename GradientDescentOptimizerv4Type::Pointer affineOptimizer =
+    dynamic_cast<GradientDescentOptimizerv4Type * >( affineSimple->GetOptimizer() );
   if( !affineOptimizer )
     {
     itkGenericExceptionMacro( "Error dynamic_cast failed" );
@@ -146,7 +146,7 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
   fieldTransform->SetGaussianSmoothingVarianceForTheTotalField( 1.5 );
   fieldTransform->SetDisplacementField( displacementField );
 
-  typedef itk::ANTSNeighborhoodCorrelationImageToImageObjectMetric<FixedImageType, MovingImageType> CorrelationMetricType;
+  typedef itk::ANTSNeighborhoodCorrelationImageToImageMetricv4<FixedImageType, MovingImageType> CorrelationMetricType;
   typename CorrelationMetricType::Pointer correlationMetric = CorrelationMetricType::New();
   typename CorrelationMetricType::RadiusType radius;
   radius.Fill( 4 );
@@ -161,12 +161,12 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
   scalesEstimator->SetMetric( correlationMetric );
   scalesEstimator->SetTransformForward( true );
 
-  typename GradientDescentObjectOptimizerType::Pointer optimizer = GradientDescentObjectOptimizerType::New();
+  typename GradientDescentOptimizerv4Type::Pointer optimizer = GradientDescentOptimizerv4Type::New();
   optimizer->SetLearningRate( 1.0 );
   optimizer->SetNumberOfIterations( atoi( argv[6] ) );
   optimizer->SetScalesEstimator( scalesEstimator );
 
-  typedef itk::SimpleImageRegistrationMethod<FixedImageType, MovingImageType, DisplacementFieldTransformType> DisplacementFieldRegistrationType;
+  typedef itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType, DisplacementFieldTransformType> DisplacementFieldRegistrationType;
   typename DisplacementFieldRegistrationType::Pointer displacementFieldSimple = DisplacementFieldRegistrationType::New();
   displacementFieldSimple->SetFixedImage( fixedImage );
   displacementFieldSimple->SetMovingImage( movingImage );

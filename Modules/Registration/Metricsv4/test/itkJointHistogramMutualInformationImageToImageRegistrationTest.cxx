@@ -17,15 +17,15 @@
 *=========================================================================*/
 
 /**
- * Test program for JointHistogramMutualInformationImageToImageObjectMetric and
- * GradientDescentObjectOptimizer classes.
+ * Test program for JointHistogramMutualInformationImageToImageMetricv4 and
+ * GradientDescentOptimizerv4 classes.
  *
  * Perform a registration using user-supplied images.
  * No numerical verification is performed. Test passes as long
  * as no exception occurs.
  */
-#include "itkJointHistogramMutualInformationImageToImageObjectMetric.h"
-#include "itkGradientDescentObjectOptimizer.h"
+#include "itkJointHistogramMutualInformationImageToImageMetricv4.h"
+#include "itkGradientDescentOptimizerv4.h"
 #include "itkRegistrationParameterScalesFromShift.h"
 
 #include "itkGaussianSmoothingOnUpdateDisplacementFieldTransform.h"
@@ -127,7 +127,7 @@ private:
 };
 }
 
-int itkJointHistogramMutualInformationImageToImageObjectRegistrationTest(int argc, char *argv[])
+int itkJointHistogramMutualInformationImageToImageRegistrationTest(int argc, char *argv[])
 {
 
   if( argc < 4 )
@@ -225,7 +225,7 @@ int itkJointHistogramMutualInformationImageToImageObjectRegistrationTest(int arg
   identityTransform->SetIdentity();
 
   // The metric
-  typedef itk::JointHistogramMutualInformationImageToImageObjectMetric < FixedImageType, MovingImageType >  MetricType;
+  typedef itk::JointHistogramMutualInformationImageToImageMetricv4 < FixedImageType, MovingImageType >  MetricType;
   typedef MetricType::FixedSampledPointSetType                                                              PointSetType;
   MetricType::Pointer metric = MetricType::New();
   metric->SetNumberOfHistogramBins(20);
@@ -280,7 +280,7 @@ int itkJointHistogramMutualInformationImageToImageObjectRegistrationTest(int arg
   shiftScaleEstimator->SetMetric(metric);
 
   std::cout << "First do an affine registration " << std::endl;
-  typedef itk::GradientDescentObjectOptimizer  OptimizerType;
+  typedef itk::GradientDescentOptimizerv4  OptimizerType;
   OptimizerType::Pointer  optimizer = OptimizerType::New();
   typedef JointPDFStatus< OptimizerType, MetricType > JointPDFStatusType;
   JointPDFStatusType::Pointer jointPDFStatus = JointPDFStatusType::New();

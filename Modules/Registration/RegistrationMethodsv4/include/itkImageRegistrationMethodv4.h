@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSimpleImageRegistrationMethod_h
-#define __itkSimpleImageRegistrationMethod_h
+#ifndef __itkImageRegistrationMethodv4_h
+#define __itkImageRegistrationMethodv4_h
 
 #include "itkProcessObject.h"
 
@@ -24,7 +24,7 @@
 #include "itkCompositeTransform.h"
 #include "itkDataObjectDecorator.h"
 #include "itkObjectToObjectOptimizerBase.h"
-#include "itkImageToImageObjectMetric.h"
+#include "itkImageToImageMetricv4.h"
 #include "itkInterpolateImageFunction.h"
 #include "itkTransform.h"
 #include "itkTransformParametersAdaptor.h"
@@ -34,7 +34,7 @@
 namespace itk
 {
 
-/** \class SimpleImageRegistrationMethod
+/** \class ImageRegistrationMethodv4
  * \brief Interface method for the current registration framework.
  *
  * This interface method class encapsulates typical registration
@@ -83,16 +83,16 @@ namespace itk
  * \author Nick Tustison
  * \author Brian Avants
  *
- * \ingroup ITKHighDimensionalRegistrationMethods
+ * \ingroup ITKRegistrationMethodsv4
  */
 template<typename TFixedImage, typename TMovingImage, typename TTransform =
   AffineTransform<double, GetImageDimension<TFixedImage>::ImageDimension> >
-class ITK_EXPORT SimpleImageRegistrationMethod
+class ITK_EXPORT ImageRegistrationMethodv4
 :public ProcessObject
 {
 public:
   /** Standard class typedefs. */
-  typedef SimpleImageRegistrationMethod             Self;
+  typedef ImageRegistrationMethodv4             Self;
   typedef ProcessObject                             Superclass;
   typedef SmartPointer<Self>                        Pointer;
   typedef SmartPointer<const Self>                  ConstPointer;
@@ -104,7 +104,7 @@ public:
   itkStaticConstMacro( ImageDimension, unsigned int, TFixedImage::ImageDimension );
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( SimpleImageRegistrationMethod, ProcessObject );
+  itkTypeMacro( ImageRegistrationMethodv4, ProcessObject );
 
   /** Input typedefs for the images and transforms. */
   typedef TFixedImage                                                 FixedImageType;
@@ -113,7 +113,7 @@ public:
   typedef typename MovingImageType::Pointer                           MovingImagePointer;
 
   /** Metric and transform typedefs */
-  typedef ImageToImageObjectMetric<FixedImageType, MovingImageType>   MetricType;
+  typedef ImageToImageMetricv4<FixedImageType, MovingImageType>   MetricType;
   typedef typename MetricType::Pointer                                MetricPointer;
 
   typedef TTransform                                                  TransformType;
@@ -228,8 +228,8 @@ public:
   itkGetConstMacro( CurrentLevel, SizeValueType );
 
 protected:
-  SimpleImageRegistrationMethod();
-  virtual ~SimpleImageRegistrationMethod();
+  ImageRegistrationMethodv4();
+  virtual ~ImageRegistrationMethodv4();
   virtual void PrintSelf( std::ostream & os, Indent indent ) const;
 
   /** Perform the registration. */
@@ -261,13 +261,13 @@ protected:
   TransformPointer                                                m_Transform;
 
 private:
-  SimpleImageRegistrationMethod( const Self & );   //purposely not implemented
+  ImageRegistrationMethodv4( const Self & );   //purposely not implemented
   void operator=( const Self & );                  //purposely not implemented
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSimpleImageRegistrationMethod.hxx"
+#include "itkImageRegistrationMethodv4.hxx"
 #endif
 
 #endif

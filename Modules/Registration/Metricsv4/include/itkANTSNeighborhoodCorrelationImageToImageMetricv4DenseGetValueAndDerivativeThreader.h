@@ -15,33 +15,33 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkANTSNeighborhoodCorrelationImageToImageObjectMetricDenseGetValueAndDerivativeThreader_h
-#define __itkANTSNeighborhoodCorrelationImageToImageObjectMetricDenseGetValueAndDerivativeThreader_h
+#ifndef __itkANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreader_h
+#define __itkANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreader_h
 
-#include "itkImageToImageObjectMetricGetValueAndDerivativeThreader.h"
+#include "itkImageToImageMetricv4GetValueAndDerivativeThreader.h"
 #include "itkThreadedImageRegionPartitioner.h"
 
 namespace itk
 {
 
-/** \class ANTSNeighborhoodCorrelationImageToImageObjectMetricDenseGetValueAndDerivativeThreader
+/** \class ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreader
  * \brief Processes points for NeighborhoodScanningWindow calculation.
  *
- * \ingroup ITKHighDimensionalMetrics
+ * \ingroup ITKMetricsv4
  */
 template< class TImageToImageMetric, class TNeighborhoodCorrelationMetric >
-class ANTSNeighborhoodCorrelationImageToImageObjectMetricDenseGetValueAndDerivativeThreader
-  : public ImageToImageObjectMetricGetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< TImageToImageMetric::VirtualImageDimension >, TImageToImageMetric >
+class ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreader
+  : public ImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< TImageToImageMetric::VirtualImageDimension >, TImageToImageMetric >
 {
 public:
   /** Standard class typedefs. */
-  typedef ANTSNeighborhoodCorrelationImageToImageObjectMetricDenseGetValueAndDerivativeThreader Self;
-  typedef ImageToImageObjectMetricGetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< TImageToImageMetric::VirtualImageDimension >, TImageToImageMetric >
+  typedef ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreader Self;
+  typedef ImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< TImageToImageMetric::VirtualImageDimension >, TImageToImageMetric >
                                                                                                 Superclass;
   typedef SmartPointer< Self >                                                                  Pointer;
   typedef SmartPointer< const Self >                                                            ConstPointer;
 
-  itkTypeMacro( ANTSNeighborhoodCorrelationImageToImageObjectMetricDenseGetValueAndDerivativeThreader, ImageToImageObjectMetricGetValueAndDerivativeThreader );
+  itkTypeMacro( ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreader, ImageToImageMetricv4GetValueAndDerivativeThreader );
 
   itkNewMacro( Self );
 
@@ -72,7 +72,7 @@ public:
   typedef typename NeighborhoodCorrelationMetricType::NumberOfParametersType       NumberOfParametersType;
 
 protected:
-  ANTSNeighborhoodCorrelationImageToImageObjectMetricDenseGetValueAndDerivativeThreader() {}
+  ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreader() {}
 
   /** \c ProcessVirtualPoint and \c ProcessPoint are not used in the
    * NeighborhoodScanningWindowGetValueAndDerivativeThreader implementation.
@@ -127,14 +127,14 @@ protected:
     MeasureType &local_cc, const ThreadIdType threadID) const;
 
 private:
-  ANTSNeighborhoodCorrelationImageToImageObjectMetricDenseGetValueAndDerivativeThreader( const Self & ); // purposely not implemented
+  ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreader( const Self & ); // purposely not implemented
   void operator=( const Self & ); // purposely not implemented
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkANTSNeighborhoodCorrelationImageToImageObjectMetricDenseGetValueAndDerivativeThreader.hxx"
+#include "itkANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreader.hxx"
 #endif
 
 #endif

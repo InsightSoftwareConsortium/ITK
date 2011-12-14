@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkGradientDescentObjectOptimizer.h"
+#include "itkGradientDescentOptimizerv4.h"
 
 namespace itk
 {
@@ -24,8 +24,8 @@ namespace itk
 /**
  * Default constructor
  */
-GradientDescentObjectOptimizer
-::GradientDescentObjectOptimizer()
+GradientDescentOptimizerv4
+::GradientDescentOptimizerv4()
 {
   this->m_LearningRate = NumericTraits<InternalComputationValueType>::One;
 
@@ -39,8 +39,8 @@ GradientDescentObjectOptimizer
 /**
  * Destructor
  */
-GradientDescentObjectOptimizer
-::~GradientDescentObjectOptimizer()
+GradientDescentOptimizerv4
+::~GradientDescentOptimizerv4()
 {}
 
 
@@ -48,7 +48,7 @@ GradientDescentObjectOptimizer
  *PrintSelf
  */
 void
-GradientDescentObjectOptimizer
+GradientDescentOptimizerv4
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
  Superclass::PrintSelf(os, indent);
@@ -59,7 +59,7 @@ GradientDescentObjectOptimizer
  * Start and run the optimization
  */
 void
-GradientDescentObjectOptimizer
+GradientDescentOptimizerv4
 ::StartOptimization()
 {
   itkDebugMacro("StartOptimization");
@@ -89,7 +89,7 @@ GradientDescentObjectOptimizer
  * Resume optimization.
  */
 void
-GradientDescentObjectOptimizer
+GradientDescentOptimizerv4
 ::ResumeOptimization()
 {
   this->m_StopConditionDescription.str("");
@@ -146,7 +146,7 @@ GradientDescentObjectOptimizer
  * Advance one Step following the gradient direction
  */
 void
-GradientDescentObjectOptimizer
+GradientDescentOptimizerv4
 ::AdvanceOneStep()
 {
   itkDebugMacro("AdvanceOneStep");
@@ -177,7 +177,7 @@ GradientDescentObjectOptimizer
  * Modify the gradient by scales over a given index range.
  */
 void
-GradientDescentObjectOptimizer
+GradientDescentOptimizerv4
 ::ModifyGradientByScalesOverSubRange( const IndexRangeType& subrange )
 {
   const ScalesType& scales = this->GetScales();
@@ -199,7 +199,7 @@ GradientDescentObjectOptimizer
  * Modify the gradient by learning rate over a given index range.
  */
 void
-GradientDescentObjectOptimizer
+GradientDescentOptimizerv4
 ::ModifyGradientByLearningRateOverSubRange( const IndexRangeType& subrange )
 {
   /* Loop over the range. It is inclusive. */
@@ -213,7 +213,7 @@ GradientDescentObjectOptimizer
  * Estimate the learning rate.
  */
 void
-GradientDescentObjectOptimizer
+GradientDescentOptimizerv4
 ::EstimateLearningRate()
 {
   if (this->m_ScalesEstimator.IsNotNull())

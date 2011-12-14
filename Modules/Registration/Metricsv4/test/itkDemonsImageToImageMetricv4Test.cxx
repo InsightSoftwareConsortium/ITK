@@ -15,17 +15,17 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkDemonsImageToImageObjectMetric.h"
+#include "itkDemonsImageToImageMetricv4.h"
 #include "itkTranslationTransform.h"
 
 /* Simple test to verify that class builds and runs.
- * Results are not verified. See ImageToImageObjectMetricTest
+ * Results are not verified. See ImageToImageMetricv4Test
  * for verification of basic metric functionality.
  *
  * TODO Numerical verification.
  */
 
-int itkDemonsImageToImageObjectMetricTest(int, char ** const)
+int itkDemonsImageToImageMetricv4Test(int, char ** const)
 {
 
   const unsigned int imageSize = 5;
@@ -95,7 +95,7 @@ int itkDemonsImageToImageObjectMetricTest(int, char ** const)
   movingTransform->SetIdentity();
 
   /* The metric */
-  typedef itk::DemonsImageToImageObjectMetric< ImageType, ImageType, ImageType > MetricType;
+  typedef itk::DemonsImageToImageMetricv4< ImageType, ImageType, ImageType > MetricType;
 
   MetricType::Pointer metric = MetricType::New();
 

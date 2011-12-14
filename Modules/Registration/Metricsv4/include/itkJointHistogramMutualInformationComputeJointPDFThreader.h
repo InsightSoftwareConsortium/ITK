@@ -27,18 +27,18 @@ namespace itk
 
 /** \class JointHistogramMutualInformationComputeJointPDFThreader
  * \brief Provide a threaded computation of the joint PDF for
- * JointHistogramMutualInformationImageToImageObjectMetric.
+ * JointHistogramMutualInformationImageToImageMetricv4.
  *
  * \tparam TDomainPartitioner    Type of the Domain,
  * ThreadedImageRegionPartitioner or ThreadedIndexedContainerPartitioner
  * \tparam TJointHistogramMetric Type of the
- * JointHistogramMutualInformationImageToImageObjectMetric
+ * JointHistogramMutualInformationImageToImageMetricv4
  *
  * This class implements ThreadedExecution.  Template specialization is
  * provided for ThreadedImageRegionPartitioner and
  * ThreadedIndexedContainerPartitioner.
  *
- * \ingroup ITKHighDimensionalMetrics
+ * \ingroup ITKMetricsv4
  */
 template < class TDomainPartitioner, class TJointHistogramMetric >
 class JointHistogramMutualInformationComputeJointPDFThreader
@@ -46,7 +46,7 @@ class JointHistogramMutualInformationComputeJointPDFThreader
 
 /** \class JointHistogramMutualInformationComputeJointPDFThreader
  * \brief Specialization for ThreadedImageRegionPartitioner.
- * \ingroup ITKHighDimensionalMetrics
+ * \ingroup ITKMetricsv4
  * */
 template < class TJointHistogramMetric >
 class JointHistogramMutualInformationComputeJointPDFThreader< ThreadedImageRegionPartitioner< TJointHistogramMetric::VirtualImageDimension >, TJointHistogramMetric >
@@ -86,7 +86,7 @@ private:
 
 /** \class JointHistogramMutualInformationComputeJointPDFThreader
  * \brief Specialization for ThreadedIndexedContainerPartitioner.
- * \ingroup ITKHighDimensionalMetrics
+ * \ingroup ITKMetricsv4
  * */
 template < class TJointHistogramMetric >
 class JointHistogramMutualInformationComputeJointPDFThreader< ThreadedIndexedContainerPartitioner, TJointHistogramMetric >

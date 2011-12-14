@@ -139,8 +139,8 @@
       Modules/Registration/Common/include/itkPointSetToImageRegistrationMethod.hxx
       Modules/Registration/Common/include/itkPointSetToPointSetRegistrationMethod.h
       Modules/Registration/Common/include/itkPointSetToPointSetRegistrationMethod.hxx
-      Modules/Registration/HighDimensionalRegistrationMethods/include/itkSimpleImageRegistrationMethod.h
-      Modules/Registration/HighDimensionalRegistrationMethods/include/itkSimpleImageRegistrationMethod.hxx
+      Modules/Registration/RegistrationMethodsv4/include/itkImageRegistrationMethodv4.h
+      Modules/Registration/RegistrationMethodsv4/include/itkImageRegistrationMethodv4.hxx
       Modules/Segmentation/Classifiers/include/itkBayesianClassifierImageFilter.h
       Modules/Segmentation/Classifiers/include/itkBayesianClassifierImageFilter.hxx
       Modules/Segmentation/Watersheds/include/itkWatershedBoundaryResolver.h

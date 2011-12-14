@@ -16,20 +16,20 @@
  *
  *=========================================================================*/
 
-#include "itkGradientDescentObjectOptimizerBase.h"
+#include "itkGradientDescentOptimizerBasev4.h"
 
 namespace itk
 {
 
 //-------------------------------------------------------------------
-GradientDescentObjectOptimizerBase
-::GradientDescentObjectOptimizerBase()
+GradientDescentOptimizerBasev4
+::GradientDescentOptimizerBasev4()
 {
   /** Threader for apply scales to gradient */
-  this->m_ModifyGradientByScalesThreader = GradientDescentObjectOptimizerBaseModifyGradientByScalesThreader::New();
+  this->m_ModifyGradientByScalesThreader = GradientDescentOptimizerBasev4ModifyGradientByScalesThreader::New();
 
   /** Threader for apply the learning rate to gradient */
-  this->m_ModifyGradientByLearningRateThreader = GradientDescentObjectOptimizerBaseModifyGradientByLearningRateThreader::New();
+  this->m_ModifyGradientByLearningRateThreader = GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader::New();
 
   this->m_NumberOfIterations = 100;
   this->m_CurrentIteration   = 0;
@@ -38,13 +38,13 @@ GradientDescentObjectOptimizerBase
 }
 
 //-------------------------------------------------------------------
-GradientDescentObjectOptimizerBase
-::~GradientDescentObjectOptimizerBase()
+GradientDescentOptimizerBasev4
+::~GradientDescentOptimizerBasev4()
 {}
 
 //-------------------------------------------------------------------
 void
-GradientDescentObjectOptimizerBase
+GradientDescentOptimizerBasev4
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -56,8 +56,8 @@ GradientDescentObjectOptimizerBase
 
 
 //-------------------------------------------------------------------
-const GradientDescentObjectOptimizerBase::StopConditionReturnStringType
-GradientDescentObjectOptimizerBase
+const GradientDescentOptimizerBasev4::StopConditionReturnStringType
+GradientDescentOptimizerBasev4
 ::GetStopConditionDescription() const
 {
   return this->m_StopConditionDescription.str();
@@ -65,7 +65,7 @@ GradientDescentObjectOptimizerBase
 
 //-------------------------------------------------------------------
 void
-GradientDescentObjectOptimizerBase
+GradientDescentOptimizerBasev4
 ::StopOptimization(void)
 {
   itkDebugMacro("StopOptimization");
@@ -77,7 +77,7 @@ GradientDescentObjectOptimizerBase
 
 //-------------------------------------------------------------------
 void
-GradientDescentObjectOptimizerBase
+GradientDescentOptimizerBasev4
 ::ModifyGradient()
 {
   IndexRangeType fullrange;

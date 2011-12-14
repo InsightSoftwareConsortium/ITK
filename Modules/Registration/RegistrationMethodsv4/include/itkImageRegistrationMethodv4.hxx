@@ -15,15 +15,15 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSimpleImageRegistrationMethod_hxx
-#define __itkSimpleImageRegistrationMethod_hxx
+#ifndef __itkImageRegistrationMethodv4_hxx
+#define __itkImageRegistrationMethodv4_hxx
 
-#include "itkSimpleImageRegistrationMethod.h"
+#include "itkImageRegistrationMethodv4.h"
 
 #include "itkDiscreteGaussianImageFilter.h"
-#include "itkGradientDescentObjectOptimizer.h"
+#include "itkGradientDescentOptimizerv4.h"
 #include "itkIterationReporter.h"
-#include "itkJointHistogramMutualInformationImageToImageObjectMetric.h"
+#include "itkJointHistogramMutualInformationImageToImageMetricv4.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkRegistrationParameterScalesFromShift.h"
 #include "itkShrinkImageFilter.h"
@@ -34,8 +34,8 @@ namespace itk
  * Constructor
  */
 template<typename TFixedImage, typename TMovingImage, typename TTransform>
-SimpleImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>
-::SimpleImageRegistrationMethod()
+ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
+::ImageRegistrationMethodv4()
 {
   this->SetNumberOfRequiredOutputs( 2 );
 
@@ -51,7 +51,7 @@ SimpleImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>
   typename DefaultMovingInterpolatorType::Pointer movingInterpolator = DefaultMovingInterpolatorType::New();
   this->m_MovingInterpolator = movingInterpolator;
 
-  typedef JointHistogramMutualInformationImageToImageObjectMetric<FixedImageType, MovingImageType> MetricForStageOneType;
+  typedef JointHistogramMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType> MetricForStageOneType;
   typename MetricForStageOneType::Pointer mutualInformationMetric = MetricForStageOneType::New();
   mutualInformationMetric = mutualInformationMetric;
   mutualInformationMetric->SetNumberOfHistogramBins( 20 );
@@ -67,7 +67,7 @@ SimpleImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>
   scalesEstimator->SetMetric( mutualInformationMetric );
   scalesEstimator->SetTransformForward( true );
 
-  typedef GradientDescentObjectOptimizer DefaultOptimizerType;
+  typedef GradientDescentOptimizerv4 DefaultOptimizerType;
   typename DefaultOptimizerType::Pointer optimizer = DefaultOptimizerType::New();
   optimizer->SetLearningRate( 1.0 );
   optimizer->SetNumberOfIterations( 1000 );
@@ -97,8 +97,8 @@ SimpleImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>
 }
 
 template<typename TFixedImage, typename TMovingImage, typename TTransform>
-SimpleImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>
-::~SimpleImageRegistrationMethod()
+ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
+::~ImageRegistrationMethodv4()
 {
 }
 
@@ -107,7 +107,7 @@ SimpleImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>
  */
 template<typename TFixedImage, typename TMovingImage, typename TTransform>
 void
-SimpleImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>
+ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
 ::InitializeRegistrationAtEachLevel( const SizeValueType level )
 {
   // Sanity checks
@@ -233,7 +233,7 @@ SimpleImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>
  */
 template<typename TFixedImage, typename TMovingImage, typename TTransform>
 void
-SimpleImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>
+ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
 ::GenerateData()
 {
   TransformOutputType *transformOutput = static_cast<TransformOutputType *>( this->ProcessObject::GetOutput( 0 ) );
@@ -260,7 +260,7 @@ SimpleImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>
  */
 template<typename TFixedImage, typename TMovingImage, typename TTransform>
 void
-SimpleImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>
+ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
 ::SetTransformParametersAdaptorsPerLevel( TransformParametersAdaptorsContainerType & adaptors )
 {
   if( this->m_NumberOfLevels != adaptors.size() )
@@ -279,8 +279,8 @@ SimpleImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>
  * Get the moving transform adaptors per stage
  */
 template<typename TFixedImage, typename TMovingImage, typename TTransform>
-const typename  SimpleImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>::TransformParametersAdaptorsContainerType &
-SimpleImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>
+const typename  ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>::TransformParametersAdaptorsContainerType &
+ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
 ::GetTransformParametersAdaptorsPerLevel() const
 {
   return this->m_TransformParametersAdaptorsPerLevel;
@@ -291,7 +291,7 @@ SimpleImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>
  */
 template<typename TFixedImage, typename TMovingImage, typename TTransform>
 void
-SimpleImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>
+ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
 ::SetNumberOfLevels( const SizeValueType numberOfLevels )
 {
   if( this->m_NumberOfLevels != numberOfLevels )
@@ -324,7 +324,7 @@ SimpleImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>
  */
 template<typename TFixedImage, typename TMovingImage, typename TTransform>
 void
-SimpleImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>
+ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
 ::PrintSelf( std::ostream & os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );
@@ -355,8 +355,8 @@ SimpleImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>
  *  Get output composite transform
  */
 template<typename TFixedImage, typename TMovingImage, typename TTransform>
-const typename SimpleImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>::TransformOutputType *
-SimpleImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>
+const typename ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>::TransformOutputType *
+ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
 ::GetOutput() const
 {
   return static_cast<const TransformOutputType *>( this->ProcessObject::GetOutput( 0 ) );
@@ -364,7 +364,7 @@ SimpleImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>
 
 template<typename TFixedImage, typename TMovingImage, typename TTransform>
 DataObject::Pointer
-SimpleImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>
+ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
 ::MakeOutput( DataObjectPointerArraySizeType output )
 {
   switch ( output )

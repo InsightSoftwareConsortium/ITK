@@ -15,32 +15,32 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkEuclideanDistancePointSetToPointSetObjectMetric_hxx
-#define __itkEuclideanDistancePointSetToPointSetObjectMetric_hxx
+#ifndef __itkEuclideanDistancePointSetToPointSetMetricv4_hxx
+#define __itkEuclideanDistancePointSetToPointSetMetricv4_hxx
 
-#include "itkEuclideanDistancePointSetToPointSetObjectMetric.h"
+#include "itkEuclideanDistancePointSetToPointSetMetricv4.h"
 
 namespace itk
 {
 
 /** Constructor */
 template<class TFixedPointSet, class TMovingPointSet>
-EuclideanDistancePointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>
-::EuclideanDistancePointSetToPointSetObjectMetric()
+EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
+::EuclideanDistancePointSetToPointSetMetricv4()
 {
 }
 
 /** Destructor */
 template<class TFixedPointSet, class TMovingPointSet>
-EuclideanDistancePointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>
-::~EuclideanDistancePointSetToPointSetObjectMetric()
+EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
+::~EuclideanDistancePointSetToPointSetMetricv4()
 {
 }
 
 template<class TFixedPointSet, class TMovingPointSet>
-typename EuclideanDistancePointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>
+typename EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::MeasureType
-EuclideanDistancePointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>
+EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::GetLocalNeighborhoodValue( const PointType & point ) const
 {
   PointType closestPoint;
@@ -64,9 +64,9 @@ EuclideanDistancePointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>
 }
 
 template<class TFixedPointSet, class TMovingPointSet>
-typename EuclideanDistancePointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>
+typename EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::LocalDerivativeType
-EuclideanDistancePointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>
+EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::GetLocalNeighborhoodDerivative( const PointType & point ) const
 {
   PointType closestPoint;
@@ -91,7 +91,7 @@ EuclideanDistancePointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>
 
 template<class TFixedPointSet, class TMovingPointSet>
 void
-EuclideanDistancePointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>
+EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::GetLocalNeighborhoodValueAndDerivative( const PointType & point,
   MeasureType &measure, LocalDerivativeType & localDerivative ) const
 {
@@ -118,7 +118,7 @@ EuclideanDistancePointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>
 /** PrintSelf method */
 template<class TFixedPointSet, class TMovingPointSet>
 void
-EuclideanDistancePointSetToPointSetObjectMetric<TFixedPointSet, TMovingPointSet>
+EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::PrintSelf( std::ostream & os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );

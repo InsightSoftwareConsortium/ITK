@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkJensenHavrdaCharvatTsallisPointSetToPointSetObjectMetric.h"
+#include "itkJensenHavrdaCharvatTsallisPointSetToPointSetMetricv4.h"
 
 
 #include <fstream>
@@ -54,7 +54,7 @@ int itkJensenHavrdaCharvatTsallisPointSetMetricTest( int, char* [] )
     }
 
   // Instantiate the metric
-  typedef itk::JensenHavrdaCharvatTsallisPointSetToPointSetObjectMetric<PointSetType>
+  typedef itk::JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<PointSetType>
     PointSetMetricType;
   PointSetMetricType::Pointer metric = PointSetMetricType::New();
   metric->SetFixedPointSet( fixedPoints );

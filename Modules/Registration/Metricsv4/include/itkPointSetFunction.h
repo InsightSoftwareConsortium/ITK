@@ -50,7 +50,7 @@ namespace itk
  * \sa Index
  * \sa ContinuousIndex
  *
- * \ingroup ITKHighDimensionalMetrics
+ * \ingroup ITKMetricsv4
  */
 template <
 class TInputPointSet,

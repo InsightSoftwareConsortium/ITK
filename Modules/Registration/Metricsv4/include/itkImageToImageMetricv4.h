@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageToImageObjectMetric_h
-#define __itkImageToImageObjectMetric_h
+#ifndef __itkImageToImageMetricv4_h
+#define __itkImageToImageMetricv4_h
 
 #include "itkCovariantVector.h"
 #include "itkImageFunction.h"
@@ -27,13 +27,13 @@
 #include "itkThreadedIndexedContainerPartitioner.h"
 #include "itkThreadedImageRegionPartitioner.h"
 #include "itkImageToImageFilter.h"
-#include "itkImageToImageObjectMetricGetValueAndDerivativeThreader.h"
+#include "itkImageToImageMetricv4GetValueAndDerivativeThreader.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"
 #include "itkPointSet.h"
 
 namespace itk
 {
-/** \class ImageToImageObjectMetric
+/** \class ImageToImageMetricv4
  *
  * Computes similarity between regions of two images, using two
  * user-supplied transforms, a 'fixed' transform and a 'moving' transform.
@@ -139,20 +139,20 @@ namespace itk
  * Threading
  *
  * This class is threaded. Threading is handled by friend classes
- * ImageToImageObjectMetricGetValueAndDerivativeThreaderBase and
- * ImageToImageObjectMetricGetValueAndDerivativeThreader. Dense and sparse
+ * ImageToImageMetricv4GetValueAndDerivativeThreaderBase and
+ * ImageToImageMetricv4GetValueAndDerivativeThreader. Dense and sparse
  * evaluation are handled by template specialization of the
- * ImageToImageObjectMetricGetValueAndDerivativeThreader::ThreadedExecution
+ * ImageToImageMetricv4GetValueAndDerivativeThreader::ThreadedExecution
  * method, in order to iterate over either all points in the virutal space in
  * the case of dense evaluation, or a list of points in the sparse case.
  *
- * Methods and members of ImageToImageObjectMetric are accessed by
+ * Methods and members of ImageToImageMetricv4 are accessed by
  * the threading class using its m_Associate member, which points
- * to the containing instance of ImageToImageObjectMetric.
+ * to the containing instance of ImageToImageMetricv4.
  *
  * Pre- and post-processing for threaded operation is handled in
- *  ImageToImageObjectMetricGetValueAndDerivativeThreaderBase::BeforeThreadedExecution, and
- * ImageToImageObjectMetricGetValueAndDerivativeThreaderBase::AfterThreadedExecution,
+ *  ImageToImageMetricv4GetValueAndDerivativeThreaderBase::BeforeThreadedExecution, and
+ * ImageToImageMetricv4GetValueAndDerivativeThreaderBase::AfterThreadedExecution,
  * respectively.
  *
  * Derived classes:
@@ -161,7 +161,7 @@ namespace itk
  *  otherwise different behavior as needed.
  *
  *  Derived classes must derive a threader class from
- *  ImageToImageObjectMetricGetValueAndDerivativeThreader, from which
+ *  ImageToImageMetricv4GetValueAndDerivativeThreader, from which
  *  a DenseGetValueAndDerivativeThreader and SparseGetValueAndDerivativeThreader
  *  must be defined. Then,
  *  \code
@@ -177,25 +177,24 @@ namespace itk
  *  derived threader class, the user must cast m_Associate to the type of the
  *  derived metric class.
  *
- *  See \c ImageToImageObjectMetricTest for a clear example of what a
+ *  See \c ImageToImageMetricv4Test for a clear example of what a
  *  derived class must implement and do.
  *
- * \ingroup ITKHighDimensionalMetrics
+ * \ingroup ITKMetricsv4
  */
 template<class TFixedImage,class TMovingImage,class TVirtualImage = TFixedImage>
-class ITK_EXPORT ImageToImageObjectMetric :
-  public ObjectToObjectMetric
+class ITK_EXPORT ImageToImageMetricv4 : public ObjectToObjectMetric
 {
 public:
 
   /** Standard class typedefs. */
-  typedef ImageToImageObjectMetric                          Self;
-  typedef ObjectToObjectMetric                              Superclass;
-  typedef SmartPointer<Self>                                Pointer;
-  typedef SmartPointer<const Self>                          ConstPointer;
+  typedef ImageToImageMetricv4       Self;
+  typedef ObjectToObjectMetric       Superclass;
+  typedef SmartPointer<Self>         Pointer;
+  typedef SmartPointer<const Self>   ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageToImageObjectMetric, ObjectToObjectMetric);
+  itkTypeMacro(ImageToImageMetricv4, ObjectToObjectMetric);
 
   /** Type used internally for computations */
   typedef typename Superclass::InternalComputationValueType
@@ -633,19 +632,19 @@ protected:
    * a registration loop. */
   virtual void InitializeForIteration() const;
 
-  friend class ImageToImageObjectMetricGetValueAndDerivativeThreaderBase< ThreadedImageRegionPartitioner< VirtualImageDimension >, Self >;
-  friend class ImageToImageObjectMetricGetValueAndDerivativeThreaderBase< ThreadedIndexedContainerPartitioner, Self >;
-  friend class ImageToImageObjectMetricGetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< VirtualImageDimension >, Self >;
-  friend class ImageToImageObjectMetricGetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Self >;
+  friend class ImageToImageMetricv4GetValueAndDerivativeThreaderBase< ThreadedImageRegionPartitioner< VirtualImageDimension >, Self >;
+  friend class ImageToImageMetricv4GetValueAndDerivativeThreaderBase< ThreadedIndexedContainerPartitioner, Self >;
+  friend class ImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< VirtualImageDimension >, Self >;
+  friend class ImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Self >;
 
   /* A DenseGetValueAndDerivativeThreader
    * Derived classes must define this class and assign it in their constructor
    * if threaded processing in GetValueAndDerivative is performed. */
-  typename ImageToImageObjectMetricGetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< VirtualImageDimension >, Self >::Pointer m_DenseGetValueAndDerivativeThreader;
+  typename ImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< VirtualImageDimension >, Self >::Pointer m_DenseGetValueAndDerivativeThreader;
   /* A SparseGetValueAndDerivativeThreader
    * Derived classes must define this class and assign it in their constructor
    * if threaded processing in GetValueAndDerivative is performed. */
-  typename ImageToImageObjectMetricGetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Self >::Pointer m_SparseGetValueAndDerivativeThreader;
+  typename ImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Self >::Pointer m_SparseGetValueAndDerivativeThreader;
 
   /**
    * Transform a point from VirtualImage domain to FixedImage domain.
@@ -795,8 +794,8 @@ protected:
   /** Metric value, stored after evaluating */
   mutable MeasureType             m_Value;
 
-  ImageToImageObjectMetric();
-  virtual ~ImageToImageObjectMetric();
+  ImageToImageMetricv4();
+  virtual ~ImageToImageMetricv4();
 
   void PrintSelf(std::ostream& os, Indent indent) const;
 
@@ -817,7 +816,7 @@ private:
    *  GetValue implementation is improved. */
   mutable bool m_HaveMadeGetValueWarning;
 
-  ImageToImageObjectMetric(const Self &); //purposely not implemented
+  ImageToImageMetricv4(const Self &); //purposely not implemented
   void operator=(const Self &); //purposely not implemented
 
   //Sample point coordinates from the virtual image domain
@@ -828,7 +827,7 @@ private:
 }//namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageToImageObjectMetric.hxx"
+#include "itkImageToImageMetricv4.hxx"
 #endif
 
 #endif

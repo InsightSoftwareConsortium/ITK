@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 #include "itkRegistrationParameterScalesFromShift.h"
-#include "itkImageToImageObjectMetric.h"
+#include "itkImageToImageMetricv4.h"
 
 #include "itkAffineTransform.h"
 #include "itkDisplacementFieldTransform.h"
@@ -27,12 +27,12 @@
  */
 template< class TFixedImage,class TMovingImage,class TVirtualImage = TFixedImage >
 class ITK_EXPORT RegistrationParameterScalesFromShiftTestMetric:
-  public itk::ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
+  public itk::ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
 {
 public:
   /** Standard class typedefs. */
   typedef RegistrationParameterScalesFromShiftTestMetric          Self;
-  typedef itk::ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
+  typedef itk::ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
                                                                   Superclass;
   typedef itk::SmartPointer< Self >                               Pointer;
   typedef itk::SmartPointer< const Self >                         ConstPointer;
@@ -42,7 +42,7 @@ public:
   typedef typename Superclass::ParametersType       ParametersType;
   typedef typename Superclass::ParametersValueType  ParametersValueType;
 
-  itkTypeMacro(RegistrationParameterScalesFromShiftTestMetric, ImageToImageObjectMetric);
+  itkTypeMacro(RegistrationParameterScalesFromShiftTestMetric, ImageToImageMetricv4);
 
   itkNewMacro(Self);
 

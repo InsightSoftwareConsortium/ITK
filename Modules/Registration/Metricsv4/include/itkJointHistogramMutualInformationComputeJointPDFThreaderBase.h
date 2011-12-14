@@ -28,9 +28,9 @@ namespace itk
  * \brief Comput the JointPDF image.
  *
  * This is a helper to compute the joint pdf image for the
- * JointHistogramMutualInformationImageToImageObjectMetric.
+ * JointHistogramMutualInformationImageToImageMetricv4.
  *
- * \ingroup ITKHighDimensionalMetrics
+ * \ingroup ITKMetricsv4
  */
 template < class TDomainPartitioner, class TJointHistogramMetric >
 class JointHistogramMutualInformationComputeJointPDFThreaderBase

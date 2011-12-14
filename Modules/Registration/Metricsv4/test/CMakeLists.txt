@@ -1,76 +1,76 @@
 itk_module_test()
-set(ITKHighDimensionalMetricsTests
+set(ITKMetricsv4Tests
   itkEuclideanDistancePointSetMetricTest.cxx
   itkExpectationBasedPointSetMetricTest.cxx
   itkJensenHavrdaCharvatTsallisPointSetMetricTest.cxx
-  itkImageToImageObjectMetricTest.cxx
-  itkJointHistogramMutualInformationImageToImageObjectMetricTest.cxx
-  itkJointHistogramMutualInformationImageToImageObjectRegistrationTest.cxx
-  itkDemonsImageToImageObjectMetricTest.cxx
-  itkANTSNeighborhoodCorrelationImageToImageObjectMetricTest.cxx
-  itkANTSNeighborhoodCorrelationImageToImageObjectRegistrationTest.cxx
-  itkAffineDemonsImageToImageObjectRegistrationTest.cxx
+  itkImageToImageMetricv4Test.cxx
+  itkJointHistogramMutualInformationImageToImageMetricv4Test.cxx
+  itkJointHistogramMutualInformationImageToImageRegistrationTest.cxx
+  itkDemonsImageToImageMetricv4Test.cxx
+  itkANTSNeighborhoodCorrelationImageToImageMetricv4Test.cxx
+  itkANTSNeighborhoodCorrelationImageToImageRegistrationTest.cxx
+  itkAffineDemonsImageToImageRegistrationTest.cxx
 )
 
 set(INPUTDATA ${ITK_DATA_ROOT}/Input)
 set(BASELINE_ROOT ${ITK_DATA_ROOT}/Baseline)
 set(TEMP ${ITK_TEST_OUTPUT_DIR})
 
-CreateTestDriver(ITKHighDimensionalMetrics  "${ITKHighDimensionalMetrics-Test_LIBRARIES}" "${ITKHighDimensionalMetricsTests}")
+CreateTestDriver(ITKMetricsv4  "${ITKMetricsv4-Test_LIBRARIES}" "${ITKMetricsv4Tests}")
 
 itk_add_test(NAME itkEuclideanDistancePointSetMetricTest
-      COMMAND ITKHighDimensionalMetricsTestDriver itkEuclideanDistancePointSetMetricTest)
+      COMMAND ITKMetricsv4TestDriver itkEuclideanDistancePointSetMetricTest)
 
 itk_add_test(NAME itkExpectationBasedPointSetMetricTest
-      COMMAND ITKHighDimensionalMetricsTestDriver itkExpectationBasedPointSetMetricTest)
+      COMMAND ITKMetricsv4TestDriver itkExpectationBasedPointSetMetricTest)
 
 itk_add_test(NAME itkJensenHavrdaCharvatTsallisPointSetMetricTest
-      COMMAND ITKHighDimensionalMetricsTestDriver itkJensenHavrdaCharvatTsallisPointSetMetricTest)
+      COMMAND ITKMetricsv4TestDriver itkJensenHavrdaCharvatTsallisPointSetMetricTest)
 
-itk_add_test(NAME itkImageToImageObjectMetricTest
-      COMMAND ITKHighDimensionalMetricsTestDriver
-              itkImageToImageObjectMetricTest)
+itk_add_test(NAME itkImageToImageMetricv4Test
+      COMMAND ITKMetricsv4TestDriver
+              itkImageToImageMetricv4Test)
 
-itk_add_test(NAME itkJointHistogramMutualInformationImageToImageObjectMetricTest
-      COMMAND ITKHighDimensionalMetricsTestDriver
-              itkJointHistogramMutualInformationImageToImageObjectMetricTest)
+itk_add_test(NAME itkJointHistogramMutualInformationImageToImageMetricv4Test
+      COMMAND ITKMetricsv4TestDriver
+              itkJointHistogramMutualInformationImageToImageMetricv4Test)
 
-itk_add_test(NAME itkJointHistogramMutualInformationImageToImageObjectRegistrationTest
-      COMMAND ITKHighDimensionalMetricsTestDriver
-              itkJointHistogramMutualInformationImageToImageObjectRegistrationTest
+itk_add_test(NAME itkJointHistogramMutualInformationImageToImageRegistrationTest
+      COMMAND ITKMetricsv4TestDriver
+              itkJointHistogramMutualInformationImageToImageRegistrationTest
               ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png
               ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBSplined10.png
-              ${TEMP}/itkJointHistogramMutualInformationImageToImageObjectRegistrationTest.nii.gz
+              ${TEMP}/itkJointHistogramMutualInformationImageToImageRegistrationTest.nii.gz
               10 5 )
 
-itk_add_test(NAME itkJointHistogramMutualInformationImageToImageObjectRegistrationTest2
-      COMMAND ITKHighDimensionalMetricsTestDriver
-              itkJointHistogramMutualInformationImageToImageObjectRegistrationTest
+itk_add_test(NAME itkJointHistogramMutualInformationImageToImageRegistrationTest2
+      COMMAND ITKMetricsv4TestDriver
+              itkJointHistogramMutualInformationImageToImageRegistrationTest
               DATA{Baseline/face_avg.jpg}
               DATA{Input/face_b.jpg}
-              ${TEMP}/itkJointHistogramMutualInformationImageToImageObjectRegistrationTest2.nii.gz
+              ${TEMP}/itkJointHistogramMutualInformationImageToImageRegistrationTest2.nii.gz
               50 0 )
 
-itk_add_test(NAME itkDemonsImageToImageObjectMetricTest
-      COMMAND ITKHighDimensionalMetricsTestDriver
-      itkDemonsImageToImageObjectMetricTest)
+itk_add_test(NAME itkDemonsImageToImageMetricv4Test
+      COMMAND ITKMetricsv4TestDriver
+      itkDemonsImageToImageMetricv4Test)
 
-itk_add_test(NAME itkANTSNeighborhoodCorrelationImageToImageObjectMetricTest
-      COMMAND ITKHighDimensionalMetricsTestDriver
-              itkANTSNeighborhoodCorrelationImageToImageObjectMetricTest)
+itk_add_test(NAME itkANTSNeighborhoodCorrelationImageToImageMetricv4Test
+      COMMAND ITKMetricsv4TestDriver
+              itkANTSNeighborhoodCorrelationImageToImageMetricv4Test)
 
-itk_add_test(NAME itkANTSNeighborhoodCorrelationImageToImageObjectRegistrationTest
-      COMMAND ITKHighDimensionalMetricsTestDriver
-              itkANTSNeighborhoodCorrelationImageToImageObjectRegistrationTest
+itk_add_test(NAME itkANTSNeighborhoodCorrelationImageToImageRegistrationTest
+      COMMAND ITKMetricsv4TestDriver
+              itkANTSNeighborhoodCorrelationImageToImageRegistrationTest
               ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png
               ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBSplined10.png
-             ${TEMP}/itkANTSNeighborhoodCorrelationImageToImageObjectRegistrationTest.nii.gz
+             ${TEMP}/itkANTSNeighborhoodCorrelationImageToImageRegistrationTest.nii.gz
               10 1 0.25 )
 
-itk_add_test(NAME itkAffineDemonsImageToImageObjectRegistrationTest
-      COMMAND ITKHighDimensionalMetricsTestDriver
-              itkAffineDemonsImageToImageObjectRegistrationTest
+itk_add_test(NAME itkAffineDemonsImageToImageRegistrationTest
+      COMMAND ITKMetricsv4TestDriver
+              itkAffineDemonsImageToImageRegistrationTest
               DATA{Baseline/face_avg.jpg}
               DATA{Input/face_b.jpg}
-              ${TEMP}/itkAffineDemonsImageToImageObjectRegistrationTest.nii.gz
+              ${TEMP}/itkAffineDemonsImageToImageRegistrationTest.nii.gz
               30 )

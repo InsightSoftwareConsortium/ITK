@@ -15,15 +15,15 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGradientDescentObjectOptimizer_h
-#define __itkGradientDescentObjectOptimizer_h
+#ifndef __itkGradientDescentOptimizerv4_h
+#define __itkGradientDescentOptimizerv4_h
 
-#include "itkGradientDescentObjectOptimizerBase.h"
+#include "itkGradientDescentOptimizerBasev4.h"
 #include "itkOptimizerParameterScalesEstimator.h"
 
 namespace itk
 {
-/** \class GradientDescentObjectOptimizer
+/** \class GradientDescentOptimizerv4
  *  \brief Gradient descent optimizer.
  *
  * GradientDescentOptimizer implements a simple gradient descent optimizer.
@@ -57,20 +57,20 @@ namespace itk
  * parameters via the metric::UpdateTransformParameters method, after the
  * optimizer applies scales and a learning rate.
  *
- * \ingroup ITKHighDimensionalOptimizers
+ * \ingroup ITKOptimizersv4
  */
-class ITK_EXPORT GradientDescentObjectOptimizer
-  : public GradientDescentObjectOptimizerBase
+class ITK_EXPORT GradientDescentOptimizerv4
+  : public GradientDescentOptimizerBasev4
 {
 public:
   /** Standard class typedefs. */
-  typedef GradientDescentObjectOptimizer       Self;
-  typedef GradientDescentObjectOptimizerBase   Superclass;
-  typedef SmartPointer< Self >                 Pointer;
-  typedef SmartPointer< const Self >           ConstPointer;
+  typedef GradientDescentOptimizerv4     Self;
+  typedef GradientDescentOptimizerBasev4 Superclass;
+  typedef SmartPointer< Self >           Pointer;
+  typedef SmartPointer< const Self >     ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GradientDescentObjectOptimizer, GradientDescentObjectOptimizerBase);
+  itkTypeMacro(GradientDescentOptimizerv4, GradientDescentOptimizerBasev4);
 
   /** New macro for creation of through a Smart Pointer   */
   itkNewMacro(Self);
@@ -120,17 +120,17 @@ protected:
   virtual void EstimateLearningRate();
 
   /** Default constructor */
-  GradientDescentObjectOptimizer();
+  GradientDescentOptimizerv4();
 
   /** Destructor */
-  virtual ~GradientDescentObjectOptimizer();
+  virtual ~GradientDescentOptimizerv4();
 
   virtual void PrintSelf( std::ostream & os, Indent indent ) const;
 
   OptimizerParameterScalesEstimator::Pointer m_ScalesEstimator;
 
 private:
-  GradientDescentObjectOptimizer( const Self & ); //purposely not implemented
+  GradientDescentOptimizerv4( const Self & ); //purposely not implemented
   void operator=( const Self& ); //purposely not implemented
 };
 

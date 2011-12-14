@@ -15,17 +15,17 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkJensenHavrdaCharvatTsallisPointSetToPointSetObjectMetric_hxx
-#define __itkJensenHavrdaCharvatTsallisPointSetToPointSetObjectMetric_hxx
+#ifndef __itkJensenHavrdaCharvatTsallisPointSetToPointSetMetricv4_hxx
+#define __itkJensenHavrdaCharvatTsallisPointSetToPointSetMetricv4_hxx
 
-#include "itkJensenHavrdaCharvatTsallisPointSetToPointSetObjectMetric.h"
+#include "itkJensenHavrdaCharvatTsallisPointSetToPointSetMetricv4.h"
 
 namespace itk {
 
 /** Constructor */
 template<class TPointSet>
-JensenHavrdaCharvatTsallisPointSetToPointSetObjectMetric<TPointSet>
-::JensenHavrdaCharvatTsallisPointSetToPointSetObjectMetric() :
+JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
+::JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4() :
   m_UseRegularizationTerm( false ),
   m_UseAnisotropicCovariances( false ),
   m_PointSetSigma( 1.0 ),
@@ -38,15 +38,15 @@ JensenHavrdaCharvatTsallisPointSetToPointSetObjectMetric<TPointSet>
 
 /** Destructor */
 template<class TPointSet>
-JensenHavrdaCharvatTsallisPointSetToPointSetObjectMetric<TPointSet>
-::~JensenHavrdaCharvatTsallisPointSetToPointSetObjectMetric()
+JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
+::~JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4()
 {
 }
 
 /** Initialize the metric */
 template<class TPointSet>
 void
-JensenHavrdaCharvatTsallisPointSetToPointSetObjectMetric<TPointSet>
+JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
 ::Initialize( void ) throw ( ExceptionObject )
 {
   if ( !this->m_FixedTransform )
@@ -119,9 +119,9 @@ JensenHavrdaCharvatTsallisPointSetToPointSetObjectMetric<TPointSet>
 
 /** Get the match Measure */
 template<class TPointSet>
-typename JensenHavrdaCharvatTsallisPointSetToPointSetObjectMetric<TPointSet>
+typename JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
 ::MeasureType
-JensenHavrdaCharvatTsallisPointSetToPointSetObjectMetric<TPointSet>
+JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
 ::GetValue() const
 {
   DensityFunctionPointer densityFunctions[2];
@@ -249,7 +249,7 @@ JensenHavrdaCharvatTsallisPointSetToPointSetObjectMetric<TPointSet>
 /** Get the Derivative Measure */
 template<class TPointSet>
 void
-JensenHavrdaCharvatTsallisPointSetToPointSetObjectMetric<TPointSet>
+JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
 ::GetDerivative( DerivativeType &derivative ) const
 {
   MeasureType value;
@@ -259,7 +259,7 @@ JensenHavrdaCharvatTsallisPointSetToPointSetObjectMetric<TPointSet>
 /** Get both the match Measure and the Derivative Measure  */
 template<class TPointSet>
 void
-JensenHavrdaCharvatTsallisPointSetToPointSetObjectMetric<TPointSet>
+JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
 ::GetValueAndDerivative( MeasureType &value, DerivativeType &derivative ) const
 {
   DensityFunctionPointer densityFunctions[2];
@@ -503,7 +503,7 @@ JensenHavrdaCharvatTsallisPointSetToPointSetObjectMetric<TPointSet>
 
 template<class TPointSet>
 void
-JensenHavrdaCharvatTsallisPointSetToPointSetObjectMetric<TPointSet>
+JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );

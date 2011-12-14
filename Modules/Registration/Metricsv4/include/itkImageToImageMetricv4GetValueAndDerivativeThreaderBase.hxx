@@ -15,24 +15,24 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageToImageObjectMetricGetValueAndDerivativeThreaderBase_hxx
-#define __itkImageToImageObjectMetricGetValueAndDerivativeThreaderBase_hxx
+#ifndef __itkImageToImageMetricv4GetValueAndDerivativeThreaderBase_hxx
+#define __itkImageToImageMetricv4GetValueAndDerivativeThreaderBase_hxx
 
-#include "itkImageToImageObjectMetricGetValueAndDerivativeThreaderBase.h"
+#include "itkImageToImageMetricv4GetValueAndDerivativeThreaderBase.h"
 #include "itkNumericTraits.h"
 
 namespace itk
 {
 
-template< class TDomainPartitioner, class TImageToImageObjectMetric >
-ImageToImageObjectMetricGetValueAndDerivativeThreaderBase< TDomainPartitioner, TImageToImageObjectMetric >
-::ImageToImageObjectMetricGetValueAndDerivativeThreaderBase()
+template< class TDomainPartitioner, class TImageToImageMetricv4 >
+ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImageToImageMetricv4 >
+::ImageToImageMetricv4GetValueAndDerivativeThreaderBase()
 {
 }
 
-template< class TDomainPartitioner, class TImageToImageObjectMetric >
+template< class TDomainPartitioner, class TImageToImageMetricv4 >
 void
-ImageToImageObjectMetricGetValueAndDerivativeThreaderBase< TDomainPartitioner, TImageToImageObjectMetric >
+ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImageToImageMetricv4 >
 ::BeforeThreadedExecution()
 {
   //---------------------------------------------------------------
@@ -66,7 +66,7 @@ ImageToImageObjectMetricGetValueAndDerivativeThreaderBase< TDomainPartitioner, T
     if ( this->m_Associate->m_MovingTransform->HasLocalSupport() )
       {
       itkDebugMacro(
-        "ImageToImageObjectMetric::Initialize: transform HAS local support\n");
+        "ImageToImageMetricv4::Initialize: transform HAS local support\n");
         /* Set each per-thread object to point to m_DerivativeResult */
         this->m_DerivativesPerThread[i].SetData(
                                       this->m_Associate->m_DerivativeResult->data_block(),
@@ -76,7 +76,7 @@ ImageToImageObjectMetricGetValueAndDerivativeThreaderBase< TDomainPartitioner, T
     else
       {
       itkDebugMacro(
-      "ImageToImageObjectMetric::Initialize: transform does NOT have local support\n");
+      "ImageToImageMetricv4::Initialize: transform does NOT have local support\n");
       /* Global transforms get a separate derivatives container for each thread
        * that holds the result over a particular image region. */
         this->m_DerivativesPerThread[i].SetSize( globalDerivativeSize );
@@ -99,9 +99,9 @@ ImageToImageObjectMetricGetValueAndDerivativeThreaderBase< TDomainPartitioner, T
     }
 }
 
-template< class TDomainPartitioner, class TImageToImageObjectMetric >
+template< class TDomainPartitioner, class TImageToImageMetricv4 >
 void
-ImageToImageObjectMetricGetValueAndDerivativeThreaderBase< TDomainPartitioner, TImageToImageObjectMetric >
+ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImageToImageMetricv4 >
 ::AfterThreadedExecution()
 {
   /* Store the number of valid points the enclosing class \c
@@ -111,7 +111,7 @@ ImageToImageObjectMetricGetValueAndDerivativeThreaderBase< TDomainPartitioner, T
     {
     this->m_Associate->m_NumberOfValidPoints += this->m_NumberOfValidPointsPerThread[i];
     }
-  itkDebugMacro( "ImageToImageObjectMetric: NumberOfValidPoints: "
+  itkDebugMacro( "ImageToImageMetricv4: NumberOfValidPoints: "
                  << this->m_Associate->m_NumberOfValidPoints );
 
   /* For global transforms, sum the derivatives from each region. */
@@ -138,9 +138,9 @@ ImageToImageObjectMetricGetValueAndDerivativeThreaderBase< TDomainPartitioner, T
   this->m_Associate->m_Value /= this->m_Associate->m_NumberOfValidPoints;
 }
 
-template< class TDomainPartitioner, class TImageToImageObjectMetric >
+template< class TDomainPartitioner, class TImageToImageMetricv4 >
 bool
-ImageToImageObjectMetricGetValueAndDerivativeThreaderBase< TDomainPartitioner, TImageToImageObjectMetric >
+ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImageToImageMetricv4 >
 ::ProcessVirtualPoint( const VirtualIndexType & virtualIndex,
                        const VirtualPointType & virtualPoint,
                        const ThreadIdType threadId )
@@ -232,9 +232,9 @@ ImageToImageObjectMetricGetValueAndDerivativeThreaderBase< TDomainPartitioner, T
   return pointIsValid;
 }
 
-template< class TDomainPartitioner, class TImageToImageObjectMetric >
+template< class TDomainPartitioner, class TImageToImageMetricv4 >
 void
-ImageToImageObjectMetricGetValueAndDerivativeThreaderBase< TDomainPartitioner, TImageToImageObjectMetric >
+ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImageToImageMetricv4 >
 ::StorePointDerivativeResult( const VirtualIndexType & virtualIndex,
                               const ThreadIdType threadId )
 {

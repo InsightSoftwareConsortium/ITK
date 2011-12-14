@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkGradientDescentObjectOptimizer.h"
+#include "itkGradientDescentOptimizerv4.h"
 
 /* This test simulates the use of a metric with a transform
  * with local support, testing the proper handling of scales for such a case.
@@ -23,7 +23,7 @@
  * Cribbed originally from itkGradientDescentOptimizerTest */
 
 /**
- *  \class GradientDescentObjectOptimizerTest2Metric for test
+ *  \class GradientDescentOptimizerv4Test2Metric for test
  *
  *  The version for this test returns a derivative that simulates
  *  the return from a metric working with a transform with local support.
@@ -31,17 +31,17 @@
  *  of applying scales in one iteration of optimization.
  *
  */
-class GradientDescentObjectOptimizerTest2Metric
+class GradientDescentOptimizerv4Test2Metric
   : public itk::ObjectToObjectMetric
 {
 public:
 
-  typedef GradientDescentObjectOptimizerTest2Metric   Self;
+  typedef GradientDescentOptimizerv4Test2Metric   Self;
   typedef itk::ObjectToObjectMetric                   Superclass;
   typedef itk::SmartPointer<Self>                     Pointer;
   typedef itk::SmartPointer<const Self>               ConstPointer;
   itkNewMacro( Self );
-  itkTypeMacro( GradientDescentObjectOptimizerTest2Metric, ObjectToObjectMetric );
+  itkTypeMacro( GradientDescentOptimizerv4Test2Metric, ObjectToObjectMetric );
 
   enum { SpaceDimension=3 };
 
@@ -51,7 +51,7 @@ public:
   typedef Superclass::DerivativeType          DerivativeType;
   typedef Superclass::MeasureType             MeasureType;
 
-  GradientDescentObjectOptimizerTest2Metric()
+  GradientDescentOptimizerv4Test2Metric()
   {
     m_Parameters.SetSize( this->GetNumberOfParameters() );
     m_Parameters.Fill( 0 );
@@ -118,12 +118,12 @@ private:
 };
 
 ///////////////////////////////////////////////////////////
-int itkGradientDescentObjectOptimizerTest2(int, char* [] )
+int itkGradientDescentOptimizerv4Test2(int, char* [] )
 {
   std::cout << "Gradient Descent Object Optimizer Test ";
   std::cout << std::endl << std::endl;
 
-  typedef  itk::GradientDescentObjectOptimizer  OptimizerType;
+  typedef  itk::GradientDescentOptimizerv4  OptimizerType;
 
   typedef OptimizerType::ScalesType             ScalesType;
 
@@ -131,12 +131,12 @@ int itkGradientDescentObjectOptimizerTest2(int, char* [] )
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
 
   // Declaration of the Metric
-  GradientDescentObjectOptimizerTest2Metric::Pointer metric = GradientDescentObjectOptimizerTest2Metric::New();
+  GradientDescentOptimizerv4Test2Metric::Pointer metric = GradientDescentOptimizerv4Test2Metric::New();
 
   itkOptimizer->SetMetric( metric );
 
-  typedef GradientDescentObjectOptimizerTest2Metric::ParametersType    ParametersType;
-  typedef GradientDescentObjectOptimizerTest2Metric::NumberOfParametersType    NumberOfParametersType;
+  typedef GradientDescentOptimizerv4Test2Metric::ParametersType    ParametersType;
+  typedef GradientDescentOptimizerv4Test2Metric::NumberOfParametersType    NumberOfParametersType;
 
   ParametersType  initialPosition( metric->GetNumberOfParameters() );
   initialPosition.Fill(0);

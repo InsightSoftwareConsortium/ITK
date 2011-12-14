@@ -15,53 +15,52 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDemonsImageToImageObjectMetricGetValueAndDerivativeThreader_h
-#define __itkDemonsImageToImageObjectMetricGetValueAndDerivativeThreader_h
+#ifndef __itkDemonsImageToImageMetricv4GetValueAndDerivativeThreader_h
+#define __itkDemonsImageToImageMetricv4GetValueAndDerivativeThreader_h
 
-#include "itkImageToImageObjectMetricGetValueAndDerivativeThreader.h"
+#include "itkImageToImageMetricv4GetValueAndDerivativeThreader.h"
 
 namespace itk
 {
 
-/** \class DemonsImageToImageObjectMetricGetValueAndDerivativeThreader
- * \brief Processes points for DemonsImageToImageObjectMetric \c
+/** \class DemonsImageToImageMetricv4GetValueAndDerivativeThreader
+ * \brief Processes points for DemonsImageToImageMetricv4 \c
  * GetValueAndDerivative.
  *
- * \ingroup ITKHighDimensionalMetrics
+ * \ingroup ITKMetricsv4
  */
 template < class TDomainPartitioner, class TImageToImageMetric, class TDemonsMetric >
-class DemonsImageToImageObjectMetricGetValueAndDerivativeThreader
-  : public ImageToImageObjectMetricGetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >
+class DemonsImageToImageMetricv4GetValueAndDerivativeThreader
+  : public ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >
 {
 public:
   /** Standard class typedefs. */
-  typedef DemonsImageToImageObjectMetricGetValueAndDerivativeThreader Self;
-  typedef ImageToImageObjectMetricGetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >
-                                                                      Superclass;
-  typedef SmartPointer< Self >                                        Pointer;
-  typedef SmartPointer< const Self >                                  ConstPointer;
+  typedef DemonsImageToImageMetricv4GetValueAndDerivativeThreader                                      Self;
+  typedef ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric > Superclass;
+  typedef SmartPointer< Self >                                                                         Pointer;
+  typedef SmartPointer< const Self >                                                                   ConstPointer;
 
-  itkTypeMacro( DemonsImageToImageObjectMetricGetValueAndDerivativeThreader, ImageToImageObjectMetricGetValueAndDerivativeThreader );
+  itkTypeMacro( DemonsImageToImageMetricv4GetValueAndDerivativeThreader, ImageToImageMetricv4GetValueAndDerivativeThreader );
 
   itkNewMacro( Self );
 
   typedef typename Superclass::DomainType    DomainType;
   typedef typename Superclass::AssociateType AssociateType;
 
-  typedef typename Superclass::ImageToImageObjectMetricType ImageToImageObjectMetricType;
-  typedef typename Superclass::VirtualPointType             VirtualPointType;
-  typedef typename Superclass::FixedImagePointType          FixedImagePointType;
-  typedef typename Superclass::FixedImagePixelType          FixedImagePixelType;
-  typedef typename Superclass::FixedImageGradientType       FixedImageGradientType;
-  typedef typename Superclass::MovingImagePointType         MovingImagePointType;
-  typedef typename Superclass::MovingImagePixelType         MovingImagePixelType;
-  typedef typename Superclass::MovingImageGradientType      MovingImageGradientType;
-  typedef typename Superclass::MeasureType                  MeasureType;
-  typedef typename Superclass::DerivativeType               DerivativeType;
-  typedef typename Superclass::DerivativeValueType          DerivativeValueType;
+  typedef typename Superclass::ImageToImageMetricv4Type ImageToImageMetricv4Type;
+  typedef typename Superclass::VirtualPointType         VirtualPointType;
+  typedef typename Superclass::FixedImagePointType      FixedImagePointType;
+  typedef typename Superclass::FixedImagePixelType      FixedImagePixelType;
+  typedef typename Superclass::FixedImageGradientType   FixedImageGradientType;
+  typedef typename Superclass::MovingImagePointType     MovingImagePointType;
+  typedef typename Superclass::MovingImagePixelType     MovingImagePixelType;
+  typedef typename Superclass::MovingImageGradientType  MovingImageGradientType;
+  typedef typename Superclass::MeasureType              MeasureType;
+  typedef typename Superclass::DerivativeType           DerivativeType;
+  typedef typename Superclass::DerivativeValueType      DerivativeValueType;
 
 protected:
-  DemonsImageToImageObjectMetricGetValueAndDerivativeThreader() {}
+  DemonsImageToImageMetricv4GetValueAndDerivativeThreader() {}
 
   /** This function computes the local voxel-wise contribution of
    *  the metric to the global integral of the metric/derivative.
@@ -79,14 +78,14 @@ protected:
         const ThreadIdType                threadID ) const;
 
 private:
-  DemonsImageToImageObjectMetricGetValueAndDerivativeThreader( const Self & ); // purposely not implemented
+  DemonsImageToImageMetricv4GetValueAndDerivativeThreader( const Self & ); // purposely not implemented
   void operator=( const Self & ); // purposely not implemented
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDemonsImageToImageObjectMetricGetValueAndDerivativeThreader.hxx"
+#include "itkDemonsImageToImageMetricv4GetValueAndDerivativeThreader.hxx"
 #endif
 
 #endif

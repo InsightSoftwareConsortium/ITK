@@ -15,38 +15,38 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkANTSNeighborhoodCorrelationImageToImageObjectMetric_hxx
-#define __itkANTSNeighborhoodCorrelationImageToImageObjectMetric_hxx
+#ifndef __itkANTSNeighborhoodCorrelationImageToImageMetricv4_hxx
+#define __itkANTSNeighborhoodCorrelationImageToImageMetricv4_hxx
 
-#include "itkANTSNeighborhoodCorrelationImageToImageObjectMetric.h"
+#include "itkANTSNeighborhoodCorrelationImageToImageMetricv4.h"
 #include "itkNumericTraits.h"
 
 namespace itk
 {
 
 template<class TFixedImage, class TMovingImage, class TVirtualImage>
-ANTSNeighborhoodCorrelationImageToImageObjectMetric<TFixedImage, TMovingImage,TVirtualImage>
-::ANTSNeighborhoodCorrelationImageToImageObjectMetric()
+ANTSNeighborhoodCorrelationImageToImageMetricv4<TFixedImage, TMovingImage,TVirtualImage>
+::ANTSNeighborhoodCorrelationImageToImageMetricv4()
 {
   // initialize radius
   typedef typename RadiusType::SizeValueType RadiusValueType;
   this->m_Radius.Fill( NumericTraits<RadiusValueType>::One );
   // We have our own GetValueAndDerivativeThreader's that we want
-  // ImageToImageObjectMetric to use.
-  this->m_DenseGetValueAndDerivativeThreader  = ANTSNeighborhoodCorrelationImageToImageObjectMetricDenseGetValueAndDerivativeThreaderType::New();
+  // ImageToImageMetricv4 to use.
+  this->m_DenseGetValueAndDerivativeThreader  = ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreaderType::New();
   // not implemented
   //this->m_SparseGetValueAndDerivativeThreader =
 }
 
 template<class TFixedImage, class TMovingImage, class TVirtualImage>
-ANTSNeighborhoodCorrelationImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
-::~ANTSNeighborhoodCorrelationImageToImageObjectMetric()
+ANTSNeighborhoodCorrelationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
+::~ANTSNeighborhoodCorrelationImageToImageMetricv4()
 {
 }
 
 template<class TFixedImage, class TMovingImage, class TVirtualImage>
 void
-ANTSNeighborhoodCorrelationImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
+ANTSNeighborhoodCorrelationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
 ::InitializeScanning( const ImageRegionType &scanRegion, ScanIteratorType &scanIt,
                       ScanMemType &, ScanParametersType &scanParameters ) const
 {
@@ -70,7 +70,7 @@ ANTSNeighborhoodCorrelationImageToImageObjectMetric<TFixedImage, TMovingImage, T
 
 template<class TFixedImage, class TMovingImage, class TVirtualImage>
 void
-ANTSNeighborhoodCorrelationImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
+ANTSNeighborhoodCorrelationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);

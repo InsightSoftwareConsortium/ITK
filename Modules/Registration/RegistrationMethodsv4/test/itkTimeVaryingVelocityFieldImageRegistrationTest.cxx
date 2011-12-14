@@ -19,10 +19,10 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
-#include "itkSimpleImageRegistrationMethod.h"
-#include "itkTimeVaryingVelocityFieldImageRegistrationMethod.h"
+#include "itkImageRegistrationMethodv4.h"
+#include "itkTimeVaryingVelocityFieldImageRegistrationMethodv4.h"
 
-#include "itkANTSNeighborhoodCorrelationImageToImageObjectMetric.h"
+#include "itkANTSNeighborhoodCorrelationImageToImageMetricv4.h"
 #include "itkCompositeTransform.h"
 #include "itkTimeVaryingVelocityFieldTransformParametersAdaptor.h"
 #include "itkVector.h"
@@ -88,7 +88,7 @@ int PerformTimeVaryingVelocityFieldImageRegistration( int itkNotUsed( argc ), ch
   movingImage->Update();
   movingImage->DisconnectPipeline();
 
-  typedef itk::SimpleImageRegistrationMethod<FixedImageType, MovingImageType> AffineRegistrationType;
+  typedef itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType> AffineRegistrationType;
   typename AffineRegistrationType::Pointer affineSimple = AffineRegistrationType::New();
   affineSimple->SetFixedImage( fixedImage );
   affineSimple->SetMovingImage( movingImage );
@@ -103,8 +103,8 @@ int PerformTimeVaryingVelocityFieldImageRegistration( int itkNotUsed( argc ), ch
   affineSimple->SetShrinkFactorsPerLevel( affineShrinkFactorsPerLevel );
 
   // Set the number of iterations
-  typedef itk::GradientDescentObjectOptimizer GradientDescentObjectOptimizerType;
-  GradientDescentObjectOptimizerType * optimizer = reinterpret_cast<GradientDescentObjectOptimizerType *>(
+  typedef itk::GradientDescentOptimizerv4 GradientDescentOptimizerv4Type;
+  GradientDescentOptimizerv4Type * optimizer = reinterpret_cast<GradientDescentOptimizerv4Type *>(
     const_cast<typename AffineRegistrationType::OptimizerType *>( affineSimple->GetOptimizer() ) );
   optimizer->SetNumberOfIterations( 100 );
 
@@ -202,7 +202,7 @@ int PerformTimeVaryingVelocityFieldImageRegistration( int itkNotUsed( argc ), ch
   velocityField->Allocate();
   velocityField->FillBuffer( zeroVector );
 
-  typedef itk::ANTSNeighborhoodCorrelationImageToImageObjectMetric<FixedImageType, MovingImageType> CorrelationMetricType;
+  typedef itk::ANTSNeighborhoodCorrelationImageToImageMetricv4<FixedImageType, MovingImageType> CorrelationMetricType;
   typename CorrelationMetricType::Pointer correlationMetric = CorrelationMetricType::New();
   typename CorrelationMetricType::RadiusType radius;
   radius.Fill( 4 );
@@ -212,7 +212,7 @@ int PerformTimeVaryingVelocityFieldImageRegistration( int itkNotUsed( argc ), ch
   correlationMetric->SetUseMovingImageGradientFilter( false );
   correlationMetric->SetUseFixedImageGradientFilter( false );
 
-  typedef itk::TimeVaryingVelocityFieldImageRegistrationMethod<FixedImageType, MovingImageType> VelocityFieldRegistrationType;
+  typedef itk::TimeVaryingVelocityFieldImageRegistrationMethodv4<FixedImageType, MovingImageType> VelocityFieldRegistrationType;
   typename VelocityFieldRegistrationType::Pointer velocityFieldRegistration = VelocityFieldRegistrationType::New();
   velocityFieldRegistration->SetFixedImage( fixedImage );
   velocityFieldRegistration->SetMovingImage( movingImage );

@@ -18,7 +18,7 @@
 #ifndef __itkObjectToObjectMetric_h
 #define __itkObjectToObjectMetric_h
 
-#include "itkSingleValuedHighDimensionalCostFunction.h"
+#include "itkSingleValuedCostFunctionv4.h"
 
 namespace itk
 {
@@ -48,20 +48,20 @@ namespace itk
  * The eventual goal however is to allow for either moving, fixed or both
  * transforms to be optimized within a single metric.
  *
- * \ingroup ITKHighDimensionalOptimizers
+ * \ingroup ITKOptimizersv4
  */
 class ITK_EXPORT ObjectToObjectMetric:
-  public SingleValuedHighDimensionalCostFunction
+  public SingleValuedCostFunctionv4
 {
 public:
   /** Standard class typedefs. */
-  typedef ObjectToObjectMetric                      Self;
-  typedef SingleValuedHighDimensionalCostFunction   Superclass;
-  typedef SmartPointer< Self >                      Pointer;
-  typedef SmartPointer< const Self >                ConstPointer;
+  typedef ObjectToObjectMetric         Self;
+  typedef SingleValuedCostFunctionv4   Superclass;
+  typedef SmartPointer< Self >         Pointer;
+  typedef SmartPointer< const Self >   ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ObjectToObjectMetric, SingleValuedHighDimensionalCostFunction);
+  itkTypeMacro(ObjectToObjectMetric, SingleValuedCostFunctionv4);
 
   /** Type used for representing object components  */
   typedef Superclass::ParametersValueType CoordinateRepresentationType;

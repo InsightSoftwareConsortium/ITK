@@ -84,10 +84,10 @@
       Modules/Numerics/Statistics/include/itkVectorContainerToListSampleAdaptor.h
       Modules/Numerics/Statistics/include/itkWeightedCovarianceSampleFilter.h
       Modules/Numerics/Statistics/include/itkWeightedMeanSampleFilter.h
-      Modules/Registration/HighDimensionalMetrics/include/itkEuclideanDistancePointSetMetric.h
-      Modules/Registration/HighDimensionalMetrics/include/itkExpectationBasedPointSetMetric.h
-      Modules/Registration/HighDimensionalMetrics/include/itkJensenHavrdaCharvatTsallisPointSetMetric.h
-      Modules/Registration/HighDimensionalMetrics/include/itkPointSetToPointSetMetric.h
+      Modules/Registration/Metricsv4/include/itkEuclideanDistancePointSetMetric.h
+      Modules/Registration/Metricsv4/include/itkExpectationBasedPointSetMetric.h
+      Modules/Registration/Metricsv4/include/itkJensenHavrdaCharvatTsallisPointSetMetric.h
+      Modules/Registration/Metricsv4/include/itkPointSetToPointSetMetric.h
     </FileList>
 
     <!--**

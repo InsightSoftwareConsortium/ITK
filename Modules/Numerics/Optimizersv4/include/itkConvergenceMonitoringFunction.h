@@ -37,7 +37,7 @@ namespace Function
  * \author Nick Tustison
  * \author Brian Avants
  *
- * \ingroup ITKHighDimensionalOptimizers
+ * \ingroup ITKOptimizersv4
  */
 template<class TScalar, class TEnergyValue>
 class ITK_EXPORT ConvergenceMonitoringFunction

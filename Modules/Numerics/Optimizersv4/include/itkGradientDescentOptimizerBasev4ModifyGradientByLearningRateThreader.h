@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGradientDescentObjectOptimizerBaseModifyGradientByLearningRateThreader_h
-#define __itkGradientDescentObjectOptimizerBaseModifyGradientByLearningRateThreader_h
+#ifndef __itkGradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader_h
+#define __itkGradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader_h
 
 #include "itkDomainThreader.h"
 #include "itkThreadedIndexedContainerPartitioner.h"
@@ -24,25 +24,25 @@
 namespace itk
 {
 
-class GradientDescentObjectOptimizerBase;
+class GradientDescentOptimizerBasev4;
 
-/** \class GradientDescentObjectOptimizerBaseModifyGradientByLearningRateThreader
+/** \class GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader
  * \brief Modify the gradient by the learning rate for
- * GradientDescentObjectOptimizerBase.
- * \ingroup ITKHighDimensionalOptimizers
+ * GradientDescentOptimizerBasev4.
+ * \ingroup ITKOptimizersv4
  */
-class GradientDescentObjectOptimizerBaseModifyGradientByLearningRateThreader
-  : public DomainThreader< ThreadedIndexedContainerPartitioner, GradientDescentObjectOptimizerBase >
+class GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader
+  : public DomainThreader< ThreadedIndexedContainerPartitioner, GradientDescentOptimizerBasev4 >
 {
 public:
   /** Standard class typedefs. */
-  typedef GradientDescentObjectOptimizerBaseModifyGradientByLearningRateThreader Self;
-  typedef DomainThreader< ThreadedIndexedContainerPartitioner, GradientDescentObjectOptimizerBase >
+  typedef GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader Self;
+  typedef DomainThreader< ThreadedIndexedContainerPartitioner, GradientDescentOptimizerBasev4 >
                                                                                  Superclass;
   typedef SmartPointer< Self >                                                   Pointer;
   typedef SmartPointer< const Self >                                             ConstPointer;
 
-  itkTypeMacro( GradientDescentObjectOptimizerBaseModifyGradientByLearningRateThreader, DomainThreader );
+  itkTypeMacro( GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader, DomainThreader );
 
   itkNewMacro( Self );
 
@@ -54,11 +54,11 @@ protected:
   virtual void ThreadedExecution( const IndexRangeType & subrange,
                                   const ThreadIdType threadId );
 
-  GradientDescentObjectOptimizerBaseModifyGradientByLearningRateThreader() {}
-  virtual ~GradientDescentObjectOptimizerBaseModifyGradientByLearningRateThreader() {}
+  GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader() {}
+  virtual ~GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader() {}
 
 private:
-  GradientDescentObjectOptimizerBaseModifyGradientByLearningRateThreader( const Self & ); // purposely not implemented
+  GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader( const Self & ); // purposely not implemented
   void operator=( const Self & ); // purposely not implemented
 };
 

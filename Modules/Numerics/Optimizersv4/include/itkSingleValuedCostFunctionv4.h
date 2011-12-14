@@ -15,48 +15,48 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSingleValuedHighDimensionalCostFunction_h
-#define __itkSingleValuedHighDimensionalCostFunction_h
+#ifndef __itkSingleValuedCostFunctionv4_h
+#define __itkSingleValuedCostFunctionv4_h
 
 #include "itkCostFunction.h"
 #include "itkNumericTraits.h"
 
 namespace itk
 {
-/** \class SingleValuedHighDimensionalCostFunction
- * \brief This class is a base for the HighDimensionalCostFunctions returning a
- * single value
+/** \class SingleValuedCostFunctionv4
+ * \brief This class is a base for a CostFunction that returns a
+ * single value.
  *
- *  This class differs from the SingleValuedCostFunction in that it is fine
- *  tunned for managing very large numbers of parameters. For example, to be
- *  used in conditions where the number of parameters is in the range of
- *  thousands or even millions. Due to the large number of parameters, the API
- *  of this class avoids any copying of the parameters array, and of the classes
- *  that have dimensionality related to the size of the parameters array.
+ * This class differs from the SingleValuedCostFunction in that it is fine
+ * tunned for managing very large numbers of parameters. For example, to be
+ * used in conditions where the number of parameters is in the range of
+ * thousands or even millions. Due to the large number of parameters, the API
+ * of this class avoids any copying of the parameters array, and of the classes
+ * that have dimensionality related to the size of the parameters array.
  *
- *  As you look at the code of this class, keep in mind that the types
- *  ParametersType and DerivativeType will be some sort of array-like type with
- *  millions of elements.
+ * As you look at the code of this class, keep in mind that the types
+ * ParametersType and DerivativeType will be some sort of array-like type with
+ * millions of elements.
  *
  * Derived classes must provide implementations for:
  *  GetValue
  *  GetValueAndDerivative
  *
  * \ingroup Numerics Optimizers
- * \ingroup ITKHighDimensionalOptimizers
+ * \ingroup ITKOptimizersv4
  */
-class ITK_EXPORT SingleValuedHighDimensionalCostFunction:
+class ITK_EXPORT SingleValuedCostFunctionv4:
   public CostFunction
 {
 public:
   /** Standard class typedefs. */
-  typedef SingleValuedHighDimensionalCostFunction   Self;
-  typedef CostFunction                              Superclass;
-  typedef SmartPointer< Self >                      Pointer;
-  typedef SmartPointer< const Self >                ConstPointer;
+  typedef SingleValuedCostFunctionv4   Self;
+  typedef CostFunction                 Superclass;
+  typedef SmartPointer< Self >         Pointer;
+  typedef SmartPointer< const Self >   ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SingleValuedHighDimensionalCostFunction, CostFunction);
+  itkTypeMacro(SingleValuedCostFunctionv4, CostFunction);
 
   /**  MeasureType typedef.
    *  It defines a type used to return the cost function value. */
@@ -82,11 +82,11 @@ public:
                                      DerivativeType & derivative) const = 0;
 
 protected:
-  SingleValuedHighDimensionalCostFunction() {}
-  virtual ~SingleValuedHighDimensionalCostFunction() {}
+  SingleValuedCostFunctionv4() {}
+  virtual ~SingleValuedCostFunctionv4() {}
 
 private:
-  SingleValuedHighDimensionalCostFunction(const Self &); //purposely not implemented
+  SingleValuedCostFunctionv4(const Self &); //purposely not implemented
   void operator=(const Self &);           //purposely not implemented
 };
 } // end namespace itk

@@ -15,12 +15,12 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTimeVaryingVelocityFieldImageRegistrationMethod_hxx
-#define __itkTimeVaryingVelocityFieldImageRegistrationMethod_hxx
+#ifndef __itkTimeVaryingVelocityFieldImageRegistrationMethodv4_hxx
+#define __itkTimeVaryingVelocityFieldImageRegistrationMethodv4_hxx
 
-#include "itkTimeVaryingVelocityFieldImageRegistrationMethod.h"
+#include "itkTimeVaryingVelocityFieldImageRegistrationMethodv4.h"
 
-#include "itkANTSNeighborhoodCorrelationImageToImageObjectMetric.h"
+#include "itkANTSNeighborhoodCorrelationImageToImageMetricv4.h"
 #include "itkDisplacementFieldTransform.h"
 #include "itkImageDuplicator.h"
 #include "itkImportImageFilter.h"
@@ -36,8 +36,8 @@ namespace itk
  * Constructor
  */
 template<typename TFixedImage, typename TMovingImage, typename TTransform>
-TimeVaryingVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>
-::TimeVaryingVelocityFieldImageRegistrationMethod() :
+TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
+::TimeVaryingVelocityFieldImageRegistrationMethodv4() :
   m_NumberOfIntegrationStepsPerTimeIndex( 5 ),
   m_LearningRate( 0.25 ),
   m_ConvergenceThreshold( 1.0e-6 )
@@ -49,8 +49,8 @@ TimeVaryingVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage, TTran
 }
 
 template<typename TFixedImage, typename TMovingImage, typename TTransform>
-TimeVaryingVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>
-::~TimeVaryingVelocityFieldImageRegistrationMethod()
+TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
+::~TimeVaryingVelocityFieldImageRegistrationMethodv4()
 {
 }
 
@@ -59,7 +59,7 @@ TimeVaryingVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage, TTran
  */
 template<typename TFixedImage, typename TMovingImage, typename TTransform>
 void
-TimeVaryingVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>
+TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
 ::StartOptimization()
 {
   TimeVaryingVelocityFieldPointer velocityField = this->m_Transform->GetTimeVaryingVelocityField();
@@ -240,7 +240,7 @@ TimeVaryingVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage, TTran
  */
 template<typename TFixedImage, typename TMovingImage, typename TTransform>
 void
-TimeVaryingVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>
+TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
 ::GenerateData()
 {
   TransformOutputType *transformOutput = static_cast<TransformOutputType *>( this->ProcessObject::GetOutput( 0 ) );
@@ -276,7 +276,7 @@ TimeVaryingVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage, TTran
  */
 template<typename TFixedImage, typename TMovingImage, typename TTransform>
 void
-TimeVaryingVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>
+TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
 ::PrintSelf( std::ostream & os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );

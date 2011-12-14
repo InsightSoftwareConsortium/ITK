@@ -15,10 +15,10 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTimeVaryingVelocityFieldImageRegistrationMethod_h
-#define __itkTimeVaryingVelocityFieldImageRegistrationMethod_h
+#ifndef __itkTimeVaryingVelocityFieldImageRegistrationMethodv4_h
+#define __itkTimeVaryingVelocityFieldImageRegistrationMethodv4_h
 
-#include "itkSimpleImageRegistrationMethod.h"
+#include "itkImageRegistrationMethodv4.h"
 
 #include "itkGaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform.h"
 
@@ -32,7 +32,7 @@ class ImageToData;
 template <class TDataHolder>
 class Array1DToData;
 
-/** \class TimeVaryingVelocityFieldImageRegistrationMethod
+/** \class TimeVaryingVelocityFieldImageRegistrationMethodv4
  * \brief Interface method for the current registration framework
  * using the time varying velocity field transform.
  *
@@ -40,7 +40,7 @@ class Array1DToData;
  * Output: The output is the updated transform which has been added to the
  * composite transform.
  *
- * This derived class from the SimpleImageRegistrationMethod class
+ * This derived class from the ImageRegistrationMethodv4 class
  * is specialized to handle time-varying velocity field transforms
  * of which there are currently 2:
  *
@@ -85,17 +85,17 @@ class Array1DToData;
  * \author Nick Tustison
  * \author Brian Avants
  *
- * \ingroup ITKHighDimensionalRegistrationMethods
+ * \ingroup ITKRegistrationMethodsv4
  */
 template<typename TFixedImage, typename TMovingImage, typename TTransform =
   GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<double, GetImageDimension<TFixedImage>::ImageDimension> >
-class ITK_EXPORT TimeVaryingVelocityFieldImageRegistrationMethod
-: public SimpleImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>
+class ITK_EXPORT TimeVaryingVelocityFieldImageRegistrationMethodv4
+: public ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
 {
 public:
   /** Standard class typedefs. */
-  typedef TimeVaryingVelocityFieldImageRegistrationMethod                       Self;
-  typedef SimpleImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>  Superclass;
+  typedef TimeVaryingVelocityFieldImageRegistrationMethodv4                       Self;
+  typedef ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>  Superclass;
   typedef SmartPointer<Self>                                                    Pointer;
   typedef SmartPointer<const Self>                                              ConstPointer;
 
@@ -106,7 +106,7 @@ public:
   itkStaticConstMacro( ImageDimension, unsigned int, TFixedImage::ImageDimension );
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( TimeVaryingVelocityFieldImageRegistrationMethod, SimpleImageRegistrationMethod );
+  itkTypeMacro( TimeVaryingVelocityFieldImageRegistrationMethodv4, ImageRegistrationMethodv4 );
 
   /** Input typedefs for the images and transforms. */
   typedef TFixedImage                                                 FixedImageType;
@@ -154,8 +154,8 @@ public:
   itkGetConstMacro( ConvergenceThreshold, RealType );
 
 protected:
-  TimeVaryingVelocityFieldImageRegistrationMethod();
-  virtual ~TimeVaryingVelocityFieldImageRegistrationMethod();
+  TimeVaryingVelocityFieldImageRegistrationMethodv4();
+  virtual ~TimeVaryingVelocityFieldImageRegistrationMethodv4();
   virtual void PrintSelf( std::ostream & os, Indent indent ) const;
 
   /** Perform the registration. */
@@ -165,7 +165,7 @@ protected:
   virtual void StartOptimization();
 
 private:
-  TimeVaryingVelocityFieldImageRegistrationMethod( const Self & );   //purposely not
+  TimeVaryingVelocityFieldImageRegistrationMethodv4( const Self & );   //purposely not
                                                              // implemented
   void operator=( const Self & );                            //purposely not
 
@@ -180,7 +180,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTimeVaryingVelocityFieldImageRegistrationMethod.hxx"
+#include "itkTimeVaryingVelocityFieldImageRegistrationMethodv4.hxx"
 #endif
 
 #endif

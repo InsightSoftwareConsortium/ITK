@@ -15,10 +15,10 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkJointHistogramMutualInformationImageToImageObjectMetric_hxx
-#define __itkJointHistogramMutualInformationImageToImageObjectMetric_hxx
+#ifndef __itkJointHistogramMutualInformationImageToImageMetricv4_hxx
+#define __itkJointHistogramMutualInformationImageToImageMetricv4_hxx
 
-#include "itkJointHistogramMutualInformationImageToImageObjectMetric.h"
+#include "itkJointHistogramMutualInformationImageToImageMetricv4.h"
 #include "itkImageRandomConstIteratorWithIndex.h"
 #include "itkImageIterator.h"
 #include "itkDiscreteGaussianImageFilter.h"
@@ -27,8 +27,8 @@ namespace itk
 {
 
 template <class TFixedImage,class TMovingImage,class TVirtualImage>
-JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage,TMovingImage,TVirtualImage>
-::JointHistogramMutualInformationImageToImageObjectMetric()
+JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage>
+::JointHistogramMutualInformationImageToImageMetricv4()
 {
   // Initialize histogram properties
   this->m_NumberOfHistogramBins = 20;
@@ -44,7 +44,7 @@ JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage,TMovingImage
   this->m_VarianceForJointPDFSmoothing = 1.5;
 
   // We have our own GetValueAndDerivativeThreader's that we want
-  // ImageToImageObjectMetric to use.
+  // ImageToImageMetricv4 to use.
   this->m_DenseGetValueAndDerivativeThreader  = JointHistogramMutualInformationDenseGetValueAndDerivativeThreaderType::New();
   this->m_SparseGetValueAndDerivativeThreader = JointHistogramMutualInformationSparseGetValueAndDerivativeThreaderType::New();
 
@@ -54,14 +54,14 @@ JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage,TMovingImage
 }
 
 template <class TFixedImage, class TMovingImage, class TVirtualImage>
-JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
-::~JointHistogramMutualInformationImageToImageObjectMetric()
+JointHistogramMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
+::~JointHistogramMutualInformationImageToImageMetricv4()
 {
 }
 
 template <class TFixedImage,class TMovingImage,class TVirtualImage>
 void
-JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage,TMovingImage,TVirtualImage>
+JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage>
 ::Initialize() throw (itk::ExceptionObject)
 {
   Superclass::Initialize();
@@ -208,7 +208,7 @@ JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage,TMovingImage
 
 template <class TFixedImage, class TMovingImage, class TVirtualImage>
 void
-JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage,TMovingImage,TVirtualImage>
+JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage>
 ::InitializeForIteration() const
 {
   Superclass::InitializeForIteration();
@@ -290,8 +290,8 @@ JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage,TMovingImage
 }
 
 template <class TFixedImage, class TMovingImage, class TVirtualImage>
-typename JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage,TMovingImage,TVirtualImage>::MeasureType
-JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage,TMovingImage,TVirtualImage>
+typename JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage>::MeasureType
+JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage>
 ::GetValue() const
 {
   DerivativeType dummyDeriviative;
@@ -302,8 +302,8 @@ JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage,TMovingImage
 }
 
 template <class TFixedImage, class TMovingImage, class TVirtualImage>
-typename JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage,TMovingImage,TVirtualImage>::MeasureType
-JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage,TMovingImage,TVirtualImage>
+typename JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage>::MeasureType
+JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage>
 ::ComputeValue() const
 {
   /**
@@ -347,7 +347,7 @@ JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage,TMovingImage
 
 template <class TFixedImage, class TMovingImage, class TVirtualImage>
 void
-JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
+JointHistogramMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
 ::ComputeJointPDFPoint( const FixedImagePixelType fixedImageValue,
                         const MovingImagePixelType movingImageValue,
                         JointPDFPointType& jointPDFpoint ) const
@@ -364,7 +364,7 @@ JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage, TMovingImag
 
 template <class TFixedImage, class TMovingImage, class TVirtualImage>
 void
-JointHistogramMutualInformationImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
+JointHistogramMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
 ::PrintSelf (std::ostream & os, Indent indent) const
 {
   // Print the superclass

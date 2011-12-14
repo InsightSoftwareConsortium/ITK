@@ -15,18 +15,18 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageToImageObjectMetricGetValueAndDerivativeThreader_hxx
-#define __itkImageToImageObjectMetricGetValueAndDerivativeThreader_hxx
+#ifndef __itkImageToImageMetricv4GetValueAndDerivativeThreader_hxx
+#define __itkImageToImageMetricv4GetValueAndDerivativeThreader_hxx
 
 #include "itkImageRegionConstIteratorWithIndex.h"
-#include "itkImageToImageObjectMetricGetValueAndDerivativeThreader.h"
+#include "itkImageToImageMetricv4GetValueAndDerivativeThreader.h"
 
 namespace itk
 {
 
-template< class TImageToImageObjectMetric >
+template< class TImageToImageMetricv4 >
 void
-ImageToImageObjectMetricGetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< TImageToImageObjectMetric::VirtualImageDimension >, TImageToImageObjectMetric >
+ImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< TImageToImageMetricv4::VirtualImageDimension >, TImageToImageMetricv4 >
 ::ThreadedExecution ( const DomainType & imageSubRegion,
                       const ThreadIdType threadId )
 {
@@ -43,17 +43,17 @@ ImageToImageObjectMetricGetValueAndDerivativeThreader< ThreadedImageRegionPartit
     }
 }
 
-template< class TImageToImageObjectMetric >
+template< class TImageToImageMetricv4 >
 void
-ImageToImageObjectMetricGetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, TImageToImageObjectMetric >
+ImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, TImageToImageMetricv4 >
 ::ThreadedExecution ( const DomainType & indexSubRange,
                       const ThreadIdType threadId )
 {
   VirtualPointType virtualPoint;
   VirtualIndexType virtualIndex;
   typename VirtualImageType::ConstPointer virtualImage                                                = this->m_Associate->GetVirtualDomainImage();
-  typename TImageToImageObjectMetric::VirtualSampledPointSetType::ConstPointer virtualSampledPointSet = this->m_Associate->GetVirtualSampledPointSet();
-  typedef typename TImageToImageObjectMetric::VirtualSampledPointSetType::MeshTraits::PointIdentifier ElementIdentifierType;
+  typename TImageToImageMetricv4::VirtualSampledPointSetType::ConstPointer virtualSampledPointSet = this->m_Associate->GetVirtualSampledPointSet();
+  typedef typename TImageToImageMetricv4::VirtualSampledPointSetType::MeshTraits::PointIdentifier ElementIdentifierType;
   const ElementIdentifierType begin = indexSubRange[0];
   const ElementIdentifierType end   = indexSubRange[1];
   for( ElementIdentifierType i = begin; i <= end; ++i )

@@ -15,17 +15,17 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDemonsImageToImageObjectMetricGetValueAndDerivativeThreader_hxx
-#define __itkDemonsImageToImageObjectMetricGetValueAndDerivativeThreader_hxx
+#ifndef __itkDemonsImageToImageMetricv4GetValueAndDerivativeThreader_hxx
+#define __itkDemonsImageToImageMetricv4GetValueAndDerivativeThreader_hxx
 
-#include "itkDemonsImageToImageObjectMetricGetValueAndDerivativeThreader.h"
+#include "itkDemonsImageToImageMetricv4GetValueAndDerivativeThreader.h"
 
 namespace itk
 {
 
 template< class TDomainPartitioner, class TImageToImageMetric, class TDemonsMetric >
 bool
-DemonsImageToImageObjectMetricGetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TDemonsMetric >
+DemonsImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TDemonsMetric >
 ::ProcessPoint( const VirtualPointType &,
                 const FixedImagePointType &,
                 const FixedImagePixelType &        fixedImageValue,
@@ -40,7 +40,7 @@ DemonsImageToImageObjectMetricGetValueAndDerivativeThreader< TDomainPartitioner,
   /** Only the voxelwise contribution given the point pairs. */
   FixedImagePixelType diff = fixedImageValue - movingImageValue;
   metricValueReturn =
-    vcl_fabs( diff  ) / static_cast<MeasureType>( ImageToImageObjectMetricType::FixedImageDimension );
+    vcl_fabs( diff  ) / static_cast<MeasureType>( ImageToImageMetricv4Type::FixedImageDimension );
 
   /* Use a pre-allocated jacobian object for efficiency */
   typedef typename TImageToImageMetric::JacobianType & JacobianReferenceType;
@@ -53,7 +53,7 @@ DemonsImageToImageObjectMetricGetValueAndDerivativeThreader< TDomainPartitioner,
   for ( unsigned int par = 0; par < this->m_Associate->GetNumberOfLocalParameters(); par++ )
     {
     double sum = 0.0;
-    for ( SizeValueType dim = 0; dim < ImageToImageObjectMetricType::MovingImageDimension; dim++ )
+    for ( SizeValueType dim = 0; dim < ImageToImageMetricv4Type::MovingImageDimension; dim++ )
       {
       sum += 2.0 * diff * jacobian(dim, par) * movingImageGradient[dim];
       }

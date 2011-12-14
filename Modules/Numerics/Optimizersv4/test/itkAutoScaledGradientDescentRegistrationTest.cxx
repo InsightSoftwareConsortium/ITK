@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkGradientDescentObjectOptimizer.h"
-#include "itkDemonsImageToImageObjectMetric.h"
+#include "itkGradientDescentOptimizerv4.h"
+#include "itkDemonsImageToImageMetricv4.h"
 #include "itkRegistrationParameterScalesFromShift.h"
 #include "itkRegistrationParameterScalesFromJacobian.h"
 
@@ -26,7 +26,7 @@
 
 
 /**
- *  This is a test using GradientDescentObjectOptimizer and parameter scales
+ *  This is a test using GradientDescentOptimizerv4 and parameter scales
  *  estimator. The scales are estimated before the first iteration by
  *  RegistrationParameterScalesFromShift. The learning rates are estimated
  *  at each iteration according to the shift of each step.
@@ -85,7 +85,7 @@ int itkAutoScaledGradientDescentRegistrationTestTemplated(int numberOfIterations
   typedef typename MovingTransformType::ParametersType ParametersType;
 
   // Metric
-  typedef itk::DemonsImageToImageObjectMetric
+  typedef itk::DemonsImageToImageMetricv4
     < FixedImageType, MovingImageType, FixedImageType > MetricType;
   typename MetricType::Pointer metric = MetricType::New();
 
@@ -101,7 +101,7 @@ int itkAutoScaledGradientDescentRegistrationTestTemplated(int numberOfIterations
   metric->Initialize();
 
   // Optimizer
-  typedef itk::GradientDescentObjectOptimizer  OptimizerType;
+  typedef itk::GradientDescentOptimizerv4  OptimizerType;
   OptimizerType::Pointer optimizer = OptimizerType::New();
 
   optimizer->SetMetric( metric );

@@ -18,16 +18,16 @@
 
 #include "itkTranslationTransform.h"
 
-#include "itkANTSNeighborhoodCorrelationImageToImageObjectMetric.h"
+#include "itkANTSNeighborhoodCorrelationImageToImageMetricv4.h"
 
 /**
- * Test program for ANTSNeighborhoodCorrelationImageToImageObjectMetric,
+ * Test program for ANTSNeighborhoodCorrelationImageToImageMetricv4,
  * using a synthectic image and initial displacement.
  *
  */
 
 template<class ImagePointerType, class DerivativeType>
-void ANTSNeighborhoodCorrelationImageToImageObjectMetricTest_PrintDerivativeAsVectorImage(ImagePointerType image, DerivativeType &derivative, itk::SizeValueType vecdim){
+void ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintDerivativeAsVectorImage(ImagePointerType image, DerivativeType &derivative, itk::SizeValueType vecdim){
 
     typedef typename ImagePointerType::ObjectType ImageType;
     typename ImageType::RegionType imageRegion = image->GetBufferedRegion();
@@ -60,7 +60,7 @@ void ANTSNeighborhoodCorrelationImageToImageObjectMetricTest_PrintDerivativeAsVe
 
 
 template<class ImageType>
-void ANTSNeighborhoodCorrelationImageToImageObjectMetricTest_PrintImage(ImageType *imageP) {
+void ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintImage(ImageType *imageP) {
 
     typedef typename ImageType::ConstPointer ImageConstPointerType;
     ImageConstPointerType image = imageP;
@@ -88,7 +88,7 @@ void ANTSNeighborhoodCorrelationImageToImageObjectMetricTest_PrintImage(ImageTyp
 }
 
 template<class ImagePointerType>
-void ANTSNeighborhoodCorrelationImageToImageObjectMetricTest_PrintImage(const ImagePointerType &image) {
+void ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintImage(const ImagePointerType &image) {
 
     typedef typename ImagePointerType::ObjectType ImageType;
     typename ImageType::RegionType imageRegion = image->GetBufferedRegion();
@@ -113,7 +113,7 @@ void ANTSNeighborhoodCorrelationImageToImageObjectMetricTest_PrintImage(const Im
     return;
 }
 
-int itkANTSNeighborhoodCorrelationImageToImageObjectMetricTest( int, char ** const )
+int itkANTSNeighborhoodCorrelationImageToImageMetricv4Test( int, char ** const )
 {
 
 //    MultiThreader::SetGlobalMaximumNumberOfThreads(1);
@@ -242,7 +242,7 @@ int itkANTSNeighborhoodCorrelationImageToImageObjectMetricTest( int, char ** con
     transformMComp->AddTransform(transformMtranslation);
     transformFComp->AddTransform(transformFId);
 
-    typedef itk::ANTSNeighborhoodCorrelationImageToImageObjectMetric<ImageType, ImageType> MetricType;
+    typedef itk::ANTSNeighborhoodCorrelationImageToImageMetricv4<ImageType, ImageType> MetricType;
 
     typedef MetricType::Pointer MetricTypePointer;
     MetricTypePointer metric = MetricType::New();
@@ -262,10 +262,10 @@ int itkANTSNeighborhoodCorrelationImageToImageObjectMetricTest( int, char ** con
     metric->SetMovingTransform(transformMdisplacement);
 
     std::cout << "fixedImage:" << std::endl;
-    ANTSNeighborhoodCorrelationImageToImageObjectMetricTest_PrintImage(fixedImage);
+    ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintImage(fixedImage);
 
     std::cout << "movingImage:" << std::endl;
-    ANTSNeighborhoodCorrelationImageToImageObjectMetricTest_PrintImage(movingImage);
+    ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintImage(movingImage);
 
     /* Initialize. */
     try
@@ -335,12 +335,12 @@ int itkANTSNeighborhoodCorrelationImageToImageObjectMetricTest( int, char ** con
     std::cout << "Test passed." << std::endl;
     std::cout << "transformMdisplacement parameters" << std::endl;
     std::cout << transformMdisplacement->GetParameters() << std::endl;
-    ANTSNeighborhoodCorrelationImageToImageObjectMetricTest_PrintImage(transformMdisplacement->GetDisplacementField());
+    ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintImage(transformMdisplacement->GetDisplacementField());
 
     std::cout << "derivative of moving transform:" << std::endl;
     std::cout << derivativeReturn << std::endl;
     std::cout << std::endl << "derivative of moving transform as a field:" << std::endl;
-    ANTSNeighborhoodCorrelationImageToImageObjectMetricTest_PrintDerivativeAsVectorImage(fixedImage, derivativeReturn, ImageDimension);
+    ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintDerivativeAsVectorImage(fixedImage, derivativeReturn, ImageDimension);
 
     std::cout << "Test PASSED." << std::endl;
     return EXIT_SUCCESS;

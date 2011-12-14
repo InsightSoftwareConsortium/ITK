@@ -37,7 +37,7 @@ namespace itk
  * For affine transforms, we may check only the corners by calling
  * SetSamplingStrategy(CornerSampling).
  *
- * \ingroup ITKHighDimensionalOptimizers
+ * \ingroup ITKOptimizersv4
  */
 template < class TMetric >
 class ITK_EXPORT RegistrationParameterScalesFromShift :

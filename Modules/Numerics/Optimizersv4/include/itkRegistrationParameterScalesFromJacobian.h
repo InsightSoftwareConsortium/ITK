@@ -35,7 +35,7 @@ namespace itk
  * of the image domain. The sampling by default is a uniform random
  * distribution.
  *
- * \ingroup ITKHighDimensionalOptimizers
+ * \ingroup ITKOptimizersv4
  */
 template < class TMetric >
 class ITK_EXPORT RegistrationParameterScalesFromJacobian :

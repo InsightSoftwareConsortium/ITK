@@ -32,7 +32,7 @@ namespace Function
  * \author Nick Tustison
  * \author Brian Avants
  *
- * \ingroup ITKHighDimensionalOptimizers
+ * \ingroup ITKOptimizersv4
  */
 
 template<class TScalar = double>

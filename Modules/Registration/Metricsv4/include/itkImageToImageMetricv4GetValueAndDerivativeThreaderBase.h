@@ -15,76 +15,75 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageToImageObjectMetricGetValueAndDerivativeThreaderBase_h
-#define __itkImageToImageObjectMetricGetValueAndDerivativeThreaderBase_h
+#ifndef __itkImageToImageMetricv4GetValueAndDerivativeThreaderBase_h
+#define __itkImageToImageMetricv4GetValueAndDerivativeThreaderBase_h
 
 #include "itkDomainThreader.h"
 
 namespace itk
 {
 
-/** \class ImageToImageObjectMetricGetValueAndDerivativeThreaderBase
- * \brief Provides threading for ImageToImageObjectMetric::GetValueAndDerivative.
+/** \class ImageToImageMetricv4GetValueAndDerivativeThreaderBase
+ * \brief Provides threading for ImageToImageMetricv4::GetValueAndDerivative.
  *
  *  \tparam TDomainPartitioner type of the Domain,
  *  ThreadedImageRegionPartitioner or ThreadedIndexedContainerPartitioner
- *  \tparam TImageToImageObjectMetric type of the ImageToImageObjectMetric
+ *  \tparam TImageToImageMetricv4 type of the ImageToImageMetricv4
  *
  *  This class provides a \c BeforeThreadedExecution, and \c
  *  AfterThreadedExecution.
  *
  *  The \c ThreadedExecution in
- *  ImageToImageObjectMetricGetValueAndDerivativeThreader calls \c
+ *  ImageToImageMetricv4GetValueAndDerivativeThreader calls \c
  *  ProcessVirtualPoint on every point in the virtual image domain.  \c
  *  ProcessVirtualPoint calls \c ProcessPoint on each point.
  *
- * \ingroup ITKHighDimensionalMetrics */
-template < class TDomainPartitioner, class TImageToImageObjectMetric >
-class ImageToImageObjectMetricGetValueAndDerivativeThreaderBase
-  : public DomainThreader< TDomainPartitioner, TImageToImageObjectMetric >
+ * \ingroup ITKMetricsv4 */
+template < class TDomainPartitioner, class TImageToImageMetricv4 >
+class ImageToImageMetricv4GetValueAndDerivativeThreaderBase
+  : public DomainThreader< TDomainPartitioner, TImageToImageMetricv4 >
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageToImageObjectMetricGetValueAndDerivativeThreaderBase  Self;
-  typedef DomainThreader< TDomainPartitioner, TImageToImageObjectMetric >
-                                                                     Superclass;
-  typedef SmartPointer< Self >                                       Pointer;
-  typedef SmartPointer< const Self >                                 ConstPointer;
+  typedef ImageToImageMetricv4GetValueAndDerivativeThreaderBase       Self;
+  typedef DomainThreader< TDomainPartitioner, TImageToImageMetricv4 > Superclass;
+  typedef SmartPointer< Self >                                        Pointer;
+  typedef SmartPointer< const Self >                                  ConstPointer;
 
-  itkTypeMacro( ImageToImageObjectMetricGetValueAndDerivativeThreaderBase, DomainThreader );
+  itkTypeMacro( ImageToImageMetricv4GetValueAndDerivativeThreaderBase, DomainThreader );
 
   /** Superclass types. */
   typedef typename Superclass::DomainType    DomainType;
   typedef typename Superclass::AssociateType AssociateType;
 
   /** Types of the target class. */
-  typedef TImageToImageObjectMetric                                      ImageToImageObjectMetricType;
-  typedef typename ImageToImageObjectMetricType::VirtualImageType        VirtualImageType;
-  typedef typename ImageToImageObjectMetricType::VirtualIndexType        VirtualIndexType;
-  typedef typename ImageToImageObjectMetricType::VirtualPointType        VirtualPointType;
-  typedef typename ImageToImageObjectMetricType::FixedImagePointType     FixedImagePointType;
-  typedef typename ImageToImageObjectMetricType::FixedImagePixelType     FixedImagePixelType;
-  typedef typename ImageToImageObjectMetricType::FixedImageGradientType  FixedImageGradientType;
-  typedef typename ImageToImageObjectMetricType::MovingImagePointType    MovingImagePointType;
-  typedef typename ImageToImageObjectMetricType::MovingImagePixelType    MovingImagePixelType;
-  typedef typename ImageToImageObjectMetricType::MovingImageGradientType MovingImageGradientType;
+  typedef TImageToImageMetricv4                                      ImageToImageMetricv4Type;
+  typedef typename ImageToImageMetricv4Type::VirtualImageType        VirtualImageType;
+  typedef typename ImageToImageMetricv4Type::VirtualIndexType        VirtualIndexType;
+  typedef typename ImageToImageMetricv4Type::VirtualPointType        VirtualPointType;
+  typedef typename ImageToImageMetricv4Type::FixedImagePointType     FixedImagePointType;
+  typedef typename ImageToImageMetricv4Type::FixedImagePixelType     FixedImagePixelType;
+  typedef typename ImageToImageMetricv4Type::FixedImageGradientType  FixedImageGradientType;
+  typedef typename ImageToImageMetricv4Type::MovingImagePointType    MovingImagePointType;
+  typedef typename ImageToImageMetricv4Type::MovingImagePixelType    MovingImagePixelType;
+  typedef typename ImageToImageMetricv4Type::MovingImageGradientType MovingImageGradientType;
 
-  typedef typename ImageToImageObjectMetricType::FixedTransformType      FixedTransformType;
+  typedef typename ImageToImageMetricv4Type::FixedTransformType      FixedTransformType;
   typedef typename FixedTransformType::OutputPointType                   FixedOutputPointType;
-  typedef typename ImageToImageObjectMetricType::MovingTransformType     MovingTransformType;
+  typedef typename ImageToImageMetricv4Type::MovingTransformType     MovingTransformType;
   typedef typename MovingTransformType::OutputPointType                  MovingOutputPointType;
 
-  typedef typename ImageToImageObjectMetricType::MeasureType             MeasureType;
-  typedef typename ImageToImageObjectMetricType::DerivativeType          DerivativeType;
-  typedef typename ImageToImageObjectMetricType::DerivativeValueType     DerivativeValueType;
-  typedef typename ImageToImageObjectMetricType::JacobianType            JacobianType;
+  typedef typename ImageToImageMetricv4Type::MeasureType             MeasureType;
+  typedef typename ImageToImageMetricv4Type::DerivativeType          DerivativeType;
+  typedef typename ImageToImageMetricv4Type::DerivativeValueType     DerivativeValueType;
+  typedef typename ImageToImageMetricv4Type::JacobianType            JacobianType;
 
-  typedef typename ImageToImageObjectMetricType::InternalComputationValueType InternalComputationValueType;
-  typedef typename ImageToImageObjectMetricType::NumberOfParametersType       NumberOfParametersType;
+  typedef typename ImageToImageMetricv4Type::InternalComputationValueType InternalComputationValueType;
+  typedef typename ImageToImageMetricv4Type::NumberOfParametersType       NumberOfParametersType;
 
 protected:
   /** Constructor. */
-  ImageToImageObjectMetricGetValueAndDerivativeThreaderBase();
+  ImageToImageMetricv4GetValueAndDerivativeThreaderBase();
 
   /** Resize and initialize per thread objects. */
   virtual void BeforeThreadedExecution();
@@ -162,14 +161,14 @@ protected:
   mutable std::vector< JacobianType >                 m_MovingTransformJacobianPerThread;
 
 private:
-  ImageToImageObjectMetricGetValueAndDerivativeThreaderBase( const Self & ); // purposely not implemented
+  ImageToImageMetricv4GetValueAndDerivativeThreaderBase( const Self & ); // purposely not implemented
   void operator=( const Self & ); // purposely not implemented
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageToImageObjectMetricGetValueAndDerivativeThreaderBase.hxx"
+#include "itkImageToImageMetricv4GetValueAndDerivativeThreaderBase.hxx"
 #endif
 
 #endif

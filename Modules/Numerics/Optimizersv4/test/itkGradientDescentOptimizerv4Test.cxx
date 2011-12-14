@@ -15,12 +15,12 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkGradientDescentObjectOptimizer.h"
+#include "itkGradientDescentOptimizerv4.h"
 
 /* Cribbed from itkGradientDescentOptimizerTest */
 
 /**
- *  \class GradientDescentObjectOptimizerTestMetric for test
+ *  \class GradientDescentOptimizerv4TestMetric for test
  *
  *  The objectif function is the quadratic form:
  *
@@ -36,17 +36,17 @@
  *   the solution is the vector | 2 -2 |
  *
  */
-class GradientDescentObjectOptimizerTestMetric
+class GradientDescentOptimizerv4TestMetric
   : public itk::ObjectToObjectMetric
 {
 public:
 
-  typedef GradientDescentObjectOptimizerTestMetric  Self;
+  typedef GradientDescentOptimizerv4TestMetric  Self;
   typedef itk::ObjectToObjectMetric                 Superclass;
   typedef itk::SmartPointer<Self>                   Pointer;
   typedef itk::SmartPointer<const Self>             ConstPointer;
   itkNewMacro( Self );
-  itkTypeMacro( GradientDescentObjectOptimizerTestMetric, ObjectToObjectMetric );
+  itkTypeMacro( GradientDescentOptimizerv4TestMetric, ObjectToObjectMetric );
 
   enum { SpaceDimension=2 };
 
@@ -55,7 +55,7 @@ public:
   typedef Superclass::DerivativeType        DerivativeType;
   typedef Superclass::MeasureType           MeasureType;
 
-  GradientDescentObjectOptimizerTestMetric()
+  GradientDescentOptimizerv4TestMetric()
   {
     m_Parameters.SetSize( SpaceDimension );
     m_Parameters.Fill( 0 );
@@ -133,8 +133,8 @@ private:
 };
 
 ///////////////////////////////////////////////////////////
-int GradientDescentObjectOptimizerRunTest(
-  itk::GradientDescentObjectOptimizer::Pointer & itkOptimizer )
+int GradientDescentOptimizerv4RunTest(
+  itk::GradientDescentOptimizerv4::Pointer & itkOptimizer )
 {
   try
     {
@@ -151,7 +151,7 @@ int GradientDescentObjectOptimizerRunTest(
     return EXIT_FAILURE;
     }
 
-  typedef GradientDescentObjectOptimizerTestMetric::ParametersType    ParametersType;
+  typedef GradientDescentOptimizerv4TestMetric::ParametersType    ParametersType;
   ParametersType finalPosition = itkOptimizer->GetMetric()->GetParameters();
   std::cout << "Solution        = (";
   std::cout << finalPosition[0] << ",";
@@ -175,12 +175,12 @@ int GradientDescentObjectOptimizerRunTest(
   return EXIT_SUCCESS;
 }
 ///////////////////////////////////////////////////////////
-int itkGradientDescentObjectOptimizerTest(int, char* [] )
+int itkGradientDescentOptimizerv4Test(int, char* [] )
 {
   std::cout << "Gradient Descent Object Optimizer Test ";
   std::cout << std::endl << std::endl;
 
-  typedef  itk::GradientDescentObjectOptimizer  OptimizerType;
+  typedef  itk::GradientDescentOptimizerv4  OptimizerType;
 
   typedef OptimizerType::ScalesType             ScalesType;
 
@@ -188,11 +188,11 @@ int itkGradientDescentObjectOptimizerTest(int, char* [] )
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
 
   // Declaration of the Metric
-  GradientDescentObjectOptimizerTestMetric::Pointer metric = GradientDescentObjectOptimizerTestMetric::New();
+  GradientDescentOptimizerv4TestMetric::Pointer metric = GradientDescentOptimizerv4TestMetric::New();
 
   itkOptimizer->SetMetric( metric );
 
-  typedef GradientDescentObjectOptimizerTestMetric::ParametersType    ParametersType;
+  typedef GradientDescentOptimizerv4TestMetric::ParametersType    ParametersType;
 
   const unsigned int spaceDimension =
                       metric->GetNumberOfParameters();
@@ -209,7 +209,7 @@ int itkGradientDescentObjectOptimizerTest(int, char* [] )
 
   // test the optimization
   std::cout << "Test optimization 1:" << std::endl;
-  if( GradientDescentObjectOptimizerRunTest( itkOptimizer ) == EXIT_FAILURE )
+  if( GradientDescentOptimizerv4RunTest( itkOptimizer ) == EXIT_FAILURE )
     {
     return EXIT_FAILURE;
     }
@@ -222,7 +222,7 @@ int itkGradientDescentObjectOptimizerTest(int, char* [] )
   scales.Fill(0.5);
   itkOptimizer->SetScales( scales );
   metric->SetParameters( initialPosition );
-  if( GradientDescentObjectOptimizerRunTest( itkOptimizer ) == EXIT_FAILURE )
+  if( GradientDescentOptimizerv4RunTest( itkOptimizer ) == EXIT_FAILURE )
     {
     return EXIT_FAILURE;
     }

@@ -15,14 +15,14 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkGradientDescentObjectOptimizerBaseModifyGradientByLearningRateThreader.h"
-#include "itkGradientDescentObjectOptimizerBase.h"
+#include "itkGradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader.h"
+#include "itkGradientDescentOptimizerBasev4.h"
 
 namespace itk
 {
 
 void
-GradientDescentObjectOptimizerBaseModifyGradientByLearningRateThreader
+GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader
 ::ThreadedExecution( const IndexRangeType & subrange,
                      const ThreadIdType itkNotUsed(threadId) )
 {

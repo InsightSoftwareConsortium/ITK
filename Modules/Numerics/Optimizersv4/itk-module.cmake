@@ -1,7 +1,7 @@
 set(DOCUMENTATION "This module contains ITK classes than encapsulate numerical
-optimizers using a new hierarchy developed for the needs of registration with high-dimensional transforms. These optimizers will NOT work with the metrics in Registration/Common, but rather with the new metrics in Registration/HighDimensionalMetrics.")
+optimizers using a new hierarchy developed for the needs of registration with high-dimensional transforms. These optimizers will NOT work with the metrics in Registration/Common, but rather with the new metrics in Registration/Metricsv4.")
 
-itk_module(ITKHighDimensionalOptimizers
+itk_module(ITKOptimizersv4
   DEPENDS
     ITKCommon
     ITKOptimizers
@@ -9,9 +9,9 @@ itk_module(ITKHighDimensionalOptimizers
     ITKImageGrid
   TEST_DEPENDS
     ITKTestKernel
-    ITKHighDimensionalMetrics
+    ITKMetricsv4
   DESCRIPTION
     "${DOCUMENTATION}"
 )
 
-# ITKOptimizers dependency added to get itkCostFunction for itkSingleValuedHighDimensionalCostFunction
+# ITKOptimizers dependency added to get itkCostFunction for itkSingleValuedCostFunctionv4

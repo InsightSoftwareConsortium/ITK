@@ -17,17 +17,17 @@
 *=========================================================================*/
 
 /**
- * Test program for DemonsImageToImageObjectMetric and
- * GradientDescentObjectOptimizer classes.
+ * Test program for DemonsImageToImageMetricv4 and
+ * GradientDescentOptimizerv4 classes.
  *
  * Perform a registration using user-supplied images.
  * No numerical verification is performed. Test passes as long
  * as no exception occurs.
  */
-#include "itkDemonsImageToImageObjectMetric.h"
-#include "itkGradientDescentObjectOptimizer.h"
+#include "itkDemonsImageToImageMetricv4.h"
+#include "itkGradientDescentOptimizerv4.h"
 #include "itkRegistrationParameterScalesFromShift.h"
-#include "itkJointHistogramMutualInformationImageToImageObjectMetric.h"
+#include "itkJointHistogramMutualInformationImageToImageMetricv4.h"
 
 #include "itkIdentityTransform.h"
 #include "itkAffineTransform.h"
@@ -45,7 +45,7 @@
 
 /* Helper method to shrink images for faster testing as needed. */
 template<class TImageType>
-void AffineDemonsImageToImageObjectRegistrationTestShrink( typename TImageType::Pointer & image, unsigned int shrinkFactor)
+void AffineDemonsImageToImageRegistrationTestShrink( typename TImageType::Pointer & image, unsigned int shrinkFactor)
 {
   typedef itk::ShrinkImageFilter<TImageType,TImageType> ShrinkFilterType;
 
@@ -57,7 +57,7 @@ void AffineDemonsImageToImageObjectRegistrationTestShrink( typename TImageType::
   image = filter->GetOutput();
 }
 
-int itkAffineDemonsImageToImageObjectRegistrationTest(int argc, char *argv[])
+int itkAffineDemonsImageToImageRegistrationTest(int argc, char *argv[])
 {
 
   if( argc < 4 )
@@ -133,9 +133,9 @@ int itkAffineDemonsImageToImageObjectRegistrationTest(int argc, char *argv[])
   MovingImageType::Pointer movingImage = movingImageReader->GetOutput();
 
   // resize the images for faster computation during default tests
-  AffineDemonsImageToImageObjectRegistrationTestShrink<
+  AffineDemonsImageToImageRegistrationTestShrink<
     FixedImageType>( fixedImage, imageShrinkFactor );
-  AffineDemonsImageToImageObjectRegistrationTestShrink<
+  AffineDemonsImageToImageRegistrationTestShrink<
     MovingImageType>( movingImage, imageShrinkFactor );
 
   /** define a resample filter that will ultimately be used to deform the image */
@@ -159,7 +159,7 @@ int itkAffineDemonsImageToImageObjectRegistrationTest(int argc, char *argv[])
   identityTransform->SetIdentity();
 
   // The metric
-  typedef itk::DemonsImageToImageObjectMetric< FixedImageType, MovingImageType >
+  typedef itk::DemonsImageToImageMetricv4< FixedImageType, MovingImageType >
                                                                   MetricType;
   typedef MetricType::FixedSampledPointSetType                    PointSetType;
   MetricType::Pointer metric = MetricType::New();
@@ -220,7 +220,7 @@ int itkAffineDemonsImageToImageObjectRegistrationTest(int argc, char *argv[])
   shiftScaleEstimator->SetMetric(metric);
 
   // Create an optimzer and initialize
-  typedef itk::GradientDescentObjectOptimizer  OptimizerType;
+  typedef itk::GradientDescentOptimizerv4  OptimizerType;
   OptimizerType::Pointer  optimizer = OptimizerType::New();
   optimizer->SetMetric( metric );
   optimizer->SetNumberOfIterations( numberOfIterations );

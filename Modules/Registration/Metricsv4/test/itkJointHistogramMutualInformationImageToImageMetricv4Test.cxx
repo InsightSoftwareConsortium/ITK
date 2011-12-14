@@ -16,17 +16,17 @@
  *
  *=========================================================================*/
 
-#include "itkJointHistogramMutualInformationImageToImageObjectMetric.h"
+#include "itkJointHistogramMutualInformationImageToImageMetricv4.h"
 #include "itkTranslationTransform.h"
 
 /* Simple test to verify that class builds and runs.
- * Results are not verified. See ImageToImageObjectMetricTest
+ * Results are not verified. See ImageToImageMetricv4Test
  * for verification of basic metric functionality.
  *
  * TODO Numerical verification.
  */
 
-int itkJointHistogramMutualInformationImageToImageObjectMetricTest( int , char * [] )
+int itkJointHistogramMutualInformationImageToImageMetricv4Test( int , char * [] )
 {
 
   const unsigned int imageSize = 10;
@@ -93,7 +93,7 @@ int itkJointHistogramMutualInformationImageToImageObjectMetricTest( int , char *
   movingTransform->SetIdentity();
 
   /* The metric */
-  typedef itk::JointHistogramMutualInformationImageToImageObjectMetric< ImageType,
+  typedef itk::JointHistogramMutualInformationImageToImageMetricv4< ImageType,
                                                                 ImageType,
                                                                 ImageType >
                                                                   MetricType;

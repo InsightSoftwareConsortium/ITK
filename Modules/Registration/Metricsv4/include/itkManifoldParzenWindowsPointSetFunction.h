@@ -39,7 +39,7 @@ namespace itk
  * Each point is associated with a Gaussian and local shape can
  * be encoded in the covariance matrix.
  *
- * \ingroup ITKHighDimensionalMetrics
+ * \ingroup ITKMetricsv4
  */
 template <class TPointSet, class TOutput = double, class TCoordRep = double>
 class ITK_EXPORT ManifoldParzenWindowsPointSetFunction

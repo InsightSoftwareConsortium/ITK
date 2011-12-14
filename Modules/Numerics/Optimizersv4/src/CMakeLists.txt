@@ -1,17 +1,17 @@
-set(ITKHighDimensionalOptimizers_SRC
+set(ITKOptimizersv4_SRC
   itkObjectToObjectMetric.cxx
   itkObjectToObjectOptimizerBase.cxx
-  itkGradientDescentObjectOptimizerBase.cxx
-  itkGradientDescentObjectOptimizerBaseModifyGradientByLearningRateThreader.cxx
-  itkGradientDescentObjectOptimizerBaseModifyGradientByScalesThreader.cxx
-  itkGradientDescentObjectOptimizer.cxx
-  itkQuasiNewtonObjectOptimizer.cxx
-  itkQuasiNewtonObjectOptimizerEstimateNewtonStepThreader.cxx
+  itkGradientDescentOptimizerBasev4.cxx
+  itkGradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader.cxx
+  itkGradientDescentOptimizerBasev4ModifyGradientByScalesThreader.cxx
+  itkGradientDescentOptimizerv4.cxx
+  itkQuasiNewtonOptimizerv4.cxx
+  itkQuasiNewtonOptimizerv4EstimateNewtonStepThreader.cxx
 )
 
-add_library(ITKHighDimensionalOptimizers ${ITKHighDimensionalOptimizers_SRC})
-target_link_libraries(ITKHighDimensionalOptimizers
-  ${ITKHighDimensionalMetrics_LIBRARIES}
+add_library(ITKOptimizersv4 ${ITKOptimizersv4_SRC})
+target_link_libraries(ITKOptimizersv4
+  ${ITKMetricsv4_LIBRARIES}
   ${ITKOptimizers_LIBRARIES}
   )
-itk_module_target(ITKHighDimensionalOptimizers)
+itk_module_target(ITKOptimizersv4)

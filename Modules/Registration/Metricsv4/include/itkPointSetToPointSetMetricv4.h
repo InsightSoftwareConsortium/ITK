@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPointSetToPointSetObjectMetric_h
-#define __itkPointSetToPointSetObjectMetric_h
+#ifndef __itkPointSetToPointSetMetricv4_h
+#define __itkPointSetToPointSetMetricv4_h
 
 #include "itkObjectToObjectMetric.h"
 
@@ -27,7 +27,7 @@
 
 namespace itk
 {
-/** \class PointSetToPointSetObjectMetric
+/** \class PointSetToPointSetMetricv4
  * \brief Computes similarity between two point sets.
  *
  * This class is templated over the type of the two point-sets.  It
@@ -37,23 +37,23 @@ namespace itk
  * This class computes a value that measures the similarity between the fixed
  * point-set and the transformed moving point-set.
  *
- * \ingroup ITKHighDimensionalMetrics
+ * \ingroup ITKMetricsv4
  */
 
 template<class TFixedPointSet,  class TMovingPointSet>
-class ITK_EXPORT PointSetToPointSetObjectMetric
+class ITK_EXPORT PointSetToPointSetMetricv4
 : public ObjectToObjectMetric
 {
 public:
 
   /** Standard class typedefs. */
-  typedef PointSetToPointSetObjectMetric                                Self;
-  typedef ObjectToObjectMetric                                    Superclass;
-  typedef SmartPointer<Self>                                      Pointer;
-  typedef SmartPointer<const Self>                                ConstPointer;
+  typedef PointSetToPointSetMetricv4 Self;
+  typedef ObjectToObjectMetric       Superclass;
+  typedef SmartPointer<Self>         Pointer;
+  typedef SmartPointer<const Self>   ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( PointSetToPointSetObjectMetric, ObjectToObjectMetric );
+  itkTypeMacro( PointSetToPointSetMetricv4, ObjectToObjectMetric );
 
   /**  Type of the fixed point set. */
   typedef TFixedPointSet                               FixedPointSetType;
@@ -246,8 +246,8 @@ public:
   virtual void UpdateTransformParameters( DerivativeType & derivative, ParametersValueType factor = 1.0 );
 
 protected:
-  PointSetToPointSetObjectMetric();
-  virtual ~PointSetToPointSetObjectMetric();
+  PointSetToPointSetMetricv4();
+  virtual ~PointSetToPointSetMetricv4();
   void PrintSelf( std::ostream & os, Indent indent ) const;
 
   typename FixedPointSetType::ConstPointer        m_FixedPointSet;
@@ -283,13 +283,13 @@ protected:
   void InitializePointsLocators();
 
 private:
-  PointSetToPointSetObjectMetric( const Self & ); //purposely not implemented
+  PointSetToPointSetMetricv4( const Self & ); //purposely not implemented
   void operator=( const Self & );           //purposely not implemented
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPointSetToPointSetObjectMetric.hxx"
+#include "itkPointSetToPointSetMetricv4.hxx"
 #endif
 
 #endif

@@ -53,7 +53,7 @@ namespace itk
  * \note Derived classes must override StartOptimization, and then call
  * this base class version to perform common initializations.
  *
- * \ingroup ITKHighDimensionalOptimizers
+ * \ingroup ITKOptimizersv4
  */
 
 class ITK_EXPORT ObjectToObjectOptimizerBase : public Object

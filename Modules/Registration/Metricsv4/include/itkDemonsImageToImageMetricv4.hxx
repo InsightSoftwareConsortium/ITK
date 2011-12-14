@@ -15,33 +15,33 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDemonsImageToImageObjectMetric_hxx
-#define __itkDemonsImageToImageObjectMetric_hxx
+#ifndef __itkDemonsImageToImageMetricv4_hxx
+#define __itkDemonsImageToImageMetricv4_hxx
 
-#include "itkDemonsImageToImageObjectMetric.h"
+#include "itkDemonsImageToImageMetricv4.h"
 
 namespace itk
 {
 
 template < class TFixedImage, class TMovingImage, class TVirtualImage >
-DemonsImageToImageObjectMetric<TFixedImage,TMovingImage,TVirtualImage>
-::DemonsImageToImageObjectMetric()
+DemonsImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage>
+::DemonsImageToImageMetricv4()
 {
   // We have our own GetValueAndDerivativeThreader's that we want
-  // ImageToImageObjectMetric to use.
+  // ImageToImageMetricv4 to use.
   this->m_DenseGetValueAndDerivativeThreader  = DemonsDenseGetValueAndDerivativeThreaderType::New();
   this->m_SparseGetValueAndDerivativeThreader = DemonsSparseGetValueAndDerivativeThreaderType::New();
 }
 
 template < class TFixedImage, class TMovingImage, class TVirtualImage >
-DemonsImageToImageObjectMetric<TFixedImage,TMovingImage,TVirtualImage>
-::~DemonsImageToImageObjectMetric()
+DemonsImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage>
+::~DemonsImageToImageMetricv4()
 {
 }
 
 template < class TFixedImage, class TMovingImage, class TVirtualImage  >
 void
-DemonsImageToImageObjectMetric<TFixedImage,TMovingImage,TVirtualImage>
+DemonsImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);

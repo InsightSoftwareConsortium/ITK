@@ -18,31 +18,31 @@
 #ifndef __itkJointHistogramMutualInformationGetValueAndDerivativeThreader_h
 #define __itkJointHistogramMutualInformationGetValueAndDerivativeThreader_h
 
-#include "itkImageToImageObjectMetricGetValueAndDerivativeThreader.h"
+#include "itkImageToImageMetricv4GetValueAndDerivativeThreader.h"
 
 namespace itk
 {
 
 /** \class JointHistogramMutualInformationGetValueAndDerivativeThreader
  * \brief Processes points for
- * JointHistogramMutualInformationImageToImageObjectMetric \c
+ * JointHistogramMutualInformationImageToImageMetricv4 \c
  * GetValueAndDerivative().
  *
- * \ingroup ITKHighDimensionalMetrics
+ * \ingroup ITKMetricsv4
  */
 template < class TDomainPartitioner, class TImageToImageMetric, class TJointHistogramMetric >
 class JointHistogramMutualInformationGetValueAndDerivativeThreader
-  : public ImageToImageObjectMetricGetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >
+  : public ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >
 {
 public:
   /** Standard class typedefs. */
   typedef JointHistogramMutualInformationGetValueAndDerivativeThreader Self;
-  typedef ImageToImageObjectMetricGetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >
+  typedef ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >
                                                                        Superclass;
   typedef SmartPointer< Self >                                         Pointer;
   typedef SmartPointer< const Self >                                   ConstPointer;
 
-  itkTypeMacro( JointHistogramMutualInformationGetValueAndDerivativeThreader, ImageToImageObjectMetricGetValueAndDerivativeThreader );
+  itkTypeMacro( JointHistogramMutualInformationGetValueAndDerivativeThreader, ImageToImageMetricv4GetValueAndDerivativeThreader );
 
   itkNewMacro( Self );
 

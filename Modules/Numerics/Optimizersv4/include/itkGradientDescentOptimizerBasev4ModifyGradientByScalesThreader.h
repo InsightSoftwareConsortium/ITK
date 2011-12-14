@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGradientDescentObjectOptimizerBaseModifyGradientByScalesThreader_h
-#define __itkGradientDescentObjectOptimizerBaseModifyGradientByScalesThreader_h
+#ifndef __itkGradientDescentOptimizerBasev4ModifyGradientByScalesThreader_h
+#define __itkGradientDescentOptimizerBasev4ModifyGradientByScalesThreader_h
 
 #include "itkDomainThreader.h"
 #include "itkThreadedIndexedContainerPartitioner.h"
@@ -24,25 +24,25 @@
 namespace itk
 {
 
-class GradientDescentObjectOptimizerBase;
+class GradientDescentOptimizerBasev4;
 
-/** \class GradientDescentObjectOptimizerBaseModifyGradientByScalesThreader
+/** \class GradientDescentOptimizerBasev4ModifyGradientByScalesThreader
  * \brief Modify the gradient by the parameter scales for
- * GradientDescentObjectOptimizerBase.
- * \ingroup ITKHighDimensionalOptimizers
+ * GradientDescentOptimizerBasev4.
+ * \ingroup ITKOptimizersv4
  */
-class GradientDescentObjectOptimizerBaseModifyGradientByScalesThreader
-  : public DomainThreader< ThreadedIndexedContainerPartitioner, GradientDescentObjectOptimizerBase >
+class GradientDescentOptimizerBasev4ModifyGradientByScalesThreader
+  : public DomainThreader< ThreadedIndexedContainerPartitioner, GradientDescentOptimizerBasev4 >
 {
 public:
   /** Standard class typedefs. */
-  typedef GradientDescentObjectOptimizerBaseModifyGradientByScalesThreader Self;
-  typedef DomainThreader< ThreadedIndexedContainerPartitioner, GradientDescentObjectOptimizerBase >
+  typedef GradientDescentOptimizerBasev4ModifyGradientByScalesThreader Self;
+  typedef DomainThreader< ThreadedIndexedContainerPartitioner, GradientDescentOptimizerBasev4 >
                                                                            Superclass;
   typedef SmartPointer< Self >                                             Pointer;
   typedef SmartPointer< const Self >                                       ConstPointer;
 
-  itkTypeMacro( GradientDescentObjectOptimizerBaseModifyGradientByScalesThreader, DomainThreader );
+  itkTypeMacro( GradientDescentOptimizerBasev4ModifyGradientByScalesThreader, DomainThreader );
 
   itkNewMacro( Self );
 
@@ -54,11 +54,11 @@ protected:
   virtual void ThreadedExecution( const IndexRangeType & subrange,
                                   const ThreadIdType threadId );
 
-  GradientDescentObjectOptimizerBaseModifyGradientByScalesThreader() {}
-  virtual ~GradientDescentObjectOptimizerBaseModifyGradientByScalesThreader() {}
+  GradientDescentOptimizerBasev4ModifyGradientByScalesThreader() {}
+  virtual ~GradientDescentOptimizerBasev4ModifyGradientByScalesThreader() {}
 
 private:
-  GradientDescentObjectOptimizerBaseModifyGradientByScalesThreader( const Self & ); // purposely not implemented
+  GradientDescentOptimizerBasev4ModifyGradientByScalesThreader( const Self & ); // purposely not implemented
   void operator=( const Self & ); // purposely not implemented
 };
 

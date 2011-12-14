@@ -21,7 +21,7 @@
 #include "itkObject.h"
 #include "itkObjectFactory.h"
 #include "itkObjectToObjectOptimizerBase.h"
-#include "itkSingleValuedHighDimensionalCostFunction.h"
+#include "itkSingleValuedCostFunctionv4.h"
 
 namespace itk
 {
@@ -33,7 +33,7 @@ namespace itk
  * Its subclass RegistrationParameterScalesEstimator estimates scales for
  * registration optimizers.
  *
- * \ingroup ITKHighDimensionalOptimizers
+ * \ingroup ITKOptimizersv4
  */
 class ITK_EXPORT OptimizerParameterScalesEstimator : public Object
 {

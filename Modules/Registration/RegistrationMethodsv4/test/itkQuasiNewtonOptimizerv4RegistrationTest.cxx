@@ -18,16 +18,16 @@
 
 /**
  * Test program for image registration with multiple metric types and
- * QuasiNewtonObjectOptimizer classes.
+ * QuasiNewtonOptimizerv4 classes.
  *
  * Perform a registration using user-supplied images.
  * No numerical verification is performed. Test passes as long
  * as no exception occurs.
  */
-#include "itkDemonsImageToImageObjectMetric.h"
-#include "itkJointHistogramMutualInformationImageToImageObjectMetric.h"
-#include "itkANTSNeighborhoodCorrelationImageToImageObjectMetric.h"
-#include "itkQuasiNewtonObjectOptimizer.h"
+#include "itkDemonsImageToImageMetricv4.h"
+#include "itkJointHistogramMutualInformationImageToImageMetricv4.h"
+#include "itkANTSNeighborhoodCorrelationImageToImageMetricv4.h"
+#include "itkQuasiNewtonOptimizerv4.h"
 #include "itkRegistrationParameterScalesFromShift.h"
 
 #include "itkIdentityTransform.h"
@@ -49,7 +49,7 @@
 #include "itkResampleImageFilter.h"
 
 template<unsigned int Dimension, class TAffineTransform>
-int itkQuasiNewtonObjectOptimizerRegistrationTestMain(int argc, char *argv[])
+int itkQuasiNewtonOptimizerv4RegistrationTestMain(int argc, char *argv[])
 {
   std::string metricString = argv[2];
   unsigned int numberOfIterations = 10;
@@ -139,20 +139,20 @@ int itkQuasiNewtonObjectOptimizerRegistrationTestMain(int argc, char *argv[])
   identityTransform->SetIdentity();
 
   // The metric
-  typedef itk::ImageToImageObjectMetric
+  typedef itk::ImageToImageMetricv4
     < FixedImageType, MovingImageType >         MetricBaseType;
   typename MetricBaseType::Pointer metric;
 
   if (metricString.compare("dm") == 0)
     {
-    typedef itk::DemonsImageToImageObjectMetric
+    typedef itk::DemonsImageToImageMetricv4
       < FixedImageType, MovingImageType >           DemonsMetricType;
     typename DemonsMetricType::Pointer demonsMetric = DemonsMetricType::New();
     metric = demonsMetric.GetPointer();
     }
   else if (metricString.compare("mi") == 0)
     {
-    typedef itk::JointHistogramMutualInformationImageToImageObjectMetric
+    typedef itk::JointHistogramMutualInformationImageToImageMetricv4
       < FixedImageType, MovingImageType >                   MIMetricType;
     typedef typename MIMetricType::FixedSampledPointSetType PointSetType;
     typename MIMetricType::Pointer miMetric = MIMetricType::New();
@@ -183,7 +183,7 @@ int itkQuasiNewtonObjectOptimizerRegistrationTestMain(int argc, char *argv[])
   else if (metricString.compare("anc") == 0)
     {
     // The metric
-    typedef itk::ANTSNeighborhoodCorrelationImageToImageObjectMetric
+    typedef itk::ANTSNeighborhoodCorrelationImageToImageMetricv4
       < FixedImageType, MovingImageType > ANCMetricType;
     typename ANCMetricType::Pointer nbcMetric = ANCMetricType::New();
     metric = nbcMetric.GetPointer();
@@ -196,9 +196,9 @@ int itkQuasiNewtonObjectOptimizerRegistrationTestMain(int argc, char *argv[])
     {
     std::cerr << "The given metric type is not supported: " << metricString << std::endl;
     std::cerr << "The supported metric types are: " << std::endl;
-    std::cerr << "   dm   - DemonsImageToImageObjectMetric" << std::endl;
-    std::cerr << "   mi   - JointHistogramMutualInformationImageToImageObjectMetric" << std::endl;
-    std::cerr << "   anc  - ANTSNeighborhoodCorrelationImageToImageObjectMetric" << std::endl;
+    std::cerr << "   dm   - DemonsImageToImageMetricv4" << std::endl;
+    std::cerr << "   mi   - JointHistogramMutualInformationImageToImageMetricv4" << std::endl;
+    std::cerr << "   anc  - ANTSNeighborhoodCorrelationImageToImageMetricv4" << std::endl;
     std::cerr << std::endl;
     return EXIT_FAILURE;
     }
@@ -224,8 +224,8 @@ int itkQuasiNewtonObjectOptimizerRegistrationTestMain(int argc, char *argv[])
   shiftScaleEstimator->SetMetric(metric);
 
   std::cout << "First do an affine registration " << std::endl;
-  //typedef itk::GradientDescentObjectOptimizer  OptimizerType;
-  typedef itk::QuasiNewtonObjectOptimizer  OptimizerType;
+  //typedef itk::GradientDescentOptimizerv4  OptimizerType;
+  typedef itk::QuasiNewtonOptimizerv4  OptimizerType;
   typename OptimizerType::Pointer  optimizer = OptimizerType::New();
   optimizer->SetMetric( metric );
   optimizer->SetNumberOfIterations( numberOfIterations );
@@ -319,7 +319,7 @@ int itkQuasiNewtonObjectOptimizerRegistrationTestMain(int argc, char *argv[])
 
 }
 
-int itkQuasiNewtonObjectOptimizerRegistrationTest(int argc, char *argv[])
+int itkQuasiNewtonOptimizerv4RegistrationTest(int argc, char *argv[])
 {
   if( argc < 5 )
     {
@@ -332,9 +332,9 @@ int itkQuasiNewtonObjectOptimizerRegistrationTest(int argc, char *argv[])
     std::cerr << " [numberOfIterations numberOfDisplacementIterations] ";
     std::cerr << std::endl;
     std::cerr << " The metric types are: " << std::endl;
-    std::cerr << "   dm   - DemonsImageToImageObjectMetric" << std::endl;
-    std::cerr << "   mi   - JointHistogramMutualInformationImageToImageObjectMetric" << std::endl;
-    std::cerr << "   anc  - ANTSNeighborhoodCorrelationImageToImageObjectMetric" << std::endl;
+    std::cerr << "   dm   - DemonsImageToImageMetricv4" << std::endl;
+    std::cerr << "   mi   - JointHistogramMutualInformationImageToImageMetricv4" << std::endl;
+    std::cerr << "   anc  - ANTSNeighborhoodCorrelationImageToImageMetricv4" << std::endl;
     std::cerr << std::endl;
     return EXIT_FAILURE;
     }
@@ -345,14 +345,14 @@ int itkQuasiNewtonObjectOptimizerRegistrationTest(int argc, char *argv[])
     {
     typedef itk::AffineTransform<double, 2>   AffineTransformType;
     //typedef itk::Euler2DTransform<double>             AffineTransformType;
-    return itkQuasiNewtonObjectOptimizerRegistrationTestMain
+    return itkQuasiNewtonOptimizerv4RegistrationTestMain
       <2, AffineTransformType>(argc, argv);
     }
   else if (Dimension==3)
     {
     typedef itk::AffineTransform<double, 3>   AffineTransformType;
     //typedef itk::Euler3DTransform<double>             AffineTransformType;
-    return itkQuasiNewtonObjectOptimizerRegistrationTestMain
+    return itkQuasiNewtonOptimizerv4RegistrationTestMain
       <3, AffineTransformType>(argc, argv);
     }
   else

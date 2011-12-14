@@ -15,19 +15,19 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkANTSNeighborhoodCorrelationImageToImageObjectMetric_h
-#define __itkANTSNeighborhoodCorrelationImageToImageObjectMetric_h
+#ifndef __itkANTSNeighborhoodCorrelationImageToImageMetricv4_h
+#define __itkANTSNeighborhoodCorrelationImageToImageMetricv4_h
 
-#include "itkImageToImageObjectMetric.h"
+#include "itkImageToImageMetricv4.h"
 #include "itkConstNeighborhoodIterator.h"
 
-#include "itkANTSNeighborhoodCorrelationImageToImageObjectMetricDenseGetValueAndDerivativeThreader.h"
+#include "itkANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreader.h"
 
 #include <deque>
 
 namespace itk {
 
-/** \class ANTSNeighborhoodCorrelationImageToImageObjectMetric
+/** \class ANTSNeighborhoodCorrelationImageToImageMetricv4
  *
  * \brief Computes normalized cross correlation using a small neighborhood
  * for each voxel between two images, with speed optimizations for dense
@@ -60,7 +60,7 @@ namespace itk {
  *
  *  Example of usage:
  *
- *  typedef itk::ANTSNeighborhoodCorrelationImageToImageObjectMetric
+ *  typedef itk::ANTSNeighborhoodCorrelationImageToImageMetricv4
  *    <ImageType, ImageType> MetricType;
  *  typedef MetricType::Pointer MetricTypePointer;
  *  MetricTypePointer metric = MetricType::New();
@@ -86,20 +86,19 @@ namespace itk {
  * derived classes, operate on meshes, images, etc.  This class computes a
  * value that measures the similarity between the two objects.
  *
- * \ingroup ITKHighDimensionalMetrics
+ * \ingroup ITKMetricsv4
  */
 template<class TFixedImage, class TMovingImage, class TVirtualImage = TFixedImage>
-class ITK_EXPORT ANTSNeighborhoodCorrelationImageToImageObjectMetric :
-  public ImageToImageObjectMetric< TFixedImage, TMovingImage, TVirtualImage>
+class ITK_EXPORT ANTSNeighborhoodCorrelationImageToImageMetricv4 :
+  public ImageToImageMetricv4< TFixedImage, TMovingImage, TVirtualImage>
 {
 public:
 
   /** Standard class typedefs. */
-  typedef ANTSNeighborhoodCorrelationImageToImageObjectMetric Self;
-  typedef ImageToImageObjectMetric<TFixedImage, TMovingImage, TVirtualImage>
-                                                              Superclass;
-  typedef SmartPointer<Self>                                  Pointer;
-  typedef SmartPointer<const Self>                            ConstPointer;
+  typedef ANTSNeighborhoodCorrelationImageToImageMetricv4                Self;
+  typedef ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage> Superclass;
+  typedef SmartPointer<Self>                                             Pointer;
+  typedef SmartPointer<const Self>                                       ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -165,8 +164,8 @@ public:
   itkGetConstMacro(Radius, RadiusType);
 
 protected:
-  ANTSNeighborhoodCorrelationImageToImageObjectMetric();
-  virtual ~ANTSNeighborhoodCorrelationImageToImageObjectMetric();
+  ANTSNeighborhoodCorrelationImageToImageMetricv4();
+  virtual ~ANTSNeighborhoodCorrelationImageToImageMetricv4();
 
   // interested values here updated during scanning
   typedef InternalComputationValueType                 QueueRealType;
@@ -212,9 +211,9 @@ protected:
 
   } ScanParametersType;
 
-  friend class ANTSNeighborhoodCorrelationImageToImageObjectMetricDenseGetValueAndDerivativeThreader< Superclass, Self >;
-  typedef ANTSNeighborhoodCorrelationImageToImageObjectMetricDenseGetValueAndDerivativeThreader< Superclass, Self >
-    ANTSNeighborhoodCorrelationImageToImageObjectMetricDenseGetValueAndDerivativeThreaderType;
+  friend class ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreader< Superclass, Self >;
+  typedef ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreader< Superclass, Self >
+    ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreaderType;
 
   /** Create an iterator over the virtual sub region */
   void InitializeScanning(const ImageRegionType &scanRegion,
@@ -224,7 +223,7 @@ protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  ANTSNeighborhoodCorrelationImageToImageObjectMetric( const Self & ); //purposely not implemented
+  ANTSNeighborhoodCorrelationImageToImageMetricv4( const Self & ); //purposely not implemented
   void operator=(const Self &); //purposely not implemented
 
   // Radius of the neighborhood window centered at each pixel
@@ -234,7 +233,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkANTSNeighborhoodCorrelationImageToImageObjectMetric.hxx"
+#include "itkANTSNeighborhoodCorrelationImageToImageMetricv4.hxx"
 #endif
 
 #endif

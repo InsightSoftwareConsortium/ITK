@@ -15,16 +15,16 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGradientDescentObjectOptimizerBase_h
-#define __itkGradientDescentObjectOptimizerBase_h
+#ifndef __itkGradientDescentOptimizerBasev4_h
+#define __itkGradientDescentOptimizerBasev4_h
 
 #include "itkObjectToObjectOptimizerBase.h"
-#include "itkGradientDescentObjectOptimizerBaseModifyGradientByScalesThreader.h"
-#include "itkGradientDescentObjectOptimizerBaseModifyGradientByLearningRateThreader.h"
+#include "itkGradientDescentOptimizerBasev4ModifyGradientByScalesThreader.h"
+#include "itkGradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader.h"
 
 namespace itk
 {
-/** \class GradientDescentObjectOptimizerBase
+/** \class GradientDescentOptimizerBasev4
  *  \brief Abstract base class for gradient descent-style optimizers.
  *
  * Gradient modification is threaded in \c ModifyGradient.
@@ -32,21 +32,21 @@ namespace itk
  * Derived classes must override \c ModifyGradientOverSubRange
  * and \c ResumeOptimization.
  *
- * \ingroup ITKHighDimensionalOptimizers
+ * \ingroup ITKOptimizersv4
  */
 
-class ITK_EXPORT GradientDescentObjectOptimizerBase
+class ITK_EXPORT GradientDescentOptimizerBasev4
   : public ObjectToObjectOptimizerBase
 {
 public:
   /** Standard class typedefs. */
-  typedef GradientDescentObjectOptimizerBase     Self;
-  typedef ObjectToObjectOptimizerBase            Superclass;
-  typedef SmartPointer< Self >                   Pointer;
-  typedef SmartPointer< const Self >             ConstPointer;
+  typedef GradientDescentOptimizerBasev4 Self;
+  typedef ObjectToObjectOptimizerBase    Superclass;
+  typedef SmartPointer< Self >           Pointer;
+  typedef SmartPointer< const Self >     ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GradientDescentObjectOptimizerBase, ObjectToObjectOptimizerBase);
+  itkTypeMacro(GradientDescentOptimizerBasev4, ObjectToObjectOptimizerBase);
 
   /** Codes of stopping conditions. */
   typedef enum {
@@ -107,16 +107,16 @@ public:
 protected:
 
   /** Default constructor */
-  GradientDescentObjectOptimizerBase();
-  virtual ~GradientDescentObjectOptimizerBase();
+  GradientDescentOptimizerBasev4();
+  virtual ~GradientDescentOptimizerBasev4();
 
-  friend class GradientDescentObjectOptimizerBaseModifyGradientByScalesThreader;
-  friend class GradientDescentObjectOptimizerBaseModifyGradientByLearningRateThreader;
+  friend class GradientDescentOptimizerBasev4ModifyGradientByScalesThreader;
+  friend class GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader;
 
-  typedef GradientDescentObjectOptimizerBaseModifyGradientByScalesThreader::IndexRangeType IndexRangeType;
+  typedef GradientDescentOptimizerBasev4ModifyGradientByScalesThreader::IndexRangeType IndexRangeType;
 
-  GradientDescentObjectOptimizerBaseModifyGradientByScalesThreader::Pointer       m_ModifyGradientByScalesThreader;
-  GradientDescentObjectOptimizerBaseModifyGradientByLearningRateThreader::Pointer m_ModifyGradientByLearningRateThreader;
+  GradientDescentOptimizerBasev4ModifyGradientByScalesThreader::Pointer       m_ModifyGradientByScalesThreader;
+  GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader::Pointer m_ModifyGradientByLearningRateThreader;
 
   /** Estimate the learning rate */
   virtual void EstimateLearningRate() = 0;
@@ -157,7 +157,7 @@ protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  GradientDescentObjectOptimizerBase( const Self & ); //purposely not implemented
+  GradientDescentOptimizerBasev4( const Self & ); //purposely not implemented
   void operator=( const Self& ); //purposely not implemented
 
 };

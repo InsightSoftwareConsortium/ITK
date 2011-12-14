@@ -43,7 +43,7 @@ namespace itk
  * SampleImageDomain, which provides various choices of sampling the image
  * domain.
  *
- * \ingroup ITKHighDimensionalOptimizers
+ * \ingroup ITKOptimizersv4
  */
 template < class TMetric >
 class ITK_EXPORT RegistrationParameterScalesEstimator : public OptimizerParameterScalesEstimator

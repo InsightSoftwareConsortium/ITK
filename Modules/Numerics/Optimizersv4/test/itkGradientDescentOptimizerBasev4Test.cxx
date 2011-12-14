@@ -15,18 +15,18 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkGradientDescentObjectOptimizerBase.h"
+#include "itkGradientDescentOptimizerBasev4.h"
 #include "itkImage.h"
 #include "itkTestingMacros.h"
 
 /* Create a simple metric to use for testing here. */
 template< class TFixedObject,  class TMovingObject >
-class ITK_EXPORT GradientDescentObjectOptimizerBaseTestMetric:
+class ITK_EXPORT GradientDescentOptimizerBasev4TestMetric:
   public itk::ObjectToObjectMetric
 {
 public:
   /** Standard class typedefs. */
-  typedef GradientDescentObjectOptimizerBaseTestMetric  Self;
+  typedef GradientDescentOptimizerBasev4TestMetric  Self;
   typedef itk::ObjectToObjectMetric                     Superclass;
   typedef itk::SmartPointer< Self >                     Pointer;
   typedef itk::SmartPointer< const Self >               ConstPointer;
@@ -36,7 +36,7 @@ public:
   typedef typename Superclass::ParametersType       ParametersType;
   typedef typename Superclass::ParametersValueType  ParametersValueType;
 
-  itkTypeMacro(GradientDescentObjectOptimizerBaseTestMetric, ObjectToObjectMetric);
+  itkTypeMacro(GradientDescentOptimizerBasev4TestMetric, ObjectToObjectMetric);
 
   itkNewMacro(Self);
 
@@ -71,25 +71,25 @@ public:
   { Superclass::PrintSelf( os, indent ); }
 
 protected:
-  GradientDescentObjectOptimizerBaseTestMetric() {}
-  ~GradientDescentObjectOptimizerBaseTestMetric() {}//purposely not implemented
+  GradientDescentOptimizerBasev4TestMetric() {}
+  ~GradientDescentOptimizerBasev4TestMetric() {}//purposely not implemented
 
 private:
-  GradientDescentObjectOptimizerBaseTestMetric( const Self& ); //purposely not implemented
+  GradientDescentOptimizerBasev4TestMetric( const Self& ); //purposely not implemented
   void operator = ( const Self& ); //purposely not implemented
 
   ParametersType m_Parameters;
 };
 
 /* Define a simple derived optimizer class.
- * \class GradientDescentObjectOptimizerBaseTestOptimizer */
-class GradientDescentObjectOptimizerBaseTestOptimizer
-  : public itk::GradientDescentObjectOptimizerBase
+ * \class GradientDescentOptimizerBasev4TestOptimizer */
+class GradientDescentOptimizerBasev4TestOptimizer
+  : public itk::GradientDescentOptimizerBasev4
 {
 public:
   /** Standard "Self" typedef. */
-  typedef GradientDescentObjectOptimizerBaseTestOptimizer Self;
-  typedef GradientDescentObjectOptimizerBase              Superclass;
+  typedef GradientDescentOptimizerBasev4TestOptimizer Self;
+  typedef GradientDescentOptimizerBasev4              Superclass;
   typedef itk::SmartPointer< Self >                       Pointer;
   typedef itk::SmartPointer< const Self >                 ConstPointer;
 
@@ -97,8 +97,8 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( GradientDescentObjectOptimizerBaseTestOptimizer,
-                GradientDescentObjectOptimizerBase);
+  itkTypeMacro( GradientDescentOptimizerBasev4TestOptimizer,
+                GradientDescentOptimizerBasev4);
 
   /* Provide an override for the pure virtual StartOptimization */
   void StartOptimization()
@@ -129,25 +129,25 @@ protected:
     {
     std::cout << "EstimateLearningRate called" << std::endl;
     }
-  GradientDescentObjectOptimizerBaseTestOptimizer(){}
-  ~GradientDescentObjectOptimizerBaseTestOptimizer(){}
+  GradientDescentOptimizerBasev4TestOptimizer(){}
+  ~GradientDescentOptimizerBasev4TestOptimizer(){}
 
 private:
-  GradientDescentObjectOptimizerBaseTestOptimizer(const Self& ); //purposely not implemented
+  GradientDescentOptimizerBasev4TestOptimizer(const Self& ); //purposely not implemented
   void operator = (const Self&); //purposely not implemented
 
 };
 
 
-int itkGradientDescentObjectOptimizerBaseTest(int , char* [])
+int itkGradientDescentOptimizerBasev4Test(int , char* [])
 {
   const int ImageDimension = 2;
   typedef itk::Image<double, ImageDimension>                    ImageType;
 
-  typedef GradientDescentObjectOptimizerBaseTestMetric<ImageType,ImageType> MetricType;
+  typedef GradientDescentOptimizerBasev4TestMetric<ImageType,ImageType> MetricType;
 
   MetricType::Pointer metric = MetricType::New();
-  GradientDescentObjectOptimizerBaseTestOptimizer::Pointer optimizer = GradientDescentObjectOptimizerBaseTestOptimizer::New();
+  GradientDescentOptimizerBasev4TestOptimizer::Pointer optimizer = GradientDescentOptimizerBasev4TestOptimizer::New();
 
   /* exercise some methods */
   optimizer->SetMetric( metric );

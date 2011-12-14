@@ -15,20 +15,20 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuasiNewtonObjectOptimizer_h
-#define __itkQuasiNewtonObjectOptimizer_h
+#ifndef __itkQuasiNewtonOptimizerv4_h
+#define __itkQuasiNewtonOptimizerv4_h
 
 #include "itkArray2D.h"
-#include "itkGradientDescentObjectOptimizer.h"
+#include "itkGradientDescentOptimizerv4.h"
 
 #include "vnl/algo/vnl_matrix_inverse.h"
 #include "vnl/algo/vnl_determinant.h"
 
-#include "itkQuasiNewtonObjectOptimizerEstimateNewtonStepThreader.h"
+#include "itkQuasiNewtonOptimizerv4EstimateNewtonStepThreader.h"
 
 namespace itk
 {
-/** \class QuasiNewtonObjectOptimizer
+/** \class QuasiNewtonOptimizerv4
  * \brief Implement a Quasi-Newton optimizer with BFGS Hessian estimation.
  *
  * Second order approximation of the cost function is usually more efficient
@@ -55,23 +55,23 @@ namespace itk
  * When m_ScalesEstimator is not set, the parameter scales and learning rates
  * defaults to ones, or can be set by users manually.
  *
- * \ingroup ITKHighDimensionalOptimizers
+ * \ingroup ITKOptimizersv4
  */
-class ITK_EXPORT QuasiNewtonObjectOptimizer:
-  public GradientDescentObjectOptimizer
+class ITK_EXPORT QuasiNewtonOptimizerv4:
+  public GradientDescentOptimizerv4
 {
 public:
   /** Standard class typedefs. */
-  typedef QuasiNewtonObjectOptimizer        Self;
-  typedef GradientDescentObjectOptimizer    Superclass;
-  typedef SmartPointer< Self >              Pointer;
-  typedef SmartPointer< const Self >        ConstPointer;
+  typedef QuasiNewtonOptimizerv4      Self;
+  typedef GradientDescentOptimizerv4  Superclass;
+  typedef SmartPointer< Self >        Pointer;
+  typedef SmartPointer< const Self >  ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(QuasiNewtonObjectOptimizer, GradientDescentObjectOptimizer);
+  itkTypeMacro(QuasiNewtonOptimizerv4, GradientDescentObjectOptimizer);
 
   typedef Superclass::InternalComputationValueType    InternalComputationValueType;
 
@@ -166,19 +166,19 @@ protected:
    */
   virtual void AdvanceOneStep(void);
 
-  QuasiNewtonObjectOptimizer();
-  virtual ~QuasiNewtonObjectOptimizer();
+  QuasiNewtonOptimizerv4();
+  virtual ~QuasiNewtonOptimizerv4();
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
-  friend class QuasiNewtonObjectOptimizerEstimateNewtonStepThreader;
+  friend class QuasiNewtonOptimizerv4EstimateNewtonStepThreader;
 
 private:
-  QuasiNewtonObjectOptimizer(const Self &);     //purposely not implemented
+  QuasiNewtonOptimizerv4(const Self &);     //purposely not implemented
   void operator=(const Self &);           //purposely not implemented
 
   /** Threader for Newton step estimation. */
-  QuasiNewtonObjectOptimizerEstimateNewtonStepThreader::Pointer m_EstimateNewtonStepThreader;
+  QuasiNewtonOptimizerv4EstimateNewtonStepThreader::Pointer m_EstimateNewtonStepThreader;
 };
 } // end namespace itk
 
