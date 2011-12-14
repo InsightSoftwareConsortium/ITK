@@ -9,8 +9,6 @@ MovingHistogramMorphologyImageFilter
 MorphologyImageFilter
 FFTWForwardFFTImageFilter
 FFTWInverseFFTImageFilter
-ForwardFFTImageFilter
-InverseFFTImageFilter
 FFTWComplexToComplexImageFilter
 BinaryMorphologyImageFilter
 BinaryFunctorImageFilter
@@ -61,3 +59,6 @@ BinaryReconstructionLabelMapFilter
 LabelMapToAttributeImageFilter
 ConvertLabelMapFilter
 HistogramToImageFilter
+ExponentialDeformationFieldImageFilter
+FFTWHalfHermitianToRealInverseFFTImageFilter
+FFTWRealToHalfHermitianForwardFFTImageFilter
