@@ -50,7 +50,7 @@ namespace Statistics
  * (SetBucketSize method) and the input sample (SetSample method). The
  * Update method will run this generator. To get the resulting KdTree
  * object, call the GetOutput method.
-
+ *
  * <b>Recent API changes:</b>
  * The static const macro to get the length of a measurement vector,
  * 'MeasurementVectorSize'  has been removed to allow the length of a measurement
@@ -60,6 +60,10 @@ namespace Statistics
  * \sa KdTree, KdTreeNode, KdTreeNonterminalNode, KdTreeTerminalNode,
  * WeightedCentroidKdTreeGenerator
  * \ingroup ITKStatistics
+ *
+ * \wiki
+ * \wikiexample{Statistics/KdTree,Spatial search}
+ * \endwiki
  */
 
 template< class TSample >

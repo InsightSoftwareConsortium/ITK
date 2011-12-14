@@ -41,6 +41,9 @@ namespace itk
  * \sa UnaryFunctorImageFilter
  * \sa CastImageFilter
  *
+ * \wiki
+ * \wikiexample{ImageProcessing/ClampImageFilter,Cast an image from one type to another but clamp to the output value range}
+ * \endwiki
  */
 namespace Functor {
 

@@ -36,7 +36,6 @@ namespace itk
  * boundary of the LargestPossibleRegion</b>. The image bounds of the
  * output must be specified.
  *
- *
  * \image html WrapPadImageFilter.png "Visual explanation of padding regions."
  *
  * This filter is implemented as a multithreaded filter.  It provides a
@@ -45,6 +44,10 @@ namespace itk
  * \ingroup GeometricTransform
  * \sa MirrorPadImageFilter, ConstantPadImageFilter
  * \ingroup ITKImageGrid
+ *
+ * \wiki
+ * \wikiexample{Images/WrapPadImageFilter,Pad an image by wrapping}
+ * \endwiki
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT WrapPadImageFilter:

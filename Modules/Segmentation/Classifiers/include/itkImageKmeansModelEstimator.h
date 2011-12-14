@@ -121,6 +121,10 @@ namespace itk
  *
  * \ingroup ClassificationFilters
  * \ingroup ITKClassifiers
+ *
+ * \wiki
+ * \wikiexample{Statistics/ImageKmeansModelEstimator,Compute kmeans clusters of pixels in an image}
+ * \endwiki
  */
 template< class TInputImage,
           class TMembershipFunction >

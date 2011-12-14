@@ -34,7 +34,7 @@ namespace itk
  * \ingroup ITKImageFunction
  *
  * \wiki
- * \wikiexample{Images/NeighborhoodOperatorImageFunction,Multiply a kernel with an image at a particular location}
+ * \wikiexample{Functions/NeighborhoodOperatorImageFunction,Multiply a kernel with an image at a particular location}
  * \endwiki
  */
 template< class TInputImage, class TOutput >

@@ -36,8 +36,8 @@ namespace itk
  * \ingroup ITKImageAdaptors
  *
  * \wiki
- * \wikiexample{ImageProcessing/NthElementImageAdaptor,Extract a component of an itkImage with pixels with multiple components}
- * \wikiexample{ImageProcessing/ProcessingNthImageElement,Process the nth component/element of a vector image}
+ * \wikiexample{ImageProcessing/NthElementImageAdaptor,Extract a component/channel of an itkImage with pixels with multiple components}
+ * \wikiexample{ImageProcessing/ProcessingNthImageElement,Process the nth component/element/channel of a vector image}
  * \endwiki
  */
 

@@ -33,6 +33,10 @@ namespace itk
  * use a matrix multiplication using a diagonal matrix.
  *
  * \ingroup ITKTransform
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/ScaleTransform,Scale an image}
+ * \endwiki
  */
 template <
   class TScalarType = float, // Type for cordinate representation type (float or

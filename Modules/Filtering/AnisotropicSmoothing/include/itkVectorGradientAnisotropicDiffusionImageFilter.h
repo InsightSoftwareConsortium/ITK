@@ -54,7 +54,7 @@ namespace itk
  * \ingroup ITKAnisotropicSmoothing
  *
  * \wiki
- * \wikiexample{Smoothing/VectorGradientAnisotropicDiffusionImageFilter,Smooth an image}
+ * \wikiexample{Smoothing/VectorGradientAnisotropicDiffusionImageFilter,Smooth an image while preserving edges}
  * \endwiki
  */
 template< class TInputImage, class TOutputImage >

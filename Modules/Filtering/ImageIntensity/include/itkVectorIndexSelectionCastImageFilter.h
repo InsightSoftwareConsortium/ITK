@@ -75,7 +75,7 @@ private:
  * \ingroup ITKImageIntensity
  *
  * \wiki
- * \wikiexample{VectorImages/VectorIndexSelectionCastImageFilter,Extract a component of an itkVectorImage}
+ * \wikiexample{VectorImages/VectorIndexSelectionCastImageFilter,Extract a component/channel of a vector image}
  * \endwiki
  */
 

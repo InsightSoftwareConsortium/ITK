@@ -38,6 +38,10 @@ namespace itk
  *
  * \ingroup ImageFunctions
  * \ingroup ITKImageFunction
+ *
+ * \wiki
+ * \wikiexample{Functions/MedianImageFunction,Compute the median of an image at a pixels (in a regular neighborhood)}
+ * \endwiki
  */
 template< class TInputImage, class TCoordRep = float >
 class ITK_EXPORT MedianImageFunction:
