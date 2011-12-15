@@ -44,7 +44,7 @@ int itkFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[] )
   char * movingImageFileName = argv[2];
   const char * outputImageFileName = argv[3];
 
-  unsigned long requiredNumberOfOverlappingPixels = 0;
+  itk::SizeValueType requiredNumberOfOverlappingPixels = 0;
   if( argc > 4 )
     {
       requiredNumberOfOverlappingPixels = atoi(argv[4]);
@@ -63,7 +63,7 @@ int itkFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[] )
   filter->SetMovingImage( movingImageReader->GetOutput() );
   // Larger values zero-out pixels on a larger border around the correlation image.
   // Thus, larger values remove less stable computations but also limit the capture range.
-  filter->SetRequiredNumberOfOverlappingVoxels( requiredNumberOfOverlappingPixels );
+  filter->SetRequiredNumberOfOverlappingPixels( requiredNumberOfOverlappingPixels );
 
   // Shift the correlation values so they can be written out as a png.
   // The original range is [-1,1], and the new range is [0,255].

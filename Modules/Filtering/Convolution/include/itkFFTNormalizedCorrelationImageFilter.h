@@ -46,12 +46,12 @@ namespace itk
  * is not restricted to small movingImages (templates).
  *
  * Optional parameters:
- * The RequiredNumberOfOverlappingVoxels enables the user to specify how many voxels
+ * The RequiredNumberOfOverlappingPixels enables the user to specify how many voxels
  * of the two images must overlap; any location in the correlation map that results
  * from fewer than this number of voxels will be set to zero.
  * Larger values zero-out pixels on a larger border around the correlation image.
  * Thus, larger values remove less stable computations but also limit the capture range.
- * If RequiredNumberOfOverlappingVoxels is set to 0, the default, no zeroing will take place.
+ * If RequiredNumberOfOverlappingPixels is set to 0, the default, no zeroing will take place.
  *
  * Image size:
  * fixedImage and movingImage need not be the same size.
@@ -75,7 +75,7 @@ namespace itk
  * FilterType::Pointer filter = FilterType::New();
  * filter->SetFixedImage( fixedImage );
  * filter->SetMovingImage( movingImage );
- * filter->SetRequiredNumberOfOverlappingVoxels(20);
+ * filter->SetRequiredNumberOfOverlappingPixels(20);
  * filter->Update();
  * \endcode
  *
