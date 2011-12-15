@@ -1,6 +1,7 @@
 #include <testlib/testlib_test.h>
 #include <vnl/vnl_sparse_lst_sqr_function.h>
 #include <vcl_iostream.h>
+#include <vcl_limits.h>
 
 
 
@@ -184,19 +185,37 @@ static void test_sparse_lst_sqr_function()
 
    bool weights_valid = true;
    bool weights_applied = true;
+   double epsilon = vcl_numeric_limits<double>::epsilon() * 4.0;
+
    double w_norm = my_func.number_of_a()*my_func.number_of_b();
    for (unsigned int i=0; i<my_func.number_of_a(); ++i) {
      for (unsigned int j=0; j<my_func.number_of_b(); ++j) {
        int k = my_func.residual_indices()(i,j);
        if (k<0)
          continue;
-       weights_valid = weights_valid && (weights[k] == double((i+1)*(j+1))/w_norm);
+       if (vcl_abs(weights[k] - (double((i+1)*(j+1))/w_norm)) > epsilon)
+         weights_valid = false;
+
+       vnl_matrix<double> D;
+       D = wA[k] - A[k]*weights[k];
        weights_applied = weights_applied &&
-                         (wA[k] == A[k]*weights[k]) &&
-                         (wB[k] == B[k]*weights[k]) &&
-                         (wC[k] == C[k]*weights[k]) &&
-                         (wf[2*k] == f[2*k]*weights[k]) &&
-                         (wf[2*k+1] == f[2*k+1]*weights[k]);
+         (D.absolute_value_max()) <= epsilon;
+
+       D = wB[k] - B[k]*weights[k];
+       weights_applied = weights_applied &&
+         (D.absolute_value_max()) <= epsilon;
+
+       D = wC[k] - C[k]*weights[k];
+       weights_applied = weights_applied &&
+         (D.absolute_value_max()) <= epsilon;
+
+       D = wf[2*k] - f[2*k]*weights[k];
+       weights_applied = weights_applied &&
+         (D.absolute_value_max()) <= epsilon;
+
+       D = wf[2*k+1] - f[2*k+1]*weights[k];
+       weights_applied = weights_applied &&
+         (D.absolute_value_max()) <= epsilon;
      }
    }
    TEST("has weights", my_func.has_weights(), true);
