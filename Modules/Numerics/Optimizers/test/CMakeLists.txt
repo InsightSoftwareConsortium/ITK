@@ -15,6 +15,7 @@ itkRegularStepGradientDescentOptimizerTest.cxx
 itkLevenbergMarquardtOptimizerTest.cxx
 itkVersorRigid3DTransformOptimizerTest.cxx
 itkAmoebaOptimizerTest.cxx
+itkOnePlusOneEvolutionaryOptimizerTest.cxx
 itkParticleSwarmOptimizerTest.cxx
 itkInitializationBiasedParticleSwarmOptimizerTest.cxx
 )
@@ -55,3 +56,5 @@ itk_add_test(NAME itkParticleSwarmOptimizerTest
       COMMAND ITKOptimizersTestDriver itkParticleSwarmOptimizerTest)
 itk_add_test(NAME itkInitializationBiasedParticleSwarmOptimizerTest
       COMMAND ITKOptimizersTestDriver itkInitializationBiasedParticleSwarmOptimizerTest)
+itk_add_test(NAME itkOnePlusOneEvolutionaryOptimizerTest
+      COMMAND ITKOptimizersTestDriver itkOnePlusOneEvolutionaryOptimizerTest)
