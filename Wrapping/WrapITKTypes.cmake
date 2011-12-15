@@ -177,15 +177,15 @@ WRAP_TYPE("itk::Image" "I")
   # Make a list of all of the selected image pixel types and also double (for
   # BSplineDeformableTransform), uchar (for 8-bit image output), and ulong
   # (for the watershed and relabel filters).
-  UNIQUE(wrap_image_types "${WRAP_ITK_ALL_TYPES};D;UC;UL;RGBUC;RGBAUC")
+  UNIQUE(wrap_image_types "${WRAP_ITK_ALL_TYPES};D;UC;UL;RGBUC;RGBAUC;VD")
 
   foreach(d ${ITK_WRAP_DIMS})
     foreach(type ${wrap_image_types})
-      if("${WRAP_ITK_VECTOR}" MATCHES "(^|;)${type}(;|$)")
+      if("VF;VD;CVF;CVD" MATCHES "(^|;)${type}(;|$)")
         # if the type is a vector type with no dimension specified, make the
         # vector dimension match the image dimension.
         set(type "${type}${d}")
-      endif("${WRAP_ITK_VECTOR}" MATCHES "(^|;)${type}(;|$)")
+      endif()
 
       ADD_TEMPLATE("${ITKM_${type}}${d}"  "${ITKT_${type}},${d}")
     endforeach(type)
