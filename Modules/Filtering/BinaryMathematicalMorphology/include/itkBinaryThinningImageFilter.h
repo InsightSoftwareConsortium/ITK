@@ -51,6 +51,10 @@ namespace itk
  * \sa MorphologyImageFilter
  * \ingroup ImageEnhancement MathematicalMorphologyImageFilters
  * \ingroup ITKBinaryMathematicalMorphology
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/BinaryThinningImageFilter,Skeletonize/thin an image}
+ * \endwiki
  */
 
 template< class TInputImage, class TOutputImage >

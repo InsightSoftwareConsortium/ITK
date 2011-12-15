@@ -76,6 +76,10 @@ struct GetHistogramDimension {
  *
  * \sa Sample, DenseFrequencyContainer, SparseFrequencyContainer, VariableDimensionHistogram
  * \ingroup ITKStatistics
+ *
+ * \wiki
+ * \wikiexample{Statistics/Histogram,Compute a histogram from measurements.}
+ * \endwiki
  */
 
 template< class TMeasurement = float,

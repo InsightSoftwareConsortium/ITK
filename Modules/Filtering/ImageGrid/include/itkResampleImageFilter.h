@@ -77,6 +77,7 @@ namespace itk
  * \wiki
  * \wikiexample{SimpleOperations/TranslationTransform,Translate an image}
  * \wikiexample{ImageProcessing/Upsampling,Upsampling an image}
+ * \wikiexample{ImageProcessing/ResampleImageFilter,Resample (stretch or compress) an image}
  * \endwiki
  */
 template< class TInputImage,

@@ -30,6 +30,10 @@ namespace itk
  * \class MeanSquaresImageToImageMetric
  * \brief TODO
  * \ingroup ITKRegistrationCommon
+ *
+ * \wiki
+ * \wikiexample{Metrics/MeanSquaresImageToImageMetric,Compute the mean squares metric between two images}
+ * \endwiki
  */
 template< class TFixedImage, class TMovingImage >
 class ITK_EXPORT MeanSquaresImageToImageMetric:
