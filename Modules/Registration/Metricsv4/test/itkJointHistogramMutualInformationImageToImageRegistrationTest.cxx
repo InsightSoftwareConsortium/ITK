@@ -286,7 +286,7 @@ int itkJointHistogramMutualInformationImageToImageRegistrationTest(int argc, cha
   JointPDFStatusType::Pointer jointPDFStatus = JointPDFStatusType::New();
   jointPDFStatus->SetOutputFileNameBase( argv[3] );
   jointPDFStatus->SetMIMetric( metric );
-  optimizer->AddObserver( itk::IterationEvent(), jointPDFStatus );
+  //optimizer->AddObserver( itk::IterationEvent(), jointPDFStatus );
   optimizer->SetMetric( metric );
   optimizer->SetNumberOfIterations( numberOfIterations );
   optimizer->SetScalesEstimator( shiftScaleEstimator );

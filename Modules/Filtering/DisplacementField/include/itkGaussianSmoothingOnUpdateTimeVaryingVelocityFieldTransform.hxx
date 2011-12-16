@@ -20,6 +20,7 @@
 
 #include "itkGaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform.h"
 
+#include "itkImageAlgorithm.h"
 #include "itkImageDuplicator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionIteratorWithIndex.h"
@@ -30,9 +31,6 @@
 namespace itk
 {
 
-/**
- * Constructor
- */
 template<class TScalar, unsigned int NDimensions>
 GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TScalar, NDimensions>
 ::GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform()
@@ -43,9 +41,6 @@ GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TScalar, NDimensions>
   this->m_GaussianTemporalSmoothingVarianceForTheTotalField = 0.0;
 }
 
-/**
- * Destructor
- */
 template<class TScalar, unsigned int NDimensions>
 GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TScalar, NDimensions>::
 ~GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform()
@@ -94,9 +89,7 @@ GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TScalar, NDimensions>
     TimeVaryingVelocityFieldPointer updateSmoothField = this->GaussianSmoothTimeVaryingVelocityField( updateField,
       this->m_GaussianSpatialSmoothingVarianceForTheUpdateField, this->m_GaussianTemporalSmoothingVarianceForTheUpdateField );
 
-    DerivativeValueType *updatePointer = reinterpret_cast<DerivativeValueType *>( updateSmoothField->GetBufferPointer() );
-
-    memcpy( update.data_block(), updatePointer, sizeof( DisplacementVectorType ) * numberOfPixels );
+    ImageAlgorithm::Copy< TimeVaryingVelocityFieldType, TimeVaryingVelocityFieldType >( updateSmoothField, updateField, updateSmoothField->GetBufferedRegion(), updateField->GetBufferedRegion() );
     }
 
   //
@@ -132,7 +125,7 @@ GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TScalar, NDimensions>
     TimeVaryingVelocityFieldPointer totalSmoothField = this->GaussianSmoothTimeVaryingVelocityField( totalField,
       this->m_GaussianSpatialSmoothingVarianceForTheTotalField, this->m_GaussianTemporalSmoothingVarianceForTheTotalField );
 
-    memcpy( velocityField->GetBufferPointer(), totalSmoothField->GetBufferPointer(), sizeof( DisplacementVectorType ) * numberOfPixels );
+    ImageAlgorithm::Copy< TimeVaryingVelocityFieldType, TimeVaryingVelocityFieldType >( totalSmoothField, velocityField, totalSmoothField->GetBufferedRegion(), velocityField->GetBufferedRegion() );
     }
 
   if( smoothTotalField || smoothUpdateField )
@@ -146,7 +139,7 @@ typename GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TScalar, NDi
 GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TScalar, NDimensions>
 ::GaussianSmoothTimeVaryingVelocityField( TimeVaryingVelocityFieldType *field, ScalarType spatialVariance, ScalarType temporalVariance )
 {
-  if( spatialVariance <= 0 && temporalVariance <= 0 )
+  if( spatialVariance <= 0.0 && temporalVariance <= 0.0 )
     {
     return field;
     }
@@ -192,7 +185,7 @@ GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TScalar, NDimensions>
 
   //make sure boundary does not move
 
-  DisplacementVectorType zeroVector( 0.0 );
+  const DisplacementVectorType zeroVector( 0.0 );
 
   ScalarType weight1 = 1.0;
   if( spatialVariance < 0.5 )
@@ -207,16 +200,16 @@ GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TScalar, NDimensions>
   TimeVaryingVelocityFieldSizeType size = field->GetLargestPossibleRegion().GetSize();
   TimeVaryingVelocityFieldIndexType startIndex = field->GetLargestPossibleRegion().GetIndex();
 
-  ImageRegionIteratorWithIndex<TimeVaryingVelocityFieldType> It( field, field->GetLargestPossibleRegion() );
-  ImageRegionConstIteratorWithIndex<TimeVaryingVelocityFieldType> ItS( smoothField, smoothField->GetLargestPossibleRegion() );
-  for( It.GoToBegin(), ItS.GoToBegin(); !It.IsAtEnd(); ++It, ++ItS )
+  ImageRegionIteratorWithIndex<TimeVaryingVelocityFieldType> fieldIt( field, field->GetLargestPossibleRegion() );
+  ImageRegionConstIteratorWithIndex<TimeVaryingVelocityFieldType> smoothedFieldIt( smoothField, smoothField->GetLargestPossibleRegion() );
+  for( fieldIt.GoToBegin(), smoothedFieldIt.GoToBegin(); !fieldIt.IsAtEnd(); ++fieldIt, ++smoothedFieldIt )
     {
-    TimeVaryingVelocityFieldIndexType index = It.GetIndex();
+    TimeVaryingVelocityFieldIndexType index = fieldIt.GetIndex();
 
     bool isOnBoundary = false;
-    for( SizeValueType d = 0; d < NDimensions; d++ )
+    for( unsigned int d = 0; d < NDimensions; d++ )
       {
-      if( index[d] == startIndex[d] || index[d] == static_cast<IndexValueType>( size[d] ) - startIndex[d] )
+      if( index[d] == startIndex[d] || index[d] == static_cast<IndexValueType>( size[d] ) - startIndex[d] - 1 )
         {
         isOnBoundary = true;
         break;
@@ -224,11 +217,11 @@ GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TScalar, NDimensions>
       }
     if( isOnBoundary )
       {
-      It.Set( zeroVector );
+      fieldIt.Set( zeroVector );
       }
     else
       {
-      It.Set( ItS.Get() * weight1 + It.Get() * weight2 );
+      fieldIt.Set( smoothedFieldIt.Get() * weight1 + fieldIt.Get() * weight2 );
       }
     }
 

@@ -22,6 +22,7 @@
 
 #include "itkAddImageFilter.h"
 #include "itkGaussianOperator.h"
+#include "itkImageAlgorithm.h"
 #include "itkImageDuplicator.h"
 #include "itkImageLinearIteratorWithIndex.h"
 #include "itkImportImageFilter.h"
@@ -31,21 +32,14 @@
 namespace itk
 {
 
-/**
- * Constructor
- */
 template<class TScalar, unsigned int NDimensions>
 GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
 ::GaussianSmoothingOnUpdateDisplacementFieldTransform()
 {
   this->m_GaussianSmoothingVarianceForTheUpdateField = 3.0;
   this->m_GaussianSmoothingVarianceForTheTotalField = 0.5;
-  this->m_GaussianSmoothingTempFieldModifiedTime = 0;
 }
 
-/**
- * Destructor
- */
 template<class TScalar, unsigned int NDimensions>
 GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>::
 ~GaussianSmoothingOnUpdateDisplacementFieldTransform()
@@ -91,11 +85,9 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
     updateField->Update();
     updateField->DisconnectPipeline();
 
-    DisplacementFieldPointer updateSmoothField = this->GaussianSmoothDisplacementField( updateField, this->m_GaussianSmoothingVarianceForTheUpdateField );
+    DisplacementFieldPointer smoothedField = this->GaussianSmoothDisplacementField( updateField, this->m_GaussianSmoothingVarianceForTheUpdateField );
 
-    DerivativeValueType *updatePointer = reinterpret_cast<DerivativeValueType *>( updateSmoothField->GetBufferPointer() );
-
-    memcpy( update.data_block(), updatePointer, sizeof( DisplacementVectorType ) * numberOfPixels );
+    ImageAlgorithm::Copy< DisplacementFieldType, DisplacementFieldType >( smoothedField, updateField, smoothedField->GetBufferedRegion(), updateField->GetBufferedRegion() );
     }
 
   //
@@ -130,7 +122,7 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
 
     DisplacementFieldPointer totalSmoothField = this->GaussianSmoothDisplacementField( totalField, this->m_GaussianSmoothingVarianceForTheTotalField );
 
-    memcpy( displacementField->GetBufferPointer(), totalSmoothField->GetBufferPointer(), sizeof( DisplacementVectorType ) * numberOfPixels );
+    ImageAlgorithm::Copy< DisplacementFieldType, DisplacementFieldType >( totalSmoothField, totalField, totalSmoothField->GetBufferedRegion(), totalField->GetBufferedRegion() );
     }
 }
 
@@ -139,65 +131,35 @@ typename GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimension
 GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
 ::GaussianSmoothDisplacementField( DisplacementFieldType *field, ScalarType variance )
 {
-  if( variance <= 0 )
+  if( variance <= 0.0 )
     {
     return field;
     }
 
-  /* Allocate temp field if new displacement field has been set.
-   * We only want to allocate this field if this method is used */
-  if( this->GetDisplacementFieldSetTime() >
-      this->m_GaussianSmoothingTempFieldModifiedTime ||  m_GaussianSmoothingTempField.IsNull()  )
-    {
-    this->m_GaussianSmoothingTempFieldModifiedTime = this->GetMTime();
-    m_GaussianSmoothingTempField = DisplacementFieldType::New();
-    m_GaussianSmoothingTempField->SetSpacing( field->GetSpacing() );
-    m_GaussianSmoothingTempField->SetOrigin( field->GetOrigin() );
-    m_GaussianSmoothingTempField->SetDirection( field->GetDirection() );
-    m_GaussianSmoothingTempField->SetLargestPossibleRegion(
-                                          field->GetLargestPossibleRegion() );
-    m_GaussianSmoothingTempField->SetRequestedRegion(
-                                                field->GetRequestedRegion() );
-    m_GaussianSmoothingTempField->SetBufferedRegion(
-                                                field->GetBufferedRegion() );
-    m_GaussianSmoothingTempField->Allocate();
+  typedef ImageDuplicator< DisplacementFieldType > DuplicatorType;
+  typename DuplicatorType::Pointer duplicator = DuplicatorType::New();
+  duplicator->SetInputImage( field );
+  duplicator->Update();
 
-    //This should only be allocated once as well, for efficiency.
-    m_GaussianSmoothingSmoother = GaussianSmoothingSmootherType::New();
-    }
+  DisplacementFieldPointer smoothField = duplicator->GetOutput();
 
-  if( m_GaussianSmoothingTempField.IsNull() )
-    {
-    itkExceptionMacro("Expected m_GaussianSmoothingTempField to be allocated.");
-    }
+  typename GaussianSmoothingSmootherType::Pointer smoother = GaussianSmoothingSmootherType::New();
 
-  typedef typename DisplacementFieldType::PixelType   VectorType;
-
-  typedef typename DisplacementFieldType::PixelContainerPointer
-                                                        PixelContainerPointer;
-  // I think we need to keep this as SmartPointer type, to preserve the
-  // reference counting so we can assign the swapPtr to the main field and
-  // not have to do a memory copy - this happens when image dimensions are odd.
-  PixelContainerPointer swapPtr;
-
-  // graft the output field onto the mini-pipeline
-  m_GaussianSmoothingSmoother->GraftOutput( m_GaussianSmoothingTempField );
-
-  for( unsigned int j = 0; j < Superclass::Dimension; j++ )
+  for( unsigned int dimension = 0; dimension < Superclass::Dimension; ++dimension )
     {
     // smooth along this dimension
-    m_GaussianSmoothingOperator.SetDirection( j );
+    m_GaussianSmoothingOperator.SetDirection( dimension );
     m_GaussianSmoothingOperator.SetVariance( variance );
-    m_GaussianSmoothingOperator.SetMaximumError(0.001 );
-    m_GaussianSmoothingOperator.SetMaximumKernelWidth( 256 );
+    m_GaussianSmoothingOperator.SetMaximumError( 0.001 );
+    m_GaussianSmoothingOperator.SetMaximumKernelWidth( smoothField->GetRequestedRegion().GetSize()[dimension] );
     m_GaussianSmoothingOperator.CreateDirectional();
 
     // todo: make sure we only smooth within the buffered region
-    m_GaussianSmoothingSmoother->SetOperator( m_GaussianSmoothingOperator );
-    m_GaussianSmoothingSmoother->SetInput( field );
+    smoother->SetOperator( m_GaussianSmoothingOperator );
+    smoother->SetInput( smoothField );
     try
       {
-      m_GaussianSmoothingSmoother->Update();
+      smoother->Update();
       }
     catch( ExceptionObject & exc )
       {
@@ -206,68 +168,49 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
       itkExceptionMacro( << msg );
       }
 
-    if( j < Superclass::Dimension - 1 )
-      {
-      // swap the containers
-      swapPtr = m_GaussianSmoothingSmoother->GetOutput()->GetPixelContainer();
-      m_GaussianSmoothingSmoother->GraftOutput( field );
-      // SetPixelContainer does a smartpointer assignment, so the pixel
-      // container won't be deleted if field  points to the
-      // temporary field upon exiting this method.
-      field->SetPixelContainer( swapPtr );
-      m_GaussianSmoothingSmoother->Modified();
-      }
+    smoothField = smoother->GetOutput();
+    smoothField->Update();
+    smoothField->DisconnectPipeline();
     }
 
-  if( Superclass::Dimension % 2 == 0 )
-    {
-    // For even number of dimensions, the final pass writes the output
-    // into field's original pixel container, so we just point back to that.
-    // And point the temporary field back to its original container for next
-    // time through.
-    m_GaussianSmoothingTempField->SetPixelContainer(
-                                                  field->GetPixelContainer() );
-    field->SetPixelContainer(
-               m_GaussianSmoothingSmoother->GetOutput()->GetPixelContainer() );
-    }
+  const DisplacementVectorType zeroVector( 0.0 );
 
   //make sure boundary does not move
-  ScalarType weight = 1.0;
+  ScalarType weight1 = 1.0;
   if (variance < 0.5)
     {
-    weight=1.0 - 1.0 * ( variance / 0.5);
+    weight1 = 1.0 - 1.0 * ( variance / 0.5);
     }
-  ScalarType weight2 = 1.0 - weight;
-  typedef ImageRegionIteratorWithIndex<DisplacementFieldType> Iterator;
-  typename DisplacementFieldType::SizeType size =
-                                field->GetLargestPossibleRegion().GetSize();
-  Iterator outIter( field, field->GetLargestPossibleRegion() );
-  for( outIter.GoToBegin(); !outIter.IsAtEnd(); ++outIter )
+  ScalarType weight2 = 1.0 - weight1;
+
+  const typename DisplacementFieldType::RegionType region = field->GetLargestPossibleRegion();
+  const typename DisplacementFieldType::SizeType size = region.GetSize();
+  const typename DisplacementFieldType::IndexType startIndex = region.GetIndex();
+
+  ImageRegionIteratorWithIndex< DisplacementFieldType > fieldIt( field, field->GetLargestPossibleRegion() );
+  ImageRegionConstIteratorWithIndex< DisplacementFieldType > smoothedFieldIt( smoothField, smoothField->GetLargestPossibleRegion() );
+  for( fieldIt.GoToBegin(), smoothedFieldIt.GoToBegin(); !fieldIt.IsAtEnd(); ++fieldIt, ++smoothedFieldIt )
   {
-    bool onboundary=false;
-    typename DisplacementFieldType::IndexType index= outIter.GetIndex();
-    for (int i=0; i < Superclass::Dimension; i++)
+    typename DisplacementFieldType::IndexType index = fieldIt.GetIndex();
+    bool isOnBoundary = false;
+    for ( unsigned int dimension = 0; dimension < Superclass::Dimension; ++dimension )
       {
-      if (index[i] < 1 || index[i] >= static_cast<int>( size[i] )-1 )
+      if( index[dimension] == startIndex[dimension] || index[dimension] == static_cast<IndexValueType>( size[dimension] ) - startIndex[dimension] - 1 )
         {
-        onboundary=true;
+        isOnBoundary = true;
+        break;
         }
       }
-    if( onboundary )
+    if( isOnBoundary )
       {
-      VectorType vec;
-      vec.Fill(0.0);
-      outIter.Set(vec);
+      fieldIt.Set( zeroVector );
       }
     else
       {
-      VectorType
-          svec = m_GaussianSmoothingSmoother->GetOutput()->GetPixel( index );
-      outIter.Set( svec * weight + outIter.Get() * weight2);
+      fieldIt.Set( smoothedFieldIt.Get() * weight1 + fieldIt.Get() * weight2 );
       }
   }
 
-  itkDebugMacro("done gauss smooth ");
   return field;
 }
 
