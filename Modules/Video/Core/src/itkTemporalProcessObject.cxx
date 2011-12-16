@@ -18,6 +18,7 @@
 #ifndef __itkTemporalProcessObject_cxx
 #define __itkTemporalProcessObject_cxx
 
+#include "itkMath.h"
 #include "itkTemporalProcessObject.h"
 #include "itkTemporalDataObject.h"
 
@@ -213,8 +214,8 @@ TemporalProcessObject::GenerateInputRequestedTemporalRegion()
   // This should always be a whole number because of EnlargeOutputRequestedTemporalRegion
   // but do it safely in case the subclass overrides it
   SizeValueType numInputRequests =
-    (SizeValueType)ceil((double)outReqTempRegion.GetFrameDuration() /
-                        (double)m_UnitOutputNumberOfFrames);
+    Math::Ceil<SizeValueType>((double)outReqTempRegion.GetFrameDuration() /
+                              (double)m_UnitOutputNumberOfFrames);
 
   // The number of input requests indicates the number of times the process
   // will have to request a temporal region of size m_UnitInputNumberOfFrames.
@@ -290,10 +291,10 @@ TemporalProcessObject::UpdateOutputInformation()
   OffsetValueType scannableDuration = inputLargestRegion.GetFrameDuration() -
                             m_UnitInputNumberOfFrames + 1;
   SizeValueType  outputDuration = m_UnitOutputNumberOfFrames *
-    ((double)(scannableDuration - 1) / (double)(m_FrameSkipPerOutput) + 1);
+    Math::Round<SizeValueType>((double)(scannableDuration - 1) / (double)(m_FrameSkipPerOutput) + 1);
 
   // Compute the start of the output region
-  OffsetValueType outputStart = ceil((double)inputLargestRegion.GetFrameStart() / (double)m_FrameSkipPerOutput)
+  OffsetValueType outputStart = Math::Ceil<OffsetValueType>((double)inputLargestRegion.GetFrameStart() / (double)m_FrameSkipPerOutput)
                       + m_InputStencilCurrentFrameIndex;
 
   // Set up output largest possible region
@@ -528,9 +529,9 @@ TemporalProcessObject::SplitRequestedTemporalRegion()
   TemporalRegion unbufferedRegion = outputObject->GetUnbufferedRequestedTemporalRegion();
 
   // Calculate the number of input requests that will be needed
-  SizeValueType numRequests = (SizeValueType)(ceil(
-                                              (double)(unbufferedRegion.GetFrameDuration() /
-                                              (double)(m_UnitOutputNumberOfFrames)) ));
+  SizeValueType numRequests = Math::Ceil<SizeValueType>(
+    (double)(unbufferedRegion.GetFrameDuration() /(double)(m_UnitOutputNumberOfFrames))
+    );
 
   // Set up the requested input temporal region set (TODO: NOT PROPERLY HANDLING REAL TIME!!!!!!!!)
   std::vector<TemporalRegion> inputTemporalRegionRequests;
