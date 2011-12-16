@@ -31,10 +31,16 @@
  * itkSmartPointerForwardReference.h does not include
  * itkSmartPointerForwardReference.hxx
  *
- * Perhaps itkSmartPointerForwardReference.hxx should
- * just be it's own cxx file?
+ * Ensure that the implicitly instantiated methods and operators are
+ * exported for the linker.
  */
+#if __GNUC__ >= 4
+#pragma GCC visibility push(default)
+#endif
 #include "itkSmartPointerForwardReference.hxx"
+#if __GNUC__ >= 4
+#pragma GCC visibility pop
+#endif
 
 // Manual instantiation is necessary to prevent link errors
 template class ITK_ABI_EXPORT itk::SmartPointerForwardReference< itk::ProcessObject >;
