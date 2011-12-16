@@ -24,6 +24,9 @@
 #include "itkBSplineDerivativeKernelFunction.h"
 #include "itkArray2D.h"
 
+#include "itkSimpleFastMutexLock.h"
+
+
 namespace itk
 {
 /** \class MattesMutualInformationImageToImageMetric
@@ -193,7 +196,7 @@ public:
    * each one of the Joint PDF bins with respect to each one of the Transform
    * parameters and then accumulating these contributions in the final metric
    * derivative array by using a bin-specific weight.  The memory required for
-   * storing the intermediate derivatives is a 3D array of doubles with size
+   * storing the intermediate derivatives is a 3D array of floating point values with size
    * equals to the product of (number of histogram bins)^2 times number of
    * transform parameters. This method is well suited for Transform with a small
    * number of parameters.
@@ -203,7 +206,7 @@ public:
    * them into an array. Then it will revisit each one of the PDF bins for
    * computing its weighted contribution to the full derivative array. In this
    * method an extra 2D array is used for storing the weights of each one of
-   * the PDF bins. This is an array of doubles with size equals to (number of
+   * the PDF bins. This is an array of floating point values with size equals to (number of
    * histogram bins)^2. This method is well suited for Transforms with a large
    * number of parameters, such as, BSplineTransforms. */
   itkSetMacro(UseExplicitPDFDerivatives, bool);
@@ -211,7 +214,7 @@ public:
   itkBooleanMacro(UseExplicitPDFDerivatives);
 
   /** The marginal PDFs are stored as std::vector. */
-  typedef float PDFValueType;
+  typedef double PDFValueType; //NOTE:  floating point precision is not as stable.  Double precision proves faster and more robust in real-world testing.
 
   /** Typedef for the joint PDF and PDF derivatives are stored as ITK Images. */
   typedef Image<PDFValueType, 2> JointPDFType;
@@ -267,8 +270,8 @@ private:
   typedef JointPDFDerivativesType::SizeType   JointPDFDerivativesSizeType;
 
   /** Typedefs for BSpline kernel and derivative functions. */
-  typedef BSplineKernelFunction<3>           CubicBSplineFunctionType;
-  typedef BSplineDerivativeKernelFunction<3> CubicBSplineDerivativeFunctionType;
+  typedef BSplineKernelFunction<3,PDFValueType>           CubicBSplineFunctionType;
+  typedef BSplineDerivativeKernelFunction<3,PDFValueType> CubicBSplineDerivativeFunctionType;
 
   /** Precompute fixed image parzen window indices. */
   void ComputeFixedImageParzenWindowIndices( FixedImageSampleContainer & samples);
@@ -277,41 +280,40 @@ private:
   void ComputePDFDerivatives(ThreadIdType threadID, unsigned int sampleNumber, int movingImageParzenWindowIndex,
                                      const ImageDerivativesType
                                      &  movingImageGradientValue,
-                                     double cubicBSplineDerivativeValue) const;
+                                     PDFValueType cubicBSplineDerivativeValue) const;
 
-  void GetValueThreadPreProcess(ThreadIdType threadID, bool withinSampleThread) const;
-
-  bool GetValueThreadProcessSample(ThreadIdType threadID, SizeValueType fixedImageSample,
+  virtual void GetValueThreadPreProcess(ThreadIdType threadID, bool withinSampleThread) const;
+  virtual void GetValueThreadPostProcess(ThreadIdType threadID, bool withinSampleThread) const;
+  //NOTE:  The signature in base class requires that movingImageValue is of type double
+  virtual bool GetValueThreadProcessSample(ThreadIdType threadID, SizeValueType fixedImageSample,
                                                   const MovingImagePointType & mappedPoint,
                                                   double movingImageValue) const;
 
-  void GetValueThreadPostProcess(ThreadIdType threadID, bool withinSampleThread) const;
-
-  void GetValueAndDerivativeThreadPreProcess( ThreadIdType threadID, bool withinSampleThread) const;
-
-  bool GetValueAndDerivativeThreadProcessSample(ThreadIdType threadID, SizeValueType fixedImageSample,
+  virtual void GetValueAndDerivativeThreadPreProcess( ThreadIdType threadID, bool withinSampleThread) const;
+  virtual void GetValueAndDerivativeThreadPostProcess( ThreadIdType threadID, bool withinSampleThread) const;
+  //NOTE:  The signature in base class requires that movingImageValue is of type double
+  virtual bool GetValueAndDerivativeThreadProcessSample(ThreadIdType threadID, SizeValueType fixedImageSample,
                                                                const MovingImagePointType & mappedPoint,
-                                                               double movingImageValue, const ImageDerivativesType & movingImageGradientValue) const;
-
-  void GetValueAndDerivativeThreadPostProcess( ThreadIdType threadID, bool withinSampleThread) const;
+                                                               double movingImageValue, const ImageDerivativesType &
+                                                               movingImageGradientValue) const;
 
   /** Variables to define the marginal and joint histograms. */
   SizeValueType m_NumberOfHistogramBins;
-  double        m_MovingImageNormalizedMin;
-  double        m_FixedImageNormalizedMin;
-  double        m_FixedImageTrueMin;
-  double        m_FixedImageTrueMax;
-  double        m_MovingImageTrueMin;
-  double        m_MovingImageTrueMax;
-  double        m_FixedImageBinSize;
-  double        m_MovingImageBinSize;
+  PDFValueType  m_MovingImageNormalizedMin;
+  PDFValueType  m_FixedImageNormalizedMin;
+  PDFValueType  m_FixedImageTrueMin;
+  PDFValueType  m_FixedImageTrueMax;
+  PDFValueType  m_MovingImageTrueMin;
+  PDFValueType  m_MovingImageTrueMax;
+  PDFValueType  m_FixedImageBinSize;
+  PDFValueType  m_MovingImageBinSize;
 
   /** Cubic BSpline kernel for computing Parzen histograms. */
   typename CubicBSplineFunctionType::Pointer           m_CubicBSplineKernel;
   typename CubicBSplineDerivativeFunctionType::Pointer m_CubicBSplineDerivativeKernel;
 
   /** Helper array for storing the values of the JointPDF ratios. */
-  typedef double              PRatioType;
+  typedef PDFValueType        PRatioType;
   typedef Array2D<PRatioType> PRatioArrayType;
 
   mutable PRatioArrayType m_PRatioArray;
@@ -330,7 +332,7 @@ private:
   std::vector<int> m_ThreaderJointPDFStartBin;
   std::vector<int> m_ThreaderJointPDFEndBin;
 
-  mutable std::vector<double> m_ThreaderJointPDFSum;
+  mutable std::vector<PDFValueType> m_ThreaderJointPDFSum;
 
   bool         m_UseExplicitPDFDerivatives;
   mutable bool m_ImplicitDerivativesSecondPass;
