@@ -48,7 +48,7 @@ template<class TFixedImage, class TMovingImage, class TVirtualImage>
 void
 ANTSNeighborhoodCorrelationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
 ::InitializeScanning( const ImageRegionType &scanRegion, ScanIteratorType &scanIt,
-                      ScanMemType &, ScanParametersType &scanParameters ) const
+                      ScanMemType & scanMem, ScanParametersType &scanParameters ) const
 {
   scanParameters.scanRegion   = scanRegion;
   scanParameters.fixedImage   = this->m_FixedImage;
@@ -58,13 +58,27 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4<TFixedImage, TMovingImage, TVirt
 
   OffsetValueType numberOfFillZero = scanParameters.virtualImage->GetBufferedRegion().GetIndex(0)
       - (scanRegion.GetIndex(0) - scanParameters.radius[0]);
+
   if (numberOfFillZero < NumericTraits<OffsetValueType>::ZeroValue())
+    {
     numberOfFillZero = NumericTraits<OffsetValueType>::ZeroValue();
+    }
+
   scanParameters.numberOfFillZero = numberOfFillZero;
 
   scanIt = ScanIteratorType(scanParameters.radius, scanParameters.fixedImage, scanRegion);
   scanParameters.windowLength = scanIt.Size();
   scanParameters.scanRegionBeginIndexDim0 = scanIt.GetBeginIndex()[0];
+
+  scanMem.fixedA = NumericTraits< QueueRealType >::Zero;
+  scanMem.movingA = NumericTraits< QueueRealType >::Zero;
+  scanMem.sFixedMoving = NumericTraits< QueueRealType >::Zero;
+  scanMem.sFixedFixed = NumericTraits< QueueRealType >::Zero;
+  scanMem.sMovingMoving = NumericTraits< QueueRealType >::Zero;
+
+  scanMem.fixedImageGradient.Fill(0.0);
+  scanMem.movingImageGradient.Fill(0.0);
+  scanMem.mappedMovingPoint.Fill(0.0);
 }
 
 
