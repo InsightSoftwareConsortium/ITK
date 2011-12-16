@@ -21,6 +21,7 @@
 #include "itkKittlerIllingworthThresholdCalculator.h"
 #include "itkProgressReporter.h"
 #include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -32,9 +33,9 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>
 {
   const HistogramType * data = this->GetInput();
   double tot=0, sum=0;
+  tot = data->GetTotalFrequency();
   for (unsigned i=0; i<data->GetSize(0); i++)
     {
-    tot += data->GetFrequency(i,0);
     sum += (data->GetMeasurement(i,0)*data->GetFrequency(i,0));
     }
   double mean = sum/tot;
@@ -104,7 +105,7 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>
 
   unsigned int size = histogram->GetSize(0);
 
-  int threshold = Mean();
+  int threshold = Mean(); // threshold is a histogram index
   int Tprev =-2;
   double mu, nu, p, q, sigma2, tau2, w0, w1, w2, sqterm, temp;
   //int counter=1;
@@ -117,6 +118,7 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>
     double As1 = A(size - 1);
     double Bs1 = B(size - 1);
     double Cs1 = C(size - 1);
+
     mu = Bt/At;
     nu = (Bs1-Bt)/(As1-At);
     p = At/As1;
@@ -149,7 +151,9 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>
       }
     else
       {
-      threshold =(int) vcl_floor(temp);
+      typename HistogramType::MeasurementVectorType v(1);
+      v[0] = temp;
+      threshold = Math::Floor<int>((double)histogram->GetIndex(v)[0]);
       }
   }
   this->GetOutput()->Set( static_cast<OutputType>( histogram->GetMeasurement( threshold, 0 ) ) );

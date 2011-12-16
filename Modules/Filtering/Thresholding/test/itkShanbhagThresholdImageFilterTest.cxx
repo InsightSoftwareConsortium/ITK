@@ -33,7 +33,7 @@ int itkShanbhagThresholdImageFilterTest(int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef  unsigned char  InputPixelType;
+  typedef  short          InputPixelType;
   typedef  unsigned char  OutputPixelType;
 
   typedef itk::Image< InputPixelType,  2 >   InputImageType;
