@@ -262,7 +262,8 @@ OnePlusOneEvolutionaryOptimizer
       m_StopConditionDescription << "Fnorm (" << m_FrobeniusNorm
                                  << ") is less than Epsilon (" << m_Epsilon
                                  << " at iteration #" << iter;
-      break;
+      this->InvokeEvent( EndEvent() );
+      return;
       }
 
     // A += (adjust - 1)/ (f_norm * f_norm) * A * f_norm * f_norm;
