@@ -84,8 +84,8 @@
 # by options using the syntax DATA{<name>,<opt1>,<opt2>,...}.  Each option may
 # specify one file by name or specify a regular expression to match file names
 # using the syntax REGEX:<regex>.  For example, the arguments
-#   DATA{MyData/MyInput.mhd,MyInput.img}             # File pair
-#   DATA{MyData/MyFrames00.png,MyFrames[0-9]+\\.png} # Series
+#   DATA{MyData/MyInput.mhd,MyInput.img}                   # File pair
+#   DATA{MyData/MyFrames00.png,REGEX:MyFrames[0-9]+\\.png} # Series
 # will pass MyInput.mha and MyFrames00.png on the command line but ensure
 # that the associated files are present next to them.
 #
