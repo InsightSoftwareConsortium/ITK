@@ -24,6 +24,7 @@
 import org.itk.itkcommon.*;
 import org.itk.itkioimagebase.*;
 import org.itk.itkmathematicalmorphology.*;
+import org.itk.itkbinarymathematicalmorphology.*;
 
 public class BinaryErodeImageFilter
 {

@@ -167,7 +167,7 @@ foreach(d ${ITK_WRAP_DIMS})
       MeanImageFilter.png DATA{${WrapITK_SOURCE_DIR}/images/MeanImageFilter.png}
     )
 
-    build_java_test(BinaryDilateImageFilter class_path ITKIOImageBase ITKImageFilterBase ITKMathematicalMorphology)
+    build_java_test(BinaryDilateImageFilter class_path ITKIOImageBase ITKImageFilterBase ITKBinaryMathematicalMorphology)
     add_java_test(JavaBinaryDilateImageFilter
       ${class_path}
       BinaryDilateImageFilter
@@ -176,7 +176,7 @@ foreach(d ${ITK_WRAP_DIMS})
       --compare BinaryDilateImageFilter.png DATA{${WrapITK_SOURCE_DIR}/images/BinaryDilateImageFilter.png}
     )
 
-    build_java_test(BinaryErodeImageFilter class_path ITKIOImageBase ITKImageFilterBase ITKMathematicalMorphology)
+    build_java_test(BinaryErodeImageFilter class_path ITKIOImageBase ITKImageFilterBase ITKBinaryMathematicalMorphology)
     add_java_test(JavaBinaryErodeImageFilter
       ${class_path}
       BinaryErodeImageFilter
