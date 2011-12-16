@@ -60,12 +60,12 @@ namespace itk
  * movingMask can either not be set or can be set to an image of ones.
  *
  * Optional parameters:
- * The RequiredNumberOfOverlappingVoxels enables the user to specify how many voxels
+ * The RequiredNumberOfOverlappingPixels enables the user to specify how many voxels
  * of the two images must overlap; any location in the correlation map that results
  * from fewer than this number of voxels will be set to zero.
  * Larger values zero-out pixels on a larger border around the correlation image.
  * Thus, larger values remove less stable computations but also limit the capture range.
- * If RequiredNumberOfOverlappingVoxels is set to 0, the default, no zeroing will take place.
+ * If RequiredNumberOfOverlappingPixels is set to 0, the default, no zeroing will take place.
  *
  * Image size:
  * fixedImage and movingImage need not be the same size, but fixedMask
@@ -93,7 +93,7 @@ namespace itk
  * filter->SetMovingImage( movingImage );
  * filter->SetFixedImageMask( fixedMask );
  * filter->SetMovingImageMask( movingMask );
- * filter->SetRequiredNumberOfOverlappingVoxels(20);
+ * filter->SetRequiredNumberOfOverlappingPixels(20);
  * filter->Update();
  * \endcode
  *
@@ -195,8 +195,8 @@ public:
     }
 
   /** Set and get the required percentage of overlapping pixels */
-  itkSetMacro(RequiredNumberOfOverlappingVoxels,unsigned long);
-  itkGetMacro(RequiredNumberOfOverlappingVoxels,unsigned long);
+  itkSetMacro(RequiredNumberOfOverlappingPixels,SizeValueType);
+  itkGetMacro(RequiredNumberOfOverlappingPixels,SizeValueType);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -209,7 +209,7 @@ protected:
   MaskedFFTNormalizedCorrelationImageFilter()
   {
     this->SetNumberOfRequiredInputs(2);
-    m_RequiredNumberOfOverlappingVoxels = 0;
+    m_RequiredNumberOfOverlappingPixels = 0;
   }
   virtual ~MaskedFFTNormalizedCorrelationImageFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
@@ -282,7 +282,7 @@ private:
   /** Larger values zero-out pixels on a larger border around the correlation image.
    * Thus, larger values remove less stable computations but also limit the capture range.
    * The default is set to 0. */
-  unsigned long m_RequiredNumberOfOverlappingVoxels;
+  SizeValueType m_RequiredNumberOfOverlappingPixels;
 };
 } // end namespace itk
 

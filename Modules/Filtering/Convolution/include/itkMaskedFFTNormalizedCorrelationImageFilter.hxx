@@ -57,13 +57,13 @@ class PostProcessCorrelation
 public:
   PostProcessCorrelation()
   {
-    m_RequiredNumberOfOverlappingVoxels = 0;
+    m_RequiredNumberOfOverlappingPixels = 0;
   }
   ~PostProcessCorrelation() {}
 
-  void SetRequiredNumberOfOverlappingVoxels( unsigned long value )
+  void SetRequiredNumberOfOverlappingPixels( SizeValueType value )
   {
-    m_RequiredNumberOfOverlappingVoxels = value;
+    m_RequiredNumberOfOverlappingPixels = value;
   }
 
   void SetPrecisionTolerance( double value )
@@ -81,10 +81,10 @@ public:
     return !( *this != other );
   }
 
-  inline TImage operator()( const TImage & NCC, const TImage & denominator, const TImage & numberOfOverlapVoxels ) const
+  inline TImage operator()( const TImage & NCC, const TImage & denominator, const TImage & numberOfOverlapPixels ) const
   {
     TImage outputValue;
-    if( denominator < m_PrecisionTolerance || numberOfOverlapVoxels == 0.0 || numberOfOverlapVoxels < m_RequiredNumberOfOverlappingVoxels )
+    if( denominator < m_PrecisionTolerance || numberOfOverlapPixels == 0.0 || numberOfOverlapPixels < m_RequiredNumberOfOverlappingPixels )
     {
       outputValue = 0.0;
     }
@@ -104,7 +104,7 @@ public:
   }
 
 private:
-  unsigned long m_RequiredNumberOfOverlappingVoxels;
+  SizeValueType m_RequiredNumberOfOverlappingPixels;
   double        m_PrecisionTolerance;
 };
 }
@@ -154,11 +154,11 @@ void MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage>
 
   // Only 6 IFFTs are needed.
   // Compute and save some of these rather than computing them multiple times.
-  // The numberOfOverlapVoxels image tells how many voxels are overlapping at each location of the correlation image.
-  RealImagePointer numberOfOverlapVoxels = this->CalculateInverseFFT<FFTImageType,RealImageType>(this->ElementProduct<FFTImageType,FFTImageType>(fixedMaskFFT,rotatedMovingMaskFFT),combinedImageSize);
+  // The numberOfOverlapPixels image tells how many voxels are overlapping at each location of the correlation image.
+  RealImagePointer numberOfOverlapPixels = this->CalculateInverseFFT<FFTImageType,RealImageType>(this->ElementProduct<FFTImageType,FFTImageType>(fixedMaskFFT,rotatedMovingMaskFFT),combinedImageSize);
   // Ensure that the result is positive.
-  numberOfOverlapVoxels = this->ElementRound<RealImageType,RealImageType>(numberOfOverlapVoxels);
-  numberOfOverlapVoxels = this->ElementPositive<RealImageType>(numberOfOverlapVoxels);
+  numberOfOverlapPixels = this->ElementRound<RealImageType,RealImageType>(numberOfOverlapPixels);
+  numberOfOverlapPixels = this->ElementPositive<RealImageType>(numberOfOverlapPixels);
 
   // Calculate the numerator of the masked FFT NCC equation.
   RealImagePointer fixedCumulativeSumImage = this->CalculateInverseFFT<FFTImageType,RealImageType>(this->ElementProduct<FFTImageType,FFTImageType>(fixedFFT,rotatedMovingMaskFFT),combinedImageSize);
@@ -166,7 +166,7 @@ void MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage>
       this->ElementProduct<FFTImageType,FFTImageType>(fixedMaskFFT,rotatedMovingFFT),combinedImageSize);
   RealImagePointer numerator = this->ElementSubtraction<RealImageType>(
       this->CalculateInverseFFT<FFTImageType,RealImageType>(this->ElementProduct<FFTImageType,FFTImageType>(fixedFFT,rotatedMovingFFT),combinedImageSize),
-      this->ElementQuotient<RealImageType>(this->ElementProduct<RealImageType,RealImageType>(fixedCumulativeSumImage,rotatedMovingCumulativeSumImage),numberOfOverlapVoxels));
+      this->ElementQuotient<RealImageType>(this->ElementProduct<RealImageType,RealImageType>(fixedCumulativeSumImage,rotatedMovingCumulativeSumImage),numberOfOverlapPixels));
   fixedFFT = NULL; // No longer needed
   rotatedMovingFFT = NULL; // No longer needed
 
@@ -175,7 +175,7 @@ void MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage>
   fixedImage = NULL; // No longer needed
   RealImagePointer fixedDenom = this->ElementSubtraction<RealImageType>(
       this->CalculateInverseFFT<FFTImageType,RealImageType>(this->ElementProduct<FFTImageType,FFTImageType>(fixedSquaredFFT,rotatedMovingMaskFFT),combinedImageSize),
-      this->ElementQuotient<RealImageType>(this->ElementProduct<RealImageType,RealImageType>(fixedCumulativeSumImage,fixedCumulativeSumImage),numberOfOverlapVoxels));
+      this->ElementQuotient<RealImageType>(this->ElementProduct<RealImageType,RealImageType>(fixedCumulativeSumImage,fixedCumulativeSumImage),numberOfOverlapPixels));
   fixedSquaredFFT = NULL; // No longer needed
   rotatedMovingMaskFFT = NULL; // No longer needed
   fixedCumulativeSumImage = NULL; // No longer needed
@@ -188,7 +188,7 @@ void MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage>
   rotatedMovingImage = NULL; // No longer needed
   RealImagePointer rotatedMovingDenom = this->ElementSubtraction<RealImageType>(
       this->CalculateInverseFFT<FFTImageType,RealImageType>(this->ElementProduct<FFTImageType,FFTImageType>(fixedMaskFFT,rotatedMovingSquaredFFT),combinedImageSize),
-      this->ElementQuotient<RealImageType>(this->ElementProduct<RealImageType,RealImageType>(rotatedMovingCumulativeSumImage,rotatedMovingCumulativeSumImage),numberOfOverlapVoxels));
+      this->ElementQuotient<RealImageType>(this->ElementProduct<RealImageType,RealImageType>(rotatedMovingCumulativeSumImage,rotatedMovingCumulativeSumImage),numberOfOverlapPixels));
   rotatedMovingSquaredFFT = NULL; // No longer needed
   fixedMaskFFT = NULL; // No longer needed
   rotatedMovingCumulativeSumImage = NULL; // No longer needed
@@ -209,15 +209,15 @@ void MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage>
   RealImagePointer NCC = this->ElementQuotient<RealImageType>(numerator,denominator);
   numerator = NULL; // No longer needed
 
-  // Given the numberOfOverlapvoxels, we can check that the m_RequiredNumberOfOverlappingVoxels is not set higher than
-  // the actual maximum overlap voxels.  If it is, we set m_RequiredNumberOfOverlappingVoxels to be this maximum.
+  // Given the numberOfOverlapvoxels, we can check that the m_RequiredNumberOfOverlappingPixels is not set higher than
+  // the actual maximum overlap voxels.  If it is, we set m_RequiredNumberOfOverlappingPixels to be this maximum.
   typedef itk::MinimumMaximumImageCalculator<RealImageType> CalculatorType;
   typename CalculatorType::Pointer calculator = CalculatorType::New();
-  calculator->SetImage(numberOfOverlapVoxels);
+  calculator->SetImage(numberOfOverlapPixels);
   calculator->ComputeMaximum();
-  if( m_RequiredNumberOfOverlappingVoxels > calculator->GetMaximum() )
+  if( m_RequiredNumberOfOverlappingPixels > calculator->GetMaximum() )
   {
-    m_RequiredNumberOfOverlappingVoxels = (unsigned long)calculator->GetMaximum();
+    m_RequiredNumberOfOverlappingPixels = (SizeValueType)calculator->GetMaximum();
   }
 
   // The correlation must be between -1 and 1 by definition.  But
@@ -227,11 +227,11 @@ void MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage>
   // Also, zero-out the correlation values that arise from too few voxels since they are statistically unreliable.
   typedef itk::TernaryFunctorImageFilter< RealImageType,RealImageType,RealImageType,RealImageType,Functor::PostProcessCorrelation<RealPixelType> > PostProcessType;
   typename PostProcessType::Pointer postProcessor = PostProcessType::New();
-  postProcessor->GetFunctor().SetRequiredNumberOfOverlappingVoxels( m_RequiredNumberOfOverlappingVoxels );
+  postProcessor->GetFunctor().SetRequiredNumberOfOverlappingPixels( m_RequiredNumberOfOverlappingPixels );
   postProcessor->GetFunctor().SetPrecisionTolerance( precisionTolerance );
   postProcessor->SetInput1( NCC );
   postProcessor->SetInput2( denominator );
-  postProcessor->SetInput3( numberOfOverlapVoxels );
+  postProcessor->SetInput3( numberOfOverlapPixels );
   postProcessor->SetInPlace( true ); // Save some memory
   postProcessor->Update();
 
