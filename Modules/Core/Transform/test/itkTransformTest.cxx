@@ -146,17 +146,18 @@ public:
   }
 
   virtual void ComputeJacobianWithRespectToParameters(const InputPointType &,
-                                                      JacobianType & j) const
+                                                      JacobianType & jacobian) const
   {
-    j.SetSize(3, 6); j.Fill(1);
+    jacobian.SetSize(3, 6);
+    jacobian.Fill(1);
   }
 
   inline virtual void ComputeJacobianWithRespectToPosition(
     const InputPointType &,
-    JacobianType & j ) const
+    JacobianType & jacobian ) const
   {
-    j.SetSize(NOutputDimensions, NInputDimensions);
-    j.Fill(1);
+    jacobian.SetSize(NOutputDimensions, NInputDimensions);
+    jacobian.Fill(1);
   }
 
 };
@@ -199,6 +200,8 @@ public:
     typename TransformType::Pointer transform = TransformType::New();
 
     InputPointType pnt;
+    pnt.Fill(2.9);
+
     transform->TransformPoint(pnt);
     std::cout << "TransformPoint()                              OK" << std::endl;
 
@@ -208,6 +211,7 @@ public:
 
     InputVectorPixelType vecpix;
     vecpix.SetSize( NInputDimensions );
+    vecpix.Fill(1.7);
     transform->TransformVector(vecpix);
     transform->TransformVector(vecpix,pnt);
 
@@ -225,6 +229,7 @@ public:
 
     InputDiffusionTensor3DType difften;
     vecpix.SetSize( 6 );
+    vecpix.Fill(1.7);
     transform->TransformDiffusionTensor3D(difften);
     transform->TransformDiffusionTensor3D(difften,pnt);
     transform->TransformDiffusionTensor3D(vecpix);
