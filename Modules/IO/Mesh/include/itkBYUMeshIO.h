@@ -128,7 +128,7 @@ protected:
         outputFile << indent << buffer[index++] + 1;
         }
 
-      outputFile << indent << -( buffer[index++] + 1 ) << '\n';
+      outputFile << indent << -static_cast<long long>( buffer[index++] + 1 ) << '\n';
       }
     }
 

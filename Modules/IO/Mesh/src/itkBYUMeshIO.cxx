@@ -79,13 +79,13 @@ BYUMeshIO
 
   // Read the ASCII file information
   unsigned int numberOfParts = 0;
-  unsigned int numberOfEdges = 0;
+  unsigned int numberOfConnectivityEntries = 0;
 
   // Read the number of points and number of cells
   inputFile >> numberOfParts;
   inputFile >> this->m_NumberOfPoints;
   inputFile >> this->m_NumberOfCells;
-  inputFile >> numberOfEdges;
+  inputFile >> numberOfConnectivityEntries;
 
   // Determine which part to read, default is to readl all parts
   if ( m_PartId > numberOfParts )
@@ -320,7 +320,7 @@ BYUMeshIO
   outputFile << indent << 1;
   outputFile << indent << this->m_NumberOfPoints;
   outputFile << indent << this->m_NumberOfCells;
-  outputFile << indent << this->m_NumberOfPoints + this->m_NumberOfCells - 2 << std::endl;
+  outputFile << indent << this->m_CellBufferSize - 2 * this->m_NumberOfCells << std::endl;
   outputFile << indent << 1;
   outputFile << indent << this->m_NumberOfCells << std::endl;
 
@@ -459,7 +459,7 @@ BYUMeshIO
     return;
     }
 
-  // Write triangles
+  // Write polygons
   switch ( this->m_CellComponentType )
     {
     case UCHAR:
@@ -494,7 +494,7 @@ BYUMeshIO
       }
     case ULONG:
       {
-      WriteCells(static_cast< long * >( buffer ), outputFile);
+      WriteCells(static_cast< unsigned long * >( buffer ), outputFile);
       break;
       }
     case LONG:

@@ -180,6 +180,12 @@ MeshFileWriter< TInputMesh >
   // Whether write cells
   if ( input->GetCells() && input->GetNumberOfCells() )
     {
+    SizeValueType cellsBufferSize = 2 * input->GetNumberOfCells();
+    for ( typename TInputMesh::CellsContainerConstIterator ct = input->GetCells()->Begin(); ct != input->GetCells()->End(); ++ct )
+      {
+      cellsBufferSize += ct->Value()->GetNumberOfPoints();
+      }
+    m_MeshIO->SetCellBufferSize(cellsBufferSize);
     m_MeshIO->SetUpdateCells(true);
     m_MeshIO->SetNumberOfCells( input->GetNumberOfCells() );
     m_MeshIO->SetCellComponentType(MeshIOBase::MapComponentType< typename TInputMesh::PointIdentifier >::CType);
@@ -264,18 +270,9 @@ void
 MeshFileWriter< TInputMesh >
 ::WriteCells(void)
 {
-  const InputMeshType *input = this->GetInput();
-
   itkDebugMacro(<< "Writing cells: " << m_FileName);
 
-  SizeValueType cellsBufferSize = 2 * input->GetNumberOfCells();
-  for ( typename TInputMesh::CellsContainerConstIterator ct = input->GetCells()->Begin(); ct != input->GetCells()->End(); ++ct )
-    {
-    cellsBufferSize += ct->Value()->GetNumberOfPoints();
-    }
-
-  m_MeshIO->SetCellBufferSize(cellsBufferSize);
-
+  SizeValueType cellsBufferSize = m_MeshIO->GetCellBufferSize();
   typename TInputMesh::PointIdentifier * buffer = new typename TInputMesh::PointIdentifier[cellsBufferSize];
   CopyCellsToBuffer(buffer);
   m_MeshIO->WriteCells(buffer);
