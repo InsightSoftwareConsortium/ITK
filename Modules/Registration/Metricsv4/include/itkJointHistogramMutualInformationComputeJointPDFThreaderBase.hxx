@@ -99,7 +99,7 @@ JointHistogramMutualInformationComputeJointPDFThreaderBase< TDomainPartitioner, 
   this->m_Associate->ComputeJointPDFPoint( fixedImageValue, movingImageValue, jointPDFpoint );
   JointPDFIndexType jointPDFIndex;
   this->m_JointHistogramPerThread[threadId]->TransformPhysicalPointToIndex( jointPDFpoint, jointPDFIndex );
-  if( this->m_JointHistogramPerThread[threadId]->GetBufferedRegion().IsInside( jointPDFIndex ))
+  if( pointIsValid && this->m_JointHistogramPerThread[threadId]->GetBufferedRegion().IsInside( jointPDFIndex ) )
     {
     typename JointHistogramType::PixelType jointHistogramPixel;
     jointHistogramPixel = this->m_JointHistogramPerThread[threadId]->GetPixel( jointPDFIndex );
