@@ -261,7 +261,8 @@ ENDIF (BUILD_SHARED_LIBS)
 #-----------------------------------------------------------------------------
 # Option to Build Static executables
 #-----------------------------------------------------------------------------
-OPTION (BUILD_STATIC_EXECS "Build Static Executabless" OFF)
+OPTION (BUILD_STATIC_EXECS "Build Static Executables" OFF)
+MARK_AS_ADVANCED(BUILD_STATIC_EXECS)
 IF (BUILD_STATIC_EXECS)
   IF (NOT WIN32)
     SET (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -static")
@@ -465,6 +466,8 @@ INCLUDE (ExternalProject)
 OPTION (HDF5_ALLOW_EXTERNAL_SUPPORT "Allow External Library Building" "NO")
 OPTION (ZLIB_USE_EXTERNAL "Use External Library Building for ZLIB" 0)
 OPTION (SZIP_USE_EXTERNAL "Use External Library Building for SZIP" 0)
+MARK_AS_ADVANCED(ZLIB_USE_EXTERNAL)
+MARK_AS_ADVANCED(SZIP_USE_EXTERNAL)
 IF (HDF5_ALLOW_EXTERNAL_SUPPORT MATCHES "SVN" OR HDF5_ALLOW_EXTERNAL_SUPPORT MATCHES "TGZ")
   SET (ZLIB_USE_EXTERNAL 1)
   SET (SZIP_USE_EXTERNAL 1)

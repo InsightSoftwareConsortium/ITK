@@ -1,4 +1,5 @@
 option(ITK_USE_KWSTYLE "Enable the use of KWStyle for checking coding style." OFF)
+mark_as_advanced(ITK_USE_KWSTYLE)
 if(ITK_USE_KWSTYLE)
 
 set(itk-module KWStyle)
