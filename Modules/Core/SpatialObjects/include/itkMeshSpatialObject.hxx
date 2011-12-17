@@ -73,9 +73,9 @@ MeshSpatialObject< TMesh >
     typename MeshType::CellsContainer::ConstIterator it = cells->Begin();
     while ( it != cells->End() )
       {
-      typename MeshType::CoordRepType
-      position[itkGetStaticConstMacro(Dimension)];
-      for ( unsigned int i = 0; i < itkGetStaticConstMacro(Dimension); i++ )
+      typedef typename MeshType::CoordRepType CoordRepType;
+      CoordRepType position[Dimension];
+      for ( unsigned int i = 0; i < Dimension; i++ )
         {
         position[i] = transformedPoint[i];
         }
@@ -83,10 +83,11 @@ MeshSpatialObject< TMesh >
       // If this is a triangle cell we need to check the distance
       if ( it.Value()->GetNumberOfPoints() == 3 )
         {
-        double minDist;
-        if ( it.Value()->EvaluatePosition(position, m_Mesh->GetPoints(),
-                                          NULL, NULL, &minDist, NULL)  &&
-             minDist <= m_IsInsidePrecision )
+        double minDist = 0.0;
+        const bool pointIsInside = it.Value()->EvaluatePosition(
+          position, m_Mesh->GetPoints(), NULL, NULL, &minDist, NULL);
+
+        if ( pointIsInside  && minDist <= this->m_IsInsidePrecision )
           {
           return true;
           }
