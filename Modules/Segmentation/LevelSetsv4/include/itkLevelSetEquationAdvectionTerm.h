@@ -31,6 +31,18 @@ namespace itk
  *  \class LevelSetEquationAdvectionTerm
  *  \brief Derived class to represents an advection term in the level-set evolution PDE
  *
+ *  \f[
+ *  AdvectionImage\left( p \right) \bullet \nabla \phi\left( p \right)
+ *  \f]
+ *
+ *  \li \f$ AdvectionImage \left( p \right) \f$ is the advection image provided by the user.
+ *  \li \f$ \cdot \bullet \cdot \f$ denotes the usual dot product
+ *  \li \f$ \nabla \phi \f$ denotes the gradient of the level set function \f$ \phi \f$.
+ *
+ * The advection image can be directly provided by the user; or by
+ * default, it is computed as the gradient of the input image. In this last
+ * case, it can be smoothed by the means of DerivativeSigma.
+ *
  *  \tparam TInput Input Image Type
  *  \tparam TLevelSetContainer Level set function container type
  *  \ingroup ITKLevelSetsv4
