@@ -33,6 +33,7 @@ set(CPPCHECK_ROOT_DIR
   CACHE
   PATH
   "Path to search for cppcheck")
+mark_as_advanced(CPPCHECK_ROOT_DIR)
 
 # cppcheck app bundles on Mac OS X are GUI, we want command line only
 set(_oldappbundlesetting ${CMAKE_FIND_APPBUNDLE})

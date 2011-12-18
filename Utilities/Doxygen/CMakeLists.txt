@@ -3,7 +3,7 @@
 #
 include (${CMAKE_ROOT}/Modules/Documentation.cmake)
 
-mark_as_advanced(CLEAR BUILD_DOCUMENTATION)
+mark_as_advanced(BUILD_DOCUMENTATION)
 
 # -------------------------------------------------------------
 #
