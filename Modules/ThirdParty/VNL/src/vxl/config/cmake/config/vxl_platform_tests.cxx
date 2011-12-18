@@ -260,14 +260,21 @@ int main() { return f(&A::x); }
 //-------------------------------------
 
 #ifdef VCL_STATIC_CONST_INIT_FLOAT
-
+// If __cplusplus is greater than 201103 date, then floating point initialization is supported.
+#if ( defined(__GNUC__) && !defined(__clang__) ) || ( __cplusplus >= 201103L )
+// As stated in vxl/vcl/vcl_config_compiler.h.in
+// GCC allows this above, but with floating point types, ANSI doesn't.
+// Again, we'll use it if we've got it.
 class A {
  public:
   static const float x = 27.0f;
   static const double y = 27.0;
 };
-
 int main() { return A::x == 27.0f && A::y == 27.0 ? 0 : 1; }
+#else
+  #error "VCL_STATIC_CONST_INIT_FLOAT only supported on gcc compilers (and c++0x).
+  int main() { return 1; }
+#endif
 #endif // VCL_STATIC_CONST_INIT_FLOAT
 
 //-------------------------------------
