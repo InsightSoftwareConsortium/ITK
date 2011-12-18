@@ -35,6 +35,11 @@ public:
 
   bool IsOutsideTolerance( const RealType & value, const RealType & theoreticalValue ) const
     {
+    // ignore if they are both effectively zero
+    if( vnl_math_max( vnl_math_abs( value ), vnl_math_abs( theoreticalValue ) ) <  50 * vnl_math::eps )
+      {
+      return false;
+      }
     if( this->GetFractionalError( value, theoreticalValue ) > m_Tolerance )
       {
       return true;
