@@ -22,6 +22,7 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageFileWriter.h"
 #include "itkSphereSpatialFunction.h"
+#include "itkMersenneTwisterRandomVariateGenerator.h"
 
 int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
 {
@@ -83,8 +84,8 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
   classSigmas[1] = 20.0;
 
   // creats a normal random variate generator
-  itk::Statistics::NormalVariateGenerator::Pointer randomGenerator =
-    itk::Statistics::NormalVariateGenerator::New();
+  itk::Statistics::MersenneTwisterRandomVariateGenerator::Pointer randomGenerator =
+    itk::Statistics::MersenneTwisterRandomVariateGenerator::New();
 
   // fills the image with a sphere filled with intensity values from a
   // normal distribution.
@@ -98,7 +99,7 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
   sphere->SetCenter( center );
   sphere->SetRadius( 5.0 );
 
-  randomGenerator->Initialize( 2003 );
+  randomGenerator->SetSeed ( 2003 );
   ImageIteratorType i_iter( image , imageRegion );
   SphereType::InputType point;
   while ( !i_iter.IsAtEnd() )
@@ -106,7 +107,7 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
     image->TransformIndexToPhysicalPoint( i_iter.GetIndex() , point );
     if ( sphere->Evaluate( point ) == 1 ) // inside or on surface
       {
-      i_iter.Set( randomGenerator->GetVariate() * classSigmas[1]
+      i_iter.Set( randomGenerator->GetNormalVariate() * classSigmas[1]
                   + classMeans[1] );
       }
     else
@@ -133,10 +134,10 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
   BiasFieldType::CoefficientArrayType
     initCoefficients(bias.GetNumberOfCoefficients());
 
-  randomGenerator->Initialize( (int) 2003 );
+  randomGenerator->SetSeed( 2003 );
   for ( unsigned int i = 0; i < bias.GetNumberOfCoefficients(); ++i )
     {
-    coefficients[i] = ( randomGenerator->GetVariate() + 1 ) * 0.1;
+    coefficients[i] = ( randomGenerator->GetNormalVariate() + 1 ) * 0.1;
     initCoefficients[i] = 0;
     }
   bias.SetCoefficients(coefficients);
