@@ -31,6 +31,14 @@ namespace itk
  *  \class LevelSetEquationCurvatureTerm
  *  \brief Derived class to represents a curvature term in the level-set evolution PDE
  *
+ *  \f[
+ *  CurvatureImage( p ) \cdot \kappa( p )
+ *  \f]
+ *
+ *  \li CurvatureImage denotes the curvature image set by the user
+ *  \li \f$ \kappa( p ) \f$ denotes the mean curvature of the level set function,
+ *  i.e. \f$ \kappa( p ) = \text{div} \left( \frac{ \nabla \phi( p ) }{ \left\| \nabla \phi(p) \right\| } \f$
+ *
  *  \tparam TInput Input Image Type
  *  \tparam TLevelSetContainer Level set function container type
  *  \ingroup ITKLevelSetsv4
