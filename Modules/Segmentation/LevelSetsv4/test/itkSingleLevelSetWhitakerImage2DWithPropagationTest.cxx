@@ -157,7 +157,7 @@ int itkSingleLevelSetWhitakerImage2DWithPropagationTest( int argc, char* argv[] 
 
   // Create ChanAndVese curvature term for phi_{1}
   PropagationTermType::Pointer propagationTerm0 = PropagationTermType::New();
-  propagationTerm0->SetInput( input );
+  propagationTerm0->SetPropagationImage( input );
   propagationTerm0->SetCoefficient( 1.0 );
   std::cout << "LevelSet 1: Propagation term created" << std::endl;
 

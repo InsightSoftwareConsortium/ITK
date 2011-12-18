@@ -44,7 +44,8 @@ namespace itk
  *  \ingroup ITKLevelSetsv4
  */
 template< class TInput, // Input image or mesh
-          class TLevelSetContainer >
+          class TLevelSetContainer,
+          class TPropagationImage = TInput >
 class LevelSetEquationPropagationTerm :
     public LevelSetEquationTermBase< TInput, TLevelSetContainer >
 {
@@ -84,12 +85,21 @@ public:
 
   itkStaticConstMacro(ImageDimension, unsigned int, InputImageType::ImageDimension);
 
+  typedef TPropagationImage                       PropagationImageType;
+  typedef typename PropagationImageType::Pointer  PropagationImagePointer;
+
   /** Neighborhood radius type */
   typedef ZeroFluxNeumannBoundaryCondition< InputImageType > DefaultBoundaryConditionType;
   typedef typename ConstNeighborhoodIterator< InputImageType >::RadiusType RadiusType;
   typedef ConstNeighborhoodIterator< InputImageType, DefaultBoundaryConditionType > NeighborhoodType;
 
   typedef Vector< LevelSetOutputRealType, itkGetStaticConstMacro(ImageDimension) > NeighborhoodScalesType;
+
+  /** Set/Get the propagation image. By default, if no PropagationImage has
+  been set, it casts the input image and uses it in the term contribution
+  calculation. */
+  itkSetObjectMacro( PropagationImage, PropagationImageType );
+  itkGetObjectMacro( PropagationImage, PropagationImageType );
 
   /** \todo to be documented. */
   virtual void Update();
@@ -109,6 +119,8 @@ protected:
   LevelSetEquationPropagationTerm();
 
   virtual ~LevelSetEquationPropagationTerm();
+
+  PropagationImagePointer m_PropagationImage;
 
   /** Return the spatial speed dependence a given pixel location
    * Usually, it is constant across the image domain */

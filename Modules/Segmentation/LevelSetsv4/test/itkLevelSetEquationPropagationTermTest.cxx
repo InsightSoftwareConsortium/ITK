@@ -148,13 +148,14 @@ int itkLevelSetEquationPropagationTermTest( int argc, char* argv[] )
 
   // Initialize the ChanAndVese term here
   term->InitializeParameters();
-  InputImageIteratorType it( binary, binary->GetLargestPossibleRegion() );
-  it.GoToBegin();
 
-  while( !it.IsAtEnd() )
+  iIt = InputImageIteratorType( binary, binary->GetLargestPossibleRegion() );
+  iIt.GoToBegin();
+
+  while( !iIt.IsAtEnd() )
     {
-    term->Initialize( it.GetIndex() );
-    ++it;
+    term->Initialize( iIt.GetIndex() );
+    ++iIt;
     }
 
   term->Update();
@@ -166,5 +167,22 @@ int itkLevelSetEquationPropagationTermTest( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
+  iIt.GoToBegin();
+
+  itk::ImageRegionIteratorWithIndex< PropagationTermType::PropagationImageType > pIt(
+    term->GetPropagationImage(), term->GetPropagationImage()->GetLargestPossibleRegion() );
+  pIt.GoToBegin();
+
+  while( !iIt.IsAtEnd() )
+    {
+    if( vnl_math_abs( static_cast< double >( iIt.Get() ) - static_cast< double >( pIt.Get() ) ) > 1e-2 )
+      {
+      std::cout << iIt.GetIndex() << " * " << pIt.GetIndex() << std::endl;
+      std::cout << iIt.Get() << " * " << pIt.Get() << std::endl;
+      return EXIT_FAILURE;
+      }
+    ++iIt;
+    ++pIt;
+    }
   return EXIT_SUCCESS;
 }
