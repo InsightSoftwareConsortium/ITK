@@ -1380,6 +1380,29 @@
    fun:(below main)
 }
 {
+   ExitFreeLibC brian.jouy.inra.fr
+   Memcheck:Free
+   fun:free
+   obj:/lib64/libc-2.9.so
+   obj:/lib64/libc-2.9.so
+   fun:_vgnU_freeres
+   fun:exit
+   fun:fhdl
+   obj:/lib64/libpthread-2.9.so
+   fun:_Z30itkFloatingPointExceptionsTestiPPc
+   fun:main
+}
+{
+   itkFloatingPointExceptionsTest leak brian.jouy.inra.fr
+   Memcheck:Leak
+   fun:_Znwm
+   fun:_ZNSs4_Rep9_S_createEmmRKSaIcE
+   obj:/usr/lib64/libstdc++.so.6.0.10
+   fun:_ZNSsC1EPKcRKSaIcE
+   fun:_Z30itkFloatingPointExceptionsTestiPPc
+   fun:main
+}
+{
    CrazyTclError brian.jouy.inra.fr
    Memcheck:Leak
    fun:realloc
