@@ -31,6 +31,14 @@ namespace itk
  *  \class LevelSetEquationPropagationTerm
  *  \brief Derived class to represents a propagation term in the level-set evolution PDE
  *
+ *  \f[
+ *  PropagationImage( p ) \cdot \left\| \nabla \phi\left( p \right) \right\|
+ *  \f]
+ *
+ *  \li PropagationImage is the propagation image set by the user.
+ *  \li \f$ \| \cdot  \| \f$ denotes the usual \f$L_2\f$-norm
+ *  \li \f$ \nabla \phi \f$ denotes the gradient of the level-set function \f$ \phi \f$.
+ *
  *  \tparam TInput Input Image Type
  *  \tparam TLevelSetContainer Level set function container type
  *  \ingroup ITKLevelSetsv4
