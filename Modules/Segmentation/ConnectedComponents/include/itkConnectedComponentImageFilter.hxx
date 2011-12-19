@@ -167,7 +167,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
       {
       InputPixelType PVal = inLineIt.Get();
       //std::cout << inLineIt.GetIndex() << std::endl;
-      if ( PVal != NumericTraits< InputPixelType >::Zero )
+      if ( PVal != NumericTraits< InputPixelType >::ZeroValue( PVal ) )
         {
         // We've hit the start of a run
         runLength thisRun;
@@ -178,7 +178,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
         ++length;
         ++inLineIt;
         while ( !inLineIt.IsAtEndOfLine()
-                && inLineIt.Get() != NumericTraits< InputPixelType >::Zero )
+                && inLineIt.Get() != NumericTraits< InputPixelType >::ZeroValue( PVal ) )
           {
           ++length;
           ++inLineIt;

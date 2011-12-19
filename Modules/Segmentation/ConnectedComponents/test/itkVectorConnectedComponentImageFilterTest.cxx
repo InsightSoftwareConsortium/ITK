@@ -21,6 +21,7 @@
 #include "itkRelabelComponentImageFilter.h"
 #include "itkImageFileWriter.h"
 #include "itkTextOutput.h"
+#include "itkVectorImage.h"
 
 int itkVectorConnectedComponentImageFilterTest(int argc, char* argv[] )
 {
@@ -181,6 +182,14 @@ int itkVectorConnectedComponentImageFilterTest(int argc, char* argv[] )
     std::cerr << excep << std::endl;
     return EXIT_FAILURE;
     }
+
+  // The following just ensures that this filter can be intantiated
+  // with VectorImages
+  typedef itk::VectorImage<float, 2> VectorImageType;
+  typedef itk::VectorConnectedComponentImageFilter< VectorImageType,
+                                                     OutputImageType,
+                                                     LabelImageType> VectorImageFilterType;
+  VectorImageFilterType::Pointer vfilter = VectorImageFilterType::New();
 
   return EXIT_SUCCESS;
 }
