@@ -36,7 +36,7 @@ namespace itk
  *  \f]
  *
  *  \li LaplacianImage denotes the Laplacian image set by the user
- *  \li \f$ \Delta \phi$ denotes the Laplacian of the level-set function \f$\phi \f$
+ *  \li \f$ \Delta \phi \f$ denotes the Laplacian of the level-set function \f$\phi \f$
  *
  *  \tparam TInput Input Image Type
  *  \tparam TLevelSetContainer Level set function container type
