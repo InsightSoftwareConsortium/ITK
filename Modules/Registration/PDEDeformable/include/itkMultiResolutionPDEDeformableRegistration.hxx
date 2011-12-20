@@ -34,6 +34,8 @@ MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplaceme
 ::MultiResolutionPDEDeformableRegistration()
 {
   this->SetNumberOfRequiredInputs(2);
+  // Primary input is optional in this filter
+  this->RemoveRequiredInputName( "Primary" );
 
   typename DefaultRegistrationType::Pointer registrator =
     DefaultRegistrationType::New();

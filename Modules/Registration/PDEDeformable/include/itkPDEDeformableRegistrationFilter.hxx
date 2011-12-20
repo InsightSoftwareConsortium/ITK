@@ -39,6 +39,8 @@ PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::PDEDeformableRegistrationFilter()
 {
   this->SetNumberOfRequiredInputs(2);
+  // Primary input is optional in this filter
+  this->RemoveRequiredInputName( "Primary" );
 
   this->SetNumberOfIterations(10);
 

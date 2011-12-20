@@ -38,7 +38,8 @@ ProcessObject
 ::ProcessObject() :
   m_Inputs(),
   m_Outputs(),
-  m_CachedInputReleaseDataFlags()
+  m_CachedInputReleaseDataFlags(),
+  m_RequiredInputNames()
 {
   m_NumberOfRequiredInputs = 0;
 
@@ -237,6 +238,10 @@ void
 ProcessObject
 ::SetInput(const DataObjectIdentifierType & key, DataObject * input)
 {
+  if( key.empty() )
+    {
+    itkExceptionMacro("An empty string can't be used as an input identifier");
+    }
   DataObjectPointerMap::iterator it = m_Inputs.find(key);
   if( it == m_Inputs.end() )
     {
@@ -396,6 +401,11 @@ ProcessObject
   // copy the key, because it might be destroyed in that method, so a reference
   // is not enough.
   DataObjectIdentifierType key = name;
+
+  if( key.empty() )
+    {
+    itkExceptionMacro("An empty string can't be used as an output identifier");
+    }
 
   // does this change anything?
   DataObjectPointerMap::const_iterator it = m_Outputs.find(key);
@@ -739,6 +749,74 @@ ProcessObject
   return res;
 }
 
+bool
+ProcessObject
+::AddRequiredInputName( const DataObjectIdentifierType & name )
+{
+  if( m_RequiredInputNames.insert( name ).second )
+    {
+    if( ! this->HasInput( name ) )
+      {
+      this->SetInput( name, NULL );
+      }
+    if( name == "Primary" && m_NumberOfRequiredInputs == 0 )
+      {
+      m_NumberOfRequiredInputs = 1;
+      }
+    this->Modified();
+    return true;
+    }
+  return false;
+}
+
+bool
+ProcessObject
+::RemoveRequiredInputName( const DataObjectIdentifierType & name )
+{
+  if( m_RequiredInputNames.erase( name ) )
+    {
+    if( name == "Primary" && m_NumberOfRequiredInputs == 1 )
+      {
+      m_NumberOfRequiredInputs = 0;
+      }
+    this->Modified();
+    return true;
+    }
+  return false;
+}
+
+bool
+ProcessObject
+::IsRequiredInputName( const DataObjectIdentifierType & name ) const
+{
+  return m_RequiredInputNames.find( name ) != m_RequiredInputNames.end();
+}
+
+void
+ProcessObject
+::SetRequiredInputNames( const NameArray & names )
+{
+  m_RequiredInputNames.clear();
+  for ( NameArray::const_iterator it = names.begin(); it != names.end(); it++ )
+    {
+    this->AddRequiredInputName( *it );
+    }
+  this->Modified();
+}
+
+ProcessObject::NameArray
+ProcessObject
+::GetRequiredInputNames() const
+{
+  NameArray res;
+  res.reserve(m_RequiredInputNames.size());
+  for ( NameSet::const_iterator it = m_RequiredInputNames.begin(); it != m_RequiredInputNames.end(); it++ )
+    {
+    res.push_back( *it );
+    }
+  return res;
+}
+
 // ProcessObject::ConstDataObjectPointerArray
 // ProcessObject
 // ::GetInputs() const
@@ -932,12 +1010,35 @@ ProcessObject
     os << indent << "Inputs: " << std::endl;
     for ( DataObjectPointerMap::const_iterator it = m_Inputs.begin(); it != m_Inputs.end(); it++ )
       {
-      os << indent2 << it->first << ": (" << it->second.GetPointer() << ")" << std::endl;
+      std::string req = "";
+      if( this->IsRequiredInputName( it->first ) )
+        {
+        req = " *";
+        }
+      os << indent2 << it->first<< ": (" << it->second.GetPointer() << ")" << req  << std::endl;
       }
     }
   else
     {
     os << indent << "No Inputs\n";
+    }
+
+  if( !m_RequiredInputNames.empty() )
+    {
+    os << indent << "Required Input Names: ";
+    for( NameSet::const_iterator it = m_RequiredInputNames.begin(); it != m_RequiredInputNames.end(); it++ )
+      {
+      if( it != m_RequiredInputNames.begin() )
+        {
+        os << ", ";
+        }
+      os << *it;
+      }
+    os << std::endl;
+    }
+  else
+    {
+    os << indent << "No Required Input Names" << std::endl;
     }
 
   if ( !m_Outputs.empty() )
@@ -1040,6 +1141,17 @@ void
 ProcessObject
 ::VerifyPreconditions()
 {
+
+  /**
+   * Make sure that all the required inputs are there and non null
+   */
+  for( NameSet::const_iterator it=m_RequiredInputNames.begin(); it != m_RequiredInputNames.end(); ++it )
+    {
+    if ( this->GetInput( *it ) == NULL )
+      {
+      itkExceptionMacro(<< "Input " << *it << " is required but not set.");
+      }
+    }
 
   /**
     * Count the number of required inputs which have been assigned
@@ -1538,4 +1650,25 @@ ProcessObject::ProcessObjectDomainThreader< TDomainPartitioner, TAssociate >
   Superclass::DetermineNumberOfThreadsUsed();
 }
 
+/**
+ *
+ */
+void
+ProcessObject
+::SetNumberOfRequiredInputs( DataObjectPointerArraySizeType nb )
+{
+  if( m_NumberOfRequiredInputs != nb )
+    {
+    m_NumberOfRequiredInputs = nb;
+    this->Modified();
+    if( m_NumberOfRequiredInputs > 0 )
+      {
+      this->AddRequiredInputName( "Primary" );
+      }
+    if( m_NumberOfRequiredInputs == 0 )
+      {
+      this->RemoveRequiredInputName( "Primary" );
+      }
+    }
+}
 } // end namespace itk
