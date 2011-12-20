@@ -210,7 +210,7 @@ public:
       }
   }
 
-  InputMeshPointType & GetClosestPoint(InputMeshPointType & p)
+  InputMeshPointType & GetClosestPoint(InputMeshPointType &)
   {
     return m_ClosestPoint;
   }

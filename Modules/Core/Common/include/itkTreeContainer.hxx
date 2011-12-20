@@ -42,7 +42,7 @@ TreeContainer< TValueType >::TreeContainer(int dcc)
 
 /** Constructor by adding a tree */
 template< class TValueType >
-TreeContainer< TValueType >::TreeContainer(TreeContainer< TValueType > & tree)
+TreeContainer< TValueType >::TreeContainer(TreeContainer< TValueType > & )
 {
   m_Root = NULL;
   this->SetSubtree(false);

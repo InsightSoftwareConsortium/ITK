@@ -164,25 +164,8 @@ public:
 
   ///TODO to be implemented!!!
   PointType ComputeOptimalLocation(
-    const unsigned int & iNumberOfEigenValues)
+    const unsigned int & )
   {}
-
-//   PointType ComputeOptimalLocation(
-//     const CoordType& iValue )
-//   {
-//     ComputeAMatrixAndBVector();
-//     vnl_svd< CoordType > svd( m_A );
-//     svd.zero.zero_out_relative( iValue );
-//     m_Rank = svd.rank();
-//
-//     VNLVectorType location = svd.solve( m_B );
-//     PointType oP;
-//
-//     for( unsigned int dim = 0; dim < PointDimension; dim++ )
-//       oP[dim] = location[dim];
-//
-//     return oP;
-//   }
 
   void AddTriangle( const PointType & iP1,
                     const PointType & iP2,

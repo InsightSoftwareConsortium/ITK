@@ -802,6 +802,32 @@ void VTKImageIO::WriteBufferAsASCII( std::ostream & os, const void * buffer, IOC
     }
 }
 
+#define WriteVTKImageBinaryBlockMACRO(storageType)                                                     \
+{                                                                                                      \
+   const ImageIOBase::BufferSizeType numbytes =                                                        \
+                            static_cast< ImageIOBase::BufferSizeType >( this->GetImageSizeInBytes() ); \
+   const ImageIOBase::BufferSizeType numberImageComponents =                                           \
+                       static_cast< ImageIOBase::BufferSizeType >( this->GetImageSizeInComponents() ); \
+   const bool isSymmetricSecondRankTensor=                                                             \
+                                   ( this->GetPixelType() == ImageIOBase::SYMMETRICSECONDRANKTENSOR ); \
+   storageType *tempmemory = new storageType[numberImageComponents];                                   \
+   memcpy(tempmemory, buffer, numbytes );                                                              \
+   ByteSwapper< storageType >::SwapRangeFromSystemToBigEndian(  tempmemory , numberImageComponents );  \
+   /* write the image */                                                                               \
+   if( isSymmetricSecondRankTensor )                                                                   \
+     {                                                                                                 \
+     this->WriteSymmetricTensorBufferAsBinary( file, tempmemory, numbytes );                           \
+     }                                                                                                 \
+   else                                                                                                \
+     {                                                                                                 \
+     if ( !this->WriteBufferAsBinary( file, tempmemory, numbytes ) )                                   \
+       {                                                                                               \
+       itkExceptionMacro(<< "Could not write file: " << m_FileName);                                   \
+       }                                                                                               \
+     }                                                                                                 \
+   delete[] tempmemory;                                                                                \
+}                                                                                                      \
+
 void VTKImageIO::WriteSymmetricTensorBufferAsBinary(std::ostream & os, const void * buffer,
                                                      StreamingImageIOBase::SizeType num)
 {
@@ -947,45 +973,21 @@ void VTKImageIO::Write(const void *buffer)
       if ( !ByteSwapper< uint16_t >::SystemIsBigEndian() )
         {
         // only swap  when needed
-        const ImageIOBase::BufferSizeType numbytes =
-          static_cast< ImageIOBase::BufferSizeType >( this->GetImageSizeInBytes() );
-
-        char *tempmemory = new char[numbytes];
-        memcpy(tempmemory, buffer, numbytes);
         switch ( this->GetComponentSize() )
           {
           case 1:
+            WriteVTKImageBinaryBlockMACRO(char)
             break;
           case 2:
-            ByteSwapper< uint16_t >::SwapRangeFromSystemToBigEndian( (uint16_t *)( tempmemory ),
-                                                                     static_cast< BufferSizeType >( this->
-                                                                                                    GetImageSizeInComponents() ) );
+            WriteVTKImageBinaryBlockMACRO(uint16_t)
             break;
           case 4:
-            ByteSwapper< uint32_t >::SwapRangeFromSystemToBigEndian( (uint32_t *)( tempmemory ),
-                                                                     static_cast< BufferSizeType >( this->
-                                                                                                    GetImageSizeInComponents() ) );
+            WriteVTKImageBinaryBlockMACRO(uint32_t)
             break;
           case 8:
-            ByteSwapper< uint64_t >::SwapRangeFromSystemToBigEndian( (uint64_t *)( tempmemory ),
-                                                                     static_cast< BufferSizeType >( this->
-                                                                                                    GetImageSizeInComponents() ) );
+            WriteVTKImageBinaryBlockMACRO(uint64_t)
             break;
           }
-
-        // write the image
-        if( this->GetPixelType() == ImageIOBase::SYMMETRICSECONDRANKTENSOR )
-          {
-          this->WriteSymmetricTensorBufferAsBinary( file, tempmemory, this->GetImageSizeInBytes() );
-          }
-        else
-          {
-          if ( !this->WriteBufferAsBinary( file, tempmemory, this->GetImageSizeInBytes() ) )
-            {
-            itkExceptionMacro(<< "Could not write file: " << m_FileName);
-            }
-          }
-        delete[] tempmemory;
         }
       else
         {

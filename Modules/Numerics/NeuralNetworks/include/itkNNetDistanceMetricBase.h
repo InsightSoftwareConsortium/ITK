@@ -51,7 +51,7 @@ public:
   virtual double Evaluate(const InputVectorType& x1, const InputVectorType& x2) const = 0;
 
   /** Evaluate */
-  virtual double Evaluate(const InputVectorType& x) const {return 0;}
+  virtual double Evaluate(const InputVectorType& ) const {return 0;}
 
 protected:
   NNetDistanceMetricBase() {};

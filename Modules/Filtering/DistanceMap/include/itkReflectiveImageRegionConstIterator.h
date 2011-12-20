@@ -148,12 +148,12 @@ public:
 
   /** Get the begin offset.  Forward iteration starts at this offset
    * from the current region.  */
-  OffsetType GetBeginOffset(const OffsetType & offset)
+  OffsetType GetBeginOffset(const OffsetType & )
   { return m_BeginOffset; }
 
   /** Get the end offset.  Reverse iteration starts at this offset
    * from the current region.  */
-  OffsetType GetEndOffset(const OffsetType & offset)
+  OffsetType GetEndOffset(const OffsetType & )
   { return m_EndOffset; }
 
   /** Fill both offsets with a single value.  */

@@ -292,7 +292,7 @@ void SegmentTreeGenerator< TScalarType >
 ::PruneMergeSegments(SegmentTableTypePointer segments,
                      OneWayEquivalencyTableTypePointer eqT,
                      const IdentifierType FROM, const IdentifierType TO,
-                     ScalarType maxSaliency)
+                     ScalarType )
 {
   typename SegmentTableType::edge_list_t::iterator edgeTOi, edgeFROMi,
   edgeTEMPi;

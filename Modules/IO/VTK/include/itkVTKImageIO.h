@@ -138,7 +138,6 @@ protected:
 private:
   VTKImageIO(const Self &);    //purposely not implemented
   void operator=(const Self &); //purposely not implemented
-
   void SetPixelTypeFromString(const std::string & pixelType);
 
   SizeType m_HeaderSize;

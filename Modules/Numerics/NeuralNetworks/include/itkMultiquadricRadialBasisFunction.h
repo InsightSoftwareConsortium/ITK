@@ -51,7 +51,7 @@ public:
   virtual ScalarType Evaluate(const ScalarType& input) const; //{return 0;};
 
   /** Evaluate the derivative at the specified input position */
-  virtual ScalarType EvaluateDerivative(const ScalarType& input) const{return 0;};
+  virtual ScalarType EvaluateDerivative(const ScalarType& ) const{return 0;};
 
   itkSetMacro(Radius,ScalarType);
   itkGetConstReferenceMacro(Radius,ScalarType);

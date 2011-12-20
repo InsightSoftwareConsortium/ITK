@@ -52,7 +52,7 @@ SignedHardLimitTransferFunction<ScalarType>
 template<class ScalarType>
 ScalarType
 SignedHardLimitTransferFunction<ScalarType>
-::EvaluateDerivative(const ScalarType& input)  const
+::EvaluateDerivative(const ScalarType& )  const
 {
   return 0;
 }

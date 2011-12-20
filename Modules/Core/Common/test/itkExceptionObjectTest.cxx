@@ -125,20 +125,24 @@ int itkExceptionObjectTest(int, char* [] )
     }
 
   raised = false;
+  bool OneShouldFail=true;
   try
     {
     human john, jane;
     naked_mole_rat hal;
-    john == john;  // OK
-    jane == john;  // OK
-    hal == john;   // ERROR
+    OneShouldFail &= (john == john);  // OK
+    OneShouldFail &= (jane == john);  // OK
+    //NOTE:  (hal == john) throws an exception, and does not actually return false!
+    //       This means that the &= operator below is never executed, and
+    //       the OneShouldFail variable is never actually set to false!
+    OneShouldFail &= (hal == john);   // ERROR
     }
   catch (itk::IncompatibleOperandsError &e)
     {
     std::cout << e << std::endl;
     raised = true;
     }
-  if( !raised )
+  if( !raised || OneShouldFail==false )
     {
     return EXIT_FAILURE;
     }
