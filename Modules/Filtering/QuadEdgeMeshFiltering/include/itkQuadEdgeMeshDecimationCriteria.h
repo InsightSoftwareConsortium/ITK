@@ -292,8 +292,8 @@ public:
   typedef typename Superclass::PriorityQueueWrapperType  PriorityQueueWrapperType;
   typedef typename Superclass::PriorityType              PriorityType;
 
-  inline bool is_satisfied(MeshType *iMesh,
-                           const ElementType & iElement,
+  inline bool is_satisfied(MeshType *,
+                           const ElementType & ,
                            const MeasureType & iValue) const
   {
     return ( iValue >= this->m_MeasureBound );

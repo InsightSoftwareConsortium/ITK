@@ -122,7 +122,7 @@ public:
    *    GetSize() function.  */
   template< typename TValueType >
   void SetMultiChannelInput(MET_ValueEnumType _metaElementType,
-                            int _NumberOfChannels,
+                            int ,
                             const Array< TValueType > *_array)
   {
     int rows = _array->GetSize();

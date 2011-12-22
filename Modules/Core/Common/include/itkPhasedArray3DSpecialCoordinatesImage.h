@@ -324,14 +324,13 @@ public:
 
   template< class TCoordRep >
   void TransformLocalVectorToPhysicalVector(
-    const FixedArray< TCoordRep, 3 > & inputGradient,
-    FixedArray< TCoordRep, 3 > & outputGradient) const
+    FixedArray< TCoordRep, 3 > & ) const
     {}
 
   template< class TCoordRep >
   void TransformPhysicalVectorToLocalVector(
-    const FixedArray< TCoordRep, 3 > & inputGradient,
-    FixedArray< TCoordRep, 3 > & outputGradient) const
+    const FixedArray< TCoordRep, 3 > & ,
+    FixedArray< TCoordRep, 3 > & ) const
     {}
 
 protected:

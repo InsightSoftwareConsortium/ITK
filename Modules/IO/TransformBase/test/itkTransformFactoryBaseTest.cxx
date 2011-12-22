@@ -144,7 +144,7 @@ int itkTransformFactoryBaseTest (int, char*[])
   std::list<std::string>::iterator namesIt;
   std::list<std::string>::iterator defaultsIt;
   for (namesIt = names.begin(), defaultsIt = defaultTransforms.begin();
-       namesIt != names.end(), defaultsIt != defaultTransforms.end();
+       namesIt != names.end() && defaultsIt != defaultTransforms.end();
        namesIt++, defaultsIt++)
     {
     if (strcmp((*namesIt).c_str(), (*defaultsIt).c_str()) != 0)

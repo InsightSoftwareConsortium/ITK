@@ -275,22 +275,23 @@ void RawImageIO< TPixel, VImageDimension >
   ( this->GetComponentType() == WeakType )                              \
     {                                                                   \
     typedef ByteSwapper< StrongType > InternalByteSwapperType;          \
+    const SizeValueType numberOfPixels = numberOfBytes/(sizeof(StrongType)); \
     if ( m_ByteOrder == LittleEndian )                                  \
       {                                                                 \
-      char *tempBuffer = new char[numberOfBytes];                       \
-      memcpy(tempBuffer, buffer, numberOfBytes);                        \
+      StrongType *tempBuffer = new StrongType[numberOfPixels];          \
+      memcpy((char *)tempBuffer, buffer, numberOfBytes);          \
       InternalByteSwapperType::SwapRangeFromSystemToLittleEndian(       \
         (StrongType *)tempBuffer, numberOfComponents);                  \
-      file.write(tempBuffer, numberOfBytes);                            \
+      file.write((char *)tempBuffer, numberOfBytes);                            \
       delete[] tempBuffer;                                              \
       }                                                                 \
     else if ( m_ByteOrder == BigEndian )                                \
       {                                                                 \
-      char *tempBuffer = new char[numberOfBytes];                       \
-      memcpy(tempBuffer, buffer, numberOfBytes);                        \
+      StrongType *tempBuffer = new StrongType[numberOfPixels];          \
+      memcpy((char *)tempBuffer, buffer, numberOfBytes);          \
       InternalByteSwapperType::SwapRangeFromSystemToBigEndian(          \
         (StrongType *)tempBuffer, numberOfComponents);                  \
-      file.write(tempBuffer, numberOfBytes);                            \
+      file.write((char *)tempBuffer, numberOfBytes);                            \
       delete[] tempBuffer;                                              \
       }                                                                 \
     else                                                                \

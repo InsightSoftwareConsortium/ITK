@@ -52,7 +52,7 @@ public:
   static unsigned int GetNumberOfComponents()
   { return PixelType::GetNumberOfComponents();}
 
-  static unsigned int GetNumberOfComponents(const PixelType& pixel)
+  static unsigned int GetNumberOfComponents(const PixelType& )
   { return PixelType::GetNumberOfComponents();}
 
   /** Return the nth component of the pixel. */

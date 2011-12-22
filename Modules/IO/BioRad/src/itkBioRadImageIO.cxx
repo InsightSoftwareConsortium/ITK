@@ -38,6 +38,12 @@
 
 namespace itk
 {
+union Aligned4ByteUnion {
+  float localFloatMagFactor;
+  int   localIntNoteNext;
+  char  localChar4Array[4];
+};
+
 struct bioradheader
 {
   unsigned short nx, ny;               // 0   2*2  image width and height in
@@ -57,10 +63,8 @@ struct bioradheader
   short edited;                        // 62  2    image has been edited=TRUE(1)
   short lens;                          // 64  2    Integer part of lens
   // magnification
-  char mag_factor[4];                  // 66  4    4 byte real mag. factor (old
-  // ver.)
-  unsigned char reserved[6];           // 70  6    NOT USED (old ver.=real lens
-                                       // mag.)
+  char mag_factor[4];                  // 66  4    4 byte real mag. factor (old ver.)
+  unsigned char reserved[6];           // 70  6    NOT USED (old ver.=real lens mag.)
 };
 
 typedef enum
@@ -311,8 +315,10 @@ void BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
     SwapFromSystemToLittleEndian( &h.edited);
   ByteSwapper< short >::
     SwapFromSystemToLittleEndian( &h.lens);
-  ByteSwapper< float >::
-    SwapFromSystemToLittleEndian( (float *)&h.mag_factor);
+  Aligned4ByteUnion localMagFactor;
+  memcpy(localMagFactor.localChar4Array, h.mag_factor, 4);
+  ByteSwapper< float >::SwapFromSystemToLittleEndian( &(localMagFactor.localFloatMagFactor) );
+  memcpy(h.mag_factor, localMagFactor.localChar4Array, 4);
 
   // Set dim X,Y,Z
   m_Dimensions[0] = h.nx;
@@ -379,7 +385,10 @@ void BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
       {
       file.read((char *)&note,sizeof(note));
       ByteSwapper<short>::SwapFromSystemToLittleEndian(&note.level);
-      ByteSwapper<int>::SwapFromSystemToLittleEndian((int *)&note.next[0]);
+      Aligned4ByteUnion localNext;
+      memcpy(localNext.localChar4Array, note.next, 4);
+      ByteSwapper<int>::SwapFromSystemToLittleEndian(&(localNext.localIntNoteNext));
+      memcpy(note.next, localNext.localChar4Array, 4);
       ByteSwapper<short>::SwapFromSystemToLittleEndian(&note.num);
       ByteSwapper<short>::SwapFromSystemToLittleEndian(&note.status);
       ByteSwapper<short>::SwapFromSystemToLittleEndian(&note.type);
@@ -433,9 +442,7 @@ void BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
     // deprecated method for finding spacing
     // These are not specified by the format, but we can deduce them:
     // pixel size = scale_factor/lens/mag_factor
-    float mag_factor;
-    memcpy (&mag_factor, h.mag_factor, 4);
-    m_Spacing[0] = m_Spacing[1] = mag_factor / h.lens;
+    m_Spacing[0] = m_Spacing[1] = localMagFactor.localFloatMagFactor / h.lens;
     if ( m_NumberOfDimensions == 3 )
       {
       m_Spacing[2] = m_Spacing[0];
@@ -546,9 +553,10 @@ void BioRadImageIO::Write(const void *buffer)
   ByteSwapper< unsigned short >::SwapRangeFromSystemToLittleEndian(
     reinterpret_cast< unsigned short * >( p ), BIORAD_HEADER_LENGTH / 2);
   // To be able to deduce pixel spacing:
-  float mag_factor = static_cast< float >( m_Spacing[0] );
-  ByteSwapper< float >::SwapFromSystemToLittleEndian(&mag_factor);
-  memcpy(&header.mag_factor, (char *)( &mag_factor ), 4);
+  Aligned4ByteUnion mag_factor;
+  mag_factor.localFloatMagFactor = static_cast< float >( m_Spacing[0] );
+  ByteSwapper< float >::SwapFromSystemToLittleEndian(&(mag_factor.localFloatMagFactor));
+  memcpy(header.mag_factor, mag_factor.localChar4Array, 4);
   // Set the filename
   // NOTES: This is not very clear what should be written here, some files
   // have either:

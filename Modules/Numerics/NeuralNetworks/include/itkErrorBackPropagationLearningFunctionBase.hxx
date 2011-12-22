@@ -57,7 +57,7 @@ ErrorBackPropagationLearningFunctionBase<LayerType,TTargetVector>
 template<class LayerType, class TTargetVector>
 void
 ErrorBackPropagationLearningFunctionBase<LayerType,TTargetVector>
-::Learn( LayerInterfaceType * layer, TTargetVector errors, ValueType lr)
+::Learn( LayerInterfaceType * , TTargetVector , ValueType )
 {
 }
 

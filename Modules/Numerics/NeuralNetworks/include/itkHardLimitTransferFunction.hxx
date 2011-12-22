@@ -48,7 +48,7 @@ HardLimitTransferFunction<ScalarType>
 template<class ScalarType>
 ScalarType
 HardLimitTransferFunction<ScalarType>
-::EvaluateDerivative(const ScalarType& input)  const
+::EvaluateDerivative(const ScalarType& )  const
 {
   return 0;
 }

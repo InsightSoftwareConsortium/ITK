@@ -60,7 +60,7 @@ public:
   inline const ExternalType & Get(const InternalType & input) const
   { return input.GetGreen(); }
 
-  bool operator!=(const Self & other) const
+  bool operator!=(const Self & ) const
   {
     return false;
   }

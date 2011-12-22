@@ -250,31 +250,6 @@ public:
     m_Sign = -1.0;
   }
 
-  void IsDirectionMaximize()
-  {
-    if (m_Sign == -1.0)
-    {
-      return true;
-    }
-    else
-    {
-      return false;
-    }
-  }
-
-  void IsDirectionMinimize()
-  {
-    if (m_Sign == 1.0)
-    {
-      return true;
-    }
-    else
-    {
-      return false;
-    }
-  }
-
-
   /** Scaling of the similarity energy term */
   void SetGamma(Float s)
   {
