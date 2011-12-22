@@ -63,7 +63,7 @@ IsoDataThresholdCalculator<THistogram, TOutput>
     if( currentPos >= histogram->GetSize(0) )
       {
       // can't compute the isodata value - use the mean instead
-      this->GetOutput()->Set( histogram->Mean(0) );
+      this->GetOutput()->Set( static_cast<OutputType>( histogram->Mean(0) ) );
       return;
       }
     // compute the mean of the lower values

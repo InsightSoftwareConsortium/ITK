@@ -42,7 +42,7 @@ ShanbhagThresholdCalculator<THistogram, TOutput>
   ProgressReporter progress(this, 0, histogram->GetSize(0) );
   if( histogram->GetSize(0) == 1 )
     {
-    this->GetOutput()->Set( histogram->GetMeasurement(0,0) );
+    this->GetOutput()->Set( static_cast<OutputType>( histogram->GetMeasurement(0,0) ) );
     }
 
   unsigned int size = histogram->GetSize(0);
