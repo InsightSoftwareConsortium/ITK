@@ -71,8 +71,13 @@ public:
 
   bool operator()(const TInput & a, const TInput & b) const
   {
-    typename TInput::ValueType dotProduct = vnl_math_abs(a * b);
-    return ( 1.0 - dotProduct <= m_Threshold );
+    typedef typename NumericTraits<typename TInput::ValueType>::RealType RealValueType;
+    RealValueType dotProduct = NumericTraits<RealValueType>::Zero;
+    for ( unsigned int i = 0; i < NumericTraits<TInput>::GetLength(a); ++i)
+      {
+      dotProduct += a[i]*b[i];
+      }
+    return ( static_cast<typename TInput::ValueType>( 1.0 - vnl_math_abs(dotProduct) ) <= m_Threshold );
   }
 
 protected:
@@ -120,8 +125,10 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro( InputHasNumericTraitsCheck,
+  itkConceptMacro( InputValueHasNumericTraitsCheck,
                    ( Concept::HasNumericTraits< InputValueType > ) );
+  itkConceptMacro( InputValyeTypeIsFloatingCheck,
+                   ( Concept::IsFloatingPoint< InputValueType > ) );
   /** End concept checking */
 #endif
 protected:
