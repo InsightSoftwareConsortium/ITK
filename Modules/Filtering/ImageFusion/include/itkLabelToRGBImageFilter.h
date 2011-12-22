@@ -107,6 +107,8 @@ protected:
   /** Print internal ivars */
   void PrintSelf(std::ostream & os, Indent indent) const;
 
+  void GenerateOutputInformation();
+
 private:
   LabelToRGBImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);        //purposely not implemented

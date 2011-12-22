@@ -40,6 +40,7 @@ LabelToRGBImageFilter< TLabelImage, TOutputImage >
 ::LabelToRGBImageFilter()
 {
   m_BackgroundValue = NumericTraits< LabelPixelType >::Zero;
+  NumericTraits< OutputPixelType>::SetLength( m_BackgroundColor, 3);
   m_BackgroundColor.Fill(NumericTraits< OutputPixelValueType >::Zero);
 }
 
@@ -65,6 +66,27 @@ LabelToRGBImageFilter< TLabelImage, TOutputImage >
 ::AddColor(ComponentType r, ComponentType g, ComponentType b)
 {
   this->GetFunctor().AddColor(r, g, b);
+}
+
+template< class TLabelImage, class TOutputImage >
+void
+LabelToRGBImageFilter< TLabelImage, TOutputImage >
+::GenerateOutputInformation()
+{
+  // this methods is overloaded so that if the output image is a
+  // VectorImage then the correct number of components are set.
+
+  Superclass::GenerateOutputInformation();
+  OutputImageType* output = this->GetOutput();
+
+  if ( !output )
+    {
+    return;
+    }
+  if ( output->GetNumberOfComponentsPerPixel() != 3 )
+    {
+    output->SetNumberOfComponentsPerPixel( 3 );
+    }
 }
 
 template< class TLabelImage, class TOutputImage >
