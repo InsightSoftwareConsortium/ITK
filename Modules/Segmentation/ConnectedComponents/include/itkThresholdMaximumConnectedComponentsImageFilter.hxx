@@ -123,10 +123,7 @@ void ThresholdMaximumConnectedComponentsImageFilter< TInputImage, TOutputImage >
   // value, clamp it to this value.  This saves computation time
   // because there is no reason to search for values higher than the
   // max image value.
-  if (  m_UpperBoundary > upperBound )
-    {
-    m_UpperBoundary = upperBound;
-    }
+  upperBound = std::min( upperBound, m_UpperBoundary );
 
   m_ThresholdFilter->SetInput(inputPtr);
   m_ThresholdFilter->SetOutsideValue(m_OutsideValue);
