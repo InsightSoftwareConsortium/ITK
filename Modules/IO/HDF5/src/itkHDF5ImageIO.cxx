@@ -84,22 +84,27 @@ H5::PredType GetType()
     return H5Type;                        \
   }
 
-GetH5TypeSpecialize(double,            H5::PredType::NATIVE_DOUBLE)
 GetH5TypeSpecialize(float,             H5::PredType::NATIVE_FLOAT)
-GetH5TypeSpecialize(int,               H5::PredType::NATIVE_INT)
-GetH5TypeSpecialize(unsigned int,      H5::PredType::NATIVE_UINT)
+GetH5TypeSpecialize(double,            H5::PredType::NATIVE_DOUBLE)
+
+GetH5TypeSpecialize(char,              H5::PredType::NATIVE_CHAR)
+GetH5TypeSpecialize(unsigned char,     H5::PredType::NATIVE_UCHAR)
+
 GetH5TypeSpecialize(short,             H5::PredType::NATIVE_SHORT)
 GetH5TypeSpecialize(unsigned short,    H5::PredType::NATIVE_USHORT)
-GetH5TypeSpecialize(long,              H5::PredType::NATIVE_LONG)
-GetH5TypeSpecialize(long long,         H5::PredType::NATIVE_LLONG)
+
+GetH5TypeSpecialize(int,               H5::PredType::NATIVE_INT)
+GetH5TypeSpecialize(unsigned int,      H5::PredType::NATIVE_UINT)
+
 GetH5TypeSpecialize(unsigned long,     H5::PredType::NATIVE_ULONG)
-GetH5TypeSpecialize(unsigned long long,H5::PredType::NATIVE_ULLONG)
-GetH5TypeSpecialize(unsigned char,     H5::PredType::NATIVE_UCHAR)
-GetH5TypeSpecialize(char,              H5::PredType::NATIVE_CHAR)
+GetH5TypeSpecialize(long,              H5::PredType::NATIVE_LONG)
+
 /* The following types are not implmented.  This comment serves
  * to indicate that the full complement of possible H5::PredType
  * types are not implemented int the ITK IO reader/writer
  * GetH5TypeSpecialize(bool,              H5::PredType::NATIVE_HBOOL)
+ * GetH5TypeSpecialize(long long,         H5::PredType::NATIVE_LLONG)
+ * GetH5TypeSpecialize(unsigned long long,H5::PredType::NATIVE_ULLONG)
 */
 
 #undef GetH5TypeSpecialize
@@ -726,9 +731,9 @@ HDF5ImageIO
       {
       H5std_string name = metaGroup.getObjnameByIdx(i);
 
-      std::string MetaDataName(MetaDataGroupName);
-      MetaDataName += name;
-      H5::DataSet metaDataSet = this->m_H5File->openDataSet(MetaDataName);
+      std::string localMetaDataName(MetaDataGroupName);
+      localMetaDataName += name;
+      H5::DataSet metaDataSet = this->m_H5File->openDataSet(localMetaDataName);
       H5::DataType metaDataType = metaDataSet.getDataType();
       H5::DataSpace metaDataSpace = metaDataSet.getSpace();
       if(metaDataSpace.getSimpleExtentNdims() > 1)
@@ -748,24 +753,24 @@ HDF5ImageIO
           // happen because vnl_vector<bool> isn't
           // instantiated
           bool val;
-          int tmpVal = this->ReadScalar<int>(MetaDataName);
+          int tmpVal = this->ReadScalar<int>(localMetaDataName);
           val = tmpVal != 0;
           EncapsulateMetaData<bool>(metaDict,name,val);
           }
         else if(doesAttrExist(metaDataSet,"isLong"))
           {
-          long val = this->ReadScalar<long>(MetaDataName);
+          long val = this->ReadScalar<long>(localMetaDataName);
           EncapsulateMetaData<long>(metaDict,name,val);
           }
         else if(doesAttrExist(metaDataSet,"isUnsignedLong"))
           {
-          unsigned long val = this->ReadScalar<unsigned long>(MetaDataName);
+          unsigned long val = this->ReadScalar<unsigned long>(localMetaDataName);
           EncapsulateMetaData<unsigned long>(metaDict,name,val);
           }
         else
           {
           this->StoreMetaData<int>(&metaDict,
-                              MetaDataName,
+                              localMetaDataName,
                               name,
                               metaDataDims);
           }
@@ -773,63 +778,63 @@ HDF5ImageIO
       else if(metaDataType == H5::PredType::NATIVE_CHAR)
         {
         this->StoreMetaData<char>(&metaDict,
-                                  MetaDataName,
+                                  localMetaDataName,
                                   name,
                                   metaDataDims);
         }
       else if(metaDataType == H5::PredType::NATIVE_UCHAR)
         {
         this->StoreMetaData<unsigned char>(&metaDict,
-                                           MetaDataName,
+                                           localMetaDataName,
                                            name,
                                            metaDataDims);
         }
       else if(metaDataType == H5::PredType::NATIVE_SHORT)
         {
         this->StoreMetaData<short>(&metaDict,
-                                   MetaDataName,
+                                   localMetaDataName,
                                    name,
                                    metaDataDims);
         }
       else if(metaDataType == H5::PredType::NATIVE_USHORT)
         {
         this->StoreMetaData<unsigned short>(&metaDict,
-                                            MetaDataName,
+                                            localMetaDataName,
                                             name,
                                             metaDataDims);
         }
       else if(metaDataType == H5::PredType::NATIVE_UINT)
         {
         this->StoreMetaData<unsigned int>(&metaDict,
-                                          MetaDataName,
+                                          localMetaDataName,
                                           name,
                                           metaDataDims);
         }
       else if(metaDataType == H5::PredType::NATIVE_LONG)
         {
         this->StoreMetaData<long>(&metaDict,
-                                  MetaDataName,
+                                  localMetaDataName,
                                   name,
                                   metaDataDims);
         }
       else if(metaDataType == H5::PredType::NATIVE_ULONG)
         {
         this->StoreMetaData<unsigned long>(&metaDict,
-                                           MetaDataName,
+                                           localMetaDataName,
                                            name,
                                            metaDataDims);
         }
       else if(metaDataType == H5::PredType::NATIVE_FLOAT)
         {
         this->StoreMetaData<float>(&metaDict,
-                                   MetaDataName,
+                                   localMetaDataName,
                                    name,
                                    metaDataDims);
         }
       else if(metaDataType == H5::PredType::NATIVE_DOUBLE)
         {
         this->StoreMetaData<double>(&metaDict,
-                                    MetaDataName,
+                                    localMetaDataName,
                                     name,
                                     metaDataDims);
         }
@@ -838,7 +843,7 @@ HDF5ImageIO
         H5::StrType strType(H5::PredType::C_S1,H5T_VARIABLE);
         if(metaDataType == strType)
           {
-          std::string val = this->ReadString(MetaDataName);
+          std::string val = this->ReadString(localMetaDataName);
           EncapsulateMetaData<std::string>(metaDict,name,val);
           }
         }
