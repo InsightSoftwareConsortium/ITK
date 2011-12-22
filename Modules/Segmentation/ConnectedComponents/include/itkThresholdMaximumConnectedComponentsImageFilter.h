@@ -35,14 +35,14 @@ namespace itk
  * This method is based on Topological Stable State Thresholding to
  * calculate the threshold set point. This method is particularly
  * effective when there are a large number of objects in a microscopy
- * image. Uncomment the output statements in the GenerateData section
- * to see how the filter focuses in on a threshold value.
- * Please see the Insight Journal's MICCAI 2005 workshop for a complete
- * description. References are below.
+ * image. Compiling in Debug mode and enable the debug flag for this
+ * filter to print debug information to see how the filter focuses in
+ * on a threshold value. Please see the Insight Journal's MICCAI 2005
+ * workshop for a complete description. References are below.
  *
  * \par Parameters
- * The MinimumPixelArea parameter is controlled through the class
- * Get/SetMinimumPixelArea() method. Similar to the standard
+ * The MinimumObjectSizeInPixels parameter is controlled through the class
+ * Get/SetMinimumObjectSizeInPixels() method. Similar to the standard
  * itk::BinaryThresholdImageFilter the Get/SetInside and Get/SetOutside values
  * of the threshold can be set. The GetNumberOfObjects() and
  * GetThresholdValue() methods return the number of objects above the
@@ -50,10 +50,11 @@ namespace itk
  *
  * \par Automatic Thresholding in ITK
  * There are multiple methods to automatically calculate the threshold
- * intensity value of an image. As of version 2.6, ITK implements two of these.
- * Otsu thresholding (see itk::OtsuThresholdImageFilter) is a common method for
- * segmenting CT radiographs. Topological Stable State Thresholding works well
- * on images with a large number of objects to be counted.
+ * intensity value of an image. As of version 4.0, ITK has a
+ * Thresholding ( ITKThresholding ) module which contains numerous
+ * automatic thresholding methods.implements two of these. Topological
+ * Stable State Thresholding works well on images with a large number
+ * of objects to be counted.
  *
  * \par References:
  * 1) Urish KL, August J, Huard J. "Unsupervised segmentation for myofiber
