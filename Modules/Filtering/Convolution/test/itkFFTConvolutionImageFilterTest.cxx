@@ -81,8 +81,8 @@ int itkFFTConvolutionImageFilterTest(int argc, char * argv[])
   //
   convoluter->Print( std::cout );
 
-  ImageType::Pointer emtpyImage = ImageType::New();
-  convoluter->SetInput( emtpyImage );
+  ImageType::Pointer emptyImage = ImageType::New();
+  convoluter->SetInput( emptyImage );
   try
     {
     convoluter->Update();
