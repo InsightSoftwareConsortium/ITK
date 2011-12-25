@@ -74,7 +74,7 @@
     integer m, n;
     doublereal u[1024], x[1024], t1, t2, wa[42584];
     integer nbd[1024], iwa[3072];
-    char task[60];
+    char task[60] = {0};
     doublereal factr;
     char csave[60];
     doublereal dsave[29];
