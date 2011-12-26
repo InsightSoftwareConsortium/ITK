@@ -68,8 +68,11 @@ public:
   typedef typename OutputImageType::RegionType OutputImageRegionType;
   typedef typename OutputImageType::PixelType  OutputImagePixelType;
 
-  typedef WatershedImageFilter< InputImageType >                          WatershedType;
-  typedef GradientMagnitudeImageFilter< InputImageType, OutputImageType > GradientMagnitudeType;
+  typedef typename NumericTraits<InputImagePixelType>::RealType      RealPixelType;
+  typedef Image<RealPixelType, TInputImage::ImageDimension>          RealImageType;
+
+  typedef WatershedImageFilter< RealImageType >                          WatershedType;
+  typedef GradientMagnitudeImageFilter< InputImageType, RealImageType > GradientMagnitudeType;
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Set seed point 1. This seed will be isolated from Seed2 (if

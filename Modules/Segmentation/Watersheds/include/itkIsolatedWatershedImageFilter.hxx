@@ -151,6 +151,14 @@ IsolatedWatershedImageFilter< TInputImage, TOutputImage >
     iterate.CompletedStep();
     }
 
+  // See if the watersheds basins are separated. If not, then use lower.
+  if ( m_Watershed->GetOutput()->GetPixel(m_Seed1) ==
+       m_Watershed->GetOutput()->GetPixel(m_Seed2) )
+    {
+    m_Watershed->SetLevel (lower);
+    m_Watershed->Update ();
+    }
+
   // now produce an output image with the two seeded basins labeled
 
   ProgressReporter progress(this, 0, region.GetNumberOfPixels(), 100, cumulatedProgress, progressWeight);
