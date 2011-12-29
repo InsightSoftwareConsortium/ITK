@@ -131,11 +131,13 @@ public:
   void SetVariance(const typename ArrayType::ValueType v)
   {
     m_Variance.Fill(v);
+    this->Modified();
   }
 
   void SetMaximumError(const typename ArrayType::ValueType v)
   {
     m_MaximumError.Fill(v);
+    this->Modified();
   }
 
   void SetVariance(const double *v)
