@@ -75,17 +75,17 @@ public:
   static const ElementIdentifierType m_ElementNotFound;
 
   ElementWrapperPointerInterface();
-  ~ElementWrapperPointerInterface();
+  virtual ~ElementWrapperPointerInterface();
 
   TElementIdentifier GetLocation(const ElementWrapperPointerType & element) const;
 
   void SetLocation(ElementWrapperPointerType & element,
                    const ElementIdentifierType & identifier);
 
-  bool is_less(const ElementWrapperPointerType & element1,
+  virtual bool is_less(const ElementWrapperPointerType & element1,
                const ElementWrapperPointerType & element2) const;
 
-  bool is_greater(const ElementWrapperPointerType & element1,
+  virtual bool is_greater(const ElementWrapperPointerType & element1,
                   const ElementWrapperPointerType & element2) const;
 };
 // ------------------------------------------------------------------------
@@ -182,16 +182,16 @@ public:
 
   virtual ~MaxPriorityQueueElementWrapper() {}
 
-  bool is_less(const MaxPriorityQueueElementWrapper & element1,
+  virtual bool is_less(const MaxPriorityQueueElementWrapper & element1,
                const MaxPriorityQueueElementWrapper & element2) const;
 
-  bool is_less(const Superclass & element1,
+  virtual bool is_less(const Superclass & element1,
                const Superclass & element2) const;
 
-  bool is_greater(const MaxPriorityQueueElementWrapper & element1,
+  virtual bool is_greater(const MaxPriorityQueueElementWrapper & element1,
                   const MaxPriorityQueueElementWrapper & element2) const;
 
-  bool is_greater(const Superclass & element1,
+  virtual bool is_greater(const Superclass & element1,
                   const Superclass & element2) const;
 
 };
