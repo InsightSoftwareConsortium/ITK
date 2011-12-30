@@ -24,7 +24,7 @@ namespace itk
 {
 /**
  * \class BinaryMorphologicalOpeningImageFilter
- * \brief binary morphological closing of an image.
+ * \brief binary morphological opening of an image.
  *
  * This filter removes small (i.e., smaller than the structuring
  * element) structures in the interior or at the
