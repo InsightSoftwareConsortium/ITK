@@ -863,7 +863,7 @@ extern doublereal dpmeps_()
         }
     }
 /*     Compute f0 and g0. */
-    s_copy(task, "FG_START", (ftnlen)60, (ftnlen)8);
+    s_copy(task, "FG_START", (ftnlen)60, (ftnlen)(8+1));
 /*          return to the driver to calculate f and g; reenter at 111. */
     goto L1000;
 L111:
@@ -890,7 +890,7 @@ L111:
     if (sbgnrm <= *pgtol) {
 /*                                terminate the algorithm. */
         s_copy(task, "CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL", (
-                ftnlen)60, (ftnlen)48);
+                ftnlen)60, (ftnlen)(48 + 1));
         goto L999;
     }
 /* ----------------- the beginning of the loop -------------------------- */
@@ -1047,7 +1047,7 @@ L666:
                 --iback;
             }
             s_copy(task, "ABNORMAL_TERMINATION_IN_LNSRCH", (ftnlen)60, (
-                    ftnlen)30);
+                    ftnlen)(30+1));
             ++iter;
             goto L999;
         } else {
@@ -1065,7 +1065,7 @@ L666:
             theta = 1.;
             iupdat = 0;
             updatd = FALSE_;
-            s_copy(task, "RESTART_FROM_LNSRCH", (ftnlen)60, (ftnlen)19);
+            s_copy(task, "RESTART_FROM_LNSRCH", (ftnlen)60, (ftnlen)(19+1));
             timer_(&cpu2);
             lnscht = lnscht + cpu2 - cpu1;
             goto L222;
@@ -1089,8 +1089,8 @@ L777:
 /*     Test for termination. */
     if (sbgnrm <= *pgtol) {
 /*                                terminate the algorithm. */
-        s_copy(task, "CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL", (
-                ftnlen)60, (ftnlen)48);
+        s_copy(task, "CONVERGENCE:_NORM_OF_PROJECTED_GRADIENT_<=_PGTOL", (
+                ftnlen)60, (ftnlen)(48+1));
         goto L999;
     }
 /* Computing MAX */
@@ -1098,8 +1098,8 @@ L777:
     ddum = max(d__1,1.);
     if (fold - *f <= tol * ddum) {
 /*                                        terminate the algorithm. */
-        s_copy(task, "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH", (
-                ftnlen)60, (ftnlen)47);
+        s_copy(task, "CONVERGENCE: REL_REDUCTION_OF_F <= FACTR*EPSMCH", (
+                ftnlen)60, (ftnlen)(47+1));
         if (iback >= 10) {
             info = -5;
         }
@@ -2168,20 +2168,20 @@ L999:
 
     /* Function Body */
     if (*n <= 0) {
-        s_copy(task, "ERROR: N .LE. 0", (ftnlen)60, (ftnlen)15);
+        s_copy(task, "ERROR: N .LE. 0", (ftnlen)60, (ftnlen)(15+1));
     }
     if (*m <= 0) {
-        s_copy(task, "ERROR: M .LE. 0", (ftnlen)60, (ftnlen)15);
+        s_copy(task, "ERROR: M .LE. 0", (ftnlen)60, (ftnlen)(15+1));
     }
     if (*factr < 0.) {
-        s_copy(task, "ERROR: FACTR .LT. 0", (ftnlen)60, (ftnlen)19);
+        s_copy(task, "ERROR: FACTR .LT. 0", (ftnlen)60, (ftnlen)(19+1));
     }
 /*     Check the validity of the arrays nbd(i), u(i), and l(i). */
     i__1 = *n;
     for (i__ = 1; i__ <= i__1; ++i__) {
         if (nbd[i__] < 0 || nbd[i__] > 3) {
 /*                                                   return */
-            s_copy(task, "ERROR: INVALID NBD", (ftnlen)60, (ftnlen)18);
+            s_copy(task, "ERROR: INVALID NBD", (ftnlen)60, (ftnlen)(18+1));
             *info = -6;
             *k = i__;
         }
@@ -2189,7 +2189,7 @@ L999:
             if (l[i__] > u[i__]) {
 /*                                    return */
                 s_copy(task, "ERROR: NO FEASIBLE SOLUTION", (ftnlen)60, (
-                        ftnlen)27);
+                        ftnlen)(27+1));
                 *info = -7;
                 *k = i__;
             }
@@ -3014,7 +3014,7 @@ L30:
     *fold = *f;
     *ifun = 0;
     *iback = 0;
-    s_copy(csave, "START", (ftnlen)60, (ftnlen)5);
+    s_copy(csave, "START", (ftnlen)60, (ftnlen)(5+1));
 L556:
     *gd = ddot_(n, &g[1], &c__1, &d__[1], &c__1);
     if (*ifun == 0) {
@@ -3032,7 +3032,7 @@ L556:
     *xstep = *stp * *dnorm;
     if (s_cmp(csave, "CONV", (ftnlen)4, (ftnlen)4) != 0 && s_cmp(csave, "WARN"
             , (ftnlen)4, (ftnlen)4) != 0) {
-        s_copy(task, "FG_LNSRCH", (ftnlen)60, (ftnlen)9);
+        s_copy(task, "FG_LNSRCH", (ftnlen)60, (ftnlen)(9+1));
         ++(*ifun);
         ++(*nfgv);
         *iback = *ifun - 1;
@@ -3046,7 +3046,7 @@ L556:
             }
         }
     } else {
-        s_copy(task, "NEW_X", (ftnlen)60, (ftnlen)5);
+        s_copy(task, "NEW_X", (ftnlen)60, (ftnlen)(5+1));
     }
     return 0;
 } /* lnsrlb_ */
@@ -4251,28 +4251,28 @@ L911:
     if (s_cmp(task, "START", (ftnlen)5, (ftnlen)5) == 0) {
 /*        Check the input arguments for errors. */
         if (*stp < *stpmin) {
-            s_copy(task, "ERROR: STP .LT. STPMIN", task_len, (ftnlen)22);
+            s_copy(task, "ERROR: STP .LT. STPMIN", task_len, (ftnlen)(22+1));
         }
         if (*stp > *stpmax) {
-            s_copy(task, "ERROR: STP .GT. STPMAX", task_len, (ftnlen)22);
+            s_copy(task, "ERROR: STP .GT. STPMAX", task_len, (ftnlen)(22+1));
         }
         if (*g >= 0.) {
-            s_copy(task, "ERROR: INITIAL G .GE. ZERO", task_len, (ftnlen)26);
+            s_copy(task, "ERROR: INITIAL G .GE. ZERO", task_len, (ftnlen)(26+1));
         }
         if (*ftol < 0.) {
-            s_copy(task, "ERROR: FTOL .LT. ZERO", task_len, (ftnlen)21);
+            s_copy(task, "ERROR: FTOL .LT. ZERO", task_len, (ftnlen)(21+1));
         }
         if (*gtol < 0.) {
-            s_copy(task, "ERROR: GTOL .LT. ZERO", task_len, (ftnlen)21);
+            s_copy(task, "ERROR: GTOL .LT. ZERO", task_len, (ftnlen)(21+1));
         }
         if (*xtol < 0.) {
-            s_copy(task, "ERROR: XTOL .LT. ZERO", task_len, (ftnlen)21);
+            s_copy(task, "ERROR: XTOL .LT. ZERO", task_len, (ftnlen)(21+1));
         }
         if (*stpmin < 0.) {
-            s_copy(task, "ERROR: STPMIN .LT. ZERO", task_len, (ftnlen)23);
+            s_copy(task, "ERROR: STPMIN .LT. ZERO", task_len, (ftnlen)(23+1));
         }
         if (*stpmax < *stpmin) {
-            s_copy(task, "ERROR: STPMAX .LT. STPMIN", task_len, (ftnlen)25);
+            s_copy(task, "ERROR: STPMAX .LT. STPMIN", task_len, (ftnlen)(25+1));
         }
 /*        Exit if there are errors on input. */
         if (s_cmp(task, "ERROR", (ftnlen)5, (ftnlen)5) == 0) {
@@ -4300,7 +4300,7 @@ L911:
         gy = ginit;
         stmin = 0.;
         stmax = *stp + *stp * 4.;
-        s_copy(task, "FG", task_len, (ftnlen)2);
+        s_copy(task, "FG", task_len, (ftnlen)(2+1));
         goto L1000;
     } else {
 /*        Restore local variables. */
@@ -4333,20 +4333,20 @@ L911:
 /*     Test for warnings. */
     if (brackt && (*stp <= stmin || *stp >= stmax)) {
         s_copy(task, "WARNING: ROUNDING ERRORS PREVENT PROGRESS", task_len, (
-                ftnlen)41);
+                ftnlen)(41+1));
     }
     if (brackt && stmax - stmin <= *xtol * stmax) {
-        s_copy(task, "WARNING: XTOL TEST SATISFIED", task_len, (ftnlen)28);
+        s_copy(task, "WARNING: XTOL TEST SATISFIED", task_len, (ftnlen)(28+1));
     }
     if (*stp == *stpmax && *f <= ftest && *g <= gtest) {
-        s_copy(task, "WARNING: STP = STPMAX", task_len, (ftnlen)21);
+        s_copy(task, "WARNING: STP = STPMAX", task_len, (ftnlen)(21+1));
     }
     if (*stp == *stpmin && (*f > ftest || *g >= gtest)) {
-        s_copy(task, "WARNING: STP = STPMIN", task_len, (ftnlen)21);
+        s_copy(task, "WARNING: STP = STPMIN", task_len, (ftnlen)(21+1));
     }
 /*     Test for convergence. */
     if (*f <= ftest && abs(*g) <= *gtol * (-ginit)) {
-        s_copy(task, "CONVERGENCE", task_len, (ftnlen)11);
+        s_copy(task, "CONVERGENCE", task_len, (ftnlen)(11+1));
     }
 /*     Test for termination. */
     if (s_cmp(task, "WARN", (ftnlen)4, (ftnlen)4) == 0 || s_cmp(task, "CONV",
@@ -4403,7 +4403,7 @@ L911:
         *stp = stx;
     }
 /*     Obtain another function and derivative. */
-    s_copy(task, "FG", task_len, (ftnlen)2);
+    s_copy(task, "FG", task_len, (ftnlen)(2+1));
 L1000:
 /*     Save local variables. */
     if (brackt) {
