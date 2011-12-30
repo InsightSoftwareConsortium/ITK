@@ -45,7 +45,7 @@ namespace Math
 static const double e                = 2.7182818284590452354;
 /** \brief  \f[ \log_2 e \f] */
 static const double log2e            = 1.4426950408889634074;
-/** \brief \f[ \log_10 e \f] */
+/** \brief \f[ \log_{10} e \f] */
 static const double log10e           = 0.43429448190325182765;
 /** \brief \f[ \log_e 2 \f] */
 static const double ln2              = 0.69314718055994530942;
