@@ -100,10 +100,11 @@ namespace itk
  * information).  Appropriate time steps for solving this type of p.d.e. depend
  * on the dimensionality of the image and the order of the equation.  Typical
  * values are less than 0.250.  A stable value for most 2 and 3d functions is
- * 0.125.  In general, you should keep the time step below 1/2^N, where N is
- * the number of image dimensions.  A filter will automatically attempt to
- * constrain its time step to a stable  value and generate a run-time warning
- * if the time step is set too high.
+ * 0.125.  In general, you should keep the time step below
+ * \f$(PixelSpacing)/2^(N+1)\f$, where \f$N\f$ is * the number of image
+ * dimensions.  A filter will automatically attempt to constrain its time step
+ * to a stable  value and generate a run-time warning if the time step is set
+ * too high.
  *
  * \par Conductance Parameter
  * The conductance parameter controls the sensitivity of the conductance term
