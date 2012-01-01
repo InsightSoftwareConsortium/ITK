@@ -179,6 +179,102 @@ int itkSplineKernelTransformTest(int , char* [] )
     source2Dit++;
     target2Dit++;
     }
+  if ( tps2D->IsLinear() == true ) //NOTE TPS is never linear!
+    {
+    std::cout << "ERROR:  2D TPS reports as being a linear transform." << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
+  //NOTE: The following should set the default values explicitly
+    {
+    const double TestValue = 0.012345;
+    tps2D->SetStiffness(TestValue); //This value should not change the result at all.
+
+    if ( tps2D->GetStiffness() != TestValue )
+      {
+      std::cout << "ERROR:  Explicitly set stiffness value not retained." << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+    { //Just for code coverage
+    TPSTransform2DType::VectorSetType::Pointer tempDisplacements=tps2D->GetDisplacements();
+
+      {
+      TPSTransform2DType::InputVectorType  testVector;
+      testVector[0] = 0.0;
+      testVector[1] = 1.0;
+      bool exceptionCaught=false;
+      try
+        {
+        tps2D->TransformVector(testVector);
+        }
+      catch(...)
+        {
+        exceptionCaught = true;
+        }
+      if ( exceptionCaught != true )
+        {
+        return EXIT_FAILURE;
+        }
+      }
+      {
+      TPSTransform2DType::InputVnlVectorType  testVector;
+      testVector[0] = 0.0;
+      testVector[1] = 1.0;
+      bool exceptionCaught=false;
+      try
+        {
+        tps2D->TransformVector(testVector);
+        }
+      catch(...)
+        {
+        exceptionCaught = true;
+        }
+      if ( exceptionCaught != true )
+        {
+        return EXIT_FAILURE;
+        }
+      }
+      {
+      TPSTransform2DType::InputCovariantVectorType testVector;
+      testVector[0] = 0.0;
+      testVector[1] = 1.0;
+      bool exceptionCaught=false;
+      try
+        {
+        tps2D->TransformCovariantVector(testVector);
+        }
+      catch(...)
+        {
+        exceptionCaught = true;
+        }
+      if ( exceptionCaught != true )
+        {
+        return EXIT_FAILURE;
+        }
+      }
+      {
+      TPSTransform2DType::JacobianType   testJacobian;
+      TPSTransform2DType::InputPointType testVector;
+      testVector[0] = 0.0;
+      testVector[1] = 1.0;
+      bool exceptionCaught=false;
+      try
+        {
+        tps2D->ComputeJacobianWithRespectToPosition(testVector,testJacobian);
+        }
+      catch(...)
+        {
+        exceptionCaught = true;
+        }
+      if ( exceptionCaught != true )
+        {
+        return EXIT_FAILURE;
+        }
+      }
+    }
+
   std::cout << std::endl;
 
   std::cout << "TPR2LR 2D Test:" << std::endl;
