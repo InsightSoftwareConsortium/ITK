@@ -84,27 +84,28 @@ H5::PredType GetType()
     return H5Type;                        \
   }
 
-GetH5TypeSpecialize(float,             H5::PredType::NATIVE_FLOAT)
-GetH5TypeSpecialize(double,            H5::PredType::NATIVE_DOUBLE)
+GetH5TypeSpecialize(float,                  H5::PredType::NATIVE_FLOAT)
+GetH5TypeSpecialize(double,                 H5::PredType::NATIVE_DOUBLE)
 
-GetH5TypeSpecialize(char,              H5::PredType::NATIVE_CHAR)
-GetH5TypeSpecialize(unsigned char,     H5::PredType::NATIVE_UCHAR)
+GetH5TypeSpecialize(char,                   H5::PredType::NATIVE_CHAR)
+GetH5TypeSpecialize(unsigned char,          H5::PredType::NATIVE_UCHAR)
 
-GetH5TypeSpecialize(short,             H5::PredType::NATIVE_SHORT)
-GetH5TypeSpecialize(unsigned short,    H5::PredType::NATIVE_USHORT)
+GetH5TypeSpecialize(short int,              H5::PredType::NATIVE_SHORT)
+GetH5TypeSpecialize(short unsigned int,     H5::PredType::NATIVE_USHORT)
 
-GetH5TypeSpecialize(int,               H5::PredType::NATIVE_INT)
-GetH5TypeSpecialize(unsigned int,      H5::PredType::NATIVE_UINT)
+GetH5TypeSpecialize(int,                    H5::PredType::NATIVE_INT)
+GetH5TypeSpecialize(unsigned int,           H5::PredType::NATIVE_UINT)
 
-GetH5TypeSpecialize(unsigned long,     H5::PredType::NATIVE_ULONG)
-GetH5TypeSpecialize(long,              H5::PredType::NATIVE_LONG)
+GetH5TypeSpecialize(long int,               H5::PredType::NATIVE_LONG)
+GetH5TypeSpecialize(long unsigned int,      H5::PredType::NATIVE_ULONG)
+
+GetH5TypeSpecialize(long long int,          H5::PredType::NATIVE_LLONG)
+GetH5TypeSpecialize(unsigned long long int, H5::PredType::NATIVE_ULLONG)
 
 /* The following types are not implmented.  This comment serves
  * to indicate that the full complement of possible H5::PredType
  * types are not implemented int the ITK IO reader/writer
  * GetH5TypeSpecialize(bool,              H5::PredType::NATIVE_HBOOL)
- * GetH5TypeSpecialize(long long,         H5::PredType::NATIVE_LLONG)
- * GetH5TypeSpecialize(unsigned long long,H5::PredType::NATIVE_ULLONG)
 */
 
 #undef GetH5TypeSpecialize
@@ -117,41 +118,63 @@ PredTypeToComponentType(H5::DataType &type)
     {
     return ImageIOBase::UCHAR;
     }
-  if(type ==  H5::PredType::NATIVE_CHAR)
+  else if(type ==  H5::PredType::NATIVE_CHAR)
     {
     return ImageIOBase::CHAR;
     }
-  if(type ==  H5::PredType::NATIVE_USHORT)
+  else if(type ==  H5::PredType::NATIVE_USHORT)
     {
     return ImageIOBase::USHORT;
     }
-  if(type ==  H5::PredType::NATIVE_SHORT)
+  else if(type ==  H5::PredType::NATIVE_SHORT)
     {
     return ImageIOBase::SHORT;
     }
-  if(type ==  H5::PredType::NATIVE_UINT)
+  else if(type ==  H5::PredType::NATIVE_UINT)
     {
     return ImageIOBase::UINT;
     }
-  if(type ==  H5::PredType::NATIVE_INT)
+  else if(type ==  H5::PredType::NATIVE_INT)
     {
     return ImageIOBase::INT;
     }
-  if(type ==  H5::PredType::NATIVE_ULONG)
+  else if(type ==  H5::PredType::NATIVE_ULLONG)
     {
     return ImageIOBase::ULONG;
     }
-  if(type ==  H5::PredType::NATIVE_LONG)
+  else if(type ==  H5::PredType::NATIVE_LLONG)
     {
     return ImageIOBase::LONG;
     }
-  if(type ==  H5::PredType::NATIVE_FLOAT)
+  else if(type ==  H5::PredType::NATIVE_FLOAT)
     {
     return ImageIOBase::FLOAT;
     }
-  if(type ==  H5::PredType::NATIVE_DOUBLE)
+  else if(type ==  H5::PredType::NATIVE_DOUBLE)
     {
     return ImageIOBase::DOUBLE;
+    }
+  else if(type ==  H5::PredType::NATIVE_ULONG)
+    {
+    if(sizeof(unsigned int) == sizeof(unsigned long))
+      {
+      return ImageIOBase::UINT;
+      }
+    else if(sizeof(unsigned int) == sizeof(unsigned long long))
+      {
+      return ImageIOBase::ULONG;
+      }
+    }
+  else if(type ==  H5::PredType::NATIVE_LONG)
+    {
+    if(sizeof(int) == sizeof(long))
+      {
+      return ImageIOBase::INT;
+      }
+    else if(sizeof(int) == sizeof(long long))
+      {
+      return ImageIOBase::LONG;
+      }
     }
   itkGenericExceptionMacro(<< "unsupported data type "
                            << type.fromClass());
