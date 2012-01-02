@@ -181,6 +181,7 @@ template< class TEquationContainer, typename TOutput, unsigned int VDimension >
 LevelSetEvolution< TEquationContainer, WhitakerSparseLevelSetImage< TOutput, VDimension > >
 ::LevelSetEvolution()
 {
+  this->m_SplitLevelSetComputeIterationThreader = SplitLevelSetComputeIterationThreaderType::New();
 }
 
 template< class TEquationContainer, typename TOutput, unsigned int VDimension >
@@ -231,33 +232,18 @@ LevelSetEvolution< TEquationContainer, WhitakerSparseLevelSetImage< TOutput, VDi
 {
   typename LevelSetContainerType::Iterator it = this->m_LevelSetContainer->Begin();
 
-  while( it != this->m_LevelSetContainer->End() )
+  this->m_LevelSetContainerIteratorToProcessWhenThreading = this->m_LevelSetContainer->Begin();
+
+  while( this->m_LevelSetContainerIteratorToProcessWhenThreading != this->m_LevelSetContainer->End() )
     {
-    typename LevelSetType::Pointer levelSet = it->GetLevelSet();
+    typename LevelSetType::ConstPointer levelSet = this->m_LevelSetContainerIteratorToProcessWhenThreading->GetLevelSet();
+    const LevelSetLayerType zeroLayer = levelSet->GetLayer( 0 );
+    typename LevelSetType::LayerConstIterator layerBegin = zeroLayer.begin();
+    typename LevelSetType::LayerConstIterator layerEnd = zeroLayer.end();
+    typename SplitLevelSetPartitionerType::DomainType completeDomain( layerBegin, layerEnd );
+    this->m_SplitLevelSetComputeIterationThreader->Execute( this, completeDomain );
 
-    LevelSetIdentifierType levelSetId = it->GetIdentifier();
-    TermContainerPointer termContainer = this->m_EquationContainer->GetEquation( levelSetId );
-
-    LevelSetLayerIterator list_it = levelSet->GetLayer( 0 ).begin();
-    LevelSetLayerIterator list_end = levelSet->GetLayer( 0 ).end();
-
-    while( list_it != list_end )
-      {
-      const LevelSetInputType idx = list_it->first;
-
-      LevelSetDataType characteristics;
-
-      termContainer->ComputeRequiredData( idx, characteristics );
-
-      const LevelSetOutputType temp_update =
-          static_cast< LevelSetOutputType >( termContainer->Evaluate( idx, characteristics ) );
-
-      this->m_UpdateBuffer[ levelSetId ]->insert(
-            NodePairType( idx, temp_update ) );
-
-      ++list_it;
-      }
-    ++it;
+    ++(this->m_LevelSetContainerIteratorToProcessWhenThreading);
     }
 }
 

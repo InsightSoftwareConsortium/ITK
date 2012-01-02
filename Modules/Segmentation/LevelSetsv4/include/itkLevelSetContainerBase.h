@@ -231,6 +231,7 @@ public:
   ConstIterator Begin() const;
   ConstIterator End() const;
 
+  /** Get the number of LevelSets in the container. */
   LevelSetIdentifierType Size() const;
 
   /** \brief Get the level set function given its id

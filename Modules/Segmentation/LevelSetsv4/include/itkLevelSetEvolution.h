@@ -156,12 +156,8 @@ protected:
 
 
 template< class TEquationContainer, typename TOutput, unsigned int VDimension >
-class LevelSetEvolution<
-TEquationContainer,
-  WhitakerSparseLevelSetImage< TOutput, VDimension > > :
-  public LevelSetEvolutionBase<
-  TEquationContainer,
-  WhitakerSparseLevelSetImage< TOutput, VDimension > >
+class LevelSetEvolution< TEquationContainer, WhitakerSparseLevelSetImage< TOutput, VDimension > > :
+  public LevelSetEvolutionBase< TEquationContainer, WhitakerSparseLevelSetImage< TOutput, VDimension > >
 {
 public:
   typedef WhitakerSparseLevelSetImage< TOutput, VDimension > LevelSetType;
@@ -193,8 +189,8 @@ public:
 
   itkStaticConstMacro ( ImageDimension, unsigned int, Superclass::ImageDimension );
 
-  typedef typename Superclass::LevelSetContainerType    LevelSetContainerType;
-  typedef typename Superclass::LevelSetIdentifierType   LevelSetIdentifierType;
+  typedef typename Superclass::LevelSetContainerType              LevelSetContainerType;
+  typedef typename Superclass::LevelSetIdentifierType             LevelSetIdentifierType;
 
   typedef typename Superclass::LevelSetInputType      LevelSetInputType;
   typedef typename Superclass::LevelSetOutputType     LevelSetOutputType;
@@ -202,7 +198,6 @@ public:
   typedef typename Superclass::LevelSetDataType       LevelSetDataType;
 
   typedef typename LevelSetType::LayerType             LevelSetLayerType;
-  typedef typename LevelSetType::LayerIterator         LevelSetLayerIterator;
 
   typedef typename LevelSetType::LabelMapType          LevelSetLabelMapType;
   typedef typename LevelSetType::LabelMapPointer       LevelSetLabelMapPointer;
@@ -246,6 +241,11 @@ protected:
 
   /** Update the equations at the end of 1 iteration */
   virtual void UpdateEquations();
+
+  typedef ThreadedIteratorRangePartitioner< typename LevelSetType::LayerConstIterator > SplitLevelSetPartitionerType;
+  friend class LevelSetEvolutionComputeIterationThreader< LevelSetType, SplitLevelSetPartitionerType, Self >;
+  typedef LevelSetEvolutionComputeIterationThreader< LevelSetType, SplitLevelSetPartitionerType, Self > SplitLevelSetComputeIterationThreaderType;
+  typename SplitLevelSetComputeIterationThreaderType::Pointer m_SplitLevelSetComputeIterationThreader;
 
 private:
   LevelSetEvolution( const Self& );
@@ -299,7 +299,6 @@ public:
   typedef typename Superclass::LevelSetDataType       LevelSetDataType;
 
   typedef typename LevelSetType::LayerType             LevelSetLayerType;
-  typedef typename LevelSetType::LayerIterator         LevelSetLayerIterator;
 
   typedef typename LevelSetType::LabelMapType          LevelSetLabelMapType;
   typedef typename LevelSetType::LabelMapPointer       LevelSetLabelMapPointer;
