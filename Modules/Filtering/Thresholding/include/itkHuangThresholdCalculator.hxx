@@ -88,30 +88,56 @@ HuangThresholdCalculator<THistogram, TOutput>
     }
 
   // calculate the threshold
+  // need to take care - W[0] is zero, which means that mu=0 first
+  // time round. This may be below the range of values in the
+  // histogram, especially if masking is in place.
+  // Also need to be careful at the end. The Java implementation from
+  // ImageJ loops from first to last, not < last. This makes the
+  // calculation of mu a bit silly :
+  // mu = Math::Round<int>((W[last] - W[threshold]) / (S[last] - S[threshold]));
+  // which is going to produce 0/0. Hence the loop bounds have been
+  // changed. I think there is a bug in the ImageJ implementation, but
+  // perhaps it is hidden by whatever java does when rounding a NaN to integer.
+
   int bestThreshold = 0;
   double bestEntropy = itk::NumericTraits<double>::max();
-  for( int threshold = first; threshold <= last; threshold++ )
+  for( int threshold = first; threshold < last; threshold++ )
     {
     double entropy = 0;
     int mu = Math::Round<int>(W[threshold] / S[threshold]);
     typename HistogramType::MeasurementVectorType v(1);
     v[0]=mu;
-    itk::IndexValueType muIdx = histogram->GetIndex(v)[0];
-    for( int i = first; i <= threshold; i++ )
+    typename HistogramType::IndexType muFullIdx;
+    itk::IndexValueType muIdx;
+
+    if (histogram->GetIndex(v, muFullIdx))
       {
-      entropy += Smu[vcl_abs(i - muIdx)] * histogram->GetFrequency(i, 0);
-      }
-    mu = Math::Round<int>((W[last] - W[threshold]) / (S[last] - S[threshold]));
-    v[0]=mu;
-    muIdx = histogram->GetIndex(v)[0];
-    for( int i = threshold + 1; i <= last; i++ )
-      {
-      entropy += Smu[vcl_abs(i - muIdx)] * histogram->GetFrequency(i, 0);
-      }
-    if (bestEntropy > entropy)
-      {
-      bestEntropy = entropy;
-      bestThreshold = threshold;
+      muIdx = muFullIdx[0];
+      for( int i = first; i <= threshold; i++ )
+        {
+        assert((unsigned)vcl_abs(i - muIdx) < Smu.size());
+        assert(vcl_abs(i - muIdx) >= 0);
+        entropy += Smu[vcl_abs(i - muIdx)] * histogram->GetFrequency(i, 0);
+        }
+      mu = Math::Round<int>((W[last] - W[threshold]) / (S[last] - S[threshold]));
+      v[0]=mu;
+
+      bool status = histogram->GetIndex(v, muFullIdx);
+      assert(status);
+      if (!status)
+        {
+        itkExceptionMacro("Failed looking up histogram");
+        }
+      muIdx = muFullIdx[0];
+      for( int i = threshold + 1; i <= last; i++ )
+        {
+        entropy += Smu[vcl_abs(i - muIdx)] * histogram->GetFrequency(i, 0);
+        }
+      if (bestEntropy > entropy)
+        {
+        bestEntropy = entropy;
+        bestThreshold = threshold;
+        }
       }
     }
 

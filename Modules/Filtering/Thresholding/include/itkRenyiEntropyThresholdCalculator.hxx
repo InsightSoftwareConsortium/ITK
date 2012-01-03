@@ -256,9 +256,12 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>
     }
   //IJ.log(""+t_star1+" "+t_star2+" "+t_star3);
   /* Determine the optimal threshold value */
+  assert(t_star1 >= 0);
+  assert(t_star3 >= 0);
+  assert(t_star1 < P1.size());
+  assert(t_star3 < P1.size());
   omega = P1[t_star3] - P1[t_star1];
   opt_threshold = (int) (t_star1 * ( P1[t_star1] + 0.25 * omega * beta1 ) + 0.25 * t_star2 * omega * beta2  + t_star3 * ( P2[t_star3] + 0.25 * omega * beta3 ));
-
 
   this->GetOutput()->Set( static_cast<OutputType>( histogram->GetMeasurement( opt_threshold, 0 ) ) );
 }

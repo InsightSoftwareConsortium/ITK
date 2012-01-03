@@ -21,6 +21,18 @@ itkThresholdImageFilterTest.cxx
 itkThresholdLabelerImageFilterTest.cxx
 itkTriangleThresholdImageFilterTest.cxx
 itkYenThresholdImageFilterTest.cxx
+itkHuangMaskedThresholdImageFilterTest.cxx
+itkIntermodesMaskedThresholdImageFilterTest.cxx
+itkIsoDataMaskedThresholdImageFilterTest.cxx
+itkKittlerIllingworthMaskedThresholdImageFilterTest.cxx
+itkLiMaskedThresholdImageFilterTest.cxx
+itkMaximumEntropyMaskedThresholdImageFilterTest.cxx
+itkMomentsMaskedThresholdImageFilterTest.cxx
+itkOtsuMaskedThresholdImageFilterTest.cxx
+itkRenyiEntropyMaskedThresholdImageFilterTest.cxx
+itkShanbhagMaskedThresholdImageFilterTest.cxx
+itkTriangleMaskedThresholdImageFilterTest.cxx
+itkYenMaskedThresholdImageFilterTest.cxx
 )
 
 CreateTestDriver(ITKThresholding  "${ITKThresholding-Test_LIBRARIES}" "${ITKThresholdingTests}")
@@ -59,11 +71,23 @@ itk_add_test(NAME itkHuangThresholdImageFilterTest
               ${ITK_TEST_OUTPUT_DIR}/itkHuangThresholdImageFilterTest.png
     itkHuangThresholdImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkHuangThresholdImageFilterTest.png)
 
+itk_add_test(NAME itkHuangMaskedThresholdImageFilterTest
+      COMMAND ITKThresholdingTestDriver
+       --compare DATA{Baseline/itkHuangMaskedThresholdImageFilterTest.png}
+                ${ITK_TEST_OUTPUT_DIR}/itkHuangMaskedThresholdImageFilterTest.png
+    itkHuangMaskedThresholdImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} DATA{${ITK_DATA_ROOT}/Input/cthead1-threshmask.png} ${ITK_TEST_OUTPUT_DIR}/itkHuangMaskedThresholdImageFilterTest.png)
+
 itk_add_test(NAME itkIntermodesThresholdImageFilterTest
       COMMAND ITKThresholdingTestDriver
     --compare DATA{Baseline/itkIntermodesThresholdImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/itkIntermodesThresholdImageFilterTest.png
     itkIntermodesThresholdImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkIntermodesThresholdImageFilterTest.png)
+
+itk_add_test(NAME itkIntermodesMaskedThresholdImageFilterTest
+      COMMAND ITKThresholdingTestDriver
+    --compare DATA{Baseline/itkIntermodesMaskedThresholdImageFilterTest.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkIntermodesMaskedThresholdImageFilterTest.png
+    itkIntermodesMaskedThresholdImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} DATA{${ITK_DATA_ROOT}/Input/cthead1-threshmask.png} ${ITK_TEST_OUTPUT_DIR}/itkIntermodesMaskedThresholdImageFilterTest.png)
 
 itk_add_test(NAME itkIsoDataThresholdImageFilterTest
       COMMAND ITKThresholdingTestDriver
@@ -71,11 +95,24 @@ itk_add_test(NAME itkIsoDataThresholdImageFilterTest
               ${ITK_TEST_OUTPUT_DIR}/itkIsoDataThresholdImageFilterTest.png
     itkIsoDataThresholdImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkIsoDataThresholdImageFilterTest.png)
 
+itk_add_test(NAME itkIsoDataMaskedThresholdImageFilterTest
+      COMMAND ITKThresholdingTestDriver
+    --compare DATA{Baseline/itkIsoDataMaskedThresholdImageFilterTest.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkIsoDataMaskedThresholdImageFilterTest.png
+    itkIsoDataMaskedThresholdImageFilterTest
+      DATA{${ITK_DATA_ROOT}/Input/cthead1.png} DATA{${ITK_DATA_ROOT}/Input/cthead1-threshmask.png} ${ITK_TEST_OUTPUT_DIR}/itkIsoDataMaskedThresholdImageFilterTest.png)
+
 itk_add_test(NAME itkKittlerIllingworthThresholdImageFilterTest
       COMMAND ITKThresholdingTestDriver
     --compare DATA{Baseline/itkKittlerIllingworthThresholdImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/itkKittlerIllingworthThresholdImageFilterTest.png
     itkKittlerIllingworthThresholdImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkKittlerIllingworthThresholdImageFilterTest.png)
+
+itk_add_test(NAME itkKittlerIllingworthMaskedThresholdImageFilterTest
+      COMMAND ITKThresholdingTestDriver
+    --compare DATA{Baseline/itkKittlerIllingworthMaskedThresholdImageFilterTest.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkKittlerIllingworthMaskedThresholdImageFilterTest.png
+    itkKittlerIllingworthMaskedThresholdImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} DATA{${ITK_DATA_ROOT}/Input/cthead1-threshmask.png} ${ITK_TEST_OUTPUT_DIR}/itkKittlerIllingworthMaskedThresholdImageFilterTest.png)
 
 itk_add_test(NAME itkLiThresholdImageFilterTest
       COMMAND ITKThresholdingTestDriver
@@ -83,11 +120,23 @@ itk_add_test(NAME itkLiThresholdImageFilterTest
               ${ITK_TEST_OUTPUT_DIR}/itkLiThresholdImageFilterTest.png
     itkLiThresholdImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkLiThresholdImageFilterTest.png)
 
+itk_add_test(NAME itkLiMaskedThresholdImageFilterTest
+      COMMAND ITKThresholdingTestDriver
+     --compare DATA{Baseline/itkLiMaskedThresholdImageFilterTest.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkLiMaskedThresholdImageFilterTest.png
+    itkLiMaskedThresholdImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} DATA{${ITK_DATA_ROOT}/Input/cthead1-threshmask.png} ${ITK_TEST_OUTPUT_DIR}/itkLiMaskedThresholdImageFilterTest.png)
+
 itk_add_test(NAME itkMaximumEntropyThresholdImageFilterTest
       COMMAND ITKThresholdingTestDriver
     --compare DATA{Baseline/itkMaximumEntropyThresholdImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/itkMaximumEntropyThresholdImageFilterTest.png
     itkMaximumEntropyThresholdImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkMaximumEntropyThresholdImageFilterTest.png)
+
+itk_add_test(NAME itkMaximumEntropyMaskedThresholdImageFilterTest
+      COMMAND ITKThresholdingTestDriver
+     --compare DATA{Baseline/itkMaximumEntropyMaskedThresholdImageFilterTest.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkMaximumEntropyMaskedThresholdImageFilterTest.png
+    itkMaximumEntropyMaskedThresholdImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} DATA{${ITK_DATA_ROOT}/Input/cthead1-threshmask.png} ${ITK_TEST_OUTPUT_DIR}/itkMaximumEntropyMaskedThresholdImageFilterTest.png)
 
 itk_add_test(NAME itkMomentsThresholdImageFilterTest
       COMMAND ITKThresholdingTestDriver
@@ -95,11 +144,23 @@ itk_add_test(NAME itkMomentsThresholdImageFilterTest
               ${ITK_TEST_OUTPUT_DIR}/itkMomentsThresholdImageFilterTest.png
     itkMomentsThresholdImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkMomentsThresholdImageFilterTest.png)
 
+itk_add_test(NAME itkMomentsMaskedThresholdImageFilterTest
+      COMMAND ITKThresholdingTestDriver
+     --compare DATA{Baseline/itkMomentsMaskedThresholdImageFilterTest.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkMomentsMaskedThresholdImageFilterTest.png
+    itkMomentsMaskedThresholdImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} DATA{${ITK_DATA_ROOT}/Input/cthead1-threshmask.png} ${ITK_TEST_OUTPUT_DIR}/itkMomentsMaskedThresholdImageFilterTest.png)
+
 itk_add_test(NAME itkOtsuThresholdImageFilterTest
       COMMAND ITKThresholdingTestDriver
     --compare DATA{Baseline/itkOtsuThresholdImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/itkOtsuThresholdImageFilterTest.png
     itkOtsuThresholdImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkOtsuThresholdImageFilterTest.png)
+
+itk_add_test(NAME itkOtsuMaskedThresholdImageFilterTest
+      COMMAND ITKThresholdingTestDriver
+    --compare DATA{Baseline/itkOtsuMaskedThresholdImageFilterTest.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkOtsuMaskedThresholdImageFilterTest.png
+    itkOtsuMaskedThresholdImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} DATA{${ITK_DATA_ROOT}/Input/cthead1-threshmask.png} ${ITK_TEST_OUTPUT_DIR}/itkOtsuMaskedThresholdImageFilterTest.png)
 
 itk_add_test(NAME itkRenyiEntropyThresholdImageFilterTest
       COMMAND ITKThresholdingTestDriver
@@ -107,11 +168,24 @@ itk_add_test(NAME itkRenyiEntropyThresholdImageFilterTest
               ${ITK_TEST_OUTPUT_DIR}/itkRenyiEntropyThresholdImageFilterTest.png
     itkRenyiEntropyThresholdImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkRenyiEntropyThresholdImageFilterTest.png)
 
+itk_add_test(NAME itkRenyiEntropyMaskedThresholdImageFilterTest
+      COMMAND ITKThresholdingTestDriver
+    --compare DATA{Baseline/itkRenyiEntropyMaskedThresholdImageFilterTest.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkRenyiEntropyMaskedThresholdImageFilterTest.png
+    itkRenyiEntropyMaskedThresholdImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} DATA{${ITK_DATA_ROOT}/Input/cthead1-threshmask.png} ${ITK_TEST_OUTPUT_DIR}/itkRenyiEntropyMaskedThresholdImageFilterTest.png)
+
 itk_add_test(NAME itkShanbhagThresholdImageFilterTest
       COMMAND ITKThresholdingTestDriver
     --compare DATA{Baseline/itkShanbhagThresholdImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/itkShanbhagThresholdImageFilterTest.png
     itkShanbhagThresholdImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkShanbhagThresholdImageFilterTest.png)
+
+itk_add_test(NAME itkShanbhagMaskedThresholdImageFilterTest
+      COMMAND ITKThresholdingTestDriver
+     --compare DATA{Baseline/itkShanbhagMaskedThresholdImageFilterTest.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkShanbhagMaskedThresholdImageFilterTest.png
+    itkShanbhagMaskedThresholdImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} DATA{${ITK_DATA_ROOT}/Input/cthead1-threshmask.png} ${ITK_TEST_OUTPUT_DIR}/itkShanbhagMaskedThresholdImageFilterTest.png)
+
 
 itk_add_test(NAME itkTriangleThresholdImageFilterTest
       COMMAND ITKThresholdingTestDriver
@@ -119,12 +193,23 @@ itk_add_test(NAME itkTriangleThresholdImageFilterTest
               ${ITK_TEST_OUTPUT_DIR}/itkTriangleThresholdImageFilterTest.png
     itkTriangleThresholdImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkTriangleThresholdImageFilterTest.png)
 
+itk_add_test(NAME itkTriangleMaskedThresholdImageFilterTest
+      COMMAND ITKThresholdingTestDriver
+     --compare DATA{Baseline/itkTriangleMaskedThresholdImageFilterTest.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkTriangleMaskedThresholdImageFilterTest.png
+    itkTriangleMaskedThresholdImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} DATA{${ITK_DATA_ROOT}/Input/cthead1-threshmask.png} ${ITK_TEST_OUTPUT_DIR}/itkTriangleMaskedThresholdImageFilterTest.png)
+
 itk_add_test(NAME itkYenThresholdImageFilterTest
       COMMAND ITKThresholdingTestDriver
     --compare DATA{Baseline/itkYenThresholdImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/itkYenThresholdImageFilterTest.png
     itkYenThresholdImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkYenThresholdImageFilterTest.png)
 
+itk_add_test(NAME itkYenMaskedThresholdImageFilterTest
+      COMMAND ITKThresholdingTestDriver
+    --compare DATA{Baseline/itkYenMaskedThresholdImageFilterTest.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkYenMaskedThresholdImageFilterTest.png
+    itkYenMaskedThresholdImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} DATA{${ITK_DATA_ROOT}/Input/cthead1-threshmask.png} ${ITK_TEST_OUTPUT_DIR}/itkYenMaskedThresholdImageFilterTest.png)
 
 itk_add_test(NAME itkHuangThresholdImageFilterTestShort
       COMMAND ITKThresholdingTestDriver
