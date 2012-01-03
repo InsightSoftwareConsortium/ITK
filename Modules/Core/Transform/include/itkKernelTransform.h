@@ -143,24 +143,24 @@ public:
 
   /** These vector transforms are not implemented for this transform */
   using Superclass::TransformVector;
-  virtual OutputVectorType TransformVector(const InputVectorType &) const
-  {
-    itkExceptionMacro(
-      << "TransformVector(const InputVectorType &) is not implemented for KernelTransform");
+  virtual OutputVectorType TransformVector(const InputVectorType &) const                       \
+  {                                                                                             \
+    itkExceptionMacro(                                                                          \
+      << "TransformVector(const InputVectorType &) is not implemented for KernelTransform");    \
   }
 
-  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType &) const
-  {
-    itkExceptionMacro(
-      << "TransformVector(const InputVnlVectorType &) is not implemented for KernelTransform");
+  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType &) const                 \
+  {                                                                                             \
+    itkExceptionMacro(                                                                          \
+      << "TransformVector(const InputVnlVectorType &) is not implemented for KernelTransform"); \
   }
 
   /**  Method to transform a CovariantVector. */
   using Superclass::TransformCovariantVector;
-  virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType &) const
-  {
-    itkExceptionMacro(
-      << "TransformCovariantVector(const InputCovariantVectorType &) is not implemented for KernelTransform");
+  virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType &) const           \
+  {                                                                                                            \
+    itkExceptionMacro(                                                                                         \
+      << "TransformCovariantVector(const InputCovariantVectorType &) is not implemented for KernelTransform"); \
   }
 
   /** 'I' (identity) matrix typedef. */
@@ -170,10 +170,10 @@ public:
   virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const;
 
   virtual void ComputeJacobianWithRespectToPosition(const InputPointType &,
-                                                    JacobianType &) const
-  {
-    itkExceptionMacro( "ComputeJacobianWithRespectToPosition not yet implemented "
-                       "for " << this->GetNameOfClass() );
+                                                    JacobianType &) const           \
+  {                                                                                 \
+    itkExceptionMacro( "ComputeJacobianWithRespectToPosition not yet implemented "  \
+                       "for " << this->GetNameOfClass() );                          \
   }
 
   /** Set the Transformation Parameters and update the internal transformation.
