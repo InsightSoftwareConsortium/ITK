@@ -125,7 +125,7 @@ int vnl_lsqr::minimize(vnl_vector<double>& result)
   long leniw = 1;
   long* iw = 0;
   long lenrw = m;
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(__clang__)
   double rw[m];
   double v[n];
   double w[n];
