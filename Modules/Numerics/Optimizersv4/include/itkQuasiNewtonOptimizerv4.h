@@ -48,8 +48,8 @@ namespace itk
 
  * When m_ScalesEstimator is set, SetMaximumNewtonStepSizeInPhysicalUnits()
  * may be called to set the maximum step size. If it is not called,
- * m_MaximumNewtonStepSizeInPhysicalUnits defaults to lamda *
- * OptimizerParameterScalesEstimator::GetMaximumStepSize(), where lamda is
+ * m_MaximumNewtonStepSizeInPhysicalUnits defaults to lambda *
+ * OptimizerParameterScalesEstimator::EstimateMaximumStepSize(), where lambda is
  * in [1,5].
  *
  * When m_ScalesEstimator is not set, the parameter scales and learning rates
@@ -87,7 +87,20 @@ public:
   /** Set the maximum tolerable number of iteration without any progress */
   itkSetMacro(MaximumIterationsWithoutProgress, SizeValueType);
 
-  /** Set the maximum step size. */
+  /** Set the maximum step size.
+   *
+   *  When SetScalesEstimator is called by user, the optimizer will compute
+   *  learning rates as
+   *      m_MaximumNewtonStepSizeInPhysicalUnits /
+   *      m_ScalesEstimator->EstimateStepScale(newtonStep).
+   *
+   *  If SetMaximumNewtonStepSizeInPhysicalUnits is not called by user,
+   *  m_MaximumNewtonStepSizeInPhysicalUnits defaults to
+   *      lambda * m_ScalesEstimator->EstimateMaximumStepSize(),
+   *
+   *  where EstimateMaximumStepSize returns one voxel spacing and
+   *  lambda may be in [1,5] according to our experience.
+   */
   itkSetMacro(MaximumNewtonStepSizeInPhysicalUnits, InternalComputationValueType);
 
   /** Get the most recent Newton step. */

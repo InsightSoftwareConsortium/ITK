@@ -20,6 +20,7 @@
 
 #include "itkGradientDescentOptimizerBasev4.h"
 #include "itkOptimizerParameterScalesEstimator.h"
+#include "itkWindowConvergenceMonitoringFunction.h"
 
 namespace itk
 {
@@ -48,7 +49,7 @@ namespace itk
  * rates are automatically restricted such that each step will produce physical
  * impacts on voxels less than m_MaximumStepSizeInPhysicalUnits.
  * m_MaximumStepSizeInPhysicalUnits defaults to the voxel spacing returned
- * by m_ScalesEstimator.
+ * by m_ScalesEstimator->EstimateMaximumStepSize().
  *
  * \note Unlike the previous version of GradientDescentOptimizer, this version
  * does not have a "maximize/minimize" option to modify the effect of the metric
@@ -82,17 +83,66 @@ public:
   typedef Superclass::MeasureType                  MeasureType;
   typedef Superclass::InternalComputationValueType InternalComputationValueType;
 
+  /** Type for the convergence checker */
+  typedef itk::Function::WindowConvergenceMonitoringFunction<double>
+    ConvergenceMonitoringType;
+
   /** Set the learning rate. */
   itkSetMacro(LearningRate, InternalComputationValueType);
 
   /** Get the learning rate. */
   itkGetConstReferenceMacro(LearningRate, InternalComputationValueType);
 
-  /** Set the maximum step size. */
+  /** Set the maximum step size.
+   *
+   *  When m_ScalesEstimator is set by user, the optimizer will compute
+   *  learning rates as
+   *      m_MaximumStepSizeInPhysicalUnits /
+   *      m_ScalesEstimator->EstimateStepScale(scaledGradient).
+   *
+   *  If SetMaximumStepSizeInPhysicalUnits is not called by user,
+   *  m_MaximumStepSizeInPhysicalUnits defaults to
+   *      m_ScalesEstimator->EstimateMaximumStepSize().
+   *
+   *  where EstimateMaximumStepSize returns one voxel spacing.
+   */
   itkSetMacro(MaximumStepSizeInPhysicalUnits, InternalComputationValueType);
 
-  /** Set the scales estimator. */
+  /** Set the scales estimator.
+   *
+   *  SetScalesEstimator has higher priority than SetScales and SetLearningRate.
+   *  The m_ScalesEstimator estimates both parameter scales and step scale.
+   *
+   *  The optimizer will compute learning rates as
+   *      m_MaximumStepSizeInPhysicalUnits /
+   *      m_ScalesEstimator->EstimateStepScale(scaledGradient).
+   *
+   *  If SetMaximumStepSizeInPhysicalUnits is not called by user,
+   *  m_MaximumStepSizeInPhysicalUnits defaults to
+   *      m_ScalesEstimator->EstimateMaximumStepSize().
+   */
   itkSetObjectMacro(ScalesEstimator, OptimizerParameterScalesEstimator);
+
+  /** Minimum convergence value for convergence checking.
+   *  The convergence checker calculates convergence value by fitting to
+   *  a window of the energy profile. When the convergence value reaches
+   *  a small value, it would be treated as converged.
+   *
+   *  The default m_MinimumConvergenceValue is set to 1e-8 to pass all
+   *  tests. It is suggested to use 1e-6 for less stringent convergence
+   *  checking.
+   */
+  itkSetMacro(MinimumConvergenceValue, InternalComputationValueType);
+
+  /** Window size for the convergence checker.
+   *  The convergence checker calculates convergence value by fitting to
+   *  a window of the energy (metric value) profile.
+   *
+   *  The default m_ConvergenceWindowSize is set to 50 to pass all
+   *  tests. It is suggested to use 10 for less stringent convergence
+   *  checking.
+   */
+  itkSetMacro(ConvergenceWindowSize, SizeValueType);
 
   /** Start and run the optimization */
   virtual void StartOptimization();
@@ -128,6 +178,22 @@ protected:
   virtual void PrintSelf( std::ostream & os, Indent indent ) const;
 
   OptimizerParameterScalesEstimator::Pointer m_ScalesEstimator;
+
+  /** Minimum convergence value for convergence checking.
+   *  The convergence checker calculates convergence value by fitting to
+   *  a window of the energy profile. When the convergence value reaches
+   *  a small value, such as 1e-8, it would be treated as converged.
+   */
+  InternalComputationValueType m_MinimumConvergenceValue;
+
+  /** Window size for the convergence checker.
+   *  The convergence checker calculates convergence value by fitting to
+   *  a window of the energy (metric value) profile.
+   */
+  SizeValueType m_ConvergenceWindowSize;
+
+  /** The convergence checker. */
+  ConvergenceMonitoringType::Pointer m_ConvergenceMonitoring;
 
 private:
   GradientDescentOptimizerv4( const Self & ); //purposely not implemented

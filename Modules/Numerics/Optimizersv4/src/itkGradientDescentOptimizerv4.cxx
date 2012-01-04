@@ -34,6 +34,10 @@ GradientDescentOptimizerv4
   // SetMaximumStepSizeInPhysicalUnits manually or by using m_ScalesEstimator
   // automatically. and the former has higher priority than the latter.
   this->m_MaximumStepSizeInPhysicalUnits = NumericTraits<InternalComputationValueType>::Zero;
+
+  // Initialize parameters for the convergence checker
+  this->m_MinimumConvergenceValue = 1e-8;//NumericTraits<InternalComputationValueType>::epsilon();//1e-30;
+  this->m_ConvergenceWindowSize = 50;
 }
 
 /**
@@ -76,6 +80,10 @@ GradientDescentOptimizerv4
       this->m_MaximumStepSizeInPhysicalUnits = this->m_ScalesEstimator->EstimateMaximumStepSize();
       }
     }
+
+  // Initialize the convergence checker
+  this->m_ConvergenceMonitoring = ConvergenceMonitoringType::New();
+  this->m_ConvergenceMonitoring->SetWindowSize( this->m_ConvergenceWindowSize );
 
   /* Must call the superclass version for basic validation and setup */
   Superclass::StartOptimization();
@@ -122,6 +130,25 @@ GradientDescentOptimizerv4
       {
       this->m_StopConditionDescription << "StopOptimization() called";
       break;
+      }
+
+    /* Check the convergence by WindowConvergenceMonitoringFunction.
+     */
+    m_ConvergenceMonitoring->AddEnergyValue( this->m_Value );
+    try
+      {
+      InternalComputationValueType convergenceValue = m_ConvergenceMonitoring->GetConvergenceValue();
+      if (convergenceValue <= m_MinimumConvergenceValue)
+        {
+        this->m_StopConditionDescription << "Convergence checker passed.";
+        this->m_StopCondition = CONVERGENCE_CHECKER_PASSED;
+        this->StopOptimization();
+        break;
+        }
+      }
+    catch(...)
+      {
+      std::cout << "GetConvergenceValue() failed." << std::endl;
       }
 
     /* Advance one step along the gradient.
