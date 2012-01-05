@@ -625,6 +625,11 @@ public:
   virtual void GetValueAndDerivative( MeasureType & value,
                                       DerivativeType & derivative ) const;
 
+  /* Get the number of sampled fixed sampled points that are
+   * deemed invalid during conversion to virtual domain in Initialize.
+   * For informational purposes. */
+  itkGetConstReferenceMacro(NumberOfSkippedFixedSampledPoints, SizeValueType);
+
 protected:
   /** Perform any initialization required before each evaluation of
    * \c GetValueAndDerivative. This is distinct from Initialize, which
@@ -770,29 +775,29 @@ protected:
    * to a user-provided object. This enables
    * safely sharing a derivative object between metrics during multi-variate
    * analsys, for memory efficiency. */
-  mutable DerivativeType *                    m_DerivativeResult;
+  mutable DerivativeType *                m_DerivativeResult;
 
   /** Store the number of points used during most recent value and derivative
    * calculation. */
-  mutable SizeValueType                       m_NumberOfValidPoints;
+  mutable SizeValueType                   m_NumberOfValidPoints;
 
   /** Flag that is set when user provides a virtual domain, either via
    * CreateVirtualDomainImage or SetVirtualDomainImage. */
-  bool                                        m_UserHasProvidedVirtualDomainImage;
+  bool                                    m_UserHasProvidedVirtualDomainImage;
 
   /** Masks */
-  FixedImageMaskConstPointer                  m_FixedImageMask;
-  MovingImageMaskConstPointer                 m_MovingImageMask;
+  FixedImageMaskConstPointer              m_FixedImageMask;
+  MovingImageMaskConstPointer             m_MovingImageMask;
 
   /** Sampled point sets */
-  FixedSampledPointSetConstPointer            m_FixedSampledPointSet;
-  VirtualSampledPointSetPointer               m_VirtualSampledPointSet;
+  FixedSampledPointSetConstPointer        m_FixedSampledPointSet;
+  VirtualSampledPointSetPointer           m_VirtualSampledPointSet;
 
   /** Flag to use FixedSampledPointSet, i.e. Sparse sampling. */
-  bool                                        m_UseFixedSampledPointSet;
+  bool                                    m_UseFixedSampledPointSet;
 
   /** Metric value, stored after evaluating */
-  mutable MeasureType             m_Value;
+  mutable MeasureType                     m_Value;
 
   ImageToImageMetricv4();
   virtual ~ImageToImageMetricv4();
@@ -821,6 +826,11 @@ private:
 
   //Sample point coordinates from the virtual image domain
   std::vector<VirtualPointType> m_VirtualImageCornerPoints;
+
+  /* Keep track of the number of sampled fixed points that are
+   * deemed invalid during conversion to virtual domain.
+   * For informational purposes. */
+  SizeValueType m_NumberOfSkippedFixedSampledPoints;
 
   DerivativeValueType m_FloatingPointCorrectionResolution;
 };
