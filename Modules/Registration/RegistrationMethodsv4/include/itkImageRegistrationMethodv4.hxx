@@ -22,9 +22,12 @@
 
 #include "itkDiscreteGaussianImageFilter.h"
 #include "itkGradientDescentOptimizerv4.h"
+#include "itkImageRandomConstIteratorWithIndex.h"
+#include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkIterationReporter.h"
 #include "itkJointHistogramMutualInformationImageToImageMetricv4.h"
 #include "itkLinearInterpolateImageFunction.h"
+#include "itkMersenneTwisterRandomVariateGenerator.h"
 #include "itkRegistrationParameterScalesFromShift.h"
 #include "itkShrinkImageFilter.h"
 
@@ -40,6 +43,9 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
   this->SetNumberOfRequiredOutputs( 2 );
 
   this->m_CurrentLevel = 0;
+
+  this->m_MetricSamplingStrategy = NONE;
+  this->m_MetricSamplingPercentage = 1;
 
   this->m_CompositeTransform = NULL;
 
@@ -93,7 +99,6 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
   this->m_SmoothingSigmasPerLevel[0] = 2;
   this->m_SmoothingSigmasPerLevel[1] = 1;
   this->m_SmoothingSigmasPerLevel[2] = 0;
-
 }
 
 template<typename TFixedImage, typename TMovingImage, typename TTransform>
@@ -212,7 +217,11 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
   this->m_Metric->SetFixedImage( this->m_FixedSmoothImage );
   this->m_Metric->SetMovingImage( this->m_MovingSmoothImage );
   this->m_Metric->SetVirtualDomainImage( shrinkFilter->GetOutput() );
-  this->m_Metric->Initialize();
+
+  if( this->m_MetricSamplingStrategy != NONE )
+    {
+    this->SetMetricSamplePoints();
+    }
 
   // Update the optimizer
 
@@ -243,11 +252,13 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
   for( this->m_CurrentLevel = 0; this->m_CurrentLevel < this->m_NumberOfLevels; this->m_CurrentLevel++ )
     {
     IterationReporter reporter( this, 0, 1 );
-    reporter.CompletedStep();
 
     this->InitializeRegistrationAtEachLevel( this->m_CurrentLevel );
 
+    this->m_Metric->Initialize();
     this->m_Optimizer->StartOptimization();
+
+    reporter.CompletedStep();
     }
 
   TransformOutputPointer transformDecorator = TransformOutputType::New().GetPointer();
@@ -319,6 +330,93 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
     }
 }
 
+/**
+ * Get the metric samples
+ */
+template<typename TFixedImage, typename TMovingImage, typename TTransform>
+void
+ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
+::SetMetricSamplePoints()
+{
+  typename MetricSamplePointSetType::Pointer samplePointSet = MetricSamplePointSetType::New();
+  samplePointSet->Initialize();
+
+  typedef typename MetricSamplePointSetType::PointType SamplePointType;
+
+  typedef typename MetricType::VirtualImageType         VirtualDomainImageType;
+  typedef typename VirtualDomainImageType::RegionType   VirtualDomainRegionType;
+
+  const VirtualDomainImageType * virtualImage = this->m_Metric->GetVirtualDomainImage();
+  const VirtualDomainRegionType & virtualDomainRegion = virtualImage->GetRequestedRegion();
+  const typename VirtualDomainImageType::SpacingType virtualSpacing = virtualImage->GetSpacing();
+
+  unsigned long sampleCount = virtualDomainRegion.GetNumberOfPixels();
+
+  typedef typename Statistics::MersenneTwisterRandomVariateGenerator RandomizerType;
+  typename RandomizerType::Pointer randomizer = RandomizerType::New();
+  randomizer->SetSeed( 1234 );
+
+  unsigned long index = 0;
+
+  switch( this->m_MetricSamplingStrategy )
+    {
+    case REGULAR:
+      {
+      sampleCount = vcl_ceil( 1.0 / this->m_MetricSamplingPercentage );
+
+      unsigned long count = 0;
+      ImageRegionConstIteratorWithIndex<VirtualDomainImageType> It( virtualImage, virtualDomainRegion );
+      for( It.GoToBegin(); !It.IsAtEnd(); ++It )
+        {
+        if( count % sampleCount == 0 )
+          {
+          SamplePointType point;
+          virtualImage->TransformIndexToPhysicalPoint( It.GetIndex(), point );
+
+          // randomly perturb the point within a voxel (approximately)
+          for( unsigned int d = 0; d < ImageDimension; d++ )
+            {
+            point[d] += randomizer->GetNormalVariate() / 3.0 * virtualSpacing[d];
+            }
+          samplePointSet->SetPoint( index, point );
+          index++;
+          }
+        count++;
+        }
+      break;
+      }
+    case RANDOM:
+      {
+      sampleCount = static_cast<unsigned long>( static_cast<float>( sampleCount ) * this->m_MetricSamplingPercentage );
+
+      ImageRandomConstIteratorWithIndex<VirtualDomainImageType> ItR( virtualImage, virtualDomainRegion );
+      ItR.SetNumberOfSamples( sampleCount );
+      for( ItR.GoToBegin(); !ItR.IsAtEnd(); ++ItR )
+        {
+        SamplePointType point;
+        virtualImage->TransformIndexToPhysicalPoint( ItR.GetIndex(), point );
+
+        // randomly perturb the point within a voxel (approximately)
+        for ( unsigned int d = 0; d < ImageDimension; d++ )
+          {
+          point[d] += randomizer->GetNormalVariate() / 3.0 * virtualSpacing[d];
+          }
+        samplePointSet->SetPoint( index, point );
+        index++;
+        }
+      break;
+      }
+    default:
+      {
+      itkExceptionMacro( "Invalid sampling strategy requested." );
+      }
+    }
+
+  this->m_Metric->SetDoMovingImagePreWarp( false );
+  this->m_Metric->SetFixedSampledPointSet( samplePointSet );
+  this->m_Metric->SetUseFixedSampledPointSet( true );
+}
+
 /*
  * PrintSelf
  */
@@ -334,21 +432,13 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
   os << indent << "Fixed interpolator:" << std::endl;
   this->m_FixedInterpolator->Print( std::cout, indent );
 
-    os << "Number of levels = " << this->m_NumberOfLevels << std::endl;
-//    os << indent << "Image metric:" << std::endl;
-//    this->m_ImageMetrics[stage]->Print( os, indent );
-//
-//    os << indent << "Transform:" << std::endl;
-//    this->m_CompositeTransform->GetNthTransform( stage )->Print( os, indent );
-//    os << indent << "Transform adaptors:" << std::endl;
-//    for( SizeValueType level = 0; level < this->m_NumberOfLevels[stage]; level++ )
-//      {
-//      os << indent << "Level " << level << std::endl;
-//      this->m_TransformParametersAdaptors[stage][level]->Print( os, indent );
-//      }
+  os << "Number of levels = " << this->m_NumberOfLevels << std::endl;
 
   os << indent << "Shrink factors: " << this->m_ShrinkFactorsPerLevel << std::endl;
   os << indent << "Smoothing sigmas: " << this->m_SmoothingSigmasPerLevel << std::endl;
+
+  os << indent << "Metric sampling strategy: " << this->m_MetricSamplingStrategy << std::endl;
+  os << indent << "Metric sampling percentage: " << this->m_MetricSamplingPercentage << std::endl;
 }
 
 /*

@@ -169,19 +169,22 @@ protected:
 
   virtual void ThreadedGenerateData( const OutputRegionType &, ThreadIdType );
 
+  VectorType IntegrateVelocityAtPoint( const PointType & );
+
+  RealType                                  m_LowerTimeBound;
+  RealType                                  m_UpperTimeBound;
+
+  DisplacementFieldPointer                  m_InitialDiffeomorphism;
+
+  unsigned int                              m_NumberOfIntegrationSteps;
+
+  DisplacementFieldInterpolatorPointer      m_DisplacementFieldInterpolator;
+
 private:
   TimeVaryingVelocityFieldIntegrationImageFilter( const Self & ); //purposely not implemented
   void operator=( const Self & );         //purposely not implemented
 
-  VectorType IntegrateVelocityAtPoint( const PointType & );
-
   VelocityFieldInterpolatorPointer          m_VelocityFieldInterpolator;
-  RealType                                  m_LowerTimeBound;
-  RealType                                  m_UpperTimeBound;
-  unsigned int                              m_NumberOfIntegrationSteps;
-
-  DisplacementFieldPointer                   m_InitialDiffeomorphism;
-  DisplacementFieldInterpolatorPointer       m_DisplacementFieldInterpolator;
 };
 }
 

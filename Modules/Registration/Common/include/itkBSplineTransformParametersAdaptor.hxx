@@ -127,7 +127,7 @@ BSplineTransformParametersAdaptor<TTransform>
   // set the mesh size parameters
   for( SizeValueType i = 0; i < SpaceDimension; i++ )
     {
-    this->m_RequiredTransformDomainMeshSize[i] = this->m_RequiredFixedParameters[i] - TransformType::SplineOrder;
+    this->m_RequiredTransformDomainMeshSize[i] = static_cast<SizeValueType>( this->m_RequiredFixedParameters[i] ) - TransformType::SplineOrder;
     }
 
   // Set the physical dimensions parameters

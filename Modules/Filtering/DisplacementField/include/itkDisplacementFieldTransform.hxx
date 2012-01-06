@@ -515,7 +515,7 @@ DisplacementFieldTransform<TScalar, NDimensions>
   SizeType size;
   for( unsigned int d = 0; d < NDimensions; d++ )
     {
-    size[d] = fixedParameters[d];
+    size[d] = static_cast<SizeValueType>( fixedParameters[d] );
     }
 
   PointType origin;

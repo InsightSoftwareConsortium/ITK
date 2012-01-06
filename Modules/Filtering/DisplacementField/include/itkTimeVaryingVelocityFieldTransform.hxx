@@ -36,8 +36,6 @@ TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
   this->m_LowerTimeBound = 0.0;
   this->m_UpperTimeBound = 1.0;
   this->m_NumberOfIntegrationSteps = 100;
-  this->m_IntegrateTimeVaryingVelocityField = true;
-  this->m_TimeVaryingVelocityFieldSetTime = 0;
 
   this->m_TimeVaryingVelocityField = NULL;
 
@@ -76,7 +74,7 @@ TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
   SizeType size;
   for( unsigned int d = 0; d < TimeVaryingVelocityFieldDimension; d++ )
     {
-    size[d] = fixedParameters[d];
+    size[d] = static_cast<SizeValueType>( fixedParameters[d] );
     }
 
   PointType origin;
@@ -114,44 +112,6 @@ TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
   this->SetTimeVaryingVelocityField( velocityField );
 }
 
-//template <class TScalar, unsigned int NDimensions>
-//typename TimeVaryingVelocityFieldTransform<TScalar, NDimensions>::ParametersType
-//TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
-//::GetFixedParameters() const
-//{
-//  ParametersType fixedParameters;
-//  fixedParameters.SetSize( TimeVaryingVelocityFieldDimension * ( TimeVaryingVelocityFieldDimension + 3 ) );
-//
-//  SizeType size = this->GetTimeVaryingVelocityField()->GetLargestPossibleRegion().GetSize();
-//  for( unsigned int d = 0; d < TimeVaryingVelocityFieldDimension; d++ )
-//    {
-//    fixedParameters[d] = static_cast<ParametersValueType>( size[d] );
-//    }
-//
-//  PointType origin = this->GetTimeVaryingVelocityField()->GetOrigin();
-//  for( unsigned int d = 0; d < TimeVaryingVelocityFieldDimension; d++ )
-//    {
-//    fixedParameters[d + TimeVaryingVelocityFieldDimension] = origin[d];
-//    }
-//
-//  SpacingType spacing = this->GetTimeVaryingVelocityField()->GetSpacing();
-//  for( unsigned int d = 0; d < TimeVaryingVelocityFieldDimension; d++ )
-//    {
-//    fixedParameters[d + 2 * TimeVaryingVelocityFieldDimension] = spacing[d];
-//    }
-//
-//  DirectionType direction = this->GetTimeVaryingVelocityField()->GetDirection();
-//  for( unsigned int di = 0; di < TimeVaryingVelocityFieldDimension; di++ )
-//    {
-//    for( unsigned int dj = 0; dj < TimeVaryingVelocityFieldDimension; dj++ )
-//      {
-//      fixedParameters[3 * TimeVaryingVelocityFieldDimension + ( di * TimeVaryingVelocityFieldDimension + dj )] = direction[di][dj];
-//      }
-//    }
-//
-//  return fixedParameters;
-//}
-
 /**
  * return an inverse transformation
  */
@@ -166,7 +126,6 @@ TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
     }
   else
     {
-    inverse->SetIntegrateTimeVaryingVelocityField( false );
     inverse->SetTimeVaryingVelocityField( this->m_TimeVaryingVelocityField );
     inverse->SetUpperTimeBound( this->m_LowerTimeBound );
     inverse->SetLowerTimeBound( this->m_UpperTimeBound );
@@ -174,7 +133,6 @@ TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
     inverse->SetDisplacementField( this->m_InverseDisplacementField );
     inverse->SetInverseDisplacementField( this->m_DisplacementField );
     inverse->SetInterpolator( this->m_Interpolator );
-    inverse->SetIntegrateTimeVaryingVelocityField( true );
     return true;
     }
 }
@@ -202,7 +160,7 @@ void
 TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
 ::IntegrateVelocityField()
 {
-  if( this->m_IntegrateTimeVaryingVelocityField )
+  if( !this->m_TimeVaryingVelocityField.IsNull() )
     {
     typedef TimeVaryingVelocityFieldIntegrationImageFilter
       <TimeVaryingVelocityFieldType, DisplacementFieldType> IntegratorType;
@@ -232,7 +190,7 @@ TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
     inverseIntegrator->SetUpperTimeBound( this->m_LowerTimeBound );
     if( !this->m_TimeVaryingVelocityFieldInterpolator.IsNull() )
       {
-      integrator->SetVelocityFieldInterpolator( this->m_TimeVaryingVelocityFieldInterpolator );
+      inverseIntegrator->SetVelocityFieldInterpolator( this->m_TimeVaryingVelocityFieldInterpolator );
       }
 
     inverseIntegrator->SetNumberOfIntegrationSteps( this->m_NumberOfIntegrationSteps );
@@ -242,6 +200,10 @@ TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
     inverseDisplacementField->DisconnectPipeline();
 
     this->SetInverseDisplacementField( inverseDisplacementField );
+    }
+  else
+    {
+    itkExceptionMacro( "The velocity field does not exist." );
     }
 }
 
@@ -285,7 +247,6 @@ void TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
     {
     this->m_TimeVaryingVelocityField = field;
     this->Modified();
-    this->m_TimeVaryingVelocityFieldSetTime = this->GetMTime();
     if( !this->m_TimeVaryingVelocityFieldInterpolator.IsNull() )
       {
       this->m_TimeVaryingVelocityFieldInterpolator->SetInputImage(

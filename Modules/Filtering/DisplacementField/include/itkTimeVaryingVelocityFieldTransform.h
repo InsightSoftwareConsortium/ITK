@@ -137,36 +137,12 @@ public:
   itkGetConstObjectMacro( TimeVaryingVelocityFieldInterpolator,
     TimeVaryingVelocityFieldInterpolatorType );
 
-  /** Get the modification time of deformation field */
-  itkGetConstMacro( TimeVaryingVelocityFieldSetTime, unsigned long );
-
   /**
    * Set the deformation field. We want to override the base class
    * implementation since we don't want to optimize over the deformation
    * field for this class but rather the time-varying velocity field
    */
   itkSetObjectMacro( DisplacementField, DisplacementFieldType );
-
-  /**
-   * Set whether or not the time-varying velocity field should be integrated.
-   * Default is true.  However, we don't want to integrated when unnecessary
-   * so we allow the user to turn it off.
-   */
-  itkSetMacro( IntegrateTimeVaryingVelocityField, bool );
-
-  /**
-   * Get whether or not the time-varying velocity field should be integrated.
-   * Default is true.  However, we don't want to integrated when unnecessary
-   * so we allow the user to turn it off.
-   */
-  itkGetConstMacro( IntegrateTimeVaryingVelocityField, bool );
-
-  /**
-   * Set/Get whether or not the time-varying velocity field should be integrated.
-   * Default is true.  However, we don't want to integrated when unnecessary
-   * so we allow the user to turn it off.
-   */
-  itkBooleanMacro( IntegrateTimeVaryingVelocityField );
 
   /**
    * Set the transformation parameters. This sets the time-varying velocity
@@ -248,22 +224,17 @@ protected:
   virtual ~TimeVaryingVelocityFieldTransform();
   void PrintSelf( std::ostream& os, Indent indent ) const;
 
-private:
-  TimeVaryingVelocityFieldTransform( const Self& ); //purposely not implemented
-  void operator=( const Self& ); //purposely not implemented
-
-  /** The deformation field and its inverse (if it exists). */
-  typename TimeVaryingVelocityFieldType::Pointer    m_TimeVaryingVelocityField;
-
-  TimeVaryingVelocityFieldInterpolatorPointer
-                                         m_TimeVaryingVelocityFieldInterpolator;
-
   ScalarType                                m_LowerTimeBound;
   ScalarType                                m_UpperTimeBound;
 
-  unsigned int                              m_NumberOfIntegrationSteps;
-  bool                                      m_IntegrateTimeVaryingVelocityField;
-  unsigned long                             m_TimeVaryingVelocityFieldSetTime;
+  /** The deformation field and its inverse (if it exists). */
+  typename TimeVaryingVelocityFieldType::Pointer    m_TimeVaryingVelocityField;
+  TimeVaryingVelocityFieldInterpolatorPointer       m_TimeVaryingVelocityFieldInterpolator;
+  unsigned int                                      m_NumberOfIntegrationSteps;
+
+private:
+  TimeVaryingVelocityFieldTransform( const Self& ); //purposely not implemented
+  void operator=( const Self& ); //purposely not implemented
 };
 
 } // end namespace itk
