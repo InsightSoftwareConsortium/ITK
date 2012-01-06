@@ -2,6 +2,8 @@ itk_module_test()
 set(ITKSmoothingTests
 itkDiscreteGaussianImageFilterTest2.cxx
 itkSmoothingRecursiveGaussianImageFilterTest.cxx
+itkSmoothingRecursiveGaussianImageFilterOnVectorImageTest.cxx
+itkSmoothingRecursiveGaussianImageFilterOnImageOfVectorTest.cxx
 itkMeanImageFilterTest.cxx
 itkDiscreteGaussianImageFilterTest.cxx
 itkMedianImageFilterTest.cxx
@@ -20,6 +22,10 @@ itk_add_test(NAME itkDiscreteGaussianImageFilterTest2
     itkDiscreteGaussianImageFilterTest2 2 3 DATA{${ITK_DATA_ROOT}/Input/RGBTestImage.tif} 3.5 ${ITK_TEST_OUTPUT_DIR}/DiscreteGaussianImageFilterTest2_OutputA.mha)
 itk_add_test(NAME itkSmoothingRecursiveGaussianImageFilterTest
       COMMAND ITKSmoothingTestDriver itkSmoothingRecursiveGaussianImageFilterTest)
+itk_add_test(NAME itkSmoothingRecursiveGaussianImageFilterOnVectorImageTest
+      COMMAND ITKSmoothingTestDriver itkSmoothingRecursiveGaussianImageFilterOnVectorImageTest)
+itk_add_test(NAME itkSmoothingRecursiveGaussianImageFilterOnImageOfVectorTest
+      COMMAND ITKSmoothingTestDriver itkSmoothingRecursiveGaussianImageFilterOnImageOfVectorTest)
 itk_add_test(NAME itkMeanImageFilterTest
       COMMAND ITKSmoothingTestDriver itkMeanImageFilterTest)
 itk_add_test(NAME itkDiscreteGaussianImageFilterTest

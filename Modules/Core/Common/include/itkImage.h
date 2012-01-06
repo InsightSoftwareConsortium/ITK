@@ -166,6 +166,18 @@ public:
   /** Offset typedef (relative position between indices) */
   typedef typename Superclass::OffsetValueType OffsetValueType;
 
+  /**
+   * example usage:
+   * typedef typename ImageTypeTraits<TImageType>::template Rebind< float >::Type OutputImageType;
+   *
+   */
+  template <typename UPixelType, unsigned int UImageDimension = VImageDimension>
+  struct Rebind
+    {
+      typedef itk::Image<UPixelType, UImageDimension>  Type;
+    };
+
+
   /** Allocate the image memory. The size of the image must
    * already be set, e.g. by calling SetRegions(). */
   void Allocate();

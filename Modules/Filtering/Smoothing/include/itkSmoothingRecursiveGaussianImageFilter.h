@@ -82,8 +82,7 @@ public:
       Here we prefer float in order to save memory.  */
 
   typedef typename NumericTraits< PixelType >::FloatType InternalRealType;
-  typedef Image< InternalRealType,
-                 itkGetStaticConstMacro(ImageDimension) >   RealImageType;
+  typedef typename InputImageType::template Rebind<InternalRealType>::Type RealImageType;
 
   /**  The first in the pipeline  */
   typedef RecursiveGaussianImageFilter<
@@ -145,8 +144,9 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro( InputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< PixelType > ) );
+  // This concept does not work with variable length vector images
+  //itkConceptMacro( InputHasNumericTraitsCheck,
+  //( Concept::HasNumericTraits< PixelType > ) );
   /** End concept checking */
 #endif
 protected:
