@@ -20,6 +20,7 @@
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
 #include "itkLabelOverlayImageFilter.h"
+#include "itkVectorImage.h"
 
 
 int itkLabelOverlayImageFilterTest(int argc, char * argv[])
@@ -126,6 +127,11 @@ int itkLabelOverlayImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
     }
 
+  // the following just ensures the filter can be instantiated with a
+  // VectorImage as output.
+  typedef itk::VectorImage< short, Dimension > VectorImageType;
+  typedef itk::LabelOverlayImageFilter< ImageType, ImageType, VectorImageType > LabelOverlayToVectorFilterType;
+  std::cout << LabelOverlayToVectorFilterType::New();
 
   return EXIT_SUCCESS;
 }

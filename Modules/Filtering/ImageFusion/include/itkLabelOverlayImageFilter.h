@@ -104,8 +104,6 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro( OutputHasPixelTraitsCheck,
-                   ( Concept::HasPixelTraits< OutputPixelType > ) );
   itkConceptMacro( OutputPixelShouldHaveValueType,
                    ( Concept::HasValueType< OutputPixelType > ) );
   itkConceptMacro( OutputPixelShouldHaveBracketOperator,
@@ -137,6 +135,8 @@ protected:
 
   /** Print internal ivars */
   void PrintSelf(std::ostream & os, Indent indent) const;
+
+  void GenerateOutputInformation();
 
 private:
   LabelOverlayImageFilter(const Self &); //purposely not implemented
