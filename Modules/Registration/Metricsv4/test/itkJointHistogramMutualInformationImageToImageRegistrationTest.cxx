@@ -292,6 +292,8 @@ int itkJointHistogramMutualInformationImageToImageRegistrationTest(int argc, cha
   optimizer->SetScalesEstimator( shiftScaleEstimator );
   optimizer->StartOptimization();
 
+  std::cout << "GetNumberOfSkippedFixedSampledPoints: " << metric->GetNumberOfSkippedFixedSampledPoints() << std::endl;
+
   std::cout << "Follow affine with deformable registration " << std::endl;
   // now add the displacement field to the composite transform
   compositeTransform->AddTransform( affineTransform );
@@ -324,6 +326,8 @@ int itkJointHistogramMutualInformationImageToImageRegistrationTest(int argc, cha
     return EXIT_FAILURE;
     }
   std::cout << "...finished. " << std::endl;
+
+  std::cout << "GetNumberOfSkippedFixedSampledPoints: " << metric->GetNumberOfSkippedFixedSampledPoints() << std::endl;
 
 
   //warp the image with the displacement field

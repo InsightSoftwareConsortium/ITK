@@ -154,6 +154,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 
   /* Map the fixed samples into the virtual domain and store in
    * a searpate point set. */
+  this->m_NumberOfSkippedFixedSampledPoints = 0;
   if( this->m_UseFixedSampledPointSet )
     {
     this->MapFixedSampledPointSetToVirtual();
@@ -918,9 +919,25 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
     {
     typename FixedSampledPointSetType::PointType
       point = inverseTransform->TransformPoint( it.Value() );
-    this->m_VirtualSampledPointSet->SetPoint( it.Index(), point );
+    typename VirtualImageType::IndexType tempIndex;
+    /* Verify that the point is valid. We may be working with a resized virtual domain,
+     * and a fixed sampled point list that was created before the resizing. */
+    if( this->m_VirtualDomainImage->TransformPhysicalPointToIndex( point, tempIndex ) )
+      {
+      this->m_VirtualSampledPointSet->SetPoint( it.Index(), point );
+      }
+    else
+      {
+      this->m_NumberOfSkippedFixedSampledPoints++;
+      }
     ++it;
     }
+    if( this->m_VirtualSampledPointSet->GetNumberOfPoints() == 0 )
+      {
+      itkExceptionMacro("The virtual sampled point set has zero points because "
+                        "all fixed sampled points were not within the virtual "
+                        "domain after mapping. There are no points to evaulate.");
+      }
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
