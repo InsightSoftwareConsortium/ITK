@@ -94,6 +94,7 @@ public:
   typedef typename TimeVaryingVelocityFieldControlPointLatticeType::PointType       OriginType;
   typedef typename TimeVaryingVelocityFieldControlPointLatticeType::SpacingType     PhysicalDimensionsType;
   typedef typename TimeVaryingVelocityFieldControlPointLatticeType::SizeType        SizeType;
+  typedef typename TimeVaryingVelocityFieldControlPointLatticeType::SizeValueType   SizeValueType;
   typedef typename TimeVaryingVelocityFieldControlPointLatticeType::SizeType        MeshSizeType;
   typedef typename TimeVaryingVelocityFieldControlPointLatticeType::DirectionType   DirectionType;
   typedef typename TimeVaryingVelocityFieldControlPointLatticeType::SpacingType     SpacingType;
