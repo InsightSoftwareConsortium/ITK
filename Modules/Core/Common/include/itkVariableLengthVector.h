@@ -230,10 +230,12 @@ public:
 
   const TValueType * GetDataPointer() const { return m_Data; }
 
-  /** Mathematical operators.
-   * \note For efficiency, the operators do not check to see of the length of
-   * the vectors are the same. For instance it is assumed that if you are adding
-   * VariableLengthVector a and b, they are of the same length. */
+  /** Element-wise vector addition. The vectors do not have to have
+   * the same element type. The input vector elements are cast to the
+   * output vector element type before the addition is performed.
+   *
+   * \note For efficiency, the length of the vectors is not checked;
+   * they are assumed to have the same length. */
   template< class T >
   inline Self operator+(const VariableLengthVector< T > & v) const
   {
@@ -253,6 +255,13 @@ public:
     return result;
   }
 
+  /** Element-wise subtraction of vectors. The vectors do not have to
+   * have the same element type. The input vector elements are cast to
+   * the output vector element type before the subtraction is
+   * performed.
+   *
+   * \note For efficiency, the length of the vectors is not checked;
+   * they are assumed to have the same length. */
   template< class T >
   inline Self operator-(const VariableLengthVector< T > & v) const
   {
@@ -272,6 +281,10 @@ public:
     return result;
   }
 
+  /** Multiply vector elements by a scalar 's'. The vector does not
+   * have to have the same element type as the scalar type. The scalar
+   * is cast to the output vector element type before the
+   * multiplication is performed. */
   template< class T >
   inline Self operator*(T s) const
   {
@@ -284,6 +297,10 @@ public:
     return result;
   }
 
+  /** Divide vector elements by a scalar 's'. The vector does not
+   * have to have the same element type as the scalar type. Both the
+   * scalar and vector elements are cast to the RealValueType prior to
+   * division, and the result is cast to the ValueType. */
   template< class T >
   inline Self operator/(T s) const
   {
@@ -298,6 +315,7 @@ public:
     return result;
   }
 
+  /** Add scalar 's' to each element of the vector.*/
   inline Self operator+(TValueType s) const
   {
     Self result(m_NumElements);
@@ -309,6 +327,7 @@ public:
     return result;
   }
 
+  /** Subtract scalar 's' from each element of the vector.*/
   inline Self operator-(TValueType s) const
   {
     Self result(m_NumElements);
@@ -320,6 +339,8 @@ public:
     return result;
   }
 
+  /** Prefix operator that subtracts 1 from each element of the
+   * vector. */
   inline Self & operator--()
   {
     for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
@@ -329,6 +350,7 @@ public:
     return *this;
   }
 
+  /** Prefix operator that adds 1 to each element of the vector. */
   inline Self & operator++() // prefix operator ++v;
   {
     for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
@@ -338,6 +360,8 @@ public:
     return *this;
   }
 
+  /** Postfix operator that subtracts 1 from each element of the
+   * vector. */
   inline Self operator--(int) // postfix operator v--;
   {
     Self tmp(*this);
@@ -346,6 +370,7 @@ public:
     return tmp;
   }
 
+  /** Postfix operator that adds 1 to each element of the vector. */
   inline Self operator++(int) // postfix operator v++;
   {
     Self tmp(*this);
@@ -354,6 +379,13 @@ public:
     return tmp;
   }
 
+  /** Element-wise subtraction of vector 'v' from the current
+   * vector. The vectors do not have to have the same element
+   * type. The input vector elements are cast to the current vector
+   * element type before the subtraction is performed.
+   *
+   * \note For efficiency, the length of the vectors is not checked;
+   * they are assumed to have the same length. */
   template< class T >
   inline Self & operator-=
     (const VariableLengthVector< T > & v)
@@ -365,6 +397,7 @@ public:
     return *this;
   }
 
+  /** Subtract scalar 's' from each element of the current vector. */
   inline Self & operator-=(TValueType s)
   {
     for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
@@ -374,6 +407,13 @@ public:
     return *this;
   }
 
+  /** Element-wise addition of vector 'v' to the current vector. The
+   * vectors do not have to have the same element type. The input
+   * vector elements are cast to the current vector element type
+   * before the addition is performed.
+   *
+   * \note For efficiency, the length of the vectors is not checked;
+   * they are assumed to have the same length. */
   template< class T >
   inline Self & operator+=
     (const VariableLengthVector< T > & v)
@@ -385,6 +425,7 @@ public:
     return *this;
   }
 
+  /** Add scalar 's' to each element of the vector. */
   inline Self & operator+=(TValueType s)
   {
     for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
@@ -394,6 +435,9 @@ public:
     return *this;
   }
 
+  /** Multiply each element of the vector by a scalar 's'. The scalar
+   * value is cast to the current vector element type prior to
+   * multiplication. */
   template< class T >
   inline Self & operator*=(T s)
   {
@@ -404,6 +448,10 @@ public:
     return *this;
   }
 
+  /** Divide vector elements by a scalar 's'. The vector does not
+   * have to have the same element type as the scalar type. Both the
+   * scalar and vector elements are cast to the RealValueType prior to
+   * division, and the result is cast to the ValueType. */
   template< class T >
   inline Self & operator/=(T s)
   {
@@ -416,6 +464,7 @@ public:
     return *this;
   }
 
+  /** Negates each vector element. */
   Self & operator-();  // negation operator
 
   bool operator==(const Self & v) const;
@@ -425,7 +474,7 @@ public:
   /** Returns vector's Euclidean Norm  */
   RealValueType GetNorm() const;
 
-  /** Returns vector's Squared Euclidean Norm  */
+  /** Returns vector's squared Euclidean Norm  */
   RealValueType GetSquaredNorm() const;
 
 private:
