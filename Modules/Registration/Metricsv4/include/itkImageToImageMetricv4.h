@@ -324,7 +324,9 @@ public:
                              itkGetStaticConstMacro(VirtualImageDimension) >
                                                       VirtualImageGradientType;
 
-  /** Type of the filter used to calculate the gradients. */
+  /** Type of the filter used to calculate the gradients.
+   * Note that RealType is always double (or long double for
+   * long double pixel-type).*/
   typedef typename NumericTraits< FixedImagePixelType >::RealType
                                                     FixedRealType;
   typedef CovariantVector< FixedRealType,
@@ -717,6 +719,14 @@ protected:
    * moving image, or the pre-warped version, depending on the setting
    * of DoMovingImagePreWarp. */
   virtual void ComputeMovingImageGradientFilterImage() const;
+
+  /** Perform the actual threaded processing, using the appropriate
+   * GetValueAndDerivativeThreader. Results get written to
+   * member vars. This is available as a separate method so it
+   * can be used by dervied classes that implement their own
+   * GetValueAndDerivative, and/or need to run the processing loop
+   * more than once.*/
+  virtual void GetValueAndDerivativeExecute() const;
 
   /** Initialize the default image gradient filters. This must only
    * be called once the fixed and moving images have been set. */

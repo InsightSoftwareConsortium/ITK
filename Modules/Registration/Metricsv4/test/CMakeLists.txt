@@ -10,6 +10,8 @@ set(ITKMetricsv4Tests
   itkANTSNeighborhoodCorrelationImageToImageMetricv4Test.cxx
   itkANTSNeighborhoodCorrelationImageToImageRegistrationTest.cxx
   itkAffineDemonsImageToImageRegistrationTest.cxx
+  itkMattesMutualInformationImageToImageMetricv4Test.cxx
+  itkMattesMutualInformationImageToImageMetricv4RegistrationTest.cxx
 )
 
 set(INPUTDATA ${ITK_DATA_ROOT}/Input)
@@ -74,3 +76,19 @@ itk_add_test(NAME itkAffineDemonsImageToImageRegistrationTest
               DATA{Input/face_b.jpg}
               ${TEMP}/itkAffineDemonsImageToImageRegistrationTest.nii.gz
               30 )
+
+itk_add_test(NAME itkMattesMutualInformationImageToImageMetricv4Test
+      COMMAND ITKMetricsv4TestDriver
+      itkMattesMutualInformationImageToImageMetricv4Test 0)
+
+itk_add_test(NAME itkMattesMutualInformationImageToImageMetricv4Test2
+      COMMAND ITKMetricsv4TestDriver
+      itkMattesMutualInformationImageToImageMetricv4Test 1)
+
+itk_add_test(NAME itkMattesMutualInformationImageToImageMetricv4RegistrationTest
+      COMMAND ITKMetricsv4TestDriver
+              itkMattesMutualInformationImageToImageMetricv4RegistrationTest
+              DATA{Baseline/face_avg.jpg}
+              DATA{Input/face_b.jpg}
+              ${TEMP}/itkMattesMutualInformationImageToImageMetricv4RegistrationTest.nii.gz
+              5 0 )

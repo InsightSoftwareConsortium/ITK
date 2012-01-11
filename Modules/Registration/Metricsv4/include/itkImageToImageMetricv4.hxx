@@ -311,6 +311,19 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
   this->m_DerivativeResult = &derivative;
   this->InitializeForIteration();
 
+  // Do the threaded processing using the appropriate
+  // GetValueAndDerivativeThreader. Results get written to
+  // member vars.
+  this->GetValueAndDerivativeExecute();
+
+  value = this->m_Value;
+}
+
+template<class TFixedImage,class TMovingImage,class TVirtualImage>
+void
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
+::GetValueAndDerivativeExecute() const
+{
   if( this->m_UseFixedSampledPointSet ) // sparse sampling
     {
     if( this->m_FixedSampledPointSet->GetNumberOfPoints() < 1 )
@@ -326,8 +339,6 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
     {
     this->m_DenseGetValueAndDerivativeThreader->Execute( const_cast< Self* >(this), this->GetVirtualDomainRegion() );
     }
-
-  value = this->m_Value;
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
