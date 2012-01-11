@@ -36,8 +36,8 @@ namespace itk
  *   ... Pi0 Pi1 Pi2 Pi3 P(i+1)0 P(i+1)1 P(i+1)2 P(i+1)3 P(i+2)0 ...
  * where Pi0 represents the 0th measurement of the pixel at index i.
  *
- * Conceptually, a <tt>VectorImage< double, 3 ></tt> is the same as a
- * <tt>Image< VariableLengthVector< double >, 3 ></tt>. The difference lies in the memory
+ * Conceptually, a <tt>VectorImage< TPixel, 3 ></tt> is the same as a
+ * <tt>Image< VariableLengthVector< TPixel >, 3 ></tt>. The difference lies in the memory
  * organization. The latter results in a fragmented
  * organization with each location in the Image holding a pointer to an \c VariableLengthVector
  * holding the actual pixel. The former stores the \e k pixels instead of a
@@ -45,9 +45,9 @@ namespace itk
  * storing a 8 bytes of pointer reference for each pixel.
  * The parameter \e k can be set using \c SetVectorLength.
  *
- * The API of the class is such that it returns a pixeltype VariableLengthVector< double > when
+ * The API of the class is such that it returns a pixeltype VariableLengthVector< TPixel > when
  * queried, with the data internally pointing to the buffer. (the container does not
- * manage the memory). Similarly SetPixel calls can be made with VariableLengthVector< double >.
+ * manage the memory). Similarly SetPixel calls can be made with VariableLengthVector< TPixel >.
  *
  * The API of this class is similar to Image.
  *
