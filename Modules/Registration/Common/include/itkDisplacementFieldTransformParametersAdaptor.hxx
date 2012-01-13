@@ -230,7 +230,27 @@ DisplacementFieldTransformParametersAdaptor<TTransform>
   newDisplacementField->Update();
   newDisplacementField->DisconnectPipeline();
 
+  typename DisplacementFieldType::Pointer newInverseDisplacementField = NULL;
+  if( this->m_Transform->GetInverseDisplacementField() )
+    {
+    typename LinearInterpolatorType::Pointer inverseInterpolator = LinearInterpolatorType::New();
+    inverseInterpolator->SetInputImage( this->m_Transform->GetInverseDisplacementField() );
+
+    typename ResamplerType::Pointer inverseResampler = ResamplerType::New();
+    inverseResampler->SetInput( this->m_Transform->GetInverseDisplacementField() );
+    inverseResampler->SetOutputDirection( newFieldDirection );
+    inverseResampler->SetOutputOrigin( newFieldOrigin );
+    inverseResampler->SetOutputSpacing( newFieldSpacing );
+    inverseResampler->SetSize( newFieldSize );
+    inverseResampler->SetTransform( identityTransform );
+    inverseResampler->SetInterpolator( inverseInterpolator );
+
+    newInverseDisplacementField = inverseResampler->GetOutput();
+    newInverseDisplacementField->Update();
+    newInverseDisplacementField->DisconnectPipeline();
+    }
   this->m_Transform->SetDisplacementField( newDisplacementField );
+  this->m_Transform->SetInverseDisplacementField( newInverseDisplacementField );
 }
 
 }  // namespace itk

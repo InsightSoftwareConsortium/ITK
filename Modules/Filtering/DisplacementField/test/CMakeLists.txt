@@ -1,9 +1,11 @@
 itk_module_test()
 set(ITKDisplacementFieldTests
+itkComposeDisplacementFieldsImageFilterTest.cxx
 itkDisplacementFieldJacobianDeterminantFilterTest.cxx
 itkIterativeInverseDisplacementFieldImageFilterTest.cxx
 itkLandmarkDisplacementFieldSourceTest.cxx
 itkInverseDisplacementFieldImageFilterTest.cxx
+itkInvertDisplacementFieldImageFilterTest.cxx
 itkDisplacementFieldTransformTest.cxx
 itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest.cxx
 itkBSplineSmoothingOnUpdateDisplacementFieldTransformTest.cxx
@@ -14,6 +16,8 @@ itkTimeVaryingBSplineVelocityFieldTransformTest.cxx
 
 CreateTestDriver(ITKDisplacementField  "${ITKDisplacementField-Test_LIBRARIES}" "${ITKDisplacementFieldTests}")
 
+itk_add_test(NAME itkComposeDisplacementFieldsImageFilterTest
+      COMMAND ITKDisplacementFieldTestDriver itkComposeDisplacementFieldsImageFilterTest )
 itk_add_test(NAME itkDisplacementFieldJacobianDeterminantFilterTest
       COMMAND ITKDisplacementFieldTestDriver itkDisplacementFieldJacobianDeterminantFilterTest)
 itk_add_test(NAME itkIterativeInverseDisplacementFieldImageFilterTest
@@ -39,3 +43,5 @@ itk_add_test(NAME itkTimeVaryingVelocityFieldIntegrationImageFilterTest
       COMMAND ITKDisplacementFieldTestDriver itkTimeVaryingVelocityFieldIntegrationImageFilterTest )
 itk_add_test(NAME itkTimeVaryingBSplineVelocityFieldTransformTest
       COMMAND ITKDisplacementFieldTestDriver itkTimeVaryingBSplineVelocityFieldTransformTest )
+itk_add_test(NAME itkInvertDisplacementFieldImageFilterTest
+      COMMAND ITKDisplacementFieldTestDriver itkInvertDisplacementFieldImageFilterTest )

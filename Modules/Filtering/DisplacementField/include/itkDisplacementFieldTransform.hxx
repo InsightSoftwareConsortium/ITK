@@ -379,9 +379,10 @@ void DisplacementFieldTransform<TScalar, NDimensions>
   if( this->m_DisplacementField != field )
     {
     this->m_DisplacementField = field;
+
     if( !this->m_InverseDisplacementField.IsNull() )
       {
-      this->VerifyFixedParametersInformation();
+      this->m_InverseDisplacementField = NULL;
       }
     this->Modified();
     /* Store this separately for use in smoothing because we only want
@@ -405,11 +406,11 @@ void DisplacementFieldTransform<TScalar, NDimensions>
   itkDebugMacro( "setting InverseDisplacementField to " << inverseField );
   if( this->m_InverseDisplacementField != inverseField )
     {
-    this->m_InverseDisplacementField = inverseField;
-    if( !this->m_DisplacementField.IsNull() )
+    if( !this->m_DisplacementField.IsNull() && inverseField )
       {
       this->VerifyFixedParametersInformation();
       }
+    this->m_InverseDisplacementField = inverseField;
     this->Modified();
     }
 }

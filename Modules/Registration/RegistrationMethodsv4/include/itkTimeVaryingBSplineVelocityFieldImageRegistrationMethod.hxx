@@ -112,12 +112,11 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
   typename MovingResamplerType::Pointer movingResampler = MovingResamplerType::New();
   movingResampler->SetTransform( this->m_CompositeTransform );
   movingResampler->SetInput( this->m_MovingSmoothImage );
-  movingResampler->SetSize( virtualDomainImage->GetLargestPossibleRegion().GetSize() );
-  movingResampler->SetOutputOrigin( virtualDomainImage->GetOrigin() );
-  movingResampler->SetOutputSpacing( virtualDomainImage->GetSpacing() );
-  movingResampler->SetOutputDirection( virtualDomainImage->GetDirection() );
+  movingResampler->SetSize( this->m_FixedSmoothImage->GetLargestPossibleRegion().GetSize() );
+  movingResampler->SetOutputOrigin( this->m_FixedSmoothImage->GetOrigin() );
+  movingResampler->SetOutputSpacing( this->m_FixedSmoothImage->GetSpacing() );
+  movingResampler->SetOutputDirection( this->m_FixedSmoothImage->GetDirection() );
   movingResampler->SetDefaultPixelValue( 0 );
-  movingResampler->Update();
 
   // pre calculate the voxel distance to be used in properly scaling the gradient.
   RealType voxelDistance = 0.0;
