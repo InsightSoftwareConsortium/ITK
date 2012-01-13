@@ -116,11 +116,6 @@ macro(itk_wrap_module library_name)
 
 endmacro(itk_wrap_module)
 
-macro(BEGIN_WRAPPER_LIBRARY library_name)
-  message("Deprecation warning: BEGIN_WRAPPER_LIBRARY is replaced by itk_wrap_module.")
-  itk_wrap_module("${library_name}")
-endmacro(BEGIN_WRAPPER_LIBRARY)
-
 
 macro(itk_end_wrap_module)
   if("${WRAPPER_LIBRARY_itk_wrap_modules_STATUS}" STREQUAL "EXECUTED_IN_itk_wrap_module")
@@ -129,11 +124,6 @@ macro(itk_end_wrap_module)
 
   itk_end_wrap_module_all_generators()
 endmacro(itk_end_wrap_module)
-
-macro(WRAPPER_LIBRARY_CREATE_LIBRARY)
-  message("Deprecation warning: WRAPPER_LIBRARY_CREATE_LIBRARY is replaced by itk_end_wrap_module.")
-  itk_end_wrap_module()
-endmacro(WRAPPER_LIBRARY_CREATE_LIBRARY)
 
 macro(INCLUDE_LIBRARY library)
 
@@ -234,11 +224,6 @@ macro(itk_auto_load_submodules)
 
 endmacro(itk_auto_load_submodules)
 
-macro(WRAPPER_LIBRARY_CREATE_WRAP_FILES)
-  message("Deprecation warning: WRAPPER_LIBRARY_CREATE_WRAP_FILES is replaced by itk_auto_load_submodules.")
-  itk_auto_load_submodules()
-endmacro(WRAPPER_LIBRARY_CREATE_WRAP_FILES)
-
 
 macro(itk_load_submodule module)
   # include a cmake module file and generate the associated wrap_*.cxx file.
@@ -310,11 +295,6 @@ macro(itk_end_wrap_submodule)
 
 endmacro(itk_end_wrap_submodule)
 
-
-macro(INCLUDE_WRAP_CMAKE module)
-  message("Deprecation warning: INCLUDE_WRAP_CMAKE is replaced by itk_load_submodule.")
-  itk_load_submodule("${module}")
-endmacro(INCLUDE_WRAP_CMAKE module)
 
 
 ################################################################################
@@ -817,3 +797,182 @@ macro(itk_wrap_filter_dims var_name dimension_condition)
     INTERSECTION(${var_name} "${dimension_condition}" "${ITK_WRAP_DIMS}")
   endif("${dimension_condition}" MATCHES "^[0-9]+\\+$")
 endmacro(itk_wrap_filter_dims)
+
+
+# deprecated macros
+macro(WRAP_LIBRARIES)
+  message("Deprecation warning: WRAP_LIBRARIES is replaced by itk_wrap_modules.")
+  itk_wrap_modules()
+endmacro(WRAP_LIBRARIES)
+
+macro(END_WRAP_LIBRARIES)
+  message("Deprecation warning: END_WRAP_LIBRARIES is replaced by itk_end_wrap_modules.")
+  itk_end_wrap_modules()
+endmacro(END_WRAP_LIBRARIES)
+
+macro(WRAP_LIBRARY library_name)
+  message("Deprecation warning: WRAP_LIBRARY is replaced by itk_wrap_module.")
+  itk_wrap_module("${library_name}")
+endmacro(WRAP_LIBRARY)
+
+macro(END_WRAP_LIBRARY )
+  message("Deprecation warning: END_WRAP_LIBRARY is replaced by itk_end_wrap_module.")
+  itk_end_wrap_module("${library_name}")
+endmacro(END_WRAP_LIBRARY)
+
+macro(AUTO_INCLUDE_MODULES)
+  message("Deprecation warning: AUTO_INCLUDE_MODULES is replaced by itk_auto_load_submodules.")
+  itk_auto_load_submodules()
+endmacro(AUTO_INCLUDE_MODULES)
+
+macro(WRAP_MODULE module)
+  message("Deprecation warning: WRAP_MODULE is replaced by itk_wrap_submodule.")
+  itk_wrap_submodule("${module}")
+endmacro(WRAP_MODULE)
+
+macro(END_WRAP_MODULE)
+  message("Deprecation warning: END_WRAP_MODULE is replaced by itk_end_wrap_submodule.")
+  itk_end_wrap_submodule()
+endmacro(END_WRAP_MODULE)
+
+macro(WRAP_CLASS class)
+  message("Deprecation warning: WRAP_CLASS is replaced by itk_wrap_class.")
+  itk_wrap_class("${class}" "${ARGN}")
+endmacro(WRAP_CLASS)
+
+macro(WRAP_NAMED_CLASS class swig_name)
+  message("Deprecation warning: WRAP_NAMED_CLASS is replaced by itk_wrap_named_class.")
+  itk_wrap_named_class("${class}" "${swig_name}" "${ARGN}")
+endmacro(WRAP_NAMED_CLASS)
+
+macro(WRAP_NON_TEMPLATE_CLASS class)
+  message("Deprecation warning: WRAP_NON_TEMPLATE_CLASS is replaced by itk_wrap_simple_class.")
+  itk_wrap_simple_class("${class}" "${ARGN}")
+endmacro(WRAP_NON_TEMPLATE_CLASS)
+
+macro(WRAP_NAMED_NON_TEMPLATE_CLASS class swig_name)
+  message("Deprecation warning: WRAP_NAMED_NON_TEMPLATE_CLASS is replaced by itk_wrap_named_simple_class.")
+  itk_wrap_named_simple_class("${class}" "${swig_name}" "${ARGN}")
+endmacro(WRAP_NAMED_NON_TEMPLATE_CLASS)
+
+macro(WRAP_INCLUDE include_file)
+  message("Deprecation warning: WRAP_INCLUDE is replaced by itk_wrap_include.")
+  itk_wrap_include("${include_file}")
+endmacro(WRAP_INCLUDE)
+
+macro(END_WRAP_CLASS)
+  message("Deprecation warning: END_WRAP_CLASS is replaced by itk_end_wrap_class.")
+  itk_end_wrap_class()
+endmacro(END_WRAP_CLASS)
+
+macro(ADD_ONE_TYPEDEF wrap_method wrap_class swig_name)
+  message("Deprecation warning: ADD_ONE_TYPEDEF is replaced by itk_wrap_one_type.")
+  itk_wrap_one_type("${wrap_method}" "${wrap_class}" "${swig_name}")
+endmacro(ADD_ONE_TYPEDEF)
+
+macro(WRAP_TEMPLATE name type)
+  message("Deprecation warning: WRAP_TEMPLATE is replaced by itk_wrap_template.")
+  itk_wrap_template("${name}" "${type}")
+endmacro(WRAP_TEMPLATE)
+
+macro(WRAP_IMAGE_FILTER param_type param_count)
+  message("Deprecation warning: WRAP_IMAGE_FILTER is replaced by itk_wrap_template.")
+  itk_wrap_image_filter("${param_type}" ${param_count} "${ARGN}")
+endmacro(WRAP_IMAGE_FILTER)
+
+macro(WRAP_IMAGE_FILTER_ALL_TYPES param_count)
+  message("Deprecation warning: WRAP_IMAGE_FILTER_ALL_TYPES() is replaced by itk_wrap_template(\"\${WRAP_ITK_ALL_TYPES}\").")
+  itk_wrap_image_filter("${WRAP_ITK_ALL_TYPES}" ${param_count} "${ARGN}")
+endmacro(WRAP_IMAGE_FILTER_ALL_TYPES)
+
+macro(WRAP_IMAGE_FILTER_SCALAR param_count)
+  message("Deprecation warning: WRAP_IMAGE_FILTER_SCALAR() is replaced by itk_wrap_template(\"\${WRAP_ITK_SCALAR}\").")
+  itk_wrap_image_filter("${WRAP_ITK_SCALAR}" ${param_count} "${ARGN}")
+endmacro(WRAP_IMAGE_FILTER_SCALAR)
+
+macro(WRAP_IMAGE_FILTER_VECTOR param_count)
+  message("Deprecation warning: WRAP_IMAGE_FILTER_VECTOR() is replaced by itk_wrap_template(\"\${WRAP_ITK_VECTOR}\").")
+  itk_wrap_image_filter("${WRAP_ITK_VECTOR}" ${param_count} "${ARGN}")
+endmacro(WRAP_IMAGE_FILTER_VECTOR)
+
+macro(WRAP_IMAGE_FILTER_USIGN_INT param_count)
+  message("Deprecation warning: WRAP_IMAGE_FILTER_USIGN_INT() is replaced by itk_wrap_template(\"\${WRAP_ITK_USIGN_INT}\").")
+  itk_wrap_image_filter("${WRAP_ITK_USIGN_INT}" ${param_count} "${ARGN}")
+endmacro(WRAP_IMAGE_FILTER_USIGN_INT)
+
+macro(WRAP_IMAGE_FILTER_SIGN_INT param_count)
+  message("Deprecation warning: WRAP_IMAGE_FILTER_SIGN_INT() is replaced by itk_wrap_template(\"\${WRAP_ITK_SIGN_INT}\").")
+  itk_wrap_image_filter("${WRAP_ITK_SIGN_INT}" ${param_count} "${ARGN}")
+endmacro(WRAP_IMAGE_FILTER_SIGN_INT)
+
+macro(WRAP_IMAGE_FILTER_INT param_count)
+  message("Deprecation warning: WRAP_IMAGE_FILTER_INT() is replaced by itk_wrap_template(\"\${WRAP_ITK_INT}\").")
+  itk_wrap_image_filter("${WRAP_ITK_INT}" ${param_count} "${ARGN}")
+endmacro(WRAP_IMAGE_FILTER_INT)
+
+macro(WRAP_IMAGE_FILTER_REAL param_count)
+  message("Deprecation warning: WRAP_IMAGE_FILTER_REAL() is replaced by itk_wrap_template(\"\${WRAP_ITK_REAL}\").")
+  itk_wrap_image_filter("${WRAP_ITK_REAL}" ${param_count} "${ARGN}")
+endmacro(WRAP_IMAGE_FILTER_REAL)
+
+macro(WRAP_IMAGE_FILTER_RGB param_count)
+  message("Deprecation warning: WRAP_IMAGE_FILTER_RGB() is replaced by itk_wrap_template(\"\${WRAP_ITK_RGB}\").")
+  itk_wrap_image_filter("${WRAP_ITK_RGB}" ${param_count} "${ARGN}")
+endmacro(WRAP_IMAGE_FILTER_RGB)
+
+macro(WRAP_IMAGE_FILTER_RGBA param_count)
+  message("Deprecation warning: WRAP_IMAGE_FILTER_RGBA() is replaced by itk_wrap_template(\"\${WRAP_ITK_RGBA}\").")
+  itk_wrap_image_filter("${WRAP_ITK_RGBA}" ${param_count} "${ARGN}")
+endmacro(WRAP_IMAGE_FILTER_RGBA)
+
+macro(WRAP_IMAGE_FILTER_VECTOR_REAL param_count)
+  message("Deprecation warning: WRAP_IMAGE_FILTER_VECTOR_REAL() is replaced by itk_wrap_template(\"\${WRAP_ITK_VECTOR_REAL}\").")
+  itk_wrap_image_filter("${WRAP_ITK_VECTOR_REAL}" ${param_count} "${ARGN}")
+endmacro(WRAP_IMAGE_FILTER_VECTOR_REAL)
+
+macro(WRAP_IMAGE_FILTER_COV_VECTOR_REAL param_count)
+  message("Deprecation warning: WRAP_IMAGE_FILTER_COV_VECTOR_REAL() is replaced by itk_wrap_template(\"\${WRAP_ITK_COV_VECTOR_REAL}\").")
+  itk_wrap_image_filter("${WRAP_ITK_COV_VECTOR_REAL}" ${param_count} "${ARGN}")
+endmacro(WRAP_IMAGE_FILTER_COV_VECTOR_REAL)
+
+macro(WRAP_IMAGE_FILTER_COMPLEX_REAL param_count)
+  message("Deprecation warning: WRAP_IMAGE_FILTER_COMPLEX_REAL() is replaced by itk_wrap_template(\"\${WRAP_ITK_COMPLEX_REAL}\").")
+  itk_wrap_image_filter("${WRAP_ITK_COMPLEX_REAL}" ${param_count} "${ARGN}")
+endmacro(WRAP_IMAGE_FILTER_COMPLEX_REAL)
+
+macro(WRAP_IMAGE_FILTER_COMBINATIONS)
+  message("Deprecation warning: WRAP_IMAGE_FILTER_COMBINATIONS is replaced by itk_wrap_image_filter_combinations.")
+  itk_wrap_image_filter_combinations("${ARGN}")
+endmacro(WRAP_IMAGE_FILTER_COMBINATIONS)
+
+macro(WRAP_IMAGE_FILTER_TYPES)
+  message("Deprecation warning: WRAP_IMAGE_FILTER_TYPES is replaced by itk_wrap_image_filter_types.")
+  itk_wrap_image_filter_types("${ARGN}")
+endmacro(WRAP_IMAGE_FILTER_TYPES)
+
+macro(FILTER_DIMS)
+  message("Deprecation warning: FILTER_DIMS is replaced by itk_wrap_filter_dims.")
+  itk_wrap_filter_dims("${ARGN}")
+endmacro(FILTER_DIMS)
+
+macro(BEGIN_WRAPPER_LIBRARY library_name)
+  message("Deprecation warning: BEGIN_WRAPPER_LIBRARY is replaced by itk_wrap_module.")
+  itk_wrap_module("${library_name}")
+endmacro(BEGIN_WRAPPER_LIBRARY)
+
+macro(WRAPPER_LIBRARY_CREATE_LIBRARY)
+  message("Deprecation warning: WRAPPER_LIBRARY_CREATE_LIBRARY is replaced by itk_end_wrap_module.")
+  itk_end_wrap_module()
+endmacro(WRAPPER_LIBRARY_CREATE_LIBRARY)
+
+macro(WRAPPER_LIBRARY_CREATE_WRAP_FILES)
+  message("Deprecation warning: WRAPPER_LIBRARY_CREATE_WRAP_FILES is replaced by itk_auto_load_submodules.")
+  itk_auto_load_submodules()
+endmacro(WRAPPER_LIBRARY_CREATE_WRAP_FILES)
+
+macro(INCLUDE_WRAP_CMAKE module)
+  message("Deprecation warning: INCLUDE_WRAP_CMAKE is replaced by itk_load_submodule.")
+  itk_load_submodule("${module}")
+endmacro(INCLUDE_WRAP_CMAKE module)
+
+set(WRAP_ITK_DIMS "${ITK_WRAP_DIMS}" CACHE INTERNAL "deprecated - do not use" FORCE)
