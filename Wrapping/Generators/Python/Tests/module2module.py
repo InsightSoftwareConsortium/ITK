@@ -24,7 +24,7 @@
 import itk, sys
 
 import ITKCommon
-import ITKMathematicalMorphology
+import ITKBinaryMathematicalMorphology
 import ITKImageStatistics
 import ITKSmoothing
 import ITKDistanceMap
@@ -62,8 +62,8 @@ sources.append(("ITKImageGrid", flip.GetOutput()))
 abs = ITKImageIntensity.AbsImageFilter[IType, IType].New(reader)
 sources.append(("ITKImageIntensity", abs.GetOutput()))
 
-bdilate = ITKMathematicalMorphology.BinaryDilateImageFilter[IType, IType, kernel].New(reader, Kernel=kernel)
-sources.append(("ITKMathematicalMorphology", bdilate.GetOutput()))
+bdilate = ITKBinaryMathematicalMorphology.BinaryDilateImageFilter[IType, IType, kernel].New(reader, Kernel=kernel)
+sources.append(("ITKBinaryMathematicalMorphology", bdilate.GetOutput()))
 
 minmax = ITKImageStatistics.MinimumMaximumImageFilter[IType].New(reader)
 sources.append(("ITKImageStatistics", minmax.GetOutput()))
@@ -97,8 +97,8 @@ dests.append(("ITKImageGrid", dflip))
 dabs = ITKImageIntensity.AbsImageFilter[IType, IType].New()
 dests.append(("ITKImageIntensity", dabs))
 
-dbdilate = ITKMathematicalMorphology.BinaryDilateImageFilter[IType, IType, kernel].New(Kernel=kernel)
-dests.append(("ITKMathematicalMorphology", dbdilate))
+dbdilate = ITKBinaryMathematicalMorphology.BinaryDilateImageFilter[IType, IType, kernel].New(Kernel=kernel)
+dests.append(("ITKBinaryMathematicalMorphology", dbdilate))
 
 dminmax = ITKImageStatistics.MinimumMaximumImageFilter[IType].New()
 dests.append(("ITKImageStatistics", dminmax))
