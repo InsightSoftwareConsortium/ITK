@@ -33,6 +33,28 @@ LabelOverlayImageFilter< TInputImage, TLabelImage, TOutputImage >
   m_BackgroundValue = NumericTraits< LabelPixelType >::Zero;
 }
 
+template< class TInputImage, class TLabelImage, class TOutputImage >
+void
+LabelOverlayImageFilter< TInputImage, TLabelImage, TOutputImage >
+::GenerateOutputInformation()
+{
+  // this methods is overloaded so that if the output image is a
+  // VectorImage then the correct number of components are set.
+
+  Superclass::GenerateOutputInformation();
+  OutputImageType* output = this->GetOutput();
+
+  if ( !output )
+    {
+    return;
+    }
+  if ( output->GetNumberOfComponentsPerPixel() != 3 )
+    {
+    output->SetNumberOfComponentsPerPixel( 3 );
+    }
+}
+
+
 /**
  * Destructor method
  */
