@@ -406,11 +406,11 @@ void DisplacementFieldTransform<TScalar, NDimensions>
   itkDebugMacro( "setting InverseDisplacementField to " << inverseField );
   if( this->m_InverseDisplacementField != inverseField )
     {
+    this->m_InverseDisplacementField = inverseField;
     if( !this->m_DisplacementField.IsNull() && inverseField )
       {
       this->VerifyFixedParametersInformation();
       }
-    this->m_InverseDisplacementField = inverseField;
     this->Modified();
     }
 }
