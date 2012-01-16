@@ -1,5 +1,9 @@
-%include exception.i
+/* This file declares various VTK datatype to SWIG so they can be refered as*/
+/* something else than SwigObject*/
+/* Python bindings have been tested successfully.*/
+/* TODO: Test TCL bindings*/
 
+%include exception.i
 
 %{
 #include "vtkImageImport.h"
@@ -32,12 +36,17 @@
                                                     cerror );
   if ( cerror ) { SWIG_fail; }
 }
-
 #endif
 
 #ifdef SWIGPYTHON
+%module VtkGluePython
+
 %{
 #include "vtkPythonUtil.h"
+#if (VTK_MAJOR_VERSION > 5 ||((VTK_MAJOR_VERSION == 5)&&(VTK_MINOR_VERSION > 6)))
+#define vtkPythonGetObjectFromPointer vtkPythonUtil::GetObjectFromPointer
+#define vtkPythonGetPointerFromObject vtkPythonUtil::GetPointerFromObject
+#endif
 %}
 
 %typemap(out) vtkImageExport* {
@@ -71,7 +80,6 @@
   $1 = (vtkPolyData*) vtkPythonGetPointerFromObject ( $input, "vtkPolyData" );
   if ( $1 == NULL ) { SWIG_fail; }
 }
-
 #endif
 
 #ifdef SWIGJAVA
@@ -79,5 +87,5 @@
 #include "vtkJavaUtil.h"
 %}
 
-// TODO: The java typemaps seem to only work in java.i, they are harmless in that file but misplaces.
+/*// TODO: The java typemaps seem to only work in java.i, they are harmless in that file but misplaces.*/
 #endif

@@ -22,6 +22,7 @@
 #include "itkVTKImageImport.h"
 #include "vtkImageExport.h"
 #include "vtkImageData.h"
+#include "vtkSmartPointer.h"
 
 #ifndef vtkFloatingPointType
 #define vtkFloatingPointType float
@@ -32,15 +33,15 @@ namespace itk
 
 /** \class VTKImageToImageFilter
  * \brief Converts a VTK image into an ITK image and plugs a
- *  vtk data pipeline to an ITK datapipeline.
+ *  VTK data pipeline to an ITK datapipeline.
  *
- *  This class puts together an itkVTKImageImporter and a vtkImageExporter.
+ *  This class puts together an itkVTKImageImport and a vtkImageExport.
  *  It takes care of the details related to the connection of ITK and VTK
  *  pipelines. The User will perceive this filter as an adaptor to which
  *  a vtkImage can be plugged as input and an itk::Image is produced as
  *  output.
  *
- * \ingroup   ImageFilters
+ * \ingroup ITKVtkGlue
  */
 template <class TOutputImage >
 class ITK_EXPORT VTKImageToImageFilter : public VTKImageImport< TOutputImage >
@@ -64,6 +65,7 @@ public:
 
   /** Set the input in the form of a vtkImageData */
   void SetInput( vtkImageData * );
+  using Superclass::SetInput;
 
   /** Return the internal VTK image exporter filter.
       This is intended to facilitate users the access
@@ -73,7 +75,6 @@ public:
   /** Return the internal ITK image importer filter.
       This is intended to facilitate users the access
       to methods in the importer.
-      Deprecated - the method now return 'this'.
       */
   const Superclass * GetImporter() const;
 
@@ -85,7 +86,8 @@ private:
   VTKImageToImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  vtkImageExport            * m_Exporter;
+  typedef vtkSmartPointer<vtkImageExport> ImageExportPointer;
+  ImageExportPointer m_Exporter;
 
 };
 
