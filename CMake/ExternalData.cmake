@@ -20,11 +20,11 @@
 #    <outVar>   # Output variable
 #    [args...]  # Input arguments, DATA{} allowed
 #    )
-# It replaces each DATA{} reference argument with the full path of a real
-# data file on disk that will exist after the <target> builds.
+# It replaces each DATA{} reference in an argument with the full path of a
+# real data file on disk that will exist after the <target> builds.
 #
 # The 'ExternalData_Add_Test' function wraps around the CMake add_test()
-# command but supports DATA{} reference arguments:
+# command but supports DATA{} references in its arguments:
 #  ExternalData_Add_Test(
 #    <target>   # Name of data management target
 #    ...        # Arguments of add_test(), DATA{} allowed
@@ -228,14 +228,29 @@ endfunction()
 
 function(ExternalData_expand_arguments target outArgsVar)
   # Replace DATA{} references with real arguments.
-  set(data_regex "^xDATA{([^{}\r\n]*)}$")
+  set(data_regex "DATA{([^{}\r\n]*)}")
+  set(other_regex "([^D]|D[^A]|DA[^T]|DAT[^A]|DATA[^{])+|.")
   set(outArgs "")
   foreach(arg IN LISTS ARGN)
     if("x${arg}" MATCHES "${data_regex}")
-      string(REGEX REPLACE "${data_regex}" "\\1" data "x${arg}")
-      _ExternalData_arg("${target}" "${arg}" "${data}" file)
-      list(APPEND outArgs "${file}")
+      # Split argument into DATA{}-pieces and other pieces.
+      string(REGEX MATCHALL "${data_regex}|${other_regex}" pieces "${arg}")
+      # Compose output argument with DATA{}-pieces replaced.
+      set(outArg "")
+      foreach(piece IN LISTS pieces)
+        if("x${piece}" MATCHES "^x${data_regex}$")
+          # Replace this DATA{}-piece with a file path.
+          string(REGEX REPLACE "${data_regex}" "\\1" data "${piece}")
+          _ExternalData_arg("${target}" "${piece}" "${data}" file)
+          set(outArg "${outArg}${file}")
+        else()
+          # No replacement needed for this piece.
+          set(outArg "${outArg}${piece}")
+        endif()
+      endforeach()
+      list(APPEND outArgs "${outArg}")
     else()
+      # No replacements needed in this argument.
       list(APPEND outArgs "${arg}")
     endif()
   endforeach()
