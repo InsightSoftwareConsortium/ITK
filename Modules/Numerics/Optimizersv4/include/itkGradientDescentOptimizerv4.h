@@ -36,20 +36,36 @@ namespace itk
                   \, \frac{\partial f(p_n) }{\partial p_n}
  * \f]
  *
- * The user can scale each component of the df / dp
- * but setting a scaling vector using method SetScales().
+ * The user can scale each component of the df / dp in two ways:
+ * 1) manually, by setting a scaling vector using method SetScales().
+ * Or,
+ * 2) automatically, by assigning a ScalesEstimator using SetScalesEstimator().
+ * When ScalesEstimator is assigned, the optimizer is enabled by default to
+ * estimate scales, and can be changed via SetDoEstimateScales(). The scales
+ * are estimated and assigned once, during the call to StartOptimization().
+ * This option will override any manually-assigned scales.
  *
- * The learning rate defaults to 1.0, and can be set via \c SetLearningRate.
- *
- * The user may set a member m_ScalesEstimator by calling SetScalesEstimator()
- * before optimization to estimate scales and learning rates automatically.
- *
- * When m_ScalesEstimator is set, m_MaximumStepSizeInPhysicalUnits may also
- * be set by the user to change the maximum step size at each iteration. Learning
- * rates are automatically restricted such that each step will produce physical
- * impacts on voxels less than m_MaximumStepSizeInPhysicalUnits.
- * m_MaximumStepSizeInPhysicalUnits defaults to the voxel spacing returned
- * by m_ScalesEstimator->EstimateMaximumStepSize().
+ * The learing rate defaults to 1.0, and can be set in two ways:
+ * 1) manually, via \c SetLearningRate().
+ * Or,
+ * 2) automatically, either at each iteration or only at the first iteration,
+ * by assigning a ScalesEstimator via SetScalesEstimator(). When a
+ * ScalesEstimator is assigned, the optimizer is enabled by default to estimate
+ * learning rate only once, during the first iteration. This behavior can be changed via
+ * SetDoEstimateLearningRateAtEveryIteration() and
+ * SetDoEstimateLearningRateOnce(). For learning rate to be estimated at each iteration,
+ * the user must call SetDoEstimateLearningRateAtEveryIteration(true) and
+ * SetDoEstimateLearningRateOnce(false). When enabled, the optimizer computes learning
+ * rate(s) such that at each step, each voxel's change in physical space will be less
+ * than m_MaximumStepSizeInPhysicalUnits.
+ *      m_LearningRate =
+ *        m_MaximumStepSizeInPhysicalUnits /
+ *        m_ScalesEstimator->EstimateStepScale(scaledGradient)
+ * where m_MaximumStepSizeInPhysicalUnits defaults to the voxel spacing returned by
+ * m_ScalesEstimator->EstimateMaximumStepSize() (which is typically 1 voxel),
+ * and can be set by the user via SetMaximumStepSizeInPhysicalUnits().
+ * When SetDoEstimateLearningRateOnce is enabled, the voxel change may become
+ * being greater than m_MaximumStepSizeInPhysicalUnits in later iterations.
  *
  * \note Unlike the previous version of GradientDescentOptimizer, this version
  * does not have a "maximize/minimize" option to modify the effect of the metric
@@ -93,35 +109,54 @@ public:
   /** Get the learning rate. */
   itkGetConstReferenceMacro(LearningRate, InternalComputationValueType);
 
-  /** Set the maximum step size.
+  /** Set the maximum step size, in physical space units.
    *
-   *  When m_ScalesEstimator is set by user, the optimizer will compute
-   *  learning rates as
-   *      m_MaximumStepSizeInPhysicalUnits /
-   *      m_ScalesEstimator->EstimateStepScale(scaledGradient).
-   *
-   *  If SetMaximumStepSizeInPhysicalUnits is not called by user,
-   *  m_MaximumStepSizeInPhysicalUnits defaults to
-   *      m_ScalesEstimator->EstimateMaximumStepSize().
-   *
-   *  where EstimateMaximumStepSize returns one voxel spacing.
+   *  Only relevant when m_ScalesEstimator is set by user,
+   *  and automatic learning rate estimation is enabled.
+   *  See main documentation.
    */
   itkSetMacro(MaximumStepSizeInPhysicalUnits, InternalComputationValueType);
 
   /** Set the scales estimator.
    *
-   *  SetScalesEstimator has higher priority than SetScales and SetLearningRate.
-   *  The m_ScalesEstimator estimates both parameter scales and step scale.
+   *  A ScalesEstimator is required for the scales and learning rate estimation
+   *  options to work. See the main documentation.
    *
-   *  The optimizer will compute learning rates as
-   *      m_MaximumStepSizeInPhysicalUnits /
-   *      m_ScalesEstimator->EstimateStepScale(scaledGradient).
-   *
-   *  If SetMaximumStepSizeInPhysicalUnits is not called by user,
-   *  m_MaximumStepSizeInPhysicalUnits defaults to
-   *      m_ScalesEstimator->EstimateMaximumStepSize().
+   * \sa SetDoEstimateScales()
+   * \sa SetDoEstimateLearningRateAtEachIteration()
+   * \sa SetDoEstimateLearningOnce()
    */
   itkSetObjectMacro(ScalesEstimator, OptimizerParameterScalesEstimator);
+
+  /** Option to use ScalesEstimator for scales estimation.
+   * The estimation is performed once at begin of
+   * optimization, and overrides any scales set using SetScales().
+   * Default is true. */
+  itkSetMacro(DoEstimateScales, bool);
+  itkGetConstReferenceMacro(DoEstimateScales, bool);
+  itkBooleanMacro(DoEstimateScales);
+
+  /** Option to use ScalesEstimator for learning rate estimation at
+   * *each* iteration. The estimation overrides the learning rate
+   * set by SetLearningRate(). Default is false.
+   *
+   * \sa SetDoEstimateLearningRateOnce()
+   * \sa SetScalesEstimator()
+   */
+  itkSetMacro(DoEstimateLearningRateAtEachIteration, bool);
+  itkGetConstReferenceMacro(DoEstimateLearningRateAtEachIteration, bool);
+  itkBooleanMacro(DoEstimateLearningRateAtEachIteration);
+
+  /** Option to use ScalesEstimator for learning rate estimation
+   * only *once*, during first iteration. The estimation overrides the
+   * learning rate set by SetLearningRate(). Default is true.
+   *
+   * \sa SetDoEstimateLearningRateAtEachIteration()
+   * \sa SetScalesEstimator()
+   */
+  itkSetMacro(DoEstimateLearningRateOnce, bool);
+  itkGetConstReferenceMacro(DoEstimateLearningRateOnce, bool);
+  itkBooleanMacro(DoEstimateLearningRateOnce);
 
   /** Minimum convergence value for convergence checking.
    *  The convergence checker calculates convergence value by fitting to
@@ -161,9 +196,14 @@ protected:
   virtual void ModifyGradientByScalesOverSubRange( const IndexRangeType& subrange );
   virtual void ModifyGradientByLearningRateOverSubRange( const IndexRangeType& subrange );
 
+  /** Manual learning rate to apply. It is overridden by
+   * automatic learning rate estimation if enabled. See main documentation.
+   */
   InternalComputationValueType  m_LearningRate;
 
-  /** The maximum step size to restrict learning rates. */
+  /** The maximum step size in physical units, to restrict learning rates.
+   * Only used with automatic learning rate estimation. See main documentation.
+   */
   InternalComputationValueType  m_MaximumStepSizeInPhysicalUnits;
 
   /** Estimate the learning rate */
@@ -196,6 +236,21 @@ protected:
   ConvergenceMonitoringType::Pointer m_ConvergenceMonitoring;
 
 private:
+  /** Flag to control use of the ScalesEstimator (if set) for
+   * automatic scale estimation during StartOptimization()
+   */
+  bool m_DoEstimateScales;
+
+  /** Flag to control use of the ScalesEstimator (if set) for
+   * automatic learning step estimation at *each* iteration.
+   */
+  bool m_DoEstimateLearningRateAtEachIteration;
+
+  /** Flag to control use of the ScalesEstimator (if set) for
+   * automatic learning step estimation only *once*, during first iteration.
+   */
+  bool m_DoEstimateLearningRateOnce;
+
   GradientDescentOptimizerv4( const Self & ); //purposely not implemented
   void operator=( const Self& ); //purposely not implemented
 };

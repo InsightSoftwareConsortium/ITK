@@ -16,6 +16,8 @@
  *
  *=========================================================================*/
 #include "itkGradientDescentOptimizerv4.h"
+#include "itkTestingMacros.h"
+#include "itkRegistrationParameterScalesFromShift.h"
 
 /* Cribbed from itkGradientDescentOptimizerTest */
 
@@ -41,7 +43,7 @@ class GradientDescentOptimizerv4TestMetric
 {
 public:
 
-  typedef GradientDescentOptimizerv4TestMetric  Self;
+  typedef GradientDescentOptimizerv4TestMetric      Self;
   typedef itk::ObjectToObjectMetric                 Superclass;
   typedef itk::SmartPointer<Self>                   Pointer;
   typedef itk::SmartPointer<const Self>             ConstPointer;
@@ -232,6 +234,15 @@ int itkGradientDescentOptimizerv4Test(int, char* [] )
   std::cout << std::endl;
   std::cout << "NumberOfIterations: " << itkOptimizer->GetNumberOfIterations();
   std::cout << std::endl;
+  // For test of learning rate and scales estimation options
+  // in an actual registration, see
+  // itkAutoScaledGradientDescentRegistrationTest.
+  itkOptimizer->SetDoEstimateLearningRateOnce( false );
+  std::cout << "GetDoEstimateLearningRateOnce: " << itkOptimizer->GetDoEstimateLearningRateOnce() << std::endl;
+  itkOptimizer->SetDoEstimateLearningRateAtEachIteration( true );
+  std::cout << "GetDoEstimateLearningRateAtEachIteration: " << itkOptimizer->GetDoEstimateLearningRateAtEachIteration() << std::endl;
+  itkOptimizer->SetDoEstimateScales( false );
+  std::cout << "GetDoEstimateScales: " << itkOptimizer->GetDoEstimateScales() << std::endl;
 
   itkOptimizer->Print( std::cout );
   std::cout << "Stop description   = "

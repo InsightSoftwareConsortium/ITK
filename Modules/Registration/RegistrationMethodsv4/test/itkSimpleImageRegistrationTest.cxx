@@ -104,6 +104,8 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
     itkGenericExceptionMacro( "Error dynamic_cast failed" );
     }
   affineOptimizer->SetNumberOfIterations( atoi( argv[5] ) );
+  affineOptimizer->SetDoEstimateLearningRateOnce( false ); //true by default
+  affineOptimizer->SetDoEstimateLearningRateAtEachIteration( true );
 
   typedef CommandIterationUpdate<AffineRegistrationType> AffineCommandType;
   typename AffineCommandType::Pointer affineObserver = AffineCommandType::New();
@@ -119,6 +121,11 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
     std::cerr << "Exception caught: " << e << std::endl;
     return EXIT_FAILURE;
     }
+
+  std::cout << "Affine parameters after registration: " << std::endl
+            << affineOptimizer->GetCurrentPosition() << std::endl
+            << "Last LearningRate: " << affineOptimizer->GetLearningRate()
+            << std::endl;
 
   //
   // Now do the displacement field transform with gaussian smoothing using
@@ -165,6 +172,8 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
   optimizer->SetLearningRate( 1.0 );
   optimizer->SetNumberOfIterations( atoi( argv[6] ) );
   optimizer->SetScalesEstimator( scalesEstimator );
+  optimizer->SetDoEstimateLearningRateOnce( false ); //true by default
+  optimizer->SetDoEstimateLearningRateAtEachIteration( true );
 
   typedef itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType, DisplacementFieldTransformType> DisplacementFieldRegistrationType;
   typename DisplacementFieldRegistrationType::Pointer displacementFieldSimple = DisplacementFieldRegistrationType::New();
@@ -234,6 +243,10 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
     std::cerr << "Exception caught: " << e << std::endl;
     return EXIT_FAILURE;
     }
+
+  std::cout << "After displacement registration: " << std::endl
+            << "Last LearningRate: " << optimizer->GetLearningRate()
+            << std::endl;
 
   typedef itk::ResampleImageFilter<MovingImageType, FixedImageType> ResampleFilterType;
   typename ResampleFilterType::Pointer resampler = ResampleFilterType::New();
