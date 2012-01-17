@@ -23,7 +23,7 @@
 
 namespace itk
 {
-/** \class ParticleSwarmInitializationBiasedOptimizer
+/** \class InitializationBiasedParticleSwarmOptimizer
  * \brief Implementation of a biased/regularized Particle Swarm Optimization
  *        (PSO) algorithm.
  *
