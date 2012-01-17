@@ -969,6 +969,14 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
+void
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
+::SetParameters( ParametersType & params)
+{
+  this->m_MovingTransform->SetParametersByValue( params );
+}
+
+template<class TFixedImage,class TMovingImage,class TVirtualImage>
 typename
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >::NumberOfParametersType
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >

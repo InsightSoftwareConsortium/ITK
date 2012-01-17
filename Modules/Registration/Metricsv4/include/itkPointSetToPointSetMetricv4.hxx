@@ -374,6 +374,14 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 }
 
 template<class TFixedPointSet, class TMovingPointSet>
+void
+PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
+::SetParameters( ParametersType & params )
+{
+  this->m_MovingTransform->SetParametersByValue( params );
+}
+
+template<class TFixedPointSet, class TMovingPointSet>
 unsigned int
 PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::GetNumberOfLocalParameters() const
