@@ -24,6 +24,8 @@ itkWindowedSincInterpolateImageFunctionTest.cxx
 itkLinearInterpolateImageFunctionTest.cxx
 itkNeighborhoodOperatorImageFunctionTest.cxx
 itkNearestNeighborInterpolateImageFunctionTest.cxx
+itkGaussianInterpolateImageFunctionTest.cxx
+itkLabelImageGaussianInterpolateImageFunctionTest.cxx
 itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest.cxx
 )
 
@@ -78,6 +80,10 @@ itk_add_test(NAME itkNeighborhoodOperatorImageFunctionTest
       COMMAND ITKImageFunctionTestDriver itkNeighborhoodOperatorImageFunctionTest)
 itk_add_test(NAME itkNearestNeighborInterpolateImageFunctionTest
       COMMAND ITKImageFunctionTestDriver itkNearestNeighborInterpolateImageFunctionTest)
+itk_add_test(NAME itkGaussianInterpolateImageFunctionTest
+      COMMAND ITKImageFunctionTestDriver itkGaussianInterpolateImageFunctionTest)
+itk_add_test(NAME itkLabelImageGaussianInterpolateImageFunctionTest
+      COMMAND ITKImageFunctionTestDriver itkLabelImageGaussianInterpolateImageFunctionTest)
 
 itk_add_test(NAME itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest
       COMMAND ITKImageFunctionTestDriver itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest)
