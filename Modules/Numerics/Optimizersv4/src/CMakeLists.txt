@@ -5,6 +5,7 @@ set(ITKOptimizersv4_SRC
   itkGradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader.cxx
   itkGradientDescentOptimizerBasev4ModifyGradientByScalesThreader.cxx
   itkGradientDescentOptimizerv4.cxx
+  itkMultiStartOptimizerv4.cxx
   itkQuasiNewtonOptimizerv4.cxx
   itkQuasiNewtonOptimizerv4EstimateNewtonStepThreader.cxx
 )

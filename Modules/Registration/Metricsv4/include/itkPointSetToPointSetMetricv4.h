@@ -228,6 +228,11 @@ public:
   virtual unsigned int GetNumberOfLocalParameters() const;
 
   /**
+   * Set the transform parameters of the currently active transform.
+   */
+  virtual void SetParameters( ParametersType & );
+
+  /**
    * Get the transform parameters of the currently active transform.
    */
   virtual const ParametersType & GetParameters() const;

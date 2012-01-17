@@ -64,6 +64,8 @@ public:
   const ParametersType & GetParameters() const
   { return m_Parameters; }
 
+  void SetParameters( ParametersType & ) {}
+
   void Initialize(void) throw ( itk::ExceptionObject ) {}
 
   void PrintSelf(std::ostream& os, itk::Indent indent) const

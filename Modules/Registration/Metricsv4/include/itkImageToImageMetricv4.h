@@ -579,10 +579,13 @@ public:
    */
   virtual NumberOfParametersType GetNumberOfParameters() const;
 
-  /** Get a const reference to the moving transform's parameters */
+  /** Set the active (moving) transform's parameters. */
+  virtual void SetParameters( ParametersType & params );
+
+  /** Get a const reference to the active (moving) transform's parameters. */
   virtual const ParametersType & GetParameters() const;
 
-  /** Update the moving transform's parameters.
+  /** Update the active (moving) transform's parameters.
    * This call is passed through directly to the transform.
    * \c factor is a scalar multiplier for each value in update, and
    * defaults to 1.0 .

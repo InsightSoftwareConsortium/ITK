@@ -39,6 +39,7 @@ namespace itk
  *  GetNumberOfParameters
  *  GetNumberOfLocalParameters
  *  GetParameters
+ *  SetParameters
  *  HasLocalSupport
  *  UpdateTransformParameters
  *
@@ -123,6 +124,9 @@ public:
    * used in non-metric classes, e.g. optimizers. */
   virtual NumberOfParametersType GetNumberOfParameters() const = 0;
   virtual NumberOfParametersType GetNumberOfLocalParameters() const = 0;
+
+  /** Set the active transform's parameters */
+  virtual void SetParameters( ParametersType & params ) = 0;
 
   /** Get a const reference to the active transform's parameters */
   virtual const ParametersType & GetParameters() const = 0;

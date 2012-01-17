@@ -26,7 +26,7 @@ class ITK_EXPORT GradientDescentOptimizerBasev4TestMetric:
 {
 public:
   /** Standard class typedefs. */
-  typedef GradientDescentOptimizerBasev4TestMetric  Self;
+  typedef GradientDescentOptimizerBasev4TestMetric      Self;
   typedef itk::ObjectToObjectMetric                     Superclass;
   typedef itk::SmartPointer< Self >                     Pointer;
   typedef itk::SmartPointer< const Self >               ConstPointer;
@@ -65,6 +65,8 @@ public:
   const ParametersType & GetParameters() const
   { return m_Parameters; }
 
+  void SetParameters( ParametersType & ) {}
+
   void Initialize(void) throw ( itk::ExceptionObject ) {}
 
   void PrintSelf(std::ostream& os, itk::Indent indent) const
@@ -88,8 +90,8 @@ class GradientDescentOptimizerBasev4TestOptimizer
 {
 public:
   /** Standard "Self" typedef. */
-  typedef GradientDescentOptimizerBasev4TestOptimizer Self;
-  typedef GradientDescentOptimizerBasev4              Superclass;
+  typedef GradientDescentOptimizerBasev4TestOptimizer     Self;
+  typedef GradientDescentOptimizerBasev4                  Superclass;
   typedef itk::SmartPointer< Self >                       Pointer;
   typedef itk::SmartPointer< const Self >                 ConstPointer;
 
