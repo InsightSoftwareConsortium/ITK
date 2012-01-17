@@ -111,6 +111,11 @@
 # to directories within a single source distribution (e.g. they come together
 # in one tarball).
 #
+# The variable ExternalData_BINARY_ROOT may be set to the directory to hold
+# the real data files named by expanded DATA{} references.  The default is
+# CMAKE_BINARY_DIR.  The directory layout will mirror that of content links
+# under ExternalData_SOURCE_ROOT.
+#
 # Variables ExternalData_TIMEOUT_INACTIVITY and ExternalData_TIMEOUT_ABSOLUTE
 # set the download inactivity and absolute timeouts, in seconds.  The defaults
 # are 60 seconds and 300 seconds, respectively.  Set either timeout to 0
@@ -346,7 +351,19 @@ function(_ExternalData_arg target arg options var_file)
       "does not lie under the top-level source directory\n"
       "  ${top_src}\n")
   endif()
-  set(top_bin "${CMAKE_BINARY_DIR}/ExternalData") # TODO: .../${target} ?
+  if(NOT ExternalData_BINARY_ROOT)
+    set(ExternalData_BINARY_ROOT "${CMAKE_BINARY_DIR}")
+  endif()
+  set(top_bin "${ExternalData_BINARY_ROOT}")
+
+  # Handle in-source builds gracefully.
+  if("${top_src}" STREQUAL "${top_bin}")
+    if(ExternalData_LINK_CONTENT)
+      message(WARNING "ExternalData_LINK_CONTENT cannot be used in-source")
+      set(ExternalData_LINK_CONTENT 0)
+    endif()
+    set(top_same 1)
+  endif()
 
   set(external "") # Entries external to the source tree.
   set(internal "") # Entries internal to the source tree.
@@ -490,7 +507,7 @@ function(_ExternalData_arg_find_files pattern regex)
       elseif(ExternalData_LINK_CONTENT)
         _ExternalData_link_content("${name}" alg)
         list(APPEND external "${file}|${name}|${alg}")
-      else()
+      elseif(NOT top_same)
         list(APPEND internal "${file}|${name}")
       endif()
       if("${relname}" STREQUAL "${reldata}")
