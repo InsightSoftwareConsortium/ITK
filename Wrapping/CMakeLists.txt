@@ -94,7 +94,7 @@ if(ITK_INSTALL_PACKAGE_DIR)
 else()
   set(path "lib/InsightToolkit/WrapITK/")
 endif()
-set(WRAP_ITK_INSTALL_PREFIX ${path} CACHE INTERNAL PATH "subpath where where most of WrapITK files will be installed")
+set(WRAP_ITK_INSTALL_PREFIX "${path}" CACHE INTERNAL "subpath where where most of WrapITK files will be installed")
 
 # Output directories.
 set(WRAP_ITK_CONFIG_DIR "${WrapITK_SOURCE_DIR}/")
