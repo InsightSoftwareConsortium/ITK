@@ -55,6 +55,9 @@ public:
   itkStaticConstMacro( ParametersDimension, unsigned int,
                        NDimensions * ( NDimensions + 2 ) );
 
+  /** implement type-specific clone method*/
+  itkTransformCloneMacro();
+
   /** Types taken from the Superclass */
   typedef typename Superclass::ParametersType      ParametersType;
   typedef typename Superclass::ParametersValueType ParametersValueType;

@@ -28,6 +28,22 @@
 
 namespace itk
 {
+/** Macro for the 'Clone' method. Like the
+ *  'CreateAnother' method, it needs to always return the
+ *  actual Self type, but in order to leverage inheritence,
+ *  it has to call a InternalClone method that returns a more
+ *  generic clone type, since the function signature has to be
+ * consistent for a virtual function to call the right method.
+ */
+#if !defined(itkTransformCloneMacro)
+#define itkTransformCloneMacro()                                \
+  typename Self::Pointer Clone()                                \
+  {                                                             \
+    typename Self::Pointer rval =                               \
+      dynamic_cast<Self *>(this->InternalClone().GetPointer()); \
+    return rval;                                                \
+  }
+#endif
 /** \class Transform
  * \brief Transform points and vectors from an input space to an output space.
  *
@@ -94,6 +110,9 @@ public:
   /** Dimension of the domain space. */
   itkStaticConstMacro(InputSpaceDimension, unsigned int, NInputDimensions);
   itkStaticConstMacro(OutputSpaceDimension, unsigned int, NOutputDimensions);
+
+  /** define the Clone method */
+  itkTransformCloneMacro();
 
   /** Get the size of the input space */
   unsigned int GetInputSpaceDimension(void) const
@@ -553,6 +572,13 @@ public:
   virtual void ComputeInverseJacobianWithRespectToPosition(const InputPointType & x, JacobianType & jacobian ) const;
 
 protected:
+  /**
+   * Clone the current transform.
+   * This does a complete copy of the transform
+   * state to the new transform
+   */
+  virtual Pointer InternalClone() const;
+
   Transform();
   Transform(NumberOfParametersType NumberOfParameters);
   virtual ~Transform()

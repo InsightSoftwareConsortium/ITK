@@ -256,6 +256,40 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
 }
 
 template <class TScalar, unsigned int NDimensions>
+typename BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
+::TransformPointer
+BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
+::InternalClone() const
+{
+  LightObject::Pointer loPtr =
+    this->CreateAnother();
+
+  typename Self::Pointer rval =
+    dynamic_cast<Self *>(loPtr.GetPointer());
+  if(rval.IsNull())
+    {
+    itkExceptionMacro(<< "downcast to type "
+                      << this->GetNameOfClass()
+                      << " failed.");
+    }
+
+  //
+  // set fields not in the fixed parameters.
+  rval->SetSplineOrder(this->GetSplineOrder());
+
+  rval->SetNumberOfControlPointsForTheUpdateField
+    (this->GetNumberOfControlPointsForTheUpdateField());
+
+  rval->SetNumberOfControlPointsForTheTotalField
+    (this->GetNumberOfControlPointsForTheTotalField());
+
+  rval->SetFixedParameters(this->GetFixedParameters());
+  rval->SetParameters(this->GetParameters());
+
+  return rval.GetPointer();
+}
+
+template <class TScalar, unsigned int NDimensions>
 void
 BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>::
 PrintSelf( std::ostream& os, Indent indent ) const

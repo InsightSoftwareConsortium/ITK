@@ -67,6 +67,9 @@ public:
   itkStaticConstMacro(InputSpaceDimension, unsigned int, NDimensions);
   itkStaticConstMacro(OutputSpaceDimension, unsigned int, NDimensions);
 
+  /** implement type-specific clone method*/
+  itkTransformCloneMacro();
+
   /** Type of the input parameters. */
   typedef  TScalarType ScalarType;
 

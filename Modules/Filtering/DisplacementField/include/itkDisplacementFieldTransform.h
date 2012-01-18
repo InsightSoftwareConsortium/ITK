@@ -98,16 +98,10 @@ public:
   itkTypeMacro( DisplacementFieldTransform, Transform );
 
   /** New macro for creation of through a Smart Pointer */
-  itkSimpleNewMacro( Self );
+  itkNewMacro( Self );
 
-  /** Leave CreateAnother undefined. To fully implement here, it must be
-   * sure to copy all members. It may be called from transform-cloning
-   * that only copies parameters, so override here to prevent
-   * its use without copying full members. */
-  virtual::itk::LightObject::Pointer CreateAnother(void) const
-  {
-    itkExceptionMacro("CreateAnother unimplemented. See source comments.");
-  }
+  /** implement type-specific clone method*/
+  itkTransformCloneMacro();
 
   /** InverseTransform type. */
   typedef typename Superclass::InverseTransformBasePointer InverseTransformBasePointer;
@@ -403,7 +397,9 @@ public:
   {
     return true;
   }
+
 protected:
+
   DisplacementFieldTransform();
   virtual ~DisplacementFieldTransform();
   void PrintSelf( std::ostream& os, Indent indent ) const;

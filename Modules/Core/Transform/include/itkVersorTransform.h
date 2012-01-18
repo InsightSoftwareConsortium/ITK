@@ -61,6 +61,9 @@ public:
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro(Self);
 
+  /** implement type-specific clone method*/
+  itkTransformCloneMacro();
+
   /** Dimension of parameters */
   itkStaticConstMacro(SpaceDimension, unsigned int, 3);
   itkStaticConstMacro(InputSpaceDimension, unsigned int, 3);

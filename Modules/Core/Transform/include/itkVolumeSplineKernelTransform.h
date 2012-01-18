@@ -50,6 +50,9 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(VolumeSplineKernelTransform, KernelTransform);
 
+  /** implement type-specific clone method*/
+  itkTransformCloneMacro();
+
   /** Scalar type. */
   typedef typename Superclass::ScalarType ScalarType;
 

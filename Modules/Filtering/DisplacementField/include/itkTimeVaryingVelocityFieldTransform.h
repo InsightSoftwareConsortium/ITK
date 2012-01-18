@@ -67,7 +67,10 @@ public:
   itkTypeMacro( TimeVaryingVelocityFieldTransform, DisplacementFieldTransform );
 
   /** New macro for creation of through a Smart Pointer */
-  itkSimpleNewMacro( Self );
+  itkNewMacro( Self );
+
+  /** implement type-specific clone method */
+  itkTransformCloneMacro();
 
   /** InverseTransform type. */
   typedef typename Superclass:: InverseTransformBasePointer InverseTransformBasePointer;
@@ -94,6 +97,8 @@ public:
   /** Derivative type */
   typedef typename Superclass::DerivativeType       DerivativeType;
 
+  typedef typename Transform<TScalar,NDimensions,NDimensions>::Pointer TransformPointer;
+
   /** Dimension of the domain spaces. */
   itkStaticConstMacro( Dimension, unsigned int, NDimensions );
 
@@ -106,6 +111,9 @@ public:
    */
   typedef Image<OutputVectorType, TimeVaryingVelocityFieldDimension>  TimeVaryingVelocityFieldType;
   typedef typename TimeVaryingVelocityFieldType::Pointer              TimeVaryingVelocityFieldPointer;
+  typedef typename TimeVaryingVelocityFieldType::PointType            TimeVaryingVelocityFieldPointType;
+  typedef typename TimeVaryingVelocityFieldType::SpacingType          TimeVaryingVelocityFieldSpacingType;
+  typedef typename TimeVaryingVelocityFieldType::DirectionType        TimeVaryingVelocityFieldDirectionType;
 
   typedef VectorInterpolateImageFunction<TimeVaryingVelocityFieldType, ScalarType>  TimeVaryingVelocityFieldInterpolatorType;
   typedef typename TimeVaryingVelocityFieldInterpolatorType::Pointer                TimeVaryingVelocityFieldInterpolatorPointer;
@@ -226,6 +234,17 @@ protected:
 
   ScalarType                                m_LowerTimeBound;
   ScalarType                                m_UpperTimeBound;
+
+  /** Clone the current transform */
+  virtual TransformPointer InternalClone() const;
+
+  typename DisplacementFieldType::Pointer
+    CopyDisplacementField(const DisplacementFieldType *toCopy) const;
+  /**
+   * Convenience method which reads the information from the current
+   * displacement field into m_FixedParameters.
+   */
+  virtual void SetFixedParametersFromTimeVaryingVelocityField();
 
   /** The deformation field and its inverse (if it exists). */
   typename TimeVaryingVelocityFieldType::Pointer    m_TimeVaryingVelocityField;

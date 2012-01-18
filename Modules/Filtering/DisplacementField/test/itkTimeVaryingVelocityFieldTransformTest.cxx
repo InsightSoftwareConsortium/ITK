@@ -102,11 +102,15 @@ int itkTimeVaryingVelocityFieldTransformTest( int, char* [] )
   transform->SetTimeVaryingVelocityField( timeVaryingVelocityField );
   transform->IntegrateVelocityField();
 
+  // Now Clone the Transform and test transform again
+  TransformType::Pointer clone = transform->Clone();
+
   TransformType::InputPointType point;
   point.Fill( 1.3 );
 
   typedef TransformType::OutputPointType OutputPointType;
   OutputPointType transformedPoint = transform->TransformPoint( point );
+  OutputPointType cloneTransformedPoint = clone->TransformPoint( point );
 
   VectorType displacement;
   displacement.Fill( 0.1 );
@@ -117,21 +121,37 @@ int itkTimeVaryingVelocityFieldTransformTest( int, char* [] )
     std::cerr << "Failed to produce the expected transformed point." << std::endl;
     return EXIT_FAILURE;
     }
+  if( point.EuclideanDistanceTo( cloneTransformedPoint ) > 0.01 )
+    {
+    std::cerr << "Cloned transform failed to produce the expected transformed point." << std::endl;
+    return EXIT_FAILURE;
+    }
   point -= displacement;
 
   TransformType::InputPointType point2;
   point2.CastFrom( transformedPoint );
 
+  TransformType::InputPointType clonePoint2;
+  clonePoint2.CastFrom(cloneTransformedPoint);
+
   typedef TransformType::InverseTransformBasePointer InverseTransformBasePointer;
   InverseTransformBasePointer inverseTransform = transform->GetInverseTransform();
+  InverseTransformBasePointer cloneInverseTransform = clone->GetInverseTransform();
 
   transformedPoint = inverseTransform->TransformPoint( point2 );
+  cloneTransformedPoint = cloneInverseTransform->TransformPoint(clonePoint2);
 
   if( point.EuclideanDistanceTo( transformedPoint ) > 0.01 )
     {
     std::cerr << "Failed to produce the expected inverse transformed point." << std::endl;
     return EXIT_FAILURE;
     }
+  if( point.EuclideanDistanceTo( cloneTransformedPoint ) > 0.01 )
+    {
+    std::cerr << "Cloned transform failed to produce the expected inverse transformed point." << std::endl;
+    return EXIT_FAILURE;
+    }
+
 
   transform->Print( std::cout, 3 );
 

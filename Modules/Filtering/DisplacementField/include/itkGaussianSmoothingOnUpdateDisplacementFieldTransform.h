@@ -58,7 +58,10 @@ public:
                                                 DisplacementFieldTransform );
 
   /** New macro for creation of through a Smart Pointer */
-  itkSimpleNewMacro( Self );
+  itkNewMacro( Self );
+
+  /** implement type-specific clone method*/
+  itkTransformCloneMacro();
 
   /** Types from superclass */
   typedef typename Superclass::ScalarType               ScalarType;
@@ -68,6 +71,8 @@ public:
   typedef typename Superclass::DisplacementFieldPointer DisplacementFieldPointer;
   typedef typename DisplacementFieldType::PixelType     DisplacementVectorType;
 
+  typedef typename Transform<TScalar,NDimensions,NDimensions>::Pointer
+          TransformPointer;
 
   /**
    * Get/Set the Gaussian smoothing standard deviation for the update field.
@@ -103,6 +108,9 @@ protected:
   GaussianSmoothingOnUpdateDisplacementFieldTransform();
   virtual ~GaussianSmoothingOnUpdateDisplacementFieldTransform();
   void PrintSelf( std::ostream& os, Indent indent ) const;
+
+  /** Clone the current transform */
+  virtual TransformPointer InternalClone() const;
 
   /** Used in GaussianSmoothDisplacementField as variance for the
    * GaussianOperator */
