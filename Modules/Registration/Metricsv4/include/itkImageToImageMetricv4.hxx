@@ -326,13 +326,13 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 {
   if( this->m_UseFixedSampledPointSet ) // sparse sampling
     {
-    if( this->m_FixedSampledPointSet->GetNumberOfPoints() < 1 )
+    if( this->m_VirtualSampledPointSet->GetNumberOfPoints() < 1 )
       {
-      itkExceptionMacro("FixedSampledPointSet must have 1 or more points.");
+      itkExceptionMacro("VirtualSampledPointSet must have 1 or more points.");
       }
     typename ImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Self >::DomainType range;
     range[0] = 0;
-    range[1] = this->m_FixedSampledPointSet->GetNumberOfPoints() - 1;
+    range[1] = this->m_VirtualSampledPointSet->GetNumberOfPoints() - 1;
     this->m_SparseGetValueAndDerivativeThreader->Execute( const_cast< Self* >(this), range );
     }
   else // dense sampling
@@ -916,7 +916,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
   typedef typename FixedSampledPointSetType::PointsContainer PointsContainer;
   typename PointsContainer::ConstPointer
     points = this->m_FixedSampledPointSet->GetPoints();
-  typename PointsContainer::ConstIterator it = points->Begin();
+  typename PointsContainer::ConstIterator fixedIt = points->Begin();
 
   typename FixedTransformType::InverseTransformBasePointer
     inverseTransform = this->m_FixedTransform->GetInverseTransform();
@@ -926,22 +926,24 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
                       " point set.");
     }
 
-  while( it != points->End() )
+  SizeValueType virtualIndex = 0;
+  while( fixedIt != points->End() )
     {
     typename FixedSampledPointSetType::PointType
-      point = inverseTransform->TransformPoint( it.Value() );
+      point = inverseTransform->TransformPoint( fixedIt.Value() );
     typename VirtualImageType::IndexType tempIndex;
     /* Verify that the point is valid. We may be working with a resized virtual domain,
      * and a fixed sampled point list that was created before the resizing. */
     if( this->m_VirtualDomainImage->TransformPhysicalPointToIndex( point, tempIndex ) )
       {
-      this->m_VirtualSampledPointSet->SetPoint( it.Index(), point );
+      this->m_VirtualSampledPointSet->SetPoint( virtualIndex, point );
+      virtualIndex++;
       }
     else
       {
       this->m_NumberOfSkippedFixedSampledPoints++;
       }
-    ++it;
+    ++fixedIt;
     }
     if( this->m_VirtualSampledPointSet->GetNumberOfPoints() == 0 )
       {
