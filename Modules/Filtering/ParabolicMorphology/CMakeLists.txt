@@ -30,8 +30,15 @@ ENDFOREACH(Package)
 
 #Set any libraries that your project depends on.
 #examples : ITKCommon, VTKRendering, etc
-SET(Libraries ITKCommon ITKBasicFilters ITKIO ITKAlgorithms)
+#SET(Libraries
+#ITKCommon
+#ITKBasicFilters
+#ITKIO
+#ITKAlgorithms
+#)
 
+#ITK4 version
+SET(Libraries ${ ITK_LIBRARIES })
 
 #install devel files
 OPTION(INSTALL_DEVEL_FILES "Install C++ headers" ON)
