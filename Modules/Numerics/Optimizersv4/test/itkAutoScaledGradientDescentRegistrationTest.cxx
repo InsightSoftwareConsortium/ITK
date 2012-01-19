@@ -24,7 +24,6 @@
 #include "itkExceptionObject.h"
 #include "itkImageRegistrationMethodImageSource.h"
 
-
 /**
  *  This is a test using GradientDescentOptimizerv4 and parameter scales
  *  estimator. The scales are estimated before the first iteration by
@@ -33,10 +32,14 @@
  */
 
 template< class TMovingTransform >
-int itkAutoScaledGradientDescentRegistrationTestTemplated(int numberOfIterations,
-                                                          double shiftOfStep,
-                                                          std::string scalesOption,
-                                                          bool usePhysicalSpaceForShift = true)
+int itkAutoScaledGradientDescentRegistrationTestTemplated(
+                                            int numberOfIterations,
+                                            double shiftOfStep,
+                                            std::string scalesOption,
+                                            bool usePhysicalSpaceForShift,
+                                            bool estimateLearningRateOnce,
+                                            bool estimateLearningRateAtEachIteration,
+                                            bool estimateScales )
 {
   const unsigned int Dimension = TMovingTransform::SpaceDimension;
   typedef double PixelType;
@@ -139,11 +142,33 @@ int itkAutoScaledGradientDescentRegistrationTestTemplated(int numberOfIterations
     }
 
   optimizer->SetScalesEstimator(scalesEstimator);
-  // If SetTrustedStepScale is not called, it will use voxel spacing.
+  // If SetMaximumStepSizeInPhysicalUnits is not called, it will use voxel spacing.
   optimizer->SetMaximumStepSizeInPhysicalUnits(shiftOfStep);
+  optimizer->SetDoEstimateLearningRateOnce( estimateLearningRateOnce );
+  optimizer->SetDoEstimateLearningRateAtEachIteration( estimateLearningRateAtEachIteration );
+  optimizer->SetDoEstimateScales( estimateScales );
 
-  std::cout << "Start optimization..." << std::endl
+  // Set initial scales to bad values
+  OptimizerType::ScalesType initScales( metric->GetNumberOfParameters() );
+  initScales.Fill( static_cast<OptimizerType::ScalesType::ValueType>(999999) );
+  optimizer->SetScales( initScales );
+  std::cout << "Initial Scales: " << optimizer->GetScales() << std::endl;
+
+  // If no learning rate estimate is performed, test with a fixed value
+  // close to the result of running this test with learning rate estimation
+  // for only the first step.
+  OptimizerType::InternalComputationValueType fixedLearningRate = 0.01501010101010101;
+  if( ! estimateLearningRateOnce && ! estimateLearningRateAtEachIteration )
+    {
+    optimizer->SetLearningRate( fixedLearningRate );
+    }
+  std::cout << "Initial learning rate: " << optimizer->GetLearningRate() << std::endl;
+
+  std::cout << "**Start optimization..." << std::endl
             << "Number of iterations: " << numberOfIterations << std::endl;
+  std::cout << "GetDoEstimateScales: " << optimizer->GetDoEstimateScales() << std::endl;
+  std::cout << "GetDoEstimateLearningRateOnce: " << optimizer->GetDoEstimateLearningRateOnce() << std::endl;
+  std::cout << "GetDoEstimateLearningRateAtEachIteration: " << optimizer->GetDoEstimateLearningRateAtEachIteration() << std::endl;
 
   try
     {
@@ -163,8 +188,37 @@ int itkAutoScaledGradientDescentRegistrationTestTemplated(int numberOfIterations
             << "StopCondition: " << optimizer->GetStopConditionDescription()
             << std::endl
             << "Metric: NumberOfValidPoints: "
-            << metric->GetNumberOfValidPoints()
+            << metric->GetNumberOfValidPoints() << std::endl
+            << "Final scales: " << optimizer->GetScales() << std::endl
+            << "Final learning rate: " << optimizer->GetLearningRate()
             << std::endl;
+
+  if( ! estimateLearningRateOnce && ! estimateLearningRateAtEachIteration )
+    {
+    if( optimizer->GetLearningRate() != fixedLearningRate )
+      {
+      std::cerr << "Expected learning rate not to change." << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+
+  // If scale estimation was disabled, make sure the scales didn't change
+  if( ! estimateScales )
+    {
+    OptimizerType::ScalesType postScales = optimizer->GetScales();
+    for( itk::SizeValueType s=0; s < postScales.Size(); s++ )
+      {
+      if( initScales[s] != postScales[s] )
+        {
+        std::cerr << "Scales were estimated by optimizer despite not being "
+                  << "enabled to do so." << std::endl;
+        return EXIT_FAILURE;
+        }
+      }
+    // Just return now since we won't get a valid result w/out scales estimation
+    // for the jacobian shift case.
+    return EXIT_SUCCESS;
+    }
 
   //
   // results
@@ -212,16 +266,22 @@ int itkAutoScaledGradientDescentRegistrationTestTemplated(int numberOfIterations
 
 int itkAutoScaledGradientDescentRegistrationTest(int argc, char ** const argv)
 {
-  if( argc > 3 )
+  if( argc > 6 )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " [numberOfIterations=30 shiftOfStep=1.0] ";
+    std::cerr << " [estimateLearningRateOnce = true] ";
+    std::cerr << " [estimateLearningRateAtEachIteration = false] ";
+    std::cerr << " [estimateScales = true] ";
     std::cerr << std::endl;
     return EXIT_FAILURE;
     }
   unsigned int numberOfIterations = 30;
   double shiftOfStep = 1.0;
+  bool estimateLearningRateOnce = true;
+  bool estimateLearningRateAtEachIteration = false;
+  bool estimateScales = true;
 
   if( argc >= 2 )
     {
@@ -231,6 +291,18 @@ int itkAutoScaledGradientDescentRegistrationTest(int argc, char ** const argv)
     {
     shiftOfStep = atof( argv[2] );
     }
+  if (argc >= 4)
+    {
+    estimateLearningRateOnce = atoi( argv[3] );
+    }
+  if (argc >= 5)
+    {
+    estimateLearningRateAtEachIteration = atoi( argv[4] );
+    }
+  if (argc >= 6)
+    {
+    estimateScales = atoi( argv[5] );
+    }
 
   const unsigned int Dimension = 2;
   int ret1 = EXIT_SUCCESS, ret2 = EXIT_SUCCESS;
@@ -238,11 +310,15 @@ int itkAutoScaledGradientDescentRegistrationTest(int argc, char ** const argv)
   std::cout << std::endl << "Optimizing translation transform with shift scales" << std::endl;
   typedef itk::TranslationTransform<double, Dimension> TranslationTransformType;
   bool usePhysicalSpaceForShift = false;
-  ret1 = itkAutoScaledGradientDescentRegistrationTestTemplated<TranslationTransformType>(numberOfIterations, shiftOfStep, "shift", usePhysicalSpaceForShift);
+  ret1 = itkAutoScaledGradientDescentRegistrationTestTemplated<TranslationTransformType>(
+    numberOfIterations, shiftOfStep, "shift", usePhysicalSpaceForShift,
+    estimateLearningRateOnce, estimateLearningRateAtEachIteration, estimateScales);
 
   std::cout << std::endl << "Optimizing translation transform with Jacobian scales" << std::endl;
   typedef itk::TranslationTransform<double, Dimension> TranslationTransformType;
-  ret2 = itkAutoScaledGradientDescentRegistrationTestTemplated<TranslationTransformType>(numberOfIterations, 0.0, "jacobian");
+  ret2 = itkAutoScaledGradientDescentRegistrationTestTemplated<TranslationTransformType>(
+    numberOfIterations, 0.0, "jacobian", usePhysicalSpaceForShift,
+    estimateLearningRateOnce, estimateLearningRateAtEachIteration, estimateScales);
 
   if ( ret1 == EXIT_SUCCESS && ret2 == EXIT_SUCCESS )
     {

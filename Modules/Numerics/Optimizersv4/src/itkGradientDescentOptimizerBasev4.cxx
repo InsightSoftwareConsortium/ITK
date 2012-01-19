@@ -96,6 +96,8 @@ GradientDescentOptimizerBasev4
         this->m_ModifyGradientByScalesThreader->Execute( this, fullrange );
         }
 
+      /* This will modify the learning rate if the derived class
+       * is set to do so. */
       this->EstimateLearningRate();
 
       /* Add a check for m_LearningRateIsIdentity?

@@ -119,7 +119,9 @@ protected:
   GradientDescentOptimizerBasev4ModifyGradientByScalesThreader::Pointer       m_ModifyGradientByScalesThreader;
   GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader::Pointer m_ModifyGradientByLearningRateThreader;
 
-  /** Estimate the learning rate */
+  /** Estimate the learning rate. Derived classes can modify
+   * the learning rate in this method, or leave it unmodified.
+   * It is called during ModifyGradient(). */
   virtual void EstimateLearningRate() = 0;
 
   /** Modify the gradient in place, to advance the optimization.
