@@ -47,11 +47,12 @@ if(NOT ITK_NO_IO_FACTORY_REGISTER_MANAGER)
   endforeach()
 
   # add ImageIOs in review to the automatic registration
-  foreach (ImageFormat MRC)
-    set (LIST_OF_FACTORIES_REGISTRATION "${LIST_OF_FACTORIES_REGISTRATION}void ${ImageFormat}ImageIOFactoryRegister__Private(void);")
-    set (LIST_OF_FACTORY_NAMES  "${LIST_OF_FACTORY_NAMES}${ImageFormat}ImageIOFactoryRegister__Private,")
-  endforeach()
-
+  if (ITK_USE_REVIEW)
+    foreach (ImageFormat MRC)
+      set (LIST_OF_FACTORIES_REGISTRATION "${LIST_OF_FACTORIES_REGISTRATION}void ${ImageFormat}ImageIOFactoryRegister__Private(void);")
+      set (LIST_OF_FACTORY_NAMES  "${LIST_OF_FACTORY_NAMES}${ImageFormat}ImageIOFactoryRegister__Private,")
+    endforeach()
+  endif()
 
   get_filename_component(_selfdir "${CMAKE_CURRENT_LIST_FILE}" PATH)
   configure_file(${_selfdir}/itkImageIOFactoryRegisterManager.h.in
