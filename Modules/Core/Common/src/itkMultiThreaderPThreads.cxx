@@ -119,9 +119,14 @@ void MultiThreader::MultipleMethodExecute()
     m_ThreadInfoArray[thread_loop].UserData =
       m_MultipleData[thread_loop];
     m_ThreadInfoArray[thread_loop].NumberOfThreads = m_NumberOfThreads;
-    pthread_create( &( process_id[thread_loop] ),
+    int threadError = pthread_create( &( process_id[thread_loop] ),
                     &attr, reinterpret_cast< c_void_cast >( m_MultipleMethod[thread_loop] ),
                     ( (void *)( &m_ThreadInfoArray[thread_loop] ) ) );
+    if ( threadError != 0 )
+      {
+      itkExceptionMacro(<< "Unable to create a thread.  pthread_create() returned "
+                        << threadError);
+      }
     }
 
   // Now, the parent thread calls the last method itself
@@ -178,9 +183,14 @@ int MultiThreader::SpawnThread(ThreadFunctionType f, void *UserData)
   pthread_attr_setscope(&attr, PTHREAD_SCOPE_PROCESS);
 #endif
 
-  pthread_create( &( m_SpawnedThreadProcessID[id] ),
+  int threadError = pthread_create( &( m_SpawnedThreadProcessID[id] ),
                   &attr, reinterpret_cast< c_void_cast >( f ),
                   ( (void *)( &m_SpawnedThreadInfoArray[id] ) ) );
+  if ( threadError != 0 )
+    {
+    itkExceptionMacro(<< "Unable to create a thread.  pthread_create() returned "
+                      << threadError);
+    }
 
   return id;
 }
