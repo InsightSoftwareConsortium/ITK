@@ -48,6 +48,8 @@
 @ITK_SOURCE_DIR@/Modules/Filtering/Convolution/include/itk*.hxx
 @ITK_SOURCE_DIR@/Modules/Filtering/CurvatureFlow/include/itk*.h
 @ITK_SOURCE_DIR@/Modules/Filtering/CurvatureFlow/include/itk*.hxx
+@ITK_SOURCE_DIR@/Modules/Filtering/Deconvolution/include/itk*.h
+@ITK_SOURCE_DIR@/Modules/Filtering/Deconvolution/include/itk*.hxx
 @ITK_SOURCE_DIR@/Modules/Filtering/DiffusionTensorImage/include/itk*.h
 @ITK_SOURCE_DIR@/Modules/Filtering/DiffusionTensorImage/include/itk*.hxx
 @ITK_SOURCE_DIR@/Modules/Filtering/DisplacementField/include/itk*.h

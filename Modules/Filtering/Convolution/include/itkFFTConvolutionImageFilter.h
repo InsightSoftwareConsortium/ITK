@@ -21,6 +21,8 @@
 #include "itkConvolutionImageFilterBase.h"
 
 #include "itkProgressAccumulator.h"
+#include "itkHalfHermitianToRealInverseFFTImageFilter.h"
+#include "itkRealToHalfHermitianForwardFFTImageFilter.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
 
 namespace itk
@@ -104,6 +106,15 @@ protected:
   FFTConvolutionImageFilter();
   ~FFTConvolutionImageFilter() {}
 
+  /** Because the inputs are real, we can use the specialized filters
+   * for real-to-complex Fourier transforms. */
+  typedef RealToHalfHermitianForwardFFTImageFilter< InternalImageType,
+                                                    InternalComplexImageType >
+    FFTFilterType;
+  typedef HalfHermitianToRealInverseFFTImageFilter< InternalComplexImageType,
+                                                    InternalImageType >
+    IFFTFilterType;
+
   /** FFTConvolutionImageFilter needs the entire image kernel, which in
    * general is going to be a different size than the output requested
    * region. As such, this filter needs to provide an implementation
@@ -118,17 +129,54 @@ protected:
 
   /** Prepare the input images for operations in the Fourier
    * domain. This includes resizing the input and kernel images,
-   * normalizing the kernel if requested, shifting the kernel and
+   * normalizing the kernel if requested, shifting the kernel, and
    * taking the Fourier transform of the padded inputs. */
-  void PrepareInputs(InternalComplexImagePointerType & preparedInput,
+  void PrepareInputs(const InputImageType * input,
+                     const KernelImageType * kernel,
+                     InternalComplexImagePointerType & preparedInput,
                      InternalComplexImagePointerType & preparedKernel,
-                     ProgressAccumulator * progress,
-                     float progressWeight);
+                     ProgressAccumulator * progress, float progressWeight);
+
+  /** Prepare the input image. This includes padding the image and
+   * taking the Fourier transform of the padded image. */
+  void PrepareInput(const InputImageType * input,
+                    InternalComplexImagePointerType & preparedInput,
+                    ProgressAccumulator * progress, float progressWeight);
+
+  /** Pad the input image. */
+  void PadInput(const InputImageType * input,
+                InternalImagePointerType & paddedInput,
+                ProgressAccumulator * progress, float progressWeight);
+
+  /** Take the Fourier transform of the padded input. */
+  void TransformPaddedInput(const InternalImageType * paddedInput,
+                            InternalComplexImagePointerType & transformedInput,
+                            ProgressAccumulator * progress, float progressWeight);
+
+  /** Prepare the kernel. This includes resizing the input and kernel
+   * images, normalizing the kernel if requested, shifting the kernel,
+   * and taking the Fourier transform of the padded kernel. */
+  void PrepareKernel(const KernelImageType * kernel,
+                     InternalComplexImagePointerType & preparedKernel,
+                     ProgressAccumulator * progress, float progressWeight);
 
   /** Produce output from the final Fourier domain image. */
   void ProduceOutput(InternalComplexImageType * paddedOutput,
                      ProgressAccumulator * progress,
                      float progressWeight);
+
+  /** Crop the padded version of the output. */
+  void CropOutput(InternalImageType * paddedOutput,
+                  ProgressAccumulator * progress,
+                  float progressWeight);
+
+  /** Get the lower bound for the padding of both the kernel and input
+   * images. Assuming that the regions of the kernel and input are the
+   * same, then this lower bound can be used to move the index of the
+   * padded kernel and padded input so that they are the same. This
+   * is important to avoid exceptions in filters that operate on these
+   * images. */
+  InputSizeType GetPadLowerBound() const;
 
   /** Get the pad size. */
   InputSizeType GetPadSize() const;

@@ -26,11 +26,9 @@
 #include "itkConstantPadImageFilter.h"
 #include "itkCyclicShiftImageFilter.h"
 #include "itkExtractImageFilter.h"
-#include "itkHalfHermitianToRealInverseFFTImageFilter.h"
 #include "itkImageBase.h"
 #include "itkMultiplyImageFilter.h"
 #include "itkNormalizeToConstantImageFilter.h"
-#include "itkRealToHalfHermitianForwardFFTImageFilter.h"
 #include "itkVnlFFTCommon.h"
 
 namespace itk
@@ -74,10 +72,14 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter( this );
 
+  typename InputImageType::Pointer localInput = InputImageType::New();
+  localInput->Graft( this->GetInput() );
+
+  const KernelImageType* kernelImage = this->GetKernelImage();
+
   InternalComplexImagePointerType input = NULL;
   InternalComplexImagePointerType kernel = NULL;
-
-  this->PrepareInputs( input, kernel, progress, 0.7 );
+  this->PrepareInputs( localInput, kernelImage, input, kernel, progress, 0.7f );
 
   typedef MultiplyImageFilter< InternalComplexImageType,
                                InternalComplexImageType,
@@ -98,16 +100,107 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
 template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
 void
 FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
-::PrepareInputs(InternalComplexImagePointerType & preparedInput,
+::PrepareInputs(const InputImageType * input,
+                const KernelImageType * kernel,
+                InternalComplexImagePointerType & preparedInput,
                 InternalComplexImagePointerType & preparedKernel,
-                ProgressAccumulator * progress,
-                float progressWeight)
+                ProgressAccumulator * progress, float progressWeight)
 {
-  const KernelImageType* kernelImage = this->GetKernelImage();
-  KernelRegionType kernelRegion = kernelImage->GetLargestPossibleRegion();
+  this->PrepareInput( input, preparedInput,  progress, 0.5f * progressWeight );
+  this->PrepareKernel( kernel, preparedKernel, progress, 0.5f * progressWeight );
+}
+
+template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
+void
+FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
+::PrepareInput(const InputImageType * input,
+               InternalComplexImagePointerType & preparedInput,
+               ProgressAccumulator * progress,
+               float progressWeight)
+{
+  InternalImagePointerType paddedInput;
+  this->PadInput( input, paddedInput, progress, 0.3f * progressWeight );
+  this->TransformPaddedInput( paddedInput, preparedInput, progress,
+                              0.7f * progressWeight );
+}
+
+template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
+void
+FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
+::PadInput(const InputImageType * input,
+           InternalImagePointerType & paddedInput,
+           ProgressAccumulator * progress, float progressWeight)
+{
+  // Pad the image
+  InputSizeType padSize = this->GetPadSize();
+  InputRegionType inputRegion = input->GetLargestPossibleRegion();
+  InputSizeType inputSize = inputRegion.GetSize();
+
+  typedef PadImageFilter< InputImageType, InputImageType > InputPadFilterType;
+  typename InputPadFilterType::Pointer inputPadder = InputPadFilterType::New();
+  inputPadder->SetBoundaryCondition( this->GetBoundaryCondition() );
+
+  InputSizeType inputLowerBound = this->GetPadLowerBound();
+  inputPadder->SetPadLowerBound( inputLowerBound );
+
+  InputSizeType inputUpperBound;
+  for (unsigned int i = 0; i < ImageDimension; ++i)
+    {
+    inputUpperBound[i] = (padSize[i] - inputSize[i]) / 2;
+    if ( ( padSize[i] - inputSize[i] ) % 2 == 1 )
+      {
+      inputUpperBound[i]++;
+      }
+    }
+  inputPadder->SetPadUpperBound( inputUpperBound );
+  inputPadder->SetNumberOfThreads( this->GetNumberOfThreads() );
+  inputPadder->SetInput( input );
+  inputPadder->ReleaseDataFlagOn();
+  progress->RegisterInternalFilter( inputPadder, 0.5f * progressWeight );
+
+  // We could avoid a separate cast here by setting the output type of
+  // the padder to the InternalImageType, but doing so complicates the
+  // definition of the boundary condition passed into this class and
+  // requires the InternalImageType to be exposed publicly.
+  typedef CastImageFilter< InputImageType, InternalImageType > InputCastFilterType;
+  typename InputCastFilterType::Pointer inputCaster = InputCastFilterType::New();
+  // See if we can avoid unnecessary casting and copying of memory
+  inputCaster->InPlaceOn();
+  inputCaster->SetNumberOfThreads( this->GetNumberOfThreads() );
+  inputCaster->SetInput( inputPadder->GetOutput() );
+  inputCaster->ReleaseDataFlagOn();
+  progress->RegisterInternalFilter( inputCaster, 0.5f * progressWeight );
+  inputCaster->Update();
+
+  paddedInput = inputCaster->GetOutput();
+}
+
+template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
+void
+FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
+::TransformPaddedInput(const InternalImageType * paddedInput,
+                       InternalComplexImagePointerType & transformedInput,
+                       ProgressAccumulator * progress, float progressWeight)
+{
+  // Take the Fourier transform of the padded image.
+  typename FFTFilterType::Pointer imageFFTFilter = FFTFilterType::New();
+  imageFFTFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
+  imageFFTFilter->SetInput( paddedInput );
+  progress->RegisterInternalFilter( imageFFTFilter, progressWeight );
+
+  transformedInput = imageFFTFilter->GetOutput();
+}
+
+template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
+void
+FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
+::PrepareKernel(const KernelImageType * kernel,
+                InternalComplexImagePointerType & preparedKernel,
+                ProgressAccumulator * progress, float progressWeight)
+{
+  KernelRegionType kernelRegion = kernel->GetLargestPossibleRegion();
   KernelSizeType kernelSize = kernelRegion.GetSize();
 
-  // Calculate the required pad size.
   InputSizeType padSize = this->GetPadSize();
   typename KernelImageType::SizeType kernelUpperBound;
   for (unsigned int i = 0; i < ImageDimension; ++i)
@@ -117,6 +210,7 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
 
   InternalImagePointerType paddedKernelImage = NULL;
 
+  float paddingWeight = 0.2f;
   if ( this->GetNormalize() )
     {
     typedef NormalizeToConstantImageFilter< KernelImageType, InternalImageType >
@@ -124,10 +218,10 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
     typename NormalizeFilterType::Pointer normalizeFilter = NormalizeFilterType::New();
     normalizeFilter->SetConstant( NumericTraits< TInternalPrecision >::One );
     normalizeFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
-    normalizeFilter->SetInput( this->GetKernelImage() );
+    normalizeFilter->SetInput( kernel );
     normalizeFilter->ReleaseDataFlagOn();
-    progress->RegisterInternalFilter( normalizeFilter, 0.05f * progressWeight );
-    progressWeight = 0.95f * progressWeight;
+    progress->RegisterInternalFilter( normalizeFilter,
+                                      0.2f * paddingWeight * progressWeight );
 
     // Pad the kernel image with zeros.
     typedef ConstantPadImageFilter< InternalImageType, InternalImageType > KernelPadType;
@@ -138,7 +232,8 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
     kernelPadder->SetNumberOfThreads( this->GetNumberOfThreads() );
     kernelPadder->SetInput( normalizeFilter->GetOutput() );
     kernelPadder->ReleaseDataFlagOn();
-    progress->RegisterInternalFilter( kernelPadder, 0.1f * progressWeight );
+    progress->RegisterInternalFilter( kernelPadder,
+                                      0.8f * paddingWeight * progressWeight );
     paddedKernelImage = kernelPadder->GetOutput();
     }
   else
@@ -150,9 +245,10 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
     kernelPadder->SetConstant( NumericTraits< TInternalPrecision >::ZeroValue() );
     kernelPadder->SetPadUpperBound( kernelUpperBound );
     kernelPadder->SetNumberOfThreads( this->GetNumberOfThreads() );
-    kernelPadder->SetInput( kernelImage );
+    kernelPadder->SetInput( kernel );
     kernelPadder->ReleaseDataFlagOn();
-    progress->RegisterInternalFilter( kernelPadder, 0.1f * progressWeight );
+    progress->RegisterInternalFilter( kernelPadder,
+                                      paddingWeight * progressWeight );
     paddedKernelImage = kernelPadder->GetOutput();
     }
 
@@ -170,71 +266,27 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
   kernelShifter->ReleaseDataFlagOn();
   progress->RegisterInternalFilter( kernelShifter, 0.1f * progressWeight );
 
-  // Pad the image
-  typename InputImageType::Pointer localInput = InputImageType::New();
-  localInput->Graft( this->GetInput() );
-
-  InputRegionType inputRegion = localInput->GetLargestPossibleRegion();
-  InputSizeType inputSize = inputRegion.GetSize();
-
-  typedef PadImageFilter< InputImageType, InputImageType > InputPadFilterType;
-  typename InputPadFilterType::Pointer inputPadder = InputPadFilterType::New();
-  inputPadder->SetBoundaryCondition( this->GetBoundaryCondition() );
-  typename InputPadFilterType::SizeType inputLowerBound;
-  typename InputPadFilterType::SizeType inputUpperBound;
-  for (unsigned int i = 0; i < ImageDimension; ++i)
-    {
-    inputLowerBound[i] = (padSize[i] - inputSize[i]) / 2;
-    inputUpperBound[i] = (padSize[i] - inputSize[i]) / 2;
-    if ( ( padSize[i] - inputSize[i] ) % 2 == 1 )
-      {
-      inputUpperBound[i]++;
-      }
-    }
-  inputPadder->SetPadLowerBound( inputLowerBound );
-  inputPadder->SetPadUpperBound( inputUpperBound );
-  inputPadder->SetNumberOfThreads( this->GetNumberOfThreads() );
-  inputPadder->SetInput( localInput );
-  inputPadder->ReleaseDataFlagOn();
-  progress->RegisterInternalFilter( inputPadder, 0.099f * progressWeight );
-
-  // We could avoid a separate cast here by setting the output type of
-  // the padder to the InternalImageType, but doing so complicates the
-  // definition of the boundary condition passed into this class and
-  // requires the InternalImageType to be exposed publicly.
-  typedef CastImageFilter< InputImageType, InternalImageType > InputCastFilterType;
-  typename InputCastFilterType::Pointer inputCaster = InputCastFilterType::New();
-  // See if we can avoid unnecessary casting and copying of memory
-  inputCaster->InPlaceOn();
-  inputCaster->SetNumberOfThreads( this->GetNumberOfThreads() );
-  inputCaster->SetInput( inputPadder->GetOutput() );
-  inputCaster->ReleaseDataFlagOn();
-  progress->RegisterInternalFilter( inputCaster, 0.1f * progressWeight );
-
-  // Set up the forward and inverse FFT minipipeline.
-  typedef RealToHalfHermitianForwardFFTImageFilter< InternalImageType,
-                                                    InternalComplexImageType >
-    FFTFilterType;
-  typename FFTFilterType::Pointer imageFFTFilter = FFTFilterType::New();
-  imageFFTFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
-  imageFFTFilter->SetInput( inputCaster->GetOutput() );
-  progress->RegisterInternalFilter( imageFFTFilter, 0.2f * progressWeight );
-
-  preparedInput = imageFFTFilter->GetOutput();
-
   typename FFTFilterType::Pointer kernelFFTFilter = FFTFilterType::New();
   kernelFFTFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
   kernelFFTFilter->SetInput( kernelShifter->GetOutput() );
-  progress->RegisterInternalFilter( kernelFFTFilter, 0.3f * progressWeight );
+  progress->RegisterInternalFilter( kernelFFTFilter, 0.699f * progressWeight );
 
   typedef ChangeInformationImageFilter< InternalComplexImageType > InfoFilterType;
   typename InfoFilterType::Pointer kernelInfoFilter = InfoFilterType::New();
-  kernelInfoFilter->SetReferenceImage( imageFFTFilter->GetOutput() );
-  kernelInfoFilter->UseReferenceImageOn();
-  kernelInfoFilter->ChangeAll();
+  kernelInfoFilter->ChangeRegionOn();
+
+  typedef typename InfoFilterType::OutputImageOffsetValueType InfoOffsetValueType;
+  InputSizeType inputLowerBound = this->GetPadLowerBound();
+  InfoOffsetValueType kernelOffset[ImageDimension];
+  for (int i = 0; i < ImageDimension; ++i)
+    {
+    kernelOffset[i] = static_cast< InfoOffsetValueType >( -inputLowerBound[i] );
+    }
+  kernelInfoFilter->SetOutputOffset( kernelOffset );
   kernelInfoFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
   kernelInfoFilter->SetInput( kernelFFTFilter->GetOutput() );
   progress->RegisterInternalFilter( kernelInfoFilter, 0.001f * progressWeight );
+  kernelInfoFilter->Update();
 
   preparedKernel = kernelInfoFilter->GetOutput();
 }
@@ -246,16 +298,23 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
                 ProgressAccumulator * progress,
                 float progressWeight)
 {
-  typedef HalfHermitianToRealInverseFFTImageFilter< InternalComplexImageType,
-                                                    InternalImageType >
-    IFFTFilterType;
   typename IFFTFilterType::Pointer ifftFilter = IFFTFilterType::New();
   ifftFilter->SetActualXDimensionIsOdd( this->GetXDimensionIsOdd() );
   ifftFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
   ifftFilter->SetInput( paddedOutput );
   ifftFilter->ReleaseDataFlagOn();
-  progress->RegisterInternalFilter( ifftFilter, progressWeight );
+  progress->RegisterInternalFilter( ifftFilter, 0.6f * progressWeight );
 
+  this->CropOutput( ifftFilter->GetOutput(), progress, 0.4f * progressWeight );
+}
+
+template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
+void
+FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
+::CropOutput(InternalImageType * paddedOutput,
+             ProgressAccumulator * progress,
+             float progressWeight)
+{
   // Allocate the output
   this->AllocateOutputs();
 
@@ -280,13 +339,32 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
 
   // Graft the minipipeline output to this filter.
   extractFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
-  extractFilter->SetInput( ifftFilter->GetOutput() );
+  extractFilter->SetInput( paddedOutput );
   extractFilter->GetOutput()->SetRequestedRegion( this->GetOutput()->GetRequestedRegion() );
+  progress->RegisterInternalFilter( extractFilter, progressWeight );
   extractFilter->Update();
 
   // Graft the output of the crop filter back onto this
   // filter's output.
   this->GraftOutput( extractFilter->GetOutput() );
+}
+
+template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
+typename FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >::InputSizeType
+FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
+::GetPadLowerBound() const
+{
+  typename InputImageType::ConstPointer inputImage = this->GetInput();
+  InputSizeType inputSize = inputImage->GetLargestPossibleRegion().GetSize();
+  InputSizeType padSize = this->GetPadSize();
+
+  InputSizeType inputLowerBound;
+  for (unsigned int i = 0; i < ImageDimension; ++i)
+    {
+    inputLowerBound[i] = (padSize[i] - inputSize[i]) / 2;
+    }
+
+  return inputLowerBound;
 }
 
 template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >

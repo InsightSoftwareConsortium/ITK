@@ -51,6 +51,7 @@ itkTanImageFilterAndAdaptorTest.cxx
 itkSigmoidImageFilterTest.cxx
 itkDivideImageFilterTest.cxx
 itkDivideImageFilterTest2.cxx
+itkDivideOrZeroOutImageFilterTest.cxx
 itkVectorExpandImageFilterTest.cxx
 itkAdaptImageFilterTest.cxx
 itkOrImageFilterTest.cxx
@@ -197,6 +198,8 @@ itk_add_test(NAME itkDivideImageFilterTest
       COMMAND ITKImageIntensityTestDriver itkDivideImageFilterTest)
 itk_add_test(NAME itkDivideImageFilterTest2
       COMMAND ITKImageIntensityTestDriver itkDivideImageFilterTest2)
+itk_add_test(NAME itkDivideOrZeroOutImageFilterTest
+      COMMAND ITKImageIntensityTestDriver itkDivideOrZeroOutImageFilterTest)
 itk_add_test(NAME itkVectorExpandImageFilterTest
       COMMAND ITKImageIntensityTestDriver itkVectorExpandImageFilterTest)
 itk_add_test(NAME itkAdaptImageFilterTest
