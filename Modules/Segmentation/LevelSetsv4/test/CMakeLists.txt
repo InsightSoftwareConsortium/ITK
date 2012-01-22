@@ -202,7 +202,11 @@ itk_add_test(NAME itkLevelSetsv4EvolutionNumberOfIterationsStoppingCriterionTest
       COMMAND ITKLevelSetsv4TestDriver itkLevelSetEvolutionNumberOfIterationsStoppingCriterionTest)
 itk_add_test(NAME itkMultiLevelSetsv4DenseImageTest
       COMMAND ITKLevelSetsv4TestDriver itkMultiLevelSetDenseImageTest)
+itk_add_test(NAME itkMultiLevelSetsv4DenseImageTwoThreadsTest
+      COMMAND ITKLevelSetsv4TestDriver --with-threads 2 itkMultiLevelSetDenseImageTest)
 itk_add_test(NAME itkMultiLevelSetsv4ChanAndVeseInternalTermTest
       COMMAND ITKLevelSetsv4TestDriver itkMultiLevelSetChanAndVeseInternalTermTest)
 itk_add_test(NAME itkMultiLevelSetsv4SetEvolutionTest
       COMMAND ITKLevelSetsv4TestDriver itkMultiLevelSetEvolutionTest)
+itk_add_test(NAME itkMultiLevelSetsv4SetEvolutionTwoThreadsTest
+      COMMAND ITKLevelSetsv4TestDriver --with-threads 2 itkMultiLevelSetEvolutionTest)

@@ -30,6 +30,7 @@ LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
 ::LevelSetEvolution()
 {
   this->m_SplitLevelSetComputeIterationThreader = SplitLevelSetComputeIterationThreaderType::New();
+  this->m_SplitDomainMapComputeIterationThreader = SplitDomainMapComputeIterationThreaderType::New();
   this->m_SplitLevelSetUpdateLevelSetsThreader = SplitLevelSetUpdateLevelSetsThreaderType::New();
 }
 
@@ -62,13 +63,29 @@ LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
     typename DomainMapType::const_iterator mapIt   = domainMap.begin();
     typename DomainMapType::const_iterator mapEnd  = domainMap.end();
 
-    while( mapIt != mapEnd )
+    const ThreadIdType maximumNumberOfThreads = this->m_SplitDomainMapComputeIterationThreader->GetMaximumNumberOfThreads();
+    typedef typename SplitDomainMapComputeIterationThreaderType::DomainType DomainMapDomainType;
+    DomainMapDomainType subdomain;
+    DomainMapDomainType completeDomain( mapIt, mapEnd );
+    const typename SplitDomainMapComputeIterationThreaderType::DomainPartitionerType * domainParitioner = this->m_SplitDomainMapComputeIterationThreader->GetDomainPartitioner();
+    const ThreadIdType numberOfThreadsThatWillBeUsed = domainParitioner->PartitionDomain( 0, maximumNumberOfThreads, completeDomain, subdomain );
+    // If we do not have enough domains to process one per thread.
+    if( numberOfThreadsThatWillBeUsed < maximumNumberOfThreads )
       {
-      typedef typename DomainMapImageFilterType::LevelSetDomain LevelSetListImageDomainType;
-      const LevelSetListImageDomainType & levelSetListImageDomain = mapIt->second;
-      this->m_IdListToProcessWhenThreading = levelSetListImageDomain.GetIdList();
-      this->m_SplitLevelSetComputeIterationThreader->Execute( this, *(levelSetListImageDomain.GetRegion()) );
-      ++mapIt;
+      // split up each level set individually
+      while( mapIt != mapEnd )
+        {
+        typedef typename DomainMapImageFilterType::LevelSetDomain LevelSetListImageDomainType;
+        const LevelSetListImageDomainType & levelSetListImageDomain = mapIt->second;
+        this->m_IdListToProcessWhenThreading = levelSetListImageDomain.GetIdList();
+        this->m_SplitLevelSetComputeIterationThreader->Execute( this, *(levelSetListImageDomain.GetRegion()) );
+        ++mapIt;
+        }
+      }
+    else
+      {
+      // process a level set domain in every thread
+      this->m_SplitDomainMapComputeIterationThreader->Execute( this, completeDomain );
       }
     }
   else // assume there is one level set that covers the RequestedRegion of the InputImage

@@ -100,6 +100,56 @@ LevelSetEvolutionComputeIterationThreader< LevelSetDenseImageBase< TImage >, Thr
     }
 }
 
+template< class TImage, class TLevelSetEvolution >
+LevelSetEvolutionComputeIterationThreader<
+  LevelSetDenseImageBase< TImage >,
+  ThreadedIteratorRangePartitioner< typename TLevelSetEvolution::DomainMapImageFilterType::DomainMapType::const_iterator >,
+    TLevelSetEvolution >
+::LevelSetEvolutionComputeIterationThreader()
+{
+}
+
+template< class TImage, class TLevelSetEvolution >
+void
+LevelSetEvolutionComputeIterationThreader<
+  LevelSetDenseImageBase< TImage >,
+  ThreadedIteratorRangePartitioner< typename TLevelSetEvolution::DomainMapImageFilterType::DomainMapType::const_iterator >,
+    TLevelSetEvolution >
+::ThreadedExecution( const DomainType & imageSubDomain,
+                     const ThreadIdType itkNotUsed(threadId) )
+{
+  typename InputImageType::ConstPointer inputImage = this->m_Associate->m_EquationContainer->GetInput();
+
+  typename DomainType::IteratorType mapIt = imageSubDomain.Begin();
+  while( mapIt != imageSubDomain.End() )
+    {
+    ImageRegionConstIteratorWithIndex< InputImageType > it( inputImage, *(mapIt->second.GetRegion()) );
+    it.GoToBegin();
+
+    while( !it.IsAtEnd() )
+      {
+      const IdListType idList = *(mapIt->second.GetIdList());
+
+      //itkAssertInDebugOrThrowInReleaseMacro( !idList.empty() );
+
+      for( IdListConstIterator idListIt = idList.begin(); idListIt != idList.end(); ++idListIt )
+        {
+        typename LevelSetType::Pointer levelSetUpdate = this->m_Associate->m_UpdateBuffer->GetLevelSet( *idListIt - 1 );
+
+        LevelSetDataType characteristics;
+        typename TermContainerType::Pointer termContainer = this->m_Associate->m_EquationContainer->GetEquation( *idListIt - 1 );
+        termContainer->ComputeRequiredData( it.GetIndex(), characteristics );
+        LevelSetOutputRealType tempUpdate = termContainer->Evaluate( it.GetIndex(), characteristics );
+
+        LevelSetImageType * levelSetImage = levelSetUpdate->GetImage();
+        levelSetImage->SetPixel( it.GetIndex(), tempUpdate );
+        }
+      ++it;
+      }
+    ++mapIt;
+    }
+}
+
 template< class TOutput, unsigned int VDimension, class TLevelSetEvolution >
 LevelSetEvolutionComputeIterationThreader<
       WhitakerSparseLevelSetImage< TOutput, VDimension >,
