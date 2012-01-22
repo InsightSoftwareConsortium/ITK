@@ -105,6 +105,16 @@ public:
   /** Get the reason for termination */
   virtual const StopConditionReturnStringType GetStopConditionDescription() const;
 
+  /** Modify the gradient in place, to advance the optimization.
+   * This call performs a threaded modification for transforms with
+   * local support (assumed to be dense). Otherwise the modification
+   * is performed w/out threading.
+   * At completion, m_Gradient can be used to update the transform
+   * parameters. Derived classes may hold additional results in
+   * other member variables.
+   */
+  virtual void ModifyGradient();
+
 protected:
 
   /** Default constructor */
@@ -123,16 +133,6 @@ protected:
    * the learning rate in this method, or leave it unmodified.
    * It is called during ModifyGradient(). */
   virtual void EstimateLearningRate() = 0;
-
-  /** Modify the gradient in place, to advance the optimization.
-   * This call performs a threaded modification for transforms with
-   * local support (assumed to be dense). Otherwise the modification
-   * is performed w/out threading.
-   * At completion, m_Gradient can be used to update the transform
-   * parameters. Derived classes may hold additional results in
-   * other member variables.
-   */
-  virtual void ModifyGradient();
 
   /** Derived classes define this worker method to modify the gradient by scales.
    * Modifications must be performed over the index range defined in
