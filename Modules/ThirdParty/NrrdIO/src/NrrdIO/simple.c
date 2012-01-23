@@ -1440,6 +1440,7 @@ nrrdSanity(void) {
              NRRD_LLONG_MAX);
     return 0;
   }
+#if 0 /* signed overflow is undefined, therefore this test is meaningless. */
   tmpLLI += 1;
   if (NRRD_LLONG_MIN != tmpLLI) {
     biffAddf(NRRD, "%s: long long int min (" AIR_LLONG_FMT 
@@ -1447,6 +1448,7 @@ nrrdSanity(void) {
              NRRD_LLONG_MIN, NRRD_LLONG_MAX);
     return 0;
   }
+#endif
   tmpULLI = NRRD_ULLONG_MAX;
   if (tmpULLI != NRRD_ULLONG_MAX) {
     biffAddf(NRRD, 
