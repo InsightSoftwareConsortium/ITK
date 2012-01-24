@@ -60,6 +60,11 @@ public:
   typedef typename Superclass::DerivativeType           DerivativeType;
   typedef typename Superclass::DerivativeValueType      DerivativeValueType;
 
+  typedef typename ImageToImageMetricv4Type::FixedTransformType      FixedTransformType;
+  typedef typename FixedTransformType::OutputPointType               FixedOutputPointType;
+  typedef typename ImageToImageMetricv4Type::MovingTransformType     MovingTransformType;
+  typedef typename MovingTransformType::OutputPointType              MovingOutputPointType;
+
   typedef typename Superclass::InternalComputationValueType InternalComputationValueType;
   typedef typename Superclass::NumberOfParametersType       NumberOfParametersType;
 
@@ -81,6 +86,15 @@ protected:
    * derivative sums for global transforms only (i.e. transforms without local
    * support).  */
   virtual void AfterThreadedExecution();
+
+  /** Overload to avoid execution of adding entries to m_MeasurePerThread
+   * StorePointDerivativeResult() after this function calls ProcessPoint().
+   * Method called by the threaders to process the given virtual point.  This
+   * in turn calls \c TransformAndEvaluateFixedPoint, \c
+   * TransformAndEvaluateMovingPoint, and \c ProcessPoint. */
+  virtual bool ProcessVirtualPoint( const VirtualIndexType & virtualIndex,
+                                    const VirtualPointType & virtualPoint,
+                                    const ThreadIdType threadId );
 
   /** This function computes the local voxel-wise contribution of
    *  the metric to the global integral of the metric/derivative.
