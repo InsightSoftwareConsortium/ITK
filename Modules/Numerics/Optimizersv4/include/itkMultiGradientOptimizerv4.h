@@ -15,60 +15,49 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMultiStartOptimizerv4_h
-#define __itkMultiStartOptimizerv4_h
+#ifndef __itkMultiGradientOptimizerv4_h
+#define __itkMultiGradientOptimizerv4_h
 #include "itkObjectToObjectOptimizerBase.h"
 #include "itkGradientDescentOptimizerv4.h"
 
 namespace itk
 {
-/** \class MultiStartOptimizerv4
- *  \brief Multi-start searches over input parameters and returns the best metric value
+/** \class MultiGradientOptimizerv4
+ *  \brief Multiple gradient-based optimizers are combined in order to perform a multi-objective optimization.
  *
- *   The multi-start algorithm performs gradient descent from N (large) number of starting points and
- *   returns the best solution. Ideal start points would sample the solution space almost uniformly, thus,
- *   in theory, this is a global optimizer.  In this implementation, the quality of the optimization
- *   depends on the parameter space samples that the user inputs to the optimizer.  Multi-start can be
- *   modified in numerous ways to improve robustness of standard approaches.  These improvements usually
- *   focus modifying the parameter sample space.  This is why we place the burden on the user to provide
- *   the parameter samples over which to optimize.
+ *  This optimizer will do a combined gradient descent optimization using whatever metric/optimizer gradient
+ *  sub-optimizers are passed to it by the user.  The learning rate or scaleestimator for each sub-optimizer
+ *  controls the relative weight of each metric in the optimization.  Denote the weights as w_1 and w_2 then
+ *  the MultiGradientOptimizer will optimize \sum_i w_i Metric_i by using update rule:
+ *    params_new = params_old + 1/N_Metrics * ( \sum_i w_i Grad(Metric_i) )
+ *  The test for this class illustrates the expected behavior.
  *
  * \ingroup ITKOptimizersv4
  */
 
-class ITK_EXPORT MultiStartOptimizerv4
-  : public ObjectToObjectOptimizerBase
+class ITK_EXPORT MultiGradientOptimizerv4
+  : public GradientDescentOptimizerv4
 {
 public:
   /** Standard class typedefs. */
-  typedef MultiStartOptimizerv4          Self;
-  typedef ObjectToObjectOptimizerBase    Superclass;
+  typedef MultiGradientOptimizerv4          Self;
+  typedef GradientDescentOptimizerv4    Superclass;
   typedef SmartPointer< Self >           Pointer;
   typedef SmartPointer< const Self >     ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MultiStartOptimizerv4, ObjectToObjectOptimizerBase);
+  itkTypeMacro(MultiGradientOptimizerv4, GradientDescentOptimizerv4);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  typedef Superclass::ParametersType                 ParametersType;
-  typedef std::vector< ParametersType >              ParametersListType;
-  typedef ParametersListType::size_type              ParameterListSizeType;
-  typedef ObjectToObjectOptimizerBase                OptimizerType;
-  typedef OptimizerType::Pointer                     OptimizerPointer;
   typedef itk::GradientDescentOptimizerv4            LocalOptimizerType;
   typedef itk::GradientDescentOptimizerv4::Pointer   LocalOptimizerPointer;
-
-  /** Codes of stopping conditions. */
-  typedef enum {
-    MAXIMUM_NUMBER_OF_ITERATIONS,
-    COSTFUNCTION_ERROR,
-    UPDATE_PARAMETERS_ERROR,
-    STEP_TOO_SMALL,
-    CONVERGENCE_CHECKER_PASSED,
-    OTHER_ERROR
-    } StopConditionType;
+  typedef Superclass::ParametersType                 ParametersType;
+  typedef ObjectToObjectOptimizerBase                OptimizerType;
+  typedef OptimizerType::Pointer                     OptimizerPointer;
+  typedef std::vector< LocalOptimizerPointer >       OptimizersListType;
+  typedef OptimizersListType::size_type              OptimizersListSizeType;
 
   /** Stop condition return string type */
   typedef std::string                            StopConditionReturnStringType;
@@ -102,9 +91,6 @@ public:
   /** Get the current iteration number. */
   itkGetConstMacro(CurrentIteration, SizeValueType);
 
-  /** Create an instance of the local optimizer */
-  void InstantiateLocalOptimizer(void);
-
   /** Begin the optimization */
   virtual void StartOptimization(void);
 
@@ -119,29 +105,20 @@ public:
   /** Get the reason for termination */
   virtual const StopConditionReturnStringType GetStopConditionDescription() const;
 
-  /** Get the list of parameters over which to search.  */
-  ParametersListType & GetParametersList();
+  /** Get the list of optimizers currently held.  */
+  OptimizersListType & GetOptimizersList();
 
-  /** Set the list of parameters over which to search */
-  void SetParametersList(ParametersListType & p);
+  /** Set the list of optimizers to combine */
+  void SetOptimizersList(OptimizersListType & p);
 
-  /** Get the list of metric values that we produced after the multi-start search.  */
+  /** Get the list of metric values that we produced after the multi-objective search.  */
   const MetricValuesListType & GetMetricValuesList() const;
-
-  /** Return the parameters from the best visited position */
-  ParametersType GetBestParameters( );
-
-  /** Set/Get the optimizer. */
-  itkSetObjectMacro( LocalOptimizer, OptimizerType );
-  itkGetObjectMacro( LocalOptimizer, OptimizerType );
-
-  inline ParameterListSizeType GetBestParametersIndex( ) { return this->m_BestParametersIndex; }
 
 protected:
 
   /** Default constructor */
-  MultiStartOptimizerv4();
-  virtual ~MultiStartOptimizerv4();
+  MultiGradientOptimizerv4();
+  virtual ~MultiGradientOptimizerv4();
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
@@ -151,15 +128,13 @@ protected:
   StopConditionDescriptionType  m_StopConditionDescription;
   SizeValueType                 m_NumberOfIterations;
   SizeValueType                 m_CurrentIteration;
-  ParametersListType            m_ParametersList;
+  OptimizersListType            m_OptimizersList;
   MetricValuesListType          m_MetricValuesList;
   MeasureType                   m_MinimumMetricValue;
   MeasureType                   m_MaximumMetricValue;
-  ParameterListSizeType         m_BestParametersIndex;
-  OptimizerPointer              m_LocalOptimizer;
 
 private:
-  MultiStartOptimizerv4( const Self & ); //purposely not implemented
+  MultiGradientOptimizerv4( const Self & ); //purposely not implemented
   void operator=( const Self& ); //purposely not implemented
 
 };
