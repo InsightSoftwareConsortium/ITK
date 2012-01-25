@@ -223,54 +223,35 @@ int TestMattesMetricWithAffineTransform(
   // this test doesn't pass when using gradient image filters,
   // presumably because of different deriviative scaling created
   // by the filter output. The derivative results match those
-  // from when using the central difference calculator, but by
-  // a factor of 3.
+  // from when using the central difference calculator, but are
+  // scaled by a factor of 3.
   metric->SetUseFixedImageGradientFilter(false);
   metric->SetUseMovingImageGradientFilter(false);
 
   std::cout << "useSampling: " << useSampling << std::endl;
   if( useSampling )
     {
-    std::cerr << "Sampling not yet setup in test." << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  /*
-  FIXME:
-  Need to be done differently for v4.
-  if( useSampling )
-    {
+    typedef typename MetricType::FixedSampledPointSetType PointSetType;
+    typedef typename PointSetType::PointType              PointType;
+    typename PointSetType::Pointer                        pset(PointSetType::New());
+    unsigned int ind=0,ct=0;
+    itk::ImageRegionIteratorWithIndex<FixedImageType> It(imgFixed, imgFixed->GetLargestPossibleRegion() );
+    for( It.GoToBegin(); !It.IsAtEnd(); ++It )
       {
-      // NOTE: This number of spatial samples is to be larger than possible
-      // and it will be truncated to the size of the image.
-
-      // convert mask image to mask
-      typedef itk::ImageMaskSpatialObject<ImageDimension> ImageMaskSpatialObjectType;
-      typename ImageMaskSpatialObjectType::Pointer soMovingMask  = ImageMaskSpatialObjectType::New();
-      soMovingMask->SetImage( imgMovingMask );
-      soMovingMask->ComputeObjectToWorldTransform();
-      typename ImageMaskSpatialObjectType::Pointer soFixedMask  = ImageMaskSpatialObjectType::New();
-      soFixedMask->SetImage( imgFixedMask );
-      soFixedMask->ComputeObjectToWorldTransform();
-
-      metric->SetMovingImageMask(soMovingMask);
-      metric->SetFixedImageMask(soFixedMask);
-
-      // Make the mask const to enhance code coverage
-      typename ImageMaskSpatialObjectType::ConstPointer soMovingConstMask = soMovingMask.GetPointer();
-      typename ImageMaskSpatialObjectType::ConstPointer soFixedConstMask  = soFixedMask.GetPointer();
-      metric->SetMovingImageMask(soMovingConstMask);
-      metric->SetFixedImageMask(soFixedConstMask);
-
-      //metric->SetNumberOfSpatialSamples( static_cast<unsigned long int>(NumberFixedImageMaskVoxels*.2) );
-      metric->SetNumberOfSpatialSamples( static_cast<unsigned long int>(NumberFixedImageMaskVoxels*2) );
+      // take every N^th point
+      if ( ct % 5 == 0  )
+        {
+        PointType pt;
+        imgFixed->TransformIndexToPhysicalPoint( It.GetIndex(), pt);
+        pset->SetPoint(ind, pt);
+        ind++;
+        }
+        ct++;
       }
+    std::cout << "Setting point set with " << ind << " points of " << imgFixed->GetLargestPossibleRegion().GetNumberOfPixels() << " total " << std::endl;
+    metric->SetFixedSampledPointSet( pset );
+    metric->SetUseFixedSampledPointSet( true );
     }
-  else
-    {
-    metric->UseAllPixelsOn();
-    }
-  */
 
   /*
   FIXME:
@@ -329,6 +310,8 @@ int TestMattesMetricWithAffineTransform(
 
   std::cout << "param[4]\tMI\tMI2\tdMI/dparam[4]" << std::endl;
 
+  bool testFailed = false;
+
   for( double trans = -10; trans <= 10; trans += 0.5 )
     {
     parameters[4] = trans;
@@ -338,7 +321,18 @@ int TestMattesMetricWithAffineTransform(
 
     std::cout << trans << "\t" << measure << "\t" <<
       measure2 << "\t" << derivative[4] <<std::endl;
+
+    // Make sure the metric value calculation is
+    // consistent
+    if( measure != measure2 )
+      {
+      std::cerr << "Error: measure values do not match: "
+                << measure << ", " << measure2 << std::endl;
+      testFailed = true;
+      }
     }
+
+  std::cout << "NumberOfValidPoints: " << metric->GetNumberOfValidPoints() << " of " << metric->GetVirtualDomainRegion().GetNumberOfPixels() << std::endl;
 
 //---------------------------------------------------------
 // Check output gradients for numerical accuracy
@@ -348,7 +342,6 @@ int TestMattesMetricWithAffineTransform(
   metric->Initialize();
   metric->GetValueAndDerivative( measure, derivative );
 
-  bool testFailed = false;
   ParametersType parametersPlus( numberOfParameters );
   ParametersType parametersMinus( numberOfParameters );
   typename MetricType::MeasureType measurePlus;
@@ -389,7 +382,12 @@ int TestMattesMetricWithAffineTransform(
     std::cout << ratio << "\t";
     std::cout << std::endl;
 
-    if ( vnl_math_abs( ratio - 1.0 ) > 0.012 )
+    double tolerance = static_cast<double>(0.012);
+    if( useSampling )
+      {
+      tolerance = static_cast<double>(0.075);
+      }
+    if ( vnl_math_abs( ratio - 1.0 ) > tolerance )
       {
       std::cout << "computed derivative differ from central difference." << std::endl;
       testFailed = true;
@@ -753,22 +751,20 @@ int itkMattesMutualInformationImageToImageMetricv4Test(int argc, char * argv [] 
     return EXIT_FAILURE;
     }
 
-//FIXME:
-std::cout << "Returning early." << std::endl;
-return EXIT_SUCCESS;
-
-  /*
   useSampling = true;
   failed = TestMattesMetricWithAffineTransform<ImageType,LinearInterpolatorType>(
-    linearInterpolator, useSampling, useExplicitJointPDFDerivatives );
+    linearInterpolator, useSampling, doPreWarp );
 
   if ( failed )
     {
     std::cout << "Test failed" << std::endl;
     return EXIT_FAILURE;
     }
-  */
 
+//FIXME:
+std::cout << "Returning early." << std::endl;
+return EXIT_SUCCESS;
+/////////////////////////////////////////////////////////////////////////////////////////
   // Test metric with a BSpline interpolator
   typedef itk::BSplineInterpolateImageFunction< ImageType, double >
     BSplineInterpolatorType;

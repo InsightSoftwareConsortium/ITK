@@ -491,7 +491,9 @@ public:
   itkSetConstObjectMacro(FixedImageMask, FixedImageMaskType);
   itkGetConstObjectMacro(FixedImageMask, FixedImageMaskType);
 
-  /** Set/Get the fixed image domain sampling point set */
+  /** Set/Get the fixed image domain sampling point set
+   * See main documentation regarding using fixed vs virtual domain
+   * for the point set. */
   itkSetObjectMacro(FixedSampledPointSet, FixedSampledPointSetType);
   itkSetConstObjectMacro(FixedSampledPointSet, FixedSampledPointSetType);
   itkGetConstObjectMacro(FixedSampledPointSet, FixedSampledPointSetType);
@@ -636,11 +638,13 @@ public:
   itkGetConstReferenceMacro(NumberOfSkippedFixedSampledPoints, SizeValueType);
 
 protected:
-  /** Perform any initialization required before each evaluation of
-   * \c GetValueAndDerivative. This is distinct from Initialize, which
-   * is called only once before a number of iterations, e.g. before
-   * a registration loop. */
-  virtual void InitializeForIteration() const;
+  /* Interpolators for image gradient filters. */
+  typedef LinearInterpolateImageFunction< FixedImageGradientImageType,
+                                          CoordinateRepresentationType >
+                                                  FixedImageGradientInterpolatorType;
+  typedef LinearInterpolateImageFunction< MovingImageGradientImageType,
+                                          CoordinateRepresentationType >
+                                                  MovingImageGradientInterpolatorType;
 
   friend class ImageToImageMetricv4GetValueAndDerivativeThreaderBase< ThreadedImageRegionPartitioner< VirtualImageDimension >, Self >;
   friend class ImageToImageMetricv4GetValueAndDerivativeThreaderBase< ThreadedIndexedContainerPartitioner, Self >;
@@ -655,6 +659,12 @@ protected:
    * Derived classes must define this class and assign it in their constructor
    * if threaded processing in GetValueAndDerivative is performed. */
   typename ImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Self >::Pointer m_SparseGetValueAndDerivativeThreader;
+
+  /** Perform any initialization required before each evaluation of
+   * \c GetValueAndDerivative. This is distinct from Initialize, which
+   * is called only once before a number of iterations, e.g. before
+   * a registration loop. */
+  virtual void InitializeForIteration() const;
 
   /**
    * Transform a point from VirtualImage domain to FixedImage domain.
@@ -743,8 +753,10 @@ protected:
   VirtualImagePointer     m_VirtualDomainImage;
 
   /** Pointers to interpolators */
-  FixedInterpolatorPointer                        m_FixedInterpolator;
-  MovingInterpolatorPointer                       m_MovingInterpolator;
+  FixedInterpolatorPointer                                m_FixedInterpolator;
+  MovingInterpolatorPointer                               m_MovingInterpolator;
+  typename FixedImageGradientInterpolatorType::Pointer    m_FixedImageGradientInterpolator;
+  typename MovingImageGradientInterpolatorType::Pointer   m_MovingImageGradientInterpolator;
 
   /** Flag to control use of precomputed gradient filter image or gradient
    * calculator for image gradient calculations. */

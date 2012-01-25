@@ -27,7 +27,7 @@
 #include "itkMattesMutualInformationImageToImageMetricv4.h"
 #include "itkJointHistogramMutualInformationImageToImageMetricv4.h"
 #include "itkDemonsImageToImageMetricv4.h"
-//#include "itkCorrelationImageToImageMetricv4.h"
+#include "itkCorrelationImageToImageMetricv4.h"
 #include "itkGradientDescentOptimizerv4.h"
 #include "itkRegistrationParameterScalesFromShift.h"
 #include "itkMultiStartOptimizerv4.h"
@@ -148,13 +148,13 @@ int itkMultiStartImageToImageMetricv4RegistrationTest(int argc, char *argv[])
 
   // The metric
   //  typedef itk::DemonsImageToImageMetricv4 < InternalImageType, InternalImageType >
-  //  typedef itk::CorrelationImageToImageMetricv4 < InternalImageType, InternalImageType >
-  typedef itk::MattesMutualInformationImageToImageMetricv4 < InternalImageType, InternalImageType >
+  typedef itk::CorrelationImageToImageMetricv4 < InternalImageType, InternalImageType >
+  //  typedef itk::MattesMutualInformationImageToImageMetricv4 < InternalImageType, InternalImageType >
   //  typedef itk::JointHistogramMutualInformationImageToImageMetricv4 < InternalImageType, InternalImageType >
                                                                                         MetricType;
   typedef MetricType::FixedSampledPointSetType                                        PointSetType;
   MetricType::Pointer metric = MetricType::New();
-  metric->SetNumberOfHistogramBins(20);
+  //  metric->SetNumberOfHistogramBins(20);
   typedef PointSetType::PointType     PointType;
   PointSetType::Pointer               pset(PointSetType::New());
   unsigned long ind=0,ct=0;

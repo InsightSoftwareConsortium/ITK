@@ -193,8 +193,9 @@ protected:
     FixedImageGradientType  fixedImageGradient;
     MovingImageGradientType movingImageGradient;
 
+    FixedImagePointType     mappedFixedPoint;
     MovingImagePointType    mappedMovingPoint;
-
+    VirtualPointType        virtualPoint;
   } ScanMemType;
 
   typedef struct ScanParametersType {
