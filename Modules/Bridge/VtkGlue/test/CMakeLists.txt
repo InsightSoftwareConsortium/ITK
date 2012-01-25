@@ -2,6 +2,7 @@ itk_module_test()
 set(ITKVtkGlueTests
 itkVtkMedianFilterTest.cxx
 itkImageToVTKImageFilterTest.cxx
+itkVTKImageToImageFilterTest.cxx
 QuickViewTest.cxx
 )
 
@@ -16,6 +17,11 @@ itk_add_test(
   NAME itkImageToVTKImageFilterTest
   COMMAND ITKVtkGlueTestDriver
     itkImageToVTKImageFilterTest)
+
+itk_add_test(
+  NAME itkVTKImageToImageFilterTest
+  COMMAND ITKVtkGlueTestDriver
+    itkVTKImageToImageFilterTest)
 
 itk_add_test(
   NAME QuickViewTest
