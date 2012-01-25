@@ -176,9 +176,11 @@ const typename LabelMap< TLabelObject >::LabelType &
 LabelMap< TLabelObject >
 ::GetPixel(const IndexType & idx) const
 {
+  LabelObjectContainerConstIterator end = m_LabelObjectContainer.end();
+
   for ( LabelObjectContainerConstIterator it = m_LabelObjectContainer.begin();
-        it != m_LabelObjectContainer.end();
-        it++ )
+        it != end;
+        ++it )
     {
     if ( it->second->HasIndex(idx) )
       {

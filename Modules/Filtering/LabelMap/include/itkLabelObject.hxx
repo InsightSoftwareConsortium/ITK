@@ -83,9 +83,12 @@ template< class TLabel, unsigned int VImageDimension >
 bool
 LabelObject< TLabel, VImageDimension >::HasIndex(const IndexType & idx) const
 {
-  for ( typename LineContainerType::const_iterator it = m_LineContainer.begin();
-        it != m_LineContainer.end();
-        it++ )
+  typedef typename LineContainerType::const_iterator LineContainerConstIteratorType;
+  LineContainerConstIteratorType end = m_LineContainer.end();
+
+  for ( LineContainerConstIteratorType it = m_LineContainer.begin();
+        it != end;
+        ++it )
     {
     if ( it->HasIndex(idx) )
       {
