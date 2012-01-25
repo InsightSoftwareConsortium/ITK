@@ -168,6 +168,35 @@ public:
 
   typedef unsigned int VectorLengthType;
 
+  /**
+   * \brief A structure which enable changing any image class' pixel
+   * type to another.
+   *
+   * Since the pixel type of this class is a VariableLengthVector of
+   * TPixelType, the following two rebinds result in the same type to
+   * enable usage with the numeric trait's type.
+   *
+   * \code
+   * typename InputImageType::template template Rebind<double>::Type RealImageType1;
+   * typename InputImageType::template template Rebind<VariableLengthVector<double> >::Type RealImageType2;
+   * \endcode
+   *
+   * \sa Image::Rebind
+   */
+  template <typename UPixelType, unsigned int UImageDimension = VImageDimension>
+  struct Rebind
+  {
+    typedef itk::VectorImage<UPixelType, UImageDimension>  Type;
+  };
+
+  /** \cond HIDE_SPECIALIZATION_DOCUMENTATION */
+  template <typename UElementType, unsigned int UImageDimension>
+  struct Rebind< VariableLengthVector< UElementType >, UImageDimension>
+  {
+    typedef itk::VectorImage<UElementType, UImageDimension>  Type;
+  };
+  /** \endcond */
+
   /** Allocate the image memory. The size of the image must
    * already be set, e.g. by calling SetRegions(). */
   void Allocate();
