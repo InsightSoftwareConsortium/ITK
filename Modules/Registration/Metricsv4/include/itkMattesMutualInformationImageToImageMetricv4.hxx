@@ -37,9 +37,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualIma
   m_CubicBSplineKernel(NULL),
   m_CubicBSplineDerivativeKernel(NULL),
 
-  m_PRatioArray(0,0),
-
-  m_ThreaderMetricDerivative(0),
+  m_PRatioArray(0),
 
   // Initialize memory
   m_MovingImageMarginalPDF(0),
@@ -50,10 +48,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualIma
   m_ThreaderJointPDFDerivatives(0),
   m_ThreaderJointPDFStartBin(0),
   m_ThreaderJointPDFEndBin(0),
-  m_ThreaderJointPDFSum(0),
-
-  m_UseExplicitPDFDerivatives(true),
-  m_ImplicitDerivativesSecondPass(false)
+  m_ThreaderJointPDFSum(0)
 {
   // We have our own GetValueAndDerivativeThreader's that we want
   // ImageToImageMetricv4 to use.
@@ -79,19 +74,6 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
 {
   /* Superclass initialization */
   this->Superclass::Initialize();
-
-  /* Check for use of local-support transforms. Not yet suported */
-  if( this->GetMovingTransform()->HasLocalSupport() ||
-      this->GetFixedTransform()->HasLocalSupport() )
-      {
-      itkExceptionMacro("Local-support transforms are not yet supported.");
-      }
-
-  /* Check for implict derivatives method. Not yet supported. */
-  if( ! this->m_UseExplicitPDFDerivatives )
-    {
-    itkExceptionMacro("Implict derivatives method not yet supported.");
-    }
 
   /* Expects moving image gradient source */
   if( this->GetGradientSourceIncludesFixed() || !this->GetGradientSourceIncludesMoving() )
@@ -197,34 +179,23 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
                                       DerivativeType & derivative ) const
 {
   /* We reimplement this method to more easily drop-in the code from
-   * old MattesMutual metric, and allow for running through the threaded
-   * processing twice. */
+   * old MattesMutual metric. */
 
   // Set output values to zero
   value = NumericTraits<MeasureType>::Zero;
 
   this->m_DerivativeResult = &derivative;
   // This will size and initialize m_DerivativeResult.
-  // We'll be skipping the usual update of m_DerivativeResult in this metric,
-  // and doing it below directly.
   this->InitializeForIteration();
-
-  // With implicit method, 'derivative' gets assigned at end of this method, so
-  // don't actually need to alloc and set it now, although it's done already
-  // above in call to InitializeForIteration.
-  if( ! this->m_UseExplicitPDFDerivatives )
-    {
-    this->m_PRatioArray.Fill(0.0);
-    for( ThreadIdType threadID = 0; threadID < this->GetNumberOfThreadsUsed(); threadID++ )
-      {
-      this->m_ThreaderMetricDerivative[threadID].Fill(NumericTraits<MeasureType>::Zero);
-      }
-    this->m_ImplicitDerivativesSecondPass = false;
-    }
 
   // Threaded processing. In the case of implicit PDF derivative calculation, this
   // is the first pass.
   this->GetValueAndDerivativeExecute();
+
+
+//  Superclass::GetValueAndDerivative( value, derivative );
+
+//////////////////
 
   // Collect some results
   for( ThreadIdType threadID = 1; threadID < this->GetNumberOfThreadsUsed(); threadID++ )
@@ -267,11 +238,13 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
     numberOfPoints = region.GetNumberOfPixels();
     }
 
-  if( this->m_NumberOfValidPoints < numberOfPoints / 16 )
+  if( this->GetNumberOfValidPoints() < numberOfPoints / 16 )
     {
-    itkExceptionMacro("Too many samples map outside moving image buffer: "
-                      << this->m_NumberOfValidPoints << " / "
-                      << numberOfPoints
+    itkExceptionMacro("Too many samples map outside moving image buffer. There are only "
+                      << this->m_NumberOfValidPoints << " valid points out of "
+                      << numberOfPoints << " total points. The images do not sufficiently "
+                      "overlap. They need to be initialized to have more overlap before this "
+                      "metric will work. For instance, you can align the image centers by translation."
                       << std::endl);
     }
 
@@ -295,80 +268,73 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
   // Initialize sum to zero
   PDFValueType sum = 0.0;
 
-  const PDFValueType nFactor = 1.0 / ( this->m_MovingImageBinSize
-                                 * this->m_NumberOfValidPoints );
-  for( unsigned int fixedIndex = 0;
-       fixedIndex < this->m_NumberOfHistogramBins;
-       ++fixedIndex )
+  const PDFValueType nFactor = 1.0 / ( this->m_MovingImageBinSize * this->GetNumberOfValidPoints() );
+
+  for( unsigned int fixedIndex = 0; fixedIndex < this->m_NumberOfHistogramBins; ++fixedIndex )
     {
     const PDFValueType fixedImagePDFValue = this->m_ThreaderFixedImageMarginalPDF[0][fixedIndex];
-    for( unsigned int movingIndex = 0;
-         movingIndex < this->m_NumberOfHistogramBins;
-         ++movingIndex, jointPDFPtr++ )
+    for( unsigned int movingIndex = 0; movingIndex < this->m_NumberOfHistogramBins; ++movingIndex, jointPDFPtr++ )
       {
       const PDFValueType movingImagePDFValue = this->m_MovingImageMarginalPDF[movingIndex];
       const PDFValueType jointPDFValue = *( jointPDFPtr );
 
       // check for non-zero bin contribution
       static const PDFValueType closeToZero = vcl_numeric_limits<PDFValueType>::epsilon();
-      if( jointPDFValue > closeToZero &&  movingImagePDFValue > closeToZero )
+      if( ! (jointPDFValue > closeToZero &&  movingImagePDFValue > closeToZero) )
         {
-        const PDFValueType pRatio = vcl_log(jointPDFValue / movingImagePDFValue);
+        continue;
+        }
+      const PDFValueType pRatio = vcl_log(jointPDFValue / movingImagePDFValue);
 
-        if( fixedImagePDFValue > closeToZero )
-          {
-          sum += jointPDFValue * ( pRatio - vcl_log(fixedImagePDFValue) );
-          }
+      if( fixedImagePDFValue > closeToZero )
+        {
+        sum += jointPDFValue * ( pRatio - vcl_log(fixedImagePDFValue) );
+        }
 
-        if( this->m_UseExplicitPDFDerivatives )
+      if( ! this->HasLocalSupport() )
+        {
+        // Collect global derivative contributions
+
+        // move joint pdf derivative pointer to the right position
+        JointPDFValueType const * derivPtr = this->m_ThreaderJointPDFDerivatives[0]->GetBufferPointer()
+          + ( fixedIndex  * this->m_ThreaderJointPDFDerivatives[0]->GetOffsetTable()[2] )
+          + ( movingIndex * this->m_ThreaderJointPDFDerivatives[0]->GetOffsetTable()[1] );
+        for( unsigned int parameter = 0; parameter < this->GetNumberOfLocalParameters(); ++parameter, derivPtr++ )
           {
-          // move joint pdf derivative pointer to the right position
-          JointPDFValueType const * derivPtr = this->m_ThreaderJointPDFDerivatives[0]->GetBufferPointer()
-            + ( fixedIndex  * this->m_ThreaderJointPDFDerivatives[0]->GetOffsetTable()[2] )
-            + ( movingIndex * this->m_ThreaderJointPDFDerivatives[0]->GetOffsetTable()[1] );
-          for( unsigned int parameter = 0; parameter < this->GetNumberOfParameters(); ++parameter, derivPtr++ )
-            {
-            // Ref: eqn 23 of Thevenaz & Unser paper [3]
-            // 'derivative' is pointed to by m_DerivativeReturn
-            derivative[parameter] -= ( *derivPtr ) * pRatio;
-            }  // end for-loop over parameters
-          }
-        else
-          {
-          this->m_PRatioArray[fixedIndex][movingIndex] = pRatio * nFactor;
-          }
-        } // end if-block to check non-zero bin contribution
+          // Ref: eqn 23 of Thevenaz & Unser paper [3]
+          // 'derivative' is pointed to by m_DerivativeReturn
+          derivative[parameter] -= ( *derivPtr ) * pRatio;
+          }  // end for-loop over parameters
+        }
+      else
+        {
+        // Collect the pRatio per pdf indecies.
+        // Will be applied subsequently to local-support derivative
+        OffsetValueType index = movingIndex + (fixedIndex * this->m_NumberOfHistogramBins);
+        this->m_PRatioArray[index] = pRatio * nFactor;
+        }
       }   // end for-loop over moving index
     }     // end for-loop over fixed index
 
-  if( !( this->m_UseExplicitPDFDerivatives ) )
+  // Apply the pRatio and sum the per-window derivative
+  // contributions, in the local-support case.
+  if( this->HasLocalSupport() )
     {
-    // Second pass: This one is done for accumulating the contributions
-    //              to the derivative array.
-    //
-    this->m_ImplicitDerivativesSecondPass = true;
-
-    // Threaded processing.
-    this->GetValueAndDerivativeExecute();
-
-    // Consolidate the contributions from each one of the threads to the total
-    // derivative.
-    for( unsigned int t = 1; t < this->GetNumberOfThreadsUsed(); t++ )
+    for( OffsetValueType i = 0; i < derivative.Size(); i++ )
       {
-      DerivativeType const * const source = &( this->m_ThreaderMetricDerivative[t] );
-      for( unsigned int pp = 0; pp < this->GetNumberOfParameters(); pp++ )
+      for( SizeValueType bin = 0; bin < 4; bin++ )
         {
-        this->m_ThreaderMetricDerivative[0][pp] += ( *source )[pp];
+        // Increment the m_JointPdfIndex1DArray index by bin in order to recover
+        // the pRatio at the moving indecies used for each portion of the derivative.
+        SizeValueType pRatioIndex = this->m_JointPdfIndex1DArray[i] + bin;
+        derivative[i] += m_LocalDerivativeByParzenBin[bin][i] * this->m_PRatioArray[pRatioIndex];
         }
       }
-
-    // derivative is pointed to by m_DerivativeResult.
-    // We could have m_ThreaderMetricDerivative[0] point to 'derivative'
-    // during initialization to save some memory.
-    derivative = this->m_ThreaderMetricDerivative[0];
     }
 
   // in ITKv4, metrics always minimize
+  // Note: in old metric ComputeDerivatives, derivativeContribution is subtracted in global case, but added in "local" (implicit) case.
+  //FIXME: derivative could probably be calc'ed from the start to be the negative, thus avoiding this operation
   derivative = derivative * -1;
   value = static_cast<MeasureType>( -1.0 * sum );
 }
@@ -381,8 +347,10 @@ void
 MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
 ::GetValueCommonAfterThreadedExecution()
 {
-  //This method is from MattesMutualImageToImageMetric::GetValueThreadPostProcess. Common
-  // code used by GetValue and GetValueAndDerivative. Should be threaded.
+  // This method is from MattesMutualImageToImageMetric::GetValueThreadPostProcess. Common
+  // code used by GetValue and GetValueAndDerivative.
+  // Should be threaded. But if modified to do so, should probably not be threaded
+  // separately, but rather as a part of all post-processing.
   for( ThreadIdType threadID = 0; threadID < this->GetNumberOfThreadsUsed(); threadID++ )
     {
     const int maxI = this->m_NumberOfHistogramBins

@@ -63,6 +63,7 @@ public:
   typedef typename ImageToImageMetricv4Type::VirtualPointType        VirtualPointType;
   typedef typename ImageToImageMetricv4Type::FixedImagePointType     FixedImagePointType;
   typedef typename ImageToImageMetricv4Type::FixedImagePixelType     FixedImagePixelType;
+  typedef typename ImageToImageMetricv4Type::FixedImageIndexType     FixedImageIndexType;
   typedef typename ImageToImageMetricv4Type::FixedImageGradientType  FixedImageGradientType;
   typedef typename ImageToImageMetricv4Type::MovingImagePointType    MovingImagePointType;
   typedef typename ImageToImageMetricv4Type::MovingImagePixelType    MovingImagePixelType;
@@ -133,6 +134,7 @@ protected:
    * \warning  This is called from the threader, and thus must be thread-safe.
    */
   virtual bool ProcessPoint(
+        const VirtualIndexType &          virtualIndex,
         const VirtualPointType &          virtualPoint,
         const FixedImagePointType &       mappedFixedPoint,
         const FixedImagePixelType &       mappedFixedPixelValue,

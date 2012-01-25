@@ -55,6 +55,7 @@ public:
   typedef typename Superclass::AssociateType AssociateType;
 
   typedef typename Superclass::VirtualPointType        VirtualPointType;
+  typedef typename Superclass::VirtualIndexType        VirtualIndexType;
   typedef typename Superclass::FixedImagePointType     FixedImagePointType;
   typedef typename Superclass::FixedImagePixelType     FixedImagePixelType;
   typedef typename Superclass::FixedImageGradientType  FixedImageGradientType;
@@ -69,6 +70,7 @@ protected:
 
   /* Provide the worker routine to process each point */
   virtual bool ProcessPoint(
+        const VirtualIndexType &          itkNotUsed(virtualIndex),
         const VirtualPointType &          itkNotUsed(virtualPoint),
         const FixedImagePointType &       itkNotUsed(mappedFixedPoint),
         const FixedImagePixelType &       mappedFixedPixelValue,
@@ -105,7 +107,7 @@ class ImageToImageMetricv4TestMetric
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageToImageMetricv4TestMetric                  Self;
+  typedef ImageToImageMetricv4TestMetric                      Self;
   typedef itk::ImageToImageMetricv4<TFixedImage, TMovingImage,
                                         TVirtualImage>        Superclass;
   typedef itk::SmartPointer<Self>                             Pointer;

@@ -308,9 +308,16 @@ int itkJointHistogramMutualInformationImageToImageRegistrationTest(int argc, cha
   RegistrationParameterScalesFromShiftType::ScalesType
     displacementScales( displacementTransform->GetNumberOfLocalParameters() );
   displacementScales.Fill(1);
+  if( 0 )
+    {
+    optimizer->SetScales( displacementScales );
+    }
+  else
+    {
+    optimizer->SetScalesEstimator( shiftScaleEstimator );
+    }
   optimizer->SetMetric( metric );
   optimizer->SetNumberOfIterations( numberOfDisplacementIterations );
-  optimizer->SetScalesEstimator( shiftScaleEstimator );
   try
     {
     optimizer->StartOptimization();

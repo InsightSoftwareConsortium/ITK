@@ -7,6 +7,7 @@ set(ITKMetricsv4Tests
   itkJointHistogramMutualInformationImageToImageMetricv4Test.cxx
   itkJointHistogramMutualInformationImageToImageRegistrationTest.cxx
   itkDemonsImageToImageMetricv4Test.cxx
+  itkCorrelationImageToImageMetricv4Test.cxx
   itkANTSNeighborhoodCorrelationImageToImageMetricv4Test.cxx
   itkANTSNeighborhoodCorrelationImageToImageRegistrationTest.cxx
   itkAffineDemonsImageToImageRegistrationTest.cxx
@@ -58,6 +59,11 @@ itk_add_test(NAME itkJointHistogramMutualInformationImageToImageRegistrationTest
 itk_add_test(NAME itkDemonsImageToImageMetricv4Test
       COMMAND ITKMetricsv4TestDriver
       itkDemonsImageToImageMetricv4Test)
+
+itk_add_test(NAME itkCorrelationImageToImageMetricv4Test
+      COMMAND ITKMetricsv4TestDriver
+      itkCorrelationImageToImageMetricv4Test)
+
 
 itk_add_test(NAME itkANTSNeighborhoodCorrelationImageToImageMetricv4Test
       COMMAND ITKMetricsv4TestDriver

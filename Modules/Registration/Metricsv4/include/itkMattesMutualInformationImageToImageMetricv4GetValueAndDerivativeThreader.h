@@ -49,7 +49,9 @@ public:
 
   typedef typename Superclass::ImageToImageMetricv4Type ImageToImageMetricv4Type;
   typedef typename Superclass::VirtualPointType         VirtualPointType;
+  typedef typename Superclass::VirtualIndexType         VirtualIndexType;
   typedef typename Superclass::FixedImagePointType      FixedImagePointType;
+  typedef typename Superclass::FixedImageIndexType      FixedImageIndexType;
   typedef typename Superclass::FixedImagePixelType      FixedImagePixelType;
   typedef typename Superclass::FixedImageGradientType   FixedImageGradientType;
   typedef typename Superclass::MovingImagePointType     MovingImagePointType;
@@ -58,6 +60,7 @@ public:
   typedef typename Superclass::MeasureType              MeasureType;
   typedef typename Superclass::DerivativeType           DerivativeType;
   typedef typename Superclass::DerivativeValueType      DerivativeValueType;
+  typedef typename Superclass::NumberOfParametersType   NumberOfParametersType;
 
   typedef typename TMattesMutualInformationMetric::PDFValueType                   PDFValueType;
   typedef typename TMattesMutualInformationMetric::JointPDFType                   JointPDFType;
@@ -74,7 +77,7 @@ public:
   typedef typename TMattesMutualInformationMetric::CubicBSplineFunctionType            CubicBSplineFunctionType;
   typedef typename TMattesMutualInformationMetric::CubicBSplineDerivativeFunctionType  CubicBSplineDerivativeFunctionType;
 
-  typedef typename TMattesMutualInformationMetric::JacobianType                   JacobianType;
+  typedef typename TMattesMutualInformationMetric::JacobianType             JacobianType;
 
 protected:
   MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader() {}
@@ -87,6 +90,7 @@ protected:
    *  the metric to the global integral of the metric/derivative.
    */
   virtual bool ProcessPoint(
+        const VirtualIndexType &          virtualIndex,
         const VirtualPointType &          virtualPoint,
         const FixedImagePointType &       mappedFixedPoint,
         const FixedImagePixelType &       mappedFixedPixelValue,
@@ -99,12 +103,13 @@ protected:
         const ThreadIdType                threadID ) const;
 
   /** Compute PDF derivative contribution for each parameter. */
-  virtual void ComputePDFDerivatives(const ThreadIdType              threadID,
-                             const OffsetValueType  fixedImageParzenWindowIndex,
-                             const FixedImagePointType       fixedImagePoint,
-                             const int                       pdfMovingIndex,
+  virtual void ComputePDFDerivatives(const ThreadIdType &    threadID,
+                             const OffsetValueType &         fixedImageParzenWindowIndex,
+                             const JacobianType &            jacobian,
+                             const OffsetValueType &         pdfMovingIndex,
                              const MovingImageGradientType & movingGradient,
-                             const PDFValueType   cubicBSplineDerivativeValue) const;
+                             const PDFValueType &            cubicBSplineDerivativeValue,
+                             DerivativeValueType *           localSupportDerivativeResultPtr) const;
 
 private:
   MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader( const Self & ); // purposely not implemented

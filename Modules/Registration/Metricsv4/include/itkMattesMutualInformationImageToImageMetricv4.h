@@ -112,9 +112,11 @@ public:
   /** Superclass types */
   typedef typename Superclass::MeasureType             MeasureType;
   typedef typename Superclass::DerivativeType          DerivativeType;
+  typedef typename DerivativeType::ValueType           DerivativeValueType;
 
   typedef typename Superclass::FixedImageType          FixedImageType;
   typedef typename Superclass::FixedImagePointType     FixedImagePointType;
+  typedef typename Superclass::FixedImageIndexType     FixedImageIndexType;
   typedef typename Superclass::FixedImagePixelType     FixedImagePixelType;
   typedef typename Superclass::FixedImageGradientType  FixedImageGradientType;
 
@@ -151,39 +153,6 @@ public:
                     5, NumericTraits<SizeValueType>::max() );
   itkGetConstReferenceMacro(NumberOfHistogramBins, SizeValueType);
 
-  /** This variable selects the method to be used for computing the Metric
-   * derivatives with respect to the Transform parameters. Two modes of
-   * computation are available. The choice between one and the other is a
-   * trade-off between computation speed and memory allocations. The two modes
-   * are described in detail below:
-   *
-   * UseExplicitPDFDerivatives = True
-   * will compute the Metric derivative by first calculating the derivatives of
-   * each one of the Joint PDF bins with respect to each one of the Transform
-   * parameters and then accumulating these contributions in the final metric
-   * derivative array by using a bin-specific weight.  The memory required for
-   * storing the intermediate derivatives is a 3D array of floating point values with size
-   * equals to the product of (number of histogram bins)^2 times number of
-   * transform parameters. This method is well suited for Transform with a small
-   * number of parameters.
-   *
-   * UseExplicitPDFDerivatives = False will compute the Metric derivative by
-   * first computing the weights for each one of the Joint PDF bins and caching
-   * them into an array. Then it will revisit each one of the PDF bins for
-   * computing its weighted contribution to the full derivative array. In this
-   * method an extra 2D array is used for storing the weights of each one of
-   * the PDF bins. This is an array of floating point values with size equals to (number of
-   * histogram bins)^2. This method is well suited for Transforms with a large
-   * number of parameters, such as, BSplineTransforms. */
-
-  // FIXME: Implicit method should not be needed once local-support transforms
-  // are added, using new v4 framework.
-  /*
-  itkSetMacro(UseExplicitPDFDerivatives, bool);
-  itkGetConstReferenceMacro(UseExplicitPDFDerivatives, bool);
-  itkBooleanMacro(UseExplicitPDFDerivatives);
-  */
-
   virtual void Initialize(void) throw ( itk::ExceptionObject );
 
   /** Calculate and return both the value for the metric and its derivative.
@@ -217,7 +186,7 @@ public:
   /**
    * Get the internal JointPDFDeriviative image that was used in
    * creating the metric derivative value.
-   * This is only created when UseExplicitPDFDerivatives is ON, and
+   * This is only created when a global support transform is used, and
    * derivatives are requested.
    */
   const typename JointPDFDerivativesType::Pointer GetJointPDFDerivatives () const
@@ -279,13 +248,14 @@ protected:
   typename CubicBSplineDerivativeFunctionType::Pointer m_CubicBSplineDerivativeKernel;
 
   /** Helper array for storing the values of the JointPDF ratios. */
-  typedef PDFValueType        PRatioType;
-  typedef Array2D<PRatioType> PRatioArrayType;
+  typedef PDFValueType              PRatioType;
+  typedef std::vector<PRatioType>   PRatioArrayType;
 
-  mutable PRatioArrayType m_PRatioArray;
+  mutable PRatioArrayType           m_PRatioArray;
 
-  /** Helper variable for accumulating the derivative of the metric. */
-  mutable std::vector<DerivativeType> m_ThreaderMetricDerivative;
+  /** Helper array for storing per-parameter linearized index to
+   * retrieve the pRatio during evaluation with local-support transform. */
+  mutable std::vector<OffsetValueType>   m_JointPdfIndex1DArray;
 
   /** The moving image marginal PDF. */
   mutable std::vector<PDFValueType>               m_MovingImageMarginalPDF;
@@ -300,10 +270,9 @@ protected:
 
   mutable std::vector<PDFValueType> m_ThreaderJointPDFSum;
 
-  // FIXME: Implicit method should not be needed once local-support transforms
-  // are added, using new v4 framework.
-  bool         m_UseExplicitPDFDerivatives;
-  mutable bool m_ImplicitDerivativesSecondPass;
+  /** Store the per-point local derivative result by parzen window bin.
+   * For local-support transforms only. */
+  mutable std::vector<DerivativeType>              m_LocalDerivativeByParzenBin;
 
 private:
   MattesMutualInformationImageToImageMetricv4(const Self &); //purposely not implemented

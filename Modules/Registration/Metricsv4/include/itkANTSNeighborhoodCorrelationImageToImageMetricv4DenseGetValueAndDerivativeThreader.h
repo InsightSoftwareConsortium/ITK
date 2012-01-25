@@ -50,6 +50,7 @@ public:
 
   typedef typename Superclass::VirtualImageType        VirtualImageType;
   typedef typename Superclass::VirtualPointType        VirtualPointType;
+  typedef typename Superclass::VirtualIndexType        VirtualIndexType;
   typedef typename Superclass::FixedImagePointType     FixedImagePointType;
   typedef typename Superclass::FixedImagePixelType     FixedImagePixelType;
   typedef typename Superclass::FixedImageGradientType  FixedImageGradientType;
@@ -78,6 +79,7 @@ protected:
    * NeighborhoodScanningWindowGetValueAndDerivativeThreader implementation.
    * */
   virtual bool ProcessPoint(
+        const VirtualIndexType &          itkNotUsed(virtualIndex),
         const VirtualPointType &          itkNotUsed(virtualPoint),
         const FixedImagePointType &       itkNotUsed(mappedFixedPoint),
         const FixedImagePixelType &       itkNotUsed(mappedFixedPixelValue),

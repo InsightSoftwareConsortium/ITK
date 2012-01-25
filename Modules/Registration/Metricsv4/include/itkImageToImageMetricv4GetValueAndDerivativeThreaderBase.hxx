@@ -60,14 +60,15 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
     this->m_MovingTransformJacobianPerThread[i].SetSize(
                                           this->m_Associate->VirtualImageDimension,
                                           this->m_Associate->GetNumberOfLocalParameters() );
-    /* For transforms with local support, e.g. displacement field,
-     * use a single derivative container that's updated by region
-     * in multiple threads. */
     if ( this->m_Associate->m_MovingTransform->HasLocalSupport() )
       {
+      /* For transforms with local support, e.g. displacement field,
+       * use a single derivative container that's updated by region
+       * in multiple threads.
+       * Initialization to zero is done in main class. */
       itkDebugMacro(
         "ImageToImageMetricv4::Initialize: transform HAS local support\n");
-        /* Set each per-thread object to point to m_DerivativeResult */
+        /* Set each per-thread object to point to m_DerivativeResul. */
         this->m_DerivativesPerThread[i].SetData(
                                       this->m_Associate->m_DerivativeResult->data_block(),
                                       this->m_Associate->m_DerivativeResult->Size(),
@@ -131,6 +132,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
     this->m_Associate->m_Value += this->m_MeasurePerThread[i];
     }
 
+  /* For global transforms, calculate the average values */
   if ( ! this->m_Associate->m_MovingTransform->HasLocalSupport() )
     {
     *(this->m_Associate->m_DerivativeResult) /= this->m_Associate->m_NumberOfValidPoints;
@@ -206,6 +208,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
   try
     {
     pointIsValid = this->ProcessPoint(
+                                   virtualIndex,
                                    virtualPoint,
                                    mappedFixedPoint, mappedFixedPixelValue,
                                    mappedFixedImageGradient,

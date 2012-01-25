@@ -430,7 +430,9 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreade
     scanMem.fixedImageGradient  = fixedImageGradient;
     scanMem.movingImageGradient = movingImageGradient;
 
+    scanMem.mappedFixedPoint  = mappedFixedPoint;
     scanMem.mappedMovingPoint = mappedMovingPoint;
+    scanMem.virtualPoint      = virtualPoint;
     }
 
   return pointIsValid;
@@ -480,7 +482,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreade
 
   /** For dense transforms, this returns identity */
   this->m_Associate->GetMovingTransform()->ComputeJacobianWithRespectToParameters(
-    scanMem.mappedMovingPoint, jacobian);
+    scanMem.virtualPoint, jacobian);
 
   NumberOfParametersType numberOfLocalParameters = this->m_Associate->GetMovingTransform()->GetNumberOfLocalParameters();
 

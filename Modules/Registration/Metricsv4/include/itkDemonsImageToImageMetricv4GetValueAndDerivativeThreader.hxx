@@ -26,11 +26,12 @@ namespace itk
 template< class TDomainPartitioner, class TImageToImageMetric, class TDemonsMetric >
 bool
 DemonsImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TDemonsMetric >
-::ProcessPoint( const VirtualPointType &,
+::ProcessPoint( const VirtualIndexType &,
+                const VirtualPointType &           virtualPoint,
                 const FixedImagePointType &,
                 const FixedImagePixelType &        fixedImageValue,
                 const FixedImageGradientType &,
-                const MovingImagePointType &       mappedMovingPoint,
+                const MovingImagePointType &       ,
                 const MovingImagePixelType &       movingImageValue,
                 const MovingImageGradientType &    movingImageGradient,
                 MeasureType &                      metricValueReturn,
@@ -47,7 +48,7 @@ DemonsImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TIm
   JacobianReferenceType jacobian = this->m_MovingTransformJacobianPerThread[threadID];
 
   /** For dense transforms, this returns identity */
-  this->m_Associate->GetMovingTransform()->ComputeJacobianWithRespectToParameters( mappedMovingPoint, jacobian );
+  this->m_Associate->GetMovingTransform()->ComputeJacobianWithRespectToParameters( virtualPoint, jacobian );
 
   DerivativeValueType floatingPointCorrectionResolution = this->m_Associate->GetFloatingPointCorrectionResolution();
   for ( unsigned int par = 0; par < this->m_Associate->GetNumberOfLocalParameters(); par++ )

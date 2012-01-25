@@ -72,11 +72,12 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner
 template< class TDomainPartitioner, class TImageToImageMetric, class TJointHistogramMetric >
 bool
 JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TJointHistogramMetric >
-::ProcessPoint( const VirtualPointType &,
+::ProcessPoint( const VirtualIndexType &,
+                const VirtualPointType &        virtualPoint,
                 const FixedImagePointType &,
                 const FixedImagePixelType &     fixedImageValue,
                 const FixedImageGradientType &,
-                const MovingImagePointType &    mappedMovingPoint,
+                const MovingImagePointType &,
                 const MovingImagePixelType &    movingImageValue,
                 const MovingImageGradientType & movingImageGradient,
                 MeasureType &,
@@ -136,9 +137,7 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner
     const_cast< FixedTransformJacobianType &   >(this->m_MovingTransformJacobianPerThread[threadId]);
 
   /** For dense transforms, this returns identity */
-  associate->m_MovingTransform->ComputeJacobianWithRespectToParameters(
-                                                            mappedMovingPoint,
-                                                            jacobian);
+  associate->m_MovingTransform->ComputeJacobianWithRespectToParameters( virtualPoint, jacobian );
 
   // this correction is necessary for consistent derivatives across N threads
   DerivativeValueType floatingPointCorrectionResolution = this->m_Associate->GetFloatingPointCorrectionResolution();

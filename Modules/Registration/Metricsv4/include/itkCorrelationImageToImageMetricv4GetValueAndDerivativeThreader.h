@@ -15,32 +15,32 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDemonsImageToImageMetricv4GetValueAndDerivativeThreader_h
-#define __itkDemonsImageToImageMetricv4GetValueAndDerivativeThreader_h
+#ifndef __itkCorrelationImageToImageMetricv4GetValueAndDerivativeThreader_h
+#define __itkCorrelationImageToImageMetricv4GetValueAndDerivativeThreader_h
 
 #include "itkImageToImageMetricv4GetValueAndDerivativeThreader.h"
 
 namespace itk
 {
 
-/** \class DemonsImageToImageMetricv4GetValueAndDerivativeThreader
- * \brief Processes points for DemonsImageToImageMetricv4 \c
+/** \class CorrelationImageToImageMetricv4GetValueAndDerivativeThreader
+ * \brief Processes points for CorrelationImageToImageMetricv4 \c
  * GetValueAndDerivative.
  *
  * \ingroup ITKMetricsv4
  */
-template < class TDomainPartitioner, class TImageToImageMetric, class TDemonsMetric >
-class DemonsImageToImageMetricv4GetValueAndDerivativeThreader
+template < class TDomainPartitioner, class TImageToImageMetric, class TCorrelationMetric >
+class CorrelationImageToImageMetricv4GetValueAndDerivativeThreader
   : public ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >
 {
 public:
   /** Standard class typedefs. */
-  typedef DemonsImageToImageMetricv4GetValueAndDerivativeThreader                                      Self;
+  typedef CorrelationImageToImageMetricv4GetValueAndDerivativeThreader                                      Self;
   typedef ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric > Superclass;
   typedef SmartPointer< Self >                                                                         Pointer;
   typedef SmartPointer< const Self >                                                                   ConstPointer;
 
-  itkTypeMacro( DemonsImageToImageMetricv4GetValueAndDerivativeThreader, ImageToImageMetricv4GetValueAndDerivativeThreader );
+  itkTypeMacro( CorrelationImageToImageMetricv4GetValueAndDerivativeThreader, ImageToImageMetricv4GetValueAndDerivativeThreader );
 
   itkNewMacro( Self );
 
@@ -48,8 +48,8 @@ public:
   typedef typename Superclass::AssociateType AssociateType;
 
   typedef typename Superclass::ImageToImageMetricv4Type ImageToImageMetricv4Type;
-  typedef typename Superclass::VirtualPointType         VirtualPointType;
   typedef typename Superclass::VirtualIndexType         VirtualIndexType;
+  typedef typename Superclass::VirtualPointType         VirtualPointType;
   typedef typename Superclass::FixedImagePointType      FixedImagePointType;
   typedef typename Superclass::FixedImagePixelType      FixedImagePixelType;
   typedef typename Superclass::FixedImageGradientType   FixedImageGradientType;
@@ -60,14 +60,32 @@ public:
   typedef typename Superclass::DerivativeType           DerivativeType;
   typedef typename Superclass::DerivativeValueType      DerivativeValueType;
 
+  typedef typename Superclass::InternalComputationValueType InternalComputationValueType;
+  typedef typename Superclass::NumberOfParametersType       NumberOfParametersType;
+
 protected:
-  DemonsImageToImageMetricv4GetValueAndDerivativeThreader() {}
+  CorrelationImageToImageMetricv4GetValueAndDerivativeThreader() {}
+
+  /** Overload: Resize and initialize per thread objects:
+   *    number of valid points
+   *    moving transform jacobian
+   *    cross-correlation specific variables
+   *  */
+  virtual void BeforeThreadedExecution();
+
+  /** Overload:
+   * Collects the results from each thread and sums them.  Results are stored
+   * in the enclosing class \c m_Value and \c m_DerivativeResult.  Behavior
+   * depends on m_AverageValueAndDerivativeByNumberOfValuePoints,
+   * m_NumberOfValidPoints, to average the value sum, and to average
+   * derivative sums for global transforms only (i.e. transforms without local
+   * support).  */
+  virtual void AfterThreadedExecution();
 
   /** This function computes the local voxel-wise contribution of
    *  the metric to the global integral of the metric/derivative.
    */
-  virtual bool ProcessPoint(
-        const VirtualIndexType &          virtualIndex,
+  virtual bool ProcessPoint(const VirtualIndexType &          virtualIndex,
         const VirtualPointType &          virtualPoint,
         const FixedImagePointType &       mappedFixedPoint,
         const FixedImagePixelType &       mappedFixedPixelValue,
@@ -79,15 +97,39 @@ protected:
         DerivativeType &                  localDerivativeReturn,
         const ThreadIdType                threadID ) const;
 
+
 private:
-  DemonsImageToImageMetricv4GetValueAndDerivativeThreader( const Self & ); // purposely not implemented
+  CorrelationImageToImageMetricv4GetValueAndDerivativeThreader( const Self & ); // purposely not implemented
   void operator=( const Self & ); // purposely not implemented
+
+  /*
+   * the per-thread memory for computing the correlation and its derivatives
+   * \bar f (CorrelationImageToImageMetricv4::m_AverageFix ) and
+   * \bar m (CorrelationImageToImageMetricv4::m_AverageMov ), the average pixel
+   * intensity, computed using the helper
+   * class CorrelationHelperImageToImageMetricv4GetValueAndDerivativeThreader.
+   * say f_i is the i-th pixel of fixed image, m_i is the i-th pixel of moving
+   * image: see the comments below
+   */
+  struct InternalCumSumType{    // keep cumlative summation over points for:
+      InternalComputationValueType fm;  // (f_i - \bar f) * (m_i - \bar m)
+      InternalComputationValueType m2;  // (m_i - \bar m)^2
+      InternalComputationValueType f2;  // (f_i - \bar m)^2
+      InternalComputationValueType m;   // m_i
+      InternalComputationValueType f;   // f_i
+      DerivativeType fdm; // (f_i - \bar f) * dm_i/dp
+      DerivativeType mdm; // (m_i - \bar m) * dm_i/dp
+  };
+
+  /* per thread variables for correlation and its derivatives */
+  mutable std::vector< InternalCumSumType > m_InternalCumSumPerThread;
+
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDemonsImageToImageMetricv4GetValueAndDerivativeThreader.hxx"
+#include "itkCorrelationImageToImageMetricv4GetValueAndDerivativeThreader.hxx"
 #endif
 
 #endif

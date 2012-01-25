@@ -47,7 +47,8 @@ int itkMattesMutualInformationImageToImageMetricv4RegistrationTest(int argc, cha
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile movingImageFile ";
     std::cerr << " outputImageFile ";
-    std::cerr << " [numberOfIterations numberOfDisplacementIterations] ";
+    std::cerr << " [numberOfIterations = 10] [numberOfDisplacementIterations = 10] ";
+    std::cerr << " [doPreWarp = true] [doSampling = false] ";
     std::cerr << std::endl;
     return EXIT_FAILURE;
     }
@@ -55,6 +56,9 @@ int itkMattesMutualInformationImageToImageMetricv4RegistrationTest(int argc, cha
   std::cout << argc << std::endl;
   unsigned int numberOfIterations = 10;
   unsigned int numberOfDisplacementIterations = 10;
+  bool doPreWarp = true;
+  bool doSampling = false;
+
   if( argc >= 5 )
     {
     numberOfIterations = atoi( argv[4] );
@@ -63,6 +67,15 @@ int itkMattesMutualInformationImageToImageMetricv4RegistrationTest(int argc, cha
     {
     numberOfDisplacementIterations = atof( argv[5] );
     }
+  if( argc >= 7 )
+    {
+    doPreWarp = atoi( argv[6] );
+    }
+  if( argc >= 8 )
+    {
+    doSampling = atoi( argv[7] );
+    }
+
   std::cout << " iterations "<< numberOfIterations
     << " displacementIterations " << numberOfDisplacementIterations << std::endl;
 
@@ -141,7 +154,7 @@ int itkMattesMutualInformationImageToImageMetricv4RegistrationTest(int argc, cha
   MetricType::Pointer metric = MetricType::New();
   metric->SetNumberOfHistogramBins(20);
 
-  if( 0 )
+  if( ! doSampling )
     {
     std::cout << "Dense sampling." << std::endl;
     metric->SetUseFixedSampledPointSet( false );
@@ -178,8 +191,8 @@ int itkMattesMutualInformationImageToImageMetricv4RegistrationTest(int argc, cha
   metric->SetMovingImage( movingImage );
   metric->SetFixedTransform( identityTransform );
   metric->SetMovingTransform( affineTransform );
-  metric->SetDoFixedImagePreWarp( true );
-  metric->SetDoMovingImagePreWarp( true );
+  metric->SetDoFixedImagePreWarp( doPreWarp );
+  metric->SetDoMovingImagePreWarp( doPreWarp );
   const bool gaussian = false;
   metric->SetUseMovingImageGradientFilter( gaussian );
   metric->SetUseFixedImageGradientFilter( gaussian );
@@ -216,7 +229,7 @@ int itkMattesMutualInformationImageToImageMetricv4RegistrationTest(int argc, cha
     {
     std::cout << "Follow affine with deformable registration " << std::endl;
     metric->SetMovingTransform( compositeTransform );
-    metric->SetUseFixedSampledPointSet( false );
+    metric->SetUseFixedSampledPointSet( doSampling );
     metric->Initialize();
 
     // Optimizer
@@ -243,6 +256,10 @@ int itkMattesMutualInformationImageToImageMetricv4RegistrationTest(int argc, cha
     std::cout << "...finished. " << std::endl;
 
     std::cout << "GetNumberOfSkippedFixedSampledPoints: " << metric->GetNumberOfSkippedFixedSampledPoints() << std::endl;
+
+    //std::cout << "\n\n*gradient: " << optimizer->GetGradient() << std::endl;
+    std::cout << "Scales: " << optimizer->GetScales() << std::endl;
+    std::cout << "Final learning rate: " << optimizer->GetLearningRate() << std::endl;
     }
 
   //warp the image with the displacement field
