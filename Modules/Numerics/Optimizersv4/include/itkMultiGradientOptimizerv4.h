@@ -40,8 +40,8 @@ class ITK_EXPORT MultiGradientOptimizerv4
 {
 public:
   /** Standard class typedefs. */
-  typedef MultiGradientOptimizerv4          Self;
-  typedef GradientDescentOptimizerv4    Superclass;
+  typedef MultiGradientOptimizerv4       Self;
+  typedef GradientDescentOptimizerv4     Superclass;
   typedef SmartPointer< Self >           Pointer;
   typedef SmartPointer< const Self >     ConstPointer;
 
