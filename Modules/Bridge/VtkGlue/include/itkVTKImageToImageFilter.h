@@ -35,10 +35,10 @@ namespace itk
  * \brief Converts a VTK image into an ITK image and plugs a
  *  VTK data pipeline to an ITK datapipeline.
  *
- *  This class puts together an itkVTKImageImport and a vtkImageExport.
+ *  This class puts together an itk::VTKImageImport and a vtk::ImageExport.
  *  It takes care of the details related to the connection of ITK and VTK
  *  pipelines. The User will perceive this filter as an adaptor to which
- *  a vtkImage can be plugged as input and an itk::Image is produced as
+ *  a vtkImageData can be plugged as input and an itk::Image is produced as
  *  output.
  *
  * \ingroup ITKVtkGlue
