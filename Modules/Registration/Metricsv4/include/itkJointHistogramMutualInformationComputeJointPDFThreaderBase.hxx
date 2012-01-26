@@ -117,13 +117,13 @@ JointHistogramMutualInformationComputeJointPDFThreaderBase< TDomainPartitioner, 
   const ThreadIdType numberOfThreadsUsed = this->GetNumberOfThreadsUsed();
 
   typedef typename JointHistogramType::PixelType JointHistogramPixelType;
-  JointHistogramPixelType totalHistogramCount = NumericTraits< JointHistogramPixelType >::Zero;
+  this->m_Associate->m_JointHistogramTotalCount = NumericTraits<SizeValueType>::Zero;
   for( ThreadIdType i = 0; i < numberOfThreadsUsed; ++i )
     {
-    totalHistogramCount += this->m_JointHistogramCountPerThread[i];
+    this->m_Associate->m_JointHistogramTotalCount += this->m_JointHistogramCountPerThread[i];
     }
 
-  itkAssertInDebugAndIgnoreInReleaseMacro( totalHistogramCount > NumericTraits< SizeValueType >::Zero );
+  itkAssertInDebugAndIgnoreInReleaseMacro( this->m_Associate->m_JointHistogramTotalCount > NumericTraits< SizeValueType >::Zero );
 
   typedef ImageRegionIterator< JointPDFType > JointPDFIteratorType;
   JointPDFIteratorType jointPDFIt( this->m_Associate->m_JointPDF, this->m_Associate->m_JointPDF->GetBufferedRegion() );
@@ -146,7 +146,7 @@ JointHistogramMutualInformationComputeJointPDFThreaderBase< TDomainPartitioner, 
       jointHistogramPixel += jointHistogramPerThreadIts[i].Get();
       ++jointHistogramPerThreadIts[i];
       }
-    jointPDFIt.Set( static_cast< JointPDFValueType >( jointHistogramPixel ) / static_cast< JointPDFValueType >( totalHistogramCount ) );
+    jointPDFIt.Set( static_cast< JointPDFValueType >( jointHistogramPixel ) / static_cast< JointPDFValueType >( this->m_Associate->m_JointHistogramTotalCount ) );
     ++jointPDFIt;
     }
 }

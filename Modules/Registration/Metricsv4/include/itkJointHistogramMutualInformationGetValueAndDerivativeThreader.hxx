@@ -64,9 +64,13 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner
   Superclass::AfterThreadedExecution();
 
   TJointHistogramMetric * associate = dynamic_cast< TJointHistogramMetric * >( this->m_Associate );
-  // The Superclass does not generate a valid m_Value.  We have to calculate it
-  // here.
-  associate->m_Value = associate->ComputeValue();
+  // The Superclass does not generate a valid m_Value for this metric.  We have to calculate it
+  // here, but only if there are 1 or more valid points. Otherwise the Superclass
+  // will have already set a default value and issued a warning.
+  if( associate->GetNumberOfValidPoints() > 0 )
+    {
+    associate->m_Value = associate->ComputeValue();
+    }
 }
 
 template< class TDomainPartitioner, class TImageToImageMetric, class TJointHistogramMetric >
