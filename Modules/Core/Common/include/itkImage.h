@@ -171,7 +171,7 @@ public:
    * typedef typename ImageTypeTraits<TImageType>::template Rebind< float >::Type OutputImageType;
    *
    */
-  template <typename UPixelType, unsigned int UImageDimension = VImageDimension>
+  template <class UPixelType, unsigned int UImageDimension = VImageDimension>
   struct Rebind
     {
       typedef itk::Image<UPixelType, UImageDimension>  Type;
