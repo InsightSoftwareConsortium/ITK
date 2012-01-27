@@ -21,10 +21,12 @@
 #include "itkTimeVaryingVelocityFieldImageRegistrationMethodv4.h"
 
 #include "itkANTSNeighborhoodCorrelationImageToImageMetricv4.h"
+#include "itkConstNeighborhoodIterator.h"
 #include "itkDisplacementFieldTransform.h"
 #include "itkImageDuplicator.h"
 #include "itkImportImageFilter.h"
 #include "itkIterationReporter.h"
+#include "itkNeighborhoodAlgorithm.h"
 #include "itkResampleImageFilter.h"
 #include "itkStatisticsImageFilter.h"
 #include "itkVectorMagnitudeImageFilter.h"
@@ -32,15 +34,15 @@
 
 namespace itk
 {
+
 /**
  * Constructor
  */
 template<typename TFixedImage, typename TMovingImage, typename TTransform>
 TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
 ::TimeVaryingVelocityFieldImageRegistrationMethodv4() :
-  m_NumberOfIntegrationStepsPerTimeIndex( 5 ),
   m_LearningRate( 0.25 ),
-  m_ConvergenceThreshold( 1.0e-6 )
+  m_ConvergenceThreshold( 1.0e-7 )
 {
   this->m_NumberOfIterationsPerLevel.SetSize( 3 );
   this->m_NumberOfIterationsPerLevel[0] = 20;
@@ -62,31 +64,36 @@ void
 TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
 ::StartOptimization()
 {
+  typedef ImageDuplicator<DisplacementFieldType> DisplacementFieldDuplicatorType;
+  typedef DisplacementFieldTransform<RealType, ImageDimension> DisplacementFieldTransformType;
+  typename DisplacementFieldType::PixelType zeroVector;
+  zeroVector.Fill( 0 );
+
+  // This transform is used for the fixed image
+  typedef itk::IdentityTransform<RealType, ImageDimension> IdentityTransformType;
+  typename IdentityTransformType::Pointer identityTransform = IdentityTransformType::New();
+  identityTransform->SetIdentity();
+
+  typename DisplacementFieldTransformType::Pointer identityDisplacementFieldTransform = DisplacementFieldTransformType::New();
+
+  // This transform gets used for the moving image
+  typename DisplacementFieldDuplicatorType::Pointer fieldDuplicatorIdentity = DisplacementFieldDuplicatorType::New();
+
   TimeVaryingVelocityFieldPointer velocityField = this->m_Transform->GetTimeVaryingVelocityField();
   IndexValueType numberOfTimePoints = velocityField->GetLargestPossibleRegion().GetSize()[ImageDimension];
 
-  SizeValueType numberOfIntegrationSteps = this->m_NumberOfIntegrationStepsPerTimeIndex +
-    ( this->m_NumberOfIntegrationStepsPerTimeIndex - 1 ) * ( numberOfTimePoints - 2 );
+  SizeValueType numberOfIntegrationSteps = numberOfTimePoints + 2;
 
   const typename TimeVaryingVelocityFieldType::RegionType & largestRegion = velocityField->GetLargestPossibleRegion();
   const SizeValueType numberOfPixelsPerTimePoint = largestRegion.GetNumberOfPixels() / numberOfTimePoints;
 
+  const typename TimeVaryingVelocityFieldType::SpacingType velocityFieldSpacing = velocityField->GetSpacing();
+
   typename VirtualImageType::ConstPointer virtualDomainImage = this->m_Metric->GetVirtualDomainImage();
 
   // Warp the moving image based on the composite transform (not including the current
-  // time varying velocity field transform to be optimized).
-
-  typedef ResampleImageFilter<MovingImageType, MovingImageType> MovingResamplerType;
-  typename MovingResamplerType::Pointer movingResampler = MovingResamplerType::New();
-  movingResampler->SetTransform( this->m_CompositeTransform );
-  movingResampler->SetInput( this->m_MovingSmoothImage );
-  movingResampler->SetSize( this->m_FixedSmoothImage->GetLargestPossibleRegion().GetSize() );
-  movingResampler->SetOutputOrigin( this->m_FixedSmoothImage->GetOrigin() );
-  movingResampler->SetOutputSpacing( this->m_FixedSmoothImage->GetSpacing() );
-  movingResampler->SetOutputDirection( this->m_FixedSmoothImage->GetDirection() );
-  movingResampler->SetDefaultPixelValue( 0 );
-
-  // pre calculate the voxel distance to be used in properly scaling the gradient.
+  // time varying velocity field transform to be optimized).  Precalculate the voxel
+  // distance to be used in properly scaling the gradient.
   RealType voxelDistance = 0.0;
   for( unsigned int d = 0; d < ImageDimension; d++ )
     {
@@ -95,87 +102,135 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TTr
   voxelDistance = vcl_sqrt( voxelDistance );
 
   // Instantiate the update derivative for all vectors of the velocity field
-  DerivativeType updateDerivative( numberOfPixelsPerTimePoint * numberOfTimePoints * ImageDimension );
+  DerivativeType updateDerivative( numberOfPixelsPerTimePoint * numberOfTimePoints * ImageDimension  );
+  DerivativeType lastUpdateDerivative( numberOfPixelsPerTimePoint * numberOfTimePoints * ImageDimension  );
+  lastUpdateDerivative.Fill( 0 );
+  updateDerivative.Fill( 0 );
 
   // Monitor the convergence
   typedef itk::Function::WindowConvergenceMonitoringFunction<double> ConvergenceMonitoringType;
   ConvergenceMonitoringType::Pointer convergenceMonitoring = ConvergenceMonitoringType::New();
   convergenceMonitoring->SetWindowSize( 10 );
 
+  // m_Transform is the velocity field
+
   SizeValueType iteration = 0;
   bool isConverged = false;
   while( iteration++ < this->m_NumberOfIterationsPerLevel[this->m_CurrentLevel] && !isConverged )
     {
-    std::cout << "    Iteration " << iteration << std::flush;
+    std::cout << "    Iteration: " << iteration << std::flush;
 
+    updateDerivative.Fill( 0 );
+    MeasureType value = NumericTraits<MeasureType>::Zero;
+    MeasureType averageMetricValue = NumericTraits<MeasureType>::Zero;
+
+    // Time index zero brings the moving image closest to the fixed image
     for( IndexValueType timePoint = 0; timePoint < numberOfTimePoints; timePoint++ )
       {
-      RealType t = static_cast<RealType>( timePoint ) / static_cast<RealType>( numberOfTimePoints - 1 );
-
-      SizeValueType numberOfFixedIntegrationSteps = 0;
-      if( timePoint > 0 )
+      RealType t = NumericTraits<RealType>::Zero;
+      if( numberOfTimePoints > 1 )
         {
-        numberOfFixedIntegrationSteps = this->m_NumberOfIntegrationStepsPerTimeIndex +
-          ( this->m_NumberOfIntegrationStepsPerTimeIndex - 1 ) * ( timePoint - 1 );
-        }
-
-      SizeValueType numberOfMovingIntegrationSteps = 0;
-      if( timePoint < numberOfTimePoints - 1 )
-        {
-        numberOfMovingIntegrationSteps = this->m_NumberOfIntegrationStepsPerTimeIndex +
-          ( this->m_NumberOfIntegrationStepsPerTimeIndex - 1 ) * ( numberOfTimePoints - timePoint - 2 );
+        t = static_cast<RealType>( timePoint ) / static_cast<RealType>( numberOfTimePoints - 1 );
         }
 
       // Get the fixed transform.  We need to duplicate the resulting
       // displacement field since it will be overwritten when we integrate
       // the velocity field to get the moving image transform.
-
       this->m_Transform->SetLowerTimeBound( t );
       this->m_Transform->SetUpperTimeBound( 0.0 );
-      this->m_Transform->SetNumberOfIntegrationSteps( numberOfFixedIntegrationSteps );
-      this->m_Transform->IntegrateVelocityField();
+      this->m_Transform->SetNumberOfIntegrationSteps( numberOfIntegrationSteps );
+      if( timePoint == 0 )
+        {
+        this->m_Transform->GetDisplacementField()->FillBuffer( zeroVector );
+        }
+      else
+        {
+        this->m_Transform->IntegrateVelocityField();
+        }
 
-      typedef ImageDuplicator<DisplacementFieldType> DisplacementFieldDuplicatorType;
       typename DisplacementFieldDuplicatorType::Pointer fieldDuplicator = DisplacementFieldDuplicatorType::New();
       fieldDuplicator->SetInputImage( this->m_Transform->GetDisplacementField() );
       fieldDuplicator->Update();
 
-      typedef DisplacementFieldTransform<RealType, ImageDimension> DisplacementFieldTransformType;
       typename DisplacementFieldTransformType::Pointer fixedDisplacementFieldTransform = DisplacementFieldTransformType::New();
       fixedDisplacementFieldTransform->SetDisplacementField( fieldDuplicator->GetOutput() );
 
       // Get the moving transform
       this->m_Transform->SetLowerTimeBound( t );
       this->m_Transform->SetUpperTimeBound( 1.0 );
-      this->m_Transform->SetNumberOfIntegrationSteps( numberOfMovingIntegrationSteps );
-      this->m_Transform->IntegrateVelocityField();
+      this->m_Transform->SetNumberOfIntegrationSteps( numberOfIntegrationSteps );
+      if( timePoint == numberOfTimePoints - 1 )
+        {
+        this->m_Transform->GetDisplacementField()->FillBuffer( zeroVector );
+        }
+      else
+        {
+        this->m_Transform->IntegrateVelocityField();
+        }
 
       typename DisplacementFieldTransformType::Pointer movingDisplacementFieldTransform = DisplacementFieldTransformType::New();
       movingDisplacementFieldTransform->SetDisplacementField( this->m_Transform->GetDisplacementField() );
 
-      this->m_Metric->SetFixedImage( this->m_FixedSmoothImage );
-      this->m_Metric->SetFixedTransform( fixedDisplacementFieldTransform );
-      this->m_Metric->SetMovingImage( movingResampler->GetOutput() );
-      this->m_Metric->SetMovingTransform( movingDisplacementFieldTransform );
+      this->m_CompositeTransform->AddTransform( movingDisplacementFieldTransform );
+      this->m_CompositeTransform->SetOnlyMostRecentTransformToOptimizeOn();
+      if( timePoint == 0 && iteration <= 1 )
+        {
+        fieldDuplicatorIdentity->SetInputImage( movingDisplacementFieldTransform->GetDisplacementField() );
+        fieldDuplicatorIdentity->Update();
+        fieldDuplicatorIdentity->GetOutput()->FillBuffer( zeroVector );
+        identityDisplacementFieldTransform->SetDisplacementField( fieldDuplicatorIdentity->GetOutput() );
+        }
+
+      typedef itk::ResampleImageFilter<MovingImageType, VirtualImageType> MovingImageResampleFilterType;
+      typename MovingImageResampleFilterType::Pointer movingImageResampler = MovingImageResampleFilterType::New();
+      movingImageResampler->SetTransform( this->m_CompositeTransform );
+      movingImageResampler->SetInput( this->m_MovingSmoothImage );
+      movingImageResampler->SetSize( virtualDomainImage->GetLargestPossibleRegion().GetSize() );
+      movingImageResampler->SetOutputOrigin( virtualDomainImage->GetOrigin() );
+      movingImageResampler->SetOutputSpacing( virtualDomainImage->GetSpacing() );
+      movingImageResampler->SetOutputDirection( virtualDomainImage->GetDirection() );
+      movingImageResampler->SetDefaultPixelValue( 0 );
+      movingImageResampler->Update();
+
+      typedef itk::ResampleImageFilter<FixedImageType, VirtualImageType> FixedImageResampleFilterType;
+      typename FixedImageResampleFilterType::Pointer fixedImageResampler = FixedImageResampleFilterType::New();
+      fixedImageResampler->SetTransform( fixedDisplacementFieldTransform );
+      fixedImageResampler->SetInput( this->m_FixedSmoothImage );
+      fixedImageResampler->SetSize( virtualDomainImage->GetLargestPossibleRegion().GetSize() );
+      fixedImageResampler->SetOutputOrigin( virtualDomainImage->GetOrigin() );
+      fixedImageResampler->SetOutputSpacing( virtualDomainImage->GetSpacing() );
+      fixedImageResampler->SetOutputDirection( virtualDomainImage->GetDirection() );
+      fixedImageResampler->SetDefaultPixelValue( 0 );
+      fixedImageResampler->Update();
+
+      this->m_Metric->SetFixedImage( fixedImageResampler->GetOutput() );
+      this->m_Metric->SetFixedTransform( identityTransform );
+      this->m_Metric->SetMovingImage(  movingImageResampler->GetOutput() );
+      this->m_Metric->SetMovingTransform( identityDisplacementFieldTransform );
       this->m_Metric->Initialize();
 
-      typename MetricType::MeasureType value;
       typename MetricType::DerivativeType metricDerivative;
-
       this->m_Metric->GetValueAndDerivative( value, metricDerivative );
+
+      // Note: we are intentionally ignoring the jacobian determinant.
+      // It does not change the direction of the optimization, only
+      // the scaling.  It is very expensive to compute it accurately.
+
+      averageMetricValue += value;
+
+      // Remove the temporary mapping along the geodesic
+      this->m_CompositeTransform->RemoveTransform();
 
       // we rescale the update velocity field at each time point.
       // we first need to convert to a displacement field to look
       // at the max norm of the field.
 
-      const SizeValueType numberOfPixels = static_cast<SizeValueType>( metricDerivative.Size() / ImageDimension );
       const bool importFilterWillReleaseMemory = false;
-
       DisplacementVectorType *metricDerivativeFieldPointer = reinterpret_cast<DisplacementVectorType *>( metricDerivative.data_block() );
 
       typedef ImportImageFilter<DisplacementVectorType, ImageDimension> ImporterType;
       typename ImporterType::Pointer importer = ImporterType::New();
-      importer->SetImportPointer( metricDerivativeFieldPointer, numberOfPixels, importFilterWillReleaseMemory );
+      importer->SetImportPointer( metricDerivativeFieldPointer, numberOfPixelsPerTimePoint, importFilterWillReleaseMemory );
       importer->SetRegion( virtualDomainImage->GetBufferedRegion() );
       importer->SetOrigin( virtualDomainImage->GetOrigin() );
       importer->SetSpacing( virtualDomainImage->GetSpacing() );
@@ -195,44 +250,73 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TTr
       stats->Update();
 
       RealType maxNorm = stats->GetMaximum();
-      if( maxNorm > 0.0 )
+      if ( maxNorm <= 0.0 )
         {
-        metricDerivative *= ( voxelDistance / maxNorm );
+        maxNorm = 1.0;
         }
+
+      RealType scale = voxelDistance / maxNorm;
+      metricDerivative *= scale;
       updateDerivative.update( metricDerivative, timePoint * numberOfPixelsPerTimePoint * ImageDimension );
-      }
+      } // end loop over time points
 
-    // update the transform
-
+    // update the transform --- averaging with the last update reduces oscillations
+    updateDerivative = ( updateDerivative + lastUpdateDerivative ) * 0.5;
+    lastUpdateDerivative = updateDerivative;
     this->m_Transform->UpdateTransformParameters( updateDerivative, this->m_LearningRate );
 
-    // Calculate the current metric value to track convergence
+    averageMetricValue /= static_cast<MeasureType>( numberOfTimePoints );
 
-    this->m_Transform->SetLowerTimeBound( 0 );
-    this->m_Transform->SetUpperTimeBound( 1.0 );
-    this->m_Transform->SetNumberOfIntegrationSteps( numberOfIntegrationSteps );
-    this->m_Transform->IntegrateVelocityField();
-
-    typedef IdentityTransform<RealType, ImageDimension> IdentityTransformType;
-    typename IdentityTransformType::Pointer identityTransform = IdentityTransformType::New();
-
-    this->m_Metric->SetFixedImage( this->m_FixedSmoothImage );
-    this->m_Metric->SetFixedTransform( identityTransform );
-    this->m_Metric->SetMovingImage( movingResampler->GetOutput() );
-    this->m_Metric->SetMovingTransform( this->m_Transform );
-    this->m_Metric->Initialize();
-
-    typename MetricType::MeasureType value;
-    typename MetricType::DerivativeType metricDerivative;
-
-    this->m_Metric->GetValueAndDerivative( value, metricDerivative );
-
-    convergenceMonitoring->AddEnergyValue( value );
+    convergenceMonitoring->AddEnergyValue( averageMetricValue );
     RealType convergenceValue = convergenceMonitoring->GetConvergenceValue();
-    std::cout << ": (metric value = " << value << ", convergence value = " << convergenceValue << ")" << std::endl;
-    if( convergenceValue < this->m_ConvergenceThreshold )
+    std::cout << ": metric value = " << value << ", average metric value = " << averageMetricValue << ", convergence value = " << convergenceValue << std::endl;
+
+    if( convergenceValue < this->m_ConvergenceThreshold || iteration == this->m_NumberOfIterationsPerLevel[this->m_CurrentLevel] )
       {
       isConverged = true;
+
+      this->m_Transform->SetLowerTimeBound( 0 );
+      this->m_Transform->SetUpperTimeBound( 1.0 );
+      this->m_Transform->SetNumberOfIntegrationSteps( numberOfIntegrationSteps );
+      this->m_Transform->IntegrateVelocityField();
+
+      if( this->GetDebug() )
+        {
+        RealType spatialNorm = NumericTraits<RealType>::Zero;
+        RealType spatioTemporalNorm = NumericTraits<RealType>::Zero;
+
+        typename TimeVaryingVelocityFieldType::SizeType radius;
+        radius.Fill( 1 );
+
+        typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TimeVaryingVelocityFieldType> FaceCalculatorType;
+        FaceCalculatorType faceCalculator;
+        typename FaceCalculatorType::FaceListType faceList = faceCalculator( velocityField, velocityField->GetLargestPossibleRegion(), radius );
+
+        // We only iterate over the first element of the face list since
+        // that contains only the interior region.
+
+        ConstNeighborhoodIterator<TimeVaryingVelocityFieldType> ItV( radius, velocityField, faceList.front() );
+        for( ItV.GoToBegin(); !ItV.IsAtEnd(); ++ItV )
+          {
+          RealType localSpatialNorm = NumericTraits<RealType>::Zero;
+          RealType localSpatioTemporalNorm = NumericTraits<RealType>::Zero;
+          for( unsigned int d = 0; d < ImageDimension + 1; d++ )
+            {
+            DisplacementVectorType vector =  ( ItV.GetNext( d ) - ItV.GetPrevious( d ) ) * 0.5 * velocityFieldSpacing[d];
+            RealType vectorNorm = vector.GetNorm();
+            localSpatioTemporalNorm += vectorNorm;
+            if( d < ImageDimension )
+              {
+              localSpatialNorm += vectorNorm;
+              }
+            }
+          spatialNorm += ( localSpatialNorm / static_cast<RealType>( ImageDimension + 1 ) );
+          spatioTemporalNorm += ( localSpatioTemporalNorm / static_cast<RealType>( ImageDimension + 1 ) );
+          }
+        spatialNorm /= static_cast<RealType>( ( velocityField->GetLargestPossibleRegion() ).GetNumberOfPixels() );
+        spatioTemporalNorm /= static_cast<RealType>( ( velocityField->GetLargestPossibleRegion() ).GetNumberOfPixels() );
+        itkDebugMacro( "    spatio-temporal velocity field norm : " << spatioTemporalNorm << ", spatial velocity field norm: " << spatialNorm );
+        }
       }
     }
 }

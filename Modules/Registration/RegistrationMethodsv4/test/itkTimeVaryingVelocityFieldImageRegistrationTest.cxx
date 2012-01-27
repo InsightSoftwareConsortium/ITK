@@ -220,7 +220,6 @@ int PerformTimeVaryingVelocityFieldImageRegistration( int itkNotUsed( argc ), ch
   velocityFieldRegistration->SetCompositeTransform( compositeTransform );
   velocityFieldRegistration->SetMetric( correlationMetric );
   velocityFieldRegistration->SetLearningRate( atof( argv[6] ) );
-  velocityFieldRegistration->SetNumberOfIntegrationStepsPerTimeIndex( 5 );
   velocityFieldRegistration->GetTransform()->SetGaussianSpatialSmoothingVarianceForTheTotalField( 0.0 );
   velocityFieldRegistration->GetTransform()->SetGaussianSpatialSmoothingVarianceForTheUpdateField( 3.0 );
   velocityFieldRegistration->GetTransform()->SetGaussianTemporalSmoothingVarianceForTheTotalField( 0.0 );
