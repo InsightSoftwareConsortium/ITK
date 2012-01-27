@@ -144,6 +144,24 @@ int itkJointHistogramMutualInformationImageToImageMetricv4Test( int , char * [] 
               << ", " << valueReturn2 << std::endl;
     }
 
+  // Test that non-overlapping images will generate a warning
+  // and return max value for metric value.
+  MovingTransformType::ParametersType parameters(2);
+  parameters.Fill( static_cast<MovingTransformType::ParametersValueType>(1000) );
+  movingTransform->SetParameters( parameters );
+  MetricType::MeasureType expectedMetricMax;
+  expectedMetricMax = itk::NumericTraits<MetricType::MeasureType>::max();
+  std::cout << "Testing non-overlapping images. Expect a warning:" << std::endl;
+  metric->GetValueAndDerivative( valueReturn2, derivativeReturn );
+  if( metric->GetNumberOfValidPoints() != 0 || valueReturn2 != expectedMetricMax )
+    {
+    std::cerr << "Failed testing for non-overlapping images. " << std::endl
+              << "  Number of valid points: " << metric->GetNumberOfValidPoints() << std::endl
+              << "  Metric value: " << valueReturn2 << std::endl
+              << "  Expected metric max value: " << expectedMetricMax << std::endl;
+    }
+  movingTransform->SetIdentity();
+
   std::cout << "Test passed." << std::endl;
 
   //exercise methods

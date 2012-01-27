@@ -79,6 +79,13 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
     associate->m_NumberOfValidPoints += this->m_NumberOfValidPointsPerThread[i];
     }
 
+  /* Check the number of valid points meets the default minimum.
+   * If not, parameters will hold default return values for this case */
+  if( ! associate->VerifyNumberOfValidPoints( associate->m_Value, *(associate->m_DerivativeResult) ) )
+    {
+    return;
+    }
+
   itkDebugMacro("CorrelationImageToImageMetricv4: NumberOfValidPoints: " << associate->m_NumberOfValidPoints);
 
   /* Accumulate the metric value from threads and store */

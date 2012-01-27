@@ -327,6 +327,11 @@ int ImageToImageMetricv4TestRunSingleTest(
        itk::SizeValueType expectedNumberOfPoints,
        bool setTruthValues )
 {
+  int result = EXIT_SUCCESS;
+
+  ImageToImageMetricv4TestMetricType::MeasureType valueReturn1, valueReturn2;
+  ImageToImageMetricv4TestMetricType::DerivativeType derivativeReturn;
+
   // Initialize.
   try
     {
@@ -340,8 +345,6 @@ int ImageToImageMetricv4TestRunSingleTest(
     }
 
   // Evaluate using GetValue
-  ImageToImageMetricv4TestMetricType::MeasureType valueReturn1, valueReturn2;
-  ImageToImageMetricv4TestMetricType::DerivativeType derivativeReturn;
   try
     {
     valueReturn1 = metric->GetValue();
@@ -382,6 +385,7 @@ int ImageToImageMetricv4TestRunSingleTest(
     {
     std::cerr << "Results for Value don't match: " << valueReturn1
               << ", " << valueReturn2 << std::endl;
+    result = EXIT_FAILURE;
     }
 
   // Check number of threads and valid points
@@ -397,7 +401,6 @@ int ImageToImageMetricv4TestRunSingleTest(
     }
 
   // Return or verify results
-  int result = EXIT_SUCCESS;
   if( setTruthValues )
     {
     truthValue = valueReturn2;
@@ -415,8 +418,7 @@ int ImageToImageMetricv4TestRunSingleTest(
       result = EXIT_FAILURE;
 
       }
-    if( ! ImageToImageMetricv4TestTestArray(
-                                          truthDerivative, derivativeReturn ) )
+    if( ! ImageToImageMetricv4TestTestArray( truthDerivative, derivativeReturn ) )
       {
       std::cerr << "-FAILED- truthDerivative does not equal derivatives:"
                 << std::endl
@@ -558,15 +560,16 @@ int itkImageToImageMetricv4Test(int, char ** const)
                                 imageSize * imageSize, false )
                                                               != EXIT_SUCCESS )
               {
-              std::cerr << "Failed for these settings: " << std::endl
+              std::cerr << "----------------------------" << std::endl
+                        << "Failed for these settings: " << std::endl
                         << "Pre-warp image: fixed, moving: "
                         << metric->GetDoFixedImagePreWarp() << ", "
                         << metric->GetDoMovingImagePreWarp() << std::endl
                         << "Use gradient filter for: fixed, moving: "
                         << metric->GetUseFixedImageGradientFilter()
                         << ", "
-                        << metric->GetUseMovingImageGradientFilter()
-                        << "---------------------------------------" << std::endl;
+                        << metric->GetUseMovingImageGradientFilter() << std::endl
+                        << "----------------------------" << std::endl;
               return EXIT_FAILURE;
               }
             computeNewTruthValues = false;
@@ -575,6 +578,26 @@ int itkImageToImageMetricv4Test(int, char ** const)
         }
       } // loop through permutations
     } // loop thru # of threads
+
+
+  // Test that non-overlapping images will generate a warning
+  // and return max value for metric value.
+  MovingTransformType::ParametersType parameters(2);
+  parameters[0] = 1000;
+  parameters[1] = 1000;
+  movingTransform->SetParameters( parameters );
+  ImageToImageMetricv4TestMetricType::MeasureType expectedMetricMax;
+  expectedMetricMax = itk::NumericTraits<ImageToImageMetricv4TestMetricType::MeasureType>::max();
+  std::cout << "Testing non-overlapping images. Expect a warning:" << std::endl;
+  if( ImageToImageMetricv4TestRunSingleTest( metric, truthValue, truthDerivative, 0, true ) != EXIT_SUCCESS ||
+      metric->GetValue() != expectedMetricMax )
+    {
+    std::cerr << "Failed testing for non-overlapping images. " << std::endl
+              << "  Number of valid points: " << metric->GetNumberOfValidPoints() << std::endl
+              << "  Metric value: " << metric->GetValue() << std::endl
+              << "  Expected metric max value: " << expectedMetricMax << std::endl;
+    }
+  movingTransform->SetIdentity();
 
   //
   // Test with an identity displacement field transform for moving image
