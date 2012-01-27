@@ -314,17 +314,18 @@ VideoFileReader< TOutputVideoStream >
     }
 
   // Read a single frame
-  if (m_PixelConversionNeeded)
+  if (this->m_PixelConversionNeeded)
     {
     // Set up temporary buffer for reading
     size_t bufferSize = m_VideoIO->GetImageSizeInBytes();
     char* loadBuffer = new char[bufferSize];
 
     // Read into a temporary buffer
-    m_VideoIO->Read(static_cast<void*>(loadBuffer));
+    this->m_VideoIO->Read(static_cast<void*>(loadBuffer));
 
     // Convert the buffer into the output buffer location
     this->DoConvertBuffer(static_cast<void*>(loadBuffer), frameNum);
+    delete[] loadBuffer;
     }
   else
     {
