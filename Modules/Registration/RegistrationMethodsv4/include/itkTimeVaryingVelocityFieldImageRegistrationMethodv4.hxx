@@ -107,7 +107,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TTr
   while( iteration++ < this->m_NumberOfIterationsPerLevel[this->m_CurrentLevel] && !isConverged )
     {
     std::cout << "    Iteration " << iteration << std::flush;
-
+    updateDerivative.Fill(0);
     for( IndexValueType timePoint = 0; timePoint < numberOfTimePoints; timePoint++ )
       {
       RealType t = static_cast<RealType>( timePoint ) / static_cast<RealType>( numberOfTimePoints - 1 );
