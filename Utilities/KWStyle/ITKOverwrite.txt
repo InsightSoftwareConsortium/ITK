@@ -85,6 +85,7 @@ itk_hashtable.h DeclarationOrder Disable
 itkIdentityTransform.h Indent Disable
 itkImage.h Template Disable
 itkVectorImage.h Template Disable
+itkImageAdaptor.h Template Disable
 itkImageToImageFilterDetail.h Template Disable
 itkImageTransformHelper.h Template Disable
 itkKLMSegmentationRegion.h Indent Disable

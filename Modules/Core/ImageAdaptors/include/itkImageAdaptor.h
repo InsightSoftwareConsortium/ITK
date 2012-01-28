@@ -121,6 +121,19 @@ public:
    * */
   typedef typename Superclass::DirectionType DirectionType;
 
+
+  /**
+   * example usage:
+   * typedef typename ImageAdaptorType::template Rebind< float >::Type OutputImageType;
+   *
+   */
+  template <class UPixelType, unsigned int UImageDimension = ::itk::GetImageDimension< TImage >::ImageDimension>
+  struct Rebind
+    {
+      typedef itk::Image<UPixelType, UImageDimension>  Type;
+    };
+
+
   /** Set the region object that defines the size and starting index
    * for the largest possible region this image could represent.  This
    * is used in determining how much memory would be needed to load an
