@@ -92,8 +92,8 @@ bool readCorrectly( itk::OpenCVVideoIO::Pointer opencvIO, CvCapture* capture, Fr
     }
 
   // Set up the buffer for the frame data
-  size_t    bufferSize = opencvIO->GetImageSizeInBytes();
-  PixelType buffer[bufferSize];
+  itk::SizeValueType bufferSize = opencvIO->GetImageSizeInBytes();
+  PixelType * buffer = new PixelType[bufferSize];
 
   // Read the frame data
   opencvIO->Read(static_cast<void *>(buffer) );
@@ -120,6 +120,7 @@ bool readCorrectly( itk::OpenCVVideoIO::Pointer opencvIO, CvCapture* capture, Fr
     ret = false;
     }
 
+  delete[] buffer;
   // Return
   cvReleaseImage(&cvFrameRGB);
   return ret;
@@ -170,9 +171,9 @@ bool videosMatch(char* file1, char* file2)
     }
 
   // Loop through each frame and compare the buffer for exact match
-  size_t    bufferSize = io1->GetImageSizeInBytes();
-  PixelType buffer1[bufferSize];
-  PixelType buffer2[bufferSize];
+  itk::SizeValueType bufferSize = io1->GetImageSizeInBytes();
+  PixelType * buffer1 = new PixelType[bufferSize];
+  PixelType * buffer2 = new PixelType[bufferSize];
   for( unsigned int i = 0; i < io1->GetFrameTotal(); ++i )
     {
     io1->Read(reinterpret_cast<void *>(buffer1) );
@@ -183,7 +184,8 @@ bool videosMatch(char* file1, char* file2)
       return false;
       }
     }
-
+  delete[] buffer1;
+  delete[] buffer2;
   // Close the readers
   io1->FinishReadingOrWriting();
   io2->FinishReadingOrWriting();
@@ -304,8 +306,8 @@ int test_OpenCVVideoIO( char* input, char* nonVideoInput, char* output, char* ca
   std::cout << "OpenCVVideoIO::SetNextFrameToRead" << std::endl;
 
   // Set up the buffer for the frame data so Read can be called
-  size_t    bufferSize = opencvIO->GetImageSizeInBytes();
-  PixelType buffer[bufferSize];
+  itk::SizeValueType bufferSize = opencvIO->GetImageSizeInBytes();
+  PixelType * buffer = new PixelType[bufferSize];
 
   // try seeking to an I-Frame
   FrameOffsetType seekFrame = opencvIO->GetIFrameInterval();
@@ -342,6 +344,7 @@ int test_OpenCVVideoIO( char* input, char* nonVideoInput, char* output, char* ca
       ret = EXIT_FAILURE;
       }
 
+    delete[] buffer;
     // try seeking past last I-Frame
     seekFrame = opencvIO->GetLastIFrame() + 1;
     if( opencvIO->SetNextFrameToRead(seekFrame) )
@@ -388,8 +391,8 @@ int test_OpenCVVideoIO( char* input, char* nonVideoInput, char* output, char* ca
       }
 
     // set up buffer for camera
-    size_t    camBufferSize = opencvIO->GetImageSizeInBytes();
-    PixelType camBuffer[camBufferSize];
+    itk::SizeValueType  camBufferSize = opencvIO->GetImageSizeInBytes();
+    PixelType  * camBuffer = new PixelType[camBufferSize];
 
     // Read from the camera
     try
@@ -404,6 +407,7 @@ int test_OpenCVVideoIO( char* input, char* nonVideoInput, char* output, char* ca
 
     // Get an ITK image from the camera's frame
     ImageType::Pointer cameraFrame = itkImageFromBuffer(opencvIO, camBuffer, camBufferSize);
+    delete[] camBuffer;
 
     // Write out the ITK image -- DEBUG
     WriterType::Pointer writer = WriterType::New();
@@ -485,14 +489,15 @@ int test_OpenCVVideoIO( char* input, char* nonVideoInput, char* output, char* ca
     {
 
     // Set up a buffer to read to
-    size_t    bufferSize = opencvIO2->GetImageSizeInBytes();
-    PixelType buffer[bufferSize];
+    itk::SizeValueType bufferSizeT = opencvIO2->GetImageSizeInBytes();
+    PixelType * bufferT = new PixelType[bufferSizeT];
 
     // Read into the buffer
-    opencvIO2->Read(static_cast<void *>(buffer) );
+    opencvIO2->Read(static_cast<void *>(bufferT) );
 
     // Write out the frame from the buffer
-    opencvIO->Write(static_cast<void *>(buffer) );
+    opencvIO->Write(static_cast<void *>(bufferT) );
+    delete[] bufferT;
 
     }
 
