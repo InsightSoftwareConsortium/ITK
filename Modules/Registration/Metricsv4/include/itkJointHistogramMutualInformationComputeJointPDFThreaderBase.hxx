@@ -123,7 +123,11 @@ JointHistogramMutualInformationComputeJointPDFThreaderBase< TDomainPartitioner, 
     this->m_Associate->m_JointHistogramTotalCount += this->m_JointHistogramCountPerThread[i];
     }
 
-  itkAssertInDebugAndIgnoreInReleaseMacro( this->m_Associate->m_JointHistogramTotalCount > NumericTraits< SizeValueType >::Zero );
+  if( this->m_Associate->m_JointHistogramTotalCount == 0 )
+    {
+    this->m_Associate->m_JointPDF->FillBuffer( NumericTraits< SizeValueType >::Zero );
+    return;
+    }
 
   typedef ImageRegionIterator< JointPDFType > JointPDFIteratorType;
   JointPDFIteratorType jointPDFIt( this->m_Associate->m_JointPDF, this->m_Associate->m_JointPDF->GetBufferedRegion() );
