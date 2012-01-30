@@ -110,6 +110,7 @@ protected:
    * given a point, value and image derivative for both fixed and moving
    * spaces. The provided values have been calculated from \c virtualPoint,
    * which is provided in case it's needed.
+   * \param virtualIndex
    * \param virtualPoint is the point within the virtual domain from which
    * the passed parameters have been calculated.
    * \param mappedFixedPoint is a valid point within the moving image space

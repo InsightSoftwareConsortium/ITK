@@ -27,8 +27,8 @@ namespace itk
  * \brief Helper class for CorrelationImageToImageMetricv4 \c
  * To compute the average pixel intensities of the fixed image and the moving image
  * on the sampled points or inside the virtual image region:
- * \bar f (CorrelationImageToImageMetricv4::m_AverageFix )
- * \bar m (CorrelationImageToImageMetricv4::m_AverageMov )
+ * \f$ \bar f (CorrelationImageToImageMetricv4::m_AverageFix ) \f$
+ * \f$ \bar m (CorrelationImageToImageMetricv4::m_AverageMov ) \f$
  *
  * \ingroup ITKMetricsv4
  */
