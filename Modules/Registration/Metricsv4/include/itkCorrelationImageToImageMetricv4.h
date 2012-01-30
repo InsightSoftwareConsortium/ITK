@@ -34,25 +34,29 @@ namespace itk
  *
  *  negative square of normalized cross correlation
  *
+ *  \f[
  *  C(f, m) = -\frac{<f-\bar{f}, m-\bar{m} >^2}{|f-\bar{f}}|^2 |m-\bar{m}|^2}
+ *  \f]
  *
- *  in which, f, m are the vectors of image pixel intensities, \bar{f} and
- *  \bar{m} are the mean values of f and m. <,> denotes inner product, |.|
+ *  in which, f, m are the vectors of image pixel intensities, \f$\bar{f}\f$ and
+ *  \f$\bar{m}\f$ are the mean values of f and m. <,> denotes inner product, \f$|\cdot|\f$
  *  denotes the 2-norm of the vector. The minus sign makes the metric to optimize
  *  towards its minimal value. Note that
  *  this uses the *square* of the mathematical notion of normalized cross correlation
  *  to avoid the square root computation in practice.
  *
  *  Moving image (m) is a function of the parameters (p) of the moving transforms. So
- *  C(f, m) = C(f, m(p))
- *  GetValueAndDerivative will return the value as C(f,m) and the derivative as
+ *  \f$ C(f, m) = C(f, m(p)) \f$
+ *  GetValueAndDerivative will return the value as \f$ C(f,m) \f$ and the derivative as
  *
+ *  \f[
  *  \frac{d}{dp} C = 2 \frac{<f1, m1>}{|f1|^2 |m1|^2} * (
  *                      <f1, \frac{dm}{dp}>
  *                      - \frac{<f1, m1>}{|m1|^2} < m1, \frac{dm}{dp} > )
+ *  \f]
  *
- *  in which, f1 = f - \bar{f}, m1 = m - \bar{m}
- *  (Note: there should be a minus sign of \frac{d}{dp} mathematically, which
+ *  in which, \f$ f1 = f - \bar{f} \f$, \f$ m1 = m - \bar{m} \f$
+ *  (Note: there should be a minus sign of \f$ \frac{d}{dp} \f$ mathematically, which
  *  is not in the implementation to match the requirement of the metricv4
  *  optimization framework.
  *

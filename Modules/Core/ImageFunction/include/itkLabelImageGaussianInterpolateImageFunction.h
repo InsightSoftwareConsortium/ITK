@@ -30,9 +30,11 @@ namespace itk
  * images. Given a multi-label image \c I with label set \c L, this function returns a
  * label at the non-voxel position \c I(x), based on the following rule
  *
+ * \f[
  * I(x) = \arg\max_{l \in L} (G_\sigma * I_l)(x)
+ * \f]
  *
- * Where \c I_l is the \c l-th binary component of the multilabel image. In other words,
+ * Where \f$ I_l \f$ is the \c l-th binary component of the multilabel image. In other words,
  * each label in the multi-label image is convolved with a Gaussian, and the label
  * for which the response is largest is returned. For sigma=0, this is just nearest
  * neighbor interpolation.
