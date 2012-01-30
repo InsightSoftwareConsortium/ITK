@@ -320,7 +320,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
   // contributions, in the local-support case.
   if( this->HasLocalSupport() )
     {
-    for( OffsetValueType i = 0; i < derivative.Size(); i++ )
+    for( SizeValueType i = 0; i < derivative.Size(); i++ )
       {
       for( SizeValueType bin = 0; bin < 4; bin++ )
         {
