@@ -25,6 +25,7 @@ namespace itk
 /** \class VotingBinaryImageFilter
  * \brief Applies a voting operation in a neighborhood of each pixel.
  *
+ * \note Pixels which are not Foreground or Background will remain unchanged.
  *
  * \sa Image
  * \sa Neighborhood

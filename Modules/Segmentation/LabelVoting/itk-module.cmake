@@ -10,6 +10,7 @@ itk_module(ITKLabelVoting
     ITKThresholding
   TEST_DEPENDS
     ITKTestKernel
+    ITKMetaIO
   DESCRIPTION
     "${DOCUMENTATION}"
 )
