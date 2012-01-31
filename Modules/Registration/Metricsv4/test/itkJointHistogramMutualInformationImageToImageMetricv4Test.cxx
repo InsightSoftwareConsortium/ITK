@@ -146,7 +146,7 @@ int itkJointHistogramMutualInformationImageToImageMetricv4Test( int , char * [] 
 
   // Test that non-overlapping images will generate a warning
   // and return max value for metric value.
-  MovingTransformType::ParametersType parameters(2);
+  MovingTransformType::ParametersType parameters(movingTransform->GetNumberOfParameters());
   parameters.Fill( static_cast<MovingTransformType::ParametersValueType>(1000) );
   movingTransform->SetParameters( parameters );
   MetricType::MeasureType expectedMetricMax;
