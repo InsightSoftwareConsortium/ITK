@@ -248,8 +248,6 @@ DisplacementFieldTransform<TScalar, NDimensions>
 const
 {
   jacobian.SetSize(NDimensions, NDimensions);
-  // This may not be necessary. Double-check below.
-  // jacobian.Fill(0.0);
 
   typename DisplacementFieldType::SizeType size =
     this->m_DisplacementField->GetLargestPossibleRegion().GetSize();
@@ -337,19 +335,15 @@ const
           val += 1.0;
           }
         jacobian(col, row) = val;
+        // Verify it's a real number
+        if( !vnl_math_isfinite( val) )
+          {
+          oktosample = false;
+          break;
+          }
         }
       } // for row
     }   // if oktosample
-  for( unsigned int jx = 0; jx < NDimensions; jx++ )
-    {
-    for( unsigned int jy = 0; jy < NDimensions; jy++ )
-      {
-      if( !vnl_math_isfinite(jacobian(jx, jy) )  )
-        {
-        oktosample = false;
-        }
-      }
-    }
 
   if( !oktosample )
     {
