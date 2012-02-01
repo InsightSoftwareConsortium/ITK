@@ -59,9 +59,12 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreade
       this->UpdateQueues(scanIt, scanMem, scanParameters, threadId);
       pointIsValid = this->ComputeInformationFromQueues(scanIt,
           scanMem, scanParameters, threadId);
-      this->ComputeMovingTransformDerivative(scanIt, scanMem,
-          scanParameters, localDerivativeResult, metricValueResult,
-          threadId );
+      if( pointIsValid )
+        {
+        this->ComputeMovingTransformDerivative(scanIt, scanMem,
+            scanParameters, localDerivativeResult, metricValueResult,
+            threadId );
+        }
       }
     catch (ExceptionObject & exc)
       {
