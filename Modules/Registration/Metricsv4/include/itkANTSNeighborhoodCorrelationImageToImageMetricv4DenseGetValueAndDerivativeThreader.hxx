@@ -336,7 +336,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreade
     ++itcount;
     }
 
-  if (count < localZero)
+  if (count <= localZero)
     {
     // no points available in the queue, perhaps out of image region
     return false;
