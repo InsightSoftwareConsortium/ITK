@@ -178,6 +178,8 @@ protected:
 
   unsigned int                              m_NumberOfIntegrationSteps;
 
+  unsigned int                              m_NumberOfTimePoints;
+
   DisplacementFieldInterpolatorPointer      m_DisplacementFieldInterpolator;
 
 private:
