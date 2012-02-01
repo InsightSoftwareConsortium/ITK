@@ -24,8 +24,9 @@
 
 namespace itk
 {
-//Forward-declare these because of module dependency conflict.
-//They will soon be moved to a different module, at which
+
+// Forward-declare these because of module dependency conflict.
+// They will soon be moved to a different module, at which
 // time this can be removed.
 template <unsigned int VDimension, class TDataHolder>
 class ImageToData;
@@ -71,7 +72,7 @@ class Array1DToData;
  * v_{total} = G_1( v_{total} + \lambda * G_2( v_{update} ) )
  * \f]
  * where
-
+ *
  * \f$ G_1 = \f$ gaussian smoothing on the total field
  * \f$ G_2 = \f$ gaussian smoothing on the update field
  * \f$ \lambda = \f$ learning rate
@@ -95,9 +96,9 @@ class ITK_EXPORT TimeVaryingVelocityFieldImageRegistrationMethodv4
 public:
   /** Standard class typedefs. */
   typedef TimeVaryingVelocityFieldImageRegistrationMethodv4                       Self;
-  typedef ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>  Superclass;
-  typedef SmartPointer<Self>                                                    Pointer;
-  typedef SmartPointer<const Self>                                              ConstPointer;
+  typedef ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>        Superclass;
+  typedef SmartPointer<Self>                                                      Pointer;
+  typedef SmartPointer<const Self>                                                ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
@@ -114,10 +115,13 @@ public:
   typedef TMovingImage                                                MovingImageType;
   typedef typename MovingImageType::Pointer                           MovingImagePointer;
 
+  typedef typename MovingImageType::RegionType                        RegionType;
+
   /** Metric and transform typedefs */
   typedef typename Superclass::MetricType                             MetricType;
   typedef typename MetricType::Pointer                                MetricPointer;
   typedef typename MetricType::VirtualImageType                       VirtualImageType;
+  typedef typename MetricType::MeasureType                            MeasureType;
 
   typedef TTransform                                                  TransformType;
   typedef typename TransformType::Pointer                             TransformPointer;
@@ -141,11 +145,7 @@ public:
   itkSetMacro( LearningRate, RealType );
   itkGetConstMacro( LearningRate, RealType );
 
-  /** Set/Get the number of integration steps. */
-  itkSetMacro( NumberOfIntegrationStepsPerTimeIndex, SizeValueType );
-  itkGetConstMacro( NumberOfIntegrationStepsPerTimeIndex, SizeValueType );
-
-  /** Set/Get the number of iterations per level. */
+ /** Set/Get the number of iterations per level. */
   itkSetMacro( NumberOfIterationsPerLevel, NumberOfIterationsArrayType );
   itkGetConstMacro( NumberOfIterationsPerLevel, NumberOfIterationsArrayType );
 
@@ -161,6 +161,9 @@ protected:
   /** Perform the registration. */
   virtual void  GenerateData();
 
+  /** Multithreaded function which calculates the norm of the velocity field. */
+  void ThreadedGenerateData( const RegionType &, ThreadIdType );
+
   /** Handle optimization internally */
   virtual void StartOptimization();
 
@@ -169,11 +172,11 @@ private:
                                                              // implemented
   void operator=( const Self & );                            //purposely not
 
-  SizeValueType                                                   m_NumberOfIntegrationStepsPerTimeIndex;
-
   RealType                                                        m_LearningRate;
 
   RealType                                                        m_ConvergenceThreshold;
+
+  RealType                                                        m_VelocityFieldNorm;
 
   NumberOfIterationsArrayType                                     m_NumberOfIterationsPerLevel;
 };

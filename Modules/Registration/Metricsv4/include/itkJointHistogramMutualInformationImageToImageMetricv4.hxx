@@ -297,7 +297,15 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVi
   DerivativeType dummyDeriviative;
   this->m_DerivativeResult = &dummyDeriviative;
   this->InitializeForIteration();
-  this->m_Value = this->ComputeValue();
+  this->m_NumberOfValidPoints = this->m_JointHistogramTotalCount;
+  MeasureType value;
+  /* This checks for the default minimum number of valid points.
+   * It returns true if minimum is met, otherwise is put default
+   * values into value and dummyDerivative and returns false. */
+  if( this->VerifyNumberOfValidPoints( value, dummyDeriviative ) )
+    {
+    this->m_Value = this->ComputeValue();
+    }
   return this->m_Value;
 }
 

@@ -632,10 +632,14 @@ public:
   virtual void GetValueAndDerivative( MeasureType & value,
                                       DerivativeType & derivative ) const;
 
-  /* Get the number of sampled fixed sampled points that are
-   * deemed invalid during conversion to virtual domain in Initialize.
+  /** Get the number of sampled fixed sampled points that are
+   * deemed invalid during conversion to virtual domain in Initialize().
    * For informational purposes. */
   itkGetConstReferenceMacro(NumberOfSkippedFixedSampledPoints, SizeValueType);
+
+  /** Get the current metric value stored in m_Value. This is only
+   * meaningful after a call to GetValue() or GetValueAndDerivative() */
+  MeasureType GetCurrentValue();
 
 protected:
   /* Interpolators for image gradient filters. */
@@ -829,9 +833,17 @@ protected:
 
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /* Verify that virtual domain and displacement field are the same size
+  /** Verify that virtual domain and displacement field are the same size
    * and in the same physical space. */
   virtual void VerifyDisplacementFieldSizeAndPhysicalSpace();
+
+  /** Check that the number of valid points is above a default
+   * minimum (zero). If not, then return false, and assign to 'value' a value
+   * indicating insufficient valid points were found during evaluation, and set
+   * the derivative to zero. A warning is also output.
+   * This functionality is provided as a separate method so derived classes
+   * can use it without hardcoding the details. */
+  bool VerifyNumberOfValidPoints( MeasureType & value, DerivativeType & derivative ) const;
 
 private:
   /** Map the fixed point set samples to the virtual domain */

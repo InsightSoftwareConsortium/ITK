@@ -64,8 +64,36 @@ public:
 };
 
 template<unsigned int TDimension>
-int PerformTimeVaryingBSplineVelocityFieldImageRegistration( int itkNotUsed( argc ), char *argv[] )
+int PerformTimeVaryingBSplineVelocityFieldImageRegistration( int argc, char *argv[] )
 {
+
+  int numberOfAffineIterations = 100;
+  int numberOfDeformableIterationsLevel0 = 10;
+  int numberOfDeformableIterationsLevel1 = 20;
+  int numberOfDeformableIterationsLevel2 = 11;
+  double learningRate = static_cast<double>(0.5);
+
+  if( argc >= 6 )
+    {
+    numberOfAffineIterations = atoi( argv[5] );
+    }
+  if( argc >= 7 )
+    {
+    numberOfDeformableIterationsLevel0 = atoi( argv[6] );
+    }
+  if( argc >= 8 )
+    {
+    numberOfDeformableIterationsLevel1 = atoi( argv[7] );
+    }
+  if( argc >= 9 )
+    {
+    numberOfDeformableIterationsLevel2 = atoi( argv[8] );
+    }
+  if( argc >= 10 )
+    {
+    learningRate = atof( argv[9] );
+    }
+
   const unsigned int ImageDimension = TDimension;
 
   typedef float                                 PixelType;
@@ -106,7 +134,8 @@ int PerformTimeVaryingBSplineVelocityFieldImageRegistration( int itkNotUsed( arg
   typedef itk::GradientDescentOptimizerv4 GradientDescentOptimizerType;
   GradientDescentOptimizerType * optimizer = reinterpret_cast<GradientDescentOptimizerType *>(
     const_cast<typename AffineRegistrationType::OptimizerType *>( affineSimple->GetOptimizer() ) );
-  optimizer->SetNumberOfIterations( 100 );
+  optimizer->SetNumberOfIterations( numberOfAffineIterations );
+  std::cout << "number of affine iterations: " << numberOfAffineIterations << std::endl;
 
   typedef CommandIterationUpdate<AffineRegistrationType> AffineCommandType;
   typename AffineCommandType::Pointer affineObserver = AffineCommandType::New();
@@ -170,17 +199,20 @@ int PerformTimeVaryingBSplineVelocityFieldImageRegistration( int itkNotUsed( arg
   velocityFieldRegistration->SetNumberOfLevels( 3 );
   velocityFieldRegistration->SetCompositeTransform( compositeTransform );
   velocityFieldRegistration->SetMetric( correlationMetric );
-  velocityFieldRegistration->SetLearningRate( atof( argv[6] ) );
+  velocityFieldRegistration->SetLearningRate( learningRate );
+  std::cout << "learningRate: " << learningRate << std::endl;
   velocityFieldRegistration->GetTransform()->SetSplineOrder( 3 );
   velocityFieldRegistration->GetTransform()->SetLowerTimeBound( 0.0 );
   velocityFieldRegistration->GetTransform()->SetUpperTimeBound( 1.0 );
 
   typename VelocityFieldRegistrationType::ShrinkFactorsArrayType numberOfIterationsPerLevel;
   numberOfIterationsPerLevel.SetSize( 3 );
-  numberOfIterationsPerLevel[0] = atoi( argv[5] );
-  numberOfIterationsPerLevel[1] = 20;
-  numberOfIterationsPerLevel[2] = 11;
+  numberOfIterationsPerLevel[0] = numberOfDeformableIterationsLevel0;
+  numberOfIterationsPerLevel[1] = numberOfDeformableIterationsLevel1;
+  numberOfIterationsPerLevel[2] = numberOfDeformableIterationsLevel2;
   velocityFieldRegistration->SetNumberOfIterationsPerLevel( numberOfIterationsPerLevel );
+  std::cout << "iterations per level: " << numberOfIterationsPerLevel[0] << ", "
+            << numberOfIterationsPerLevel[1] << ", " << numberOfIterationsPerLevel[2] << std::endl;
 
   typename VelocityFieldRegistrationType::ShrinkFactorsArrayType shrinkFactorsPerLevel;
   shrinkFactorsPerLevel.SetSize( 3 );
@@ -361,9 +393,10 @@ int PerformTimeVaryingBSplineVelocityFieldImageRegistration( int itkNotUsed( arg
 
 int itkTimeVaryingBSplineVelocityFieldImageRegistrationTest( int argc, char *argv[] )
 {
-  if ( argc < 5 )
+  if ( argc < 4 )
     {
-    std::cout << argv[0] << " imageDimension fixedImage movingImage outputPrefix numberOfDeformableIterations learningRate" << std::endl;
+    std::cout << argv[0] << " imageDimension fixedImage movingImage outputPrefix [numberOfAffineIterations = 100] "
+              << "[numberOfDeformableIterationsLevel0 = 10] [numberOfDeformableIterationsLevel1 = 20] [numberOfDeformableIterationsLevel2 = 11 ] [learningRate = 0.5]" << std::endl;
     exit( 1 );
     }
 

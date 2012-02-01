@@ -278,10 +278,10 @@ int test1DCubicSpline()
   //    2) inside
   //    3) integer value
   //    4) outside image
-#define NPOINTS 4  // number of points
-  double darray1[NPOINTS] = {1.4, 8.9, 10.0, 40.0};
-  double truth[NPOINTS] = {334.41265437584, 18.158173426944, 4.0000, 0};
-  bool b_Inside[NPOINTS] = {true, true, true, false};
+#define NPOINTS 5  // number of points
+  double darray1[NPOINTS] = {1.4, 8.9, 10.0, 40.0, -0.3};
+  double truth[NPOINTS] = {334.41265437584, 18.158173426944, 4.0000, 0, 442.24157192006658};
+  bool b_Inside[NPOINTS] = {true, true, true, false, true};
 
   // an integer position inside the image
   for (int ii=0; ii < NPOINTS; ii++)
@@ -411,14 +411,16 @@ int test3DSpline()
     //    2) inside
     //    3) integer value
     //    4) outside image
-#define NPOINTS3 4  // number of points
+#define NPOINTS3 5  // number of points
 
-    double darray1[NPOINTS3][ImageDimension3D] = {{0.1, 20.1, 28.4}, {21.58, 34.5, 17.2 }, {10, 20, 12}, { 15, 20.2, 31}};
+    double darray1[NPOINTS3][ImageDimension3D]
+      = {{0.1, 20.1, 28.4}, {21.58, 34.5, 17.2}, {10, 20, 12}, {15, 20.2, 31}, {2, 0.3, -0.3}};
     double truth[NPOINTS3][4] = {{48.621593795, 48.651173138, 48.656914878, 48.662256571},
-        { 73.280126903, 73.280816965, 73.282780615, 73.285315943},
-        { 42.0, 42.0, 42.0, 42.0},
-        {0,0,0,0}};
-    bool b_Inside[NPOINTS3] = {true, true, true, false};
+        {73.280126903, 73.280816965, 73.282780615, 73.285315943},
+        {42.0, 42.0, 42.0, 42.0},
+        {0, 0, 0, 0},
+        {  2.2545584407825165, 2.2722384004239382, 2.2533523347849744, 2.2516795363567588}};
+    bool b_Inside[NPOINTS3] = {true, true, true, false, true};
    // double darray1[2];
 
     // an integer position inside the image

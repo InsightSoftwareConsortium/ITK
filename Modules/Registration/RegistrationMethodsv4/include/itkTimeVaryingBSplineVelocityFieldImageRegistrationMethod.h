@@ -119,6 +119,7 @@ public:
   typedef typename Superclass::MetricType                             MetricType;
   typedef typename MetricType::Pointer                                MetricPointer;
   typedef typename MetricType::VirtualImageType                       VirtualImageType;
+  typedef typename MetricType::MeasureType                            MeasureType;
 
   typedef TTransform                                                                     TransformType;
   typedef typename TransformType::Pointer                                                TransformPointer;
@@ -142,10 +143,6 @@ public:
   /** Set/Get the learning rate. */
   itkSetMacro( LearningRate, RealType );
   itkGetConstMacro( LearningRate, RealType );
-
-  /** Set/Get the number of integration steps. */
-  itkSetMacro( NumberOfIntegrationStepsPerTimeIndex, SizeValueType );
-  itkGetConstMacro( NumberOfIntegrationStepsPerTimeIndex, SizeValueType );
 
   /** Set/Get the number of iterations per level. */
   itkSetMacro( NumberOfIterationsPerLevel, NumberOfIterationsArrayType );
@@ -176,8 +173,6 @@ private:
   void operator=( const Self & );                            //purposely not
 
   RealType                                                        m_LearningRate;
-
-  SizeValueType                                                   m_NumberOfIntegrationStepsPerTimeIndex;
 
   RealType                                                        m_ConvergenceThreshold;
 

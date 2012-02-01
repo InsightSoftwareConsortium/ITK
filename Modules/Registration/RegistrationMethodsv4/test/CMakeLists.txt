@@ -46,7 +46,10 @@ itk_add_test(NAME itkTimeVaryingBSplineVelocityFieldImageRegistrationTest
               DATA{Input/r16slice_rigid.nii.gz}
               DATA{Input/r64slice.nii.gz}
               ${TEMP}/itkTimeVaryingBSplineVelocityFieldImageRegistrationTest
-              10  # number of optimization iterations of the displacement field
+              2  # number of optimization iterations of the affine transform
+              1  # number of iterations for first level of the displacement field
+              1  # number of iterations for second level of the displacement field
+              1  # number of iterations for third level of the displacement field
               0.5 # learning rate
               )
 

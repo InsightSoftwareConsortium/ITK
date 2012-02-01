@@ -27,9 +27,13 @@ namespace itk
  *
  *  This optimizer will do a combined gradient descent optimization using whatever metric/optimizer gradient
  *  sub-optimizers are passed to it by the user.  The learning rate or scaleestimator for each sub-optimizer
- *  controls the relative weight of each metric in the optimization.  Denote the weights as w_1 and w_2 then
- *  the MultiGradientOptimizer will optimize \sum_i w_i Metric_i by using update rule:
- *    params_new = params_old + 1/N_Metrics * ( \sum_i w_i Grad(Metric_i) )
+ *  controls the relative weight of each metric in the optimization.  Denote the weights as \f$ w_1 \f$ and \f$ w_2 \f$ then
+ *  the MultiGradientOptimizer will optimize \f$ \sum_i w_i Metric_i \f$ by using update rule:
+ *
+ *  \f[
+ *    params_{new} = params_{old} + \frac{1}{N_{Metrics}} * ( \sum_i w_i Grad(Metric_i) )
+ *  \f]
+ *
  *  The test for this class illustrates the expected behavior.
  *
  * \ingroup ITKOptimizersv4

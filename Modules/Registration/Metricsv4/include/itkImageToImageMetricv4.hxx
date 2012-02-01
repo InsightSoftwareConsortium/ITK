@@ -92,6 +92,8 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
   this->m_FloatingPointCorrectionResolution = 1e4;
 
   this->m_HaveMadeGetValueWarning = false;
+
+  this->m_Value = NumericTraits<MeasureType>::max();
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
@@ -996,6 +998,15 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
+typename
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >::MeasureType
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
+::GetCurrentValue()
+{
+  return m_Value;
+}
+
+template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::VerifyDisplacementFieldSizeAndPhysicalSpace()
@@ -1095,6 +1106,23 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
                         << originString.str() << spacingString.str()
                         << directionString.str() );
       }
+}
+
+template<class TFixedImage,class TMovingImage,class TVirtualImage>
+bool
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
+::VerifyNumberOfValidPoints( MeasureType & value, DerivativeType & derivative) const
+{
+  if( this->m_NumberOfValidPoints == 0 )
+    {
+    value = NumericTraits<MeasureType>::max();
+    derivative.Fill( NumericTraits<DerivativeValueType>::Zero );
+    itkWarningMacro("No valid points were found during metric evaluation. "
+                    "Verify that the images overlap appropriately. "
+                    "For instance, you can align the image centers by translation.");
+    return false;
+    }
+  return true;
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>

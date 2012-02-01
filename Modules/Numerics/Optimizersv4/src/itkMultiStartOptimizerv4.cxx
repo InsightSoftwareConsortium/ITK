@@ -180,7 +180,7 @@ MultiStartOptimizerv4
       this->m_Value = this->m_Metric->GetValue();
       this->m_MetricValuesList.push_back(this->m_Value);
       }
-    catch ( ExceptionObject & err )
+    catch ( ExceptionObject & )
       {
       /** We simply ignore this exception because it may just be a bad starting point.
        *  We hope that other start points are better.

@@ -213,51 +213,60 @@ int itkCorrelationImageToImageMetricv4Test(int, char ** const)
 
   MetricType::MeasureType value1, value2;
   MetricType::DerivativeType derivative1, derivative2;
-  int ret1, ret2;
+  int ret;
+  int result = EXIT_SUCCESS;
 
   metric->SetMaximumNumberOfThreads(1);
   std::cerr << "Setting number of metric threads to " << metric->GetMaximumNumberOfThreads() << std::endl;
-  ret1 = itkCorrelationImageToImageMetricv4Test_WithSpecifiedThreads(metric, value1, derivative1);
-
-  if (!ret1)
+  ret = itkCorrelationImageToImageMetricv4Test_WithSpecifiedThreads(metric, value1, derivative1);
+  if( ret == EXIT_FAILURE )
     {
-    metric->SetMaximumNumberOfThreads(8);
-    std::cerr << "Setting number of metric threads to " << metric->GetMaximumNumberOfThreads() << std::endl;
-    ret2 = itkCorrelationImageToImageMetricv4Test_WithSpecifiedThreads(metric, value2, derivative2);
-    }
-  else
-    {
-    return ret1;
+    result = EXIT_FAILURE;
     }
 
-  if (!ret2)
+  metric->SetMaximumNumberOfThreads(8);
+  std::cerr << "Setting number of metric threads to " << metric->GetMaximumNumberOfThreads() << std::endl;
+  ret = itkCorrelationImageToImageMetricv4Test_WithSpecifiedThreads(metric, value2, derivative2);
+  if( ret == EXIT_FAILURE )
     {
-    int ret3 = EXIT_SUCCESS;
-    double myeps = 1e-8;
-    if (vnl_math_abs(value1 - value2) > 1e-8)
-      {
-      std::cerr << "value1: " << value1 << std::endl;
-      std::cerr << "value2: " << value2 << std::endl;
-      std::cerr << "Got different metric values when set threading number differently." << std::endl;
-      ret3 = EXIT_FAILURE;
-      }
-
-    vnl_vector<double> ddiff = (vnl_vector<double>) derivative1 - (vnl_vector<double>) derivative2;
-    if (ddiff.two_norm() > myeps)
-      {
-      std::cerr << "derivative1: " << derivative1 << std::endl;
-      std::cerr << "derivative2: " << derivative2 << std::endl;
-      std::cerr << "Got different derivative values when set threading number differently." << std::endl;
-      ret3 = EXIT_FAILURE;
-      }
-
-    return ret3;
-    }
-  else
-    {
-    return ret2;
+    result = EXIT_FAILURE;
     }
 
-  return EXIT_SUCCESS;
+  double myeps = 1e-8;
+  if (vnl_math_abs(value1 - value2) > 1e-8)
+    {
+    std::cerr << "value1: " << value1 << std::endl;
+    std::cerr << "value2: " << value2 << std::endl;
+    std::cerr << "Got different metric values when set threading number differently." << std::endl;
+    result = EXIT_FAILURE;
+    }
 
+  vnl_vector<double> ddiff = (vnl_vector<double>) derivative1 - (vnl_vector<double>) derivative2;
+  if (ddiff.two_norm() > myeps)
+    {
+    std::cerr << "derivative1: " << derivative1 << std::endl;
+    std::cerr << "derivative2: " << derivative2 << std::endl;
+    std::cerr << "Got different derivative values when set threading number differently." << std::endl;
+    result = EXIT_FAILURE;
+    }
+
+  // Test that non-overlapping images will generate a warning
+  // and return max value for metric value.
+  MovingTransformType::ParametersType parameters( imageDimensionality );
+  parameters.Fill( static_cast<MovingTransformType::ParametersValueType>(1000) );
+  movingTransform->SetParameters( parameters );
+  MetricType::MeasureType expectedMetricMax, valueReturn;
+  MetricType::DerivativeType derivativeReturn;
+  expectedMetricMax = itk::NumericTraits<MetricType::MeasureType>::max();
+  std::cout << "Testing non-overlapping images. Expect a warning:" << std::endl;
+  metric->GetValueAndDerivative( valueReturn, derivativeReturn );
+  if( metric->GetNumberOfValidPoints() != 0 || valueReturn != expectedMetricMax )
+    {
+    std::cerr << "Failed testing for non-overlapping images. " << std::endl
+              << "  Number of valid points: " << metric->GetNumberOfValidPoints() << std::endl
+              << "  Metric value: " << valueReturn << std::endl
+              << "  Expected metric max value: " << expectedMetricMax << std::endl;
+    }
+
+  return result;
 }
