@@ -22,9 +22,7 @@
 
 #include "itkComposeDisplacementFieldsImageFilter.h"
 #include "itkImageRegionIterator.h"
-#include "itkStatisticsImageFilter.h"
 #include "itkVectorLinearInterpolateImageFunction.h"
-#include "itkVectorMagnitudeImageFilter.h"
 
 namespace itk
 {
@@ -46,6 +44,9 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
   this->m_Interpolator = interpolator;
 
   this->m_ComposedField = DisplacementFieldType::New();
+  this->m_ScaledNormImage = RealImageType::New();
+  this->m_EnforceBoundaryCondition = true;
+
 }
 
 template<class TInputImage, class TOutputImage>
@@ -84,26 +85,27 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
   typename InverseDisplacementFieldType::Pointer inverseDisplacementField = this->GetOutput();
   inverseDisplacementField->FillBuffer( zeroVector );
 
-  this->m_NormalizationFactor = 1.0;
   for( unsigned int d = 0; d < ImageDimension; d++ )
     {
     this->m_DisplacementFieldSpacing[d] = displacementField->GetSpacing()[d];
-    this->m_NormalizationFactor /= this->m_DisplacementFieldSpacing[d];
     }
 
+  this->m_ScaledNormImage->CopyInformation( displacementField );
+  this->m_ScaledNormImage->SetRegions( displacementField->GetRequestedRegion() );
+  this->m_ScaledNormImage->Allocate();
+  this->m_ScaledNormImage->FillBuffer( 0.0 );
+
+  SizeValueType numberOfPixelsInRegion = ( displacementField->GetRequestedRegion() ).GetNumberOfPixels();
   this->m_MaxErrorNorm = NumericTraits<RealType>::max();
   this->m_MeanErrorNorm = NumericTraits<RealType>::max();
   unsigned int iteration = 0;
 
   while( iteration++ < this->m_MaximumNumberOfIterations &&
     this->m_MaxErrorNorm > this->m_MaxErrorToleranceThreshold &&
-    this->m_MeanErrorNorm > m_MeanErrorToleranceThreshold )
+    this->m_MeanErrorNorm > this->m_MeanErrorToleranceThreshold )
     {
     itkDebugMacro( "Iteration " << iteration << ": mean error norm = " << this->m_MeanErrorNorm
       << ", max error norm = " << this->m_MaxErrorNorm );
-
-    this->m_MeanErrorNorm = 0.0;
-    this->m_MaxErrorNorm = 0.0;
 
     typedef ComposeDisplacementFieldsImageFilter<DisplacementFieldType> ComposerType;
     typename ComposerType::Pointer composer = ComposerType::New();
@@ -117,6 +119,9 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
     /**
      * Multithread processing to multiply each element of the composed field by 1 / spacing
      */
+    this->m_MeanErrorNorm = NumericTraits<RealType>::Zero;
+    this->m_MaxErrorNorm = NumericTraits<RealType>::Zero;
+
     this->m_DoThreadedEstimateInverse = false;
     typename ImageSource<TOutputImage>::ThreadStruct str0;
     str0.Filter = this;
@@ -124,17 +129,7 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
     this->GetMultiThreader()->SetSingleMethod( this->ThreaderCallback, &str0 );
     this->GetMultiThreader()->SingleMethodExecute();
 
-    typedef VectorMagnitudeImageFilter<DisplacementFieldType, RealImageType> NormFilterType;
-    typename NormFilterType::Pointer normFilter = NormFilterType::New();
-    normFilter->SetInput( this->m_ComposedField );
-
-    typedef StatisticsImageFilter<RealImageType> StatisticsType;
-    typename StatisticsType::Pointer statistics = StatisticsType::New();
-    statistics->SetInput( normFilter->GetOutput() );
-    statistics->Update();
-
-    this->m_MeanErrorNorm = statistics->GetMean();
-    this->m_MaxErrorNorm = statistics->GetMaximum();
+    this->m_MeanErrorNorm /= static_cast<RealType>( numberOfPixelsInRegion );
 
     this->m_Epsilon = 0.5;
     if( iteration == 1 )
@@ -159,34 +154,62 @@ void
 InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
 ::ThreadedGenerateData( const RegionType & region, ThreadIdType itkNotUsed( threadId ) )
 {
+  const typename DisplacementFieldType::RegionType fullregion = this->m_ComposedField->GetRequestedRegion();
+  const typename DisplacementFieldType::SizeType size = fullregion.GetSize();
+  const typename DisplacementFieldType::IndexType startIndex = fullregion.GetIndex();
+  const typename DisplacementFieldType::PixelType zeroVector( 0.0 );
   ImageRegionIterator<DisplacementFieldType> ItE( this->m_ComposedField, region );
+  ImageRegionIterator<RealImageType> ItS( this->m_ScaledNormImage, region );
 
   if( this->m_DoThreadedEstimateInverse )
     {
     ImageRegionIterator<DisplacementFieldType> ItI( this->GetOutput(), region );
 
-    for( ItI.GoToBegin(), ItE.GoToBegin(); !ItI.IsAtEnd(); ++ItI, ++ItE )
+    for( ItI.GoToBegin(), ItE.GoToBegin(), ItS.GoToBegin(); !ItI.IsAtEnd(); ++ItI, ++ItE, ++ItS )
       {
-      VectorType update = -ItE.Get();
-      RealType updateNorm = update.GetNorm();
+      VectorType update = ItE.Get();
+      RealType scaledNorm = ItS.Get();
 
-      if( updateNorm > this->m_Epsilon * this->m_MaxErrorNorm / this->m_NormalizationFactor )
+      if( scaledNorm > this->m_Epsilon * this->m_MaxErrorNorm  )
         {
-        update *= ( this->m_Epsilon * this->m_MaxErrorNorm / ( updateNorm * this->m_NormalizationFactor ) );
+        update *= ( this->m_Epsilon * this->m_MaxErrorNorm / scaledNorm );
         }
-      ItI.Set( ItI.Get() + update * this->m_Epsilon );
+      update = ItI.Get() + update * this->m_Epsilon;
+      ItI.Set( update );
+      typename DisplacementFieldType::IndexType index = ItI.GetIndex();
+      if ( this->m_EnforceBoundaryCondition )
+        {
+        for ( unsigned int dimension = 0; dimension < ImageDimension; ++dimension )
+          {
+          if ( index[dimension] == startIndex[dimension] || index[dimension] == static_cast<IndexValueType>( size[dimension] ) - startIndex[dimension] - 1 )
+            {
+            ItI.Set( zeroVector );
+            break;
+            }
+          }
+        } // enforce boundary condition
       }
     }
   else
     {
-    for( ItE.GoToBegin(); !ItE.IsAtEnd(); ++ItE )
+    for( ItE.GoToBegin(), ItS.GoToBegin(); !ItE.IsAtEnd(); ++ItE, ++ItS )
       {
       VectorType displacement = ItE.Get();
+      RealType scaledNorm = 0.0;
       for( unsigned int d = 0; d < ImageDimension; d++ )
         {
-        displacement[d] /= this->m_DisplacementFieldSpacing[d];
+        scaledNorm += vnl_math_sqr( displacement[d] / this->m_DisplacementFieldSpacing[d] );
         }
-      ItE.Set( displacement );
+      scaledNorm = vcl_sqrt( scaledNorm );
+
+      this->m_MeanErrorNorm += scaledNorm;
+      if( this->m_MaxErrorNorm < scaledNorm )
+        {
+        this->m_MaxErrorNorm = scaledNorm;
+        }
+
+      ItS.Set( scaledNorm );
+      ItE.Set( -displacement );
       }
     }
 }

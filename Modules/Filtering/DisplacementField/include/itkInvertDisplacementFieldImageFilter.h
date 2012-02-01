@@ -121,6 +121,10 @@ public:
   /* Get the mean norm */
   itkGetConstMacro( MeanErrorNorm, RealType );
 
+/* Should we force the boundary to have zero displacement? */
+  itkSetMacro( EnforceBoundaryCondition, bool );
+  itkGetMacro( EnforceBoundaryCondition, bool );
+
 protected:
 
   /** Constructor */
@@ -153,12 +157,15 @@ private:
   // internal ivars necessary for multithreading basic operations
 
   typename DisplacementFieldType::Pointer           m_ComposedField;
+  typename RealImageType::Pointer                   m_ScaledNormImage;
+
   RealType                                          m_MaxErrorNorm;
   RealType                                          m_MeanErrorNorm;
-  RealType                                          m_NormalizationFactor;
   RealType                                          m_Epsilon;
   SpacingType                                       m_DisplacementFieldSpacing;
   bool                                              m_DoThreadedEstimateInverse;
+  bool                                              m_EnforceBoundaryCondition;
+
 };
 
 } // end namespace itk

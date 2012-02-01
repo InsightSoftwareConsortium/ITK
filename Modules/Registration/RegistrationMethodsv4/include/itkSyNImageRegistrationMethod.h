@@ -44,6 +44,25 @@ class Array1DToData;
  * Output: The output is the updated transform which has been added to the
  * composite transform.
  *
+ * This implementation is based on the source code in Advanced Normalization Tools (ANTs)
+ *
+ *   Avants, B. B.; Tustison, N. J.; Song, G.; Cook, P. A.; Klein, A. & Gee, J. C.
+ *   A reproducible evaluation of ANTs similarity metric performance in brain image registration.
+ *   Neuroimage, Penn Image Computing and Science Laboratory, University of Pennsylvania,
+ *   2011, 54, 2033-2044
+ *
+ * The original paper discussing the method is here:
+ *
+ *  Avants, B. B.; Epstein, C. L.; Grossman, M. & Gee, J. C.
+ *  Symmetric diffeomorphic image registration with cross-correlation:
+ *  evaluating automated labeling of elderly and neurodegenerative brain.
+ *  Med Image Anal, Department of Radiology, University of Pennsylvania,
+ *  2008, 12, 26-41
+ *
+ * The method evolved since that time with crucial contributions from Gang Song and
+ * Nick Tustison. Though similar in spirit, this implementation is not identical.
+ *
+ * \todo Need to allow the fixed image to have a composite transform.
  *
  * \author Nick Tustison
  * \author Brian Avants
@@ -81,7 +100,7 @@ public:
   typedef typename Superclass::MetricType                             MetricType;
   typedef typename MetricType::Pointer                                MetricPointer;
   typedef typename MetricType::VirtualImageType                       VirtualImageType;
-
+  typedef typename MetricType::MeasureType                            MeasureType;
   typedef TTransform                                                  TransformType;
   typedef typename TransformType::Pointer                             TransformPointer;
   typedef typename TransformType::ScalarType                          RealType;
@@ -110,6 +129,19 @@ public:
   /** Set/Get the convergence threshold */
   itkSetMacro( ConvergenceThreshold, RealType );
   itkGetConstMacro( ConvergenceThreshold, RealType );
+
+  /** Let the user control whether we compute metric derivatives in the downsampled or full-res space.
+   *  The default is 'true' --- classic SyN --- but there may be advantages to the other approach.
+   *  Classic SyN did not have this possibility. This implementation will let us explore the question.
+   */
+  itkSetMacro( DownsampleImagesForMetricDerivatives, bool );
+  itkGetConstMacro( DownsampleImagesForMetricDerivatives, bool );
+
+  /** Allow the user to average the gradients in the mid-point domain. Default false.
+   *  One might choose to do this to further reduce bias.
+   */
+  itkSetMacro( AverageMidPointGradients, bool );
+  itkGetConstMacro( AverageMidPointGradients, bool );
 
   /**
    * Get/Set the Gaussian smoothing standard deviation for the update field.
@@ -142,7 +174,7 @@ protected:
    */
   virtual void InitializeRegistrationAtEachLevel( const SizeValueType );
 
-  virtual DisplacementFieldPointer ComputeUpdateField( const TFixedImage *, const TransformBaseType *, const TMovingImage *, const TransformBaseType * );
+  virtual DisplacementFieldPointer ComputeUpdateField( const TFixedImage *, const TransformBaseType *, const TMovingImage *, const TransformBaseType * , MeasureType & );
   virtual DisplacementFieldPointer GaussianSmoothDisplacementField( const DisplacementFieldType *, const RealType );
 
 private:
@@ -160,6 +192,9 @@ private:
   RealType                                                        m_ConvergenceThreshold;
 
   NumberOfIterationsArrayType                                     m_NumberOfIterationsPerLevel;
+  bool                                                            m_DownsampleImagesForMetricDerivatives;
+  bool                                                            m_AverageMidPointGradients;
+
 };
 } // end namespace itk
 

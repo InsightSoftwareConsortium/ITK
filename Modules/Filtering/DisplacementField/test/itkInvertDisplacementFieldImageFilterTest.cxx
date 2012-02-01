@@ -57,7 +57,7 @@ int itkInvertDisplacementFieldImageFilterTest( int, char * [] )
   inverter->SetMaximumNumberOfIterations( numberOfIterations );
   inverter->SetMeanErrorToleranceThreshold( meanTolerance );
   inverter->SetMaxErrorToleranceThreshold( maxTolerance );
-
+  inverter->SetEnforceBoundaryCondition( false );
   std::cout << "number of iterations: " << inverter->GetMaximumNumberOfIterations() << std::endl;
   std::cout << "mean error tolerance: " << inverter->GetMeanErrorToleranceThreshold() << std::endl;
   std::cout << "max error tolerance: " << inverter->GetMaxErrorToleranceThreshold() << std::endl;
