@@ -44,7 +44,8 @@ namespace itk
  *  \ingroup ITKLevelSetsv4
  */
 template< class TInput, // Input image or mesh
-          class TLevelSetContainer >
+          class TLevelSetContainer,
+          class TCurvatureImage = TInput >
 class LevelSetEquationCurvatureTerm :
     public LevelSetEquationTermBase< TInput, TLevelSetContainer >
 {
@@ -85,6 +86,19 @@ public:
 
   itkStaticConstMacro(ImageDimension, unsigned int, InputImageType::ImageDimension);
 
+  typedef TCurvatureImage                       CurvatureImageType;
+  typedef typename CurvatureImageType::Pointer  CurvatureImagePointer;
+
+  /** Set/Get the propagation image. By default, if no PropagationImage has
+  been set, it casts the input image and uses it in the term contribution
+  calculation. */
+  void SetCurvatureImage( CurvatureImageType* CurvatureImage );
+  itkGetObjectMacro( CurvatureImage, CurvatureImageType );
+
+  itkSetMacro( UseCurvatureImage, bool );
+  itkGetMacro( UseCurvatureImage, bool );
+  itkBooleanMacro( UseCurvatureImage );
+
   /** Neighborhood radius type */
   typedef ZeroFluxNeumannBoundaryCondition< InputImageType > DefaultBoundaryConditionType;
   typedef typename ConstNeighborhoodIterator< InputImageType >::RadiusType RadiusType;
@@ -120,6 +134,10 @@ protected:
   virtual LevelSetOutputRealType Value( const LevelSetInputIndexType& iP, const LevelSetDataType& iData );
 
   LevelSetOutputRealType  m_NeighborhoodScales[ImageDimension];
+
+  CurvatureImagePointer m_CurvatureImage;
+
+  bool m_UseCurvatureImage;
 
 private:
   LevelSetEquationCurvatureTerm( const Self& ); // purposely not implemented

@@ -161,8 +161,42 @@ int itkLevelSetEquationCurvatureTermTest( int argc, char* argv[] )
 
   index[0] = 10;
   index[1] = 20;
-  if( vnl_math_abs( term->Evaluate( index ) ) >  5e-2 )
+
+  CurvatureTermType::LevelSetOutputRealType value = term->Evaluate( index );
+  if( vnl_math_abs( value ) >  5e-2 )
     {
+    std::cerr << "( vnl_math_abs( " << value << " ) >  5e-2 )" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  term->SetCurvatureImage( binary );
+
+  if( term->GetCurvatureImage() != binary )
+    {
+    std::cerr << "term->GetCurvatureImage != binary" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  term->InitializeParameters();
+  term->Update();
+
+  if( term->Evaluate( index ) != value * binary->GetPixel( index ) )
+    {
+    std::cerr << "term->Evaluate( index ) != value * binary->GetPixel( index )" << std::endl;
+    std::cerr << "term->Evaluate( index ) = " << term->Evaluate( index ) << std::endl;
+    std::cerr << "value = " << value << std::endl;
+    std::cerr << "binary->GetPixel( index ) = " << binary->GetPixel( index ) << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  term->SetUseCurvatureImage( false );
+
+  if( term->Evaluate( index ) != value )
+    {
+    std::cerr << "term->Evaluate( index ) != value" << std::endl;
+    std::cerr << "term->Evaluate( index ) = " << term->Evaluate( index ) << std::endl;
+    std::cerr << "value = " << value << std::endl;
+
     return EXIT_FAILURE;
     }
 
