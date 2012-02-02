@@ -227,16 +227,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
       }
     }
 
-  SizeValueType numberOfPoints;
-  if( this->m_UseFixedSampledPointSet )
-    {
-    numberOfPoints = this->m_FixedSampledPointSet->GetNumberOfPoints();
-    }
-  else
-    {
-    typename FixedImageType::RegionType region = this->m_FixedImage->GetBufferedRegion();
-    numberOfPoints = region.GetNumberOfPixels();
-    }
+  SizeValueType numberOfPoints = this->GetNumberOfDomainPoints();
 
   if( this->GetNumberOfValidPoints() < numberOfPoints / 16 )
     {
