@@ -31,7 +31,6 @@
 #include "itkBSplineInterpolateImageFunction.h"
 
 
-
   typedef double InputPixelType;
   typedef double CoordRepType;
 
@@ -94,7 +93,6 @@ void set3DInterpData(typename TImage::Pointer imgPtr)
   imgPtr->SetLargestPossibleRegion( region );
   imgPtr->SetBufferedRegion( region );
   imgPtr->Allocate();
-
 
   /* Set origin and spacing of physical coordinates */
 
@@ -242,7 +240,6 @@ double * trueValue )
 
 }
 
-
 // Run a series of tests to validate the 1D
 // cubic spline implementation.
 int test1DCubicSpline()
@@ -300,7 +297,6 @@ int test1DCubicSpline()
 
   return (flag);
 }
-
 
 int test2DSpline()
 {
@@ -552,19 +548,19 @@ int testInteger3DSpline()
     //    2) inside
     //    3) integer value
     //    4) outside image
-#define NPOINTS5 4  // number of points
+#define NPOINTS4b 4  // number of points
 
     // Note: the answers should be the same as for the test3DSpline
-    double darray1[NPOINTS5][ImageDimension3D] = {{0.1, 20.1, 28.4}, {21.58, 34.5, 17.2 }, {10, 20, 12}, { 15, 20.2, 31}};
-    double truth[NPOINTS5][4] = {{48.621593795, 48.651173138, 48.656914878, 48.662256571},
+    double darray1[NPOINTS4b][ImageDimension3D] = {{0.1, 20.1, 28.4}, {21.58, 34.5, 17.2 }, {10, 20, 12}, { 15, 20.2, 31}};
+    double truth[NPOINTS4b][4] = {{48.621593795, 48.651173138, 48.656914878, 48.662256571},
         { 73.280126903, 73.280816965, 73.282780615, 73.285315943},
         { 42.0, 42.0, 42.0, 42.0},
         {0,0,0,0}};
-    bool b_Inside[NPOINTS3] = {true, true, true, false};
+    bool b_Inside[NPOINTS4b] = {true, true, true, false};
    // double darray1[2];
 
     // an integer position inside the image
-    for (int ii=0; ii < NPOINTS3; ii++)
+    for (int ii=0; ii < NPOINTS4b; ii++)
       {
      // darray1[0] = darray[ii][0];
      // darray1[1] = darray[ii][1];
@@ -601,7 +597,6 @@ itkBSplineInterpolateImageFunctionTest(
   flag += test3DSplineDerivative();
 
   flag += testInteger3DSpline();
-
 
   /* Return results of test */
   if (flag != 0) {
@@ -641,7 +636,6 @@ void set1DInterpData(ImageType1D::Pointer imgPtr)
     ++j;
     }
 
-
 }
 
 void set2DInterpData(ImageType2D::Pointer imgPtr)
@@ -677,9 +671,7 @@ void set2DInterpData(ImageType2D::Pointer imgPtr)
     ++j;
     }
 
-
 }
-
 
 void set3DDerivativeData(ImageType3D::Pointer imgPtr)
 {
@@ -692,7 +684,6 @@ void set3DDerivativeData(ImageType3D::Pointer imgPtr)
   imgPtr->SetLargestPossibleRegion( region );
   imgPtr->SetBufferedRegion( region );
   imgPtr->Allocate();
-
 
   /* Set origin and spacing of physical coordinates */
 
