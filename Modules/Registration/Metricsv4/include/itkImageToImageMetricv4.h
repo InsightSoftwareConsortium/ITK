@@ -405,6 +405,10 @@ public:
   typedef typename Superclass::DerivativeType DerivativeType;
   typedef typename DerivativeType::ValueType  DerivativeValueType;
 
+  /** Type to represent the number of parameters that are being optimized at
+   * any given iteration of the optimizer. */
+  typedef typename Superclass::NumberOfParametersType   NumberOfParametersType;
+
   /* Set/get images */
   /** Connect the Fixed Image.  */
   itkSetConstObjectMacro(FixedImage, FixedImageType);
@@ -561,16 +565,18 @@ public:
   /** Get number of valid points from most recent update */
   itkGetConstMacro( NumberOfValidPoints, SizeValueType );
 
+  /** Get the number of points in the domain used to evaluate
+   * the metric. This will differ depending on whether a sampled
+   * point set or dense sampling is used, and will be greater than
+   * or equal to GetNumberOfValidPoints(). */
+  SizeValueType GetNumberOfDomainPoints() const;
+
   /** Set/Get the floating point resolution used by the derivatives.  This
    * If this is set to 1e5, then the derivative will have precision up to 5
    * points beyond the decimal point. And precision beyond that will be
    * truncated. */
   itkSetMacro( FloatingPointCorrectionResolution, DerivativeValueType );
   itkGetConstMacro( FloatingPointCorrectionResolution, DerivativeValueType );
-
-  /** Type to represent the number of parameters that are being optimized at
-   * any given iteration of the optimizer. */
-  typedef typename Superclass::NumberOfParametersType   NumberOfParametersType;
 
   /** Return the number of parameters.
    * \note Currently we're always optimizing the moving image transform,
@@ -638,7 +644,10 @@ public:
   itkGetConstReferenceMacro(NumberOfSkippedFixedSampledPoints, SizeValueType);
 
   /** Get the current metric value stored in m_Value. This is only
-   * meaningful after a call to GetValue() or GetValueAndDerivative() */
+   * meaningful after a call to GetValue() or GetValueAndDerivative().
+   * Note that this would normally be called GetValue, but that name is
+   * used for historical reasons by GetValue() to compute the current
+   * metric value and store it in m_Value. */
   MeasureType GetCurrentValue();
 
 protected:

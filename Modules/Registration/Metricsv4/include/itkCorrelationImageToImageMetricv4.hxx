@@ -75,13 +75,14 @@ CorrelationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage>
 
   if( this->m_UseFixedSampledPointSet ) // sparse sampling
     {
-    if( this->m_VirtualSampledPointSet->GetNumberOfPoints() < 1 )
+    SizeValueType numberOfPoints = this->GetNumberOfDomainPoints();
+    if( numberOfPoints < 1 )
       {
       itkExceptionMacro("FixedSampledPointSet must have 1 or more points.");
       }
     typename ImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Self >::DomainType range;
     range[0] = 0;
-    range[1] = this->m_VirtualSampledPointSet->GetNumberOfPoints() - 1;
+    range[1] = numberOfPoints - 1;
     this->m_HelperSparseThreader->Execute( const_cast< Self* >(this), range );
     }
   else // dense sampling

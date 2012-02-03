@@ -226,9 +226,14 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVi
    */
   if( this->m_UseFixedSampledPointSet )
     {
+    SizeValueType numberOfPoints = this->GetNumberOfDomainPoints();
+    if( numberOfPoints < 1 )
+      {
+      itkExceptionMacro("VirtualSampledPointSet must have 1 or more points.");
+      }
     typename JointHistogramMutualInformationSparseComputeJointPDFThreaderType::DomainType sampledRange;
     sampledRange[0] = 0;
-    sampledRange[1] = this->m_VirtualSampledPointSet->GetNumberOfPoints() - 1;
+    sampledRange[1] = numberOfPoints - 1;
     this->m_JointHistogramMutualInformationSparseComputeJointPDFThreader->Execute( const_cast<Self *>(this), sampledRange );
     }
   else

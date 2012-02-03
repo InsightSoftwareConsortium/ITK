@@ -332,13 +332,14 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 {
   if( this->m_UseFixedSampledPointSet ) // sparse sampling
     {
-    if( this->m_VirtualSampledPointSet->GetNumberOfPoints() < 1 )
+    SizeValueType numberOfPoints = this->GetNumberOfDomainPoints();
+    if( numberOfPoints < 1 )
       {
       itkExceptionMacro("VirtualSampledPointSet must have 1 or more points.");
       }
     typename ImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Self >::DomainType range;
     range[0] = 0;
-    range[1] = this->m_VirtualSampledPointSet->GetNumberOfPoints() - 1;
+    range[1] = numberOfPoints - 1;
     this->m_SparseGetValueAndDerivativeThreader->Execute( const_cast< Self* >(this), range );
     }
   else // dense sampling
@@ -953,6 +954,25 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
                         "all fixed sampled points were not within the virtual "
                         "domain after mapping. There are no points to evaulate.");
       }
+}
+
+
+template<class TFixedImage,class TMovingImage,class TVirtualImage>
+SizeValueType
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
+::GetNumberOfDomainPoints() const
+{
+  if( this->m_UseFixedSampledPointSet )
+    {
+    //The virtual sampled point set holds the actual points
+    // over which we're evaluating over.
+    return this->m_VirtualSampledPointSet->GetNumberOfPoints();
+    }
+  else
+    {
+    typename VirtualImageType::RegionType region = this->GetVirtualDomainRegion();
+    return region.GetNumberOfPixels();
+    }
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
