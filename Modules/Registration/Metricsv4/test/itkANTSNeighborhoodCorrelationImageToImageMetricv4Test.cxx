@@ -342,7 +342,24 @@ int itkANTSNeighborhoodCorrelationImageToImageMetricv4Test( int, char ** const )
     std::cout << std::endl << "derivative of moving transform as a field:" << std::endl;
     ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintDerivativeAsVectorImage(fixedImage, derivativeReturn, ImageDimension);
 
-    std::cout << "Test PASSED." << std::endl;
-    return EXIT_SUCCESS;
+  // Test that non-overlapping images will generate a warning
+  // and return max value for metric value.
+  DisplacementTransformType::ParametersType parameters( transformMdisplacement->GetNumberOfParameters() );
+  parameters.Fill( static_cast<DisplacementTransformType::ParametersValueType>(1000.0) );
+  transformMdisplacement->SetParameters( parameters );
+  MetricType::MeasureType expectedMetricMax, valueReturn;
+  expectedMetricMax = itk::NumericTraits<MetricType::MeasureType>::max();
+  std::cout << "Testing non-overlapping images. Expect a warning:" << std::endl;
+  metric->GetValueAndDerivative( valueReturn, derivativeReturn );
+  if( metric->GetNumberOfValidPoints() != 0 || valueReturn != expectedMetricMax )
+    {
+    std::cerr << "Failed testing for non-overlapping images. " << std::endl
+              << "  Number of valid points: " << metric->GetNumberOfValidPoints() << std::endl
+              << "  Metric value: " << valueReturn << std::endl
+              << "  Expected metric max value: " << expectedMetricMax << std::endl;
+    }
+
+  std::cout << "Test PASSED." << std::endl;
+  return EXIT_SUCCESS;
 
 }
