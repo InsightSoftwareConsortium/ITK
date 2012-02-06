@@ -20,17 +20,22 @@
  * Test program for itkGPUImage class.
  * This program shows how to use GPU image and GPU program.
  */
-#include "pathToOpenCLSourceCode.h"
+//#include "pathToOpenCLSourceCode.h"
 #include "itkGPUImage.h"
 #include "itkGPUKernelManager.h"
 #include "itkGPUContextManager.h"
+#include "itkGPUImageOps.h"
 
 typedef itk::GPUImage<float, 2> ItkImage1f;
 
-using namespace itk;
 
-int main()
+int itkGPUImageTest(int argc, char *argv[])
 {
+  if (argc > 1)
+  {
+    std::cout << "received " << argc << " arguments, but didn't expect any."
+              << "first ignored argument: " << argv[1] << std::endl;
+  }
   unsigned int width, height;
 
   width  = 256;
@@ -80,12 +85,12 @@ int main()
   //
   // create GPU program object
   //
-  GPUKernelManager::Pointer kernelManager = GPUKernelManager::New();
+  itk::GPUKernelManager::Pointer kernelManager = itk::GPUKernelManager::New();
 
   // load program and compile
-  std::string oclSrcPath = itk_root_path;
-  oclSrcPath += "/Code/GPU/ImageOps.cl";
-  kernelManager->LoadProgramFromFile( oclSrcPath.c_str(), "#define PIXELTYPE float\n" );
+
+  const char* GPUSource = itk::GPUImageOps::GetOpenCLSource();
+  kernelManager->LoadProgramFromString(GPUSource, "#define PIXELTYPE float\n");
 
   //
   // create addition kernel
@@ -147,12 +152,24 @@ int main()
   std::cout << "======================" << std::endl;
 
   //
-  // Change Command Queue
+  // Change Command Queue if more than one GPU device exists
+  // otherwise, use same command queue
   //
-  GPUContextManager *contextManager = GPUContextManager::GetInstance();
-  if(contextManager->GetNumCommandQueue() < 2) return 1;
+  unsigned int queueID = 0;
+  itk::GPUContextManager *contextManager = itk::GPUContextManager::GetInstance();
+  if(contextManager->GetNumberOfCommandQueues() >= 2)
+  {
+    queueID = 1;
+    std::cout << "More than one GPU device available, switching command queues."
+              << std::endl;
+  }
+  else
+  {
+    std::cout << "Only one GPU device available, using same command queue."
+              << std::endl;
+  }
 
-  std::cout << "Current Command Queue ID : 1 " << std::endl;
+  std::cout << "Current Command Queue ID : " << queueID << std::endl;
 
   //
   // create subtraction kernel
@@ -164,10 +181,10 @@ int main()
   dest->FillBuffer( 1.0f );
 
   // default queue id was 0
-  srcA->SetCurrentCommandQueue( 1 );
-  srcB->SetCurrentCommandQueue( 1 );
-  dest->SetCurrentCommandQueue( 1 );
-  kernelManager->SetCurrentCommandQueue( 1 );
+  srcA->SetCurrentCommandQueue( queueID );
+  srcB->SetCurrentCommandQueue( queueID );
+  dest->SetCurrentCommandQueue( queueID );
+  kernelManager->SetCurrentCommandQueue( queueID );
 
   std::cout << "======================" << std::endl;
   std::cout << "Kernel : Subtraction" << std::endl;

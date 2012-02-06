@@ -199,6 +199,11 @@ option(BUILD_EXAMPLES "Build the Examples directory."
 option(ITK_USE_GPU "GPU acceleration via OpenCL" OFF)
 mark_as_advanced(ITK_USE_GPU)
 
+if( ITK_USE_GPU )
+   include(itkOpenCL)
+endif( ITK_USE_GPU )
+
+#-----------------------------------------------------------------------------
 # Manage FFT v3 Options
 #
 # USE_FFTWD -- use double precision fftw
