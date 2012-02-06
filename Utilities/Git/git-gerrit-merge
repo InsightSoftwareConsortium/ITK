@@ -25,6 +25,13 @@ die() {
   exit 1
 }
 
+# Identify and validate the topic branch name.
+head="$(git symbolic-ref HEAD)" && topic="${head#refs/heads/}" || topic=''
+if test -z "$topic" -o "$topic" = "master"; then
+  die 'Please name your topic:
+git checkout -b descriptive-name'
+fi
+
 # Do not merge until it has been sent up to Gerrit for review.
 gerrit_remote=$(git config remote.gerrit.url)
 gerrit_push_url=$(git config remote.gerrit.pushurl)
