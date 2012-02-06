@@ -50,7 +50,7 @@ ssh $gerrit_url gerrit ls-projects >/dev/null || die "Could not connect to Gerri
 head_sha=$(git rev-parse HEAD)
 commit_count=$(ssh $gerrit_url gerrit query -- commit:$head_sha | awk '/rowCount/ { print $2 }')
 if test "$commit_count" -lt 1; then
-  read -ep "Are you sure you want to merge to ITK master? [N/y]: " merge_it
+  read -ep "Are you sure you want to merge '$topic' to ITK master? [N/y]: " merge_it
   if test "$merge_it" != "y" -a "$merge_it" != "Y"; then
     die "Merge cancelled."
   fi
