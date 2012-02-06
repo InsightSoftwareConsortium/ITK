@@ -136,8 +136,8 @@ test -n "$remote" || remote="gerrit"
 
 if test -z "$no_topic"; then
   # Identify and validate the topic branch name.
-  topic="$(git symbolic-ref HEAD | sed -e 's|^refs/heads/||')"
-  if test "$topic" = "master"; then
+  head="$(git symbolic-ref HEAD)" && topic="${head#refs/heads/}" || topic=''
+  if test -z "$topic" -o "$topic" = "master"; then
     die 'Please name your topic:
   git checkout -b descriptive-name'
   fi
