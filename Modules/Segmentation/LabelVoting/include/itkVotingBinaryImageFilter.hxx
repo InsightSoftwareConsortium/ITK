@@ -141,31 +141,20 @@ VotingBinaryImageFilter< TInputImage, TOutputImage >
           }
         }
 
-      if ( inpixel == m_BackgroundValue )
+      // Unless the birth or survival rate is meet the pixel will be
+      // the same value
+      it.Set( static_cast< OutputPixelType >( inpixel ) );
+
+      if ( inpixel == m_BackgroundValue && count >= m_BirthThreshold )
         {
-        if ( count >= m_BirthThreshold )
-          {
-          it.Set( static_cast< OutputPixelType >( m_ForegroundValue ) );
-          }
-        else
-          {
-          it.Set( static_cast< OutputPixelType >( m_BackgroundValue ) );
-          }
+        it.Set( static_cast< OutputPixelType >( m_ForegroundValue ) );
         }
-      else
+      else if ( inpixel == m_ForegroundValue && count < m_SurvivalThreshold )
         {
-        if ( inpixel == m_ForegroundValue )
-          {
-          if ( count >= m_SurvivalThreshold )
-            {
-            it.Set( static_cast< OutputPixelType >( m_ForegroundValue ) );
-            }
-          else
-            {
-            it.Set( static_cast< OutputPixelType >( m_BackgroundValue ) );
-            }
-          }
+        it.Set( static_cast< OutputPixelType >( m_BackgroundValue ) );
         }
+
+
       ++bit;
       ++it;
       progress.CompletedPixel();

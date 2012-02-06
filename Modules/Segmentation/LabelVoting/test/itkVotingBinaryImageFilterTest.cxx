@@ -16,111 +16,135 @@
  *
  *=========================================================================*/
 
-#include "itkRandomImageSource.h"
-#include "itkBinaryThresholdImageFilter.h"
+#include "itkTestingMacros.h"
+#include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
 #include "itkVotingBinaryImageFilter.h"
-#include "itkTextOutput.h"
 
 
-int itkVotingBinaryImageFilterTest(int, char* [] )
+namespace
 {
-  // Comment the following if you want to use the itk text output window
-  itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
+template<class  TInputImageType >
+int itkVotingBinaryImageFilterTestImp( const std::string &infname,
+                                       const std::string &outfname,
+                                       itk::SizeValueType radius,
+                                       long foregroundValue,
+                                       long backgroundValue,
+                                       unsigned int birthThreshold = 1,
+                                       unsigned int survivalThreshold = 1)
+{
+  typedef TInputImageType InputImageType;
+  typedef TInputImageType OutputImageType;
 
-  typedef itk::Image<unsigned short,2> ImageType;
+  typedef typename TInputImageType::PixelType InputPixelType;
 
-  itk::RandomImageSource<ImageType>::Pointer random;
-  random = itk::RandomImageSource<ImageType>::New();
-  random->SetMin(   0 );
-  random->SetMax( 100 );
+  typedef itk::ImageFileReader<InputImageType>  ReaderType;
+  typedef itk::ImageFileWriter<OutputImageType> WriterType;
 
-  ImageType::SizeValueType randomSize[2];
+  typedef itk::VotingBinaryImageFilter<InputImageType, OutputImageType> FilterType;
 
-  randomSize[0] = randomSize[1] = 8;
+  typename ReaderType::Pointer reader = ReaderType::New();
+  reader->SetFileName( infname );
 
-  random->SetSize(randomSize);
+  typename FilterType::Pointer filter = FilterType::New();
+  filter->SetInput( reader->GetOutput() );
 
-  ImageType::SpacingValueType spacing[2] = {0.7, 2.1};
-  random->SetSpacing( spacing );
+  typename FilterType::InputSizeType R;
+  R.Fill( itk::Math::CastWithRangeCheck<itk::SizeValueType>(radius) );
+  filter->SetRadius( R );
 
-  ImageType::PointValueType origin[2] = {15, 400};
-  random->SetOrigin( origin );
+  filter->SetForegroundValue( itk::Math::CastWithRangeCheck<InputPixelType>( foregroundValue ) );
+  filter->SetBackgroundValue( itk::Math::CastWithRangeCheck<InputPixelType>( backgroundValue ) );
+  filter->SetBirthThreshold( birthThreshold );
+  filter->SetSurvivalThreshold( survivalThreshold );
 
-  ImageType::PixelType foreground =  97; // prime numbers are good testers
-  ImageType::PixelType background =  29;
+  typename WriterType::Pointer writer = WriterType::New();
+  writer->SetInput( filter->GetOutput() );
+  writer->SetFileName( outfname );
+  writer->SetNumberOfStreamDivisions( 5 );
+  writer->Update();
 
-  itk::BinaryThresholdImageFilter<ImageType,ImageType>::Pointer thresholder;
-  thresholder =  itk::BinaryThresholdImageFilter<ImageType,ImageType>::New();
-  thresholder->SetInput( random->GetOutput() );
-  thresholder->SetLowerThreshold(  30 );
-  thresholder->SetUpperThreshold( 100 );
-  thresholder->SetInsideValue( foreground );
-  thresholder->SetOutsideValue( background );
+  // excersie some methods to improve coverage
+  EXERCISE_BASIC_OBJECT_METHODS( filter, FilterType );
 
-  // Create a voting image
-  itk::VotingBinaryImageFilter<ImageType, ImageType>::Pointer voting;
-  voting = itk::VotingBinaryImageFilter<ImageType,ImageType>::New();
-  voting->SetInput( thresholder->GetOutput());
-  voting->SetForegroundValue( foreground );
-  voting->SetBackgroundValue( background );
+  TEST_SET_GET_VALUE( R, filter->GetRadius() );
+  TEST_SET_GET_VALUE( foregroundValue, filter->GetForegroundValue() );
+  TEST_SET_GET_VALUE( backgroundValue, filter->GetBackgroundValue() );
+  TEST_SET_GET_VALUE( birthThreshold, filter->GetBirthThreshold() );
+  TEST_SET_GET_VALUE( survivalThreshold, filter->GetSurvivalThreshold() );
 
-
-  // define the neighborhood size used for the voting filter (5x5)
-  ImageType::SizeType neighRadius;
-  neighRadius[0] = 1;
-  neighRadius[1] = 1;
-  voting->SetRadius(neighRadius);
-
-  voting->SetBirthThreshold( 5 );
-  voting->SetSurvivalThreshold( 0 );
-
-  // run the algorithm
-  voting->Update();
-  voting->Print(std::cout);
-
-  itk::ImageRegionIterator<ImageType> it;
-  it = itk::ImageRegionIterator<ImageType>(random->GetOutput(),
-                               random->GetOutput()->GetBufferedRegion());
-  std::cout << "Input image" << std::endl;
-  unsigned int i;
-  for (i=1; !it.IsAtEnd(); ++i, ++it)
-    {
-    std::cout << "\t" << it.Get();
-    if ((i % 8) == 0)
-      {
-      std::cout << std::endl;
-      }
-    }
-
-  it = itk::ImageRegionIterator<ImageType>(thresholder->GetOutput(),
-                               thresholder->GetOutput()->GetBufferedRegion());
-  std::cout << "Binary image" << std::endl;
-
-  for (i=1; !it.IsAtEnd(); ++i, ++it)
-    {
-    std::cout << "\t" << it.Get();
-    if ((i % 8) == 0)
-      {
-      std::cout << std::endl;
-      }
-    }
-
-
-  std::cout << "Output image" << std::endl;
-  it = itk::ImageRegionIterator<ImageType>(voting->GetOutput(),
-                               voting->GetOutput()->GetBufferedRegion());
-  for (i=1; !it.IsAtEnd(); ++i, ++it)
-    {
-    std::cout << "\t" << it.Get();
-    if ((i % 8) == 0)
-      {
-      std::cout << std::endl;
-      }
-    }
+  std::cout << filter;
 
   return EXIT_SUCCESS;
 }
 
+}
 
 
+int itkVotingBinaryImageFilterTest(int argc, char* argv[] )
+{
+
+  if ( argc < 6 )
+  {
+    std::cerr << "Missing arguments" << std::endl;
+    std::cerr << "Usage: " << argv[0] << " Inputimage OutputImage radius ForegroundValue BackgroundValue" << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  const std::string infname = argv[1];
+  const std::string outfname = argv[2];
+  const unsigned int radius = atoi( argv[3] );
+  const long foregroundValue = atol( argv[4] );
+  const long backgroundValue = atol( argv[5] );
+
+
+  itk::ImageIOBase::Pointer iobase =
+    itk::ImageIOFactory::CreateImageIO( infname.c_str(), itk::ImageIOFactory::ReadMode);
+
+  if ( iobase.IsNull() )
+    {
+    itkGenericExceptionMacro( "Unable to determine ImageIO reader for \"" << infname << "\"" );
+    }
+
+
+  //const itk::ImageIOBase::IOPixelType pixelType = iobase->GetPixelType();
+  const itk::ImageIOBase::IOComponentType componentType = iobase->GetComponentType();
+  const unsigned int dimension = iobase->GetNumberOfDimensions();
+
+
+  switch(componentType)
+    {
+    case itk::ImageIOBase::CHAR:
+    case itk::ImageIOBase::UCHAR:
+    case itk::ImageIOBase::SHORT:
+      if ( dimension == 2 )
+        return itkVotingBinaryImageFilterTestImp< itk::Image<short, 2> >( infname, outfname, radius, foregroundValue, backgroundValue );
+      else if ( dimension == 3 )
+        return itkVotingBinaryImageFilterTestImp< itk::Image<short, 3> >( infname, outfname, radius, foregroundValue, backgroundValue );
+      break;
+    case itk::ImageIOBase::USHORT:
+    case itk::ImageIOBase::INT:
+      if ( dimension == 2 )
+        return itkVotingBinaryImageFilterTestImp< itk::Image<int, 2> >( infname, outfname, radius, foregroundValue, backgroundValue );
+      else if ( dimension == 3 )
+        return itkVotingBinaryImageFilterTestImp< itk::Image<int, 3> >( infname, outfname, radius, foregroundValue, backgroundValue );
+      break;
+    case itk::ImageIOBase::UINT:
+      if ( dimension == 2 )
+        return itkVotingBinaryImageFilterTestImp< itk::Image<unsigned int, 2> >( infname, outfname, radius, foregroundValue, backgroundValue );
+      else if ( dimension == 2 )
+        return itkVotingBinaryImageFilterTestImp< itk::Image<unsigned int, 3> >( infname, outfname, radius, foregroundValue, backgroundValue );
+      break;
+    case itk::ImageIOBase::ULONG:
+    case itk::ImageIOBase::LONG:
+    case itk::ImageIOBase::FLOAT:
+    case itk::ImageIOBase::DOUBLE:
+    case itk::ImageIOBase::UNKNOWNCOMPONENTTYPE:
+    default:
+      itkGenericExceptionMacro( "Input image is a real, long or a unknown component type" );
+    }
+
+  std::cerr << "Unexcpected program flow!" << std::endl;
+  return EXIT_FAILURE;
+}
