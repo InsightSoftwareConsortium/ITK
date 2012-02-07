@@ -28,6 +28,34 @@ itk_add_test(NAME itkSimpleImageRegistrationTest
               10 # number of deformable iterations
               )
 
+itk_add_test(NAME itkSimpleImageRegistrationTest2
+      COMMAND ITKRegistrationMethodsv4TestDriver
+      --with-threads 2
+      --compare DATA{Baseline/itkSimpleImageRegistrationTest.nii}
+                ${TEMP}/itkSimpleImageRegistrationTest.nii
+              itkSimpleImageRegistrationTest
+              2 # number of dimensions
+              DATA{Input/r16slice_rigid.nii.gz}
+              DATA{Input/r64slice.nii.gz}
+              ${TEMP}/itkSimpleImageRegistrationTest.nii
+              90 # number of affine iterations
+              10 # number of deformable iterations
+              )
+
+itk_add_test(NAME itkSimpleImageRegistrationTest3
+      COMMAND ITKRegistrationMethodsv4TestDriver
+      --with-threads 2
+      --compare DATA{Baseline/itkSimpleImageRegistrationTest.nii}
+                ${TEMP}/itkSimpleImageRegistrationTest.nii
+              itkSimpleImageRegistrationTest
+              2 # number of dimensions
+              DATA{Input/r16slice_rigid.nii.gz}
+              DATA{Input/r64slice.nii.gz}
+              ${TEMP}/itkSimpleImageRegistrationTest.nii
+              110 # number of affine iterations
+              10 # number of deformable iterations
+              )
+
 itk_add_test(NAME itkTimeVaryingVelocityFieldImageRegistrationTest
       COMMAND ITKRegistrationMethodsv4TestDriver
               itkTimeVaryingVelocityFieldImageRegistrationTest

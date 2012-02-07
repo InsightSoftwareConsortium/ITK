@@ -54,10 +54,43 @@ public:
     typename TFilter::SmoothingSigmasArrayType smoothingSigmas = filter->GetSmoothingSigmasPerLevel();
     typename TFilter::TransformParametersAdaptorsContainerType adaptors = filter->GetTransformParametersAdaptorsPerLevel();
 
+    typename itk::ObjectToObjectOptimizerBase::Pointer optimizerBase = (const_cast<TFilter*>(filter))->GetOptimizer();
+    typedef itk::GradientDescentOptimizerv4 GradientDescentOptimizerv4Type;
+    typename GradientDescentOptimizerv4Type::Pointer optimizer = dynamic_cast<GradientDescentOptimizerv4Type *>(optimizerBase.GetPointer());
+    if( !optimizer )
+      {
+      itkGenericExceptionMacro( "Error dynamic_cast failed" );
+      }
+    typename GradientDescentOptimizerv4Type::DerivativeType gradient = optimizer->GetGradient();
+
+    /* orig
     std::cout << "  Current level = " << currentLevel << std::endl;
     std::cout << "    shrink factor = " << shrinkFactors[currentLevel] << std::endl;
     std::cout << "    smoothing sigma = " << smoothingSigmas[currentLevel] << std::endl;
     std::cout << "    required fixed parameters = " << adaptors[currentLevel]->GetRequiredFixedParameters() << std::endl;
+    */
+
+    //debug:
+    std::cout << "  CL: " << currentLevel << std::endl;
+    std::cout << "   SF: " << shrinkFactors[currentLevel] << std::endl;
+    std::cout << "   SS: " << smoothingSigmas[currentLevel] << std::endl;
+    std::cout << "   RFP: " << adaptors[currentLevel]->GetRequiredFixedParameters() << std::endl;
+    std::cout << "   LR: " << optimizer->GetLearningRate() << std::endl;
+    std::cout << "   FM: " << optimizer->GetValue() << std::endl;
+    std::cout << "   SC: " << optimizer->GetScales() << std::endl;
+    std::cout << "   FG: " << gradient.GetSize() << ": ";
+    if( gradient.GetSize() < 10 )
+      {
+      std::cout << gradient;
+      }
+    else
+      {
+      for( itk::SizeValueType i = 0; i < gradient.GetSize(); i += (gradient.GetSize() / 16) )
+        {
+        std::cout << gradient[i] << " ";
+        }
+      }
+    std::cout << std::endl;
     }
 };
 
@@ -113,7 +146,7 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
 
   try
     {
-    std::cout << "Affine transform" << std::endl;
+    std::cout << "Affine txf:" << std::endl;
     affineSimple->StartRegistration();
     }
   catch( itk::ExceptionObject &e )
@@ -235,7 +268,7 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
 
   try
     {
-    std::cout << "Displacement field transform (gaussian update)" << std::endl;
+    std::cout << "Displ. txf - gauss update" << std::endl;
     displacementFieldSimple->StartRegistration();
     }
   catch( itk::ExceptionObject &e )
