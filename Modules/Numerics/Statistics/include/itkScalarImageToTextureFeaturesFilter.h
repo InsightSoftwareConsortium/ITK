@@ -76,9 +76,8 @@ namespace Statistics
  * (1) The average value of each feature.
  * (2) The standard deviation in the values of each feature.
  *
- * Web references:
- * http://www.cssip.uq.edu.au/meastex/www/algs/algs/algs.html
- * http://www.ucalgary.ca/~mhallbey/texture/texture_tutorial.html
+ * Web reference:
+ * http://www.fp.ucalgary.ca/mhallbey/tutorial.htm
  *
  * Print references:
  * Haralick, R.M., K. Shanmugam and I. Dinstein. 1973.  Textural Features for
