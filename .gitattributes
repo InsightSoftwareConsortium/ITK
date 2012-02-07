@@ -1,4 +1,5 @@
 .git*            export-ignore
+.hooks*          export-ignore
 .mailmap         export-ignore
 
 *.bat           -crlf
