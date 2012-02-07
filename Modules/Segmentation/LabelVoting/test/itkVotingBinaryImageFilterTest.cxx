@@ -69,8 +69,8 @@ int itkVotingBinaryImageFilterTestImp( const std::string &infname,
   EXERCISE_BASIC_OBJECT_METHODS( filter, FilterType );
 
   TEST_SET_GET_VALUE( R, filter->GetRadius() );
-  TEST_SET_GET_VALUE( foregroundValue, filter->GetForegroundValue() );
-  TEST_SET_GET_VALUE( backgroundValue, filter->GetBackgroundValue() );
+  TEST_SET_GET_VALUE( itk::Math::CastWithRangeCheck<InputPixelType>( foregroundValue ), filter->GetForegroundValue() );
+  TEST_SET_GET_VALUE( itk::Math::CastWithRangeCheck<InputPixelType>( backgroundValue ), filter->GetBackgroundValue() );
   TEST_SET_GET_VALUE( birthThreshold, filter->GetBirthThreshold() );
   TEST_SET_GET_VALUE( survivalThreshold, filter->GetSurvivalThreshold() );
 
