@@ -680,24 +680,13 @@ BSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficientType >
                            const ContinuousIndexType & x,
                            unsigned int splineOrder) const
 {
-  // compute the interpolation indexes
-  for (unsigned int n = 0; n< ImageDimension; n++)
+  const float halfOffset = splineOrder & 1 ? 0.0 : 0.5;
+  for ( unsigned int n = 0; n < ImageDimension; n++ )
     {
-    if (splineOrder & 1)     // Use this index calculation for odd splineOrder
+    long indx = (long)vcl_floor( (float)x[n] + halfOffset ) - splineOrder / 2;
+    for ( unsigned int k = 0; k <= splineOrder; k++ )
       {
-      long indx = (long)vcl_floor((float)x[n]) - splineOrder / 2;
-      for (unsigned int k = 0; k <= splineOrder; k++)
-        {
-        evaluateIndex[n][k] = indx++;
-        }
-      }
-    else                       // Use this index calculation for even splineOrder
-      {
-      long indx = (long)vcl_floor((float)(x[n] + 0.5)) - splineOrder / 2;
-      for (unsigned int k = 0; k <= splineOrder; k++)
-        {
-        evaluateIndex[n][k] = indx++;
-        }
+      evaluateIndex[n][k] = indx++;
       }
     }
 }
