@@ -155,10 +155,13 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
+  typedef itk::ImageToImageMetricv4<FixedImageType, MovingImageType> ImageMetricType;
+  typename ImageMetricType::Pointer imageMetric = dynamic_cast<ImageMetricType*>( affineOptimizer->GetMetric() );
   std::cout << "Affine parameters after registration: " << std::endl
             << affineOptimizer->GetCurrentPosition() << std::endl
-            << "Last LearningRate: " << affineOptimizer->GetLearningRate()
-            << std::endl;
+            << "Last LearningRate: " << affineOptimizer->GetLearningRate() << std::endl
+            << "Number of threads used: metric: " << imageMetric->GetNumberOfThreadsUsed()
+            << std::endl << " optimizer: " << affineOptimizer->GetNumberOfThreads() << std::endl;
 
   //
   // Now do the displacement field transform with gaussian smoothing using
@@ -278,8 +281,9 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
     }
 
   std::cout << "After displacement registration: " << std::endl
-            << "Last LearningRate: " << optimizer->GetLearningRate()
-            << std::endl;
+            << "Last LearningRate: " << optimizer->GetLearningRate() << std::endl
+            << "Number of threads used: metric: " << correlationMetric->GetNumberOfThreadsUsed()
+            << " optimizer: " << displacementFieldSimple->GetOptimizer()->GetNumberOfThreads() << std::endl;
 
   typedef itk::ResampleImageFilter<MovingImageType, FixedImageType> ResampleFilterType;
   typename ResampleFilterType::Pointer resampler = ResampleFilterType::New();

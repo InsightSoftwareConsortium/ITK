@@ -104,8 +104,13 @@ public:
   /** Get whether scales are identity. Cannot be set */
   itkGetConstReferenceMacro( ScalesAreIdentity, bool );
 
-  /** Set the number of threads to use when threading. */
+  /** Set the number of threads to use when threading.
+   * The default is the global default number of threads
+   * returned from itkMultiThreader. */
   virtual void SetNumberOfThreads( ThreadIdType number );
+
+  /** Get the number of threads set to be used. */
+  itkGetConstReferenceMacro( NumberOfThreads, ThreadIdType );
 
   /** Get a reference to the current position of the optimization.
    * This returns the parameters from the assigned metric, since the optimizer
