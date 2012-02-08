@@ -99,14 +99,22 @@ void AffineGeometryFrame< TScalarType, NDimensions >
 
 /** Clone the geometry */
 template< class TScalarType, unsigned int NDimensions >
-typename AffineGeometryFrame< TScalarType, NDimensions >::Pointer
+typename LightObject::Pointer
 AffineGeometryFrame< TScalarType, NDimensions >
-::Clone() const
+::InternalClone() const
 {
-  typename Self::Pointer newGeometry = Self::New();
-  newGeometry->Initialize();
-  InitializeGeometry(newGeometry);
-  return newGeometry;
+  LightObject::Pointer loPtr = Superclass::InternalClone();
+  typename Self::Pointer clone =
+    dynamic_cast<Self *>(loPtr.GetPointer());
+  if(clone.IsNull())
+    {
+    itkExceptionMacro(<< "downcast to type "
+                      << this->GetNameOfClass()
+                      << " failed.");
+    }
+  clone->Initialize();
+  InitializeGeometry(clone);
+  return loPtr;
 }
 
 /** Initialize the geometry */

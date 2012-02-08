@@ -215,13 +215,11 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
 }
 
 template <class TScalar, unsigned int NDimensions>
-typename GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
-::TransformPointer
+typename LightObject::Pointer
 GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
 ::InternalClone() const
 {
-  LightObject::Pointer loPtr =
-    this->CreateAnother();
+  LightObject::Pointer loPtr = Superclass::InternalClone();
 
   typename Self::Pointer rval =
     dynamic_cast<Self *>(loPtr.GetPointer());
@@ -242,7 +240,7 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
   rval->SetFixedParameters(this->GetFixedParameters());
   rval->SetParameters(this->GetParameters());
 
-  return rval.GetPointer();
+  return loPtr;
 }
 
 template <class TScalar, unsigned int NDimensions>

@@ -329,14 +329,12 @@ TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
 }
 
 template <class TScalar, unsigned int NDimensions>
-typename TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
-::TransformPointer
+typename LightObject::Pointer
 TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
 ::InternalClone() const
 {
   // create a new instance
-  LightObject::Pointer loPtr =
-    this->CreateAnother();
+  LightObject::Pointer loPtr = Superclass::InternalClone();
   typename Self::Pointer rval =
     dynamic_cast<Self *>(loPtr.GetPointer());
   if(rval.IsNull())
@@ -390,7 +388,7 @@ TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
   // interpolator needs to know about the velocity field
   newInterp->SetInputImage(rval->GetTimeVaryingVelocityField());
   rval->SetTimeVaryingVelocityFieldInterpolator(newInterp);
-  return rval.GetPointer();
+  return loPtr;
 }
 
 template <class TScalar, unsigned int NDimensions>

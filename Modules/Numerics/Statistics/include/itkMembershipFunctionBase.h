@@ -73,11 +73,6 @@ public:
   /** Typedef for the length of each measurement vector */
   typedef unsigned int MeasurementVectorSizeType;
 
-  /** Method to clone a membership function, i.e. create a new instance of
-   * the same type of membership function and configure its ivars to
-   * match. */
-  virtual Pointer Clone() const = 0;
-
   /** Method to get membership score (discriminant score) of an entity
    * or measurement. Evaluate() maps from a vector measurement type
    * to a real number. */

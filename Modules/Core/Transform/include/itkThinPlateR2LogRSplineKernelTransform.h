@@ -51,9 +51,6 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ThinPlateR2LogRSplineKernelTransform, KernelTransform);
 
-  /** implement type-specific clone method*/
-  itkTransformCloneMacro();
-
   /** Scalar type. */
   typedef typename Superclass::ScalarType ScalarType;
 

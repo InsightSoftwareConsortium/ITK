@@ -1186,13 +1186,15 @@ CompositeTransform<TScalarType, NDimensions>
 
 template
 <class TScalarType, unsigned int NDimensions>
-typename CompositeTransform<TScalarType, NDimensions>
-::TransformTypePointer
+typename LightObject::Pointer
 CompositeTransform<TScalarType, NDimensions>
 ::InternalClone() const
 {
-  LightObject::Pointer loPtr =
-    this->CreateAnother();
+  // This class doesn't use its superclass implemenation
+  // TODO: is it really the right behavior?
+  // LightObject::Pointer loPtr = Superclass::InternalClone();
+
+  LightObject::Pointer loPtr = CreateAnother();
   typename Self::Pointer clone =
     dynamic_cast<Self *>(loPtr.GetPointer());
   if(clone.IsNull())
@@ -1215,7 +1217,7 @@ CompositeTransform<TScalarType, NDimensions>
     clone->AddTransform((*tqIt)->Clone().GetPointer());
     clone->SetNthTransformToOptimize(i,(*tfIt));
     }
-  return clone.GetPointer();
+  return loPtr;
 }
 
 } // namespace itk

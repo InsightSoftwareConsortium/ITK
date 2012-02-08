@@ -85,14 +85,13 @@ std::string Transform<TScalarType, NInputDimensions, NOutputDimensions>
 template <class TScalarType,
           unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
-typename Transform<TScalarType, NInputDimensions, NOutputDimensions>::Pointer
+typename LightObject::Pointer
 Transform<TScalarType, NInputDimensions, NOutputDimensions>
 ::InternalClone() const
 {
   // Default implementation just copies the parameters from
   // this to new transform.
-  LightObject::Pointer loPtr =
-    this->CreateAnother();
+  typename LightObject::Pointer loPtr = Superclass::InternalClone();
 
   typename Self::Pointer rval =
     dynamic_cast<Self *>(loPtr.GetPointer());
@@ -104,7 +103,7 @@ Transform<TScalarType, NInputDimensions, NOutputDimensions>
     }
   rval->SetFixedParameters(this->GetFixedParameters());
   rval->SetParameters(this->GetParameters());
-  return rval;
+  return loPtr;
 }
 
 /**

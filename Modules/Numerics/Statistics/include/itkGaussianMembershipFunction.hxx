@@ -179,18 +179,25 @@ GaussianMembershipFunction< TMeasurementVector >
 }
 
 template< class TVector >
-typename GaussianMembershipFunction< TVector >::MembershipFunctionPointer
+typename LightObject::Pointer
 GaussianMembershipFunction< TVector >
-::Clone() const
+::InternalClone() const
 {
-  Pointer membershipFunction = GaussianMembershipFunction< TVector >::New();
+  LightObject::Pointer loPtr = Superclass::InternalClone();
+  typename Self::Pointer membershipFunction =
+    dynamic_cast<Self *>(loPtr.GetPointer());
+  if(membershipFunction.IsNull())
+    {
+    itkExceptionMacro(<< "downcast to type "
+                      << this->GetNameOfClass()
+                      << " failed.");
+    }
 
   membershipFunction->SetMeasurementVectorSize( this->GetMeasurementVectorSize() );
   membershipFunction->SetMean( this->GetMean() );
   membershipFunction->SetCovariance( this->GetCovariance() );
 
-  MembershipFunctionPointer sptr = membershipFunction.GetPointer();
-  return sptr;
+  return loPtr;
 }
 } // end namespace Statistics
 } // end of namespace itk

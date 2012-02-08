@@ -69,6 +69,8 @@ public:
    * base class. */
   virtual Pointer CreateAnother() const;
 
+  itkCloneMacro(Self);
+
   /** Delete an itk object.  This method should always be used to delete an
    * object when the new operator was used to create it. Using the C
    *  delete method will not work with reference counting.  */
@@ -126,6 +128,12 @@ protected:
   virtual void PrintHeader(std::ostream & os, Indent indent) const;
 
   virtual void PrintTrailer(std::ostream & os, Indent indent) const;
+
+  /**
+   * Actual implementation of the clone method. This method should be reimplemeted
+   * in subclasses to clone the extra required parameters.
+   */
+  virtual LightObject::Pointer InternalClone() const;
 
   /** Define the type of the reference count according to the
       target. This allows the use of atomic operations */

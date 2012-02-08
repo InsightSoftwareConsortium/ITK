@@ -110,7 +110,7 @@ int itkDistanceToCentroidMembershipFunctionTest(int, char* [] )
     }
 
   // Exercise the Clone method.
-  MembershipFunctionType::MembershipFunctionPointer clonedFunction = function->Clone();
+  MembershipFunctionType::Pointer clonedFunction = function->Clone();
   if( clonedFunction.IsNull() )
     {
     return EXIT_FAILURE;

@@ -163,10 +163,18 @@ SWIG_JAVABODY_METHODS(public, public, SWIGTYPE)
                         rawPtr->Register();
                         return rawPtr;
                 };
+                virtual itkLightObject * Clone() const {
+                        typedef ::itk::SmartPointer<itkLightObject> Pointer;
+                        Pointer smtPtr = self->Clone().GetPointer();
+                        smtPtr->Register();
+                        return smtPtr.GetPointer();
+                };
                 ~itkClassWrapped() {
                         self->UnRegister();
                 };
         }
+	%ignore itkClass::Clone;
+
 /*
         %typemap(out) itkClass * {
                 itkClass* ptrRaw = $1;

@@ -72,18 +72,24 @@ DistanceToCentroidMembershipFunction< TVector >
 }
 
 template< class TVector >
-typename DistanceToCentroidMembershipFunction< TVector >::MembershipFunctionPointer
+typename LightObject::Pointer
 DistanceToCentroidMembershipFunction< TVector >
-::Clone() const
+::InternalClone() const
 {
-  Pointer membershipFunction =
-    DistanceToCentroidMembershipFunction< TVector >::New();
+  LightObject::Pointer loPtr = Superclass::InternalClone();
+  typename Self::Pointer membershipFunction =
+    dynamic_cast<Self *>(loPtr.GetPointer());
+  if(membershipFunction.IsNull())
+    {
+    itkExceptionMacro(<< "downcast to type "
+                      << this->GetNameOfClass()
+                      << " failed.");
+    }
 
   membershipFunction->SetMeasurementVectorSize( this->GetMeasurementVectorSize() );
   membershipFunction->SetCentroid( this->GetCentroid() );
 
-  MembershipFunctionPointer sptr = membershipFunction.GetPointer();
-  return sptr;
+  return loPtr;
 }
 
 template< class TVector >

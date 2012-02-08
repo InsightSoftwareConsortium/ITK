@@ -176,18 +176,25 @@ MahalanobisDistanceMembershipFunction< TVector >
 }
 
 template< class TVector >
-typename MahalanobisDistanceMembershipFunction< TVector >::MembershipFunctionPointer
+typename LightObject::Pointer
 MahalanobisDistanceMembershipFunction< TVector >
-::Clone() const
+::InternalClone() const
 {
-  Pointer membershipFunction = MahalanobisDistanceMembershipFunction< TVector >::New();
+  LightObject::Pointer loPtr = Superclass::InternalClone();
+  typename Self::Pointer membershipFunction =
+    dynamic_cast<Self *>(loPtr.GetPointer());
+  if(membershipFunction.IsNull())
+    {
+    itkExceptionMacro(<< "downcast to type "
+                      << this->GetNameOfClass()
+                      << " failed.");
+    }
 
   membershipFunction->SetMeasurementVectorSize( this->GetMeasurementVectorSize() );
   membershipFunction->SetMean( this->GetMean() );
   membershipFunction->SetCovariance( this->GetCovariance() );
 
-  MembershipFunctionPointer sptr = membershipFunction.GetPointer();
-  return sptr;
+  return loPtr;
 }
 
 } // end namespace Statistics

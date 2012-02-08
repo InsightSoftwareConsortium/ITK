@@ -256,13 +256,11 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
 }
 
 template <class TScalar, unsigned int NDimensions>
-typename BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
-::TransformPointer
+typename LightObject::Pointer
 BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
 ::InternalClone() const
 {
-  LightObject::Pointer loPtr =
-    this->CreateAnother();
+  LightObject::Pointer loPtr = Superclass::InternalClone();
 
   typename Self::Pointer rval =
     dynamic_cast<Self *>(loPtr.GetPointer());
@@ -286,7 +284,7 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
   rval->SetFixedParameters(this->GetFixedParameters());
   rval->SetParameters(this->GetParameters());
 
-  return rval.GetPointer();
+  return loPtr;
 }
 
 template <class TScalar, unsigned int NDimensions>
