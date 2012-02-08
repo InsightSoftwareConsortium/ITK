@@ -8,14 +8,6 @@ itk_wrap_module("ITKPyBase" Python)
   # no wrap_*.cmake file to include, no need to run that
   # itk_auto_load_submodules()
 
-  # add the vars defined by including std_iostream and std_stream to the python config
-  if("${SWIG_VERSION}" STRGREATER "1.3.36")
-    ADD_PYTHON_CONFIG_TEMPLATE("SwigPyIterator" "SwigPyIterator" "SwigPyIterator" "")
-    ADD_PYTHON_CONFIG_TEMPLATE("PySwigIterator" "SwigPyIterator" "SwigPyIterator" "")
-  else("${SWIG_VERSION}" STRGREATER "1.3.36")
-    ADD_PYTHON_CONFIG_TEMPLATE("SwigPyIterator" "PySwigIterator" "PySwigIterator" "")
-    ADD_PYTHON_CONFIG_TEMPLATE("PySwigIterator" "PySwigIterator" "PySwigIterator" "")
-  endif("${SWIG_VERSION}" STRGREATER "1.3.36")
   ADD_PYTHON_CONFIG_TEMPLATE("cerr" "std::cerr" "cerr" "")
   ADD_PYTHON_CONFIG_TEMPLATE("cin" "std::cin" "cin" "")
   ADD_PYTHON_CONFIG_TEMPLATE("clog" "std::clog" "clog" "")
