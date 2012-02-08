@@ -40,7 +40,7 @@ namespace itk
  * by Gaetan Lehmann
  * http://hdl.handle.net/10380/3207
  *
- * \author Gaeten Lehmann, Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France
+ * \author Gaetan Lehmann, Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France
  * \author Cory Quammen, The University of North Carolina at Chapel Hill
  *
  * \ingroup ITKDeconvolution
