@@ -6,6 +6,7 @@ itkTimeVaryingVelocityFieldImageRegistrationTest.cxx
 itkTimeVaryingBSplineVelocityFieldImageRegistrationTest.cxx
 itkSyNImageRegistrationTest.cxx
 itkQuasiNewtonOptimizerv4RegistrationTest.cxx
+itkSimpleImageRegistrationTest3.cxx
 )
 
 set(INPUTDATA ${ITK_DATA_ROOT}/Input)
@@ -33,6 +34,19 @@ itk_add_test(NAME itkSimpleImageRegistrationTest2
       COMMAND ITKRegistrationMethodsv4TestDriver
       --with-threads 1
               itkSimpleImageRegistrationTest
+              2 # number of dimensions
+              DATA{Input/r16slice_rigid.nii.gz}
+              DATA{Input/r64slice.nii.gz}
+              ${TEMP}/itkSimpleImageRegistrationTest.nii
+              100 # number of affine iterations
+              10 # number of deformable iterations
+              )
+
+#added this one for debugging dashboard failures
+itk_add_test(NAME itkSimpleImageRegistrationTest3
+      COMMAND ITKRegistrationMethodsv4TestDriver
+      --with-threads 2
+              itkSimpleImageRegistrationTest3
               2 # number of dimensions
               DATA{Input/r16slice_rigid.nii.gz}
               DATA{Input/r64slice.nii.gz}
