@@ -25,6 +25,11 @@
 #include "itkGaussianSmoothingOnUpdateDisplacementFieldTransform.h"
 #include "itkGaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor.h"
 
+/*
+ * Same as itkSimpleImageRegistrationTest, but with small changes for debugging on dashboard.
+ *
+ */
+
 template<class TFilter>
 class CommandIterationUpdate : public itk::Command
 {
@@ -95,7 +100,7 @@ public:
 };
 
 template <unsigned int VImageDimension>
-int PerformSimpleImageRegistration( int argc, char *argv[] )
+int PerformSimpleImageRegistration3( int argc, char *argv[] )
 {
   if( argc < 6 )
     {
@@ -128,6 +133,17 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
   typename AffineRegistrationType::Pointer affineSimple = AffineRegistrationType::New();
   affineSimple->SetFixedImage( fixedImage );
   affineSimple->SetMovingImage( movingImage );
+
+  // Smooth by specified gaussian sigmas for each level.  These values are specified in
+  // physical units.
+  {
+  typename AffineRegistrationType::SmoothingSigmasArrayType smoothingSigmasPerLevel;
+  smoothingSigmasPerLevel.SetSize( 3 );
+  smoothingSigmasPerLevel[0] = 2;
+  smoothingSigmasPerLevel[1] = 1;
+  smoothingSigmasPerLevel[2] = 1; //0;
+  affineSimple->SetSmoothingSigmasPerLevel( smoothingSigmasPerLevel );
+  }
 
   typedef itk::GradientDescentOptimizerv4 GradientDescentOptimizerv4Type;
   typename GradientDescentOptimizerv4Type::Pointer affineOptimizer =
@@ -236,7 +252,7 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
   smoothingSigmasPerLevel.SetSize( 3 );
   smoothingSigmasPerLevel[0] = 2;
   smoothingSigmasPerLevel[1] = 1;
-  smoothingSigmasPerLevel[2] = 0;
+  smoothingSigmasPerLevel[2] = 1; //0;
   displacementFieldSimple->SetSmoothingSigmasPerLevel( smoothingSigmasPerLevel );
 
   typedef itk::GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<DisplacementFieldTransformType> DisplacementFieldTransformAdaptorType;
@@ -305,7 +321,7 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
   return EXIT_SUCCESS;
 }
 
-int itkSimpleImageRegistrationTest( int argc, char *argv[] )
+int itkSimpleImageRegistrationTest3( int argc, char *argv[] )
 {
   if( argc < 6 )
     {
@@ -316,10 +332,10 @@ int itkSimpleImageRegistrationTest( int argc, char *argv[] )
   switch( atoi( argv[1] ) )
    {
    case 2:
-     PerformSimpleImageRegistration<2>( argc, argv );
+     PerformSimpleImageRegistration3<2>( argc, argv );
      break;
    case 3:
-     PerformSimpleImageRegistration<3>( argc, argv );
+     PerformSimpleImageRegistration3<3>( argc, argv );
      break;
    default:
       std::cerr << "Unsupported dimension" << std::endl;
