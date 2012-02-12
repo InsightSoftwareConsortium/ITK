@@ -172,7 +172,7 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
 
   typedef itk::CompositeTransform<RealType, VImageDimension> CompositeTransformType;
   typename CompositeTransformType::Pointer compositeTransform = CompositeTransformType::New();
-  compositeTransform->AddTransform( const_cast<typename AffineRegistrationType::TransformType *>( affineSimple->GetOutput()->Get() ) );
+  compositeTransform->AddTransform( const_cast<typename AffineRegistrationType::OutputTransformType *>( affineSimple->GetOutput()->Get() ) );
 
   typedef itk::Vector<RealType, VImageDimension> VectorType;
   VectorType zeroVector( 0.0 );
@@ -184,7 +184,11 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
   displacementField->FillBuffer( zeroVector );
 
   typedef itk::GaussianSmoothingOnUpdateDisplacementFieldTransform<RealType, VImageDimension> DisplacementFieldTransformType;
-  typename DisplacementFieldTransformType::Pointer fieldTransform = DisplacementFieldTransformType::New();
+
+  typedef itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType, DisplacementFieldTransformType> DisplacementFieldRegistrationType;
+  typename DisplacementFieldRegistrationType::Pointer displacementFieldSimple = DisplacementFieldRegistrationType::New();
+
+  typename DisplacementFieldTransformType::Pointer fieldTransform = const_cast<DisplacementFieldTransformType *>( displacementFieldSimple->GetOutput()->Get() );
   fieldTransform->SetGaussianSmoothingVarianceForTheUpdateField( 0 );
   fieldTransform->SetGaussianSmoothingVarianceForTheTotalField( 1.5 );
   fieldTransform->SetDisplacementField( displacementField );
@@ -211,13 +215,10 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
   optimizer->SetDoEstimateLearningRateOnce( false ); //true by default
   optimizer->SetDoEstimateLearningRateAtEachIteration( true );
 
-  typedef itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType, DisplacementFieldTransformType> DisplacementFieldRegistrationType;
-  typename DisplacementFieldRegistrationType::Pointer displacementFieldSimple = DisplacementFieldRegistrationType::New();
   displacementFieldSimple->SetFixedImage( fixedImage );
   displacementFieldSimple->SetMovingImage( movingImage );
   displacementFieldSimple->SetNumberOfLevels( 3 );
-  displacementFieldSimple->SetCompositeTransform( compositeTransform );
-  displacementFieldSimple->SetTransform( fieldTransform );
+  displacementFieldSimple->SetMovingInitialTransform( compositeTransform );
   displacementFieldSimple->SetMetric( correlationMetric );
   displacementFieldSimple->SetOptimizer( optimizer );
 
@@ -279,6 +280,8 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
     std::cerr << "Exception caught: " << e << std::endl;
     return EXIT_FAILURE;
     }
+
+  compositeTransform->AddTransform( const_cast<DisplacementFieldTransformType *>( displacementFieldSimple->GetOutput()->Get() ) );
 
   std::cout << "After displacement registration: " << std::endl
             << "Last LearningRate: " << optimizer->GetLearningRate() << std::endl

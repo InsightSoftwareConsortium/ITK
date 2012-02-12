@@ -69,17 +69,17 @@ class Array1DToData;
  *
  * \ingroup ITKRegistrationMethodsv4
  */
-template<typename TFixedImage, typename TMovingImage, typename TTransform =
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform =
   DisplacementFieldTransform<double, GetImageDimension<TFixedImage>::ImageDimension> >
 class ITK_EXPORT SyNImageRegistrationMethod
-: public ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
+: public ImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform>
 {
 public:
   /** Standard class typedefs. */
-  typedef SyNImageRegistrationMethod                                            Self;
-  typedef ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>      Superclass;
-  typedef SmartPointer<Self>                                                    Pointer;
-  typedef SmartPointer<const Self>                                              ConstPointer;
+  typedef SyNImageRegistrationMethod                                                  Self;
+  typedef ImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform>      Superclass;
+  typedef SmartPointer<Self>                                                          Pointer;
+  typedef SmartPointer<const Self>                                                    ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
@@ -101,20 +101,21 @@ public:
   typedef typename MetricType::Pointer                                MetricPointer;
   typedef typename MetricType::VirtualImageType                       VirtualImageType;
   typedef typename MetricType::MeasureType                            MeasureType;
-  typedef TTransform                                                  TransformType;
-  typedef typename TransformType::Pointer                             TransformPointer;
-  typedef typename TransformType::ScalarType                          RealType;
-  typedef typename TransformType::DerivativeType                      DerivativeType;
+
+  typedef TOutputTransform                                            OutputTransformType;
+  typedef typename OutputTransformType::Pointer                       OutputTransformPointer;
+  typedef typename OutputTransformType::ScalarType                    RealType;
+  typedef typename OutputTransformType::DerivativeType                DerivativeType;
   typedef typename DerivativeType::ValueType                          DerivativeValueType;
-  typedef typename TransformType::DisplacementFieldType               DisplacementFieldType;
+  typedef typename OutputTransformType::DisplacementFieldType         DisplacementFieldType;
   typedef typename DisplacementFieldType::Pointer                     DisplacementFieldPointer;
   typedef typename DisplacementFieldType::PixelType                   DisplacementVectorType;
 
-  typedef CompositeTransform<RealType, ImageDimension>                CompositeTransformType;
+  typedef typename Superclass::CompositeTransformType                 CompositeTransformType;
   typedef typename CompositeTransformType::TransformType              TransformBaseType;
 
-  typedef typename Superclass::TransformOutputType                    TransformOutputType;
-  typedef typename TransformOutputType::Pointer                       TransformOutputPointer;
+  typedef typename Superclass::DecoratedOutputTransformType           DecoratedOutputTransformType;
+  typedef typename DecoratedOutputTransformType::Pointer              DecoratedOutputTransformPointer;
 
   typedef Array<SizeValueType>                                        NumberOfIterationsArrayType;
 
@@ -144,14 +145,14 @@ public:
   itkGetConstMacro( AverageMidPointGradients, bool );
 
   /**
-   * Get/Set the Gaussian smoothing standard deviation for the update field.
+   * Get/Set the Gaussian smoothing variance for the update field.
    * Default = 1.75.
    */
   itkSetMacro( GaussianSmoothingVarianceForTheUpdateField, RealType );
   itkGetConstReferenceMacro( GaussianSmoothingVarianceForTheUpdateField, RealType );
 
   /**
-   * Get/Set the Gaussian smoothing standard deviation for the total field.
+   * Get/Set the Gaussian smoothing variance for the total field.
    * Default = 0.5.
    */
   itkSetMacro( GaussianSmoothingVarianceForTheTotalField, RealType );
@@ -174,8 +175,9 @@ protected:
    */
   virtual void InitializeRegistrationAtEachLevel( const SizeValueType );
 
-  virtual DisplacementFieldPointer ComputeUpdateField( const TFixedImage *, const TransformBaseType *, const TMovingImage *, const TransformBaseType * , MeasureType & );
+  virtual DisplacementFieldPointer ComputeUpdateField( const TFixedImage *, const TransformBaseType *, const TMovingImage *, const TransformBaseType *, MeasureType & );
   virtual DisplacementFieldPointer GaussianSmoothDisplacementField( const DisplacementFieldType *, const RealType );
+  virtual DisplacementFieldPointer InvertDisplacementField( const DisplacementFieldType *, const DisplacementFieldType * );
 
 private:
   SyNImageRegistrationMethod( const Self & );   //purposely not implemented
@@ -186,8 +188,8 @@ private:
   RealType                                                        m_GaussianSmoothingVarianceForTheUpdateField;
   RealType                                                        m_GaussianSmoothingVarianceForTheTotalField;
 
-  TransformPointer                                                m_MiddleToMovingTransform;
-  TransformPointer                                                m_MiddleToFixedTransform;
+  OutputTransformPointer                                          m_MovingToMiddleTransform;
+  OutputTransformPointer                                          m_FixedToMiddleTransform;
 
   RealType                                                        m_ConvergenceThreshold;
 

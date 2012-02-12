@@ -21,6 +21,7 @@
 #include "itkInvertDisplacementFieldImageFilter.h"
 
 #include "itkComposeDisplacementFieldsImageFilter.h"
+#include "itkImageDuplicator.h"
 #include "itkImageRegionIterator.h"
 #include "itkVectorLinearInterpolateImageFunction.h"
 
@@ -46,7 +47,6 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
   this->m_ComposedField = DisplacementFieldType::New();
   this->m_ScaledNormImage = RealImageType::New();
   this->m_EnforceBoundaryCondition = true;
-
 }
 
 template<class TInputImage, class TOutputImage>
@@ -82,8 +82,25 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
   VectorType zeroVector( 0.0 );
 
   typename DisplacementFieldType::ConstPointer displacementField = this->GetInput();
-  typename InverseDisplacementFieldType::Pointer inverseDisplacementField = this->GetOutput();
-  inverseDisplacementField->FillBuffer( zeroVector );
+
+  typename InverseDisplacementFieldType::Pointer inverseDisplacementField;
+
+  if( this->GetInverseFieldInitialEstimate() )
+    {
+    typedef ImageDuplicator<InverseDisplacementFieldType> DuplicatorType;
+    typename DuplicatorType::Pointer duplicator = DuplicatorType::New();
+    duplicator->SetInputImage( this->GetInverseFieldInitialEstimate() );
+    duplicator->Update();
+
+    inverseDisplacementField = duplicator->GetOutput();
+
+    this->SetNthOutput( 0, inverseDisplacementField );
+    }
+  else
+    {
+    inverseDisplacementField = this->GetOutput();
+    inverseDisplacementField->FillBuffer( zeroVector );
+    }
 
   for( unsigned int d = 0; d < ImageDimension; d++ )
     {
@@ -154,10 +171,11 @@ void
 InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
 ::ThreadedGenerateData( const RegionType & region, ThreadIdType itkNotUsed( threadId ) )
 {
-  const typename DisplacementFieldType::RegionType fullregion = this->m_ComposedField->GetRequestedRegion();
-  const typename DisplacementFieldType::SizeType size = fullregion.GetSize();
-  const typename DisplacementFieldType::IndexType startIndex = fullregion.GetIndex();
+  const typename DisplacementFieldType::RegionType fullRegion = this->m_ComposedField->GetRequestedRegion();
+  const typename DisplacementFieldType::SizeType size = fullRegion.GetSize();
+  const typename DisplacementFieldType::IndexType startIndex = fullRegion.GetIndex();
   const typename DisplacementFieldType::PixelType zeroVector( 0.0 );
+
   ImageRegionIterator<DisplacementFieldType> ItE( this->m_ComposedField, region );
   ImageRegionIterator<RealImageType> ItS( this->m_ScaledNormImage, region );
 
@@ -177,11 +195,11 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
       update = ItI.Get() + update * this->m_Epsilon;
       ItI.Set( update );
       typename DisplacementFieldType::IndexType index = ItI.GetIndex();
-      if ( this->m_EnforceBoundaryCondition )
+      if( this->m_EnforceBoundaryCondition )
         {
-        for ( unsigned int dimension = 0; dimension < ImageDimension; ++dimension )
+        for( unsigned int d = 0; d < ImageDimension; d++ )
           {
-          if ( index[dimension] == startIndex[dimension] || index[dimension] == static_cast<IndexValueType>( size[dimension] ) - startIndex[dimension] - 1 )
+          if( index[d] == startIndex[d] || index[d] == static_cast<IndexValueType>( size[d] ) - startIndex[d] - 1 )
             {
             ItI.Set( zeroVector );
             break;

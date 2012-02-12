@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include "itkInvertDisplacementFieldImageFilter.h"
-#include "itkImageRegionIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
 
 int itkInvertDisplacementFieldImageFilterTest( int, char * [] )
 {
@@ -46,6 +46,37 @@ int itkInvertDisplacementFieldImageFilterTest( int, char * [] )
   field->SetDirection( direction );
   field->Allocate();
   field->FillBuffer( ones );
+
+  const VectorType zeroVector( 0.0 );
+
+  //make sure boundary does not move
+  float weight1 = 1.0;
+
+  const DisplacementFieldType::RegionType region = field->GetLargestPossibleRegion();
+  const DisplacementFieldType::IndexType startIndex = region.GetIndex();
+
+  itk::ImageRegionIteratorWithIndex<DisplacementFieldType> ItF( field, field->GetLargestPossibleRegion() );
+  for( ItF.GoToBegin(); !ItF.IsAtEnd(); ++ItF )
+    {
+    DisplacementFieldType::IndexType index = ItF.GetIndex();
+    bool isOnBoundary = false;
+    for ( unsigned int d = 0; d < ImageDimension; d++ )
+      {
+      if( index[d] == startIndex[d] || index[d] == static_cast<int>( size[d] ) - startIndex[d] - 1 )
+        {
+        isOnBoundary = true;
+        break;
+        }
+      }
+    if( isOnBoundary )
+      {
+      ItF.Set( zeroVector );
+      }
+    else
+      {
+      ItF.Set( ItF.Get() * weight1 );
+      }
+    }
 
   unsigned int numberOfIterations = 50;
   float        maxTolerance = 0.1;
@@ -84,8 +115,8 @@ int itkInvertDisplacementFieldImageFilterTest( int, char * [] )
     return EXIT_FAILURE;
     }
 
-  if( inverter->GetMeanErrorNorm() >= inverter->GetMeanErrorToleranceThreshold() &&
-    inverter->GetMaxErrorNorm() >= inverter->GetMaxErrorToleranceThreshold() )
+  if( inverter->GetMeanErrorNorm() > inverter->GetMeanErrorToleranceThreshold() &&
+    inverter->GetMaxErrorNorm() > inverter->GetMaxErrorToleranceThreshold() )
     {
     std::cerr << "Failed to converge properly." << std::endl;
     return EXIT_FAILURE;

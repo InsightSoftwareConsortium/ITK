@@ -20,8 +20,8 @@
 
 #include "itkComposeDisplacementFieldsImageFilter.h"
 
-#include "itkImageRegionConstIterator.h"
-#include "itkImageRegionIteratorWithIndex.h"
+#include "itkImageRegionConstIteratorWithIndex.h"
+#include "itkImageRegionIterator.h"
 #include "itkVectorLinearInterpolateImageFunction.h"
 
 namespace itk
@@ -84,34 +84,43 @@ void
 ComposeDisplacementFieldsImageFilter<InputImage, TOutputImage>
 ::ThreadedGenerateData( const RegionType & region, ThreadIdType itkNotUsed( threadId ) )
 {
-  VectorType zeroVector( 0.0 );
-
   typename OutputFieldType::Pointer output = this->GetOutput();
+  typename InputFieldType::ConstPointer warpingField = this->GetWarpingField();
 
-  ImageRegionConstIterator<InputFieldType> ItW( this->GetWarpingField(), region );
-  ImageRegionIteratorWithIndex<OutputFieldType> ItF( output, region );
+  ImageRegionConstIteratorWithIndex<InputFieldType> ItW( warpingField, region );
+  ImageRegionIterator<OutputFieldType> ItF( output, region );
+
+  PointType pointIn1;
+  PointType pointIn2;
+  PointType pointIn3;
+
+  typename OutputFieldType::PixelType outDisplacement;
 
   for( ItW.GoToBegin(), ItF.GoToBegin(); !ItW.IsAtEnd(); ++ItW, ++ItF )
     {
-    PointType point1;
-    output->TransformIndexToPhysicalPoint( ItF.GetIndex(), point1 );
+    warpingField->TransformIndexToPhysicalPoint( ItW.GetIndex(), pointIn1 );
 
-    typename InputFieldType::PixelType tmpDisplacement = ItW.Get();
-    PointType point2 = point1;
+    VectorType warpVector = ItW.Get();
+
     for( unsigned int d = 0; d < ImageDimension; d++ )
       {
-      point2[d] += tmpDisplacement[d];
+      pointIn2[d] = pointIn1[d] + warpVector[d];
       }
 
-    typename InterpolatorType::OutputType displacement;
-    typename OutputFieldType::PixelType outDisplacement;
-
-    if( this->m_Interpolator->IsInsideBuffer( point2 ) )
+    typename InterpolatorType::OutputType displacement( 0.0 );
+    if( this->m_Interpolator->IsInsideBuffer( pointIn2 ) )
       {
-      displacement = this->m_Interpolator->Evaluate( point2 );
-      outDisplacement = ( point2 + displacement ) - point1;
-      ItF.Set( outDisplacement );
+      displacement = this->m_Interpolator->Evaluate( pointIn2 );
       }
+
+    for( unsigned int d = 0; d < ImageDimension; d++ )
+      {
+      pointIn3[d] = pointIn2[d] + displacement[d];
+      }
+
+    outDisplacement = pointIn3 - pointIn1;
+
+    ItF.Set( outDisplacement );
     }
 }
 
