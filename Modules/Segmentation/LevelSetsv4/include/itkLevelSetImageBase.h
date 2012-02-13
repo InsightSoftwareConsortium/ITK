@@ -71,7 +71,7 @@ protected:
   typedef GradientType ScalingType;
   ScalingType m_NeighborhoodScales;
 
-  virtual bool IsInside( const InputType& iP ) const = 0;
+  virtual bool IsInsideDomain( const InputType& iP ) const = 0;
 
 private:
 

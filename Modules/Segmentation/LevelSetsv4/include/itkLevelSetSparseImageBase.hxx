@@ -65,7 +65,7 @@ LevelSetSparseImageBase< TOutput, VDimension >
 template< typename TOutput, unsigned int VDimension >
 bool
 LevelSetSparseImageBase< TOutput, VDimension >
-::IsInside( const InputType& iP ) const
+::IsInsideDomain( const InputType& iP ) const
 {
   const RegionType largestRegion = this->m_LabelMap->GetLargestPossibleRegion();
 

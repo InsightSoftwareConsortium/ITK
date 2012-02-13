@@ -82,7 +82,7 @@ protected:
 
   ImagePointer m_Image;
 
-  virtual bool IsInside( const InputType& iP ) const;
+  virtual bool IsInsideDomain( const InputType& iP ) const;
 
   /** Initial the level set pointer */
   virtual void Initialize();

@@ -166,6 +166,7 @@ int itkSingleLevelSetWhitakerImage2DWithCurvatureTest( int argc, char* argv[] )
   std::cout << "Term container 0 created" << std::endl;
 
   EquationContainerType::Pointer equationContainer = EquationContainerType::New();
+  equationContainer->SetLevelSetContainer( lscontainer );
   equationContainer->AddEquation( 0, termContainer0 );
 
   typedef itk::LevelSetEvolutionNumberOfIterationsStoppingCriterion< LevelSetContainerType >
@@ -175,8 +176,35 @@ int itkSingleLevelSetWhitakerImage2DWithCurvatureTest( int argc, char* argv[] )
 
   LevelSetEvolutionType::Pointer evolution = LevelSetEvolutionType::New();
   evolution->SetEquationContainer( equationContainer );
+
+  if( evolution->GetEquationContainer() != equationContainer )
+    {
+    std::cerr << "evolution->GetEquationContainer() != equationContainer" << std::endl;
+
+    return EXIT_FAILURE;
+    }
+  std::cout << "evolution->GetEquationContainer() == equationContainer" << std::endl;
+
   evolution->SetStoppingCriterion( criterion );
+
+  if( evolution->GetStoppingCriterion( ) != criterion )
+    {
+    std::cerr << "evolution->GetStoppingCriterion( ) != criterion" << std::endl;
+
+    return EXIT_FAILURE;
+    }
+  std::cout << "evolution->GetStoppingCriterion( ) == criterion" << std::endl;
+
   evolution->SetLevelSetContainer( lscontainer );
+
+  if( evolution->GetLevelSetContainer( ) != lscontainer )
+    {
+    std::cerr << "evolution->GetLevelSetContainer( ) != lscontainer" << std::endl;
+
+    return EXIT_FAILURE;
+    }
+  std::cerr << "evolution->GetLevelSetContainer( ) == lscontainer" << std::endl;
+
 
   try
     {
@@ -185,6 +213,22 @@ int itkSingleLevelSetWhitakerImage2DWithCurvatureTest( int argc, char* argv[] )
   catch ( itk::ExceptionObject& err )
     {
     std::cout << err << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  if( evolution->GetNumberOfIterations() != 5 )
+    {
+    std::cerr << "evolution->GetNumberOfIterations() != 5" << std::endl;
+    std::cerr << "evolution->GetNumberOfIterations() = " << evolution->GetNumberOfIterations() << std::endl;
+
+    return EXIT_FAILURE;
+    }
+
+  if( evolution->GetAlpha() != 0.9 )
+    {
+    std::cerr << "evolution->GetAlpha() != 0.9" << std::endl;
+
+    return EXIT_FAILURE;
     }
 
   return EXIT_SUCCESS;
