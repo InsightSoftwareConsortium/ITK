@@ -108,6 +108,8 @@ private:
  * \wiki
  * \wikiexample{ImageProcessing/IntensityWindowingImageFilter,IntensityWindowingImageFilter}
  * \endwiki
+ *
+ * \sa RescaleIntensityImageFilter
  */
 template< typename  TInputImage, typename  TOutputImage = TInputImage >
 class ITK_EXPORT IntensityWindowingImageFilter:
