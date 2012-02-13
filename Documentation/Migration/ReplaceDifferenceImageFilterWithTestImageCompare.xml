@@ -59,14 +59,14 @@
       <Old>
         <![CDATA[
 #include "itkDifferenceImageFilter.h"
-typedef itk::DifferenceImageFilter<InputType,OutputType> CompareImagesFilterType;
+typedef itk::DifferenceImageFilter<InputType,OutputType> ComparisonImagesFilterType;
         ]]>
       </Old>
 
       <New>
         <![CDATA[
-#include "itkTestingCompareImageFilter.h"
-typedef itk::Testing::CompareImageFilter<InputType,OutputType> CompareImagesFilterType;
+#include "itkTestingComparisonImageFilter.h"
+typedef itk::Testing::ComparisonImageFilter<InputType,OutputType> ComparisonImagesFilterType;
         ]]>
       </New>
 
@@ -116,7 +116,7 @@ typedef itk::Testing::CompareImageFilter<InputType,OutputType> CompareImagesFilt
         <![CDATA[itk::DifferenceImageFilter]]>
       </Old>
       <New>
-        <![CDATA[itk::Testing::CompareImageFilter]]>
+        <![CDATA[itk::Testing::ComparisonImageFilter]]>
       </New>
     </MigrationFix-Automatic>
     <MigrationFix-Automatic>
@@ -124,7 +124,7 @@ typedef itk::Testing::CompareImageFilter<InputType,OutputType> CompareImagesFilt
         <![CDATA[itkDifferenceImageFilter.h]]>
       </Old>
       <New>
-        <![CDATA[itkTestingCompareImageFilter.h]]>
+        <![CDATA[itkTestingComparisonImageFilter.h]]>
       </New>
     </MigrationFix-Automatic>
 
