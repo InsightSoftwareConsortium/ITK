@@ -68,14 +68,38 @@ public:
   typedef TOutput     OutputType;
 
 protected:
-  RenyiEntropyThresholdCalculator() {};
-  virtual ~RenyiEntropyThresholdCalculator() {};
+  RenyiEntropyThresholdCalculator() { m_FirstBin = 0; m_LastBin = 0; m_Size = 0; }
+  virtual ~RenyiEntropyThresholdCalculator() {}
+
   void GenerateData(void);
+
+  typedef typename HistogramType::TotalAbsoluteFrequencyType  TotalAbsoluteFrequencyType;
+  typedef typename HistogramType::AbsoluteFrequencyType       AbsoluteFrequencyType;
+  typedef typename HistogramType::InstanceIdentifier          InstanceIdentifier;
+  typedef typename HistogramType::SizeValueType               SizeValueType;
+
+  InstanceIdentifier MaxEntropyThresholding( const HistogramType* histogram,
+                                             const std::vector< double >& normHisto,
+                                             const std::vector< double >& P1,
+                                             const std::vector< double >& P2 );
+
+  InstanceIdentifier MaxEntropyThresholding2( const HistogramType* histogram,
+                                              const std::vector< double >& normHisto,
+                                              const std::vector< double >& P1,
+                                              const std::vector< double >& P2 );
+
+  InstanceIdentifier MaxEntropyThresholding3( const HistogramType* histogram,
+                                              const std::vector< double >& normHisto,
+                                              const std::vector< double >& P1,
+                                              const std::vector< double >& P2 );
 
 private:
   RenyiEntropyThresholdCalculator(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
+  InstanceIdentifier  m_FirstBin;
+  InstanceIdentifier  m_LastBin;
+  SizeValueType       m_Size;
 };
 
 } // end namespace itk
