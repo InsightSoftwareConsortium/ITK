@@ -399,7 +399,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreade
     {
     pointIsValid = associate->TransformAndEvaluateFixedPoint( oindex,
             virtualPoint,
-            true/*compute gradient*/,
+            associate->GetGradientSourceIncludesFixed() /*compute gradient*/,
             mappedFixedPoint,
             fixedImageValue,
             fixedImageGradient );
@@ -407,7 +407,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreade
       {
       pointIsValid = associate->TransformAndEvaluateMovingPoint( oindex,
              virtualPoint,
-             true/*compute gradient*/,
+             associate->GetGradientSourceIncludesMoving() /*compute gradient*/,
              mappedMovingPoint,
              movingImageValue,
              movingImageGradient );
