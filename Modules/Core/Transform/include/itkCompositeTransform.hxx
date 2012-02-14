@@ -701,7 +701,8 @@ CompositeTransform<TScalar, NDimensions>
   for( signed long tind = (signed long) this->GetNumberOfTransforms() - 1;
        tind >= 0; tind-- )
     {
-    TransformTypePointer transform = this->GetNthTransform( tind );
+    /* Get a raw pointer for efficiency, avoiding SmartPointer register/unregister */
+    const TransformType * transform = this->GetNthTransform( tind ).GetPointer();
 
     NumberOfParametersType offsetLast = offset;
 
@@ -713,17 +714,12 @@ CompositeTransform<TScalar, NDimensions>
 
       // to do: why parameters are listed from N-1 to 1???
       typename TransformType::JacobianType current_jacobian;
+      NumberOfParametersType numberOfLocalParameters = transform->GetNumberOfLocalParameters();
 
-      current_jacobian.SetSize(
-        NDimensions, transform->GetNumberOfLocalParameters() );
-
-      transform->ComputeJacobianWithRespectToParameters(
-        transformedPoint, current_jacobian );
-
+      current_jacobian.SetSize( NDimensions, numberOfLocalParameters );
+      transform->ComputeJacobianWithRespectToParameters( transformedPoint, current_jacobian );
       j.update( current_jacobian, 0, offset );
-
-      offset += transform->GetNumberOfLocalParameters();
-
+      offset += numberOfLocalParameters;
       }
 
     /** The composite transform needs to compose previous jacobians
@@ -972,14 +968,14 @@ CompositeTransform<TScalar, NDimensions>
    * we wouldn't know that in this class, so this is safest. */
   NumberOfParametersType result = NumericTraits< NumberOfParametersType >::Zero;
 
-  TransformTypePointer transform;
+  const TransformType * transform;
 
   for( signed long tind = (signed long) this->GetNumberOfTransforms() - 1;
        tind >= 0; tind-- )
     {
     if( this->GetNthTransformToOptimize( tind ) )
       {
-      transform = this->GetNthTransform( tind );
+      transform = this->GetNthTransform( tind ).GetPointer();
       result += transform->GetNumberOfParameters();
       }
     }
@@ -999,14 +995,14 @@ CompositeTransform<TScalar, NDimensions>
    * field transfroms (deformation, bspline) during processing and
    * we wouldn't know that in this class, so this is safest. */
   NumberOfParametersType result = NumericTraits< NumberOfParametersType >::Zero;
-  TransformTypePointer transform;
+  const TransformType * transform;
 
   for( signed long tind = (signed long) this->GetNumberOfTransforms() - 1;
        tind >= 0; tind-- )
     {
     if( this->GetNthTransformToOptimize( tind ) )
       {
-      transform = this->GetNthTransform( tind );
+      transform = this->GetNthTransform( tind ).GetPointer();
       result += transform->GetNumberOfLocalParameters();
       }
     }
@@ -1024,14 +1020,14 @@ CompositeTransform<TScalar, NDimensions>
    * NOTE: We might want to optimize this only to store the result and
    * only re-calc when the composite object has been modified. */
   NumberOfParametersType result = NumericTraits< NumberOfParametersType >::Zero;
-  TransformTypePointer transform;
+  const TransformType * transform;
 
   for( signed long tind = (signed long) this->GetNumberOfTransforms() - 1;
        tind >= 0; tind-- )
     {
     if( this->GetNthTransformToOptimize( tind ) )
       {
-      transform = this->GetNthTransform( tind );
+      transform = this->GetNthTransform( tind ).GetPointer();
       result += transform->GetFixedParameters().Size();
       }
     }
@@ -1065,14 +1061,14 @@ CompositeTransform<TScalar, NDimensions>
 
   NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::Zero;
 
-  TransformTypePointer subtransform;
+  TransformType * subtransform;
 
   for( signed long tind = (signed long) this->GetNumberOfTransforms() - 1;
        tind >= 0; tind-- )
     {
     if( this->GetNthTransformToOptimize( tind ) )
       {
-      subtransform = this->GetNthTransform( tind );
+      subtransform = const_cast<TransformType*>( this->GetNthTransform( tind ).GetPointer() );
       /* The input values are in a monolithic block, so we have to point
        * to the subregion corresponding to the individual subtransform.
        * This simply creates an Array object with data pointer, no
@@ -1104,7 +1100,7 @@ CompositeTransform<TScalar, NDimensions>
     {
     if( this->GetNthTransformToOptimize( tind ) )
       {
-      if( !this->GetNthTransform( tind )->HasLocalSupport() )
+      if( !this->GetNthTransform( tind ).GetPointer()->HasLocalSupport() )
         {
         result = false;
         }
