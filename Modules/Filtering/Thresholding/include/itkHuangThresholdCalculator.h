@@ -69,13 +69,23 @@ public:
   typedef TOutput     OutputType;
 
 protected:
-  HuangThresholdCalculator() {};
-  virtual ~HuangThresholdCalculator() {};
+  HuangThresholdCalculator() { m_FirstBin = 0; m_LastBin = 0; m_Size = 0; }
+  virtual ~HuangThresholdCalculator() {}
   void GenerateData(void);
+
+  typedef typename HistogramType::TotalAbsoluteFrequencyType  TotalAbsoluteFrequencyType;
+  typedef typename HistogramType::AbsoluteFrequencyType       AbsoluteFrequencyType;
+  typedef typename HistogramType::InstanceIdentifier          InstanceIdentifier;
+  typedef typename HistogramType::SizeValueType               SizeValueType;
+  typedef typename HistogramType::MeasurementType             MeasurementType;
 
 private:
   HuangThresholdCalculator(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+
+  InstanceIdentifier  m_FirstBin;
+  InstanceIdentifier  m_LastBin;
+  SizeValueType       m_Size;
 
 };
 
