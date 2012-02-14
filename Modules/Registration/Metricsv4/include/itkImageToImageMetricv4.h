@@ -38,6 +38,9 @@ namespace itk
  * Computes similarity between regions of two images, using two
  * user-supplied transforms, a 'fixed' transform and a 'moving' transform.
  *
+ * \warning Integer-type images are not yet supported. See concept-checking
+ * in class declaration for details.
+ *
  * \note Currently GetValue is implemented in this base simply by calling
  * GetValueAndDerivative and discarding the derivative. This is inefficient
  * but sufficient to match API requirements. Derived classes may
@@ -879,6 +882,17 @@ private:
   SizeValueType m_NumberOfSkippedFixedSampledPoints;
 
   DerivativeValueType m_FloatingPointCorrectionResolution;
+
+  /** Only floating-point images are currently supported. To support integer images,
+   * several small changes must be made, but a larger complication is handling
+   * pre-warping cleanly. */
+  #ifdef ITK_USE_CONCEPT_CHECKING
+  typedef typename PixelTraits<FixedImagePixelType>::ValueType  FixedImagePixelValueType;
+  typedef typename PixelTraits<MovingImagePixelType>::ValueType MovingImagePixelValueType;
+  itkConceptMacro( OnlyDefinedForFloatingPointTypes0, ( itk::Concept::IsFloatingPoint<FixedImagePixelValueType> ) );
+  itkConceptMacro( OnlyDefinedForFloatingPointTypes1, ( itk::Concept::IsFloatingPoint<MovingImagePixelValueType> ) );
+  #endif // ITK_USE_CONCEPT_CHECKING
+
 };
 }//namespace itk
 
