@@ -36,55 +36,58 @@ HuangThresholdCalculator<THistogram, TOutput>
 ::GenerateData(void)
 {
   const HistogramType * histogram = this->GetInput();
-  // histogram->Print(std::cout);
-  if ( histogram->GetTotalFrequency() == 0 )
+
+  TotalAbsoluteFrequencyType total = histogram->GetTotalFrequency();
+  if( total == NumericTraits< TotalAbsoluteFrequencyType >::Zero )
     {
     itkExceptionMacro(<< "Histogram is empty");
     }
-  ProgressReporter progress(this, 0, histogram->GetSize(0) );
-  if( histogram->GetSize(0) == 1 )
+  m_Size = histogram->GetSize( 0 );
+  ProgressReporter progress( this, 0, m_Size );
+  if( m_Size == 1 )
     {
-    this->GetOutput()->Set( static_cast< OutputType >( histogram->GetMeasurement(0,0) ) );
+    this->GetOutput()->Set( histogram->GetMeasurement( 0, 0 ) );
+    return;
     }
 
-  int size = histogram->GetSize(0);
   // find first and last non-empty bin - could replace with stl
-  int first = 0;
-  while( first < size && histogram->GetFrequency(first, 0) == 0 )
+  m_FirstBin = 0;
+  while( m_FirstBin < m_Size && histogram->GetFrequency(m_FirstBin, 0) == 0 )
     {
-    first++;
+    ++m_FirstBin;
     }
-  if (first == size)
+  if( m_FirstBin == m_Size )
     {
     itkWarningMacro(<< "No data in histogram");
     return;
     }
-  int last = size - 1;
-  while( last > first && histogram->GetFrequency(last, 0) == 0)
+  m_LastBin = m_Size - 1;
+  while( m_LastBin > m_FirstBin && histogram->GetFrequency(m_LastBin, 0) == 0)
     {
-    last--;
+    --m_LastBin;
     }
 
   // calculate the cumulative density and the weighted cumulative density
-  std::vector<double> S(last+1, 0.0);
-  std::vector<double> W(last+1, 0.0);
+  std::vector<double> S(m_LastBin+1, 0.0);
+  std::vector<double> W(m_LastBin+1, 0.0);
 
   S[0] = histogram->GetFrequency(0, 0);
 
-  for( int i = std::max((int)1, first); i <= last; i++ )
+  for( InstanceIdentifier i = vnl_math_max( NumericTraits< InstanceIdentifier >::One, m_FirstBin );
+       i <= m_LastBin; i++ )
     {
     S[i] = S[i - 1] + histogram->GetFrequency(i, 0);
     W[i] = W[i - 1] + histogram->GetMeasurement(i, 0) * histogram->GetFrequency(i, 0);
     }
 
   // precalculate the summands of the entropy given the absolute difference x - mu (integral)
-  double C = last - first;
-  std::vector<double> Smu(last + 1 - first, 0);
+  double C = static_cast< double >( m_LastBin - m_FirstBin );
+  std::vector<double> Smu(m_LastBin + 1 - m_FirstBin, 0);
 
-  for( unsigned int i = 1; i < Smu.size(); i++)
+  for( size_t i = 1; i < Smu.size(); i++)
     {
-    double mu = 1 / (1 + i / C);
-    Smu[i] = -mu * vcl_log(mu) - (1 - mu) * vcl_log(1 - mu);
+    double mu = 1. / ( 1. + static_cast< double >( i ) / C );
+    Smu[i] = -mu * vcl_log( mu ) - (1. - mu) * vcl_log( 1. - mu );
     }
 
   // calculate the threshold
@@ -99,39 +102,44 @@ HuangThresholdCalculator<THistogram, TOutput>
   // changed. I think there is a bug in the ImageJ implementation, but
   // perhaps it is hidden by whatever java does when rounding a NaN to integer.
 
-  int bestThreshold = 0;
+  InstanceIdentifier bestThreshold = 0;
   double bestEntropy = itk::NumericTraits<double>::max();
-  for( int threshold = first; threshold < last; threshold++ )
+
+  for( InstanceIdentifier threshold = m_FirstBin;
+       threshold < m_LastBin; threshold++ )
     {
-    double entropy = 0;
-    int mu = Math::Round<int>(W[threshold] / S[threshold]);
+    double entropy = 0.;
+    MeasurementType mu = Math::Round< MeasurementType >(W[threshold] / S[threshold]);
+
     typename HistogramType::MeasurementVectorType v(1);
     v[0]=mu;
-    typename HistogramType::IndexType muFullIdx;
-    itk::IndexValueType muIdx;
+
+    typename HistogramType::IndexType       muFullIdx;
+    typename HistogramType::IndexValueType  muIdx;
 
     if (histogram->GetIndex(v, muFullIdx))
       {
       muIdx = muFullIdx[0];
-      for( int i = first; i <= threshold; i++ )
+      for( InstanceIdentifier i = m_FirstBin; i <= threshold; i++ )
         {
-        assert((unsigned)vcl_abs(i - muIdx) < Smu.size());
-        assert(vcl_abs(i - muIdx) >= 0);
-        entropy += Smu[vcl_abs(i - muIdx)] * histogram->GetFrequency(i, 0);
+        InstanceIdentifier diff = static_cast< InstanceIdentifier >( vcl_abs(static_cast< typename HistogramType::IndexValueType >( i ) - muIdx) );
+        itkAssertInDebugAndIgnoreInReleaseMacro( diff < Smu.size() );
+
+        entropy += Smu[ diff ] * histogram->GetFrequency(i, 0);
         }
-      mu = Math::Round<int>((W[last] - W[threshold]) / (S[last] - S[threshold]));
+      mu = Math::Round< MeasurementType >((W[m_LastBin] - W[threshold]) / (S[m_LastBin] - S[threshold]));
       v[0]=mu;
 
       bool status = histogram->GetIndex(v, muFullIdx);
-      assert(status);
       if (!status)
         {
         itkExceptionMacro("Failed looking up histogram");
         }
       muIdx = muFullIdx[0];
-      for( int i = threshold + 1; i <= last; i++ )
+      for( InstanceIdentifier i = threshold + 1; i <= m_LastBin; i++ )
         {
-        entropy += Smu[vcl_abs(i - muIdx)] * histogram->GetFrequency(i, 0);
+        InstanceIdentifier diff = static_cast< InstanceIdentifier >( vcl_abs(static_cast< typename HistogramType::IndexValueType >( i ) - muIdx) );
+        entropy += Smu[ diff ] * histogram->GetFrequency(i, 0);
         }
       if (bestEntropy > entropy)
         {
