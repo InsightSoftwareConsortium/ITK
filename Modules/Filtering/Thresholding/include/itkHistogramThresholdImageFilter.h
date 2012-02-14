@@ -34,6 +34,16 @@ namespace itk {
  * applies that theshold to the input image using the
  * BinaryThresholdImageFilter.
  *
+ * The filter also has the option of providing a mask, in which case
+ * the histogram and therefore the threshold is computed from the
+ * parts of the mask with values indicated by MaskValue. The output
+ * image is,  by default, masked by the same image. This output
+ * masking can be disabled using SetMaskOutput(false). Note that there
+ * is an inconsistency here. The MaskImageFilter (used internally)
+ * masks by non zero values, where as the MaskedImageToHistogramFilter
+ * uses explicit values. If this doesn't match your usage then the
+ * output masking will need to be managed by the user.
+ *
  * \author Richard Beare. Department of Medicine, Monash University,
  * Melbourne, Australia.
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
@@ -46,7 +56,7 @@ namespace itk {
  * \ingroup ITKThresholding
  */
 
-template<class TInputImage, class TOutputImage>
+template<class TInputImage, class TOutputImage, class TMaskImage=TOutputImage>
 class ITK_EXPORT HistogramThresholdImageFilter :
     public ImageToImageFilter<TInputImage, TOutputImage>
 {
@@ -65,14 +75,17 @@ public:
 
   typedef TInputImage                       InputImageType;
   typedef TOutputImage                      OutputImageType;
+  typedef TMaskImage                        MaskImageType;
 
   /** Image pixel value typedef. */
   typedef typename InputImageType::PixelType   InputPixelType;
   typedef typename OutputImageType::PixelType  OutputPixelType;
+  typedef typename MaskImageType::PixelType    MaskPixelType;
 
   /** Image related typedefs. */
   typedef typename InputImageType::Pointer  InputImagePointer;
   typedef typename OutputImageType::Pointer OutputImagePointer;
+  typedef typename MaskImageType::Pointer   MaskImagePointer;
 
   typedef typename InputImageType::SizeType    InputSizeType;
   typedef typename InputImageType::IndexType   InputIndexType;
@@ -80,6 +93,9 @@ public:
   typedef typename OutputImageType::SizeType   OutputSizeType;
   typedef typename OutputImageType::IndexType  OutputIndexType;
   typedef typename OutputImageType::RegionType OutputImageRegionType;
+  typedef typename MaskImageType::SizeType     MaskSizeType;
+  typedef typename MaskImageType::IndexType    MaskIndexType;
+  typedef typename MaskImageType::RegionType   MaskImageRegionType;
 
    typedef typename NumericTraits< InputPixelType >::ValueType ValueType;
    typedef typename NumericTraits< ValueType >::RealType       ValueRealType;
@@ -98,6 +114,35 @@ public:
                       InputImageType::ImageDimension );
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       OutputImageType::ImageDimension );
+  itkStaticConstMacro(MaskImageDimension, unsigned int,
+                      MaskImageType::ImageDimension );
+
+  /** Set and Get the mask image */
+    /** Set the marker image */
+  void SetMaskImage(const TMaskImage *input)
+  {
+    // Process object is not const-correct so the const casting is required.
+    this->SetNthInput( 1, const_cast< TMaskImage * >( input ) );
+  }
+
+  /** Get the marker image */
+  const MaskImageType * GetMaskImage() const
+  {
+    return static_cast< MaskImageType * >(
+             const_cast< DataObject * >( this->ProcessObject::GetInput(1) ) );
+  }
+
+  /** Set the input image */
+  void SetInput1(const TInputImage *input)
+  {
+    this->SetInput(input);
+  }
+
+  /** Set the marker image */
+  void SetInput2(const TMaskImage *input)
+  {
+    this->SetMaskImage(input);
+  }
 
   /** Set the "outside" pixel value. The default value
    * NumericTraits<OutputPixelType>::Zero. */
@@ -122,6 +167,19 @@ public:
   itkSetMacro(AutoMinimumMaximum, bool);
   itkGetConstMacro(AutoMinimumMaximum, bool);
   itkBooleanMacro(AutoMinimumMaximum);
+
+  /** Do you want the output to be masked by the mask used in
+    * histogram construction. Only relevant if masking is in
+    * use. Default is true. */
+  itkSetMacro(MaskOutput, bool);
+  itkGetConstMacro(MaskOutput, bool);
+  itkBooleanMacro(MaskOutput);
+
+  /** The value in the mask image, if used, indicating voxels that
+  should be included. Default is the max of pixel type, as in the
+  MaskedImageToHistogramFilter */
+  itkSetMacro(MaskValue, MaskPixelType);
+  itkGetConstMacro(MaskValue, MaskPixelType);
 
   /** Get the computed threshold. */
   itkGetConstMacro(Threshold,InputPixelType);
@@ -148,16 +206,19 @@ protected:
   void GenerateInputRequestedRegion();
   void GenerateData ();
 
+  OutputPixelType     m_InsideValue;
+  OutputPixelType     m_OutsideValue;
+  InputPixelType      m_Threshold;
+  MaskPixelType       m_MaskValue;
+  CalculatorPointer   m_Calculator;
+  unsigned            m_NumberOfHistogramBins;
+  bool                m_AutoMinimumMaximum;
+  bool                m_MaskOutput;
+
 private:
   HistogramThresholdImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  OutputPixelType     m_InsideValue;
-  OutputPixelType     m_OutsideValue;
-  InputPixelType      m_Threshold;
-  CalculatorPointer   m_Calculator;
-  unsigned            m_NumberOfHistogramBins;
-  bool                m_AutoMinimumMaximum;
 }; // end of class
 
 } // end namespace itk

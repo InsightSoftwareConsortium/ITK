@@ -42,7 +42,15 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>
   // search the bin corresponding to the mean value
   typename HistogramType::MeasurementVectorType v(1);
   v[0] = mean;
-  return data->GetIndex(v)[0];
+
+  typename HistogramType::IndexType idx;
+  bool status = data->GetIndex(v, idx);
+  assert(status);
+  if (!status)
+    {
+    itkExceptionMacro("Failed histogram lookup");
+    }
+  return idx[0];
 }
 
 
@@ -152,8 +160,18 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>
     else
       {
       typename HistogramType::MeasurementVectorType v(1);
+      typename HistogramType::IndexType idx;
       v[0] = temp;
-      threshold = Math::Floor<int>((double)histogram->GetIndex(v)[0]);
+      bool status = histogram->GetIndex(v, idx);
+      assert(status);
+      if (status)
+        {
+        threshold = Math::Floor<int>((double)idx[0]);
+        }
+      else
+        {
+        itkExceptionMacro(<< "KittlerIllingworthThresholdCalculator failed to lookup threshold");
+        }
       }
   }
   this->GetOutput()->Set( static_cast<OutputType>( histogram->GetMeasurement( threshold, 0 ) ) );
