@@ -31,11 +31,18 @@
    fun:itk__nrrdEncodingRaw_write
 }
 {
-   Some zlib suppressions
+   zlib suppression
    Memcheck:Cond
    fun:longest_match
    fun:deflate_slow
    fun:itk_zlib_deflate
+}
+{
+   zlib suppression
+   Memcheck:Cond
+   fun:inflateReset2
+   fun:inflateInit2_
+   obj:/lib/x86_64-linux-gnu/libz.so.1.2.3.4
 }
 {
    Some dl_relocate_object suppressions
