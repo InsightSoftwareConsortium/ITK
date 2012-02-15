@@ -85,7 +85,11 @@ OtsuThresholdCalculator< THistogram, TOutput >
     double varBetween = freqLeft * ( 1.0 - freqLeft )
                         * vnl_math_sqr(meanLeft - meanRight);
 
-    if ( varBetween > maxVarBetween )
+    // for portability - different compilers seem to produce results
+    // that differ by one bin, presumable because of the precision of
+    // calculating varBetween
+    const double tolerance = 0.00001;
+    if ( (varBetween - tolerance) > maxVarBetween )
       {
       maxVarBetween = varBetween;
       maxBinNumber = j;
@@ -97,7 +101,8 @@ OtsuThresholdCalculator< THistogram, TOutput >
     progress.CompletedPixel();
     }
   // should be this for backward compatibility
-  // this->GetOutput()->Set( static_cast<OutputType>( histogram->GetBinMin( 0, maxBinNumber + 1 ) ) );
+  // this->GetOutput()->Set( static_cast<OutputType>(
+  // histogram->GetBinMin( 0, maxBinNumber + 1 ) ) );
   this->GetOutput()->Set( static_cast<OutputType>( histogram->GetMeasurement( maxBinNumber + 1, 0 ) ) );
 }
 

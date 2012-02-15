@@ -39,7 +39,7 @@ HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
   m_Threshold      = NumericTraits<InputPixelType>::Zero;
   m_MaskValue      = NumericTraits<MaskPixelType>::max();
   m_Calculator     = NULL;
-  this->SetMaskOutput(true);
+  m_MaskOutput     = true;
 
   if( typeid(ValueType) == typeid(signed char) || typeid(ValueType) == typeid(unsigned char) )
     {

@@ -27,25 +27,28 @@ namespace itk
 {
 
 template<class THistogram, class TOutput>
-int
+IndexValueType
 KittlerIllingworthThresholdCalculator<THistogram, TOutput>
 ::Mean()
 {
   const HistogramType * data = this->GetInput();
-  double tot=0, sum=0;
-  tot = data->GetTotalFrequency();
-  for (unsigned i=0; i<data->GetSize(0); i++)
+
+  double tot = static_cast< double >( data->GetTotalFrequency() );
+  double sum=0;
+
+  for (InstanceIdentifier i=0; i<data->GetSize(0); i++)
     {
-    sum += (data->GetMeasurement(i,0)*data->GetFrequency(i,0));
+    sum += static_cast< double >(data->GetMeasurement(i,0)*data->GetFrequency(i,0));
     }
   double mean = sum/tot;
+
   // search the bin corresponding to the mean value
   typename HistogramType::MeasurementVectorType v(1);
   v[0] = mean;
 
   typename HistogramType::IndexType idx;
   bool status = data->GetIndex(v, idx);
-  assert(status);
+  itkAssertInDebugAndIgnoreInReleaseMacro(status);
   if (!status)
     {
     itkExceptionMacro("Failed histogram lookup");
@@ -57,36 +60,43 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>
 template<class THistogram, class TOutput>
 double
 KittlerIllingworthThresholdCalculator<THistogram, TOutput>
-::A( int j)
+::A( InstanceIdentifier j)
 {
   const HistogramType * y = this->GetInput();
   double x = 0;
-  for (int i = 0; i<=j; i++)
-    x += y->GetFrequency(i,0);
+  for (InstanceIdentifier i = 0; i<=j; i++)
+    {
+    x += static_cast< double >( y->GetFrequency(i,0) );
+    }
   return x;
 }
 
 template<class THistogram, class TOutput>
 double
 KittlerIllingworthThresholdCalculator<THistogram, TOutput>
-::B( int j)
+::B( InstanceIdentifier j)
 {
   const HistogramType * y = this->GetInput();
   double x = 0;
-  for( int i=0; i<=j; i++ )
-    x += y->GetMeasurement(i,0)*y->GetFrequency(i,0);
+  for( InstanceIdentifier i=0; i<=j; i++ )
+    {
+    x += static_cast< double >( y->GetMeasurement(i,0) ) * static_cast< double >( y->GetFrequency(i,0) );
+    }
   return x;
 }
 
 template<class THistogram, class TOutput>
 double
 KittlerIllingworthThresholdCalculator<THistogram, TOutput>
-::C( int j)
+::C( InstanceIdentifier j)
 {
   const HistogramType * y = this->GetInput();
   double x = 0;
-  for( int i = 0; i<=j; i++ )
-    x += y->GetMeasurement(i,0)*y->GetMeasurement(i,0)*y->GetFrequency(i,0);
+  for( InstanceIdentifier i = 0; i<=j; i++ )
+    {
+    double temp = static_cast< double >( y->GetMeasurement(i,0) );
+    x += temp * temp * static_cast< double >( y->GetFrequency(i,0) );
+    }
   return x;
 }
 
@@ -105,72 +115,127 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>
     {
     itkExceptionMacro(<< "Histogram is empty");
     }
-  ProgressReporter progress(this, 0, histogram->GetSize(0) );
-  if( histogram->GetSize(0) == 1 )
+  SizeValueType size = histogram->GetSize(0);
+  ProgressReporter progress(this, 0, size );
+  if( size == 1 )
     {
     this->GetOutput()->Set( static_cast<OutputType>( histogram->GetMeasurement(0,0) ) );
+    return;
     }
 
-  unsigned int size = histogram->GetSize(0);
+  IndexValueType threshold = Mean(); // threshold is a histogram index
+  IndexValueType Tprev =-2;
 
-  int threshold = Mean(); // threshold is a histogram index
-  int Tprev =-2;
-  double mu, nu, p, q, sigma2, tau2, w0, w1, w2, sqterm, temp;
+  double As1 = A( size - 1 );
+  double Bs1 = B( size - 1 );
+  double Cs1 = C( size - 1 );
+
+  if( vnl_math_abs( As1 ) < vnl_math::eps )
+    {
+    itkGenericExceptionMacro( << "As1 = 0." );
+    }
+
   //int counter=1;
   while (threshold!=Tprev)
     {
     //Calculate some statistics.
-    double At = A(threshold);
-    double Bt = B(threshold);
-    double Ct = C(threshold);
-    double As1 = A(size - 1);
-    double Bs1 = B(size - 1);
-    double Cs1 = C(size - 1);
+    double At = A( threshold );
+    double Bt = B( threshold );
+    double Ct = C( threshold );
 
-    mu = Bt/At;
-    nu = (Bs1-Bt)/(As1-At);
-    p = At/As1;
-    q = (As1-At) / As1;
-    sigma2 = Ct/At-(mu*mu);
-    tau2 = (Cs1-Ct) / (As1-At) - (nu*nu);
+    if( vnl_math_abs( At ) < vnl_math::eps )
+      {
+      itkGenericExceptionMacro( << "At = 0." );
+      }
+    double mu = Bt/At;
+
+    if( vnl_math_abs( As1 - At ) < vnl_math::eps )
+      {
+      itkWarningMacro( << "KittlerIllingworthThresholdCalculator: not converging: As1 = At = " << At );
+      break;
+      }
+
+    double nu = (Bs1-Bt)/(As1-At);
+
+    double p = At/As1;
+    double q = (As1-At) / As1;
+    double sigma2 = Ct/At-(mu*mu);
+    double tau2 = (Cs1-Ct) / (As1-At) - (nu*nu);
+
+    if( sigma2 < vnl_math::eps )
+      {
+      itkGenericExceptionMacro( << "sigma2 <= 0");
+      }
+
+    if( vnl_math_abs( tau2 ) < vnl_math::eps )
+      {
+      itkGenericExceptionMacro( << "tau2 = 0");
+      }
+
+    if( vnl_math_abs( p ) < vnl_math::eps )
+      {
+      itkGenericExceptionMacro( << "p = 0" );
+      }
 
     //The terms of the quadratic equation to be solved.
-    w0 = 1.0/sigma2-1.0/tau2;
-    w1 = mu/sigma2-nu/tau2;
-    w2 = (mu*mu)/sigma2 - (nu*nu)/tau2 + vcl_log10((sigma2*(q*q))/(tau2*(p*p)));
+    double w0 = 1.0/sigma2-1.0/tau2;
+    double w1 = mu/sigma2-nu/tau2;
+    double w2 = (mu*mu)/sigma2 - (nu*nu)/tau2 + vcl_log10((sigma2*(q*q))/(tau2*p*p));
 
     //If the next threshold would be imaginary, return with the current one.
-    sqterm = (w1*w1)-w0*w2;
-    if (sqterm < 0)
+    double sqterm = (w1*w1)-w0*w2;
+    if (sqterm < vnl_math::eps)
       {
       itkWarningMacro( << "KittlerIllingworthThresholdCalculator: not converging.");
-      this->GetOutput()->Set( static_cast<OutputType>( histogram->GetMeasurement( threshold, 0 ) ) );
-      return;
+      break;
       }
 
-    //The updated threshold is the integer part of the solution of the quadratic equation.
-    Tprev = threshold;
-    temp = (w1+vcl_sqrt(sqterm))/w0;
+    if( vnl_math_abs( w0 ) < vnl_math::eps )
+      {
+      double temp = -w2 / w1;
 
-    if (vnl_math_isnan(temp))
-      {
-      itkWarningMacro (<< "KittlerIllingworthThresholdCalculator: NaN, not converging.");
-      threshold = Tprev;
-      }
-    else
-      {
       typename HistogramType::MeasurementVectorType v(1);
       typename HistogramType::IndexType idx;
       v[0] = temp;
       bool status = histogram->GetIndex(v, idx);
-      assert(status);
+      itkAssertInDebugAndIgnoreInReleaseMacro(status);
       if (status)
         {
-        threshold = Math::Floor<int>((double)idx[0]);
+        threshold = Math::Floor<IndexValueType>( static_cast< double >( idx[0] ) );
         }
       else
         {
         itkExceptionMacro(<< "KittlerIllingworthThresholdCalculator failed to lookup threshold");
+        }
+      }
+    else
+      {
+      //The updated threshold is the integer part of the solution of the quadratic equation.
+      Tprev = threshold;
+      double temp = (w1+vcl_sqrt(sqterm))/w0;
+
+      // not sure if this condition is really useful
+      if (vnl_math_isnan(temp))
+        {
+        itkWarningMacro (<< "KittlerIllingworthThresholdCalculator: NaN, not converging.");
+        threshold = Tprev;
+        break;
+        }
+      else
+        {
+        typename HistogramType::MeasurementVectorType v(1);
+        typename HistogramType::IndexType idx;
+        v[0] = temp;
+        bool status = histogram->GetIndex(v, idx);
+        itkAssertInDebugAndIgnoreInReleaseMacro(status);
+        if (status)
+          {
+          threshold = Math::Floor<IndexValueType>( static_cast< double >( idx[0] ) );
+          }
+        else
+          {
+          itkExceptionMacro(<< "KittlerIllingworthThresholdCalculator failed to lookup threshold");
+          }
         }
       }
   }
