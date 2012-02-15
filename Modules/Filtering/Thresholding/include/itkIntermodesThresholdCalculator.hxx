@@ -20,7 +20,6 @@
 
 #include "itkIntermodesThresholdCalculator.h"
 #include "itkProgressReporter.h"
-#include "vnl/vnl_math.h"
 
 namespace itk
 {
@@ -32,16 +31,17 @@ IntermodesThresholdCalculator<THistogram, TOutput>
 {
   int modes = 0;
 
-  const unsigned len = h.size();
-  for (unsigned k = 1; k < len - 1; k++)
+  const size_t len = h.size();
+  for (size_t k = 1; k < len - 1; k++)
     {
-    if (h[k-1] < h[k] && h[k+1] < h[k])
+    if ( (h[k-1] < h[k]) && (h[k+1] < h[k]))
       {
-      modes++;
-      if (modes>2)
+      ++modes;
+      if(modes > 2)
+        {
         return false;
+        }
       }
-
     }
 
   return (modes == 2);
@@ -61,85 +61,91 @@ IntermodesThresholdCalculator<THistogram, TOutput>
     {
     itkExceptionMacro(<< "Histogram is empty");
     }
-  ProgressReporter progress(this, 0, histogram->GetSize(0) );
-  if( histogram->GetSize(0) == 1 )
+  SizeValueType size = histogram->GetSize(0);
+
+  ProgressReporter progress(this, 0, size );
+  if( size == 1 )
     {
     this->GetOutput()->Set( static_cast<OutputType>( histogram->GetMeasurement(0,0) ) );
+    return;
     }
 
-  unsigned int size = histogram->GetSize(0);
-
   // smooth the histogram
-  std::vector<double> smoothedHist;
-  smoothedHist.resize(size);
-  for( unsigned int i = 0; i<size; i++)
+  std::vector<double> smoothedHist(size);
+  for( InstanceIdentifier i = 0; i<size; i++)
     {
-    smoothedHist[i] = histogram->GetFrequency(i, 0);
+    smoothedHist[i] = static_cast< double >( histogram->GetFrequency(i, 0) );
     progress.CompletedPixel();
     }
 
-  unsigned smIter = 0;
+  SizeValueType smIter = 0;
 
   while (!BimodalTest(smoothedHist))
     {
     // smooth with a 3 point running mean
-    double previous = 0, current = 0, next = smoothedHist[0];
-    for (unsigned i = 0; i < smoothedHist.size() - 1; i++)
+    double previous = 0.;
+    double current = 0.;
+    double next = smoothedHist[0];
+
+    for (size_t i = 0; i < smoothedHist.size() - 1; i++)
       {
       previous = current;
       current = next;
       next = smoothedHist[i + 1];
-      smoothedHist[i] = (previous + current + next) / 3;
+      smoothedHist[i] = (previous + current + next) / 3.;
       }
-    smoothedHist[smoothedHist.size() - 1] = (current + next) / 3;
-    smIter++;
+    smoothedHist[smoothedHist.size() - 1] = (current + next) / 3.;
+    ++smIter;
+
     if (smIter > m_MaximumSmoothingIterations )
       {
-      itkExceptionMacro( << "Exceeded maximum iterations for histogram smoothing." );
+      itkGenericExceptionMacro( << "Exceeded maximum iterations for histogram smoothing." );
       return;
       }
     }
+
+
+  size_t tt = 0;
   if (m_UseInterMode)
     {
     // The threshold is the mean between the two peaks.
-    unsigned tt=0;
-    for (unsigned i=1; i<smoothedHist.size() - 1; i++)
+    for (size_t i=1; i<smoothedHist.size() - 1; i++)
       {
-      if (smoothedHist[i-1] < smoothedHist[i] && smoothedHist[i+1] < smoothedHist[i])
+      if ( ( smoothedHist[i-1] < smoothedHist[i] )&& ( smoothedHist[i+1] < smoothedHist[i] ) )
         {
         tt += i;
         }
       }
-    this->GetOutput()->Set( static_cast<OutputType>( histogram->GetMeasurement( tt/2, 0 ) ) );
+    tt /= 2;
     }
   else
     {
-    unsigned firstpeak=0;
-    for (unsigned i=1; i<smoothedHist.size() - 1; i++)
+    size_t firstpeak=0;
+    for (size_t i=1; i<smoothedHist.size() - 1; i++)
       {
-      if (smoothedHist[i-1] < smoothedHist[i] && smoothedHist[i+1] < smoothedHist[i])
+      if( (smoothedHist[i-1] < smoothedHist[i] ) && ( smoothedHist[i+1] < smoothedHist[i] ) )
         {
         firstpeak = i;
         break;
         }
       }
     double minVal = smoothedHist[firstpeak];
-    unsigned minPos = firstpeak;
+    tt = firstpeak;
 
-    for (unsigned i=firstpeak + 1; i<smoothedHist.size() - 1; i++)
+    for (size_t i=firstpeak + 1; i<smoothedHist.size() - 1; i++)
       {
       if (smoothedHist[i] < minVal)
         {
         minVal = smoothedHist[i];
-        minPos = i;
+        tt = i;
         }
-      if (smoothedHist[i-1] < smoothedHist[i] && smoothedHist[i+1] < smoothedHist[i])
+      if( (smoothedHist[i-1] < smoothedHist[i] ) && ( smoothedHist[i+1] < smoothedHist[i] ) )
         {
         break;
         }
       }
-    this->GetOutput()->Set( static_cast<OutputType>( histogram->GetMeasurement( minPos, 0 ) ) );
     }
+  this->GetOutput()->Set( static_cast<OutputType>( histogram->GetMeasurement( tt, 0 ) ) );
 }
 
 template<class THistogram, class TOutput>
