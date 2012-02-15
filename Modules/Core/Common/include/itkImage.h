@@ -168,7 +168,7 @@ public:
 
   /**
    * example usage:
-   * typedef typename ImageTypeTraits<TImageType>::template Rebind< float >::Type OutputImageType;
+   * typedef typename ImageType::template Rebind< float >::Type OutputImageType;
    *
    */
   template <class UPixelType, unsigned int UImageDimension = VImageDimension>
