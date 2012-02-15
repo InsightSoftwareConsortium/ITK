@@ -40,18 +40,20 @@ IsoDataThresholdCalculator<THistogram, TOutput>
     {
     itkExceptionMacro(<< "Histogram is empty");
     }
-  ProgressReporter progress(this, 0, histogram->GetSize(0) );
-  if( histogram->GetSize(0) == 1 )
+  SizeValueType size = histogram->GetSize(0);
+  ProgressReporter progress(this, 0, size );
+  if( size == 1 )
     {
-    this->GetOutput()->Set( histogram->GetMeasurement(0,0) );
+    this->GetOutput()->Set( static_cast< OutputType >( histogram->GetMeasurement(0,0) ) );
+    return;
     }
 
-  unsigned int currentPos = 0;
+  InstanceIdentifier currentPos = 0;
   while (true)
     {
     // std::cout << "currentPos: " << currentPos << std::endl;
     // skip the empty bins to speed up things
-    for( unsigned int i = currentPos; i < histogram->GetSize(0); i++)
+    for( InstanceIdentifier i = currentPos; i < size; i++)
       {
       if( histogram->GetFrequency(i, 0) > 0 )
         {
@@ -60,7 +62,7 @@ IsoDataThresholdCalculator<THistogram, TOutput>
         }
       progress.CompletedPixel();
       }
-    if( currentPos >= histogram->GetSize(0) )
+    if( currentPos >= size )
       {
       // can't compute the isodata value - use the mean instead
       this->GetOutput()->Set( static_cast<OutputType>( histogram->Mean(0) ) );
@@ -69,37 +71,35 @@ IsoDataThresholdCalculator<THistogram, TOutput>
     // compute the mean of the lower values
     double l = 0;
     double totl = 0;
-    for( unsigned i = 0; i <= currentPos; i++)
+
+    for( InstanceIdentifier i = 0; i <= currentPos; i++)
       {
-      totl += histogram->GetFrequency(i, 0);
-      l += histogram->GetMeasurement(i, 0) * histogram->GetFrequency(i, 0);
+      totl += static_cast< double >( histogram->GetFrequency(i, 0) );
+      l += static_cast< double >( histogram->GetMeasurement(i, 0) ) * static_cast< double >( histogram->GetFrequency(i, 0) );
       }
     // compute the mean of the higher values
     double h = 0;
     double toth = 0;
-    for( unsigned int i = currentPos + 1; i < histogram->GetSize(0); i++)
+
+    for( InstanceIdentifier i = currentPos + 1; i < size; i++)
       {
-      toth += histogram->GetFrequency(i, 0);
-      h += histogram->GetMeasurement(i, 0) * histogram->GetFrequency(i, 0);
+      toth += static_cast< double >( histogram->GetFrequency(i, 0) );
+      h += static_cast< double >( histogram->GetMeasurement(i, 0) ) * static_cast< double >( histogram->GetFrequency(i, 0) );
       }
     // a test to avoid a potential division by 0
-    // std::cout << "totl: " << totl << std::endl;
-    // std::cout << "toth: " << toth << std::endl;
-    if (totl > 0 && toth > 0)
+    if( ( totl > vnl_math::eps ) && ( toth > vnl_math::eps ) )
       {
       l /= totl;
       h /= toth;
-      // std::cout << "histogram->GetMeasurement( currentPos, 0 ): " << histogram->GetMeasurement( currentPos, 0 ) << std::endl;
-      // std::cout << "l: " << l << std::endl;
-      // std::cout << "h: " << h << std::endl;
-      // std::cout << "(l + h) / 2: " << (l + h) / 2 << std::endl;
-      if( histogram->GetMeasurement( currentPos, 0 ) >= (l + h) / 2 )
+
+      if( histogram->GetMeasurement( currentPos, 0 ) >= (l + h) * 0.5 )
         {
         this->GetOutput()->Set( static_cast<OutputType>( histogram->GetMeasurement( currentPos, 0 ) ) );
         return;
         }
       }
-    currentPos++;
+
+    ++currentPos;
     progress.CompletedPixel();
     }
 }

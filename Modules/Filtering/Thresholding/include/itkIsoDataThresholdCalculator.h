@@ -71,9 +71,12 @@ public:
   typedef TOutput     OutputType;
 
 protected:
-  IsoDataThresholdCalculator() {};
-  virtual ~IsoDataThresholdCalculator() {};
+  IsoDataThresholdCalculator() {}
+  virtual ~IsoDataThresholdCalculator() {}
   void GenerateData(void);
+
+  typedef typename HistogramType::SizeValueType               SizeValueType;
+  typedef typename HistogramType::InstanceIdentifier          InstanceIdentifier;
 
 private:
   IsoDataThresholdCalculator(const Self&); //purposely not implemented
