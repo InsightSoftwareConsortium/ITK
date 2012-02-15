@@ -136,22 +136,117 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
 template<class TDomainPartitioner, class TImageToImageMetric, class TCorrelationMetric>
 bool
 CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner, TImageToImageMetric, TCorrelationMetric>
-::ProcessPoint( const VirtualIndexType &,
+::ProcessVirtualPoint( const VirtualIndexType & virtualIndex,
+                       const VirtualPointType & virtualPoint,
+                       const ThreadIdType threadId )
+{
+  FixedOutputPointType        mappedFixedPoint;
+  FixedImagePixelType         mappedFixedPixelValue;
+  FixedImageGradientType      mappedFixedImageGradient;
+  MovingOutputPointType       mappedMovingPoint;
+  MovingImagePixelType        mappedMovingPixelValue;
+  MovingImageGradientType     mappedMovingImageGradient;
+  bool                        pointIsValid = false;
+  MeasureType                 metricValueResult;
+
+  TCorrelationMetric * associate = dynamic_cast<TCorrelationMetric *>(this->m_Associate);
+
+  /* Transform the point into fixed and moving spaces, and evaluate.
+   * Different behavior with pre-warping enabled is handled transparently.
+   * Do this in a try block to catch exceptions and print more useful info
+   * then we otherwise get when exceptions are caught in MultiThreader. */
+  try
+    {
+    pointIsValid = associate->TransformAndEvaluateFixedPoint( virtualIndex,
+                                      virtualPoint,
+                                      this->m_Associate->GetGradientSourceIncludesFixed(),
+                                      mappedFixedPoint,
+                                      mappedFixedPixelValue,
+                                      mappedFixedImageGradient );
+    }
+  catch( ExceptionObject & exc )
+    {
+    //NOTE: there must be a cleaner way to do this:
+    std::string msg("Caught exception: \n");
+    msg += exc.what();
+    ExceptionObject err(__FILE__, __LINE__, msg);
+    throw err;
+    }
+  if( !pointIsValid )
+    {
+    return pointIsValid;
+    }
+
+  try
+    {
+    pointIsValid = associate->TransformAndEvaluateMovingPoint( virtualIndex,
+                                    virtualPoint,
+                                    this->m_Associate->GetGradientSourceIncludesMoving(),
+                                    mappedMovingPoint,
+                                    mappedMovingPixelValue,
+                                    mappedMovingImageGradient );
+    }
+  catch( ExceptionObject & exc )
+    {
+    std::string msg("Caught exception: \n");
+    msg += exc.what();
+    ExceptionObject err(__FILE__, __LINE__, msg);
+    throw err;
+    }
+  if( !pointIsValid )
+    {
+    return pointIsValid;
+    }
+
+  /* Call the user method in derived classes to do the specific
+   * calculations for value and derivative. */
+  try
+    {
+    pointIsValid = this->ProcessPoint(
+                                   virtualIndex,
+                                   virtualPoint,
+                                   mappedFixedPoint, mappedFixedPixelValue,
+                                   mappedFixedImageGradient,
+                                   mappedMovingPoint, mappedMovingPixelValue,
+                                   mappedMovingImageGradient,
+                                   metricValueResult, this->m_LocalDerivativesPerThread[threadId],
+                                   threadId );
+    }
+  catch( ExceptionObject & exc )
+    {
+    //NOTE: there must be a cleaner way to do this:
+    std::string msg("Exception in GetValueAndDerivativeProcessPoint:\n");
+    msg += exc.what();
+    ExceptionObject err(__FILE__, __LINE__, msg);
+    throw err;
+    }
+  if( pointIsValid )
+    {
+    this->m_NumberOfValidPointsPerThread[threadId]++;
+    }
+
+  return pointIsValid;
+}
+
+template<class TDomainPartitioner, class TImageToImageMetric, class TCorrelationMetric>
+bool
+CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner, TImageToImageMetric, TCorrelationMetric>
+::ProcessPoint( const VirtualIndexType &           itkNotUsed(virtualIndex),
                 const VirtualPointType &           virtualPoint,
-                const FixedImagePointType &,
+                const FixedImagePointType &        itkNotUsed(mappedFixedPoint),
                 const FixedImagePixelType &        fixedImageValue,
-                const FixedImageGradientType &,
-                const MovingImagePointType &,
+                const FixedImageGradientType &     itkNotUsed(mappedFixedImageGradient),
+                const MovingImagePointType &       itkNotUsed(mappedMovingPoint),
                 const MovingImagePixelType &       movingImageValue,
                 const MovingImageGradientType &    movingImageGradient,
-                MeasureType &,
-                DerivativeType &,
+                MeasureType &                      itkNotUsed(metricValueReturn),
+                DerivativeType &                   itkNotUsed(localDerivativeReturn),
                 const ThreadIdType                 threadID) const
 {
 
   /*
-   * metricValueReturn and localDerivativeReturn will not be computed here
-   * instead, m_InternalCumSumPerThread will store temporary results for each thread
+   * metricValueReturn and localDerivativeReturn will not be computed here.
+   * Instead, m_InternalCumSumPerThread will store temporary results for each thread
    * and finally compute metric and derivative in overloaded AfterThreadedExecution
    */
 
@@ -188,23 +283,7 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
     cumsum.mdm[par] += m1 * sum;
     }
 
-  /*
-   * This skippes over the following code from the original ProcessVirtualPoint()
-   *
-   * ImageToImageMetricv4GetValueAndDerivativeThreaderBase::ProcessVirtualPoint
-   * after ProcessPoint
-   * if( pointIsValid )
-     {
-     this->m_NumberOfValidPointsPerThread[threadId]++;
-     this->m_MeasurePerThread[threadId] += metricValueResult;
-     this->StorePointDerivativeResult( virtualIndex, threadId );
-     }
-   *
-   * For efficiency, call 'this->m_NumberOfValidPointsPerThread[threadId]++' , and then return false
-   * from this method to skip the code mentioned above since it will do unnecessary operations.
-   */
-  this->m_NumberOfValidPointsPerThread[threadID]++;
-  return false;
+  return true;
 }
 
 } // end namespace itk
