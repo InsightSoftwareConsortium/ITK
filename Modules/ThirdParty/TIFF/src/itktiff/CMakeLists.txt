@@ -55,6 +55,7 @@ if(BORLAND)
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -w-8004 -w-8057")
 endif(BORLAND)
 
+include(${CMAKE_ROOT}/Modules/TestBigEndian.cmake)
 include(${CMAKE_ROOT}/Modules/CheckIncludeFiles.cmake)
 include(${CMAKE_ROOT}/Modules/CheckSymbolExists.cmake)
 include(${CMAKE_ROOT}/Modules/CheckFunctionExists.cmake)
@@ -98,6 +99,8 @@ include(CheckTypeSize)
 
 CHECK_TYPE_SIZE("int" SIZEOF_INT)
 CHECK_TYPE_SIZE("long" SIZEOF_LONG)
+
+TEST_BIG_ENDIAN(WORDS_BIGENDIAN)
 
 configure_file(${ITK3P_TIFF_SOURCE_DIR}/tiffDllConfig.h.in
   ${ITK3P_TIFF_BINARY_DIR}/tiffDllConfig.h)
