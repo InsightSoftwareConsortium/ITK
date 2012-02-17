@@ -2,3 +2,4 @@ QuadEdgeMeshBorderTransform
 BSplineDeformableTransform
 BSplineDisplacementFieldTransform
 TimeVaryingVelocityFieldTransform
+TimeVaryingBSplineVelocityFieldTransform
