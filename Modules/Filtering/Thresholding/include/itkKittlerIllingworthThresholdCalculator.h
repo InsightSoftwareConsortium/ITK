@@ -68,17 +68,24 @@ public:
   typedef TOutput     OutputType;
 
 protected:
-  KittlerIllingworthThresholdCalculator() {};
-  virtual ~KittlerIllingworthThresholdCalculator() {};
+  KittlerIllingworthThresholdCalculator() {}
+  virtual ~KittlerIllingworthThresholdCalculator() {}
+
   void GenerateData(void);
+
+  typedef typename HistogramType::TotalAbsoluteFrequencyType  TotalAbsoluteFrequencyType;
+  typedef typename HistogramType::AbsoluteFrequencyType       AbsoluteFrequencyType;
+  typedef typename HistogramType::InstanceIdentifier          InstanceIdentifier;
+  typedef typename HistogramType::SizeValueType               SizeValueType;
 
 private:
   KittlerIllingworthThresholdCalculator(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-  int Mean();
-  double A( int j);
-  double B( int j);
-  double C( int j);
+
+  IndexValueType Mean();
+  double A( InstanceIdentifier j);
+  double B( InstanceIdentifier j);
+  double C( InstanceIdentifier j);
 
 };
 

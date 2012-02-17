@@ -130,13 +130,15 @@ MaximumEntropyThresholdCalculator<THistogram, TOutput>
     tot_ent = ent_back + ent_obj;
 
     // IJ.log(""+max_ent+"  "+tot_ent);
-    if ( max_ent < tot_ent )
+
+    const double tol = 0.00001;
+
+    if ( max_ent < (tot_ent - tol) )
       {
       max_ent = tot_ent;
       threshold = it;
       }
     }
-
   this->GetOutput()->Set( static_cast<OutputType>( histogram->GetMeasurement( threshold, 0 ) ) );
 
 }
