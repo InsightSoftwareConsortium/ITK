@@ -31,15 +31,15 @@
  */
 
 template<class TFilter>
-class CommandIterationUpdate : public itk::Command
+class CommandIterationUpdate3 : public itk::Command
 {
 public:
-  typedef CommandIterationUpdate   Self;
+  typedef CommandIterationUpdate3  Self;
   typedef itk::Command             Superclass;
   typedef itk::SmartPointer<Self>  Pointer;
   itkNewMacro( Self );
 protected:
-  CommandIterationUpdate() {};
+  CommandIterationUpdate3() {};
 public:
 
   void Execute(itk::Object *caller, const itk::EventObject & event)
@@ -76,14 +76,12 @@ public:
     */
 
     //debug:
-    std::cout << "  CL Current level:           " << currentLevel << std::endl;
-    std::cout << "   SF Shrink factor:          " << shrinkFactors[currentLevel] << std::endl;
-    std::cout << "   SS Smoothing sigma:        " << smoothingSigmas[currentLevel] << std::endl;
-    std::cout << "   RFP Required fixed params: " << adaptors[currentLevel]->GetRequiredFixedParameters() << std::endl;
-    std::cout << "   LR Final learning rate:    " << optimizer->GetLearningRate() << std::endl;
-    std::cout << "   FM Final metric value:     " << optimizer->GetValue() << std::endl;
-    std::cout << "   SC Optimizer scales:       " << optimizer->GetScales() << std::endl;
-    std::cout << "   FG Final metric gradient (sample of values): ";
+    std::cout << "CL " << currentLevel << std::endl;
+    std::cout << "SF " << shrinkFactors[currentLevel] << std::endl;
+    std::cout << "SS " << smoothingSigmas[currentLevel] << std::endl;
+    std::cout << "LR " << optimizer->GetLearningRate() << std::endl;
+    std::cout << "FM " << optimizer->GetValue() << std::endl;
+    std::cout << "FG ";
     if( gradient.GetSize() < 10 )
       {
       std::cout << gradient;
@@ -156,13 +154,13 @@ int PerformSimpleImageRegistration3( int argc, char *argv[] )
   affineOptimizer->SetDoEstimateLearningRateOnce( false ); //true by default
   affineOptimizer->SetDoEstimateLearningRateAtEachIteration( true );
 
-  typedef CommandIterationUpdate<AffineRegistrationType> AffineCommandType;
+  typedef CommandIterationUpdate3<AffineRegistrationType> AffineCommandType;
   typename AffineCommandType::Pointer affineObserver = AffineCommandType::New();
   affineSimple->AddObserver( itk::IterationEvent(), affineObserver );
 
   try
     {
-    std::cout << "Affine txf:" << std::endl;
+    std::cout << "Aff:" << std::endl;
     affineSimple->StartRegistration();
     }
   catch( itk::ExceptionObject &e )
@@ -173,11 +171,8 @@ int PerformSimpleImageRegistration3( int argc, char *argv[] )
 
   typedef itk::ImageToImageMetricv4<FixedImageType, MovingImageType> ImageMetricType;
   typename ImageMetricType::Pointer imageMetric = dynamic_cast<ImageMetricType*>( affineOptimizer->GetMetric() );
-  std::cout << "Affine parameters after registration: " << std::endl
-            << affineOptimizer->GetCurrentPosition() << std::endl
-            << "Last LearningRate: " << affineOptimizer->GetLearningRate() << std::endl
-            << "Number of threads used: metric: " << imageMetric->GetNumberOfThreadsUsed()
-            << std::endl << " optimizer: " << affineOptimizer->GetNumberOfThreads() << std::endl;
+  std::cout << "Nth: " << imageMetric->GetNumberOfThreadsUsed()
+            << " " << affineOptimizer->GetNumberOfThreads() << std::endl;
 
   //
   // Now do the displacement field transform with gaussian smoothing using
@@ -281,13 +276,13 @@ int PerformSimpleImageRegistration3( int argc, char *argv[] )
     }
   displacementFieldSimple->SetTransformParametersAdaptorsPerLevel( adaptors );
 
-  typedef CommandIterationUpdate<DisplacementFieldRegistrationType> DisplacementFieldRegistrationCommandType;
+  typedef CommandIterationUpdate3<DisplacementFieldRegistrationType> DisplacementFieldRegistrationCommandType;
   typename DisplacementFieldRegistrationCommandType::Pointer displacementFieldObserver = DisplacementFieldRegistrationCommandType::New();
   displacementFieldSimple->AddObserver( itk::IterationEvent(), displacementFieldObserver );
 
   try
     {
-    std::cout << "Displ. txf - gauss update" << std::endl;
+    std::cout << "Disp" << std::endl;
     displacementFieldSimple->StartRegistration();
     }
   catch( itk::ExceptionObject &e )
