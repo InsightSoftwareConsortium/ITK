@@ -491,11 +491,11 @@ void PhilipsRECImageIO::Read(void *buffer)
   // everywhere.
   // In addition, it has the added benifit of reading gzip compressed image
   // files that do not have a .gz ending.
-  gzFile file_p = ::gzopen(ImageFileName.c_str(), "rb");
+  gzFile file_p = gzopen(ImageFileName.c_str(), "rb");
   if ( file_p == NULL )
     {
     ImageFileName += ".gz";
-    file_p = ::gzopen(ImageFileName.c_str(), "rb");
+    file_p = gzopen(ImageFileName.c_str(), "rb");
     if ( file_p == NULL )
       {
       std::ostringstream message;
@@ -535,8 +535,8 @@ void PhilipsRECImageIO::Read(void *buffer)
       throw exception;
       }
     const z_off_t offset =  Math::CastWithRangeCheck< z_off_t, SizeType >(realIndex * imageSliceSizeInBytes);
-    ::gzseek(file_p, offset, SEEK_SET);
-    ::gzread( file_p, p + ( slice * imageSliceSizeInBytes ),
+    gzseek(file_p, offset, SEEK_SET);
+    gzread( file_p, p + ( slice * imageSliceSizeInBytes ),
               Math::CastWithRangeCheck< unsigned int, SizeType >(imageSliceSizeInBytes) );
     }
   gzclose(file_p);
