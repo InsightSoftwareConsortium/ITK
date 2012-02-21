@@ -73,6 +73,14 @@ LightObject::CreateAnother() const
   return LightObject::New();
 }
 
+LightObject::Pointer
+LightObject::InternalClone() const
+{
+  // nothing to clone in the most basic class of the toolkit.
+  // just return a new instance
+  return CreateAnother();
+}
+
 /**
  * Delete a itk object. This method should always be used to delete an object
  * when the new operator was used to create it. Using the C++ delete method

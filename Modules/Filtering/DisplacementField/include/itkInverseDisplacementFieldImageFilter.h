@@ -89,9 +89,6 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
-  /** implement type-specific clone method*/
-  itkTransformCloneMacro();
-
   /** Transform typedef.
    *
    * \todo Check that input and output images have the same number of

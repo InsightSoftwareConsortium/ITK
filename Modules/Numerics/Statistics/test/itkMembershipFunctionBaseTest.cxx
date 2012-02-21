@@ -50,12 +50,6 @@ public:
     return score;
     }
 
-  typename MembershipFunctionBase< TMeasurementVector >::Pointer Clone() const
-    {
-    Pointer memberFunction = MyMembershipFunctionBase< TMeasurementVector >::New();
-    return memberFunction.GetPointer();
-    }
-
 };
 
 }

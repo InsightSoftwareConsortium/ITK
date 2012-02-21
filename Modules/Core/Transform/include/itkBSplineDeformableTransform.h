@@ -120,6 +120,7 @@ public:
   // Explicit New() method, used here because we need to split the itkNewMacro()
   // in order to overload the CreateAnother() method so that we can copy the m_BulkTransform
   // explicitly.
+  // TODO: shouldn't it be done with the Clone() method?
   itkSimpleNewMacro(Self);
   virtual ::itk::LightObject::Pointer CreateAnother(void) const
     {
@@ -130,6 +131,9 @@ public:
     smartPtr = static_cast<Pointer>( copyPtr );
     return smartPtr;
     }
+
+  /** implement type-specific clone method*/
+  itkCloneMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( BSplineDeformableTransform, BSplineBaseTransform );
@@ -284,9 +288,6 @@ public:
 
   /** Function to retrieve the transform domain mesh size. */
   itkGetConstMacro( GridRegion, RegionType );
-
-  /** implement type-specific clone method*/
-  itkTransformCloneMacro();
 
   typedef Transform<ScalarType, itkGetStaticConstMacro(SpaceDimension),
                     itkGetStaticConstMacro(SpaceDimension)> BulkTransformType;

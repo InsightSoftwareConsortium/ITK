@@ -117,7 +117,7 @@ public:
   /** Method to clone a membership function, i.e. create a new instance of
    * the same type of membership function and configure its ivars to
    * match. */
-  MembershipFunctionPointer Clone() const;
+  virtual typename LightObject::Pointer InternalClone() const;
 
 protected:
   MahalanobisDistanceMembershipFunction(void);

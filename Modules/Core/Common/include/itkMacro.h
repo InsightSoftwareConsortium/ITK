@@ -512,7 +512,8 @@ namespace itk
  * provide a definition for New(). */
 #define itkNewMacro(x)                                         \
   itkSimpleNewMacro(x)                                         \
-  itkCreateAnotherMacro(x)
+  itkCreateAnotherMacro(x)                                     \
+  itkCloneMacro(x)
 
 #define itkSimpleNewMacro(x)                                   \
   static Pointer New(void)                                     \
@@ -533,6 +534,14 @@ namespace itk
     smartPtr = x::New().GetPointer();                          \
     return smartPtr;                                           \
     }
+
+#define itkCloneMacro(x)                                        \
+  Pointer Clone() const                             \
+  {                                                             \
+    Pointer rval =                                  \
+      dynamic_cast<x *>(this->InternalClone().GetPointer());    \
+    return rval;                                                \
+  }
 
 /** Define two object creation methods.  The first method, New(),
  * creates an object from a class but does not defer to a factory.

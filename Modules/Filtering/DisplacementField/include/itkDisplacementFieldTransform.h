@@ -100,9 +100,6 @@ public:
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro( Self );
 
-  /** implement type-specific clone method*/
-  itkTransformCloneMacro();
-
   /** InverseTransform type. */
   typedef typename Superclass::InverseTransformBasePointer InverseTransformBasePointer;
 

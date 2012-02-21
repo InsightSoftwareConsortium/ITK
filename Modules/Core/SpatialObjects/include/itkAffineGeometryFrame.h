@@ -95,7 +95,7 @@ public:
   virtual void Initialize();
 
   /** Clone the geometry frame */
-  virtual Pointer Clone() const;
+  virtual LightObject::Pointer InternalClone() const;
 
 protected:
 

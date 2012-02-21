@@ -69,9 +69,6 @@ public:
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro( Self );
 
-  /** implement type-specific clone method */
-  itkTransformCloneMacro();
-
   /** InverseTransform type. */
   typedef typename Superclass:: InverseTransformBasePointer InverseTransformBasePointer;
 
@@ -236,7 +233,7 @@ protected:
   ScalarType                                m_UpperTimeBound;
 
   /** Clone the current transform */
-  virtual TransformPointer InternalClone() const;
+  virtual typename LightObject::Pointer InternalClone() const;
 
   typename DisplacementFieldType::Pointer
     CopyDisplacementField(const DisplacementFieldType *toCopy) const;

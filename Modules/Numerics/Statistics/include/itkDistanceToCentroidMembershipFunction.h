@@ -97,13 +97,13 @@ public:
    * value of the density function, not probability. */
   double Evaluate(const MeasurementVectorType & measurement) const;
 
-  /** Return a copy of the current membership function */
-  MembershipFunctionPointer Clone() const;
-
 protected:
   DistanceToCentroidMembershipFunction(void);
   virtual ~DistanceToCentroidMembershipFunction(void) {}
   void PrintSelf(std::ostream & os, Indent indent) const;
+
+  /** Return a copy of the current membership function */
+  virtual typename LightObject::Pointer InternalClone() const;
 
 private:
   DistanceToCentroidMembershipFunction(const Self &);   //purposely not implemented

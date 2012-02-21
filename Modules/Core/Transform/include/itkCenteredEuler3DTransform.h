@@ -45,14 +45,11 @@ public:
   typedef SmartPointer<Self>            Pointer;
   typedef SmartPointer<const Self>      ConstPointer;
 
-  /** Run-time type information (and related methods). */
-  itkTypeMacro(CenteredEuler3DTransform, Euler3DTransform);
-
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro(Self);
 
-  /** implement type-specific clone method*/
-  itkTransformCloneMacro();
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(CenteredEuler3DTransform, Euler3DTransform);
 
   /** Dimension of the space. */
   itkStaticConstMacro(SpaceDimension, unsigned int, 3);
