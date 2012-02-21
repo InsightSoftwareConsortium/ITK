@@ -6,11 +6,10 @@ set(ITKMetricsv4Tests
   itkImageToImageMetricv4Test.cxx
   itkJointHistogramMutualInformationImageToImageMetricv4Test.cxx
   itkJointHistogramMutualInformationImageToImageRegistrationTest.cxx
-  itkDemonsImageToImageMetricv4Test.cxx
+  itkMeanSquaresImageToImageMetricv4Test.cxx
   itkCorrelationImageToImageMetricv4Test.cxx
   itkANTSNeighborhoodCorrelationImageToImageMetricv4Test.cxx
   itkANTSNeighborhoodCorrelationImageToImageRegistrationTest.cxx
-  itkAffineDemonsImageToImageRegistrationTest.cxx
   itkMattesMutualInformationImageToImageMetricv4Test.cxx
   itkMattesMutualInformationImageToImageMetricv4RegistrationTest.cxx
   itkMultiStartImageToImageMetricv4RegistrationTest.cxx
@@ -57,9 +56,9 @@ itk_add_test(NAME itkJointHistogramMutualInformationImageToImageRegistrationTest
               ${TEMP}/itkJointHistogramMutualInformationImageToImageRegistrationTest2.nii.gz
               50 0 )
 
-itk_add_test(NAME itkDemonsImageToImageMetricv4Test
+itk_add_test(NAME itkMeanSquaresImageToImageMetricv4Test
       COMMAND ITKMetricsv4TestDriver
-      itkDemonsImageToImageMetricv4Test)
+      itkMeanSquaresImageToImageMetricv4Test)
 
 itk_add_test(NAME itkCorrelationImageToImageMetricv4Test
       COMMAND ITKMetricsv4TestDriver
@@ -77,14 +76,6 @@ itk_add_test(NAME itkANTSNeighborhoodCorrelationImageToImageRegistrationTest
               ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBSplined10.png
              ${TEMP}/itkANTSNeighborhoodCorrelationImageToImageRegistrationTest.nii.gz
               10 1 0.25 )
-
-itk_add_test(NAME itkAffineDemonsImageToImageRegistrationTest
-      COMMAND ITKMetricsv4TestDriver
-              itkAffineDemonsImageToImageRegistrationTest
-              DATA{Baseline/face_avg.jpg}
-              DATA{Input/face_b.jpg}
-              ${TEMP}/itkAffineDemonsImageToImageRegistrationTest.nii.gz
-              30 )
 
 itk_add_test(NAME itkMattesMutualInformationImageToImageMetricv4Test
       COMMAND ITKMetricsv4TestDriver

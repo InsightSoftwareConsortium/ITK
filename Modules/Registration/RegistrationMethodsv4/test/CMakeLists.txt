@@ -98,7 +98,7 @@ itk_add_test(NAME itkQuasiNewtonOptimizerv4RegistrationTest1
       COMMAND ITKRegistrationMethodsv4TestDriver
               itkQuasiNewtonOptimizerv4RegistrationTest
               2 # number of dimensions
-              dm # Demons metric
+              ms # MeanSquares metric
               DATA{Input/r16slice_rigid.nii.gz}
               DATA{Input/r64slice.nii.gz}
               ${TEMP}/itkQuasiNewtonOptimizerv4RegistrationTest1.nii.gz

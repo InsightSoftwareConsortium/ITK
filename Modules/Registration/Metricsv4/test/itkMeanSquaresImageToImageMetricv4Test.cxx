@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkDemonsImageToImageMetricv4.h"
+#include "itkMeanSquaresImageToImageMetricv4.h"
 #include "itkTranslationTransform.h"
 
 /* Simple test to verify that class builds and runs.
@@ -25,7 +25,7 @@
  * TODO Numerical verification.
  */
 
-int itkDemonsImageToImageMetricv4Test(int, char ** const)
+int itkMeanSquaresImageToImageMetricv4Test(int, char ** const)
 {
 
   const unsigned int imageSize = 5;
@@ -95,7 +95,7 @@ int itkDemonsImageToImageMetricv4Test(int, char ** const)
   movingTransform->SetIdentity();
 
   /* The metric */
-  typedef itk::DemonsImageToImageMetricv4< ImageType, ImageType, ImageType > MetricType;
+  typedef itk::MeanSquaresImageToImageMetricv4< ImageType, ImageType, ImageType > MetricType;
 
   MetricType::Pointer metric = MetricType::New();
 

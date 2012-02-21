@@ -15,32 +15,32 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDemonsImageToImageMetricv4GetValueAndDerivativeThreader_h
-#define __itkDemonsImageToImageMetricv4GetValueAndDerivativeThreader_h
+#ifndef __itkMeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader_h
+#define __itkMeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader_h
 
 #include "itkImageToImageMetricv4GetValueAndDerivativeThreader.h"
 
 namespace itk
 {
 
-/** \class DemonsImageToImageMetricv4GetValueAndDerivativeThreader
- * \brief Processes points for DemonsImageToImageMetricv4 \c
+/** \class MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader
+ * \brief Processes points for MeanSquaresImageToImageMetricv4 \c
  * GetValueAndDerivative.
  *
  * \ingroup ITKMetricsv4
  */
-template < class TDomainPartitioner, class TImageToImageMetric, class TDemonsMetric >
-class DemonsImageToImageMetricv4GetValueAndDerivativeThreader
+template < class TDomainPartitioner, class TImageToImageMetric, class TMeanSquaresMetric >
+class MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader
   : public ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >
 {
 public:
   /** Standard class typedefs. */
-  typedef DemonsImageToImageMetricv4GetValueAndDerivativeThreader                                      Self;
+  typedef MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader                                 Self;
   typedef ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric > Superclass;
   typedef SmartPointer< Self >                                                                         Pointer;
   typedef SmartPointer< const Self >                                                                   ConstPointer;
 
-  itkTypeMacro( DemonsImageToImageMetricv4GetValueAndDerivativeThreader, ImageToImageMetricv4GetValueAndDerivativeThreader );
+  itkTypeMacro( MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader, ImageToImageMetricv4GetValueAndDerivativeThreader );
 
   itkNewMacro( Self );
 
@@ -61,7 +61,7 @@ public:
   typedef typename Superclass::DerivativeValueType      DerivativeValueType;
 
 protected:
-  DemonsImageToImageMetricv4GetValueAndDerivativeThreader() {}
+  MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader() {}
 
   /** This function computes the local voxel-wise contribution of
    *  the metric to the global integral of the metric/derivative.
@@ -80,14 +80,14 @@ protected:
         const ThreadIdType                threadID ) const;
 
 private:
-  DemonsImageToImageMetricv4GetValueAndDerivativeThreader( const Self & ); // purposely not implemented
+  MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader( const Self & ); // purposely not implemented
   void operator=( const Self & ); // purposely not implemented
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDemonsImageToImageMetricv4GetValueAndDerivativeThreader.hxx"
+#include "itkMeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader.hxx"
 #endif
 
 #endif

@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 #include "itkQuasiNewtonOptimizerv4.h"
-#include "itkDemonsImageToImageMetricv4.h"
+#include "itkMeanSquaresImageToImageMetricv4.h"
 #include "itkRegistrationParameterScalesFromShift.h"
 #include "itkRegistrationParameterScalesFromJacobian.h"
 
@@ -86,7 +86,7 @@ int itkQuasiNewtonOptimizerv4TestTemplated(int numberOfIterations,
   typedef typename MovingTransformType::ParametersType ParametersType;
 
   // Metric
-  typedef itk::DemonsImageToImageMetricv4
+  typedef itk::MeanSquaresImageToImageMetricv4
     < FixedImageType, MovingImageType, FixedImageType > MetricType;
   typename MetricType::Pointer metric = MetricType::New();
 

@@ -24,7 +24,7 @@
  * No numerical verification is performed. Test passes as long
  * as no exception occurs.
  */
-#include "itkDemonsImageToImageMetricv4.h"
+#include "itkMeanSquaresImageToImageMetricv4.h"
 #include "itkJointHistogramMutualInformationImageToImageMetricv4.h"
 #include "itkANTSNeighborhoodCorrelationImageToImageMetricv4.h"
 #include "itkQuasiNewtonOptimizerv4.h"
@@ -143,12 +143,12 @@ int itkQuasiNewtonOptimizerv4RegistrationTestMain(int argc, char *argv[])
     < FixedImageType, MovingImageType >         MetricBaseType;
   typename MetricBaseType::Pointer metric;
 
-  if (metricString.compare("dm") == 0)
+  if (metricString.compare("ms") == 0)
     {
-    typedef itk::DemonsImageToImageMetricv4
-      < FixedImageType, MovingImageType >           DemonsMetricType;
-    typename DemonsMetricType::Pointer demonsMetric = DemonsMetricType::New();
-    metric = demonsMetric.GetPointer();
+    typedef itk::MeanSquaresImageToImageMetricv4
+      < FixedImageType, MovingImageType >           MeanSquaresMetricType;
+    typename MeanSquaresMetricType::Pointer meanSquaresMetric = MeanSquaresMetricType::New();
+    metric = meanSquaresMetric.GetPointer();
     }
   else if (metricString.compare("mi") == 0)
     {
@@ -196,7 +196,7 @@ int itkQuasiNewtonOptimizerv4RegistrationTestMain(int argc, char *argv[])
     {
     std::cerr << "The given metric type is not supported: " << metricString << std::endl;
     std::cerr << "The supported metric types are: " << std::endl;
-    std::cerr << "   dm   - DemonsImageToImageMetricv4" << std::endl;
+    std::cerr << "   ms   - MeanSquaresImageToImageMetricv4" << std::endl;
     std::cerr << "   mi   - JointHistogramMutualInformationImageToImageMetricv4" << std::endl;
     std::cerr << "   anc  - ANTSNeighborhoodCorrelationImageToImageMetricv4" << std::endl;
     std::cerr << std::endl;
@@ -326,13 +326,13 @@ int itkQuasiNewtonOptimizerv4RegistrationTest(int argc, char *argv[])
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " dimension";
-    std::cerr << " dm|mi|anc";
+    std::cerr << " metric-type{ms|mi|anc}";
     std::cerr << " fixedImageFile movingImageFile ";
     std::cerr << " outputImageFile ";
     std::cerr << " [numberOfIterations numberOfDisplacementIterations] ";
     std::cerr << std::endl;
     std::cerr << " The metric types are: " << std::endl;
-    std::cerr << "   dm   - DemonsImageToImageMetricv4" << std::endl;
+    std::cerr << "   ms   - MeanSquaresImageToImageMetricv4" << std::endl;
     std::cerr << "   mi   - JointHistogramMutualInformationImageToImageMetricv4" << std::endl;
     std::cerr << "   anc  - ANTSNeighborhoodCorrelationImageToImageMetricv4" << std::endl;
     std::cerr << std::endl;
