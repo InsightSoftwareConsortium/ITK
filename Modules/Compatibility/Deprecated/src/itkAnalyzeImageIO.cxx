@@ -703,7 +703,7 @@ void AnalyzeImageIO::Read(void *buffer)
   // image files that do not have a .gz ending.
   ///
 
-  gzFile file_p = ::gzopen(ImageFileName.c_str(), "rb");
+  gzFile file_p = gzopen(ImageFileName.c_str(), "rb");
 
   try  // try block to ensure we close the file
     {
@@ -711,7 +711,7 @@ void AnalyzeImageIO::Read(void *buffer)
       {
       /* Do a separate check to take care of case #4 */
       ImageFileName += ".gz";
-      file_p = ::gzopen(ImageFileName.c_str(), "rb");
+      file_p = gzopen(ImageFileName.c_str(), "rb");
       if ( file_p == NULL )
         {
         itkExceptionMacro(<< "Analyze Data File can not be read: "
@@ -729,7 +729,7 @@ void AnalyzeImageIO::Read(void *buffer)
     z_off_t byteOffset = static_cast< z_off_t >( fabs(m_Hdr.dime.vox_offset) );
     if ( byteOffset > 0 )
       {
-      if ( ::gzseek(file_p, byteOffset, SEEK_SET) == -1 )
+      if ( gzseek(file_p, byteOffset, SEEK_SET) == -1 )
         {
         itkExceptionMacro (<< "Analyze Data File can not be read: "
                            << " Unable to seek to the vox_offset: "
@@ -756,7 +756,7 @@ void AnalyzeImageIO::Read(void *buffer)
       unsigned int bytesToRead = bytesRemaining > static_cast< SizeType >( maxChunk )
                                  ? maxChunk : static_cast< unsigned int >( bytesRemaining );
 
-      int retval = ::gzread(file_p, p,  bytesToRead);
+      int retval = gzread(file_p, p,  bytesToRead);
 
       //
       // check for error from gzread
@@ -1506,7 +1506,7 @@ AnalyzeImageIO
   if ( !fileExt.compare(".img.gz") )
     {
     // Open the *.img.gz file for writing.
-    gzFile file_p = ::gzopen(ImageFileName.c_str(), "wb");
+    gzFile file_p = gzopen(ImageFileName.c_str(), "wb");
     if ( file_p == NULL )
       {
       itkExceptionMacro(<< "Error, Can not write compressed image file for " << m_FileName);
@@ -1527,14 +1527,14 @@ AnalyzeImageIO
         unsigned int bytesToWrite = bytesRemaining > static_cast< SizeType >( maxChunk )
                                     ? maxChunk : static_cast< unsigned int >( bytesRemaining );
 
-        if ( ::gzwrite(file_p, p, bytesToWrite) != static_cast< int >( bytesToWrite ) )
+        if ( gzwrite(file_p, p, bytesToWrite) != static_cast< int >( bytesToWrite ) )
           {
           itkExceptionMacro(<< "Error, Can not write compressed image file for " << m_FileName);
           }
         p = static_cast< char * >( p ) + bytesToWrite;
         bytesRemaining -= bytesToWrite;
         }
-      ::gzclose(file_p);
+      gzclose(file_p);
       file_p = NULL;
       }
     catch ( ... )
@@ -1542,7 +1542,7 @@ AnalyzeImageIO
       // close file and rethrow exception
       if ( file_p != NULL )
         {
-        ::gzclose(file_p);
+        gzclose(file_p);
         }
       throw;
       }

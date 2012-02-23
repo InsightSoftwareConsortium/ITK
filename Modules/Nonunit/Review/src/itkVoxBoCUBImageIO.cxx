@@ -101,7 +101,7 @@ class CompressedCUBFileAdaptor:public GenericCUBFileAdaptor
 public:
   CompressedCUBFileAdaptor(const char *file, const char *mode)
   {
-    m_GzFile = ::gzopen(file, mode);
+    m_GzFile = gzopen(file, mode);
     if ( m_GzFile == NULL )
       {
       ExceptionObject exception;
@@ -114,19 +114,19 @@ public:
   {
     if ( m_GzFile )
       {
-      ::gzflush(m_GzFile, Z_FINISH);
-      ::gzclose(m_GzFile);
+      gzflush(m_GzFile, Z_FINISH);
+      gzclose(m_GzFile);
       }
   }
 
   unsigned char ReadByte()
   {
-    int byte = ::gzgetc(m_GzFile);
+    int byte = gzgetc(m_GzFile);
 
     if ( byte < 0 )
       {
       itksys_ios::ostringstream oss;
-      oss << "Error reading byte from file at position: " << ::gztell(m_GzFile);
+      oss << "Error reading byte from file at position: " << gztell(m_GzFile);
       ExceptionObject exception;
       exception.SetDescription( oss.str().c_str() );
       throw exception;
@@ -144,14 +144,14 @@ public:
       }
 
     unsigned int numberOfBytesToRead = Math::CastWithRangeCheck< unsigned int, SizeType >(bytes);
-    SizeType     bread = ::gzread(m_GzFile, data, numberOfBytesToRead);
+    SizeType     bread = gzread(m_GzFile, data, numberOfBytesToRead);
     if ( bread != bytes )
       {
       itksys_ios::ostringstream oss;
       oss << "File size does not match header: "
           << bytes << " bytes requested but only "
           << bread << " bytes available!" << std::endl
-          << "At file position " << ::gztell(m_GzFile);
+          << "At file position " << gztell(m_GzFile);
       ExceptionObject exception;
       exception.SetDescription( oss.str().c_str() );
       throw exception;
@@ -168,7 +168,7 @@ public:
       }
 
     unsigned int numberOfBytesToWrite = Math::CastWithRangeCheck< unsigned int, SizeType >(bytes);
-    SizeType     bwritten = ::gzwrite(m_GzFile, const_cast< void * >( data ), numberOfBytesToWrite);
+    SizeType     bwritten = gzwrite(m_GzFile, const_cast< void * >( data ), numberOfBytesToWrite);
     if ( bwritten != bytes )
       {
       ExceptionObject exception;
@@ -176,7 +176,7 @@ public:
       std::cout << "Could not write all bytes to file" << std::endl;
       throw exception;
       }
-    ::gzflush(m_GzFile, Z_SYNC_FLUSH);
+    gzflush(m_GzFile, Z_SYNC_FLUSH);
   }
 
 private:
