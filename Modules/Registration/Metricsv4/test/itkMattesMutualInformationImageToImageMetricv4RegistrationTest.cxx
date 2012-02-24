@@ -48,7 +48,7 @@ int itkMattesMutualInformationImageToImageMetricv4RegistrationTest(int argc, cha
     std::cerr << " fixedImageFile movingImageFile ";
     std::cerr << " outputImageFile ";
     std::cerr << " [numberOfIterations = 10] [numberOfDisplacementIterations = 10] ";
-    std::cerr << " [doPreWarp = true] [doSampling = false] ";
+    std::cerr << " [doSampling = false] ";
     std::cerr << std::endl;
     return EXIT_FAILURE;
     }
@@ -56,7 +56,6 @@ int itkMattesMutualInformationImageToImageMetricv4RegistrationTest(int argc, cha
   std::cout << argc << std::endl;
   unsigned int numberOfIterations = 10;
   unsigned int numberOfDisplacementIterations = 10;
-  bool doPreWarp = true;
   bool doSampling = false;
 
   if( argc >= 5 )
@@ -69,11 +68,7 @@ int itkMattesMutualInformationImageToImageMetricv4RegistrationTest(int argc, cha
     }
   if( argc >= 7 )
     {
-    doPreWarp = atoi( argv[6] );
-    }
-  if( argc >= 8 )
-    {
-    doSampling = atoi( argv[7] );
+    doSampling = atoi( argv[6] );
     }
 
   std::cout << " iterations "<< numberOfIterations
@@ -191,8 +186,6 @@ int itkMattesMutualInformationImageToImageMetricv4RegistrationTest(int argc, cha
   metric->SetMovingImage( movingImage );
   metric->SetFixedTransform( identityTransform );
   metric->SetMovingTransform( affineTransform );
-  metric->SetDoFixedImagePreWarp( doPreWarp );
-  metric->SetDoMovingImagePreWarp( doPreWarp );
   const bool gaussian = false;
   metric->SetUseMovingImageGradientFilter( gaussian );
   metric->SetUseFixedImageGradientFilter( gaussian );

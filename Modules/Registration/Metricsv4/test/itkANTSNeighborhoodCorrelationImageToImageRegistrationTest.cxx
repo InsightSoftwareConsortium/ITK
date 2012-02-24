@@ -179,8 +179,6 @@ int itkANTSNeighborhoodCorrelationImageToImageRegistrationTest(int argc, char *a
   metric->SetMovingImage( movingImage );
   metric->SetFixedTransform( identityTransform );
   metric->SetMovingTransform( affineTransform );
-  metric->SetDoFixedImagePreWarp( true );
-  metric->SetDoMovingImagePreWarp( true );
   bool gaussian = false;
   metric->SetUseMovingImageGradientFilter( gaussian );
   metric->SetUseFixedImageGradientFilter( gaussian );

@@ -42,31 +42,15 @@
  *    from the virtual domain (x) to moving domain (y), i.e.:
  *      y = T (x), x->y
  *
- * When Prewarp is turned on, the pre-warped moving image is computed:
- *  m'(x) = m( T(x) ), defined on virtual space x.
- *
- * This test validates computing Dm from Dm' using with and without prewarping.
- * which uses the following chain rule:
- *    Dm'= Dm * DT
- * and its equivalence:
- *    Dm = Dm' * (DT)^-1
+ * This test validates computing Dm from with and w/out gradient filter.
  *
  * Dm is the gradient of moving iamge m at y,
  * and it is the output of:
  *  TransformAndEvaluateMovingPoint
  *
- * Dm' is the gradient on the prewarped image m' at x,
- * and it is the output of:
- *
- *
- * DJ is computed as the Jacobian of transform T at x,
- * and it is the output of:
- *
- *
- *
  */
 template<unsigned int ImageDimensionality, typename TTransform>
-double itkPreWarpTestRunTest( unsigned int imageSize, typename TTransform::Pointer transform, double rotation,
+double itkMetricImageGradientTestRunTest( unsigned int imageSize, typename TTransform::Pointer transform, double rotation,
                               bool verbose,
                               std::string & outputPath );
 
@@ -195,7 +179,7 @@ protected:
   {
   }
 
-  friend double ::itkPreWarpTestRunTest<VirtualImageDimension, MovingTransformType>(
+  friend double ::itkMetricImageGradientTestRunTest<VirtualImageDimension, MovingTransformType>(
       unsigned int imageSize, typename MovingTransformType::Pointer transform, double rotation, bool verbose,
       std::string & outputPath );
 
@@ -214,7 +198,7 @@ private:
 }
 
 template<unsigned int ImageDimensionality, typename TTransform>
-double itkPreWarpTestRunTest( unsigned int imageSize, typename TTransform::Pointer transform, double rotation,
+double itkMetricImageGradientTestRunTest( unsigned int imageSize, typename TTransform::Pointer transform, double rotation,
                               bool verbose,
                               std::string & outputPath )
 {
@@ -285,17 +269,6 @@ double itkPreWarpTestRunTest( unsigned int imageSize, typename TTransform::Point
   typename TTransform::Pointer movingTransform =
       dynamic_cast<TTransform *>( transform->GetInverseTransform().GetPointer() );
 
-  // "Pre-warp" the moving image using the 'moving' transform.
-  // Will be the same as original image, except for border effects
-  // or rounding errors.
-  typename ResampleFilterType::Pointer resample2 = ResampleFilterType::New();
-  resample2->SetTransform( movingTransform );
-  resample2->SetInput( movingImage );
-  resample2->SetOutputParametersFromImage( movingImage );
-  resample2->SetDefaultPixelValue( 0 );
-  resample2->Update();
-  typename ImageType::Pointer preWarpImage = resample2->GetOutput();
-
   // Write out the images if requested, for debugging only
   if (false)
     {
@@ -309,10 +282,6 @@ double itkPreWarpTestRunTest( unsigned int imageSize, typename TTransform::Point
     // moving
     writer->SetFileName( outputPath + "_moving.nii.gz" );
     writer->SetInput( movingImage );
-    writer->Update();
-    // pre-warp
-    writer->SetFileName( outputPath + "_prewarp.nii.gz" );
-    writer->SetInput( preWarpImage );
     writer->Update();
     }
 
@@ -346,43 +315,30 @@ double itkPreWarpTestRunTest( unsigned int imageSize, typename TTransform::Point
   metric->SetMovingImage( movingImage );
   metric->SetMovingTransform( movingTransform );
 
-  // run 0: with prewarp: on, gradient filter: on
-  // run 1: with prewarp: on, gradient filter: off
-  // run 2: with prewarp: off, gradient filter: on
-  // run 3: with prewarp: off, gradient filter: off;
+  // run 0: with gradient filter: on
+  // run 1: with gradient filter: off
 
   double sumc = 0.0;
-  for ( unsigned int i = 0; i < 4; i++ )
+  for ( unsigned int i = 0; i < 2; i++ )
     {
-    bool b1 = false, b2 = false;
+    bool b2 = false;
     switch ( i )
       {
       case 0:
-        b1 = false;
         b2 = false;
         break;
       case 1:
-        b1 = false;
-        b2 = true;
-        break;
-      case 2:
-        b1 = true;
-        b2 = false;
-        break;
-      case 3:
-        b1 = true;
         b2 = true;
         break;
       }
 
-    metric->SetDoMovingImagePreWarp( b1 );
     metric->SetUseMovingImageGradientFilter( b2 );
     metric->Initialize();
 
     bool b = metric->TransformAndEvaluateMovingPoint( virtualIndex, virtualPoint, true, mappedMovingPoint,
         mappedMovingPixelValue, mappedMovingImageGradient );
 
-    // computed explicitly with pre warp off as ground truth
+    // computed explicitly as ground truth
     if ( b )
       {
       vnl_vector_ref<double> p2 = mappedMovingImageGradient.GetVnlVector();
@@ -399,8 +355,7 @@ double itkPreWarpTestRunTest( unsigned int imageSize, typename TTransform::Point
 
       if( verbose )
         {
-        std::cout << "use prewarp: " << metric->GetDoMovingImagePreWarp() << std::endl
-            << "use gradient filter: " << metric->GetUseMovingImageGradientFilter() << std::endl;
+        std::cout << "use gradient filter: " << metric->GetUseMovingImageGradientFilter() << std::endl;
         std::cout << "rotation: " << rotation << std::endl << "virtualIndex: " << virtualIndex << std::endl
             << "virtualPoint: " << virtualPoint << std::endl
             << "mappedMovingPoint: " << mappedMovingPoint << std::endl
@@ -409,11 +364,11 @@ double itkPreWarpTestRunTest( unsigned int imageSize, typename TTransform::Point
         }
       } // if (b)
     }
-  return sumc / 4.0; //correlation;
+  return sumc / static_cast<double>(2.0); //correlation;
 }
 
 //////////////////////////////////////////////////////
-int itkPreWarpTest( int argc, char *argv[] )
+int itkMetricImageGradientTest( int argc, char *argv[] )
 {
   typedef unsigned int DimensionSizeType;
   DimensionSizeType imageSize = 60;
@@ -462,7 +417,7 @@ int itkPreWarpTest( int argc, char *argv[] )
 
         typedef itk::VanillaImageToImageMetricv4<ImageType, ImageType> MetricType;
 
-        average = itkPreWarpTestRunTest<2, MetricType::MovingTransformType>( imageSize,
+        average = itkMetricImageGradientTestRunTest<2, MetricType::MovingTransformType>( imageSize,
             MetricType::MovingTransformType::Pointer( transform ), rotationDegrees, false,
             outputPath );
         }
@@ -494,7 +449,7 @@ int itkPreWarpTest( int argc, char *argv[] )
 
         typedef itk::VanillaImageToImageMetricv4<ImageType, ImageType> MetricType;
 
-        average = itkPreWarpTestRunTest<3, MetricType::MovingTransformType>( imageSize,
+        average = itkMetricImageGradientTestRunTest<3, MetricType::MovingTransformType>( imageSize,
             MetricType::MovingTransformType::Pointer( transform ), rotationDegrees, false,
             outputPath );
         }

@@ -81,8 +81,6 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
   this->m_MovingImageGradientCalculator = movingCalculator;
 
   /* Setup default options assuming dense-sampling */
-  this->m_DoFixedImagePreWarp          = true;
-  this->m_DoMovingImagePreWarp         = true;
   this->m_UseFixedImageGradientFilter  = true;
   this->m_UseMovingImageGradientFilter = true;
   this->m_UseFixedSampledPointSet      = false;
@@ -193,9 +191,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
   this->m_FixedInterpolator->SetInputImage( this->m_FixedImage );
   this->m_MovingInterpolator->SetInputImage( this->m_MovingImage );
 
-  /* Setup for image gradient calculations.
-   * If pre-warping is enabled, the
-   * calculator will be pointed to the warped image at time of warping. */
+  /* Setup for image gradient calculations. */
   if( ! this->m_UseFixedImageGradientFilter )
     {
     itkDebugMacro("Initialize FixedImageGradientCalculator");
@@ -209,57 +205,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
     this->m_MovingImageGradientCalculator->SetInputImage(this->m_MovingImage);
     }
 
-  /* Initialize resample image filters for pre-warping images if
-   * option is set.
-   * The proper number of threads is required. */
-  if( this->m_DoFixedImagePreWarp )
-    {
-    this->m_FixedWarpResampleImageFilter = FixedWarpResampleImageFilterType::New();
-    this->m_FixedWarpResampleImageFilter->SetOutputParametersFromImage(
-                                                this->GetVirtualDomainImage() );
-    this->m_FixedWarpResampleImageFilter->SetNumberOfThreads(
-                                                    this->GetMaximumNumberOfThreads() );
-    this->m_FixedWarpResampleImageFilter->SetTransform(
-                                                    this->GetFixedTransform() );
-    this->m_FixedWarpResampleImageFilter->SetInput( this->GetFixedImage() );
-
-    /* Pre-warp the fixed image now so it's available below if
-     * m_UseMovingImageGradientFilter is enabled.
-     * Also, fixed images are currently never optimized, so we only
-     * have to prewarp once, so do it here. */
-    itkDebugMacro("Init: DoFixedImagePreWarp.");
-    this->DoFixedImagePreWarp();
-    }
-  else
-    {
-    /* Free memory if allocated from a previous run */
-    this->m_FixedWarpedImage = NULL;
-    }
-
-  if( this->m_DoMovingImagePreWarp )
-    {
-    this->m_MovingWarpResampleImageFilter =
-                                      MovingWarpResampleImageFilterType::New();
-    this->m_MovingWarpResampleImageFilter->SetOutputParametersFromImage(
-                                                this->GetVirtualDomainImage() );
-    this->m_MovingWarpResampleImageFilter->SetNumberOfThreads(
-                                               this->GetMaximumNumberOfThreads() );
-    this->m_MovingWarpResampleImageFilter->SetTransform(
-                                               this->GetMovingTransform() );
-    this->m_MovingWarpResampleImageFilter->SetInput( this->GetMovingImage() );
-
-    /* Pre-warp the moving image, for use when a derived class needs it
-     * before InitiateForIteration is called. */
-    this->DoMovingImagePreWarp();
-    }
-  else
-    {
-    /* Free memory if allocated from a previous run */
-    this->m_MovingWarpedImage = NULL;
-    }
-
-  /* Initialize default gradient image filters.
-   * Do this after any pre-warping above. */
+  /* Initialize default gradient image filters. */
   itkDebugMacro("InitializeDefaultFixedImageGradientFilter");
   this->InitializeDefaultFixedImageGradientFilter();
   itkDebugMacro("InitializeDefaultMovingImageGradientFilter");
@@ -268,8 +214,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
   /* If user set to use a pre-calculated fixed gradient image,
    * then we need to calculate the gradient image.
    * We only need to compute once since the fixed transform isn't
-   * optimized.
-   * Do this *after* setting up above for pre-warping. */
+   * optimized. */
   if ( this->m_UseFixedImageGradientFilter )
     {
     itkDebugMacro("Initialize: ComputeFixedImageGradientFilterImage");
@@ -363,28 +308,13 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
   /* Clear derivative final result. This will
    * require an option to skip for use with multivariate metric. */
   this->m_DerivativeResult->Fill( NumericTraits< DerivativeValueType >::Zero );
-
-  /* Pre-warp the moving image if set to do so. Then we have
-   * to recompute the image gradients if ImageFilter option is set.
-   * Otherwise the moving image gradients only need be calculated
-   * once, during initialize.
-   * In contrast, the fixed image is not optimized so we only pre-warp
-   * once, during Initialize. */
-  if( this->m_DoMovingImagePreWarp )
-    {
-    this->DoMovingImagePreWarp();
-    if( this->m_UseMovingImageGradientFilter )
-      {
-      this->ComputeMovingImageGradientFilterImage();
-      }
-    }
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 bool
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::TransformAndEvaluateFixedPoint(
-                         const VirtualIndexType & index,
+                         const VirtualIndexType & itkNotUsed(index),
                          const VirtualPointType & virtualPoint,
                          const bool computeImageGradient,
                          FixedImagePointType & mappedFixedPoint,
@@ -416,32 +346,11 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
     return pointIsValid;
     }
 
-  if( this->m_DoFixedImagePreWarp )
+  mappedFixedPixelValue = this->m_FixedInterpolator->Evaluate(mappedFixedPoint);
+  if( computeImageGradient )
     {
-    /* Get the pixel values at this index */
-    mappedFixedPixelValue = this->m_FixedWarpedImage->GetPixel( index );
-    if( computeImageGradient )
-      {
-      if( this->m_UseFixedSampledPointSet )
-        {
-        /* We assume sampled points will include non-integer points */
-        this->ComputeFixedImageGradientAtPoint( virtualPoint, mappedFixedImageGradient );
-        }
-      else
-        {
-        this->ComputeFixedImageGradientAtIndex( index, mappedFixedImageGradient );
-        }
-      mappedFixedImageGradient=this->GetFixedTransform()->TransformCovariantVector(mappedFixedImageGradient, virtualPoint );
-      }
-    }
-  else
-    {
-    mappedFixedPixelValue = this->m_FixedInterpolator->Evaluate(mappedFixedPoint);
-    if( computeImageGradient )
-      {
-      this->ComputeFixedImageGradientAtPoint( mappedFixedPoint,
-                                       mappedFixedImageGradient );
-      }
+    this->ComputeFixedImageGradientAtPoint( mappedFixedPoint,
+                                     mappedFixedImageGradient );
     }
 
   return pointIsValid;
@@ -451,7 +360,7 @@ template<class TFixedImage,class TMovingImage,class TVirtualImage>
 bool
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::TransformAndEvaluateMovingPoint(
-                         const VirtualIndexType & index,
+                         const VirtualIndexType & itkNotUsed(index),
                          const VirtualPointType & virtualPoint,
                          const bool computeImageGradient,
                          MovingImagePointType & mappedMovingPoint,
@@ -483,32 +392,12 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
     return pointIsValid;
     }
 
-  if( this->m_DoMovingImagePreWarp )
+  mappedMovingPixelValue = this->m_MovingInterpolator->Evaluate( mappedMovingPoint );
+  if( computeImageGradient )
     {
-   /* Get the pixel values at this index */
-    mappedMovingPixelValue = this->m_MovingWarpedImage->GetPixel( index );
-    if( computeImageGradient )
-      {
-      if( this->m_UseFixedSampledPointSet )
-        {
-        /* We assume sampled points will include non-integer points */
-        this->ComputeMovingImageGradientAtPoint( virtualPoint, mappedMovingImageGradient );
-        }
-      else
-        {
-        ComputeMovingImageGradientAtIndex( index, mappedMovingImageGradient );
-        }
-      mappedMovingImageGradient = this->GetMovingTransform()->TransformCovariantVector(mappedMovingImageGradient, virtualPoint );
-      }
+    this->ComputeMovingImageGradientAtPoint( mappedMovingPoint, mappedMovingImageGradient );
     }
-  else
-    {
-    mappedMovingPixelValue = this->m_MovingInterpolator->Evaluate( mappedMovingPoint );
-    if( computeImageGradient )
-      {
-      this->ComputeMovingImageGradientAtPoint( mappedMovingPoint, mappedMovingImageGradient );
-      }
-    }
+
   return pointIsValid;
 }
 
@@ -586,64 +475,9 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
-::DoFixedImagePreWarp() const
-{
-  /* Call Modified to make sure the filter recalculates the output. We haven't
-   * changed any settings, but we assume the transform parameters have changed,
-   * e.g. while used during registration. */
-  this->m_FixedWarpResampleImageFilter->Modified();
-  this->m_FixedWarpResampleImageFilter->Update();
-  this->m_FixedWarpedImage = this->m_FixedWarpResampleImageFilter->GetOutput();
-
-  /* Point the interpolators and calculators to the warped images.
-   * We should try to skip this for efficiency because setting of
-   * SmartPointers is relatively slow. However, it only happens once
-   * per iteration. It will be possible if
-   * ResampleImageFilter always returns the same image pointer after
-   * its first update, or if it can be set to allocate output during init. */
-  /* No need to call Modified here on the calculators */
-  if( ! this->m_UseFixedImageGradientFilter )
-    {
-    this->m_FixedImageGradientCalculator->SetInputImage( this->m_FixedWarpedImage );
-    }
-}
-
-template<class TFixedImage,class TMovingImage,class TVirtualImage>
-void
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
-::DoMovingImagePreWarp() const
-{
-  /* Call Modified to make sure the filter recalculates the output. We haven't
-   * changed any settings, but we assume the transform parameters have changed,
-   * e.g. while used during registration. */
-  this->m_MovingWarpResampleImageFilter->Modified();
-  this->m_MovingWarpResampleImageFilter->Update();
-  this->m_MovingWarpedImage = this->m_MovingWarpResampleImageFilter->GetOutput();
-
-  /* Point the interpolator and calculator to the warped images. */
-  /* No need to call Modified here on the calculators */
-  if( ! this->m_UseMovingImageGradientFilter )
-    {
-    this->m_MovingImageGradientCalculator->SetInputImage( this->m_MovingWarpedImage );
-    }
-}
-
-template<class TFixedImage,class TMovingImage,class TVirtualImage>
-void
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::ComputeFixedImageGradientFilterImage()
 {
-  FixedImageConstPointer  image;
-  if( this->m_DoFixedImagePreWarp )
-    {
-    image = this->m_FixedWarpedImage;
-    }
-  else
-    {
-    image = this->m_FixedImage;
-    }
-
-  this->m_FixedImageGradientFilter->SetInput( image );
+  this->m_FixedImageGradientFilter->SetInput( this->m_FixedImage );
   this->m_FixedImageGradientFilter->Update();
   this->m_FixedImageGradientImage = this->m_FixedImageGradientFilter->GetOutput();
   this->m_FixedImageGradientInterpolator->SetInputImage( this->m_FixedImageGradientImage );
@@ -654,17 +488,7 @@ void
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::ComputeMovingImageGradientFilterImage() const
 {
-  MovingImageConstPointer  image;
-  if( this->m_DoMovingImagePreWarp )
-    {
-    image = this->m_MovingWarpedImage;
-    }
-  else
-    {
-    image = this->m_MovingImage;
-    }
-
-  this->m_MovingImageGradientFilter->SetInput( image );
+  this->m_MovingImageGradientFilter->SetInput( this->m_MovingImage );
   this->m_MovingImageGradientFilter->Update();
   this->m_MovingImageGradientImage = this->m_MovingImageGradientFilter->GetOutput();
   this->m_MovingImageGradientInterpolator->SetInputImage( this->m_MovingImageGradientImage );
@@ -675,17 +499,7 @@ void
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::InitializeDefaultFixedImageGradientFilter()
 {
-  FixedImageConstPointer  image;
-  if( this->m_DoFixedImagePreWarp )
-    {
-    image = this->m_FixedWarpedImage;
-    }
-  else
-    {
-    image = this->m_FixedImage;
-    }
-
-  const typename FixedImageType::SpacingType & spacing = image->GetSpacing();
+  const typename FixedImageType::SpacingType & spacing = this->m_FixedImage->GetSpacing();
   double maximumSpacing = 0.0;
   for ( ImageDimensionType i = 0; i < FixedImageDimension; i++ )
     {
@@ -694,9 +508,9 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
       maximumSpacing = spacing[i];
       }
     }
-  this->m_DefaultFixedImageGradientFilter->SetSigma(maximumSpacing);
+  this->m_DefaultFixedImageGradientFilter->SetSigma( maximumSpacing );
   this->m_DefaultFixedImageGradientFilter->SetNormalizeAcrossScale( true );
-  this->m_DefaultFixedImageGradientFilter->SetNumberOfThreads(this->GetMaximumNumberOfThreads());
+  this->m_DefaultFixedImageGradientFilter->SetNumberOfThreads( this->GetMaximumNumberOfThreads() );
   this->m_DefaultFixedImageGradientFilter->SetUseImageDirection( true );
 }
 
@@ -705,17 +519,7 @@ void
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::InitializeDefaultMovingImageGradientFilter()
 {
-  MovingImageConstPointer  image;
-  if( this->m_DoMovingImagePreWarp )
-    {
-    image = this->m_MovingWarpedImage;
-    }
-  else
-    {
-    image = this->m_MovingImage;
-    }
-
-  const typename MovingImageType::SpacingType & spacing = image->GetSpacing();
+  const typename MovingImageType::SpacingType & spacing = this->m_MovingImage->GetSpacing();
   double maximumSpacing = 0.0;
   for ( ImageDimensionType i = 0; i < MovingImageDimension; i++ )
     {
@@ -1158,10 +962,6 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
                << std::endl
                << "GetUseMovingImageGradientFilter: "
                << this->GetUseMovingImageGradientFilter()
-               << std::endl
-               << "DoFixedImagePreWarp: " << this->GetDoFixedImagePreWarp()
-               << std::endl
-               << "DoMovingImagePreWarp: " << this->GetDoMovingImagePreWarp()
                << std::endl;
 
   if( this->GetVirtualDomainImage() != NULL )

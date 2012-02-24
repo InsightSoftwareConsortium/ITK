@@ -266,8 +266,6 @@ int itkJointHistogramMutualInformationImageToImageRegistrationTest(int argc, cha
   metric->SetMovingImage( movingImage );
   metric->SetFixedTransform( identityTransform );
   metric->SetMovingTransform( affineTransform );
-  metric->SetDoFixedImagePreWarp( true );
-  metric->SetDoMovingImagePreWarp( true );
   const bool gaussian = false;
   metric->SetUseMovingImageGradientFilter( gaussian );
   metric->SetUseFixedImageGradientFilter( gaussian );

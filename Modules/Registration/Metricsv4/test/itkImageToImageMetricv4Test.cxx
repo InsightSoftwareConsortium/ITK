@@ -522,8 +522,7 @@ int itkImageToImageMetricv4Test(int, char ** const)
 
   // Evaluate the metric and verify results, using identity transforms.
   // Test with different numbers of threads.
-  // Run through all the permutations of pre-warping and image gradient
-  // calculation method.
+  // Run through all the permutations image gradient calculation method.
   ImageToImageMetricv4TestMetricType::MeasureType     truthValue;
   ImageToImageMetricv4TestMetricType::DerivativeType  truthDerivative;
   for( itk::ThreadIdType numberOfThreads = 1; numberOfThreads < 6;
@@ -539,42 +538,31 @@ int itkImageToImageMetricv4Test(int, char ** const)
         //Have to recompute new truth values for each permutation of
         // image gradient calculation options.
         bool computeNewTruthValues = true;
-        for( char preWarpFixed = 1; preWarpFixed >= 0; preWarpFixed-- )
+        metric->SetUseFixedImageGradientFilter( useFixedFilter == 1 );
+        metric->SetUseMovingImageGradientFilter( useMovingFilter == 1 );
+        if( computeNewTruthValues )
           {
-          for( char preWarpMoving = 1; preWarpMoving >= 0; preWarpMoving-- )
-            {
-            metric->SetDoFixedImagePreWarp( preWarpFixed == 1 );
-            metric->SetDoMovingImagePreWarp( preWarpMoving == 1 );
-            metric->SetUseFixedImageGradientFilter( useFixedFilter == 1 );
-            metric->SetUseMovingImageGradientFilter( useMovingFilter == 1 );
-            if( computeNewTruthValues )
-              {
-              ImageToImageMetricv4TestComputeIdentityTruthValues(
-                                          metric, fixedImage, movingImage,
-                                          truthValue, truthDerivative );
-              }
-            std::cout << "* Testing with identity transforms..."
-                      << std::endl;
-            if( ImageToImageMetricv4TestRunSingleTest(
-                                metric, truthValue, truthDerivative,
-                                imageSize * imageSize, false )
-                                                              != EXIT_SUCCESS )
-              {
-              std::cerr << "----------------------------" << std::endl
-                        << "Failed for these settings: " << std::endl
-                        << "Pre-warp image: fixed, moving: "
-                        << metric->GetDoFixedImagePreWarp() << ", "
-                        << metric->GetDoMovingImagePreWarp() << std::endl
-                        << "Use gradient filter for: fixed, moving: "
-                        << metric->GetUseFixedImageGradientFilter()
-                        << ", "
-                        << metric->GetUseMovingImageGradientFilter() << std::endl
-                        << "----------------------------" << std::endl;
-              return EXIT_FAILURE;
-              }
-            computeNewTruthValues = false;
-            }
+          ImageToImageMetricv4TestComputeIdentityTruthValues(
+                                      metric, fixedImage, movingImage,
+                                      truthValue, truthDerivative );
           }
+        std::cout << "* Testing with identity transforms..."
+                  << std::endl;
+        if( ImageToImageMetricv4TestRunSingleTest(
+                            metric, truthValue, truthDerivative,
+                            imageSize * imageSize, false )
+                                                          != EXIT_SUCCESS )
+          {
+          std::cerr << "----------------------------" << std::endl
+                    << "Failed for these settings: " << std::endl
+                    << "Use gradient filter for: fixed, moving: "
+                    << metric->GetUseFixedImageGradientFilter()
+                    << ", "
+                    << metric->GetUseMovingImageGradientFilter() << std::endl
+                    << "----------------------------" << std::endl;
+          return EXIT_FAILURE;
+          }
+        computeNewTruthValues = false;
         }
       } // loop through permutations
     } // loop thru # of threads
@@ -634,8 +622,6 @@ int itkImageToImageMetricv4Test(int, char ** const)
   fixedTransform->SetIdentity();
   metric->SetFixedTransform( fixedTransform );
 
-  metric->SetDoFixedImagePreWarp( true );
-  metric->SetDoMovingImagePreWarp( true );
   metric->SetUseFixedImageGradientFilter( true );
   metric->SetUseMovingImageGradientFilter( true );
   // Tell the metric to compute image gradients for both fixed and moving.
@@ -673,8 +659,6 @@ int itkImageToImageMetricv4Test(int, char ** const)
   metric->SetFixedTransform( fixedTransform );
   metric->SetGradientSource(
                 ImageToImageMetricv4TestMetricType::GRADIENT_SOURCE_BOTH );
-  metric->SetDoFixedImagePreWarp( false );
-  metric->SetDoMovingImagePreWarp( false );
   metric->SetUseFixedImageGradientFilter( false );
   metric->SetUseMovingImageGradientFilter( false );
 

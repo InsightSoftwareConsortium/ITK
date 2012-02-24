@@ -51,7 +51,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerParti
 {
   VirtualPointType virtualPoint;
   VirtualIndexType virtualIndex;
-  typename VirtualImageType::ConstPointer virtualImage                                                = this->m_Associate->GetVirtualDomainImage();
+  typename VirtualImageType::ConstPointer virtualImage = this->m_Associate->GetVirtualDomainImage();
   typename TImageToImageMetricv4::VirtualSampledPointSetType::ConstPointer virtualSampledPointSet = this->m_Associate->GetVirtualSampledPointSet();
   typedef typename TImageToImageMetricv4::VirtualSampledPointSetType::MeshTraits::PointIdentifier ElementIdentifierType;
   const ElementIdentifierType begin = indexSubRange[0];

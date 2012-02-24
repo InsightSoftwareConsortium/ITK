@@ -236,8 +236,6 @@ int PerformTimeVaryingVelocityFieldImageRegistration( int argc, char *argv[] )
   typename CorrelationMetricType::RadiusType radius;
   radius.Fill( 4 );
   correlationMetric->SetRadius( radius );
-  correlationMetric->SetDoFixedImagePreWarp( true );
-  correlationMetric->SetDoMovingImagePreWarp( true );
   correlationMetric->SetUseMovingImageGradientFilter( false );
   correlationMetric->SetUseFixedImageGradientFilter( false );
 

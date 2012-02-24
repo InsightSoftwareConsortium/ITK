@@ -76,18 +76,6 @@ namespace itk
  *  1) Set images using SetFixedImage and SetMovingImage.
  *  2) Call Initialize.
  *
- * Pre-warping
- *
- * The \c SetDoFixedImagePreWarp and \c SetDoMovingImagePreWarp options can be set
- * for better speed. When set, these create a warped version for each image at
- * the beginning of each iteration, warping each image into the virtual domain.
- * However the cost is more memory usage (VirtualDomain size for each image).
- * The fixed image is only pre-warped once, during the call to \c Initialize,
- * because it is assumed the fixed transform is not changing. The moving image
- * is pre-warped at the beginning of every iteration, because it is assumed the
- * moving transform is changing (e.g. during registration).
- * By default, pre-warping is enabled for both fixed and moving images.
- *
  * Image gradient calculations
  *
  * Image gradients can be calculated in one of two ways:
@@ -129,14 +117,13 @@ namespace itk
  * the point's geometric coordinates.
  * Point sets are set via SetFixedSampledPointSet, and the point set is enabled
  * for use by calling SetUseFixedSampledPointSet.
- * \note If the point set is sparse, the options
- * SetDo[Fixed|Moving]ImagePreWarp and SetUse[Fixed|Moving]ImageGradientFilter
+ * \note If the point set is sparse, the option SetUse[Fixed|Moving]ImageGradientFilter
  * typically should be disabled to avoid excessive computation. However,
- * the warped position and gradient values of the fixed image are not cached
+ * the gradient values of the fixed image are not cached
  * when using a point set (there are plans for this in the future), so
  * depending on the number of iterations (when used during optimization)
- * and the level of sparsity, it may be more efficient to pre-warp the fixed
- * image and use a gradient image filter for it because they will only be
+ * and the level of sparsity, it may be more efficient to
+ * use a gradient image filter for it because it will only be
  * calculated once.
  *
  * Threading
@@ -387,20 +374,6 @@ public:
   typedef typename MovingImageGradientCalculatorType::Pointer
                                             MovingImageGradientCalculatorPointer;
 
-  /** ResampleImageFilter types for image pre-warping */
-  typedef ResampleImageFilter< MovingImageType,
-                               VirtualImageType,
-                               MovingRealType >
-                                             MovingWarpResampleImageFilterType;
-  typedef typename MovingWarpResampleImageFilterType::Pointer
-                                          MovingWarpResampleImageFilterPointer;
-  typedef ResampleImageFilter< FixedImageType,
-                               VirtualImageType,
-                               FixedRealType >
-                                             FixedWarpResampleImageFilterType;
-  typedef typename FixedWarpResampleImageFilterType::Pointer
-                                          FixedWarpResampleImageFilterPointer;
-
   /**  Type of the measure. */
   typedef typename Superclass::MeasureType    MeasureType;
 
@@ -535,20 +508,6 @@ public:
   itkSetMacro(UseMovingImageGradientFilter, bool);
   itkGetConstReferenceMacro(UseMovingImageGradientFilter, bool);
   itkBooleanMacro(UseMovingImageGradientFilter);
-
-  /** Set/Get pre-warping of fixed image option. */
-  itkSetMacro(DoFixedImagePreWarp, bool);
-  itkGetConstReferenceMacro(DoFixedImagePreWarp, bool);
-  itkBooleanMacro(DoFixedImagePreWarp);
-
-  /** Set/Get pre-warping of Moving image option. */
-  itkSetMacro(DoMovingImagePreWarp, bool);
-  itkGetConstReferenceMacro(DoMovingImagePreWarp, bool);
-  itkBooleanMacro(DoMovingImagePreWarp);
-
-  /** Get pre-warped images */
-  itkGetConstObjectMacro( MovingWarpedImage, MovingImageType );
-  itkGetConstObjectMacro( FixedWarpedImage, FixedImageType );
 
   /** Get number of threads to used in the the \c GetValueAndDerivative
    * calculation.  Only valid after \c GetValueAndDerivative has been called. */
@@ -737,16 +696,12 @@ protected:
 
   /** Computes the gradients of the fixed image, using the
    * GradientFilter, assigning the output to
-   * to m_FixedImageGradientImage. It will use either the original
-   * fixed image, or the pre-warped version, depending on the setting
-   * of DoFixedImagePreWarp. */
+   * to m_FixedImageGradientImage. */
   virtual void ComputeFixedImageGradientFilterImage();
 
   /** Computes the gradients of the moving image, using the
    * GradientFilter, assigning the output to
-   * to m_MovingImageGradientImage. It will use either the original
-   * moving image, or the pre-warped version, depending on the setting
-   * of DoMovingImagePreWarp. */
+   * to m_MovingImageGradientImage. */
   virtual void ComputeMovingImageGradientFilterImage() const;
 
   /** Perform the actual threaded processing, using the appropriate
@@ -798,20 +753,6 @@ protected:
   FixedImageGradientCalculatorPointer   m_FixedImageGradientCalculator;
   MovingImageGradientCalculatorPointer  m_MovingImageGradientCalculator;
 
-  /** Flag to control pre-warping of fixed image. */
-  bool                               m_DoFixedImagePreWarp;
-
-  /** Flag to control pre-warping of moving image. */
-  bool                               m_DoMovingImagePreWarp;
-
-  /** Pre-warped images. */
-  mutable FixedImagePointer   m_FixedWarpedImage;
-  mutable MovingImagePointer  m_MovingWarpedImage;
-
-  /** Resample image filters for pre-warping images */
-  MovingWarpResampleImageFilterPointer    m_MovingWarpResampleImageFilter;
-  FixedWarpResampleImageFilterPointer     m_FixedWarpResampleImageFilter;
-
   /** Derivative results holder. User a raw pointer so we can point it
    * to a user-provided object. This enables
    * safely sharing a derivative object between metrics during multi-variate
@@ -861,11 +802,6 @@ private:
   /** Map the fixed point set samples to the virtual domain */
   void MapFixedSampledPointSetToVirtual( void );
 
-  /** Pre-warp the images for efficiency and computational stability.
-   * See main class documentation for important considerations. */
-  void DoFixedImagePreWarp( void ) const;
-  void DoMovingImagePreWarp( void ) const;
-
   /** Flag for warning about use of GetValue. Will be removed when
    *  GetValue implementation is improved. */
   mutable bool m_HaveMadeGetValueWarning;
@@ -884,8 +820,7 @@ private:
   DerivativeValueType m_FloatingPointCorrectionResolution;
 
   /** Only floating-point images are currently supported. To support integer images,
-   * several small changes must be made, but a larger complication is handling
-   * pre-warping cleanly. */
+   * several small changes must be made */
   #ifdef ITK_USE_CONCEPT_CHECKING
   typedef typename PixelTraits<FixedImagePixelType>::ValueType  FixedImagePixelValueType;
   typedef typename PixelTraits<MovingImagePixelType>::ValueType MovingImagePixelValueType;

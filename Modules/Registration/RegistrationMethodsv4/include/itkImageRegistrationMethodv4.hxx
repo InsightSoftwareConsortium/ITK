@@ -69,8 +69,6 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
   typename MetricForStageOneType::Pointer mutualInformationMetric = MetricForStageOneType::New();
   mutualInformationMetric = mutualInformationMetric;
   mutualInformationMetric->SetNumberOfHistogramBins( 20 );
-  mutualInformationMetric->SetDoFixedImagePreWarp( true );
-  mutualInformationMetric->SetDoMovingImagePreWarp( true );
   mutualInformationMetric->SetUseMovingImageGradientFilter( false );
   mutualInformationMetric->SetUseFixedImageGradientFilter( false );
   mutualInformationMetric->SetUseFixedSampledPointSet( false );
@@ -401,7 +399,6 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
       }
     }
 
-  this->m_Metric->SetDoMovingImagePreWarp( false );
   this->m_Metric->SetFixedSampledPointSet( samplePointSet );
   this->m_Metric->SetUseFixedSampledPointSet( true );
 }
