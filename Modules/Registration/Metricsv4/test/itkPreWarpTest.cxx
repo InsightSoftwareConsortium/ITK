@@ -254,7 +254,7 @@ double itkPreWarpTestRunTest( unsigned int imageSize, typename TTransform::Point
     bool awayfromborder = true;
     for ( unsigned int j = 0; j < ImageDimensionality; j++ )
       {
-      if ( it.GetIndex()[j] < imageBorder || vcl_abs( static_cast<float> (it.GetIndex()[j]) - static_cast<float>(size[j]) ) < imageBorder )
+      if ( it.GetIndex()[j] < imageBorder || static_cast<unsigned int> (vcl_abs( static_cast<float> (it.GetIndex()[j]) - static_cast<float>(size[j]) ) ) < imageBorder )
         {
         awayfromborder = false;
         }
@@ -440,7 +440,7 @@ int itkPreWarpTest( int argc, char *argv[] )
       {
 
       std::cerr << std::setw( 3 );
-      double average;
+      double average = minimumAverage;
 
       if ( dimensionality == 2 )
         {
