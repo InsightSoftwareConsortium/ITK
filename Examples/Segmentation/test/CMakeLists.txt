@@ -175,6 +175,7 @@ itk_add_test(NAME ThresholdSegmentationLevelSetVentricleTest COMMAND ${ITK_TEST_
 itk_add_test(NAME ThresholdSegmentationLevelSetWhiteMatterTest COMMAND ${ITK_TEST_DRIVER}
   --compare DATA{${BASELINE}/ThresholdSegmentationLevelSetWhiteMatterTest.png}
             ${TEMP}/ThresholdSegmentationLevelSetWhiteMatterTest.png
+  --compareNumberOfPixelsTolerance 40
   $<TARGET_FILE:ThresholdSegmentationLevelSetImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/ThresholdSegmentationLevelSetWhiteMatterTest.png
