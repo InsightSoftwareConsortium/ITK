@@ -37,6 +37,11 @@ namespace itk
  * in 2D images using chaincodes or freeman codes.  Another use of a path is to
  * guide the movement of an iterator through an image.
  *
+ * \tparam TInput Type of the 1D parameter of the path, e.g. unsigned int or double.
+ * \tparam TOutput Type of the path location at the given input, e.g.
+ * itk::Offset< VDimension > or itk::ContinuousIndex< VDimension >
+ * \tparam VDimension Dimension of the path.
+ *
  * \sa Index
  * \sa Point
  * \sa ContinuousIndex
@@ -45,7 +50,7 @@ namespace itk
  * \ingroup ITKPath
  */
 template< class TInput, class TOutput, unsigned int VDimension >
-class ITK_EXPORT Path:public DataObject
+class ITK_EXPORT Path: public DataObject
 {
 public:
   /** Standard class typedefs. */

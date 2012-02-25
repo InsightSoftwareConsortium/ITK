@@ -35,9 +35,10 @@ PolyLineParametricPath< VDimension >
   double     fractionOfLineSegment;
 
   // Handle the endpoint carefully, since there is no following vertex
-  if ( input  >=  InputType(m_VertexList->Size() - 1) )
+  const InputType endPoint = static_cast< InputType >( m_VertexList->Size() - 1 );
+  if ( input > endPoint || itk::Math::FloatAlmostEqual( input, endPoint ) )
     {
-    return m_VertexList->ElementAt(m_VertexList->Size() - 1); // the last vertex
+    return this->m_VertexList->ElementAt(m_VertexList->Size() - 1); // the last vertex
     }
 
   vertex0 = m_VertexList->ElementAt( int(input) );
@@ -64,20 +65,14 @@ PolyLineParametricPath< VDimension >
 //{
 //}
 
-/**
- * Constructor
- */
 template< unsigned int VDimension >
 PolyLineParametricPath< VDimension >
 ::PolyLineParametricPath()
 {
   this->SetDefaultInputStepSize(0.3);
-  m_VertexList = VertexListType::New();
+  this->m_VertexList = VertexListType::New();
 }
 
-/**
- * Standard "PrintSelf" method
- */
 template< unsigned int VDimension >
 void
 PolyLineParametricPath< VDimension >
