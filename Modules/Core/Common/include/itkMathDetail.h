@@ -371,6 +371,46 @@ inline int64_t Ceil_64(double x) { return Ceil_base< int64_t, double >(x); }
 inline int64_t Ceil_64(float x) { return Ceil_base< int64_t, float >(x); }
 
 #endif // USE_SSE2_64IMPL || GCC_USE_ASM_64IMPL || VC_USE_ASM_64IMPL
+
+template <typename T>
+struct FloatIEEETraits;
+
+template <>
+struct FloatIEEETraits<float>
+{
+  typedef int32_t  IntType;
+  typedef uint32_t UIntType;
+};
+
+template <>
+struct FloatIEEETraits<double>
+{
+  typedef int64_t  IntType;
+  typedef uint64_t UIntType;
+};
+
+template <typename T>
+union FloatIEEE
+{
+  typedef T                                     FloatType;
+  typedef typename FloatIEEETraits<T>::IntType  IntType;
+  typedef typename FloatIEEETraits<T>::UIntType UIntType;
+
+  FloatType asFloat;
+  IntType asInt;
+  UIntType asUInt;
+
+  FloatIEEE(FloatType f): asFloat(f) {}
+  bool Sign() const
+    {
+    return (asUInt >> (sizeof(asUInt)*8-1)) != 0;
+    }
+  IntType AsULP() const
+    {
+    return this->Sign()? IntType(~(~UIntType(0) >> 1) - asUInt) : asInt;
+    }
+};
+
 } // end namespace Detail
 } // end namespace Math
 

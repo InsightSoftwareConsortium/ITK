@@ -207,6 +207,75 @@ inline TReturn CastWithRangeCheck(TInput x)
     }
   return ret;
 }
+
+/** \brief Return the signed distance in ULPs (units in the last place) between two floats.
+ *
+ * This is the signed distance, i.e., if x1 > x2, then the result is positive.
+ *
+ * \sa FloatAlmostEqual
+ */
+template <typename T>
+inline typename Detail::FloatIEEE<T>::IntType
+FloatDifferenceULP( T x1, T x2 )
+{
+  Detail::FloatIEEE<T> x1f(x1);
+  Detail::FloatIEEE<T> x2f(x2);
+  return x1f.AsULP() - x2f.AsULP();
+}
+
+/** \brief Compare two floats and return if they are effectively equal.
+ *
+ * Determining when floats are almost equal is difficult because of their
+ * IEEE bit representation.  This function uses the integer representation of
+ * the float to determine if they are almost equal.
+ *
+ * The implementation is based off the explanation in the white papers:
+ *
+ * - http://randomascii.wordpress.com/2012/02/25/comparing-floating-point-numbers-2012-edition/
+ * - http://www.cygnus-software.com/papers/comparingfloats/comparingfloats.htm
+ *
+ * This function is not a cure-all, and reading those articles is important
+ * to understand its appropriate use in the context of ULPs, zeros, subnormals,
+ * infinities, and NANs.  For example, it is preferable to use this function on
+ * two floats directly instead of subtracting them and comparing them to zero.
+ *
+ * The tolerance is specified in ULPs (units in the last place), i.e. how many
+ * floats there are in between the numbers.  Therefore, the tolerance depends on
+ * the magnitude of the values that are being compared.  A second tolerance is
+ * a maximum difference allowed, which is important when comparing numbers close to
+ * zero.
+ *
+ * A NAN compares as not equal to a number, but two NAN's may compare as equal
+ * to each other.
+ *
+ * \param x1                    first floating value to compare
+ * \param x1                    second floating values to compare
+ * \param maxUlps               maximum units in the last place to be considered equal
+ * \param maxAbsoluteDifference maximum absolute difference to be considered equal
+ */
+template <typename T>
+inline bool
+FloatAlmostEqual( T x1, T x2,
+  typename Detail::FloatIEEE<T>::IntType maxUlps = 4,
+  typename Detail::FloatIEEE<T>::FloatType maxAbsoluteDifference = 0.1*NumericTraits<T>::epsilon() )
+{
+  // Check if the numbers are really close -- needed
+  // when comparing numbers near zero.
+  const T absDifference = vcl_abs(x1 - x2);
+  if ( absDifference <= maxAbsoluteDifference )
+    {
+    return true;
+    }
+
+  typename Detail::FloatIEEE<T>::IntType
+    ulps = FloatDifferenceULP(x1, x2);
+  if(ulps < 0)
+    {
+    ulps = -ulps;
+    }
+  return ulps <= maxUlps;
+}
+
 } // end namespace Math
 } // end namespace itk
 #endif // end of itkMath.h
