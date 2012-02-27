@@ -28,7 +28,7 @@ namespace H5 {
 #endif
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
-class H5_DLLCPP H5Object;  // forward declaration for UserData4Aiterate
+class H5Object;  // forward declaration for UserData4Aiterate
 
 // Define the operator function pointer for H5Aiterate().
 typedef void (*attr_operator_t)( H5Object& loc/*in*/,
