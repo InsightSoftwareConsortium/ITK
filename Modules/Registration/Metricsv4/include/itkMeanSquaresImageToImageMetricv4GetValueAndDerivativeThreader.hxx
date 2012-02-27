@@ -15,17 +15,17 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDemonsImageToImageMetricv4GetValueAndDerivativeThreader_hxx
-#define __itkDemonsImageToImageMetricv4GetValueAndDerivativeThreader_hxx
+#ifndef __itkMeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader_hxx
+#define __itkMeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader_hxx
 
-#include "itkDemonsImageToImageMetricv4GetValueAndDerivativeThreader.h"
+#include "itkMeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader.h"
 
 namespace itk
 {
 
-template< class TDomainPartitioner, class TImageToImageMetric, class TDemonsMetric >
+template< class TDomainPartitioner, class TImageToImageMetric, class TMeanSquaresMetric >
 bool
-DemonsImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TDemonsMetric >
+MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TMeanSquaresMetric >
 ::ProcessPoint( const VirtualIndexType &,
                 const VirtualPointType &           virtualPoint,
                 const FixedImagePointType &,
@@ -40,8 +40,7 @@ DemonsImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TIm
 {
   /** Only the voxelwise contribution given the point pairs. */
   FixedImagePixelType diff = fixedImageValue - movingImageValue;
-  metricValueReturn =
-    vcl_fabs( diff  ) / static_cast<MeasureType>( ImageToImageMetricv4Type::FixedImageDimension );
+  metricValueReturn = diff * diff;
 
   /* Use a pre-allocated jacobian object for efficiency */
   typedef typename TImageToImageMetric::JacobianType & JacobianReferenceType;
@@ -61,11 +60,9 @@ DemonsImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TIm
 
     localDerivativeReturn[par] = sum;
 
-    intmax_t test = static_cast< intmax_t >
-            ( localDerivativeReturn[par] * floatingPointCorrectionResolution );
+    intmax_t test = static_cast< intmax_t > ( localDerivativeReturn[par] * floatingPointCorrectionResolution );
 
-    localDerivativeReturn[par] = static_cast<DerivativeValueType>
-                                  ( test / floatingPointCorrectionResolution );
+    localDerivativeReturn[par] = static_cast<DerivativeValueType> ( test / floatingPointCorrectionResolution );
     }
   return true;
 }

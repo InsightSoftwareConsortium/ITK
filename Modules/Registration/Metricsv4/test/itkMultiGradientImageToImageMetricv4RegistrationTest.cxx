@@ -25,7 +25,7 @@
  * as no exception occurs.
  */
 #include "itkMattesMutualInformationImageToImageMetricv4.h"
-#include "itkDemonsImageToImageMetricv4.h"
+#include "itkMeanSquaresImageToImageMetricv4.h"
 #include "itkGradientDescentOptimizerv4.h"
 #include "itkRegistrationParameterScalesFromShift.h"
 #include "itkMultiGradientOptimizerv4.h"
@@ -109,7 +109,7 @@ int itkMultiGradientImageToImageMetricv4RegistrationTest(int argc, char *argv[])
 
   // The metric
   typedef itk::MattesMutualInformationImageToImageMetricv4 < FixedImageType, MovingImageType >  MetricType;
-  typedef itk::DemonsImageToImageMetricv4 < FixedImageType, MovingImageType >  MetricType2;
+  typedef itk::MeanSquaresImageToImageMetricv4 < FixedImageType, MovingImageType >  MetricType2;
   typedef MetricType::FixedSampledPointSetType                                                              PointSetType;
   MetricType::Pointer metric = MetricType::New();
   metric->SetNumberOfHistogramBins(20);

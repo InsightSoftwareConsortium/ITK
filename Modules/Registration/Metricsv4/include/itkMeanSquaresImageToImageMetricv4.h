@@ -15,32 +15,32 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDemonsImageToImageMetricv4_h
-#define __itkDemonsImageToImageMetricv4_h
+#ifndef __itkMeanSquaresImageToImageMetricv4_h
+#define __itkMeanSquaresImageToImageMetricv4_h
 
 #include "itkImageToImageMetricv4.h"
 
-#include "itkDemonsImageToImageMetricv4GetValueAndDerivativeThreader.h"
+#include "itkMeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader.h"
 
 namespace itk
 {
 
-/** \class DemonsImageToImageMetricv4
+/** \class MeanSquaresImageToImageMetricv4
  *
- *  \brief Class implementing rudimentary demons metric.
+ *  \brief Class implementing a mean squares metric.
  *
  *  See
- *  DemonsImageToImageMetricv4GetValueAndDerivativeThreader::ProcessPoint for algorithm implementation.
+ *  MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader::ProcessPoint for algorithm implementation.
  *
  * \ingroup ITKMetricsv4
  */
 template <class TFixedImage, class TMovingImage, class TVirtualImage = TFixedImage >
-class ITK_EXPORT DemonsImageToImageMetricv4 :
+class ITK_EXPORT MeanSquaresImageToImageMetricv4 :
 public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
 {
 public:
   /** Standard class typedefs. */
-  typedef DemonsImageToImageMetricv4                                     Self;
+  typedef MeanSquaresImageToImageMetricv4                                Self;
   typedef ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage> Superclass;
   typedef SmartPointer<Self>                                             Pointer;
   typedef SmartPointer<const Self>                                       ConstPointer;
@@ -49,7 +49,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(DemonsImageToImageMetricv4, ImageToImageMetricv4);
+  itkTypeMacro(MeanSquaresImageToImageMetricv4, ImageToImageMetricv4);
 
   /** Superclass types */
   typedef typename Superclass::MeasureType             MeasureType;
@@ -79,27 +79,27 @@ public:
       ::itk::GetImageDimension<TMovingImage>::ImageDimension);
 
 protected:
-  DemonsImageToImageMetricv4();
-  virtual ~DemonsImageToImageMetricv4();
+  MeanSquaresImageToImageMetricv4();
+  virtual ~MeanSquaresImageToImageMetricv4();
 
-  friend class DemonsImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< Superclass::VirtualImageDimension >, Superclass, Self >;
-  friend class DemonsImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >;
-  typedef DemonsImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< Superclass::VirtualImageDimension >, Superclass, Self >
-    DemonsDenseGetValueAndDerivativeThreaderType;
-  typedef DemonsImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >
-    DemonsSparseGetValueAndDerivativeThreaderType;
+  friend class MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< Superclass::VirtualImageDimension >, Superclass, Self >;
+  friend class MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >;
+  typedef MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< Superclass::VirtualImageDimension >, Superclass, Self >
+    MeanSquaresDenseGetValueAndDerivativeThreaderType;
+  typedef MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >
+    MeanSquaresSparseGetValueAndDerivativeThreaderType;
 
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
-  DemonsImageToImageMetricv4(const Self &); //purposely not implemented
+  MeanSquaresImageToImageMetricv4(const Self &); //purposely not implemented
   void operator = (const Self &); //purposely not implemented
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDemonsImageToImageMetricv4.hxx"
+#include "itkMeanSquaresImageToImageMetricv4.hxx"
 #endif
 
 #endif

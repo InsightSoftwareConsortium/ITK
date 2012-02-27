@@ -26,7 +26,7 @@
  */
 #include "itkMattesMutualInformationImageToImageMetricv4.h"
 #include "itkJointHistogramMutualInformationImageToImageMetricv4.h"
-#include "itkDemonsImageToImageMetricv4.h"
+#include "itkMeanSquaresImageToImageMetricv4.h"
 #include "itkCorrelationImageToImageMetricv4.h"
 #include "itkGradientDescentOptimizerv4.h"
 #include "itkRegistrationParameterScalesFromShift.h"
@@ -69,11 +69,11 @@ int itkMultiStartImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   typedef unsigned short PixelType; //I assume png is unsigned short
   typedef double InternalPixelType;
 
-  typedef itk::Image< PixelType, Dimension >  InputImageType;
+  typedef itk::Image< PixelType, Dimension >          InputImageType;
   typedef itk::Image< InternalPixelType, Dimension >  InternalImageType;
 
   typedef itk::ImageFileReader< InputImageType  > FixedImageReaderType;
-  typedef itk::ImageFileReader< InputImageType > MovingImageReaderType;
+  typedef itk::ImageFileReader< InputImageType >  MovingImageReaderType;
 
   FixedImageReaderType::Pointer fixedImageReader   = FixedImageReaderType::New();
   fixedImageReader->SetFileName( argv[1] );
@@ -147,7 +147,7 @@ int itkMultiStartImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   identityTransform->SetIdentity();
 
   // The metric
-  //  typedef itk::DemonsImageToImageMetricv4 < InternalImageType, InternalImageType >
+  //  typedef itk::MeanSquaresImageToImageMetricv4 < InternalImageType, InternalImageType >
   typedef itk::CorrelationImageToImageMetricv4 < InternalImageType, InternalImageType >
   //  typedef itk::MattesMutualInformationImageToImageMetricv4 < InternalImageType, InternalImageType >
   //  typedef itk::JointHistogramMutualInformationImageToImageMetricv4 < InternalImageType, InternalImageType >
