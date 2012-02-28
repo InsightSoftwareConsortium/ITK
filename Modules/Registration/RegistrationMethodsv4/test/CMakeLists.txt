@@ -18,6 +18,8 @@ CreateTestDriver(ITKRegistrationMethodsv4  "${ITKRegistrationMethodsv4-Test_LIBR
 itk_add_test(NAME itkSimpleImageRegistrationTest
       COMMAND ITKRegistrationMethodsv4TestDriver
       --with-threads 2
+      --compareIntensityTolerance 3.0
+      --compareNumberOfPixelsTolerance 4
       --compare DATA{Baseline/itkSimpleImageRegistrationTest.nii}
                 ${TEMP}/itkSimpleImageRegistrationTest.nii
               itkSimpleImageRegistrationTest
