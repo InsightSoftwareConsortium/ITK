@@ -268,6 +268,13 @@ int main(int ac, char *av[])
 
   result = ProcessArguments(&ac, &av, &po);
 
+  if( result )
+    {
+    // There was a problem parsing the arguments, so usage has already
+    // been printed, just return
+    return 1;
+    }
+
   if ( po.externalProcessMustBeCalled && po.args.empty() )
     {
     usage();
