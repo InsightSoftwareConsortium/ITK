@@ -62,6 +62,7 @@ for ( int ii = 0;
                           regressionTestParameters.intensityTolerance,
                           regressionTestParameters.numberOfPixelsTolerance,
                           regressionTestParameters.radiusTolerance);
+
     if ( baseline->second < bestBaselineStatus )
       {
       bestBaseline = baseline->first;
