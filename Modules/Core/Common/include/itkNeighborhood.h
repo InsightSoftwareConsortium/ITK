@@ -93,7 +93,7 @@ public:
 
   /** Type used to refer to the elements of the pixel list
    * that are part of the neighborhood. */
-  typedef unsigned int                  NeighborIndexType;
+  typedef SizeValueType                 NeighborIndexType;
 
   /** Default constructor. */
   Neighborhood()
