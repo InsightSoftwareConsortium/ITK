@@ -6,3 +6,7 @@ itk_wrap_module(ITKVtkGlue)
 
   itk_auto_load_submodules()
 itk_end_wrap_module()
+
+if(ITK_WRAP_PYTHON)
+  target_link_libraries(ITKVtkGluePython vtkImagingPythonD)
+endif(ITK_WRAP_PYTHON)
