@@ -502,15 +502,39 @@ int RegressionTestImage(const char *testImageFilename,
   itk::SizeValueType status = itk::NumericTraits< itk::SizeValueType >::Zero;
   status = diff->GetNumberOfPixelsWithDifferences();
 
-  //The measurement errors should be reported for both success and errors
-  //to facilitate setting tight tolerances of tests.
-  std::cout << "<DartMeasurement name=\"ImageError\" type=\"numeric/double\">";
-  std::cout << status;
-  std::cout <<  "</DartMeasurement>" << std::endl;
+  if ( ! reportErrors )
+    {
+    //The measurement errors should be reported for both success and errors
+    //to facilitate setting tight tolerances of tests.
+    std::string shortFilename = itksys::SystemTools::GetFilenameName( baselineImageFilename );
+
+    std::cout << "<DartMeasurement name=\"ImageError " << shortFilename
+              << "\" type=\"numeric/double\">";
+    std::cout << status;
+    std::cout <<  "</DartMeasurement>" << std::endl;
+    }
 
   // if there are discrepencies, create an diff image
   if ( ( status > numberOfPixelsTolerance ) && reportErrors )
     {
+
+    // Report actuall image error to best baseline
+    std::cout << "<DartMeasurement name=\"ImageError\" type=\"numeric/double\">";
+    std::cout << status;
+    std::cout <<  "</DartMeasurement>" << std::endl;
+
+
+    // Report statistics for pixels which exceed tolerances
+    std::cout << "<DartMeasurement name=\"ImageError Minimum\" type=\"numeric/double\">";
+    std::cout << diff->GetMinimumDifference() << "</DartMeasurement>" << std::endl;
+
+    std::cout << "<DartMeasurement name=\"ImageError Maximum\" type=\"numeric/double\">";
+    std::cout << diff->GetMaximumDifference() << "</DartMeasurement>" << std::endl;
+
+    std::cout << "<DartMeasurement name=\"ImageError Mean\" type=\"numeric/double\">";
+    std::cout << diff->GetMeanDifference() << "</DartMeasurement>" << std::endl;
+
+
     typedef itk::Testing::StretchIntensityImageFilter< ImageType, OutputType >     RescaleType;
     typedef itk::Testing::ExtractSliceImageFilter< OutputType, DiffOutputType >    ExtractType;
     typedef itk::ImageFileWriter< DiffOutputType >                        WriterType;

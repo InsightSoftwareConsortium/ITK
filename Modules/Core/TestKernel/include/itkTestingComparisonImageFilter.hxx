@@ -44,6 +44,8 @@ ComparisonImageFilter< TInputImage, TOutputImage >
   m_ToleranceRadius = 0;
 
   // Initialize statistics about difference image.
+  m_MinimumDifference  = NumericTraits< OutputPixelType >::max();
+  m_MaximumDifference = NumericTraits< OutputPixelType >::NonpositiveMin();
   m_MeanDifference = NumericTraits< RealType >::Zero;
   m_TotalDifference = NumericTraits< AccumulateType >::Zero;
   m_NumberOfPixelsWithDifferences = 0;
@@ -59,6 +61,8 @@ ComparisonImageFilter< TInputImage, TOutputImage >
   this->Superclass::PrintSelf(os, indent);
   os << indent << "ToleranceRadius: " << m_ToleranceRadius << "\n";
   os << indent << "DifferenceThreshold: " << m_DifferenceThreshold << "\n";
+  os << indent << "MinimumDifference: " << m_MinimumDifference << "\n";
+  os << indent << "MaximumDifference: " << m_MaximumDifference << "\n";
   os << indent << "MeanDifference: " << m_MeanDifference << "\n";
   os << indent << "TotalDifference: " << m_TotalDifference << "\n";
   os << indent << "NumberOfPixelsWithDifferences: "
@@ -96,15 +100,21 @@ ComparisonImageFilter< TInputImage, TOutputImage >
   ThreadIdType numberOfThreads = this->GetNumberOfThreads();
 
   // Initialize statistics about difference image.
+  m_MinimumDifference = NumericTraits< OutputPixelType >::max();
+  m_MaximumDifference = NumericTraits< OutputPixelType >::NonpositiveMin();
   m_MeanDifference = NumericTraits< RealType >::Zero;
   m_TotalDifference = NumericTraits< AccumulateType >::Zero;
   m_NumberOfPixelsWithDifferences = 0;
 
   // Resize the thread temporaries
   m_ThreadDifferenceSum.SetSize(numberOfThreads);
+  m_ThreadMinimumDifference.SetSize(numberOfThreads);
+  m_ThreadMaximumDifference.SetSize(numberOfThreads);
   m_ThreadNumberOfPixels.SetSize(numberOfThreads);
 
   // Initialize the temporaries
+  m_ThreadMinimumDifference.Fill(NumericTraits< OutputPixelType >::max());
+  m_ThreadMaximumDifference.Fill(NumericTraits< OutputPixelType >::NonpositiveMin());
   m_ThreadDifferenceSum.Fill(NumericTraits< AccumulateType >::Zero);
   m_ThreadNumberOfPixels.Fill(0);
 }
@@ -122,7 +132,6 @@ ComparisonImageFilter< TInputImage, TOutputImage >
   typedef typename FacesCalculator::RadiusType                                  RadiusType;
   typedef typename FacesCalculator::FaceListType                                FaceListType;
   typedef typename FaceListType::iterator                                       FaceListIterator;
-  typedef typename InputImageType::PixelType                                    InputPixelType;
 
   // Prepare standard boundary condition.
   ZeroFluxNeumannBoundaryCondition< InputImageType > nbc;
@@ -221,6 +230,10 @@ ComparisonImageFilter< TInputImage, TOutputImage >
           // Update difference image statistics.
           m_ThreadDifferenceSum[threadId] += minimumDifference;
           m_ThreadNumberOfPixels[threadId]++;
+
+          m_ThreadMinimumDifference[threadId] = std::min( m_ThreadMinimumDifference[threadId], minimumDifference );
+          m_ThreadMaximumDifference[threadId] = std::max( m_ThreadMaximumDifference[threadId], minimumDifference );
+
           }
         else
           {
@@ -256,17 +269,18 @@ ComparisonImageFilter< TInputImage, TOutputImage >
     {
     m_TotalDifference += m_ThreadDifferenceSum[i];
     m_NumberOfPixelsWithDifferences += m_ThreadNumberOfPixels[i];
+
+    m_MinimumDifference = std::min( m_ThreadMinimumDifference[i], m_MinimumDifference );
+    m_MaximumDifference = std::max( m_ThreadMaximumDifference[i], m_MaximumDifference );
     }
 
-  // Get the total number of pixels processed in the region.
-  // This is different from the m_TotalNumberOfPixels which
-  // is the number of pixels that actually have differences
-  // above the intensity threshold.
-  OutputImageRegionType region = this->GetOutput()->GetRequestedRegion();
-  AccumulateType        numberOfPixels = region.GetNumberOfPixels();
+  // The TotalDifference is an accumulation of values of pixels which
+  // don't meet the difference threshold with the radius
+  // option. Therefore this value is averaged over the number of pixel
+  // actually accumulated.
 
   // Calculate the mean difference.
-  m_MeanDifference = m_TotalDifference / numberOfPixels;
+  m_MeanDifference = m_TotalDifference / m_NumberOfPixelsWithDifferences;
 }
 
 /**

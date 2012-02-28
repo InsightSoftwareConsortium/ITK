@@ -57,6 +57,7 @@ public:
 
   /** Some convenient typedefs. */
   typedef TInputImage                                         InputImageType;
+  typedef typename InputImageType::PixelType                  InputPixelType;
   typedef TOutputImage                                        OutputImageType;
   typedef typename OutputImageType::PixelType                 OutputPixelType;
   typedef typename OutputImageType::RegionType                OutputImageRegionType;
@@ -85,7 +86,10 @@ public:
   itkSetMacro(IgnoreBoundaryPixels, bool);
   itkGetConstMacro(IgnoreBoundaryPixels, bool);
 
-  /** Get parameters of the difference image after execution.  */
+  /** Get statistical attributes for those pixels which exceed the
+   * tolerance and radius parameters */
+  itkGetConstMacro(MinimumDifference, OutputPixelType);
+  itkGetConstMacro(MaximumDifference, OutputPixelType);
   itkGetConstMacro(MeanDifference, RealType);
   itkGetConstMacro(TotalDifference, AccumulateType);
   itkGetConstMacro(NumberOfPixelsWithDifferences, SizeValueType);
@@ -121,7 +125,9 @@ protected:
 
   OutputPixelType m_DifferenceThreshold;
 
-  RealType m_MeanDifference;
+  RealType        m_MeanDifference;
+  OutputPixelType m_MinimumDifference;
+  OutputPixelType m_MaximumDifference;
 
   AccumulateType m_TotalDifference;
 
@@ -131,6 +137,9 @@ protected:
 
   Array< AccumulateType >    m_ThreadDifferenceSum;
   Array< SizeValueType >     m_ThreadNumberOfPixels;
+
+  Array< OutputPixelType >    m_ThreadMinimumDifference;
+  Array< OutputPixelType >    m_ThreadMaximumDifference;
 
 private:
   ComparisonImageFilter(const Self &); //purposely not implemented
