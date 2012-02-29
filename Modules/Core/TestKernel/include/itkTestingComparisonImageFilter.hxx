@@ -280,7 +280,11 @@ ComparisonImageFilter< TInputImage, TOutputImage >
   // actually accumulated.
 
   // Calculate the mean difference.
-  m_MeanDifference = m_TotalDifference / m_NumberOfPixelsWithDifferences;
+  m_MeanDifference = 0.0;
+  if ( m_NumberOfPixelsWithDifferences > 0 )
+    {
+    m_MeanDifference = m_TotalDifference / m_NumberOfPixelsWithDifferences;
+    }
 }
 
 /**
