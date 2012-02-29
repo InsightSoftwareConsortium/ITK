@@ -79,7 +79,9 @@ FOREACH(CurrentExe "check"
                    "testDilateBinary"
                    "testOpenBinary"
                    "testCloseBinary"
-                   "dilateBinary3D")
+                   "dilateBinary3D"
+                   "testErode"
+                   "testDilate")
 ADD_EXECUTABLE(${ CurrentExe } ${ CurrentExe }.cxx)
 TARGET_LINK_LIBRARIES(${ CurrentExe } ${ Libraries })
 ENDFOREACH(CurrentExe)
@@ -97,8 +99,9 @@ ENDIF(BUILD_TESTING)
 ADD_TEST(Test ${ TEST_COMMAND } check ${ INPUT_IMAGE } out.png-- compare out.png ${ CMAKE_CURRENT_SOURCE_DIR } /
          images / test.png)
 
-ADD_TEST(Open ${ TEST_COMMAND } testOpen ${ INPUT_IMAGE } open.png-- compare open.png ${ CMAKE_CURRENT_SOURCE_DIR } /
-         images / open.png)
+ADD_TEST(Open ${ TEST_COMMAND } testOpen ${ INPUT_IMAGE } openCP.png openInt.png-- compare openCP.png ${
+           CMAKE_CURRENT_SOURCE_DIR } /
+         images / open.png-- compare openCP.png openInt.png)
 ADD_TEST(Spacing ${ TEST_COMMAND } testSpacing ${ INPUT_IMAGE } o1.png o2.png-- compare o1.png o2.png)
 
 ADD_TEST(Sharpen1 ${ TEST_COMMAND } testSharpen 1 sharp1.mha sharp1.txt)
