@@ -174,6 +174,7 @@ void ImageSeriesReader< TOutputImage >
 
       spacing = readerOutput->GetSpacing();
       direction = readerOutput->GetDirection();
+      numberOfComponents = readerOutput->GetNumberOfComponentsPerPixel();
 
       SizeType dimSize = readerOutput->GetLargestPossibleRegion().GetSize();
 
@@ -392,15 +393,30 @@ void ImageSeriesReader< TOutputImage >
         typedef typename TOutputImage::AccessorFunctorType AccessorFunctorType;
         const size_t      numberOfInternalComponentsPerPixel =  AccessorFunctorType::GetVectorLength( output );
 
+
         const ptrdiff_t   sliceOffset = ( TOutputImage::ImageDimension != this->m_NumberOfDimensionsInImage ) ?
           ( i - requestedRegion.GetIndex(this->m_NumberOfDimensionsInImage)) : 0;
+
         const ptrdiff_t  numberOfPixelComponentsUpToSlice =  numberOfPixelsInSlice * numberOfInternalComponentsPerPixel * sliceOffset;
         const bool       bufferDelete = false;
 
-
         typename  TOutputImage::InternalPixelType * outputSliceBuffer = outputBuffer + numberOfPixelComponentsUpToSlice;
 
-        readerOutput->GetPixelContainer()->SetImportPointer( outputSliceBuffer, numberOfPixelsInSlice, bufferDelete );
+        if ( strcmp(output->GetNameOfClass(), "VectorImage") == 0 )
+          {
+          // if the input image type is a vector image then the number
+          // of components needs to be set for the size
+          readerOutput->GetPixelContainer()->SetImportPointer( outputSliceBuffer,
+                                                               numberOfPixelsInSlice*numberOfInternalComponentsPerPixel,
+                                                               bufferDelete );
+          }
+        else
+          {
+          // otherwise the actual number of pixels needs to be passed
+          readerOutput->GetPixelContainer()->SetImportPointer( outputSliceBuffer,
+                                                               numberOfPixelsInSlice,
+                                                               bufferDelete );
+          }
         readerOutput->UpdateOutputData();
         }
       else
