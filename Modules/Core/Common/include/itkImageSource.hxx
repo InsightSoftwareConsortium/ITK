@@ -59,9 +59,9 @@ ImageSource< TOutputImage >
  *
  */
 template< class TOutputImage >
-typename ImageSource< TOutputImage >::DataObjectPointer
+ProcessObject::DataObjectPointer
 ImageSource< TOutputImage >
-::MakeOutput(DataObjectPointerArraySizeType)
+::MakeOutput(ProcessObject::DataObjectPointerArraySizeType)
 {
   return static_cast< DataObject * >( TOutputImage::New().GetPointer() );
 }
