@@ -276,6 +276,20 @@ macro(check_compiler_platform_flags)
     CHECK_CXX_SOURCE_COMPILES(${ITK_CXX_DISABLE_OPTIMIZATION_FLAG} CXX_HAS_DISABLE_OPTIMIZATION_FLAG)
   endif()
 
+  #-----------------------------------------------------------------------------
+  # Warn about hanging in VisualStudio 10.
+  if(CMAKE_GENERATOR MATCHES "^Visual Studio 1.*"
+        AND BUILD_TESTING AND BUILD_EXAMPLES)
+      message(WARNING "${CMAKE_GENERATOR} is known to hang with BUILD_TESTING AND BUILD_EXAMPLES ON.
+Current workarounds to
+- turn off parallel project builds with
+    Set Tools>Options>Projects and Solutions>Build and Run>Maximum number of parallel project builds = 1.
+
+- turn BUILD_TESTING or BUILD_EXAMPLES off.
+
+- use NMake or JOM as detailed here:
+    http://www.itk.org/Wiki/ITK/Compilers")
+  endif()
   #----------------------------------------------------------------------------
   # Allowing GNU extensions with CLang throws a zillion warnings in vnl_math.h
   # which has (optionally) in-class const float member variable initialization
