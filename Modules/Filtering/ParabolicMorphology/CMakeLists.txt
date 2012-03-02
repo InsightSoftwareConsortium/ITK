@@ -99,6 +99,29 @@ ENDIF(BUILD_TESTING)
 ADD_TEST(Test ${ TEST_COMMAND } check ${ INPUT_IMAGE } out.png-- compare out.png ${ CMAKE_CURRENT_SOURCE_DIR } /
          images / test.png)
 
+#default scale - 1
+ADD_TEST(Erode2Da ${ TEST_COMMAND } testErode ${
+  INPUT_IMAGE } outEInta.png outECPa.png-- compare outEInta.png outECPa.png)
+
+ADD_TEST(Dilate2Da ${ TEST_COMMAND } testDilate ${
+  INPUT_IMAGE } outDInta.png outDCPa.png-- compare outDInta.png outDCPa.png)
+
+#small scale
+ADD_TEST(Erode2Db ${ TEST_COMMAND } testErode ${
+  INPUT_IMAGE } outEIntb.png outECPb.png 0.2 --compare outEIntb.png outECPb.png)
+
+
+ADD_TEST(Dilate2Db ${ TEST_COMMAND } testDilate ${
+  INPUT_IMAGE } outDIntb.png outDCPb.png 0.2 --compare outDIntb.png outDCPb.png)
+
+
+#large scale
+ADD_TEST(Erode2Dc ${ TEST_COMMAND } testErode ${
+  INPUT_IMAGE } outEIntc.png outECPc.png 5.0 --compare outEIntc.png outECPc.png)
+
+ADD_TEST(Dilate2Dc ${ TEST_COMMAND } testDilate ${
+  INPUT_IMAGE } outDIntc.png outDCPc.png 5.0 --compare outDIntc.png outDCPc.png)
+
 ADD_TEST(Open ${ TEST_COMMAND } testOpen ${ INPUT_IMAGE } openCP.png openInt.png-- compare openCP.png ${
            CMAKE_CURRENT_SOURCE_DIR } /
          images / open.png-- compare openCP.png openInt.png)
