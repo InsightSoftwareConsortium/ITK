@@ -149,8 +149,6 @@ int itkMultiGradientImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   metric->SetMovingImage( movingImage );
   metric->SetFixedTransform( identityTransform );
   metric->SetMovingTransform( affineTransform );
-  metric->SetDoFixedImagePreWarp( false );
-  metric->SetDoMovingImagePreWarp( false );
   metric->SetUseMovingImageGradientFilter( false );
   metric->SetUseFixedImageGradientFilter( false );
   metric->Initialize();
@@ -159,8 +157,6 @@ int itkMultiGradientImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   metric2->SetMovingImage( movingImage );
   metric2->SetFixedTransform( identityTransform );
   metric2->SetMovingTransform( affineTransform );
-  metric2->SetDoFixedImagePreWarp( false );
-  metric2->SetDoMovingImagePreWarp( false );
   metric2->SetUseMovingImageGradientFilter( false );
   metric2->SetUseFixedImageGradientFilter( false );
   metric2->Initialize();

@@ -47,7 +47,7 @@
  */
 template< class TImage, class TInterpolator>
 int TestMattesMetricWithAffineTransform(
-  TInterpolator * interpolator, bool useSampling, bool doPreWarp )
+  TInterpolator * interpolator, bool useSampling )
 {
 
 //------------------------------------------------------------
@@ -216,9 +216,6 @@ int TestMattesMetricWithAffineTransform(
 
   // set the number of histogram bins
   metric->SetNumberOfHistogramBins( 50 );
-
-  metric->SetDoFixedImagePreWarp( doPreWarp );
-  metric->SetDoMovingImagePreWarp( doPreWarp );
 
   // this test doesn't pass when using gradient image filters,
   // presumably because of different deriviative scaling created
@@ -439,8 +436,7 @@ int TestMattesMetricWithAffineTransform(
  */
 template< class TImage, class TInterpolator>
 int TestMattesMetricWithBSplineTransform(
-  TInterpolator * interpolator, bool useSampling,
-  bool doPreWarp )
+  TInterpolator * interpolator, bool useSampling )
 {
 
 //------------------------------------------------------------
@@ -572,9 +568,6 @@ int TestMattesMetricWithBSplineTransform(
 
   // set the number of histogram bins
   metric->SetNumberOfHistogramBins( 50 );
-
-  metric->SetDoFixedImagePreWarp(doPreWarp);
-  metric->SetDoMovingImagePreWarp(doPreWarp);
 
   // This test will not pass with gradient filter enabled,
   // see comments in TestMattesMetricWithAffineTransform().
@@ -715,16 +708,8 @@ int TestMattesMetricWithBSplineTransform(
 /**
  * Test entry point.
  */
-int itkMattesMutualInformationImageToImageMetricv4Test(int argc, char * argv [] )
+int itkMattesMutualInformationImageToImageMetricv4Test(int, char *[] )
 {
-
-  bool doPreWarp = true;
-  if( argc > 1 )
-    {
-    doPreWarp = atoi( argv[1] );
-    }
-  std::cout << "doPreWarp: " << doPreWarp << std::endl;
-
   int failed;
 
   //typedef itk::Image<unsigned char,2> ImageType;
@@ -743,7 +728,7 @@ int itkMattesMutualInformationImageToImageMetricv4Test(int argc, char * argv [] 
 
   std::cout << "Test metric with a linear interpolator." << std::endl;
   failed = TestMattesMetricWithAffineTransform<ImageType,LinearInterpolatorType>(
-    linearInterpolator, useSampling, doPreWarp );
+    linearInterpolator, useSampling );
 
   if ( failed )
     {
@@ -753,7 +738,7 @@ int itkMattesMutualInformationImageToImageMetricv4Test(int argc, char * argv [] 
 
   useSampling = true;
   failed = TestMattesMetricWithAffineTransform<ImageType,LinearInterpolatorType>(
-    linearInterpolator, useSampling, doPreWarp );
+    linearInterpolator, useSampling );
 
   if ( failed )
     {
@@ -777,7 +762,7 @@ return EXIT_SUCCESS;
   useSampling = false;
   std::cout << "Test metric with a BSpline interpolator." << std::endl;
   failed = TestMattesMetricWithAffineTransform<ImageType,BSplineInterpolatorType>(
-    bSplineInterpolator, useSampling, doPreWarp );
+    bSplineInterpolator, useSampling );
 
   if ( failed )
     {
@@ -801,7 +786,7 @@ return EXIT_SUCCESS;
   useSampling = false;
   std::cout << "Test metric with BSpline deformable transform and BSpline interpolator." << std::endl;
   failed = TestMattesMetricWithBSplineTransform<
-    ImageType,BSplineInterpolatorType>( bSplineInterpolator, useSampling, doPreWarp );
+    ImageType,BSplineInterpolatorType>( bSplineInterpolator, useSampling );
 
   if ( failed )
     {

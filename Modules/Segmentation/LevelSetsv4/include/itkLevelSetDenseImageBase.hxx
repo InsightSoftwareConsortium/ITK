@@ -148,7 +148,7 @@ LevelSetDenseImageBase< TImage >
 template< class TImage >
 bool
 LevelSetDenseImageBase< TImage >
-::IsInside(const InputType &iP) const
+::IsInsideDomain(const InputType &iP) const
 {
   const RegionType largestRegion = this->m_Image->GetLargestPossibleRegion();
 

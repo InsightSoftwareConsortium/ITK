@@ -117,7 +117,7 @@ protected:
 
   virtual void InitializeInternalLabelList() = 0;
 
-  virtual bool IsInside( const InputType& iP ) const;
+  virtual bool IsInsideDomain( const InputType& iP ) const;
 
   /** Initialize the label map point and the sparse-field layers */
   virtual void Initialize();

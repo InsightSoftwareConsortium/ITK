@@ -162,7 +162,6 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
   MeasureType                 metricValueResult;
 
   /* Transform the point into fixed and moving spaces, and evaluate.
-   * Different behavior with pre-warping enabled is handled transparently.
    * Do this in a try block to catch exceptions and print more useful info
    * then we otherwise get when exceptions are caught in MultiThreader. */
   try

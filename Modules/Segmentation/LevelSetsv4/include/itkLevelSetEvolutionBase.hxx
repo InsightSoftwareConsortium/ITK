@@ -32,6 +32,7 @@ LevelSetEvolutionBase< TEquationContainer, TLevelSet >
   this->m_Dt = 1.;
   this->m_RMSChangeAccumulator = 0.;
   this->m_UserGloballyDefinedTimeStep = false;
+  this->m_NumberOfIterations = 0;
 }
 
 template< class TEquationContainer, class TLevelSet >
@@ -96,7 +97,10 @@ LevelSetEvolutionBase< TEquationContainer, TLevelSet >
 
   if( this->m_LevelSetContainer != this->m_EquationContainer->GetLevelSetContainer() )
     {
-    itkGenericExceptionMacro( << "this->m_LevelSetContainer != this->m_EquationContainer->GetLevelSetContainer()");
+    itkGenericExceptionMacro( << "this->m_LevelSetContainer != this->m_EquationContainer->GetLevelSetContainer()" << std::endl
+                              << this->m_LevelSetContainer.GetPointer() << " != " << this->m_EquationContainer->GetLevelSetContainer()
+                              << std::endl
+      );
     }
 
   // Get the image to be segmented
@@ -231,7 +235,7 @@ LevelSetEvolutionBase< TEquationContainer, TLevelSet >
     this->m_StoppingCriterion->SetRMSChangeAccumulator( this->m_RMSChangeAccumulator );
     this->m_StoppingCriterion->SetCurrentIteration( iter );
 
-    this->m_NumberOfIterations++;
+    ++this->m_NumberOfIterations;
     this->InvokeEvent( IterationEvent() );
     }
 }

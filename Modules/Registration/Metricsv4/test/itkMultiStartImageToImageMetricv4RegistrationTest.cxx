@@ -178,9 +178,7 @@ int itkMultiStartImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   if( rotateinput ) metric->SetMovingImage( resample->GetOutput() );
   metric->SetFixedTransform( identityTransform );
   metric->SetMovingTransform( affineTransform );
-  bool pw=false, gaussian=false;
-  metric->SetDoFixedImagePreWarp( pw );
-  metric->SetDoMovingImagePreWarp( pw );
+  bool gaussian=false;
   metric->SetUseMovingImageGradientFilter( gaussian );
   metric->SetUseFixedImageGradientFilter( gaussian );
   metric->Initialize();

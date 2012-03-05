@@ -44,7 +44,7 @@ namespace itk
  * KernelZeroMagnitudeThreshold in this filter) that determines when
  * the magnitude of a complex number is considered zero.
  *
- * \author Gaeten Lehmann, Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France
+ * \author Gaetan Lehmann, Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France
  * \author Cory Quammen, The University of North Carolina at Chapel Hill
  *
  * \ingroup ITKDeconvolution

@@ -119,7 +119,10 @@ int itkLevelSetDenseImageBaseTest( int , char* [] )
     idx = it.GetIndex();
     input->TransformIndexToPhysicalPoint( idx, pt );
 
-    it.Set( testFunction->Evaluate( pt ) );
+    PixelType tempValue = testFunction->Evaluate( pt );
+    it.Set( tempValue );
+
+
     ++it;
     }
 
@@ -147,6 +150,14 @@ int itkLevelSetDenseImageBaseTest( int , char* [] )
       {
       std::cout << "Index:" << idx << " *EvaluateTestFail* " << value << " != "
                 << theoreticalValue << std::endl;
+      return EXIT_FAILURE;
+      }
+
+    if( level_set->IsInside( idx ) != ( theoreticalValue <= 0. ) )
+      {
+      std::cerr << "if( testFunction->IsInside( pt ) != ( theoreticalValue <= 0. ) )" << std::endl;
+      std::cerr << "pt : " << pt << std::endl;
+      std::cerr << "theoreticalValue: " << theoreticalValue << std::endl;
       return EXIT_FAILURE;
       }
 

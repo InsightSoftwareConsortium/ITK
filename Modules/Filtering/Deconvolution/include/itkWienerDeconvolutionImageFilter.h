@@ -64,7 +64,7 @@ namespace itk
  * For further information on the Wiener deconvolution filter, please see
  * "Digital Signal Processing" by Kenneth R. Castleman, Prentice Hall, 1995
  *
- * \author Gaeten Lehmann, Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France
+ * \author Gaetan Lehmann, Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France
  * \author Chris Mullins, The University of North Carolina at Chapel Hill
  * \author Cory Quammen, The University of North Carolina at Chapel Hill
  *

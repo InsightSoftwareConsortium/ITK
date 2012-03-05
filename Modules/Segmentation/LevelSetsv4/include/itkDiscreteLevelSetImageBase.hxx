@@ -52,12 +52,12 @@ DiscreteLevelSetImageBase< TOutput, VDimension >::EvaluateGradient( const InputT
     pA[dim] += 1;
     pB[dim] -= 1;
 
-    if( !this->IsInside( pA ) )
+    if( !this->IsInsideDomain( pA ) )
       {
       pA[dim] = iP[dim];
       }
 
-    if( !this->IsInside( pB ) )
+    if( !this->IsInsideDomain( pB ) )
       {
       pB[dim] = iP[dim];
       }
@@ -93,7 +93,7 @@ DiscreteLevelSetImageBase< TOutput, VDimension >
     {
     pA[dim] += 1;
 
-    if( !this->IsInside( pA ) )
+    if( !this->IsInsideDomain( pA ) )
       {
       pA[dim] = iP[dim];
       }
@@ -125,7 +125,7 @@ DiscreteLevelSetImageBase< TOutput, VDimension >
     {
     pA[dim] -= 1;
 
-    if( !this->IsInside( pA ) )
+    if( !this->IsInsideDomain( pA ) )
       {
       pA[dim] = iP[dim];
       }
@@ -163,12 +163,12 @@ DiscreteLevelSetImageBase< TOutput, VDimension >
     pA[dim1] += 1;
     pB[dim1] -= 1;
 
-    if( !this->IsInside( pA ) )
+    if( !this->IsInsideDomain( pA ) )
       {
       pA[dim1] = iP[dim1];
       }
 
-    if( !this->IsInside( pB ) )
+    if( !this->IsInsideDomain( pB ) )
       {
       pB[dim1] = iP[dim1];
       }
@@ -193,22 +193,22 @@ DiscreteLevelSetImageBase< TOutput, VDimension >
       pCa[dim2] -= 1;
       pDa[dim2] += 1;
 
-      if( !this->IsInside( pAa ) )
+      if( !this->IsInsideDomain( pAa ) )
         {
         pAa[dim2] = pB[dim2];
         }
 
-      if( !this->IsInside( pBa ) )
+      if( !this->IsInsideDomain( pBa ) )
         {
         pBa[dim2] = pB[dim2];
         }
 
-      if( !this->IsInside( pCa ) )
+      if( !this->IsInsideDomain( pCa ) )
         {
         pCa[dim2] = pA[dim2];
         }
 
-      if( !this->IsInside( pDa ) )
+      if( !this->IsInsideDomain( pDa ) )
         {
         pDa[dim2] = pA[dim2];
         }
@@ -254,12 +254,12 @@ DiscreteLevelSetImageBase< TOutput, VDimension >
     pA[dim1] += 1;
     pB[dim1] -= 1;
 
-    if( !this->IsInside( pA ) )
+    if( !this->IsInsideDomain( pA ) )
       {
       pA[dim1] = iP[dim1];
       }
 
-    if( !this->IsInside( pB ) )
+    if( !this->IsInsideDomain( pB ) )
       {
       pB[dim1] = iP[dim1];
       }
@@ -316,12 +316,12 @@ DiscreteLevelSetImageBase< TOutput, VDimension >
     pA[dim] += 1;
     pB[dim] -= 1;
 
-    if( !this->IsInside( pA ) )
+    if( !this->IsInsideDomain( pA ) )
       {
       pA[dim] = iP[dim];
       }
 
-    if( !this->IsInside( pB ) )
+    if( !this->IsInsideDomain( pB ) )
       {
       pB[dim] = iP[dim];
       }
@@ -374,12 +374,12 @@ DiscreteLevelSetImageBase< TOutput, VDimension >
     pA[dim1] += 1;
     pB[dim1] -= 1;
 
-    if( !this->IsInside( pA ) )
+    if( !this->IsInsideDomain( pA ) )
       {
       pA[dim1] = iP[dim1];
       }
 
-    if( !this->IsInside( pB ) )
+    if( !this->IsInsideDomain( pB ) )
       {
       pB[dim1] = iP[dim1];
       }
@@ -418,22 +418,22 @@ DiscreteLevelSetImageBase< TOutput, VDimension >
       pCa[dim2] -= 1;
       pDa[dim2] += 1;
 
-      if( !this->IsInside( pAa ) )
+      if( !this->IsInsideDomain( pAa ) )
         {
         pAa[dim2] = pB[dim2];
         }
 
-      if( !this->IsInside( pBa ) )
+      if( !this->IsInsideDomain( pBa ) )
         {
         pBa[dim2] = pB[dim2];
         }
 
-      if( !this->IsInside( pCa ) )
+      if( !this->IsInsideDomain( pCa ) )
         {
         pCa[dim2] = pA[dim2];
         }
 
-      if( !this->IsInside( pDa ) )
+      if( !this->IsInsideDomain( pDa ) )
         {
         pDa[dim2] = pA[dim2];
         }
@@ -526,12 +526,12 @@ DiscreteLevelSetImageBase< TOutput, VDimension >
     pA[dim1] += 1;
     pB[dim1] -= 1;
 
-    if( !this->IsInside( pA ) )
+    if( !this->IsInsideDomain( pA ) )
       {
       pA[dim1] = iP[dim1];
       }
 
-    if( !this->IsInside( pB ) )
+    if( !this->IsInsideDomain( pB ) )
       {
       pB[dim1] = iP[dim1];
       }
@@ -630,7 +630,7 @@ DiscreteLevelSetImageBase< TOutput, VDimension >
     {
     pA[dim] += 1;
 
-    if( !this->IsInside( pA ) )
+    if( !this->IsInsideDomain( pA ) )
       {
       pA[dim] = iP[dim];
       }
@@ -676,7 +676,7 @@ DiscreteLevelSetImageBase< TOutput, VDimension >
     {
     pA[dim] -= 1;
 
-    if( !this->IsInside( pA ) )
+    if( !this->IsInsideDomain( pA ) )
       {
       pA[dim] = iP[dim];
       }
