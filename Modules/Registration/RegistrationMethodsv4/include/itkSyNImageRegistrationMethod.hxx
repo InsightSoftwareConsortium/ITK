@@ -336,7 +336,7 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
 template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
 typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>::DisplacementFieldPointer
 SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
-::InvertDisplacementField( const DisplacementFieldType * field, const DisplacementFieldType * inverseFieldEstimate = NULL )
+::InvertDisplacementField( const DisplacementFieldType * field, const DisplacementFieldType * inverseFieldEstimate )
 {
   typedef InvertDisplacementFieldImageFilter<DisplacementFieldType> InverterType;
 

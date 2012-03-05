@@ -177,7 +177,7 @@ protected:
 
   virtual DisplacementFieldPointer ComputeUpdateField( const TFixedImage *, const TransformBaseType *, const TMovingImage *, const TransformBaseType *, MeasureType & );
   virtual DisplacementFieldPointer GaussianSmoothDisplacementField( const DisplacementFieldType *, const RealType );
-  virtual DisplacementFieldPointer InvertDisplacementField( const DisplacementFieldType *, const DisplacementFieldType * );
+  virtual DisplacementFieldPointer InvertDisplacementField( const DisplacementFieldType *, const DisplacementFieldType * = NULL );
 
 private:
   SyNImageRegistrationMethod( const Self & );   //purposely not implemented
