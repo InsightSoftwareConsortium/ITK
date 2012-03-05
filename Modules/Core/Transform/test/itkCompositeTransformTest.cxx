@@ -709,6 +709,7 @@ int itkCompositeTransformTest(int, char *[] )
   /* Test ComputeJacobianWithRespectToParameters with three transforms, two of which (1st and 3rd) are active.
    * Remember that the point gets transformed by preceding transforms
    * before its used for individual Jacobian. */
+  std::cout << "Test ComputeJacobianWithRespectToParameters with three transforms: " << std::endl;
   CompositeType::JacobianType   jacTruth, jacComposite2, jacAffine, jacAffine3;
   CompositeType::InputPointType jacPoint2;
   jacPoint2[0] = 1;
