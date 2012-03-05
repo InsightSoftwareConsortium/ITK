@@ -88,15 +88,15 @@ class Array1DToData;
  *
  * \ingroup ITKRegistrationMethodsv4
  */
-template<typename TFixedImage, typename TMovingImage, typename TTransform =
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform =
   GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<double, GetImageDimension<TFixedImage>::ImageDimension> >
 class ITK_EXPORT TimeVaryingVelocityFieldImageRegistrationMethodv4
-: public ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
+: public ImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform>
 {
 public:
   /** Standard class typedefs. */
   typedef TimeVaryingVelocityFieldImageRegistrationMethodv4                       Self;
-  typedef ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>        Superclass;
+  typedef ImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform>        Superclass;
   typedef SmartPointer<Self>                                                      Pointer;
   typedef SmartPointer<const Self>                                                ConstPointer;
 
@@ -123,21 +123,21 @@ public:
   typedef typename MetricType::VirtualImageType                       VirtualImageType;
   typedef typename MetricType::MeasureType                            MeasureType;
 
-  typedef TTransform                                                  TransformType;
-  typedef typename TransformType::Pointer                             TransformPointer;
-  typedef typename TransformType::ScalarType                          RealType;
-  typedef typename TransformType::DerivativeType                      DerivativeType;
-  typedef typename TransformType::DerivativeValueType                 DerivativeValueType;
-  typedef typename TransformType::TimeVaryingVelocityFieldType        TimeVaryingVelocityFieldType;
+  typedef TOutputTransform                                            OutputTransformType;
+  typedef typename OutputTransformType::Pointer                       OutputTransformPointer;
+  typedef typename OutputTransformType::ScalarType                    RealType;
+  typedef typename OutputTransformType::DerivativeType                DerivativeType;
+  typedef typename DerivativeType::ValueType                          DerivativeValueType;
+  typedef typename OutputTransformType::TimeVaryingVelocityFieldType  TimeVaryingVelocityFieldType;
   typedef typename TimeVaryingVelocityFieldType::Pointer              TimeVaryingVelocityFieldPointer;
-  typedef typename TransformType::DisplacementFieldType               DisplacementFieldType;
+  typedef typename OutputTransformType::DisplacementFieldType         DisplacementFieldType;
   typedef typename DisplacementFieldType::Pointer                     DisplacementFieldPointer;
   typedef typename TimeVaryingVelocityFieldType::PixelType            DisplacementVectorType;
 
-  typedef CompositeTransform<RealType, ImageDimension>                CompositeTransformType;
+  typedef typename Superclass::CompositeTransformType                 CompositeTransformType;
 
-  typedef typename Superclass::TransformOutputType                    TransformOutputType;
-  typedef typename TransformOutputType::Pointer                       TransformOutputPointer;
+  typedef typename Superclass::DecoratedOutputTransformType           DecoratedOutputTransformType;
+  typedef typename DecoratedOutputTransformType::Pointer              DecoratedOutputTransformPointer;
 
   typedef Array<SizeValueType>                                        NumberOfIterationsArrayType;
 

@@ -38,8 +38,8 @@ namespace itk
 /**
  * Constructor
  */
-template<typename TFixedImage, typename TMovingImage, typename TTransform>
-TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
+TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform>
 ::TimeVaryingVelocityFieldImageRegistrationMethodv4() :
   m_LearningRate( 0.25 ),
   m_ConvergenceThreshold( 1.0e-7 )
@@ -50,8 +50,8 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TTr
   this->m_NumberOfIterationsPerLevel[2] = 40;
 }
 
-template<typename TFixedImage, typename TMovingImage, typename TTransform>
-TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
+TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform>
 ::~TimeVaryingVelocityFieldImageRegistrationMethodv4()
 {
 }
@@ -59,9 +59,9 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TTr
 /*
  * Start the optimization at each level.  We just do a basic gradient descent operation.
  */
-template<typename TFixedImage, typename TMovingImage, typename TTransform>
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
 void
-TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
+TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform>
 ::StartOptimization()
 {
   typedef ImageDuplicator<DisplacementFieldType> DisplacementFieldDuplicatorType;
@@ -79,7 +79,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TTr
   // This transform gets used for the moving image
   typename DisplacementFieldDuplicatorType::Pointer fieldDuplicatorIdentity = DisplacementFieldDuplicatorType::New();
 
-  TimeVaryingVelocityFieldPointer velocityField = this->m_Transform->GetTimeVaryingVelocityField();
+  TimeVaryingVelocityFieldPointer velocityField = this->m_OutputTransform->GetTimeVaryingVelocityField();
   IndexValueType numberOfTimePoints = velocityField->GetLargestPossibleRegion().GetSize()[ImageDimension];
 
   SizeValueType numberOfIntegrationSteps = numberOfTimePoints + 2;
@@ -92,14 +92,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TTr
   typename VirtualImageType::ConstPointer virtualDomainImage = this->m_Metric->GetVirtualDomainImage();
 
   // Warp the moving image based on the composite transform (not including the current
-  // time varying velocity field transform to be optimized).  Precalculate the voxel
-  // distance to be used in properly scaling the gradient.
-  RealType voxelDistance = 0.0;
-  for( unsigned int d = 0; d < ImageDimension; d++ )
-    {
-    voxelDistance += vnl_math_sqr( virtualDomainImage->GetSpacing()[d] );
-    }
-  voxelDistance = vcl_sqrt( voxelDistance );
+  // time varying velocity field transform to be optimized).
 
   // Instantiate the update derivative for all vectors of the velocity field
   DerivativeType updateDerivative( numberOfPixelsPerTimePoint * numberOfTimePoints * ImageDimension  );
@@ -112,7 +105,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TTr
   ConvergenceMonitoringType::Pointer convergenceMonitoring = ConvergenceMonitoringType::New();
   convergenceMonitoring->SetWindowSize( 10 );
 
-  // m_Transform is the velocity field
+  // m_OutputTransform is the velocity field
 
   SizeValueType iteration = 0;
   bool isConverged = false;
@@ -136,40 +129,40 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TTr
       // Get the fixed transform.  We need to duplicate the resulting
       // displacement field since it will be overwritten when we integrate
       // the velocity field to get the moving image transform.
-      this->m_Transform->SetLowerTimeBound( t );
-      this->m_Transform->SetUpperTimeBound( 0.0 );
-      this->m_Transform->SetNumberOfIntegrationSteps( numberOfIntegrationSteps );
+      this->m_OutputTransform->SetLowerTimeBound( t );
+      this->m_OutputTransform->SetUpperTimeBound( 0.0 );
+      this->m_OutputTransform->SetNumberOfIntegrationSteps( numberOfIntegrationSteps );
       if( timePoint == 0 )
         {
-        this->m_Transform->GetDisplacementField()->FillBuffer( zeroVector );
+        this->m_OutputTransform->GetDisplacementField()->FillBuffer( zeroVector );
         }
       else
         {
-        this->m_Transform->IntegrateVelocityField();
+        this->m_OutputTransform->IntegrateVelocityField();
         }
 
       typename DisplacementFieldDuplicatorType::Pointer fieldDuplicator = DisplacementFieldDuplicatorType::New();
-      fieldDuplicator->SetInputImage( this->m_Transform->GetDisplacementField() );
+      fieldDuplicator->SetInputImage( this->m_OutputTransform->GetDisplacementField() );
       fieldDuplicator->Update();
 
       typename DisplacementFieldTransformType::Pointer fixedDisplacementFieldTransform = DisplacementFieldTransformType::New();
       fixedDisplacementFieldTransform->SetDisplacementField( fieldDuplicator->GetOutput() );
 
       // Get the moving transform
-      this->m_Transform->SetLowerTimeBound( t );
-      this->m_Transform->SetUpperTimeBound( 1.0 );
-      this->m_Transform->SetNumberOfIntegrationSteps( numberOfIntegrationSteps );
+      this->m_OutputTransform->SetLowerTimeBound( t );
+      this->m_OutputTransform->SetUpperTimeBound( 1.0 );
+      this->m_OutputTransform->SetNumberOfIntegrationSteps( numberOfIntegrationSteps );
       if( timePoint == numberOfTimePoints - 1 )
         {
-        this->m_Transform->GetDisplacementField()->FillBuffer( zeroVector );
+        this->m_OutputTransform->GetDisplacementField()->FillBuffer( zeroVector );
         }
       else
         {
-        this->m_Transform->IntegrateVelocityField();
+        this->m_OutputTransform->IntegrateVelocityField();
         }
 
       typename DisplacementFieldTransformType::Pointer movingDisplacementFieldTransform = DisplacementFieldTransformType::New();
-      movingDisplacementFieldTransform->SetDisplacementField( this->m_Transform->GetDisplacementField() );
+      movingDisplacementFieldTransform->SetDisplacementField( this->m_OutputTransform->GetDisplacementField() );
 
       this->m_CompositeTransform->AddTransform( movingDisplacementFieldTransform );
       this->m_CompositeTransform->SetOnlyMostRecentTransformToOptimizeOn();
@@ -205,7 +198,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TTr
 
       this->m_Metric->SetFixedImage( fixedImageResampler->GetOutput() );
       this->m_Metric->SetFixedTransform( identityTransform );
-      this->m_Metric->SetMovingImage(  movingImageResampler->GetOutput() );
+      this->m_Metric->SetMovingImage( movingImageResampler->GetOutput() );
       this->m_Metric->SetMovingTransform( identityDisplacementFieldTransform );
       this->m_Metric->Initialize();
 
@@ -255,7 +248,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TTr
         maxNorm = 1.0;
         }
 
-      RealType scale = voxelDistance / maxNorm;
+      RealType scale = 1.0 / maxNorm;
       metricDerivative *= scale;
       updateDerivative.update( metricDerivative, timePoint * numberOfPixelsPerTimePoint * ImageDimension );
       } // end loop over time points
@@ -263,7 +256,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TTr
     // update the transform --- averaging with the last update reduces oscillations
     updateDerivative = ( updateDerivative + lastUpdateDerivative ) * 0.5;
     lastUpdateDerivative = updateDerivative;
-    this->m_Transform->UpdateTransformParameters( updateDerivative, this->m_LearningRate );
+    this->m_OutputTransform->UpdateTransformParameters( updateDerivative, this->m_LearningRate );
 
     averageMetricValue /= static_cast<MeasureType>( numberOfTimePoints );
 
@@ -275,10 +268,10 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TTr
       {
       isConverged = true;
 
-      this->m_Transform->SetLowerTimeBound( 0 );
-      this->m_Transform->SetUpperTimeBound( 1.0 );
-      this->m_Transform->SetNumberOfIntegrationSteps( numberOfIntegrationSteps );
-      this->m_Transform->IntegrateVelocityField();
+      this->m_OutputTransform->SetLowerTimeBound( 0 );
+      this->m_OutputTransform->SetUpperTimeBound( 1.0 );
+      this->m_OutputTransform->SetNumberOfIntegrationSteps( numberOfIntegrationSteps );
+      this->m_OutputTransform->IntegrateVelocityField();
 
       if( this->GetDebug() )
         {
@@ -324,15 +317,11 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TTr
 /*
  * Start the registration
  */
-template<typename TFixedImage, typename TMovingImage, typename TTransform>
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
 void
-TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
+TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform>
 ::GenerateData()
 {
-  TransformOutputType *transformOutput = static_cast<TransformOutputType *>( this->ProcessObject::GetOutput( 0 ) );
-
-  transformOutput->Set( this->m_Transform.GetPointer() );
-
   for( this->m_CurrentLevel = 0; this->m_CurrentLevel < this->m_NumberOfLevels; this->m_CurrentLevel++ )
     {
     IterationReporter reporter( this, 0, 1 );
@@ -348,22 +337,21 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TTr
 
     this->StartOptimization();
 
-    this->m_CompositeTransform->AddTransform( this->m_Transform );
+    this->m_CompositeTransform->AddTransform( this->m_OutputTransform );
     reporter.CompletedStep();
     }
 
-
-  TransformOutputPointer transformDecorator = TransformOutputType::New().GetPointer();
-  transformDecorator->Set( this->m_Transform );
+  DecoratedOutputTransformPointer transformDecorator = DecoratedOutputTransformType::New().GetPointer();
+  transformDecorator->Set( this->m_OutputTransform );
   this->ProcessObject::SetNthOutput( 0, transformDecorator );
 }
 
 /*
  * PrintSelf
  */
-template<typename TFixedImage, typename TMovingImage, typename TTransform>
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
 void
-TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
+TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform>
 ::PrintSelf( std::ostream & os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );

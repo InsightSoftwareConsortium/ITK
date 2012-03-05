@@ -1137,6 +1137,57 @@ typename CompositeTransform<TScalar, NDimensions>::TransformQueueType
   return this->m_TransformsToOptimizeQueue;
   }
 
+template
+<class TScalar, unsigned int NDimensions>
+void
+CompositeTransform<TScalar, NDimensions>
+::FlattenTransformQueue()
+{
+  TransformQueueType             transformQueue;
+  TransformQueueType             transformsToOptimizeQueue;
+  TransformsToOptimizeFlagsType  transformsToOptimizeFlags;
+
+  for( SizeValueType m = 0; m < this->GetNumberOfTransforms(); m++ )
+    {
+    Self * nestedCompositeTransform = dynamic_cast<Self *>( const_cast<TransformType *>( this->m_TransformQueue[m].GetPointer() ) );
+    if( nestedCompositeTransform )
+      {
+      nestedCompositeTransform->FlattenTransformQueue();
+      for( SizeValueType n = 0; n < nestedCompositeTransform->GetNumberOfTransforms(); n++ )
+        {
+        transformQueue.push_back( nestedCompositeTransform->GetNthTransform( n ) );
+        if( nestedCompositeTransform->GetNthTransformToOptimize( n ) )
+          {
+          transformsToOptimizeFlags.push_back( true );
+          transformsToOptimizeQueue.push_back( nestedCompositeTransform->GetNthTransform( n ) );
+          }
+        else
+          {
+          transformsToOptimizeFlags.push_back( false );
+          }
+        }
+      }
+    else
+      {
+      transformQueue.push_back( this->m_TransformQueue[m] );
+      if( this->m_TransformsToOptimizeFlags[m] )
+        {
+        transformsToOptimizeFlags.push_back( true );
+        transformsToOptimizeQueue.push_back( this->m_TransformQueue[m] );
+        }
+      else
+        {
+        transformsToOptimizeFlags.push_back( false );
+        }
+      }
+    }
+
+  this->m_TransformQueue = transformQueue;
+  this->m_TransformsToOptimizeQueue = transformsToOptimizeQueue;
+  this->m_TransformsToOptimizeFlags = transformsToOptimizeFlags;
+}
+
+
 template <class TScalarType, unsigned int NDimensions>
 void
 CompositeTransform<TScalarType, NDimensions>

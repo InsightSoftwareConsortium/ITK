@@ -85,7 +85,7 @@ namespace itk
  *
  * \ingroup ITKRegistrationMethodsv4
  */
-template<typename TFixedImage, typename TMovingImage, typename TTransform =
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform =
   AffineTransform<double, GetImageDimension<TFixedImage>::ImageDimension> >
 class ITK_EXPORT ImageRegistrationMethodv4
 :public ProcessObject
@@ -116,11 +116,14 @@ public:
   typedef ImageToImageMetricv4<FixedImageType, MovingImageType>       MetricType;
   typedef typename MetricType::Pointer                                MetricPointer;
 
-  typedef TTransform                                                  TransformType;
-  typedef typename TransformType::Pointer                             TransformPointer;
-  typedef typename TransformType::ScalarType                          RealType;
-  typedef typename TransformType::DerivativeType                      DerivativeType;
+  typedef TOutputTransform                                            OutputTransformType;
+  typedef typename OutputTransformType::Pointer                       OutputTransformPointer;
+  typedef typename OutputTransformType::ScalarType                    RealType;
+  typedef typename OutputTransformType::DerivativeType                DerivativeType;
   typedef typename DerivativeType::ValueType                          DerivativeValueType;
+
+  typedef Transform<RealType, ImageDimension, ImageDimension>         InitialTransformType;
+  typedef typename InitialTransformType::Pointer                      InitialTransformPointer;
 
   typedef CompositeTransform<RealType, ImageDimension>                CompositeTransformType;
   typedef typename CompositeTransformType::Pointer                    CompositeTransformPointer;
@@ -129,8 +132,8 @@ public:
    * Type for the output: Using Decorator pattern for enabling the transform to be
    * passed in the data pipeline
    */
-  typedef DataObjectDecorator<TransformType>                          TransformOutputType;
-  typedef typename TransformOutputType::Pointer                       TransformOutputPointer;
+  typedef DataObjectDecorator<OutputTransformType>                    DecoratedOutputTransformType;
+  typedef typename DecoratedOutputTransformType::Pointer              DecoratedOutputTransformPointer;
 
   /** array typedef **/
   typedef Array<SizeValueType>                                        ShrinkFactorsArrayType;
@@ -143,7 +146,7 @@ public:
   typedef typename MovingInterpolatorType::Pointer                    MovingInterpolatorPointer;
 
   /** Transform adaptor typedefs */
-  typedef TransformParametersAdaptor<TransformType>                   TransformParametersAdaptorType;
+  typedef TransformParametersAdaptor<OutputTransformType>             TransformParametersAdaptorType;
   typedef typename TransformParametersAdaptorType::Pointer            TransformParametersAdaptorPointer;
   typedef std::vector<TransformParametersAdaptorPointer>              TransformParametersAdaptorsContainerType;
 
@@ -156,7 +159,6 @@ public:
 
   typedef typename MetricType::FixedSampledPointSetType               MetricSamplePointSetType;
 
-
   /** Set/Get the fixed image. */
   itkSetInputMacro( FixedImage, FixedImageType );
   itkGetInputMacro( FixedImage, FixedImageType );
@@ -164,6 +166,14 @@ public:
   /** Set/Get the moving image. */
   itkSetInputMacro( MovingImage, MovingImageType );
   itkGetInputMacro( MovingImage, MovingImageType );
+
+  /** Set/Get the initial fixed transform. */
+  itkSetObjectMacro( FixedInitialTransform, InitialTransformType );
+  itkGetConstObjectMacro( FixedInitialTransform, InitialTransformType );
+
+  /** Set/Get the initial moving transform. */
+  itkSetObjectMacro( MovingInitialTransform, InitialTransformType );
+  itkGetConstObjectMacro( MovingInitialTransform, InitialTransformType );
 
   /** Set/Get the fixed interpolator. */
   itkSetObjectMacro( FixedInterpolator, FixedInterpolatorType );
@@ -185,17 +195,9 @@ public:
   itkSetClampMacro( MetricSamplingPercentage, RealType, 0.0, 1.0 );
   itkGetConstMacro( MetricSamplingPercentage, RealType );
 
-  /** Set/Get the transform. */
-  itkSetObjectMacro( Transform, TransformType );
-  itkGetObjectMacro( Transform, TransformType );
-
   /** Set/Get the optimizer. */
   itkSetObjectMacro( Optimizer, OptimizerType );
   itkGetObjectMacro( Optimizer, OptimizerType );
-
-  /** Set/Get the composite transform (optional---useful for multi-stage registration). */
-  itkSetObjectMacro( CompositeTransform, CompositeTransformType );
-  itkGetObjectMacro( CompositeTransform, CompositeTransformType );
 
   /** Set/Get the transform adaptors. */
   void SetTransformParametersAdaptorsPerLevel( TransformParametersAdaptorsContainerType & );
@@ -236,7 +238,7 @@ public:
   virtual DataObjectPointer MakeOutput( DataObjectPointerArraySizeType );
 
   /** Returns the transform resulting from the registration process  */
-  virtual const TransformOutputType * GetOutput() const;
+  virtual const DecoratedOutputTransformType * GetOutput() const;
 
   /** Get the current level.  This is a helper function for reporting observations. */
   itkGetConstMacro( CurrentLevel, SizeValueType );
@@ -261,6 +263,9 @@ protected:
   MovingImagePointer                                              m_MovingSmoothImage;
   FixedImagePointer                                               m_FixedSmoothImage;
 
+  InitialTransformPointer                                         m_MovingInitialTransform;
+  InitialTransformPointer                                         m_FixedInitialTransform;
+
   FixedInterpolatorPointer                                        m_FixedInterpolator;
   MovingInterpolatorPointer                                       m_MovingInterpolator;
 
@@ -277,7 +282,7 @@ protected:
 
   CompositeTransformPointer                                       m_CompositeTransform;
 
-  TransformPointer                                                m_Transform;
+  OutputTransformPointer                                          m_OutputTransform;
 
 private:
   ImageRegistrationMethodv4( const Self & );   //purposely not implemented

@@ -421,6 +421,12 @@ public:
    */
   virtual void UpdateTransformParameters( DerivativeType & update, ScalarType  factor = 1.0 );
 
+  /**
+   * Flatten the transform queue such that there are no nested composite transforms.
+   */
+  virtual void FlattenTransformQueue();
+
+
   /** Indicates if this transform is a "global" transform
    *  e.g. an affine transform or a local one, e.g. a deformation field.
    *  Returns true if only all sub-transforms that are set to be

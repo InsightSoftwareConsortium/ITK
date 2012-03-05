@@ -161,7 +161,7 @@ int PerformTimeVaryingVelocityFieldImageRegistration( int argc, char *argv[] )
 
   typedef itk::CompositeTransform<RealType, ImageDimension> CompositeTransformType;
   typename CompositeTransformType::Pointer compositeTransform = CompositeTransformType::New();
-  compositeTransform->AddTransform( const_cast<typename AffineRegistrationType::TransformType *>( affineSimple->GetOutput()->Get() ) );
+  compositeTransform->AddTransform( const_cast<typename AffineRegistrationType::OutputTransformType *>( affineSimple->GetOutput()->Get() ) );
 
   typedef itk::ResampleImageFilter<MovingImageType, FixedImageType> AffineResampleFilterType;
   typename AffineResampleFilterType::Pointer affineResampler = AffineResampleFilterType::New();
@@ -243,21 +243,24 @@ int PerformTimeVaryingVelocityFieldImageRegistration( int argc, char *argv[] )
 
   typedef itk::TimeVaryingVelocityFieldImageRegistrationMethodv4<FixedImageType, MovingImageType> VelocityFieldRegistrationType;
   typename VelocityFieldRegistrationType::Pointer velocityFieldRegistration = VelocityFieldRegistrationType::New();
+
+  typedef typename VelocityFieldRegistrationType::OutputTransformType OutputTransformType;
+  typename OutputTransformType::Pointer outputTransform = const_cast<OutputTransformType *>( velocityFieldRegistration->GetOutput()->Get() );
+
   velocityFieldRegistration->SetFixedImage( fixedImage );
   velocityFieldRegistration->SetMovingImage( movingImage );
   velocityFieldRegistration->SetNumberOfLevels( 3 );
-  velocityFieldRegistration->SetCompositeTransform( compositeTransform );
   velocityFieldRegistration->SetMetric( correlationMetric );
   velocityFieldRegistration->SetLearningRate( learningRate );
   std::cout << "learningRate: " << learningRate << std::endl;
-  velocityFieldRegistration->GetTransform()->SetGaussianSpatialSmoothingVarianceForTheTotalField( 0.0 );
-  velocityFieldRegistration->GetTransform()->SetGaussianSpatialSmoothingVarianceForTheUpdateField( 3.0 );
-  velocityFieldRegistration->GetTransform()->SetGaussianTemporalSmoothingVarianceForTheTotalField( 0.0 );
-  velocityFieldRegistration->GetTransform()->SetGaussianTemporalSmoothingVarianceForTheUpdateField( 0.5 );
+  outputTransform->SetGaussianSpatialSmoothingVarianceForTheTotalField( 0.0 );
+  outputTransform->SetGaussianSpatialSmoothingVarianceForTheUpdateField( 3.0 );
+  outputTransform->SetGaussianTemporalSmoothingVarianceForTheTotalField( 0.0 );
+  outputTransform->SetGaussianTemporalSmoothingVarianceForTheUpdateField( 0.5 );
 
-  velocityFieldRegistration->GetTransform()->SetTimeVaryingVelocityField( velocityField );
-  velocityFieldRegistration->GetTransform()->SetLowerTimeBound( 0.0 );
-  velocityFieldRegistration->GetTransform()->SetUpperTimeBound( 1.0 );
+  outputTransform->SetTimeVaryingVelocityField( velocityField );
+  outputTransform->SetLowerTimeBound( 0.0 );
+  outputTransform->SetUpperTimeBound( 1.0 );
 
   typename VelocityFieldRegistrationType::ShrinkFactorsArrayType numberOfIterationsPerLevel;
   numberOfIterationsPerLevel.SetSize( 3 );
@@ -282,7 +285,7 @@ int PerformTimeVaryingVelocityFieldImageRegistration( int argc, char *argv[] )
   smoothingSigmasPerLevel[2] = 0;
   velocityFieldRegistration->SetSmoothingSigmasPerLevel( smoothingSigmasPerLevel );
 
-  typedef itk::TimeVaryingVelocityFieldTransformParametersAdaptor<typename VelocityFieldRegistrationType::TransformType> VelocityFieldTransformAdaptorType;
+  typedef itk::TimeVaryingVelocityFieldTransformParametersAdaptor<OutputTransformType> VelocityFieldTransformAdaptorType;
 
   typename VelocityFieldRegistrationType::TransformParametersAdaptorsContainerType adaptors;
 
@@ -343,6 +346,8 @@ int PerformTimeVaryingVelocityFieldImageRegistration( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
+  compositeTransform->AddTransform( outputTransform );
+
   typedef itk::ResampleImageFilter<MovingImageType, FixedImageType> ResampleFilterType;
   typename ResampleFilterType::Pointer resampler = ResampleFilterType::New();
   resampler->SetTransform( compositeTransform );
@@ -386,7 +391,7 @@ int PerformTimeVaryingVelocityFieldImageRegistration( int argc, char *argv[] )
   typedef itk::ImageFileWriter<TimeVaryingVelocityFieldType> VelocityFieldWriterType;
   typename VelocityFieldWriterType::Pointer velocityFieldWriter = VelocityFieldWriterType::New();
   velocityFieldWriter->SetFileName( velocityFieldFileName.c_str() );
-  velocityFieldWriter->SetInput( velocityFieldRegistration->GetTransform()->GetTimeVaryingVelocityField() );
+  velocityFieldWriter->SetInput( outputTransform->GetTimeVaryingVelocityField() );
   velocityFieldWriter->Update();
 
   return EXIT_SUCCESS;

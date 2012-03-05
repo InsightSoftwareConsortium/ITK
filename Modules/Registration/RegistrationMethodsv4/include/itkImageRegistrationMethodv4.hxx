@@ -47,7 +47,15 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
   this->m_MetricSamplingStrategy = NONE;
   this->m_MetricSamplingPercentage = 1;
 
-  this->m_CompositeTransform = NULL;
+  this->m_CompositeTransform = CompositeTransformType::New();
+
+  typedef IdentityTransform<RealType, ImageDimension> IdentityTransformType;
+
+  typename IdentityTransformType::Pointer defaultFixedInitialTransform = IdentityTransformType::New();
+  this->m_FixedInitialTransform = defaultFixedInitialTransform;
+
+  typename IdentityTransformType::Pointer defaultMovingInitialTransform = IdentityTransformType::New();
+  this->m_MovingInitialTransform = defaultMovingInitialTransform;
 
   typedef LinearInterpolateImageFunction<FixedImageType, RealType> DefaultFixedInterpolatorType;
   typename DefaultFixedInterpolatorType::Pointer fixedInterpolator = DefaultFixedInterpolatorType::New();
@@ -80,15 +88,16 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
   optimizer->SetScalesEstimator( scalesEstimator );
   this->m_Optimizer = optimizer;
 
-  TransformOutputPointer transformDecorator = static_cast<TransformOutputType *>( this->MakeOutput( 0 ).GetPointer() );
-  this->ProcessObject::SetNthOutput( 0, transformDecorator.GetPointer() );
-
   // By default we set up an affine transform for a 3-level image registration.
 
   m_NumberOfLevels = 0;
   this->SetNumberOfLevels( 3 );
 
-  this->m_Transform = TransformType::New();
+  this->m_OutputTransform = OutputTransformType::New();
+
+  DecoratedOutputTransformPointer transformDecorator = DecoratedOutputTransformType::New().GetPointer();
+  transformDecorator->Set( this->m_OutputTransform );
+  this->ProcessObject::SetNthOutput( 0, transformDecorator );
 
   this->m_ShrinkFactorsPerLevel.SetSize( this->m_NumberOfLevels );
   this->m_ShrinkFactorsPerLevel[0] = 2;
@@ -129,14 +138,9 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
     {
     itkExceptionMacro( "The moving image interpolator is not present." );
     }
-
   if ( !this->m_Metric )
     {
     itkExceptionMacro( "The image metric is not present." );
-    }
-  if( !this->m_Transform )
-    {
-    itkExceptionMacro( "The transform is not present." );
     }
 
   // For each level, we adapt the current transform.  For many transforms, e.g.
@@ -148,7 +152,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
 
   if( this->m_TransformParametersAdaptorsPerLevel[level] )
     {
-    this->m_TransformParametersAdaptorsPerLevel[level]->SetTransform( this->m_Transform );
+    this->m_TransformParametersAdaptorsPerLevel[level]->SetTransform( this->m_OutputTransform );
     this->m_TransformParametersAdaptorsPerLevel[level]->AdaptTransformParameters();
     }
 
@@ -184,33 +188,26 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
   this->m_MovingSmoothImage->Update();
   this->m_MovingSmoothImage->DisconnectPipeline();
 
-  typedef IdentityTransform<RealType, ImageDimension> IdentityTransformType;
-  typename IdentityTransformType::Pointer identityTransform = IdentityTransformType::New();
-
-  // Handle the composite transform
+  // Set-up the composite transform at initialization
   if( level == 0 )
     {
-    if( this->m_CompositeTransform )
-      {
-      // Check for the case where the user added the transform before starting
-      // the registration
-      if( this->m_CompositeTransform->GetNumberOfTransforms() == 0 ||
-        this->m_Transform.GetPointer() != this->m_CompositeTransform->GetBackTransform() )
-        {
-        this->m_CompositeTransform->AddTransform( this->m_Transform );
-        }
-      }
-    else
-      {
-      this->m_CompositeTransform = CompositeTransformType::New();
-      this->m_CompositeTransform->AddTransform( this->m_Transform );
-      }
-    this->m_CompositeTransform->SetOnlyMostRecentTransformToOptimizeOn();
+    this->m_CompositeTransform->ClearTransformQueue();
+
+    // If the moving initial transform is a composite transform, unroll
+    // it into m_CompositeTransform.  This is a temporary fix to accommodate
+    // the lack of support for calculating the jacobian in the composite
+    // transform.
+
+    this->m_CompositeTransform->AddTransform( this->m_MovingInitialTransform );
+    this->m_CompositeTransform->AddTransform( this->m_OutputTransform );
+    this->m_CompositeTransform->FlattenTransformQueue();
     }
+  this->m_CompositeTransform->SetOnlyMostRecentTransformToOptimizeOn();
+
 
   // Update the image metric
 
-  this->m_Metric->SetFixedTransform( identityTransform );
+  this->m_Metric->SetFixedTransform( this->m_FixedInitialTransform );
   this->m_Metric->SetMovingTransform( this->m_CompositeTransform );
   this->m_Metric->SetFixedInterpolator( this->m_FixedInterpolator );
   this->m_Metric->SetMovingInterpolator( this->m_MovingInterpolator );
@@ -227,11 +224,11 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
 
   this->m_Optimizer->SetMetric( this->m_Metric );
 
-  if( ( this->m_Optimizer->GetScales() ).Size() != this->m_Transform->GetNumberOfLocalParameters() )
+  if( ( this->m_Optimizer->GetScales() ).Size() != this->m_OutputTransform->GetNumberOfLocalParameters() )
     {
     typedef typename OptimizerType::ScalesType ScalesType;
     ScalesType scales;
-    scales.SetSize( this->m_Transform->GetNumberOfLocalParameters() );
+    scales.SetSize( this->m_OutputTransform->GetNumberOfLocalParameters() );
     scales.Fill( NumericTraits<typename ScalesType::ValueType>::OneValue() );
     this->m_Optimizer->SetScales( scales );
     }
@@ -245,10 +242,6 @@ void
 ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
 ::GenerateData()
 {
-  TransformOutputType *transformOutput = static_cast<TransformOutputType *>( this->ProcessObject::GetOutput( 0 ) );
-
-  transformOutput->Set( this->m_Transform.GetPointer() );
-
   for( this->m_CurrentLevel = 0; this->m_CurrentLevel < this->m_NumberOfLevels; this->m_CurrentLevel++ )
     {
     IterationReporter reporter( this, 0, 1 );
@@ -260,10 +253,6 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
 
     reporter.CompletedStep();
     }
-
-  TransformOutputPointer transformDecorator = TransformOutputType::New().GetPointer();
-  transformDecorator->Set( this->m_Transform );
-  this->ProcessObject::SetNthOutput( 0, transformDecorator );
 }
 
 /**
@@ -442,14 +431,14 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
 }
 
 /*
- *  Get output composite transform
+ *  Get output transform
  */
 template<typename TFixedImage, typename TMovingImage, typename TTransform>
-const typename ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>::TransformOutputType *
+const typename ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>::DecoratedOutputTransformType *
 ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
 ::GetOutput() const
 {
-  return static_cast<const TransformOutputType *>( this->ProcessObject::GetOutput( 0 ) );
+  return static_cast<const DecoratedOutputTransformType *>( this->ProcessObject::GetOutput( 0 ) );
 }
 
 template<typename TFixedImage, typename TMovingImage, typename TTransform>
@@ -460,7 +449,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
   switch ( output )
     {
     case 0:
-      return static_cast<DataObject *>( TransformOutputType::New().GetPointer() );
+      return static_cast<DataObject *>( DecoratedOutputTransformType::New().GetPointer() );
       break;
     default:
       itkExceptionMacro("MakeOutput request for an output number larger than the expected number of outputs");

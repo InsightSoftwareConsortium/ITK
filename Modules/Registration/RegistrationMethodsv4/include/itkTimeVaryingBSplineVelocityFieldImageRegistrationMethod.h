@@ -88,17 +88,17 @@ class Array1DToData;
  *
  * \ingroup ITKRegistrationMethodsv4
  */
-template<typename TFixedImage, typename TMovingImage, typename TTransform =
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform =
   TimeVaryingBSplineVelocityFieldTransform<double, GetImageDimension<TFixedImage>::ImageDimension> >
 class ITK_EXPORT TimeVaryingBSplineVelocityFieldImageRegistrationMethod
-: public ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
+: public ImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform>
 {
 public:
   /** Standard class typedefs. */
-  typedef TimeVaryingBSplineVelocityFieldImageRegistrationMethod                Self;
-  typedef ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>      Superclass;
-  typedef SmartPointer<Self>                                                    Pointer;
-  typedef SmartPointer<const Self>                                              ConstPointer;
+  typedef TimeVaryingBSplineVelocityFieldImageRegistrationMethod                      Self;
+  typedef ImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform>      Superclass;
+  typedef SmartPointer<Self>                                                          Pointer;
+  typedef SmartPointer<const Self>                                                    ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
@@ -121,22 +121,22 @@ public:
   typedef typename MetricType::VirtualImageType                       VirtualImageType;
   typedef typename MetricType::MeasureType                            MeasureType;
 
-  typedef TTransform                                                                     TransformType;
-  typedef typename TransformType::Pointer                                                TransformPointer;
-  typedef typename TransformType::ScalarType                                             RealType;
-  typedef typename TransformType::DerivativeType                                         DerivativeType;
-  typedef typename DerivativeType::ValueType                                             DerivativeValueType;
-  typedef typename TransformType::DisplacementFieldType                                  DisplacementFieldType;
-  typedef typename TransformType::TimeVaryingVelocityFieldControlPointLatticeType        TimeVaryingVelocityFieldControlPointLatticeType;
-  typedef typename TransformType::TimeVaryingVelocityFieldControlPointLatticePointer     TimeVaryingVelocityFieldControlPointLatticePointer;
-  typedef typename TransformType::TimeVaryingVelocityFieldControlPointLatticeType        TimeVaryingVelocityFieldType;
-  typedef typename TransformType::TimeVaryingVelocityFieldControlPointLatticePointer     TimeVaryingVelocityFieldPointer;
-  typedef typename TimeVaryingVelocityFieldControlPointLatticeType::PixelType            DisplacementVectorType;
+  typedef TOutputTransform                                                                     OutputTransformType;
+  typedef typename OutputTransformType::Pointer                                                OutputTransformPointer;
+  typedef typename OutputTransformType::ScalarType                                             RealType;
+  typedef typename OutputTransformType::DerivativeType                                         DerivativeType;
+  typedef typename DerivativeType::ValueType                                                   DerivativeValueType;
+  typedef typename OutputTransformType::DisplacementFieldType                                  DisplacementFieldType;
+  typedef typename OutputTransformType::TimeVaryingVelocityFieldControlPointLatticeType        TimeVaryingVelocityFieldControlPointLatticeType;
+  typedef typename OutputTransformType::TimeVaryingVelocityFieldControlPointLatticePointer     TimeVaryingVelocityFieldControlPointLatticePointer;
+  typedef typename OutputTransformType::TimeVaryingVelocityFieldControlPointLatticeType        TimeVaryingVelocityFieldType;
+  typedef typename OutputTransformType::TimeVaryingVelocityFieldControlPointLatticePointer     TimeVaryingVelocityFieldPointer;
+  typedef typename TimeVaryingVelocityFieldControlPointLatticeType::PixelType                  DisplacementVectorType;
 
-  typedef CompositeTransform<RealType, ImageDimension>                CompositeTransformType;
+  typedef typename Superclass::CompositeTransformType                                    CompositeTransformType;
 
-  typedef typename Superclass::TransformOutputType                    TransformOutputType;
-  typedef typename TransformOutputType::Pointer                       TransformOutputPointer;
+  typedef typename Superclass::DecoratedOutputTransformType           DecoratedOutputTransformType;
+  typedef typename DecoratedOutputTransformType::Pointer              DecoratedOutputTransformPointer;
 
   typedef Array<SizeValueType>                                        NumberOfIterationsArrayType;
 

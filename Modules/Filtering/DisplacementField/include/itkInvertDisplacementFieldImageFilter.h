@@ -100,6 +100,10 @@ public:
     return this->GetInput( 0 );
     }
 
+  /** Set/get the initial estimate for the inverse field (optional). */
+  itkSetInputMacro( InverseFieldInitialEstimate, InverseDisplacementFieldType );
+  itkGetInputMacro( InverseFieldInitialEstimate, InverseDisplacementFieldType );
+
   /* Set the interpolator. */
   virtual void SetInterpolator( InterpolatorType* interpolator );
 

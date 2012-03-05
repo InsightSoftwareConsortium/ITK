@@ -80,7 +80,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
   // This transform gets used for the moving image
   typename DisplacementFieldDuplicatorType::Pointer fieldDuplicatorIdentity = DisplacementFieldDuplicatorType::New();
 
-  TimeVaryingVelocityFieldControlPointLatticePointer velocityFieldLattice = this->m_Transform->GetTimeVaryingVelocityFieldControlPointLattice();
+  TimeVaryingVelocityFieldControlPointLatticePointer velocityFieldLattice = this->m_OutputTransform->GetTimeVaryingVelocityFieldControlPointLattice();
 
   SizeValueType numberOfIntegrationSteps = this->m_NumberOfTimePointSamples + 2;
 
@@ -93,10 +93,10 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
   // Warp the moving image based on the composite transform (not including the current
   // time varying velocity field transform to be optimized).
 
-  typename TransformType::VelocityFieldPointType        sampledVelocityFieldOrigin;
-  typename TransformType::VelocityFieldSpacingType      sampledVelocityFieldSpacing;
-  typename TransformType::VelocityFieldSizeType         sampledVelocityFieldSize;
-  typename TransformType::VelocityFieldDirectionType    sampledVelocityFieldDirection;
+  typename OutputTransformType::VelocityFieldPointType        sampledVelocityFieldOrigin;
+  typename OutputTransformType::VelocityFieldSpacingType      sampledVelocityFieldSpacing;
+  typename OutputTransformType::VelocityFieldSizeType         sampledVelocityFieldSize;
+  typename OutputTransformType::VelocityFieldDirectionType    sampledVelocityFieldDirection;
 
   sampledVelocityFieldOrigin.Fill( 0.0 );
   sampledVelocityFieldSpacing.Fill( 1.0 );
@@ -116,23 +116,20 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
       }
     }
 
-  this->m_Transform->SetVelocityFieldOrigin( sampledVelocityFieldOrigin );
-  this->m_Transform->SetVelocityFieldDirection( sampledVelocityFieldDirection );
-  this->m_Transform->SetVelocityFieldSpacing( sampledVelocityFieldSpacing );
-  this->m_Transform->SetVelocityFieldSize( sampledVelocityFieldSize );
-  this->m_Transform->IntegrateVelocityField();
+  this->m_OutputTransform->SetVelocityFieldOrigin( sampledVelocityFieldOrigin );
+  this->m_OutputTransform->SetVelocityFieldDirection( sampledVelocityFieldDirection );
+  this->m_OutputTransform->SetVelocityFieldSpacing( sampledVelocityFieldSpacing );
+  this->m_OutputTransform->SetVelocityFieldSize( sampledVelocityFieldSize );
+  this->m_OutputTransform->IntegrateVelocityField();
 
   // Warp the moving image based on the composite transform (not including the current
-  // time varying velocity field transform to be optimized).  Precalculate the voxel
-  // distance to be used in properly scaling the gradient.
-  RealType voxelDistance = 0.0;
+  // time varying velocity field transform to be optimized).
+
   unsigned long sampledNumberOfPixels = sampledVelocityFieldSize[ImageDimension];
   for( unsigned int d = 0; d < ImageDimension; d++ )
     {
-    voxelDistance += vnl_math_sqr( virtualDomainImage->GetSpacing()[d] );
     sampledNumberOfPixels *= sampledVelocityFieldSize[d];
     }
-  voxelDistance = vcl_sqrt( voxelDistance );
 
   // Instantiate the update derivative for all vectors of the velocity field
   DerivativeType updateDerivative( sampledNumberOfPixels * ImageDimension  );
@@ -177,40 +174,40 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
       // Get the fixed transform.  We need to duplicate the resulting
       // displacement field since it will be overwritten when we integrate
       // the velocity field to get the moving image transform.
-      this->m_Transform->SetLowerTimeBound( t );
-      this->m_Transform->SetUpperTimeBound( 0.0 );
-      this->m_Transform->SetNumberOfIntegrationSteps( numberOfIntegrationSteps );
+      this->m_OutputTransform->SetLowerTimeBound( t );
+      this->m_OutputTransform->SetUpperTimeBound( 0.0 );
+      this->m_OutputTransform->SetNumberOfIntegrationSteps( numberOfIntegrationSteps );
       if( timePoint == 0 )
         {
-        this->m_Transform->GetDisplacementField()->FillBuffer( zeroVector );
+        this->m_OutputTransform->GetDisplacementField()->FillBuffer( zeroVector );
         }
       else
         {
-        this->m_Transform->IntegrateVelocityField();
+        this->m_OutputTransform->IntegrateVelocityField();
         }
 
       typename DisplacementFieldDuplicatorType::Pointer fieldDuplicator = DisplacementFieldDuplicatorType::New();
-      fieldDuplicator->SetInputImage( this->m_Transform->GetDisplacementField() );
+      fieldDuplicator->SetInputImage( this->m_OutputTransform->GetDisplacementField() );
       fieldDuplicator->Update();
 
       typename DisplacementFieldTransformType::Pointer fixedDisplacementFieldTransform = DisplacementFieldTransformType::New();
       fixedDisplacementFieldTransform->SetDisplacementField( fieldDuplicator->GetOutput() );
 
       // Get the moving transform
-      this->m_Transform->SetLowerTimeBound( t );
-      this->m_Transform->SetUpperTimeBound( 1.0 );
-      this->m_Transform->SetNumberOfIntegrationSteps( numberOfIntegrationSteps );
+      this->m_OutputTransform->SetLowerTimeBound( t );
+      this->m_OutputTransform->SetUpperTimeBound( 1.0 );
+      this->m_OutputTransform->SetNumberOfIntegrationSteps( numberOfIntegrationSteps );
       if( timePoint == this->m_NumberOfTimePointSamples - 1 )
         {
-        this->m_Transform->GetDisplacementField()->FillBuffer( zeroVector );
+        this->m_OutputTransform->GetDisplacementField()->FillBuffer( zeroVector );
         }
       else
         {
-        this->m_Transform->IntegrateVelocityField();
+        this->m_OutputTransform->IntegrateVelocityField();
         }
 
       typename DisplacementFieldTransformType::Pointer movingDisplacementFieldTransform = DisplacementFieldTransformType::New();
-      movingDisplacementFieldTransform->SetDisplacementField( this->m_Transform->GetDisplacementField() );
+      movingDisplacementFieldTransform->SetDisplacementField( this->m_OutputTransform->GetDisplacementField() );
 
       this->m_CompositeTransform->AddTransform( movingDisplacementFieldTransform );
       this->m_CompositeTransform->SetOnlyMostRecentTransformToOptimizeOn();
@@ -298,7 +295,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
       stats->Update();
 
       RealType maxNorm = stats->GetMaximum();
-      RealType scale = voxelDistance / maxNorm;
+      RealType scale = 1.0 / maxNorm;
       metricDerivative *= scale;
 
       updateDerivative.update( metricDerivative, timePoint * metricDerivative.size() );
@@ -406,7 +403,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
     bspliner->SetSize( velocityFieldSize );
     bspliner->SetDirection( velocityFieldLattice->GetDirection() );
     bspliner->SetNumberOfLevels( 1 );
-    bspliner->SetSplineOrder( this->m_Transform->GetSplineOrder() );
+    bspliner->SetSplineOrder( this->m_OutputTransform->GetSplineOrder() );
     bspliner->SetNumberOfControlPoints( numberOfControlPoints );
     bspliner->SetInput( velocityFieldPoints );
     bspliner->SetPointWeights( velocityFieldWeights );
@@ -430,11 +427,11 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
 
     // Instantiate the update derivative for all vectors of the velocity field
 
-    typename TransformType::ScalarType * valuePointer =
-      reinterpret_cast<typename TransformType::ScalarType *>( updateControlPointLattice->GetBufferPointer() );
+    typename OutputTransformType::ScalarType * valuePointer =
+      reinterpret_cast<typename OutputTransformType::ScalarType *>( updateControlPointLattice->GetBufferPointer() );
     DerivativeType updateControlPointDerivative( valuePointer, numberOfControlPointsPerTimePoint * numberOfTimeControlPoints * ImageDimension );
 
-    this->m_Transform->UpdateTransformParameters( updateControlPointDerivative, this->m_LearningRate );
+    this->m_OutputTransform->UpdateTransformParameters( updateControlPointDerivative, this->m_LearningRate );
 
     averageMetricValue /= static_cast<MeasureType>( this->m_NumberOfTimePointSamples );
 
@@ -446,10 +443,10 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
       {
       isConverged = true;
 
-      this->m_Transform->SetLowerTimeBound( 0 );
-      this->m_Transform->SetUpperTimeBound( 1.0 );
-      this->m_Transform->SetNumberOfIntegrationSteps( numberOfIntegrationSteps );
-      this->m_Transform->IntegrateVelocityField();
+      this->m_OutputTransform->SetLowerTimeBound( 0 );
+      this->m_OutputTransform->SetUpperTimeBound( 1.0 );
+      this->m_OutputTransform->SetNumberOfIntegrationSteps( numberOfIntegrationSteps );
+      this->m_OutputTransform->IntegrateVelocityField();
 
       if( this->GetDebug() )
         {
@@ -500,10 +497,6 @@ void
 TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>
 ::GenerateData()
 {
-  TransformOutputType *transformOutput = static_cast<TransformOutputType *>( this->ProcessObject::GetOutput( 0 ) );
-
-  transformOutput->Set( this->m_Transform.GetPointer() );
-
   for( this->m_CurrentLevel = 0; this->m_CurrentLevel < this->m_NumberOfLevels; this->m_CurrentLevel++ )
     {
     IterationReporter reporter( this, 0, 1 );
@@ -518,12 +511,12 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
 
     this->StartOptimization();
 
-    this->m_CompositeTransform->AddTransform( this->m_Transform );
+    this->m_CompositeTransform->AddTransform( this->m_OutputTransform );
     reporter.CompletedStep();
     }
 
-  TransformOutputPointer transformDecorator = TransformOutputType::New().GetPointer();
-  transformDecorator->Set( this->m_Transform );
+  DecoratedOutputTransformPointer transformDecorator = DecoratedOutputTransformType::New().GetPointer();
+  transformDecorator->Set( this->m_OutputTransform );
   this->ProcessObject::SetNthOutput( 0, transformDecorator );
 }
 

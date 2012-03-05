@@ -20,6 +20,7 @@
 
 #include "itkAffineTransform.h"
 #include "itkCompositeTransform.h"
+#include "itkTranslationTransform.h"
 
 namespace
 {
@@ -778,6 +779,88 @@ int itkCompositeTransformTest(int, char *[] )
                 << " result: " << updateResult << std::endl;
       return EXIT_FAILURE;
       }
+    }
+
+
+  /*
+   * Test flattening transform queue in the case of nested composite
+   * transforms
+   */
+
+  CompositeType::Pointer nestedCompositeTransform = CompositeType::New();
+  CompositeType::Pointer compositeTransform1 = CompositeType::New();
+  CompositeType::Pointer compositeTransform2 = CompositeType::New();
+  CompositeType::Pointer compositeTransform3 = CompositeType::New();
+  CompositeType::Pointer compositeTransform4 = CompositeType::New();
+
+  typedef itk::TranslationTransform<double, NDimensions>  TranslationTransformType;
+  typedef TranslationTransformType::Pointer               TranslationTransformPointer;
+  typedef std::vector<TranslationTransformPointer>        TranslationTransformVector;
+  TranslationTransformVector  translationTransformVector(12);
+  for( itk::SizeValueType n=0; n < 12; n++ )
+    {
+    translationTransformVector[n] = TranslationTransformType::New();
+    TranslationTransformType::ParametersType params(NDimensions);
+    params.Fill(n);
+    translationTransformVector[n]->SetParameters( params );
+    }
+
+  compositeTransform1->AddTransform( translationTransformVector[0] );
+  compositeTransform1->AddTransform( translationTransformVector[1] );
+  compositeTransform1->AddTransform( translationTransformVector[2] );
+
+  compositeTransform2->AddTransform( translationTransformVector[3] );
+  compositeTransform2->AddTransform( translationTransformVector[4] );
+
+  compositeTransform3->AddTransform( translationTransformVector[5] );
+  compositeTransform3->AddTransform( translationTransformVector[6] );
+
+  compositeTransform4->AddTransform( translationTransformVector[7] );
+  compositeTransform4->AddTransform( translationTransformVector[8] );
+  compositeTransform4->AddTransform( translationTransformVector[9] );
+  compositeTransform4->AddTransform( compositeTransform3 );
+
+  nestedCompositeTransform->AddTransform( compositeTransform1 );
+  nestedCompositeTransform->AddTransform( translationTransformVector[10] );
+  nestedCompositeTransform->AddTransform( compositeTransform2 );
+  nestedCompositeTransform->AddTransform( compositeTransform4 );
+  nestedCompositeTransform->AddTransform( translationTransformVector[11] );
+
+  std::cout << "Number of transforms before flattening = " << nestedCompositeTransform->GetNumberOfTransforms() << std::endl;
+  if( nestedCompositeTransform->GetNumberOfTransforms() != 5 )
+    {
+    std::cerr << "Error.  Should be 5." << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  nestedCompositeTransform->FlattenTransformQueue();
+  std::cout << "Number of transforms after flattening = " << nestedCompositeTransform->GetNumberOfTransforms() << std::endl;
+  if( nestedCompositeTransform->GetNumberOfTransforms() != 12 )
+    {
+    std::cerr << "Error.  Should be 12." << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  /* Verify the transform order */
+  bool passed = true;
+  for( itk::SizeValueType n=0; n < 12; n++ )
+    {
+    const TranslationTransformType::ParametersType & params = translationTransformVector[n]->GetParameters();
+    if( params[0] != n )
+      {
+      passed = false;
+      }
+    }
+  if( !passed )
+    {
+    std::cout << "Transform are not in correct order after flattening: " << std::endl;
+    for( itk::SizeValueType n=0; n < 12; n++ )
+      {
+      const TranslationTransformType::ParametersType & params = translationTransformVector[n]->GetParameters();
+      std::cout << " " << params[0];
+      }
+    std::cout << std::endl;
+    return EXIT_FAILURE;
     }
 
   /* Add a displacement field transform */

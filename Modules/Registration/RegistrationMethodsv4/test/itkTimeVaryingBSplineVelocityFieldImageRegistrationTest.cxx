@@ -161,7 +161,7 @@ int PerformTimeVaryingBSplineVelocityFieldImageRegistration( int argc, char *arg
 
   typedef itk::CompositeTransform<RealType, ImageDimension> CompositeTransformType;
   typename CompositeTransformType::Pointer compositeTransform = CompositeTransformType::New();
-  compositeTransform->AddTransform( const_cast<typename AffineRegistrationType::TransformType *>( affineSimple->GetOutput()->Get() ) );
+  compositeTransform->AddTransform( const_cast<typename AffineRegistrationType::OutputTransformType *>( affineSimple->GetOutput()->Get() ) );
 
   typedef itk::ResampleImageFilter<MovingImageType, FixedImageType> AffineResampleFilterType;
   typename AffineResampleFilterType::Pointer affineResampler = AffineResampleFilterType::New();
@@ -194,16 +194,20 @@ int PerformTimeVaryingBSplineVelocityFieldImageRegistration( int argc, char *arg
 
   typedef itk::TimeVaryingBSplineVelocityFieldImageRegistrationMethod<FixedImageType, MovingImageType> VelocityFieldRegistrationType;
   typename VelocityFieldRegistrationType::Pointer velocityFieldRegistration = VelocityFieldRegistrationType::New();
+
+  typedef typename VelocityFieldRegistrationType::OutputTransformType OutputTransformType;
+  typename OutputTransformType::Pointer outputTransform = const_cast<OutputTransformType *>( velocityFieldRegistration->GetOutput()->Get() );
+
   velocityFieldRegistration->SetFixedImage( fixedImage );
   velocityFieldRegistration->SetMovingImage( movingImage );
   velocityFieldRegistration->SetNumberOfLevels( 3 );
-  velocityFieldRegistration->SetCompositeTransform( compositeTransform );
+  velocityFieldRegistration->SetMovingInitialTransform( compositeTransform );
   velocityFieldRegistration->SetMetric( correlationMetric );
   velocityFieldRegistration->SetLearningRate( learningRate );
   std::cout << "learningRate: " << learningRate << std::endl;
-  velocityFieldRegistration->GetTransform()->SetSplineOrder( 3 );
-  velocityFieldRegistration->GetTransform()->SetLowerTimeBound( 0.0 );
-  velocityFieldRegistration->GetTransform()->SetUpperTimeBound( 1.0 );
+  outputTransform->SetSplineOrder( 3 );
+  outputTransform->SetLowerTimeBound( 0.0 );
+  outputTransform->SetUpperTimeBound( 1.0 );
 
   typename VelocityFieldRegistrationType::ShrinkFactorsArrayType numberOfIterationsPerLevel;
   numberOfIterationsPerLevel.SetSize( 3 );
@@ -260,11 +264,11 @@ int PerformTimeVaryingBSplineVelocityFieldImageRegistration( int argc, char *arg
       }
     }
 
-  typedef typename VelocityFieldRegistrationType::TransformType TransformType;
+  typedef typename VelocityFieldRegistrationType::OutputTransformType TransformType;
 
   typedef itk::TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TransformType> VelocityFieldTransformAdaptorType;
   typename VelocityFieldTransformAdaptorType::Pointer initialFieldTransformAdaptor = VelocityFieldTransformAdaptorType::New();
-  initialFieldTransformAdaptor->SetTransform( velocityFieldRegistration->GetTransform() );
+  initialFieldTransformAdaptor->SetTransform( outputTransform );
   initialFieldTransformAdaptor->SetRequiredTransformDomainOrigin( transformDomainOrigin );
   initialFieldTransformAdaptor->SetRequiredTransformDomainPhysicalDimensions( transformDomainPhysicalDimensions );
   initialFieldTransformAdaptor->SetRequiredTransformDomainMeshSize( transformDomainMeshSize );
@@ -300,12 +304,12 @@ int PerformTimeVaryingBSplineVelocityFieldImageRegistration( int argc, char *arg
       }
     }
 
-  velocityFieldRegistration->GetTransform()->SetTimeVaryingVelocityFieldControlPointLattice( velocityFieldLattice );
-  velocityFieldRegistration->GetTransform()->SetVelocityFieldOrigin( sampledVelocityFieldOrigin );
-  velocityFieldRegistration->GetTransform()->SetVelocityFieldDirection( sampledVelocityFieldDirection );
-  velocityFieldRegistration->GetTransform()->SetVelocityFieldSpacing( sampledVelocityFieldSpacing );
-  velocityFieldRegistration->GetTransform()->SetVelocityFieldSize( sampledVelocityFieldSize );
-  velocityFieldRegistration->GetTransform()->IntegrateVelocityField();
+  outputTransform->SetTimeVaryingVelocityFieldControlPointLattice( velocityFieldLattice );
+  outputTransform->SetVelocityFieldOrigin( sampledVelocityFieldOrigin );
+  outputTransform->SetVelocityFieldDirection( sampledVelocityFieldDirection );
+  outputTransform->SetVelocityFieldSpacing( sampledVelocityFieldSpacing );
+  outputTransform->SetVelocityFieldSize( sampledVelocityFieldSize );
+  outputTransform->IntegrateVelocityField();
 
   typename VelocityFieldRegistrationType::TransformParametersAdaptorsContainerType adaptors;
   for( unsigned int level = 0; level < shrinkFactorsPerLevel.Size(); level++ )
@@ -317,7 +321,7 @@ int PerformTimeVaryingBSplineVelocityFieldImageRegistration( int argc, char *arg
       }
 
     typename VelocityFieldTransformAdaptorType::Pointer fieldTransformAdaptor = VelocityFieldTransformAdaptorType::New();
-    fieldTransformAdaptor->SetTransform( velocityFieldRegistration->GetTransform() );
+    fieldTransformAdaptor->SetTransform( outputTransform );
     fieldTransformAdaptor->SetRequiredTransformDomainOrigin( transformDomainOrigin );
     fieldTransformAdaptor->SetRequiredTransformDomainMeshSize( transformDomainMeshSize );
     fieldTransformAdaptor->SetRequiredTransformDomainDirection( transformDomainDirection );
@@ -341,6 +345,8 @@ int PerformTimeVaryingBSplineVelocityFieldImageRegistration( int argc, char *arg
     std::cerr << "Exception caught: " << e << std::endl;
     return EXIT_FAILURE;
     }
+
+  compositeTransform->AddTransform( outputTransform );
 
   typedef itk::ResampleImageFilter<MovingImageType, FixedImageType> ResampleFilterType;
   typename ResampleFilterType::Pointer resampler = ResampleFilterType::New();
@@ -385,7 +391,7 @@ int PerformTimeVaryingBSplineVelocityFieldImageRegistration( int argc, char *arg
   typedef itk::ImageFileWriter<TimeVaryingVelocityFieldControlPointLatticeType> VelocityFieldWriterType;
   typename VelocityFieldWriterType::Pointer velocityFieldLatticeWriter = VelocityFieldWriterType::New();
   velocityFieldLatticeWriter->SetFileName( velocityFieldLatticeFileName.c_str() );
-  velocityFieldLatticeWriter->SetInput( velocityFieldRegistration->GetTransform()->GetTimeVaryingVelocityFieldControlPointLattice() );
+  velocityFieldLatticeWriter->SetInput( outputTransform->GetTimeVaryingVelocityFieldControlPointLattice() );
   velocityFieldLatticeWriter->Update();
 
   return EXIT_SUCCESS;
