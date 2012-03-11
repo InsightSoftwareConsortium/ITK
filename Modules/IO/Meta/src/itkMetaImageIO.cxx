@@ -1179,7 +1179,7 @@ MetaImageIO::GetActualNumberOfSplitsForWriting(unsigned int numberOfRequestedSpl
       errorMessage = "File is compressed: " + m_FileName;
       }
     // 2)pixel type
-    // this->GetPixelType() is not verified becasue the metaio file format
+    // this->GetPixelType() is not verified because the metaio file format
     // stores all multi-component types as arrays, so it does not
     // distinguish between pixel types. Also as long as the compoent
     // and number of compoents match we should be able to paste, that

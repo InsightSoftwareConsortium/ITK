@@ -218,7 +218,7 @@ GE5ImageIO::ReadHeader(const char  *FileNameToRead)
     }
   this->SwapPixHdr(&imageHdr);
 
-  // NOTE: The handling of version 2 vs Version3 is modeled after
+  // NOTE: The handling of version 2 vs Version3 is modelled after
   // the sivic GE5Signa5x reader -- found here
   // http://sivic.svn.sourceforge.net
   //

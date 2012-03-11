@@ -357,7 +357,7 @@ StreamingImageIOBase::GetActualNumberOfSplitsForWriting(unsigned int numberOfReq
       // 0) Can't read file
       }
     // 2)pixel type
-    // this->GetPixelType() is not verified becasue the metaio file format
+    // this->GetPixelType() is not verified because the metaio file format
     // stores all multi-component types as arrays, so it does not
     // distinguish between pixel types. Also as long as the compoent
     // and number of compoents match we should be able to paste, that
@@ -446,7 +446,7 @@ bool StreamingImageIOBase::RequestedToStream(void) const
   //
   // This enables a 2D request from a 3D volume to get the first slice,
   // and a 4D with a 1-sized 4th dimension to equal the 3D volume
-  // aswell.
+  // as well.
   unsigned int maxNumberOfDimension = vnl_math_max( this->GetNumberOfDimensions(),
                                                     this->GetIORegion().GetImageDimension() );
 

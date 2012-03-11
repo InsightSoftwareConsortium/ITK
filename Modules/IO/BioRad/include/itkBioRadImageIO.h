@@ -78,7 +78,7 @@ public:
    * file specified. */
   virtual bool CanWriteFile(const char *);
 
-  /** Writes the spacing and dimentions of the image.
+  /** Writes the spacing and dimensions of the image.
    * Assumes SetFileName has been called with a valid file name. */
   virtual void WriteImageInformation() {}
 

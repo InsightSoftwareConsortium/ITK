@@ -84,7 +84,7 @@ private:
 
   void SwapBytesIfNecessary(void *buffer, SizeValueType numberOfPixels);
 
-  /** This methods ensures that the endianess is respected */
+  /** This methods ensures that the endianness is respected */
   void Write32BitsInteger(unsigned int value);
 
   void Write16BitsInteger(unsigned short value);

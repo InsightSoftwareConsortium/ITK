@@ -116,7 +116,7 @@ public:
   /** Copies the elements from an array of arrays into the output
    *    buffer.   Requires all sub-arrays to have the same length.
    *    length of the major array is the "length" of the array, while
-   *    the length of teh sub-arrays is the "number of channels" at each
+   *    the length of the sub-arrays is the "number of channels" at each
    *    array position.   Expected form itk::Array< itk::Array< * > >.
    *    May work for other sub-array-types that define the [] operator and the
    *    GetSize() function.  */

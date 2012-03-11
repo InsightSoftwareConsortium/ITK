@@ -151,7 +151,7 @@ GetHeaderFileName(const std::string & filename)
   std::string       ImageFileName(filename);
   const std::string fileExt = GetExtension(filename);
 
-  // Accomodate either all caps or all lower-case filenames.
+  // Accommodate either all caps or all lower-case filenames.
   if ( ( fileExt == ".REC" ) || ( fileExt == ".REC.gz" ) )
     {
     ImageFileName = GetRootName(filename);
@@ -265,7 +265,7 @@ void PhilipsRECImageIOSetupSliceIndex(
   if ( ( sortBlock && parParam.slicessorted )
        || ( !sortBlock && !parParam.slicessorted ) )
     {
-    // No sorting nessecary for these cases.
+    // No sorting necessary for these cases.
     for ( int i = 0; i < parParam.dim[2]; i++ )
       {
       ( *indexMatrix )[i] = i;
@@ -489,7 +489,7 @@ void PhilipsRECImageIO::Read(void *buffer)
   // are not in gzip fromat.
   // This greatly simplifies the following code, and gzFile types are used
   // everywhere.
-  // In addition, it has the added benifit of reading gzip compressed image
+  // In addition, it has the added benefit of reading gzip compressed image
   // files that do not have a .gz ending.
   gzFile file_p = gzopen(ImageFileName.c_str(), "rb");
   if ( file_p == NULL )

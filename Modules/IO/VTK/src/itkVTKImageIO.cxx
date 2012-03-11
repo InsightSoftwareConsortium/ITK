@@ -691,7 +691,7 @@ void VTKImageIO::WriteImageInformation( const void *itkNotUsed(buffer) )
     {
     // According to VTK documentation number of components should in
     // range (1,4):
-    // todo this should be asserted or checked ealier!
+    // todo this should be asserted or checked earlier!
     file << "SCALARS scalars "
          << this->GetComponentTypeAsString(m_ComponentType) << " "
          << this->GetNumberOfComponents() << "\n"

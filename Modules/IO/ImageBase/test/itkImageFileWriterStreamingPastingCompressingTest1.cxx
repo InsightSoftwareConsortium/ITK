@@ -108,7 +108,7 @@ ActualTest(
   unsigned int m_NumberOfPieces = 10;
 
   // We remove the output file
-  // NOTE ALEX: shoudl we check it exists first?
+  // NOTE ALEX: should we check it exists first?
   itksys::SystemTools::RemoveFile(outputFileName.c_str());
 
   typedef unsigned char             PixelType;

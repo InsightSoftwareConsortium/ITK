@@ -340,7 +340,7 @@ void BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
     }
   else
     {
-    // sometime the file set an erronous value for byte_format, check the size
+    // sometime the file set an erroneous value for byte_format, check the size
     // of the file in this case, since byte_format = 1 seems to be the default
     file.seekg(0, std::ios::end);
     const SizeValueType gcount = static_cast< SizeValueType >( file.tellg() ) - BIORAD_HEADER_LENGTH;

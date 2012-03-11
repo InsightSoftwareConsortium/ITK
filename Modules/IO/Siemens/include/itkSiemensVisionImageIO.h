@@ -220,7 +220,7 @@ private:
     HDR_CAL_MIN_LEN = 4,
     HDR_CAL_SEC = 1732,      // Calibration Time - second, u_int
     HDR_CAL_SEC_LEN = 4,
-    HDR_COIL = 1767,         // Recieve Coil, char
+    HDR_COIL = 1767,         // Receive Coil, char
     HDR_COIL_LEN = 16,
     HDR_IMAGE_NUC = 1828,    // Imaged Nucleus, char
     HDR_IMAGE_NUC_LEN = 4,
@@ -294,7 +294,7 @@ private:
     TEXT_PAT_AGE_LEN = 3,
     TEXT_AGE_UNIT = 5521,   // Text Patient Age Unit (Y=year), char
     TEXT_AGE_UNIT_LEN = 1,
-    TEXT_PAT_POS = 5529,     // Text Patient Postion, char
+    TEXT_PAT_POS = 5529,     // Text Patient Position, char
     TEXT_PAT_POS_LEN = 7,
     TEXT_IMG_FLAG = 5541,    // Text Image Flag (IMAGE=image), char
     TEXT_IMG_FLAG_LEN = 5,
@@ -356,9 +356,9 @@ private:
     TEXT_THCK_FLAG_LEN = 2,
     TEXT_SLICE_THCK = 5794,  // Slice thickness
     TEXT_SLICE_THCK_LEN = 7,
-    TEXT_POS_FLAG = 5802,    // Slice postion flag ("SP"), char
+    TEXT_POS_FLAG = 5802,    // Slice position flag ("SP"), char
     TEXT_POS_FLAG_LEN = 2,
-    TEXT_SLICE_POS = 5806,   // Slice postion, char
+    TEXT_SLICE_POS = 5806,   // Slice position, char
     TEXT_SLICE_POS_LEN = 7,
     TEXT_ANGLE_FLAG1 = 5814, // Angle flag 1 ("Sag","Cor",or,"Tra"), char
     TEXT_ANGLE_FLAG1_LEN = 3,
@@ -374,9 +374,9 @@ private:
     TEXT_FOVH_LEN = 3,
     TEXT_FOVV = 5846,        // Vertical FOV, char
     TEXT_FOVV_LEN = 3,
-    TEXT_TABLEPOS_FLAG = 5874, // Table Postion flag ("TP"), char
+    TEXT_TABLEPOS_FLAG = 5874, // Table Position flag ("TP"), char
     TEXT_TABLEPOS_FLAG_LEN = 2,
-    TEXT_TABLE_POS = 5878,   // Table postion
+    TEXT_TABLE_POS = 5878,   // Table position
     TEXT_TABLE_POS_LEN = 7,
     TEXT_STUDY_FLAG = 5938,  // Study flag ("STUDY"), char
     TEXT_STUDY_FLAG_LEN = 5,

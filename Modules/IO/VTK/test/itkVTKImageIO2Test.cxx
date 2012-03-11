@@ -276,7 +276,7 @@ public:
         return false;
         }
 
-      // reading successfull, so return true
+      // reading successful, so return true
       return true;
       }
     catch(itk::ExceptionObject &e)
