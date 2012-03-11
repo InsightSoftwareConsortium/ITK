@@ -129,7 +129,7 @@ BoxAccumulateFunction(const TInputImage *inputImage,
   //   -(dim - 1)  1
   //       1       1
   // The result of each convolution needs to get written back to the
-  // image being convolved so that the accumulation propogates
+  // image being convolved so that the accumulation propagates
   // This should be implementable with neighborhood operators.
 
   std::vector< int > Weights;
@@ -164,7 +164,7 @@ BoxAccumulateFunction(const TInputImage *inputImage,
     }
 }
 
-// a function to generate corners of arbitary dimension box
+// a function to generate corners of arbitrary dimension box
 template< class ImType >
 std::vector< typename ImType::OffsetType > CornerOffsets(const ImType *im)
 {
@@ -272,7 +272,7 @@ BoxMeanCalculatorFunction(const TInputImage *accImage,
     if ( fit == faceList.begin() )
       {
       // this is the body region. This is meant to be an optimized
-      // version that doesn't use neigborhood regions
+      // version that doesn't use neighborhood regions
       // compute the various offsets
       AccPixType pixelscount = 1;
       for ( unsigned int i = 0; i < TInputImage::ImageDimension; i++ )
@@ -456,7 +456,7 @@ BoxSigmaCalculatorFunction(const TInputImage *accImage,
     if ( fit == faceList.begin() )
       {
       // this is the body region. This is meant to be an optimized
-      // version that doesn't use neigborhood regions
+      // version that doesn't use neighborhood regions
       // compute the various offsets
       AccPixType pixelscount = 1;
       for ( unsigned int i = 0; i < TInputImage::ImageDimension; i++ )
@@ -613,7 +613,7 @@ BoxSquareAccumulateFunction(const TInputImage *inputImage,
   //   -(dim - 1)  1
   //       1       1
   // The result of each convolution needs to get written back to the
-  // image being convolved so that the accumulation propogates
+  // image being convolved so that the accumulation propagates
   // This should be implementable with neighborhood operators.
 
   std::vector< int > Weights;

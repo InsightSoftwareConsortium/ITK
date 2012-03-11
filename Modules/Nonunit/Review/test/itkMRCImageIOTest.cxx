@@ -264,7 +264,7 @@ bool MRCImageIOTester<TImageType>
       }
 
 
-    // reading successfull, so return true
+    // reading successful, so return true
     return true;
 
     }

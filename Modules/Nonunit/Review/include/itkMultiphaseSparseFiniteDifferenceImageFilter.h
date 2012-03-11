@@ -414,7 +414,7 @@ protected:
   void ApplyUpdate(TimeStepType dt);
 
   /** Traverses the active layer list and calculates the change at these
-   *  indicies to be applied in the current iteration. */
+   *  indices to be applied in the current iteration. */
   TimeStepType CalculateChange();
 
   /** Initializes a layer of the sparse field using a previously initialized
@@ -437,8 +437,8 @@ protected:
   void InitializeBackgroundConstants();
 
   /** Adjusts the values in a single layer "to" using values in a neighboring
-   *  layer "from". The list of indicies in "to" are traversed and assigned
-   *  new values appropriately. Any indicies in "to" without neighbors in
+   *  layer "from". The list of indices in "to" are traversed and assigned
+   *  new values appropriately. Any indices in "to" without neighbors in
    *  "from" are moved into the "promote" layer (or deleted if "promote" is
    *  greater than the number of layers). "InOrOut" == 1 indicates this
    *  propagation is inwards (more negative).  "InOrOut" == 2 indicates this
@@ -503,7 +503,7 @@ protected:
    *  image */
   static const StatusType m_StatusBoundaryPixel;
 
-  /** Special status value used as a default for indicies which have no
+  /** Special status value used as a default for indices which have no
       meaningful status. */
   static const StatusType m_StatusNull;
 

@@ -26,7 +26,7 @@ namespace itk
  * \brief Produce a binary image where foreground is the regional maxima of the
  * input image
  *
- * Regional maxima are flat zones surounded by pixels of lower value.
+ * Regional maxima are flat zones surrounded by pixels of lower value.
  *
  * If the input image is constant, the entire image can be considered as a
  * maxima or not.  The desired behavior can be selected with the

@@ -438,13 +438,13 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
                   ComputeOverlapParameters(featIndex, product);
     }
 
-  ScalarValueType inTerm = this->m_Lambda1 * this->ComputeInternalTerm(featureVal, featIndex);
+  ScalarValueType interim = this->m_Lambda1 * this->ComputeInternalTerm(featureVal, featIndex);
   ScalarValueType outTerm = this->m_Lambda2 * product * this->ComputeExternalTerm(featureVal, featIndex);
 
   ScalarValueType regularizationTerm = this->m_VolumeMatchingWeight *
                                        ComputeVolumeRegularizationTerm() - this->m_AreaWeight;
 
-  ScalarValueType globalTerm = +inTerm - outTerm + overlapTerm + regularizationTerm;
+  ScalarValueType globalTerm = +interim - outTerm + overlapTerm + regularizationTerm;
 
   return globalTerm;
 }

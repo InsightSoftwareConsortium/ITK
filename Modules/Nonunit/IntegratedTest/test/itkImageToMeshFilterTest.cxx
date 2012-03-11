@@ -21,8 +21,6 @@
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
 
-
-
 int itkImageToMeshFilterTest(int , char *[] )
 {
 
@@ -77,9 +75,6 @@ int itkImageToMeshFilterTest(int , char *[] )
     ++it;
     }
 
-
-
-
   //
   //  Set up the filter
   //
@@ -90,14 +85,9 @@ int itkImageToMeshFilterTest(int , char *[] )
                                 MeshType
                                             >  GeneratorType;
 
-
-
-
   GeneratorType::Pointer narrowBandGenerator = GeneratorType::New();
 
   narrowBandGenerator->SetInput( binaryMask );
-
-
 
   try
     {
@@ -105,13 +95,10 @@ int itkImageToMeshFilterTest(int , char *[] )
     }
   catch( itk::ExceptionObject & excp )
     {
-    std::cerr << "Exception thrown during the excecution of the generator " << std::endl;
+    std::cerr << "Exception thrown during the execution of the generator " << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
-
-
-
 
   //
   //  Checking the output
@@ -155,10 +142,5 @@ int itkImageToMeshFilterTest(int , char *[] )
     ++data;
     }
 
-
-
   return EXIT_SUCCESS;
 }
-
-
-

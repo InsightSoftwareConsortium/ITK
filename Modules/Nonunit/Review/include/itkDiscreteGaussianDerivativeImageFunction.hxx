@@ -138,7 +138,7 @@ DiscreteGaussianDerivativeImageFunction< TInputImage, TOutput >
   kernelRegion.SetSize(size);
   kernelRegion.SetIndex(origin);
 
-  // Now create an image filter to perform sucessive convolutions
+  // Now create an image filter to perform successive convolutions
   typedef itk::NeighborhoodOperatorImageFilter< KernelImageType, KernelImageType >
   NeighborhoodFilterType;
   typename NeighborhoodFilterType::Pointer convolutionFilter = NeighborhoodFilterType::New();
