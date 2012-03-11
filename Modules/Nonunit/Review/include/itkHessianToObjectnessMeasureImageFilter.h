@@ -46,7 +46,7 @@ namespace itk
  * http://hdl.handle.net/1926/576
  *
  * \author Luca Antiga Ph.D.  Medical Imaging Unit,
- *                            Bioengineering Deparment, Mario Negri Institute, Italy.
+ *                            Bioengineering Department, Mario Negri Institute, Italy.
  *
  * \sa MultiScaleHessianBasedMeasureImageFilter
  * \sa Hessian3DToVesselnessMeasureImageFilter

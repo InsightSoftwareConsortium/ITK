@@ -169,7 +169,7 @@ public:
 
     // ALL HEADERS:
     int32_t nlabl;         /**< Number of labels with useful data.  */
-    char label[10][80];    /**< 10 labels of 80 charactors.  */
+    char label[10][80];    /**< 10 labels of 80 characters.  */
   };
 
   /** Fei/Agard extended header */

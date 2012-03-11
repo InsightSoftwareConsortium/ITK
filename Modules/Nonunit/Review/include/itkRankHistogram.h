@@ -31,7 +31,7 @@ namespace Function
 {
 // a simple histogram class hierarchy. One subclass will be maps, the
 // other vectors.
-// This version is intended for keeping track of arbitary ranks. It is
+// This version is intended for keeping track of arbitrary ranks. It is
 // based on the code from consolidatedMorphology.
 //
 // Support for different TCompare hasn't been tested, and shouldn't be
@@ -74,7 +74,7 @@ public:
       m_InitVal = NumericTraits< TInputPixel >::NonpositiveMin();
       }
     m_RankValue = m_InitVal;
-    m_RankIt = m_Map.begin();  // equivalent to setting to the intial value
+    m_RankIt = m_Map.begin();  // equivalent to setting to the initial value
   }
 
   ~RankHistogram()

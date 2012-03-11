@@ -38,7 +38,7 @@ bool NormalizeSineWave( double frequencyPerImage, unsigned int order, double pix
 
   double frequency = frequencyPerImage * 2.0 * vnl_math::pi / ( imageSize * pixelSpacing );
 
-  // The theoretical maximal value should occour at this sigma
+  // The theoretical maximal value should occur at this sigma
   double sigma_max = vcl_sqrt( double( order ) ) / frequency;
 
   // the theoreical maximal value of the derivative, obtained at sigma_max

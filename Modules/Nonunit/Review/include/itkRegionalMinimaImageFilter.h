@@ -26,7 +26,7 @@ namespace itk
  * \brief Produce a binary image where foreground is the regional minima of the
  * input image
  *
- * Regional minima are flat zones surounded by pixels of greater value.
+ * Regional minima are flat zones surrounded by pixels of greater value.
  *
  * If the input image is constant, the entire image can be considered as a
  * minima or not.  The SetFlatIsMinima() method let the user choose which

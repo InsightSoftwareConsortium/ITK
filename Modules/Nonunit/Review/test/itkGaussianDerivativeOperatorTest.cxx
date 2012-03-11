@@ -17,8 +17,6 @@
  *=========================================================================*/
 #include "itkGaussianDerivativeOperator.h"
 
-
-
 namespace
 {
 
@@ -101,7 +99,7 @@ int itkGaussianDerivativeOperatorTest( int argc, char *argv[] )
     }
 
 
-  // Excercise code
+  // Exercise code
 
   typedef itk::GaussianDerivativeOperator< double, 3 > GaussianOp;
 

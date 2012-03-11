@@ -225,7 +225,7 @@ MultiScaleHessianBasedMeasureImageFilter
     scaleLevel++;
 
     // reset the progress accumulator after each pass to continue
-    // addtion of progress for the next pass
+    // addition of progress for the next pass
     progress->ResetFilterProgressAndKeepAccumulatedProgress();
 
     if ( m_NumberOfSigmaSteps == 1 )

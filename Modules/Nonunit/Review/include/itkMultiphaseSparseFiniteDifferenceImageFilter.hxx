@@ -362,7 +362,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
     this->ProcessStatusList(UpList[j], UpList[k], up_to, m_StatusNull);
     this->ProcessStatusList(DownList[j], DownList[k], down_to, m_StatusNull);
 
-    // Now we are left with the lists of indicies which must be
+    // Now we are left with the lists of indices which must be
     // brought into the outermost layers.  Bring UpList into last inside layer
     // and DownList into last outside layer.
     this->ProcessOutsideList (UpList[k], static_cast< signed char >(
@@ -530,7 +530,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
                                             dt, outputIt.GetCenterPixel(), *updateIt);
 
     // If this index needs to be moved to another layer, then search its
-    // neighborhood for indicies that need to be pulled up/down into the
+    // neighborhood for indices that need to be pulled up/down into the
     // active layer. Set those new active layer values appropriately,
     // checking first to make sure they have not been set by a more
     // influential neighbor.
@@ -566,7 +566,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
         continue;
         }
 
-      // Search the neighborhood for inside indicies.
+      // Search the neighborhood for inside indices.
       for ( i = 0; i < m_NeighborList.GetSize(); ++i )
         {
         temp_value = new_value - m_ConstantGradientValue * m_PixelDistance[i];
@@ -622,7 +622,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
         continue;
         }
 
-      // Search the neighborhood for outside indicies.
+      // Search the neighborhood for outside indices.
       for ( i = 0; i < m_NeighborList.GetSize(); ++i )
         {
         temp_value = new_value + m_ConstantGradientValue * m_PixelDistance[i];
@@ -696,7 +696,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
     ValueType dx, gradientMagnitude, gradientMagnitudeSqr,
               distance, forward, current, backward;
 
-    // For all indicies in the active layer...
+    // For all indices in the active layer...
     activeIt = sparsePtr->m_Layers[0]->Begin();
     while ( activeIt != sparsePtr->m_Layers[0]->End() )
       {
@@ -1322,7 +1322,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutput
   while ( fromIt != sparsePtr->m_Layers[from]->End() )
     {
     // Search the neighborhood of this index in the status image for
-    // unassigned indicies. Push those indicies onto the "to" layer and
+    // unassigned indices. Push those indices onto the "to" layer and
     // assign them values in the status image.  Status pixels outside the
     // boundary will be ignored.
     statusIt.SetLocation (fromIt->m_Value);

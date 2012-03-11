@@ -529,7 +529,7 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
     {
     if ( m_MapScale < 0 )
       {
-      // < 0 means user doesn't explictly assign it. Then
+      // < 0 means user doesn't explicitly assign it. Then
       // automatically calculate it s.t. after doing the
       // stereo-graphic projection, upper and lower hemi-sphere will have
       // same number of vertics.

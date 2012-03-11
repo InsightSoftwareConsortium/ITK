@@ -321,7 +321,7 @@ bool Bruker2DSEQImageIO::CanReadFile(const char *FileNameToRead)
   length2DSEQ = itksys::SystemTools::FileLength( file2Dseq.c_str() );
   //std::cout << "length2DSEQ = " << length2DSEQ << std::endl;
 
-  // Check reco for existance.
+  // Check reco for existence.
   std::ifstream reco_InputStream;
   reco_InputStream.open(filereco.c_str(),
                         std::ios::in);
@@ -372,14 +372,14 @@ bool Bruker2DSEQImageIO::CanReadFile(const char *FileNameToRead)
     }
   reco_InputStream.close();
 
-  // Check acqp for existance.
+  // Check acqp for existence.
   //std::cout << "fileacqp = " << fileacqp << std::endl;
   if ( !itksys::SystemTools::FileExists( fileacqp.c_str() ) )
     {
     return false;
     }
 
-  // Check d3proc for existance.
+  // Check d3proc for existence.
   std::ifstream d3proc_InputStream;
   d3proc_InputStream.open(filed3proc.c_str(),
                           std::ios::in);
@@ -1165,7 +1165,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       EncapsulateMetaData< double >(thisDic, ACQ_SLICE_THICK, sliceThick);
       }
 
-    // Get the slice seperation.
+    // Get the slice separation.
     index = acqpFileString.find(ACQ_slice_sepn);
     if ( index != std::string::npos )
       {
@@ -1204,7 +1204,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
         }
       }
 
-    // Get the slice seperation mode.
+    // Get the slice separation mode.
     index = acqpFileString.find(ACQ_slice_sepn_mode);
     if ( index != std::string::npos )
       {

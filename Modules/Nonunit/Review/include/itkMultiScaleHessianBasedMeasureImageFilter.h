@@ -37,7 +37,7 @@ namespace itk
  * computed within the bound set by the minimum and maximum sigma values
  *
  * The filter computes a second output image (accessed by the GetScalesOutput method)
- * containing the scales at which each pixel gave the best reponse.
+ * containing the scales at which each pixel gave the best response.
  *
  *
  * This code was contributed in the Insight Journal paper:
@@ -48,7 +48,7 @@ namespace itk
  *
  *
  * \author Luca Antiga Ph.D.  Medical Imaging Unit,
- *                            Bioengineering Deparment, Mario Negri Institute, Italy.
+ *                            Bioengineering Department, Mario Negri Institute, Italy.
  *
  * \sa HessianToObjectnessMeasureImageFilter
  * \sa Hessian3DToVesselnessMeasureImageFilter
