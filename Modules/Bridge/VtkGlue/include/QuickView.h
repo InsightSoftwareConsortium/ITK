@@ -66,7 +66,7 @@ public:
 /** \class QuickView
  * \brief A convenient class to render itk images with vtk
  *
- * This class presents a convenient and efficent mechanism to display
+ * This class presents a convenient and efficient mechanism to display
  * ITK images in VTK render windows.
  *
  * The AddImage and AddRGBImage methods collect ITK images to be
