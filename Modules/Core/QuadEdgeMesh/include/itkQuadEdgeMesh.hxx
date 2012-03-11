@@ -673,7 +673,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     return ( (QEPrimal *)0 );
     }
 
-  // Make sure the points are allready in the QuadEdgeMesh container:
+  // Make sure the points are already in the QuadEdgeMesh container:
   if ( !( this->GetPoints()->IndexExists(orgPid) )
        || !( this->GetPoints()->IndexExists(destPid) ) )
     {
@@ -681,7 +681,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     return ( (QEPrimal *)0 );
     }
 
-  // Make sure the edge is not allready in the container
+  // Make sure the edge is not already in the container
   QEPrimal *e = this->FindEdge(orgPid, destPid);
   if ( e != (QEPrimal *)0 )
     {
@@ -928,7 +928,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
  *        and Rnext() rings.
  * \warning Nothing is done to remove the potential isolated points
  *        left by this edge deletion (the caller might want to recycle
- *        them). Hence it is the caller's responsability to manage the
+ *        them). Hence it is the caller's responsibility to manage the
  *        clean-up of adjacent points (when necessary).
  */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
@@ -1450,7 +1450,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
  * points including the ones that have no entry in the edge ring.
  *
  * \note This method is an optional utility of the class: its
- * understanding is not usefull at first contact with the class.
+ * understanding is not useful at first contact with the class.
  */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 typename QuadEdgeMesh< TPixel, VDimension, TTraits >::PointIdentifier
@@ -1484,7 +1484,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
  * \brief Compute the total number of faces.
  *
  * \note This method is an optional utility of the class: its
- * understanding is not usefull at first contact with the class.
+ * understanding is not useful at first contact with the class.
  */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 typename QuadEdgeMesh< TPixel, VDimension, TTraits >::CellIdentifier
@@ -1514,7 +1514,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
  * \brief Compute the total number of edges.
  *
  * \note This method is an optional utility of the class: it's
- *       understanding is not usefull at first contact with the class.
+ *       understanding is not useful at first contact with the class.
  */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 typename QuadEdgeMesh< TPixel, VDimension, TTraits >::CellIdentifier

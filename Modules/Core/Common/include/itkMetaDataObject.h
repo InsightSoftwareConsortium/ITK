@@ -60,7 +60,7 @@ namespace itk
  * to work around those deficiencies.
  *
  * The behavior of the MetaDataObject<Type>::Print() function has many plausible
- * application dependant implementations.  The default implementation prints the
+ * application dependent implementations.  The default implementation prints the
  * string "[UNKNOWN PRINT CHARACTERISTICS]" that works for all possible
  * MetaDataObject types.
  *

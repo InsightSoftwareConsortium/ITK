@@ -443,7 +443,7 @@ public:
     return NULL;
   }
 
-  /** Generate a platform independant name */
+  /** Generate a platform independent name */
   virtual std::string GetTransformTypeAsString() const;
 
   /** Indicates if this transform is linear. A transform is defined to be

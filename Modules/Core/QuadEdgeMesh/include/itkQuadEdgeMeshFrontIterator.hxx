@@ -122,7 +122,7 @@ QuadEdgeMeshFrontBaseIterator< TMesh, TQE >::operator++()
       }
     }
 
-  // All the edge->Origin() neighbours were allready visited. Remove
+  // All the edge->Origin() neighbours were already visited. Remove
   // the edge from the front, and move to next edge...
   m_Front->pop_front();
   m_CurrentEdge = (QEType *)0;

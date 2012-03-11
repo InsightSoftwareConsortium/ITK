@@ -160,7 +160,7 @@ namespace itk
  * increasing dimension (as defined by the layout of the image data) .  For
  * itk::Image this is the first dimension specified (i.e. for 3-dimensional
  * (x,y,z) NeighborhoodIterator proceeds along the x-dimension) (For random
- * access iteration through N-dimensional indicies, use
+ * access iteration through N-dimensional indices, use
  * RandomAccessNeighborhoodIterator.)
  *
  * Each subclass of a ConstNeighborhoodIterator may also define its own
@@ -169,7 +169,7 @@ namespace itk
  * internal loop variables and offsets to trigger wraps at itk::Image region
  * boundaries, and to identify the end of the itk::Image region.
  *
- * \todo Better support for regions with negative indicies.
+ * \todo Better support for regions with negative indices.
  * \todo Add Begin() and End() methods?
  *
  * \sa DerivativeOperator \sa NeighborhoodInnerProduct

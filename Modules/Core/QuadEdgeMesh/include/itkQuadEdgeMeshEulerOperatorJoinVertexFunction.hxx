@@ -177,7 +177,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::Process(QEType *e
   //                 __/    /    |    \       \__|  //
   //                /      /     |     \         Y  //
   //
-  // When the Lnext and/or the Rnext ring of the argument edge was originaly
+  // When the Lnext and/or the Rnext ring of the argument edge was originally
   // the one[s] of a triangle, the above edge deletion created the odd
   // situation of having two different edges adjacent to the same two
   // vertices (which is quite a bad thing). This is was is depicted on
@@ -186,7 +186,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::Process(QEType *e
   // two vertices X and a. In order to clean up things, we can call the
   // Zip(MeshFunction) algorithm which handles this case.
   // Once things are back to normal, we recreate faces when they were
-  // originaly present.
+  // originally present.
   //
 
   typedef QuadEdgeMeshZipMeshFunction< MeshType, QEType > Zip;

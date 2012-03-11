@@ -44,7 +44,7 @@ namespace itk
  * as a consequence of changes occurring in state on some itk::Objects.
  *
  * itk::EventObject carries information in its own type, it relies on the
- * appropiate use of the RTTI (Run Time Type Information).
+ * appropriate use of the RTTI (Run Time Type Information).
  *
  * A set of standard EventObjects is defined near the end of itkEventObject.h.
  *

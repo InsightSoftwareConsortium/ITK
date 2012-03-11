@@ -281,7 +281,7 @@ public:
    * then they should call the method Update(). */
   virtual void UpdateLargestPossibleRegion();
 
-  /** Update the information decribing the output data. This method
+  /** Update the information describing the output data. This method
    * transverses up the pipeline gathering modified time information.
    * On the way back down the pipeline, this method calls
    * GenerateOutputInformation() to set any necessary information
@@ -296,7 +296,7 @@ public:
   virtual void UpdateOutputInformation();
 
   /** Send the requested region information back up the pipeline (to the
-   * filters that preceed this one). */
+   * filters that precede this one). */
   virtual void PropagateRequestedRegion(DataObject *output);
 
   /** Actually generate new output  */
@@ -497,7 +497,7 @@ protected:
    * for continued execution of the pipeline, throws an exception if
    * not valid.
    *
-   * This method is called imediately before GenerateOutputInformation().
+   * This method is called immediately before GenerateOutputInformation().
    *
    * The ProcessObject implementation does nothing. Subclasses might
    * check if all the inputs are in the same coordinate frame.
@@ -578,7 +578,7 @@ protected:
    * can only correctly handle multiple outputs of the same type. */
   virtual void GenerateOutputRequestedRegion(DataObject *output);
 
-  /** Generate the information decribing the output data. The default
+  /** Generate the information describing the output data. The default
    * implementation of this method will copy information from the input to
    * the output.  A filter may override this method if its output will have
    * different information than its input.  For instance, a filter that

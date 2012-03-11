@@ -23,8 +23,8 @@
 class TestObject
  {
   public:
-    typedef TestObject Self;
-    typedef itk::AutoPointer<Self> AutoPointer;
+    typedef TestObject                   Self;
+    typedef itk::AutoPointer<Self>       AutoPointer;
     typedef itk::AutoPointer<const Self> ConstAutoPointer;
     TestObject() { std::cout << "TestObject Contructed" << std::endl; }
     virtual ~TestObject() { std::cout << "TestObject Destructed" << std::endl; }
@@ -59,9 +59,7 @@ int itkAutoPointerTest(int, char* [] )
   std::cout << "after assignment from raw pointer" << std::endl;
   std::cout << "ptr1 IsOwner = " << ptr1.IsOwner() << std::endl;
 
-
-
-  // The following test excercise the methods but don't validate the results
+  // The following test exercise the methods but don't validate the results
   if( ptr1 == ptr2 )
     {
     std::cout << "AutoPointers are equal " << std::endl;
@@ -85,5 +83,3 @@ int itkAutoPointerTest(int, char* [] )
 
   return EXIT_SUCCESS;
 }
-
-

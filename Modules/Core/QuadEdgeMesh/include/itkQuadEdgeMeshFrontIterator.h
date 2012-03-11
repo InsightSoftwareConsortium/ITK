@@ -24,7 +24,7 @@
 #define itkQEDefineFrontIteratorMethodsMacro(MeshTypeArg)                       \
   /* Dual definition placed before others because of .NET that cannot */        \
   /* cope with definition of FrontIterator (that further hides the    */        \
-  /* defintion of the template).                                      */        \
+  /* definition of the template).                                      */        \
   typedef typename MeshTypeArg::QEDual   QEDualType;                            \
   typedef typename MeshTypeArg::QEPrimal QEPrimalType;                          \
   typedef QuadEdgeMeshFrontIterator< MeshTypeArg,                               \
@@ -80,7 +80,7 @@ namespace itk
  * Like topological and geometrical operators, it iterates on edges.
  * Unlike them, this iterator is not local, nor cyclic. Starting from a
  * given seed, it will create a front that propagates on the surface.
- * Depending on the weight associated wich each edge, and on the type of the
+ * Depending on the weight associated which each edge, and on the type of the
  * seed (primal or dual) it can be used for frint propagation algorithm,
  * distance tree computation or other Djikstra like algorithms.
  * \ingroup ITKQuadEdgeMesh

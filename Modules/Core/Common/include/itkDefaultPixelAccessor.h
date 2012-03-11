@@ -28,7 +28,7 @@ namespace itk
  *
  * DefaultPixelAccessor is templated over an internal type and an
  * external type representation. This class encapsulates a
- * customized convertion between the internal and external
+ * customized conversion between the internal and external
  * type representations.
  *
  * PixelAccessor is the class responsible for pixel-to-pixel

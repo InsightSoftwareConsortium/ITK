@@ -45,7 +45,7 @@ namespace itk
  * are topologically identical. But their differ in their geometrical
  * result, since JoinVertex removes the destination vertex of the
  * incoming argument. A simple way to visualize this difference is to
- * imagine a mesh constituted of squares layed out on a regular grid
+ * imagine a mesh constituted of squares laid out on a regular grid
  * and for each such square an added diagonal. No imagine what happens
  * when one operates JoinVertex on a diagonal edge of a corner square
  * (and how it differs with feeding JoinVertex with the opposite edge).

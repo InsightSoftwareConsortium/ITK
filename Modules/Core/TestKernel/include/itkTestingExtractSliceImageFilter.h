@@ -142,7 +142,7 @@ public:
    * else throw an exception.  Use this strategy when it is known
    * that properly identified physical space sub-volumes can be
    * reliably extracted from a higher dimensional space.  For
-   * example when the applicaiton programmer knows that a 4D image
+   * example when the application programmer knows that a 4D image
    * is 3D+time, and that the 3D sub-space is properly defined.
    */
   void SetDirectionCollapseToStrategy(const DIRECTIONCOLLAPSESTRATEGY choosenStrategy)
@@ -155,7 +155,7 @@ public:
       break;
     case DIRECTIONCOLLAPSETOUNKOWN:
     default:
-      itkExceptionMacro( << "Invalid Strategy Choosen for itk::ExtractSliceImageFilter" );
+      itkExceptionMacro( << "Invalid Strategy Chosen for itk::ExtractSliceImageFilter" );
       }
 
     this->m_DirectionCollaspeStrategy=choosenStrategy;

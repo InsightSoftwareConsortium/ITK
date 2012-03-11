@@ -62,7 +62,7 @@ int itkSimplexMeshTest(int , char *[] )
    * Note that the constructor for Point is public, and takes an array
    * of coordinates for the point.
    */
-  for(int i=0; i < 8 ; ++i)
+  for(int i = 0; i < 8; ++i)
     {
     simplexMesh->SetPoint(i, PointType(testPointCoords[i]));
     simplexMesh->SetGeometryData(i, new SimplexMeshGeometryType );
@@ -75,7 +75,7 @@ int itkSimplexMeshTest(int , char *[] )
 
 
    /**
-    * Excercise the AddEdge method
+    * Exercise the AddEdge method
     */
   simplexMesh->AddEdge( 0, 1 );
   simplexMesh->AddEdge( 0, 3 );
@@ -91,7 +91,7 @@ int itkSimplexMeshTest(int , char *[] )
   simplexMesh->AddEdge( 6, 7 );
 
    /**
-    * Excercise the AddNeighbor method
+    * Exercise the AddNeighbor method
     */
   simplexMesh->AddNeighbor( 0, 1 );
   simplexMesh->AddNeighbor( 0, 3 );
@@ -121,9 +121,6 @@ int itkSimplexMeshTest(int , char *[] )
   simplexMesh->AddNeighbor( 6, 5 );
   simplexMesh->AddNeighbor( 7, 6 );
 
-
-
-
   itk::TimeProbe timeProbe;
 
   for (unsigned int i=0; i < 2; i++)
@@ -144,13 +141,7 @@ int itkSimplexMeshTest(int , char *[] )
     std::cout << ", Elapsed time (for getting neighbors): " << timeProbe.GetMeanTime() << std::endl;
     }
 
-
-
   std::cout << "[TEST DONE]" << std::endl;
   return EXIT_SUCCESS;
 
 }
-
-
-
-

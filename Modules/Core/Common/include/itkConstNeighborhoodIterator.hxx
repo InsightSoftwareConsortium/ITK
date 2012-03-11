@@ -601,7 +601,7 @@ void ConstNeighborhoodIterator< TImage, TBoundaryCondition >
   SizeType               imageBRSize = m_ConstImage->GetBufferedRegion().GetSize();
 
   // Set the bounds and the wrapping offsets. Inner bounds are the loop
-  // indicies where the iterator will begin to overlap the edge of the image
+  // indices where the iterator will begin to overlap the edge of the image
   // buffered region.
   for ( DimensionValueType i = 0; i < Dimension; ++i )
     {

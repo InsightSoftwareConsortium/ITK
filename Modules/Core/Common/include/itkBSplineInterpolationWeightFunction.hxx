@@ -84,7 +84,7 @@ BSplineInterpolationWeightFunction< TCoordRep, VSpaceDimension, VSplineOrder >
   os << indent << "SupportSize: " << m_SupportSize << std::endl;
 }
 
-/** Compute weights for interpolation at continous index position */
+/** Compute weights for interpolation at continuous index position */
 template< class TCoordRep, unsigned int VSpaceDimension,
           unsigned int VSplineOrder >
 typename BSplineInterpolationWeightFunction< TCoordRep, VSpaceDimension,
@@ -102,7 +102,7 @@ BSplineInterpolationWeightFunction< TCoordRep, VSpaceDimension, VSplineOrder >
   return weights;
 }
 
-/** Compute weights for interpolation at continous index position */
+/** Compute weights for interpolation at continuous index position */
 template< class TCoordRep, unsigned int VSpaceDimension,
           unsigned int VSplineOrder >
 void BSplineInterpolationWeightFunction< TCoordRep, VSpaceDimension,

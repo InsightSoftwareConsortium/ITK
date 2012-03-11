@@ -250,16 +250,16 @@ GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::GetNext
   //         AND located after edgeTest.
   //         When "this" edge is NOT a boundary edge the 0 is
   //         returned.
-  // @warning When the Mesh possesing "this" edge is a 2-manifold
+  // @warning When the Mesh possessing "this" edge is a 2-manifold
   //          then result of this method is unique in the sense that
-  //          it is independant from the edgeTest parameter.
+  //          it is independent from the edgeTest parameter.
   //          But when the Mesh is not 2-manifold (this state can
   //          happen at intermediary stages of the building process,
   //          or during "surgical" operations on the Mesh, and
   //          even though the Mesh represents a triangulation)
   //          the result of this method is not unique in the sense
   //          that the result depends on the edgeTest parameter.
-  //          Let us illusatre this dependance by considering a
+  //          Let us illusatre this dependence by considering a
   //          Mesh (which is a triangulation) which is not a 2-manifold.
   //          Assume the point P (the origin of "this" edge i.e.
   //          P = this->Originv()) is TWICE on the border i.e. it
@@ -347,12 +347,12 @@ bool GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::In
   //       incoherence in the geometry at Origin().
   // The things should go this way:
   // 1/ when the geometry of "this" Origin is not set, then be paranoid
-  //    and suspect the situation is allready snafu:
+  //    and suspect the situation is already snafu:
   //    1a/ if all edges of "this" Onext ring have an unset Origin()
   //        (the situation is coherent), then proceed (Result=0)
   //        whatever the value of isol.Origin() might be.
   //    1b/ if one of the edges of "this" Onext ring has an Origin() set,
-  //        then we deduce that there is allready some geometrical
+  //        then we deduce that there is already some geometrical
   //        incoherence at this->Origin() and exit this method (Result=1).
   // 2/ Then when we didn't exit at stage 1, consider isol.Origin():
   //    2a/ when isol.Origin() is absent proceed (result=0),

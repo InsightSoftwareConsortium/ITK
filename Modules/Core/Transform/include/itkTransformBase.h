@@ -86,7 +86,7 @@ public:
   /** Get the fixed parameters. */
   virtual const ParametersType & GetFixedParameters() const = 0;
 
-  /** Generate a platform independant name */
+  /** Generate a platform independent name */
   virtual std::string GetTransformTypeAsString() const = 0;
 
 protected:

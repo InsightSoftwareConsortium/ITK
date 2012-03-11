@@ -24,12 +24,12 @@
 //================================================================================
 //================================================================================
 // The behavior of the MetaDataObject<Type>::Print() function has many plausible
-// application dependant implementations.  The default implementation prints the
+// application dependent implementations.  The default implementation prints the
 // a string "UNKNOWN PRINT CHARACTERISTICS]" that is applicable to all possible
 // MetaDataObject types.
 //
 // The application developer may overload the default implementation to provide
-// a specialization that produces results desirable for their applicaiton.
+// a specialization that produces results desirable for their application.
 //
 // Below is one possible implementation that may be used.
 
@@ -160,7 +160,7 @@ int itkMetaDataDictionaryTest(int , char * [])
   //Other gotchas with the Dictionary
   char * StrandedMemory=new char[2345];
   strcpy(StrandedMemory,"XXXXXXXXXXXXThis is stranded memory that will not be released when the Dictionary is cleaned up");
-  //NOTE: Only the pointer is copied, not the data withing the pointer!
+  //NOTE: Only the pointer is copied, not the data within the pointer!
   itk::EncapsulateMetaData<char *>(MyDictionary,"MemoryChangedOutsideOfDictionary",StrandedMemory);
   {
     char * temp = NULL;

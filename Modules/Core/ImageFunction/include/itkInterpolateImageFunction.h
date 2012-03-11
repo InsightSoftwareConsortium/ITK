@@ -30,7 +30,7 @@ namespace itk
  * This class is templated over the input image type and the
  * coordinate representation type (e.g. float or double ).
  *
- * \warning This heirarchy of functions work only for images
+ * \warning This hierarchy of functions work only for images
  * with scalar pixel types. For images of vector pixel types
  * use VectorInterpolateImageFunctions.
  *

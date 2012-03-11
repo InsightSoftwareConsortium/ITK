@@ -94,7 +94,7 @@ static const double sqrt1_2          = 0.70710678118654752440;
 
 /** \brief Round towards nearest integer
  *
- *  \tparam TReturn must be an interger type
+ *  \tparam TReturn must be an integer type
  *  \tparam TInput must be float or double
  *
  *          halfway cases are rounded towards the nearest even
@@ -115,7 +115,7 @@ itkTemplateFloatingToIntegerMacro(RoundHalfIntegerToEven);
 
 /** \brief Round towards nearest integer
  *
- *  \tparam TReturn must be an interger type
+ *  \tparam TReturn must be an integer type
  *  \tparam TInput must be float or double
  *
  *          halfway cases are rounded upward, e.g.
@@ -139,7 +139,7 @@ itkTemplateFloatingToIntegerMacro(RoundHalfIntegerUp);
 
 /** \brief Round towards nearest integer (This is a synonym for RoundHalfIntegerUp)
  *
- *  \tparam TReturn must be an interger type
+ *  \tparam TReturn must be an integer type
  *  \tparam TInput must be float or double
  *
  *  \sa RoundHalfIntegerUp<TReturn, TInput>()
@@ -188,7 +188,7 @@ inline TReturn CastWithRangeCheck(TInput x)
        && !( !itk::NumericTraits< TReturn >::is_signed &&  itk::NumericTraits< TInput >::is_signed ) )
     {
     // if the output type is bigger and we are not converting a signed
-    // interger to an unsigned interger then we have no problems
+    // integer to an unsigned integer then we have no problems
     return ret;
     }
   else if ( sizeof( TReturn ) >= sizeof( TInput ) )

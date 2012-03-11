@@ -28,7 +28,7 @@ namespace itk
 /** \class DefaultConvertPixelTraits
  *  \brief Traits class used to by ConvertPixels to convert blocks of pixels.
  *
- *  TOutputPixelType is the destination type. The input type is infered
+ *  TOutputPixelType is the destination type. The input type is inferred
  *  by the templated static function Convert.
  *
  *  This implementaion, does a simple assignment operator, so if you are

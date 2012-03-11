@@ -295,7 +295,7 @@ int itkConstShapedNeighborhoodIteratorTest(int, char* [] )
   println("Move the neighborhood one pixel using operator ++");
   ++it;
 
-  println("Reactivate the same indicies");
+  println("Reactivate the same indices");
   off[0] = -1; off[1] = 0; off[2] = 0; off[3] = 0;
   it.ActivateOffset(off);
   off[0] = 1; off[1] = 0; off[2] = 0; off[3] = 0;

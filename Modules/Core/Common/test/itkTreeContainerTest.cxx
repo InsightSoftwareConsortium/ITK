@@ -30,7 +30,7 @@
 
 int itkTreeContainerTest(int, char* [])
 {
-  typedef int NodeType;
+  typedef int                          NodeType;
   typedef itk::TreeContainer<NodeType> TreeType;
   TreeType::Pointer tree = TreeType::New();
   tree->SetRoot(0);
@@ -44,7 +44,7 @@ int itkTreeContainerTest(int, char* [])
 
   std::cout << "Testing PrintSelf: " << std::endl;
   std::cout << tree << std::endl;
-  std::cout << "[SUCESS]" << std::endl;
+  std::cout << "[SUCCESS]" << std::endl;
 
   // LevelOrderTreeIterator Test
   std::cout << "Testing LevelOrderTreeIterator: " << std::endl;
@@ -52,7 +52,7 @@ int itkTreeContainerTest(int, char* [])
   levelIt.GoToBegin();
   while(!levelIt.IsAtEnd())
     {
-    std::cout << levelIt.Get() << " ("<< levelIt.GetLevel() << ")" << std::endl;;
+    std::cout << levelIt.Get() << " ("<< levelIt.GetLevel() << ")" << std::endl;
     ++levelIt;
     }
 
@@ -65,7 +65,7 @@ int itkTreeContainerTest(int, char* [])
     std::cout << "[FAILURE]" << std::endl;
     return EXIT_FAILURE;
     }
-   std::cout << "[SUCESS]" << std::endl;
+   std::cout << "[SUCCESS]" << std::endl;
 
   // IsRoot()
   std::cout << "Testing IsRoot(): ";
@@ -74,7 +74,7 @@ int itkTreeContainerTest(int, char* [])
     std::cout << "[FAILURE]" << std::endl;
     return EXIT_FAILURE;
     }
-   std::cout << "[SUCESS]" << std::endl;
+   std::cout << "[SUCCESS]" << std::endl;
 
   // HasParent()
   std::cout << "Testing HasParent(): ";
@@ -83,16 +83,16 @@ int itkTreeContainerTest(int, char* [])
     std::cout << "[FAILURE]" << std::endl;
     return EXIT_FAILURE;
     }
-   std::cout << "[SUCESS]" << std::endl;
+   std::cout << "[SUCCESS]" << std::endl;
 
   // CountChildren()
   std::cout << "Testing CountChildren(): ";
-  if(levelIt.CountChildren()!=2)
+  if(levelIt.CountChildren() != 2)
     {
     std::cout << "[FAILURE]" << std::endl;
     return EXIT_FAILURE;
     }
-   std::cout << "[SUCESS]" << std::endl;
+   std::cout << "[SUCCESS]" << std::endl;
 
 
   // ChildTreeIterator Test
@@ -101,7 +101,7 @@ int itkTreeContainerTest(int, char* [])
   childIt.GoToBegin();
   while(!childIt.IsAtEnd())
     {
-    std::cout << childIt.Get() << std::endl;;
+    std::cout << childIt.Get() << std::endl;
     ++childIt;
     }
   std::cout << std::endl;
@@ -111,7 +111,7 @@ int itkTreeContainerTest(int, char* [])
   childIt2.GoToBegin();
   while(!childIt2.IsAtEnd())
     {
-    std::cout << childIt2.Get() << std::endl;;
+    std::cout << childIt2.Get() << std::endl;
     ++childIt2;
     }
 
@@ -131,7 +131,7 @@ int itkTreeContainerTest(int, char* [])
     return EXIT_FAILURE;
     }
 
-  std::cout << "[SUCESS]" << std::endl;
+  std::cout << "[SUCCESS]" << std::endl;
 
   std::cout << "Testing Clone() : ";
   itk::TreeIteratorBase<TreeType>* childItClone = childIt2.Clone();
@@ -142,7 +142,7 @@ int itkTreeContainerTest(int, char* [])
     }
   delete childItClone;
 
-  std::cout << "[SUCESS]" << std::endl;
+  std::cout << "[SUCCESS]" << std::endl;
 
   // LeafTreeIterator Test
   std::cout << "Testing LeafTreeIterator: " << std::endl;
@@ -150,12 +150,12 @@ int itkTreeContainerTest(int, char* [])
   leafIt.GoToBegin();
   while(!leafIt.IsAtEnd())
     {
-    std::cout << leafIt.Get() << std::endl;;
+    std::cout << leafIt.Get() << std::endl;
     ++leafIt;
     }
 
   std::cout << std::endl;
-  std::cout << "[SUCESS]" << std::endl;
+  std::cout << "[SUCCESS]" << std::endl;
 
 
   // InOrderTreeIterator Test
@@ -164,11 +164,11 @@ int itkTreeContainerTest(int, char* [])
   InOrderIt.GoToBegin();
   while(!InOrderIt.IsAtEnd())
     {
-    std::cout << InOrderIt.Get() << std::endl;;
+    std::cout << InOrderIt.Get() << std::endl;
     ++InOrderIt;
     }
   std::cout << std::endl;
-  std::cout << "[SUCESS]" << std::endl;
+  std::cout << "[SUCCESS]" << std::endl;
 
 
   // PostOrderTreeIterator Test
@@ -177,11 +177,11 @@ int itkTreeContainerTest(int, char* [])
   PostOrderIt.GoToBegin();
   while(!PostOrderIt.IsAtEnd())
     {
-    std::cout << PostOrderIt.Get() << std::endl;;
+    std::cout << PostOrderIt.Get() << std::endl;
     ++PostOrderIt;
     }
   std::cout << std::endl;
-  std::cout << "[SUCESS]" << std::endl;
+  std::cout << "[SUCCESS]" << std::endl;
 
   // RootTreeIterator Test
   std::cout << "Testing RootTreeIterator: " << std::endl;
@@ -189,11 +189,11 @@ int itkTreeContainerTest(int, char* [])
   RootIt.GoToBegin();
   while(!RootIt.IsAtEnd())
     {
-    std::cout << RootIt.Get() << std::endl;;
+    std::cout << RootIt.Get() << std::endl;
     ++RootIt;
     }
   std::cout << std::endl;
-  std::cout << "[SUCESS]" << std::endl;
+  std::cout << "[SUCCESS]" << std::endl;
 
 
   // PreOrderTreeIterator Test
@@ -202,18 +202,18 @@ int itkTreeContainerTest(int, char* [])
   PreOrderIt.GoToBegin();
   while(!PreOrderIt.IsAtEnd())
     {
-    std::cout << PreOrderIt.Get() << std::endl;;
+    std::cout << PreOrderIt.Get() << std::endl;
     ++PreOrderIt;
     }
   std::cout << std::endl;
-  std::cout << "[SUCESS]" << std::endl;
+  std::cout << "[SUCCESS]" << std::endl;
 
 
   /** Now create the tree using iterators */
   std::cout << "Testing clear tree" << std::endl;
   if(tree->Clear())
     {
-    std::cout << "[SUCESS]" << std::endl;
+    std::cout << "[SUCCESS]" << std::endl;
     }
   else
     {
@@ -234,7 +234,7 @@ int itkTreeContainerTest(int, char* [])
   PreOrderIt2.Add(5);
 
   std::cout << tree << std::endl;
-  std::cout << "[SUCESS]" << std::endl;
+  std::cout << "[SUCCESS]" << std::endl;
   // Try to add a bench of leaves
   itk::LeafTreeIterator<TreeType> LeafIt2(tree);
   LeafIt2.GoToBegin();
@@ -250,11 +250,11 @@ int itkTreeContainerTest(int, char* [])
       }
     }
   std::cout << tree << std::endl;
-  std::cout << "[SUCESS]" << std::endl;
+  std::cout << "[SUCCESS]" << std::endl;
 
 
   // Test the TreeIteratorClone
-  typedef itk::TreeIteratorBase<TreeType> IteratorType;
+  typedef itk::TreeIteratorBase<TreeType>      IteratorType;
   typedef itk::TreeIteratorClone<IteratorType> MyIteratorClone;
   itk::PreOrderTreeIterator<TreeType> anIterator(tree);
   MyIteratorClone aClone = anIterator;
@@ -266,4 +266,3 @@ int itkTreeContainerTest(int, char* [])
   std::cout << "Test Done." << std::endl;
   return EXIT_SUCCESS;
 }
-

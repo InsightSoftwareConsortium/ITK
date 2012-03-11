@@ -429,7 +429,7 @@ SpatialObject< TDimension >
   ComputeObjectToParentTransform();
 }
 
-/** Compute the Transform when the global tranform as been set
+/** Compute the Transform when the global transform as been set
  *  This does not change the IndexToObjectMatrix */
 template< unsigned int TDimension >
 void

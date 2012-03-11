@@ -61,7 +61,7 @@ public:
   static LibHandle OpenLibrary(const char *);
 
   /** Attempt to detach a dynamic library from the
-   * process.  A value of true is returned if it is sucessful. */
+   * process.  A value of true is returned if it is successful. */
   static int CloseLibrary(LibHandle);
 
   /** Find the address of the symbol in the given library. */

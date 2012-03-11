@@ -243,7 +243,7 @@ public:
   }
 
   /** Get a physical point (in the space which
-   * the origin and spacing infomation comes from)
+   * the origin and spacing information comes from)
    * from a continuous index (in the index space)
    * \sa Transform */
   template< class TCoordRep >
@@ -275,7 +275,7 @@ public:
   }
 
   /** Get a physical point (in the space which
-   * the origin and spacing infomation comes from)
+   * the origin and spacing information comes from)
    * from a discrete index (in the index space)
    *
    * \sa Transform */

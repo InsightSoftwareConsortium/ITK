@@ -30,7 +30,7 @@ namespace itk {
  * pipeline. When DebugOn is enabled and compiled in Debug mode, many
  * itkDebug messages are printed. This filter also features, several
  * Verify methods which check the recorded information, for certain
- * conditions, which should occour when well behaved filters are
+ * conditions, which should occur when well behaved filters are
  * executed.
  *
  * There are two meta verify methods that should primarily be used

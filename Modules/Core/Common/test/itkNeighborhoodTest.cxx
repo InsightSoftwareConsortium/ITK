@@ -94,7 +94,7 @@ int itkNeighborhoodTest(int, char* [] )
   stride_3d.SetRadius(1);
   stride_3d.Print(std::cout);
 
-  println("Printing the indicies of the 8 neighbors");
+  println("Printing the indices of the 8 neighbors");
   std::cout << stride_3d.GetOffset(4) << std::endl;
   std::cout << stride_3d.GetOffset(10)  << std::endl;
   std::cout << stride_3d.GetOffset(12)  << std::endl;
@@ -108,8 +108,6 @@ int itkNeighborhoodTest(int, char* [] )
   itk::Neighborhood<float, 2> q2;
   q2.SetRadius(3);
   q2.Print(std::cout);
-
-
 
   return EXIT_SUCCESS;
 }

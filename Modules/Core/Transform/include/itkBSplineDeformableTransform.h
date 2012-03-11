@@ -28,7 +28,7 @@ namespace itk
  *
  * This class encapsulates a deformable transform of points from one
  * N-dimensional one space to another N-dimensional space.
- * The deformation field is modeled using B-splines.
+ * The deformation field is modelled using B-splines.
  * A deformation is defined on a sparse regular grid of control points
  * \f$ \vec{\lambda}_j \f$ and is varied by defining a deformation
  * \f$ \vec{g}(\vec{\lambda}_j) \f$ of each control point.
@@ -343,7 +343,7 @@ private:
    * references to that instance, this is more naturally enforced
    * and does not introduce a speed penalty of dereferencing
    * through the pointers (although it does enforce some
-   * internal class syncronization).
+   * internal class synchronization).
    */
   const RegionType &    m_GridRegion;
   const OriginType &    m_GridOrigin;

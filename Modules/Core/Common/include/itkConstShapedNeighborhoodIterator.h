@@ -306,11 +306,11 @@ protected:
     m_CenterIsActive = false;
   }
 
-  /** Returns the list of active indicies in the neighborhood */
+  /** Returns the list of active indices in the neighborhood */
   const IndexListType & GetActiveIndexList() const
   { return m_ActiveIndexList; }
 
-  /** Returns the size of the list of active neighborhood indicies. */
+  /** Returns the size of the list of active neighborhood indices. */
   typename IndexListType::size_type GetActiveIndexListSize() const
   { return m_ActiveIndexList.size(); }
 

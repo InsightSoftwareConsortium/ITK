@@ -430,7 +430,7 @@ public:
 protected:
 
   /** Default method for setting the coordinate location of the iterator.
-   * Loop indicies correspond to the actual Image region index. */
+   * Loop indices correspond to the actual Image region index. */
   virtual void SetLoop(const IndexType & p)
   {  m_Loop = p; m_IsInBoundsValid = false; }
 
