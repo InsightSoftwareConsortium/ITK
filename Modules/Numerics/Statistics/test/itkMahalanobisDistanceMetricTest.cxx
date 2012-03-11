@@ -48,7 +48,7 @@ int itkMahalanobisDistanceMetricTest(int, char* [] )
   origin[2] = 1.0;
   distance->SetMean( origin );
 
-  //double value comparision tolerance
+  //double value comparison tolerance
   const double tolerance = 0.001;
   if( vcl_fabs(distance->GetMean()[0] - origin[0]) > tolerance ||
       vcl_fabs(distance->GetMean()[1] - origin[1]) > tolerance ||

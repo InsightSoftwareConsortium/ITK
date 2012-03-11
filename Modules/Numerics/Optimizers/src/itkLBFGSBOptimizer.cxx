@@ -428,7 +428,7 @@ LBFGSBOptimizer
     {
     // set current position to initial position and throw an exception
     this->SetCurrentPosition( this->GetInitialPosition() );
-    itkExceptionMacro(<< "Error occured in optimization");
+    itkExceptionMacro(<< "Error occurred in optimization");
     }
 
   this->SetCurrentPosition(parameters);

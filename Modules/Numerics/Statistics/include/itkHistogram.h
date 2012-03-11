@@ -238,7 +238,7 @@ public:
   /** Get the maximums of the bin corresponding to a particular index  */
   const MeasurementVectorType & GetHistogramMaxFromIndex(const IndexType & index) const;
 
-  /** Get the frequency of an instance indentifier */
+  /** Get the frequency of an instance identifier */
   AbsoluteFrequencyType GetFrequency(InstanceIdentifier id) const;
 
   /** Get the frequency of an index */

@@ -33,16 +33,17 @@ int POWELL_CALLS_TO_GET_VALUE = 0;
  *
  *
  *   the solution is the vector | 2 -2 |
+ * \class PowellBoundedCostFunction
  *
  */
 class PowellBoundedCostFunction : public itk::SingleValuedCostFunction
 {
 public:
 
-  typedef PowellBoundedCostFunction                  Self;
-  typedef itk::SingleValuedCostFunction   Superclass;
-  typedef itk::SmartPointer<Self>         Pointer;
-  typedef itk::SmartPointer<const Self>   ConstPointer;
+  typedef PowellBoundedCostFunction     Self;
+  typedef itk::SingleValuedCostFunction Superclass;
+  typedef itk::SmartPointer<Self>       Pointer;
+  typedef itk::SmartPointer<const Self> ConstPointer;
   itkNewMacro( Self );
   itkTypeMacro( PowellBoundedCostFunction, SingleValuedCostFunction );
 
@@ -50,7 +51,7 @@ public:
 
   typedef Superclass::ParametersType      ParametersType;
   typedef Superclass::DerivativeType      DerivativeType;
-  typedef Superclass::MeasureType         MeasureType ;
+  typedef Superclass::MeasureType         MeasureType;
 
   PowellBoundedCostFunction()
   {
@@ -69,7 +70,7 @@ public:
     double x = parameters[0];
     double y = parameters[1];
 
-    std::cout << "      GetValue( " ;
+    std::cout << "      GetValue( ";
     std::cout << x << " ";
     std::cout << y << ") = ";
 
@@ -91,8 +92,6 @@ private:
 
 
 };
-
-
 
 int itkPowellOptimizerTest(int, char* [] )
 {
@@ -140,7 +139,7 @@ int itkPowellOptimizerTest(int, char* [] )
   catch( itk::ExceptionObject & e )
     {
     std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error ocurred during Optimization" << std::endl;
+    std::cout << "An error occurred during Optimization" << std::endl;
     std::cout << "Location    = " << e.GetLocation()    << std::endl;
     std::cout << "Description = " << e.GetDescription() << std::endl;
     return EXIT_FAILURE;
@@ -148,7 +147,7 @@ int itkPowellOptimizerTest(int, char* [] )
 
   ParametersType finalPosition = itkOptimizer->GetCurrentPosition();
   std::cout << "Solution        = (";
-  std::cout << finalPosition[0] << "," ;
+  std::cout << finalPosition[0] << ",";
   std::cout << finalPosition[1] << ")" << std::endl;
 
   //
@@ -184,6 +183,3 @@ int itkPowellOptimizerTest(int, char* [] )
 
 
 }
-
-
-

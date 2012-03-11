@@ -86,7 +86,7 @@ public:
    * The relationship between instances and class label is one-to-one */
   typedef itksys::hash_map< InstanceIdentifier, ClassLabelType > ClassLabelHolderType;
 
-  /** Typedef for each subsample that stores instance identifers of instances
+  /** Typedef for each subsample that stores instance identifiers of instances
    * that belong to a class */
   typedef Subsample< SampleType >                ClassSampleType;
   typedef typename ClassSampleType::Pointer      ClassSamplePointer;

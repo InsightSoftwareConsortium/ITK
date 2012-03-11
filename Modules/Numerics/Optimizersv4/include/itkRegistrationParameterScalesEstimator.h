@@ -60,7 +60,7 @@ public:
 
   /** Type of scales */
   typedef typename Superclass::ScalesType           ScalesType;
-  /** Type of paramters of the optimizer */
+  /** Type of parameters of the optimizer */
   typedef typename Superclass::ParametersType       ParametersType;
   /** Type of float */
   typedef typename Superclass::FloatType            FloatType;
@@ -187,7 +187,7 @@ protected:
                               const VirtualPointType &point,
                               TTargetPointType &mappedPoint);
 
-  /** Transform a point to its continous index. */
+  /** Transform a point to its continuous index. */
   template< class TContinuousIndexType > void TransformPointToContinuousIndex(
                               const VirtualPointType &point,
                               TContinuousIndexType &mappedIndex);
@@ -209,16 +209,16 @@ protected:
   /** Sample the virtual image domain and store the physical points in m_ImageSamples. */
   virtual void SampleImageDomain();
 
-  /** Sample the virutal domain with all pixels. */
+  /** Sample the virtual domain with all pixels. */
   void SampleImageDomainFully();
 
-  /** Sample the virutal domain with corners. */
+  /** Sample the virtual domain with corners. */
   void SampleImageDomainWithCorners();
 
-  /** Sample the virutal domain randomly in a uniform distribution. */
+  /** Sample the virtual domain randomly in a uniform distribution. */
   void SampleImageDomainRandomly();
 
-  /** Sample the virutal domain with voxel in the central region. */
+  /** Sample the virtual domain with voxel in the central region. */
   void SampleImageDomainWithCentralRegion();
 
   /** Sample the virtual domain with all voxels inside a region. */

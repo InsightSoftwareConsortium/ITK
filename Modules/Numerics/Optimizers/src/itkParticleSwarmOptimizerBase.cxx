@@ -368,7 +368,7 @@ ParticleSwarmOptimizerBase
         }
     }
         //if the user set an initial swarm, check that the number of parameters
-        //match and that they are inside the feasable region
+        //match and that they are inside the feasible region
   if( !this->m_Particles.empty() )
     {
     if(this->m_Particles[0].m_CurrentParameters.GetSize() != n )

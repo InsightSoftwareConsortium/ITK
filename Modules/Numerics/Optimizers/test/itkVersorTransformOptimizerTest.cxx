@@ -39,17 +39,18 @@
  *        k1 = sin( 45 degrees )
  *        k2 = cos( 45 degrees )
  *
+ * \class versorCostFunction
  */
 class versorCostFunction : public itk::SingleValuedCostFunction
 {
 public:
 
-  typedef versorCostFunction                      Self;
-  typedef itk::SingleValuedCostFunction       Superclass;
-  typedef itk::SmartPointer<Self>             Pointer;
-  typedef itk::SmartPointer<const Self>       ConstPointer;
+  typedef versorCostFunction            Self;
+  typedef itk::SingleValuedCostFunction Superclass;
+  typedef itk::SmartPointer<Self>       Pointer;
+  typedef itk::SmartPointer<const Self> ConstPointer;
 
-  typedef itk::VersorTransform<double>        TransformType;
+  typedef itk::VersorTransform<double>   TransformType;
 
   itkNewMacro( Self );
   itkTypeMacro( versorCostFunction, SingleValuedCostFunction );
@@ -177,8 +178,6 @@ private:
 
 };
 
-
-
 int itkVersorTransformOptimizerTest(int, char* [] )
 {
   std::cout << "VersorTransform Optimizer Test ";
@@ -243,13 +242,11 @@ int itkVersorTransformOptimizerTest(int, char* [] )
   catch( itk::ExceptionObject & e )
     {
     std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error ocurred during Optimization" << std::endl;
+    std::cout << "An error occurred during Optimization" << std::endl;
     std::cout << "Location    = " << e.GetLocation()    << std::endl;
     std::cout << "Description = " << e.GetDescription() << std::endl;
     return EXIT_FAILURE;
     }
-
-
 
   ParametersType finalPosition( spaceDimensions );
   finalPosition = itkOptimizer->GetCurrentPosition();
@@ -306,6 +303,3 @@ int itkVersorTransformOptimizerTest(int, char* [] )
 
 
 }
-
-
-

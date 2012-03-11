@@ -256,7 +256,7 @@ private:
   };  // end of class
 
   /** gets the sum of squared difference between the previous position
-   * and current postion of all centroid. This is the primary termination
+   * and current position of all centroid. This is the primary termination
    * condition for this algorithm. If the return value is less than
    * the value that was set by the SetCentroidPositionChangesThreshold
    * method. */
@@ -307,7 +307,7 @@ private:
   double m_CentroidPositionChangesThreshold;
   /** pointer to the k-d tree */
   typename TKdTree::Pointer m_KdTree;
-  /** pointer to the euclidean distance funtion */
+  /** pointer to the euclidean distance function */
   typename EuclideanDistanceMetric< ParameterType >::Pointer m_DistanceMetric;
 
   /** k-means */

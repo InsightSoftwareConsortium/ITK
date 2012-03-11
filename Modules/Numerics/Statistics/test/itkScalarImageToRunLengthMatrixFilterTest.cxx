@@ -126,7 +126,7 @@ int itkScalarImageToRunLengthMatrixFilterTest(int, char* [] )
 
     filter->SetOffsets( offsetV );
     filter->SetMaskImage( mask );
-    // purposedly setting the max value to max(Image)+1
+    // purposely setting the max value to max(Image)+1
     filter->SetPixelValueMinMax( 0, 3 );
     filter->SetDistanceValueMinMax( 0, 8 );
     filter->SetNumberOfBinsPerAxis( 5 );
@@ -179,7 +179,7 @@ int itkScalarImageToRunLengthMatrixFilterTest(int, char* [] )
     filter->SetOffsets( offsetV );
     filter->SetMaskImage( mask );
     filter->SetInsidePixelValue( 0 );
-    // purposedly setting the max value to max(Image)+1
+    // purposely setting the max value to max(Image)+1
     filter->SetPixelValueMinMax( 0, 3 );
     filter->SetDistanceValueMinMax( 0, 8 );
     filter->SetNumberOfBinsPerAxis( 5 );

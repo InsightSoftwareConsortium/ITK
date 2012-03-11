@@ -33,22 +33,23 @@
  *
  *   the solution is the vector | 2 -2 |
  *
+ * \class RSGCostFunction
  */
 class RSGCostFunction : public itk::SingleValuedCostFunction
 {
 public:
 
-  typedef RSGCostFunction                     Self;
-  typedef itk::SingleValuedCostFunction      Superclass;
-  typedef itk::SmartPointer<Self>            Pointer;
-  typedef itk::SmartPointer<const Self>      ConstPointer;
+  typedef RSGCostFunction               Self;
+  typedef itk::SingleValuedCostFunction Superclass;
+  typedef itk::SmartPointer<Self>       Pointer;
+  typedef itk::SmartPointer<const Self> ConstPointer;
   itkNewMacro( Self );
 
   enum { SpaceDimension=2 };
 
   typedef Superclass::ParametersType      ParametersType;
   typedef Superclass::DerivativeType      DerivativeType;
-  typedef Superclass::MeasureType         MeasureType ;
+  typedef Superclass::MeasureType         MeasureType;
 
 
   RSGCostFunction()
@@ -62,7 +63,7 @@ public:
     double x = parameters[0];
     double y = parameters[1];
 
-    std::cout << "GetValue( " ;
+    std::cout << "GetValue( ";
     std::cout << x << " ";
     std::cout << y << ") = ";
 
@@ -80,7 +81,7 @@ public:
     double x = parameters[0];
     double y = parameters[1];
 
-    std::cout << "GetDerivative( " ;
+    std::cout << "GetDerivative( ";
     std::cout << x << " ";
     std::cout << y << ") = ";
 
@@ -96,14 +97,8 @@ public:
     return SpaceDimension;
     }
 
-
-
 private:
-
-
 };
-
-
 
 int itkRegularStepGradientDescentOptimizerTest(int, char* [] )
 {
@@ -157,7 +152,7 @@ int itkRegularStepGradientDescentOptimizerTest(int, char* [] )
   catch( itk::ExceptionObject & e )
     {
     std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error ocurred during Optimization" << std::endl;
+    std::cout << "An error occurred during Optimization" << std::endl;
     std::cout << "Location    = " << e.GetLocation()    << std::endl;
     std::cout << "Description = " << e.GetDescription() << std::endl;
     return EXIT_FAILURE;
@@ -166,7 +161,7 @@ int itkRegularStepGradientDescentOptimizerTest(int, char* [] )
 
   ParametersType finalPosition = itkOptimizer->GetCurrentPosition();
   std::cout << "Solution        = (";
-  std::cout << finalPosition[0] << "," ;
+  std::cout << finalPosition[0] << ",";
   std::cout << finalPosition[1] << ")" << std::endl;
 
   //
@@ -202,7 +197,7 @@ int itkRegularStepGradientDescentOptimizerTest(int, char* [] )
   catch( itk::ExceptionObject & e )
     {
     std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error ocurred during Optimization" << std::endl;
+    std::cout << "An error occurred during Optimization" << std::endl;
     std::cout << "Location    = " << e.GetLocation()    << std::endl;
     std::cout << "Description = " << e.GetDescription() << std::endl;
     return EXIT_FAILURE;
@@ -210,7 +205,7 @@ int itkRegularStepGradientDescentOptimizerTest(int, char* [] )
 
   finalPosition = itkOptimizer->GetCurrentPosition();
   std::cout << "Solution        = (";
-  std::cout << finalPosition[0] << "," ;
+  std::cout << finalPosition[0] << ",";
   std::cout << finalPosition[1] << ")" << std::endl;
 
   //

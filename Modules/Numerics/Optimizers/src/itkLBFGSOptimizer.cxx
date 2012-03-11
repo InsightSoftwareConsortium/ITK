@@ -263,7 +263,7 @@ LBFGSOptimizer
     {
     // set current position to initial position and throw an exception
     this->SetCurrentPosition(initialPosition);
-    itkExceptionMacro(<< "Error occured in optimization");
+    itkExceptionMacro(<< "Error occurred in optimization");
     }
 
   // we scale the parameters down if scales are defined

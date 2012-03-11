@@ -134,7 +134,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** stores the pointer to the membership function.
-   * subclasses use this funtion to store their membership function
+   * subclasses use this function to store their membership function
    * object after dynamic creation */
   void SetMembershipFunction(MembershipFunctionType *function);
 

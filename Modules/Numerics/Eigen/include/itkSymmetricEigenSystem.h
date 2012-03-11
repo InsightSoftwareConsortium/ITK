@@ -74,7 +74,7 @@ public:
   /** Matrix Type */
   typedef Matrix< TMatrixElement, VNumberOfRows, VNumberOfRows > MatrixType;
 
-  /** Internal eigen sytem type. */
+  /** Internal eigen system type. */
   typedef vnl_symmetric_eigensystem< TMatrixElement > InternalEigenSystemType;
 
   /** Set/Get the target matrix for the eigen analysis */

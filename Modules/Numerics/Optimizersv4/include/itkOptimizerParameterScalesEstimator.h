@@ -49,7 +49,7 @@ public:
 
   /** Type of scales */
   typedef ObjectToObjectOptimizerBase::ScalesType        ScalesType;
-  /** Type of paramters of the optimizer */
+  /** Type of parameters of the optimizer */
   typedef ObjectToObjectOptimizerBase::ParametersType    ParametersType;
   /** Type of float */
   typedef double                                         FloatType;

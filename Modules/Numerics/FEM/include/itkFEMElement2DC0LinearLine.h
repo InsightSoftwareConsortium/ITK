@@ -101,7 +101,7 @@ protected:
 
   virtual void PopulateEdgeIds(void); // HACK:  Should PopulateEdgeIds
                                       // be const or not in this
-                                      // heirarchy. Sometimes it is,
+                                      // hierarchy. Sometimes it is,
                                       // sometimes it is not.
 
 };

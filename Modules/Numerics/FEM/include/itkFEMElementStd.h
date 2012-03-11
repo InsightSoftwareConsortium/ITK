@@ -44,7 +44,7 @@ namespace fem
  *
  *   VNumberOfSpatialDimensions - Number of dimensions of space in which the
  *                    element is defined. This is also the size of a vector
- *                    returned by GetNodeCoordinates() member funtion.
+ *                    returned by GetNodeCoordinates() member function.
  *
  *   TBaseClass - Class from which ElementStd is derived. TBaseClass must
  *                be derived from the Element base class. This enables you

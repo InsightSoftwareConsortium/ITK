@@ -19,8 +19,6 @@
 #include "itkLevenbergMarquardtOptimizer.h"
 #include "vnl/vnl_math.h"
 
-
-
 typedef vnl_matrix<double> MatrixType;
 typedef vnl_vector<double> VectorType;
 
@@ -42,6 +40,7 @@ const double rc = 29.0;
  *
  *   (x,y) values are sampled over a rectangular region
  *   whose size is defined by XRange and YRange
+ * \class LMCostFunction
  *
  */
 class LMCostFunction : public itk::MultipleValuedCostFunction
@@ -109,7 +108,7 @@ public:
         {
         const double xd = (double)x;
         double value = a * xd + b * yd + c;
-        value       -= m_TheoreticalData[valueindex];
+        value -= m_TheoreticalData[valueindex];
         m_Measure[valueindex] = value;
         valueindex++;
         }
@@ -213,8 +212,6 @@ private:
   itk::GradientEvaluationIterationEvent m_GradientEvent;
 };
 
-
-
 int itkRunLevenbergMarquardOptimization( bool useGradient,
                 double fTolerance, double gTolerance, double xTolerance,
                 double epsilonFunction, int maxIterations )
@@ -245,7 +242,7 @@ int itkRunLevenbergMarquardOptimization( bool useGradient,
   catch( itk::ExceptionObject & e )
     {
     std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error ocurred during Optimization" << std::endl;
+    std::cout << "An error occurred during Optimization" << std::endl;
     std::cout << e << std::endl;
     return EXIT_FAILURE;
     }
@@ -291,7 +288,7 @@ int itkRunLevenbergMarquardOptimization( bool useGradient,
   catch( itk::ExceptionObject & e )
     {
     std::cerr << "Exception thrown ! " << std::endl;
-    std::cerr << "An error ocurred during Optimization" << std::endl;
+    std::cerr << "An error occurred during Optimization" << std::endl;
     std::cerr << "Location    = " << e.GetLocation()    << std::endl;
     std::cerr << "Description = " << e.GetDescription() << std::endl;
     return EXIT_FAILURE;
@@ -336,8 +333,8 @@ int itkRunLevenbergMarquardOptimization( bool useGradient,
   finalPosition = optimizer->GetCurrentPosition();
 
   std::cout << "Solution        = (";
-  std::cout << finalPosition[0] << "," ;
-  std::cout << finalPosition[1] << "," ;
+  std::cout << finalPosition[0] << ",";
+  std::cout << finalPosition[1] << ",";
   std::cout << finalPosition[2] << ")" << std::endl;
 
 
@@ -372,8 +369,6 @@ int itkRunLevenbergMarquardOptimization( bool useGradient,
     {
     std::cout << "[SUCCESS]" << std::endl;
     }
-
-
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
@@ -426,8 +421,6 @@ int itkLevenbergMarquardtOptimizerTest(int argc, char* argv[] )
   std::cout << "Epsilon_Function = " << Epsilon_Function << std::endl;
   std::cout << "Max_Iterations   = " << Max_Iterations << std::endl;
 
-
-
   std::cout << std::endl;
   std::cout << std::endl;
   std::cout << "Running using the Gradient computed by vnl " << std::endl;
@@ -439,8 +432,6 @@ int itkLevenbergMarquardtOptimizerTest(int argc, char* argv[] )
     {
     return EXIT_FAILURE;
     }
-
-
 
   std::cout << std::endl;
   std::cout << std::endl;
@@ -457,6 +448,3 @@ int itkLevenbergMarquardtOptimizerTest(int argc, char* argv[] )
 
   return EXIT_SUCCESS;
 }
-
-
-

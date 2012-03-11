@@ -305,7 +305,7 @@ mpass3:
 endpass:
   /*    Choose a value for m_GScale which will make the sum-of-squares have
         the variance of Chi-Sq (TLEN), i.e., 2*TLEN.  Choose a value from
-        Chi-Sq (TLEN) using the method descibed in initnorm.
+        Chi-Sq (TLEN) using the method described in initnorm.
         The Normal variate is obtained from m_Gausssave[TLEN-1], which is
         not used by the caller.
   */

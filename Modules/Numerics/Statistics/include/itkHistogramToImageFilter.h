@@ -37,8 +37,8 @@ namespace itk
  *  The filter may be used in registration methods to plot the joint histogram
  *  after every iteration. A functor is used since it is customary to plot
  *  p log p    where p is the probability of each measurement vector
- *  p is given by Number of occurances of the measurement vector / total number
- *  of occurances of all measurement vectors.
+ *  p is given by Number of occurrences of the measurement vector / total number
+ *  of occurrences of all measurement vectors.
  *
  *  \sa HistogramToProbabilityImageFilter, HistogramToLogProbabilityImageFilter,
  *  HistogramToIntensityImageFilter, HistogramToEntropyImageFilter

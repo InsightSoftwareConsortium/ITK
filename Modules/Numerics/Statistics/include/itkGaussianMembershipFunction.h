@@ -34,7 +34,7 @@ namespace Statistics
  * Gaussian function. The mean and covariance structure of the
  * Gaussian are established using the methods SetMean() and
  * SetCovariance(). The mean is a vector-type that is the same
- * vector-type as the measurement vector but guarenteed to have a real
+ * vector-type as the measurement vector but guaranteed to have a real
  * element type. For instance, if the measurement type is an
  * Vector<int,3>, then the mean is Vector<double,3>. If the
  * measurement type is a VariableLengthVector<float>, then the mean is

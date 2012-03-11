@@ -648,7 +648,7 @@ public:
    * and they will be computed automatically.
    *
    * \param pt Point in local coordinates
-   * \param J referece to matrix object, which will contain the jacobian
+   * \param J reference to matrix object, which will contain the jacobian
    * \param pshapeD A pointer to derivatives of shape functions at point pt.
    *                If this pointer is 0, derivatives will be computed as
    *                necessary.

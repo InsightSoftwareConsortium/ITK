@@ -72,7 +72,7 @@ int Partition(TSubsample *sample,
  * considered. This component is defined by the argument activeDimension. The
  * search is rectricted to the range between the index begin and end, also
  * passed as arguments. In this version, a guess value for the median index is
- * provided in the argument medianGuess. The algoritm returns the value of the
+ * provided in the argument medianGuess. The algorithm returns the value of the
  * activeDimension component in the MeasurementVector located in the kth position.
  * http://en.wikipedia.org/wiki/Selection_algorithm */
 template< class TSubsample >

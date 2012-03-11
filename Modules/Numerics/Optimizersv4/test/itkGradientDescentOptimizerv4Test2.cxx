@@ -36,10 +36,10 @@ class GradientDescentOptimizerv4Test2Metric
 {
 public:
 
-  typedef GradientDescentOptimizerv4Test2Metric   Self;
-  typedef itk::ObjectToObjectMetric                   Superclass;
-  typedef itk::SmartPointer<Self>                     Pointer;
-  typedef itk::SmartPointer<const Self>               ConstPointer;
+  typedef GradientDescentOptimizerv4Test2Metric Self;
+  typedef itk::ObjectToObjectMetric             Superclass;
+  typedef itk::SmartPointer<Self>               Pointer;
+  typedef itk::SmartPointer<const Self>         ConstPointer;
   itkNewMacro( Self );
   itkTypeMacro( GradientDescentOptimizerv4Test2Metric, ObjectToObjectMetric );
 
@@ -172,7 +172,7 @@ int itkGradientDescentOptimizerv4Test2(int, char* [] )
   catch( itk::ExceptionObject & e )
     {
     std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error ocurred during Optimization" << std::endl;
+    std::cout << "An error occurred during Optimization" << std::endl;
     std::cout << "Location    = " << e.GetLocation()    << std::endl;
     std::cout << "Description = " << e.GetDescription() << std::endl;
     return EXIT_FAILURE;

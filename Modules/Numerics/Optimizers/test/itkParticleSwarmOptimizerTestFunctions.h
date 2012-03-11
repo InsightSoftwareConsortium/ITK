@@ -30,7 +30,7 @@
  * at 0:
  * f(x) = if(x<0) x^2+4x; else 2x^2-8x
  *
- * Minima are at -2 and 2 with function values of -4 and -8 respectivly.
+ * Minima are at -2 and 2 with function values of -4 and -8 respectively.
  */
 class ParticleSwarmTestF1 : public itk::SingleValuedCostFunction
 {
