@@ -37,7 +37,7 @@ namespace itk
  * \sa CanStreamWrite CanStreamRead
  * GenerateStreamableReadRegionFromRequestedRegion GetActualNumberOfSplitsForWriting
  *
- * Additionaly low level IO methods are provided to read and write an IORegion from
+ * Additionally low level IO methods are provided to read and write an IORegion from
  * a file.
  * \sa StreamReadBufferAsBinary StreamWriteBufferAsBinary
  *

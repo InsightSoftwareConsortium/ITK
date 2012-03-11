@@ -554,7 +554,7 @@ std::string PhilipsPAR::GetGeneralInfoString(std::string file, int lineNum)
 
 #define UNDEFINED "Undefined"
 
-// Orignally adapted from r2agui.m
+// Originally adapted from r2agui.m
 void PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter *pPar)
 {
   std::string        temp = "";
@@ -1699,7 +1699,7 @@ void PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter *pPar)
       {
       pPar->problemreading = 1;
       std::ostringstream message;
-      message << "ReadPAR: Unkown PAR version";
+      message << "ReadPAR: Unknown PAR version";
       ExceptionObject exception(__FILE__, __LINE__,
                                 message.str(),
                                 ITK_LOCATION);

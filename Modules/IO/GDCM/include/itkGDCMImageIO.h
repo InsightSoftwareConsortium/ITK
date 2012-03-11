@@ -48,7 +48,7 @@ namespace itk
  *    http://www.creatis.insa-lyon.fr/site/en
  *
  * Using the CMake variable: ITK_USE_SYSTEM_GDCM it is now possible to use a system installed
- * GDCM 2.x release. GDCM 2.x is now being developped on sourceforge.net :
+ * GDCM 2.x release. GDCM 2.x is now being developed on sourceforge.net :
  *
  *         http://gdcm.sourceforge.net
  *
@@ -61,7 +61,7 @@ namespace itk
  * http://sourceforge.net/apps/mediawiki/gdcm/index.php?title=GDCM_Release_2.0
  *
  *  \warning There are several restrictions to this current writer:
- *           -  Eventhough during the writing process you pass in a DICOM file as input
+ *           -  Even though during the writing process you pass in a DICOM file as input
  *              The output file may not contains ALL DICOM field from the input file.
  *              In particular:
  *                             - The SeQuence DICOM field (SQ).
@@ -120,7 +120,7 @@ public:
    * file specified. GDCM triggers on ".dcm" and ".dicom". */
   virtual bool CanWriteFile(const char *);
 
-  /** Writes the spacing and dimentions of the image.
+  /** Writes the spacing and dimensions of the image.
    * Assumes SetFileName has been called with a valid file name. */
   virtual void WriteImageInformation();
 

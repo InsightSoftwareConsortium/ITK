@@ -77,7 +77,7 @@ public:
    * file specified. */
   virtual bool CanWriteFile(const char *);
 
-  /** Writes the spacing and dimentions of the image.
+  /** Writes the spacing and dimensions of the image.
    * Assumes SetFileName has been called with a valid file name. */
   virtual void WriteImageInformation();
 
@@ -113,7 +113,7 @@ public:
     // This If block isn't strictly necessary:
     // SetCompression(true); would be sufficient.  However, it reads strangely
     // for SetCompression(NoCompression) to then set SetCompression(true).
-    // Doing it this way is probaly also less likely to break in the future.
+    // Doing it this way is probably also less likely to break in the future.
     if ( compression == NoCompression )
       {
       this->SetUseCompression(false); // this is for the ImageIOBase class

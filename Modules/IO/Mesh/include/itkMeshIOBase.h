@@ -127,7 +127,7 @@ public:
     * to the IO mechanisms for data conversions.  PixelTypes can be
     * SCALAR, RGB, RGBA, VECTOR, COVARIANTVECTOR, POINT, INDEX. If
     * the PIXELTYPE is SCALAR, then the NumberOfComponents should be 1.
-    * Anyother of PIXELTYPE will have more than one component. */
+    * Any other of PIXELTYPE will have more than one component. */
   itkSetEnumMacro(PointPixelType, IOPixelType);
   itkGetEnumMacro(PointPixelType, IOPixelType);
   itkSetEnumMacro(CellPixelType, IOPixelType);

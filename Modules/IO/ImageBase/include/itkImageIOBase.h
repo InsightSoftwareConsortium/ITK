@@ -165,7 +165,7 @@ public:
    * to the IO mechanisms for data conversions.  PixelTypes can be
    * SCALAR, RGB, RGBA, VECTOR, COVARIANTVECTOR, POINT, INDEX. If
    * the PIXELTYPE is SCALAR, then the NumberOfComponents should be 1.
-   * Anyother of PIXELTYPE will have more than one component. */
+   * Any other of PIXELTYPE will have more than one component. */
   itkSetEnumMacro(PixelType, IOPixelType);
   itkGetEnumMacro(PixelType, IOPixelType);
 
@@ -315,7 +315,7 @@ public:
     return false;
   }
 
-  /** Read the spacing and dimentions of the image.
+  /** Read the spacing and dimensions of the image.
    * Assumes SetFileName has been called with a valid file name. */
   virtual void ReadImageInformation() = 0;
 
@@ -339,7 +339,7 @@ public:
     return false;
   }
 
-  /** Writes the spacing and dimentions of the image.
+  /** Writes the spacing and dimensions of the image.
    * Assumes SetFileName has been called with a valid file name. */
   virtual void WriteImageInformation() = 0;
 
@@ -378,13 +378,13 @@ public:
    * that is Streaming/PasteRegion/Compression/Filename etc
    * If pasting is being used the number of requested splits is for that
    * region not the largest. The derived ImageIO class should verify that
-   * the file is capable of being writen with this configuration.
+   * the file is capable of being written with this configuration.
    * If pasted is enabled and is not support or does not work with the file,
    * then an excepetion should be thrown.
    *
    * The default implementation depends on CanStreamWrite.
    * If false then 1 is returned (unless pasting is indicated), so that the whole file will be updated in one region.
-   * If true then its assumed that any arbitrary region can be writen
+   * If true then its assumed that any arbitrary region can be written
    * to any file. So the users request will be respected. If a derived
    * class has more restictive conditions then they should be checked
    */

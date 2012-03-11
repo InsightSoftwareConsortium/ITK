@@ -234,7 +234,7 @@ enum GE_4X_IMAGEHDR_OFFSET
   SIGNA_IMHDR_ICC = 159,             /*  Images per Cardiac Cycle (single scan only) */
   SIGNA_IMHDR_TOTAL_RR = 160,        /*  Number of RR's during the Scan */
   SIGNA_IMHDR_TRANS_DB = 162,        /*  Transmit attenuator setting .1 dB */
-  SIGNA_IMHDR_REC_DB = 163,          /*  Recieve attenuator setting .1dB */
+  SIGNA_IMHDR_REC_DB = 163,          /*  Receive attenuator setting .1dB */
   SIGNA_IMHDR_FIELD = 164,           /*  Magnetic Field Strength 10 microgauss */
   SIGNA_IMHDR_OFFSET = 166,          /*  Image offset - frequency/phase offset [-256...256] */
   SIGNA_IMHDR_DELAY = 167,           /*  Inter image/inter location delay - ms between excitation pulses within RR interval */

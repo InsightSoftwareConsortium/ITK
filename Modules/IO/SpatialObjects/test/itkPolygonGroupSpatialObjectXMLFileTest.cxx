@@ -25,9 +25,9 @@ static float strandPoints[11][2] =
     {1,1},{1,2},{1.25,2},{1.25,1.25},{1.75,1.25},
     {1.75,1.5},{1.5,1.5},{1.5,2},{2,2},{2,1},{1,1}
   };
-typedef itk::PolygonSpatialObject<3> Polygon3DType;
+typedef itk::PolygonSpatialObject<3>      Polygon3DType;
 typedef itk::PolygonGroupSpatialObject<3> PolygonGroup3DType;
-typedef PolygonGroup3DType::Pointer PolygonGroup3DPointer;
+typedef PolygonGroup3DType::Pointer       PolygonGroup3DPointer;
 
 int
 buildPolygonGroup(PolygonGroup3DPointer &PolygonGroup)
@@ -134,7 +134,7 @@ int testPolygonGroupEquivalence(PolygonGroup3DPointer &p1,
         {
         //Just a silly test to make sure that the positions returned are valid
         std::cerr << "Error: both points should have the same value: " <<  curpoint1 << " and " << curpoint2 << std::endl;
-        //This should never happen in htis test.
+        //This should never happen in this test.
         return EXIT_FAILURE;
         }
       pointIt1++;

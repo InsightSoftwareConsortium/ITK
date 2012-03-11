@@ -79,7 +79,7 @@ int testMetaCommand(int argc, char * argv[])
     {
     if(command.GetValueAsInt("ExpectedFailStatus","ExpectedFailStatus") == 1)
       {
-      std::cout << "Expected parse failure, so test succeded" << std::endl;
+      std::cout << "Expected parse failure, so test succeeded" << std::endl;
       return 0;
       }
     }

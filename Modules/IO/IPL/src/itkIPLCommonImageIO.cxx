@@ -250,7 +250,7 @@ void IPLCommonImageIO::ReadImageInformation()
   this->m_ImageHeader = this->ReadHeader( FileNameToRead.c_str() );
   //
   // if anything fails in the header read, just let
-  // exceptions propogate up.
+  // exceptions propagate up.
 
   bool isCT = false;
   std::string modality = m_ImageHeader->modality;

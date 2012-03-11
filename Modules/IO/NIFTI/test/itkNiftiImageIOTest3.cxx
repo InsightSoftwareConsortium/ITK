@@ -43,7 +43,7 @@ TestImageOfVectors(const std::string &fname)
   // E F G 0
   // 0 0 0 1
   // anything in the 4th dimension that didn't follow that form would just come up scrambled.
-  //NOTE: Nifti only reports upto 3D images correctly for direction cosigns.  It is implicitly assumed
+  //NOTE: Nifti only reports up to 3D images correctly for direction cosigns.  It is implicitly assumed
   //      that the direction for dimensions 4 or greater come diagonal elements including a 1 in the
   //      direction matrix.
   const typename VectorImageType::DirectionType myDirection = PreFillDirection<TDimension>();

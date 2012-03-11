@@ -158,7 +158,7 @@ int itkGDCMSeriesStreamReadImageWrite( int argc, char* argv[] )
 
   ImageType::SpacingType spacing = reader->GetOutput()->GetSpacing();
 
-  // we only give 4 bits of tolerence, IEEE float a 24-bit mantissa
+  // we only give 4 bits of tolerance, IEEE float a 24-bit mantissa
   const double percentTolerance = 1.0 / double ( (unsigned int)(1) << 18);
 
   if (!IsEqualTolerant(spacing[0], expectedSpacing[0], percentTolerance) ||

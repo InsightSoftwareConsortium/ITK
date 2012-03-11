@@ -425,7 +425,7 @@ void JPEGImageIO::WriteImageInformation(void)
 
 void JPEGImageIO::Write(const void *buffer)
 {
-  // the IORegion is not requred to be set so we must use GetNumberOfDimensions
+  // the IORegion is not required to be set so we must use GetNumberOfDimensions
   if ( this->GetNumberOfDimensions() != 2 )
     {
     itkExceptionMacro(<< "JPEG Writer can only write 2-dimensional images");

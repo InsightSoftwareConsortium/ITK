@@ -569,7 +569,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
   output->Initialize();
   output->SetBufferedRegion( output->GetRequestedRegion() );
 
-  // Test existance and readability of input file
+  // Test existence and readability of input file
   try
     {
     m_ExceptionMessage = "";
