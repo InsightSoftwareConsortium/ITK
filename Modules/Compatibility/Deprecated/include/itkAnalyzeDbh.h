@@ -203,7 +203,7 @@ struct header_key              /*      header_key       */
   /*39 + 1 */char hkey_un0;          /**< Unused field for future expansion. */
 };/* total=40  */
   /**
-   * \struct image_dimension struct decribes the organization and
+   * \struct image_dimension struct describes the organization and
    *    size of images. These elements enable IO routines to reference
    *    images by volume and slice number.
    * - (c) Copyright, 1986-1995
@@ -301,7 +301,7 @@ and pixdim[1..7] are the actual pixdims.
 struct data_history   /* data_history     */
 {/*off + size*/
   /*0 + 80  */char descrip[80];   /**<  A place to put a short description of the data */
-  /*80 + 24 */char aux_file[24];  /**<  A place to put the name of an auxillary file to
+  /*80 + 24 */char aux_file[24];  /**<  A place to put the name of an auxiliary file to
                                       use instead of the default .img file.  This
                                       is not currently used by the Analyze program. */
   /*104 + 1 */char orient;        /**< The 'orient' field in the data_history structure specifies the primary
@@ -350,7 +350,7 @@ where:
   /*105 + 10*/char originator[10];/**< The person or group that generated this image */
   /*115 + 10*/char generated[10]; /**< The date the image was generated. */
   /*125 + 10*/char scannum[10];   /**< An instituion independent identifier for the image */
-  /*135 + 10*/char patient_id[10];/**< An instituion independant identifier for the subject of the scan */
+  /*135 + 10*/char patient_id[10];/**< An instituion independent identifier for the subject of the scan */
   /*145 + 10*/char exp_date[10];  /**< Experiment date - these were used for DSR experiments */
   /*155 + 10*/char exp_time[10];  /**< Experiment time - these were used for DSR experiments */
   /*165 + 3 */char hist_un0[3];   /**< Unused padding of the structure */

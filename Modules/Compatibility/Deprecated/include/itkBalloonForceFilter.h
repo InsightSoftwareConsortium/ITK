@@ -148,7 +148,7 @@ public:
 
   void ComputeOutput();
 
-  void NodeAddition(int i, int res, IPixelType z); // (folowing 3) for adding
+  void NodeAddition(int i, int res, IPixelType z); // (following 3) for adding
                                                    // new nodes, now disabled
                                                    // for further tests
 

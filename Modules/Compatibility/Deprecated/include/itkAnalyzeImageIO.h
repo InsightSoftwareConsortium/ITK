@@ -61,7 +61,7 @@ namespace itk
    *             - 24 bit RGB, 8 bits per channel
    *    - a header file  ([basename].hdr)
    *          This a 348 byte file 99.99% of all images that contains a binary represenation of the C-struct
-   *          defined in this file.  The analyze 7.5 header structure may, however, be extended beyond this minimal defintion
+   *          defined in this file.  The analyze 7.5 header structure may, however, be extended beyond this minimal definition
    *          to encompase site specific information, and would have more than 348 bytes.  Given that the
    *          ability to extend the header has rarely been used, this implementation of the Analyze 7.5
    *          file will only read the first 348 bytes into the structure defined in this file, and all informaiton beyond the
