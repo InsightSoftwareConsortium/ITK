@@ -51,8 +51,8 @@ class HistogramProbabilityFunction
 {
 public:
 
-  //Probability function = Number of occurances in each bin /
-  //   Total Number of occurances.
+  //Probability function = Number of occurrences in each bin /
+  //   Total Number of occurrences.
   //
   // Returns pixels of float..
   typedef  TOutput OutputPixelType;

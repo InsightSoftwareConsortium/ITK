@@ -23,8 +23,6 @@
 #include "vnl/vnl_math.h"
 #include <iostream>
 
-
-
 /**
  *  The objective function is the quadratic form:
  *
@@ -43,6 +41,7 @@
  *
  *   and the expected final value of the function is 10.0
  *
+ * \class amoebaTestF1
  */
 class amoebaTestF1 : public itk::SingleValuedCostFunction
 {
@@ -65,15 +64,15 @@ public:
   typedef vnl_matrix<double>                      MatrixType;
 
 
-  amoebaTestF1():m_A(SpaceDimension,SpaceDimension),m_b(SpaceDimension)
+  amoebaTestF1():m_A(SpaceDimension,SpaceDimension),m_B(SpaceDimension)
    {
     m_A[0][0] =  3;
     m_A[0][1] =  2;
     m_A[1][0] =  2;
     m_A[1][1] =  6;
 
-    m_b[0]    =  2;
-    m_b[1]    = -8;
+    m_B[0]    =  2;
+    m_B[1]    = -8;
     m_Negate = false;
     }
 
@@ -87,7 +86,7 @@ public:
       }
     VectorType Av = m_A * v;
     double val = ( inner_product<double>( Av , v ) )/2.0;
-    val -= inner_product< double >( m_b , v );
+    val -= inner_product< double >( m_B , v );
     if( m_Negate )
       {
       val *= -1.0;
@@ -105,7 +104,7 @@ public:
       v[i] = parameters[i];
       }
     std::cout << "GetDerivative( " << v << " ) = ";
-    VectorType gradient = m_A * v  - m_b;
+    VectorType gradient = m_A * v  - m_B;
     std::cout << gradient << std::endl;
     derivative = DerivativeType(SpaceDimension);
     for(unsigned int i=0; i<SpaceDimension; i++)
@@ -134,7 +133,7 @@ public:
 
 private:
   MatrixType        m_A;
-  VectorType        m_b;
+  VectorType        m_B;
   bool              m_Negate;
 };
 
@@ -144,7 +143,7 @@ private:
  * at 0:
  * f(x) = if(x<0) x^2+4x; else 2x^2-8x
  *
- * Minima are at -2 and 2 with function values of -4 and -8 respectivly.
+ * Minima are at -2 and 2 with function values of -4 and -8 respectively.
  */
 class amoebaTestF2 : public itk::SingleValuedCostFunction
 {
@@ -191,14 +190,12 @@ public:
     }
 };
 
-
-
 class CommandIterationUpdateAmoeba : public itk::Command
 {
 public:
   typedef  CommandIterationUpdateAmoeba   Self;
-  typedef  itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
+  typedef  itk::Command                   Superclass;
+  typedef itk::SmartPointer<Self>         Pointer;
   itkNewMacro( Self );
 
   void Reset() { m_IterationNumber = 0; }
@@ -229,10 +226,6 @@ private:
   unsigned long m_IterationNumber;
 };
 
-
-
-
-
 /**
  * Test Amoeba with a 2D quadratic function - happy day scenario.
  */
@@ -259,8 +252,6 @@ int itkAmoebaOptimizerTest(int, char* [] )
   std::cout<<"[SUCCESS]\n";
   return EXIT_SUCCESS;
 }
-
-
 
 int AmoebaTest1()
 {
@@ -316,7 +307,7 @@ int AmoebaTest1()
   catch( itk::ExceptionObject & e )
     {
     std::cerr << "Exception thrown ! " << std::endl;
-    std::cerr << "An error ocurred during Optimization" << std::endl;
+    std::cerr << "An error occurred during Optimization" << std::endl;
     std::cerr << "Location    = " << e.GetLocation()    << std::endl;
     std::cerr << "Description = " << e.GetDescription() << std::endl;
     std::cerr <<"[TEST 1 FAILURE]\n";
@@ -403,7 +394,7 @@ int AmoebaTest1()
   catch( itk::ExceptionObject & e )
     {
     std::cerr << "Exception thrown ! " << std::endl;
-    std::cerr << "An error ocurred during Optimization" << std::endl;
+    std::cerr << "An error occurred during Optimization" << std::endl;
     std::cerr << "Location    = " << e.GetLocation()    << std::endl;
     std::cerr << "Description = " << e.GetDescription() << std::endl;
     std::cerr <<"[TEST 1 FAILURE]\n";
@@ -444,8 +435,6 @@ int AmoebaTest1()
   std::cout<<"[TEST 1 SUCCESS]\n";
   return EXIT_SUCCESS;
 }
-
-
 
 int AmoebaTest2()
 {
@@ -494,7 +483,7 @@ int AmoebaTest2()
   catch( itk::ExceptionObject & e )
     {
     std::cerr << "Exception thrown ! " << std::endl;
-    std::cerr << "An error ocurred during Optimization" << std::endl;
+    std::cerr << "An error occurred during Optimization" << std::endl;
     std::cerr << "Location    = " << e.GetLocation()    << std::endl;
     std::cerr << "Description = " << e.GetDescription() << std::endl;
     std::cerr <<"[TEST 2 FAILURE]\n";
@@ -526,7 +515,7 @@ int AmoebaTest2()
   catch( itk::ExceptionObject & e )
     {
     std::cerr << "Exception thrown ! " << std::endl;
-    std::cerr << "An error ocurred during Optimization" << std::endl;
+    std::cerr << "An error occurred during Optimization" << std::endl;
     std::cerr << "Location    = " << e.GetLocation()    << std::endl;
     std::cerr << "Description = " << e.GetDescription() << std::endl;
     std::cerr <<"[TEST 2 FAILURE]\n";

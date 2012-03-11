@@ -27,7 +27,7 @@ template< class TMetric >
 RegistrationParameterScalesEstimator< TMetric >
 ::RegistrationParameterScalesEstimator()
 {
-  // estimate paramter scales of the moving transform
+  // estimate parameter scales of the moving transform
   m_TransformForward = true;
 
   // number for random sampling

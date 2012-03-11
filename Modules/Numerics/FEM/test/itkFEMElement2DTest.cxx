@@ -277,7 +277,7 @@ int itkFEMElement2DTest(int argc, char *argv[])
       PrintF1(solver, s);
       PrintNodalCoordinates1(solver, s);
 
-      // itkpack and VNLDense solvers are senstive to slight numerical
+      // itkpack and VNLDense solvers are sensitive to slight numerical
       // instabilities on windows. Ignore results for this FE problem
       if ( ( modelFile == "tri3-q.meta" ) && ((s == 2) || (s == 1)) )
         {

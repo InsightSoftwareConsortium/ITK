@@ -219,7 +219,7 @@ public:
    */
   virtual bool IsSolutionInitialized(unsigned int solutionIndex = 0) = 0;
 
-  /** Free teh mememory from a solution vector
+  /** Free the memory from a solution vector
    * \param solutionIndex index of solution vector to destroy
    */
   virtual void DestroySolution(unsigned int solutionIndex = 0) = 0;
@@ -253,7 +253,7 @@ public:
   /**
    * Returns the column index (zero based) of the i-th non zero
    * (non allocated)element in a given row of A matrix. This function
-   * is usefull for optimizations when sparse matrices are used. Note
+   * is useful for optimizations when sparse matrices are used. Note
    * that the value of an element with returned column index may actually
    * be equal zero.
    * \param row Row number

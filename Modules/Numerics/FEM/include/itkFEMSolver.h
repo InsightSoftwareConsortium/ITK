@@ -36,7 +36,7 @@ namespace fem
  * \brief FEM solver used to generate a solution for a FE formulation.
  *
  * This class will solve the FE formulation provided in an FEMObject.
- * The FEMObject containes the Elements, Material properties, Loads,
+ * The FEMObject contains the Elements, Material properties, Loads,
  * and boundary conditions for the FE problem. The user can define
  * properties of the solver including the time step using the
  * SetTimeStep() method and the numerical solver via the

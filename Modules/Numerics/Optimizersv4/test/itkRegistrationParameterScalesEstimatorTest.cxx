@@ -123,7 +123,7 @@ public:
 
   /** Type of scales */
   typedef typename Superclass::ScalesType                ScalesType;
-  /** Type of paramters of the optimizer */
+  /** Type of parameters of the optimizer */
   typedef typename Superclass::ParametersType            ParametersType;
   /** Type of float */
   typedef typename Superclass::FloatType                 FloatType;

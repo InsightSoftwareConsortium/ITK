@@ -38,6 +38,7 @@
  *
  *   the solution is the vector | 4/3 -1 |
  *
+ * \class LBFGSBCostFunction
  */
 class LBFGSBCostFunction : public itk::SingleValuedCostFunction
 {
@@ -233,7 +234,7 @@ int itkLBFGSBOptimizerTest(int, char *[])
   catch( itk::ExceptionObject & e )
     {
     std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error ocurred during Optimization" << std::endl;
+    std::cout << "An error occurred during Optimization" << std::endl;
     std::cout << "Location    = " << e.GetLocation()    << std::endl;
     std::cout << "Description = " << e.GetDescription() << std::endl;
     return EXIT_FAILURE;

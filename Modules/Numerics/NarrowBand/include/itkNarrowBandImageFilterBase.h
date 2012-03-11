@@ -247,7 +247,7 @@ protected:
   virtual void Initialize();
 
   /** This method check the narrow band state each iteration and reinitialize
-      the narrow band if it is appropiate calling CreateNarrowBand and
+      the narrow band if it is appropriate calling CreateNarrowBand and
       SplitRegions to pre-partion the band for multi-threading.
   */
   virtual void InitializeIteration();
@@ -294,7 +294,7 @@ private:
 
   /* This class does not use AllocateUpdateBuffer to allocate memory for its
    * narrow band. This is taken care of in SetNarrowBand, and InsertNarrowBandNode
-   * functions. This function is here for compatability with the
+   * functions. This function is here for compatibility with the
    * FiniteDifferenceSolver framework.
    */
   virtual void AllocateUpdateBuffer() {}

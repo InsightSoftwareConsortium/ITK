@@ -79,7 +79,7 @@ public:
   typedef std::vector< MeasurementVectorType > InternalDataContainerType;
 
   /** Resize the container. Using Resize() and then SetMeasurementVector() is
-   * about nine times faster than usign PushBack() continously. Which means that
+   * about nine times faster than usign PushBack() continuously. Which means that
    * whenever the total number of Measurement vectors is known, the users
    * should prefer calling Resize() first and then set the values by calling
    * SetMeasurementVector(). On the other hand, if the number of measurement

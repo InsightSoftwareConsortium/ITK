@@ -44,6 +44,7 @@
  *       P =
  *       Q =
  *
+ * \class versorRigid3DCostFunction
  *
  */
 class versorRigid3DCostFunction : public itk::SingleValuedCostFunction
@@ -125,7 +126,7 @@ public:
     PointType Q2 = m_Transform->TransformPoint( m_Q1 );
 
     MeasureType measure = P2.SquaredEuclideanDistanceTo( m_P ) +
-                          Q2.SquaredEuclideanDistanceTo( m_Q ) ;
+                          Q2.SquaredEuclideanDistanceTo( m_Q );
 
     return measure;
   }
@@ -213,17 +214,13 @@ public:
 private:
 
   mutable   TransformType::Pointer  m_Transform;
+
   PointType   m_P;
   PointType   m_Q;
   PointType   m_P1;
   PointType   m_Q1;
 
 };
-
-
-
-
-
 
 int itkVersorRigid3DTransformOptimizerTest(int, char* [] )
 {
@@ -301,13 +298,11 @@ int itkVersorRigid3DTransformOptimizerTest(int, char* [] )
   catch( itk::ExceptionObject & e )
     {
     std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error ocurred during Optimization" << std::endl;
+    std::cout << "An error occurred during Optimization" << std::endl;
     std::cout << "Location    = " << e.GetLocation()    << std::endl;
     std::cout << "Description = " << e.GetDescription() << std::endl;
     return EXIT_FAILURE;
     }
-
-
 
   ParametersType finalPosition( parametersDimensions );
   finalPosition = itkOptimizer->GetCurrentPosition();
@@ -379,6 +374,3 @@ int itkVersorRigid3DTransformOptimizerTest(int, char* [] )
 
 
 }
-
-
-

@@ -260,7 +260,7 @@ RegistrationParameterScalesFromShift< TMetric >
   return maxShift;
 }
 
-/** The templated method of compute the sample shifts in continous index.
+/** The templated method of compute the sample shifts in continuous index.
  *  The template argument TTransform may be either MovingTransformType or
  *  FixedTransformType.
  */

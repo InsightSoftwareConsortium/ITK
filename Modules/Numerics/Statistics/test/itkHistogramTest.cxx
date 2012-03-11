@@ -610,7 +610,7 @@ int itkHistogramTest(int, char* [] )
 
 
   //
-  // Excercise GetIndex() method in the iterator.
+  // Exercise GetIndex() method in the iterator.
   //
   std::cout << "TEST GetIndex() and GetFrequency() in the iterator" << std::endl;
   itr = histogram->Begin();

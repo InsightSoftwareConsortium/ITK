@@ -487,7 +487,7 @@ extern int eqrt1s_(doublereal *d__, doublereal *e2, integer *nn, integer *m, int
 extern integer ipstr_(doublereal *omega);
 
 /**
- * This routine produces teh iteration summary line at the end of each iteration
+ * This routine produces the iteration summary line at the end of each iteration
  * if level = 5, the latest approx to the solution is printed
  * \param nn order of system
  * \param a iteration matrix

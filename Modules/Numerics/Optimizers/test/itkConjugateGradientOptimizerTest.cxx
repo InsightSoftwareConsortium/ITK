@@ -36,12 +36,13 @@
  *
  *   the solution is the vector | 2 -2 |
  *
+ * \class conjugateCostFunction
  */
 class conjugateCostFunction : public itk::SingleValuedCostFunction
 {
 public:
 
-  typedef conjugateCostFunction                    Self;
+  typedef conjugateCostFunction             Self;
   typedef itk::SingleValuedCostFunction     Superclass;
   typedef itk::SmartPointer<Self>           Pointer;
   typedef itk::SmartPointer<const Self>     ConstPointer;
@@ -56,14 +57,12 @@ public:
   typedef vnl_vector<double>                      VectorType;
   typedef vnl_matrix<double>                      MatrixType;
 
-  typedef double MeasureType ;
+  typedef double MeasureType;
 
 
   conjugateCostFunction()
   {
   }
-
-
 
   double GetValue( const ParametersType & position ) const
   {
@@ -71,7 +70,7 @@ public:
     double x = position[0];
     double y = position[1];
 
-    std::cout << "GetValue ( " ;
+    std::cout << "GetValue ( ";
     std::cout << x << " , " << y;
     std::cout << ") = ";
 
@@ -82,8 +81,6 @@ public:
     return val;
   }
 
-
-
   void GetDerivative( const ParametersType & position,
                             DerivativeType & derivative ) const
   {
@@ -91,14 +88,14 @@ public:
     double x = position[0];
     double y = position[1];
 
-    std::cout << "GetDerivative ( " ;
+    std::cout << "GetDerivative ( ";
     std::cout << x << " , " << y;
     std::cout << ") = ";
 
     derivative = DerivativeType(SpaceDimension);
     derivative[0] = 3*x + 2*y -2;
     derivative[1] = 2*x + 6*y +8;
-    std::cout << "(" ;
+    std::cout << "(";
     std::cout << derivative[0] <<" , ";
     std::cout << derivative[1] << ")" << std::endl;
   }
@@ -117,8 +114,8 @@ class CommandIterationUpdateConjugateGradient : public itk::Command
 {
 public:
   typedef  CommandIterationUpdateConjugateGradient   Self;
-  typedef  itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
+  typedef  itk::Command                              Superclass;
+  typedef itk::SmartPointer<Self>                    Pointer;
   itkNewMacro( Self );
 protected:
   CommandIterationUpdateConjugateGradient()
@@ -127,7 +124,7 @@ protected:
   }
 public:
   typedef itk::ConjugateGradientOptimizer   OptimizerType;
-  typedef   const OptimizerType   *    OptimizerPointer;
+  typedef   const OptimizerType   *         OptimizerPointer;
 
   void Execute(itk::Object *caller, const itk::EventObject & event)
     {
@@ -164,8 +161,6 @@ int itkConjugateGradientOptimizerTest(int, char* [] )
   typedef  itk::ConjugateGradientOptimizer  OptimizerType;
 
   typedef  OptimizerType::InternalOptimizerType  vnlOptimizerType;
-
-
 
   // Declaration of a itkOptimizer
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
@@ -220,7 +215,7 @@ int itkConjugateGradientOptimizerTest(int, char* [] )
   catch( itk::ExceptionObject & e )
     {
     std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error ocurred during Optimization" << std::endl;
+    std::cout << "An error occurred during Optimization" << std::endl;
     std::cout << "Location    = " << e.GetLocation()    << std::endl;
     std::cout << "Description = " << e.GetDescription() << std::endl;
     return EXIT_FAILURE;
@@ -243,7 +238,7 @@ int itkConjugateGradientOptimizerTest(int, char* [] )
   finalPosition = itkOptimizer->GetCurrentPosition();
 
   std::cout << "Solution        = (";
-  std::cout << finalPosition[0] << "," ;
+  std::cout << finalPosition[0] << ",";
   std::cout << finalPosition[1] << ")" << std::endl;
 
   bool pass = true;
@@ -278,6 +273,3 @@ int itkConjugateGradientOptimizerTest(int, char* [] )
 
 
 }
-
-
-

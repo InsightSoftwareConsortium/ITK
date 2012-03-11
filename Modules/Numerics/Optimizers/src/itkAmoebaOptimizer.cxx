@@ -130,7 +130,7 @@ AmoebaOptimizer
 {
        //call our ancestors SetCostFunction, we are overriding it - this would
        //be the correct thing to do so that the GetCostFunction() would work
-       //correctly. Unfortunatly, there is a side effect to
+       //correctly. Unfortunately, there is a side effect to
        //this function call, it also sets the scales to one if they haven't been
        //initialized yet. This causes the optimization to use the scales which
        //only increases the computationaly complexity without any benefit.

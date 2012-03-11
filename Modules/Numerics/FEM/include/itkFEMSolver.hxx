@@ -322,7 +322,7 @@ Solver<VDimension>
         }
 
       /**
-       * Here we finaly update the corresponding element
+       * Here we finally update the corresponding element
        * in the master stiffness matrix. We first check if
        * element in Le is zero, to prevent zeros from being
        * allocated in sparse matrix.
@@ -361,7 +361,7 @@ Solver<VDimension>
         }
 
       /**
-       * Here we finaly update the corresponding element
+       * Here we finally update the corresponding element
        * in the master stiffness matrix. We first check if
        * element in Ke is zero, to prevent zeros from being
        * allocated in sparse matrix.

@@ -37,22 +37,23 @@
  *
  *   the solution is the vector | 2 -2 |
  *
+ * \class RSGCostFunction
  */
-class RSGCostFunction : public itk::SingleValuedCostFunction
+class  RSGCostFunction : public itk::SingleValuedCostFunction
 {
 public:
 
-  typedef RSGCostFunction                     Self;
-  typedef itk::SingleValuedCostFunction      Superclass;
-  typedef itk::SmartPointer<Self>            Pointer;
-  typedef itk::SmartPointer<const Self>      ConstPointer;
+  typedef RSGCostFunction                 Self;
+  typedef itk::SingleValuedCostFunction   Superclass;
+  typedef itk::SmartPointer<Self>         Pointer;
+  typedef itk::SmartPointer<const Self>   ConstPointer;
   itkNewMacro( Self );
 
   enum { SpaceDimension=2 };
 
   typedef Superclass::ParametersType      ParametersType;
   typedef Superclass::DerivativeType      DerivativeType;
-  typedef Superclass::MeasureType         MeasureType ;
+  typedef Superclass::MeasureType         MeasureType;
 
   RSGCostFunction()
   {
@@ -65,7 +66,7 @@ public:
     double x = parameters[0];
     double y = parameters[1];
 
-    std::cout << "GetValue( " ;
+    std::cout << "GetValue( ";
     std::cout << x << " ";
     std::cout << y << ") = ";
 
@@ -84,7 +85,7 @@ public:
     double x = parameters[0];
     double y = parameters[1];
 
-    std::cout << "GetDerivative( " ;
+    std::cout << "GetDerivative( ";
     std::cout << x << " ";
     std::cout << y << ") = ";
 
@@ -124,7 +125,7 @@ public:
         std::cout << " @ index = " << currentIndex << std::endl;
         // Casting is safe here since the indices are always integer values (but there are stored in doubles):
         unsigned long idx = static_cast < unsigned long > ( currentIndex [ 0 ] + 21 * currentIndex [ 1 ] );
-        m_visitedIndices.push_back ( idx );
+        m_VisitedIndices.push_back ( idx );
       }
     }
   }
@@ -134,7 +135,7 @@ public:
     Execute ( static_cast < const itk::Object * > ( caller ), event );
   }
 
-  std::vector < unsigned long > m_visitedIndices;
+  std::vector < unsigned long > m_VisitedIndices;
 };
 
 int itkExhaustiveOptimizerTest(int, char* [] )
@@ -199,7 +200,7 @@ int itkExhaustiveOptimizerTest(int, char* [] )
   catch( itk::ExceptionObject & e )
     {
     std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error ocurred during Optimization" << std::endl;
+    std::cout << "An error occurred during Optimization" << std::endl;
     std::cout << "Location    = " << e.GetLocation()    << std::endl;
     std::cout << "Description = " << e.GetDescription() << std::endl;
     return EXIT_FAILURE;
@@ -217,11 +218,11 @@ int itkExhaustiveOptimizerTest(int, char* [] )
 
   ParametersType finalPosition = itkOptimizer->GetMinimumMetricValuePosition();
   std::cout << "Solution        = (";
-  std::cout << finalPosition[0] << "," ;
+  std::cout << finalPosition[0] << ",";
   std::cout << finalPosition[1] << ")" << std::endl;
 
   bool visitedIndicesPass = true;
-  std::vector < unsigned long > visitedIndices = idxObserver->m_visitedIndices;
+  std::vector < unsigned long > visitedIndices = idxObserver->m_VisitedIndices;
 
   size_t requiredNumberOfSteps = ( 2 * steps [ 0 ] + 1 ) * ( 2 * steps [ 1 ] + 1 );
   if ( visitedIndices.size () != requiredNumberOfSteps )

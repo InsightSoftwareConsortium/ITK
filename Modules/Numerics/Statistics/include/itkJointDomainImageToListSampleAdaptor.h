@@ -29,7 +29,7 @@ namespace itk
 namespace Statistics
 {
 /** \class ImageJointDomainTraits
- *  \brief This class provides the type defintion for the measurement
+ *  \brief This class provides the type definition for the measurement
  *  vector in the joint domain (range domain -- pixel values + spatial
  *  domain -- pixel's physical coordinates).
  *

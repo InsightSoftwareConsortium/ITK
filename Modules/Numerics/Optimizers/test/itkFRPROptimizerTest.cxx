@@ -32,15 +32,16 @@
  *
  *   the solution is the vector | 2 -2 |
  *
+ * \class FRPRGradientCostFunction
  */
 class FRPRGradientCostFunction : public itk::SingleValuedCostFunction
 {
 public:
 
-  typedef FRPRGradientCostFunction                  Self;
-  typedef itk::SingleValuedCostFunction   Superclass;
-  typedef itk::SmartPointer<Self>         Pointer;
-  typedef itk::SmartPointer<const Self>   ConstPointer;
+  typedef FRPRGradientCostFunction      Self;
+  typedef itk::SingleValuedCostFunction Superclass;
+  typedef itk::SmartPointer<Self>       Pointer;
+  typedef itk::SmartPointer<const Self> ConstPointer;
   itkNewMacro( Self );
   itkTypeMacro( FRPRGradientCostFunction, SingleValuedCostFunction );
 
@@ -48,7 +49,7 @@ public:
 
   typedef Superclass::ParametersType      ParametersType;
   typedef Superclass::DerivativeType      DerivativeType;
-  typedef Superclass::MeasureType         MeasureType ;
+  typedef Superclass::MeasureType         MeasureType;
 
   FRPRGradientCostFunction()
   {
@@ -61,7 +62,7 @@ public:
     double x = parameters[0];
     double y = parameters[1];
 
-    std::cout << "GetValue( " ;
+    std::cout << "GetValue( ";
     std::cout << x << " ";
     std::cout << y << ") = ";
 
@@ -80,7 +81,7 @@ public:
     double x = parameters[0];
     double y = parameters[1];
 
-    std::cout << "GetDerivative( " ;
+    std::cout << "GetDerivative( ";
     std::cout << x << " ";
     std::cout << y << ") = ";
 
@@ -105,8 +106,6 @@ private:
 
 
 };
-
-
 
 int itkFRPROptimizerTest(int, char* [] )
 {
@@ -143,8 +142,6 @@ int itkFRPROptimizerTest(int, char* [] )
   itkOptimizer->SetMaximize(false);
   itkOptimizer->SetMaximumIteration( 50 );
 
-
-
   {
   // Exercise the methods that set the optimization mode
   std::cout << "Testing Fletch Reeves Mode" << std::endl;
@@ -159,7 +156,7 @@ int itkFRPROptimizerTest(int, char* [] )
   catch( itk::ExceptionObject & e )
     {
     std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error ocurred during Optimization" << std::endl;
+    std::cout << "An error occurred during Optimization" << std::endl;
     std::cout << "Location    = " << e.GetLocation()    << std::endl;
     std::cout << "Description = " << e.GetDescription() << std::endl;
     return EXIT_FAILURE;
@@ -167,7 +164,7 @@ int itkFRPROptimizerTest(int, char* [] )
 
   ParametersType finalPosition = itkOptimizer->GetCurrentPosition();
   std::cout << "Solution        = (";
-  std::cout << finalPosition[0] << "," ;
+  std::cout << finalPosition[0] << ",";
   std::cout << finalPosition[1] << ")" << std::endl;
 
   //
@@ -212,7 +209,7 @@ int itkFRPROptimizerTest(int, char* [] )
   catch( itk::ExceptionObject & e )
     {
     std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error ocurred during Optimization" << std::endl;
+    std::cout << "An error occurred during Optimization" << std::endl;
     std::cout << "Location    = " << e.GetLocation()    << std::endl;
     std::cout << "Description = " << e.GetDescription() << std::endl;
     return EXIT_FAILURE;
@@ -220,7 +217,7 @@ int itkFRPROptimizerTest(int, char* [] )
 
   ParametersType finalPosition = itkOptimizer->GetCurrentPosition();
   std::cout << "Solution        = (";
-  std::cout << finalPosition[0] << "," ;
+  std::cout << finalPosition[0] << ",";
   std::cout << finalPosition[1] << ")" << std::endl;
 
   //
@@ -253,6 +250,3 @@ int itkFRPROptimizerTest(int, char* [] )
 
   return EXIT_SUCCESS;
 }
-
-
-

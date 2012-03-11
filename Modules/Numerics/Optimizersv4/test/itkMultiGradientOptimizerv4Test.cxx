@@ -46,10 +46,10 @@ class MultiGradientOptimizerv4TestMetric
 {
 public:
 
-  typedef MultiGradientOptimizerv4TestMetric       Self;
-  typedef itk::ObjectToObjectMetric             Superclass;
-  typedef itk::SmartPointer<Self>               Pointer;
-  typedef itk::SmartPointer<const Self>         ConstPointer;
+  typedef MultiGradientOptimizerv4TestMetric Self;
+  typedef itk::ObjectToObjectMetric          Superclass;
+  typedef itk::SmartPointer<Self>            Pointer;
+  typedef itk::SmartPointer<const Self>      ConstPointer;
   itkNewMacro( Self );
   itkTypeMacro( MultiGradientOptimizerv4TestMetric, ObjectToObjectMetric );
 
@@ -146,10 +146,10 @@ class MultiGradientOptimizerv4TestMetric2
 {
 public:
 
-  typedef MultiGradientOptimizerv4TestMetric2       Self;
-  typedef itk::ObjectToObjectMetric             Superclass;
-  typedef itk::SmartPointer<Self>               Pointer;
-  typedef itk::SmartPointer<const Self>         ConstPointer;
+  typedef MultiGradientOptimizerv4TestMetric2 Self;
+  typedef itk::ObjectToObjectMetric           Superclass;
+  typedef itk::SmartPointer<Self>             Pointer;
+  typedef itk::SmartPointer<const Self>       ConstPointer;
   itkNewMacro( Self );
   itkTypeMacro( MultiGradientOptimizerv4TestMetric2, ObjectToObjectMetric );
 
@@ -240,9 +240,6 @@ private:
   ParametersPointer m_Parameters;
 };
 
-
-
-
 ///////////////////////////////////////////////////////////
 /** This metric has an optimum at (1,-1) and when we
  *  combine its gradient with that of the metric above
@@ -261,7 +258,7 @@ int MultiGradientOptimizerv4RunTest(
   catch( itk::ExceptionObject & e )
     {
     std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error ocurred during Optimization" << std::endl;
+    std::cout << "An error occurred during Optimization" << std::endl;
     std::cout << "Location    = " << e.GetLocation()    << std::endl;
     std::cout << "Description = " << e.GetDescription() << std::endl;
     return EXIT_FAILURE;
@@ -301,7 +298,7 @@ int itkMultiGradientOptimizerv4Test(int, char* [] )
 
   typedef  itk::MultiGradientOptimizerv4  OptimizerType;
 
-  typedef OptimizerType::ScalesType             ScalesType;
+  typedef OptimizerType::ScalesType                             ScalesType;
   typedef MultiGradientOptimizerv4TestMetric::ParametersType    ParametersType;
   typedef MultiGradientOptimizerv4TestMetric::ParametersPointer ParametersPointer;
 

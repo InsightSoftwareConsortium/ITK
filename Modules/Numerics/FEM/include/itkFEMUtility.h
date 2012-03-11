@@ -31,7 +31,7 @@ namespace fem
 /**
  * \file itkFEMUtility.h
  * \brief Includes various helper classes and functions used
-          througout the FEM code.
+          throughout the FEM code.
  */
 
 /**

@@ -156,7 +156,7 @@ SolverCrankNicolson<VDimension>
           throw FEMExceptionSolution(__FILE__, __LINE__, "SolverCrankNicolson::AssembleKandM()", "Illegal GFN!");
           }
 
-        /* Here we finaly update the corresponding element
+        /* Here we finally update the corresponding element
          * in the master stiffness matrix. We first check if
          * element in Ke is zero, to prevent zeros from being
          * allocated in sparse matrix.
