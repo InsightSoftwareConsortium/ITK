@@ -245,11 +245,11 @@ ImageIOBase::ByteOrder
 AnalyzeImageIO::CheckAnalyzeEndian(const struct dsr & temphdr)
 {
   ImageIOBase::ByteOrder returnvalue;
-  // Machine and header endianess is same
+  // Machine and header endianness is same
 
   // checking hk.extents only is NOT a good idea. Many programs do not set
   // hk.extents correctly. Doing an additional check on hk.sizeof_hdr
-  // increases chance of correct result. --Juerg Tschirrin Univeristy of Iowa
+  // increases chance of correct result. --Juerg Tschirrin University of Iowa
   // All properly constructed analyze images should have the extents feild
   // set.  It is part of the file format standard.  While most headers of
   // analyze images are 348 bytes long, The Analyze file format allows the
@@ -583,7 +583,7 @@ bool AnalyzeImageIO::CanWriteFile(const char *FileNameToWrite)
 // Programmer: Hans J. Johnson
 //       Date: 10/29/98
 //   Function: DefineHeaderObjDataType
-//  Algorithm: Set DataType Values appropriatly
+//  Algorithm: Set DataType Values appropriately
 // Func. Ret.:
 //     Output:
 //      Input: DataTypeIndex - Is one of the following
@@ -699,7 +699,7 @@ void AnalyzeImageIO::Read(void *buffer)
   // NOTE: gzFile operations act just like FILE * operations when the
   // files are not in gzip fromat.This greatly simplifies the
   // following code, and gzFile types are used everywhere. In
-  // addition, it has the added benifit of reading gzip compressed
+  // addition, it has the added benefit of reading gzip compressed
   // image files that do not have a .gz ending.
   ///
 
@@ -823,7 +823,7 @@ bool AnalyzeImageIO::CanReadFile(const char *FileNameToRead)
     }
   local_InputStream.close();
 
-  // if the machine and file endianess are different
+  // if the machine and file endianness are different
   // perform the byte swapping on it
   this->m_ByteOrder = this->CheckAnalyzeEndian(this->m_Hdr);
   this->SwapHeaderBytesIfNecessary( &( this->m_Hdr ) );
@@ -866,7 +866,7 @@ void AnalyzeImageIO::ReadImageInformation()
     }
   local_InputStream.close();
 
-  // if the machine and file endianess are different
+  // if the machine and file endianness are different
   // perform the byte swapping on it
   this->m_ByteOrder = this->CheckAnalyzeEndian(this->m_Hdr);
   if ( this->m_MachineByteOrder != this->m_ByteOrder  )
