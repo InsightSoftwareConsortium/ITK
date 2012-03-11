@@ -134,7 +134,7 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
           threadIt != m_LabelStatisticsPerThread[i].end();
           ++threadIt )
       {
-      // does this label exist in the cumulative stucture yet?
+      // does this label exist in the cumulative structure yet?
       mapIt = m_LabelStatistics.find( ( *threadIt ).first );
       if ( mapIt == m_LabelStatistics.end() )
         {

@@ -53,11 +53,11 @@ namespace itk
  * + void RemovePixel( const InputPixelType &p ) is called when a pixel
  * is removed of the histogram.
  * + void AddBoundary() is called when a pixel outside the image is added.
- * No value is provided: it's the responsability to the histogram class to
+ * No value is provided: it's the responsibility to the histogram class to
  * get it if needed. This method can be kept empty to ignore the boundary
  * pixels.
  * + void RemoveBoundary() is called to when a pixel outside the image is removed.
- * No value is provided: it's the responsability to the histogram class to
+ * No value is provided: it's the responsibility to the histogram class to
  * get it if needed. This method can be kept empty to ignore the boundary
  * pixels.
  * + AType GetValue() is called to set the value of the output image. AType

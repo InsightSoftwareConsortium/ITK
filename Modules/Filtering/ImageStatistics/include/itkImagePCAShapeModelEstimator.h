@@ -204,7 +204,7 @@ private:
   // The number of input images for PCA
   unsigned int m_NumberOfTrainingImages;
 
-  // The number of output Pricipal Components
+  // The number of output Principal Components
   unsigned int m_NumberOfPrincipalComponentsRequired;
 }; // class ImagePCAShapeModelEstimator
 } // namespace itk

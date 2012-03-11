@@ -150,7 +150,7 @@ public:
 
   typedef DiffusionTensor3D< TTensorPixelType > TensorPixelType;
 
-  /** Reference image data,  This image is aquired in the absence
+  /** Reference image data,  This image is acquired in the absence
    * of a diffusion sensitizing field gradient */
   typedef typename Superclass::InputImageType ReferenceImageType;
 

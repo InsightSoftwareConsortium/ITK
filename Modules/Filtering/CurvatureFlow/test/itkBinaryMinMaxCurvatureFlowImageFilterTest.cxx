@@ -52,7 +52,7 @@ int testBinaryMinMaxCurvatureFlow(
  * The test uses a binary image of a circle/sphere with intensity value
  * of 0 (black). The background is white ( intensity = 255 ).
  * X% salt and pepper noise is added to the the input image. Specifically,
- * X% of the pixels is replaced with a value choosen from a uniform
+ * X% of the pixels is replaced with a value chosen from a uniform
  * distribution between 0 and 255.
  *
  * We then test the ability of BinaryMinMaxCurvatureFlowImageFilter to denoise

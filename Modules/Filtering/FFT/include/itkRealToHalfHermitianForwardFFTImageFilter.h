@@ -39,7 +39,7 @@ namespace itk
  * complex conjugates of values in the first half reflected about the
  * center of the image in each dimension. This filter takes advantage
  * of the Hermitian symmetry property and reduces the size of the
- * output in the first dimention to N/2+1, where N is the size of the
+ * output in the first dimension to N/2+1, where N is the size of the
  * input image in that dimension and the division by 2 is rounded
  * down.
  *

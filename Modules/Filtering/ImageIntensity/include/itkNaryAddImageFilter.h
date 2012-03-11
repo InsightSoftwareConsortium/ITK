@@ -66,7 +66,7 @@ public:
  * input images and the type of the output image.
  * Numeric conversions (castings) are done by the C++ defaults.
  *
- * The pixel type of the input images must have a valid defintion of
+ * The pixel type of the input images must have a valid definition of
  * the operator+ with each other. This condition is
  * required because internally this filter will perform the operation
  *

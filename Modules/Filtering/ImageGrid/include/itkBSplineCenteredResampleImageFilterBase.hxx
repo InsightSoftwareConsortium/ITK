@@ -259,7 +259,7 @@ void BSplineCenteredResampleImageFilterBase< TInputImage, TOutputImage >
 
     for ( int i = 1; i < this->m_GSize; i++ )
       {
-      // Calculate indicies for left and right of symmetrical filter.
+      // Calculate indices for left and right of symmetrical filter.
       i1 = inK - i;
       i2 = inK + i;
       // reflect at boundaries if necessary

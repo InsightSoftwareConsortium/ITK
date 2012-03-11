@@ -104,9 +104,6 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
     ++itb;
   }
 
-
-
-
   // Declare the type for the  Gaussian  filter
   typedef itk::RecursiveGaussianImageFilter<
                                               myImageType,
@@ -145,11 +142,8 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
   filter1->Update();
   std::cout << " Done !" << std::endl;
 
-
-
   // Create a  Filter
   myGaussianFilterType::Pointer filter2 = myGaussianFilterType::New();
-
 
   // Connect the input images
   filter2->SetInput( inputImage );
@@ -161,8 +155,6 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
   filter2->Update();
   std::cout << " Done !" << std::endl;
   }
-
-
 
   { // Test normalizations factors using a 1D image
   std::cout << "Test normalizations factors using a 1-D image" << std::endl;
@@ -228,8 +220,8 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
 
     const PixelType valueB = filter->GetOutput()->GetPixel( index );
 
-    // note: for scale space normalization, no scaling should occour
-    // The addtional scale-space testing is performed in a separate
+    // note: for scale space normalization, no scaling should occur
+    // The additional scale-space testing is performed in a separate
     // test.
     if( vcl_fabs( valueB - valueA  ) > 1e-4 )
       {
@@ -399,8 +391,6 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
 
     } // end of test for normalization among derivatives
 
-
-
   // Print out all the values for the zero, first and second order
   filter->SetNormalizeAcrossScale( false );
   filter->SetSigma( 2.0 );
@@ -444,9 +434,6 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
     std::cout << it.Get() << std::endl;
     ++it;
     }
-
-
-
   }
 
   {

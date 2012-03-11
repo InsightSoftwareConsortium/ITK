@@ -34,7 +34,7 @@ public:
   InvalidImageMomentsError(const char *file, unsigned int lineNumber):ExceptionObject(file,
                                                                                       lineNumber) { this->
                                                                                                     SetDescription(
-                                                                                                      "No valid image moments are availble."); }
+                                                                                                      "No valid image moments are available."); }
 
   /**
    * Constructor. Needed to ensure the exception object can be copied.
@@ -42,7 +42,7 @@ public:
   InvalidImageMomentsError(const std::string & file, unsigned int lineNumber):ExceptionObject(file,
                                                                                               lineNumber) { this->
                                                                                                             SetDescription(
-                                                                                                              "No valid image moments are availble."); }
+                                                                                                              "No valid image moments are available."); }
 
   itkTypeMacro(InvalidImageMomentsError, ExceptionObject);
 };

@@ -91,7 +91,7 @@ MRIBiasEnergyFunction< TImage, TImageMask, TBiasField >
 
   m_BiasField->SetCoefficients(parameters);
 
-  // mask, bias and orginal image have the same dimensions
+  // mask, bias and original image have the same dimensions
   //   and corresponding indexes
 
   if ( m_SamplingFactor[0] == 1
@@ -478,7 +478,7 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
     }
 
   os << indent << "Biasfield degree = " << m_BiasFieldDegree << std::endl;
-  os << indent << "Optimizer intial radius: " << m_OptimizerInitialRadius
+  os << indent << "Optimizer initial radius: " << m_OptimizerInitialRadius
      << std::endl;
   os << indent << "Optimizer growth factor: " << m_OptimizerGrowthFactor
      << std::endl;

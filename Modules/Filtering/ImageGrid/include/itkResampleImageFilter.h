@@ -162,7 +162,7 @@ public:
 
   typedef typename PixelConvertType::ComponentType PixelComponentType;
 
-  /** Input pixel continous index typdef */
+  /** Input pixel continuous index typdef */
   typedef ContinuousIndex< TInterpolatorPrecisionType, ImageDimension >
                                            ContinuousInputIndexType;
 

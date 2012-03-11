@@ -317,7 +317,7 @@ MirrorPadImageFilter< TInputImage, TOutputImage >
   // data.  All other regions will be complete copies of the input.
   outputRegionStart[regCtr] = outputIndex;
 
-  // Size of the pre-region is all the output that preceeds the input,
+  // Size of the pre-region is all the output that precedes the input,
   // all except the first (and possibly the last) will be the size of
   // the input.
   sizeTemp = outputRegionStart[0] - outputIndex;

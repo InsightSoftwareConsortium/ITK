@@ -45,10 +45,12 @@ int itkExtractOrthogonalSwath2DImageFilterTest(int argc, char* argv[])
   typedef ImageType::IndexType                 IndexType;
   typedef ImageType::SizeType                  SizeType;
 
-  typedef itk::PathToChainCodePathFilter<InPathType,ChainPathType>  Filter1Type;
+  typedef itk::PathToChainCodePathFilter<InPathType,ChainPathType>
+    Filter1Type;
   typedef itk::ChainCodeToFourierSeriesPathFilter<ChainPathType,FSPathType>
-                                                                    Filter2Type;
-  typedef itk::ExtractOrthogonalSwath2DImageFilter<ImageType> Filter3Type;
+    Filter2Type;
+  typedef itk::ExtractOrthogonalSwath2DImageFilter<ImageType>
+    Filter3Type;
 
   InPathType::Pointer             inPath;
   ChainPathType::Pointer          chainPath;
@@ -128,8 +130,6 @@ int itkExtractOrthogonalSwath2DImageFilterTest(int argc, char* argv[])
   ImageType::Pointer outImage;
   outImage=filter3->GetOutput();
 
-
-
   // Testing spacing
   std::cout << "Testing Spacing: ";
 
@@ -193,7 +193,7 @@ int itkExtractOrthogonalSwath2DImageFilterTest(int argc, char* argv[])
   // Testing pipeline execution
   std::cerr << "Testing Output Image: ";
 
-  // Test only pixels definately inside or outside the original white square
+  // Test only pixels definitely inside or outside the original white square
   ImageType::IndexType index;
 
   for(unsigned int col=0;col<size[0];col++)
@@ -221,8 +221,6 @@ int itkExtractOrthogonalSwath2DImageFilterTest(int argc, char* argv[])
   writer->SetInput( filter3->GetOutput() );
   writer->SetFileName( argv[1] );
   writer->Write();
-
-
 
   return EXIT_SUCCESS;
 }

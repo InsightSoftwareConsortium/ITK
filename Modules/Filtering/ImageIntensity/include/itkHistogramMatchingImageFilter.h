@@ -33,7 +33,7 @@ namespace itk
  * This filter uses a histogram matching technique where the histograms of the
  * two images are matched only at a specified number of quantile values.
  *
- * This filter was orginally designed to normalize MR images of the same
+ * This filter was originally designed to normalize MR images of the same
  * MR protocol and same body part. The algorithm works best if background
  * pixels are excluded from both the source and reference histograms.
  * A simple background exclusion method is to exclude all pixels whose

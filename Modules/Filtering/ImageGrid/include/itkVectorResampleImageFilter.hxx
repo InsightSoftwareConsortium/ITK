@@ -150,7 +150,7 @@ VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType
   // Get the output pointers
   OutputImagePointer outputPtr = this->GetOutput();
 
-  // Get ths input pointers
+  // Get this input pointers
   InputImageConstPointer inputPtr = this->GetInput();
 
   // Create an iterator that will walk the output region for this thread.

@@ -220,7 +220,7 @@ FastMarchingExtensionImageFilter< TLevelSet, TAuxValue, VAuxDimension, TSpeedIma
   const SpeedImageType *speed,
   LevelSetImageType *output)
 {
-  // A extension value at node is choosen such that
+  // A extension value at node is chosen such that
   // grad(F) dot_product grad(Phi) = 0
   // where F is the extended speed function and Phi is
   // the level set function.

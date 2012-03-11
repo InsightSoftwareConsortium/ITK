@@ -377,7 +377,7 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
     }
   else
     {
-    std::cout << "Line " << line << " doesnt correspond to a face" << std::endl;
+    std::cout << "Line " << line << " doesn't correspond to a face" << std::endl;
     }
 
   return RelevantRegion;

@@ -72,7 +72,7 @@ public:
  * of the output image.  Numeric conversions (castings) are done by the C++
  * defaults.
  *
- * The pixel type of the output images must have a valid defintion of the
+ * The pixel type of the output images must have a valid definition of the
  * operator<. This condition is required because internally this filter will
  * perform an operation similar to:
  *

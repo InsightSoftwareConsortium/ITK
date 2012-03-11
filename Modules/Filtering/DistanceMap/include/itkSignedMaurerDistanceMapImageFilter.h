@@ -45,7 +45,7 @@ namespace itk
  *  \par Parameters
  *  Set/GetBackgroundValue specifies the background of the value of the
  *  input binary image. Normally this is zero and, as such, zero is the
- *  default value.  Other than that, the usage is completely analagous to
+ *  default value.  Other than that, the usage is completely analogous to
  *  the itk::DanielssonDistanceImageFilter class except it does not return
  *  the Voronoi map.
  *

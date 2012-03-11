@@ -178,7 +178,7 @@ ObjectByObjectLabelMapFilter<TInputImage, TOutputImage, TInputFilter, TOutputFil
   typename InputImageType::ConstIterator inIt( this->GetInput() );
   while( ! inIt.IsAtEnd() )
     {
-    // inform the user that we are begining a new object
+    // inform the user that we are beginning a new object
     m_Label = inIt.GetLabel();
     this->InvokeEvent( IterationEvent() );
     // select our object

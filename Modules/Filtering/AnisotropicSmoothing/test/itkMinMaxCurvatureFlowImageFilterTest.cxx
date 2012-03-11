@@ -51,7 +51,7 @@ int testMinMaxCurvatureFlow(
  * The test uses a binary image of a circle/sphere with intensity value
  * of 0 (black). The background is white ( intensity = 255 ).
  * X% salt and pepper noise is added to the the input image. Specifically,
- * X% of the pixels is replaced with a value choosen from a uniform
+ * X% of the pixels is replaced with a value chosen from a uniform
  * distribution between 0 and 255.
  *
  * We then test the ability of MinMaxCurvatureFlowImageFilter to denoise
@@ -127,8 +127,8 @@ int testMinMaxCurvatureFlow(
 
   typedef float PixelType;
   enum { ImageDimension = VImageDimension };
-  typedef itk::Image<PixelType, ImageDimension> ImageType;
-  typedef itk::ImageRegionIterator<ImageType> IteratorType;
+  typedef itk::Image<PixelType, ImageDimension>                    ImageType;
+  typedef itk::ImageRegionIterator<ImageType>                      IteratorType;
   typedef itk::MinMaxCurvatureFlowImageFilter<ImageType,ImageType> DenoiserType;
   typename DenoiserType::Pointer denoiser = DenoiserType::New();
 
@@ -157,7 +157,7 @@ int testMinMaxCurvatureFlow(
   IteratorType circleIter( circleImage, circleImage->GetBufferedRegion() );
 
 
-  for ( ; !circleIter.IsAtEnd() ; ++circleIter )
+  for (; !circleIter.IsAtEnd(); ++circleIter )
     {
     typename ImageType::IndexType index = circleIter.GetIndex();
     float value;
@@ -246,9 +246,8 @@ int testMinMaxCurvatureFlow(
 
   unsigned long numPixelsWrong = 0;
 
-  for ( ; !outIter.IsAtEnd(); ++outIter )
+  for (; !outIter.IsAtEnd(); ++outIter )
     {
-
     typename ImageType::IndexType index = outIter.GetIndex();
     PixelType value = outIter.Get();
 

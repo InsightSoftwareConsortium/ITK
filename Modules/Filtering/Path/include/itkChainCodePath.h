@@ -31,9 +31,9 @@ namespace itk
  *
  * This class is intended to represent sequences of connected indices in an
  * image.  It does so by storing the offset of each index from its immediately
- * preceeding, connected, index.  The only image index stored directly is that
+ * preceding, connected, index.  The only image index stored directly is that
  * of the first index.  ChainCodePath maps a 1D integer input (step number) to
- * an ND interger output (either an offset or an image index, depending on
+ * an ND integer output (either an offset or an image index, depending on
  * whether Evaluate or EvaluateToIndex is called).
  *
  * \sa ChainCodePath2D

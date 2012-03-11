@@ -135,7 +135,7 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType >
 
         if ( ( index[0] > 0 )
              && ( index[0] <= (IndexValueType)outputImage->GetBufferedRegion().GetSize()[0] ) )
-        // the preceeding "if" should be replacable with "if (
+        // the preceding "if" should be replacable with "if (
         // outputImage->GetBufferedRegion().IsInside(index) )" but
         // the algorithm fails if it is
           {

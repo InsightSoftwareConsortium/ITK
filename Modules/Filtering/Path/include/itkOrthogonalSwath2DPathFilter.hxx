@@ -181,7 +181,7 @@ OrthogonalSwath2DPathFilter< TParametricPath, TSwathMeritImage >
     if ( 0 == x ) { break; }
     }
 
-  // Convert from absolute indicies to +/- orthogonal offset values
+  // Convert from absolute indices to +/- orthogonal offset values
   for ( x = 0; x < m_SwathSize[0]; x++ )
     {
     m_FinalOffsetValues->InsertElement(

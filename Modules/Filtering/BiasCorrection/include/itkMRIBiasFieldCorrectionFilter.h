@@ -131,7 +131,7 @@ public:
   {}
 
   /** Set Mean and Sigma for the normal distributions
-   *  \warning This method MUST be called before any attemp to
+   *  \warning This method MUST be called before any attempt to
    *   evaluate the Function because it instantiate the internal
    *   energy function                                     */
   void InitializeDistributions(Array< double > classMeans,
@@ -176,15 +176,15 @@ private:
  * and the type of the output image (TOutputImage).
  *
  * In MRI images, intensity inhomogenieties which are caused by
- * magnetic settings, patients' postion, and other factors are not
+ * magnetic settings, patients' position, and other factors are not
  * unusual. The main purpose of this filter is to reduce such bias field.
  * To estimate the bias field, we use Legendre
  * polynomials. The 1+1 evolutionary optimizer searches for the best
  * parameters of a Legendre polynomial (bias field estimate) which
  * minimizes the total energy value of each image after bias field
- * is eleminated. The default Legendre polynomial degree is 3.
+ * is eliminated. The default Legendre polynomial degree is 3.
  *
- * The correction performes by default a multiplicative bias field correction
+ * The correction performs by default a multiplicative bias field correction
  * by first log-transforming the input image. This log transform only
  * works on images with grayscale values bigger than 0. The log-transform
  * can be disabled and the filter computes an additive bias field.
@@ -271,10 +271,10 @@ public:
   typedef typename MRASlabIdentifierType::SlabRegionVectorType SlabRegionVectorType;
   typedef typename SlabRegionVectorType::iterator              SlabRegionVectorIteratorType;
 
-  /** Bias field object type defintion. */
+  /** Bias field object type definition. */
   typedef MultivariateLegendrePolynomial BiasFieldType;
 
-  /** Energy function type defintion. */
+  /** Energy function type definition. */
   typedef MRIBiasEnergyFunction< InternalImageType,
                                  ImageMaskType,
                                  BiasFieldType >            EnergyFunctionType;

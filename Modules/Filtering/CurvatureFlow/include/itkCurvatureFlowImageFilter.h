@@ -35,7 +35,7 @@ namespace itk
   * where \f$ \kappa \f$ is the curvature.
   *
   * The advantage of this approach is that sharp boundaries are preserved
-  * with smoothing occuring only within a region. However, it should be
+  * with smoothing occurring only within a region. However, it should be
   * noted that continuous application of this scheme will result in the
   * eventual removal of all information as each contour shrinks to zero and
   * disappear.

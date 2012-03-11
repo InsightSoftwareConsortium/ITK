@@ -216,7 +216,7 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
 {
   // Check whether the input or the output is a
   // SpecialCoordinatesImage.  If either are, then we cannot use the
-  // fast path since index mapping will definately not be linear.
+  // fast path since index mapping will definitely not be linear.
   typedef SpecialCoordinatesImage< PixelType, ImageDimension >
   OutputSpecialCoordinatesImageType;
   typedef SpecialCoordinatesImage< InputPixelType, InputImageDimension >
@@ -298,7 +298,7 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
   // Get the output pointers
   OutputImagePointer outputPtr = this->GetOutput();
 
-  // Get ths input pointers
+  // Get this input pointers
   InputImageConstPointer inputPtr = this->GetInput();
 
   // Create an iterator that will walk the output region for this thread.
@@ -383,7 +383,7 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
   // Get the output pointers
   OutputImagePointer outputPtr = this->GetOutput();
 
-  // Get ths input pointers
+  // Get this input pointers
   InputImageConstPointer inputPtr = this->GetInput();
 
   // Create an iterator that will walk the output region for this thread.

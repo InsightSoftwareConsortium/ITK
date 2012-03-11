@@ -30,7 +30,7 @@ int itkBilateralImageFilterTest3(int ac, char* av[] )
     return -1;
     }
 
-  typedef unsigned char PixelType;
+  typedef unsigned char            PixelType;
   typedef itk::Image<PixelType, 2> myImage;
   itk::ImageFileReader<myImage>::Pointer input
     = itk::ImageFileReader<myImage>::New();
@@ -46,7 +46,7 @@ int itkBilateralImageFilterTest3(int ac, char* av[] )
   FilterType::Pointer filter3 = FilterType::New();
     filter3->SetInput(filter2->GetOutput());
 
-    // Instead of using a single agressive smoothing filter, use 3
+    // Instead of using a single aggressive smoothing filter, use 3
     // less aggressive filters.
     //
     // These settings match the "wedding" cake image (cake_easy.png) where

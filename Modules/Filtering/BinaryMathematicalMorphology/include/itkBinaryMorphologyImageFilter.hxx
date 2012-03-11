@@ -238,7 +238,7 @@ BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
   for ( SizeValueType ii = 0; ii < adjNeigh.Size(); ++ii )
     {
     m_KernelDifferenceSets[ii].clear();
-    // For each element of the kernel wich index is k, see if they
+    // For each element of the kernel which index is k, see if they
     // belong to this difference set treat only "ON" elements of SE
     std::vector< unsigned int >::const_iterator kernelOnElementsIt;
     for ( kernelOnElementsIt = kernelOnElements.begin();

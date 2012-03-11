@@ -48,7 +48,7 @@ DisplacementFieldJacobianDeterminantFilter< TInputImage, TRealType, TOutputImage
 {
   //If the user provides their own derivative
   //weights, then it is assumed that the
-  //user is accomodating image spacing
+  //user is accommodating image spacing
   //internal to their weight settings.
   m_UseImageSpacing = false;
 

@@ -58,8 +58,8 @@ namespace itk
  *       Again future revisions should look at eliminating this limitation.
  *    Though the output generation may be streamed the entire input image,
  *       must be supplied. The coordinates may be streamed in smaller blocks.
- *    The coordinates are specified as seperate images for each dimension.
- *    The coordinates are treated as Continuous Indicies. If coordinates are
+ *    The coordinates are specified as separate images for each dimension.
+ *    The coordinates are treated as Continuous Indices. If coordinates are
  *    supplied as Points then they must be converted to an Index before passing
  *       to this class.
  *

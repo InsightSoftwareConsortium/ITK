@@ -105,10 +105,11 @@ public:
 
   /** Evaluate the first derivative of the ND output with respect to the 1D
     * input.  This is a very simple and naive numerical derivative, and it
-    * sould be overloaded with a proper closed-form derivative function in
-    * all children.  Nevertheless, users who need to create their own parametric
-    * classes for their private research need not reimplement this function if
-    * their work does not need the derivative operator. */
+    * should be overloaded with a proper closed-form derivative function in
+    * all children.  Nevertheless, users who need to create their own
+    * parametric classes for their private research need not
+    * reimplement this function if their work does not need the
+    * derivative operator. */
   virtual VectorType EvaluateDerivative(const InputType & input) const;
 
   itkSetMacro(DefaultInputStepSize, InputType)
