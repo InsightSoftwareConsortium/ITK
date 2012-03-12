@@ -107,7 +107,7 @@ LabelOverlapMeasuresImageFilter<TLabelImage>
          threadIt != this->m_LabelSetMeasuresPerThread[n].end();
          ++threadIt )
       {
-      // does this label exist in the cumulative stucture yet?
+      // does this label exist in the cumulative structure yet?
       MapIterator mapIt = this->m_LabelSetMeasures.find( ( *threadIt ).first );
       if( mapIt == this->m_LabelSetMeasures.end() )
         {

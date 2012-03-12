@@ -440,12 +440,12 @@ ImagePCAShapeModelEstimator< TInputImage, TOutputImage >
   MatrixOfDoubleType eigenVectorsOfInnerProductMatrix = eigenVectors_eigenValues.V;
 
   //--------------------------------------------------------------------
-  //Calculate the pricipal shape variations
+  //Calculate the principal shape variations
   //
   //m_EigenVectors capture the principal shape variantions
   //m_EigenValues capture the relative weight of each variation
   //Multiply original image vetors with the eigenVectorsOfInnerProductMatrix
-  //to derive the pricipal shapes.
+  //to derive the principal shapes.
   //--------------------------------------------------------------------
 
   m_EigenVectors.set_size(m_NumberOfPixels, m_NumberOfTrainingImages);
@@ -477,7 +477,7 @@ ImagePCAShapeModelEstimator< TInputImage, TOutputImage >
   m_EigenValues = ( eigenVectors_eigenValues.D ).diagonal();
 
   //Flip the eigen values since the eigen vectors output
-  //is ordered in decending order of theri corresponding eigen values.
+  //is ordered in decending order of their corresponding eigen values.
   m_EigenValues.flip();
 
   //--------------------------------------------------------------------

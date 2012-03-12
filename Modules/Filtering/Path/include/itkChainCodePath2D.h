@@ -31,12 +31,12 @@ namespace itk
  *
  * This class is intended to represent sequences of connected indices in a 2D
  * image plane.  It does so by storing the offset of each index from its
- * immediately preceeding, connected, index using a standard Freeman code
+ * immediately preceding, connected, index using a standard Freeman code
  * (1=up, 2=up to the right, and so on proceeding clockwise to 8=up
  * to the left).  The only image index stored directly is thatof the first
  * index.
  * ChainCodePath2D maps a 1D integer input (step number) to
- * a 2D interger output (either an offset or an image index, depending on
+ * a 2D integer output (either an offset or an image index, depending on
  * whether Evaluate or EvaluateToIndex is called).
  *
  * \sa ChainCodePath

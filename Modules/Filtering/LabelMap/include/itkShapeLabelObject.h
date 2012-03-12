@@ -89,7 +89,7 @@ public:
     * which are on the border of the image. A pixel on several borders
     * (a pixel in a corner) is counted only one time, so the size on
     * border can't be greater than the size of the object. This attribute
-    * is particulary useful to remove the objects which are touching
+    * is particularly useful to remove the objects which are touching
     * too much the border. Its type is unsigned long.*/
   itkStaticConstMacro(NUMBER_OF_PIXELS_ON_BORDER, AttributeType, 106);
 
@@ -97,7 +97,7 @@ public:
     * the border of the image. In 2D, it is a distance, in 3D, a surface,
     * etc. Contrary to the PhysicalSize attribute which is directly linked to
     * the NumberOfPixels, this attribute is not directly linked to the
-    * NumberOfPixelsOnBorder attribute. This attribute is particulary useful
+    * NumberOfPixelsOnBorder attribute. This attribute is particularly useful
     * to remove the objects which are touching too much the border.
     * Its type is double.*/
   itkStaticConstMacro(PERIMETER_ON_BORDER, AttributeType, 107);

@@ -59,7 +59,7 @@ public:
   typedef THistogram  HistogramType;
   typedef TOutput     OutputType;
 
-  /** for backward compatibility. Update() should be prefered. */
+  /** for backward compatibility. Update() should be preferred. */
   void Compute()
   {
     this->Update();

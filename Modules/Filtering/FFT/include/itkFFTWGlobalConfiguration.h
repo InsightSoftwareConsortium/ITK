@@ -35,7 +35,7 @@
 //available for controlling optimizations for the FFTW library.
 //
 //Environmental variables:
-//ITK_FFTW_PLAN_RIGOR   - Defines how agressive the generation of
+//ITK_FFTW_PLAN_RIGOR   - Defines how aggressive the generation of
 //                             wisdom should be.
 //ITK_FFTW_READ_WISDOM_CACHE  - Defines if a wisdom file cache should
 //                              be read if found.  (it is "On" by default)
@@ -68,7 +68,7 @@ namespace itk
 class ITK_EXPORT WisdomFilenameGeneratorBase
 {
   public:
-    //The baseCacheDirectory from which to build the cache heirarchy
+    //The baseCacheDirectory from which to build the cache hierarchy
     virtual std::string GenerateWisdomFilename(const std::string baseCacheDirectory) const = 0;
     WisdomFilenameGeneratorBase() {};
     virtual ~WisdomFilenameGeneratorBase() {};
@@ -263,7 +263,7 @@ public:
   itkTypeMacro(FFTWGlobalConfiguration, Object);
 
   /** Lock() must be run before the call to any FFTW unsafe method,
-   * and followed immediatly by a call to Unlock()
+   * and followed immediately by a call to Unlock()
    */
   static void Lock();
   static void Unlock();

@@ -52,7 +52,7 @@ namespace itk
  * circumstances, the "center pixel" of the structuring element -- or
  * structuring element pixel over the input pixel under consideration
  * -- is prescribed to be "on". This is not a strict requirement but
- * the subclasses of this filter are not guarenteed to produce the
+ * the subclasses of this filter are not guaranteed to produce the
  * correct result if the "center pixel" is not part of the structuring
  * element.
  *

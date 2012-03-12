@@ -33,7 +33,7 @@ namespace itk
  * ExtractOrthogonalSwath2DImageFilter (the user may want to smooth the image
  * first).  The user should then use the resulting swath image to produce a new
  * "merit" swath image of the EXACT same size as the swath image produced in the
- * preceeding step.  Each pixel value in the merit swath image indicates the
+ * preceding step.  Each pixel value in the merit swath image indicates the
  * local merit of having the path pass through that swath index (taking the
  * absolute value of the vertical partial-derivative of the swath image is often
  * a good way to do this). Both the merit swath image and the path used to

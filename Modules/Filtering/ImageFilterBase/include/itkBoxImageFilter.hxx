@@ -27,7 +27,7 @@ template< class TInputImage, class TOutputImage >
 BoxImageFilter< TInputImage, TOutputImage >
 ::BoxImageFilter()
 {
-  m_Radius.Fill(1);     // a good arbitary starting point
+  m_Radius.Fill(1);     // a good arbitrary starting point
 }
 
 template< class TInputImage, class TOutputImage >

@@ -31,7 +31,7 @@ namespace itk
  * methods. This is the base class that must be instantiated with
  * appropriate definitions of greater, less and so on.
  * The SetBoundary facility isn't necessary for operation of the
- * anchor method but is included for compatability with other
+ * anchor method but is included for compatibility with other
  * morphology classes in itk.
  * \ingroup ITKMathematicalMorphology
  */

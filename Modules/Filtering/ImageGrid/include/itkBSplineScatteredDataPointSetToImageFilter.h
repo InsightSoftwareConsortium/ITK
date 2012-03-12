@@ -78,7 +78,7 @@ namespace itk
  * The output is an image defining the sampled B-spline parametric domain where
  * each pixel houses the sampled B-spline object value.  For a curve fit to 3-D
  * points, the output is a 1-D image  where each voxel contains a vector with
- * the approximated (x,y,z) location. The continous, finite, rectilinear domain
+ * the approximated (x,y,z) location. The continuous, finite, rectilinear domain
  * (as well as the sampling rate) is specified via the combination of the SetSpacing()
  * and SetSize() functions.  For a 2-D deformation on 2-D points, the output is a 2-D image
  * where each voxel contains the approximated (dx, dy) vector.

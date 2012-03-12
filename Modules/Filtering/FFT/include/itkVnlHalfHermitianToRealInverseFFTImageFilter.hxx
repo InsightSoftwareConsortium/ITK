@@ -41,7 +41,7 @@ VnlHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
     }
 
   // We don't have a nice progress to report, but at least this simple line
-  // reports the begining and the end of the process.
+  // reports the beginning and the end of the process.
   ProgressReporter progress( this, 0, 1 );
 
   const InputSizeType   inputSize   = inputPtr->GetLargestPossibleRegion().GetSize();

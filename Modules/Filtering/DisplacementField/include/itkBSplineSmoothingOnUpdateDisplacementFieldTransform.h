@@ -114,7 +114,7 @@ public:
   itkGetConstMacro( SplineOrder, SplineOrderType );
 
   /**
-   * Set the control point grid size definining the B-spline estimate of the
+   * Set the control point grid size defining the B-spline estimate of the
    * update field.  In each dimension, the B-spline mesh size is equal
    * to the number of control points in that dimension minus the spline order.
    * Default = 4 control points in each dimension for a mesh size of 1 in each
@@ -123,7 +123,7 @@ public:
   itkSetMacro( NumberOfControlPointsForTheUpdateField, ArrayType );
 
   /**
-   * Get the control point grid size definining the B-spline estimate of the
+   * Get the control point grid size defining the B-spline estimate of the
    * update field.  In each dimension, the B-spline mesh size is equal
    * to the number of control points in that dimension minus the spline order.
    * Default = 4 control points in each dimension for a mesh size of 1 in each
@@ -140,7 +140,7 @@ public:
   void SetMeshSizeForTheUpdateField( const ArrayType & );
 
   /**
-   * Set the control point grid size definining the B-spline estimate of the
+   * Set the control point grid size defining the B-spline estimate of the
    * total field.  In each dimension, the B-spline mesh size is equal
    * to the number of control points in that dimension minus the spline order.
    * Default = 4 control points in each dimension for a mesh size of 1 in each
@@ -149,7 +149,7 @@ public:
   itkSetMacro( NumberOfControlPointsForTheTotalField, ArrayType );
 
   /**
-   * Get the control point grid size definining the B-spline estimate of the
+   * Get the control point grid size defining the B-spline estimate of the
    * scalar bias field.  In each dimension, the B-spline mesh size is equal
    * to the number of control points in that dimension minus the spline order.
    * Default = 4 control points in each dimension for a mesh size of 1 in each

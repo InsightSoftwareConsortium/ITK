@@ -356,7 +356,7 @@ ReconstructionImageFilter< TInputImage, TOutputImage, TCompare >
         {
         if ( compare(iN, V) )
           {
-          // not clamped by the mask, propogate the center value
+          // not clamped by the mask, propagate the center value
           outNIt.SetPixel(*oLIt, V);
           }
         else

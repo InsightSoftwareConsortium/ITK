@@ -181,7 +181,7 @@ SliceBySliceImageFilter< TInputImage, TOutputImage, TInputFilter, TOutputFilter,
 
   for ( int slice = requestedIndex[m_Dimension]; slice < sliceRange; slice++ )
     {
-    // say to the user that we are begining a new slice
+    // say to the user that we are beginning a new slice
     m_SliceIndex = slice;
     this->InvokeEvent( IterationEvent() );
 

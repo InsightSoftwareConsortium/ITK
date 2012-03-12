@@ -51,7 +51,7 @@ namespace itk
  *
  *
  * \author Luca Antiga Ph.D.  Biomedical Technologies Laboratory,
- *                            Bioengineering Deparment, Mario Negri Institute, Italy.
+ *                            Bioengineering Department, Mario Negri Institute, Italy.
  *
  * \ingroup ITKFastMarching
  */

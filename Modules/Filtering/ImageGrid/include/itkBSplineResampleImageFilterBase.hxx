@@ -237,7 +237,7 @@ void BSplineResampleImageFilterBase< TInputImage, TOutputImage >
 
       for ( int i = 1; i < m_GSize; i++ )
         {
-        // Calculate indicies for left and right of symmetrical filter.
+        // Calculate indices for left and right of symmetrical filter.
         i1 = inK - i;
         i2 = inK + i;
         // reflect at boundaries if necessary
@@ -351,7 +351,7 @@ void BSplineResampleImageFilterBase< TInputImage, TOutputImage >
   typename Superclass::InputImagePointer inputPtr = const_cast< TInputImage * >( this->GetInput() );
   startSize = inputPtr->GetBufferedRegion().GetSize();
 
-  // Initilize scratchImage space and allocate memory
+  // Initialize scratchImage space and allocate memory
   InitializeScratch(startSize);
   typename TOutputImage::Pointer scratchImage;
   scratchImage =  TOutputImage::New();
@@ -468,7 +468,7 @@ void BSplineResampleImageFilterBase< TInputImage, TOutputImage >
   typename Superclass::InputImagePointer inputPtr = const_cast< TInputImage * >( this->GetInput() );
   startSize = inputPtr->GetBufferedRegion().GetSize();
 
-  // Initilize scratchImage space and allocate memory
+  // Initialize scratchImage space and allocate memory
   InitializeScratch(startSize);
   typename TOutputImage::Pointer scratchImage;
   scratchImage =  TOutputImage::New();

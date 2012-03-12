@@ -27,7 +27,7 @@ namespace itk
  * \brief PathIterator iterates (traces) over a path through an image.
  *
  * This iterator visits only those indices of the image which are overlapped by
- * the path.  All indicies are visited in path order.  If a path crosses itself
+ * the path.  All indices are visited in path order.  If a path crosses itself
  * at an index, that index of the image will be visited twice.  This class add
  * write-access to the functionality of the PathConstIterator.
  *

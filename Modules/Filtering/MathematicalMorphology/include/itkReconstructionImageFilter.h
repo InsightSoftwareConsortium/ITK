@@ -38,7 +38,7 @@ namespace itk
  * performance comparison with GrayscaleGeodesicDilateImageFilter.
  *
  * This filter uses Luc Vincent's algorithm, which employs raster and
- * antiraster propogation steps followed by a FIFO based propogation
+ * antiraster propagation steps followed by a FIFO based propagation
  * step. "Morphological grayscale reconstruction in image analysis -
  * applications and efficient algorithms" -- IEEE Transactions on
  * Image processing, Vol 2, No 2, pp 176-201, April 1993

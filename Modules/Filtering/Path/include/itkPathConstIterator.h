@@ -28,10 +28,10 @@ namespace itk
  * \brief PathConstIterator iterates (traces) over a path through an image.
  *
  * This iterator visits only those indices of the image that are overlapped by
- * a specified 1D path.  All indicies are visited in path order.  If a path
+ * a specified 1D path.  All indices are visited in path order.  If a path
  * crosses itself at an index, that index of the image will be visited twice.
  * An exception to this rule is that if the path is closed, i.e. its starting
- * and ending indicies are coincident.  When starting and ending indicies are
+ * and ending indices are coincident.  When starting and ending indices are
  * coincident, GoToBegin() will go to the second index, since the "first" index
  * will be visited later as the "last" index.  This is so that paths
  * (especially parametric paths) can be properly closed, without
@@ -176,7 +176,7 @@ public:
   }
 
   /** Move an iterator to the beginning of the path.  If the starting and ending
-   * indicies of the path are coincident, then move to the 2'nd index of the
+   * indices of the path are coincident, then move to the 2'nd index of the
    * path, since the 1'st index will be visited later as the last index.
    * However, if m_VisitStartIndexAsLastIndexIfClosed is false, then GoToBegin()
    * will always move to the 1'st index. */

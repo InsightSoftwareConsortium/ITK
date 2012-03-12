@@ -333,10 +333,10 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
     GradientIteratorType git(gradientImagePointer, outputRegionForThread);
     git.GoToBegin();
 
-    // Compute the indicies of the baseline images and gradient images
-    std::vector< unsigned int > baselineind; // contains the indicies of
+    // Compute the indices of the baseline images and gradient images
+    std::vector< unsigned int > baselineind; // contains the indices of
                                              // the baseline images
-    std::vector< unsigned int > gradientind; // contains the indicies of
+    std::vector< unsigned int > gradientind; // contains the indices of
                                              // the gradient images
 
     for ( GradientDirectionContainerType::ConstIterator gdcit =

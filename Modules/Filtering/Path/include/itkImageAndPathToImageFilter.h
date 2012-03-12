@@ -28,7 +28,7 @@ namespace itk
  * This class is the base class for filters that take both an image and a path
  * as input and produce an image as output.  Specifically, this class defines
  * the methods SetPathInput() and SetImageInput().  (It also establishes the
- * precedent of having image inputs preceed path inputs for functions producing
+ * precedent of having image inputs precede path inputs for functions producing
  * images as outputs, according to the underlying DataObject implementation.)
  *
  * \ingroup ImageFilters

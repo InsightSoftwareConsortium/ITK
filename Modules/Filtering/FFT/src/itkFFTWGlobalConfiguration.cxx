@@ -154,7 +154,7 @@ FFTWGlobalConfiguration
         }
       catch(...)
         {
-        itkWarningMacro( "Warning: Unkown FFTW PLAN RIGOR type: " << fftwEnvOptimiztionString );
+        itkWarningMacro( "Warning: Unknown FFTW PLAN RIGOR type: " << fftwEnvOptimiztionString );
         }
       }
     }

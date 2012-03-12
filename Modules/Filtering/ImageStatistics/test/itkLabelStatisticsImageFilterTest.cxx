@@ -114,7 +114,7 @@ int itkLabelStatisticsImageFilterTest(int argc, char* argv [] )
                 << static_cast<itk::NumericTraits<LabelPixelType>::PrintType>(labelValue)
                 << " which exists" << std::endl;
       }
-    // Find a non existant label
+    // Find a non existent label
     if (i != 0)
       {
       labelValue = 0;

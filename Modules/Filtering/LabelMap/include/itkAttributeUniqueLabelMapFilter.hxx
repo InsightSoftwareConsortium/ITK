@@ -123,7 +123,7 @@ AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>
       if ( prevIdx[0] + prevLength >= idx[0] )
         {
         // the lines are overlapping. We need to choose which line to keep.
-        // the label, the only "attribute" to be guarenteed to be unique, is
+        // the label, the only "attribute" to be guaranteed to be unique, is
         // used to choose
         // which line to keep. This is necessary to avoid the case where a
         // part of a label is over

@@ -42,7 +42,7 @@ namespace itk
  * passed. This is consistent with how the fast marching method works.
  *
  * \author Luca Antiga Ph.D.  Biomedical Technologies Laboratory,
- *                            Bioengineering Deparment, Mario Negri Institute, Italy.
+ *                            Bioengineering Department, Mario Negri Institute, Italy.
  *
  * \ingroup ITKFastMarching
  */

@@ -102,7 +102,7 @@ private:
  * input image type, the mask image type and the type of the output image.
  * Numeric conversions (castings) are done by the C++ defaults.
  *
- * The pixel type of the input 2 image must have a valid defintion of the
+ * The pixel type of the input 2 image must have a valid definition of the
  * operator != with zero. This condition is required because internally this
  * filter will perform the operation
  *

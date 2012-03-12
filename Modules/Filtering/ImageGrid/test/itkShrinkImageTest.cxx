@@ -93,7 +93,7 @@ int itkShrinkImageTest(int, char* [] )
     iterator2(shrink->GetOutput(), requestedRegion);
 
   // If size is not a multiple of the shrink factors, then adjust the
-  // row/col indicies
+  // row/col indices
   short rowOffset = 0;
   short colOffset = 0;
   if (region.GetSize()[1] % shrink->GetShrinkFactors()[1])

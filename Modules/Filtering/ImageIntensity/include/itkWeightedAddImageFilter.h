@@ -83,7 +83,7 @@ private:
  * input images and the type of the output image.
  * Numeric conversions (castings) are done by the C++ defaults.
  *
- * The pixel type of the input 1 image must have a valid defintion of
+ * The pixel type of the input 1 image must have a valid definition of
  * the operator+ with a pixel type of the image 2. This condition is
  * required because internally this filter will perform the operation
  *
