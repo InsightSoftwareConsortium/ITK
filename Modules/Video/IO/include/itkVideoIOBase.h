@@ -90,7 +90,7 @@ public:
   virtual bool CanReadCamera( CameraIDType cameraID ) const = 0;
 
   /** Set the next frame that should be read. Return true if you operation
-   * succesful */
+   * successful */
   virtual bool SetNextFrameToRead( FrameOffsetType frameNumber ) = 0;
 
   /** Virtual accessor functions to be implemented in each derived class */

@@ -139,8 +139,6 @@ VXLVideoIO::FrameOffsetType VXLVideoIO::GetLastIFrame() const
   return this->m_LastIFrame;
 }
 
-
-
 //
 // SetCameraIndex
 //
@@ -235,7 +233,7 @@ bool VXLVideoIO::CanReadFile(const char* filename)
     return false;
     }
 
-  // Return true if successfull
+  // Return true if successful
   return true;
 }
 
@@ -418,8 +416,6 @@ bool VXLVideoIO::SetNextFrameToRead( FrameOffsetType frameNumber)
     }
   return false;
 }
-
-
 
 ///////////////////////////////////////////////////////////////////////////////
 // Write related methods
@@ -717,7 +713,7 @@ void VXLVideoIO::OpenWriter()
     itkExceptionMacro("Can not open writer while video is already open for reading");
     }
 
-  vidl_ffmpeg_ostream_params parameters ;
+  vidl_ffmpeg_ostream_params parameters;
   parameters.frame_rate_ = this->m_FramesPerSecond;
   parameters.ni_ = this->m_Dimensions[0];
   parameters.nj_ = this->m_Dimensions[1];

@@ -363,7 +363,7 @@ VideoFileWriter< TInputVideoStream >
     m_VideoIO = itk::VideoIOFactory::CreateVideoIO(
                              itk::VideoIOFactory::WriteMode, m_FileName.c_str());
 
-    // Return true if a VideoIO was sucessfully created
+    // Return true if a VideoIO was successfully created
     if (!m_VideoIO.IsNull())
       {
       // Get the pixel type

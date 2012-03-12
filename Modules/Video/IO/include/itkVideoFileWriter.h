@@ -117,7 +117,7 @@ protected:
   /** Initialize output parameters */
   bool InitializeOutputParameters();
 
-  /** Set up the VideoIO using VideoIOFactory. Returns true if sucessful, false
+  /** Set up the VideoIO using VideoIOFactory. Returns true if successful, false
    * otherwise.
    * Warning: this will overwrite any currently set VideoIO */
   bool InitializeVideoIO();

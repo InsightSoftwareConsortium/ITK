@@ -345,7 +345,7 @@ TemporalProcessObject::UpdateOutputData(DataObject* itkNotUsed(output))
 
   try
     {
-    // Make sure all requred input ports full
+    // Make sure all required input ports full
     DataObjectPointerArraySizeType ninputs = this->GetNumberOfValidRequiredInputs();
     if ( ninputs < this->GetNumberOfRequiredInputs() )
       {
@@ -428,7 +428,7 @@ TemporalProcessObject::GenerateData()
     // If we have an input, set the requested region and make sure its data is ready
     if (this->GetNumberOfInputs())
       {
-      // Set Input's requested region to the new reqest at i
+      // Set Input's requested region to the new request at i
       TemporalDataObject* input = dynamic_cast<TemporalDataObject*>(this->GetInput(0));
       if (!input)
         {

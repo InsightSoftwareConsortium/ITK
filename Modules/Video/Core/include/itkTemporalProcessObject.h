@@ -216,7 +216,7 @@ protected:
 
   /*-PROTECTED MEMBERS-------------------------------------------------------*/
 
-  /** Members to indicate the number of input frames and output frames requred
+  /** Members to indicate the number of input frames and output frames required
    * to perform a single pass through the processing. */
   SizeValueType  m_UnitInputNumberOfFrames;
   SizeValueType  m_UnitOutputNumberOfFrames;
