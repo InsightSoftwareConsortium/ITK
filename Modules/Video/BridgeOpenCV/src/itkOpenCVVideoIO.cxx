@@ -239,7 +239,7 @@ bool OpenCVVideoIO::CanReadFile(const char* filename)
     return false;
     }
 
-  // Close the file and return true if successfull
+  // Close the file and return true if successful
   cvReleaseCapture(&localCapture);
   return true;
 }
@@ -256,7 +256,7 @@ bool OpenCVVideoIO::CanReadCamera( CameraIDType cameraID ) const
     return false;
     }
 
-  // Close the file and return true if successfull
+  // Close the file and return true if successful
   cvReleaseCapture(&localCapture);
   return true;
 }

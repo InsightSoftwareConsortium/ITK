@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itk_vidl_istream_hxx
-#define __itk_vidl_istream_hxx
+#ifndef __vidl_itk_istream_hxx
+#define __vidl_itk_istream_hxx
 
 #include "itkNumericTraits.h"
 #include "vidl_itk_istream.h"
@@ -174,7 +174,7 @@ template< class TVideoStream >
 vidl_pixel_format
 vidl_itk_istream< TVideoStream >::format() const
 {
-  // We need to know about the primative type used for the pixel
+  // We need to know about the primitive type used for the pixel
   typedef typename itk::NumericTraits< PixelType >::ValueType PixelValueType;
 
   // Get the number of challenls for the pixel

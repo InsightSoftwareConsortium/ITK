@@ -31,7 +31,7 @@ namespace itk
  * in a video pipeline. This is done by instantiating the image filter, setting
  * its parameters, and then using the SetImageFilter() method of this wrapper
  * to use the filter to process each in a video pipeline. An instance of this
- * wrapper must be templated over the apropriate image filter type.
+ * wrapper must be templated over the appropriate image filter type.
  *
  * \ingroup ITKVideoFiltering
  */

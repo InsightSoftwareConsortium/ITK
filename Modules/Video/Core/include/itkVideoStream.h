@@ -287,7 +287,7 @@ protected:
   }
 
   /** These maps are used to cache a mapping between frame number and spatial
-   * region. This is done because frames will often not be in actual existance
+   * region. This is done because frames will often not be in actual existence
    * at the time when the region gets set. */
   SpatialRegionMapType m_LargestPossibleSpatialRegionCache;
   SpatialRegionMapType m_RequestedSpatialRegionCache;

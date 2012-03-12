@@ -86,7 +86,7 @@ public:
 
 
   /** Set the next frame that should be read. Return true if you operation
-   * succesful */
+   * successful */
   virtual bool SetNextFrameToRead( FrameOffsetType frameNumber);
 
   /** Accessor functions for video specific information */
@@ -109,7 +109,7 @@ public:
    * file specified. */
   virtual bool CanWriteFile(const char *);
 
-  /** Writes the spacing and dimentions of the image.
+  /** Writes the spacing and dimensions of the image.
    * Assumes SetFileName has been called with a valid file name. */
   virtual void WriteImageInformation();
 
