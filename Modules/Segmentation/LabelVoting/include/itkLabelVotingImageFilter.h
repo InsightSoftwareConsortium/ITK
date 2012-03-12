@@ -50,7 +50,7 @@ namespace itk
  *
  * \par OUTPUTS
  * The voting filter produces a single output volume. Each output pixel
- * contains the label that occured most often among the labels assigned to
+ * contains the label that occurred most often among the labels assigned to
  * this pixel in all the input volumes, that is, the label that received the
  * maximum number of "votes" from the input pixels.. If the maximum number of
  * votes is not unique, i.e., if more than one label have a maximum number of

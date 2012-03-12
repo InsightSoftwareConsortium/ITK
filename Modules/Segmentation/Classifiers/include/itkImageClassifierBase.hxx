@@ -141,7 +141,7 @@ ImageClassifierBase< TInputImage, TClassifiedImage >
 
     outputClassifiedLabel = ClassifiedImagePixelType (classLabel);
     classifiedIt.Set(outputClassifiedLabel);
-    } // end for (looping throught the dataset)
+    } // end for (looping through the dataset)
 }     // end Classify
 
 /**

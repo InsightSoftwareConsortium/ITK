@@ -34,8 +34,10 @@
 /*
 */
 
-/** This class is used to support callbacks
- * on the segmentation filter in this test. */
+/** \class ShowIterationObject
+ * This class is used to support callbacks
+ * on the segmentation filter in this test.
+ */
 namespace {
 template<class TFilter>
 class ShowIterationObject
@@ -61,13 +63,16 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest( int, char *[])
   typedef unsigned char PixelType;
   typedef float         InternalPixelType;
 
-  typedef itk::Image<PixelType,ImageDimension> ImageType;
+  typedef itk::Image<PixelType,ImageDimension>         ImageType;
   typedef itk::Image<InternalPixelType,ImageDimension> InternalImageType;
 
   typedef itk::GeodesicActiveContourShapePriorLevelSetImageFilter<InternalImageType,InternalImageType> FilterType;
+
   typedef itk::SphereSignedDistanceFunction<double,ImageDimension> ShapeFunctionType;
+
   typedef itk::ShapePriorMAPCostFunction<InternalImageType,InternalPixelType> CostFunctionType;
-  typedef itk::AmoebaOptimizer OptimizerType;
+
+  typedef itk::AmoebaOptimizer       OptimizerType;
   typedef FilterType::ParametersType ParametersType;
 
   FilterType::Pointer  filter            = FilterType::New();
@@ -388,7 +393,7 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest( int, char *[])
   filter->Update();
 
   /**
-   * Excercise error handling testing
+   * Exercise error handling testing
    */
   bool pass;
 
@@ -427,4 +432,3 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest( int, char *[])
   return EXIT_SUCCESS;
 
 }
-

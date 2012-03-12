@@ -28,7 +28,7 @@
 
 namespace itk
 {
-/* Set intial value of some parameters in the constructor */
+/* Set initial value of some parameters in the constructor */
 template< typename TInputImage, typename TClassifiedImage >
 RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
 ::RGBGibbsPriorFilter(void):

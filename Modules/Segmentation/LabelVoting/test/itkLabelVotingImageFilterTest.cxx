@@ -45,20 +45,20 @@ int itkLabelVotingImageFilterTest(int, char* [] )
     { 255, 1, 255, 255, 4, 255, 255, 255 };
 
   // Declare the type of the index to access images
-  typedef itk::Index<myDimension>         myIndexType;
+  typedef itk::Index<myDimension>                  myIndexType;
 
   // Declare the type of the size
-  typedef itk::Size<myDimension>          mySizeType;
+  typedef itk::Size<myDimension>                   mySizeType;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion<myDimension>        myRegionType;
+  typedef itk::ImageRegion<myDimension>            myRegionType;
 
-  // Declare Iterator type apropriate for image
-  typedef itk::ImageRegionIterator<myImageType>  myIteratorType;
+  // Declare Iterator type appropriate for image
+  typedef itk::ImageRegionIterator<myImageType>    myIteratorType;
 
   // Declare the type for the ADD filter
   typedef itk::LabelVotingImageFilter<myImageType> myFilterType;
-  typedef myFilterType::Pointer myFilterTypePointer;
+  typedef myFilterType::Pointer                    myFilterTypePointer;
 
   // Declare the pointers to images
   typedef myImageType::Pointer   myImageTypePointer;
@@ -201,4 +201,3 @@ int itkLabelVotingImageFilterTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-

@@ -93,7 +93,7 @@ public:
 
   /**    */
   struct flat_region_t {
-    /** Indicies into the associated Face containing boundary pixels.  These
+    /** Indices into the associated Face containing boundary pixels.  These
      * give access to spatial information, label and flow associated with
      * this boundary pixel connection.     */
     std::list< IdentifierType > offset_list;

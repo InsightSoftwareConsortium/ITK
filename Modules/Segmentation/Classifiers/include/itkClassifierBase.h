@@ -54,7 +54,7 @@ namespace itk
  * approached). This type of data can be classified via the use of
  * GeneralImageClassifierBase.
  *
- * The user will call the Update() function to run the classification proces.
+ * The user will call the Update() function to run the classification process.
  *
  * The user must generate the membership function before asking for data to
  * be classified. One can automatically generate the membership function from

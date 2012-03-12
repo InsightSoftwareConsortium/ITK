@@ -109,7 +109,7 @@ public:
   typedef typename NodeContainer::Element                   NodeType;
 
   /** The ReinitializeLevelSetImageFilter expect the input to be binary
-      withing the range [-0.5:0.5]. This filte will scale the input to
+      within the range [-0.5:0.5]. This filte will scale the input to
       fit in this range. */
   typedef RescaleIntensityImageFilter< InputImageType, RealImageType > RescaleFilterType;
 

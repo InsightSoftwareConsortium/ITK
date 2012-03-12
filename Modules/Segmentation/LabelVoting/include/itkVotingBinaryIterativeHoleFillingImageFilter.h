@@ -33,7 +33,7 @@ namespace itk
  * the holes, the more iteration must be run with this filter in order to fill
  * in the full hole. The size of the neighborhood is also related to the
  * curvature of the hole borders and therefore the hole size. Note that as a
- * colateral effect this filter may also fill in cavities in the external side
+ * collateral effect this filter may also fill in cavities in the external side
  * of structures.
  *
  * This filter is templated over a single image type because the output image

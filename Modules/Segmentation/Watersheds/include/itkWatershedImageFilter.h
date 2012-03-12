@@ -282,7 +282,7 @@ private:
   /** The component parts of the segmentation algorithm.  These objects
    * must save state between calls to GenerateData() so that the
    * computationally expensive execution of segment tree generation is
-   * not unneccessarily repeated. */
+   * not unnecessarily repeated. */
   typename watershed::Segmenter< InputImageType >::Pointer m_Segmenter;
 
   typename watershed::SegmentTreeGenerator< ScalarType >::Pointer m_TreeGenerator;

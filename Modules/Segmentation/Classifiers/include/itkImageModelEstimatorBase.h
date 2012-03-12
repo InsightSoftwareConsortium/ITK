@@ -117,7 +117,7 @@ public:
     return static_cast< unsigned int >( m_MembershipFunctions.size() );
   }
 
-  /** Method to reset the membership fucntion mean */
+  /** Method to reset the membership function mean */
   void DeleteAllMembershipFunctions()
   {
     m_MembershipFunctions.resize(0);

@@ -30,7 +30,7 @@ namespace itk
 {
 /** \class ParallelSparseFieldLevelSetNode
  * A data structure used in the ParallelSparsefieldlevelsetimagefilter to construct
- * lists of indicies and other values.
+ * lists of indices and other values.
  * \ingroup ITKLevelSets
  */
 template< class TNodeIndexType >
@@ -46,20 +46,20 @@ public:
 /**
  * \class ParallelSparseFieldCityBlockNeighborList
  *
- * \brief A convenience class for storing indicies which reference neighbor
+ * \brief A convenience class for storing indices which reference neighbor
  * pixels within a neighborhood.
  *
  * \par
- * This class creates and stores indicies for use in finding neighbors within
+ * This class creates and stores indices for use in finding neighbors within
  * an itk::NeighborhoodIterator object.  Both an array of unsigned integer
- * indicies and an array of N dimensional offsets (from the center of the
- * neighborhood) are created and stored.  The indicies and offsets correspond
+ * indices and an array of N dimensional offsets (from the center of the
+ * neighborhood) are created and stored.  The indices and offsets correspond
  * to the "city-block" neighbors, that is, 4-neighbors in 2d, 6-neighbors in
  * 3d, etc.
  *
  * \par
  * Order of reference is lowest index to highest index in the neighborhood.
- * For example, for 4 connectivity, the indicies refer to the following
+ * For example, for 4 connectivity, the indices refer to the following
  * neighbors:
  * \code
  *
@@ -149,18 +149,18 @@ private:
  *  iteration.
  *
  * \par
- *  The sparse field algorithm works by constructing a linked list of indicies
- *  that are adjacent to the \f$k\f$-level set.  These indicies are called the
- *  ``active set''.  The values at these active set indicies define the
- *  position of the \f$k\f$-level curve.  The active set indicies are shifted
+ *  The sparse field algorithm works by constructing a linked list of indices
+ *  that are adjacent to the \f$k\f$-level set.  These indices are called the
+ *  ``active set''.  The values at these active set indices define the
+ *  position of the \f$k\f$-level curve.  The active set indices are shifted
  *  to follow the distance transform embedding of the \f$k\f$-level curve as
  *  their values move in and out of a fixed numerical range about \f$k\f$. In
  *  this way, the active set is maintained as only those pixels adjacent to the
- *  evolving surface.  Calculations are then done only at indicies contained in
+ *  evolving surface.  Calculations are then done only at indices contained in
  *  the active set.
  *
  * \par
- *  The city-block neighborhoods of the active set indicies are maintained as
+ *  The city-block neighborhoods of the active set indices are maintained as
  *  separate lists called ``layers''.  At each iteration, the values at the
  *  layers are reinitialized as the distance transform from the active set.
  *  The number of layers can be adjusted according to the footprint needed for
@@ -175,14 +175,14 @@ private:
  *  geometry and external forces and using a stable numerical scheme.
  *
  *  2. For each active layer index \f$x_j\f$, add the change to the grid point
- *  value and redefine the active set indicies and those of its layers based on
+ *  value and redefine the active set indices and those of its layers based on
  *  any value changes which have moved outside of the numerical range allowed
  *  for the active set.
  *
  *  3. Starting with the first layers adjacent to the active set and moving
  *  outwards, reconstruct the distance transform by setting values in the
  *  layers according to their neighbors.  At the very outer layers, add or
- *  remove indicies which have come into or moved out of the sparse field.
+ *  remove indices which have come into or moved out of the sparse field.
  *
  * \par HOW TO USE THIS CLASS
  *  Typically, this class should be subclassed with additional functionality
@@ -206,7 +206,7 @@ private:
  * The output of the filter is the distance transform embedding of the
  * isosurface as the zero level set.  Values outside the surface will be
  * negative and values inside the surface will be positive.  The distance
- * transform only holds for those indicies in layers around the active layer.
+ * transform only holds for those indices in layers around the active layer.
  * Elsewhere, the values are a fixed positive or negative that is one greater
  * than the layer of greatest magnitude.  In other words, if there are three
  * layers, then inside values increase only to 4.0 and outside values only to
@@ -364,7 +364,7 @@ protected:
    *  sparse field. */
   static StatusType m_StatusActiveChangingDown;
 
-  /** Special status value used as a default for indicies which have no
+  /** Special status value used as a default for indices which have no
       meaningful status. */
   static StatusType m_StatusNull;
 
@@ -456,8 +456,8 @@ protected:
   void PropagateAllLayerValues();
 
   /** Adjusts the values in a single layer "to" using values in a neighboring
-   *  layer "from".  The list of indicies in "to" are traversed and assigned
-   *  new values appropriately. Any indicies in "to" without neighbors in
+   *  layer "from".  The list of indices in "to" are traversed and assigned
+   *  new values appropriately. Any indices in "to" without neighbors in
    *  "from" are moved into the "promote" layer (or deleted if "promote" is
    *  greater than the number of layers). "InOrOut" == 1 indicates this
    *  propagation is inwards (more negative).  "InOrOut" == 0 indicates this

@@ -203,8 +203,9 @@ int itkGibbsTest(int, char*[] )
   namespace stat = itk::Statistics;
 
   typedef stat::MahalanobisDistanceMembershipFunction< VecImagePixelType >
-    MembershipFunctionType ;
-  typedef MembershipFunctionType::Pointer MembershipFunctionPointer ;
+    MembershipFunctionType;
+  typedef MembershipFunctionType::Pointer
+    MembershipFunctionPointer;
 
   typedef std::vector< MembershipFunctionPointer >
     MembershipFunctionPointerVector;
@@ -259,7 +260,7 @@ int itkGibbsTest(int, char*[] )
   // Set the Classifier parameters
   myClassifier->SetNumberOfClasses(NUM_CLASSES);
 
-  // Set the decison rule
+  // Set the decision rule
   myClassifier->
     SetDecisionRule((DecisionRuleBasePointer) myDecisionRule );
 

@@ -109,7 +109,7 @@ public:
   itkGetObjectMacro( StoppingCriterion, StoppingCriterionType );
   itkSetObjectMacro( StoppingCriterion, StoppingCriterionType );
 
-  /** Get the number of iterations that have occured. */
+  /** Get the number of iterations that have occurred. */
   itkGetConstMacro( NumberOfIterations, IdentifierType );
 
   /** Update the filter by computing the output level function

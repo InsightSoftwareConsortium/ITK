@@ -113,7 +113,7 @@ int itkSampleClassifierFilterTest1( int, char * [] )
                                         MembershipFunctionVectorObjectType::New();
   filter->SetMembershipFunctions( membershipFunctionsObject );
 
-  //Run the filter without specifiying any membership functions. An exception
+  //Run the filter without specifying any membership functions. An exception
   //should be thrown since there will be a mismatch between the number of classes
   //and membership functions
   try

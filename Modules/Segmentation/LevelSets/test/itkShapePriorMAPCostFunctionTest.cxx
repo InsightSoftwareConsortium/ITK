@@ -54,8 +54,8 @@ int itkShapePriorMAPCostFunctionTest( int, char *[])
    * Set up a statistical model of the shape parameters.
    */
   typedef itk::ShapePriorMAPCostFunction<ImageType,PixelType> CostFunctionType;
-  typedef CostFunctionType::NodeType NodeType;
-  typedef CostFunctionType::NodeContainerType NodeContainerType;
+  typedef CostFunctionType::NodeType                          NodeType;
+  typedef CostFunctionType::NodeContainerType                 NodeContainerType;
   CostFunctionType::ParametersType mean( shape->GetNumberOfParameters() );
   CostFunctionType::ParametersType stddev( shape->GetNumberOfParameters() );
 
@@ -220,7 +220,7 @@ int itkShapePriorMAPCostFunctionTest( int, char *[])
       }
     }
 
-  // excercise error testing
+  // exercise error testing
 
   bool pass;
 

@@ -196,7 +196,7 @@ public:
   typedef ImplicitManifoldNormalVectorFilter< OutputImageType, SparseImageType >
   NormalVectorFilterType;
 
-  /** The function type for processing the normal vector neigborhood. */
+  /** The function type for processing the normal vector neighborhood. */
   typedef NormalVectorDiffusionFunction< SparseImageType >
   NormalVectorFunctionType;
 
@@ -229,7 +229,7 @@ public:
   void SetLevelSetFunction(LevelSetFunctionType *lsf);
 
   /** Compute the number of layers that must be used in
-      SparseFieldLevelSetImageFilter to accomodate the desired normal
+      SparseFieldLevelSetImageFilter to accommodate the desired normal
       processing band. */
   unsigned int GetMinimumNumberOfLayers() const
   {
