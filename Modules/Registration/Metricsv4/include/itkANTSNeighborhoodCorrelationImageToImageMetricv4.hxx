@@ -47,6 +47,18 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4<TFixedImage, TMovingImage, TVirt
 template<class TFixedImage, class TMovingImage, class TVirtualImage>
 void
 ANTSNeighborhoodCorrelationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
+::Initialize(void) throw ( itk::ExceptionObject )
+{
+  if( this->GetUseFixedSampledPointSet() )
+    {
+    itkExceptionMacro("UseFixedSampledPointSet is set, but not supported in this metric.");
+    }
+  Superclass::Initialize();
+}
+
+template<class TFixedImage, class TMovingImage, class TVirtualImage>
+void
+ANTSNeighborhoodCorrelationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
 ::InitializeScanning( const ImageRegionType &scanRegion, ScanIteratorType &scanIt,
                       ScanMemType & scanMem, ScanParametersType &scanParameters ) const
 {

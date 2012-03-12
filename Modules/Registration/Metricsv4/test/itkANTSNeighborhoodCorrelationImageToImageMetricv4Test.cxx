@@ -19,6 +19,7 @@
 #include "itkTranslationTransform.h"
 
 #include "itkANTSNeighborhoodCorrelationImageToImageMetricv4.h"
+#include "itkTestingMacros.h"
 
 /**
  * Test program for ANTSNeighborhoodCorrelationImageToImageMetricv4,
@@ -332,15 +333,15 @@ int itkANTSNeighborhoodCorrelationImageToImageMetricv4Test( int, char ** const )
               << ", " << valueReturn2 << std::endl;
     }
 
-    std::cout << "Test passed." << std::endl;
-    std::cout << "transformMdisplacement parameters" << std::endl;
-    std::cout << transformMdisplacement->GetParameters() << std::endl;
-    ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintImage(transformMdisplacement->GetDisplacementField());
+  std::cout << "Test passed." << std::endl;
+  std::cout << "transformMdisplacement parameters" << std::endl;
+  std::cout << transformMdisplacement->GetParameters() << std::endl;
+  ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintImage(transformMdisplacement->GetDisplacementField());
 
-    std::cout << "derivative of moving transform:" << std::endl;
-    std::cout << derivativeReturn << std::endl;
-    std::cout << std::endl << "derivative of moving transform as a field:" << std::endl;
-    ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintDerivativeAsVectorImage(fixedImage, derivativeReturn, ImageDimension);
+  std::cout << "derivative of moving transform:" << std::endl;
+  std::cout << derivativeReturn << std::endl;
+  std::cout << std::endl << "derivative of moving transform as a field:" << std::endl;
+  ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintDerivativeAsVectorImage(fixedImage, derivativeReturn, ImageDimension);
 
   // Test that non-overlapping images will generate a warning
   // and return max value for metric value.
@@ -358,6 +359,11 @@ int itkANTSNeighborhoodCorrelationImageToImageMetricv4Test( int, char ** const )
               << "  Metric value: " << valueReturn << std::endl
               << "  Expected metric max value: " << expectedMetricMax << std::endl;
     }
+
+  // Test that an exception is thrown if sampling is set
+  std::cout << "Testing use with sampled point set, expect a warning: " << std::endl;
+  metric->UseFixedSampledPointSetOn();
+  TRY_EXPECT_EXCEPTION( metric->Initialize() );
 
   std::cout << "Test PASSED." << std::endl;
   return EXIT_SUCCESS;
