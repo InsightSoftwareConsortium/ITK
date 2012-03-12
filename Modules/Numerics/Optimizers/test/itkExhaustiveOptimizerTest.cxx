@@ -39,7 +39,7 @@
  *
  * \class RSGCostFunction
  */
-class  RSGCostFunction : public itk::SingleValuedCostFunction
+class RSGCostFunction : public itk::SingleValuedCostFunction
 {
 public:
 
