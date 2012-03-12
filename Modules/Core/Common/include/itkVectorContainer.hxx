@@ -157,7 +157,7 @@ VectorContainer< TElementIdentifier, TElement >
 /**
  * Make sure that the index range of the STL vector is large enough to allow
  * the given index, expanding it if necessary.  The index will contain
- * the default element regardless of whether expansion occured.
+ * the default element regardless of whether expansion occurred.
  */
 template< typename TElementIdentifier, typename TElement >
 void

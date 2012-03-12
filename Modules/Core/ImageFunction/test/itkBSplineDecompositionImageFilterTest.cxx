@@ -87,7 +87,7 @@ int itkBSplineDecompositionImageFilterTest(int, char* [] )
   resample->SetSplineOrder( SplineOrder );
   resample->SetInputImage( filter->GetOutput() );
 
-  /** Set up a BSplineInterpolateImageFunction for comparision. */
+  /** Set up a BSplineInterpolateImageFunction for comparison. */
   typedef itk::BSplineInterpolateImageFunction<ImageType,double>
     InterpolateFunctionType;
   InterpolateFunctionType::Pointer interpolate = InterpolateFunctionType::New();
@@ -123,7 +123,7 @@ int itkBSplineDecompositionImageFilterTest(int, char* [] )
 
     }
 
-  /** Instanciation test with a std::complex pixel */
+  /** Instantiation test with a std::complex pixel */
   typedef std::complex<float>                                                     ComplexPixelType;
   typedef itk::Image<ComplexPixelType,ImageDimension>                             ComplexImageType;
   typedef itk::BSplineDecompositionImageFilter<ComplexImageType,ComplexImageType> ComplexFilterType;

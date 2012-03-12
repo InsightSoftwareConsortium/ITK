@@ -30,7 +30,7 @@ namespace itk
 {
 // first define a common interface all the wrapper will have to abide to
 // this will let us define our own wrapper with different behavior.
-// As an exemple we define below a wrapper for a min sorted or max sorted
+// As an example we define below a wrapper for a min sorted or max sorted
 // queue.
 template< typename TElement,
           typename TElementIdentifier = IdentifierType >

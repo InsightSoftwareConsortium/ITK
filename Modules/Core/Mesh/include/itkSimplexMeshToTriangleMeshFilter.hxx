@@ -115,7 +115,7 @@ SimplexMeshToTriangleMeshFilter< TInputMesh, TOutputMesh >
 
   if ( cellIt == cells1.end() )
     {
-    itkExceptionMacro(<< "Cell was not found, altough it should be there");
+    itkExceptionMacro(<< "Cell was not found, although it should be there");
     }
 
   return *cellIt;

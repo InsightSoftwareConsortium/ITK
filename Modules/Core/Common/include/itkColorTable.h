@@ -54,7 +54,7 @@ public:
 
   /** Generate a lookup table of 8 discrete colors. The colors are Red,
     * Purple, Aqua, Yellow, Green, Blue, Grey0.70, White. For integral
-    * pixel types, the color range is bewteen NonpositiveMin() and max(). For
+    * pixel types, the color range is between NonpositiveMin() and max(). For
     * continuous types, the range is 0.0 to 1.0.
     */
   void    UseDiscreteColors(void);
@@ -67,14 +67,14 @@ public:
 
   /** Generate a lookup table of n values good for showing
     * "temperatures".  For integral pixel types, the color range is
-    * bewteen NonpositiveMin() and max(). For continuous types, the
+    * between NonpositiveMin() and max(). For continuous types, the
     * range is 0.0 to 1.0.
     */
   void    UseHeatColors(unsigned int n = 256);
 
   /** Generate a lookup table of n random values. For integral pixel
     * types, the color range is between NonpositiveMin() and
-    * max(). For continous types, the range is 0.0 to 1.0.
+    * max(). For continuous types, the range is 0.0 to 1.0.
     */
   void    UseRandomColors(unsigned int n = 256);
 

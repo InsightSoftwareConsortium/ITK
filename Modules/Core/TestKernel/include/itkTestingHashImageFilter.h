@@ -31,7 +31,7 @@ namespace Testing
  * \brief Generates a md5 hash string from an image.
  *
  * \note This class utlizes low level buffer pointer access, to work
- * with itk::Image and itk::VectorImage. It is modeled after the access
+ * with itk::Image and itk::VectorImage. It is modelled after the access
  * an ImageFileWriter provides to an ImageIO.
  *
  * \warning The output is not very useful. This filter is derived from

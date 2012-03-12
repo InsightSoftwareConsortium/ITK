@@ -104,7 +104,7 @@ int itkQuadEdgeMeshAddFaceTest2(int , char *[])
   checker->GetNameOfClass( );
   std::cout << "Testing PrintSelf: " << std::endl;
   std::cout << checker << std::endl;
-  std::cout << "[SUCESS]" << std::endl;
+  std::cout << "[SUCCESS]" << std::endl;
 
   if( checker->ValidateEulerCharacteristic() )
     {

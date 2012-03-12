@@ -147,7 +147,7 @@ void usage()
   std::cerr << "  --compare-MD5 TEST md5hash0 [ md5hash1 ... ]" << std::endl;
   std::cerr << "      Compare the TEST image file's md5 hash to the provided hash." << std::endl;
   std::cerr << "      md5hash0 is required and assumed to be a hash." << std::endl;
-  std::cerr << "      Additional arguments are considerd hashes when the string is 32 hexi-decimal characters. " << std::endl;
+  std::cerr << "      Additional arguments are considered hashes when the string is 32 hexi-decimal characters. " << std::endl;
   std::cerr << "      This option can be used several times for multiple comparisons." << std::endl;
   std::cerr << std::endl;
   std::cerr << "  --with-threads THREADS" << std::endl;

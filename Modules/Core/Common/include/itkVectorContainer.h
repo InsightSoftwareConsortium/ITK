@@ -287,7 +287,7 @@ private:
   /**
    * Make sure that the index range of the vector is large enough to allow
    * the given index, expanding it if necessary.  The index will contain
-   * the default element regardless of whether expansion occured.
+   * the default element regardless of whether expansion occurred.
    */
   void CreateIndex(ElementIdentifier);
 

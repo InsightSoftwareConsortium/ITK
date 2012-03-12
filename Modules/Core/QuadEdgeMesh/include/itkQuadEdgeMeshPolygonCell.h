@@ -244,7 +244,7 @@ private:
       }
 
     // NOTE ALEX: very inefficient way of doing it ...
-    // you wanna support old API, you pay for it.
+    // you want to support old API, you pay for it.
     m_PointIds.clear();
     for ( PointIdentifier i = 0; i < this->GetNumberOfPoints(); i++ )
       {

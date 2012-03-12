@@ -28,7 +28,7 @@ namespace itk
  * \class ConstSparseFieldLayerIterator
  * \brief Used to iterate through an itkSparseFieldLayer.
  *
- *  This class is modeled on the STL Forward Iterator concept, and is used to
+ *  This class is modelled on the STL Forward Iterator concept, and is used to
  *  iterate through an itkSparseFieldLayer.
  * \ingroup ITKCommon
  */
@@ -136,7 +136,7 @@ public:
  *
  *  \par IMPORTANT!
  *  One important and distinctive feature of this list implementation (in fact,
- *  the entire reason for this object's existance) is that no memory
+ *  the entire reason for this object's existence) is that no memory
  *  allocation/deallocation occurs during linking or unlinking of nodes.  The
  *  nodes themselves are expected to carry the appropriate "Next" & "Previous"
  *  fields used to link.  Guaranteeing that no calls to new or delete are

@@ -227,7 +227,7 @@ int itkCovariantVectorGeometryTest(int, char* [] )
     {
     if(compp[i] != xp[i])
       {
-      std::cerr << "error -- bit pattern for CovariantVectorType::ComponentType doesnt match "
+      std::cerr << "error -- bit pattern for CovariantVectorType::ComponentType doesn't match "
                 << " double with same value" << std::endl;
       }
     }

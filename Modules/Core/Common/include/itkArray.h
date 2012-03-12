@@ -135,9 +135,9 @@ public:
   void SetData(TValueType *data, bool LetArrayManageMemory = false);
 
   /** Similar to the previous method. In the above method, the size must be
-   * seperately set prior to using user-supplied data. This introduces an
+   * separately set prior to using user-supplied data. This introduces an
    * unnecessary allocation step to be performed. This method avoids it
-   * and should be used to import data whereever possible to avoid this.
+   * and should be used to import data wherever possible to avoid this.
    * Set the pointer from which the data is imported.
    * If "LetArrayManageMemory" is false, then the application retains
    * the responsibility of freeing the memory for this data.  If

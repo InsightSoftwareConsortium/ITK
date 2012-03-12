@@ -112,7 +112,7 @@ int itkContourSpatialObjectTest(int, char* [])
   contour->SetClosed(false);
   if (contour->GetClosed())
     {
-    std::cout << "[FAILED] Did not set/retreive closed property correctly" << std::endl;
+    std::cout << "[FAILED] Did not set/retrieve closed property correctly" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -120,7 +120,7 @@ int itkContourSpatialObjectTest(int, char* [])
   contour->SetClosed(true);
   if (!contour->GetClosed())
     {
-    std::cout << "[FAILED] Did not set/retreive closed property correctly" << std::endl;
+    std::cout << "[FAILED] Did not set/retrieve closed property correctly" << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] Set/GetClosed" << std::endl;
@@ -132,7 +132,7 @@ int itkContourSpatialObjectTest(int, char* [])
   contour->SetDisplayOrientation(1);
   if (contour->GetDisplayOrientation() != 1)
     {
-    std::cout << "[FAILED] Did not set/retreive display orientation correctly" << std::endl;
+    std::cout << "[FAILED] Did not set/retrieve display orientation correctly" << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] Set/GetDisplayOrientation" << std::endl;
@@ -145,7 +145,7 @@ int itkContourSpatialObjectTest(int, char* [])
   // first test with no slice
   if (contour->GetAttachedToSlice() != -1)
     {
-    std::cout << "[FAILED] Did not retreive -1 when not slice" << std::endl;
+    std::cout << "[FAILED] Did not retrieve -1 when not slice" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -153,7 +153,7 @@ int itkContourSpatialObjectTest(int, char* [])
   contour->SetAttachedToSlice(1);
   if (contour->GetAttachedToSlice() != 1)
     {
-    std::cout << "[FAILED] Did not set/retreive proper slice" << std::endl;
+    std::cout << "[FAILED] Did not set/retrieve proper slice" << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] Set/GetAttachedToSlice" << std::endl;
@@ -165,7 +165,7 @@ int itkContourSpatialObjectTest(int, char* [])
   contour->SetInterpolationType(SpatialObjectType::LINEAR_INTERPOLATION);
   if (contour->GetInterpolationType() != SpatialObjectType::LINEAR_INTERPOLATION)
     {
-    std::cout << "[FAILED] Did not set/retreive interpolation type correctly" << std::endl;
+    std::cout << "[FAILED] Did not set/retrieve interpolation type correctly" << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] Set/GetInterpolationType" << std::endl;

@@ -159,7 +159,7 @@ public:
       }
   }
 
-  /** \note: the functions are prefered over the member variables as
+  /** \note: the functions are preferred over the member variables as
    * they are defined for all partial specialization
    */
   static const Self ITKCommon_EXPORT Zero;

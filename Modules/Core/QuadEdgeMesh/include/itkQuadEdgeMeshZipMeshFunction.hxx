@@ -156,7 +156,7 @@ QuadEdgeMeshZipMeshFunction< TMesh, TQEType >::Evaluate(QEType *e)
   //                /  |  \                                //
   //               /   |   \                               //
   //
-  // and hence the connectivity part of "Zip" job is allready done.
+  // and hence the connectivity part of "Zip" job is already done.
   // Check for that case:
   //
   if ( VLeft != VRite )

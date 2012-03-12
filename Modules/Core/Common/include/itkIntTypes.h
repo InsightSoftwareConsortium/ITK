@@ -40,7 +40,7 @@ namespace itk
 #if defined( ITK_HAVE_STDINT_H )
 
 // Note: these types are technically optional in C99 stdint.h file. As
-// such a try complile for their existance may be needed.
+// such a try complile for their existence may be needed.
 typedef::int8_t   int8_t;
 typedef::uint8_t  uint8_t;
 typedef::int16_t  int16_t;
@@ -78,7 +78,7 @@ typedef::uintptr_t uintptr_t;
 
 #else // ITK_HAVE_STDINT_H
 
-/** Fixed width interger types. */
+/** Fixed width integer types. */
 typedef::itksysFundamentalType_Int8   int8_t;
 typedef::itksysFundamentalType_UInt8  uint8_t;
 typedef::itksysFundamentalType_Int16  int16_t;
@@ -88,7 +88,7 @@ typedef::itksysFundamentalType_UInt32 uint32_t;
 typedef::itksysFundamentalType_Int64  int64_t;
 typedef::itksysFundamentalType_UInt64 uint64_t;
 
-/** Types which are at least a certain size, these are prefered over
+/** Types which are at least a certain size, these are preferred over
  *  fixed width. */
 typedef int8_t   int_least8_t;
 typedef uint8_t  uint_least8_t;
@@ -100,7 +100,7 @@ typedef int64_t  int_least64_t;
 typedef uint64_t uint_least64_t;
 
 /** Types which are at least a certain size but may be greater if
- *  performace benifits, these are prefered over fixed width. */
+ *  performace benefits, these are preferred over fixed width. */
 typedef int8_t   int_fast8_t;
 typedef uint8_t  uint_fast8_t;
 typedef int16_t  int_fast16_t;

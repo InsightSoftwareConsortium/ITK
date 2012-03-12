@@ -137,7 +137,7 @@ int itkCompositeTransformTest(int, char *[] )
 
   compositeTransform->AddTransform( affine );
 
-  /* Test that we have one tranform in the queue */
+  /* Test that we have one transform in the queue */
   if( compositeTransform->GetNumberOfTransforms() != 1 )
     {
     std::cout << "Failed adding transform to queue." << std::endl;

@@ -79,7 +79,7 @@ int itkBSplineResampleImageFunctionTest(int, char* [] )
   resample->SetSplineOrder( SplineOrder );
   resample->SetInputImage( filter->GetOutput() );
 
-  /** Set up a BSplineInterpolateImageFunction for comparision. */
+  /** Set up a BSplineInterpolateImageFunction for comparison. */
   typedef itk::BSplineInterpolateImageFunction<ImageType,double>
     InterpolateFunctionType;
   InterpolateFunctionType::Pointer interpolate = InterpolateFunctionType::New();

@@ -99,7 +99,7 @@ Win32OutputWindow
   /** Create a buffer big enough to hold the entire text */
   char *buffer = new char[strlen(text) + 1];
 
-  /** Start at the begining */
+  /** Start at the beginning */
   const char *NewLinePos = text;
   while ( NewLinePos )
     {
@@ -232,7 +232,7 @@ Win32OutputWindow
 {
   std::ostringstream msg;
 
-  msg << text << "\nPress Cancel to supress any further messages.";
+  msg << text << "\nPress Cancel to suppress any further messages.";
   if ( MessageBox(NULL, msg.str().c_str(), "Error",
                   MB_ICONERROR | MB_OKCANCEL) == IDCANCEL )
     {

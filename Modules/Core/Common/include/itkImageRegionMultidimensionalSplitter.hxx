@@ -158,7 +158,7 @@ ImageRegionMultidimensionalSplitter< VImageDimension >
         }
       }
 
-    // calculate the number of addtional pieces this split would add
+    // calculate the number of additional pieces this split would add
     unsigned int additionalNumPieces = 1;
     for ( i = 0; i < VImageDimension; ++i )
       {

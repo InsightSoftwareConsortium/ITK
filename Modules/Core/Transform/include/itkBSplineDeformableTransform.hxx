@@ -359,7 +359,7 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
     }
   else if( passedParameters.Size() == NDimensions * 3 )
     {
-    // This option was originally valid for backwards compatibilty
+    // This option was originally valid for backwards compatibility
     // with BSplines saved to disk from before image orientation was used.
     // Those transforms would no longer be valid with respect to images
     // with explicit directions.

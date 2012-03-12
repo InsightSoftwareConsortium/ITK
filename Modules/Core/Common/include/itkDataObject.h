@@ -237,7 +237,7 @@ protected:
  * filter needs to re-execute in order to satisfy a given request. For
  * DataObjects that do not support Regions, this method always returns
  * false. By always returning false, these types of DataObjects will
- * update solely on the basis of modified times (wherease Images
+ * update solely on the basis of modified times (whereas Images
  * update based on either modified times or the RequestedRegion
  * needs). If this method always returned true, the DataObject would
  * be updated on every single call to Update() (not recommended).

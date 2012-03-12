@@ -44,12 +44,12 @@ public:
     TestData(const int valueIn) {
         this->value = valueIn;
         counter++;
-    };
+    }
 
     TestData(const TestData& t) {
         this->value = t.value;
         counter++;
-    };
+    }
 
     ~TestData() {
         value = 0;
@@ -57,15 +57,15 @@ public:
 
         if(counter == 0)
             std::cout << "last Data destroyed" << std::endl;
-    };
+    }
 
     int Get() const {
         return value;
-    };
+    }
 
     void Set( int v ) {
         value = v;
-    };
+    }
 
 
     TestData &operator=(const TestData& t) {
@@ -79,7 +79,7 @@ public:
         if( &t == this )
             return true;
         return false;
-    };
+    }
 
     friend std::ostream& operator<<( std::ostream& o, TestData& t);
     friend std::istream& operator>>( std::istream& i, TestData& t);
@@ -114,8 +114,8 @@ std::istream& operator>>( std::istream& i, TestData& t ) {
 }
 
 
-typedef TestData* NodeType;
-std::list<TestData*> InternalList;// used to delete the pointer in the tree
+typedef TestData*                    NodeType;
+std::list<TestData*>                 InternalList;// used to delete the pointer in the tree
 typedef itk::TreeContainer<NodeType> TreeType;
 
 class TreeChangeListener : public itk::Command {
@@ -124,8 +124,8 @@ protected:
   TreeChangeListener(){};
 public:
 
-  typedef TreeChangeListener Self;
-  typedef itk::SmartPointer<Self>  Pointer;
+  typedef TreeChangeListener             Self;
+  typedef itk::SmartPointer<Self>        Pointer;
   typedef itk::SmartPointer<const Self>  ConstPointer;
   itkNewMacro(Self);
 
@@ -304,7 +304,7 @@ int PrintResult( int result, int value )
 {
   if ( result == value )
   {
-    std::cout << "[SUCESS]" << std::endl;
+    std::cout << "[SUCCESS]" << std::endl;
     return 1;
   }
   else
@@ -415,4 +415,3 @@ int itkTreeContainerTest2(int, char* [])
     return EXIT_FAILURE;
     }
 }
-

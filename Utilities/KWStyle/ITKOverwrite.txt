@@ -35,6 +35,7 @@ VNLIterativeSparseSolverTraits.h Namespace Disable
 itkMeasurementVectorTraits.h InternalVariables Disable
 itk.*\Test.*\.cxx Namespace Disable
 itk.*\Test.*\.h Namespace Disable
+itkTreeContainerTest2.cxx InternalVariables Disable
 itkBilateralImageFilter.hxx Namespace Disable
 itkConceptChecking.h Template Disable
 itkBioCellBase.h InternalVariables Disable

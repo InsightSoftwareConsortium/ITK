@@ -51,7 +51,7 @@ int itkSTLContainerAdaptorTest(int, char* [] )
 
     containerSize = static_cast<unsigned int>( vectorSource.size() );
 
-    typedef itk::STLContainerAdaptor<VectorContainerType>       AdaptorType;
+    typedef itk::STLContainerAdaptor<VectorContainerType> AdaptorType;
     typedef AdaptorType::TargetType                       TargetType;
 
     std::cout << "----- Testing non-const Adaptor " << std::endl;
@@ -73,7 +73,7 @@ int itkSTLContainerAdaptorTest(int, char* [] )
         {
         if( *it != cIter.Value() )
           {
-          std::cerr << "Error in comparision !" << std::endl;
+          std::cerr << "Error in comparison !" << std::endl;
           return EXIT_FAILURE;
           }
         ++cIter;
@@ -102,10 +102,8 @@ int itkSTLContainerAdaptorTest(int, char* [] )
 
     }
 
-
-
-    typedef itk::STLConstContainerAdaptor<VectorContainerType>  ConstAdaptorType;
-    typedef ConstAdaptorType::TargetType                  ConstTargetType;
+    typedef itk::STLConstContainerAdaptor<VectorContainerType> ConstAdaptorType;
+    typedef ConstAdaptorType::TargetType                       ConstTargetType;
 
     std::cout << "----- Testing const Adaptor " << std::endl;
 
@@ -125,7 +123,7 @@ int itkSTLContainerAdaptorTest(int, char* [] )
         {
         if( *it != cIter.Value() )
           {
-          std::cerr << "Error in comparision !" << std::endl;
+          std::cerr << "Error in comparison !" << std::endl;
           return EXIT_FAILURE;
           }
         ++it;
@@ -159,8 +157,6 @@ int itkSTLContainerAdaptorTest(int, char* [] )
 
   }
 
-
-
   // Test with the MapContainer
 
   typedef itk::MapContainer<IndexType, ElementType>  MapContainerType;
@@ -182,8 +178,8 @@ int itkSTLContainerAdaptorTest(int, char* [] )
 
     containerSize = static_cast<unsigned int>( mapSource.size() );
 
-    typedef itk::STLContainerAdaptor<MapContainerType>       AdaptorType;
-    typedef AdaptorType::TargetType                       TargetType;
+    typedef itk::STLContainerAdaptor<MapContainerType> AdaptorType;
+    typedef AdaptorType::TargetType                    TargetType;
 
     std::cout << "----- Testing non-const Adaptor " << std::endl;
 
@@ -206,7 +202,7 @@ int itkSTLContainerAdaptorTest(int, char* [] )
         {
         if( it->second != cIter.Value() )
           {
-          std::cerr << "Error in comparision !" << std::endl;
+          std::cerr << "Error in comparison !" << std::endl;
           return EXIT_FAILURE;
           }
         ++cIter;
@@ -235,10 +231,8 @@ int itkSTLContainerAdaptorTest(int, char* [] )
 
     }
 
-
-
-    typedef itk::STLConstContainerAdaptor<MapContainerType>  ConstAdaptorType;
-    typedef ConstAdaptorType::TargetType                  ConstTargetType;
+    typedef itk::STLConstContainerAdaptor<MapContainerType> ConstAdaptorType;
+    typedef ConstAdaptorType::TargetType                    ConstTargetType;
 
     std::cout << "----- Testing const Adaptor " << std::endl;
 
@@ -261,7 +255,7 @@ int itkSTLContainerAdaptorTest(int, char* [] )
         {
         if( it->second != cIter.Value() )
           {
-          std::cerr << "Error in comparision !" << std::endl;
+          std::cerr << "Error in comparison !" << std::endl;
           return EXIT_FAILURE;
           }
         ++it;
@@ -294,8 +288,6 @@ int itkSTLContainerAdaptorTest(int, char* [] )
   std::cout << "MapContainer test passed ! " << std::endl;
 
   }
-
-
 
   return EXIT_SUCCESS;
 }

@@ -25,7 +25,7 @@ namespace itk
  * \brief A container of static functions which can operate on Images
  * with Iterators
  *
- * These methods are modeled after the STL algorithm. They may use
+ * These methods are modelled after the STL algorithm. They may use
  * special optimization techniques to implement enhanced versions of
  * the method.
  *

@@ -30,7 +30,7 @@ namespace itk
  * (components).
  * The template parameter TCoordRep can be any data type that behaves
  * like a primitive (or atomic) data type (int, short, float, complex).
- * The VIndexDimension defines the number of  components in the continous
+ * The VIndexDimension defines the number of  components in the continuous
  * index array.
  *
  * \sa Point

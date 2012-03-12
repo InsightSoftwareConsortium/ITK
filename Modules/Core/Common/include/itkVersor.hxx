@@ -151,7 +151,7 @@ Versor< T >
   return result;
 }
 
-/** Comparision operator */
+/** Comparison operator */
 template< class T >
 bool
 Versor< T >
@@ -160,7 +160,7 @@ Versor< T >
   return !( *this == v );
 }
 
-/** Comparision operator */
+/** Comparison operator */
 template< class T >
 bool
 Versor< T >

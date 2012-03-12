@@ -124,7 +124,7 @@ void ConditionVariable::Wait(SimpleMutexLock *mutex)
     }
   else
     {
-    // Always regain the external mutex since that's the guarentee we
+    // Always regain the external mutex since that's the guarantee we
     // give to our callers
     WaitForSingleObject(mutex->GetMutexLock(), INFINITE);
     }

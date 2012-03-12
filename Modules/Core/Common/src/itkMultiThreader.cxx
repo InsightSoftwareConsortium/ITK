@@ -146,7 +146,7 @@ ThreadIdType MultiThreader::GetGlobalDefaultNumberOfThreads()
       }
     }
 
-  // first, check for enviornment variable
+  // first, check for environment variable
   itksys_stl::string itkGlobalDefaultNumberOfThreadsEnv = "0";
 
   for( std::vector<std::string>::const_iterator lit=ITK_NUMBER_OF_THREADS_ENV_LIST.begin();

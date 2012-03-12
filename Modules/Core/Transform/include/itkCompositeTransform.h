@@ -55,7 +55,7 @@ namespace itk
  * of these flags states'. The methods GetParameters, SetParameters,
  * ComputeJacobianWithRespectToParameters, ComputeJacobianWithRespectToPosition,
  * GetFixedParameters, and SetFixedParameters all query these
- * flags and include only those transforms whose corresponsing flag is set.
+ * flags and include only those transforms whose corresponding flag is set.
  * Their input or output is a concatenated array of all transforms set for use
  * in optimization. The goal is to be able to optimize multiple transforms at
  * once, while leaving other transforms fixed. See the above example.

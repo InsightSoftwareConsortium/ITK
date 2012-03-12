@@ -27,7 +27,7 @@
 int itkSpatialObjectTreeContainerTest(int, char* [])
 {
 
-  typedef itk::GroupSpatialObject<2> NodeType;
+  typedef itk::GroupSpatialObject<2>         NodeType;
   typedef itk::SpatialObjectTreeContainer<2> TreeType;
 
   NodeType::Pointer object0 = NodeType::New();
@@ -66,11 +66,11 @@ int itkSpatialObjectTreeContainerTest(int, char* [])
   levelIt.GoToBegin();
   while(!levelIt.IsAtEnd())
     {
-    std::cout << levelIt.Get()->GetId() << " ("<< levelIt.GetLevel() << ")" << std::endl;;
+    std::cout << levelIt.Get()->GetId() << " ("<< levelIt.GetLevel() << ")" << std::endl;
     ++levelIt;
     }
   std::cout << std::endl;
-  std::cout << "[SUCESS]" << std::endl;
+  std::cout << "[SUCCESS]" << std::endl;
 
 
   std::cout << "Testing adding to tree by iterator (PreOrderTreeIterator): " << std::endl;
@@ -83,11 +83,13 @@ int itkSpatialObjectTreeContainerTest(int, char* [])
   preIt.GoToBegin();
   while(!preIt.IsAtEnd())
     {
-    if(preIt.Get()->GetId()==8)
+    if(preIt.Get()->GetId() == 8)
+      {
       break;
+      }
     ++preIt;
     }
-  if(preIt.Get()->GetId()!=8)
+  if(preIt.Get()->GetId() != 8)
     {
     std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
@@ -109,4 +111,3 @@ int itkSpatialObjectTreeContainerTest(int, char* [])
   std::cout << "Test Done." << std::endl;
   return EXIT_SUCCESS;
 }
-

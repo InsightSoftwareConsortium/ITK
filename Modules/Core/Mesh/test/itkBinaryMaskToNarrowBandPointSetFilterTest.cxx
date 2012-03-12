@@ -74,9 +74,6 @@ int itkBinaryMaskToNarrowBandPointSetFilterTest(int , char *[] )
     ++it;
     }
 
-
-
-
   //
   //  Set up the filter
   //
@@ -87,14 +84,9 @@ int itkBinaryMaskToNarrowBandPointSetFilterTest(int , char *[] )
                                 PointSetType
                                             >  GeneratorType;
 
-
-
-
   GeneratorType::Pointer narrowBandGenerator = GeneratorType::New();
 
   narrowBandGenerator->SetInput( binaryMask );
-
-
 
   try
     {
@@ -102,13 +94,10 @@ int itkBinaryMaskToNarrowBandPointSetFilterTest(int , char *[] )
     }
   catch( itk::ExceptionObject & excp )
     {
-    std::cerr << "Exception thrown during the excecution of the generator " << std::endl;
+    std::cerr << "Exception thrown during the execution of the generator " << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
-
-
-
 
   //
   //  Checking the output
@@ -152,10 +141,5 @@ int itkBinaryMaskToNarrowBandPointSetFilterTest(int , char *[] )
     ++data;
     }
 
-
-
   return EXIT_SUCCESS;
 }
-
-
-

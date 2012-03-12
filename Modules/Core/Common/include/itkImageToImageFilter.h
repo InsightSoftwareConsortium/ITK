@@ -180,7 +180,7 @@ protected:
    * have to override this method.  In doing so, it should call its
    * superclass' implementation as its first step. Note that imaging
    * filters operate differently than the classes to this point in the
-   * class hierachy.  Up till now, the base assumption has been that
+   * class hierarchy.  Up till now, the base assumption has been that
    * the largest possible region will be requested of the input.
    *
    * This implementation of GenerateInputRequestedRegion() only

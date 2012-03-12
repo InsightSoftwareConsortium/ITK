@@ -75,7 +75,7 @@
  *   - as a classic Mesh filter.
  * The choice of the slot is a mere matter of trade-off and in order
  * to keep QuadEdgeMesh tiny and humanly readable key decision factors
- * can be the occurence of the calls and the human level complexity of
+ * can be the occurrence of the calls and the human level complexity of
  * the code.
  * With those criteria in mind we made the following choices:
  *   - really atomic, lightweight and general purpose methods like
@@ -199,7 +199,7 @@ public:
   typedef typename Superclass::BoundaryAssignmentsContainerVector
   BoundaryAssignmentsContainerVector;
 
-  // Miscelaneous section:
+  // Miscellaneous section:
   typedef typename Superclass::BoundingBoxPointer BoundingBoxPointer;
   typedef typename Superclass::BoundingBoxType    BoundingBoxType;
   typedef typename Superclass::RegionType         RegionType;
