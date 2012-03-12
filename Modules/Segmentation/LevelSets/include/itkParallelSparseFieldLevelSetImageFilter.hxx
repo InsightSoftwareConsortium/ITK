@@ -465,11 +465,11 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   NeighborhoodIterator< StatusImageType > statusIt( m_NeighborList.GetRadius(), m_StatusImage,
                                                     m_OutputImage->GetRequestedRegion() );
 
-  // For all indicies in the "from" layer...
+  // For all indices in the "from" layer...
   for ( fromIt = m_Layers[from]->Begin(); fromIt != m_Layers[from]->End(); ++fromIt )
     {
     // Search the neighborhood of this index in the status image for
-    // unassigned indicies. Push those indicies onto the "to" layer and
+    // unassigned indices. Push those indices onto the "to" layer and
     // assign them values in the status image.  Status pixels outside the
     // boundary will be ignored.
     statusIt.SetLocation(fromIt->m_Index);
@@ -520,7 +520,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 
   ValueType dx_forward, dx_backward, length, distance;
 
-  // For all indicies in the active layer...
+  // For all indices in the active layer...
   for ( activeIt = m_Layers[0]->Begin(); activeIt != m_Layers[0]->End(); ++activeIt )
     {
     // Interpolate on the (shifted) input image values at this index to
@@ -825,7 +825,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
                       << "field. Requires at least one layer.");
     }
 
-  // Layers used as buffers for transfering pixels during load balancing
+  // Layers used as buffers for transferring pixels during load balancing
   m_Data[ThreadId].m_LoadTransferBufferLayers =
     new LayerListType[2 * m_NumberOfLayers + 1];
   for ( i = 0; i < 2 * static_cast< unsigned int >( m_NumberOfLayers ) + 1; i++ )
@@ -1397,7 +1397,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 
   this->GetDifferenceFunction()->ComputeNeighborhoodScales();
 
-  // Calculates the update values for the active layer indicies in this
+  // Calculates the update values for the active layer indices in this
   // iteration.  Iterates through the active layer index list, applying
   // the level set function to the output image (level set image) at each
   // index.
@@ -1620,7 +1620,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
                                                    centerValue, layerIt->m_Value);
 
     // If this index needs to be moved to another layer, then search its
-    // neighborhood for indicies that need to be pulled up/down into the
+    // neighborhood for indices that need to be pulled up/down into the
     // active layer. Set those new active layer values appropriately,
     // checking first to make sure they have not been set by a more
     // influential neighbor.

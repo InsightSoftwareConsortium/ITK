@@ -165,10 +165,10 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     }
 
   // Process the active layer.  This step will update the values in the active
-  // layer as well as the values at indicies that *will* become part of the
+  // layer as well as the values at indices that *will* become part of the
   // active layer when they are promoted/demoted.  Also records promotions,
-  // demotions in the m_StatusLayer for current active layer indicies
-  // (i.e. those indicies which will move inside or outside the active
+  // demotions in the m_StatusLayer for current active layer indices
+  // (i.e. those indices which will move inside or outside the active
   // layers).
   this->UpdateActiveLayerValues(dt, UpList[0], DownList[0]);
 
@@ -207,7 +207,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   this->ProcessStatusList(UpList[j], UpList[k], up_to, m_StatusNull);
   this->ProcessStatusList(DownList[j], DownList[k], down_to, m_StatusNull);
 
-  // Now we are left with the lists of indicies which must be
+  // Now we are left with the lists of indices which must be
   // brought into the outermost layers.  Bring UpList into last inside layer
   // and DownList into last outside layer.
   this->ProcessOutsideList(UpList[k], static_cast< int >( m_Layers.size() ) - 2);
@@ -351,7 +351,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
                                            *updateIt);
 
     // If this index needs to be moved to another layer, then search its
-    // neighborhood for indicies that need to be pulled up/down into the
+    // neighborhood for indices that need to be pulled up/down into the
     // active layer. Set those new active layer values appropriately,
     // checking first to make sure they have not been set by a more
     // influential neighbor.
@@ -384,7 +384,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 
       rms_change_accumulator += vnl_math_sqr( new_value - outputIt.GetCenterPixel() );
 
-      // Search the neighborhood for inside indicies.
+      // Search the neighborhood for inside indices.
       temp_value = new_value - m_ConstantGradientValue;
       for ( i = 0; i < m_NeighborList.GetSize(); ++i )
         {
@@ -436,7 +436,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 
       rms_change_accumulator += vnl_math_sqr( new_value - outputIt.GetCenterPixel() );
 
-      // Search the neighborhood for outside indicies.
+      // Search the neighborhood for outside indices.
       temp_value = new_value + m_ConstantGradientValue;
       for ( i = 0; i < m_NeighborList.GetSize(); ++i )
         {
@@ -788,12 +788,12 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   statusIt( m_NeighborList.GetRadius(), m_StatusImage,
             this->GetOutput()->GetRequestedRegion() );
 
-  // For all indicies in the "from" layer...
+  // For all indices in the "from" layer...
   for ( fromIt = m_Layers[from]->Begin();
         fromIt != m_Layers[from]->End(); ++fromIt )
     {
     // Search the neighborhood of this index in the status image for
-    // unassigned indicies. Push those indicies onto the "to" layer and
+    // unassigned indices. Push those indices onto the "to" layer and
     // assign them values in the status image.  Status pixels outside the
     // boundary will be ignored.
     statusIt.SetLocation(fromIt->m_Value);
@@ -848,7 +848,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 
   ValueType dx_forward, dx_backward, length, distance;
 
-  // For all indicies in the active layer...
+  // For all indices in the active layer...
   for ( activeIt = m_Layers[0]->Begin();
         activeIt != m_Layers[0]->End(); ++activeIt )
     {
@@ -933,7 +933,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   m_UpdateBuffer.clear();
   m_UpdateBuffer.reserve( m_Layers[0]->Size() );
 
-  // Calculates the update values for the active layer indicies in this
+  // Calculates the update values for the active layer indices in this
   // iteration.  Iterates through the active layer index list, applying
   // the level set function to the output image (level set image) at each
   // index.  Update values are stored in the update buffer.

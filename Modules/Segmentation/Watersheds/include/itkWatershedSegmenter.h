@@ -271,7 +271,7 @@ protected:
   void operator=(const Self &) {}
 
   /** Constructs the connectivity list and the corresponding set of directional
-   * Offset indicies. */
+   * Offset indices. */
   virtual void GenerateConnectivity();
 
   /** This method asks for an image region that is one pixel larger

@@ -252,7 +252,7 @@ protected:
   virtual void UpdateReferenceMetrics();
 
   /**
-   *  L function implemented follwoing the paper of Delingette
+   *  L function implemented following the paper of Delingette
    */
   double L_Func(double r, double d, double phi);
 

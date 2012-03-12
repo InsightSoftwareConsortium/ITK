@@ -161,8 +161,6 @@ int itkSupervisedImageClassifierTest(int, char* [] )
   ClassImageIterator
     classoutIt( classImage, classImage->GetBufferedRegion() );
 
-
-
   ClassImagePixelType outputPixel;
   //--------------------------------------------------------------------------
   //Manually create and store each vector
@@ -257,9 +255,9 @@ int itkSupervisedImageClassifierTest(int, char* [] )
   namespace stat = itk::Statistics;
 
   typedef stat::MahalanobisDistanceMembershipFunction< VecImagePixelType >
-    MembershipFunctionType ;
-  typedef MembershipFunctionType::Pointer MembershipFunctionPointer ;
-
+    MembershipFunctionType;
+  typedef MembershipFunctionType::Pointer
+    MembershipFunctionPointer;
   typedef std::vector< MembershipFunctionPointer >
     MembershipFunctionPointerVector;
 
@@ -321,7 +319,7 @@ int itkSupervisedImageClassifierTest(int, char* [] )
   applyClassifier->SetNumberOfClasses(NUM_CLASSES);
   applyClassifier->SetInputImage(vecImage);
 
-  // Set the decison rule
+  // Set the decision rule
   applyClassifier->
     SetDecisionRule((DecisionRuleBasePointer) myDecisionRule );
 

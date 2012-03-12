@@ -127,7 +127,7 @@ int itkPCAShapeSignedDistanceFunctionTest( int, char *[])
   unsigned int numberOfShapeParameters  = shape->GetNumberOfShapeParameters();
   unsigned int numberOfPoseParameters   = shape->GetNumberOfPoseParameters();
   unsigned int numberOfParameters =
-    numberOfShapeParameters  + numberOfPoseParameters;;
+    numberOfShapeParameters  + numberOfPoseParameters;
   ShapeFunction::ParametersType parameters(numberOfParameters);
 
   for(i=0; i<numberOfParameters; i++)
@@ -209,7 +209,7 @@ int itkPCAShapeSignedDistanceFunctionTest( int, char *[])
  std::cout << "Parameters: "
            << shape->GetParameters() << std::endl;
 
-  // Excercise error testing
+  // Exercise error testing
   bool pass;
 
 #define TEST_INITIALIZATION_ERROR( ComponentName, badComponent, goodComponent ) \

@@ -119,8 +119,8 @@ int itkExtensionVelocitiesImageFilterTest(int, char* [] )
   typedef float PixelType;
 
   typedef itk::Image<PixelType,ImageDimension> ImageType;
-  typedef ImageType::IndexType IndexType;
-  typedef itk::Point<double,ImageDimension> PointType;
+  typedef ImageType::IndexType                 IndexType;
+  typedef itk::Point<double,ImageDimension>    PointType;
 
   // Fill an input image with simple signed distance function
   ImageType::Pointer image = ImageType::New();
@@ -264,7 +264,7 @@ int itkExtensionVelocitiesImageFilterTest(int, char* [] )
   reinitializer->SetInputNarrowBand( reinitializer->GetOutputNarrowBand() );
   reinitializer->Update();
 
-  // Check the output by iterating throught the output narrowband
+  // Check the output by iterating through the output narrowband
   typedef ReinitializerType::NodeContainerPointer NodeContainerPointer;
   typedef ReinitializerType::NodeContainer        NodeContainerType;
   typedef NodeContainerType::ConstIterator        ContainerIterator;
@@ -311,4 +311,3 @@ int itkExtensionVelocitiesImageFilterTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-

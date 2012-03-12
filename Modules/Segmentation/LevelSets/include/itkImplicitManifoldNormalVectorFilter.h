@@ -55,7 +55,7 @@ namespace itk
  * of the input scalar image whose values fall between these low and high
  * limits will be operated on. MaxIteration determines the number of iterations
  * this filter will perform. (Default is 25)
- * The MinVectorNorm parameter determines the minumum vector norm allowed
+ * The MinVectorNorm parameter determines the minimum vector norm allowed
  * (to avoid divide by 0). The default for MinVectorNorm is 10^-6 which is designed
  * to work with an input image of floats. This value can be lowered to 10^-12
  * if the input image is doubles.

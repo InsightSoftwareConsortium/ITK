@@ -517,7 +517,7 @@ CellBase
   m_Genome->SetExpressionLevel(CellBase::GreenGene, 1.0);
   m_Genome->SetExpressionLevel(CellBase::BlueGene,  1.0);
 
-  // Color the cell acording to pressure.
+  // Color the cell according to pressure.
   // This is done by generating pigments under
   // the influence of pressure.
   const double pressurinLevel = m_Genome->GetExpressionLevel(Pressurin);
@@ -528,7 +528,7 @@ CellBase
   m_Genome->SetExpressionLevel(BlueGene,  1.0 - red);
   m_Genome->SetExpressionLevel(GreenGene,     0.0);
 
-  // Color the Cell acording to the substrate.
+  // Color the Cell according to the substrate.
   // This is done by generating pigments.
   // This color overrides the selection of the Pressure...
 

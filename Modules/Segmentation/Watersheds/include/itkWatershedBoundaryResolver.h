@@ -53,7 +53,7 @@ namespace watershed
  * \ingroup WatershedSegmentation
  *
  * \par Parameters
- * The only parameters to set on this filter are the indicies of the faces that
+ * The only parameters to set on this filter are the indices of the faces that
  * align in the boundary object inputs.  See itk::Boundary for a description of
  * how boundary faces are indexed.
  * \sa itk::watershed::Boundary

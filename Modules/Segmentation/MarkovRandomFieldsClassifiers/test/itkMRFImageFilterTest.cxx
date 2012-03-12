@@ -246,8 +246,9 @@ int itkMRFImageFilterTest(int, char* [] )
   namespace stat = itk::Statistics;
 
   typedef stat::MahalanobisDistanceMembershipFunction< VecImagePixelType >
-    MembershipFunctionType ;
-  typedef MembershipFunctionType::Pointer MembershipFunctionPointer ;
+    MembershipFunctionType;
+  typedef MembershipFunctionType::Pointer
+    MembershipFunctionPointer;
 
   typedef std::vector< MembershipFunctionPointer >
     MembershipFunctionPointerVector;
@@ -299,7 +300,7 @@ int itkMRFImageFilterTest(int, char* [] )
   // Set the Classifier parameters
   myClassifier->SetNumberOfClasses(NUM_CLASSES);
 
-  // Set the decison rule
+  // Set the decision rule
   myClassifier->
     SetDecisionRule((itk::Statistics::DecisionRule *) myDecisionRule );
 
@@ -443,4 +444,3 @@ int itkMRFImageFilterTest(int, char* [] )
 
   return EXIT_SUCCESS;
 }
-

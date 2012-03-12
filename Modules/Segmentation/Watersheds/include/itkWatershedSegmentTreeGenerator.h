@@ -158,7 +158,7 @@ public:
 
   /** Get/Set HighestCalculatedFloodLevel.  HighestCalculatedFloodLevel keeps
    * track of the highest level this filter has computed.  It is
-   * used to prevent unneccessary re-execution of the filter. */
+   * used to prevent unnecessary re-execution of the filter. */
   itkSetMacro(HighestCalculatedFloodLevel, double);
   itkGetConstMacro(HighestCalculatedFloodLevel, double);
 
@@ -224,7 +224,7 @@ private:
 
   /** This value keeps track of the highest level this filter has been
    *  calculated.  m_FloodLevel can be manipulated anywhere below this
-   *  level without re-executing the filter, preventing unneccesary
+   *  level without re-executing the filter, preventing unnecessary
    *  updates. */
   double m_HighestCalculatedFloodLevel;
 };

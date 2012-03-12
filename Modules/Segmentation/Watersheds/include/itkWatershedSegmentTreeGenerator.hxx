@@ -71,7 +71,7 @@ template< class TScalarType >
 void SegmentTreeGenerator< TScalarType >
 ::GenerateData()
 {
-  //Reset persistant ivars.
+  //Reset persistent ivars.
   m_MergedSegmentsTable->Clear();
   this->GetOutputSegmentTree()->Clear();
 
