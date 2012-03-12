@@ -350,7 +350,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
     const unsigned int tPdfPtrOffset = ( this->m_ThreaderJointPDFStartBin[threadID] * this->m_ThreaderJointPDF[0]->GetOffsetTable()[1] );
     JointPDFValueType * const pdfPtrStart = this->m_ThreaderJointPDF[0]->GetBufferPointer() + tPdfPtrOffset;
 
-    // The PDF domain is chunked based on thread.  Each thread consolodates independant parts of the PDF.
+    // The PDF domain is chunked based on thread.  Each thread consolodates independent parts of the PDF.
     for( unsigned int t = 1; t < this->GetNumberOfThreadsUsed(); t++ )
       {
       JointPDFValueType *                 pdfPtr = pdfPtrStart;
@@ -396,7 +396,7 @@ OffsetValueType
 MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
 ::ComputeSingleFixedImageParzenWindowIndex( const FixedImagePixelType & value ) const
 {
-  // Note. The previous verison of this metric pre-computed these values
+  // Note. The previous version of this metric pre-computed these values
   // during metric Initializaiton. But with the Metricv4 design, it's
   // more difficult to do so and retrieve as needed in an efficient way.
 

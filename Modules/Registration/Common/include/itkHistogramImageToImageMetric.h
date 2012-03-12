@@ -194,7 +194,7 @@ protected:
       subclasses must reimplement this method. */
   virtual MeasureType EvaluateMeasure(HistogramType & histogram) const = 0;
 
-  /** PrintSelf funtion */
+  /** PrintSelf function */
   void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:

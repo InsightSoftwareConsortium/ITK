@@ -140,7 +140,7 @@ PointSetToPointSetRegistrationMethod< TFixedPointSet, TMovingPointSet >
   // may cause an unexpected behavior.
   //
   // Since we cannot eliminate StartRegistration for backward
-  // compability reasons, we check whether StartRegistration was
+  // compatibility reasons, we check whether StartRegistration was
   // called directly or whether Update() (which in turn called
   // StartRegistration()).
   if ( !m_Updating )

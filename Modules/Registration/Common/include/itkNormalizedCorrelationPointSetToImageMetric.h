@@ -92,7 +92,7 @@ public:
 
   /** Set/Get SubtractMean boolean. If true, the sample mean is subtracted
    * from the sample values in the cross-correlation formula and
-   * typically results in narrower valleys in the cost fucntion.
+   * typically results in narrower valleys in the cost function.
    * Default value is false. */
   itkSetMacro(SubtractMean, bool);
   itkGetConstReferenceMacro(SubtractMean, bool);

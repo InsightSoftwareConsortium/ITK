@@ -83,7 +83,7 @@ protected:
   EuclideanDistancePointSetToPointSetMetricv4();
   virtual ~EuclideanDistancePointSetToPointSetMetricv4();
 
-  /** PrintSelf funtion */
+  /** PrintSelf function */
   void PrintSelf( std::ostream & os, Indent indent ) const;
 
 

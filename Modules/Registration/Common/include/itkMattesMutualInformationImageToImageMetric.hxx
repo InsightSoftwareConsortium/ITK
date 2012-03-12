@@ -487,7 +487,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
   const unsigned int tPdfPtrOffset = ( this->m_ThreaderJointPDFStartBin[threadID] * this->m_ThreaderJointPDF[0]->GetOffsetTable()[1] );
   JointPDFValueType * const pdfPtrStart = this->m_ThreaderJointPDF[0]->GetBufferPointer() + tPdfPtrOffset;
 
-  // The PDF domain is chunked based on thread.  Each thread consolodates independant parts of the PDF.
+  // The PDF domain is chunked based on thread.  Each thread consolodates independent parts of the PDF.
   for( unsigned int t = 1; t < this->m_NumberOfThreads; t++ )
     {
     JointPDFValueType *                 pdfPtr = pdfPtrStart;

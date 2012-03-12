@@ -40,7 +40,7 @@ namespace itk
  *  images to be compared are computed. Thus, the user can set the
  *  interpolator, region, two training images and the transfrom and
  *  the training histogram will be formed. OR, the user can simply
- *  calculate the training histogram seperately and set it.
+ *  calculate the training histogram separately and set it.
  *
  * \warning The Initialize function does nothing if the training
  * histogram already exists. Thus repeated calls to the Initialize

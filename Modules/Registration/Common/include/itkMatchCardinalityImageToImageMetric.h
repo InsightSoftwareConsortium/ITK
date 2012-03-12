@@ -47,7 +47,7 @@ namespace itk
  * mismatches are considered equal whether they are between label 1
  * and label 2 or between label 1 and label 500.  In other words, the
  * magnitude of an individual label mismatch is not relevant, or the
- * occurence of a label mismatch is important.
+ * occurrence of a label mismatch is important.
  *
  * Given the nature of label maps, a nearest neighbor interpolator is
  * the preferred interpolator.
