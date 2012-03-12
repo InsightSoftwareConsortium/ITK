@@ -141,8 +141,6 @@ int itkMeanReciprocalSquareDifferencePointSetToImageMetricTest(int, char* [] )
     ++pointItr;
     }
 
-
-
 //-----------------------------------------------------------
 // Set up  the Metric
 //-----------------------------------------------------------
@@ -196,7 +194,7 @@ int itkMeanReciprocalSquareDifferencePointSetToImageMetricTest(int, char* [] )
 
 //------------------------------------------------------------
 // This call is mandatory before start querying the Metric
-// This method do all the necesary connections between the
+// This method do all the necessary connections between the
 // internal components: Interpolator, Transform and Images
 //------------------------------------------------------------
   try {
@@ -294,4 +292,3 @@ int itkMeanReciprocalSquareDifferencePointSetToImageMetricTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-

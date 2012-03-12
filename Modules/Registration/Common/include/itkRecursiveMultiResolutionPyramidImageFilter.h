@@ -101,7 +101,7 @@ public:
   virtual void GenerateOutputRequestedRegion(DataObject *output);
 
   /** RecursiveMultiResolutionPyramidImageFilter requires a larger input
-   * requested region than the output requested regions to accomdate the
+   * requested region than the output requested regions to accommodate the
    * shrinkage and smoothing operations.  As such,
    * MultiResolutionPyramidImageFilter needs to provide an implementation for
    * GenerateInputRequestedRegion().  The original documentation of this

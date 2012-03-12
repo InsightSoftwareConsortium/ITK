@@ -53,7 +53,7 @@ namespace itk
  * and searchs for a Transform that will map points from the space of the Fixed
  * PointSet to the space of the Moving image.
  *
- * For doing so, a Metric will be continously applied to compare the Fixed
+ * For doing so, a Metric will be continuously applied to compare the Fixed
  * image with the Transformed Moving image. This process also requires to
  * interpolate values from the Moving image.
  *

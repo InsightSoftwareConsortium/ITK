@@ -44,7 +44,7 @@ namespace itk
  * characterize by possibly different transforms of and different
  * image metrics.  For example, many users will want to perform
  * a linear registration followed by deformable registration where
- * both stages are peformed in multiple levels.  Each level can be
+ * both stages are performed in multiple levels.  Each level can be
  * characterized by:
  *
  *   \li the resolution of the virtual domain image (see below)

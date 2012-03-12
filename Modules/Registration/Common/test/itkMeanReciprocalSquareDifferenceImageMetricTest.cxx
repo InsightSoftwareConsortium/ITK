@@ -143,8 +143,6 @@ int itkMeanReciprocalSquareDifferenceImageMetricTest(int, char* [] )
 
   std::cout << metric << std::endl;
 
-
-
 //------------------------------------------------------------
 // The lambda value is the intensity difference that should
 // make the metric drop by 50%
@@ -154,7 +152,7 @@ int itkMeanReciprocalSquareDifferenceImageMetricTest(int, char* [] )
 
 //------------------------------------------------------------
 // This call is mandatory before start querying the Metric
-// This method do all the necesary connections between the
+// This method do all the necessary connections between the
 // internal components: Interpolator, Transform and Images
 //------------------------------------------------------------
   try {

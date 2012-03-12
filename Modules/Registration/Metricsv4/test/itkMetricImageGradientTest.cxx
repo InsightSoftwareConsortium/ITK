@@ -58,7 +58,7 @@ namespace itk
 {
 /*
  * \class VanilaImageToImageMetricv4GetValueAndDerivativeThreader
- * \brief A vanilla class of metric thread, required to implement the virutal base class
+ * \brief A vanilla class of metric thread, required to implement the virtual base class
  */
 
 template<class TDomainPartitioner, class TImageToImageMetric>

@@ -261,7 +261,7 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
 
   InternalCumSumType & cumsum = this->m_InternalCumSumPerThread[threadID];
 
-  /* substract the average of pixels (computed during InitializeIteration) */
+  /* subtract the average of pixels (computed during InitializeIteration) */
   InternalComputationValueType f1 = fixedImageValue - associate->m_AverageFix;
   InternalComputationValueType m1 = movingImageValue - associate->m_AverageMov;
 

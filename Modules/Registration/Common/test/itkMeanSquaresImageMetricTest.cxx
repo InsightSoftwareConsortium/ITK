@@ -145,7 +145,7 @@ int itkMeanSquaresImageMetricTest(int, char* [] )
 
 //------------------------------------------------------------
 // This call is mandatory before start querying the Metric
-// This method makes all the necesary connections between the
+// This method makes all the necessary connections between the
 // internal components: Interpolator, Transform and Images
 //------------------------------------------------------------
   try {

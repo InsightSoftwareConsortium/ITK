@@ -133,7 +133,7 @@ namespace itk
  * ImageToImageMetricv4GetValueAndDerivativeThreader. Dense and sparse
  * evaluation are handled by template specialization of the
  * ImageToImageMetricv4GetValueAndDerivativeThreader::ThreadedExecution
- * method, in order to iterate over either all points in the virutal space in
+ * method, in order to iterate over either all points in the virtual space in
  * the case of dense evaluation, or a list of points in the sparse case.
  *
  * Methods and members of ImageToImageMetricv4 are accessed by
@@ -649,7 +649,7 @@ protected:
    * \c mappedFixedPoint and \c mappedFixedPixelValue are  returned, and
    * \c mappedFixedImageGradient is returned if \c computeImageGradient is set.
    * All return values are in the virtual domain.
-   * \note It would be better for maintainence to have a single method
+   * \note It would be better for maintenance to have a single method
    * that could work for either fixed or moving domains. However setting
    * that up is complicated because dimensionality and pixel type may
    * be different between the two. */

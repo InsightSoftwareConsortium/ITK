@@ -82,7 +82,7 @@ protected:
   ExpectationBasedPointSetToPointSetMetricv4();
   virtual ~ExpectationBasedPointSetToPointSetMetricv4();
 
-  /** PrintSelf funtion */
+  /** PrintSelf function */
   void PrintSelf( std::ostream & os, Indent indent ) const;
 
 private:

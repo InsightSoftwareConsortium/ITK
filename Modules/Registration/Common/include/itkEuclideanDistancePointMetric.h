@@ -108,7 +108,7 @@ protected:
   EuclideanDistancePointMetric();
   virtual ~EuclideanDistancePointMetric() {}
 
-  /** PrintSelf funtion */
+  /** PrintSelf function */
   void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:

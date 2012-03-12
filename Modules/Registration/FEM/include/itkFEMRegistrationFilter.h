@@ -56,7 +56,7 @@ namespace fem
 
 /** \class FEMRegistrationFilter
  *    \brief FEM Image registration filter.
- * The image registration problem is modeled here with the finite
+ * The image registration problem is modelled here with the finite
  * element method. Image registration is, in general, an ill-posed
  * problem.  Thus, we use an optimization scheme where the
  * optimization criterion is given by a regularized variational
@@ -217,7 +217,7 @@ public:
   }
 
   /**
-   * Get/Set the finite element mesh for the registration. A seperate
+   * Get/Set the finite element mesh for the registration. A separate
    * mesh will be returned for each level of the registration. If the
    * user provides a mesh, one should be provided for each level.
    */

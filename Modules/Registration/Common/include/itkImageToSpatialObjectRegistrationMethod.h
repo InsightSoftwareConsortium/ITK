@@ -51,7 +51,7 @@ namespace itk
  *
  * This class uses the coordinate system of the Fixed image and searchs
  * for a transform that will map the Moving SpatialObject on top of
- * the Fixed image. For doing so, a Metric will be continously applied to
+ * the Fixed image. For doing so, a Metric will be continuously applied to
  * compare the Fixed image with the Transformed Moving SpatialObject.
  *
  * The ImageToSpatialObjectRegistrationMethod is different from the rest of the
