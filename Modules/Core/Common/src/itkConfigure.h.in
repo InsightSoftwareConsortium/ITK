@@ -52,7 +52,6 @@
 #define ITKSTATIC
 #endif
 
-#cmakedefine ITK_CPP_FUNCTION
 #cmakedefine ITKV3_COMPATIBILITY
 #cmakedefine ITK_LEGACY_REMOVE
 #cmakedefine ITK_LEGACY_SILENT
@@ -68,6 +67,18 @@
 #cmakedefine ITK_USE_64BITS_IDS
 #cmakedefine ITK_COMPILER_SUPPORTS_SSE2_32
 #cmakedefine ITK_COMPILER_SUPPORTS_SSE2_64
+
+/*
+ * Every exception may define a string with the function name for each
+ * instantiated template. This can add a substantial number of symbols
+ * to the symbol table in a library. This feature is only enabled in
+ * debug mode, and can be turned on by adding the definition to the
+ * command line.
+ */
+#ifndef NDEBUG
+  #cmakedefine ITK_CPP_FUNCTION
+#endif
+
 
 /*
  * The @HAVE_INCLUDE_H@ gets replaced with "1" or "", this define is
