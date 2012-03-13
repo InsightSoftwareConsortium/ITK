@@ -57,8 +57,11 @@ namespace itk
  * This filter uses the FastChamferDistanceImageFilter and the
  * IsoContourDistanceImageFilter inernally to perform the distance calculations.
  *
- * \sa DanielssonDistanceMapImageFilter, SignedDanielssonDistanceMapImageFilter
- * \sa FastChamferDistanceImageFilter, IsoContourDistanceImageFilter
+ * \sa DanielssonDistanceMapImageFilter
+ * \sa SignedDanielssonDistanceMapImageFilter
+ * \sa SignedMaurerDistanceMapImageFilter
+ * \sa FastChamferDistanceImageFilter
+ * \sa IsoContourDistanceImageFilter
  *
  * \author Zach Pincus
  * \ingroup ITKDistanceMap
