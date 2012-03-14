@@ -53,7 +53,7 @@ namespace fem
  * and the physics of the problem defined in
  * \link Element2DStrain\endlink
  *
- * \sa Element2DC0LinearTriangularStresså
+ * \sa Element2DC0LinearTriangularStress
  *
  * This element is combined from Element2DC0LinearTriangular and Element2DStrain.
  * \ingroup ITKFEM
