@@ -20,6 +20,7 @@
 
 #include "itkMacro.h"
 #include "itkIntTypes.h"
+#include <cstring>
 
 namespace itk
 {
