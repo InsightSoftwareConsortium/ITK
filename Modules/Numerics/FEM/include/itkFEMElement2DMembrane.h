@@ -34,7 +34,7 @@ namespace fem
  * with element classes that specify the geometry to fully define the element.
  *
  * A membrane element a two dimensional flat extensional element.
- * There are two in plane displacement DOF’s at each node of the element.
+ * There are two in plane displacement DOF's at each node of the element.
  * The elements can be used to model two dimensional elasticity problems, plane
  * strain and plane stress. The membrane element has no rotational stiffness or
  * stiffness normal to the plane of the element. It can be situated arbitrarily
