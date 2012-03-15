@@ -179,14 +179,7 @@ protected:
   virtual DisplacementFieldPointer GaussianSmoothDisplacementField( const DisplacementFieldType *, const RealType );
   virtual DisplacementFieldPointer InvertDisplacementField( const DisplacementFieldType *, const DisplacementFieldType * = NULL );
 
-private:
-  SyNImageRegistrationMethod( const Self & );   //purposely not implemented
-  void operator=( const Self & );               //purposely not implemented
-
   RealType                                                        m_LearningRate;
-
-  RealType                                                        m_GaussianSmoothingVarianceForTheUpdateField;
-  RealType                                                        m_GaussianSmoothingVarianceForTheTotalField;
 
   OutputTransformPointer                                          m_MovingToMiddleTransform;
   OutputTransformPointer                                          m_FixedToMiddleTransform;
@@ -197,6 +190,12 @@ private:
   bool                                                            m_DownsampleImagesForMetricDerivatives;
   bool                                                            m_AverageMidPointGradients;
 
+private:
+  SyNImageRegistrationMethod( const Self & );   //purposely not implemented
+  void operator=( const Self & );               //purposely not implemented
+
+  RealType                                                        m_GaussianSmoothingVarianceForTheUpdateField;
+  RealType                                                        m_GaussianSmoothingVarianceForTheTotalField;
 };
 } // end namespace itk
 

@@ -20,7 +20,7 @@
 
 #include "itkDisplacementFieldTransform.h"
 
-#include "itkBSplineScatteredDataPointSetToImageFilter.h"
+#include "itkDisplacementFieldToBSplineImageFilter.h"
 #include "itkPointSet.h"
 
 namespace itk
@@ -82,14 +82,14 @@ public:
    * typedefs for projecting the input displacement field onto a
    * B-spline field.
    */
-  typedef typename DisplacementFieldType::PixelType                                         DisplacementVectorType;
-  typedef PointSet<DisplacementVectorType, Dimension>                                       PointSetType;
-  typedef unsigned int                                                                      SplineOrderType;
-  typedef BSplineScatteredDataPointSetToImageFilter<PointSetType, DisplacementFieldType>    BSplineFilterType;
-  typedef typename BSplineFilterType::WeightsContainerType                                  WeightsContainerType;
-  typedef typename BSplineFilterType::PointDataImageType                                    DisplacementFieldControlPointLatticeType;
-  typedef typename BSplineFilterType::ArrayType                                             ArrayType;
-  typedef typename ArrayType::ValueType                                                     ArrayValueType;
+  typedef typename DisplacementFieldType::PixelType                                              DisplacementVectorType;
+  typedef PointSet<DisplacementVectorType, Dimension>                                            PointSetType;
+  typedef unsigned int                                                                           SplineOrderType;
+  typedef DisplacementFieldToBSplineImageFilter<DisplacementFieldType, DisplacementFieldType>    BSplineFilterType;
+  typedef typename BSplineFilterType::WeightsContainerType                                       WeightsContainerType;
+  typedef DisplacementFieldType                                                                  DisplacementFieldControlPointLatticeType;
+  typedef typename BSplineFilterType::ArrayType                                                  ArrayType;
+  typedef typename ArrayType::ValueType                                                          ArrayValueType;
 
   /**
    * Update the transform's parameters by the values in \c update.  We
@@ -165,6 +165,13 @@ public:
    */
   void SetMeshSizeForTheTotalField( const ArrayType & );
 
+  /**
+   * Enforce stationary boundaries.  Important for diffeomorphic transforms.
+   */
+  itkBooleanMacro( EnforceStationaryBoundary );
+  itkSetMacro( EnforceStationaryBoundary, bool );
+  itkGetConstMacro( EnforceStationaryBoundary, bool );
+
 protected:
   BSplineSmoothingOnUpdateDisplacementFieldTransform();
   virtual ~BSplineSmoothingOnUpdateDisplacementFieldTransform();
@@ -184,6 +191,7 @@ private:
   void operator=( const Self& ); //purposely not implemented
 
   SplineOrderType             m_SplineOrder;
+  bool                        m_EnforceStationaryBoundary;
   ArrayType                   m_NumberOfControlPointsForTheUpdateField;
   ArrayType                   m_NumberOfControlPointsForTheTotalField;
 };
