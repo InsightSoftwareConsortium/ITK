@@ -506,9 +506,8 @@ unsigned int
 ImageBase< VImageDimension >
 ::GetNumberOfComponentsPerPixel() const
 {
-  // Returns the number of components in the image. Note that for most images
-  // this is 1. Even for Image< RGBPixel< T >, 3 >.
-  // This is > 1 only for time-series images such as itk::VectorImage.
+  // Returns the number of components in the image.
+  // base implementation defaults to 1
   return 1;
 }
 
