@@ -32,9 +32,10 @@ namespace itk
  */
 template<class TScalar, unsigned int NDimensions>
 BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
-::BSplineSmoothingOnUpdateDisplacementFieldTransform()
+::BSplineSmoothingOnUpdateDisplacementFieldTransform() :
+  m_SplineOrder( 3 ),
+  m_EnforceStationaryBoundary( true )
 {
-  this->m_SplineOrder = 3;
   this->m_NumberOfControlPointsForTheUpdateField.Fill( 4 );
   this->m_NumberOfControlPointsForTheTotalField.Fill( 0 );
 }
@@ -184,73 +185,16 @@ typename BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions
 BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
 ::BSplineSmoothDisplacementField( const DisplacementFieldType * field, const ArrayType &numberOfControlPoints )
 {
-  const typename DisplacementFieldType::RegionType & bufferedRegion = field->GetBufferedRegion();
-  const typename DisplacementFieldType::IndexType startIndex = bufferedRegion.GetIndex();
-  const typename DisplacementFieldType::SizeType size = bufferedRegion.GetSize();
-
-  typename PointSetType::Pointer fieldPoints = PointSetType::New();
-  fieldPoints->Initialize();
-
-  itkDebugMacro( "Extracting points from field. " )
-
-  typename WeightsContainerType::Pointer weights = WeightsContainerType::New();
-
-  IdentifierType numberOfPoints = NumericTraits< IdentifierType >::Zero;
-
-  const typename WeightsContainerType::Element boundaryWeight = 1.0e10;
-
-  ImageRegionConstIteratorWithIndex<DisplacementFieldType> It( field, field->GetBufferedRegion() );
-  for( It.GoToBegin(); !It.IsAtEnd(); ++It )
-    {
-    typename DisplacementFieldType::IndexType index = It.GetIndex();
-
-    DisplacementVectorType data = It.Get();
-    typename WeightsContainerType::Element weight = 1.0;
-
-    bool isOnBoundary = false;
-    for( unsigned int d = 0; d < Dimension; d++ )
-      {
-      if( index[d] == startIndex[d] || index[d] == startIndex[d] + static_cast<int>( size[d] ) - 1 )
-        {
-        isOnBoundary = true;
-        break;
-        }
-      }
-    if( isOnBoundary )
-      {
-      data.Fill( 0.0 );
-      weight = boundaryWeight;
-      }
-
-    typename PointSetType::PointType point;
-    field->TransformIndexToPhysicalPoint( index, point );
-
-    fieldPoints->SetPointData( numberOfPoints, data );
-    fieldPoints->SetPoint( numberOfPoints, point );
-    weights->InsertElement( numberOfPoints, weight );
-    numberOfPoints++;
-    }
-
-  itkDebugMacro( "Calculating the B-spline field." );
-
-  ArrayType close;
-  close.Fill( false );
   typename BSplineFilterType::Pointer bspliner = BSplineFilterType::New();
-  bspliner->SetOrigin( field->GetOrigin() );
-  bspliner->SetSpacing( field->GetSpacing() );
-  bspliner->SetSize( size );
-  bspliner->SetDirection( field->GetDirection() );
-  bspliner->SetNumberOfLevels( 1 );
-  bspliner->SetSplineOrder( this->m_SplineOrder );
+  bspliner->SetDisplacementField( field );
   bspliner->SetNumberOfControlPoints( numberOfControlPoints );
-  bspliner->SetCloseDimension( close );
-  bspliner->SetInput( fieldPoints );
-  bspliner->SetPointWeights( weights );
-  bspliner->SetGenerateOutputImage( true );
+  bspliner->SetSplineOrder( this->m_SplineOrder );
+  bspliner->SetNumberOfFittingLevels( 1 );
+  bspliner->SetEnforceStationaryBoundary( this->m_EnforceStationaryBoundary );
+  bspliner->SetEstimateInverse( false );
+  bspliner->Update();
 
   DisplacementFieldPointer smoothField = bspliner->GetOutput();
-  smoothField->Update();
-  smoothField->DisconnectPipeline();
 
   return smoothField;
 }
@@ -294,6 +238,15 @@ PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf( os,indent );
 
+  os << indent << "Enforce stationary boundary: ";
+  if( this->m_EnforceStationaryBoundary )
+    {
+    os << "true" << std::endl;
+    }
+  else
+    {
+    os << "false" << std::endl;
+    }
   os << indent << "B-spline parameters: " << std::endl;
   os << indent << "  spline order = " << this->m_SplineOrder << std::endl;
   os << indent << "  number of control points for the update field = "

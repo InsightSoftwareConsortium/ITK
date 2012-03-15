@@ -48,9 +48,13 @@ BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
 ::SetMeshSizeForTheUpdateField( const ArrayType &meshSize )
 {
   ArrayType numberOfControlPoints;
+  numberOfControlPoints.Fill( 0 );
   for( unsigned int d = 0; d < SpaceDimension; d++ )
     {
-    numberOfControlPoints[d] = meshSize[d] + this->m_Transform->GetSplineOrder();
+    if( meshSize[d] > 0 )
+      {
+      numberOfControlPoints[d] = meshSize[d] + this->m_Transform->GetSplineOrder();
+      }
     }
   this->SetNumberOfControlPointsForTheUpdateField( numberOfControlPoints );
 }
@@ -64,9 +68,13 @@ BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
 ::SetMeshSizeForTheTotalField( const ArrayType &meshSize )
 {
   ArrayType numberOfControlPoints;
+  numberOfControlPoints.Fill( 0 );
   for( unsigned int d = 0; d < SpaceDimension; d++ )
     {
-    numberOfControlPoints[d] = meshSize[d] + this->m_Transform->GetSplineOrder();
+    if( meshSize[d] > 0 )
+      {
+      numberOfControlPoints[d] = meshSize[d] + this->m_Transform->GetSplineOrder();
+      }
     }
   this->SetNumberOfControlPointsForTheTotalField( numberOfControlPoints );
 }

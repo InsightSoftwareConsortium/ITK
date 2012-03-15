@@ -5,6 +5,7 @@ itkTimeVaryingBSplineVelocityFieldImageRegistrationTest.cxx
 itkTimeVaryingVelocityFieldImageRegistrationTest.cxx
 itkTimeVaryingBSplineVelocityFieldImageRegistrationTest.cxx
 itkSyNImageRegistrationTest.cxx
+itkBSplineSyNImageRegistrationTest.cxx
 itkQuasiNewtonOptimizerv4RegistrationTest.cxx
 itkSimpleImageRegistrationTest3.cxx
 )
@@ -92,6 +93,17 @@ itk_add_test(NAME itkSyNImageRegistrationTest
               DATA{Input/r16slice_rigid.nii.gz}
               DATA{Input/r64slice.nii.gz}
               ${TEMP}/itkSyNImageRegistrationTest
+              10  # number of optimization iterations of the displacement field
+              0.5 # learning rate
+              )
+
+itk_add_test(NAME itkBSplineSyNImageRegistrationTest
+      COMMAND ITKRegistrationMethodsv4TestDriver
+              itkBSplineSyNImageRegistrationTest
+              2 # number of dimensions
+              DATA{Input/r16slice_rigid.nii.gz}
+              DATA{Input/r64slice.nii.gz}
+              ${TEMP}/itkBSplineSyNImageRegistrationTest
               10  # number of optimization iterations of the displacement field
               0.5 # learning rate
               )
