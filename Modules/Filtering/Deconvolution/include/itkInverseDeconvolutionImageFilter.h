@@ -52,13 +52,16 @@ namespace itk
  */
 template< class TInputImage, class TKernelImage = TInputImage, class TOutputImage = TInputImage, class TInternalPrecision=double >
 class ITK_EXPORT InverseDeconvolutionImageFilter :
-  public FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
+  public FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 {
 public:
-  typedef InverseDeconvolutionImageFilter                        Self;
-  typedef FFTConvolutionImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                                   Pointer;
-  typedef SmartPointer< const Self >                             ConstPointer;
+  typedef InverseDeconvolutionImageFilter                 Self;
+  typedef FFTConvolutionImageFilter< TInputImage,
+                                     TKernelImage,
+                                     TOutputImage,
+                                     TInternalPrecision > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

@@ -23,14 +23,14 @@
 namespace itk
 {
 
-template< class TInputImage, class TKernelImage, class TOutputImage >
-ProjectedLandweberDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
+template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
+ProjectedLandweberDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::ProjectedLandweberDeconvolutionImageFilter()
 {
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage >
-ProjectedLandweberDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
+template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
+ProjectedLandweberDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::~ProjectedLandweberDeconvolutionImageFilter()
 {
 }

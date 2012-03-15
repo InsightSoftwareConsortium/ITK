@@ -23,23 +23,23 @@
 namespace itk
 {
 
-template< class TInputImage, class TKernelImage, class TOutputImage >
-RichardsonLucyDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
+template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
+RichardsonLucyDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::RichardsonLucyDeconvolutionImageFilter()
 {
   m_PaddedInput = NULL;
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage >
-RichardsonLucyDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
+template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
+RichardsonLucyDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::~RichardsonLucyDeconvolutionImageFilter()
 {
   m_PaddedInput = NULL;
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage >
+template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
 void
-RichardsonLucyDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
+RichardsonLucyDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::Initialize(ProgressAccumulator * progress, float progressWeight,
              float iterationProgressWeight)
 {
@@ -112,9 +112,9 @@ RichardsonLucyDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage 
 
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage >
+template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
 void
-RichardsonLucyDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
+RichardsonLucyDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::Iteration(ProgressAccumulator * progress, float iterationProgressWeight)
 {
   // Set up minipipeline to compute the new estimate
@@ -137,9 +137,9 @@ RichardsonLucyDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage 
   progress->ResetFilterProgressAndKeepAccumulatedProgress();
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage >
+template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
 void
-RichardsonLucyDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
+RichardsonLucyDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::Finish(ProgressAccumulator * progress, float progressWeight)
 {
   this->Superclass::Finish( progress, progressWeight );
@@ -154,9 +154,9 @@ RichardsonLucyDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage 
   m_MultiplyFilter = NULL;
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage >
+template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
 void
-RichardsonLucyDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
+RichardsonLucyDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);

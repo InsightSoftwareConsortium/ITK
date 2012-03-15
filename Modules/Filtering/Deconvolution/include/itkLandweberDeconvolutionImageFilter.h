@@ -53,7 +53,7 @@ public:
                             const TInput2 & inputFT) const
   {
     return m_Alpha * std::conj( kernelFT ) * inputFT +
-      ( 1.0 - m_Alpha * std::norm( kernelFT ) ) * estimateFT;
+      ( NumericTraits< typename TInput1::value_type >::OneValue() - m_Alpha * std::norm( kernelFT ) ) * estimateFT;
   }
 
   typename TInput1::value_type m_Alpha;
@@ -97,18 +97,19 @@ public:
  * \sa RichardsonLucyDeconvolutionImageFilter
  * \sa ProjectedLandweberDeconvolutionImageFilter
  */
-template< class TInputImage, class TKernelImage=TInputImage, class TOutputImage=TInputImage >
+template< class TInputImage, class TKernelImage=TInputImage, class TOutputImage=TInputImage, class TInternalPrecision=double >
 class ITK_EXPORT LandweberDeconvolutionImageFilter :
-    public IterativeDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
+  public IterativeDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 {
 public:
   /** Standard typedefs. */
-  typedef LandweberDeconvolutionImageFilter                 Self;
+  typedef LandweberDeconvolutionImageFilter                       Self;
   typedef IterativeDeconvolutionImageFilter< TInputImage,
                                              TKernelImage,
-                                             TOutputImage > Superclass;
-  typedef SmartPointer< Self >                              Pointer;
-  typedef SmartPointer< const Self >                        ConstPointer;
+                                             TOutputImage,
+                                             TInternalPrecision > Superclass;
+  typedef SmartPointer< Self >                                    Pointer;
+  typedef SmartPointer< const Self >                              ConstPointer;
 
   /** Other useful typedefs. */
   typedef TInputImage  InputImageType;
