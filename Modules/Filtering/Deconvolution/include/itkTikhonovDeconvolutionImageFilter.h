@@ -48,13 +48,16 @@ namespace itk
  */
 template< class TInputImage, class TKernelImage = TInputImage, class TOutputImage = TInputImage, class TInternalPrecision=double >
 class ITK_EXPORT TikhonovDeconvolutionImageFilter :
-  public InverseDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
+  public InverseDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 {
 public:
-  typedef TikhonovDeconvolutionImageFilter                             Self;
-  typedef InverseDeconvolutionImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                                         Pointer;
-  typedef SmartPointer< const Self >                                   ConstPointer;
+  typedef TikhonovDeconvolutionImageFilter                      Self;
+  typedef InverseDeconvolutionImageFilter< TInputImage,
+                                           TKernelImage,
+                                           TOutputImage,
+                                           TInternalPrecision > Superclass;
+  typedef SmartPointer< Self >                                  Pointer;
+  typedef SmartPointer< const Self >                            ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -132,8 +135,8 @@ public:
   }
   inline TOutput operator()(const TInput1 & I, const TInput2 & H) const
   {
-    double normH = std::norm( H );
-    double denominator = normH + m_RegularizationConstant;
+    typename TOutput::value_type normH = std::norm( H );
+    typename TOutput::value_type denominator = normH + m_RegularizationConstant;
     TOutput value = NumericTraits< TOutput >::ZeroValue();
     if ( denominator >= m_KernelZeroMagnitudeThreshold )
       {

@@ -73,11 +73,14 @@ namespace itk
  */
 template< class TInputImage, class TKernelImage = TInputImage, class TOutputImage = TInputImage, class TInternalPrecision=double >
 class ITK_EXPORT WienerDeconvolutionImageFilter :
-  public InverseDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
+  public InverseDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 {
 public:
   typedef WienerDeconvolutionImageFilter                         Self;
-  typedef FFTConvolutionImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef InverseDeconvolutionImageFilter< TInputImage,
+                                           TKernelImage,
+                                           TOutputImage,
+                                           TInternalPrecision >  Superclass;
   typedef SmartPointer< Self >                                   Pointer;
   typedef SmartPointer< const Self >                             ConstPointer;
 

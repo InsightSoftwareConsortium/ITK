@@ -121,5 +121,17 @@ int itkRichardsonLucyDeconvolutionImageFilterTest(int argc, char* argv[])
   std::cout << deconvolutionFilter->
     DeconvolutionFilterType::Superclass::GetNameOfClass() << std::endl;
 
+  // Instantiate types with non-default template parameters
+  typedef itk::Image< float, Dimension >  FloatImageType;
+  typedef itk::Image< double, Dimension > DoubleImageType;
+  typedef itk::Image< int, Dimension >    IntImageType;
+
+  typedef itk::RichardsonLucyDeconvolutionImageFilter< FloatImageType,
+                                                       DoubleImageType,
+                                                       IntImageType,
+                                                       float > FilterType;
+  FilterType::Pointer filter = FilterType::New();
+  filter->Print( std::cout );
+
   return EXIT_SUCCESS;
 }

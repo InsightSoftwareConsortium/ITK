@@ -47,21 +47,24 @@ namespace itk
  *
  * \ingroup ITKDeconvolution
  */
-template< class TInputImage, class TKernelImage=TInputImage, class TOutputImage=TInputImage >
+template< class TInputImage, class TKernelImage=TInputImage, class TOutputImage=TInputImage, class TInternalPrecision=double >
 class ITK_EXPORT IterativeDeconvolutionImageFilter :
-    public FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
+    public FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 {
 public:
   /** Standard typedefs. */
-  typedef IterativeDeconvolutionImageFilter                      Self;
-  typedef FFTConvolutionImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                                   Pointer;
-  typedef SmartPointer< const Self >                             ConstPointer;
+  typedef IterativeDeconvolutionImageFilter               Self;
+  typedef FFTConvolutionImageFilter< TInputImage,
+                                     TKernelImage,
+                                     TOutputImage,
+                                     TInternalPrecision > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Other useful typedefs. */
-  typedef TInputImage                                          InputImageType;
-  typedef TKernelImage                                         KernelImageType;
-  typedef TOutputImage                                         OutputImageType;
+  typedef TInputImage  InputImageType;
+  typedef TKernelImage KernelImageType;
+  typedef TOutputImage OutputImageType;
 
   /** Internal types used by the FFT filters. */
   typedef typename Superclass::InternalImageType               InternalImageType;

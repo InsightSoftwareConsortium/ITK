@@ -24,8 +24,8 @@
 namespace itk
 {
 
-template< class TInputImage, class TKernelImage, class TOutputImage >
-IterativeDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
+template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
+IterativeDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::IterativeDeconvolutionImageFilter()
 {
   m_NumberOfIterations = 1;
@@ -37,17 +37,17 @@ IterativeDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
   m_KernelMTime = 0L;
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage >
-IterativeDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
+template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
+IterativeDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::~IterativeDeconvolutionImageFilter()
 {
   m_TransferFunction = NULL;
   m_CurrentEstimate = NULL;
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage >
+template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
 void
-IterativeDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
+IterativeDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::Initialize(ProgressAccumulator * progress, float progressWeight,
              float itkNotUsed(iterationProgressWeight))
 {
@@ -75,9 +75,9 @@ IterativeDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage >
+template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
 void
-IterativeDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
+IterativeDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::Finish(ProgressAccumulator * progress, float progressWeight)
 {
   this->CropOutput( m_CurrentEstimate, progress, progressWeight );
@@ -86,9 +86,9 @@ IterativeDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
   m_TransferFunction = NULL;
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage >
+template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
 void
-IterativeDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
+IterativeDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::GenerateInputRequestedRegion()
 {
   // Request the largest possible region for both input images.
@@ -109,9 +109,9 @@ IterativeDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage >
+template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
 void
-IterativeDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
+IterativeDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::GenerateData()
 {
   // Create a process accumulator for tracking the progress of this minipipeline
@@ -141,9 +141,9 @@ IterativeDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
   this->Finish(progress, 0.1f);
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage >
+template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
 void
-IterativeDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
+IterativeDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   this->Superclass::PrintSelf( os, indent );

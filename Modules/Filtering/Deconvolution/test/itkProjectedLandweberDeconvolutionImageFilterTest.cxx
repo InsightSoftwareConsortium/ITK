@@ -90,5 +90,17 @@ int itkProjectedLandweberDeconvolutionImageFilterTest(int argc, char* argv[])
 
   deconvolutionFilter->Print( std::cout );
 
+  // Instantiate types with non-default template parameters
+  typedef itk::Image< float, Dimension >  FloatImageType;
+  typedef itk::Image< double, Dimension > DoubleImageType;
+  typedef itk::Image< int, Dimension >    IntImageType;
+
+  typedef itk::ProjectedLandweberDeconvolutionImageFilter< FloatImageType,
+                                                           DoubleImageType,
+                                                           IntImageType,
+                                                           float > FilterType;
+  FilterType::Pointer filter = FilterType::New();
+  filter->Print( std::cout );
+
   return EXIT_SUCCESS;
 }

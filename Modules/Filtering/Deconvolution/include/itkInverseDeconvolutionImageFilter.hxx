@@ -74,9 +74,9 @@ InverseDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInter
   this->ProduceOutput( inverseFilter->GetOutput(), progress, 0.2 );
 }
 
-template< class TInputImage, class TOutputImage, class TKernelImage, class TInternalPrecision >
+template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
 void
-InverseDeconvolutionImageFilter< TInputImage, TOutputImage, TKernelImage, TInternalPrecision >
+InverseDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::PrintSelf(std::ostream &os, Indent indent) const
 {
   this->Superclass::PrintSelf( os, indent );

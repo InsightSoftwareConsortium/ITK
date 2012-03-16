@@ -96,5 +96,17 @@ int itkTikhonovDeconvolutionImageFilterTest(int argc, char * argv[])
 
   deconvolutionFilter->Print( std::cout );
 
+  // Instantiate types with non-default template parameters
+  typedef itk::Image< float, ImageDimension >  FloatImageType;
+  typedef itk::Image< double, ImageDimension > DoubleImageType;
+  typedef itk::Image< int, ImageDimension >    IntImageType;
+
+  typedef itk::TikhonovDeconvolutionImageFilter< FloatImageType,
+                                                 DoubleImageType,
+                                                 IntImageType,
+                                                 float > FilterType;
+  FilterType::Pointer filter = FilterType::New();
+  filter->Print( std::cout );
+
   return EXIT_SUCCESS;
 }

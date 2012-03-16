@@ -55,18 +55,19 @@ namespace itk
  * \sa ProjectedLandweberDeconvolutionImageFilter
  *
  */
-template< class TInputImage, class TKernelImage=TInputImage, class TOutputImage=TInputImage >
+template< class TInputImage, class TKernelImage=TInputImage, class TOutputImage=TInputImage, class TInternalPrecision=double >
 class ITK_EXPORT RichardsonLucyDeconvolutionImageFilter :
-    public IterativeDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
+    public IterativeDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 {
 public:
   /** Standard typedefs. */
-  typedef RichardsonLucyDeconvolutionImageFilter            Self;
+  typedef RichardsonLucyDeconvolutionImageFilter                  Self;
   typedef IterativeDeconvolutionImageFilter< TInputImage,
                                              TKernelImage,
-                                             TOutputImage > Superclass;
-  typedef SmartPointer< Self >                              Pointer;
-  typedef SmartPointer< const Self >                        ConstPointer;
+                                             TOutputImage,
+                                             TInternalPrecision > Superclass;
+  typedef SmartPointer< Self >                                    Pointer;
+  typedef SmartPointer< const Self >                              ConstPointer;
 
   /** Other useful typedefs. */
   typedef TInputImage  InputImageType;

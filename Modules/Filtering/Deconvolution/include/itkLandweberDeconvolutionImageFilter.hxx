@@ -23,24 +23,24 @@
 namespace itk
 {
 
-template< class TInputImage, class TKernelImage, class TOutputImage >
-LandweberDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
+template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
+LandweberDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::LandweberDeconvolutionImageFilter()
 {
   m_Alpha = 0.1;
   m_TransformedInput = NULL;
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage >
-LandweberDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
+template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
+LandweberDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::~LandweberDeconvolutionImageFilter()
 {
   m_TransformedInput = NULL;
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage >
+template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
 void
-LandweberDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
+LandweberDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::Initialize(ProgressAccumulator * progress, float progressWeight,
              float iterationProgressWeight)
 {
@@ -66,9 +66,9 @@ LandweberDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
                                     0.7f * iterationProgressWeight );
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage >
+template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
 void
-LandweberDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
+LandweberDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::Iteration(ProgressAccumulator * progress, float iterationProgressWeight)
 {
   // Set up minipipeline to compute the new estimate
@@ -90,9 +90,9 @@ LandweberDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
   progress->ResetFilterProgressAndKeepAccumulatedProgress();
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage >
+template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
 void
-LandweberDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
+LandweberDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::Finish(ProgressAccumulator * progress, float progressWeight)
 {
   this->Superclass::Finish( progress, progressWeight );
@@ -101,9 +101,9 @@ LandweberDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
   m_IFFTFilter = NULL;
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage >
+template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
 void
-LandweberDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
+LandweberDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   this->Superclass::PrintSelf( os, indent );
