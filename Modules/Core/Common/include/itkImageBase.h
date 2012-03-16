@@ -635,9 +635,11 @@ public:
    *
    * \sa ImageBase, VectorImage
    *
-   * Returns/Sets the number of components in the image. Note that for all
-   * images this is 1. Even for Image< RGBPixel< T >, 3 >.
-   * This is >= 1 only for time-series images such as itk::VectorImage. */
+   * Returns/Sets the number of components in the image. Note that in the
+   * ImageBase implementation, this always returns 1. Image returns the
+   * # returned from NumericTraits for the pixel type, and VectorImage
+   * returns the vector length set by the user.
+   */
   virtual unsigned int GetNumberOfComponentsPerPixel() const;
 
   virtual void SetNumberOfComponentsPerPixel(unsigned int);
