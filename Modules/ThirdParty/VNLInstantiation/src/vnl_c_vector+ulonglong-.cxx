@@ -15,6 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include <vxl_version.h>
+#if VXL_VERSION_DATE_FULL < 20120316
 #ifdef _WIN64
 #include <vnl/vnl_c_vector.txx>
 
@@ -32,4 +34,7 @@ VCL_DEFINE_SPECIALIZATION_MACRO(unsigned long long);
 #undef VCL_DEFINE_SPECIALIZATION_MACRO
 
 VNL_C_VECTOR_INSTANTIATE_ordered(unsigned long long);
+#endif
+#else
+void vnl_c_vector_ulonglong_dummy(void) {}
 #endif
