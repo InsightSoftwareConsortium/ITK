@@ -446,6 +446,32 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
     {
     this->m_DeltaLatticePerThread.resize( this->GetNumberOfThreads() );
     this->m_OmegaLatticePerThread.resize( this->GetNumberOfThreads() );
+
+    typename RealImageType::SizeType size;
+    for( unsigned int i = 0; i < ImageDimension; i++ )
+      {
+      if( this->m_CloseDimension[i] )
+        {
+        size[i] = this->m_CurrentNumberOfControlPoints[i] - this->m_SplineOrder[i];
+        }
+      else
+        {
+        size[i] = this->m_CurrentNumberOfControlPoints[i];
+        }
+      }
+
+    for( unsigned int n = 0; n < this->GetNumberOfThreads(); n++ )
+      {
+      this->m_OmegaLatticePerThread[n] = RealImageType::New();
+      this->m_OmegaLatticePerThread[n]->SetRegions( size );
+      this->m_OmegaLatticePerThread[n]->Allocate();
+      this->m_OmegaLatticePerThread[n]->FillBuffer( 0.0 );
+
+      this->m_DeltaLatticePerThread[n] = PointDataImageType::New();
+      this->m_DeltaLatticePerThread[n]->SetRegions( size );
+      this->m_DeltaLatticePerThread[n]->Allocate();
+      this->m_DeltaLatticePerThread[n]->FillBuffer( 0.0 );
+      }
     }
 }
 
@@ -537,27 +563,6 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
    * points among the threads.
    */
   typename RealImageType::SizeType size;
-  for( unsigned int i = 0; i < ImageDimension; i++ )
-    {
-    if( this->m_CloseDimension[i] )
-      {
-      size[i] = this->m_CurrentNumberOfControlPoints[i] - this->m_SplineOrder[i];
-      }
-    else
-      {
-      size[i] = this->m_CurrentNumberOfControlPoints[i];
-      }
-    }
-
-  this->m_OmegaLatticePerThread[threadId] = RealImageType::New();
-  this->m_OmegaLatticePerThread[threadId]->SetRegions( size );
-  this->m_OmegaLatticePerThread[threadId]->Allocate();
-  this->m_OmegaLatticePerThread[threadId]->FillBuffer( 0.0 );
-
-  this->m_DeltaLatticePerThread[threadId] = PointDataImageType::New();
-  this->m_DeltaLatticePerThread[threadId]->SetRegions( size );
-  this->m_DeltaLatticePerThread[threadId]->Allocate();
-  this->m_DeltaLatticePerThread[threadId]->FillBuffer( 0.0 );
 
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {
@@ -665,6 +670,9 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
       w2Sum += B * B;
       }
 
+    RealImageType * currentThreadOmegaLattice = this->m_OmegaLatticePerThread[threadId];
+    PointDataImageType * currentThreadDeltaLattice = this->m_DeltaLatticePerThread[threadId];
+
     for( ItW.GoToBegin(); !ItW.IsAtEnd(); ++ItW )
       {
       typename RealImageType::IndexType idx = ItW.GetIndex();
@@ -673,18 +681,17 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
         idx[i] += static_cast<unsigned>( p[i] );
         if( this->m_CloseDimension[i] )
           {
-          idx[i] %= this->m_DeltaLatticePerThread[threadId]
-            ->GetLargestPossibleRegion().GetSize()[i];
+          idx[i] %= size[i];
           }
         }
       RealType wc = this->m_PointWeights->GetElement(n);
       RealType t = ItW.Get();
-      this->m_OmegaLatticePerThread[threadId]->SetPixel( idx,
-        this->m_OmegaLatticePerThread[threadId]->GetPixel( idx ) + wc * t * t );
+      currentThreadOmegaLattice->SetPixel( idx,
+        currentThreadOmegaLattice->GetPixel( idx ) + wc * t * t );
       PointDataType data = this->m_InputPointData->GetElement( n );
       data *= ( t * t * t * wc / w2Sum );
-      this->m_DeltaLatticePerThread[threadId]->SetPixel( idx,
-        this->m_DeltaLatticePerThread[threadId]->GetPixel( idx ) + data );
+      currentThreadDeltaLattice->SetPixel( idx,
+        currentThreadDeltaLattice->GetPixel( idx ) + data );
       }
     }
 }
