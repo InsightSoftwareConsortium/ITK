@@ -155,16 +155,16 @@ RGBPixel< T >
  * Compute luminance
  */
 template< class T >
-typename RGBPixel< T >::ComponentType
+typename RGBPixel< T >::LuminanceType
 RGBPixel< T >
 ::GetLuminance() const
 {
-  const double luminance =
-    0.30  * this->GetRed()
-    + 0.59  * this->GetGreen()
-    + 0.11  * this->GetBlue();
+  const LuminanceType luminance =
+    0.30  * static_cast< LuminanceType >( this->GetRed() )
+    + 0.59  * static_cast< LuminanceType >( this->GetGreen() )
+    + 0.11  * static_cast< LuminanceType >( this->GetBlue() );
 
-  return static_cast< ComponentType >( luminance );
+  return luminance;
 }
 
 /**
