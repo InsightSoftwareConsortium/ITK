@@ -306,6 +306,12 @@ StatisticsImageFilter< TInputImage >
   RealType  realValue;
   PixelType value;
 
+  RealType sum = NumericTraits< RealType >::Zero;
+  RealType sumOfSquares = NumericTraits< RealType >::Zero;
+  SizeValueType count = NumericTraits< SizeValueType >::Zero;
+  PixelType min = NumericTraits< PixelType >::max();
+  PixelType max = NumericTraits< PixelType >::NonpositiveMin();
+
   ImageRegionConstIterator< TInputImage > it (this->GetInput(), outputRegionForThread);
 
   // support progress methods/callbacks
@@ -316,21 +322,27 @@ StatisticsImageFilter< TInputImage >
     {
     value = it.Get();
     realValue = static_cast< RealType >( value );
-    if ( value < m_ThreadMin[threadId] )
+    if ( value < min )
       {
-      m_ThreadMin[threadId] = value;
+      min = value;
       }
-    if ( value > m_ThreadMax[threadId] )
+    if ( value > max )
       {
-      m_ThreadMax[threadId] = value;
+      max  = value;
       }
 
-    m_ThreadSum[threadId] += realValue;
-    m_SumOfSquares[threadId] += ( realValue * realValue );
-    m_Count[threadId]++;
+    sum += realValue;
+    sumOfSquares += ( realValue * realValue );
+    ++count;
     ++it;
     progress.CompletedPixel();
     }
+
+  m_ThreadSum[threadId] = sum;
+  m_SumOfSquares[threadId] = sumOfSquares;
+  m_Count[threadId] = count;
+  m_ThreadMin[threadId] = min;
+  m_ThreadMax[threadId] = max;
 }
 
 template< class TImage >
