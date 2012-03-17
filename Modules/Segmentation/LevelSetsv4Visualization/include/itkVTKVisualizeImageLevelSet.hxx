@@ -22,6 +22,7 @@
 
 #include "vtkCaptureScreen.h"
 #include "vtkPNGWriter.h"
+#include "vtkImageMapper3D.h"
 
 namespace itk
 {
@@ -61,12 +62,17 @@ VTKVisualizeImageLevelSet< TInputImage, TInputImageConverter >
 
   vtkSmartPointer< vtkImageShiftScale >   ImageShiftScale = vtkSmartPointer< vtkImageShiftScale >::New();
   ImageShiftScale->SetOutputScalarTypeToUnsignedChar();
+#if VTK_MAJOR_VERSION <= 5
   ImageShiftScale->SetInput( this->m_InputImageConverter->GetOutput() );
+#else
+  this->m_InputImageConverter->Update();
+  ImageShiftScale->SetInputData( this->m_InputImageConverter->GetOutput() );
+#endif
   ImageShiftScale->Update();
 
   vtkSmartPointer< vtkImageActor > ImageActor = vtkSmartPointer< vtkImageActor >::New();
   ImageActor->InterpolateOff();
-  ImageActor->SetInput( ImageShiftScale->GetOutput() );
+  ImageActor->GetMapper()->SetInputConnection( ImageShiftScale->GetOutputPort() );
 
   this->m_Renderer->AddActor2D( ImageActor );
 }

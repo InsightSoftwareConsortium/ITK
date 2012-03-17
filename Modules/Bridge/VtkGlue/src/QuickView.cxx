@@ -23,6 +23,7 @@
 #include "itkFlipImageFilter.h"
 
 #include "vtkRenderWindowInteractor.h"
+#include "vtkImageMapper3D.h"
 #include "vtkImageActor.h"
 #include "vtkActor2D.h"
 #include "vtkInteractorStyleImage.h"
@@ -219,7 +220,12 @@ void QuickView::Visualize(bool interact)
     viewports.push_back(viewport);
     vtkSmartPointer<vtkImageActor> actor =
       vtkSmartPointer<vtkImageActor>::New();
+#if VTK_MAJOR_VERSION <= 5
     actor->SetInput(connector->GetOutput());
+#else
+    connector->Update();
+    actor->GetMapper()->SetInputData(connector->GetOutput());
+#endif
 
     // Setup renderer
     vtkSmartPointer<vtkRenderer> renderer =
@@ -276,7 +282,12 @@ void QuickView::Visualize(bool interact)
     viewports.push_back(viewport);
     vtkSmartPointer<vtkImageActor> actor =
       vtkSmartPointer<vtkImageActor>::New();
+#if VTK_MAJOR_VERSION <= 5
     actor->SetInput(connector->GetOutput());
+#else
+    connector->Update();
+    actor->GetMapper()->SetInputData(connector->GetOutput());
+#endif
 
     // Setup renderer
     vtkSmartPointer<vtkRenderer> renderer =

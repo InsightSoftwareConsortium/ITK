@@ -93,14 +93,18 @@ ImageToRGBVTKImageFilter< TInputImage >
     }
   m_Output->SetDimensions( dimension );
   m_Output->SetSpacing( spacing );
-  m_Output->SetNumberOfScalarComponents( 3 );
   m_Output->SetExtent( 0, dimension[0],
                        0, dimension[1],
                        0, dimension[2] );
+#if VTK_MAJOR_VERSION <= 5
+  m_Output->SetNumberOfScalarComponents( 3 );
 
   // at first let's convert it to unsigned char
   m_Output->SetScalarTypeToUnsignedChar();
-
+  m_Output->AllocateScalars();
+#else
+  m_Output->AllocateScalars(VTK_UNSIGNED_CHAR,3);
+#endif
   //TODO: use itk iterators instead
   for( int x = 0; x < dimension[0]; x++ )
     {

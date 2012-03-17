@@ -20,6 +20,7 @@
 #define __vtkVisualize2DSparseLevelSetLayersBase_hxx
 
 #include "vtkVisualize2DSparseLevelSetLayersBase.h"
+#include "vtkImageMapper3D.h"
 
 template< class TInputImage, class TLevelSet >
 vtkVisualize2DSparseLevelSetLayersBase< TInputImage, TLevelSet >
@@ -121,7 +122,11 @@ vtkVisualize2DSparseLevelSetLayersBase< TInputImage, TLevelSet >
     //      scalarbar->SetLookupTable( lut );
 
     m_Renderer->RemoveActor2D( m_VTKImageActor );
+#if VTK_MAJOR_VERSION <= 5
     m_VTKImageActor->SetInput( this->m_VTKImage );
+#else
+    m_VTKImageActor->GetMapper()->SetInputData( this->m_VTKImage );
+#endif
     m_Renderer->AddActor2D( m_VTKImageActor );
 
     std::stringstream counter;

@@ -19,6 +19,7 @@
 #include "vtkSmartPointer.h"
 #include "vtkImageData.h"
 #include "vtkImageActor.h"
+#include "vtkImageMapper3D.h"
 #include "vtkRenderer.h"
 #include "vtkRenderWindow.h"
 #include "vtkRenderWindowInteractor.h"
@@ -98,8 +99,11 @@ int itkImageToRGBVTKImageFilterTest( int argc, char* argv[] )
 
   vtkSmartPointer< vtkImageActor > input_Actor =
       vtkSmartPointer< vtkImageActor >::New();
+#if VTK_MAJOR_VERSION <= 5
   input_Actor->SetInput( VTKImage );
-
+#else
+  input_Actor->GetMapper()->SetInputData( VTKImage );
+#endif
   vtkSmartPointer< vtkRenderer > ren =
       vtkSmartPointer< vtkRenderer >::New();
   ren->SetBackground( 0.5, 0.5, 0.5 );
