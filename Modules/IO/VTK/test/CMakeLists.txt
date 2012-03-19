@@ -19,4 +19,4 @@ itk_add_test(NAME itkVTKImageIO2Test2
               ${ITK_TEST_OUTPUT_DIR}/itkVTKImageIO2Test2.vtk)
 itk_add_test(NAME itkVTKImageIOTest2
       COMMAND ITKIOVTKTestDriver itkVTKImageIOTest2
-              DATA{${ITK_DATA_ROOT}/Input/VHFColor.mhd} ${ITK_TEST_OUTPUT_DIR}/testVector.vtk)
+              DATA{${ITK_DATA_ROOT}/Input/VHFColor.mhd,VHFColor.raw} ${ITK_TEST_OUTPUT_DIR}/testVector.vtk)
