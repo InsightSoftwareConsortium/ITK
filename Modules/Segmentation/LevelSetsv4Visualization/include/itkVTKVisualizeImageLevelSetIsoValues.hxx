@@ -109,7 +109,12 @@ VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 2 >, TLevelSet >
 {
   this->m_LevelSetConverter->Update();
 
+#if VTK_MAJOR_VERSION <= 5
   this->m_MarchingSquare->SetInput( this->m_LevelSetConverter->GetOutput() );
+#else
+  this->m_LevelSetConverter->Update();
+  this->m_MarchingSquare->SetInputData( this->m_LevelSetConverter->GetOutput() );
+#endif
   this->m_MarchingSquare->GenerateValues( m_NumberOfLevels, - m_LevelLimit, m_LevelLimit );
   this->m_MarchingSquare->Modified();
   this->m_MarchingSquare->Update();

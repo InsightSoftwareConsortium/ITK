@@ -71,7 +71,11 @@ void
 VTKImageToImageFilter<TOutputImage>
 ::SetInput( vtkImageData * inputImage )
 {
+#if VTK_MAJOR_VERSION <= 5
   m_Exporter->SetInput( inputImage );
+#else
+  m_Exporter->SetInputData( inputImage );
+#endif
 }
 
 /**

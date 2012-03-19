@@ -29,6 +29,7 @@
 #include "vtkMarchingCubes.h"
 #include "vtkPolyDataMapper.h"
 #include "vtkActor.h"
+#include "vtkImageMapper3D.h"
 #include "vtkImageActor.h"
 #include "vtkProperty.h"
 #include "vtkRenderer.h"
@@ -116,7 +117,12 @@ public:
     const int LevelSet_id = 0;
     vtkSmartPointer< vtkMarchingCubes > contours =
       vtkSmartPointer< vtkMarchingCubes >::New();
+#if VTK_MAJOR_VERSION <= 5
     contours->SetInput( m_ImageConverter->GetOutput() );
+#else
+    m_ImageConverter->Update();
+    contours->SetInputData( m_ImageConverter->GetOutput() );
+#endif
     contours->GenerateValues( LevelSet_id, 0, 0 );
 
     vtkSmartPointer< vtkPolyDataMapper > mapper =
@@ -133,13 +139,22 @@ public:
 
     vtkSmartPointer< vtkImageShiftScale > shift =
         vtkSmartPointer< vtkImageShiftScale >::New();
+#if VTK_MAJOR_VERSION <= 5
     shift->SetInput( m_ImageConverter->GetOutput() );
+#else
+    m_ImageConverter->Update();
+    shift->SetInputData( m_ImageConverter->GetOutput() );
+#endif
     shift->SetOutputScalarTypeToUnsignedChar();
     shift->Update();
 
     vtkSmartPointer< vtkImageActor > input_Actor =
         vtkSmartPointer< vtkImageActor >::New();
+#if VTK_MAJOR_VERSION <= 5
     input_Actor->SetInput( shift->GetOutput() );
+#else
+    input_Actor->GetMapper()->SetInputConnection( shift->GetOutputPort() );
+#endif
 
     vtkSmartPointer< vtkRenderer > ren =
         vtkSmartPointer< vtkRenderer >::New();

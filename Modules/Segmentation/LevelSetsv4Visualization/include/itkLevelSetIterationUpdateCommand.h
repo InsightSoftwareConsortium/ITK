@@ -20,6 +20,7 @@
 
 #include "itkCommand.h"
 #include "itkWeakPointer.h"
+#include "itkIntTypes.h"
 
 namespace itk
 {

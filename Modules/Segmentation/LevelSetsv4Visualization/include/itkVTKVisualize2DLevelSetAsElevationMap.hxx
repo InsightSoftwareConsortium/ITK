@@ -51,8 +51,11 @@ VTKVisualize2DLevelSetAsElevationMap< TInputImage, TLevelSet >
   this->m_Renderer->AddActor2D( this->m_ScalarBarActor );
 
   this->m_MeshMapper = vtkSmartPointer< vtkPolyDataMapper >::New();
+#if VTK_MAJOR_VERSION <= 5
   this->m_MeshMapper->SetInput( this->m_Mesh );
-
+#else
+  this->m_MeshMapper->SetInputData( this->m_Mesh );
+#endif
   this->m_SurfaceActor = vtkSmartPointer< vtkActor >::New();
   this->m_SurfaceActor->SetMapper( this->m_MeshMapper );
   this->m_SurfaceActor->GetProperty( )->SetColor( 0.7, 0.7, 0.7 );
