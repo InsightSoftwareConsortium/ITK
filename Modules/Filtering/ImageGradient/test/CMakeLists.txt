@@ -29,17 +29,17 @@ itk_add_test(NAME itkVectorGradientMagnitudeImageFilterTest2
       COMMAND ITKImageGradientTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/VectorGradientMagnitudeImageFilterTest2.png}
               ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest2.png
-    itkVectorGradientMagnitudeImageFilterTest2 DATA{${ITK_DATA_ROOT}/Input/VHFColor.mhd} ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest2.png 0 5)
+    itkVectorGradientMagnitudeImageFilterTest2 DATA{${ITK_DATA_ROOT}/Input/VHFColor.mhd,VHFColor.raw} ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest2.png 0 5)
 itk_add_test(NAME itkVectorGradientMagnitudeImageFilterTest2b
       COMMAND ITKImageGradientTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/VectorGradientMagnitudeImageFilterTest2b.png}
               ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest2b.png
-    itkVectorGradientMagnitudeImageFilterTest2 DATA{${ITK_DATA_ROOT}/Input/VHFColor.mhd} ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest2b.png 1 5)
+    itkVectorGradientMagnitudeImageFilterTest2 DATA{${ITK_DATA_ROOT}/Input/VHFColor.mhd,VHFColor.raw} ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest2b.png 1 5)
 itk_add_test(NAME itkGradientMagnitudeImageFilterTest
       COMMAND ITKImageGradientTestDriver itkGradientMagnitudeImageFilterTest)
-itk_add_test(NAME itkVectorGrtadientMagnitudeImageFilterTest3
+itk_add_test(NAME itkVectorGradientMagnitudeImageFilterTest3
       COMMAND ITKImageGradientTestDriver itkVectorGradientMagnitudeImageFilterTest3
-              DATA{${ITK_DATA_ROOT}/Input/VHFColor.mhd} ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest3.mha 1)
+              DATA{${ITK_DATA_ROOT}/Input/VHFColor.mhd,VHFColor.raw} ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest3.mha 1)
 itk_add_test(NAME itkGradientMagnitudeRecursiveGaussianFilterTest
       COMMAND ITKImageGradientTestDriver itkGradientMagnitudeRecursiveGaussianFilterTest)
 itk_add_test(NAME itkGradientRecursiveGaussianFilterTest
