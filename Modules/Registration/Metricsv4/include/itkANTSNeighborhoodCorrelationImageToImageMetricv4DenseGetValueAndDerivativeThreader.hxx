@@ -462,9 +462,9 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreade
 
   const MovingImageGradientType movingImageGradient = scanMem.movingImageGradient;
 
-  if (sFixedFixed == NumericTraits< LocalRealType >::Zero || sMovingMoving == NumericTraits< LocalRealType >::Zero )
+  if ( ! (sFixedFixed > NumericTraits<LocalRealType>::epsilon() && sMovingMoving > NumericTraits<LocalRealType>::epsilon() ) )
     {
-    deriv.Fill( NumericTraits< DerivativeValueType >::Zero );
+    deriv.Fill( NumericTraits<DerivativeValueType>::Zero );
     return;
     }
 
@@ -473,7 +473,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreade
     derivWRTImage[qq] = 2.0 * sFixedMoving / (sFixedFixed * sMovingMoving) * (fixedI - sFixedMoving / sMovingMoving * movingI) * movingImageGradient[qq];
     }
 
-  if ( fabs(sFixedFixed * sMovingMoving) > NumericTraits< LocalRealType >::Zero )
+  if ( fabs(sFixedFixed * sMovingMoving) > NumericTraits< LocalRealType >::epsilon() )
     {
     localCC = sFixedMoving * sFixedMoving / (sFixedFixed * sMovingMoving);
     }

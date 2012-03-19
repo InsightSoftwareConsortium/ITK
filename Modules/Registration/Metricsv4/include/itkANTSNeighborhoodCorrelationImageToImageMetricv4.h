@@ -45,6 +45,7 @@ namespace itk {
  * rectangle centered at the voxel. The size of the rectangle is 2*radius+1.
  * The normalized correlation between neighborhoods of fixed image and moving
  * image are averaged over the whole image as the final metric.
+ * \note A radius less than 2 can be unstable. 2 is the default.
  *
  * This class uses a specific fast implementation that is described in the
  * above paper. There are two particular speed-ups:
@@ -161,7 +162,8 @@ public:
   itkStaticConstMacro(VirtualImageDimension, ImageDimensionType,
         ::itk::GetImageDimension<VirtualImageType>::ImageDimension);
 
-  // Set the radius of the neighborhood window centered at each pixel
+  // Set the radius of the neighborhood window centered at each pixel.
+  // See the note above about using a radius less than 2.
   itkSetMacro(Radius, RadiusType);
 
   // Get the Radius of the neighborhood window centered at each pixel
