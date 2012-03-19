@@ -187,28 +187,48 @@ MinimumMaximumImageFilter< TInputImage >
 ::ThreadedGenerateData(const RegionType & outputRegionForThread,
                        ThreadIdType threadId)
 {
-  PixelType value;
+  if ( outputRegionForThread.GetNumberOfPixels() == 0 )
+    return;
+
+  PixelType localMin = m_ThreadMin[threadId];
+  PixelType localMax = m_ThreadMax[threadId];
 
   ImageRegionConstIterator< TInputImage > it (this->GetInput(), outputRegionForThread);
 
   // support progress methods/callbacks
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
+  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels()/2 );
 
-  // do the work
+  // Handle the odd pixel separately
+  if ( outputRegionForThread.GetNumberOfPixels()%2 == 1 )
+    {
+    const PixelType value = it.Get();
+    localMin = localMax = value;
+    ++it;
+    }
+
+  // do the work for the even number of pixels 2 at a time
   while ( !it.IsAtEnd() )
     {
-    value = static_cast< PixelType >( it.Get() );
-    if ( value < m_ThreadMin[threadId] )
-      {
-      m_ThreadMin[threadId] = value;
-      }
-    if ( value > m_ThreadMax[threadId] )
-      {
-      m_ThreadMax[threadId] = value;
-      }
+    const PixelType value1 = it.Get();
     ++it;
+    const PixelType value2 = it.Get();
+    ++it;
+
+    if (value1 > value2)
+      {
+      localMax = std::max(value1,localMax);
+      localMin = std::min(value2,localMin);
+      }
+    else
+      {
+      localMax = std::max(value2,localMax);
+      localMin = std::min(value1,localMin);
+      }
     progress.CompletedPixel();
     }
+
+  m_ThreadMin[threadId] = localMin;
+  m_ThreadMax[threadId] = localMax;
 }
 
 template< class TImage >
