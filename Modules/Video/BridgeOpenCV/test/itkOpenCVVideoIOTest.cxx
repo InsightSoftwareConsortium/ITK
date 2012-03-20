@@ -310,7 +310,8 @@ int test_OpenCVVideoIO( char* input, char* nonVideoInput, char* output, char* ca
   PixelType * buffer = new PixelType[bufferSize];
 
   // try seeking to an I-Frame
-  FrameOffsetType seekFrame = opencvIO->GetIFrameInterval();
+  // seekFrame is 0-based index of the frame to be captured next
+  FrameOffsetType seekFrame = opencvIO->GetIFrameInterval() - 1;
   if( !opencvIO->SetNextFrameToRead(seekFrame) )
     {
     std::cerr << "Failed to seek to second I-Frame..." << std::endl;
@@ -320,7 +321,8 @@ int test_OpenCVVideoIO( char* input, char* nonVideoInput, char* output, char* ca
   // Read the frame data which updates the current frame correctly
   opencvIO->Read(static_cast<void *>(buffer) );
 
-  if( opencvIO->GetCurrentFrame() != seekFrame )
+  //GetCurrentFrame() returns 0-based index of the frame to be captured next
+  if( opencvIO->GetCurrentFrame()-1 != seekFrame )
     {
     std::cerr << "Seek to I-Frame didn't end up in the right place" << std::endl;
     ret = EXIT_FAILURE;

@@ -300,9 +300,15 @@ void OpenCVVideoIO::ReadImageInformation()
       cvSetCaptureProperty(localCapture, CV_CAP_PROP_POS_FRAMES, 1);
       tempImage = cvQueryFrame(localCapture);
       this->m_IFrameInterval = cvGetCaptureProperty(localCapture, CV_CAP_PROP_POS_FRAMES);
+
+      if (this->m_IFrameInterval == 0)
+        {
+        itkExceptionMacro(<< " I-Frame spacing for this video is zero! Please check input data.");
+        }
+
       this->m_LastIFrame =
         (OpenCVVideoIO::FrameOffsetType)((float)this->m_FrameTotal / (float)this->m_IFrameInterval)
-        * this->m_IFrameInterval;
+        * this->m_IFrameInterval - 1;//Frame index should be 0-based index
 
       // If the I-Frame spacing is not 1, warn the user
       if (this->m_IFrameInterval != 1)
@@ -310,7 +316,7 @@ void OpenCVVideoIO::ReadImageInformation()
         itkWarningMacro(<< "OpenCV can only seek to I-Frames. I-Frame spacing for this video is "
           << this->m_IFrameInterval << ". Last I-Frame is " << this->m_LastIFrame);
         }
-      } 
+      }
     }
 
   // Open capture from a camera
@@ -329,7 +335,6 @@ void OpenCVVideoIO::ReadImageInformation()
     // Query the frame and set the frame total to 1
     tempImage = cvQueryFrame(localCapture);
     this->m_FrameTotal = 1;
-    
     }
 
   // Should never get here
@@ -625,7 +630,7 @@ void OpenCVVideoIO::Write(const void *buffer)
 //
 void OpenCVVideoIO::UpdateReaderProperties()
 {
-  this->m_CurrentFrame = 
+  this->m_CurrentFrame = //0-based index of the frame tobe decoded/captured next
     cvGetCaptureProperty(this->m_Capture,CV_CAP_PROP_POS_FRAMES);
   this->m_PositionInMSec = 
     cvGetCaptureProperty(this->m_Capture,CV_CAP_PROP_POS_MSEC);
