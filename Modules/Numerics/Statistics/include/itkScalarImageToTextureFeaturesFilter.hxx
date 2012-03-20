@@ -37,9 +37,11 @@ ScalarImageToTextureFeaturesFilter< TImage, THistogramFrequencyContainer >::Scal
     this->ProcessObject::SetNthOutput( i, this->MakeOutput(i) );
     }
 
-  m_GLCMGenerator = CooccurrenceMatrixFilterType::New();
-  m_FeatureMeans = FeatureValueVector::New();
-  m_FeatureStandardDeviations = FeatureValueVector::New();
+  this->m_GLCMGenerator = CooccurrenceMatrixFilterType::New();
+  this->m_GLCMCalculator = TextureFeaturesFilterType::New();
+  this->m_GLCMCalculator->SetInput( this->m_GLCMGenerator->GetOutput() );
+  this->m_FeatureMeans = FeatureValueVector::New();
+  this->m_FeatureStandardDeviations = FeatureValueVector::New();
 
   // Set the requested features to the default value:
   // {Energy, Entropy, InverseDifferenceMoment, Inertia, ClusterShade,
@@ -121,17 +123,14 @@ ScalarImageToTextureFeaturesFilter< TImage, THistogramFrequencyContainer >::Full
   for ( offsetIt = m_Offsets->Begin(), offsetNum = 0;
         offsetIt != m_Offsets->End(); offsetIt++, offsetNum++ )
     {
-    m_GLCMGenerator->SetOffset( offsetIt.Value() );
-    m_GLCMGenerator->Update();
-    typename TextureFeaturesFilterType::Pointer glcmCalc = TextureFeaturesFilterType::New();
-    glcmCalc->SetInput( m_GLCMGenerator->GetOutput() );
-    glcmCalc->Update();
+    this->m_GLCMGenerator->SetOffset( offsetIt.Value() );
+    this->m_GLCMCalculator->Update();
 
     typename FeatureNameVector::ConstIterator fnameIt;
     for ( fnameIt = m_RequestedFeatures->Begin(), featureNum = 0;
           fnameIt != m_RequestedFeatures->End(); fnameIt++, featureNum++ )
       {
-      features[offsetNum][featureNum] = glcmCalc->GetFeature( (InternalTextureFeatureName)fnameIt.Value() );
+      features[offsetNum][featureNum] = this->m_GLCMCalculator->GetFeature( (InternalTextureFeatureName)fnameIt.Value() );
       }
     }
 
@@ -205,12 +204,8 @@ ScalarImageToTextureFeaturesFilter< TImage, THistogramFrequencyContainer >::Fast
 {
   // Compute the feature for the first offset
   typename OffsetVector::ConstIterator offsetIt = m_Offsets->Begin();
-  m_GLCMGenerator->SetOffset( offsetIt.Value() );
-
-  m_GLCMGenerator->Update();
-  typename TextureFeaturesFilterType::Pointer glcmCalc = TextureFeaturesFilterType::New();
-  glcmCalc->SetInput( m_GLCMGenerator->GetOutput() );
-  glcmCalc->Update();
+  this->m_GLCMGenerator->SetOffset( offsetIt.Value() );
+  this->m_GLCMCalculator->Update();
 
   typedef typename TextureFeaturesFilterType::TextureFeatureName InternalTextureFeatureName;
   m_FeatureMeans->clear();
@@ -219,7 +214,7 @@ ScalarImageToTextureFeaturesFilter< TImage, THistogramFrequencyContainer >::Fast
   for ( fnameIt = m_RequestedFeatures->Begin();
         fnameIt != m_RequestedFeatures->End(); fnameIt++ )
     {
-    m_FeatureMeans->push_back( glcmCalc->GetFeature( (InternalTextureFeatureName)fnameIt.Value() ) );
+    m_FeatureMeans->push_back( this->m_GLCMCalculator->GetFeature( (InternalTextureFeatureName)fnameIt.Value() ) );
     m_FeatureStandardDeviations->push_back(0.0);
     }
 
