@@ -542,15 +542,11 @@ int itkImageToImageMetricv4Test(int, char ** const)
         metric->SetUseMovingImageGradientFilter( useMovingFilter == 1 );
         if( computeNewTruthValues )
           {
-          ImageToImageMetricv4TestComputeIdentityTruthValues(
-                                      metric, fixedImage, movingImage,
-                                      truthValue, truthDerivative );
+          ImageToImageMetricv4TestComputeIdentityTruthValues( metric, fixedImage, movingImage, truthValue, truthDerivative );
           }
         std::cout << "* Testing with identity transforms..."
                   << std::endl;
-        if( ImageToImageMetricv4TestRunSingleTest(
-                            metric, truthValue, truthDerivative,
-                            imageSize * imageSize, false )
+        if( ImageToImageMetricv4TestRunSingleTest( metric, truthValue, truthDerivative, imageSize * imageSize, false )
                                                           != EXIT_SUCCESS )
           {
           std::cerr << "----------------------------" << std::endl
@@ -584,6 +580,7 @@ int itkImageToImageMetricv4Test(int, char ** const)
               << "  Number of valid points: " << metric->GetNumberOfValidPoints() << std::endl
               << "  Metric value: " << metric->GetValue() << std::endl
               << "  Expected metric max value: " << expectedMetricMax << std::endl;
+    return EXIT_FAILURE;
     }
   movingTransform->SetIdentity();
 
@@ -698,6 +695,10 @@ int itkImageToImageMetricv4Test(int, char ** const)
     {
     return EXIT_FAILURE;
     }
+
+  // exercise methods.
+  metric->SetUseFloatingPointCorrection( false );
+  metric->SetFloatingPointCorrectionResolution( 1 );
 
   //exercise PrintSelf
   std::cout << std::endl << "PrintSelf: " << std::cout;

@@ -237,6 +237,7 @@ int itkANTSNeighborhoodCorrelationImageToImageRegistrationTest(int argc, char *a
     }
   std::cout << "...finished. " << std::endl;
 
+  std::cout << "threads: metric: " << metric->GetNumberOfThreadsUsed() << "  optimizer: " << optimizer->GetNumberOfThreads() << std::endl;
 
   //warp the image with the displacement field
   resample->SetTransform( compositeTransform );
@@ -264,5 +265,4 @@ int itkANTSNeighborhoodCorrelationImageToImageRegistrationTest(int argc, char *a
 
   std::cout << "Test PASSED." << affineTransform->GetParameters() << std::endl;
   return EXIT_SUCCESS;
-
 }

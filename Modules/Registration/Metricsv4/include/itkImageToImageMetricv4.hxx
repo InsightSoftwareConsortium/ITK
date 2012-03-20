@@ -87,7 +87,8 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 
   this->m_UserHasProvidedVirtualDomainImage = false;
 
-  this->m_FloatingPointCorrectionResolution = 1e4;
+  this->m_FloatingPointCorrectionResolution = 1e6;
+  this->m_UseFloatingPointCorrection = false;
 
   this->m_HaveMadeGetValueWarning = false;
 
@@ -957,17 +958,14 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
   Superclass::PrintSelf(os, indent);
 
   os << indent << "ImageToImageMetricv4: " << std::endl
-               << "GetUseFixedImageGradientFilter: "
-               << this->GetUseFixedImageGradientFilter()
-               << std::endl
-               << "GetUseMovingImageGradientFilter: "
-               << this->GetUseMovingImageGradientFilter()
-               << std::endl;
+     << indent << "GetUseFixedImageGradientFilter: " << this->GetUseFixedImageGradientFilter() << std::endl
+     << indent << "GetUseMovingImageGradientFilter: " << this->GetUseMovingImageGradientFilter() << std::endl
+     << indent << "UseFloatingPointCorrection: " << this->GetUseFloatingPointCorrection() << std::endl
+     << indent << "FloatingPointCorrectionResolution: " << this->GetFloatingPointCorrectionResolution() << std::endl;
 
   if( this->GetVirtualDomainImage() != NULL )
     {
-    os << indent << "VirtualDomainImage: "
-                 << this->GetVirtualDomainImage() << std::endl;
+    os << indent << "VirtualDomainImage: " << this->GetVirtualDomainImage() << std::endl;
     }
   else
     {
@@ -999,8 +997,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
     }
   if( this->GetMovingTransform() != NULL )
     {
-    os << indent << "MovingTransform: " << this->GetMovingTransform()
-       << std::endl;
+    os << indent << "MovingTransform: " << this->GetMovingTransform() << std::endl;
     }
   else
     {
@@ -1016,8 +1013,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
     }
   if( this->GetMovingImageMask() != NULL )
     {
-    os << indent << "MovingImageMask: " << this->GetMovingImageMask()
-       << std::endl;
+    os << indent << "MovingImageMask: " << this->GetMovingImageMask() << std::endl;
     }
   else
     {
