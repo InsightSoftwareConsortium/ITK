@@ -115,7 +115,7 @@ bool OpenCVVideoCapture<TVideoStream>::grab()
 // retrieve
 //
 template<class TVideoStream>
-bool OpenCVVideoCapture<TVideoStream>::retrieve(cv::Mat& image, int channel)
+bool OpenCVVideoCapture<TVideoStream>::retrieve(cv::Mat& image, int itkNotUsed(channel))
 {
   // We only support 2D
   if (this->Dimensions != 2)

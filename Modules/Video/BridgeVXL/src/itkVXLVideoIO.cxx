@@ -300,9 +300,13 @@ void VXLVideoIO::ReadImageInformation()
       localStream.advance();  // Advance to first frame (0)
       localStream.advance();  // Try to advance to frame 1 and see what we get
       this->m_IFrameInterval = localStream.frame_number();
+      if (this->m_IFrameInterval == 0)
+        {
+        itkExceptionMacro(<< "I-Frame spacing for this video is zeror! Please check input data.");
+        }
       this->m_LastIFrame =
         static_cast<FrameOffsetType>((float)this->m_FrameTotal / (float)this->m_IFrameInterval)
-        * this->m_IFrameInterval;
+        * this->m_IFrameInterval -1;
 
       // If the I-Frame spacing is not 1, warn the user
       if (this->m_IFrameInterval != 1)

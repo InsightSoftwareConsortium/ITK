@@ -87,7 +87,7 @@ public:
   virtual bool open(VideoStreamType* videoStream);
 
   /** Check if the VideoStream is null */
-  virtual bool isOpened()
+  virtual bool isOpened() const
   {
     return m_VideoStream == 0;
   }
