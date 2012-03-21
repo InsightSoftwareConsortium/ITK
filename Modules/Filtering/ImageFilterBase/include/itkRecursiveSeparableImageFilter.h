@@ -53,12 +53,12 @@ class ITK_EXPORT RecursiveSeparableImageFilter:
 public:
   /** Standard class typedefs. */
   typedef RecursiveSeparableImageFilter                   Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef InPlaceImageFilter< TInputImage, TOutputImage > Superclass;
   typedef SmartPointer< Self >                            Pointer;
   typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Type macro that defines a name for this class. */
-  itkTypeMacro(RecursiveSeparableImageFilter, ImageToImageFilter);
+  itkTypeMacro(RecursiveSeparableImageFilter, InPlaceImageFilter);
 
   /** Smart pointer typedef support.  */
   typedef typename TInputImage::Pointer      InputImagePointer;
