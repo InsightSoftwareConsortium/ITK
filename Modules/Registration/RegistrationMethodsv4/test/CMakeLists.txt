@@ -18,29 +18,16 @@ CreateTestDriver(ITKRegistrationMethodsv4  "${ITKRegistrationMethodsv4-Test_LIBR
 
 itk_add_test(NAME itkSimpleImageRegistrationTest
       COMMAND ITKRegistrationMethodsv4TestDriver
-      --with-threads 2
+      --with-threads 1
       --compareIntensityTolerance 3.0
       --compareNumberOfPixelsTolerance 4
-      --compare DATA{Baseline/itkSimpleImageRegistrationTest.nii}
-                ${TEMP}/itkSimpleImageRegistrationTest.nii
+      --compare DATA{Baseline/itkSimpleImageRegistrationTestNew.nii.gz}
+                ${TEMP}/itkSimpleImageRegistrationTestNew.nii.gz
               itkSimpleImageRegistrationTest
               2 # number of dimensions
               DATA{Input/r16slice_rigid.nii.gz}
               DATA{Input/r64slice.nii.gz}
-              ${TEMP}/itkSimpleImageRegistrationTest.nii
-              100 # number of affine iterations
-              10 # number of deformable iterations
-              )
-
-#added this one for debugging dashboard failures
-itk_add_test(NAME itkSimpleImageRegistrationTest2
-      COMMAND ITKRegistrationMethodsv4TestDriver
-      --with-threads 1
-              itkSimpleImageRegistrationTest
-              2 # number of dimensions
-              DATA{Input/r16slice_rigid.nii.gz}
-              DATA{Input/r64slice.nii.gz}
-              ${TEMP}/itkSimpleImageRegistrationTest.nii
+              ${TEMP}/itkSimpleImageRegistrationTestNew.nii.gz
               100 # number of affine iterations
               10 # number of deformable iterations
               )
@@ -48,12 +35,12 @@ itk_add_test(NAME itkSimpleImageRegistrationTest2
 #added this one for debugging dashboard failures
 itk_add_test(NAME itkSimpleImageRegistrationTest3
       COMMAND ITKRegistrationMethodsv4TestDriver
-      --with-threads 2
+      --with-threads 1
               itkSimpleImageRegistrationTest3
               2 # number of dimensions
               DATA{Input/r16slice_rigid.nii.gz}
               DATA{Input/r64slice.nii.gz}
-              ${TEMP}/itkSimpleImageRegistrationTest.nii
+              ${TEMP}/itkSimpleImageRegistrationTest3.nii.gz
               100 # number of affine iterations
               10 # number of deformable iterations
               )

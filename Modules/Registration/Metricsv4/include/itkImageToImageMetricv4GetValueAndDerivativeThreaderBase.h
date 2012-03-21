@@ -19,6 +19,7 @@
 #define __itkImageToImageMetricv4GetValueAndDerivativeThreaderBase_h
 
 #include "itkDomainThreader.h"
+#include "itkCompensatedSummation.h"
 
 namespace itk
 {
@@ -81,6 +82,9 @@ public:
 
   typedef typename ImageToImageMetricv4Type::InternalComputationValueType InternalComputationValueType;
   typedef typename ImageToImageMetricv4Type::NumberOfParametersType       NumberOfParametersType;
+
+  typedef CompensatedSummation<DerivativeValueType>                   CompensatedDerivativeValueType;
+  typedef std::vector<CompensatedDerivativeValueType>                 CompensatedDerivativeType;
 
 protected:
   /** Constructor. */
@@ -156,8 +160,13 @@ protected:
 
   /** Intermediary threaded metric value storage. */
   mutable std::vector< InternalComputationValueType > m_MeasurePerThread;
+  /** Intermediary threaded metric value storage. */
   mutable std::vector< DerivativeType >               m_DerivativesPerThread;
+  /** Intermediary threaded metric value storage. This is used only with global transforms. */
+  mutable std::vector< CompensatedDerivativeType >    m_CompensatedDerivativesPerThread;
+  /** Intermediary threaded metric value storage. */
   mutable std::vector< DerivativeType >               m_LocalDerivativesPerThread;
+  /** Intermediary threaded metric value storage. */
   mutable std::vector< SizeValueType >                m_NumberOfValidPointsPerThread;
   /** Pre-allocated transform jacobian objects, for use as needed by dervied
    * classes for efficiency. */

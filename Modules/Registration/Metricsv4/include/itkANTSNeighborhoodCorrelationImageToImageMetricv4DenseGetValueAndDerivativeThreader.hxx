@@ -470,8 +470,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreade
 
   for (ImageDimensionType qq = 0; qq < TImageToImageMetric::VirtualImageDimension; qq++)
     {
-    derivWRTImage[qq] = 2.0 * sFixedMoving / (sFixedFixed * sMovingMoving) * (fixedI - sFixedMoving / sMovingMoving * movingI)
-      * movingImageGradient[qq];
+    derivWRTImage[qq] = 2.0 * sFixedMoving / (sFixedFixed * sMovingMoving) * (fixedI - sFixedMoving / sMovingMoving * movingI) * movingImageGradient[qq];
     }
 
   if ( fabs(sFixedFixed * sMovingMoving) > NumericTraits< LocalRealType >::Zero )
@@ -489,17 +488,13 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreade
 
   NumberOfParametersType numberOfLocalParameters = this->m_Associate->GetMovingTransform()->GetNumberOfLocalParameters();
 
-  // this correction is necessary for consistent derivatives across N threads
-  DerivativeValueType floatingPointCorrectionResolution = this->m_Associate->GetFloatingPointCorrectionResolution();
   for (NumberOfParametersType par = 0; par < numberOfLocalParameters; par++)
     {
-    double sum = NumericTraits< double >::Zero;
+    deriv[par] = NumericTraits<DerivativeValueType>::Zero;
     for (ImageDimensionType dim = 0; dim < TImageToImageMetric::MovingImageDimension; dim++)
       {
-      sum += derivWRTImage[dim] * jacobian(dim, par);
+      deriv[par] += derivWRTImage[dim] * jacobian(dim, par);
       }
-    intmax_t floatingPointCorrection_int = static_cast< intmax_t >( sum * floatingPointCorrectionResolution );
-    deriv[par] = static_cast< DerivativeValueType >( floatingPointCorrection_int / floatingPointCorrectionResolution );
     }
   return;
 }

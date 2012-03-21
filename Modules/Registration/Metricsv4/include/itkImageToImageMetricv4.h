@@ -533,8 +533,25 @@ public:
    * or equal to GetNumberOfValidPoints(). */
   SizeValueType GetNumberOfDomainPoints() const;
 
-  /** Set/Get the floating point resolution used by the derivatives.  This
-   * If this is set to 1e5, then the derivative will have precision up to 5
+  /** Set/Get the option for applying floating point resolution truncation
+   * to derivative calculations in global support cases. False by default. It is only
+   * applied in global support cases (i.e. with global-support transforms) because
+   * in these cases, the per-point derivative values are added cumulatively,
+   * which can lead to loss of precision when the sum becomes much larger than
+   * the values being added.
+   * The goal is more consistent results across the number of threads used for an evaluation.
+   * The resolution can be changed using SetFloatingPointCorrectionResolution().
+   * \note The metric always sums derivative values using a CompensatedSummation object,
+   * but empirically this provides only a slight improvement in precision across number
+   * of threads during registration.
+   * \warning The metric does not perform any normalization so the results
+   * of this truncation are highly dependent on the derivative magnitudes. */
+  itkSetMacro(UseFloatingPointCorrection, bool);
+  itkGetConstReferenceMacro(UseFloatingPointCorrection, bool);
+  itkBooleanMacro(UseFloatingPointCorrection);
+
+  /** Set/Get the floating point resolution used optionally by the derivatives.
+   * If this is set, for example to 1e5, then the derivative will have precision up to 5
    * points beyond the decimal point. And precision beyond that will be
    * truncated. */
   itkSetMacro( FloatingPointCorrectionResolution, DerivativeValueType );
@@ -817,6 +834,7 @@ private:
    * For informational purposes. */
   SizeValueType m_NumberOfSkippedFixedSampledPoints;
 
+  bool                m_UseFloatingPointCorrection;
   DerivativeValueType m_FloatingPointCorrectionResolution;
 
   /** Only floating-point images are currently supported. To support integer images,

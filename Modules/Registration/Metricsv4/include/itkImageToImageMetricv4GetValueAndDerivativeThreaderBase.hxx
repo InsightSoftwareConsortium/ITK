@@ -42,6 +42,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
   this->m_MeasurePerThread.resize( this->GetNumberOfThreadsUsed() );
   this->m_NumberOfValidPointsPerThread.resize( this->GetNumberOfThreadsUsed() );
   this->m_DerivativesPerThread.resize( this->GetNumberOfThreadsUsed() );
+  this->m_CompensatedDerivativesPerThread.resize( this->GetNumberOfThreadsUsed() );
   /* This one is intermediary, for getting per-point results. */
   this->m_LocalDerivativesPerThread.resize( this->GetNumberOfThreadsUsed() );
   /* Per-thread pre-allocated Jacobian objects for efficiency */
@@ -68,7 +69,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
        * Initialization to zero is done in main class. */
       itkDebugMacro(
         "ImageToImageMetricv4::Initialize: transform HAS local support\n");
-        /* Set each per-thread object to point to m_DerivativeResul. */
+        /* Set each per-thread object to point to m_DerivativeResult for efficiency. */
         this->m_DerivativesPerThread[i].SetData(
                                       this->m_Associate->m_DerivativeResult->data_block(),
                                       this->m_Associate->m_DerivativeResult->Size(),
@@ -79,23 +80,28 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
       itkDebugMacro(
       "ImageToImageMetricv4::Initialize: transform does NOT have local support\n");
       /* Global transforms get a separate derivatives container for each thread
-       * that holds the result over a particular image region. */
-        this->m_DerivativesPerThread[i].SetSize( globalDerivativeSize );
+       * that holds the result over a particular image region.
+       * Use a CompensatedSummation value to provide for better consistency between
+       * different number of threads. */
+        this->m_CompensatedDerivativesPerThread[i].resize( globalDerivativeSize );
       }
     }
 
   //---------------------------------------------------------------
   // Set initial values.
-  for (ThreadIdType i=0; i<this->GetNumberOfThreadsUsed(); i++)
+  for (ThreadIdType thread = 0; thread<this->GetNumberOfThreadsUsed(); thread++)
     {
-    this->m_NumberOfValidPointsPerThread[i] = NumericTraits< SizeValueType >::Zero;
-    this->m_MeasurePerThread[i] = NumericTraits< InternalComputationValueType >::Zero;
+    this->m_NumberOfValidPointsPerThread[thread] = NumericTraits< SizeValueType >::Zero;
+    this->m_MeasurePerThread[thread] = NumericTraits< InternalComputationValueType >::Zero;
     if ( ! this->m_Associate->m_MovingTransform->HasLocalSupport() )
       {
       /* Be sure to init to 0 here, because the threader may not use
        * all the threads if the region is better split into fewer
        * subregions. */
-      this->m_DerivativesPerThread[i].Fill( NumericTraits< DerivativeValueType >::Zero );
+      for( NumberOfParametersType p = 0; p < this->m_Associate->GetNumberOfParameters(); p++ )
+        {
+        this->m_CompensatedDerivativesPerThread[thread][p].ResetToZero();
+        }
       }
     }
 }
@@ -118,9 +124,16 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
   /* For global transforms, sum the derivatives from each region. */
   if ( ! this->m_Associate->m_MovingTransform->HasLocalSupport() )
     {
-    for (ThreadIdType i=0; i<this->GetNumberOfThreadsUsed(); i++)
+    for (NumberOfParametersType p = 0; p < this->m_Associate->GetNumberOfParameters(); p++ )
       {
-      *(this->m_Associate->m_DerivativeResult) += this->m_DerivativesPerThread[i];
+      /* Use a compensated sum to be ready for when there is a very large number of threads */
+      CompensatedDerivativeValueType sum;
+      sum.ResetToZero();
+      for (ThreadIdType i=0; i<this->GetNumberOfThreadsUsed(); i++)
+        {
+        sum += this->m_CompensatedDerivativesPerThread[i][p].GetSum();
+        }
+      (*(this->m_Associate->m_DerivativeResult))[p] += sum.GetSum();
       }
     }
 
@@ -247,7 +260,20 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
 {
   if ( ! this->m_Associate->m_MovingTransform->HasLocalSupport() )
     {
-    this->m_DerivativesPerThread[threadId] += this->m_LocalDerivativesPerThread[threadId];
+    /* Global support */
+    if ( this->m_Associate->GetUseFloatingPointCorrection() )
+      {
+      DerivativeValueType correctionResolution = this->m_Associate->GetFloatingPointCorrectionResolution();
+      for (NumberOfParametersType p = 0; p < this->m_Associate->GetNumberOfParameters(); p++ )
+        {
+        intmax_t test = static_cast< intmax_t >( this->m_LocalDerivativesPerThread[threadId][p] * correctionResolution );
+        this->m_LocalDerivativesPerThread[threadId][p] = static_cast<DerivativeValueType>( test / correctionResolution );
+        }
+      }
+    for (NumberOfParametersType p = 0; p < this->m_Associate->GetNumberOfParameters(); p++ )
+      {
+      this->m_CompensatedDerivativesPerThread[threadId][p] += this->m_LocalDerivativesPerThread[threadId][p];
+      }
     }
   else
     {

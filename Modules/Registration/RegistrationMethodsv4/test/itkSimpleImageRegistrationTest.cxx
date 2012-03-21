@@ -129,6 +129,17 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
   affineSimple->SetFixedImage( fixedImage );
   affineSimple->SetMovingImage( movingImage );
 
+  // Smooth by specified gaussian sigmas for each level.  These values are specified in
+  // physical units. Sigmas of zero cause inconsistency between some platforms.
+  {
+  typename AffineRegistrationType::SmoothingSigmasArrayType smoothingSigmasPerLevel;
+  smoothingSigmasPerLevel.SetSize( 3 );
+  smoothingSigmasPerLevel[0] = 2;
+  smoothingSigmasPerLevel[1] = 1;
+  smoothingSigmasPerLevel[2] = 1; //0;
+  affineSimple->SetSmoothingSigmasPerLevel( smoothingSigmasPerLevel );
+  }
+
   typedef itk::GradientDescentOptimizerv4 GradientDescentOptimizerv4Type;
   typename GradientDescentOptimizerv4Type::Pointer affineOptimizer =
     dynamic_cast<GradientDescentOptimizerv4Type * >( affineSimple->GetOptimizer() );
@@ -144,6 +155,13 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
   typename AffineCommandType::Pointer affineObserver = AffineCommandType::New();
   affineSimple->AddObserver( itk::IterationEvent(), affineObserver );
 
+  {
+  typedef itk::ImageToImageMetricv4<FixedImageType, MovingImageType> ImageMetricType;
+  typename ImageMetricType::Pointer imageMetric = dynamic_cast<ImageMetricType*>( affineSimple->GetMetric() );
+  //imageMetric->SetUseFloatingPointCorrection(true);
+  imageMetric->SetFloatingPointCorrectionResolution(1e4);
+  }
+
   try
     {
     std::cout << "Affine txf:" << std::endl;
@@ -155,14 +173,17 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
+  {
   typedef itk::ImageToImageMetricv4<FixedImageType, MovingImageType> ImageMetricType;
   typename ImageMetricType::Pointer imageMetric = dynamic_cast<ImageMetricType*>( affineOptimizer->GetMetric() );
   std::cout << "Affine parameters after registration: " << std::endl
             << affineOptimizer->GetCurrentPosition() << std::endl
             << "Last LearningRate: " << affineOptimizer->GetLearningRate() << std::endl
+            << "Use FltPtCorrex: " << imageMetric->GetUseFloatingPointCorrection() << std::endl
+            << "FltPtCorrexRes: " << imageMetric->GetFloatingPointCorrectionResolution() << std::endl
             << "Number of threads used: metric: " << imageMetric->GetNumberOfThreadsUsed()
             << std::endl << " optimizer: " << affineOptimizer->GetNumberOfThreads() << std::endl;
-
+  }
   //
   // Now do the displacement field transform with gaussian smoothing using
   // the composite transform.
@@ -201,6 +222,9 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
   correlationMetric->SetUseMovingImageGradientFilter( false );
   correlationMetric->SetUseFixedImageGradientFilter( false );
 
+  //correlationMetric->SetUseFloatingPointCorrection(true);
+  //correlationMetric->SetFloatingPointCorrectionResolution(1e4);
+
   typedef itk::RegistrationParameterScalesFromShift<CorrelationMetricType> ScalesEstimatorType;
   typename ScalesEstimatorType::Pointer scalesEstimator = ScalesEstimatorType::New();
   scalesEstimator->SetMetric( correlationMetric );
@@ -235,7 +259,7 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
   smoothingSigmasPerLevel.SetSize( 3 );
   smoothingSigmasPerLevel[0] = 2;
   smoothingSigmasPerLevel[1] = 1;
-  smoothingSigmasPerLevel[2] = 0;
+  smoothingSigmasPerLevel[2] = 1;
   displacementFieldSimple->SetSmoothingSigmasPerLevel( smoothingSigmasPerLevel );
 
   typedef itk::GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<DisplacementFieldTransformType> DisplacementFieldTransformAdaptorType;
@@ -283,6 +307,9 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
 
   std::cout << "After displacement registration: " << std::endl
             << "Last LearningRate: " << optimizer->GetLearningRate() << std::endl
+            << "Use FltPtCorrex: " << correlationMetric->GetUseFloatingPointCorrection() << std::endl
+            << "FltPtCorrexRes: " << correlationMetric->GetFloatingPointCorrectionResolution() << std::endl
+            << "Number of threads used: metric: " << correlationMetric->GetNumberOfThreadsUsed()
             << "Number of threads used: metric: " << correlationMetric->GetNumberOfThreadsUsed()
             << " optimizer: " << displacementFieldSimple->GetOptimizer()->GetNumberOfThreads() << std::endl;
 

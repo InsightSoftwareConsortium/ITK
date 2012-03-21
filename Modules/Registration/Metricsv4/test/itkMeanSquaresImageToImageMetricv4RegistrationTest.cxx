@@ -17,14 +17,14 @@
 *=========================================================================*/
 
 /**
- * Test program for JointHistogramMutualInformationImageToImageMetricv4 and
+ * Test program for MeanSquaresImageToImageMetricv4 and
  * GradientDescentOptimizerv4 classes.
  *
  * Perform a registration using user-supplied images.
  * No numerical verification is performed. Test passes as long
  * as no exception occurs.
  */
-#include "itkJointHistogramMutualInformationImageToImageMetricv4.h"
+#include "itkMeanSquaresImageToImageMetricv4.h"
 #include "itkGradientDescentOptimizerv4.h"
 #include "itkRegistrationParameterScalesFromShift.h"
 
@@ -38,96 +38,7 @@
 
 #include <iomanip>
 
-namespace{
-
-template < class TOptimizer, class TMIMetric >
-/** \class JointPDFStatus
- * \brief Save the JointPDF from the metric to an image file and check to make sure
- * they are normalized properly. */
-class JointPDFStatus: public itk::Command
-{
-public:
-  typedef JointPDFStatus            Self;
-  typedef itk::Command              Superclass;
-  typedef itk::SmartPointer< Self > Pointer;
-
-  itkNewMacro( Self );
-
-  typedef TOptimizer OptimizerType;
-  typedef TMIMetric  MIMetricType;
-
-  void SetMIMetric( const MIMetricType * metric )
-    {
-    this->m_MIMetric = metric;
-    }
-
-  void SetOutputFileNameBase( const char * filename )
-    {
-    this->m_OutputFileNameBase = filename;
-    }
-
-  void Execute(itk::Object *caller, const itk::EventObject & event)
-    {
-    Execute( (const itk::Object *)caller, event);
-    }
-
-  void Execute(const itk::Object * object, const itk::EventObject & event)
-    {
-    const OptimizerType * optimizer =
-      dynamic_cast< const OptimizerType * >( object );
-    if( !(itk::IterationEvent().CheckEvent( &event )) )
-      {
-      return;
-      }
-    std::cout << "Current optimizer iteration: " << optimizer->GetCurrentIteration() << "\n";
-    std::cout << "Current optimizer value:     " << optimizer->GetValue() << "\n";
-
-    std::string  ext = itksys::SystemTools::GetFilenameExtension( this->m_OutputFileNameBase );
-    std::string name = itksys::SystemTools::GetFilenameWithoutExtension( this->m_OutputFileNameBase );
-    std::string path = itksys::SystemTools::GetFilenamePath( this->m_OutputFileNameBase );
-    std::ostringstream ostrm;
-    ostrm << name << "_jointpdf_" << this->m_Count << ext;
-    std::cout << "Writing joint pdf to:        " << ostrm.str() << std::endl;
-    ostrm.str( "" );
-    ostrm << path << "/" << name << "_jointpdf_" << this->m_Count << ext;
-    this->m_Writer->SetFileName( ostrm.str() );
-
-    typedef typename MIMetricType::JointPDFType JointPDFType;
-    const JointPDFType * jointPDF = this->m_MIMetric->GetJointPDF();
-    this->m_Writer->SetInput( jointPDF );
-    this->m_Writer->Update();
-
-    // Check for correct normalization.
-    typedef itk::ImageRegionConstIterator< JointPDFType > IteratorType;
-    IteratorType it( jointPDF, jointPDF->GetBufferedRegion() );
-    double sum = 0.0;
-    for( it.GoToBegin(); ! it.IsAtEnd(); ++it )
-      {
-      sum += it.Get();
-      }
-    std::cout << "The PDF sum is               " << std::setprecision( 20 ) << sum << std::endl;
-
-    ++this->m_Count;
-    }
-
-protected:
-  JointPDFStatus(): m_Count( 0 )
-    {
-    this->m_Writer = WriterType::New();
-    }
-
-private:
-  const MIMetricType * m_MIMetric;
-
-  unsigned int m_Count;
-  std::string  m_OutputFileNameBase;
-
-  typedef typename itk::ImageFileWriter< typename MIMetricType::JointPDFType > WriterType;
-  typename WriterType::Pointer m_Writer;
-};
-}
-
-int itkJointHistogramMutualInformationImageToImageRegistrationTest(int argc, char *argv[])
+int itkMeanSquaresImageToImageMetricv4RegistrationTest(int argc, char *argv[])
 {
 
   if( argc < 4 )
@@ -142,8 +53,8 @@ int itkJointHistogramMutualInformationImageToImageRegistrationTest(int argc, cha
     }
 
   std::cout << argc << std::endl;
-  unsigned int numberOfIterations = 10;
-  unsigned int numberOfDisplacementIterations = 10;
+  unsigned int numberOfIterations = 2;
+  unsigned int numberOfDisplacementIterations = 2;
   if( argc >= 5 )
     {
     numberOfIterations = atoi( argv[4] );
@@ -225,15 +136,15 @@ int itkJointHistogramMutualInformationImageToImageRegistrationTest(int argc, cha
   identityTransform->SetIdentity();
 
   // The metric
-  typedef itk::JointHistogramMutualInformationImageToImageMetricv4 < FixedImageType, MovingImageType >  MetricType;
+  typedef itk::MeanSquaresImageToImageMetricv4 < FixedImageType, MovingImageType >  MetricType;
   typedef MetricType::FixedSampledPointSetType                                                              PointSetType;
   MetricType::Pointer metric = MetricType::New();
-  metric->SetNumberOfHistogramBins(20);
 
   typedef PointSetType::PointType     PointType;
   PointSetType::Pointer               pset(PointSetType::New());
   unsigned long ind=0,ct=0;
   itk::ImageRegionIteratorWithIndex<FixedImageType> It(fixedImage, fixedImage->GetLargestPossibleRegion() );
+
   for( It.GoToBegin(); !It.IsAtEnd(); ++It )
     {
     // take every N^th point
@@ -246,21 +157,15 @@ int itkJointHistogramMutualInformationImageToImageRegistrationTest(int argc, cha
       }
       ct++;
     }
-    // brief profiling notes on mutual information affine registration macbook air , mi using every 20th point for sparse
-    //  1 thread dense = 10 sec
-    //  2 thread dense = 7.5  sec
-    //  1 thread sparse = 2.2 sec
-    //  2 thread sparse = 1.8 sec
-    // this uses only 1500 points so it's probably not a great multi-thread test for the sparse case
   std::cout << "Setting point set with " << ind << " points of " << fixedImage->GetLargestPossibleRegion().GetNumberOfPixels() << " total " << std::endl;
   metric->SetFixedSampledPointSet( pset );
   metric->SetUseFixedSampledPointSet( true );
   std::cout << "Testing metric with point set..." << std::endl;
 
+
   // Assign images and transforms.
   // By not setting a virtual domain image or virtual domain settings,
   // the metric will use the fixed image for the virtual domain.
-//  metric->SetVirtualDomainImage( fixedImage );
   metric->SetFixedImage( fixedImage );
   metric->SetMovingImage( movingImage );
   metric->SetFixedTransform( identityTransform );
@@ -279,11 +184,6 @@ int itkJointHistogramMutualInformationImageToImageRegistrationTest(int argc, cha
   std::cout << "First do an affine registration " << std::endl;
   typedef itk::GradientDescentOptimizerv4  OptimizerType;
   OptimizerType::Pointer  optimizer = OptimizerType::New();
-  typedef JointPDFStatus< OptimizerType, MetricType > JointPDFStatusType;
-  JointPDFStatusType::Pointer jointPDFStatus = JointPDFStatusType::New();
-  jointPDFStatus->SetOutputFileNameBase( argv[3] );
-  jointPDFStatus->SetMIMetric( metric );
-  //optimizer->AddObserver( itk::IterationEvent(), jointPDFStatus );
   optimizer->SetMetric( metric );
   optimizer->SetNumberOfIterations( numberOfIterations );
   optimizer->SetScalesEstimator( shiftScaleEstimator );
@@ -318,7 +218,10 @@ int itkJointHistogramMutualInformationImageToImageRegistrationTest(int argc, cha
   optimizer->SetNumberOfIterations( numberOfDisplacementIterations );
   try
     {
-    optimizer->StartOptimization();
+    if( numberOfDisplacementIterations > 0 )
+      optimizer->StartOptimization();
+    else
+      std::cout << "** SKIPPING DISPLACEMENT FIELD OPT\n";
     }
   catch( itk::ExceptionObject & e )
     {

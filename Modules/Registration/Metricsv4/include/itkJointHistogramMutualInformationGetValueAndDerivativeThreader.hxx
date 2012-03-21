@@ -143,8 +143,6 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner
   /** For dense transforms, this returns identity */
   associate->m_MovingTransform->ComputeJacobianWithRespectToParameters( virtualPoint, jacobian );
 
-  // this correction is necessary for consistent derivatives across N threads
-  DerivativeValueType floatingPointCorrectionResolution = this->m_Associate->GetFloatingPointCorrectionResolution();
   for ( NumberOfParametersType par = 0; par < associate->GetNumberOfLocalParameters(); par++ )
     {
     InternalComputationValueType sum = NumericTraits< InternalComputationValueType >::Zero;
@@ -153,10 +151,6 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner
       sum += scalingfactor * jacobian(dim, par) * movingImageGradient[dim];
       }
     localDerivativeReturn[par] = sum;
-    intmax_t test = static_cast< intmax_t >
-             ( localDerivativeReturn[par] * floatingPointCorrectionResolution );
-    localDerivativeReturn[par] = static_cast< DerivativeValueType >
-                                   ( test / floatingPointCorrectionResolution );
     }
   return true;
 }

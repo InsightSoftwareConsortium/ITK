@@ -15,6 +15,7 @@ set(ITKMetricsv4Tests
   itkMultiStartImageToImageMetricv4RegistrationTest.cxx
   itkMultiGradientImageToImageMetricv4RegistrationTest.cxx
   itkMetricImageGradientTest.cxx
+  itkMeanSquaresImageToImageMetricv4RegistrationTest.cxx
 )
 
 set(INPUTDATA ${ITK_DATA_ROOT}/Input)
@@ -46,7 +47,7 @@ itk_add_test(NAME itkJointHistogramMutualInformationImageToImageRegistrationTest
               ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png
               ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBSplined10.png
               ${TEMP}/itkJointHistogramMutualInformationImageToImageRegistrationTest.nii.gz
-              10 5 )
+              2 1 )
 
 itk_add_test(NAME itkJointHistogramMutualInformationImageToImageRegistrationTest2
       COMMAND ITKMetricsv4TestDriver
@@ -54,7 +55,7 @@ itk_add_test(NAME itkJointHistogramMutualInformationImageToImageRegistrationTest
               DATA{Baseline/face_avg.jpg}
               DATA{Input/face_b.jpg}
               ${TEMP}/itkJointHistogramMutualInformationImageToImageRegistrationTest2.nii.gz
-              50 0 )
+              2 1 )
 
 itk_add_test(NAME itkMeanSquaresImageToImageMetricv4Test
       COMMAND ITKMetricsv4TestDriver
@@ -75,7 +76,7 @@ itk_add_test(NAME itkANTSNeighborhoodCorrelationImageToImageRegistrationTest
               ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png
               ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBSplined10.png
              ${TEMP}/itkANTSNeighborhoodCorrelationImageToImageRegistrationTest.nii.gz
-              10 1 0.25 )
+              1 1 0.25 )
 
 itk_add_test(NAME itkMattesMutualInformationImageToImageMetricv4Test
       COMMAND ITKMetricsv4TestDriver
@@ -107,3 +108,11 @@ itk_add_test(NAME itkMultiGradientImageToImageMetricv4RegistrationTest
 itk_add_test(NAME itkMetricImageGradientTest
       COMMAND ITKMetricsv4TestDriver
               itkMetricImageGradientTest)
+
+itk_add_test(NAME itkMeanSquaresImageToImageMetricv4RegistrationTest
+      COMMAND ITKMetricsv4TestDriver
+              itkMeanSquaresImageToImageMetricv4RegistrationTest
+              DATA{Baseline/face_avg.jpg}
+              DATA{Input/face_b.jpg}
+              ${TEMP}/itkMeanSquaresImageToImageMetricv4RegistrationTest.nii.gz
+              2 1 )
