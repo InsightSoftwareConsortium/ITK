@@ -117,6 +117,9 @@ public:
    */
   itkSetMacro(MaximumStepSizeInPhysicalUnits, InternalComputationValueType);
 
+  /** Get the maximum step size, in physical space units. */
+  itkGetConstReferenceMacro(MaximumStepSizeInPhysicalUnits, InternalComputationValueType);
+
   /** Set the scales estimator.
    *
    *  A ScalesEstimator is required for the scales and learning rate estimation
