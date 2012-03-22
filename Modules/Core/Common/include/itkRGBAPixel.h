@@ -73,7 +73,8 @@ public:
   typedef FixedArray< TComponent, 4 > BaseArray;
 
   /**  Define the component type. */
-  typedef TComponent ComponentType;
+  typedef TComponent                                        ComponentType;
+  typedef typename NumericTraits< ComponentType >::RealType LuminanceType;
 
   /** Default constructor has nothing to do. */
   RGBAPixel() { this->Fill(0); }
@@ -157,7 +158,7 @@ public:
   const ComponentType & GetAlpha(void) const { return this->operator[](3); }
 
   /** Get Luminance out of RGB */
-  ComponentType GetLuminance(void) const;
+  LuminanceType GetLuminance(void) const;
 };
 
 template< typename TComponent  >

@@ -29,11 +29,11 @@ int itkRGBToLuminanceImageFilterAndAdaptorTest(int, char* [] )
   const unsigned int ImageDimension = 3;
 
   // Declare the types of the images
-  typedef itk::RGBPixel< float >                      InputPixelType;
-  typedef itk::Image<InputPixelType, ImageDimension>  InputImageType;
-  typedef itk::Image<float,          ImageDimension>  OutputImageType;
+  typedef itk::RGBPixel< float >                        InputPixelType;
+  typedef float                                         OutputPixelType;
 
-
+  typedef itk::Image< InputPixelType,  ImageDimension > InputImageType;
+  typedef itk::Image< OutputPixelType, ImageDimension > OutputImageType;
 
   // Declare Iterator types apropriated for each image
   typedef itk::ImageRegionIteratorWithIndex<
@@ -41,8 +41,6 @@ int itkRGBToLuminanceImageFilterAndAdaptorTest(int, char* [] )
 
   typedef itk::ImageRegionIteratorWithIndex<
                                   OutputImageType>  OutputIteratorType;
-
-
 
   // Declare the type of the index to access images
   typedef itk::Index<ImageDimension>         IndexType;
@@ -126,9 +124,9 @@ int itkRGBToLuminanceImageFilterAndAdaptorTest(int, char* [] )
     {
     std::cout <<  ot.Get() << " = ";
     std::cout <<  it.Get().GetLuminance()  << std::endl;
-    const InputImageType::PixelType  input  = it.Get();
-    const OutputImageType::PixelType output = ot.Get();
-    const OutputImageType::PixelType value  = input.GetLuminance();
+    const InputPixelType  input  = it.Get();
+    const OutputPixelType output = ot.Get();
+    const OutputPixelType value  = static_cast< OutputPixelType >( input.GetLuminance() );
     if( vcl_fabs( value - output ) > epsilon )
       {
       std::cerr << "Error in itkRGBToLuminanceImageFilterTest " << std::endl;
@@ -141,14 +139,12 @@ int itkRGBToLuminanceImageFilterAndAdaptorTest(int, char* [] )
     ++it;
     }
 
-
-
   //---------------------------------------
   // This section tests for RGBToLuminanceImageAdaptor
   //---------------------------------------
 
   typedef itk::RGBToLuminanceImageAdaptor<InputImageType,
-                          OutputImageType::PixelType>  AdaptorType;
+                          OutputPixelType>  AdaptorType;
 
   AdaptorType::Pointer luminanceAdaptor = AdaptorType::New();
 
@@ -180,7 +176,7 @@ int itkRGBToLuminanceImageFilterAndAdaptorTest(int, char* [] )
   while( !dt.IsAtEnd() )
     {
     std::cout <<  dt.Get() << std::endl;
-    const OutputImageType::PixelType diff = dt.Get();
+    const OutputPixelType diff = dt.Get();
     if( vcl_fabs( diff ) > epsilon )
       {
       std::cerr << "Error in itkRGBToLuminanceImageFilterTest " << std::endl;

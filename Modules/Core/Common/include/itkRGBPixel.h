@@ -72,8 +72,8 @@ public:
   itkStaticConstMacro(Length, unsigned int, 3);
 
   /**  Define the component type. */
-  typedef TComponent                     ComponentType;
-  typedef typename Superclass::ValueType ValueType;
+  typedef TComponent                                        ComponentType;
+  typedef typename NumericTraits< ComponentType >::RealType LuminanceType;
 
   /** Default constructor has nothing to do */
   RGBPixel() {}
@@ -158,7 +158,7 @@ public:
   const ComponentType & GetBlue(void) const { return this->operator[](2); }
 
   /** Get Luminance out of RGB */
-  ComponentType GetLuminance(void) const;
+  LuminanceType GetLuminance(void) const;
 };
 
 template< typename TComponent  >
