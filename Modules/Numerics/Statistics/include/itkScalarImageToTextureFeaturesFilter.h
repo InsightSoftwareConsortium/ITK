@@ -131,11 +131,8 @@ public:
   typedef ScalarImageToCooccurrenceMatrixFilter<
     ImageType, FrequencyContainerType >               CooccurrenceMatrixFilterType;
 
-  typedef typename CooccurrenceMatrixFilterType::HistogramType
-  HistogramType;
-
-  typedef HistogramToTextureFeaturesFilter< HistogramType >
-  TextureFeaturesFilterType;
+  typedef typename CooccurrenceMatrixFilterType::HistogramType HistogramType;
+  typedef HistogramToTextureFeaturesFilter< HistogramType >    TextureFeaturesFilterType;
 
   typedef short                                                  TextureFeatureName;
   typedef VectorContainer< unsigned char, TextureFeatureName >   FeatureNameVector;
@@ -216,6 +213,8 @@ protected:
 
 private:
   typename CooccurrenceMatrixFilterType::Pointer m_GLCMGenerator;
+
+  typename TextureFeaturesFilterType::Pointer    m_GLCMCalculator;
 
   FeatureValueVectorPointer     m_FeatureMeans;
   FeatureValueVectorPointer     m_FeatureStandardDeviations;

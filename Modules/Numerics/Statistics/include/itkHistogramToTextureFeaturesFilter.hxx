@@ -46,8 +46,7 @@ void
 HistogramToTextureFeaturesFilter< THistogram >
 ::SetInput(const HistogramType *histogram)
 {
-  this->ProcessObject::SetNthInput( 0,
-                                    const_cast< HistogramType * >( histogram ) );
+  this->ProcessObject::SetNthInput( 0, const_cast< HistogramType * >( histogram ) );
 }
 
 template< class THistogram >
