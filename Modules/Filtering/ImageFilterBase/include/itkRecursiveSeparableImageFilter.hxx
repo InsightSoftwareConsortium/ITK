@@ -312,43 +312,15 @@ RecursiveSeparableImageFilter< TInputImage, TOutputImage >
   try
     {
     inps = new RealType[ln];
-    }
-  catch ( std::bad_alloc & )
-    {
-    itkExceptionMacro("Problem allocating memory for internal computations");
-    }
-
-  try
-    {
     outs = new RealType[ln];
-    }
-  catch ( std::bad_alloc & )
-    {
-    delete[] inps;
-    itkExceptionMacro("Problem allocating memory for internal computations");
-    }
-
-  try
-    {
     scratch = new RealType[ln];
-    }
-  catch ( std::bad_alloc & )
-    {
-    delete[] inps;
-    delete[] outs;
-    itkExceptionMacro("Problem allocating memory for internal computations");
-    }
 
-  inputIterator.GoToBegin();
-  outputIterator.GoToBegin();
+    inputIterator.GoToBegin();
+    outputIterator.GoToBegin();
 
-  const typename TInputImage::OffsetValueType * offsetTable = inputImage->GetOffsetTable();
+    const SizeValueType numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / outputRegionForThread.GetSize(this->m_Direction);
+    ProgressReporter   progress(this, threadId, numberOfLinesToProcess, 10);
 
-  const unsigned int numberOfLinesToProcess = offsetTable[TInputImage::ImageDimension] / ln;
-  ProgressReporter   progress(this, threadId, numberOfLinesToProcess, 10);
-
-  try  // this try is intended to catch an eventual AbortException.
-    {
     while ( !inputIterator.IsAtEnd() && !outputIterator.IsAtEnd() )
       {
       unsigned int i = 0;
@@ -375,21 +347,19 @@ RecursiveSeparableImageFilter< TInputImage, TOutputImage >
       progress.CompletedPixel();
       }
     }
-  catch ( ProcessAborted  & )
+  catch (...)
     {
-    // User aborted filter execution Here we catch an exception thrown by the
-    // progress reporter and rethrow it with the correct line number and file
-    // name. We also invoke AbortEvent in case some observer was interested on
-    // it.
-    // release locally allocated memory
+    // Consider cases where memory allocation may fail or the process
+    // is aborted.
+
+    // release locally allocated memory, if memory allocation fails
+    // then we will delete a NULL pointer, which is a valid operation
     delete[] outs;
     delete[] inps;
     delete[] scratch;
-    // Throw the final exception.
-    ProcessAborted e(__FILE__, __LINE__);
-    e.SetDescription("Process aborted.");
-    e.SetLocation(ITK_LOCATION);
-    throw e;
+
+    // rethrow same exception
+    throw;
     }
 
   delete[] outs;
