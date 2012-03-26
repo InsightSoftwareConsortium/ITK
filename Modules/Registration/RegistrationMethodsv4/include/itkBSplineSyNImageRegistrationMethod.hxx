@@ -233,7 +233,11 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
   this->m_Metric->SetMovingTransform( const_cast<TransformBaseType *>( movingTransform ) );
   this->m_Metric->Initialize();
 
-  typename MetricType::DerivativeType metricDerivative;
+  typedef typename MetricType::DerivativeType MetricDerivativeType;
+  const typename MetricDerivativeType::SizeValueType metricDerivativeSize = virtualDomainImage->GetLargestPossibleRegion().GetNumberOfPixels() * ImageDimension;
+  MetricDerivativeType metricDerivative( metricDerivativeSize );
+
+  metricDerivative.Fill( NumericTraits<typename MetricDerivativeType::ValueType>::Zero );
   this->m_Metric->GetValueAndDerivative( value, metricDerivative );
 
   // we rescale the update velocity field at each time point.

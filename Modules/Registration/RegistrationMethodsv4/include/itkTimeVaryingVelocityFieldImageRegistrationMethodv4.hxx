@@ -91,6 +91,10 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOu
 
   typename VirtualImageType::ConstPointer virtualDomainImage = this->m_Metric->GetVirtualDomainImage();
 
+  typedef typename MetricType::DerivativeType MetricDerivativeType;
+  const typename MetricDerivativeType::SizeValueType metricDerivativeSize = virtualDomainImage->GetLargestPossibleRegion().GetNumberOfPixels() * ImageDimension;
+  MetricDerivativeType metricDerivative( metricDerivativeSize );
+
   // Warp the moving image based on the composite transform (not including the current
   // time varying velocity field transform to be optimized).
 
@@ -202,7 +206,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOu
       this->m_Metric->SetMovingTransform( identityDisplacementFieldTransform );
       this->m_Metric->Initialize();
 
-      typename MetricType::DerivativeType metricDerivative;
+      metricDerivative.Fill( NumericTraits<typename MetricDerivativeType::ValueType>::Zero );
       this->m_Metric->GetValueAndDerivative( value, metricDerivative );
 
       // Note: we are intentionally ignoring the jacobian determinant.
