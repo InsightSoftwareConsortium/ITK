@@ -43,8 +43,10 @@ public:
     return !(*this == other);
   }
 
-  bool operator==( const DivideOrZeroOut & other ) const
+  bool operator==( const DivideOrZeroOut & itkNotUsed(other) ) const
   {
+    // Always return true for now.  Do a comparison to m_Threshold if it is
+    // every made set-able.
     return true;
   }
 
