@@ -105,6 +105,10 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
 
   typename VirtualImageType::ConstPointer virtualDomainImage = this->m_Metric->GetVirtualDomainImage();
 
+  typedef typename MetricType::DerivativeType MetricDerivativeType;
+  const typename MetricDerivativeType::SizeValueType metricDerivativeSize = virtualDomainImage->GetLargestPossibleRegion().GetNumberOfPixels() * ImageDimension;
+  MetricDerivativeType metricDerivative( metricDerivativeSize );
+
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {
     sampledVelocityFieldOrigin[i] = virtualDomainImage->GetOrigin()[i];
@@ -247,7 +251,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
       this->m_Metric->SetMovingTransform( identityDisplacementFieldTransform );
       this->m_Metric->Initialize();
 
-      typename MetricType::DerivativeType metricDerivative;
+      metricDerivative.Fill( NumericTraits<typename MetricDerivativeType::ValueType>::Zero );
       this->m_Metric->GetValueAndDerivative( value, metricDerivative );
 
       // Note: we are intentionally ignoring the jacobian determinant.
@@ -258,8 +262,6 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
 
       // Remove the temporary mapping along the geodesic
       this->m_CompositeTransform->RemoveTransform();
-
-      this->m_Metric->GetValueAndDerivative( value, metricDerivative );
 
       // we rescale the update velocity field at each time point.
       // we first need to convert to a displacement field to look
