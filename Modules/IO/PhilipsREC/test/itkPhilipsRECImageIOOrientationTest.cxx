@@ -61,7 +61,7 @@ int itkPhilipsRECImageIOOrientationTest( int argc, char * argv [] )
   targetReader->SetFileName( argv[2] );
 
   AffineTransformType::Pointer transform = AffineTransformType::New();
-  tranform->SetIdentity();
+  transform->SetIdentity();
 
   ResampleImageFilterType::Pointer resample = ResampleImageFilterType::New();
   resample->SetInput( referenceReader->GetOutput() );
