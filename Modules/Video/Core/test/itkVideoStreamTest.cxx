@@ -320,9 +320,11 @@ int itkVideoStreamTest( int, char* [] )
     }
 
   // Check meta data after frame initialized
+  tempReg.SetFrameStart(0);
   tempReg.SetFrameDuration(1);
   video1->SetLargestPossibleTemporalRegion(tempReg);
   video1->SetRequestedTemporalRegion(tempReg);
+  video1->SetBufferedTemporalRegion(tempReg);
   video1->InitializeEmptyFrames();
   FrameType* frame = video1->GetFrame(0);
   if (frame->GetLargestPossibleRegion() != spatReg)
