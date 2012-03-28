@@ -43,6 +43,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
 ::TimeVaryingBSplineVelocityFieldImageRegistrationMethod() :
   m_LearningRate( 0.25 ),
   m_ConvergenceThreshold( 1.0e-6 ),
+  m_ConvergenceWindowSize( 10 ),
   m_NumberOfTimePointSamples( 4 )
 {
   this->m_NumberOfIterationsPerLevel.SetSize( 3 );
@@ -144,7 +145,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
   // Monitor the convergence
   typedef itk::Function::WindowConvergenceMonitoringFunction<double> ConvergenceMonitoringType;
   ConvergenceMonitoringType::Pointer convergenceMonitoring = ConvergenceMonitoringType::New();
-  convergenceMonitoring->SetWindowSize( 10 );
+  convergenceMonitoring->SetWindowSize( this->m_ConvergenceWindowSize );
 
   SizeValueType iteration = 0;
   bool isConverged = false;
@@ -534,6 +535,8 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
 
   os << indent << "Number of iterations: " << this->m_NumberOfIterationsPerLevel << std::endl;
   os << indent << "Learning rate: " << this->m_LearningRate << std::endl;
+  os << indent << "Convergence threshold: " << this->m_ConvergenceThreshold << std::endl;
+  os << indent << "Convergence window size: " << this->m_ConvergenceWindowSize << std::endl;
 }
 
 } // end namespace itk

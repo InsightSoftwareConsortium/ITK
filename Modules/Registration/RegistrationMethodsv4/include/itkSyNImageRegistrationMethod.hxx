@@ -39,6 +39,7 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
 ::SyNImageRegistrationMethod() :
   m_LearningRate( 0.25 ),
   m_ConvergenceThreshold( 1.0e-6 ),
+  m_ConvergenceWindowSize( 10 ),
   m_GaussianSmoothingVarianceForTheUpdateField( 3.0 ),
   m_GaussianSmoothingVarianceForTheTotalField( 0.5 )
 {
@@ -126,7 +127,7 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
   // Monitor the convergence
   typedef itk::Function::WindowConvergenceMonitoringFunction<double> ConvergenceMonitoringType;
   ConvergenceMonitoringType::Pointer convergenceMonitoring = ConvergenceMonitoringType::New();
-  convergenceMonitoring->SetWindowSize( 10 );
+  convergenceMonitoring->SetWindowSize( this->m_ConvergenceWindowSize );
 
   typedef IdentityTransform<RealType, ImageDimension> IdentityTransformType;
   typename IdentityTransformType::Pointer identityTransform;
@@ -508,6 +509,8 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
 
   os << indent << "Number of iterations: " << this->m_NumberOfIterationsPerLevel << std::endl;
   os << indent << "Learning rate: " << this->m_LearningRate << std::endl;
+  os << indent << "Convergence threshold: " << this->m_ConvergenceThreshold << std::endl;
+  os << indent << "Convergence window size: " << this->m_ConvergenceWindowSize << std::endl;
   os << indent << "Gaussian smoothing variance for the update field: " << this->m_GaussianSmoothingVarianceForTheUpdateField << std::endl;
   os << indent << "Gaussian smoothing variance for the total field: " << this->m_GaussianSmoothingVarianceForTheTotalField << std::endl;
 }

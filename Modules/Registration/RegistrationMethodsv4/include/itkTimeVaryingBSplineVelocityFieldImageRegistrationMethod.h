@@ -152,6 +152,10 @@ public:
   itkSetMacro( ConvergenceThreshold, RealType );
   itkGetConstMacro( ConvergenceThreshold, RealType );
 
+  /** Set/Get the convergence window size */
+  itkSetMacro( ConvergenceWindowSize, unsigned int );
+  itkGetConstMacro( ConvergenceWindowSize, unsigned int );
+
   /** Set/Get the number of time point samples. */
   itkSetMacro( NumberOfTimePointSamples, SizeValueType );
   itkGetConstMacro( NumberOfTimePointSamples, SizeValueType );
@@ -175,6 +179,7 @@ private:
   RealType                                                        m_LearningRate;
 
   RealType                                                        m_ConvergenceThreshold;
+  unsigned int                                                    m_ConvergenceWindowSize;
 
   NumberOfIterationsArrayType                                     m_NumberOfIterationsPerLevel;
 
