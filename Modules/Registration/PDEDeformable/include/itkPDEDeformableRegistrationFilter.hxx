@@ -200,21 +200,21 @@ PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
   Superclass::PrintSelf(os, indent);
   os << indent << "Smooth deformation field: "
      << ( m_SmoothDisplacementField ? "on" : "off" ) << std::endl;
-  os << indent << "Standard deviations: [";
-  unsigned int j;
-  for ( j = 0; j < ImageDimension - 1; j++ )
+  unsigned int j = 0;
+  os << indent << "Standard deviations: [" << m_StandardDeviations[j];
+  for ( j = 1; j < ImageDimension; j++ )
     {
-    os << m_StandardDeviations[j] << ", ";
+    os << ", " << m_StandardDeviations[j];
     }
-  os << m_StandardDeviations[j] << "]" << std::endl;
+  os << "]" << std::endl;
   os << indent << "Smooth update field: "
      << ( m_SmoothUpdateField ? "on" : "off" ) << std::endl;
-  os << indent << "Update field standard deviations: [";
-  for ( j = 0; j < ImageDimension - 1; j++ )
+  os << indent << "Update field standard deviations: [" << m_UpdateFieldStandardDeviations[j];
+  for ( j = 1; j < ImageDimension; j++ )
     {
-    os << m_UpdateFieldStandardDeviations[j] << ", ";
+    os<< ", " << m_UpdateFieldStandardDeviations[j];
     }
-  os << m_UpdateFieldStandardDeviations[j] << "]" << std::endl;
+  os << "]" << std::endl;
   os << indent << "StopRegistrationFlag: ";
   os << m_StopRegistrationFlag << std::endl;
   os << indent << "MaximumError: ";
@@ -433,7 +433,7 @@ PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
     smoother->SetInput(field);
     smoother->Update();
 
-    if ( j < ImageDimension - 1 )
+    if ( j + 1 < ImageDimension )
       {
       // swap the containers
       swapPtr = smoother->GetOutput()->GetPixelContainer();
