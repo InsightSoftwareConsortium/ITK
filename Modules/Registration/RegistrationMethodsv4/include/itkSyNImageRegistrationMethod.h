@@ -131,6 +131,10 @@ public:
   itkSetMacro( ConvergenceThreshold, RealType );
   itkGetConstMacro( ConvergenceThreshold, RealType );
 
+  /** Set/Get the convergence window size */
+  itkSetMacro( ConvergenceWindowSize, unsigned int );
+  itkGetConstMacro( ConvergenceWindowSize, unsigned int );
+
   /** Let the user control whether we compute metric derivatives in the downsampled or full-res space.
    *  The default is 'true' --- classic SyN --- but there may be advantages to the other approach.
    *  Classic SyN did not have this possibility. This implementation will let us explore the question.
@@ -185,6 +189,7 @@ protected:
   OutputTransformPointer                                          m_FixedToMiddleTransform;
 
   RealType                                                        m_ConvergenceThreshold;
+  unsigned int                                                    m_ConvergenceWindowSize;
 
   NumberOfIterationsArrayType                                     m_NumberOfIterationsPerLevel;
   bool                                                            m_DownsampleImagesForMetricDerivatives;

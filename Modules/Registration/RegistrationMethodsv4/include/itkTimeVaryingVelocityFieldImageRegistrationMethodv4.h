@@ -153,6 +153,10 @@ public:
   itkSetMacro( ConvergenceThreshold, RealType );
   itkGetConstMacro( ConvergenceThreshold, RealType );
 
+  /** Set/Get the convergence window size */
+  itkSetMacro( ConvergenceWindowSize, unsigned int );
+  itkGetConstMacro( ConvergenceWindowSize, unsigned int );
+
 protected:
   TimeVaryingVelocityFieldImageRegistrationMethodv4();
   virtual ~TimeVaryingVelocityFieldImageRegistrationMethodv4();
@@ -175,8 +179,7 @@ private:
   RealType                                                        m_LearningRate;
 
   RealType                                                        m_ConvergenceThreshold;
-
-  RealType                                                        m_VelocityFieldNorm;
+  unsigned int                                                    m_ConvergenceWindowSize;
 
   NumberOfIterationsArrayType                                     m_NumberOfIterationsPerLevel;
 };

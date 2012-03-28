@@ -42,7 +42,8 @@ template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
 TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform>
 ::TimeVaryingVelocityFieldImageRegistrationMethodv4() :
   m_LearningRate( 0.25 ),
-  m_ConvergenceThreshold( 1.0e-7 )
+  m_ConvergenceThreshold( 1.0e-7 ),
+  m_ConvergenceWindowSize( 10 )
 {
   this->m_NumberOfIterationsPerLevel.SetSize( 3 );
   this->m_NumberOfIterationsPerLevel[0] = 20;
@@ -107,7 +108,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOu
   // Monitor the convergence
   typedef itk::Function::WindowConvergenceMonitoringFunction<double> ConvergenceMonitoringType;
   ConvergenceMonitoringType::Pointer convergenceMonitoring = ConvergenceMonitoringType::New();
-  convergenceMonitoring->SetWindowSize( 10 );
+  convergenceMonitoring->SetWindowSize( this->m_ConvergenceWindowSize );
 
   // m_OutputTransform is the velocity field
 
@@ -364,6 +365,8 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOu
   os << indent << "Shrink factors: " << this->m_ShrinkFactorsPerLevel << std::endl;
   os << indent << "Smoothing sigmas: " << this->m_SmoothingSigmasPerLevel << std::endl;
   os << indent << "Number of iterations: " << this->m_NumberOfIterationsPerLevel << std::endl;
+  os << indent << "Convergence threshold: " << this->m_ConvergenceThreshold << std::endl;
+  os << indent << "Convergence window size: " << this->m_ConvergenceWindowSize << std::endl;
   os << indent << "Learning rate: " << this->m_LearningRate << std::endl;
 }
 
