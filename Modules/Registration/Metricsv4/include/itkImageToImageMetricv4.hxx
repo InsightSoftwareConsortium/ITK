@@ -718,6 +718,15 @@ void
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
 ::MapFixedSampledPointSetToVirtual()
 {
+  if( this->m_FixedSampledPointSet.IsNull() )
+    {
+    itkExceptionMacro("UseFixedSampledPointSet has been set, but the fixed sample point list has not been assigned.");
+    }
+  if( this->m_FixedSampledPointSet->GetNumberOfPoints() == 0 )
+    {
+    itkExceptionMacro("The fixed sampled point contains no points.");
+    }
+
   this->m_VirtualSampledPointSet = VirtualSampledPointSetType::New();
   this->m_VirtualSampledPointSet->Initialize();
 
