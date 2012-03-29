@@ -150,6 +150,7 @@ itkVNLRoundProfileTest1.cxx
 itkZeroFluxBoundaryConditionTest.cxx
 itkMemoryProbesCollecterBaseTest.cxx
 itkImageAlgorithmCopyTest.cxx
+itkImageAlgorithmCopyTest2.cxx
 itkConstantBoundaryConditionTest.cxx
 itkDataObjectAndProcessObjectTest.cxx
 itkOptimizerParametersTest.cxx
@@ -401,6 +402,7 @@ if( "${ITK_COMPUTER_MEMORY_SIZE}" GREATER 4 )
 endif()
 
 itk_add_test(NAME itkImageAlgorithmCopyTest COMMAND ITKCommon2TestDriver itkImageAlgorithmCopyTest )
+itk_add_test(NAME itkImageAlgorithmCopyTest2 COMMAND ITKCommon2TestDriver itkImageAlgorithmCopyTest2 )
 itk_add_test(NAME itkOptimizerParametersTest COMMAND ITKCommon2TestDriver itkOptimizerParametersTest)
 itk_add_test(NAME itkImageVectorOptimizerParametersHelperTest COMMAND ITKCommon2TestDriver itkImageVectorOptimizerParametersHelperTest)
 itk_add_test(NAME itkCompensatedSummationTest COMMAND ITKCommon2TestDriver itkCompensatedSummationTest)

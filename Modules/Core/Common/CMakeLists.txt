@@ -40,8 +40,16 @@ check_include_files("stdint.h" HAVE_STDINT_H)
 check_include_files("stddef.h" HAVE_STDDEF_H)
 check_include_files("sys/types.h" HAVE_SYS_TYPES_H)
 
+
 # Check if this platform support the sse2 rounding functions for 32 and 64 bits
 include(CheckSupportForSSERounding)
+
+
+# check of the optional TR1 type_traits, alternative boost
+# implementation could also be searched for
+check_include_file_cxx( tr1/type_traits ITK_HAS_STLTR1_TR1_TYPE_TRAITS )
+check_include_file_cxx( type_traits ITK_HAS_STLTR1_TYPE_TRAITS )
+
 
 configure_file(src/itkConfigure.h.in itkConfigure.h)
 

@@ -68,6 +68,11 @@
 #cmakedefine ITK_COMPILER_SUPPORTS_SSE2_32
 #cmakedefine ITK_COMPILER_SUPPORTS_SSE2_64
 
+// defined if the system has <tr1/type_traits> header
+#cmakedefine ITK_HAS_STLTR1_TR1_TYPE_TRAITS
+// defined if the system has <type_traits> header
+#cmakedefine ITK_HAS_STLTR1_TYPE_TRAITS
+
 /*
  * Every exception may define a string with the function name for each
  * instantiated template. This can add a substantial number of symbols
