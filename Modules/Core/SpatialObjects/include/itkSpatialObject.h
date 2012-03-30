@@ -67,7 +67,7 @@ public:
 
   /** Return the maximum depth that a tree of spatial objects can
    * have.  This provides convenient access to a static constant. */
-  unsigned int GetMaximumDepth() { return MaximumDepth; }
+  unsigned int GetMaximumDepth() const { return MaximumDepth; }
 
   typedef SpatialObject< VDimension > Self;
   typedef DataObject                  Superclass;
