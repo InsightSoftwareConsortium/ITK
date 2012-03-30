@@ -41,4 +41,6 @@
   #endif
 #endif
 
+#cmakedefine TEEM_STATIC
+
 #endif // __NrrdConfigure_h

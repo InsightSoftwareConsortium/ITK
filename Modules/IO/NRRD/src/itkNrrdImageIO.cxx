@@ -17,6 +17,8 @@
  *=========================================================================*/
 
 #include "itkNrrdImageIO.h"
+#include "NrrdIO.h"
+
 #include "itkMetaDataObject.h"
 #include "itkIOCommon.h"
 #include "itkFloatingPointExceptions.h"

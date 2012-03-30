@@ -16,9 +16,13 @@ formatNRRD.c encoding.c encodingRaw.c encodingAscii.c encodingHex.c
 encodingGzip.c subset.c encodingBzip2.c formatEPS.c formatPNG.c 
 formatPNM.c formatText.c formatVTK.c )
 
-# Turn on TEEM_BUILD so that the proper dll export def's are 
-# used on windows builds.
-ADD_DEFINITIONS(-DTEEM_BUILD=1)
+# Turn on TEEM_BUILD and TEEM_STATIIC so that the proper dll export
+# def's are used on windows builds.
+ADD_DEFINITIONS(-DTEEM_BUILD)
+
+if(NOT BUILD_SHARED_LIBS)
+ set(TEEM_STATIC 1)
+endif()
 
 # Configure files with settings for use by the build.
 CONFIGURE_FILE(${ITK3P_NrrdIO_SOURCE_DIR}/NrrdConfigure.h.in
