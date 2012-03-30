@@ -93,13 +93,13 @@ else(USE_SYSTEM_FFTW)
     install(CODE
       "file(GLOB FFTW_LIBS ${ITK_BINARY_DIR}/fftw/lib/*fftw3*)
 file(INSTALL DESTINATION \"\${CMAKE_INSTALL_PREFIX}/lib/InsightToolkit-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}\"
-TYPE FILE FILES \${FFTW_LIBS})")
+TYPE FILE FILES \${FFTW_LIBS})" COMPONENT Development)
     #
     # copy headers into install tree
     install(CODE
       "file(GLOB FFTW_INC ${ITK_BINARY_DIR}/fftw/include/*fftw3*)
 file(INSTALL DESTINATION \"\${CMAKE_INSTALL_PREFIX}/include/InsightToolkit-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Algorithms\"
-TYPE FILE FILES \${FFTW_INC})")
+TYPE FILE FILES \${FFTW_INC})" COMPONENT Development)
 
   endif(WIN32 AND NOT MINGW)
 endif(USE_SYSTEM_FFTW)
