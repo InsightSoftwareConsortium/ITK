@@ -30,6 +30,7 @@
 #include "itkGDCMImageIO.h"
 #include "itkIOCommon.h"
 #include "itkArray.h"
+#include "itkByteSwapper.h"
 #include "vnl/vnl_cross.h"
 
 #include "itkMetaDataObject.h"
@@ -182,14 +183,55 @@ bool GDCMImageIO::CanReadFile(const char *filename)
     {
     return false;
     }
-
-  // Check to see if its a valid dicom file gdcm is able to parse:
-  // We are parsing the header one time here:
-  gdcm::ImageReader reader;
-  reader.SetFileName(filename);
-  if ( reader.Read() )
+  //
+  // sniff for the DICM signature first at 128
+  // then at zero, and if either place has it then
+  // ask GDCM to try reading it.
+  //
+  // There isn't a definitive way to check for DICOM files;
+  // This was actually cribbed from DICOMParser in VTK
+  bool dicomsig(false);
+  for(long int off = 128; off >= 0; off -= 128)
     {
-    return true;
+    file.seekg(off,std::ios_base::beg);
+    if(file.fail() || file.eof())
+      {
+      return false;
+      }
+    char buf[5];
+    file.read(buf,4);
+    if(file.fail())
+      {
+      return false;
+      }
+    buf[4] = '\0';
+    std::string sig(buf);
+    if(sig == "DICM")
+      {
+      dicomsig = true;
+      }
+    }
+  if(!dicomsig)
+    {
+    file.seekg(0,std::ios_base::beg);
+    unsigned short groupNo;
+    file.read(reinterpret_cast<char *>(&groupNo),sizeof(unsigned short));
+    ByteSwapper<unsigned short>::SwapFromSystemToLittleEndian(&groupNo);
+    if(groupNo == 0x0002 || groupNo == 0x0008)
+      {
+      dicomsig = true;
+      }
+    }
+  if(dicomsig)
+    {
+    // Check to see if its a valid dicom file gdcm is able to parse:
+    // We are parsing the header one time here:
+    gdcm::ImageReader reader;
+    reader.SetFileName(filename);
+    if ( reader.Read() )
+      {
+      return true;
+      }
     }
   return false;
 }
