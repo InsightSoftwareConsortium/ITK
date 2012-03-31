@@ -36,7 +36,7 @@ void ImageAlgorithm::DispatchedCopy( const InputImageType *inImage, OutputImageT
 
   while( !it.IsAtEnd() )
     {
-    ot.Set( static_cast< typename InputImageType::PixelType >( it.Get() ) );
+    ot.Set( static_cast< typename OutputImageType::PixelType >( it.Get() ) );
     ++ot;
     ++it;
     }
