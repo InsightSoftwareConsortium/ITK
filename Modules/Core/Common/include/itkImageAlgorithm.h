@@ -113,7 +113,7 @@ struct ImageAlgorithm
       );
   }
 
-/** \endcod */
+/** \endcond */
 
 
 private:
@@ -158,7 +158,7 @@ private:
       return vectorLength*componentSize;
     }
   };
-/** \endcod */
+/** \endcond */
 
 };
 } // end namespace itk
