@@ -22,7 +22,8 @@ macro( itk_module_headertest _name )
   if( NOT ${_name}_THIRD_PARTY AND
       EXISTS ${${_name}_SOURCE_DIR}/include
       AND PYTHON_EXECUTABLE
-      AND NOT (${_name} STREQUAL ITKTestKernel))
+      AND NOT (${_name} STREQUAL ITKTestKernel)
+      AND NOT (CMAKE_GENERATOR MATCHES "^Visual Studio 10.*"))
 
     # Count how many tests we are going to get, and put the source files in
     # the list _outputs.
