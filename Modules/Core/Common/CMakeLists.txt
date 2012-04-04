@@ -47,6 +47,7 @@ include(CheckSupportForSSERounding)
 
 # check of the optional TR1 type_traits, alternative boost
 # implementation could also be searched for
+include(CheckIncludeFileCXX)
 check_include_file_cxx( tr1/type_traits ITK_HAS_STLTR1_TR1_TYPE_TRAITS )
 check_include_file_cxx( type_traits ITK_HAS_STLTR1_TYPE_TRAITS )
 
