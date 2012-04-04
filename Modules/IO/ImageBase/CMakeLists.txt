@@ -32,4 +32,5 @@ itk_module_impl()
 install(FILES
   ${ITKIOImageBase_BINARY_DIR}/itkIOConfigure.h
   DESTINATION ${ITKIOImageBase_INSTALL_INCLUDE_DIR}
+  COMPONENT Development
   )

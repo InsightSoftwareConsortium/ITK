@@ -92,7 +92,7 @@ macro(itk_module_impl)
 
   if(EXISTS ${${itk-module}_SOURCE_DIR}/include)
     list(APPEND ${itk-module}_INCLUDE_DIRS ${${itk-module}_SOURCE_DIR}/include)
-    install(DIRECTORY include/ DESTINATION ${${itk-module}_INSTALL_INCLUDE_DIR})
+    install(DIRECTORY include/ DESTINATION ${${itk-module}_INSTALL_INCLUDE_DIR} COMPONENT Development)
   endif()
 
   if(${itk-module}_INCLUDE_DIRS)
@@ -138,6 +138,7 @@ macro(itk_module_impl)
   install(FILES
     ${${itk-module}_BINARY_DIR}/CMakeFiles/${itk-module}.cmake
     DESTINATION ${ITK_INSTALL_PACKAGE_DIR}/Modules
+    COMPONENT Development
     )
   itk_module_doxygen( ${itk-module} )   # module name
 endmacro()
@@ -192,11 +193,19 @@ macro(itk_module_target_export _name)
 endmacro()
 
 macro(itk_module_target_install _name)
+  #Use specific runtime components for executables and libraries separately when installing a module,
+  #considering that the target of a module could be either an executable or a library.
+  get_property(_ttype TARGET ${_name} PROPERTY TYPE)
+  if("${_ttype}" STREQUAL EXECUTABLE)
+    set(runtime_component Runtime)
+  else()
+    set(runtime_component RuntimeLibraries)
+  endif()
   install(TARGETS ${_name}
     EXPORT  ${${itk-module}-targets}
-    RUNTIME DESTINATION ${${itk-module}_INSTALL_RUNTIME_DIR}
-    LIBRARY DESTINATION ${${itk-module}_INSTALL_LIBRARY_DIR}
-    ARCHIVE DESTINATION ${${itk-module}_INSTALL_ARCHIVE_DIR}
+    RUNTIME DESTINATION ${${itk-module}_INSTALL_RUNTIME_DIR} COMPONENT ${runtime_component}
+    LIBRARY DESTINATION ${${itk-module}_INSTALL_LIBRARY_DIR} COMPONENT RuntimeLibraries
+    ARCHIVE DESTINATION ${${itk-module}_INSTALL_ARCHIVE_DIR} COMPONENT Development
     )
 endmacro()
 
