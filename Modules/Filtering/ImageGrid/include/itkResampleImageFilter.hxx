@@ -267,11 +267,11 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
 
     if ( component < minComponent )
       {
-      PixelConvertType::SetNthComponent( n, outputValue, minComponent );
+      PixelConvertType::SetNthComponent( n, outputValue, static_cast<PixelComponentType>( minComponent ) );
       }
     else if ( component > maxComponent )
       {
-      PixelConvertType::SetNthComponent( n, outputValue, maxComponent );
+      PixelConvertType::SetNthComponent( n, outputValue, static_cast<PixelComponentType>( maxComponent ) );
       }
     else
       {
