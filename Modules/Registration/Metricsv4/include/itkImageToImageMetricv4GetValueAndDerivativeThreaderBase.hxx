@@ -41,12 +41,18 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
   /* Per-thread results */
   this->m_MeasurePerThread.resize( this->GetNumberOfThreadsUsed() );
   this->m_NumberOfValidPointsPerThread.resize( this->GetNumberOfThreadsUsed() );
-  this->m_DerivativesPerThread.resize( this->GetNumberOfThreadsUsed() );
   this->m_CompensatedDerivativesPerThread.resize( this->GetNumberOfThreadsUsed() );
   /* This one is intermediary, for getting per-point results. */
   this->m_LocalDerivativesPerThread.resize( this->GetNumberOfThreadsUsed() );
   /* Per-thread pre-allocated Jacobian objects for efficiency */
   this->m_MovingTransformJacobianPerThread.resize( this->GetNumberOfThreadsUsed() );
+
+  /* Make sure to clear this vector first. Otherwise if we've previoulsy pointed each element
+   * Array to an m_DerivativeResult that's been deallocated, we'll get an access
+   * exception if the vector is resized to a larger size, triggering a copy of the
+   * first element. */
+  this->m_DerivativesPerThread.clear();
+  this->m_DerivativesPerThread.resize( this->GetNumberOfThreadsUsed() );
 
   /* This size always comes from the moving image */
   const NumberOfParametersType globalDerivativeSize =
@@ -67,8 +73,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
        * use a single derivative container that's updated by region
        * in multiple threads.
        * Initialization to zero is done in main class. */
-      itkDebugMacro(
-        "ImageToImageMetricv4::Initialize: transform HAS local support\n");
+      itkDebugMacro("ImageToImageMetricv4::Initialize: transform HAS local support\n");
         /* Set each per-thread object to point to m_DerivativeResult for efficiency. */
         this->m_DerivativesPerThread[i].SetData(
                                       this->m_Associate->m_DerivativeResult->data_block(),
@@ -77,8 +82,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
       }
     else
       {
-      itkDebugMacro(
-      "ImageToImageMetricv4::Initialize: transform does NOT have local support\n");
+      itkDebugMacro("ImageToImageMetricv4::Initialize: transform does NOT have local support\n");
       /* Global transforms get a separate derivatives container for each thread
        * that holds the result over a particular image region.
        * Use a CompensatedSummation value to provide for better consistency between
