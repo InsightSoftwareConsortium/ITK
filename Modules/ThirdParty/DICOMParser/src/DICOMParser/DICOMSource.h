@@ -111,7 +111,7 @@ class DICOM_EXPORT DICOMSource
   //
   static long ReturnAsSignedLong(unsigned char* data, bool )
   {
-    return *((quadbyte*) data);
+    return *(reinterpret_cast< quadbyte* >( data ));
   }
   
   
@@ -120,7 +120,7 @@ class DICOM_EXPORT DICOMSource
   //
   static ulong ReturnAsUnsignedLong(unsigned char* data, bool )
   {
-    return *((ulong*) data);
+    return *(reinterpret_cast< ulong* >( data ));
   }
   
   //
@@ -128,7 +128,7 @@ class DICOM_EXPORT DICOMSource
   //
   static ushort ReturnAsUnsignedShort(unsigned char* data, bool )
   {
-    return *((doublebyte*)data);
+    return *(reinterpret_cast< doublebyte* >( data ));
   }
   
   //
@@ -136,7 +136,7 @@ class DICOM_EXPORT DICOMSource
   // 
   static short int ReturnAsSignedShort(unsigned char* data, bool )
   {
-    return *((short int*)data);
+    return *(reinterpret_cast< short int* >( data ));
   }
 
   //
