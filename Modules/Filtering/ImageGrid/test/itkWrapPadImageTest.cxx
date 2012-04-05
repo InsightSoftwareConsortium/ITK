@@ -138,7 +138,7 @@ int itkWrapPadImageTest(int, char* [] )
       int column = itIn1.GetIndex()[1];
       FloatImage::PixelType expected = 0.0f;
 
-      if ( !VerifyPixel( row, column, itIn1.Get(), expected ) )
+      if ( !VerifyPixel( row, column, static_cast<short>(itIn1.Get()), expected ) )
         {
         std::cout << "Error in wrapPad: index (" << row << ", " << column
                   << "). Got " << itIn1.Get() << ", expected " << expected << std::endl;
@@ -207,7 +207,7 @@ int itkWrapPadImageTest(int, char* [] )
         int column = itIn2.GetIndex()[1];
         FloatImage::PixelType expected = 0.0f;
 
-        if ( !VerifyPixel( row, column, itIn2.Get(), expected ) )
+        if ( !VerifyPixel( row, column, static_cast<short>(itIn2.Get()), expected ) )
           {
           std::cout << "Error in wrapPad: index (" << row << ", " << column
                     << "). Got " << itIn2.Get() << ", expected " << expected << std::endl;
@@ -288,7 +288,7 @@ int itkWrapPadImageTest(int, char* [] )
         int column = itIn3.GetIndex()[1];
         FloatImage::PixelType expected = 0.0f;
 
-        if ( !VerifyPixel( row, column, itIn3.Get(), expected ) )
+        if ( !VerifyPixel( row, column, static_cast<short>(itIn3.Get()), expected ) )
           {
           std::cout << "Error in wrapPad: index (" << row << ", " << column
                     << "). Got " << itIn3.Get() << ", expected " << expected << std::endl;
