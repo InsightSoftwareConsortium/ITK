@@ -40,13 +40,6 @@ macro( itk_module_headertest _name )
         ${${_name}_BINARY_DIR}/test/${_name}HeaderTest${_test_num}.cxx )
     endwhile()
 
-    # Delete the outputs.  These should be regenerated when the header files
-    # move around, but adding the header files to the add_custom_command DEPENDS
-    # does not solve the problem.  So, they get nuked at CMake configuration
-    # time for robustness.  Eventually it should show be considered if this
-    # should be removed once the the toolkit stabilizes following the 4.0 release.
-    file( REMOVE ${_outputs} )
-
     add_custom_target( ${_name}HeaderTestClean
       ${CMAKE_COMMAND} -E remove ${_outputs} )
     add_dependencies( ITKHeaderTests ${_name}HeaderTestClean )
