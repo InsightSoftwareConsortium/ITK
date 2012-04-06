@@ -490,6 +490,27 @@ namespace itk
     return this->m_##name;                 \
     }
 
+/** Construct a non-templatized helper class that
+ * provides the GPU kernel source code as a const char*
+ */
+#define itkGPUKernelClassMacro(kernel)   \
+class ITK_EXPORT kernel                  \
+  {                                      \
+    public:                              \
+      static const char* GetOpenCLSource(); \
+    private:                             \
+      kernel();                          \
+      virtual ~kernel();                 \
+      kernel(const kernel &);            \
+      void operator=(const kernel &);    \
+  };
+
+#define itkGetOpenCLSourceFromKernelMacro(kernel) \
+  static const char* GetOpenCLSource() \
+  {                                 \
+    return kernel::GetOpenCLSource();  \
+  }
+
 /** Define two object creation methods.  The first method, New(),
  * creates an object from a class, potentially deferring to a factory.
  * The second method, CreateAnother(), creates an object from an
