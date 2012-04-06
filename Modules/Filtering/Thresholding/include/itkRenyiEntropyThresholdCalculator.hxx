@@ -44,7 +44,7 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>
   ProgressReporter progress( this, 0, m_Size );
   if( m_Size == 1 )
     {
-    this->GetOutput()->Set( histogram->GetMeasurement( 0, 0 ) );
+    this->GetOutput()->Set( static_cast<OutputType>(histogram->GetMeasurement( 0, 0 )) );
     return;
     }
 
