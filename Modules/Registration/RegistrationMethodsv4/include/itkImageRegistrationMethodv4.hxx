@@ -349,7 +349,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
     {
     case REGULAR:
       {
-      sampleCount = vcl_ceil( 1.0 / this->m_MetricSamplingPercentage );
+      sampleCount = static_cast<unsigned long>( vcl_ceil( 1.0 / this->m_MetricSamplingPercentage ) );
 
       unsigned long count = 0;
       ImageRegionConstIteratorWithIndex<VirtualDomainImageType> It( virtualImage, virtualDomainRegion );
