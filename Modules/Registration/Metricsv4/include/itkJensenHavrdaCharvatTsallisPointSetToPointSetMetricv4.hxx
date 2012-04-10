@@ -128,13 +128,13 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
   densityFunctions[0] = this->m_MovingDensityFunction;
   densityFunctions[1] = this->m_FixedDensityFunction;
 
-  IdentifierType totalNumberOfPoints = 0;
+  RealType totalNumberOfPoints = 0.0;
   for( unsigned int d = 0; d < 2; d++ )
     {
     const PointSetType * pointSet = densityFunctions[d]->GetInputPointSet();
     totalNumberOfPoints += static_cast<RealType>( pointSet->GetNumberOfPoints() );
     }
-  IdentifierType totalNumberOfSamples = totalNumberOfPoints;
+  RealType totalNumberOfSamples = totalNumberOfPoints;
 
   MeasureType measure = NumericTraits< MeasureType >::Zero;
 
@@ -284,14 +284,14 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
     end = 1;
     }
 
-  IdentifierType totalNumberOfPoints = NumericTraits< IdentifierType >::Zero;
+  RealType totalNumberOfPoints = NumericTraits<RealType>::Zero;
   for( unsigned int d = 0; d < 2; d++ )
     {
     const PointSetType * pointSet = densityFunctions[d]->GetInputPointSet();
     totalNumberOfPoints += static_cast<RealType>( pointSet->GetNumberOfPoints() );
     }
 
-  const RealType totalNumberOfSamples = static_cast<RealType>( totalNumberOfPoints );
+  const RealType totalNumberOfSamples = totalNumberOfPoints;
 
   derivative.SetSize( this->GetNumberOfComponents() * PointDimension );
   derivative.Fill( 0 );
@@ -500,7 +500,6 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
   value = energyTerm1 - energyTerm2;
 }
 
-
 template<class TPointSet>
 void
 JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
@@ -532,6 +531,5 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
 
 }
 } // end namespace itk
-
 
 #endif

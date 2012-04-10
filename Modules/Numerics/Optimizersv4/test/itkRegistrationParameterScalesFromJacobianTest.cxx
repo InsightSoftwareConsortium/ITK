@@ -236,7 +236,7 @@ int itkRegistrationParameterScalesFromJacobianTest(int , char* [])
   std::cout << "The learning rate of Jacobian for the affine transform = " << learningRate << std::endl;
 
   FloatType theoreticalStepScale = 0.0;
-  itk::SizeValueType count = 0.0;
+  FloatType count = 0.0;
   VirtualImageType::PointType lowerPoint;
   virtualImage->TransformIndexToPhysicalPoint(virtualImage->
     GetLargestPossibleRegion().GetIndex(), lowerPoint);

@@ -64,7 +64,7 @@ int itkMattesMutualInformationImageToImageMetricv4RegistrationTest(int argc, cha
     }
   if( argc >= 6 )
     {
-    numberOfDisplacementIterations = atof( argv[5] );
+    numberOfDisplacementIterations = atoi( argv[5] );
     }
   if( argc >= 7 )
     {
