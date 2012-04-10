@@ -209,6 +209,7 @@ PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
   os << "]" << std::endl;
   os << indent << "Smooth update field: "
      << ( m_SmoothUpdateField ? "on" : "off" ) << std::endl;
+  j = 0;
   os << indent << "Update field standard deviations: [" << m_UpdateFieldStandardDeviations[j];
   for ( j = 1; j < ImageDimension; j++ )
     {
