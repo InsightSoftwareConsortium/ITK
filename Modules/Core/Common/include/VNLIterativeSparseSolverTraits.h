@@ -45,6 +45,11 @@ public:
     return MatrixType(iN, iN);
   }
 
+  MatrixType InitializeSparseMatrix(const unsigned int & iRow, const unsigned int& iCol) const
+  {
+    return MatrixType(iRow, iCol);
+  }
+
   VectorType InitializeVector(const unsigned int & iN) const
   {
     return VectorType(iN);
@@ -67,6 +72,17 @@ public:
 
     SolverType solver(system);
     return solver.minimize(oX);
+  }
+
+  bool Solve(const MatrixType & iA,
+             const VectorType & iBx, const VectorType & iBy, const VectorType & iBz,
+             VectorType & oX, VectorType & oY, VectorType & oZ ) const
+  {
+    bool result1 = Solve(iA, iBx, 100000, oX);
+    bool result2 = Solve(iA, iBy, 100000, oY);
+    bool result3 = Solve(iA, iBz, 100000, oZ);
+
+    return ( result1 && result2 && result3 );
   }
 
   // no interest to use this method...
