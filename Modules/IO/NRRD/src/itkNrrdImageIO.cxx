@@ -237,446 +237,463 @@ void NrrdImageIO::ReadImageInformation()
 
   Nrrd *       nrrd = nrrdNew();
   NrrdIoState *nio = nrrdIoStateNew();
+  try
+    {
+    // nrrd causes exceptions on purpose, so mask them
+    bool saveFPEState(FloatingPointExceptions::GetExceptionAction());
+    FloatingPointExceptions::Disable();
 
-  // nrrd causes exceptions on purpose, so mask them
-  bool saveFPEState(FloatingPointExceptions::GetExceptionAction());
-  FloatingPointExceptions::Disable();
-
-  // this is the mechanism by which we tell nrrdLoad to read
-  // just the header, and none of the data
-  nrrdIoStateSet(nio, nrrdIoStateSkipData, 1);
-  if ( nrrdLoad(nrrd, this->GetFileName(), nio) != 0 )
-    {
-    char *err = biffGetDone(NRRD);  // would be nice to free(err)
-    itkExceptionMacro("ReadImageInformation: Error reading "
-                      << this->GetFileName() << ":\n" << err);
-    }
-
-  // restore state
-  FloatingPointExceptions::SetEnabled(saveFPEState);
-
-  if ( nrrdTypeBlock == nrrd->type )
-    {
-    itkExceptionMacro("ReadImageInformation: Cannot currently "
-                      "handle nrrdTypeBlock");
-    }
-  if ( nio->endian == airEndianLittle )
-    {
-    this->SetByteOrderToLittleEndian();
-    }
-  else if ( nio->endian == airEndianBig )
-    {
-    this->SetByteOrderToBigEndian();
-    }
-  else
-    {
-    this->SetByteOrder(ImageIOBase::OrderNotApplicable);
-    }
-
-  if ( nio->encoding == nrrdEncodingAscii )
-    {
-    this->SetFileTypeToASCII();
-    }
-  else
-    {
-    this->SetFileTypeToBinary();
-    }
-  // set type of pixel components; this is orthogonal to pixel type
-
-  ImageIOBase::IOComponentType
-    cmpType = this->NrrdToITKComponentType(nrrd->type);
-  if ( UNKNOWNCOMPONENTTYPE == cmpType )
-    {
-    itkExceptionMacro("Nrrd type " << airEnumStr(nrrdType, nrrd->type)
-                                   << " could not be mapped to an ITK component type");
-    }
-  this->SetComponentType(cmpType);
-
-  // Set the number of image dimensions and bail if needed
-  unsigned int domainAxisNum, domainAxisIdx[NRRD_DIM_MAX],
-               rangeAxisNum, rangeAxisIdx[NRRD_DIM_MAX];
-  domainAxisNum = nrrdDomainAxesGet(nrrd, domainAxisIdx);
-  rangeAxisNum = nrrdRangeAxesGet(nrrd, rangeAxisIdx);
-  if ( nrrd->spaceDim && nrrd->spaceDim != domainAxisNum )
-    {
-    itkExceptionMacro("ReadImageInformation: nrrd's #independent axes ("
-                      << domainAxisNum << ") doesn't match dimension of space"
-                                          " in which orientation is defined ("
-                      << nrrd->spaceDim << "); not currently handled");
-    }
-  // else nrrd->spaceDim == domainAxisNum when nrrd has orientation
-
-  if ( 0 == rangeAxisNum )
-    {
-    // we don't have any non-scalar data
-    this->SetNumberOfDimensions(nrrd->dim);
-    this->SetPixelType(ImageIOBase::SCALAR);
-    this->SetNumberOfComponents(1);
-    }
-  else if ( 1 == rangeAxisNum )
-    {
-    this->SetNumberOfDimensions(nrrd->dim - 1);
-    unsigned int kind = nrrd->axis[rangeAxisIdx[0]].kind;
-    unsigned int size = nrrd->axis[rangeAxisIdx[0]].size;
-    // NOTE: it is the NRRD readers responsibility to make sure that
-    // the size (#of components) associated with a specific kind is
-    // matches the actual size of the axis.
-    switch ( kind )
+    // this is the mechanism by which we tell nrrdLoad to read
+    // just the header, and none of the data
+    nrrdIoStateSet(nio, nrrdIoStateSkipData, 1);
+    if ( nrrdLoad(nrrd, this->GetFileName(), nio) != 0 )
       {
-      case nrrdKindDomain:
-      case nrrdKindSpace:
-      case nrrdKindTime:
-        itkExceptionMacro("ReadImageInformation: range axis kind ("
-                          << airEnumStr(nrrdKind, kind) << ") seems more "
-                                                           "like a domain axis than a range axis");
-        break;
-      case nrrdKindStub:
-      case nrrdKindScalar:
-        this->SetPixelType(ImageIOBase::SCALAR);
-        this->SetNumberOfComponents(size);
-        break;
-      case nrrdKind3Color:
-      case nrrdKindRGBColor:
-        this->SetPixelType(ImageIOBase::RGB);
-        this->SetNumberOfComponents(size);
-        break;
-      case nrrdKind4Color:
-      case nrrdKindRGBAColor:
-        this->SetPixelType(ImageIOBase::RGBA);
-        this->SetNumberOfComponents(size);
-        break;
-      case nrrdKindVector:
-      case nrrdKind2Vector:
-      case nrrdKind3Vector:
-      case nrrdKind4Vector:
-      case nrrdKindList:
-        this->SetPixelType(ImageIOBase::VECTOR);
-        this->SetNumberOfComponents(size);
-        break;
-      case nrrdKindPoint:
-        this->SetPixelType(ImageIOBase::POINT);
-        this->SetNumberOfComponents(size);
-        break;
-      case nrrdKindCovariantVector:
-      case nrrdKind3Gradient:
-      case nrrdKindNormal:
-      case nrrdKind3Normal:
-        this->SetPixelType(ImageIOBase::COVARIANTVECTOR);
-        this->SetNumberOfComponents(size);
-        break;
-      case nrrdKind3DSymMatrix:
-        // ImageIOBase::DIFFUSIONTENSOR3D is a subclass
-        this->SetPixelType(ImageIOBase::SYMMETRICSECONDRANKTENSOR);
-        this->SetNumberOfComponents(size);
-        break;
-      case nrrdKind3DMaskedSymMatrix:
-        this->SetPixelType(ImageIOBase::SYMMETRICSECONDRANKTENSOR);
-        // NOTE: we will crop out the mask in Read() below; this is the
-        // one case where NumberOfComponents != size
-        this->SetNumberOfComponents(size - 1);
-        break;
-      case nrrdKindComplex:
-        this->SetPixelType(ImageIOBase::COMPLEX);
-        this->SetNumberOfComponents(size);
-        break;
-      case nrrdKindHSVColor:
-      case nrrdKindXYZColor:
-      case nrrdKindQuaternion:
-      case nrrdKind2DSymMatrix:
-      case nrrdKind2DMaskedSymMatrix:
-      case nrrdKind2DMatrix:
-      case nrrdKind2DMaskedMatrix:
-      case nrrdKind3DMatrix:
-        // for all other Nrrd kinds, we punt and call it a vector
-        this->SetPixelType(ImageIOBase::VECTOR);
-        this->SetNumberOfComponents(size);
-        break;
-      default:
-        itkExceptionMacro("ReadImageInformation: nrrdKind " << kind
-                                                            << " not known!");
-        break;
+      char *err = biffGetDone(NRRD);
+
+      // don't use macro so that we can free err
+      std::ostringstream message;
+      message << "itk::ERROR: " << this->GetNameOfClass()
+              << "(" << this << "): " << "ReadImageInformation: Error reading "  << this->GetFileName() << ":\n" << err;
+      ExceptionObject e_(__FILE__, __LINE__, message.str().c_str(), ITK_LOCATION);
+      free( err );
+      throw e_;
       }
-    }
-  else
-    {
-    itkExceptionMacro("ReadImageInformation: nrrd has "
-                      << rangeAxisNum
-                      << " dependent axis (not 1); not currently handled");
-    }
 
-  double                spacing;
-  double                spaceDir[NRRD_SPACE_DIM_MAX];
-  std::vector< double > spaceDirStd(domainAxisNum);
-  int                   spacingStatus;
+    // restore state
+    FloatingPointExceptions::SetEnabled(saveFPEState);
 
-  int iFlipFactors[3];  // used to flip the measurement frame later on
-  for ( unsigned int iI = 0; iI < 3; iI++ )
-    {
-    iFlipFactors[iI] = 1;
-    }
-
-  for ( unsigned int axii = 0; axii < domainAxisNum; axii++ )
-    {
-    unsigned int naxi = domainAxisIdx[axii];
-    this->SetDimensions(axii, nrrd->axis[naxi].size);
-    spacingStatus = nrrdSpacingCalculate(nrrd, naxi, &spacing, spaceDir);
-
-    switch ( spacingStatus )
+    if ( nrrdTypeBlock == nrrd->type )
       {
-      case nrrdSpacingStatusNone:
-        // Let ITK's defaults stay
-        // this->SetSpacing(axii, 1.0);
-        break;
-      case nrrdSpacingStatusScalarNoSpace:
-        this->SetSpacing(axii, spacing);
-        break;
-      case nrrdSpacingStatusDirection:
-        if ( AIR_EXISTS(spacing) )
-          {
-          // only set info if we have something to set
-          switch ( nrrd->space )
-            {
-            // on read, convert non-LPS coords into LPS coords, when we can
-            case nrrdSpaceRightAnteriorSuperior:
-              spaceDir[0] *= -1;   // R -> L
-              spaceDir[1] *= -1;   // A -> P
-              iFlipFactors[0] = -1;
-              iFlipFactors[1] = -1;
-              break;
-            case nrrdSpaceLeftAnteriorSuperior:
-              spaceDir[0] *= -1;   // R -> L
-              iFlipFactors[0] = -1;
-              break;
-            case nrrdSpaceLeftPosteriorSuperior:
-              // no change needed
-              break;
-            default:
-              // we're not coming from a space for which the conversion
-              // to LPS is well-defined
-              break;
-            }
-          this->SetSpacing(axii, spacing);
-
-          for ( unsigned int saxi = 0; saxi < nrrd->spaceDim; saxi++ )
-            {
-            spaceDirStd[saxi] = spaceDir[saxi];
-            }
-          this->SetDirection(axii, spaceDirStd);
-          }
-        break;
-      default:
-      case nrrdSpacingStatusUnknown:
-        itkExceptionMacro("ReadImageInformation: Error interpreting "
-                          "nrrd spacing (nrrdSpacingStatusUnknown)");
-        break;
-      case nrrdSpacingStatusScalarWithSpace:
-        itkExceptionMacro("ReadImageInformation: Error interpreting "
-                          "nrrd spacing (nrrdSpacingStatusScalarWithSpace)");
-        break;
+      itkExceptionMacro("ReadImageInformation: Cannot currently "
+                        "handle nrrdTypeBlock");
       }
-    }
-
-  // Figure out origin
-  if ( nrrd->spaceDim )
-    {
-    if ( AIR_EXISTS(nrrd->spaceOrigin[0]) )
+    if ( nio->endian == airEndianLittle )
       {
-      // only set info if we have something to set
-      double spaceOrigin[NRRD_SPACE_DIM_MAX];
-      for ( unsigned int saxi = 0; saxi < nrrd->spaceDim; saxi++ )
+      this->SetByteOrderToLittleEndian();
+      }
+    else if ( nio->endian == airEndianBig )
+      {
+      this->SetByteOrderToBigEndian();
+      }
+    else
+      {
+      this->SetByteOrder(ImageIOBase::OrderNotApplicable);
+      }
+
+    if ( nio->encoding == nrrdEncodingAscii )
+      {
+      this->SetFileTypeToASCII();
+      }
+    else
+      {
+      this->SetFileTypeToBinary();
+      }
+    // set type of pixel components; this is orthogonal to pixel type
+
+    ImageIOBase::IOComponentType
+      cmpType = this->NrrdToITKComponentType(nrrd->type);
+    if ( UNKNOWNCOMPONENTTYPE == cmpType )
+      {
+      itkExceptionMacro("Nrrd type " << airEnumStr(nrrdType, nrrd->type)
+                        << " could not be mapped to an ITK component type");
+      }
+    this->SetComponentType(cmpType);
+
+    // Set the number of image dimensions and bail if needed
+    unsigned int domainAxisNum, domainAxisIdx[NRRD_DIM_MAX],
+      rangeAxisNum, rangeAxisIdx[NRRD_DIM_MAX];
+    domainAxisNum = nrrdDomainAxesGet(nrrd, domainAxisIdx);
+    rangeAxisNum = nrrdRangeAxesGet(nrrd, rangeAxisIdx);
+    if ( nrrd->spaceDim && nrrd->spaceDim != domainAxisNum )
+      {
+      itkExceptionMacro("ReadImageInformation: nrrd's #independent axes ("
+                        << domainAxisNum << ") doesn't match dimension of space"
+                        " in which orientation is defined ("
+                        << nrrd->spaceDim << "); not currently handled");
+      }
+    // else nrrd->spaceDim == domainAxisNum when nrrd has orientation
+
+    if ( 0 == rangeAxisNum )
+      {
+      // we don't have any non-scalar data
+      this->SetNumberOfDimensions(nrrd->dim);
+      this->SetPixelType(ImageIOBase::SCALAR);
+      this->SetNumberOfComponents(1);
+      }
+    else if ( 1 == rangeAxisNum )
+      {
+      this->SetNumberOfDimensions(nrrd->dim - 1);
+      unsigned int kind = nrrd->axis[rangeAxisIdx[0]].kind;
+      unsigned int size = nrrd->axis[rangeAxisIdx[0]].size;
+      // NOTE: it is the NRRD readers responsibility to make sure that
+      // the size (#of components) associated with a specific kind is
+      // matches the actual size of the axis.
+      switch ( kind )
         {
-        spaceOrigin[saxi] = nrrd->spaceOrigin[saxi];
+        case nrrdKindDomain:
+        case nrrdKindSpace:
+        case nrrdKindTime:
+          itkExceptionMacro("ReadImageInformation: range axis kind ("
+                            << airEnumStr(nrrdKind, kind) << ") seems more "
+                            "like a domain axis than a range axis");
+          break;
+        case nrrdKindStub:
+        case nrrdKindScalar:
+          this->SetPixelType(ImageIOBase::SCALAR);
+          this->SetNumberOfComponents(size);
+          break;
+        case nrrdKind3Color:
+        case nrrdKindRGBColor:
+          this->SetPixelType(ImageIOBase::RGB);
+          this->SetNumberOfComponents(size);
+          break;
+        case nrrdKind4Color:
+        case nrrdKindRGBAColor:
+          this->SetPixelType(ImageIOBase::RGBA);
+          this->SetNumberOfComponents(size);
+          break;
+        case nrrdKindVector:
+        case nrrdKind2Vector:
+        case nrrdKind3Vector:
+        case nrrdKind4Vector:
+        case nrrdKindList:
+          this->SetPixelType(ImageIOBase::VECTOR);
+          this->SetNumberOfComponents(size);
+          break;
+        case nrrdKindPoint:
+          this->SetPixelType(ImageIOBase::POINT);
+          this->SetNumberOfComponents(size);
+          break;
+        case nrrdKindCovariantVector:
+        case nrrdKind3Gradient:
+        case nrrdKindNormal:
+        case nrrdKind3Normal:
+          this->SetPixelType(ImageIOBase::COVARIANTVECTOR);
+          this->SetNumberOfComponents(size);
+          break;
+        case nrrdKind3DSymMatrix:
+          // ImageIOBase::DIFFUSIONTENSOR3D is a subclass
+          this->SetPixelType(ImageIOBase::SYMMETRICSECONDRANKTENSOR);
+          this->SetNumberOfComponents(size);
+          break;
+        case nrrdKind3DMaskedSymMatrix:
+          this->SetPixelType(ImageIOBase::SYMMETRICSECONDRANKTENSOR);
+          // NOTE: we will crop out the mask in Read() below; this is the
+          // one case where NumberOfComponents != size
+          this->SetNumberOfComponents(size - 1);
+          break;
+        case nrrdKindComplex:
+          this->SetPixelType(ImageIOBase::COMPLEX);
+          this->SetNumberOfComponents(size);
+          break;
+        case nrrdKindHSVColor:
+        case nrrdKindXYZColor:
+        case nrrdKindQuaternion:
+        case nrrdKind2DSymMatrix:
+        case nrrdKind2DMaskedSymMatrix:
+        case nrrdKind2DMatrix:
+        case nrrdKind2DMaskedMatrix:
+        case nrrdKind3DMatrix:
+          // for all other Nrrd kinds, we punt and call it a vector
+          this->SetPixelType(ImageIOBase::VECTOR);
+          this->SetNumberOfComponents(size);
+          break;
+        default:
+          itkExceptionMacro("ReadImageInformation: nrrdKind " << kind
+                            << " not known!");
+          break;
         }
+      }
+    else
+      {
+      itkExceptionMacro("ReadImageInformation: nrrd has "
+                        << rangeAxisNum
+                        << " dependent axis (not 1); not currently handled");
+      }
+
+    double                spacing;
+    double                spaceDir[NRRD_SPACE_DIM_MAX];
+    std::vector< double > spaceDirStd(domainAxisNum);
+    int                   spacingStatus;
+
+    int iFlipFactors[3];  // used to flip the measurement frame later on
+    for ( unsigned int iI = 0; iI < 3; iI++ )
+      {
+      iFlipFactors[iI] = 1;
+      }
+
+    for ( unsigned int axii = 0; axii < domainAxisNum; axii++ )
+      {
+      unsigned int naxi = domainAxisIdx[axii];
+      this->SetDimensions(axii, nrrd->axis[naxi].size);
+      spacingStatus = nrrdSpacingCalculate(nrrd, naxi, &spacing, spaceDir);
+
+      switch ( spacingStatus )
+        {
+        case nrrdSpacingStatusNone:
+          // Let ITK's defaults stay
+          // this->SetSpacing(axii, 1.0);
+          break;
+        case nrrdSpacingStatusScalarNoSpace:
+          this->SetSpacing(axii, spacing);
+          break;
+        case nrrdSpacingStatusDirection:
+          if ( AIR_EXISTS(spacing) )
+            {
+            // only set info if we have something to set
+            switch ( nrrd->space )
+              {
+              // on read, convert non-LPS coords into LPS coords, when we can
+              case nrrdSpaceRightAnteriorSuperior:
+                spaceDir[0] *= -1;   // R -> L
+                spaceDir[1] *= -1;   // A -> P
+                iFlipFactors[0] = -1;
+                iFlipFactors[1] = -1;
+                break;
+              case nrrdSpaceLeftAnteriorSuperior:
+                spaceDir[0] *= -1;   // R -> L
+                iFlipFactors[0] = -1;
+                break;
+              case nrrdSpaceLeftPosteriorSuperior:
+                // no change needed
+                break;
+              default:
+                // we're not coming from a space for which the conversion
+                // to LPS is well-defined
+                break;
+              }
+            this->SetSpacing(axii, spacing);
+
+            for ( unsigned int saxi = 0; saxi < nrrd->spaceDim; saxi++ )
+              {
+              spaceDirStd[saxi] = spaceDir[saxi];
+              }
+            this->SetDirection(axii, spaceDirStd);
+            }
+          break;
+        default:
+        case nrrdSpacingStatusUnknown:
+          itkExceptionMacro("ReadImageInformation: Error interpreting "
+                            "nrrd spacing (nrrdSpacingStatusUnknown)");
+          break;
+        case nrrdSpacingStatusScalarWithSpace:
+          itkExceptionMacro("ReadImageInformation: Error interpreting "
+                            "nrrd spacing (nrrdSpacingStatusScalarWithSpace)");
+          break;
+        }
+      }
+
+    // Figure out origin
+    if ( nrrd->spaceDim )
+      {
+      if ( AIR_EXISTS(nrrd->spaceOrigin[0]) )
+        {
+        // only set info if we have something to set
+        double spaceOrigin[NRRD_SPACE_DIM_MAX];
+        for ( unsigned int saxi = 0; saxi < nrrd->spaceDim; saxi++ )
+          {
+          spaceOrigin[saxi] = nrrd->spaceOrigin[saxi];
+          }
+        switch ( nrrd->space )
+          {
+          // convert non-LPS coords into LPS coords, when we can
+          case nrrdSpaceRightAnteriorSuperior:
+            spaceOrigin[0] *= -1;   // R -> L
+            spaceOrigin[1] *= -1;   // A -> P
+            break;
+          case nrrdSpaceLeftAnteriorSuperior:
+            spaceOrigin[0] *= -1;   // R -> L
+            break;
+          case nrrdSpaceLeftPosteriorSuperior:
+            // no change needed
+            break;
+          default:
+            // we're not coming from a space for which the conversion
+            // to LPS is well-defined
+            break;
+          }
+        for ( unsigned int saxi = 0; saxi < nrrd->spaceDim; saxi++ )
+          {
+          this->SetOrigin(saxi, spaceOrigin[saxi]);
+          }
+        }
+      }
+    else
+      {
+      double spaceOrigin[NRRD_DIM_MAX];
+      int    originStatus = nrrdOriginCalculate(nrrd, domainAxisIdx, domainAxisNum,
+                                                nrrdCenterCell, spaceOrigin);
+      for ( unsigned int saxi = 0; saxi < domainAxisNum; saxi++ )
+        {
+        switch ( originStatus )
+          {
+          case nrrdOriginStatusNoMin:
+          case nrrdOriginStatusNoMaxOrSpacing:
+            // only set info if we have something to set
+            // this->SetOrigin(saxi, 0.0);
+            break;
+          case nrrdOriginStatusOkay:
+            this->SetOrigin(saxi, spaceOrigin[saxi]);
+            break;
+          default:
+          case nrrdOriginStatusUnknown:
+          case nrrdOriginStatusDirection:
+            itkExceptionMacro("ReadImageInformation: Error interpreting "
+                              "nrrd origin status");
+            break;
+          }
+        }
+      }
+
+    // Store key/value pairs in MetaDataDictionary
+    char                 key[AIR_STRLEN_SMALL];
+    const char *         val;
+    char *               keyPtr = NULL;
+    char *               valPtr = NULL;
+    MetaDataDictionary & thisDic = this->GetMetaDataDictionary();
+    std::string          classname( this->GetNameOfClass() );
+    EncapsulateMetaData< std::string >(thisDic, ITK_InputFilterName, classname);
+    for ( unsigned int kvpi = 0; kvpi < nrrdKeyValueSize(nrrd); kvpi++ )
+      {
+      nrrdKeyValueIndex(nrrd, &keyPtr, &valPtr, kvpi);
+      EncapsulateMetaData< std::string >( thisDic, std::string(keyPtr),
+                                          std::string(valPtr) );
+      keyPtr = (char *)airFree(keyPtr);
+      valPtr = (char *)airFree(valPtr);
+      }
+
+    // save in MetaDataDictionary those important nrrd fields that
+    // (currently) have no ITK equivalent. NOTE that for the per-axis
+    // information, we use the same axis index (axii) as in ITK, NOT
+    // the original axis index in nrrd (axi).  This is because in the
+    // Read() method, non-scalar data is permuted to the fastest axis,
+    // on the on the Write() side, its always written to the fastest axis,
+    // so we might was well go with consistent and idiomatic indexing.
+    NrrdAxisInfo *naxis;
+    for ( unsigned int axii = 0; axii < domainAxisNum; axii++ )
+      {
+      unsigned int axi = domainAxisIdx[axii];
+      naxis = nrrd->axis + axi;
+      if ( AIR_EXISTS(naxis->thickness) )
+        {
+        sprintf(key, "%s%s[%u]", KEY_PREFIX,
+                airEnumStr(nrrdField, nrrdField_thicknesses), axii);
+        EncapsulateMetaData< double >(thisDic, std::string(key),
+                                      naxis->thickness);
+        }
+      if ( naxis->center )
+        {
+        sprintf(key, "%s%s[%u]", KEY_PREFIX,
+                airEnumStr(nrrdField, nrrdField_centers), axii);
+        val = airEnumStr(nrrdCenter, naxis->center);
+        EncapsulateMetaData< std::string >( thisDic, std::string(key),
+                                            std::string(val) );
+        }
+      if ( naxis->kind )
+        {
+        sprintf(key, "%s%s[%u]", KEY_PREFIX,
+                airEnumStr(nrrdField, nrrdField_kinds), axii);
+        val = airEnumStr(nrrdKind, naxis->kind);
+        EncapsulateMetaData< std::string >( thisDic, std::string(key),
+                                            std::string(val) );
+        }
+      if ( airStrlen(naxis->label) )
+        {
+        sprintf(key, "%s%s[%u]", KEY_PREFIX,
+                airEnumStr(nrrdField, nrrdField_labels), axii);
+        EncapsulateMetaData< std::string >( thisDic, std::string(key),
+                                            std::string(naxis->label) );
+        }
+      }
+    if ( airStrlen(nrrd->content) )
+      {
+      sprintf( key, "%s%s", KEY_PREFIX,
+               airEnumStr(nrrdField, nrrdField_content) );
+      EncapsulateMetaData< std::string >( thisDic, std::string(key),
+                                          std::string(nrrd->content) );
+      }
+    if ( AIR_EXISTS(nrrd->oldMin) )
+      {
+      sprintf( key, "%s%s", KEY_PREFIX,
+               airEnumStr(nrrdField, nrrdField_old_min) );
+      EncapsulateMetaData< double >(thisDic, std::string(key), nrrd->oldMin);
+      }
+    if ( AIR_EXISTS(nrrd->oldMax) )
+      {
+      sprintf( key, "%s%s", KEY_PREFIX,
+               airEnumStr(nrrdField, nrrdField_old_max) );
+      EncapsulateMetaData< double >(thisDic, std::string(key), nrrd->oldMax);
+      }
+    if ( nrrd->space )
+      {
+      sprintf( key, "%s%s", KEY_PREFIX,
+               airEnumStr(nrrdField, nrrdField_space) );
+      val = airEnumStr(nrrdSpace, nrrd->space);
+
+      // keep everything consistent: so enter it as LPS in the meta data
+      // dictionary in case it could get converted, otherwise leave it
+      // as is
+
       switch ( nrrd->space )
         {
-        // convert non-LPS coords into LPS coords, when we can
         case nrrdSpaceRightAnteriorSuperior:
-          spaceOrigin[0] *= -1;   // R -> L
-          spaceOrigin[1] *= -1;   // A -> P
-          break;
         case nrrdSpaceLeftAnteriorSuperior:
-          spaceOrigin[0] *= -1;   // R -> L
-          break;
         case nrrdSpaceLeftPosteriorSuperior:
-          // no change needed
+          // in all these cases we could convert
+          EncapsulateMetaData< std::string >( thisDic, std::string(key),
+                                              std::string( airEnumStr(nrrdSpace, nrrdSpaceLeftPosteriorSuperior) ) );
           break;
         default:
           // we're not coming from a space for which the conversion
           // to LPS is well-defined
-          break;
-        }
-      for ( unsigned int saxi = 0; saxi < nrrd->spaceDim; saxi++ )
-        {
-        this->SetOrigin(saxi, spaceOrigin[saxi]);
-        }
-      }
-    }
-  else
-    {
-    double spaceOrigin[NRRD_DIM_MAX];
-    int    originStatus = nrrdOriginCalculate(nrrd, domainAxisIdx, domainAxisNum,
-                                              nrrdCenterCell, spaceOrigin);
-    for ( unsigned int saxi = 0; saxi < domainAxisNum; saxi++ )
-      {
-      switch ( originStatus )
-        {
-        case nrrdOriginStatusNoMin:
-        case nrrdOriginStatusNoMaxOrSpacing:
-          // only set info if we have something to set
-          // this->SetOrigin(saxi, 0.0);
-          break;
-        case nrrdOriginStatusOkay:
-          this->SetOrigin(saxi, spaceOrigin[saxi]);
-          break;
-        default:
-        case nrrdOriginStatusUnknown:
-        case nrrdOriginStatusDirection:
-          itkExceptionMacro("ReadImageInformation: Error interpreting "
-                            "nrrd origin status");
+          EncapsulateMetaData< std::string >( thisDic, std::string(key),
+                                              std::string(val) );
           break;
         }
       }
-    }
 
-  // Store key/value pairs in MetaDataDictionary
-  char                 key[AIR_STRLEN_SMALL];
-  const char *         val;
-  char *               keyPtr = NULL;
-  char *               valPtr = NULL;
-  MetaDataDictionary & thisDic = this->GetMetaDataDictionary();
-  std::string          classname( this->GetNameOfClass() );
-  EncapsulateMetaData< std::string >(thisDic, ITK_InputFilterName, classname);
-  for ( unsigned int kvpi = 0; kvpi < nrrdKeyValueSize(nrrd); kvpi++ )
-    {
-    nrrdKeyValueIndex(nrrd, &keyPtr, &valPtr, kvpi);
-    EncapsulateMetaData< std::string >( thisDic, std::string(keyPtr),
-                                        std::string(valPtr) );
-    keyPtr = (char *)airFree(keyPtr);
-    valPtr = (char *)airFree(valPtr);
-    }
-
-  // save in MetaDataDictionary those important nrrd fields that
-  // (currently) have no ITK equivalent. NOTE that for the per-axis
-  // information, we use the same axis index (axii) as in ITK, NOT
-  // the original axis index in nrrd (axi).  This is because in the
-  // Read() method, non-scalar data is permuted to the fastest axis,
-  // on the on the Write() side, its always written to the fastest axis,
-  // so we might was well go with consistent and idiomatic indexing.
-  NrrdAxisInfo *naxis;
-  for ( unsigned int axii = 0; axii < domainAxisNum; axii++ )
-    {
-    unsigned int axi = domainAxisIdx[axii];
-    naxis = nrrd->axis + axi;
-    if ( AIR_EXISTS(naxis->thickness) )
+    if ( AIR_EXISTS(nrrd->measurementFrame[0][0]) )
       {
-      sprintf(key, "%s%s[%u]", KEY_PREFIX,
-              airEnumStr(nrrdField, nrrdField_thicknesses), axii);
-      EncapsulateMetaData< double >(thisDic, std::string(key),
-                                    naxis->thickness);
-      }
-    if ( naxis->center )
-      {
-      sprintf(key, "%s%s[%u]", KEY_PREFIX,
-              airEnumStr(nrrdField, nrrdField_centers), axii);
-      val = airEnumStr(nrrdCenter, naxis->center);
-      EncapsulateMetaData< std::string >( thisDic, std::string(key),
-                                          std::string(val) );
-      }
-    if ( naxis->kind )
-      {
-      sprintf(key, "%s%s[%u]", KEY_PREFIX,
-              airEnumStr(nrrdField, nrrdField_kinds), axii);
-      val = airEnumStr(nrrdKind, naxis->kind);
-      EncapsulateMetaData< std::string >( thisDic, std::string(key),
-                                          std::string(val) );
-      }
-    if ( airStrlen(naxis->label) )
-      {
-      sprintf(key, "%s%s[%u]", KEY_PREFIX,
-              airEnumStr(nrrdField, nrrdField_labels), axii);
-      EncapsulateMetaData< std::string >( thisDic, std::string(key),
-                                          std::string(naxis->label) );
-      }
-    }
-  if ( airStrlen(nrrd->content) )
-    {
-    sprintf( key, "%s%s", KEY_PREFIX,
-             airEnumStr(nrrdField, nrrdField_content) );
-    EncapsulateMetaData< std::string >( thisDic, std::string(key),
-                                        std::string(nrrd->content) );
-    }
-  if ( AIR_EXISTS(nrrd->oldMin) )
-    {
-    sprintf( key, "%s%s", KEY_PREFIX,
-             airEnumStr(nrrdField, nrrdField_old_min) );
-    EncapsulateMetaData< double >(thisDic, std::string(key), nrrd->oldMin);
-    }
-  if ( AIR_EXISTS(nrrd->oldMax) )
-    {
-    sprintf( key, "%s%s", KEY_PREFIX,
-             airEnumStr(nrrdField, nrrdField_old_max) );
-    EncapsulateMetaData< double >(thisDic, std::string(key), nrrd->oldMax);
-    }
-  if ( nrrd->space )
-    {
-    sprintf( key, "%s%s", KEY_PREFIX,
-             airEnumStr(nrrdField, nrrdField_space) );
-    val = airEnumStr(nrrdSpace, nrrd->space);
+      sprintf( key, "%s%s", KEY_PREFIX,
+               airEnumStr(nrrdField, nrrdField_measurement_frame) );
+      std::vector< std::vector< double > > msrFrame(domainAxisNum);
 
-    // keep everything consistent: so enter it as LPS in the meta data
-    // dictionary in case it could get converted, otherwise leave it
-    // as is
+      // flip the measurement frame here if we have to
+      // so that everything is consistent with the ITK LPS space directions
+      // but only do this if we have a three dimensional space or smaller
 
-    switch ( nrrd->space )
-      {
-      case nrrdSpaceRightAnteriorSuperior:
-      case nrrdSpaceLeftAnteriorSuperior:
-      case nrrdSpaceLeftPosteriorSuperior:
-        // in all these cases we could convert
-        EncapsulateMetaData< std::string >( thisDic, std::string(key),
-                                            std::string( airEnumStr(nrrdSpace, nrrdSpaceLeftPosteriorSuperior) ) );
-        break;
-      default:
-        // we're not coming from a space for which the conversion
-        // to LPS is well-defined
-        EncapsulateMetaData< std::string >( thisDic, std::string(key),
-                                            std::string(val) );
-        break;
-      }
-    }
-
-  if ( AIR_EXISTS(nrrd->measurementFrame[0][0]) )
-    {
-    sprintf( key, "%s%s", KEY_PREFIX,
-             airEnumStr(nrrdField, nrrdField_measurement_frame) );
-    std::vector< std::vector< double > > msrFrame(domainAxisNum);
-
-    // flip the measurement frame here if we have to
-    // so that everything is consistent with the ITK LPS space directions
-    // but only do this if we have a three dimensional space or smaller
-
-    for ( unsigned int saxi = 0; saxi < domainAxisNum; saxi++ )
-      {
-      msrFrame[saxi].resize(domainAxisNum);
-      for ( unsigned int saxj = 0; saxj < domainAxisNum; saxj++ )
+      for ( unsigned int saxi = 0; saxi < domainAxisNum; saxi++ )
         {
-        if ( domainAxisNum <= 3 )
+        msrFrame[saxi].resize(domainAxisNum);
+        for ( unsigned int saxj = 0; saxj < domainAxisNum; saxj++ )
           {
-          msrFrame[saxi][saxj] = iFlipFactors[saxj] * nrrd->measurementFrame[saxi][saxj];
-          }
-        else
-          {
-          msrFrame[saxi][saxj] = nrrd->measurementFrame[saxi][saxj];
+          if ( domainAxisNum <= 3 )
+            {
+            msrFrame[saxi][saxj] = iFlipFactors[saxj] * nrrd->measurementFrame[saxi][saxj];
+            }
+          else
+            {
+            msrFrame[saxi][saxj] = nrrd->measurementFrame[saxi][saxj];
+            }
           }
         }
+      EncapsulateMetaData< std::vector< std::vector< double > > >(thisDic,
+                                                                  std::string(key),
+                                                                  msrFrame);
       }
-    EncapsulateMetaData< std::vector< std::vector< double > > >(thisDic,
-                                                                std::string(key),
-                                                                msrFrame);
-    }
 
-  nrrd = nrrdNix(nrrd);
-  nio = nrrdIoStateNix(nio);
+    nrrd = nrrdNix(nrrd);
+    nio = nrrdIoStateNix(nio);
+    }
+  catch (...)
+    {
+    // clean up from an exception
+    nrrd = nrrdNix(nrrd);
+    nio = nrrdIoStateNix(nio);
+
+    // rethrow exception
+    throw;
+    }
 }
 
 void NrrdImageIO::Read(void *buffer)

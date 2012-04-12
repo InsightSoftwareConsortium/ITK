@@ -73,6 +73,8 @@ int itkNrrdImageIOTest(int ac, char* av[])
   ret += itkNrrdImageIOTestReadWriteTest<float, 4>(std::string(av[1]), sz, inputFile, true);
   ret += itkNrrdImageIOTestReadWriteTest<double, 4>(std::string(av[1]), sz, inputFile, true);
 
+  // Now we try to read a file which doen't exist
+  itkNrrdImageIOTestReadWriteTest<double, 4>(std::string(av[1]), sz, "IDontExist.nrrd" );
 
   if (ret == EXIT_SUCCESS)
     {
