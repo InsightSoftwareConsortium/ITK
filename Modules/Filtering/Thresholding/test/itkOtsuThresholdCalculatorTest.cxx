@@ -99,10 +99,10 @@ int itkOtsuThresholdCalculatorTest(int, char* [] )
     std::cout << std::endl;
 
     /* Return minimum of intensity */
-    short thresholdResult = calculator->GetThreshold();
+    double thresholdResult = calculator->GetThreshold();
     std::cout << "The threshold intensity value is : " << thresholdResult << std::endl;
 
-    if ( thresholdResult < value1 || thresholdResult > value2 )
+    if ( thresholdResult < static_cast<double>(value1) || thresholdResult > static_cast<double>(value2) )
       {
       std::cout << "Threshold Value is wrong : " << thresholdResult << std::endl;
       std::cout << "Should be between " << value1 << " and " << value2 << std::endl;
