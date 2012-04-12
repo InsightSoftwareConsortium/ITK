@@ -140,6 +140,37 @@ VNL_SSE_FORCE_INLINE void vnl_sse_dealloc(void* mem, vcl_size_t n, unsigned size
 #define VNL_SSE_FORCE_INLINE
 #endif
 
+#if VNL_CONFIG_ENABLE_SSE2
+class vnl_sse_supplement
+{
+public:
+  // SSE2 does not have a native _mm_min_epi32 or _mm_max_epi32 (le sigh-- SSE4.1
+  // provides these).  So, these are substitutes written in SSE2 based off the
+  // SSEPlus library.
+  static VNL_SSE_FORCE_INLINE __m128i vnl_mm_min_epi32(__m128i a, __m128i b)
+  {
+    __m128i mask  = _mm_cmplt_epi32(a, b);
+    a = _mm_and_si128(a, mask);
+    b = _mm_andnot_si128(mask, b);
+    a = _mm_or_si128(a, b);
+    return a;
+  }
+
+  static VNL_SSE_FORCE_INLINE __m128i vnl_mm_max_epi32(__m128i a, __m128i b)
+  {
+    __m128i mask  = _mm_cmpgt_epi32(a, b);
+    a = _mm_and_si128(a, mask);
+    b = _mm_andnot_si128(mask, b);
+    a = _mm_or_si128(a, b);
+    return a;
+  }
+};
+// If SSE4.1 is available, these can be replaced by their native
+// implementations.
+#define VNL_MM_MIN_EPI32 vnl_sse_supplement::vnl_mm_min_epi32
+#define VNL_MM_MAX_EPI32 vnl_sse_supplement::vnl_mm_max_epi32
+#endif // VNL_CONFIG_ENABLE_SSE2
+
 //: Bog standard (no sse) implementation for non sse enabled hardware and any type which doesn't have a template specialisation.
 template <class T>
 class vnl_sse
@@ -509,18 +540,122 @@ class vnl_sse<double>
     return ret;
   }
 
+  static VNL_SSE_FORCE_INLINE unsigned arg_max(const double* x, unsigned n)
+  {
+    if (n == 1)
+      return 0;
+
+    __m128d min_double = _mm_set1_pd(- DBL_MAX);
+    __m128d max = min_double;
+    __m128d input;
+    __m128i input_idx = _mm_set_epi32(1, 1, 0, 0);
+    __m128i input_idx_increment = _mm_set1_epi32(2);
+    __m128i arg_max = _mm_set1_epi32(0);
+    union IsMaxMask
+      {
+      __m128d m128d;
+      __m128i m128i;
+      };
+    IsMaxMask is_max;
+
+    const int n16 = (n/2) * 2;
+    // handle two elements at a time, max will contain two max values
+    for (int i=0; i<n16; i+=2)
+      {
+      input = VNL_SSE_HEAP_LOAD(pd)(x+i);
+      max = _mm_max_pd(input, max);
+      is_max.m128d = _mm_cmpeq_pd(max, input);
+      arg_max = VNL_MM_MAX_EPI32(arg_max, _mm_and_si128(is_max.m128i, input_idx));
+      input_idx = _mm_add_epi32(input_idx, input_idx_increment);
+      }
+
+    // decision logic for odd sized vectors
+    if (n%2)
+      {
+      input_idx = _mm_set1_epi32(--n);
+      input = _mm_load1_pd(x+n);
+      max = _mm_max_sd(max, input);
+      is_max.m128d = _mm_cmpeq_pd(max, input);
+      arg_max = VNL_MM_MAX_EPI32(arg_max, _mm_and_si128(is_max.m128i, input_idx));
+      }
+
+    // need to store the index of the max value
+    is_max.m128d = max;
+    max = _mm_max_sd(_mm_unpackhi_pd(max, min_double), max);
+    max = _mm_unpacklo_pd(max, max);
+    is_max.m128d = _mm_cmpeq_pd(is_max.m128d, max);
+    arg_max = _mm_and_si128(is_max.m128i, arg_max);
+    arg_max = VNL_MM_MAX_EPI32(arg_max, _mm_unpackhi_epi32(arg_max, _mm_set1_epi32(0)));
+    unsigned ret = _mm_cvtsi128_si32(arg_max);
+    return ret;
+  }
+
+  static VNL_SSE_FORCE_INLINE unsigned arg_min(const double* x, unsigned n)
+  {
+    if (n == 1)
+      return 0;
+
+    __m128d max_double = _mm_set1_pd(DBL_MAX);
+    __m128d min = max_double;
+    __m128d input;
+    __m128i input_idx = _mm_set_epi32(1, 1, 0, 0);
+    __m128i input_idx_increment = _mm_set1_epi32(2);
+    __m128i arg_min = _mm_set1_epi32(0);
+    union IsMinMask
+      {
+      __m128d m128d;
+      __m128i m128i;
+      };
+    IsMinMask is_min;
+
+    const int n16 = (n/2) * 2;
+    // handle two elements at a time, max will contain two max values
+    for (int i=0; i<n16; i+=2)
+      {
+      input = VNL_SSE_HEAP_LOAD(pd)(x+i);
+      min = _mm_min_pd(input, min);
+      is_min.m128d = _mm_cmpeq_pd(min, input);
+      arg_min = VNL_MM_MAX_EPI32(arg_min, _mm_and_si128(is_min.m128i, input_idx));
+      input_idx = _mm_add_epi32(input_idx, input_idx_increment);
+      }
+
+    // decision logic for odd sized vectors
+    if (n%2)
+      {
+      input_idx = _mm_set1_epi32(--n);
+      input = _mm_load1_pd(x+n);
+      min = _mm_min_sd(min, input);
+      is_min.m128d = _mm_cmpeq_pd(min, input);
+      arg_min = VNL_MM_MAX_EPI32(arg_min, _mm_and_si128(is_min.m128i, input_idx));
+      }
+
+    // need to store the index of the min value
+    is_min.m128d = min;
+    min = _mm_min_sd(_mm_unpackhi_pd(min, max_double), min);
+    min = _mm_unpacklo_pd(min, min);
+    is_min.m128d = _mm_cmpeq_pd(is_min.m128d, min);
+    arg_min = _mm_and_si128(is_min.m128i, arg_min);
+    arg_min = VNL_MM_MAX_EPI32(arg_min, _mm_unpackhi_epi32(arg_min, _mm_set1_epi32(0)));
+    unsigned ret = _mm_cvtsi128_si32(arg_min);
+    return ret;
+  }
+
   static VNL_SSE_FORCE_INLINE double max(const double* x, unsigned n)
   {
     double ret;
+    __m128d min_double = _mm_set1_pd(- DBL_MAX);
+    __m128d max = min_double;
+
     // decision logic for odd sized vectors
-    __m128d max = n%2 ? _mm_load_sd(x+--n) : _mm_setzero_pd();
+    if (n%2)
+      max = _mm_max_sd(max,_mm_load_sd(x+--n));
 
     // handle two elements at a time, max will contain two max values
     for (int i=n-2; i>=0; i-=2)
       max = _mm_max_pd(VNL_SSE_HEAP_LOAD(pd)(x+i), max);
 
     // need to store max's two values
-    max = _mm_max_sd(max,_mm_unpackhi_pd(max,_mm_setzero_pd()));
+    max = _mm_max_sd(max,_mm_unpackhi_pd(max,min_double));
     _mm_store_sd(&ret,max);
     return ret;
   }
@@ -528,7 +663,8 @@ class vnl_sse<double>
   static VNL_SSE_FORCE_INLINE double min(const double* x, unsigned n)
   {
     double ret;
-    __m128d min = _mm_set1_pd(DBL_MAX);
+    __m128d max_double = _mm_set1_pd(DBL_MAX);
+    __m128d min = max_double;
 
     // hand last element if odd sized vector
     if (n%2)
@@ -539,7 +675,7 @@ class vnl_sse<double>
       min = _mm_min_pd(VNL_SSE_HEAP_LOAD(pd)(x+i), min);
 
     // need to store min's two values
-    min = _mm_min_sd(min,_mm_unpackhi_pd(min,_mm_setzero_pd()));
+    min = _mm_min_sd(min,_mm_unpackhi_pd(min,max_double));
     _mm_store_sd(&ret,min);
     return ret;
   }
@@ -834,7 +970,8 @@ class vnl_sse<float>
   static VNL_SSE_FORCE_INLINE float max(const float* x, unsigned n)
   {
     float ret;
-    __m128 max = _mm_setzero_ps();
+    __m128 min_float = _mm_set1_ps(- FLT_MAX);
+    __m128 max = min_float;
     switch (n%4)
     { // handle vector sizes which aren't divisible by 4
       case 3: max = _mm_load_ss(x+--n);
@@ -848,7 +985,7 @@ class vnl_sse<float>
       max = _mm_max_ps(VNL_SSE_HEAP_LOAD(ps)(x+i), max);
 
     // need compare max's four values
-    max = _mm_max_ps(max,_mm_movehl_ps(_mm_setzero_ps(),max));
+    max = _mm_max_ps(max,_mm_movehl_ps(min_float,max));
     max = _mm_max_ss(max,_mm_shuffle_ps(max,max,_MM_SHUFFLE(3,2,1,1)));
     _mm_store_ss(&ret,max);
 
@@ -858,7 +995,8 @@ class vnl_sse<float>
   static VNL_SSE_FORCE_INLINE float min(const float* x, unsigned n)
   {
     float ret;
-    __m128 min = _mm_set1_ps(FLT_MAX);
+    __m128 max_float = _mm_set1_ps(FLT_MAX);
+    __m128 min = max_float;
 
     switch (n%4)
     { // handle vector sizes which aren't divisible by 4
@@ -874,10 +1012,118 @@ class vnl_sse<float>
 
 
     // need compare min's four values
-    min = _mm_min_ps(min,_mm_movehl_ps(_mm_setzero_ps(),min));
+    min = _mm_min_ps(min,_mm_movehl_ps(max_float,min));
     min = _mm_min_ss(min,_mm_shuffle_ps(min,min,_MM_SHUFFLE(3,2,1,1)));
     _mm_store_ss(&ret,min);
 
+    return ret;
+  }
+
+  static VNL_SSE_FORCE_INLINE unsigned arg_max(const float* x, unsigned n)
+  {
+    __m128  max = _mm_set1_ps(- FLT_MAX);
+    __m128  input;
+    __m128i input_idx = _mm_set_epi32(3, 2, 1, 0);
+    __m128i input_idx_increment = _mm_set1_epi32(4);
+    __m128i arg_max = _mm_set1_epi32(0);
+    union IsMaxMask
+      {
+      __m128  m128;
+      __m128i m128i;
+      };
+    IsMaxMask is_max;
+
+    const int n16 = (n/4) * 4;
+    // handle two elements at a time, max will contain two max values
+    for (int i=0; i<n16; i+=4)
+      {
+      input = VNL_SSE_HEAP_LOAD(ps)(x+i);
+      max = _mm_max_ps(input, max);
+      is_max.m128 = _mm_cmpeq_ps(max, input);
+      arg_max = VNL_MM_MAX_EPI32(arg_max, _mm_and_si128(is_max.m128i, input_idx));
+      input_idx = _mm_add_epi32(input_idx, input_idx_increment);
+      }
+
+    // decision logic for vector sizes whach aren't divisible by 4
+    int mod = n%4;
+    n = n-mod;
+    input_idx_increment = _mm_set1_epi32(1);
+    while (mod != 0)
+      {
+      input_idx = _mm_set1_epi32(n);
+      input = _mm_load1_ps(x+n);
+      max = _mm_max_ps(max, input);
+      is_max.m128 = _mm_cmpeq_ps(max, input);
+      arg_max = VNL_MM_MAX_EPI32(arg_max, _mm_and_si128(is_max.m128i, input_idx));
+      --mod;
+      ++n;
+      input_idx = _mm_add_epi32(input_idx, input_idx_increment);
+      }
+
+    // need to store the index of the max value
+    is_max.m128 = max;
+    max = _mm_max_ps(max, _mm_shuffle_ps(max, max, _MM_SHUFFLE(2,3,0,1)));
+    max = _mm_max_ps(max, _mm_movehl_ps(max, max));
+    max = _mm_shuffle_ps(max, max, _MM_SHUFFLE(0,0,0,0));
+    is_max.m128 = _mm_cmpeq_ps(is_max.m128, max);
+    arg_max = _mm_and_si128(is_max.m128i, arg_max);
+    arg_max = VNL_MM_MAX_EPI32(arg_max, _mm_unpackhi_epi32(arg_max, _mm_set1_epi32(0)));
+    arg_max = VNL_MM_MAX_EPI32(arg_max, _mm_srli_si128(arg_max, 4));
+    unsigned ret = _mm_cvtsi128_si32(arg_max);
+    return ret;
+  }
+
+  static VNL_SSE_FORCE_INLINE unsigned arg_min(const float* x, unsigned n)
+  {
+    __m128  min = _mm_set1_ps(FLT_MAX);
+    __m128  input;
+    __m128i input_idx = _mm_set_epi32(3, 2, 1, 0);
+    __m128i input_idx_increment = _mm_set1_epi32(4);
+    __m128i arg_min = _mm_set1_epi32(0);
+    union IsMinMask
+      {
+      __m128  m128;
+      __m128i m128i;
+      };
+    IsMinMask is_min;
+
+    const int n16 = (n/4) * 4;
+    // handle two elements at a time, max will contain two max values
+    for (int i=0; i<n16; i+=4)
+      {
+      input = VNL_SSE_HEAP_LOAD(ps)(x+i);
+      min = _mm_min_ps(input, min);
+      is_min.m128 = _mm_cmpeq_ps(min, input);
+      arg_min = VNL_MM_MAX_EPI32(arg_min, _mm_and_si128(is_min.m128i, input_idx));
+      input_idx = _mm_add_epi32(input_idx, input_idx_increment);
+      }
+
+    //// decision logic for vector sizes whach aren't divisible by 4
+    int mod = n%4;
+    n = n-mod;
+    input_idx_increment = _mm_set1_epi32(1);
+    while (mod != 0)
+      {
+      input_idx = _mm_set1_epi32(n);
+      input = _mm_load1_ps(x+n);
+      min = _mm_min_ps(min, input);
+      is_min.m128 = _mm_cmpeq_ps(min, input);
+      arg_min = VNL_MM_MAX_EPI32(arg_min, _mm_and_si128(is_min.m128i, input_idx));
+      --mod;
+      ++n;
+      input_idx = _mm_add_epi32(input_idx, input_idx_increment);
+      }
+
+    // need to store the index of the max value
+    is_min.m128 = min;
+    min = _mm_min_ps(min, _mm_shuffle_ps(min, min, _MM_SHUFFLE(2,3,0,1)));
+    min = _mm_min_ps(min, _mm_movehl_ps(min, min));
+    min = _mm_shuffle_ps(min, min, _MM_SHUFFLE(0,0,0,0));
+    is_min.m128 = _mm_cmpeq_ps(is_min.m128, min);
+    arg_min = _mm_and_si128(is_min.m128i, arg_min);
+    arg_min = VNL_MM_MAX_EPI32(arg_min, _mm_unpackhi_epi32(arg_min, _mm_set1_epi32(0)));
+    arg_min = VNL_MM_MAX_EPI32(arg_min, _mm_srli_si128(arg_min, 4));
+    unsigned ret = _mm_cvtsi128_si32(arg_min);
     return ret;
   }
 };
