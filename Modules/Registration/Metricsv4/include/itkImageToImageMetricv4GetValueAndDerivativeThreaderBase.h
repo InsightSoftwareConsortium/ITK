@@ -71,14 +71,15 @@ public:
   typedef typename ImageToImageMetricv4Type::MovingImageGradientType MovingImageGradientType;
 
   typedef typename ImageToImageMetricv4Type::FixedTransformType      FixedTransformType;
-  typedef typename FixedTransformType::OutputPointType                   FixedOutputPointType;
+  typedef typename FixedTransformType::OutputPointType               FixedOutputPointType;
   typedef typename ImageToImageMetricv4Type::MovingTransformType     MovingTransformType;
-  typedef typename MovingTransformType::OutputPointType                  MovingOutputPointType;
+  typedef typename MovingTransformType::OutputPointType              MovingOutputPointType;
 
   typedef typename ImageToImageMetricv4Type::MeasureType             MeasureType;
   typedef typename ImageToImageMetricv4Type::DerivativeType          DerivativeType;
   typedef typename ImageToImageMetricv4Type::DerivativeValueType     DerivativeValueType;
   typedef typename ImageToImageMetricv4Type::JacobianType            JacobianType;
+  typedef typename ImageToImageMetricv4Type::ImageDimensionType      ImageDimensionType;
 
   typedef typename ImageToImageMetricv4Type::InternalComputationValueType InternalComputationValueType;
   typedef typename ImageToImageMetricv4Type::NumberOfParametersType       NumberOfParametersType;
