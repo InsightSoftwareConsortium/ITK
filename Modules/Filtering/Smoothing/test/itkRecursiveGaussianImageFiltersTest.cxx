@@ -21,6 +21,7 @@
 #include "itkRecursiveGaussianImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageRegionConstIterator.h"
+#include "itkTestingMacros.h"
 
 #include <algorithm>
 #include <numeric>
@@ -434,6 +435,9 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
     std::cout << it.Get() << std::endl;
     ++it;
     }
+
+  filter->SetSigma( 0.0 );
+  TRY_EXPECT_EXCEPTION( filter->Update() )
   }
 
   {
@@ -510,7 +514,12 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
     std::cerr << "Failure for filter to run in-place!" << std::endl;
     return EXIT_FAILURE;
     }
+
+  filter->SetSigma( 0.0 );
+  TRY_EXPECT_EXCEPTION( filter->Update() )
+
   }
+
 
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;
