@@ -38,8 +38,6 @@ Transform<TScalarType, NInputDimensions, NOutputDimensions>
   , m_SharedLocalJacobian(NOutputDimensions, 1)
 #endif
 {
-  m_DirectionChange.SetIdentity();
-
   itkWarningMacro(
     << "Using default transform constructor.  Should specify NOutputDims and NParameters as args to constructor.");
 }
@@ -58,7 +56,6 @@ Transform<TScalarType, NInputDimensions, NOutputDimensions>
   , m_SharedLocalJacobian(NOutputDimensions, numberOfParameters)
 #endif
 {
-  m_DirectionChange.SetIdentity();
 }
 
 /**
