@@ -46,6 +46,19 @@ void ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
 template< class TInputImage, class TOutputImage >
 void
 ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
+::VerifyPreconditions()
+{
+  this->Superclass::VerifyPreconditions();
+
+  if ( this->m_InitialMeans.size() == 0 )
+    {
+    itkExceptionMacro("Atleast One InialMean is required.");
+    }
+}
+
+template< class TInputImage, class TOutputImage >
+void
+ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
   typename AdaptorType::Pointer adaptor = AdaptorType::New();

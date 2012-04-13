@@ -161,6 +161,10 @@ protected:
    */
   void GenerateData();
 
+  /* See superclass for doxygen. This methods additionally checks that
+   * the number of means is not 0. */
+  virtual void VerifyPreconditions();
+
 private:
   ScalarImageKmeansImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);               //purposely not implemented
