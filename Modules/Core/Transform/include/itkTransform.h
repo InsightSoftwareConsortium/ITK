@@ -188,16 +188,6 @@ public:
   void SetDirectionChange( const OutputDirectionMatrix fixedDir, const InputDirectionMatrix  movingDir );
 #endif
 
-  void SetDirectionChangeMatrix( const DirectionChangeMatrix & changeDir )
-  {
-    m_DirectionChange = changeDir; this->Modified();
-  }
-
-  DirectionChangeMatrix GetDirectionChangeMatrix( void ) const
-  {
-    return m_DirectionChange;
-  }
-
   /**  Method to transform a point.
    * \warning This method must be thread-safe. See, e.g., its use
    * in ResampleImageFilter.
