@@ -187,6 +187,7 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
   imageFFTFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
   imageFFTFilter->SetInput( paddedInput );
   progress->RegisterInternalFilter( imageFFTFilter, progressWeight );
+  imageFFTFilter->Update();
 
   transformedInput = imageFFTFilter->GetOutput();
 }
@@ -270,6 +271,7 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
   kernelFFTFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
   kernelFFTFilter->SetInput( kernelShifter->GetOutput() );
   progress->RegisterInternalFilter( kernelFFTFilter, 0.699f * progressWeight );
+  kernelFFTFilter->Update();
 
   typedef ChangeInformationImageFilter< InternalComplexImageType > InfoFilterType;
   typename InfoFilterType::Pointer kernelInfoFilter = InfoFilterType::New();
@@ -277,10 +279,12 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
 
   typedef typename InfoFilterType::OutputImageOffsetValueType InfoOffsetValueType;
   InputSizeType inputLowerBound = this->GetPadLowerBound();
+  InputIndexType inputIndex = this->GetInput()->GetLargestPossibleRegion().GetIndex();
+  KernelIndexType kernelIndex = kernel->GetLargestPossibleRegion().GetIndex();
   InfoOffsetValueType kernelOffset[ImageDimension];
   for (int i = 0; i < ImageDimension; ++i)
     {
-    kernelOffset[i] = static_cast< InfoOffsetValueType >( -inputLowerBound[i] );
+    kernelOffset[i] = static_cast< InfoOffsetValueType >( inputIndex[i] - inputLowerBound[i] - kernelIndex[i] );
     }
   kernelInfoFilter->SetOutputOffset( kernelOffset );
   kernelInfoFilter->SetNumberOfThreads( this->GetNumberOfThreads() );

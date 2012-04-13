@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 
+#include "itkChangeInformationImageFilter.h"
 #include "itkConstantBoundaryCondition.h"
 #include "itkFFTConvolutionImageFilter.h"
 #include "itkImageFileReader.h"
@@ -49,8 +50,25 @@ int itkFFTConvolutionImageFilterTest(int argc, char * argv[])
   typedef itk::FFTConvolutionImageFilter<ImageType> ConvolutionFilterType;
   ConvolutionFilterType::Pointer convoluter
     = ConvolutionFilterType::New();
-  convoluter->SetInput( reader1->GetOutput() );
-  convoluter->SetKernelImage( reader2->GetOutput() );
+
+  // Test generality of filter by changing the image index
+  typedef itk::ChangeInformationImageFilter<ImageType> ChangeInformationFilterType;
+  ChangeInformationFilterType::Pointer inputChanger = ChangeInformationFilterType::New();
+  inputChanger->ChangeRegionOn();
+  ImageType::OffsetType inputOffset = {{-2, 3}};
+  inputChanger->SetOutputOffset(inputOffset);
+  inputChanger->SetInput(reader1->GetOutput());
+
+  convoluter->SetInput(inputChanger->GetOutput());
+
+  // Test generality of filter by changing the kernel index
+  ChangeInformationFilterType::Pointer kernelChanger = ChangeInformationFilterType::New();
+  kernelChanger->ChangeRegionOn();
+  ImageType::OffsetType kernelOffset = {{3, -5}};
+  kernelChanger->SetOutputOffset(kernelOffset);
+  kernelChanger->SetInput(reader2->GetOutput());
+
+  convoluter->SetKernelImage(kernelChanger->GetOutput());
 
   itk::SimpleFilterWatcher watcher(convoluter, "filter");
 
