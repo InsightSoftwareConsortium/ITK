@@ -163,7 +163,7 @@ public:
       oValue += TriangleHelper< InputPointType >::Cotangent(pt1, ptB, pt2);
       }
 
-    return vnl_math_max(static_cast< InputCoordRepType >( 0.0 ), oValue);
+    return vnl_math_max( NumericTraits< InputCoordRepType >::Zero, oValue);
   }
 };
 
@@ -203,7 +203,7 @@ public:
     InputPointIdentifier id2 = iEdge->GetDestination();
     InputPointType       pt2 = iMesh->GetPoint(id2);
 
-    InputCoordRepType oValue(0.0);
+    InputCoordRepType oValue = NumericTraits< InputCoordRepType >::Zero;
 
     if ( iEdge->IsLeftSet() )
       {

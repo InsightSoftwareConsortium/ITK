@@ -78,23 +78,20 @@ TriangleHelper< TPoint >::Cotangent(const PointType & iA,
                                     const PointType & iC)
 {
   VectorType   v21 = iA - iB;
+
   CoordRepType v21_l2 = v21.GetSquaredNorm();
 
-  if ( v21_l2 != 0.0 )
+  if ( v21_l2 != NumericTraits< CoordRepType >::Zero )
     {
     v21 /= vcl_sqrt(v21_l2);
     }
-  else
-      {}
 
   VectorType   v23 = iC - iB;
   CoordRepType v23_l2 = v23.GetSquaredNorm();
-  if ( v23_l2 != 0.0 )
+  if ( v23_l2 != NumericTraits< CoordRepType >::Zero )
     {
     v23 /= vcl_sqrt(v23_l2);
     }
-  else
-      {}
 
   CoordRepType bound(0.999999);
 
@@ -237,6 +234,42 @@ TriangleHelper< TPoint >::ComputeArea(const PointType & iP1,
   CoordRepType s = 0.5 * ( a + b + c );
 
   return static_cast< CoordRepType >( vcl_sqrt ( s * ( s - a ) * ( s - b ) * ( s - c ) ) );
+}
+
+template< typename TPoint >
+typename TriangleHelper< TPoint >::CoordRepType
+TriangleHelper< TPoint >::ComputeMixedArea(const PointType & iP1,
+                                      const PointType & iP2,
+                                      const PointType & iP3)
+{
+  typedef TriangleHelper< TPoint > TriangleType;
+
+  if ( !TriangleType::IsObtuse(iP1, iP2, iP3) )
+    {
+    CoordRepType sq_d01 =
+        static_cast< CoordRepType >( iP1.SquaredEuclideanDistanceTo(iP2) );
+    CoordRepType sq_d02 =
+      static_cast< CoordRepType >( iP1.SquaredEuclideanDistanceTo(iP3) );
+
+    CoordRepType cot_theta_210 = TriangleType::Cotangent(iP3, iP2, iP1);
+    CoordRepType cot_theta_021 = TriangleType::Cotangent(iP1, iP3, iP2);
+
+    return 0.125 * ( sq_d02 * cot_theta_210 + sq_d01 * cot_theta_021 );
+    }
+  else
+    {
+    CoordRepType area =
+      static_cast< CoordRepType >( TriangleType::ComputeArea(iP1, iP2, iP3) );
+
+    if ( ( iP2 - iP1 ) * ( iP3 - iP1 ) < NumericTraits< CoordRepType >::Zero )
+      {
+      return 0.5 * area;
+      }
+    else
+      {
+      return 0.25 * area;
+      }
+    }
 }
 }
 

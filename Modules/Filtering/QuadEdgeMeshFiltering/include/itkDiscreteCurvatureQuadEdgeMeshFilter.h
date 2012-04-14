@@ -70,7 +70,7 @@ public:
 
 protected:
   DiscreteCurvatureQuadEdgeMeshFilter() {}
-  ~DiscreteCurvatureQuadEdgeMeshFilter() {}
+  virtual ~DiscreteCurvatureQuadEdgeMeshFilter() {}
 
   virtual OutputCurvatureType EstimateCurvature(const OutputPointType & iP) = 0;
 
@@ -91,36 +91,7 @@ protected:
       p[i] = output->GetPoint(id[i]);
       }
 
-    if ( !TriangleType::IsObtuse(p[0], p[1], p[2]) )
-      {
-      OutputCurvatureType sq_d01 =
-        static_cast< OutputCurvatureType >(
-          p[0].SquaredEuclideanDistanceTo(p[1]) );
-      OutputCurvatureType sq_d02 =
-        static_cast< OutputCurvatureType >(
-          p[0].SquaredEuclideanDistanceTo(p[2]) );
-
-      OutputCurvatureType cot_theta_210 =
-        TriangleType::Cotangent(p[2], p[1], p[0]);
-      OutputCurvatureType cot_theta_021 =
-        TriangleType::Cotangent(p[0], p[2], p[1]);
-
-      return 0.125 * ( sq_d02 * cot_theta_210 + sq_d01 * cot_theta_021 );
-      }
-    else
-      {
-      OutputCurvatureType area =
-        static_cast< OutputCurvatureType >(
-          TriangleType::ComputeArea(p[0], p[1], p[2]) );
-      if ( ( p[1] - p[0] ) * ( p[2] - p[0] ) < 0. )
-        {
-        return 0.5 * area;
-        }
-      else
-        {
-        return 0.25 * area;
-        }
-      }
+    return static_cast< OutputCurvatureType >( TriangleType::ComputeMixedArea( p[0], p[1], p[2] ) );
   }
 
   virtual void GenerateData()
@@ -136,7 +107,7 @@ protected:
 
     while ( p_it != points->End() )
       {
-      curvature = EstimateCurvature( p_it->Value() );
+      curvature = this->EstimateCurvature( p_it->Value() );
       output->SetPointData(p_it->Index(), curvature);
       ++p_it;
       }
