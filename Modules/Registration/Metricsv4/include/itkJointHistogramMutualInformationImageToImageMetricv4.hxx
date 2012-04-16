@@ -18,6 +18,7 @@
 #ifndef __itkJointHistogramMutualInformationImageToImageMetricv4_hxx
 #define __itkJointHistogramMutualInformationImageToImageMetricv4_hxx
 
+#include "itkCompensatedSummation.h"
 #include "itkJointHistogramMutualInformationImageToImageMetricv4.h"
 #include "itkImageRandomConstIteratorWithIndex.h"
 #include "itkImageIterator.h"
@@ -260,9 +261,10 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVi
   linearIter.SetDirection( 0 );
   linearIter.GoToBegin();
   unsigned int fixedIndex = 0;
+  CompensatedSummation< InternalComputationValueType > sum;
   while( !linearIter.IsAtEnd() )
     {
-    InternalComputationValueType sum = NumericTraits< InternalComputationValueType >::Zero;
+    sum.ResetToZero();
     while( !linearIter.IsAtEndOfLine() )
       {
       sum += linearIter.Get();
@@ -270,7 +272,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVi
       }
     MarginalPDFIndexType mind;
     mind[0] = fixedIndex;
-    m_FixedImageMarginalPDF->SetPixel(mind,static_cast<PDFValueType>(sum));
+    m_FixedImageMarginalPDF->SetPixel(mind,static_cast<PDFValueType>(sum.GetSum()));
     linearIter.NextLine();
     ++fixedIndex;
     }
@@ -280,7 +282,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVi
   unsigned int movingIndex = 0;
   while( !linearIter.IsAtEnd() )
     {
-    InternalComputationValueType sum = NumericTraits< InternalComputationValueType >::Zero;
+    sum.ResetToZero();
     while( !linearIter.IsAtEndOfLine() )
       {
       sum += linearIter.Get();
@@ -288,7 +290,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVi
       }
     MarginalPDFIndexType mind;
     mind[0] = movingIndex;
-    m_MovingImageMarginalPDF->SetPixel(mind,static_cast<PDFValueType>(sum));
+    m_MovingImageMarginalPDF->SetPixel(mind,static_cast<PDFValueType>(sum.GetSum()));
     linearIter.NextLine();
     ++movingIndex;
     }
@@ -325,7 +327,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVi
   3- The ComputeMutualInformation() iterator range should cover the entire PDF.
   4- The normalization is done based on NumberOfHistogramBins-1 instead of NumberOfHistogramBins. */
   InternalComputationValueType px,py,pxy;
-  InternalComputationValueType total_mi = NumericTraits< InternalComputationValueType >::Zero;
+  CompensatedSummation< InternalComputationValueType > total_mi;
   InternalComputationValueType local_mi;
   InternalComputationValueType eps =
                         NumericTraits<InternalComputationValueType>::epsilon();
@@ -355,7 +357,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVi
       total_mi += local_mi;
       } // over jh bins 2
     } // over jh bins 1
-  return ( -1.0 * total_mi / this->m_Log2  );
+  return ( -1.0 * total_mi.GetSum() / this->m_Log2  );
 }
 
 template <class TFixedImage, class TMovingImage, class TVirtualImage>
