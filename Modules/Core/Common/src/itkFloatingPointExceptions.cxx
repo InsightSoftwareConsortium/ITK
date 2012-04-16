@@ -218,7 +218,22 @@ fedisableexcept (unsigned int excepts)
   return ( fesetenv (&fenv) ? -1 : static_cast< int >( old_excepts ) );
 }
 
-#endif  // PPC or INTEL enabling
+#else
+#include "TargetConditionals.h"
+#if defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR)
+// Added for iOS
+int feenableexcept(unsigned int)
+{
+  return 0;
+}
+
+int fedisableexcept(unsigned int)
+{
+  return 0;
+}
+#endif // iOS detection
+
+#endif  // PPC, INTEL or iOS enabling
 
 
 #endif  // not LINUX
