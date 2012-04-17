@@ -103,7 +103,7 @@ public:
   /** The curvature speed is same as the propagation speed. */
   virtual ScalarValueType CurvatureSpeed(const NeighborhoodType & neighborhood,
                                          const FloatOffsetType & offset, GlobalDataStruct *gd ) const
-  { return PropagationSpeed( neighborhood, offset, gd ); }
+  { return this->PropagationSpeed( neighborhood, offset, gd ); }
 
   virtual void Initialize(const RadiusType &r)
     {

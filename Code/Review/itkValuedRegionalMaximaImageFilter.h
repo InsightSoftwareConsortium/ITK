@@ -87,7 +87,7 @@ public:
 protected:
   ValuedRegionalMaximaImageFilter() 
     {
-    SetMarkerValue( 
+    this->SetMarkerValue( 
       NumericTraits<ITK_TYPENAME TOutputImage::PixelType>::NonpositiveMin());
     }
   virtual ~ValuedRegionalMaximaImageFilter() {}

@@ -117,13 +117,13 @@ WeightedCentroidKdTreeGenerator< TSample >
   upperBound[partitionDimension] = partitionValue;
   const unsigned int beginLeftIndex = beginIndex;
   const unsigned int endLeftIndex   = medianIndex;
-  KdTreeNodeType* left = GenerateTreeLoop(beginLeftIndex, endLeftIndex, lowerBound, upperBound, level + 1);
+  KdTreeNodeType* left = this->GenerateTreeLoop(beginLeftIndex, endLeftIndex, lowerBound, upperBound, level + 1);
   upperBound[partitionDimension] = dimensionUpperBound;
 
   lowerBound[partitionDimension] = partitionValue;
   const unsigned int beginRightIndex = medianIndex+1;
   const unsigned int endRighIndex    = endIndex;
-  KdTreeNodeType* right = GenerateTreeLoop(beginRightIndex, endRighIndex, lowerBound, upperBound, level + 1);
+  KdTreeNodeType* right = this->GenerateTreeLoop(beginRightIndex, endRighIndex, lowerBound, upperBound, level + 1);
   lowerBound[partitionDimension] = dimensionLowerBound;
 
 

@@ -502,7 +502,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 ::SetInput1(const SourceImageType * image1 )
 {
   // Process object is not const-correct so the const casting is required.
-  SetNthInput(1,  const_cast<SourceImageType *>( image1 ) );
+  this->SetNthInput(1,  const_cast<SourceImageType *>( image1 ) );
 }
 
 template< typename TSourceImage >
@@ -511,7 +511,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 ::SetInput2(const BoundaryPointImageType * image2 )
 {
   // Process object is not const-correct so the const casting is required.
-  SetNthInput(0, const_cast<BoundaryPointImageType *>( image2 ) );
+  this->SetNthInput(0, const_cast<BoundaryPointImageType *>( image2 ) );
 }
 
 } // end namespace

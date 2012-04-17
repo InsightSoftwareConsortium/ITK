@@ -114,7 +114,7 @@ public:
   virtual ScalarValueType CurvatureSpeed(const NeighborhoodType & neighborhood,
                                          const FloatOffsetType & offset, GlobalDataStruct *gd ) const
     { 
-    return PropagationSpeed( neighborhood, offset, gd );
+    return this->PropagationSpeed( neighborhood, offset, gd );
     }
 
   /** Set/Get the sigma for the Gaussian kernel used to compute the gradient

@@ -291,7 +291,7 @@ MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>
     // which direction
     int LineDirection=0;
     // This function deals with changing planes etc
-    GetDirAndOffset(LineStart, PrevLineStart,
+    this->GetDirAndOffset(LineStart, PrevLineStart,
         LineOffset, Changes, LineDirection);
     ++(Steps[LineDirection]);
     IndexType PrevLineStartHist = LineStart - LineOffset;

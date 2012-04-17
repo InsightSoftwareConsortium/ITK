@@ -256,7 +256,7 @@ Point<T, TPointDimension>
 ::SetToBarycentricCombination( const Self * P,
                                const double * weights, unsigned int N )
 {
-  Fill( NumericTraits<T>::Zero ); // put this point to null
+  this->Fill( NumericTraits<T>::Zero ); // put this point to null
   double weightSum = 0.0;
   for( unsigned int j=0; j<N-1; j++) 
     {

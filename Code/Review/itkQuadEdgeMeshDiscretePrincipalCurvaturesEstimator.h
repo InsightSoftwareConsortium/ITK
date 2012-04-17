@@ -116,7 +116,7 @@ protected:
           sum_theta += static_cast< OutputCurvatureType >(
             TriangleType::ComputeAngle( q0, iP, q1 ) );
 
-          temp_area = ComputeMixedArea( qe_it, qe_it2 );
+          temp_area = this->ComputeMixedArea( qe_it, qe_it2 );
           area += temp_area;
 
           face_normal = TriangleType::ComputeNormal( q0, iP, q1 );

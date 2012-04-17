@@ -130,7 +130,7 @@ public:
   /** The curvature speed is same as the propagation speed. */
   virtual ScalarValueType CurvatureSpeed(const NeighborhoodType & neighborhood,
                                          const FloatOffsetType & offset, GlobalDataStruct *gd ) const
-    { return PropagationSpeed( neighborhood, offset, gd ); }
+    { return this->PropagationSpeed( neighborhood, offset, gd ); }
 
   /** Set/Get the sigma for the Gaussian kernel used to compute the gradient
    * of the feature image needed for the advection term of the equation. */

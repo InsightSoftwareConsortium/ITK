@@ -129,7 +129,7 @@ VoronoiPartitioningImageFilter <TInputImage,TOutputImage>
       {
       if ((*nit)>i) 
         {
-        drawLine(this->m_WorkingVD->GetSeed(i),this->m_WorkingVD->GetSeed(*nit));
+        this->drawLine(this->m_WorkingVD->GetSeed(i),this->m_WorkingVD->GetSeed(*nit));
         i=i;
         }
       }
@@ -164,7 +164,7 @@ VoronoiPartitioningImageFilter<TInputImage,TOutputImage>
       VertList.push_back(currP);
       }
     // Need to fill with an segment identifier
-    FillPolygon(VertList, static_cast<OutputPixelType>(i));
+    this->FillPolygon(VertList, static_cast<OutputPixelType>(i));
     }
 }
 

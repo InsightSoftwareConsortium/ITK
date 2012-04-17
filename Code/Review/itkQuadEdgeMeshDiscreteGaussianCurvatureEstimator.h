@@ -98,7 +98,7 @@ protected:
         // Compute Angle;
         sum_theta += static_cast< OutputCurvatureType >(
               TriangleType::ComputeAngle( q0, iP, q1 ) );
-        area += ComputeMixedArea( qe_it, qe_it2 );
+        area += this->ComputeMixedArea( qe_it, qe_it2 );
         qe_it = qe_it2;
         } while( qe_it != qe );
 

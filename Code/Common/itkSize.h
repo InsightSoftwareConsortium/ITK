@@ -17,6 +17,7 @@
 #ifndef __itkSize_h
 #define __itkSize_h
 
+#include <cstring>
 #include "itkMacro.h"
 
 namespace itk
