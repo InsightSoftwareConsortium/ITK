@@ -388,7 +388,7 @@ GPUPDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDeformationField
   }
 
   size_t localSize[3], globalSize[3];
-  size_t blockSize = OpenCLGetLocalBlockSize(ImageDim);
+  unsigned int blockSize = OpenCLGetLocalBlockSize(ImageDim);
   int indir, outdir; // direction for smoothing and/or storage
   typedef typename TDeformationField::PixelType::ValueType ValueType;
 
@@ -398,7 +398,7 @@ GPUPDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDeformationField
       {
       localSize[i] = 1;
       }
-    localSize[indir] = vnl_math_min(blockSize, outSize[indir]);
+    localSize[indir] = vnl_math_min(blockSize, (unsigned int)outSize[indir]);
 
     for(int i=0; i<ImageDim; i++)
       {
