@@ -268,11 +268,6 @@ public:
   /** Function to retrieve the transform domain mesh size. */
   itkGetConstMacro( TransformDomainMeshSize, MeshSizeType );
 
-  virtual bool HasLocalSupport() const
-  {
-    return false;
-  }
-
 protected:
   /** Print contents of an BSplineTransform. */
   void PrintSelf( std::ostream & os, Indent indent ) const;

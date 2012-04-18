@@ -130,6 +130,8 @@ public:
   typedef typename Superclass::DerivativeType DerivativeType;
   /** Jacobian type. */
   typedef typename Superclass::JacobianType JacobianType;
+  /** Transform category type. */
+  typedef typename Superclass::TransformCategoryType TransformCategoryType;
   /** Standard coordinate point type for this class. */
   typedef typename Superclass::InputPointType  InputPointType;
   typedef typename Superclass::OutputPointType OutputPointType;
@@ -375,6 +377,11 @@ public:
     const InputVectorPixelType & inputTensor,
     const InputPointType & inputPoint ) const;
 
+  // For the transform category, we only want to look at the
+  // transform currently being optimized.
+  virtual TransformCategoryType GetTransformCategory() const;
+
+  // If all transforms are linear, then the composite is linear.
   virtual bool IsLinear() const;
 
   /** Get/Set Parameter functions work on the current list of transforms
@@ -425,14 +432,6 @@ public:
    * Flatten the transform queue such that there are no nested composite transforms.
    */
   virtual void FlattenTransformQueue();
-
-
-  /** Indicates if this transform is a "global" transform
-   *  e.g. an affine transform or a local one, e.g. a deformation field.
-   *  Returns true if only all sub-transforms that are set to be
-   *  optimized return true.
-   */
-  virtual bool HasLocalSupport() const;
 
   /**
    * Compute the Jacobian with respect to the parameters for the compositie

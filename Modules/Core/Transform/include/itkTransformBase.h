@@ -89,6 +89,11 @@ public:
   /** Generate a platform independent name */
   virtual std::string GetTransformTypeAsString() const = 0;
 
+  typedef enum { Linear, BSpline, Spline, DisplacementField, None } TransformCategoryType;
+
+  /** Get transform category */
+  virtual TransformCategoryType GetTransformCategory() const = 0;
+
 protected:
   TransformBase() {}
   virtual ~TransformBase() {}

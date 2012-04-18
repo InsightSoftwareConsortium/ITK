@@ -75,8 +75,7 @@ namespace itk
  * This hierarchy currently assumes only the moving transform is 'active',
  * i.e. only the moving transform is being optimized when used in an optimizer.
  * Methods relevant to transform optimization such as GetNumberOfParameters(),
- * UpdateTransformParameters() and HasLocalSupport() are passed on to the
- * active transform.
+ * UpdateTransformParameters() are passed on to the active transform.
  * The eventual goal however is to allow for either moving, fixed or both
  * transforms to be active within a single metric.
  *

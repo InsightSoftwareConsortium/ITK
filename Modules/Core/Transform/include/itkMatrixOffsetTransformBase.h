@@ -104,6 +104,9 @@ public:
   /** Jacobian Type   */
   typedef typename Superclass::JacobianType JacobianType;
 
+  /** Transform category type. */
+  typedef typename Superclass::TransformCategoryType TransformCategoryType;
+
   /** Standard scalar type for this class */
   typedef typename Superclass::ScalarType ScalarType;
 
@@ -187,6 +190,14 @@ public:
    *
    * This sets the matrix to identity and the Offset to null. */
   virtual void SetIdentity(void);
+
+  /** Indicates the category transform.
+   *  e.g. an affine transform, or a local one, e.g. a deformation field.
+   */
+  virtual TransformCategoryType GetTransformCategory() const
+  {
+    return Self::Linear;
+  }
 
   /** Set matrix of an MatrixOffsetTransformBase
    *
@@ -446,7 +457,6 @@ protected:
 
   /** Print contents of an MatrixOffsetTransformBase */
   void PrintSelf(std::ostream & s, Indent indent) const;
-
 
   const InverseMatrixType & GetVarInverseMatrix(void) const
   {

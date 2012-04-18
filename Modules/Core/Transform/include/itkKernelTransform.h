@@ -88,6 +88,9 @@ public:
   /** Jacobian type. */
   typedef typename Superclass::JacobianType JacobianType;
 
+  /** Transform category type. */
+  typedef typename Superclass::TransformCategoryType TransformCategoryType;
+
   /** Standard coordinate point type for this class. */
   typedef typename Superclass::InputPointType  InputPointType;
   typedef typename Superclass::OutputPointType OutputPointType;
@@ -201,9 +204,9 @@ public:
   /** This transform is not linear, because the transformation of a linear
    * combination of points is not equal to the linear combination of the
    * transformations of individual points */
-  virtual bool IsLinear() const
+  virtual TransformCategoryType GetTransformCategory() const
   {
-    return false;
+    return Self::Spline;
   }
 
   /** Stiffness of the spline.  A stiffness of zero results in the

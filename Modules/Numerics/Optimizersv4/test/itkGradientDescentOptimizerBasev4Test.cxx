@@ -62,15 +62,17 @@ public:
   unsigned int GetNumberOfLocalParameters() const
   { return 3; }
 
-  bool HasLocalSupport() const
-  { return false; }
-
   void UpdateTransformParameters( const DerivativeType &, ParametersValueType ) {}
 
   const ParametersType & GetParameters() const
   { return m_Parameters; }
 
   void SetParameters( ParametersType & ) {}
+
+  virtual bool HasLocalSupport() const
+    {
+    return false;
+    }
 
   void Initialize(void) throw ( itk::ExceptionObject ) {}
 

@@ -62,6 +62,8 @@ public:
   typedef typename Superclass::DerivativeValueType      DerivativeValueType;
   typedef typename Superclass::NumberOfParametersType   NumberOfParametersType;
 
+  typedef typename ImageToImageMetricv4Type::MovingTransformType  MovingTransformType;
+
   typedef typename TMattesMutualInformationMetric::PDFValueType                   PDFValueType;
   typedef typename TMattesMutualInformationMetric::JointPDFType                   JointPDFType;
   typedef typename TMattesMutualInformationMetric::JointPDFRegionType             JointPDFRegionType;

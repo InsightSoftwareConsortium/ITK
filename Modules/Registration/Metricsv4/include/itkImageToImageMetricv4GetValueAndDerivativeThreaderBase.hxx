@@ -65,7 +65,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
        * derived classes */
       this->m_LocalDerivativesPerThread[i].SetSize( this->m_Associate->GetNumberOfLocalParameters() );
       this->m_MovingTransformJacobianPerThread[i].SetSize( this->m_Associate->VirtualImageDimension, this->m_Associate->GetNumberOfLocalParameters() );
-      if ( this->m_Associate->HasLocalSupport() )
+      if ( this->m_Associate->m_MovingTransform->GetTransformCategory() == MovingTransformType::DisplacementField )
         {
         /* For transforms with local support, e.g. displacement field,
          * use a single derivative container that's updated by region
@@ -94,10 +94,9 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
     {
     this->m_NumberOfValidPointsPerThread[thread] = NumericTraits< SizeValueType >::Zero;
     this->m_MeasurePerThread[thread] = NumericTraits< InternalComputationValueType >::Zero;
-
     if( this->m_Associate->GetComputeDerivative() )
       {
-      if ( ! this->m_Associate->HasLocalSupport() )
+      if ( this->m_Associate->m_MovingTransform->GetTransformCategory() != MovingTransformType::DisplacementField )
         {
         /* Be sure to init to 0 here, because the threader may not use
          * all the threads if the region is better split into fewer
@@ -128,7 +127,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
   /* For global transforms, sum the derivatives from each region. */
   if( this->m_Associate->GetComputeDerivative() )
     {
-    if ( ! this->m_Associate->HasLocalSupport() )
+    if ( this->m_Associate->m_MovingTransform->GetTransformCategory() != MovingTransformType::DisplacementField )
       {
       for (NumberOfParametersType p = 0; p < this->m_Associate->GetNumberOfParameters(); p++ )
         {
@@ -160,7 +159,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
     /* For global transforms, calculate the average values */
     if( this->m_Associate->GetComputeDerivative() )
       {
-      if ( ! this->m_Associate->HasLocalSupport() )
+      if ( this->m_Associate->m_MovingTransform->GetTransformCategory() != MovingTransformType::DisplacementField )
         {
         *(this->m_Associate->m_DerivativeResult) /= this->m_Associate->m_NumberOfValidPoints;
         }
@@ -270,7 +269,7 @@ void
 ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImageToImageMetricv4 >
 ::StorePointDerivativeResult( const VirtualIndexType & virtualIndex, const ThreadIdType threadId )
 {
-  if ( ! this->m_Associate->HasLocalSupport() )
+  if ( this->m_Associate->m_MovingTransform->GetTransformCategory() != MovingTransformType::DisplacementField )
     {
     /* Global support */
     if ( this->m_Associate->GetUseFloatingPointCorrection() )

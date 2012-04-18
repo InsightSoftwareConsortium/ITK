@@ -112,7 +112,7 @@ RegistrationParameterScalesFromJacobian< TMetric >
 ::EstimateLocalStepScales(const ParametersType &step,
     ScalesType &localStepScales)
 {
-  if (!this->HasLocalSupport())
+  if ( !this->IsDisplacementFieldTransform() )
     {
     itkExceptionMacro(<< "EstimateLocalStepScales: the transform doesn't have local support.");
     }
@@ -176,7 +176,7 @@ RegistrationParameterScalesFromJacobian< TMetric >
       this->m_Metric->GetFixedTransform()->ComputeJacobianWithRespectToParameters(point, jacobian);
       }
 
-    if (!this->HasLocalSupport())
+    if( !this->IsDisplacementFieldTransform() )
       {
       dTdt = jacobian * step;
       }

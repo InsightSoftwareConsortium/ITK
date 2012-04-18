@@ -113,6 +113,9 @@ public:
   /** Jacobian type. */
   typedef typename Superclass::JacobianType JacobianType;
 
+  /** Transform category type. */
+  typedef typename Superclass::TransformCategoryType TransformCategoryType;
+
   /** The number of parameters defininig this transform. */
   typedef typename Superclass::NumberOfParametersType NumberOfParametersType;
 
@@ -380,19 +383,14 @@ public:
   virtual InverseTransformBasePointer GetInverseTransform() const;
 
   /** This transform is not linear. */
-  virtual bool IsLinear() const
+  virtual TransformCategoryType GetTransformCategory() const
   {
-    return false;
+    return Self::DisplacementField;
   }
 
   virtual NumberOfParametersType GetNumberOfLocalParameters(void) const
   {
     return Dimension;
-  }
-
-  virtual bool HasLocalSupport() const
-  {
-    return true;
   }
 
 protected:

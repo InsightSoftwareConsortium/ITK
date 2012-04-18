@@ -63,6 +63,9 @@ public:
   /** Standard Jacobian container. */
   typedef typename Superclass::JacobianType JacobianType;
 
+  /** Transform category type. */
+  typedef typename Superclass::TransformCategoryType TransformCategoryType;
+
   /** The number of parameters defininig this transform. */
   typedef typename Superclass::NumberOfParametersType NumberOfParametersType;
 
@@ -285,14 +288,9 @@ public:
   /** Return the number of parameters per dimension */
   virtual NumberOfParametersType GetNumberOfParametersPerDimension() const = 0;
 
-  /** Indicates that this transform is linear. That is, given two
-   * points P and Q, and scalar coefficients a and b, then
-   *
-   *           T( a*P + b*Q ) = a * T(P) + b * T(Q)
-   */
-  virtual bool IsLinear() const
+  virtual TransformCategoryType GetTransformCategory() const
   {
-    return false;
+    return Self::BSpline;
   }
 
   unsigned int GetNumberOfAffectedWeights() const;

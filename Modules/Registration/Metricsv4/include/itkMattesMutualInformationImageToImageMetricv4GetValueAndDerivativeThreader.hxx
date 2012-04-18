@@ -304,11 +304,11 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
       // Not used with global support transforms.
       DerivativeValueType * localSupportDerivativeResultPtr = NULL;
 
-      if( associate->HasLocalSupport() )
-        {
-        // ptr to where the derivative result should go, for efficiency
-        localSupportDerivativeResultPtr = &( associate->m_LocalDerivativeByParzenBin[movingParzenBin][localDerivativeOffset] );
-        }
+    if( associate->m_MovingTransform->GetTransformCategory() == MovingTransformType::DisplacementField )
+      {
+      // ptr to where the derivative result should go, for efficiency
+      localSupportDerivativeResultPtr = &( associate->m_LocalDerivativeByParzenBin[movingParzenBin][localDerivativeOffset] );
+      }
 
       // Compute PDF derivative contribution.
       this->ComputePDFDerivatives(threadID,
@@ -354,7 +354,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
   const OffsetValueType pdfFixedIndex = fixedImageParzenWindowIndex;
 
   JointPDFDerivativesValueType *derivPtr=0;
-  if( ! associate->HasLocalSupport() )
+  if( associate->m_MovingTransform->GetTransformCategory() != MovingTransformType::DisplacementField )
     {
     derivPtr = associate->m_ThreaderJointPDFDerivatives[threadID]->GetBufferPointer()
       + ( pdfFixedIndex  * associate->m_ThreaderJointPDFDerivatives[threadID]->GetOffsetTable()[2] )
@@ -370,7 +370,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
       }
 
     const PDFValueType derivativeContribution = innerProduct * cubicBSplineDerivativeValue;
-    if( associate->HasLocalSupport() )
+    if( associate->m_MovingTransform->GetTransformCategory() == MovingTransformType::DisplacementField )
       {
       *( localSupportDerivativeResultPtr ) += derivativeContribution;
       localSupportDerivativeResultPtr++;

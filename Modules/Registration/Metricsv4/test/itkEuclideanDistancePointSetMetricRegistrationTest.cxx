@@ -142,7 +142,7 @@ int itkEuclideanDistancePointSetMetricRegistrationTestRun(
   std::cout << "Optimizer scales: " << optimizer->GetScales() << std::endl;
   std::cout << "Optimizer learning rate: " << optimizer->GetLearningRate() << std::endl;
   std::cout << "Moving-source final value: " << optimizer->GetCurrentMetricValue() << std::endl;
-  if( transform->HasLocalSupport() )
+  if( transform->GetTransformCategory() == TTransform::DisplacementField )
     {
     std::cout << "local-support transform non-zero parameters: " << std::endl;
     typename TTransform::ParametersType params = transform->GetParameters();
