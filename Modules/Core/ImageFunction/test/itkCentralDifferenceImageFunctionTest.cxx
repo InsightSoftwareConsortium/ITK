@@ -78,8 +78,7 @@ int itkCentralDifferenceImageFunctionTest(int, char* [] )
 
   if( indexOutput != continuousIndexOutput )
     {
-    std::cerr << "ERROR: Output of EvaluateAtIndex and EvaluateAtContinuousIndex "
-              << "do not match." << std::endl;
+    std::cerr << "ERROR: Output of EvaluateAtIndex and EvaluateAtContinuousIndex do not match." << std::endl;
     result = EXIT_FAILURE;
     }
 
@@ -93,8 +92,8 @@ int itkCentralDifferenceImageFunctionTest(int, char* [] )
   // image is setup with default spatial information.
   if( indexOutput != pointOutput )
     {
-    std::cerr << "ERROR: Output of EvaluateAtIndex and EvaluateAtContinuousIndex "
-              << "do not match." << std::endl;
+    std::cerr << "ERROR: Output of EvaluateAtIndex and Evaluate do not match." << std::endl;
+    std::cerr << "indexOutput: " << indexOutput << " pointOutput: " << pointOutput << std::endl;
     result = EXIT_FAILURE;
     }
 
@@ -104,7 +103,6 @@ int itkCentralDifferenceImageFunctionTest(int, char* [] )
   indexOutput = function->EvaluateAtIndex( index );
   std::cout << "Index: " << index << " Derivative: ";
   std::cout << indexOutput << std::endl;
-
   if ( function->IsInsideBuffer( index ) )
     {
     std::cout << "Index: " << index << " is inside the BufferedRegion." << std::endl;
@@ -118,8 +116,8 @@ int itkCentralDifferenceImageFunctionTest(int, char* [] )
 
   if( indexOutput != continuousIndexOutput )
     {
-    std::cerr << "ERROR: Output of EvaluateAtIndex and EvaluateAtContinuousIndex "
-              << "do not match at boundary." << std::endl;
+    std::cerr << "ERROR: Output of EvaluateAtIndex and EvaluateAtContinuousIndex do not match at boundary." << std::endl;
+    std::cerr << "indexOutput: " << indexOutput << " continuousIndexOutput: " << continuousIndexOutput << std::endl;
     result = EXIT_FAILURE;
     }
 
@@ -131,8 +129,53 @@ int itkCentralDifferenceImageFunctionTest(int, char* [] )
 
   if( indexOutput != pointOutput )
     {
-    std::cerr << "ERROR: Output of EvaluateAtIndex and EvaluateAtContinuousIndex "
-              << "do not match at boundary." << std::endl;
+    std::cerr << "ERROR: Output of EvaluateAtIndex and Evaluate do not match at boundary." << std::endl;
+    std::cerr << "indexOutput: " << indexOutput << " pointOutput: " << pointOutput << std::endl;
+    result = EXIT_FAILURE;
+    }
+
+  // test out-of-bounds index. Also makes sure we don't segfault.
+  index.Fill( 123 );
+  indexOutput = function->EvaluateAtIndex( index );
+  std::cout << "Index: " << index << " Derivative: " << indexOutput << std::endl;
+  if ( function->IsInsideBuffer( index ) )
+    {
+    std::cerr << "ERROR: expected index to be out of buffered region." << std::endl;
+    result = EXIT_FAILURE;
+    }
+  if( indexOutput[0] != 0 || indexOutput[1] != 0)
+    {
+    std::cerr << "ERROR: EvaluteAtIndex for out-of-bounds index did not generate 0 derivatives." << std::endl;
+    result = EXIT_FAILURE;
+    }
+
+  cindex.Fill( -123.4 );
+  continuousIndexOutput = function->EvaluateAtContinuousIndex( cindex );
+  std::cout << "ContinuousIndex: " << cindex << " Derivative: " << continuousIndexOutput << std::endl;
+  if ( function->IsInsideBuffer( cindex ) )
+    {
+    std::cerr << "ERROR: expected continuous index to be out of buffered region." << std::endl;
+    result = EXIT_FAILURE;
+    }
+  if( continuousIndexOutput[0] != 0 || continuousIndexOutput[1] != 0)
+    {
+    std::cerr << "ERROR: EvaluteAtContinuousIndex for out-of-bounds index did not generate 0 derivatives." << std::endl;
+    result = EXIT_FAILURE;
+    }
+
+  // out-of-bounds point
+  point[0] = 123.0;
+  point[1] = -123.0;
+  pointOutput = function->Evaluate( point );
+  std::cout << "Point: " << point << " Derivative: " << pointOutput << std::endl;
+  if ( function->IsInsideBuffer( point ) )
+    {
+    std::cerr << "ERROR: expected point to be out of buffered region." << std::endl;
+    result = EXIT_FAILURE;
+    }
+  if( pointOutput[0] != 0 || pointOutput[1] != 0)
+    {
+    std::cerr << "ERROR: Evalute for out-of-bounds point did not generate 0 derivatives." << std::endl;
     result = EXIT_FAILURE;
     }
 
@@ -196,11 +239,27 @@ int itkCentralDifferenceImageFunctionTest(int, char* [] )
     result = EXIT_FAILURE;
     }
 
-  // test image direction and Evaluate
+  // test that a point just at a boundary will yield 0 derivative for
+  // the dimension at a boundary
+  point.Fill( 8.0 );
+  // points are evaluated at the center of the voxel, so [15.1,8] is a valid
+  // point, but lies on the boundary because adding 0.5 to it put it > 15.5
+  point[0] = 15.1;
+  pointOutput = function->Evaluate( point );
+  std::cout << "Point: " << point << " Derivative: " << pointOutput << std::endl;
+
+  if( pointOutput[0] != 0 || pointOutput[1] == 0 )
+    {
+    std::cerr << "ERROR: Output of Evaluate just on boundary is not zero." << std::endl;
+    std::cerr << " pointOutput: " << pointOutput << std::endl;
+    result = EXIT_FAILURE;
+    }
+
   point.Fill( 8.0 );
   OutputType origDerivative = function->Evaluate( point );
   std::cout << "Point: " << point << " origDerivative: " << origDerivative << std::endl;
 
+  // test image direction and Evaluate
   ImageType::DirectionType direction;
   direction[0][0] = -1.0;
   direction[0][1] = 0.0;
@@ -209,15 +268,17 @@ int itkCentralDifferenceImageFunctionTest(int, char* [] )
   point.Fill( -8.0 );
   image->SetDirection( direction );
   function->SetUseImageDirection( true );
+  // first set to null and then reset image so that cached
+  // info is recalculated
+  function->SetInputImage( NULL );
+  function->SetInputImage( image );
   OutputType directionOnDerivative = function->Evaluate( point );
   std::cout << "Point: " << point << " directionOnDerivative: "
             << directionOnDerivative << std::endl;
 
-  if( directionOnDerivative[0] != -origDerivative[0] ||
-      directionOnDerivative[1] != -origDerivative[1] )
+  if( directionOnDerivative[0] != -origDerivative[0] || directionOnDerivative[1] != -origDerivative[1] )
     {
-    std::cerr << "ERROR: Expected origDerivative and directionOnDerivative to be opposite."
-              << std::endl;
+    std::cerr << "ERROR: Expected origDerivative and directionOnDerivative to be opposite." << std::endl;
     result = EXIT_FAILURE;
     }
 
@@ -225,8 +286,7 @@ int itkCentralDifferenceImageFunctionTest(int, char* [] )
   // identity direction
   function->SetUseImageDirection( false );
   OutputType directionOffDerivative = function->Evaluate( point );
-  std::cout << "Point: " << point << " directionOffDerivative: "
-            << directionOffDerivative << std::endl;
+  std::cout << "Point: " << point << " directionOffDerivative: " << directionOffDerivative << std::endl;
 
   if( directionOffDerivative != origDerivative )
     {
@@ -234,6 +294,80 @@ int itkCentralDifferenceImageFunctionTest(int, char* [] )
               << std::endl;
     result = EXIT_FAILURE;
     }
+
+  // test with one negative dimension
+  direction[0][0] = 1.0;
+  direction[0][1] = 0.0;
+  direction[1][0] = 0.0;
+  direction[1][1] = -1.0;
+  point[0] = 8.0;
+  point[1] = -8.0;
+  image->SetDirection( direction );
+  function->SetUseImageDirection( true );
+  // first set to null and then reset image so that cached
+  // info is recalculated
+  function->SetInputImage( NULL );
+  function->SetInputImage( image );
+  OutputType directionOneNegDerivative = function->Evaluate( point );
+  std::cout << "Point: " << point << " directionOneNegDerivative: " << directionOneNegDerivative << std::endl;
+
+  if( directionOneNegDerivative[0] != origDerivative[0] || directionOneNegDerivative[1] != -origDerivative[1] )
+    {
+    std::cerr << "ERROR: Expected origDerivative and directionOneNegDerivative to be opposite." << std::endl;
+    result = EXIT_FAILURE;
+    }
+
+  // test with image direction that swaps dimensions
+  direction[0][0] = 0.0;
+  direction[0][1] = -1.0;
+  direction[1][0] = 1.0;
+  direction[1][1] = 0.0;
+  point[0] = -8.0;
+  point[1] = 8.0;
+  image->SetDirection( direction );
+  function->SetUseImageDirection( true );
+  // first set to null and then reset image so that cached
+  // info is recalculated
+  function->SetInputImage( NULL );
+  function->SetInputImage( image );
+  OutputType directionSwapDerivative = function->Evaluate( point );
+  std::cout << "Point: " << point << " directionSwapDerivative: " << directionSwapDerivative << std::endl;
+
+  if( directionSwapDerivative[0] != -origDerivative[1] || directionSwapDerivative[1] != origDerivative[0] )
+    {
+    std::cerr << "ERROR: Expected origDerivative and directionSwapDerivative to be swapped." << std::endl;
+    result = EXIT_FAILURE;
+    }
+
+  // test an out-of-bounds point with swapped dimensions
+  // it should yield a deriviative of 0
+  point[0] = 1.0;
+  point[1] = 8.0;
+  function->SetUseImageDirection( false );
+  function->SetUseImageDirection( true );
+  OutputType outOfBoundsDerivative = function->Evaluate( point );
+  std::cout << "Point: " << point << " outOfBoundsDerivative: " << outOfBoundsDerivative << std::endl;
+
+  if( outOfBoundsDerivative[0] != 0 || outOfBoundsDerivative[1] != 0 )
+    {
+    std::cerr << "ERROR: Expected derivative " << outOfBoundsDerivative[1] << ", 0 with out-of-bounds point." << std::endl;
+    result = EXIT_FAILURE;
+    }
+
+  // another out-of-bounds point
+  point[0] = -8.0;
+  point[1] = 18.0;
+  function->SetUseImageDirection( false );
+  function->SetUseImageDirection( true );
+  outOfBoundsDerivative = function->Evaluate( point );
+  std::cout << "Point: " << point << " outOfBoundsDerivative: " << outOfBoundsDerivative << std::endl;
+
+  if( outOfBoundsDerivative[0] != 0 || outOfBoundsDerivative[1] != 0 )
+    {
+    std::cerr << "ERROR: Expected derivative 0, " << outOfBoundsDerivative[0] << "with out-of-bounds point." << std::endl;
+    result = EXIT_FAILURE;
+    }
+
 
   if( result == EXIT_SUCCESS )
     {

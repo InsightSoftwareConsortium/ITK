@@ -114,12 +114,12 @@ public:
   /** Evalulate the image derivative by central differencing at non-integer
    *  point.
    *
-   *  No bounds checking is done.
    *  The point is assumed to lie within the image buffer. If not, 0 is
-   *  returned for the derivative without any error return.
+   *  returned for the derivative without any error return, because of
+   *  bounds-checking performed on the neighboring points.
    *
    *  If \c point lies on a boundary in a given dimension, 0 is returned for
-   *  that dimension.
+   *  that dimension. Note that points are centered on the voxel.
    *
    *  ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
@@ -129,8 +129,7 @@ public:
    *  index.
    *
    *  No bounds checking is done.
-   *  The point is assume to lie within the image buffer. If not, 0 is
-   *  returned for the derivative without any error return.
+   *  The point is assume to lie within the image buffer.
    *
    *  If \c cindex lies on a boundary in a given dimension, 0 is returned for
    *  that dimension.
