@@ -145,7 +145,7 @@ public:
   { return m_IndexStack.front(); }
 
   /** Get the pixel value */
-  const PixelType & Get(void) const
+  const PixelType Get(void) const
   { return this->m_Image->GetPixel( m_IndexStack.front() ); }
 
   /** Is the iterator at the end of the region? */
