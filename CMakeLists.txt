@@ -626,6 +626,8 @@ if(BUILD_TESTING)
   add_subdirectory(Utilities/InstallTest)
 endif()
 
+add_subdirectory(Modules/Remote)
+
 #-----------------------------------------------------------------------------
 # The subdirectories added below this line should use only the public
 # interface with find_package(ITK).  Set ITK_DIR to use this ITK build.
