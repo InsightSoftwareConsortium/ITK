@@ -147,6 +147,12 @@ typename CentralDifferenceImageFunction< TInputImage, TCoordRep >::OutputType
 CentralDifferenceImageFunction< TInputImage, TCoordRep >
 ::Evaluate(const PointType & point) const
 {
+/*
+  ContinuousIndexType cindex;
+  this->GetInputImage()->TransformPhysicalPointToContinuousIndex( point, cindex );
+  return this->EvaluateAtContinuousIndex( cindex );
+*/
+
   typedef typename PointType::ValueType           PointValueType;
   typedef typename OutputType::ValueType          DerivativeValueType;
   typedef typename ContinuousIndexType::ValueType ContinuousIndexValueType;
@@ -158,39 +164,37 @@ CentralDifferenceImageFunction< TInputImage, TCoordRep >
 
   const InputImageType *inputImage = this->GetInputImage();
 
-  const typename InputImageType::RegionType & region =
-    inputImage->GetBufferedRegion();
-
-  const typename InputImageType::SizeType & size   = region.GetSize();
-  const typename InputImageType::IndexType & start = region.GetIndex();
-
   const SpacingType & spacing = inputImage->GetSpacing();
-
-  ContinuousIndexType cindex;
-  inputImage->TransformPhysicalPointToContinuousIndex( point, cindex );
 
   const unsigned int MaxDims = Self::ImageDimension;
   for ( unsigned int dim = 0; dim < MaxDims; dim++ )
     {
-    // Bounds checking
-    if ( cindex[dim] < static_cast<ContinuousIndexValueType>(start[dim] + 1)
-         || cindex[dim] > static_cast<ContinuousIndexValueType>
-            ( start[dim] + static_cast< OffsetValueType >( size[dim] ) - 2 ) )
+    PointValueType offset = static_cast<PointValueType>(0.5) * spacing[dim];
+    // Check the bounds using the point because the image direction may swap dimensions,
+    // making checks in index space inaccurate.
+    // If on a boundary, we set the derivative to zero. This is done to match the behavior
+    // of EvaluateAtIndex. Another approach is to calculate the 1-sided difference.
+    neighPoint1[dim] = point[dim] - offset;
+    if( ! this->IsInsideBuffer( neighPoint1 ) )
       {
       orientedDerivative[dim] = NumericTraits<DerivativeValueType>::Zero;
+      neighPoint1[dim] = point[dim];
+      neighPoint2[dim] = point[dim];
       continue;
       }
-
-    PointValueType offset =
-      static_cast<PointValueType>(0.5) * spacing[dim];
-    neighPoint1[dim] = point[dim] - offset;
     neighPoint2[dim] = point[dim] + offset;
+    if( ! this->IsInsideBuffer( neighPoint2 ) )
+      {
+      orientedDerivative[dim] = NumericTraits<DerivativeValueType>::Zero;
+      neighPoint1[dim] = point[dim];
+      neighPoint2[dim] = point[dim];
+      continue;
+      }
 
     PointValueType delta = neighPoint2[dim] - neighPoint1[dim];
     if( delta > 10.0 * NumericTraits<PointValueType>::epsilon() )
       {
-      orientedDerivative[dim] = ( this->m_Interpolator->Evaluate( neighPoint2 ) -
-        this->m_Interpolator->Evaluate( neighPoint1 ) ) / delta;
+      orientedDerivative[dim] = ( this->m_Interpolator->Evaluate( neighPoint2 ) - this->m_Interpolator->Evaluate( neighPoint1 ) ) / delta;
       }
     else
       {
@@ -206,12 +210,12 @@ CentralDifferenceImageFunction< TInputImage, TCoordRep >
   if ( ! this->m_UseImageDirection )
     {
     OutputType derivative;
-    inputImage->TransformPhysicalVectorToLocalVector(
-      orientedDerivative, derivative);
+    inputImage->TransformPhysicalVectorToLocalVector( orientedDerivative, derivative );
     return derivative;
     }
 
   return orientedDerivative;
+
 }
 
 /**

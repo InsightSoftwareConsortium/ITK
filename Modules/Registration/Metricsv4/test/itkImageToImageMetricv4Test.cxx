@@ -94,7 +94,6 @@ protected:
         }
       localDerivativeReturn[par] = sum;
       }
-
     // Return true if the point was used in evaluation
     return true;
     }
@@ -238,46 +237,36 @@ void ImageToImageMetricv4TestComputeIdentityTruthValues(
     // simply retrieve by index.
     // NOTE: relying on the metric's gradient image isn't a
     // complete test, but it does test the rest of the mechanics.
-    ImageToImageMetricv4TestMetricType::MovingImageGradientType
-                                                          movingImageDerivative;
-    ImageToImageMetricv4TestMetricType::FixedImageGradientType
-                                                          fixedImageDerivative;
+    ImageToImageMetricv4TestMetricType::MovingImageGradientType movingImageDerivative;
+    ImageToImageMetricv4TestMetricType::FixedImageGradientType fixedImageDerivative;
     if( metric->GetUseFixedImageGradientFilter() )
       {
-      ImageToImageMetricv4TestMetricType::
-        FixedImageGradientImageType::ConstPointer
-                   fixedGradientImage = metric->GetFixedImageGradientImage();
+      ImageToImageMetricv4TestMetricType::FixedImageGradientImageType::ConstPointer fixedGradientImage = metric->GetFixedImageGradientImage();
       fixedImageDerivative = fixedGradientImage->GetPixel( itFixed.GetIndex() );
       }
     else
       {
-      typedef ImageToImageMetricv4TestMetricType::
-                FixedImageGradientCalculatorType::ConstPointer
-                                              FixedGradientCalculatorPointer;
-      FixedGradientCalculatorPointer fixedGradientCalculator =
-                                        metric->GetFixedImageGradientCalculator();
-      fixedImageDerivative =
-              fixedGradientCalculator->EvaluateAtIndex( itFixed.GetIndex() );
+      typedef ImageToImageMetricv4TestMetricType::FixedImageGradientCalculatorType::ConstPointer FixedGradientCalculatorPointer;
+      FixedGradientCalculatorPointer fixedGradientCalculator = metric->GetFixedImageGradientCalculator();
+      ImageToImageMetricv4TestMetricType::FixedImagePointType point;
+      fixedImage->TransformIndexToPhysicalPoint( itFixed.GetIndex(), point );
+      fixedImageDerivative = fixedGradientCalculator->Evaluate( point );
       // We can skip the call to TransformCovariantVector since we're
       // working with identity transforms only.
       }
     if( metric->GetUseMovingImageGradientFilter() )
       {
-      ImageToImageMetricv4TestMetricType::
-        MovingImageGradientImageType::ConstPointer
-              movingGradientImage = metric->GetMovingImageGradientImage();
-      movingImageDerivative =
-                        movingGradientImage->GetPixel( itMoving.GetIndex() );
+      ImageToImageMetricv4TestMetricType::MovingImageGradientImageType::ConstPointer movingGradientImage = metric->GetMovingImageGradientImage();
+      movingImageDerivative = movingGradientImage->GetPixel( itMoving.GetIndex() );
       }
     else
       {
-      typedef ImageToImageMetricv4TestMetricType::
-        MovingImageGradientCalculatorType::ConstPointer
-                                              MovingGradientCalculatorPointer;
+      typedef ImageToImageMetricv4TestMetricType::MovingImageGradientCalculatorType::ConstPointer MovingGradientCalculatorPointer;
       MovingGradientCalculatorPointer     movingGradientCalculator;
       movingGradientCalculator = metric->GetMovingImageGradientCalculator();
-      movingImageDerivative =
-              movingGradientCalculator->EvaluateAtIndex( itMoving.GetIndex() );
+      ImageToImageMetricv4TestMetricType::FixedImagePointType point;
+      movingImage->TransformIndexToPhysicalPoint( itMoving.GetIndex(), point );
+      movingImageDerivative = movingGradientCalculator->Evaluate( point );
       }
 
     for ( unsigned int par = 0;
@@ -437,7 +426,7 @@ int itkImageToImageMetricv4Test(int, char ** const)
   itk::Object::SetGlobalWarningDisplay( true );
 
   typedef unsigned int    DimensionSizeType;
-  const DimensionSizeType imageSize = 10;
+  const DimensionSizeType imageSize = 4;
 
   ImageToImageMetricv4TestImageType::SizeType       size = {{imageSize, imageSize}};
   ImageToImageMetricv4TestImageType::IndexType      index = {{0,0}};
@@ -540,6 +529,7 @@ int itkImageToImageMetricv4Test(int, char ** const)
         bool computeNewTruthValues = true;
         metric->SetUseFixedImageGradientFilter( useFixedFilter == 1 );
         metric->SetUseMovingImageGradientFilter( useMovingFilter == 1 );
+        std::cout << "**********************************" << std::endl;
         if( computeNewTruthValues )
           {
           ImageToImageMetricv4TestComputeIdentityTruthValues( metric, fixedImage, movingImage, truthValue, truthDerivative );
