@@ -20,6 +20,8 @@
 
 #include "itkVTKVisualizeImageLevelSet.h"
 
+#include "vtkVersion.h"
+
 #include "vtkCaptureScreen.h"
 #include "vtkPNGWriter.h"
 #include "vtkImageMapper3D.h"

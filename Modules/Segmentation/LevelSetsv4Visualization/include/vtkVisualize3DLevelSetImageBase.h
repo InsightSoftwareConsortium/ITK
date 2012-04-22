@@ -25,6 +25,8 @@
 #include "itkImageToVTKImageFilter.h"
 #include "itkLevelSetTovtkImageData.h"
 
+#include "vtkVersion.h"
+
 #include "vtkImageData.h"
 #include "vtkMarchingCubes.h"
 #include "vtkPolyDataMapper.h"

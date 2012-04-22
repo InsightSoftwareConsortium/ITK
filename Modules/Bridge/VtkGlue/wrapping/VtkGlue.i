@@ -43,6 +43,7 @@
 
 %{
 #include "vtkPythonUtil.h"
+#include "vtkVersion.h"
 #if (VTK_MAJOR_VERSION > 5 ||((VTK_MAJOR_VERSION == 5)&&(VTK_MINOR_VERSION > 6)))
 #define vtkPythonGetObjectFromPointer vtkPythonUtil::GetObjectFromPointer
 #define vtkPythonGetPointerFromObject vtkPythonUtil::GetPointerFromObject
