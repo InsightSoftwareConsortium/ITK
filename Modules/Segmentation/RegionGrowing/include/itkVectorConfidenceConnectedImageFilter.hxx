@@ -68,6 +68,36 @@ VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >
 template< class TInputImage, class TOutputImage >
 void
 VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >
+::SetSeed(const IndexType & seed)
+{
+  this->ClearSeeds();
+  this->AddSeed(seed);
+}
+
+template< class TInputImage, class TOutputImage >
+void
+VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >
+::AddSeed(const IndexType & seed)
+{
+  m_Seeds.push_back(seed);
+  this->Modified();
+}
+
+template< class TInputImage, class TOutputImage >
+void
+VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >
+::ClearSeeds()
+{
+  if ( this->m_Seeds.size() > 0 )
+    {
+    this->m_Seeds.clear();
+    this->Modified();
+    }
+}
+
+template< class TInputImage, class TOutputImage >
+void
+VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
 {
   Superclass::GenerateInputRequestedRegion();
@@ -78,6 +108,7 @@ VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >
     input->SetRequestedRegionToLargestPossibleRegion();
     }
 }
+
 
 template< class TInputImage, class TOutputImage >
 void
@@ -134,7 +165,7 @@ VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >
   typedef typename InputPixelType::ValueType                     ComponentPixelType;
   typedef typename NumericTraits< ComponentPixelType >::RealType ComponentRealType;
 
-  const unsigned int dimension = InputPixelType::Dimension;
+  const unsigned int dimension = inputImage->GetNumberOfComponentsPerPixel();
 
   covariance = CovarianceMatrixType(dimension, dimension);
   mean       = MeanVectorType(dimension);

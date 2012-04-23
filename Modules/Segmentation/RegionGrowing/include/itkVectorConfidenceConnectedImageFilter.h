@@ -99,18 +99,13 @@ public:
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Set seed point. This method is deprecated, please use AddSeed() */
-  void SetSeed(const IndexType & seed)
-  {
-    m_Seeds.clear();
-    this->AddSeed(seed);
-  }
+  void SetSeed(const IndexType & seed);
 
   /** Add seed point. */
-  void AddSeed(const IndexType & seed)
-  {
-    m_Seeds.push_back(seed);
-    this->Modified();
-  }
+  void AddSeed(const IndexType & seed);
+
+  /** Remove all seeds */
+  void ClearSeeds();
 
   /** Set/Get the multiplier to define the confidence interval.  Multiplier
    * can be anything greater than zero. A typical value is 2.5 */
