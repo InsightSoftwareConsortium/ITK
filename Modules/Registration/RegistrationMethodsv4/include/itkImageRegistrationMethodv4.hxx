@@ -44,6 +44,11 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
 
   this->m_CurrentLevel = 0;
 
+  this->m_CurrentIteration = 0;
+  this->m_CurrentMetricValue = 0.0;
+  this->m_CurrentConvergenceValue = 0.0;
+  this->m_IsConverged = false;
+
   this->m_MetricSamplingStrategy = NONE;
   this->m_MetricSamplingPercentage = 1;
 

@@ -133,12 +133,12 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
   typename IdentityTransformType::Pointer identityTransform;
   identityTransform = IdentityTransformType::New();
 
-  SizeValueType iteration = 0;
-  bool isConverged = false;
-  while( iteration++ < this->m_NumberOfIterationsPerLevel[this->m_CurrentLevel] && !isConverged )
-    {
-    std::cout << "    Iteration " << iteration << std::flush;
+  IterationReporter reporter( this, 0, 1 );
 
+  this->m_CurrentIteration = 0;
+  this->m_IsConverged = false;
+  while( this->m_CurrentIteration++ < this->m_NumberOfIterationsPerLevel[this->m_CurrentLevel] && !this->m_IsConverged )
+    {
     typename CompositeTransformType::Pointer fixedComposite = CompositeTransformType::New();
     fixedComposite->AddTransform( this->m_FixedInitialTransform );
     fixedComposite->AddTransform( this->m_FixedToMiddleTransform->GetInverseTransform() );
@@ -246,15 +246,16 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
     this->m_MovingToMiddleTransform->SetDisplacementField( movingToMiddleSmoothTotalField );
     this->m_MovingToMiddleTransform->SetInverseDisplacementField( movingToMiddleSmoothTotalFieldInverse );
 
-    RealType metricValue = 0.5 * ( movingMetricValue + fixedMetricValue );
+    this->m_CurrentMetricValue = 0.5 * ( movingMetricValue + fixedMetricValue );
 
-    convergenceMonitoring->AddEnergyValue( metricValue );
-    RealType convergenceValue = convergenceMonitoring->GetConvergenceValue();
-    std::cout << ": metric value = " << metricValue << ", convergence value = " << convergenceValue << std::endl;
-    if( convergenceValue < this->m_ConvergenceThreshold )
+    convergenceMonitoring->AddEnergyValue( this->m_CurrentMetricValue );
+    this->m_CurrentConvergenceValue = convergenceMonitoring->GetConvergenceValue();
+
+    if( this->m_CurrentConvergenceValue < this->m_ConvergenceThreshold )
       {
-      isConverged = true;
+      this->m_IsConverged = true;
       }
+    reporter.CompletedStep();
     }
 }
 
@@ -460,8 +461,6 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
 {
   for( this->m_CurrentLevel = 0; this->m_CurrentLevel < this->m_NumberOfLevels; this->m_CurrentLevel++ )
     {
-    IterationReporter reporter( this, 0, 1 );
-
     this->InitializeRegistrationAtEachLevel( this->m_CurrentLevel );
 
     // The base class adds the transform to be optimized at initialization.
@@ -473,8 +472,6 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
     this->StartOptimization();
 
     this->m_CompositeTransform->AddTransform( this->m_OutputTransform );
-
-    reporter.CompletedStep();
     }
 
   typedef ComposeDisplacementFieldsImageFilter<DisplacementFieldType, DisplacementFieldType> ComposerType;
@@ -507,7 +504,7 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
 {
   Superclass::PrintSelf( os, indent );
 
-  os << indent << "Number of iterations: " << this->m_NumberOfIterationsPerLevel << std::endl;
+  os << indent << "Number of this->m_CurrentIterations: " << this->m_NumberOfIterationsPerLevel << std::endl;
   os << indent << "Learning rate: " << this->m_LearningRate << std::endl;
   os << indent << "Convergence threshold: " << this->m_ConvergenceThreshold << std::endl;
   os << indent << "Convergence window size: " << this->m_ConvergenceWindowSize << std::endl;

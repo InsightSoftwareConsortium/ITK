@@ -115,9 +115,8 @@ void
 MultiStartOptimizerv4
 ::StopOptimization(void)
 {
-  itkDebugMacro("StopOptimization");
-  std::cout << "StopOptimization called with a description - "
-    << this->GetStopConditionDescription() << std::endl;
+  itkDebugMacro( "StopOptimization called with a description - "
+    << this->GetStopConditionDescription() );
   this->m_Stop = true;
 
   this->m_Metric->SetParameters( this->m_ParametersList[ this->m_BestParametersIndex ] );
