@@ -13,7 +13,7 @@ set(swig_md5     4319c503ee3a13d2a53be9d828c3adc0)
 set(swigwin_md5  4ab8064b1a8894c8577ef9d0fb2523c8)
 
 if(WIN32)
-  set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swigwin-${swig_version}/swigwin.exe")
+  set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swigwin-${swig_version}/swig.exe")
 else()
   set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swig/bin/swig")
 endif()
@@ -37,6 +37,7 @@ else()
       CONFIGURE_COMMAND ""
       BUILD_COMMAND ""
       INSTALL_COMMAND ""
+      STEP_TARGETS install
       )
     set(SWIG_DIR ${CMAKE_CURRENT_BINARY_DIR}/swigwin-${swig_version})
     set(SWIG_VERSION "${swig_version}")
@@ -55,6 +56,7 @@ else()
     CONFIGURE_COMMAND ../swig/configure --prefix=${CMAKE_CURRENT_BINARY_DIR}/swig
     --with-pcre-prefix=${CMAKE_CURRENT_BINARY_DIR}/PCRE
     DEPENDS PCRE
+    STEP_TARGETS install
     )
     set(SWIG_DIR ${CMAKE_CURRENT_BINARY_DIR}/swig/share/swig/${swig_version} CACHE FILEPATH "swig directory." FORCE)
   endif()

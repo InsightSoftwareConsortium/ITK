@@ -41,6 +41,7 @@ else()
     -DBUILD_EXAMPLES:BOOL=OFF
     -DBUILD_TESTING:BOOL=OFF
   ${test}
+  STEP_TARGETS install
   )
   set(GCCXML ${gccxml_ep} CACHE FILEPATH "gccxml executable." FORCE)
 endif()
@@ -118,6 +119,11 @@ macro(itk_end_wrap_submodule_gccxml module)
   set(gccxml_inc_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/gcc_xml.inc")
   set(xml_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${module}.xml")
 
+  set(_gccxml_depends)
+  if(NOT ITK_USE_SYSTEM_GCCXML)
+    # ExternalProject target for GCC_XML.
+    set(_gccxml_depends GCC_XML-install)
+  endif()
   if(ITK_USE_CCACHE)
     add_custom_command(
       OUTPUT ${xml_file}
@@ -130,7 +136,7 @@ macro(itk_end_wrap_submodule_gccxml module)
             -DCABLE_CONFIGURATION
             -DITK_MANUAL_INSTANTIATION
             ${cxx_file}
-      DEPENDS ${GCCXML} ${cxx_file}
+      DEPENDS ${_gccxml_depends} ${cxx_file}
     )
   else(ITK_USE_CCACHE)
     add_custom_command(
@@ -143,7 +149,7 @@ macro(itk_end_wrap_submodule_gccxml module)
             -DCABLE_CONFIGURATION
             -DITK_MANUAL_INSTANTIATION
             ${cxx_file}
-      DEPENDS ${GCCXML} ${cxx_file} ${gccxml_inc_file}
+      DEPENDS ${_gccxml_depends} ${cxx_file} ${gccxml_inc_file}
     )
   endif(ITK_USE_CCACHE)
 
