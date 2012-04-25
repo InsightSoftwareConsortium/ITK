@@ -127,7 +127,10 @@ void BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension,
   // Find the starting index of the support region
   for ( j = 0; j < SpaceDimension; j++ )
     {
-    startIndex[j] = Math::Floor<IndexValueType> ( index[j] - static_cast<double>( SplineOrder - 1 ) / 2.0 );
+      // FIX: cast splineorder first to int, otherwise spline order 0 
+      // minus 1 wraps to infinity.
+    startIndex[j] = Math::Floor<IndexValueType> ( index[j] - static_cast<double>( 
+      static_cast<int>(SplineOrder) - 1 ) / 2.0 );
     }
 
   // Compute the weights

@@ -227,12 +227,20 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
     // with odd spline orders.
     typename RegionType::SizeType size = m_GridRegion.GetSize();
     typename RegionType::IndexType index = m_GridRegion.GetIndex();
+    typedef typename ContinuousIndexType::ValueType CValueType;
     for ( unsigned int j = 0; j < SpaceDimension; j++ )
       {
-      index[j] += static_cast< typename RegionType::IndexValueType >( m_Offset );
-      size[j] -= static_cast< typename RegionType::SizeValueType> ( 2 * m_Offset );
-      m_ValidRegionFirst[j] = index[j];
-      m_ValidRegionLast[j] = index[j] + static_cast< typename RegionType::IndexValueType >( size[j] ) - 1;
+      this->m_ValidRegionBegin[ j ] =
+        static_cast<CValueType>( index[ j ] ) +
+        ( static_cast<CValueType>( SplineOrder ) - 1.0 ) / 2.0;
+      this->m_ValidRegionEnd[ j ] =
+        static_cast<CValueType>( index[ j ] ) +
+        static_cast<CValueType>( size[ j ] - 1 ) -
+        ( static_cast<CValueType>( SplineOrder ) - 1.0 ) / 2.0;
+      index[ j ] +=
+        static_cast< typename RegionType::IndexValueType >( this->m_Offset );
+      size[ j ] -=
+        static_cast< typename RegionType::SizeValueType> ( 2 * this->m_Offset );
       }
     m_ValidRegion.SetSize( size );
     m_ValidRegion.SetIndex( index );
@@ -696,34 +704,14 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
   const ContinuousIndexType& index ) const
 {
   bool inside = true;
-
-#ifndef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
-  if( !m_ValidRegion.IsInside( index ) )
+  for ( unsigned int j = 0; j < SpaceDimension; j++ )
     {
-    inside = false;
-    }
-#endif
-
-  if ( inside && m_SplineOrderOdd )
-    {
-    typedef typename ContinuousIndexType::ValueType ValueType;
-    for( unsigned int j = 0; j < SpaceDimension; j++ )
+    if ( index[ j ] < this->m_ValidRegionBegin[ j ] || index[ j ] >= this->m_ValidRegionEnd[ j ] ) 
       {
-      if ( index[j] >= static_cast<ValueType>( m_ValidRegionLast[j] ) )
-        {
-        inside = false;
-        break;
-        }
-#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
-      if ( index[j] < static_cast<ValueType>( m_ValidRegionFirst[j] ) )
-        {
-        inside = false;
-        break;
-        }
-#endif
+      inside = false;
+      break;
       }
     }
-
   return inside;
 }
 

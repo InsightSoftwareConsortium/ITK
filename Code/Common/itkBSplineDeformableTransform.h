@@ -426,8 +426,9 @@ private:
   unsigned long m_Offset;
   bool          m_SplineOrderOdd;
   SizeType      m_SupportSize;
-  IndexType     m_ValidRegionLast;
-  IndexType     m_ValidRegionFirst;
+
+  ContinuousIndexType m_ValidRegionBegin;
+  ContinuousIndexType m_ValidRegionEnd;
   
   /** Array holding images wrapped from the flat parameters. */
   ImagePointer   m_WrappedImage[NDimensions];
