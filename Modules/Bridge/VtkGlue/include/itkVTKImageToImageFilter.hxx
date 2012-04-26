@@ -21,6 +21,8 @@
 
 #include "itkVTKImageToImageFilter.h"
 
+#include "vtkVersion.h"
+
 namespace itk
 {
 

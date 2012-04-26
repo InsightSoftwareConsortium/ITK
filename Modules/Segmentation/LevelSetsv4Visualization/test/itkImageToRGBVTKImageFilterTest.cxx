@@ -16,6 +16,8 @@
  *
  *=========================================================================*/
 
+#include "vtkVersion.h"
+
 #include "vtkSmartPointer.h"
 #include "vtkImageData.h"
 #include "vtkImageActor.h"
