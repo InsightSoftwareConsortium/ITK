@@ -182,6 +182,9 @@ public:
    */
   itkSetMacro(ConvergenceWindowSize, SizeValueType);
 
+  /** Get current convergence value */
+  itkGetConstReferenceMacro( ConvergenceValue, InternalComputationValueType );
+
   /** Start and run the optimization */
   virtual void StartOptimization();
 
@@ -234,6 +237,9 @@ protected:
    *  a window of the energy (metric value) profile.
    */
   SizeValueType m_ConvergenceWindowSize;
+
+  /** Current convergence value. */
+  InternalComputationValueType m_ConvergenceValue;
 
   /** The convergence checker. */
   ConvergenceMonitoringType::Pointer m_ConvergenceMonitoring;

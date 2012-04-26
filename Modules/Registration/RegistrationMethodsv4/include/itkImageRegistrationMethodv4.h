@@ -243,6 +243,18 @@ public:
   /** Get the current level.  This is a helper function for reporting observations. */
   itkGetConstMacro( CurrentLevel, SizeValueType );
 
+   /** Get the current iteration.  This is a helper function for reporting observations. */
+   itkGetConstReferenceMacro( CurrentIteration, SizeValueType );
+
+   /* Get the current metric value.  This is a helper function for reporting observations. */
+   itkGetConstReferenceMacro( CurrentMetricValue, RealType );
+
+   /** Get the current convergence value.  This is a helper function for reporting observations. */
+   itkGetConstReferenceMacro( CurrentConvergenceValue, RealType );
+
+   /** Get the current convergence state per level.  This is a helper function for reporting observations. */
+   itkGetConstReferenceMacro( IsConverged, bool );
+
 protected:
   ImageRegistrationMethodv4();
   virtual ~ImageRegistrationMethodv4();
@@ -259,6 +271,10 @@ protected:
 
   SizeValueType                                                   m_CurrentLevel;
   SizeValueType                                                   m_NumberOfLevels;
+  SizeValueType                                                   m_CurrentIteration;
+  RealType                                                        m_CurrentMetricValue;
+  RealType                                                        m_CurrentConvergenceValue;
+  bool                                                            m_IsConverged;
 
   MovingImagePointer                                              m_MovingSmoothImage;
   FixedImagePointer                                               m_FixedSmoothImage;

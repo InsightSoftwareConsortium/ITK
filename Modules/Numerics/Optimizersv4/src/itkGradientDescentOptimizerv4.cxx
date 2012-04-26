@@ -163,11 +163,11 @@ GradientDescentOptimizerv4
 
     /* Check the convergence by WindowConvergenceMonitoringFunction.
      */
-    m_ConvergenceMonitoring->AddEnergyValue( this->m_Value );
+    this->m_ConvergenceMonitoring->AddEnergyValue( this->m_Value );
     try
       {
-      InternalComputationValueType convergenceValue = m_ConvergenceMonitoring->GetConvergenceValue();
-      if (convergenceValue <= m_MinimumConvergenceValue)
+      this->m_ConvergenceValue = this->m_ConvergenceMonitoring->GetConvergenceValue();
+      if (this->m_ConvergenceValue <= this->m_MinimumConvergenceValue)
         {
         this->m_StopConditionDescription << "Convergence checker passed.";
         this->m_StopCondition = CONVERGENCE_CHECKER_PASSED;
@@ -186,6 +186,7 @@ GradientDescentOptimizerv4
 
     /* Update and check iteration count */
     this->m_CurrentIteration++;
+
     if ( this->m_CurrentIteration >= this->m_NumberOfIterations )
       {
       this->m_StopConditionDescription << "Maximum number of iterations ("

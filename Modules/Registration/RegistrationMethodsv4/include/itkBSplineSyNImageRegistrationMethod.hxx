@@ -24,6 +24,7 @@
 #include "itkComposeDisplacementFieldsImageFilter.h"
 #include "itkImportImageFilter.h"
 #include "itkInvertDisplacementFieldImageFilter.h"
+#include "itkIterationReporter.h"
 #include "itkMultiplyImageFilter.h"
 #include "itkWindowConvergenceMonitoringFunction.h"
 
@@ -91,12 +92,12 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
   typename IdentityTransformType::Pointer identityTransform;
   identityTransform = IdentityTransformType::New();
 
-  SizeValueType iteration = 0;
-  bool isConverged = false;
-  while( iteration++ < this->m_NumberOfIterationsPerLevel[this->m_CurrentLevel] && !isConverged )
-    {
-    std::cout << "    Iteration " << iteration << std::flush;
+  IterationReporter reporter( this, 0, 1 );
 
+  this->m_CurrentIteration = 0;
+  this->m_IsConverged = false;
+  while( this->m_CurrentIteration++ < this->m_NumberOfIterationsPerLevel[this->m_CurrentLevel] && !this->m_IsConverged )
+    {
     typename CompositeTransformType::Pointer fixedComposite = CompositeTransformType::New();
     fixedComposite->AddTransform( this->m_FixedInitialTransform );
     fixedComposite->AddTransform( this->m_FixedToMiddleTransform->GetInverseTransform() );
@@ -210,11 +211,13 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
 
     convergenceMonitoring->AddEnergyValue( metricValue );
     RealType convergenceValue = convergenceMonitoring->GetConvergenceValue();
-    std::cout << ": metric value = " << metricValue << ", convergence value = " << convergenceValue << std::endl;
+
     if( convergenceValue < this->m_ConvergenceThreshold )
       {
-      isConverged = true;
+      this->m_IsConverged = true;
       }
+
+    reporter.CompletedStep();
     }
 }
 

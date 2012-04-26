@@ -68,9 +68,8 @@ void
 GradientDescentOptimizerBasev4
 ::StopOptimization(void)
 {
-  itkDebugMacro("StopOptimization");
-  std::cout << "StopOptimization called with a description - "
-    << this->GetStopConditionDescription() << std::endl;
+  itkDebugMacro( "StopOptimization called with a description - "
+    << this->GetStopConditionDescription() );
   this->m_Stop = true;
   this->InvokeEvent( EndEvent() );
 }

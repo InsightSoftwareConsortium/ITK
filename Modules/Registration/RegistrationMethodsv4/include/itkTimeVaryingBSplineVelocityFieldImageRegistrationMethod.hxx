@@ -147,15 +147,15 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
   ConvergenceMonitoringType::Pointer convergenceMonitoring = ConvergenceMonitoringType::New();
   convergenceMonitoring->SetWindowSize( this->m_ConvergenceWindowSize );
 
-  SizeValueType iteration = 0;
-  bool isConverged = false;
-  while( iteration++ < this->m_NumberOfIterationsPerLevel[this->m_CurrentLevel] && !isConverged )
-    {
-    std::cout << "    Iteration " << iteration << std::flush;
+  IterationReporter reporter( this, 0, 1 );
 
+  this->m_CurrentIteration = 0;
+  this->m_IsConverged = false;
+  while( this->m_CurrentIteration++ < this->m_NumberOfIterationsPerLevel[this->m_CurrentLevel] && !this->m_IsConverged )
+    {
     updateDerivative.Fill( 0 );
     MeasureType value = NumericTraits<MeasureType>::Zero;
-    MeasureType averageMetricValue = NumericTraits<MeasureType>::Zero;
+    this->m_CurrentMetricValue = NumericTraits<MeasureType>::Zero;
 
     typedef PointSet<DisplacementVectorType, ImageDimension + 1> PointSetType;
     typename PointSetType::Pointer velocityFieldPoints = PointSetType::New();
@@ -216,7 +216,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
 
       this->m_CompositeTransform->AddTransform( movingDisplacementFieldTransform );
       this->m_CompositeTransform->SetOnlyMostRecentTransformToOptimizeOn();
-      if( timePoint == 0 && iteration <= 1 )
+      if( timePoint == 0 && this->m_CurrentIteration <= 1 )
         {
         fieldDuplicatorIdentity->SetInputImage( movingDisplacementFieldTransform->GetDisplacementField() );
         fieldDuplicatorIdentity->Update();
@@ -259,7 +259,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
       // It does not change the direction of the optimization, only
       // the scaling.  It is very expensive to compute it accurately.
 
-      averageMetricValue += value;
+      this->m_CurrentMetricValue += value;
 
       // Remove the temporary mapping along the geodesic
       this->m_CompositeTransform->RemoveTransform();
@@ -436,15 +436,14 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
 
     this->m_OutputTransform->UpdateTransformParameters( updateControlPointDerivative, this->m_LearningRate );
 
-    averageMetricValue /= static_cast<MeasureType>( this->m_NumberOfTimePointSamples );
+    this->m_CurrentMetricValue /= static_cast<MeasureType>( this->m_NumberOfTimePointSamples );
 
-    convergenceMonitoring->AddEnergyValue( averageMetricValue );
-    RealType convergenceValue = convergenceMonitoring->GetConvergenceValue();
-    std::cout << ": metric value = " << value << ", average metric value = " << averageMetricValue << ", convergence value = " << convergenceValue << std::endl;
+    convergenceMonitoring->AddEnergyValue( this->m_CurrentMetricValue );
+    this->m_CurrentConvergenceValue = convergenceMonitoring->GetConvergenceValue();
 
-    if( convergenceValue < this->m_ConvergenceThreshold || iteration == this->m_NumberOfIterationsPerLevel[this->m_CurrentLevel] )
+    if( this->m_CurrentConvergenceValue < this->m_ConvergenceThreshold )
       {
-      isConverged = true;
+      this->m_IsConverged = true;
 
       this->m_OutputTransform->SetLowerTimeBound( 0 );
       this->m_OutputTransform->SetUpperTimeBound( 1.0 );
@@ -489,6 +488,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
         itkDebugMacro( "    spatio-temporal velocity field norm : " << spatioTemporalNorm << ", spatial velocity field norm: " << spatialNorm );
         }
       }
+    reporter.CompletedStep();
     }
 }
 
@@ -502,6 +502,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
 {
   for( this->m_CurrentLevel = 0; this->m_CurrentLevel < this->m_NumberOfLevels; this->m_CurrentLevel++ )
     {
+    this->m_CurrentIteration = 0;
     IterationReporter reporter( this, 0, 1 );
 
     this->InitializeRegistrationAtEachLevel( this->m_CurrentLevel );
@@ -533,7 +534,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
 {
   Superclass::PrintSelf( os, indent );
 
-  os << indent << "Number of iterations: " << this->m_NumberOfIterationsPerLevel << std::endl;
+  os << indent << "Number of this->m_CurrentIterations: " << this->m_NumberOfIterationsPerLevel << std::endl;
   os << indent << "Learning rate: " << this->m_LearningRate << std::endl;
   os << indent << "Convergence threshold: " << this->m_ConvergenceThreshold << std::endl;
   os << indent << "Convergence window size: " << this->m_ConvergenceWindowSize << std::endl;
