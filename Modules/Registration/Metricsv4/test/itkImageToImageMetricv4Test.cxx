@@ -500,6 +500,7 @@ int itkImageToImageMetricv4Test(int, char ** const)
   // the metric will use the fixed image for the virtual domain.
   metric->SetFixedImage( fixedImage );
   metric->SetMovingImage( movingImage );
+  metric->SetVirtualDomainImage( const_cast<ImageToImageMetricv4TestImageType *>(fixedImage.GetPointer()) );
   metric->SetFixedTransform( fixedTransform );
   metric->SetMovingTransform( movingTransform );
   // Tell the metric to compute image gradients for both fixed and moving.

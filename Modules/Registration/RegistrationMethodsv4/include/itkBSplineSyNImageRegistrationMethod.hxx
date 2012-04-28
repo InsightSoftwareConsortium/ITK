@@ -207,16 +207,15 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
     this->m_MovingToMiddleTransform->SetDisplacementField( movingToMiddleSmoothTotalField );
     this->m_MovingToMiddleTransform->SetInverseDisplacementField( movingToMiddleSmoothTotalFieldInverse );
 
-    RealType metricValue = 0.5 * ( movingMetricValue + fixedMetricValue );
+    this->m_CurrentMetricValue = 0.5 * ( movingMetricValue + fixedMetricValue );
 
-    convergenceMonitoring->AddEnergyValue( metricValue );
-    RealType convergenceValue = convergenceMonitoring->GetConvergenceValue();
+    convergenceMonitoring->AddEnergyValue( this->m_CurrentMetricValue );
+    this->m_CurrentConvergenceValue = convergenceMonitoring->GetConvergenceValue();
 
-    if( convergenceValue < this->m_ConvergenceThreshold )
+    if( this->m_CurrentConvergenceValue < this->m_ConvergenceThreshold )
       {
       this->m_IsConverged = true;
       }
-
     reporter.CompletedStep();
     }
 }

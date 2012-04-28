@@ -78,7 +78,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4<TFixedImage, TMovingImage, TVirt
 
   scanParameters.numberOfFillZero = numberOfFillZero;
 
-  scanIt = ScanIteratorType(scanParameters.radius, scanParameters.fixedImage, scanRegion);
+  scanIt = ScanIteratorType(scanParameters.radius, scanParameters.virtualImage, scanRegion);
   scanParameters.windowLength = scanIt.Size();
   scanParameters.scanRegionBeginIndexDim0 = scanIt.GetBeginIndex()[0];
 
