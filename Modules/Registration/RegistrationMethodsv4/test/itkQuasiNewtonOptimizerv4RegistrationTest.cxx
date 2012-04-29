@@ -208,6 +208,7 @@ int itkQuasiNewtonOptimizerv4RegistrationTestMain(int argc, char *argv[])
 //  metric->SetVirtualDomainImage( fixedImage );
   metric->SetFixedImage( fixedImage );
   metric->SetMovingImage( movingImage );
+  metric->SetVirtualDomainImage( const_cast<FixedImageType *>(fixedImage.GetPointer()) );
   metric->SetFixedTransform( identityTransform );
   metric->SetMovingTransform( affineTransform );
   bool gaussian = false;

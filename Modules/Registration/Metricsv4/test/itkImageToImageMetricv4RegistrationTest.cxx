@@ -114,6 +114,7 @@ int ImageToImageMetricv4RegistrationTestRun( typename TMetric::Pointer metric, i
   //
   metric->SetFixedImage( fixedImage );
   metric->SetMovingImage( movingImage );
+  metric->SetVirtualDomainImage( const_cast<TImage *>(fixedImage.GetPointer()) );
   metric->SetMovingTransform( translationTransform );
   metric->SetUseMovingImageGradientFilter( doGradientFilter );
   metric->SetUseFixedImageGradientFilter( doGradientFilter );
