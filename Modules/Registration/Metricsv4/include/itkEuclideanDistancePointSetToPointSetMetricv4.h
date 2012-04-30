@@ -69,11 +69,6 @@ public:
   virtual MeasureType GetLocalNeighborhoodValue( const PointType & ) const;
 
   /**
-   * Calculates the local derivative for a single point.
-   */
-  virtual LocalDerivativeType GetLocalNeighborhoodDerivative( const PointType & ) const;
-
-  /**
    * Calculates the local value and derivative for a single point.
    */
   virtual void GetLocalNeighborhoodValueAndDerivative( const PointType &,

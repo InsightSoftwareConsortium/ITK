@@ -383,7 +383,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, T
 ::PrintSelf (std::ostream & os, Indent indent) const
 {
   // Print the superclass
-  Superclass::Print(os);
+  Superclass::PrintSelf(os,indent);
 
   os << indent << "NumberOfHistogramBins: ";
   os << this->m_NumberOfHistogramBins << std::endl;

@@ -32,16 +32,16 @@
  *
  */
 class GradientDescentOptimizerv4Test2Metric
-  : public itk::ObjectToObjectMetric
+  : public itk::ObjectToObjectMetricBase
 {
 public:
 
   typedef GradientDescentOptimizerv4Test2Metric Self;
-  typedef itk::ObjectToObjectMetric             Superclass;
+  typedef itk::ObjectToObjectMetricBase         Superclass;
   typedef itk::SmartPointer<Self>               Pointer;
   typedef itk::SmartPointer<const Self>         ConstPointer;
   itkNewMacro( Self );
-  itkTypeMacro( GradientDescentOptimizerv4Test2Metric, ObjectToObjectMetric );
+  itkTypeMacro( GradientDescentOptimizerv4Test2Metric, ObjectToObjectMetricBase );
 
   enum { SpaceDimension=3 };
 
@@ -58,6 +58,12 @@ public:
   }
 
   void Initialize(void) throw ( itk::ExceptionObject ) {}
+
+  void GetDerivative( DerivativeType & derivative ) const
+  {
+    MeasureType value;
+    GetValueAndDerivative( value, derivative );
+  }
 
   void GetValueAndDerivative( MeasureType & value,
                               DerivativeType & derivative ) const

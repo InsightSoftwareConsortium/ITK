@@ -33,16 +33,6 @@ template<class TFixedImage,class TMovingImage,class TVirtualImage>
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::ImageToImageMetricv4()
 {
-  /* Both transforms default to an identity transform */
-  typedef IdentityTransform<CoordinateRepresentationType,
-    itkGetStaticConstMacro( MovingImageDimension ) >
-                                          MovingIdentityTransformType;
-  typedef IdentityTransform<CoordinateRepresentationType,
-    itkGetStaticConstMacro( MovingImageDimension ) >
-                                          FixedIdentityTransformType;
-  this->m_FixedTransform  = FixedIdentityTransformType::New();
-  this->m_MovingTransform = MovingIdentityTransformType::New();
-
   /* Interpolators. Default to linear. */
   typedef LinearInterpolateImageFunction< FixedImageType,
                                           CoordinateRepresentationType >
@@ -107,6 +97,9 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::Initialize() throw ( itk::ExceptionObject )
 {
   itkDebugMacro("Initialize entered");
+
+  /* Superclass */
+  Superclass::Initialize();
 
   /* Verify things are connected */
   if ( this->m_FixedImage.IsNull() )
@@ -257,8 +250,16 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
-::GetValueAndDerivative( MeasureType & value,
-                         DerivativeType & derivative ) const
+::GetDerivative( DerivativeType & derivative ) const
+{
+  MeasureType value;
+  this->GetValueAndDerivative( value, derivative );
+}
+
+template<class TFixedImage,class TMovingImage,class TVirtualImage>
+void
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
+::GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const
 {
   this->m_DerivativeResult = &derivative;
   this->InitializeForIteration();
@@ -300,14 +301,12 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::InitializeForIteration() const
 {
   /* This size always comes from the moving image */
-  const NumberOfParametersType globalDerivativeSize =
-    this->m_MovingTransform->GetNumberOfParameters();
+  const NumberOfParametersType globalDerivativeSize = this->m_MovingTransform->GetNumberOfParameters();
   if( this->m_DerivativeResult->GetSize() != globalDerivativeSize )
     {
     this->m_DerivativeResult->SetSize( globalDerivativeSize );
     }
-  /* Clear derivative final result. This will
-   * require an option to skip for use with multivariate metric. */
+  /* Clear derivative final result. */
   this->m_DerivativeResult->Fill( NumericTraits< DerivativeValueType >::Zero );
 }
 
@@ -538,33 +537,6 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
-::SetTransform( MovingTransformType* transform )
-{
-  this->SetMovingTransform( transform );
-}
-
-template<class TFixedImage,class TMovingImage,class TVirtualImage>
-const typename ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >::MovingTransformType *
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
-::GetTransform()
-{
-  return this->GetMovingTransform();
-}
-
-template<class TFixedImage,class TMovingImage,class TVirtualImage>
-void
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
-::UpdateTransformParameters( DerivativeType & derivative,
-                             ParametersValueType factor )
-{
-  /* Rely on transform::UpdateTransformParameters to verify proper
-   * size of derivative */
-  this->m_MovingTransform->UpdateTransformParameters( derivative, factor );
-}
-
-template<class TFixedImage,class TMovingImage,class TVirtualImage>
-void
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::SetMaximumNumberOfThreads( const ThreadIdType number )
 {
   if( number != this->m_SparseGetValueAndDerivativeThreader->GetMaximumNumberOfThreads() )
@@ -644,8 +616,7 @@ OffsetValueType
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::ComputeParameterOffsetFromVirtualDomainIndex( const VirtualIndexType & index, NumberOfParametersType numberOfLocalParameters ) const
 {
-  OffsetValueType offset =
-    this->m_VirtualDomainImage->ComputeOffset(index) * numberOfLocalParameters;
+  OffsetValueType offset = this->m_VirtualDomainImage->ComputeOffset(index) * numberOfLocalParameters;
   return offset;
 }
 
@@ -787,57 +758,6 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
     typename VirtualImageType::RegionType region = this->GetVirtualDomainRegion();
     return region.GetNumberOfPixels();
     }
-}
-
-template<class TFixedImage,class TMovingImage,class TVirtualImage>
-typename
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>::NumberOfParametersType
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
-::GetNumberOfParameters() const
-{
-  return this->m_MovingTransform->GetNumberOfParameters();
-}
-
-template<class TFixedImage,class TMovingImage,class TVirtualImage>
-const typename ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>::ParametersType &
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
-::GetParameters() const
-{
-  return this->m_MovingTransform->GetParameters();
-}
-
-template<class TFixedImage,class TMovingImage,class TVirtualImage>
-void
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
-::SetParameters( ParametersType & params)
-{
-  this->m_MovingTransform->SetParametersByValue( params );
-}
-
-template<class TFixedImage,class TMovingImage,class TVirtualImage>
-typename
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >::NumberOfParametersType
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
-::GetNumberOfLocalParameters() const
-{
-  return this->m_MovingTransform->GetNumberOfLocalParameters();
-}
-
-template<class TFixedImage,class TMovingImage,class TVirtualImage>
-bool
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
-::HasLocalSupport() const
-{
-  return this->m_MovingTransform->HasLocalSupport();
-}
-
-template<class TFixedImage,class TMovingImage,class TVirtualImage>
-typename
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >::MeasureType
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
-::GetCurrentValue()
-{
-  return m_Value;
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>

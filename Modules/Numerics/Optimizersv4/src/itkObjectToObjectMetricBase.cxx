@@ -15,27 +15,28 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkObjectToObjectMetric.h"
+#include "itkObjectToObjectMetricBase.h"
 
 namespace itk
 {
 
 //-------------------------------------------------------------------
-ObjectToObjectMetric
-::ObjectToObjectMetric()
+ObjectToObjectMetricBase
+::ObjectToObjectMetricBase()
 {
   // Don't call SetGradientSource, to avoid valgrind warning.
   this->m_GradientSource = this->GRADIENT_SOURCE_MOVING;
+  this->m_Value = NumericTraits<MeasureType>::Zero;
 }
 
 //-------------------------------------------------------------------
-ObjectToObjectMetric
-::~ObjectToObjectMetric()
+ObjectToObjectMetricBase
+::~ObjectToObjectMetricBase()
 {}
 
 //-------------------------------------------------------------------
 bool
-ObjectToObjectMetric
+ObjectToObjectMetricBase
 ::GetGradientSourceIncludesFixed() const
 {
   return m_GradientSource == GRADIENT_SOURCE_FIXED ||
@@ -44,7 +45,7 @@ ObjectToObjectMetric
 
 //-------------------------------------------------------------------
 bool
-ObjectToObjectMetric
+ObjectToObjectMetricBase
 ::GetGradientSourceIncludesMoving() const
 {
   return m_GradientSource == GRADIENT_SOURCE_MOVING ||
@@ -53,10 +54,11 @@ ObjectToObjectMetric
 
 //-------------------------------------------------------------------
 void
-ObjectToObjectMetric
+ObjectToObjectMetricBase
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+  os << indent << "Value: " << m_Value << std::endl;
   os << indent << "GradientSourceType: ";
   switch( m_GradientSource )
     {

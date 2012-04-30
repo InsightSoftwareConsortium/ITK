@@ -1,5 +1,5 @@
 set(ITKOptimizersv4_SRC
-  itkObjectToObjectMetric.cxx
+  itkObjectToObjectMetricBase.cxx
   itkObjectToObjectOptimizerBase.cxx
   itkGradientDescentOptimizerBasev4.cxx
   itkGradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader.cxx

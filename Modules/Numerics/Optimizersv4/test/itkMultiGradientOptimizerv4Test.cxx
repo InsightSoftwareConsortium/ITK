@@ -42,16 +42,16 @@
  *
  */
 class MultiGradientOptimizerv4TestMetric
-  : public itk::ObjectToObjectMetric
+  : public itk::ObjectToObjectMetricBase
 {
 public:
 
   typedef MultiGradientOptimizerv4TestMetric Self;
-  typedef itk::ObjectToObjectMetric          Superclass;
+  typedef itk::ObjectToObjectMetricBase      Superclass;
   typedef itk::SmartPointer<Self>            Pointer;
   typedef itk::SmartPointer<const Self>      ConstPointer;
   itkNewMacro( Self );
-  itkTypeMacro( MultiGradientOptimizerv4TestMetric, ObjectToObjectMetric );
+  itkTypeMacro( MultiGradientOptimizerv4TestMetric, ObjectToObjectMetricBase );
 
   enum { SpaceDimension=2 };
 
@@ -66,6 +66,11 @@ public:
   }
 
   void Initialize(void) throw ( itk::ExceptionObject ) {}
+
+  virtual void GetDerivative( DerivativeType & derivative ) const
+    {
+    derivative.Fill( itk::NumericTraits< ParametersValueType >::Zero );
+    }
 
   void GetValueAndDerivative( MeasureType & value,
                               DerivativeType & derivative ) const
@@ -142,16 +147,16 @@ private:
 
 /** A second test metric with slightly different optimum */
 class MultiGradientOptimizerv4TestMetric2
-  : public itk::ObjectToObjectMetric
+  : public itk::ObjectToObjectMetricBase
 {
 public:
 
   typedef MultiGradientOptimizerv4TestMetric2 Self;
-  typedef itk::ObjectToObjectMetric           Superclass;
+  typedef itk::ObjectToObjectMetricBase       Superclass;
   typedef itk::SmartPointer<Self>             Pointer;
   typedef itk::SmartPointer<const Self>       ConstPointer;
   itkNewMacro( Self );
-  itkTypeMacro( MultiGradientOptimizerv4TestMetric2, ObjectToObjectMetric );
+  itkTypeMacro( MultiGradientOptimizerv4TestMetric2, ObjectToObjectMetricBase );
 
   enum { SpaceDimension=2 };
 
@@ -166,6 +171,11 @@ public:
   }
 
   void Initialize(void) throw ( itk::ExceptionObject ) {}
+
+  virtual void GetDerivative( DerivativeType & derivative ) const
+    {
+    derivative.Fill( itk::NumericTraits< ParametersValueType >::Zero );
+    }
 
   void GetValueAndDerivative( MeasureType & value,
                               DerivativeType & derivative ) const

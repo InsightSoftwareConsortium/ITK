@@ -49,39 +49,7 @@ void
 JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
 ::Initialize( void ) throw ( ExceptionObject )
 {
-  if ( !this->m_FixedTransform )
-    {
-    itkExceptionMacro( "Fixed transform is not present" );
-    }
-
-  if ( !this->m_MovingTransform )
-    {
-    itkExceptionMacro( "Moving transform is not present" );
-    }
-
-  if ( !this->m_FixedPointSet )
-    {
-    itkExceptionMacro( "Fixed point set is not present" );
-    }
-
-  if ( !this->m_MovingPointSet )
-    {
-    itkExceptionMacro( "Moving point set is not present" );
-    }
-
-  // If the PointSet is provided by a source, update the source.
-  if( this->m_MovingPointSet->GetSource() )
-    {
-    this->m_MovingPointSet->GetSource()->Update();
-    }
-  this->TransformMovingPointSet();
-
-  // If the point set is provided by a source, update the source.
-  if( this->m_FixedPointSet->GetSource() )
-    {
-    this->m_FixedPointSet->GetSource()->Update();
-    }
-  this->TransformFixedPointSet();
+  Superclass::Initialize();
 
   // Initialize the fixed density function
   this->m_FixedDensityFunction = DensityFunctionType::New();
@@ -104,17 +72,13 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
 
   this->m_MovingDensityFunction->SetNormalize( true );
 
-  this->m_MovingDensityFunction->SetUseAnisotropicCovariances(
-    this->m_UseAnisotropicCovariances );
+  this->m_MovingDensityFunction->SetUseAnisotropicCovariances( this->m_UseAnisotropicCovariances );
 
-  this->m_MovingDensityFunction->SetCovarianceKNeighborhood(
-    this->m_CovarianceKNeighborhood );
+  this->m_MovingDensityFunction->SetCovarianceKNeighborhood( this->m_CovarianceKNeighborhood );
 
-  this->m_MovingDensityFunction->SetEvaluationKNeighborhood(
-    this->m_EvaluationKNeighborhood );
+  this->m_MovingDensityFunction->SetEvaluationKNeighborhood( this->m_EvaluationKNeighborhood );
 
-  this->m_MovingDensityFunction->SetInputPointSet(
-    this->m_MovingTransformedPointSet );
+  this->m_MovingDensityFunction->SetInputPointSet( this->m_MovingTransformedPointSet );
 }
 
 /** Get the match Measure */
@@ -150,43 +114,37 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
     prefactor /= ( this->m_Alpha - 1.0 );
     }
 
-  for( unsigned int d = 0; d < 2; d++ )
+  const PointSetType * pointSet1 = densityFunctions[1]->GetInputPointSet();
+  PointsContainerConstIterator It = pointSet1->GetPoints()->Begin();
+  while( It != pointSet1->GetPoints()->End() )
     {
-    const PointSetType * pointSet1 = densityFunctions[d]->GetInputPointSet();
-    PointsContainerConstIterator It = pointSet1->GetPoints()->Begin();
-    while( It != densityFunctions[d]->GetInputPointSet()->GetPoints()->End() )
+    PointType samplePoint = It.Value();
+
+    const PointSetType * pointSet2 = densityFunctions[0]->GetInputPointSet();
+
+    RealType probabilityStar = densityFunctions[0]->Evaluate( samplePoint ) * static_cast<RealType>( pointSet2->GetNumberOfPoints() );
+
+    probabilityStar /= totalNumberOfPoints;
+
+    if( probabilityStar == 0 )
       {
-      PointType samplePoint = It.Value();
-
-      const PointSetType * pointSet2 = densityFunctions[1-d]->GetInputPointSet();
-
-      RealType probabilityStar =
-        densityFunctions[1-d]->Evaluate( samplePoint ) *
-        static_cast<RealType>( pointSet2->GetNumberOfPoints() );
-
-      probabilityStar /= totalNumberOfPoints;
-
-      if( probabilityStar == 0 )
-        {
-        ++It;
-        continue;
-        }
-
-      if( this->m_Alpha == 1.0 )
-        {
-        energyTerm1 += vcl_log( probabilityStar );
-        }
-      else
-        {
-        energyTerm1 += vcl_pow( probabilityStar,
-          static_cast<RealType>( this->m_Alpha - 1.0 ) );
-        }
       ++It;
+      continue;
       }
-    if( this->m_Alpha != 1.0 )
+
+    if( this->m_Alpha == 1.0 )
       {
-      energyTerm1 -= 1.0;
+      energyTerm1 += vcl_log( probabilityStar );
       }
+    else
+      {
+      energyTerm1 += vcl_pow( probabilityStar, static_cast<RealType>( this->m_Alpha - 1.0 ) );
+      }
+    ++It;
+    }
+  if( this->m_Alpha != 1.0 )
+    {
+    energyTerm1 -= 1.0;
     }
   energyTerm1 *= prefactor;
 
@@ -195,53 +153,51 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
     */
   if( this->m_UseRegularizationTerm )
     {
-    for( unsigned int d = 0; d < 2; d++ )
+    const PointSetType * pointSet3 = densityFunctions[1]->GetInputPointSet();
+    IdentifierType numberOfPoints = pointSet3->GetNumberOfPoints();
+
+    RealType prefactor2 = -static_cast<RealType>( numberOfPoints ) /
+      ( totalNumberOfPoints * static_cast<RealType>( numberOfPoints ) );
+
+    if( this->m_Alpha != 1.0 )
       {
-      const PointSetType * pointSet3 = densityFunctions[d]->GetInputPointSet();
-      IdentifierType numberOfPoints = pointSet3->GetNumberOfPoints();
-
-      RealType prefactor2 = -static_cast<RealType>( numberOfPoints ) /
-        ( totalNumberOfPoints * static_cast<RealType>( numberOfPoints ) );
-
-      if( this->m_Alpha != 1.0 )
-        {
-        prefactor2 /= ( this->m_Alpha - 1.0 );
-        }
-
-      PointsContainerConstIterator It = pointSet3->GetPoints()->Begin();
-
-      while( It != pointSet3->GetPoints()->End() )
-        {
-        PointType samplePoint = It.Value();
-
-        RealType probability = densityFunctions[d]->Evaluate( samplePoint );
-
-        if( probability == 0 )
-          {
-          ++It;
-          continue;
-          }
-
-        if( this->m_Alpha == 1.0 )
-          {
-          energyTerm2 += ( prefactor2 * vcl_log( probability ) );
-          }
-        else
-          {
-          energyTerm2 += ( prefactor2 * vcl_pow( probability,
-            static_cast<RealType>( this->m_Alpha - 1.0 ) ) );
-          }
-        ++It;
-        }
-      if( this->m_Alpha != 1.0 )
-        {
-        energyTerm2 -= 1.0;
-        }
-      energyTerm2 *= prefactor2;
+      prefactor2 /= ( this->m_Alpha - 1.0 );
       }
+
+    PointsContainerConstIterator It2 = pointSet3->GetPoints()->Begin();
+
+    while( It2 != pointSet3->GetPoints()->End() )
+      {
+      PointType samplePoint = It2.Value();
+
+      RealType probability = densityFunctions[1]->Evaluate( samplePoint );
+
+      if( probability == 0 )
+        {
+        ++It;
+        continue;
+        }
+
+      if( this->m_Alpha == 1.0 )
+        {
+        energyTerm2 += ( vcl_log( probability ) );
+        }
+      else
+        {
+        energyTerm2 += ( vcl_pow( probability, static_cast<RealType>( this->m_Alpha - 1.0 ) ) );
+        }
+      ++It2;
+      }
+    if( this->m_Alpha != 1.0 )
+      {
+      energyTerm2 -= 1.0;
+      }
+    energyTerm2 *= prefactor2;
     }
 
   measure = energyTerm1 - energyTerm2;
+
+  this->m_Value = measure;
 
   return measure;
 }
@@ -260,29 +216,11 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
 template<class TPointSet>
 void
 JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
-::GetValueAndDerivative( MeasureType &value, DerivativeType &derivative ) const
+::GetValueAndDerivative( MeasureType &value, DerivativeType &derivativeReturn ) const
 {
   DensityFunctionPointer densityFunctions[2];
   densityFunctions[0] = this->m_FixedDensityFunction;
   densityFunctions[1] = this->m_MovingDensityFunction;
-
-  unsigned int start = 0;
-  unsigned int end = 0;
-  if( this->GetGradientSource() == Superclass::GRADIENT_SOURCE_MOVING )
-    {
-    start = 1;
-    end = 1;
-    }
-  else if( this->GetGradientSource() == Superclass::GRADIENT_SOURCE_FIXED )
-    {
-    start = 0;
-    end = 0;
-    }
-  else
-    {
-    start = 0;
-    end = 1;
-    }
 
   RealType totalNumberOfPoints = NumericTraits<RealType>::Zero;
   for( unsigned int d = 0; d < 2; d++ )
@@ -293,107 +231,121 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
 
   const RealType totalNumberOfSamples = totalNumberOfPoints;
 
-  derivative.SetSize( this->GetNumberOfComponents() * PointDimension );
-  derivative.Fill( 0 );
+  // size the output deriviative
+  derivativeReturn.SetSize( this->GetNumberOfParameters() );
+  derivativeReturn.Fill( 0 );
+
+  // allocate a per-point derivative
+  DerivativeType pointDerivative;
+  pointDerivative.SetSize( this->GetNumberOfLocalParameters() );
 
   value = 0;
+
+  MovingTransformJacobianType  jacobian( PointDimension, this->GetNumberOfLocalParameters() );
 
   /**
    * first term
    */
-  RealType energyTerm1 = 0.0;
-  RealType energyTerm2 = 0.0;
+  MeasureType energyTerm1 = NumericTraits< MeasureType >::Zero;
+  MeasureType energyTerm2 = NumericTraits< MeasureType >::Zero;
 
   RealType prefactor[2];
-  prefactor[0] = -1.0 / totalNumberOfSamples;
+  prefactor[0] = -1.0 / static_cast<RealType>( totalNumberOfSamples );
   if( this->m_Alpha != 1.0 )
     {
     prefactor[0] /= ( this->m_Alpha - 1.0 );
     }
   prefactor[1] = 1.0 / ( totalNumberOfSamples * totalNumberOfPoints );
 
-  for( unsigned int d = start; d <= end; d++ )
+  const PointSetType * pointSet = densityFunctions[1]->GetInputPointSet();
+  PointsContainerConstIterator It = pointSet->GetPoints()->Begin();
+  while( It != pointSet->GetPoints()->End() )
     {
-    const PointSetType * pointSet = densityFunctions[d]->GetInputPointSet();
-    PointsContainerConstIterator It = pointSet->GetPoints()->Begin();
-    while( It != pointSet->GetPoints()->End() )
+    PointType samplePoint = It.Value();
+    pointDerivative.Fill( 0 );
+
+    const PointSetType * pointSetB = densityFunctions[0]->GetInputPointSet();
+
+    RealType probabilityStar = densityFunctions[0]->Evaluate( samplePoint ) * static_cast<RealType>( pointSetB->GetNumberOfPoints() );
+
+    probabilityStar /= totalNumberOfPoints;
+
+    if( probabilityStar == 0 )
       {
-      PointType samplePoint = It.Value();
+      ++It;
+      continue;
+      }
 
-      const PointSetType * pointSetB = densityFunctions[1-d]->GetInputPointSet();
+    if( this->m_Alpha == 1.0 )
+      {
+      energyTerm1 += ( vcl_log( probabilityStar ) );
+      }
+    else
+      {
+      energyTerm1 += ( vcl_pow( probabilityStar, static_cast<RealType>( this->m_Alpha - 1.0 ) ) );
+      }
 
-      RealType probabilityStar =
-          densityFunctions[1-d]->Evaluate( samplePoint ) *
-          static_cast<RealType>( pointSetB->GetNumberOfPoints() );
+    RealType probabilityStarFactor = vcl_pow( probabilityStar, static_cast<RealType>( 2.0 - this->m_Alpha ) );
 
-      probabilityStar /= totalNumberOfPoints;
+    typename DensityFunctionType::NeighborsIdentifierType neighbors;
+    densityFunctions[0]->GetPointsLocator()->FindClosestNPoints( samplePoint, this->m_EvaluationKNeighborhood, neighbors );
 
-      if( probabilityStar == 0 )
+    this->GetMovingTransform()->ComputeJacobianWithRespectToParameters( samplePoint, jacobian );
+
+    for( unsigned int n = 0; n < neighbors.size(); n++ )
+      {
+      RealType gaussian = densityFunctions[0]->GetGaussian( neighbors[n] )->Evaluate( samplePoint );
+
+      if( gaussian == 0 )
         {
-        ++It;
         continue;
         }
 
-      if( this->m_Alpha == 1.0 )
+      typename GaussianType::MeanVectorType mean = densityFunctions[0]->GetGaussian( neighbors[n] )->GetMean();
+
+      Array<CoordRepType> diffMean( PointDimension );
+      for( unsigned int i = 0; i < PointDimension; i++ )
         {
-        energyTerm1 += ( prefactor[0] * vcl_log( probabilityStar ) );
+        diffMean[i] = mean[i] - samplePoint[i];
+        }
+
+      if( this->m_UseAnisotropicCovariances )
+        {
+        typename GaussianType::CovarianceMatrixType Ci = densityFunctions[0]->GetGaussian( neighbors[n] )->GetInverseCovariance();
+        diffMean = Ci * diffMean;
         }
       else
         {
-        energyTerm1 += ( prefactor[0] * vcl_pow( probabilityStar,
-          static_cast<RealType>( this->m_Alpha - 1.0 ) ) );
+        diffMean /= densityFunctions[1]->GetGaussian( neighbors[n] )->GetCovariance()(0, 0);
         }
 
-      RealType probabilityStarFactor = vcl_pow( probabilityStar,
-        static_cast<RealType>( 2.0 - this->m_Alpha ) );
-
-      typename DensityFunctionType::NeighborsIdentifierType neighbors;
-      densityFunctions[1-d]->GetPointsLocator()->FindClosestNPoints(
-        samplePoint, this->m_EvaluationKNeighborhood, neighbors );
-
-      for( unsigned int n = 0; n < neighbors.size(); n++ )
+      DerivativeValueType factor = prefactor[1] * gaussian / probabilityStarFactor;
+      for( unsigned int i = 0; i < PointDimension; i++ )
         {
-        RealType gaussian = densityFunctions[1-d]->
-          GetGaussian( neighbors[n] )->Evaluate( samplePoint );
-
-        if( gaussian == 0 )
-          {
-          continue;
-          }
-
-        typename GaussianType::MeanVectorType mean =
-          densityFunctions[1-d]->GetGaussian( neighbors[n] )->GetMean();
-
-
-        Array<CoordRepType> diffMean( PointDimension );
-        for( unsigned int i = 0; i < PointDimension; i++ )
-          {
-          diffMean[i] = mean[i] - samplePoint[i];
-          }
-
-        if( this->m_UseAnisotropicCovariances )
-          {
-          typename GaussianType::CovarianceMatrixType Ci =
-            densityFunctions[1-d]->GetGaussian( neighbors[n] )->
-            GetInverseCovariance();
-          diffMean = Ci * diffMean;
-          }
-        else
-          {
-          diffMean /= densityFunctions[1-d]->GetGaussian( neighbors[n] )->
-            GetCovariance()(0, 0);
-          }
-
-        for( unsigned int i = 0; i < PointDimension; i++ )
-          {
+        /* orig:
           derivative( ( end - start ) * densityFunctions[0]->GetInputPointSet()->
-            GetNumberOfPoints() * PointDimension +
-            It.Index() * PointDimension + i ) -=
-            diffMean[i] * ( prefactor[1] * gaussian / probabilityStarFactor );
+          GetNumberOfPoints() * PointDimension +
+          It.Index() * PointDimension + i ) -=
+          diffMean[i] * ( prefactor[1] * gaussian / probabilityStarFactor );
+        */
+        for ( NumberOfParametersType par = 0; par < this->GetNumberOfLocalParameters(); par++ )
+          {
+          pointDerivative[par] -= jacobian(i, par) * diffMean[i] * factor;
           }
         }
-      ++It;
       }
+
+    //Store result
+    if( this->HasLocalSupport() )
+      {
+      // Put result into derivative holder
+      itkExceptionMacro("TODO");
+      }
+    else
+      {
+      derivativeReturn += pointDerivative;
+      }
+    ++It;
     }
 
   if( this->m_Alpha != 1.0 )
@@ -407,87 +359,94 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
    */
   if( this->m_UseRegularizationTerm )
     {
-    for( unsigned int d = start; d <= end; d++ )
+    const PointSetType * pointSetB = densityFunctions[1]->GetInputPointSet();
+
+    const RealType prefactor2 = -1.0 /
+      ( static_cast<RealType>( pointSetB->GetNumberOfPoints() ) * totalNumberOfPoints );
+
+    typename PointSetType::PointsContainerConstIterator It2 = pointSetB->GetPoints()->Begin();
+    while( It2 != pointSetB->GetPoints()->End() )
       {
-      const PointSetType * pointSetB = densityFunctions[1-d]->GetInputPointSet();
+      PointType samplePoint = It.Value();
 
-      const RealType prefactor2 = -1.0 /
-        ( static_cast<RealType>( pointSetB->GetNumberOfPoints() ) * totalNumberOfPoints );
+      RealType probability = densityFunctions[1]->Evaluate( samplePoint );
 
-      typename PointSetType::PointsContainerConstIterator It = pointSetB->GetPoints()->Begin();
-      while( It != pointSetB->GetPoints()->End() )
+      if( probability == 0 )
         {
-        PointType samplePoint = It.Value();
+        ++It;
+        continue;
+        }
 
-        RealType probability = densityFunctions[1-d]->Evaluate( samplePoint );
+      if( this->m_Alpha == 1.0 )
+        {
+        energyTerm2 += ( vcl_log( probability ) );
+        }
+      else
+        {
+        energyTerm2 += ( vcl_pow( probability, static_cast<RealType>( this->m_Alpha - 1.0 ) ) );
+        }
 
-        if( probability == 0 )
+      RealType probabilityFactor = vcl_pow( probability, static_cast<RealType>( 2.0 - this->m_Alpha ) );
+
+      probabilityFactor *= ( pointSetB-> GetNumberOfPoints() / totalNumberOfSamples );
+
+      typename DensityFunctionType::NeighborsIdentifierType neighbors;
+
+      densityFunctions[0]->GetPointsLocator()->FindClosestNPoints( samplePoint, this->m_EvaluationKNeighborhood, neighbors );
+
+      this->GetMovingTransform()->ComputeJacobianWithRespectToParameters( samplePoint, jacobian );
+
+      for( unsigned int n = 0; n < neighbors.size(); n++ )
+        {
+        RealType gaussian = densityFunctions[1]->GetGaussian( neighbors[n] )->Evaluate( samplePoint );
+        if( gaussian == 0 )
           {
-          ++It;
           continue;
           }
 
-        if( this->m_Alpha == 1.0 )
+        typename GaussianType::MeanVectorType mean = densityFunctions[1]->GetGaussian( neighbors[n] )->GetMean();
+
+        Array<CoordRepType> diffMean( PointDimension );
+        for( unsigned int i = 0; i < PointDimension; i++ )
           {
-          energyTerm2 += ( prefactor2 * vcl_log( probability ) );
+          diffMean[i] = mean[i] - samplePoint[i];
+          }
+
+        if( this->m_UseAnisotropicCovariances )
+          {
+          typename GaussianType::CovarianceMatrixType Ci = densityFunctions[1]->GetGaussian( neighbors[n] )->GetInverseCovariance();
+          diffMean = Ci * diffMean;
           }
         else
           {
-          energyTerm2 += ( prefactor2 * vcl_pow( probability,
-            static_cast<RealType>( this->m_Alpha - 1.0 ) ) );
+          diffMean /= densityFunctions[1]->GetGaussian( neighbors[n] )->GetCovariance()(0, 0);
           }
 
-        RealType probabilityFactor = vcl_pow( probability,
-          static_cast<RealType>( 2.0 - this->m_Alpha ) );
-
-        probabilityFactor *= ( pointSetB-> GetNumberOfPoints() / totalNumberOfSamples );
-
-        typename DensityFunctionType::NeighborsIdentifierType neighbors;
-
-        densityFunctions[1-d]->GetPointsLocator()->FindClosestNPoints(
-          samplePoint, this->m_EvaluationKNeighborhood, neighbors );
-
-        for( unsigned int n = 0; n < neighbors.size(); n++ )
+        DerivativeValueType factor = prefactor2 * gaussian / probabilityFactor;
+        for( unsigned int i = 0; i < PointDimension; i++ )
           {
-          RealType gaussian = densityFunctions[1-d]->
-            GetGaussian( neighbors[n] )->Evaluate( samplePoint );
-          if( gaussian == 0 )
+          /*derivative( ( end - start ) * densityFunctions[1]->
+            GetInputPointSet()->GetNumberOfPoints() * PointDimension +
+            It.Index() * PointDimension + i ) +=
+            diffMean[i] * ( prefactor2 * gaussian / probabilityFactor );
+          */
+          for ( NumberOfParametersType par = 0; par < this->GetNumberOfLocalParameters(); par++ )
             {
-            continue;
-            }
-
-          typename GaussianType::MeanVectorType mean
-            = densityFunctions[1-d]->GetGaussian( neighbors[n] )->GetMean();
-
-          Array<CoordRepType> diffMean( PointDimension );
-          for( unsigned int i = 0; i < PointDimension; i++ )
-            {
-            diffMean[i] = mean[i] - samplePoint[i];
-            }
-
-          if( this->m_UseAnisotropicCovariances )
-            {
-            typename GaussianType::CovarianceMatrixType Ci =
-              densityFunctions[1-d]->GetGaussian( neighbors[n] )->
-              GetInverseCovariance();
-            diffMean = Ci * diffMean;
-            }
-          else
-            {
-            diffMean /= densityFunctions[1-d]->GetGaussian( neighbors[n] )->
-              GetCovariance()(0, 0);
-            }
-
-          for( unsigned int i = 0; i < PointDimension; i++ )
-            {
-            derivative( ( end - start ) * densityFunctions[0]->
-              GetInputPointSet()->GetNumberOfPoints() * PointDimension +
-              It.Index() * PointDimension + i ) +=
-              diffMean[i] * ( prefactor2 * gaussian / probabilityFactor );
+            pointDerivative[par] += jacobian(i, par) * diffMean[i] * factor;
             }
           }
-        ++It;
         }
+      //Store result
+      if( this->HasLocalSupport() )
+        {
+        // Put result into derivative holder
+        itkExceptionMacro("TODO");
+        }
+      else
+        {
+        derivativeReturn += pointDerivative;
+        }
+      ++It2;
       }
     if( this->m_Alpha != 1.0 )
       {
@@ -496,8 +455,8 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
     energyTerm2 *= prefactor[1];
     }
 
-  derivative *= -1.0;
   value = energyTerm1 - energyTerm2;
+  this->m_Value = value;
 }
 
 template<class TPointSet>

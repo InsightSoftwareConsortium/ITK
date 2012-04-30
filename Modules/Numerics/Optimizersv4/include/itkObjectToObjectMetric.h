@@ -18,7 +18,8 @@
 #ifndef __itkObjectToObjectMetric_h
 #define __itkObjectToObjectMetric_h
 
-#include "itkSingleValuedCostFunctionv4.h"
+#include "itkTransform.h"
+#include "itkObjectToObjectMetricBase.h"
 
 namespace itk
 {
@@ -26,22 +27,16 @@ namespace itk
 /** \class ObjectToObjectMetric
  * \brief Computes similarity between regions of two objects.
  *
- * This class is templated over the type of the two input objects.
- * This is the abstract base class for a hierarchy of similarity metrics
+ * This class is templated over the dimensionality of the two input objects.
+ * This is the abstract templated base class for a hierarchy of similarity metrics
  * that may, in derived classes, operate on meshes, images, etc.
  * This class computes a value that measures the similarity between the two
  * objects.
  *
  * Derived classes must provide implementations for:
  *  GetValue
+ *  GetDerivative
  *  GetValueAndDerivative
- *  Initialize
- *  GetNumberOfParameters
- *  GetNumberOfLocalParameters
- *  GetParameters
- *  SetParameters
- *  HasLocalSupport
- *  UpdateTransformParameters
  *
  * \note Transform Optimization
  * This hierarchy currently assumes only the moving transform is 'active',
@@ -51,98 +46,92 @@ namespace itk
  *
  * \ingroup ITKOptimizersv4
  */
+template<unsigned int TFixedDimension, unsigned int TMovingDimension, unsigned int TVirtualDimension = TFixedDimension>
 class ITK_EXPORT ObjectToObjectMetric:
-  public SingleValuedCostFunctionv4
+  public ObjectToObjectMetricBase
 {
 public:
   /** Standard class typedefs. */
   typedef ObjectToObjectMetric         Self;
-  typedef SingleValuedCostFunctionv4   Superclass;
+  typedef ObjectToObjectMetricBase     Superclass;
   typedef SmartPointer< Self >         Pointer;
   typedef SmartPointer< const Self >   ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ObjectToObjectMetric, SingleValuedCostFunctionv4);
+  itkTypeMacro(ObjectToObjectMetric, ObjectToObjectMetricBase);
 
   /** Type used for representing object components  */
-  typedef Superclass::ParametersValueType CoordinateRepresentationType;
+  typedef typename Superclass::ParametersValueType CoordinateRepresentationType;
 
   /** Type for internal computations */
-  typedef double                          InternalComputationValueType;
+  typedef typename Superclass::InternalComputationValueType    InternalComputationValueType;
 
   /**  Type of the measure. */
-  typedef  Superclass::MeasureType        MeasureType;
+  typedef typename Superclass::MeasureType            MeasureType;
 
   /**  Type of the derivative. */
-  typedef  Superclass::DerivativeType     DerivativeType;
+  typedef typename Superclass::DerivativeType         DerivativeType;
+  typedef typename Superclass::DerivativeValueType    DerivativeValueType;
 
   /**  Type of the parameters. */
-  typedef  Superclass::ParametersType       ParametersType;
-  typedef  Superclass::ParametersValueType  ParametersValueType;
+  typedef typename Superclass::ParametersType         ParametersType;
+  typedef typename Superclass::ParametersValueType    ParametersValueType;
+  typedef typename Superclass::NumberOfParametersType NumberOfParametersType;
 
-  /** Source of the gradient(s) used by the metric
-   * (e.g. image gradients, in the case of
-   * image to image metrics). Defaults to Moving. */
-  typedef enum  { GRADIENT_SOURCE_FIXED=0,
-                  GRADIENT_SOURCE_MOVING,
-                  GRADIENT_SOURCE_BOTH } GradientSourceType;
+  /** Dimension type */
+  typedef SizeValueType                       DimensionType;
 
-  /**
-   * Set source of gradient.  This variable allows the user to switch
-   * between calculating the gradient with respect to the fixed
-   * object or moving object.
-   * \sa GradientSourceType
-   */
-  itkSetMacro( GradientSource, GradientSourceType );
+  /** Object dimension accessors */
+  itkStaticConstMacro(FixedDimension, DimensionType, TFixedDimension);
+  itkStaticConstMacro(MovingDimension, DimensionType, TMovingDimension);
+  itkStaticConstMacro(VirtualDimension, DimensionType, TVirtualDimension);
 
-  /**
-   * Get gradient source.
-   * See \c GetGradientSourceIncludesFixed and \c GetGradientSourceIncludesMoving
-   * for convenience methods. */
-  itkGetConstMacro( GradientSource, GradientSourceType );
+  /**  Type of the Transform Base classes */
+  typedef Transform<ParametersValueType, TMovingDimension, TVirtualDimension> MovingTransformType;
+  typedef Transform<ParametersValueType, TFixedDimension, TVirtualDimension>  FixedTransformType;
 
-  /** Return true of \c m_GradientSource is either \c GRADIENT_SOURCE_FIXED or
-   * \c GRADIENT_SOURCE_BOTH. Convenience method. */
-  bool GetGradientSourceIncludesFixed() const;
+  typedef typename FixedTransformType::Pointer         FixedTransformPointer;
+  typedef typename FixedTransformType::InputPointType  FixedInputPointType;
+  typedef typename FixedTransformType::OutputPointType FixedOutputPointType;
+  typedef typename FixedTransformType::ParametersType  FixedTransformParametersType;
 
-  /** Return true of \c m_GradientSource is either \c GRADIENT_SOURCE_MOVING or
-   * \c GRADIENT_SOURCE_BOTH. Convenience method. */
-  bool GetGradientSourceIncludesMoving() const;
+  typedef typename MovingTransformType::Pointer         MovingTransformPointer;
+  typedef typename MovingTransformType::InputPointType  MovingInputPointType;
+  typedef typename MovingTransformType::OutputPointType MovingOutputPointType;
+  typedef typename MovingTransformType::ParametersType  MovingTransformParametersType;
 
-  /** Initialize the Metric by making sure that all the components
-   *  are present and plugged together correctly, and initializing
-   *  internal variables as required. This is for one-time initialization,
-   *  e.g. before starting an optimization process. */
-  virtual void Initialize(void) throw ( ExceptionObject ) = 0;
+  /** Jacobian type. This is the same for all transforms */
+  typedef typename FixedTransformType::JacobianType     JacobianType;
+  typedef typename FixedTransformType::JacobianType     FixedTransformJacobianType;
+  typedef typename MovingTransformType::JacobianType    MovingTransformJacobianType;
 
-  /** Type to represent the number of parameters that are being optimized at
-   * any given iteration of the optimizer. */
-  typedef unsigned int NumberOfParametersType;
+  virtual void Initialize(void) throw ( ExceptionObject );
 
-  /** Methods for working with the metric's 'active' transform, e.g. the
-   * transform being optimized in the case of registration. Some of these are
-   * used in non-metric classes, e.g. optimizers. */
-  virtual NumberOfParametersType GetNumberOfParameters() const = 0;
-  virtual NumberOfParametersType GetNumberOfLocalParameters() const = 0;
+  virtual NumberOfParametersType GetNumberOfParameters() const;
+  virtual NumberOfParametersType GetNumberOfLocalParameters() const;
+  virtual void SetParameters( ParametersType & params );
+  virtual const ParametersType & GetParameters() const;
+  virtual bool HasLocalSupport() const;
+  virtual void UpdateTransformParameters( DerivativeType & derivative, ParametersValueType factor);
 
-  /** Set the active transform's parameters */
-  virtual void SetParameters( ParametersType & params ) = 0;
+  /** Connect the fixed transform. */
+  itkSetObjectMacro(FixedTransform, FixedTransformType);
 
-  /** Get a const reference to the active transform's parameters */
-  virtual const ParametersType & GetParameters() const = 0;
+  /** Get a pointer to the fixed transform.  */
+  itkGetConstObjectMacro(FixedTransform, FixedTransformType);
 
-  /** Return whether the metric's active transform has local support,
-   * e.g. whether it is dense/high-dimensional. */
-  virtual bool HasLocalSupport() const = 0;
+  /** Connect the moving transform. */
+  itkSetObjectMacro(MovingTransform, MovingTransformType);
 
-  /** Update the parameters of the metric's active transform.
-   * Typically this call is passed through directly to the transform.
-   * \c factor is a scalar multiplier for each value in update, and
-   * defaults to 1.0 .
-   * \c derivative must be the proper size, as retrieved
-   * from GetNumberOfParameters. */
-  virtual void UpdateTransformParameters( DerivativeType & derivative,
-                                          ParametersValueType factor = NumericTraits<ParametersValueType>::One) = 0;
+  /** Get a pointer to the moving transform.  */
+  itkGetConstObjectMacro(MovingTransform, MovingTransformType);
+
+  /** Connect the moving transform using a backwards-compatible name.
+   * This assigns the input transform to the moving transform. */
+  void SetTransform( MovingTransformType* transform );
+
+  /** Get the moving transform using a backwards-compatible name */
+  const MovingTransformType * GetTransform();
 
 protected:
   ObjectToObjectMetric();
@@ -150,7 +139,9 @@ protected:
 
   void PrintSelf(std::ostream & os, Indent indent) const;
 
-  GradientSourceType       m_GradientSource;
+  /** Transforms */
+  FixedTransformPointer   m_FixedTransform;
+  MovingTransformPointer  m_MovingTransform;
 
 private:
   ObjectToObjectMetric(const Self &); //purposely not implemented
@@ -158,5 +149,9 @@ private:
 
 };
 } // end namespace itk
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkObjectToObjectMetric.hxx"
+#endif
 
 #endif
