@@ -169,7 +169,7 @@ GradientDescentOptimizerv4
       this->m_ConvergenceValue = this->m_ConvergenceMonitoring->GetConvergenceValue();
       if (this->m_ConvergenceValue <= this->m_MinimumConvergenceValue)
         {
-        this->m_StopConditionDescription << "Convergence checker passed.";
+        this->m_StopConditionDescription << "Convergence checker passed at iteration " << m_CurrentIteration << ".";
         this->m_StopCondition = CONVERGENCE_CHECKER_PASSED;
         this->StopOptimization();
         break;

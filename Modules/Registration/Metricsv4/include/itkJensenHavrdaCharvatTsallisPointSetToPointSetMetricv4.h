@@ -84,11 +84,17 @@ public:
   /** Types transferred from the base class */
   typedef typename Superclass::MeasureType              MeasureType;
   typedef typename Superclass::DerivativeType           DerivativeType;
+  typedef typename Superclass::DerivativeValueType      DerivativeValueType;
   typedef typename Superclass::LocalDerivativeType      LocalDerivativeType;
   typedef typename Superclass::PointType                PointType;
   typedef typename Superclass::CoordRepType             CoordRepType;
   typedef typename Superclass::PointIdentifier          PointIdentifier;
   typedef typename Superclass::NeighborsIdentifierType  NeighborsIdentifierType;
+  typedef typename Superclass::NumberOfParametersType   NumberOfParametersType;
+
+  typedef typename Superclass::JacobianType                   JacobianType;
+  typedef typename Superclass::FixedTransformJacobianType     FixedTransformJacobianType;
+  typedef typename Superclass::MovingTransformJacobianType    MovingTransformJacobianType;
 
   typedef MeasureType                                   RealType;
 

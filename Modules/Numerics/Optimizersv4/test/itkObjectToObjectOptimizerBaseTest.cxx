@@ -22,12 +22,12 @@
 /* Create a simple metric to use for testing here. */
 template< class TFixedObject,  class TMovingObject >
 class ITK_EXPORT ObjectToObjectOptimizerBaseTestMetric:
-  public itk::ObjectToObjectMetric
+  public itk::ObjectToObjectMetricBase
 {
 public:
   /** Standard class typedefs. */
   typedef ObjectToObjectOptimizerBaseTestMetric     Self;
-  typedef itk::ObjectToObjectMetric                 Superclass;
+  typedef itk::ObjectToObjectMetricBase             Superclass;
   typedef itk::SmartPointer< Self >                 Pointer;
   typedef itk::SmartPointer< const Self >           ConstPointer;
 
@@ -36,7 +36,7 @@ public:
   typedef typename Superclass::ParametersType       ParametersType;
   typedef typename Superclass::ParametersValueType  ParametersValueType;
 
-  itkTypeMacro(ObjectToObjectOptimizerBaseTestMetric, ObjectToObjectMetric);
+  itkTypeMacro(ObjectToObjectOptimizerBaseTestMetric, ObjectToObjectMetricBase);
 
   itkNewMacro(Self);
 
@@ -46,6 +46,11 @@ public:
   MeasureType GetValue() const
     {
     return 1.0;
+    }
+
+  virtual void GetDerivative( DerivativeType & derivative ) const
+    {
+    derivative.Fill(0.0);
     }
 
   virtual void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const

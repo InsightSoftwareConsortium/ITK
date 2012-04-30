@@ -19,6 +19,8 @@ set(ITKMetricsv4Tests
   itkImageToImageMetricv4RegistrationTest.cxx
   itkDemonsImageToImageMetricv4Test.cxx
   itkDemonsImageToImageMetricv4RegistrationTest.cxx
+  itkEuclideanDistancePointSetMetricRegistrationTest.cxx
+  itkExpectationBasedPointSetMetricRegistrationTest.cxx
 )
 
 set(INPUTDATA ${ITK_DATA_ROOT}/Input)
@@ -199,3 +201,11 @@ itk_add_test(NAME itkDemonsImageToImageMetricv4RegistrationTest3
               0  #sampling
               1  #image gradient filter
               )
+
+itk_add_test(NAME itkEuclideanDistancePointSetMetricRegistrationTest
+      COMMAND ITKMetricsv4TestDriver
+              itkEuclideanDistancePointSetMetricRegistrationTest)
+
+itk_add_test(NAME itkExpectationBasedPointSetMetricRegistrationTest
+      COMMAND ITKMetricsv4TestDriver
+              itkExpectationBasedPointSetMetricRegistrationTest)

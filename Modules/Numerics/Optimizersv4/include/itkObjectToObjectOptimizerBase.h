@@ -19,7 +19,7 @@
 #define __itkObjectToObjectOptimizerBase_h
 
 #include "itkOptimizerParameters.h"
-#include "itkObjectToObjectMetric.h"
+#include "itkObjectToObjectMetricBase.h"
 #include "itkIntTypes.h"
 
 namespace itk
@@ -75,7 +75,7 @@ public:
   typedef OptimizerParameters< double >             ParametersType;
 
   /** Metric function type */
-  typedef ObjectToObjectMetric                      MetricType;
+  typedef ObjectToObjectMetricBase                  MetricType;
   typedef MetricType::Pointer                       MetricTypePointer;
 
   /** Number of parameters type */
@@ -85,8 +85,7 @@ public:
   typedef MetricType::MeasureType                   MeasureType;
 
   /** Internal computation value type */
-  typedef MetricType::InternalComputationValueType
-                                                InternalComputationValueType;
+  typedef MetricType::InternalComputationValueType  InternalComputationValueType;
 
   /** Accessors for Metric */
   itkGetObjectMacro( Metric, MetricType );

@@ -78,6 +78,28 @@ public:
   virtual void GetLocalNeighborhoodValueAndDerivative( const PointType &,
     MeasureType &, LocalDerivativeType & ) const;
 
+  /**
+   * Each point is associated with a Gaussian characterized by m_PointSetSigma
+   * which provides a sense of scale for determining the similarity between two
+   * point sets.  Default = 1.0.
+   */
+  itkSetMacro( PointSetSigma, CoordRepType );
+
+  /** Get the point set sigma function */
+  itkGetConstMacro( PointSetSigma, CoordRepType );
+
+  /**
+   * Set the neighborhood size used to evaluate the measurement at each
+   * point.  Default = 50.
+   */
+  itkSetMacro( EvaluationKNeighborhood, unsigned int );
+
+  /**
+   * Get the neighborhood size used to evaluate the measurement at each
+   * point.  Default = 50.
+   */
+  itkGetConstMacro( EvaluationKNeighborhood, unsigned int );
+
 protected:
   ExpectationBasedPointSetToPointSetMetricv4();
   virtual ~ExpectationBasedPointSetToPointSetMetricv4();
@@ -92,7 +114,7 @@ private:
   typedef typename PointType::VectorType                    VectorType;
   typedef typename NeighborsIdentifierType::const_iterator  NeighborsIterator;
 
-  CoordRepType                               m_Sigma;
+  CoordRepType                               m_PointSetSigma;
   unsigned int                               m_EvaluationKNeighborhood;
 
 };

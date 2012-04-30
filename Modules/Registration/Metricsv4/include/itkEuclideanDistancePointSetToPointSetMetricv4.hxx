@@ -46,47 +46,11 @@ EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
   PointType closestPoint;
   closestPoint.Fill( 0.0 );
 
-  if( this->GetGradientSource() == Superclass::GRADIENT_SOURCE_FIXED )
-    {
-    PointIdentifier pointId = this->m_MovingTransformedPointsLocator->
-      FindClosestPoint( point );
-    closestPoint = this->m_MovingTransformedPointSet->GetPoint( pointId );
-    }
-  else
-    {
-    PointIdentifier pointId = this->m_FixedTransformedPointsLocator->
-      FindClosestPoint( point );
-    closestPoint = this->m_FixedTransformedPointSet->GetPoint( pointId );
-    }
+  PointIdentifier pointId = this->m_FixedTransformedPointsLocator->FindClosestPoint( point );
+  closestPoint = this->m_FixedTransformedPointSet->GetPoint( pointId );
 
   const MeasureType distance = point.EuclideanDistanceTo( closestPoint );
   return distance;
-}
-
-template<class TFixedPointSet, class TMovingPointSet>
-typename EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
-::LocalDerivativeType
-EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
-::GetLocalNeighborhoodDerivative( const PointType & point ) const
-{
-  PointType closestPoint;
-  closestPoint.Fill( 0.0 );
-
-  if( this->GetGradientSource() == Superclass::GRADIENT_SOURCE_FIXED )
-    {
-    PointIdentifier pointId = this->m_MovingTransformedPointsLocator->
-      FindClosestPoint( point );
-    closestPoint = this->m_MovingTransformedPointSet->GetPoint( pointId );
-    }
-  else
-    {
-    PointIdentifier pointId = this->m_FixedTransformedPointsLocator->
-      FindClosestPoint( point );
-    closestPoint = this->m_FixedTransformedPointSet->GetPoint( pointId );
-    }
-
-  const LocalDerivativeType localDerivative = closestPoint - point;
-  return localDerivative;
 }
 
 template<class TFixedPointSet, class TMovingPointSet>
@@ -98,18 +62,8 @@ EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
   PointType closestPoint;
   closestPoint.Fill( 0.0 );
 
-  if( this->GetGradientSource() == Superclass::GRADIENT_SOURCE_FIXED )
-    {
-    PointIdentifier pointId = this->m_MovingTransformedPointsLocator->
-      FindClosestPoint( point );
-    closestPoint = this->m_MovingTransformedPointSet->GetPoint( pointId );
-    }
-  else
-    {
-    PointIdentifier pointId = this->m_FixedTransformedPointsLocator->
-      FindClosestPoint( point );
-    closestPoint = this->m_FixedTransformedPointSet->GetPoint( pointId );
-    }
+  PointIdentifier pointId = this->m_FixedTransformedPointsLocator->FindClosestPoint( point );
+  closestPoint = this->m_FixedTransformedPointSet->GetPoint( pointId );
 
   measure = point.EuclideanDistanceTo( closestPoint );
   localDerivative = closestPoint - point;
@@ -123,6 +77,7 @@ EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 {
   Superclass::PrintSelf( os, indent );
 }
+
 } // end namespace itk
 
 #endif

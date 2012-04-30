@@ -23,7 +23,6 @@
 #include "itkFixedArray.h"
 #include "itkPointsLocator.h"
 #include "itkPointSet.h"
-#include "itkTransform.h"
 
 namespace itk
 {
@@ -31,29 +30,62 @@ namespace itk
  * \brief Computes similarity between two point sets.
  *
  * This class is templated over the type of the two point-sets.  It
- * expects a Transform to be plugged in.  This particular
+ * expects a Transform to be plugged in for each of fixed and moving
+ * point sets. The transforms default to IdenityTransform types. This particular
  * class is the base class for a hierarchy of point-set to point-set metrics.
  *
  * This class computes a value that measures the similarity between the fixed
- * point-set and the transformed moving point-set.
+ * point-set and the moving point-set in a common virtual domain. The virtual
+ * domain transform is the inverse of each point-set's assigned transform.
  *
  * \ingroup ITKMetricsv4
  */
 
 template<class TFixedPointSet,  class TMovingPointSet>
 class ITK_EXPORT PointSetToPointSetMetricv4
-: public ObjectToObjectMetric
+: public ObjectToObjectMetric<TFixedPointSet::PointDimension, TMovingPointSet::PointDimension>
 {
 public:
 
   /** Standard class typedefs. */
-  typedef PointSetToPointSetMetricv4 Self;
-  typedef ObjectToObjectMetric       Superclass;
-  typedef SmartPointer<Self>         Pointer;
-  typedef SmartPointer<const Self>   ConstPointer;
+  typedef PointSetToPointSetMetricv4                                                            Self;
+  typedef ObjectToObjectMetric<TFixedPointSet::PointDimension, TMovingPointSet::PointDimension> Superclass;
+  typedef SmartPointer<Self>                                                                    Pointer;
+  typedef SmartPointer<const Self>                                                              ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( PointSetToPointSetMetricv4, ObjectToObjectMetric );
+
+  /**  Type of the measure. */
+  typedef typename Superclass::MeasureType            MeasureType;
+
+  /**  Type of the parameters. */
+  typedef typename Superclass::ParametersType         ParametersType;
+  typedef typename Superclass::ParametersValueType    ParametersValueType;
+  typedef typename Superclass::NumberOfParametersType NumberOfParametersType;
+
+  /**  Type of the derivative. */
+  typedef typename Superclass::DerivativeType         DerivativeType;
+
+  /** Transform types from Superclass*/
+  typedef typename Superclass::FixedTransformType            FixedTransformType;
+  typedef typename Superclass::FixedTransformPointer         FixedTransformPointer;
+  typedef typename Superclass::FixedInputPointType           FixedInputPointType;
+  typedef typename Superclass::FixedOutputPointType          FixedOutputPointType;
+  typedef typename Superclass::FixedTransformParametersType  FixedTransformParametersType;
+
+  typedef typename Superclass::MovingTransformType            MovingTransformType;
+  typedef typename Superclass::MovingTransformPointer         MovingTransformPointer;
+  typedef typename Superclass::MovingInputPointType           MovingInputPointType;
+  typedef typename Superclass::MovingOutputPointType          MovingOutputPointType;
+  typedef typename Superclass::MovingTransformParametersType  MovingTransformParametersType;
+
+  typedef typename Superclass::JacobianType                   JacobianType;
+  typedef typename Superclass::FixedTransformJacobianType     FixedTransformJacobianType;
+  typedef typename Superclass::MovingTransformJacobianType    MovingTransformJacobianType;
+
+  /** Dimension type */
+  typedef typename Superclass::DimensionType                  DimensionType;
 
   /**  Type of the fixed point set. */
   typedef TFixedPointSet                               FixedPointSetType;
@@ -61,8 +93,7 @@ public:
   typedef typename TFixedPointSet::PixelType           FixedPixelType;
   typedef typename TFixedPointSet::PointsContainer     FixedPointsContainer;
 
-  itkStaticConstMacro( FixedPointDimension, unsigned int,
-    TFixedPointSet::PointDimension );
+  itkStaticConstMacro( FixedPointDimension, DimensionType, Superclass::FixedDimension );
 
   /**  Type of the moving point set. */
   typedef TMovingPointSet                              MovingPointSetType;
@@ -70,8 +101,7 @@ public:
   typedef typename TMovingPointSet::PixelType          MovingPixelType;
   typedef typename TMovingPointSet::PointsContainer    MovingPointsContainer;
 
-  itkStaticConstMacro( MovingPointDimension, unsigned int,
-    TFixedPointSet::PointDimension );
+  itkStaticConstMacro( MovingPointDimension, DimensionType, Superclass::MovingDimension );
 
   /**
    * typedefs for the data types used in the point set metric calculations.
@@ -79,8 +109,7 @@ public:
    * point dimension, are the same for the "common space" in which the metric
    * calculation occurs.
    */
-  itkStaticConstMacro( PointDimension, unsigned int,
-    TFixedPointSet::PointDimension );
+  itkStaticConstMacro( PointDimension, DimensionType, Superclass::FixedDimension );
 
   typedef FixedPointType                               PointType;
   typedef typename PointType::CoordRepType             CoordRepType;
@@ -89,39 +118,14 @@ public:
   typedef typename PointsContainer::ElementIdentifier  PointIdentifier;
 
   /** Typedef for points locator class to speed up finding neighboring points */
-  typedef PointsLocator<PointIdentifier,
-    itkGetStaticConstMacro( PointDimension ),
-    CoordRepType, PointsContainer>                     PointsLocatorType;
-  typedef typename PointsLocatorType::
-    NeighborsIdentifierType                            NeighborsIdentifierType;
+  typedef PointsLocator<PointIdentifier, itkGetStaticConstMacro( PointDimension ), CoordRepType, PointsContainer> PointsLocatorType;
+  typedef typename PointsLocatorType::NeighborsIdentifierType    NeighborsIdentifierType;
 
-  /**  Type of the Transform Base class */
-  typedef Transform<CoordRepType,
-    itkGetStaticConstMacro( FixedPointDimension ),
-    itkGetStaticConstMacro( PointDimension )>      FixedTransformType;
-  typedef typename FixedTransformType::Pointer     FixedTransformPointer;
-  typedef PointSet<FixedPixelType,
-    itkGetStaticConstMacro( PointDimension )>      FixedTransformedPointSetType;
+  typedef PointSet<FixedPixelType, itkGetStaticConstMacro( PointDimension )>    FixedTransformedPointSetType;
+  typedef PointSet<MovingPixelType, itkGetStaticConstMacro( PointDimension )>   MovingTransformedPointSetType;
 
-  typedef Transform<CoordRepType,
-    itkGetStaticConstMacro( MovingPointDimension ),
-    itkGetStaticConstMacro( PointDimension )>      MovingTransformType;
-  typedef typename MovingTransformType::Pointer    MovingTransformPointer;
-  typedef PointSet<MovingPixelType,
-    itkGetStaticConstMacro( PointDimension )>      MovingTransformedPointSetType;
-
-  /**  Type of the measure. */
-  typedef typename Superclass::MeasureType MeasureType;
-
-  /**  Type of the measure. */
-  typedef typename Superclass::ParametersType ParametersType;
-
-  /**  Type of the derivative. */
-  typedef typename Superclass::DerivativeType DerivativeType;
-
-  typedef typename DerivativeType::ValueType           DerivativeValueType;
-  typedef FixedArray<DerivativeValueType,
-    itkGetStaticConstMacro( PointDimension )>          LocalDerivativeType;
+  typedef typename DerivativeType::ValueType                                          DerivativeValueType;
+  typedef FixedArray<DerivativeValueType, itkGetStaticConstMacro( PointDimension )>   LocalDerivativeType;
 
   /** Connect the fixed pointset.  */
   itkSetConstObjectMacro( FixedPointSet, FixedPointSetType );
@@ -132,12 +136,6 @@ public:
   /** Get the moving transformed point set.  */
   itkGetConstObjectMacro( FixedTransformedPointSet, FixedTransformedPointSetType );
 
-  /** Connect the fixed transform. */
-  itkSetObjectMacro( FixedTransform, FixedTransformType );
-
-  /** Get a pointer to the fixed transform.  */
-  itkGetConstObjectMacro( FixedTransform, FixedTransformType );
-
   /** Connect the moving point set.  */
   itkSetObjectMacro( MovingPointSet, MovingPointSetType );
 
@@ -147,16 +145,10 @@ public:
   /** Get the moving transformed point set.  */
   itkGetConstObjectMacro( MovingTransformedPointSet, MovingTransformedPointSetType );
 
-  /** Connect the moving transform. */
-  itkSetObjectMacro( MovingTransform, MovingTransformType );
-
-  /** Get a pointer to the moving transform.  */
-  itkGetConstObjectMacro( MovingTransform, MovingTransformType );
-
   /**
    * For now return the number of points used in the value/derivative calculations.
    */
-  unsigned int GetNumberOfComponents() const;
+  SizeValueType GetNumberOfComponents() const;
 
   /**
    * This method returns the value of the metric based on the current
@@ -217,79 +209,57 @@ public:
    */
   virtual void Initialize( void ) throw ( ExceptionObject );
 
-  /**
-   * Get the number of transform parameters of the currently active transform.
-   */
-  virtual unsigned int GetNumberOfParameters() const;
-
-  /**
-   * Get the number of local transform parameters of the currently active transform.
-   */
-  virtual unsigned int GetNumberOfLocalParameters() const;
-
-  /**
-   * Set the transform parameters of the currently active transform.
-   */
-  virtual void SetParameters( ParametersType & );
-
-  /**
-   * Get the transform parameters of the currently active transform.
-   */
-  virtual const ParametersType & GetParameters() const;
-
-  /** Return whether the metric's active transform has local support,
-   * e.g. whether it is dense/high-dimensional.
-   */
-  virtual bool HasLocalSupport() const;
-
-  /** Update the parameters of the metric's active transform.
-   * Typically this call is passed through directly to the transform.
-   * \c factor is a scalar multiplier for each value in update, and
-   * defaults to 1.0 .
-   * \c derivative must be the proper size, as retrieved
-   * from GetNumberOfParameters. */
-  virtual void UpdateTransformParameters( DerivativeType & derivative, ParametersValueType factor = 1.0 );
-
 protected:
   PointSetToPointSetMetricv4();
   virtual ~PointSetToPointSetMetricv4();
   void PrintSelf( std::ostream & os, Indent indent ) const;
 
-  typename FixedPointSetType::ConstPointer        m_FixedPointSet;
-  typename FixedTransformedPointSetType::Pointer  m_FixedTransformedPointSet;
+  typename FixedPointSetType::ConstPointer                m_FixedPointSet;
+  mutable typename FixedTransformedPointSetType::Pointer  m_FixedTransformedPointSet;
 
-  FixedTransformPointer                           m_FixedTransform;
-  typename PointsLocatorType::Pointer             m_FixedTransformedPointsLocator;
+  mutable typename PointsLocatorType::Pointer             m_FixedTransformedPointsLocator;
 
-  typename MovingPointSetType::ConstPointer       m_MovingPointSet;
-  typename MovingTransformedPointSetType::Pointer m_MovingTransformedPointSet;
+  typename MovingPointSetType::ConstPointer               m_MovingPointSet;
+  mutable typename MovingTransformedPointSetType::Pointer m_MovingTransformedPointSet;
 
-  MovingTransformPointer                          m_MovingTransform;
-  typename PointsLocatorType::Pointer             m_MovingTransformedPointsLocator;
+  mutable typename PointsLocatorType::Pointer             m_MovingTransformedPointsLocator;
+
+  /**
+   * Initialize to prepare for a particular iteration, generally
+   * an iteration of optimization. Distinct from Initialize()
+   * which is a one-time initialization. */
+  virtual void InitializeForIteration( void ) const;
+
+  /** Helper method allows for code reuse while skipping the metric value
+   * calculation when appropriate */
+  void CalculateValueAndDerivative( MeasureType & value, DerivativeType & derivative, bool calculateValue ) const;
 
   /**
    * Warp the fixed point set based on the fixed transform.  Note that the
    * warped moving point set is of type FixedPointSetType since the transform
    * takes the points from the fixed to the moving domain.
    */
-  void TransformFixedPointSet();
+  void TransformFixedPointSet() const;
 
   /**
    * Warp the moving point set based on the moving transform.  Note that the
    * warped moving point set is of type FixedPointSetType since the transform
    * takes the points from the moving to the fixed domain.
    */
-  void TransformMovingPointSet();
+  void TransformMovingPointSet() const;
 
   /**
    * Build point locators for the fixed and moving point sets to speed up
    * derivative and value calculations.
    */
-  void InitializePointsLocators();
+  void InitializePointsLocators() const;
 
 private:
   PointSetToPointSetMetricv4( const Self & ); //purposely not implemented
   void operator=( const Self & );           //purposely not implemented
+
+  mutable bool m_MovingTransformPointLocatorsNeedInitialization;
+  mutable bool m_FixedTransformPointLocatorsNeedInitialization;
 };
 } // end namespace itk
 

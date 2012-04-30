@@ -173,26 +173,25 @@ namespace itk
  * \ingroup ITKMetricsv4
  */
 template<class TFixedImage,class TMovingImage,class TVirtualImage = TFixedImage>
-class ITK_EXPORT ImageToImageMetricv4 : public ObjectToObjectMetric
+class ITK_EXPORT ImageToImageMetricv4 :
+  public ObjectToObjectMetric<TFixedImage::ImageDimension, TMovingImage::ImageDimension>
 {
 public:
 
   /** Standard class typedefs. */
-  typedef ImageToImageMetricv4       Self;
-  typedef ObjectToObjectMetric       Superclass;
-  typedef SmartPointer<Self>         Pointer;
-  typedef SmartPointer<const Self>   ConstPointer;
+  typedef ImageToImageMetricv4                                                            Self;
+  typedef ObjectToObjectMetric<TFixedImage::ImageDimension, TMovingImage::ImageDimension> Superclass;
+  typedef SmartPointer<Self>                                                              Pointer;
+  typedef SmartPointer<const Self>                                                        ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageToImageMetricv4, ObjectToObjectMetric);
 
   /** Type used internally for computations */
-  typedef typename Superclass::InternalComputationValueType
-                                                  InternalComputationValueType;
+  typedef typename Superclass::InternalComputationValueType InternalComputationValueType;
 
   /** Type used for representing parameter values  */
-  typedef typename Superclass::CoordinateRepresentationType
-                                                  CoordinateRepresentationType;
+  typedef typename Superclass::CoordinateRepresentationType CoordinateRepresentationType;
 
   /**  Type of the parameters. */
   typedef typename Superclass::ParametersType       ParametersType;
@@ -200,6 +199,27 @@ public:
 
   /** Graident source type */
   typedef typename Superclass::GradientSourceType GradientSourceType;
+
+  /** Dimension type */
+  typedef typename Superclass::DimensionType      DimensionType;
+  typedef typename Superclass::DimensionType      ImageDimensionType;
+
+  /** Transform types from Superclass*/
+  typedef typename Superclass::FixedTransformType            FixedTransformType;
+  typedef typename Superclass::FixedTransformPointer         FixedTransformPointer;
+  typedef typename Superclass::FixedInputPointType           FixedInputPointType;
+  typedef typename Superclass::FixedOutputPointType          FixedOutputPointType;
+  typedef typename Superclass::FixedTransformParametersType  FixedTransformParametersType;
+
+  typedef typename Superclass::MovingTransformType            MovingTransformType;
+  typedef typename Superclass::MovingTransformPointer         MovingTransformPointer;
+  typedef typename Superclass::MovingInputPointType           MovingInputPointType;
+  typedef typename Superclass::MovingOutputPointType          MovingOutputPointType;
+  typedef typename Superclass::MovingTransformParametersType  MovingTransformParametersType;
+
+  typedef typename Superclass::JacobianType                   JacobianType;
+  typedef typename Superclass::FixedTransformJacobianType     FixedTransformJacobianType;
+  typedef typename Superclass::MovingTransformJacobianType    MovingTransformJacobianType;
 
   /** Image-accessor typedefs */
   typedef TFixedImage                             FixedImageType;
@@ -229,66 +249,30 @@ public:
   typedef typename VirtualImageType::IndexType      VirtualIndexType;
 
   /* Image dimension accessors */
-  typedef unsigned int   ImageDimensionType;
-  itkStaticConstMacro(FixedImageDimension, ImageDimensionType,
-      ::itk::GetImageDimension<FixedImageType>::ImageDimension);
-  itkStaticConstMacro(MovingImageDimension, ImageDimensionType,
-      ::itk::GetImageDimension<MovingImageType>::ImageDimension);
-  itkStaticConstMacro(VirtualImageDimension, ImageDimensionType,
-      ::itk::GetImageDimension<VirtualImageType>::ImageDimension);
-
-  /**  Type of the Transform Base classes */
-  typedef Transform<CoordinateRepresentationType,
-    itkGetStaticConstMacro( MovingImageDimension ),
-    itkGetStaticConstMacro( VirtualImageDimension )> MovingTransformType;
-
-  typedef Transform<CoordinateRepresentationType,
-    itkGetStaticConstMacro( FixedImageDimension ),
-    itkGetStaticConstMacro( VirtualImageDimension )> FixedTransformType;
-
-  typedef typename FixedTransformType::Pointer         FixedTransformPointer;
-  typedef typename FixedTransformType::InputPointType  FixedInputPointType;
-  typedef typename FixedTransformType::OutputPointType FixedOutputPointType;
-  typedef typename FixedTransformType::ParametersType
-                                                FixedTransformParametersType;
-
-  typedef typename MovingTransformType::Pointer         MovingTransformPointer;
-  typedef typename MovingTransformType::InputPointType  MovingInputPointType;
-  typedef typename MovingTransformType::OutputPointType MovingOutputPointType;
-  typedef typename MovingTransformType::ParametersType
-                                                MovingTransformParametersType;
-
-  /** Jacobian type. This is the same for all transforms */
-  typedef typename FixedTransformType::JacobianType     JacobianType;
-  typedef typename FixedTransformType::JacobianType     FixedTransformJacobianType;
-  typedef typename MovingTransformType::JacobianType    MovingTransformJacobianType;
+  itkStaticConstMacro(FixedImageDimension, DimensionType, Superclass::FixedDimension);
+  itkStaticConstMacro(MovingImageDimension, DimensionType, Superclass::MovingDimension);
+  itkStaticConstMacro(VirtualImageDimension, DimensionType, Superclass::VirtualDimension);
 
   /**  Type for the mask of the fixed image. Only pixels that are "inside"
        this mask will be considered for the computation of the metric */
-  typedef SpatialObject< itkGetStaticConstMacro(FixedImageDimension) >
-                                                       FixedImageMaskType;
-  typedef typename FixedImageMaskType::Pointer         FixedImageMaskPointer;
-  typedef typename FixedImageMaskType::ConstPointer
-                                                  FixedImageMaskConstPointer;
+  typedef SpatialObject< itkGetStaticConstMacro(FixedImageDimension) >  FixedImageMaskType;
+  typedef typename FixedImageMaskType::Pointer                          FixedImageMaskPointer;
+  typedef typename FixedImageMaskType::ConstPointer                     FixedImageMaskConstPointer;
 
   /**  Type for the mask of the moving image. Only pixels that are "inside"
        this mask will be considered for the computation of the metric */
-  typedef SpatialObject< itkGetStaticConstMacro(MovingImageDimension) >
-                                                        MovingImageMaskType;
-  typedef typename MovingImageMaskType::Pointer         MovingImageMaskPointer;
-  typedef typename MovingImageMaskType::ConstPointer
-                                                   MovingImageMaskConstPointer;
+  typedef SpatialObject< itkGetStaticConstMacro(MovingImageDimension) > MovingImageMaskType;
+  typedef typename MovingImageMaskType::Pointer                         MovingImageMaskPointer;
+  typedef typename MovingImageMaskType::ConstPointer                    MovingImageMaskConstPointer;
 
   /** Type of the point set used for sparse sampling. */
-  typedef PointSet<typename FixedImageType::PixelType,
-                   itkGetStaticConstMacro(FixedImageDimension)>
-                                                     FixedSampledPointSetType;
-  typedef typename FixedSampledPointSetType::Pointer FixedSampledPointSetPointer;
-  typedef typename FixedSampledPointSetType::ConstPointer FixedSampledPointSetConstPointer;
+  typedef PointSet<typename FixedImageType::PixelType, itkGetStaticConstMacro(FixedImageDimension)>
+                                                                        FixedSampledPointSetType;
+  typedef typename FixedSampledPointSetType::Pointer                    FixedSampledPointSetPointer;
+  typedef typename FixedSampledPointSetType::ConstPointer               FixedSampledPointSetConstPointer;
 
-  typedef PointSet<typename VirtualImageType::PixelType,
-                   itkGetStaticConstMacro(VirtualImageDimension)>
-                                                     VirtualSampledPointSetType;
+  typedef PointSet<typename VirtualImageType::PixelType, itkGetStaticConstMacro(VirtualImageDimension)>
+                                                                                  VirtualSampledPointSetType;
 
   typedef typename VirtualSampledPointSetType::Pointer VirtualSampledPointSetPointer;
 
@@ -432,25 +416,6 @@ public:
   const VirtualDirectionType  GetVirtualDomainDirection( void ) const;
   const VirtualRegionType     GetVirtualDomainRegion( void ) const;
 
-  /** Connect the fixed transform. */
-  itkSetObjectMacro(FixedTransform, FixedTransformType);
-
-  /** Get a pointer to the fixed transform.  */
-  itkGetConstObjectMacro(FixedTransform, FixedTransformType);
-
-  /** Connect the moving transform. */
-  itkSetObjectMacro(MovingTransform, MovingTransformType);
-
-  /** Get a pointer to the moving transform.  */
-  itkGetConstObjectMacro(MovingTransform, MovingTransformType);
-
-  /** Connect the moving transform using a backwards-compatible name.
-   * This assigns the input transform to the moving transform. */
-  void SetTransform( MovingTransformType* transform );
-
-  /** Get the moving transform using a backwards-compatible name */
-  const MovingTransformType * GetTransform();
-
   /** Connect the fixed interpolator. */
   itkSetObjectMacro(FixedInterpolator, FixedInterpolatorType);
   /** Get a pointer to the fixed interpolator.  */
@@ -511,13 +476,13 @@ public:
 
   /** Get number of threads to used in the the \c GetValueAndDerivative
    * calculation.  Only valid after \c GetValueAndDerivative has been called. */
-  ThreadIdType GetNumberOfThreadsUsed() const;
+  virtual ThreadIdType GetNumberOfThreadsUsed() const;
 
   /** Set number of threads to use. This the maximum number of threads to use
    * when multithreaded.  The actual number of threads used (may be less than
    * this value) can be obtained with \c GetNumberOfThreadsUsed. */
-  void SetMaximumNumberOfThreads( const ThreadIdType threads );
-  ThreadIdType GetMaximumNumberOfThreads() const;
+  virtual void SetMaximumNumberOfThreads( const ThreadIdType threads );
+  virtual ThreadIdType GetMaximumNumberOfThreads() const;
 
   /** Get Fixed Gradient Image. */
   itkGetConstObjectMacro(FixedImageGradientImage, FixedImageGradientImageType);
@@ -557,36 +522,6 @@ public:
   itkSetMacro( FloatingPointCorrectionResolution, DerivativeValueType );
   itkGetConstMacro( FloatingPointCorrectionResolution, DerivativeValueType );
 
-  /** Return the number of parameters.
-   * \note Currently we're always optimizing the moving image transform,
-   * so return its number of parameters. The class will eventually allow
-   * either the fixed transform to be optimized, or both. This and related
-   * methods make it so the user or calling-class doesn't need to know which
-   * of the transforms are being optimized.
-   */
-  virtual NumberOfParametersType GetNumberOfParameters() const;
-
-  /** Set the active (moving) transform's parameters. */
-  virtual void SetParameters( ParametersType & params );
-
-  /** Get a const reference to the active (moving) transform's parameters. */
-  virtual const ParametersType & GetParameters() const;
-
-  /** Update the active (moving) transform's parameters.
-   * This call is passed through directly to the transform.
-   * \c factor is a scalar multiplier for each value in update, and
-   * defaults to 1.0 .
-   * \c derivative must be the proper size, as retrieved
-   * from GetNumberOfParameters. */
-  virtual void UpdateTransformParameters( DerivativeType & derivative,
-                                          ParametersValueType factor = NumericTraits< ParametersValueType >::One );
-
-  /** Get the number of local parameters from the moving transform. */
-  virtual NumberOfParametersType GetNumberOfLocalParameters() const;
-
-  /** Get if the moving transform has local support. */
-  virtual bool HasLocalSupport() const;
-
   /* Initialize the metric before calling GetValue or GetDerivative.
    * Derived classes must call this Superclass version if they override
    * this to perform their own initialization.
@@ -605,29 +540,21 @@ public:
    * local parameters. */
   OffsetValueType ComputeParameterOffsetFromVirtualDomainIndex( const VirtualIndexType & index, const NumberOfParametersType numberOfLocalParameters ) const;
 
-  /** Calculate and return the value for the metric based on the current
-   * transformation(s). */
   virtual MeasureType GetValue() const;
+
+  virtual void GetDerivative( DerivativeType & ) const;
 
   /** Calculate and return both the value for the metric and its derivative.
    * This calls the SparseGetValueAndDerivativeThreader if \c UsedFixedSampledPointSet
    * is true, and DenseGetValueAndDerivativeThreader otherwise.  The threaders
    * in turn call \c ProcessPoint on each point in the
    * domain to be examined. */
-  virtual void GetValueAndDerivative( MeasureType & value,
-                                      DerivativeType & derivative ) const;
+  virtual void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const;
 
   /** Get the number of sampled fixed sampled points that are
    * deemed invalid during conversion to virtual domain in Initialize().
    * For informational purposes. */
   itkGetConstReferenceMacro(NumberOfSkippedFixedSampledPoints, SizeValueType);
-
-  /** Get the current metric value stored in m_Value. This is only
-   * meaningful after a call to GetValue() or GetValueAndDerivative().
-   * Note that this would normally be called GetValue, but that name is
-   * used for historical reasons by GetValue() to compute the current
-   * metric value and store it in m_Value. */
-  MeasureType GetCurrentValue();
 
 protected:
   /* Interpolators for image gradient filters. */
@@ -735,9 +662,7 @@ protected:
   virtual void InitializeDefaultMovingImageGradientFilter(void);
 
   FixedImageConstPointer  m_FixedImage;
-  FixedTransformPointer   m_FixedTransform;
   MovingImageConstPointer m_MovingImage;
-  MovingTransformPointer  m_MovingTransform;
   VirtualImagePointer     m_VirtualDomainImage;
 
   /** Pointers to interpolators */
@@ -794,9 +719,6 @@ protected:
 
   /** Flag to use FixedSampledPointSet, i.e. Sparse sampling. */
   bool                                    m_UseFixedSampledPointSet;
-
-  /** Metric value, stored after evaluating */
-  mutable MeasureType                     m_Value;
 
   ImageToImageMetricv4();
   virtual ~ImageToImageMetricv4();

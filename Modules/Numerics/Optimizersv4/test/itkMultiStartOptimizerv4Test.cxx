@@ -35,16 +35,16 @@
  *
  */
 class MultiStartOptimizerv4TestMetric
-  : public itk::ObjectToObjectMetric
+  : public itk::ObjectToObjectMetricBase
 {
 public:
 
   typedef MultiStartOptimizerv4TestMetric       Self;
-  typedef itk::ObjectToObjectMetric             Superclass;
+  typedef itk::ObjectToObjectMetricBase         Superclass;
   typedef itk::SmartPointer<Self>               Pointer;
   typedef itk::SmartPointer<const Self>         ConstPointer;
   itkNewMacro( Self );
-  itkTypeMacro( MultiStartOptimizerv4TestMetric, ObjectToObjectMetric );
+  itkTypeMacro( MultiStartOptimizerv4TestMetric, ObjectToObjectMetricBase );
 
   enum { SpaceDimension=2 };
 
@@ -60,6 +60,11 @@ public:
   }
 
   void Initialize(void) throw ( itk::ExceptionObject ) {}
+
+  virtual void GetDerivative( DerivativeType & derivative ) const
+    {
+    derivative.Fill( itk::NumericTraits< ParametersValueType >::Zero );
+    }
 
   void GetValueAndDerivative( MeasureType & value,
                               DerivativeType & derivative ) const

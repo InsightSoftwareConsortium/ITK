@@ -17,55 +17,95 @@
  *=========================================================================*/
 
 #include "itkEuclideanDistancePointSetToPointSetMetricv4.h"
+#include "itkTranslationTransform.h"
 
 #include <fstream>
 
-int itkEuclideanDistancePointSetMetricTest( int, char* [] )
+template<unsigned int Dimension>
+int itkEuclideanDistancePointSetMetricTestRun()
 {
-  const unsigned int Dimension = 2;
-
   typedef itk::PointSet<unsigned char, Dimension> PointSetType;
 
-  typedef PointSetType::PointType PointType;
+  typedef typename PointSetType::PointType PointType;
 
-  PointSetType::Pointer fixedPoints = PointSetType::New();
+  typename PointSetType::Pointer fixedPoints = PointSetType::New();
   fixedPoints->Initialize();
 
-  PointSetType::Pointer movingPoints = PointSetType::New();
+  typename PointSetType::Pointer movingPoints = PointSetType::New();
   movingPoints->Initialize();
 
-  // Produce two simple point sets of 1) a circle and 2) an ellipse;
-
+  // Produce two simple point sets of 1) a circle and 2) the same circle with an offset;
+  PointType offset;
+  for( unsigned int d=0; d < Dimension; d++ )
+    {
+    offset[d] = 1.1 + d;
+    }
   unsigned long count = 0;
-  for( float theta = 0; theta < 2.0 * vnl_math::pi; theta += 0.01 )
+  for( float theta = 0; theta < 2.0 * vnl_math::pi; theta += 0.1 )
     {
     PointType fixedPoint;
-    fixedPoint[0] = 2.0 * vcl_cos( theta );
-    fixedPoint[1] = 1.0 * vcl_sin( theta );
+    float radius = 100.0;
+    fixedPoint[0] = radius * vcl_cos( theta );
+    fixedPoint[1] = radius * vcl_sin( theta );
+    if( Dimension > 2 )
+      {
+      fixedPoint[2] = radius * vcl_sin( theta );
+      }
     fixedPoints->SetPoint( count, fixedPoint );
 
     PointType movingPoint;
-    movingPoint[0] = 1.0 * vcl_cos( theta + 0.5 * vnl_math::pi );
-    movingPoint[1] = 1.0 * vcl_sin( theta + 0.5 * vnl_math::pi );
+    movingPoint[0] = fixedPoint[0] + offset[0];
+    movingPoint[1] = fixedPoint[1] + offset[1];
+    if( Dimension > 2 )
+      {
+      movingPoint[2] = fixedPoint[2] + offset[2];
+      }
     movingPoints->SetPoint( count, movingPoint );
 
     count++;
     }
 
+  // Simple translation transform for moving point set
+  typedef itk::TranslationTransform<double, Dimension> TranslationTransformType;
+  typename TranslationTransformType::Pointer translationTransform = TranslationTransformType::New();
+  translationTransform->SetIdentity();
+
   // Instantiate the metric
-  typedef itk::EuclideanDistancePointSetToPointSetMetricv4<PointSetType>
-    PointSetMetricType;
-  PointSetMetricType::Pointer metric = PointSetMetricType::New();
+  typedef itk::EuclideanDistancePointSetToPointSetMetricv4<PointSetType> PointSetMetricType;
+  typename PointSetMetricType::Pointer metric = PointSetMetricType::New();
   metric->SetFixedPointSet( fixedPoints );
   metric->SetMovingPointSet( movingPoints );
+//metric->SetFixedTransform(
+  metric->SetMovingTransform( translationTransform );
   metric->Initialize();
 
-  // Test derivative source using moving point set
-  metric->SetGradientSource( PointSetMetricType::GRADIENT_SOURCE_MOVING );
-
-  metric->GetValue();
-  PointSetMetricType::DerivativeType derivative;
+  typename PointSetMetricType::MeasureType value = metric->GetValue(), value2;
+  typename PointSetMetricType::DerivativeType derivative, derivative2;
   metric->GetDerivative( derivative );
+  metric->GetValueAndDerivative( value2, derivative2 );
+
+  std::cout << "value: " << value << std::endl;
+  std::cout << "derivative: " << derivative << std::endl;
+  for( unsigned int d=0; d < metric->GetNumberOfParameters(); d++ )
+    {
+    if( vcl_fabs( derivative[d] - offset[d] ) / offset[d] > 0.01 )
+      {
+      std::cerr << "derivative does not match expected offset of " << offset << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+
+  // Check for the same results from different methods
+  if( value != value2 )
+    {
+    std::cerr << "value does not match between calls to different methods: "
+              << "value: " << value << " value2: " << value2 << std::endl;
+    }
+  if( derivative != derivative2 )
+    {
+    std::cerr << "derivative does not match between calls to different methods: "
+              << "derivative: " << derivative << " derivative2: " << derivative2 << std::endl;
+    }
 
   std::ofstream moving_str1( "sourceMoving.txt" );
   std::ofstream moving_str2( "targetMoving.txt" );
@@ -75,19 +115,19 @@ int itkEuclideanDistancePointSetMetricTest( int, char* [] )
   moving_str1 << "0 0 0 0" << std::endl;
   moving_str2 << "0 0 0 0" << std::endl;
 
-  PointSetType::PointsContainer::ConstIterator ItM =
-    movingPoints->GetPoints()->Begin();
+  typename PointType::VectorType vector;
+  for( unsigned int d = 0; d < metric->GetNumberOfParameters(); d++ )
+    {
+    vector[d] = derivative[count++];
+    }
+
+  typename PointSetType::PointsContainer::ConstIterator ItM = movingPoints->GetPoints()->Begin();
   while( ItM != movingPoints->GetPoints()->End() )
     {
     PointType sourcePoint = ItM.Value();
-    PointType::VectorType vector;
-    for( unsigned int d = 0; d < Dimension; d++ )
-      {
-      vector[d] = derivative[count++];
-      }
     PointType targetPoint = sourcePoint + vector;
 
-    for( unsigned int d = 0; d < Dimension; d++ )
+    for( unsigned int d = 0; d < metric->GetNumberOfParameters(); d++ )
       {
       moving_str1 << sourcePoint[d] << " ";
       moving_str2 << targetPoint[d] << " ";
@@ -106,50 +146,24 @@ int itkEuclideanDistancePointSetMetricTest( int, char* [] )
   moving_str1 << "0 0 0 0" << std::endl;
   moving_str2 << "0 0 0 0" << std::endl;
 
-  // Test derivative source using fixed point set
-  metric->SetGradientSource( PointSetMetricType::GRADIENT_SOURCE_FIXED );
+  return EXIT_SUCCESS;
+}
 
-  metric->GetValue();
-  metric->GetDerivative( derivative );
+int itkEuclideanDistancePointSetMetricTest( int, char* [] )
+{
+  int result = EXIT_SUCCESS;
 
-  std::ofstream fixed_str1( "sourceFixed.txt" );
-  std::ofstream fixed_str2( "targetFixed.txt" );
-
-  count = 0;
-
-  fixed_str1 << "0 0 0 0" << std::endl;
-  fixed_str2 << "0 0 0 0" << std::endl;
-
-  PointSetType::PointsContainer::ConstIterator ItF =
-    fixedPoints->GetPoints()->Begin();
-  while( ItF != fixedPoints->GetPoints()->End() )
+  if( itkEuclideanDistancePointSetMetricTestRun<2>() == EXIT_FAILURE )
     {
-    PointType sourcePoint = ItF.Value();
-    PointType::VectorType vector;
-    for( unsigned int d = 0; d < Dimension; d++ )
-      {
-      vector[d] = derivative[count++];
-      }
-    PointType targetPoint = sourcePoint + vector;
-
-    for( unsigned int d = 0; d < Dimension; d++ )
-      {
-      fixed_str1 << sourcePoint[d] << " ";
-      fixed_str2 << targetPoint[d] << " ";
-      }
-    if( Dimension < 3 )
-      {
-      fixed_str1 << "0 ";
-      fixed_str2 << "0 ";
-      }
-    fixed_str1 << ItF.Index() << std::endl;
-    fixed_str2 << ItF.Index() << std::endl;
-
-    ++ItF;
+    std::cerr << "Failed for Dimension 2." << std::endl;
+    result = EXIT_FAILURE;
     }
 
-  fixed_str1 << "0 0 0 0" << std::endl;
-  fixed_str2 << "0 0 0 0" << std::endl;
+  if( itkEuclideanDistancePointSetMetricTestRun<3>() == EXIT_FAILURE )
+    {
+    std::cerr << "Failed for Dimension 3." << std::endl;
+    result = EXIT_FAILURE;
+    }
 
-  return EXIT_SUCCESS;
+  return result;
 }
