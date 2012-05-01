@@ -4,6 +4,7 @@ that have been blurred with a shift-invariant kernel.")
 itk_module(ITKDeconvolution
   DEPENDS
     ITKConvolution
+    ITKImageSource
   TEST_DEPENDS
     ITKTestKernel
   DESCRIPTION

@@ -7,6 +7,7 @@ set(ITKDeconvolutionTests
   itkRichardsonLucyDeconvolutionImageFilterTest.cxx
   itkTikhonovDeconvolutionImageFilterTest.cxx
   itkWienerDeconvolutionImageFilterTest.cxx
+  itkParametricBlindLeastSquaresDeconvolutionImageFilterTest.cxx
 )
 
 CreateTestDriver(ITKDeconvolution "${ITKDeconvolution-Test_LIBRARIES}" "${ITKDeconvolutionTests}")
@@ -128,4 +129,14 @@ itk_add_test(NAME itkWienerDeconvolutionImageFilterIrregularKernelTest
       DATA{Input/itkDeconvolutionImageFilterTestKernelIrregular.tif}
       ${ITK_TEST_OUTPUT_DIR}/itkWienerDeconvolutionImageFilterIrregularKernelTest.nrrd
       1
+)
+itk_add_test(NAME itkParametricBlindLeastSquaresDeconvolutionImageFilterTest
+      COMMAND ITKDeconvolutionTestDriver
+    --compare DATA{Baseline/itkParametricBlindLeastSquaresDeconvolutionImageFilterTest.nrrd}
+              ${ITK_TEST_OUTPUT_DIR}/itkParametricBlindLeastSquaresDeconvolutionImageFilterTest.nrrd
+    itkParametricBlindLeastSquaresDeconvolutionImageFilterTest
+      DATA{Input/itkDeconvolutionImageFilterTestInput.png}
+      ${ITK_TEST_OUTPUT_DIR}/itkParametricBlindLeastSquaresDeconvolutionImageFilterTest.nrrd
+      1 1 0.5
+      ${ITK_TEST_OUTPUT_DIR}/itkParametricBlindLeastSquaresDeconvolutionImageFilterTestInput.nrrd
 )
