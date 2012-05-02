@@ -537,10 +537,27 @@ int itkBSplineDeformableTransformTest2()
     field[j]->FillBuffer( v[j] );
     }
 
-  // This should generate a warning about parameters not being set
+  // This should generate an exception because parameters have not yet
+  // been set.
   inputPoint.Fill( 0.0 );
-  outputPoint = transform->TransformPoint( inputPoint );
-
+  {
+  bool exceptionCaught(false);
+  try
+    {
+    outputPoint = transform->TransformPoint( inputPoint );
+    }
+  catch( itk::ExceptionObject& err )
+    {
+    std::cout << "Expected exception:" << std::endl;
+    std::cout << err << std::endl;
+    exceptionCaught = true;
+    }
+  if(!exceptionCaught)
+    {
+    std::cerr << "Expected exception not caught" << std::endl;
+    return EXIT_FAILURE;
+    }
+  }
   // Set the coefficient images
   transform->SetCoefficientImages( field );
 
