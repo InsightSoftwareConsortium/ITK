@@ -290,12 +290,6 @@ public:                                                                  \
 
 ITK_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(float);
 ITK_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(double);
-ITK_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(signed int);
-ITK_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(unsigned int);
-ITK_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(signed char);
-ITK_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(unsigned char);
-ITK_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(signed long);
-ITK_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(unsigned long);
 
 //
 //  End of Traits for the classes deriving from std::complex.
