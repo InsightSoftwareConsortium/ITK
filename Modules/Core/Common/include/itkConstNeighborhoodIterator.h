@@ -384,6 +384,19 @@ public:
    * which of the iterator's faces are out of bounds. */
   bool InBounds() const;
 
+  /** Returns true if the neighborhood index is within region boundaries,
+   * false otherwise.
+   * If false, then internalIndex and offset are calculated. Otherwise their
+   * values are left unchanged.
+   * Also updates an internal boolean array indicating
+   * which of the iterator's faces are out of bounds.
+   * \param n - linear neighborhood index.
+   * \param internalIndex - calculated for index \c n only when the neighborhood is not
+   * completely within region boundaries.
+   * \param offset - per-dimension offsets for index n to nearest boundary index,
+   * calculate only when the neighborhood is not completely within region boundaries. */
+  bool IndexInBounds(NeighborIndexType n, OffsetType & internalIndex, OffsetType & offset ) const;
+
   /** Allows a user to override the internal boundary condition. Care should
    * be taken to ensure that the overriding boundary condition is a persistent
    * object during the time it is referenced.  The overriding condition

@@ -255,10 +255,6 @@ int itkANTSNeighborhoodCorrelationImageToImageMetricv4Test( int, char ** const )
 
     metric->SetFixedImage(fixedImage);
     metric->SetMovingImage(movingImage);
-    metric->SetVirtualDomainImage( const_cast<ImageType *>(fixedImage.GetPointer()) );
-//FIXME: not ready yet for composition transform
-//  metric->SetFixedTransform(transformFComp);
-//  metric->SetMovingTransform(transformMComp);
 
     metric->SetFixedTransform(transformFId);
     metric->SetMovingTransform(transformMdisplacement);
