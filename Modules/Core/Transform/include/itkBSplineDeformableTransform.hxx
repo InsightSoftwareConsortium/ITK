@@ -505,75 +505,70 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
     point = point;
     }
 
-  if( this->m_CoefficientImages[0]->GetBufferPointer() )
+  // if no coefficients are set, this isn't a proper BSpline Transform
+  if( this->m_CoefficientImages[0]->GetBufferPointer() == 0)
     {
-    ContinuousIndexType index;
-    this->m_CoefficientImages[0]->TransformPhysicalPointToContinuousIndex( inputPoint, index );
+    itkExceptionMacro( "B-spline coefficients have not been set" );
+    }
 
-    // NOTE: if the support region does not lie totally within the grid
-    // we assume zero displacement and return the input point
-    inside = this->InsideValidRegion( index );
-    if( !inside )
-      {
-      outputPoint = point;
-      return;
-      }
+  ContinuousIndexType index;
+  this->m_CoefficientImages[0]->TransformPhysicalPointToContinuousIndex( inputPoint, index );
 
-    IndexType supportIndex;
-    // Compute interpolation weights
-    this->m_WeightsFunction->Evaluate( index, weights, supportIndex );
+  // NOTE: if the support region does not lie totally within the grid
+  // we assume zero displacement and return the input point
+  inside = this->InsideValidRegion( index );
+  if( !inside )
+    {
+    outputPoint = point;
+    return;
+    }
 
-    // For each dimension, correlate coefficient with weights
-    RegionType supportRegion;
-    SizeType supportSize = this->m_WeightsFunction->GetSupportSize();
-    supportRegion.SetSize( supportSize );
-    supportRegion.SetIndex(supportIndex);
+  IndexType supportIndex;
+  // Compute interpolation weights
+  this->m_WeightsFunction->Evaluate( index, weights, supportIndex );
 
-    outputPoint.Fill( NumericTraits<ScalarType>::Zero );
+  // For each dimension, correlate coefficient with weights
+  RegionType supportRegion;
+  SizeType supportSize = this->m_WeightsFunction->GetSupportSize();
+  supportRegion.SetSize( supportSize );
+  supportRegion.SetIndex(supportIndex);
 
-    typedef ImageRegionConstIterator<ImageType> IteratorType;
-    IteratorType               coeffIterator[SpaceDimension];
-    unsigned long              counter = 0;
-    const ParametersValueType *basePointer =
-      this->m_CoefficientImages[0]->GetBufferPointer();
+  outputPoint.Fill( NumericTraits<ScalarType>::Zero );
+
+  typedef ImageRegionConstIterator<ImageType> IteratorType;
+  IteratorType               coeffIterator[SpaceDimension];
+  unsigned long              counter = 0;
+  const ParametersValueType *basePointer =
+    this->m_CoefficientImages[0]->GetBufferPointer();
+  for( unsigned int j = 0; j < SpaceDimension; j++ )
+    {
+    coeffIterator[j] =
+      IteratorType( this->m_CoefficientImages[j], supportRegion );
+    }
+
+  while( !coeffIterator[0].IsAtEnd() )
+    {
+    // multiply weigth with coefficient
     for( unsigned int j = 0; j < SpaceDimension; j++ )
       {
-      coeffIterator[j] =
-        IteratorType( this->m_CoefficientImages[j], supportRegion );
+      outputPoint[j] += static_cast<ScalarType>(
+        weights[counter] * coeffIterator[j].Get() );
       }
 
-    while( !coeffIterator[0].IsAtEnd() )
-      {
-      // multiply weigth with coefficient
-      for( unsigned int j = 0; j < SpaceDimension; j++ )
-        {
-        outputPoint[j] += static_cast<ScalarType>(
-            weights[counter] * coeffIterator[j].Get() );
-        }
+    // populate the indices array
+    indices[counter] = &( coeffIterator[0].Value() ) - basePointer;
 
-      // populate the indices array
-      indices[counter] = &( coeffIterator[0].Value() ) - basePointer;
-
-      // go to next coefficient in the support region
-      ++counter;
-      for( unsigned int j = 0; j < SpaceDimension; j++ )
-        {
-        ++( coeffIterator[j] );
-        }
-      }
-    // return results
+    // go to next coefficient in the support region
+    ++counter;
     for( unsigned int j = 0; j < SpaceDimension; j++ )
       {
-      outputPoint[j] += point[j];
+      ++( coeffIterator[j] );
       }
     }
-  else
+  // return results
+  for( unsigned int j = 0; j < SpaceDimension; j++ )
     {
-    itkWarningMacro( "B-spline coefficients have not been set" );
-    for( unsigned int j = 0; j < SpaceDimension; j++ )
-      {
-      outputPoint[j] = point[j];
-      }
+    outputPoint[j] += point[j];
     }
 }
 
