@@ -149,8 +149,6 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
 
   IterationReporter reporter( this, 0, 1 );
 
-  this->m_CurrentIteration = 0;
-  this->m_IsConverged = false;
   while( this->m_CurrentIteration++ < this->m_NumberOfIterationsPerLevel[this->m_CurrentLevel] && !this->m_IsConverged )
     {
     updateDerivative.Fill( 0 );
@@ -502,7 +500,6 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
 {
   for( this->m_CurrentLevel = 0; this->m_CurrentLevel < this->m_NumberOfLevels; this->m_CurrentLevel++ )
     {
-    this->m_CurrentIteration = 0;
     IterationReporter reporter( this, 0, 1 );
 
     this->InitializeRegistrationAtEachLevel( this->m_CurrentLevel );
