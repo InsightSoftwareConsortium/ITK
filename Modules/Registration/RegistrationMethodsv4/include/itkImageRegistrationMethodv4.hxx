@@ -43,7 +43,6 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
   this->SetNumberOfRequiredOutputs( 2 );
 
   this->m_CurrentLevel = 0;
-
   this->m_CurrentIteration = 0;
   this->m_CurrentMetricValue = 0.0;
   this->m_CurrentConvergenceValue = 0.0;
@@ -146,6 +145,13 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
     itkExceptionMacro( "The image metric is not present." );
     }
 
+  this->m_CurrentIteration = 0;
+  this->m_CurrentMetricValue = 0.0;
+  this->m_CurrentConvergenceValue = 0.0;
+  this->m_IsConverged = false;
+
+  this->InvokeEvent( InitializeEvent() );
+
   // For each level, we adapt the current transform.  For many transforms, e.g.
   // affine, the base transform adaptor does not do anything.  However, in the
   // case of other transforms, e.g. the b-spline and displacement field transforms
@@ -247,14 +253,10 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
 {
   for( this->m_CurrentLevel = 0; this->m_CurrentLevel < this->m_NumberOfLevels; this->m_CurrentLevel++ )
     {
-    IterationReporter reporter( this, 0, 1 );
-
     this->InitializeRegistrationAtEachLevel( this->m_CurrentLevel );
 
     this->m_Metric->Initialize();
     this->m_Optimizer->StartOptimization();
-
-    reporter.CompletedStep();
     }
 }
 
