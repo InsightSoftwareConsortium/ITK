@@ -356,10 +356,18 @@ int itkOpenCVImageBridgeTest ( int argc, char *argv[] )
   if (itkOpenCVImageBridgeTestTemplatedScalar< _PixelType, 2 >(argv) == EXIT_FAILURE)\
     {\
     return EXIT_FAILURE;\
+    }\
+  if (itkOpenCVImageBridgeTestTemplatedScalar< _PixelType, 3 >(argv) == EXIT_FAILURE)\
+    {\
+    return EXIT_FAILURE;\
     }
 
 #define RUN_RGB_TEST(_ValueType)\
   if (itkOpenCVImageBridgeTestTemplatedRGB< _ValueType, 2 >(argv) == EXIT_FAILURE)\
+    {\
+    return EXIT_FAILURE;\
+    }\
+  if (itkOpenCVImageBridgeTestTemplatedRGB< _ValueType, 3 >(argv) == EXIT_FAILURE)\
     {\
     return EXIT_FAILURE;\
     }
