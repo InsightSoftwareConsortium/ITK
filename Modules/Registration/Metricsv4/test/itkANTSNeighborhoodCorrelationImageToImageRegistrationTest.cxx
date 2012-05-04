@@ -174,7 +174,6 @@ int itkANTSNeighborhoodCorrelationImageToImageRegistrationTest(int argc, char *a
   // Assign images and transforms.
   // By not setting a virtual domain image or virtual domain settings,
   // the metric will use the fixed image for the virtual domain.
-  metric->SetVirtualDomainImage( fixedImage );
   metric->SetFixedImage( fixedImage );
   metric->SetMovingImage( movingImage );
   metric->SetFixedTransform( identityTransform );

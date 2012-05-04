@@ -133,17 +133,15 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreade
     for ( SizeValueType indct = i; indct < hoodlen;
           indct += ( diameter + NumericTraits<SizeValueType>::OneValue() ) )
       {
-
-      bool isInBounds = true;
-      scanIt.GetPixel(indct, isInBounds);
-
-      typename VirtualImageType::IndexType index = scanIt.GetIndex(indct);
-
+      typename ScanIteratorType::OffsetType internalIndex, offset;
+      bool isInBounds = scanIt.IndexInBounds( indct, internalIndex, offset );
       if (!isInBounds)
         {
         // std::cout << "DEBUG: error" << std::endl;
         continue;
         }
+
+      typename VirtualImageType::IndexType index = scanIt.GetIndex(indct);
 
       VirtualPointType        virtualPoint;
       FixedImagePointType     mappedFixedPoint;
@@ -232,15 +230,15 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreade
   for ( SizeValueType indct = diameter; indct < hoodlen;
     indct += (diameter + NumericTraits<SizeValueType>::OneValue()))
     {
-    bool isInBounds = true;
-
-    scanIt.GetPixel(indct, isInBounds);
-    typename VirtualImageType::IndexType index = scanIt.GetIndex(indct);
+    typename ScanIteratorType::OffsetType internalIndex, offset;
+    bool isInBounds = scanIt.IndexInBounds( indct, internalIndex, offset );
 
     if (!isInBounds)
     {
     continue;
     }
+
+    typename VirtualImageType::IndexType index = scanIt.GetIndex(indct);
 
     VirtualPointType virtualPoint;
     FixedImagePointType mappedFixedPoint;
@@ -424,8 +422,8 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreade
 
   if ( pointIsValid )
     {
-    scanMem.fixedA        = fixedImageValue  - fixedMean; // scanParameters.I->GetPixel(oindex) - fixedMean;
-    scanMem.movingA       = movingImageValue - movingMean; // scanParameters.J->GetPixel(oindex) - movingMean;
+    scanMem.fixedA        = fixedImageValue  - fixedMean;
+    scanMem.movingA       = movingImageValue - movingMean;
     scanMem.sFixedMoving  = sFixedMoving;
     scanMem.sFixedFixed   = sFixedFixed;
     scanMem.sMovingMoving = sMovingMoving;
