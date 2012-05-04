@@ -24,13 +24,13 @@ void println(const char *s)
   std::cout << s << std::endl;
 }
 
-TestImageType::Pointer GetTestImage(int , int , int , int )
+TestImageType::Pointer GetTestImage(int d1, int d2, int d3, int d4)
 {
   itk::Size<4>  sizeND;
-   sizeND[0] = 10;
-   sizeND[1] = 10;
-   sizeND[2] = 5;
-   sizeND[3] = 3;
+   sizeND[0] = d1;
+   sizeND[1] = d2;
+   sizeND[2] = d3;
+   sizeND[3] = d4;
 
   itk::Index<4> origND;
    origND.Fill(0);
@@ -117,7 +117,7 @@ int itkConstNeighborhoodIteratorTest(int, char* [] )
       std::cout << "GetOffset(" << j << ")=" << it.GetOffset(j);
       std::cout << " GetPixel(" << j << ")=" << it.GetPixel(j);
       std::cout << " GetPixel(" << it.GetOffset(j) << ")=" << it.GetPixel(it.GetOffset(j));
-      std::cout << " GetIndex(" << j << ")=" << it.GetIndex(j) ;
+      std::cout << " GetIndex(" << j << ")=" << it.GetIndex(j);
       std::cout << " GetIndex(" << it.GetOffset(j) << ")=" << it.GetIndex(it.GetOffset(j));
       std::cout << std::endl;
     }
@@ -171,8 +171,6 @@ int itkConstNeighborhoodIteratorTest(int, char* [] )
   println("Testing GetBoundingBoxAsImageRegion");
   std::cout << it.GetBoundingBoxAsImageRegion() << std::endl;
 
-
-
   println("Testing random access iteration");
 
   TestImageType::Pointer ra_img = GetTestImage(10, 10, 5, 3);
@@ -218,11 +216,97 @@ int itkConstNeighborhoodIteratorTest(int, char* [] )
   ra_it += a_off;
   printnb<itk::ConstNeighborhoodIterator<TestImageType> >(ra_it, false);
 
+  //
+  // Test IndexInBounds
+  //
+  println("Testing IndexInBounds");
+  int dims[4] = {13,11,9,7};
+  TestImageType::Pointer iib_img = GetTestImage(dims[0], dims[1], dims[2], dims[3]);
+  radius[0] = 4;
+  radius[1] = 3;
+  radius[2] = 2;
+  radius[3] = 1;
 
+  println("Creating ConstNeighborhoodIterator");
+  typedef itk::ConstNeighborhoodIterator<TestImageType> IteratorType;
+  IteratorType iib_it(radius, iib_img, iib_img->GetRequestedRegion());
+  IteratorType::OffsetType resultOffset;
+  IteratorType::OffsetType internalIndex;
 
+  IteratorType::IndexType centerLoc;
+  centerLoc[0] = static_cast<IteratorType::IndexType::IndexValueType>(dims[0] / 2);
+  centerLoc[1] = static_cast<IteratorType::IndexType::IndexValueType>(dims[1] / 2);
+  centerLoc[2] = static_cast<IteratorType::IndexType::IndexValueType>(dims[2] / 2);
+  centerLoc[3] = static_cast<IteratorType::IndexType::IndexValueType>(dims[3] / 2);
 
+  iib_it.GoToBegin();
+  bool inside = iib_it.IndexInBounds( 0, internalIndex, resultOffset );
+  if( inside )
+    {
+    std::cerr << "IndexInBounds failed for index 0, expected false." << std::endl;
+    return EXIT_FAILURE;
+    }
+  for( unsigned int n = 0; n < 4; n++ )
+    {
+    if( resultOffset[n] != static_cast<itk::OffsetValueType>( radius[n] ) )
+      {
+      std::cerr << "IndexInBounds failed. Expected resultOffset of " << radius << ", but got " << resultOffset << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+  inside = iib_it.IndexInBounds( iib_it.Size()-1, internalIndex, resultOffset );
+  if( ! inside )
+    {
+    std::cerr << "IndexInBounds failed for index size-1, expected true." << std::endl;
+    return EXIT_FAILURE;
+    }
+  for( unsigned int n = 0; n < 4; n++ )
+    {
+    if( resultOffset[n] != 0 )
+      {
+      std::cerr << "IndexInBounds failed. Expected resultOffset of 0, but got " << resultOffset << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
 
-  return EXIT_SUCCESS;
+  // Test min boundary by dimension
+  int result = EXIT_SUCCESS;
+  for( unsigned int n = 0; n < 4; n++ )
+    {
+    IteratorType::IndexType boundaryLoc = centerLoc;
+    boundaryLoc[n] = 0;
+    iib_it.SetLocation( boundaryLoc );
+    if( iib_it.IndexInBounds( 0, internalIndex, resultOffset ) )
+      {
+      std::cerr << "IndexInBounds failed for min boundaryLoc: " << boundaryLoc << " and dimension: " << n << ". Expected false."
+                << std::endl;
+      result = EXIT_FAILURE;
+      }
+    }
 
+  // Test max boundary by dimension
+  for( unsigned int n = 0; n < 4; n++ )
+    {
+    IteratorType::IndexType boundaryLoc = centerLoc;
+    boundaryLoc[n] = dims[n]-1;
+    iib_it.SetLocation( boundaryLoc );
+    if( iib_it.IndexInBounds( iib_it.Size()-1, internalIndex, resultOffset ) )
+      {
+      std::cerr << "IndexInBounds failed for max boundaryLoc: " << boundaryLoc << " and dimension: " << n << ". Expected false."
+                << std::endl;
+      result = EXIT_FAILURE;
+      }
+    }
+
+  // Test center
+  iib_it.SetLocation( centerLoc );
+  inside = iib_it.IndexInBounds( 0, internalIndex, resultOffset );
+  if( ! inside )
+    {
+    std::cerr << "IndexInBounds failed for index 0, expected true." << std::endl;
+    result = EXIT_FAILURE;
+    }
+
+  return result;
 
 }
