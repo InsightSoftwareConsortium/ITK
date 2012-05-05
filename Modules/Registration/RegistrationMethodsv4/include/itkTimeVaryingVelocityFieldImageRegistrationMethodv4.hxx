@@ -25,7 +25,6 @@
 #include "itkDisplacementFieldTransform.h"
 #include "itkImageDuplicator.h"
 #include "itkImportImageFilter.h"
-#include "itkIterationReporter.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkResampleImageFilter.h"
 #include "itkStatisticsImageFilter.h"
@@ -327,8 +326,6 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOu
 {
   for( this->m_CurrentLevel = 0; this->m_CurrentLevel < this->m_NumberOfLevels; this->m_CurrentLevel++ )
     {
-    IterationReporter reporter( this, 0, 1 );
-
     this->InitializeRegistrationAtEachLevel( this->m_CurrentLevel );
     this->m_Metric->Initialize();
 
@@ -341,7 +338,6 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOu
     this->StartOptimization();
 
     this->m_CompositeTransform->AddTransform( this->m_OutputTransform );
-    reporter.CompletedStep();
     }
 
   DecoratedOutputTransformPointer transformDecorator = DecoratedOutputTransformType::New().GetPointer();
