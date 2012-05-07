@@ -46,10 +46,6 @@ OpenCVImageBridge::IplImageToITKImage(const IplImage* in)
     {
     itkGenericExceptionMacro("Input is NULL");
     }
-  if (ImageType::ImageDimension > 2)
-    {
-    itkGenericExceptionMacro("OpenCV only supports 2D and 1D images");
-    }
 
   //
   // Do the conversion
@@ -101,6 +97,7 @@ OpenCVImageBridge::IplImageToITKImage(const IplImage* in)
   typename ImageType::RegionType::SizeType size;\
   typename ImageType::RegionType::IndexType start;\
   typename ImageType::SpacingType spacing;\
+  size.Fill( 1 );\
   size[0] = current->width;\
   size[1] = current->height;\
   start.Fill(0);\
@@ -220,9 +217,24 @@ OpenCVImageBridge::ITKImageToIplImage(const TInputImageType* in, bool force3Chan
     {
     itkGenericExceptionMacro("Input is NULL");
     }
+
+  typename ImageType::RegionType  region = in->GetLargestPossibleRegion();
+  typename ImageType::SizeType    size = region.GetSize();
+
   if (ImageType::ImageDimension > 2)
     {
-    itkGenericExceptionMacro("OpenCV only supports 2D and 1D images");
+    bool IsA2DImage = false;
+    for( unsigned int dim = 2; ( dim < ImageType::ImageDimension) && !IsA2DImage;dim++ )
+      {
+      if( size[dim] != 1 )
+        {
+        IsA2DImage= true;
+        }
+      }
+    if( IsA2DImage )
+      {
+      itkGenericExceptionMacro("OpenCV only supports 2D and 1D images");
+      }
     }
   unsigned int inChannels = itk::NumericTraits<InputPixelType>::MeasurementVectorType::Dimension;
   if (inChannels != 1 && inChannels != 3)
@@ -240,8 +252,8 @@ OpenCVImageBridge::ITKImageToIplImage(const TInputImageType* in, bool force3Chan
   // Set up the output image
   //
   IplImage* out;
-  unsigned int w = in->GetLargestPossibleRegion().GetSize()[0];
-  unsigned int h = in->GetLargestPossibleRegion().GetSize()[1];
+  unsigned int w = static_cast< unsigned int >( size[0] );
+  unsigned int h = static_cast< unsigned int >( size[1] );
 
   //
   // set the depth correctly based on input pixel type
