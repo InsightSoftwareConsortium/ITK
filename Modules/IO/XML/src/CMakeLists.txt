@@ -1,5 +1,10 @@
 set(ITKIOXML_SRC
-itkXMLFile.cxx
+  itkXMLFile.cxx
+  itkDOMNode.cxx
+  itkDOMNodeXMLReader.cxx
+  itkDOMNodeXMLWriter.cxx
+  itkStringTools.cxx
+  itkFancyString.cxx
 )
 
 add_library(ITKIOXML ${ITKIOXML_SRC})
