@@ -53,6 +53,19 @@ public:
   typedef typename ImageType::AccessorType      PixelAccessorType;
   typedef unsigned int                          VectorLengthType;
 
+
+  /**
+   * example usage:
+   *  todo
+   *
+   */
+  template <class UImageType>
+  struct Rebind
+    {
+      typedef DefaultVectorPixelAccessorFunctor<UImageType>  Type;
+    };
+
+
   static void SetVectorLength(ImageType *image, VectorLengthType length)
   {
     image->SetVectorLength(length);

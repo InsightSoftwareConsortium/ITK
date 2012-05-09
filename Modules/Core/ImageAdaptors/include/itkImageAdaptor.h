@@ -22,6 +22,9 @@
 
 namespace itk
 {
+
+template <typename TPixelType, unsigned int VImageDimension > class VectorImage;
+
 /**
  * \class ImageAdaptor
  * \brief Give access to partial aspects of voxels from an Image
@@ -90,7 +93,7 @@ public:
 
   /** typedef of the functor that chooses the appropriate accessor
    * Image or VectorImage. */
-  typedef DefaultPixelAccessorFunctor< Self > AccessorFunctorType;
+  typedef typename InternalImageType::AccessorFunctorType::template Rebind< Self >::Type AccessorFunctorType;
 
   /** Index typedef support. An index is used to access pixel values. */
   typedef typename Superclass::IndexType     IndexType;
@@ -401,6 +404,17 @@ private:
 
   ImageAdaptor(const Self &);   //purposely not implemented
   void operator=(const Self &); //purposely not implemented
+
+  // a specialized method to update PixelAccessors for VectorImages,
+  // to have the correct vector length of the image.
+  template< class TPixelType >
+    void UpdateAccessor( typename itk::VectorImage< TPixelType, ImageDimension > * itkNotUsed( dummy ) )
+  {
+    this->m_PixelAccessor.SetVectorLength( this->m_Image->GetNumberOfComponentsPerPixel() );
+  }
+
+  // The other image types don't expect an accessor which needs any updates
+  template< class T > void UpdateAccessor( T  *itkNotUsed( dummy ) ) { }
 
   // Adapted image, most of the calls to ImageAdaptor
   // will be delegated to this image
