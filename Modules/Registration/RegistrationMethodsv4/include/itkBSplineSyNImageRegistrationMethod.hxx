@@ -86,7 +86,7 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
   // Monitor the convergence
   typedef itk::Function::WindowConvergenceMonitoringFunction<double> ConvergenceMonitoringType;
   ConvergenceMonitoringType::Pointer convergenceMonitoring = ConvergenceMonitoringType::New();
-  convergenceMonitoring->SetWindowSize( 10 );
+  convergenceMonitoring->SetWindowSize( this->m_ConvergenceWindowSize );
 
   typedef IdentityTransform<RealType, ImageDimension> IdentityTransformType;
   typename IdentityTransformType::Pointer identityTransform;
@@ -94,8 +94,6 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
 
   IterationReporter reporter( this, 0, 1 );
 
-  this->m_CurrentIteration = 0;
-  this->m_IsConverged = false;
   while( this->m_CurrentIteration++ < this->m_NumberOfIterationsPerLevel[this->m_CurrentLevel] && !this->m_IsConverged )
     {
     typename CompositeTransformType::Pointer fixedComposite = CompositeTransformType::New();
