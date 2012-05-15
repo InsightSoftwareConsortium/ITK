@@ -53,6 +53,11 @@ namespace itk
  * type and that the input and output image type have the same number of
  * dimension and have scalar pixel types.
  *
+ * \par REFERENCE
+ * Laszlo G. Nyul, Jayaram K. Udupa, and Xuan Zhang, "New Variants of a Method
+ * of MRI Scale Standardization", IEEE Transactions on Medical Imaging,
+ * 19(2):143-150, 2000.
+ *
  * \ingroup IntensityImageFilters MultiThreaded
  *
  * \ingroup ITKImageIntensity
