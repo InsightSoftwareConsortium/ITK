@@ -73,18 +73,47 @@ struct GetImageDimension {
  * Storage for the pixels and the pixel access methods are defined in
  * subclasses of ImageBase, namely Image and ImageAdaptor.
  *
- * There are three sets of meta-data describing an image. These are "Region"
- * objects that define a portion of an image via a starting index for the
- * image array and a size. The ivar LargestPossibleRegion defines the size
- * and starting index of the image dataset. The entire image dataset, however,
- * may not be resident in memory. The region of the image that is resident in
- * memory is defined by the "BufferedRegion". The Buffer is a contiguous block
- * of memory.  The third set of meta-data defines a region of interest, called
- * the "RequestedRegion". The RequestedRegion is used by the pipeline
+ * ImageBase manages the geometry of an image. The geometry of an
+ * image is defined by its position, orientation, spacing, and extent.
+ *
+ * The position and orientation of an image is defined by its "Origin"
+ * and its "Directions".  The "Origin" is the physical position of the
+ * pixel whose "Index" is all zeros. The "Direction" of an image is a
+ * matrix whose columns indicate the direction in physical space that
+ * each dimension of the image traverses. The first column defines the
+ * direction that the fastest moving index in the image traverses in
+ * physical space while the last column defines the direction that the
+ * slowest moving index in the image traverses in physical space.
+ *
+ * The extent of an image is defined by the pixel spacing and a set of
+ * regions. The "Spacing" is the size of a pixel in physical space
+ * along each dimension.  Regions describe a portion of an image grid
+ * via a starting index for the image array and a size (or number of
+ * pixels) in each dimension. The ivar LargestPossibleRegion defines
+ * the size and starting index of the image dataset. The entire image
+ * dataset, however, may not be resident in memory. The region of the
+ * image that is resident in memory is defined by the
+ * "BufferedRegion". The Buffer is a contiguous block of memory.  The
+ * third set of meta-data defines a region of interest, called the
+ * "RequestedRegion". The RequestedRegion is used by the pipeline
  * execution model to define what a filter is requested to produce.
  *
  * [RegionIndex, RegionSize] C [BufferIndex, BufferSize]
  *                           C [ImageIndex, ImageSize]
+ *
+ * ImageBase provides all the methods for converting between the
+ * physical space and index coordinate
+ * frames. TransformIndexToPhysicalPoint() converts an Index in the
+ * pixel array into its coordinates in physical space.
+ * TransformPhysicalPointToIndex() converts a position in physical
+ * space into an Index into the pixel array (using
+ * rounding). Subpixel locations are supported by methods that
+ * convert to and from ContinuousIndex types.
+ *
+ * ImageBase also provides helper routines for the ImageIterators
+ * which convert an Index to an offset in memory from the first pixel
+ * address as well as covert an offset in memory from the first pixel
+ * address to an Index.
  *
  * \ingroup ImageObjects
  * \ingroup ITKSystemObjects
@@ -126,14 +155,13 @@ public:
   typedef Size< VImageDimension >          SizeType;
   typedef typename SizeType::SizeValueType SizeValueType;
 
-  /** Region typedef support. A region is used to specify a subset of an image.
-    */
+  /** Region typedef support. A region is used to specify a subset of an image. */
   typedef ImageRegion< VImageDimension > RegionType;
 
-  /** Spacing typedef support.  Spacing holds the size of a pixel.  The
-   * spacing is the geometric distance between image samples. ITK only
-   * supports positive spacing value: negative values may cause
-   * undesirable results.  */
+  /** Spacing typedef support.  Spacing holds the size of a pixel.
+   * The spacing is the geometric distance between image samples along
+   * each dimension. ITK only supports positive spacing value:
+   * negative values may cause undesirable results.  */
   typedef double                                      SpacingValueType;
   typedef Vector< SpacingValueType, VImageDimension > SpacingType;
 
@@ -143,8 +171,8 @@ public:
   typedef Point< PointValueType, VImageDimension > PointType;
 
   /** Direction typedef support.  The Direction is a matix of
-   * direction cosines that specify the direction between samples.
-   * */
+   * direction cosines that specify the direction in physical space
+   * between samples along each dimension. */
   typedef Matrix< double, VImageDimension, VImageDimension > DirectionType;
 
   /** Restore object to initialized state. */
@@ -155,34 +183,32 @@ public:
   { return VImageDimension; }
 
   /** Set the origin of the image. The origin is the geometric
-   * coordinates of the image origin.  It is stored internally
+   * coordinates of the image origin (pixel [0,0]).  It is stored internally
    * as double but may be set from float.
    * \sa GetOrigin() */
   itkSetMacro(Origin, PointType);
   virtual void SetOrigin(const double origin[VImageDimension]);
-
   virtual void SetOrigin(const float origin[VImageDimension]);
 
   /** Set the direction cosines of the image. The direction cosines
    * are vectors that point from one pixel to the next.
    *
-   * One row of the matrix indicates the direction cosines of the unit vector
+   * Each column of the matrix indicates the direction cosines of the unit vector
    * that is parallel to the lines of the image grid corresponding to that
-   * dimension. For example, and image with Direction matrix
+   * dimension. For example, an image with Direction matrix
    *
    *    0.866   0.500
    *   -0.500   0.866
    *
    * has an image grid were the fastest changing index (dimension[0]) walks
-   * over a line that in Physical space is oriented parallel to the vector
-   * (0.866,0.5). The second fastest changing index (dimension[1]) walks along
+   * over a line that in physical space is oriented parallel to the vector
+   * (0.866, -0.5). The second fastest changing index (dimension[1]) walks along
    * a line that in Physical space is oriented parallel to the vector
-   * (-0.5,0.866)
+   * (0.5, 0.866)
    *
-   * The vectors whose direction cosines are stored in the Direction matrix,
-   * are expected to be orthogonal to each other, and they are expected to form
-   * a right handed coordinate system, but this is not checked nor enforced in
-   * the itk::ImageBase.
+   * The columns of the Direction matrix are expected to form an
+   * orthogonal right handed coordinate syste.  But this is not
+   * checked nor enforced in itk::ImageBase.
    *
    * For details, please see:
    *
@@ -202,29 +228,29 @@ public:
   itkGetConstReferenceMacro(InverseDirection, DirectionType);
 
   /** Get the spacing (size of a pixel) `of the image. The
-   * spacing is the geometric distance between image samples.
-   * The value returned is a pointer to a double array.
+   * spacing is the geometric distance between image samples along
+   * each dimension. The value returned is a Vector<double, VImageDimension>.
    * For ImageBase and Image, the default data spacing is unity. */
   itkGetConstReferenceMacro(Spacing, SpacingType);
 
   /** Get the origin of the image. The origin is the geometric
-   * coordinates of the index (0,0).  The value returned is a pointer
-   * to a double array.  For ImageBase and Image, the default origin is
-   * 0. */
+   * coordinates of the index (0,0).  The value returned is a
+   * Point<double, VImageDimension>. For ImageBase and Image, the
+   * default origin is 0. */
   itkGetConstReferenceMacro(Origin, PointType);
 
   /** Allocate the image memory. The size of the image must
-   * already be set, e.g. by calling SetRegions().
+   * already be set, e.g. by calling SetRegions() or SetBufferedRegion().
    *
    * This method should be pure virtual, if backwards compatibility
-   *  was not required.
+   * was not required.
    */
   virtual void Allocate() {}
 
   /** Set the region object that defines the size and starting index
    * for the largest possible region this image could represent.  This
    * is used in determining how much memory would be needed to load an
-   * entire dataset.  It is also used to determine boundary
+   * entire dataset.  It is also used to determine boundary true
    * conditions.
    * \sa ImageRegion, SetBufferedRegion(), SetRequestedRegion() */
   virtual void SetLargestPossibleRegion(const RegionType & region);
@@ -232,7 +258,7 @@ public:
   /** Get the region object that defines the size and starting index
    * for the largest possible region this image could represent.  This
    * is used in determining how much memory would be needed to load an
-   * entire dataset.  It is also used to determine boundary
+   * entire dataset.  It is also used to determine boundary true
    * conditions.
    * \sa ImageRegion, GetBufferedRegion(), GetRequestedRegion() */
   virtual const RegionType & GetLargestPossibleRegion() const
@@ -273,6 +299,25 @@ public:
    * \sa ImageRegion, SetLargestPossibleRegion(), SetBufferedRegion() */
   virtual const RegionType & GetRequestedRegion() const
   { return m_RequestedRegion; }
+
+  /** Convenience methods to set the LargestPossibleRegion,
+   *  BufferedRegion and RequestedRegion. Allocate must still be called.
+   */
+  virtual void SetRegions(const RegionType& region)
+  {
+    this->SetLargestPossibleRegion(region);
+    this->SetBufferedRegion(region);
+    this->SetRequestedRegion(region);
+  }
+
+  virtual void SetRegions(const SizeType& size)
+  {
+    RegionType region; region.SetSize(size);
+
+    this->SetLargestPossibleRegion(region);
+    this->SetBufferedRegion(region);
+    this->SetRequestedRegion(region);
+  }
 
   /** Get the offset table.  The offset table gives increments for
    * moving from one pixel to next in the current row, column, slice,
@@ -356,16 +401,14 @@ public:
 
   }
 
-  /** Set the spacing (size of a pixel) of the image. The
-   * spacing is the geometric distance between image samples.
-   * It is stored internally as double, but may be set from
-   * float. These methods also pre-compute the Index to Physical
-   * point transforms of the image.
+  /** Set the spacing (size of a pixel) of the image. The spacing is
+   * the geometric distance between image samples along each
+   * dimension. It is stored internally as double, but may be set from
+   * float. These methods also pre-compute the Index to Physical point
+   * transforms of the image.
    * \sa GetSpacing() */
   virtual void SetSpacing(const SpacingType & spacing);
-
   virtual void SetSpacing(const double spacing[VImageDimension]);
-
   virtual void SetSpacing(const float spacing[VImageDimension]);
 
   /** Get the index (discrete) of a voxel from a physical point.
@@ -484,12 +527,6 @@ public:
      */
   }
 
-  /** Get a physical point (in the space which
-   * the origin and spacing information comes from)
-   * from a discrete index (in the index space)
-   *
-   * \sa Transform */
-
   /** Take a vector or covariant vector that has been computed in the
    * coordinate system parallel to the image grid and rotate it by the
    * direction cosines in order to get it in terms of the coordinate system of
@@ -587,12 +624,12 @@ public:
    * origin, etc. */
   virtual void UpdateOutputInformation();
 
-  /** Overriden from base class to check if the requested image region
-   * has zero pixels.
-   *
-   * This is needed so that filters can set an input's requested
-   * region to zero, to indicate that it does not need to be updated
-   * or executed.
+  /** UpdateOutputData() is part of the pipeline infrastructure to
+   * communicate between ProcessObjects and DataObjects. The method of
+   * the superclass is overriden to check if the requested image
+   * region has zero pixels. This is needed so that filters can set an
+   * input's requested region to zero, to indicate that it does not
+   * need to be updated or executed.
    */
   virtual void UpdateOutputData();
 
@@ -641,7 +678,6 @@ public:
    * returns the vector length set by the user.
    */
   virtual unsigned int GetNumberOfComponentsPerPixel() const;
-
   virtual void SetNumberOfComponentsPerPixel(unsigned int);
 
 protected:
@@ -663,13 +699,11 @@ protected:
   virtual void ComputeIndexToPhysicalPointMatrices();
 
 protected:
-  /** Origin and spacing of physical coordinates. This variables are
+  /** Origin, spacing, and direction in physical coordinates. This variables are
    * protected for efficiency.  They are referenced frequently by
    * inner loop calculations. */
   SpacingType m_Spacing;
-
   PointType m_Origin;
-
   DirectionType m_Direction;
   DirectionType m_InverseDirection;
 

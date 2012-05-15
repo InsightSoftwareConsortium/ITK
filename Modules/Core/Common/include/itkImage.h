@@ -39,22 +39,15 @@ namespace itk
  * Within the pixel container, images are modelled as arrays, defined by a
  * start index and a size.
  *
- * There are three sets of meta-data describing an image. These are "Region"
- * objects that define a portion of an image via a starting index for the image
- * array and a size. The ivar LargestPossibleRegion defines the size and
- * starting index of the image dataset. The entire image dataset, however,
- * need not be resident in memory. The region of the image that is resident in
- * memory is defined by the "BufferedRegion". The Buffer is a contiguous block
- * of memory.  The third set of meta-data defines a region of interest, called
- * the "RequestedRegion". The RequestedRegion is used by the pipeline
- * execution model to define what a filter is requested to produce.
- *
- * [RegionIndex, RegionSize] C [BufferIndex, BufferSize]
- *                           C [ImageIndex, ImageSize]
+ * The superclass of Image, ImageBase, defines the geometry of the
+ * image in terms of where the image sits in physical space, how the
+ * image is oriented in physical space, the size of a pixel, and the
+ * extent of the image itself.  ImageBase provides the methods to
+ * convert between the index and physical space coordinate frames.
  *
  * Pixels can be accessed direcly using the SetPixel() and GetPixel()
- * methods or can be accessed via iterators.  Begin() creates
- * an iterator that can walk a specified region of a buffer.
+ * methods or can be accessed via iterators that define the region of
+ * the image they traverse.
  *
  * The pixel type may be one of the native types; a Insight-defined
  * class type such as Vector; or a user-defined type. Note that
@@ -68,6 +61,7 @@ namespace itk
  * the order so that with Index[0] = col, Index[1] = row, Index[2] = slice,
  * ...
  *
+ * \sa ImageBase
  * \sa ImageContainerInterface
  *
  * \example Image1.cxx
@@ -181,25 +175,6 @@ public:
   /** Allocate the image memory. The size of the image must
    * already be set, e.g. by calling SetRegions(). */
   void Allocate();
-
-  /** Convenience methods to set the LargestPossibleRegion,
-   *  BufferedRegion and RequestedRegion. Allocate must still be called.
-   */
-  void SetRegions(RegionType region)
-  {
-    this->SetLargestPossibleRegion(region);
-    this->SetBufferedRegion(region);
-    this->SetRequestedRegion(region);
-  }
-
-  void SetRegions(SizeType size)
-  {
-    RegionType region; region.SetSize(size);
-
-    this->SetLargestPossibleRegion(region);
-    this->SetBufferedRegion(region);
-    this->SetRequestedRegion(region);
-  }
 
   /** Restore the data object to its initial state. This means releasing
    * memory. */
