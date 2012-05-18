@@ -163,9 +163,8 @@ protected:
 
   void PrintSelf(std::ostream & os, Indent indent) const;
 
-  void GenerateInputRequestedRegion();
-
   void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) );
+
 private:
   SliceBySliceImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);          //purposely not implemented
