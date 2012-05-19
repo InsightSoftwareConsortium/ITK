@@ -115,7 +115,7 @@ int itkTIFFImageIOTest( int argc, char* argv[] )
     {
     std::cerr << "Usage: " << argv[0]
               << " Input Output [dimensionality:default 2]"
-              << "[pixeltype: 1:uchar(default) 2:ushort 3: short]\n";
+              << "[pixeltype: 1:uchar(default) 2:ushort 3:short 4:float]\n";
     return EXIT_FAILURE;
     }
   else if (argc == 4)
@@ -162,6 +162,11 @@ int itkTIFFImageIOTest( int argc, char* argv[] )
     itk::Image<short, 3>::Pointer dummy;
     return DoIt<itk::Image<short, 3> >( argc, argv, dummy);
     }
+  else if (dimension == 3 && pixelType == 4)
+    {
+    itk::Image<float, 3>::Pointer dummy;
+    return DoIt<itk::Image<float, 3> >( argc, argv, dummy);
+    }
   else if (dimension == 4 && pixelType == 1)
     {
     itk::Image<unsigned char, 4>::Pointer dummy;
@@ -177,11 +182,17 @@ int itkTIFFImageIOTest( int argc, char* argv[] )
     itk::Image<short, 4>::Pointer dummy;
     return DoIt<itk::Image<short, 4> >( argc, argv, dummy);
     }
+  else if (dimension == 4 && pixelType == 4)
+    {
+    itk::Image<float, 4>::Pointer dummy;
+    return DoIt<itk::Image<float, 4> >( argc, argv, dummy);
+    }
   else
     {
     std::cerr << "Usage: " << argv[0]
               << " Input Output [dimensionality:default 2]"
-              << "[pixeltype: 1:uchar(default) 2:ushort 3: short]\n";
+              << "[pixeltype: 1:uchar(default) 2:ushort 3:short 4:float]\n";
     return EXIT_FAILURE;
     }
 }
+

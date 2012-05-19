@@ -265,7 +265,7 @@ int TIFFReaderInternal::CanRead()
                 || this->m_Photometrics == PHOTOMETRIC_PALETTE )
            && ( this->m_PlanarConfig == PLANARCONFIG_CONTIG )
            && ( !this->m_TileDepth )
-           && ( this->m_BitsPerSample == 8 || this->m_BitsPerSample == 16 ) );
+           && ( this->m_BitsPerSample == 8 || this->m_BitsPerSample == 16 || this->m_BitsPerSample == 32 ) );
 }
 
 bool TIFFImageIO::CanReadFile(const char *file)
@@ -300,8 +300,8 @@ void TIFFImageIO::ReadTwoSamplesPerPixelImage(void *out,
 {
   uint64_t isize = TIFFScanlineSize64(m_InternalImage->m_Image);
   uint64_t cc;
-  int          row;
-  tdata_t      buf = _TIFFmalloc(isize);
+  int      row;
+  tdata_t  buf = _TIFFmalloc(isize);
 
   int inc = 1;
 
@@ -453,8 +453,8 @@ void TIFFImageIO::ReadGenericImage(void *out,
 {
   uint64_t isize = TIFFScanlineSize64(m_InternalImage->m_Image);
   uint64_t cc;
-  int          row, inc;
-  tdata_t      buf = _TIFFmalloc(isize);
+  int      row, inc;
+  tdata_t  buf = _TIFFmalloc(isize);
 
   // It is necessary to re-initialize the colors for eachread so
   // that the colormap remains valid.
@@ -756,6 +756,73 @@ void TIFFImageIO::ReadGenericImage(void *out,
         }
       }
     }
+  else if ( m_ComponentType == FLOAT )
+    {
+    isize /= 4;
+    float *image;
+    if ( m_InternalImage->m_PlanarConfig == PLANARCONFIG_CONTIG )
+      {
+      for ( row = 0; row < (int)height; row++ )
+        {
+        if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, 0) <= 0 )
+          {
+          itkExceptionMacro(<< "Problem reading the row: " << row);
+          break;
+          }
+
+        if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
+          {
+          image = reinterpret_cast< float * >( out ) + row * width * inc;
+          }
+        else
+          {
+          image = reinterpret_cast< float * >( out ) + width * inc * ( height - ( row + 1 ) );
+          }
+
+        for ( cc = 0; cc < isize;
+              cc += m_InternalImage->m_SamplesPerPixel )
+          {
+          inc = this->EvaluateImageAt(image,
+                                      static_cast< float * >( buf )
+                                      + cc);
+          image += inc;
+          }
+        }
+      }
+    else if ( m_InternalImage->m_PlanarConfig == PLANARCONFIG_SEPARATE )
+      {
+      uint32 s, nsamples;
+      TIFFGetField(m_InternalImage->m_Image, TIFFTAG_SAMPLESPERPIXEL, &nsamples);
+      for ( s = 0; s < nsamples; s++ )
+        {
+        for ( row = 0; row < (int)height; row++ )
+          {
+          if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, s) <= 0 )
+            {
+            itkExceptionMacro(<< "Problem reading the row: " << row);
+            break;
+            }
+
+          if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
+            {
+            image = reinterpret_cast< float * >( out ) + row * width * inc;
+            }
+          else
+            {
+            image = reinterpret_cast< float * >( out ) + width * inc * ( height - ( row + 1 ) );
+            }
+          for ( cc = 0; cc < isize;
+                cc += m_InternalImage->m_SamplesPerPixel )
+            {
+            inc = this->EvaluateImageAt(image,
+                                        static_cast< float * >( buf )
+                                        + cc);
+            image += inc;
+            }
+          }
+        }
+      }
+    }
   _TIFFfree(buf);
 }
 
@@ -789,6 +856,12 @@ int TIFFImageIO::EvaluateImageAt(void *out, void *in)
           {
           char *image_us = (char *)out;
           char *source_us = (char *)in;
+          *image_us = *source_us;
+          }
+        else if ( m_ComponentType == FLOAT )
+          {
+          float *image_us = (float *)out;
+          float *source_us = (float *)in;
           *image_us = *source_us;
           }
         else
@@ -1237,6 +1310,12 @@ void TIFFImageIO::ReadVolume(void *buffer)
             volume += width * height * m_InternalImage->m_SamplesPerPixel * page;
             this->ReadGenericImage(volume, width, height);
             }
+          else if ( m_ComponentType == FLOAT )
+            {
+            float *volume = reinterpret_cast< float * >( buffer );
+            volume += width * height * m_InternalImage->m_SamplesPerPixel * page;
+            this->ReadGenericImage(volume, width, height);
+            }
           else
             {
             unsigned char *volume = reinterpret_cast< unsigned char * >( buffer );
@@ -1514,6 +1593,13 @@ void TIFFImageIO::ReadImageInformation()
       m_ComponentType = UCHAR;
       }
     }
+  else if ( m_InternalImage->m_BitsPerSample == 32 )
+    {
+    if ( m_InternalImage->m_SampleFormat == 3 )
+      {
+      m_ComponentType = FLOAT;
+      }
+    }
   else
     {
     if ( m_InternalImage->m_SampleFormat == 2 )
@@ -1606,7 +1692,8 @@ bool TIFFImageIO::CanWriteFile(const char *name)
 }
 
 void TIFFImageIO::WriteImageInformation()
-{}
+{
+}
 
 void TIFFImageIO::Write(const void *buffer)
 {
@@ -1619,7 +1706,6 @@ void TIFFImageIO::Write(const void *buffer)
     itkExceptionMacro(<< "TIFF Writer can only write 2-d or 3-d images");
     }
 }
-
 
 void TIFFImageIO::InternalWrite(const void *buffer)
 {
@@ -1654,9 +1740,12 @@ void TIFFImageIO::InternalWrite(const void *buffer)
     case SHORT:
       bps = 16;
       break;
+    case FLOAT:
+      bps = 32;
+      break;
     default:
       itkExceptionMacro(
-        << "TIFF supports unsigned/signed char and unsigned/signed short");
+        << "TIFF supports unsigned/signed char, unsigned/signed short, and float");
     }
 
   int predictor;
@@ -1675,7 +1764,6 @@ void TIFFImageIO::InternalWrite(const void *buffer)
     mode = "w8";
     }
 
-
   TIFF *tif = TIFFOpen(m_FileName.c_str(), mode );
   if ( !tif )
     {
@@ -1690,6 +1778,10 @@ void TIFFImageIO::InternalWrite(const void *buffer)
        || this->GetComponentType() == CHAR )
     {
     TIFFSetField(tif, TIFFTAG_SAMPLEFORMAT, SAMPLEFORMAT_INT);
+    }
+  else if ( this->GetComponentType() == FLOAT )
+    {
+    TIFFSetField(tif, TIFFTAG_SAMPLEFORMAT, SAMPLEFORMAT_IEEEFP);
     }
 
   uint32 w = width;
@@ -1712,6 +1804,10 @@ void TIFFImageIO::InternalWrite(const void *buffer)
          || this->GetComponentType() == CHAR )
       {
       TIFFSetField(tif, TIFFTAG_SAMPLEFORMAT, SAMPLEFORMAT_INT);
+      }
+    else if ( this->GetComponentType() == FLOAT )
+      {
+      TIFFSetField(tif, TIFFTAG_SAMPLEFORMAT, SAMPLEFORMAT_IEEEFP);
       }
     TIFFSetField(tif, TIFFTAG_SOFTWARE, "InsightToolkit");
 
@@ -1784,11 +1880,11 @@ void TIFFImageIO::InternalWrite(const void *buffer)
                   TIFFDefaultStripSize(tif, rowsperstrip) );
 
     if ( resolution_x > 0 && resolution_y > 0 )
-     {
-     TIFFSetField(tif, TIFFTAG_XRESOLUTION, resolution_x);
-     TIFFSetField(tif, TIFFTAG_YRESOLUTION, resolution_y);
-     TIFFSetField(tif, TIFFTAG_RESOLUTIONUNIT, RESUNIT_INCH);
-     }
+      {
+      TIFFSetField(tif, TIFFTAG_XRESOLUTION, resolution_x);
+      TIFFSetField(tif, TIFFTAG_YRESOLUTION, resolution_y);
+      TIFFSetField(tif, TIFFTAG_RESOLUTIONUNIT, RESUNIT_INCH);
+      }
 
     if ( m_NumberOfDimensions == 3 )
       {
@@ -1813,9 +1909,12 @@ void TIFFImageIO::InternalWrite(const void *buffer)
       case SHORT:
         rowLength = sizeof( short );
         break;
+      case FLOAT:
+        rowLength = sizeof( float );
+        break;
       default:
         itkExceptionMacro(
-          << "TIFF supports unsigned/signed char and unsigned/signed short");
+          << "TIFF supports unsigned/signed char, unsigned/signed short, and float");
       }
 
     rowLength *= this->GetNumberOfComponents();
@@ -1850,7 +1949,7 @@ bool TIFFImageIO::CanFindTIFFTag(unsigned int t)
     return false;
     }
 
-  ttag_t               tag = t; // 32bits integer
+  ttag_t           tag = t;     // 32bits integer
   const TIFFField *fld = TIFFFieldWithTag(m_InternalImage->m_Image, tag);
   if ( fld == NULL )
     {
@@ -1867,8 +1966,8 @@ void * TIFFImageIO::ReadRawByteFromTag(unsigned int t, short & value_count)
     itkExceptionMacro(<< "Need to call CanReadFile before");
     return NULL;
     }
-  ttag_t               tag = t;
-  void *               raw_data = NULL;
+  ttag_t           tag = t;
+  void *           raw_data = NULL;
   const TIFFField *fld = TIFFFieldWithTag(m_InternalImage->m_Image, tag);
   if ( fld == NULL )
     {
@@ -1896,4 +1995,5 @@ void * TIFFImageIO::ReadRawByteFromTag(unsigned int t, short & value_count)
     }
   return raw_data;
 }
+
 } // end namespace itk

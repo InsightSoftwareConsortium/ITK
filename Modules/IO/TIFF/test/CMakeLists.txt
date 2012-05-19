@@ -105,6 +105,12 @@ itk_add_test(NAME itkTIFFImageIOMultResTest2
 itk_add_test(NAME itkTIFFImageIOSpacing
    COMMAND ITKIOTIFFTestDriver
     itkTIFFImageIOTest2 ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOSpacing.tif)
+itk_add_test(NAME itkTIFFImageIOFloatTest
+      COMMAND ITKIOTIFFTestDriver
+    --compare DATA{Baseline/rampFloat.tif}
+              ${ITK_TEST_OUTPUT_DIR}/rampFloat.tif
+    itkTIFFImageIOTest DATA{Baseline/rampFloat.tif} ${ITK_TEST_OUTPUT_DIR}/rampFloat.tif 3 4)
+
 
 
 if( "${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5 )
