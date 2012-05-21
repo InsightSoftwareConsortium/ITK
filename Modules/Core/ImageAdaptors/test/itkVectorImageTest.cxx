@@ -19,6 +19,7 @@
 #include <iostream>
 #include "itkTimeProbe.h"
 #include "itkVectorImageToImageAdaptor.h"
+#include "itkNthElementImageAdaptor.h"
 #include "itkImageLinearIteratorWithIndex.h"
 #include "itkShapedNeighborhoodIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
@@ -33,6 +34,87 @@
 //  - Timing tests comparing itk::VectorImage to similar itk::Image using
 //    FixedArray and VariableLengthVector
 //  - IO support for VectorImage.
+//
+
+template< class TPixel, unsigned int VDimension, class TAdaptor, unsigned int VVectorLength >
+bool testVectorImageAdaptor( typename TAdaptor::Pointer & vectorImageAdaptor,
+  const typename itk::VectorImage< TPixel, VDimension >::Pointer & vectorImage,
+  const typename itk::VectorImage< TPixel, VDimension >::RegionType & region,
+  const unsigned int componentToExtract )
+{
+  std::cout << "---------------------------------------------------------------" << std::endl;
+  std::cout << "Testing " << typeid(TAdaptor).name();
+  std::cout << " to extract a component from the vector image" << std::endl;
+
+  typedef TPixel PixelType;
+  const unsigned int Dimension = VDimension;
+  const unsigned int VectorLength = VVectorLength;
+
+  bool failed = false;
+
+  typedef itk::Image< PixelType , Dimension > AdaptedImageType;
+  typename AdaptedImageType::IndexType index;
+  index.Fill(10);
+  std::cout << "Before adaptor initialization, vectorImage->GetPixel("
+            << index << ")[" << componentToExtract
+            << "] = "
+            << vectorImage->GetPixel( index )[componentToExtract]
+            << std::endl;
+
+
+  typedef TAdaptor AdaptorType;
+  vectorImageAdaptor->SetImage( vectorImage );
+  vectorImageAdaptor->Update();
+
+  if(   (vectorImageAdaptor->GetPixel(index) !=  vectorImage->GetPixel( index )[componentToExtract])
+     || (vectorImage->GetPixel( index )[componentToExtract] != componentToExtract ))
+    {
+    std::cerr << "[FAILED]" << std::endl;
+    std::cerr << "vImageToImageAdaptor->GetPixel("
+              << index << ") = "
+              << vectorImageAdaptor->GetPixel(index)
+              << ", vectorImage->GetPixel("
+              << index << ")[" << componentToExtract
+              << "] = "
+              << vectorImage->GetPixel( index )[componentToExtract]
+              << std::endl;
+    failed = true;
+    }
+  else
+    {
+    std::cout << "[PASSED]" << std::endl;
+    }
+
+    // Test adaptor with iterators:
+  itk::ImageRegionConstIteratorWithIndex< AdaptorType > adaptIt(vectorImageAdaptor, region);
+  adaptIt.GoToBegin();
+  bool itFailed = false;
+  typedef itk::FixedArray< PixelType, VectorLength > InternalPixelType;
+  InternalPixelType f;
+  for( unsigned int i=0; i<VectorLength; i++ ) { f[i] = i; }
+  while (!adaptIt.IsAtEnd())
+    {
+    PixelType pixel = adaptIt.Get();
+    if (pixel != f[componentToExtract])
+      {
+      itFailed = true;
+      std::cout << "adaptIt(" << adaptIt.GetIndex() << ") = " << adaptIt.Get()
+                << ", but f[" << componentToExtract << "] = " << f[componentToExtract] << std::endl;
+      }
+    ++adaptIt;
+    }
+  if (itFailed)
+    {
+    std::cerr << "ImageRegionConstIteratorWithIndex on VectorImageAdaptor [FAILED]" << std::endl;
+    failed = true;
+    }
+  else
+    {
+    std::cout << "ImageRegionConstIteratorWithIndex on VectorImageAdaptor [PASSED]" << std::endl;
+    }
+
+  return failed;
+}
 
 int itkVectorImageTest( int, char* argv[] )
 {
@@ -201,75 +283,34 @@ int itkVectorImageTest( int, char* argv[] )
       clock.GetMean() << " s." << std::endl;
   }
 
-
-
-  std::cerr << "---------------------------------------------------------------" << std::endl;
-  std::cerr << "Testing VectorImageToImageAdaptor to extract a component from the vector image" << std::endl;
-
-
   const unsigned int componentToExtract = 2 * (Dimension -1);
-  typedef itk::Image< PixelType , Dimension > AdaptedImageType;
-  AdaptedImageType::IndexType index;
-  index.Fill(10);
-  std::cerr << "Before adaptor initialization, vectorImage->GetPixel("
-            << index << ")[" << componentToExtract
-            << "] = "
-            << vectorImage->GetPixel( index )[componentToExtract]
-            << std::endl;
-
-  typedef itk::VectorImageToImageAdaptor< PixelType, Dimension > AdaptorType;
-  AdaptorType::Pointer vectorImageToImageAdaptor = AdaptorType::New();
+  typedef itk::VectorImageToImageAdaptor< PixelType, Dimension > VectorImageToImageAdaptorType;
+  VectorImageToImageAdaptorType::Pointer vectorImageToImageAdaptor = VectorImageToImageAdaptorType::New();
   vectorImageToImageAdaptor->SetExtractComponentIndex( componentToExtract );
   if( vectorImageToImageAdaptor->GetExtractComponentIndex() != componentToExtract )
     {
     std::cerr << "[FAILED]" << std::endl;
-    }
-
-  vectorImageToImageAdaptor->SetImage( vectorImage );
-  vectorImageToImageAdaptor->Update();
-
-  if(   (vectorImageToImageAdaptor->GetPixel(index) !=  vectorImage->GetPixel( index )[componentToExtract])
-     || (vectorImage->GetPixel( index )[componentToExtract] != componentToExtract ))
-    {
-    std::cerr << "[FAILED]" << std::endl;
-    std::cerr << "vImageToImageAdaptor->GetPixel("
-              << index << ") = "
-              << vectorImageToImageAdaptor->GetPixel(index)
-              << ", vectorImage->GetPixel("
-              << index << ")[" << componentToExtract
-              << "] = "
-              << vectorImage->GetPixel( index )[componentToExtract]
-              << std::endl;
     failed = true;
     }
-  else
+  bool adaptorTestResult;
+  adaptorTestResult = testVectorImageAdaptor< PixelType, Dimension, VectorImageToImageAdaptorType, VectorLength >( vectorImageToImageAdaptor,
+    vectorImage,
+    region,
+    componentToExtract );
+  if( adaptorTestResult )
     {
-    std::cout << "[PASSED]" << std::endl;
-    }
-
-    // Test adaptor with iterators:
-  itk::ImageRegionConstIteratorWithIndex< AdaptorType > adaptIt(vectorImageToImageAdaptor, region);
-  adaptIt.GoToBegin();
-  bool itFailed = false;
-  while (!adaptIt.IsAtEnd())
-    {
-    PixelType pixel = adaptIt.Get();
-    if (pixel != f[componentToExtract])
-      {
-      itFailed = true;
-      std::cerr << "adaptIt(" << adaptIt.GetIndex() << ") = " << adaptIt.Get()
-                << ", but f[" << componentToExtract << "] = " << f[componentToExtract] << std::endl;
-      }
-    ++adaptIt;
-    }
-  if (itFailed)
-    {
-    std::cerr << "ImageRegionConstIteratorWithIndex on VectorImageToImageAdaptor [FAILED]" << std::endl;
     failed = true;
     }
-  else
+  typedef itk::NthElementImageAdaptor< VectorImageType, PixelType > NthElementImageAdaptorType;
+  NthElementImageAdaptorType::Pointer nthElementImageAdaptor = NthElementImageAdaptorType::New();
+  nthElementImageAdaptor->SelectNthElement( componentToExtract );
+  adaptorTestResult = testVectorImageAdaptor< PixelType, Dimension, NthElementImageAdaptorType, VectorLength >( nthElementImageAdaptor,
+    vectorImage,
+    region,
+    componentToExtract );
+  if( adaptorTestResult )
     {
-    std::cerr << "ImageRegionConstIteratorWithIndex on VectorImageToImageAdaptor [PASSED]" << std::endl;
+    failed = true;
     }
   }
 

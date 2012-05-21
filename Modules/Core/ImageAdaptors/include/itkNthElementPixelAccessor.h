@@ -20,6 +20,8 @@
 
 #include "itkMacro.h"
 #include "itkDefaultConvertPixelTraits.h"
+#include "itkVariableLengthVector.h"
+#include "itkDefaultVectorPixelAccessor.h"
 
 namespace itk
 {
@@ -100,6 +102,80 @@ private:
   // Identifier of the N-th element to be accessed
   unsigned int m_ElementNumber;
 };
+
+
+template< class TOutputPixelType, class TPixelType >
+class ITK_EXPORT NthElementPixelAccessor< TOutputPixelType, itk::VariableLengthVector<TPixelType> >
+  : private DefaultVectorPixelAccessor< TPixelType >
+{
+public:
+
+  typedef unsigned int VectorLengthType;
+
+  /** External typedef. It defines the external aspect
+   * that this class will exhibit. */
+  typedef  TOutputPixelType ExternalType;
+
+  /** Internal typedef used by the ImageAdaptor for the buffer pointer */
+  typedef TPixelType InternalType;
+
+  typedef VariableLengthVector< TPixelType > ActualPixelType;
+
+  inline void Set(ActualPixelType output, const ExternalType & input) const
+  {
+    output[m_ElementNumber] = input;
+  }
+
+  inline void Set(InternalType &output, const ExternalType & input,
+                  const unsigned long offset) const
+  {
+    return Set( Superclass::Get( output, offset ), input );
+  }
+
+  inline ExternalType Get(const ActualPixelType & input) const
+  {
+    ExternalType output;
+
+    output = static_cast< ExternalType >( input[m_ElementNumber] );
+    return output;
+  }
+
+  inline ExternalType Get(const InternalType &input, const SizeValueType offset) const
+  {
+    return Get( Superclass::Get(input, offset) );
+  }
+
+
+  /** Get the element number to access in the container */
+  unsigned int GetElementNumber(void) const
+  { return m_ElementNumber; }
+
+  /** Set the element number to access in the container */
+  void SetElementNumber(unsigned int nth)
+  { m_ElementNumber = nth; }
+
+  /** Set the length of each vector in the VectorImage */
+  void SetVectorLength(VectorLengthType l)
+  {
+    Superclass::SetVectorLength( l );
+  }
+
+  /** Get Vector lengths */
+  VectorLengthType GetVectorLength() const { return Superclass::GetVectorLength(); }
+
+  NthElementPixelAccessor( unsigned int length = 1)
+    :m_ElementNumber(0)
+    {
+    Superclass::SetVectorLength( length );
+    }
+
+protected:
+  typedef DefaultVectorPixelAccessor< TPixelType > Superclass;
+
+private:
+  VectorLengthType m_ElementNumber;
+};
+
 }  // end namespace itk
 
 #endif
