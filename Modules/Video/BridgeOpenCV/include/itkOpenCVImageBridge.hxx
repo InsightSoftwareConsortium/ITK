@@ -19,13 +19,10 @@
 #define __itkOpenCVImageBridge_hxx
 
 #include "itkOpenCVImageBridge.h"
-#include "itkDefaultConvertPixelTraits.h"
-#include "itkConvertPixelBuffer.h"
 #include "itkNumericTraits.h"
 
 namespace itk
 {
-
 //
 // IplImageToITKImage
 //
@@ -33,11 +30,8 @@ template<class TOutputImageType>
 typename TOutputImageType::Pointer
 OpenCVImageBridge::IplImageToITKImage(const IplImage* in)
 {
-
   // Typedefs
   typedef TOutputImageType                           ImageType;
-  typedef typename ImageType::PixelType              OutputPixelType;
-  typedef DefaultConvertPixelTraits<OutputPixelType> ConvertPixelTraits;
 
   //
   // Make sure input isn't null and output type is 2D or 1D
@@ -51,128 +45,37 @@ OpenCVImageBridge::IplImageToITKImage(const IplImage* in)
   // Do the conversion
   //
   typename ImageType::Pointer out = ImageType::New();
-  bool isVectorImage(strcmp(out->GetNameOfClass(), "VectorImage") == 0);
-  unsigned int inChannels = in->nChannels;
-  unsigned int outChannels = itk::NumericTraits<OutputPixelType>::MeasurementVectorType::Dimension;
-  void* unpaddedBuffer;
-  unsigned int rowPadding = 0;
-
-
-  // We only change current if it no longer points at in, so this is safe
-  IplImage* current = const_cast<IplImage*>(in);
-
-  // Define a macro to do the conversion to avoid code duplication. The steps
-  // are:
-  //  1) Handle converting between colorspaces
-  //  2) Allocate the output image
-  //  3) Create a copy of the current IplImage's buffer without any padding
-  //     (slow but necessary)
-  //  4) Copy the buffer and convert the pixels if necessary
-#define ITK_CONVERT_IPLIMAGE_BUFFER(_CVDepth, inType)\
-  bool freeCurrent = false;\
-  if (inChannels == 3 && outChannels == 1)\
-    {\
-    current = cvCreateImage(cvSize(in->width, in->height), _CVDepth, 1);\
-    cvCvtColor(in, current, CV_BGR2GRAY);\
-    freeCurrent = true;\
-    }\
-  else if (inChannels == 1 && outChannels == 3)\
-    {\
-    current = cvCreateImage(cvSize(in->width, in->height), _CVDepth, 3);\
-    cvCvtColor(in, current, CV_GRAY2RGB);\
-    freeCurrent = true;\
-    }\
-  else if (inChannels == 3 && outChannels == 3)\
-    {\
-    current = cvCreateImage(cvSize(in->width, in->height), _CVDepth, 3);\
-    cvCvtColor(in, current, CV_BGR2RGB);\
-    freeCurrent = true;\
-    }\
-  else if (inChannels != 1 || outChannels != 1)\
-    {\
-    itkGenericExceptionMacro("Conversion from " << inChannels << " channels to "\
-                             << outChannels << " channels is not supported");\
-    }\
-  typename ImageType::RegionType region;\
-  typename ImageType::RegionType::SizeType size;\
-  typename ImageType::RegionType::IndexType start;\
-  typename ImageType::SpacingType spacing;\
-  size.Fill( 1 );\
-  size[0] = current->width;\
-  size[1] = current->height;\
-  start.Fill(0);\
-  spacing.Fill(1);\
-  region.SetSize(size);\
-  region.SetIndex(start);\
-  out->SetRegions(region);\
-  out->SetSpacing(spacing);\
-  out->Allocate();\
-  rowPadding = current->widthStep % current->width*outChannels;\
-  unpaddedBuffer = reinterpret_cast< void* >(\
-    new inType[current->height*current->width*current->nChannels]);\
-  unsigned int paddedBufPos = 0;\
-  unsigned int unpaddedBufPos = 0;\
-  for (int i = 0; i < current->height; ++i)\
-    {\
-    memcpy(&(reinterpret_cast<inType*>(unpaddedBuffer)[unpaddedBufPos]),\
-           &(reinterpret_cast<inType*>(current->imageData)[paddedBufPos]),\
-           current->width*current->nChannels);\
-    paddedBufPos += current->widthStep;\
-    unpaddedBufPos += current->width*current->nChannels;\
-    }\
-  if (isVectorImage)\
-    {\
-    ConvertPixelBuffer<inType, OutputPixelType, ConvertPixelTraits>\
-      ::ConvertVectorImage(static_cast< inType* >(unpaddedBuffer),\
-                           current->nChannels,\
-                           out->GetPixelContainer()->GetBufferPointer(),\
-                           out->GetPixelContainer()->Size());\
-    }\
-  else\
-    {\
-    ConvertPixelBuffer<inType, OutputPixelType, ConvertPixelTraits>\
-      ::Convert(static_cast< inType* >(unpaddedBuffer),\
-                current->nChannels,\
-                out->GetPixelContainer()->GetBufferPointer(),\
-                out->GetPixelContainer()->Size());\
-    }\
-  delete[] reinterpret_cast<inType*>(unpaddedBuffer);\
-  if (freeCurrent)\
-    {\
-    cvReleaseImage(&current);\
-    }
-
 
   switch (in->depth)
     {
     case (IPL_DEPTH_8U):
       {
-      ITK_CONVERT_IPLIMAGE_BUFFER(IPL_DEPTH_8U, unsigned char);
+      ITKConvertIplImageBuffer< ImageType, unsigned char >( in, out.GetPointer(), IPL_DEPTH_8U );
       break;
       }
     case (IPL_DEPTH_8S):
       {
-      ITK_CONVERT_IPLIMAGE_BUFFER(IPL_DEPTH_8S, char);
+      ITKConvertIplImageBuffer< ImageType, char >( in, out.GetPointer(), IPL_DEPTH_8S );
       break;
       }
     case (IPL_DEPTH_16U):
       {
-      ITK_CONVERT_IPLIMAGE_BUFFER(IPL_DEPTH_16U, unsigned short);
+      ITKConvertIplImageBuffer< ImageType, unsigned short >( in, out.GetPointer(), IPL_DEPTH_16U );
       break;
       }
     case (IPL_DEPTH_16S):
       {
-      ITK_CONVERT_IPLIMAGE_BUFFER(IPL_DEPTH_16S, short);
+      ITKConvertIplImageBuffer< ImageType, short >( in, out.GetPointer(), IPL_DEPTH_16S );
       break;
       }
     case (IPL_DEPTH_32F):
       {
-      ITK_CONVERT_IPLIMAGE_BUFFER(IPL_DEPTH_32F, float);
+      ITKConvertIplImageBuffer< ImageType, float >( in, out.GetPointer(), IPL_DEPTH_32F );
       break;
       }
     case (IPL_DEPTH_64F):
       {
-      ITK_CONVERT_IPLIMAGE_BUFFER(IPL_DEPTH_64F, double);
+      ITKConvertIplImageBuffer< ImageType, double >( in, out.GetPointer(), IPL_DEPTH_64F );
       break;
       }
     default:
@@ -258,9 +161,11 @@ OpenCVImageBridge::ITKImageToIplImage(const TInputImageType* in, bool force3Chan
   //
   // set the depth correctly based on input pixel type
   //
+  unsigned int typeSize = 1;
   if (typeid(ValueType) == typeid(unsigned char))
     {
     out = cvCreateImage(cvSize(w,h), IPL_DEPTH_8U, outChannels);
+    typeSize = IPL_DEPTH_8U/8;
     }
   else if (typeid(ValueType) == typeid(char))
     {
@@ -269,10 +174,12 @@ OpenCVImageBridge::ITKImageToIplImage(const TInputImageType* in, bool force3Chan
       itkGenericExceptionMacro("OpenCV does not support color images with pixels of type char");
       }
     out = cvCreateImage(cvSize(w,h), IPL_DEPTH_8S, outChannels);
+    typeSize = IPL_DEPTH_8U/8;
     }
   else if (typeid(ValueType) == typeid(unsigned short))
     {
     out = cvCreateImage(cvSize(w,h), IPL_DEPTH_16U, outChannels);
+    typeSize = IPL_DEPTH_16U/8;
     }
   else if (typeid(ValueType) == typeid(short))
     {
@@ -281,10 +188,12 @@ OpenCVImageBridge::ITKImageToIplImage(const TInputImageType* in, bool force3Chan
       itkGenericExceptionMacro("OpenCV does not support color images with pixels of type short");
       }
     out = cvCreateImage(cvSize(w,h), IPL_DEPTH_16S, outChannels);
+    typeSize = IPL_DEPTH_16U/8;
     }
   else if (typeid(ValueType) == typeid(float))
     {
     out = cvCreateImage(cvSize(w,h), IPL_DEPTH_32F, outChannels);
+    typeSize = IPL_DEPTH_32F/8;
     }
   else if (typeid(ValueType) == typeid(double))
     {
@@ -293,6 +202,7 @@ OpenCVImageBridge::ITKImageToIplImage(const TInputImageType* in, bool force3Chan
       itkGenericExceptionMacro("OpenCV does not support color images with pixels of type double");
       }
     out = cvCreateImage(cvSize(w,h), IPL_DEPTH_64F, outChannels);
+    typeSize = IPL_DEPTH_64F/8;
     }
   else
     {
@@ -302,28 +212,34 @@ OpenCVImageBridge::ITKImageToIplImage(const TInputImageType* in, bool force3Chan
   // Scalar output
   if (outChannels == 1)
     {
-    memcpy(out->imageData, in->GetBufferPointer(), out->imageSize);
+    size_t paddedRowBytes = typeSize * out->width;
+    for (int i=0;i<out->height;i++)
+       {
+        memcpy( out->imageData + i*out->widthStep,
+             in->GetBufferPointer() + i*out->width,
+             paddedRowBytes);
+       }
     }
-
   // BGR output
   else
     {
-    // Set up an IplImage pointing at the input's buffer. It's ok to do the
+    // Set up an IplImage ponting at the input's buffer. It's ok to do the
     // const cast because it will only get used to copy pixels
-    IplImage* temp = cvCreateImageHeader(cvSize(w,h), out->depth, inChannels);
-    temp->imageData = reinterpret_cast<char*>(
-      const_cast<InputPixelType*>(in->GetBufferPointer()));
-
-    // Already 3 channels
-    if (inChannels == 3)
+    if (inChannels == 3 )
       {
+      IplImage * temp = cvCreateImage(cvSize(w,h),out->depth, inChannels);
+      HandleRGBPixel< InputPixelType, ImageType::ImageDimension >::Padding( in, temp );
       cvCvtColor(temp, out, CV_RGB2BGR);
+      cvReleaseImage(&temp);
       }
-
     // input 1 channel, but forcing 3 channel output
     else
       {
+      IplImage* temp = cvCreateImage(cvSize(w,h), out->depth, inChannels);
+      temp->imageData = reinterpret_cast<char*>(
+       const_cast<InputPixelType*>(in->GetBufferPointer()));
       cvCvtColor(temp, out, CV_GRAY2BGR);
+      cvReleaseImage(&temp);
       }
     }
 
