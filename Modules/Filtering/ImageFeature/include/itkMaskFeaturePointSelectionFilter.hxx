@@ -18,6 +18,7 @@
 #ifndef __itkMaskFeaturePointSelectionFilter_hxx
 #define __itkMaskFeaturePointSelectionFilter_hxx
 
+
 #include <map>
 #include "vnl/vnl_trace.h"
 #include "itkMaskFeaturePointSelectionFilter.h"
@@ -29,16 +30,8 @@
 
 namespace itk
 {
-template<
-  class TImagePixel,
-  class TMaskPixel,
-  class TTensorValueType,
-  class TFeaturesTraits,
-  unsigned VImageDimension >
-MaskFeaturePointSelectionFilter<
-  Image< TImagePixel, VImageDimension >,
-  Image< TMaskPixel, VImageDimension >,
-  PointSet< Matrix< TTensorValueType, VImageDimension, VImageDimension>, VImageDimension, TFeaturesTraits > >
+template< class TImage, class TMask, class TFeatures >
+MaskFeaturePointSelectionFilter< TImage, TMask, TFeatures >
 ::MaskFeaturePointSelectionFilter()
 {
   // default parameters
@@ -48,48 +41,32 @@ MaskFeaturePointSelectionFilter<
   m_ComputeStructureTensors = true;
 }
 
-template<
-  class TImagePixel,
-  class TMaskPixel,
-  class TTensorValueType,
-  class TFeaturesTraits,
-  unsigned VImageDimension >
-MaskFeaturePointSelectionFilter<
-  Image< TImagePixel, VImageDimension >,
-  Image< TMaskPixel, VImageDimension >,
-  PointSet< Matrix< TTensorValueType, VImageDimension, VImageDimension>, VImageDimension, TFeaturesTraits > >
+template< class TImage, class TMask, class TFeatures >
+MaskFeaturePointSelectionFilter< TImage, TMask, TFeatures >
 ::~MaskFeaturePointSelectionFilter()
 {
 }
 
-template<
-  class TImagePixel,
-  class TMaskPixel,
-  class TTensorValueType,
-  class TFeaturesTraits,
-  unsigned VImageDimension >
+template< class TImage, class TMask, class TFeatures >
 void
-MaskFeaturePointSelectionFilter<
-  Image< TImagePixel, VImageDimension >,
-  Image< TMaskPixel, VImageDimension >,
-  PointSet< Matrix< TTensorValueType, VImageDimension, VImageDimension>, VImageDimension, TFeaturesTraits > >
+MaskFeaturePointSelectionFilter< TImage, TMask, TFeatures >
 ::PrintSelf( std::ostream & os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );
   os << indent << "m_NonConnectivity: ";
   switch ( m_NonConnectivity )
     {
-      case 0:
-        os << "VERTEX_CONNECTIVITY";
-        break;
-      case 1:
-        os << "EDGE_CONNECTIVITY";
-        break;
-      case 2:
-        os << "FACE_CONNECTIVITY";
-        break;
-      default:
-        os << static_cast< unsigned >( m_NonConnectivity );
+    case 0:
+      os << "VERTEX_CONNECTIVITY";
+      break;
+    case 1:
+      os << "EDGE_CONNECTIVITY";
+      break;
+    case 2:
+      os << "FACE_CONNECTIVITY";
+      break;
+    default:
+      os << static_cast< unsigned >( m_NonConnectivity );
     }
   os << std::endl
      << indent << "m_BlockRadius: " << m_BlockRadius << std::endl
@@ -97,102 +74,96 @@ MaskFeaturePointSelectionFilter<
      << indent << "m_SelectFraction: " << m_SelectFraction << std::endl;
 }
 
-template<
-  class TImagePixel,
-  class TMaskPixel,
-  class TTensorValueType,
-  class TFeaturesTraits,
-  unsigned VImageDimension >
+template< class TImage, class TMask, class TFeatures >
 void
-MaskFeaturePointSelectionFilter<
-  Image< TImagePixel, VImageDimension >,
-  Image< TMaskPixel, VImageDimension >,
-  PointSet< Matrix< TTensorValueType, VImageDimension, VImageDimension>, VImageDimension, TFeaturesTraits > >
-::SetNonConnectivity( unsigned connect ) throw ( ExceptionObject )
+MaskFeaturePointSelectionFilter< TImage, TMask, TFeatures >
+::ComputeConnectivityOffsets( void ) throw ( ExceptionObject )
 {
-  if ( connect < VImageDimension )
+  if ( m_NonConnectivity < ImageDimension )
     {
-      m_NonConnectivityOffsets.clear();
-      // use Neighbourhood to compute all offsets in radius 1
-      Neighborhood< unsigned, VImageDimension> neighborhood;
-      neighborhood.SetRadius( NumericTraits< SizeValueType >::One );
-      for ( unsigned i = 0, n = neighborhood.Size(); i < n; i++ )
+    m_NonConnectivityOffsets.clear();
+    // use Neighbourhood to compute all offsets in radius 1
+    Neighborhood< unsigned, ImageDimension> neighborhood;
+    neighborhood.SetRadius( NumericTraits< SizeValueType >::One );
+    for ( SizeValueType i = 0, n = neighborhood.Size(); i < n; i++ )
+      {
+      OffsetType off = neighborhood.GetOffset( i );
+
+      // count 0s offsets in each dimension
+      unsigned numberOfZeros = 0;
+      for ( unsigned j = 0; j < ImageDimension; j++ )
         {
-          OffsetType off = neighborhood.GetOffset( i );
-
-          // count 0s offsets in each dimension
-          unsigned zeros = 0;
-          for ( unsigned j = 0; j < VImageDimension; j++ )
-            {
-              if ( off[ j ] == 0 ) zeros++;
-            }
-
-          if ( connect <= zeros && zeros < VImageDimension )
-            {
-              m_NonConnectivityOffsets.push_back( off );
-            }
+        if ( off[ j ] == 0 )
+          {
+          numberOfZeros++;
+          }
         }
+
+      if ( m_NonConnectivity <= numberOfZeros && numberOfZeros < ImageDimension )
+        {
+        m_NonConnectivityOffsets.push_back( off );
+        }
+      }
     }
   else
     {
-      itkExceptionMacro( "Cannot set non-connectivity to " << connect << ", allowed 0.." << VImageDimension - 1 << "." );
+    itkExceptionMacro( "Cannot use non-connectivity of value " << m_NonConnectivity
+      << ", expected a value in the range 0.." << ImageDimension - 1 << "." );
     }
-
-  m_NonConnectivity = connect;
 }
 
-template<
-  class TImagePixel,
-  class TMaskPixel,
-  class TTensorValueType,
-  class TFeaturesTraits,
-  unsigned VImageDimension >
+template< class TImage, class TMask, class TFeatures >
 void
-MaskFeaturePointSelectionFilter<
-  Image< TImagePixel, VImageDimension >,
-  Image< TMaskPixel, VImageDimension >,
-  PointSet< Matrix< TTensorValueType, VImageDimension, VImageDimension>, VImageDimension, TFeaturesTraits > >
+MaskFeaturePointSelectionFilter< TImage, TMask, TFeatures >
 ::GenerateData()
 {
   // generate non-connectivity offsets
-  if ( m_NonConnectivityOffsets.empty() )
-    {
-      SetNonConnectivity( m_NonConnectivity );
-    }
+  this->ComputeConnectivityOffsets();
 
   // fill inputs / outputs / misc
-  ImageConstPointer image = this->GetInput();
-  RegionType region = image->GetRequestedRegion();
+  const TImage * image = this->GetInput();
+  RegionType region = image->GetLargestPossibleRegion();
   typename ImageType::SpacingType voxelSpacing = image->GetSpacing();
 
-  MaskConstPointer mask = this->GetMaskImage();
-
   FeaturePointsPointer pointSet = this->GetOutput();
-  typename FeaturePointsType::PointsContainer::Pointer points
-    = FeaturePointsType::PointsContainer::New();
-  typename FeaturePointsType::PointDataContainer::Pointer pointData
-    = FeaturePointsType::PointDataContainer::New();
+
+  typedef typename FeaturePointsType::PointsContainer PointsContainer;
+  typedef typename PointsContainer::Pointer           PointsContainerPointer;
+
+  PointsContainerPointer points = PointsContainer::New();
+
+
+  typedef typename FeaturePointsType::PointDataContainer  PointDataContainer;
+  typedef typename PointDataContainer::Pointer            PointDataContainerPointer;
+
+  PointDataContainerPointer pointData = PointDataContainer::New();
 
   // initialize selectionMap
-  typedef Image<unsigned char, 3>  SelectionMapType;
-  SelectionMapType::Pointer selectionMap = SelectionMapType::New();
+  typedef unsigned char                         MapPixelType;
+  typedef Image< MapPixelType, ImageDimension>  SelectionMapType;
+  typename SelectionMapType::Pointer selectionMap = SelectionMapType::New();
+
+  // The selectionMap only needs to have the same pixel grid of the input image,
+  // but do not have to care about origin, spacing or orientation.
   selectionMap->SetRegions( region );
   selectionMap->Allocate();
 
-  if ( mask.IsNull() )
+  const TMask * mask = this->GetMaskImage();
+
+  if ( mask == NULL )
     {
-      // create all 1s selectionMap
-      selectionMap->FillBuffer( NumericTraits< SelectionMapType::PixelType >::One );
+    // create all 1s selectionMap
+    selectionMap->FillBuffer( NumericTraits< MapPixelType >::One );
     }
   else
     {
-      // copy mask into selectionMap
-      ImageRegionConstIterator< MaskType > itMask( mask, region );
-      ImageRegionIterator< SelectionMapType > itMap( selectionMap, region );
-      for ( itMask.GoToBegin(), itMap.GoToBegin(); !itMask.IsAtEnd(); ++itMask, ++itMap )
-        {
-          itMap.Set( static_cast< SelectionMapType::PixelType >( itMask.Get() ) );
-        }
+    // copy mask into selectionMap
+    ImageRegionConstIterator< MaskType > maskItr( mask, region );
+    ImageRegionIterator< SelectionMapType > mapItr( selectionMap, region );
+    for ( maskItr.GoToBegin(), mapItr.GoToBegin(); !maskItr.IsAtEnd(); ++maskItr, ++mapItr )
+      {
+      mapItr.Set( static_cast< MapPixelType >( maskItr.Get() ) );
+      }
     }
 
   // set safe region for picking feature points depending on whether tensors are computed
@@ -201,121 +172,139 @@ MaskFeaturePointSelectionFilter<
 
   if ( m_ComputeStructureTensors )
     {
-      // tensor calculations access points in 2 X m_BlockRadius + 1 radius
-      SizeType onesSize;
-      onesSize.Fill( 1 );
-      safeIndex += m_BlockRadius + m_BlockRadius + onesSize;
-      safeSize -= m_BlockRadius + m_BlockRadius + onesSize + m_BlockRadius + m_BlockRadius + onesSize;
-    } else
-    {
-      // variance calculations access points in m_BlockRadius radius
-      safeIndex += m_BlockRadius;
-      safeSize -= m_BlockRadius + m_BlockRadius;
+    // tensor calculations access points in 2 X m_BlockRadius + 1 radius
+    SizeType onesSize;
+    onesSize.Fill( 1 );
+    // Define the area in which tensors are going to be computed.
+    const SizeType blockSize =  m_BlockRadius + m_BlockRadius + onesSize;
+    safeIndex += blockSize;
+    safeSize -= blockSize + blockSize;
     }
+  else
+    {
+    // variance calculations access points in m_BlockRadius radius
+    safeIndex += m_BlockRadius;
+    safeSize -= m_BlockRadius + m_BlockRadius;
+    }
+
   region.SetIndex( safeIndex );
   region.SetSize( safeSize );
 
   // iterators for variance computing loop
-  ImageRegionIterator< SelectionMapType > itMap( selectionMap, region );
-  ConstNeighborhoodIterator< ImageType > itImage( m_BlockRadius, image, region );
-  typedef typename ConstNeighborhoodIterator< ImageType >::NeighborIndexType NeighborIndexType;
-  NeighborIndexType numPixelsInNeighborhood = itImage.Size();
+  ImageRegionIterator< SelectionMapType > mapItr( selectionMap, region );
+  ConstNeighborhoodIterator< ImageType > imageItr( m_BlockRadius, image, region );
+  typedef typename ConstNeighborhoodIterator< ImageType >::NeighborIndexType NeighborSizeType;
+  NeighborSizeType numPixelsInNeighborhood = imageItr.Size();
 
   // sorted container for feature points, stores pair(variance, index)
   typedef std::multimap< double, IndexType > MultiMapType;
   MultiMapType pointMap;
 
   // compute variance for eligible points
-  for ( itImage.GoToBegin(), itMap.GoToBegin(); !itImage.IsAtEnd(); ++itImage, ++itMap )
+  for ( imageItr.GoToBegin(), mapItr.GoToBegin(); !imageItr.IsAtEnd(); ++imageItr, ++mapItr )
     {
-      if ( itMap.Get() )
+    if ( mapItr.Get() )
+      {
+      CompensatedSummation< double > sum;
+      CompensatedSummation< double > sumOfSquares;
+      for ( NeighborSizeType i = 0; i < numPixelsInNeighborhood; i++ )
         {
-          CompensatedSummation< double > mean;
-          CompensatedSummation< double > variance;
-          for ( NeighborIndexType i = 0; i < numPixelsInNeighborhood; i++ )
-            {
-              ImagePixelType pixel = itImage.GetPixel( i );
-              mean += pixel;
-              variance += pixel * pixel;
-            }
-          double variance1 = variance.GetSum() / ( static_cast< double >( numPixelsInNeighborhood ) )
-                           - mean.GetSum() / numPixelsInNeighborhood * mean.GetSum() / numPixelsInNeighborhood;
-
-          pointMap.insert( typename MultiMapType::value_type( variance1, itImage.GetIndex() ) );
+        const ImagePixelType pixel = imageItr.GetPixel( i );
+        sum += pixel;
+        sumOfSquares += pixel * pixel;
         }
+
+      const double mean = sum.GetSum() / numPixelsInNeighborhood;
+      const double squaredMean = mean * mean;
+      const double meanOfSquares = sumOfSquares.GetSum() / numPixelsInNeighborhood;
+
+      const double variance = meanOfSquares - squaredMean;
+
+      typedef typename MultiMapType::value_type PairType;
+
+      pointMap.insert( PairType( variance, imageItr.GetIndex() ) );
+      }
     }
 
   // number of points to select
   SizeValueType pointsLeft = floor( 0.5 + pointMap.size() * m_SelectFraction );
 
   // pick points with highest variance first
-  for ( typename MultiMapType::reverse_iterator rit = pointMap.rbegin(); rit != pointMap.rend(); ++rit )
+  typedef typename MultiMapType::reverse_iterator MapReverseIterator;
+  MapReverseIterator rit = pointMap.rbegin();
+  while ( rit != pointMap.rend() && pointsLeft )
     {
-      // if point is not marked off in selection map and there are still points to be picked
-      if ( selectionMap->GetPixel( ( *rit ).second ) && pointsLeft )
+    // if point is not marked off in selection map and there are still points to be picked
+    const IndexType & indexOfPointToPick = rit->second;
+    if ( selectionMap->GetPixel( indexOfPointToPick ) )
+      {
+      pointsLeft--;
+
+      // add point to points container
+      PointType point;
+      image->TransformIndexToPhysicalPoint( indexOfPointToPick, point );
+      points->InsertElement( pointsLeft, point );
+
+      // compute and add structure tensor into pointData
+      if ( m_ComputeStructureTensors )
         {
-          pointsLeft--;
+        StructureTensorType product;
+        StructureTensorType tensor;
+        tensor.Fill( 0 );
 
-          // add point to points container
-          PointType point;
-          image->TransformIndexToPhysicalPoint( ( *rit ).second, point );
-          points->InsertElement( pointsLeft, point );
+        Matrix < double, ImageDimension, 1 > gradI; // vector declared as column matrix
 
-          // compute and add structure tensor into pointData
-          if ( m_ComputeStructureTensors )
+        SizeType radius;
+        radius.Fill( 1 ); // iterate over neighbourhood of a voxel
+
+        RegionType center;
+        center.SetSize( radius );
+        center.SetIndex( indexOfPointToPick );
+
+        SizeType neighborRadiusForTensor = m_BlockRadius + m_BlockRadius;
+        ConstNeighborhoodIterator< ImageType > gradientItr( neighborRadiusForTensor, image, center );
+
+        gradientItr.GoToBegin();
+        // iterate over voxels in the neighbourhood
+        for ( SizeValueType i = 0; i < gradientItr.Size(); i++ )
+          {
+          OffsetType off = gradientItr.GetOffset( i );
+          for ( unsigned j = 0; j < ImageDimension; j++ )
             {
-              StructureTensorType product;
-              StructureTensorType tensor;
-              tensor.Fill( 0 );
+            OffsetType left = off;
+            left[ j ] -= 1;
 
-              Matrix < double, VImageDimension, 1 > gradI; // vector declared as column matrix
+            OffsetType right = off;
+            right[ j ] += 1;
 
-              SizeType radius;
-              radius.Fill( 1 ); // iterate over neighbourhood of a voxel
+            const ImagePixelType leftPixelValue  = image->GetPixel( gradientItr.GetIndex( left  ) );
+            const ImagePixelType rightPixelValue = image->GetPixel( gradientItr.GetIndex( right ) );
+            const double doubleSpacing = voxelSpacing[ j ] * 2.0;
 
-              RegionType center;
-              center.SetSize( radius );
-              center.SetIndex( ( *rit ).second );
-
-              radius = m_BlockRadius + m_BlockRadius; // neighbourhood radius for tensor
-              ConstNeighborhoodIterator< ImageType > itGrad( radius, image, center );
-
-              itGrad.GoToBegin();
-              for ( unsigned i = 0; i < itGrad.Size(); i++ ) // iterate over voxels in the neighbourhood
-                {
-                  OffsetType off = itGrad.GetOffset( i );
-                  for ( unsigned j = 0; j < VImageDimension; j++ )
-                  {
-                    OffsetType left = off;
-                    left[ j ] -= 1;
-
-                    OffsetType right = off;
-                    right[ j ] += 1;
-
-                    // using image GetPixel instead of iterator GetPixel since offsets might be outside of neighbourhood
-                    gradI( j, 0 ) = ( image->GetPixel( itGrad.GetIndex( left ) ) - image->GetPixel( itGrad.GetIndex( right ) ) )
-                                  / voxelSpacing[ j ] * 0.5;
-                  }
-                  product = gradI * gradI.GetTranspose(); // equivalent to tensor product of gradI with itself
-                  tensor += product;
-                }
-              tensor /= vnl_trace( tensor.GetVnlMatrix() );
-
-              pointData->InsertElement( pointsLeft, tensor );
+            // using image GetPixel instead of iterator GetPixel since offsets might be outside of neighbourhood
+            gradI( j, 0 ) = ( leftPixelValue - rightPixelValue ) / doubleSpacing;
             }
 
-          // mark off connected points
-          for ( int j = 0, n = m_NonConnectivityOffsets.size(); j < n; j++ )
-          {
-            IndexType idx = ( *rit ).second;
-            idx += m_NonConnectivityOffsets[ j ];
-            selectionMap->SetPixel( idx, 0 );
-            //if ( region.IsInside( idx ) ) // is this check necessary?
-            //  {
-            //    selectionMap->SetPixel( idx, 0 );
-            //  }
+          // Compute tensor product of gradI with itself
+          product = gradI * gradI.GetTranspose();
+          tensor += product;
           }
+
+        tensor /= vnl_trace( tensor.GetVnlMatrix() );
+
+        pointData->InsertElement( pointsLeft, tensor );
         }
+
+      // mark off connected points
+      const MapPixelType ineligeblePointCode = 0;
+      for ( SizeValueType j = 0, n = m_NonConnectivityOffsets.size(); j < n; j++ )
+        {
+        IndexType idx = rit->second;
+        idx += m_NonConnectivityOffsets[ j ];
+        selectionMap->SetPixel( idx, ineligeblePointCode );
+        }
+      }
+      rit++;
     }
 
   // set points

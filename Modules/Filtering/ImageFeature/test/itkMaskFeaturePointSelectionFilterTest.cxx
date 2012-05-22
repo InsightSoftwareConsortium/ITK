@@ -59,26 +59,20 @@ int itkMaskFeaturePointSelectionFilterTest( int argc, char * argv[] )
   // Set up filter
   FilterType::Pointer filter = FilterType::New();
 
-  //
   filter->SetInput( reader->GetOutput() );
 
-  filter->SetSelectFraction( 0.0001 );
+  filter->SetSelectFraction( 0.01 );
+  filter->ComputeStructureTensorsOff();
 
   std::cout << "Filter: " << filter << std::endl;
 
   try
     {
-      const clock_t begin = std::clock();
-
       filter->Update();
-
-      const clock_t end = std::clock();
-
-      std::cout << "Execution time: "<< ( end - begin ) /  CLOCKS_PER_SEC << "sec" << std::endl;
     }
   catch ( itk::ExceptionObject &err )
     {
-      ( &err )->Print( std::cerr );
+      std::cerr << err << std::endl;
       return EXIT_FAILURE;
     }
 

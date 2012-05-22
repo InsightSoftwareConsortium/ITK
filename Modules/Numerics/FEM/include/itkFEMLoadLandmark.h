@@ -182,17 +182,17 @@ public:
   /**
    * Set the element containing the landmark
    */
-  void SetContainedElement(Element::Pointer e)
+  void SetContainedElement(const Element * e)
   {
-      this->m_Element[0] = e;
+    this->m_Element[0] = e;
   }
 
   /**
    * Get the element containing the landmark
    */
-  Element::Pointer GetContainedElement()
+  const Element * GetContainedElement() const
   {
-      return const_cast<Element*>(this->m_Element[0]);
+    return this->m_Element[0];
   }
 
   /**
