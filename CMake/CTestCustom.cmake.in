@@ -88,6 +88,10 @@ SET(CTEST_CUSTOM_WARNING_EXCEPTION
   ".*[/\\\\][Mm]odules[/\\\\][Tt]hird[Pp]arty[/\\\\][Vv][Nn][Ll][Ii]nstantiation[/\\\\].*[Ww]arning.*"
   ".*[/\\\\][Mm]odules[/\\\\][Tt]hird[Pp]arty[/\\\\][Zz][Ll][Ii][Bb][/\\\\].*[Ww]arning.*"
   ".*Microsoft.*include.*win.*.h.*[Ww]arning.*"
+  ".*include.opencv2.*warning.*"
+  ".*core.vidl.*warning.*"
+  ".*core.vnl.vnl_matrix_fixed.h.*warning.*"
+
 
   # Ignore clang's summary warning, assuming prior text has matched some
   # other warning expression:
