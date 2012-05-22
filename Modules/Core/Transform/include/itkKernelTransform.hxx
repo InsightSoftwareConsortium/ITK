@@ -157,9 +157,9 @@ void KernelTransform<TScalarType, NDimensions>
   while( sp != end )
     {
     vt->Value() = tp->Value() - sp->Value();
-    vt++;
-    sp++;
-    tp++;
+    ++vt;
+    ++sp;
+    ++tp;
     }
 }
 
@@ -240,8 +240,8 @@ void KernelTransform<TScalarType, NDimensions>::ComputeK(void)
     // Compute the block diagonal element, i.e. kernel for pi->pi
     G = this->ComputeReflexiveG(p1);
     this->m_KMatrix.update(G, i * NDimensions, i * NDimensions);
-    p2++;
-    j++;
+    ++p2;
+    ++j;
 
     // Compute the upper (and copy into lower) triangular part of K
     while( p2 != end )
@@ -251,12 +251,12 @@ void KernelTransform<TScalarType, NDimensions>::ComputeK(void)
       // write value in upper and lower triangle of matrix
       this->m_KMatrix.update(G, i * NDimensions, j * NDimensions);
       this->m_KMatrix.update(G, j * NDimensions, i * NDimensions);
-      p2++;
-      j++;
+      ++p2;
+      ++j;
       }
 
-    p1++;
-    i++;
+    ++p1;
+    ++i;
     }
 }
 
@@ -311,7 +311,7 @@ void KernelTransform<TScalarType, NDimensions>::ComputeY(void)
       {
       this->m_YMatrix.put(i * NDimensions + j, 0, displacement.Value()[j]);
       }
-    displacement++;
+    ++displacement;
     }
   for( unsigned int i = 0; i < NDimensions * ( NDimensions + 1 ); i++ )
     {
@@ -372,7 +372,9 @@ KernelTransform<TScalarType, NDimensions>
 
   result.Fill(NumericTraits<ValueType>::Zero);
 
+  //TODO:  It is unclear if the following line is needed.
   this->ComputeDeformationContribution(thisPoint, result);
+
   // Add the rotational part of the Affine component
   for( unsigned int j = 0; j < NDimensions; j++ )
     {
@@ -435,10 +437,10 @@ KernelTransform<TScalarType, NDimensions>::SetParameters(const ParametersType & 
     for( unsigned int dim = 0; dim < NDimensions; dim++ )
       {
       landMark[dim] = parameters[pcounter];
-      pcounter++;
+      ++pcounter;
       }
     itr.Value() = landMark;
-    itr++;
+    ++itr;
     }
 
   this->m_SourceLandmarks->SetPoints(landmarks);
@@ -473,10 +475,10 @@ KernelTransform<TScalarType, NDimensions>::SetFixedParameters(const ParametersTy
     for( unsigned int dim = 0; dim < NDimensions; dim++ )
       {
       landMark[dim] = parameters[pcounter];
-      pcounter++;
+      ++pcounter;
       }
     itr.Value() = landMark;
-    itr++;
+    ++itr;
     }
 
   this->m_TargetLandmarks->SetPoints(landmarks);
@@ -502,9 +504,9 @@ KernelTransform<TScalarType, NDimensions>::UpdateParameters(void) const
     for( unsigned int dim = 0; dim < NDimensions; dim++ )
       {
       this->m_Parameters[pcounter] = landmark[dim];
-      pcounter++;
+      ++pcounter;
       }
-    itr++;
+    ++itr;
     }
 }
 
@@ -539,9 +541,9 @@ const typename KernelTransform<TScalarType, NDimensions>::ParametersType
     for( unsigned int dim = 0; dim < NDimensions; dim++ )
       {
       this->m_FixedParameters[pcounter] = landmark[dim];
-      pcounter++;
+      ++pcounter;
       }
-    itr++;
+    ++itr;
     }
 
   return this->m_FixedParameters;
