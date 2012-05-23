@@ -44,18 +44,14 @@ namespace itk
 template< class TInputImage, class TCoordRep = float >
 class ITK_EXPORT VectorMeanImageFunction:
   public ImageFunction< TInputImage,
-                        FixedArray<
-                          typename NumericTraits< typename TInputImage::PixelType::ValueType >::RealType,
-                          ::itk::GetVectorDimension< typename TInputImage::PixelType >::VectorDimension >,
+                        typename NumericTraits< typename TInputImage::PixelType >::RealType,
                         TCoordRep >
 {
 public:
   /** Standard class typedefs. */
   typedef VectorMeanImageFunction Self;
   typedef ImageFunction< TInputImage,
-                         FixedArray<
-                           typename NumericTraits< typename TInputImage::PixelType::ValueType >::RealType,
-                           ::itk::GetVectorDimension< typename TInputImage::PixelType >::VectorDimension >,
+                         typename NumericTraits< typename TInputImage::PixelType >::RealType,
                          TCoordRep >                     Superclass;
 
   typedef SmartPointer< Self >       Pointer;
@@ -87,10 +83,7 @@ public:
                       InputImageType::ImageDimension);
 
   /** Datatype used for the mean */
-  typedef FixedArray<
-    typename NumericTraits< typename InputImageType::PixelType::ValueType >::RealType,
-    ::itk::GetVectorDimension< typename TInputImage::PixelType >::VectorDimension >
-  RealType;
+  typedef typename NumericTraits< typename TInputImage::PixelType >::RealType RealType;
 
   /** Evalulate the function at specified index */
   virtual RealType EvaluateAtIndex(const IndexType & index) const;
