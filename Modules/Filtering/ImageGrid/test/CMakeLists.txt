@@ -238,8 +238,14 @@ itk_add_test(NAME itkShrinkImageTest
       COMMAND ITKImageGridTestDriver itkShrinkImageTest)
 itk_add_test(NAME itkZeroFluxNeumannPadImageFilterTest
       COMMAND ITKImageGridTestDriver itkZeroFluxNeumannPadImageFilterTest)
-itk_add_test(NAME itkSliceBySliceImageFilterTest
+itk_add_test(NAME itkSliceBySliceImageFilterDimension0Test
       COMMAND ITKImageGridTestDriver itkSliceBySliceImageFilterTest
-              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR}/itkSliceBySliceImageFilterTest.mha)
+              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR}/itkSliceBySliceImageFilterDimension0Test.mha 0)
+itk_add_test(NAME itkSliceBySliceImageFilterDimension1Test
+      COMMAND ITKImageGridTestDriver itkSliceBySliceImageFilterTest
+              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR}/itkSliceBySliceImageFilterDimension1Test.mha 1)
+itk_add_test(NAME itkSliceBySliceImageFilterDimension2Test
+      COMMAND ITKImageGridTestDriver itkSliceBySliceImageFilterTest
+              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR}/itkSliceBySliceImageFilterDimension2Test.mha 2)
 itk_add_test(NAME itkPadImageFilterTest
       COMMAND ITKImageGridTestDriver itkPadImageFilterTest)

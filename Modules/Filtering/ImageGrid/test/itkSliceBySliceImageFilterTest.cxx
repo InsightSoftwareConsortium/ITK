@@ -51,9 +51,9 @@ void sliceCallBack(itk::Object* object, const itk::EventObject &, void*)
 int itkSliceBySliceImageFilterTest(int argc, char * argv[])
 {
 
-  if( argc != 3 )
+  if( argc != 4 )
     {
-    std::cerr << "usage: " << argv[0] << " input output" << std::endl;
+    std::cerr << "usage: " << argv[0] << " input output slicingDimension" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -70,6 +70,7 @@ int itkSliceBySliceImageFilterTest(int argc, char * argv[])
   typedef itk::SliceBySliceImageFilter< ImageType, ImageType > FilterType;
 
   FilterType::Pointer filter = FilterType::New();
+  filter->DebugOn();
 
   filter->SetInput( reader->GetOutput() );
 
@@ -91,6 +92,13 @@ int itkSliceBySliceImageFilterTest(int argc, char * argv[])
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( argv[2] );
+
+  unsigned int slicingDimension;
+  std::istringstream istrm( argv[3] );
+  istrm >> slicingDimension;
+  filter->SetDimension( slicingDimension );
+  std::cout << "Slicing dimension: " << slicingDimension << std::endl;
+  std::cout << "Slicing dimension: " << filter->GetDimension() << std::endl;
 
   try
     {
