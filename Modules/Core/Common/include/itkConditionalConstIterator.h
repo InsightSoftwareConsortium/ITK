@@ -88,7 +88,7 @@ public:
   virtual const IndexType GetIndex() = 0;
 
   /** Get the pixel value at the current iterator location. */
-  virtual const PixelType & Get(void) const = 0;
+  virtual const PixelType Get(void) const = 0;
 
   /** Is the iterator at the end of the region? */
   virtual bool IsAtEnd() = 0;

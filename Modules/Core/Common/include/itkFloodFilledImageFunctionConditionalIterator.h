@@ -94,7 +94,7 @@ public:
                                               FunctionType *fnPtr):Superclass(imagePtr, fnPtr) {}
 
   /** Get the pixel value */
-  const PixelType & Get(void) const
+  const PixelType Get(void) const
   { return const_cast< ImageType * >( this->m_Image.GetPointer() )->GetPixel( this->m_IndexStack.front() ); }
 
   /** Set the pixel value */
