@@ -77,7 +77,36 @@ GradientDescentOptimizerBasev4
 //-------------------------------------------------------------------
 void
 GradientDescentOptimizerBasev4
-::ModifyGradient()
+::ModifyGradientByScales()
+{
+  if ( this->m_ScalesAreIdentity )
+    {
+    return;
+    }
+
+  IndexRangeType fullrange;
+  fullrange[0] = 0;
+  fullrange[1] = this->m_Gradient.GetSize()-1; //range is inclusive
+  /* Perform the modification either with or without threading */
+  if( this->m_Metric->HasLocalSupport() )
+    {
+    // Inheriting classes should instantiate and assign m_ModifyGradientByScalesThreader
+    // in their constructor.
+    itkAssertInDebugAndIgnoreInReleaseMacro( !m_ModifyGradientByScalesThreader.IsNull() );
+
+    this->m_ModifyGradientByScalesThreader->Execute( this, fullrange );
+    }
+  else
+    {
+    /* Global transforms are small, so update without threading. */
+    this->ModifyGradientByScalesOverSubRange( fullrange );
+    }
+}
+
+//-------------------------------------------------------------------
+void
+GradientDescentOptimizerBasev4
+::ModifyGradientByLearningRate()
 {
   IndexRangeType fullrange;
   fullrange[0] = 0;
@@ -85,35 +114,18 @@ GradientDescentOptimizerBasev4
   /* Perform the modification either with or without threading */
   if( this->m_Metric->HasLocalSupport() )
     {
-      // Inheriting classes should instantiate and assign m_ModifyGradientByScalesThreader
-      // in their constructor.
-      itkAssertInDebugAndIgnoreInReleaseMacro( !m_ModifyGradientByScalesThreader.IsNull() );
-      itkAssertInDebugAndIgnoreInReleaseMacro( !m_ModifyGradientByLearningRateThreader.IsNull() );
+    // Inheriting classes should instantiate and assign m_ModifyGradientByLearningRateThreader
+    // in their constructor.
+    itkAssertInDebugAndIgnoreInReleaseMacro( !m_ModifyGradientByLearningRateThreader.IsNull() );
+    /* Add a check for m_LearningRateIsIdentity?
+       But m_LearningRate is not assessible here.
+       Should we declare it in a base class as m_Scales ? */
 
-      if (!this->m_ScalesAreIdentity)
-        {
-        this->m_ModifyGradientByScalesThreader->Execute( this, fullrange );
-        }
-
-      /* This will modify the learning rate if the derived class
-       * is set to do so. */
-      this->EstimateLearningRate();
-
-      /* Add a check for m_LearningRateIsIdentity?
-         But m_LearningRate is not assessible here.
-         Should we declare it in a base class as m_Scales ? */
-
-      this->m_ModifyGradientByLearningRateThreader->Execute( this, fullrange );
+    this->m_ModifyGradientByLearningRateThreader->Execute( this, fullrange );
     }
-  else /* Global transforms are small, so update without threading. */
+  else
     {
     /* Global transforms are small, so update without threading. */
-    if (!this->m_ScalesAreIdentity)
-      {
-      this->ModifyGradientByScalesOverSubRange( fullrange );
-      }
-
-    this->EstimateLearningRate();
     this->ModifyGradientByLearningRateOverSubRange( fullrange );
     }
 }

@@ -208,9 +208,14 @@ GradientDescentOptimizerv4
 {
   itkDebugMacro("AdvanceOneStep");
 
-  /* Begin threaded gradient modification. Work is done in
-   * ModifyGradientOverSubRange */
-  this->ModifyGradient();
+  /* Begin threaded gradient modification.
+   * Scale by gradient scales, then estimate the learning
+   * rate if options are set to (using the scaled gradient),
+   * then modify by learning rate. The m_Gradient variable
+   * is modified in-place. */
+  this->ModifyGradientByScales();
+  this->EstimateLearningRate();
+  this->ModifyGradientByLearningRate();
 
   try
     {

@@ -29,8 +29,8 @@ namespace itk
  *
  * Gradient modification is threaded in \c ModifyGradient.
  *
- * Derived classes must override \c ModifyGradientOverSubRange
- * and \c ResumeOptimization.
+ * Derived classes must override \c ModifyGradientByScalesOverSubRange,
+ * \c ModifyGradientByLearningRateOverSubRange and \c ResumeOptimization.
  *
  * \ingroup ITKOptimizersv4
  */
@@ -109,11 +109,16 @@ public:
    * This call performs a threaded modification for transforms with
    * local support (assumed to be dense). Otherwise the modification
    * is performed w/out threading.
+   * See EstimateLearningRate() to perform optionaly learning rate
+   * estimation.
    * At completion, m_Gradient can be used to update the transform
    * parameters. Derived classes may hold additional results in
    * other member variables.
+   *
+   * \sa EstimateLearningRate()
    */
-  virtual void ModifyGradient();
+  virtual void ModifyGradientByScales();
+  virtual void ModifyGradientByLearningRate();
 
 protected:
 
@@ -129,22 +134,17 @@ protected:
   GradientDescentOptimizerBasev4ModifyGradientByScalesThreader::Pointer       m_ModifyGradientByScalesThreader;
   GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader::Pointer m_ModifyGradientByLearningRateThreader;
 
-  /** Estimate the learning rate. Derived classes can modify
-   * the learning rate in this method, or leave it unmodified.
-   * It is called during ModifyGradient(). */
-  virtual void EstimateLearningRate() = 0;
-
   /** Derived classes define this worker method to modify the gradient by scales.
    * Modifications must be performed over the index range defined in
    * \c subrange.
-   * Called from ModifyGradient(), either directly or via threaded
+   * Called from ModifyGradientByScales(), either directly or via threaded
    * operation. */
   virtual void ModifyGradientByScalesOverSubRange( const IndexRangeType& subrange ) = 0;
 
   /** Derived classes define this worker method to modify the gradient by learning rates.
    * Modifications must be performed over the index range defined in
    * \c subrange.
-   * Called from ModifyGradient(), either directly or via threaded
+   * Called from ModifyGradientByLearningRate(), either directly or via threaded
    * operation. */
   virtual void ModifyGradientByLearningRateOverSubRange( const IndexRangeType& subrange ) = 0;
 
