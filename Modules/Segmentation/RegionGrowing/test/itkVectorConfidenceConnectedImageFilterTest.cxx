@@ -36,7 +36,7 @@ int itkVectorConfidenceConnectedImageFilterTest(int ac, char* av[] )
 
   const unsigned int Dimension = 2;
 
-  typedef unsigned char PixelComponentType;
+  typedef unsigned char                     PixelComponentType;
   typedef itk::RGBPixel<PixelComponentType> PixelType;
 
   typedef unsigned char OutputPixelType;
@@ -117,11 +117,50 @@ int itkVectorConfidenceConnectedImageFilterTest(int ac, char* av[] )
   writer->SetFileName( av[2] );
   writer->Update();
 
-
-
   // Exercise SetSeed() method
   filter->SetSeed( seed1 );
 
+
+  typedef itk::VectorImage<PixelComponentType, Dimension> VectorImageType;
+
+  typedef itk::ImageFileReader<VectorImageType>       VectorReaderType;
+  VectorReaderType::Pointer vinput = VectorReaderType::New();
+  vinput->SetFileName(av[1]);
+
+  typedef itk::VectorConfidenceConnectedImageFilter< VectorImageType, OutputImageType > VectorFilterType;
+  VectorFilterType::Pointer vFilter = VectorFilterType::New();
+
+  vFilter->SetInput(vinput->GetOutput());
+  vFilter->SetInitialNeighborhoodRadius( 3 ); // measured in pixels
+  vFilter->AddSeed( seed1 );
+  vFilter->AddSeed( seed2 );
+  vFilter->SetReplaceValue( 255 );
+  vFilter->SetMultiplier(  atof( av[7] ) );
+  vFilter->SetNumberOfIterations( atoi( av[8] ) );
+  vFilter->Update();
+
+
+  itk::ImageRegionConstIterator<OutputImageType> iter( filter->GetOutput(), filter->GetOutput()->GetBufferedRegion() );
+  itk::ImageRegionConstIterator<OutputImageType>  viter( vFilter->GetOutput(), vFilter->GetOutput()->GetBufferedRegion() );
+
+  // check the at
+  bool diff = false;
+  while( !iter.IsAtEnd() )
+    {
+      if ( iter.Get() != viter.Get() )
+        {
+        diff = true;
+        }
+
+    ++viter;
+    ++iter;
+    }
+
+  if ( diff )
+    {
+    std::cerr << "VectorImage output does not match covarient!" << std::endl;
+    return EXIT_FAILURE;
+    }
 
     return EXIT_SUCCESS;
 }

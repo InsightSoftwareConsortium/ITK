@@ -60,22 +60,21 @@ CovarianceImageFunction< TInputImage, TCoordRep >
 
   typedef  typename NumericTraits< PixelComponentType >::RealType PixelComponentRealType;
 
-  const unsigned int VectorDimension = ::itk::GetVectorDimension< PixelType >::VectorDimension;
-
-  RealType covariance = RealType(VectorDimension, VectorDimension);
 
   if ( !this->GetInputImage() )
     {
     itkExceptionMacro(<< "No image connected to CovarianceImageFunction");
-    covariance.fill( NumericTraits< PixelComponentRealType >::max() );
-    return covariance;
     }
+
+  const unsigned int VectorDimension = this->GetInputImage()->GetNumberOfComponentsPerPixel();
+  RealType covariance = RealType(VectorDimension, VectorDimension);
 
   if ( !this->IsInsideBuffer(index) )
     {
     covariance.fill( NumericTraits< PixelComponentRealType >::max() );
     return covariance;
     }
+
 
   covariance.fill(NumericTraits< PixelComponentRealType >::Zero);
 

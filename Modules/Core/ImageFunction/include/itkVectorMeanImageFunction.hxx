@@ -54,25 +54,14 @@ typename VectorMeanImageFunction< TInputImage, TCoordRep >
 VectorMeanImageFunction< TInputImage, TCoordRep >
 ::EvaluateAtIndex(const IndexType & index) const
 {
-  RealType sum;
 
   typedef  typename TInputImage::PixelType                        PixelType;
   typedef  typename PixelType::ValueType                          PixelComponentType;
   typedef  typename NumericTraits< PixelComponentType >::RealType PixelComponentRealType;
 
-  const unsigned int VectorDimension =
-    ::itk::GetVectorDimension< PixelType >::VectorDimension;
-
-  sum.Fill(NumericTraits< PixelComponentRealType >::Zero);
-
-  if ( !this->GetInputImage() )
+  if ( !this->GetInputImage() || !this->IsInsideBuffer(index) )
     {
-    sum.Fill( NumericTraits< PixelComponentRealType >::max() );
-    return sum;
-    }
-
-  if ( !this->IsInsideBuffer(index) )
-    {
+    RealType sum;
     sum.Fill( NumericTraits< PixelComponentRealType >::max() );
     return sum;
     }
@@ -87,15 +76,27 @@ VectorMeanImageFunction< TInputImage, TCoordRep >
   // Set the iterator at the desired location
   it.SetLocation(index);
 
+  RealType sum;
+
   // Walk the neighborhood
   const unsigned int size = it.Size();
   for ( unsigned int i = 0; i < size; ++i )
     {
+    PixelType p = it.GetPixel(i);
+    const unsigned int VectorDimension = NumericTraits<PixelType>::GetLength( p );
+
+    if ( i == 0 )
+      {
+      sum = NumericTraits<RealType>::ZeroValue( p );
+      }
+
     for ( unsigned int dim = 0; dim < VectorDimension; dim++ )
       {
-      sum[dim] += static_cast< PixelComponentRealType >( it.GetPixel(i)[dim] );
+      sum[dim] += static_cast< PixelComponentRealType >( p[dim] );
       }
     }
+
+  const unsigned int VectorDimension = NumericTraits<PixelType>::GetLength( sum );
   for ( unsigned int dim = 0; dim < VectorDimension; dim++ )
     {
     sum[dim] /= double( it.Size() );
