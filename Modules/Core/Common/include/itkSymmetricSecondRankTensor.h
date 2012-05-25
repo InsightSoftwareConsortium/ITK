@@ -183,11 +183,27 @@ public:
   void ComputeEigenAnalysis(EigenValuesArrayType & eigenValues,
                             EigenVectorsMatrixType & eigenVectors) const;
 
-  /** Pre-Multiply by a Matrix as ResultingTensor = Matrix * ThisTensor. */
-  Self PreMultiply(const MatrixType & m) const;
+  /** Returns the tensor rotated by the provided matrix.
+   *  ResultingTensor = Matrix * ThisTensor * Matrix.GetTranspose()
+   */
+  template<typename TMatrixValueType>
+  Self Rotate( const Matrix<TMatrixValueType, NDimension, NDimension> & m) const;
+  template<typename TMatrixValueType>
+  Self Rotate( const vnl_matrix_fixed<TMatrixValueType, NDimension, NDimension> & m) const
+  {
+    return this->Rotate( static_cast<Matrix<TMatrixValueType, NDimension, NDimension> >(m) );
+  }
+  template<typename TMatrixValueType>
+  Self Rotate( const vnl_matrix<TMatrixValueType> & m) const
+  {
+    return this->Rotate( static_cast<Matrix<TMatrixValueType> >(m) );
+  }
 
-  /** Post-Multiply by a Matrix as ResultingTensor = ThisTensor * Matrix. */
-  Self PostMultiply(const MatrixType & m) const;
+  /** Pre-Multiply by a Matrix as ResultingMatrix = Matrix * ThisTensor. */
+  MatrixType PreMultiply(const MatrixType & m) const;
+
+  /** Post-Multiply by a Matrix as ResultingMatrix = ThisTensor * Matrix. */
+  MatrixType PostMultiply(const MatrixType & m) const;
 
 private:
 };
