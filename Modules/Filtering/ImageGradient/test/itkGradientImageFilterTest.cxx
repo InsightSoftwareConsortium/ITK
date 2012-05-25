@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include <iostream>
+#include "itkVectorImage.h"
 #include "itkGradientImageFilter.h"
 #include "itkNullImageToImageFilterDriver.hxx"
 
@@ -30,21 +31,45 @@ int itkGradientImageFilterTest(int , char * [] )
 {
   try
     {
-      typedef itk::Image<unsigned short, 2> ImageType;
-      typedef itk::GradientImageFilter<ImageType, float, float> FilterType;
-      typedef FilterType::OutputImageType OutputImageType;
+    typedef itk::Image<unsigned short, 2>                     ImageType;
+    typedef itk::GradientImageFilter<ImageType, float, float> FilterType;
+    typedef FilterType::OutputImageType                       OutputImageType;
 
-      // Set up filter
-      itk::GradientImageFilter<ImageType, float, float>::Pointer
-        filter = itk::GradientImageFilter<ImageType, float, float>::New();
+    // Set up filter
+    FilterType::Pointer filter = FilterType::New();
+
+    // Run Test
+    itk::Size<2> sz;
+    sz[0] = 100;
+    sz[1] = 100;
+    itk::NullImageToImageFilterDriver< ImageType, OutputImageType > test1;
+    test1.SetImageSize(sz);
+    test1.SetFilter(filter.GetPointer());
+    test1.Execute();
+    }
+  catch(itk::ExceptionObject &err)
+    {
+      (&err)->Print(std::cerr);
+      return EXIT_FAILURE;
+    }
+
+  // Verify that we can run with VectorImages
+  try
+    {
+    typedef itk::Image< float, 3 >     InputImageType;
+    typedef itk::VectorImage<float, 3> OutputImageType;
+
+    typedef itk::GradientImageFilter< InputImageType, float, float, OutputImageType> FilterType;
+
+    FilterType::Pointer filter = FilterType::New();
+
 
       // Run Test
-      itk::Size<2> sz;
-      sz[0] = 100 ; //atoi(argv[1]);
-      sz[1] = 100 ; // atoi(argv[2]);
-      //      sz[2] = 10;//atoi(argv[3]);
-      //      sz[3] = 5;//atoi(argv[4]);
-      itk::NullImageToImageFilterDriver< ImageType, OutputImageType > test1;
+      itk::Size<3> sz;
+      sz[0] = 25;
+      sz[1] = 25;
+      sz[2] = 25;
+      itk::NullImageToImageFilterDriver< InputImageType, OutputImageType > test1;
       test1.SetImageSize(sz);
       test1.SetFilter(filter.GetPointer());
       test1.Execute();
@@ -54,5 +79,6 @@ int itkGradientImageFilterTest(int , char * [] )
       (&err)->Print(std::cerr);
       return EXIT_FAILURE;
     }
+
   return EXIT_SUCCESS;
 }

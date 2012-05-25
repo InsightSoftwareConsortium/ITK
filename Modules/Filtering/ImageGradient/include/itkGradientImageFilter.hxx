@@ -32,8 +32,8 @@ namespace itk
 //
 // Constructor
 //
-template< class TInputImage, class TOperatorValueType, class TOutputValueType >
-GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
+template< class TInputImage, class TOperatorValueType, class TOutputValueType , class TOutputImageType >
+GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType, TOutputImageType >
 ::GradientImageFilter()
 {
   this->m_UseImageSpacing   = true;
@@ -43,14 +43,14 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
 //
 // Destructor
 //
-template< class TInputImage, class TOperatorValueType, class TOutputValueType >
-GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
+template< class TInputImage, class TOperatorValueType, class TOutputValueType , class TOutputImageType >
+GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType, TOutputImageType >
 ::~GradientImageFilter()
 {}
 
-template< class TInputImage, class TOperatorValueType, class TOutputValueType >
+template< class TInputImage, class TOperatorValueType, class TOutputValueType , class TOutputImageType >
 void
-GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
+GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType, TOutputImageType >
 ::GenerateInputRequestedRegion()
 throw ( InvalidRequestedRegionError )
 {
@@ -105,14 +105,14 @@ throw ( InvalidRequestedRegionError )
     }
 }
 
-template< class TInputImage, class TOperatorValueType, class TOutputValueType >
+template< class TInputImage, class TOperatorValueType, class TOutputValueType , class TOutputImageType >
 void
-GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
+GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType, TOutputImageType >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                        ThreadIdType threadId)
 {
   unsigned int    i;
-  OutputPixelType gradient;
+  CovariantVectorType gradient;
 
   ZeroFluxNeumannBoundaryCondition< InputImageType > nbc;
 
@@ -199,14 +199,11 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
         gradient[i] = SIP(x_slice[i], nit, op[i]);
         }
 
-      if ( this->m_UseImageDirection )
-        {
-        inputImage->TransformLocalVectorToPhysicalVector( gradient, it.Value() );
-        }
-      else
-        {
-        it.Value() = gradient;
-        }
+      // This method optionally performs a tansform for Physical
+      // coordiantes and potential conversion to a different output
+      // pixel type.
+      this->SetOutputPixel( it, gradient );
+
       ++nit;
       ++it;
       progress.CompletedPixel();
@@ -214,12 +211,34 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
     }
 }
 
+template< class TInputImage, class TOperatorValueType, class TOutputValueType , class TOutputImageType >
+void
+GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType, TOutputImageType >
+::GenerateOutputInformation()
+{
+  // this methods is overloaded so that if the output image is a
+  // VectorImage then the correct number of components are set.
+
+  Superclass::GenerateOutputInformation();
+  OutputImageType* output = this->GetOutput();
+
+  if ( !output )
+    {
+    return;
+    }
+  if ( output->GetNumberOfComponentsPerPixel() != InputImageDimension )
+    {
+    output->SetNumberOfComponentsPerPixel( InputImageDimension );
+    }
+}
+
+
 /**
  * Standard "PrintSelf" method
  */
-template< class TInputImage, class TOperatorValueType, class TOutputValueType >
+template< class TInputImage, class TOperatorValueType, class TOutputValueType , class TOutputImageType >
 void
-GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
+GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType, TOutputImageType >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);

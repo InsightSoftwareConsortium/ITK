@@ -20,9 +20,15 @@
 
 #include "itkImageToImageFilter.h"
 #include "itkCovariantVector.h"
+#include "itkImageRegionIterator.h"
 
 namespace itk
 {
+
+
+template <typename TPixelType, unsigned int VImageDimension > class VectorImage;
+
+
 /** \class GradientImageFilter
  * \brief Computes the gradient of an image using directional derivatives.
  *
@@ -45,12 +51,14 @@ namespace itk
  * \ingroup GradientFilters
  * \ingroup ITKImageGradient
  */
-template< class TInputImage, class TOperatorValueType = float, class TOutputValueType = float >
+template< class TInputImage,
+          class TOperatorValueType = float,
+          class TOutputValueType = float,
+          class TOutputImageType = Image< CovariantVector< TOutputValueType,
+                                                           TInputImage::ImageDimension >,
+                                          TInputImage::ImageDimension > >
 class ITK_EXPORT GradientImageFilter:
-  public ImageToImageFilter< TInputImage,
-                             Image< CovariantVector< TOutputValueType,
-                                                     ::itk::GetImageDimension< TInputImage >::ImageDimension >,
-                                    ::itk::GetImageDimension< TInputImage >::ImageDimension > >
+  public ImageToImageFilter< TInputImage, TOutputImageType >
 {
 public:
   /** Extract dimension from input image. */
@@ -63,12 +71,9 @@ public:
   typedef GradientImageFilter Self;
 
   /** Convenient typedefs for simplifying declarations. */
-  typedef TInputImage                      InputImageType;
-  typedef typename InputImageType::Pointer InputImagePointer;
-  typedef Image< CovariantVector<
-                   TOutputValueType, itkGetStaticConstMacro(OutputImageDimension) >,
-                 itkGetStaticConstMacro(OutputImageDimension) >
-  OutputImageType;
+  typedef TInputImage                       InputImageType;
+  typedef typename InputImageType::Pointer  InputImagePointer;
+  typedef TOutputImageType                  OutputImageType;
   typedef typename OutputImageType::Pointer OutputImagePointer;
 
   /** Standard class typedefs. */
@@ -83,12 +88,13 @@ public:
   itkTypeMacro(GradientImageFilter, ImageToImageFilter);
 
   /** Image typedef support. */
-  typedef typename InputImageType::PixelType InputPixelType;
-  typedef TOperatorValueType                 OperatorValueType;
-  typedef TOutputValueType                   OutputValueType;
+  typedef typename InputImageType::PixelType  InputPixelType;
+  typedef TOperatorValueType                  OperatorValueType;
+  typedef TOutputValueType                    OutputValueType;
+  typedef typename OutputImageType::PixelType OutputPixelType;
   typedef CovariantVector<
     OutputValueType, itkGetStaticConstMacro(OutputImageDimension) >
-  OutputPixelType;
+  CovariantVectorType;
   typedef typename OutputImageType::RegionType OutputImageRegionType;
 
   /** GradientImageFilter needs a larger input requested region than
@@ -158,6 +164,40 @@ protected:
 private:
   GradientImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);      //purposely not implemented
+
+  virtual void GenerateOutputInformation();
+
+  // An overloaded method which may transform the gradient to a
+  // physical vector and converts to the correct output pixel type.
+  template <class TValueType>
+  void SetOutputPixel( ImageRegionIterator< VectorImage<TValueType,OutputImageDimension> > &it, CovariantVectorType &gradient )
+  {
+    if ( this->m_UseImageDirection )
+      {
+      CovariantVectorType physicalGradient;
+      it.GetImage()->TransformLocalVectorToPhysicalVector( gradient, physicalGradient );
+      it.Set( OutputPixelType( physicalGradient.GetDataPointer(), InputImageDimension, false ) );
+      }
+    else
+      {
+      it.Set( OutputPixelType( gradient.GetDataPointer(), InputImageDimension, false ) );
+      }
+  }
+
+  template <class T >
+  void SetOutputPixel( ImageRegionIterator< T > &it, CovariantVectorType &gradient )
+  {
+    // This uses the more efficient set by reference method
+    if ( this->m_UseImageDirection )
+      {
+      it.GetImage()->TransformLocalVectorToPhysicalVector( gradient, it.Value() );
+      }
+    else
+      {
+      it.Value() = gradient;
+      }
+  }
+
 
   bool m_UseImageSpacing;
 
