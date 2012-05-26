@@ -216,6 +216,7 @@ public:
   /** Use a virtual domain image to define the virtual reference space.
    * \sa SetVirtualDomain */
   void SetVirtualDomainFromImage( VirtualImageType * virtualImage);
+  void SetVirtualDomainFromImage( const VirtualImageType * virtualImage);
 
   /** Returns a flag. True if arbitrary virtual domain points will
    *  always correspond to data points. False if not. For example,

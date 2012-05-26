@@ -299,12 +299,11 @@ int itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int , char* [])
   // Estimate scales
   shiftScaleEstimator->SetTransformForward(true);
   RegistrationParameterScalesFromPhysicalShiftType::ScalesType localScales;
-  shiftScaleEstimator->EstimateScales(localScales);
+  shiftScaleEstimator->EstimateScales( localScales );
   std::cout << "Shift scales for the displacement field transform = " << localScales << std::endl;
 
   // Check the correctness
-  RegistrationParameterScalesFromPhysicalShiftType::ScalesType theoreticalLocalScales(
-    displacementTransform->GetNumberOfLocalParameters());
+  RegistrationParameterScalesFromPhysicalShiftType::ScalesType theoreticalLocalScales( displacementTransform->GetNumberOfLocalParameters() );
   theoreticalLocalScales.Fill(1.0);
 
   bool displacementPass = true;
