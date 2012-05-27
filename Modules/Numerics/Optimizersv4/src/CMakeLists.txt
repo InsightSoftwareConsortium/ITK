@@ -5,6 +5,8 @@ set(ITKOptimizersv4_SRC
   itkGradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader.cxx
   itkGradientDescentOptimizerBasev4ModifyGradientByScalesThreader.cxx
   itkGradientDescentOptimizerv4.cxx
+  itkGradientDescentLineSearchOptimizerv4.cxx
+  itkConjugateGradientLineSearchOptimizerv4.cxx
   itkMultiStartOptimizerv4.cxx
   itkMultiGradientOptimizerv4.cxx
   itkQuasiNewtonOptimizerv4.cxx

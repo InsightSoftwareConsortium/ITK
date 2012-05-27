@@ -174,47 +174,56 @@ MultiGradientOptimizerv4
         this->m_Gradient.SetSize( this->m_OptimizersList[whichoptimizer]->GetGradient().Size() );
         itkDebugMacro(" resized ");
         }
-      this->m_OptimizersList[whichoptimizer]->ModifyGradient();
+
+      /* Modify the gradient by scales and learning rate */
+      this->m_OptimizersList[whichoptimizer]->ModifyGradientByScales();
+      this->m_OptimizersList[whichoptimizer]->EstimateLearningRate();
+      this->m_OptimizersList[whichoptimizer]->ModifyGradientByLearningRate();
+
       itkDebugMacro(" mod-grad ");
       /** combine the gradients */
-      if ( whichoptimizer == 0 ) this->m_Gradient.Fill(0);
-      this->m_Gradient = this->m_Gradient+this->m_OptimizersList[whichoptimizer]->GetGradient()*combinefunction;
+      if ( whichoptimizer == 0 )
+        {
+        this->m_Gradient.Fill(0);
+        }
+      this->m_Gradient = this->m_Gradient + this->m_OptimizersList[whichoptimizer]->GetGradient() * combinefunction;
       itkDebugMacro(" add-grad ");
       this->m_MetricValuesList[whichoptimizer] = this->m_OptimizersList[whichoptimizer]->GetValue();
       }//endfor
-      /* Check if optimization has been stopped externally.
-      * (Presumably this could happen from a multi-threaded client app?) */
-      if ( this->m_Stop )
-        {
-        this->m_StopConditionDescription << "StopOptimization() called";
-        break;
-        }
-      try
-        {
-        /* Pass combined gradient to transforms and let them update */
-        itkDebugMacro(" combine-grad ");
-        this->m_OptimizersList[0]->GetMetric()->UpdateTransformParameters( this->m_Gradient );
-        }
-      catch ( ExceptionObject & err )
-        {
-        this->m_StopCondition = UPDATE_PARAMETERS_ERROR;
-        this->m_StopConditionDescription << "UpdateTransformParameters error";
-        this->StopOptimization();
-        // Pass exception to caller
-        throw err;
-        }
-      this->InvokeEvent( IterationEvent() );
-      /* Update and check iteration count */
-      this->m_CurrentIteration++;
-      if ( this->m_CurrentIteration >= this->m_NumberOfIterations )
-        {
-        this->m_StopConditionDescription << "Maximum number of iterations ("
-                                 << this->m_NumberOfIterations
-                                 << ") exceeded.";
-        this->m_StopCondition = MAXIMUM_NUMBER_OF_ITERATIONS;
-        this->StopOptimization();
-        break;
-        }
+
+    /* Check if optimization has been stopped externally.
+    * (Presumably this could happen from a multi-threaded client app?) */
+    if ( this->m_Stop )
+      {
+      this->m_StopConditionDescription << "StopOptimization() called";
+      break;
+      }
+    try
+      {
+      /* Pass combined gradient to transforms and let them update */
+      itkDebugMacro(" combine-grad ");
+      this->m_OptimizersList[0]->GetMetric()->UpdateTransformParameters( this->m_Gradient );
+      }
+    catch ( ExceptionObject & err )
+      {
+      this->m_StopCondition = UPDATE_PARAMETERS_ERROR;
+      this->m_StopConditionDescription << "UpdateTransformParameters error";
+      this->StopOptimization();
+      // Pass exception to caller
+      throw err;
+      }
+    this->InvokeEvent( IterationEvent() );
+    /* Update and check iteration count */
+    this->m_CurrentIteration++;
+    if ( this->m_CurrentIteration >= this->m_NumberOfIterations )
+      {
+      this->m_StopConditionDescription << "Maximum number of iterations ("
+                               << this->m_NumberOfIterations
+                               << ") exceeded.";
+      this->m_StopCondition = MAXIMUM_NUMBER_OF_ITERATIONS;
+      this->StopOptimization();
+      break;
+      }
     }  //while (!m_Stop)
 }
 

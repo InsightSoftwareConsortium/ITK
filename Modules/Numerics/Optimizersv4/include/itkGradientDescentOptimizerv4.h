@@ -192,6 +192,9 @@ public:
    * resume. The bulk of the optimization work loop is here. */
   virtual void ResumeOptimization();
 
+  /** Estimate the learning rate based on the current gradient. */
+  virtual void EstimateLearningRate();
+
 protected:
 
   /** Advance one Step following the gradient direction.
@@ -211,9 +214,6 @@ protected:
    * Only used with automatic learning rate estimation. See main documentation.
    */
   InternalComputationValueType  m_MaximumStepSizeInPhysicalUnits;
-
-  /** Estimate the learning rate */
-  virtual void EstimateLearningRate();
 
   /** Default constructor */
   GradientDescentOptimizerv4();

@@ -132,10 +132,7 @@ public:
     }
 
 protected:
-  void EstimateLearningRate()
-    {
-    std::cout << "EstimateLearningRate called" << std::endl;
-    }
+
   GradientDescentOptimizerBasev4TestOptimizer(){}
   ~GradientDescentOptimizerBasev4TestOptimizer(){}
 
