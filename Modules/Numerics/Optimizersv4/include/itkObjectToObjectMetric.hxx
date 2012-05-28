@@ -244,6 +244,14 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage>
 }
 
 template<unsigned int TFixedDimension, unsigned int TMovingDimension, class TVirtualImage>
+void
+ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage>
+::SetVirtualDomainFromImage( const VirtualImageType * virtualImage )
+{
+  this->SetVirtualDomainFromImage( const_cast<VirtualImageType*>( virtualImage ) );
+}
+
+template<unsigned int TFixedDimension, unsigned int TMovingDimension, class TVirtualImage>
 const TimeStamp&
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage>
 ::GetVirtualDomainTimeStamp( void ) const
