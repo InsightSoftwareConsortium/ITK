@@ -41,15 +41,15 @@ int itkEuclideanDistancePointSetMetricTestRun()
     offset[d] = 1.1 + d;
     }
   unsigned long count = 0;
+  float pointSetRadius = 100.0;
   for( float theta = 0; theta < 2.0 * vnl_math::pi; theta += 0.1 )
     {
     PointType fixedPoint;
-    float radius = 100.0;
-    fixedPoint[0] = radius * vcl_cos( theta );
-    fixedPoint[1] = radius * vcl_sin( theta );
+    fixedPoint[0] = pointSetRadius * vcl_cos( theta );
+    fixedPoint[1] = pointSetRadius * vcl_sin( theta );
     if( Dimension > 2 )
       {
-      fixedPoint[2] = radius * vcl_sin( theta );
+      fixedPoint[2] = pointSetRadius * vcl_sin( theta );
       }
     fixedPoints->SetPoint( count, fixedPoint );
 
@@ -65,7 +65,9 @@ int itkEuclideanDistancePointSetMetricTestRun()
     count++;
     }
 
+  //
   // Simple translation transform for moving point set
+  //
   typedef itk::TranslationTransform<double, Dimension> TranslationTransformType;
   typename TranslationTransformType::Pointer translationTransform = TranslationTransformType::New();
   translationTransform->SetIdentity();
@@ -75,7 +77,6 @@ int itkEuclideanDistancePointSetMetricTestRun()
   typename PointSetMetricType::Pointer metric = PointSetMetricType::New();
   metric->SetFixedPointSet( fixedPoints );
   metric->SetMovingPointSet( movingPoints );
-//metric->SetFixedTransform(
   metric->SetMovingTransform( translationTransform );
   metric->Initialize();
 
@@ -107,6 +108,7 @@ int itkEuclideanDistancePointSetMetricTestRun()
               << "derivative: " << derivative << " derivative2: " << derivative2 << std::endl;
     }
 
+  // dump original fixed point set and transformed by derivative
   std::ofstream moving_str1( "sourceMoving.txt" );
   std::ofstream moving_str2( "targetMoving.txt" );
 

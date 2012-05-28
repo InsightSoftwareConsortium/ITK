@@ -75,7 +75,7 @@ public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
 {
 public:
   /** Standard class typedefs. */
-  typedef CorrelationImageToImageMetricv4                                     Self;
+  typedef CorrelationImageToImageMetricv4                                Self;
   typedef ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage> Superclass;
   typedef SmartPointer<Self>                                             Pointer;
   typedef SmartPointer<const Self>                                       ConstPointer;
@@ -103,7 +103,7 @@ public:
   typedef typename Superclass::VirtualImageType           VirtualImageType;
   typedef typename Superclass::VirtualIndexType           VirtualIndexType;
   typedef typename Superclass::VirtualPointType           VirtualPointType;
-  typedef typename Superclass::VirtualSampledPointSetType VirtualSampledPointSetType;
+  typedef typename Superclass::VirtualPointSetType        VirtualPointSetType;
 
   /* Image dimension accessors */
   itkStaticConstMacro(VirtualImageDimension, ImageDimensionType,

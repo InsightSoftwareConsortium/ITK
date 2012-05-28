@@ -98,7 +98,7 @@ public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
 {
 public:
   /** Standard class typedefs. */
-  typedef MattesMutualInformationImageToImageMetricv4                                     Self;
+  typedef MattesMutualInformationImageToImageMetricv4                    Self;
   typedef ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage> Superclass;
   typedef SmartPointer<Self>                                             Pointer;
   typedef SmartPointer<const Self>                                       ConstPointer;
@@ -124,33 +124,27 @@ public:
   typedef typename Superclass::MovingImagePixelType    MovingImagePixelType;
   typedef typename Superclass::MovingImageGradientType MovingImageGradientType;
 
-  typedef typename Superclass::MovingTransformType        MovingTransformType;
-  typedef typename Superclass::JacobianType               JacobianType;
-  typedef typename Superclass::VirtualImageType           VirtualImageType;
-  typedef typename Superclass::VirtualIndexType           VirtualIndexType;
-  typedef typename Superclass::VirtualPointType           VirtualPointType;
-  typedef typename Superclass::VirtualSampledPointSetType VirtualSampledPointSetType;
+  typedef typename Superclass::MovingTransformType     MovingTransformType;
+  typedef typename Superclass::JacobianType            JacobianType;
+  typedef typename Superclass::VirtualImageType        VirtualImageType;
+  typedef typename Superclass::VirtualIndexType        VirtualIndexType;
+  typedef typename Superclass::VirtualPointType        VirtualPointType;
+  typedef typename Superclass::VirtualPointSetType     VirtualPointSetType;
 
   /** Types inherited from Superclass. */
   typedef typename Superclass::FixedSampledPointSetPointer    FixedSampledPointSetPointer;
 
-
   /* Image dimension accessors */
-  itkStaticConstMacro(VirtualImageDimension, ImageDimensionType,
-      ::itk::GetImageDimension<TVirtualImage>::ImageDimension);
-  itkStaticConstMacro(FixedImageDimension, ImageDimensionType,
-      ::itk::GetImageDimension<TFixedImage>::ImageDimension);
-  itkStaticConstMacro(MovingImageDimension, ImageDimensionType,
-      ::itk::GetImageDimension<TMovingImage>::ImageDimension);
-
+  itkStaticConstMacro(VirtualImageDimension, ImageDimensionType, ::itk::GetImageDimension<TVirtualImage>::ImageDimension);
+  itkStaticConstMacro(FixedImageDimension, ImageDimensionType,  ::itk::GetImageDimension<TFixedImage>::ImageDimension);
+  itkStaticConstMacro(MovingImageDimension, ImageDimensionType, ::itk::GetImageDimension<TMovingImage>::ImageDimension);
 
   /** Number of bins to used in the histogram. Typical value is
    * 50. The minimum value is 5 due to the padding required by the Parzen
    * windowing with a cubic-BSpline kernel. Note that even if the metric
    * is used on binary images, the number of bins should at least be
    * equal to five. */
-  itkSetClampMacro( NumberOfHistogramBins, SizeValueType,
-                    5, NumericTraits<SizeValueType>::max() );
+  itkSetClampMacro( NumberOfHistogramBins, SizeValueType, 5, NumericTraits<SizeValueType>::max() );
   itkGetConstReferenceMacro(NumberOfHistogramBins, SizeValueType);
 
   virtual void Initialize(void) throw ( itk::ExceptionObject );
@@ -158,8 +152,7 @@ public:
   /** Calculate and return both the value for the metric and its derivative.
    * Overloaded here to provide special handling.
    */
-  virtual void GetValueAndDerivative( MeasureType & value,
-                                      DerivativeType & derivative ) const;
+  virtual void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const;
 
   /** The marginal PDFs are stored as std::vector. */
   //NOTE:  floating point precision is not as stable.
@@ -211,7 +204,6 @@ protected:
     MattesMutualInformationSparseGetValueAndDerivativeThreaderType;
 
   void PrintSelf(std::ostream& os, Indent indent) const;
-
 
   typedef JointPDFType::IndexType             JointPDFIndexType;
   typedef JointPDFType::PixelType             JointPDFValueType;

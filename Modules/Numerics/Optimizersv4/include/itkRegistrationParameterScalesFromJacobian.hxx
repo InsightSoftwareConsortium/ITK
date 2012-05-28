@@ -41,7 +41,7 @@ RegistrationParameterScalesFromJacobian< TMetric >
 {
   this->CheckAndSetInputs();
   this->SetScalesSamplingStrategy();
-  this->SampleImageDomain();
+  this->SampleVirtualDomain();
 
   const SizeValueType numPara = this->GetNumberOfLocalParameters();
 
@@ -49,7 +49,7 @@ RegistrationParameterScalesFromJacobian< TMetric >
 
   ParametersType norms(numPara);
 
-  const SizeValueType numSamples = this->m_ImageSamples.size();
+  const SizeValueType numSamples = this->m_SamplePoints.size();
 
   norms.Fill( NumericTraits< typename ParametersType::ValueType >::Zero );
   parameterScales.Fill( NumericTraits< typename ScalesType::ValueType >::One );
@@ -57,7 +57,7 @@ RegistrationParameterScalesFromJacobian< TMetric >
   // checking each sample point
   for (SizeValueType c=0; c<numSamples; c++)
     {
-    const VirtualPointType point = this->m_ImageSamples[c];
+    const VirtualPointType point = this->m_SamplePoints[c];
 
     ParametersType squaredNorms(numPara);
     this->ComputeSquaredJacobianNorms( point, squaredNorms );
@@ -84,12 +84,12 @@ RegistrationParameterScalesFromJacobian< TMetric >
 {
   this->CheckAndSetInputs();
   this->SetStepScaleSamplingStrategy();
-  this->SampleImageDomain();
+  this->SampleVirtualDomain();
 
   ScalesType sampleScales;
   this->ComputeSampleStepScales(step, sampleScales);
 
-  const SizeValueType numSamples = this->m_ImageSamples.size();
+  const SizeValueType numSamples = this->m_SamplePoints.size();
   FloatType scaleSum = NumericTraits< FloatType >::Zero;
 
   // checking each sample point
@@ -119,12 +119,12 @@ RegistrationParameterScalesFromJacobian< TMetric >
 
   this->CheckAndSetInputs();
   this->SetStepScaleSamplingStrategy();
-  this->SampleImageDomain();
+  this->SampleVirtualDomain();
 
   ScalesType sampleScales;
   this->ComputeSampleStepScales(step, sampleScales);
 
-  const SizeValueType numSamples = this->m_ImageSamples.size();
+  const SizeValueType numSamples = this->m_SamplePoints.size();
   const SizeValueType numPara = this->GetNumberOfLocalParameters();
   const SizeValueType numAllPara = this->GetTransform()->GetNumberOfParameters();
   const SizeValueType numLocals = numAllPara / numPara;
@@ -132,18 +132,11 @@ RegistrationParameterScalesFromJacobian< TMetric >
   localStepScales.SetSize(numLocals);
   localStepScales.Fill(NumericTraits<typename ScalesType::ValueType>::Zero);
 
-  VirtualIndexType index;
-  VirtualImageConstPointer image = this->GetVirtualImage();
-
   // checking each sample point
   for (SizeValueType c=0; c<numSamples; c++)
     {
-    VirtualPointType &point = this->m_ImageSamples[c];
-    image->TransformPhysicalPointToIndex(point, index);
-    IndexValueType localId = this->m_Metric->
-      ComputeParameterOffsetFromVirtualDomainIndex
-      (index, NumericTraits<SizeValueType>::One);
-
+    VirtualPointType &point = this->m_SamplePoints[c];
+    IndexValueType localId = this->m_Metric->ComputeParameterOffsetFromVirtualPoint( point, NumericTraits<SizeValueType>::One);
     localStepScales[localId] = sampleScales[c];
     }
 
@@ -160,10 +153,8 @@ void
 RegistrationParameterScalesFromJacobian< TMetric >
 ::ComputeSampleStepScales(const ParametersType &step, ScalesType &sampleScales)
 {
-  VirtualImageConstPointer image = this->GetVirtualImage();
-
-  const SizeValueType numSamples = this->m_ImageSamples.size();
-  const SizeValueType dim = this->GetImageDimension();
+  const SizeValueType numSamples = this->m_SamplePoints.size();
+  const SizeValueType dim = this->GetDimension();
   const SizeValueType numPara = this->GetNumberOfLocalParameters();
 
   sampleScales.SetSize(numSamples);
@@ -173,16 +164,16 @@ RegistrationParameterScalesFromJacobian< TMetric >
   // checking each sample point
   for (SizeValueType c=0; c<numSamples; c++)
     {
-    const VirtualPointType &point = this->m_ImageSamples[c];
+    const VirtualPointType &point = this->m_SamplePoints[c];
 
     JacobianType jacobian;
     if (this->GetTransformForward())
       {
-      this->GetMovingTransform()->ComputeJacobianWithRespectToParameters(point, jacobian);
+      this->m_Metric->GetMovingTransform()->ComputeJacobianWithRespectToParameters(point, jacobian);
       }
     else
       {
-      this->GetFixedTransform()->ComputeJacobianWithRespectToParameters(point, jacobian);
+      this->m_Metric->GetFixedTransform()->ComputeJacobianWithRespectToParameters(point, jacobian);
       }
 
     if (!this->HasLocalSupport())
@@ -191,10 +182,7 @@ RegistrationParameterScalesFromJacobian< TMetric >
       }
     else
       {
-      VirtualIndexType index;
-      image->TransformPhysicalPointToIndex(point, index);
-      SizeValueType offset = this->m_Metric->
-        ComputeParameterOffsetFromVirtualDomainIndex(index, numPara);
+      SizeValueType offset = this->m_Metric->ComputeParameterOffsetFromVirtualPoint(point, numPara);
 
       ParametersType localStep(numPara);
       for (SizeValueType p=0; p<numPara; p++)

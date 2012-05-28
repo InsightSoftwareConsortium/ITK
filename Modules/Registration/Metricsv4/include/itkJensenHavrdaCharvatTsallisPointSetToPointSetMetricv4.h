@@ -50,6 +50,15 @@ namespace itk {
  * Contributed by Nicholas J. Tustison, James C. Gee in the Insight Journal
  * paper:  http://hdl.handle.net/1926/1524
  *
+ * \note The original work reported in Tustison et al. 2011 optionally employed
+ * a regularization term to prevent the moving point set(s) from coalescing
+ * to a single point location. However, within the registration framework,
+ * this term is of limited utility as such regularization is dictated by the
+ * transform and any explicit regularization terms. Also note that the
+ * published work applies to multiple points sets each of which could
+ * be considered "moving" but this is also not applicable for this particular
+ * implementation.
+ *
  * \par REFERENCE
  *
  * N.J. Tustison, S. P. Awate, G. Song, T. S. Cook, and J. C. Gee.
@@ -111,24 +120,6 @@ public:
   virtual void Initialize( void ) throw ( ExceptionObject );
 
   /**
-   * This method returns the value of the metric based on the current
-   * transformation(s).
-   */
-  virtual MeasureType GetValue() const;
-
-  /**
-   * This method returns the derivative based on the current
-   * transformation(s).
-   */
-  virtual void GetDerivative( DerivativeType & ) const;
-
-  /**
-   * This method returns the derivative and value based on the current
-   * transformation(s).
-   */
-  virtual void GetValueAndDerivative( MeasureType &, DerivativeType & ) const;
-
-  /**
    * Set the alpha parameter used to tune the point-set metric from
    * a maximum-likelihood measure (alpha = 1) to the more robust L2
    * solution (alpha = 2).  Typically, "robustness" is associated with
@@ -143,21 +134,6 @@ public:
    * Get the alpha parameter used to tune the point-set metric.
    */
   itkGetConstMacro( Alpha, RealType );
-
-  /**
-   * The Jensen divergence is comprised of two terms---one measures the
-   * mutual similarity while the second provides a regularizing effect
-   * penalizing tendencies towards a single point.  For most registration
-   * applications, a separate transform would be used which would provide
-   * its own regularization.  Default = false.
-   */
-  itkSetMacro( UseRegularizationTerm, bool );
-
-  /** Get boolean usage of regularization term. */
-  itkGetConstMacro( UseRegularizationTerm, bool );
-
-  /** Get/set boolean usage of regularization term. */
-  itkBooleanMacro( UseRegularizationTerm );
 
   /**
    * Each point is associated with a Gaussian characterized by m_PointSetSigma
@@ -225,23 +201,17 @@ public:
   /** Get the noise kernel sigma for the anistropic covariances. */
   itkGetConstMacro( KernelSigma, RealType );
 
-  /** Pure virtual function from the parent class not needed in this class */
-  virtual MeasureType GetLocalNeighborhoodValue( const PointType & ) const
-  {
-    itkExceptionMacro( "This function should not be accessed." );
-    return 0;
-  }
+  virtual MeasureType GetLocalNeighborhoodValue( const PointType & point) const;
 
-  /** Pure virtual function from the parent class not needed in this class */
-  virtual void GetLocalNeighborhoodValueAndDerivative( const PointType &,
-    MeasureType &, LocalDerivativeType & ) const
-  {
-    itkExceptionMacro( "This function should not be accessed." );
-  }
+  virtual void GetLocalNeighborhoodValueAndDerivative( const PointType &, MeasureType &, LocalDerivativeType & ) const;
 
 protected:
   JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4();
   ~JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4();
+
+  virtual void InitializeForIteration( void ) const;
+
+  void ComputeValueAndDerivative( const PointType & samplePoint, MeasureType &value, LocalDerivativeType &derivativeReturn, bool calcValue, bool calcDerivative ) const;
 
   void PrintSelf( std::ostream& os, Indent indent ) const;
 
@@ -253,7 +223,6 @@ private:
   DensityFunctionPointer                   m_MovingDensityFunction;
   DensityFunctionPointer                   m_FixedDensityFunction;
 
-  bool                                     m_UseRegularizationTerm;
   bool                                     m_UseAnisotropicCovariances;
 
   RealType                                 m_PointSetSigma;
@@ -262,6 +231,11 @@ private:
   unsigned int                             m_EvaluationKNeighborhood;
 
   RealType                                 m_Alpha;
+
+  /** Precomputed cached values */
+  mutable RealType                         m_TotalNumberOfPoints;
+  mutable RealType                         m_Prefactor0;
+  mutable RealType                         m_Prefactor1;
 };
 
 

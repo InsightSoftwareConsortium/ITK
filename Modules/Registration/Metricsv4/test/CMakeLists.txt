@@ -21,6 +21,7 @@ set(ITKMetricsv4Tests
   itkDemonsImageToImageMetricv4RegistrationTest.cxx
   itkEuclideanDistancePointSetMetricRegistrationTest.cxx
   itkExpectationBasedPointSetMetricRegistrationTest.cxx
+  itkEuclideanDistancePointSetMetricTest2.cxx
 )
 
 set(INPUTDATA ${ITK_DATA_ROOT}/Input)
@@ -31,6 +32,9 @@ CreateTestDriver(ITKMetricsv4  "${ITKMetricsv4-Test_LIBRARIES}" "${ITKMetricsv4T
 
 itk_add_test(NAME itkEuclideanDistancePointSetMetricTest
       COMMAND ITKMetricsv4TestDriver itkEuclideanDistancePointSetMetricTest)
+
+itk_add_test(NAME itkEuclideanDistancePointSetMetricTest2
+      COMMAND ITKMetricsv4TestDriver itkEuclideanDistancePointSetMetricTest2)
 
 itk_add_test(NAME itkExpectationBasedPointSetMetricTest
       COMMAND ITKMetricsv4TestDriver itkExpectationBasedPointSetMetricTest)

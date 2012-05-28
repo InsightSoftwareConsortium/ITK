@@ -39,6 +39,20 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 {
 }
 
+template<class TFixedPointSet, class TMovingPointSet>
+void
+ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
+::Initialize( void ) throw ( ExceptionObject )
+{
+  Superclass::Initialize();
+
+  if( this->m_PointSetSigma <= NumericTraits<CoordRepType>::epsilon() )
+    {
+    itkExceptionMacro("m_PointSetSigma is too small. <= epsilon");
+    }
+  this->m_PreFactor = 1.0 / ( vcl_sqrt( 2 * vnl_math::pi ) * this->m_PointSetSigma );
+  this->m_Denominator = 2.0 * vnl_math_sqr( this->m_PointSetSigma );
+}
 
 template<class TFixedPointSet, class TMovingPointSet>
 typename ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
@@ -47,18 +61,17 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::GetLocalNeighborhoodValue( const PointType & point ) const
 {
   MeasureType localValue = NumericTraits<MeasureType>::Zero;
-  const MeasureType preFactor = 1.0 / ( vcl_sqrt( 2 * vnl_math::pi ) * this->m_PointSetSigma );
-  const MeasureType denominator = 2.0 * vnl_math_sqr( this->m_PointSetSigma );
 
   NeighborsIdentifierType neighborhood;
-  this->m_FixedTransformedPointsLocator->FindClosestNPoints( point, this->m_EvaluationKNeighborhood, neighborhood );
+  this->m_MovingTransformedPointsLocator->FindClosestNPoints( point, this->m_EvaluationKNeighborhood, neighborhood );
 
   for( NeighborsIterator it = neighborhood.begin(); it != neighborhood.end(); ++it )
     {
-    PointType neighbor = this->m_FixedTransformedPointSet->GetPoint( *it );
+    PointType neighbor = this->m_MovingTransformedPointSet->GetPoint( *it );
     const MeasureType distance = point.SquaredEuclideanDistanceTo( neighbor );
-    localValue += preFactor * vcl_exp( -distance / denominator );
+    localValue -= this->m_PreFactor * vcl_exp( -distance / this->m_Denominator );
     }
+
   return localValue;
 }
 
@@ -73,8 +86,6 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
   measureValues.Fill( 0.0 );
 
   measure = NumericTraits< MeasureType >::Zero;
-  const MeasureType preFactor = 1.0 / ( vcl_sqrt( 2 * vnl_math::pi ) * this->m_PointSetSigma );
-  const MeasureType denominator = 2.0 * vnl_math_sqr( this->m_PointSetSigma );
 
   localDerivative.Fill( 0.0 );
 
@@ -83,26 +94,31 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 
   NeighborsIdentifierType neighborhood;
 
-  this->m_FixedTransformedPointsLocator->FindClosestNPoints( point, this->m_EvaluationKNeighborhood, neighborhood );
+  this->m_MovingTransformedPointsLocator->FindClosestNPoints( point, this->m_EvaluationKNeighborhood, neighborhood );
 
   for( NeighborsIterator it = neighborhood.begin(); it != neighborhood.end(); ++it )
     {
-    PointType neighbor = this->m_FixedTransformedPointSet->GetPoint( *it );
+    PointType neighbor = this->m_MovingTransformedPointSet->GetPoint( *it );
     const MeasureType distance = point.SquaredEuclideanDistanceTo( neighbor );
-    measureValues[it - neighborhood.begin()] = preFactor * vcl_exp( -distance / denominator );
+    measureValues[it - neighborhood.begin()] = -this->m_PreFactor * vcl_exp( -distance / this->m_Denominator );
     measure += measureValues[it - neighborhood.begin()];
+    }
+
+  if ( vcl_fabs(measure) <= NumericTraits<MeasureType>::epsilon() )
+    {
+    return;
     }
 
   for( NeighborsIterator it = neighborhood.begin(); it != neighborhood.end(); ++it )
     {
-    PointType neighbor = this->m_FixedTransformedPointSet->GetPoint( *it );
+    PointType neighbor = this->m_MovingTransformedPointSet->GetPoint( *it );
     VectorType neighborVector = neighbor.GetVectorFromOrigin();
     weightedPoint += ( neighborVector * measureValues[it - neighborhood.begin()] / measure );
     }
 
   const MeasureType distance = point.SquaredEuclideanDistanceTo( weightedPoint );
 
-  const MeasureType weight = preFactor * vcl_exp( -distance / denominator ) / measure;
+  const MeasureType weight = this->m_PreFactor * vcl_exp( -distance / this->m_Denominator ) / -measure;
 
   VectorType force = ( weightedPoint - point ) * weight;
 

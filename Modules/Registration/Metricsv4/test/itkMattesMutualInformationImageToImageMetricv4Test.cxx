@@ -329,7 +329,7 @@ int TestMattesMetricWithAffineTransform(
       }
     }
 
-  std::cout << "NumberOfValidPoints: " << metric->GetNumberOfValidPoints() << " of " << metric->GetVirtualDomainRegion().GetNumberOfPixels() << std::endl;
+  std::cout << "NumberOfValidPoints: " << metric->GetNumberOfValidPoints() << " of " << metric->GetVirtualRegion().GetNumberOfPixels() << std::endl;
 
 //---------------------------------------------------------
 // Check output gradients for numerical accuracy

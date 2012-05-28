@@ -26,7 +26,7 @@
  */
 #include "itkDemonsImageToImageMetricv4.h"
 #include "itkGradientDescentOptimizerv4.h"
-#include "itkRegistrationParameterScalesFromShift.h"
+#include "itkRegistrationParameterScalesFromPhysicalShift.h"
 
 #include "itkGaussianSmoothingOnUpdateDisplacementFieldTransform.h"
 
@@ -194,7 +194,7 @@ int itkDemonsImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   metric->Initialize();
 
   // scales & step estimator
-  typedef itk::RegistrationParameterScalesFromShift< MetricType > RegistrationParameterScalesFromShiftType;
+  typedef itk::RegistrationParameterScalesFromPhysicalShift< MetricType > RegistrationParameterScalesFromShiftType;
   RegistrationParameterScalesFromShiftType::Pointer shiftScaleEstimator = RegistrationParameterScalesFromShiftType::New();
   shiftScaleEstimator->SetMetric(metric);
 
@@ -204,6 +204,7 @@ int itkDemonsImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   optimizer->SetMetric( metric );
   optimizer->SetNumberOfIterations( numberOfIterations );
   optimizer->SetScalesEstimator( shiftScaleEstimator );
+
   try
     {
     optimizer->StartOptimization();
@@ -228,6 +229,7 @@ int itkDemonsImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   //std::cout << "\n\n*gradient: " << optimizer->GetGradient() << std::endl;
   std::cout << "Scales: " << optimizer->GetScales() << std::endl;
   std::cout << "Final learning rate: " << optimizer->GetLearningRate() << std::endl;
+  std::cout << "MaxStepSizeinPhysUnits: " << optimizer->GetMaximumStepSizeInPhysicalUnits() << std::endl;
 
   //warp the image with the displacement field
   typedef itk::ResampleImageFilter< MovingImageType, FixedImageType >    ResampleFilterType;

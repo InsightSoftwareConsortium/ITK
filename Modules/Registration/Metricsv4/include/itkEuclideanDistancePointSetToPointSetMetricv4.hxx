@@ -46,8 +46,8 @@ EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
   PointType closestPoint;
   closestPoint.Fill( 0.0 );
 
-  PointIdentifier pointId = this->m_FixedTransformedPointsLocator->FindClosestPoint( point );
-  closestPoint = this->m_FixedTransformedPointSet->GetPoint( pointId );
+  PointIdentifier pointId = this->m_MovingTransformedPointsLocator->FindClosestPoint( point );
+  closestPoint = this->m_MovingTransformedPointSet->GetPoint( pointId );
 
   const MeasureType distance = point.EuclideanDistanceTo( closestPoint );
   return distance;
@@ -62,8 +62,8 @@ EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
   PointType closestPoint;
   closestPoint.Fill( 0.0 );
 
-  PointIdentifier pointId = this->m_FixedTransformedPointsLocator->FindClosestPoint( point );
-  closestPoint = this->m_FixedTransformedPointSet->GetPoint( pointId );
+  PointIdentifier pointId = this->m_MovingTransformedPointsLocator->FindClosestPoint( point );
+  closestPoint = this->m_MovingTransformedPointSet->GetPoint( pointId );
 
   measure = point.EuclideanDistanceTo( closestPoint );
   localDerivative = closestPoint - point;

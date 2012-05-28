@@ -26,7 +26,7 @@
  */
 #include "itkMattesMutualInformationImageToImageMetricv4.h"
 #include "itkGradientDescentOptimizerv4.h"
-#include "itkRegistrationParameterScalesFromShift.h"
+#include "itkRegistrationParameterScalesFromPhysicalShift.h"
 
 #include "itkGaussianSmoothingOnUpdateDisplacementFieldTransform.h"
 
@@ -181,7 +181,7 @@ int itkMattesMutualInformationImageToImageMetricv4RegistrationTest(int argc, cha
   // Assign images and transforms.
   // By not setting a virtual domain image or virtual domain settings,
   // the metric will use the fixed image for the virtual domain.
-//  metric->SetVirtualDomainImage( fixedImage );
+//  metric->SetVirtualDomainFromImage( fixedImage );
   metric->SetFixedImage( fixedImage );
   metric->SetMovingImage( movingImage );
   metric->SetFixedTransform( identityTransform );
@@ -191,10 +191,8 @@ int itkMattesMutualInformationImageToImageMetricv4RegistrationTest(int argc, cha
   metric->SetUseFixedImageGradientFilter( gaussian );
   metric->Initialize();
 
-  typedef itk::RegistrationParameterScalesFromShift< MetricType >
-    RegistrationParameterScalesFromShiftType;
-  RegistrationParameterScalesFromShiftType::Pointer shiftScaleEstimator
-    = RegistrationParameterScalesFromShiftType::New();
+  typedef itk::RegistrationParameterScalesFromPhysicalShift< MetricType > RegistrationParameterScalesFromShiftType;
+  RegistrationParameterScalesFromShiftType::Pointer shiftScaleEstimator = RegistrationParameterScalesFromShiftType::New();
   shiftScaleEstimator->SetMetric(metric);
 
   std::cout << "First do an affine registration " << std::endl;
@@ -226,8 +224,7 @@ int itkMattesMutualInformationImageToImageMetricv4RegistrationTest(int argc, cha
     metric->Initialize();
 
     // Optimizer
-    RegistrationParameterScalesFromShiftType::ScalesType
-      displacementScales( displacementTransform->GetNumberOfLocalParameters() );
+    RegistrationParameterScalesFromShiftType::ScalesType displacementScales( displacementTransform->GetNumberOfLocalParameters() );
     displacementScales.Fill(1);
     optimizer->SetMetric( metric );
     optimizer->SetNumberOfIterations( numberOfDisplacementIterations );

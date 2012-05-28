@@ -239,7 +239,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVi
     }
   else
     {
-    this->m_JointHistogramMutualInformationDenseComputeJointPDFThreader->Execute( const_cast<Self *>(this), this->GetVirtualDomainRegion() );
+    this->m_JointHistogramMutualInformationDenseComputeJointPDFThreader->Execute( const_cast<Self *>(this), this->GetVirtualRegion() );
     }
 
   // Optionally smooth the joint pdf

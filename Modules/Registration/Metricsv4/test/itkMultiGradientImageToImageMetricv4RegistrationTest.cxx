@@ -27,7 +27,7 @@
 #include "itkMattesMutualInformationImageToImageMetricv4.h"
 #include "itkMeanSquaresImageToImageMetricv4.h"
 #include "itkGradientDescentOptimizerv4.h"
-#include "itkRegistrationParameterScalesFromShift.h"
+#include "itkRegistrationParameterScalesFromPhysicalShift.h"
 #include "itkMultiGradientOptimizerv4.h"
 #include "itkGaussianSmoothingOnUpdateDisplacementFieldTransform.h"
 
@@ -162,10 +162,8 @@ int itkMultiGradientImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   metric2->Initialize();
 
   std::cout << "First do an affine registration " << std::endl;
-  typedef itk::RegistrationParameterScalesFromShift< MetricType >
-    RegistrationParameterScalesFromShiftType;
-  RegistrationParameterScalesFromShiftType::Pointer shiftScaleEstimator
-    = RegistrationParameterScalesFromShiftType::New();
+  typedef itk::RegistrationParameterScalesFromPhysicalShift< MetricType > RegistrationParameterScalesFromShiftType;
+  RegistrationParameterScalesFromShiftType::Pointer shiftScaleEstimator = RegistrationParameterScalesFromShiftType::New();
   RegistrationParameterScalesFromShiftType::ScalesType scales(affineTransform->GetNumberOfParameters());
   shiftScaleEstimator->SetMetric(metric);
   shiftScaleEstimator->EstimateScales(scales);
@@ -180,10 +178,8 @@ int itkMultiGradientImageToImageMetricv4RegistrationTest(int argc, char *argv[])
 
   std::cout << "now declare optimizer2  " << std::endl;
 
-  typedef itk::RegistrationParameterScalesFromShift< MetricType2 >
-    RegistrationParameterScalesFromShiftType2;
-  RegistrationParameterScalesFromShiftType2::Pointer shiftScaleEstimator2
-    = RegistrationParameterScalesFromShiftType2::New();
+  typedef itk::RegistrationParameterScalesFromPhysicalShift< MetricType2 > RegistrationParameterScalesFromShiftType2;
+  RegistrationParameterScalesFromShiftType2::Pointer shiftScaleEstimator2 = RegistrationParameterScalesFromShiftType2::New();
   shiftScaleEstimator2->SetMetric(metric2);
   shiftScaleEstimator2->EstimateScales(scales);
   OptimizerType::Pointer  optimizer2 = OptimizerType::New();

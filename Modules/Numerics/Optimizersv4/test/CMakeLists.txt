@@ -10,7 +10,9 @@ set(ITKOptimizersv4Tests
   itkMultiGradientOptimizerv4Test.cxx
   itkOptimizerParameterScalesEstimatorTest.cxx
   itkRegistrationParameterScalesEstimatorTest.cxx
-  itkRegistrationParameterScalesFromShiftTest.cxx
+  itkRegistrationParameterScalesFromPhysicalShiftTest.cxx
+  itkRegistrationParameterScalesFromPhysicalShiftPointSetTest.cxx
+  itkRegistrationParameterScalesFromIndexShiftTest.cxx
   itkRegistrationParameterScalesFromJacobianTest.cxx
   itkAutoScaledGradientDescentRegistrationTest.cxx
   itkWindowConvergenceMonitoringFunctionTest.cxx
@@ -58,9 +60,9 @@ itk_add_test(NAME itkRegistrationParameterScalesEstimatorTest
       COMMAND ITKOptimizersv4TestDriver
       itkRegistrationParameterScalesEstimatorTest)
 
-itk_add_test(NAME itkRegistrationParameterScalesFromShiftTest
+itk_add_test(NAME itkRegistrationParameterScalesFromPhysicalShiftTest
       COMMAND ITKOptimizersv4TestDriver
-      itkRegistrationParameterScalesFromShiftTest)
+      itkRegistrationParameterScalesFromPhysicalShiftTest)
 
 itk_add_test(NAME itkRegistrationParameterScalesFromJacobianTest
       COMMAND ITKOptimizersv4TestDriver
@@ -89,3 +91,11 @@ itk_add_test(NAME itkAutoScaledGradientDescentRegistrationTest4
 itk_add_test(NAME itkQuasiNewtonOptimizerv4Test
       COMMAND ITKOptimizersv4TestDriver
       itkQuasiNewtonOptimizerv4Test)
+
+itk_add_test(NAME itkRegistrationParameterScalesFromIndexShiftTest
+      COMMAND ITKOptimizersv4TestDriver
+      itkRegistrationParameterScalesFromIndexShiftTest)
+
+itk_add_test(NAME itkRegistrationParameterScalesFromPhysicalShiftPointSetTest
+      COMMAND ITKOptimizersv4TestDriver
+      itkRegistrationParameterScalesFromPhysicalShiftPointSetTest)

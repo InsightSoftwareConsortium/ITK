@@ -17,7 +17,8 @@
  *=========================================================================*/
 #include "itkQuasiNewtonOptimizerv4.h"
 #include "itkMeanSquaresImageToImageMetricv4.h"
-#include "itkRegistrationParameterScalesFromShift.h"
+#include "itkRegistrationParameterScalesFromPhysicalShift.h"
+#include "itkRegistrationParameterScalesFromIndexShift.h"
 #include "itkRegistrationParameterScalesFromJacobian.h"
 
 #include "itkImageRegistrationMethodImageSource.h"
@@ -93,7 +94,7 @@ int itkQuasiNewtonOptimizerv4TestTemplated(int numberOfIterations,
   // Assign images and transforms to the metric.
   metric->SetFixedImage( fixedImage );
   metric->SetMovingImage( movingImage );
-  metric->SetVirtualDomainImage( const_cast<FixedImageType *>(fixedImage.GetPointer()) );
+  metric->SetVirtualDomainFromImage( const_cast<FixedImageType *>(fixedImage.GetPointer()) );
 
   metric->SetFixedTransform( fixedTransform );
   metric->SetMovingTransform( movingTransform );
@@ -116,17 +117,28 @@ int itkQuasiNewtonOptimizerv4TestTemplated(int numberOfIterations,
   // Optimizer parameter scales estimator
   typename itk::OptimizerParameterScalesEstimator::Pointer scalesEstimator;
 
-  typedef itk::RegistrationParameterScalesFromShift< MetricType > ShiftScalesEstimatorType;
+  typedef itk::RegistrationParameterScalesFromPhysicalShift< MetricType > PhysicalShiftScalesEstimatorType;
+  typedef itk::RegistrationParameterScalesFromIndexShift< MetricType > IndexShiftScalesEstimatorType;
   typedef itk::RegistrationParameterScalesFromJacobian< MetricType > JacobianScalesEstimatorType;
 
   if (scalesOption.compare("shift") == 0)
     {
-    std::cout << "Testing RegistrationParameterScalesFromShift" << std::endl;
-    typename ShiftScalesEstimatorType::Pointer shiftScalesEstimator
-      = ShiftScalesEstimatorType::New();
-    shiftScalesEstimator->SetMetric(metric);
-    shiftScalesEstimator->SetUsePhysicalSpaceForShift(usePhysicalSpaceForShift); //true by default
-    scalesEstimator = shiftScalesEstimator;
+    if( usePhysicalSpaceForShift )
+      {
+      std::cout << "Testing RegistrationParameterScalesFrom*Physical*Shift" << std::endl;
+      typename PhysicalShiftScalesEstimatorType::Pointer shiftScalesEstimator = PhysicalShiftScalesEstimatorType::New();
+      shiftScalesEstimator->SetMetric(metric);
+      shiftScalesEstimator->SetTransformForward(true); //default
+      scalesEstimator = shiftScalesEstimator;
+      }
+    else
+      {
+      std::cout << "Testing RegistrationParameterScalesFrom*Index*Shift" << std::endl;
+      typename IndexShiftScalesEstimatorType::Pointer shiftScalesEstimator = IndexShiftScalesEstimatorType::New();
+      shiftScalesEstimator->SetMetric(metric);
+      shiftScalesEstimator->SetTransformForward(true); //default
+      scalesEstimator = shiftScalesEstimator;
+      }
     }
   else
     {

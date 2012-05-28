@@ -33,11 +33,11 @@ JointHistogramMutualInformationComputeJointPDFThreader< ThreadedImageRegionParti
   VirtualPointType virtualPoint;
   VirtualIndexType virtualIndex;
   typedef ImageRegionConstIteratorWithIndex< VirtualImageType > IteratorType;
-  IteratorType it( this->m_Associate->m_VirtualDomainImage, imageSubRegion );
+  IteratorType it( this->m_Associate->GetVirtualImage(), imageSubRegion );
   for( it.GoToBegin(); !it.IsAtEnd(); ++it )
     {
     virtualIndex = it.GetIndex();
-    this->m_Associate->m_VirtualDomainImage->TransformIndexToPhysicalPoint( virtualIndex, virtualPoint );
+    this->m_Associate->TransformVirtualIndexToPhysicalPoint( virtualIndex, virtualPoint );
     this->ProcessPoint( virtualIndex, virtualPoint, threadId );
     }
 }
@@ -50,13 +50,13 @@ JointHistogramMutualInformationComputeJointPDFThreader< ThreadedIndexedContainer
 {
   VirtualPointType virtualPoint;
   VirtualIndexType virtualIndex;
-  typedef typename VirtualSampledPointSetType::MeshTraits::PointIdentifier ElementIdentifierType;
+  typedef typename VirtualPointSetType::MeshTraits::PointIdentifier ElementIdentifierType;
   const ElementIdentifierType begin = indexSubRange[0];
   const ElementIdentifierType end   = indexSubRange[1];
   for( ElementIdentifierType i = begin; i <= end; ++i )
     {
     virtualPoint = this->m_Associate->m_VirtualSampledPointSet->GetPoint( i );
-    this->m_Associate->m_VirtualDomainImage->TransformPhysicalPointToIndex( virtualPoint, virtualIndex );
+    this->m_Associate->TransformPhysicalPointToVirtualIndex( virtualPoint, virtualIndex );
     this->ProcessPoint( virtualIndex, virtualPoint, threadId );
     }
 }

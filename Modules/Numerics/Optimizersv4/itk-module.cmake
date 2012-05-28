@@ -7,6 +7,7 @@ itk_module(ITKOptimizersv4
     ITKOptimizers
     ITKTransform
     ITKImageGrid
+    ITKDisplacementField
   TEST_DEPENDS
     ITKTestKernel
     ITKMetricsv4

@@ -15,46 +15,43 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRegistrationParameterScalesFromShift_h
-#define __itkRegistrationParameterScalesFromShift_h
+#ifndef __itkRegistrationParameterScalesFromShiftBase_h
+#define __itkRegistrationParameterScalesFromShiftBase_h
 
 #include "itkRegistrationParameterScalesEstimator.h"
 
 namespace itk
 {
 
-/** \class RegistrationParameterScalesFromShift
- *  \brief Implements a registration helper class for estimating scales of
+/** \class RegistrationParameterScalesFromShiftBase
+ *  \brief Registration helper base class for estimating scales of
  * transform parameters from the maximum voxel shift caused by a parameter
  * change.
  *
- * Its input includes the fixed/moving images and transform objects,
- * which can be obtained from the metric object.
+ * Derived classes provide estimation using physical or index space.
  *
  * The scale of a parameter is estimated from the maximum voxel shift produced
  * from a small variation of this parameter. The maximization is done by checking
- * the pixels of the image domain. By defaults, all pixels will be checked.
- * For affine transforms, we may check only the corners by calling
- * SetSamplingStrategy(CornerSampling).
+ * sample points within the metric's virtual domain. Sample points are generated
+ * differently depending on the type of metric transform or metric type.
+ * See RegistrationParameterScalesEstimator documentation.
  *
+ * \sa RegistrationParameterScalesEstimator
  * \ingroup ITKOptimizersv4
  */
 template < class TMetric >
-class ITK_EXPORT RegistrationParameterScalesFromShift :
+class ITK_EXPORT RegistrationParameterScalesFromShiftBase :
   public RegistrationParameterScalesEstimator< TMetric >
 {
 public:
   /** Standard class typedefs. */
-  typedef RegistrationParameterScalesFromShift            Self;
+  typedef RegistrationParameterScalesFromShiftBase        Self;
   typedef RegistrationParameterScalesEstimator< TMetric > Superclass;
   typedef SmartPointer<Self>                              Pointer;
   typedef SmartPointer<const Self>                        ConstPointer;
 
-  /** New macro for creation of through a Smart Pointer. */
-  itkNewMacro( Self );
-
   /** Run-time type information (and related methods). */
-  itkTypeMacro( RegistrationParameterScalesFromShift, RegistrationParameterScalesEstimator );
+  itkTypeMacro( RegistrationParameterScalesFromShiftBase, RegistrationParameterScalesEstimator );
 
   /** Type of scales */
   typedef typename Superclass::ScalesType                ScalesType;
@@ -70,10 +67,6 @@ public:
   typedef typename Superclass::JacobianType              JacobianType;
   typedef typename Superclass::VirtualImageConstPointer  VirtualImageConstPointer;
 
-  /** A switch for using physical space for shift computation or continuous index space */
-  itkSetMacro(UsePhysicalSpaceForShift, bool);
-  itkGetConstMacro(UsePhysicalSpaceForShift, bool);
-
   /** Estimate parameter scales */
   virtual void EstimateScales(ScalesType &scales);
 
@@ -85,8 +78,8 @@ public:
     ScalesType &localStepScales);
 
 protected:
-  RegistrationParameterScalesFromShift();
-  ~RegistrationParameterScalesFromShift(){};
+  RegistrationParameterScalesFromShiftBase();
+  ~RegistrationParameterScalesFromShiftBase(){};
 
   virtual void PrintSelf(std::ostream &os, Indent indent) const;
 
@@ -94,39 +87,25 @@ protected:
    * current parameters. */
   virtual FloatType ComputeMaximumVoxelShift(const ParametersType &deltaParameters);
 
-  /** The templated method of compute the sample shifts in continuous index.
-   *  The template argument TTransform may be either MovingTransformType or
-   *  FixedTransformType.
+  /** Compute the sample shifts.
    */
-  template <class TTransform> void
-    ComputeSampleIndexShifts(const ParametersType &deltaParameters,
-                                        ScalesType &localShifts);
-
-  /** The templated method of compute the sample shifts in the phyiscal space.
-   *  The template argument TTransform may be either MovingTransformType or
-   *  FixedTransformType.
-   */
-  template <class TTransform> void
-    ComputeSamplePhysicalShifts(const ParametersType &deltaParameters,
-                                        ScalesType &localShifts);
+  virtual void ComputeSampleShifts(const ParametersType &deltaParameters, ScalesType &localShifts) = 0;
 
 private:
-  RegistrationParameterScalesFromShift(const Self&); //purposely not implemented
+  RegistrationParameterScalesFromShiftBase(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   //A small variation of parameters
   typename ParametersType::ValueType   m_SmallParameterVariation;
 
-  //A switch for using physical space for shift computation or continuous index space
-  bool                                 m_UsePhysicalSpaceForShift;
-}; //class RegistrationParameterScalesFromShift
+}; //class RegistrationParameterScalesFromShiftBase
 
 
 }  // namespace itk
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRegistrationParameterScalesFromShift.hxx"
+#include "itkRegistrationParameterScalesFromShiftBase.hxx"
 #endif
 
-#endif /* __itkRegistrationParameterScalesFromShift_h */
+#endif /* __itkRegistrationParameterScalesFromShiftBase_h */

@@ -141,14 +141,14 @@ public:
     this->CheckAndSetInputs();
     this->SetSamplingStrategy( Superclass::RandomSampling );
     this->SetNumberOfRandomSamples( 1000 );
-    this->SampleImageDomain();
+    this->SampleVirtualDomain();
 
     itk::SizeValueType numPara = this->GetTransform()->GetNumberOfParameters();
     parameterScales.SetSize(numPara);
 
     ParametersType norms(numPara);
 
-    itk::SizeValueType numSamples = this->m_ImageSamples.size();
+    itk::SizeValueType numSamples = this->m_SamplePoints.size();
 
     norms.Fill(0.0);
     parameterScales.Fill(1.0);
@@ -156,7 +156,7 @@ public:
     // checking each sample point
     for (itk::SizeValueType c=0; c<numSamples; c++)
       {
-      VirtualPointType point = this->m_ImageSamples[c];
+      VirtualPointType point = this->m_SamplePoints[c];
 
       ParametersType squaredNorms(numPara);
       this->ComputeSquaredJacobianNorms( point, squaredNorms );
@@ -242,7 +242,7 @@ int itkRegistrationParameterScalesEstimatorTest(int , char* [])
     <FixedImageType, MovingImageType> MetricType;
   MetricType::Pointer metric = MetricType::New();
 
-  metric->SetVirtualDomainImage( virtualImage );
+  metric->SetVirtualDomainFromImage( virtualImage );
   metric->SetFixedImage( fixedImage );
   metric->SetMovingImage( movingImage );
 
@@ -260,18 +260,15 @@ int itkRegistrationParameterScalesEstimatorTest(int , char* [])
   jacobianScaleEstimator->SetTransformForward(true);
   jacobianScaleEstimator->Print( std::cout );
 
-  RegistrationParameterScalesEstimatorTestType::ScalesType jacobianScales(
-    movingTransform->GetNumberOfParameters());
+  RegistrationParameterScalesEstimatorTestType::ScalesType jacobianScales( movingTransform->GetNumberOfParameters());
   jacobianScaleEstimator->EstimateScales(jacobianScales);
   std::cout << "Scales from max squared Jacobian norm for the affine transform = "
     << jacobianScales << std::endl;
 
   // Check the correctness
-  RegistrationParameterScalesEstimatorTestType::ScalesType theoreticalJacobianScales(
-    movingTransform->GetNumberOfParameters());
+  RegistrationParameterScalesEstimatorTestType::ScalesType theoreticalJacobianScales( movingTransform->GetNumberOfParameters());
   VirtualImageType::PointType upperPoint;
-  virtualImage->TransformIndexToPhysicalPoint(virtualImage->
-    GetLargestPossibleRegion().GetUpperIndex(), upperPoint);
+  virtualImage->TransformIndexToPhysicalPoint(virtualImage->GetLargestPossibleRegion().GetUpperIndex(), upperPoint);
 
   itk::SizeValueType param = 0;
   for (itk::SizeValueType row = 0; row < ImageDimension; row++)

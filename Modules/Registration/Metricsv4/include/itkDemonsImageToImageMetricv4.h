@@ -85,8 +85,7 @@ public:
   typedef typename Superclass::VirtualImageType        VirtualImageType;
   typedef typename Superclass::VirtualIndexType        VirtualIndexType;
   typedef typename Superclass::VirtualPointType        VirtualPointType;
-  typedef typename Superclass::VirtualSampledPointSetType
-                                                       VirtualSampledPointSetType;
+  typedef typename Superclass::VirtualPointSetType     VirtualSPointSetType;
   typedef typename Superclass::NumberOfParametersType  NumberOfParametersType;
 
   typedef typename Superclass::InternalComputationValueType InternalComputationValueType;

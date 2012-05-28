@@ -18,16 +18,55 @@
 
 #include "itkExpectationBasedPointSetToPointSetMetricv4.h"
 #include "itkGradientDescentOptimizerv4.h"
-#include "itkRegistrationParameterScalesFromShift.h"
-#include "itkTranslationTransform.h"
+#include "itkTransform.h"
+#include "itkAffineTransform.h"
+#include "itkRegistrationParameterScalesFromPhysicalShift.h"
+#include "itkCommand.h"
 
 #include <fstream>
+
+template<class TFilter>
+class itkExpectationBasedPointSetMetricRegistrationTestCommandIterationUpdate : public itk::Command
+{
+public:
+  typedef itkExpectationBasedPointSetMetricRegistrationTestCommandIterationUpdate   Self;
+
+  typedef itk::Command             Superclass;
+  typedef itk::SmartPointer<Self>  Pointer;
+  itkNewMacro( Self );
+
+protected:
+  itkExpectationBasedPointSetMetricRegistrationTestCommandIterationUpdate() {};
+
+public:
+
+  void Execute(itk::Object *caller, const itk::EventObject & event)
+    {
+    Execute( (const itk::Object *) caller, event);
+    }
+
+  void Execute(const itk::Object * object, const itk::EventObject & event)
+    {
+    if( typeid( event ) != typeid( itk::IterationEvent ) )
+      {
+      return;
+      }
+    const TFilter *optimizer = dynamic_cast< const TFilter * >( object );
+
+    if( !optimizer )
+      {
+      itkGenericExceptionMacro( "Error dynamic_cast failed" );
+      }
+    std::cout << "It: " << optimizer->GetCurrentIteration() << " metric value: " << optimizer->GetValue();
+    std::cout << std::endl;
+    }
+};
 
 int itkExpectationBasedPointSetMetricRegistrationTest( int argc, char *argv[] )
 {
   const unsigned int Dimension = 2;
 
-  unsigned int numberOfIterations = 10000;
+  unsigned int numberOfIterations = 10;
   if( argc > 1 )
     {
     numberOfIterations = atoi( argv[1] );
@@ -43,24 +82,27 @@ int itkExpectationBasedPointSetMetricRegistrationTest( int argc, char *argv[] )
   PointSetType::Pointer movingPoints = PointSetType::New();
   movingPoints->Initialize();
 
-/*
+
   // two ellipses, one rotated slightly
+/*
+  // Having trouble with these, as soon as there's a slight rotation added.
   unsigned long count = 0;
   for( float theta = 0; theta < 2.0 * vnl_math::pi; theta += 0.1 )
     {
+    float radius = 100.0;
     PointType fixedPoint;
-    fixedPoint[0] = 5.0 * vcl_cos( theta );
-    fixedPoint[1] = 1.0 * vcl_sin( theta );
+    fixedPoint[0] = 2 * radius * vcl_cos( theta );
+    fixedPoint[1] = radius * vcl_sin( theta );
     fixedPoints->SetPoint( count, fixedPoint );
 
     PointType movingPoint;
-    movingPoint[0] = 5.0 * vcl_cos( theta + 0.1 * vnl_math::pi );
-    movingPoint[1] = 1.0 * vcl_sin( theta + 0.1 * vnl_math::pi );
+    movingPoint[0] = 2 * radius * vcl_cos( theta + (0.02 * vnl_math::pi) ) + 2.0;
+    movingPoint[1] = radius * vcl_sin( theta + (0.02 * vnl_math::pi) ) + 2.0;
     movingPoints->SetPoint( count, movingPoint );
 
     count++;
-    }*/
-
+    }
+*/
 
   // two circles with a small offset
   PointType offset;
@@ -93,36 +135,9 @@ int itkExpectationBasedPointSetMetricRegistrationTest( int argc, char *argv[] )
     count++;
     }
 
-  // Create a few points and apply a small rotation to make the moving point set
-/*  float size = 100.0;
-  float theta = vnl_math::pi / 180.0 * 10.0;
-  unsigned int numberOfPoints = 4;
-  PointType fixedPoint;
-  fixedPoint[0] = 0;
-  fixedPoint[1] = 0;
-  fixedPoints->SetPoint( 0, fixedPoint );
-  fixedPoint[0] = size;
-  fixedPoint[1] = 0;
-  fixedPoints->SetPoint( 1, fixedPoint );
-  fixedPoint[0] = size;
-  fixedPoint[1] = size;
-  fixedPoints->SetPoint( 2, fixedPoint );
-  fixedPoint[0] = 0;
-  fixedPoint[1] = size;
-  fixedPoints->SetPoint( 3, fixedPoint );
-  PointType movingPoint;
-  for( unsigned int n=0; n < numberOfPoints; n ++ )
-    {
-    fixedPoint = fixedPoints->GetPoint( n );
-    movingPoint[0] = fixedPoint[0] * vcl_cos( theta ) - fixedPoint[1] * vcl_sin( theta );
-    movingPoint[1] = fixedPoint[0] * vcl_sin( theta ) + fixedPoint[1] * vcl_cos( theta );
-    movingPoints->SetPoint( n, movingPoint );
-    std::cout << fixedPoint << " -> " << movingPoint << std::endl;
-    }
-*/
-  typedef itk::TranslationTransform<double, Dimension> TranslationTransformType;
-  TranslationTransformType::Pointer translationTransform = TranslationTransformType::New();
-  translationTransform->SetIdentity();
+  typedef itk::AffineTransform<double, Dimension> AffineTransformType;
+  AffineTransformType::Pointer transform = AffineTransformType::New();
+  transform->SetIdentity();
 
   // Instantiate the metric
   typedef itk::ExpectationBasedPointSetToPointSetMetricv4<PointSetType> PointSetMetricType;
@@ -131,22 +146,28 @@ int itkExpectationBasedPointSetMetricRegistrationTest( int argc, char *argv[] )
   metric->SetMovingPointSet( movingPoints );
   metric->SetPointSetSigma( 2.0 );
   metric->SetEvaluationKNeighborhood( 10 );
-  metric->SetMovingTransform( translationTransform );
+  metric->SetMovingTransform( transform );
   metric->Initialize();
+
+  // scales estimator
+  typedef itk::RegistrationParameterScalesFromPhysicalShift< PointSetMetricType > RegistrationParameterScalesFromShiftType;
+  RegistrationParameterScalesFromShiftType::Pointer shiftScaleEstimator = RegistrationParameterScalesFromShiftType::New();
+  shiftScaleEstimator->SetMetric( metric );
+  // needed with pointset metrics
+  shiftScaleEstimator->SetVirtualDomainPointSet( metric->GetVirtualTransformedPointSet() );
 
   // optimizer
   typedef itk::GradientDescentOptimizerv4  OptimizerType;
   OptimizerType::Pointer  optimizer = OptimizerType::New();
   optimizer->SetMetric( metric );
   optimizer->SetNumberOfIterations( numberOfIterations );
-  //optimizer->SetScalesEstimator( shiftScaleEstimator );
+  optimizer->SetScalesEstimator( shiftScaleEstimator );
+  optimizer->SetMaximumStepSizeInPhysicalUnits( 3.0 );
 
-  // create scales to normalize between translation and rotation components
-  OptimizerType::ScalesType scales( metric->GetNumberOfParameters() );
-  scales.Fill(0.1);
+  typedef itkExpectationBasedPointSetMetricRegistrationTestCommandIterationUpdate<OptimizerType> CommandType;
+  CommandType::Pointer observer = CommandType::New();
+  optimizer->AddObserver( itk::IterationEvent(), observer );
 
-  optimizer->SetScales( scales );
-  optimizer->SetLearningRate( 0.1 );
   optimizer->SetMinimumConvergenceValue( 0.0 );
   optimizer->SetConvergenceWindowSize( 10 );
   optimizer->StartOptimization();
@@ -154,13 +175,15 @@ int itkExpectationBasedPointSetMetricRegistrationTest( int argc, char *argv[] )
   std::cout << "numberOfIterations: " << numberOfIterations << std::endl;
   std::cout << "Moving-source final value: " << optimizer->GetValue() << std::endl;
   std::cout << "Moving-source final position: " << optimizer->GetCurrentPosition() << std::endl;
+  std::cout << "Optimizer scales: " << optimizer->GetScales() << std::endl;
+  std::cout << "Optimizer learning rate: " << optimizer->GetLearningRate() << std::endl;
 
   // applying the resultant transform to moving points and verify result
   std::cout << "Fixed\tMoving\tMoving Transformed\tDiff" << std::endl;
   bool passed = true;
   PointType::ValueType tolerance = 1e-4;
-  TranslationTransformType::InverseTransformBasePointer movingInverse = metric->GetMovingTransform()->GetInverseTransform();
-  TranslationTransformType::InverseTransformBasePointer fixedInverse = metric->GetFixedTransform()->GetInverseTransform();
+  AffineTransformType::InverseTransformBasePointer movingInverse = metric->GetMovingTransform()->GetInverseTransform();
+  AffineTransformType::InverseTransformBasePointer fixedInverse = metric->GetFixedTransform()->GetInverseTransform();
   for( unsigned int n=0; n < metric->GetNumberOfComponents(); n++ )
     {
     // compare the points in virtual domain
@@ -181,6 +204,7 @@ int itkExpectationBasedPointSetMetricRegistrationTest( int argc, char *argv[] )
     std::cerr << "Results do not match truth within tolerance." << std::endl;
     return EXIT_FAILURE;
     }
+
 
   return EXIT_SUCCESS;
 }

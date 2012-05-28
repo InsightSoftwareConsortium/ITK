@@ -68,7 +68,7 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
 
   if( level == 0 )
     {
-    typename VirtualImageType::ConstPointer virtualDomainImage = this->m_Metric->GetVirtualDomainImage();
+    typename VirtualImageType::ConstPointer virtualDomainImage = this->m_Metric->GetVirtualImage();
 
     const DisplacementVectorType zeroVector( 0.0 );
 
@@ -122,7 +122,7 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
   typedef DisplacementFieldTransform<RealType, ImageDimension> DisplacementFieldTransformType;
   const DisplacementVectorType zeroVector( 0.0 );
   typedef ImageDuplicator<DisplacementFieldType> DisplacementFieldDuplicatorType;
-  typename VirtualImageType::ConstPointer virtualDomainImage = this->m_Metric->GetVirtualDomainImage();
+  typename VirtualImageType::ConstPointer virtualDomainImage = this->m_Metric->GetVirtualImage();
 
   // Monitor the convergence
   typedef itk::Function::WindowConvergenceMonitoringFunction<double> ConvergenceMonitoringType;
@@ -262,7 +262,7 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
 SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
 ::ComputeUpdateField( const FixedImageType * fixedImage, const TransformBaseType * fixedTransform, const MovingImageType * movingImage, const TransformBaseType * movingTransform, MeasureType & value )
 {
-  typename VirtualImageType::ConstPointer virtualDomainImage = this->m_Metric->GetVirtualDomainImage();
+  typename VirtualImageType::ConstPointer virtualDomainImage = this->m_Metric->GetVirtualImage();
 
   // pre calculate the voxel distance to be used in properly scaling the gradient.
 

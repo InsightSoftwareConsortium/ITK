@@ -87,7 +87,7 @@ CorrelationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage>
     }
   else // dense sampling
     {
-    this->m_HelperDenseThreader->Execute( const_cast< Self* >(this), this->GetVirtualDomainRegion() );
+    this->m_HelperDenseThreader->Execute( const_cast< Self* >(this), this->GetVirtualRegion() );
     }
 
   /*
