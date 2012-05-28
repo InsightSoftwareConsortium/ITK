@@ -26,7 +26,7 @@
  */
 #include "itkMeanSquaresImageToImageMetricv4.h"
 #include "itkGradientDescentOptimizerv4.h"
-#include "itkRegistrationParameterScalesFromShift.h"
+#include "itkRegistrationParameterScalesFromPhysicalShift.h"
 
 #include "itkGaussianSmoothingOnUpdateDisplacementFieldTransform.h"
 
@@ -175,10 +175,8 @@ int itkMeanSquaresImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   metric->SetUseFixedImageGradientFilter( gaussian );
   metric->Initialize();
 
-  typedef itk::RegistrationParameterScalesFromShift< MetricType >
-    RegistrationParameterScalesFromShiftType;
-  RegistrationParameterScalesFromShiftType::Pointer shiftScaleEstimator
-    = RegistrationParameterScalesFromShiftType::New();
+  typedef itk::RegistrationParameterScalesFromPhysicalShift< MetricType > RegistrationParameterScalesFromShiftType;
+  RegistrationParameterScalesFromShiftType::Pointer shiftScaleEstimator = RegistrationParameterScalesFromShiftType::New();
   shiftScaleEstimator->SetMetric(metric);
 
   std::cout << "First do an affine registration " << std::endl;
@@ -203,8 +201,7 @@ int itkMeanSquaresImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   metric->Initialize();
 
   // Optimizer
-  RegistrationParameterScalesFromShiftType::ScalesType
-    displacementScales( displacementTransform->GetNumberOfLocalParameters() );
+  RegistrationParameterScalesFromShiftType::ScalesType displacementScales( displacementTransform->GetNumberOfLocalParameters() );
   displacementScales.Fill(1);
   if( 0 )
     {

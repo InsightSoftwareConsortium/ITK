@@ -26,7 +26,7 @@
 #include "itkImage.h"
 #include "itkGaussianImageSource.h"
 #include "itkCyclicShiftImageFilter.h"
-#include "itkRegistrationParameterScalesFromShift.h"
+#include "itkRegistrationParameterScalesFromPhysicalShift.h"
 #include "itkGradientDescentOptimizerv4.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
@@ -160,8 +160,8 @@ int ImageToImageMetricv4RegistrationTestRun( typename TMetric::Pointer metric, i
   typename TMetric::MeasureType initialValue = metric->GetValue();
 
   // scales estimator
-  typedef itk::RegistrationParameterScalesFromShift< TMetric > RegistrationParameterScalesFromShiftType;
-  typename RegistrationParameterScalesFromShiftType::Pointer shiftScaleEstimator = RegistrationParameterScalesFromShiftType::New();
+  typedef itk::RegistrationParameterScalesFromPhysicalShift< TMetric > RegistrationParameterScalesFromPhysicalShiftType;
+  typename RegistrationParameterScalesFromPhysicalShiftType::Pointer shiftScaleEstimator = RegistrationParameterScalesFromPhysicalShiftType::New();
   shiftScaleEstimator->SetMetric(metric);
 
   //

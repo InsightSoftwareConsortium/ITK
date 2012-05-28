@@ -28,7 +28,7 @@
 #include "itkJointHistogramMutualInformationImageToImageMetricv4.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
-#include "itkRegistrationParameterScalesFromShift.h"
+#include "itkRegistrationParameterScalesFromPhysicalShift.h"
 #include "itkShrinkImageFilter.h"
 
 namespace itk
@@ -78,7 +78,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
   mutualInformationMetric->SetUseFixedSampledPointSet( false );
   this->m_Metric = mutualInformationMetric;
 
-  typedef RegistrationParameterScalesFromShift<MetricType> ScalesEstimatorForAffineTransformType;
+  typedef RegistrationParameterScalesFromPhysicalShift<MetricType> ScalesEstimatorForAffineTransformType;
   typename ScalesEstimatorForAffineTransformType::Pointer scalesEstimator = ScalesEstimatorForAffineTransformType::New();
   scalesEstimator->SetMetric( mutualInformationMetric );
   scalesEstimator->SetTransformForward( true );
@@ -222,7 +222,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
   this->m_Metric->SetMovingInterpolator( this->m_MovingInterpolator );
   this->m_Metric->SetFixedImage( this->m_FixedSmoothImage );
   this->m_Metric->SetMovingImage( this->m_MovingSmoothImage );
-  this->m_Metric->SetVirtualDomainImage( shrinkFilter->GetOutput() );
+  this->m_Metric->SetVirtualDomainFromImage( shrinkFilter->GetOutput() );
 
   if( this->m_MetricSamplingStrategy != NONE )
     {
@@ -340,7 +340,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
   typedef typename MetricType::VirtualImageType         VirtualDomainImageType;
   typedef typename VirtualDomainImageType::RegionType   VirtualDomainRegionType;
 
-  const VirtualDomainImageType * virtualImage = this->m_Metric->GetVirtualDomainImage();
+  const VirtualDomainImageType * virtualImage = this->m_Metric->GetVirtualImage();
   const VirtualDomainRegionType & virtualDomainRegion = virtualImage->GetRequestedRegion();
   const typename VirtualDomainImageType::SpacingType virtualSpacing = virtualImage->GetSpacing();
 

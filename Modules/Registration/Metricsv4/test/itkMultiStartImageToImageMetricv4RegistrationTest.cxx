@@ -29,7 +29,7 @@
 #include "itkMeanSquaresImageToImageMetricv4.h"
 #include "itkCorrelationImageToImageMetricv4.h"
 #include "itkGradientDescentOptimizerv4.h"
-#include "itkRegistrationParameterScalesFromShift.h"
+#include "itkRegistrationParameterScalesFromPhysicalShift.h"
 #include "itkMultiStartOptimizerv4.h"
 #include "itkGaussianSmoothingOnUpdateDisplacementFieldTransform.h"
 
@@ -183,10 +183,8 @@ int itkMultiStartImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   metric->SetUseFixedImageGradientFilter( gaussian );
   metric->Initialize();
 
-  typedef itk::RegistrationParameterScalesFromShift< MetricType >
-    RegistrationParameterScalesFromShiftType;
-  RegistrationParameterScalesFromShiftType::Pointer shiftScaleEstimator
-    = RegistrationParameterScalesFromShiftType::New();
+  typedef itk::RegistrationParameterScalesFromPhysicalShift< MetricType > RegistrationParameterScalesFromShiftType;
+  RegistrationParameterScalesFromShiftType::Pointer shiftScaleEstimator = RegistrationParameterScalesFromShiftType::New();
   shiftScaleEstimator->SetMetric(metric);
 
   typedef itk::GradientDescentOptimizerv4  OptimizerType;

@@ -78,6 +78,7 @@ public:
     std::cout << "   LR Final learning rate:    " << optimizer->GetLearningRate() << std::endl;
     std::cout << "   FM Final metric value:     " << optimizer->GetValue() << std::endl;
     std::cout << "   SC Optimizer scales:       " << optimizer->GetScales() << std::endl;
+    std::cout << "   ME Metric value:           " << optimizer->GetValue() << std::endl;
     std::cout << "   FG Final metric gradient (sample of values): ";
     if( gradient.GetSize() < 10 )
       {
@@ -225,7 +226,7 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
   //correlationMetric->SetUseFloatingPointCorrection(true);
   //correlationMetric->SetFloatingPointCorrectionResolution(1e4);
 
-  typedef itk::RegistrationParameterScalesFromShift<CorrelationMetricType> ScalesEstimatorType;
+  typedef itk::RegistrationParameterScalesFromPhysicalShift<CorrelationMetricType> ScalesEstimatorType;
   typename ScalesEstimatorType::Pointer scalesEstimator = ScalesEstimatorType::New();
   scalesEstimator->SetMetric( correlationMetric );
   scalesEstimator->SetTransformForward( true );

@@ -17,7 +17,6 @@
  *=========================================================================*/
 #include "itkGradientDescentOptimizerv4.h"
 #include "itkTestingMacros.h"
-#include "itkRegistrationParameterScalesFromShift.h"
 
 /* Cribbed from itkGradientDescentOptimizerTest */
 

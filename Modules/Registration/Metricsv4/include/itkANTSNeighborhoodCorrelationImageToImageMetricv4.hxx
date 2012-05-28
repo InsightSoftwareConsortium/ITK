@@ -65,10 +65,10 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4<TFixedImage, TMovingImage, TVirt
   scanParameters.scanRegion   = scanRegion;
   scanParameters.fixedImage   = this->m_FixedImage;
   scanParameters.movingImage  = this->m_MovingImage;
-  scanParameters.virtualImage = this->m_VirtualDomainImage;
+  scanParameters.virtualImage = this->GetVirtualImage();
   scanParameters.radius       = this->GetRadius();
 
-  OffsetValueType numberOfFillZero = scanParameters.virtualImage->GetBufferedRegion().GetIndex(0)
+  OffsetValueType numberOfFillZero = this->GetVirtualRegion().GetIndex(0)
       - (scanRegion.GetIndex(0) - scanParameters.radius[0]);
 
   if (numberOfFillZero < NumericTraits<OffsetValueType>::ZeroValue())

@@ -75,14 +75,14 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
   this->m_UseMovingImageGradientFilter = true;
   this->m_UseFixedSampledPointSet      = false;
 
-  this->m_UserHasProvidedVirtualDomainImage = false;
-
   this->m_FloatingPointCorrectionResolution = 1e6;
   this->m_UseFloatingPointCorrection = false;
 
   this->m_HaveMadeGetValueWarning = false;
+  this->m_NumberOfSkippedFixedSampledPoints = 0;
 
   this->m_Value = NumericTraits<MeasureType>::max();
+  this->m_DerivativeResult = NULL;
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
@@ -97,9 +97,6 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::Initialize() throw ( itk::ExceptionObject )
 {
   itkDebugMacro("Initialize entered");
-
-  /* Superclass */
-  Superclass::Initialize();
 
   /* Verify things are connected */
   if ( this->m_FixedImage.IsNull() )
@@ -133,7 +130,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 
   /* If a virtual image has not been set or created,
    * create one from fixed image settings */
-  if( ! this->m_UserHasProvidedVirtualDomainImage )
+  if( ! this->m_UserHasSetVirtualDomain )
     {
     /* Instantiate a virtual image, but do not call Allocate to allocate
      * the data, to save memory. We don't need data. We'll simply be iterating
@@ -141,43 +138,25 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
      * Note that it will be safer to have a dedicated VirtualImage class
      * that prevents accidental access of data. */
     /* Just copy information from fixed image */
-    this->m_VirtualDomainImage = VirtualImageType::New();
-    this->m_VirtualDomainImage->CopyInformation( this->m_FixedImage );
+    VirtualImagePointer image = VirtualImageType::New();
+    image->CopyInformation( this->m_FixedImage );
     /* CopyInformation does not copy buffered region */
-    this->m_VirtualDomainImage->SetBufferedRegion(
-      this->m_FixedImage->GetBufferedRegion() );
-    this->m_VirtualDomainImage->SetRequestedRegion(
-      this->m_FixedImage->GetRequestedRegion() );
+    image->SetBufferedRegion( this->m_FixedImage->GetBufferedRegion() );
+    image->SetRequestedRegion( this->m_FixedImage->GetRequestedRegion() );
+    this->SetVirtualDomainFromImage( image );
     }
+
+  /*
+   * Superclass Initialize.
+   * Requires the above actions to already have been taken.
+   */
+  Superclass::Initialize();
 
   /* Map the fixed samples into the virtual domain and store in
    * a searpate point set. */
-  this->m_NumberOfSkippedFixedSampledPoints = 0;
   if( this->m_UseFixedSampledPointSet )
     {
     this->MapFixedSampledPointSetToVirtual();
-    }
-
-  /* Special checks for when the moving transform is dense/high-dimensional */
-  if( this->m_MovingTransform->HasLocalSupport() )
-    {
-    /* Verify that virtual domain and displacement field are the same size
-    * and in the same physical space. Handles CompositeTransform by checking
-    * if first applied transform is DisplacementFieldTransform */
-    this->VerifyDisplacementFieldSizeAndPhysicalSpace();
-
-    /* Verify virtual image pixel type is scalar. Effects calc of offset
-    in StoreDerivativeResult.
-    NOTE:  Can this be checked at compile time? ConceptChecking has a
-    HasPixelTraits class, but looks like it just verifies that type T
-    has PixelTraits associated with it, and not a particular value. */
-    if( PixelTraits< VirtualImagePixelType >::Dimension != 1 )
-      {
-      itkExceptionMacro("VirtualImagePixelType must be scalar for use "
-                        "with high-dimensional transform. "
-                        "Dimensionality is " <<
-                        PixelTraits< VirtualImagePixelType >::Dimension );
-      }
     }
 
   /* Inititialize interpolators. */
@@ -291,7 +270,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
     }
   else // dense sampling
     {
-    this->m_DenseGetValueAndDerivativeThreader->Execute( const_cast< Self* >(this), this->GetVirtualDomainRegion() );
+    this->m_DenseGetValueAndDerivativeThreader->Execute( const_cast< Self* >(this), this->GetVirtualRegion() );
     }
 }
 
@@ -300,14 +279,17 @@ void
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::InitializeForIteration() const
 {
-  /* This size always comes from the moving image */
-  const NumberOfParametersType globalDerivativeSize = this->m_MovingTransform->GetNumberOfParameters();
-  if( this->m_DerivativeResult->GetSize() != globalDerivativeSize )
+  if( this->m_DerivativeResult )
     {
-    this->m_DerivativeResult->SetSize( globalDerivativeSize );
+    /* This size always comes from the active transform */
+    const NumberOfParametersType globalDerivativeSize = this->GetNumberOfParameters();
+    if( this->m_DerivativeResult->GetSize() != globalDerivativeSize )
+      {
+      this->m_DerivativeResult->SetSize( globalDerivativeSize );
+      }
+    /* Clear derivative final result. */
+    this->m_DerivativeResult->Fill( NumericTraits< DerivativeValueType >::Zero );
     }
-  /* Clear derivative final result. */
-  this->m_DerivativeResult->Fill( NumericTraits< DerivativeValueType >::Zero );
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
@@ -580,125 +562,10 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
-::CreateVirtualDomainImage( VirtualSpacingType & spacing,
-                            VirtualOriginType & origin,
-                            VirtualDirectionType & direction,
-                            VirtualRegionType & region )
-{
-  this->m_VirtualDomainImage = VirtualImageType::New();
-  this->m_VirtualDomainImage->SetSpacing( spacing );
-  this->m_VirtualDomainImage->SetOrigin( origin );
-  this->m_VirtualDomainImage->SetDirection( direction );
-  this->m_VirtualDomainImage->SetRegions( region );
-  this->m_VirtualDomainImage->Allocate();
-  this->m_VirtualDomainImage->FillBuffer( 0 );
-  this->m_UserHasProvidedVirtualDomainImage = true;
-  this->Modified();
-}
-
-template<class TFixedImage,class TMovingImage,class TVirtualImage>
-void
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
-::SetVirtualDomainImage( VirtualImageType * virtualImage )
-{
-  itkDebugMacro("setting VirtualDomainImage to " << virtualImage);
-  if ( this->m_VirtualDomainImage != virtualImage )
-    {
-    this->m_VirtualDomainImage = virtualImage;
-    this->Modified();
-    this->m_UserHasProvidedVirtualDomainImage = virtualImage != NULL;
-    }
-}
-
-template<class TFixedImage,class TMovingImage,class TVirtualImage>
-OffsetValueType
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
-::ComputeParameterOffsetFromVirtualDomainIndex( const VirtualIndexType & index, NumberOfParametersType numberOfLocalParameters ) const
-{
-  OffsetValueType offset = this->m_VirtualDomainImage->ComputeOffset(index) * numberOfLocalParameters;
-  return offset;
-}
-
-template<class TFixedImage,class TMovingImage,class TVirtualImage>
-const typename ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >::VirtualSpacingType
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
-::GetVirtualDomainSpacing( void ) const
-{
-  if( this->m_VirtualDomainImage )
-    {
-    return this->m_VirtualDomainImage->GetSpacing();
-    }
-  else
-    {
-    itkExceptionMacro("m_VirtualDomainImage is undefined. Cannot "
-                      " return spacing. ");
-    }
-}
-
-template<class TFixedImage,class TMovingImage,class TVirtualImage>
-const typename ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >::VirtualDirectionType
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
-::GetVirtualDomainDirection( void ) const
-{
-  if( this->m_VirtualDomainImage )
-    {
-    return this->m_VirtualDomainImage->GetDirection();
-    }
-  else
-    {
-    itkExceptionMacro("m_VirtualDomainImage is undefined. Cannot "
-                      " return direction. ");
-    }
-}
-
-template<class TFixedImage,class TMovingImage,class TVirtualImage>
-const typename ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >::VirtualOriginType
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
-::GetVirtualDomainOrigin( void ) const
-{
-  if( this->m_VirtualDomainImage )
-    {
-    return this->m_VirtualDomainImage->GetOrigin();
-    }
-  else
-    {
-    itkExceptionMacro("m_VirtualDomainImage is undefined. Cannot "
-                      " return origin. ");
-    }
-}
-
-template<class TFixedImage,class TMovingImage,class TVirtualImage>
-const typename ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >::VirtualRegionType
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
-::GetVirtualDomainRegion( void ) const
-{
-  if( this->m_VirtualDomainImage )
-    {
-    return this->m_VirtualDomainImage->GetBufferedRegion();
-    }
-  else
-    {
-    itkExceptionMacro("m_VirtualDomainImage is undefined. Cannot "
-                      " return region. ");
-    }
-}
-
-template<class TFixedImage,class TMovingImage,class TVirtualImage>
-void
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
 ::MapFixedSampledPointSetToVirtual()
 {
-  if( this->m_FixedSampledPointSet.IsNull() )
-    {
-    itkExceptionMacro("UseFixedSampledPointSet has been set, but the fixed sample point list has not been assigned.");
-    }
-  if( this->m_FixedSampledPointSet->GetNumberOfPoints() == 0 )
-    {
-    itkExceptionMacro("The fixed sampled point contains no points.");
-    }
-
-  this->m_VirtualSampledPointSet = VirtualSampledPointSetType::New();
+  this->m_VirtualSampledPointSet = VirtualPointSetType::New();
   this->m_VirtualSampledPointSet->Initialize();
 
   typedef typename FixedSampledPointSetType::PointsContainer PointsContainer;
@@ -714,15 +581,15 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
                       " point set.");
     }
 
+  this->m_NumberOfSkippedFixedSampledPoints = 0;
   SizeValueType virtualIndex = 0;
   while( fixedIt != points->End() )
     {
-    typename FixedSampledPointSetType::PointType
-      point = inverseTransform->TransformPoint( fixedIt.Value() );
+    typename FixedSampledPointSetType::PointType point = inverseTransform->TransformPoint( fixedIt.Value() );
     typename VirtualImageType::IndexType tempIndex;
     /* Verify that the point is valid. We may be working with a resized virtual domain,
      * and a fixed sampled point list that was created before the resizing. */
-    if( this->m_VirtualDomainImage->TransformPhysicalPointToIndex( point, tempIndex ) )
+    if( this->TransformPhysicalPointToVirtualIndex( point, tempIndex ) )
       {
       this->m_VirtualSampledPointSet->SetPoint( virtualIndex, point );
       virtualIndex++;
@@ -733,12 +600,12 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
       }
     ++fixedIt;
     }
-    if( this->m_VirtualSampledPointSet->GetNumberOfPoints() == 0 )
-      {
-      itkExceptionMacro("The virtual sampled point set has zero points because "
-                        "all fixed sampled points were not within the virtual "
-                        "domain after mapping. There are no points to evaulate.");
-      }
+  if( this->m_VirtualSampledPointSet->GetNumberOfPoints() == 0 )
+    {
+    itkExceptionMacro("The virtual sampled point set has zero points because "
+                      "no fixed sampled points were within the virtual "
+                      "domain after mapping. There are no points to evaulate.");
+    }
 }
 
 
@@ -755,128 +622,9 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
     }
   else
     {
-    typename VirtualImageType::RegionType region = this->GetVirtualDomainRegion();
+    typename VirtualImageType::RegionType region = this->GetVirtualRegion();
     return region.GetNumberOfPixels();
     }
-}
-
-template<class TFixedImage,class TMovingImage,class TVirtualImage>
-void
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
-::VerifyDisplacementFieldSizeAndPhysicalSpace()
-{
-
-  // TODO: replace with a common external method to check this,
-  // possibly something in Transform.
-
-  /* Verify that virtual domain and displacement field are the same size
-   * and in the same physical space.
-   * Effects transformation, and calculation of offset in StoreDerivativeResult.
-   * If it's a composite transform and the displacement field is the first
-   * to be applied (i.e. the most recently added), then it has to be
-   * of the same size, otherwise not.
-   * Eventually we'll want a method in Transform something like a
-   * GetInputDomainSize to check this cleanly. */
-  typedef DisplacementFieldTransform<CoordinateRepresentationType,
-    itkGetStaticConstMacro( MovingImageDimension ) >
-                                          MovingDisplacementFieldTransformType;
-  typedef CompositeTransform<CoordinateRepresentationType,
-    itkGetStaticConstMacro( MovingImageDimension ) >
-                                          MovingCompositeTransformType;
-  MovingTransformType* transform;
-  transform = this->m_MovingTransform.GetPointer();
-  /* If it's a CompositeTransform, get the last transform (1st applied). */
-  MovingCompositeTransformType* comptx =
-               dynamic_cast< MovingCompositeTransformType * > ( transform );
-  if( comptx != NULL )
-    {
-    transform = comptx->GetBackTransform().GetPointer();
-    }
-  /* Check that it's a DisplacementField type, or a derived type,
-   * the only type we expect at this point. */
-  MovingDisplacementFieldTransformType* deftx =
-          dynamic_cast< MovingDisplacementFieldTransformType * >( transform );
-  if( deftx == NULL )
-    {
-    itkExceptionMacro("Expected m_MovingTransform to be of type "
-                      "DisplacementFieldTransform or derived." );
-    }
-  typedef typename MovingDisplacementFieldTransformType::DisplacementFieldType
-                                                                    FieldType;
-  typename FieldType::Pointer field = deftx->GetDisplacementField();
-  typename FieldType::RegionType
-    fieldRegion = field->GetBufferedRegion();
-  VirtualRegionType virtualRegion =
-                            this->m_VirtualDomainImage->GetBufferedRegion();
-  if( virtualRegion.GetSize() != fieldRegion.GetSize() ||
-      virtualRegion.GetIndex() != fieldRegion.GetIndex() )
-    {
-    itkExceptionMacro("Virtual domain and moving transform displacement field"
-                      " must have the same size and index for "
-                      " LargestPossibleRegion."
-                      << std::endl << "Virtual size/index: "
-                      << virtualRegion.GetSize() << " / "
-                      << virtualRegion.GetIndex() << std::endl
-                      << "Displacement field size/index: "
-                      << fieldRegion.GetSize() << " / "
-                      << fieldRegion.GetIndex() << std::endl );
-    }
-
-    /* check that the image occupy the same physical space, and that
-     * each index is at the same physical location.
-     * this code is from ImageToImageFilter */
-
-    /* tolerance for origin and spacing depends on the size of pixel
-     * tolerance for directions a fraction of the unit cube. */
-    const double coordinateTol
-      = 1.0e-6 * this->m_VirtualDomainImage->GetSpacing()[0];
-    const double directionTol = 1.0e-6;
-
-    if ( !this->m_VirtualDomainImage->GetOrigin().GetVnlVector().
-               is_equal( field->GetOrigin().GetVnlVector(), coordinateTol ) ||
-         !this->m_VirtualDomainImage->GetSpacing().GetVnlVector().
-               is_equal( field->GetSpacing().GetVnlVector(), coordinateTol ) ||
-         !this->m_VirtualDomainImage->GetDirection().GetVnlMatrix().as_ref().
-               is_equal( field->GetDirection().GetVnlMatrix(), directionTol ) )
-      {
-      std::ostringstream originString, spacingString, directionString;
-      originString << "m_VirtualDomainImage Origin: "
-                   << this->m_VirtualDomainImage->GetOrigin()
-                   << ", DisplacementField Origin: " << field->GetOrigin()
-                   << std::endl;
-      spacingString << "m_VirtualDomainImage Spacing: "
-                    << this->m_VirtualDomainImage->GetSpacing()
-                    << ", DisplacementField Spacing: "
-                    << field->GetSpacing() << std::endl;
-      directionString << "m_VirtualDomainImage Direction: "
-                      << this->m_VirtualDomainImage->GetDirection()
-                      << ", DisplacementField Direction: "
-                      << field->GetDirection() << std::endl;
-      itkExceptionMacro(<< "m_VirtualDomainImage and DisplacementField do not "
-                        << "occupy the same physical space! You may be able to "
-                        << "simply call displacementField->CopyInformation( "
-                        << "m_VirtualDomainImage ) to align them. "
-                        << std::endl
-                        << originString.str() << spacingString.str()
-                        << directionString.str() );
-      }
-}
-
-template<class TFixedImage,class TMovingImage,class TVirtualImage>
-bool
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
-::VerifyNumberOfValidPoints( MeasureType & value, DerivativeType & derivative) const
-{
-  if( this->m_NumberOfValidPoints == 0 )
-    {
-    value = NumericTraits<MeasureType>::max();
-    derivative.Fill( NumericTraits<DerivativeValueType>::Zero );
-    itkWarningMacro("No valid points were found during metric evaluation. "
-                    "Verify that the images overlap appropriately. "
-                    "For instance, you can align the image centers by translation.");
-    return false;
-    }
-  return true;
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
@@ -892,14 +640,6 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
      << indent << "UseFloatingPointCorrection: " << this->GetUseFloatingPointCorrection() << std::endl
      << indent << "FloatingPointCorrectionResolution: " << this->GetFloatingPointCorrectionResolution() << std::endl;
 
-  if( this->GetVirtualDomainImage() != NULL )
-    {
-    os << indent << "VirtualDomainImage: " << this->GetVirtualDomainImage() << std::endl;
-    }
-  else
-    {
-    os << indent << "VirtualDomainImage is NULL." << std::endl;
-    }
   if( this->GetFixedImage() != NULL )
     {
     os << indent << "FixedImage: " << this->GetFixedImage() << std::endl;

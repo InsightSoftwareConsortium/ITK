@@ -35,8 +35,27 @@ namespace itk
  * class is the base class for a hierarchy of point-set to point-set metrics.
  *
  * This class computes a value that measures the similarity between the fixed
- * point-set and the moving point-set in a common virtual domain. The virtual
- * domain transform is the inverse of each point-set's assigned transform.
+ * point-set and the moving point-set in the moving domain. The fixed point set
+ * is transformed into the virtual domain by computing the inverse of the
+ * fixed transform, then transformed into the moving domain using the
+ * moving transform.
+ *
+ * If a virtual domain is not defined by the user, one of two things happens:
+ * 1) If the moving transform is a global type, then the virtual domain is
+ * left undefined and every point is considered to be within the virtual domain.
+ * 2) If the moving transform is a local-support type, then the virtual domain
+ * is taken during initialization from the moving transform displacement field,
+ * and all fixed points are verified to be within the virtual domain after
+ * transformation by the inverse fixed transform. Points outside the virtual
+ * domain are not used. See GetNumberOfValidPoints() to verify how many fixed
+ * points were used during evaluation.
+ *
+ * See ObjectToObjectMetric documentation for more discussion on the virutal domain.
+ *
+ * \note When used with an RegistrationParameterScalesEstimator estimator, a VirtualDomainPointSet
+ * must be defined and assigned to the estimator, for use in shift estimation.
+ * The virtual domain point set can be retrieved from the metric using the
+ * GetVirtualTransformedPointSet() method.
  *
  * \ingroup ITKMetricsv4
  */
@@ -127,6 +146,21 @@ public:
   typedef typename DerivativeType::ValueType                                          DerivativeValueType;
   typedef FixedArray<DerivativeValueType, itkGetStaticConstMacro( PointDimension )>   LocalDerivativeType;
 
+  /** Types for the virtual domain */
+  typedef typename Superclass::VirtualImageType       VirtualImageType;
+  typedef typename Superclass::VirtualImagePointer    VirtualImagePointer;
+  typedef typename Superclass::VirtualPixelType       VirtualPixelType;
+  typedef typename Superclass::VirtualRegionType      VirtualRegionType;
+  typedef typename Superclass::VirtualSizeType        VirtualSizeType;
+  typedef typename Superclass::VirtualSpacingType     VirtualSpacingType;
+  typedef typename Superclass::VirtualPointType       VirtualOriginType;
+  typedef typename Superclass::VirtualPointType       VirtualPointType;
+  typedef typename Superclass::VirtualDirectionType   VirtualDirectionType;
+  typedef typename Superclass::VirtualSizeType        VirtualRadiusType;
+  typedef typename Superclass::VirtualIndexType       VirtualIndexType;
+  typedef typename Superclass::VirtualPointSetType    VirtualPointSetType;
+  typedef typename Superclass::VirtualPointSetPointer VirtualPointSetPointer;
+
   /** Connect the fixed pointset.  */
   itkSetConstObjectMacro( FixedPointSet, FixedPointSetType );
 
@@ -204,10 +238,23 @@ public:
     MeasureType &, LocalDerivativeType & ) const = 0;
 
   /**
+   * Get the virtual point set, derived from the fixed point set.
+   * If the virtual point set has not yet been derived, it will be
+   * in this call. */
+  const VirtualPointSetType * GetVirtualTransformedPointSet();
+
+  /**
    * Initialize the metric by making sure that all the components
-   *  are present and plugged together correctly     .
+   *  are present and plugged together correctly.
    */
   virtual void Initialize( void ) throw ( ExceptionObject );
+
+  virtual bool SupportsArbitraryVirtualDomainSamples( void ) const
+  {
+    /* An arbitrary point in the virtual domain will not always
+     * correspond to a point within either point set. */
+    return false;
+  }
 
 protected:
   PointSetToPointSetMetricv4();
@@ -224,27 +271,43 @@ protected:
 
   mutable typename PointsLocatorType::Pointer             m_MovingTransformedPointsLocator;
 
+  /** Holds the fixed points after transformation into virtual domain. */
+  mutable VirtualPointSetPointer                          m_VirtualTransformedPointSet;
+
+  /**
+   * Prepare point sets for use. */
+  virtual void InitializePointSets( void ) const;
+
   /**
    * Initialize to prepare for a particular iteration, generally
    * an iteration of optimization. Distinct from Initialize()
    * which is a one-time initialization. */
   virtual void InitializeForIteration( void ) const;
 
+  /**
+   * Determine the number of valid fixed points. A fixed point
+   * is valid if, when transformed into the virtual domain using
+   * the inverse of the FixedTransform, it is within the defined
+   * virtual domain bounds. */
+  virtual SizeValueType CalculateNumberOfValidFixedPoints( void ) const;
+
   /** Helper method allows for code reuse while skipping the metric value
    * calculation when appropriate */
   void CalculateValueAndDerivative( MeasureType & value, DerivativeType & derivative, bool calculateValue ) const;
 
   /**
-   * Warp the fixed point set based on the fixed transform.  Note that the
-   * warped moving point set is of type FixedPointSetType since the transform
+   * Warp the fixed point set into the moving domain based on the fixed transform,
+   * passing through the virtual domain and storing a virtual domain set.
+   * Note that the warped moving point set is of type FixedPointSetType since the transform
    * takes the points from the fixed to the moving domain.
    */
-  void TransformFixedPointSet() const;
+  void TransformFixedAndCreateVirtualPointSet() const;
 
   /**
    * Warp the moving point set based on the moving transform.  Note that the
    * warped moving point set is of type FixedPointSetType since the transform
    * takes the points from the moving to the fixed domain.
+   * FIXME: needs update.
    */
   void TransformMovingPointSet() const;
 
@@ -254,12 +317,25 @@ protected:
    */
   void InitializePointsLocators() const;
 
+  /**
+   * Store a derivative from a single point in a field.
+   * Only relevant when active transform has local support.
+   */
+  void StorePointDerivative( const VirtualPointType &, const DerivativeType &, DerivativeType & ) const;
+
 private:
   PointSetToPointSetMetricv4( const Self & ); //purposely not implemented
   void operator=( const Self & );           //purposely not implemented
 
   mutable bool m_MovingTransformPointLocatorsNeedInitialization;
   mutable bool m_FixedTransformPointLocatorsNeedInitialization;
+
+  // Flag to keep track of whether a warning has already been issued
+  // regarding the number of valid points.
+  mutable bool m_HaveWarnedAboutNumberOfValidPoints;
+
+  mutable unsigned long m_MovingTransformedPointSetTime;
+  mutable unsigned long m_FixedTransformedPointSetTime;
 };
 } // end namespace itk
 

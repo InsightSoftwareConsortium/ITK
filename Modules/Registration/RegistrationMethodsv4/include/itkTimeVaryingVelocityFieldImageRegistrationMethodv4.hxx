@@ -89,7 +89,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOu
 
   const typename TimeVaryingVelocityFieldType::SpacingType velocityFieldSpacing = velocityField->GetSpacing();
 
-  typename VirtualImageType::ConstPointer virtualDomainImage = this->m_Metric->GetVirtualDomainImage();
+  typename VirtualImageType::ConstPointer virtualDomainImage = this->m_Metric->GetVirtualImage();
 
   typedef typename MetricType::DerivativeType MetricDerivativeType;
   const typename MetricDerivativeType::SizeValueType metricDerivativeSize = virtualDomainImage->GetLargestPossibleRegion().GetNumberOfPixels() * ImageDimension;

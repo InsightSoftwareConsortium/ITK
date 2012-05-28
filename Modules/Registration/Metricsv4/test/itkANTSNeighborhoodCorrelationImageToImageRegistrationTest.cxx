@@ -26,7 +26,7 @@
  */
 #include "itkANTSNeighborhoodCorrelationImageToImageMetricv4.h"
 #include "itkGradientDescentOptimizerv4.h"
-#include "itkRegistrationParameterScalesFromShift.h"
+#include "itkRegistrationParameterScalesFromPhysicalShift.h"
 
 #include "itkGaussianSmoothingOnUpdateDisplacementFieldTransform.h"
 
@@ -174,6 +174,7 @@ int itkANTSNeighborhoodCorrelationImageToImageRegistrationTest(int argc, char *a
   // Assign images and transforms.
   // By not setting a virtual domain image or virtual domain settings,
   // the metric will use the fixed image for the virtual domain.
+  metric->SetVirtualDomainFromImage( fixedImage );
   metric->SetFixedImage( fixedImage );
   metric->SetMovingImage( movingImage );
   metric->SetFixedTransform( identityTransform );
@@ -183,14 +184,11 @@ int itkANTSNeighborhoodCorrelationImageToImageRegistrationTest(int argc, char *a
   metric->SetUseFixedImageGradientFilter( gaussian );
   metric->Initialize();
 
-  typedef itk::RegistrationParameterScalesFromShift< MetricType >
-    RegistrationParameterScalesFromShiftType;
-  RegistrationParameterScalesFromShiftType::Pointer shiftScaleEstimator
-    = RegistrationParameterScalesFromShiftType::New();
+  typedef itk::RegistrationParameterScalesFromPhysicalShift< MetricType > RegistrationParameterScalesFromShiftType;
+  RegistrationParameterScalesFromShiftType::Pointer shiftScaleEstimator = RegistrationParameterScalesFromShiftType::New();
   shiftScaleEstimator->SetMetric(metric);
   shiftScaleEstimator->SetTransformForward(true); //by default, scales for the moving transform
-  RegistrationParameterScalesFromShiftType::ScalesType movingScales(
-    affineTransform->GetNumberOfLocalParameters());
+  RegistrationParameterScalesFromShiftType::ScalesType movingScales( affineTransform->GetNumberOfLocalParameters() );
   shiftScaleEstimator->EstimateScales(movingScales);
   std::cout << "Shift scales for the affine transform = " << movingScales << std::endl;
 

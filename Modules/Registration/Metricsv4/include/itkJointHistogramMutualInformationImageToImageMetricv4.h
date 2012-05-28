@@ -50,8 +50,8 @@ public:
   /** Standard class typedefs. */
   typedef JointHistogramMutualInformationImageToImageMetricv4            Self;
   typedef ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage> Superclass;
-  typedef SmartPointer<Self>                                                 Pointer;
-  typedef SmartPointer<const Self>                                           ConstPointer;
+  typedef SmartPointer<Self>                                             Pointer;
+  typedef SmartPointer<const Self>                                       ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -76,21 +76,18 @@ public:
   typedef typename Superclass::DerivativeType           DerivativeType;
   typedef typename Superclass::FixedImagePointType      FixedImagePointType;
   typedef typename Superclass::FixedImagePixelType      FixedImagePixelType;
-  typedef typename Superclass::FixedGradientPixelType
-                                                        FixedImageGradientType;
+  typedef typename Superclass::FixedGradientPixelType   FixedImageGradientType;
   typedef typename Superclass::MovingImagePointType     MovingImagePointType;
   typedef typename Superclass::MovingImagePixelType     MovingImagePixelType;
-  typedef typename Superclass::MovingGradientPixelType
-                                                        MovingImageGradientType;
-  typedef typename Superclass::FixedTransformType::JacobianType
-                                                        FixedTransformJacobianType;
-  typedef typename Superclass::MovingTransformType::JacobianType
-                                                        MovingTransformJacobianType;
+  typedef typename Superclass::MovingGradientPixelType  MovingImageGradientType;
+
+  typedef typename Superclass::FixedTransformType::JacobianType  FixedTransformJacobianType;
+  typedef typename Superclass::MovingTransformType::JacobianType MovingTransformJacobianType;
+
   typedef typename Superclass::VirtualImageType         VirtualImageType;
   typedef typename Superclass::VirtualIndexType         VirtualIndexType;
   typedef typename Superclass::VirtualPointType         VirtualPointType;
-  typedef typename Superclass::VirtualSampledPointSetType
-                                                        VirtualSampledPointSetType;
+  typedef typename Superclass::VirtualPointSetType      VirtualPointSetType;
 
   /* Image dimension accessors */
   itkStaticConstMacro(VirtualImageDimension, ImageDimensionType,
@@ -114,28 +111,19 @@ public:
   itkGetConstObjectMacro( JointPDF, JointPDFType );
 
   // Declare the type for the derivative calculation
-  typedef itk::GradientRecursiveGaussianImageFilter< JointPDFType >
-                                                         JPDFGradientFilterType;
+  typedef itk::GradientRecursiveGaussianImageFilter< JointPDFType > JPDFGradientFilterType;
+  typedef typename JPDFGradientFilterType::OutputImageType          JPDFGradientImageType;
+  typedef typename JPDFGradientImageType::Pointer                   JPDFGradientImagePointer;
 
-  typedef typename JPDFGradientFilterType::OutputImageType JPDFGradientImageType;
-
-  typedef typename JPDFGradientImageType::Pointer JPDFGradientImagePointer;
-
-  typedef itk::GradientRecursiveGaussianImageFilter< MarginalPDFType >
-                                                  MarginalGradientFilterType;
-  typedef typename MarginalGradientFilterType::OutputImageType
-                                                  MarginalGradientImageType;
-  typedef typename MarginalGradientImageType::Pointer
-                                                  MarginalGradientImagePointer;
+  typedef itk::GradientRecursiveGaussianImageFilter< MarginalPDFType >  MarginalGradientFilterType;
+  typedef typename MarginalGradientFilterType::OutputImageType          MarginalGradientImageType;
+  typedef typename MarginalGradientImageType::Pointer                   MarginalGradientImagePointer;
 
   /** pdf interpolator */
-  typedef LinearInterpolateImageFunction<JointPDFType,double>
-                                                     JointPDFInterpolatorType;
-  typedef typename JointPDFInterpolatorType::Pointer JointPDFInterpolatorPointer;
-  typedef LinearInterpolateImageFunction<MarginalPDFType,double>
-                                                     MarginalPDFInterpolatorType;
-  typedef typename MarginalPDFInterpolatorType::Pointer
-                                                     MarginalPDFInterpolatorPointer;
+  typedef LinearInterpolateImageFunction<JointPDFType,double>     JointPDFInterpolatorType;
+  typedef typename JointPDFInterpolatorType::Pointer              JointPDFInterpolatorPointer;
+  typedef LinearInterpolateImageFunction<MarginalPDFType,double>  MarginalPDFInterpolatorType;
+  typedef typename MarginalPDFInterpolatorType::Pointer           MarginalPDFInterpolatorPointer;
 
   /** Joint PDF types */
   typedef typename JointPDFType::PixelType             JointPDFValueType;
@@ -145,8 +133,7 @@ public:
 
 
   /** Get/Set the number of histogram bins */
-  itkSetClampMacro( NumberOfHistogramBins, SizeValueType,
-                    5, NumericTraits< SizeValueType >::max() );
+  itkSetClampMacro( NumberOfHistogramBins, SizeValueType, 5, NumericTraits< SizeValueType >::max() );
   itkGetConstReferenceMacro(NumberOfHistogramBins, SizeValueType );
 
   /** Get/Set option to smooth the joint pdf after it's updated */
@@ -172,9 +159,7 @@ protected:
 
   /** Compute the point location with the JointPDF image.  Returns false if the
    * point is not inside the image. */
-  inline void ComputeJointPDFPoint( const FixedImagePixelType fixedImageValue,
-                               const MovingImagePixelType movingImageValue,
-                               JointPDFPointType & jointPDFpoint ) const;
+  inline void ComputeJointPDFPoint( const FixedImagePixelType fixedImageValue, const MovingImagePixelType movingImageValue, JointPDFPointType & jointPDFpoint ) const;
 
   friend class JointHistogramMutualInformationComputeJointPDFThreaderBase< ThreadedImageRegionPartitioner< Self::VirtualImageDimension >, Self >;
   friend class JointHistogramMutualInformationComputeJointPDFThreaderBase< ThreadedIndexedContainerPartitioner, Self >;

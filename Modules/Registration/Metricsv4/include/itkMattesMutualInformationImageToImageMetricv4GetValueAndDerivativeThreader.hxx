@@ -261,7 +261,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
   if( associate->HasLocalSupport() )
     {
     OffsetValueType jointPdfIndex1D = pdfMovingIndex + (fixedImageParzenWindowIndex * associate->m_NumberOfHistogramBins);
-    localDerivativeOffset = associate->ComputeParameterOffsetFromVirtualDomainIndex( virtualIndex, associate->GetNumberOfLocalParameters() );
+    localDerivativeOffset = associate->ComputeParameterOffsetFromVirtualIndex( virtualIndex, associate->GetNumberOfLocalParameters() );
     for (NumberOfParametersType i=0; i < associate->GetNumberOfLocalParameters(); i++)
       {
       associate->m_JointPdfIndex1DArray[localDerivativeOffset + i] = jointPdfIndex1D;

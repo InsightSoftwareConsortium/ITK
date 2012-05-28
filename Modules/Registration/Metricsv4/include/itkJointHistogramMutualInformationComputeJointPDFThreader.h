@@ -113,7 +113,7 @@ public:
   typedef typename Superclass::VirtualPointType VirtualPointType;
 
   typedef TJointHistogramMetric                                          JointHistogramMetricType;
-  typedef typename JointHistogramMetricType::VirtualSampledPointSetType  VirtualSampledPointSetType;
+  typedef typename JointHistogramMetricType::VirtualPointSetType  VirtualPointSetType;
 
 protected:
   JointHistogramMutualInformationComputeJointPDFThreader() {}

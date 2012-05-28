@@ -83,6 +83,7 @@ int itkExpectationBasedPointSetMetricTestRun()
   metric->GetDerivative( derivative );
   metric->GetValueAndDerivative( value2, derivative2 );
 
+  int result = EXIT_SUCCESS;
   std::cout << "value: " << value << std::endl;
   std::cout << "derivative: " << derivative << std::endl;
   for( unsigned int d=0; d < metric->GetNumberOfParameters(); d++ )
@@ -90,7 +91,7 @@ int itkExpectationBasedPointSetMetricTestRun()
     if( vcl_fabs( derivative[d] - offset[d] ) / offset[d] > 0.01 )
       {
       std::cerr << "derivative does not match expected offset of " << offset << std::endl;
-      return EXIT_FAILURE;
+      result = EXIT_FAILURE;
       }
     }
 
@@ -99,11 +100,13 @@ int itkExpectationBasedPointSetMetricTestRun()
     {
     std::cerr << "value does not match between calls to different methods: "
               << "value: " << value << " value2: " << value2 << std::endl;
+    result = EXIT_FAILURE;
     }
   if( derivative != derivative2 )
     {
     std::cerr << "derivative does not match between calls to different methods: "
               << "derivative: " << derivative << " derivative2: " << derivative2 << std::endl;
+    result = EXIT_FAILURE;
     }
 
   std::ofstream moving_str1( "sourceMoving.txt" );
@@ -145,7 +148,7 @@ int itkExpectationBasedPointSetMetricTestRun()
   moving_str1 << "0 0 0 0" << std::endl;
   moving_str2 << "0 0 0 0" << std::endl;
 
-  return EXIT_SUCCESS;
+  return result;
 }
 
 int itkExpectationBasedPointSetMetricTest( int, char* [] )

@@ -100,6 +100,8 @@ public:
    */
   itkGetConstMacro( EvaluationKNeighborhood, unsigned int );
 
+  void Initialize( void ) throw ( ExceptionObject );
+
 protected:
   ExpectationBasedPointSetToPointSetMetricv4();
   virtual ~ExpectationBasedPointSetToPointSetMetricv4();
@@ -115,6 +117,8 @@ private:
   typedef typename NeighborsIdentifierType::const_iterator  NeighborsIterator;
 
   CoordRepType                               m_PointSetSigma;
+  MeasureType                                m_PreFactor;
+  MeasureType                                m_Denominator;
   unsigned int                               m_EvaluationKNeighborhood;
 
 };

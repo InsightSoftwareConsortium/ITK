@@ -33,15 +33,20 @@ namespace itk
 
 /** \class RegistrationParameterScalesEstimator
  *  \brief Implements a registration helper class for estimating scales of
- * transform parameters.
+ * transform parameters and step sizes.
  *
- * Its input includes the fixed/moving images and transform objects,
- * which are obtained from the metric object.
+ * Its input is a metric, from which the fixed/moving images and
+ * transform objects are obtained.
  *
  * This class implements some common methods as building blocks called by
  * subclasses with various estimation strategies. One of these methods is
- * SampleImageDomain, which provides various choices of sampling the image
+ * SampleVirtualDomain, which provides various choices of sampling the image
  * domain.
+ *
+ * \note When used with a PointSetToPointSet type metric, a VirtualDomainPointSet
+ * must be defined, for use in shift estimation. See SetVirtualDomainPointSet().
+ * The virtual domain point set can be retrieved from a metric using the
+ * GetVirtualTransformedPointSet() method within the metric.
  *
  * \ingroup ITKOptimizersv4
  */
@@ -66,71 +71,62 @@ public:
   typedef typename Superclass::FloatType            FloatType;
 
   typedef TMetric                                   MetricType;
+  typedef typename MetricType::Pointer              MetricPointer;
   typedef typename MetricType::ConstPointer         MetricConstPointer;
 
   /** Type of the transform to initialize */
   typedef typename MetricType::FixedTransformType   FixedTransformType;
   typedef typename FixedTransformType::ConstPointer FixedTransformConstPointer;
 
-  typedef typename MetricType::MovingTransformType  MovingTransformType;
-  typedef typename MovingTransformType::ConstPointer
-                                                    MovingTransformConstPointer;
+  typedef typename MetricType::MovingTransformType    MovingTransformType;
+  typedef typename MovingTransformType::ConstPointer  MovingTransformConstPointer;
 
-  /** Image Types to use in the initialization of the transform */
-  typedef typename TMetric::FixedImageType          FixedImageType;
-  typedef typename TMetric::MovingImageType         MovingImageType;
-  typedef typename TMetric::VirtualImageType        VirtualImageType;
+  /** dimension accessors */
+  itkStaticConstMacro(FixedDimension, SizeValueType, TMetric::FixedDimension );
+  itkStaticConstMacro(MovingDimension, SizeValueType, TMetric::MovingDimension );
+  itkStaticConstMacro(VirtualDimension, SizeValueType, TMetric::VirtualDimension );
 
-  typedef typename FixedImageType::ConstPointer     FixedImageConstPointer;
-  typedef typename MovingImageType::ConstPointer    MovingImageConstPointer;
-  typedef typename VirtualImageType::ConstPointer   VirtualImageConstPointer;
+  typedef typename TMetric::VirtualImageType          VirtualImageType;
+  typedef typename TMetric::VirtualImageConstPointer  VirtualImageConstPointer;
+  typedef typename TMetric::VirtualImagePointer       VirtualImagePointer;
+  typedef typename TMetric::VirtualSpacingType        VirtualSpacingType;
+  typedef typename TMetric::VirtualRegionType         VirtualRegionType;
+  typedef typename TMetric::VirtualSizeType           VirtualSizeType;
+  typedef typename TMetric::VirtualPointType          VirtualPointType;
+  typedef typename TMetric::VirtualIndexType          VirtualIndexType;
 
-  /* Image dimension accessors */
-  itkStaticConstMacro(FixedImageDimension, SizeValueType,
-      ::itk::GetImageDimension<FixedImageType>::ImageDimension);
-  itkStaticConstMacro(MovingImageDimension, SizeValueType,
-      ::itk::GetImageDimension<MovingImageType>::ImageDimension);
-  itkStaticConstMacro(VirtualImageDimension, SizeValueType,
-      ::itk::GetImageDimension<VirtualImageType>::ImageDimension);
-
-  typedef typename VirtualImageType::RegionType     VirtualRegionType;
-  typedef typename VirtualImageType::SizeType       VirtualSizeType;
-  typedef typename VirtualImageType::PointType      VirtualPointType;
-  typedef typename VirtualImageType::IndexType      VirtualIndexType;
-
-  typedef typename FixedImageType::PointType        FixedPointType;
-  typedef typename FixedImageType::IndexType        FixedIndexType;
-  typedef typename FixedImageType::PointValueType   FixedPointValueType;
-  typedef typename itk::ContinuousIndex< FixedPointValueType,
-          FixedImageType::ImageDimension >          FixedContinuousIndexType;
-
-  typedef typename MovingImageType::PointType       MovingPointType;
-  typedef typename MovingImageType::IndexType       MovingIndexType;
-  typedef typename MovingImageType::PointValueType  MovingPointValueType;
-  typedef typename itk::ContinuousIndex< MovingPointValueType,
-          MovingImageType::ImageDimension >         MovingContinuousIndexType;
+  typedef typename TMetric::VirtualPointSetType       VirtualPointSetType;
+  typedef typename TMetric::VirtualPointSetPointer    VirtualPointSetPointer;
 
   /** The strategies to sample physical points in the virtual domain. */
-  typedef enum { FullDomainSampling, CornerSampling, RandomSampling,
-                 CentralRegionSampling }
-          SamplingStrategyType;
+  typedef enum { FullDomainSampling = 0,
+                 CornerSampling,
+                 RandomSampling,
+                 CentralRegionSampling,
+                 VirtualDomainPointSetSampling }            SamplingStrategyType;
 
-  typedef std::vector<VirtualPointType>             ImageSampleContainerType;
+  typedef std::vector<VirtualPointType>             SamplePointContainerType;
 
   /** Type of Jacobian of transform. */
   typedef typename TMetric::JacobianType            JacobianType;
 
   /** SetMetric sets the metric used in the estimation process.
-   *  The images and transforms from the metric will be used for estimation.
+   *  The transforms from the metric will be used for estimation, along
+   *  with the images when appropriate.
    */
   itkSetObjectMacro(Metric, MetricType);
 
   /** m_TransformForward specifies which transform scales to be estimated.
-   * m_TransformForward = true for the moving transform parameters.
+   * m_TransformForward = true (default) for the moving transform parameters.
    * m_TransformForward = false for the fixed transform parameters.
    */
   itkSetMacro(TransformForward, bool);
   itkGetConstMacro(TransformForward, bool);
+
+  /** Get/Set a point set for virtual domain sampling. */
+  itkSetObjectMacro(VirtualDomainPointSet, VirtualPointSetType);
+  itkSetConstObjectMacro(VirtualDomainPointSet, VirtualPointSetType);
+  itkGetConstObjectMacro(VirtualDomainPointSet, VirtualPointSetType);
 
   /** the radius of the central region for sampling. */
   itkSetMacro(CentralRegionRadius, IndexValueType);
@@ -142,8 +138,7 @@ public:
   virtual FloatType EstimateStepScale(const ParametersType &step) = 0;
 
   /** Estimate the scales of local steps. */
-  virtual void EstimateLocalStepScales(const ParametersType &step,
-    ScalesType &localStepScales) = 0;
+  virtual void EstimateLocalStepScales(const ParametersType &step, ScalesType &localStepScales) = 0;
 
   /** Estimate the trusted scale for steps. It returns the voxel spacing. */
   virtual FloatType EstimateMaximumStepSize();
@@ -160,13 +155,14 @@ protected:
 
   virtual void PrintSelf(std::ostream &os, Indent indent) const;
 
-  /** Check and set the images and transforms from the metric. */
+  /** Check the metric and the transforms. */
   bool CheckAndSetInputs();
 
-  /** Set and get the number of image samples. */
+  /** Set and get the number of samples. */
   itkSetMacro(NumberOfRandomSamples, SizeValueType);
 
-  /** Set the sampling strategy. */
+  /** Set the sampling strategy. This is called from SetScalesSamplingStrategy() and
+   *  SetStepScaleSamplingStrategy(). */
   itkSetMacro(SamplingStrategy, SamplingStrategyType);
 
   /**
@@ -183,19 +179,13 @@ protected:
   template< class TTransform > bool CheckGeneralAffineTransformTemplated();
 
   /** Transform a physical point to a new physical point. */
-  template< class TTargetPointType > void TransformPoint(
-                              const VirtualPointType &point,
-                              TTargetPointType &mappedPoint);
+  template< class TTargetPointType > void TransformPoint( const VirtualPointType &point, TTargetPointType &mappedPoint);
 
   /** Transform a point to its continuous index. */
-  template< class TContinuousIndexType > void TransformPointToContinuousIndex(
-                              const VirtualPointType &point,
-                              TContinuousIndexType &mappedIndex);
+  template< class TContinuousIndexType > void TransformPointToContinuousIndex( const VirtualPointType &point,TContinuousIndexType &mappedIndex);
 
   /** Compute the transform Jacobian at a physical point. */
-  void ComputeSquaredJacobianNorms(
-                              const VirtualPointType  & p,
-                              ParametersType & squareNorms);
+  void ComputeSquaredJacobianNorms( const VirtualPointType  & p, ParametersType & squareNorms);
 
   /** Check if the transform being optimized has local support. */
   bool HasLocalSupport();
@@ -206,62 +196,59 @@ protected:
   /** Update the transform with a change in parameters. */
   void UpdateTransformParameters(const ParametersType &deltaParameters);
 
-  /** Sample the virtual image domain and store the physical points in m_ImageSamples. */
-  virtual void SampleImageDomain();
+  /** Sample the virtual domain and store the physical points in m_SamplePoints. */
+  virtual void SampleVirtualDomain();
 
   /** Sample the virtual domain with all pixels. */
-  void SampleImageDomainFully();
+  void SampleVirtualDomainFully();
 
   /** Sample the virtual domain with corners. */
-  void SampleImageDomainWithCorners();
+  void SampleVirtualDomainWithCorners();
 
   /** Sample the virtual domain randomly in a uniform distribution. */
-  void SampleImageDomainRandomly();
+  void SampleVirtualDomainRandomly();
 
   /** Sample the virtual domain with voxel in the central region. */
-  void SampleImageDomainWithCentralRegion();
+  void SampleVirtualDomainWithCentralRegion();
 
   /** Sample the virtual domain with all voxels inside a region. */
-  void SampleImageDomainWithRegion(VirtualRegionType region);
+  void SampleVirtualDomainWithRegion(VirtualRegionType region);
+
+  /** Sample the virtual domain with a point set */
+  void SampleVirtualDomainWithPointSet();
 
   /** Get the central index of the virtual domain. */
-  VirtualIndexType GetVirtualImageCentralIndex();
+  VirtualIndexType GetVirtualDomainCentralIndex();
 
   /** Get the central region of the virtual domain. */
-  VirtualRegionType GetVirtualImageCentralRegion();
+  VirtualRegionType GetVirtualDomainCentralRegion();
 
   /** Get the transform in use. */
   const TransformBase *GetTransform();
 
-  /** Get the dimension of the target image transformed to. */
-  SizeValueType GetImageDimension();
+  /** Get the dimension of the target transformed to. */
+  SizeValueType GetDimension();
 
-  /** Get the fixed Image. */
-  itkGetConstObjectMacro(FixedImage,  FixedImageType);
-  /** Get the moving Image. */
-  itkGetConstObjectMacro(MovingImage, MovingImageType);
-  /** Get the virtual Image. */
-  itkGetConstObjectMacro(VirtualImage, VirtualImageType);
+  /** Get the current sampling strategy. Note that this is changed
+   * internally as the class is used for scale or step estimation. */
+  itkGetMacro( SamplingStrategy, SamplingStrategyType )
 
-  /** Get the fixed transform. */
-  itkGetConstObjectMacro(FixedTransform,  FixedTransformType);
-  /** Get the moving transform. */
-  itkGetConstObjectMacro(MovingTransform, MovingTransformType);
+  /** the metric object */
+  MetricPointer            m_Metric;
 
-  // the metric object
-  MetricConstPointer            m_Metric;
-
-  // the image samples in the virtual image domain
-  ImageSampleContainerType      m_ImageSamples;
+  /** the samples in the virtual domain */
+  SamplePointContainerType      m_SamplePoints;
 
   /** Keep track of the last sampling time. */
   mutable TimeStamp             m_SamplingTime;
 
-  // the number of image samples in the virtual image domain
+  /**  the number of samples in the virtual domain */
   SizeValueType                 m_NumberOfRandomSamples;
 
-  // the radius of the central region for sampling
+  /** the radius of the central region for sampling */
   IndexValueType                m_CentralRegionRadius;
+
+  typename VirtualPointSetType::ConstPointer  m_VirtualDomainPointSet;
 
   // the threadhold to decide if the number of random samples uses logarithm
   static const SizeValueType    SizeOfSmallDomain = 1000;
@@ -270,19 +257,8 @@ private:
   RegistrationParameterScalesEstimator(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  // the transform objects
-  FixedTransformConstPointer         m_FixedTransform;
-  MovingTransformConstPointer        m_MovingTransform;
-
-  // the fixed images
-  FixedImageConstPointer             m_FixedImage;
-  // the moving images
-  MovingImageConstPointer            m_MovingImage;
-  // the virtual image for symmetric registration
-  VirtualImageConstPointer           m_VirtualImage;
-
   /** m_TransformForward specifies which transform scales to be estimated.
-   * m_TransformForward = true for the moving transform parameters.
+   * m_TransformForward = true (default) for the moving transform parameters.
    * m_TransformForward = false for the fixed transform parameters.
    */
   bool m_TransformForward;

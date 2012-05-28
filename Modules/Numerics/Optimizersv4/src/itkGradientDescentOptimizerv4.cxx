@@ -175,9 +175,9 @@ GradientDescentOptimizerv4
         break;
         }
       }
-    catch(...)
+    catch(std::exception & e)
       {
-      std::cout << "GetConvergenceValue() failed." << std::endl;
+      std::cerr << "GetConvergenceValue() failed with exception: " << e.what() << std::endl;
       }
 
     /* Advance one step along the gradient.
@@ -189,9 +189,7 @@ GradientDescentOptimizerv4
 
     if ( this->m_CurrentIteration >= this->m_NumberOfIterations )
       {
-      this->m_StopConditionDescription << "Maximum number of iterations ("
-                                 << this->m_NumberOfIterations
-                                 << ") exceeded.";
+      this->m_StopConditionDescription << "Maximum number of iterations (" << this->m_NumberOfIterations << ") exceeded.";
       this->m_StopCondition = MAXIMUM_NUMBER_OF_ITERATIONS;
       this->StopOptimization();
       break;
