@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include "vtkVisualize2DLevelSetImageBase.h"
+#include "vtkVisualize2DLevelSetImage.h"
 
 #include "itkMalcolmSparseLevelSetImage.h"
 #include "itkBinaryImageToLevelSetImageAdaptor.h"
@@ -81,7 +81,7 @@ int vtkVisualize2DMalcolmLevelSetTest( int , char* [] )
 
   LevelSetType::Pointer LevelSet = adaptor->GetLevelSet();
 
-//  typedef vtkVisualize2DLevelSetImageBase< ImageType, SparseLevelSetType::ImageType > VisualizationType;
+//  typedef vtkVisualize2DLevelSetImage< ImageType, SparseLevelSetType::ImageType > VisualizationType;
 //  VisualizationType::Pointer viewer = VisualizationType::New();
 //  viewer->SetInputImage( image );
 //  viewer->SetLevelSet( LevelSet );

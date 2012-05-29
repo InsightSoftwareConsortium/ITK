@@ -37,10 +37,7 @@ namespace itk
  *  \tparam TDomain Support of the level-set function (e.g. Image or QuadEdgeMesh)
  *  \ingroup ITKLevelSetsv4
  */
-template< class TInput,
-          unsigned int VDimension,
-          typename TOutput,
-          class TDomain >
+template< class TInput, unsigned int VDimension, typename TOutput, class TDomain >
 class LevelSetBase : public DataObject
 {
 public:

@@ -19,11 +19,11 @@
 #include "itkLevelSetContainer.h"
 #include "itkLevelSetEquationChanAndVeseInternalTerm.h"
 #include "itkLevelSetEquationLaplacianTerm.h"
-#include "itkLevelSetEquationTermContainerBase.h"
+#include "itkLevelSetEquationTermContainer.h"
 #include "itkSinRegularizedHeavisideStepFunction.h"
 #include "itkBinaryImageToLevelSetImageAdaptor.h"
 
-int itkLevelSetEquationTermContainerBaseTest( int argc, char* argv[] )
+int itkLevelSetEquationTermContainerTest( int argc, char* argv[] )
 {
   if( argc < 2 )
     {
@@ -63,7 +63,7 @@ int itkLevelSetEquationTermContainerBaseTest( int argc, char* argv[] )
                                                             LaplacianTermType;
   typedef itk::LevelSetEquationChanAndVeseInternalTerm< InputImageType, LevelSetContainerType >
                                                             ChanAndVeseInternalTermType;
-  typedef itk::LevelSetEquationTermContainerBase< InputImageType, LevelSetContainerType >
+  typedef itk::LevelSetEquationTermContainer< InputImageType, LevelSetContainerType >
                                                             TermContainerType;
 
   typedef SparseLevelSetType::OutputRealType                  LevelSetOutputRealType;

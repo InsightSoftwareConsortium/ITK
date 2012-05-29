@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetEvolutionStoppingCriterionBase_h
-#define __itkLevelSetEvolutionStoppingCriterionBase_h
+#ifndef __itkLevelSetEvolutionStoppingCriterion_h
+#define __itkLevelSetEvolutionStoppingCriterion_h
 
 #include "itkStoppingCriterionBase.h"
 #include "itkNumericTraits.h"
@@ -25,20 +25,20 @@
 
 namespace itk
 {
- /** \class LevelSetEvolutionStoppingCriterionBase
+ /** \class LevelSetEvolutionStoppingCriterion
   \ingroup ITKLevelSetsv4
   */
  template< class TLevelSetContainer >
- class LevelSetEvolutionStoppingCriterionBase : public StoppingCriterionBase
+ class LevelSetEvolutionStoppingCriterion : public StoppingCriterionBase
  {
  public:
-   typedef LevelSetEvolutionStoppingCriterionBase       Self;
-   typedef StoppingCriterionBase                        Superclass;
-   typedef SmartPointer< Self >                         Pointer;
-   typedef SmartPointer< const Self >                   ConstPointer;
+   typedef LevelSetEvolutionStoppingCriterion  Self;
+   typedef StoppingCriterionBase               Superclass;
+   typedef SmartPointer< Self >                Pointer;
+   typedef SmartPointer< const Self >          ConstPointer;
 
    /** Run-time type information (and related methods). */
-   itkTypeMacro(LevelSetEvolutionStoppingCriterionBase, StoppingCriterionBase);
+   itkTypeMacro(LevelSetEvolutionStoppingCriterion, StoppingCriterionBase);
 
    typedef TLevelSetContainer                               LevelSetContainerType;
    typedef typename LevelSetContainerType::Pointer          LevelSetContainerPointer;
@@ -74,10 +74,10 @@ namespace itk
 
  protected:
    /** Constructor */
-   LevelSetEvolutionStoppingCriterionBase();
+   LevelSetEvolutionStoppingCriterion();
 
    /** Destructor */
-   virtual ~LevelSetEvolutionStoppingCriterionBase();
+   virtual ~LevelSetEvolutionStoppingCriterion();
 
    LevelSetContainerPointer m_LevelSetContainer;
    OutputRealType           m_RMSChangeAccumulator;
@@ -85,11 +85,11 @@ namespace itk
    IterationIdType          m_CurrentIteration;
 
  private:
-   LevelSetEvolutionStoppingCriterionBase( const Self& ); // purposely not implemented
+   LevelSetEvolutionStoppingCriterion( const Self& ); // purposely not implemented
     void operator = ( const Self& ); // purposely not implemented
  };
  }
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetEvolutionStoppingCriterionBase.hxx"
+#include "itkLevelSetEvolutionStoppingCriterion.hxx"
 #endif
 #endif

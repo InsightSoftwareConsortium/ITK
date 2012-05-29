@@ -16,18 +16,15 @@
  *
  *=========================================================================*/
 
-#ifndef __itkDiscreteLevelSetImageBase_h
-#define __itkDiscreteLevelSetImageBase_h
+#ifndef __itkDiscreteLevelSetImage_h
+#define __itkDiscreteLevelSetImage_h
 
-#include "itkLevelSetImageBase.h"
-#include "itkObjectFactory.h"
-#include "itkIndex.h"
-#include "itkImageBase.h"
+#include "itkLevelSetImage.h"
 
 namespace itk
 {
 /**
- *  \class DiscreteLevelSetImageBase
+ *  \class DiscreteLevelSetImage
  *  \brief Abstract class for a level-set function on one Image.
  *
  *  \tparam TOutput OutputType of the level-set function value
@@ -36,21 +33,19 @@ namespace itk
  *  \ingroup ITKLevelSetsv4
  */
 template< typename TOutput, unsigned int VDimension >
-class DiscreteLevelSetImageBase :
-  public LevelSetImageBase< Index< VDimension >,
-                       VDimension,
-                       TOutput >
+class DiscreteLevelSetImage :
+  public LevelSetImage< Index< VDimension >, VDimension, TOutput >
 {
 public:
   typedef Index< VDimension >             IndexType;
 
-  typedef DiscreteLevelSetImageBase                           Self;
-  typedef SmartPointer< Self >                                Pointer;
-  typedef SmartPointer< const Self >                          ConstPointer;
-  typedef LevelSetImageBase< IndexType, VDimension, TOutput > Superclass;
+  typedef DiscreteLevelSetImage                           Self;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
+  typedef LevelSetImage< IndexType, VDimension, TOutput > Superclass;
 
   /** Run-time type information */
-  itkTypeMacro ( DiscreteLevelSetImageBase, LevelSetImageBase );
+  itkTypeMacro ( DiscreteLevelSetImage, LevelSetImage );
 
   itkStaticConstMacro ( Dimension, unsigned int, Superclass::Dimension );
 
@@ -108,9 +103,9 @@ public:
   virtual void EvaluateBackwardGradient( const InputType& iP, LevelSetDataType& ioData ) const;
 
 protected:
-  DiscreteLevelSetImageBase();
+  DiscreteLevelSetImage();
 
-  virtual ~DiscreteLevelSetImageBase();
+  virtual ~DiscreteLevelSetImage();
 
   /** Initial the level set pointer */
   virtual void Initialize();
@@ -123,13 +118,13 @@ protected:
 
 private:
 
-  DiscreteLevelSetImageBase( const Self& ); // purposely not implemented
+  DiscreteLevelSetImage( const Self& ); // purposely not implemented
   void operator = ( const Self& ); // purposely not implemented
   };
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDiscreteLevelSetImageBase.hxx"
+#include "itkDiscreteLevelSetImage.hxx"
 #endif
 
-#endif // __itkDiscreteLevelSetImageBase_h
+#endif // __itkDiscreteLevelSetImage_h

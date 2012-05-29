@@ -18,7 +18,7 @@
 
 #include "itkVTKVisualizeImageLevelSetIsoValues.h"
 
-#include "itkLevelSetImageBase.h"
+#include "itkLevelSetImage.h"
 
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
@@ -74,7 +74,7 @@ int itkVTKVisualize2DDenseImageLevelSetTest( int , char* [] )
 
   typedef itk::Image< LevelSetOutputType, Dimension > LevelSetImageType;
 
-  typedef itk::LevelSetDenseImageBase< LevelSetImageType > LevelSetType;
+  typedef itk::LevelSetDenseImage< LevelSetImageType > LevelSetType;
 
   LevelSetImageType::Pointer LevelSetImage = LevelSetImageType::New();
   GenerateImage< LevelSetImageType >( LevelSetImage );

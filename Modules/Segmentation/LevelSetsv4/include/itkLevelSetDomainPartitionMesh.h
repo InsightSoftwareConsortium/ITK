@@ -15,33 +15,33 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLevelSetDomainPartitionMeshBase_h
-#define __itkLevelSetDomainPartitionMeshBase_h
+#ifndef __itkLevelSetDomainPartitionMesh_h
+#define __itkLevelSetDomainPartitionMesh_h
 
 #include "itkLevelSetDomainPartitionBase.h"
 #include <map>
 
 namespace itk
 {
-/** \class LevelSetDomainPartitionMeshBase
+/** \class LevelSetDomainPartitionMesh
  *
  * \brief Helper class used to partition domain and efficiently compute overlap.
  *  \ingroup ITKLevelSetsv4
  */
 template< class TMesh >
-class LevelSetDomainPartitionMeshBase :
+class LevelSetDomainPartitionMesh :
   public LevelSetDomainPartitionBase< TMesh >
 {
 public:
 
-  typedef LevelSetDomainPartitionMeshBase       Self;
+  typedef LevelSetDomainPartitionMesh           Self;
   typedef LevelSetDomainPartitionBase< TMesh >  Superclass;
   typedef SmartPointer< Self >                  Pointer;
   typedef SmartPointer< const Self >            ConstPointer;
 
   itkStaticConstMacro( PointDimension, unsigned int, TMesh::PointDimension);
 
-  itkTypeMacro( LevelSetDomainPartitionMeshBase,
+  itkTypeMacro( LevelSetDomainPartitionMesh,
                 LevelSetDomainPartitionBase );
 
   typedef TMesh                                     MeshType;
@@ -60,8 +60,8 @@ public:
   itkSetObjectMacro( Mesh, MeshType );
 
 protected:
-  LevelSetDomainPartitionMeshBase();
-  virtual ~LevelSetDomainPartitionMeshBase();
+  LevelSetDomainPartitionMesh();
+  virtual ~LevelSetDomainPartitionMesh();
 
   /** Populate a list mesh with each node being a list of overlapping
    *  level set support at that pixel */
@@ -72,7 +72,7 @@ protected:
   void AllocateListDomain();
 
 private:
-  LevelSetDomainPartitionMeshBase(const Self &); //purposely not implemented
+  LevelSetDomainPartitionMesh(const Self &); //purposely not implemented
   void operator=(const Self &); //purposely not implemented
 
   MeshPointer     m_Mesh;

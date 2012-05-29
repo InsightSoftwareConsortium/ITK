@@ -16,27 +16,27 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetImageBase_hxx
-#define __itkLevelSetImageBase_hxx
+#ifndef __itkLevelSetImage_hxx
+#define __itkLevelSetImage_hxx
 
-#include "itkLevelSetImageBase.h"
+#include "itkLevelSetImage.h"
 
 namespace itk
 {
 // ----------------------------------------------------------------------------
 template< class TInput, unsigned int VDimension, typename TOutput >
-LevelSetImageBase< TInput, VDimension, TOutput >
-::LevelSetImageBase()
+LevelSetImage< TInput, VDimension, TOutput >
+::LevelSetImage()
 {
   this->m_NeighborhoodScales.Fill( NumericTraits< OutputRealType >::One );
 }
 
 // ----------------------------------------------------------------------------
 template< class TInput, unsigned int VDimension, typename TOutput >
-LevelSetImageBase< TInput, VDimension, TOutput >
-::~LevelSetImageBase()
+LevelSetImage< TInput, VDimension, TOutput >
+::~LevelSetImage()
 {
 }
 
 }
-#endif // __itkLevelSetImageBase_hxx
+#endif // __itkLevelSetImage_hxx

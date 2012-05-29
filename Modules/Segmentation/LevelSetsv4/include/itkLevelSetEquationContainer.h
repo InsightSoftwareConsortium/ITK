@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetEquationContainerBase_h
-#define __itkLevelSetEquationContainerBase_h
+#ifndef __itkLevelSetEquationContainer_h
+#define __itkLevelSetEquationContainer_h
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
@@ -25,7 +25,7 @@
 namespace itk
 {
 /**
- *  \class LevelSetEquationContainerBase
+ *  \class LevelSetEquationContainer
  *  \brief Class for holding a set of level set equations (PDEs).
  *
  *  \tparam TTermContainer Container holding the terms in a level set equation
@@ -50,15 +50,15 @@ namespace itk
  *  the level-set framework. Each equation \f$ equation_{j} \f$ contributes to the
  *  evolution of the level-set function \f$ \phi_j \f$.
  *
- *  \sa LevelSetEquationTermBase
+ *  \sa LevelSetEquationTerm
  *
  *  \ingroup ITKLevelSetsv4
  */
 template< class TTermContainer >
-class LevelSetEquationContainerBase : public Object
+class LevelSetEquationContainer : public Object
 {
 public:
-  typedef LevelSetEquationContainerBase Self;
+  typedef LevelSetEquationContainer     Self;
   typedef SmartPointer< Self >          Pointer;
   typedef SmartPointer< const Self >    ConstPointer;
   typedef Object                        Superclass;
@@ -67,7 +67,7 @@ public:
   itkNewMacro( Self );
 
   /** Run-time type information */
-  itkTypeMacro( LevelSetEquationContainerBase, Object );
+  itkTypeMacro( LevelSetEquationContainer, Object );
 
   typedef TTermContainer                            TermContainerType;
   typedef typename TermContainerType::Pointer       TermContainerPointer;
@@ -252,8 +252,8 @@ public:
 
 protected:
 
-  LevelSetEquationContainerBase();
-  virtual ~LevelSetEquationContainerBase();
+  LevelSetEquationContainer();
+  virtual ~LevelSetEquationContainer();
 
   LevelSetContainerPointer  m_LevelSetContainer;
   MapContainerType          m_Container;
@@ -261,14 +261,14 @@ protected:
 
 
 private:
-  LevelSetEquationContainerBase( const Self& ); // purposely not implemented
+  LevelSetEquationContainer( const Self& ); // purposely not implemented
   void operator = ( const Self& ); // purposely not implemented
 
 };
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetEquationContainerBase.hxx"
+#include "itkLevelSetEquationContainer.hxx"
 #endif
 
-#endif // __itkLevelSetEquationContainerBase_h
+#endif // __itkLevelSetEquationContainer_h

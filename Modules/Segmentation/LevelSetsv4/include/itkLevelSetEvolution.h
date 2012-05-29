@@ -21,7 +21,7 @@
 #define __itkLevelSetEvolution_h
 
 #include "itkLevelSetEvolutionBase.h"
-#include "itkLevelSetDenseImageBase.h"
+#include "itkLevelSetDenseImage.h"
 
 #include "itkWhitakerSparseLevelSetImage.h"
 #include "itkUpdateWhitakerSparseLevelSet.h"
@@ -52,11 +52,11 @@ class LevelSetEvolution
 
 template< class TEquationContainer, class TImage >
 class LevelSetEvolution<  TEquationContainer,
-                          LevelSetDenseImageBase< TImage > > :
-  public LevelSetEvolutionBase< TEquationContainer, LevelSetDenseImageBase< TImage > >
+                          LevelSetDenseImage< TImage > > :
+  public LevelSetEvolutionBase< TEquationContainer, LevelSetDenseImage< TImage > >
 {
 public:
-  typedef LevelSetDenseImageBase< TImage > LevelSetType;
+  typedef LevelSetDenseImage< TImage > LevelSetType;
 
   typedef LevelSetEvolution                                         Self;
   typedef SmartPointer< Self >                                      Pointer;

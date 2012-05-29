@@ -15,32 +15,32 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLevelSetDomainPartitionImageBase_h
-#define __itkLevelSetDomainPartitionImageBase_h
+#ifndef __itkLevelSetDomainPartitionImage_h
+#define __itkLevelSetDomainPartitionImage_h
 
 #include "itkLevelSetDomainPartitionBase.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
 namespace itk
 {
-/** \class LevelSetDomainPartitionImageBase
+/** \class LevelSetDomainPartitionImage
  *
  * \brief Helper class used to partition domain and efficiently compute overlap.
  * \ingroup ITKLevelSetsv4
  */
 template< class TImage >
-class LevelSetDomainPartitionImageBase : public LevelSetDomainPartitionBase< TImage >
+class LevelSetDomainPartitionImage : public LevelSetDomainPartitionBase< TImage >
 {
 public:
 
-  typedef LevelSetDomainPartitionImageBase      Self;
+  typedef LevelSetDomainPartitionImage          Self;
   typedef LevelSetDomainPartitionBase< TImage > Superclass;
   typedef SmartPointer< Self >                  Pointer;
   typedef SmartPointer< const Self >            ConstPointer;
 
   itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
 
-  itkTypeMacro( LevelSetDomainPartitionImageBase, LevelSetDomainPartitionBase );
+  itkTypeMacro( LevelSetDomainPartitionImage, LevelSetDomainPartitionBase );
 
   typedef TImage                             ImageType;
   typedef typename ImageType::Pointer        ImagePointer;
@@ -77,8 +77,8 @@ public:
   itkGetConstObjectMacro( ListDomain, ListImageType );
 
 protected:
-  LevelSetDomainPartitionImageBase();
-  virtual ~LevelSetDomainPartitionImageBase();
+  LevelSetDomainPartitionImage();
+  virtual ~LevelSetDomainPartitionImage();
 
   /** Populate a list image with each pixel being a list of overlapping
    *  level set support at that pixel */
@@ -89,7 +89,7 @@ protected:
   void AllocateListDomain();
 
 private:
-  LevelSetDomainPartitionImageBase(const Self &); //purposely not implemented
+  LevelSetDomainPartitionImage(const Self &); //purposely not implemented
   void operator=(const Self &); //purposely not implemented
 
   ImageConstPointer     m_Image;
@@ -99,7 +99,7 @@ private:
 } //end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetDomainPartitionImageBase.hxx"
+#include "itkLevelSetDomainPartitionImage.hxx"
 #endif
 
 #endif

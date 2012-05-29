@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 
-#include "itkLevelSetDenseImageBase.h"
+#include "itkLevelSetDenseImage.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
 #include "itkLevelSetTestFunction.h"
@@ -65,14 +65,14 @@ private:
 
 };
 
-int itkLevelSetDenseImageBaseTest( int , char* [] )
+int itkLevelSetDenseImageTest( int , char* [] )
 {
   const unsigned int Dimension = 2;
 
   typedef float PixelType;
 
   typedef itk::Image< PixelType, Dimension >        ImageType;
-  typedef itk::LevelSetDenseImageBase< ImageType >  LevelSetType;
+  typedef itk::LevelSetDenseImage< ImageType >  LevelSetType;
 
   ImageType::IndexType index;
   index[0] = 0;

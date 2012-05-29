@@ -20,7 +20,7 @@
 #define __itkMalcolmSparseLevelSetImage_h
 
 #include "itkImage.h"
-#include "itkLevelSetSparseImageBase.h"
+#include "itkLevelSetSparseImage.h"
 
 #include "itkLabelObject.h"
 #include "itkLabelMap.h"
@@ -39,19 +39,19 @@ namespace itk
  */
 template< unsigned int VDimension >
 class MalcolmSparseLevelSetImage :
-    public LevelSetSparseImageBase< int8_t, VDimension >
+    public LevelSetSparseImage< int8_t, VDimension >
 {
 public:
-  typedef MalcolmSparseLevelSetImage                    Self;
-  typedef SmartPointer< Self >                          Pointer;
-  typedef SmartPointer< const Self >                    ConstPointer;
-  typedef LevelSetSparseImageBase< int8_t, VDimension > Superclass;
+  typedef MalcolmSparseLevelSetImage                Self;
+  typedef SmartPointer< Self >                      Pointer;
+  typedef SmartPointer< const Self >                ConstPointer;
+  typedef LevelSetSparseImage< int8_t, VDimension > Superclass;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MalcolmSparseLevelSetImage, LevelSetSparseImageBase);
+  itkTypeMacro(MalcolmSparseLevelSetImage, LevelSetSparseImage);
 
   itkStaticConstMacro ( Dimension, unsigned int, VDimension );
 

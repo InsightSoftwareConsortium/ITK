@@ -20,29 +20,29 @@
 #define __itkLevelSetEvolutionNumberOfIterationsStoppingCriterion_h
 
 #include "itkObjectFactory.h"
-#include "itkLevelSetEvolutionStoppingCriterionBase.h"
+#include "itkLevelSetEvolutionStoppingCriterion.h"
 
 namespace itk
 {
-/** \class LevelSetEvolutionStoppingCriterionBase
+/** \class LevelSetEvolutionStoppingCriterion
 \ingroup ITKLevelSetsv4
 */
 template< class TLevelSetContainer >
 class LevelSetEvolutionNumberOfIterationsStoppingCriterion :
-  public LevelSetEvolutionStoppingCriterionBase< TLevelSetContainer >
+  public LevelSetEvolutionStoppingCriterion< TLevelSetContainer >
 {
 public:
-  typedef LevelSetEvolutionNumberOfIterationsStoppingCriterion         Self;
-  typedef LevelSetEvolutionStoppingCriterionBase< TLevelSetContainer > Superclass;
-  typedef SmartPointer< Self >                                         Pointer;
-  typedef SmartPointer< const Self >                                   ConstPointer;
+  typedef LevelSetEvolutionNumberOfIterationsStoppingCriterion     Self;
+  typedef LevelSetEvolutionStoppingCriterion< TLevelSetContainer > Superclass;
+  typedef SmartPointer< Self >                                     Pointer;
+  typedef SmartPointer< const Self >                               ConstPointer;
 
   /** Method for creation through object factory */
   itkNewMacro( Self );
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( LevelSetEvolutionNumberOfIterationsStoppingCriterion,
-                LevelSetEvolutionStoppingCriterionBase );
+                LevelSetEvolutionStoppingCriterion );
 
   typedef TLevelSetContainer                               LevelSetContainerType;
   typedef typename LevelSetContainerType::Pointer          LevelSetContainerPointer;

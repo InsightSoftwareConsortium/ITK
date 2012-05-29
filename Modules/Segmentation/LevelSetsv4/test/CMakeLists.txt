@@ -1,7 +1,7 @@
 itk_module_test()
 
 set(ITKLevelSetsv4Tests
-itkLevelSetDenseImageBaseTest.cxx
+itkLevelSetDenseImageTest.cxx
 itkWhitakerSparseLevelSetImageTest.cxx
 itkShiSparseLevelSetImageTest.cxx
 itkMalcolmSparseLevelSetImageTest.cxx
@@ -14,9 +14,9 @@ itkLevelSetEquationChanAndVeseInternalTermTest.cxx
 itkLevelSetEquationCurvatureTermTest.cxx
 itkLevelSetEquationLaplacianTermTest.cxx
 itkLevelSetEquationPropagationTermTest.cxx
-itkLevelSetEquationRegionTermBaseTest.cxx
+itkLevelSetEquationRegionTermTest.cxx
 itkLevelSetEquationTermBaseTest.cxx
-itkLevelSetEquationTermContainerBaseTest.cxx
+itkLevelSetEquationTermContainerTest.cxx
 # domain partition classes
 itkLevelSetDomainPartitionBaseTest.cxx
 itkLevelSetDomainMapImageFilterTest.cxx
@@ -48,7 +48,7 @@ itkLevelSetEvolutionNumberOfIterationsStoppingCriterionTest.cxx
 CreateTestDriver(ITKLevelSetsv4  "${ITKLevelSetsv4-Test_LIBRARIES}" "${ITKLevelSetsv4Tests}")
 
 itk_add_test(NAME itkLevelSetsv4DenseImageBaseTest
-      COMMAND ITKLevelSetsv4TestDriver itkLevelSetDenseImageBaseTest)
+      COMMAND ITKLevelSetsv4TestDriver itkLevelSetDenseImageTest)
 itk_add_test(NAME itkWhitakerSparseLevelSetsv4BaseTest
       COMMAND ITKLevelSetsv4TestDriver itkWhitakerSparseLevelSetImageTest)
 itk_add_test(NAME itkShiSparseLevelSetsv4BaseTest

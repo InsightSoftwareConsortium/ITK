@@ -16,31 +16,31 @@
  *
  *=========================================================================*/
 
-#ifndef __itkDiscreteLevelSetImageBase_hxx
-#define __itkDiscreteLevelSetImageBase_hxx
+#ifndef __itkDiscreteLevelSetImage_hxx
+#define __itkDiscreteLevelSetImage_hxx
 
-#include "itkDiscreteLevelSetImageBase.h"
+#include "itkDiscreteLevelSetImage.h"
 
 namespace itk
 {
 // ----------------------------------------------------------------------------
 template< typename TOutput, unsigned int VDimension >
-DiscreteLevelSetImageBase< TOutput, VDimension >
-::DiscreteLevelSetImageBase()
+DiscreteLevelSetImage< TOutput, VDimension >
+::DiscreteLevelSetImage()
 {
 }
 
 // ----------------------------------------------------------------------------
 template< typename TOutput, unsigned int VDimension >
-DiscreteLevelSetImageBase< TOutput, VDimension >
-::~DiscreteLevelSetImageBase()
+DiscreteLevelSetImage< TOutput, VDimension >
+::~DiscreteLevelSetImage()
 {
 }
 
 // ----------------------------------------------------------------------------
 template< typename TOutput, unsigned int VDimension >
-typename DiscreteLevelSetImageBase< TOutput, VDimension >::GradientType
-DiscreteLevelSetImageBase< TOutput, VDimension >::EvaluateGradient( const InputType& iP ) const
+typename DiscreteLevelSetImage< TOutput, VDimension >::GradientType
+DiscreteLevelSetImage< TOutput, VDimension >::EvaluateGradient( const InputType& iP ) const
 {
   InputType pA = iP;
   InputType pB = iP;
@@ -79,8 +79,8 @@ DiscreteLevelSetImageBase< TOutput, VDimension >::EvaluateGradient( const InputT
 
 // ----------------------------------------------------------------------------
 template< typename TOutput, unsigned int VDimension >
-typename DiscreteLevelSetImageBase< TOutput, VDimension >::GradientType
-DiscreteLevelSetImageBase< TOutput, VDimension >
+typename DiscreteLevelSetImage< TOutput, VDimension >::GradientType
+DiscreteLevelSetImage< TOutput, VDimension >
 ::EvaluateForwardGradient( const InputType& iP ) const
 {
   const OutputRealType center_value = static_cast< OutputRealType >( this->Evaluate( iP ) );
@@ -111,8 +111,8 @@ DiscreteLevelSetImageBase< TOutput, VDimension >
 
 // ----------------------------------------------------------------------------
 template< typename TOutput, unsigned int VDimension >
-typename DiscreteLevelSetImageBase< TOutput, VDimension >::GradientType
-DiscreteLevelSetImageBase< TOutput, VDimension >
+typename DiscreteLevelSetImage< TOutput, VDimension >::GradientType
+DiscreteLevelSetImage< TOutput, VDimension >
 ::EvaluateBackwardGradient( const InputType& iP ) const
 {
   const OutputRealType center_value = static_cast< OutputRealType >( this->Evaluate( iP ) );
@@ -142,8 +142,8 @@ DiscreteLevelSetImageBase< TOutput, VDimension >
 
 // ----------------------------------------------------------------------------
 template< typename TOutput, unsigned int VDimension >
-typename DiscreteLevelSetImageBase< TOutput, VDimension >::HessianType
-DiscreteLevelSetImageBase< TOutput, VDimension >
+typename DiscreteLevelSetImage< TOutput, VDimension >::HessianType
+DiscreteLevelSetImage< TOutput, VDimension >
 ::EvaluateHessian( const InputType& iP ) const
 {
   HessianType oHessian;
@@ -238,8 +238,8 @@ DiscreteLevelSetImageBase< TOutput, VDimension >
 
 // ----------------------------------------------------------------------------
 template< typename TOutput, unsigned int VDimension >
-typename DiscreteLevelSetImageBase< TOutput, VDimension >::OutputRealType
-DiscreteLevelSetImageBase< TOutput, VDimension >
+typename DiscreteLevelSetImage< TOutput, VDimension >::OutputRealType
+DiscreteLevelSetImage< TOutput, VDimension >
 ::EvaluateLaplacian( const InputType& iP ) const
 {
   OutputRealType oLaplacian = NumericTraits< OutputRealType >::Zero;
@@ -280,7 +280,7 @@ DiscreteLevelSetImageBase< TOutput, VDimension >
 // ----------------------------------------------------------------------------
 template< typename TOutput, unsigned int VDimension >
 void
-DiscreteLevelSetImageBase< TOutput, VDimension >
+DiscreteLevelSetImage< TOutput, VDimension >
 ::Evaluate( const InputType& iP, LevelSetDataType& ioData ) const
 {
   // If it has not already been computed before
@@ -296,7 +296,7 @@ DiscreteLevelSetImageBase< TOutput, VDimension >
 // ----------------------------------------------------------------------------
 template< typename TOutput, unsigned int VDimension >
 void
-DiscreteLevelSetImageBase< TOutput, VDimension >
+DiscreteLevelSetImage< TOutput, VDimension >
 ::EvaluateGradient( const InputType& iP, LevelSetDataType& ioData ) const
 {
   if( ioData.Gradient.m_Computed )
@@ -341,7 +341,7 @@ DiscreteLevelSetImageBase< TOutput, VDimension >
 // ----------------------------------------------------------------------------
 template< typename TOutput, unsigned int VDimension >
 void
-DiscreteLevelSetImageBase< TOutput, VDimension >
+DiscreteLevelSetImage< TOutput, VDimension >
 ::EvaluateHessian( const InputType& iP, LevelSetDataType& ioData ) const
 {
   if( ioData.Hessian.m_Computed )
@@ -464,8 +464,8 @@ DiscreteLevelSetImageBase< TOutput, VDimension >
 
 // ----------------------------------------------------------------------------
 template< typename TOutput, unsigned int VDimension >
-typename DiscreteLevelSetImageBase< TOutput, VDimension >::OutputRealType
-DiscreteLevelSetImageBase< TOutput, VDimension >
+typename DiscreteLevelSetImage< TOutput, VDimension >::OutputRealType
+DiscreteLevelSetImage< TOutput, VDimension >
 ::EvaluateMeanCurvature( const InputType& iP ) const
 {
   OutputRealType oValue = NumericTraits< OutputRealType >::Zero;
@@ -502,7 +502,7 @@ DiscreteLevelSetImageBase< TOutput, VDimension >
 // ----------------------------------------------------------------------------
 template< typename TOutput, unsigned int VDimension >
 void
-DiscreteLevelSetImageBase< TOutput, VDimension >
+DiscreteLevelSetImage< TOutput, VDimension >
 ::EvaluateLaplacian( const InputType& iP, LevelSetDataType& ioData ) const
 {
   if( ioData.Laplacian.m_Computed )
@@ -552,7 +552,7 @@ DiscreteLevelSetImageBase< TOutput, VDimension >
 // ----------------------------------------------------------------------------
 template< typename TOutput, unsigned int VDimension >
 void
-DiscreteLevelSetImageBase< TOutput, VDimension >
+DiscreteLevelSetImage< TOutput, VDimension >
 ::EvaluateMeanCurvature( const InputType& iP, LevelSetDataType& ioData ) const
 {
   if( !ioData.MeanCurvature.m_Computed )
@@ -605,7 +605,7 @@ DiscreteLevelSetImageBase< TOutput, VDimension >
 // ----------------------------------------------------------------------------
 template< typename TOutput, unsigned int VDimension >
 void
-DiscreteLevelSetImageBase< TOutput, VDimension >
+DiscreteLevelSetImage< TOutput, VDimension >
 ::EvaluateForwardGradient( const InputType& iP, LevelSetDataType& ioData ) const
 {
   if( ioData.ForwardGradient.m_Computed )
@@ -650,7 +650,7 @@ DiscreteLevelSetImageBase< TOutput, VDimension >
 // ----------------------------------------------------------------------------
 template< typename TOutput, unsigned int VDimension >
 void
-DiscreteLevelSetImageBase< TOutput, VDimension >
+DiscreteLevelSetImage< TOutput, VDimension >
 ::EvaluateBackwardGradient( const InputType& iP, LevelSetDataType& ioData ) const
 {
   if( ioData.BackwardGradient.m_Computed )
@@ -696,7 +696,7 @@ DiscreteLevelSetImageBase< TOutput, VDimension >
 // ----------------------------------------------------------------------------
 template< typename TOutput, unsigned int VDimension >
 void
-DiscreteLevelSetImageBase< TOutput, VDimension >
+DiscreteLevelSetImage< TOutput, VDimension >
 ::Initialize()
 {
   Superclass::Initialize();
@@ -705,7 +705,7 @@ DiscreteLevelSetImageBase< TOutput, VDimension >
 // ----------------------------------------------------------------------------
 template< typename TOutput, unsigned int VDimension >
 void
-DiscreteLevelSetImageBase< TOutput, VDimension >
+DiscreteLevelSetImage< TOutput, VDimension >
 ::CopyInformation(const DataObject *data)
 {
   Superclass::CopyInformation( data );
@@ -719,7 +719,7 @@ DiscreteLevelSetImageBase< TOutput, VDimension >
   catch ( ... )
     {
     // LevelSet could not be cast back down
-    itkExceptionMacro( << "itk::DiscreteLevelSetImageBase::CopyInformation() cannot cast "
+    itkExceptionMacro( << "itk::DiscreteLevelSetImage::CopyInformation() cannot cast "
                        << typeid( data ).name() << " to "
                        << typeid( Self * ).name() );
     }
@@ -727,7 +727,7 @@ DiscreteLevelSetImageBase< TOutput, VDimension >
   if ( !LevelSet )
     {
     // pointer could not be cast back down
-    itkExceptionMacro( << "itk::DiscreteLevelSetImageBase::CopyInformation() cannot cast "
+    itkExceptionMacro( << "itk::DiscreteLevelSetImage::CopyInformation() cannot cast "
                        << typeid( data ).name() << " to "
                        << typeid( Self * ).name() );
     }
@@ -736,7 +736,7 @@ DiscreteLevelSetImageBase< TOutput, VDimension >
 // ----------------------------------------------------------------------------
 template< typename TOutput, unsigned int VDimension >
 void
-DiscreteLevelSetImageBase< TOutput, VDimension >
+DiscreteLevelSetImage< TOutput, VDimension >
 ::Graft( const DataObject* data )
 {
   Superclass::Graft( data );
@@ -749,7 +749,7 @@ DiscreteLevelSetImageBase< TOutput, VDimension >
   catch( ... )
     {
     // image could not be cast back down
-    itkExceptionMacro( << "itk::DiscreteLevelSetImageBase::CopyInformation() cannot cast "
+    itkExceptionMacro( << "itk::DiscreteLevelSetImage::CopyInformation() cannot cast "
                        << typeid( data ).name() << " to "
                          << typeid( Self * ).name() );
     }
@@ -757,7 +757,7 @@ DiscreteLevelSetImageBase< TOutput, VDimension >
   if ( !LevelSet )
     {
     // pointer could not be cast back down
-    itkExceptionMacro( << "itk::DiscreteLevelSetImageBase::CopyInformation() cannot cast "
+    itkExceptionMacro( << "itk::DiscreteLevelSetImage::CopyInformation() cannot cast "
                        << typeid( data ).name() << " to "
                        << typeid( Self * ).name() );
     }
@@ -766,4 +766,4 @@ DiscreteLevelSetImageBase< TOutput, VDimension >
 }
 
 }
-#endif // __itkDiscreteLevelSetImageBase_hxx
+#endif // __itkDiscreteLevelSetImage_hxx

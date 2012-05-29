@@ -26,14 +26,14 @@ namespace itk
 {
 
 template< class TImage, class TLevelSetEvolution >
-LevelSetEvolutionUpdateLevelSetsThreader< LevelSetDenseImageBase< TImage >, ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >
+LevelSetEvolutionUpdateLevelSetsThreader< LevelSetDenseImage< TImage >, ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >
 ::LevelSetEvolutionUpdateLevelSetsThreader()
 {
 }
 
 template< class TImage, class TLevelSetEvolution >
 void
-LevelSetEvolutionUpdateLevelSetsThreader< LevelSetDenseImageBase< TImage >, ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >
+LevelSetEvolutionUpdateLevelSetsThreader< LevelSetDenseImage< TImage >, ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >
 ::BeforeThreadedExecution()
 {
   this->m_RMSChangeAccumulatorPerThread.resize( this->GetNumberOfThreadsUsed() );
@@ -46,7 +46,7 @@ LevelSetEvolutionUpdateLevelSetsThreader< LevelSetDenseImageBase< TImage >, Thre
 
 template< class TImage, class TLevelSetEvolution >
 void
-LevelSetEvolutionUpdateLevelSetsThreader< LevelSetDenseImageBase< TImage >, ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >
+LevelSetEvolutionUpdateLevelSetsThreader< LevelSetDenseImage< TImage >, ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >
 ::ThreadedExecution( const DomainType & imageSubRegion,
                      const ThreadIdType threadId )
 {
@@ -81,7 +81,7 @@ LevelSetEvolutionUpdateLevelSetsThreader< LevelSetDenseImageBase< TImage >, Thre
 
 template< class TImage, class TLevelSetEvolution >
 void
-LevelSetEvolutionUpdateLevelSetsThreader< LevelSetDenseImageBase< TImage >, ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >
+LevelSetEvolutionUpdateLevelSetsThreader< LevelSetDenseImage< TImage >, ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >
 ::AfterThreadedExecution()
 {
   for( ThreadIdType ii = 0; ii < this->GetNumberOfThreadsUsed(); ++ii )

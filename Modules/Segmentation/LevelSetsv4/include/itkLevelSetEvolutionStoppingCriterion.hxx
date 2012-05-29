@@ -16,16 +16,16 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetEvolutionStoppingCriterionBase_hxx
-#define __itkLevelSetEvolutionStoppingCriterionBase_hxx
+#ifndef __itkLevelSetEvolutionStoppingCriterion_hxx
+#define __itkLevelSetEvolutionStoppingCriterion_hxx
 
-#include "itkLevelSetEvolutionStoppingCriterionBase.h"
+#include "itkLevelSetEvolutionStoppingCriterion.h"
 
 namespace itk
 {
 template< class TLevelSetContainer >
-LevelSetEvolutionStoppingCriterionBase< TLevelSetContainer >
-::LevelSetEvolutionStoppingCriterionBase()
+LevelSetEvolutionStoppingCriterion< TLevelSetContainer >
+::LevelSetEvolutionStoppingCriterion()
 {
   this->m_RMSChangeAccumulator = NumericTraits< OutputRealType >::Zero;
   this->m_NumberOfIterations = NumericTraits< IterationIdType >::Zero;
@@ -33,8 +33,8 @@ LevelSetEvolutionStoppingCriterionBase< TLevelSetContainer >
 }
 
 template< class TLevelSetContainer >
-LevelSetEvolutionStoppingCriterionBase< TLevelSetContainer >
-::~LevelSetEvolutionStoppingCriterionBase()
+LevelSetEvolutionStoppingCriterion< TLevelSetContainer >
+::~LevelSetEvolutionStoppingCriterion()
 {}
 
 }

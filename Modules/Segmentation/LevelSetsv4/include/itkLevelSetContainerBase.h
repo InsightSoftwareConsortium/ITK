@@ -32,7 +32,7 @@ namespace itk
  *  \class LevelSetContainerBase
  *  \brief Container of level set
  *
- *  Encapsulate an ordered set of level set function (see LevelSetBase).
+ *  Encapsulate an ordered set of level set function (see LevelSet).
  *
  * \tparam TIdentifier type of the identifier used to reference on level set function
  * \tparam TLevelSet type of level set function in the container.

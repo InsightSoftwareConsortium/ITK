@@ -19,8 +19,8 @@
 #include "itkImageFileReader.h"
 #include "itkLevelSetContainer.h"
 #include "itkLevelSetEquationChanAndVeseExternalTerm.h"
-#include "itkLevelSetEquationTermContainerBase.h"
-#include "itkLevelSetEquationContainerBase.h"
+#include "itkLevelSetEquationTermContainer.h"
+#include "itkLevelSetEquationContainer.h"
 #include "itkSinRegularizedHeavisideStepFunction.h"
 #include "itkLevelSetEvolution.h"
 #include "itkBinaryImageToLevelSetImageAdaptor.h"
@@ -67,10 +67,10 @@ int itkSingleLevelSetWhitakerImage2DWithLaplacianTest( int argc, char* argv[] )
                                                             PropagationTermType;
   typedef itk::LevelSetEquationLaplacianTerm< InputImageType, LevelSetContainerType >
                                                             LaplacianTermType;
-  typedef itk::LevelSetEquationTermContainerBase< InputImageType, LevelSetContainerType >
+  typedef itk::LevelSetEquationTermContainer< InputImageType, LevelSetContainerType >
                                                             TermContainerType;
 
-  typedef itk::LevelSetEquationContainerBase< TermContainerType >
+  typedef itk::LevelSetEquationContainer< TermContainerType >
                                                             EquationContainerType;
 
   typedef itk::LevelSetEvolution< EquationContainerType, SparseLevelSetType >

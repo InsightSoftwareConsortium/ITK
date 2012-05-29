@@ -26,14 +26,14 @@ namespace itk
 {
 
 template< class TImage, class TLevelSetEvolution >
-LevelSetEvolutionComputeIterationThreader< LevelSetDenseImageBase< TImage >, ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >
+LevelSetEvolutionComputeIterationThreader< LevelSetDenseImage< TImage >, ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >
 ::LevelSetEvolutionComputeIterationThreader()
 {
 }
 
 template< class TImage, class TLevelSetEvolution >
 void
-LevelSetEvolutionComputeIterationThreader< LevelSetDenseImageBase< TImage >, ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >
+LevelSetEvolutionComputeIterationThreader< LevelSetDenseImage< TImage >, ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >
 ::ThreadedExecution( const DomainType & imageSubRegion,
                      const ThreadIdType itkNotUsed(threadId) )
 {
@@ -102,7 +102,7 @@ LevelSetEvolutionComputeIterationThreader< LevelSetDenseImageBase< TImage >, Thr
 
 template< class TImage, class TLevelSetEvolution >
 LevelSetEvolutionComputeIterationThreader<
-  LevelSetDenseImageBase< TImage >,
+  LevelSetDenseImage< TImage >,
   ThreadedIteratorRangePartitioner< typename TLevelSetEvolution::DomainMapImageFilterType::DomainMapType::const_iterator >,
     TLevelSetEvolution >
 ::LevelSetEvolutionComputeIterationThreader()
@@ -112,7 +112,7 @@ LevelSetEvolutionComputeIterationThreader<
 template< class TImage, class TLevelSetEvolution >
 void
 LevelSetEvolutionComputeIterationThreader<
-  LevelSetDenseImageBase< TImage >,
+  LevelSetDenseImage< TImage >,
   ThreadedIteratorRangePartitioner< typename TLevelSetEvolution::DomainMapImageFilterType::DomainMapType::const_iterator >,
     TLevelSetEvolution >
 ::ThreadedExecution( const DomainType & imageSubDomain,
