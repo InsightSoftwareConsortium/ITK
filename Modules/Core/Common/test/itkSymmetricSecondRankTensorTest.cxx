@@ -423,12 +423,44 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
     tensor3D(2,2) =  29.0;
 
     Double3DMatrixType matrix3D;
+    matrix3D.Fill(1.0);
+    std::vector<double> ans;
+    ans.push_back(26);
+    ans.push_back(23);
+    ans.push_back(36);
 
-    Double3DTensorType result1 = tensor3D.PreMultiply( matrix3D );
+    Double3DMatrixType result1 = tensor3D.PreMultiply( matrix3D );
     std::cout << result1 << std::endl;
+    for (unsigned int ii = 0; ii < 3; ++ii)
+    {
+      if (result1[0][ii] != ans[ii])
+      {
+        std::cout << "PreMultiply FAILED" << std::endl;
+        return EXIT_FAILURE;
+      }
+    }
 
-    Double3DTensorType result2 = tensor3D.PostMultiply( matrix3D );
+    Double3DMatrixType result2 = tensor3D.PostMultiply( matrix3D );
     std::cout << result2 << std::endl;
+    for (unsigned int ii = 0; ii < 3; ++ii)
+    {
+      if (result2[ii][0] != ans[ii])
+      {
+        std::cout << "PostMultiply FAILED" << std::endl;
+        return EXIT_FAILURE;
+      }
+    }
+
+    Double3DTensorType result3 = tensor3D.Rotate( matrix3D );
+    std::cout << result3 << std::endl;
+    for (unsigned int ii = 0; ii < 6; ++ii)
+    {
+      if (result3[ii] != 85)
+      {
+        std::cout << "Rotate FAILED" << std::endl;
+        return EXIT_FAILURE;
+      }
+    }
 
   } // end of Matrix * SymmetricSecondRankTensor test
 

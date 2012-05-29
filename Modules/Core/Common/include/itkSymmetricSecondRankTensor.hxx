@@ -313,14 +313,56 @@ SymmetricSecondRankTensor< T, NDimension >
 }
 
 /**
+ * Set the Tensor to a Rotated version of the current tensor.
+ * matrix * self * Transpose(matrix)
+ *
+ */
+template<class T,unsigned int NDimension>
+template <typename TMatrixValueType>
+SymmetricSecondRankTensor<T,NDimension>
+SymmetricSecondRankTensor<T,NDimension>
+::Rotate( const Matrix<TMatrixValueType, NDimension, NDimension> & m ) const
+{
+  Self result;
+  typedef Matrix<double, NDimension, NDimension> RotationMatrixType;
+  RotationMatrixType SCT; //self * Transpose(m)
+  for(unsigned int r=0; r<NDimension; r++)
+  {
+    for(unsigned int c=0; c<NDimension; c++)
+    {
+      double sum = 0.0;
+      for(unsigned int t=0; t<NDimension; t++)
+      {
+        sum += (*this)(r,t) * m(c,t);
+      }
+      SCT(r,c) = sum;
+    }
+  }
+  //self = m * sct;
+  for(unsigned int r=0; r<NDimension; r++)
+  {
+    for(unsigned int c=0; c<NDimension; c++)
+    {
+      double sum = 0.0;
+      for(unsigned int t=0; t<NDimension; t++)
+      {
+        sum += m(r,t) * SCT(t,c);
+      }
+      (result)(r,c) = static_cast<T>( sum );
+    }
+  }
+  return result;
+}
+
+/**
  * Pre-multiply the Tensor by a Matrix
  */
 template< class T, unsigned int NDimension >
-SymmetricSecondRankTensor< T, NDimension >
+typename SymmetricSecondRankTensor< T, NDimension >::MatrixType
 SymmetricSecondRankTensor< T, NDimension >
 ::PreMultiply(const MatrixType & m) const
 {
-  Self result;
+  MatrixType result;
 
   typedef typename NumericTraits< T >::AccumulateType AccumulateType;
   for ( unsigned int r = 0; r < NDimension; r++ )
@@ -342,11 +384,11 @@ SymmetricSecondRankTensor< T, NDimension >
  * Post-multiply the Tensor by a Matrix
  */
 template< class T, unsigned int NDimension >
-SymmetricSecondRankTensor< T, NDimension >
+typename SymmetricSecondRankTensor< T, NDimension >::MatrixType
 SymmetricSecondRankTensor< T, NDimension >
 ::PostMultiply(const MatrixType & m) const
 {
-  Self result;
+  MatrixType result;
 
   typedef typename NumericTraits< T >::AccumulateType AccumulateType;
   for ( unsigned int r = 0; r < NDimension; r++ )
