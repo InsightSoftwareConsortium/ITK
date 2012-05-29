@@ -17,7 +17,6 @@
  *=========================================================================*/
 #include "itkConjugateGradientLineSearchOptimizerv4.h"
 #include "itkTestingMacros.h"
-#include "itkRegistrationParameterScalesFromShift.h"
 
 
 /**
@@ -43,9 +42,9 @@ class ConjugateGradientLineSearchOptimizerv4TestMetric
 public:
 
   typedef ConjugateGradientLineSearchOptimizerv4TestMetric  Self;
-  typedef itk::ObjectToObjectMetricBase                   Superclass;
-  typedef itk::SmartPointer<Self>                         Pointer;
-  typedef itk::SmartPointer<const Self>                   ConstPointer;
+  typedef itk::ObjectToObjectMetricBase                     Superclass;
+  typedef itk::SmartPointer<Self>                           Pointer;
+  typedef itk::SmartPointer<const Self>                     ConstPointer;
   itkNewMacro( Self );
   itkTypeMacro( ConjugateGradientLineSearchOptimizerv4TestMetric, ObjectToObjectMetricBase );
 
@@ -277,15 +276,6 @@ int itkConjugateGradientLineSearchOptimizerv4Test(int, char* [] )
   std::cout << std::endl;
   std::cout << "NumberOfIterations: " << itkOptimizer->GetNumberOfIterations();
   std::cout << std::endl;
-  // For test of learning rate and scales estimation options
-  // in an actual registration, see
-  // itkAutoScaledConjugateGradientRegistrationTest.
-  itkOptimizer->SetDoEstimateLearningRateOnce( false );
-  std::cout << "GetDoEstimateLearningRateOnce: " << itkOptimizer->GetDoEstimateLearningRateOnce() << std::endl;
-  itkOptimizer->SetDoEstimateLearningRateAtEachIteration( true );
-  std::cout << "GetDoEstimateLearningRateAtEachIteration: " << itkOptimizer->GetDoEstimateLearningRateAtEachIteration() << std::endl;
-  itkOptimizer->SetDoEstimateScales( false );
-  std::cout << "GetDoEstimateScales: " << itkOptimizer->GetDoEstimateScales() << std::endl;
 
   itkOptimizer->Print( std::cout );
   std::cout << "Stop description   = " << itkOptimizer->GetStopConditionDescription() << std::endl;
