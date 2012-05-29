@@ -34,16 +34,19 @@ get_filename_component(DICOMSERIES_DIR ${VAR_IMAGE0075} PATH)
 itk_add_test(NAME itkGDCMSeriesReadImageWrite
       COMMAND ITKIOGDCMTestDriver itkGDCMSeriesReadImageWrite
               ${DICOMSERIES_DIR} ${ITK_TEST_OUTPUT_DIR}/itkGDCMSeriesReadImageWrite.vtk ${ITK_TEST_OUTPUT_DIR})
-set_property(TEST itkGDCMSeriesReadImageWrite        APPEND PROPERTY DEPENDS ITKData)
+
+set_property(TEST itkGDCMSeriesReadImageWrite APPEND PROPERTY DEPENDS ITKData)
 
 itk_add_test(NAME itkGDCMSeriesStreamReadImageWrite1
       COMMAND ITKIOGDCMTestDriver itkGDCMSeriesStreamReadImageWrite
               ${DICOMSERIES_DIR} ${ITK_TEST_OUTPUT_DIR}/itkGDCMSeriesStreamReadImageWrite1.mhd 0.859375 0.85939 1.60016 0)
+
 set_property(TEST itkGDCMSeriesStreamReadImageWrite1 APPEND PROPERTY DEPENDS ITKData)
 
 itk_add_test(NAME itkGDCMSeriesStreamReadImageWrite2
       COMMAND ITKIOGDCMTestDriver itkGDCMSeriesStreamReadImageWrite
               ${DICOMSERIES_DIR} ${ITK_TEST_OUTPUT_DIR}/itkGDCMSeriesStreamReadImageWrite2.mhd 0.859375 0.85939 1.60016 1)
+
 set_property(TEST itkGDCMSeriesStreamReadImageWrite2 APPEND PROPERTY DEPENDS ITKData)
 
 itk_add_test(NAME itkGDCMImagePositionPatientTest

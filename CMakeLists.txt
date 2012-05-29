@@ -1,4 +1,8 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+include(CMakeDependentOption)
+#
+# use ExternalProject
+include(ExternalProject)
 
 if(WIN32 OR NOT EXISTS /dev/urandom)
   cmake_minimum_required(VERSION 2.8.5)
@@ -225,11 +229,8 @@ mark_as_advanced(USE_FFTWF)
 option(USE_SYSTEM_FFTW "Use an installed version of fftw" OFF)
 mark_as_advanced(USE_SYSTEM_FFTW)
 
-if( USE_FFTWD OR USE_FFTWF )
-  #
-  # use ExternalProject
-  include(ExternalProject)
 
+if( USE_FFTWD OR USE_FFTWF )
   include(itkExternal_FFTW)
 endif()
 
