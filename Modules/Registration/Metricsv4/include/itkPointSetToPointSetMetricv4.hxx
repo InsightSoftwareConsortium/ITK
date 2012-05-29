@@ -191,7 +191,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
     }
 
   DerivativeType derivative;
-  if( VerifyNumberOfValidPoints( value, derivative ) )
+  if( this->VerifyNumberOfValidPoints( value, derivative ) )
     {
     value /= static_cast<MeasureType>( this->m_NumberOfValidPoints );
     }
@@ -292,7 +292,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
     ++virtualIt;
     }
 
-  if( VerifyNumberOfValidPoints( value, derivative ) )
+  if( this->VerifyNumberOfValidPoints( value, derivative ) )
     {
     // For global-support transforms, average the accumulated derivative result
     if( ! this->HasLocalSupport() )

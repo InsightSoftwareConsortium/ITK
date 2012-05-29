@@ -17,7 +17,6 @@
  *=========================================================================*/
 #include "itkGradientDescentLineSearchOptimizerv4.h"
 #include "itkTestingMacros.h"
-#include "itkRegistrationParameterScalesFromShift.h"
 
 /* Cribbed from itkGradientDescentLineSearchOptimizerTest */
 
@@ -286,15 +285,6 @@ int itkGradientDescentLineSearchOptimizerv4Test(int, char* [] )
   std::cout << std::endl;
   std::cout << "NumberOfIterations: " << itkOptimizer->GetNumberOfIterations();
   std::cout << std::endl;
-  // For test of learning rate and scales estimation options
-  // in an actual registration, see
-  // itkAutoScaledGradientDescentRegistrationTest.
-  itkOptimizer->SetDoEstimateLearningRateOnce( false );
-  std::cout << "GetDoEstimateLearningRateOnce: " << itkOptimizer->GetDoEstimateLearningRateOnce() << std::endl;
-  itkOptimizer->SetDoEstimateLearningRateAtEachIteration( true );
-  std::cout << "GetDoEstimateLearningRateAtEachIteration: " << itkOptimizer->GetDoEstimateLearningRateAtEachIteration() << std::endl;
-  itkOptimizer->SetDoEstimateScales( false );
-  std::cout << "GetDoEstimateScales: " << itkOptimizer->GetDoEstimateScales() << std::endl;
 
   itkOptimizer->Print( std::cout );
   std::cout << "Stop description   = " << itkOptimizer->GetStopConditionDescription() << std::endl;
