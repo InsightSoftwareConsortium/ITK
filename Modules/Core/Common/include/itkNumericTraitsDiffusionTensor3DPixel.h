@@ -95,6 +95,21 @@ public:
     return Self( NumericTraits< T >::min() );
   }
 
+  static const Self NonpositiveMin(const Self &)
+  {
+    return Self( NumericTraits< T >::NonpositiveMin() );
+  }
+
+  static const Self ZeroValue(const Self &)
+  {
+    return Self( NumericTraits< T >::ZeroValue() );
+  }
+
+  static const Self OneValue(const Self &)
+  {
+    return Self( NumericTraits< T >::OneValue() );
+  }
+
   static const Self max()
   {
     return Self( NumericTraits< T >::max() );

@@ -94,6 +94,7 @@ public:
   typedef IndexValueType                                  IndexValueArrayType[ImageDimension];
   typedef typename IndexType::OffsetType                  OffsetType;
   typedef typename OffsetType::OffsetValueType            OffsetValueType;
+  typedef OffsetValueType                                 OffsetTableType[ImageDimension+1];
 
   /** Size typedef support. A size is used to define region bounds. */
   typedef Size< itkGetStaticConstMacro(ImageDimension) > SizeType;
@@ -170,6 +171,9 @@ public:
 
   /** Modify the Size of the ImageRegion so that the provided index will be the upper corner index. */
   void SetUpperIndex( const IndexType & idx );
+
+  /** Compute an offset table based on the Size. */
+  void ComputeOffsetTable(OffsetTableType offsetTable) const;
 
   /** Compare two regions. */
   bool
