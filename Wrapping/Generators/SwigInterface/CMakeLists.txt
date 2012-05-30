@@ -39,6 +39,7 @@ else()
       INSTALL_COMMAND ""
       )
     set(SWIG_DIR ${CMAKE_CURRENT_BINARY_DIR}/swigwin-${swig_version})
+    set(SWIG_VERSION "${swig_version}")
   else()
     # build swig as an external project
     ExternalProject_add(PCRE
@@ -66,25 +67,6 @@ endif()
 find_package(PythonInterp REQUIRED)
 
 set(CABLE_INDEX ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/idx.py CACHE INTERNAL "cableidx path")
-
-if("${CMAKE_VERSION}" STRLESS "2.6")
-    # cmake 2.4 doesn't provied VERSION
-    if(SWIG_DIR)
-      set(SWIG_FOUND 1)
-      set(SWIG_USE_FILE ${CMAKE_ROOT}/Modules/UseSWIG.cmake)
-      execute_process(COMMAND ${SWIG_EXECUTABLE} -version
-        OUTPUT_VARIABLE SWIG_version_output
-        ERROR_VARIABLE SWIG_version_output
-        RESULT_VARIABLE SWIG_version_result)
-      if(SWIG_version_result)
-        message(SEND_ERROR "Command \"${SWIG_EXECUTABLE} -version\" failed with output:\n${SWIG_version_output}")
-      else(SWIG_version_result)
-        string(REGEX REPLACE ".*SWIG Version[^0-9.]*\([0-9.]+\).*" "\\1"
-          SWIG_version_output "${SWIG_version_output}")
-        set(SWIG_VERSION ${SWIG_version_output} CACHE STRING "Swig version" FORCE)
-      endif(SWIG_version_result)
-    endif(SWIG_DIR)
-endif("${CMAKE_VERSION}" STRLESS "2.6")
 
 ###############################################################################
 # install the files requires for swiginterface
