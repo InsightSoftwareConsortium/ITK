@@ -17,6 +17,7 @@ set(ITKOptimizersv4Tests
   itkAutoScaledGradientDescentRegistrationTest.cxx
   itkWindowConvergenceMonitoringFunctionTest.cxx
   itkQuasiNewtonOptimizerv4Test.cxx
+  itkObjectToObjectMetricBaseTest.cxx
 )
 
 set(INPUTDATA ${ITK_DATA_ROOT}/Input)
@@ -99,3 +100,7 @@ itk_add_test(NAME itkRegistrationParameterScalesFromIndexShiftTest
 itk_add_test(NAME itkRegistrationParameterScalesFromPhysicalShiftPointSetTest
       COMMAND ITKOptimizersv4TestDriver
       itkRegistrationParameterScalesFromPhysicalShiftPointSetTest)
+
+itk_add_test(NAME itkObjectToObjectMetricBaseTest
+      COMMAND ITKOptimizersv4TestDriver
+      itkObjectToObjectMetricBaseTest)
