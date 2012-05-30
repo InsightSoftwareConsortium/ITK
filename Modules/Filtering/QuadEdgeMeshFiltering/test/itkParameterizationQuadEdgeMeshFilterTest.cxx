@@ -18,17 +18,13 @@
 #include "itkMeshFileReader.h"
 #include "itkMeshFileWriter.h"
 
-// NEW
-
-#ifdef QuadEdgePARAM_TAUCS
-    #include "TAUCSSparseSolverTraits.h"
-#else
-    #include "VNLIterativeSparseSolverTraits.h"
-#endif
+#include "VNLSparseLUSolverTraits.h"
+#include "VNLIterativeSparseSolverTraits.h"
 
 #include "itkParameterizationQuadEdgeMeshFilter.h"
 
-int itkParameterizationQuadEdgeMeshFilterTest( int argc, char* argv[] )
+template< class TSolver >
+int ParameterizationQuadEdgeMeshFilterTest( int argc, char* argv[] )
 {
   // ** ERROR MESSAGE AND HELP ** //
   if( argc < 5 )
@@ -44,29 +40,24 @@ int itkParameterizationQuadEdgeMeshFilterTest( int argc, char* argv[] )
     std::cout <<"   * 2: ConformalMatrixCoefficients" << std::endl;
     std::cout <<"   * 3: AuthalicMatrixCoefficients" << std::endl;
     std::cout <<"   * 4: HarmonicMatrixCoefficients" << std::endl;
-    std::cout <<"4-Output file name " << std::endl;
+    std::cout <<"4-Solver type (0: iterative, 1: LU decomposition)" << std::endl;
+    std::cout <<"5-Output file name " << std::endl;
 
     return EXIT_FAILURE;
     }
 
 
   // ** TYPEDEF **
-  typedef double Coord;
+  typedef typename TSolver::ValueType                                  Coord;
 
   typedef itk::QuadEdgeMesh< Coord, 3 >                                MeshType;
   typedef itk::MeshFileReader< MeshType >                              ReaderType;
   typedef itk::MeshFileWriter< MeshType >                              WriterType;
   typedef itk::BorderQuadEdgeMeshFilter< MeshType, MeshType >          BorderTransformType;
-#ifdef QuadEdgePARAM_TAUCS
-  typedef TAUCSSolverTraits< Coord >                              SolverTraits;
-#else
-  typedef VNLIterativeSparseSolverTraits< Coord >                 SolverTraits;
-#endif
-  typedef itk::ParameterizationQuadEdgeMeshFilter< MeshType, MeshType, SolverTraits >   ParametrizationType;
 
 
   // ** READ THE FILE IN **
-  ReaderType::Pointer reader = ReaderType::New( );
+  typename ReaderType::Pointer reader = ReaderType::New( );
   reader->SetFileName( argv[1] );
 
   try
@@ -80,10 +71,10 @@ int itkParameterizationQuadEdgeMeshFilterTest( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  MeshType::Pointer mesh = reader->GetOutput( );
+  typename MeshType::Pointer mesh = reader->GetOutput( );
 
   // ** CHOSE< COMPUTE AND SET BORDER TRANSFORM **
-  BorderTransformType::Pointer border_transform = BorderTransformType::New( );
+  typename BorderTransformType::Pointer border_transform = BorderTransformType::New( );
   border_transform->SetInput( mesh );
   // two following line for coverage
   border_transform->SetRadius( border_transform->GetRadius() );
@@ -116,7 +107,8 @@ int itkParameterizationQuadEdgeMeshFilterTest( int argc, char* argv[] )
   itk::AuthalicMatrixCoefficients< MeshType >                 coeff3;
   itk::HarmonicMatrixCoefficients< MeshType >                 coeff4;
 
-  ParametrizationType::Pointer param = ParametrizationType::New( );
+  typedef itk::ParameterizationQuadEdgeMeshFilter< MeshType, MeshType, TSolver >   ParametrizationType;
+  typename ParametrizationType::Pointer param = ParametrizationType::New( );
   param->SetInput( mesh );
   param->SetBorderTransform( border_transform );
 
@@ -150,12 +142,12 @@ int itkParameterizationQuadEdgeMeshFilterTest( int argc, char* argv[] )
 
   // ** PROCESS **
   param->Update( );
-  MeshType::Pointer output = param->GetOutput( );
+  typename MeshType::Pointer output = param->GetOutput( );
 
   // ** WRITE OUTPUT **
-  WriterType::Pointer writer = WriterType::New( );
+  typename WriterType::Pointer writer = WriterType::New( );
   writer->SetInput( param->GetOutput( ) );
-  writer->SetFileName( argv[4] );
+  writer->SetFileName( argv[5] );
   writer->Update( );
 
   // ** PRINT **
@@ -165,3 +157,24 @@ int itkParameterizationQuadEdgeMeshFilterTest( int argc, char* argv[] )
   // GET OUT OF HERE AND GET (YET ANOTHER) COFFEE
   return EXIT_SUCCESS;
 }
+
+int itkParameterizationQuadEdgeMeshFilterTest( int argc, char* argv[] )
+{
+  typedef double                                    TCoord;
+  typedef VNLIterativeSparseSolverTraits< TCoord >  IterativeSolverTraits;
+  typedef VNLSparseLUSolverTraits< TCoord >         LUSolverTraits;
+
+  if( atoi( argv[4] ) == 0 )
+    {
+    return ParameterizationQuadEdgeMeshFilterTest< IterativeSolverTraits >( argc, argv );
+    }
+  else if( atoi( argv[4] ) == 1 )
+    {
+    return ParameterizationQuadEdgeMeshFilterTest< LUSolverTraits >( argc, argv );
+    }
+  else
+    {
+    return EXIT_FAILURE;
+    }
+}
+

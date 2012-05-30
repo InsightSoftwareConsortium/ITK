@@ -103,10 +103,12 @@ itk_add_test(NAME itkNormalQuadEdgeMeshFilterTest2
 
 foreach( border 0 1 )
   foreach( coeff 0 1 2 3 4 )
-    itk_add_test(NAME itkParameterizationQuadEdgeMeshFilterTest${border}_${coeff}
-          COMMAND ITKQuadEdgeMeshFilteringTestDriver
-                  itkParameterizationQuadEdgeMeshFilterTest
-            DATA{${INPUTDATA}/mushroom.vtk} ${border} ${coeff}
-            ${TEMP}/param_border${border}_coeff${coeff}.vtk)
+    foreach( solver 0 1 )
+      itk_add_test(NAME itkParameterizationQuadEdgeMeshFilterTestb${border}_c${coeff}_s${solver}
+            COMMAND ITKQuadEdgeMeshFilteringTestDriver
+                    itkParameterizationQuadEdgeMeshFilterTest
+              DATA{${INPUTDATA}/mushroom.vtk} ${border} ${coeff} ${solver}
+              ${TEMP}/param_border${border}_coeff${coeff}_solver${solver}.vtk)
+    endforeach( solver )
   endforeach( coeff )
 endforeach( border )

@@ -15,43 +15,42 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __VNLIterativeSparseSolverTraits_h
-#define __VNLIterativeSparseSolverTraits_h
+#ifndef __VNLSparseLUSolverTraits_h
+#define __VNLSparseLUSolverTraits_h
 
 #include "vnl/vnl_vector.h"
 #include "vnl/vnl_sparse_matrix.h"
-#include "vnl/vnl_sparse_matrix_linear_system.h"
-#include "vnl/algo/vnl_lsqr.h"
+#include "vnl/algo/vnl_sparse_lu.h"
 
-/** \class VNLIterativeSparseSolverTraits
- * \brief Generic interface for iterative sparse linear solver.
+/** \class VNLSparseLUSolverTraits
+ * \brief Generic interface for sparse LU solver.
  *
  * This generic interface (common to several sparse solvers), allow to
- * interchange solver solutions when dealing with sparse linear system. See
+ * interchange solver solutions when dealing with sparse linear systems. See
  * itk::ParameterizationQuadEdgeMeshFilter for reference.
  *
  * It internally uses the VNL library to represent and deal with vectors
  * (vnl_vector) and sparse matrices (vnl_sparse_matrix). The solver by itself
- * is an iterative one see vnl_sparse_matrix_linear_system for more details on
- * the method used.
+ * is made of a sparse LU decomposition followed by solving upper triangular
+ * system.  see vnl_sparse_lu for more details on the method used.
  *
  * \ingroup ITKCommon
  *
- * \sa VNLSparseLUSolverTraits
+ * \sa VNLIterativeSparseSolverTraits:w
  */
 template< typename T = double >
-class VNLIterativeSparseSolverTraits
+class VNLSparseLUSolverTraits
 {
 public:
   typedef T                               ValueType;
   typedef vnl_sparse_matrix< ValueType >  MatrixType;
   typedef vnl_vector< ValueType >         VectorType;
-  typedef vnl_lsqr                        SolverType;
+  typedef vnl_sparse_lu                   SolverType;
 
   /** \return false (it is not a direct solver, it is an iterative solver) */
   static bool IsDirectSolver()
   {
-    return false;
+    return true;
   }
 
   /** \brief initialize a square sparse matrix of size iN x iN */
@@ -87,11 +86,10 @@ public:
   /** \brief Solve the linear system \f$ iA \cdot oX = iB \f$ */
   static bool Solve(const MatrixType & iA, const VectorType & iB, VectorType & oX)
   {
-    typedef vnl_sparse_matrix_linear_system< ValueType > SparseLinearSystemType;
-    SparseLinearSystemType system(iA, iB);
+    SolverType solver( iA );
+    oX = solver.solve( iB );
 
-    SolverType solver(system);
-    return solver.minimize(oX);
+    return true;
   }
 
   /** \brief Solve the linear systems: \f$ iA \cdot oX = iBx \f$, \f$ iA \cdot oY = iBy \f$, \f$ iA \cdot oZ = iBz \f$ */
@@ -99,11 +97,12 @@ public:
              const VectorType & iBx, const VectorType & iBy, const VectorType & iBz,
              VectorType & oX, VectorType & oY, VectorType & oZ )
   {
-    bool result1 = Solve(iA, iBx, 100000, oX);
-    bool result2 = Solve(iA, iBy, 100000, oY);
-    bool result3 = Solve(iA, iBz, 100000, oZ);
+    SolverType solver( iA );
+    oX = solver.solve( iBx );
+    oY = solver.solve( iBy );
+    oZ = solver.solve( iBz );
 
-    return ( result1 && result2 && result3 );
+    return true;
   }
 
   /** \brief Solve the linear systems: \f$ iA \cdot oX = iBx \f$, \f$ iA \cdot oY = iBy \f$ */
@@ -111,25 +110,13 @@ public:
              const VectorType & iBx, const VectorType & iBy,
              VectorType & oX, VectorType & oY)
   {
-    bool result1 = Solve(iA, iBx, oX);
-    bool result2 = Solve(iA, iBy, oY);
+    SolverType solver( iA );
+    oX = solver.solve( iBx );
+    oY = solver.solve( iBy );
 
-    return ( result1 && result2 );
+    return true;
   }
 
-  /** \brief Solve the linear systems: \f$ iA \cdot oX = iBx \f$ in N iterations */
-  static bool Solve(const MatrixType & iA,
-             const VectorType & iB,
-             const long & iNbIter,
-             VectorType & oX)
-  {
-    typedef vnl_sparse_matrix_linear_system< ValueType > SparseLinearSystemType;
-    SparseLinearSystemType system(iA, iB);
-
-    SolverType solver(system);
-    solver.set_max_iterations(iNbIter);
-    return solver.minimize(oX);
-  }
 };
 
 #endif
