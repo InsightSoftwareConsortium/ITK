@@ -36,6 +36,10 @@ namespace itk
                   \, \frac{\partial f(p_n) }{\partial p_n}
  * \f]
  *
+ * Optionally, the best metric value and matching parameters
+ * can be stored and retried via GetValue() and GetCurrentPosition().
+ * See SetReturnBestParametersAndValue().
+ *
  * The user can scale each component of the df / dp in two ways:
  * 1) manually, by setting a scaling vector using method SetScales().
  * Or,
@@ -185,11 +189,26 @@ public:
   /** Get current convergence value */
   itkGetConstReferenceMacro( ConvergenceValue, InternalComputationValueType );
 
+  /** Flag. Set to have the optimizer track and return the best
+   *  best metric value and corresponding best parameters that were
+   *  calculated during the optimization. This captures the best
+   *  solution when the optimizer oversteps or osciallates near the end
+   *  of an optimization.
+   *  Results are stored in m_Value and in the assigned metric's
+   *  parameters, retrievable via optimizer->GetCurrentPosition().
+   *  This option requires additional memory to store the best
+   *  parameters, which can be large when working with high-dimensional
+   *  transforms such as DisplacementFieldTransform.
+   */
+  itkSetMacro(ReturnBestParametersAndValue, bool);
+  itkGetConstReferenceMacro(ReturnBestParametersAndValue, bool);
+  itkBooleanMacro(ReturnBestParametersAndValue);
+
   /** Start and run the optimization */
   virtual void StartOptimization();
 
-  /** Resume the optimization. Can be called after StopOptimization to
-   * resume. The bulk of the optimization work loop is here. */
+  virtual void StopOptimization(void);
+
   virtual void ResumeOptimization();
 
   /** Estimate the learning rate based on the current gradient. */
@@ -243,6 +262,13 @@ protected:
 
   /** The convergence checker. */
   ConvergenceMonitoringType::Pointer m_ConvergenceMonitoring;
+
+  /** Store the best value and related paramters */
+  MeasureType                  m_CurrentBestValue;
+  ParametersType               m_BestParameters;
+
+  /** Flag to control returning of best value and parameters. */
+  bool m_ReturnBestParametersAndValue;
 
 private:
   /** Flag to control use of the ScalesEstimator (if set) for

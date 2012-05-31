@@ -39,7 +39,7 @@ namespace itk
  *
  * Options are identical to the superclass's except for:
  *
- * 1) options Epsilon, LowerLimit and UpperLimit that will guide
+ * options Epsilon, LowerLimit and UpperLimit that will guide
  * a golden section line search to find the optimal gradient update
  * within the range :
  *
@@ -49,9 +49,9 @@ namespace itk
  * lead to additional computation time but better localization of
  * the minimum.
  *
- * 2) option SearchMethod which allows for searching around either
- * an initial learning rate or the previous iteration's learning rate.
- * See SearchMethodType for details.
+ * By default, this optimizer will return the best value and associated
+ * parameters that were calculated during the optimization.
+ * See SetReturnBestParametersAndValue().
  *
  * \ingroup ITKOptimizersv4
  */
@@ -81,26 +81,6 @@ public:
   /** Type for the convergence checker */
   typedef itk::Function::WindowConvergenceMonitoringFunction<double> ConvergenceMonitoringType;
 
-  /** Enum's for golden section search method. Set via SetSearchMethod.
-   *  SearchNearBaselineLearningRate - the search will always
-   *    be performed around the baseline learning rate, which is the
-   *    initial learning rate either from user assignment or estimation
-   *    in the first iteration.
-   *  SearchNearPreviousLearningRate - the search will be performed
-   *    around the learning rate calculated from the golden section
-   *    search in the previous iteration. The first iteration uses
-   *    either the user-assigned learning rate or an estimated one.
-   */
-  typedef enum {
-    SearchNearBaselineLearningRate = 0,
-    SearchNearPreviousLearningRate
-    } SearchMethodType;
-
-  /** Set/Get the golden section search method.
-   *  See SearchMethodType documentation. */
-  itkSetMacro( SearchMethod, SearchMethodType );
-  itkGetMacro( SearchMethod, SearchMethodType );
-
   /** The epsilon determines the accuracy of the line search
    *  i.e. the energy alteration that is considered convergent.
    */
@@ -120,6 +100,8 @@ public:
   itkGetMacro( LowerLimit , InternalComputationValueType );
   itkSetMacro( UpperLimit , InternalComputationValueType );
   itkGetMacro( UpperLimit , InternalComputationValueType );
+  itkSetMacro( MaximumLineSearchIterations , unsigned int );
+  itkGetMacro( MaximumLineSearchIterations , unsigned int );
 
 protected:
 
@@ -143,8 +125,10 @@ protected:
   InternalComputationValueType m_Resphi;
   InternalComputationValueType m_Epsilon;
 
-  /** Search method. See SearchMethodType documentation */
-  SearchMethodType  m_SearchMethod;
+  /** Controls the maximum recursion depth for the golden section search */
+  unsigned int      m_MaximumLineSearchIterations;
+  /** Counts the recursion depth for the golden section search */
+  unsigned int      m_LineSearchIterations;
 
 private:
 
