@@ -31,6 +31,8 @@ template
 <class TScalar, unsigned int NDimensions>
 CompositeTransform<TScalar, NDimensions>::CompositeTransform() : Superclass( 0 )
 {
+  this->m_NumberOfLocalParameters = itk::NumericTraits< NumberOfParametersType >::Zero;
+  this->m_LocalParametersUpdateTime = itk::NumericTraits< unsigned long >::Zero;
   this->m_TransformQueue.clear();
   this->m_TransformsToOptimizeFlags.clear();
   this->m_TransformsToOptimizeQueue.clear();
@@ -987,6 +989,13 @@ typename CompositeTransform<TScalar, NDimensions>::NumberOfParametersType
 CompositeTransform<TScalar, NDimensions>
 ::GetNumberOfLocalParameters(void) const
 {
+  if ( this->GetMTime() == this->m_LocalParametersUpdateTime )
+   {
+   return this->m_NumberOfLocalParameters;
+   }
+
+  this->m_LocalParametersUpdateTime = this->GetMTime();
+
   /* Returns to total number of *local* params in all transforms currently
    * set to be used for optimized.
    * NOTE: We might want to optimize this only to store the result and
@@ -1006,6 +1015,7 @@ CompositeTransform<TScalar, NDimensions>
       result += transform->GetNumberOfLocalParameters();
       }
     }
+  this->m_NumberOfLocalParameters = result;
   return result;
 }
 
