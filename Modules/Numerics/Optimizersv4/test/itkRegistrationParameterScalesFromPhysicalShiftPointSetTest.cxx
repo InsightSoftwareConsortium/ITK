@@ -81,8 +81,8 @@ int itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int , char* [])
   movingPoints->Initialize();
 
   itk::Size<Dimension> virtualDomainSize;
-  virtualDomainSize[0] = 10.0;
-  virtualDomainSize[1] = 10.0;
+  virtualDomainSize[0] = static_cast<itk::SizeValueType>(10);
+  virtualDomainSize[1] = static_cast<itk::SizeValueType>(10);
 
   PointType upperRightPoint;
   upperRightPoint[0] = virtualDomainSize[0];
@@ -278,7 +278,7 @@ int itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int , char* [])
   RegionType region;
   region.SetSize( virtualDomainSize );
   RegionType::IndexType index;
-  index.Fill(0.0);
+  index.Fill(0);
   region.SetIndex( index );
 
   FieldType::Pointer field = FieldType::New();

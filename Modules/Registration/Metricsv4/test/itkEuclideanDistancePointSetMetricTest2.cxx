@@ -230,7 +230,7 @@ int itkEuclideanDistancePointSetMetricTest2Run()
   // Test with invalid virtual domain, i.e.
   // one that doesn't match the displacement field.
   typename RegionType::SizeType badSize;
-  badSize.Fill( pointMax / 2.0 );
+  badSize.Fill( static_cast<itk::SizeValueType>(pointMax / 2.0) );
   RegionType badRegion;
   badRegion.SetSize( badSize );
   badRegion.SetIndex( regionIndex );

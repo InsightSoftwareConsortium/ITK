@@ -31,7 +31,7 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
   m_KernelSigma( 10.0 ),
   m_CovarianceKNeighborhood( 5.0 ),
   m_EvaluationKNeighborhood( 50 ),
-  m_Alpha( 1.0 )
+  m_Alpha( static_cast<RealType>(1) )
 {
 }
 
