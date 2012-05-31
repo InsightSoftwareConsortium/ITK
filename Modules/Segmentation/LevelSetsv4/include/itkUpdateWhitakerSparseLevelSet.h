@@ -20,7 +20,7 @@
 #define __itkUpdateWhitakerSparseLevelSet_h
 
 #include "itkImage.h"
-#include "itkDiscreteLevelSetImageBase.h"
+#include "itkDiscreteLevelSetImage.h"
 #include "itkWhitakerSparseLevelSetImage.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkShapedNeighborhoodIterator.h"

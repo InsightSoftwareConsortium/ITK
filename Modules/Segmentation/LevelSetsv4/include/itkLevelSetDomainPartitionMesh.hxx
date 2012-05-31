@@ -15,28 +15,28 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLevelSetDomainPartitionMeshBase_hxx
-#define __itkLevelSetDomainPartitionMeshBase_hxx
+#ifndef __itkLevelSetDomainPartitionMesh_hxx
+#define __itkLevelSetDomainPartitionMesh_hxx
 
-#include "itkLevelSetDomainPartitionMeshBase.h"
+#include "itkLevelSetDomainPartitionMesh.h"
 
 namespace itk
 {
 template< class TMesh >
-LevelSetDomainPartitionMeshBase <TMesh>
-::LevelSetDomainPartitionMeshBase()
+LevelSetDomainPartitionMesh <TMesh>
+::LevelSetDomainPartitionMesh()
 {
 }
 
 template< class TMesh >
-LevelSetDomainPartitionMeshBase <TMesh>
-::~LevelSetDomainPartitionMeshBase()
+LevelSetDomainPartitionMesh <TMesh>
+::~LevelSetDomainPartitionMesh()
 {
 }
 
 template< class TMesh >
 void
-LevelSetDomainPartitionMeshBase <TMesh>
+LevelSetDomainPartitionMesh <TMesh>
 ::PopulateListDomain()
 {
   PointsContainerConstPointer points = this->m_Mesh->GetPoints();
@@ -63,7 +63,7 @@ LevelSetDomainPartitionMeshBase <TMesh>
 
 template< class TMesh >
 void
-LevelSetDomainPartitionMeshBase <TMesh>
+LevelSetDomainPartitionMesh <TMesh>
 ::AllocateListDomain()
 {
 }

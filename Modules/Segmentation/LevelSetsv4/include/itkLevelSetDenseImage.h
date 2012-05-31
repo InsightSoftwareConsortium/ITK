@@ -16,15 +16,15 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetDenseImageBase_h
-#define __itkLevelSetDenseImageBase_h
+#ifndef __itkLevelSetDenseImage_h
+#define __itkLevelSetDenseImage_h
 
-#include "itkDiscreteLevelSetImageBase.h"
+#include "itkDiscreteLevelSetImage.h"
 
 namespace itk
 {
 /**
- *  \class LevelSetDenseImageBase
+ *  \class LevelSetDenseImage
  *  \brief Base class for the "dense" representation of a level-set function on
  *  one image.
  *
@@ -38,8 +38,8 @@ namespace itk
  *  \ingroup ITKLevelSetsv4
  */
 template< class TImage >
-class LevelSetDenseImageBase :
-  public DiscreteLevelSetImageBase< typename TImage::PixelType, TImage::ImageDimension >
+class LevelSetDenseImage :
+  public DiscreteLevelSetImage< typename TImage::PixelType, TImage::ImageDimension >
   {
 public:
   typedef TImage                         ImageType;
@@ -48,16 +48,16 @@ public:
   typedef typename ImageType::PixelType  PixelType;
   typedef typename ImageType::RegionType RegionType;
 
-  typedef LevelSetDenseImageBase                                    Self;
-  typedef SmartPointer< Self >                                      Pointer;
-  typedef SmartPointer< const Self >                                ConstPointer;
-  typedef DiscreteLevelSetImageBase< PixelType, ImageType::ImageDimension > Superclass;
+  typedef LevelSetDenseImage                                            Self;
+  typedef SmartPointer< Self >                                          Pointer;
+  typedef SmartPointer< const Self >                                    ConstPointer;
+  typedef DiscreteLevelSetImage< PixelType, ImageType::ImageDimension > Superclass;
 
   /** Method for creation through object factory */
   itkNewMacro ( Self );
 
   /** Run-time type information */
-  itkTypeMacro ( LevelSetDenseImageBase, DiscreteLevelSetImageBase );
+  itkTypeMacro ( LevelSetDenseImage, DiscreteLevelSetImage );
 
   itkStaticConstMacro ( Dimension, unsigned int, Superclass::Dimension );
 
@@ -76,9 +76,9 @@ public:
   virtual void Evaluate( const InputType& iP, LevelSetDataType& ioData ) const;
 
 protected:
-  LevelSetDenseImageBase();
+  LevelSetDenseImage();
 
-  virtual ~LevelSetDenseImageBase();
+  virtual ~LevelSetDenseImage();
 
   ImagePointer m_Image;
 
@@ -95,13 +95,13 @@ protected:
 
 private:
 
-  LevelSetDenseImageBase( const Self& ); // purposely not implemented
+  LevelSetDenseImage( const Self& ); // purposely not implemented
   void operator = ( const Self& ); // purposely not implemented
   };
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetDenseImageBase.hxx"
+#include "itkLevelSetDenseImage.hxx"
 #endif
 
-#endif // __itkLevelSetDenseImageBase_h
+#endif // __itkLevelSetDenseImage_h

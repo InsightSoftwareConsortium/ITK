@@ -16,10 +16,10 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetSparseImageBase_h
-#define __itkLevelSetSparseImageBase_h
+#ifndef __itkLevelSetSparseImage_h
+#define __itkLevelSetSparseImage_h
 
-#include "itkDiscreteLevelSetImageBase.h"
+#include "itkDiscreteLevelSetImage.h"
 #include "itkObjectFactory.h"
 
 #include "itkLabelObject.h"
@@ -28,7 +28,7 @@
 namespace itk
 {
 /**
- *  \class LevelSetSparseImageBase
+ *  \class LevelSetSparseImage
  *  \brief Base class for the sparse representation of a level-set function on one Image.
  *
  *  \tparam TImage Input image type of the level set function
@@ -37,17 +37,17 @@ namespace itk
  *  \ingroup ITKLevelSetsv4
  */
 template< typename TOutput, unsigned int VDimension >
-class LevelSetSparseImageBase :
-  public DiscreteLevelSetImageBase< TOutput, VDimension >
+class LevelSetSparseImage :
+  public DiscreteLevelSetImage< TOutput, VDimension >
 {
 public:
-  typedef LevelSetSparseImageBase                           Self;
-  typedef SmartPointer< Self >                              Pointer;
-  typedef SmartPointer< const Self >                        ConstPointer;
-  typedef DiscreteLevelSetImageBase< TOutput, VDimension >  Superclass;
+  typedef LevelSetSparseImage                           Self;
+  typedef SmartPointer< Self >                          Pointer;
+  typedef SmartPointer< const Self >                    ConstPointer;
+  typedef DiscreteLevelSetImage< TOutput, VDimension >  Superclass;
 
   /** Run-time type information */
-  itkTypeMacro ( LevelSetSparseImageBase, DiscreteLevelSetImageBase );
+  itkTypeMacro ( LevelSetSparseImage, DiscreteLevelSetImage );
 
   itkStaticConstMacro ( Dimension, unsigned int, Superclass::Dimension );
 
@@ -104,9 +104,9 @@ public:
   typename LabelObject< TLabel, VDimension >::Pointer GetAsLabelObject();
 
 protected:
-  LevelSetSparseImageBase();
+  LevelSetSparseImage();
 
-  virtual ~LevelSetSparseImageBase();
+  virtual ~LevelSetSparseImage();
 
   LayerMapType      m_Layers;
   LabelMapPointer   m_LabelMap;
@@ -127,13 +127,13 @@ protected:
 
 private:
 
-  LevelSetSparseImageBase( const Self& ); // purposely not implemented
+  LevelSetSparseImage( const Self& ); // purposely not implemented
   void operator = ( const Self& ); // purposely not implemented
   };
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetSparseImageBase.hxx"
+#include "itkLevelSetSparseImage.hxx"
 #endif
 
-#endif // __itkLevelSetSparseImageBase_h
+#endif // __itkLevelSetSparseImage_h

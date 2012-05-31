@@ -19,7 +19,7 @@
 #ifndef __itkWhitakerSparseLevelSetImage_h
 #define __itkWhitakerSparseLevelSetImage_h
 
-#include "itkLevelSetSparseImageBase.h"
+#include "itkLevelSetSparseImage.h"
 #include "itkLabelObject.h"
 #include "itkLabelMap.h"
 
@@ -39,19 +39,19 @@ namespace itk
  */
 template< typename TOutput, unsigned int VDimension >
 class WhitakerSparseLevelSetImage :
-    public LevelSetSparseImageBase< TOutput, VDimension >
+    public LevelSetSparseImage< TOutput, VDimension >
 {
 public:
-  typedef WhitakerSparseLevelSetImage                     Self;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
-  typedef LevelSetSparseImageBase< TOutput, VDimension >  Superclass;
+  typedef WhitakerSparseLevelSetImage                 Self;
+  typedef SmartPointer< Self >                        Pointer;
+  typedef SmartPointer< const Self >                  ConstPointer;
+  typedef LevelSetSparseImage< TOutput, VDimension >  Superclass;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(WhitakerSparseLevelSetImage, LevelSetSparseImageBase);
+  itkTypeMacro(WhitakerSparseLevelSetImage, LevelSetSparseImage);
 
   itkStaticConstMacro ( Dimension, unsigned int, VDimension );
 

@@ -22,7 +22,7 @@
 #include "itkThreadedImageRegionPartitioner.h"
 #include "itkThreadedIteratorRangePartitioner.h"
 
-#include "itkLevelSetDenseImageBase.h"
+#include "itkLevelSetDenseImage.h"
 #include "itkWhitakerSparseLevelSetImage.h"
 
 namespace itk
@@ -42,7 +42,7 @@ class LevelSetEvolutionComputeIterationThreader
 // For dense image level set split by putting part of the level set region in
 // each thread.
 template< class TImage, class TLevelSetEvolution >
-class LevelSetEvolutionComputeIterationThreader< LevelSetDenseImageBase< TImage >, ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >
+class LevelSetEvolutionComputeIterationThreader< LevelSetDenseImage< TImage >, ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >
   : public DomainThreader< ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >
 {
 public:
@@ -87,7 +87,7 @@ private:
 
 // For dense image level set split by putting a level set domain in each thread.
 template< class TImage, class TLevelSetEvolution >
-class LevelSetEvolutionComputeIterationThreader< LevelSetDenseImageBase< TImage >,
+class LevelSetEvolutionComputeIterationThreader< LevelSetDenseImage< TImage >,
       ThreadedIteratorRangePartitioner< typename TLevelSetEvolution::DomainMapImageFilterType::DomainMapType::const_iterator >, TLevelSetEvolution >
   : public DomainThreader< ThreadedIteratorRangePartitioner< typename TLevelSetEvolution::DomainMapImageFilterType::DomainMapType::const_iterator >, TLevelSetEvolution >
 {

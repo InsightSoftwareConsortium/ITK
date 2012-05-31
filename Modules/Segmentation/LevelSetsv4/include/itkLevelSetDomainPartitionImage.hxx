@@ -15,27 +15,27 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLevelSetDomainPartitionImageBase_hxx
-#define __itkLevelSetDomainPartitionImageBase_hxx
+#ifndef __itkLevelSetDomainPartitionImage_hxx
+#define __itkLevelSetDomainPartitionImage_hxx
 
-#include "itkLevelSetDomainPartitionImageBase.h"
+#include "itkLevelSetDomainPartitionImage.h"
 
 namespace itk
 {
 template< class TImage >
-LevelSetDomainPartitionImageBase< TImage >
-::LevelSetDomainPartitionImageBase()
+LevelSetDomainPartitionImage< TImage >
+::LevelSetDomainPartitionImage()
 {
 }
 
 template< class TImage >
-LevelSetDomainPartitionImageBase< TImage >
-::~LevelSetDomainPartitionImageBase()
+LevelSetDomainPartitionImage< TImage >
+::~LevelSetDomainPartitionImage()
 {
 }
 
 template< class TImage >
-void LevelSetDomainPartitionImageBase< TImage >
+void LevelSetDomainPartitionImage< TImage >
 ::PopulateListDomain()
 {
   const ListRegionType & region = this->m_ListDomain->GetLargestPossibleRegion();
@@ -59,7 +59,7 @@ void LevelSetDomainPartitionImageBase< TImage >
 }
 
 template< class TImage >
-void LevelSetDomainPartitionImageBase< TImage >
+void LevelSetDomainPartitionImage< TImage >
 ::AllocateListDomain()
 {
   if( m_Image.IsNull() )

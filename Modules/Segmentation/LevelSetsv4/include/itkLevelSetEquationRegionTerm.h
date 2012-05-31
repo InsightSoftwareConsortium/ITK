@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLevelSetEquationRegionTermBase_h
-#define __itkLevelSetEquationRegionTermBase_h
+#ifndef __itkLevelSetEquationRegionTerm_h
+#define __itkLevelSetEquationRegionTerm_h
 
 #include "itkLevelSetEquationTermBase.h"
 
@@ -24,11 +24,11 @@ namespace itk
 {
 template< class TInput,
           class TLevelSetContainer >
-class LevelSetEquationRegionTermBase :
+class LevelSetEquationRegionTerm :
     public LevelSetEquationTermBase< TInput, TLevelSetContainer >
 {
 public:
-  typedef LevelSetEquationRegionTermBase                         Self;
+  typedef LevelSetEquationRegionTerm                             Self;
   typedef SmartPointer< Self >                                   Pointer;
   typedef SmartPointer< const Self >                             ConstPointer;
   typedef LevelSetEquationTermBase< TInput, TLevelSetContainer > Superclass;
@@ -44,14 +44,14 @@ public:
   typedef typename LevelSetContainerType::HessianType  HessianType;
 
 protected:
-  LevelSetEquationRegionTermBase() : Superclass()
+  LevelSetEquationRegionTerm() : Superclass()
   {}
 
-  virtual ~LevelSetEquationRegionTermBase() {}
+  virtual ~LevelSetEquationRegionTerm() {}
 
 private:
-  LevelSetEquationRegionTermBase( const Self& );
+  LevelSetEquationRegionTerm( const Self& );
   void operator = ( const Self& );
 };
 }
-#endif // __itkLevelSetEquationRegionTermBase_h
+#endif // __itkLevelSetEquationRegionTerm_h

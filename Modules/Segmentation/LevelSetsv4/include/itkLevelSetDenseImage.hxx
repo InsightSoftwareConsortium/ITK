@@ -16,30 +16,30 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetDenseImageBase_hxx
-#define __itkLevelSetDenseImageBase_hxx
+#ifndef __itkLevelSetDenseImage_hxx
+#define __itkLevelSetDenseImage_hxx
 
-#include "itkLevelSetDenseImageBase.h"
+#include "itkLevelSetDenseImage.h"
 
 namespace itk
 {
 // ----------------------------------------------------------------------------
 template< class TImage >
-LevelSetDenseImageBase< TImage >
-::LevelSetDenseImageBase()
+LevelSetDenseImage< TImage >
+::LevelSetDenseImage()
 {}
 
 // ----------------------------------------------------------------------------
 template< class TImage >
-LevelSetDenseImageBase< TImage >
-::~LevelSetDenseImageBase()
+LevelSetDenseImage< TImage >
+::~LevelSetDenseImage()
 {
 }
 
 // ----------------------------------------------------------------------------
 template< class TImage >
 void
-LevelSetDenseImageBase< TImage >
+LevelSetDenseImage< TImage >
 ::SetImage( ImageType* iImage )
 {
   this->m_Image = iImage;
@@ -55,8 +55,8 @@ LevelSetDenseImageBase< TImage >
 
 // ----------------------------------------------------------------------------
 template< class TImage >
-typename LevelSetDenseImageBase< TImage >::OutputType
-LevelSetDenseImageBase< TImage >::Evaluate( const InputType& iP ) const
+typename LevelSetDenseImage< TImage >::OutputType
+LevelSetDenseImage< TImage >::Evaluate( const InputType& iP ) const
 {
   return this->m_Image->GetPixel( iP );
 }
@@ -64,7 +64,7 @@ LevelSetDenseImageBase< TImage >::Evaluate( const InputType& iP ) const
 // ----------------------------------------------------------------------------
 template< class TImage >
 void
-LevelSetDenseImageBase< TImage >::Evaluate( const InputType& iP, LevelSetDataType& ioData ) const
+LevelSetDenseImage< TImage >::Evaluate( const InputType& iP, LevelSetDataType& ioData ) const
 {
   Superclass::Evaluate( iP, ioData );
 }
@@ -72,7 +72,7 @@ LevelSetDenseImageBase< TImage >::Evaluate( const InputType& iP, LevelSetDataTyp
 // ----------------------------------------------------------------------------
 template< class TImage >
 void
-LevelSetDenseImageBase< TImage >
+LevelSetDenseImage< TImage >
 ::Initialize()
 {
   Superclass::Initialize();
@@ -83,7 +83,7 @@ LevelSetDenseImageBase< TImage >
 // ----------------------------------------------------------------------------
 template< class TImage >
 void
-LevelSetDenseImageBase< TImage >
+LevelSetDenseImage< TImage >
 ::CopyInformation(const DataObject *data)
 {
   Superclass::CopyInformation( data );
@@ -97,7 +97,7 @@ LevelSetDenseImageBase< TImage >
   catch ( ... )
     {
     // LevelSet could not be cast back down
-    itkExceptionMacro( << "itk::LevelSetDenseImageBase::CopyInformation() cannot cast "
+    itkExceptionMacro( << "itk::LevelSetDenseImage::CopyInformation() cannot cast "
                        << typeid( data ).name() << " to "
                        << typeid( Self * ).name() );
     }
@@ -105,7 +105,7 @@ LevelSetDenseImageBase< TImage >
   if ( !LevelSet )
     {
     // pointer could not be cast back down
-    itkExceptionMacro( << "itk::LevelSetDenseImageBase::CopyInformation() cannot cast "
+    itkExceptionMacro( << "itk::LevelSetDenseImage::CopyInformation() cannot cast "
                        << typeid( data ).name() << " to "
                        << typeid( Self * ).name() );
     }
@@ -114,7 +114,7 @@ LevelSetDenseImageBase< TImage >
 // ----------------------------------------------------------------------------
 template< class TImage >
 void
-LevelSetDenseImageBase< TImage >
+LevelSetDenseImage< TImage >
 ::Graft( const DataObject* data )
 {
   Superclass::Graft( data );
@@ -127,7 +127,7 @@ LevelSetDenseImageBase< TImage >
   catch( ... )
     {
     // image could not be cast back down
-    itkExceptionMacro( << "itk::LevelSetDenseImageBase::CopyInformation() cannot cast "
+    itkExceptionMacro( << "itk::LevelSetDenseImage::CopyInformation() cannot cast "
                        << typeid( data ).name() << " to "
                          << typeid( Self * ).name() );
     }
@@ -135,7 +135,7 @@ LevelSetDenseImageBase< TImage >
   if ( !LevelSet )
     {
     // pointer could not be cast back down
-    itkExceptionMacro( << "itk::LevelSetDenseImageBase::CopyInformation() cannot cast "
+    itkExceptionMacro( << "itk::LevelSetDenseImage::CopyInformation() cannot cast "
                        << typeid( data ).name() << " to "
                        << typeid( Self * ).name() );
     }
@@ -147,7 +147,7 @@ LevelSetDenseImageBase< TImage >
 // ----------------------------------------------------------------------------
 template< class TImage >
 bool
-LevelSetDenseImageBase< TImage >
+LevelSetDenseImage< TImage >
 ::IsInsideDomain(const InputType &iP) const
 {
   const RegionType largestRegion = this->m_Image->GetLargestPossibleRegion();
@@ -156,4 +156,4 @@ LevelSetDenseImageBase< TImage >
 }
 
 }
-#endif // __itkLevelSetDenseImageBase_hxx
+#endif // __itkLevelSetDenseImage_hxx

@@ -21,8 +21,8 @@
 #include "itkFastMarchingImageFilter.h"
 #include "itkLevelSetContainer.h"
 #include "itkLevelSetEquationChanAndVeseExternalTerm.h"
-#include "itkLevelSetEquationTermContainerBase.h"
-#include "itkLevelSetEquationContainerBase.h"
+#include "itkLevelSetEquationTermContainer.h"
+#include "itkLevelSetEquationContainer.h"
 #include "itkAtanRegularizedHeavisideStepFunction.h"
 #include "itkLevelSetEvolution.h"
 #include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"
@@ -44,7 +44,7 @@ int itkSingleLevelSetDenseImage2DTest( int argc, char* argv[] )
 
   typedef float                                          PixelType;
   typedef itk::Image< PixelType, Dimension >             ImageType;
-  typedef itk::LevelSetDenseImageBase< ImageType >       LevelSetType;
+  typedef itk::LevelSetDenseImage< ImageType >       LevelSetType;
   typedef LevelSetType::OutputRealType                   LevelSetOutputRealType;
   typedef itk::ImageRegionIteratorWithIndex< ImageType > IteratorType;
 
@@ -54,10 +54,10 @@ int itkSingleLevelSetDenseImage2DTest( int argc, char* argv[] )
                                                                       ChanAndVeseInternalTermType;
   typedef itk::LevelSetEquationChanAndVeseExternalTerm< InputImageType, LevelSetContainerType >
                                                                       ChanAndVeseExternalTermType;
-  typedef itk::LevelSetEquationTermContainerBase< InputImageType, LevelSetContainerType >
+  typedef itk::LevelSetEquationTermContainer< InputImageType, LevelSetContainerType >
                                                                       TermContainerType;
 
-  typedef itk::LevelSetEquationContainerBase< TermContainerType >     EquationContainerType;
+  typedef itk::LevelSetEquationContainer< TermContainerType >     EquationContainerType;
 
   typedef itk::LevelSetEvolution< EquationContainerType, LevelSetType > LevelSetEvolutionType;
 

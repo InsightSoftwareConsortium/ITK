@@ -25,20 +25,20 @@
 namespace itk
 {
 template< class TInputImage, class TLevelSetImage >
-BinaryImageToLevelSetImageAdaptor< TInputImage, LevelSetDenseImageBase< TLevelSetImage > >
+BinaryImageToLevelSetImageAdaptor< TInputImage, LevelSetDenseImage< TLevelSetImage > >
 ::BinaryImageToLevelSetImageAdaptor()
 {
   this->m_SignedDistanceTransformFilter = SignedMaurerDistanceMapImageFilter< InputImageType, LevelSetImageType >::New();
 }
 
 template< class TInputImage, class TLevelSetImage >
-BinaryImageToLevelSetImageAdaptor< TInputImage, LevelSetDenseImageBase< TLevelSetImage > >
+BinaryImageToLevelSetImageAdaptor< TInputImage, LevelSetDenseImage< TLevelSetImage > >
 ::~BinaryImageToLevelSetImageAdaptor()
 {}
 
 template< class TInputImage, class TLevelSetImage >
 void
-BinaryImageToLevelSetImageAdaptor< TInputImage, LevelSetDenseImageBase< TLevelSetImage > >
+BinaryImageToLevelSetImageAdaptor< TInputImage, LevelSetDenseImage< TLevelSetImage > >
 ::Initialize()
 {
   if( this->m_InputImage.IsNull() )

@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetEquationTermContainerBase_h
-#define __itkLevelSetEquationTermContainerBase_h
+#ifndef __itkLevelSetEquationTermContainer_h
+#define __itkLevelSetEquationTermContainer_h
 
 #include "itkLevelSetEquationTermBase.h"
 #include "itkObject.h"
@@ -30,7 +30,7 @@
 namespace itk
 {
 /**
- *  \class LevelSetEquationTermContainerBase
+ *  \class LevelSetEquationTermContainer
  *  \brief Class for container holding the terms of a given level set update equation
  *
  *  \tparam TInputImage Input image or speed image or feature image for segmentation
@@ -40,10 +40,10 @@ namespace itk
  */
 template< class TInputImage,
           class TLevelSetContainer >
-class LevelSetEquationTermContainerBase : public Object
+class LevelSetEquationTermContainer : public Object
 {
 public:
-  typedef LevelSetEquationTermContainerBase Self;
+  typedef LevelSetEquationTermContainer     Self;
   typedef SmartPointer< Self >              Pointer;
   typedef SmartPointer< const Self >        ConstPointer;
   typedef Object                            Superclass;
@@ -52,7 +52,7 @@ public:
   itkNewMacro( Self );
 
   /** Run-time type information */
-  itkTypeMacro( LevelSetEquationTermContainerBase,
+  itkTypeMacro( LevelSetEquationTermContainer,
                 Object );
 
   typedef unsigned int                      TermIdType;
@@ -269,9 +269,9 @@ public:
   ConstIterator End() const;
 
 protected:
-  LevelSetEquationTermContainerBase();
+  LevelSetEquationTermContainer();
 
-  virtual ~LevelSetEquationTermContainerBase();
+  virtual ~LevelSetEquationTermContainer();
 
   LevelSetIdentifierType    m_CurrentLevelSetId;
   LevelSetContainerPointer  m_LevelSetContainer;
@@ -294,13 +294,13 @@ protected:
   MapCFLContainerType   m_TermContribution;
 
 private:
-  LevelSetEquationTermContainerBase( const Self& );
+  LevelSetEquationTermContainer( const Self& );
   void operator = ( const Self& );
 };
 
 }
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetEquationTermContainerBase.hxx"
+#include "itkLevelSetEquationTermContainer.hxx"
 #endif
 
-#endif // __itkLevelSetEquationTermContainerBase_h
+#endif // __itkLevelSetEquationTermContainer_h

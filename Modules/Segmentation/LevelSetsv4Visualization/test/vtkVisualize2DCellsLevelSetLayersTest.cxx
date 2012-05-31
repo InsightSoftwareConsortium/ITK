@@ -22,11 +22,11 @@
 #include "itkLevelSetContainer.h"
 #include "itkLevelSetEquationChanAndVeseInternalTerm.h"
 #include "itkLevelSetEquationChanAndVeseExternalTerm.h"
-#include "itkLevelSetEquationContainerBase.h"
-#include "itkLevelSetEquationTermContainerBase.h"
+#include "itkLevelSetEquationContainer.h"
+#include "itkLevelSetEquationTermContainer.h"
 #include "itkLevelSetEvolution.h"
 #include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"
-#include "itkLevelSetDenseImageBase.h"
+#include "itkLevelSetDenseImage.h"
 #include "vtkVisualize2DSparseLevelSetLayers.h"
 #include "itkSinRegularizedHeavisideStepFunction.h"
 
@@ -109,7 +109,7 @@ visualizeLevelSet( TInputImage * inputImage,
   std::cout << "Chan and Vese external term created" << std::endl;
 
   // Create term container (equation rhs)
-  typedef typename itk::LevelSetEquationTermContainerBase< InputImageType, LevelSetContainerType > TermContainerType;
+  typedef typename itk::LevelSetEquationTermContainer< InputImageType, LevelSetContainerType > TermContainerType;
   typename TermContainerType::Pointer termContainer = TermContainerType::New();
   termContainer->SetLevelSetContainer( levelSetContainer );
   termContainer->SetInput( inputImage );
@@ -118,7 +118,7 @@ visualizeLevelSet( TInputImage * inputImage,
   std::cout << "Term container created" << std::endl;
 
   // Create equation container
-  typedef typename itk::LevelSetEquationContainerBase< TermContainerType > EquationContainerType;
+  typedef typename itk::LevelSetEquationContainer< TermContainerType > EquationContainerType;
   typename EquationContainerType::Pointer equationContainer = EquationContainerType::New();
   equationContainer->SetLevelSetContainer( levelSetContainer );
   equationContainer->AddEquation( 0, termContainer );

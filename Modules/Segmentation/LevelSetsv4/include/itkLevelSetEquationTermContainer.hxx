@@ -16,33 +16,33 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetEquationTermContainerBase_hxx
-#define __itkLevelSetEquationTermContainerBase_hxx
+#ifndef __itkLevelSetEquationTermContainer_hxx
+#define __itkLevelSetEquationTermContainer_hxx
 
-#include "itkLevelSetEquationTermContainerBase.h"
+#include "itkLevelSetEquationTermContainer.h"
 #include "itkObject.h"
 
 namespace itk
 {
 // ----------------------------------------------------------------------------
 template< class TInputImage, class TLevelSetContainer >
-LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
-::LevelSetEquationTermContainerBase()
+LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
+::LevelSetEquationTermContainer()
 {
   this->m_CurrentLevelSetId = LevelSetIdentifierType();
 }
 
 // ----------------------------------------------------------------------------
 template< class TInputImage, class TLevelSetContainer >
-LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
-::~LevelSetEquationTermContainerBase()
+LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
+::~LevelSetEquationTermContainer()
 {}
 
 // ----------------------------------------------------------------------------
 template< class TInputImage, class TLevelSetContainer >
-typename LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
+typename LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::Iterator
-LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
+LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::Begin()
 {
   return Iterator( this->m_Container.begin() );
@@ -50,9 +50,9 @@ LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
 
 // ----------------------------------------------------------------------------
 template< class TInputImage, class TLevelSetContainer >
-typename LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
+typename LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::Iterator
-LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
+LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::End()
 {
   return Iterator( this->m_Container.end() );
@@ -60,9 +60,9 @@ LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
 
 // ----------------------------------------------------------------------------
 template< class TInputImage, class TLevelSetContainer >
-typename LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
+typename LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::ConstIterator
-LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
+LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::Begin() const
 {
   return ConstIterator( this->m_Container.begin() );
@@ -70,9 +70,9 @@ LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
 
 // ----------------------------------------------------------------------------
 template< class TInputImage, class TLevelSetContainer >
-typename LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
+typename LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::ConstIterator
-LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
+LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::End() const
 {
   return ConstIterator( this->m_Container.end() );
@@ -81,7 +81,7 @@ LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
 // ----------------------------------------------------------------------------
 template< class TInputImage, class TLevelSetContainer >
 void
-LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
+LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::AddTerm( const TermIdType& iId, TermType* iTerm )
 {
   if( iTerm )
@@ -137,7 +137,7 @@ LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
 // ----------------------------------------------------------------------------
 template< class TInputImage, class TLevelSetContainer >
 void
-LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
+LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::PushTerm( TermType* iTerm )
 {
   if( iTerm )
@@ -196,8 +196,8 @@ LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
 
 // ----------------------------------------------------------------------------
 template< class TInputImage, class TLevelSetContainer >
-typename LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >::TermType*
-LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >::
+typename LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >::TermType*
+LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >::
 GetTerm( const std::string& iName )
 {
   MapTermContainerIteratorType it = m_Container.find( iName );
@@ -212,8 +212,8 @@ GetTerm( const std::string& iName )
 
 // ----------------------------------------------------------------------------
 template< class TInputImage, class TLevelSetContainer >
-typename LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >::TermType*
-LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >::
+typename LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >::TermType*
+LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >::
 GetTerm( const TermIdType& iId )
 {
   MapTermContainerIteratorType it = m_Container.find( iId );
@@ -229,7 +229,7 @@ GetTerm( const TermIdType& iId )
 // ----------------------------------------------------------------------------
 template< class TInputImage, class TLevelSetContainer >
 void
-LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
+LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::Initialize( const LevelSetInputIndexType& iP )
 {
   MapTermContainerIteratorType term_it  = m_Container.begin();
@@ -245,7 +245,7 @@ LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
 // ----------------------------------------------------------------------------
 template< class TInputImage, class TLevelSetContainer >
 void
-LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
+LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::UpdatePixel( const LevelSetInputIndexType& iP,
                const LevelSetOutputRealType & oldValue,
                const LevelSetOutputRealType & newValue )
@@ -263,7 +263,7 @@ LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
 // ----------------------------------------------------------------------------
 template< class TInputImage, class TLevelSetContainer >
 void
-LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
+LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::InitializeParameters()
 {
   MapTermContainerIteratorType term_it = m_Container.begin();
@@ -278,8 +278,8 @@ LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
 
 // ----------------------------------------------------------------------------
 template< class TInputImage, class TLevelSetContainer >
-typename LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >::LevelSetOutputRealType
-LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
+typename LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >::LevelSetOutputRealType
+LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::Evaluate( const LevelSetInputIndexType& iP )
 {
   MapTermContainerIteratorType term_it  = m_Container.begin();
@@ -305,8 +305,8 @@ LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
 
 // ----------------------------------------------------------------------------
 template< class TInputImage, class TLevelSetContainer >
-typename LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >::LevelSetOutputRealType
-LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
+typename LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >::LevelSetOutputRealType
+LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::Evaluate( const LevelSetInputIndexType& iP, const LevelSetDataType& iData )
 {
   MapTermContainerIteratorType term_it  = m_Container.begin();
@@ -333,7 +333,7 @@ LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
 // ----------------------------------------------------------------------------
 template< class TInputImage, class TLevelSetContainer >
 void
-LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
+LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::Update()
 {
   MapTermContainerIteratorType term_it = m_Container.begin();
@@ -352,8 +352,8 @@ LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
 
 // ----------------------------------------------------------------------------
 template< class TInputImage, class TLevelSetContainer >
-typename LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >::LevelSetOutputRealType
-LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
+typename LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >::LevelSetOutputRealType
+LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::ComputeCFLContribution() const
 {
   MapTermContainerConstIteratorType term_it = m_Container.begin();
@@ -383,7 +383,7 @@ LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
 // ----------------------------------------------------------------------------
 template< class TInputImage, class TLevelSetContainer >
 void
-LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
+LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::ComputeRequiredData( const LevelSetInputIndexType& iP, LevelSetDataType& ioData )
 {
   typename RequiredDataType::const_iterator dIt = m_RequiredData.begin();
@@ -433,4 +433,4 @@ LevelSetEquationTermContainerBase< TInputImage, TLevelSetContainer >
 }
 
 }
-#endif // __itkLevelSetEquationTermContainerBase_hxx
+#endif // __itkLevelSetEquationTermContainer_hxx

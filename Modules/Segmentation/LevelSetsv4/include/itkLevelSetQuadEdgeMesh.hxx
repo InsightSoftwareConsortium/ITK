@@ -16,26 +16,26 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetQuadEdgeMeshBase_hxx
-#define __itkLevelSetQuadEdgeMeshBase_hxx
+#ifndef __itkLevelSetQuadEdgeMesh_hxx
+#define __itkLevelSetQuadEdgeMesh_hxx
 
-#include "itkLevelSetQuadEdgeMeshBase.h"
+#include "itkLevelSetQuadEdgeMesh.h"
 
 namespace itk
 {
 template< class TMesh >
-LevelSetQuadEdgeMeshBase< TMesh >
-::LevelSetQuadEdgeMeshBase()
+LevelSetQuadEdgeMesh< TMesh >
+::LevelSetQuadEdgeMesh()
 {}
 
 template< class TMesh >
-LevelSetQuadEdgeMeshBase< TMesh >
-::~LevelSetQuadEdgeMeshBase()
+LevelSetQuadEdgeMesh< TMesh >
+::~LevelSetQuadEdgeMesh()
 {}
 
 template< class TMesh >
-typename LevelSetQuadEdgeMeshBase< TMesh >::OutputType
-LevelSetQuadEdgeMeshBase< TMesh >::Evaluate( const InputType& iP ) const
+typename LevelSetQuadEdgeMesh< TMesh >::OutputType
+LevelSetQuadEdgeMesh< TMesh >::Evaluate( const InputType& iP ) const
 {
   OutputType oValue = 0.;
   this->m_Mesh->GetPointData( iP, &oValue );
@@ -43,16 +43,16 @@ LevelSetQuadEdgeMeshBase< TMesh >::Evaluate( const InputType& iP ) const
 }
 
 template< class TMesh >
-typename LevelSetQuadEdgeMeshBase< TMesh >::GradientType
-LevelSetQuadEdgeMeshBase< TMesh >::EvaluateGradient( const InputType& itkNotUsed(iP) ) const
+typename LevelSetQuadEdgeMesh< TMesh >::GradientType
+LevelSetQuadEdgeMesh< TMesh >::EvaluateGradient( const InputType& itkNotUsed(iP) ) const
 {
   itkWarningMacro( <<"to be implemented" );
   return this->GradientType();
 }
 
 template< class TMesh >
-typename LevelSetQuadEdgeMeshBase< TMesh >::HessianType
-LevelSetQuadEdgeMeshBase< TMesh >::EvaluateHessian( const InputType& itkNotUsed(iP) ) const
+typename LevelSetQuadEdgeMesh< TMesh >::HessianType
+LevelSetQuadEdgeMesh< TMesh >::EvaluateHessian( const InputType& itkNotUsed(iP) ) const
 {
   itkWarningMacro( <<"to be implemented" );
   return this->HessianType();
@@ -60,7 +60,7 @@ LevelSetQuadEdgeMeshBase< TMesh >::EvaluateHessian( const InputType& itkNotUsed(
 
 template< class TMesh >
 void
-LevelSetQuadEdgeMeshBase< TMesh >::Evaluate( const InputType& iP, LevelSetDataType& ioData ) const
+LevelSetQuadEdgeMesh< TMesh >::Evaluate( const InputType& iP, LevelSetDataType& ioData ) const
 {
   // if it has not already been computed before
   if( !ioData.Value.first )
@@ -72,7 +72,7 @@ LevelSetQuadEdgeMeshBase< TMesh >::Evaluate( const InputType& iP, LevelSetDataTy
 
 template< class TMesh >
 void
-LevelSetQuadEdgeMeshBase< TMesh >::EvaluateGradient( const InputType& itkNotUsed(iP), LevelSetDataType& ioData ) const
+LevelSetQuadEdgeMesh< TMesh >::EvaluateGradient( const InputType& itkNotUsed(iP), LevelSetDataType& ioData ) const
 {
 
   // if it has not already been computed before
@@ -87,7 +87,7 @@ LevelSetQuadEdgeMeshBase< TMesh >::EvaluateGradient( const InputType& itkNotUsed
 
 template< class TMesh >
 void
-LevelSetQuadEdgeMeshBase< TMesh >::EvaluateHessian( const InputType& itkNotUsed(iP), LevelSetDataType& ioData ) const
+LevelSetQuadEdgeMesh< TMesh >::EvaluateHessian( const InputType& itkNotUsed(iP), LevelSetDataType& ioData ) const
 {
   if( !ioData.Hessian.first )
     {
@@ -100,7 +100,7 @@ LevelSetQuadEdgeMeshBase< TMesh >::EvaluateHessian( const InputType& itkNotUsed(
 
 template< class TMesh >
 void
-LevelSetQuadEdgeMeshBase< TMesh >::Initialize()
+LevelSetQuadEdgeMesh< TMesh >::Initialize()
 {
   Superclass::Initialize();
 
@@ -109,7 +109,7 @@ LevelSetQuadEdgeMeshBase< TMesh >::Initialize()
 
 template< class TMesh >
 void
-LevelSetQuadEdgeMeshBase< TMesh >::CopyInformation(const DataObject *data)
+LevelSetQuadEdgeMesh< TMesh >::CopyInformation(const DataObject *data)
 {
   Superclass::CopyInformation( data );
 
@@ -122,7 +122,7 @@ LevelSetQuadEdgeMeshBase< TMesh >::CopyInformation(const DataObject *data)
   catch ( ... )
     {
     // levelSet could not be cast back down
-    itkExceptionMacro( << "itk::LevelSetQuadEdgeMeshBase::CopyInformation() cannot cast "
+    itkExceptionMacro( << "itk::LevelSetQuadEdgeMesh::CopyInformation() cannot cast "
                        << typeid( data ).name() << " to "
                        << typeid( Self * ).name() );
     }
@@ -130,7 +130,7 @@ LevelSetQuadEdgeMeshBase< TMesh >::CopyInformation(const DataObject *data)
   if ( !levelSet )
     {
     // pointer could not be cast back down
-    itkExceptionMacro( << "itk::LevelSetQuadEdgeMeshBase::CopyInformation() cannot cast "
+    itkExceptionMacro( << "itk::LevelSetQuadEdgeMesh::CopyInformation() cannot cast "
                        << typeid( data ).name() << " to "
                        << typeid( Self * ).name() );
     }
@@ -138,7 +138,7 @@ LevelSetQuadEdgeMeshBase< TMesh >::CopyInformation(const DataObject *data)
 
 template< class TMesh >
 void
-LevelSetQuadEdgeMeshBase< TMesh >::Graft( const DataObject* data )
+LevelSetQuadEdgeMesh< TMesh >::Graft( const DataObject* data )
 {
   Superclass::Graft( data );
   const Self *levelSet = NULL;
@@ -150,7 +150,7 @@ LevelSetQuadEdgeMeshBase< TMesh >::Graft( const DataObject* data )
   catch( ... )
     {
     // mesh could not be cast back down
-    itkExceptionMacro( << "itk::LevelSetQuadEdgeMeshBase::CopyInformation() cannot cast "
+    itkExceptionMacro( << "itk::LevelSetQuadEdgeMesh::CopyInformation() cannot cast "
                        << typeid( data ).name() << " to "
                        << typeid( Self * ).name() );
     }
@@ -158,7 +158,7 @@ LevelSetQuadEdgeMeshBase< TMesh >::Graft( const DataObject* data )
   if ( !levelSet )
     {
     // pointer could not be cast back down
-    itkExceptionMacro( << "itk::LevelSetQuadEdgeMeshBase::CopyInformation() cannot cast "
+    itkExceptionMacro( << "itk::LevelSetQuadEdgeMesh::CopyInformation() cannot cast "
                        << typeid( data ).name() << " to "
                        << typeid( Self * ).name() );
     }
@@ -168,4 +168,4 @@ LevelSetQuadEdgeMeshBase< TMesh >::Graft( const DataObject* data )
 
 }
 
-#endif // __itkLevelSetQuadEdgeMeshBase_hxx
+#endif // __itkLevelSetQuadEdgeMesh_hxx

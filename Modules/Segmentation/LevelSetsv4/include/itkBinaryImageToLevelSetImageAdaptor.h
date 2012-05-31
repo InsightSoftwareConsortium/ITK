@@ -21,7 +21,7 @@
 
 #include "itkBinaryImageToLevelSetImageAdaptorBase.h"
 
-#include "itkLevelSetDenseImageBase.h"
+#include "itkLevelSetDenseImage.h"
 #include "itkImageToImageFilter.h"
 
 #include "itkWhitakerSparseLevelSetImage.h"
@@ -44,13 +44,13 @@ class BinaryImageToLevelSetImageAdaptor
 template< class TInputImage, class TLevelSetImage >
 class BinaryImageToLevelSetImageAdaptor<
     TInputImage,
-    LevelSetDenseImageBase< TLevelSetImage > > :
+    LevelSetDenseImage< TLevelSetImage > > :
 public BinaryImageToLevelSetImageAdaptorBase<
     TInputImage,
-    LevelSetDenseImageBase< TLevelSetImage > >
+    LevelSetDenseImage< TLevelSetImage > >
 {
 public:
-  typedef LevelSetDenseImageBase< TLevelSetImage >  LevelSetType;
+  typedef LevelSetDenseImage< TLevelSetImage >  LevelSetType;
 
   typedef BinaryImageToLevelSetImageAdaptor         Self;
   typedef SmartPointer< Self >                      Pointer;

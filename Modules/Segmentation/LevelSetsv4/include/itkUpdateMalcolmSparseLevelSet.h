@@ -20,7 +20,7 @@
 #define __itkUpdateMalcolmSparseLevelSet_h
 
 #include "itkImage.h"
-#include "itkDiscreteLevelSetImageBase.h"
+#include "itkDiscreteLevelSetImage.h"
 #include "itkMalcolmSparseLevelSetImage.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkShapedNeighborhoodIterator.h"

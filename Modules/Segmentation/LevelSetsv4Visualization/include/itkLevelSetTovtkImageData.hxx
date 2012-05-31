@@ -21,7 +21,7 @@
 
 #include "itkLevelSetTovtkImageData.h"
 
-#include "itkLevelSetDenseImageBase.h"
+#include "itkLevelSetDenseImage.h"
 #include "itkWhitakerSparseLevelSetImage.h"
 #include "itkShiSparseLevelSetImage.h"
 #include "itkMalcolmSparseLevelSetImage.h"
@@ -35,20 +35,20 @@
 namespace itk
 {
 template< class TImage >
-LevelSetTovtkImageData< LevelSetDenseImageBase< TImage > >
+LevelSetTovtkImageData< LevelSetDenseImage< TImage > >
 ::LevelSetTovtkImageData()
 {
   this->m_Converter = ConverterType::New();
 }
 
 template< class TImage >
-LevelSetTovtkImageData< LevelSetDenseImageBase< TImage > >
+LevelSetTovtkImageData< LevelSetDenseImage< TImage > >
 ::~LevelSetTovtkImageData()
 {}
 
 template< class TImage >
 vtkImageData*
-LevelSetTovtkImageData< LevelSetDenseImageBase< TImage > >
+LevelSetTovtkImageData< LevelSetDenseImage< TImage > >
 ::GetOutput() const
   {
   return this->m_Converter->GetOutput();
@@ -56,7 +56,7 @@ LevelSetTovtkImageData< LevelSetDenseImageBase< TImage > >
 
 template< class TImage >
 void
-LevelSetTovtkImageData< LevelSetDenseImageBase< TImage > >
+LevelSetTovtkImageData< LevelSetDenseImage< TImage > >
 ::GenerateData()
   {
   if( !this->m_LevelSet->GetImage() )

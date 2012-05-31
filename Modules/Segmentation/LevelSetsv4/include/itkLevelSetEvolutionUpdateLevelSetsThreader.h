@@ -20,7 +20,7 @@
 
 #include "itkCompensatedSummation.h"
 #include "itkDomainThreader.h"
-#include "itkLevelSetDenseImageBase.h"
+#include "itkLevelSetDenseImage.h"
 #include "itkThreadedImageRegionPartitioner.h"
 
 namespace itk
@@ -39,7 +39,7 @@ class LevelSetEvolutionUpdateLevelSetsThreader
 
 // For dense image level set.
 template< class TImage, class TLevelSetEvolution >
-class LevelSetEvolutionUpdateLevelSetsThreader< LevelSetDenseImageBase< TImage >, ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >
+class LevelSetEvolutionUpdateLevelSetsThreader< LevelSetDenseImage< TImage >, ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >
   : public DomainThreader< ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >
 {
 public:

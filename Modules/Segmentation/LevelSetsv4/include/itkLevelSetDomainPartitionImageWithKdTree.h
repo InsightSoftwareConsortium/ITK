@@ -18,7 +18,7 @@
 #ifndef __itkLevelSetDomainPartitionImageWithKdTree_h
 #define __itkLevelSetDomainPartitionImageWithKdTree_h
 
-#include "itkLevelSetDomainPartitionImageBase.h"
+#include "itkLevelSetDomainPartitionImage.h"
 
 #include "itkListSample.h"
 #include "itkKdTreeGenerator.h"
@@ -32,14 +32,14 @@ namespace itk
  */
 template< class TImage >
 class LevelSetDomainPartitionImageWithKdTree:
-  public LevelSetDomainPartitionImageBase< TImage >
+  public LevelSetDomainPartitionImage< TImage >
 {
 public:
 
-  typedef LevelSetDomainPartitionImageWithKdTree      Self;
-  typedef LevelSetDomainPartitionImageBase< TImage >  Superclass;
-  typedef SmartPointer< Self >                        Pointer;
-  typedef SmartPointer< const Self >                  ConstPointer;
+  typedef LevelSetDomainPartitionImageWithKdTree  Self;
+  typedef LevelSetDomainPartitionImage< TImage >  Superclass;
+  typedef SmartPointer< Self >                    Pointer;
+  typedef SmartPointer< const Self >              ConstPointer;
 
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 
@@ -47,7 +47,7 @@ public:
   itkNewMacro(Self);
 
   itkTypeMacro( LevelSetDomainPartitionImageWithKdTree,
-                LevelSetDomainPartitionImageBase);
+                LevelSetDomainPartitionImage);
 
   typedef TImage                                        ImageType;
   typedef typename Superclass::ListIndexType            ListIndexType;
@@ -96,7 +96,7 @@ private:
 } //end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetDomainPartitionImageBase.h"
+#include "itkLevelSetDomainPartitionImage.h"
 #endif
 
 #endif

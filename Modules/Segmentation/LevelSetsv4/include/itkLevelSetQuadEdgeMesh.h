@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetQuadEdgeMeshBase_h
-#define __itkLevelSetQuadEdgeMeshBase_h
+#ifndef __itkLevelSetQuadEdgeMesh_h
+#define __itkLevelSetQuadEdgeMesh_h
 
 #include "itkLevelSetBase.h"
 #include "itkObjectFactory.h"
@@ -25,14 +25,14 @@
 namespace itk
 {
 /**
- *  \class LevelSetQuadEdgeMeshBase
+ *  \class LevelSetQuadEdgeMesh
  *  \brief Base class for the surface mesh representation of a level-set function
  *
  *  \tparam TMesh Input mesh type of the level set function
  *  \ingroup ITKLevelSetsv4
  */
 template< class TMesh >
-class LevelSetQuadEdgeMeshBase :
+class LevelSetQuadEdgeMesh :
     public LevelSetBase<
       typename TMesh::PointIdentifier,
       TMesh::PointDimension,
@@ -43,7 +43,7 @@ public:
   typedef TMesh                   MeshType;
   typedef typename TMesh::Pointer MeshPointer;
 
-  typedef LevelSetQuadEdgeMeshBase        Self;
+  typedef LevelSetQuadEdgeMesh            Self;
   typedef SmartPointer< Self >            Pointer;
   typedef SmartPointer< const Self >      ConstPointer;
   typedef LevelSetBase< typename MeshType::PointIdentifier,
@@ -55,7 +55,7 @@ public:
   itkNewMacro ( Self );
 
   /** Run-time type information */
-  itkTypeMacro ( LevelSetQuadEdgeMeshBase, LevelSetBase );
+  itkTypeMacro ( LevelSetQuadEdgeMesh, LevelSetBase );
 
   typedef typename Superclass::InputType        InputType;
   typedef typename Superclass::OutputType       OutputType;
@@ -104,11 +104,11 @@ public:
 
 
 protected:
-  LevelSetQuadEdgeMeshBase();
-  virtual ~LevelSetQuadEdgeMeshBase();
+  LevelSetQuadEdgeMesh();
+  virtual ~LevelSetQuadEdgeMesh();
 
 private:
-  LevelSetQuadEdgeMeshBase( const Self& );  // purposely not implemented
+  LevelSetQuadEdgeMesh( const Self& );  // purposely not implemented
   void operator = ( const Self& );          // purposely not implemented
 
   MeshPointer m_Mesh;
@@ -116,6 +116,6 @@ private:
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetQuadEdgeMeshBase.hxx"
+#include "itkLevelSetQuadEdgeMesh.hxx"
 #endif
-#endif // __itkLevelSetQuadEdgeMeshBase_h
+#endif // __itkLevelSetQuadEdgeMesh_h

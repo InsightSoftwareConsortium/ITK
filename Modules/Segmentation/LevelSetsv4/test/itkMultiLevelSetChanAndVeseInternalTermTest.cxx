@@ -18,7 +18,7 @@
 
 #include "itkLevelSetContainer.h"
 #include "itkLevelSetEquationChanAndVeseInternalTerm.h"
-#include "itkLevelSetEquationTermContainerBase.h"
+#include "itkLevelSetEquationTermContainer.h"
 #include "itkAtanRegularizedHeavisideStepFunction.h"
 
 int itkMultiLevelSetChanAndVeseInternalTermTest( int , char* [] )
@@ -31,7 +31,7 @@ int itkMultiLevelSetChanAndVeseInternalTermTest( int , char* [] )
 
   typedef float                                          PixelType;
   typedef itk::Image< PixelType, Dimension >             ImageType;
-  typedef itk::LevelSetDenseImageBase< ImageType >       LevelSetType;
+  typedef itk::LevelSetDenseImage< ImageType >       LevelSetType;
   typedef LevelSetType::OutputRealType                   LevelSetOutputRealType;
   typedef itk::ImageRegionIteratorWithIndex< ImageType > IteratorType;
   typedef itk::IdentifierType                            IdentifierType;
@@ -43,7 +43,7 @@ int itkMultiLevelSetChanAndVeseInternalTermTest( int , char* [] )
 
   typedef itk::LevelSetContainer< IdentifierType, LevelSetType >  LevelSetContainerType;
   typedef itk::LevelSetEquationChanAndVeseInternalTerm< InputImageType, LevelSetContainerType > ChanAndVeseTermType;
-  typedef itk::LevelSetEquationTermContainerBase< InputImageType, LevelSetContainerType > TermContainerType;
+  typedef itk::LevelSetEquationTermContainer< InputImageType, LevelSetContainerType > TermContainerType;
 
   typedef itk::AtanRegularizedHeavisideStepFunction<
       LevelSetOutputRealType, LevelSetOutputRealType >  HeavisideFunctionBaseType;

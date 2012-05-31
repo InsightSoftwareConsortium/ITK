@@ -16,27 +16,27 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetSparseImageBase_hxx
-#define __itkLevelSetSparseImageBase_hxx
+#ifndef __itkLevelSetSparseImage_hxx
+#define __itkLevelSetSparseImage_hxx
 
-#include "itkLevelSetSparseImageBase.h"
+#include "itkLevelSetSparseImage.h"
 
 namespace itk
 {
 template< typename TOutput, unsigned int VDimension >
-LevelSetSparseImageBase< TOutput, VDimension >
-::LevelSetSparseImageBase()
+LevelSetSparseImage< TOutput, VDimension >
+::LevelSetSparseImage()
 {}
 
 template< typename TOutput, unsigned int VDimension >
-LevelSetSparseImageBase< TOutput, VDimension >
-::~LevelSetSparseImageBase()
+LevelSetSparseImage< TOutput, VDimension >
+::~LevelSetSparseImage()
 {}
 
 // ----------------------------------------------------------------------------
 template< typename TOutput, unsigned int VDimension >
-typename LevelSetSparseImageBase< TOutput, VDimension >::LayerIdType
-LevelSetSparseImageBase< TOutput, VDimension >
+typename LevelSetSparseImage< TOutput, VDimension >::LayerIdType
+LevelSetSparseImage< TOutput, VDimension >
 ::Status( const InputType& iP ) const
 {
   return this->m_LabelMap->GetPixel( iP );
@@ -45,7 +45,7 @@ LevelSetSparseImageBase< TOutput, VDimension >
 
 template< typename TOutput, unsigned int VDimension >
 void
-LevelSetSparseImageBase< TOutput, VDimension >
+LevelSetSparseImage< TOutput, VDimension >
 ::SetLabelMap( LabelMapType* iLabelMap )
 {
   this->m_LabelMap = iLabelMap;
@@ -64,7 +64,7 @@ LevelSetSparseImageBase< TOutput, VDimension >
 
 template< typename TOutput, unsigned int VDimension >
 bool
-LevelSetSparseImageBase< TOutput, VDimension >
+LevelSetSparseImage< TOutput, VDimension >
 ::IsInsideDomain( const InputType& iP ) const
 {
   const RegionType largestRegion = this->m_LabelMap->GetLargestPossibleRegion();
@@ -74,7 +74,7 @@ LevelSetSparseImageBase< TOutput, VDimension >
 
 template< typename TOutput, unsigned int VDimension >
 void
-LevelSetSparseImageBase< TOutput, VDimension >
+LevelSetSparseImage< TOutput, VDimension >
 ::Graft( const DataObject* data )
 {
   Superclass::Graft( data );
@@ -87,7 +87,7 @@ LevelSetSparseImageBase< TOutput, VDimension >
   catch( ... )
     {
     // mesh could not be cast back down
-    itkExceptionMacro( << "itk::MalcolmSparseLevelSetBase::CopyInformation() cannot cast "
+    itkExceptionMacro( << "itk::MalcolmSparseLevelSet::CopyInformation() cannot cast "
                        << typeid( data ).name() << " to "
                        << typeid( Self * ).name() );
     }
@@ -95,7 +95,7 @@ LevelSetSparseImageBase< TOutput, VDimension >
   if ( !LevelSet )
     {
     // pointer could not be cast back down
-    itkExceptionMacro( << "itk::MalcolmSparseLevelSetBase::CopyInformation() cannot cast "
+    itkExceptionMacro( << "itk::MalcolmSparseLevelSet::CopyInformation() cannot cast "
                        << typeid( data ).name() << " to "
                        << typeid( Self * ).name() );
     }
@@ -105,8 +105,8 @@ LevelSetSparseImageBase< TOutput, VDimension >
 }
 // ----------------------------------------------------------------------------
 template< typename TOutput, unsigned int VDimension >
-const typename LevelSetSparseImageBase< TOutput, VDimension >::LayerType&
-LevelSetSparseImageBase< TOutput, VDimension >::GetLayer( LayerIdType iVal ) const
+const typename LevelSetSparseImage< TOutput, VDimension >::LayerType&
+LevelSetSparseImage< TOutput, VDimension >::GetLayer( LayerIdType iVal ) const
 {
   LayerMapConstIterator it = m_Layers.find( iVal );
   if( it == m_Layers.end() )
@@ -118,8 +118,8 @@ LevelSetSparseImageBase< TOutput, VDimension >::GetLayer( LayerIdType iVal ) con
 
 // ----------------------------------------------------------------------------
 template< typename TOutput, unsigned int VDimension >
-typename LevelSetSparseImageBase< TOutput, VDimension >::LayerType&
-LevelSetSparseImageBase< TOutput, VDimension >::GetLayer( LayerIdType iVal )
+typename LevelSetSparseImage< TOutput, VDimension >::LayerType&
+LevelSetSparseImage< TOutput, VDimension >::GetLayer( LayerIdType iVal )
 {
   LayerMapIterator it = m_Layers.find( iVal );
   if( it == m_Layers.end() )
@@ -132,7 +132,7 @@ LevelSetSparseImageBase< TOutput, VDimension >::GetLayer( LayerIdType iVal )
 // ----------------------------------------------------------------------------
 template< typename TOutput, unsigned int VDimension >
 void
-LevelSetSparseImageBase< TOutput, VDimension >
+LevelSetSparseImage< TOutput, VDimension >
 ::SetLayer( LayerIdType iVal, const LayerType& iLayer )
 {
   LayerMapIterator it = m_Layers.find( iVal );
@@ -149,7 +149,7 @@ LevelSetSparseImageBase< TOutput, VDimension >
 // ----------------------------------------------------------------------------
 template< typename TOutput, unsigned int VDimension >
 void
-LevelSetSparseImageBase< TOutput, VDimension >
+LevelSetSparseImage< TOutput, VDimension >
 ::Initialize()
 {
   Superclass::Initialize();
@@ -162,7 +162,7 @@ LevelSetSparseImageBase< TOutput, VDimension >
 // ----------------------------------------------------------------------------
 template< typename TOutput, unsigned int VDimension >
 void
-LevelSetSparseImageBase< TOutput, VDimension >
+LevelSetSparseImage< TOutput, VDimension >
 ::CopyInformation( const DataObject* data )
 {
   Superclass::CopyInformation( data );
@@ -175,7 +175,7 @@ LevelSetSparseImageBase< TOutput, VDimension >
   catch( ... )
     {
     // LevelSet could not be cast back down
-    itkExceptionMacro( << "itk::MalcolmSparseLevelSetBase::CopyInformation() cannot cast "
+    itkExceptionMacro( << "itk::MalcolmSparseLevelSet::CopyInformation() cannot cast "
                        << typeid( data ).name() << " to "
                        << typeid( Self * ).name() );
     }
@@ -183,7 +183,7 @@ LevelSetSparseImageBase< TOutput, VDimension >
   if ( !LevelSet )
     {
     // pointer could not be cast back down
-    itkExceptionMacro( << "itk::MalcolmSparseLevelSetBase::CopyInformation() cannot cast "
+    itkExceptionMacro( << "itk::MalcolmSparseLevelSet::CopyInformation() cannot cast "
                        << typeid( data ).name() << " to "
                        << typeid( Self * ).name() );
     }
@@ -192,7 +192,7 @@ LevelSetSparseImageBase< TOutput, VDimension >
 template< typename TOutput, unsigned int VDimension >
 template< class TLabel >
 typename LabelObject< TLabel, VDimension >::Pointer
-LevelSetSparseImageBase< TOutput, VDimension >
+LevelSetSparseImage< TOutput, VDimension >
 ::GetAsLabelObject()
 {
   typedef LabelObject< TLabel, Dimension > OutputLabelObjectType;
@@ -227,4 +227,4 @@ LevelSetSparseImageBase< TOutput, VDimension >
 } // end namespace itk
 
 
-#endif // __itkLevelSetSparseImageBase_h
+#endif // __itkLevelSetSparseImage_h

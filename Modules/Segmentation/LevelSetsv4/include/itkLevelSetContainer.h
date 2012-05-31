@@ -21,7 +21,8 @@
 
 #include "itkLevelSetContainerBase.h"
 
-#include "itkLevelSetDenseImageBase.h"
+#include "itkLevelSetDenseImage.h"
+
 
 namespace itk
 {
@@ -93,11 +94,11 @@ private:
  *  \ingroup ITKLevelSetsv4
  */
 template< class TIdentifier, class TImage >
-class LevelSetContainer< TIdentifier, LevelSetDenseImageBase< TImage > > :
-public LevelSetContainerBase< TIdentifier, LevelSetDenseImageBase< TImage > >
+class LevelSetContainer< TIdentifier, LevelSetDenseImage< TImage > > :
+public LevelSetContainerBase< TIdentifier, LevelSetDenseImage< TImage > >
 {
 public:
-  typedef LevelSetDenseImageBase< TImage >  LevelSetType;
+  typedef LevelSetDenseImage< TImage >  LevelSetType;
 
   typedef LevelSetContainer                                   Self;
   typedef LevelSetContainerBase< TIdentifier, LevelSetType >  Superclass;

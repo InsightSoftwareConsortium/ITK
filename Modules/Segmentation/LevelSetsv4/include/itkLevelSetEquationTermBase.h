@@ -40,7 +40,7 @@ namespace itk
  *  the input image; and \f$\alpha_i\f$ is a weight to balance the contribution of
  *  each term in the PDE.
  *
- *  \sa LevelSetEquationContainerBase
+ *  \sa LevelSetEquationContainer
  *
  *  \ingroup ITKLevelSetsv4
  */

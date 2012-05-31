@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetImageBase_h
-#define __itkLevelSetImageBase_h
+#ifndef __itkLevelSetImage_h
+#define __itkLevelSetImage_h
 
 #include "itkLevelSetBase.h"
 #include "itkObjectFactory.h"
@@ -27,7 +27,7 @@
 namespace itk
 {
 /**
- *  \class LevelSetImageBase
+ *  \class LevelSetImage
  *  \brief Abstract class for a level-set function on one Image.
  *
  *  \tparam TOutput OutputType of the level-set function value
@@ -35,24 +35,20 @@ namespace itk
  *
  *  \ingroup ITKLevelSetsv4
  */
-template< class TInput, unsigned int VDimension, typename TOutput >
-class LevelSetImageBase :
-  public LevelSetBase< TInput,
-                       VDimension,
-                       TOutput,
-                       ImageBase< VDimension > >
+template< class TInput, unsigned int VDimension, class TOutput >
+class LevelSetImage :
+  public LevelSetBase< TInput, VDimension, TOutput, ImageBase< VDimension > >
 {
 public:
-  typedef ImageBase< VDimension >         ImageBaseType;
+  typedef ImageBase< VDimension >                                    ImageBaseType;
 
-  typedef LevelSetImageBase                       Self;
-  typedef SmartPointer< Self >                    Pointer;
-  typedef SmartPointer< const Self >              ConstPointer;
-  typedef LevelSetBase<
-    TInput, VDimension, TOutput, ImageBaseType >  Superclass;
+  typedef LevelSetImage                                              Self;
+  typedef SmartPointer< Self >                                       Pointer;
+  typedef SmartPointer< const Self >                                 ConstPointer;
+  typedef LevelSetBase< TInput, VDimension, TOutput, ImageBaseType > Superclass;
 
   /** Run-time type information */
-  itkTypeMacro ( LevelSetImageBase, LevelSetBase );
+  itkTypeMacro ( LevelSetImage, LevelSetBase );
 
   itkStaticConstMacro ( Dimension, unsigned int, Superclass::Dimension );
 
@@ -64,9 +60,9 @@ public:
   typedef typename Superclass::LevelSetDataType LevelSetDataType;
 
 protected:
-  LevelSetImageBase();
+  LevelSetImage();
 
-  virtual ~LevelSetImageBase();
+  virtual ~LevelSetImage();
 
   typedef GradientType ScalingType;
   ScalingType m_NeighborhoodScales;
@@ -75,13 +71,14 @@ protected:
 
 private:
 
-  LevelSetImageBase( const Self& ); // purposely not implemented
+  LevelSetImage( const Self& ); // purposely not implemented
   void operator = ( const Self& ); // purposely not implemented
-  };
-}
+};
+
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetImageBase.hxx"
+#include "itkLevelSetImage.hxx"
 #endif
 
-#endif // __itkLevelSetImageBase_h
+#endif // __itkLevelSetImage_h

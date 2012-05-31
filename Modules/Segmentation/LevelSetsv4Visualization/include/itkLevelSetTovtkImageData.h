@@ -21,7 +21,7 @@
 
 #include "itkLevelSetTovtkImageDataBase.h"
 
-#include "itkLevelSetDenseImageBase.h"
+#include "itkLevelSetDenseImage.h"
 #include "itkWhitakerSparseLevelSetImage.h"
 #include "itkShiSparseLevelSetImage.h"
 #include "itkMalcolmSparseLevelSetImage.h"
@@ -42,12 +42,12 @@ class LevelSetTovtkImageData
  *  \ingroup ITKLevelSetsv4Visualization
  */
 template< class TImage >
-class LevelSetTovtkImageData< LevelSetDenseImageBase< TImage > > :
-    public LevelSetTovtkImageDataBase< LevelSetDenseImageBase< TImage > >
+class LevelSetTovtkImageData< LevelSetDenseImage< TImage > > :
+    public LevelSetTovtkImageDataBase< LevelSetDenseImage< TImage > >
 {
 public:
-  typedef TImage                                  ImageType;
-  typedef LevelSetDenseImageBase< ImageType >     LevelSetType;
+  typedef TImage                              ImageType;
+  typedef LevelSetDenseImage< ImageType >     LevelSetType;
 
   typedef LevelSetTovtkImageData                      Self;
   typedef LevelSetTovtkImageDataBase< LevelSetType >  Superclass;

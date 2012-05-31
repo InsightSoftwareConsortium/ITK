@@ -19,7 +19,7 @@
 #ifndef __itkShiSparseLevelSetImage_h
 #define __itkShiSparseLevelSetImage_h
 
-#include "itkLevelSetSparseImageBase.h"
+#include "itkLevelSetSparseImage.h"
 
 namespace itk
 {
@@ -35,20 +35,20 @@ namespace itk
  */
 template< unsigned int VDimension >
 class ShiSparseLevelSetImage :
-    public LevelSetSparseImageBase< int8_t, VDimension >
+    public LevelSetSparseImage< int8_t, VDimension >
 {
 public:
   typedef ShiSparseLevelSetImage                  Self;
   typedef SmartPointer< Self >                    Pointer;
   typedef SmartPointer< const Self >              ConstPointer;
-  typedef LevelSetSparseImageBase< int8_t, VDimension >
+  typedef LevelSetSparseImage< int8_t, VDimension >
                                                   Superclass;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ShiSparseLevelSetImage, LevelSetSparseImageBase);
+  itkTypeMacro(ShiSparseLevelSetImage, LevelSetSparseImage);
 
   itkStaticConstMacro ( Dimension, unsigned int, VDimension );
 

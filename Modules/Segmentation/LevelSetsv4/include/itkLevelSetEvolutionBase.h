@@ -23,12 +23,12 @@
 #include <list>
 
 #include "itkImage.h"
-#include "itkDiscreteLevelSetImageBase.h"
+#include "itkDiscreteLevelSetImage.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkSignedMaurerDistanceMapImageFilter.h"
 #include "itkNumericTraits.h"
-#include "itkLevelSetEvolutionStoppingCriterionBase.h"
+#include "itkLevelSetEvolutionStoppingCriterion.h"
 
 namespace itk
 {
@@ -87,7 +87,7 @@ public:
 
   typedef typename LevelSetContainerType::DomainMapImageFilterType DomainMapImageFilterType;
 
-  typedef LevelSetEvolutionStoppingCriterionBase< LevelSetContainerType >
+  typedef LevelSetEvolutionStoppingCriterion< LevelSetContainerType >
                                                   StoppingCriterionType;
   typedef typename StoppingCriterionType::Pointer StoppingCriterionPointer;
 

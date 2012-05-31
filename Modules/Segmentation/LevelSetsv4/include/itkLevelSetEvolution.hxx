@@ -26,7 +26,7 @@ namespace itk
 {
 
 template< class TEquationContainer, class TImage >
-LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
+LevelSetEvolution< TEquationContainer, LevelSetDenseImage< TImage > >
 ::LevelSetEvolution()
 {
   this->m_SplitLevelSetComputeIterationThreader = SplitLevelSetComputeIterationThreaderType::New();
@@ -35,13 +35,13 @@ LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
 }
 
 template< class TEquationContainer, class TImage >
-LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
+LevelSetEvolution< TEquationContainer, LevelSetDenseImage< TImage > >
 ::~LevelSetEvolution()
 {}
 
 template< class TEquationContainer, class TImage >
 void
-LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
+LevelSetEvolution< TEquationContainer, LevelSetDenseImage< TImage > >
 ::AllocateUpdateBuffer()
 {
   this->m_UpdateBuffer = LevelSetContainerType::New();
@@ -50,7 +50,7 @@ LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
 
 template< class TEquationContainer, class TImage >
 void
-LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
+LevelSetEvolution< TEquationContainer, LevelSetDenseImage< TImage > >
 ::ComputeIteration()
 {
   InputImageConstPointer inputImage = this->m_EquationContainer->GetInput();
@@ -96,7 +96,7 @@ LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
 
 template< class TEquationContainer, class TImage >
 void
-LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
+LevelSetEvolution< TEquationContainer, LevelSetDenseImage< TImage > >
 ::ComputeTimeStepForNextIteration()
 {
   // if the time step is not globally set
@@ -132,7 +132,7 @@ LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
 
 template< class TEquationContainer, class TImage >
 void
-LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
+LevelSetEvolution< TEquationContainer, LevelSetDenseImage< TImage > >
 ::UpdateLevelSets()
 {
   this->m_LevelSetContainerIteratorToProcessWhenThreading = this->m_LevelSetContainer->Begin();
@@ -153,7 +153,7 @@ LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
 
 template< class TEquationContainer, class TImage >
 void
-LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
+LevelSetEvolution< TEquationContainer, LevelSetDenseImage< TImage > >
 ::UpdateEquations()
 {
   this->InitializeIteration();
@@ -161,7 +161,7 @@ LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
 
 template< class TEquationContainer, class TImage >
 void
-LevelSetEvolution< TEquationContainer, LevelSetDenseImageBase< TImage > >
+LevelSetEvolution< TEquationContainer, LevelSetDenseImage< TImage > >
 ::ReinitializeToSignedDistance()
 {
   typename LevelSetContainerType::Iterator it = this->m_LevelSetContainer->Begin();
