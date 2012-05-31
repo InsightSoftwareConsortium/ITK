@@ -1,5 +1,0 @@
-<optimizer type="ParticleSwarmOptimizer" NumberOfParticles="25" SamplingSeed="" InertiaCoefficient="0.7288" GlobalCoefficient="1.496" PersonalCoefficient="1.496" ConvergedPercentageToStop="0.6" MaximumNumberOfIterations="100" FunctionConvergenceTolerance="1e-5">
-	<bound id="lower" value=" 0.5 0.0001     0.1     0.1 "/>
-	<bound id="upper" value=" 2.0 0.01     100       0.9 "/>
-	<ParametersConvergenceTolerance>1e-5 1e-5 1e-5 1e-5</ParametersConvergenceTolerance>
-</optimizer>
