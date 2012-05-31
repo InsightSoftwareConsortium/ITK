@@ -270,7 +270,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   }
   else
   {
-    this->m_ComponentSpace = DetermineComponentSpace(m_ZeroPixel);
+    this->m_ComponentSpace = this->DetermineComponentSpace(m_ZeroPixel);
   }
 
   if (this->m_ComponentSpace == Superclass::EUCLIDEAN)
