@@ -142,5 +142,4 @@ ConjugateGradientLineSearchOptimizerv4
 }
 
 
-
 }//namespace itk

@@ -91,7 +91,8 @@ itkImageToImageFilterDetail.h Template Disable
 itkImageTransformHelper.h Template Disable
 itkKLMSegmentationRegion.h Indent Disable
 itkLaplacianOperator.h Indent Disable
-itkMacro.h Indent Disable
+itkMacro.h Indent Disable Comments
+itkMacro.h Comments Disable
 itkMetaDataObject.hxx Namespace Disable
 itkMersenneTwisterRandomVariateGenerator.h InternalVariables Disable
 itkNeighborhoodAllocator.h Typedefs Disable

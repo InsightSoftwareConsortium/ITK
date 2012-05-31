@@ -48,10 +48,10 @@ class ITK_EXPORT ConjugateGradientLineSearchOptimizerv4
 {
 public:
   /** Standard class typedefs. */
-  typedef ConjugateGradientLineSearchOptimizerv4  Self;
-  typedef GradientDescentOptimizerv4            Superclass;
-  typedef SmartPointer< Self >                  Pointer;
-  typedef SmartPointer< const Self >            ConstPointer;
+  typedef ConjugateGradientLineSearchOptimizerv4 Self;
+  typedef GradientDescentOptimizerv4             Superclass;
+  typedef SmartPointer< Self >                   Pointer;
+  typedef SmartPointer< const Self >             ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ConjugateGradientLineSearchOptimizerv4, GradientDescentLineSearchOptimizerv4);
