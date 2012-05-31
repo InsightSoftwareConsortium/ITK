@@ -850,8 +850,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::ResolveRiemannianMinMax()
 {
   const unsigned int numThreads = m_ThreadData.size();
-  m_ImageMin.Fill(NumericTraits<RealValueType>::max());
-  m_ImageMax.Fill(NumericTraits<RealValueType>::min());
+  m_ImageMin.Fill(NumericTraits<PixelValueType>::max());
+  m_ImageMax.Fill(NumericTraits<PixelValueType>::min());
 
   for (unsigned int threadNum = 0; threadNum < numThreads; ++threadNum)
   {
