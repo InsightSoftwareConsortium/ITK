@@ -1,7 +1,8 @@
 itk_module_test()
 set(ITKVideoBridgeOpenCVTests
   itkOpenCVVideoCaptureTest.cxx
-  itkOpenCVImageBridgeTest.cxx
+  itkOpenCVImageBridgeGrayScaleTest.cxx
+  itkOpenCVImageBridgeRGBTest.cxx
   itkOpenCVVideoIOTest.cxx
   itkOpenCVVideoIOFactoryTest.cxx
 )
@@ -31,17 +32,26 @@ itk_add_test(NAME
 #   NOTE: For some reason, ITK reads jpg files slightly differently than
 #   OpenCV, so we need both jpg and mha versions to guanrantee consistency
 itk_add_test(
-  NAME OpenCVImageBridgeTest
+  NAME OpenCVImageBridgeGrayScaleTest
   COMMAND ITKVideoBridgeOpenCVTestDriver
-    itkOpenCVImageBridgeTest
+    itkOpenCVImageBridgeGrayScaleTest
       # Input Grayscale Image jpg
       DATA{Input/frame0_gray.jpg}
+      # Input Grayscale Image jpg 2, with odd pixel dimension
+      DATA{Input/peppers_513x512.jpg}
+    )
+
+itk_add_test(
+  NAME OpenCVImageBridgeRGBTest
+  COMMAND ITKVideoBridgeOpenCVTestDriver
+    itkOpenCVImageBridgeRGBTest
       # Input RGB Image jpg:
       DATA{Input/frame0.jpg}
       # Input RGB Image mha:
       DATA{Input/frame0.mha}
+      # Input RGB Image 513x512
+      DATA{Input/peppers_513x512_rgb.png}
     )
-
 # OpenCVVideoIO:
 itk_add_test(
   NAME OpenCVVideoIOTest
