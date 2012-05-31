@@ -159,7 +159,7 @@ public:
    * Note that this would normally be called GetValue, but that name is
    * used for historical reasons by GetValue() to compute the current
    * metric value and store it in m_Value. */
-  MeasureType GetCurrentValue();
+  MeasureType GetCurrentValue() const;
 
 protected:
   ObjectToObjectMetricBase();

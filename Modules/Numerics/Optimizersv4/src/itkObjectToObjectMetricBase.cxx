@@ -53,6 +53,14 @@ ObjectToObjectMetricBase
 }
 
 //-------------------------------------------------------------------
+ObjectToObjectMetricBase::MeasureType
+ObjectToObjectMetricBase
+::GetCurrentValue() const
+{
+  return m_Value;
+}
+
+//-------------------------------------------------------------------
 void
 ObjectToObjectMetricBase
 ::PrintSelf(std::ostream & os, Indent indent) const
