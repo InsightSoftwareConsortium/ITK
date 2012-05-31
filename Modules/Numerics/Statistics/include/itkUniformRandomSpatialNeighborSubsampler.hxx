@@ -30,6 +30,7 @@ UniformRandomSpatialNeighborSubsampler<TSample, TRegion>
   m_RandomNumberGenerator = RandomGeneratorType::New();
   m_UseClockForSeed = false;
   m_RandomNumberGenerator->SetSeed(this->m_Seed);
+  m_NumberOfResultsRequested = 0;
 }
 
 template <class TSample, class TRegion>

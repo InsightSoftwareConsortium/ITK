@@ -110,8 +110,8 @@ public:
   virtual void SetNumberOfResultsRequested(const SearchSizeType& numberRequested)
   {
     itkDebugMacro("setting NumberOfResultsRequested to " << numberRequested);
-    if (this->m_NumberOfResultsRequested != numberRequested ||
-        this->m_RequestMaximumNumberOfResults)
+    if (this->m_RequestMaximumNumberOfResults ||
+        this->m_NumberOfResultsRequested != numberRequested)
     {
       this->m_NumberOfResultsRequested = numberRequested;
       this->m_RequestMaximumNumberOfResults = false;
