@@ -75,6 +75,7 @@ public:
   /** typedefs related to region */
   typedef typename Superclass::RegionType     RegionType;
   typedef typename Superclass::IndexType      IndexType;
+  typedef typename Superclass::IndexValueType IndexValueType;
   typedef typename Superclass::SizeType       SizeType;
   typedef typename RegionType::SizeType       RadiusType;
 

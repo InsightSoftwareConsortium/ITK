@@ -75,6 +75,7 @@ public:
   /** typedefs related to image region */
   typedef TRegion                              RegionType;
   typedef typename RegionType::IndexType       IndexType;
+  typedef typename IndexType::IndexValueType   IndexValueType;
   typedef typename RegionType::SizeType        SizeType;
 
   /** Method to set the sample domain.

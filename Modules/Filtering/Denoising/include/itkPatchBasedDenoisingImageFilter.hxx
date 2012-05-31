@@ -1343,6 +1343,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     FaceCalculatorType;
   typedef typename FaceCalculatorType::FaceListType FaceListType;
   typedef typename ListAdaptorType::ConstIterator SampleIteratorType;
+  typedef typename OutputImageType::IndexType IndexType;
+  typedef typename IndexType::IndexValueType IndexValueType;
 
   const PatchRadiusType radius = this->GetPatchRadiusInVoxels();
 
@@ -1395,7 +1397,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
       continue;
     }
     InputImagePatchIterator currentPatch = sampleIt.GetMeasurementVector()[0];
-    typename OutputImageType::IndexType  nIndex = currentPatch.GetIndex();
+    IndexType  nIndex = currentPatch.GetIndex();
     InstanceIdentifier currentPatchId = inList->GetImage()->ComputeOffset(nIndex);
 
     // select a set of patches from the full image, excluding points that have
@@ -1408,14 +1410,14 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     // That is, the range formula is min(index,radius):max(index,size-radius-1)
 
     typename OutputImageType::RegionType region = this->GetInput()->GetLargestPossibleRegion();
-    typename OutputImageType::IndexType  rIndex;
+    IndexType  rIndex;
     typename OutputImageType::SizeType   rSize = region.GetSize();
     for (unsigned int dim = 0; dim < OutputImageType::ImageDimension; ++dim)
     {
-      rIndex[dim] = vnl_math_min(static_cast<long unsigned int>(nIndex[dim]),
-                                 radius[dim]);
-      rSize[dim]  = vnl_math_max(static_cast<long unsigned int>(nIndex[dim]),
-                                 rSize[dim] - radius[dim] - 1) - rIndex[dim] + 1;
+      rIndex[dim] = vnl_math_min(nIndex[dim],
+                                 static_cast<IndexValueType>(radius[dim]));
+      rSize[dim]  = vnl_math_max(nIndex[dim],
+                                 static_cast<IndexValueType>(rSize[dim] - radius[dim] - 1)) - rIndex[dim] + 1;
     }
     region.SetIndex(rIndex);
     region.SetSize(rSize);
@@ -1452,8 +1454,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
       currentPatchVec[jj] = currentPatch.GetPixel(jj);
     }
 
-    typename OutputImageType::IndexType lastSelectedIdx;
-    typename OutputImageType::IndexType currSelectedIdx;
+    IndexType lastSelectedIdx;
+    IndexType currSelectedIdx;
     InputImagePatchIterator selectedPatch;
     if (numPatches > 0)
     {
@@ -1965,6 +1967,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
                               typename ListAdaptorType::Pointer& inList,
                               BaseSamplerPointer& sampler)
 {
+  typedef typename OutputImageType::IndexType IndexType;
+  typedef typename IndexType::IndexValueType IndexValueType;
   const InputImagePatchIterator currentPatch = inList->GetMeasurementVector(id)[0];
   const typename OutputImageType::IndexType nIndex = currentPatch.GetIndex();
   const InstanceIdentifier currentPatchId = inList->GetImage()->ComputeOffset(nIndex);
@@ -1974,13 +1978,13 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 
   const typename OutputImageType::Pointer output = this->GetOutput();
   typename OutputImageType::RegionType region = this->GetInput()->GetLargestPossibleRegion();
-  typename OutputImageType::IndexType  rIndex;
+  IndexType  rIndex;
   typename OutputImageType::SizeType   rSize = region.GetSize();
   const PatchRadiusType radius = this->GetPatchRadiusInVoxels();
   for (unsigned int dim = 0; dim < OutputImageType::ImageDimension; ++dim)
   {
-    rIndex[dim] = vnl_math_min(static_cast<long unsigned int>(nIndex[dim]), radius[dim]);
-    rSize[dim]  = vnl_math_max(static_cast<long unsigned int>(nIndex[dim]), rSize[dim] - radius[dim] - 1)
+    rIndex[dim] = vnl_math_min(nIndex[dim], static_cast<IndexValueType>(radius[dim]));
+    rSize[dim]  = vnl_math_max(nIndex[dim], static_cast<IndexValueType>(rSize[dim] - radius[dim] - 1))
       - rIndex[dim] + 1;
   }
   region.SetIndex(rIndex);
@@ -2024,8 +2028,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     }
   }
 
-  typename OutputImageType::IndexType lastSelectedIdx;
-  typename OutputImageType::IndexType currSelectedIdx;
+  IndexType lastSelectedIdx;
+  IndexType currSelectedIdx;
   InputImagePatchIterator selectedPatch;
   if (numPatches > 0)
   {
