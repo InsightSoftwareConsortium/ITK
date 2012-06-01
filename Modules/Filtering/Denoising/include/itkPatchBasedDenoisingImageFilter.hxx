@@ -605,7 +605,7 @@ template <class TInputImage, class TOutputImage>
 template <typename T>
 typename NumericTraits<T>::ValueType
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
-::DispatchedGetComponent(const T& pix, unsigned int itkNotUsed(idx), TrueType itkNotUsed(isPod)) const
+::DispatchedGetComponent(const T& pix, unsigned int itkNotUsed(idx)) const
 {
   return pix;
 }
@@ -614,7 +614,7 @@ template <class TInputImage, class TOutputImage>
 template <typename T>
 typename NumericTraits<T>::ValueType
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
-::DispatchedGetComponent(const T& pix, unsigned int idx, FalseType itkNotUsed(isPod)) const
+::DispatchedGetArrayComponent(const T& pix, unsigned int idx) const
 {
   return pix[idx];
 }
@@ -624,7 +624,7 @@ template <typename T>
 void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::DispatchedSetComponent(T& pix, unsigned int itkNotUsed(idx),
-                         typename NumericTraits<T>::ValueType val, TrueType itkNotUsed(isPod))
+                         typename NumericTraits<T>::ValueType val)
 {
   pix = val;
 }
@@ -633,8 +633,8 @@ template <class TInputImage, class TOutputImage>
 template <typename T>
 void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
-::DispatchedSetComponent(T& pix, unsigned int idx,
-                         typename NumericTraits<T>::ValueType val, FalseType itkNotUsed(isPod))
+::DispatchedSetArrayComponent(T& pix, unsigned int idx,
+                              typename NumericTraits<T>::ValueType val)
 {
   pix[idx] = val;
 }
@@ -642,7 +642,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 template <class TInputImage, class TOutputImage>
 void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
-::DispatchedMinMax(const InputImageType* img, TrueType itkNotUsed(isPod))
+::DispatchedMinMax(const InputImageType* img)
 {
   typedef MinimumMaximumImageFilter<InputImageType> MinMaxFilter;
   typename MinMaxFilter::Pointer minmax = MinMaxFilter::New();
@@ -657,7 +657,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 template <class TInputImage, class TOutputImage>
 void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
-::DispatchedMinMax(const InputImageType* img, FalseType itkNotUsed(isPod))
+::DispatchedArrayMinMax(const InputImageType* img)
 {
   typedef NthElementImageAdaptor<InputImageType, PixelValueType> AdaptorType;
   typedef MinimumMaximumImageFilter<AdaptorType>         MinMaxFilter;
