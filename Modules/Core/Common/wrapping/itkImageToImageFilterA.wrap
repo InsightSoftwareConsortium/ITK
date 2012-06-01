@@ -11,6 +11,14 @@ itk_wrap_class("itk::ImageToImageFilter" POINTER)
     itk_wrap_image_filter_combinations("UL" "${WRAP_ITK_INT}")
   endif(NOT ITK_WRAP_unsigned_long)
 
+  UNIQUE(to_types "UC;${WRAP_ITK_SCALAR}")
+    foreach(d ${ITK_WRAP_DIMS})
+      foreach(t ${to_types})
+        itk_wrap_template("${ITKM_VI${t}${d}}${ITKM_VI${t}${d}}" "${ITKT_VI${t}${d}},${ITKT_VI${t}${d}}")
+      endforeach(t)
+    endforeach(d)
+
+
   # Vector types
   itk_wrap_image_filter_combinations("${WRAP_ITK_VECTOR}" "${WRAP_ITK_VECTOR}")
 
