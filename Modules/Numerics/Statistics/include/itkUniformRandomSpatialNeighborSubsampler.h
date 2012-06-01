@@ -78,6 +78,7 @@ public:
   typedef typename Superclass::RadiusType      RadiusType;
   typedef typename Superclass::RegionType      RegionType;
   typedef typename Superclass::IndexType       IndexType;
+  typedef typename Superclass::IndexValueType  IndexValueType;
   typedef typename Superclass::SizeType        SizeType;
   typedef typename Superclass::ImageHelperType ImageHelperType;
 

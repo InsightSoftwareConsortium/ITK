@@ -95,13 +95,13 @@ UniformRandomSpatialNeighborSubsampler<TSample, TRegion>
 
   for (unsigned int dim = 0; dim < RegionType::ImageDimension; ++dim)
     {
-    if (queryIndex[dim] < static_cast<typename IndexType::IndexValueType>(this->m_Radius[dim]))
+    if (queryIndex[dim] < static_cast<IndexValueType>(this->m_Radius[dim]))
       {
-      searchStartIndex[dim] = vnl_math_max(0l, constraintIndex[dim]);
+      searchStartIndex[dim] = vnl_math_max(NumericTraits<IndexValueType>::Zero, constraintIndex[dim]);
       }
     else
       {
-      searchStartIndex[dim] = vnl_math_max(static_cast<long int>(queryIndex[dim] - this->m_Radius[dim]),
+      searchStartIndex[dim] = vnl_math_max(static_cast<IndexValueType>(queryIndex[dim] - this->m_Radius[dim]),
                                            constraintIndex[dim]);
       }
 

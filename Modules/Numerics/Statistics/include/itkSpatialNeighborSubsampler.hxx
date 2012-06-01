@@ -122,13 +122,13 @@ SpatialNeighborSubsampler<TSample, TRegion>
 
   for (unsigned int dim = 0; dim < RegionType::ImageDimension; ++dim)
     {
-    if (queryIndex[dim] < static_cast<typename IndexType::IndexValueType>(m_Radius[dim]))
+    if (queryIndex[dim] < static_cast<IndexValueType>(m_Radius[dim]))
       {
-      searchIndex[dim] = vnl_math_max(0l, constraintIndex[dim]);
+        searchIndex[dim] = vnl_math_max(NumericTraits<IndexValueType>::Zero, constraintIndex[dim]);
       }
     else
       {
-      searchIndex[dim] = vnl_math_max(static_cast<long int>(queryIndex[dim] - m_Radius[dim]),
+      searchIndex[dim] = vnl_math_max(static_cast<IndexValueType>(queryIndex[dim] - m_Radius[dim]),
                                       constraintIndex[dim]);
       }
 
