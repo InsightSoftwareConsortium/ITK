@@ -101,55 +101,66 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
   //
   // Now allocate memory according to transform type
   //
-  if( associate->HasLocalSupport() )
+  if( ! associate->m_ComputeDerivative )
     {
-    associate->m_PRatioArray.assign(associate->m_NumberOfHistogramBins * associate->m_NumberOfHistogramBins, 0.0);
-    associate->m_JointPdfIndex1DArray.assign( associate->GetNumberOfParameters(), 0 );
-    // Don't need this with local-support
-    associate->m_ThreaderJointPDFDerivatives.resize(0);
-    // This always has four entries because the parzen window size is fixed.
-    associate->m_LocalDerivativeByParzenBin.resize(4);
-    // The first container cannot point to the existing derivative result object
-    // for efficiency, because of multi-variate metric.
-    for( SizeValueType n = 0; n<4; n++ )
-      {
-      associate->m_LocalDerivativeByParzenBin[n].SetSize( associate->GetNumberOfParameters() );
-      // Initialize to zero because we accumulate, and so skipped points will behave properly
-      associate->m_LocalDerivativeByParzenBin[n].Fill( NumericTraits< DerivativeValueType >::Zero );
-      }
-    }
-  else
-    {
-    // Don't need this with global transforms
+    // We only need these if we're computing derivatives.
     associate->m_PRatioArray.resize(0);
     associate->m_JointPdfIndex1DArray.resize(0);
     associate->m_LocalDerivativeByParzenBin.resize(0);
-
-    JointPDFDerivativesRegionType jointPDFDerivativesRegion;
-
-    // For the derivatives of the joint PDF define a region starting from
-    // {0,0,0}
-    // with size {m_NumberOfParameters,m_NumberOfHistogramBins,
-    // this->m_NumberOfHistogramBins}. The dimension represents transform parameters,
-    // fixed image parzen window index and moving image parzen window index,
-    // respectively.
-    JointPDFDerivativesIndexType jointPDFDerivativesIndex;
-    jointPDFDerivativesIndex.Fill(0);
-    JointPDFDerivativesSizeType jointPDFDerivativesSize;
-    jointPDFDerivativesSize[0] = associate->GetNumberOfLocalParameters();
-    jointPDFDerivativesSize[1] = associate->m_NumberOfHistogramBins;
-    jointPDFDerivativesSize[2] = associate->m_NumberOfHistogramBins;
-
-    jointPDFDerivativesRegion.SetIndex(jointPDFDerivativesIndex);
-    jointPDFDerivativesRegion.SetSize(jointPDFDerivativesSize);
-
-    associate->m_ThreaderJointPDFDerivatives.resize(this->GetNumberOfThreadsUsed());
-    // Set the regions and allocate
-    for( ThreadIdType threadID = 0; threadID < this->GetNumberOfThreadsUsed(); threadID++ )
+    associate->m_ThreaderJointPDFDerivatives.resize(0);
+    }
+  else
+    {
+    if( associate->HasLocalSupport() )
       {
-      associate->m_ThreaderJointPDFDerivatives[threadID] = JointPDFDerivativesType::New();
-      associate->m_ThreaderJointPDFDerivatives[threadID]->SetRegions( jointPDFDerivativesRegion);
-      associate->m_ThreaderJointPDFDerivatives[threadID]->Allocate();
+      associate->m_PRatioArray.assign(associate->m_NumberOfHistogramBins * associate->m_NumberOfHistogramBins, 0.0);
+      associate->m_JointPdfIndex1DArray.assign( associate->GetNumberOfParameters(), 0 );
+      // Don't need this with local-support
+      associate->m_ThreaderJointPDFDerivatives.resize(0);
+      // This always has four entries because the parzen window size is fixed.
+      associate->m_LocalDerivativeByParzenBin.resize(4);
+      // The first container cannot point to the existing derivative result object
+      // for efficiency, because of multi-variate metric.
+      for( SizeValueType n = 0; n<4; n++ )
+        {
+        associate->m_LocalDerivativeByParzenBin[n].SetSize( associate->GetNumberOfParameters() );
+        // Initialize to zero because we accumulate, and so skipped points will behave properly
+        associate->m_LocalDerivativeByParzenBin[n].Fill( NumericTraits< DerivativeValueType >::Zero );
+        }
+      }
+    else
+      {
+      // Don't need this with global transforms
+      associate->m_PRatioArray.resize(0);
+      associate->m_JointPdfIndex1DArray.resize(0);
+      associate->m_LocalDerivativeByParzenBin.resize(0);
+
+      JointPDFDerivativesRegionType jointPDFDerivativesRegion;
+
+      // For the derivatives of the joint PDF define a region starting from
+      // {0,0,0}
+      // with size {m_NumberOfParameters,m_NumberOfHistogramBins,
+      // this->m_NumberOfHistogramBins}. The dimension represents transform parameters,
+      // fixed image parzen window index and moving image parzen window index,
+      // respectively.
+      JointPDFDerivativesIndexType jointPDFDerivativesIndex;
+      jointPDFDerivativesIndex.Fill(0);
+      JointPDFDerivativesSizeType jointPDFDerivativesSize;
+      jointPDFDerivativesSize[0] = associate->GetNumberOfLocalParameters();
+      jointPDFDerivativesSize[1] = associate->m_NumberOfHistogramBins;
+      jointPDFDerivativesSize[2] = associate->m_NumberOfHistogramBins;
+
+      jointPDFDerivativesRegion.SetIndex(jointPDFDerivativesIndex);
+      jointPDFDerivativesRegion.SetSize(jointPDFDerivativesSize);
+
+      associate->m_ThreaderJointPDFDerivatives.resize(this->GetNumberOfThreadsUsed());
+      // Set the regions and allocate
+      for( ThreadIdType threadID = 0; threadID < this->GetNumberOfThreadsUsed(); threadID++ )
+        {
+        associate->m_ThreaderJointPDFDerivatives[threadID] = JointPDFDerivativesType::New();
+        associate->m_ThreaderJointPDFDerivatives[threadID]->SetRegions( jointPDFDerivativesRegion);
+        associate->m_ThreaderJointPDFDerivatives[threadID]->Allocate();
+        }
       }
     }
 
@@ -163,13 +174,14 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
 
   for( ThreadIdType threadID = 0; threadID < this->GetNumberOfThreadsUsed(); threadID++ )
     {
-    std::fill(
-      associate->m_ThreaderFixedImageMarginalPDF[threadID].begin(),
-      associate->m_ThreaderFixedImageMarginalPDF[threadID].end(), 0.0F);
+    std::fill( associate->m_ThreaderFixedImageMarginalPDF[threadID].begin(), associate->m_ThreaderFixedImageMarginalPDF[threadID].end(), 0.0F);
     associate->m_ThreaderJointPDF[threadID]->FillBuffer(0.0F);
-    if( ! associate->HasLocalSupport() )
+    if( associate->m_ComputeDerivative )
       {
-      associate->m_ThreaderJointPDFDerivatives[threadID]->FillBuffer(0.0F);
+      if( ! associate->HasLocalSupport() )
+        {
+        associate->m_ThreaderJointPDFDerivatives[threadID]->FillBuffer(0.0F);
+        }
       }
     }
 }
@@ -218,8 +230,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
     }
   else
     {
-    const OffsetValueType nindex =
-      static_cast<OffsetValueType>( associate->m_NumberOfHistogramBins ) - 3;
+    const OffsetValueType nindex = static_cast<OffsetValueType>( associate->m_NumberOfHistogramBins ) - 3;
     if( movingImageParzenWindowIndex > nindex )
       {
       movingImageParzenWindowIndex = nindex;
@@ -250,28 +261,32 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
   PDFValueType movingImageParzenWindowArg = static_cast<PDFValueType>( pdfMovingIndex ) - static_cast<PDFValueType>( movingImageParzenWindowTerm );
 
   // Pointer to affected bin to be updated
-  JointPDFValueType *pdfPtr = associate->m_ThreaderJointPDF[threadID]->GetBufferPointer()
-    + ( fixedImageParzenWindowIndex * associate->m_NumberOfHistogramBins )
-    + pdfMovingIndex;
+  JointPDFValueType *pdfPtr = associate->m_ThreaderJointPDF[threadID]->GetBufferPointer() + ( fixedImageParzenWindowIndex * associate->m_NumberOfHistogramBins ) + pdfMovingIndex;
 
   OffsetValueType localDerivativeOffset = 0;
   // Store the pdf indecies for this point.
   // Just store the starting pdfMovingIndex and we'll iterate later
   // over the next four to collect results.
-  if( associate->HasLocalSupport() )
+  if( associate->m_ComputeDerivative )
     {
-    OffsetValueType jointPdfIndex1D = pdfMovingIndex + (fixedImageParzenWindowIndex * associate->m_NumberOfHistogramBins);
-    localDerivativeOffset = associate->ComputeParameterOffsetFromVirtualIndex( virtualIndex, associate->GetNumberOfLocalParameters() );
-    for (NumberOfParametersType i=0; i < associate->GetNumberOfLocalParameters(); i++)
+    if( associate->HasLocalSupport() )
       {
-      associate->m_JointPdfIndex1DArray[localDerivativeOffset + i] = jointPdfIndex1D;
+      OffsetValueType jointPdfIndex1D = pdfMovingIndex + (fixedImageParzenWindowIndex * associate->m_NumberOfHistogramBins);
+      localDerivativeOffset = associate->ComputeParameterOffsetFromVirtualIndex( virtualIndex, associate->GetNumberOfLocalParameters() );
+      for (NumberOfParametersType i=0; i < associate->GetNumberOfLocalParameters(); i++)
+        {
+        associate->m_JointPdfIndex1DArray[localDerivativeOffset + i] = jointPdfIndex1D;
+        }
       }
     }
 
   // Compute the transform Jacobian.
   typedef JacobianType & JacobianReferenceType;
   JacobianReferenceType jacobian = this->m_MovingTransformJacobianPerThread[threadID];
-  associate->GetMovingTransform()->ComputeJacobianWithRespectToParameters( virtualPoint, jacobian);
+  if( associate->m_ComputeDerivative )
+    {
+    associate->GetMovingTransform()->ComputeJacobianWithRespectToParameters( virtualPoint, jacobian);
+    }
 
   SizeValueType movingParzenBin = 0;
 
@@ -280,27 +295,30 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
     PDFValueType val = static_cast<PDFValueType>( associate->m_CubicBSplineKernel ->Evaluate( movingImageParzenWindowArg) );
     *( pdfPtr++ ) += val;
 
-    // Compute the cubicBSplineDerivative for later repeated use.
-    const PDFValueType cubicBSplineDerivativeValue = associate->m_CubicBSplineDerivativeKernel->Evaluate(movingImageParzenWindowArg);
-
-    // Pointer to local derivative partial result container.
-    // Not used with global support transforms.
-    DerivativeValueType * localSupportDerivativeResultPtr = NULL;
-
-    if( associate->HasLocalSupport() )
+    if( associate->m_ComputeDerivative )
       {
-      // ptr to where the derivative result should go, for efficiency
-      localSupportDerivativeResultPtr = &( associate->m_LocalDerivativeByParzenBin[movingParzenBin][localDerivativeOffset] );
-      }
+      // Compute the cubicBSplineDerivative for later repeated use.
+      const PDFValueType cubicBSplineDerivativeValue = associate->m_CubicBSplineDerivativeKernel->Evaluate(movingImageParzenWindowArg);
 
-    // Compute PDF derivative contribution.
-    this->ComputePDFDerivatives(threadID,
-                                fixedImageParzenWindowIndex,
-                                jacobian,
-                                pdfMovingIndex,
-                                movingImageGradient,
-                                cubicBSplineDerivativeValue,
-                                localSupportDerivativeResultPtr);
+      // Pointer to local derivative partial result container.
+      // Not used with global support transforms.
+      DerivativeValueType * localSupportDerivativeResultPtr = NULL;
+
+      if( associate->HasLocalSupport() )
+        {
+        // ptr to where the derivative result should go, for efficiency
+        localSupportDerivativeResultPtr = &( associate->m_LocalDerivativeByParzenBin[movingParzenBin][localDerivativeOffset] );
+        }
+
+      // Compute PDF derivative contribution.
+      this->ComputePDFDerivatives(threadID,
+                                  fixedImageParzenWindowIndex,
+                                  jacobian,
+                                  pdfMovingIndex,
+                                  movingImageGradient,
+                                  cubicBSplineDerivativeValue,
+                                  localSupportDerivativeResultPtr);
+      }
 
     movingImageParzenWindowArg += 1.0;
     ++pdfMovingIndex;
@@ -372,17 +390,6 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
 {
   TMattesMutualInformationMetric * associate = dynamic_cast<TMattesMutualInformationMetric*>(this->m_Associate);
 
-  /* Store the number of valid points.
-   * This is the only code we need from Superclass::AfterThreadedExecution */
-  associate->m_NumberOfValidPoints = NumericTraits< SizeValueType >::Zero;
-  for (ThreadIdType i=0; i<this->GetNumberOfThreadsUsed(); i++)
-    {
-    associate->m_NumberOfValidPoints += this->m_NumberOfValidPointsPerThread[i];
-    }
-
-  /* Porting: This code is from
-   * MattesMutualInformationImageToImageMetric::GetValueAndDerivativeThreadPostProcess */
-
   /* Store the number of valid points in the enclosing class
    * m_NumberOfValidPoints by collecting the valid points per thread.
    * We do this here because we're skipping Superclass::AfterThreadedExecution*/
@@ -392,48 +399,54 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
     associate->m_NumberOfValidPoints += this->m_NumberOfValidPointsPerThread[i];
     }
 
+  /* Porting: This code is from
+   * MattesMutualInformationImageToImageMetric::GetValueAndDerivativeThreadPostProcess */
+
   /* Post-processing that is common the GetValue and GetValueAndDerivative */
   associate->GetValueCommonAfterThreadedExecution();
 
   /* This should be done via its own threader class. Previously it was threaded using
    * old ImageToImageMetric threaded post-processing. */
-  if( ! associate->HasLocalSupport() )
+  if( associate->m_ComputeDerivative )
     {
-    for( ThreadIdType threadID = 0; threadID < this->GetNumberOfThreadsUsed(); threadID++ )
+    if( ! associate->HasLocalSupport() )
       {
-      const NumberOfParametersType rowSize = associate->GetNumberOfLocalParameters() * associate->m_NumberOfHistogramBins;
-
-      const SizeValueType maxI =
-        rowSize * ( associate->m_ThreaderJointPDFEndBin[threadID]
-                    - associate->m_ThreaderJointPDFStartBin[threadID] + 1 );
-
-      JointPDFDerivativesValueType *const pdfDPtrStart = associate->m_ThreaderJointPDFDerivatives[0]->GetBufferPointer()
-        + ( associate->m_ThreaderJointPDFStartBin[threadID] * rowSize );
-      const SizeValueType tPdfDPtrOffset = associate->m_ThreaderJointPDFStartBin[threadID] *  rowSize;
-      for( SizeValueType t = 1; t < this->GetNumberOfThreadsUsed(); t++ )
+      for( ThreadIdType threadID = 0; threadID < this->GetNumberOfThreadsUsed(); threadID++ )
         {
-        JointPDFDerivativesValueType *      pdfDPtr = pdfDPtrStart;
-        JointPDFDerivativesValueType const *tPdfDPtr = associate->m_ThreaderJointPDFDerivatives[t]->GetBufferPointer()
-          + tPdfDPtrOffset;
-        JointPDFDerivativesValueType const * const tPdfDPtrEnd = tPdfDPtr + maxI;
-        // for(i = 0; i < maxI; i++)
-        while( tPdfDPtr < tPdfDPtrEnd )
+        const NumberOfParametersType rowSize = associate->GetNumberOfLocalParameters() * associate->m_NumberOfHistogramBins;
+
+        const SizeValueType maxI = rowSize * ( associate->m_ThreaderJointPDFEndBin[threadID] - associate->m_ThreaderJointPDFStartBin[threadID] + 1 );
+
+        JointPDFDerivativesValueType *const pdfDPtrStart = associate->m_ThreaderJointPDFDerivatives[0]->GetBufferPointer()
+          + ( associate->m_ThreaderJointPDFStartBin[threadID] * rowSize );
+        const SizeValueType tPdfDPtrOffset = associate->m_ThreaderJointPDFStartBin[threadID] *  rowSize;
+        for( SizeValueType t = 1; t < this->GetNumberOfThreadsUsed(); t++ )
           {
-          *( pdfDPtr++ ) += *( tPdfDPtr++ );
+          JointPDFDerivativesValueType *      pdfDPtr = pdfDPtrStart;
+          JointPDFDerivativesValueType const *tPdfDPtr = associate->m_ThreaderJointPDFDerivatives[t]->GetBufferPointer() + tPdfDPtrOffset;
+          JointPDFDerivativesValueType const * const tPdfDPtrEnd = tPdfDPtr + maxI;
+          // for(i = 0; i < maxI; i++)
+          while( tPdfDPtr < tPdfDPtrEnd )
+            {
+            *( pdfDPtr++ ) += *( tPdfDPtr++ );
+            }
           }
-        }
 
-      const PDFValueType nFactor = 1.0 / ( associate->m_MovingImageBinSize
-                                     * associate->GetNumberOfValidPoints() );
+        const PDFValueType nFactor = 1.0 / ( associate->m_MovingImageBinSize * associate->GetNumberOfValidPoints() );
 
-      JointPDFDerivativesValueType *             pdfDPtr = pdfDPtrStart;
-      JointPDFDerivativesValueType const * const tPdfDPtrEnd = pdfDPtrStart + maxI;
-      while( pdfDPtr < tPdfDPtrEnd )
-        {
-        *( pdfDPtr++ ) *= nFactor;
+        JointPDFDerivativesValueType *             pdfDPtr = pdfDPtrStart;
+        JointPDFDerivativesValueType const * const tPdfDPtrEnd = pdfDPtrStart + maxI;
+        while( pdfDPtr < tPdfDPtrEnd )
+          {
+          *( pdfDPtr++ ) *= nFactor;
+          }
         }
       }
     }
+
+  // Collect and compute results.
+  // Value and derivative are stored in member vars.
+  associate->ComputeResults();
 }
 
 } // end namespace itk
