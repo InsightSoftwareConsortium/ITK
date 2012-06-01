@@ -1,3 +1,20 @@
+/*=========================================================================
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __itkPatchBasedDenoisingImageFilter_h
 #define __itkPatchBasedDenoisingImageFilter_h
 
@@ -74,24 +91,23 @@ public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
   typedef typename Superclass::PixelType      PixelType;
   typedef typename Superclass::PixelValueType PixelValueType;
 
-  typedef typename NumericTraits< PixelType >::RealType RealType;
+  typedef typename NumericTraits< PixelType >::RealType      RealType;
   typedef typename NumericTraits< PixelValueType >::RealType RealValueType;
-  typedef Array<PixelValueType> PixelArrayType;
-  typedef Array<RealValueType>  RealArrayType;
-  typedef Array<unsigned short> ShortArrayType;
+  typedef Array<PixelValueType>                              PixelArrayType;
+  typedef Array<RealValueType>                               RealArrayType;
+  typedef Array<unsigned short>                              ShortArrayType;
 
   /** Type definition for patch weights type. */
-  typedef typename Superclass::ListAdaptorType ListAdaptorType;
-  typedef typename Superclass::PatchRadiusType PatchRadiusType;
+  typedef typename Superclass::ListAdaptorType         ListAdaptorType;
+  typedef typename Superclass::PatchRadiusType         PatchRadiusType;
   typedef typename Superclass::InputImagePatchIterator InputImagePatchIterator;
-  typedef ListAdaptorType PatchSampleType;
-
-  typedef typename Superclass::PatchWeightsType PatchWeightsType;
+  typedef ListAdaptorType                              PatchSampleType;
+  typedef typename Superclass::PatchWeightsType        PatchWeightsType;
 
   /** Type definitions for delegate classes. */
   typedef itk::Statistics::RegionConstrainedSubsampler<
-    PatchSampleType, InputImageRegionType >  BaseSamplerType;
-  typedef typename BaseSamplerType::Pointer  BaseSamplerPointer;
+    PatchSampleType, InputImageRegionType >            BaseSamplerType;
+  typedef typename BaseSamplerType::Pointer            BaseSamplerPointer;
   typedef typename BaseSamplerType::InstanceIdentifier InstanceIdentifier;
 
   struct ThreadDataStruct
@@ -113,7 +129,6 @@ public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
   itkSetMacro(UseSmoothDiscPatchWeights, bool);
   itkBooleanMacro(UseSmoothDiscPatchWeights);
   itkGetConstMacro(UseSmoothDiscPatchWeights, bool);
-
 
 
   /** Set/Get initial sigma estimate.
@@ -455,7 +470,7 @@ public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
   RealType         m_NoiseSigmaSquared;
   bool             m_NoiseSigmaIsSet;
   //
-  BaseSamplerPointer m_Sampler;
+  BaseSamplerPointer                m_Sampler;
   typename ListAdaptorType::Pointer m_SearchSpaceList;
 
  private:

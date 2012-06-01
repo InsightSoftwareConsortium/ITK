@@ -1,3 +1,20 @@
+/*=========================================================================
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __itkPatchBasedDenoisingBaseImageFilter_h
 #define __itkPatchBasedDenoisingBaseImageFilter_h
 
@@ -125,11 +142,10 @@ public ImageToImageFilter<TInputImage, TOutputImage>
    */
   typedef ZeroFluxNeumannBoundaryCondition<OutputImageType> BoundaryConditionType;
   typedef typename ::itk::Statistics::ImageToNeighborhoodSampleAdaptor<
-    OutputImageType, BoundaryConditionType > ListAdaptorType;
-  typedef typename ListAdaptorType::NeighborhoodRadiusType PatchRadiusType;
+    OutputImageType, BoundaryConditionType >                ListAdaptorType;
+  typedef typename ListAdaptorType::NeighborhoodRadiusType  PatchRadiusType;
   typedef ConstNeighborhoodIterator<
-    InputImageType, BoundaryConditionType > InputImagePatchIterator;
-
+    InputImageType, BoundaryConditionType >                 InputImagePatchIterator;
 
 
   /** Set/Get the patch radius specified in physical coordinates.
@@ -150,7 +166,6 @@ public ImageToImageFilter<TInputImage, TOutputImage>
    */
   void SetPatchWeights(const PatchWeightsType& weights);
   PatchWeightsType GetPatchWeights() const;
-
 
 
   /** Set/Get the noise model type.
@@ -175,7 +190,6 @@ public ImageToImageFilter<TInputImage, TOutputImage>
   itkGetConstMacro(FidelityWeight, double);
 
 
-
   /** Set/Get flag indicating whether kernel-bandwidth should be estimated
    *  automatically from the image data.
    *  Defaults to true.
@@ -194,7 +208,6 @@ public ImageToImageFilter<TInputImage, TOutputImage>
   itkGetConstMacro(KernelBandwidthUpdateFrequency, unsigned int);
 
 
-
   /** Set/Get the number of denoising iterations to perform.
    *  Must be a positive integer.
    *  Defaults to 5.
@@ -206,7 +219,6 @@ public ImageToImageFilter<TInputImage, TOutputImage>
   itkGetConstReferenceMacro(ElapsedIterations, unsigned int);
 
 
-
   /** Set/Get flag indicating whether all components should always be treated
    * as if they are in euclidean space regardless of pixel type.
    * Defaults to false.
@@ -214,9 +226,6 @@ public ImageToImageFilter<TInputImage, TOutputImage>
   itkSetMacro(AlwaysTreatComponentsAsEuclidean, bool);
   itkBooleanMacro(AlwaysTreatComponentsAsEuclidean);
   itkGetConstMacro(AlwaysTreatComponentsAsEuclidean, bool);
-
-/*   /\** Get the component space *\/ */
-/*   itkGetConstMacro(ComponentSpace, ComponentSpaceType); */
 
 
   /** Set the state of the filter to INITIALIZED */
@@ -293,7 +302,6 @@ public ImageToImageFilter<TInputImage, TOutputImage>
   { return EUCLIDEAN; }
 
 
-
   /** Parameters that define patch size and patch weights (mask). */
   unsigned int     m_PatchRadius;
   PatchWeightsType m_PatchWeights;
@@ -333,7 +341,7 @@ public ImageToImageFilter<TInputImage, TOutputImage>
 
  }; // end class PatchBasedDenoisingBaseImageFilter
 
-}; // end namespace itk
+} // end namespace itk
 
 // Define instantiation macro for this template
 
