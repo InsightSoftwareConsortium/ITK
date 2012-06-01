@@ -23,7 +23,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   m_UpdateBuffer    = OutputImageType::New();
 
   // patch weights
-  this->UseSmoothDiscPatchWeightsOn();
+  m_UseSmoothDiscPatchWeights = true;
+
 
   // by default, turn on automatic kerel-sigma estimation
   this->DoKernelBandwidthEstimationOn();
@@ -45,6 +46,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   m_TotalNumberPixels  = 0; // won't be valid until an image is provided
   m_Sampler            = 0; // won't be valid until a sampler is provided
   m_NumPixelComponents = 0; // won't be valid until Initialize() gets called
+  m_NumIndependentComponents = 0; // won't be valid until Initialize() gets called
   // m_IntensityRescaleInvFactor won't be allocated until Initialize() gets called
   // because we need the input image first.
 }
