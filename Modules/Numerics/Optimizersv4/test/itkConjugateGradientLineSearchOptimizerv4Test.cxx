@@ -18,7 +18,6 @@
 #include "itkConjugateGradientLineSearchOptimizerv4.h"
 #include "itkTestingMacros.h"
 
-
 /**
  *  \class ConjugateGradientLineSearchOptimizerv4TestMetric for test
  *
@@ -180,7 +179,7 @@ int ConjugateGradientLineSearchOptimizerv4RunTest(
     if( vnl_math_abs( finalPosition[j] - trueParameters[j] ) > 0.01 )
       {
       std::cerr << "Results do not match: " << std::endl
-                << "expected: " << trueParameters << std::endl
+                << "expected: " << trueParameters[0] << ", " << trueParameters[1] << std::endl
                 << "returned: " << finalPosition << std::endl;
       return EXIT_FAILURE;
       }
@@ -236,42 +235,31 @@ int itkConjugateGradientLineSearchOptimizerv4Test(int, char* [] )
   ScalesType scales( metric->GetNumberOfLocalParameters() );
   scales.Fill(0.5);
   itkOptimizer->SetScales( scales );
-  itkOptimizer->SetLowerLimit( -10 );
-  itkOptimizer->SetUpperLimit( 10 );
+  itkOptimizer->SetLowerLimit( 0 );
+  itkOptimizer->SetUpperLimit( 5 );
   itkOptimizer->SetEpsilon( 1.e-4 );
+  itkOptimizer->SetMaximumLineSearchIterations( 5 );
   metric->SetParameters( initialPosition );
   if( ConjugateGradientLineSearchOptimizerv4RunTest( itkOptimizer ) == EXIT_FAILURE )
     {
     return EXIT_FAILURE;
     }
 
-  // Test of search method option
-  OptimizerType::InternalComputationValueType learningRate1 = itkOptimizer->GetLearningRate();
-  std::cout << "Learning rate with SearchNearBaselineLearningRate method: " << learningRate1 << std::endl;
-
-  itkOptimizer->SetSearchMethod( OptimizerType::SearchNearPreviousLearningRate );
-
-  std::cout << "Test optimization with SearchNearPreviousLearningRate option:" << std::endl;
+  std::cout << "Test optimization with few linear search iterations:" << std::endl;
   scales.Fill(0.5);
+  itkOptimizer->SetMaximumLineSearchIterations( 2 );
   itkOptimizer->SetScales( scales );
-  itkOptimizer->SetLowerLimit( 1.e-9 );
-  itkOptimizer->SetUpperLimit( 10 );
+  itkOptimizer->SetLearningRate( 0.5 );
+  itkOptimizer->SetLowerLimit( 0 );
+  itkOptimizer->SetUpperLimit( 1 );
   itkOptimizer->SetEpsilon( 1.e-4 );
   metric->SetParameters( initialPosition );
   if( ConjugateGradientLineSearchOptimizerv4RunTest( itkOptimizer ) == EXIT_FAILURE )
     {
     return EXIT_FAILURE;
     }
-  // Check for different final learning rates
-  OptimizerType::InternalComputationValueType learningRate2 = itkOptimizer->GetLearningRate();
-  std::cout << "Learning rate with SearchNearPreviousLearningRate method: " << learningRate2 << std::endl;
-  if( learningRate1 == learningRate2 )
-    {
-    std::cerr << "Expected different final learning rates with different search methods." << std::endl;
-    return EXIT_FAILURE;
-    }
 
-  // Exercise various member functions.
+  // Exercise various member functions
   std::cout << "LearningRate: " << itkOptimizer->GetLearningRate();
   std::cout << std::endl;
   std::cout << "NumberOfIterations: " << itkOptimizer->GetNumberOfIterations();

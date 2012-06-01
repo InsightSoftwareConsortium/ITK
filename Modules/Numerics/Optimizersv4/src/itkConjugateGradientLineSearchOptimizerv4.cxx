@@ -27,7 +27,6 @@ namespace itk
 ConjugateGradientLineSearchOptimizerv4
 ::ConjugateGradientLineSearchOptimizerv4()
 {
-  this->m_CurrentBestValue = NumericTraits< MeasureType >::max();
 }
 
 /**
@@ -48,15 +47,16 @@ ConjugateGradientLineSearchOptimizerv4
   Superclass::PrintSelf(os, indent);
 }
 
-//-------------------------------------------------------------------
 void
 ConjugateGradientLineSearchOptimizerv4
-::StopOptimization(void)
-{
-  this->GetMetric()->SetParameters( this->m_BestParameters );
-  Superclass::StopOptimization();
+::StartOptimization(void)
+ {
+  this->m_ConjugateGradient.SetSize( this->m_Metric->GetNumberOfParameters() );
+  this->m_ConjugateGradient.Fill( itk::NumericTraits< InternalComputationValueType >::Zero );
+  this->m_LastGradient.SetSize( this->m_Metric->GetNumberOfParameters() );
+  this->m_LastGradient.Fill( itk::NumericTraits< InternalComputationValueType >::Zero );
+  Superclass::StartOptimization();
 }
-
 
 /**
  * Advance one Step following the gradient direction
@@ -67,43 +67,30 @@ ConjugateGradientLineSearchOptimizerv4
 {
   itkDebugMacro("AdvanceOneStep");
 
-  /* This will estimate the learning rate (m_LearningRate)
-   * if the options are set to do so. We only ever want to
-   * estimate at the first step for this class. */
+  this->ModifyGradientByScales();
   if ( this->m_CurrentIteration == 0 )
     {
-    this->m_BestParameters = this->GetCurrentPosition( );
-    this->m_CurrentBestValue = NumericTraits< MeasureType >::max();
-    DerivativeType baseGradient( this->m_Gradient );
-    this->ModifyGradientByScales();
     this->EstimateLearningRate();
-    this->m_Gradient = baseGradient;
-    this->m_ConjugateGradient.SetSize( this->m_Gradient.GetSize( ) );
-    this->m_ConjugateGradient.Fill( itk::NumericTraits< InternalComputationValueType >::Zero );
     }
 
   InternalComputationValueType gamma = itk::NumericTraits< InternalComputationValueType >::Zero;
   InternalComputationValueType gammaDenom = inner_product( this->m_LastGradient , this->m_LastGradient );
   if ( gammaDenom > itk::NumericTraits< InternalComputationValueType >::epsilon() )
     {
-    gamma = inner_product( this->m_Gradient , this->m_Gradient ) / gammaDenom;
+    gamma = inner_product( this->m_Gradient - this->m_LastGradient , this->m_Gradient ) / gammaDenom;
+    }
+
+  /** Modified Polak-Ribiere restart conditions */
+  if ( gamma < 0 || gamma > 5 )
+    {
+    gamma = 0;
     }
   this->m_LastGradient = this->m_Gradient;
   this->m_ConjugateGradient = this->m_Gradient + this->m_ConjugateGradient * gamma;
-  if ( this->m_ConjugateGradient.two_norm() > ( this->m_Gradient.two_norm( ) * 5 ) )
-    {
-    this->m_ConjugateGradient = this->m_Gradient;
-    }
-  else
-    {
-    this->m_Gradient = this->m_ConjugateGradient;
-    }
-
-  /* Cache the learning rate so we can optionally restore it later */
-  InternalComputationValueType baseLearningRate = this->m_LearningRate;
-  this->ModifyGradientByScales();
+  this->m_Gradient = this->m_ConjugateGradient;
 
   /* Estimate a learning rate for this step */
+  this->m_LineSearchIterations = 0;
   this->m_LearningRate = this->GoldenSectionSearch( this->m_LearningRate * this->m_LowerLimit ,
     this->m_LearningRate , this->m_LearningRate * this->m_UpperLimit  );
 
@@ -112,7 +99,7 @@ ConjugateGradientLineSearchOptimizerv4
 
   try
     {
-    /* Pass graident to transform and let it do its own updating */
+    /* Pass graident to transform and let it do its own updating. */
     this->m_Metric->UpdateTransformParameters( this->m_Gradient );
     }
   catch ( ExceptionObject & err )
@@ -124,22 +111,7 @@ ConjugateGradientLineSearchOptimizerv4
     throw err;
     }
 
-  /** reset to base learning rate if set to do so */
-  if( this->m_SearchMethod == SearchNearBaselineLearningRate )
-    {
-    this->m_LearningRate = baseLearningRate;
-    }
-  if ( this->m_Value < this->m_CurrentBestValue )
-    {
-    this->m_CurrentBestValue = this->m_Value;
-    this->m_BestParameters = this->GetCurrentPosition( );
-    }
-  else if ( ( this->m_Value - this->m_CurrentBestValue ) > itk::NumericTraits< InternalComputationValueType >::epsilon() )
-    {
-    this->m_LastGradient.Fill( itk::NumericTraits< InternalComputationValueType >::Zero );
-    }
   this->InvokeEvent( IterationEvent() );
 }
-
 
 }//namespace itk

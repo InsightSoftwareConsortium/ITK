@@ -45,6 +45,10 @@ itk_add_test(NAME itkGradientDescentLineSearchOptimizerv4Test
       COMMAND ITKOptimizersv4TestDriver
       itkGradientDescentLineSearchOptimizerv4Test)
 
+itk_add_test(NAME itkConjugateGradientLineSearchOptimizerv4Test
+      COMMAND ITKOptimizersv4TestDriver
+      itkConjugateGradientLineSearchOptimizerv4Test)
+
 itk_add_test(NAME itkMultiStartOptimizerv4Test
       COMMAND ITKOptimizersv4TestDriver
      itkMultiStartOptimizerv4Test)

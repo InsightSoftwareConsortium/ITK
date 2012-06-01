@@ -25,7 +25,7 @@
 namespace itk
 {
 /** \class ConjugateGradientLineSearchOptimizerv4
- *  \brief Conjugate gradient descent optimizer with a golden section line search.
+ *  \brief Conjugate gradient descent optimizer with a golden section line search for nonlinear optimization.
  *
  * ConjugateGradientLineSearchOptimizer implements a conjugate gradient descent optimizer
  * that is followed by a line search to find the best value for the learning rate.
@@ -37,7 +37,7 @@ namespace itk
  *                 \, d
  * \f]
  *
- * where d is defined as the Fletcher-Reeves conjugate gradient.
+ * where d is defined as the Polak-Ribiere conjugate gradient.
  *
  * Options are identical to the superclass's.
  *
@@ -48,15 +48,15 @@ class ITK_EXPORT ConjugateGradientLineSearchOptimizerv4
 {
 public:
   /** Standard class typedefs. */
-  typedef ConjugateGradientLineSearchOptimizerv4 Self;
-  typedef GradientDescentOptimizerv4             Superclass;
-  typedef SmartPointer< Self >                   Pointer;
-  typedef SmartPointer< const Self >             ConstPointer;
+  typedef ConjugateGradientLineSearchOptimizerv4  Self;
+  typedef GradientDescentOptimizerv4              Superclass;
+  typedef SmartPointer< Self >                    Pointer;
+  typedef SmartPointer< const Self >              ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ConjugateGradientLineSearchOptimizerv4, GradientDescentLineSearchOptimizerv4);
 
-  /** New macro for creation of through a Smart Pointer   */
+  /** New macro for creation of through a Smart Pointer */
   itkNewMacro(Self);
 
   /** Derivative type */
@@ -69,9 +69,7 @@ public:
   /** Type for the convergence checker */
   typedef itk::Function::WindowConvergenceMonitoringFunction<double> ConvergenceMonitoringType;
 
-  /** Stop optimization. The object is left in a state so the
-   * optimization can be resumed by calling ResumeOptimization. */
-  virtual void StopOptimization(void);
+  virtual void StartOptimization();
 
 protected:
 
@@ -89,10 +87,8 @@ protected:
 
 private:
 
-  MeasureType                  m_CurrentBestValue;
   DerivativeType               m_LastGradient;
   DerivativeType               m_ConjugateGradient;
-  ParametersType               m_BestParameters;
 
   ConjugateGradientLineSearchOptimizerv4( const Self & ); //purposely not implemented
   void operator=( const Self& ); //purposely not implemented
