@@ -71,7 +71,6 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
 
   typedef JointHistogramMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType> MetricForStageOneType;
   typename MetricForStageOneType::Pointer mutualInformationMetric = MetricForStageOneType::New();
-  mutualInformationMetric = mutualInformationMetric;
   mutualInformationMetric->SetNumberOfHistogramBins( 20 );
   mutualInformationMetric->SetUseMovingImageGradientFilter( false );
   mutualInformationMetric->SetUseFixedImageGradientFilter( false );
