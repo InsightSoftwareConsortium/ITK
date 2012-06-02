@@ -72,7 +72,7 @@ bool readCorrectly( itk::OpenCVVideoIO::Pointer opencvIO, CvCapture* capture, Fr
 {
   bool ret = true;
   // Check meta data
-  for( unsigned int i = 0; i < ImageType::ImageDimension; ++i )
+  for( unsigned int i = 0; i < ImageType::ImageDimension; i++ )
     {
     if( opencvIO->GetSpacing(i) != 1.0 )
       {
@@ -287,11 +287,11 @@ int test_OpenCVVideoIO( char* input, char* nonVideoInput, char* output, char* ca
   // Set up OpenCV capture
   CvCapture* capture = cvCaptureFromFile( opencvIO->GetFileName() );
   // Loop through all frames
-  for( FrameOffsetType i = 0; i < opencvIO->GetFrameTotal(); ++i )
+  for( FrameOffsetType i = 0; i * opencvIO->GetIFrameInterval() < opencvIO->GetFrameTotal(); i++ )
     {
-    if( !readCorrectly(opencvIO, capture, i) )
+    if( !readCorrectly(opencvIO, capture, i*opencvIO->GetIFrameInterval()) )
       {
-      std::cerr << "Failed to read frame " << i << " correctly" << std::endl;
+      std::cerr << "Failed to read frame " << i*opencvIO->GetIFrameInterval() << " correctly" << std::endl;
       ret = EXIT_FAILURE;
       break;
       }
@@ -487,9 +487,8 @@ int test_OpenCVVideoIO( char* input, char* nonVideoInput, char* output, char* ca
   opencvIO2->SetFileName( input );
   opencvIO2->ReadImageInformation();
   // Loop through all frames to read with opencvIO2 and write with opencvIO
-  for( unsigned int i = 0; i < inNumFrames; ++i )
+  for( unsigned int i = 0; i *opencvIO2->GetIFrameInterval() < inNumFrames; i++ )
     {
-
     // Set up a buffer to read to
     itk::SizeValueType bufferSizeT = opencvIO2->GetImageSizeInBytes();
     PixelType * bufferT = new PixelType[bufferSizeT];
