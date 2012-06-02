@@ -10,14 +10,6 @@
 #include "itkRGBAPixel.h"
 #include "itkDiffusionTensor3D.h"
 #include "itkRegionConstrainedSubsampler.h"
-#ifdef ITK_HAS_STLTR1_TR1_TYPE_TRAITS
-#  include <tr1/type_traits>
-#elif defined ITK_HAS_STLTR1_TYPE_TRAITS
-#  include <type_traits>
-#else
-#  include "itkIsSame.h"
-#endif
-
 
 namespace itk
 {
@@ -49,14 +41,6 @@ class ITK_EXPORT PatchBasedDenoisingImageFilter :
 public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 {
  public:
-#if defined(ITK_HAS_STLTR1_TR1_TYPE_TRAITS) || defined(ITK_HAS_STLTR1_TYPE_TRAITS)
-  typedef std::tr1::true_type  TrueType;
-  typedef std::tr1::false_type FalseType;
-#else
-  typedef itk::TrueType  TrueType;
-  typedef itk::FalseType FalseType;
-#endif
-
   /** Standard class typedefs. */
   typedef PatchBasedDenoisingImageFilter                                Self;
   typedef PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage> Superclass;
@@ -186,26 +170,136 @@ public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 
   virtual void GenerateInputRequestedRegion();
 
-  template <typename T>
-  typename NumericTraits<T>::ValueType
-  GetComponent(const T& pix, unsigned int idx) const
+  PixelValueType
+  GetComponent(const VariableLengthVector<PixelValueType>& pix,
+               unsigned int idx) const
   {
-    return DispatchedGetComponent(pix, idx
-#if defined(ITK_HAS_STLTR1_TR1_TYPE_TRAITS) || defined(ITK_HAS_STLTR1_TYPE_TRAITS)
-                                  , std::tr1::is_pod<PixelType>()
-#endif
-      );
+    return DispatchedGetArrayComponent(pix, idx);
+  }
+  PixelValueType
+  GetComponent(const RGBPixel<PixelValueType>& pix,
+               unsigned int idx) const
+  {
+    return DispatchedGetArrayComponent(pix, idx);
+  }
+  PixelValueType
+  GetComponent(const RGBAPixel<PixelValueType>& pix,
+               unsigned int idx) const
+  {
+    return DispatchedGetArrayComponent(pix, idx);
+  }
+  PixelValueType
+  GetComponent(const DiffusionTensor3D<PixelValueType>& pix,
+               unsigned int idx) const
+  {
+    return DispatchedGetArrayComponent(pix, idx);
+  }
+  PixelValueType
+  GetComponent(const PixelValueType& pix, unsigned int idx) const
+  {
+    return DispatchedGetComponent(pix, idx);
+  }
+  RealValueType
+  GetComponent(const VariableLengthVector<RealValueType>& pix,
+               unsigned int idx) const
+  {
+    return DispatchedGetArrayComponent(pix, idx);
+  }
+  RealValueType
+  GetComponent(const RGBPixel<RealValueType>& pix,
+               unsigned int idx) const
+  {
+    return DispatchedGetArrayComponent(pix, idx);
+  }
+  RealValueType
+  GetComponent(const RGBAPixel<RealValueType>& pix,
+               unsigned int idx) const
+  {
+    return DispatchedGetArrayComponent(pix, idx);
+  }
+  RealValueType
+  GetComponent(const DiffusionTensor3D<RealValueType>& pix,
+               unsigned int idx) const
+  {
+    return DispatchedGetArrayComponent(pix, idx);
+  }
+  RealValueType
+  GetComponent(const RealValueType& pix, unsigned int idx) const
+  {
+    return DispatchedGetComponent(pix, idx);
+  }
+  template <typename TValue, unsigned int VLength>
+  TValue
+  GetComponent(const FixedArray<TValue, VLength>& pix,
+               unsigned int idx) const
+  {
+    return DispatchedGetArrayComponent(pix, idx);
   }
 
-  template <typename T>
   void
-  SetComponent(T& pix, unsigned int idx, typename NumericTraits<T>::ValueType val)
+  SetComponent(VariableLengthVector<PixelValueType>& pix,
+               unsigned int idx, PixelValueType val)
   {
-    DispatchedSetComponent(pix, idx, val
-#if defined(ITK_HAS_STLTR1_TR1_TYPE_TRAITS) || defined(ITK_HAS_STLTR1_TYPE_TRAITS)
-                           , std::tr1::is_pod<PixelType>()
-#endif
-      );
+    return DispatchedSetArrayComponent(pix, idx, val);
+  }
+  void
+  SetComponent(RGBPixel<PixelValueType>& pix,
+               unsigned int idx, PixelValueType val)
+  {
+    return DispatchedSetArrayComponent(pix, idx, val);
+  }
+  void
+  SetComponent(RGBAPixel<PixelValueType>& pix,
+               unsigned int idx, PixelValueType val)
+  {
+    return DispatchedSetArrayComponent(pix, idx, val);
+  }
+  void
+  SetComponent(DiffusionTensor3D<PixelValueType>& pix,
+               unsigned int idx, PixelValueType val)
+  {
+    return DispatchedSetArrayComponent(pix, idx, val);
+  }
+  void
+  SetComponent(PixelValueType& pix, unsigned int idx, PixelValueType val)
+  {
+    DispatchedSetComponent(pix, idx, val);
+  }
+  void
+  SetComponent(VariableLengthVector<RealValueType>& pix,
+               unsigned int idx, RealValueType val)
+  {
+    return DispatchedSetArrayComponent(pix, idx, val);
+  }
+  void
+  SetComponent(RGBPixel<RealValueType>& pix,
+               unsigned int idx, RealValueType val)
+  {
+    return DispatchedSetArrayComponent(pix, idx, val);
+  }
+  void
+  SetComponent(RGBAPixel<RealValueType>& pix,
+               unsigned int idx, RealValueType val)
+  {
+    return DispatchedSetArrayComponent(pix, idx, val);
+  }
+  void
+  SetComponent(DiffusionTensor3D<RealValueType>& pix,
+               unsigned int idx, RealValueType val)
+  {
+    return DispatchedSetArrayComponent(pix, idx, val);
+  }
+  void
+  SetComponent(RealValueType& pix, unsigned int idx, RealValueType val)
+  {
+    DispatchedSetComponent(pix, idx, val);
+  }
+  template <typename TValue, unsigned int VLength>
+  void
+  SetComponent(FixedArray<TValue, VLength>& pix,
+               unsigned int idx, TValue val) const
+  {
+    return DispatchedSetArrayComponent(pix, idx, val);
   }
 
   /** Compute the Minimum and Maximum pixel in the image for each independent component */
@@ -219,16 +313,29 @@ public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
     }
     else
     {
-      DispatchedMinMax(img, FalseType() );
+      DispatchedArrayMinMax(img);
     }
   }
-  template <class ImageT> void ComputeMinMax(const ImageT* img)
+  void ComputeMinMax(const Image< RGBPixel<PixelValueType> , ImageDimension>* img)
   {
-    DispatchedMinMax(img
-#if defined(ITK_HAS_STLTR1_TR1_TYPE_TRAITS) || defined(ITK_HAS_STLTR1_TYPE_TRAITS)
-                     , std::tr1::is_pod<PixelType>()
-#endif
-      );
+    DispatchedArrayMinMax(img);
+  }
+  void ComputeMinMax(const Image< RGBAPixel<PixelValueType> , ImageDimension>* img)
+  {
+    DispatchedArrayMinMax(img);
+  }
+  void ComputeMinMax(const Image< VariableLengthVector<PixelValueType> , ImageDimension>* img)
+  {
+    DispatchedArrayMinMax(img);
+  }
+  void ComputeMinMax(const Image< PixelValueType, ImageDimension>* img)
+  {
+    DispatchedMinMax(img);
+  }
+  template <unsigned int VLength>
+  void ComputeMinMax(const Image< FixedArray<PixelValueType, VLength> , ImageDimension>* img)
+  {
+    DispatchedArrayMinMax(img);
   }
 
   /**
@@ -369,27 +476,25 @@ public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 
   template <typename T>
   typename NumericTraits<T>::ValueType
-  DispatchedGetComponent(const T& pix, unsigned int itkNotUsed(idx),
-                         TrueType isPod) const;
+  DispatchedGetComponent(const T& pix, unsigned int idx) const;
 
   template <typename T>
   typename NumericTraits<T>::ValueType
-  DispatchedGetComponent(const T& pix, unsigned int idx,
-                         FalseType isPod = FalseType()) const;
-
-  template <typename T>
-  void
-  DispatchedSetComponent(T& pix, unsigned int itkNotUsed(idx),
-                         typename NumericTraits<T>::ValueType val, TrueType isPod);
+  DispatchedGetArrayComponent(const T& pix, unsigned int idx) const;
 
   template <typename T>
   void
   DispatchedSetComponent(T& pix, unsigned int idx,
-                         typename NumericTraits<T>::ValueType val, FalseType isPod = FalseType());
+                         typename NumericTraits<T>::ValueType val);
 
-  void DispatchedMinMax(const InputImageType* img, TrueType isPod);
+  template <typename T>
+  void
+  DispatchedSetArrayComponent(T& pix, unsigned int idx,
+                              typename NumericTraits<T>::ValueType val);
 
-  void DispatchedMinMax(const InputImageType* img, FalseType isPod = FalseType());
+  void DispatchedMinMax(const InputImageType* img);
+
+  void DispatchedArrayMinMax(const InputImageType* img);
 
   void DispatchedVectorMinMax(const InputImageType* img);
 
