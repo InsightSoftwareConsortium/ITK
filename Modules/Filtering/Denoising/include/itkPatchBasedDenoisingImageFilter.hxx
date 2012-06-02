@@ -1346,7 +1346,6 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   typedef typename FaceCalculatorType::FaceListType FaceListType;
   typedef typename ListAdaptorType::ConstIterator SampleIteratorType;
   typedef typename OutputImageType::IndexType IndexType;
-  typedef typename IndexType::IndexValueType IndexValueType;
 
   const PatchRadiusType radius = this->GetPatchRadiusInVoxels();
 
@@ -1970,7 +1969,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
                               BaseSamplerPointer& sampler)
 {
   typedef typename OutputImageType::IndexType IndexType;
-  typedef typename IndexType::IndexValueType IndexValueType;
+
   const InputImagePatchIterator currentPatch = inList->GetMeasurementVector(id)[0];
   const typename OutputImageType::IndexType nIndex = currentPatch.GetIndex();
   const InstanceIdentifier currentPatchId = inList->GetImage()->ComputeOffset(nIndex);
