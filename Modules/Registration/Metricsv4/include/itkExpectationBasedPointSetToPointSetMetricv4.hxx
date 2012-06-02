@@ -58,7 +58,7 @@ template<class TFixedPointSet, class TMovingPointSet>
 typename ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::MeasureType
 ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
-::GetLocalNeighborhoodValue( const PointType & point ) const
+::GetLocalNeighborhoodValue( const PointType & point, const PixelType & itkNotUsed( pixel ) ) const
 {
   MeasureType localValue = NumericTraits<MeasureType>::Zero;
 
@@ -79,7 +79,7 @@ template<class TFixedPointSet, class TMovingPointSet>
 void
 ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::GetLocalNeighborhoodValueAndDerivative( const PointType & point,
-  MeasureType &measure, LocalDerivativeType &localDerivative ) const
+  MeasureType &measure, LocalDerivativeType &localDerivative, const PixelType & itkNotUsed( pixel ) ) const
 {
   Array<MeasureType> measureValues;
   measureValues.SetSize( this->m_EvaluationKNeighborhood );
@@ -126,6 +126,24 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
     {
     localDerivative[d] = force[d];
     }
+}
+
+template<class TFixedPointSet, class TMovingPointSet>
+::itk::LightObject::Pointer
+ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
+::Clone( void ) const
+{
+  ::itk::LightObject::Pointer smartPtr;
+  Pointer copyPtr = Self::New();
+
+  copyPtr->m_MovingPointSet = this->m_MovingPointSet;
+  copyPtr->m_FixedPointSet = this->m_FixedPointSet;
+  copyPtr->m_PointSetSigma = this->m_PointSetSigma;
+  copyPtr->m_EvaluationKNeighborhood = this->m_EvaluationKNeighborhood;
+
+  smartPtr = static_cast<Pointer>( copyPtr );
+
+  return smartPtr;
 }
 
 template<class TFixedPointSet, class TMovingPointSet>

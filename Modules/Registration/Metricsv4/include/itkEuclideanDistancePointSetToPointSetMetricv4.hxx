@@ -41,7 +41,7 @@ template<class TFixedPointSet, class TMovingPointSet>
 typename EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::MeasureType
 EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
-::GetLocalNeighborhoodValue( const PointType & point ) const
+::GetLocalNeighborhoodValue( const PointType & point, const PixelType & itkNotUsed( pixel ) ) const
 {
   PointType closestPoint;
   closestPoint.Fill( 0.0 );
@@ -57,7 +57,7 @@ template<class TFixedPointSet, class TMovingPointSet>
 void
 EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::GetLocalNeighborhoodValueAndDerivative( const PointType & point,
-  MeasureType &measure, LocalDerivativeType & localDerivative ) const
+  MeasureType &measure, LocalDerivativeType & localDerivative, const PixelType & itkNotUsed( pixel ) ) const
 {
   PointType closestPoint;
   closestPoint.Fill( 0.0 );

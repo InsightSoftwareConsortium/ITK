@@ -79,7 +79,7 @@ public:
   typedef SmartPointer<const Self>                             ConstPointer;
 
   /** Method for creation through the object factory. */
-  itkNewMacro( Self );
+  itkSimpleNewMacro( Self );
 
   /** Run-time type information (and related methods) */
   itkTypeMacro( JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4, PointSetToPointSetMetricv4 );
@@ -96,6 +96,7 @@ public:
   typedef typename Superclass::DerivativeValueType      DerivativeValueType;
   typedef typename Superclass::LocalDerivativeType      LocalDerivativeType;
   typedef typename Superclass::PointType                PointType;
+  typedef typename Superclass::PixelType                PixelType;
   typedef typename Superclass::CoordRepType             CoordRepType;
   typedef typename Superclass::PointIdentifier          PointIdentifier;
   typedef typename Superclass::NeighborsIdentifierType  NeighborsIdentifierType;
@@ -201,9 +202,13 @@ public:
   /** Get the noise kernel sigma for the anistropic covariances. */
   itkGetConstMacro( KernelSigma, RealType );
 
-  virtual MeasureType GetLocalNeighborhoodValue( const PointType & point) const;
+  virtual MeasureType GetLocalNeighborhoodValue( const PointType & point, const PixelType & pixel = 0 ) const;
 
-  virtual void GetLocalNeighborhoodValueAndDerivative( const PointType &, MeasureType &, LocalDerivativeType & ) const;
+  virtual void GetLocalNeighborhoodValueAndDerivative( const PointType &, MeasureType &, LocalDerivativeType &, const PixelType & pixel = 0 ) const;
+
+  /** Clone method will clone the existing instance of this type,
+   *  including its internal member variables. */
+  virtual ::itk::LightObject::Pointer Clone( void ) const;
 
 protected:
   JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4();
