@@ -434,6 +434,8 @@ bool videosMatch(char* file1, char* file2)
     // Test Writing
     //
 
+    // Create the VideoIO
+    itk::VXLVideoIO::Pointer vxlIO_write = itk::VXLVideoIO::New();
 
     //////
     // SetWriterParameters
@@ -444,11 +446,11 @@ bool videosMatch(char* file1, char* file2)
     std::vector<itk::SizeValueType> size;
     size.push_back(width);
     size.push_back(height);
-    vxlIO->SetWriterParameters(fps, size, fourCC, nChannels, itk::ImageIOBase::UCHAR);
+    vxlIO_write->SetWriterParameters(fps, size, fourCC, nChannels, itk::ImageIOBase::UCHAR);
 
     // Make sure they set correctly
-    if (vxlIO->GetFramesPerSecond() != fps || vxlIO->GetDimensions(0) != width ||
-        vxlIO->GetDimensions(1) != height || vxlIO->GetNumberOfComponents() != nChannels)
+    if (vxlIO_write->GetFramesPerSecond() != fps || vxlIO_write->GetDimensions(0) != width ||
+        vxlIO_write->GetDimensions(1) != height || vxlIO_write->GetNumberOfComponents() != nChannels)
       {
       std::cerr << "Didn't set writer parmeters correctly" << std::endl;
       ret = EXIT_FAILURE;
@@ -460,14 +462,14 @@ bool videosMatch(char* file1, char* file2)
     std::cout << "VXLVideoIO::CanWriteFile..." << std::endl;
 
     // Test CanWriteFile on good filename
-    if (!vxlIO->CanWriteFile(output))
+    if (!vxlIO_write->CanWriteFile(output))
       {
       std::cerr << "CanWriteFile didn't return true correctly" << std::endl;
       ret = EXIT_FAILURE;
       }
 
     // Test CanWriteFile on bad filename
-    if (vxlIO->CanWriteFile("asdfasdfasdf"))
+    if (vxlIO_write->CanWriteFile("asdfasdfasdf"))
       {
       std::cerr << "CanWriteFile should have failed for bad filename" << std::endl;
       ret = EXIT_FAILURE;
@@ -480,32 +482,30 @@ bool videosMatch(char* file1, char* file2)
     std::cout << "VXLVIdeoIO::Write..." << std::endl;
 
     // Set output filename
-    vxlIO->SetFileName( output );
+    vxlIO_write->SetFileName( output );
 
     // Set up a second VideoIO to read while we're writing
-    itk::VXLVideoIO::Pointer vxlIO2 = itk::VXLVideoIO::New();
-    vxlIO2->SetFileName( input );
-    vxlIO2->ReadImageInformation();
+    itk::VXLVideoIO::Pointer vxlIO_read = itk::VXLVideoIO::New();
+    vxlIO_read->SetFileName( input );
+    vxlIO_read->ReadImageInformation();
 
     // Loop through all frames to read with opencvIO2 and write with opencvIO
+    // Set up a buffer to read to
+
     for (unsigned int i = 0; i < inNumFrames; ++i)
       {
-
-      // Set up a buffer to read to
-      PixelType buffer2[ vxlIO2->GetImageSizeInBytes() ];
-
+      PixelType buffer2[ vxlIO_read->GetImageSizeInBytes() ];
       // Read into the buffer
-      vxlIO2->Read(static_cast<void*>(buffer2));
+      vxlIO_read->Read(static_cast<void*>(buffer2));
 
       // Write out the frame from the buffer
-      vxlIO->Write(static_cast<void*>(buffer2));
-
+      vxlIO_write->Write(static_cast<void*>(buffer2));
       }
 
-    // Finish writing and reading
-    vxlIO2->FinishReadingOrWriting();
-    vxlIO->FinishReadingOrWriting();
 
+    // Finish writing and reading
+    vxlIO_read->FinishReadingOrWriting();
+    vxlIO_write->FinishReadingOrWriting();
 
     std::cout<<"Done !"<<std::endl;
     return ret;

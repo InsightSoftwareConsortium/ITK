@@ -98,7 +98,7 @@ int vidl_itk_istreamTestWithPixelType(char* argv[], vidl_pixel_format expectedFo
 
   // Return success
   delete istream;
-  delete ostream;
+  //delete ostream;   //BUG?  Can not close ostream
   return EXIT_SUCCESS;
 }
 
