@@ -23,9 +23,31 @@
 namespace itk
 {
 
-/** Retrieve an attribute by key (throw exception if not found). */
-const std::string&
-DOMNode::GetAttribute( const std::string& key ) const throw (ExceptionObject)
+DOMNode::DOMNode() : m_Parent( NULL )
+{
+}
+
+void
+DOMNode::SetParent( DOMNode* node )
+{
+  this->m_Parent = node;
+}
+
+DOMNode*
+DOMNode::GetParent()
+{
+  return this->m_Parent;
+}
+
+const DOMNode*
+DOMNode::GetParent() const
+{
+  return this->m_Parent;
+}
+
+/** Retrieve an attribute by key (return an empty string if not found). */
+std::string
+DOMNode::GetAttribute( const std::string& key ) const
 {
   // "id" is a special attribute
   if ( StringTools::MatchWith(key,"id") )
@@ -36,9 +58,12 @@ DOMNode::GetAttribute( const std::string& key ) const throw (ExceptionObject)
   AttributesContainer::const_iterator i = this->m_Attributes.find( key );
   if ( i == this->m_Attributes.end() )
     {
-    itkExceptionMacro( "attribute does not exist" );
+    return "";
     }
-  return i->second;
+  else
+    {
+    return i->second;
+    }
 }
 
 /** Check whether has an attribute. */
@@ -63,31 +88,64 @@ DOMNode::SetAttribute( const std::string& key, const std::string& value )
   AttributesContainer::iterator i = this->m_Attributes.find( key );
   if ( i == this->m_Attributes.end() )
     {
-    i = this->m_Attributes.insert( this->m_Attributes.begin(), AttributeItemType(key,value) );
+    // add a new attribute
+    this->m_Attributes[key] = value;
+    // keep track of the adding order
+    i = this->m_Attributes.find( key );
+    this->m_OrderedAttributes.push_back( &(*i) );
     }
   else
     {
+    // replace an existing attribute
     i->second = value;
     }
 }
 
 /** Remove an attribute by key (throw exception if not found). */
 void
-DOMNode::RemoveAttribute( const std::string& key ) throw (ExceptionObject)
+DOMNode::RemoveAttribute( const std::string& key )
 {
   AttributesContainer::iterator i = this->m_Attributes.find( key );
   if ( i == this->m_Attributes.end() )
     {
     itkExceptionMacro( "attribute does not exist" );
     }
+
+  // remove it from the ordered container first
+  for ( OrderedAttributesContainer::iterator j = this->m_OrderedAttributes.begin(); j != this->m_OrderedAttributes.end(); j++ )
+    {
+    if ( (*j)->first == key )
+      {
+      this->m_OrderedAttributes.erase( j );
+      break;
+      }
+    }
+
+  // then remove it from the map container
   this->m_Attributes.erase( i );
 }
 
-/** Return all attributes. */
+/**
+ * Return all attributes, in the order of being parsed or added (default),
+ * or alphabetic order of the attribute keys (keepOriginalOrder = false).
+ */
 void
-DOMNode::GetAttributes( AttributesListType& output ) const
+DOMNode::GetAllAttributes( AttributesListType& output, bool keepOriginalOrder ) const
 {
-  output.insert( this->m_Attributes.begin(), this->m_Attributes.end() );
+  if ( keepOriginalOrder )
+    {
+    for ( OrderedAttributesContainer::const_iterator i = this->m_OrderedAttributes.begin(); i != this->m_OrderedAttributes.end(); i++ )
+      {
+      output.push_back( *(*i) );
+      }
+    }
+  else
+    {
+    for ( AttributesContainer::const_iterator i = this->m_Attributes.begin(); i != this->m_Attributes.end(); i++ )
+      {
+      output.push_back( *i );
+      }
+    }
 }
 
 /** Remove all attributes. */
@@ -95,6 +153,7 @@ void
 DOMNode::RemoveAllAttributes()
 {
   this->m_Attributes.clear();
+  this->m_OrderedAttributes.clear();
 }
 
 /** Get number of children. */
@@ -106,7 +165,7 @@ DOMNode::GetNumberOfChildren() const
 
 /** Return all children. */
 void
-DOMNode::GetChildren( ChildrenListType& output )
+DOMNode::GetAllChildren( ChildrenListType& output )
 {
   for ( IdentifierType i = 0; i < static_cast<IdentifierType>(this->GetNumberOfChildren()); i++ )
     {
@@ -117,7 +176,7 @@ DOMNode::GetChildren( ChildrenListType& output )
 
 /** Return all children for read-only access. */
 void
-DOMNode::GetChildren( ConstChildrenListType& output ) const
+DOMNode::GetAllChildren( ConstChildrenListType& output ) const
 {
   for ( IdentifierType i = 0; i < static_cast<IdentifierType>(this->GetNumberOfChildren()); i++ )
     {
@@ -163,7 +222,7 @@ DOMNode::RemoveAllChildren()
 
 /** Add a child in front of another child (throw exception if not able to add). */
 void
-DOMNode::AddChild( DOMNode* node, IdentifierType i ) throw (ExceptionObject)
+DOMNode::AddChild( DOMNode* node, IdentifierType i )
 {
   if ( this->m_Children.size() == 0 )
     {
@@ -187,7 +246,7 @@ DOMNode::AddChild( DOMNode* node, IdentifierType i ) throw (ExceptionObject)
 
 /** Add a child in front of the children list (throw exception if not able to add). */
 void
-DOMNode::AddChildAtBegin( DOMNode* node ) throw (ExceptionObject)
+DOMNode::AddChildAtBegin( DOMNode* node )
 {
   if ( node == NULL || this->ShareRoot(node) )
     {
@@ -200,7 +259,7 @@ DOMNode::AddChildAtBegin( DOMNode* node ) throw (ExceptionObject)
 
 /** Add a child at the end of the children list (throw exception if not able to add). */
 void
-DOMNode::AddChildAtEnd( DOMNode* node ) throw (ExceptionObject)
+DOMNode::AddChildAtEnd( DOMNode* node )
 {
   if ( node == NULL || this->ShareRoot(node) )
     {
@@ -213,7 +272,7 @@ DOMNode::AddChildAtEnd( DOMNode* node ) throw (ExceptionObject)
 
 /** Replace a child (throw exception if not able to replace). */
 void
-DOMNode::SetChild( DOMNode* node, IdentifierType i ) throw (ExceptionObject)
+DOMNode::SetChild( DOMNode* node, IdentifierType i )
 {
   if ( node == NULL || this->ShareRoot(node) )
     {
@@ -231,7 +290,7 @@ DOMNode::SetChild( DOMNode* node, IdentifierType i ) throw (ExceptionObject)
 
 /** Remove a child by index (throw exception if out of range). */
 void
-DOMNode::RemoveChild( IdentifierType i ) throw (ExceptionObject)
+DOMNode::RemoveChild( IdentifierType i )
 {
   if ( i < 0 || i >= static_cast<IdentifierType>(m_Children.size()) )
     {
@@ -242,7 +301,7 @@ DOMNode::RemoveChild( IdentifierType i ) throw (ExceptionObject)
   this->m_Children.erase( this->m_Children.begin() + i );
 }
 
-/** Clear attributes and children. */
+/** Remove all attributes and children. */
 void
 DOMNode::RemoveAllAttributesAndChildren()
 {

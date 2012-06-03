@@ -24,7 +24,7 @@
 
 #include <string>
 #include <vector>
-#include <set>
+#include <list>
 #include <map>
 
 namespace itk
@@ -75,16 +75,16 @@ public:
   typedef std::pair<const AttributeKeyType,AttributeValueType> AttributeItemType;
 
   /** Container to return the attributes of a DOM node. */
-  typedef std::set<AttributeItemType> AttributesListType;
+  typedef std::list<AttributeItemType> AttributesListType;
 
   typedef std::size_t SizeType;
   typedef int         IdentifierType;
   typedef int         OffsetType;
 
   /** Retrieve the parent node. */
-  itkSetObjectMacro( Parent, DOMNode );
-  itkGetObjectMacro( Parent, DOMNode );
-  itkGetConstObjectMacro( Parent, DOMNode );
+  virtual void SetParent( DOMNode* node );
+  DOMNode* GetParent();
+  const DOMNode* GetParent() const;
 
   /** Retrieve the tag name of this node. */
   itkSetMacro( Name, std::string& );
@@ -94,17 +94,20 @@ public:
   itkSetMacro( ID, std::string& );
   itkGetConstReferenceMacro( ID, std::string );
 
-  /** Retrieve an attribute by key (throw exception if not found). */
-  virtual const std::string& GetAttribute( const std::string& key ) const throw (ExceptionObject);
+  /** Retrieve an attribute by key (return an empty string if not found). */
+  virtual std::string GetAttribute( const std::string& key ) const;
   /** Check whether has an attribute. */
   virtual bool HasAttribute( const std::string& key ) const;
   /** Add or replace an attribute. */
   virtual void SetAttribute( const std::string& key, const std::string& value );
   /** Remove an attribute by key (throw exception if not found). */
-  virtual void RemoveAttribute( const std::string& key ) throw (ExceptionObject);
+  virtual void RemoveAttribute( const std::string& key );
 
-  /** Return all attributes. */
-  virtual void GetAttributes( AttributesListType& output ) const;
+  /**
+   * Return all attributes, in the order of being parsed or added (default),
+   * or alphabetic order of the attribute keys (keepOriginalOrder = false).
+   */
+  virtual void GetAllAttributes( AttributesListType& output, bool keepOriginalOrder = true ) const;
   /** Remove all attributes. */
   virtual void RemoveAllAttributes();
 
@@ -112,9 +115,9 @@ public:
   virtual SizeType GetNumberOfChildren() const;
 
   /** Return all children. */
-  virtual void GetChildren( ChildrenListType& output );
+  virtual void GetAllChildren( ChildrenListType& output );
   /** Return all children for read-only access. */
-  virtual void GetChildren( ConstChildrenListType& output ) const;
+  virtual void GetAllChildren( ConstChildrenListType& output ) const;
 
   /** Return all children of a same tag name. */
   virtual void GetChildren( const std::string& tag, ChildrenListType& output );
@@ -125,19 +128,19 @@ public:
   virtual void RemoveAllChildren();
 
   /** Add a child in front of another child (throw exception if not able to add). */
-  virtual void AddChild( DOMNode* node, IdentifierType i=0 ) throw (ExceptionObject);
+  virtual void AddChild( DOMNode* node, IdentifierType i=0 );
   /** Add a child in front of the children list (throw exception if not able to add). */
-  virtual void AddChildAtBegin( DOMNode* node ) throw (ExceptionObject);
+  virtual void AddChildAtBegin( DOMNode* node );
   /** Add a child at the end of the children list (throw exception if not able to add). */
-  virtual void AddChildAtEnd( DOMNode* node ) throw (ExceptionObject);
+  virtual void AddChildAtEnd( DOMNode* node );
 
   /** Replace a child (throw exception if not able to replace). */
-  virtual void SetChild( DOMNode* node, IdentifierType i=0 ) throw (ExceptionObject);
+  virtual void SetChild( DOMNode* node, IdentifierType i=0 );
 
   /** Remove a child by index (throw exception if not able to remove). */
-  virtual void RemoveChild( IdentifierType i=0 ) throw (ExceptionObject);
+  virtual void RemoveChild( IdentifierType i=0 );
 
-  /** Clear attributes and children. */
+  /** Remove all attributes and children. */
   virtual void RemoveAllAttributesAndChildren();
 
   /** Retrieve a child by index (return NULL if i is out of range). */
@@ -199,11 +202,11 @@ public:
   virtual void SetTextChild( const std::string& text, IdentifierType i=0 );
 
 protected:
-  DOMNode() {}
+  DOMNode();
 
 private:
   /** The parent node that this node was placed into. */
-  Pointer m_Parent;
+  DOMNode* m_Parent;
 
   /** The XML tag of this node. */
   std::string m_Name;
@@ -218,6 +221,10 @@ private:
   /** Internally the attributes are stored in a map. */
   typedef std::map<AttributeKeyType,AttributeValueType> AttributesContainer;
   AttributesContainer m_Attributes;
+
+  /** Container to keep the inserting orders of the attributes. */
+  typedef std::list<AttributeItemType*> OrderedAttributesContainer;
+  OrderedAttributesContainer m_OrderedAttributes;
 
   DOMNode(const Self &); //purposely not implemented
   void operator=(const Self &); //purposely not implemented

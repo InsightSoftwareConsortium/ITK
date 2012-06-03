@@ -61,7 +61,7 @@ DOMNodeXMLWriter::Update( std::ostream& os, std::string indent )
   // write other attributes
   typedef InputType::AttributesListType AttributesListType;
   AttributesListType attributes;
-  input->GetAttributes( attributes );
+  input->GetAllAttributes( attributes );
   for ( AttributesListType::iterator i = attributes.begin(); i != attributes.end(); ++i )
     {
     os << " " << i->first << "=\"" << i->second << "\"";
@@ -70,7 +70,7 @@ DOMNodeXMLWriter::Update( std::ostream& os, std::string indent )
   // write the ending of the start tag, and all children if applicable
   typedef InputType::ConstChildrenListType ConstChildrenListType;
   ConstChildrenListType children;
-  input->GetChildren( children );
+  input->GetAllChildren( children );
   if ( children.size() )
     {
     // write the closing bracket for the start tag
