@@ -492,6 +492,9 @@ protected:
    * sub-transform. */
   // void UnifyParameterMemory(void);
 
+  /** Temporary to save time return number of local parameters */
+  mutable NumberOfParametersType m_NumberOfLocalParameters;
+
   /** Transform container object. */
   mutable TransformQueueType m_TransformQueue;
 
@@ -505,6 +508,8 @@ private:
   void operator=( const Self & );     // purposely not implemented
 
   mutable unsigned long m_PreviousTransformsToOptimizeUpdateTime;
+  mutable unsigned long m_LocalParametersUpdateTime;
+
 };
 
 } // end namespace itk
