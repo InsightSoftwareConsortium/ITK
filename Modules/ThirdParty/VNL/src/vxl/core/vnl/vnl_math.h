@@ -80,35 +80,45 @@ short    vnl_huge_val(short);
 char     vnl_huge_val(char);
 
 //: real numerical constants
-class vnl_math
+namespace vnl_math
 {
- public:
+
+  /* Strictly speaking, the static declaration of the constant
+   * variables is redundant with the implicit behavior in C++
+   * of objects declared const as defined at:
+   *   "C++98 7.1.1/6: ...Objects declared const and
+   *    not explicitly declared extern have internal
+   *    linkage."
+   *
+   *  Explicit use of the static key word is used to make the
+   *  code easier to understand.
+   */
   //: pi, e and all that
-  static VNL_DLL_DATA const double e                VCL_STATIC_CONST_INIT_FLOAT_DECL(2.7182818284590452354);
-  static VNL_DLL_DATA const double log2e            VCL_STATIC_CONST_INIT_FLOAT_DECL(1.4426950408889634074);
-  static VNL_DLL_DATA const double log10e           VCL_STATIC_CONST_INIT_FLOAT_DECL(0.43429448190325182765);
-  static VNL_DLL_DATA const double ln2              VCL_STATIC_CONST_INIT_FLOAT_DECL(0.69314718055994530942);
-  static VNL_DLL_DATA const double ln10             VCL_STATIC_CONST_INIT_FLOAT_DECL(2.30258509299404568402);
-  static VNL_DLL_DATA const double pi               VCL_STATIC_CONST_INIT_FLOAT_DECL(3.14159265358979323846);
-  static VNL_DLL_DATA const double pi_over_2        VCL_STATIC_CONST_INIT_FLOAT_DECL(1.57079632679489661923);
-  static VNL_DLL_DATA const double pi_over_4        VCL_STATIC_CONST_INIT_FLOAT_DECL(0.78539816339744830962);
-  static VNL_DLL_DATA const double one_over_pi      VCL_STATIC_CONST_INIT_FLOAT_DECL(0.31830988618379067154);
-  static VNL_DLL_DATA const double two_over_pi      VCL_STATIC_CONST_INIT_FLOAT_DECL(0.63661977236758134308);
-  static VNL_DLL_DATA const double two_over_sqrtpi  VCL_STATIC_CONST_INIT_FLOAT_DECL(1.12837916709551257390);
-  static VNL_DLL_DATA const double one_over_sqrt2pi VCL_STATIC_CONST_INIT_FLOAT_DECL(0.39894228040143267794);
-  static VNL_DLL_DATA const double sqrt2            VCL_STATIC_CONST_INIT_FLOAT_DECL(1.41421356237309504880);
-  static VNL_DLL_DATA const double sqrt1_2          VCL_STATIC_CONST_INIT_FLOAT_DECL(0.70710678118654752440);
-  static VNL_DLL_DATA const double euler            VCL_STATIC_CONST_INIT_FLOAT_DECL(0.57721566490153286061);
+ static const double e                = 2.7182818284590452354;
+ static const double log2e            = 1.4426950408889634074;
+ static const double log10e           = 0.43429448190325182765;
+ static const double ln2              = 0.69314718055994530942;
+ static const double ln10             = 2.30258509299404568402;
+ static const double pi               = 3.14159265358979323846;
+ static const double pi_over_2        = 1.57079632679489661923;
+ static const double pi_over_4        = 0.78539816339744830962;
+ static const double one_over_pi      = 0.31830988618379067154;
+ static const double two_over_pi      = 0.63661977236758134308;
+ static const double two_over_sqrtpi  = 1.12837916709551257390;
+ static const double one_over_sqrt2pi = 0.39894228040143267794;
+ static const double sqrt2            = 1.41421356237309504880;
+ static const double sqrt1_2          = 0.70710678118654752440;
+ static const double euler            = 0.57721566490153286061;
 
   //: IEEE double machine precision
-  static VNL_DLL_DATA const double eps             VCL_STATIC_CONST_INIT_FLOAT_DECL(2.2204460492503131e-16);
-  static VNL_DLL_DATA const double sqrteps         VCL_STATIC_CONST_INIT_FLOAT_DECL(1.490116119384766e-08);
+ static const double eps             = 2.2204460492503131e-16;
+ static const double sqrteps         = 1.490116119384766e-08;
   //: IEEE single machine precision
-  static VNL_DLL_DATA const float float_eps        VCL_STATIC_CONST_INIT_FLOAT_DECL(1.192092896e-07f);
-  static VNL_DLL_DATA const float float_sqrteps    VCL_STATIC_CONST_INIT_FLOAT_DECL(3.4526698307e-4f);
+ static const float float_eps        = 1.192092896e-07f;
+ static const float float_sqrteps    = 3.4526698307e-4f;
 //: Convert an angle to [0, 2Pi) range
-  static double angle_0_to_2pi(double angle);
-};
+ double angle_0_to_2pi(double angle);
+}
 
 // We do not want to make assumptions about unknown types that happen
 // to have conversions to one of the fundamental types.  The templated
