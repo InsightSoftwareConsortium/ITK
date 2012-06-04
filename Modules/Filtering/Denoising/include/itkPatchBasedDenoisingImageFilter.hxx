@@ -1,3 +1,20 @@
+/*=========================================================================
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __itkPatchBasedDenoisingImageFilter_hxx
 #define __itkPatchBasedDenoisingImageFilter_hxx
 
@@ -50,8 +67,6 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   // m_IntensityRescaleInvFactor won't be allocated until Initialize() gets called
   // because we need the input image first.
 }
-
-
 
 template <class TInputImage, class TOutputImage>
 void
@@ -470,7 +485,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
                         "InitializePatchWeightsSmoothDisc called ...\n");
 
   typedef itk::Image<float,ImageDimension> WeightsImageType;
-  typedef float DistanceType;
+  typedef float                            DistanceType;
 
   const unsigned int patchRadius = this->GetPatchRadius();
 
@@ -549,9 +564,9 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   typedef itk::ResampleImageFilter<
     WeightsImageType, WeightsImageType > ResampleFilterType;
   typedef itk::IdentityTransform<
-    double, ImageDimension > TransformType;
+    double, ImageDimension >             TransformType;
   typedef itk::LinearInterpolateImageFunction<
-    WeightsImageType, double > InterpolatorType;
+    WeightsImageType, double >           InterpolatorType;
 
   typename ResampleFilterType::Pointer  resampler = ResampleFilterType::New();
   typename InterpolatorType::Pointer interpolator = InterpolatorType::New();
@@ -660,7 +675,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::DispatchedArrayMinMax(const InputImageType* img)
 {
   typedef NthElementImageAdaptor<InputImageType, PixelValueType> AdaptorType;
-  typedef MinimumMaximumImageFilter<AdaptorType>         MinMaxFilter;
+  typedef MinimumMaximumImageFilter<AdaptorType>                 MinMaxFilter;
 
   typename AdaptorType::Pointer adaptor = AdaptorType::New();
   adaptor->SetImage(const_cast<InputImageType*>(img));
@@ -767,7 +782,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   // with respect to identity
   typedef typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>
     FaceCalculatorType;
-  typedef typename FaceCalculatorType::FaceListType FaceListType;
+  typedef typename FaceCalculatorType::FaceListType
+    FaceListType;
 
   typename InputImageType::SizeType radius;
   radius.Fill(1);
@@ -915,12 +931,12 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
                                                     RealType& symMatrixLogMap, RealArrayType& geodesicDist)
 {
 
-  typedef typename PixelType::EigenValuesArrayType EigenValuesArrayType;
+  typedef typename PixelType::EigenValuesArrayType   EigenValuesArrayType;
   typedef typename PixelType::EigenVectorsMatrixType EigenVectorsMatrixType;
-  typedef typename PixelType::MatrixType MatrixType;
-  typedef typename RealType::EigenValuesArrayType RealEigenValuesArrayType;
-  typedef typename RealType::EigenVectorsMatrixType RealEigenVectorsMatrixType;
-  typedef typename RealType::MatrixType RealMatrixType;
+  typedef typename PixelType::MatrixType             MatrixType;
+  typedef typename RealType::EigenValuesArrayType    RealEigenValuesArrayType;
+  typedef typename RealType::EigenVectorsMatrixType  RealEigenVectorsMatrixType;
+  typedef typename RealType::MatrixType              RealMatrixType;
   EigenValuesArrayType eigenVals;
   EigenVectorsMatrixType eigenVecs;
   RealEigenValuesArrayType realEigenVals;
@@ -1020,9 +1036,9 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::AddExponentialMapUpdate(const DiffusionTensor3D<RealValueType>& spdMatrix,
                           const DiffusionTensor3D<RealValueType>& symMatrix)
 {
-  typedef typename RealType::EigenValuesArrayType RealEigenValuesArrayType;
+  typedef typename RealType::EigenValuesArrayType   RealEigenValuesArrayType;
   typedef typename RealType::EigenVectorsMatrixType RealEigenVectorsMatrixType;
-  typedef typename RealType::MatrixType RealMatrixType;
+  typedef typename RealType::MatrixType             RealMatrixType;
 
   RealEigenValuesArrayType eigenVals;
   RealEigenVectorsMatrixType eigenVecs;
@@ -1343,9 +1359,12 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   //
   typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<OutputImageType>
     FaceCalculatorType;
-  typedef typename FaceCalculatorType::FaceListType FaceListType;
-  typedef typename ListAdaptorType::ConstIterator SampleIteratorType;
-  typedef typename OutputImageType::IndexType IndexType;
+  typedef typename FaceCalculatorType::FaceListType
+    FaceListType;
+  typedef typename ListAdaptorType::ConstIterator
+    SampleIteratorType;
+  typedef typename OutputImageType::IndexType
+    IndexType;
 
   const PatchRadiusType radius = this->GetPatchRadiusInVoxels();
 
@@ -1536,15 +1555,13 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 
         probJointEntropy[ic] += gaussianJointEntropy;
 
-        const RealValueType factorJoint
-          = squaredNorm[ic] / pow(sigmaKernel, 3.0) - (lengthPatch * 1 / sigmaKernel);
+        const RealValueType factorJoint = squaredNorm[ic] / pow(sigmaKernel, 3.0)
+          - (lengthPatch * 1 / sigmaKernel);
 
         probJointEntropyFirstDerivative[ic] += gaussianJointEntropy * factorJoint;
-        probJointEntropySecondDerivative[ic]
-          += gaussianJointEntropy
-          * (vnl_math_sqr(factorJoint) +
-             (lengthPatch * 1 / vnl_math_sqr(sigmaKernel)) -
-             (3.0 * squaredNorm[ic] / pow(sigmaKernel, 4.0)));
+        probJointEntropySecondDerivative[ic] += gaussianJointEntropy *
+          (vnl_math_sqr(factorJoint) + (lengthPatch * 1 / vnl_math_sqr(sigmaKernel)) -
+           (3.0 * squaredNorm[ic] / pow(sigmaKernel, 4.0)));
         if (m_ComputeConditionalDerivatives)
         {
           const RealValueType distancePatchEntropySquared = squaredNorm[ic] - centerPatchSquaredNorm[ic];
@@ -1665,11 +1682,11 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     {
       if (m_ThreadData[threadNum].validDerivatives[ic] > 0)
       {
-        firstDerivative  += m_ThreadData[threadNum].entropyFirstDerivative[ic];
+        firstDerivative += m_ThreadData[threadNum].entropyFirstDerivative[ic];
         secondDerivative += m_ThreadData[threadNum].entropySecondDerivative[ic];
       }
     }
-    firstDerivative  /= static_cast<RealValueType>(m_TotalNumberPixels);
+    firstDerivative /= static_cast<RealValueType>(m_TotalNumberPixels);
     secondDerivative /= static_cast<RealValueType>(m_TotalNumberPixels);
     {
       std::ostringstream msg;
@@ -1809,9 +1826,12 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   //
   typedef typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<OutputImageType>
     FaceCalculatorType;
-  typedef typename FaceCalculatorType::FaceListType FaceListType;
-  typedef typename ListAdaptorType::ConstIterator            SampleIteratorType;
-  typedef GaussianOperator<RealValueType, OutputImageType::ImageDimension> GaussianOperatorType;
+  typedef typename FaceCalculatorType::FaceListType
+    FaceListType;
+
+  typedef typename ListAdaptorType::ConstIterator SampleIteratorType;
+  typedef GaussianOperator<RealValueType,
+    OutputImageType::ImageDimension>              GaussianOperatorType;
 
   const PatchRadiusType radius = this->GetPatchRadiusInVoxels();
 
