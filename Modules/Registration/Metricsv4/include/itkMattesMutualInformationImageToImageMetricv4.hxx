@@ -48,13 +48,14 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualIma
   m_ThreaderJointPDFDerivatives(0),
   m_ThreaderJointPDFStartBin(0),
   m_ThreaderJointPDFEndBin(0),
-  m_ThreaderJointPDFSum(0)
+  m_ThreaderJointPDFSum(0),
+
+  m_ComputeDerivative(0)
 {
   // We have our own GetValueAndDerivativeThreader's that we want
   // ImageToImageMetricv4 to use.
   this->m_DenseGetValueAndDerivativeThreader  = MattesMutualInformationDenseGetValueAndDerivativeThreaderType::New();
   this->m_SparseGetValueAndDerivativeThreader = MattesMutualInformationSparseGetValueAndDerivativeThreaderType::New();
-
 }
 
 template < class TFixedImage, class TMovingImage, class TVirtualImage >
@@ -100,10 +101,15 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
   itk::ImageRegionConstIteratorWithIndex<TFixedImage> fi(this->m_FixedImage, this->m_FixedImage->GetBufferedRegion() );
   while( !fi.IsAtEnd() )
     {
-    typename TFixedImage::PointType fixedSpacePhysicalPoint;
-    this->m_FixedImage->TransformIndexToPhysicalPoint(fi.GetIndex(), fixedSpacePhysicalPoint);
-    if( this->m_FixedImageMask.IsNull()  // A null mask implies entire space is to be used.
-        || this->m_FixedImageMask->IsInside(fixedSpacePhysicalPoint) )
+    bool usePoint = true;
+    if( ! this->m_FixedImageMask.IsNull() )
+      {
+      // A null mask implies entire space is to be used.
+      typename TFixedImage::PointType fixedSpacePhysicalPoint;
+      this->m_FixedImage->TransformIndexToPhysicalPoint(fi.GetIndex(), fixedSpacePhysicalPoint);
+      usePoint = this->m_FixedImageMask->IsInside(fixedSpacePhysicalPoint);
+      }
+    if( usePoint )
       {
       const typename TFixedImage::PixelType currValue = fi.Get();
       this->m_FixedImageTrueMin = (m_FixedImageTrueMin < currValue) ? this->m_FixedImageTrueMin : currValue;
@@ -117,10 +123,14 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
                                                           this->m_MovingImage->GetBufferedRegion() );
   while( !mi.IsAtEnd() )
     {
-    typename TMovingImage::PointType movingSpacePhysicalPoint;
-    this->m_MovingImage->TransformIndexToPhysicalPoint(mi.GetIndex(), movingSpacePhysicalPoint);
-    if( this->m_MovingImageMask.IsNull()  // A null mask implies entire space is to be used.
-        || this->m_MovingImageMask->IsInside(movingSpacePhysicalPoint) )
+    bool usePoint = true;
+    if( ! this->m_MovingImageMask.IsNull() )
+      { // A null mask implies entire space is to be used.
+      typename TMovingImage::PointType movingSpacePhysicalPoint;
+      this->m_MovingImage->TransformIndexToPhysicalPoint(mi.GetIndex(), movingSpacePhysicalPoint);
+      usePoint = this->m_MovingImageMask->IsInside(movingSpacePhysicalPoint);
+      }
+    if( usePoint )
       {
       const typename TMovingImage::PixelType currValue = mi.Get();
       this->m_MovingImageTrueMin = (m_MovingImageTrueMin < currValue) ? this->m_MovingImageTrueMin : currValue;
@@ -130,10 +140,8 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
     }
   }
 
-  itkDebugMacro(" FixedImageMin: " << this->m_FixedImageTrueMin
-                                   << " FixedImageMax: " << this->m_FixedImageTrueMax << std::endl);
-  itkDebugMacro(" MovingImageMin: " << this->m_MovingImageTrueMin
-                                    << " MovingImageMax: " << this->m_MovingImageTrueMax << std::endl);
+  itkDebugMacro(" FixedImageMin: " << this->m_FixedImageTrueMin << " FixedImageMax: " << this->m_FixedImageTrueMax << std::endl);
+  itkDebugMacro(" MovingImageMin: " << this->m_MovingImageTrueMin << " MovingImageMax: " << this->m_MovingImageTrueMax << std::endl);
   }
 
   /**
@@ -173,13 +181,34 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
   }
 
 template <class TFixedImage, class TMovingImage, class TVirtualImage>
+typename MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>::MeasureType
+MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
+::GetValue() const
+{
+  this->m_ComputeDerivative = false;
+
+  this->m_Value = NumericTraits<MeasureType>::Zero;
+
+  DerivativeType derivative;
+  this->m_DerivativeResult = &derivative;
+
+  // This will size and initialize m_DerivativeResult.
+  this->InitializeForIteration();
+
+  // Threaded processing.
+  this->GetValueAndDerivativeExecute();
+
+  return this->m_Value;
+}
+
+template <class TFixedImage, class TMovingImage, class TVirtualImage>
 void
 MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
-::GetValueAndDerivative( MeasureType & value,
-                                      DerivativeType & derivative ) const
+::GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const
 {
-  /* We reimplement this method to more easily drop-in the code from
-   * old MattesMutual metric. */
+  // We reimplement this to be able to set the m_ComputeDerivative flag.
+  // Eventually we expect this flag to be put into the base class.
+  this->m_ComputeDerivative = true;
 
   // Set output values to zero
   value = NumericTraits<MeasureType>::Zero;
@@ -188,15 +217,17 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
   // This will size and initialize m_DerivativeResult.
   this->InitializeForIteration();
 
-  // Threaded processing. In the case of implicit PDF derivative calculation, this
-  // is the first pass.
+  // Threaded processing.
   this->GetValueAndDerivativeExecute();
 
+  value = this->m_Value;
+}
 
-//  Superclass::GetValueAndDerivative( value, derivative );
-
-//////////////////
-
+template <class TFixedImage, class TMovingImage, class TVirtualImage>
+void
+MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
+::ComputeResults() const
+{
   // Collect some results
   for( ThreadIdType threadID = 1; threadID < this->GetNumberOfThreadsUsed(); threadID++ )
     {
@@ -282,52 +313,56 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
         sum += jointPDFValue * ( pRatio - vcl_log(fixedImagePDFValue) );
         }
 
-      if( ! this->HasLocalSupport() )
+      if( this->m_ComputeDerivative )
         {
-        // Collect global derivative contributions
-
-        // move joint pdf derivative pointer to the right position
-        JointPDFValueType const * derivPtr = this->m_ThreaderJointPDFDerivatives[0]->GetBufferPointer()
-          + ( fixedIndex  * this->m_ThreaderJointPDFDerivatives[0]->GetOffsetTable()[2] )
-          + ( movingIndex * this->m_ThreaderJointPDFDerivatives[0]->GetOffsetTable()[1] );
-        for( unsigned int parameter = 0; parameter < this->GetNumberOfLocalParameters(); ++parameter, derivPtr++ )
+        if( ! this->HasLocalSupport() )
           {
-          // Ref: eqn 23 of Thevenaz & Unser paper [3]
-          // 'derivative' is pointed to by m_DerivativeReturn
-          derivative[parameter] -= ( *derivPtr ) * pRatio;
-          }  // end for-loop over parameters
-        }
-      else
-        {
-        // Collect the pRatio per pdf indecies.
-        // Will be applied subsequently to local-support derivative
-        OffsetValueType index = movingIndex + (fixedIndex * this->m_NumberOfHistogramBins);
-        this->m_PRatioArray[index] = pRatio * nFactor;
+          // Collect global derivative contributions
+
+          // move joint pdf derivative pointer to the right position
+          JointPDFValueType const * derivPtr = this->m_ThreaderJointPDFDerivatives[0]->GetBufferPointer()
+            + ( fixedIndex  * this->m_ThreaderJointPDFDerivatives[0]->GetOffsetTable()[2] )
+            + ( movingIndex * this->m_ThreaderJointPDFDerivatives[0]->GetOffsetTable()[1] );
+          for( unsigned int parameter = 0; parameter < this->GetNumberOfLocalParameters(); ++parameter, derivPtr++ )
+            {
+            // Ref: eqn 23 of Thevenaz & Unser paper [3]
+            (*(this->m_DerivativeResult))[parameter] += ( *derivPtr ) * pRatio;
+            }  // end for-loop over parameters
+          }
+        else
+          {
+          // Collect the pRatio per pdf indecies.
+          // Will be applied subsequently to local-support derivative
+          OffsetValueType index = movingIndex + (fixedIndex * this->m_NumberOfHistogramBins);
+          this->m_PRatioArray[index] = pRatio * nFactor;
+          }
         }
       }   // end for-loop over moving index
     }     // end for-loop over fixed index
 
   // Apply the pRatio and sum the per-window derivative
   // contributions, in the local-support case.
-  if( this->HasLocalSupport() )
+  if( this->m_ComputeDerivative )
     {
-    for( SizeValueType i = 0; i < derivative.Size(); i++ )
+    if( this->HasLocalSupport() )
       {
-      for( SizeValueType bin = 0; bin < 4; bin++ )
+      for( SizeValueType i = 0; i < this->m_DerivativeResult->Size(); i++ )
         {
-        // Increment the m_JointPdfIndex1DArray index by bin in order to recover
-        // the pRatio at the moving indecies used for each portion of the derivative.
-        SizeValueType pRatioIndex = this->m_JointPdfIndex1DArray[i] + bin;
-        derivative[i] += m_LocalDerivativeByParzenBin[bin][i] * this->m_PRatioArray[pRatioIndex];
+        for( SizeValueType bin = 0; bin < 4; bin++ )
+          {
+          // Increment the m_JointPdfIndex1DArray index by bin in order to recover
+          // the pRatio at the moving indecies used for each portion of the derivative.
+          // Note: in old v3 metric ComputeDerivatives, derivativeContribution is subtracted in global case,
+          // but added in "local" (implicit) case. These operations have been switched to minimize the metric.
+          SizeValueType pRatioIndex = this->m_JointPdfIndex1DArray[i] + bin;
+          (*(this->m_DerivativeResult))[i] -= m_LocalDerivativeByParzenBin[bin][i] * this->m_PRatioArray[pRatioIndex];
+          }
         }
       }
     }
 
   // in ITKv4, metrics always minimize
-  // Note: in old metric ComputeDerivatives, derivativeContribution is subtracted in global case, but added in "local" (implicit) case.
-  //FIXME: derivative could probably be calc'ed from the start to be the negative, thus avoiding this operation
-  derivative = derivative * -1;
-  value = static_cast<MeasureType>( -1.0 * sum );
+  this->m_Value = static_cast<MeasureType>( -1.0 * sum );
 }
 
 /**
@@ -344,8 +379,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
   // separately, but rather as a part of all post-processing.
   for( ThreadIdType threadID = 0; threadID < this->GetNumberOfThreadsUsed(); threadID++ )
     {
-    const int maxI = this->m_NumberOfHistogramBins
-      * ( this->m_ThreaderJointPDFEndBin[threadID] - this->m_ThreaderJointPDFStartBin[threadID] + 1 );
+    const int maxI = this->m_NumberOfHistogramBins * ( this->m_ThreaderJointPDFEndBin[threadID] - this->m_ThreaderJointPDFStartBin[threadID] + 1 );
 
     const unsigned int tPdfPtrOffset = ( this->m_ThreaderJointPDFStartBin[threadID] * this->m_ThreaderJointPDF[0]->GetOffsetTable()[1] );
     JointPDFValueType * const pdfPtrStart = this->m_ThreaderJointPDF[0]->GetBufferPointer() + tPdfPtrOffset;
@@ -401,9 +435,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
   // more difficult to do so and retrieve as needed in an efficient way.
 
   // Determine parzen window arguments (see eqn 6 of Mattes paper [2]).
-  const PDFValueType windowTerm = static_cast<PDFValueType>( value )
-    / this->m_FixedImageBinSize
-    - this->m_FixedImageNormalizedMin;
+  const PDFValueType windowTerm = static_cast<PDFValueType>( value ) / this->m_FixedImageBinSize - this->m_FixedImageNormalizedMin;
   OffsetValueType pindex = static_cast<OffsetValueType>( windowTerm );
 
   // Make sure the extreme values are in valid bins
@@ -425,6 +457,5 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
 }
 
 } // end namespace itk
-
 
 #endif

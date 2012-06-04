@@ -149,6 +149,8 @@ public:
 
   virtual void Initialize(void) throw ( itk::ExceptionObject );
 
+  virtual MeasureType GetValue() const;
+
   /** Calculate and return both the value for the metric and its derivative.
    * Overloaded here to provide special handling.
    */
@@ -269,6 +271,13 @@ protected:
 private:
   MattesMutualInformationImageToImageMetricv4(const Self &); //purposely not implemented
   void operator = (const Self &); //purposely not implemented
+
+  /** Perform the final step in computing results */
+  virtual void ComputeResults( void ) const;
+
+  /** Flag to control whether derivative is computed in addition to metric value */
+  mutable bool m_ComputeDerivative;
+
 };
 
 } // end namespace itk
