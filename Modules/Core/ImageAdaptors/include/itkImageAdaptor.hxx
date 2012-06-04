@@ -160,6 +160,10 @@ ImageAdaptor< TImage, TAccessor >
 
   // delegation to internal image
   m_Image->UpdateOutputInformation();
+
+  // As attributes such as the number of components may have changed
+  // may need to update the accessor
+  this->UpdateAccessor( m_Image.GetPointer() );
 }
 
 //----------------------------------------------------------------------------
@@ -214,6 +218,10 @@ ImageAdaptor< TImage, TAccessor >
 
   // delegation to internal image
   m_Image->CopyInformation(data);
+
+  // As attributes such as the number of components may have changed
+  // may need to update the accessor
+  this->UpdateAccessor( m_Image.GetPointer() );
 }
 
 //----------------------------------------------------------------------------
@@ -323,6 +331,8 @@ ImageAdaptor< TImage, TAccessor >
   Superclass::SetLargestPossibleRegion( m_Image->GetLargestPossibleRegion() );
   Superclass::SetBufferedRegion( m_Image->GetBufferedRegion() );
   Superclass::SetRequestedRegion( m_Image->GetRequestedRegion() );
+
+  this->UpdateAccessor( m_Image.GetPointer() );
 }
 
 //----------------------------------------------------------------------------

@@ -74,7 +74,7 @@ public:
   }
 
   /** Get the value from input */
-  inline ExternalType Get(const InternalType & input, const unsigned long offset) const
+  inline ExternalType Get(const InternalType & input, const SizeValueType offset) const
   {
     ExternalType output( ( &input ) + ( offset * m_OffsetMultiplier ), m_VectorLength );
 
