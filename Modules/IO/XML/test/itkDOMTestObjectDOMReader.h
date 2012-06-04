@@ -60,7 +60,7 @@ DOMTestObjectDOMReader::GenerateData( const DOMNodeType* inputdom, const void* )
   OutputType* output = this->GetOutput();
   if ( output == NULL )
     {
-    OutputPointer object = OutputType::New();
+    OutputType::Pointer object = OutputType::New();
     output = (OutputType*)object;
     this->SetOutput( output );
     }

@@ -85,7 +85,14 @@ StringTools::ToData( std::string& s, std::vector<T>& data, int count )
       }
     }
 
-  s.erase( 0, iss.tellg() );
+  if ( iss.eof() )
+    {
+    s.clear();
+    }
+  else
+    {
+    s.erase( 0, iss.tellg() );
+    }
   return s;
 }
 
@@ -174,7 +181,14 @@ StringTools::ToData( std::string& s, Array<T>& data, int count )
       }
     }
 
-  s.erase( 0, iss.tellg() );
+  if ( iss.eof() )
+    {
+    s.clear();
+    }
+  else
+    {
+    s.erase( 0, iss.tellg() );
+    }
   return s;
 }
 
@@ -213,7 +227,14 @@ StringTools::ToData( std::string& s, T& data )
   iss.exceptions( iss.failbit | iss.badbit );
   iss >> data;
 
-  s.erase( 0, iss.tellg() );
+  if ( iss.eof() )
+    {
+    s.clear();
+    }
+  else
+    {
+    s.erase( 0, iss.tellg() );
+    }
   return s;
 }
 

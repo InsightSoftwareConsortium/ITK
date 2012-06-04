@@ -29,7 +29,6 @@ void
 ParticleSwarmOptimizerDOMWriter::GenerateData( DOMNodeType* outputdom, const void* ) const
 {
   LoggerType* logger = this->GetLogger();
-  logger->SetName( this->GetNameOfClass() );
 
   const InputType* input = this->GetInput();
 
@@ -48,28 +47,23 @@ ParticleSwarmOptimizerDOMWriter::GenerateData( DOMNodeType* outputdom, const voi
   FancyString s;
 
   logger->Info( "writing NumberOfParticles ...\n" );
-  s.clear();
-  s << ipobj->GetNumberOfParticles();
+  s << ClearContent << ipobj->GetNumberOfParticles();
   outputdom->SetAttribute( "NumberOfParticles", s );
 
   logger->Info( "writing MaximumNumberOfIterations ...\n" );
-  s.clear();
-  s << ipobj->GetMaximalNumberOfIterations();
+  s << ClearContent << ipobj->GetMaximalNumberOfIterations();
   outputdom->SetAttribute( "MaximumNumberOfIterations", s );
 
   logger->Info( "writing InertiaCoefficient ...\n" );
-  s.clear();
-  s << ipobj->GetInertiaCoefficient();
+  s << ClearContent << ipobj->GetInertiaCoefficient();
   outputdom->SetAttribute( "InertiaCoefficient", s );
 
   logger->Info( "writing GlobalCoefficient ...\n" );
-  s.clear();
-  s << ipobj->GetGlobalCoefficient();
+  s << ClearContent << ipobj->GetGlobalCoefficient();
   outputdom->SetAttribute( "GlobalCoefficient", s );
 
   logger->Info( "writing PersonalCoefficient ...\n" );
-  s.clear();
-  s << ipobj->GetPersonalCoefficient();
+  s << ClearContent << ipobj->GetPersonalCoefficient();
   outputdom->SetAttribute( "PersonalCoefficient", s );
 
   std::vector<double> lbound;
@@ -85,34 +79,29 @@ ParticleSwarmOptimizerDOMWriter::GenerateData( DOMNodeType* outputdom, const voi
   DOMNode::Pointer nodelb = DOMNode::New();
   nodelb->SetName( "bound" );
   nodelb->SetAttribute( "id", "lower" );
-  s.clear();
-  nodelb->SetAttribute( "value", s << lbound );
+  nodelb->SetAttribute( "value", s << ClearContent << lbound );
   outputdom->AddChildAtEnd( nodelb );
   // generate and insert the DOM node for the upper bound of the parameters
   logger->Info( "writing UpperBound ...\n" );
   DOMNode::Pointer nodeub = DOMNode::New();
   nodeub->SetName( "bound" );
   nodeub->SetAttribute( "id", "upper" );
-  s.clear();
-  nodeub->SetAttribute( "value", s << ubound );
+  nodeub->SetAttribute( "value", s << ClearContent << ubound );
   outputdom->AddChildAtEnd( nodeub );
 
   logger->Info( "writing ParametersConvergenceTolerance ...\n" );
   DOMNode::Pointer nodeptols = DOMNode::New();
   nodeptols->SetName( "ParametersConvergenceTolerance" );
   outputdom->AddChildAtEnd( nodeptols );
-  s.clear();
-  s << (Array<double>)ipobj->GetParametersConvergenceTolerance(); // the casting is necessary to select the right templated function
+  s << ClearContent << (Array<double>)ipobj->GetParametersConvergenceTolerance(); // the casting is necessary to select the right templated function
   nodeptols->AddTextChildAtEnd( s );
 
   logger->Info( "writing FunctionConvergenceTolerance ...\n" );
-  s.clear();
-  s << ipobj->GetFunctionConvergenceTolerance();
+  s << ClearContent << ipobj->GetFunctionConvergenceTolerance();
   outputdom->SetAttribute( "FunctionConvergenceTolerance", s );
 
   logger->Info( "writing ConvergedPercentageToStop ...\n" );
-  s.clear();
-  s << ipobj->GetPercentageParticlesConverged();
+  s << ClearContent << ipobj->GetPercentageParticlesConverged();
   outputdom->SetAttribute( "ConvergedPercentageToStop", s );
 }
 

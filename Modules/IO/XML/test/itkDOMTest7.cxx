@@ -87,7 +87,7 @@ void testFancyStringWithBasicType()
       throw "uchar: input and output data do not match";
       }
 
-    // test passed!
+    std::cout << "testFancyStringWithBasicType: uchar OK!" << std::endl;
     }
 
   // for short
@@ -110,7 +110,7 @@ void testFancyStringWithBasicType()
       throw "short: input and output data do not match";
       }
 
-    // test passed!
+    std::cout << "testFancyStringWithBasicType: short OK!" << std::endl;
     }
 
   // for double
@@ -133,7 +133,7 @@ void testFancyStringWithBasicType()
       throw "double: input and output data do not match";
       }
 
-    // test passed!
+    std::cout << "testFancyStringWithBasicType: double OK!" << std::endl;
     }
 
   // all testings were successful if reached here
@@ -157,15 +157,16 @@ void testFancyStringWithStdVector()
   // check successful or not
   if ( dataOut1.size() != (dataIn.size()+1) && dataOut1.back() != 10.0f )
     {
-    throw "testWithStdVector: failed reading all elements in the string (1)";
+    throw "testFancyStringWithStdVector: failed reading all elements in the string (1)";
     }
   for ( size_t i = 0; i < dataIn.size(); i++ )
     {
     if ( dataIn[i] != dataOut1[i] )
       {
-      throw "testWithStdVector: failed reading all elements in the string (2)";
+      throw "testFancyStringWithStdVector: failed reading all elements in the string (2)";
       }
     }
+  std::cout << "testFancyStringWithStdVector: dataOut1 OK!" << std::endl;
 
   // read all data elements for the output vector
   std::vector<float> dataOut2( 5, 0.0f );
@@ -174,15 +175,16 @@ void testFancyStringWithStdVector()
   // check successful or not
   if ( dataOut2.size() != 5 )
     {
-    throw "testWithStdVector: failed reading all elements for the output vector (1)";
+    throw "testFancyStringWithStdVector: failed reading all elements for the output vector (1)";
     }
   for ( size_t i = 0; i < dataOut2.size(); i++ )
     {
     if ( dataIn[i] != dataOut2[i] )
       {
-      throw "testWithStdVector: failed reading all elements for the output vector (2)";
+      throw "testFancyStringWithStdVector: failed reading all elements for the output vector (2)";
       }
     }
+  std::cout << "testFancyStringWithStdVector: dataOut2 OK!" << std::endl;
 
   // read user-specified number of data elements (output data exist)
   std::vector<float> dataOut3( 10, 0.0f );
@@ -191,15 +193,16 @@ void testFancyStringWithStdVector()
   // check successful or not
   if ( dataOut3.size() != 10 && dataOut3[5] != 0.0f )
     {
-    throw "testWithStdVector: failed reading user-specified number of elements (1.1)";
+    throw "testFancyStringWithStdVector: failed reading user-specified number of elements (1.1)";
     }
   for ( size_t i = 0; i < 5; i++ )
     {
     if ( dataIn[i] != dataOut3[i] )
       {
-      throw "testWithStdVector: failed reading user-specified number of elements (1.2)";
+      throw "testFancyStringWithStdVector: failed reading user-specified number of elements (1.2)";
       }
     }
+  std::cout << "testFancyStringWithStdVector: dataOut3 OK!" << std::endl;
 
   // read user-specified number of data elements (output data do not exist)
   std::vector<float> dataOut4;
@@ -208,15 +211,18 @@ void testFancyStringWithStdVector()
   // check successful or not
   if ( dataOut4.size() != 5 )
     {
-    throw "testWithStdVector: failed reading user-specified number of elements (2.1)";
+    throw "testFancyStringWithStdVector: failed reading user-specified number of elements (2.1)";
     }
   for ( size_t i = 0; i < 5; i++ )
     {
     if ( dataIn[i] != dataOut4[i] )
       {
-      throw "testWithStdVector: failed reading user-specified number of elements (2.2)";
+      throw "testFancyStringWithStdVector: failed reading user-specified number of elements (2.2)";
       }
     }
+  std::cout << "testFancyStringWithStdVector: dataOut4 OK!" << std::endl;
+
+  // all testings were successful if reached here
 }
 
 // test for itk::Array<T>
@@ -240,15 +246,16 @@ void testFancyStringWithItkArray()
   // check successful or not
   if ( dataOut1.GetSize() != (dataIn.GetSize()+1) && dataOut1[10] != 10.0 )
     {
-    throw "testWithItkArray: failed reading all elements in the string (1)";
+    throw "testFancyStringWithItkArray: failed reading all elements in the string (1)";
     }
   for ( size_t i = 0; i < dataIn.GetSize(); i++ )
     {
     if ( dataIn[i] != dataOut1[i] )
       {
-      throw "testWithItkArray: failed reading all elements in the string (2)";
+      throw "testFancyStringWithItkArray: failed reading all elements in the string (2)";
       }
     }
+  std::cout << "testFancyStringWithItkArray: dataOut1 OK!" << std::endl;
 
   // read all data elements for the output vector
   DataType dataOut2( 5 );
@@ -258,15 +265,16 @@ void testFancyStringWithItkArray()
   // check successful or not
   if ( dataOut2.GetSize() != 5 )
     {
-    throw "testWithItkArray: failed reading all elements for the output vector (1)";
+    throw "testFancyStringWithItkArray: failed reading all elements for the output vector (1)";
     }
   for ( size_t i = 0; i < dataOut2.GetSize(); i++ )
     {
     if ( dataIn[i] != dataOut2[i] )
       {
-      throw "testWithItkArray: failed reading all elements for the output vector (2)";
+      throw "testFancyStringWithItkArray: failed reading all elements for the output vector (2)";
       }
     }
+  std::cout << "testFancyStringWithItkArray: dataOut2 OK!" << std::endl;
 
   // read user-specified number of data elements (output data exist)
   DataType dataOut3( 10 );
@@ -276,15 +284,16 @@ void testFancyStringWithItkArray()
   // check successful or not
   if ( dataOut3.GetSize() != 10 && dataOut3[5] != 0.0 )
     {
-    throw "testWithItkArray: failed reading user-specified number of elements (1.1)";
+    throw "testFancyStringWithItkArray: failed reading user-specified number of elements (1.1)";
     }
   for ( size_t i = 0; i < 5; i++ )
     {
     if ( dataIn[i] != dataOut3[i] )
       {
-      throw "testWithItkArray: failed reading user-specified number of elements (1.2)";
+      throw "testFancyStringWithItkArray: failed reading user-specified number of elements (1.2)";
       }
     }
+  std::cout << "testFancyStringWithItkArray: dataOut3 OK!" << std::endl;
 
   // read user-specified number of data elements (output data do not exist)
   DataType dataOut4;
@@ -293,15 +302,18 @@ void testFancyStringWithItkArray()
   // check successful or not
   if ( dataOut4.GetSize() != 5 )
     {
-    throw "testWithItkArray: failed reading user-specified number of elements (2.1)";
+    throw "testFancyStringWithItkArray: failed reading user-specified number of elements (2.1)";
     }
   for ( size_t i = 0; i < 5; i++ )
     {
     if ( dataIn[i] != dataOut4[i] )
       {
-      throw "testWithItkArray: failed reading user-specified number of elements (2.2)";
+      throw "testFancyStringWithItkArray: failed reading user-specified number of elements (2.2)";
       }
     }
+  std::cout << "testFancyStringWithItkArray: dataOut4 OK!" << std::endl;
+
+  // all testings were successful if reached here
 }
 
 void testFancyStringForStringOperations()
@@ -311,32 +323,37 @@ void testFancyStringForStringOperations()
   s = " Hello World! ";
   if ( s.TrimLeft() != "Hello World! " )
     {
-    throw "testStringOperations: failed trimming left";
+    throw "testFancyStringForStringOperations: failed trimming left";
     }
+  std::cout << "testFancyStringForStringOperations: TrimLeft() OK!" << std::endl;
 
   s = " Hello World! ";
   if ( s.TrimRight() != " Hello World!" )
     {
-    throw "testStringOperations: failed trimming right";
+    throw "testFancyStringForStringOperations: failed trimming right";
     }
+  std::cout << "testFancyStringForStringOperations: TrimRight() OK!" << std::endl;
 
   s = " Hello World! ";
   if ( s.Trim() != "Hello World!" )
     {
-    throw "testStringOperations: failed trimming both sides";
+    throw "testFancyStringForStringOperations: failed trimming both sides";
     }
+  std::cout << "testFancyStringForStringOperations: Trim() OK!" << std::endl;
 
   s = "Hello World!";
   if ( s.ToUpperCase() != "HELLO WORLD!" )
     {
-    throw "testStringOperations: failed converting to upper case";
+    throw "testFancyStringForStringOperations: failed converting to upper case";
     }
+  std::cout << "testFancyStringForStringOperations: ToUpperCase() OK!" << std::endl;
 
   s = "Hello World!";
   if ( s.ToLowerCase() != "hello world!" )
     {
-    throw "testStringOperations: failed converting to lower case";
+    throw "testFancyStringForStringOperations: failed converting to lower case";
     }
+  std::cout << "testFancyStringForStringOperations: ToLowerCase() OK!" << std::endl;
 
   s = " origin = 0 0 0 ";
   std::string lpart;
@@ -344,68 +361,75 @@ void testFancyStringForStringOperations()
   s.Split( lpart, rpart );
   if ( lpart != "origin" || rpart != "0 0 0" )
     {
-    throw "testStringOperations: failed splitting into two parts";
+    throw "testFancyStringForStringOperations: failed splitting into two parts";
     }
+  std::cout << "testFancyStringForStringOperations: Split(-,-) OK!" << std::endl;
 
   s = " size = 256 256 100; spacing = 0.3 0.3 0.7; origin = * ";
   std::vector<std::string> parts;
   s.Split( parts );
   if ( parts[0] != "size = 256 256 100" || parts[1] != "spacing = 0.3 0.3 0.7" || parts[2] != "origin = *" )
     {
-    throw "testStringOperations: failed splitting into a sequence of strings";
+    throw "testFancyStringForStringOperations: failed splitting into a sequence of strings";
     }
+  std::cout << "testFancyStringForStringOperations: Split(vector) OK!" << std::endl;
 
   s = " size = 256 256 100; spacing = 0.3 0.3 0.7; origin = * ";
   std::map<std::string,std::string> items;
   s.Split( items );
   if ( items["size"] != "256 256 100" || items["spacing"] != "0.3 0.3 0.7" || items["origin"] != "*" )
     {
-    throw "testStringOperations: failed splitting into a map or dictionary";
+    throw "testFancyStringForStringOperations: failed splitting into a map or dictionary";
     }
+  std::cout << "testFancyStringForStringOperations: Split(map) OK!" << std::endl;
 
   s = "Hello World!";
   if ( !s.MatchWith("hello world!") )
     {
-    throw "testStringOperations: failed MatchWith testing (1)";
+    throw "testFancyStringForStringOperations: failed MatchWith testing (1)";
     }
   if ( s.MatchWith("hello world!",false) )
     {
-    throw "testStringOperations: failed MatchWith testing (2)";
+    throw "testFancyStringForStringOperations: failed MatchWith testing (2)";
     }
   if ( s.MatchWith(" hello world! ") )
     {
-    throw "testStringOperations: failed MatchWith testing (3)";
+    throw "testFancyStringForStringOperations: failed MatchWith testing (3)";
     }
+  std::cout << "testFancyStringForStringOperations: MatchWith(-) OK!" << std::endl;
 
   s = "Hello World!";
   if ( !s.StartWith("hello") )
     {
-    throw "testStringOperations: failed StartWith testing (1)";
+    throw "testFancyStringForStringOperations: failed StartWith testing (1)";
     }
   if ( s.StartWith("hello",false) )
     {
-    throw "testStringOperations: failed StartWith testing (2)";
+    throw "testFancyStringForStringOperations: failed StartWith testing (2)";
     }
+  std::cout << "testFancyStringForStringOperations: StartWith(-) OK!" << std::endl;
 
   s = "Hello World!";
   if ( !s.EndWith("world!") )
     {
-    throw "testStringOperations: failed EndWith testing (1)";
+    throw "testFancyStringForStringOperations: failed EndWith testing (1)";
     }
   if ( s.EndWith("world!",false) )
     {
-    throw "testStringOperations: failed EndWith testing (2)";
+    throw "testFancyStringForStringOperations: failed EndWith testing (2)";
     }
+  std::cout << "testFancyStringForStringOperations: EndWith(-) OK!" << std::endl;
 
   s = "Hello World!";
   if ( !s.ContainSub("Lo wo") )
     {
-    throw "testStringOperations: failed ContainSub testing (1)";
+    throw "testFancyStringForStringOperations: failed ContainSub testing (1)";
     }
   if ( s.ContainSub("Lo wo",false) )
     {
-    throw "testStringOperations: failed ContainSub testing (2)";
+    throw "testFancyStringForStringOperations: failed ContainSub testing (2)";
     }
+  std::cout << "testFancyStringForStringOperations: ContainSub(-) OK!" << std::endl;
 
-  // all testings passed!
+  // all testings were successful if reached here
 }

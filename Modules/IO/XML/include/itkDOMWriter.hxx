@@ -27,8 +27,8 @@
 namespace itk
 {
 
-template< class T >
-DOMWriter<T>::DOMWriter()
+template< class TInput >
+DOMWriter<TInput>::DOMWriter() : m_Input( NULL )
 {
   // Create the logger.
   this->m_Logger = LoggerType::New();
@@ -45,14 +45,32 @@ DOMWriter<T>::DOMWriter()
   this->m_Logger->SetHumanReadableFormat( "%Y-%b-%d %H:%M:%S" ); // time stamp format
 }
 
+/** Set the input object to be written. */
+template< class TInput >
+void
+DOMWriter<TInput>::SetInput( const InputType* input )
+{
+  this->m_Input = input;
+  this->m_InputHolder = dynamic_cast<const LightObject*>(input);
+  this->Modified();
+}
+
+/** Get the input object to be written. */
+template< class TInput >
+const typename DOMWriter<TInput>::InputType *
+DOMWriter<TInput>::GetInput() const
+{
+  return this->m_Input;
+}
+
 /**
  * Function called by Update() or end-users to write the input object to a DOM object.
  * Some derived writers may accept an incomplete input object during the writing process, in those cases
  * the optional argument 'userdata' can be used to provide the missed information.
  */
-template< class T >
+template< class TInput >
 void
-DOMWriter<T>::Update( DOMNodeType* outputdom, const void* userdata )
+DOMWriter<TInput>::Update( DOMNodeType* outputdom, const void* userdata )
 {
   if ( outputdom == NULL )
     {
@@ -67,15 +85,31 @@ DOMWriter<T>::Update( DOMNodeType* outputdom, const void* userdata )
   // remove previous data
   outputdom->RemoveAllAttributesAndChildren();
 
+  // group subsequent logging under this writer
+  this->GetLogger()->SetName( this->GetNameOfClass() );
+
+  // variable/info needed for logging
+  FancyString info;
+  FancyString objname = this->GetInput()->GetNameOfClass();
+
+  // log start of writing
+  info << ClearContent << "Writing \"" << objname << "\" ...\n";
+  this->GetLogger()->Info( info );
+
+  // perform actual writing
   this->GenerateData( outputdom, userdata );
+
+  // log end of writing
+  info << ClearContent << "Writing \"" << objname << "\" done!\n";
+  this->GetLogger()->Info( info );
 }
 
 /**
  * Function called by end-users to write the input object to the output XML file.
  */
-template< class T >
+template< class TInput >
 void
-DOMWriter<T>::Update()
+DOMWriter<TInput>::Update()
 {
   DOMNodeType* domobj = this->GetIntermediateDOM();
   if ( domobj == NULL )
