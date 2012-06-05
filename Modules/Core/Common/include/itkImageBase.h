@@ -702,8 +702,8 @@ protected:
   /** Origin, spacing, and direction in physical coordinates. This variables are
    * protected for efficiency.  They are referenced frequently by
    * inner loop calculations. */
-  SpacingType m_Spacing;
-  PointType m_Origin;
+  SpacingType   m_Spacing;
+  PointType     m_Origin;
   DirectionType m_Direction;
   DirectionType m_InverseDirection;
 
