@@ -27,11 +27,11 @@ template<class TPointSet>
 JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
 ::JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4() :
   m_UseAnisotropicCovariances( false ),
-  m_PointSetSigma( 1.0 ),
-  m_KernelSigma( 10.0 ),
-  m_CovarianceKNeighborhood( 5.0 ),
-  m_EvaluationKNeighborhood( 50 ),
-  m_Alpha( static_cast<RealType>(1) )
+  m_PointSetSigma( static_cast<RealType>( 1.0 ) ),
+  m_KernelSigma( static_cast<RealType>( 10.0 ) ),
+  m_CovarianceKNeighborhood( static_cast<unsigned int>( 5 ) ),
+  m_EvaluationKNeighborhood( static_cast<unsigned int>( 50 ) ),
+  m_Alpha( static_cast<RealType>(1.0) )
 {
 }
 
