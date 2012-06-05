@@ -72,22 +72,18 @@ public:
   * Get the element containing the degree of freedom
   * on which the force is being applied.
   */
-  Element::ConstPointer GetElement() const
+  const Element * GetElement() const
     {
-      return m_Element;
+    return m_Element;
     }
 
   /**
    * Get the element containing the degree of freedom
    * on which the force is being applied.
    */
-  void SetElement(Element::ConstPointer el)
+  void SetElement( const Element * el)
     {
-      this->m_Element = el;
-    }
-  void SetElement(Element::Pointer el)
-    {
-      this->m_Element = el.GetPointer();
+    this->m_Element = el;
     }
 
 protected:

@@ -27,6 +27,7 @@ itk_module(ITKRegistrationCommon
     ITKTestKernel
     ITKDistanceMap
     ITKImageSource
+    ITKColormap
   DESCRIPTION
     "${DOCUMENTATION}"
 )

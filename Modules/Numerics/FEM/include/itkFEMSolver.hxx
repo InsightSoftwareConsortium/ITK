@@ -634,17 +634,18 @@ Solver<VDimension>
   FEMObjectType *femObject = this->GetOutput();
 
   int numNodes = femObject->GetNumberOfNodes();
-  int count = 0;
+
+  typedef Element::Node NodeType;
 
   itk::fem::Element::VectorType pt(VDimension);
   for( int i = 0; i < numNodes; i++ )
     {
+    NodeType::Pointer node = femObject->GetNode(i);
     for( unsigned int j = 0; j < VDimension; j++ )
       {
-      // itk::fem::Element::Float soln = m_ls->GetSolutionValue(count);
-      pt[j] = femObject->GetNode(i)->GetCoordinates()[j] + m_ls->GetSolutionValue(count++);
+      pt[j] = node->GetCoordinates()[j] + m_ls->GetSolutionValue(node->GetDegreeOfFreedom(j));
       }
-    femObject->GetNode(i)->SetCoordinates(pt);
+    node->SetCoordinates(pt);
     }
 }
 

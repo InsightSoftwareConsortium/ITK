@@ -38,6 +38,7 @@ itkFEMLoadEdge.cxx
 itkFEMLoadElementBase.cxx
 itkFEMLoadGrav.cxx
 itkFEMLoadLandmark.cxx
+itkFEMLoadNoisyLandmark.cxx
 itkFEMLoadNode.cxx
 itkFEMLoadPoint.cxx
 itkFEMMaterialBase.cxx

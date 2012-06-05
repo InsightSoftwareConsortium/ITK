@@ -41,6 +41,8 @@ itkFEMObjectTest.cxx
 itkFEMObjectTest2.cxx
 itkFEMSpatialObjectTest.cxx
 itkFEMSolverHyperbolicTest.cxx
+itkFEMRobustSolverTest.cxx
+itkFEMScatteredDataPointSetToImageFilterTest.cxx
 )
 
 CreateTestDriver(ITKFEM  "${ITKFEM-Test_LIBRARIES}" "${ITKFEMTests}")
@@ -105,6 +107,8 @@ itk_add_test(NAME itkFEMLinearSystemWrapperVNLTest
       COMMAND ITKFEMTestDriver itkFEMLinearSystemWrapperVNLTest)
 itk_add_test(NAME itkFEMPArrayTest
       COMMAND ITKFEMTestDriver itkFEMPArrayTest)
+itk_add_test(NAME itkFEMScatteredDataPointSetToImageFilterTest
+      COMMAND ITKFEMTestDriver itkFEMScatteredDataPointSetToImageFilterTest)
 
 
 # 3D Element Tests
@@ -283,6 +287,9 @@ itk_add_test(NAME itkFEMSolverTest3D ${FEM_TESTS3}
          COMMAND ITKFEMTestDriver itkFEMSolverTest3D
          DATA{Input/3DC0LinearHexahedronMembraneTest.meta}
          ${ITK_TEST_OUTPUT_DIR}/3DC0LinearHexahedronMembraneTestWrite_NewSolver.meta)
+
+itk_add_test(NAME itkFEMRobustSolverTest ${FEM_TESTS3}
+         COMMAND ITKFEMTestDriver itkFEMRobustSolverTest)
 
 itk_add_test(NAME itkImageToRectilinearFEMObjectFilter2DTest ${FEM_TESTS3}
          COMMAND ITKFEMTestDriver itkImageToRectilinearFEMObjectFilter2DTest
