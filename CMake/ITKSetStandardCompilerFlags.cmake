@@ -275,13 +275,6 @@ macro(check_compiler_platform_flags)
   if(DEFINED ITK_CXX_DISABLE_OPTIMIZATION_FLAG)
     CHECK_CXX_SOURCE_COMPILES(${ITK_CXX_DISABLE_OPTIMIZATION_FLAG} CXX_HAS_DISABLE_OPTIMIZATION_FLAG)
   endif()
-
-  #----------------------------------------------------------------------------
-  # Allowing GNU extensions with CLang throws a zillion warnings in vnl_math.h
-  # which has (optionally) in-class const float member variable initialization
-  if(${CMAKE_CXX_COMPILER} MATCHES "clang.*$")
-    set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -Werror=gnu")
-  endif()
 endmacro()#End the platform check function
 
 #-----------------------------------------------------------------------------
