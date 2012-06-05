@@ -102,6 +102,14 @@ TImage *output )
 int itkGPUDemonsRegistrationFilterTest2(int argc, char* argv[] )
 {
 
+
+  if( argc < 3 )
+    {
+    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Usage: " << argv[0];
+    std::cerr << " fixedImageFile warpedOutputImageFile" << std::endl;
+    }
+
 //   typedef unsigned char PixelType;
   typedef float PixelType;
   enum {ImageDimension = 2};

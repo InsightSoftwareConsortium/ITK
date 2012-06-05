@@ -173,7 +173,7 @@ int itkGPUDemonsRegistrationFilterTest(int argc, char *argv[])
 
 namespace{
 
-itk::SmartPointer<GPUDeformationFieldType> itkGPUDemons(int argc, char *argv[], unsigned int &size)
+itk::SmartPointer<GPUDeformationFieldType> itkGPUDemons(int, char *argv[], unsigned int &size)
 {
   const unsigned int Dimension = ImageDimension;
   typedef unsigned short PixelType;
@@ -297,7 +297,7 @@ itk::SmartPointer<GPUDeformationFieldType> itkGPUDemons(int argc, char *argv[], 
   return ret;
 }
 
-itk::SmartPointer<CPUDeformationFieldType> itkCPUDemons(int argc, char *argv[], unsigned int &size)
+itk::SmartPointer<CPUDeformationFieldType> itkCPUDemons(int, char *argv[], unsigned int &size)
 {
   const unsigned int Dimension = ImageDimension;
   typedef unsigned short PixelType;

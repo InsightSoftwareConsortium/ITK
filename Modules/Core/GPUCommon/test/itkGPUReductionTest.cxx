@@ -52,7 +52,7 @@ int itkGPUReductionTest(int argc, char *argv[])
   int GPUsum = summer->GetGPUResult();
   summer->ReleaseGPUInputBuffer();
   int status = EXIT_FAILURE;
-  if (GPUsum == numPixels)
+  if (GPUsum == static_cast<int>(numPixels))
   {
     std::cout << "GPU reduction to sum passed, sum = " << GPUsum << ", numPixels = " << numPixels << std::endl;
     status = EXIT_SUCCESS;
@@ -63,7 +63,7 @@ int itkGPUReductionTest(int argc, char *argv[])
     status = EXIT_FAILURE;
   }
   int CPUsum = summer->CPUGenerateData(h_idata, numPixels);
-  if (CPUsum == numPixels)
+  if (CPUsum == static_cast<int>(numPixels))
   {
     std::cout << "CPU reduction to sum passed, sum = " << CPUsum << ", numPixels = " << numPixels << std::endl;
   }
