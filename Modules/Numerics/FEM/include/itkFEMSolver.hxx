@@ -41,9 +41,13 @@ Solver<VDimension>
 ::Solver()
 {
   this->SetLinearSystemWrapper(&m_lsVNL);
-  m_NGFN = 0;
-  m_NMFC = 0;
-  m_FEMObject = 0;
+
+  this->m_NGFN = 0;
+  this->m_NMFC = 0;
+  this->m_FEMObject = 0;
+  this->m_Origin.Fill( 0.0 );
+  this->m_Spacing.Fill( 1.0 );
+
   this->ProcessObject::SetNumberOfRequiredInputs(1);
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, this->MakeOutput(0) );
