@@ -640,7 +640,7 @@ macro(itk_wrap_image_filter_combinations)
   # itk_wrap_image_filter_combinations takes a variable number of parameters. Each
   # parameter is a list of image pixel types. Filter instantiations are created
   # for every combination of different pixel types in different parameters.
-  # A dimensionality condition may be optionally specified as the first parameter.
+  # A dimensionality condition may be optionally specified as the last parameter.
   #
   # E.g. itk_wrap_image_filter_combinations("UC;US" "UC;US") will create:
   # filter<itk::Image<unsigned char, d>, itk::Image<unsigned char, d> >
@@ -722,7 +722,7 @@ macro(itk_wrap_image_filter_types)
   # dimensionality condition). This macro takes a variable number of arguments,
   # which should correspond to the image pixel types of the images in the filter's
   # template parameter list. The optional dimensionality condition should be
-  # placed in the first parameter.
+  # placed in the last parameter.
 
   # First, store the variable args in real varables, not the macro parameters.
   # Parameters can't be looked up like this: ${ARGV${num}} because they are

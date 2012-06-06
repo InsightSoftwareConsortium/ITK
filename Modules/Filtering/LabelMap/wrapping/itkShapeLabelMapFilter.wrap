@@ -1,5 +1,6 @@
 itk_wrap_class("itk::ShapeLabelMapFilter" POINTER)
-  foreach(d ${ITK_WRAP_DIMS})
+  itk_wrap_filter_dims(restricted_dims 2+)
+  foreach(d ${restricted_dims})
     itk_wrap_template("${ITKM_LM${d}}" "${ITKT_LM${d}}")
   endforeach(d)
 itk_end_wrap_class()
