@@ -354,6 +354,7 @@ GPUReduction< TElement >
 ::CPUGenerateData(TElement *data, int size)
 {
     TElement sum = data[0];
+//     TElement c = (TElement)0.0;
     for (int i = 1; i < size; i++)
     {
     // TODO consider using compensated sum algorithm
