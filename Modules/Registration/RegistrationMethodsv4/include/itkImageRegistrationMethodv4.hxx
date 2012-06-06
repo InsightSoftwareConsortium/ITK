@@ -48,9 +48,6 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
   this->m_CurrentConvergenceValue = 0.0;
   this->m_IsConverged = false;
 
-  this->m_MetricSamplingStrategy = NONE;
-  this->m_MetricSamplingPercentage = 1;
-
   this->m_CompositeTransform = CompositeTransformType::New();
 
   typedef IdentityTransform<RealType, ImageDimension> IdentityTransformType;
@@ -109,6 +106,10 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
   this->m_SmoothingSigmasPerLevel[0] = 2;
   this->m_SmoothingSigmasPerLevel[1] = 1;
   this->m_SmoothingSigmasPerLevel[2] = 0;
+
+  this->m_MetricSamplingStrategy = NONE;
+  this->m_MetricSamplingPercentagePerLevel.SetSize( this->m_NumberOfLevels );
+  this->m_MetricSamplingPercentagePerLevel.Fill( 1.0 );
 }
 
 template<typename TFixedImage, typename TMovingImage, typename TTransform>
@@ -319,6 +320,9 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
     this->m_SmoothingSigmasPerLevel.SetSize( this->m_NumberOfLevels );
     this->m_SmoothingSigmasPerLevel.Fill( 1.0 );
 
+    this->m_MetricSamplingPercentagePerLevel.SetSize( this->m_NumberOfLevels );
+    this->m_MetricSamplingPercentagePerLevel.Fill( 1.0 );
+
     this->Modified();
     }
 }
@@ -355,7 +359,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
     {
     case REGULAR:
       {
-      sampleCount = static_cast<unsigned long>( vcl_ceil( 1.0 / this->m_MetricSamplingPercentage ) );
+      sampleCount = static_cast<unsigned long>( vcl_ceil( 1.0 / this->m_MetricSamplingPercentagePerLevel[this->m_CurrentLevel] ) );
 
       unsigned long count = 0;
       ImageRegionConstIteratorWithIndex<VirtualDomainImageType> It( virtualImage, virtualDomainRegion );
@@ -380,7 +384,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
       }
     case RANDOM:
       {
-      sampleCount = static_cast<unsigned long>( static_cast<float>( sampleCount ) * this->m_MetricSamplingPercentage );
+      sampleCount = static_cast<unsigned long>( static_cast<float>( sampleCount ) * this->m_MetricSamplingPercentagePerLevel[this->m_CurrentLevel] );
 
       ImageRandomConstIteratorWithIndex<VirtualDomainImageType> ItR( virtualImage, virtualDomainRegion );
       ItR.SetNumberOfSamples( sampleCount );
@@ -430,7 +434,13 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
   os << indent << "Smoothing sigmas: " << this->m_SmoothingSigmasPerLevel << std::endl;
 
   os << indent << "Metric sampling strategy: " << this->m_MetricSamplingStrategy << std::endl;
-  os << indent << "Metric sampling percentage: " << this->m_MetricSamplingPercentage << std::endl;
+
+  os << indent << "Metric sampling percentage: ";
+  for( unsigned int i = 0; i < this->m_NumberOfLevels; i++ )
+    {
+    os << this->m_MetricSamplingPercentagePerLevel[i] << " ";
+    }
+  os << std::endl;
 }
 
 /*
@@ -458,6 +468,17 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
       itkExceptionMacro("MakeOutput request for an output number larger than the expected number of outputs");
       return 0;
     }
+}
+
+template<typename TFixedImage, typename TMovingImage, typename TTransform>
+void
+ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
+::SetMetricSamplingPercentage( const RealType samplingPercentage )
+{
+  MetricSamplingPercentageArrayType samplingPercentagePerLevel;
+  samplingPercentagePerLevel.SetSize( this->m_NumberOfLevels );
+  samplingPercentagePerLevel.Fill( samplingPercentage );
+  this->SetMetricSamplingPercentagePerLevel( samplingPercentagePerLevel );
 }
 
 } // end namespace itk
