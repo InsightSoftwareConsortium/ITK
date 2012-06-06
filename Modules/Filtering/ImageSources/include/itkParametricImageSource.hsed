@@ -38,7 +38,7 @@ namespace itk
  * GetParameters() and GetNumberOfParameters().
  *
  * \ingroup DataSources
- * \ingroup ITKImageSource
+ * \ingroup ITKSource
  */
 template <class TOutputImage>
 class ITK_EXPORT ParametricImageSource

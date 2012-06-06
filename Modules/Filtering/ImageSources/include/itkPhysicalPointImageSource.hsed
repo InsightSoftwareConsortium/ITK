@@ -32,17 +32,17 @@ namespace itk
  * is recommented that the component type be a real valued type.
  *
  * \ingroup DataSources
- * \ingroup ITKImageSource
+ * \ingroup ITKSource
  */
 template< typename TOutputImage >
 class PhysicalPointImageSource
   : public GenerateImageSource< TOutputImage >
 {
 public:
-  typedef PhysicalPointImageSource Self;
+  typedef PhysicalPointImageSource            Self;
   typedef GenerateImageSource< TOutputImage > Superclass;
-  typedef SmartPointer< Self > Pointer;
-  typedef SmartPointer< const Self> ConstPointer;
+  typedef SmartPointer< Self >                Pointer;
+  typedef SmartPointer< const Self>           ConstPointer;
 
   /** Output image typedefs */
   typedef TOutputImage                            OutputImageType;

@@ -34,7 +34,7 @@ namespace itk
  * is no image input to the source.
  *
  * \ingroup DataSources
- * \ingroup ITKImageSource
+ * \ingroup ITKImageSources
  */
 template< typename TOutputImage >
 class GenerateImageSource
@@ -55,7 +55,7 @@ public:
   typedef typename OutputImageType::DirectionType DirectionType;
 
 
-  typedef typename TOutputImage::SizeType        SizeType;
+  typedef typename TOutputImage::SizeType      SizeType;
   typedef typename TOutputImage::SizeValueType SizeValueType;
 
   /** Dimensionality of the output image */

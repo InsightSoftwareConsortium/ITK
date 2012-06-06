@@ -9,7 +9,7 @@ itk_module(ITKImageFeature
     ITKSmoothing
     ITKImageGradient
     ITKSpatialObjects
-    ITKImageSource
+    ITKImageSources
   TEST_DEPENDS
     ITKTestKernel
     ITKThresholding
