@@ -20,6 +20,7 @@
 
 #include "itkMacro.h"
 #include "itkVariableLengthVector.h"
+#include "itkIntTypes.h"
 
 namespace itk
 {
