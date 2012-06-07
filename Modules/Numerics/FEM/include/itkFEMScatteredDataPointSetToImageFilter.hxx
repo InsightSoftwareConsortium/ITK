@@ -113,18 +113,18 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, 
   // set the interpolation grid of the FEMSolver
   // note that let the interpolation grid be same with the deformation field
   // in order to accelarate the generation of the deformation field.
-  this->m_FEMSolver->SetOrigin(this->m_Origin);
-  this->m_FEMSolver->SetSpacing(this->m_Spacing);
+  this->m_FEMSolver->SetOrigin( this->m_Origin );
+  this->m_FEMSolver->SetSpacing( this->m_Spacing );
   RegionType region;
-  region.SetSize(this->m_Size);
-  this->m_FEMSolver->SetRegion(region);
-  this->m_FEMSolver->SetDirection(this->m_Direction);
+  region.SetSize( this->m_Size );
+  this->m_FEMSolver->SetRegion( region );
+  this->m_FEMSolver->SetDirection( this->m_Direction );
 
   // if the feature points are the grid point of the interpolation grid, set true.
   // note that since feature points come from the image, this setting is always true.
-  this->m_FEMSolver->SetUseInterpolationGrid(true);
+  this->m_FEMSolver->SetUseInterpolationGrid( true );
 
-  this->m_FEMSolver->Update( );
+  this->m_FEMSolver->Update();
 
   this->ProduceDeformationField();
 }

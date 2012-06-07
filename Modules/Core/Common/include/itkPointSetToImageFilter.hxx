@@ -26,27 +26,25 @@
 
 namespace itk
 {
-/** Constructor */
+
 template< class TInputPointSet, class TOutputImage >
 PointSetToImageFilter< TInputPointSet, TOutputImage >
 ::PointSetToImageFilter()
 {
   this->SetNumberOfRequiredInputs(1);
-  m_Size.Fill(0);
-  m_Origin.Fill(0.0);
-  m_Spacing.Fill(1.0);
-  m_Direction.SetIdentity();
-  m_InsideValue = NumericTraits< ValueType >::OneValue();
-  m_OutsideValue = NumericTraits< ValueType >::ZeroValue();
+  this->m_Size.Fill(0);
+  this->m_Origin.Fill(0.0);
+  this->m_Spacing.Fill(1.0);
+  this->m_Direction.SetIdentity();
+  this->m_InsideValue = NumericTraits< ValueType >::OneValue();
+  this->m_OutsideValue = NumericTraits< ValueType >::ZeroValue();
 }
 
-/** Destructor */
 template< class TInputPointSet, class TOutputImage >
 PointSetToImageFilter< TInputPointSet, TOutputImage >
 ::~PointSetToImageFilter()
 {}
 
-/** Set the Input PointSet */
 template< class TInputPointSet, class TOutputImage >
 void
 PointSetToImageFilter< TInputPointSet, TOutputImage >
