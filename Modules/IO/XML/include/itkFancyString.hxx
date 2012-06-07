@@ -26,6 +26,29 @@ namespace itk
 {
 
 /////////////////////////////////////////////////////////////////////////////
+// manipulators for FancyString
+/////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Definition of FancyString-based manipulators without parameters.
+ */
+inline FancyString&
+operator<<( FancyString& s, void (*mf)(FancyString&) )
+{
+  (*mf)( s );
+  return s;
+}
+
+/**
+ * Manipulator to clear all characters in a FancyString.
+ */
+inline void
+ClearContent( FancyString& input )
+{
+  input.clear();
+}
+
+/////////////////////////////////////////////////////////////////////////////
 // helper functions for converting a string to/from a std::vector
 /////////////////////////////////////////////////////////////////////////////
 

@@ -87,7 +87,7 @@ void testStringToolsWithBasicType()
       throw "uchar: input and output data do not match";
       }
 
-    // test passed!
+    std::cout << "testStringToolsWithBasicType: uchar OK!" << std::endl;
     }
 
   // for short
@@ -110,7 +110,7 @@ void testStringToolsWithBasicType()
       throw "short: input and output data do not match";
       }
 
-    // test passed!
+    std::cout << "testStringToolsWithBasicType: short OK!" << std::endl;
     }
 
   // for double
@@ -133,10 +133,10 @@ void testStringToolsWithBasicType()
       throw "double: input and output data do not match";
       }
 
-    // test passed!
+    std::cout << "testStringToolsWithBasicType: double OK!" << std::endl;
     }
 
-  // all testings were successful if reached here
+  std::cout << "testStringToolsWithBasicType: Passed!" << std::endl;
 }
 
 // test for std::vector<T>
@@ -157,15 +157,16 @@ void testStringToolsWithStdVector()
   // check successful or not
   if ( dataOut1.size() != (dataIn.size()+1) && dataOut1.back() != 10.0f )
     {
-    throw "testWithStdVector: failed reading all elements in the string (1)";
+    throw "testStringToolsWithStdVector: failed reading all elements in the string (1)";
     }
   for ( size_t i = 0; i < dataIn.size(); i++ )
     {
     if ( dataIn[i] != dataOut1[i] )
       {
-      throw "testWithStdVector: failed reading all elements in the string (2)";
+      throw "testStringToolsWithStdVector: failed reading all elements in the string (2)";
       }
     }
+  std::cout << "testStringToolsWithStdVector: dataOut1 OK!" << std::endl;
 
   // read all data elements for the output vector
   std::vector<float> dataOut2( 5, 0.0f );
@@ -174,15 +175,16 @@ void testStringToolsWithStdVector()
   // check successful or not
   if ( dataOut2.size() != 5 )
     {
-    throw "testWithStdVector: failed reading all elements for the output vector (1)";
+    throw "testStringToolsWithStdVector: failed reading all elements for the output vector (1)";
     }
   for ( size_t i = 0; i < dataOut2.size(); i++ )
     {
     if ( dataIn[i] != dataOut2[i] )
       {
-      throw "testWithStdVector: failed reading all elements for the output vector (2)";
+      throw "testStringToolsWithStdVector: failed reading all elements for the output vector (2)";
       }
     }
+  std::cout << "testStringToolsWithStdVector: dataOut2 OK!" << std::endl;
 
   // read user-specified number of data elements (output data exist)
   std::vector<float> dataOut3( 10, 0.0f );
@@ -191,15 +193,16 @@ void testStringToolsWithStdVector()
   // check successful or not
   if ( dataOut3.size() != 10 && dataOut3[5] != 0.0f )
     {
-    throw "testWithStdVector: failed reading user-specified number of elements (1.1)";
+    throw "testStringToolsWithStdVector: failed reading user-specified number of elements (1.1)";
     }
   for ( size_t i = 0; i < 5; i++ )
     {
     if ( dataIn[i] != dataOut3[i] )
       {
-      throw "testWithStdVector: failed reading user-specified number of elements (1.2)";
+      throw "testStringToolsWithStdVector: failed reading user-specified number of elements (1.2)";
       }
     }
+  std::cout << "testStringToolsWithStdVector: dataOut3 OK!" << std::endl;
 
   // read user-specified number of data elements (output data do not exist)
   std::vector<float> dataOut4;
@@ -208,15 +211,18 @@ void testStringToolsWithStdVector()
   // check successful or not
   if ( dataOut4.size() != 5 )
     {
-    throw "testWithStdVector: failed reading user-specified number of elements (2.1)";
+    throw "testStringToolsWithStdVector: failed reading user-specified number of elements (2.1)";
     }
   for ( size_t i = 0; i < 5; i++ )
     {
     if ( dataIn[i] != dataOut4[i] )
       {
-      throw "testWithStdVector: failed reading user-specified number of elements (2.2)";
+      throw "testStringToolsWithStdVector: failed reading user-specified number of elements (2.2)";
       }
     }
+  std::cout << "testStringToolsWithStdVector: dataOut4 OK!" << std::endl;
+
+  std::cout << "testStringToolsWithStdVector: Passed!" << std::endl;
 }
 
 // test for itk::Array<T>
@@ -240,15 +246,16 @@ void testStringToolsWithItkArray()
   // check successful or not
   if ( dataOut1.GetSize() != (dataIn.GetSize()+1) && dataOut1[10] != 10.0 )
     {
-    throw "testWithItkArray: failed reading all elements in the string (1)";
+    throw "testStringToolsWithItkArray: failed reading all elements in the string (1)";
     }
   for ( size_t i = 0; i < dataIn.GetSize(); i++ )
     {
     if ( dataIn[i] != dataOut1[i] )
       {
-      throw "testWithItkArray: failed reading all elements in the string (2)";
+      throw "testStringToolsWithItkArray: failed reading all elements in the string (2)";
       }
     }
+  std::cout << "testStringToolsWithItkArray: dataOut1 OK!" << std::endl;
 
   // read all data elements for the output vector
   DataType dataOut2( 5 );
@@ -258,15 +265,16 @@ void testStringToolsWithItkArray()
   // check successful or not
   if ( dataOut2.GetSize() != 5 )
     {
-    throw "testWithItkArray: failed reading all elements for the output vector (1)";
+    throw "testStringToolsWithItkArray: failed reading all elements for the output vector (1)";
     }
   for ( size_t i = 0; i < dataOut2.GetSize(); i++ )
     {
     if ( dataIn[i] != dataOut2[i] )
       {
-      throw "testWithItkArray: failed reading all elements for the output vector (2)";
+      throw "testStringToolsWithItkArray: failed reading all elements for the output vector (2)";
       }
     }
+  std::cout << "testStringToolsWithItkArray: dataOut2 OK!" << std::endl;
 
   // read user-specified number of data elements (output data exist)
   DataType dataOut3( 10 );
@@ -276,15 +284,16 @@ void testStringToolsWithItkArray()
   // check successful or not
   if ( dataOut3.GetSize() != 10 && dataOut3[5] != 0.0 )
     {
-    throw "testWithItkArray: failed reading user-specified number of elements (1.1)";
+    throw "testStringToolsWithItkArray: failed reading user-specified number of elements (1.1)";
     }
   for ( size_t i = 0; i < 5; i++ )
     {
     if ( dataIn[i] != dataOut3[i] )
       {
-      throw "testWithItkArray: failed reading user-specified number of elements (1.2)";
+      throw "testStringToolsWithItkArray: failed reading user-specified number of elements (1.2)";
       }
     }
+  std::cout << "testStringToolsWithItkArray: dataOut3 OK!" << std::endl;
 
   // read user-specified number of data elements (output data do not exist)
   DataType dataOut4;
@@ -293,15 +302,18 @@ void testStringToolsWithItkArray()
   // check successful or not
   if ( dataOut4.GetSize() != 5 )
     {
-    throw "testWithItkArray: failed reading user-specified number of elements (2.1)";
+    throw "testStringToolsWithItkArray: failed reading user-specified number of elements (2.1)";
     }
   for ( size_t i = 0; i < 5; i++ )
     {
     if ( dataIn[i] != dataOut4[i] )
       {
-      throw "testWithItkArray: failed reading user-specified number of elements (2.2)";
+      throw "testStringToolsWithItkArray: failed reading user-specified number of elements (2.2)";
       }
     }
+  std::cout << "testStringToolsWithItkArray: dataOut4 OK!" << std::endl;
+
+  std::cout << "testStringToolsWithItkArray: Passed!" << std::endl;
 }
 
 void testStringToolsForStringOperations()
@@ -311,32 +323,37 @@ void testStringToolsForStringOperations()
   s = " Hello World! ";
   if ( itk::StringTools::TrimLeft(s) != "Hello World! " )
     {
-    throw "testStringOperations: failed trimming left";
+    throw "testStringToolsForStringOperations: failed trimming left";
     }
+  std::cout << "testStringToolsForStringOperations: TrimLeft(-) OK!" << std::endl;
 
   s = " Hello World! ";
   if ( itk::StringTools::TrimRight(s) != " Hello World!" )
     {
-    throw "testStringOperations: failed trimming right";
+    throw "testStringToolsForStringOperations: failed trimming right";
     }
+  std::cout << "testStringToolsForStringOperations: TrimRight(-) OK!" << std::endl;
 
   s = " Hello World! ";
   if ( itk::StringTools::Trim(s) != "Hello World!" )
     {
-    throw "testStringOperations: failed trimming both sides";
+    throw "testStringToolsForStringOperations: failed trimming both sides";
     }
+  std::cout << "testStringToolsForStringOperations: Trim(-) OK!" << std::endl;
 
   s = "Hello World!";
   if ( itk::StringTools::ToUpperCase(s) != "HELLO WORLD!" )
     {
-    throw "testStringOperations: failed converting to upper case";
+    throw "testStringToolsForStringOperations: failed converting to upper case";
     }
+  std::cout << "testStringToolsForStringOperations: ToUpperCase(-) OK!" << std::endl;
 
   s = "Hello World!";
   if ( itk::StringTools::ToLowerCase(s) != "hello world!" )
     {
-    throw "testStringOperations: failed converting to lower case";
+    throw "testStringToolsForStringOperations: failed converting to lower case";
     }
+  std::cout << "testStringToolsForStringOperations: ToLowerCase(-) OK!" << std::endl;
 
   s = " origin = 0 0 0 ";
   std::string lpart;
@@ -344,68 +361,75 @@ void testStringToolsForStringOperations()
   itk::StringTools::Split( s, lpart, rpart );
   if ( lpart != "origin" || rpart != "0 0 0" )
     {
-    throw "testStringOperations: failed splitting into two parts";
+    throw "testStringToolsForStringOperations: failed splitting into two parts";
     }
+  std::cout << "testStringToolsForStringOperations: Split(-,-,-) OK!" << std::endl;
 
   s = " size = 256 256 100; spacing = 0.3 0.3 0.7; origin = * ";
   std::vector<std::string> parts;
   itk::StringTools::Split( s, parts );
   if ( parts[0] != "size = 256 256 100" || parts[1] != "spacing = 0.3 0.3 0.7" || parts[2] != "origin = *" )
     {
-    throw "testStringOperations: failed splitting into a sequence of strings";
+    throw "testStringToolsForStringOperations: failed splitting into a sequence of strings";
     }
+  std::cout << "testStringToolsForStringOperations: Split(-,vector) OK!" << std::endl;
 
   s = " size = 256 256 100; spacing = 0.3 0.3 0.7; origin = * ";
   std::map<std::string,std::string> items;
   itk::StringTools::Split( s, items );
   if ( items["size"] != "256 256 100" || items["spacing"] != "0.3 0.3 0.7" || items["origin"] != "*" )
     {
-    throw "testStringOperations: failed splitting into a map or dictionary";
+    throw "testStringToolsForStringOperations: failed splitting into a map or dictionary";
     }
+  std::cout << "testStringToolsForStringOperations: Split(-,map) OK!" << std::endl;
 
   s = "Hello World!";
   if ( !itk::StringTools::MatchWith(s,"hello world!") )
     {
-    throw "testStringOperations: failed MatchWith testing (1)";
+    throw "testStringToolsForStringOperations: failed MatchWith testing (1)";
     }
   if ( itk::StringTools::MatchWith(s,"hello world!",false) )
     {
-    throw "testStringOperations: failed MatchWith testing (2)";
+    throw "testStringToolsForStringOperations: failed MatchWith testing (2)";
     }
   if ( itk::StringTools::MatchWith(s," hello world! ") )
     {
-    throw "testStringOperations: failed MatchWith testing (3)";
+    throw "testStringToolsForStringOperations: failed MatchWith testing (3)";
     }
+  std::cout << "testStringToolsForStringOperations: MatchWith(-,-) OK!" << std::endl;
 
   s = "Hello World!";
   if ( !itk::StringTools::StartWith(s,"hello") )
     {
-    throw "testStringOperations: failed StartWith testing (1)";
+    throw "testStringToolsForStringOperations: failed StartWith testing (1)";
     }
   if ( itk::StringTools::StartWith(s,"hello",false) )
     {
-    throw "testStringOperations: failed StartWith testing (2)";
+    throw "testStringToolsForStringOperations: failed StartWith testing (2)";
     }
+  std::cout << "testStringToolsForStringOperations: StartWith(-,-) OK!" << std::endl;
 
   s = "Hello World!";
   if ( !itk::StringTools::EndWith(s,"world!") )
     {
-    throw "testStringOperations: failed EndWith testing (1)";
+    throw "testStringToolsForStringOperations: failed EndWith testing (1)";
     }
   if ( itk::StringTools::EndWith(s,"world!",false) )
     {
-    throw "testStringOperations: failed EndWith testing (2)";
+    throw "testStringToolsForStringOperations: failed EndWith testing (2)";
     }
+  std::cout << "testStringToolsForStringOperations: EndWith(-,-) OK!" << std::endl;
 
   s = "Hello World!";
   if ( !itk::StringTools::ContainSub(s,"Lo wo") )
     {
-    throw "testStringOperations: failed ContainSub testing (1)";
+    throw "testStringToolsForStringOperations: failed ContainSub testing (1)";
     }
   if ( itk::StringTools::ContainSub(s,"Lo wo",false) )
     {
-    throw "testStringOperations: failed ContainSub testing (2)";
+    throw "testStringToolsForStringOperations: failed ContainSub testing (2)";
     }
+  std::cout << "testStringToolsForStringOperations: ContainSub(-,-) OK!" << std::endl;
 
-  // all testings passed!
+  std::cout << "testStringToolsForStringOperations: Passed!" << std::endl;
 }

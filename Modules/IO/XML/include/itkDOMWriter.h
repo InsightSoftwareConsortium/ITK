@@ -47,12 +47,14 @@ namespace itk
  *
  * The following code snippet demontrates how to use a DOM-based writer that is derived from this class:
  *
+ * \code
  *     itk::MyObjectType::Pointer input_object = ...
  *     const char* output_xml_file_name = ...
  *     itk::MyObjectDOMWriter::Pointer writer = itk::MyObjectDOMWriter::New();
  *     writer->SetInput( input_object );
  *     writer->SetFileName( output_xml_file_name );
  *     writer->Update();
+ * \endcode
  *
  * \sa XMLWriterBase
  * \sa DOMNodeXMLWriter
@@ -60,7 +62,7 @@ namespace itk
  *
  * \ingroup ITKIOXML
  */
-template< class T >
+template< class TInput >
 class DOMWriter : public Object
 {
 public:
@@ -69,8 +71,7 @@ public:
 
   itkTypeMacro(DOMWriter, Object);
 
-  typedef T                                 InputType;
-  typedef typename InputType::ConstPointer  ConstInputPointer;
+  typedef TInput                            InputType;
 
   typedef DOMNode                           DOMNodeType;
   typedef typename DOMNodeType::Pointer     DOMNodePointer;
@@ -85,10 +86,10 @@ public:
   itkGetStringMacro(FileName);
 
   /** Set the input object to be written. */
-  itkSetConstObjectMacro( Input, InputType );
+  virtual void SetInput( const InputType* input );
 
   /** Get the input object to be written. */
-  itkGetConstObjectMacro( Input, InputType );
+  const InputType* GetInput() const;
 
   /**
    * Return the internal logger so that users can change the
@@ -134,7 +135,9 @@ private:
   std::string m_FileName;
 
   /** Variable to hold the input object. */
-  ConstInputPointer m_Input;
+  const InputType* m_Input;
+  /** Variable to hold the input object if it is a smart object. */
+  typename LightObject::ConstPointer m_InputHolder;
 
   /** Variable to hold the intermediate DOM object. */
   DOMNodePointer m_IntermediateDOM;

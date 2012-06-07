@@ -29,13 +29,12 @@ void
 ParticleSwarmOptimizerDOMReader::GenerateData( const DOMNodeType* inputdom, const void* )
 {
   LoggerType* logger = this->GetLogger();
-  logger->SetName( this->GetNameOfClass() );
 
   OutputType* output = this->GetOutput();
   if ( output == NULL )
     {
     logger->Info( "creating the output PSO object ...\n" );
-    OutputPointer object = OutputType::New();
+    OutputType::Pointer object = OutputType::New();
     output = (OutputType*)object;
     this->SetOutput( output );
     }

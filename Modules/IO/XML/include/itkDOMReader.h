@@ -46,12 +46,14 @@ namespace itk
  *
  * The following code snippet demontrates how to use a DOM-based reader that is derived from this class:
  *
+ * \code
  *     itk::MyObjectType::Pointer output_object;
  *     const char* input_xml_file_name = ...
  *     itk::MyObjectDOMReader::Pointer reader = itk::MyObjectDOMReader::New();
  *     reader->SetFileName( input_xml_file_name );
  *     reader->Update();
  *     output_object = reader->GetOutput();
+ * \endcode
  *
  * \sa XMLReader
  * \sa DOMNodeXMLReader
@@ -59,7 +61,7 @@ namespace itk
  *
  * \ingroup ITKIOXML
  */
-template< class T >
+template< class TOutput >
 class DOMReader : public Object
 {
 public:
@@ -68,8 +70,7 @@ public:
 
   itkTypeMacro(DOMReader, Object);
 
-  typedef T                             OutputType;
-  typedef typename OutputType::Pointer  OutputPointer;
+  typedef TOutput                       OutputType;
 
   typedef DOMNode                       DOMNodeType;
   typedef typename DOMNodeType::Pointer DOMNodePointer;
@@ -87,13 +88,13 @@ public:
    * The output object will be created automatically, but the user
    * can appoint a user object as the output by calling this function.
    */
-  itkSetObjectMacro( Output, OutputType );
+  virtual void SetOutput( OutputType* output );
 
   /** Get the output object for full access. */
-  itkGetObjectMacro( Output, OutputType );
+  OutputType* GetOutput();
 
   /** Get the output object for read-only access. */
-  itkGetConstObjectMacro( Output, OutputType );
+  const OutputType* GetOutput() const;
 
   /**
    * Return the internal logger so that users can change the
@@ -139,7 +140,9 @@ private:
   std::string m_FileName;
 
   /** Variable to hold the output object, created internally or supplied by the user. */
-  OutputPointer m_Output;
+  OutputType* m_Output;
+  /** Variable to hold the output object if it is a smart object. */
+  typename LightObject::Pointer m_OutputHolder;
 
   /** Variable to hold the intermediate DOM object. */
   DOMNodePointer m_IntermediateDOM;
