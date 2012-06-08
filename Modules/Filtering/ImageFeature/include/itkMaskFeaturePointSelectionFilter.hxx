@@ -227,7 +227,7 @@ MaskFeaturePointSelectionFilter< TImage, TMask, TFeatures >
     }
 
   // number of points to select
-  SizeValueType pointsLeft = floor( 0.5 + pointMap.size() * m_SelectFraction );
+  SizeValueType pointsLeft = Math::Floor<SizeValueType>( 0.5 + pointMap.size() * m_SelectFraction );
 
   // pick points with highest variance first
   typedef typename MultiMapType::reverse_iterator MapReverseIterator;

@@ -166,19 +166,19 @@ int itkBlockMatchingImageFilterTest( int argc, char * argv[] )
 
   // define colors
   OutputPixelType red;
-  red.SetRed( 255.0 );
-  red.SetGreen( 0.0 );
-  red.SetBlue( 0.0 );
+  red.SetRed( 255 );
+  red.SetGreen( 0 );
+  red.SetBlue( 0 );
 
   OutputPixelType green;
-  green.SetRed( 0.0 );
-  green.SetGreen( 255.0 );
-  green.SetBlue( 0.0 );
+  green.SetRed( 0 );
+  green.SetGreen( 255 );
+  green.SetBlue( 0 );
 
   OutputPixelType blue;
-  blue.SetRed( 0.0 );
-  blue.SetGreen( 0.0 );
-  blue.SetBlue( 255.0 );
+  blue.SetRed( 0 );
+  blue.SetGreen( 0 );
+  blue.SetBlue( 255 );
 
   OutputImageType::IndexType index;
   while ( pointItr != pointEnd )
