@@ -27,6 +27,8 @@
 #include "itkRGBAPixel.h"
 #include "itkDiffusionTensor3D.h"
 #include "itkRegionConstrainedSubsampler.h"
+#include "itkEnableIf.h"
+#include "itkIsSame.h"
 
 namespace itk
 {
@@ -185,141 +187,58 @@ public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 
   virtual void GenerateInputRequestedRegion();
 
-  PixelValueType
-  GetComponent(const VariableLengthVector<PixelValueType>& pix,
-               unsigned int idx) const
+  /** \brief A method to generically get a component.
+   *
+   * The same function name can be used to generically access for
+   * scalars and array-like types. For scalar types the idx parameter
+   * is ignored.
+  */
+  template< typename T>
+    typename EnableIfC<
+      IsSame<T, typename NumericTraits<T>::ValueType>::Value,
+      T >::Type
+  GetComponent(const T pix,
+               unsigned int itkNotUsed( idx ) ) const
   {
-    return DispatchedGetArrayComponent(pix, idx);
+    // The enable if idiom is used to overload this method for both
+    // scalars and multi-component types. By exploiting that
+    // NumericTraits' ValueType typedef (defines the per-element type
+    // for multi-component types ) is different then the parameterize
+    // type, the bracket operator is used only for multi-component
+    // types.
+    return pix;
   }
-  PixelValueType
-  GetComponent(const RGBPixel<PixelValueType>& pix,
-               unsigned int idx) const
+  template< typename T>
+    typename DisableIfC<
+      IsSame<T, typename NumericTraits<T>::ValueType>::Value,
+       typename NumericTraits<T>::ValueType>::Type
+  GetComponent(const T& pix,
+               unsigned int idx ) const
   {
-    return DispatchedGetArrayComponent(pix, idx);
-  }
-  PixelValueType
-  GetComponent(const RGBAPixel<PixelValueType>& pix,
-               unsigned int idx) const
-  {
-    return DispatchedGetArrayComponent(pix, idx);
-  }
-  PixelValueType
-  GetComponent(const DiffusionTensor3D<PixelValueType>& pix,
-               unsigned int idx) const
-  {
-    return DispatchedGetArrayComponent(pix, idx);
-  }
-  PixelValueType
-  GetComponent(const PixelValueType& pix, unsigned int idx) const
-  {
-    return DispatchedGetComponent(pix, idx);
-  }
-  RealValueType
-  GetComponent(const VariableLengthVector<RealValueType>& pix,
-               unsigned int idx) const
-  {
-    return DispatchedGetArrayComponent(pix, idx);
-  }
-  RealValueType
-  GetComponent(const RGBPixel<RealValueType>& pix,
-               unsigned int idx) const
-  {
-    return DispatchedGetArrayComponent(pix, idx);
-  }
-  RealValueType
-  GetComponent(const RGBAPixel<RealValueType>& pix,
-               unsigned int idx) const
-  {
-    return DispatchedGetArrayComponent(pix, idx);
-  }
-  RealValueType
-  GetComponent(const DiffusionTensor3D<RealValueType>& pix,
-               unsigned int idx) const
-  {
-    return DispatchedGetArrayComponent(pix, idx);
-  }
-  RealValueType
-  GetComponent(const RealValueType& pix, unsigned int idx) const
-  {
-    return DispatchedGetComponent(pix, idx);
-  }
-  template <typename TValue, unsigned int VLength>
-  TValue
-  GetComponent(const FixedArray<TValue, VLength>& pix,
-               unsigned int idx) const
-  {
-    return DispatchedGetArrayComponent(pix, idx);
+    return pix[idx];
   }
 
-  void
-  SetComponent(VariableLengthVector<PixelValueType>& pix,
-               unsigned int idx, PixelValueType val)
+  /** \brief A method to generically set a component */
+  template< typename T>
+    typename EnableIfC<
+      IsSame<T, typename NumericTraits<T>::ValueType>::Value
+      >::Type
+    SetComponent( T &pix, unsigned int itkNotUsed( idx ), RealValueType val) const
   {
-    return DispatchedSetArrayComponent(pix, idx, val);
+    pix = val;
   }
-  void
-  SetComponent(RGBPixel<PixelValueType>& pix,
-               unsigned int idx, PixelValueType val)
+  template< typename T>
+    typename DisableIfC<
+      IsSame<T, typename NumericTraits<T>::ValueType>::Value
+      >::Type
+  SetComponent( T &pix, unsigned int idx, RealValueType val) const
   {
-    return DispatchedSetArrayComponent(pix, idx, val);
+    pix[idx] =  val;
   }
-  void
-  SetComponent(RGBAPixel<PixelValueType>& pix,
-               unsigned int idx, PixelValueType val)
-  {
-    return DispatchedSetArrayComponent(pix, idx, val);
-  }
-  void
-  SetComponent(DiffusionTensor3D<PixelValueType>& pix,
-               unsigned int idx, PixelValueType val)
-  {
-    return DispatchedSetArrayComponent(pix, idx, val);
-  }
-  void
-  SetComponent(PixelValueType& pix, unsigned int idx, PixelValueType val)
-  {
-    DispatchedSetComponent(pix, idx, val);
-  }
-  void
-  SetComponent(VariableLengthVector<RealValueType>& pix,
-               unsigned int idx, RealValueType val)
-  {
-    return DispatchedSetArrayComponent(pix, idx, val);
-  }
-  void
-  SetComponent(RGBPixel<RealValueType>& pix,
-               unsigned int idx, RealValueType val)
-  {
-    return DispatchedSetArrayComponent(pix, idx, val);
-  }
-  void
-  SetComponent(RGBAPixel<RealValueType>& pix,
-               unsigned int idx, RealValueType val)
-  {
-    return DispatchedSetArrayComponent(pix, idx, val);
-  }
-  void
-  SetComponent(DiffusionTensor3D<RealValueType>& pix,
-               unsigned int idx, RealValueType val)
-  {
-    return DispatchedSetArrayComponent(pix, idx, val);
-  }
-  void
-  SetComponent(RealValueType& pix, unsigned int idx, RealValueType val)
-  {
-    DispatchedSetComponent(pix, idx, val);
-  }
-  template <typename TValue, unsigned int VLength>
-  void
-  SetComponent(FixedArray<TValue, VLength>& pix,
-               unsigned int idx, TValue val) const
-  {
-    return DispatchedSetArrayComponent(pix, idx, val);
-  }
+
 
   /** Compute the Minimum and Maximum pixel in the image for each independent component */
-  void ComputeMinMax(const VectorImage<PixelValueType, ImageDimension>* img)
-  { DispatchedVectorMinMax(img); }
+
   void ComputeMinMax(const Image< DiffusionTensor3D<PixelValueType> , ImageDimension>* img)
   {
     if (this->m_ComponentSpace == Superclass::RIEMANNIAN)
@@ -331,24 +250,20 @@ public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
       DispatchedArrayMinMax(img);
     }
   }
-  void ComputeMinMax(const Image< RGBPixel<PixelValueType> , ImageDimension>* img)
-  {
-    DispatchedArrayMinMax(img);
-  }
-  void ComputeMinMax(const Image< RGBAPixel<PixelValueType> , ImageDimension>* img)
-  {
-    DispatchedArrayMinMax(img);
-  }
-  void ComputeMinMax(const Image< VariableLengthVector<PixelValueType> , ImageDimension>* img)
-  {
-    DispatchedArrayMinMax(img);
-  }
-  void ComputeMinMax(const Image< PixelValueType, ImageDimension>* img)
+
+  template< typename TImageType>
+    typename EnableIfC<
+      IsSame<typename TImageType::PixelType, typename NumericTraits<typename TImageType::PixelType>::ValueType>::Value
+      >::Type
+    ComputeMinMax(const TImageType* img)
   {
     DispatchedMinMax(img);
   }
-  template <unsigned int VLength>
-  void ComputeMinMax(const Image< FixedArray<PixelValueType, VLength> , ImageDimension>* img)
+ template< typename TImageType>
+    typename DisableIfC<
+      IsSame<typename TImageType::PixelType, typename NumericTraits<typename TImageType::PixelType>::ValueType>::Value
+      >::Type
+   ComputeMinMax(const TImageType* img)
   {
     DispatchedArrayMinMax(img);
   }
@@ -489,31 +404,17 @@ public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
    * region which it then passes to ThreadedApplyUpdate for processing. */
   static ITK_THREAD_RETURN_TYPE ApplyUpdateThreaderCallback( void *arg );
 
-  template <typename T>
-  typename NumericTraits<T>::ValueType
-  DispatchedGetComponent(const T& pix, unsigned int idx) const;
+  template <typename TInputImageType>
+  void DispatchedMinMax(const TInputImageType* img);
 
-  template <typename T>
-  typename NumericTraits<T>::ValueType
-  DispatchedGetArrayComponent(const T& pix, unsigned int idx) const;
+  template <typename TInputImageType>
+  void DispatchedArrayMinMax(const TInputImageType* img);
 
-  template <typename T>
-  void
-  DispatchedSetComponent(T& pix, unsigned int idx,
-                         typename NumericTraits<T>::ValueType val);
+  template <typename TInputImageType>
+  void DispatchedVectorMinMax(const TInputImageType* img);
 
-  template <typename T>
-  void
-  DispatchedSetArrayComponent(T& pix, unsigned int idx,
-                              typename NumericTraits<T>::ValueType val);
-
-  void DispatchedMinMax(const InputImageType* img);
-
-  void DispatchedArrayMinMax(const InputImageType* img);
-
-  void DispatchedVectorMinMax(const InputImageType* img);
-
-  void DispatchedRiemannianMinMax(const InputImageType* img);
+    template <typename TInputImageType>
+  void DispatchedRiemannianMinMax(const TInputImageType* img);
   /** This callback method uses ImageSource::SplitRequestedRegion to acquire a
    * region which it then passes to ThreadedRiemannianMinMax for processing. */
   static ITK_THREAD_RETURN_TYPE RiemannianMinMaxThreaderCallback( void *arg );
