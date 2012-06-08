@@ -96,6 +96,63 @@ int itkFEMElement3DTest(int argc, char *argv[])
   bool        foundError = false;
   std::string modelFile = itksys::SystemTools::GetFilenameName( argv[1] );
 
+  // Define all expected solutions here
+  double hex2expectedSolution[24] =
+    {
+      -0.086324, -0.00055514, 0.121079,
+      0.0952793, -0.00331153, 0.114235,
+      0.0727445, 0.00768949, -0.0394109,
+      -0.0774779, -0.0115562, -0.0325665,
+      0, 0, 0.0713128,
+      0, 0, 0.0734239,
+      0.0439568, 0, 0.00211102,
+      -0.0397348, 0, 0
+    };
+  double hex3ExpectedSolution[24] =
+    {
+      0, 0, 0,
+      0, 0, 0,
+      0, 0, 0,
+      0, 0, 0,
+      0, 0, 0,
+      0, 0, 0,
+      0, 0, 0,
+      0, 0, 0
+    };
+  double hex4GravExpectedSolution[24] =
+    {
+      0, 0, 0,
+      0, 0, 0,
+      0, 0, 0,
+      9.27489e-08, 2.95922e-06, -9.27489e-08,
+      -1.49661e-06, 8.59118e-07, 1.38971e-06,
+      -1.32956e-06, -5.70152e-07, 1.32956e-06,
+      -1.38971e-06, 8.59118e-07, 1.49661e-06,
+      -1.59154e-06, 2.37079e-06, 1.59154e-06
+    };
+  double tetra2ExpectedSolution[15] =
+    {
+      0, 0, 0,
+      0, 0, -0.000866667,
+      0, 0, -0.000866667,
+      0, 0, 0,
+      0, 0, 0
+    };
+  double tetra3ExpectedSolution[12] =
+    {
+      0, 0, 0,
+      0, 0, 0,
+      0, 0, 0,
+      0, 0, 0
+    };
+  double tetra4gravExpectedSolution[12] =
+    {
+      0, 0, 0,
+      0, 0, 0,
+      0, 0, 0,
+      0, 0, 1.46858e-05
+    };
+
   // Run the Solver using all of the available numeric solvers
 
   try
@@ -139,86 +196,31 @@ int itkFEMElement3DTest(int argc, char *argv[])
       if( modelFile == "hexa2.meta" )
         {
         tolerance = 10e-6;
-        double hex2expectedSolution[24] =
-          {
-          -0.086324, -0.00055514, 0.121079,
-          0.0952793, -0.00331153, 0.114235,
-          0.0727445, 0.00768949, -0.0394109,
-          -0.0774779, -0.0115562, -0.0325665,
-          0, 0, 0.0713128,
-          0, 0, 0.0734239,
-          0.0439568, 0, 0.00211102,
-          -0.0397348, 0, 0
-          };
         expectedSolution = &(hex2expectedSolution[0]);
         }
       else if( modelFile == "hexa3.meta" )
         {
         tolerance = 10e-10;
-        double hex3ExpectedSolution[24] =
-          {
-          0, 0, 0,
-          0, 0, 0,
-          0, 0, 0,
-          0, 0, 0,
-          0, 0, 0,
-          0, 0, 0,
-          0, 0, 0,
-          0, 0, 0
-          };
         expectedSolution = &(hex3ExpectedSolution[0]);
         }
       else if( modelFile == "hexa4-grav.meta" )
         {
         tolerance = 10e-10;
-        double hex4GravExpectedSolution[24] =
-          {
-          0, 0, 0,
-          0, 0, 0,
-          0, 0, 0,
-          9.27489e-08, 2.95922e-06, -9.27489e-08,
-          -1.49661e-06, 8.59118e-07, 1.38971e-06,
-          -1.32956e-06, -5.70152e-07, 1.32956e-06,
-          -1.38971e-06, 8.59118e-07, 1.49661e-06,
-          -1.59154e-06, 2.37079e-06, 1.59154e-06
-          };
         expectedSolution = &(hex4GravExpectedSolution[0]);
         }
       else if( modelFile == "tetra2.meta" )
         {
         tolerance = 10e-9;
-        double tetra2ExpectedSolution[15] =
-          {
-          0, 0, 0,
-          0, 0, -0.000866667,
-          0, 0, -0.000866667,
-          0, 0, 0,
-          0, 0, 0
-          };
         expectedSolution = &(tetra2ExpectedSolution[0]);
         }
       else if( modelFile == "tetra3.meta" )
         {
         tolerance = 10e-10;
-        double tetra3ExpectedSolution[12] =
-          {
-          0, 0, 0,
-          0, 0, 0,
-          0, 0, 0,
-          0, 0, 0
-          };
         expectedSolution = &(tetra3ExpectedSolution[0]);
         }
       else if( modelFile == "tetra4-grav.meta" )
         {
         tolerance = 10e-9;
-        double tetra4gravExpectedSolution[12] =
-          {
-          0, 0, 0,
-          0, 0, 0,
-          0, 0, 0,
-          0, 0, 1.46858e-05
-          };
         expectedSolution = &(tetra4gravExpectedSolution[0]);
         }
       else
