@@ -264,13 +264,13 @@ ImageToRectilinearFEMObjectFilter<TInputImage>
   ImageIndexType nodeIndex;
   ImagePointType nodePoint;
   int            gn = 0; // number of node
-  for( double k = 0; k <= m_NumberOfElements[2]; k++ )
+  for( unsigned int k = 0; k <= m_NumberOfElements[2]; ++k )
     {
     nodeIndex[2] = k * m_PixelsPerElement[2];
-    for( double j = 0; j <= m_NumberOfElements[1]; j++ )
+    for( unsigned int j = 0; j <= m_NumberOfElements[1]; ++j )
       {
       nodeIndex[1] = j * m_PixelsPerElement[1];
-      for( double i = 0; i <= m_NumberOfElements[0]; i++ )
+      for( unsigned int i = 0; i <= m_NumberOfElements[0]; ++i )
         {
         nodeIndex[0] = i * m_PixelsPerElement[0];
         image->TransformIndexToPhysicalPoint(nodeIndex, nodePoint);
