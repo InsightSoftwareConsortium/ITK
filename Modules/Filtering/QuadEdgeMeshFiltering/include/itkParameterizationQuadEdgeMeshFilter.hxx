@@ -82,9 +82,7 @@ ParameterizationQuadEdgeMeshFilter< TInputMesh, TOutputMesh, TSolverTraits >
 ::SolveLinearSystems(const MatrixType & iM, const VectorType & iBx,
                      const VectorType & iBy, VectorType & oX, VectorType & oY)
 {
-  SolverTraits traits;
-
-  traits.Solve(iM, iBx, iBy, oX, oY);
+  SolverTraits::Solve(iM, iBx, iBy, oX, oY);
 }
 
 // ---------------------------------------------------------------------
@@ -95,8 +93,6 @@ ParameterizationQuadEdgeMeshFilter< TInputMesh, TOutputMesh, TSolverTraits >
 {
   InputMeshConstPointer input   = this->GetInput();
   OutputMeshPointer     output = this->GetOutput();
-
-  SolverTraits traits;
 
   InputCoordRepType value;
 
@@ -133,7 +129,7 @@ ParameterizationQuadEdgeMeshFilter< TInputMesh, TOutputMesh, TSolverTraits >
         {
         value = ( *m_CoefficientsMethod )( input, temp );
         pt2 = output->GetPoint(it->first);
-        traits.AddToMatrix(iM, InternalId1, InternalId1, value);
+        SolverTraits::AddToMatrix(iM, InternalId1, InternalId1, value);
         k[0] += static_cast< ValueType >( pt2[0] * value );
         k[1] += static_cast< ValueType >( pt2[1] * value );
         }
@@ -143,10 +139,10 @@ ParameterizationQuadEdgeMeshFilter< TInputMesh, TOutputMesh, TSolverTraits >
         if ( InternalId1 < InternalId2 )
           {
           value = ( *m_CoefficientsMethod )( input, temp );
-          traits.FillMatrix(iM, InternalId1, InternalId2, -value);
-          traits.FillMatrix(iM, InternalId2, InternalId1, -value);
-          traits.AddToMatrix(iM, InternalId1, InternalId1, value);
-          traits.AddToMatrix(iM, InternalId2, InternalId2, value);
+          SolverTraits::FillMatrix(iM, InternalId1, InternalId2, -value);
+          SolverTraits::FillMatrix(iM, InternalId2, InternalId1, -value);
+          SolverTraits::AddToMatrix(iM, InternalId1, InternalId1, value);
+          SolverTraits::AddToMatrix(iM, InternalId2, InternalId2, value);
           }
         }
 
@@ -186,13 +182,11 @@ ParameterizationQuadEdgeMeshFilter< TInputMesh, TOutputMesh, TSolverTraits >
 
   InputPointIdentifier NbOfInteriorPts = m_InternalPtMap.size();
 
-  SolverTraits traits;
-
-  MatrixType Matrix = traits.InitializeSparseMatrix(NbOfInteriorPts);
-  VectorType Bx = traits.InitializeVector(NbOfInteriorPts);
-  VectorType By = traits.InitializeVector(NbOfInteriorPts);
-  VectorType X = traits.InitializeVector(NbOfInteriorPts);
-  VectorType Y = traits.InitializeVector(NbOfInteriorPts);
+  MatrixType Matrix = SolverTraits::InitializeSparseMatrix(NbOfInteriorPts);
+  VectorType Bx = SolverTraits::InitializeVector(NbOfInteriorPts);
+  VectorType By = SolverTraits::InitializeVector(NbOfInteriorPts);
+  VectorType X = SolverTraits::InitializeVector(NbOfInteriorPts);
+  VectorType Y = SolverTraits::InitializeVector(NbOfInteriorPts);
 
   FillMatrix(Matrix, Bx, By);
 
