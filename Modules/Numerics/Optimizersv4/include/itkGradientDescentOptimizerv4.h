@@ -194,7 +194,7 @@ public:
    *  calculated during the optimization. This captures the best
    *  solution when the optimizer oversteps or osciallates near the end
    *  of an optimization.
-   *  Results are stored in m_Value and in the assigned metric's
+   *  Results are stored in m_CurrentMetricValue and in the assigned metric's
    *  parameters, retrievable via optimizer->GetCurrentPosition().
    *  This option requires additional memory to store the best
    *  parameters, which can be large when working with high-dimensional

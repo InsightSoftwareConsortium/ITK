@@ -66,7 +66,7 @@ public:
       {
       itkGenericExceptionMacro( "Error dynamic_cast failed" );
       }
-    std::cout << "It- " << optimizer->GetCurrentIteration() << " gradient: " << optimizer->GetGradient() << " metric value: " << optimizer->GetValue()
+    std::cout << "It- " << optimizer->GetCurrentIteration() << " gradient: " << optimizer->GetGradient() << " metric value: " << optimizer->GetCurrentMetricValue()
               << " Params: " << const_cast<TFilter*>(optimizer)->GetCurrentPosition() << std::endl;
     }
 };

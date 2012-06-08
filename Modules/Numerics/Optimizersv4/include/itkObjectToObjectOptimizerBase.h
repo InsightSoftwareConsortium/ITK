@@ -91,8 +91,17 @@ public:
   itkGetObjectMacro( Metric, MetricType );
   itkSetObjectMacro( Metric, MetricType );
 
-  /** Accessor for metric value */
-  itkGetConstReferenceMacro( Value, MeasureType );
+  /** Accessor for metric value. Returns the value
+   *  stored in m_CurrentMetricValue from the most recent
+   *  call to evaluate the metric. */
+  itkGetConstReferenceMacro( CurrentMetricValue, MeasureType );
+
+  /** Deprecated accessor for currently stored metric value for use
+   *  by classes that support both v4 and v3 optimizers.
+   *
+   *  \sa GetCurrentMetricValue()
+   */
+  const MeasureType & GetValue();
 
   /** Set current parameters scaling. */
   itkSetMacro( Scales, ScalesType );
@@ -130,8 +139,8 @@ protected:
   MetricTypePointer             m_Metric;
   ThreadIdType                  m_NumberOfThreads;
 
-  /** Metric measure value at a given iteration */
-  MeasureType                   m_Value;
+  /** Metric measure value at a given iteration, as most recently evaluated. */
+  MeasureType                   m_CurrentMetricValue;
 
   /** Scales. Size is expected to be == metric->GetNumberOfLocalParameters().
    * See the main documentation for more details. */

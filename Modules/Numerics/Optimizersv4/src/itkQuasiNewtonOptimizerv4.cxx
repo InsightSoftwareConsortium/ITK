@@ -96,18 +96,18 @@ QuasiNewtonOptimizerv4
   if (this->GetCurrentIteration() == 0)
     {
     // initialize some information
-    m_PreviousValue = this->GetValue();
+    m_PreviousValue = this->GetCurrentMetricValue();
     m_PreviousPosition = this->GetCurrentPosition();
     m_PreviousGradient = this->GetGradient();
 
-    m_BestValue = this->m_Value;
+    m_BestValue = this->m_CurrentMetricValue;
     m_BestPosition = this->m_CurrentPosition;
     m_BestIteration = this->GetCurrentIteration();
     }
-  else if (m_BestValue > this->m_Value)
+  else if (m_BestValue > this->m_CurrentMetricValue)
     {
     // store the best value and related information
-    m_BestValue = this->m_Value;
+    m_BestValue = this->m_CurrentMetricValue;
     m_BestPosition = this->m_CurrentPosition;
     m_BestIteration = this->GetCurrentIteration();
     }
@@ -120,7 +120,7 @@ QuasiNewtonOptimizerv4
     this->m_Metric->UpdateTransformParameters( backStep );
 
     this->m_CurrentPosition = this->m_BestPosition;
-    this->m_Value = this->m_BestValue;
+    this->m_CurrentMetricValue = this->m_BestValue;
 
     m_StopCondition = STEP_TOO_SMALL;
     m_StopConditionDescription << "Optimization stops after "
@@ -155,7 +155,7 @@ QuasiNewtonOptimizerv4
   this->EstimateNewtonStep();
 
   /** Save for the next iteration */
-  m_PreviousValue = this->GetValue();
+  m_PreviousValue = this->GetCurrentMetricValue();
   m_PreviousPosition = this->GetCurrentPosition();
   m_PreviousGradient = this->GetGradient();
 

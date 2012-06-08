@@ -54,7 +54,7 @@ public:
       {
       itkGenericExceptionMacro( "Error dynamic_cast failed" );
       }
-    std::cout << "It: " << optimizer->GetCurrentIteration() << " metric value: " << optimizer->GetValue();
+    std::cout << "It: " << optimizer->GetCurrentIteration() << " metric value: " << optimizer->GetCurrentMetricValue();
     std::cout << std::endl;
     }
 };
@@ -141,7 +141,7 @@ int itkEuclideanDistancePointSetMetricRegistrationTestRun(
   std::cout << "maximumPhysicalStepSize: " << maximumPhysicalStepSize << std::endl;
   std::cout << "Optimizer scales: " << optimizer->GetScales() << std::endl;
   std::cout << "Optimizer learning rate: " << optimizer->GetLearningRate() << std::endl;
-  std::cout << "Moving-source final value: " << optimizer->GetValue() << std::endl;
+  std::cout << "Moving-source final value: " << optimizer->GetCurrentMetricValue() << std::endl;
   if( transform->HasLocalSupport() )
     {
     std::cout << "local-support transform non-zero parameters: " << std::endl;

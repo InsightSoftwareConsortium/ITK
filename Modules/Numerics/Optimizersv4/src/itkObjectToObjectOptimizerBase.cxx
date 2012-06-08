@@ -26,7 +26,7 @@ ObjectToObjectOptimizerBase
 ::ObjectToObjectOptimizerBase()
 {
   this->m_Metric = NULL;
-  this->m_Value = 0;
+  this->m_CurrentMetricValue = 0;
   // Initialize, but w/out calling SetNumberOfThreads, to avoid
   // valgrind warning.
   this->m_NumberOfThreads = MultiThreader::GetGlobalDefaultNumberOfThreads();
@@ -137,6 +137,14 @@ ObjectToObjectOptimizerBase
     itkExceptionMacro("m_Metric has not been assigned. Cannot get parameters.");
     }
   return this->m_Metric->GetParameters();
+}
+
+//-------------------------------------------------------------------
+const ObjectToObjectOptimizerBase::MeasureType &
+ObjectToObjectOptimizerBase
+::GetValue()
+{
+  return this->GetCurrentMetricValue();
 }
 
 }//namespace itk

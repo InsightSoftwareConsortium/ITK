@@ -76,9 +76,8 @@ public:
     std::cout << "   SS Smoothing sigma:        " << smoothingSigmas[currentLevel] << std::endl;
     std::cout << "   RFP Required fixed params: " << adaptors[currentLevel]->GetRequiredFixedParameters() << std::endl;
     std::cout << "   LR Final learning rate:    " << optimizer->GetLearningRate() << std::endl;
-    std::cout << "   FM Final metric value:     " << optimizer->GetValue() << std::endl;
+    std::cout << "   FM Final metric value:     " << optimizer->GetCurrentMetricValue() << std::endl;
     std::cout << "   SC Optimizer scales:       " << optimizer->GetScales() << std::endl;
-    std::cout << "   ME Metric value:           " << optimizer->GetValue() << std::endl;
     std::cout << "   FG Final metric gradient (sample of values): ";
     if( gradient.GetSize() < 10 )
       {

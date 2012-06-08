@@ -176,8 +176,8 @@ MultiStartOptimizerv4
         this->m_LocalOptimizer->StartOptimization();
         this->m_ParametersList[this->m_CurrentIteration] = this->m_Metric->GetParameters();
         }
-      this->m_Value = this->m_Metric->GetValue();
-      this->m_MetricValuesList.push_back(this->m_Value);
+      this->m_CurrentMetricValue = this->m_Metric->GetValue();
+      this->m_MetricValuesList.push_back(this->m_CurrentMetricValue);
       }
     catch ( ExceptionObject & )
       {
@@ -187,9 +187,9 @@ MultiStartOptimizerv4
       itkWarningMacro("An exception occurred in sub-optimization number " << this->m_CurrentIteration << ".  If too many of these occur, you may need to set a different set of initial parameters.");
       }
 
-    if ( this->m_Value <  this->m_MinimumMetricValue )
+    if ( this->m_CurrentMetricValue <  this->m_MinimumMetricValue )
       {
-      this->m_MinimumMetricValue=this->m_Value;
+      this->m_MinimumMetricValue=this->m_CurrentMetricValue;
       this->m_BestParametersIndex = this->m_CurrentIteration;
       }
     /* Check if optimization has been stopped externally.
