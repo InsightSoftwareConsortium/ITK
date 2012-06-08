@@ -94,6 +94,85 @@ int itkFEMElement2DTest(int argc, char *argv[])
   bool        foundError = false;
   std::string modelFile = itksys::SystemTools::GetFilenameName( argv[1] );
 
+  // Define all expected solutions here
+  double quad2smallExpectedSolution[8] =
+    {
+      0, 0,
+      2.97334e-07, -1.20555e-06,
+      1.944e-06, -1.32333e-06,
+      0, 0
+    };
+  double quad2strainExpectedSolution[8] =
+    {
+      0, 0,
+      2.56204e-07, -1.02482e-06,
+      1.67956e-06, -1.19562e-06,
+      0, 0
+    };
+  double quad4ExpectedSolution[8] =
+    {
+      0, 0,
+      0, 0,
+      0, 0,
+      0, 0
+    };
+  double quad6gravExpectedSolution[8] =
+    {
+      0, 0,
+      0, 0,
+      -5.32164e-08, 1.59649e-07,
+      5.32164e-08, 1.59649e-07
+    };
+  double quadlmExpectedSolution[8] =
+    {
+      0, 0,
+      -8.76093e-05, -0.0135944,
+      -0.00420457, 0.00477804,
+      -0.0163679, -0.0360446,
+    };
+  double trapezoidExpectedSolution[8] =
+    {
+      0, 0,
+      0, 0,
+      0, 0,
+      0, 0
+    };
+  double tri2ExpectedSolution[8] =
+    {
+      0, 0,
+      9.86667e-07, -2.028e-05,
+      -9.76e-06, -5.67867e-05,
+      -2.87733e-05, -9.68267e-05
+    };
+  double tri3ExpectedSolution[6] =
+    {
+      0, 0,
+      0, 0,
+      0, 0
+    };
+  double tri3eExpectedSolution[6] =
+    {
+      0, 0,
+      0, 0,
+      0, 0
+    };
+  double tri3qExpectedSolution[12] =
+    {
+      0, 0,
+      -3.315e-07, 1.57527e-06,
+      4.98323e-06, 7.36775e-07,
+      -5.3625e-08, 2.18676e-06,
+      8.32488e-07, 1.04065e-06,
+      5.22113e-07, 2.42889e-06
+    };
+  double trussExpectedSolution[11] =
+    {
+      0, 0, -0.179399,
+      0.00169764, -0.478397, 0,
+      0.00339527, 0, 0.179399,
+      0.392323, -0.505307
+    };
+
   // Run the Solver using all of the available numeric solvers
 
   try
@@ -137,134 +216,57 @@ int itkFEMElement2DTest(int argc, char *argv[])
       if( modelFile == "quad2-small.meta" )
         {
         tolerance = 10e-10;
-        double quad2smallExpectedSolution[8] =
-          {
-          0, 0,
-          2.97334e-07, -1.20555e-06,
-          1.944e-06, -1.32333e-06,
-          0, 0
-          };
         expectedSolution = &(quad2smallExpectedSolution[0]);
         }
       else if( modelFile == "quad2-strain.meta" )
         {
         tolerance = 10e-10;
-        double quad2strainExpectedSolution[8] =
-          {
-          0, 0,
-          2.56204e-07, -1.02482e-06,
-          1.67956e-06, -1.19562e-06,
-          0, 0
-          };
         expectedSolution = &(quad2strainExpectedSolution[0]);
         }
       else if( modelFile == "quad4.meta" )
         {
         tolerance = 10e-10;
-        double quad4ExpectedSolution[8] =
-          {
-          0, 0,
-          0, 0,
-          0, 0,
-          0, 0
-          };
         expectedSolution = &(quad4ExpectedSolution[0]);
         }
       else if( modelFile == "quad6-grav.meta" )
         {
         tolerance = 10e-10;
-        double quad6gravExpectedSolution[8] =
-          {
-          0, 0,
-          0, 0,
-          -5.32164e-08, 1.59649e-07,
-          5.32164e-08, 1.59649e-07
-          };
         expectedSolution = &(quad6gravExpectedSolution[0]);
         }
       else if( modelFile == "quad-lm.meta" )
         {
         tolerance = 10e-7;
-        double quadlmExpectedSolution[8] =
-          {
-          0, 0,
-          -8.76093e-05, -0.0135944,
-          -0.00420457, 0.00477804,
-          -0.0163679, -0.0360446,
-          };
         expectedSolution = &(quadlmExpectedSolution[0]);
         }
       else if( modelFile == "trapezoid.meta" )
         {
         tolerance = 10e-10;
-        double trapezoidExpectedSolution[8] =
-          {
-          0, 0,
-          0, 0,
-          0, 0,
-          0, 0
-          };
         expectedSolution = &(trapezoidExpectedSolution[0]);
         }
       else if( modelFile == "tri2.meta" )
         {
         tolerance = 10e-6;
-        double tri2ExpectedSolution[8] =
-          {
-          0, 0,
-          9.86667e-07, -2.028e-05,
-          -9.76e-06, -5.67867e-05,
-          -2.87733e-05, -9.68267e-05
-          };
         expectedSolution = &(tri2ExpectedSolution[0]);
 
         }
       else if( modelFile == "tri3.meta" )
         {
         tolerance = 10e-10;
-        double tri3ExpectedSolution[6] =
-          {
-          0, 0,
-          0, 0,
-          0, 0
-          };
         expectedSolution = &(tri3ExpectedSolution[0]);
         }
       else if( modelFile == "tri3-e.meta" )
         {
         tolerance = 10e-10;
-        double tri3eExpectedSolution[6] =
-          {
-          0, 0,
-          0, 0,
-          0, 0
-          };
         expectedSolution = &(tri3eExpectedSolution[0]);
         }
       else if( modelFile == "tri3-q.meta" )
         {
         tolerance = 10e-9;
-        double tri3qExpectedSolution[12] =
-          {
-          0, 0,
-          -3.315e-07, 1.57527e-06,
-          4.98323e-06, 7.36775e-07,
-          -5.3625e-08, 2.18676e-06,
-          8.32488e-07, 1.04065e-06,
-          5.22113e-07, 2.42889e-06
-          };
         expectedSolution = &(tri3qExpectedSolution[0]);
         }
       else if( modelFile == "truss.meta" )
         {
         tolerance = 10e-7;
-        double trussExpectedSolution[11] =
-          {
-          0, 0, -0.179399,
-          0.00169764, -0.478397, 0,
-          0.00339527, 0, 0.179399,
-          0.392323, -0.505307
-          };
         expectedSolution = &(trussExpectedSolution[0]);
         }
       else
