@@ -470,12 +470,25 @@ class show2D :
   """Display a 2D image
   """
   def __init__(self, imageOrFilter, Label=False, Title=None) :
-    import tempfile, itk, os
+    import tempfile, itk, os, platform
     # get some data from the environment
-    command = os.environ.get("WRAPITK_SHOW2D_COMMAND", "imagej %(image)s -run 'View 100%%' -eval 'rename(\"%(title)s\")' &")
-    label_command = os.environ.get("WRAPITK_SHOW2D_LABEL_COMMAND", "imagej %(image)s -run 'View 100%%' -eval 'rename(\"%(title)s\")' -run '3-3-2 RGB' &")
+    command = os.environ.get("WRAPITK_SHOW2D_COMMAND")
+    if command==None:
+      if platform.system() == "Darwin":
+        command = "open -a ImageJ -n --args -eval 'open(\"%(image)s\"); run (\"View 100%%\"); rename(\"%(title)s\");'"
+      else:
+        command = "imagej %(image)s -run 'View 100%%' -eval 'rename(\"%(title)s\")' &"
+
+    label_command = os.environ.get("WRAPITK_SHOW2D_LABEL_COMMAND")
+    if label_command==None:
+      if platform.system() == "Darwin":
+        label_command = "open -a ImageJ -n --args -eval 'open(\"%(image)s\"); run (\"View 100%%\"); rename(\"%(title)s\"); run(\"3-3-2 RGB\");'"
+      else:
+        label_command = "imagej %(image)s -run 'View 100%%' -eval 'rename(\"%(title)s\")' -run '3-3-2 RGB' &"
+
     compress = os.environ.get("WRAPITK_SHOW2D_COMPRESS", "true").lower() in ["on", "true", "yes", "1"]
     extension = os.environ.get("WRAPITK_SHOW2D_EXTENSION", ".tif")
+
     # use the tempfile module to get a non used file name and to put
     # the file at the rignt place
     self.__tmpFile__ = tempfile.NamedTemporaryFile(suffix=extension)
