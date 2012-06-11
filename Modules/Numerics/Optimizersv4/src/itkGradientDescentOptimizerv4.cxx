@@ -139,7 +139,7 @@ GradientDescentOptimizerv4
   if( this->m_ReturnBestParametersAndValue )
     {
     this->GetMetric()->SetParameters( this->m_BestParameters );
-    this->m_Value = this->m_CurrentBestValue;
+    this->m_CurrentMetricValue = this->m_CurrentBestValue;
     }
   Superclass::StopOptimization();
 }
@@ -163,7 +163,7 @@ GradientDescentOptimizerv4
       {
       /* m_Gradient will be sized as needed by metric. If it's already
        * proper size, no new allocation is done. */
-      this->m_Metric->GetValueAndDerivative( this->m_Value, this->m_Gradient );
+      this->m_Metric->GetValueAndDerivative( this->m_CurrentMetricValue, this->m_Gradient );
       }
     catch ( ExceptionObject & err )
       {
@@ -185,7 +185,7 @@ GradientDescentOptimizerv4
 
     /* Check the convergence by WindowConvergenceMonitoringFunction.
      */
-    this->m_ConvergenceMonitoring->AddEnergyValue( this->m_Value );
+    this->m_ConvergenceMonitoring->AddEnergyValue( this->m_CurrentMetricValue );
     try
       {
       this->m_ConvergenceValue = this->m_ConvergenceMonitoring->GetConvergenceValue();
@@ -207,9 +207,9 @@ GradientDescentOptimizerv4
     this->AdvanceOneStep();
 
     /* Store best value and position */
-    if ( this->m_ReturnBestParametersAndValue && this->m_Value < this->m_CurrentBestValue )
+    if ( this->m_ReturnBestParametersAndValue && this->m_CurrentMetricValue < this->m_CurrentBestValue )
       {
-      this->m_CurrentBestValue = this->m_Value;
+      this->m_CurrentBestValue = this->m_CurrentMetricValue;
       this->m_BestParameters = this->GetCurrentPosition( );
       }
 

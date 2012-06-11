@@ -57,7 +57,7 @@ public:
       {
       itkGenericExceptionMacro( "Error dynamic_cast failed" );
       }
-    std::cout << "It: " << optimizer->GetCurrentIteration() << " metric value: " << optimizer->GetValue();
+    std::cout << "It: " << optimizer->GetCurrentIteration() << " metric value: " << optimizer->GetCurrentMetricValue();
     std::cout << std::endl;
     }
 };
@@ -173,7 +173,7 @@ int itkExpectationBasedPointSetMetricRegistrationTest( int argc, char *argv[] )
   optimizer->StartOptimization();
 
   std::cout << "numberOfIterations: " << numberOfIterations << std::endl;
-  std::cout << "Moving-source final value: " << optimizer->GetValue() << std::endl;
+  std::cout << "Moving-source final value: " << optimizer->GetCurrentMetricValue() << std::endl;
   std::cout << "Moving-source final position: " << optimizer->GetCurrentPosition() << std::endl;
   std::cout << "Optimizer scales: " << optimizer->GetScales() << std::endl;
   std::cout << "Optimizer learning rate: " << optimizer->GetLearningRate() << std::endl;

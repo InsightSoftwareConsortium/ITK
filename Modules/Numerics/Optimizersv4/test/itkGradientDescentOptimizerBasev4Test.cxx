@@ -161,7 +161,7 @@ int itkGradientDescentOptimizerBasev4Test(int , char* [])
     return EXIT_FAILURE;
     }
 
-  std::cout << "value: " << optimizer->GetValue() << std::endl;
+  std::cout << "value: " << optimizer->GetCurrentMetricValue() << std::endl;
 
   optimizer->SetNumberOfThreads( 2 );
 

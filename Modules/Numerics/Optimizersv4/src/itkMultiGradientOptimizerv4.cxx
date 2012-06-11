@@ -166,7 +166,7 @@ MultiGradientOptimizerv4
     for (SizeValueType whichoptimizer = 0; whichoptimizer < maxopt; whichoptimizer++ )
       {
       this->m_OptimizersList[whichoptimizer]->GetMetric()->GetValueAndDerivative(
-        const_cast<double&>( this->m_OptimizersList[whichoptimizer]->GetValue() ),
+        const_cast<double&>( this->m_OptimizersList[whichoptimizer]->GetCurrentMetricValue() ),
         const_cast<DerivativeType&>( this->m_OptimizersList[whichoptimizer]->GetGradient() ) );
       itkDebugMacro(" got-deriv " << whichoptimizer);
       if ( this->m_Gradient.Size() != this->m_OptimizersList[whichoptimizer]->GetGradient().Size() )
@@ -188,7 +188,7 @@ MultiGradientOptimizerv4
         }
       this->m_Gradient = this->m_Gradient + this->m_OptimizersList[whichoptimizer]->GetGradient() * combinefunction;
       itkDebugMacro(" add-grad ");
-      this->m_MetricValuesList[whichoptimizer] = this->m_OptimizersList[whichoptimizer]->GetValue();
+      this->m_MetricValuesList[whichoptimizer] = this->m_OptimizersList[whichoptimizer]->GetCurrentMetricValue();
       }//endfor
 
     /* Check if optimization has been stopped externally.
