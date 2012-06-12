@@ -56,7 +56,7 @@ public:
   typedef typename RegionType::SizeType SizeType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PhysicalPointmageSource, GenerateImageSource);
+  itkTypeMacro(PhysicalPointImageSource, GenerateImageSource);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
