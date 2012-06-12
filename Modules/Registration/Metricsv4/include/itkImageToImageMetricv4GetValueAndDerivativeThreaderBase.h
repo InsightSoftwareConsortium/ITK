@@ -87,6 +87,9 @@ public:
   typedef CompensatedSummation<DerivativeValueType>                   CompensatedDerivativeValueType;
   typedef std::vector<CompensatedDerivativeValueType>                 CompensatedDerivativeType;
 
+  /** Access the GetValueAndDerivative() accesor in image metric base. */
+  virtual bool GetComputeDerivative() const;
+
 protected:
   /** Constructor. */
   ImageToImageMetricv4GetValueAndDerivativeThreaderBase();

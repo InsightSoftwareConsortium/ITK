@@ -128,7 +128,10 @@ namespace itk
  * Derived classes:
  *
  *  The GetValue method may be overridden to provide better-optimized or
- *  otherwise different behavior as needed.
+ *  otherwise different behavior as needed. Otherwise, the m_ComputeDerivative
+ *  member should be checked to avoid computing derivatives when the caller
+ *  has called GetValue(). See GetComputeDerivative() in this class and in
+ *  this metric's threader class.
  *
  *  Derived classes must derive a threader class from
  *  ImageToImageMetricv4GetValueAndDerivativeThreader, from which
@@ -601,6 +604,9 @@ protected:
   virtual void InitializeDefaultFixedImageGradientFilter(void);
   virtual void InitializeDefaultMovingImageGradientFilter(void);
 
+  /** Get accessor for flag to calculate derivative. */
+  itkGetConstMacro( ComputeDerivative, bool );
+
   FixedImageConstPointer  m_FixedImage;
   MovingImageConstPointer m_MovingImage;
 
@@ -669,13 +675,16 @@ private:
   ImageToImageMetricv4(const Self &); //purposely not implemented
   void operator=(const Self &); //purposely not implemented
 
-  /* Keep track of the number of sampled fixed points that are
+  /** Keep track of the number of sampled fixed points that are
    * deemed invalid during conversion to virtual domain.
    * For informational purposes. */
   SizeValueType m_NumberOfSkippedFixedSampledPoints;
 
   bool                m_UseFloatingPointCorrection;
   DerivativeValueType m_FloatingPointCorrectionResolution;
+
+  /** Flag to know if derivative should be calculated */
+  mutable bool        m_ComputeDerivative;
 
   /** Only floating-point images are currently supported. To support integer images,
    * several small changes must be made */

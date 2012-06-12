@@ -111,7 +111,6 @@ protected:
         DerivativeType &                  localDerivativeReturn,
         const ThreadIdType                threadID ) const;
 
-
 private:
   CorrelationImageToImageMetricv4GetValueAndDerivativeThreader( const Self & ); // purposely not implemented
   void operator=( const Self & ); // purposely not implemented

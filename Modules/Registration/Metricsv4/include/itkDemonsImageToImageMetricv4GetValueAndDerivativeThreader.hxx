@@ -45,6 +45,11 @@ DemonsImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TIm
   const InternalComputationValueType sqr_speedValue = vnl_math_sqr( speedValue );
   metricValueReturn = sqr_speedValue;
 
+  if( ! this->GetComputeDerivative() )
+    {
+    return true;
+    }
+
   /* Derivative */
   InternalComputationValueType  gradientSquaredMagnitude = 0;
   const FixedImageGradientType* gradient;

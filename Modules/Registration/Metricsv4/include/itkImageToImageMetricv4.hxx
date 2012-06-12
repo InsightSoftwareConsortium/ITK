@@ -83,6 +83,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 
   this->m_Value = NumericTraits<MeasureType>::max();
   this->m_DerivativeResult = NULL;
+  this->m_ComputeDerivative = true;
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
@@ -209,21 +210,18 @@ typename ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>::Measure
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
 ::GetValue() const
 {
-  /* As long as this is done as a simple inefficient implementation, give
-   * the user a warning. The intention is to provide a more efficient
-   * implementation here eventually, that avoids derivative calcualtions.
-   * Derived classes may override this method and provide their own
-   * efficient implementations as appropriate. */
-  if( ! this->m_HaveMadeGetValueWarning )
-    {
-    itkWarningMacro("Using ImageToImageMetricv4::GetValue which is a "
-                    "temporary, inefficient implementation. " );
-    this->m_HaveMadeGetValueWarning = true;
-    }
+  this-> m_ComputeDerivative = false;
+
   DerivativeType derivative;
-  MeasureType value;
-  this->GetValueAndDerivative( value, derivative );
-  return value;
+  this->m_DerivativeResult = &derivative;
+  this->InitializeForIteration();
+
+  // Do the threaded processing using the appropriate
+  // GetValueAndDerivativeThreader. Results get written to
+  // member vars.
+  this->GetValueAndDerivativeExecute();
+
+  return this->m_Value;
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
@@ -240,6 +238,8 @@ void
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
 ::GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const
 {
+  this->m_ComputeDerivative = true;
+
   this->m_DerivativeResult = &derivative;
   this->InitializeForIteration();
 
@@ -279,7 +279,7 @@ void
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::InitializeForIteration() const
 {
-  if( this->m_DerivativeResult )
+  if( this->m_ComputeDerivative )
     {
     /* This size always comes from the active transform */
     const NumberOfParametersType globalDerivativeSize = this->GetNumberOfParameters();

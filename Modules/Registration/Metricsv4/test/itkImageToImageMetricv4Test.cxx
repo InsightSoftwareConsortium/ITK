@@ -97,6 +97,7 @@ protected:
     // Return true if the point was used in evaluation
     return true;
     }
+
 };
 
 

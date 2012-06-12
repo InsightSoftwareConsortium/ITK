@@ -101,7 +101,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
   //
   // Now allocate memory according to transform type
   //
-  if( ! associate->m_ComputeDerivative )
+  if( ! this->GetComputeDerivative() )
     {
     // We only need these if we're computing derivatives.
     associate->m_PRatioArray.resize(0);
@@ -176,7 +176,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
     {
     std::fill( associate->m_ThreaderFixedImageMarginalPDF[threadID].begin(), associate->m_ThreaderFixedImageMarginalPDF[threadID].end(), 0.0F);
     associate->m_ThreaderJointPDF[threadID]->FillBuffer(0.0F);
-    if( associate->m_ComputeDerivative )
+    if( this->GetComputeDerivative() )
       {
       if( ! associate->HasLocalSupport() )
         {
@@ -267,7 +267,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
   // Store the pdf indecies for this point.
   // Just store the starting pdfMovingIndex and we'll iterate later
   // over the next four to collect results.
-  if( associate->m_ComputeDerivative )
+  if( this->GetComputeDerivative() )
     {
     if( associate->HasLocalSupport() )
       {
@@ -283,7 +283,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
   // Compute the transform Jacobian.
   typedef JacobianType & JacobianReferenceType;
   JacobianReferenceType jacobian = this->m_MovingTransformJacobianPerThread[threadID];
-  if( associate->m_ComputeDerivative )
+  if( this->GetComputeDerivative() )
     {
     associate->GetMovingTransform()->ComputeJacobianWithRespectToParameters( virtualPoint, jacobian);
     }
@@ -295,7 +295,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
     PDFValueType val = static_cast<PDFValueType>( associate->m_CubicBSplineKernel ->Evaluate( movingImageParzenWindowArg) );
     *( pdfPtr++ ) += val;
 
-    if( associate->m_ComputeDerivative )
+    if( this->GetComputeDerivative() )
       {
       // Compute the cubicBSplineDerivative for later repeated use.
       const PDFValueType cubicBSplineDerivativeValue = associate->m_CubicBSplineDerivativeKernel->Evaluate(movingImageParzenWindowArg);
@@ -407,7 +407,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
 
   /* This should be done via its own threader class. Previously it was threaded using
    * old ImageToImageMetric threaded post-processing. */
-  if( associate->m_ComputeDerivative )
+  if( this->GetComputeDerivative() )
     {
     if( ! associate->HasLocalSupport() )
       {
