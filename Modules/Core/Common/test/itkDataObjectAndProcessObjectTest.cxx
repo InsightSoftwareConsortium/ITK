@@ -75,14 +75,12 @@ public:
   using Superclass::PushFrontInput;
   using Superclass::PopFrontInput;
   using Superclass::SetNumberOfIndexedInputs;
-  using Superclass::SetNumberOfInputs;
   using Superclass::SetNthOutput;
   using Superclass::AddOutput;
   using Superclass::RemoveOutput;
   using Superclass::SetNumberOfRequiredOutputs;
   using Superclass::GetNumberOfRequiredOutputs;
   using Superclass::SetNumberOfIndexedOutputs;
-  using Superclass::SetNumberOfOutputs;
   using Superclass::GenerateInputRequestedRegion;
   using Superclass::GenerateOutputRequestedRegion;
   using Superclass::GenerateOutputInformation;
@@ -97,6 +95,10 @@ public:
   using Superclass::RemoveRequiredInputName;
   using Superclass::IsRequiredInputName;
   using Superclass::SetRequiredInputNames;
+#if !defined(ITK_LEGACY_REMOVE)
+  using Superclass::SetNumberOfInputs;
+  using Superclass::SetNumberOfOutputs;
+#endif
 };
 
 }

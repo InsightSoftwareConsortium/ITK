@@ -651,8 +651,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   ImageRegionConstIterator< OutputImageType > shiftedIt( m_ShiftedImage,
                                                          this->GetOutput()->GetRequestedRegion() );
 
-  for ( outputIt = outputIt.Begin(), statusIt = statusIt.Begin(),
-        shiftedIt = shiftedIt.Begin();
+  for ( outputIt.GoToBegin(), statusIt.GoToBegin();
         !outputIt.IsAtEnd(); ++outputIt, ++statusIt, ++shiftedIt )
     {
     if ( statusIt.Get() == m_StatusNull || statusIt.Get() == m_StatusBoundaryPixel )
@@ -1168,7 +1167,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   ImageRegionIterator< OutputImageType > outputIt( this->GetOutput(),
                                                    this->GetOutput()->GetRequestedRegion() );
 
-  for ( outputIt = outputIt.Begin(), statusIt = statusIt.Begin();
+  for ( outputIt.GoToBegin(), statusIt.GoToBegin();
         !outputIt.IsAtEnd(); ++outputIt, ++statusIt )
     {
     if ( statusIt.Get() == m_StatusNull )

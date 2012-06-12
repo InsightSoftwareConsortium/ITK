@@ -54,6 +54,7 @@ ImageRegionReverseIterator< TImage >
   return *this;
 }
 
+#if !defined(ITK_LEGACY_REMOVE)
 template< typename TImage >
 ImageRegionReverseIterator< TImage >
 ImageRegionReverseIterator< TImage >
@@ -69,6 +70,7 @@ ImageRegionReverseIterator< TImage >
 {
   return this->Superclass::End();
 }
+#endif
 } // end namespace itk
 
 #endif

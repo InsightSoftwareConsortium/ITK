@@ -240,9 +240,7 @@ protected:
     Iterator(const ConstIterator & it);
     ConstIterator & operator=(const ConstIterator & it);
 
-    Iterator(
-      ImageIteratorType iter,
-      InstanceIdentifier iid):ConstIterator(iter, iid)
+    Iterator( ImageIteratorType iter, InstanceIdentifier iid):ConstIterator(iter, iid)
     {}
 
 private:
@@ -251,19 +249,20 @@ private:
   /** returns an iterator that points to the beginning of the container */
   Iterator Begin()
   {
-    ImagePointer      nonConstImage = const_cast< ImageType * >( m_Image.GetPointer() );
+    ImagePointer           nonConstImage = const_cast< ImageType * >( m_Image.GetPointer() );
     ImageIteratorType imageIterator( nonConstImage, nonConstImage->GetLargestPossibleRegion() );
-    Iterator          iter(imageIterator.Begin(), 0);
-
+    imageIterator.GoToBegin();
+    Iterator               iter(imageIterator, 0);
     return iter;
   }
 
   /** returns an iterator that points to the end of the container */
   Iterator End()
   {
-    ImagePointer      nonConstImage = const_cast< ImageType * >( m_Image.GetPointer() );
+    ImagePointer           nonConstImage = const_cast< ImageType * >( m_Image.GetPointer() );
     ImageIteratorType imageIterator( nonConstImage, nonConstImage->GetLargestPossibleRegion() );
-    Iterator          iter( imageIterator.End(), m_Image->GetPixelContainer()->Size() );
+    imageIterator.GoToEnd();
+    Iterator          iter( imageIterator, m_Image->GetPixelContainer()->Size() );
 
     return iter;
   }
@@ -272,7 +271,8 @@ private:
   ConstIterator Begin() const
   {
     ImageConstIteratorType imageConstIterator( m_Image, m_Image->GetLargestPossibleRegion() );
-    ConstIterator          iter(imageConstIterator.Begin(), 0);
+    imageConstIterator.GoToBegin();
+    ConstIterator          iter(imageConstIterator, 0);
 
     return iter;
   }
@@ -281,7 +281,8 @@ private:
   ConstIterator End() const
   {
     ImageConstIteratorType imageConstIterator( m_Image, m_Image->GetLargestPossibleRegion() );
-    ConstIterator          iter( imageConstIterator.End(), m_Image->GetPixelContainer()->Size() );
+    imageConstIterator.GoToEnd();
+    ConstIterator          iter( imageConstIterator, m_Image->GetPixelContainer()->Size() );
 
     return iter;
   }

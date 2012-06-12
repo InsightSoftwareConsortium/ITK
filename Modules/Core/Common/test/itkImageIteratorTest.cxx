@@ -245,13 +245,7 @@ int itkImageIteratorTest(int, char* [] )
 
   // Exercise Begin(), GoToBegin(), IsAtBegin() and IsAtEnd()
   {
-  VectorImageIterator itr6 = itr1.Begin();
   itr1.GoToBegin();
-  if( itr1 != itr6 )
-    {
-    std::cerr << "Error in Begin() and/or GoToBegin()" << std::endl;
-    return EXIT_FAILURE;
-    }
   if( !itr1.IsAtBegin() )
     {
     std::cerr << "Error in Begin() and/or IsAtBegin()" << std::endl;
@@ -267,13 +261,7 @@ int itkImageIteratorTest(int, char* [] )
 
   // Exercise End(), GoToEnd(), IsAtBegin() and IsAtEnd()
   {
-  VectorImageIterator itr7 = itr1.End();
   itr1.GoToEnd();
-  if( itr1 != itr7 )
-    {
-    std::cerr << "Error in End() and/or GoToEnd()" << std::endl;
-    return EXIT_FAILURE;
-    }
   if( !itr1.IsAtEnd() )
     {
     std::cerr << "Error in End() and/or IsAtEnd()" << std::endl;

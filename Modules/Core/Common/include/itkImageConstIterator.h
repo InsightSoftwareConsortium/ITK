@@ -322,7 +322,7 @@ public:
    * is defined as the first pixel in the region.
    * \deprecated Use GoToBegin() instead.
    */
-  Self Begin(void) const;
+  itkLegacyMacro(Self Begin(void) const);
 
   /** Move an iterator to the beginning of the region. "Begin" is
    * defined as the first pixel in the region. */
@@ -335,7 +335,7 @@ public:
    * as one pixel past the last pixel of the region.
    * \deprecated Use GoToEnd() instead.
    */
-  Self End(void) const;
+  itkLegacyMacro(Self End(void) const);
 
   /** Move an iterator to the end of the region. "End" is defined as
    * one pixel past the last pixel of the region. */

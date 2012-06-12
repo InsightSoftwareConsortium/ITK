@@ -85,7 +85,7 @@ int runGPUBinaryThresholdImageFilterTest(const std::string& inFile, const std::s
 
     cputimer.Stop();
 
-    std::cout << "CPU binary threshold took " << cputimer.GetMeanTime() << " seconds with "
+    std::cout << "CPU binary threshold took " << cputimer.GetMean() << " seconds with "
               << CPUFilter->GetNumberOfThreads() << " threads.\n" << std::endl;
 
     if( nThreads == 8 )
@@ -107,7 +107,7 @@ int runGPUBinaryThresholdImageFilterTest(const std::string& inFile, const std::s
 
       gputimer.Stop();
 
-      std::cout << "GPU binary threshold took " << gputimer.GetMeanTime() << " seconds.\n" << std::endl;
+      std::cout << "GPU binary threshold took " << gputimer.GetMean() << " seconds.\n" << std::endl;
 
       // ---------------
       // RMS Error check

@@ -109,7 +109,7 @@ int itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char* [] )
   TrainingReferenceIteratorType gri(imgTrainingMoving,region);
   TrainingTargetIteratorType gti(imgTrainingFixed,region);
 
-  ri.Begin();
+  ri.GoToBegin();
   while(!ri.IsAtEnd())
     {
     p[0] = ri.GetIndex()[0];
@@ -122,7 +122,7 @@ int itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char* [] )
     ++ri;
     }
 
-  ti.Begin();
+  ti.GoToBegin();
   while(!ti.IsAtEnd())
     {
     p[0] = ti.GetIndex()[0];
@@ -136,7 +136,7 @@ int itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char* [] )
 
   vnl_sample_reseed(2334237);
 
-  gri.Begin();
+  gri.GoToBegin();
   while(!gri.IsAtEnd())
     {
     p[0] = gri.GetIndex()[0];
@@ -150,7 +150,7 @@ int itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char* [] )
     ++gri;
     }
 
-  gti.Begin();
+  gti.GoToBegin();
   while(!gti.IsAtEnd())
     {
     p[0] = gti.GetIndex()[0];

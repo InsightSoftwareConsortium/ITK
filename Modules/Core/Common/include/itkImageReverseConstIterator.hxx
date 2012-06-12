@@ -22,6 +22,7 @@
 
 namespace itk
 {
+#if !defined(ITK_LEGACY_REMOVE)
 //----------------------------------------------------------------------------
 // Begin() is the last pixel in the region.
 template< class TImage >
@@ -59,6 +60,7 @@ ImageReverseConstIterator< TImage >
 
   return it;
 }
+#endif
 } // end namespace itk
 
 #endif

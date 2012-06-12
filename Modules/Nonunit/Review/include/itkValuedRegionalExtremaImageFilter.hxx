@@ -102,8 +102,8 @@ ValuedRegionalExtremaImageFilter< TInputImage, TOutputImage, TFunction1,
                       this->GetOutput()->GetRequestedRegion() );
   OutputIterator outIt( this->GetOutput(),
                         this->GetOutput()->GetRequestedRegion() );
-  inIt = inIt.Begin();
-  outIt = outIt.Begin();
+  inIt.GoToBegin();
+  outIt.GoToBegin();
 
   InputImagePixelType firstValue = inIt.Get();
   this->m_Flat = true;
@@ -153,7 +153,7 @@ ValuedRegionalExtremaImageFilter< TInputImage, TOutputImage, TFunction1,
     TFunction1 compareIn;
     TFunction2 compareOut;
 
-    outIt = outIt.Begin();
+    outIt.GoToBegin();
     // set up the stack and neighbor list
     IndexStack IS;
     typename NOutputIterator::IndexListType IndexList;

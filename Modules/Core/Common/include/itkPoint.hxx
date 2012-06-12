@@ -156,33 +156,6 @@ Point< T, TPointDimension >
                               const_cast< T * >( this->GetDataPointer() ) );
 }
 
-/**
- * Return a vnl_vector_ref
- */
-template< class T, unsigned int TPointDimension >
-vnl_vector_ref< T >
-Point< T, TPointDimension >
-::Get_vnl_vector(void)
-{
-  return vnl_vector_ref< T >( TPointDimension, this->GetDataPointer() );
-}
-
-/**
- * Return a vnl_vector const
- */
-template< class T, unsigned int TPointDimension >
-vnl_vector< T >
-Point< T, TPointDimension >
-::Get_vnl_vector(void) const
-{
-  // Return a vector_ref<>.  This will be automatically converted to a
-  // vnl_vector<>.  We have to use a const_cast<> which would normally
-  // be prohibited in a const method, but it is safe to do here
-  // because the cast to vnl_vector<> will ultimately copy the data.
-  return vnl_vector_ref< T >( TPointDimension,
-                              const_cast< T * >( this->GetDataPointer() ) );
-}
-
 template< class T, unsigned int TPointDimension >
 typename Point< T, TPointDimension >::VectorType
 Point< T, TPointDimension >
@@ -357,6 +330,36 @@ operator>>(std::istream & is, Point< T, TPointDimension > & vct)
     }
   return is;
 }
+
+#if !defined(ITK_LEGACY_REMOVE)
+/**
+ * Return a vnl_vector_ref
+ */
+template< class T, unsigned int TPointDimension >
+vnl_vector_ref< T >
+Point< T, TPointDimension >
+::Get_vnl_vector(void)
+{
+  return vnl_vector_ref< T >( TPointDimension, this->GetDataPointer() );
+}
+
+/**
+ * Return a vnl_vector const
+ */
+template< class T, unsigned int TPointDimension >
+vnl_vector< T >
+Point< T, TPointDimension >
+::Get_vnl_vector(void) const
+{
+  // Return a vector_ref<>.  This will be automatically converted to a
+  // vnl_vector<>.  We have to use a const_cast<> which would normally
+  // be prohibited in a const method, but it is safe to do here
+  // because the cast to vnl_vector<> will ultimately copy the data.
+  return vnl_vector_ref< T >( TPointDimension,
+                              const_cast< T * >( this->GetDataPointer() ) );
+}
+#endif
+
 } // end namespace itk
 
 #endif

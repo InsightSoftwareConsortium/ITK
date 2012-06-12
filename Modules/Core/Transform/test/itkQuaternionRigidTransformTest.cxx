@@ -243,7 +243,7 @@ int itkQuaternionRigidTransformTest(int, char * [] )
     vnl_matrix_fixed<double, 3, 3> mrotation = qrotation.rotation_matrix_transpose();
 
     // Verify the Matrix content
-    TransformType::MatrixType matrix = rotation->GetRotationMatrix();
+    TransformType::MatrixType matrix = rotation->GetMatrix();
     std::cout << "Rotation matrix:  " << std::endl;
     std::cout << matrix << std::endl;
     for( unsigned int i = 0; i < N; i++ )
@@ -260,7 +260,7 @@ int itkQuaternionRigidTransformTest(int, char * [] )
     if( !Ok )
       {
       std::cerr << "Get Rotation Matrix  differs " << std::endl;
-      std::cerr << "from SetRotationMatrix value " << std::endl;
+      std::cerr << "from SetMatrix value " << std::endl;
       return EXIT_FAILURE;
       }
 
@@ -474,7 +474,21 @@ int itkQuaternionRigidTransformTest(int, char * [] )
     std::cout << "Testing BackTransform()" << std::endl;
     TransformType::OutputPointType pOut;
     quaternionRigid->SetParameters( parameters );
-    pOut = quaternionRigid->BackTransform( quaternionRigid->TransformPoint( pInit ) );
+      {
+      TransformType::Pointer inverseQuaternionRigid = TransformType::New();
+      const bool inverseIsValid=quaternionRigid->GetInverse(inverseQuaternionRigid);
+      if( ! inverseIsValid )
+        {
+        std::cerr << "Error computing inverse transform" << std::endl;
+        std::cerr << " [ FAILED ] " << std::endl;
+        return EXIT_FAILURE;
+        }
+      else
+        {
+        std::cout << " [ PASSED ] compute inverse transform" << std::endl;
+        }
+      pOut = inverseQuaternionRigid->TransformPoint( quaternionRigid->TransformPoint( pInit ) );
+      }
     // pOut should equate pInit
     for( unsigned int j = 0; j < 3; j++ )
       {
@@ -566,7 +580,7 @@ int itkQuaternionRigidTransformTest(int, char * [] )
     vnl_matrix_fixed<double, 3, 3> mrotation = qrotation.rotation_matrix_transpose();
 
     // Verify the Matrix content
-    TransformType::MatrixType matrix = rotation->GetRotationMatrix();
+    TransformType::MatrixType matrix = rotation->GetMatrix();
     std::cout << "Rotation matrix:  " << std::endl;
     std::cout << matrix << std::endl;
     for( unsigned int i = 0; i < N; i++ )
@@ -583,7 +597,7 @@ int itkQuaternionRigidTransformTest(int, char * [] )
     if( !Ok )
       {
       std::cerr << "Get Rotation Matrix  differs " << std::endl;
-      std::cerr << "from SetRotationMatrix value " << std::endl;
+      std::cerr << "from SetMatrix value " << std::endl;
       return EXIT_FAILURE;
       }
 

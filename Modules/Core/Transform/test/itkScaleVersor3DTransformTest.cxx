@@ -101,7 +101,7 @@ int itkScaleVersor3DTransformTest(int, char * [] )
     {
     std::cout << "Test initial rotation matrix " << std::endl;
     TransformType::Pointer transform = TransformType::New();
-    MatrixType             matrix = transform->GetRotationMatrix();
+    MatrixType             matrix = transform->GetMatrix();
     std::cout << "Matrix = " << std::endl;
     std::cout <<    matrix   << std::endl;
 

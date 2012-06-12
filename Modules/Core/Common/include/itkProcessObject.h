@@ -441,9 +441,9 @@ protected:
   virtual void RemoveInput(DataObjectPointerArraySizeType);
 
   /** Remove an indexed input.
-   *\deprecated use RemoveOutput(unsigned int) instead
+   *\deprecated use RemoveInput(unsigned int) instead
    */
-  virtual void RemoveInput(DataObject *input);
+  itkLegacyMacro(virtual void RemoveInput(DataObject *input));
 
   /** Return the main input */
   DataObject * GetPrimaryInput();
@@ -467,7 +467,7 @@ protected:
   virtual void RemoveOutput(const DataObjectIdentifierType & key);
 
   /** \deprecated use RemoveOutput(unsigned int) instead */
-  virtual void RemoveOutput(DataObject *output);
+  itkLegacyMacro(virtual void RemoveOutput(DataObject *output));
 
   /** Return the main output */
   DataObject * GetPrimaryOutput();
@@ -526,7 +526,7 @@ protected:
   void SetNumberOfIndexedInputs(DataObjectPointerArraySizeType num);
 
   /** \deprecated use SetNumberOfIndexedInputs() instead */
-  void SetNumberOfInputs(DataObjectPointerArraySizeType num);
+  itkLegacyMacro(void SetNumberOfInputs(DataObjectPointerArraySizeType num));
 
   /** Protected methods for setting outputs.
    * Subclasses make use of them for getting output. */
@@ -548,7 +548,7 @@ protected:
   void SetNumberOfIndexedOutputs(DataObjectPointerArraySizeType num);
 
   /** \deprecated use SetNumberOfIndexedInputs() instead */
-  void SetNumberOfOutputs(DataObjectPointerArraySizeType num);
+  itkLegacyMacro(void SetNumberOfOutputs(DataObjectPointerArraySizeType num));
 
   /** What is the input requested region that is required to produce the
    * output requested region? By default, the largest possible region is

@@ -20,7 +20,7 @@
 
 #include "itkFixedArray.h"
 
-#include "vnl/vnl_vector_ref.h" // Get_vnl_vector method return
+#include "vnl/vnl_vector_ref.h" // GetVnlVector method return
 
 namespace itk
 {
@@ -97,15 +97,15 @@ public:
 
   /** Set a vnl_vector_ref referencing the same memory block.
    * \deprecated Use SetVnlVector() instead. */
-  void Set_vnl_vector(const vnl_vector< T > &);
+  itkLegacyMacro(void Set_vnl_vector(const vnl_vector< T > &));
 
   /** Get a vnl_vector_ref referencing the same memory block.
    * \deprecated Use GetVnlVector() instead. */
-  vnl_vector_ref< T > Get_vnl_vector(void);
+  itkLegacyMacro(vnl_vector_ref< T > Get_vnl_vector(void));
 
   /** Get a vnl_vector with a copy of the internal memory block.
    * \deprecated Use GetVnlVector() instead. */
-  vnl_vector< T > Get_vnl_vector(void) const;
+  itkLegacyMacro(vnl_vector< T > Get_vnl_vector(void) const);
 
   /** Default constructor and copy constructors. */
   Vector():BaseArray() {}

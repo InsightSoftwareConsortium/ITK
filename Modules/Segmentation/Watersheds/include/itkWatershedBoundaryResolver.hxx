@@ -74,7 +74,7 @@ void BoundaryResolver< TPixelType, TDimension >
   ImageRegionIterator< FaceType > itB( boundaryB->GetFace(idxB),
                                        boundaryB->GetFace(idxB)->GetRequestedRegion() );
 
-  for ( itA = itA.Begin(), itB = itB.Begin(); !itA.IsAtEnd(); ++itA, ++itB )
+  for ( itA.GoToBegin(), itB.GoToBegin(); !itA.IsAtEnd(); ++itA, ++itB )
     {
     if ( itA.Get().flow != SegmenterType::NULL_FLOW )
       {

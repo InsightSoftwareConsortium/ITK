@@ -106,7 +106,7 @@ int TestMattesMetricWithAffineTransform(
 
   ReferenceIteratorType ri(imgMoving,region);
   TargetIteratorType ti(imgFixed,region);
-  ri.Begin();
+  ri.GoToBegin();
   while(!ri.IsAtEnd())
     {
     p[0] = ri.GetIndex()[0];
@@ -119,7 +119,7 @@ int TestMattesMetricWithAffineTransform(
     ++ri;
     }
 
-  ti.Begin();
+  ti.GoToBegin();
   while(!ti.IsAtEnd())
     {
     p[0] = ti.GetIndex()[0];
@@ -148,7 +148,7 @@ int TestMattesMetricWithAffineTransform(
     //This should result in only about 588 samples
       {
       ReferenceIteratorType ri1(imgMovingMask,region);
-      ri1.Begin();
+      ri1.GoToBegin();
       while(!ri1.IsAtEnd()) //Set all moving mask voxels to 1
         {
         ri1.Set(1);
@@ -159,7 +159,7 @@ int TestMattesMetricWithAffineTransform(
       {
       int count=0;
       TargetIteratorType ti1(imgFixedMask,region);
-      ti1.Begin();
+      ti1.GoToBegin();
       while(!ti1.IsAtEnd())//Set a subset of fixed mask voxels to 1, so that requested number can be made more than possible number
         {
         if(count%17 == 0)
@@ -479,7 +479,7 @@ int TestMattesMetricWithBSplineTransform(
 
   ReferenceIteratorType ri(imgMoving,region);
   TargetIteratorType ti(imgFixed,region);
-  ri.Begin();
+  ri.GoToBegin();
   while(!ri.IsAtEnd())
     {
     p[0] = ri.GetIndex()[0];
@@ -492,7 +492,7 @@ int TestMattesMetricWithBSplineTransform(
     ++ri;
     }
 
-  ti.Begin();
+  ti.GoToBegin();
   while(!ti.IsAtEnd())
     {
     p[0] = ti.GetIndex()[0];

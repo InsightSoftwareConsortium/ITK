@@ -22,6 +22,7 @@
 
 namespace itk
 {
+#if !defined(ITK_LEGACY_REMOVE)
 template< typename TImage >
 ImageRegionReverseConstIterator< TImage >
 ImageRegionReverseConstIterator< TImage >
@@ -49,6 +50,7 @@ ImageRegionReverseConstIterator< TImage >
 
   return it;
 }
+#endif
 } // end namespace itk
 
 #endif

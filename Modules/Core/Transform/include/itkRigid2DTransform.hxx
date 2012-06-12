@@ -307,6 +307,23 @@ Rigid2DTransform<TScalarType>::ComputeJacobianWithRespectToParameters(const Inpu
   return;
 }
 
+#ifdef ITKV3_COMPATIBILITY
+#if !defined(ITK_LEGACY_REMOVE)
+template <class TScalarType>
+void
+Rigid2DTransform<TScalarType>::SetRotationMatrix(const MatrixType & matrix)
+{
+  this->SetMatrix(matrix);
+}
+
+template <class TScalarType>
+const typename Rigid2DTransform<TScalarType>::MatrixType &
+Rigid2DTransform<TScalarType>::GetRotationMatrix() const
+{
+  return this->GetMatrix();
+}
+#endif
+#endif
 } // namespace
 
 #endif

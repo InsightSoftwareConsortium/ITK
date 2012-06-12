@@ -155,7 +155,7 @@ public:
   /** Get the index of a measurement value from the histogram.
    * \deprecated Use GetIndex(const MeasurementVectorType &
    * measurement, IndexType & index ) const instead. */
-  const IndexType & GetIndex(const MeasurementVectorType & measurement) const;
+  itkLegacyMacro(const IndexType & GetIndex(const MeasurementVectorType & measurement) const);
 
   /** Get the index of histogram corresponding to the specified
    *  measurement value. Returns true if index is valid and false if

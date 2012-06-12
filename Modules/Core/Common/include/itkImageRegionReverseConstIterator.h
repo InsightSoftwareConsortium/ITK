@@ -230,13 +230,13 @@ public:
   /** Return an iterator for the beginning of the region. "Begin" for a reverse
    * iterator is the last pixel in the region.
    * \deprecated Use GoToBegin() instead */
-  Self Begin(void) const;
+  itkLegacyMacro(Self Begin(void) const);
 
   /** Return an iterator for the end of the region. "End" for a
   * reverse iterator is one pixel before the first pixel in the
   * region.
   * \deprecated Use GoToEnd() instead */
-  Self End(void) const;
+  itkLegacyMacro(Self End(void) const);
 
   /** Set the index. No bounds checking is performed. This is overridden
    * from the parent because we have an extra ivar.

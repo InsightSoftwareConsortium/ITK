@@ -22,43 +22,6 @@
 
 namespace itk
 {
-//----------------------------------------------------------------------------
-// Begin() is the first pixel in the region.
-template< class TImage >
-ImageRegionConstIterator< TImage >
-ImageRegionConstIterator< TImage >
-::Begin() const
-{
-  // Copy the current iterator
-  Self it(*this);
-
-  // Set the iterator to the beginning of the region
-  it.GoToBegin();
-
-  return it;
-}
-
-//----------------------------------------------------------------------------
-// End() is one pixel past the last pixel in the current region.
-// The index of this pixel is
-//          [m_StartIndex[0] + m_Size[0],
-//           m_StartIndex[1] + m_Size[1]-1, ...,
-//           m_StartIndex[VImageDimension-2] + m_Size[VImageDimension-2]-1,
-//           m_StartIndex[VImageDimension-1] + m_Size[VImageDimension-1]-1]
-//
-template< class TImage >
-ImageRegionConstIterator< TImage >
-ImageRegionConstIterator< TImage >
-::End() const
-{
-  // Copy the current iterator
-  Self it(*this);
-
-  // Set the iterator to the end of the region
-  it.GoToEnd();
-
-  return it;
-}
 
 //----------------------------------------------------------------------------
 // Increment when the fastest moving direction has reached its bound.
@@ -160,6 +123,46 @@ ImageRegionConstIterator< TImage >
   m_SpanEndOffset = this->m_Offset + 1;
   m_SpanBeginOffset = m_SpanEndOffset - static_cast< OffsetValueType >( size[0] );
 }
+
+#if !defined(ITK_LEGACY_REMOVE)
+//----------------------------------------------------------------------------
+// Begin() is the first pixel in the region.
+template< class TImage >
+ImageRegionConstIterator< TImage >
+ImageRegionConstIterator< TImage >
+::Begin() const
+{
+  // Copy the current iterator
+  Self it(*this);
+
+  // Set the iterator to the beginning of the region
+  it.GoToBegin();
+
+  return it;
+}
+
+//----------------------------------------------------------------------------
+// End() is one pixel past the last pixel in the current region.
+// The index of this pixel is
+//          [m_StartIndex[0] + m_Size[0],
+//           m_StartIndex[1] + m_Size[1]-1, ...,
+//           m_StartIndex[VImageDimension-2] + m_Size[VImageDimension-2]-1,
+//           m_StartIndex[VImageDimension-1] + m_Size[VImageDimension-1]-1]
+//
+template< class TImage >
+ImageRegionConstIterator< TImage >
+ImageRegionConstIterator< TImage >
+::End() const
+{
+  // Copy the current iterator
+  Self it(*this);
+
+  // Set the iterator to the end of the region
+  it.GoToEnd();
+
+  return it;
+}
+#endif
 } // end namespace itk
 
 #endif

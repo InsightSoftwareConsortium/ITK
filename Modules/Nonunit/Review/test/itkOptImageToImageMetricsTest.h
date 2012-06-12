@@ -121,7 +121,7 @@ public:
       }
 
     std::cout << std::endl;
-    std::cout << "Mean time for GetValueAndDerivative : " << timeProbe.GetMeanTime() << std::endl;
+    std::cout << "Mean time for GetValueAndDerivative : " << timeProbe.GetMean() << std::endl;
     std::cout << std::endl;
     std::cout << "------------------------------Done---------------------------------" << std::endl;
 

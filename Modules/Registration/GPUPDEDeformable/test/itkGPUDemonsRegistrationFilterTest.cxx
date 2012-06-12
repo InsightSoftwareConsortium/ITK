@@ -121,8 +121,8 @@ int itkGPUDemonsRegistrationFilterTest(int argc, char *argv[])
     std::cout << "Finished CPU Demons" << std::endl;
 
     }
-  std::cout << "Average GPU registration time in seconds = " << gpuTime.GetMeanTime() << std::endl;
-  std::cout << "Average CPU registration time in seconds = " << cpuTime.GetMeanTime() << std::endl;
+  std::cout << "Average GPU registration time in seconds = " << gpuTime.GetMean() << std::endl;
+  std::cout << "Average CPU registration time in seconds = " << cpuTime.GetMean() << std::endl;
   InternalPixelType maxDiff = 0, avgDiff = 0, diff, tmp;
 
   InternalPixelType *gpuBuf, *cpuBuf;
@@ -148,9 +148,9 @@ int itkGPUDemonsRegistrationFilterTest(int argc, char *argv[])
   std::cout << "Maximum displacement difference = " << maxDiff << std::endl;
   std::cout << "Average displacement difference = " << avgDiff << std::endl;
 
-  //std::cout << "Total GPU time in seconds = " << gpuTime.GetMeanTime() << std::endl;
-  //std::cout << "Initial GPU time in seconds = " << gpuInitTime.GetMeanTime() << std::endl;
-  //std::cout << "Total CPU time in seconds = " << cpuTime.GetMeanTime() << std::endl;
+  //std::cout << "Total GPU time in seconds = " << gpuTime.GetMean() << std::endl;
+  //std::cout << "Initial GPU time in seconds = " << gpuInitTime.GetMean() << std::endl;
+  //std::cout << "Total CPU time in seconds = " << cpuTime.GetMean() << std::endl;
   if (avgDiff < 2)
     {
     passed = true;

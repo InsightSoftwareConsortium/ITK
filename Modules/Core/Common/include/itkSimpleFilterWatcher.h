@@ -192,7 +192,7 @@ protected:
   {
     m_TimeProbe.Stop();
     std::cout << std::endl << "Filter took "
-              << m_TimeProbe.GetMeanTime()
+              << m_TimeProbe.GetMean()
               << " seconds.";
     std::cout << std::endl
               << "-------- End "

@@ -82,7 +82,7 @@ ArrowSpatialObject< 3 >
   EulerTransformType::Pointer euler = EulerTransformType::New();
 
   euler->SetRotation(0, angley, anglez);
-  this->GetObjectToParentTransform()->SetMatrix( euler->GetRotationMatrix() );
+  this->GetObjectToParentTransform()->SetMatrix( euler->GetMatrix() );
   this->Modified();
 }
 

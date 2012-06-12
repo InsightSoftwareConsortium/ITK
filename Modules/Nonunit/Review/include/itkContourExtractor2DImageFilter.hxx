@@ -408,7 +408,7 @@ void
 ContourExtractor2DImageFilter< TInputImage >
 ::FillOutputs()
 {
-  this->SetNumberOfOutputs( m_Contours.size() );
+  this->SetNumberOfIndexedOutputs( m_Contours.size() );
   int i = 0;
   for ( ContourRef it = m_Contours.begin(); it != m_Contours.end(); it++, i++ )
     {

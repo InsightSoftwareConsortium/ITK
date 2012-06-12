@@ -81,8 +81,6 @@ int itkRigid2DTransformTest(int ,char * [] )
     }
   }
 
-
-
   /* Create a Rigid 2D transform with translation */
   {
     TransformType::Pointer  translation = TransformType::New();
@@ -235,12 +233,7 @@ int itkRigid2DTransformTest(int ,char * [] )
         std::cout << "Ok translating an vnl_Vector " << std::endl;
       }
     }
-
-
-
-
   }
-
 
   /* Create a Rigid 2D transform with a rotation given by a Matrix */
   {
@@ -260,7 +253,6 @@ int itkRigid2DTransformTest(int ,char * [] )
     mrotation[1][0] = -sinth;
     mrotation[1][1] =  costh;
 
-    rotation->SetRotationMatrix( mrotation );
     rotation->SetMatrix( mrotation );
 
     TransformType::OffsetType ioffset;
@@ -307,7 +299,7 @@ int itkRigid2DTransformTest(int ,char * [] )
     }
 
     // Verify the Matrix content
-    TransformType::MatrixType matrix = rotation->GetRotationMatrix();
+    TransformType::MatrixType matrix = rotation->GetMatrix();
     std::cout << "Rotation matrix:  " << std::endl;
     std::cout << matrix << std::endl;
 
@@ -325,7 +317,7 @@ int itkRigid2DTransformTest(int ,char * [] )
     if( !Ok )
     {
       std::cerr << "Get Rotation Matrix  differs " << std::endl;
-      std::cerr << "from SetRotationMatrix value " << std::endl;
+      std::cerr << "from SetMatrix value " << std::endl;
       return EXIT_FAILURE;
     }
 
@@ -545,7 +537,7 @@ int itkRigid2DTransformTest(int ,char * [] )
 
      angle0 = 14.7 / 180.0 * vnl_math::pi;
      center.Fill( 4.0 );
-     translation.Fill( 67.1) ;
+     translation.Fill( 67.1);
      t4->SetAngle( angle0 );
      t4->SetCenter( center );
      t4->SetTranslation( translation );

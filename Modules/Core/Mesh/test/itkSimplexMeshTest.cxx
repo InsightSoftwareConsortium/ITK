@@ -138,7 +138,7 @@ int itkSimplexMeshTest(int , char *[] )
       neighbors = NULL;
       }
 
-    std::cout << ", Elapsed time (for getting neighbors): " << timeProbe.GetMeanTime() << std::endl;
+    std::cout << ", Elapsed time (for getting neighbors): " << timeProbe.GetMean() << std::endl;
     }
 
   std::cout << "[TEST DONE]" << std::endl;

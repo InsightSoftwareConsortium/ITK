@@ -108,9 +108,7 @@ int main( int argc, char *argv[] )
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
   typedef itk::Image< PixelType, Dimension >  MovingImageType;
 
-
   typedef itk::CenteredRigid2DTransform< double > TransformType;
-
 
   typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
   typedef itk::MeanSquaresImageToImageMetric<
@@ -128,7 +126,6 @@ int main( int argc, char *argv[] )
   InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
   RegistrationType::Pointer   registration  = RegistrationType::New();
 
-
   registration->SetMetric(        metric        );
   registration->SetOptimizer(     optimizer     );
   registration->SetInterpolator(  interpolator  );
@@ -143,7 +140,6 @@ int main( int argc, char *argv[] )
 
   fixedImageReader->SetFileName(  argv[1] );
   movingImageReader->SetFileName( argv[2] );
-
 
   registration->SetFixedImage(    fixedImageReader->GetOutput()    );
   registration->SetMovingImage(   movingImageReader->GetOutput()   );
@@ -170,8 +166,6 @@ int main( int argc, char *argv[] )
 
   registration->SetInitialTransformParameters( transform->GetParameters() );
 
-
-
   typedef OptimizerType::ScalesType       OptimizerScalesType;
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
   const double translationScale = 1.0 / 1000.0;
@@ -187,7 +181,6 @@ int main( int argc, char *argv[] )
   optimizer->SetMaximumStepLength( 0.1    );
   optimizer->SetMinimumStepLength( 0.001 );
   optimizer->SetNumberOfIterations( 200 );
-
 
   // Create the Command observer and register it with the optimizer.
   //
@@ -221,7 +214,6 @@ int main( int argc, char *argv[] )
   MaskType::Pointer  spatialObjectMask = MaskType::New();
   // Software Guide : EndCodeSnippet
 
-
   //  Software Guide : BeginLatex
   //
   //  The mask in this case is read from a binary file using the
@@ -248,8 +240,6 @@ int main( int argc, char *argv[] )
   maskReader->SetFileName( argv[3] );
   // Software Guide : EndCodeSnippet
 
-
-
   //  Software Guide : BeginLatex
   //
   //  As usual, the reader is triggered by invoking its \code{Update()} method.
@@ -273,7 +263,6 @@ int main( int argc, char *argv[] )
     }
   // Software Guide : EndCodeSnippet
 
-
   //  Software Guide : BeginLatex
   //
   //  The output of the mask reader is connected as input to the
@@ -287,7 +276,6 @@ int main( int argc, char *argv[] )
   spatialObjectMask->SetImage( maskReader->GetOutput() );
   // Software Guide : EndCodeSnippet
 
-
   //  Software Guide : BeginLatex
   //
   //  Finally, the spatial object mask is passed to the image metric.
@@ -299,8 +287,6 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   metric->SetFixedImageMask( spatialObjectMask );
   // Software Guide : EndCodeSnippet
-
-
 
   try
     {
@@ -318,7 +304,6 @@ int main( int argc, char *argv[] )
 
   OptimizerType::ParametersType finalParameters =
                     registration->GetLastTransformParameters();
-
 
   const double finalAngle           = finalParameters[0];
   const double finalRotationCenterX = finalParameters[1];
@@ -343,7 +328,6 @@ int main( int argc, char *argv[] )
   std::cout << " Iterations    = " << numberOfIterations << std::endl;
   std::cout << " Metric value  = " << bestValue          << std::endl;
 
-
   //  Software Guide : BeginLatex
   //
   //  Let's execute this example over some of the images provided in
@@ -364,7 +348,7 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   transform->SetParameters( finalParameters );
 
-  TransformType::MatrixType matrix = transform->GetRotationMatrix();
+  TransformType::MatrixType matrix = transform->GetMatrix();
   TransformType::OffsetType offset = transform->GetOffset();
 
   std::cout << "Matrix = " << std::endl << matrix << std::endl;
@@ -377,7 +361,6 @@ int main( int argc, char *argv[] )
   //  registration process.
   //
   //  Software Guide : EndLatex
-
 
   typedef itk::ResampleImageFilter<
                             MovingImageType,
@@ -410,18 +393,14 @@ int main( int argc, char *argv[] )
 
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
 
-
   WriterType::Pointer      writer =  WriterType::New();
   CastFilterType::Pointer  caster =  CastFilterType::New();
 
-
   writer->SetFileName( argv[4] );
-
 
   caster->SetInput( resample->GetOutput() );
   writer->SetInput( caster->GetOutput()   );
   writer->Update();
-
 
   typedef itk::SquaredDifferenceImageFilter<
                                   FixedImageType,
@@ -433,7 +412,6 @@ int main( int argc, char *argv[] )
   WriterType::Pointer writer2 = WriterType::New();
   writer2->SetInput( difference->GetOutput() );
 
-
   // Compute the difference image between the
   // fixed and resampled moving image.
   if( argc >= 6 )
@@ -443,7 +421,6 @@ int main( int argc, char *argv[] )
     writer2->SetFileName( argv[5] );
     writer2->Update();
     }
-
 
   // Compute the difference image between the
   // fixed and moving image before registration.

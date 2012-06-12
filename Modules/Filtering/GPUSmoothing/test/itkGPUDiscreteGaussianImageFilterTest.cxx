@@ -75,7 +75,7 @@ int runGPUDiscreteGaussianImageFilterTest(const std::string& inFile, const std::
 
     cputimer.Stop();
 
-    std::cout << "CPU Gaussian Filter took " << cputimer.GetMeanTime() << " seconds with "
+    std::cout << "CPU Gaussian Filter took " << cputimer.GetMean() << " seconds with "
               << CPUFilter->GetNumberOfThreads() << " threads.\n" << std::endl;
 
     // -------
@@ -94,7 +94,7 @@ int runGPUDiscreteGaussianImageFilterTest(const std::string& inFile, const std::
       GPUFilter->GetOutput()->UpdateBuffers(); // synchronization point (GPU->CPU memcpy)
 
       gputimer.Stop();
-      std::cout << "GPU Gaussian Filter took " << gputimer.GetMeanTime() << " seconds.\n" << std::endl;
+      std::cout << "GPU Gaussian Filter took " << gputimer.GetMean() << " seconds.\n" << std::endl;
 
       // ---------------
       // RMS Error check

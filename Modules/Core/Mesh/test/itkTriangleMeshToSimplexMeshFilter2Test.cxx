@@ -77,7 +77,7 @@ int itkTriangleMeshToSimplexMeshFilter2Test(int , char *[] )
     timeProbe.Stop();
     std::cout << "Rigidity: " << i << ", neighbor list size: " << neighbors->size() << std::endl;
 
-    std::cout << ", Elapsed time (for getting neighbors): " << timeProbe.GetMeanTime() << std::endl;
+    std::cout << ", Elapsed time (for getting neighbors): " << timeProbe.GetMean() << std::endl;
     delete neighbors;
     }
 

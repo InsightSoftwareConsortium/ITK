@@ -178,7 +178,7 @@ test_fft(unsigned int *SizeOfDimensions)
   itk::ImageRegionIterator< RealImageType > inverseFFTImageIterator( imageAfterHalfHermitianToRealInverseFFT,
                                                                      region );
   counter = 0;
-  inverseFFTImageIterator = inverseFFTImageIterator.Begin();
+  inverseFFTImageIterator.GoToBegin();
 
   // Print the Image data obtained by performing the HalfHermitianToRealInverse FFT.
   std::cerr << "---- HalfHermitianToRealInverse FFT image ----" << std::endl;
@@ -202,8 +202,8 @@ test_fft(unsigned int *SizeOfDimensions)
   // Subtract the Original image Pixel Values from the resultant image
   // values and test whether they are greater than 0.01 for the test
   // to pass.
-  originalImageIterator = originalImageIterator.Begin();
-  inverseFFTImageIterator = inverseFFTImageIterator.Begin();
+  originalImageIterator.GoToBegin();
+  inverseFFTImageIterator.GoToBegin();
   while ( !originalImageIterator.IsAtEnd() )
     {
     TPixel val = originalImageIterator.Value();

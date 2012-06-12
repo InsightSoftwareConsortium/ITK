@@ -93,25 +93,7 @@ public:
     return b;
   }
 
-  /** \deprecated use ZeroValue() instead */
-  static const Self Zero(const Self  & a)
-  {
-    Self b( a.Size() );
-
-    b.Fill(NumericTraits< T >::Zero);
-    return b;
-  }
-
   static const Self OneValue(const Self & a)
-  {
-    Self b( a.Size() );
-
-    b.Fill(NumericTraits< T >::One);
-    return b;
-  }
-
-  /** \deprecated use OneValue() instead */
-  static const Self One(const Self & a)
   {
     Self b( a.Size() );
 
@@ -152,6 +134,28 @@ public:
       mv[i] = v[i];
       }
   }
+
+#if !defined(ITK_LEGACY_REMOVE)
+  //The extra #ifdef is need because the itkLegacyMacro
+  //can not format a static const member function properly
+  //in the case of removing the code.
+
+  /** \deprecated use ZeroValue() instead */
+  itkLegacyMacro(static const Self Zero(const Self  & a))
+  {
+    Self b( a.Size() );
+    b.Fill(NumericTraits< T >::Zero);
+    return b;
+  }
+
+  /** \deprecated use OneValue() instead */
+  itkLegacyMacro(static const Self One(const Self & a))
+  {
+    Self b( a.Size() );
+    b.Fill(NumericTraits< T >::One);
+    return b;
+  }
+#endif
 
 };
 } // end namespace itk

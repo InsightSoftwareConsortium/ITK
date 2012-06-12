@@ -386,7 +386,7 @@ DeformableSimplexMesh3DGradientConstraintForceFilter< TInputMesh, TOutputMesh >
     vec_for[2] = gradient3[2];
     // check magnitude
 
-    mag = vcl_sqrt( dot_product( vec_for.Get_vnl_vector(), vec_for.Get_vnl_vector() ) );
+    mag = vcl_sqrt( dot_product( vec_for.GetVnlVector(), vec_for.GetVnlVector() ) );
     if ( mag > max )
       {
       max =  mag;
@@ -402,7 +402,7 @@ DeformableSimplexMesh3DGradientConstraintForceFilter< TInputMesh, TOutputMesh >
   vec_for[2] = gradient2[2];
 
   // now check highest gradient magnitude direction
-  mag = dot_product( vec_for.Get_vnl_vector(), data->normal.Get_vnl_vector() );
+  mag = dot_product( vec_for.GetVnlVector(), data->normal.GetVnlVector() );
 
   if ( mag > 0 )
     {

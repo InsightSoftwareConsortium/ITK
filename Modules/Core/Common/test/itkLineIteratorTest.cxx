@@ -168,7 +168,7 @@ int itkLineIteratorTest(int argc, char*argv[])
     }
 
   timer.Stop();
-  std::cerr << "Line drawing took " << timer.GetMeanTime() << " seconds.\n";
+  std::cerr << "Line drawing took " << timer.GetMean() << " seconds.\n";
 
 
   return EXIT_SUCCESS;

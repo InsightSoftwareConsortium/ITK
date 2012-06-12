@@ -164,9 +164,8 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
     // Fill the region with the mean value
 
     OutputImageIterator outputIt(outputImage, region);
-    OutputImageIterator outputItEnd = outputIt.End();
 
-    while ( outputIt < outputItEnd )
+    while ( !outputIt.IsAtEnd() )
       {
       outputIt.Set(outMeanValue);
       ++outputIt;
@@ -250,9 +249,7 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
     RegionLabelType newRegionLabel = m_RegionsPointer[iregion]->GetRegionLabel();
 
     LabelImageIterator labelIt(labelImagePtr, region);
-    LabelImageIterator labelItEnd = labelIt.End();
-
-    while ( labelIt < labelItEnd )
+    while ( !labelIt.IsAtEnd() )
       {
       labelIt.Set(newRegionLabel);
       ++labelIt;
@@ -592,7 +589,6 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
 
   // Set the iterators and the pixel type definition for the input image
   InputImageConstIterator inputIt(inputImage, region);
-  InputImageConstIterator inputItEnd = inputIt.End();
 
   // Variable to store the input pixel vector value
   InputImageVectorType inputPixelVec;
@@ -602,7 +598,7 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
 
   m_InitialRegionMean.fill(0);
 
-  while ( inputIt < inputItEnd )
+  while ( ! inputIt.IsAtEnd() )
     {
     inputPixelVec = inputIt.Value();
 

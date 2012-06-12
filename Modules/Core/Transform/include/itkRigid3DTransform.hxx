@@ -151,6 +151,22 @@ Rigid3DTransform< TScalarType >::Translate(const OffsetType & offset, bool)
   this->ComputeTranslation();
 }
 
+#ifdef ITKV3_COMPATIBILITY
+#if !defined(ITK_LEGACY_REMOVE)
+template< class TScalarType >
+bool
+Rigid3DTransform< TScalarType >::GetInverse(Self *inverse) const
+{
+  return this->Superclass::GetInverse(inverse);
+}
+
+template< class TScalarType >
+typename Rigid3DTransform< TScalarType >::InverseTransformBasePointer
+Rigid3DTransform< TScalarType >::GetInverseTransform() const
+{
+  Pointer inv = New();
+  return this->GetInverse(inv) ? inv.GetPointer() : NULL;
+}
 // Back transform a point
 template< class TScalarType >
 typename Rigid3DTransform< TScalarType >::InputPointType
@@ -198,6 +214,22 @@ Rigid3DTransform< TScalarType >::BackTransform(const OutputCovariantVectorType &
     " Instead, please use GetInverse() to generate an inverse transform and then perform the transform using that inverted transform.");
   return this->GetMatrix() * vect;
 }
+
+template< class TScalarType >
+const typename Rigid3DTransform< TScalarType >::MatrixType &
+Rigid3DTransform< TScalarType >::GetRotationMatrix() const
+{
+  return this->GetMatrix();
+}
+
+template< class TScalarType >
+void
+Rigid3DTransform< TScalarType >::SetRotationMatrix(const MatrixType & matrix)
+{
+  this->SetMatrix(matrix);
+}
+#endif
+#endif
 } // namespace
 
 #endif
