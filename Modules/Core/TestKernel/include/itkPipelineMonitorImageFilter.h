@@ -20,13 +20,15 @@
 
 #include "itkImageToImageFilter.h"
 
-namespace itk {
+namespace itk
+{
 
-/** \class PipelineMonitorImageSource
- * \brief Enables monitoring, recording and debuging of the pipeline
+/** \class PipelineMonitorImageFilter
+ *
+ * \brief Enables monitoring, recording and debugging of the pipeline
  * execution and information exchange.
  *
- * This filter is useful for testing, debuging, and understanding the
+ * This filter is useful for testing, debugging, and understanding the
  * pipeline. When DebugOn is enabled and compiled in Debug mode, many
  * itkDebug messages are printed. This filter also features, several
  * Verify methods which check the recorded information, for certain
@@ -62,8 +64,8 @@ namespace itk {
  * \ingroup ITKTestKernel
  */
  template <class TImageType>
-   class PipelineMonitorImageFilter :
-    public ImageToImageFilter< TImageType, TImageType>
+ class PipelineMonitorImageFilter :
+  public ImageToImageFilter< TImageType, TImageType>
  {
  public:
 
