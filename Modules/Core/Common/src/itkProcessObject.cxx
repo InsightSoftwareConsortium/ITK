@@ -39,10 +39,11 @@ ProcessObject
   m_Inputs(),
   m_Outputs(),
   m_CachedInputReleaseDataFlags(),
-  m_RequiredInputNames()
+  m_RequiredInputNames(),
+  m_PrimaryInputName( "Primary" ),
+  m_PrimaryOutputName( "Primary" )
 {
   m_NumberOfRequiredInputs = 0;
-
   m_NumberOfRequiredOutputs = 0;
 
   m_AbortGenerateData = false;
@@ -69,9 +70,9 @@ ProcessObject
 ::MakeOutput( const DataObjectIdentifierType & name )
 {
   itkDebugMacro("MakeOutput(" << name << ")");
-  if( this->IsIndexedName(name) )
+  if( this->IsIndexedOutputName(name) )
     {
-    return this->MakeOutput( this->MakeIndexFromName(name) );
+    return this->MakeOutput( this->MakeIndexFromOutputName(name) );
     }
   return static_cast< DataObject * >( DataObject::New().GetPointer() );
 }
@@ -120,7 +121,7 @@ ProcessObject
     // remove the extra inputs
     for( DataObjectPointerArraySizeType i=num; i<this->GetNumberOfIndexedInputs(); i++ )
       {
-      this->RemoveInput( this->MakeNameFromIndex( i ) );
+      this->RemoveInput( this->MakeNameFromInputIndex( i ) );
       }
     m_NumberOfIndexedInputs = num;
     this->Modified();
@@ -227,7 +228,7 @@ ProcessObject
     }
   else
     {
-    this->RemoveInput( this->MakeNameFromIndex( idx ) );
+    this->RemoveInput( this->MakeNameFromInputIndex( idx ) );
     }
 }
 
@@ -271,7 +272,7 @@ ProcessObject
     {
     this->SetNumberOfInputs(idx + 1);
     }
-  this->SetInput( this->MakeNameFromIndex(idx), input );
+  this->SetInput( this->MakeNameFromInputIndex(idx), input );
 }
 
 /**
@@ -384,7 +385,7 @@ ProcessObject
     }
   else
     {
-    this->RemoveOutput( this->MakeNameFromIndex( idx ) );
+    this->RemoveOutput( this->MakeNameFromOutputIndex( idx ) );
     }
 }
 
@@ -462,7 +463,7 @@ ProcessObject
     {
     this->SetNumberOfOutputs(idx + 1);
     }
-  this->SetOutput( this->MakeNameFromIndex(idx), output );
+  this->SetOutput( this->MakeNameFromOutputIndex(idx), output );
 }
 
 /**
@@ -496,7 +497,7 @@ ProcessObject
     // remove the extra outputs
     for( DataObjectPointerArraySizeType i=num; i<this->GetNumberOfIndexedOutputs(); i++ )
       {
-      this->RemoveOutput( this->MakeNameFromIndex( i ) );
+      this->RemoveOutput( this->MakeNameFromOutputIndex( i ) );
       }
     m_NumberOfIndexedOutputs = num;
     this->Modified();
@@ -547,35 +548,56 @@ DataObject *
 ProcessObject
 ::GetOutput(DataObjectPointerArraySizeType i)
 {
-  return this->GetOutput( this->MakeNameFromIndex(i) );
+  return this->GetOutput( this->MakeNameFromOutputIndex(i) );
 }
 
 const DataObject *
 ProcessObject
 ::GetOutput(DataObjectPointerArraySizeType i) const
 {
-  return this->GetOutput( this->MakeNameFromIndex(i) );
+  return this->GetOutput( this->MakeNameFromOutputIndex(i) );
 }
 
 const DataObject *
 ProcessObject
 ::GetPrimaryOutput() const
 {
-  return this->GetOutput("Primary");
+  return this->GetOutput(this->m_PrimaryOutputName);
 }
 
 DataObject *
 ProcessObject
 ::GetPrimaryOutput()
 {
-  return this->GetOutput("Primary");
+  return this->GetOutput(this->m_PrimaryOutputName);
 }
 
 void
 ProcessObject
 ::SetPrimaryOutput(DataObject * object)
 {
-  this->SetOutput("Primary", object);
+  this->SetOutput(this->m_PrimaryOutputName, object);
+}
+
+void
+ProcessObject
+::SetPrimaryOutputName(const DataObjectIdentifierType & key)
+{
+  if( key != this->m_PrimaryOutputName )
+    {
+    DataObjectPointerMap::iterator it = m_Outputs.find( this->m_PrimaryOutputName );
+    if ( it != m_Outputs.end() )
+      {
+      this->m_Outputs[key] = it->second;
+      this->m_Outputs.erase( this->m_PrimaryOutputName );
+      }
+    else
+      {
+      this->m_Outputs[key] = NULL;
+      }
+    this->m_PrimaryOutputName = key;
+    this->Modified();
+    }
 }
 
 bool
@@ -698,35 +720,57 @@ DataObject *
 ProcessObject
 ::GetInput(DataObjectPointerArraySizeType i)
 {
-  return this->GetInput( this->MakeNameFromIndex(i) );
+  return this->GetInput( this->MakeNameFromInputIndex(i) );
 }
 
 const DataObject *
 ProcessObject
 ::GetInput(DataObjectPointerArraySizeType i) const
 {
-  return this->GetInput( this->MakeNameFromIndex(i) );
+  return this->GetInput( this->MakeNameFromInputIndex(i) );
 }
 
 const DataObject *
 ProcessObject
 ::GetPrimaryInput() const
 {
-  return this->GetInput("Primary");
+  return this->GetInput(this->m_PrimaryInputName);
 }
 
 DataObject *
 ProcessObject
 ::GetPrimaryInput()
 {
-  return this->GetInput("Primary");
+  return this->GetInput(this->m_PrimaryInputName);
 }
 
 void
 ProcessObject
 ::SetPrimaryInput(DataObject * object)
 {
-  this->SetInput("Primary", object);
+  this->SetInput(this->m_PrimaryInputName, object);
+}
+
+void
+ProcessObject
+::SetPrimaryInputName(const DataObjectIdentifierType & key)
+{
+  if( key != this->m_PrimaryInputName )
+    {
+    DataObjectPointerMap::iterator it = this->m_Inputs.find( this->m_PrimaryInputName );
+    if( it != m_Inputs.end() )
+      {
+      this->m_Inputs[key] = it->second;
+      this->RemoveRequiredInputName( this->m_PrimaryInputName );
+      this->m_RequiredInputNames.insert( key );
+      }
+    else
+      {
+      this->AddRequiredInputName( key );
+      }
+    this->m_PrimaryInputName = key;
+    this->Modified();
+    }
 }
 
 bool
@@ -759,7 +803,7 @@ ProcessObject
       {
       this->SetInput( name, NULL );
       }
-    if( name == "Primary" && m_NumberOfRequiredInputs == 0 )
+    if( name == this->m_PrimaryInputName && m_NumberOfRequiredInputs == 0 )
       {
       m_NumberOfRequiredInputs = 1;
       }
@@ -775,7 +819,7 @@ ProcessObject
 {
   if( m_RequiredInputNames.erase( name ) )
     {
-    if( name == "Primary" && m_NumberOfRequiredInputs == 1 )
+    if( name == this->m_PrimaryInputName && m_NumberOfRequiredInputs == 1 )
       {
       m_NumberOfRequiredInputs = 0;
       }
@@ -884,12 +928,30 @@ ProcessObject
 
 ProcessObject::DataObjectIdentifierType
 ProcessObject
-::MakeNameFromIndex(DataObjectPointerArraySizeType idx) const
+::MakeNameFromInputIndex(DataObjectPointerArraySizeType idx) const
 {
   if( idx == 0 )
     {
-    return "Primary";
+    return this->m_PrimaryInputName;
     }
+  return this->MakeNameFromIndex(idx);
+}
+
+ProcessObject::DataObjectIdentifierType
+ProcessObject
+::MakeNameFromOutputIndex(DataObjectPointerArraySizeType idx) const
+{
+  if( idx == 0 )
+    {
+    return this->m_PrimaryOutputName;
+    }
+  return this->MakeNameFromIndex(idx);
+}
+
+ProcessObject::DataObjectIdentifierType
+ProcessObject
+::MakeNameFromIndex(DataObjectPointerArraySizeType idx) const
+{
   if ( idx < 999 )
     {
     char buf[17+4];
@@ -907,13 +969,32 @@ ProcessObject
 
 ProcessObject::DataObjectPointerArraySizeType
 ProcessObject
-::MakeIndexFromName(const DataObjectIdentifierType & name) const
+::MakeIndexFromInputName(const DataObjectIdentifierType & name) const
 {
-  if( name == "Primary" )
+  if( name == this->m_PrimaryInputName )
     {
     itkDebugMacro("MakeIndexFromName("<<name<<") -> 0");
     return 0;
     }
+  return this->MakeIndexFromName( name );
+}
+
+ProcessObject::DataObjectPointerArraySizeType
+ProcessObject
+::MakeIndexFromOutputName(const DataObjectIdentifierType & name) const
+{
+  if( name == this->m_PrimaryOutputName )
+    {
+    itkDebugMacro("MakeIndexFromName("<<name<<") -> 0");
+    return 0;
+    }
+  return this->MakeIndexFromName( name );
+}
+
+ProcessObject::DataObjectPointerArraySizeType
+ProcessObject
+::MakeIndexFromName(const DataObjectIdentifierType & name) const
+{
   DataObjectIdentifierType baseName = "IndexedDataObject";
   DataObjectPointerArraySizeType baseSize = baseName.size();
   if( name.size() <= baseSize || name.substr(0, baseSize) != baseName )
@@ -934,12 +1015,30 @@ ProcessObject
 
 bool
 ProcessObject
-::IsIndexedName(const DataObjectIdentifierType & name) const
+::IsIndexedInputName(const DataObjectIdentifierType & name) const
 {
-  if( name == "Primary" )
+  if( name == this->m_PrimaryInputName )
     {
     return true;
     }
+  return this->IsIndexedName( name );
+}
+
+bool
+ProcessObject
+::IsIndexedOutputName(const DataObjectIdentifierType & name) const
+{
+  if( name == this->m_PrimaryOutputName )
+    {
+    return true;
+    }
+  return this->IsIndexedName( name );
+}
+
+bool
+ProcessObject
+::IsIndexedName(const DataObjectIdentifierType & name) const
+{
   DataObjectIdentifierType baseName = "IndexedDataObject";
   DataObjectPointerArraySizeType baseSize = baseName.size();
   if( name.size() <= baseSize || name.substr(0, baseSize) != baseName )
@@ -1663,11 +1762,11 @@ ProcessObject
     this->Modified();
     if( m_NumberOfRequiredInputs > 0 )
       {
-      this->AddRequiredInputName( "Primary" );
+      this->AddRequiredInputName( this->m_PrimaryInputName );
       }
     if( m_NumberOfRequiredInputs == 0 )
       {
-      this->RemoveRequiredInputName( "Primary" );
+      this->RemoveRequiredInputName( this->m_PrimaryInputName );
       }
     }
 }

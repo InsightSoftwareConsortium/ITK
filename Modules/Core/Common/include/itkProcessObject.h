@@ -55,13 +55,15 @@ namespace itk
  * not use inputs (the source) or outputs (mappers). In this case, the
  * inputs or outputs is just ignored.
  *
- * The inputs and outputs are referenced by name. The Primary input and
- * the Primary output play a special role: they drive the pipeline.
+ * The inputs and outputs are referenced by name. The \b Primary input and
+ * the \b Primary output play a special role: they drive the pipeline.
  *
  * In addition to the reference by name, it is possible to access the
  * inputs and outputs with an index. The index is mapped internally to
  * a name built as "IndexedDataObject" followed by the index.
  * The indexed input or output 0 is mapped to the Primary input or output.
+ * The name of the Primary input or output is "Primary", but this can be changed
+ * with SetPrimaryInputName and SetPrimaryOutputName.
  *
  * The inputs and outputs shouldn't be accessed by index in most cases.
  * Using the name is most of the time a better solution. The access
@@ -449,12 +451,20 @@ protected:
   DataObject * GetPrimaryInput();
   const DataObject * GetPrimaryInput() const;
 
+  /** Set/Get the name associated with the Primary output.  Defaults to "Primary". */
+  virtual void SetPrimaryInputName(const DataObjectIdentifierType & key);
+  itkGetStringMacro(PrimaryInputName);
+
   /** Set the main input */
   virtual void SetPrimaryInput(DataObject *input);
 
   /** Return an output */
   DataObject * GetOutput(const DataObjectIdentifierType & key);
   const DataObject * GetOutput(const DataObjectIdentifierType & key) const;
+
+  /** Set/Get the name associated with the Primary output.  Defaults to "Primary". */
+  virtual void SetPrimaryOutputName(const DataObjectIdentifierType & key);
+  itkGetStringMacro(PrimaryOutputName);
 
   /** Method used internally for getting an indexed output. */
   DataObject * GetOutput(DataObjectPointerArraySizeType idx);
@@ -476,9 +486,12 @@ protected:
   /** Set the main output */
   virtual void SetPrimaryOutput(DataObject *output);
 
-  DataObjectIdentifierType MakeNameFromIndex( DataObjectPointerArraySizeType ) const;
-  DataObjectPointerArraySizeType MakeIndexFromName( const DataObjectIdentifierType & ) const;
-  bool IsIndexedName( const DataObjectIdentifierType & ) const;
+  DataObjectIdentifierType MakeNameFromInputIndex( DataObjectPointerArraySizeType idx ) const;
+  DataObjectIdentifierType MakeNameFromOutputIndex( DataObjectPointerArraySizeType idx ) const;
+  DataObjectPointerArraySizeType MakeIndexFromInputName( const DataObjectIdentifierType & name ) const;
+  DataObjectPointerArraySizeType MakeIndexFromOutputName( const DataObjectIdentifierType & name ) const;
+  bool IsIndexedInputName( const DataObjectIdentifierType & ) const;
+  bool IsIndexedOutputName( const DataObjectIdentifierType & ) const;
 
   /** \brief Verifies that the process object has been configured
    * correctly, that all required inputs are set, and needed parameters
@@ -655,6 +668,10 @@ private:
     }
   };
 
+  DataObjectIdentifierType MakeNameFromIndex( DataObjectPointerArraySizeType ) const;
+  DataObjectPointerArraySizeType MakeIndexFromName( const DataObjectIdentifierType & ) const;
+  bool IsIndexedName( const DataObjectIdentifierType & ) const;
+
   /** STL map to store the named inputs and outputs */
   typedef std::map< DataObjectIdentifierType, DataObjectPointer, NameComparator > DataObjectPointerMap;
 
@@ -676,6 +693,10 @@ private:
 
   /** The required inputs */
   NameSet m_RequiredInputNames;
+
+  /** The name associated with the Primary input or output.  Defaults to "Primary". */
+  DataObjectIdentifierType m_PrimaryInputName;
+  DataObjectIdentifierType m_PrimaryOutputName;
 
   /** These support the progress method and aborting filter execution. */
   bool  m_AbortGenerateData;

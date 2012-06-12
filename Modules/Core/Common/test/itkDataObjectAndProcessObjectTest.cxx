@@ -63,6 +63,10 @@ public:
   using Superclass::SetOutput;
   using Superclass::GetPrimaryOutput;
   using Superclass::SetPrimaryOutput;
+  using Superclass::SetPrimaryInputName;
+  using Superclass::SetPrimaryOutputName;
+  using Superclass::GetPrimaryInputName;
+  using Superclass::GetPrimaryOutputName;
   using Superclass::MakeNameFromIndex;
   using Superclass::MakeIndexFromName;
   using Superclass::SetNthInput;
@@ -270,6 +274,10 @@ int itkDataObjectAndProcessObjectTest(int, char* [] )
   TEST_SET_GET( input0, process->GetPrimaryInput() );
   TEST_SET_GET( input0, process->GetInput(0) );
   TEST_SET_GET( input0, process->GetInput("Primary") );
+  process->SetPrimaryInputName("First");
+  TEST_SET_GET( input0, process->GetPrimaryInput() );
+  TEST_SET_GET( input0, process->GetInput(0) );
+  TEST_SET_GET( input0, process->GetInput("First") );
 
   process->SetNthInput( 1, input1 );
   TEST_SET_GET( input1, process->GetInput(1) );
@@ -313,6 +321,9 @@ int itkDataObjectAndProcessObjectTest(int, char* [] )
   process->SetRequiredInputNames( names );
   process->Print( std::cout );
   TEST_SET_GET_VALUE( 2, process->GetRequiredInputNames().size() );
+  process->SetPrimaryOutputName( "Outy" );
+  const std::string primaryOutputName = process->GetPrimaryOutputName();
+  TEST_EXPECT_EQUAL( "Outy", primaryOutputName );
 
   return (EXIT_SUCCESS);
 }

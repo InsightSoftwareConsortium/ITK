@@ -159,7 +159,7 @@ ImageSource< TOutputImage >
     itkExceptionMacro(<< "Requested to graft output " << idx
                       << " but this filter only has " << this->GetNumberOfIndexedOutputs() << " indexed Outputs.");
     }
-  this->GraftOutput( this->MakeNameFromIndex(idx), graft );
+  this->GraftOutput( this->MakeNameFromOutputIndex(idx), graft );
 }
 
 //----------------------------------------------------------------------------

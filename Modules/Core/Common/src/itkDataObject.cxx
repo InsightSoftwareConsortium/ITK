@@ -311,7 +311,7 @@ DataObject
     {
     return 0;
     }
-  return m_Source->MakeIndexFromName( m_SourceOutputName );
+  return m_Source->MakeIndexFromOutputName( m_SourceOutputName );
 }
 
 //----------------------------------------------------------------------------
