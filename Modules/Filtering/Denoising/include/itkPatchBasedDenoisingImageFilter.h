@@ -26,9 +26,13 @@
 #include "itkRGBPixel.h"
 #include "itkRGBAPixel.h"
 #include "itkDiffusionTensor3D.h"
+#include "itkFixedArray.h"
+#include "itkMatrix.h"
 #include "itkRegionConstrainedSubsampler.h"
 #include "itkEnableIf.h"
 #include "itkIsSame.h"
+
+#include <vector>
 
 namespace itk
 {
@@ -112,15 +116,27 @@ public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
   typedef typename BaseSamplerType::Pointer            BaseSamplerPointer;
   typedef typename BaseSamplerType::InstanceIdentifier InstanceIdentifier;
 
+  /**
+   * Type definitions for Riemannian LogMap Eigensystem.
+   * Since the LogMap computations are only valid for DiffusionTensor3D
+   * pixels right now which always have a dimension of 3x3.
+   */
+  typedef FixedArray< PixelValueType, 3 >      EigenValuesArrayType;
+  typedef Matrix< PixelValueType, 3, 3 >       EigenVectorsMatrixType;
+  typedef std::vector<EigenValuesArrayType*>   EigenValuesCacheType;
+  typedef std::vector<EigenVectorsMatrixType*> EigenVectorsCacheType;
+
   struct ThreadDataStruct
   {
-    ShortArrayType     validDerivatives;
-    RealArrayType      entropyFirstDerivative;
-    RealArrayType      entropySecondDerivative;
-    ShortArrayType     validNorms;
-    RealArrayType      minNorm;
-    RealArrayType      maxNorm;
-    BaseSamplerPointer sampler;
+    ShortArrayType        validDerivatives;
+    RealArrayType         entropyFirstDerivative;
+    RealArrayType         entropySecondDerivative;
+    ShortArrayType        validNorms;
+    RealArrayType         minNorm;
+    RealArrayType         maxNorm;
+    BaseSamplerPointer    sampler;
+    EigenValuesCacheType  eigenValsCache;
+    EigenVectorsCacheType eigenVecsCache;
   };
 
 
@@ -152,6 +168,23 @@ public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
   itkBooleanMacro(ComputeConditionalDerivatives);
   itkGetConstMacro(ComputeConditionalDerivatives, bool);
 
+  /** Set/Get flag indicating whether the fast algorithm for tensor computations should be used.
+   *
+   *  Specifically, when this flag is true (default) or On, a faster implementation of the 3x3
+   *  symmetric positive-definite eigensystem analysys will be used. See
+   *  Hasan KM, Basser PJ, Parker DL, Alexander AL.
+   *  Analytical computation of the eigenvalues and eigenvectors in DT-MRI.
+   *  J Magn Reson 2001; 152: 41–47.
+   *  This faster algorithm may be slightly less accurate and possibly less stable in the presence
+   *  of noise.  So far in practice it has been shown to work well.
+   *
+   *  However, you may want to turn this option off if you have concerns about numerical
+   *  performance.
+   */
+  itkSetMacro(UseFastTensorComputations, bool);
+  itkBooleanMacro(UseFastTensorComputations);
+  itkGetConstMacro(UseFastTensorComputations, bool);
+
   /** Maximum number of Newton-Raphson iterations for sigma update. */
   itkStaticConstMacro(MaxSigmaUpdateIterations, unsigned int,
                       20);
@@ -177,8 +210,11 @@ public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 
  protected:
   PatchBasedDenoisingImageFilter();
-  ~PatchBasedDenoisingImageFilter() { };
+  ~PatchBasedDenoisingImageFilter();
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
+
+  /** Clean up Eigensystem caches */
+  virtual void EmptyCaches();
 
   /** Allocate memory for a temporary update container in the subclass*/
   virtual void AllocateUpdateBuffer();
@@ -272,28 +308,48 @@ public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
    * Compute the signed difference a-b and the weighted squared distance
    * between a and b.  Do the computation in either Euclidean or Riemannian space
    * depending on pixel type.
+   * The cache is used when the first argument is repeatedly passed into
+   * ComputeLogMap since the eigen analysis will already have been computed
+   * for that pixel.
    */
   void ComputeDifferenceAndWeightedSquaredNorm(const DiffusionTensor3D<PixelValueType>& a,
                                                const DiffusionTensor3D<PixelValueType>& b,
                                                const RealArrayType& weight,
+                                               bool useCachedComputations,
+                                               SizeValueType cacheIndex,
+                                               EigenValuesCacheType& eigenValsCache,
+                                               EigenVectorsCacheType& eigenVecsCache,
                                                RealType& diff, RealArrayType& norm)
   {
     if (this->m_ComponentSpace == Superclass::RIEMANNIAN)
     {
-      ComputeLogMapAndWeightedSquaredGeodesicDifference(a, b, weight, diff, norm);
+      ComputeLogMapAndWeightedSquaredGeodesicDifference(a, b, weight,
+                                                        useCachedComputations, cacheIndex,
+                                                        eigenValsCache, eigenVecsCache,
+                                                        diff, norm);
     }
     else
     {
-      ComputeSignedEuclideanDifferenceAndWeightedSquaredNorm(a, b, weight, diff, norm);
+      ComputeSignedEuclideanDifferenceAndWeightedSquaredNorm(a, b, weight,
+                                                             useCachedComputations, cacheIndex,
+                                                             eigenValsCache, eigenVecsCache,
+                                                             diff, norm);
     }
   }
   template <class PixelT>
   void ComputeDifferenceAndWeightedSquaredNorm(const PixelT& a,
                                                const PixelT& b,
                                                const RealArrayType& weight,
+                                               bool useCachedComputations,
+                                               SizeValueType cacheIndex,
+                                               EigenValuesCacheType& eigenValsCache,
+                                               EigenVectorsCacheType& eigenVecsCache,
                                                RealType& diff, RealArrayType& norm)
   {
-    ComputeSignedEuclideanDifferenceAndWeightedSquaredNorm(a, b, weight, diff, norm);
+    ComputeSignedEuclideanDifferenceAndWeightedSquaredNorm(a, b, weight,
+                                                           useCachedComputations, cacheIndex,
+                                                           eigenValsCache, eigenVecsCache,
+                                                           diff, norm);
   }
 
   /**
@@ -343,7 +399,8 @@ public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
                                                       ThreadDataStruct threadData);
   virtual RealType ComputeGradientJointEntropy(InstanceIdentifier id,
                                                typename ListAdaptorType::Pointer& inList,
-                                               BaseSamplerPointer& sampler);
+                                               BaseSamplerPointer& sampler,
+                                               ThreadDataStruct& threadData);
 
 
   virtual void ApplyUpdate();
@@ -366,6 +423,8 @@ public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
   unsigned int     m_TotalNumberPixels;
   //
   bool             m_UseSmoothDiscPatchWeights;
+  //
+  bool             m_UseFastTensorComputations;
   //
   RealArrayType    m_GaussianKernelSigma;
   RealArrayType    m_IntensityRescaleInvFactor;
@@ -429,13 +488,25 @@ public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 
   void ComputeSignedEuclideanDifferenceAndWeightedSquaredNorm(const PixelType& a, const PixelType& b,
                                                               const RealArrayType& weight,
+                                                              bool useCachedComputations,
+                                                              SizeValueType cacheIndex,
+                                                              EigenValuesCacheType& eigenValsCache,
+                                                              EigenVectorsCacheType& eigenVecsCache,
                                                               RealType& diff, RealArrayType& norm);
 
   /** Returns the Log map in the tangent space of spdMatrixA. */
   void ComputeLogMapAndWeightedSquaredGeodesicDifference(const DiffusionTensor3D<PixelValueType>& spdMatrixA,
                                                          const DiffusionTensor3D<PixelValueType>& spdMatrixB,
                                                          const RealArrayType& weight,
+                                                         bool useCachedComputations,
+                                                         SizeValueType cacheIndex,
+                                                         EigenValuesCacheType& eigenValsCache,
+                                                         EigenVectorsCacheType& eigenVecsCache,
                                                          RealType& symMatrixLogMap, RealArrayType& geodesicDist);
+  template <typename TensorValueT>
+  void Compute3x3EigenAnalysis(const DiffusionTensor3D<TensorValueT>& spdMatrix,
+                               FixedArray< TensorValueT, 3 >&  eigenVals,
+                               Matrix< TensorValueT, 3, 3 >& eigenVecs);
 
   RealType AddEuclideanUpdate(const RealType& a, const RealType& b);
   /** Returns the Exp map */
