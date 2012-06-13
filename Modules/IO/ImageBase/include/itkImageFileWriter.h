@@ -48,6 +48,10 @@ public:
                            const char *loc = "Unknown"):
     ExceptionObject(file, line, message, loc)
   {}
+
+  /** Has to have empty throw(). */
+  virtual ~ImageFileWriterException() throw( )
+  {}
 };
 
 /** \class ImageFileWriter
