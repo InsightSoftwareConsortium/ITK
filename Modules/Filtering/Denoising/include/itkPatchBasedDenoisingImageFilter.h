@@ -219,19 +219,19 @@ public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
   }
 
   /** \brief A method to generically set a component */
-  template< typename T>
-    typename EnableIfC<
-      IsSame<T, typename NumericTraits<T>::ValueType>::Value
-      >::Type
-    SetComponent( T &pix, unsigned int itkNotUsed( idx ), RealValueType val) const
+  template< typename T >
+    void
+  SetComponent( T &pix,
+                unsigned int itkNotUsed( idx ),
+                typename EnableIfC< IsSame<T, typename NumericTraits<T>::ValueType>::Value, RealValueType>::Type val) const
   {
     pix = val;
   }
-  template< typename T>
-    typename DisableIfC<
-      IsSame<T, typename NumericTraits<T>::ValueType>::Value
-      >::Type
-  SetComponent( T &pix, unsigned int idx, RealValueType val) const
+  template< typename T >
+    void
+  SetComponent( T &pix,
+                unsigned int idx,
+                typename DisableIfC< IsSame<T, typename NumericTraits<T>::ValueType>::Value, RealValueType>::Type val) const
   {
     pix[idx] =  val;
   }
