@@ -87,14 +87,12 @@ LinearInterpolateImageFunction< TInputImage, TCoordRep >
    */
   // When RealType is VariableLengthVector, 'value' will be resized properly
   // below when it's assigned again.
-  typedef typename NumericTraits< RealType >::ScalarRealType
-                                                      RealTypeScalarRealType;
-  RealType value = NumericTraits< RealTypeScalarRealType >::Zero;
+  typedef typename NumericTraits< RealType >::ScalarRealType RealTypeScalarRealType;
+  RealType value;
+  value = NumericTraits< RealTypeScalarRealType >::Zero;
 
-  typedef typename NumericTraits< InputPixelType >::ScalarRealType
-                                                    InputPixelScalarRealType;
-  InputPixelScalarRealType totalOverlap =
-    NumericTraits< InputPixelScalarRealType >::Zero;
+  typedef typename NumericTraits< InputPixelType >::ScalarRealType InputPixelScalarRealType;
+  InputPixelScalarRealType totalOverlap = NumericTraits< InputPixelScalarRealType >::Zero;
   bool firstOverlap = true;
 
   for ( unsigned int counter = 0; counter < m_Neighbors; counter++ )
@@ -142,14 +140,12 @@ LinearInterpolateImageFunction< TInputImage, TCoordRep >
         {
         // Performing the first assignment of value like this allows
         // VariableLengthVector type to be resized properly.
-        value = static_cast< RealType >
-          ( this->GetInputImage()->GetPixel(neighIndex) ) * overlap;
+        value = static_cast< RealType >( this->GetInputImage()->GetPixel(neighIndex) ) * overlap;
         firstOverlap = false;
         }
       else
         {
-        value += static_cast< RealType >
-          ( this->GetInputImage()->GetPixel(neighIndex) ) * overlap;
+        value += static_cast< RealType >( this->GetInputImage()->GetPixel(neighIndex) ) * overlap;
         }
       totalOverlap += overlap;
       }
