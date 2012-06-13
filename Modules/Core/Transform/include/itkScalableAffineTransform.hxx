@@ -180,20 +180,19 @@ void
 ScalableAffineTransform< TScalarType, NDimensions >
 ::ComputeMatrix()
 {
-  unsigned int i;
-
-  for ( i = 0; i < NDimensions; i++ )
+  bool scaleChanged = false;
+  for ( unsigned int i = 0; i < NDimensions; i++ )
     {
     if ( m_Scale[i] != m_MatrixScale[i] )
       {
-      break;
+      scaleChanged = true;
       }
     }
-  if ( i < NDimensions )
+  if ( scaleChanged )
     {
     MatrixType mat;
     typename MatrixType::InternalMatrixType & imat = mat.GetVnlMatrix();
-    for ( i = 0; i < NDimensions; i++ )
+    for ( unsigned int i = 0; i < NDimensions; i++ )
       {
       if ( m_MatrixScale[i] != 0 && m_Scale[i] != 0 )
         {
