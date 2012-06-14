@@ -175,7 +175,7 @@ int testMetaUtils(int argc, char * argv[])
   fout.flush();
 
   std::vector<MET_FieldRecordType *>::iterator fieldIter;
-  for(fieldIter=mFields.begin(); fieldIter!=mFields.end(); fieldIter++)
+  for(fieldIter=mFields.begin(); fieldIter != mFields.end(); fieldIter++)
     {
     delete *fieldIter;
     }
@@ -237,8 +237,8 @@ int testMetaUtils(int argc, char * argv[])
   else
     std::cout << "ElementSize not defined" << std::endl;
 
-  int nNames;
-  char **names;
+  int nNames=0;
+  char **names=NULL;
   fieldIter++;
   if((*fieldIter)->defined)
     {
@@ -260,7 +260,7 @@ int testMetaUtils(int argc, char * argv[])
     }
   delete [] names;
 
-  for(fieldIter=mFields.begin(); fieldIter!=mFields.end(); fieldIter++)
+  for(fieldIter=mFields.begin(); fieldIter != mFields.end(); fieldIter++)
     {
     delete *fieldIter;
     }
