@@ -365,11 +365,7 @@ int itkCommonPrintTest(int , char* [])
   itk::MeshToMeshFilter<MeshType,MeshType>::Pointer MeshToMeshFilterObj =
     itk::MeshToMeshFilter<MeshType,MeshType>::New();
   std::cout << "------------MeshToMeshFilter" << MeshToMeshFilterObj;
-#if 0
-  itk::MetaDataObject<VectorImageType>::Pointer MetaDataObjectObj =
-    itk::MetaDataObject<VectorImageType>::New();
-  std::cout << "------------MetaDataObject" << MetaDataObjectObj;
-#endif
+
   itk::Statistics::MinimumDecisionRule::Pointer MinimumDecisionRuleObj =
     itk::Statistics::MinimumDecisionRule::New();
   std::cout << "------------MinimumDecisionRule" << MinimumDecisionRuleObj;

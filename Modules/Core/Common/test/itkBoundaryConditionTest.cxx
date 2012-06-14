@@ -48,15 +48,13 @@ void filln(itk::Image<float, 2> *img)
       it.Set(100.0 * j + i);
       ++it;
       i = i +1.0f;
-      if ( (unsigned long)i % img->GetRequestedRegion().GetSize()[0] ==0 )
+      if ( (unsigned long)i % img->GetRequestedRegion().GetSize()[0] == 0 )
         {
           j = j +1.0f;
           i = 0.0f;
         }
     }
 }
-
-
 
 int itkBoundaryConditionTest(int, char* [] )
 {
@@ -192,14 +190,6 @@ int itkBoundaryConditionTest(int, char* [] )
              {
                temp2N[ii] = it2d.GetPixel(ii);
              }
-#if 0
-           std::cout << " ________________________________________ " << std::endl;
-           printn(it2d.GetNeighborhood().GetBufferReference(),
-                  it2d.GetNeighborhood().GetSize() );
-           std::cout << "  +++++ " << std::endl;
-           printn(temp2N.GetBufferReference(), temp2N.GetSize());
-           std::cout << "________________________________________"<< std::endl;
-#endif
          }
 
        it2d.OverrideBoundaryCondition(&neumann);

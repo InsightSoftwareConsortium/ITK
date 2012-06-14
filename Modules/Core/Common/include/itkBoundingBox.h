@@ -169,27 +169,6 @@ public:
   /** Duplicates this bounding box */
   Pointer DeepCopy() const;
 
-#if 0
-  /**
-   * Intersect this bounding box (bounds[PointDimension*2]) with a line
-   * given by an origin (origin[PointDimension]) and direction
-   * (direction[PointDimension]). Get the following results if the
-   * corresponding pointers are not NULL:
-   *
-   *  - The intersection point's geometric coordinates (returned through
-   *     pointer to array: coords[PointDimension]).
-   *
-   *  - The line's parametric coordinate of the intersection point
-   *     (returned through "t" pointer).
-   *
-   * Returns whether an intersection exists.
-   */
-  bool IntersectWithLine(CoordRepType origin[PointDimension],
-                         CoordRepType direction[PointDimension],
-                         CoordRepType coords[PointDimension],
-                         CoordRepType *t);
-
-#endif
 protected:
   BoundingBox();
   virtual ~BoundingBox();

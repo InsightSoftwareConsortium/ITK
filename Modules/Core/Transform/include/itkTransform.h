@@ -182,12 +182,6 @@ public:
 
   typedef Superclass::NumberOfParametersType    NumberOfParametersType;
 
-#if 0
-  // this method is currently undocummented, untested and broken when input and output dimensions are
-  // not the same
-  void SetDirectionChange( const OutputDirectionMatrix fixedDir, const InputDirectionMatrix  movingDir );
-#endif
-
   /**  Method to transform a point.
    * \warning This method must be thread-safe. See, e.g., its use
    * in ResampleImageFilter.

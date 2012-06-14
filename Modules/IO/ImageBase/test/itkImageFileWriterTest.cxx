@@ -104,28 +104,6 @@ int itkImageFileWriterTest(int ac, char* av[])
     return EXIT_FAILURE;
     }
 
-#if 0
-  // Now try a write with an image but a filename that cannot be created
-  status = 1;
-  try
-    {
-    WriterType::Pointer writer = WriterType::New();
-    writer->SetInput(image);
-    writer->SetFileName("/this_is_a_bad_directory/and_a_bad_filename.tif");
-    writer->Update();
-    }
-  catch (itk::ExceptionObject &ex)
-    {
-    std::cout << "------------------ Caught expected exception!" << std::endl;
-    std::cout << ex;
-    status = 0;
-    }
-  if (status)
-    {
-    std::cout << "Failed to catch expected exception." << std::endl;
-    return EXIT_FAILURE;
-    }
-#endif
   // Let's not be too negative. Try a write to a valid file.
   status = 1;
   try

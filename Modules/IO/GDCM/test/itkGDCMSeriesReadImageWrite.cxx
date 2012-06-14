@@ -99,38 +99,6 @@ int itkGDCMSeriesReadImageWrite( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-
-
-  // For now you cannot create a new DICOM directory, so one of two test
-  // is disable
-#if  0
-  // Ok saving as a known format worked now try to save as a serie of DICOM file
-
-  typedef itk::Image<unsigned short,2>            Image2DType;
-  typedef itk::ImageSeriesWriter< ImageType, Image2DType > SeriesWriterType;
-
-  SeriesWriterType::Pointer swriter = SeriesWriterType::New();
-  swriter->SetInput( reader->GetOutput() );
-  swriter->SetImageIO( gdcmIO );
-
-  it->SetOutputDirectory( argv[3] );
-  swriter->SetFileNames( it->GetOutputFileNames() );
-
-  swriter->SetMetaDataDictionaryArray( reader->GetMetaDataDictionaryArray() );
-
-  // Try to write the serie:
-  try
-    {
-    swriter->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
-    std::cerr << "Exception thrown while writing the series " << std::endl;
-    std::cerr << excp << std::endl;
-    }
-
-
-#else
   // Writing image afer downscaling to 8bits (unsigned char)
 
   typedef itk::Image< unsigned short, 3>            Image3DType;
@@ -165,9 +133,5 @@ int itkGDCMSeriesReadImageWrite( int argc, char* argv[] )
     std::cerr << e << std::endl;
     return EXIT_FAILURE;
     }
-
-#endif
-
   return EXIT_SUCCESS;
 }
-

@@ -237,16 +237,6 @@ void BasicTest( FixedImageReaderType* fixedImageReader,
   MattesMIMetricInitializer< FixedImageType, MovingImageType > mattesMetricInitializer( mattesMetric );
 
   TestAMetric( fixedImageReader, movingImageReader, interpolator, transform, mattesMetric.GetPointer(), mattesMetricInitializer );
-
-#if 0 // OptMutualInformationImageToImageMetric will be removed from Review.
-  // MI
-  typedef itk::MutualInformationImageToImageMetric< FixedImageType, MovingImageType > MIMetricType;
-  typedef MIMetricInitializer< FixedImageType, MovingImageType > MIMetricInitializerType;
-  typename MIMetricType::Pointer miMetric = MIMetricType::New();
-  MIMetricInitializer< FixedImageType, MovingImageType> miMetricInitializer( miMetric );
-
-  TestAMetric( fixedImageReader, movingImageReader, interpolator, transform, miMetric.GetPointer(), miMetricInitializer );
-#endif
 }
 
 template <class FixedImageReaderType,

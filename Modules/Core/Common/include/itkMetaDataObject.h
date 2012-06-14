@@ -305,35 +305,6 @@ inline bool ExposeMetaData(const MetaDataDictionary & Dictionary, const char *co
   ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image< STORAGE_TYPE, 7 >::Pointer) \
   ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image< STORAGE_TYPE, 8 >::Pointer) \
 
-#if 0
-// Define a specialization of the Print function
-// for some basic types. We don't use the initial
-// NATIVE_TYPE_METADATAPRINT macro because it lacks
-// the inline keyword and it tries to specialize
-// for const types which does not compile on MSVC
-#define NATIVE_TYPE_METADATAPRINT_NOCONST(TYPE_NAME) \
-  template< >                                        \
-  inline void itk::MetaDataObject< TYPE_NAME >       \
-  ::Print(std::ostream & os) const                   \
-    {                                                \
-    os << this->m_MetaDataObjectValue << std::endl;  \
-    }
-
-NATIVE_TYPE_METADATAPRINT_NOCONST(unsigned char)
-NATIVE_TYPE_METADATAPRINT_NOCONST(short)
-NATIVE_TYPE_METADATAPRINT_NOCONST(unsigned short)
-NATIVE_TYPE_METADATAPRINT_NOCONST(int)
-NATIVE_TYPE_METADATAPRINT_NOCONST(unsigned int)
-NATIVE_TYPE_METADATAPRINT_NOCONST(long)
-NATIVE_TYPE_METADATAPRINT_NOCONST(unsigned long)
-NATIVE_TYPE_METADATAPRINT_NOCONST(float)
-NATIVE_TYPE_METADATAPRINT_NOCONST(double)
-NATIVE_TYPE_METADATAPRINT_NOCONST(std::string)
-
-// undef the macro to clean up things
-#undef NATIVE_TYPE_METADATAPRINT_NOCONST
-#endif
-
 // Define instantiation macro for this template.
 #define ITK_TEMPLATE_MetaDataObject(_, EXPORT, TypeX, TypeY)     \
   namespace itk                                                  \

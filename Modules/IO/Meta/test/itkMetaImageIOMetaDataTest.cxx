@@ -227,16 +227,6 @@ itkMetaImageIOMetaDataTest(int argc, char * argv [] )
   std::string key("char"); char value('c');
   itk::EncapsulateMetaData<char>(dict,key,value);
   }
-#if 0
-  // BUG -- char data is written into MetaData header
-  // as a string, and when read back, non-printing charactrs
-  // are not correctly pulled out
-  {
-  // Add unsigned char
-  std::string key("unsigned_char"); unsigned char value(129);
-  itk::EncapsulateMetaData<unsigned char>(dict,key,value);
-  }
-#endif
   {
   std::string key("bool"); bool value(true);
   itk::EncapsulateMetaData<bool>(dict,key,value);
@@ -301,13 +291,6 @@ itkMetaImageIOMetaDataTest(int argc, char * argv [] )
     {
     return 1; // error
     }
-#if 0
-  // Add unsigned char
-  if(!TestMatch< unsigned char >(dict,"unsigned_char",129))
-    {
-    return 1; // error
-    }
-#endif
   // Add unsigned char
   if(!TestMatch<bool >(dict,"bool",true))
     {

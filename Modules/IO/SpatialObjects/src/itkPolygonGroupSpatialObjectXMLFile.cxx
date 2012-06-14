@@ -44,17 +44,6 @@ PolygonGroupSpatialObjectXMLFileReader::CanReadFile(const char *name)
 void
 PolygonGroupSpatialObjectXMLFileReader::StartElement( const char *name, const char **itkNotUsed(atts) )
 {
-#if 0
-  std::cout << "<" << name << " ";
-  if ( atts != 0 )
-    {
-    for ( int i = 0; atts[i] != 0; i++ )
-      {
-      std::cout << atts[i] << " ";
-      }
-    }
-  std::cout << ">" << std::endl;
-#endif
   if ( itksys::SystemTools::Strucmp(name, "POLYGONGROUP") == 0 )
     {
     m_PGroup = PGroupSpatialObjectType::New();
@@ -71,10 +60,6 @@ void
 PolygonGroupSpatialObjectXMLFileReader::EndElement(const char *name)
 {
   itk::MetaDataDictionary & thisDic = m_PGroup->GetMetaDataDictionary();
-
-#if 0
-  std::cout << "</" << name << ">" << std::endl;
-#endif
   if ( itksys::SystemTools::Strucmp(name, "POLYGONGROUP") == 0 )
     {
     m_OutputObject = &( *m_PGroup );
@@ -159,13 +144,6 @@ PolygonGroupSpatialObjectXMLFileReader::EndElement(const char *name)
 void
 PolygonGroupSpatialObjectXMLFileReader::CharacterDataHandler(const char *inData, int inLength)
 {
-#if 0
-  for ( int i = 0; i < inLength; i++ )
-    {
-    std::cout << inData[i];
-    }
-  std::cout << std::endl;
-#endif
   m_CurCharacterData = "";
   for ( int i = 0; i < inLength; i++ )
     {
@@ -266,41 +244,6 @@ PolygonGroupSpatialObjectXMLFileWriter::WriteFile()
   WriteMetaDataAttribute< int >(this, thisDic, ROI_NUM_SEGMENTS,
                                 "NUM-SEGMENTS", output);
 
-#if 0
-  itk::SpatialOrientation::ValidCoordinateOrientationFlags orientation;
-  //
-  // unfortunately there's no record of the orientation of a spatial object as
-  // there is with an image, and since ITK_CoordinateOrientation in the metadata
-  // is gone, there's no way to guess what the orientation is.
-  if ( ExposeMetaData< itk::SpatialOrientation::ValidCoordinateOrientationFlags >(thisDic,
-                                                                                  ITK_CoordinateOrientation,
-                                                                                  orientation) )
-    {
-    std::string SOrient;
-    bool        known_orientation = true;
-    switch ( orientation )
-      {
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPS:
-        SOrient = "AXIAL";
-        break;
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP:
-        SOrient = "CORONAL";
-        break;
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIR:
-        SOrient = "SAGITTAL";
-        break;
-      default:
-        known_orientation = false;
-      }
-    if ( known_orientation )
-      {
-      WriteStartElement("PLANE", output);
-      output << SOrient;
-      WriteEndElement("PLANE", output);
-      output << std::endl;
-      }
-    }
-#endif
   //
   // Write out polygondata
   PolygonGroupType::ChildrenListType *children =

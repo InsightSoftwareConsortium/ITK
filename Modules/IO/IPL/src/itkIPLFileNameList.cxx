@@ -129,15 +129,7 @@ public:
 void
 IPLFileNameList::sortImageListAscend()
 {
-#if 0
-  IPLFileSortInfo_ascend_compare comp;
-  //  qsort (fnList->Info, fnList->numImageInfoStructs, sizeof
-  // (IPLFileSortInfo),
-  //         qsort_IPLFileSortInfo_ascend_compar);
-  m_List.sort< IPLFileSortInfo_ascend_compare >(comp);
-#else
   std::sort( m_List.begin(), m_List.end(), IPLFileSortInfo_ascend_compare() );
-#endif
   return;
 }
 
@@ -147,12 +139,7 @@ IPLFileNameList::sortImageListDescend()
   //  qsort (fnList->Info, fnList->numImageInfoStructs, sizeof
   // (IPLFileSortInfo),
   //     qsort_IPLFileSortInfo_descend_compar);
-#if 0
-  IPLFileSortInfo_descend_compare comp;
-  m_List.sort< IPLFileSortInfo_descend_compare >(comp);
-#else
   std::sort( m_List.begin(), m_List.end(), IPLFileSortInfo_descend_compare() );
-#endif
   return;
 }
 

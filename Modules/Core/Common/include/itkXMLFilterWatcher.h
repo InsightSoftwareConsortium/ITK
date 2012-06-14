@@ -82,25 +82,6 @@ protected:
   /** Callback method to show the EndEvent */
   virtual void EndFilter()
   {
-#if 0
-    this - GetTimeProbe().Stop();
-    if ( !this->GetQuiet() )
-      {
-      std::cout << "<filter-end>"
-                << std::endl;
-      std::cout << "<filter-name>"
-                << ( this->GetProcess()
-           ? this->GetProcess()->GetNameOfClass() : "None" )
-                << "</filter-name>"
-                << std::endl;
-      std::cout << "<filter-time>"
-                << this->GetTimeProbe().GetMeanTime()
-                << "</filter-time>"
-                << std::endl;
-      std::cout << "</filter-end>";
-      std::cout << std::flush;
-      }
-#endif
   }
 };
 } // end namespace itk

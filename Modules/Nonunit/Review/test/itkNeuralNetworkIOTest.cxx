@@ -291,49 +291,6 @@ int itkNeuralNetworkIOTest(int argc,char* argv[])
       TwoHiddenLayerBackPropagationNeuralNetworkType::Pointer TwoHiddenLayerNet_ReadIn = readerTwoHiddenLayerBackPropagation->GetOutput();
       }
     }
-#if 0 //This type of network does not seem to fit the file IO mechanism requirements.
-  //Now test reading and writing of RBFNetwork
-    {
-    const std::string TestRBFLayerNetFileName=tempDataDirectory+std::string("/RBFLayerNet.txt");
-    typedef itk::Statistics::RBFNetwork<MeasurementVectorType, TargetVectorType> RBFNetworkType;
-    RBFNetworkType::Pointer RBFLayerNet = RBFNetworkType::New();
-    RBFLayerNet->SetNumOfInputNodes(3);
-    RBFLayerNet->SetNumOfFirstHiddenNodes(2);
-    RBFLayerNet->SetNumOfOutputNodes(1);
-
-    typedef itk::NeuralNetworkFileWriter<RBFNetworkType> OHLWriterType;
-
-    RBFLayerNet->InitializeWeights();
-    RBFLayerNet->SetLearningRate(0.001);
-    MeasurementVectorType initialcenter2(3);
-    initialcenter2[0]=99; //99;
-    initialcenter2[1]=199; //199;
-    initialcenter2[2]=300; //300;
-    RBFLayerNet->SetCenter(initialcenter2);
-    RBFLayerNet->SetRadius(50);
-
-    RBFLayerNet->Initialize();
-    std::cout << "___________________________________RBFLayerNet: " << TestRBFLayerNetFileName << std::endl;
-    std::cout << RBFLayerNet << std::endl;
-    std::cout << "___________________________________RBFLayerNet: " << TestRBFLayerNetFileName << std::endl;
-      {
-      OHLWriterType::Pointer writerRBFLayerBackPropagation=OHLWriterType::New();
-      writerRBFLayerBackPropagation->SetWriteWeightValuesType(OHLWriterType::ASCII);
-      writerRBFLayerBackPropagation->SetFileName(TestRBFLayerNetFileName);
-      writerRBFLayerBackPropagation->SetInput(RBFLayerNet);
-      writerRBFLayerBackPropagation->Update();
-      }
-      {
-      typedef itk::NeuralNetworkFileReader<RBFNetworkType> OHLReaderType;
-      OHLReaderType::Pointer readerRBFLayerBackPropagation=OHLReaderType::New();
-      readerRBFLayerBackPropagation->SetFileName(TestRBFLayerNetFileName);
-      readerRBFLayerBackPropagation->SetReadWeightValuesType( OHLReaderType::ASCII );
-      readerRBFLayerBackPropagation->Update();
-      //The following line gives a compiler error
-      RBFNetworkType::Pointer RBFLayerNet_ReadIn = readerRBFLayerBackPropagation->GetOutput();
-      }
-    }
-#endif
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 }

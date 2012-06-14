@@ -1829,11 +1829,6 @@ NiftiImageIO::SetNIfTIOrientationFromImageIO(unsigned short int origdims, unsign
       this->m_NiftiImage->sto_xyz.m[ii][jj] =
         static_cast< float >( this->GetSpacing(jj) )
         * this->m_NiftiImage->sto_xyz.m[ii][jj];
-#if 0   // this is almost certainly wrong and gets overwritten immediately
-      // below...
-      this->m_NiftiImage->sto_ijk.m[ii][jj] =
-        this->m_NiftiImage->sto_xyz.m[ii][jj] / this->GetSpacing(jj);
-#endif
       }
     }
   this->m_NiftiImage->sto_ijk =

@@ -573,51 +573,6 @@ OrientImageFilter< TInputImage, TOutputImage >
   this->GetOutput()->SetMetaDataDictionary( this->GetInput()->GetMetaDataDictionary() );
 }
 
-#if 0
-// Determine the "labeling" of a direction cosine. The axis labels
-// depend upon the convention of the labels. In this class, axes are
-// labeled using the negative end of the axis. For example, a
-// right/left axis would be labeled right ("R").
-// This code was copied and modified from code written by David Clunie
-// (dclunie at dcluine.com)
-template< class TInputImage, class TOutputImage >
-std::string
-OrientImageFilter< TInputImage, TOutputImage >
-::GetMajorAxisFromPatientRelativeDirectionCosine(double x, double y, double z)
-{
-  const double obliquityThresholdCosineValue = 0.8;
-
-  std::string axis;
-
-  std::string orientationX = x < 0 ? "L" : "R";
-  std::string orientationY = y < 0 ? "P" : "A";
-  std::string orientationZ = z < 0 ? "S" : "I";
-
-  double absX = vnl_math_abs(x);
-  double absY = vnl_math_abs(y);
-  double absZ = vnl_math_abs(z);
-
-  // The tests here really don't need to check the other dimensions,
-  // just the threshold, since the sum of the squares should be == 1.0
-  // but just in case ...
-
-  if ( ( absX > obliquityThresholdCosineValue ) && ( absX > absY ) && ( absX > absZ ) )
-    {
-    axis = orientationX;
-    }
-  else if ( ( absY > obliquityThresholdCosineValue ) && ( absY > absX ) && ( absY > absZ ) )
-    {
-    axis = orientationY;
-    }
-  else if ( ( absZ > obliquityThresholdCosineValue ) && ( absZ > absX ) && ( absZ > absY ) )
-    {
-    axis = orientationZ;
-    }
-  return axis;
-}
-
-#endif
-
 /**
  *
  */

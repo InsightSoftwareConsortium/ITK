@@ -38,21 +38,19 @@
 
 int main(int , char* [])
 {
-  typedef itk::Image<float,2> InputType;
-  typedef itk::Image<float,2> OutputType;
-  typedef itk::Image<bool,2> BinaryImageType;
+  typedef itk::Image<float,2>          InputType;
+  typedef itk::Image<float,2>          OutputType;
+  typedef itk::Image<bool,2>           BinaryImageType;
   typedef itk::Image<unsigned short,2> UShortImageType;
-  typedef itk::Image<unsigned char,2> CharType;
-
-  typedef itk::Mesh<double>  MeshType;
-
-  typedef itk::Vector<float,2> VectorType;
-  typedef itk::Image<VectorType, 2> VectorImageType;
-  typedef itk::PointSet<float,2> PointSetType;
+  typedef itk::Image<unsigned char,2>  CharType;
+  typedef itk::Mesh<double>            MeshType;
+  typedef itk::Vector<float,2>         VectorType;
+  typedef itk::Image<VectorType, 2>    VectorImageType;
+  typedef itk::PointSet<float,2>       PointSetType;
 
   // Used for GradientVectorFlowImageFilter
   typedef itk::CovariantVector<double,2> GradientType;
-  typedef itk::Image<GradientType,2>   GradientImageType;
+  typedef itk::Image<GradientType,2>     GradientImageType;
 
   //Used for ImageKMeansModelEstimator
   typedef itk::Statistics::DistanceToCentroidMembershipFunction<VectorType> KMeansMemFuncType;
@@ -98,11 +96,7 @@ int main(int , char* [])
   itk::ImageRegistrationMethod<InputType,InputType>::Pointer ImageRegistrationMethodObj =
     itk::ImageRegistrationMethod<InputType,InputType>::New();
   std:: cout << "-------------ImageRegistrationMethod " << ImageRegistrationMethodObj;
-#if 0
-  itk::ImageToSpatialObjectMetric<InputType,SpatialObjectType>::Pointer ImageToSpatialObjectMetricObj =
-    itk::ImageToSpatialObjectMetric<InputType,SpatialObjectType>::New();
-  std:: cout << "-------------ImageToSpatialObjectMetric " << ImageToSpatialObjectMetricObj;
-#endif
+
   itk::ImageToSpatialObjectRegistrationMethod<InputType,GroupType>::Pointer ImageToSpatialObjectRegistrationMethodObj =
     itk::ImageToSpatialObjectRegistrationMethod<InputType,GroupType>::New();
   std:: cout << "-------------ImageToSpatialObjectRegistrationMethod " << ImageToSpatialObjectRegistrationMethodObj;
