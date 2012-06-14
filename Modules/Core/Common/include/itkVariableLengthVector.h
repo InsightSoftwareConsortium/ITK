@@ -91,7 +91,7 @@ public:
   VariableLengthVector();
 
   /** Constructor with size. Size can only be changed by assignment */
-  VariableLengthVector(unsigned int dimension);
+  explicit VariableLengthVector(unsigned int dimension);
 
   /** Constructor that initializes array with contents from a user supplied
    * buffer. The pointer to the buffer and the length is specified. By default,
