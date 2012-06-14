@@ -157,6 +157,7 @@ itkOptimizerParametersTest.cxx
 itkImageVectorOptimizerParametersHelperTest.cxx
 itkCompensatedSummationTest.cxx
 itkCompensatedSummationTest2.cxx
+itkEnableIfTest.cxx
 )
 
 CreateTestDriver(ITKCommon1 "${ITKCommon_LIBRARIES}" "${ITKCommon1Tests}")
