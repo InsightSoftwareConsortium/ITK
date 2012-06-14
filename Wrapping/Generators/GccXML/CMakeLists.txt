@@ -164,8 +164,10 @@ macro(itk_wrap_module_gccxml library_name)
   set(gccxml_inc_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/gcc_xml.inc")
   set(CONFIG_GCCXML_INC_CONTENTS)
   get_directory_property(include_dir_list INCLUDE_DIRECTORIES)
+  list( REMOVE_DUPLICATES include_dir_list )
 
   if(ITK_USE_CCACHE)
+
     # it is used on the command line
     foreach(dir ${include_dir_list})
       set(CONFIG_GCCXML_INC_CONTENTS ${CONFIG_GCCXML_INC_CONTENTS} -I${dir})
