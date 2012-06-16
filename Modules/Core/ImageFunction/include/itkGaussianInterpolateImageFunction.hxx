@@ -103,6 +103,7 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>
 
   dsum_m.Fill( 0.0 );
   dsum_me.Fill( 0.0 );
+  dw.Fill( 0.0 );
 
   // Loop over the voxels in the region identified
   ImageRegion<ImageDimension> region;
