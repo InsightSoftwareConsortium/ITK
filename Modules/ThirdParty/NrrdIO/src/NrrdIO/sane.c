@@ -107,9 +107,12 @@ airSanity(void) {
 
  1) APPLE builds due to a cross-compilation problem, and
  2) Visual Studio builds for version newer than 2005 (not included)
- when building in 32bits. */
+ when building in 32bits.
+ 3) GCC 4.7 Builds when building in 32bits */
 
-#if defined(__APPLE__) || ( defined(_MSC_VER) && _MSC_VER >= 1400 ) 
+
+#if defined(__APPLE__) || ( defined(_MSC_VER) && _MSC_VER >= 1400 ) || \
+ ( defined(__GNUC__) && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__  >= 7 )))
          /* don't compare airFP_SNAN */
 #else
          && airFP_SNAN == airFPClass_f(AIR_SNAN) 
