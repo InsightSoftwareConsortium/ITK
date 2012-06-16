@@ -512,6 +512,10 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage,TOutputImage>
     {
     precisionTolerance = 1000.0 * vcl_pow(2.0,-23) * vcl_pow(2,vcl_floor(vcl_log(calculator->GetMaximum())/vcl_log(2.0)));
     }
+  else
+    {
+    itkExceptionMacro(<< "Precision tolerance not defined for the input image pixel type.");
+    }
 
   return precisionTolerance;
 }
