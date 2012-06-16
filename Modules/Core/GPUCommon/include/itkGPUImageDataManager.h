@@ -16,15 +16,6 @@
 *
 *=========================================================================*/
 
-/**
- * \class GPUImage Data Management
- *
- * DataManager for GPUImage. This class will take care of data synchronization
- * between CPU Image and GPU Image.
- *
- * \ingroup ITKGPUCommon
- */
-
 #ifndef __itkGPUImageDataManager_h
 #define __itkGPUImageDataManager_h
 
@@ -41,14 +32,22 @@ namespace itk
 {
 template < class TPixel, unsigned int NDimension > class GPUImage;
 
+/**
+ * \class GPUImageDataManager
+ *
+ * DataManager for GPUImage. This class will take care of data synchronization
+ * between CPU Image and GPU Image.
+ *
+ * \ingroup ITKGPUCommon
+ */
 template < class ImageType >
 class ITK_EXPORT GPUImageDataManager : public GPUDataManager
 {
   // allow GPUKernelManager to access GPU buffer pointer
   friend class GPUKernelManager;
   friend class GPUImage< typename ImageType::PixelType, ImageType::ImageDimension >;
-public:
 
+public:
   typedef GPUImageDataManager      Self;
   typedef GPUDataManager           Superclass;
   typedef SmartPointer<Self>       Pointer;
@@ -69,18 +68,14 @@ public:
   virtual void Graft(const GPUDataManager* data);
 
 protected:
+  GPUImageDataManager() {}
+  virtual ~GPUImageDataManager() {}
 
-  GPUImageDataManager() {
-    m_Image = NULL;
-  }
-  virtual ~GPUImageDataManager() {
-  }
 private:
   GPUImageDataManager(const Self&);   //purposely not implemented
   void operator=(const Self&);
 
   typename ImageType::Pointer m_Image;
-
 };
 
 } // namespace itk
