@@ -236,6 +236,7 @@ int itkCompositeTransformTest(int, char *[] )
 
   /* Reset affine transform to original values */
   compositeTransform->ClearTransformQueue();
+
   affine = AffineType::New();
   affine->SetMatrix(matrix2);
   affine->SetOffset(vector2);
@@ -319,7 +320,9 @@ int itkCompositeTransformTest(int, char *[] )
   affine2->SetMatrix(matrix2);
   affine2->SetOffset(vector2);
 
-  compositeTransform->AddTransform( affine2 );
+  compositeTransform->ClearTransformQueue();
+  compositeTransform->AppendTransform( affine2 );
+  compositeTransform->PrependTransform( affine );
 
   std::cout << std::endl << "Two-component Composite Transform:"
             << std::endl << compositeTransform;
