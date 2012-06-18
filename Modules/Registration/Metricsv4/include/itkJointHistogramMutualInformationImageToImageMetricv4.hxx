@@ -329,8 +329,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVi
   InternalComputationValueType px,py,pxy;
   CompensatedSummation< InternalComputationValueType > total_mi;
   InternalComputationValueType local_mi;
-  InternalComputationValueType eps =
-                        NumericTraits<InternalComputationValueType>::epsilon();
+  InternalComputationValueType eps = NumericTraits<InternalComputationValueType>::epsilon();
   typename JointPDFType::IndexType index;
   for (SizeValueType ii = 0; ii<m_NumberOfHistogramBins; ii++)
     {
@@ -367,12 +366,8 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, T
                         const MovingImagePixelType movingImageValue,
                         JointPDFPointType& jointPDFpoint ) const
 {
-    InternalComputationValueType a =
-        ( fixedImageValue - this->m_FixedImageTrueMin ) /
-          ( this->m_FixedImageTrueMax - this->m_FixedImageTrueMin );
-    InternalComputationValueType b =
-        ( movingImageValue - this->m_MovingImageTrueMin ) /
-           ( this->m_MovingImageTrueMax - this->m_MovingImageTrueMin );
+    InternalComputationValueType a = ( fixedImageValue - this->m_FixedImageTrueMin ) / ( this->m_FixedImageTrueMax - this->m_FixedImageTrueMin );
+    InternalComputationValueType b = ( movingImageValue - this->m_MovingImageTrueMin ) / ( this->m_MovingImageTrueMax - this->m_MovingImageTrueMin );
     jointPDFpoint[0] = a;
     jointPDFpoint[1] = b;
 }
