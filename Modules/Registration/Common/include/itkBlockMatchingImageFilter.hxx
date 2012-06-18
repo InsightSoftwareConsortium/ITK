@@ -34,12 +34,18 @@ BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, 
   this->m_BlockRadius.Fill( 2 );
   this->m_SearchRadius.Fill( 3 );
 
+  // make the outputs
+  this->ProcessObject::SetNumberOfRequiredOutputs( 2 );
+  typename DisplacementsType::Pointer displacements = static_cast< DisplacementsType * >( this->MakeOutput( 0 ).GetPointer() );
+  this->SetNthOutput( 0, displacements.GetPointer() );
+  typename SimilaritiesType::Pointer similarities = static_cast< SimilaritiesType * >( this->MakeOutput( 1 ).GetPointer() );
+  this->SetNthOutput( 1, similarities.GetPointer() );
+
   // all inputs are required
-  this->SetNumberOfRequiredInputs( 3 );
-  this->RemoveRequiredInputName( "Primary" );
+  this->AddRequiredInputName( "FeaturePoints" );
+  this->SetPrimaryInputName( "FeaturePoints" );
   this->AddRequiredInputName( "FixedImage" );
   this->AddRequiredInputName( "MovingImage" );
-  this->AddRequiredInputName( "FeaturePoints" );
 }
 
 template< class TFixedImage, class TMovingImage, class TFeatures, class TDisplacements, class TSimilarities >
@@ -59,30 +65,20 @@ BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, 
      << indent << "m_SearchRadius: " << m_SearchRadius << std::endl;
 }
 
-// using DataObjectPointerArraySizeType in place of vector<...>::size_type gives compilation error in MSVS
 template< class TFixedImage, class TMovingImage, class TFeatures, class TDisplacements, class TSimilarities >
-std::vector< SmartPointer< DataObject > >::size_type
+void
 BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, TSimilarities >
-::GetNumberOfValidRequiredInputs() const
+::GenerateOutputInformation()
 {
-  ProcessObject::DataObjectPointerArraySizeType num = 0;
+  // We use the constructor defaults for all regions.
+}
 
-  if ( this->GetFixedImage() )
-    {
-    num++;
-    }
-
-  if ( this->GetMovingImage() )
-    {
-    num++;
-    }
-
-  if ( this->GetFeaturePoints() )
-    {
-    num++;
-    }
-
-  return num;
+template< class TFixedImage, class TMovingImage, class TFeatures, class TDisplacements, class TSimilarities >
+void
+BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, TSimilarities >
+::EnlargeOutputRequestedRegion(DataObject * output)
+{
+  output->SetRequestedRegionToLargestPossibleRegion();
 }
 
 template< class TFixedImage, class TMovingImage, class TFeatures, class TDisplacements, class TSimilarities >
@@ -90,10 +86,6 @@ void
 BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, TSimilarities >
 ::GenerateData()
 {
-  // Call a method that can be overridden by a subclass to allocate
-  // memory for the filter's outputs
-  this->AllocateOutputs();
-
   // Call a method that can be overridden by a subclass to perform
   // some calculations prior to splitting the main computations into
   // separate threads
@@ -126,28 +118,20 @@ BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, 
     case 0:
       {
       typename DisplacementsType::Pointer displacements = DisplacementsType::New();
-      output = displacements;
+      output = static_cast< DataObject * >( displacements.GetPointer() );
       }
       break;
 
     case 1:
       {
       typename SimilaritiesType::Pointer similarities = SimilaritiesType::New();
-      output = similarities;
+      output = static_cast< DataObject * >( similarities.GetPointer() );
       }
       break;
     }
   return output;
 }
 
-template< class TFixedImage, class TMovingImage, class TFeatures, class TDisplacements, class TSimilarities >
-void
-BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, TSimilarities >
-::AllocateOutputs()
-{
-  this->SetNthOutput( 0, this->MakeOutput(0) );
-  this->SetNthOutput( 1, this->MakeOutput(1) );
-}
 
 template< class TFixedImage, class TMovingImage, class TFeatures, class TDisplacements, class TSimilarities >
 void
