@@ -114,22 +114,8 @@ mark_as_advanced(CMAKE_LIBRARY_OUTPUT_DIRECTORY EXECUTABLE_OUTPUT_PATH WRAP_ITK_
 set(CXX_TEST_PATH ${EXECUTABLE_OUTPUT_PATH})
 
 ###############################################################################
-# Configure CPack
+# Additional files for installation
 ###############################################################################
-
-# CPack was introduced in cmake 2.4
-set(CMAKE_VERSION "${CMAKE_CACHE_MAJOR_VERSION}.${CMAKE_CACHE_MINOR_VERSION}.${CMAKE_CACHE_RELEASE_VERSION}")
-if("${CMAKE_VERSION}" STRGREATER "2.4")
-  set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Enhanced generators support for the Insight Toolkit")
-  set(CPACK_PACKAGE_VENDOR "Gaetan Lehmann, Zachary Pincus")
-  set(CPACK_PACKAGE_VERSION_MAJOR "${WrapITK_VERSION_MAJOR}")
-  set(CPACK_PACKAGE_VERSION_MINOR "${WrapITK_VERSION_MINOR}")
-  set(CPACK_PACKAGE_VERSION_PATCH "${WrapITK_VERSION_PATCH}")
-  # set(CPACK_PACKAGE_INSTALL_DIRECTORY "WrapITK-${WrapITK_VERSION_MAJOR}.${WrapITK_VERSION_MINOR}")
-  # set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README")
-  # set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/Documentation/Copyright/ITKCopyright.txt")
-  include(CPack)
-endif("${CMAKE_VERSION}" STRGREATER "2.4")
 
 install(FILES
   CMakeUtilityFunctions.cmake
@@ -161,10 +147,6 @@ INSTALL_AT_ABSOLUTE_PATH(install_wrapitk_compatibility "${CMAKE_ROOT}/Modules" "
 
 set(WRAP_ITK_TYPEDEFS_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/Typedefs")
 set(WRAP_ITK_LIB_DIRECTORY  "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
-
-
-find_package(ITK REQUIRED)
-include(${ITK_USE_FILE})
 
 ###############################################################################
 # Setup test driver
