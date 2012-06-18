@@ -611,10 +611,11 @@ RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
   labelledImageIt( m_LabelledImage, m_LabelledImage->GetBufferedRegion() );
 
   /* Variable to store the origin pixel vector value. */
-  InputImagePixelType OriginPixelVec;
+  InputImagePixelType originPixelVec;
 
   /* Variable to store the modified pixel vector value. */
-  InputImagePixelType ChangedPixelVec;
+  InputImagePixelType changedPixelVec;
+  changedPixelVec.Fill( NumericTraits< typename InputImagePixelType::ValueType >::ZeroValue() );
 
   /* Set a variable to store the offset index. */
   LabelledImageIndexType offsetIndex3D; offsetIndex3D.Fill(0);
@@ -639,21 +640,21 @@ RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
     if ( ( i > ( rowsize - 1 ) ) && ( i < ( size - rowsize ) )
          && ( i % rowsize != 0 ) && ( i % rowsize != rowsize - 1 ) )
       {
-      OriginPixelVec = inputImageIt.Get();
+      originPixelVec = inputImageIt.Get();
       GreyScalarBoundary(offsetIndex3D);
       for ( unsigned int rgb = 0; rgb < m_VecDim; rgb++ )
         {
-        ChangedPixelVec[rgb] = m_LowPoint[rgb];
+        changedPixelVec[rgb] = m_LowPoint[rgb];
         }
-      /* mediumImageIt.Set(ChangedPixelVec); */
+      /* mediumImageIt.Set(changedPixelVec); */
       }
     else
       {
-      ChangedPixelVec = inputImageIt.Get();
+      changedPixelVec = inputImageIt.Get();
       }
 
     const std::vector< double > & distValue =
-      m_ClassifierPtr->GetPixelMembershipValue(ChangedPixelVec);
+      m_ClassifierPtr->GetPixelMembershipValue(changedPixelVec);
 
     LabelType pixLabel;
     if ( distValue[1] > m_ObjectThreshold )
