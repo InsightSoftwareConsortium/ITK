@@ -221,7 +221,7 @@ unsigned int test_regiongrowKLM1D()
   image->SetBufferedRegion( region );
   image->Allocate();
 
-  typedef ImageType::PixelType ImagePixelType;
+  typedef ImageType::PixelType                  ImagePixelType;
   typedef itk::ImageRegionIterator< ImageType > ImageIterator;
   ImageIterator inIt( image, image->GetBufferedRegion() );
   ImageIterator inItEnd = inIt.End();
@@ -308,14 +308,14 @@ unsigned int test_regiongrowKLM1D()
   OutputImageIterator outIt( outImage, outImage->GetBufferedRegion() );
 
   typedef KLMRegionGrowImageFilterType::RegionLabelType LabelType;
-  typedef itk::Image<LabelType, NUMDIM1D> LabelledImageType;
+  typedef itk::Image<LabelType, NUMDIM1D>               LabelledImageType;
   LabelledImageType::Pointer labelledImage = KLMFilter->GetLabelledImage();
 
   typedef OutputImageType::PixelType::VectorType OutputImageData;
   ImageData         pixelIn;
   OutputImageData   pixelOut;
 
-  typedef LabelledImageType::PixelType LabelledImagePixelType;
+  typedef LabelledImageType::PixelType                  LabelledImagePixelType;
   typedef itk::ImageRegionIterator< LabelledImageType > LabelImageIterator;
   LabelImageIterator
     labelIt( labelledImage, labelledImage->GetBufferedRegion() );
@@ -376,7 +376,6 @@ unsigned int test_regiongrowKLM1D()
   std::cout << "Test PASSED" << std::endl;
 
   KLMFilter->ResetPipeline();
-
 
 
   // SECOND TEST:
@@ -818,7 +817,7 @@ unsigned int test_regiongrowKLM2D()
 
   // Manually create an image
 
-  typedef itk::Image<itk::Vector<int,NUMBANDS2>,NUMDIM2D> ImageType;
+  typedef itk::Image<itk::Vector<int,NUMBANDS2>,NUMDIM2D>    ImageType;
   typedef itk::Image<itk::Vector<double,NUMBANDS2>,NUMDIM2D> OutputImageType;
 
   ImageType::Pointer image  = ImageType::New();
@@ -839,7 +838,7 @@ unsigned int test_regiongrowKLM2D()
   image->SetBufferedRegion( region );
   image->Allocate();
 
-  typedef ImageType::PixelType ImagePixelType;
+  typedef ImageType::PixelType                  ImagePixelType;
   typedef itk::ImageRegionIterator< ImageType > ImageIterator;
   ImageIterator inIt( image, image->GetBufferedRegion() );
   ImageIterator inItEnd = inIt.End();
@@ -1332,7 +1331,7 @@ unsigned int test_regiongrowKLM3D()
   // Manually create an image
 
   typedef itk::Image<itk::Vector<short int,NUMBANDS2>,NUMDIM3D> ImageType;
-  typedef itk::Image<itk::Vector<float,NUMBANDS2>,NUMDIM3D> OutputImageType;
+  typedef itk::Image<itk::Vector<float,NUMBANDS2>,NUMDIM3D>     OutputImageType;
 
   ImageType::Pointer image  = ImageType::New();
 
@@ -1353,7 +1352,7 @@ unsigned int test_regiongrowKLM3D()
   image->SetBufferedRegion( region );
   image->Allocate();
 
-  typedef ImageType::PixelType ImagePixelType;
+  typedef ImageType::PixelType                  ImagePixelType;
   typedef itk::ImageRegionIterator< ImageType > ImageIterator;
   ImageIterator inIt( image, image->GetBufferedRegion() );
   ImageIterator inItEnd = inIt.End();
@@ -1974,7 +1973,7 @@ unsigned int test_regiongrowKLM4D()
   // Manually create an image
 
   typedef itk::Image<itk::Vector<short int,NUMBANDS1>,NUMDIM4D> ImageType;
-  typedef itk::Image<itk::Vector<float,NUMBANDS1>,NUMDIM4D> OutputImageType;
+  typedef itk::Image<itk::Vector<float,NUMBANDS1>,NUMDIM4D>     OutputImageType;
 
   ImageType::Pointer image  = ImageType::New();
 
@@ -1997,7 +1996,7 @@ unsigned int test_regiongrowKLM4D()
   image->SetBufferedRegion( region );
   image->Allocate();
 
-  typedef ImageType::PixelType ImagePixelType;
+  typedef ImageType::PixelType                  ImagePixelType;
   typedef itk::ImageRegionIterator< ImageType > ImageIterator;
   ImageIterator inIt( image, image->GetBufferedRegion() );
   ImageIterator inItEnd = inIt.End();
@@ -2094,13 +2093,6 @@ unsigned int test_regiongrowKLM4D()
         std::cout << "pixelOut[0]: " << pixelOut[0]
                   << " != "
                   << "pixelIn[0]: " << pixelIn[0]
-                  << std::endl;
-        }
-      if ( pixelOut[1] != 0 )
-        {
-        std::cout << "pixelOut[1]: " << pixelOut[1]
-                  << " != "
-                  << "0"
                   << std::endl;
         }
       return EXIT_FAILURE;
