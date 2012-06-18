@@ -1242,9 +1242,9 @@ ProcessObject
 {
 
   /**
-   * Make sure that all the required inputs are there and non null
+   * Make sure that all the required named inputs are there and non null
    */
-  for( NameSet::const_iterator it=m_RequiredInputNames.begin(); it != m_RequiredInputNames.end(); ++it )
+  for( NameSet::const_iterator it = this->m_RequiredInputNames.begin(); it != this->m_RequiredInputNames.end(); ++it )
     {
     if ( this->GetInput( *it ) == NULL )
       {
@@ -1253,15 +1253,15 @@ ProcessObject
     }
 
   /**
-    * Count the number of required inputs which have been assigned
+    * Count the number of required indexed inputs which have been assigned
     */
-  DataObjectPointerArraySizeType ninputs = this->GetNumberOfValidRequiredInputs();
+  const DataObjectPointerArraySizeType validIndexedInputs = this->GetNumberOfValidRequiredInputs();
 
-  if ( ninputs < m_NumberOfRequiredInputs )
+  if ( validIndexedInputs < this->m_NumberOfRequiredInputs )
     {
-    itkExceptionMacro(<< "At least " << m_NumberOfRequiredInputs
-                      << " of the first " << m_NumberOfRequiredInputs
-                      << " inputs are required but only " << ninputs
+    itkExceptionMacro(<< "At least " << this->m_NumberOfRequiredInputs
+                      << " of the first " << this->m_NumberOfRequiredInputs
+                      << " indexed inputs are required but only " << validIndexedInputs
                       << " are specified."
                       << " The required inputs are expected to be the first inputs.");
     }

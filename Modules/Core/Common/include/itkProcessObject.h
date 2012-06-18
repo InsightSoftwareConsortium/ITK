@@ -191,15 +191,11 @@ public:
   /** Get the size of the input vector.  This is merely the size of
    * the input vector, not the number of inputs that have valid
    * DataObject's assigned. Use GetNumberOfValidRequiredInputs() to
-   * determine how many inputs are non-null. */
+   * determine how many indexed inputs are non-null. */
   DataObjectPointerArraySizeType GetNumberOfIndexedInputs() const;
 
-  /** Get the number of valid inputs.  This is the number of non-null
-   * entries in the input vector in the first NumberOfRequiredInputs
-   * slots. This method is used to determine whether the necessary
-   * required inputs have been set. Subclasses of ProcessObject may
-   * override this implementation if the required inputs are not
-   * the first slots in input vector.
+  /** Get the number of valid \b indexed inputs. This method is used to
+   * determine whether the necessary required inputs have been set.
    */
   virtual DataObjectPointerArraySizeType GetNumberOfValidRequiredInputs() const;
 
@@ -520,6 +516,10 @@ protected:
 
   virtual void AddInput(DataObject *input);
 
+  /** Set the number of required \b indexed inputs.   If an input is added with
+   *    AddRequiredInputName
+   * it should not be considered in this count.
+   * */
   virtual void SetNumberOfRequiredInputs(DataObjectPointerArraySizeType);
   itkGetConstReferenceMacro(NumberOfRequiredInputs, DataObjectPointerArraySizeType);
 
