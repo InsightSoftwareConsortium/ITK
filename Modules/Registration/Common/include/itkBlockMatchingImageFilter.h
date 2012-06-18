@@ -141,14 +141,14 @@ public:
   itkGetInputMacro(FeaturePoints, FeaturePointsType);
 
   inline DisplacementsType * GetDisplacements()
-  {
+    {
     return dynamic_cast< DisplacementsType * >( this->ProcessObject::GetOutput( 0 ) );
-  }
+    }
 
   inline SimilaritiesType * GetSimilarities()
-  {
+    {
     return dynamic_cast< SimilaritiesType * >( this->ProcessObject::GetOutput( 1 ) );
-  }
+    }
 
 protected:
   /** return the number of required inputs, enables check for required inputs to work correctly */
