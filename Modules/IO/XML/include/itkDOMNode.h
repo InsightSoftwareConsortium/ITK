@@ -41,7 +41,7 @@ class DOMTextNode; // forward declaration
  * to its parent node (if it is not the root). This class serves as a base node corresponding to an
  * XML tag that only contains attributes (no content for the tag itself).
  *
- * NOTE: We reserve the use of the attribute "id" (all combinations of upper and lower
+ * \note We reserve the use of the attribute "id" (all combinations of upper and lower
  *       case) for uniquely identifying an XML structure among its siblings. That is, we assume
  *       that this tag is unique among all siblings in an XML tree structure. If it is not unique,
  *       the user may not be able to correctly retrieve a node by function GetChildByID(), or to search for
@@ -169,6 +169,7 @@ public:
   /**
    * The following function finds a child or sibling or relative using a query string or path.
    * A path or QueryString consists of multiple following items that are separated by '/':
+   * \verbatim
    *     -[n]           : an older sibling by distance 1 (when omitted) or n;
    *     +[n]           : a younger sibling by distance 1 (when omitted) or n;
    *     n              : a child at index n;
@@ -178,6 +179,7 @@ public:
    *     .              : current node;
    *     ..             : parent node;
    *     /<rpath>       : absolute path (denote apath), search from the root.
+   * \endverbatim
    *
    * The method returns NULL if queried node does not exist.
    */
