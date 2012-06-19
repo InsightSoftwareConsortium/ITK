@@ -1,5 +1,18 @@
-set(BASELINE ${ITK_DATA_ROOT}/Baseline/Registration)
 set(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
+
+if(ITK_WRAP_PYTHON)
+  INTERSECTION(WRAP_2 2 "${ITK_WRAP_DIMS}")
+
+  if(ITK_WRAP_signed_short AND ITK_WRAP_unsigned_char AND WRAP_2)
+    add_python_test(DicomSliceReadPythonTest
+      ${CMAKE_CURRENT_SOURCE_DIR}/../DicomSliceRead.py
+      DATA{${ITK_DATA_ROOT}/Input/dicom-sc_cs-1.dcm}
+      ${TEMP}/DicomSliceReadPythonOutput.png
+      --compare ${TEMP}/DicomSliceReadPythonOutput.png
+        DATA{${ITK_SOURCE_DIR}/Examples/IO/test/Baseline/DicomSliceReadPythonOutputBaseline.png}
+      )
+  endif()
+endif(ITK_WRAP_PYTHON)
 
 if(ITK_VISIBLEHUMAN_DATA_ROOT)
   itk_add_test(NAME VisibleHumanStreamReadWriteTest
