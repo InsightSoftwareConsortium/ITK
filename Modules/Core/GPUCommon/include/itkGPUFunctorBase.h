@@ -25,7 +25,7 @@ namespace itk
 namespace Functor
 {
 
-/** \class GPU functor base class
+/** \class GPUFunctorBase
  *
  * \brief Base functor class for GPU functor image filters.
  *
@@ -44,7 +44,7 @@ public:
   }
 
   /** Setup GPU kernel arguments for this functor.
-   * Returns current argument index to set additional arguments in the GPU kernel */
+   * \return Current argument index to set additional arguments in the GPU kernel. */
   virtual int SetGPUKernelArguments(GPUKernelManager::Pointer KernelManager, int KernelHandle) = 0;
 
 };
