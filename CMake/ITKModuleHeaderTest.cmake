@@ -8,8 +8,9 @@
 # The tests will simply not be run if python is unavailable.
 find_package(PythonInterp)
 
-# The maximum number of headers in a test.  (This helps limit memory issues,
-# and the cppcheck tests.)
+# The maximum number of headers in a test.  This helps limit memory issues,
+# and the cppcheck tests.  However, if this is not unity, there is a slight
+# chance that problems may be hidden.  For a complete header check, set to "1".
 set( MAXIMUM_NUMBER_OF_HEADERS 35
   CACHE STRING "The number of headers in a HeaderTest code." )
 mark_as_advanced( MAXIMUM_NUMBER_OF_HEADERS )
@@ -43,6 +44,25 @@ macro( itk_module_headertest _name )
     add_custom_target( ${_name}HeaderTestClean
       ${CMAKE_COMMAND} -E remove ${_outputs} )
     add_dependencies( ITKHeaderTests ${_name}HeaderTestClean )
+
+    # We check to see if the headers are changed.  If so, remove the header test
+    # source files so they are regenerated.
+    set( _headers_list_md5 "${${_name}_BINARY_DIR}/test/CMakeFiles/HeadersList.md5" )
+    list( SORT _h_files )
+    string( MD5 _new_md5 "${_h_files}" )
+    set( _regenerate_sources FALSE )
+    if( NOT EXISTS "${_headers_list_md5}" )
+      set( _regenerate_sources TRUE )
+    else()
+      file( READ "${_headers_list_md5}" _old_md5 )
+      if( NOT ("${_old_md5}" STREQUAL "${_new_md5}"))
+        set( _regenerate_sources TRUE )
+      endif()
+    endif()
+    file( WRITE "${_headers_list_md5}" "${_new_md5}" )
+    if( ${_regenerate_sources} )
+      file( REMOVE ${_outputs} )
+    endif()
 
     set( _test_num 1 )
     foreach( _header_test_src ${_outputs} )
