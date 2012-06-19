@@ -44,7 +44,6 @@ int itkCenteredAffineTransformTest(int, char *[])
   int any = 0;         // Any errors detected in testing?
 
   MatrixType matrix2;
-  MatrixType inverse2;
   VectorType vector2;
 
   int i, j;
@@ -75,6 +74,7 @@ int itkCenteredAffineTransformTest(int, char *[])
   vector2[1] = 6;
 
   Affine2DType::Pointer aff2 = Affine2DType::New();
+  Affine2DType::Pointer inverse2 = Affine2DType::New();
   aff2->SetMatrix( matrix2 );
   aff2->SetOffset( vector2 );
   for( i = 0; i < 2; i++ )
@@ -88,9 +88,9 @@ int itkCenteredAffineTransformTest(int, char *[])
   std::cout << "Instantiation of a given 2D transform:" << std::endl;
   aff2->Print( std::cout );
 
-  inverse2 = aff2->GetInverseMatrix();
+  aff2->GetInverse(inverse2);
   std::cout << "Inverse matrix for the given transform:"
-            << std::endl << inverse2;
+            << std::endl << inverse2->GetMatrix();
 
   /* Set parameters of a 2D transform */
   matrix2[0][0] = 6;

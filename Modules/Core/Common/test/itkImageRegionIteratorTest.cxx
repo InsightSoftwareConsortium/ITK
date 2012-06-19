@@ -122,7 +122,7 @@ int itkImageRegionIteratorTest(int, char* [] )
   // Iterator over the region backwards using a simple for loop
   itk::ImageRegionIterator<itk::Image<itk::Vector<unsigned short, 5>, 3> > backIt(o3, region);
 
-  backIt = backIt.End(); // one pixel past the end of the region
+  backIt.GoToEnd(); // one pixel past the end of the region
   do
     {
     --backIt;

@@ -78,7 +78,11 @@ LiThresholdCalculator<THistogram, TOutput>
   old_thresh = new_thresh;
   typename HistogramType::MeasurementVectorType ot(1);
   ot.Fill((int) (old_thresh+0.5));
-  histthresh = histogram->GetIndex(ot)[0];
+    {
+    typename HistogramType::IndexType local_index;
+    histogram->GetIndex(ot,local_index);
+    histthresh = local_index[0];
+    }
   /* Calculate the means of background and object pixels */
   /* Background */
   sum_back = 0;

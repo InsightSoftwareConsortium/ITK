@@ -39,7 +39,7 @@ void ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintDerivativeAsVector
 
     typedef itk::ImageRegionConstIterator<ImageType> IteratorType;
     IteratorType it(image, imageRegion);
-    it.Begin();
+    it.GoToBegin();
     itk::SizeValueType cnt = 0;
     for (itk::SizeValueType ycnt = 0; ycnt < dim1; ycnt++)
       {
@@ -74,7 +74,7 @@ void ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintImage(ImageType *i
 
     typedef itk::ImageRegionConstIterator<ImageType> IteratorType;
     IteratorType it(image, imageRegion);
-    it.Begin();
+    it.GoToBegin();
 
     for (itk::SizeValueType ycnt = 0; ycnt < dim1; ycnt++)
       {
@@ -100,7 +100,7 @@ void ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintImage(const ImageP
 
     typedef itk::ImageRegionConstIterator<ImageType> IteratorType;
     IteratorType it(image, imageRegion);
-    it.Begin();
+    it.GoToBegin();
 
     for (itk::SizeValueType ycnt = 0; ycnt < dim1; ycnt++)
       {

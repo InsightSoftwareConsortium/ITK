@@ -96,7 +96,7 @@ RegionalMaximaImageFilter< TInputImage, TOutputImage >
 
     if ( m_FlatIsMaxima )
       {
-      for ( outIt.Begin(); !outIt.IsAtEnd(); ++outIt )
+      for ( outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt )
         {
         outIt.Set(m_ForegroundValue);
         progress2.CompletedPixel();
@@ -104,7 +104,7 @@ RegionalMaximaImageFilter< TInputImage, TOutputImage >
       }
     else
       {
-      for ( outIt.Begin(); !outIt.IsAtEnd(); ++outIt )
+      for ( outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt )
         {
         outIt.Set(m_BackgroundValue);
         progress2.CompletedPixel();

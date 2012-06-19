@@ -105,35 +105,28 @@ public:
   virtual const double * GetScaleComponent() const
   { return m_Scale; }
 
-  /** Set the matrix of the transform. The matrix should not include
-   *  scale.
-   *
-   *  \deprecated use SetMatrix instead */
-  void SetMatrixComponent(const MatrixType & matrix)
-  { this->SetMatrix(matrix); }
-  /** Get matrix of the transform.
-   *
-   * \deprecated use GetMatrix instead  */
-  const MatrixType & GetMatrixComponent() const
-  { return this->GetMatrix(); }
-
-  /** Set offset (origin) of the Transform.
-   *
-   * \deprecated use SetTranslation instead. */
-  void SetOffsetComponent(const OffsetType & offset)
-  { this->SetTranslation(offset); }
-
-  /** Get offset of the transform
-   *
-   * \deprecated use GetTranslation instead. */
-  const OffsetType & GetOffsetComponent(void) const
-  { return this->GetTranslation(); }
-
   /** Get an inverse of this transform. */
   bool GetInverse(Self *inverse) const;
 
   /** Return an inverse of this transform. */
   virtual InverseTransformBasePointer GetInverseTransform() const;
+
+  /** Set the matrix of the transform. The matrix should not include
+   *  scale.
+   *  \deprecated use SetMatrix instead */
+  itkLegacyMacro(void SetMatrixComponent(const MatrixType & matrix));
+
+  /** Get matrix of the transform.
+   * \deprecated use GetMatrix instead  */
+  itkLegacyMacro(const MatrixType & GetMatrixComponent() const);
+
+  /** Set offset (origin) of the Transform.
+   * \deprecated use SetTranslation instead. */
+  itkLegacyMacro(void SetOffsetComponent(const OffsetType & offset) );
+
+  /** Get offset of the transform
+   * \deprecated use GetTranslation instead. */
+  itkLegacyMacro(const OffsetType & GetOffsetComponent(void) const );
 
 protected:
   /** Construct an ScalableAffineTransform object

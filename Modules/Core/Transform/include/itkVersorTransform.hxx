@@ -241,6 +241,17 @@ VersorTransform<TScalarType>::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Versor: " << m_Versor  << std::endl;
 }
 
+#ifdef ITKV3_COMPATIBILITY
+#if !defined(ITK_LEGACY_REMOVE)
+template <class TScalarType>
+void
+VersorTransform<TScalarType>::SetRotationMatrix(const MatrixType & matrix)
+{
+  this->Superclass::SetMatrix(matrix);
+}
+#endif
+#endif
+
 } // namespace
 
 #endif

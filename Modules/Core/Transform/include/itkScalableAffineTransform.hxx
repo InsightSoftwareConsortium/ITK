@@ -209,6 +209,41 @@ ScalableAffineTransform< TScalarType, NDimensions >
     Superclass::SetVarMatrix(mat);
     }
 }
+
+#if !defined(ITK_LEGACY_REMOVE)
+template< class TScalarType, unsigned int NDimensions >
+void
+ScalableAffineTransform< TScalarType, NDimensions >
+::SetMatrixComponent(const MatrixType & matrix)
+{
+  this->SetMatrix(matrix);
+}
+
+template< class TScalarType, unsigned int NDimensions >
+const typename ScalableAffineTransform< TScalarType, NDimensions >::MatrixType &
+ScalableAffineTransform< TScalarType, NDimensions >
+::GetMatrixComponent() const
+{
+  return this->GetMatrix();
+}
+
+template< class TScalarType, unsigned int NDimensions >
+void
+ScalableAffineTransform< TScalarType, NDimensions >
+::SetOffsetComponent(const OffsetType & offset)
+{
+  this->SetTranslation(offset);
+}
+
+template< class TScalarType, unsigned int NDimensions >
+const typename ScalableAffineTransform< TScalarType, NDimensions >::OffsetType &
+ScalableAffineTransform< TScalarType, NDimensions >
+::GetOffsetComponent(void) const
+{
+  return this->GetTranslation();
+}
+#endif
+
 } // namespace
 
 #endif

@@ -246,15 +246,10 @@ public:
    *
    * \deprecated Please use GetInverseTransform and then call the
    *   forward transform function */
-  inline InputPointType   BackTransform(const OutputPointType  & point) const;
-
-  inline InputVectorType  BackTransform(const OutputVectorType & vector) const;
-
-  inline InputVnlVectorType BackTransform(
-    const OutputVnlVectorType & vector) const;
-
-  inline InputCovariantVectorType BackTransform(
-    const OutputCovariantVectorType & vector) const;
+  itkLegacyMacro(InputPointType   BackTransform(const OutputPointType  & point) const);
+  itkLegacyMacro(InputVectorType  BackTransform(const OutputVectorType & vector) const);
+  itkLegacyMacro(InputVnlVectorType BackTransform( const OutputVnlVectorType & vector) const);
+  itkLegacyMacro(InputCovariantVectorType BackTransform( const OutputCovariantVectorType & vector) const);
 
   /** Back transform a point by an affine transform
    *
@@ -265,7 +260,7 @@ public:
    *
    * \deprecated Please use GetInverseTransform and then call the
    *   forward transform function */
-  inline InputPointType BackTransformPoint(const OutputPointType  & point) const;
+  itkLegacyMacro(InputPointType BackTransformPoint(const OutputPointType  & point) const);
 
   /** Compute distance between two affine transformations
    *
@@ -310,6 +305,7 @@ private:
   const Self & operator=(const Self &);
 }; //class AffineTransform
 
+#if !defined(ITK_LEGACY_REMOVE)
 /** Back transform a vector */
 template< class TScalarType, unsigned int NDimensions >
 inline
@@ -398,6 +394,7 @@ AffineTransform< TScalarType, NDimensions >::BackTransform(const OutputPointType
     }
   return result;
 }
+#endif
 }  // namespace itk
 
 // Define instantiation macro for this template.

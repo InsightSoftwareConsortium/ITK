@@ -254,6 +254,7 @@ CovariantVector< T, NVectorDimension >
                               const_cast< T * >( this->GetDataPointer() ) );
 }
 
+#if !defined(ITK_LEGACY_REMOVE)
 /**
  * Set a vnl_vector
  */
@@ -294,6 +295,7 @@ CovariantVector< T, NVectorDimension >
   return vnl_vector_ref< T >( NVectorDimension,
                               const_cast< T * >( this->GetDataPointer() ) );
 }
+#endif
 } // end namespace itk
 
 #endif

@@ -229,7 +229,7 @@ int itkLevelSetFunctionTest(int, char* [] )
                                           im_target->GetRequestedRegion());
 
   // Squash level sets everywhere but near the zero set.
-  for (itr = itr.Begin(); ! itr.IsAtEnd(); ++itr)
+  for (itr.GoToBegin(); ! itr.IsAtEnd(); ++itr)
     {
     itr.Value() = itr.Value() /vcl_sqrt((5.0f +vnl_math_sqr(itr.Value())));
 

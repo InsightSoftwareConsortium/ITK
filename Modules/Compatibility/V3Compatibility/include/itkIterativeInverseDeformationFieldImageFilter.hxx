@@ -241,7 +241,7 @@ void IterativeInverseDeformationFieldImageFilter< TInputImage, TOutputImage >
     }   //end else
 
   time.Stop();
-  m_Time = time.GetMeanTime();
+  m_Time = time.GetMean();
 }
 
 //----------------------------------------------------------------------------

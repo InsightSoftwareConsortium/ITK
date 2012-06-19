@@ -235,7 +235,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   // Initialize the status image to contain all m_StatusNull values.
   ImageRegionIterator< StatusImageType > statusIt( m_StatusImage,
                                                    m_StatusImage->GetRequestedRegion() );
-  for ( statusIt = statusIt.Begin(); !statusIt.IsAtEnd(); ++statusIt )
+  for ( statusIt.GoToBegin(); !statusIt.IsAtEnd(); ++statusIt )
     {
     statusIt.Set(m_StatusNull);
     }
@@ -698,8 +698,8 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   ImageRegionConstIterator< OutputImageType > shiftedIt( m_ShiftedImage,
                                                          this->GetOutput()->GetRequestedRegion() );
 
-  for ( outputIt = outputIt.Begin(), statusIt = statusIt.Begin(),
-        shiftedIt = shiftedIt.Begin();
+  for ( outputIt.GoToBegin(), statusIt.GoToBegin(),
+        shiftedIt.GoToBegin();
         !outputIt.IsAtEnd(); ++outputIt, ++statusIt, ++shiftedIt )
     {
     if ( statusIt.Get() == m_StatusNull || statusIt.Get() == m_StatusBoundaryPixel )
@@ -956,8 +956,8 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   ImageRegionConstIterator< OutputImageType > outputIt(m_OutputImage, ThreadRegion);
   ImageRegionIterator< OutputImageType >      outputItNew(m_OutputImageTemp, ThreadRegion);
 
-  for ( outputIt = outputIt.Begin(), statusIt = statusIt.Begin(),
-        outputItNew = outputItNew.Begin(), statusItNew = statusItNew.Begin();
+  for ( outputIt.GoToBegin(), statusIt.GoToBegin(),
+        outputItNew.GoToBegin(), statusItNew.GoToBegin();
         !outputIt.IsAtEnd(); ++outputIt, ++statusIt, ++outputItNew, ++statusItNew )
     {
     statusItNew.Set ( statusIt.Get() );
@@ -2546,7 +2546,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   ImageRegionConstIterator< StatusImageType > statusIt(m_StatusImage, regionToProcess);
   ImageRegionIterator< OutputImageType >      outputIt(m_OutputImage, regionToProcess);
 
-  for ( outputIt = outputIt.Begin(), statusIt = statusIt.Begin();
+  for ( outputIt.GoToBegin(), statusIt.GoToBegin();
         !outputIt.IsAtEnd(); ++outputIt, ++statusIt )
     {
     if ( statusIt.Get() == m_StatusNull || statusIt.Get() == m_StatusBoundaryPixel )

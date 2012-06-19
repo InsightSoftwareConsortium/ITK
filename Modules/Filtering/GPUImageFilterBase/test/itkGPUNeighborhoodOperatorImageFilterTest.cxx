@@ -82,7 +82,7 @@ int runGPUNeighborhoodOperatorImageFilterTest(const std::string& inFile, const s
 
     cputimer.Stop();
 
-    std::cout << "CPU NeighborhoodFilter took " << cputimer.GetMeanTime() << " seconds with "
+    std::cout << "CPU NeighborhoodFilter took " << cputimer.GetMean() << " seconds with "
               << CPUFilter->GetNumberOfThreads() << " threads.\n" << std::endl;
 
     // -------
@@ -101,7 +101,7 @@ int runGPUNeighborhoodOperatorImageFilterTest(const std::string& inFile, const s
       GPUFilter->GetOutput()->UpdateBuffers(); // synchronization point (GPU->CPU memcpy)
 
       gputimer.Stop();
-      std::cout << "GPU NeighborhoodFilter took " << gputimer.GetMeanTime() << " seconds.\n" << std::endl;
+      std::cout << "GPU NeighborhoodFilter took " << gputimer.GetMean() << " seconds.\n" << std::endl;
 
       // ---------------
       // RMS Error check

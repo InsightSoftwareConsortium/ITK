@@ -73,7 +73,7 @@ int itkBinaryMinMaxCurvatureFlowImageFilterTest(int, char* [] )
   niter[0] = 100; niter[1] = 100;
   radii[0] = 1; radii[1] = 3;
 
-  int err2D = testBinaryMinMaxCurvatureFlow( size2D, 127.5, radius, numberOfRuns,
+  const int err2D = testBinaryMinMaxCurvatureFlow( size2D, 127.5, radius, numberOfRuns,
     niter, radii );
 
   if ( err2D )

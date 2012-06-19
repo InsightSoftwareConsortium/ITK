@@ -72,7 +72,7 @@ public:
    *  use Probe::GetMean() instead.
    *  \deprecated
    */
-  TimeStampType GetMeanTime(void) const;
+  itkLegacyMacro(TimeStampType GetMeanTime(void) const);
 
 private:
   RealTimeClock::Pointer m_RealTimeClock;

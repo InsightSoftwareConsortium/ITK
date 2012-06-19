@@ -69,7 +69,7 @@ static void AverageTestCopy( typename TImage::SizeType &size )
     t.Stop();
     }
 
-  std::cout << "\tIterator Copy Average Time: " << t.GetMeanTime() << t.GetUnit() << std::endl;
+  std::cout << "\tIterator Copy Average Time: " << t.GetMean() << t.GetUnit() << std::endl;
 
 
   itk::TimeProbe t2;
@@ -81,7 +81,7 @@ static void AverageTestCopy( typename TImage::SizeType &size )
     t2.Stop();
     }
 
-  std::cout << "\tmemcpy Copy Average Time: " << t2.GetMeanTime() << t2.GetUnit() << std::endl;
+  std::cout << "\tmemcpy Copy Average Time: " << t2.GetMean() << t2.GetUnit() << std::endl;
 
 
   itk::TimeProbe t3;
@@ -93,11 +93,11 @@ static void AverageTestCopy( typename TImage::SizeType &size )
     t3.Stop();
     }
 
-  std::cout << "\tImageCopy Average Time: " << t3.GetMeanTime() << t3.GetUnit() << std::endl;
+  std::cout << "\tImageCopy Average Time: " << t3.GetMean() << t3.GetUnit() << std::endl;
 
-  const double referenceTime = t.GetMeanTime();
-  const double memCopyTime = t2.GetMeanTime();
-  const double imageCopyTime = t3.GetMeanTime();
+  const double referenceTime = t.GetMean();
+  const double memCopyTime = t2.GetMean();
+  const double imageCopyTime = t3.GetMean();
 
 
   std::cout << "== SUMMARY SPEEDUP RESULTS == " << std::endl;

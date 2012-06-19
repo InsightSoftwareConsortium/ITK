@@ -338,7 +338,7 @@ public:
   /** Return an iterator for the beginning of the region. "Begin" for a reverse
    * iterator is the last pixel in the region.
    * \deprecated Use GoToBegin() instead */
-  Self Begin() const;
+  itkLegacyMacro(Self Begin() const);
 
   /** Move an iterator to the beginning of the region. "Begin" for a reverse
    * iterator is the last pixel in the region. */
@@ -350,7 +350,7 @@ public:
   /** Return an iterator for the end of the region. "End" for a reverse iterator
    * is one pixel before the first pixel in the region.
   * \deprecated Use GoToEnd() instead */
-  Self End() const;
+  itkLegacyMacro(Self End() const);
 
   /** Move an iterator to the end of the region. "End" for a reverse iterator
    * is defined as one pixel before the first pixel in the region. */

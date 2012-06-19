@@ -117,7 +117,7 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType >
   const double nPI = 4.0 * vcl_atan(1.0);
 
   ImageRegionConstIteratorWithIndex< InputImageType > image_it( inputImage,  inputImage->GetRequestedRegion() );
-  image_it.Begin();
+  image_it.GoToBegin();
 
   Index< 2 > index;
 

@@ -115,6 +115,26 @@ public:
   virtual void SetMatrix(const MatrixType & matrix);
 
   /**
+   * Compose the transformation with a translation
+   *
+   * This method modifies self to include a translation of the
+   * origin.  The translation is precomposed with self if pre is
+   * true, and postcomposed otherwise.
+   */
+  void Translate(const OffsetType & offset, bool pre = false);
+
+  /**
+   * Utility function to test if a matrix is orthogonal within a specified
+   * tolerance
+   */
+  bool MatrixIsOrthogonal(const MatrixType & matrix, double tol = 1e-10);
+
+#ifdef ITKV3_COMPATIBILITY
+  /** Get an inverse of this transform. */
+  itkLegacyMacro(bool GetInverse(Self *inverse) const);
+  /** Return an inverse of this transform. */
+  itkLegacyMacro(virtual InverseTransformBasePointer GetInverseTransform() const);
+  /**
    * Get rotation Matrix from an Rigid3DTransform
    *
    * This method returns the value of the rotation of the
@@ -122,9 +142,7 @@ public:
    *
    * \deprecated Use GetMatrix instead
    */
-  const MatrixType & GetRotationMatrix() const
-  { return this->GetMatrix(); }
-
+  itkLegacyMacro(const MatrixType & GetRotationMatrix() const);
   /**
    * Set the rotation Matrix of a Rigid3D Transform
    *
@@ -135,31 +153,7 @@ public:
    * \deprecated Use SetMatrix instead
    *
    */
-  virtual void SetRotationMatrix(const MatrixType & matrix)
-  { this->SetMatrix(matrix); }
-
-  /**
-   * Compose the transformation with a translation
-   *
-   * This method modifies self to include a translation of the
-   * origin.  The translation is precomposed with self if pre is
-   * true, and postcomposed otherwise.
-   */
-  void Translate(const OffsetType & offset, bool pre = false);
-
-#ifdef ITKV3_COMPATIBILITY
-/** Get an inverse of this transform. */
-  bool GetInverse(Self *inverse) const
-  {
-  return this->Superclass::GetInverse(inverse);
-  }
-
-/** Return an inverse of this transform. */
-virtual InverseTransformBasePointer GetInverseTransform() const
-  {
-  Pointer inv = New();
-  return this->GetInverse(inv) ? inv.GetPointer() : NULL;
-  }
+  itkLegacyMacro(virtual void SetRotationMatrix(const MatrixType & matrix) );
 #endif
 
   /**
@@ -173,23 +167,10 @@ virtual InverseTransformBasePointer GetInverseTransform() const
    *   transform using the result.
    *
    */
-  InputPointType      BackTransform(const OutputPointType
-                                    & point) const;
-
-  InputVectorType     BackTransform(const OutputVectorType
-                                    & vector) const;
-
-  InputVnlVectorType  BackTransform(const OutputVnlVectorType
-                                    & vector) const;
-
-  InputCovariantVectorType BackTransform(const OutputCovariantVectorType
-                                         & vector) const;
-
-  /**
-   * Utility function to test if a matrix is orthogonal within a specified
-   * tolerance
-   */
-  bool MatrixIsOrthogonal(const MatrixType & matrix, double tol = 1e-10);
+  itkLegacyMacro(InputPointType      BackTransform(const OutputPointType & point) const);
+  itkLegacyMacro(InputVectorType     BackTransform(const OutputVectorType & vector) const);
+  itkLegacyMacro(InputVnlVectorType  BackTransform(const OutputVnlVectorType & vector) const);
+  itkLegacyMacro(InputCovariantVectorType BackTransform(const OutputCovariantVectorType & vector) const);
 
 protected:
   Rigid3DTransform(const MatrixType & matrix,

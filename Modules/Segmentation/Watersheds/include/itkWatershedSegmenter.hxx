@@ -359,8 +359,8 @@ void Segmenter< TInputImage >
       faceIt = ImageRegionIterator< typename BoundaryType::face_t >(face,
                                                                         region);
       labelIt = ImageRegionIterator< OutputImageType >(output, region);
-      faceIt = faceIt.Begin();
-      labelIt = labelIt.Begin();
+      faceIt.GoToBegin();
+      labelIt.GoToBegin();
       while ( !faceIt.IsAtEnd() )
         {
         faceIt.Value(). label = labelIt.Get();
@@ -418,7 +418,7 @@ void Segmenter< TInputImage >
       face = this->GetBoundary()->GetFace(idx);
       faceIt = ImageRegionIterator< typename BoundaryType::face_t >
                  ( face, face->GetBufferedRegion() );
-      for ( faceIt = faceIt.Begin(); !faceIt.IsAtEnd(); ++faceIt )
+      for ( faceIt.GoToBegin(); !faceIt.IsAtEnd(); ++faceIt )
         {
         faceIt.Set(fps);
         }
@@ -862,7 +862,7 @@ void Segmenter< TInputImage >
   // Sweep through the image and trace all unlabeled
   // pixels to a labeled region
   //
-  for ( it = it.Begin(); !it.IsAtEnd(); ++it )
+  for ( it.GoToBegin(); !it.IsAtEnd(); ++it )
     {
     if ( it.Get() == NULL_LABEL )
       {
@@ -1089,7 +1089,7 @@ void Segmenter< TInputImage >
                       InputPixelType value)
 {
   ImageRegionIterator< InputImageType > it(img, region);
-  it = it.Begin();
+  it.GoToBegin();
   while ( !it.IsAtEnd() )
     {
     it.Set(value);
@@ -1104,7 +1104,7 @@ void Segmenter< TInputImage >
                        IdentifierType value)
 {
   ImageRegionIterator< OutputImageType > it(img, region);
-  it = it.Begin();
+  it.GoToBegin();
   while ( !it.IsAtEnd() )
     {
     it.Set(value);
@@ -1118,7 +1118,7 @@ void Segmenter< TInputImage >
          InputPixelType & min, InputPixelType & max)
 {
   ImageRegionIterator< InputImageType > it(img, region);
-  it = it.Begin();
+  it.GoToBegin();
   min = it.Value();
   max = it.Value();
   while ( !it.IsAtEnd() )
@@ -1172,7 +1172,7 @@ void Segmenter< TInputImage >
   IdentifierType                         temp;
   ImageRegionIterator< OutputImageType > it(img, region);
 
-  it = it.Begin();
+  it.GoToBegin();
   while ( !it.IsAtEnd() )
     {
     temp = eqTable->Lookup( it.Get() );
@@ -1191,8 +1191,8 @@ void Segmenter< TInputImage >::Threshold(InputImageTypePointer destination,
   ImageRegionIterator< InputImageType > dIt(destination, destination_region);
   ImageRegionIterator< InputImageType > sIt(source, source_region);
 
-  dIt = dIt.Begin();
-  sIt = sIt.Begin();
+  dIt.GoToBegin();
+  sIt.GoToBegin();
 
   // Assumes that source_region and destination region are the same size.  Does
   // no checking!!

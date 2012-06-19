@@ -320,7 +320,7 @@ TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
     dispIt(toCopy,toCopy->GetLargestPossibleRegion());
   ImageRegionIterator<DisplacementFieldType>
     cloneDispIt(rval,rval->GetLargestPossibleRegion());
-  for(dispIt.Begin(), cloneDispIt.Begin(); !dispIt.IsAtEnd() && !cloneDispIt.IsAtEnd();
+  for(dispIt.GoToBegin(), cloneDispIt.GoToBegin(); !dispIt.IsAtEnd() && !cloneDispIt.IsAtEnd();
       ++dispIt, ++cloneDispIt)
     {
     cloneDispIt.Set(dispIt.Get());
@@ -370,7 +370,7 @@ TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
   ImageRegionIterator<TimeVaryingVelocityFieldType>
     cloneIt(rval->GetTimeVaryingVelocityField(),
             rval->GetTimeVaryingVelocityField()->GetLargestPossibleRegion());
-  for(thisIt.Begin(),cloneIt.Begin(); !thisIt.IsAtEnd() && !cloneIt.IsAtEnd();
+  for(thisIt.GoToBegin(),cloneIt.GoToBegin(); !thisIt.IsAtEnd() && !cloneIt.IsAtEnd();
       ++thisIt, ++cloneIt)
     {
     cloneIt.Set(thisIt.Get());

@@ -53,14 +53,13 @@ bool TestSettingTranslation(void)
     R[1][0] = -1.0 * vcl_sin( alpha );
     R[1][1] =        vcl_cos( alpha );
 
-
     itk::Vector< double, 3> T; T[0]=100;T[1]=200;T[2]=300;
 
     typedef itk::Rigid3DTransformSurrogate<double>  TransformType;
 
     TransformType::Pointer r1 = TransformType::New();
     //r1->SetIdentity();
-    r1->SetRotationMatrix( R );
+    r1->SetMatrix( R );
     r1->Translate( T );
 
     TransformType::ParametersType p1;
@@ -109,16 +108,13 @@ bool TestSettingTranslation(void)
 int itkRigid3DTransformTest(int ,char * [] )
 {
 
-
-  typedef itk::Rigid3DTransformSurrogate<double>  TransformType;
-  typedef TransformType::ParametersType  ParametersType;
+  typedef itk::Rigid3DTransformSurrogate<double> TransformType;
+  typedef TransformType::ParametersType          ParametersType;
 
   const double epsilon = 1e-10;
   const unsigned int N = 3;
 
-
   bool Ok = true;
-
 
   /* Create a 3D identity transformation and show its parameters */
   {
@@ -141,8 +137,6 @@ int itkRigid3DTransformTest(int ,char * [] )
       return EXIT_FAILURE;
       }
   }
-
-
 
   /* Create a Rigid 3D transform with translation */
   {
@@ -251,7 +245,6 @@ int itkRigid3DTransformTest(int ,char * [] )
         }
     }
 
-
     {
       // Translate a vnl_vector
       TransformType::InputVnlVectorType p;
@@ -279,12 +272,7 @@ int itkRigid3DTransformTest(int ,char * [] )
         std::cout << "Ok translating an vnl_Vector " << std::endl;
         }
     }
-
-
-
-
   }
-
 
   /* Create a Rigid 3D transform with a rotation given by a Matrix */
   {
@@ -304,7 +292,7 @@ int itkRigid3DTransformTest(int ,char * [] )
     mrotation[1][0] = -sinth;
     mrotation[1][1] =  costh;
 
-    rotation->SetRotationMatrix( mrotation );
+    rotation->SetMatrix( mrotation );
 
     TransformType::OffsetType ioffset;
     ioffset.Fill( 0.0f );
@@ -331,7 +319,7 @@ int itkRigid3DTransformTest(int ,char * [] )
       }
 
     // Verify the Matrix content
-    TransformType::MatrixType matrix0 = rotation->GetRotationMatrix();
+    TransformType::MatrixType matrix0 = rotation->GetMatrix();
     std::cout << "Rotation matrix:  " << std::endl;
     std::cout << matrix0 << std::endl;
 
@@ -349,7 +337,7 @@ int itkRigid3DTransformTest(int ,char * [] )
     if( !Ok )
       {
       std::cerr << "Get Rotation Matrix  differs " << std::endl;
-      std::cerr << "from SetRotationMatrix value " << std::endl;
+      std::cerr << "from SetMatrix value " << std::endl;
       return EXIT_FAILURE;
       }
 
@@ -453,7 +441,6 @@ int itkRigid3DTransformTest(int ,char * [] )
         }
     }
 
-
     {
       // Translate a vnl_vector
       TransformType::InputVnlVectorType p;
@@ -466,7 +453,6 @@ int itkRigid3DTransformTest(int ,char * [] )
       q[0] =  p[0] * costh + p[1] * sinth;
       q[1] = -p[0] * sinth + p[1] * costh;
       q[2] =  p[2];
-
 
       TransformType::OutputVnlVectorType r;
       r = rotation->TransformVector( p );
@@ -490,7 +476,6 @@ int itkRigid3DTransformTest(int ,char * [] )
         std::cout << "Ok translating an vnl_Vector " << std::endl;
         }
     }
-
 
    {
      // Testing SetParameters()
@@ -575,7 +560,6 @@ int itkRigid3DTransformTest(int ,char * [] )
     std::cout << "done." << std::endl;
     }
 
-
     {
     // Testing SetIdentity()
     std::cout << "Testing SetIdentity() ... ";
@@ -614,7 +598,6 @@ int itkRigid3DTransformTest(int ,char * [] )
     std::cout << "done. " << std::endl;
 
    }
-
 
    {
      // Testing SetMatrix()

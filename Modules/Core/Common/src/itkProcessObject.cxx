@@ -128,16 +128,6 @@ ProcessObject
 }
 
 /**
- *
- */
-void
-ProcessObject
-::SetNumberOfInputs(DataObjectPointerArraySizeType num)
-{
-  this->SetNumberOfIndexedInputs(num);
-}
-
-/**
  * Get the number of specified inputs
  */
 ProcessObject::DataObjectPointerArraySizeType
@@ -189,28 +179,6 @@ ProcessObject
     }
 }
 
-/**
- *
- */
-void
-ProcessObject
-::RemoveInput(DataObject * input)
-{
-  if( !input )
-    {
-    return;
-    }
-  DataObjectPointerArraySizeType nb = this->GetNumberOfIndexedInputs();
-  for( DataObjectPointerArraySizeType i = 0; i < nb; i++ )
-    {
-    if( this->GetInput(i) == input )
-      {
-      this->RemoveInput( i );
-      return;
-      }
-    }
-  itkDebugMacro("tried to remove an input that was not in the list");
-}
 
 /**
  * Remove an input.
@@ -223,7 +191,7 @@ ProcessObject
   if( idx == this->GetNumberOfIndexedInputs() - 1 )
     {
     // just remove the last indexed input
-    this->SetNumberOfInputs( this->GetNumberOfIndexedInputs() -1 );
+    this->SetNumberOfIndexedInputs( this->GetNumberOfIndexedInputs() -1 );
     }
   else
     {
@@ -269,7 +237,7 @@ ProcessObject
 {
   if ( idx >= this->GetNumberOfIndexedInputs() )
     {
-    this->SetNumberOfInputs(idx + 1);
+    this->SetNumberOfIndexedInputs(idx + 1);
     }
   this->SetInput( this->MakeNameFromIndex(idx), input );
 }
@@ -293,7 +261,7 @@ ProcessObject
 {
   if ( this->GetNumberOfIndexedInputs() > 0 )
     {
-    this->SetNumberOfInputs( this->GetNumberOfIndexedInputs() - 1 );
+    this->SetNumberOfIndexedInputs( this->GetNumberOfIndexedInputs() - 1 );
     }
 }
 
@@ -326,7 +294,7 @@ ProcessObject
       {
       this->SetNthInput( i-1, this->GetInput( i ) );
       }
-    this->SetNumberOfInputs( nb - 1 );
+    this->SetNumberOfIndexedInputs( nb - 1 );
     }
 }
 
@@ -350,29 +318,6 @@ ProcessObject
     }
 }
 
-/**
- *
- */
-void
-ProcessObject
-::RemoveOutput(DataObject * output)
-{
-  if( !output )
-    {
-    return;
-    }
-  DataObjectPointerArraySizeType nb = this->GetNumberOfIndexedOutputs();
-  for( DataObjectPointerArraySizeType i = 0; i < nb; i++ )
-    {
-    if( this->GetOutput(i) == output )
-      {
-      this->RemoveOutput( i );
-      return;
-      }
-    }
-  itkDebugMacro("tried to remove an output that was not in the list");
-}
-
 void
 ProcessObject
 ::RemoveOutput(DataObjectPointerArraySizeType idx)
@@ -380,7 +325,7 @@ ProcessObject
   if( idx == this->GetNumberOfIndexedOutputs() - 1 )
     {
     // just remove the last indexed output
-    this->SetNumberOfOutputs( this->GetNumberOfIndexedOutputs() -1 );
+    this->SetNumberOfIndexedOutputs( this->GetNumberOfIndexedOutputs() -1 );
     }
   else
     {
@@ -460,7 +405,7 @@ ProcessObject
 {
   if ( idx >= this->GetNumberOfIndexedOutputs() )
     {
-    this->SetNumberOfOutputs(idx + 1);
+    this->SetNumberOfIndexedOutputs(idx + 1);
     }
   this->SetOutput( this->MakeNameFromIndex(idx), output );
 }
@@ -501,16 +446,6 @@ ProcessObject
     m_NumberOfIndexedOutputs = num;
     this->Modified();
     }
-}
-
-/**
- *
- */
-void
-ProcessObject
-::SetNumberOfOutputs(DataObjectPointerArraySizeType num)
-{
-  this->SetNumberOfIndexedOutputs(num);
 }
 
 /**
@@ -1671,4 +1606,73 @@ ProcessObject
       }
     }
 }
+#if !defined(ITK_LEGACY_REMOVE)
+/**
+ *
+ */
+void
+ProcessObject
+::SetNumberOfInputs(DataObjectPointerArraySizeType num)
+{
+  this->SetNumberOfIndexedInputs(num);
+}
+/**
+ *
+ */
+void
+ProcessObject
+::SetNumberOfOutputs(DataObjectPointerArraySizeType num)
+{
+  this->SetNumberOfIndexedOutputs(num);
+}
+
+/**
+ *
+ */
+void
+ProcessObject
+::RemoveInput(DataObject * input)
+{
+  if( !input )
+    {
+    return;
+    }
+  DataObjectPointerArraySizeType nb = this->GetNumberOfIndexedInputs();
+  for( DataObjectPointerArraySizeType i = 0; i < nb; i++ )
+    {
+    if( this->GetInput(i) == input )
+      {
+      this->RemoveInput( i );
+      return;
+      }
+    }
+  itkDebugMacro("tried to remove an input that was not in the list");
+}
+
+/**
+ *
+ */
+void
+ProcessObject
+::RemoveOutput(DataObject * output)
+{
+  if( !output )
+    {
+    return;
+    }
+  DataObjectPointerArraySizeType nb = this->GetNumberOfIndexedOutputs();
+  for( DataObjectPointerArraySizeType i = 0; i < nb; i++ )
+    {
+    if( this->GetOutput(i) == output )
+      {
+      this->RemoveOutput( i );
+      return;
+      }
+    }
+  itkDebugMacro("tried to remove an output that was not in the list");
+}
+
+
+#endif
+
 } // end namespace itk

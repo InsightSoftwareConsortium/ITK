@@ -204,7 +204,7 @@ void MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage>
   rotatedMovingDenom = NULL; // No longer needed
 
   // Determine a tolerance on the precision of the denominator values.
-  double precisionTolerance = CalculatePrecisionTolerance<RealImageType>( denominator );
+  const double precisionTolerance = CalculatePrecisionTolerance<RealImageType>( denominator );
 
   RealImagePointer NCC = this->ElementQuotient<RealImageType>(numerator,denominator);
   numerator = NULL; // No longer needed
@@ -503,7 +503,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage,TOutputImage>
   typename LocalInputImageType::IndexType index;
   index.Fill(0);
 
-  double precisionTolerance;
+  double precisionTolerance=0.0F;
   if( typeid(inputImage->GetPixel(index)) == typeid(double) )
     {
     precisionTolerance = 1000.0 * vcl_pow(2.0,-52) * vcl_pow(2,vcl_floor(vcl_log(calculator->GetMaximum())/vcl_log(2.0)));

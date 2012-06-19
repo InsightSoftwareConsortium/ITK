@@ -18,7 +18,6 @@
 #ifndef __itkSimplexMesh_h
 #define __itkSimplexMesh_h
 
-
 #include "itkMesh.h"
 #include "itkSimplexMeshGeometry.h"
 #include "itkVertexCell.h"

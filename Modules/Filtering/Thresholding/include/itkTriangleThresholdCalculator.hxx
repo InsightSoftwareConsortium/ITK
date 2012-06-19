@@ -76,9 +76,12 @@ TriangleThresholdCalculator<THistogram, TOutput>
 
   typename HistogramType::MeasurementVectorType onePC(1), nnPC(1);
   onePC.Fill(histogram->Quantile(0, 0.01));
-  IndexValueType onePCIdx = histogram->GetIndex(onePC)[0];
+  typename HistogramType::IndexType localIndex;
+  histogram->GetIndex(onePC,localIndex);
+  const IndexValueType onePCIdx = localIndex[0];
   nnPC.Fill(histogram->Quantile(0, 0.99));
-  IndexValueType nnPCIdx = histogram->GetIndex(nnPC)[0];
+  histogram->GetIndex(nnPC,localIndex);
+  const IndexValueType nnPCIdx = localIndex[0];
 
   // figure out which way we are looking - we want to construct our
   // line between the max index and the further of 1% and 99%

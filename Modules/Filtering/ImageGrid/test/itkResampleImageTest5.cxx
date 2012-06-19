@@ -116,7 +116,7 @@ int itkResampleImageTest5(int argc, char * argv [] )
 
   std::cout << "Resampling from " << size
             << " to " << osize
-            << " took " << clock.GetMeanTime() << " s" << std::endl;
+            << " took " << clock.GetMean() << " s" << std::endl;
 
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput(resample->GetOutput());

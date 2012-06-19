@@ -522,7 +522,8 @@ int itkHistogramTest(int, char* [] )
     measurementVector[gik1] += 0.3;
     }
 
-  IndexType gindex = histogram->GetIndex( measurementVector );
+  IndexType gindex;
+  histogram->GetIndex( measurementVector, gindex );
 
   for( unsigned int gik2=0; gik2<numberOfComponents; gik2++)
     {
@@ -541,7 +542,7 @@ int itkHistogramTest(int, char* [] )
     measurementVector[gik3] -= 0.6;
     }
 
-  gindex = histogram->GetIndex( measurementVector );
+  histogram->GetIndex( measurementVector ,gindex);
 
   for( unsigned int gik4=0; gik4<numberOfComponents; gik4++)
     {

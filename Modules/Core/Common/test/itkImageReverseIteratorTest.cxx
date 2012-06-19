@@ -115,8 +115,7 @@ int itkImageReverseIteratorTest(int, char* [] )
 
   // Iterator over the region backwards using a simple for loop
   itk::ImageRegionIterator< ImageType > backIt(o3, region);
-
-  backIt = backIt.End(); // one pixel past the end of the region
+  backIt.GoToEnd(); // one pixel past the end of the region
   do
     {
     --backIt;
@@ -148,8 +147,7 @@ int itkImageReverseIteratorTest(int, char* [] )
 
   // Iterator over the region forwards using a reverse iterator
   itk::ImageRegionReverseIterator< ImageType > backReverseIt(o3, region);
-
-  backReverseIt = backReverseIt.End(); // one pixel before the region
+  backReverseIt.GoToEnd(); // one pixel before the region
   do
     {
     --backReverseIt;
@@ -173,9 +171,8 @@ int itkImageReverseIteratorTest(int, char* [] )
 
   // Finally, create a ReverseIterator from an Iterator and walk each appropriately so that they match
   itk::ImageRegionReverseIterator< ImageType > castBackReverseIt(it);
-  it = it.Begin();
   it.GoToBegin();
-  castBackReverseIt = castBackReverseIt.End();
+  castBackReverseIt.GoToEnd();
   int status = 0;
   std::cout << "It and Reverse check: ";
   for ( ; !it.IsAtEnd(); ++it)

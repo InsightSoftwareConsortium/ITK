@@ -100,7 +100,7 @@ RegionalMinimaImageFilter< TInputImage, TOutputImage >
 
     if ( m_FlatIsMinima )
       {
-      for ( outIt.Begin(); !outIt.IsAtEnd(); ++outIt )
+      for ( outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt )
         {
         outIt.Set(m_ForegroundValue);
         progress2.CompletedPixel();
@@ -108,7 +108,7 @@ RegionalMinimaImageFilter< TInputImage, TOutputImage >
       }
     else
       {
-      for ( outIt.Begin(); !outIt.IsAtEnd(); ++outIt )
+      for ( outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt )
         {
         outIt.Set(m_BackgroundValue);
         progress2.CompletedPixel();

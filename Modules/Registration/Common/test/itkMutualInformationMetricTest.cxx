@@ -84,7 +84,7 @@ int itkMutualInformationMetricTest(int, char* [] )
 
   ReferenceIteratorType ri(imgMoving,region);
   TargetIteratorType ti(imgFixed,region);
-  ri.Begin();
+  ri.GoToBegin();
   while(!ri.IsAtEnd())
     {
     p[0] = ri.GetIndex()[0];
@@ -98,7 +98,7 @@ int itkMutualInformationMetricTest(int, char* [] )
     }
 
 
-  ti.Begin();
+  ti.GoToBegin();
   while(!ti.IsAtEnd())
     {
     p[0] = ti.GetIndex()[0];

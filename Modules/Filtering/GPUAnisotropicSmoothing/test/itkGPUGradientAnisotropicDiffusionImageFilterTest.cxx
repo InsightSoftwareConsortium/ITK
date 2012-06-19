@@ -86,7 +86,7 @@ int runGPUGradientAnisotropicDiffusionImageFilterTest(const std::string& inFile,
 
     cputimer.Stop();
 
-    std::cout << "CPU Anisotropic diffusion took " << cputimer.GetMeanTime() << " seconds with "
+    std::cout << "CPU Anisotropic diffusion took " << cputimer.GetMean() << " seconds with "
               << CPUFilter->GetNumberOfThreads() << " threads.\n" << std::endl;
 
     // -------
@@ -123,7 +123,7 @@ int runGPUGradientAnisotropicDiffusionImageFilterTest(const std::string& inFile,
 
 
       gputimer.Stop();
-      std::cout << "GPU Anisotropic diffusion took " << gputimer.GetMeanTime() << " seconds.\n" << std::endl;
+      std::cout << "GPU Anisotropic diffusion took " << gputimer.GetMean() << " seconds.\n" << std::endl;
 
       // ---------------
       // RMS Error check

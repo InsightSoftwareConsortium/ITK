@@ -144,20 +144,6 @@ ImageConstIteratorWithIndex< TImage >
 }
 
 //----------------------------------------------------------------------------
-// Begin() is the first pixel in the region.
-//----------------------------------------------------------------------------
-template< class TImage >
-ImageConstIteratorWithIndex< TImage >
-ImageConstIteratorWithIndex< TImage >
-::Begin() const
-{
-  Self it(*this);
-
-  it.GoToBegin();
-  return it;
-}
-
-//----------------------------------------------------------------------------
 // GoToBegin() is the first pixel in the region.
 //----------------------------------------------------------------------------
 template< class TImage >
@@ -178,20 +164,6 @@ ImageConstIteratorWithIndex< TImage >
     {
     m_Remaining = false;
     }
-}
-
-//----------------------------------------------------------------------------
-// End() is the last pixel in the region.  DEPRECATED
-//----------------------------------------------------------------------------
-template< class TImage >
-ImageConstIteratorWithIndex< TImage >
-ImageConstIteratorWithIndex< TImage >
-::End() const
-{
-  Self it(*this);
-
-  it.GoToReverseBegin();
-  return it;
 }
 
 //----------------------------------------------------------------------------
@@ -221,6 +193,37 @@ ImageConstIteratorWithIndex< TImage >
   const OffsetValueType    offset   = m_Image->ComputeOffset(m_PositionIndex);
   m_Position = buffer + offset;
 }
+
+#if !defined(ITK_LEGACY_REMOVE)
+//----------------------------------------------------------------------------
+// Begin() is the first pixel in the region.
+//----------------------------------------------------------------------------
+template< class TImage >
+ImageConstIteratorWithIndex< TImage >
+ImageConstIteratorWithIndex< TImage >
+::Begin() const
+{
+  Self it(*this);
+
+  it.GoToBegin();
+  return it;
+}
+
+//----------------------------------------------------------------------------
+// End() is the last pixel in the region.  DEPRECATED
+//----------------------------------------------------------------------------
+template< class TImage >
+ImageConstIteratorWithIndex< TImage >
+ImageConstIteratorWithIndex< TImage >
+::End() const
+{
+  Self it(*this);
+
+  it.GoToReverseBegin();
+  return it;
+}
+#endif
+
 } // end namespace itk
 
 #endif

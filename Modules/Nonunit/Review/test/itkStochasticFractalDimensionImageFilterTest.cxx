@@ -109,7 +109,7 @@ public:
       std::cout << "/" << std::flush;
       timer.Stop();
 
-      std::cout << "   (elapsed time: " << timer.GetMeanTime() << ")" << std::endl;
+      std::cout << "   (elapsed time: " << timer.GetMean() << ")" << std::endl;
       }
     catch( ... )
       {

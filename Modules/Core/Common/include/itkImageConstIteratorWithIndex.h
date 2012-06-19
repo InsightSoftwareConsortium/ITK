@@ -258,14 +258,14 @@ public:
 
   /** Move an iterator to the beginning of the region.
    * \deprecated Use GoToBegin() instead */
-  Self Begin(void) const;
+  itkLegacyMacro(Self Begin(void) const);
 
   /** Move an iterator to the beginning of the region. */
   void GoToBegin(void);
 
   /** Move an iterator to the End of the region.
    * \deprecated Use GoToReverseBegin() instead */
-  Self End(void) const;
+  itkLegacyMacro(Self End(void) const);
 
   /** Move an iterator to the End of the region. */
   void GoToReverseBegin(void);

@@ -32,49 +32,68 @@
 #define   NUMDIM5D            5
 
 static unsigned int test_RegionGrowKLMExceptionHandling();
+
 static unsigned int test_regiongrowKLM1D();
+
 static unsigned int test_regiongrowKLM2D();
+
 static unsigned int test_regiongrowKLM3D();
+
 #ifndef _GLIBCXX_DEBUG
 static unsigned int test_regiongrowKLM4D();
+
 #endif
 
 //
 // This tests KLM region growing segmentation
 //
 
-int itkRegionGrow2DTest(int, char* [] )
+int itkRegionGrow2DTest(int, char * [] )
 {
   int pass;
 
   // Exception test the KLM algorithm
   pass = test_RegionGrowKLMExceptionHandling();
-  if ( pass == EXIT_FAILURE ) return pass;
+  if( pass == EXIT_FAILURE )
+    {
+    return pass;
+    }
 
   // Test the KLM algorithm applied to 1D data
   pass = test_regiongrowKLM1D();
-  if ( pass == EXIT_FAILURE ) return pass;
+  if( pass == EXIT_FAILURE )
+    {
+    return pass;
+    }
 
   // Test the KLM algorithm applied to 2D data
   pass = test_regiongrowKLM2D();
-  if ( pass == EXIT_FAILURE ) return pass;
+  if( pass == EXIT_FAILURE )
+    {
+    return pass;
+    }
 
   // Test the KLM algorithm applied to 3D data
   pass = test_regiongrowKLM3D();
-  if ( pass == EXIT_FAILURE ) return pass;
+  if( pass == EXIT_FAILURE )
+    {
+    return pass;
+    }
 
   // Test the KLM algorithm applied to 4D data
 #ifndef _GLIBCXX_DEBUG
   pass = test_regiongrowKLM4D();
-  if ( pass == EXIT_FAILURE ) return pass;
+  if( pass == EXIT_FAILURE )
+    {
+    return pass;
+    }
 #endif
   return EXIT_SUCCESS;
 }
 
-
 unsigned int test_RegionGrowKLMExceptionHandling()
 {
-  itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
+  itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer() );
 
   std::cout << "Testing exception handling" << std::endl;
 
@@ -84,7 +103,7 @@ unsigned int test_RegionGrowKLMExceptionHandling()
 
   int sizeLen  = 3;
 
-  typedef itk::Image<itk::Vector<double,NUMBANDS2>,NUMDIM5D> ImageType5D;
+  typedef itk::Image<itk::Vector<double, NUMBANDS2>, NUMDIM5D> ImageType5D;
   ImageType5D::Pointer image5D  = ImageType5D::New();
 
   ImageType5D::SizeType imageSize5D;
@@ -101,13 +120,13 @@ unsigned int test_RegionGrowKLMExceptionHandling()
   image5D->SetLargestPossibleRegion( region5D );
   image5D->SetBufferedRegion( region5D );
   image5D->Allocate();
-  itk::Vector<double,NUMBANDS2> pixel(0.0);
+  itk::Vector<double, NUMBANDS2> pixel(0.0);
   image5D->FillBuffer(pixel);
 
   // Set the filter with valid inputs
 
-  typedef itk::KLMRegionGrowImageFilter<ImageType5D,ImageType5D>
-    KLMRegionGrowImageFilterType5D;
+  typedef itk::KLMRegionGrowImageFilter<ImageType5D, ImageType5D>
+  KLMRegionGrowImageFilterType5D;
 
   KLMRegionGrowImageFilterType5D::Pointer
     exceptionTestingFilter5D = KLMRegionGrowImageFilterType5D::New();
@@ -139,33 +158,31 @@ unsigned int test_RegionGrowKLMExceptionHandling()
     FILTER->ResetPipeline(); \
     passed = true; \
     } \
-  if ( !passed ) \
+  if( !passed ) \
     { \
     std::cout << "Test FAILED" << std::endl; \
     return EXIT_FAILURE; \
     }
 
-
   // maximum number of regions must be greater than 1
 
   exceptionTestingFilter5D->SetMaximumNumberOfRegions(0);
   LOCAL_TEST_EXCEPTION_MACRO( "Maximum number of user specified region is 0",
-    exceptionTestingFilter5D );
+                              exceptionTestingFilter5D );
 
   exceptionTestingFilter5D->SetMaximumNumberOfRegions(1);
   LOCAL_TEST_EXCEPTION_MACRO( "Maximum number of user specified region is 1",
-    exceptionTestingFilter5D );
+                              exceptionTestingFilter5D );
 
   exceptionTestingFilter5D->SetMaximumNumberOfRegions(2);
 
   // size lengths must be divisible by the grid size along each dimension
-
   for( int idim = 0; idim < NUMDIM5D; idim++ )
     {
     gridSize5D[idim]++;
     exceptionTestingFilter5D->SetGridSize( gridSize5D );
-    LOCAL_TEST_EXCEPTION_MACRO( "Invalid grid size, dimension " << idim+1 <<
-                                " of " << NUMDIM5D, exceptionTestingFilter5D );
+    LOCAL_TEST_EXCEPTION_MACRO( "Invalid grid size, dimension " << idim + 1
+                                                                << " of " << NUMDIM5D, exceptionTestingFilter5D );
     gridSize5D[idim]--;
     }
   exceptionTestingFilter5D->SetGridSize( gridSize5D );
@@ -175,7 +192,7 @@ unsigned int test_RegionGrowKLMExceptionHandling()
   gridSize5D[2] = 0;
   exceptionTestingFilter5D->SetGridSize( gridSize5D );
   LOCAL_TEST_EXCEPTION_MACRO( "Invalid grid size = 0",
-    exceptionTestingFilter5D );
+                              exceptionTestingFilter5D );
   gridSize5D[2] = 1;
   exceptionTestingFilter5D->SetGridSize( gridSize5D );
 
@@ -184,29 +201,28 @@ unsigned int test_RegionGrowKLMExceptionHandling()
   gridSize5D.Fill( sizeLen );
   exceptionTestingFilter5D->SetGridSize( gridSize5D );
   LOCAL_TEST_EXCEPTION_MACRO( "One input region, grid too large",
-    exceptionTestingFilter5D );
+                              exceptionTestingFilter5D );
 
   std::cout << "Done testing exception handling" << std::endl;
 
   return EXIT_SUCCESS;
 }
 
-
 unsigned int test_regiongrowKLM1D()
 {
-  itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
+  itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer() );
 
   std::cout << std::endl << "Begin testing one-dimension images" << std::endl;
 
   // Manually create an image
 
-  typedef itk::Image<itk::Vector<unsigned char,NUMBANDS3>,NUMDIM1D> ImageType;
-  typedef itk::Image<itk::Vector<double,NUMBANDS3>,NUMDIM1D> OutputImageType;
+  typedef itk::Image<itk::Vector<unsigned char, NUMBANDS3>, NUMDIM1D> ImageType;
+  typedef itk::Image<itk::Vector<double, NUMBANDS3>, NUMDIM1D>        OutputImageType;
 
   ImageType::Pointer image  = ImageType::New();
 
-  unsigned int numPixels = 100;
-  unsigned int numPixelsHalf = 50;
+  unsigned int        numPixels = 100;
+  unsigned int        numPixelsHalf = 50;
   ImageType::SizeType imageSize;
   imageSize.Fill( numPixels );
 
@@ -224,21 +240,26 @@ unsigned int test_regiongrowKLM1D()
   typedef ImageType::PixelType                  ImagePixelType;
   typedef itk::ImageRegionIterator< ImageType > ImageIterator;
   ImageIterator inIt( image, image->GetBufferedRegion() );
-  ImageIterator inItEnd = inIt.End();
 
   typedef ImageType::PixelType::VectorType ImageData;
-  ImageData   pixelData;
+  ImageData    pixelData;
   unsigned int k = 0;
-  while ( inIt != inItEnd ) {
+  while( !inIt.IsAtEnd() )
+    {
     pixelData[0] = static_cast<unsigned char>( k );
     pixelData[1] = static_cast<unsigned char>( numPixels - k - 1 );
-    if ( k < numPixelsHalf ) pixelData[2] = 47;
-    else pixelData[2] = 247;
+    if( k < numPixelsHalf )
+      {
+      pixelData[2] = 47;
+      }
+    else
+      {
+      pixelData[2] = 247;
+      }
     inIt.Set( pixelData );
     ++inIt;
     ++k;
-  }
-
+    }
 
   // FIRST TEST:
   // If lambda is 0, the number of final regions should equal
@@ -246,8 +267,8 @@ unsigned int test_regiongrowKLM1D()
 
   // Set up the filter
 
-  typedef itk::KLMRegionGrowImageFilter<ImageType,OutputImageType>
-    KLMRegionGrowImageFilterType;
+  typedef itk::KLMRegionGrowImageFilter<ImageType, OutputImageType>
+  KLMRegionGrowImageFilterType;
 
   KLMRegionGrowImageFilterType::Pointer KLMFilter =
     KLMRegionGrowImageFilterType::New();
@@ -271,7 +292,6 @@ unsigned int test_regiongrowKLM1D()
     return EXIT_FAILURE; \
     } \
   std::cout << std::endl << "Filter has been udpated" << std::endl
-
 
   std::cout << std::endl << "First test, lambda = 0" << std::endl;
 
@@ -304,7 +324,7 @@ unsigned int test_regiongrowKLM1D()
   // The region labels should be consecutive integers beginning with 1.
 
   OutputImageType::Pointer outImage = KLMFilter->GetOutput();
-  typedef itk::ImageRegionIterator< OutputImageType > OutputImageIterator;
+  typedef itk::ImageRegionIterator<OutputImageType> OutputImageIterator;
   OutputImageIterator outIt( outImage, outImage->GetBufferedRegion() );
 
   typedef KLMRegionGrowImageFilterType::RegionLabelType LabelType;
@@ -312,51 +332,51 @@ unsigned int test_regiongrowKLM1D()
   LabelledImageType::Pointer labelledImage = KLMFilter->GetLabelledImage();
 
   typedef OutputImageType::PixelType::VectorType OutputImageData;
-  ImageData         pixelIn;
-  OutputImageData   pixelOut;
+  ImageData       pixelIn;
+  OutputImageData pixelOut;
 
   typedef LabelledImageType::PixelType                  LabelledImagePixelType;
   typedef itk::ImageRegionIterator< LabelledImageType > LabelImageIterator;
   LabelImageIterator
-    labelIt( labelledImage, labelledImage->GetBufferedRegion() );
+            labelIt( labelledImage, labelledImage->GetBufferedRegion() );
   LabelType pixelLabel;
   LabelType m = 1;
 
   inIt.GoToBegin();
-  while ( inIt != inItEnd )
+  while( !inIt.IsAtEnd() )
     {
     pixelOut = outIt.Get();
     pixelIn  = inIt.Get();
     pixelLabel = labelIt.Get();
 
-    if ( pixelOut[0] != pixelIn[0] ||
-         pixelOut[1] != pixelIn[1] ||
-         pixelOut[2] != pixelIn[2] ||
-         pixelLabel  != m )
+    if( pixelOut[0] != pixelIn[0] ||
+        pixelOut[1] != pixelIn[1] ||
+        pixelOut[2] != pixelIn[2] ||
+        pixelLabel  != m )
       {
       std::cout << "Test FAILED" << std::endl;
-      if ( pixelOut[0] != pixelIn[0])
+      if( pixelOut[0] != pixelIn[0] )
         {
         std::cout << "pixelOut[0]: " << pixelOut[0]
                   << " != "
                   << "pixelIn[0]: " << pixelIn[0]
                   << std::endl;
         }
-      if ( pixelOut[1] != pixelIn[1])
+      if( pixelOut[1] != pixelIn[1] )
         {
         std::cout << "pixelOut[1]: " << pixelOut[1]
                   << " != "
                   << "pixelIn[1]: " << pixelIn[1]
                   << std::endl;
         }
-      if ( pixelOut[2] != pixelIn[2])
+      if( pixelOut[2] != pixelIn[2] )
         {
         std::cout << "pixelOut[2]: " << pixelOut[2]
                   << " != "
                   << "pixelIn[2]: " << pixelIn[2]
                   << std::endl;
         }
-      if ( pixelLabel  != m )
+      if( pixelLabel  != m )
         {
         std::cout << "pixelLabel: " << pixelLabel
                   << " != "
@@ -371,18 +391,17 @@ unsigned int test_regiongrowKLM1D()
     ++labelIt;
     ++m;
 
-    } //end while iterator loop
+    } // end while iterator loop
 
   std::cout << "Test PASSED" << std::endl;
 
   KLMFilter->ResetPipeline();
 
-
   // SECOND TEST:
   // merge as much as possible
 
-  std::cout << std::endl << "Second test, merge to " << nregions <<
-    " regions" << std::endl;
+  std::cout << std::endl << "Second test, merge to " << nregions
+            << " regions" << std::endl;
 
   KLMFilter->SetMaximumLambda( 1e51 );
 
@@ -395,7 +414,6 @@ unsigned int test_regiongrowKLM1D()
     return EXIT_FAILURE;
     }
 
-
   // Test the functions useful to test the region and border statistics
   // as the regions are merged. Primarily useful for debug operations and are
   // called several times, so prudent usage is advisable.
@@ -406,17 +424,16 @@ unsigned int test_regiongrowKLM1D()
   std::cout << "Extracting and checking label image" << std::endl;
 
   OutputImageType::Pointer outImage2 = KLMFilter->GetOutput();
-  OutputImageIterator outIt2( outImage2, outImage2->GetBufferedRegion() );
-  OutputImageIterator outItEnd2 = outIt2.End();
-  OutputImageData   pixelOut2a;
-  OutputImageData   pixelOut2b;
+  OutputImageIterator      outIt2( outImage2, outImage2->GetBufferedRegion() );
+  OutputImageData          pixelOut2a;
+  OutputImageData          pixelOut2b;
 
   LabelledImageType::Pointer labelledImage2 = KLMFilter->GetLabelledImage();
-  LabelImageIterator labelIt2( labelledImage2,
-    labelledImage2->GetBufferedRegion() );
+  LabelImageIterator         labelIt2( labelledImage2,
+                                       labelledImage2->GetBufferedRegion() );
 
-  pixelOut2a[0] = (numPixelsHalf-1)*numPixelsHalf/2;
-  pixelOut2a[1] = (numPixels-1)*numPixels/2 - pixelOut2a[0];
+  pixelOut2a[0] = (numPixelsHalf - 1) * numPixelsHalf / 2;
+  pixelOut2a[1] = (numPixels - 1) * numPixels / 2 - pixelOut2a[0];
   pixelOut2a[0] /= numPixelsHalf;
   pixelOut2a[1] /= numPixelsHalf;
   pixelOut2a[2] = 47;
@@ -429,24 +446,24 @@ unsigned int test_regiongrowKLM1D()
   LabelType mb = 2;
 
   k = 0;
-  while ( outIt2 != outItEnd2 )
+  while( !outIt2.IsAtEnd() )
     {
     pixelOut = outIt2.Get();
     pixelLabel = labelIt2.Get();
 
-    if ( k < numPixelsHalf )
+    if( k < numPixelsHalf )
       {
-      if ( pixelOut != pixelOut2a || pixelLabel != ma )
+      if( pixelOut != pixelOut2a || pixelLabel != ma )
         {
         std::cout << "Test FAILED" << std::endl;
-        if ( pixelLabel != ma)
+        if( pixelLabel != ma )
           {
           std::cout << "pixelLabel: " << pixelLabel
                     << " != "
                     << "ma: " << ma
                     << std::endl;
           }
-        if ( pixelOut != pixelOut2a)
+        if( pixelOut != pixelOut2a )
           {
           std::cout << "pixelOut: " << pixelOut
                     << " != "
@@ -458,17 +475,17 @@ unsigned int test_regiongrowKLM1D()
       }
     else
       {
-      if ( pixelOut != pixelOut2b || pixelLabel != mb )
+      if( pixelOut != pixelOut2b || pixelLabel != mb )
         {
         std::cout << "Test FAILED" << std::endl;
-        if ( pixelLabel != ma)
+        if( pixelLabel != ma )
           {
           std::cout << "pixelLabel: " << pixelLabel
                     << " != "
                     << "mb: " << mb
                     << std::endl;
           }
-        if ( pixelOut != pixelOut2b)
+        if( pixelOut != pixelOut2b )
           {
           std::cout << "pixelOut: " << pixelOut
                     << " != "
@@ -482,7 +499,7 @@ unsigned int test_regiongrowKLM1D()
     ++labelIt2;
     ++k;
 
-    } //end while iterator loop
+    } // end while iterator loop
 
   std::cout << "Test PASSED" << std::endl;
 
@@ -492,23 +509,36 @@ unsigned int test_regiongrowKLM1D()
   // merge to 4 regions
 
   nregions = 4;
-  std::cout << std::endl << "Third test, merge to " << nregions <<
-    " regions" << std::endl;
+  std::cout << std::endl << "Third test, merge to " << nregions
+            << " regions" << std::endl;
 
   unsigned int numPixelsQtr = numPixelsHalf / 2;
   k = 0;
   inIt.GoToBegin();
-  while ( inIt != inItEnd ) {
+  while( !inIt.IsAtEnd() )
+    {
     pixelData[0] = static_cast<unsigned char>( k );
     pixelData[1] = static_cast<unsigned char>( numPixels - k - 1 );
-    if ( k < numPixelsQtr )          pixelData[2] = 127;
-    else if ( k < 2 * numPixelsQtr ) pixelData[2] = 27;
-    else if ( k < 3 * numPixelsQtr ) pixelData[2] = 127;
-    else                             pixelData[2] = 227;
+    if( k < numPixelsQtr )
+      {
+      pixelData[2] = 127;
+      }
+    else if( k < 2 * numPixelsQtr )
+      {
+      pixelData[2] = 27;
+      }
+    else if( k < 3 * numPixelsQtr )
+      {
+      pixelData[2] = 127;
+      }
+    else
+      {
+      pixelData[2] = 227;
+      }
     inIt.Set( pixelData );
     ++inIt;
     ++k;
-  }
+    }
 
   KLMFilter->SetMaximumLambda( 1e51 );
   KLMFilter->SetMaximumNumberOfRegions( nregions );
@@ -522,7 +552,6 @@ unsigned int test_regiongrowKLM1D()
     return EXIT_FAILURE;
     }
 
-
   // Test the functions useful to test the region and border statistics
   // as the regions are merged. Primarily useful for debug operations and are
   // called several times, so prudent usage is advisable.
@@ -533,28 +562,27 @@ unsigned int test_regiongrowKLM1D()
   std::cout << "Extracting and checking label image" << std::endl;
 
   OutputImageType::Pointer outImage3 = KLMFilter->GetOutput();
-  OutputImageIterator outIt3( outImage3, outImage3->GetBufferedRegion() );
-  OutputImageIterator outItEnd3 = outIt3.End();
-  OutputImageData   pixelOut3a;
-  OutputImageData   pixelOut3b;
-  OutputImageData   pixelOut3c;
-  OutputImageData   pixelOut3d;
+  OutputImageIterator      outIt3( outImage3, outImage3->GetBufferedRegion() );
+  OutputImageData          pixelOut3a;
+  OutputImageData          pixelOut3b;
+  OutputImageData          pixelOut3c;
+  OutputImageData          pixelOut3d;
 
   LabelledImageType::Pointer labelledImage3 = KLMFilter->GetLabelledImage();
-  LabelImageIterator labelIt3( labelledImage3,
-    labelledImage3->GetBufferedRegion() );
+  LabelImageIterator         labelIt3( labelledImage3,
+                                       labelledImage3->GetBufferedRegion() );
 
   pixelOut3a[0] = (numPixelsQtr - 1) * numPixelsQtr / 2;
-  pixelOut3a[1] = (numPixels - 1) * numPixels / 2 -
-    (3 * numPixelsQtr - 1) * (3 * numPixelsQtr) / 2;
+  pixelOut3a[1] = (numPixels - 1) * numPixels / 2
+    - (3 * numPixelsQtr - 1) * (3 * numPixelsQtr) / 2;
   pixelOut3a[0] /= numPixelsQtr;
   pixelOut3a[1] /= numPixelsQtr;
   pixelOut3a[2] = 127;
 
-  pixelOut3b[0] = (numPixelsHalf - 1) * numPixelsHalf / 2 -
-    (numPixelsQtr - 1) * numPixelsQtr / 2;
-  pixelOut3b[1] = (3 * numPixelsQtr - 1) * (3 * numPixelsQtr) / 2 -
-    (numPixelsHalf - 1) * numPixelsHalf / 2;
+  pixelOut3b[0] = (numPixelsHalf - 1) * numPixelsHalf / 2
+    - (numPixelsQtr - 1) * numPixelsQtr / 2;
+  pixelOut3b[1] = (3 * numPixelsQtr - 1) * (3 * numPixelsQtr) / 2
+    - (numPixelsHalf - 1) * numPixelsHalf / 2;
   pixelOut3b[0] /= numPixelsQtr;
   pixelOut3b[1] /= numPixelsQtr;
   pixelOut3b[2] = 27;
@@ -571,24 +599,24 @@ unsigned int test_regiongrowKLM1D()
   LabelType md = 4;
 
   k = 0;
-  while ( outIt3 != outItEnd3 )
+  while( !outIt3.IsAtEnd() )
     {
     pixelOut = outIt3.Get();
     pixelLabel = labelIt3.Get();
 
-    if ( k < numPixelsHalf / 2 )
+    if( k < numPixelsHalf / 2 )
       {
-      if ( pixelOut != pixelOut3a || pixelLabel != ma )
+      if( pixelOut != pixelOut3a || pixelLabel != ma )
         {
         std::cout << "Test FAILED" << std::endl;
-        if ( pixelLabel != ma)
+        if( pixelLabel != ma )
           {
           std::cout << "pixelLabel: " << pixelLabel
                     << " != "
                     << "ma: " << ma
                     << std::endl;
           }
-        if ( pixelOut != pixelOut3a)
+        if( pixelOut != pixelOut3a )
           {
           std::cout << "pixelOut: " << pixelOut
                     << " != "
@@ -598,19 +626,19 @@ unsigned int test_regiongrowKLM1D()
         return EXIT_FAILURE;
         }
       }
-    else if ( k < numPixelsHalf )
+    else if( k < numPixelsHalf )
       {
-      if ( pixelOut != pixelOut3b || pixelLabel != mb )
+      if( pixelOut != pixelOut3b || pixelLabel != mb )
         {
         std::cout << "Test FAILED" << std::endl;
-        if ( pixelLabel != mb)
+        if( pixelLabel != mb )
           {
           std::cout << "pixelLabel: " << pixelLabel
                     << " != "
                     << "mb: " << mb
                     << std::endl;
           }
-        if ( pixelOut != pixelOut3b)
+        if( pixelOut != pixelOut3b )
           {
           std::cout << "pixelOut: " << pixelOut
                     << " != "
@@ -620,19 +648,19 @@ unsigned int test_regiongrowKLM1D()
         return EXIT_FAILURE;
         }
       }
-    else if ( k < 3 * numPixelsHalf / 2 )
+    else if( k < 3 * numPixelsHalf / 2 )
       {
-      if ( pixelOut != pixelOut3c || pixelLabel != mc )
+      if( pixelOut != pixelOut3c || pixelLabel != mc )
         {
         std::cout << "Test FAILED" << std::endl;
-        if ( pixelLabel != ma)
+        if( pixelLabel != ma )
           {
           std::cout << "pixelLabel: " << pixelLabel
                     << " != "
                     << "mc: " << mc
                     << std::endl;
           }
-        if ( pixelOut != pixelOut3c)
+        if( pixelOut != pixelOut3c )
           {
           std::cout << "pixelOut: " << pixelOut
                     << " != "
@@ -644,17 +672,17 @@ unsigned int test_regiongrowKLM1D()
       }
     else
       {
-      if ( pixelOut != pixelOut3d || pixelLabel != md )
+      if( pixelOut != pixelOut3d || pixelLabel != md )
         {
         std::cout << "Test FAILED" << std::endl;
-        if ( pixelLabel != md)
+        if( pixelLabel != md )
           {
           std::cout << "pixelLabel: " << pixelLabel
                     << " != "
                     << "md: " << md
                     << std::endl;
           }
-        if ( pixelOut != pixelOut3d)
+        if( pixelOut != pixelOut3d )
           {
           std::cout << "pixelOut: " << pixelOut
                     << " != "
@@ -669,7 +697,7 @@ unsigned int test_regiongrowKLM1D()
     ++labelIt3;
     ++k;
 
-    } //end while iterator loop
+    } // end while iterator loop
 
   std::cout << "Test PASSED" << std::endl;
 
@@ -679,8 +707,8 @@ unsigned int test_regiongrowKLM1D()
   // set image spacing
 
   std::cout << std::endl << "Fourth test, spacing set to 0.25: "
-    << "area of final regions should be 1 as seen in printed region stats"
-    << std::endl;
+            << "area of final regions should be 1 as seen in printed region stats"
+            << std::endl;
 
   ImageType::SpacingType spacing = image->GetSpacing();
   spacing.Fill(.04);
@@ -695,7 +723,6 @@ unsigned int test_regiongrowKLM1D()
     return EXIT_FAILURE;
     }
 
-
   // Test the functions useful to test the region and border statistics
   // as the regions are merged. Primarily useful for debug operations and are
   // called several times, so prudent usage is advisable.
@@ -705,7 +732,6 @@ unsigned int test_regiongrowKLM1D()
   std::cout << "Test PASSED" << std::endl;
 
   KLMFilter->ResetPipeline();
-
 
   // FIFTH TEST:
   // large gridsize no merging
@@ -726,38 +752,34 @@ unsigned int test_regiongrowKLM1D()
     return EXIT_FAILURE;
     }
 
-
   // Test the functions useful to test the region and border statistics
   // as the regions are merged. Primarily useful for debug operations and are
   // called several times, so prudent usage is advisable.
   KLMFilter->PrintAlgorithmRegionStats();
   // KLMFilter->PrintAlgorithmBorderStats();
 
-
   std::cout << "Extracting and checking approximation image" << std::endl;
   std::cout << "Extracting and checking label image" << std::endl;
 
   OutputImageType::Pointer outImage5 = KLMFilter->GetOutput();
-  OutputImageIterator outIt5( outImage5, outImage5->GetBufferedRegion() );
-  OutputImageIterator outItEnd5 = outIt5.End();
+  OutputImageIterator      outIt5( outImage5, outImage5->GetBufferedRegion() );
 
   LabelledImageType::Pointer labelledImage5 = KLMFilter->GetLabelledImage();
-  LabelImageIterator labelIt5( labelledImage5,
-    labelledImage5->GetBufferedRegion() );
+  LabelImageIterator         labelIt5( labelledImage5,
+                                       labelledImage5->GetBufferedRegion() );
 
-  OutputImageData   pixelOut5in;
-  OutputImageData   pixelOut5out;
+  OutputImageData pixelOut5in;
+  OutputImageData pixelOut5out;
 
   k = 1;
   inIt.GoToBegin();
-  while ( outIt5 != outItEnd5 )
+  while( !outIt5.IsAtEnd() )
     {
 
     pixelOut5in[0] = 0;
     pixelOut5in[1] = 0;
     pixelOut5in[2] = 0;
-
-    for ( int idx = 0; idx < gridWidth; idx++ )
+    for( int idx = 0; idx < gridWidth; idx++ )
       {
       pixelIn = inIt.Get();
       pixelOut5in[0] += pixelIn[0];
@@ -766,7 +788,7 @@ unsigned int test_regiongrowKLM1D()
 
       pixelLabel = labelIt5.Get();
 
-      if ( pixelLabel != k )
+      if( pixelLabel != k )
         {
         std::cout << "Test FAILED" << std::endl;
         std::cout << "pixelLabel: " << pixelLabel
@@ -781,12 +803,11 @@ unsigned int test_regiongrowKLM1D()
 
     pixelOut5in /= gridWidth;
     pixelOut5in /= spacing[0];
-
-    for ( int idx = 0; idx < gridWidth; idx++ )
+    for( int idx = 0; idx < gridWidth; idx++ )
       {
       pixelOut5out = outIt5.Get();
       std::cout << "idx: " << idx << " pixelOut5out: " << pixelOut5out << std::endl;
-      if ( pixelOut5in != pixelOut5out )
+      if( pixelOut5in != pixelOut5out )
         {
         std::cout << "Test FAILED" << std::endl;
         std::cout << "pixelOut5in: " << pixelOut5in
@@ -800,7 +821,7 @@ unsigned int test_regiongrowKLM1D()
 
     ++k;
 
-    } //end while iterator loop
+    } // end while iterator loop
 
   std::cout << "Test PASSED" << std::endl;
 
@@ -808,17 +829,16 @@ unsigned int test_regiongrowKLM1D()
   return EXIT_SUCCESS;
 }
 
-
 unsigned int test_regiongrowKLM2D()
 {
-  itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
+  itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer() );
 
   std::cout << std::endl << "Begin testing two-dimension images" << std::endl;
 
   // Manually create an image
 
-  typedef itk::Image<itk::Vector<int,NUMBANDS2>,NUMDIM2D>    ImageType;
-  typedef itk::Image<itk::Vector<double,NUMBANDS2>,NUMDIM2D> OutputImageType;
+  typedef itk::Image<itk::Vector<int, NUMBANDS2>, NUMDIM2D>    ImageType;
+  typedef itk::Image<itk::Vector<double, NUMBANDS2>, NUMDIM2D> OutputImageType;
 
   ImageType::Pointer image  = ImageType::New();
 
@@ -841,7 +861,6 @@ unsigned int test_regiongrowKLM2D()
   typedef ImageType::PixelType                  ImagePixelType;
   typedef itk::ImageRegionIterator< ImageType > ImageIterator;
   ImageIterator inIt( image, image->GetBufferedRegion() );
-  ImageIterator inItEnd = inIt.End();
 
   /* the key test for merging with duplicate borders will
      come from an image that looks like this:
@@ -887,8 +906,8 @@ unsigned int test_regiongrowKLM2D()
 
   // Set up the filter
 
-  typedef itk::KLMRegionGrowImageFilter<ImageType,OutputImageType>
-    KLMRegionGrowImageFilterType;
+  typedef itk::KLMRegionGrowImageFilter<ImageType, OutputImageType>
+  KLMRegionGrowImageFilterType;
 
   KLMRegionGrowImageFilterType::Pointer KLMFilter =
     KLMRegionGrowImageFilterType::New();
@@ -945,9 +964,10 @@ unsigned int test_regiongrowKLM2D()
                             1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1 };
 
   typedef ImageType::PixelType::VectorType ImageData;
-  ImageData   pixelData;
-  int k = 0;
-  while ( inIt != inItEnd ) {
+  ImageData pixelData;
+  int       k = 0;
+  while( !inIt.IsAtEnd() )
+    {
 
     pixelData[0] = inImageVals[k];
     pixelData[1] = 100 - pixelData[0];
@@ -955,8 +975,7 @@ unsigned int test_regiongrowKLM2D()
     inIt.Set( pixelData );
     ++inIt;
     ++k;
-  }
-
+    }
 
   // FIRST TEST:
   // If lambda is negative, the number of final regions should equal
@@ -990,31 +1009,31 @@ unsigned int test_regiongrowKLM2D()
 
   OutputImageType::Pointer outImage = KLMFilter->GetOutput();
 
-  typedef itk::ImageRegionIterator< OutputImageType > OutputImageIterator;
+  typedef itk::ImageRegionIterator<OutputImageType> OutputImageIterator;
 
   inIt.GoToBegin();
   OutputImageIterator outIt( outImage, outImage->GetBufferedRegion() );
 
   typedef OutputImageType::PixelType::VectorType OutputImageData;
-  ImageData         pixelIn;
-  OutputImageData   pixelOut;
+  ImageData       pixelIn;
+  OutputImageData pixelOut;
 
-  while ( inIt != inItEnd )
+  while( !inIt.IsAtEnd() )
     {
     pixelOut = outIt.Get();
     pixelIn  = inIt.Get();
 
-    if ( pixelOut[0] != pixelIn[0] || pixelOut[1] != pixelIn[1] )
+    if( pixelOut[0] != pixelIn[0] || pixelOut[1] != pixelIn[1] )
       {
       std::cout << "Test FAILED" << std::endl;
-      if ( pixelOut[0] != pixelIn[0] )
+      if( pixelOut[0] != pixelIn[0] )
         {
         std::cout << "pixelOut[0]: " << pixelOut[0]
                   << " != "
                   << "pixelIn[0]: " << pixelIn[0]
                   << std::endl;
         }
-      if ( pixelOut[1] != pixelIn[1] )
+      if( pixelOut[1] != pixelIn[1] )
         {
         std::cout << "pixelOut[1]: " << pixelOut[1]
                   << " != "
@@ -1027,8 +1046,7 @@ unsigned int test_regiongrowKLM2D()
     ++outIt;
     ++inIt;
 
-    } //end while iterator loop
-
+    } // end while iterator loop
 
   // Make sure that the labelled image type is set to unsigned integer
   // as labels associated with different regions are always integers
@@ -1045,18 +1063,18 @@ unsigned int test_regiongrowKLM2D()
 
   typedef LabelledImageType::PixelType LabelledImagePixelType;
 
-  typedef itk::ImageRegionIterator< LabelledImageType > LabelImageIterator;
+  typedef itk::ImageRegionIterator<LabelledImageType> LabelImageIterator;
 
   LabelImageIterator
-    labelIt( labelledImage, labelledImage->GetBufferedRegion() );
+  labelIt( labelledImage, labelledImage->GetBufferedRegion() );
 
   LabelType pixelLabel;
   LabelType m = 1;
-  while(!labelIt.IsAtEnd())
+  while( !labelIt.IsAtEnd() )
     {
     pixelLabel = labelIt.Get();
 
-    if(pixelLabel != m)
+    if( pixelLabel != m )
       {
       std::cout << "Test FAILED" << std::endl;
       std::cout << "pixelLabel: " << pixelLabel
@@ -1069,7 +1087,7 @@ unsigned int test_regiongrowKLM2D()
     ++labelIt;
     ++m;
 
-    } //end while iterator loop
+    } // end while iterator loop
 
   std::cout << "Test PASSED" << std::endl;
 
@@ -1078,8 +1096,8 @@ unsigned int test_regiongrowKLM2D()
   // SECOND TEST:
   // the key test for union borders
 
-  std::cout << std::endl <<
-    "Second test, key merging test containing duplicate borders" << std::endl;
+  std::cout << std::endl
+            << "Second test, key merging test containing duplicate borders" << std::endl;
 
   KLMFilter->SetMaximumLambda( 1e45 );
   unsigned int nregions = 8;
@@ -1111,25 +1129,24 @@ unsigned int test_regiongrowKLM2D()
   OutputImageType::Pointer outImage2 = KLMFilter->GetOutput();
 
   OutputImageIterator outIt2( outImage2, outImage2->GetBufferedRegion() );
-  OutputImageIterator outItEnd2 = outIt2.End();
 
   k = 0;
-  while ( outIt2 != outItEnd2 )
+  while( !outIt2.IsAtEnd() )
     {
     pixelOut = outIt2.Get();
 
-    if ( pixelOut[0] != outImageVals[k] ||
-         pixelOut[1] != 100 - pixelOut[0] )
+    if( pixelOut[0] != outImageVals[k] ||
+        pixelOut[1] != 100 - pixelOut[0] )
       {
       std::cout << "Test FAILED" << std::endl;
-      if ( pixelOut[0] != outImageVals[k] )
+      if( pixelOut[0] != outImageVals[k] )
         {
         std::cout << "pixelOut[0]: " << pixelOut[0]
                   << " != "
                   << "outImageVals[k]: " << outImageVals[k]
                   << std::endl;
         }
-      if ( pixelOut[1] != (100 - pixelOut[0]) )
+      if( pixelOut[1] != (100 - pixelOut[0]) )
         {
         std::cout << "pixelOut[1]: " << pixelOut[1]
                   << " != "
@@ -1143,22 +1160,21 @@ unsigned int test_regiongrowKLM2D()
     ++outIt2;
     ++k;
 
-    } //end while iterator loop
-
+    } // end while iterator loop
 
   std::cout << "Extracting and checking label image" << std::endl;
 
   LabelledImageType::Pointer labelledImage2 = KLMFilter->GetLabelledImage();
 
   LabelImageIterator
-    labelIt2( labelledImage2, labelledImage2->GetBufferedRegion() );
+  labelIt2( labelledImage2, labelledImage2->GetBufferedRegion() );
 
   k = 0;
-  while(!labelIt2.IsAtEnd())
+  while( !labelIt2.IsAtEnd() )
     {
     pixelLabel = labelIt2.Get();
 
-    if(pixelLabel != labelVals[k])
+    if( pixelLabel != labelVals[k] )
       {
       std::cout << "Test FAILED" << std::endl;
       std::cout << "pixelLabel: " << pixelLabel
@@ -1171,12 +1187,11 @@ unsigned int test_regiongrowKLM2D()
     ++labelIt2;
     ++k;
 
-    } //end while iterator loop
+    } // end while iterator loop
 
   std::cout << "Test PASSED" << std::endl;
 
   KLMFilter->ResetPipeline();
-
 
   // THIRD TEST:
   // degenerate case, all 0 image, all constant lambda values -
@@ -1187,10 +1202,11 @@ unsigned int test_regiongrowKLM2D()
   inIt.GoToBegin();
   pixelData[0] = 0;
   pixelData[1] = 0;
-  while ( inIt != inItEnd ) {
+  while( !inIt.IsAtEnd() )
+    {
     inIt.Set( pixelData );
     ++inIt;
-  }
+    }
 
   gridSize[0] = 1;
   gridSize[1] = 2;
@@ -1226,23 +1242,22 @@ unsigned int test_regiongrowKLM2D()
   OutputImageType::Pointer outImage3 = KLMFilter->GetOutput();
 
   OutputImageIterator outIt3( outImage3, outImage3->GetBufferedRegion() );
-  OutputImageIterator outItEnd3 = outIt3.End();
 
-  while ( outIt3 != outItEnd3 )
+  while( !outIt3.IsAtEnd() )
     {
     pixelOut = outIt3.Get();
 
-    if ( pixelOut[0] != 0 || pixelOut[1] != 0 )
+    if( pixelOut[0] != 0 || pixelOut[1] != 0 )
       {
       std::cout << "Test FAILED" << std::endl;
-      if ( pixelOut[0] != 0 )
+      if( pixelOut[0] != 0 )
         {
         std::cout << "pixelOut[0]: " << pixelOut[0]
                   << " != "
                   << "0"
                   << std::endl;
         }
-      if ( pixelOut[1] != 0 )
+      if( pixelOut[1] != 0 )
         {
         std::cout << "pixelOut[1]: " << pixelOut[1]
                   << " != "
@@ -1253,13 +1268,12 @@ unsigned int test_regiongrowKLM2D()
       }
 
     ++outIt3;
-    } //end while iterator loop
-
+    } // end while iterator loop
 
   std::cout << "Extracting and checking label image" << std::endl;
 
   typedef itk::Statistics::ScalarImageToHistogramGenerator<LabelledImageType>
-    HistogramGeneratorType;
+  HistogramGeneratorType;
 
   HistogramGeneratorType::Pointer histogramGenerator =
     HistogramGeneratorType::New();
@@ -1269,12 +1283,12 @@ unsigned int test_regiongrowKLM2D()
   histogramGenerator->SetMarginalScale( 1.0 );
   histogramGenerator->Compute();
 
-  typedef HistogramGeneratorType::HistogramType  HistogramType;
+  typedef HistogramGeneratorType::HistogramType HistogramType;
 
   const HistogramType * histogram = histogramGenerator->GetOutput();
 
   const unsigned int histogramSize = histogram->Size();
-  if ( histogramSize != KLMFilter->GetNumberOfRegions() )
+  if( histogramSize != KLMFilter->GetNumberOfRegions() )
     {
     std::cout << "Test FAILED" << std::endl;
     return EXIT_FAILURE;
@@ -1303,16 +1317,16 @@ unsigned int test_regiongrowKLM2D()
     }
 
   labelEntropy /= vcl_log( 2.0 );
-  double idealEntropy = - vcl_log( 8.0 / numPixels ) / vcl_log( 2.0 );
+  double idealEntropy = -vcl_log( 8.0 / numPixels ) / vcl_log( 2.0 );
 
   std::cout << "Label entropy = " << labelEntropy << " bits " << std::endl;
   std::cout << "Ideal entropy = " << idealEntropy << " bits " << std::endl;
 
-  if ( vnl_math_abs( idealEntropy - labelEntropy ) > 0.2 )
-      {
-      std::cout << "Test FAILED" << std::endl;
-      return EXIT_FAILURE;
-      }
+  if( vnl_math_abs( idealEntropy - labelEntropy ) > 0.2 )
+    {
+    std::cout << "Test FAILED" << std::endl;
+    return EXIT_FAILURE;
+    }
 
   std::cout << "Test PASSED" << std::endl;
 
@@ -1321,10 +1335,9 @@ unsigned int test_regiongrowKLM2D()
 
 } // End test_regiongrow2D()
 
-
 unsigned int test_regiongrowKLM3D()
 {
-  itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
+  itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer() );
 
   std::cout << std::endl << "Begin testing three-dimension images" << std::endl;
 
@@ -1355,7 +1368,6 @@ unsigned int test_regiongrowKLM3D()
   typedef ImageType::PixelType                  ImagePixelType;
   typedef itk::ImageRegionIterator< ImageType > ImageIterator;
   ImageIterator inIt( image, image->GetBufferedRegion() );
-  ImageIterator inItEnd = inIt.End();
 
   /* the key test for merging with duplicate borders will
      come from an image that looks like this:
@@ -1378,74 +1390,76 @@ unsigned int test_regiongrowKLM3D()
        4 each with value z
 
   */
-  int inImageVals[] = {
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+  int inImageVals[] =
+    {
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 9, 9, 9, 9, 9, 9, 9, 9, 1,
-                        1, 9, 7, 7, 7, 6, 6, 6, 9, 1,
-                        1, 9, 7, 7, 7, 6, 6, 6, 9, 1,
-                        1, 9, 7, 7, 30, 30, 6, 6, 9, 1,
-                        1, 9, 7, 7, 7, 6, 6, 6, 9, 1,
-                        1, 9, 7, 7, 30, 30, 6, 6, 9, 1,
-                        1, 9, 7, 7, 7, 6, 6, 6, 9, 1,
-                        1, 9, 9, 9, 9, 9, 9, 9, 9, 1,
-                        1, 9, 9, 9, 9, 9, 9, 9, 9, 1,
-                        1, 9, 9, 9, 9, 9, 9, 9, 9, 1,
-                        1, 9, 9, 9, 9, 9, 9, 9, 9, 1,
-                        1, 9, 7, 7, 7, 6, 6, 6, 9, 1,
-                        1, 9, 7, 7, 30, 30, 6, 6, 9, 1,
-                        1, 9, 7, 7, 7, 6, 6, 6, 9, 1,
-                        1, 9, 7, 7, 7, 6, 6, 6, 9, 1,
-                        1, 9, 7, 7, 30, 30, 6, 6, 9, 1,
-                        1, 9, 7, 7, 7, 6, 6, 6, 9, 1,
-                        1, 9, 9, 9, 9, 9, 9, 9, 9, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 9, 9, 9, 9, 9, 9, 9, 9, 1,
+    1, 9, 7, 7, 7, 6, 6, 6, 9, 1,
+    1, 9, 7, 7, 7, 6, 6, 6, 9, 1,
+    1, 9, 7, 7, 30, 30, 6, 6, 9, 1,
+    1, 9, 7, 7, 7, 6, 6, 6, 9, 1,
+    1, 9, 7, 7, 30, 30, 6, 6, 9, 1,
+    1, 9, 7, 7, 7, 6, 6, 6, 9, 1,
+    1, 9, 9, 9, 9, 9, 9, 9, 9, 1,
+    1, 9, 9, 9, 9, 9, 9, 9, 9, 1,
+    1, 9, 9, 9, 9, 9, 9, 9, 9, 1,
+    1, 9, 9, 9, 9, 9, 9, 9, 9, 1,
+    1, 9, 7, 7, 7, 6, 6, 6, 9, 1,
+    1, 9, 7, 7, 30, 30, 6, 6, 9, 1,
+    1, 9, 7, 7, 7, 6, 6, 6, 9, 1,
+    1, 9, 7, 7, 7, 6, 6, 6, 9, 1,
+    1, 9, 7, 7, 30, 30, 6, 6, 9, 1,
+    1, 9, 7, 7, 7, 6, 6, 6, 9, 1,
+    1, 9, 9, 9, 9, 9, 9, 9, 9, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+    };
 
   // Set up the filter
 
-  typedef itk::KLMRegionGrowImageFilter<ImageType,OutputImageType>
-    KLMRegionGrowImageFilterType;
+  typedef itk::KLMRegionGrowImageFilter<ImageType, OutputImageType>
+  KLMRegionGrowImageFilterType;
 
   KLMRegionGrowImageFilterType::Pointer KLMFilter =
     KLMRegionGrowImageFilterType::New();
@@ -1522,74 +1536,77 @@ unsigned int test_regiongrowKLM3D()
                             1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
                             1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 
-  float outImageVals[] = {
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+  float outImageVals[] =
+    {
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
 
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 1.0,
-                            1.0, 9.0, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 9.0, 1.0,
-                            1.0, 9.0, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 9.0, 1.0,
-                            1.0, 9.0, 6.5, 6.5, 30.0, 30.0, 6.5, 6.5, 9.0, 1.0,
-                            1.0, 9.0, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 9.0, 1.0,
-                            1.0, 9.0, 6.5, 6.5, 30.0, 30.0, 6.5, 6.5, 9.0, 1.0,
-                            1.0, 9.0, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 9.0, 1.0,
-                            1.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 1.0,
-                            1.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 1.0,
-                            1.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 1.0,
-                            1.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 1.0,
-                            1.0, 9.0, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 9.0, 1.0,
-                            1.0, 9.0, 6.5, 6.5, 30.0, 30.0, 6.5, 6.5, 9.0, 1.0,
-                            1.0, 9.0, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 9.0, 1.0,
-                            1.0, 9.0, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 9.0, 1.0,
-                            1.0, 9.0, 6.5, 6.5, 30.0, 30.0, 6.5, 6.5, 9.0, 1.0,
-                            1.0, 9.0, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 9.0, 1.0,
-                            1.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 1.0,
+    1.0, 9.0, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 9.0, 1.0,
+    1.0, 9.0, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 9.0, 1.0,
+    1.0, 9.0, 6.5, 6.5, 30.0, 30.0, 6.5, 6.5, 9.0, 1.0,
+    1.0, 9.0, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 9.0, 1.0,
+    1.0, 9.0, 6.5, 6.5, 30.0, 30.0, 6.5, 6.5, 9.0, 1.0,
+    1.0, 9.0, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 9.0, 1.0,
+    1.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 1.0,
+    1.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 1.0,
+    1.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 1.0,
+    1.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 1.0,
+    1.0, 9.0, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 9.0, 1.0,
+    1.0, 9.0, 6.5, 6.5, 30.0, 30.0, 6.5, 6.5, 9.0, 1.0,
+    1.0, 9.0, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 9.0, 1.0,
+    1.0, 9.0, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 9.0, 1.0,
+    1.0, 9.0, 6.5, 6.5, 30.0, 30.0, 6.5, 6.5, 9.0, 1.0,
+    1.0, 9.0, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 9.0, 1.0,
+    1.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
 
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 };
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0
+    };
 
   typedef ImageType::PixelType::VectorType ImageData;
-  ImageData   pixelData;
-  int k = 0;
-  while ( inIt != inItEnd ) {
+  ImageData pixelData;
+  int       k = 0;
+  while( !inIt.IsAtEnd() )
+    {
 
     pixelData[0] = inImageVals[k];
     pixelData[1] = 100 - pixelData[0];
@@ -1597,8 +1614,7 @@ unsigned int test_regiongrowKLM3D()
     inIt.Set( pixelData );
     ++inIt;
     ++k;
-  }
-
+    }
 
   // FIRST TEST:
   // If lambda is negative, the number of final regions should equal
@@ -1633,31 +1649,31 @@ unsigned int test_regiongrowKLM3D()
 
   OutputImageType::Pointer outImage = KLMFilter->GetOutput();
 
-  typedef itk::ImageRegionIterator< OutputImageType > OutputImageIterator;
+  typedef itk::ImageRegionIterator<OutputImageType> OutputImageIterator;
 
   inIt.GoToBegin();
   OutputImageIterator outIt( outImage, outImage->GetBufferedRegion() );
 
   typedef OutputImageType::PixelType::VectorType OutputImageData;
-  ImageData         pixelIn;
-  OutputImageData   pixelOut;
+  ImageData       pixelIn;
+  OutputImageData pixelOut;
 
-  while ( inIt != inItEnd )
+  while( !inIt.IsAtEnd() )
     {
     pixelOut = outIt.Get();
     pixelIn  = inIt.Get();
 
-    if ( pixelOut[0] != pixelIn[0] || pixelOut[1] != pixelIn[1] )
+    if( pixelOut[0] != pixelIn[0] || pixelOut[1] != pixelIn[1] )
       {
       std::cout << "Test FAILED" << std::endl;
-      if ( pixelOut[0] != pixelIn[0] )
+      if( pixelOut[0] != pixelIn[0] )
         {
         std::cout << "pixelOut[0]: " << pixelOut[0]
                   << " != "
                   << "pixelIn[0]: " << pixelIn[0]
                   << std::endl;
         }
-      if ( pixelOut[1] != 0 )
+      if( pixelOut[1] != 0 )
         {
         std::cout << "pixelOut[1]: " << pixelOut[1]
                   << " != "
@@ -1670,8 +1686,7 @@ unsigned int test_regiongrowKLM3D()
     ++outIt;
     ++inIt;
 
-    } //end while iterator loop
-
+    } // end while iterator loop
 
   // Make sure that the labelled image type is set to unsigned integer
   // as labels associated with different regions are always integers
@@ -1688,31 +1703,31 @@ unsigned int test_regiongrowKLM3D()
 
   typedef LabelledImageType::PixelType LabelledImagePixelType;
 
-  typedef itk::ImageRegionIterator< LabelledImageType > LabelImageIterator;
+  typedef itk::ImageRegionIterator<LabelledImageType> LabelImageIterator;
 
   LabelImageIterator
-    labelIt( labelledImage, labelledImage->GetBufferedRegion() );
+  labelIt( labelledImage, labelledImage->GetBufferedRegion() );
 
   LabelType pixelLabel;
   LabelType m = 1;
-  while(!labelIt.IsAtEnd())
+  while( !labelIt.IsAtEnd() )
     {
     pixelLabel = labelIt.Get();
 
-    if(pixelLabel != m)
+    if( pixelLabel != m )
       {
       std::cout << "Test FAILED" << std::endl;
       std::cout << "pixelLabel: " << pixelLabel
-                  << " != "
-                  << "m: " << m
-                  << std::endl;
+                << " != "
+                << "m: " << m
+                << std::endl;
       return EXIT_FAILURE;
       }
 
     ++labelIt;
     ++m;
 
-    } //end while iterator loop
+    } // end while iterator loop
 
   std::cout << "Test PASSED" << std::endl;
 
@@ -1721,8 +1736,8 @@ unsigned int test_regiongrowKLM3D()
   // SECOND TEST:
   // the key test for union borders
 
-  std::cout << std::endl <<
-    "Second test, key merging test containing duplicate borders" << std::endl;
+  std::cout << std::endl
+            << "Second test, key merging test containing duplicate borders" << std::endl;
 
   KLMFilter->SetMaximumLambda( 1e45 );
   unsigned int nregions = 8;
@@ -1754,25 +1769,24 @@ unsigned int test_regiongrowKLM3D()
   OutputImageType::Pointer outImage2 = KLMFilter->GetOutput();
 
   OutputImageIterator outIt2( outImage2, outImage2->GetBufferedRegion() );
-  OutputImageIterator outItEnd2 = outIt2.End();
 
   k = 0;
-  while ( outIt2 != outItEnd2 )
+  while( !outIt2.IsAtEnd() )
     {
     pixelOut = outIt2.Get();
 
-    if ( pixelOut[0] != outImageVals[k] ||
-         pixelOut[1] != 100 - pixelOut[0] )
+    if( pixelOut[0] != outImageVals[k] ||
+        pixelOut[1] != 100 - pixelOut[0] )
       {
       std::cout << "Test FAILED" << std::endl;
-      if ( pixelOut[0] != outImageVals[k] )
+      if( pixelOut[0] != outImageVals[k] )
         {
         std::cout << "pixelOut[0]: " << pixelOut[0]
                   << " != "
                   << "outImageVals[k]: " << outImageVals[k]
                   << std::endl;
         }
-      if ( pixelOut[1] != (100 - pixelOut[0]) )
+      if( pixelOut[1] != (100 - pixelOut[0]) )
         {
         std::cout << "pixelOut[1]: " << pixelOut[1]
                   << " != "
@@ -1785,22 +1799,21 @@ unsigned int test_regiongrowKLM3D()
     ++outIt2;
     ++k;
 
-    } //end while iterator loop
-
+    } // end while iterator loop
 
   std::cout << "Extracting and checking label image" << std::endl;
 
   LabelledImageType::Pointer labelledImage2 = KLMFilter->GetLabelledImage();
 
   LabelImageIterator
-    labelIt2( labelledImage2, labelledImage2->GetBufferedRegion() );
+  labelIt2( labelledImage2, labelledImage2->GetBufferedRegion() );
 
   k = 0;
-  while(!labelIt2.IsAtEnd())
+  while( !labelIt2.IsAtEnd() )
     {
     pixelLabel = labelIt2.Get();
 
-    if(pixelLabel != labelVals[k])
+    if( pixelLabel != labelVals[k] )
       {
       std::cout << "Test FAILED" << std::endl;
       std::cout << "pixelLabel: " << pixelLabel
@@ -1813,12 +1826,11 @@ unsigned int test_regiongrowKLM3D()
     ++labelIt2;
     ++k;
 
-    } //end while iterator loop
+    } // end while iterator loop
 
   std::cout << "Test PASSED" << std::endl;
 
   KLMFilter->ResetPipeline();
-
 
   // THIRD TEST:
   // degenerate case, all 0 image, all constant lambda values -
@@ -1829,10 +1841,11 @@ unsigned int test_regiongrowKLM3D()
   inIt.GoToBegin();
   pixelData[0] = 0;
   pixelData[1] = 0;
-  while ( inIt != inItEnd ) {
+  while( !inIt.IsAtEnd() )
+    {
     inIt.Set( pixelData );
     ++inIt;
-  }
+    }
 
   gridSize[0] = 1;
   gridSize[1] = 2;
@@ -1867,23 +1880,22 @@ unsigned int test_regiongrowKLM3D()
   OutputImageType::Pointer outImage3 = KLMFilter->GetOutput();
 
   OutputImageIterator outIt3( outImage3, outImage3->GetBufferedRegion() );
-  OutputImageIterator outItEnd3 = outIt3.End();
 
-  while ( outIt3 != outItEnd3 )
+  while( !outIt3.IsAtEnd() )
     {
     pixelOut = outIt3.Get();
 
-    if ( pixelOut[0] != 0 || pixelOut[1] != 0 )
+    if( pixelOut[0] != 0 || pixelOut[1] != 0 )
       {
       std::cout << "Test FAILED" << std::endl;
-      if ( pixelOut[0] != 0 )
+      if( pixelOut[0] != 0 )
         {
         std::cout << "pixelOut[0]: " << pixelOut[0]
                   << " != "
                   << "0"
                   << std::endl;
         }
-      if ( pixelOut[1] != 0 )
+      if( pixelOut[1] != 0 )
         {
         std::cout << "pixelOut[1]: " << pixelOut[1]
                   << " != "
@@ -1894,13 +1906,12 @@ unsigned int test_regiongrowKLM3D()
       }
 
     ++outIt3;
-    } //end while iterator loop
-
+    } // end while iterator loop
 
   std::cout << "Extracting and checking label image" << std::endl;
 
   typedef itk::Statistics::ScalarImageToHistogramGenerator<LabelledImageType>
-    HistogramGeneratorType;
+  HistogramGeneratorType;
 
   HistogramGeneratorType::Pointer histogramGenerator =
     HistogramGeneratorType::New();
@@ -1910,12 +1921,12 @@ unsigned int test_regiongrowKLM3D()
   histogramGenerator->SetMarginalScale( 1.0 );
   histogramGenerator->Compute();
 
-  typedef HistogramGeneratorType::HistogramType  HistogramType;
+  typedef HistogramGeneratorType::HistogramType HistogramType;
 
   const HistogramType * histogram = histogramGenerator->GetOutput();
 
   const unsigned int histogramSize = histogram->Size();
-  if ( histogramSize != KLMFilter->GetNumberOfRegions() )
+  if( histogramSize != KLMFilter->GetNumberOfRegions() )
     {
     std::cout << "Test FAILED" << std::endl;
     return EXIT_FAILURE;
@@ -1944,16 +1955,16 @@ unsigned int test_regiongrowKLM3D()
     }
 
   labelEntropy /= vcl_log( 2.0 );
-  double idealEntropy = - vcl_log( 8.0/ numPixels ) / vcl_log( 2.0 );
+  double idealEntropy = -vcl_log( 8.0 / numPixels ) / vcl_log( 2.0 );
 
   std::cout << "Label entropy = " << labelEntropy << " bits " << std::endl;
   std::cout << "Ideal entropy = " << idealEntropy << " bits " << std::endl;
 
-  if ( vnl_math_abs( idealEntropy - labelEntropy ) > 0.2 )
-      {
-      std::cout << "Test FAILED" << std::endl;
-      return EXIT_FAILURE;
-      }
+  if( vnl_math_abs( idealEntropy - labelEntropy ) > 0.2 )
+    {
+    std::cout << "Test FAILED" << std::endl;
+    return EXIT_FAILURE;
+    }
 
   std::cout << "Test PASSED" << std::endl;
 
@@ -1962,11 +1973,10 @@ unsigned int test_regiongrowKLM3D()
 
 } // End test_regiongrow3D()
 
-
 #ifndef _GLIBCXX_DEBUG
 unsigned int test_regiongrowKLM4D()
 {
-  itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
+  itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer() );
 
   std::cout << std::endl << "Begin testing four-dimension images" << std::endl;
 
@@ -1978,7 +1988,7 @@ unsigned int test_regiongrowKLM4D()
   ImageType::Pointer image  = ImageType::New();
 
   ImageType::SizeType imageSize;
-  int multVal = 2;
+  int                 multVal = 2;
   imageSize[0] = 2 * multVal;
   imageSize[1] = 3 * multVal;
   imageSize[2] = 5 * multVal;
@@ -1999,12 +2009,11 @@ unsigned int test_regiongrowKLM4D()
   typedef ImageType::PixelType                  ImagePixelType;
   typedef itk::ImageRegionIterator< ImageType > ImageIterator;
   ImageIterator inIt( image, image->GetBufferedRegion() );
-  ImageIterator inItEnd = inIt.End();
 
   // Set up the filter
 
-  typedef itk::KLMRegionGrowImageFilter<ImageType,OutputImageType>
-    KLMRegionGrowImageFilterType;
+  typedef itk::KLMRegionGrowImageFilter<ImageType, OutputImageType>
+  KLMRegionGrowImageFilterType;
 
   KLMRegionGrowImageFilterType::Pointer KLMFilter =
     KLMRegionGrowImageFilterType::New();
@@ -2021,19 +2030,25 @@ unsigned int test_regiongrowKLM4D()
   typedef KLMRegionGrowImageFilterType::RegionLabelType LabelType;
 
   typedef ImageType::PixelType::VectorType ImageData;
-  ImageData   pixelData;
-  int k = 0;
-  while ( inIt != inItEnd ) {
+  ImageData pixelData;
+  int       k = 0;
+  while( !inIt.IsAtEnd() )
+    {
 
     pixelData[0] = 1;
-    if ( k >= 100 && k < 200 ) pixelData[0] = 2;
-    if ( k >= 500 && k < 700 ) pixelData[0] = 3;
+    if( k >= 100 && k < 200 )
+      {
+      pixelData[0] = 2;
+      }
+    if( k >= 500 && k < 700 )
+      {
+      pixelData[0] = 3;
+      }
 
     inIt.Set( pixelData );
     ++inIt;
     ++k;
-  }
-
+    }
 
   // FIRST TEST:
   // If lambda is 0, the number of final regions should equal
@@ -2071,28 +2086,35 @@ unsigned int test_regiongrowKLM4D()
 
   OutputImageType::Pointer outImage = KLMFilter->GetOutput();
 
-  typedef itk::ImageRegionIterator< OutputImageType > OutputImageIterator;
+  typedef itk::ImageRegionIterator<OutputImageType> OutputImageIterator;
 
   inIt.GoToBegin();
   OutputImageIterator outIt( outImage, outImage->GetBufferedRegion() );
 
   typedef OutputImageType::PixelType::VectorType OutputImageData;
-  ImageData         pixelIn;
-  OutputImageData   pixelOut;
+  ImageData       pixelIn;
+  OutputImageData pixelOut;
 
-  while ( inIt != inItEnd )
+  while( !inIt.IsAtEnd() )
     {
     pixelOut = outIt.Get();
     pixelIn  = inIt.Get();
 
-    if ( pixelOut[0] != pixelIn[0] )
+    if( pixelOut[0] != pixelIn[0] )
       {
       std::cout << "Test FAILED" << std::endl;
-      if ( pixelOut[0] != pixelIn[0] )
+      if( pixelOut[0] != pixelIn[0] )
         {
         std::cout << "pixelOut[0]: " << pixelOut[0]
                   << " != "
                   << "pixelIn[0]: " << pixelIn[0]
+                  << std::endl;
+        }
+      if( pixelOut[1] != 0 )
+        {
+        std::cout << "pixelOut[1]: " << pixelOut[1]
+                  << " != "
+                  << "0"
                   << std::endl;
         }
       return EXIT_FAILURE;
@@ -2101,8 +2123,7 @@ unsigned int test_regiongrowKLM4D()
     ++outIt;
     ++inIt;
 
-    } //end while iterator loop
-
+    } // end while iterator loop
 
   // Make sure that the labelled image type is set to unsigned integer
   // as labels associated with different regions are always integers
@@ -2119,31 +2140,31 @@ unsigned int test_regiongrowKLM4D()
 
   typedef LabelledImageType::PixelType LabelledImagePixelType;
 
-  typedef itk::ImageRegionIterator< LabelledImageType > LabelImageIterator;
+  typedef itk::ImageRegionIterator<LabelledImageType> LabelImageIterator;
 
   LabelImageIterator
-    labelIt( labelledImage, labelledImage->GetBufferedRegion() );
+  labelIt( labelledImage, labelledImage->GetBufferedRegion() );
 
   LabelType pixelLabel;
   LabelType m = 1;
-  while(!labelIt.IsAtEnd())
+  while( !labelIt.IsAtEnd() )
     {
     pixelLabel = labelIt.Get();
 
-    if(pixelLabel != m)
+    if( pixelLabel != m )
       {
       std::cout << "Test FAILED" << std::endl;
       std::cout << "pixelLabel: " << pixelLabel
-                  << " != "
-                  << "m: " << m
-                  << std::endl;
+                << " != "
+                << "m: " << m
+                << std::endl;
       return EXIT_FAILURE;
       }
 
     ++labelIt;
     ++m;
 
-    } //end while iterator loop
+    } // end while iterator loop
 
   std::cout << "Test PASSED" << std::endl;
 
@@ -2152,8 +2173,8 @@ unsigned int test_regiongrowKLM4D()
   // SECOND TEST:
   // merge to 3 regions
 
-  std::cout << std::endl <<
-    "Second test, merge to " << nregions << " regions" << std::endl;
+  std::cout << std::endl
+            << "Second test, merge to " << nregions << " regions" << std::endl;
 
   KLMFilter->SetMaximumLambda( 1e45 );
 
@@ -2183,15 +2204,14 @@ unsigned int test_regiongrowKLM4D()
   OutputImageType::Pointer outImage2 = KLMFilter->GetOutput();
 
   OutputImageIterator outIt2( outImage2, outImage2->GetBufferedRegion() );
-  OutputImageIterator outItEnd2 = outIt2.End();
 
   inIt.GoToBegin();
-  while ( outIt2 != outItEnd2 )
+  while( !outIt2.IsAtEnd() )
     {
     pixelOut = outIt2.Get();
     pixelIn = inIt.Get();
 
-    if ( pixelOut[0] != pixelIn[0] )
+    if( pixelOut[0] != pixelIn[0] )
       {
       std::cout << "Test FAILED" << std::endl;
       std::cout << "pixelOut[0]: " << pixelOut[0]
@@ -2204,24 +2224,23 @@ unsigned int test_regiongrowKLM4D()
     ++outIt2;
     ++inIt;
 
-    } //end while iterator loop
-
+    } // end while iterator loop
 
   std::cout << "Extracting and checking label image" << std::endl;
 
   LabelledImageType::Pointer labelledImage2 = KLMFilter->GetLabelledImage();
 
   LabelImageIterator
-    labelIt2( labelledImage2, labelledImage2->GetBufferedRegion() );
+  labelIt2( labelledImage2, labelledImage2->GetBufferedRegion() );
 
   k = 0;
   inIt.GoToBegin();
-  while(!labelIt2.IsAtEnd())
+  while( !labelIt2.IsAtEnd() )
     {
     pixelLabel = labelIt2.Get();
     pixelIn = inIt.Get();
 
-    if(pixelLabel != static_cast<LabelType>(pixelIn[0]))
+    if( pixelLabel != static_cast<LabelType>(pixelIn[0]) )
       {
       std::cout << "Test FAILED" << std::endl;
       std::cout << "k = " << k
@@ -2235,12 +2254,11 @@ unsigned int test_regiongrowKLM4D()
     ++inIt;
     ++k;
 
-    } //end while iterator loop
+    } // end while iterator loop
 
   std::cout << "Test PASSED" << std::endl;
 
   KLMFilter->ResetPipeline();
-
 
   // THIRD TEST:
   // degenerate case, all 0 image, all constant lambda values -
@@ -2250,10 +2268,11 @@ unsigned int test_regiongrowKLM4D()
 
   inIt.GoToBegin();
   pixelData[0] = 0;
-  while ( inIt != inItEnd ) {
+  while( !inIt.IsAtEnd() )
+    {
     inIt.Set( pixelData );
     ++inIt;
-  }
+    }
 
   gridSize[0] = 2;
   gridSize[1] = 3;
@@ -2290,13 +2309,12 @@ unsigned int test_regiongrowKLM4D()
   OutputImageType::Pointer outImage3 = KLMFilter->GetOutput();
 
   OutputImageIterator outIt3( outImage3, outImage3->GetBufferedRegion() );
-  OutputImageIterator outItEnd3 = outIt3.End();
 
-  while ( outIt3 != outItEnd3 )
+  while( !outIt3.IsAtEnd() )
     {
     pixelOut = outIt3.Get();
 
-    if ( pixelOut[0] != 0 )
+    if( pixelOut[0] != 0 )
       {
       std::cout << "Test FAILED" << std::endl;
       std::cout << "pixelOut[0]: " << pixelOut[0]
@@ -2307,13 +2325,12 @@ unsigned int test_regiongrowKLM4D()
       }
 
     ++outIt3;
-    } //end while iterator loop
-
+    } // end while iterator loop
 
   std::cout << "Extracting and checking label image" << std::endl;
 
   typedef itk::Statistics::ScalarImageToHistogramGenerator<LabelledImageType>
-    HistogramGeneratorType;
+  HistogramGeneratorType;
 
   HistogramGeneratorType::Pointer histogramGenerator =
     HistogramGeneratorType::New();
@@ -2323,12 +2340,12 @@ unsigned int test_regiongrowKLM4D()
   histogramGenerator->SetMarginalScale( 1.0 );
   histogramGenerator->Compute();
 
-  typedef HistogramGeneratorType::HistogramType  HistogramType;
+  typedef HistogramGeneratorType::HistogramType HistogramType;
 
   const HistogramType * histogram = histogramGenerator->GetOutput();
 
   const unsigned int histogramSize = histogram->Size();
-  if ( histogramSize != KLMFilter->GetNumberOfRegions() )
+  if( histogramSize != KLMFilter->GetNumberOfRegions() )
     {
     std::cout << "Test FAILED" << std::endl;
     return EXIT_FAILURE;
@@ -2357,15 +2374,15 @@ unsigned int test_regiongrowKLM4D()
     }
 
   labelEntropy /= vcl_log( 2.0 );
-  double idealEntropy = - vcl_log( 1.0 / KLMFilter->GetNumberOfRegions() ) / vcl_log( 2.0 );
+  double idealEntropy = -vcl_log( 1.0 / KLMFilter->GetNumberOfRegions() ) / vcl_log( 2.0 );
   std::cout << "Label entropy = " << labelEntropy << " bits " << std::endl;
   std::cout << "Ideal entropy = " << idealEntropy << " bits " << std::endl;
 
-  if ( vnl_math_abs( idealEntropy - labelEntropy ) > 0.15 )
-      {
-      std::cout << "Test FAILED" << std::endl;
-      return EXIT_FAILURE;
-      }
+  if( vnl_math_abs( idealEntropy - labelEntropy ) > 0.15 )
+    {
+    std::cout << "Test FAILED" << std::endl;
+    return EXIT_FAILURE;
+    }
 
   std::cout << "Test PASSED" << std::endl;
 
@@ -2373,6 +2390,7 @@ unsigned int test_regiongrowKLM4D()
   return EXIT_SUCCESS;
 
 }
+
 #endif
 
 #undef LOCAL_TEST_EXCEPTION_MACRO

@@ -61,8 +61,8 @@ void Relabeler< TScalarType, TImageDimension >
   //
   ImageRegionIterator< ImageType > it_a( input, output->GetRequestedRegion() );
   ImageRegionIterator< ImageType > it_b( output, output->GetRequestedRegion() );
-  it_a = it_a.Begin();
-  it_b = it_b.Begin();
+  it_a.GoToBegin();
+  it_b.GoToBegin();
   while ( !it_a.IsAtEnd() )
     {
     it_b.Set( it_a.Get() );

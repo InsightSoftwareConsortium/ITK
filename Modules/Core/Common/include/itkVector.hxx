@@ -173,61 +173,6 @@ Vector< T, TVectorDimension >
 }
 
 /**
- * Set a vnl_vector
- */
-template< class T, unsigned int TVectorDimension >
-void
-Vector< T, TVectorDimension >
-::Set_vnl_vector(const vnl_vector< T > & v)
-{
-  for ( unsigned int i = 0; i < v.size(); i++ )
-    {
-    ( *this )[i] = v(i);
-    }
-}
-
-/**
- * Return a vnl_vector_ref
- */
-template< class T, unsigned int TVectorDimension >
-vnl_vector_ref< T >
-Vector< T, TVectorDimension >
-::Get_vnl_vector(void)
-{
-  return vnl_vector_ref< T >( TVectorDimension, this->GetDataPointer() );
-}
-
-/**
- * Return a vnl_vector const
- */
-template< class T, unsigned int TVectorDimension >
-vnl_vector< T >
-Vector< T, TVectorDimension >
-::Get_vnl_vector(void) const
-{
-  // Return a vector_ref<>.  This will be automatically converted to a
-  // vnl_vector<>.  We have to use a const_cast<> which would normally
-  // be prohibited in a const method, but it is safe to do here
-  // because the cast to vnl_vector<> will ultimately copy the data.
-  return vnl_vector_ref< T >( TVectorDimension,
-                              const_cast< T * >( this->GetDataPointer() ) );
-}
-
-/**
- * Set a vnl_vector
- */
-template< class T, unsigned int TVectorDimension >
-void
-Vector< T, TVectorDimension >
-::SetVnlVector(const vnl_vector< T > & v)
-{
-  for ( unsigned int i = 0; i < v.size(); i++ )
-    {
-    ( *this )[i] = v(i);
-    }
-}
-
-/**
  * Return a vnl_vector_ref
  */
 template< class T, unsigned int TVectorDimension >
@@ -252,6 +197,20 @@ Vector< T, TVectorDimension >
   // because the cast to vnl_vector<> will ultimately copy the data.
   return vnl_vector_ref< T >( TVectorDimension,
                               const_cast< T * >( this->GetDataPointer() ) );
+}
+
+/**
+ * Set a vnl_vector
+ */
+template< class T, unsigned int TVectorDimension >
+void
+Vector< T, TVectorDimension >
+::SetVnlVector(const vnl_vector< T > & v)
+{
+  for ( unsigned int i = 0; i < v.size(); i++ )
+    {
+    ( *this )[i] = v(i);
+    }
 }
 
 /**
@@ -307,6 +266,49 @@ Vector< T, TVectorDimension >
     }
   return value;
 }
-} // end namespace itk
 
+#if !defined(ITK_LEGACY_REMOVE)
+/**
+ * Set a vnl_vector
+ */
+template< class T, unsigned int TVectorDimension >
+void
+Vector< T, TVectorDimension >
+::Set_vnl_vector(const vnl_vector< T > & v)
+{
+  for ( unsigned int i = 0; i < v.size(); i++ )
+    {
+    ( *this )[i] = v(i);
+    }
+}
+
+/**
+ * Return a vnl_vector_ref
+ */
+template< class T, unsigned int TVectorDimension >
+vnl_vector_ref< T >
+Vector< T, TVectorDimension >
+::Get_vnl_vector(void)
+{
+  return vnl_vector_ref< T >( TVectorDimension, this->GetDataPointer() );
+}
+/**
+ * Return a vnl_vector const
+ */
+template< class T, unsigned int TVectorDimension >
+vnl_vector< T >
+Vector< T, TVectorDimension >
+::Get_vnl_vector(void) const
+{
+  // Return a vector_ref<>.  This will be automatically converted to a
+  // vnl_vector<>.  We have to use a const_cast<> which would normally
+  // be prohibited in a const method, but it is safe to do here
+  // because the cast to vnl_vector<> will ultimately copy the data.
+  return vnl_vector_ref< T >( TVectorDimension,
+                              const_cast< T * >( this->GetDataPointer() ) );
+}
+
+#endif
+
+} // end namespace itk
 #endif

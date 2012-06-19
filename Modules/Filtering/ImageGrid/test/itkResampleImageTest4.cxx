@@ -106,7 +106,7 @@ int itkResampleImageTest4(int argc, char * argv [] )
   resample->Update();
   clock.Stop();
 
-  std::cout << "Resampling from " << size << " to " << osize << " took " << clock.GetMeanTime() << " s" << std::endl;
+  std::cout << "Resampling from " << size << " to " << osize << " took " << clock.GetMean() << " s" << std::endl;
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;

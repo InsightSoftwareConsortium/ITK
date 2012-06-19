@@ -81,6 +81,7 @@ ImageIterator< TImage >
   return *this;
 }
 
+#if !defined(ITK_LEGACY_REMOVE)
 //----------------------------------------------------------------------------
 // Begin() is the first pixel in the region.
 template< class TImage >
@@ -106,6 +107,7 @@ ImageIterator< TImage >
 {
   return this->Superclass::End();
 }
+#endif
 } // end namespace itk
 
 #endif

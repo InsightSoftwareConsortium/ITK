@@ -212,8 +212,8 @@ DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
   ImageRegionIterator< UpdateBufferType > u(m_UpdateBuffer,    regionToProcess);
   ImageRegionIterator< OutputImageType >  o(this->GetOutput(), regionToProcess);
 
-  u = u.Begin();
-  o = o.Begin();
+  u.GoToBegin();
+  o.GoToBegin();
 
   while ( !u.IsAtEnd() )
     {

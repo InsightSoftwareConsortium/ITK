@@ -394,7 +394,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
   transform->SetParameters( finalParameters );
-  TransformType::MatrixType matrix = transform->GetRotationMatrix();
+  TransformType::MatrixType matrix = transform->GetMatrix();
   TransformType::OffsetType offset = transform->GetOffset();
   std::cout << "Matrix = " << std::endl << matrix << std::endl;
   std::cout << "Offset = " << std::endl << offset << std::endl;

@@ -280,8 +280,8 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
     // compute normal
     normal.Fill(0.0);
 
-    z.Set_vnl_vector( itk_cross_3d( ( data->neighbors[1] - data->neighbors[0] ).Get_vnl_vector(),
-                                    ( data->neighbors[2] - data->neighbors[0] ).Get_vnl_vector() ) );
+    z.SetVnlVector( itk_cross_3d( ( data->neighbors[1] - data->neighbors[0] ).GetVnlVector(),
+                                    ( data->neighbors[2] - data->neighbors[0] ).GetVnlVector() ) );
     z.Normalize();
     normal += z;
 
@@ -295,7 +295,7 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
 
     double D = 1.0 / ( 2 * data->sphereRadius ); /* */
 
-    double tmpNormalProd = dot_product( tmp.Get_vnl_vector(), data->normal.Get_vnl_vector() );
+    double tmpNormalProd = dot_product( tmp.GetVnlVector(), data->normal.GetVnlVector() );
 
     double sinphi =  2 *data->circleRadius *D *vnl_math_sgn(tmpNormalProd);
     double phi = vcl_asin(sinphi);
@@ -307,7 +307,7 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
     //compute the foot of p projection of p onto the triangle spanned by its
     // neighbors
     double distance = -tmpNormalProd;
-    tmp.Set_vnl_vector( ( data->pos ).Get_vnl_vector() - distance * normal.Get_vnl_vector() );
+    tmp.SetVnlVector( ( data->pos ).GetVnlVector() - distance * normal.GetVnlVector() );
     Foot.Fill(0.0);
     Foot += tmp;
 
@@ -343,8 +343,8 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
 
     this->ComputeExternalForce(data);
 
-    displacement.Set_vnl_vector( m_Alpha * ( data->internalForce ).Get_vnl_vector()
-                                 + ( data->externalForce ).Get_vnl_vector() );
+    displacement.SetVnlVector( m_Alpha * ( data->internalForce ).GetVnlVector()
+                                 + ( data->externalForce ).GetVnlVector() );
 
     data->pos += displacement;
     nonConstPoints->InsertElement(dataIt.Index(), data->pos);
@@ -378,9 +378,9 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
   eps3Diff = epsRef[2] - eps[2];
   //    diffAbsSum = vcl_abs(eps1Diff)+vcl_abs(eps2Diff)+vcl_abs(eps3Diff);
 
-  tangentForce.Set_vnl_vector(eps1Diff * ( data->neighbors[0] ).Get_vnl_vector()
-                              + eps2Diff * ( data->neighbors[1] ).Get_vnl_vector()
-                              + eps3Diff * ( data->neighbors[2] ).Get_vnl_vector()
+  tangentForce.SetVnlVector(eps1Diff * ( data->neighbors[0] ).GetVnlVector()
+                              + eps2Diff * ( data->neighbors[1] ).GetVnlVector()
+                              + eps3Diff * ( data->neighbors[2] ).GetVnlVector()
                               );
 
   r = data->circleRadius;
@@ -401,7 +401,7 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
   double L = L_Func(r, d, phi);
   double L_Ref = L_Func(r, d, phiRef);
 
-  normalForce.Set_vnl_vector( -1.0 * ( L_Ref - L ) * ( data->normal ).Get_vnl_vector() );
+  normalForce.SetVnlVector( -1.0 * ( L_Ref - L ) * ( data->normal ).GetVnlVector() );
 
   data->internalForce.Fill(0.0);
 
@@ -477,7 +477,7 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
     vec_for.Fill(0);
     }
 
-  double mag = dot_product( data->normal.Get_vnl_vector(), vec_for.Get_vnl_vector() );
+  double mag = dot_product( data->normal.GetVnlVector(), vec_for.GetVnlVector() );
   //      double mag = vec_for[0]*(data->normal)[0] +
   // vec_for[1]*(data->normal)[1]+ vec_for[2]*(data->normal)[2];
 
@@ -629,15 +629,15 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
   c = data->neighbors[2];
 
   VectorType n, na, nb, nc;
-  n.Set_vnl_vector( itk_cross_3d( ( b - a ).Get_vnl_vector(), ( c - a ).Get_vnl_vector() ) );
-  na.Set_vnl_vector( itk_cross_3d( ( c - b ).Get_vnl_vector(), ( p - b ).Get_vnl_vector() ) );
-  nb.Set_vnl_vector( itk_cross_3d( ( a - c ).Get_vnl_vector(), ( p - c ).Get_vnl_vector() ) );
-  nc.Set_vnl_vector( itk_cross_3d( ( b - a ).Get_vnl_vector(), ( p - a ).Get_vnl_vector() ) );
+  n.SetVnlVector( itk_cross_3d( ( b - a ).GetVnlVector(), ( c - a ).GetVnlVector() ) );
+  na.SetVnlVector( itk_cross_3d( ( c - b ).GetVnlVector(), ( p - b ).GetVnlVector() ) );
+  nb.SetVnlVector( itk_cross_3d( ( a - c ).GetVnlVector(), ( p - c ).GetVnlVector() ) );
+  nc.SetVnlVector( itk_cross_3d( ( b - a ).GetVnlVector(), ( p - a ).GetVnlVector() ) );
 
   PointType eps;
-  eps[0] = dot_product( n.Get_vnl_vector(), na.Get_vnl_vector() ) / n.GetSquaredNorm();
-  eps[1] = dot_product( n.Get_vnl_vector(), nb.Get_vnl_vector() ) / n.GetSquaredNorm();
-  eps[2] = dot_product( n.Get_vnl_vector(), nc.Get_vnl_vector() ) / n.GetSquaredNorm();
+  eps[0] = dot_product( n.GetVnlVector(), na.GetVnlVector() ) / n.GetSquaredNorm();
+  eps[1] = dot_product( n.GetVnlVector(), nb.GetVnlVector() ) / n.GetSquaredNorm();
+  eps[2] = dot_product( n.GetVnlVector(), nc.GetVnlVector() ) / n.GetSquaredNorm();
 
   return eps;
 }

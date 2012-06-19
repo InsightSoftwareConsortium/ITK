@@ -411,11 +411,6 @@ public:
   /** Return an inverse of this transform. */
   virtual InverseTransformBasePointer GetInverseTransform() const;
 
-  /** \deprecated Use GetInverse instead.
-   *
-   * Method will eventually be made a protected member function */
-  const InverseMatrixType & GetInverseMatrix(void) const;
-
   /** Indicates that this transform is linear. That is, given two
    * points P and Q, and scalar coefficients a and b, then
    *
@@ -425,6 +420,15 @@ public:
   {
     return true;
   }
+
+#if !defined(ITK_LEGACY_REMOVE)
+public:
+#else
+protected:
+#endif
+  /** \deprecated Use GetInverse for public API instead.
+   * Method will eventually be made a protected member function */
+  const InverseMatrixType & GetInverseMatrix(void) const;
 protected:
   /** Construct an MatrixOffsetTransformBase object
    *
@@ -442,6 +446,8 @@ protected:
 
   /** Print contents of an MatrixOffsetTransformBase */
   void PrintSelf(std::ostream & s, Indent indent) const;
+
+
 
   const InverseMatrixType & GetVarInverseMatrix(void) const
   {

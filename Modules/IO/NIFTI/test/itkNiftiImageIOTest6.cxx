@@ -51,7 +51,7 @@ int itkNiftiImageIOTest6(int ac, char *av[])
   itk::ImageRegionIterator<VectorImageType>
     it(vecImage,vecImage->GetLargestPossibleRegion());
   double val(0.0);
-  for(it.GoToBegin(); it != it.End(); ++it)
+  for(it.GoToBegin(); !it.IsAtEnd(); ++it)
     {
     VectorImageType::PixelType p(vecLength);
     for(unsigned i = 0; i < vecLength; i++)
@@ -78,7 +78,7 @@ int itkNiftiImageIOTest6(int ac, char *av[])
   itk::ImageRegionIterator<VectorImageType>
     readbackIt(readback,readback->GetLargestPossibleRegion());
   for(it.GoToBegin(),readbackIt.GoToBegin();
-      it != it.End() && readbackIt != readbackIt.End();
+      !it.IsAtEnd() && !readbackIt.IsAtEnd();
       ++it, ++readbackIt)
     {
     VectorImageType::PixelType p(vecLength),

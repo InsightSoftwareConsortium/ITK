@@ -133,20 +133,6 @@ public:
   virtual void SetMatrix(const MatrixType & matrix);
 
   /**
-   * Set/Get the rotation matrix. These methods are old and are
-   * retained for backward compatibility. Instead, use SetMatrix()
-   * GetMatrix().
-   */
-  virtual void SetRotationMatrix(const MatrixType & matrix)
-  {
-    this->SetMatrix(matrix);
-  }
-  const MatrixType & GetRotationMatrix() const
-  {
-    return this->GetMatrix();
-  }
-
-  /**
    * Compose the transformation with a translation
    *
    * This method modifies self to include a translation of the
@@ -235,6 +221,18 @@ public:
 
   /** Reset the parameters to create and identity transform. */
   virtual void SetIdentity(void);
+
+#ifdef ITKV3_COMPATIBILITY
+  /**
+   * \deprecated
+   * Set/Get the rotation matrix. These methods are old and are
+   * retained for backward compatibility. Instead, use SetMatrix()
+   * GetMatrix().
+   */
+  itkLegacyMacro(virtual void SetRotationMatrix(const MatrixType & matrix));
+  itkLegacyMacro(const MatrixType & GetRotationMatrix() const);
+#endif
+
 
 protected:
   Rigid2DTransform(unsigned int outputSpaceDimension, unsigned int parametersDimension);

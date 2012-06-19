@@ -52,8 +52,7 @@ MakeCheckerboard()
   ImageType::Pointer image;
   AllocateImageFromRegionAndSpacing(ImageType,image,region,spacing);
   image->FillBuffer(0.0);
-  IteratorType it(image,image->GetLargestPossibleRegion());
-  for(;it != it.End(); ++it)
+  for( IteratorType it(image,image->GetLargestPossibleRegion()); !it.IsAtEnd(); ++it)
     {
     ImageType::IndexType ind(it.GetIndex());
     // initially checkboard 4 pixels wide
@@ -82,8 +81,7 @@ DisplacementFieldType::Pointer MakeDisplacementField(int dim)
   region.SetIndex(index);
   DisplacementFieldType::Pointer image;
   AllocateImageFromRegionAndSpacing(DisplacementFieldType,image,region,spacing);
-  IteratorType it(image,image->GetLargestPossibleRegion());
-  for(;it != it.End(); ++it)
+  for( IteratorType it(image,image->GetLargestPossibleRegion()); ! it.IsAtEnd(); ++it)
     {
     DisplacementFieldType::PixelType pix;
     for(unsigned i = 0; i < 3; i++)

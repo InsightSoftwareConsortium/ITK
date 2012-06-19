@@ -33,7 +33,7 @@ void ShapeDetectionLevelSetFunction< TImageType, TFeatureImageType >
   ImageRegionIterator< ImageType >
   sit( this->GetSpeedImage(), this->GetFeatureImage()->GetRequestedRegion() );
 
-  for ( fit = fit.Begin(), sit = sit.Begin(); !fit.IsAtEnd(); ++sit, ++fit )
+  for ( fit.GoToBegin(), sit.GoToBegin(); !fit.IsAtEnd(); ++sit, ++fit )
     {
     sit.Set( static_cast< ScalarValueType >( fit.Get() ) );
     }

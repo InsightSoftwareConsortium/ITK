@@ -35,7 +35,7 @@ static bool TestSettingTranslation(void)
     itk::Vector< double, 3> T; T[0]=100;T[1]=200;T[2]=300;
     itkv3::Rigid3DTransform<double>::Pointer r1=itkv3::Rigid3DTransform<double>::New();
     //r1->SetIdentity();
-    r1->SetRotationMatrix( R );
+    r1->SetMatrix( R );
     r1->Translate( T );
     itkv3::Rigid3DTransform<double>::ParametersType p1;
     p1.set_size(12);
@@ -290,7 +290,7 @@ int itkv3Rigid3DTransformTest(int ,char * [] )
     mrotation[1][0] = -sinth;
     mrotation[1][1] =  costh;
 
-    rotation->SetRotationMatrix( mrotation );
+    rotation->SetMatrix( mrotation );
 
     TransformType::OffsetType ioffset;
     ioffset.Fill( 0.0f );
@@ -336,7 +336,7 @@ int itkv3Rigid3DTransformTest(int ,char * [] )
     }
 
     // Verify the Matrix content
-    TransformType::MatrixType matrix0 = rotation->GetRotationMatrix();
+    TransformType::MatrixType matrix0 = rotation->GetMatrix();
     std::cout << "Rotation matrix:  " << std::endl;
     std::cout << matrix0 << std::endl;
 
@@ -353,8 +353,8 @@ int itkv3Rigid3DTransformTest(int ,char * [] )
     }
     if( !Ok )
     {
-      std::cerr << "Get Rotation Matrix  differs " << std::endl;
-      std::cerr << "from SetRotationMatrix value " << std::endl;
+      std::cerr << "GetMatrix  differs " << std::endl;
+      std::cerr << "from SetMatrix value " << std::endl;
       return EXIT_FAILURE;
     }
 

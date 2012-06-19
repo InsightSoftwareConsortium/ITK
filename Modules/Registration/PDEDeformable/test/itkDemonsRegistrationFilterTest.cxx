@@ -60,7 +60,7 @@ typename TImage::PixelType backgnd )
 
   typedef itk::ImageRegionIteratorWithIndex<TImage> Iterator;
   Iterator it( image, image->GetBufferedRegion() );
-  it.Begin();
+  it.GoToBegin();
 
   typename TImage::IndexType index;
   double r2 = vnl_math_sqr( radius );

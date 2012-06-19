@@ -113,12 +113,12 @@ public:
   /** Return an iterator for the beginning of the region. "Begin"
    * is defined as the first pixel in the region.
    * \deprecated Use GoToBegin() instead */
-  Self Begin(void) const;
+  itkLegacyMacro(Self Begin(void) const);
 
   /** Return an iterator for the end of the region. "End" is defined
    * as one pixel past the last pixel of the region.
    * \deprecated Use GoToEnd() instead */
-  Self End(void) const;
+  itkLegacyMacro(Self End(void) const);
 
 protected:
   /** the construction from a const iterator is declared protected

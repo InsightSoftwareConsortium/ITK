@@ -79,7 +79,7 @@ int itkVectorImageTest( int, char* argv[] )
   image->FillBuffer( f );
 
   clock.Stop();
-  double timeTaken = clock.GetMeanTime();
+  double timeTaken = clock.GetMean();
   std::cout << "Allocating an image of itk::VariableLengthVector of length " <<  VectorLength
           << " with image size " << size << " took " << timeTaken << " s." << std::endl;
 
@@ -88,7 +88,7 @@ int itkVectorImageTest( int, char* argv[] )
     clock.Start();
     typedef itk::ImageRegionConstIterator< VariableLengthVectorImageType > IteratorType;
     IteratorType it( image, image->GetBufferedRegion() );
-    it.Begin();
+    it.GoToBegin();
     while( !it.IsAtEnd() )
       {
       it.Get();
@@ -96,7 +96,7 @@ int itkVectorImageTest( int, char* argv[] )
       }
     clock.Stop();
     std::cout << "ConstIterator Get() over the entire image took : " <<
-      clock.GetMeanTime() << " s." << std::endl;
+      clock.GetMean() << " s." << std::endl;
     }
   }
 
@@ -123,7 +123,7 @@ int itkVectorImageTest( int, char* argv[] )
   image->FillBuffer( f );
 
   clock.Stop();
-  double timeTaken = clock.GetMeanTime();
+  double timeTaken = clock.GetMean();
   std::cout << "Allocating an image of itk::FixedArray of length " <<  VectorLength
           << " with image size " << size << " took " << timeTaken << " s." << std::endl;
 
@@ -145,7 +145,7 @@ int itkVectorImageTest( int, char* argv[] )
     clock.Start();
     typedef itk::ImageRegionConstIterator< FixedArrayImageType > IteratorType;
     IteratorType it( image, image->GetBufferedRegion() );
-    it.Begin();
+    it.GoToBegin();
     while( !it.IsAtEnd() )
       {
       it.Get();
@@ -153,7 +153,7 @@ int itkVectorImageTest( int, char* argv[] )
       }
     clock.Stop();
     std::cout << "ConstIterator Get() over the entire image took : " <<
-      clock.GetMeanTime() << " s." << std::endl;
+      clock.GetMean() << " s." << std::endl;
     }
   }
 
@@ -178,7 +178,7 @@ int itkVectorImageTest( int, char* argv[] )
   vectorImage->FillBuffer( f );
 
   clock.Stop();
-  double timeTaken = clock.GetMeanTime();
+  double timeTaken = clock.GetMean();
   std::cout << "Allocating an image of itk::VectorImage with pixels length " <<  VectorLength
      << " with image size " << size << " took " << timeTaken << " s." << std::endl;
 
@@ -190,7 +190,7 @@ int itkVectorImageTest( int, char* argv[] )
     clock.Start();
     typedef itk::ImageRegionConstIterator< VectorImageType > IteratorType;
     IteratorType it( vectorImage, vectorImage->GetBufferedRegion() );
-    it.Begin();
+    it.GoToBegin();
     while( !it.IsAtEnd() )
       {
       it.Get();
@@ -198,7 +198,7 @@ int itkVectorImageTest( int, char* argv[] )
       }
     clock.Stop();
     std::cout << "ConstIterator Get() over the entire vectorImage took : " <<
-      clock.GetMeanTime() << " s." << std::endl;
+      clock.GetMean() << " s." << std::endl;
   }
 
 
@@ -312,7 +312,7 @@ int itkVectorImageTest( int, char* argv[] )
     typedef itk::ImageRegionConstIterator< VectorImageType > ConstIteratorType;
     ConstIteratorType cit( vectorImage, vectorImage->GetBufferedRegion() );
     unsigned long ctr = 0;
-    cit.Begin();
+    cit.GoToBegin();
     midCtr /= 2;
     while( !cit.IsAtEnd() )
       {
