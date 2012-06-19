@@ -153,7 +153,9 @@ public:
   virtual void GetDerivative( DerivativeType & ) const;
 
   /** Evaluate the metric value and derivative.
-   * \note \param value will contain the value of only the *first* metric.
+   * \note \param value will contain the value of only the *first* metric on return.
+   * \param derivative holds the combined derivative on return.
+   *
    * \sa GetValueArray
    * \sa GetWeightedValue */
   void GetValueAndDerivative(MeasureType & value, DerivativeType & derivative) const;
