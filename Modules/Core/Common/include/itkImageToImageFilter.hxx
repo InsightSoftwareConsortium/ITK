@@ -96,8 +96,14 @@ const typename ImageToImageFilter< TInputImage, TOutputImage >::InputImageType *
 ImageToImageFilter< TInputImage, TOutputImage >
 ::GetInput(unsigned int idx) const
 {
-  return dynamic_cast< const TInputImage * >
-         ( this->ProcessObject::GetInput(idx) );
+  const TInputImage *in = dynamic_cast< const TInputImage * >
+    ( this->ProcessObject::GetInput(idx) );
+
+  if ( in == NULL && this->ProcessObject::GetInput(idx) != NULL )
+    {
+    itkWarningMacro (<< "Unable to convert input number " << idx << " to type " <<  typeid( InputImageType ).name () );
+    }
+  return in;
 }
 
 //-----------------------------------------------------------------------
