@@ -66,11 +66,7 @@ int itkSpatialObjectPrintTest(int , char* [])
   itk::PlaneSpatialObject<3>::Pointer PlaneSpatialObjectObj =
     itk::PlaneSpatialObject<3>::New();
   std::cout << "----------PlaneSpatialObject " << PlaneSpatialObjectObj;
-#if 0
-  itk::PolygonGroupOrientation::Pointer PolygonGroupOrientationObj =
-    itk::PolygonGroupOrientation::New();
-  std::cout << "----------PolygonGroupOrientation " << PolygonGroupOrientationObj;
-#endif
+
   itk::PolygonGroupSpatialObject<3>::Pointer PolygonGroupSpatialObjectObj =
     itk::PolygonGroupSpatialObject<3>::New();
   std::cout << "----------PolygonGroupSpatialObject " << PolygonGroupSpatialObjectObj;

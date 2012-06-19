@@ -229,24 +229,6 @@ private:
 };
 } // namespace itk
 
-#if 0 //HACK:  Not yet implemented
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_DiscreteGradientMagnitudeGaussianImageFunction(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                                                  \
-  {                                                                                              \
-  _( 2 ( class EXPORT DiscreteGradientMagnitudeGaussianImageFunction< ITK_TEMPLATE_2 TypeX > ) ) \
-  namespace Templates                                                                            \
-  {                                                                                              \
-  typedef DiscreteGradientMagnitudeGaussianImageFunction< ITK_TEMPLATE_2 TypeX >                 \
-  DiscreteGradientMagnitudeGaussianImageFunction##TypeY;                                       \
-  }                                                                                              \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkDiscreteGradientMagnitudeGaussianImageFunction+-.h"
-#endif
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkDiscreteGradientMagnitudeGaussianImageFunction.hxx"
 #endif

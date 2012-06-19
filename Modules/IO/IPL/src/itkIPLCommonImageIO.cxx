@@ -209,12 +209,6 @@ void IPLCommonImageIO::Read(void *buffer)
                                                                    m_FilenameList->GetXDim() * m_FilenameList->GetYDim() );
     img_buffer += m_FilenameList->GetXDim() * m_FilenameList->GetYDim();
     }
-#if 0 // Debugging
-  std::ofstream f2("test.img", std::ios::binary | std::ios::out);
-  f2.write( buffer, ( m_FilenameList->numImageInfoStructs
-                      * m_FilenameList->GetXDim() * m_FilenameList->GetYDim() * sizeof( short int ) ) );
-  f2.close();
-#endif
 }
 
 GEImageHeader * IPLCommonImageIO::ReadHeader(const char *)

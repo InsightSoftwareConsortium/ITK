@@ -69,14 +69,5 @@ int itkAnalyzeImageIOBadHeader(int ac, char* av[])
   itk::AnalyzeImageIOFactory::RegisterOneFactory();
   int result1 = TestDegenerateHeaderFiles();
   int result2(0);
-  //  NIfTI explicitly refuses to read analyze 7.5 files
-  // I could force it to do so but since by default, it will never
-  // be used in that manner without explicitly asking for it, there
-  // isn't much point.
-#if 0
-  itk::ObjectFactoryBase::UnRegisterAllFactories();
-  itk::NiftiImageIOFactory::RegisterOneFactory();
-  result2 = TestDegenerateHeaderFiles();
-#endif
   return !(result1 == 0 && result2 == 0);
 }

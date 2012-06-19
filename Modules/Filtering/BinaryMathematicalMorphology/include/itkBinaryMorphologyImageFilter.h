@@ -154,14 +154,6 @@ public:
                    ( Concept::SameDimension< itkGetStaticConstMacro(InputImageDimension),
                                              itkGetStaticConstMacro(OutputImageDimension) > ) );
 
-// Cannot get this to work with gcc compiler
-#if 0
-  /** Input and structuring element must be the same dimnesion. */
-  itkConceptMacro( KernelDimensionCheck,
-                   ( Concept::SameDimension< itkGetStaticConstMacro(KernelDimension),
-                                             itkGetStaticConstMacro(InputImageDimension) > ) );
-#endif
-
   /** Set the value in the image to consider as "foreground". Defaults to
    * maximum value of PixelType. Subclasses may alias this to
    * DilateValue or ErodeValue. */

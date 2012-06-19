@@ -52,23 +52,6 @@ CurvatureFlowFunction< TImage >
 ::ComputeGlobalTimeStep( void *itkNotUsed(gd) ) const
 {
   return this->GetTimeStep();
-
-  // \todo compute timestep based on CFL condition
-#if 0
-  GlobalDataStruct *globalData = (GlobalDataStruct *)gd;
-  TimeStepType      dt;
-
-  if ( globalData->m_MaxChange > 0.0 )
-    {
-    dt = 1.0 / globalData->m_MaxChange;
-    }
-  else
-    {
-    dt = 0.0;
-    }
-
-  return dt;
-#endif
 }
 
 /**
@@ -157,13 +140,6 @@ CurvatureFlowFunction< TImage >
     }
 
   update /= magnitudeSqr;
-
-  // \todo compute timestep based on CFL condition
-#if 0
-  GlobalDataStruct *globalData = (GlobalDataStruct *)gd;
-  globalData->m_MaxChange =
-    vnl_math_max( globalData->m_MaxChange, vnl_math_abs(update) );
-#endif
   return static_cast< PixelType >( update );
 }
 } // end namespace itk

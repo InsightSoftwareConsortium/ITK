@@ -263,12 +263,6 @@ AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute, TFunc
       {
       m_Raw[RPos] = m_Raw[m_Parent[RPos]];
       }
-#if 0
-    else
-      {
-      // Original value already in raw
-      }
-#endif
     progress.CompletedPixel();
     }
   for ( SizeValueType ppos = 0; ppos < buffsize; ++ppos, ++ORegIt )

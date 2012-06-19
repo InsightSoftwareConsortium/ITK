@@ -49,12 +49,7 @@ public:
   typedef typename ImageType::OffsetType        OffsetType;
 
   itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
-#if 0
-  typedef Neighborhood< InternalPixelType *,
-                        ::itk::GetImageDimension< TImage >::ImageDimension > NeighborhoodType;
-#else
   typedef Neighborhood< InternalPixelType *, Self::ImageDimension > NeighborhoodType;
-#endif
 
   typedef ImageBoundaryCondition< ImageType > const *
   ImageBoundaryConditionConstPointerType;

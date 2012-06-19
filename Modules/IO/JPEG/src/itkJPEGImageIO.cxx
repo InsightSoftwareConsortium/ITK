@@ -47,15 +47,6 @@ METHODDEF(void) itk_jpeg_error_exit (j_common_ptr cinfo)
 
 METHODDEF(void) itk_jpeg_output_message (j_common_ptr)
   {
-#if 0
-  char buffer[JMSG_LENGTH_MAX];
-
-  /* Create the message */
-  ( *cinfo->err->format_message )(cinfo, buffer);
-
-  // Custom display message, we could be more fancy and throw an exception:
-  std::cerr << "output:" << buffer << std::endl;
-#endif
   }
 }
 
