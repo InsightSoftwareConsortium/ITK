@@ -250,15 +250,25 @@ public:
   itkGetConstObjectMacro( VirtualImage, VirtualImageType );
 
   /** Computes an offset for accessing parameter data from a virtual domain
-   * index or point. Relevant for metrics with local-support transforms, to access
+   * index. Relevant for metrics with local-support transforms, to access
    * parameter or derivative memory that is stored linearly in a 1D array.
    * The result is the offset (1D array index) to the first of N parameters
    * corresponding to the given virtual index, where N is the number of
    * local parameters.
-   * \param index the index to convert
+   * \param index the virtual index to convert
    * \param numberOfLocalParameters corresponding to the transform
    **/
   OffsetValueType ComputeParameterOffsetFromVirtualIndex( const VirtualIndexType & index, const NumberOfParametersType &numberOfLocalParameters ) const;
+
+  /** Computes an offset for accessing parameter data from a virtual domain
+   * point. Relevant for metrics with local-support transforms, to access
+   * parameter or derivative memory that is stored linearly in a 1D array.
+   * The result is the offset (1D array index) to the first of N parameters
+   * corresponding to the given virtual index, where N is the number of
+   * local parameters.
+   * \param point the virtual point to convert
+   * \param numberOfLocalParameters corresponding to the transform
+   **/
   OffsetValueType ComputeParameterOffsetFromVirtualPoint( const VirtualPointType & point, const NumberOfParametersType & numberOfLocalParameters ) const;
 
   /** Determine if a point is within the virtual domain.
