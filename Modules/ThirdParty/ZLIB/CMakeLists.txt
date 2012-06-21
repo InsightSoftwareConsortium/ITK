@@ -26,5 +26,7 @@ configure_file(src/itk_zlib.h.in src/itk_zlib.h)
 
 itk_module_impl()
 
-install(FILES ${ITKZLIB_BINARY_DIR}/src/itk_zlib.h
-  DESTINATION ${ITKZLIB_INSTALL_INCLUDE_DIR})
+if(NOT ITK_INSTALL_NO_DEVELOPMENT)
+  install(FILES ${ITKZLIB_BINARY_DIR}/src/itk_zlib.h
+    DESTINATION ${ITKZLIB_INSTALL_INCLUDE_DIR})
+endif(NOT ITK_INSTALL_NO_DEVELOPMENT)

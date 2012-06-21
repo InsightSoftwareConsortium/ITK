@@ -26,5 +26,7 @@ configure_file(src/itk_jpeg.h.in src/itk_jpeg.h)
 
 itk_module_impl()
 
-install(FILES ${ITKJPEG_BINARY_DIR}/src/itk_jpeg.h
-  DESTINATION ${ITKJPEG_INSTALL_INCLUDE_DIR})
+if(NOT ITK_INSTALL_NO_DEVELOPMENT)
+  install(FILES ${ITKJPEG_BINARY_DIR}/src/itk_jpeg.h
+    DESTINATION ${ITKJPEG_INSTALL_INCLUDE_DIR})
+endif(NOT ITK_INSTALL_NO_DEVELOPMENT)
