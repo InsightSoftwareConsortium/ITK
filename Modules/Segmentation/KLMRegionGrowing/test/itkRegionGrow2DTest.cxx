@@ -2103,20 +2103,10 @@ unsigned int test_regiongrowKLM4D()
     if( pixelOut[0] != pixelIn[0] )
       {
       std::cout << "Test FAILED" << std::endl;
-      if( pixelOut[0] != pixelIn[0] )
-        {
-        std::cout << "pixelOut[0]: " << pixelOut[0]
-                  << " != "
-                  << "pixelIn[0]: " << pixelIn[0]
-                  << std::endl;
-        }
-      if( pixelOut[1] != 0 )
-        {
-        std::cout << "pixelOut[1]: " << pixelOut[1]
-                  << " != "
-                  << "0"
-                  << std::endl;
-        }
+      std::cout << "pixelOut[0]: " << pixelOut[0]
+                << " != "
+                << "pixelIn[0]: " << pixelIn[0]
+                << std::endl;
       return EXIT_FAILURE;
       }
 
