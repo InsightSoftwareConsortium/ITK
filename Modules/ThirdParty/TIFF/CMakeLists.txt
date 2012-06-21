@@ -27,5 +27,7 @@ configure_file(src/itk_tiff.h.in src/itk_tiff.h)
 
 itk_module_impl()
 
-install(FILES ${ITKTIFF_BINARY_DIR}/src/itk_tiff.h
-  DESTINATION ${ITKTIFF_INSTALL_INCLUDE_DIR})
+if(NOT ITK_INSTALL_NO_DEVELOPMENT)
+  install(FILES ${ITKTIFF_BINARY_DIR}/src/itk_tiff.h
+    DESTINATION ${ITKTIFF_INSTALL_INCLUDE_DIR})
+endif(NOT ITK_INSTALL_NO_DEVELOPMENT)
