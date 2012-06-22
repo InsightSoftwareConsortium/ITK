@@ -119,9 +119,9 @@ __kernel void MeanFilter(const __global PIXELTYPE* in,
      execution on Apple OpenCL 1.0 (such Macbook Pro with NVIDIA 9600M
      GT). Therefore, we flattened conditional statements. */
   bool isValid = true;
-  if(gix < 0 || gix >= width) isValid = false;
-  if(giy < 0 || giy >= height) isValid = false;
-  if(giz < 0 || giz >= depth) isValid = false;
+  if(gix >= width) isValid = false;
+  if(giy >= height) isValid = false;
+  if(giz >= depth) isValid = false;
 
   if( isValid )
   {
