@@ -46,7 +46,7 @@ namespace itk
  * as the zero level set. For example, a signed distance function from the initial
  * contour/surface is typically used. Unlike the simpler ShapeDetectionLevelSetImageFilter
  * the initial contour does not have to lie wholly within the shape to be segmented.
- * The intiial contour is allow to overlap the shape boundary. The advection term
+ * The initial contour is allow to overlap the shape boundary. The advection term
  * in the update equation behaves like a doublet and attracts the contour to the boundary.
  * The shape prior term adds robustness by incorporating aprior information about
  * the shape to be segmented.
