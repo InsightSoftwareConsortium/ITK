@@ -249,7 +249,7 @@ FloatDifferenceULP( T x1, T x2 )
  * to each other.
  *
  * \param x1                    first floating value to compare
- * \param x1                    second floating values to compare
+ * \param x2                    second floating values to compare
  * \param maxUlps               maximum units in the last place to be considered equal
  * \param maxAbsoluteDifference maximum absolute difference to be considered equal
  */
