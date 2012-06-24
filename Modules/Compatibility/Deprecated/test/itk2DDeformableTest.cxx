@@ -28,9 +28,9 @@
 
 int itk2DDeformableTest(int, char* [])
 {
-// change the image size to your test images
-  int WIDTH = 100;
-  int HEIGHT = 100;
+  // change the image size to your test images
+  const itk::Size<2u>::SizeValueType WIDTH = 100;
+  const itk::Size<2u>::SizeValueType HEIGHT = 100;
 
   // Define the dimension of the images
   const unsigned int myDimension = 2;

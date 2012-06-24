@@ -287,7 +287,6 @@ private:
   unsigned int   m_Dimension;
   unsigned int   m_Degree;
   unsigned int   m_NumberOfCoefficients;
-  bool           m_MultiplicativeBias;
 
   CoefficientArrayType m_CoefficientArray;
   CoefficientArrayType m_CachedXCoef;

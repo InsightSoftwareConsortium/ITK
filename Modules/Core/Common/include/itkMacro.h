@@ -642,7 +642,7 @@ extern ITKCommon_EXPORT void OutputWindowDisplayDebugText(const char *);
       }                                                                 \
     }
 
-//The itkDebugStatement is to be used ot protect code that is only
+//The itkDebugStatement is to be used to protect code that is only
 //used in the itkDebugMacro
 #define itkDebugStatement(x) x
 #endif
