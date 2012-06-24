@@ -151,8 +151,6 @@ protected:
   ~ThresholdMaximumConnectedComponentsImageFilter() {}
   void PrintSelf(std::ostream & os, Indent indent) const;
 
-  /**
-   *ImageToImageFilter::GenerateData()  */
   void GenerateData(void);
 
   /**
