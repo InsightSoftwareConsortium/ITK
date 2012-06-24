@@ -138,6 +138,7 @@ public:
   /** array typedef **/
   typedef Array<SizeValueType>                                        ShrinkFactorsArrayType;
   typedef Array<RealType>                                             SmoothingSigmasArrayType;
+  typedef Array<RealType>                                             MetricSamplingPercentageArrayType;
 
   /** Interpolator typedefs */
   typedef InterpolateImageFunction<FixedImageType, RealType>          FixedInterpolatorType;
@@ -191,9 +192,12 @@ public:
   itkSetMacro( MetricSamplingStrategy, MetricSamplingStrategyType );
   itkGetConstMacro( MetricSamplingStrategy, MetricSamplingStrategyType );
 
-  /** Set/Get the metric sampling percentage. */
-  itkSetClampMacro( MetricSamplingPercentage, RealType, 0.0, 1.0 );
-  itkGetConstMacro( MetricSamplingPercentage, RealType );
+  /** Set the metric sampling percentage. */
+  void SetMetricSamplingPercentage( const RealType );
+
+  /** Set the metric sampling percentage. */
+  itkSetMacro( MetricSamplingPercentagePerLevel, MetricSamplingPercentageArrayType );
+  itkGetConstMacro( MetricSamplingPercentagePerLevel, MetricSamplingPercentageArrayType );
 
   /** Set/Get the optimizer. */
   itkSetObjectMacro( Optimizer, OptimizerType );
@@ -289,7 +293,7 @@ protected:
 
   MetricPointer                                                   m_Metric;
   MetricSamplingStrategyType                                      m_MetricSamplingStrategy;
-  RealType                                                        m_MetricSamplingPercentage;
+  MetricSamplingPercentageArrayType                               m_MetricSamplingPercentagePerLevel;
 
   ShrinkFactorsArrayType                                          m_ShrinkFactorsPerLevel;
   SmoothingSigmasArrayType                                        m_SmoothingSigmasPerLevel;
