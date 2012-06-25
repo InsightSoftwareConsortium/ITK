@@ -40,7 +40,13 @@ BANNED_HEADERS = set(('itkExceptionObject.h', # There is a pre-processor check s
     'itkPyBuffer.h', # needs Python.h, etc
     'itkVanHerkGilWermanErodeDilateImageFilter.h', # circular include's
     'itkBSplineDeformableTransform.h',   # deprecated
-    'vtkCaptureScreen.h',
+    'vtkCaptureScreen.h',  # these includes require VTK
+    'vtkVisualize3DLevelSetImage.h',
+    'vtkVisualize2DSparseLevelSetLayers.h',
+    'vtkVisualize2DSparseLevelSetLayersBase.h',
+    'itkVTKVisualizeImageLevelSet.h',
+    'itkVTKVisualizeImageLevelSetIsoValues.h',
+    'itkVTKVisualize2DLevelSetAsElevationMap.h',
     'itkBSplineDeformableTransformInitializer.h'))
 
 HEADER = """/*=========================================================================
