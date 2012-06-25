@@ -40,6 +40,7 @@ BANNED_HEADERS = set(('itkExceptionObject.h', # There is a pre-processor check s
     'itkPyBuffer.h', # needs Python.h, etc
     'itkVanHerkGilWermanErodeDilateImageFilter.h', # circular include's
     'itkBSplineDeformableTransform.h',   # deprecated
+    'vtkCaptureScreen.h',
     'itkBSplineDeformableTransformInitializer.h'))
 
 HEADER = """/*=========================================================================
