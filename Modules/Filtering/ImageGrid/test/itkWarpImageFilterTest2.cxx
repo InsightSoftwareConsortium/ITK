@@ -69,12 +69,13 @@ MakeCheckerboard()
   return image;
 }
 
-DisplacementFieldType::Pointer MakeDisplacementField(int dim)
+template <long unsigned int imageIndexSpaceSize>
+typename DisplacementFieldType::Pointer MakeDisplacementField(void)
 {
   typedef itk::ImageRegionIterator<DisplacementFieldType> IteratorType;
-  DisplacementFieldType::SizeType size = {{dim,dim,dim}};
+  const DisplacementFieldType::SizeType size = {{imageIndexSpaceSize,imageIndexSpaceSize,imageIndexSpaceSize}};
   DisplacementFieldType::SpacingType spacing;
-  spacing[0] = spacing[1] = spacing[2] = 16.0/(double)dim;
+  spacing[0] = spacing[1] = spacing[2] = 16.0/(double)imageIndexSpaceSize;
   DisplacementFieldType::IndexType index = {{0,0,0}};
   DisplacementFieldType::RegionType region;
   region.SetSize(size);
@@ -102,9 +103,9 @@ itkWarpImageFilterTest2(int, char * [])
   // make test image
   ImageType::Pointer image = MakeCheckerboard();
   // make full-res displacement field
-  DisplacementFieldType::Pointer defField1 = MakeDisplacementField(16);
+  DisplacementFieldType::Pointer defField1 = MakeDisplacementField<16u>();
   // make half-res displacement field
-  DisplacementFieldType::Pointer defField2 = MakeDisplacementField(8);
+  DisplacementFieldType::Pointer defField2 = MakeDisplacementField<8u>();
 
   WarpFilterType::Pointer filter = WarpFilterType::New();
   // test with full res

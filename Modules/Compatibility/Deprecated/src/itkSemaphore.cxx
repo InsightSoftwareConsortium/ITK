@@ -49,6 +49,8 @@ std::string Semaphore::GetUniqueName()
 
 Semaphore::Semaphore ()
 {
+  m_Pad1[0]='\0';
+  m_Pad2[0]='\0';
 #ifdef ITK_USE_UNIX_IPC_SEMAPHORES
   m_Sema = -1;
 #endif

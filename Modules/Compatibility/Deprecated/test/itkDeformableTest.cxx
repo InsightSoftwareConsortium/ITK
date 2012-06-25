@@ -28,9 +28,9 @@
 
 int itkDeformableTest(int , char *[])
 {
-  int WIDTH = 32;
-  int HEIGHT = 32;
-  int DEPTH = 32;
+  const itk::Size<3u>::SizeValueType WIDTH = 32;
+  const itk::Size<3u>::SizeValueType HEIGHT = 32;
+  const itk::Size<3u>::SizeValueType DEPTH = 32;
 
   // Define the dimension of the images
   const unsigned int myDimension = 3;

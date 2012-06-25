@@ -42,12 +42,10 @@ int itkSampleClassifierFilterTest7(int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  unsigned int i, j;
-  int dataSize = 2000;
-  int maximumIteration = 200;
+  const int maximumIteration = 200;
+  const double minStandardDeviation =28.54746;
+  const unsigned int numberOfClasses = 2;
   typedef itk::Array< double > ParametersType;
-  double minStandardDeviation =28.54746;
-  unsigned int numberOfClasses = 2;
   std::vector< ParametersType > trueParameters(numberOfClasses);
   ParametersType params(6);
   params[0] = 99.261;
@@ -95,14 +93,14 @@ int itkSampleClassifierFilterTest7(int argc, char* argv[] )
   /* Loading point data */
   PointSetType::Pointer pointSet = PointSetType::New();
   PointSetType::PointsContainerPointer pointsContainer = PointSetType::PointsContainer::New();
-  pointsContainer->Reserve(dataSize);
+  const int dataSizeBig = 2000;
+  pointsContainer->Reserve(dataSizeBig);
   pointSet->SetPoints(pointsContainer.GetPointer());
 
   PointSetType::PointsContainerIterator p_iter = pointsContainer->Begin();
   PointSetType::PointType point;
-  double temp;
 
-  char* dataFileName = argv[1];
+  char * const dataFileName = argv[1];
   std::ifstream dataStream(dataFileName);
   if ( !dataStream )
     {
@@ -112,8 +110,9 @@ int itkSampleClassifierFilterTest7(int argc, char* argv[] )
 
   while (p_iter != pointsContainer->End())
     {
-    for ( i = 0; i < PointSetType::PointDimension; i++)
+    for ( unsigned int i = 0; i < PointSetType::PointDimension; i++)
       {
+      double temp;
       dataStream >> temp;
       point[i] = temp;
       }
@@ -131,7 +130,7 @@ int itkSampleClassifierFilterTest7(int argc, char* argv[] )
   /* Preparing the gaussian mixture components */
   typedef ComponentType::Pointer ComponentPointer;
   std::vector< ComponentPointer > components;
-  for ( i = 0; i < numberOfClasses; i++ )
+  for ( unsigned int i = 0; i < numberOfClasses; i++ )
     {
     components.push_back(ComponentType::New());
     (components[i])->SetSample(sample.GetPointer());
@@ -144,7 +143,7 @@ int itkSampleClassifierFilterTest7(int argc, char* argv[] )
   estimator->SetMaximumIteration(maximumIteration);
   estimator->SetInitialProportions(initialProportions);
 
-  for ( i = 0; i < numberOfClasses; i++)
+  for ( unsigned int i = 0; i < numberOfClasses; i++)
     {
       estimator->AddComponent((ComponentType::Superclass*)
                               (components[i]).GetPointer());
@@ -156,17 +155,17 @@ int itkSampleClassifierFilterTest7(int argc, char* argv[] )
             << estimator->GetCurrentIteration() << std::endl;
 
   bool passed = true;
-  double displacement;
-  for ( i = 0; i < numberOfClasses; i++)
+  for ( unsigned int i = 0; i < numberOfClasses; i++)
     {
     std::cout << "Cluster[" << i << "]" << std::endl;
     std::cout << "    Parameters:" << std::endl;
     std::cout << "         " << (components[i])->GetFullParameters() << std::endl;
     std::cout << "    Proportion: ";
     std::cout << "         " << (estimator->GetProportions())[i] << std::endl;
-    displacement = 0.0;
-    for ( j = 0; j < DataSampleType::MeasurementVectorSize; j++)
+    double displacement = 0.0;
+    for ( unsigned int j = 0; j < DataSampleType::MeasurementVectorSize; j++)
       {
+      double temp;
       temp = (components[i])->GetFullParameters()[j] - trueParameters[i][j];
       displacement += (temp * temp);
       }
@@ -244,7 +243,7 @@ int itkSampleClassifierFilterTest7(int argc, char* argv[] )
   const FilterType::MembershipFunctionsWeightsArrayType  weightsArray = weightArrayObjects->Get();
 
   std::cout << "Estimator membership function Weight/proporation output: " << std::endl;
-  for(i=0; i < weightsArray.Size(); i++ )
+  for( unsigned int i=0; i < weightsArray.Size(); i++ )
     {
     std::cout << "Membership function: \t" << i << "\t" << weightsArray[i] << std::endl;
     }
@@ -257,20 +256,19 @@ int itkSampleClassifierFilterTest7(int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-
   PointSetType::Pointer pointSet2 = PointSetType::New();
   PointSetType::PointsContainerPointer pointsContainer2 =
     PointSetType::PointsContainer::New();
-  dataSize=200;
-  pointsContainer2->Reserve(dataSize);
+  const int dataSizeSmall = 200;
+  pointsContainer2->Reserve(dataSizeSmall);
   pointSet2->SetPoints(pointsContainer2.GetPointer());
 
   p_iter = pointsContainer2->Begin();
-
   while (p_iter != pointsContainer2->End())
     {
-    for ( i = 0; i < PointSetType::PointDimension; i++)
+    for ( unsigned int i = 0; i < PointSetType::PointDimension; i++)
       {
+      double temp;
       dataTargetStream >> temp;
       point[i] = temp;
       }

@@ -91,10 +91,16 @@ int itkImageMaskSpatialObjectTest2(int, char* [])
   image->FillBuffer( p );
 
   ImageType::RegionType insideRegion;
-  ImageType::SizeType insideSize   = {{ 30, 30, 30 }};
-  ImageType::IndexType insideIndex = {{ 10, 10, 10 }};
-  insideRegion.SetSize( insideSize );
-  insideRegion.SetIndex( insideIndex );
+  const unsigned int INSIDE_SIZE = 30;
+  const unsigned int INSIDE_INDEX = 10;
+    {
+    const ImageType::SizeType insideSize   = {{ INSIDE_SIZE, INSIDE_SIZE, INSIDE_SIZE }};
+    insideRegion.SetSize( insideSize );
+    }
+    {
+    const ImageType::IndexType insideIndex = {{ INSIDE_INDEX, INSIDE_INDEX, INSIDE_INDEX }};
+    insideRegion.SetIndex( insideIndex );
+    }
 
 
   Iterator it( image, insideRegion );
@@ -145,13 +151,13 @@ int itkImageMaskSpatialObjectTest2(int, char* [])
   // Check if insideregion is properly computed at the image boundary
   {
   ImageType::IndexType startPointIndex =
-    {{ insideIndex[0]-2,
-       insideIndex[1]-2,
-       insideIndex[2]-2 }};
+    {{ INSIDE_SIZE-2,
+       INSIDE_SIZE-2,
+       INSIDE_SIZE-2 }};
   ImageType::IndexType endPointIndex =
-    {{ insideIndex[0]+insideSize[0]+2,
-       insideIndex[1]+insideSize[1]+2,
-       insideIndex[2]+insideSize[2]+2 }};
+    {{ INSIDE_INDEX+INSIDE_SIZE+2,
+       INSIDE_INDEX+INSIDE_SIZE+2,
+       INSIDE_INDEX+INSIDE_SIZE+2 }};
   ImageType::PointType startPoint;
   ImageType::PointType endPoint;
   image->TransformIndexToPhysicalPoint( startPointIndex, startPoint );
@@ -160,9 +166,9 @@ int itkImageMaskSpatialObjectTest2(int, char* [])
   // Traverse along the line that goes through mask boundaries and
   // check if the value and the mask is consistent
   const int numberOfSteps = static_cast<int> (
-    vcl_sqrt(double(insideSize[0]*insideSize[0]+
-                    insideSize[1]*insideSize[1]+
-                    insideSize[2]*insideSize[2]))*100.0
+    vcl_sqrt(double(INSIDE_SIZE*INSIDE_SIZE+
+                    INSIDE_SIZE*INSIDE_SIZE+
+                    INSIDE_SIZE*INSIDE_SIZE))*100.0
     );
   const ImageType::SpacingType incrementVector =
     (endPoint-startPoint)/static_cast<double>(numberOfSteps);
@@ -227,10 +233,16 @@ int itkImageMaskSpatialObjectTest2(int, char* [])
   image->FillBuffer( p );
 
   ImageType::RegionType insideRegion;
-  ImageType::SizeType insideSize   = {{ 30, 30, 30 }};
-  ImageType::IndexType insideIndex = {{ 10, 10, 10 }};
-  insideRegion.SetSize( insideSize );
-  insideRegion.SetIndex( insideIndex );
+  const unsigned int INSIDE_SIZE = 30;
+  const unsigned int INSIDE_INDEX = 10;
+    {
+    const ImageType::SizeType insideSize   = {{ INSIDE_SIZE, INSIDE_SIZE, INSIDE_SIZE }};
+    insideRegion.SetSize( insideSize );
+    }
+    {
+    const ImageType::IndexType insideIndex = {{ INSIDE_INDEX, INSIDE_INDEX, INSIDE_INDEX }};
+    insideRegion.SetIndex( insideIndex );
+    }
 
 
   Iterator2 it( image, insideRegion );

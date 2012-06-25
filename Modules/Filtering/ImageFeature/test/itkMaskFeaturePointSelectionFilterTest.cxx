@@ -118,9 +118,9 @@ int itkMaskFeaturePointSelectionFilterTest( int argc, char * argv[] )
 
   //Highlight the feature point in red color
   OutputPixelType colorValue;
-  colorValue.SetRed( 255.0 );
-  colorValue.SetGreen( 0.0 );
-  colorValue.SetBlue( 0.0 );
+  colorValue.SetRed( 255u );
+  colorValue.SetGreen( 0u );
+  colorValue.SetBlue(  0u );
 
   while ( pointItr != pointEnd )
     {
@@ -130,11 +130,9 @@ int itkMaskFeaturePointSelectionFilterTest( int argc, char * argv[] )
       }
     pointItr++;
     }
-
   writer->SetFileName( argv[2] );
   writer->SetInput( outputImage );
   writer->Update();
-
 
   return EXIT_SUCCESS;
 }

@@ -134,6 +134,14 @@ public:
 protected:
   Semaphore ();
   ~Semaphore();
+  // Newer compilers do agreessive dead code checking.
+  // function is only to avoid the detection that
+  // warning: private field 'm_Pad1' is not used
+  // warning: private field 'm_Pad2' is not used
+  std::string NeverUseThisCompilerWarningAvoidanceFunctionForPad1Pad2(void) const
+    {
+    return std::string(this->m_Pad1)+"-"+std::string(this->m_Pad2);
+    }
 private:
 
 #ifdef ITK_USE_UNIX_IPC_SEMAPHORES
@@ -155,11 +163,13 @@ private:
 
 #endif
 
-  char Pad1[128]; // to avoid false sharing in case of shared memory
-                  // multiprocessor systems
+  char m_Pad1[128]; // to avoid false sharing in case of shared memory
+                    // multiprocessor systems
+
   SemaphoreType m_Sema;
-  char          Pad2[128]; // to avoid false sharing in case of shared memory
-                           // multiprocessor systems
+
+  char m_Pad2[128]; // to avoid false sharing in case of shared memory
+                    // multiprocessor systems
 
 #ifdef __APPLE__
   std::string GetUniqueName();

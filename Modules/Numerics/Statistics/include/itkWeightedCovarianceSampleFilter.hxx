@@ -185,16 +185,16 @@ WeightedCovarianceSampleFilter< TSample >
 {
   const SampleType *input = this->GetInput();
 
-  MeasurementVectorSizeType measurementVectorSize =
+  const MeasurementVectorSizeType measurementVectorSize =
     input->GetMeasurementVectorSize();
 
-  MatrixDecoratedType *decoratedOutput =
+  MatrixDecoratedType * const decoratedOutput =
     static_cast< MatrixDecoratedType * >(
       this->ProcessObject::GetOutput(0) );
 
   MatrixType output = decoratedOutput->Get();
 
-  MeasurementVectorDecoratedType *decoratedMeanOutput =
+  MeasurementVectorDecoratedType * const decoratedMeanOutput =
     static_cast< MeasurementVectorDecoratedType * >(
       this->ProcessObject::GetOutput(1) );
 
@@ -220,10 +220,8 @@ WeightedCovarianceSampleFilter< TSample >
   MeasurementVectorType measurements;
   NumericTraits<MeasurementVectorType>::SetLength(measurements, measurementVectorSize);
 
-  double weight;
   double totalWeight = 0.0;
   double sumSquaredWeight = 0.0;
-
 
   unsigned int measurementVectorIndex = 0;
 
@@ -234,7 +232,7 @@ WeightedCovarianceSampleFilter< TSample >
   measurementVectorIndex = 0;
   while ( iter != end )
     {
-    weight = iter.GetFrequency() * ( weightArray )[measurementVectorIndex];
+    const double weight = iter.GetFrequency() * ( weightArray )[measurementVectorIndex];
     measurements = iter.GetMeasurementVector();
 
     totalWeight += weight;
