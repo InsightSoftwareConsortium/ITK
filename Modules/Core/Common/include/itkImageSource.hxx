@@ -74,6 +74,7 @@ typename ImageSource< TOutputImage >::OutputImageType *
 ImageSource< TOutputImage >
 ::GetOutput()
 {
+
   // we assume that the first output is of the templated type
   return static_cast< TOutputImage * >( this->GetPrimaryOutput() );
 }
@@ -107,9 +108,9 @@ ImageSource< TOutputImage >
   TOutputImage *out = dynamic_cast< TOutputImage * >
                       ( this->ProcessObject::GetOutput(idx) );
 
-  if ( out == NULL )
+  if ( out == NULL && this->ProcessObject::GetOutput(idx) != NULL )
     {
-    itkWarningMacro (<< "dynamic_cast to output type failed");
+    itkWarningMacro (<< "Unable to convert output number " << idx << " to type " <<  typeid( OutputImageType ).name () );
     }
   return out;
 }
