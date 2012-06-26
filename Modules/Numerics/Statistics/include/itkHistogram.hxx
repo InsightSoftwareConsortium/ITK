@@ -548,7 +548,9 @@ inline bool
 Histogram< TMeasurement, TFrequencyContainer >
 ::SetFrequencyOfMeasurement(const MeasurementVectorType & measurement, const AbsoluteFrequencyType value)
 {
-  return this->SetFrequency(this->GetInstanceIdentifier( GetIndex(measurement) ), value);
+  IndexType index;
+  this->GetIndex( measurement, index );
+  return this->SetFrequencyOfIndex(index, value);
 }
 
 template< class TMeasurement, class TFrequencyContainer >
