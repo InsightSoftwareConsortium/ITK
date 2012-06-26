@@ -58,10 +58,9 @@ public:
     m_Sum = NumericTraits< TOuputPixel >::Zero;
   }
 
-  inline TInputPixel operator()(const TInputPixel & input)
+  inline void operator()(const TInputPixel & input)
   {
     m_Sum = m_Sum + input;
-    return m_Sum;
   }
 
   inline TOuputPixel GetValue()

@@ -54,7 +54,7 @@ public:
       }
     else
       {
-      return NumericTraits< TOutput >::max(A);
+      return NumericTraits< TOutput >::max( static_cast<TOutput>(A) );
       }
   }
 };
