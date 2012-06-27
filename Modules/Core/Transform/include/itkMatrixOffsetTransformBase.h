@@ -448,7 +448,6 @@ protected:
   void PrintSelf(std::ostream & s, Indent indent) const;
 
 
-
   const InverseMatrixType & GetVarInverseMatrix(void) const
   {
     return m_InverseMatrix;
