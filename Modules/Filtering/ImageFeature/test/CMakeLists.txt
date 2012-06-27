@@ -103,7 +103,7 @@ itk_add_test(NAME itkLaplacianRecursiveGaussianImageFilterTest
     itkLaplacianRecursiveGaussianImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/LaplacianRecursiveGaussianImageFilterTest.png)
 itk_add_test(NAME itkMaskFeaturePointSelectionFilterTest
       COMMAND ITKImageFeatureTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkMaskFeaturePointSelectionFilterTest.mha}
+    --compare DATA{Baseline/itkMaskFeaturePointSelectionFilterTest.mha}
               ${ITK_TEST_OUTPUT_DIR}/itkMaskFeaturePointSelectionFilterTest.mha
     itkMaskFeaturePointSelectionFilterTest
 DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha} ${ITK_TEST_OUTPUT_DIR}/itkMaskFeaturePointSelectionFilterTest.mha)
