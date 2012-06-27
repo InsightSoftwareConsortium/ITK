@@ -143,7 +143,7 @@ public:
    * to perform any required operations on the update parameters, typically
    * a converion to member variables for use in TransformPoint.
    */
-  virtual void UpdateTransformParameters( DerivativeType & update, ScalarType factor = 1.0 );
+  virtual void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 );
 
   /** Trigger the computation of the displacement field by integrating the time-varying velocity field. */
   virtual void IntegrateVelocityField();

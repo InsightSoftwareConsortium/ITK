@@ -101,7 +101,7 @@ public:
    * added to the field.
    * See base class for more details.
    */
-  virtual void UpdateTransformParameters( DerivativeType & update, ScalarType factor = 1.0 );
+  virtual void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 );
 
   /**
    * Set the spline order defining the bias field estimate.  Default = 3.

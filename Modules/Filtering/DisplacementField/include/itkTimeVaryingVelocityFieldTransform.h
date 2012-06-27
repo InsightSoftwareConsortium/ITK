@@ -164,8 +164,7 @@ public:
 
   /** Get the Fixed Parameters. */
 
-  virtual void UpdateTransformParameters( DerivativeType &,
-    ScalarType factor = 1.0 );
+  virtual void UpdateTransformParameters( const DerivativeType &, ScalarType factor = 1.0 );
 
   /** Return an inverse of this transform. */
   bool GetInverse( Self *inverse ) const;

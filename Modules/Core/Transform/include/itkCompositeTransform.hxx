@@ -1048,8 +1048,7 @@ template
 <class TScalar, unsigned int NDimensions>
 void
 CompositeTransform<TScalar, NDimensions>
-::UpdateTransformParameters(  DerivativeType & update,
-                              ScalarType  factor )
+::UpdateTransformParameters(  const DerivativeType & update, ScalarType  factor )
 {
   /* Update parameters within the sub-transforms set to be optimized. */
   /* NOTE: We might want to thread this over each sub-transform, if we

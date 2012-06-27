@@ -371,7 +371,7 @@ public:
                                                                      bool useSVD = false )
   const;
 
-  virtual void UpdateTransformParameters( DerivativeType & update, ScalarType factor = 1.0 );
+  virtual void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 );
 
   /** Return an inverse of this transform. */
   bool GetInverse( Self *inverse ) const;

@@ -108,7 +108,7 @@ public:
     return metric;
   }
 
-  void UpdateTransformParameters( DerivativeType & update, ParametersValueType )
+  void UpdateTransformParameters( const DerivativeType & update, ParametersValueType )
   {
     (*m_Parameters) += update;
   }
@@ -213,7 +213,7 @@ public:
     return metric;
   }
 
-  void UpdateTransformParameters( DerivativeType & update, ParametersValueType )
+  void UpdateTransformParameters( const DerivativeType & update, ParametersValueType )
   {
     (*m_Parameters) += update;
   }
