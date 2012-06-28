@@ -72,7 +72,7 @@ public:
   {
     if ( m_IsForeground )
       {
-      return (TOutputPixel)m_ForegroundValue;
+      return m_ForegroundValue;
       }
     else
       {
@@ -83,7 +83,7 @@ public:
   bool m_IsForeground;
 
   TInputPixel  m_ThresholdValue;
-  TInputPixel  m_ForegroundValue;
+  TOutputPixel m_ForegroundValue;
   TOutputPixel m_BackgroundValue;
 };
 } // end namespace Function
@@ -121,17 +121,17 @@ public:
 
   typedef typename Superclass::AccumulatorType AccumulatorType;
 
-  /** Set/Get the value in the image to consider as "foreground". Defaults to
+  /** Set/Get the output value used as "foreground". Defaults to
    * maximum value of PixelType. */
-  itkSetMacro(ForegroundValue, InputPixelType);
-  itkGetConstMacro(ForegroundValue, InputPixelType);
+  itkSetMacro(ForegroundValue, OutputPixelType);
+  itkGetConstMacro(ForegroundValue, OutputPixelType);
 
-  /** Set/Get the value used as "background". Defaults to
+  /** Set/Get the output value used as "background". Defaults to
    * NumericTraits<PixelType>::NonpositiveMin(). */
   itkSetMacro(BackgroundValue, OutputPixelType);
   itkGetConstMacro(BackgroundValue, OutputPixelType);
 
-  /** Set/Get the value in the image to consider as "threshold". Defaults to
+  /** Set/Get the input value consider as "threshold". Defaults to
    *  NumericTraits<InputPixelType>::max() */
   itkSetMacro(ThresholdValue, InputPixelType);
   itkGetConstMacro(ThresholdValue, InputPixelType);
@@ -147,7 +147,7 @@ public:
 protected:
   BinaryThresholdProjectionImageFilter()
   {
-    m_ForegroundValue = NumericTraits< InputPixelType >::max();
+    m_ForegroundValue = NumericTraits< OutputPixelType >::max();
     m_BackgroundValue = NumericTraits< OutputPixelType >::NonpositiveMin();
     m_ThresholdValue = NumericTraits< InputPixelType >::Zero;
   }
@@ -187,14 +187,14 @@ protected:
     return accumulator;
   }
 
-  /** Pixel value to dilate */
-  InputPixelType m_ForegroundValue;
+  /** Pixel value for output foreground */
+  OutputPixelType m_ForegroundValue;
 
-  /** Pixel value for background */
+  /** Pixel value for output background */
   OutputPixelType m_BackgroundValue;
 
-  /** Pixel value for Threshold */
-  OutputPixelType m_ThresholdValue;
+  /** Pixel value for input Threshold */
+  InputPixelType m_ThresholdValue;
 private:
   //purposely not implemented
   BinaryThresholdProjectionImageFilter(const Self &);
