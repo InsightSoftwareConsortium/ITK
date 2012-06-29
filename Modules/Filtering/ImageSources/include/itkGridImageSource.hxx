@@ -109,7 +109,7 @@ GridImageSource< TOutputImage >
       {
       val *= this->m_PixelArrays->GetElement(i)[index[i]];
       }
-    It.Set(this->m_Scale * val);
+    It.Set( static_cast<PixelType>(m_Scale * val) );
     progress.CompletedPixel();
     }
 }
