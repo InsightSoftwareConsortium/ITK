@@ -155,7 +155,7 @@ public:
   typedef typename FFTImageType::Pointer                        FFTImagePointer;
 
   /** Set and get the fixed image */
-  void SetFixedImage(InputImageType *input)
+  void SetFixedImage(const InputImageType *input)
     {
       this->SetNthInput(0, const_cast<InputImageType *>(input) );
     }
@@ -165,7 +165,7 @@ public:
     }
 
   /** Set and get the moving image */
-  void SetMovingImage(InputImageType *input)
+  void SetMovingImage(const InputImageType *input)
     {
       this->SetNthInput(1, const_cast<InputImageType *>(input) );
     }
@@ -175,7 +175,7 @@ public:
     }
 
   /** Set and get the fixed mask */
-  void SetFixedImageMask(InputImageType *input)
+  void SetFixedImageMask(const InputImageType *input)
     {
       this->SetNthInput(2, const_cast<InputImageType *>(input) );
     }
@@ -185,7 +185,7 @@ public:
     }
 
   /** Set and get the moving mask */
-  void SetMovingImageMask(InputImageType *input)
+  void SetMovingImageMask(const InputImageType *input)
     {
       this->SetNthInput(3, const_cast<InputImageType *>(input) );
     }
