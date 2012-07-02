@@ -138,6 +138,31 @@ void QuickView::AddImage(
 }
 
 template< >
+void QuickView::AddImage<UnsignedCharRGBImageType>(
+  UnsignedCharRGBImageType *image,
+  bool FlipVertical,
+  std::string Description)
+{
+  if (FlipVertical)
+    {
+    typedef itk::FlipImageFilter< UnsignedCharRGBImageType> FlipFilterType;
+    FlipFilterType::Pointer flipper = FlipFilterType::New();
+    bool flipAxes[3] = { false, true, false };
+    flipper = FlipFilterType::New();
+    flipper->SetFlipAxes(flipAxes);
+    flipper->SetInput(image);
+    flipper->Update();
+    RGBImageInfo myImage(flipper->GetOutput(), Description);
+    this->RGBImages.push_back(myImage);
+    }
+  else
+    {
+    RGBImageInfo myImage(image, Description);
+    this->RGBImages.push_back(myImage);
+    }
+}
+
+template< >
 void QuickView::AddRGBImage<UnsignedCharRGBImageType>(
   UnsignedCharRGBImageType *image,
   bool FlipVertical,
@@ -164,6 +189,24 @@ void QuickView::AddRGBImage<UnsignedCharRGBImageType>(
 
 template< >
 void QuickView::AddRGBImage<FloatRGBImageType>(
+  FloatRGBImageType *image,
+  bool FlipVertical,
+  std::string Description)
+{
+  typedef itk::RGBToVectorImageAdaptor<FloatRGBImageType> AdaptorType;
+  AdaptorType::Pointer adaptor = AdaptorType::New();
+  adaptor->SetImage(image);
+
+  typedef itk::VectorRescaleIntensityImageFilter<AdaptorType, UnsignedCharRGBImageType > rescaleFilterType;
+  rescaleFilterType::Pointer rescaler = rescaleFilterType::New();
+  rescaler->SetOutputMaximumMagnitude(255);
+  rescaler->SetInput(adaptor);
+  rescaler->Update();
+  this->AddRGBImage(rescaler->GetOutput(), FlipVertical, Description);
+}
+
+template< >
+void QuickView::AddImage<FloatRGBImageType>(
   FloatRGBImageType *image,
   bool FlipVertical,
   std::string Description)
@@ -272,7 +315,9 @@ void QuickView::Visualize(bool interact)
     }
 
   unsigned int j = 0;
-  for(unsigned int i = this->Images.size(); i < this->RGBImages.size(); i++, j++)
+  for(unsigned int i = this->Images.size();
+      i < this->RGBImages.size() + this->Images.size();
+      i++, j++)
     {
     RGBConnectorType::Pointer connector = RGBConnectorType::New();
     RGBconnectors.push_back(connector);
@@ -295,7 +340,7 @@ void QuickView::Visualize(bool interact)
     vtkSmartPointer<vtkRenderer> renderer =
       vtkSmartPointer<vtkRenderer>::New();
     renderWindow->AddRenderer(renderer);
-    renderer->SetViewport(viewports[j]);
+    renderer->SetViewport(viewports[i]);
     renderer->SetBackground(background);
     if (m_ShareCamera)
       {
