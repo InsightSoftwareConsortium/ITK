@@ -163,7 +163,7 @@ BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>
 template <class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
 void
 BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>
-::UpdateTransformParameters( DerivativeType & update, TScalarType factor )
+::UpdateTransformParameters( const DerivativeType & update, TScalarType factor )
 {
   NumberOfParametersType numberOfParameters = this->GetNumberOfParameters();
 

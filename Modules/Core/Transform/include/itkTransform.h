@@ -382,7 +382,7 @@ public:
    * a converion to member variables for use in TransformPoint.
    * Derived classes should override to provide specialized behavior.
    */
-  virtual void UpdateTransformParameters( DerivativeType & update, TScalarType factor = 1.0 );
+  virtual void UpdateTransformParameters( const DerivativeType & update, TScalarType factor = 1.0 );
 
   /** Return the number of local parameters that completely defines the
    *  Transform at an individual voxel.

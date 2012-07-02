@@ -419,7 +419,7 @@ public:
    * to perform any required operations on the update parameters, typically
    * a converion to member variables for use in TransformPoint.
    */
-  virtual void UpdateTransformParameters( DerivativeType & update, ScalarType  factor = 1.0 );
+  virtual void UpdateTransformParameters( const DerivativeType & update, ScalarType  factor = 1.0 );
 
   /**
    * Flatten the transform queue such that there are no nested composite transforms.

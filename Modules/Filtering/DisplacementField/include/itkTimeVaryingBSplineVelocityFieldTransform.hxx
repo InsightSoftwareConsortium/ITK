@@ -237,7 +237,7 @@ TimeVaryingBSplineVelocityFieldTransform<TScalar, NDimensions>
 template<class TScalar, unsigned int NDimensions>
 void
 TimeVaryingBSplineVelocityFieldTransform<TScalar, NDimensions>
-::UpdateTransformParameters( DerivativeType & update, ScalarType factor )
+::UpdateTransformParameters( const DerivativeType & update, ScalarType factor )
 {
   NumberOfParametersType numberOfParameters = this->GetNumberOfParameters();
 

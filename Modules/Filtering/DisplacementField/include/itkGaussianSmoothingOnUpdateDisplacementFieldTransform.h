@@ -93,7 +93,7 @@ public:
    * added to the field.
    * See base class for more details.
    */
-  virtual void UpdateTransformParameters( DerivativeType & update, ScalarType factor = 1.0 );
+  virtual void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 );
 
   /** Smooth the displacement field in-place.
    * Uses m_GaussSmoothSigma to change the variance for the GaussianOperator.

@@ -65,7 +65,7 @@ public:
   bool HasLocalSupport() const
   { return false; }
 
-  void UpdateTransformParameters( DerivativeType &, ParametersValueType ) {}
+  void UpdateTransformParameters( const DerivativeType &, ParametersValueType ) {}
 
   const ParametersType & GetParameters() const
   { return m_Parameters; }

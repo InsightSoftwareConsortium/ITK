@@ -169,7 +169,7 @@ public:
   virtual void SetParameters( ParametersType & params );
   virtual const ParametersType & GetParameters() const;
   virtual bool HasLocalSupport() const;
-  virtual void UpdateTransformParameters( DerivativeType & derivative, ParametersValueType factor);
+  virtual void UpdateTransformParameters( const DerivativeType & derivative, ParametersValueType factor);
 
   /** Connect the fixed transform. */
   itkSetObjectMacro(FixedTransform, FixedTransformType);

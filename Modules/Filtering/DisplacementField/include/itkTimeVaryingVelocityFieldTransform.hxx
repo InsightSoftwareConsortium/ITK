@@ -231,7 +231,7 @@ TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
 template<class TScalar, unsigned int NDimensions>
 void
 TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
-::UpdateTransformParameters( DerivativeType & update, ScalarType factor )
+::UpdateTransformParameters( const DerivativeType & update, ScalarType factor )
 {
   //This simply adds the values.
   //TODO: This should be multi-threaded probably, via image add filter.

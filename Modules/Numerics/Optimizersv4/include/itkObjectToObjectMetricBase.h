@@ -151,7 +151,7 @@ public:
    * defaults to 1.0 .
    * \c derivative must be the proper size, as retrieved
    * from GetNumberOfParameters. */
-  virtual void UpdateTransformParameters( DerivativeType & derivative,
+  virtual void UpdateTransformParameters( const DerivativeType & derivative,
                                           ParametersValueType factor = NumericTraits<ParametersValueType>::One) = 0;
 
   /** Get the current metric value stored in m_Value. This is only

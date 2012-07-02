@@ -121,8 +121,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage>
 template<unsigned int TFixedDimension, unsigned int TMovingDimension, class TVirtualImage>
 void
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage>
-::UpdateTransformParameters( DerivativeType & derivative,
-                             ParametersValueType factor )
+::UpdateTransformParameters( const DerivativeType & derivative, ParametersValueType factor )
 {
   /* Rely on transform::UpdateTransformParameters to verify proper
    * size of derivative */

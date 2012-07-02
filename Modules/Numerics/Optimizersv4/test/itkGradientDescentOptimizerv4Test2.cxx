@@ -86,7 +86,7 @@ public:
     return 0.0;
   }
 
-  void UpdateTransformParameters( DerivativeType & update, ParametersValueType )
+  void UpdateTransformParameters( const DerivativeType & update, ParametersValueType )
   {
     m_Parameters += update;
   }

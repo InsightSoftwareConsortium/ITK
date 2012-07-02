@@ -84,7 +84,7 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
 template<class TScalar, unsigned int NDimensions>
 void
 BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
-::UpdateTransformParameters( DerivativeType &update, ScalarType factor )
+::UpdateTransformParameters( const DerivativeType & update, ScalarType factor )
 {
   DisplacementFieldPointer displacementField = this->GetDisplacementField();
 
@@ -117,7 +117,7 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
     {
     itkDebugMacro( "Smooothing the update field." );
 
-    DisplacementVectorType *updateFieldPointer = reinterpret_cast<DisplacementVectorType *>( update.data_block() );
+    DisplacementVectorType *updateFieldPointer = reinterpret_cast<DisplacementVectorType *>( const_cast<DerivativeType &>(update).data_block() );
 
     typename ImporterType::Pointer importer = ImporterType::New();
     importer->SetImportPointer( updateFieldPointer, numberOfPixels, importFilterWillReleaseMemory );
@@ -134,14 +134,17 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
 
     DerivativeValueType *updatePointer = reinterpret_cast<DerivativeValueType *>( updateSmoothField->GetBufferPointer() );
 
-    memcpy( update.data_block(), updatePointer, sizeof( DisplacementVectorType ) * numberOfPixels );
+    // Add the update field to the current total field
+    bool letArrayManageMemory = false;
+    // Pass data pointer to required container. No copying is done.
+    DerivativeType smoothedUpdate( updatePointer, update.GetSize(), letArrayManageMemory );
+    Superclass::UpdateTransformParameters( smoothedUpdate, factor );
     }
-
-  //
-  // Add the update field to the current total field before (optionally)
-  // smoothing the total field
-  //
-  Superclass::UpdateTransformParameters( update, factor );
+  else
+    {
+    // Add the update field to the current total field
+    Superclass::UpdateTransformParameters( update, factor );
+    }
 
   //
   // Smooth the total field

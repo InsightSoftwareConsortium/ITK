@@ -49,7 +49,7 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>::
 template<class TScalar, unsigned int NDimensions>
 void
 GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
-::UpdateTransformParameters( DerivativeType & update, ScalarType factor)
+::UpdateTransformParameters( const DerivativeType & update, ScalarType factor)
 {
   DisplacementFieldPointer displacementField = this->GetDisplacementField();
 
@@ -72,7 +72,7 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
     {
     itkDebugMacro( "Smooothing the update field." );
 
-    DisplacementVectorType *updateFieldPointer = reinterpret_cast<DisplacementVectorType *>( update.data_block() );
+    DisplacementVectorType *updateFieldPointer = reinterpret_cast<DisplacementVectorType *>( const_cast<DerivativeType &>(update).data_block() );
 
     typename ImporterType::Pointer importer = ImporterType::New();
     importer->SetImportPointer( updateFieldPointer, numberOfPixels, importFilterWillReleaseMemory );

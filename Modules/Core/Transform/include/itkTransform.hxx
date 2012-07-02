@@ -111,8 +111,7 @@ template <class TScalarType,
           unsigned int NOutputDimensions>
 void
 Transform<TScalarType, NInputDimensions, NOutputDimensions>
-::UpdateTransformParameters( DerivativeType & update,
-                             TScalarType factor )
+::UpdateTransformParameters( const DerivativeType & update, TScalarType factor )
 {
   NumberOfParametersType numberOfParameters = this->GetNumberOfParameters();
 
