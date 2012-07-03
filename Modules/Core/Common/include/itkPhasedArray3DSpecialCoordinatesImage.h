@@ -28,6 +28,8 @@ namespace itk
  *  \brief Templated 3D nonrectilinear-coordinate image class for
  *  phased-array "range" images.
  *
+ * \verbatim
+ *
  * y-axis <--------------------+
  *                             |\
  *                          /  | \
@@ -39,6 +41,7 @@ namespace itk
  * to y-z plane -> o           |
  *                             v z-axis
  *
+ * \endverbatim
  *
  * In a phased array "range" image, a point in space is represented by
  * the angle  between its projection onto the x-z plane and the z-axis
