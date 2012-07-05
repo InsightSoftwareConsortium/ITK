@@ -1,7 +1,5 @@
 itk_wrap_class("itk::ObjectToObjectMetric" POINTER)
   foreach(d ${ITK_WRAP_DIMS})
-    foreach(d2 ${ITK_WRAP_DIMS})
-      itk_wrap_template("${d}${d2}" "${d},${d2}")
-    endforeach()
+    itk_wrap_template("${d}${d}" "${d},${d}")
   endforeach()
 itk_end_wrap_class()
