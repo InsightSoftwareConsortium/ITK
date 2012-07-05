@@ -62,7 +62,6 @@
     Code/Common/itkExceptionObject.cxx
     Code/Common/itkImageSource.txx
     Code/Common/itkLoggerBase.cxx
-    Code/Common/itkTestMain.h
     Code/Common/itkTransform.txx
     Code/Common/itkWin32OutputWindow.cxx
     Code/IO/itkGDCMImageIO.cxx

@@ -49,7 +49,6 @@
     Code/BasicFilters/itkCropImageFilter.h
     Code/BasicFilters/itkExtractImageFilter.h
     Code/BasicFilters/itkExtractImageFilter.txx
-    Code/Common/itkTestMain.h
     Code/IO/itkTestDriver.cxx
     Examples/IO/ImageReadExtractFilterInsertWrite.cxx
     Examples/IO/ImageReadExtractWrite.cxx
