@@ -105,7 +105,7 @@ template<class TPointSet>
 typename JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
 ::MeasureType
 JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
-::GetLocalNeighborhoodValue( const PointType & point) const
+::GetLocalNeighborhoodValue( const PointType & point, const PixelType & itkNotUsed( pixel ) ) const
 {
   MeasureType value;
   LocalDerivativeType derivative;
@@ -117,7 +117,7 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
 template<class TPointSet>
 void
 JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
-::GetLocalNeighborhoodValueAndDerivative( const PointType & point, MeasureType & value, LocalDerivativeType & derivative) const
+::GetLocalNeighborhoodValueAndDerivative( const PointType & point, MeasureType & value, LocalDerivativeType & derivative, const PixelType & itkNotUsed( pixel ) ) const
 {
   this->ComputeValueAndDerivative( point, value, derivative, true, true );
 }
@@ -204,6 +204,28 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
 }
 
 template<class TPointSet>
+::itk::LightObject::Pointer
+JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
+::Clone() const
+{
+  ::itk::LightObject::Pointer smartPtr;
+  Pointer copyPtr = Self::New();
+
+  copyPtr->m_MovingPointSet = this->m_MovingPointSet;
+  copyPtr->m_FixedPointSet = this->m_FixedPointSet;
+  copyPtr->m_Alpha = this->m_Alpha;
+  copyPtr->m_PointSetSigma = this->m_PointSetSigma;
+  copyPtr->m_KernelSigma = this->m_KernelSigma;
+  copyPtr->m_CovarianceKNeighborhood = this->m_CovarianceKNeighborhood;
+  copyPtr->m_EvaluationKNeighborhood = this->m_EvaluationKNeighborhood;
+  copyPtr->m_UseAnisotropicCovariances = this->m_UseAnisotropicCovariances;
+
+  smartPtr = static_cast<Pointer>( copyPtr );
+
+  return smartPtr;
+}
+
+template<class TPointSet>
 void
 JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
 ::PrintSelf( std::ostream& os, Indent indent ) const
@@ -212,6 +234,7 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
 
   os << indent << "Alpha: " << this->m_Alpha << std::endl;
   os << indent << "Point set sigma: " << this->m_PointSetSigma << std::endl;
+  os << indent << "Evaluation k-neighborhood: " << this->m_EvaluationKNeighborhood << std::endl;
 
   if( this->m_UseAnisotropicCovariances )
     {

@@ -53,7 +53,7 @@ public:
   typedef SmartPointer<const Self>                                     ConstPointer;
 
   /** Method for creation through the object factory. */
-  itkNewMacro( Self );
+  itkSimpleNewMacro( Self );
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( ExpectationBasedPointSetToPointSetMetricv4, PointSetToPointSetMetricv4 );
@@ -63,6 +63,7 @@ public:
   typedef typename Superclass::DerivativeType           DerivativeType;
   typedef typename Superclass::LocalDerivativeType      LocalDerivativeType;
   typedef typename Superclass::PointType                PointType;
+  typedef typename Superclass::PixelType                PixelType;
   typedef typename Superclass::CoordRepType             CoordRepType;
   typedef typename Superclass::PointIdentifier          PointIdentifier;
   typedef typename Superclass::NeighborsIdentifierType  NeighborsIdentifierType;
@@ -70,13 +71,13 @@ public:
   /**
    * Calculates the local metric value for a single point.
    */
-  virtual MeasureType GetLocalNeighborhoodValue( const PointType & ) const;
+  virtual MeasureType GetLocalNeighborhoodValue( const PointType &, const PixelType & pixel = 0 ) const;
 
   /**
    * Calculates the local value and derivative for a single point.
    */
   virtual void GetLocalNeighborhoodValueAndDerivative( const PointType &,
-    MeasureType &, LocalDerivativeType & ) const;
+    MeasureType &, LocalDerivativeType &, const PixelType & pixel = 0 ) const;
 
   /**
    * Each point is associated with a Gaussian characterized by m_PointSetSigma
@@ -101,6 +102,10 @@ public:
   itkGetConstMacro( EvaluationKNeighborhood, unsigned int );
 
   void Initialize( void ) throw ( ExceptionObject );
+
+  /** Clone method will clone the existing instance of this type,
+   *  including its internal member variables. */
+  virtual ::itk::LightObject::Pointer Clone( void ) const;
 
 protected:
   ExpectationBasedPointSetToPointSetMetricv4();

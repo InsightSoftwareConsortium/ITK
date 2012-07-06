@@ -40,6 +40,12 @@ namespace itk
  * fixed transform, then transformed into the moving domain using the
  * moving transform.
  *
+ * Since the \c PointSet class permits each \c Point to be associated with a
+ * \c PixelType, there are potential applications which could make use of
+ * this additional information.  For example, the derived \c LabeledPointSetToPointSetMetric
+ * class uses the \c PixelType as a \c LabelType for estimating total metric values
+ * and gradients from the individual label-wise point subset metric and derivatives
+ *
  * If a virtual domain is not defined by the user, one of two things happens:
  * 1) If the moving transform is a global type, then the virtual domain is
  * left undefined and every point is considered to be within the virtual domain.
@@ -103,6 +109,9 @@ public:
   typedef typename Superclass::FixedTransformJacobianType     FixedTransformJacobianType;
   typedef typename Superclass::MovingTransformJacobianType    MovingTransformJacobianType;
 
+  typedef typename Superclass::MovingDisplacementFieldTransformType  DisplacementFieldTransformType;
+
+
   /** Dimension type */
   typedef typename Superclass::DimensionType                  DimensionType;
 
@@ -131,6 +140,7 @@ public:
   itkStaticConstMacro( PointDimension, DimensionType, Superclass::FixedDimension );
 
   typedef FixedPointType                               PointType;
+  typedef FixedPixelType                               PixelType;
   typedef typename PointType::CoordRepType             CoordRepType;
   typedef FixedPointsContainer                         PointsContainer;
   typedef typename PointsContainer::ConstIterator      PointsConstIterator;
@@ -222,20 +232,23 @@ public:
 
   /**
    * Function to be defined in the appropriate derived classes.  Calculates
-   * the local metric value for a single point.
+   * the local metric value for a single point.  The \c PixelType may or
+   * may not be used.  See class description for further explanation.
    */
-  virtual MeasureType GetLocalNeighborhoodValue( const PointType & ) const = 0;
+  virtual MeasureType GetLocalNeighborhoodValue( const PointType &, const PixelType & pixel = 0 ) const = 0;
 
   /**
-   * Calculates the local derivative for a single point.
+   * Calculates the local derivative for a single point. The \c PixelType may or
+   * may not be used.  See class description for further explanation.
    */
-  virtual LocalDerivativeType GetLocalNeighborhoodDerivative( const PointType & ) const;
+  virtual LocalDerivativeType GetLocalNeighborhoodDerivative( const PointType &, const PixelType & pixel = 0 ) const;
 
   /**
-   * Calculates the local value/derivative for a single point.
+   * Calculates the local value/derivative for a single point.  The \c PixelType may or
+   * may not be used.  See class description for further explanation.
    */
   virtual void GetLocalNeighborhoodValueAndDerivative( const PointType &,
-    MeasureType &, LocalDerivativeType & ) const = 0;
+    MeasureType &, LocalDerivativeType &, const PixelType & pixel = 0 ) const = 0;
 
   /**
    * Get the virtual point set, derived from the fixed point set.
@@ -273,6 +286,12 @@ protected:
 
   /** Holds the fixed points after transformation into virtual domain. */
   mutable VirtualPointSetPointer                          m_VirtualTransformedPointSet;
+
+  /**
+   * Bool set by derived classes on whether the point set data (i.e. \c PixelType)
+   * should be used.  Default = false.
+   */
+  bool m_UsePointSetData;
 
   /**
    * Prepare point sets for use. */

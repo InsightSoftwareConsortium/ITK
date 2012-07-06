@@ -61,18 +61,19 @@ public:
   typedef typename Superclass::DerivativeType       DerivativeType;
   typedef typename Superclass::LocalDerivativeType  LocalDerivativeType;
   typedef typename Superclass::PointType            PointType;
+  typedef typename Superclass::PixelType            PixelType;
   typedef typename Superclass::PointIdentifier      PointIdentifier;
 
   /**
    * Calculates the local metric value for a single point.
    */
-  virtual MeasureType GetLocalNeighborhoodValue( const PointType & ) const;
+  virtual MeasureType GetLocalNeighborhoodValue( const PointType &, const PixelType & pixel = 0 ) const;
 
   /**
    * Calculates the local value and derivative for a single point.
    */
   virtual void GetLocalNeighborhoodValueAndDerivative( const PointType &,
-    MeasureType &, LocalDerivativeType & ) const;
+    MeasureType &, LocalDerivativeType &, const PixelType & pixel = 0 ) const;
 
 protected:
   EuclideanDistancePointSetToPointSetMetricv4();

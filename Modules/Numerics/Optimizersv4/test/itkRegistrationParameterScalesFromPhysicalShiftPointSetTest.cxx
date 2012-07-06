@@ -42,6 +42,7 @@ public:
   typedef typename Superclass::ParametersType       ParametersType;
   typedef typename Superclass::ParametersValueType  ParametersValueType;
   typedef typename Superclass::PointType            PointType;
+  typedef typename Superclass::PixelType            PixelType;
   typedef typename Superclass::LocalDerivativeType  LocalDerivativeType;
   typedef typename Superclass::FixedPointSetType    FixedPointSetType;
   typedef typename Superclass::MovingPointSetType   MovingPointSetType;
@@ -50,10 +51,10 @@ public:
 
   itkNewMacro(Self);
 
-  virtual MeasureType GetLocalNeighborhoodValue( const PointType & ) const
+  virtual MeasureType GetLocalNeighborhoodValue( const PointType &, const PixelType & ) const
   { return 1.0; }
 
-  virtual void GetLocalNeighborhoodValueAndDerivative( const PointType &, MeasureType & measure, LocalDerivativeType & derivative ) const
+  virtual void GetLocalNeighborhoodValueAndDerivative( const PointType &, MeasureType & measure, LocalDerivativeType & derivative, const PixelType & ) const
   { measure = 1.0; derivative.Fill(0.0); }
 
 private:
