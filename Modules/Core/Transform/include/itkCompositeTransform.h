@@ -179,6 +179,18 @@ public:
     this->PushBackTransform( t ); /* Also adds to TransformsToOptimize list */
   }
 
+  /** Same as AddTransform */
+  void AppendTransform( TransformType *t  )
+  {
+    this->PushBackTransform( t ); /* Also adds to TransformsToOptimize list */
+  }
+
+  /** Add transform to the front of the stack */
+  void PrependTransform( TransformType *t  )
+  {
+    this->PushFrontTransform( t ); /* Also adds to TransformsToOptimize list */
+  }
+
   void RemoveTransform()
   {
     this->PopBackTransform(); /* Also removes to TransformsToOptimize list */
