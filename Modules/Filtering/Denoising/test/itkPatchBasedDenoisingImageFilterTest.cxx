@@ -76,6 +76,7 @@ int doDenoising(const std::string inputFileName, const std::string outputFileNam
   filter->SetPatchRadius(patchRadius);
   // instead of directly setting the weights, could also specify type
   filter->UseSmoothDiscPatchWeightsOn();
+  filter->UseFastTensorComputationsOn();
 
   // noise model to use
   if (noiseModel == "GAUSSIAN")
