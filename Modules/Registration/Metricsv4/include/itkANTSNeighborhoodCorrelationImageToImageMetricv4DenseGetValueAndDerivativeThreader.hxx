@@ -42,8 +42,8 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreade
   DerivativeType & localDerivativeResult = this->m_LocalDerivativesPerThread[threadId];
 
   /* Create an iterator over the virtual sub region */
-  associate->InitializeScanning( virtualImageSubRegion, scanIt, scanMem,
-      scanParameters );
+  associate->InitializeScanning( virtualImageSubRegion, scanIt, scanMem, scanParameters );
+
   /* Iterate over the sub region */
   scanIt.GoToBegin();
   while (!scanIt.IsAtEnd())
@@ -56,13 +56,10 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreade
     try
       {
       this->UpdateQueues(scanIt, scanMem, scanParameters, threadId);
-      pointIsValid = this->ComputeInformationFromQueues(scanIt,
-          scanMem, scanParameters, threadId);
+      pointIsValid = this->ComputeInformationFromQueues(scanIt, scanMem, scanParameters, threadId);
       if( pointIsValid )
         {
-        this->ComputeMovingTransformDerivative(scanIt, scanMem,
-            scanParameters, localDerivativeResult, metricValueResult,
-            threadId );
+        this->ComputeMovingTransformDerivative(scanIt, scanMem, scanParameters, localDerivativeResult, metricValueResult, threadId );
         }
       }
     catch (ExceptionObject & exc)
@@ -81,7 +78,10 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreade
       metricValueSum -= metricValueResult;
       /* Store the result. This depends on what type of
        * transform is being used. */
-      this->StorePointDerivativeResult( scanIt.GetIndex(), threadId );
+      if( this->GetComputeDerivative() )
+        {
+        this->StorePointDerivativeResult( scanIt.GetIndex(), threadId );
+        }
       }
 
     //next index
@@ -95,17 +95,14 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreade
 template < class TImageToImageMetric, class TNeighborhoodCorrelationMetric >
 void
 ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreader< TImageToImageMetric, TNeighborhoodCorrelationMetric >
-::UpdateQueuesAtBeginningOfLine(
-    const ScanIteratorType &scanIt, ScanMemType &scanMem,
-    const ScanParametersType &scanParameters, const ThreadIdType ) const
+::UpdateQueuesAtBeginningOfLine( const ScanIteratorType &scanIt, ScanMemType &scanMem, const ScanParametersType &scanParameters, const ThreadIdType ) const
 {
   TNeighborhoodCorrelationMetric * associate = dynamic_cast< TNeighborhoodCorrelationMetric * >( this->m_Associate );
 
   const SizeValueType numberOfFillZero = scanParameters.numberOfFillZero;
   const SizeValueType hoodlen = scanParameters.windowLength;
 
-  InternalComputationValueType zero
-    = NumericTraits<InternalComputationValueType>::ZeroValue();
+  InternalComputationValueType zero = NumericTraits<InternalComputationValueType>::ZeroValue();
   scanMem.QsumFixed2 = SumQueueType(numberOfFillZero, zero);
   scanMem.QsumMoving2 = SumQueueType(numberOfFillZero, zero);
   scanMem.QsumFixed = SumQueueType(numberOfFillZero, zero);
@@ -119,8 +116,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreade
   SizeValueType diameter = 2 * scanParameters.radius[0];
 
   const LocalRealType localZero = NumericTraits<LocalRealType>::ZeroValue();
-  for (SizeValueType i = numberOfFillZero;
-        i < ( diameter + NumericTraits<SizeValueType>::OneValue() ); i++)
+  for (SizeValueType i = numberOfFillZero; i < ( diameter + NumericTraits<SizeValueType>::OneValue() ); i++)
     {
     LocalRealType sumFixed2      = localZero;
     LocalRealType sumMoving2     = localZero;
@@ -129,8 +125,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreade
     LocalRealType sumFixedMoving = localZero;
     LocalRealType count = localZero;
 
-    for ( SizeValueType indct = i; indct < hoodlen;
-          indct += ( diameter + NumericTraits<SizeValueType>::OneValue() ) )
+    for ( SizeValueType indct = i; indct < hoodlen; indct += ( diameter + NumericTraits<SizeValueType>::OneValue() ) )
       {
       typename ScanIteratorType::OffsetType internalIndex, offset;
       bool isInBounds = scanIt.IndexInBounds( indct, internalIndex, offset );
@@ -204,9 +199,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreade
 template < class TImageToImageMetric, class TNeighborhoodCorrelationMetric >
 void
 ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreader< TImageToImageMetric, TNeighborhoodCorrelationMetric >
-::UpdateQueuesToNextScanWindow(
-    const ScanIteratorType &scanIt, ScanMemType &scanMem,
-    const ScanParametersType &scanParameters, const ThreadIdType ) const
+::UpdateQueuesToNextScanWindow( const ScanIteratorType &scanIt, ScanMemType &scanMem, const ScanParametersType &scanParameters, const ThreadIdType ) const
 {
   TNeighborhoodCorrelationMetric * associate = dynamic_cast< TNeighborhoodCorrelationMetric * >( this->m_Associate );
 
@@ -225,8 +218,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreade
 
   SizeValueType diameter = 2 * scanParameters.radius[0];
 
-  for ( SizeValueType indct = diameter; indct < hoodlen;
-    indct += (diameter + NumericTraits<SizeValueType>::OneValue()))
+  for ( SizeValueType indct = diameter; indct < hoodlen; indct += (diameter + NumericTraits<SizeValueType>::OneValue()))
     {
     typename ScanIteratorType::OffsetType internalIndex, offset;
     bool isInBounds = scanIt.IndexInBounds( indct, internalIndex, offset );
@@ -371,12 +363,9 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreade
   LocalRealType fixedMean  = sumFixed  / count;
   LocalRealType movingMean = sumMoving / count;
 
-  LocalRealType sFixedFixed = sumFixed2 - fixedMean * sumFixed - fixedMean * sumFixed
-    + count * fixedMean * fixedMean;
-  LocalRealType sMovingMoving = sumMoving2 - movingMean * sumMoving - movingMean * sumMoving
-    + count * movingMean * movingMean;
-  LocalRealType sFixedMoving = sumFixedMoving - movingMean * sumFixed - fixedMean * sumMoving
-    + count * movingMean * fixedMean;
+  LocalRealType sFixedFixed   = sumFixed2 - fixedMean * sumFixed - fixedMean * sumFixed + count * fixedMean * fixedMean;
+  LocalRealType sMovingMoving = sumMoving2 - movingMean * sumMoving - movingMean * sumMoving + count * movingMean * movingMean;
+  LocalRealType sFixedMoving  = sumFixedMoving - movingMean * sumFixed - fixedMean * sumMoving + count * movingMean * fixedMean;
 
   typename VirtualImageType::IndexType oindex = scanIt.GetIndex();
 
@@ -395,7 +384,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreade
     {
     pointIsValid = associate->TransformAndEvaluateFixedPoint( oindex,
             virtualPoint,
-            associate->GetGradientSourceIncludesFixed() /*compute gradient*/,
+            this->GetComputeDerivative() && associate->GetGradientSourceIncludesFixed() /*compute gradient*/,
             mappedFixedPoint,
             fixedImageValue,
             fixedImageGradient );
@@ -403,7 +392,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreade
       {
       pointIsValid = associate->TransformAndEvaluateMovingPoint( oindex,
              virtualPoint,
-             associate->GetGradientSourceIncludesMoving() /*compute gradient*/,
+             this->GetComputeDerivative() && associate->GetGradientSourceIncludesMoving() /*compute gradient*/,
              mappedMovingPoint,
              movingImageValue,
              movingImageGradient );
@@ -440,10 +429,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreade
 template < class TImageToImageMetric, class TNeighborhoodCorrelationMetric >
 void
 ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreader< TImageToImageMetric, TNeighborhoodCorrelationMetric >
-::ComputeMovingTransformDerivative(
-  const ScanIteratorType &, ScanMemType &scanMem,
-  const ScanParametersType &, DerivativeType &deriv,
-  MeasureType &localCC, const ThreadIdType threadId) const
+::ComputeMovingTransformDerivative( const ScanIteratorType &, ScanMemType &scanMem, const ScanParametersType &, DerivativeType &deriv, MeasureType &localCC, const ThreadIdType threadId) const
 {
   MovingImageGradientType derivWRTImage;
   localCC = NumericTraits<MeasureType>::OneValue();
@@ -456,40 +442,43 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreade
   LocalRealType fixedI        = scanMem.fixedA;
   LocalRealType movingI       = scanMem.movingA;
 
-  const MovingImageGradientType movingImageGradient = scanMem.movingImageGradient;
+  LocalRealType sFixedFixed_sMovingMoving = sFixedFixed * sMovingMoving;
 
-  if ( ! (sFixedFixed > NumericTraits<LocalRealType>::epsilon() && sMovingMoving > NumericTraits<LocalRealType>::epsilon() ) )
+  if ( fabs(sFixedFixed_sMovingMoving) > NumericTraits< LocalRealType >::epsilon() )
     {
-    deriv.Fill( NumericTraits<DerivativeValueType>::Zero );
-    return;
+    localCC = sFixedMoving * sFixedMoving / (sFixedFixed_sMovingMoving);
     }
 
-  for (ImageDimensionType qq = 0; qq < TImageToImageMetric::VirtualImageDimension; qq++)
+  if( this->GetComputeDerivative() )
     {
-    derivWRTImage[qq] = 2.0 * sFixedMoving / (sFixedFixed * sMovingMoving) * (fixedI - sFixedMoving / sMovingMoving * movingI) * movingImageGradient[qq];
-    }
+    const MovingImageGradientType movingImageGradient = scanMem.movingImageGradient;
 
-  if ( fabs(sFixedFixed * sMovingMoving) > NumericTraits< LocalRealType >::epsilon() )
-    {
-    localCC = sFixedMoving * sFixedMoving / (sFixedFixed * sMovingMoving);
-    }
-
-  /* Use a pre-allocated jacobian object for efficiency */
-  JacobianType & jacobian =
-    this->m_MovingTransformJacobianPerThread[threadId];
-
-  /** For dense transforms, this returns identity */
-  this->m_Associate->GetMovingTransform()->ComputeJacobianWithRespectToParameters(
-    scanMem.virtualPoint, jacobian);
-
-  NumberOfParametersType numberOfLocalParameters = this->m_Associate->GetMovingTransform()->GetNumberOfLocalParameters();
-
-  for (NumberOfParametersType par = 0; par < numberOfLocalParameters; par++)
-    {
-    deriv[par] = NumericTraits<DerivativeValueType>::Zero;
-    for (ImageDimensionType dim = 0; dim < TImageToImageMetric::MovingImageDimension; dim++)
+    if ( ! (sFixedFixed > NumericTraits<LocalRealType>::epsilon() && sMovingMoving > NumericTraits<LocalRealType>::epsilon() ) )
       {
-      deriv[par] += derivWRTImage[dim] * jacobian(dim, par);
+      deriv.Fill( NumericTraits<DerivativeValueType>::Zero );
+      return;
+      }
+
+    for (ImageDimensionType qq = 0; qq < TImageToImageMetric::VirtualImageDimension; qq++)
+      {
+      derivWRTImage[qq] = 2.0 * sFixedMoving / (sFixedFixed_sMovingMoving) * (fixedI - sFixedMoving / sMovingMoving * movingI) * movingImageGradient[qq];
+      }
+
+    /* Use a pre-allocated jacobian object for efficiency */
+    JacobianType & jacobian = this->m_MovingTransformJacobianPerThread[threadId];
+
+    /** For dense transforms, this returns identity */
+    this->m_Associate->GetMovingTransform()->ComputeJacobianWithRespectToParameters( scanMem.virtualPoint, jacobian );
+
+    NumberOfParametersType numberOfLocalParameters = this->m_Associate->GetMovingTransform()->GetNumberOfLocalParameters();
+
+    for (NumberOfParametersType par = 0; par < numberOfLocalParameters; par++)
+      {
+      deriv[par] = NumericTraits<DerivativeValueType>::Zero;
+      for (ImageDimensionType dim = 0; dim < TImageToImageMetric::MovingImageDimension; dim++)
+        {
+        deriv[par] += derivWRTImage[dim] * jacobian(dim, par);
+        }
       }
     }
   return;

@@ -76,6 +76,9 @@ public:
   /** Type of the Jacobian matrix. */
   typedef  typename Superclass::JacobianType JacobianType;
 
+  /** Transform category type. */
+  typedef typename Superclass::TransformCategoryType TransformCategoryType;
+
   /** Standard vector type for this class. */
   typedef Vector<TScalarType,
                  itkGetStaticConstMacro(InputSpaceDimension)>  InputVectorType;
@@ -201,9 +204,9 @@ public:
    *
    * \f[ T( a*P + b*Q ) = a * T(P) + b * T(Q) \f]
    */
-  virtual bool IsLinear() const
+  virtual TransformCategoryType GetTransformCategory() const
   {
-    return true;
+    return Self::Linear;
   }
 
   /** Get the Fixed Parameters. */

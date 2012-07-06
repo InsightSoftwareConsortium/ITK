@@ -42,6 +42,11 @@ MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner
   FixedImagePixelType diff = fixedImageValue - movingImageValue;
   metricValueReturn = diff * diff;
 
+  if( ! this->GetComputeDerivative() )
+    {
+    return true;
+    }
+
   /* Use a pre-allocated jacobian object for efficiency */
   typedef typename TImageToImageMetric::JacobianType & JacobianReferenceType;
   JacobianReferenceType jacobian = this->m_MovingTransformJacobianPerThread[threadID];

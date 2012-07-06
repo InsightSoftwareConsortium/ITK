@@ -41,8 +41,7 @@ void CorrelationImageToImageMetricv4HelperThreader< TDomainPartitioner, TImageTo
 
 }
 
-template<class TDomainPartitioner, class TImageToImageMetric,
-  class TCorrelationMetric>
+template<class TDomainPartitioner, class TImageToImageMetric, class TCorrelationMetric>
 void
 CorrelationImageToImageMetricv4HelperThreader<TDomainPartitioner,
     TImageToImageMetric, TCorrelationMetric>::AfterThreadedExecution()
@@ -50,13 +49,12 @@ CorrelationImageToImageMetricv4HelperThreader<TDomainPartitioner,
 
   // only need to dynamic cast asscociate to the specific metric class
   // to  access the inherited protected members from its parent class
-  TCorrelationMetric * associate =
-      dynamic_cast<TCorrelationMetric *>(this->m_Associate);
+  TCorrelationMetric * associate = dynamic_cast<TCorrelationMetric *>(this->m_Associate);
 
   /* Store the number of valid points the enclosing class \c
    * m_NumberOfValidPoints by collecting the valid points per thread. */
-  associate->m_NumberOfValidPoints =
-      NumericTraits<SizeValueType>::Zero;
+  associate->m_NumberOfValidPoints = NumericTraits<SizeValueType>::Zero;
+
   for (ThreadIdType i = 0; i < this->GetNumberOfThreadsUsed(); i++)
     {
     associate->m_NumberOfValidPoints += this->m_NumberOfValidPointsPerThread[i];
@@ -81,14 +79,11 @@ CorrelationImageToImageMetricv4HelperThreader<TDomainPartitioner,
   associate->m_AverageMov = sumM / associate->m_NumberOfValidPoints;
 }
 
-template<class TDomainPartitioner, class TImageToImageMetric,
-class TCorrelationMetric>
+template<class TDomainPartitioner, class TImageToImageMetric, class TCorrelationMetric>
 bool
 CorrelationImageToImageMetricv4HelperThreader<TDomainPartitioner,
 TImageToImageMetric, TCorrelationMetric>
-::ProcessVirtualPoint( const VirtualIndexType & virtualIndex,
-                       const VirtualPointType & virtualPoint,
-                       const ThreadIdType threadID )
+::ProcessVirtualPoint( const VirtualIndexType & virtualIndex, const VirtualPointType & virtualPoint, const ThreadIdType threadID )
 {
   FixedOutputPointType        mappedFixedPoint;
   FixedImagePixelType         mappedFixedPixelValue;
@@ -98,9 +93,7 @@ TImageToImageMetric, TCorrelationMetric>
   MovingImageGradientType     mappedMovingImageGradient;
   bool                        pointIsValid = false;
 
-
-  TCorrelationMetric * associate =
-        dynamic_cast<TCorrelationMetric *>(this->m_Associate);
+  TCorrelationMetric * associate = dynamic_cast<TCorrelationMetric *>(this->m_Associate);
 
   /* Transform the point into fixed and moving spaces, and evaluate.
    * Different behavior with pre-warping enabled is handled transparently.
@@ -109,11 +102,11 @@ TImageToImageMetric, TCorrelationMetric>
   try
     {
     pointIsValid = associate->TransformAndEvaluateFixedPoint( virtualIndex,
-                                      virtualPoint,
-                                      false,
-                                      mappedFixedPoint,
-                                      mappedFixedPixelValue,
-                                      mappedFixedImageGradient );
+                                                              virtualPoint,
+                                                              false,
+                                                              mappedFixedPoint,
+                                                              mappedFixedPixelValue,
+                                                              mappedFixedImageGradient );
     }
   catch( ExceptionObject & exc )
     {
@@ -131,11 +124,11 @@ TImageToImageMetric, TCorrelationMetric>
   try
     {
     pointIsValid = associate->TransformAndEvaluateMovingPoint( virtualIndex,
-                                    virtualPoint,
-                                    false,
-                                    mappedMovingPoint,
-                                    mappedMovingPixelValue,
-                                    mappedMovingImageGradient );
+                                                               virtualPoint,
+                                                               false,
+                                                               mappedMovingPoint,
+                                                               mappedMovingPixelValue,
+                                                               mappedMovingImageGradient );
     }
   catch( ExceptionObject & exc )
     {
@@ -152,12 +145,11 @@ TImageToImageMetric, TCorrelationMetric>
   /* Do the specific calculations for values */
   try
     {
-      this->m_FixSumPerThread[threadID] += mappedFixedPixelValue;
-      this->m_MovSumPerThread[threadID] += mappedMovingPixelValue;
+    this->m_FixSumPerThread[threadID] += mappedFixedPixelValue;
+    this->m_MovSumPerThread[threadID] += mappedMovingPixelValue;
     }
   catch( ExceptionObject & exc )
     {
-    //NOTE: there must be a cleaner way to do this:
     std::string msg("Exception in ProcessVirtualPoint:\n");
     msg += exc.what();
     ExceptionObject err(__FILE__, __LINE__, msg);

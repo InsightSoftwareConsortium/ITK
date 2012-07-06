@@ -37,11 +37,8 @@ void CorrelationImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartit
   m_InternalCumSumPerThread.resize(this->GetNumberOfThreadsUsed());
   for (ThreadIdType i = 0; i < this->GetNumberOfThreadsUsed(); i++)
     {
-    itkDebugMacro("CorrelationImageToImageMetricv4::Initialize: transform does NOT have local support\n");
-
     this->m_InternalCumSumPerThread[i].fdm.SetSize(globalDerivativeSize);
     this->m_InternalCumSumPerThread[i].mdm.SetSize(globalDerivativeSize);
-
     }
 
   //---------------------------------------------------------------
@@ -100,45 +97,48 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
     f2 += this->m_InternalCumSumPerThread[i].f2;
     }
 
-  if (m2 * f2 == 0)
+  InternalComputationValueType m2f2 = m2 * f2;
+  if ( m2f2 <= NumericTraits<InternalComputationValueType>::epsilon() )
     {
-    itkDebugMacro( "CorrelationImageToImageMetricv4: m2 * f2 == 0");
+    itkDebugMacro( "CorrelationImageToImageMetricv4: m2 * f2 <= epsilon");
     return;
     }
 
-  associate->m_Value = -1.0 * fm * fm / (m2 * f2);
+  associate->m_Value = -1.0 * fm * fm / (m2f2);
 
   /* For global transforms, compute the derivatives by combining values from each region. */
-  DerivativeType fdm, mdm;
-  fdm.SetSize(globalDerivativeSize);
-  mdm.SetSize(globalDerivativeSize);
-
-  fdm.Fill(NumericTraits<DerivativeValueType>::Zero);
-  mdm.Fill(NumericTraits<DerivativeValueType>::Zero);
-
-  for (ThreadIdType i = 0; i < this->GetNumberOfThreadsUsed(); i++)
+  if( this->GetComputeDerivative() )
     {
-    fdm += this->m_InternalCumSumPerThread[i].fdm;
-    mdm += this->m_InternalCumSumPerThread[i].mdm;
+    DerivativeType fdm, mdm;
+    fdm.SetSize(globalDerivativeSize);
+    mdm.SetSize(globalDerivativeSize);
+
+    fdm.Fill(NumericTraits<DerivativeValueType>::Zero);
+    mdm.Fill(NumericTraits<DerivativeValueType>::Zero);
+
+    for (ThreadIdType i = 0; i < this->GetNumberOfThreadsUsed(); i++)
+      {
+      fdm += this->m_InternalCumSumPerThread[i].fdm;
+      mdm += this->m_InternalCumSumPerThread[i].mdm;
+      }
+
+    /** There should be a minus sign of \frac{d}{dp} mathematically, which
+     *  is not in the implementation to match the requirement of the metricv4
+     *  optimization framework.
+     *
+     *  We use += instead of assignment here because for multi-variate vector,
+     *  we will want to always add to the values in m_DerivativeResult so they
+     *  can be efficiently accumulated between multiple metrics.
+     */
+    *(associate->m_DerivativeResult) += 2.0 *fm/(f2*m2)*(fdm - fm/m2*mdm);
     }
 
-  /** There should be a minus sign of \frac{d}{dp} mathematically, which
-   *  is not in the implementation to match the requirement of the metricv4
-   *  optimization framework.
-   *
-   *  We use += instead of assignment here because for multi-variate vector,
-   *  we will want to always add to the values in m_DerivativeResult so they
-   *  can be efficiently accumulated between multiple metrics.
-   */
-  *(associate->m_DerivativeResult) += 2.0 *fm/(f2*m2)*(fdm - fm/m2*mdm);
 }
 
 template<class TDomainPartitioner, class TImageToImageMetric, class TCorrelationMetric>
 bool
 CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner, TImageToImageMetric, TCorrelationMetric>
-::ProcessVirtualPoint( const VirtualIndexType & virtualIndex,
-                       const VirtualPointType & virtualPoint,
-                       const ThreadIdType threadId )
+::ProcessVirtualPoint( const VirtualIndexType & virtualIndex, const VirtualPointType & virtualPoint, const ThreadIdType threadId )
 {
   FixedOutputPointType        mappedFixedPoint;
   FixedImagePixelType         mappedFixedPixelValue;
@@ -159,7 +159,7 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
     {
     pointIsValid = associate->TransformAndEvaluateFixedPoint( virtualIndex,
                                       virtualPoint,
-                                      this->m_Associate->GetGradientSourceIncludesFixed(),
+                                      this->GetComputeDerivative() && this->m_Associate->GetGradientSourceIncludesFixed(),
                                       mappedFixedPoint,
                                       mappedFixedPixelValue,
                                       mappedFixedImageGradient );
@@ -181,7 +181,7 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
     {
     pointIsValid = associate->TransformAndEvaluateMovingPoint( virtualIndex,
                                     virtualPoint,
-                                    this->m_Associate->GetGradientSourceIncludesMoving(),
+                                    this->GetComputeDerivative() && this->m_Associate->GetGradientSourceIncludesMoving(),
                                     mappedMovingPoint,
                                     mappedMovingPixelValue,
                                     mappedMovingImageGradient );
@@ -252,13 +252,6 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
 
   TCorrelationMetric * associate = dynamic_cast<TCorrelationMetric *>(this->m_Associate);
 
-  /* Use a pre-allocated jacobian object for efficiency */
-  typedef typename TImageToImageMetric::JacobianType & JacobianReferenceType;
-  JacobianReferenceType jacobian = this->m_MovingTransformJacobianPerThread[threadID];
-
-  /** For dense transforms, this returns identity */
-  associate->GetMovingTransform()->ComputeJacobianWithRespectToParameters(virtualPoint, jacobian);
-
   InternalCumSumType & cumsum = this->m_InternalCumSumPerThread[threadID];
 
   /* subtract the average of pixels (computed during InitializeIteration) */
@@ -271,16 +264,26 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
   cumsum.m2 += m1 * m1;
   cumsum.fm += f1 * m1;
 
-  for (unsigned int par = 0; par < associate->GetNumberOfLocalParameters(); par++)
+  if( this->GetComputeDerivative() )
     {
-    InternalComputationValueType sum = NumericTraits< InternalComputationValueType >::Zero;
-    for (SizeValueType dim = 0; dim < ImageToImageMetricv4Type::MovingImageDimension; dim++)
-      {
-      sum += movingImageGradient[dim] * jacobian(dim, par);
-      }
+    /* Use a pre-allocated jacobian object for efficiency */
+    typedef typename TImageToImageMetric::JacobianType & JacobianReferenceType;
+    JacobianReferenceType jacobian = this->m_MovingTransformJacobianPerThread[threadID];
 
-    cumsum.fdm[par] += f1 * sum;
-    cumsum.mdm[par] += m1 * sum;
+    /** For dense transforms, this returns identity */
+    associate->GetMovingTransform()->ComputeJacobianWithRespectToParameters(virtualPoint, jacobian);
+
+    for (unsigned int par = 0; par < associate->GetNumberOfLocalParameters(); par++)
+      {
+      InternalComputationValueType sum = NumericTraits< InternalComputationValueType >::Zero;
+      for (SizeValueType dim = 0; dim < ImageToImageMetricv4Type::MovingImageDimension; dim++)
+        {
+        sum += movingImageGradient[dim] * jacobian(dim, par);
+        }
+
+      cumsum.fdm[par] += f1 * sum;
+      cumsum.mdm[par] += m1 * sum;
+      }
     }
 
   return true;

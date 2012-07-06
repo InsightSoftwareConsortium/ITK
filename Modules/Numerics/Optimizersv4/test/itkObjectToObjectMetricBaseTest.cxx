@@ -66,13 +66,13 @@ public:
   unsigned int GetNumberOfLocalParameters() const
   { return 0; }
 
-  bool HasLocalSupport() const
-  { return false; }
-
   void UpdateTransformParameters( const DerivativeType &, ParametersValueType ) {}
 
   const ParametersType & GetParameters() const
   { return m_Parameters; }
+
+  virtual bool HasLocalSupport() const
+    { return false; }
 
   void SetParameters( ParametersType & )
   {

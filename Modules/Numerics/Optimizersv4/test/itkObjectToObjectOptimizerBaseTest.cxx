@@ -53,6 +53,11 @@ public:
     derivative.Fill(0.0);
     }
 
+  virtual bool HasLocalSupport() const
+    {
+    return false;
+    }
+
   virtual void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const
     {
     value = 1.0; derivative.Fill(0.0);
@@ -60,9 +65,6 @@ public:
 
   unsigned int GetNumberOfLocalParameters() const
   { return 3; }
-
-  bool HasLocalSupport() const
-  { return false; }
 
   void UpdateTransformParameters( const DerivativeType &, ParametersValueType ) {}
 

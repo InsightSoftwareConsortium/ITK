@@ -48,9 +48,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualIma
   m_ThreaderJointPDFDerivatives(0),
   m_ThreaderJointPDFStartBin(0),
   m_ThreaderJointPDFEndBin(0),
-  m_ThreaderJointPDFSum(0),
-
-  m_ComputeDerivative(0)
+  m_ThreaderJointPDFSum(0)
 {
   // We have our own GetValueAndDerivativeThreader's that we want
   // ImageToImageMetricv4 to use.
@@ -181,49 +179,6 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
   }
 
 template <class TFixedImage, class TMovingImage, class TVirtualImage>
-typename MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>::MeasureType
-MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
-::GetValue() const
-{
-  this->m_ComputeDerivative = false;
-
-  this->m_Value = NumericTraits<MeasureType>::Zero;
-
-  DerivativeType derivative;
-  this->m_DerivativeResult = &derivative;
-
-  // This will size and initialize m_DerivativeResult.
-  this->InitializeForIteration();
-
-  // Threaded processing.
-  this->GetValueAndDerivativeExecute();
-
-  return this->m_Value;
-}
-
-template <class TFixedImage, class TMovingImage, class TVirtualImage>
-void
-MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
-::GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const
-{
-  // We reimplement this to be able to set the m_ComputeDerivative flag.
-  // Eventually we expect this flag to be put into the base class.
-  this->m_ComputeDerivative = true;
-
-  // Set output values to zero
-  value = NumericTraits<MeasureType>::Zero;
-
-  this->m_DerivativeResult = &derivative;
-  // This will size and initialize m_DerivativeResult.
-  this->InitializeForIteration();
-
-  // Threaded processing.
-  this->GetValueAndDerivativeExecute();
-
-  value = this->m_Value;
-}
-
-template <class TFixedImage, class TMovingImage, class TVirtualImage>
 void
 MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
 ::ComputeResults() const
@@ -313,7 +268,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
         sum += jointPDFValue * ( pRatio - vcl_log(fixedImagePDFValue) );
         }
 
-      if( this->m_ComputeDerivative )
+      if( this->GetComputeDerivative() )
         {
         if( ! this->HasLocalSupport() )
           {
@@ -342,7 +297,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
 
   // Apply the pRatio and sum the per-window derivative
   // contributions, in the local-support case.
-  if( this->m_ComputeDerivative )
+  if( this->GetComputeDerivative() )
     {
     if( this->HasLocalSupport() )
       {

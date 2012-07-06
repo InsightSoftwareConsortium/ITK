@@ -53,7 +53,7 @@ RegistrationParameterScalesFromShiftBase< TMetric >
   FloatType minNonZeroShift = NumericTraits<FloatType>::max();
 
   OffsetValueType offset = 0;
-  if( this->HasLocalSupport() )
+  if( this->GetTransform()->GetTransformCategory() == MovingTransformType::DisplacementField )
     {
     //FIXME: remove if we end up not using this
     //if( this->MetricIsPointSetToPointSetType() )
@@ -123,7 +123,7 @@ RegistrationParameterScalesFromShiftBase< TMetric >
   this->SetStepScaleSamplingStrategy();
   this->SampleVirtualDomain();
 
-  if (this->HasLocalSupport())
+  if( this->GetTransform()->GetTransformCategory() == MovingTransformType::DisplacementField )
     {
     return this->ComputeMaximumVoxelShift(step);
     }
@@ -161,7 +161,7 @@ void
 RegistrationParameterScalesFromShiftBase< TMetric >
 ::EstimateLocalStepScales(const ParametersType &step, ScalesType &localStepScales)
 {
-  if (! this->HasLocalSupport())
+  if( !( this->GetTransform()->GetTransformCategory() == MovingTransformType::DisplacementField ) )
     {
     itkExceptionMacro("EstimateLocalStepScales: the transform doesn't have local support.");
     }

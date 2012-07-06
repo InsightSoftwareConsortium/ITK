@@ -35,12 +35,6 @@ void
 ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImageToImageMetricv4 >
 ::BeforeThreadedExecution()
 {
-  // Sanity check that we're not calling this threader when derivative is not being evaluated.
-  if( this->m_Associate->m_DerivativeResult == NULL )
-    {
-    itkExceptionMacro("m_DerivativeResult is NULL. This threader should not be used with GetValue() unless it's modified.");
-    }
-
   //---------------------------------------------------------------
   // Resize the per thread memory objects.
 
@@ -63,31 +57,34 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
   /* This size always comes from the moving image */
   const NumberOfParametersType globalDerivativeSize = this->m_Associate->GetNumberOfParameters();
 
-  for (ThreadIdType i=0; i<this->GetNumberOfThreadsUsed(); i++)
+  if( this->m_Associate->GetComputeDerivative() )
     {
-    /* Allocate intermediary per-thread storage used to get results from
-     * derived classes */
-    this->m_LocalDerivativesPerThread[i].SetSize( this->m_Associate->GetNumberOfLocalParameters() );
-    this->m_MovingTransformJacobianPerThread[i].SetSize( this->m_Associate->VirtualImageDimension, this->m_Associate->GetNumberOfLocalParameters() );
-    if ( this->m_Associate->HasLocalSupport() )
+    for (ThreadIdType i=0; i<this->GetNumberOfThreadsUsed(); i++)
       {
-      /* For transforms with local support, e.g. displacement field,
-       * use a single derivative container that's updated by region
-       * in multiple threads.
-       * Initialization to zero is done in main class. */
-      itkDebugMacro( "ImageToImageMetricv4::Initialize: transform HAS local support\n" );
-        /* Set each per-thread object to point to m_DerivativeResult for efficiency. */
-        this->m_DerivativesPerThread[i].SetData( this->m_Associate->m_DerivativeResult->data_block(),
-                                                 this->m_Associate->m_DerivativeResult->Size(), false );
-      }
-    else
-      {
-      itkDebugMacro("ImageToImageMetricv4::Initialize: transform does NOT have local support\n");
-      /* Global transforms get a separate derivatives container for each thread
-       * that holds the result over a particular image region.
-       * Use a CompensatedSummation value to provide for better consistency between
-       * different number of threads. */
-        this->m_CompensatedDerivativesPerThread[i].resize( globalDerivativeSize );
+      /* Allocate intermediary per-thread storage used to get results from
+       * derived classes */
+      this->m_LocalDerivativesPerThread[i].SetSize( this->m_Associate->GetNumberOfLocalParameters() );
+      this->m_MovingTransformJacobianPerThread[i].SetSize( this->m_Associate->VirtualImageDimension, this->m_Associate->GetNumberOfLocalParameters() );
+      if ( this->m_Associate->m_MovingTransform->GetTransformCategory() == MovingTransformType::DisplacementField )
+        {
+        /* For transforms with local support, e.g. displacement field,
+         * use a single derivative container that's updated by region
+         * in multiple threads.
+         * Initialization to zero is done in main class. */
+        itkDebugMacro( "ImageToImageMetricv4::Initialize: transform HAS local support\n" );
+          /* Set each per-thread object to point to m_DerivativeResult for efficiency. */
+          this->m_DerivativesPerThread[i].SetData( this->m_Associate->m_DerivativeResult->data_block(),
+                                                   this->m_Associate->m_DerivativeResult->Size(), false );
+        }
+      else
+        {
+        itkDebugMacro("ImageToImageMetricv4::Initialize: transform does NOT have local support\n");
+        /* Global transforms get a separate derivatives container for each thread
+         * that holds the result over a particular image region.
+         * Use a CompensatedSummation value to provide for better consistency between
+         * different number of threads. */
+          this->m_CompensatedDerivativesPerThread[i].resize( globalDerivativeSize );
+        }
       }
     }
 
@@ -97,14 +94,17 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
     {
     this->m_NumberOfValidPointsPerThread[thread] = NumericTraits< SizeValueType >::Zero;
     this->m_MeasurePerThread[thread] = NumericTraits< InternalComputationValueType >::Zero;
-    if ( ! this->m_Associate->HasLocalSupport() )
+    if( this->m_Associate->GetComputeDerivative() )
       {
-      /* Be sure to init to 0 here, because the threader may not use
-       * all the threads if the region is better split into fewer
-       * subregions. */
-      for( NumberOfParametersType p = 0; p < this->m_Associate->GetNumberOfParameters(); p++ )
+      if ( this->m_Associate->m_MovingTransform->GetTransformCategory() != MovingTransformType::DisplacementField )
         {
-        this->m_CompensatedDerivativesPerThread[thread][p].ResetToZero();
+        /* Be sure to init to 0 here, because the threader may not use
+         * all the threads if the region is better split into fewer
+         * subregions. */
+        for( NumberOfParametersType p = 0; p < this->m_Associate->GetNumberOfParameters(); p++ )
+          {
+          this->m_CompensatedDerivativesPerThread[thread][p].ResetToZero();
+          }
         }
       }
     }
@@ -122,22 +122,24 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
     {
     this->m_Associate->m_NumberOfValidPoints += this->m_NumberOfValidPointsPerThread[i];
     }
-  itkDebugMacro( "ImageToImageMetricv4: NumberOfValidPoints: "
-                 << this->m_Associate->m_NumberOfValidPoints );
+  itkDebugMacro( "ImageToImageMetricv4: NumberOfValidPoints: " << this->m_Associate->m_NumberOfValidPoints );
 
   /* For global transforms, sum the derivatives from each region. */
-  if ( ! this->m_Associate->HasLocalSupport() )
+  if( this->m_Associate->GetComputeDerivative() )
     {
-    for (NumberOfParametersType p = 0; p < this->m_Associate->GetNumberOfParameters(); p++ )
+    if ( this->m_Associate->m_MovingTransform->GetTransformCategory() != MovingTransformType::DisplacementField )
       {
-      /* Use a compensated sum to be ready for when there is a very large number of threads */
-      CompensatedDerivativeValueType sum;
-      sum.ResetToZero();
-      for (ThreadIdType i=0; i<this->GetNumberOfThreadsUsed(); i++)
+      for (NumberOfParametersType p = 0; p < this->m_Associate->GetNumberOfParameters(); p++ )
         {
-        sum += this->m_CompensatedDerivativesPerThread[i][p].GetSum();
+        /* Use a compensated sum to be ready for when there is a very large number of threads */
+        CompensatedDerivativeValueType sum;
+        sum.ResetToZero();
+        for (ThreadIdType i=0; i<this->GetNumberOfThreadsUsed(); i++)
+          {
+          sum += this->m_CompensatedDerivativesPerThread[i][p].GetSum();
+          }
+        (*(this->m_Associate->m_DerivativeResult))[p] += sum.GetSum();
         }
-      (*(this->m_Associate->m_DerivativeResult))[p] += sum.GetSum();
       }
     }
 
@@ -155,9 +157,12 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
     this->m_Associate->m_Value /= this->m_Associate->m_NumberOfValidPoints;
 
     /* For global transforms, calculate the average values */
-    if ( ! this->m_Associate->HasLocalSupport() )
+    if( this->m_Associate->GetComputeDerivative() )
       {
-      *(this->m_Associate->m_DerivativeResult) /= this->m_Associate->m_NumberOfValidPoints;
+      if ( this->m_Associate->m_MovingTransform->GetTransformCategory() != MovingTransformType::DisplacementField )
+        {
+        *(this->m_Associate->m_DerivativeResult) /= this->m_Associate->m_NumberOfValidPoints;
+        }
       }
     }
 }
@@ -185,7 +190,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
     {
     pointIsValid = this->m_Associate->TransformAndEvaluateFixedPoint( virtualIndex,
                                       virtualPoint,
-                                      this->m_Associate->GetGradientSourceIncludesFixed(),
+                                      this->m_Associate->GetComputeDerivative() && this->m_Associate->GetGradientSourceIncludesFixed(),
                                       mappedFixedPoint,
                                       mappedFixedPixelValue,
                                       mappedFixedImageGradient );
@@ -207,7 +212,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
     {
     pointIsValid = this->m_Associate->TransformAndEvaluateMovingPoint( virtualIndex,
                                     virtualPoint,
-                                    this->m_Associate->GetGradientSourceIncludesMoving(),
+                                    this->m_Associate->GetComputeDerivative() && this->m_Associate->GetGradientSourceIncludesMoving(),
                                     mappedMovingPoint,
                                     mappedMovingPixelValue,
                                     mappedMovingImageGradient );
@@ -250,7 +255,10 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
     {
     this->m_NumberOfValidPointsPerThread[threadId]++;
     this->m_MeasurePerThread[threadId] += metricValueResult;
-    this->StorePointDerivativeResult( virtualIndex, threadId );
+    if( this->m_Associate->GetComputeDerivative() )
+      {
+      this->StorePointDerivativeResult( virtualIndex, threadId );
+      }
     }
 
   return pointIsValid;
@@ -259,10 +267,9 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
 template< class TDomainPartitioner, class TImageToImageMetricv4 >
 void
 ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImageToImageMetricv4 >
-::StorePointDerivativeResult( const VirtualIndexType & virtualIndex,
-                              const ThreadIdType threadId )
+::StorePointDerivativeResult( const VirtualIndexType & virtualIndex, const ThreadIdType threadId )
 {
-  if ( ! this->m_Associate->HasLocalSupport() )
+  if ( this->m_Associate->m_MovingTransform->GetTransformCategory() != MovingTransformType::DisplacementField )
     {
     /* Global support */
     if ( this->m_Associate->GetUseFloatingPointCorrection() )
@@ -303,6 +310,14 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
       throw err;
       }
     }
+}
+
+template< class TDomainPartitioner, class TImageToImageMetricv4 >
+bool
+ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImageToImageMetricv4 >
+::GetComputeDerivative() const
+{
+  return this->m_Associate->GetComputeDerivative();
 }
 
 } // end namespace itk

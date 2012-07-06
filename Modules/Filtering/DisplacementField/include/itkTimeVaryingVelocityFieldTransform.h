@@ -172,21 +172,6 @@ public:
   /** Return an inverse of this transform. */
   virtual InverseTransformBasePointer GetInverseTransform() const;
 
-  /** This transform is not linear. */
-  virtual bool IsLinear() const { return false; }
-
-  /** Get the number of local parameters */
-  NumberOfParametersType GetNumberOfLocalParameters() const
-    {
-    return Dimension;
-    }
-
-  /** Does the transform have local support */
-  virtual bool HasLocalSupport() const
-    {
-    return true;
-    }
-
   /**
    * Set the lower time bound defining the integration domain of the transform.
    * We assume that the total possible time domain is [0,1]

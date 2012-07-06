@@ -96,14 +96,14 @@ public:
     return SpaceDimension * 3;
   }
 
+  virtual bool HasLocalSupport() const
+    {
+    return false;
+    }
+
   unsigned int GetNumberOfLocalParameters() const
   {
     return SpaceDimension;
-  }
-
-  bool HasLocalSupport() const
-  {
-    return true;
   }
 
   /* These Set/Get methods are only needed for this test derivation that

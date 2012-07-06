@@ -287,7 +287,8 @@ QuasiNewtonOptimizerv4
   fullrange[0] = 0;
   fullrange[1] = this->m_Gradient.GetSize()-1; //range is inclusive
   /* Perform the modification either with or without threading */
-  if( this->m_Metric->HasLocalSupport() )
+
+  if( this->m_Gradient.GetSize() > 10000 )
     {
     /* This ends up calling EstimateNewtonStepOverSubRange from each thread */
     this->m_EstimateNewtonStepThreader->Execute( this, fullrange );

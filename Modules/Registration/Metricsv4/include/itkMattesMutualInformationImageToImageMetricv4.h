@@ -149,13 +149,6 @@ public:
 
   virtual void Initialize(void) throw ( itk::ExceptionObject );
 
-  virtual MeasureType GetValue() const;
-
-  /** Calculate and return both the value for the metric and its derivative.
-   * Overloaded here to provide special handling.
-   */
-  virtual void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const;
-
   /** The marginal PDFs are stored as std::vector. */
   //NOTE:  floating point precision is not as stable.
   // Double precision proves faster and more robust in real-world testing.
@@ -274,9 +267,6 @@ private:
 
   /** Perform the final step in computing results */
   virtual void ComputeResults( void ) const;
-
-  /** Flag to control whether derivative is computed in addition to metric value */
-  mutable bool m_ComputeDerivative;
 
 };
 

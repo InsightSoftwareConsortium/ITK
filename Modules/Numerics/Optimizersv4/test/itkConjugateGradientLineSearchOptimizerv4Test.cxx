@@ -121,10 +121,10 @@ public:
     return SpaceDimension;
   }
 
-  bool HasLocalSupport() const
-  {
+  virtual bool HasLocalSupport() const
+    {
     return false;
-  }
+    }
 
   /* These Set/Get methods are only needed for this test derivation that
    * isn't using a transform */

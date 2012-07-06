@@ -118,14 +118,14 @@ public:
     return SpaceDimension;
   }
 
+  virtual bool HasLocalSupport() const
+    {
+    return false;
+    }
+
   unsigned int GetNumberOfLocalParameters() const
   {
     return SpaceDimension;
-  }
-
-  bool HasLocalSupport() const
-  {
-    return false;
   }
 
   /* These Set/Get methods are only needed for this test derivation that
@@ -213,6 +213,11 @@ public:
     return metric;
   }
 
+  virtual bool HasLocalSupport() const
+    {
+    return false;
+    }
+
   void UpdateTransformParameters( const DerivativeType & update, ParametersValueType )
   {
     (*m_Parameters) += update;
@@ -226,11 +231,6 @@ public:
   unsigned int GetNumberOfLocalParameters() const
   {
     return SpaceDimension;
-  }
-
-  bool HasLocalSupport() const
-  {
-    return false;
   }
 
   /* These Set/Get methods are only needed for this test derivation that

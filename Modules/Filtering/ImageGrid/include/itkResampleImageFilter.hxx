@@ -233,7 +233,7 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
   // Check whether we can use a fast path for resampling. Fast path
   // can be used if the transformation is linear. Transform respond
   // to the IsLinear() call.
-  if ( m_Transform->IsLinear() )
+  if ( this->m_Transform->GetTransformCategory() == TransformType::Linear )
     {
     this->LinearThreadedGenerateData(outputRegionForThread, threadId);
     return;
