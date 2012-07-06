@@ -141,24 +141,28 @@ public:
   itkGetInputMacro(FeaturePoints, FeaturePointsType);
 
   inline DisplacementsType * GetDisplacements()
-  {
+    {
     return dynamic_cast< DisplacementsType * >( this->ProcessObject::GetOutput( 0 ) );
-  }
+    }
 
   inline SimilaritiesType * GetSimilarities()
-  {
+    {
     return dynamic_cast< SimilaritiesType * >( this->ProcessObject::GetOutput( 1 ) );
-  }
+    }
 
 protected:
-  /** return the number of required inputs, enables check for required inputs to work correctly */
-  virtual ProcessObject::DataObjectPointerArraySizeType GetNumberOfValidRequiredInputs() const;
-
   /** MakeOutput is provided for handling multiple outputs */
   using Superclass::MakeOutput;
   virtual DataObject::Pointer MakeOutput( ProcessObject::DataObjectPointerArraySizeType idx );
 
-  virtual void AllocateOutputs();
+  /** We need to create our own GenerateOutputInformation because the the
+   * default version from ProcessObject result in a dynamic_cast of the input
+   * pointer to the output pointer type in PointSet::CopyInformation.  This does
+   * not work since they are different types. */
+  virtual void GenerateOutputInformation();
+
+  /** We cannot stream (see comments in GenerateOutputInformation). */
+  virtual void EnlargeOutputRequestedRegion(DataObject * output);
 
   /** Generate temporary containers to be used by individual threads exclusively */
   virtual void BeforeThreadedGenerateData();

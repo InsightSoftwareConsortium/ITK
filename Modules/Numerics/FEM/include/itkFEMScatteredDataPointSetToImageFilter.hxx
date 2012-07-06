@@ -42,7 +42,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, 
 {
   this->m_FEMObject = FEMObjectType::New();
   this->m_Material = MaterialType::New();
-  this->m_Material->SetYoungsModulus(3000.0);
+  this->m_Material->SetYoungsModulus(694.0);
   this->m_Material->SetPoissonsRatio(0.45);
   this->m_FEMSolver = FEMSolverType::New();
 
@@ -535,14 +535,14 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, 
 
   if(!input)
     {
-    itkExceptionMacro("no feature points");
+    itkExceptionMacro("No feature points");
     }
 
   const PointDataContainerType *displacementVector = input->GetPointData();
 
   if(!displacementVector)
     {
-    itkExceptionMacro("no displacement vector associated with feature point set");
+    itkExceptionMacro("No displacement vectors associated with feature point set");
     }
 
   const PointsContainer *featurePoints = input->GetPoints();

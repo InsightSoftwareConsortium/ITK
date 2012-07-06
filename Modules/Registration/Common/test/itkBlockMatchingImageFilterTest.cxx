@@ -44,34 +44,37 @@ int itkBlockMatchingImageFilterTest( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
-
-  // Parameters used for FS and BM
-  itk::Size< 3 > blockRadius;
-  blockRadius.Fill( 2 );
-
-  itk::Size< 3 > searchRadius;
-  searchRadius.Fill( 7 );
-
-  double selectFraction = 0.01;
+  const double selectFraction = 0.01;
 
   typedef unsigned char                  InputPixelType;
   typedef itk::RGBPixel<InputPixelType>  OutputPixelType;
+  static const unsigned int Dimension = 3;
 
-  typedef itk::Image< InputPixelType,  3 >       InputImageType;
-  typedef itk::Image< OutputPixelType, 3 >       OutputImageType;
+  typedef itk::Image< InputPixelType,  Dimension >  InputImageType;
+  typedef itk::Image< OutputPixelType, Dimension >  OutputImageType;
+
+  // Parameters used for FS and BM
+  typedef InputImageType::SizeType RadiusType;
+  RadiusType blockRadius;
+  blockRadius.Fill( 2 );
+
+  RadiusType searchRadius;
+  searchRadius.Fill( 7 );
 
   typedef itk::ImageFileReader< InputImageType >  ReaderType;
-
-  typedef itk::MaskFeaturePointSelectionFilter< InputImageType >  FilterType;
-  typedef FilterType::FeaturePointsType                           PointSetType;
-
-  typedef FilterType::PointType       PointType;
-  typedef FilterType::InputImageType  ImageType;
 
   //Set up the reader
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
-  reader->Update();
+  try
+    {
+    reader->Update();
+    }
+  catch( itk::ExceptionObject & e )
+    {
+    std::cerr << "Error in reading the input image: " << e << std::endl;
+    return EXIT_FAILURE;
+    }
 
   // Reduce region of interest by SEARCH_RADIUS
   typedef itk::RegionOfInterestImageFilter< InputImageType, InputImageType >  RegionOfInterestFilterType;
@@ -93,16 +96,22 @@ int itkBlockMatchingImageFilterTest( int argc, char * argv[] )
   regionOfInterestFilter->SetRegionOfInterest( regionOfInterest );
   regionOfInterestFilter->Update();
 
-  // Feature Selection
-  FilterType::Pointer filter = FilterType::New();
+  typedef itk::MaskFeaturePointSelectionFilter< InputImageType >  FeatureSelectionFilterType;
+  typedef FeatureSelectionFilterType::FeaturePointsType           PointSetType;
 
-  filter->SetInput( regionOfInterestFilter->GetOutput() );
-  filter->SetSelectFraction( selectFraction );
-  filter->SetBlockRadius( blockRadius );
-  filter->ComputeStructureTensorsOff();
+  typedef FeatureSelectionFilterType::PointType       PointType;
+  typedef FeatureSelectionFilterType::InputImageType  ImageType;
+
+  // Feature Selection
+  FeatureSelectionFilterType::Pointer featureSelectionFilter = FeatureSelectionFilterType::New();
+
+  featureSelectionFilter->SetInput( regionOfInterestFilter->GetOutput() );
+  featureSelectionFilter->SetSelectFraction( selectFraction );
+  featureSelectionFilter->SetBlockRadius( blockRadius );
+  featureSelectionFilter->ComputeStructureTensorsOff();
 
   // Create transformed image from input to match with
-  typedef itk::TranslationTransform< double, 3> TranslationTransformType;
+  typedef itk::TranslationTransform< double, Dimension > TranslationTransformType;
   TranslationTransformType::Pointer transform = TranslationTransformType::New();
   TranslationTransformType::OutputVectorType translation;
   // move each pixel in input image 5 pixels along first(0) dimension
@@ -118,26 +127,22 @@ int itkBlockMatchingImageFilterTest( int argc, char * argv[] )
   resampleFilter->SetReferenceImage( reader->GetOutput() );
   resampleFilter->UseReferenceImageOn();
 
-  resampleFilter->Update();
-
-  // at this time we have feature points
-  typedef itk::BlockMatchingImageFilter< InputImageType >  BMFilterType;
-
-  BMFilterType::Pointer BMFilter = BMFilterType::New();
+  typedef itk::BlockMatchingImageFilter< InputImageType >  BlockMatchingFilterType;
+  BlockMatchingFilterType::Pointer blockMatchingFilter = BlockMatchingFilterType::New();
 
   // inputs (all required)
-  BMFilter->SetFixedImage( resampleFilter->GetOutput() );
-  BMFilter->SetMovingImage( reader->GetOutput() );
-  BMFilter->SetFeaturePoints( filter->GetOutput() );
+  blockMatchingFilter->SetFixedImage( resampleFilter->GetOutput() );
+  blockMatchingFilter->SetMovingImage( reader->GetOutput() );
+  blockMatchingFilter->SetFeaturePoints( featureSelectionFilter->GetOutput() );
 
   // parameters (all optional)
-  BMFilter->SetBlockRadius( blockRadius );
-  BMFilter->SetSearchRadius( searchRadius );
+  blockMatchingFilter->SetBlockRadius( blockRadius );
+  blockMatchingFilter->SetSearchRadius( searchRadius );
 
-  std::cout << "Block matching: " << BMFilter << std::endl;
+  std::cout << "Block matching: " << blockMatchingFilter << std::endl;
   try
     {
-    BMFilter->Update();
+    blockMatchingFilter->Update();
     }
   catch ( itk::ExceptionObject &err )
     {
@@ -145,6 +150,19 @@ int itkBlockMatchingImageFilterTest( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
+  // Exercise the following methods
+  BlockMatchingFilterType::DisplacementsType * displacements = blockMatchingFilter->GetDisplacements();
+  if( displacements == NULL )
+    {
+    std::cerr << "GetDisplacements() failed." << std::endl;
+    return EXIT_FAILURE;
+    }
+  BlockMatchingFilterType::SimilaritiesType * similarities = blockMatchingFilter->GetSimilarities();
+  if( similarities == NULL )
+    {
+    std::cerr << "GetSimilarities() failed." << std::endl;
+    return EXIT_FAILURE;
+    }
 
   // create RGB copy of input image
   typedef itk::ScalarToRGBColormapImageFilter< InputImageType, OutputImageType >  RGBFilterType;
@@ -152,17 +170,25 @@ int itkBlockMatchingImageFilterTest( int argc, char * argv[] )
 
   colormapImageFilter->SetColormap( RGBFilterType::Grey );
   colormapImageFilter->SetInput( reader->GetOutput() );
-  colormapImageFilter->Update();
+  try
+    {
+    colormapImageFilter->Update();
+    }
+  catch ( itk::ExceptionObject &err )
+    {
+    std::cerr << err << std::endl;
+    return EXIT_FAILURE;
+    }
 
   OutputImageType::Pointer outputImage = colormapImageFilter->GetOutput();
 
-  //Highlight the feature points identified in the output image
-  typedef PointSetType::PointsContainer::ConstIterator                        PointIteratorType;
-  typedef BMFilterType::DisplacementsType::PointDataContainer::ConstIterator  PointDataIteratorType;
+  // Highlight the feature points identified in the output image
+  typedef PointSetType::PointsContainer::ConstIterator                                   PointIteratorType;
+  typedef BlockMatchingFilterType::DisplacementsType::PointDataContainer::ConstIterator  PointDataIteratorType;
 
-  PointIteratorType pointItr = filter->GetOutput()->GetPoints()->Begin();
-  PointIteratorType pointEnd = filter->GetOutput()->GetPoints()->End();
-  PointDataIteratorType displItr = BMFilter->GetOutput()->GetPointData()->Begin();
+  PointIteratorType pointItr = featureSelectionFilter->GetOutput()->GetPoints()->Begin();
+  PointIteratorType pointEnd = featureSelectionFilter->GetOutput()->GetPoints()->End();
+  PointDataIteratorType displItr = displacements->GetPointData()->Begin();
 
   // define colors
   OutputPixelType red;
@@ -211,8 +237,15 @@ int itkBlockMatchingImageFilterTest( int argc, char * argv[] )
 
   writer->SetFileName( argv[2] );
   writer->SetInput( outputImage );
-  writer->Update();
-
+  try
+    {
+    writer->Update();
+    }
+  catch( itk::ExceptionObject & e )
+    {
+    std::cerr << "Error in writing the output image:" << e << std::endl;
+    return EXIT_FAILURE;
+    }
 
   return EXIT_SUCCESS;
 }
