@@ -37,7 +37,8 @@ include_directories(${ITK_HIGHER_ORDER_ACCURATE_GRADIENT_SOURCE_DIR}/Code)
 include(CTest)
 if(BUILD_TESTING)
   enable_testing()
-  add_subdirectory(Testing)
+  # Disable until can refactor as an ITK Module.
+  #add_subdirectory( Testing )
 endif(BUILD_TESTING)
 
 add_subdirectory(Code)
