@@ -20,5 +20,6 @@ add_subdirectory(Code)
 include(CTest)
 if(BUILD_TESTING)
   enable_testing()
-  add_subdirectory(Testing)
+  #  Should refactor to an ITK Module.
+  #  add_subdirectory( Testing )
 endif(BUILD_TESTING)
