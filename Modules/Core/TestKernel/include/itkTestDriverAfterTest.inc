@@ -31,13 +31,12 @@ if (redirectOutputParameters.redirect)
 // before the image to image compare we first check md5 hashes
 for( size_t li = 0; li < hashTestList.size(); ++li )
   {
-  const char * testFilename = hashTestList[li].first;
+  const char * const testFilename = hashTestList[li].first;
 
-  int ret = 0;
-
-  if ( (ret = HashTestImage( testFilename, hashTestList[li].second )) )
+  const int ret = HashTestImage( testFilename, hashTestList[li].second );
+  if ( ret )
     {
-    result += ret;
+    result = EXIT_FAILURE; //Nonzero indicates failure
     }
   }
 
@@ -51,8 +50,9 @@ for ( int ii = 0;
   std::map< std::string, int > baselines =
     RegressionTestBaselines(baselineFilename);
   std::map< std::string, int >::iterator baseline = baselines.begin();
-  std::string bestBaseline;
+  std::string bestBaseline = baseline->first;
   int  bestBaselineStatus = itk::NumericTraits< int >::max();
+  bool oneReferenceImageWasReadable=false;
   while ( baseline != baselines.end() )
     {
     baseline->second =
@@ -63,10 +63,25 @@ for ( int ii = 0;
                           regressionTestParameters.numberOfPixelsTolerance,
                           regressionTestParameters.radiusTolerance);
 
-    if ( baseline->second < bestBaselineStatus )
+    if ( baseline->second == itk::NumericTraits< int >::max() )
       {
+      //Reference Image not found
+      }
+    else if ( baseline->second == itk::NumericTraits< int >::max() -2 )
+      {
+      //Test Image not found.  Immediate failure! (No further testing needed)
+      break;
+      }
+    else if ( baseline->second == itk::NumericTraits< int >::max() -1 )
+      {
+      //Image dimensions do not match
+      }
+    else if ( baseline->second < bestBaselineStatus )
+      {
+      // A better image was found
       bestBaseline = baseline->first;
       bestBaselineStatus = baseline->second;
+      oneReferenceImageWasReadable = true;
       }
     if ( baseline->second == 0 )
       {
@@ -74,39 +89,47 @@ for ( int ii = 0;
       }
     ++baseline;
     }
-  // if the best we can do still has errors, generate the error images
-  if ( bestBaselineStatus )
+  if ( oneReferenceImageWasReadable )
     {
-    RegressionTestImage( testFilename,
-                         bestBaseline.c_str(),
-                         1,
-                         regressionTestParameters.intensityTolerance,
-                         regressionTestParameters.numberOfPixelsTolerance,
-                         regressionTestParameters.radiusTolerance);
+    // if the best we can do still has errors, generate the error images
+    if ( bestBaselineStatus  )
+      {
+      RegressionTestImage( testFilename,
+        bestBaseline.c_str(),
+        1,
+        regressionTestParameters.intensityTolerance,
+        regressionTestParameters.numberOfPixelsTolerance,
+        regressionTestParameters.radiusTolerance);
+        result = EXIT_FAILURE; //Nonzero indicates failure
+      }
+    // output the matching baseline
+    std::cout << "<DartMeasurement name=\"BaselineImageName\" type=\"text/string\">"
+              << itksys::SystemTools::GetFilenameName(bestBaseline)
+              << "</DartMeasurement>" << std::endl;
     }
-
-  // output the matching baseline
-  std::cout << "<DartMeasurement name=\"BaselineImageName\" type=\"text/string\">";
-  std::cout << itksys::SystemTools::GetFilenameName(bestBaseline);
-  std::cout << "</DartMeasurement>" << std::endl;
-
-  result += bestBaselineStatus;
+  else
+    {
+    std::cout << "<DartMeasurement name=\"BaselineImageName\" type=\"text/string\">"
+              << "INVALID_BASELINE_GIVEN"
+              << "</DartMeasurement>" << std::endl;
+    result = EXIT_FAILURE; //Nonzero indicates failure
+    }
   }
 }
   catch ( const itk::ExceptionObject & e )
     {
     std::cerr << "ITK test driver caught an ITK exception:\n";
     e.Print(std::cerr);
-    result = -1;
+    result = EXIT_FAILURE;
     }
   catch ( const std::exception & e )
     {
     std::cerr << "ITK test driver caught an exception:\n";
     std::cerr << e.what() << "\n";
-    result = -1;
+    result = EXIT_FAILURE;
     }
   catch ( ... )
     {
     std::cerr << "ITK test driver caught an unknown exception!!!\n";
-    result = -1;
+    result = EXIT_FAILURE;
     }
