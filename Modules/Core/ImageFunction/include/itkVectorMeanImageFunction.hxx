@@ -87,7 +87,7 @@ VectorMeanImageFunction< TInputImage, TCoordRep >
 
     if ( i == 0 )
       {
-      sum = NumericTraits<RealType>::ZeroValue( p );
+      sum = static_cast< RealType >( NumericTraits<PixelType>::ZeroValue( p ) );
       }
 
     for ( unsigned int dim = 0; dim < VectorDimension; dim++ )
@@ -96,7 +96,7 @@ VectorMeanImageFunction< TInputImage, TCoordRep >
       }
     }
 
-  const unsigned int VectorDimension = NumericTraits<PixelType>::GetLength( sum );
+  const unsigned int VectorDimension = NumericTraits<RealType>::GetLength( sum );
   for ( unsigned int dim = 0; dim < VectorDimension; dim++ )
     {
     sum[dim] /= double( it.Size() );

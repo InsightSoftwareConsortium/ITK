@@ -114,6 +114,10 @@ macro(itk_end_wrap_submodule_gccxml module)
   set(CONFIG_WRAPPER_FORCE_INSTANTIATE "${GCC_XML_FORCE_INSTANTIATE}")
   configure_file("${ITK_WRAP_GCCXML_SOURCE_DIR}/wrap_.cxx.in"
     "${cxx_file}" @ONLY IMMEDIATE)
+  set(ADDITIONAL_GCC_XML_FLAGS "")
+  if(MSVC90)
+    set( ADDITIONAL_GCC_XML_FLAGS "-D\"_HAS_TR1=0\"" )
+  endif()
 
   # generate the xml file
   set(gccxml_inc_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/gcc_xml.inc")
@@ -148,6 +152,7 @@ macro(itk_end_wrap_submodule_gccxml module)
             -DCSWIG
             -DCABLE_CONFIGURATION
             -DITK_MANUAL_INSTANTIATION
+            ${ADDITIONAL_GCC_XML_FLAGS}
             ${cxx_file}
       DEPENDS ${_gccxml_depends} ${cxx_file} ${gccxml_inc_file}
     )
@@ -173,7 +178,6 @@ macro(itk_wrap_module_gccxml library_name)
   list( REMOVE_DUPLICATES include_dir_list )
 
   if(ITK_USE_CCACHE)
-
     # it is used on the command line
     foreach(dir ${include_dir_list})
       set(CONFIG_GCCXML_INC_CONTENTS ${CONFIG_GCCXML_INC_CONTENTS} -I${dir})
