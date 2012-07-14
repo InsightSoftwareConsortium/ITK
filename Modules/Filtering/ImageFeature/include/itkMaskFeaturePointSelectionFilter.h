@@ -127,7 +127,7 @@ public:
   itkBooleanMacro(ComputeStructureTensors);
 
   /** set fraction of eligible points to select */
-  itkSetMacro(SelectFraction, double);
+  itkSetClampMacro(SelectFraction, double, 0, 1);
   itkGetMacro(SelectFraction, double);
 
 #ifdef ITK_USE_CONCEPT_CHECKING

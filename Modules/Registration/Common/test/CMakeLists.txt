@@ -203,7 +203,7 @@ itk_add_test(NAME itkSpatialObjectToImageRegistrationTest
 set_tests_properties(itkSpatialObjectToImageRegistrationTest PROPERTIES ATTACHED_FILES_ON_FAIL ${ITK_TEST_OUTPUT_DIR}/itkSpatialObjectToImageRegistrationTest.txt)
 itk_add_test(NAME itkBlockMatchingImageFilterTest
       COMMAND ITKRegistrationCommonTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkBlockMatchingImageFilterTest.mha}
+      --compare DATA{Baseline/itkBlockMatchingImageFilterTest.mha}
               ${ITK_TEST_OUTPUT_DIR}/itkBlockMatchingImageFilterTest.mha
     itkBlockMatchingImageFilterTest
 DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha} ${ITK_TEST_OUTPUT_DIR}/itkBlockMatchingImageFilterTest.mha)
