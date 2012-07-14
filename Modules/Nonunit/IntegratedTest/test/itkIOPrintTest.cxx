@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkAnalyzeImageIO.h"
 #include "itkBioRadImageIO.h"
 #include "itkGE4ImageIO.h"
 #include "itkGE5ImageIO.h"
@@ -41,11 +40,6 @@ int itkIOPrintTest(int , char* [])
   PNGio = itk::PNGImageIO::New();
   reader->SetImageIO(PNGio);
   std::cout << "---------------PNG" << reader;
-
-  itk::AnalyzeImageIO::Pointer Analyzeio;
-  Analyzeio = itk::AnalyzeImageIO::New();
-  reader->SetImageIO(Analyzeio);
-  std::cout << "---------------Analyze" << reader;
 
   itk::BioRadImageIO::Pointer BioRadio;
   BioRadio = itk::BioRadImageIO::New();

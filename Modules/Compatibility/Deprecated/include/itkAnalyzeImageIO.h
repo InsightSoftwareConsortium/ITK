@@ -29,6 +29,7 @@
 
 #ifndef __itkAnalyzeImageIO_h
 #define __itkAnalyzeImageIO_h
+#if !defined( ITK_LEGACY_REMOVE )
 
 
 #include <fstream>
@@ -38,7 +39,6 @@
 namespace itk
 {
 /**  \class AnalyzeImageIO
-   * \ingroup IOFilters
    * \author Hans J. Johnson
    * \brief Class that defines how to read Analyze file format.
    * Analyze IMAGE FILE FORMAT - As much information as I can determine from the Medical image
@@ -87,7 +87,9 @@ namespace itk
    *    - an object file ([basename].obj)
    *      A specially formated file with a mapping between object name and image code used to associate
    *      image voxel locations with a label.  This file is run length encoded to save disk storage.
+   * \deprecated
    * \ingroup ITKDeprecated
+   * \ingroup IOFilters
    */
 class ITK_EXPORT AnalyzeImageIO:public ImageIOBase
 {
@@ -248,4 +250,5 @@ extern const char *const ANALYZE_AUX_FILE_NAME;
 extern const char *const ANALYZE_CALIBRATIONUNITS;
 } // end namespace itk
 
+#endif //#if !defined( ITK_LEGACY_REMOVE )
 #endif // __itkAnalyzeImageIO_h

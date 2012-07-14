@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkDeformableMesh3DFilter_h
 #define __itkDeformableMesh3DFilter_h
+#if !defined( ITK_LEGACY_REMOVE )
 
 #include "itkMeshToMeshFilter.h"
 #include "vnl/vnl_matrix_fixed.h"
@@ -49,9 +50,10 @@ namespace itk
  *  nodes on the model surface will stop at the edge features in the original
  *  image.
  *
+ * \deprecated
+ * \ingroup ITKDeprecated
  * \ingroup MeshFilters
  * \ingroup MeshSegmentation
- * \ingroup ITKDeprecated
  */
 template< class TInputMesh, class TOutputMesh >
 class ITK_EXPORT DeformableMesh3DFilter:public MeshToMeshFilter< TInputMesh, TOutputMesh >
@@ -226,4 +228,5 @@ private:
 #include "itkDeformableMesh3DFilter.hxx"
 #endif
 
+#endif //#if !defined( ITK_LEGACY_REMOVE )
 #endif

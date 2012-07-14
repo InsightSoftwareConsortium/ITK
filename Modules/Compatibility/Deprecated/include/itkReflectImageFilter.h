@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkReflectImageFilter_h
 #define __itkReflectImageFilter_h
+#if !defined( ITK_LEGACY_REMOVE )
 
 #include "itkImageToImageFilter.h"
 
@@ -28,8 +29,10 @@ namespace itk
  * This class is parameterized over the type of the input image and
  * the type of the output image.
  *
- * \ingroup   IntensityImageFilters     SingelThreaded
+ * \deprecated
  * \ingroup ITKDeprecated
+ * \ingroup IntensityImageFilters
+ * \ingroup SingelThreaded
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT ReflectImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
@@ -99,4 +102,5 @@ private:
 #include "itkReflectImageFilter.hxx"
 #endif
 
+#endif //#if !defined( ITK_LEGACY_REMOVE )
 #endif

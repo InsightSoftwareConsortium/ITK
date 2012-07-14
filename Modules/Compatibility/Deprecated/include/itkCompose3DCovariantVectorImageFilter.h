@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkCompose3DCovariantVectorImageFilter_h
 #define __itkCompose3DCovariantVectorImageFilter_h
+#if !defined( ITK_LEGACY_REMOVE )
 
 #include "itkTernaryFunctorImageFilter.h"
 #include "itkCovariantVector.h"
@@ -65,7 +66,7 @@ public:
  * unified. The Component type is preserved from the PixelType of the
  * input images.
  *
- * \ingroup Deprecated
+ * \deprecated
  * \ingroup ITKDeprecated
  *
  * \wiki
@@ -119,4 +120,5 @@ private:
 };
 } // end namespace itk
 
+#endif //#if !defined( ITK_LEGACY_REMOVE )
 #endif

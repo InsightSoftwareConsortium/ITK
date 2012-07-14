@@ -17,6 +17,8 @@
  *=========================================================================*/
 #ifndef __itkShiftScaleInPlaceImageFilter_hxx
 #define __itkShiftScaleInPlaceImageFilter_hxx
+#if !defined( ITK_LEGACY_REMOVE )
+
 #include "itkShiftScaleInPlaceImageFilter.h"
 
 #include "itkImageRegionIterator.h"
@@ -127,4 +129,5 @@ ShiftScaleInPlaceImageFilter< TInputImage >
   os << indent << "OverflowCount: "  << m_OverflowCount << std::endl;
 }
 } // end namespace itk
+#endif //#if !defined( ITK_LEGACY_REMOVE )
 #endif

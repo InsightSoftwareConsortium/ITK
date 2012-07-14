@@ -8,11 +8,6 @@ itkNonUniformBSplineTest.cxx
 itkReflectImageFilterTest.cxx
 itkShiftScaleInPlaceImageFilterTest.cxx
 itkTwoOutputExampleImageFilterTest.cxx
-itkGradientToMagnitudeImageFilterTest.cxx
-itkAddConstantToImageFilterTest.cxx
-itkDivideByConstantImageFilterTest.cxx
-itkMultiplyByConstantImageFilterTest.cxx
-itkSubtractConstantFromImageFilterTest.cxx
 )
 
 # For itkTestDriverIncludeDeprecatedIOFactories.h.
@@ -34,17 +29,7 @@ itk_add_test(NAME itkShiftScaleInPlaceImageFilterTest
       COMMAND ITKDeprecatedTestDriver itkShiftScaleInPlaceImageFilterTest)
 itk_add_test(NAME itkTwoOutputExampleImageFilterTest
       COMMAND ITKDeprecatedTestDriver itkTwoOutputExampleImageFilterTest)
-itk_add_test(NAME itkGradientToMagnitudeImageFilterTest
-      COMMAND ITKDeprecatedTestDriver itkGradientToMagnitudeImageFilterTest)
 
-itk_add_test(NAME DeprecatedAddConstantToImageFilterTest
-  COMMAND ITKDeprecatedTestDriver itkAddConstantToImageFilterTest)
-itk_add_test(NAME DeprecatedSubtractConstantFromaImageFilterTest
-  COMMAND ITKDeprecatedTestDriver itkSubtractConstantFromImageFilterTest)
-itk_add_test(NAME DeprecatedMultiplyByConstantImageFilterTest
-  COMMAND ITKDeprecatedTestDriver itkMultiplyByConstantImageFilterTest)
-itk_add_test(NAME DeprecatedDivideByConstantImageFilterTest
-  COMMAND ITKDeprecatedTestDriver itkDivideByConstantImageFilterTest)
 
 create_test_sourcelist(DeprecatedIOTests  DeprecatedIOTestDriver.cxx
         itkDICOMImageIO2Test.cxx
@@ -142,3 +127,20 @@ itk_add_test(NAME itkImageReadDICOMSeriesWriteWithDirection003Test
        COMMAND DeprecatedIOTestDriver
       itkImageReadDICOMSeriesWriteTest DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection003.mhd}
   ${ITK_TEST_OUTPUT_DIR}/DICOMSeriesOutputHeadMRVolumeWithDirection003)
+
+## The following an expample of how to write a program that uses the deprecated AnalyzeIO class.
+add_executable(ConvertAnalyzeFile ConvertAnalyzeFile.cxx)
+target_link_libraries(ConvertAnalyzeFile ${ITKDeprecated-Test_LIBRARIES})
+
+## The following example showed how to deform a MeshModel
+add_executable(DeformableModel1 DeformableModel1.cxx )
+target_link_libraries(DeformableModel1 ${ITKDeprecated-Test_LIBRARIES})
+
+add_executable(DeformableModel2 DeformableModel2.cxx )
+target_link_libraries(DeformableModel2 ${ITKDeprecated-Test_LIBRARIES})
+
+# temporary solution for all print tests. Each module should have its own print test later.
+add_executable(itkDeprecatedPrintTest  itkDeprecatedPrintTest.cxx)
+itk_module_target_label(itkDeprecatedPrintTest)
+target_link_libraries(itkDeprecatedPrintTest ${ITKDeprecated-Test_LIBRARIES})
+itk_add_test(NAME itkDeprecatedPrintTest COMMAND itkDeprecatedPrintTest)

@@ -29,6 +29,7 @@ namespace itk
 /** \class KernelFunction
  * \brief KernelFunction is for backward compatibility with ITKv3
  *
+ * \deprecated
  * \ingroup Functions
  * \ingroup ITKV3Compatibility
  */

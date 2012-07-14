@@ -1,0 +1,14 @@
+There is some ambiguity about the need for two separate modules
+in the ITK/Modules/Compatibility organization.
+
+All classes and features in ITK/Modules/Compatibility are
+considered as Legacy code, and will be removed from the toolkit
+in future releases.
+
+Deprecated:  Any code that provides a feature or function
+             that is no longer supported in ITKv4
+
+V3Compatibility: This is a place for code where the feature is
+                 still supported in ITKv4, but the API has changed
+                 this layer allows for easier transition to ITKv4
+                 by providing access to the ITKv3 API.

@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkDicomImageIOFactory_h
 #define __itkDicomImageIOFactory_h
+#if !defined( ITK_LEGACY_REMOVE )
 
 
 #include "itkObjectFactoryBase.h"
@@ -26,6 +27,7 @@ namespace itk
 {
 /** \class DicomImageIOFactory
  * \brief Create instances of DicomImageIO objects using an object factory.
+ * \deprecated
  * \ingroup ITKDeprecated
  */
 class ITK_EXPORT DicomImageIOFactory:public ObjectFactoryBase
@@ -65,4 +67,5 @@ private:
 };
 } // end namespace itk
 
+#endif //#if !defined( ITK_LEGACY_REMOVE )
 #endif

@@ -27,6 +27,7 @@
  *=========================================================================*/
 #ifndef __itkQuaternionOrientationAdapter_h
 #define __itkQuaternionOrientationAdapter_h
+#if !defined( ITK_LEGACY_REMOVE )
 #include "itkOrientationAdapterBase.h"
 #include "itkQuaternionRigidTransform.h"
 #include "itkConceptChecking.h"
@@ -35,6 +36,7 @@ namespace itk
 {
 /** \class QuaternionOrientationAdapter
  *  \brief converts QuaternionOrientation flags to/from direction cosines
+ * \deprecated
  * \ingroup ITKDeprecated
  */
 namespace QuaternionOrientationAdapterClasses
@@ -80,4 +82,5 @@ public:
 };
 } // namespace itk
 
+#endif //#if !defined( ITK_LEGACY_REMOVE )
 #endif // __itkQuaternionOrientationAdapter_h

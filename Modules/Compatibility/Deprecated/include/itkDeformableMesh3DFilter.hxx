@@ -17,7 +17,7 @@
  *=========================================================================*/
 #ifndef __itkDeformableMesh3DFilter_hxx
 #define __itkDeformableMesh3DFilter_hxx
-
+#if !defined( ITK_LEGACY_REMOVE )
 
 #include "itkDeformableMesh3DFilter.h"
 #include "itkNumericTraits.h"
@@ -849,4 +849,5 @@ DeformableMesh3DFilter< TInputMesh, TOutputMesh >
 }
 } /* end namespace itk. */
 
+#endif //#if !defined( ITK_LEGACY_REMOVE )
 #endif

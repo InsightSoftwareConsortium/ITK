@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkNonThreadedShrinkImageFilter_h
 #define __itkNonThreadedShrinkImageFilter_h
+#if !defined( ITK_LEGACY_REMOVE )
 
 #include "itkShrinkImageFilter.h"
 
@@ -40,8 +41,9 @@ namespace itk
  * this class with ShrinkImageFilter. If you need to limit the number
  * of threads, instantiate the afilter and apply the
  * SetNumberOfThreads(1) methods.
- * \ingroup GeometricTransform
+ * \deprecated
  * \ingroup ITKDeprecated
+ * \ingroup GeometricTransform
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT NonThreadedShrinkImageFilter:
@@ -77,4 +79,5 @@ private:
 };
 } // end namespace itk
 
+#endif //#if !defined( ITK_LEGACY_REMOVE )
 #endif

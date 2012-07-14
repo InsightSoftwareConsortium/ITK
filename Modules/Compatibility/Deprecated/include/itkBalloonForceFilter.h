@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkBalloonForceFilter_h
 #define __itkBalloonForceFilter_h
+#if !defined( ITK_LEGACY_REMOVE )
 
 #include "itkMeshToMeshFilter.h"
 #include "vnl/vnl_matrix_fixed.h"
@@ -48,9 +49,10 @@ namespace itk
  * GradientFit method to fit the model using the gradient information in the
  * original image.
  *
+ * \deprecated
+ * \ingroup ITKDeprecated
  * \ingroup MeshFilters
  * \ingroup MeshSegmentation
- * \ingroup ITKDeprecated
  */
 template< class TInputMesh, class TOutputMesh >
 class ITK_EXPORT BalloonForceFilter:public MeshToMeshFilter< TInputMesh, TOutputMesh >
@@ -261,4 +263,5 @@ private:
 #include "itkBalloonForceFilter.hxx"
 #endif
 
+#endif //#if !defined( ITK_LEGACY_REMOVE )
 #endif

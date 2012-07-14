@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkCompose2DCovariantVectorImageFilter_h
 #define __itkCompose2DCovariantVectorImageFilter_h
+#if !defined( ITK_LEGACY_REMOVE )
 
 #include "itkBinaryFunctorImageFilter.h"
 #include "itkCovariantVector.h"
@@ -62,7 +63,7 @@ public:
  * 2D covariant vector image in which the two components have been unified. The Component
  * type is preserved from the PixelType of the input images.
  *
- * \ingroup Deprecated
+ * \deprecated
  * \ingroup ITKDeprecated
  */
 
@@ -111,4 +112,5 @@ private:
 };
 } // end namespace itk
 
+#endif //#if !defined( ITK_LEGACY_REMOVE )
 #endif

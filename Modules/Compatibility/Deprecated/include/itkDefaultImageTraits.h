@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkDefaultImageTraits_h
 #define __itkDefaultImageTraits_h
+#if !defined( ITK_LEGACY_REMOVE )
 
 #include "itkImageRegion.h"
 #include "itkValarrayImageContainer.h"
@@ -28,8 +29,9 @@ namespace itk
  * \brief Default ImageTraits for any PixelType.
  *
  * \sa Image
- * \ingroup ImageObjects
+ * \deprecated
  * \ingroup ITKDeprecated
+ * \ingroup ImageObjects
  */
 template< typename TPixelType,
           unsigned int VImageDimension,
@@ -61,4 +63,5 @@ public:
 };
 } // namespace itk
 
+#endif //#if !defined( ITK_LEGACY_REMOVE )
 #endif

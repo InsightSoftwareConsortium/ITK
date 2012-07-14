@@ -18,12 +18,10 @@
 
 
 #include "itkAntiAliasBinaryImageFilter.h"
-#include "itkBalloonForceFilter.h"
 #include "itkBinaryMask3DMeshSource.h"
 #include "itkBinaryMinMaxCurvatureFlowImageFilter.h"
 #include "itkCannySegmentationLevelSetImageFilter.h"
 #include "itkConnectedRegionsMeshFilter.h"
-#include "itkDeformableMesh3DFilter.h"
 #include "itkDemonsRegistrationFilter.h"
 #include "itkExtensionVelocitiesImageFilter.h"
 
@@ -47,10 +45,6 @@ int main (int , char* [])
   itk::AntiAliasBinaryImageFilter<InputType,OutputType>::Pointer AntiAliasBinaryImageFilterObj =
     itk::AntiAliasBinaryImageFilter<InputType,OutputType>::New();
   std:: cout << "-------------AntiAliasBinaryImageFilter " << AntiAliasBinaryImageFilterObj;
-
-  itk::BalloonForceFilter<MeshType,MeshType>::Pointer BalloonForceFilterObj =
-    itk::BalloonForceFilter<MeshType,MeshType>::New();
-  std:: cout << "-------------BalloonForceFilter " << BalloonForceFilterObj;
 
   itk::BinaryMask3DMeshSource<InputType3D,MeshType>::Pointer BinaryMask3DMeshSourceObj =
     itk::BinaryMask3DMeshSource<InputType3D,MeshType>::New();
@@ -83,10 +77,6 @@ int main (int , char* [])
   itk::CurvatureFlowImageFilter<InputType,OutputType>::Pointer CurvatureFlowImageFilterObj =
     itk::CurvatureFlowImageFilter<InputType,OutputType>::New();
   std:: cout << "-------------CurvatureFlowImageFilter " << CurvatureFlowImageFilterObj;
-
-  itk::DeformableMesh3DFilter<MeshType,MeshType>::Pointer DeformableMesh3DFilterObj =
-    itk::DeformableMesh3DFilter<MeshType,MeshType>::New();
-  std:: cout << "-------------DeformableMesh3DFilter " << DeformableMesh3DFilterObj;
 
   itk::DemonsRegistrationFilter<InputType,OutputType,VectorImageType>::Pointer DemonsRegistrationFilterObj =
     itk::DemonsRegistrationFilter<InputType,OutputType,VectorImageType>::New();

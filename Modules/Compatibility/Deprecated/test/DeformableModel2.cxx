@@ -34,7 +34,6 @@
 #include "itkGradientRecursiveGaussianImageFilter.h"
 #include "itkGradientMagnitudeRecursiveGaussianImageFilter.h"
 
-
 #include "itkSphereMeshSource.h"
 
 #include "itkImageFileReader.h"
@@ -55,16 +54,13 @@ int main(int argc, char * argv [] )
   const float externalForceScale = atof( argv[5] );   // Suggested value = 10  (linked to stiffness)
   const float stiffness          = atof( argv[6] );   // Suggested value = 0.1 (linked to force scale)
 
-
   typedef double                            MeshPixelType;
   typedef itk::Mesh< MeshPixelType >        MeshType;
-
 
   unsigned const int Dimension = 3;
 
   typedef   float                               PixelType;
   typedef itk::Image<PixelType, Dimension>      ImageType;
-
 
   typedef itk::GradientRecursiveGaussianImageFilter<
                                         ImageType
@@ -74,9 +70,7 @@ int main(int argc, char * argv [] )
                                         ImageType,ImageType>
                                                       GradientMagnitudeFilterType;
 
-
   typedef itk::DeformableMesh3DFilter<MeshType,MeshType>  DeformableFilterType;
-
 
   typedef itk::ImageFileReader< ImageType       >  ReaderType;
 
@@ -98,42 +92,31 @@ int main(int argc, char * argv [] )
     std::cerr << excep << std::endl;
     }
 
-
   ImageType::ConstPointer inputImage = imageReader->GetOutput();
 
   gradientMagnitudeFilter->SetInput( inputImage );
 
-
   gradientMagnitudeFilter->SetSigma( sigma );
 
-
   GradientFilterType::Pointer gradientMapFilter = GradientFilterType::New();
-
 
   gradientMapFilter->SetInput( gradientMagnitudeFilter->GetOutput());
   gradientMapFilter->SetSigma( sigma );
 
   gradientMapFilter->Update();
 
-
-
   DeformableFilterType::Pointer deformableModelFilter =
                                      DeformableFilterType::New();
-
-
 
   typedef itk::SphereMeshSource< MeshType >        MeshSourceType;
 
   MeshSourceType::Pointer meshSource = MeshSourceType::New();
-
-
 
   // Set the initial sphere in the center of the image
   //
   const ImageType::SpacingType spacing = inputImage->GetSpacing();
   ImageType::PointType         origin  = inputImage->GetOrigin();
   ImageType::SizeType          size    = inputImage->GetBufferedRegion().GetSize();
-
 
   MeshType::PointType center;
   center[0] = origin[0] + spacing[0] * size[0] / 2.0;
@@ -147,17 +130,13 @@ int main(int argc, char * argv [] )
   radius[2] = spacing[2] * size[2] / 4.0;
   meshSource->SetScale( radius );
 
-
   meshSource->SetResolutionX( 50 );
   meshSource->SetResolutionY( 50 );
   meshSource->Update();
 
-
   deformableModelFilter->SetInput(    meshSource->GetOutput()        );
 
   deformableModelFilter->SetGradient( gradientMapFilter->GetOutput() );
-
-
 
   typedef itk::CovariantVector<double, 2>           StiffnessType;
 
@@ -165,13 +144,10 @@ int main(int argc, char * argv [] )
   stiffnessVector[0] = stiffness;
   stiffnessVector[1] = stiffness;
 
-
-
   deformableModelFilter->SetTimeStep( timeStep );
   deformableModelFilter->SetStiffness( stiffnessVector );
   deformableModelFilter->SetStepThreshold( numberOfIterations );
   deformableModelFilter->SetGradientMagnitude( externalForceScale );
-
 
   try
     {
@@ -185,6 +161,5 @@ int main(int argc, char * argv [] )
 
   return 0;
 }
-
 
 // Software Guide : EndCodeSnippet

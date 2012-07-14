@@ -52,6 +52,7 @@ namespace itk
  * details regarding it's implementation should be review in
  * itkDisplacementFieldJacobianDeterminantFilter.h.
  *
+ * \deprecated
  * \ingroup GradientFilters
  * \ingroup ITKV3Compatibility
  *

@@ -22,10 +22,16 @@
 #include "itkVectorContainer.h"
 #include "itkVectorImage.h"
 
+#ifndef ITKV3_COMPATIBILITY
+#error "This file is only valid when ITKV3_COMPATIBILITY is turned on.  Users are encouraged to convert to itkDisplacementFieldJacobianDeterminantFilter.h in ITKv4"
+#endif
+
 namespace itk
 {
 /** \class ImageToVectorImageFilter
- * \brief This class takes as input 'n' itk::Image's and composes them into
+ * \brief  This class is deprecated. You should use itkComposeImageFilter instead.
+ *
+ * This class takes as input 'n' itk::Image's and composes them into
  * a single itk::VectorImage.
  *
  * \par Inputs and Usage
@@ -40,8 +46,8 @@ namespace itk
  * the same size and origin.
  *
  * \sa VectorImage
- * \ingroup Deprecated
- * \ingroup ITKDeprecated
+ * \deprecated
+ * \ingroup ITKV3Compatibility
  *
  * \wiki
  * \wikiexample{VectorImages/ImageToVectorImageFilter,Stack scalar images into a VectorImage}

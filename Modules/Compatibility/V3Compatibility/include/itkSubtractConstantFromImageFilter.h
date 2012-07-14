@@ -17,14 +17,24 @@
  *=========================================================================*/
 #ifndef __itkSubtractConstantFromImageFilter_h
 #define __itkSubtractConstantFromImageFilter_h
+
 #include "itkSubtractImageFilter.h"
+
+#ifndef ITKV3_COMPATIBILITY
+#error "This file is only valid when ITKV3_COMPATIBILITY is turned on.  Users are encouraged to convert to itkDisplacementFieldJacobianDeterminantFilter.h in ITKv4"
+#endif
 
 namespace itk
 {
 
 /** \class SubtractConstantFromImageFilter
  *
- * \brief Add a constant to all input pixels.
+ * \brief This class is deprecated.  All features of this
+ * class have been incorporated into the SubtractImageFilter.
+ * This class is a thin wrapper around the SubtractImageFilter
+ * that provides the ITKv3 API.
+ *
+ * Subtract a constant to from input pixels.
  *
  * This filter is templated over the input image type
  * and the output image type.
@@ -34,7 +44,8 @@ namespace itk
  * Based on filters from the Insight Journal paper:
  * http://hdl.handle.net/1926/510
  *
- * \ingroup ITKDeprecated
+ * \deprecated
+ * \ingroup ITKV3Compatibility
  * \sa SubtractImageFilter
  */
 template <class TInputImage, class TConstant, class TOutputImage>

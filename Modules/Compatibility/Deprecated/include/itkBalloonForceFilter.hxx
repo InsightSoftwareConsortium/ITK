@@ -17,7 +17,7 @@
  *=========================================================================*/
 #ifndef __itkBalloonForceFilter_hxx
 #define __itkBalloonForceFilter_hxx
-
+#if !defined( ITK_LEGACY_REMOVE )
 
 #include "itkBalloonForceFilter.h"
 
@@ -1766,4 +1766,5 @@ BalloonForceFilter< TInputMesh, TOutputMesh >
 }
 } // end namespace itk
 
+#endif //#if !defined( ITK_LEGACY_REMOVE )
 #endif

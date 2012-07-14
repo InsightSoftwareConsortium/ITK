@@ -175,6 +175,13 @@ option(ITK_LEGACY_REMOVE "Remove all legacy code completely." OFF)
 option(ITK_LEGACY_SILENT "Silence all legacy code messages." OFF)
 mark_as_advanced(ITK_LEGACY_REMOVE ITK_LEGACY_SILENT ITK_V3_COMPATIBILITY)
 
+# The disabling of legacy code, and the ITKv3 compatibility option can not both be
+# requested.  If removal of legacy code is requested, then ITKV3_COMPATIBILITY must
+# be off.
+if(ITKV3_COMPATIBILITY AND ITK_LEGACY_REMOVE)
+  message(FATAL_ERROR "Invlaid configuration: ITKV3_COMPATIBILITY AND ITK_LEGACY_REMOVE can not both be ON")
+endif()
+
 #-----------------------------------------------------------------------------
 # ITK build classes that are in the review process
 option(ITK_USE_REVIEW "Build algorithms that are candidates to be included in the Toolkit. This classes are not covered by the Backward Compatibility Policy, no

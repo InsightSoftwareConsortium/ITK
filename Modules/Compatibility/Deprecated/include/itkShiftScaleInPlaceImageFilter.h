@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkShiftScaleInPlaceImageFilter_h
 #define __itkShiftScaleInPlaceImageFilter_h
+#if !defined( ITK_LEGACY_REMOVE )
 
 #include "itkInPlaceImageFilter.h"
 #include "itkArray.h"
@@ -37,10 +38,11 @@ namespace itk
  * ShiftScaleImageFilter instead.
  *
  *
- * \ingroup IntensityImageFilters
  * \sa ShiftScaleImageFilter
  * \sa InPlaceImageFilter
+ * \deprecated
  * \ingroup ITKDeprecated
+ * \ingroup IntensityImageFilters
  */
 template< class TInputImage >
 class ITK_EXPORT ShiftScaleInPlaceImageFilter:
@@ -145,4 +147,5 @@ private:
 #include "itkShiftScaleInPlaceImageFilter.hxx"
 #endif
 
+#endif //#if !defined( ITK_LEGACY_REMOVE )
 #endif

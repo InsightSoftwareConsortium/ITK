@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkCompose2DVectorImageFilter_h
 #define __itkCompose2DVectorImageFilter_h
+#if !defined( ITK_LEGACY_REMOVE )
 
 #include "itkBinaryFunctorImageFilter.h"
 #include "itkVector.h"
@@ -62,7 +63,7 @@ public:
  * 2D vector image in which the two components have been unified. The Component
  * type is preserved from the PixelType of the input images.
  *
- * \ingroup Deprecated
+ * \deprecated
  * \ingroup ITKDeprecated
  */
 
@@ -112,4 +113,5 @@ private:
 };
 } // end namespace itk
 
+#endif //#if !defined( ITK_LEGACY_REMOVE )
 #endif

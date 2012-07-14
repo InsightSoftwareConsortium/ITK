@@ -8,6 +8,11 @@ set(ITKV3CompatibilityTests
   itkTransformToDeformationFieldSourceTest1.cxx
   itkDeformationFieldJacobianDeterminantFilterTest.cxx
   itkOtsuThresholdImageCalculatorTest.cxx
+  itkAddConstantToImageFilterTest.cxx
+  itkDivideByConstantImageFilterTest.cxx
+  itkMultiplyByConstantImageFilterTest.cxx
+  itkSubtractConstantFromImageFilterTest.cxx
+  itkGradientToMagnitudeImageFilterTest.cxx
 )
 
 CreateTestDriver(ITKV3Compatibility  "${ITKV3Compatibility-Test_LIBRARIES}" "${ITKV3CompatibilityTests}")
@@ -41,3 +46,15 @@ itk_add_test(NAME itkExponentialDeformationFieldImageFilterTest
       COMMAND ITKV3CompatibilityTestDriver itkExponentialDeformationFieldImageFilterTest)
 itk_add_test(NAME itkOtsuThresholdImageCalculatorTest
       COMMAND ITKV3CompatibilityTestDriver itkOtsuThresholdImageCalculatorTest)
+
+itk_add_test(NAME V3CompatibilityAddConstantToImageFilterTest
+  COMMAND ITKV3CompatibilityTestDriver itkAddConstantToImageFilterTest)
+itk_add_test(NAME V3CompatibilitySubtractConstantFromaImageFilterTest
+  COMMAND ITKV3CompatibilityTestDriver itkSubtractConstantFromImageFilterTest)
+itk_add_test(NAME V3CompatibilityMultiplyByConstantImageFilterTest
+  COMMAND ITKV3CompatibilityTestDriver itkMultiplyByConstantImageFilterTest)
+itk_add_test(NAME V3CompatibilityDivideByConstantImageFilterTest
+  COMMAND ITKV3CompatibilityTestDriver itkDivideByConstantImageFilterTest)
+
+itk_add_test(NAME itkGradientToMagnitudeImageFilterTest
+      COMMAND ITKV3CompatibilityTestDriver itkGradientToMagnitudeImageFilterTest)

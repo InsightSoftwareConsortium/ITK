@@ -17,7 +17,7 @@
  *=========================================================================*/
 #ifndef __itkNonUniformBSpline_hxx
 #define __itkNonUniformBSpline_hxx
-
+#if !defined( ITK_LEGACY_REMOVE )
 
 #include "itkNonUniformBSpline.h"
 #include "itkIntTypes.h"
@@ -424,4 +424,5 @@ NonUniformBSpline< TDimension >
 }
 } // end namespace itk
 
+#endif //#if !defined( ITK_LEGACY_REMOVE )
 #endif

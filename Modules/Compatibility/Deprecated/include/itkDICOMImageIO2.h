@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkDICOMImageIO2_h
 #define __itkDICOMImageIO2_h
+#if !defined( ITK_LEGACY_REMOVE )
 
 #include <fstream>
 #include "itkImageIOBase.h"
@@ -29,6 +30,7 @@ namespace itk
 /**
  * \class DICOMImageIO2
  *  \brief Read DICOMImage file format.
+ * \deprecated
  * \ingroup ITKDeprecated
  */
 class ITK_EXPORT DICOMImageIO2:public ImageIOBase
@@ -130,4 +132,5 @@ private:
 };
 } // end namespace itk
 
+#endif //#if !defined( ITK_LEGACY_REMOVE )
 #endif // __itkDICOMImageIO2_h

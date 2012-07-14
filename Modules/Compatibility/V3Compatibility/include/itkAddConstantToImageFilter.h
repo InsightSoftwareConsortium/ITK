@@ -17,13 +17,23 @@
  *=========================================================================*/
 #ifndef __itkAddConstantToImageFilter_h
 #define __itkAddConstantToImageFilter_h
+
 #include "itkAddImageFilter.h"
+#ifndef ITKV3_COMPATIBILITY
+#error "This file is only valid when ITKV3_COMPATIBILITY is turned on.  Users are encouraged to convert to itkDisplacementFieldJacobianDeterminantFilter.h in ITKv4"
+#endif
+
 namespace itk
 {
 
 /** \class AddConstantToImageFilter
  *
- * \brief Add a constant to all input pixels.
+ * \brief This class is deprecated.  All features of this
+ * class have been incorporated into the AddImageFilter.
+ * This class is a thin wrapper around the AddImageFilter
+ * that provides the ITKv3 API.
+ *
+ * Add a constant to all input pixels.
  *
  * This filter is templated over the input image type
  * and the output image type.
@@ -33,7 +43,8 @@ namespace itk
  * Based on filters from the Insight Journal paper:
  * http://hdl.handle.net/1926/510
  *
- * \ingroup ITKDeprecated
+ * \deprecated
+ * \ingroup ITKV3Compatibility
  * \sa AddImageFilter
  */
 template <class TInputImage, class TConstant, class TOutputImage>

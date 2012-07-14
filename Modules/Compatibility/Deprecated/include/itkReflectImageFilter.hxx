@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkReflectImageFilter_hxx
 #define __itkReflectImageFilter_hxx
+#if !defined( ITK_LEGACY_REMOVE )
 
 #include "itkReflectImageFilter.h"
 #include "itkImageLinearIteratorWithIndex.h"
@@ -94,4 +95,5 @@ ReflectImageFilter< TInputImage, TOutputImage >::PrintSelf(std::ostream & os, In
 }
 } // end namespace itk
 
+#endif //#if !defined( ITK_LEGACY_REMOVE )
 #endif

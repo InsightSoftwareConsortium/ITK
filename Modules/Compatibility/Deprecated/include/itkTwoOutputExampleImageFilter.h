@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkTwoOutputExampleImageFilter_h
 #define __itkTwoOutputExampleImageFilter_h
+#if !defined( ITK_LEGACY_REMOVE )
 
 #include "itkImageToImageFilter.h"
 
@@ -37,8 +38,10 @@ namespace itk
  *
  * The pixels must support the operators >= and <=.
  *
- * \ingroup IntensityImageFilters MultiThreaded
+ * \deprecated
  * \ingroup ITKDeprecated
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
  */
 template< class TImage >
 class ITK_EXPORT TwoOutputExampleImageFilter:
@@ -132,4 +135,5 @@ private:
 #include "itkTwoOutputExampleImageFilter.hxx"
 #endif
 
+#endif //#if !defined( ITK_LEGACY_REMOVE )
 #endif

@@ -58,7 +58,6 @@
 #include "itkGradientImageFilter.h"
 #include "itkGradientMagnitudeRecursiveGaussianImageFilter.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"
-#include "itkGradientToMagnitudeImageFilter.h"
 #include "itkGrayscaleDilateImageFilter.h"
 #include "itkGrayscaleErodeImageFilter.h"
 #include "itkGrayscaleFunctionDilateImageFilter.h"
@@ -322,10 +321,6 @@ int itkBasicFiltersPrintTest(int , char* [])
   itk::GradientRecursiveGaussianImageFilter<InputType>::Pointer GradientRecursiveGaussianImageFilterObj =
     itk::GradientRecursiveGaussianImageFilter<InputType>::New();
   std::cout << "-------------GradientRecursiveGaussianImageFilter" << GradientRecursiveGaussianImageFilterObj;
-
-  itk::GradientToMagnitudeImageFilter<VectorImageType,OutputType>::Pointer GradientToMagnitudeImageFilterObj =
-    itk::GradientToMagnitudeImageFilter<VectorImageType,OutputType>::New();
-  std::cout << "-------------GradientToMagnitudeImageFilter" << GradientToMagnitudeImageFilterObj;
 
   itk::GrayscaleDilateImageFilter<InputType,OutputType,KernelType>::Pointer GrayscaleDilateImageFilterObj =
     itk::GrayscaleDilateImageFilter<InputType,OutputType,KernelType>::New();
