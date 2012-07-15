@@ -53,7 +53,20 @@ const typename ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage 
 ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >
 ::GetImageInput(void)
 {
-  return static_cast< const TInputImage * >( this->ProcessObject::GetInput(0) );
+  return this->GetNonConstImageInput();
+}
+
+template< class TInputImage, class TInputPath, class TOutputImage >
+typename ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >::InputImageType *
+ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >
+::GetNonConstImageInput(void)
+{
+  TInputImage * temp_return=dynamic_cast< TInputImage * >( this->ProcessObject::GetInput(0) );
+  if(temp_return == NULL)
+    {
+    itkExceptionMacro("Invalid type conversion in GetNonConstImageInput()")
+    }
+  return temp_return;
 }
 
 template< class TInputImage, class TInputPath, class TOutputImage >
@@ -72,7 +85,21 @@ const typename ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage 
 ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >
 ::GetPathInput(void)
 {
-  return static_cast< const TInputPath * >( this->ProcessObject::GetInput(1) );
+  return this->GetNonConstPathInput();
+}
+
+template< class TInputImage, class TInputPath, class TOutputImage >
+typename ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >::InputPathType *
+ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >
+::GetNonConstPathInput(void)
+{
+  TInputPath * temp_return = dynamic_cast< TInputPath * >( this->ProcessObject::GetInput(1) );
+  if(temp_return == NULL)
+    {
+    itkExceptionMacro("Invalid type conversion in GetNonConstPathInput()")
+    }
+  return temp_return;
+
 }
 
 /**
