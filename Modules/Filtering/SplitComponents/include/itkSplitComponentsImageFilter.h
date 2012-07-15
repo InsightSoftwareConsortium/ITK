@@ -18,6 +18,7 @@
 #ifndef __itkSplitComponentsImageFilter_h
 #define __itkSplitComponentsImageFilter_h
 
+#include "itkFixedArray.h"
 #include "itkImageToImageFilter.h"
 
 namespace itk
@@ -65,15 +66,27 @@ public:
   typedef SmartPointer<Self>                                  Pointer;
   typedef SmartPointer<const Self>                            ConstPointer;
 
+  typedef FixedArray<bool, TComponents> ComponentsMaskType;
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(SplitComponentsImageFilter, ImageToImageFilter);
 
   /** Provide ::New() */
   itkNewMacro(Self);
 
+  /** Set/Get the components mask.  The mask is as long as the number of
+   * components, and only values in the mask that evaluate are true will be
+   * populated in the output.  The default is all true. */
+  itkSetMacro(ComponentsMask, ComponentsMaskType);
+  itkGetConstReferenceMacro(ComponentsMask, ComponentsMaskType);
+
 protected:
   SplitComponentsImageFilter();
   virtual ~SplitComponentsImageFilter() {}
+
+  /** Do not allocate outputs that we will not populate. */
+  virtual void
+  AllocateOutputs();
 
   virtual void
   ThreadedGenerateData(const OutputRegionType & outputRegion, ThreadIdType threadId);
@@ -82,6 +95,8 @@ private:
   SplitComponentsImageFilter(const Self &); // purposely not implemented
   void
   operator=(const Self &); // purposely not implemented
+
+  ComponentsMaskType m_ComponentsMask;
 };
 
 } // end namespace itk

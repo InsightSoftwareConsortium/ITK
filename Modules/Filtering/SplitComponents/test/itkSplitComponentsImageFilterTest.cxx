@@ -99,5 +99,33 @@ itkSplitComponentsImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
+  typedef FilterType::ComponentsMaskType ComponentsMaskType;
+  ComponentsMaskType                     componentsMask(false);
+  componentsMask[1] = true;
+  const ComponentsMaskType oldComponents = filter->GetComponentsMask();
+  if (oldComponents[0] != true)
+  {
+    std::cerr << "Did not get the expected default ComponentsMask." << std::endl;
+    return EXIT_FAILURE;
+  }
+  filter->SetComponentsMask(componentsMask);
+  const ComponentsMaskType newComponents = filter->GetComponentsMask();
+  if (newComponents[0] != false)
+  {
+    std::cerr << "Did not get the expected modified ComponentsMask." << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  try
+  {
+    filter->Update();
+  }
+  catch (itk::ExceptionObject & ex)
+  {
+    std::cerr << "Exception caught!" << std::endl;
+    std::cerr << ex << std::endl;
+    return EXIT_FAILURE;
+  }
+
   return EXIT_SUCCESS;
 }

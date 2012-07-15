@@ -29,6 +29,8 @@ namespace itk
 template <class TInputImage, class TOutputImage, unsigned int TComponents>
 SplitComponentsImageFilter<TInputImage, TOutputImage, TComponents>::SplitComponentsImageFilter()
 {
+  this->m_ComponentsMask.Fill(true);
+
   this->SetNumberOfIndexedOutputs(Components);
 
   // ImageSource only does this for the first output.
@@ -38,6 +40,34 @@ SplitComponentsImageFilter<TInputImage, TOutputImage, TComponents>::SplitCompone
   }
 }
 
+
+template <class TInputImage, class TOutputImage, unsigned int TComponents>
+void
+SplitComponentsImageFilter<TInputImage, TOutputImage, TComponents>::AllocateOutputs()
+{
+  typedef ImageBase<TOutputImage::ImageDimension> ImageBaseType;
+  typename ImageBaseType::Pointer                 outputPtr;
+
+  // Allocate the output memory as with ImageSource
+  unsigned int ii = 0;
+  for (OutputDataObjectIterator it(this); !it.IsAtEnd(); ++it, ++ii)
+  {
+    // Check whether the output is an image of the appropriate
+    // dimension (use ProcessObject's version of the GetInput()
+    // method since it returns the input as a pointer to a
+    // DataObject as opposed to the subclass version which
+    // static_casts the input to an TInputImage).
+    outputPtr = dynamic_cast<ImageBaseType *>(it.GetOutput());
+
+    if (outputPtr && this->m_ComponentsMask[ii])
+    {
+      outputPtr->SetBufferedRegion(outputPtr->GetRequestedRegion());
+      outputPtr->Allocate();
+    }
+  }
+}
+
+
 template <class TInputImage, class TOutputImage, unsigned int TComponents>
 void
 SplitComponentsImageFilter<TInputImage, TOutputImage, TComponents>::ThreadedGenerateData(
@@ -45,27 +75,32 @@ SplitComponentsImageFilter<TInputImage, TOutputImage, TComponents>::ThreadedGene
   ThreadIdType             itkNotUsed(threadId))
 {
   typename InputImageType::ConstPointer input = this->GetInput();
-
   ProcessObject::DataObjectPointerArray outputs = this->GetOutputs();
+  const ComponentsMaskType              componentsMask = this->m_ComponentsMask;
 
   typedef ImageRegionIterator<OutputImageType> OutputIteratorType;
   ImageRegionConstIterator<InputImageType>     inIt(input, outputRegion);
-  std::vector<OutputIteratorType>              outIts;
-  unsigned int                                 i;
-  for (i = 0; i < Components; i++)
+  std::vector<OutputIteratorType>              outIts(Components);
+  for (unsigned int ii = 0; ii < Components; ++ii)
   {
-    OutputIteratorType outIt(dynamic_cast<OutputImageType *>(outputs[i].GetPointer()), outputRegion);
-    outIt.GoToBegin();
-    outIts.push_back(outIt);
+    if (componentsMask[ii])
+    {
+      OutputIteratorType outIt(dynamic_cast<OutputImageType *>(outputs[ii].GetPointer()), outputRegion);
+      outIt.GoToBegin();
+      outIts[ii] = outIt;
+    }
   }
   InputPixelType inputPixel;
   for (inIt.GoToBegin(); !inIt.IsAtEnd(); ++inIt)
   {
     inputPixel = inIt.Get();
-    for (i = 0; i < Components; i++)
+    for (unsigned int ii = 0; ii < Components; ++ii)
     {
-      outIts[i].Set(static_cast<OutputPixelType>(inputPixel[i]));
-      ++(outIts[i]);
+      if (componentsMask[ii])
+      {
+        outIts[ii].Set(static_cast<OutputPixelType>(inputPixel[ii]));
+        ++(outIts[ii]);
+      }
     }
   }
 }
