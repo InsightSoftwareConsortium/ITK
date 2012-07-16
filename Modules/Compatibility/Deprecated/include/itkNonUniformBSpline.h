@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkNonUniformBSpline_h
 #define __itkNonUniformBSpline_h
+#if !defined( ITK_LEGACY_REMOVE )
 
 
 #include <vector>
@@ -39,6 +40,7 @@ namespace itk
  *
  * CAUTION: THIS CLASS IS STILL UNDER DEVELOPMENT.
  *
+ * \deprecated
  * \ingroup ITKDeprecated
  */
 
@@ -191,4 +193,5 @@ protected:
 #include "itkNonUniformBSpline.hxx"
 #endif
 
+#endif //#if !defined( ITK_LEGACY_REMOVE )
 #endif // __itkNonUniformBSpline_h

@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkTwoOutputExampleImageFilter_hxx
 #define __itkTwoOutputExampleImageFilter_hxx
+#if !defined( ITK_LEGACY_REMOVE )
 
 #include "itkTwoOutputExampleImageFilter.h"
 #include "itkImageRegionIterator.h"
@@ -170,4 +171,5 @@ TwoOutputExampleImageFilter< TImage >
 }
 } // end namespace itk
 
+#endif //#if !defined( ITK_LEGACY_REMOVE )
 #endif

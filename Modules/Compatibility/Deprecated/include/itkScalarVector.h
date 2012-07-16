@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkScalarVector_h
 #define __itkScalarVector_h
+#if !defined( ITK_LEGACY_REMOVE )
 
 #include "itkMacro.h"
 #include "vnl/vnl_vector_fixed.h"
@@ -52,8 +53,9 @@ namespace itk
  * \sa Mesh
  * \sa Scalar
  * \sa Vector
- * \ingroup DataRepresentation
+ * \deprecated
  * \ingroup ITKDeprecated
+ * \ingroup DataRepresentation
  */
 template< class TScalar, class TVector, unsigned int TVectorDimension = 3 >
 class ITK_EXPORT ScalarVector
@@ -109,4 +111,5 @@ private:
 };
 } // end namespace itk
 
+#endif //#if !defined( ITK_LEGACY_REMOVE )
 #endif

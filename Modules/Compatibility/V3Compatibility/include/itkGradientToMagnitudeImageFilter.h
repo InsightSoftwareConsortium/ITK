@@ -20,11 +20,18 @@
 
 #include "itkVectorMagnitudeImageFilter.h"
 
+#ifndef ITKV3_COMPATIBILITY
+#error "This file is only valid when ITKV3_COMPATIBILITY is turned on.  Users are encouraged to convert to itkDisplacementFieldJacobianDeterminantFilter.h in ITKv4"
+#endif
+
 namespace itk
 {
 /** \class GradientToMagnitudeImageFilter
  *
- * \brief Take an image of vectors as input and produce an image with the
+ * \brief This filter is here for backwards compatibility. It has been renamed to
+ * VectorMagnitudeImageFilter in the ImageIntensity module.
+ *
+ * Take an image of vectors as input and produce an image with the
  *  magnitude of those vectors.
  *
  * The filter expects the input image pixel type to be a vector and
@@ -33,11 +40,11 @@ namespace itk
  * This filter assumes that the PixelType of the input image is a VectorType
  * that provides a GetNorm() method.
  *
- * This filter is here for backwards compatibility. It has been renamed to
- * VectorMagnitudeImageFilter in the ImageIntensity module.
  *
- * \ingroup IntensityImageFilters  MultiThreaded
- * \ingroup ITKDeprecated
+ * \deprecated
+ * \ingroup ITKV3Compatibility
+ * \ingroup ITKIntensityImageFilters
+ * \ingroup ITKMultiThreaded
  */
 
 template< class TInputImage, class TOutputImage >

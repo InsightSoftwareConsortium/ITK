@@ -23,6 +23,11 @@
 #include "itkNumericTraits.h"
 #include "itkIntTypes.h"
 
+#ifndef ITKV3_COMPATIBILITY
+#error "This file is only valid when ITKV3_COMPATIBILITY is turned on.  Users are encouraged to convert to itkDisplacementFieldJacobianDeterminantFilter.h in ITKv4"
+#endif
+
+
 namespace itk
 {
 /** \class OtsuThresholdImageCalculator
@@ -38,6 +43,7 @@ namespace itk
  * \warning This method assumes that the input image consists of scalar pixel
  * types.
  *
+ * \deprecated
  * \ingroup Operators
  * \ingroup ITKThresholding
  * \ingroup ITKV3Compatibility

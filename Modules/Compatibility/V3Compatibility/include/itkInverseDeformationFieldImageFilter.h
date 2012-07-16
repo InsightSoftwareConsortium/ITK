@@ -62,6 +62,7 @@ namespace itk
  * This filter expects both the input and output images to be of pixel type
  * Vector.
  *
+ * \deprecated
  * \ingroup ImageToImageFilter
  * \ingroup ITKV3Compatibility
  */

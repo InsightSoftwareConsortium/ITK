@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkScalarToArrayCastImageFilter_h
 #define __itkScalarToArrayCastImageFilter_h
+#if !defined( ITK_LEGACY_REMOVE )
 
 #include "itkImageToImageFilter.h"
 
@@ -34,7 +35,7 @@ namespace itk
  * filter can be used to cast a scalar image to a vector image if
  * there is only one input image.
  *
- * \ingroup Deprecated
+ * \deprecated
  * \ingroup ITKDeprecated
  */
 
@@ -81,4 +82,5 @@ private:
 #include "itkScalarToArrayCastImageFilter.hxx"
 #endif
 
+#endif //#if !defined( ITK_LEGACY_REMOVE )
 #endif

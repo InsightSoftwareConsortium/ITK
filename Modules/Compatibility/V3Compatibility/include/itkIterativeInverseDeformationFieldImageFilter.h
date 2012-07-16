@@ -48,6 +48,7 @@ namespace itk
  *
  * \author  Corinne Mattmann
  *
+ * \deprecated
  * \ingroup ITKV3Compatibility
  */
 

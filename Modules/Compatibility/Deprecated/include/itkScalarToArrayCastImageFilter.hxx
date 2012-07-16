@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkScalarToArrayCastImageFilter_hxx
 #define __itkScalarToArrayCastImageFilter_hxx
+#if !defined( ITK_LEGACY_REMOVE )
 
 #include "itkScalarToArrayCastImageFilter.h"
 #include "itkImageRegionIterator.h"
@@ -84,4 +85,5 @@ ScalarToArrayCastImageFilter< TInputImage, TOutputImage >
 }
 } // end namespace itk
 
+#endif //#if !defined( ITK_LEGACY_REMOVE )
 #endif

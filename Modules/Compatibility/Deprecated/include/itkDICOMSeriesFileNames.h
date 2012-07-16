@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkDICOMSeriesFileNames_h
 #define __itkDICOMSeriesFileNames_h
+#if !defined( ITK_LEGACY_REMOVE )
 
 
 #include "itkObject.h"
@@ -38,11 +39,10 @@ namespace itk
  * directory are grouped by SeriesUID.  The list of SeriesUIDs can be
  * queried and the filenames for a specific series extracted.
  *
- * \ingroup IOFilters
- *
+ * \deprecated
  * \ingroup ITKDeprecated
+ * \ingroup IOFilters
  */
-
 class ITK_EXPORT DICOMSeriesFileNames:public Object
 {
 public:
@@ -174,4 +174,5 @@ private:
 };
 } //namespace ITK
 
+#endif //#if !defined( ITK_LEGACY_REMOVE )
 #endif // __itkDICOMSeriesFileNames_h

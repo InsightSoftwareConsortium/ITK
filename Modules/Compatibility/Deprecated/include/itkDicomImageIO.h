@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkDicomImageIO_h
 #define __itkDicomImageIO_h
+#if !defined( ITK_LEGACY_REMOVE )
 
 
 #include "itkGDCMImageIO.h"
@@ -26,14 +27,11 @@ namespace itk
 /** \class DicomImageIO
  *
  *  \brief Read DicomImage file format.
- *
- *  \deprecated
- *
  *  \warning NOTE: This reader has been replaced with GDCMImageIO
  *
- * \ingroup IOFilters
- *
+ *  \deprecated
  * \ingroup ITKDeprecated
+ * \ingroup IOFilters
  */
 class ITK_EXPORT DicomImageIO:public GDCMImageIO
 {
@@ -62,4 +60,5 @@ private:
 };
 } // end namespace itk
 
+#endif //#if !defined( ITK_LEGACY_REMOVE )
 #endif // __itkDicomImageIO_h

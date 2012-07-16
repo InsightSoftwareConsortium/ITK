@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkSemaphore_h
 #define __itkSemaphore_h
+#if !defined( ITK_LEGACY_REMOVE )
 
 # include "itkObjectFactory.h"
 #include <string>
@@ -97,6 +98,7 @@ typedef int SemaphoreType;
  * This class supports 3 types of semaphores on Unix systems, POSIX semaphores,
  * and IPC semaphores.  On Windows systems, POSIX semaphores and WIN32 thread
  * library semaphores are supported.
+ * \deprecated
  * \ingroup ITKDeprecated
  */
 class ITK_EXPORT Semaphore:public LightObject
@@ -185,4 +187,5 @@ private:
 };
 } //itk
 
+#endif //#if !defined( ITK_LEGACY_REMOVE )
 #endif

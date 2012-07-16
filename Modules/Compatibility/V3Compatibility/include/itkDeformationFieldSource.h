@@ -46,6 +46,7 @@ namespace itk
  *
  * This source object expects the image to be of pixel type Vector.
  *
+ * \deprecated
  * \ingroup ImageSource
  * \ingroup ITKV3Compatibility
  */

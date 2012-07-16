@@ -71,9 +71,7 @@
 //
 // Software Guide : EndLatex
 
-
 #include <iostream>
-
 
 //  Software Guide : BeginLatex
 //
@@ -91,7 +89,6 @@
 #include "itkBinaryMask3DMeshSource.h"
 // Software Guide : EndCodeSnippet
 
-
 //  Software Guide : BeginLatex
 //
 //  Then we include the header of the DeformableMesh3DFilter that
@@ -104,7 +101,6 @@
 //  Software Guide : BeginCodeSnippet
 #include "itkDeformableMesh3DFilter.h"
 //  Software Guide : EndCodeSnippet
-
 
 //  Software Guide : BeginLatex
 //
@@ -120,7 +116,6 @@
 #include "itkGradientMagnitudeRecursiveGaussianImageFilter.h"
 //  Software Guide : EndCodeSnippet
 
-
 //  Software Guide : BeginLatex
 //
 //  The main data structures required in this example are the Image
@@ -131,7 +126,6 @@
 
 //  Software Guide : BeginCodeSnippet
 //  Software Guide : EndCodeSnippet
-
 
 //  Software Guide : BeginLatex
 //
@@ -178,7 +172,6 @@ int main( int argc, char *argv[] )
     return 1;
     }
 
-
   //  Software Guide : BeginLatex
   //
   //  Here we declare the type of the image to be processed. This implies a
@@ -194,7 +187,6 @@ int main( int argc, char *argv[] )
   typedef itk::Image<PixelType, Dimension> ImageType;
   // Software Guide : EndCodeSnippet
 
-
   //  Software Guide : BeginLatex
   //
   //  The input to BinaryMask3DMeshSource is a binary mask that we
@@ -207,7 +199,6 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   typedef itk::Image< unsigned char, Dimension >   BinaryImageType;
   // Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //
@@ -222,7 +213,6 @@ int main( int argc, char *argv[] )
   typedef  itk::Mesh<double>     MeshType;
   // Software Guide : EndCodeSnippet
 
-
   //  Software Guide : BeginLatex
   //
   //  The following lines declare the type of the gradient image:
@@ -233,7 +223,6 @@ int main( int argc, char *argv[] )
   typedef itk::CovariantVector< double, Dimension >  GradientPixelType;
   typedef itk::Image< GradientPixelType, Dimension > GradientImageType;
   // Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //
@@ -248,7 +237,6 @@ int main( int argc, char *argv[] )
   typedef itk::GradientMagnitudeRecursiveGaussianImageFilter<ImageType,ImageType>
     GradientMagnitudeFilterType;
   //  Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //
@@ -265,7 +253,6 @@ int main( int argc, char *argv[] )
   // typedef itk::BinaryMaskToNarrowBandPointSetFilter<
   //                        BinaryImageType, MeshType >  MeshSourceType;
 
-
   //  Software Guide : BeginLatex
   //
   //  Now we instantiate the type of the DeformableMesh3DFilter that
@@ -279,7 +266,6 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   typedef itk::DeformableMesh3DFilter<MeshType,MeshType>  DeformableFilterType;
   // Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //
@@ -297,7 +283,6 @@ int main( int argc, char *argv[] )
   BinaryReaderType::Pointer maskReader    =  BinaryReaderType::New();
   // Software Guide : EndCodeSnippet
 
-
   //  Software Guide : BeginLatex
   //
   //  In this example we take the filenames of the input image and the binary
@@ -309,7 +294,6 @@ int main( int argc, char *argv[] )
   imageReader->SetFileName( argv[1] );
   maskReader->SetFileName(  argv[2] );
   //  Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //
@@ -324,7 +308,6 @@ int main( int argc, char *argv[] )
   GradientMagnitudeFilterType::Pointer  gradientMagnitudeFilter
                                           = GradientMagnitudeFilterType::New();
   // Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //
@@ -342,7 +325,6 @@ int main( int argc, char *argv[] )
   gradientMagnitudeFilter->SetSigma( 1.0 );
   // Software Guide : EndCodeSnippet
 
-
   //  Software Guide : BeginLatex
   //
   //  In the following line, we construct the gradient filter that will take
@@ -354,7 +336,6 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginCodeSnippet
   GradientFilterType::Pointer gradientMapFilter = GradientFilterType::New();
   //  Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //
@@ -372,7 +353,6 @@ int main( int argc, char *argv[] )
   gradientMapFilter->SetInput( gradientMagnitudeFilter->GetOutput());
   gradientMapFilter->SetSigma( 1.0 );
   // Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //
@@ -396,10 +376,7 @@ int main( int argc, char *argv[] )
     return -1;
     }
 
-
-
   std::cout << "The gradient map created!" << std::endl;
-
 
   //  Software Guide : BeginLatex
   //
@@ -415,7 +392,6 @@ int main( int argc, char *argv[] )
   MeshSourceType::Pointer meshSource = MeshSourceType::New();
   // Software Guide : EndCodeSnippet
 
-
   //  Software Guide : BeginLatex
   //
   //  Then we create the filter implementing the deformable model and set its
@@ -429,7 +405,6 @@ int main( int argc, char *argv[] )
                                      DeformableFilterType::New();
   deformableModelFilter->SetGradient( gradientMapFilter->GetOutput() );
   // Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //
@@ -497,7 +472,6 @@ int main( int argc, char *argv[] )
   deformableModelFilter->SetScale( scale );
   // Software Guide : EndCodeSnippet
 
-
   //  Software Guide : BeginLatex
   //
   // Other parameters to be set are the gradient magnitude, the time step and
@@ -518,9 +492,7 @@ int main( int argc, char *argv[] )
   deformableModelFilter->SetStepThreshold( 60 );
   //  Software Guide : EndCodeSnippet
 
-
   std::cout << "Deformable mesh fitting...";
-
 
   //  Software Guide : BeginLatex
   //

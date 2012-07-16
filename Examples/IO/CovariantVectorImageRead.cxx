@@ -27,23 +27,23 @@
 //
 //  In this example we are reading an gradient image from a file (written in
 //  the previous example) and computing its magnitude using the
-//  \doxygen{GradientToMagnitudeImageFilter}. Note that this filter is
+//  \doxygen{VectorMagnitudeImageFilter}. Note that this filter is
 //  different from the \doxygen{GradientMagnitudeImageFilter} which actually
 //  takes a scalar image as input and compute the magnitude of its gradient.
-//  The GradientToMagnitudeImageFilter class takes an image of vector
+//  The VectorMagnitudeImageFilter class takes an image of vector
 //  pixel type as input and computes pixel-wise the magnitude of each vector.
 //
 //  Let's start by including the relevant header files.
 //
 //  \index{ImageFileRead!Vector images}
-//  \index{GradientToMagnitudeImageFilter!header}
+//  \index{VectorMagnitudeImageFilter!header}
 //
 //  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkGradientToMagnitudeImageFilter.h"
+#include "itkVectorMagnitudeImageFilter.h"
 #include "itkRescaleIntensityImageFilter.h"
 // Software Guide : EndCodeSnippet
 
@@ -105,18 +105,18 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  The GradientToMagnitudeImageFilter is instantiated using the
+  //  The VectorMagnitudeImageFilter is instantiated using the
   //  input and output image types. A filter object is created with the
   //  New() method and assigned to a \doxygen{SmartPointer}.
   //
-  //  \index{GradientToMagnitudeImageFilter!Instantiation}
-  //  \index{GradientToMagnitudeImageFilter!New()}
-  //  \index{GradientToMagnitudeImageFilter!Pointer}
+  //  \index{VectorMagnitudeImageFilter!Instantiation}
+  //  \index{VectorMagnitudeImageFilter!New()}
+  //  \index{VectorMagnitudeImageFilter!Pointer}
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::GradientToMagnitudeImageFilter<
+  typedef itk::VectorMagnitudeImageFilter<
                                           InputImageType,
                                           MagnitudeImageType    > FilterType;
 

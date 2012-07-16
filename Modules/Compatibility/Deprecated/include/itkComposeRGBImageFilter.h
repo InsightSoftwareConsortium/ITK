@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkComposeRGBImageFilter_h
 #define __itkComposeRGBImageFilter_h
+#if !defined( ITK_LEGACY_REMOVE )
 
 #include "itkTernaryFunctorImageFilter.h"
 #include "itkRGBPixel.h"
@@ -62,7 +63,7 @@ public:
  * RGB image in which the three components have been unified. The Component
  * type is preserved from the PixelType of the input images.
  *
- * \ingroup Deprecated
+ * \deprecated
  * \ingroup ITKDeprecated
  */
 
@@ -105,4 +106,5 @@ private:
 };
 } // end namespace itk
 
+#endif //#if !defined( ITK_LEGACY_REMOVE )
 #endif
