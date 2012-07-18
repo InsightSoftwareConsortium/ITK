@@ -142,9 +142,16 @@ public:
     cell.TakeOwnership(newPolygonCell);
     if ( numberOfPoints )
       {
-      for ( PointIdentifier i = 0; i < numberOfPoints; i++ )
+      PointIdentifier i = 0;
+      
+      PointIdInternalConstIterator it   = this->InternalPointIdsBegin();
+      PointIdInternalConstIterator end  = this->InternalPointIdsEnd();
+
+      while( it != end )
         {
-        newPolygonCell->SetPointId( i, this->GetPointId(i) );
+        newPolygonCell->SetPointId( i, it.Value()->GetOrigin() );
+        ++i;
+        ++it;
         }
       }
   }
@@ -182,7 +189,7 @@ public:
       }
     else
       {
-      return &m_PointIds[m_PointIds.size() - 1] + 1;
+      return &*( m_PointIds.end() );
       }
   }
 
@@ -209,7 +216,7 @@ public:
       }
     else
       {
-      return &m_PointIds[m_PointIds.size() - 1] + 1;
+      return &*( m_PointIds.end() );
       }
   }
 
@@ -238,17 +245,15 @@ private:
 
   void MakePointIds() const
   {
-    if ( !this->GetNumberOfPoints() )
-      {
-      return;
-      }
-
-    // NOTE ALEX: very inefficient way of doing it ...
-    // you want to support old API, you pay for it.
     m_PointIds.clear();
-    for ( PointIdentifier i = 0; i < this->GetNumberOfPoints(); i++ )
+
+    PointIdInternalConstIterator it   = this->InternalPointIdsBegin();
+    PointIdInternalConstIterator end  = this->InternalPointIdsEnd();
+
+    while( it != end )
       {
-      m_PointIds.push_back( GetPointId(i) );
+      m_PointIds.push_back( it.Value()->GetOrigin() );
+      ++it;
       }
   }
 
