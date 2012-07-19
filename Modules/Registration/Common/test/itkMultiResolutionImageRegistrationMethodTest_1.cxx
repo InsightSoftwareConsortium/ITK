@@ -288,7 +288,7 @@ int itkMultiResolutionImageRegistrationMethodTest_1(int, char* [] )
     registration->SetNumberOfLevels( numberOfLevels );
     registration->SetInitialTransformParameters( initialParameters );
 
-    registration->StartRegistration();
+    registration->Update();
     }
   catch( itk::ExceptionObject & e )
     {
@@ -354,7 +354,7 @@ int itkMultiResolutionImageRegistrationMethodTest_1(int, char* [] )
   try
     {
     pass = false;
-    registration->StartRegistration();
+    registration->Update();
     }
   catch(itk::ExceptionObject& err)
     {
@@ -382,7 +382,7 @@ int itkMultiResolutionImageRegistrationMethodTest_1(int, char* [] )
   try
     {
     pass = false;
-    registration->StartRegistration();
+    registration->Update();
     }
   catch(itk::ExceptionObject& err)
     {
@@ -518,7 +518,7 @@ int itkMultiResolutionImageRegistrationMethodTest_1(int, char* [] )
     registration->SetSchedules( fixedImageSchedule, movingImageSchedule);
     registration->SetInitialTransformParameters( initialParameters );
 
-    registration->StartRegistration();
+    registration->Update();
     }
   catch( itk::ExceptionObject & e )
     {

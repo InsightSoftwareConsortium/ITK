@@ -512,10 +512,10 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  We set the number of multi-resolution levels to three and trigger the
-  //  registration process by calling \code{StartRegistration()}.
+  //  registration process by calling \code{Update()}.
   //
   //  \index{itk::Multi\-Resolution\-Image\-Registration\-Method!SetNumberOfLevels()}
-  //  \index{itk::Multi\-Resolution\-Image\-Registration\-Method!StartRegistration()}
+  //  \index{itk::Multi\-Resolution\-Image\-Registration\-Method!Update()}
   //
   //  Software Guide : EndLatex
 
@@ -524,7 +524,7 @@ int main( int argc, char *argv[] )
 
   try
     {
-    registration->StartRegistration();
+    registration->Update();
     std::cout << "Optimizer stop condition: "
               << registration->GetOptimizer()->GetStopConditionDescription()
               << std::endl;

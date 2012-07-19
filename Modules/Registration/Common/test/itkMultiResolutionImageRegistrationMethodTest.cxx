@@ -152,7 +152,7 @@ int itkMultiResolutionImageRegistrationMethodTest(int, char* [] )
   try \
     { \
     pass = false; \
-    registration->StartRegistration(); \
+    registration->Update(); \
     } \
   catch( itk::ExceptionObject& err ) \
     { \

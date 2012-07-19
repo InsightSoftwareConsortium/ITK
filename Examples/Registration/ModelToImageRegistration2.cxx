@@ -348,7 +348,7 @@ int main( int argc, char * argv [] )
 
   try
     {
-    registrationMethod->StartRegistration();
+    registrationMethod->Update();
     std::cout << "Optimizer stop condition: "
               << registrationMethod->GetOptimizer()->GetStopConditionDescription()
               << std::endl;

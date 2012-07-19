@@ -34,15 +34,6 @@ PointSetToSpatialObjectDemonsRegistration< TFixedPointSet, TMovingSpatialObject 
 }
 
 /**
- * Starts the Registration Process
- */
-template< typename TFixedPointSet, typename TMovingSpatialObject >
-void
-PointSetToSpatialObjectDemonsRegistration< TFixedPointSet, TMovingSpatialObject >
-::StartRegistration(void)
-{}
-
-/**
  * PrintSelf
  */
 template< typename TFixedPointSet, typename TMovingSpatialObject >
@@ -54,6 +45,6 @@ PointSetToSpatialObjectDemonsRegistration< TFixedPointSet, TMovingSpatialObject 
   os << indent << "Fixed PointSet: " << m_FixedPointSet.GetPointer() << std::endl;
   os << indent << "Moving SpatialObject: " << m_MovingSpatialObject.GetPointer() << std::endl;
 }
-} // end namespace itk
 
+} // end namespace itk
 #endif

@@ -175,7 +175,7 @@ int itkPointSetToPointSetRegistrationTest(int, char* [] )
 
   try
     {
-    registration->StartRegistration();
+    registration->Update();
     }
   catch( itk::ExceptionObject & e )
     {
@@ -231,7 +231,7 @@ int itkPointSetToPointSetRegistrationTest(int, char* [] )
 
   try
     {
-    registration->StartRegistration();
+    registration->Update();
     }
   catch( itk::ExceptionObject & e )
     {

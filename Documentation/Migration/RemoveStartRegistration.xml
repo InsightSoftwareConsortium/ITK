@@ -52,6 +52,16 @@
       called directly or whether Update()
       (which in turn called StartRegistation)
 
+      STYLE: Remove all references to StartRegistation
+      The comments in the code from 2008 indicate that the
+      StartRegistration method should not be used, and that
+      the &quot;Update()&quot; command is the preferred method for intiating
+      a registration.
+
+      All documentation and references to &quot;StartRegistration&quot; have
+      been replaced and now reference Update().
+
+
       ]]>
     </Description>
 
@@ -78,6 +88,7 @@
     ** The change-ids for all commits in the topic branch
     **-->
     <Gerrit-ChangeId>
+      I784f86c854aa5d8535eae2f74d4c364919d6e7e5
     </Gerrit-ChangeId>
 
     <!--**
@@ -105,13 +116,62 @@
       Examples/Registration/ImageRegistration2.cxx
       Examples/Registration/ImageRegistration20.cxx
       Examples/Registration/ImageRegistration3.cxx
+      Examples/Registration/ImageRegistration3.py
+      Examples/Registration/ImageRegistration3.tcl
       Examples/Registration/ImageRegistration4.cxx
+      Examples/Registration/ImageRegistration4.py
+      Examples/Registration/ImageRegistration4.tcl
       Examples/Registration/ImageRegistration5.cxx
+      Examples/Registration/ImageRegistration5.py
+      Examples/Registration/ImageRegistration5.tcl
       Examples/Registration/ImageRegistration6.cxx
       Examples/Registration/ImageRegistration7.cxx
       Examples/Registration/ImageRegistration8.cxx
       Examples/Registration/ImageRegistration9.cxx
+      Examples/Registration/ImageRegistrationHistogramPlotter.cxx
+      Examples/Registration/IterativeClosestPoint1.cxx
+      Examples/Registration/IterativeClosestPoint2.cxx
+      Examples/Registration/IterativeClosestPoint3.cxx
+      Examples/Registration/ModelToImageRegistration1.cxx
+      Examples/Registration/ModelToImageRegistration2.cxx
+      Examples/Registration/MultiResImageRegistration1.cxx
+      Examples/Registration/MultiResImageRegistration2.cxx
+      Examples/Registration/MultiResImageRegistration3.cxx
       Modules/Registration/Common/include/itkImageRegistrationMethod.h
+      Modules/Registration/Common/include/itkImageRegistrationMethod.hxx
+      Modules/Registration/Common/include/itkImageToSpatialObjectRegistrationMethod.h
+      Modules/Registration/Common/include/itkImageToSpatialObjectRegistrationMethod.hxx
+      Modules/Registration/Common/include/itkMultiResolutionImageRegistrationMethod.h
+      Modules/Registration/Common/include/itkMultiResolutionImageRegistrationMethod.hxx
+      Modules/Registration/Common/include/itkPointSetToImageRegistrationMethod.h
+      Modules/Registration/Common/include/itkPointSetToImageRegistrationMethod.hxx
+      Modules/Registration/Common/include/itkPointSetToPointSetRegistrationMethod.h
+      Modules/Registration/Common/include/itkPointSetToPointSetRegistrationMethod.hxx
+      Modules/Registration/Common/include/itkPointSetToSpatialObjectDemonsRegistration.h
+      Modules/Registration/Common/include/itkPointSetToSpatialObjectDemonsRegistration.hxx
+      Modules/Registration/Common/test/itkMultiResolutionImageRegistrationMethodTest.cxx
+      Modules/Registration/Common/test/itkMultiResolutionImageRegistrationMethodTest_1.cxx
+      Modules/Registration/Common/test/itkMultiResolutionImageRegistrationMethodTest_2.cxx
+      Modules/Registration/Common/test/itkPointSetToImageRegistrationTest_1.cxx
+      Modules/Registration/Common/test/itkPointSetToPointSetRegistrationTest.cxx
+      Modules/Registration/Common/test/itkPointSetToSpatialObjectDemonsRegistrationTest.cxx
+      Modules/Registration/Common/test/itkSpatialObjectToImageRegistrationTest.cxx
+      Modules/Registration/RegistrationMethodsv4/include/itkImageRegistrationMethodv4.h
+      Modules/Registration/RegistrationMethodsv4/include/itkImageRegistrationMethodv4.hxx
+      Modules/Registration/RegistrationMethodsv4/test/itkBSplineSyNImageRegistrationTest.cxx
+      Modules/Registration/RegistrationMethodsv4/test/itkSimpleImageRegistrationTest.cxx
+      Modules/Registration/RegistrationMethodsv4/test/itkSyNImageRegistrationTest.cxx
+      Modules/Registration/RegistrationMethodsv4/test/itkTimeVaryingBSplineVelocityFieldImageRegistrationTest.cxx
+      Modules/Registration/RegistrationMethodsv4/test/itkTimeVaryingVelocityFieldImageRegistrationTest.cxx
+      Wrapping/Generators/Python/Tests/notYetUsable/ImageRegistration3.py
+      Wrapping/Generators/Python/Tests/notYetUsable/ImageRegistration4.py
+      Wrapping/Generators/Python/Tests/notYetUsable/ImageRegistration5.py
+      Wrapping/Generators/Ruby/Tests/notYetUsable/ImageRegistration3.py
+      Wrapping/Generators/Ruby/Tests/notYetUsable/ImageRegistration4.py
+      Wrapping/Generators/Ruby/Tests/notYetUsable/ImageRegistration5.py
+      Wrapping/Generators/Tcl/Tests/ImageRegistration3.tcl
+      Wrapping/Generators/Tcl/Tests/ImageRegistration4.tcl
+      Wrapping/Generators/Tcl/Tests/ImageRegistration5.tcl
     </FileList>
 
     <!--**

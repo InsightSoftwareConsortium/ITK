@@ -106,9 +106,6 @@ public:
   /** Smart Pointer type to a DataObject. */
   typedef typename DataObject::Pointer DataObjectPointer;
 
-  /** Method that initiates the registration. */
-  void StartRegistration(void);
-
   /** Set/Get the Fixed PointSet. */
   itkSetConstObjectMacro(FixedPointSet, FixedPointSetType);
   itkGetConstObjectMacro(FixedPointSet, FixedPointSetType);
@@ -154,6 +151,25 @@ public:
   /** Method to return the latest modified time of this object or
    * any of its cached ivars */
   unsigned long GetMTime() const;
+
+#ifdef ITKV3_COMPATIBILITY
+  /** Method that initiates the registration. This will Initialize and ensure
+   * that all inputs the registration needs are in place, via a call to
+   * Initialize() will then start the optimization process via a call to
+   * StartOptimization()
+   * StartRegistration is an old API from before
+   * ImageRegistrationMethod was a subclass of ProcessObject.
+   * Historically, one could call StartRegistration() instead of
+   * calling Update().  However, when called directly by the user, the
+   * inputs to ImageRegistrationMethod may not be up to date.  This
+   * may cause an unexpected behavior.
+   *
+   * Since we cannot eliminate StartRegistration for backward
+   * compatibility reasons, we check whether StartRegistration was
+   * called directly or whether Update() (which in turn called
+   * StartRegistration()). */
+  void StartRegistration(void) { this->Update(); }
+#endif
 
 protected:
   PointSetToPointSetRegistrationMethod();

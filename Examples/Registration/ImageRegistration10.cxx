@@ -329,9 +329,9 @@ int main( int argc, char *argv[] )
 
 
   //  The registration process is triggered by an invocation of the
-  //  \code{StartRegistration()} method. If something goes wrong during the
+  //  \code{Update()} method. If something goes wrong during the
   //  initialization or execution of the registration an exception will be
-  //  thrown. We should therefore place the \code{StartRegistration()} method
+  //  thrown. We should therefore place the \code{Update()} method
   //  in a \code{try/catch} block as illustrated in the following lines.
   //
   try

@@ -131,67 +131,6 @@ throw ( ExceptionObject )
   transformOutput->Set( m_Transform.GetPointer() );
 }
 
-/*
- * Starts the Registration Process
- */
-template< typename TFixedPointSet, typename TMovingImage >
-void
-PointSetToImageRegistrationMethod< TFixedPointSet, TMovingImage >
-::StartRegistration(void)
-{
-  // StartRegistration is an old API from before
-  // ImageRegistrationMethod was a subclass of ProcessObject.
-  // Historically, one could call StartRegistration() instead of
-  // calling Update().  However, when called directly by the user, the
-  // inputs to ImageRegistrationMethod may not be up to date.  This
-  // may cause an unexpected behavior.
-  //
-  // Since we cannot eliminate StartRegistration for backward
-  // compatibility reasons, we check whether StartRegistration was
-  // called directly or whether Update() (which in turn called
-  // StartRegistration()).
-  if ( !m_Updating )
-    {
-    this->Update();
-    }
-  else
-    {
-    try
-      {
-      // initialize the interconnects between components
-      this->Initialize();
-      }
-    catch ( ExceptionObject & err )
-      {
-      m_LastTransformParameters = ParametersType(1);
-      m_LastTransformParameters.Fill(0.0f);
-
-      // pass exception to caller
-      throw err;
-      }
-
-    try
-      {
-      // do the optimization
-      m_Optimizer->StartOptimization();
-      }
-    catch ( ExceptionObject & err )
-      {
-      // An error has occurred in the optimization.
-      // Update the parameters
-      m_LastTransformParameters = m_Optimizer->GetCurrentPosition();
-
-      // Pass exception to caller
-      throw err;
-      }
-
-    // get the results
-    m_LastTransformParameters = m_Optimizer->GetCurrentPosition();
-
-    m_Transform->SetParameters(m_LastTransformParameters);
-    }
-}
-
 /**
  * PrintSelf
  */
@@ -219,7 +158,39 @@ void
 PointSetToImageRegistrationMethod< TFixedPointSet, TMovingImage >
 ::GenerateData()
 {
-  this->StartRegistration();
+  try
+    {
+    // initialize the interconnects between components
+    this->Initialize();
+    }
+  catch ( ExceptionObject & err )
+    {
+    m_LastTransformParameters = ParametersType(1);
+    m_LastTransformParameters.Fill(0.0f);
+
+    // pass exception to caller
+    throw err;
+    }
+
+  try
+    {
+    // do the optimization
+    m_Optimizer->StartOptimization();
+    }
+  catch ( ExceptionObject & err )
+    {
+    // An error has occurred in the optimization.
+    // Update the parameters
+    m_LastTransformParameters = m_Optimizer->GetCurrentPosition();
+
+    // Pass exception to caller
+    throw err;
+    }
+
+  // get the results
+  m_LastTransformParameters = m_Optimizer->GetCurrentPosition();
+
+  m_Transform->SetParameters(m_LastTransformParameters);
 }
 
 /**

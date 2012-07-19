@@ -869,11 +869,11 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  Finally, we trigger the execution of the registration process with the
-  //  \code{StartRegistration()} method. We place this call in a
+  //  \code{Update()} method. We place this call in a
   //  \code{try/catch} block in case any exception is thrown during the
   //  process.
   //
-  //  \index{itk::Image\-To\-Spatial\-Object\-Registration\-Method!StartRegistration()}
+  //  \index{itk::Image\-To\-Spatial\-Object\-Registration\-Method!Update()}
   //
   //  Software Guide : EndLatex
 
@@ -881,7 +881,7 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   try
     {
-    registration->StartRegistration();
+    registration->Update();
     std::cout << "Optimizer stop condition: "
               << registration->GetOptimizer()->GetStopConditionDescription()
               << std::endl;
@@ -903,7 +903,7 @@ int main( int argc, char *argv[] )
   //  current example, the Euler2DTransform has three parameters:
   //  the rotation angle, the translation in $x$ and the translation in $y$.
   //
-  //  \index{itk::Image\-To\-Spatial\-Object\-Registration\-Method!StartRegistration()}
+  //  \index{itk::Image\-To\-Spatial\-Object\-Registration\-Method!Update()}
   //
   //  Software Guide : EndLatex
 

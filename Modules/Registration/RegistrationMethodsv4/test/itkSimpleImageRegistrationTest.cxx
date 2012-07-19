@@ -165,7 +165,7 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
   try
     {
     std::cout << "Affine txf:" << std::endl;
-    affineSimple->StartRegistration();
+    affineSimple->Update();
     }
   catch( itk::ExceptionObject &e )
     {
@@ -295,7 +295,7 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
   try
     {
     std::cout << "Displ. txf - gauss update" << std::endl;
-    displacementFieldSimple->StartRegistration();
+    displacementFieldSimple->Update();
     }
   catch( itk::ExceptionObject &e )
     {

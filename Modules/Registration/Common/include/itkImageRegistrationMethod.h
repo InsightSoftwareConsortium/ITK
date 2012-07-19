@@ -194,21 +194,7 @@ public:
    * any of its cached ivars */
   unsigned long GetMTime() const;
 
-protected:
-  ImageRegistrationMethod();
-  virtual ~ImageRegistrationMethod() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
-  /** Method invoked by the pipeline in order to trigger the computation of
-   * the registration. */
-  void  GenerateData();
-
-  /** Provides derived classes with the ability to set this private var */
-  itkSetMacro(LastTransformParameters, ParametersType);
 #ifdef ITKV3_COMPATIBILITY
-public:
-#else
-protected:
-#endif
   /** Method that initiates the registration. This will Initialize and ensure
    * that all inputs the registration needs are in place, via a call to
    * Initialize() will then start the optimization process via a call to
@@ -224,13 +210,21 @@ protected:
    * compatibility reasons, we check whether StartRegistration was
    * called directly or whether Update() (which in turn called
    * StartRegistration()). */
-  void StartRegistration(void);
+  void StartRegistration(void) { this->Update(); }
+#endif
 
-  /** Method that initiates the optimization process. This method should not be
-   * called directly by the users. Instead, this method is intended to be
-   * invoked internally by the StartRegistration() which is in turn invoked by
-   * the Update() method.
-   * This method should be declared protected. */
+protected:
+  ImageRegistrationMethod();
+  virtual ~ImageRegistrationMethod() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
+  /** Method invoked by the pipeline in order to trigger the computation of
+   * the registration. */
+  void  GenerateData();
+
+  /** Provides derived classes with the ability to set this private var */
+  itkSetMacro(LastTransformParameters, ParametersType);
+
+  /* Start the Optimization */
   void StartOptimization(void);
 
 private:
