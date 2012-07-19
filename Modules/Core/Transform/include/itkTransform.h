@@ -435,7 +435,7 @@ public:
    */
   virtual TransformCategoryType GetTransformCategory() const
   {
-    return None;
+    return UnknownTransformCategory;
   }
 
   virtual bool IsLinear() const
