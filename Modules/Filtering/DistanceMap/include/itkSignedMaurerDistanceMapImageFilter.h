@@ -174,7 +174,7 @@ private:
   SignedMaurerDistanceMapImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                     //purposely not implemented
 
-  void Voronoi(unsigned int, OutputIndexType );
+  void Voronoi(unsigned int, OutputIndexType idx, OutputImageType *output );
   bool Remove(OutputPixelType, OutputPixelType, OutputPixelType,
               OutputPixelType, OutputPixelType, OutputPixelType);
 
@@ -186,6 +186,8 @@ private:
   bool m_InsideIsPositive;
   bool m_UseImageSpacing;
   bool m_SquaredDistance;
+
+  const InputImageType *m_InputCache;
 };
 } // end namespace itk
 

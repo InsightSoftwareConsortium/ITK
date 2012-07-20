@@ -37,6 +37,7 @@ FastMarchingExtensionImageFilter< TLevelSet, TAuxValue, VAuxDimension, TSpeedIma
     {
     ptr = AuxImageType::New();
     this->ProcessObject::SetNthOutput( k + 1, ptr.GetPointer() );
+    this->m_AuxImages[k] = ptr.GetPointer();
     }
 }
 
@@ -68,7 +69,9 @@ FastMarchingExtensionImageFilter< TLevelSet, TAuxValue, VAuxDimension, TSpeedIma
     return NULL;
     }
 
-  return static_cast< AuxImageType * >( this->ProcessObject::GetOutput(idx + 1) );
+//  return static_cast< AuxImageType * >(
+//  this->ProcessObject::GetOutput(idx + 1) );
+  return this->m_AuxImages[idx];
 }
 
 /*
@@ -146,15 +149,12 @@ FastMarchingExtensionImageFilter< TLevelSet, TAuxValue, VAuxDimension, TSpeedIma
     itkExceptionMacro(<< "in Initialize(): AuxTrialValues is the wrong size");
     }
 
-  AuxImagePointer auxImages[AuxDimension];
-
   // allocate memory for the auxiliary outputs
   for ( unsigned int k = 0; k < VAuxDimension; k++ )
     {
     AuxImageType *ptr = this->GetAuxiliaryImage(k);
     ptr->SetBufferedRegion( ptr->GetRequestedRegion() );
     ptr->Allocate();
-    auxImages[k] = ptr;
     }
 
   // set all alive points to alive
@@ -181,7 +181,7 @@ FastMarchingExtensionImageFilter< TLevelSet, TAuxValue, VAuxDimension, TSpeedIma
 
       for ( unsigned int k = 0; k < VAuxDimension; k++ )
         {
-        auxImages[k]->SetPixel(node.GetIndex(), auxVec[k]);
+        this->m_AuxImages[k]->SetPixel(node.GetIndex(), auxVec[k]);
         }
       } // end container loop
     }   // if AuxAliveValues set
@@ -205,7 +205,7 @@ FastMarchingExtensionImageFilter< TLevelSet, TAuxValue, VAuxDimension, TSpeedIma
 
       for ( unsigned int k = 0; k < VAuxDimension; k++ )
         {
-        auxImages[k]->SetPixel(node.GetIndex(), auxVec[k]);
+        this->m_AuxImages[k]->SetPixel(node.GetIndex(), auxVec[k]);
         }
       } // end container loop
     }   // if AuxTrialValues set

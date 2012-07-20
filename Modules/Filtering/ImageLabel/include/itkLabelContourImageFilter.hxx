@@ -94,7 +94,7 @@ LabelContourImageFilter< TInputImage, TOutputImage >
   m_Barrier = Barrier::New();
   m_Barrier->Initialize(nbOfThreads);
 
-  OutputImagePointer output = this->GetOutput();
+  OutputImageType* output = this->GetOutput();
 
   SizeValueType pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
   SizeValueType xsize = output->GetRequestedRegion().GetSize()[0];
@@ -112,8 +112,8 @@ LabelContourImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputRegionType & outputRegionForThread,
                        ThreadIdType threadId)
 {
-  OutputImagePointer output = this->GetOutput();
-  typename TInputImage::ConstPointer input = this->GetInput();
+  OutputImageType   *output = this->GetOutput();
+  const InputImageType *input = this->GetInput();
 
   // create a line iterator
   typedef itk::ImageLinearConstIteratorWithIndex< InputImageType >
@@ -230,7 +230,8 @@ LabelContourImageFilter< TInputImage, TOutputImage >
             if ( areNeighbors )
               {
               // Compare the two lines
-              CompareLines( m_LineMap[ThisIdx],
+              CompareLines( output,
+                            m_LineMap[ThisIdx],
                             m_LineMap[NeighIdx] );
               }
             }
@@ -261,7 +262,7 @@ LabelContourImageFilter< TInputImage, TOutputImage >
   // We are going to mis-use the neighborhood iterators to compute the
   // offset for us. All this messing around produces an array of
   // offsets that will be used to index the map
-  OutputImagePointer output = this->GetOutput();
+  OutputImageType* output = this->GetOutput();
 
   const unsigned int PretendDimension = ImageDimension - 1;
 
@@ -339,7 +340,7 @@ LabelContourImageFilter< TInputImage, TOutputImage >
 template< class TInputImage, class TOutputImage >
 void
 LabelContourImageFilter< TInputImage, TOutputImage >
-::CompareLines(LineEncodingType & current, const LineEncodingType & Neighbour)
+::CompareLines(TOutputImage *output, LineEncodingType & current, const LineEncodingType & Neighbour)
 {
   bool             sameLine = true;
   OutputOffsetType Off = current[0].where - Neighbour[0].where;
@@ -358,7 +359,6 @@ LabelContourImageFilter< TInputImage, TOutputImage >
     {
     offset = 1;
     }
-  OutputImagePointer output = this->GetOutput();
 
   LineEncodingIterator cIt = current.begin();
   LineEncodingIterator cEnd = current.end();

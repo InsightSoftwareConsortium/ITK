@@ -168,6 +168,7 @@ protected:
 private:
   FastMarchingQuadEdgeMeshFilterBase( const Self& );
   void operator = ( const Self& );
+  const InputMeshType *m_InputMesh;
 };
 }
 

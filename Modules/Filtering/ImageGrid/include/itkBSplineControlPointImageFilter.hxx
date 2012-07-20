@@ -497,6 +497,8 @@ BSplineControlPointImageFilter<TInputPointImage, TOutputImage>
     ImageRegionIteratorWithIndex<ControlPointLatticeType> It(
       refinedLattice, refinedLattice->GetLargestPossibleRegion() );
 
+    const TInputPointImage *input = this->GetInput();
+
     It.GoToBegin();
     while( !It.IsAtEnd() )
       {
@@ -548,7 +550,7 @@ BSplineControlPointImageFilter<TInputPointImage, TOutputImage>
             {
             tmpPsi[k] = idxPsi[k] + offPsi[k];
             if( tmpPsi[k] >= static_cast<int>(
-              this->GetInput()->GetLargestPossibleRegion().GetSize()[k] ) &&
+              input->GetLargestPossibleRegion().GetSize()[k] ) &&
               !this->m_CloseDimension[k] )
               {
               outOfBoundary2 = true;

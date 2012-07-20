@@ -169,7 +169,7 @@ protected:
 
   virtual void ThreadedGenerateData( const OutputRegionType &, ThreadIdType );
 
-  VectorType IntegrateVelocityAtPoint( const PointType & );
+  VectorType IntegrateVelocityAtPoint( const PointType &initialSpatialPoint, const TimeVaryingVelocityFieldType * inputField );
 
   RealType                                  m_LowerTimeBound;
   RealType                                  m_UpperTimeBound;

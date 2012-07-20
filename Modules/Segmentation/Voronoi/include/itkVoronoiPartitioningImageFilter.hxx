@@ -175,9 +175,11 @@ VoronoiPartitioningImageFilter< TInputImage, TOutputImage >
   double addp = 0;
   double addpp = 0;
 
+  const InputImageType * inputImage = this->GetInput();
+
   for ( i = 0; i < num; i++ )
     {
-    getp = (double)( this->GetInput()->GetPixel(Plist[i]) );
+    getp = (double)( inputImage->GetPixel(Plist[i]) );
     addp = addp + getp;
     addpp = addpp + getp * getp;
     }

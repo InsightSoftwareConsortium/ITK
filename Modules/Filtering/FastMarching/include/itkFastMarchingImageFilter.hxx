@@ -301,6 +301,7 @@ FastMarchingImageFilter< TLevelSet, TSpeedImage >
 
   this->UpdateProgress(0.0);   // Send first progress event
 
+  // CACHE
   while ( !m_TrialHeap.empty() )
     {
     // get the node with the smallest value
@@ -470,7 +471,7 @@ FastMarchingImageFilter< TLevelSet, TSpeedImage >
     cc = -1.0 * vnl_math_sqr(1.0 / cc);
     }
 
-  OutputSpacingType spacing = this->GetOutput()->GetSpacing();
+  OutputSpacingType spacing = /* this->GetOutput() */ output->GetSpacing();
 
   double discrim;
 

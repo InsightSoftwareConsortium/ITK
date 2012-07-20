@@ -643,6 +643,7 @@ void
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
 ::FillPolygon(PointTypeDeque vertlist, OutputPixelType color)
 {
+  TOutputImage *output = this->GetOutput();
   IndexType idx;
 
   PointType currP;
@@ -755,7 +756,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
     for ( i = static_cast< int >( vcl_ceil(beginx) ); i <= static_cast< int >( vcl_floor(endx) ); i++ )
       {
       idx[0] = i;
-      this->GetOutput()->SetPixel(idx, color);
+      output->SetPixel(idx, color);
       }
     idx[1] = idx[1] + 1;
     }
@@ -769,7 +770,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
       for ( i = static_cast< int >( vcl_ceil(beginx) ); i <= static_cast< int >( vcl_floor(endx) ); i++ )
         {
         idx[0] = i;
-        this->GetOutput()->SetPixel(idx, color);
+        output->SetPixel(idx, color);
         }
       endx += rightDx;
       beginx += leftDx;
@@ -856,7 +857,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
         for ( i = static_cast< int >( vcl_ceil(beginx) ); i <= static_cast< int >( vcl_floor(endx) ); i++ )
           {
           idx[0] = i;
-          this->GetOutput()->SetPixel(idx, color);
+          output->SetPixel(idx, color);
           }
         endx += rightDx;
         beginx += leftDx;
@@ -914,7 +915,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
       for ( i = static_cast< int >( vcl_ceil(beginx) ); i <= static_cast< int >( vcl_floor(endx) ); i++ )
         {
         idx[0] = i;
-        this->GetOutput()->SetPixel(idx, color);
+        output->SetPixel(idx, color);
         }
       endx += rightDx;
       beginx += leftDx;
@@ -928,6 +929,8 @@ void
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
 ::drawLine(PointType p1, PointType p2)
 {
+  TOutputImage *output = this->GetOutput();
+
   int x1 = (int)( p1[0] + 0.5 );
   int x2 = (int)( p2[0] + 0.5 );
   int y1 = (int)( p1[1] + 0.5 );
@@ -962,7 +965,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
       {
       idx[0] = i;
       idx[1] = y1;
-      this->GetOutput()->SetPixel(idx, 1);
+      output->SetPixel(idx, 1);
       curr += offset;
       y1 = (int)( curr + 0.5 );
       }
@@ -984,7 +987,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
       {
       idx[0] = x1;
       idx[1] = i;
-      this->GetOutput()->SetPixel(idx, 1);
+      output->SetPixel(idx, 1);
       curr += offset;
       x1 = (int)( curr + 0.5 );
       }

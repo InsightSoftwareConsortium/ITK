@@ -94,10 +94,8 @@ protected:
    *  \param[in] iEdge input edge
    *  \param[in,out] oQ quadric element to be modified
    */
-  inline void QuadricAtOrigin(OutputQEType *iEdge, QuadricElementType & oQ)
+  inline void QuadricAtOrigin(OutputQEType *iEdge, QuadricElementType & oQ, OutputMeshType *outputMesh)
   {
-    OutputMeshPointer output = this->GetOutput();
-
     OutputPointIdentifier id[3];
 
     id[0] = iEdge->GetOrigin();
@@ -108,7 +106,7 @@ protected:
 
     for ( int i = 0; i < 3; i++ )
       {
-      p[i] = output->GetPoint(id[i]);
+      p[i] = outputMesh->GetPoint(id[i]);
       }
 
     oQ.AddTriangle(p[0], p[1], p[2]);
@@ -124,10 +122,8 @@ protected:
     OutputPointIdentifier id_dest = iEdge->GetDestination();
     QuadricElementType    Q = m_Quadric[id_org] + m_Quadric[id_dest];
 
-    OutputMeshPointer output = this->GetOutput();
-
-    OutputPointType org = output->GetPoint(id_org);
-    OutputPointType dest = output->GetPoint(id_dest);
+    OutputPointType org = this->m_OutputMesh->GetPoint(id_org);
+    OutputPointType dest = this->m_OutputMesh->GetPoint(id_dest);
 
     OutputPointType mid;
 

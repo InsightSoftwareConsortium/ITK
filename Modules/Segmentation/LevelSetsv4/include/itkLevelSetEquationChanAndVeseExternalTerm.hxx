@@ -29,6 +29,8 @@ LevelSetEquationChanAndVeseExternalTerm< TInput, TLevelSetContainer >
 {
   this->m_TermName = "External Chan And Vese term";
   this->m_RequiredData.insert( "Value" );
+  this->m_DomainMapImageFilter = 0;
+  this->m_CacheImage = 0;
 }
 
 template< class TInput, class TLevelSetContainer >
@@ -56,12 +58,15 @@ void LevelSetEquationChanAndVeseExternalTerm< TInput, TLevelSetContainer >
 
   if( this->m_LevelSetContainer->HasDomainMap() )
     {
-    DomainMapImageFilterType * domainMapFilter = this->m_LevelSetContainer->GetDomainMapFilter();
-    CacheImageType * cacheImage = domainMapFilter->GetOutput();
-    const LevelSetIdentifierType id = cacheImage->GetPixel( iP );
+    if(this->m_DomainMapImageFilter == 0)
+      {
+      this->m_DomainMapImageFilter = this->m_LevelSetContainer->GetDomainMapFilter();
+      this->m_CacheImage = this->m_DomainMapImageFilter->GetOutput();
+      }
+    const LevelSetIdentifierType id = this->m_CacheImage->GetPixel( iP );
 
     typedef typename DomainMapImageFilterType::DomainMapType DomainMapType;
-    const DomainMapType domainMap = domainMapFilter->GetDomainMap();
+    const DomainMapType domainMap = this->m_DomainMapImageFilter->GetDomainMap();
     typename DomainMapType::const_iterator levelSetMapItr = domainMap.find(id);
 
     if( levelSetMapItr != domainMap.end() )

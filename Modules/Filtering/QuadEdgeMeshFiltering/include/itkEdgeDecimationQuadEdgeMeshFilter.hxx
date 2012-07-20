@@ -61,6 +61,9 @@ EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::FillPriorityQue
 
   OutputEdgeCellType *edge;
 
+  // cache for use in MeasureEdge
+  this->m_OutputMesh = this->GetOutput();
+
   while ( it != end )
     {
     edge = dynamic_cast< OutputEdgeCellType * >( it.Value() );
@@ -298,7 +301,6 @@ template< class TInput, class TOutput, class TCriterion >
 bool
 EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::ProcessWithoutAnyTopologicalGuarantee()
 {
-  OutputMeshPointer output = this->GetOutput();
   OutputPointType   pt;
 
   OutputPointIdentifier id_org = m_Element->GetOrigin();
@@ -313,7 +315,7 @@ EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::ProcessWithoutA
     }
   else
     {
-    pt = output->GetPoint(idx);
+    pt = this->m_OutputMesh->GetPoint(idx);
     }
 
 ///TODO use CheckOrientation!!!
@@ -369,7 +371,7 @@ EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::ProcessWithoutA
     OutputPointIdentifier new_id = ( old_id == id_dest ) ? id_org : id_dest;
     DeletePoint(old_id, new_id);
 
-    OutputQEType *edge = output->FindEdge(new_id);
+    OutputQEType *edge = this->m_OutputMesh->FindEdge(new_id);
     if ( edge == 0 )
       {
       itkDebugMacro("edge == 0, at iteration " << this->m_Iteration);
@@ -379,7 +381,7 @@ EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::ProcessWithoutA
     if ( m_Relocate )
       {
       pt.SetEdge(edge);
-      output->SetPoint(new_id, pt);
+      this->m_OutputMesh->SetPoint(new_id, pt);
       }
 
     temp = edge;

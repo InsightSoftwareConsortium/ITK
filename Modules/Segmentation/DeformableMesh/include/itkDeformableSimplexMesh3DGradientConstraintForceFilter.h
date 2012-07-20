@@ -155,7 +155,7 @@ protected:
   /**
    * Compute the external force component
    */
-  virtual void ComputeExternalForce(SimplexMeshGeometry *data);
+  virtual void ComputeExternalForce(SimplexMeshGeometry *data, const GradientImageType *gradientImage);
 
   /**
    * Range of search for Bresenham algorithm (normal line at each vertex)

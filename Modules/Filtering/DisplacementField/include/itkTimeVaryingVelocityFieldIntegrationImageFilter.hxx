@@ -160,6 +160,8 @@ TimeVaryingVelocityFieldIntegrationImageFilter
     return;
     }
 
+  const TimeVaryingVelocityFieldType * inputField = this->GetInput();
+
   typename DisplacementFieldType::Pointer outputField = this->GetOutput();
 
   ImageRegionIteratorWithIndex<DisplacementFieldType> It( outputField, region );
@@ -168,7 +170,7 @@ TimeVaryingVelocityFieldIntegrationImageFilter
     {
     PointType point;
     outputField->TransformIndexToPhysicalPoint( It.GetIndex(), point );
-    VectorType displacement = this->IntegrateVelocityAtPoint( point );
+    VectorType displacement = this->IntegrateVelocityAtPoint( point, inputField );
     It.Set( displacement );
     }
 }
@@ -178,7 +180,8 @@ typename TimeVaryingVelocityFieldIntegrationImageFilter
   <TTimeVaryingVelocityField, TDisplacementField>::VectorType
 TimeVaryingVelocityFieldIntegrationImageFilter
   <TTimeVaryingVelocityField, TDisplacementField>
-::IntegrateVelocityAtPoint( const PointType & initialSpatialPoint )
+::IntegrateVelocityAtPoint( const PointType & initialSpatialPoint,
+                            const TimeVaryingVelocityFieldType *inputField )
 {
   // Solve the initial value problem using fourth-order Runge-Kutta
   //    y' = f(t, y), y(t_0) = y_0
@@ -201,7 +204,6 @@ TimeVaryingVelocityFieldIntegrationImageFilter
   // Need to know how to map the time dimension of the input image to the
   // assumed domain of [0,1].
 
-  const TimeVaryingVelocityFieldType * inputField = this->GetInput();
 
   typename TimeVaryingVelocityFieldType::PointType spaceTimeOrigin = inputField->GetOrigin();
 

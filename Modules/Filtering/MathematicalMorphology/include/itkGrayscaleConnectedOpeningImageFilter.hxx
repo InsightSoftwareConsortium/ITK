@@ -68,6 +68,10 @@ GrayscaleConnectedOpeningImageFilter< TInputImage, TOutputImage >
   // Allocate the output
   this->AllocateOutputs();
 
+
+  OutputImageType *outputImage = this->GetOutput();
+  const InputImageType * inputImage = this->GetInput();
+
   // construct a marker image to manipulate using reconstruction by
   // dilation. the marker image will have the same pixel values as the
   // input image at the seed pixel and will have a minimum everywhere
@@ -77,7 +81,7 @@ GrayscaleConnectedOpeningImageFilter< TInputImage, TOutputImage >
   // compute the minimum pixel value in the input
   typename MinimumMaximumImageCalculator< TInputImage >::Pointer calculator =
     MinimumMaximumImageCalculator< TInputImage >::New();
-  calculator->SetImage( this->GetInput() );
+  calculator->SetImage( inputImage );
   calculator->ComputeMinimum();
 
   InputImagePixelType minValue;
@@ -85,21 +89,21 @@ GrayscaleConnectedOpeningImageFilter< TInputImage, TOutputImage >
 
   // compare this minimum value to the value at the seed pixel.
   InputImagePixelType seedValue;
-  seedValue = this->GetInput()->GetPixel(m_Seed);
+  seedValue = inputImage->GetPixel(m_Seed);
 
   if ( minValue == seedValue )
     {
     itkWarningMacro(
       <<
       "GrayscaleConnectedClosingImageFilter: pixel value at seed point matches minimum value in image.  Resulting image will have a constant value.");
-    this->GetOutput()->FillBuffer(minValue);
+    outputImage->FillBuffer(minValue);
     return;
     }
 
   // allocate a marker image
   InputImagePointer markerPtr = InputImageType::New();
-  markerPtr->SetRegions( this->GetInput()->GetRequestedRegion() );
-  markerPtr->CopyInformation( this->GetInput() );
+  markerPtr->SetRegions( inputImage->GetRequestedRegion() );
+  markerPtr->CopyInformation( inputImage );
   markerPtr->Allocate();
 
   // fill the marker image with the maximum value from the input
@@ -123,12 +127,12 @@ GrayscaleConnectedOpeningImageFilter< TInputImage, TOutputImage >
   // set up the dilate filter
   //dilate->RunOneIterationOff();             // run to convergence
   dilate->SetMarkerImage(markerPtr);
-  dilate->SetMaskImage( this->GetInput() );
+  dilate->SetMaskImage( inputImage );
   dilate->SetFullyConnected(m_FullyConnected);
 
   // graft our output to the dilate filter to force the proper regions
   // to be generated
-  dilate->GraftOutput( this->GetOutput() );
+  dilate->GraftOutput( outputImage );
 
   // reconstruction by dilation
   dilate->Update();

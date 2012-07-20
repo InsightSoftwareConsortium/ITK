@@ -140,7 +140,9 @@ protected:
    * two neighboring triangles of the input mesh over the
    * edge the both triangles have in common.
    */
-  void CreateEdgeForTrianglePair(CellIdentifier pointIndex, CellIdentifier boundaryId);
+  void CreateEdgeForTrianglePair(CellIdentifier pointIndex,
+                                 CellIdentifier boundaryId,
+                                 TOutputMesh *outputMesh);
 
   /**
    * Constructs the neighborhood relations for all simplex mesh points
@@ -157,12 +159,14 @@ protected:
    * \brief add edge cells to the input mesh
    */
   void CreateNewEdge(CellIdentifier currentCellId, CellFeatureIdentifier featureId,
-                     PointIdentifier startPointId, PointIdentifier endPointId);
+                     PointIdentifier startPointId, PointIdentifier endPointId,
+                     const InputMeshType *input);
+
 
   /**
    *  Computes the center of a face
    */
-  InputPointType ComputeFaceCenter(CellIdentifier faceId);
+  InputPointType ComputeFaceCenter(CellIdentifier faceId, const InputMeshType *inputMesh);
 
   /**
    * \brief stores all faces (triangles) of the input mesh

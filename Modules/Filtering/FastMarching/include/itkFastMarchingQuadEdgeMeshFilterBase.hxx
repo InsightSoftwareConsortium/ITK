@@ -30,7 +30,9 @@ namespace itk
 template< class TInput, class TOutput >
 FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
 ::FastMarchingQuadEdgeMeshFilterBase() : Superclass()
-{}
+{
+  this->m_InputMesh = 0;
+}
 
 template< class TInput, class TOutput >
 FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
@@ -108,7 +110,7 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
   if( qe )
     {
     OutputQEType *qe_it = qe;
-
+    this->m_InputMesh = this->GetInput();
     do
       {
       if( qe_it )
@@ -148,7 +150,7 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
   oMesh->GetPoint( iNode, &p );
 
   InputPixelType F = NumericTraits< InputPixelType >::Zero;
-  this->GetInput()->GetPointData( iNode, &F );
+  this->m_InputMesh->GetPointData( iNode, &F );
 
   if( F < 0. )
     {

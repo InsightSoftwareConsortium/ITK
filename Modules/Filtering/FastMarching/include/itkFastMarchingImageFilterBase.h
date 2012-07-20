@@ -254,6 +254,8 @@ protected:
   bool DoesVoxelChangeViolateWellComposedness( const NodeType& ) const;
   bool DoesVoxelChangeViolateStrictTopology( const NodeType& ) const;
 
+  const InputImageType* m_InputCache;
+
 private:
 
   FastMarchingImageFilterBase( const Self& );

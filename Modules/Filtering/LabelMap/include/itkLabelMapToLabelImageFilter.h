@@ -93,6 +93,7 @@ protected:
 private:
   LabelMapToLabelImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);             //purposely not implemented
+  OutputImageType *m_OutputImage;
 };                                          // end of class
 } // end namespace itk
 

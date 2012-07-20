@@ -155,14 +155,14 @@ protected:
   * normal in the 0-ring.
   * \note The weight is chosen by the member m_Weight.
   */
-  OutputVertexNormalType ComputeVertexNormal(
-    const OutputPointIdentifier & iId);
+  OutputVertexNormalType ComputeVertexNormal(const OutputPointIdentifier & iId, OutputMeshType *outputMesh);
 
   /** \brief Definition of the weight in the 0-ring used for the vertex
   * normal computation. By default m_Weight = THURMER;
   */
   OutputVertexNormalComponentType Weight(const OutputPointIdentifier & iPId,
-                                         const OutputCellIdentifier & iCId);
+                                         const OutputCellIdentifier & iCId,
+                                         OutputMeshType *outputMesh);
 
   /** \note Calling Superclass::GenerateData( ) is the longest part in the
   * filter! Something must be done in the class

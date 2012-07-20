@@ -229,6 +229,9 @@ private:
   bool m_SquaredDistance;
   bool m_InputIsBinary;
   bool m_UseImageSpacing;
+
+  SpacingType m_InputSpacingCache;
+
 }; // end of DanielssonDistanceMapImageFilter class
 } //end namespace itk
 

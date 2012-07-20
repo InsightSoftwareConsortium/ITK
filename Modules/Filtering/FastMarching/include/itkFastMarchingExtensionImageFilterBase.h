@@ -144,6 +144,7 @@ protected:
 private:
   FastMarchingExtensionImageFilterBase(const Self &); //purposely not implemented
   void operator=(const Self &);                   //purposely not implemented
+  AuxImageType * m_AuxImages[VAuxDimension];
 };
 } // namespace itk
 

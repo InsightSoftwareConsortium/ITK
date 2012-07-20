@@ -489,6 +489,9 @@ protected:
       default this is turned on. Subclasses which do not sample propagation
       (speed), advection, or curvature terms should turn this flag off. */
   bool m_InterpolateSurfaceLocation;
+
+  const InputImageType *m_InputImage;
+  OutputImageType      *m_OutputImage;
 private:
   SparseFieldLevelSetImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                 //purposely not implemented

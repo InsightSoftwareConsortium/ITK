@@ -332,6 +332,12 @@ public ImageToImageFilter<TInputImage, TOutputImage>
   /** Logger for logging messages especially from multiple threads */
   LoggerPointer m_Logger;
 
+  /** cache input and output pointer to get rid of thousands of calls
+   * to GetInput and GetOutput.
+   */
+  const InputImageType *m_InputImage;
+  OutputImageType      *m_OutputImage;
+
  private:
   PatchBasedDenoisingBaseImageFilter(const Self&); // purposely not implemented
   void operator=(const Self&); // purposely not implemented
