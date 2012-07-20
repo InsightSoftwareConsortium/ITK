@@ -66,21 +66,19 @@ __kernel void AverageGradientMagnitudeSquared(__global const INPIXELTYPE *in, __
   // centralized derivatives, half directonal derivatives
   float dx[2];
 
-  bool isValid = false;
+  bool isValid = true;
+  if (gix >= width) isValid = false;
+  if (giy >= height) isValid = false;
 
-  // inner
-  if(gix < width && giy < height)
+  if (!isValid)
   {
-    sm[lidx] = in[gidx];
-    isValid = true;
+    sm[lidx] = 0;
   }
-  else sm[lidx] = 0;
-
-  barrier(CLK_LOCAL_MEM_FENCE);
-
-  // boundary
-  if(isValid)
+  else
   {
+    // inner
+    sm[lidx] = in[gidx];
+
     if(lix == 0)
     {
       // Left

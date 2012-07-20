@@ -123,6 +123,10 @@ int runGPUMeanImageFilterTest(const std::string& inFile, const std::string& outF
         diff += err*err;
         nPix++;
       }
+
+      writer->SetInput( GPUFilter->GetOutput() );
+      writer->Update();
+
       if (nPix > 0)
       {
         double RMSError = sqrt( diff / (double)nPix );
