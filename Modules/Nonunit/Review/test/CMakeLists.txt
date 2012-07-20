@@ -18,7 +18,6 @@ itkDiscreteGaussianDerivativeImageFunctionTest.cxx
 itkDiscreteGradientMagnitudeGaussianImageFunctionTest.cxx
 itkDiscreteHessianGaussianImageFunctionTest.cxx
 itkDivideByConstantImageFilterTest.cxx
-itkExponentialDisplacementFieldImageFilterTest.cxx
 itkFastApproximateRankImageFilterTest.cxx
 itkFastSymmetricForcesDemonsRegistrationFilterTest.cxx
 itkGaussianDerivativeOperatorTest.cxx
@@ -268,8 +267,6 @@ itk_add_test(NAME itkDiscreteGradientMagnitudeGaussianImageFunctionTest01
     itkDiscreteGradientMagnitudeGaussianImageFunctionTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGradientMagnitudeGaussianImageFunctionTest01.png 2.0 0.01 32)
 itk_add_test(NAME itkDivideByConstantImageFilterTest
       COMMAND ITKReviewTestDriver itkDivideByConstantImageFilterTest)
-itk_add_test(NAME itkExponentialDisplacementFieldImageFilterTest
-      COMMAND ITKReviewTestDriver itkExponentialDisplacementFieldImageFilterTest)
 itk_add_test(NAME itkFastApproximateRankImageFilterTest3
       COMMAND ITKReviewTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkFastApproximateRankImageFilter3.png}
