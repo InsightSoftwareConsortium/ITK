@@ -158,6 +158,9 @@ itkImageVectorOptimizerParametersHelperTest.cxx
 itkCompensatedSummationTest.cxx
 itkCompensatedSummationTest2.cxx
 itkEnableIfTest.cxx
+itkImageRegionConstIteratorWithOnlyIndexTest.cxx
+itkImageRandomConstIteratorWithOnlyIndexTest.cxx
+itkConstNeighborhoodIteratorWithOnlyIndexTest.cxx
 )
 
 CreateTestDriver(ITKCommon1 "${ITKCommon_LIBRARIES}" "${ITKCommon1Tests}")
@@ -446,3 +449,6 @@ target_link_libraries(itkSystemInformationTest  ${ITKCommon_LIBRARIES})
 itk_add_test(NAME itkSystemInformationTest
          COMMAND itkSystemInformationTest ${CMAKE_BINARY_DIR})
 itk_add_test(NAME itkDataObjectAndProcessObjectTest COMMAND ITKCommon2TestDriver itkDataObjectAndProcessObjectTest)
+itk_add_test(NAME itkImageRegionConstIteratorWithOnlyIndexTest COMMAND ITKCommon2TestDriver itkImageRegionConstIteratorWithOnlyIndexTest)
+itk_add_test(NAME itkImageRandomConstIteratorWithOnlyIndexTest COMMAND ITKCommon2TestDriver itkImageRandomConstIteratorWithOnlyIndexTest)
+itk_add_test(NAME itkConstNeighborhoodIteratorWithOnlyIndexTest COMMAND ITKCommon2TestDriver itkConstNeighborhoodIteratorWithOnlyIndexTest)
