@@ -333,11 +333,9 @@ Solve( OutputImageType* oImage,
   double bb( 0.0 );
   double cc( this->m_InverseSpeed );
 
-  const InputImageType* input = this->GetInput();
-
-  if ( input )
+  if ( m_InputCache )
     {
-    cc = static_cast< double >( input->GetPixel(iNode) ) /
+    cc = static_cast< double >( m_InputCache->GetPixel(iNode) ) /
         this->m_NormalizationFactor;
     cc = -1.0 * vnl_math_sqr(1.0 / cc);
     }
@@ -661,6 +659,10 @@ InitializeOutput( OutputImageType* oImage )
         }
       }
     }
+
+  // cache the pointer to the input image
+  m_InputCache = this->GetInput();
+
   }
 // -----------------------------------------------------------------------------
 

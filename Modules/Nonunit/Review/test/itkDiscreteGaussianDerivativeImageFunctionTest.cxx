@@ -52,15 +52,16 @@ int itkDiscreteGaussianDerivativeImageFunctionTestND( int argc, char* argv[] )
     std::cout << err << std::endl;
     return EXIT_FAILURE;
     }
+  ImageType *inputImage = reader->GetOutput();
 
   // Create image for storing result
   typename ImageType::Pointer output = ImageType::New();
-  output->SetSpacing( reader->GetOutput()->GetSpacing() );
-  output->SetOrigin( reader->GetOutput()->GetOrigin() );
-  output->SetDirection( reader->GetOutput()->GetDirection() );
-  output->SetLargestPossibleRegion( reader->GetOutput()->GetLargestPossibleRegion() );
-  output->SetRequestedRegion( reader->GetOutput()->GetRequestedRegion() );
-  output->SetBufferedRegion( reader->GetOutput()->GetBufferedRegion() );
+  output->SetSpacing( inputImage->GetSpacing() );
+  output->SetOrigin( inputImage->GetOrigin() );
+  output->SetDirection( inputImage->GetDirection() );
+  output->SetLargestPossibleRegion( inputImage->GetLargestPossibleRegion() );
+  output->SetRequestedRegion( inputImage->GetRequestedRegion() );
+  output->SetBufferedRegion( inputImage->GetBufferedRegion() );
   output->Allocate();
   output->FillBuffer( itk::NumericTraits<PixelType>::Zero );
 
@@ -91,7 +92,7 @@ int itkDiscreteGaussianDerivativeImageFunctionTestND( int argc, char* argv[] )
     GaussianDerivativeImageFunctionType;
   typename GaussianDerivativeImageFunctionType::Pointer function =
     GaussianDerivativeImageFunctionType::New();
-  function->SetInputImage( reader->GetOutput() );
+  function->SetInputImage( inputImage );
   function->SetMaximumError( maxError );
   function->SetMaximumKernelWidth( maxKernelWidth );
   function->SetVariance( variance );
@@ -105,7 +106,7 @@ int itkDiscreteGaussianDerivativeImageFunctionTestND( int argc, char* argv[] )
   typedef itk::ImageRegionConstIterator< ImageType > ConstIteratorType;
   typedef itk::ImageRegionIterator< ImageType >      IteratorType;
 
-  ConstIteratorType it ( reader->GetOutput(), reader->GetOutput()->GetRequestedRegion() );
+  ConstIteratorType it ( inputImage, inputImage->GetRequestedRegion() );
   it.GoToBegin();
   IteratorType out( output, output->GetRequestedRegion() );
   out.GoToBegin();
@@ -114,7 +115,7 @@ int itkDiscreteGaussianDerivativeImageFunctionTestND( int argc, char* argv[] )
   PointType point;
   typedef typename GaussianDerivativeImageFunctionType::ContinuousIndexType ContinuousIndexType;
   ContinuousIndexType cindex;
-  const unsigned long nop = reader->GetOutput()->GetRequestedRegion().GetNumberOfPixels();
+  const unsigned long nop = inputImage->GetRequestedRegion().GetNumberOfPixels();
   unsigned long pixelNumber = 0;
   while( !it.IsAtEnd() )
     {
@@ -125,13 +126,13 @@ int itkDiscreteGaussianDerivativeImageFunctionTestND( int argc, char* argv[] )
       }
     else if ( pixelNumber < nop * 2 / 3 )
       {
-      reader->GetOutput()->TransformIndexToPhysicalPoint( it.GetIndex(), point );
+      inputImage->TransformIndexToPhysicalPoint( it.GetIndex(), point );
       out.Set( function->Evaluate( point ) );
       }
     else
       {
-      reader->GetOutput()->TransformIndexToPhysicalPoint( it.GetIndex(), point );
-      reader->GetOutput()->TransformPhysicalPointToContinuousIndex( point, cindex );
+      inputImage->TransformIndexToPhysicalPoint( it.GetIndex(), point );
+      inputImage->TransformPhysicalPointToContinuousIndex( point, cindex );
       out.Set( function->EvaluateAtContinuousIndex( cindex ) );
       }
     ++it;

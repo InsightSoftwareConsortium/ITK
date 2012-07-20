@@ -28,7 +28,9 @@ namespace itk
 template< class TInputImage, class TOutputImage >
 LabelMapToLabelImageFilter< TInputImage, TOutputImage >
 ::LabelMapToLabelImageFilter()
-{}
+{
+  m_OutputImage = 0;
+}
 
 template< class TInputImage, class TOutputImage >
 void
@@ -39,8 +41,8 @@ LabelMapToLabelImageFilter< TInputImage, TOutputImage >
   const InputImageType *input = this->GetInput();
 
   output->FillBuffer( input->GetBackgroundValue() );
-
   Superclass::BeforeThreadedGenerateData();
+  this->m_OutputImage = this->GetOutput();
 }
 
 template< class TInputImage, class TOutputImage >
@@ -50,9 +52,10 @@ LabelMapToLabelImageFilter< TInputImage, TOutputImage >
 {
   const typename LabelObjectType::LabelType & label = labelObject->GetLabel();
   typename LabelObjectType::ConstIndexIterator it( labelObject );
+
   while( !it.IsAtEnd() )
     {
-    this->GetOutput()->SetPixel( it.GetIndex(), label );
+    this->m_OutputImage->SetPixel( it.GetIndex(), label );
     ++it;
     }
 }

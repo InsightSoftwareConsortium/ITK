@@ -121,16 +121,13 @@ void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::CopyInputToOutput()
 {
-  const typename InputImageType::ConstPointer input  = this->GetInput();
-  const typename OutputImageType::Pointer     output = this->GetOutput();
-
-  if ( !input || !output )
+  if ( !this->m_InputImage || !this->m_OutputImage )
   {
     itkExceptionMacro(<< "Input or Output image is NULL.");
   }
 
-  InputImageRegionConstIteratorType inputIt(input,  input->GetRequestedRegion());
-  OutputImageRegionIteratorType outputIt(output, output->GetRequestedRegion());
+  InputImageRegionConstIteratorType inputIt(this->m_InputImage,  this->m_InputImage->GetRequestedRegion());
+  OutputImageRegionIteratorType outputIt(this->m_OutputImage, this->m_OutputImage->GetRequestedRegion());
   for (inputIt.GoToBegin(), outputIt.GoToBegin();
        ! outputIt.IsAtEnd();
        ++inputIt, ++outputIt)
@@ -326,7 +323,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   m_IntensityRescaleInvFactor.SetSize(m_NumIndependentComponents);
   m_ImageMin.SetSize(m_NumIndependentComponents);
   m_ImageMax.SetSize(m_NumIndependentComponents);
-  this->ComputeMinMax(this->GetInput());
+  this->ComputeMinMax(this->m_InputImage);
 
   this->EnforceConstraints();
 
@@ -581,7 +578,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   resampler->SetDefaultPixelValue( 0 );
   resampler->SetOutputOrigin( physicalWeightsImage->GetOrigin() );
   resampler->SetOutputDirection( physicalWeightsImage->GetDirection() );
-  resampler->SetOutputSpacing( this->GetInput()->GetSpacing() );
+  resampler->SetOutputSpacing( this->m_InputImage->GetSpacing() );
   resampler->Update();
 
   // patch weights (mask) in voxel space
@@ -1064,11 +1061,10 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   this->m_Logger->Write(itk::LoggerBase::DEBUG, "Initializing Iteration now...\n");
 
   const PatchRadiusType radius = this->GetPatchRadiusInVoxels();
-  const typename OutputImageType::Pointer output = this->GetOutput();
 
   // Have sampler update any internal structures
   // across the entire image for each iteration
-  m_SearchSpaceList->SetImage(output);
+  m_SearchSpaceList->SetImage(this->m_OutputImage);
   m_SearchSpaceList->SetRadius(radius);
   m_Sampler->SetSample(m_SearchSpaceList);
 
@@ -1090,7 +1086,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     // provide a sampler to the thread
     m_ThreadData[thread].sampler = dynamic_cast<BaseSamplerType*>(m_Sampler->Clone().GetPointer());
     typename ListAdaptorType::Pointer searchList = ListAdaptorType::New();
-    searchList->SetImage(output);
+    searchList->SetImage(this->m_OutputImage);
     searchList->SetRadius(radius);
     m_ThreadData[thread].sampler->SetSeed(thread);
     m_ThreadData[thread].sampler->SetSample(searchList);
@@ -1118,7 +1114,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   // since ThreadedApplyUpdate changes this buffer
   // through iterators which don't increment the
   // output timestamp
-  this->GetOutput()->Modified();
+  this->m_OutputImage->Modified();
 }
 
 template <class TInputImage, class TOutputImage>
@@ -1154,7 +1150,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::ThreadedApplyUpdate(const InputImageRegionType &regionToProcess,
                       int itkNotUsed(threadId))
 {
-  ImageAlgorithm::Copy(m_UpdateBuffer.GetPointer(), this->GetOutput(),
+  ImageAlgorithm::Copy(m_UpdateBuffer.GetPointer(), this->m_OutputImage,
                        regionToProcess, regionToProcess);
 }
 
@@ -1307,7 +1303,9 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 
   const PatchRadiusType radius = this->GetPatchRadiusInVoxels();
 
-  const typename OutputImageType::Pointer output = this->GetOutput();
+  const OutputImageType *output = this->m_OutputImage;
+  const InputImageType *inputImage = this->m_InputImage;
+
   typename ListAdaptorType::Pointer inList = ListAdaptorType::New();
   inList->SetImage(output);
   inList->SetRadius(radius);
@@ -1368,7 +1366,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     // the sampler should only select other patches with indices in the range (2:5,2:8)
     // That is, the range formula is min(index,radius):max(index,size-radius-1)
 
-    typename OutputImageType::RegionType region = this->GetInput()->GetLargestPossibleRegion();
+    typename OutputImageType::RegionType region = inputImage->GetLargestPossibleRegion();
     IndexType  rIndex;
     typename OutputImageType::SizeType   rSize = region.GetSize();
     for (unsigned int dim = 0; dim < OutputImageType::ImageDimension; ++dim)
@@ -1774,7 +1772,9 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 
   const PatchRadiusType radius = this->GetPatchRadiusInVoxels();
 
-  typename OutputImageType::Pointer output = this->GetOutput();
+  OutputImageType *output = this->m_OutputImage;
+  const InputImageType *inputImage = this->m_InputImage;
+
   typename ListAdaptorType::Pointer inList = ListAdaptorType::New();
   inList->SetImage(output);
   inList->SetRadius(radius);
@@ -1807,7 +1807,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     // GaussianOperator for some strange reason instead of being their own proper functions.
     GaussianOperatorType gOper;
 
-    InputImageRegionConstIteratorType inputIt(this->GetInput(), *fIt);
+    InputImageRegionConstIteratorType inputIt(inputImage, *fIt);
     OutputImageRegionIteratorType     updateIt(m_UpdateBuffer, *fIt);
     OutputImageRegionIteratorType     outputIt(output, *fIt);
 
@@ -1936,8 +1936,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   const unsigned int lengthPatch = this->GetPatchLengthInVoxels();
   const unsigned int center = (lengthPatch - 1) / 2;
 
-  const typename OutputImageType::Pointer output = this->GetOutput();
-  typename OutputImageType::RegionType region = this->GetInput()->GetLargestPossibleRegion();
+  const typename OutputImageType::Pointer output = this->m_OutputImage;
+  typename OutputImageType::RegionType region = this->m_InputImage->GetLargestPossibleRegion();
   IndexType  rIndex;
   typename OutputImageType::SizeType   rSize = region.GetSize();
   const PatchRadiusType radius = this->GetPatchRadiusInVoxels();

@@ -180,7 +180,7 @@ DeformableSimplexMesh3DGradientConstraintForceFilter< TInputMesh, TOutputMesh >
 template< typename TInputMesh, typename TOutputMesh >
 void
 DeformableSimplexMesh3DGradientConstraintForceFilter< TInputMesh, TOutputMesh >
-::ComputeExternalForce(SimplexMeshGeometry *data)
+::ComputeExternalForce(SimplexMeshGeometry *data, const GradientImageType *gradientImage)
 {
   PointType vec_for;
 
@@ -365,8 +365,6 @@ DeformableSimplexMesh3DGradientConstraintForceFilter< TInputMesh, TOutputMesh >
     {
     m_StartVoxel = 0;
     }
-
-  const GradientImageType * gradientImage = this->GetGradient();
 
   // now fun begins try to use all the above
   std::vector< ImageVoxel * >::iterator it;

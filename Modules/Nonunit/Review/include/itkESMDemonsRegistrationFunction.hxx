@@ -70,6 +70,8 @@ ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
   m_MovingImageWarper->SetInterpolator(m_MovingImageInterpolator);
   m_MovingImageWarper->SetEdgePaddingValue( NumericTraits< MovingPixelType >::max() );
 
+  m_MovingImageWarperOutput = 0;
+
   m_Metric = NumericTraits< double >::max();
   m_SumOfSquaredDifference = 0.0;
   m_NumberOfPixelsProcessed = 0L;
@@ -187,7 +189,8 @@ ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
   m_MovingImageWarper->SetDisplacementField( this->GetDisplacementField() );
   m_MovingImageWarper->GetOutput()->SetRequestedRegion( this->GetDisplacementField()->GetRequestedRegion() );
   m_MovingImageWarper->Update();
-
+  this->m_MovingImageWarperOutput =
+    this->m_MovingImageWarper->GetOutput();
   // setup moving image interpolator for further access
   m_MovingImageInterpolator->SetInputImage( this->GetMovingImage() );
 
@@ -225,7 +228,7 @@ ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
   // check if the point was mapped outside of the moving image using
   // the "special value" NumericTraits<MovingPixelType>::max()
   MovingPixelType movingPixValue =
-    m_MovingImageWarper->GetOutput()->GetPixel(index);
+    m_MovingImageWarperOutput->GetPixel(index);
 
   if ( movingPixValue == NumericTraits< MovingPixelType >::max() )
     {
@@ -261,7 +264,7 @@ ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
         {
         // compute derivative
         tmpIndex[dim] += 1;
-        movingPixValue = m_MovingImageWarper->GetOutput()->GetPixel(tmpIndex);
+        movingPixValue = m_MovingImageWarperOutput->GetPixel(tmpIndex);
         if ( movingPixValue == NumericTraits< MovingPixelType >::max() )
           {
           // weird crunched border case
@@ -280,7 +283,7 @@ ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
         {
         // compute derivative
         tmpIndex[dim] -= 1;
-        movingPixValue = m_MovingImageWarper->GetOutput()->GetPixel(tmpIndex);
+        movingPixValue = m_MovingImageWarperOutput->GetPixel(tmpIndex);
         if ( movingPixValue == NumericTraits< MovingPixelType >::max() )
           {
           // weird crunched border case
@@ -298,7 +301,7 @@ ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 
       // compute derivative
       tmpIndex[dim] += 1;
-      movingPixValue = m_MovingImageWarper->GetOutput()->GetPixel(tmpIndex);
+      movingPixValue = m_MovingImageWarperOutput->GetPixel(tmpIndex);
       if ( movingPixValue == NumericTraits
            < MovingPixelType >::max() )
         {
@@ -306,7 +309,7 @@ ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
         warpedMovingGradient[dim] = movingValue;
 
         tmpIndex[dim] -= 2;
-        movingPixValue = m_MovingImageWarper->GetOutput()->GetPixel(tmpIndex);
+        movingPixValue = m_MovingImageWarperOutput->GetPixel(tmpIndex);
         if ( movingPixValue == NumericTraits< MovingPixelType >::max() )
           {
           // weird crunched border case
@@ -316,7 +319,7 @@ ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
           {
           // backward difference
           warpedMovingGradient[dim] -= static_cast< double >(
-            m_MovingImageWarper->GetOutput()->GetPixel(tmpIndex) );
+            m_MovingImageWarperOutput->GetPixel(tmpIndex) );
 
           warpedMovingGradient[dim] /= m_FixedImageSpacing[dim];
           }
@@ -326,7 +329,7 @@ ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
         warpedMovingGradient[dim] = static_cast< double >( movingPixValue );
 
         tmpIndex[dim] -= 2;
-        movingPixValue = m_MovingImageWarper->GetOutput()->GetPixel(tmpIndex);
+        movingPixValue = m_MovingImageWarperOutput->GetPixel(tmpIndex);
         if ( movingPixValue == NumericTraits< MovingPixelType >::max() )
           {
           // forward difference

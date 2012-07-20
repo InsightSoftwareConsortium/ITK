@@ -248,7 +248,7 @@ private:
   void HysteresisThresholding();
 
   /** Edge linking funciton */
-  void FollowEdge(IndexType index);
+  void FollowEdge(IndexType index, const OutputImageType *multiplyImageFilterOutput);
 
   /** Calculate the second derivative of the smoothed image, it writes the
    *  result to m_UpdateBuffer using the ThreadedCompute2ndDerivative() method
@@ -343,6 +343,9 @@ private:
 
   typename ListNodeStorageType::Pointer m_NodeStore;
   ListPointerType m_NodeList;
+
+  const InputImageType *m_InputImage;
+  OutputImageType      *m_OutputImage;
 };
 } //end of namespace itk
 

@@ -80,13 +80,11 @@ protected:
    */
   inline MeasureType MeasureEdge(OutputQEType *iEdge)
   {
-    OutputMeshPointer output = this->GetOutput();
-
     OutputPointIdentifier id_org = iEdge->GetOrigin();
     OutputPointIdentifier id_dest = iEdge->GetDestination();
 
-    OutputPointType org = output->GetPoint(id_org);
-    OutputPointType dest = output->GetPoint(id_dest);
+    OutputPointType org = this->m_OutputMesh->GetPoint(id_org);
+    OutputPointType dest = this->m_OutputMesh->GetPoint(id_dest);
 
     return static_cast< MeasureType >( org.SquaredEuclideanDistanceTo(dest) );
   }

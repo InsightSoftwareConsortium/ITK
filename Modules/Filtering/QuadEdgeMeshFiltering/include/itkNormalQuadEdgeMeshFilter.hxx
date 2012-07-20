@@ -92,23 +92,24 @@ NormalQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
   OutputPointsContainerPointer points = output->GetPoints();
   OutputPointIdentifier        id;
 
+  OutputMeshType *outputMesh = this->GetOutput();
+
   for ( OutputPointsContainerIterator it = points->Begin();
         it != points->End();
         ++it )
     {
     id = it->Index();
-    output->SetPointData( id, ComputeVertexNormal(id) );
+    output->SetPointData( id, ComputeVertexNormal(id,outputMesh));
     }
 }
 
 template< class TInputMesh, class TOutputMesh >
 typename NormalQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::OutputVertexNormalType
 NormalQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
-::ComputeVertexNormal(const OutputPointIdentifier & iId)
+::ComputeVertexNormal(const OutputPointIdentifier & iId, OutputMeshType *outputMesh)
 {
-  OutputMeshPointer output = this->GetOutput();
 
-  OutputQEType *       edge = output->FindEdge(iId);
+  OutputQEType *       edge = outputMesh->FindEdge(iId);
   OutputQEType *       temp = edge;
   OutputCellIdentifier cell_id(0);
 
@@ -120,8 +121,8 @@ NormalQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
     cell_id = temp->GetLeft();
     if ( cell_id != OutputMeshType::m_NoFace )
       {
-      output->GetCellData(cell_id, &face_normal);
-      n += face_normal * Weight(iId, cell_id);
+      outputMesh->GetCellData(cell_id, &face_normal);
+      n += face_normal * Weight(iId, cell_id,outputMesh);
       }
     temp = temp->GetOnext();
     }
@@ -134,7 +135,7 @@ NormalQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 template< class TInputMesh, class TOutputMesh >
 typename NormalQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::OutputVertexNormalComponentType
 NormalQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
-::Weight(const OutputPointIdentifier & iPId, const OutputCellIdentifier & iCId)
+::Weight(const OutputPointIdentifier & iPId, const OutputCellIdentifier & iCId, OutputMeshType *outputMesh)
 {
   if ( m_Weight == GOURAUD )
     {
@@ -142,10 +143,9 @@ NormalQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
     }
   else
     {
-    OutputMeshPointer output = this->GetOutput();
 
     OutputPolygonType *poly = dynamic_cast< OutputPolygonType * >(
-      output->GetCells()->GetElement(iCId) );
+      outputMesh->GetCells()->GetElement(iCId) );
     if ( poly != 0 ) // this test should be removed...
       {
       // this test should be removed...
@@ -159,7 +159,7 @@ NormalQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
         OutputQEType *temp = edge;
         do
           {
-          pt[k] = output->GetPoint( temp->GetOrigin() );
+          pt[k] = outputMesh->GetPoint( temp->GetOrigin() );
           if ( temp->GetOrigin() == iPId )
             {
             internal_id = k;

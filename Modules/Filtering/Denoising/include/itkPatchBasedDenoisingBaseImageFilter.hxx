@@ -53,6 +53,8 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 
   m_ManualReinitialization  = false;
   m_State                   = UNINITIALIZED;
+  m_InputImage = 0;
+  m_OutputImage = 0;
 }
 
 template <class TInputImage, class TOutputImage>
@@ -97,6 +99,8 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
     // Allocate the output image
     this->AllocateOutputs();
 
+    this->m_InputImage = this->GetInput();
+    this->m_OutputImage = this->GetOutput();
     // Copy the input image to the output image.
     // Algorithms will operate directly on the output image and the update buffer.
     this->CopyInputToOutput();
@@ -243,10 +247,13 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 ::GetPatchRadiusInVoxels() const
 {
   const typename Self::Pointer thisPtr = const_cast< Self* >(this);
-  const typename InputImageType::Pointer inputPtr
-    = const_cast< InputImageType* >( thisPtr->GetInput() );
-  const typename InputImageType::SpacingType spacing = inputPtr->GetSpacing();
-
+  // cache input image, if it has not yet been set.
+  if(thisPtr->m_InputImage == 0)
+    {
+    thisPtr->m_InputImage = this->GetInput();
+    }
+  const typename InputImageType::SpacingType &spacing =
+    this->m_InputImage->GetSpacing();
   PatchRadiusType radius;
   radius.Fill(m_PatchRadius);
   for (unsigned int dim = 0; dim < ImageDimension; ++dim)

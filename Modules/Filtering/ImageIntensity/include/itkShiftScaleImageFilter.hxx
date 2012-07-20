@@ -35,6 +35,8 @@ ShiftScaleImageFilter< TInputImage, TOutputImage >
   m_OverflowCount = 0;
   m_ThreadUnderflow.SetSize(1);
   m_ThreadOverflow.SetSize(1);
+  m_InputImage = 0;
+  m_OutputImage = 0;
 }
 
 template< class TInputImage, class TOutputImage >
@@ -54,6 +56,8 @@ ShiftScaleImageFilter< TInputImage, TOutputImage >
   m_ThreadUnderflow.Fill(0);
   m_ThreadOverflow.SetSize(numberOfThreads);
   m_ThreadOverflow.Fill(0);
+  m_InputImage = this->GetInput();
+  m_OutputImage = this->GetOutput();
 }
 
 template< class TInputImage, class TOutputImage >
@@ -82,8 +86,8 @@ ShiftScaleImageFilter< TInputImage, TOutputImage >
 {
   RealType value;
 
-  ImageRegionConstIterator< TInputImage > it (this->GetInput(), outputRegionForThread);
-  ImageRegionIterator< TOutputImage >     ot (this->GetOutput(), outputRegionForThread);
+  ImageRegionConstIterator< TInputImage > it (this->m_InputImage, outputRegionForThread);
+  ImageRegionIterator< TOutputImage >     ot (this->m_OutputImage, outputRegionForThread);
 
   // support progress methods/callbacks
   ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );

@@ -72,7 +72,7 @@ StochasticFractalDimensionImageFilter< TInputImage, TMaskImage, TOutputImage >
   typedef typename InputImageType::PointType  PointType;
 
   const InputImageType *inputImage = this->GetInput();
-
+  OutputImageType      *outputImage = this->GetOutput();
   typename InputImageType::RegionType region = inputImage->GetRequestedRegion();
 
   ProgressReporter progress(this, 0, region.GetNumberOfPixels(), 100);
@@ -105,10 +105,10 @@ StochasticFractalDimensionImageFilter< TInputImage, TMaskImage, TOutputImage >
   for ( fit = faceList.begin(); fit != faceList.end(); ++fit )
     {
     ConstNeighborhoodIteratorType It(
-      this->m_NeighborhoodRadius, this->GetInput(), *fit);
+      this->m_NeighborhoodRadius, inputImage, *fit);
 
     NeighborhoodIterator< OutputImageType > ItO(
-      this->m_NeighborhoodRadius, this->GetOutput(), *fit);
+      this->m_NeighborhoodRadius, outputImage, *fit);
 
     for ( It.GoToBegin(), ItO.GoToBegin(); !It.IsAtEnd(); ++It, ++ItO )
       {
@@ -136,7 +136,7 @@ StochasticFractalDimensionImageFilter< TInputImage, TMaskImage, TOutputImage >
         if ( !this->m_MaskImage || this->m_MaskImage->GetPixel( It.GetIndex(i) ) )
           {
           PointType point1;
-          this->GetInput()->TransformIndexToPhysicalPoint(It.GetIndex(i), point1);
+          inputImage->TransformIndexToPhysicalPoint(It.GetIndex(i), point1);
 
           for ( unsigned int j = 0; j < It.GetNeighborhood().Size(); j++ )
             {
@@ -156,7 +156,7 @@ StochasticFractalDimensionImageFilter< TInputImage, TMaskImage, TOutputImage >
             if ( !this->m_MaskImage || this->m_MaskImage->GetPixel( It.GetIndex(j) ) )
               {
               PointType point2;
-              this->GetInput()->TransformIndexToPhysicalPoint(It.GetIndex(j), point2);
+              inputImage->TransformIndexToPhysicalPoint(It.GetIndex(j), point2);
 
               const RealType distance = point1.SquaredEuclideanDistanceTo(point2);
 

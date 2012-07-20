@@ -58,6 +58,7 @@ protected:
   DecimationQuadEdgeMeshFilter()
   {
     this->m_Iteration = 0;
+    this->m_OutputMesh = 0;
   }
 
   ~DecimationQuadEdgeMeshFilter() {}
@@ -72,7 +73,7 @@ protected:
     Initialize();
     FillPriorityQueue();
     m_Iteration = 0;
-
+    this->m_OutputMesh = this->GetOutput();
     do
       {
       this->Extract();
@@ -105,6 +106,9 @@ protected:
     this->Superclass::PrintSelf(os, indent);
     os << indent << "Criterion: " << m_Criterion << std::endl;
   }
+
+  /** Cache pointer to output to use in inner loops */
+  OutputMeshType *m_OutputMesh;
 
 private:
   DecimationQuadEdgeMeshFilter(const Self &);

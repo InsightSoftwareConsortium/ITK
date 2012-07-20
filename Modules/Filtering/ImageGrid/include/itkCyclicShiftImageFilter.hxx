@@ -59,6 +59,9 @@ CyclicShiftImageFilter< TInputImage, TOutputImage >
   // Setup the progress reporter.
   ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
+
+  const InputImageType * inputImage = this->GetInput();
+
   // The index and size of the image needed to compute the shift
   const IndexType outIdx = this->GetOutput()->GetLargestPossibleRegion().GetIndex();
   const SizeType  outSize = this->GetOutput()->GetLargestPossibleRegion().GetSize();
@@ -80,7 +83,7 @@ CyclicShiftImageFilter< TInputImage, TOutputImage >
       index[i] = shiftedIdx + outIdx[i];
       }
 
-    outIt.Set( static_cast< OutputImagePixelType >( this->GetInput()->GetPixel( index ) ) );
+    outIt.Set( static_cast< OutputImagePixelType >( inputImage->GetPixel( index ) ) );
     progress.CompletedPixel();
     }
 }

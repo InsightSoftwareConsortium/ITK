@@ -300,6 +300,7 @@ protected:
 private:
   EdgeDecimationQuadEdgeMeshFilter(const Self &);
   void operator=(const Self &);
+
 };
 }
 

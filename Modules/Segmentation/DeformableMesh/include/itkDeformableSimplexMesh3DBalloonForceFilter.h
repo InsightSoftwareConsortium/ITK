@@ -75,6 +75,7 @@ public:
   typedef typename Superclass::PointType              PointType;
   typedef typename Superclass::GradientIndexType      GradientIndexType;
   typedef typename Superclass::GradientIndexValueType GradientIndexValueType;
+  typedef typename Superclass::GradientImageType      GradientImageType;
 
   /* Mesh pointer definition. */
   typedef typename InputMeshType::Pointer  InputMeshPointer;
@@ -101,7 +102,7 @@ protected:
   /**
    * Compute the external force component
    */
-  virtual void ComputeExternalForce(SimplexMeshGeometry *data);
+  virtual void ComputeExternalForce(SimplexMeshGeometry *data,const GradientImageType *gradientImage);
 
   /** Parameters definitions. */
 

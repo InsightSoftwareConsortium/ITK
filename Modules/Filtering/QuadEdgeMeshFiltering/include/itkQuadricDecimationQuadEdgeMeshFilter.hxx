@@ -45,6 +45,7 @@ QuadricDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >
   OutputQEType *                qe;
   OutputQEType *                qe_it;
 
+  OutputMeshType *outputMesh = this->GetOutput();
   while ( it != points->End() )
     {
     p_id = it->Index();
@@ -55,7 +56,7 @@ QuadricDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >
       qe_it = qe;
       do
         {
-        QuadricAtOrigin(qe_it, m_Quadric[p_id]);
+        QuadricAtOrigin(qe_it, m_Quadric[p_id], outputMesh);
         qe_it = qe_it->GetOnext();
         }
       while ( qe_it != qe );

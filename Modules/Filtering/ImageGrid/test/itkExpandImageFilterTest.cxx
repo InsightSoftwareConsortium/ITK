@@ -32,25 +32,25 @@ public:
 
   ImagePattern()
     {
-    offset = 0.0;
+    m_Offset = 0.0;
     for( int j = 0; j < VDimension; j++ )
       {
-      coeff[j] = 0.0;
+      m_Coeff[j] = 0.0;
       }
     }
 
   double Evaluate( const IndexType& index )
     {
-    double accum = offset;
+    double accum = m_Offset;
     for( int j = 0; j < VDimension; j++ )
       {
-      accum += coeff[j] * (double) index[j];
+      accum += m_Coeff[j] * (double) index[j];
       }
     return accum;
     }
 
-  double coeff[VDimension];
-  double offset;
+  double m_Coeff[VDimension];
+  double m_Offset;
 
 };
 
@@ -90,10 +90,10 @@ int itkExpandImageFilterTest(int, char* [] )
 
   int j;
   ImagePattern<ImageDimension> pattern;
-  pattern.offset = 64;
+  pattern.m_Offset = 64;
   for( j = 0; j < ImageDimension; j++ )
     {
-    pattern.coeff[j] = 1.0;
+    pattern.m_Coeff[j] = 1.0;
     }
 
   typedef itk::ImageRegionIteratorWithIndex<ImageType> Iterator;
@@ -150,6 +150,8 @@ int itkExpandImageFilterTest(int, char* [] )
 
   validRegion.SetSize( validSize );
 
+  ImageType *expanderOutput = expander->GetOutput();
+
   while( !outIter.IsAtEnd() )
     {
     ImageType::IndexType index = outIter.GetIndex();
@@ -160,7 +162,7 @@ int itkExpandImageFilterTest(int, char* [] )
 
       ImageType::PointType point;
       ImageType::IndexType inputIndex;
-      expander->GetOutput()->TransformIndexToPhysicalPoint( outIter.GetIndex(), point );
+      expanderOutput->TransformIndexToPhysicalPoint( outIter.GetIndex(), point );
       input->TransformPhysicalPointToIndex(point, inputIndex );
       double trueValue = pattern.Evaluate( inputIndex );
 

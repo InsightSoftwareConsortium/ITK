@@ -149,6 +149,8 @@ private:
 
   typename AuxValueContainer::Pointer m_AuxAliveValues;
   typename AuxValueContainer::Pointer m_AuxTrialValues;
+
+  AuxImageType *m_AuxImages[AuxDimension];
 };
 } // namespace itk
 
