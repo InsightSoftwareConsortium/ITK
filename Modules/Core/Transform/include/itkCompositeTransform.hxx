@@ -84,7 +84,7 @@ CompositeTransform<TScalar, NDimensions>
     }
   else
     {
-    return Self::None;
+    return Self::UnknownTransformCategory;
     }
 }
 
