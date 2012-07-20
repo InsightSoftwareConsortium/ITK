@@ -125,11 +125,12 @@ bool
 MapContainer< TElementIdentifier, TElement >
 ::GetElementIfIndexExists(ElementIdentifier id, Element *element) const
 {
-  if ( this->MapType::count(id) > 0 )
+  MapConstIterator it = this->MapType::find(id);
+  if( it != this->MapType::end() )
     {
-    if ( element )
+    if( element )
       {
-      *element = this->MapType::find(id)->second;
+      *element = it->second;
       }
     return true;
     }
