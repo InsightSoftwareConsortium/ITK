@@ -103,9 +103,9 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
   m_NumberOfLabels.resize(nbOfThreads, 0);
   m_Barrier = Barrier::New();
   m_Barrier->Initialize(nbOfThreads);
-  SizeValueType pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
-  SizeValueType xsize = output->GetRequestedRegion().GetSize()[0];
-  SizeValueType linecount = pixelcount / xsize;
+  const SizeValueType pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
+  const SizeValueType xsize = output->GetRequestedRegion().GetSize()[0];
+  const SizeValueType linecount = pixelcount / xsize;
   m_LineMap.resize(linecount);
   m_FirstLineIdToJoin.resize(nbOfThreads - 1);
 }
@@ -119,26 +119,25 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
   typename TOutputImage::Pointer output = this->GetOutput();
   typename TMaskImage::ConstPointer mask = this->GetMaskImage();
 
-  ThreadIdType nbOfThreads = m_NumberOfLabels.size();
+  const ThreadIdType nbOfThreads = m_NumberOfLabels.size();
 
   // create a line iterator
-  typedef itk::ImageLinearConstIteratorWithIndex< InputImageType >
-  InputLineIteratorType;
+  typedef itk::ImageLinearConstIteratorWithIndex< InputImageType > InputLineIteratorType;
   InputLineIteratorType inLineIt(m_Input, outputRegionForThread);
   inLineIt.SetDirection(0);
 
   // set the progress reporter to deal with the number of lines
-  SizeValueType    pixelcountForThread = outputRegionForThread.GetNumberOfPixels();
-  SizeValueType    xsizeForThread = outputRegionForThread.GetSize()[0];
-  SizeValueType    linecountForThread = pixelcountForThread / xsizeForThread;
-  ProgressReporter progress(this, threadId, linecountForThread * 2);
+  const SizeValueType pixelcountForThread = outputRegionForThread.GetNumberOfPixels();
+  const SizeValueType xsizeForThread = outputRegionForThread.GetSize()[0];
+  const SizeValueType linecountForThread = pixelcountForThread / xsizeForThread;
+  ProgressReporter    progress(this, threadId, linecountForThread * 2);
 
   // find the split axis
-  IndexType outputRegionIdx = output->GetRequestedRegion().GetIndex();
-  IndexType outputRegionForThreadIdx = outputRegionForThread.GetIndex();
+  const IndexType outputRegionIdx = output->GetRequestedRegion().GetIndex();
+  const IndexType outputRegionForThreadIdx = outputRegionForThread.GetIndex();
   SizeType  outputRegionSize = output->GetRequestedRegion().GetSize();
   SizeType  outputRegionForThreadSize = outputRegionForThread.GetSize();
-  int       splitAxis = 0;
+  int             splitAxis = 0;
   for ( unsigned int i = 0; i < ImageDimension; i++ )
     {
     if ( outputRegionSize[i] != outputRegionForThreadSize[i] )
@@ -165,17 +164,15 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
     lineEncoding ThisLine;
     while ( !inLineIt.IsAtEndOfLine() )
       {
-      InputPixelType PVal = inLineIt.Get();
+      const InputPixelType PVal = inLineIt.Get();
       //std::cout << inLineIt.GetIndex() << std::endl;
       if ( PVal != NumericTraits< InputPixelType >::ZeroValue( PVal ) )
         {
         // We've hit the start of a run
         runLength thisRun;
-        SizeValueType length = 0;
-        IndexType thisIndex;
-        thisIndex = inLineIt.GetIndex();
+        const IndexType thisIndex = inLineIt.GetIndex();
         //std::cout << thisIndex << std::endl;
-        ++length;
+        SizeValueType length = 1;
         ++inLineIt;
         while ( !inLineIt.IsAtEndOfLine()
                 && inLineIt.Get() != NumericTraits< InputPixelType >::ZeroValue( PVal ) )
@@ -218,15 +215,13 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
     InitUnion(nbOfLabels);
     // insert all the labels into the structure -- an extra loop but
     // saves complicating the ones that come later
-    typename LineMapType::iterator MapBegin, MapEnd, LineIt;
-    MapBegin = m_LineMap.begin();
-    MapEnd = m_LineMap.end();
-    LineIt = MapBegin;
+    typename LineMapType::iterator MapBegin = m_LineMap.begin();
+    typename LineMapType::iterator MapEnd = m_LineMap.end();
+    typename LineMapType::iterator LineIt = MapBegin;
     SizeValueType label = 1;
     for ( LineIt = MapBegin; LineIt != MapEnd; ++LineIt )
       {
-      typename lineEncoding::iterator cIt;
-      for ( cIt = LineIt->begin(); cIt != LineIt->end(); ++cIt )
+      for ( typename lineEncoding::iterator cIt = LineIt->begin(); cIt != LineIt->end(); ++cIt )
         {
         cIt->label = label;
         InsertSet(label);
@@ -241,9 +236,9 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
   // now process the map and make appropriate entries in an equivalence
   // table
   // itkAssertInDebugAndIgnoreInReleaseMacro( linecount == m_LineMap.size() );
-  SizeValueType pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
-  SizeValueType xsize = output->GetRequestedRegion().GetSize()[0];
-  SizeValueType linecount = pixelcount / xsize;
+  const SizeValueType pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
+  const SizeValueType xsize = output->GetRequestedRegion().GetSize()[0];
+  const SizeValueType linecount = pixelcount / xsize;
 
   SizeValueType lastLineIdForThread =  linecount;
   SizeValueType nbOfLineIdToJoin = 0;
@@ -267,12 +262,12 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
       for ( typename OffsetVec::const_iterator I = LineOffsets.begin();
             I != LineOffsets.end(); ++I )
         {
-        OffsetValueType NeighIdx = ( *I ) + ThisIdx;
+        const OffsetValueType NeighIdx = ( *I ) + ThisIdx;
         // check if the neighbor is in the map
         if ( NeighIdx >= 0 && NeighIdx < static_cast<OffsetValueType>( linecount ) && !m_LineMap[NeighIdx].empty() )
           {
           // Now check whether they are really neighbors
-          bool areNeighbors =
+          const bool areNeighbors =
             CheckNeighbors(m_LineMap[ThisIdx][0].where, m_LineMap[NeighIdx][0].where);
           if ( areNeighbors )
             {
@@ -300,12 +295,12 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
           for ( typename OffsetVec::const_iterator I = LineOffsets.begin();
                 I != LineOffsets.end(); ++I )
             {
-            OffsetValueType NeighIdx = ( *I ) + ThisIdx;
+            const OffsetValueType NeighIdx = ( *I ) + ThisIdx;
             // check if the neighbor is in the map
             if ( NeighIdx >= 0 && NeighIdx < static_cast<OffsetValueType>( linecount ) && !m_LineMap[NeighIdx].empty() )
               {
               // Now check whether they are really neighbors
-              bool areNeighbors =
+              const bool areNeighbors =
                 CheckNeighbors(m_LineMap[ThisIdx][0].where, m_LineMap[NeighIdx][0].where);
               if ( areNeighbors )
                 {
@@ -368,8 +363,9 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
   // Note - this is unnecessary if AllocateOutputs initalizes to zero
 
   ImageRegionIterator< OutputImageType > oit(output, outputRegionForThread);
-  ImageRegionIterator< OutputImageType > fstart = oit, fend = oit;
+  ImageRegionIterator< OutputImageType > fstart = oit;
   fstart.GoToBegin();
+  ImageRegionIterator< OutputImageType > fend = oit;
   fend.GoToEnd();
 
   lastLineIdForThread = firstLineIdForThread
@@ -379,12 +375,10 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
   for ( SizeValueType ThisIdx = firstLineIdForThread; ThisIdx < lastLineIdForThread; ThisIdx++ )
     {
     // now fill the labelled sections
-    typename lineEncoding::const_iterator cIt;
-
-    for ( cIt = m_LineMap[ThisIdx].begin(); cIt != m_LineMap[ThisIdx].end(); ++cIt )
+    for ( typename lineEncoding::const_iterator cIt = m_LineMap[ThisIdx].begin(); cIt != m_LineMap[ThisIdx].end(); ++cIt )
       {
-      SizeValueType   Ilab = LookupSet(cIt->label);
-      OutputPixelType lab = m_Consecutive[Ilab];
+      const SizeValueType   Ilab = LookupSet(cIt->label);
+      const OutputPixelType lab = m_Consecutive[Ilab];
       oit.SetIndex(cIt->where);
       // initialize the non labelled pixels
       for (; fstart != oit; ++fstart )
