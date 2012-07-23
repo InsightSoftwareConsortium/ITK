@@ -257,8 +257,6 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
   ImageRegionIteratorWithIndex< VectorImageType >  ct(distanceComponents,  region);
   ImageRegionIteratorWithIndex< OutputImageType >  dt(distanceMap,         region);
 
-  typename InputImageType::SpacingType spacing = Self::GetInput()->GetSpacing();
-
   itkDebugMacro(<< "ComputeVoronoiMap Region: " << region);
   ot.GoToBegin();
   ct.GoToBegin();
@@ -277,7 +275,7 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
       {
       for ( unsigned int i = 0; i < InputImageDimension; i++ )
         {
-        double component = distanceVector[i] * static_cast< double >( spacing[i] );
+        double component = distanceVector[i] * static_cast< double >( m_InputSpacingCache[i] );
         distance += component * component;
         }
       }
@@ -318,8 +316,6 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
   OffsetType offsetValueHere  = components->GetPixel(here);
   OffsetType offsetValueThere = components->GetPixel(there) + offset;
 
-  SpacingType spacing = this->GetInput()->GetSpacing();
-
   double norm1 = 0.0;
   double norm2 = 0.0;
   for ( unsigned int i = 0; i < InputImageDimension; i++ )
@@ -329,7 +325,7 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
 
     if ( m_UseImageSpacing )
       {
-      double spacingComponent = static_cast< double >( spacing[i] );
+      double spacingComponent = static_cast< double >( m_InputSpacingCache[i] );
       v1 *= spacingComponent;
       v2 *= spacingComponent;
       }
@@ -353,6 +349,8 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
 ::GenerateData()
 {
   this->PrepareData();
+
+  this->m_InputSpacingCache = this->GetInput()->GetSpacing();
 
   // Specify images and regions.
 

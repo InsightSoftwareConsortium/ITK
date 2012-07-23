@@ -253,6 +253,8 @@ private:
   /** Filter to warp moving image for fast gradient computation. */
   WarperPointer m_MovingImageWarper;
 
+  MovingImageType *m_MovingImageWarperOutput;
+
   /** The global timestep. */
   TimeStepType m_TimeStep;
 

@@ -69,14 +69,13 @@ public:
 #endif
 
 protected:
-  DiscreteCurvatureQuadEdgeMeshFilter() {}
+  DiscreteCurvatureQuadEdgeMeshFilter() : m_OutputMesh(0) {}
   virtual ~DiscreteCurvatureQuadEdgeMeshFilter() {}
 
   virtual OutputCurvatureType EstimateCurvature(const OutputPointType & iP) = 0;
 
   OutputCurvatureType ComputeMixedArea(OutputQEType *iQE1, OutputQEType *iQE2)
   {
-    OutputMeshPointer output = this->GetOutput();
 
     OutputPointIdentifier id[3];
 
@@ -88,7 +87,7 @@ protected:
 
     for ( int i = 0; i < 3; i++ )
       {
-      p[i] = output->GetPoint(id[i]);
+      p[i] = this->m_OutputMesh->GetPoint(id[i]);
       }
 
     return static_cast< OutputCurvatureType >( TriangleType::ComputeMixedArea( p[0], p[1], p[2] ) );
@@ -105,6 +104,7 @@ protected:
 
     OutputCurvatureType curvature;
 
+    this->m_OutputMesh = this->GetOutput();
     while ( p_it != points->End() )
       {
       curvature = this->EstimateCurvature( p_it->Value() );
@@ -114,6 +114,8 @@ protected:
   }
 
 private:
+  /** Cache output pointer to avoid calls in inner loop to GetOutput() */
+  OutputMeshType *m_OutputMesh;
   DiscreteCurvatureQuadEdgeMeshFilter(const Self &); // purposely not
                                                         // implemented
   void operator=(const Self &);                         // purposely not

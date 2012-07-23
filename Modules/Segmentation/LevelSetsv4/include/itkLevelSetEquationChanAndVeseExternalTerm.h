@@ -113,6 +113,9 @@ protected:
 private:
   LevelSetEquationChanAndVeseExternalTerm( const Self& ); // purposely not implemented
   void operator = ( const Self& ); // purposely not implemented
+
+  DomainMapImageFilterType *m_DomainMapImageFilter;
+  CacheImageType           *m_CacheImage;
 };
 
 }

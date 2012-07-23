@@ -32,25 +32,25 @@ public:
 
   ImagePattern()
     {
-    offset = 0.0;
+    m_Offset = 0.0;
     for( int j = 0; j < VDimension; j++ )
       {
-      coeff[j] = 0.0;
+      m_Coeff[j] = 0.0;
       }
     }
 
   double Evaluate( const IndexType& index )
     {
-    double accum = offset;
+    double accum = m_Offset;
     for( int j = 0; j < VDimension; j++ )
       {
-      accum += coeff[j] * (double) index[j];
+      accum += m_Coeff[j] * (double) index[j];
       }
     return accum;
     }
 
-  double coeff[VDimension];
-  double offset;
+  double m_Coeff[VDimension];
+  double m_Offset;
 
 };
 
@@ -93,10 +93,10 @@ int itkVectorExpandImageFilterTest(int, char* [] )
 
   int j, k;
   ImagePattern<ImageDimension> pattern;
-  pattern.offset = 64;
+  pattern.m_Offset = 64;
   for( j = 0; j < ImageDimension; j++ )
     {
-    pattern.coeff[j] = 1.0;
+    pattern.m_Coeff[j] = 1.0;
     }
 
   double vectorCoeff[VectorDimension] = { 1.0, 4.0, 6.0 };
@@ -104,7 +104,7 @@ int itkVectorExpandImageFilterTest(int, char* [] )
   typedef itk::ImageRegionIteratorWithIndex<ImageType> Iterator;
   Iterator inIter( input, region );
 
-  for( ; !inIter.IsAtEnd(); ++inIter )
+  for(; !inIter.IsAtEnd(); ++inIter )
     {
 
     double value = pattern.Evaluate( inIter.GetIndex() );
@@ -153,20 +153,22 @@ int itkVectorExpandImageFilterTest(int, char* [] )
   expander->Print( std::cout );
   expander->Update();
 
+  ImageType *expanderOutput = expander->GetOutput();
+
   //=============================================================
 
   std::cout << "Checking the output against expected." << std::endl;
-  Iterator outIter( expander->GetOutput(),
-    expander->GetOutput()->GetBufferedRegion() );
+  Iterator outIter( expanderOutput,
+    expanderOutput->GetBufferedRegion() );
 
   // compute non-padded output region
   ImageType::RegionType validRegion =
-    expander->GetOutput()->GetLargestPossibleRegion();
+    expanderOutput->GetLargestPossibleRegion();
   ImageType::SizeType validSize = validRegion.GetSize();
 
   validRegion.SetSize( validSize );
 
-  for( ; !outIter.IsAtEnd(); ++outIter )
+  for(; !outIter.IsAtEnd(); ++outIter )
     {
     ImageType::IndexType index = outIter.GetIndex();
     ImageType::PixelType value = outIter.Get();
@@ -176,7 +178,7 @@ int itkVectorExpandImageFilterTest(int, char* [] )
 
       ImageType::PointType point;
       ImageType::IndexType inputIndex;
-      expander->GetOutput()->TransformIndexToPhysicalPoint( outIter.GetIndex(), point );
+      expanderOutput->TransformIndexToPhysicalPoint( outIter.GetIndex(), point );
       input->TransformPhysicalPointToIndex(point, inputIndex );
       double baseValue = pattern.Evaluate( inputIndex );
 

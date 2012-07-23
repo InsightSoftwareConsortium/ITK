@@ -129,6 +129,9 @@ class ITK_EXPORT LevelSetDomainMapImageFilter : public ImageToImageFilter< TInpu
 
     LevelSetDomainMapImageFilter ( Self& );   // intentionally not implemented
     void operator= ( const Self& );   // intentionally not implemented
+
+    const InputImageType *m_InputImage;
+    OutputImageType      *m_OutputImage;
   };
 
 } /* namespace itk */

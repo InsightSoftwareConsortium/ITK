@@ -232,6 +232,12 @@ private:
 
   unsigned char  m_PointFound;
   InputPixelType m_ObjectValue;
+
+  /** temporary variables used in CreateMesh to avoid thousands of
+   *  calls to GetInput() and GetOutput()
+   */
+  OutputMeshType       *m_OutputMesh;
+  const InputImageType *m_InputImage;
 };
 } // end namespace itk
 

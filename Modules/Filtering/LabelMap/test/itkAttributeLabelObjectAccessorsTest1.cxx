@@ -60,6 +60,8 @@ int itkAttributeLabelObjectAccessorsTest1(int argc, char * argv[])
   i2l->Update();
   reader2->Update();
 
+  IType *reader2Output = reader2->GetOutput();
+
   // Now we will valuate the attributes. The attribute will be the mean of the pixels
   // values in the 2nd image. The StatisticsLabelObject can give us that value, without
   // having to code that by hand - that's an example.
@@ -81,7 +83,7 @@ int itkAttributeLabelObjectAccessorsTest1(int argc, char * argv[])
     LabelObjectType::ConstIndexIterator it2( labelObject );
     while( ! it2.IsAtEnd() )
       {
-      mean += reader2->GetOutput()->GetPixel( it2.GetIndex() );
+      mean += reader2Output->GetPixel( it2.GetIndex() );
       size++;
       ++it2;
       }

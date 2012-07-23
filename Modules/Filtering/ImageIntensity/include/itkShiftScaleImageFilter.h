@@ -131,6 +131,9 @@ private:
 
   Array< long > m_ThreadUnderflow;
   Array< long > m_ThreadOverflow;
+
+  const TInputImage *m_InputImage;
+  TOutputImage      *m_OutputImage;
 };
 } // end namespace itk
 

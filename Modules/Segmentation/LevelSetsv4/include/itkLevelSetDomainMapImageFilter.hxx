@@ -29,6 +29,8 @@ LevelSetDomainMapImageFilter< TInputImage, TOutputImage >
 {
   this->Superclass::SetNumberOfRequiredInputs ( 1 );
   this->Superclass::SetNumberOfRequiredOutputs ( 1 );
+  this->m_InputImage = 0;
+  this->m_OutputImage = 0;
 }
 
 
@@ -54,17 +56,14 @@ LevelSetDomainMapImageFilter< TInputImage, TOutputImage >
 {
   bool regionWasModified = false;
 
-  const InputImageType  * input  = this->GetInput();
-  const OutputImageType * output = this->GetOutput();
-
   InputImageRegionType subRegion = inputRegion;
 
   do
     {
     regionWasModified = false;
 
-    InputConstIteratorType  iIt( input, subRegion );
-    OutputConstIteratorType oIt( output, subRegion );
+    InputConstIteratorType  iIt( this->m_InputImage, subRegion );
+    OutputConstIteratorType oIt( this->m_OutputImage, subRegion );
 
     iIt.GoToBegin();
     oIt.GoToBegin();
@@ -110,14 +109,14 @@ GenerateData()
   // Clear any prior contents.
   this->m_DomainMap.clear();
 
-  InputImageConstPointer input = this->GetInput();
-  const InputImageRegionType & region = input->GetLargestPossibleRegion();
+  this->m_InputImage =  this->GetInput();
+  const InputImageRegionType & region = this->m_InputImage->GetLargestPossibleRegion();
   const InputImageSizeType size = region.GetSize();
 
-  OutputImagePointer output = this->GetOutput();
-  output->SetBufferedRegion( region );
-  output->Allocate();
-  output->FillBuffer( NumericTraits< OutputImagePixelType >::Zero );
+  this->m_OutputImage = this->GetOutput();
+  this->m_OutputImage->SetBufferedRegion( region );
+  this->m_OutputImage->Allocate();
+  this->m_OutputImage->FillBuffer( NumericTraits< OutputImagePixelType >::Zero );
 
   InputImageIndexType end;
 
@@ -128,8 +127,8 @@ GenerateData()
 
   IdentifierType segmentId = NumericTraits<IdentifierType>::One;
 
-  InputConstIteratorType iIt( input, region );
-  OutputIndexIteratorType oIt( output, region );
+  InputConstIteratorType iIt( this->m_InputImage, region );
+  OutputIndexIteratorType oIt( this->m_OutputImage, region );
 
   iIt.GoToBegin();
   oIt.GoToBegin();
@@ -154,8 +153,8 @@ GenerateData()
         stopIdx = startIdx;
         while ( ( sameOverlappingLevelSetIds ) && ( stopIdx[i] <= end[i] ) )
           {
-          const InputImagePixelType & nextPixel = input->GetPixel( stopIdx );
-          const OutputImagePixelType & currentOutputPixel = output->GetPixel( stopIdx );
+          const InputImagePixelType & nextPixel = this->m_InputImage->GetPixel( stopIdx );
+          const OutputImagePixelType & currentOutputPixel = this->m_OutputImage->GetPixel( stopIdx );
 
           // Check if the input list pixels are different, or
           // the output image already has been assigned to another region
@@ -180,7 +179,7 @@ GenerateData()
 
       this->m_DomainMap[segmentId] = LevelSetDomain( subRegion, inputPixel );
 
-      OutputIndexIteratorType ooIt( output, subRegion );
+      OutputIndexIteratorType ooIt( this->m_OutputImage, subRegion );
       ooIt.GoToBegin();
 
       while( !ooIt.IsAtEnd() )

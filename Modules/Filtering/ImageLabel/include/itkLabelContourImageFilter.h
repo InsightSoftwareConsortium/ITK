@@ -193,7 +193,7 @@ private:
   bool CheckNeighbors(const OutputIndexType & A,
                       const OutputIndexType & B) const;
 
-  void CompareLines(LineEncodingType & current, const LineEncodingType & Neighbour);
+  void CompareLines(TOutputImage *output, LineEncodingType & current, const LineEncodingType & Neighbour);
 
   void SetupLineOffsets(OffsetVectorType & LineOffsets);
 

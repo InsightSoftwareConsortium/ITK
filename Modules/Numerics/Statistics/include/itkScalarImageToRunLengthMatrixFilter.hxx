@@ -139,6 +139,9 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
   HistogramType *output =
     static_cast<HistogramType *>( this->ProcessObject::GetOutput( 0 ) );
 
+  const ImageType * inputImage = this->GetInput();
+
+
   // First, create an appropriate histogram with the right number of bins
   // and mins and maxes correct for the image type.
   typename HistogramType::SizeType size( output->GetMeasurementVectorSize() );
@@ -159,7 +162,7 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
   typename NeighborhoodIteratorType::RadiusType radius;
   radius.Fill( 1 );
   NeighborhoodIteratorType neighborIt( radius,
-    this->GetInput(), this->GetInput()->GetRequestedRegion() );
+    inputImage, inputImage->GetRequestedRegion() );
 
 
   // this temp image has the same dimension for each offset
@@ -167,8 +170,8 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
   // while keeping FillBuffer with boolean false in each loop
   typedef Image<bool, ImageDimension> BoolImageType;
   typename BoolImageType::Pointer alreadyVisitedImage = BoolImageType::New();
-  alreadyVisitedImage->CopyInformation( this->GetInput() );
-  alreadyVisitedImage->SetRegions( this->GetInput()->GetRequestedRegion() );
+  alreadyVisitedImage->CopyInformation( inputImage );
+  alreadyVisitedImage->SetRegions( inputImage->GetRequestedRegion() );
   alreadyVisitedImage->Allocate();
 
   typename OffsetVector::ConstIterator offsets;
@@ -219,7 +222,7 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
       // length of continuous pixels whose pixel values are
       // in the same bin.
 
-      while ( this->GetInput()->GetRequestedRegion().IsInside(index) )
+      while ( inputImage->GetRequestedRegion().IsInside(index) )
         {
         // For the same offset, each run length segment can
         // only be visited once
@@ -229,7 +232,7 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
           break;
           }
 
-        pixelIntensity = this->GetInput()->GetPixel( index );
+        pixelIntensity = inputImage->GetPixel( index );
 
         // Special attention paid to boundaries of bins.
         // For the last bin,
@@ -258,10 +261,10 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
         }
 
       PointType centerPoint;
-      this->GetInput()->TransformIndexToPhysicalPoint(
+      inputImage->TransformIndexToPhysicalPoint(
         centerIndex, centerPoint );
       PointType point;
-      this->GetInput()->TransformIndexToPhysicalPoint( lastGoodIndex, point );
+      inputImage->TransformIndexToPhysicalPoint( lastGoodIndex, point );
 
       run[0] = centerPixelIntensity;
       run[1] = centerPoint.EuclideanDistanceTo( point );

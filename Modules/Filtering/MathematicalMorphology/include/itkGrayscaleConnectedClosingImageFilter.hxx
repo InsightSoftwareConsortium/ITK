@@ -68,6 +68,10 @@ GrayscaleConnectedClosingImageFilter< TInputImage, TOutputImage >
   // Allocate the output
   this->AllocateOutputs();
 
+
+  OutputImageType *outputImage = this->GetOutput();
+  const InputImageType * inputImage = this->GetInput();
+
   // construct a marker image to manipulate using reconstruction by
   // dilation. the marker image will have the same pixel values as the
   // input image at the seed pixel and will have a minimum everywhere
@@ -77,7 +81,7 @@ GrayscaleConnectedClosingImageFilter< TInputImage, TOutputImage >
   // compute the minimum pixel value in the input
   typename MinimumMaximumImageCalculator< TInputImage >::Pointer calculator =
     MinimumMaximumImageCalculator< TInputImage >::New();
-  calculator->SetImage( this->GetInput() );
+  calculator->SetImage( inputImage );
   calculator->ComputeMaximum();
 
   InputImagePixelType maxValue;
@@ -85,22 +89,22 @@ GrayscaleConnectedClosingImageFilter< TInputImage, TOutputImage >
 
   // compare this maximum value to the value at the seed pixel.
   InputImagePixelType seedValue;
-  seedValue = this->GetInput()->GetPixel(m_Seed);
+  seedValue = inputImage->GetPixel(m_Seed);
 
   if ( maxValue == seedValue )
     {
     itkWarningMacro(
       <<
       "GrayscaleConnectedClosingImageFilter: pixel value at seed point matches maximum value in image.  Resulting image will have a constant value.");
-    this->GetOutput()->FillBuffer(maxValue);
+    outputImage->FillBuffer(maxValue);
     this->UpdateProgress(1.0);
     return;
     }
 
   // allocate a marker image
   InputImagePointer markerPtr = InputImageType::New();
-  markerPtr->SetRegions( this->GetInput()->GetRequestedRegion() );
-  markerPtr->CopyInformation( this->GetInput() );
+  markerPtr->SetRegions( inputImage->GetRequestedRegion() );
+  markerPtr->CopyInformation( inputImage );
   markerPtr->Allocate();
 
   // fill the marker image with the maximum value from the input
@@ -124,12 +128,12 @@ GrayscaleConnectedClosingImageFilter< TInputImage, TOutputImage >
   // set up the erode filter
   //erode->RunOneIterationOff();             // run to convergence
   erode->SetMarkerImage(markerPtr);
-  erode->SetMaskImage( this->GetInput() );
+  erode->SetMaskImage( inputImage );
   erode->SetFullyConnected(m_FullyConnected);
 
   // graft our output to the erode filter to force the proper regions
   // to be generated
-  erode->GraftOutput( this->GetOutput() );
+  erode->GraftOutput( outputImage );
 
   // reconstruction by dilation
   erode->Update();

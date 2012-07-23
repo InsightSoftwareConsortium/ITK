@@ -185,28 +185,31 @@ PadImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                        ThreadIdType threadId)
 {
+
+  typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
+  typename Superclass::InputImageConstPointer inputPtr  = this->GetInput();
   // Use the region copy method to copy the input image values to the
   // output image.
   OutputImageRegionType copyRegion( outputRegionForThread );
-  bool regionOverlaps = copyRegion.Crop( this->GetInput()->GetLargestPossibleRegion() );
+  bool regionOverlaps = copyRegion.Crop( inputPtr->GetLargestPossibleRegion() );
   if ( regionOverlaps )
     {
     // Do a block copy for the overlapping region.
-    ImageAlgorithm::Copy( this->GetInput(), this->GetOutput(), copyRegion, copyRegion );
+    ImageAlgorithm::Copy( inputPtr.GetPointer(), outputPtr.GetPointer(), copyRegion, copyRegion );
 
     // Use the boundary condition for pixels outside the input image region.
     typename OutputImageSizeType::SizeValueType numberOfPixels =
       outputRegionForThread.GetNumberOfPixels() - copyRegion.GetNumberOfPixels();
     ProgressReporter progress( this, threadId, numberOfPixels );
 
-    ImageRegionExclusionIteratorWithIndex< TOutputImage > outIter( this->GetOutput(),
+    ImageRegionExclusionIteratorWithIndex< TOutputImage > outIter( outputPtr,
                                                                    outputRegionForThread );
     outIter.SetExclusionRegion( copyRegion );
     outIter.GoToBegin();
     while ( !outIter.IsAtEnd() )
       {
       OutputImagePixelType value = static_cast< OutputImagePixelType >
-        ( m_BoundaryCondition->GetPixel( outIter.GetIndex(), this->GetInput() ) );
+        ( m_BoundaryCondition->GetPixel( outIter.GetIndex(), inputPtr ) );
       outIter.Set( value );
       ++outIter;
       progress.CompletedPixel();
@@ -217,13 +220,13 @@ PadImageFilter< TInputImage, TOutputImage >
     // There is no overlap. Appeal to the boundary condition for every pixel.
     ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
-    ImageRegionIteratorWithIndex< TOutputImage > outIter( this->GetOutput(),
+    ImageRegionIteratorWithIndex< TOutputImage > outIter( outputPtr,
                                                           outputRegionForThread );
     outIter.GoToBegin();
     while ( !outIter.IsAtEnd() )
       {
       OutputImagePixelType value = static_cast< OutputImagePixelType >
-        ( m_BoundaryCondition->GetPixel( outIter.GetIndex(), this->GetInput() ) );
+        ( m_BoundaryCondition->GetPixel( outIter.GetIndex(), inputPtr ) );
       outIter.Set( value );
       ++outIter;
       progress.CompletedPixel();

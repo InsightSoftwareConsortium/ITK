@@ -109,6 +109,8 @@ int itkBSplineScatteredDataPointSetToImageFilterTest( int argc, char * argv [] )
               << std::endl;
     return EXIT_FAILURE;
     }
+  VectorImageType *outputImage = filter->GetOutput();
+
   std::cout << "Origin: " << filter->GetOrigin() << std::endl;
   std::cout << "Spacing: " << filter->GetSpacing() << std::endl;
   std::cout << "Size: " << filter->GetSize() << std::endl;
@@ -134,7 +136,7 @@ int itkBSplineScatteredDataPointSetToImageFilterTest( int argc, char * argv [] )
 
   for ( Itt.GoToBegin(); !Itt.IsAtEnd(); ++Itt )
     {
-    Itt.Set( filter->GetOutput()->GetPixel( Itt.GetIndex() )[0] );
+    Itt.Set( outputImage->GetPixel( Itt.GetIndex() )[0] );
     }
 
   typedef itk::ImageFileWriter<RealImageType> WriterType;

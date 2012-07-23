@@ -38,6 +38,7 @@ FastMarchingExtensionImageFilterBase< TInput, TOutput, TAuxValue, VAuxDimension 
     {
     ptr = AuxImageType::New();
     this->ProcessObject::SetNthOutput( k + 1, ptr.GetPointer() );
+    this->m_AuxImages[k] = 0;
     }
 }
 
@@ -146,15 +147,13 @@ FastMarchingExtensionImageFilterBase< TInput, TOutput, TAuxValue, VAuxDimension 
     itkExceptionMacro(<< "in Initialize(): AuxTrialValues is the wrong size");
     }
 
-  AuxImagePointer auxImages[AuxDimension];
-
   // allocate memory for the auxiliary outputs
   for ( unsigned int k = 0; k < AuxDimension; k++ )
     {
     AuxImageType *ptr = this->GetAuxiliaryImage(k);
     ptr->SetBufferedRegion( ptr->GetRequestedRegion() );
     ptr->Allocate();
-    auxImages[k] = ptr;
+    this->m_AuxImages[k] = ptr;
     }
 
   // set all alive points to alive
@@ -178,7 +177,7 @@ FastMarchingExtensionImageFilterBase< TInput, TOutput, TAuxValue, VAuxDimension 
         {
         for ( unsigned int k = 0; k < AuxDimension; k++ )
           {
-          auxImages[k]->SetPixel( node, auxVec[k] );
+          this->m_AuxImages[k]->SetPixel( node, auxVec[k] );
           }
         }
       ++pointsIter;
@@ -202,7 +201,7 @@ FastMarchingExtensionImageFilterBase< TInput, TOutput, TAuxValue, VAuxDimension 
         {
         for ( unsigned int k = 0; k < AuxDimension; k++ )
           {
-          auxImages[k]->SetPixel( node, auxVec[k]);
+          this->m_AuxImages[k]->SetPixel( node, auxVec[k]);
           }
         }
       ++pointsIter;
@@ -268,7 +267,7 @@ FastMarchingExtensionImageFilterBase< TInput, TOutput, TAuxValue, VAuxDimension 
           break;
           }
 
-        auxVal = this->GetAuxiliaryImage(k)->GetPixel( temp_node.m_Node );
+        auxVal = this->m_AuxImages[k]->GetPixel( temp_node.m_Node );
         numer += auxVal * ( outputPixel - temp_node.m_Value );
         denom += outputPixel - temp_node.m_Value;
         }
@@ -282,7 +281,7 @@ FastMarchingExtensionImageFilterBase< TInput, TOutput, TAuxValue, VAuxDimension 
         auxVal = NumericTraits< AuxValueType >::Zero;
         }
 
-      this->GetAuxiliaryImage(k)->SetPixel(iNode, auxVal);
+      this->m_AuxImages[k]->SetPixel(iNode, auxVal);
       }
     }
 }
