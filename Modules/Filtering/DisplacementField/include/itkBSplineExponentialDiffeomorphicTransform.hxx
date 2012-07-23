@@ -21,6 +21,7 @@
 #include "itkBSplineExponentialDiffeomorphicTransform.h"
 
 #include "itkExponentialDisplacementFieldImageFilter.h"
+#include "itkMultiplyImageFilter.h"
 
 namespace itk
 {
@@ -33,7 +34,7 @@ BSplineExponentialDiffeomorphicTransform<TScalar, NDimensions>
 ::BSplineExponentialDiffeomorphicTransform() :
   m_CalculateNumberOfIterationsAutomatically( true ),
   m_MaximumNumberOfIterations( 10 ),
-  m_ComputeInverse( true )
+  m_ComputeInverse( false )
 {
 }
 
@@ -109,10 +110,48 @@ BSplineExponentialDiffeomorphicTransform<TScalar, NDimensions>
   exponentiator->SetInput( updateField );
   exponentiator->SetAutomaticNumberOfIterations( this->m_CalculateNumberOfIterationsAutomatically );
   exponentiator->SetMaximumNumberOfIterations( this->m_MaximumNumberOfIterations );
-  exponentiator->SetComputeInverse( this->m_ComputeInverse );
+  exponentiator->SetComputeInverse( false );
   exponentiator->Update();
 
-  DerivativeValueType *updatePointer = reinterpret_cast<DerivativeValueType *>( exponentiator->GetOutput()->GetBufferPointer() );
+  // Now rescale the field by the max norm
+
+  typename DisplacementFieldType::Pointer expField = exponentiator->GetOutput();
+  typename DisplacementFieldType::SpacingType spacing = displacementField->GetSpacing();
+
+  ImageRegionIterator<DisplacementFieldType> ItF( expField, expField->GetRequestedRegion() );
+
+  ScalarType maxNorm = NumericTraits<ScalarType>::NonpositiveMin();
+  for( ItF.GoToBegin(); !ItF.IsAtEnd(); ++ItF )
+    {
+    DisplacementVectorType vector = ItF.Get();
+
+    ScalarType localNorm = 0;
+    for( unsigned int d = 0; d < NDimensions; d++ )
+      {
+      localNorm += vnl_math_sqr( vector[d] / spacing[d] );
+      }
+    localNorm = vcl_sqrt( localNorm );
+
+    if( localNorm > maxNorm )
+      {
+      maxNorm = localNorm;
+      }
+    }
+
+  ScalarType scale = 1.0 / maxNorm;
+
+  typedef Image<ScalarType, NDimensions> RealImageType;
+
+  typedef MultiplyImageFilter<DisplacementFieldType, RealImageType, DisplacementFieldType> MultiplierType;
+  typename MultiplierType::Pointer multiplier = MultiplierType::New();
+  multiplier->SetInput( expField );
+  multiplier->SetConstant( scale );
+
+  typename DisplacementFieldType::Pointer scaledUpdateField = multiplier->GetOutput();
+  scaledUpdateField->Update();
+  scaledUpdateField->DisconnectPipeline();
+
+  DerivativeValueType *updatePointer = reinterpret_cast<DerivativeValueType *>( scaledUpdateField->GetBufferPointer() );
 
   // Add the update field to the current total field
   bool letArrayManageMemory = false;
