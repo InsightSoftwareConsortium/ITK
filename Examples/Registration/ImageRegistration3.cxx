@@ -393,8 +393,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  At this point, we are ready to execute the registration. The
-  //  typical call to \code{StartRegistration()} will do it. Note again the
-  //  use of the \code{try/catch} block around the \code{StartRegistration()}
+  //  typical call to \code{Update()} will do it. Note again the
+  //  use of the \code{try/catch} block around the \code{Update()}
   //  method in case an exception is thrown.
   //
   //  Software Guide : EndLatex

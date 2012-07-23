@@ -290,92 +290,6 @@ MultiResolutionImageRegistrationMethod< TFixedImage, TMovingImage >
 }
 
 /*
- * Starts the Registration Process
- */
-template< typename TFixedImage, typename TMovingImage >
-void
-MultiResolutionImageRegistrationMethod< TFixedImage, TMovingImage >
-::StartRegistration(void)
-{
-  // StartRegistration is an old API from before
-  // this egistrationMethod was a subclass of ProcessObject.
-  // Historically, one could call StartRegistration() instead of
-  // calling Update().  However, when called directly by the user, the
-  // inputs to the RegistrationMethod may not be up to date.  This
-  // may cause an unexpected behavior.
-  //
-  // Since we cannot eliminate StartRegistration for backward
-  // compatibility reasons, we check whether StartRegistration was
-  // called directly or whether Update() (which in turn called
-  // StartRegistration()).
-  if ( !m_Updating )
-    {
-    this->Update();
-    }
-  else
-    {
-    m_Stop = false;
-
-    this->PreparePyramids();
-
-    for ( m_CurrentLevel = 0; m_CurrentLevel < m_NumberOfLevels;
-          m_CurrentLevel++ )
-      {
-      // Invoke an iteration event.
-      // This allows a UI to reset any of the components between
-      // resolution level.
-      this->InvokeEvent( IterationEvent() );
-
-      // Check if there has been a stop request
-      if ( m_Stop )
-        {
-        break;
-        }
-
-      try
-        {
-        // initialize the interconnects between components
-        this->Initialize();
-        }
-      catch ( ExceptionObject & err )
-        {
-        m_LastTransformParameters = ParametersType(1);
-        m_LastTransformParameters.Fill(0.0f);
-
-        // pass exception to caller
-        throw err;
-        }
-
-      try
-        {
-        // do the optimization
-        m_Optimizer->StartOptimization();
-        }
-      catch ( ExceptionObject & err )
-        {
-        // An error has occurred in the optimization.
-        // Update the parameters
-        m_LastTransformParameters = m_Optimizer->GetCurrentPosition();
-
-        // Pass exception to caller
-        throw err;
-        }
-
-      // get the results
-      m_LastTransformParameters = m_Optimizer->GetCurrentPosition();
-      m_Transform->SetParameters(m_LastTransformParameters);
-
-      // setup the initial parameters for next level
-      if ( m_CurrentLevel < m_NumberOfLevels - 1 )
-        {
-        m_InitialTransformParametersOfNextLevel =
-          m_LastTransformParameters;
-        }
-      }
-    }
-}
-
-/*
  * PrintSelf
  */
 template< typename TFixedImage, typename TMovingImage >
@@ -428,7 +342,64 @@ void
 MultiResolutionImageRegistrationMethod< TFixedImage, TMovingImage >
 ::GenerateData()
 {
-  this->StartRegistration();
+  m_Stop = false;
+
+  this->PreparePyramids();
+
+  for ( m_CurrentLevel = 0; m_CurrentLevel < m_NumberOfLevels;
+    m_CurrentLevel++ )
+    {
+    // Invoke an iteration event.
+    // This allows a UI to reset any of the components between
+    // resolution level.
+    this->InvokeEvent( IterationEvent() );
+
+    // Check if there has been a stop request
+    if ( m_Stop )
+      {
+      break;
+      }
+
+    try
+      {
+      // initialize the interconnects between components
+      this->Initialize();
+      }
+    catch ( ExceptionObject & err )
+      {
+      m_LastTransformParameters = ParametersType(1);
+      m_LastTransformParameters.Fill(0.0f);
+
+      // pass exception to caller
+      throw err;
+      }
+
+    try
+      {
+      // do the optimization
+      m_Optimizer->StartOptimization();
+      }
+    catch ( ExceptionObject & err )
+      {
+      // An error has occurred in the optimization.
+      // Update the parameters
+      m_LastTransformParameters = m_Optimizer->GetCurrentPosition();
+
+      // Pass exception to caller
+      throw err;
+      }
+
+    // get the results
+    m_LastTransformParameters = m_Optimizer->GetCurrentPosition();
+    m_Transform->SetParameters(m_LastTransformParameters);
+
+    // setup the initial parameters for next level
+    if ( m_CurrentLevel < m_NumberOfLevels - 1 )
+      {
+      m_InitialTransformParametersOfNextLevel =
+        m_LastTransformParameters;
+      }
+    }
 }
 
 template< typename TFixedImage, typename TMovingImage >

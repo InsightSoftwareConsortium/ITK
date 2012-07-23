@@ -482,5 +482,4 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
 }
 
 } // end namespace itk
-
 #endif

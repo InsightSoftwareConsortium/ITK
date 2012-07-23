@@ -136,7 +136,7 @@ print "Starting registration"
 # Start the registration process
 #
 
-registration.StartRegistration()
+registration.Update()
 
 #
 # Get the final parameters of the transformation

@@ -66,7 +66,7 @@ int itkPointSetToSpatialObjectDemonsRegistrationTest(int, char* [] )
 
   try
     {
-    demonsRegistration->StartRegistration();
+    demonsRegistration->Update();
     }
   catch( itk::ExceptionObject & excp )
     {

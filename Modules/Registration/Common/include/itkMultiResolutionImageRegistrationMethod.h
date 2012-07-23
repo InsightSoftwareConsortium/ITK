@@ -35,7 +35,7 @@ namespace itk
  * See documentation for ImageRegistrationMethod for a description
  * of the registration framework components.
  *
- * The registration process is initiated by method StartRegistration().
+ * The registration process is initiated by method Update().
  * The user must set the parameters of each component before calling
  * this method.
  *
@@ -51,7 +51,7 @@ namespace itk
  *
  * The downsampled images are provided by user specified
  * MultiResolutionPyramidImageFilters. User must specify the schedule
- * for each pyramid externally prior to calling StartRegistration().
+ * for each pyramid externally prior to calling Update().
  *
  * \warning If there is discrepancy between the number of level requested
  * and a pyramid schedule. The pyramid schedule will be overriden
@@ -131,9 +131,6 @@ public:
 
   /** Smart Pointer type to a DataObject. */
   typedef typename DataObject::Pointer DataObjectPointer;
-
-  /** Method that initiates the registration. */
-  void StartRegistration();
 
   /** Method to stop the registration. */
   void StopRegistration();
@@ -215,6 +212,21 @@ public:
   /** Method to return the latest modified time of this object or
    * any of its cached ivars */
   unsigned long GetMTime() const;
+
+#ifdef ITKV3_COMPATIBILITY
+  // StartRegistration is an old API from before
+  // this RegistrationMethod was a subclass of ProcessObject.
+  // Historically, one could call StartRegistration() instead of
+  // calling Update().  However, when called directly by the user, the
+  // inputs to the RegistrationMethod may not be up to date.  This
+  // may cause an unexpected behavior.
+  //
+  // Since we cannot eliminate StartRegistration for backward
+  // compatibility reasons, we check whether StartRegistration was
+  // called directly or whether Update() (which in turn called
+  // StartRegistration()).
+  void StartRegistration(void) { this->Update(); }
+#endif
 
 protected:
   MultiResolutionImageRegistrationMethod();

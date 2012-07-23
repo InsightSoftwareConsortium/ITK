@@ -72,7 +72,7 @@ $optimizer AddObserver [itkIterationEvent] [$command GetPointer]
 
 
 # Here the registration is done
-$registration StartRegistration
+$registration Update
 
 
 # Get the final parameters of the transformation

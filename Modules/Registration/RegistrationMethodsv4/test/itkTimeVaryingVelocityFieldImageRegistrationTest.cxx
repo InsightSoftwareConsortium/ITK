@@ -144,7 +144,7 @@ int PerformTimeVaryingVelocityFieldImageRegistration( int argc, char *argv[] )
   try
     {
     std::cout << "Affine transform" << std::endl;
-    affineSimple->StartRegistration();
+    affineSimple->Update();
     }
   catch( itk::ExceptionObject &e )
     {
@@ -336,7 +336,7 @@ int PerformTimeVaryingVelocityFieldImageRegistration( int argc, char *argv[] )
   try
     {
     std::cout << "Time-varying velocity field transform (gaussian update)" << std::endl;
-    velocityFieldRegistration->StartRegistration();
+    velocityFieldRegistration->Update();
     }
   catch( itk::ExceptionObject &e )
     {

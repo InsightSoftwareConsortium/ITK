@@ -144,7 +144,7 @@ int PerformTimeVaryingBSplineVelocityFieldImageRegistration( int argc, char *arg
   try
     {
     std::cout << "Affine transform" << std::endl;
-    affineSimple->StartRegistration();
+    affineSimple->Update();
     }
   catch( itk::ExceptionObject &e )
     {
@@ -336,7 +336,7 @@ int PerformTimeVaryingBSplineVelocityFieldImageRegistration( int argc, char *arg
   try
     {
     std::cout << "Time-varying B-spline velocity field transform" << std::endl;
-    velocityFieldRegistration->StartRegistration();
+    velocityFieldRegistration->Update();
     }
   catch( itk::ExceptionObject &e )
     {

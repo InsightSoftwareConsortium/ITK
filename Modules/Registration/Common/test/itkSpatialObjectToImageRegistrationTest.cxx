@@ -288,7 +288,7 @@ int itkSpatialObjectToImageRegistrationTest(int, char* [] )
   try
     {
     catching = false;
-    registration->StartRegistration();
+    registration->Update();
     }
   catch(...)
     {
@@ -306,7 +306,7 @@ int itkSpatialObjectToImageRegistrationTest(int, char* [] )
   try
     {
     catching = false;
-    registration->StartRegistration();
+    registration->Update();
     }
   catch(...)
     {
@@ -324,7 +324,7 @@ int itkSpatialObjectToImageRegistrationTest(int, char* [] )
   try
     {
     catching = false;
-    registration->StartRegistration();
+    registration->Update();
     }
   catch(...)
     {
@@ -342,7 +342,7 @@ int itkSpatialObjectToImageRegistrationTest(int, char* [] )
   try
     {
     catching = false;
-    registration->StartRegistration();
+    registration->Update();
     }
   catch(...)
     {
@@ -398,7 +398,7 @@ int itkSpatialObjectToImageRegistrationTest(int, char* [] )
   try
     {
     catching = false;
-    registration->StartRegistration();
+    registration->Update();
     }
   catch(...)
     {
@@ -417,7 +417,7 @@ int itkSpatialObjectToImageRegistrationTest(int, char* [] )
   try
     {
     catching = false;
-    registration->StartRegistration();
+    registration->Update();
     }
   catch(...)
     {
@@ -432,7 +432,7 @@ int itkSpatialObjectToImageRegistrationTest(int, char* [] )
 
   registration->SetInterpolator(interpolator.GetPointer());
 
-  registration->StartRegistration();
+  registration->Update();
 
   RegistrationType::ParametersType finalParameters
     = registration->GetLastTransformParameters();

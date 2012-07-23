@@ -216,50 +216,6 @@ throw ( ExceptionObject )
 }
 
 /**
- * Starts the Registration Process
- */
-template< typename TFixedImage, typename TMovingImage >
-void
-ImageRegistrationMethod< TFixedImage, TMovingImage >
-::StartRegistration(void)
-{
-  // StartRegistration is an old API from before
-  // ImageRegistrationMethod was a subclass of ProcessObject.
-  // Historically, one could call StartRegistration() instead of
-  // calling Update().  However, when called directly by the user, the
-  // inputs to ImageRegistrationMethod may not be up to date.  This
-  // may cause an unexpected behavior.
-  //
-  // Since we cannot eliminate StartRegistration for backward
-  // compatibility reasons, we check whether StartRegistration was
-  // called directly or whether Update() (which in turn called
-  // StartRegistration()).
-  if ( !m_Updating )
-    {
-    this->Update();
-    }
-  else
-    {
-    ParametersType empty(1);
-    empty.Fill(0.0);
-    try
-      {
-      // initialize the interconnects between components
-      this->Initialize();
-      }
-    catch ( ExceptionObject & err )
-      {
-      m_LastTransformParameters = empty;
-
-      // pass exception to caller
-      throw err;
-      }
-
-    this->StartOptimization();
-    }
-}
-
-/**
  * Starts the Optimization process
  */
 template< typename TFixedImage, typename TMovingImage >
@@ -316,7 +272,22 @@ void
 ImageRegistrationMethod< TFixedImage, TMovingImage >
 ::GenerateData()
 {
-  this->StartRegistration();
+  ParametersType empty(1);
+  empty.Fill(0.0);
+  try
+    {
+    // initialize the interconnects between components
+    this->Initialize();
+    }
+  catch ( ExceptionObject & err )
+    {
+    m_LastTransformParameters = empty;
+
+    // pass exception to caller
+    throw err;
+    }
+
+  this->StartOptimization();
 }
 
 /**
@@ -383,6 +354,6 @@ ImageRegistrationMethod< TFixedImage, TMovingImage >
     this->Modified();
     }
 }
-} // end namespace itk
 
+} // end namespace itk
 #endif

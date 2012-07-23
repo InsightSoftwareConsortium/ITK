@@ -94,7 +94,7 @@ print "Starting registration"
 #  Start the registration process
 #
 
-registration.StartRegistration()
+registration.Update()
 
 
 #
