@@ -69,8 +69,6 @@ FastMarchingExtensionImageFilter< TLevelSet, TAuxValue, VAuxDimension, TSpeedIma
     return NULL;
     }
 
-//  return static_cast< AuxImageType * >(
-//  this->ProcessObject::GetOutput(idx + 1) );
   return this->m_AuxImages[idx];
 }
 

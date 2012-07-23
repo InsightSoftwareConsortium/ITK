@@ -32,8 +32,7 @@ FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplac
   typename DemonsRegistrationFunctionType::Pointer drfp;
   drfp = DemonsRegistrationFunctionType::New();
 
-  this->SetDifferenceFunction( static_cast< FiniteDifferenceFunctionType * >(
-                                 drfp.GetPointer() ) );
+  this->SetDifferenceFunction( drfp.GetPointer() );
 
   m_Multiplier = MultiplyByConstantType::New();
   m_Multiplier->InPlaceOn();
