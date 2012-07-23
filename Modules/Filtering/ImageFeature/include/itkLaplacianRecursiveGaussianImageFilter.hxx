@@ -35,7 +35,7 @@ LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 {
   m_NormalizeAcrossScale = false;
 
-  for ( unsigned int i = 0; i < ImageDimension - 1; i++ )
+  for ( unsigned int i = 0; i < NumberOfSmoothingFilters; i++ )
     {
     m_SmoothingFilters[i] = GaussianFilterType::New();
     m_SmoothingFilters[i]->SetOrder(GaussianFilterType::ZeroOrder);
@@ -54,7 +54,7 @@ LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 
   m_SmoothingFilters[0]->SetInput( m_DerivativeFilter->GetOutput() );
 
-  for ( unsigned int i = 1; i < ImageDimension - 1; i++ )
+  for ( unsigned int i = 1; i < NumberOfSmoothingFilters; i++ )
     {
     m_SmoothingFilters[i]->SetInput(
       m_SmoothingFilters[i - 1]->GetOutput() );
@@ -71,7 +71,7 @@ void
 LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 ::SetSigma(RealType sigma)
 {
-  for ( unsigned int i = 0; i < ImageDimension - 1; i++ )
+  for ( unsigned int i = 0; i < NumberOfSmoothingFilters; i++ )
     {
     m_SmoothingFilters[i]->SetSigma(sigma);
     }
@@ -90,7 +90,7 @@ LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 {
   m_NormalizeAcrossScale = normalize;
 
-  for ( unsigned int i = 0; i < ImageDimension - 1; i++ )
+  for ( unsigned int i = 0; i < NumberOfSmoothingFilters; i++ )
     {
     m_SmoothingFilters[i]->SetNormalizeAcrossScale(normalize);
     }
@@ -134,7 +134,7 @@ LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   const unsigned int numberOfFilters = vnl_math_sqr( ImageDimension ) +  ImageDimension + 1;
 
   // register (most) filters with the progress accumulator
-  for ( unsigned int i = 0; i < ImageDimension - 1; i++ )
+  for ( unsigned int i = 0; i < NumberOfSmoothingFilters; i++ )
     {
     progress->RegisterInternalFilter(m_SmoothingFilters[i],  1.0 / numberOfFilters );
     }
@@ -189,7 +189,7 @@ LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
     {
     unsigned int i = 0;
     unsigned int j = 0;
-    while (  i < ImageDimension )
+    while (  i < NumberOfSmoothingFilters )
       {
       if ( i == dim )
         {

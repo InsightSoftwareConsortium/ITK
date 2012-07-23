@@ -54,6 +54,14 @@ int itkLaplacianRecursiveGaussianImageFilterTest(int argc, char* argv[])
                               RealImageType,
                               RealImageType >    LaplacianFilter;
 
+  { //Instantiate a 7D image for testing purposes
+  typedef itk::Image<RealPixelType,7> SevenDImageType;
+  typedef itk::LaplacianRecursiveGaussianImageFilter<
+                              SevenDImageType,
+                              SevenDImageType >    LaplacianFilter7DType;
+  LaplacianFilter7DType::Pointer SevenDTest = LaplacianFilter7DType::New();
+  }
+
   typedef itk::ZeroCrossingImageFilter<
                               RealImageType,
                               RealImageType>     ZeroCrossingFilter;
@@ -89,7 +97,6 @@ int itkLaplacianRecursiveGaussianImageFilterTest(int argc, char* argv[])
   zeroFilter->SetInput( lapFilter->GetOutput() );
   rescale->SetInput( zeroFilter->GetOutput() );
 
-
   // Test itkGetMacro
   bool bNormalizeAcrossScale = lapFilter->GetNormalizeAcrossScale();
   std::cout << "lapFilter->GetNormalizeAcrossScale(): "
@@ -107,7 +114,5 @@ int itkLaplacianRecursiveGaussianImageFilterTest(int argc, char* argv[])
     }
 
   return EXIT_SUCCESS;
-
-
 
 }

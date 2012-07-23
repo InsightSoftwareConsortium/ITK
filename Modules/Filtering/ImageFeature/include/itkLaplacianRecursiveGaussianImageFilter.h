@@ -59,6 +59,8 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
+  itkStaticConstMacro(NumberOfSmoothingFilters ,unsigned int, ImageDimension - 1);
+
   typedef typename NumericTraits< PixelType >::RealType RealType;
 
   /** Define the image type for internal computations.
@@ -153,7 +155,7 @@ private:
     RealType m_Value;
   };
 
-  GaussianFilterPointer   m_SmoothingFilters[ImageDimension - 1];
+  GaussianFilterPointer   m_SmoothingFilters[NumberOfSmoothingFilters];
   DerivativeFilterPointer m_DerivativeFilter;
 
   /** Normalize the image across scale space */
