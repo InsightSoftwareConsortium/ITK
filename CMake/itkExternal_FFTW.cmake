@@ -39,6 +39,12 @@ if(USE_SYSTEM_FFTW)
   find_package( FFTW )
   link_directories(${FFTW_LIBDIR})
 else(USE_SYSTEM_FFTW)
+  set(FFTW_COMPILER_FLAGS
+    CC=${CMAKE_C_COMPILER}
+    CXX=${CMAKE_CXX_COMPILER}
+    CFLAGS=${CMAKE_C_FLAGS}
+    CXXFLAGS=${CMAKE_CXX_FLAGS})
+
   if(WIN32 AND NOT MINGW)
     message("Can't build fftw as external project on Windows")
     message(ERROR "install fftw and use USE_SYSTEM_FFTW")
@@ -67,6 +73,7 @@ else(USE_SYSTEM_FFTW)
         --disable-fortran
         --enable-float
         --prefix=${ITK_BINARY_DIR}/fftw
+        ${FFTW_COMPILER_FLAGS}
         )
     endif(USE_FFTWF)
 
@@ -82,6 +89,7 @@ else(USE_SYSTEM_FFTW)
         --disable-fortran
         --disable-float
         --prefix=${ITK_BINARY_DIR}/fftw
+        ${FFTW_COMPILER_FLAGS}
         )
     endif(USE_FFTWD)
     set(FFTW_INCLUDE_PATH ${ITK_BINARY_DIR}/fftw/include)
