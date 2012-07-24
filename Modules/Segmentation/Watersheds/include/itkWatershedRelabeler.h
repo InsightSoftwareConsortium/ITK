@@ -96,7 +96,7 @@ public:
 
   ImageType * GetInputImage(void)
   {
-    return static_cast< ImageType * >
+    return itkDynamicCastInDebugMode< ImageType * >
            ( this->ProcessObject::GetInput(0) );
   }
 
@@ -108,7 +108,7 @@ public:
 
   ImageType * GetOutputImage(void)
   {
-    return static_cast< ImageType * >
+    return itkDynamicCastInDebugMode< ImageType * >
            ( this->ProcessObject::GetOutput(0) );
   }
 
@@ -120,7 +120,7 @@ public:
 
   SegmentTreeType * GetInputSegmentTree(void)
   {
-    return static_cast< SegmentTreeType * >
+    return itkDynamicCastInDebugMode< SegmentTreeType * >
            ( this->ProcessObject::GetInput(1) );
   }
 

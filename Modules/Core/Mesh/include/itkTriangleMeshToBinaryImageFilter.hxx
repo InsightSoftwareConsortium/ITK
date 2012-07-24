@@ -78,7 +78,7 @@ typename TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >::InputMeshT
 TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
 ::GetInput(unsigned int idx)
 {
-  return static_cast< TInputMesh * >
+  return itkDynamicCastInDebugMode< TInputMesh * >
          ( this->ProcessObject::GetInput(idx) );
 }
 

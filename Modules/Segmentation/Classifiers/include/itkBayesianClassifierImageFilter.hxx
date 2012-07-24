@@ -132,7 +132,7 @@ BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
 {
   if  ( idx == 1 )
     {
-    return static_cast< DataObject * >( PosteriorsImageType::New().GetPointer() );
+    return PosteriorsImageType::New().GetPointer();
     }
   return Superclass::MakeOutput(idx);
 }

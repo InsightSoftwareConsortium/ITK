@@ -161,7 +161,7 @@ public:
     }
   InputImageType * GetFixedImage()
     {
-      return static_cast<InputImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput(0)));
+      return itkDynamicCastInDebugMode<InputImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput(0)));
     }
 
   /** Set and get the moving image */
@@ -171,7 +171,7 @@ public:
     }
   InputImageType * GetMovingImage()
     {
-      return static_cast<InputImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput(1)));
+      return itkDynamicCastInDebugMode<InputImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput(1)));
     }
 
   /** Set and get the fixed mask */
@@ -181,7 +181,7 @@ public:
     }
   InputImageType * GetFixedImageMask()
     {
-      return static_cast<InputImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput(2)));
+      return itkDynamicCastInDebugMode<InputImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput(2)));
     }
 
   /** Set and get the moving mask */
@@ -191,7 +191,7 @@ public:
     }
   InputImageType * GetMovingImageMask()
     {
-      return static_cast<InputImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput(3)));
+      return itkDynamicCastInDebugMode<InputImageType * >(const_cast<DataObject *>(this->ProcessObject::GetInput(3)));
     }
 
   /** Set and get the required percentage of overlapping pixels */

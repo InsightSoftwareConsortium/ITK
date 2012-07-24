@@ -108,8 +108,7 @@ template< class TInputImage >
 typename VTKImageExport< TInputImage >::InputImageType *
 VTKImageExport< TInputImage >::GetInput(void)
 {
-  return static_cast< TInputImage * >(
-           this->ProcessObject::GetInput(0) );
+  return itkDynamicCastInDebugMode< TInputImage * >( this->ProcessObject::GetInput(0) );
 }
 
 /**

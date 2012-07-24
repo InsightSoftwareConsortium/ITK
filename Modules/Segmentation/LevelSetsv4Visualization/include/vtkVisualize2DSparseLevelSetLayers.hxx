@@ -231,7 +231,7 @@ vtkVisualize2DSparseLevelSetLayers<
     {
     typename InputImageType::IndexType idx = it->first;
     InputPixelType* vtkpixel =
-        static_cast< InputPixelType* >( this->m_VTKImage->GetScalarPointer( idx[0], idx[1], 0 ) );
+      static_cast< InputPixelType* >( this->m_VTKImage->GetScalarPointer( idx[0], idx[1], 0 ) );
     vtkpixel[0] = 255;
     vtkpixel[1] = 0;
     vtkpixel[2] = 0;

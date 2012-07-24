@@ -85,7 +85,7 @@ const typename ImageToImageFilter< TInputImage, TOutputImage >::InputImageType *
 ImageToImageFilter< TInputImage, TOutputImage >
 ::GetInput(void) const
 {
-  return static_cast< const TInputImage * >( this->GetPrimaryInput() );
+  return itkDynamicCastInDebugMode< const TInputImage * >( this->GetPrimaryInput() );
 }
 
 /**

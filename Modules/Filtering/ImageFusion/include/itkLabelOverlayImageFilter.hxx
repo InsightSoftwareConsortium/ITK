@@ -88,7 +88,7 @@ typename LabelOverlayImageFilter<
 LabelOverlayImageFilter< TInputImage, TLabelImage, TOutputImage >
 ::GetLabelImage() const
 {
-  return static_cast< LabelImageType * >(
+  return itkDynamicCastInDebugMode< LabelImageType * >(
            const_cast< DataObject * >( this->ProcessObject::GetInput(1) ) );
 }
 

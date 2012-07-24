@@ -115,7 +115,7 @@ typename EquivalenceRelabeler< TScalarType, TImageDimension >::DataObjectPointer
 EquivalenceRelabeler< TScalarType, TImageDimension >
 ::MakeOutput(DataObjectPointerArraySizeType)
 {
-  return static_cast< DataObject * >( ImageType::New().GetPointer() );
+  return ImageType::New().GetPointer();
 }
 } // end namespace watershed
 } // end namespace itk

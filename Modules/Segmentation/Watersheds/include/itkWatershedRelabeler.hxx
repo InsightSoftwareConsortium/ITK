@@ -39,7 +39,7 @@ typename Relabeler< TScalarType, TImageDimension >::DataObjectPointer
 Relabeler< TScalarType, TImageDimension >
 ::MakeOutput( DataObjectPointerArraySizeType itkNotUsed(idx) )
 {
-  return static_cast< DataObject * >( ImageType::New().GetPointer() );
+  return ImageType::New().GetPointer();
 }
 
 template< class TScalarType, unsigned int TImageDimension >

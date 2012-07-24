@@ -131,7 +131,7 @@ public:
   /** Get/Set the input image.   */
   InputImageType * GetInputImage(void)
   {
-    return static_cast< InputImageType * >
+    return itkDynamicCastInDebugMode< InputImageType * >
            ( this->ProcessObject::GetInput(0) );
   }
 
@@ -142,7 +142,7 @@ public:
     IdentifierType integers. */
   OutputImageType * GetOutputImage(void)
   {
-    return static_cast< OutputImageType * >
+    return itkDynamicCastInDebugMode< OutputImageType * >
            ( this->ProcessObject::GetOutput(0) );
   }
 
@@ -153,7 +153,7 @@ public:
    * information identifying each region produced by the labeling algorithm. */
   SegmentTableType * GetSegmentTable(void)
   {
-    return static_cast< SegmentTableType * >
+    return itkDynamicCastInDebugMode< SegmentTableType * >
            ( this->ProcessObject::GetOutput(1) );
   }
 
@@ -164,7 +164,7 @@ public:
     applications.  */
   BoundaryType * GetBoundary(void)
   {
-    return static_cast< BoundaryType * >
+    return itkDynamicCastInDebugMode< BoundaryType * >
            ( this->ProcessObject::GetOutput(2) );
   }
 

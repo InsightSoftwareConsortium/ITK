@@ -68,8 +68,8 @@ const typename HausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
 HausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
 ::GetInput2()
 {
-  return static_cast< const TInputImage2 * >
-         ( this->ProcessObject::GetInput(1) );
+  return itkDynamicCastInDebugMode< const TInputImage2 * >
+    ( this->ProcessObject::GetInput(1) );
 }
 
 template< class TInputImage1, class TInputImage2 >

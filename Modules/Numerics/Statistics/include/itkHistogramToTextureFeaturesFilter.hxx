@@ -55,7 +55,7 @@ HistogramToTextureFeaturesFilter< THistogram >::HistogramType *
 HistogramToTextureFeaturesFilter< THistogram >
 ::GetInput() const
 {
-  return static_cast< const HistogramType * >( this->GetPrimaryInput() );
+  return itkDynamicCastInDebugMode< const HistogramType * >( this->GetPrimaryInput() );
 }
 
 template< class THistogram >
@@ -64,7 +64,7 @@ HistogramToTextureFeaturesFilter< THistogram >::DataObjectPointer
 HistogramToTextureFeaturesFilter< THistogram >
 ::MakeOutput( DataObjectPointerArraySizeType itkNotUsed(idx) )
 {
-  return static_cast< DataObject * >( MeasurementObjectType::New().GetPointer() );
+  return MeasurementObjectType::New().GetPointer();
 }
 
 template< class THistogram >

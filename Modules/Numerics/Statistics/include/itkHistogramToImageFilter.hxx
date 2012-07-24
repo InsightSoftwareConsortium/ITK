@@ -54,7 +54,7 @@ const typename HistogramToImageFilter< THistogram, TImage, TFunction >::Histogra
 HistogramToImageFilter< THistogram, TImage, TFunction >
 ::GetInput(void)
 {
-  return static_cast< const HistogramType * >( this->GetPrimaryInput() );
+  return itkDynamicCastInDebugMode< const HistogramType * >( this->GetPrimaryInput() );
 }
 
 template< class THistogram, class TImage, class TFunction >

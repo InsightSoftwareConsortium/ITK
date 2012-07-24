@@ -40,7 +40,7 @@ const typename WarpMeshFilter< TInputMesh, TOutputMesh, TDisplacementField >::Di
 WarpMeshFilter< TInputMesh, TOutputMesh, TDisplacementField >
 ::GetDisplacementField(void) const
 {
-  return static_cast< const DisplacementFieldType * >
+  return itkDynamicCastInDebugMode< const DisplacementFieldType * >
          ( this->ProcessObject::GetInput(1) );
 }
 

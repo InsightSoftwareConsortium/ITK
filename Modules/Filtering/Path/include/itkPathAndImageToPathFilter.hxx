@@ -53,7 +53,7 @@ const typename PathAndImageToPathFilter< TInputPath, TInputImage, TOutputPath >:
 PathAndImageToPathFilter< TInputPath, TInputImage, TOutputPath >
 ::GetPathInput(void)
 {
-  return static_cast< const TInputPath * >( this->GetPrimaryInput() );
+  return itkDynamicCastInDebugMode< const TInputPath * >( this->GetPrimaryInput() );
 }
 
 template< class TInputPath, class TInputImage, class TOutputPath >

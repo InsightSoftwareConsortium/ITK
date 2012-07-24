@@ -73,7 +73,7 @@ const TImage *
 ImageToListSampleFilter< TImage, TMaskImage >
 ::GetInput() const
 {
-  return static_cast< const ImageType * >( this->GetPrimaryInput() );
+  return itkDynamicCastInDebugMode< const ImageType * >( this->GetPrimaryInput() );
 }
 
 template< class TImage, class TMaskImage >
@@ -81,8 +81,7 @@ const TMaskImage *
 ImageToListSampleFilter< TImage, TMaskImage >
 ::GetMaskImage() const
 {
-  return static_cast< const MaskImageType * >
-         ( this->ProcessObject::GetInput(1) );
+  return itkDynamicCastInDebugMode< const MaskImageType * >( this->ProcessObject::GetInput(1) );
 }
 
 template< class TImage, class TMaskImage >
@@ -90,8 +89,7 @@ typename ImageToListSampleFilter< TImage, TMaskImage >::DataObjectPointer
 ImageToListSampleFilter< TImage, TMaskImage >
 ::MakeOutput( DataObjectPointerArraySizeType itkNotUsed(idx) )
 {
-  typename ListSampleType::Pointer output = ListSampleType::New();
-  return static_cast< DataObject * >( output );
+  return ListSampleType::New().GetPointer();
 }
 
 template< class TImage, class TMaskImage >

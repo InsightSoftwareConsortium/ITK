@@ -185,7 +185,7 @@ public:
   /** Get output deformation field. */
   const DeformationFieldType * GetDeformationField(void)
   {
-    return static_cast<DeformationFieldType *> (this->GetDisplacementField());
+    return itkDynamicCastInDebugMode<DeformationFieldType *> (this->GetDisplacementField());
   }
 #endif
 

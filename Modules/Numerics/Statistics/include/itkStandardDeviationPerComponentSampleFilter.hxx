@@ -63,7 +63,7 @@ const TSample *
 StandardDeviationPerComponentSampleFilter< TSample >
 ::GetInput() const
 {
-  return static_cast< const SampleType * >( this->GetPrimaryInput() );
+  return itkDynamicCastInDebugMode< const SampleType * >( this->GetPrimaryInput() );
 }
 
 template< class TSample >
@@ -81,7 +81,7 @@ StandardDeviationPerComponentSampleFilter< TSample >
     typename MeasurementVectorRealDecoratedType::Pointer decoratedStandardDeviation =
       MeasurementVectorRealDecoratedType::New();
     decoratedStandardDeviation->Set(standardDeviation);
-    return static_cast< DataObject * >( decoratedStandardDeviation.GetPointer() );
+    return decoratedStandardDeviation.GetPointer();
     }
 
   if ( index == 1 )
@@ -93,7 +93,7 @@ StandardDeviationPerComponentSampleFilter< TSample >
     typename MeasurementVectorRealDecoratedType::Pointer decoratedStandardDeviation =
       MeasurementVectorRealDecoratedType::New();
     decoratedStandardDeviation->Set(mean);
-    return static_cast< DataObject * >( decoratedStandardDeviation.GetPointer() );
+    return decoratedStandardDeviation.GetPointer();
     }
 
   itkExceptionMacro("Trying to create output of index " << index << " larger than the number of output");
@@ -136,11 +136,11 @@ StandardDeviationPerComponentSampleFilter< TSample >
   MeasurementVectorSizeType measurementVectorSize = input->GetMeasurementVectorSize();
 
   MeasurementVectorRealDecoratedType *decoratedStandardDeviationOutput =
-    static_cast< MeasurementVectorRealDecoratedType * >(
+    itkDynamicCastInDebugMode< MeasurementVectorRealDecoratedType * >(
       this->ProcessObject::GetOutput(0) );
 
   MeasurementVectorRealDecoratedType *decoratedMean =
-    static_cast< MeasurementVectorRealDecoratedType * >(
+    itkDynamicCastInDebugMode< MeasurementVectorRealDecoratedType * >(
       this->ProcessObject::GetOutput(1) );
 
   MeasurementVectorRealType sum;

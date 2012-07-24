@@ -50,7 +50,7 @@ HashImageFilter<TImageType>::MakeOutput(DataObjectPointerArraySizeType idx)
 {
   if ( idx == 1 )
     {
-    return static_cast< DataObject * >( HashObjectType::New().GetPointer() );
+    return HashObjectType::New().GetPointer();
     }
   return Superclass::MakeOutput(idx);
 }

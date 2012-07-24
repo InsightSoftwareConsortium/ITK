@@ -64,7 +64,7 @@ const typename MeshToMeshFilter< TInputMesh, TOutputMesh >::InputMeshType *
 MeshToMeshFilter< TInputMesh, TOutputMesh >
 ::GetInput() const
 {
-  return static_cast< const TInputMesh * >( this->GetPrimaryInput() );
+  return itkDynamicCastInDebugMode< const TInputMesh * >( this->GetPrimaryInput() );
 }
 
 /**

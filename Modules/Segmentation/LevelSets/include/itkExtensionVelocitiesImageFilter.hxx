@@ -95,8 +95,7 @@ ExtensionVelocitiesImageFilter< TLevelSet, TAuxValue, VAuxDimension >
     return NULL;
     }
 
-  return static_cast< AuxImageType * >(
-           this->ProcessObject::GetOutput(idx + 1) );
+  return itkDynamicCastInDebugMode< AuxImageType * >(this->ProcessObject::GetOutput(idx + 1) );
 }
 
 /**

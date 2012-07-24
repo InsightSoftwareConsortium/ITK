@@ -63,8 +63,8 @@ ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
   typename DefaultInterpolatorType::Pointer interp =
     DefaultInterpolatorType::New();
 
-  m_MovingImageInterpolator = static_cast< InterpolatorType * >(
-    interp.GetPointer() );
+  m_MovingImageInterpolator = itkDynamicCastInDebugMode< InterpolatorType * >
+    ( interp.GetPointer() );
 
   m_MovingImageWarper = WarperType::New();
   m_MovingImageWarper->SetInterpolator(m_MovingImageInterpolator);

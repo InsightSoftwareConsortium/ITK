@@ -57,13 +57,13 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
 {
   if( idx == 1 )
     {
-    return static_cast< DataObject* >( VoronoiImageType::New().GetPointer() );
+    return VoronoiImageType::New().GetPointer();
     }
   else
     {
     if( idx == 2 )
       {
-      return static_cast< DataObject* >( VectorImageType::New().GetPointer() );
+      return VectorImageType::New().GetPointer();
       }
     }
   return Superclass::MakeOutput( idx );

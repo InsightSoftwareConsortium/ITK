@@ -137,7 +137,7 @@ template<class TOutputVideoStream>
 DataObject::Pointer
 VideoSource<TOutputVideoStream>::MakeOutput(DataObjectPointerArraySizeType itkNotUsed(idx) )
 {
-  return static_cast< DataObject* >( OutputVideoStreamType::New().GetPointer() );
+  return OutputVideoStreamType::New().GetPointer();
 }
 
 //-PROTECTED METHODS-----------------------------------------------------------

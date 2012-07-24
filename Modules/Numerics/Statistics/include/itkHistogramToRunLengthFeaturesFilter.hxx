@@ -59,8 +59,7 @@ HistogramToRunLengthFeaturesFilter< THistogram>
     {
     return 0;
     }
-  return static_cast<const HistogramType *>(
-    this->ProcessObject::GetInput( 0 ) );
+  return itkDynamicCastInDebugMode<const HistogramType *>(this->ProcessObject::GetInput( 0 ) );
 }
 
 template<class THistogram>
@@ -69,7 +68,7 @@ HistogramToRunLengthFeaturesFilter<THistogram>::DataObjectPointer
 HistogramToRunLengthFeaturesFilter<THistogram>
 ::MakeOutput( DataObjectPointerArraySizeType itkNotUsed( idx ) )
 {
-  return static_cast<DataObject*>(MeasurementObjectType::New().GetPointer());
+  return MeasurementObjectType::New().GetPointer();
 }
 
 template<class THistogram>
@@ -214,8 +213,7 @@ typename HistogramToRunLengthFeaturesFilter<THistogram>::MeasurementObjectType*
 HistogramToRunLengthFeaturesFilter<THistogram>
 ::GetShortRunEmphasisOutput() const
 {
-  return static_cast<const MeasurementObjectType*>(
-    this->ProcessObject::GetOutput( 0 ) );
+  return itkDynamicCastInDebugMode<const MeasurementObjectType*>(this->ProcessObject::GetOutput( 0 ) );
 }
 
 template<class THistogram>
@@ -224,8 +222,7 @@ typename HistogramToRunLengthFeaturesFilter<THistogram>::MeasurementObjectType*
 HistogramToRunLengthFeaturesFilter<THistogram>
 ::GetLongRunEmphasisOutput() const
 {
-  return static_cast<const MeasurementObjectType*>(
-    this->ProcessObject::GetOutput( 1 ) );
+  return itkDynamicCastInDebugMode<const MeasurementObjectType*>( this->ProcessObject::GetOutput( 1 ) );
 }
 
 template<class THistogram>
@@ -234,8 +231,7 @@ typename HistogramToRunLengthFeaturesFilter<THistogram>::MeasurementObjectType*
 HistogramToRunLengthFeaturesFilter<THistogram>
 ::GetGreyLevelNonuniformityOutput() const
 {
-  return static_cast<const MeasurementObjectType*>(
-    this->ProcessObject::GetOutput( 2 ) );
+  return itkDynamicCastInDebugMode<const MeasurementObjectType*>(this->ProcessObject::GetOutput( 2 ) );
 }
 
 template<class THistogram>
@@ -244,8 +240,7 @@ typename HistogramToRunLengthFeaturesFilter<THistogram>::MeasurementObjectType*
 HistogramToRunLengthFeaturesFilter<THistogram>
 ::GetRunLengthNonuniformityOutput() const
 {
-  return static_cast<const MeasurementObjectType*>(
-    this->ProcessObject::GetOutput( 3 ) );
+  return itkDynamicCastInDebugMode<const MeasurementObjectType*>(this->ProcessObject::GetOutput( 3 ) );
 }
 
 template<class THistogram>
@@ -254,8 +249,7 @@ typename HistogramToRunLengthFeaturesFilter<THistogram>::MeasurementObjectType*
 HistogramToRunLengthFeaturesFilter<THistogram>
 ::GetLowGreyLevelRunEmphasisOutput() const
 {
-  return static_cast<const MeasurementObjectType*>(
-    this->ProcessObject::GetOutput( 4 ) );
+  return itkDynamicCastInDebugMode<const MeasurementObjectType*>( this->ProcessObject::GetOutput( 4 ) );
 }
 
 template<class THistogram>
@@ -264,8 +258,7 @@ typename HistogramToRunLengthFeaturesFilter<THistogram>::MeasurementObjectType*
 HistogramToRunLengthFeaturesFilter<THistogram>
 ::GetHighGreyLevelRunEmphasisOutput() const
 {
-  return static_cast<const MeasurementObjectType*>(
-    this->ProcessObject::GetOutput( 5 ) );
+  return itkDynamicCastInDebugMode<const MeasurementObjectType*>( this->ProcessObject::GetOutput( 5 ) );
 }
 
 template<class THistogram>
@@ -274,8 +267,7 @@ typename HistogramToRunLengthFeaturesFilter<THistogram>::MeasurementObjectType*
 HistogramToRunLengthFeaturesFilter<THistogram>
 ::GetShortRunLowGreyLevelEmphasisOutput() const
 {
-  return static_cast<const MeasurementObjectType*>(
-    this->ProcessObject::GetOutput( 6 ) );
+  return itkDynamicCastInDebugMode<const MeasurementObjectType*>( this->ProcessObject::GetOutput( 6 ) );
 }
 
 template<class THistogram>
@@ -284,8 +276,7 @@ typename HistogramToRunLengthFeaturesFilter<THistogram>::MeasurementObjectType*
 HistogramToRunLengthFeaturesFilter<THistogram>
 ::GetShortRunHighGreyLevelEmphasisOutput() const
 {
-  return static_cast<const MeasurementObjectType*>(
-    this->ProcessObject::GetOutput( 7 ) );
+  return itkDynamicCastInDebugMode<const MeasurementObjectType*>( this->ProcessObject::GetOutput( 7 ) );
 }
 
 template<class THistogram>
@@ -294,8 +285,7 @@ typename HistogramToRunLengthFeaturesFilter<THistogram>::MeasurementObjectType*
 HistogramToRunLengthFeaturesFilter<THistogram>
 ::GetLongRunLowGreyLevelEmphasisOutput() const
 {
-  return static_cast<const MeasurementObjectType*>(
-    this->ProcessObject::GetOutput( 8 ) );
+  return itkDynamicCastInDebugMode<const MeasurementObjectType*>( this->ProcessObject::GetOutput( 8 ) );
 }
 
 template<class THistogram>
@@ -304,8 +294,7 @@ typename HistogramToRunLengthFeaturesFilter<THistogram>::MeasurementObjectType*
 HistogramToRunLengthFeaturesFilter<THistogram>
 ::GetLongRunHighGreyLevelEmphasisOutput() const
 {
-  return static_cast<const MeasurementObjectType*>(
-    this->ProcessObject::GetOutput( 9 ) );
+  return itkDynamicCastInDebugMode<const MeasurementObjectType*>( this->ProcessObject::GetOutput( 9 ) );
 }
 
 template<class THistogram>

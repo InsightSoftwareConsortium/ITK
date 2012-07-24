@@ -62,11 +62,7 @@ RegionFromReferenceLabelMapFilter< TInputImage >
 {
   Self *surrogate = const_cast< Self * >( this );
 
-  const DataObject *input = surrogate->ProcessObject::GetInput(1);
-
-  const ReferenceImageType *referenceImage = static_cast< const ReferenceImageType * >( input );
-
-  return referenceImage;
+  return itkDynamicCastInDebugMode<const ReferenceImageType *>(surrogate->ProcessObject::GetInput(1));
 }
 
 template< class TInputImage >

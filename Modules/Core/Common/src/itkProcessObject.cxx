@@ -74,14 +74,14 @@ ProcessObject
     {
     return this->MakeOutput( this->MakeIndexFromOutputName(name) );
     }
-  return static_cast< DataObject * >( DataObject::New().GetPointer() );
+  return static_cast<DataObject *>(DataObject::New().GetPointer());
 }
 
 DataObject::Pointer
 ProcessObject
 ::MakeOutput(DataObjectPointerArraySizeType)
 {
-  return static_cast< DataObject * >( DataObject::New().GetPointer() );
+  return static_cast<DataObject *>(DataObject::New().GetPointer());
 }
 
 

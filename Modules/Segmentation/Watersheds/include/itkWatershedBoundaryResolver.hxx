@@ -102,7 +102,7 @@ typename BoundaryResolver< TPixelType, TDimension >::DataObjectPointer
 BoundaryResolver< TPixelType, TDimension >
 ::MakeOutput(DataObjectPointerArraySizeType)
 {
-  return static_cast< DataObject * >( EquivalencyTable::New().GetPointer() );
+  return EquivalencyTable::New().GetPointer();
 }
 
 template< class TPixelType, unsigned int TDimension >

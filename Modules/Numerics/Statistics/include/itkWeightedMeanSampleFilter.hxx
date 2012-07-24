@@ -90,7 +90,7 @@ WeightedMeanSampleFilter< TSample >
     input->GetMeasurementVectorSize();
 
   MeasurementVectorDecoratedType *decoratedOutput =
-    static_cast< MeasurementVectorDecoratedType * >(
+    itkDynamicCastInDebugMode< MeasurementVectorDecoratedType * >(
       this->ProcessObject::GetOutput(0) );
 
   MeasurementVectorRealType output = decoratedOutput->Get();
@@ -163,7 +163,7 @@ WeightedMeanSampleFilter< TSample >
     input->GetMeasurementVectorSize();
 
   MeasurementVectorDecoratedType *decoratedOutput =
-    static_cast< MeasurementVectorDecoratedType * >(
+    itkDynamicCastInDebugMode< MeasurementVectorDecoratedType * >(
       this->ProcessObject::GetOutput(0) );
 
   MeasurementVectorRealType output = decoratedOutput->Get();

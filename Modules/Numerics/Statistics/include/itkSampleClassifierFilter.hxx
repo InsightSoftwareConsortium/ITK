@@ -66,7 +66,7 @@ const TSample *
 SampleClassifierFilter< TSample >
 ::GetInput() const
 {
-  return static_cast< const SampleType * >( this->GetPrimaryInput() );
+  return itkDynamicCastInDebugMode< const SampleType * >( this->GetPrimaryInput() );
 }
 
 template< class TSample >
@@ -106,7 +106,7 @@ typename SampleClassifierFilter< TSample >::DataObjectPointer
 SampleClassifierFilter< TSample >
 ::MakeOutput(DataObjectPointerArraySizeType)
 {
-  return static_cast< DataObject * >( MembershipSampleType::New().GetPointer() );
+  return MembershipSampleType::New().GetPointer();
 }
 
 template< class TSample >

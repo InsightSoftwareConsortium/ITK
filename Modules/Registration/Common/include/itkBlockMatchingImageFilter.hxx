@@ -111,25 +111,22 @@ DataObject::Pointer
 BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, TSimilarities >
 ::MakeOutput( ProcessObject::DataObjectPointerArraySizeType idx )
 {
-  DataObject::Pointer output;
-
   switch ( idx )
     {
     case 0:
       {
-      typename DisplacementsType::Pointer displacements = DisplacementsType::New();
-      output = static_cast< DataObject * >( displacements.GetPointer() );
+      return DisplacementsType::New().GetPointer();
       }
       break;
 
     case 1:
       {
-      typename SimilaritiesType::Pointer similarities = SimilaritiesType::New();
-      output = static_cast< DataObject * >( similarities.GetPointer() );
+      return SimilaritiesType::New().GetPointer();
       }
       break;
     }
-  return output;
+  itkExceptionMacro(<< "Bad output index " << idx );
+  return 0;
 }
 
 

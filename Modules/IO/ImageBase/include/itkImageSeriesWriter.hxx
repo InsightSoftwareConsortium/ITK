@@ -64,7 +64,7 @@ const typename ImageSeriesWriter< TInputImage, TOutputImage >::InputImageType *
 ImageSeriesWriter< TInputImage, TOutputImage >
 ::GetInput(void)
 {
-  return static_cast< TInputImage * >( this->GetPrimaryInput() );
+  return itkDynamicCastInDebugMode< TInputImage * >( this->GetPrimaryInput() );
 }
 
 //---------------------------------------------------------
@@ -73,7 +73,7 @@ const typename ImageSeriesWriter< TInputImage, TOutputImage >::InputImageType *
 ImageSeriesWriter< TInputImage, TOutputImage >
 ::GetInput(unsigned int idx)
 {
-  return static_cast< TInputImage * >( this->ProcessObject::GetInput(idx) );
+  return itkDynamicCastInDebugMode< TInputImage * >( this->ProcessObject::GetInput(idx) );
 }
 
 //---------------------------------------------------------

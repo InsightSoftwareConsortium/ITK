@@ -320,7 +320,7 @@ const TInputImage *
 ComparisonImageFilter< TInputImage, TOutputImage >
 ::GetInput(void) const
 {
-  return static_cast< const TInputImage * >( this->GetPrimaryInput() );
+  return itkDynamicCastInDebugMode< const TInputImage * >( this->GetPrimaryInput() );
 }
 
 /**
@@ -331,8 +331,8 @@ const TInputImage *
 ComparisonImageFilter< TInputImage, TOutputImage >
 ::GetInput(unsigned int idx) const
 {
-  return static_cast< const TInputImage * >
-         ( this->ProcessObject::GetInput(idx) );
+  return itkDynamicCastInDebugMode< const TInputImage * >
+    ( this->ProcessObject::GetInput(idx) );
 }
 
 
