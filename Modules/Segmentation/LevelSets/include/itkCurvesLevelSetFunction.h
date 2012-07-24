@@ -64,12 +64,12 @@ class ITK_EXPORT CurvesLevelSetFunction:
 {
 public:
   /** Standard class typedefs. */
-  typedef CurvesLevelSetFunction                     Self;
-  typedef SegmentationLevelSetFunction< TImageType > Superclass;
-  typedef LevelSetFunction< TImageType >             SuperSuperclass;
-  typedef SmartPointer< Self >                       Pointer;
-  typedef SmartPointer< const Self >                 ConstPointer;
-  typedef TFeatureImageType                          FeatureImageType;
+  typedef CurvesLevelSetFunction                                        Self;
+  typedef SegmentationLevelSetFunction< TImageType, TFeatureImageType > Superclass;
+  typedef LevelSetFunction< TImageType >                                SuperSuperclass;
+  typedef SmartPointer< Self >                                          Pointer;
+  typedef SmartPointer< const Self >                                    ConstPointer;
+  typedef TFeatureImageType                                             FeatureImageType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

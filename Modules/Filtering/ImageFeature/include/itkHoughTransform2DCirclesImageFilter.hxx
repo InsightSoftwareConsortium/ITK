@@ -199,7 +199,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
                                                                    0)->GetRequestedRegion() );
   image_it.GoToBegin();
 
-  ImageRegionIterator< InternalImageType > it( outputImage,  outputImage->GetRequestedRegion() );
+  ImageRegionIterator< OutputImageType > it( outputImage,  outputImage->GetRequestedRegion() );
 
   while ( !image_it.IsAtEnd() )
     {
