@@ -34,6 +34,15 @@ public:
 
   itkNewMacro(Self);
 
+  /** Base inverse transform type. This type should not be changed to the
+   * concrete inverse transform type or inheritance would be lost. */
+  typedef typename Superclass::InverseTransformBaseType InverseTransformBaseType;
+  typedef typename InverseTransformBaseType::Pointer    InverseTransformBasePointer;
+
+  virtual InverseTransformBasePointer GetInverseTransform() const
+    {
+    itkExceptionMacro( << "This is never called." );
+    }
 private:
   Rigid3DTransformSurrogate() {}
   ~Rigid3DTransformSurrogate() {}

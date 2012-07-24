@@ -385,23 +385,62 @@ int itkEuler3DTransformTest(int, char *[] )
 
     t = TransformType::New();
     t->SetParameters( e );
-
-    TransformType::Pointer t3 = TransformType::New();
-    t3->SetMatrix( t->GetMatrix() );
-
-    ParametersType par0 = t3->GetParameters();
-    for( unsigned int k = 0; k < e.GetSize(); k++ )
       {
-      if( vcl_fabs( e[k] - par0[k] ) > epsilon )
+      TransformType::Pointer t3 = TransformType::New();
+      t3->SetMatrix( t->GetMatrix() );
+
+      ParametersType par0 = t3->GetParameters();
+      for( unsigned int k = 0; k < e.GetSize(); k++ )
         {
-        std::cout << " [ FAILED ] " << std::endl;
-        std::cout << "Expected parameters: " << e << std::endl;
-        std::cout << "but got: " << par0 << std::endl;
-        return EXIT_FAILURE;
+        if( vcl_fabs( e[k] - par0[k] ) > epsilon )
+          {
+          std::cout << " [ FAILED ] " << std::endl;
+          std::cout << "Expected parameters: " << e << std::endl;
+          std::cout << "but got: " << par0 << std::endl;
+          return EXIT_FAILURE;
+          }
         }
+      std::cout << "[ PASSED ]" << std::endl;
       }
 
-    std::cout << "[ PASSED ]" << std::endl;
+      {
+      std::cout << "Test GetInverse(): ";
+      TransformType::Pointer t_inv = TransformType::New();
+      const bool invSuccessful = t->GetInverse(t_inv);
+      if ( ! invSuccessful )
+        {
+        std::cout << " [ FAILED ] " << std::endl;
+        std::cout << "Inverse did not succeed." << std::endl;
+        return EXIT_FAILURE;
+        }
+
+      TransformType::Pointer t3 = TransformType::New();
+      t3->SetMatrix( MatrixType(t->GetMatrix().GetInverse() ) );
+
+      ParametersType par0 = t3->GetParameters();
+      ParametersType par1 = t_inv->GetParameters();
+      for( unsigned int k = 0; k < e.GetSize(); k++ )
+        {
+        if( vcl_fabs( par1[k] - par0[k] ) > epsilon )
+          {
+          std::cout << " [ FAILED ] " << std::endl;
+          std::cout << "Expected parameters: " << par1 << std::endl;
+          std::cout << "but got: " << par0 << std::endl;
+          return EXIT_FAILURE;
+          }
+        }
+      std::cout << "[ PASSED ]" << std::endl;
+      }
+      {
+      TransformType::Pointer tInverse = TransformType::New();
+      if(!t->GetInverse(tInverse))
+        {
+        std::cout << "Cannot create inverse transform" << std::endl;
+        return EXIT_FAILURE;
+        }
+      std::cout << "translation: " << t;
+      std::cout << "translationInverse: " << tInverse;
+      }
     }
 
   return EXIT_SUCCESS;

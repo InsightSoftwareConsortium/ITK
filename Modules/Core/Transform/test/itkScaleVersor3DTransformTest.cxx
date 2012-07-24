@@ -578,6 +578,18 @@ int itkScaleVersor3DTransformTest(int, char * [] )
     parameters[2] = 0.0;
 
     transform->SetParameters( parameters );
+#if 0 //TODO: Need to instrument inverse of ScaleVersor3DTransform
+      {
+      TransformType::Pointer tInverse = TransformType::New();
+      if(!transform->GetInverse(tInverse))
+        {
+        std::cout << "Cannot create inverse transform" << std::endl;
+        return EXIT_FAILURE;
+        }
+      std::cout << "translation: " << transform;
+      std::cout << "translationInverse: " << tInverse;
+      }
+#endif
     }
 
   std::cout << std::endl << "Test PASSED ! " << std::endl;

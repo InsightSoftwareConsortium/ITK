@@ -478,9 +478,18 @@ int itkVersorTransformTest(int, char * [] )
         return EXIT_FAILURE;
         }
       }
-    }
 
+      {
+      TransformType::Pointer tInverse = TransformType::New();
+      if(!t->GetInverse(tInverse))
+        {
+        std::cout << "Cannot create inverse transform" << std::endl;
+        return EXIT_FAILURE;
+        }
+      std::cout << "translation: " << t;
+      std::cout << "translationInverse: " << tInverse;
+      }
+    }
   std::cout << std::endl << "Test PASSED ! " << std::endl;
   return EXIT_SUCCESS;
-
 }
