@@ -42,6 +42,15 @@ namespace itk
  * The serialization of the fixed parameters is an array of 3 elements defining
  * the center of rotation in each dimension.
  *
+ * The Rigid3DTransform is intended to be a base class that
+ * defines a consistent family of transform types that respect
+ * rigid transformations.  Only classes that derive from Rigid3DTransform
+ * should be used.
+ *
+ * \sa Euler3DTransform
+ * \sa QuaternionRigidTransform
+ * \sa VersorTransform
+ *
  * \ingroup ITKTransform
  */
 template< class TScalarType = double >
@@ -131,9 +140,22 @@ public:
 
 #ifdef ITKV3_COMPATIBILITY
   /** Get an inverse of this transform. */
-  itkLegacyMacro(bool GetInverse(Self *inverse) const);
+  //NOTE: itkLegacyRemove can not be used for GetInverse
+  //      because in itkV3 mode these functions
+  //      must be traversed when calling the child classes
+  //      member functions
+  //      (with no real effect) for backwards compatibility.
+  //      In ITKv4 mode only the super class is needed
+  bool GetInverse(Self *inverse) const;
+
   /** Return an inverse of this transform. */
-  itkLegacyMacro(virtual InverseTransformBasePointer GetInverseTransform() const);
+  //NOTE: itkLegacyRemove can not be used for GetInverseTransform
+  //      because in itkV3 mode these functions
+  //      must be traversed when calling the child classes
+  //      member functions
+  //      (with no real effect) for backwards compatibility.
+  //      In ITKv4 mode only the super class is needed
+  virtual InverseTransformBasePointer GetInverseTransform() const;
   /**
    * Get rotation Matrix from an Rigid3DTransform
    *
