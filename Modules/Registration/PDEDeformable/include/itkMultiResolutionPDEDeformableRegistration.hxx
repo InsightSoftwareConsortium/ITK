@@ -39,8 +39,7 @@ MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplaceme
 
   typename DefaultRegistrationType::Pointer registrator =
     DefaultRegistrationType::New();
-  m_RegistrationFilter = static_cast< RegistrationType * >(
-    registrator.GetPointer() );
+  m_RegistrationFilter = registrator.GetPointer();
 
   m_MovingImagePyramid  = MovingImagePyramidType::New();
   m_FixedImagePyramid     = FixedImagePyramidType::New();
