@@ -142,9 +142,9 @@ ReflectiveImageRegionConstIterator< TImage >
     {
     if ( m_IsFirstPass[in] )
       {
-      this->m_PositionIndex[in]++;
-      if ( this->m_PositionIndex[in] < this->m_EndIndex[in] )
+      if ( this->m_PositionIndex[in]+1 < this->m_EndIndex[in] )
         {
+        this->m_PositionIndex[in]++;
         this->m_Position += this->m_OffsetTable[in];
         this->m_Remaining = true;
         break;
@@ -152,6 +152,7 @@ ReflectiveImageRegionConstIterator< TImage >
       else
         {
         this->m_PositionIndex[in] = this->m_EndIndex[in] - m_EndOffset[in] - 1;
+        this->m_Position -= (this->m_EndOffset[in]) * (this->m_OffsetTable[in]);
         m_IsFirstPass[in] = false;
         this->m_Remaining = true;
         break;
@@ -159,9 +160,9 @@ ReflectiveImageRegionConstIterator< TImage >
       }
     else
       {
-      this->m_PositionIndex[in]--;
-      if ( this->m_PositionIndex[in] >= this->m_BeginIndex[in] )
+      if ( this->m_PositionIndex[in]-1 >= this->m_BeginIndex[in] )
         {
+        this->m_PositionIndex[in]--;
         this->m_Position -= this->m_OffsetTable[in];
         this->m_Remaining = true;
         break;
@@ -169,6 +170,7 @@ ReflectiveImageRegionConstIterator< TImage >
       else
         {
         this->m_PositionIndex[in] = this->m_BeginIndex[in] + m_BeginOffset[in];
+        this->m_Position += (this->m_BeginOffset[in]) * (this->m_OffsetTable[in]);
         m_IsFirstPass[in] = true;
         }
       }
