@@ -36,8 +36,6 @@ namespace
 class CleanUpObjectFactory
 {
 public:
-  inline void Use()
-  {}
 
   ~CleanUpObjectFactory()
   {
@@ -173,7 +171,7 @@ void
 ObjectFactoryBase
 ::InitializeFactoryList()
 {
-  m_CleanUpObjectFactoryGlobal.Use();
+  static_cast<void>(m_CleanUpObjectFactoryGlobal);
   /**
    * Don't do anything if we are already initialized
    */
