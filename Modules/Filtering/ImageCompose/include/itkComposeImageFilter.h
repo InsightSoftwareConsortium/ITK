@@ -44,6 +44,7 @@ namespace itk
  * the same size and origin.
  *
  * \sa VectorImage
+ * \sa VectorIndexSelectionCastImageFilter
  * \ingroup ITKImageCompose
  *
  * \wiki
