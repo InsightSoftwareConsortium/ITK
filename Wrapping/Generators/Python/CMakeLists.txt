@@ -377,6 +377,11 @@ macro(itk_end_wrap_module_python)
     set(swig_command ${CCACHE_EXECUTABLE} ${swig_command})
   endif(ITK_USE_CCACHE)
 
+  set(_swig_depend)
+  if(NOT ITK_USE_SYSTEM_SWIG)
+    # The ExternalProject SWIG install.
+    set(_swig_depend swig-install)
+  endif()
   add_custom_command(
     OUTPUT ${cpp_file} ${python_file}
     COMMAND ${swig_command} -c++ -python -O ${ITK_WRAP_PYTHON_AUTODOC} -Werror
@@ -396,7 +401,9 @@ macro(itk_end_wrap_module_python)
     -outdir ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
     ${interface_file}
     WORKING_DIRECTORY ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python
-    DEPENDS ${DEPS} ${ITK_WRAP_PYTHON_LIBRARY_DEPS} ${interface_file} ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/${WRAPPER_LIBRARY_NAME}_ext.i ${WRAP_ITK_TYPEDEFS_DIRECTORY}/pyBase.i ${SWIG_EXECUTABLE}
+    DEPENDS ${DEPS} ${ITK_WRAP_PYTHON_LIBRARY_DEPS} ${interface_file}
+    ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/${WRAPPER_LIBRARY_NAME}_ext.i
+    ${WRAP_ITK_TYPEDEFS_DIRECTORY}/pyBase.i ${_swig_depend}
   )
   WRAP_ITK_BINDINGS_INSTALL("/Python" "${python_file}")
 
@@ -506,6 +513,10 @@ macro(itk_end_wrap_submodule_python group_name)
     set(swig_command ${CCACHE_EXECUTABLE} ${swig_command})
   endif(ITK_USE_CCACHE)
 
+  if(NOT ITK_USE_SYSTEM_SWIG)
+    # The ExternalProject SWIG install.
+    set(_swig_depend swig-install)
+  endif()
   add_custom_command(
     OUTPUT ${cpp_file} ${python_file}
     COMMAND ${swig_command} -c++ -python -O ${ITK_WRAP_PYTHON_AUTODOC} -Werror
@@ -525,7 +536,9 @@ macro(itk_end_wrap_submodule_python group_name)
     -outdir ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
     ${interface_file}
     WORKING_DIRECTORY ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python
-    DEPENDS ${DEPS} ${interface_file} ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/${base_name}_ext.i ${WRAP_ITK_TYPEDEFS_DIRECTORY}/pyBase.i ${doc_file} ${SWIG_EXECUTABLE}
+    DEPENDS ${DEPS} ${interface_file}
+    ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/${base_name}_ext.i
+    ${WRAP_ITK_TYPEDEFS_DIRECTORY}/pyBase.i ${doc_file} ${_swig_depend}
     # ${ITK_WRAP_PYTHON_LIBRARY_DEPS}
   )
   WRAP_ITK_BINDINGS_INSTALL("/Python" "${python_file}")
@@ -882,8 +895,8 @@ endmacro(ADD_PYTHON_POINTER_TYPEMAP)
 # Create the PyUtils library
 
 if(NOT EXTERNAL_WRAP_ITK_PROJECT)
-  subdirs(Tests)
-  subdirs(itkExtras)
+  add_subdirectory(Tests)
+  add_subdirectory(itkExtras)
 
   macro(itk_end_wrap_modules_python)
     add_subdirectory(${ITK_WRAP_PYTHON_SOURCE_DIR}/PyUtils)
